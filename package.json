@@ -2,8 +2,9 @@
     "name": "pleiepengesoknad",
     "version": "1.0.0",
     "description": "Selvbetjeningsløsning for pleiepengesøknad",
+    "repository": "https://github.com/navikt/pleiepengesoknad",
     "license": "MIT",
-    "author": "",
+    "author": "NAV",
     "scripts": {
         "build": "node src/build/scripts/production-build.js",
         "start": "node ./src/build/scripts/start-dev.js",
