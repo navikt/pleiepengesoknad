@@ -7,7 +7,10 @@
     "author": "NAV",
     "scripts": {
         "build": "node src/build/scripts/production-build.js",
+        "docker-build": "docker build . -t navikt/pleiepengesoknad:{}",
+        "docker-start": "docker run --name pleiepengesoknad -p 8080:8080 -d navikt/pleiepengesoknad",
         "start": "node ./src/build/scripts/start-dev.js",
+        "start-express": "node ./server.js",
         "test": "jest --config ./jest/jest.config.js"
     },
     "dependencies": {
