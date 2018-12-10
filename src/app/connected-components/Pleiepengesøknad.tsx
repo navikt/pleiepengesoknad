@@ -1,9 +1,10 @@
 import * as React from 'react';
-import LoadingSpinner from '../components/loading-spinner/LoadingSpinner';
+import { Route } from 'react-router-dom';
+import WelcomingPage from './pages/welcoming-page/WelcomingPage';
 
 class Pleiepengesøknad extends React.Component {
     render() {
-        return <LoadingSpinner />;
+        return <Route component={WelcomingPage} />;
     }
 }
 
