@@ -1,7 +1,10 @@
 import { createStore } from 'redux';
+import { AppState } from '../types/AppState';
 
-const reducer = (state = {}) => {
-    return state;
+const reducer = (state = {}): AppState => {
+    return {
+        locale: 'nn'
+    };
 };
 
 const store = createStore(
