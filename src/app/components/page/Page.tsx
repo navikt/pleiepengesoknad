@@ -7,11 +7,9 @@ interface PageProps {
 }
 
 const Page: React.FunctionComponent<PageProps> = ({ title, children }) => (
-    <React.Fragment>
-        <DocumentTitle title={title}>
-            <div className="page">{children}</div>
-        </DocumentTitle>
-    </React.Fragment>
+    <DocumentTitle title={title}>
+        <div className="page">{children}</div>
+    </DocumentTitle>
 );
 
 export default Page;
