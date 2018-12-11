@@ -1,4 +1,4 @@
-export type Locale = 'nb' | 'nn';
+import { Locale } from './Locale';
 
 export interface AppState {
     locale: Locale;

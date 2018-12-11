@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { addLocaleData, IntlProvider as Provider } from 'react-intl';
 import * as nbLocaleData from 'react-intl/locale-data/nb';
 import * as nnLocaleData from 'react-intl/locale-data/nn';
-
-import { AppState, Locale } from '../../types/AppState';
+import { AppState } from '../../types/AppState';
+import { Locale } from '../../types/Locale';
 
 const bokmålstekster = require('../../i18n/nb.json');
 const nynorsktekster = require('../../i18n/nn.json');
@@ -20,9 +20,10 @@ class IntlProvider extends React.Component<IntlProviderProps> {
     }
 
     render() {
-        const messages = this.props.locale === 'nb' ? bokmålstekster : nynorsktekster;
+        const { locale } = this.props;
+        const messages = locale === 'nb' ? bokmålstekster : nynorsktekster;
         return (
-            <Provider key={this.props.locale} locale={this.props.locale} messages={messages || {}}>
+            <Provider locale={locale} messages={messages}>
                 {this.props.children}
             </Provider>
         );
