@@ -7,6 +7,7 @@ import Page from '../../../components/page/Page';
 import bemHelper from '../../../utils/bemHelper';
 import './welcomingPage.less';
 import Box from '../../../components/box/Box';
+import intlHelper from '../../../utils/intlHelper';
 
 const bem = bemHelper('welcomingPage');
 
@@ -15,23 +16,24 @@ class WelcomingPage extends React.Component<InjectedIntlProps> {
         const { intl } = this.props;
         return (
             <Page title="Velkommen til søknad om pleiepenger" className={bem.className}>
-                <Innholdstittel className={bem.element('title')}>
-                    {intl.formatMessage({ id: 'introtittel' })}
-                </Innholdstittel>
+                <Innholdstittel className={bem.element('title')}>{intlHelper(intl, 'introtittel')}</Innholdstittel>
+
                 <Box margin="m">
-                    <Normaltekst>{intl.formatMessage({ id: 'introtekst' })}</Normaltekst>
+                    <Normaltekst>{intlHelper(intl, 'introtekst')}</Normaltekst>
                 </Box>
+
                 <Box margin="l">
                     <BekreftCheckboksPanel
                         onChange={() => {}}
                         checked={false}
-                        label={intl.formatMessage({ id: 'jajegsamtykker' })}>
-                        {intl.formatMessage({ id: 'forståttrettigheterogplikter' })}
+                        label={intlHelper(intl, 'jajegsamtykker')}>
+                        {intlHelper(intl, 'forståttrettigheterogplikter')}
                     </BekreftCheckboksPanel>
                 </Box>
+
                 <Box margin="l">
                     <Hovedknapp className={bem.element('startApplicationButton')}>
-                        {intl.formatMessage({ id: 'begynnsøknad' })}
+                        {intlHelper(intl, 'begynnsøknad')}
                     </Hovedknapp>
                 </Box>
             </Page>
