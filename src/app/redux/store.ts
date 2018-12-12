@@ -3,7 +3,7 @@ import { AppState } from '../types/AppState';
 
 const reducer = (state = {}): AppState => {
     return {
-        locale: 'nn'
+        locale: 'nb'
     };
 };
 
