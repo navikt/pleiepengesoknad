@@ -29,16 +29,8 @@ const webpackConfig = {
             },
             {
                 test: /\.(ts|tsx)$/,
-                include: [
-                    path.resolve(__dirname, './../../app')
-                ],
+                include: [path.resolve(__dirname, './../../app')],
                 loader: require.resolve('awesome-typescript-loader')
-            },
-
-            {
-                test: /\.js$/,
-                use: [{ loader: 'babel-loader' }],
-                exclude: /node_modules/
             },
             {
                 test: /\.less$/,
