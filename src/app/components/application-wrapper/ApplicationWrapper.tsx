@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from './redux/store';
-import IntlProvider from './connected-components/intl-provider/IntlProvider';
+import store from '../../redux/store';
+import IntlProviderContainer from '../../redux/containers/intl-provider/IntlProviderContainer';
 
 const ApplicationWrapper: React.FunctionComponent = ({ children }) => (
     <Provider store={store}>
-        <IntlProvider>
+        <IntlProviderContainer>
             <Router>{children}</Router>
-        </IntlProvider>
+        </IntlProviderContainer>
     </Provider>
 );
 
