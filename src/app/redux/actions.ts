@@ -1,4 +1,4 @@
-import { AppState } from '../../types/AppState';
+import { AppState } from '../types/AppState';
 
 export enum Actions {
     'UPDATE_STATE' = 'updateState'

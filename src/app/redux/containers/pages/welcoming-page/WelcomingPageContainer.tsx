@@ -6,7 +6,7 @@ import {
     WelcomingPageStateProps
 } from '../../../../components/pages/welcoming-page/WelcomingPage';
 import Dispatch from '../../../../types/Dispatch';
-import { updateState } from '../../actions';
+import { updateState } from '../../../actions';
 
 const mapStateToProps = (state: AppState): WelcomingPageStateProps => ({
     harGodkjentVilkår: state.harGodkjentVilkår

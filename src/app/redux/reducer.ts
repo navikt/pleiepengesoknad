@@ -1,5 +1,5 @@
 import { AppState } from '../types/AppState';
-import { Actions, UpdateStateActionInterface } from './containers/actions';
+import { Actions, UpdateStateActionInterface } from './actions';
 
 const getDefaultAppState = (): AppState => ({
     locale: 'nb',
