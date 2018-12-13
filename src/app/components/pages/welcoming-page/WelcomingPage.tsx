@@ -11,34 +11,41 @@ import intlHelper from '../../../utils/intlHelper';
 
 const bem = bemHelper('welcomingPage');
 
-class WelcomingPage extends React.Component<InjectedIntlProps> {
-    render() {
-        const { intl } = this.props;
-        return (
-            <Page title="Velkommen til søknad om pleiepenger" className={bem.className}>
-                <Innholdstittel className={bem.element('title')}>{intlHelper(intl, 'introtittel')}</Innholdstittel>
-
-                <Box margin="m">
-                    <Normaltekst>{intlHelper(intl, 'introtekst')}</Normaltekst>
-                </Box>
-
-                <Box margin="l">
-                    <BekreftCheckboksPanel
-                        onChange={() => {}}
-                        checked={false}
-                        label={intlHelper(intl, 'jajegsamtykker')}>
-                        {intlHelper(intl, 'forståttrettigheterogplikter')}
-                    </BekreftCheckboksPanel>
-                </Box>
-
-                <Box margin="l">
-                    <Hovedknapp className={bem.element('startApplicationButton')}>
-                        {intlHelper(intl, 'begynnsøknad')}
-                    </Hovedknapp>
-                </Box>
-            </Page>
-        );
-    }
+export interface WelcomingPageStateProps {
+    harGodkjentVilkår: boolean;
 }
+
+export interface WelcomingPageFunctionProps {
+    updateHarGodkjentVilkår: (value: boolean) => void;
+}
+
+type Props = WelcomingPageStateProps & WelcomingPageFunctionProps & InjectedIntlProps;
+
+const WelcomingPage: React.FunctionComponent<Props> = ({ harGodkjentVilkår, updateHarGodkjentVilkår, intl }) => (
+    <Page title="Velkommen til søknad om pleiepenger" className={bem.className}>
+        <Innholdstittel className={bem.element('title')}>{intlHelper(intl, 'introtittel')}</Innholdstittel>
+
+        <Box margin="m">
+            <Normaltekst>{intlHelper(intl, 'introtekst')}</Normaltekst>
+        </Box>
+
+        <Box margin="l">
+            <BekreftCheckboksPanel
+                onChange={() => {
+                    updateHarGodkjentVilkår(!harGodkjentVilkår);
+                }}
+                checked={harGodkjentVilkår === true}
+                label={intlHelper(intl, 'jajegsamtykker')}>
+                {intlHelper(intl, 'forståttrettigheterogplikter')}
+            </BekreftCheckboksPanel>
+        </Box>
+
+        <Box margin="l">
+            <Hovedknapp className={bem.element('startApplicationButton')}>
+                {intlHelper(intl, 'begynnsøknad')}
+            </Hovedknapp>
+        </Box>
+    </Page>
+);
 
 export default injectIntl(WelcomingPage);

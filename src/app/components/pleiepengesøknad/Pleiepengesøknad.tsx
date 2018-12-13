@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Route } from 'react-router-dom';
-import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
+import WelcomingPageContainer from '../../redux/containers/pages/welcoming-page/WelcomingPageContainer';
 
 class Pleiepengesøknad extends React.Component {
     render() {
-        return <Route component={WelcomingPage} />;
+        return <Route component={WelcomingPageContainer} />;
     }
 }
 
