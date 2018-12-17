@@ -1,12 +1,14 @@
 export enum StepID {
     'RELASJON_TIL_BARN' = 'relasjon-til-barn',
-    'STEP2' = 'step2',
-    'STEP3' = 'step2'
+    'MEDLEMSSKAP' = 'medlemsskap',
+    'SUMMARY' = 'oppsummering'
 }
 
 export interface StepItemConfigInterface {
     title: string;
     index: number;
+    nextStep?: StepID;
+    buttonLabel?: string;
 }
 
 export interface StepConfigInterface {
@@ -15,15 +17,20 @@ export interface StepConfigInterface {
 
 export const stepConfig: StepConfigInterface = {
     [StepID.RELASJON_TIL_BARN]: {
-        title: 'Steg 1',
-        index: 0
+        title: 'Ny pleiepengesøknad - din relasjon til barnet',
+        index: 0,
+        nextStep: StepID.MEDLEMSSKAP,
+        buttonLabel: 'Fortsett'
     },
-    [StepID.STEP2]: {
-        title: 'Steg 2',
-        index: 1
+    [StepID.MEDLEMSSKAP]: {
+        title: 'Ny pleiepengesøknad - ditt medlemsskap',
+        index: 1,
+        nextStep: StepID.SUMMARY,
+        buttonLabel: 'Fortsett'
     },
-    [StepID.STEP3]: {
-        title: 'Steg 3',
-        index: 2
+    [StepID.SUMMARY]: {
+        title: 'Ny pleiepengesøknad - oppsummering',
+        index: 2,
+        buttonLabel: 'Fortsett'
     }
 };
