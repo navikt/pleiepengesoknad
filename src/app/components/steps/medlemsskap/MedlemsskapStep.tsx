@@ -2,14 +2,14 @@ import * as React from 'react';
 import Step from '../../step/Step';
 import { StepID } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
-import { PleiepengerFormdata } from '../../pleiepengesøknad/Pleiepengesøknad';
 import { getNextStepRoute } from '../../../utils/stepConfigHelper';
 import { navigateTo } from '../../../utils/navigationHelper';
 import Input from '../../input/Input';
+import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 
 export interface MedlemsskapStepProps {
     isValid: boolean;
-    values: PleiepengerFormdata;
+    values: PleiepengesøknadFormData;
     onSubmit: () => Promise<void>;
 }
 
