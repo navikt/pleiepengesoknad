@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { injectIntl, InjectedIntlProps } from 'react-intl';
-import { BekreftCheckboksPanel } from 'nav-frontend-skjema';
+import { injectIntl } from 'react-intl';
 import { Normaltekst, Innholdstittel } from 'nav-frontend-typografi';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import Page from '../../../components/page/Page';
@@ -8,23 +7,20 @@ import bemHelper from '../../../utils/bemHelper';
 import './welcomingPage.less';
 import Box from '../../../components/box/Box';
 import intlHelper from '../../../utils/intlHelper';
+import ConfirmationCheckboxPanel from '../../confirmation-checkbox-panel/ConfirmationCheckboxPanel';
+import InjectedIntlProps = ReactIntl.InjectedIntlProps;
 import { HistoryProps } from '../../../types/History';
 
 const bem = bemHelper('welcomingPage');
 
-export interface WelcomingPageStateProps {
-    harGodkjentVilkår: boolean;
+interface WelcomingPageProps {
+    isValid: boolean;
+    onSubmit: () => Promise<void>;
 }
 
-export interface WelcomingPageFunctionProps {
-    updateHarGodkjentVilkår: (value: boolean) => void;
-}
-
-type Props = WelcomingPageStateProps & WelcomingPageFunctionProps & InjectedIntlProps & HistoryProps;
-
-const WelcomingPage: React.FunctionComponent<Props> = ({
-    harGodkjentVilkår,
-    updateHarGodkjentVilkår,
+const WelcomingPage: React.FunctionComponent<WelcomingPageProps & InjectedIntlProps & HistoryProps> = ({
+    isValid,
+    onSubmit,
     intl,
     history
 }) => (
@@ -36,14 +32,9 @@ const WelcomingPage: React.FunctionComponent<Props> = ({
         </Box>
 
         <Box margin="l">
-            <BekreftCheckboksPanel
-                onChange={() => {
-                    updateHarGodkjentVilkår(!harGodkjentVilkår);
-                }}
-                checked={harGodkjentVilkår === true}
-                label={intlHelper(intl, 'jajegsamtykker')}>
+            <ConfirmationCheckboxPanel label={intlHelper(intl, 'jajegsamtykker')} name="harGodkjentVilkår">
                 {intlHelper(intl, 'forståttrettigheterogplikter')}
-            </BekreftCheckboksPanel>
+            </ConfirmationCheckboxPanel>
         </Box>
 
         <Box margin="l">

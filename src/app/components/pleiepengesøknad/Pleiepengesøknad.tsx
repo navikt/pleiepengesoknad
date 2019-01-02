@@ -1,14 +1,57 @@
 import * as React from 'react';
-import { Route, Redirect, Switch } from 'react-router-dom';
-import WelcomingPageContainer from '../../redux/containers/pages/welcoming-page/WelcomingPageContainer';
-import StepBasedFormWrapper from '../step-based-form-wrapper/StepBasedFormWrapper';
+import { StepID } from '../../config/stepConfig';
+import { getSøknadRoute } from '../../utils/routeConfigHelper';
+import { Formik, FormikBag as FormikBagType, FormikProps } from 'formik';
+import { Redirect, Route, Switch } from 'react-router';
+import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
+import RelasjonTilBarnStep from '../steps/relasjon-til-barn/RelasjonTilBarnStep';
+import MedlemsskapStep from '../steps/medlemsskap/MedlemsskapStep';
+import SummaryStep from '../steps/summary/SummaryStep';
+import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 
-const Pleiepengesøknad: React.FunctionComponent = () => (
-    <Switch>
-        <Route path="/velkommen" component={WelcomingPageContainer} />
-        <StepBasedFormWrapper />
-        <Redirect to="/velkommen" />
-    </Switch>
+type FormikPropsWorkaround = FormikProps<PleiepengesøknadFormData> & { submitForm: () => Promise<void> };
+type FormikBag = FormikBagType<PleiepengesøknadFormData, PleiepengesøknadFormData>;
+
+const Pleiepengesøknad = () => (
+    <Formik
+        initialValues={{ someField1: '', someField2: '', harGodkjentVilkår: false }}
+        onSubmit={(values: PleiepengesøknadFormData, bag: FormikBag) => {
+            const { setSubmitting, setFormikState } = bag;
+            setSubmitting(false);
+            setFormikState({
+                submitCount: 0
+            });
+        }}
+        render={({ values, isValid, submitForm }: FormikPropsWorkaround) => {
+            return (
+                <Switch>
+                    <Route
+                        path="/velkommen"
+                        render={(props) => <WelcomingPage onSubmit={submitForm} isValid={isValid} {...props} />}
+                    />
+                    <Route
+                        path={getSøknadRoute(StepID.RELASJON_TIL_BARN)}
+                        render={(props) => (
+                            <RelasjonTilBarnStep onSubmit={submitForm} values={values} isValid={isValid} {...props} />
+                        )}
+                    />
+                    <Route
+                        path={getSøknadRoute(StepID.MEDLEMSSKAP)}
+                        render={(props) => (
+                            <MedlemsskapStep onSubmit={submitForm} values={values} isValid={isValid} {...props} />
+                        )}
+                    />
+                    <Route
+                        path={getSøknadRoute(StepID.SUMMARY)}
+                        render={(props) => (
+                            <SummaryStep onSubmit={submitForm} values={values} isValid={isValid} {...props} />
+                        )}
+                    />
+                    <Redirect to="/velkommen" />
+                </Switch>
+            );
+        }}
+    />
 );
 
 export default Pleiepengesøknad;
