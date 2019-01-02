@@ -22,10 +22,10 @@ class Pleiepengesøknad extends React.Component {
                     initialValues={{ someField1: '', someField2: '' }}
                     onSubmit={(
                         values: PleiepengerFormdata,
-                        actions: FormikBag<PleiepengerFormdata, PleiepengerFormdata>
+                        { setSubmitting, setFormikState }: FormikBag<PleiepengerFormdata, PleiepengerFormdata>
                     ) => {
-                        actions.setSubmitting(false);
-                        actions.setFormikState({
+                        setSubmitting(false);
+                        setFormikState({
                             submitCount: 0
                         });
                     }}

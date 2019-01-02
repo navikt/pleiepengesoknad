@@ -2,10 +2,10 @@ import * as React from 'react';
 import Step from '../../step/Step';
 import { StepID } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
-import { Field } from 'formik';
 import { PleiepengerFormdata } from '../../pleiepengesøknad/Pleiepengesøknad';
 import { getNextStepRoute } from '../../../utils/stepConfigHelper';
 import { navigateTo } from '../../../utils/navigationHelper';
+import Input from '../../input/Input';
 
 export interface RelasjonTilBarnStepProps {
     isValid: boolean;
@@ -28,10 +28,9 @@ const RelasjonTilBarnStep: React.FunctionComponent<Props> = ({ isValid, onSubmit
                     }
                 });
             }}>
-            <Field
-                type="text"
+            <Input
+                label="Some field 1"
                 name="someField1"
-                placeholder="Some field 1"
                 validate={(v: string) => {
                     let result;
                     if (v.length > 2) {
