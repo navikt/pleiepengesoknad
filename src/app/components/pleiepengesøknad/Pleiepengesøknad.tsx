@@ -19,43 +19,45 @@ class Pleiepengesøknad extends React.Component {
             <Switch>
                 <Route path="/velkommen" component={WelcomingPageContainer} />
                 <Formik
-                    initialValues={{ someField1: undefined, someField2: undefined }}
-                    onSubmit={(values: PleiepengerFormdata, actions: FormikActions<PleiepengerFormdata>) => {}}
-                    render={(formikProps: FormikProps<PleiepengerFormdata>) => (
-                        <Switch>
-                            <Route
-                                path={getSøknadRoute(StepID.RELASJON_TIL_BARN)}
-                                render={(props) => (
-                                    <RelasjonTilBarnStep
-                                        {...props}
-                                        values={formikProps.values}
-                                        onSubmit={formikProps.handleSubmit}
-                                    />
-                                )}
-                            />
-                            <Route
-                                path={getSøknadRoute(StepID.MEDLEMSSKAP)}
-                                render={(props) => (
-                                    <MedlemsskapStep
-                                        {...props}
-                                        values={formikProps.values}
-                                        onSubmit={formikProps.handleSubmit}
-                                    />
-                                )}
-                            />
-                            <Route
-                                path={getSøknadRoute(StepID.SUMMARY)}
-                                render={(props) => (
-                                    <SummaryStep
-                                        {...props}
-                                        values={formikProps.values}
-                                        onSubmit={formikProps.handleSubmit}
-                                    />
-                                )}
-                            />
-                            <Redirect to="/velkommen" />
-                        </Switch>
-                    )}
+                    initialValues={{ someField1: '', someField2: '' }}
+                    onSubmit={(values: PleiepengerFormdata, actions: FormikActions<PleiepengerFormdata>) => {
+                        actions.setSubmitting(false);
+                        actions.setFormikState({
+                            submitCount: 0
+                        });
+                        return 1;
+                    }}
+                    render={(formikProps: FormikProps<PleiepengerFormdata>) => {
+                        const { values, handleSubmit, isValid, submitForm } = formikProps;
+                        return (
+                            <Switch>
+                                <Route
+                                    path={getSøknadRoute(StepID.RELASJON_TIL_BARN)}
+                                    render={(props) => (
+                                        <RelasjonTilBarnStep
+                                            onSubmit={submitForm}
+                                            values={values}
+                                            isValid={isValid}
+                                            {...props}
+                                        />
+                                    )}
+                                />
+                                <Route
+                                    path={getSøknadRoute(StepID.MEDLEMSSKAP)}
+                                    render={(props) => (
+                                        <MedlemsskapStep {...props} values={values} onSubmit={handleSubmit} />
+                                    )}
+                                />
+                                <Route
+                                    path={getSøknadRoute(StepID.SUMMARY)}
+                                    render={(props) => (
+                                        <SummaryStep {...props} values={values} onSubmit={handleSubmit} />
+                                    )}
+                                />
+                                <Redirect to="/velkommen" />
+                            </Switch>
+                        );
+                    }}
                 />
                 <Redirect to="/velkommen" />
             </Switch>
