@@ -10,18 +10,18 @@ const bem = bemHelper('step');
 
 interface StepPropsInterface {
     id: StepID;
-    onButtonClick?: () => void;
+    onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
-const Step: React.FunctionComponent<StepPropsInterface> = ({ id, onButtonClick, children }) => {
+const Step: React.FunctionComponent<StepPropsInterface> = ({ id, onSubmit, children }) => {
     const conf = stepConfig[id];
     return (
         <Page className={bem.className} title={conf.title}>
             <StepIndicator stepConfig={stepConfig} activeStep={conf.index} />
-            {children}
-            <Button className={bem.element('button')} onClick={onButtonClick}>
-                {conf.buttonLabel}
-            </Button>
+            <form onSubmit={onSubmit}>
+                {children}
+                <Button className={bem.element('button')}>{conf.buttonLabel}</Button>
+            </form>
         </Page>
     );
 };
