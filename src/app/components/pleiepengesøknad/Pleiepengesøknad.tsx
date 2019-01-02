@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import WelcomingPageContainer from '../../redux/containers/pages/welcoming-page/WelcomingPageContainer';
-import { Formik, FormikActions, FormikProps } from 'formik';
+import { Formik, FormikBag, FormikProps } from 'formik';
 import MedlemsskapStep from '../steps/medlemsskap/MedlemsskapStep';
 import RelasjonTilBarnStep from '../steps/relasjon-til-barn/RelasjonTilBarnStep';
 import { StepID } from '../../config/stepConfig';
@@ -20,15 +20,20 @@ class Pleiepengesøknad extends React.Component {
                 <Route path="/velkommen" component={WelcomingPageContainer} />
                 <Formik
                     initialValues={{ someField1: '', someField2: '' }}
-                    onSubmit={(values: PleiepengerFormdata, actions: FormikActions<PleiepengerFormdata>) => {
+                    onSubmit={(
+                        values: PleiepengerFormdata,
+                        actions: FormikBag<PleiepengerFormdata, PleiepengerFormdata>
+                    ) => {
                         actions.setSubmitting(false);
                         actions.setFormikState({
                             submitCount: 0
                         });
-                        return 1;
                     }}
-                    render={(formikProps: FormikProps<PleiepengerFormdata>) => {
-                        const { values, handleSubmit, isValid, submitForm } = formikProps;
+                    render={({
+                        values,
+                        isValid,
+                        submitForm
+                    }: FormikProps<PleiepengerFormdata> & { submitForm: () => Promise<void> }) => {
                         return (
                             <Switch>
                                 <Route
@@ -45,13 +50,23 @@ class Pleiepengesøknad extends React.Component {
                                 <Route
                                     path={getSøknadRoute(StepID.MEDLEMSSKAP)}
                                     render={(props) => (
-                                        <MedlemsskapStep {...props} values={values} onSubmit={handleSubmit} />
+                                        <MedlemsskapStep
+                                            onSubmit={submitForm}
+                                            values={values}
+                                            isValid={isValid}
+                                            {...props}
+                                        />
                                     )}
                                 />
                                 <Route
                                     path={getSøknadRoute(StepID.SUMMARY)}
                                     render={(props) => (
-                                        <SummaryStep {...props} values={values} onSubmit={handleSubmit} />
+                                        <SummaryStep
+                                            onSubmit={submitForm}
+                                            values={values}
+                                            isValid={isValid}
+                                            {...props}
+                                        />
                                     )}
                                 />
                                 <Redirect to="/velkommen" />
