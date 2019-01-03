@@ -24,12 +24,7 @@ const Pleiepengesøknad = () => (
             søkersRelasjonTilBarnet: '',
             harGodkjentVilkår: false
         }}
-        onSubmit={(values: PleiepengesøknadFormData, bag: FormikBag) => {
-            const { setSubmitting, setFormikState, resetForm } = bag;
-            setSubmitting(false);
-            setFormikState({
-                submitCount: 0
-            });
+        onSubmit={(values: PleiepengesøknadFormData, { resetForm }: FormikBag) => {
             resetForm(values);
         }}
         render={({ values, isValid, isSubmitting, isValidating, submitForm }: FormikPropsWorkaround) => {
