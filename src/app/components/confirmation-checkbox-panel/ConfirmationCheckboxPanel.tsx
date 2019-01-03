@@ -13,16 +13,17 @@ interface InputProps {
 
 const ConfirmationCheckboxPanel = ({ name, label, validate, children }: InputProps) => (
     <FormikField validate={validate} name={name}>
-        {({ field, form }: FormikFieldProps) => {
+        {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {
+            const errorMsgProps = submitCount > 0 ? getValidationErrorProps(errors, field.name) : {};
             return (
-                <SkjemaGruppe {...getValidationErrorProps(form.errors, field.name)}>
+                <SkjemaGruppe {...errorMsgProps}>
                     <NAVConfirmationCheckboxPanel
                         children={children}
                         checked={field.value === true}
                         label={label}
                         {...field}
                         onChange={() => {
-                            form.setFieldValue(name, !field.value);
+                            setFieldValue(name, !field.value);
                         }}
                     />
                 </SkjemaGruppe>
