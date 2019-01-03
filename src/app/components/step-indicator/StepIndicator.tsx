@@ -10,12 +10,12 @@ interface StepIndicatorProps {
 
 const renderSteps = (stepConfig: StepConfigInterface) =>
     Object.keys(stepConfig).map((stepId) => {
-        const { title, index } = stepConfig[stepId];
-        return <Step label={title} index={index} key={`${title + index}`} />;
+        const { stepIndicatorLabel, index } = stepConfig[stepId];
+        return <Step label={stepIndicatorLabel} index={index} key={`${stepIndicatorLabel + index}`} />;
     });
 
 const StepIndicator: React.FunctionComponent<StepIndicatorProps> = ({ activeStep, stepConfig }) => (
-    <NAVStepIndicator visLabel={false} kompakt={true} autoResponsiv={true} aktivtSteg={activeStep}>
+    <NAVStepIndicator visLabel={true} kompakt={true} autoResponsiv={true} aktivtSteg={activeStep}>
         {renderSteps(stepConfig)}
     </NAVStepIndicator>
 );
