@@ -1,5 +1,10 @@
 export interface PleiepengesøknadFormData {
-    someField1?: string;
-    someField2?: string;
     harGodkjentVilkår: boolean;
+    barnetsEtternavn: string;
+    barnetsFornavn: string;
+    barnetsAdresse: string;
+    barnetsFnr: string;
+    arbeidsgiversNavn: string;
+    arbeidsgiversAdresse: string;
+    søkersRelasjonTilBarnet: string;
 }

@@ -12,6 +12,7 @@ import InjectedIntlProps = ReactIntl.InjectedIntlProps;
 import { HistoryProps } from '../../../types/History';
 import { navigateTo } from '../../../utils/navigationHelper';
 import routeConfig from '../../../config/routeConfig';
+import { StepID } from '../../../config/stepConfig';
 
 const bem = bemHelper('welcomingPage');
 
@@ -38,7 +39,7 @@ const WelcomingPage: React.FunctionComponent<WelcomingPageProps & InjectedIntlPr
                 e.preventDefault();
                 onSubmit().then(() => {
                     if (isValid) {
-                        navigateTo(`${routeConfig.SØKNAD_ROUTE_PREFIX}/relasjon-til-barn`, history);
+                        navigateTo(`${routeConfig.SØKNAD_ROUTE_PREFIX}/${StepID.OPPLYSNINGER_OM_BARNET}`, history);
                     }
                 });
             }}>

@@ -4,8 +4,8 @@ import { getSøknadRoute } from '../../utils/routeConfigHelper';
 import { Formik, FormikBag as FormikBagType, FormikProps } from 'formik';
 import { Redirect, Route, Switch } from 'react-router';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
-import RelasjonTilBarnStep from '../steps/relasjon-til-barn/RelasjonTilBarnStep';
-import MedlemsskapStep from '../steps/medlemsskap/MedlemsskapStep';
+import OpplysningerOmBarnetStep from '../steps/opplysninger-om-barnet/OpplysningerOmBarnetStep';
+import OpplysningerOmArbeidsforholdStep from '../steps/arbeidsforhold/OpplysningerOmArbeidsforholdStep';
 import SummaryStep from '../steps/summary/SummaryStep';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 
@@ -14,7 +14,16 @@ type FormikBag = FormikBagType<PleiepengesøknadFormData, PleiepengesøknadFormD
 
 const Pleiepengesøknad = () => (
     <Formik
-        initialValues={{ someField1: '', someField2: '', harGodkjentVilkår: false }}
+        initialValues={{
+            arbeidsgiversNavn: '',
+            arbeidsgiversAdresse: '',
+            barnetsEtternavn: '',
+            barnetsAdresse: '',
+            barnetsFnr: '',
+            barnetsFornavn: '',
+            søkersRelasjonTilBarnet: '',
+            harGodkjentVilkår: false
+        }}
         onSubmit={(values: PleiepengesøknadFormData, bag: FormikBag) => {
             const { setSubmitting, setFormikState } = bag;
             setSubmitting(false);
@@ -30,15 +39,25 @@ const Pleiepengesøknad = () => (
                         render={(props) => <WelcomingPage onSubmit={submitForm} isValid={isValid} {...props} />}
                     />
                     <Route
-                        path={getSøknadRoute(StepID.RELASJON_TIL_BARN)}
+                        path={getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET)}
                         render={(props) => (
-                            <RelasjonTilBarnStep onSubmit={submitForm} values={values} isValid={isValid} {...props} />
+                            <OpplysningerOmBarnetStep
+                                onSubmit={submitForm}
+                                values={values}
+                                isValid={isValid}
+                                {...props}
+                            />
                         )}
                     />
                     <Route
-                        path={getSøknadRoute(StepID.MEDLEMSSKAP)}
+                        path={getSøknadRoute(StepID.ARBEIDSFORHOLD)}
                         render={(props) => (
-                            <MedlemsskapStep onSubmit={submitForm} values={values} isValid={isValid} {...props} />
+                            <OpplysningerOmArbeidsforholdStep
+                                onSubmit={submitForm}
+                                values={values}
+                                isValid={isValid}
+                                {...props}
+                            />
                         )}
                     />
                     <Route

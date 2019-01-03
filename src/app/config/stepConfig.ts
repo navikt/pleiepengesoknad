@@ -1,6 +1,6 @@
 export enum StepID {
-    'RELASJON_TIL_BARN' = 'relasjon-til-barn',
-    'MEDLEMSSKAP' = 'medlemsskap',
+    'OPPLYSNINGER_OM_BARNET' = 'opplysninger-om-barnet',
+    'ARBEIDSFORHOLD' = 'arbeidsforhold',
     'SUMMARY' = 'oppsummering'
 }
 
@@ -16,14 +16,14 @@ export interface StepConfigInterface {
 }
 
 export const stepConfig: StepConfigInterface = {
-    [StepID.RELASJON_TIL_BARN]: {
-        title: 'Ny pleiepengesøknad - din relasjon til barnet',
+    [StepID.OPPLYSNINGER_OM_BARNET]: {
+        title: 'Ny pleiepengesøknad - opplysninger om barnet',
         index: 0,
-        nextStep: StepID.MEDLEMSSKAP,
+        nextStep: StepID.ARBEIDSFORHOLD,
         buttonLabel: 'Fortsett'
     },
-    [StepID.MEDLEMSSKAP]: {
-        title: 'Ny pleiepengesøknad - ditt medlemsskap',
+    [StepID.ARBEIDSFORHOLD]: {
+        title: 'Ny pleiepengesøknad - opplysninger om ditt arbeidsforhold',
         index: 1,
         nextStep: StepID.SUMMARY,
         buttonLabel: 'Fortsett'
@@ -31,6 +31,6 @@ export const stepConfig: StepConfigInterface = {
     [StepID.SUMMARY]: {
         title: 'Ny pleiepengesøknad - oppsummering',
         index: 2,
-        buttonLabel: 'Fortsett'
+        buttonLabel: 'Send inn søknaden'
     }
 };

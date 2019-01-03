@@ -6,20 +6,21 @@ import { getNextStepRoute } from '../../../utils/stepConfigHelper';
 import { navigateTo } from '../../../utils/navigationHelper';
 import Input from '../../input/Input';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { validateAdresse, validateNavn } from '../../../utils/validationHelper';
 
-export interface RelasjonTilBarnStepProps {
+interface OpplysningerOmArbeidsforholdStep {
     isValid: boolean;
     values: PleiepengesøknadFormData;
     onSubmit: () => Promise<void>;
 }
 
-type Props = RelasjonTilBarnStepProps & HistoryProps;
+type Props = OpplysningerOmArbeidsforholdStep & HistoryProps;
 
-const nextStepRoute = getNextStepRoute(StepID.RELASJON_TIL_BARN);
-const RelasjonTilBarnStep: React.FunctionComponent<Props> = ({ isValid, onSubmit, history }) => {
+const nextStepRoute = getNextStepRoute(StepID.ARBEIDSFORHOLD);
+const OpplysningerOmArbeidsforholdStep: React.FunctionComponent<Props> = ({ isValid, onSubmit, history }) => {
     return (
         <Step
-            id={StepID.RELASJON_TIL_BARN}
+            id={StepID.ARBEIDSFORHOLD}
             onSubmit={(e) => {
                 e.preventDefault();
                 onSubmit().then(() => {
@@ -28,19 +29,14 @@ const RelasjonTilBarnStep: React.FunctionComponent<Props> = ({ isValid, onSubmit
                     }
                 });
             }}>
+            <Input label="Hva er navnet på arbeidsgiveren din?" name="arbeidsgiversNavn" validate={validateNavn} />
             <Input
-                label="Some field 1"
-                name="someField1"
-                validate={(v: string) => {
-                    let result;
-                    if (v.length > 2) {
-                        result = 'Invalid';
-                    }
-                    return result;
-                }}
+                label="Hva er adressen til arbeidsgiveren din?"
+                name="arbeidsgiversAdresse"
+                validate={validateAdresse}
             />
         </Step>
     );
 };
 
-export default RelasjonTilBarnStep;
+export default OpplysningerOmArbeidsforholdStep;
