@@ -25,13 +25,14 @@ const Pleiepengesøknad = () => (
             harGodkjentVilkår: false
         }}
         onSubmit={(values: PleiepengesøknadFormData, bag: FormikBag) => {
-            const { setSubmitting, setFormikState } = bag;
+            const { setSubmitting, setFormikState, resetForm } = bag;
             setSubmitting(false);
             setFormikState({
                 submitCount: 0
             });
+            resetForm(values);
         }}
-        render={({ values, isValid, submitForm }: FormikPropsWorkaround) => {
+        render={({ values, isValid, isSubmitting, isValidating, submitForm }: FormikPropsWorkaround) => {
             return (
                 <Switch>
                     <Route

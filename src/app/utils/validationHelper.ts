@@ -1,17 +1,24 @@
-const fnrvalidator = require('@navikt/fnrvalidator');
+export const hasValue = (v: string) => v !== '' && v !== undefined && v !== null && v.length > 0;
 
 export const validateFnr = (v: string): string | undefined => {
-    const fnrIsValid = fnrvalidator.fnr(v).status === 'valid';
-    const dnrIsValid = fnrvalidator.dnr(v).status === 'valid';
+    if (!hasValue(v)) {
+        return 'Feltet er påkrevd';
+    }
+
+    const fnrIsValid = v.length === 11;
 
     let result;
-    if (!fnrIsValid && !dnrIsValid) {
+    if (!fnrIsValid) {
         result = 'Fødselsnummeret er ugyldig';
     }
     return result;
 };
 
 export const validateNavn = (v: string): string | undefined => {
+    if (!hasValue(v)) {
+        return 'Feltet er påkrevd';
+    }
+
     const nameIsValid = v.length <= 15;
 
     let result;
@@ -22,6 +29,10 @@ export const validateNavn = (v: string): string | undefined => {
 };
 
 export const validateRelasjonTilBarnet = (v: string): string | undefined => {
+    if (!hasValue(v)) {
+        return 'Feltet er påkrevd';
+    }
+
     const relasjonIsValid = v.length <= 15;
 
     let result;
@@ -32,6 +43,10 @@ export const validateRelasjonTilBarnet = (v: string): string | undefined => {
 };
 
 export const validateAdresse = (v: string): string | undefined => {
+    if (!hasValue(v)) {
+        return 'Feltet er påkrevd';
+    }
+
     const adrIsValid = v.length <= 30;
 
     let result;

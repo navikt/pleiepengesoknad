@@ -13,7 +13,7 @@ const Input = ({ name, label, validate }: InputProps) => (
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, submitCount } }: FormikFieldProps) => {
             const errorMsgProps = submitCount > 0 ? getValidationErrorProps(errors, field.name) : {};
-            return <NAVInput label={label} {...field} {...errorMsgProps} />;
+            return <NAVInput label={label} {...field} {...errorMsgProps} autoComplete="off" />;
         }}
     </FormikField>
 );
