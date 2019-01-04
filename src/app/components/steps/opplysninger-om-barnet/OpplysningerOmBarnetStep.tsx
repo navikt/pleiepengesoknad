@@ -28,7 +28,9 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({ isValid, onS
 
     return (
         <Step id={StepID.OPPLYSNINGER_OM_BARNET} onSubmit={handleSubmit}>
-            <SøkerdataContextConsumer>{({ barn }: Søkerdata) => JSON.stringify(barn)}</SøkerdataContextConsumer>
+            <SøkerdataContextConsumer>
+                {(søkerdata: Søkerdata) => søkerdata && JSON.stringify(søkerdata.barn)}
+            </SøkerdataContextConsumer>
             <Input label="Hva er barnets etternavn?" name="barnetsEtternavn" validate={validateNavn} />
             <Input label="Hva er barnets fornavn?" name="barnetsFornavn" validate={validateNavn} />
             <Input label="Hva er barnets fødselsnummer?" name="barnetsFnr" validate={validateFnr} />

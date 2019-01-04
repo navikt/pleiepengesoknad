@@ -6,13 +6,11 @@ import './globalStyles.less';
 import { getEnvironmentVariable } from './utils/envHelper';
 import axios from 'axios';
 import LoadingPage from './components/pages/loading-page/LoadingPage';
-import { isForbidden, isUnauthorized } from './utils/apiHelper';
 import { Søkerdata } from './types/Søkerdata';
 
 const root = document.getElementById('app');
 
 const apiUrl = getEnvironmentVariable('API_URL');
-const loginUrl = getEnvironmentVariable('LOGIN_URL');
 
 interface State {
     isLoading: boolean;
@@ -34,9 +32,11 @@ class App extends React.Component<{}, State> {
             const response = await axios.get(`${apiUrl}/barn`, { withCredentials: true });
             this.setState({ isLoading: false, søkerdata: response.data });
         } catch (response) {
-            if (isForbidden(response) || isUnauthorized(response)) {
-                window.location = loginUrl;
-            }
+            // temporarily commented out until API is available
+            // if (isForbidden(response) || isUnauthorized(response)) {
+            //     window.location = loginUrl;
+            // }
+            this.setState({ isLoading: false });
         }
     }
 
