@@ -37,23 +37,13 @@ const Pleiepengesøknad = () => (
                     <Route
                         path={getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET)}
                         render={(props) => (
-                            <OpplysningerOmBarnetStep
-                                onSubmit={submitForm}
-                                values={values}
-                                isValid={isValid}
-                                {...props}
-                            />
+                            <OpplysningerOmBarnetStep onSubmit={submitForm} isValid={isValid} {...props} />
                         )}
                     />
                     <Route
                         path={getSøknadRoute(StepID.ARBEIDSFORHOLD)}
                         render={(props) => (
-                            <OpplysningerOmArbeidsforholdStep
-                                onSubmit={submitForm}
-                                values={values}
-                                isValid={isValid}
-                                {...props}
-                            />
+                            <OpplysningerOmArbeidsforholdStep onSubmit={submitForm} isValid={isValid} {...props} />
                         )}
                     />
                     <Route

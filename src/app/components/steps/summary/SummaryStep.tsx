@@ -16,17 +16,16 @@ type Props = SummaryStepProps & HistoryProps;
 
 const nextStepRoute = getNextStepRoute(StepID.SUMMARY);
 const SummaryStep: React.FunctionComponent<Props> = ({ isValid, onSubmit, history, values }) => {
+    async function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
+        await onSubmit();
+        if (isValid) {
+            navigateTo(nextStepRoute!, history);
+        }
+    }
+
     return (
-        <Step
-            id={StepID.SUMMARY}
-            onSubmit={(e) => {
-                e.preventDefault();
-                onSubmit().then(() => {
-                    if (isValid) {
-                        navigateTo(nextStepRoute!, history);
-                    }
-                });
-            }}>
+        <Step id={StepID.SUMMARY} onSubmit={handleSubmit}>
             <h2>Oppsummering</h2>
             {JSON.stringify(values)}
         </Step>

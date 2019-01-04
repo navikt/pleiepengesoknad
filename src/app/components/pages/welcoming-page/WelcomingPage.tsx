@@ -21,50 +21,54 @@ interface WelcomingPageProps {
     onSubmit: () => Promise<void>;
 }
 
+const nextStepRoute = `${routeConfig.SØKNAD_ROUTE_PREFIX}/${StepID.OPPLYSNINGER_OM_BARNET}`;
+
 const WelcomingPage: React.FunctionComponent<WelcomingPageProps & InjectedIntlProps & HistoryProps> = ({
     isValid,
     onSubmit,
     intl,
     history
-}) => (
-    <Page title="Velkommen til søknad om pleiepenger" className={bem.className}>
-        <Innholdstittel className={bem.element('title')}>{intlHelper(intl, 'introtittel')}</Innholdstittel>
+}) => {
+    async function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
+        await onSubmit();
+        if (isValid) {
+            navigateTo(nextStepRoute!, history);
+        }
+    }
 
-        <Box margin="m">
-            <Normaltekst>{intlHelper(intl, 'introtekst')}</Normaltekst>
-        </Box>
+    return (
+        <Page title="Velkommen til søknad om pleiepenger" className={bem.className}>
+            <Innholdstittel className={bem.element('title')}>{intlHelper(intl, 'introtittel')}</Innholdstittel>
 
-        <form
-            onSubmit={(e) => {
-                e.preventDefault();
-                onSubmit().then(() => {
-                    if (isValid) {
-                        navigateTo(`${routeConfig.SØKNAD_ROUTE_PREFIX}/${StepID.OPPLYSNINGER_OM_BARNET}`, history);
-                    }
-                });
-            }}>
-            <Box margin="l">
-                <ConfirmationCheckboxPanel
-                    label={intlHelper(intl, 'jajegsamtykker')}
-                    name="harGodkjentVilkår"
-                    validate={(value) => {
-                        let result;
-                        if (value !== true) {
-                            result = 'Du må godkjenne vilkårene';
-                        }
-                        return result;
-                    }}>
-                    {intlHelper(intl, 'forståttrettigheterogplikter')}
-                </ConfirmationCheckboxPanel>
+            <Box margin="m">
+                <Normaltekst>{intlHelper(intl, 'introtekst')}</Normaltekst>
             </Box>
 
-            <Box margin="l">
-                <Hovedknapp className={bem.element('startApplicationButton')}>
-                    {intlHelper(intl, 'begynnsøknad')}
-                </Hovedknapp>
-            </Box>
-        </form>
-    </Page>
-);
+            <form onSubmit={handleSubmit}>
+                <Box margin="l">
+                    <ConfirmationCheckboxPanel
+                        label={intlHelper(intl, 'jajegsamtykker')}
+                        name="harGodkjentVilkår"
+                        validate={(value) => {
+                            let result;
+                            if (value !== true) {
+                                result = 'Du må godkjenne vilkårene';
+                            }
+                            return result;
+                        }}>
+                        {intlHelper(intl, 'forståttrettigheterogplikter')}
+                    </ConfirmationCheckboxPanel>
+                </Box>
+
+                <Box margin="l">
+                    <Hovedknapp className={bem.element('startApplicationButton')}>
+                        {intlHelper(intl, 'begynnsøknad')}
+                    </Hovedknapp>
+                </Box>
+            </form>
+        </Page>
+    );
+};
 
 export default injectIntl(WelcomingPage);
