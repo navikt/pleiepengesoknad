@@ -3,13 +3,51 @@ import { render } from 'react-dom';
 import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad';
 import ApplicationWrapper from './components/application-wrapper/ApplicationWrapper';
 import './globalStyles.less';
+import { getEnvironmentVariable } from './utils/envHelper';
+import axios from 'axios';
+import LoadingPage from './components/pages/loading-page/LoadingPage';
+import { isForbidden, isUnauthorized } from './utils/apiHelper';
+import { Søkerdata } from './types/Søkerdata';
 
 const root = document.getElementById('app');
 
-const App: React.FunctionComponent = () => (
-    <ApplicationWrapper>
-        <Pleiepengesøknad />
-    </ApplicationWrapper>
-);
+const apiUrl = getEnvironmentVariable('API_URL');
+const loginUrl = getEnvironmentVariable('LOGIN_URL');
+
+interface State {
+    isLoading: boolean;
+    søkerdata?: Søkerdata;
+}
+
+class App extends React.Component<{}, State> {
+    constructor(props: {}) {
+        super(props);
+        this.state = { isLoading: true };
+    }
+
+    componentDidMount() {
+        this.loadAppEssentials();
+    }
+
+    async loadAppEssentials() {
+        try {
+            const response = await axios.get(`${apiUrl}/barn`, { withCredentials: true });
+            this.setState({ isLoading: false, søkerdata: response.data });
+        } catch (response) {
+            if (isForbidden(response) || isUnauthorized(response)) {
+                window.location = loginUrl;
+            }
+        }
+    }
+
+    render() {
+        const { isLoading, søkerdata } = this.state;
+        return (
+            <ApplicationWrapper søkerdata={søkerdata}>
+                {isLoading === true ? <LoadingPage /> : <Pleiepengesøknad />}
+            </ApplicationWrapper>
+        );
+    }
+}
 
 render(<App />, root);

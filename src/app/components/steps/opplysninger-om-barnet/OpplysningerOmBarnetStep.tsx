@@ -6,6 +6,8 @@ import { getNextStepRoute } from '../../../utils/stepConfigHelper';
 import { navigateTo } from '../../../utils/navigationHelper';
 import Input from '../../input/Input';
 import { validateAdresse, validateFnr, validateNavn, validateRelasjonTilBarnet } from '../../../utils/validationHelper';
+import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
+import { Søkerdata } from '../../../types/Søkerdata';
 
 interface OpplysningerOmBarnetStepProps {
     isValid: boolean;
@@ -26,6 +28,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({ isValid, onS
 
     return (
         <Step id={StepID.OPPLYSNINGER_OM_BARNET} onSubmit={handleSubmit}>
+            <SøkerdataContextConsumer>{({ barn }: Søkerdata) => JSON.stringify(barn)}</SøkerdataContextConsumer>
             <Input label="Hva er barnets etternavn?" name="barnetsEtternavn" validate={validateNavn} />
             <Input label="Hva er barnets fornavn?" name="barnetsFornavn" validate={validateNavn} />
             <Input label="Hva er barnets fødselsnummer?" name="barnetsFnr" validate={validateFnr} />
