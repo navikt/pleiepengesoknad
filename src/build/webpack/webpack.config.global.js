@@ -6,7 +6,7 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 
 const webpackConfig = {
     entry: {
-        bundle: ['babel-polyfill', `${__dirname}/../../app/bootstrap.tsx`]
+        bundle: ['babel-polyfill', `${__dirname}/../../app/App.tsx`]
     },
     output: {
         path: path.resolve(__dirname, './../../../dist'),
