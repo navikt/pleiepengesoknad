@@ -4,11 +4,11 @@ import { StepID } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
 import { getNextStepRoute } from '../../../utils/stepConfigHelper';
 import { navigateTo } from '../../../utils/navigationHelper';
-import Input from '../../input/Input';
 import { validateAdresse, validateFnr, validateNavn, validateRelasjonTilBarnet } from '../../../utils/validationHelper';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
 import FormikRadioPanelGroup from '../../formik-radio-panel-group/FormikRadioPanelGroup';
+import FormikInput from '../../formik-input/FormikInput';
 
 interface OpplysningerOmBarnetStepProps {
     isValid: boolean;
@@ -43,11 +43,11 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({ isValid, onS
                     )
                 }
             </SøkerdataContextConsumer>
-            <Input label="Hva er barnets etternavn?" name="barnetsEtternavn" validate={validateNavn} />
-            <Input label="Hva er barnets fornavn?" name="barnetsFornavn" validate={validateNavn} />
-            <Input label="Hva er barnets fødselsnummer?" name="barnetsFnr" validate={validateFnr} />
-            <Input label="Hva er barnets adresse?" name="barnetsAdresse" validate={validateAdresse} />
-            <Input
+            <FormikInput label="Hva er barnets etternavn?" name="barnetsEtternavn" validate={validateNavn} />
+            <FormikInput label="Hva er barnets fornavn?" name="barnetsFornavn" validate={validateNavn} />
+            <FormikInput label="Hva er barnets fødselsnummer?" name="barnetsFnr" validate={validateFnr} />
+            <FormikInput label="Hva er barnets adresse?" name="barnetsAdresse" validate={validateAdresse} />
+            <FormikInput
                 label="Hva er din relasjon til barnet?"
                 name="søkersRelasjonTilBarnet"
                 validate={validateRelasjonTilBarnet}
