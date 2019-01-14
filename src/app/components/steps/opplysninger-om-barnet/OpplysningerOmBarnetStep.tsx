@@ -8,7 +8,7 @@ import Input from '../../input/Input';
 import { validateAdresse, validateFnr, validateNavn, validateRelasjonTilBarnet } from '../../../utils/validationHelper';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
-import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
+import FormikRadioPanelGroup from '../../formik-radio-panel-group/FormikRadioPanelGroup';
 
 interface OpplysningerOmBarnetStepProps {
     isValid: boolean;
@@ -32,7 +32,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({ isValid, onS
             <SøkerdataContextConsumer>
                 {(søkerdata: Søkerdata) =>
                     søkerdata.barn && (
-                        <RadioPanelGroup
+                        <FormikRadioPanelGroup
                             legend="Hvilket barn gjelder søknaden?"
                             name="barnetSøknadenGjelder"
                             radios={søkerdata.barn.map((barn) => ({

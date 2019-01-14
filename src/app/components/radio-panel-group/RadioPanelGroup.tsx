@@ -1,47 +1,27 @@
 import * as React from 'react';
-import { Fieldset, RadioPanel, SkjemaGruppe } from 'nav-frontend-skjema';
-import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
-import { getValidationErrorProps } from '../../utils/navFrontendHelper';
-
+import { Fieldset, RadioPanel, RadioPanelProps, SkjemaGruppe } from 'nav-frontend-skjema';
+import { SkjemaelementFeil } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
 import 'nav-frontend-skjema-style';
 import './radioPanelGroup.less';
 
-interface FormikRadioPanelProps {
-    value: string;
-    label: string;
-}
-
 interface RadioPanelGroupProps {
     legend: string;
-    name: string;
-    validate?: ((value: any) => string | Promise<void> | undefined);
-    radios: FormikRadioPanelProps[];
+    radios: RadioPanelProps[];
+    feil?: SkjemaelementFeil;
 }
 
-const RadioPanelGroup = ({ name, radios, legend, validate }: RadioPanelGroupProps) => (
-    <FormikField validate={validate} name={name}>
-        {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {
-            const errorMsgProps = submitCount > 0 ? getValidationErrorProps(errors, field.name) : {};
-            return (
-                <div className="radioPanelGruppe">
-                    <Fieldset legend={legend}>
-                        <SkjemaGruppe className="radioPanelGroup--responsive" {...errorMsgProps}>
-                            {radios.map((radio: FormikRadioPanelProps) => (
-                                <div className="radioPanelWrapper" key={radio.value}>
-                                    <RadioPanel
-                                        onChange={() => setFieldValue(field.name, radio.value)}
-                                        checked={field.value === radio.value}
-                                        name={field.name}
-                                        {...radio}
-                                    />
-                                </div>
-                            ))}
-                        </SkjemaGruppe>
-                    </Fieldset>
-                </div>
-            );
-        }}
-    </FormikField>
+const RadioPanelGroup = ({ legend, radios, feil }: RadioPanelGroupProps) => (
+    <div className="radioPanelGruppe">
+        <Fieldset legend={legend}>
+            <SkjemaGruppe className="radioPanelGroup--responsive" feil={feil}>
+                {radios.map(({ onChange, value, ...otherRadioProps }: RadioPanelProps) => (
+                    <div className="radioPanelWrapper" key={value}>
+                        <RadioPanel onChange={onChange} value={value} {...otherRadioProps} />
+                    </div>
+                ))}
+            </SkjemaGruppe>
+        </Fieldset>
+    </div>
 );
 
 export default RadioPanelGroup;
