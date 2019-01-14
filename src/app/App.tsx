@@ -36,7 +36,27 @@ class App extends React.Component<{}, State> {
             // if (isForbidden(response) || isUnauthorized(response)) {
             //     window.location = loginUrl;
             // }
-            this.setState({ isLoading: false });
+            const mockedSøkerdata: Søkerdata = {
+                barn: [
+                    {
+                        fodselsdato: '1990-09-29',
+                        fornavn: 'Santa',
+                        mellomnavn: 'Claus',
+                        etternavn: 'Winter',
+                        fodselsnummer: '123412345',
+                        relasjon: 'far'
+                    },
+                    {
+                        fodselsdato: '1990-09-29',
+                        fornavn: 'Luke',
+                        mellomnavn: 'Claus',
+                        etternavn: 'Skywalker',
+                        fodselsnummer: '1234126345',
+                        relasjon: 'some relation'
+                    }
+                ]
+            };
+            this.setState({ isLoading: false, søkerdata: mockedSøkerdata });
         }
     }
 

@@ -8,6 +8,7 @@ import Input from '../../input/Input';
 import { validateAdresse, validateFnr, validateNavn, validateRelasjonTilBarnet } from '../../../utils/validationHelper';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
+import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
 
 interface OpplysningerOmBarnetStepProps {
     isValid: boolean;
@@ -29,7 +30,18 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({ isValid, onS
     return (
         <Step id={StepID.OPPLYSNINGER_OM_BARNET} onSubmit={handleSubmit}>
             <SøkerdataContextConsumer>
-                {(søkerdata: Søkerdata) => søkerdata && JSON.stringify(søkerdata.barn)}
+                {(søkerdata: Søkerdata) =>
+                    søkerdata.barn && (
+                        <RadioPanelGroup
+                            legend="Hvilket barn gjelder søknaden?"
+                            name="barnetSøknadenGjelder"
+                            radios={søkerdata.barn.map((barn) => ({
+                                value: barn.fodselsnummer,
+                                label: `${barn.fornavn} ${barn.etternavn}`
+                            }))}
+                        />
+                    )
+                }
             </SøkerdataContextConsumer>
             <Input label="Hva er barnets etternavn?" name="barnetsEtternavn" validate={validateNavn} />
             <Input label="Hva er barnets fornavn?" name="barnetsFornavn" validate={validateNavn} />

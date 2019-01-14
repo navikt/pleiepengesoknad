@@ -3,8 +3,8 @@ interface Barn {
     etternavn: string;
     mellomnavn: string;
     relasjon: string;
-    fødselsnummer: string;
-    fødselsdato: string;
+    fodselsnummer: string;
+    fodselsdato: string;
 }
 
 export interface Søkerdata {

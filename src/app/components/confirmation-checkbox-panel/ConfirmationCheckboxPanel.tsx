@@ -2,7 +2,6 @@ import * as React from 'react';
 import { BekreftCheckboksPanel as NAVConfirmationCheckboxPanel } from 'nav-frontend-skjema';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorProps } from '../../utils/navFrontendHelper';
-import SkjemaGruppe from 'nav-frontend-skjema/lib/skjema-gruppe';
 
 interface InputProps {
     label: string;
@@ -16,17 +15,16 @@ const ConfirmationCheckboxPanel = ({ name, label, validate, children }: InputPro
         {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {
             const errorMsgProps = submitCount > 0 ? getValidationErrorProps(errors, field.name) : {};
             return (
-                <SkjemaGruppe {...errorMsgProps}>
-                    <NAVConfirmationCheckboxPanel
-                        children={children}
-                        checked={field.value === true}
-                        label={label}
-                        {...field}
-                        onChange={() => {
-                            setFieldValue(name, !field.value);
-                        }}
-                    />
-                </SkjemaGruppe>
+                <NAVConfirmationCheckboxPanel
+                    children={children}
+                    checked={field.value === true}
+                    label={label}
+                    {...field}
+                    {...errorMsgProps}
+                    onChange={() => {
+                        setFieldValue(name, !field.value);
+                    }}
+                />
             );
         }}
     </FormikField>
