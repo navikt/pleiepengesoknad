@@ -11,6 +11,7 @@ import FormikRadioPanelGroup from '../../formik-radio-panel-group/FormikRadioPan
 import FormikInput from '../../formik-input/FormikInput';
 import FormikCheckbox from '../../formik-checkbox/FormikCheckbox';
 import { CustomFormikProps as FormikProps } from '../../../types/FormikProps';
+import { formatName } from '../../../utils/personHelper';
 
 interface OpplysningerOmBarnetStepProps {
     isValid: boolean;
@@ -54,9 +55,9 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                             <FormikRadioPanelGroup
                                 legend="Hvilket barn gjelder søknaden?"
                                 name="barnetSøknadenGjelder"
-                                radios={søkerdata.barn.map((barn) => ({
-                                    value: barn.fodselsnummer,
-                                    label: `${barn.fornavn} ${barn.etternavn}`,
+                                radios={søkerdata.barn.map(({ fodselsnummer, fornavn, mellomnavn, etternavn }) => ({
+                                    value: fodselsnummer,
+                                    label: formatName(fornavn, mellomnavn, etternavn),
                                     disabled: søknadenGjelderEtAnnetBarn
                                 }))}
                             />

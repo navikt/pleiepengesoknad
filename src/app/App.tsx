@@ -40,19 +40,19 @@ class App extends React.Component<{}, State> {
                 barn: [
                     {
                         fodselsdato: '1990-09-29',
-                        fornavn: 'Santa',
+                        fornavn: 'Mr. Santa',
                         mellomnavn: 'Claus',
                         etternavn: 'Winter',
-                        fodselsnummer: '123412345',
+                        fodselsnummer: '12345123451',
                         relasjon: 'far'
                     },
                     {
                         fodselsdato: '1990-09-29',
-                        fornavn: 'Luke',
+                        fornavn: 'Ms. Santa',
                         mellomnavn: 'Claus',
-                        etternavn: 'Skywalker',
-                        fodselsnummer: '1234126345',
-                        relasjon: 'some relation'
+                        etternavn: 'Winter',
+                        fodselsnummer: '12345123452',
+                        relasjon: 'mor'
                     }
                 ]
             };
