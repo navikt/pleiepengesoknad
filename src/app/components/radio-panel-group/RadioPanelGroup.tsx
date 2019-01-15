@@ -11,7 +11,7 @@ interface RadioPanelGroupProps {
 }
 
 const RadioPanelGroup = ({ legend, radios, feil }: RadioPanelGroupProps) => (
-    <div className="radioPanelGruppe">
+    <div className="radioPanelGruppe skjemaelement">
         <Fieldset legend={legend}>
             <SkjemaGruppe className="radioPanelGroup--responsive" feil={feil}>
                 {radios.map(({ onChange, value, ...otherRadioProps }: RadioPanelProps) => (
