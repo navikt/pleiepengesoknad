@@ -10,19 +10,11 @@ import SummaryStep from '../steps/summary/SummaryStep';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { FormikBag } from '../../types/FormikBag';
 import { CustomFormikProps as FormikProps } from '../../types/FormikProps';
+import { initialValues } from '../../config/initialValues';
 
 const Pleiepengesøknad = () => (
     <Formik
-        initialValues={{
-            arbeidsgiversNavn: '',
-            arbeidsgiversAdresse: '',
-            barnetsEtternavn: '',
-            barnetsAdresse: '',
-            barnetsFnr: '',
-            barnetsFornavn: '',
-            søkersRelasjonTilBarnet: '',
-            harGodkjentVilkår: false
-        }}
+        initialValues={initialValues}
         onSubmit={(values: PleiepengesøknadFormData, { resetForm }: FormikBag) => {
             resetForm(values);
         }}
