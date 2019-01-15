@@ -7,4 +7,6 @@ export interface PleiepengesøknadFormData {
     arbeidsgiversNavn: string;
     arbeidsgiversAdresse: string;
     søkersRelasjonTilBarnet: string;
+    søknadenGjelderEtAnnetBarn: boolean;
+    barnetSøknadenGjelder: string;
 }

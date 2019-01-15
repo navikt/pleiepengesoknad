@@ -1,16 +1,15 @@
 import * as React from 'react';
 import { StepID } from '../../config/stepConfig';
 import { getSøknadRoute } from '../../utils/routeConfigHelper';
-import { Formik, FormikBag as FormikBagType, FormikProps } from 'formik';
+import { Formik } from 'formik';
 import { Redirect, Route, Switch } from 'react-router';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
 import OpplysningerOmBarnetStep from '../steps/opplysninger-om-barnet/OpplysningerOmBarnetStep';
 import OpplysningerOmArbeidsforholdStep from '../steps/arbeidsforhold/OpplysningerOmArbeidsforholdStep';
 import SummaryStep from '../steps/summary/SummaryStep';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
-
-type FormikPropsWorkaround = FormikProps<PleiepengesøknadFormData> & { submitForm: () => Promise<void> };
-type FormikBag = FormikBagType<PleiepengesøknadFormData, PleiepengesøknadFormData>;
+import { FormikBag } from '../../types/FormikBag';
+import { CustomFormikProps as FormikProps } from '../../types/FormikProps';
 
 const Pleiepengesøknad = () => (
     <Formik
@@ -27,7 +26,8 @@ const Pleiepengesøknad = () => (
         onSubmit={(values: PleiepengesøknadFormData, { resetForm }: FormikBag) => {
             resetForm(values);
         }}
-        render={({ values, isValid, isSubmitting, isValidating, submitForm }: FormikPropsWorkaround) => {
+        render={(formikProps: FormikProps) => {
+            const { values, isValid, submitForm } = formikProps;
             return (
                 <Switch>
                     <Route
@@ -37,7 +37,12 @@ const Pleiepengesøknad = () => (
                     <Route
                         path={getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET)}
                         render={(props) => (
-                            <OpplysningerOmBarnetStep onSubmit={submitForm} isValid={isValid} {...props} />
+                            <OpplysningerOmBarnetStep
+                                onSubmit={submitForm}
+                                isValid={isValid}
+                                formikProps={formikProps}
+                                {...props}
+                            />
                         )}
                     />
                     <Route

@@ -6,6 +6,7 @@ import RadioPanelGroup from '../radio-panel-group/RadioPanelGroup';
 interface FormikRadioPanelProps {
     label: string;
     value: string;
+    disabled?: boolean;
 }
 
 interface FormikRadioPanelGroupProps {
@@ -22,12 +23,12 @@ const FormikRadioPanelGroup = ({ name, validate, legend, radios }: FormikRadioPa
             return (
                 <RadioPanelGroup
                     legend={legend}
-                    radios={radios.map(({ value, label }) => ({
+                    radios={radios.map(({ value, ...otherProps }) => ({
                         checked: field.value === value,
                         onChange: () => setFieldValue(field.name, value),
-                        label,
                         name,
-                        value
+                        value,
+                        ...otherProps
                     }))}
                     {...errorMsgProps}
                 />

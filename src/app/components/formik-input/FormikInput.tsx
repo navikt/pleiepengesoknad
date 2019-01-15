@@ -14,6 +14,7 @@ const FormikInput = ({ name, label, validate, ...otherInputProps }: Props) => (
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, submitCount } }: FormikFieldProps) => {
             const errorMsgProps = submitCount > 0 ? getValidationErrorProps(errors, field.name) : {};
+            // optional onChange-prop will be overriden by formik
             return <Input label={label} {...otherInputProps} {...errorMsgProps} {...field} />;
         }}
     </FormikField>
