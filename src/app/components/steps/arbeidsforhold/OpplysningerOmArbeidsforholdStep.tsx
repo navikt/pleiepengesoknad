@@ -5,7 +5,8 @@ import { HistoryProps } from '../../../types/History';
 import { getNextStepRoute } from '../../../utils/stepConfigHelper';
 import { navigateTo } from '../../../utils/navigationHelper';
 import { validateAdresse, validateNavn } from '../../../utils/validationHelper';
-import FormikInput from '../../formik-input/FormikInput';
+import Input from '../../input/Input';
+import { PleiepengesøknadField } from '../../../types/PleiepengesøknadFormData';
 
 interface OpplysningerOmArbeidsforholdStep {
     isValid: boolean;
@@ -26,14 +27,14 @@ const OpplysningerOmArbeidsforholdStep: React.FunctionComponent<Props> = ({ isVa
 
     return (
         <Step id={StepID.ARBEIDSFORHOLD} onSubmit={handleSubmit}>
-            <FormikInput
+            <Input
                 label="Hva er navnet på arbeidsgiveren din?"
-                name="arbeidsgiversNavn"
+                name={PleiepengesøknadField.ArbeidsgiversNavn}
                 validate={validateNavn}
             />
-            <FormikInput
+            <Input
                 label="Hva er adressen til arbeidsgiveren din?"
-                name="arbeidsgiversAdresse"
+                name={PleiepengesøknadField.ArbeidsgiversAdresse}
                 validate={validateAdresse}
             />
         </Step>

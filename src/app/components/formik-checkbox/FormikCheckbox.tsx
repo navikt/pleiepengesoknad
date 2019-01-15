@@ -3,14 +3,19 @@ import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorProps } from '../../utils/navFrontendHelper';
 import { Checkbox, CheckboxProps } from 'nav-frontend-skjema';
 
-interface FormikCheckboxProps {
+interface FormikCheckboxProps<T> {
     validate?: ((value: any) => string | Promise<void> | undefined);
     afterOnChange?: (newValue: boolean) => void;
+    name: T;
 }
 
-type Props = FormikCheckboxProps & CheckboxProps;
-
-const FormikCheckbox = ({ name, label, validate, afterOnChange, ...otherInputProps }: Props) => (
+const FormikCheckbox = <T extends {}>(): React.FunctionComponent<CheckboxProps & FormikCheckboxProps<T>> => ({
+    name,
+    label,
+    validate,
+    afterOnChange,
+    ...otherInputProps
+}) => (
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, setFieldValue, submitCount } }: FormikFieldProps) => {
             const errorMsgProps = submitCount > 0 ? getValidationErrorProps(errors, field.name) : {};
@@ -20,6 +25,7 @@ const FormikCheckbox = ({ name, label, validate, afterOnChange, ...otherInputPro
                     {...otherInputProps}
                     {...errorMsgProps}
                     {...field}
+                    // optional onChange-prop will be overriden
                     onChange={() => {
                         const newValue = !field.value;
                         setFieldValue(field.name, newValue);

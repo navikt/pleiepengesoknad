@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorProps } from '../../utils/navFrontendHelper';
-import RadioPanelGroup from '../radio-panel-group/RadioPanelGroup';
+import RadioPanelGroupBase from '../radio-panel-group-base/RadioPanelGroupBase';
 
 interface FormikRadioPanelProps {
     label: string;
@@ -9,24 +9,29 @@ interface FormikRadioPanelProps {
     disabled?: boolean;
 }
 
-interface FormikRadioPanelGroupProps {
+interface FormikRadioPanelGroupProps<T> {
     legend: string;
-    name: string;
+    name: T;
     radios: FormikRadioPanelProps[];
     validate?: ((value: any) => string | Promise<void> | undefined);
 }
 
-const FormikRadioPanelGroup = ({ name, validate, legend, radios }: FormikRadioPanelGroupProps) => (
+const FormikRadioPanelGroup = <T extends {}>(): React.FunctionComponent<FormikRadioPanelGroupProps<T>> => ({
+    name,
+    validate,
+    legend,
+    radios
+}) => (
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {
             const errorMsgProps = submitCount > 0 ? getValidationErrorProps(errors, field.name) : {};
             return (
-                <RadioPanelGroup
+                <RadioPanelGroupBase
                     legend={legend}
                     radios={radios.map(({ value, ...otherProps }) => ({
                         checked: field.value === value,
                         onChange: () => setFieldValue(field.name, value),
-                        name,
+                        name: `${name}`,
                         value,
                         ...otherProps
                     }))}

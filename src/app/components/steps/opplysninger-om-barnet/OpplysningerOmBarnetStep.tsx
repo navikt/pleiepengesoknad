@@ -7,11 +7,12 @@ import { navigateTo } from '../../../utils/navigationHelper';
 import { validateAdresse, validateFnr, validateNavn, validateRelasjonTilBarnet } from '../../../utils/validationHelper';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
-import FormikRadioPanelGroup from '../../formik-radio-panel-group/FormikRadioPanelGroup';
-import FormikInput from '../../formik-input/FormikInput';
-import FormikCheckbox from '../../formik-checkbox/FormikCheckbox';
 import { CustomFormikProps as FormikProps } from '../../../types/FormikProps';
 import { formatName } from '../../../utils/personHelper';
+import { PleiepengesøknadField } from '../../../types/PleiepengesøknadFormData';
+import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
+import Checkbox from '../../checkbox/Checkbox';
+import Input from '../../input/Input';
 
 interface OpplysningerOmBarnetStepProps {
     isValid: boolean;
@@ -52,18 +53,18 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                 {(søkerdata: Søkerdata) =>
                     søkerdata.barn && (
                         <>
-                            <FormikRadioPanelGroup
+                            <RadioPanelGroup
                                 legend="Hvilket barn gjelder søknaden?"
-                                name="barnetSøknadenGjelder"
+                                name={PleiepengesøknadField.BarnetSøknadenGjelder}
                                 radios={søkerdata.barn.map(({ fodselsnummer, fornavn, mellomnavn, etternavn }) => ({
                                     value: fodselsnummer,
                                     label: formatName(fornavn, mellomnavn, etternavn),
                                     disabled: søknadenGjelderEtAnnetBarn
                                 }))}
                             />
-                            <FormikCheckbox
+                            <Checkbox
                                 label="Søknaden gjelder et annet barn"
-                                name="søknadenGjelderEtAnnetBarn"
+                                name={PleiepengesøknadField.SøknadenGjelderEtAnnetBarn}
                                 afterOnChange={(newValue) => {
                                     if (newValue) {
                                         setFieldValue('barnetSøknadenGjelder', '');
@@ -76,13 +77,29 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
             </SøkerdataContextConsumer>
             {søknadenGjelderEtAnnetBarn && (
                 <>
-                    <FormikInput label="Hva er barnets etternavn?" name="barnetsEtternavn" validate={validateNavn} />
-                    <FormikInput label="Hva er barnets fornavn?" name="barnetsFornavn" validate={validateNavn} />
-                    <FormikInput label="Hva er barnets fødselsnummer?" name="barnetsFnr" validate={validateFnr} />
-                    <FormikInput label="Hva er barnets adresse?" name="barnetsAdresse" validate={validateAdresse} />
-                    <FormikInput
+                    <Input
+                        label="Hva er barnets etternavn?"
+                        name={PleiepengesøknadField.BarnetsEtternavn}
+                        validate={validateNavn}
+                    />
+                    <Input
+                        label="Hva er barnets fornavn?"
+                        name={PleiepengesøknadField.BarnetsFornavn}
+                        validate={validateNavn}
+                    />
+                    <Input
+                        label="Hva er barnets fødselsnummer?"
+                        name={PleiepengesøknadField.BarnetsFødselsnummer}
+                        validate={validateFnr}
+                    />
+                    <Input
+                        label="Hva er barnets adresse?"
+                        name={PleiepengesøknadField.BarnetsAdresse}
+                        validate={validateAdresse}
+                    />
+                    <Input
                         label="Hva er din relasjon til barnet?"
-                        name="søkersRelasjonTilBarnet"
+                        name={PleiepengesøknadField.SøkersRelasjonTilBarnet}
                         validate={validateRelasjonTilBarnet}
                     />
                 </>

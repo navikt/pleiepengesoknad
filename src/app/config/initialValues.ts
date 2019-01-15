@@ -1,14 +1,14 @@
-import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { PleiepengesøknadField, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 
 export const initialValues: PleiepengesøknadFormData = {
-    arbeidsgiversNavn: '',
-    arbeidsgiversAdresse: '',
-    barnetsEtternavn: '',
-    barnetsAdresse: '',
-    barnetsFnr: '',
-    barnetsFornavn: '',
-    barnetSøknadenGjelder: '',
-    harGodkjentVilkår: false,
-    søkersRelasjonTilBarnet: '',
-    søknadenGjelderEtAnnetBarn: false
+    [PleiepengesøknadField.ArbeidsgiversNavn]: '',
+    [PleiepengesøknadField.ArbeidsgiversAdresse]: '',
+    [PleiepengesøknadField.BarnetsEtternavn]: '',
+    [PleiepengesøknadField.BarnetsAdresse]: '',
+    [PleiepengesøknadField.BarnetsFødselsnummer]: '',
+    [PleiepengesøknadField.BarnetsFornavn]: '',
+    [PleiepengesøknadField.BarnetSøknadenGjelder]: '',
+    [PleiepengesøknadField.HarGodkjentVilkår]: false,
+    [PleiepengesøknadField.SøkersRelasjonTilBarnet]: '',
+    [PleiepengesøknadField.SøknadenGjelderEtAnnetBarn]: false
 };

@@ -1,12 +1,25 @@
+export enum PleiepengesøknadField {
+    HarGodkjentVilkår = 'harGodkjentVilkår',
+    BarnetsEtternavn = 'barnetsEtternavn',
+    BarnetsFornavn = 'barnetsFornavn',
+    BarnetsFødselsnummer = 'barnetsFødselsnummer',
+    BarnetsAdresse = 'barnetsAdresse',
+    BarnetSøknadenGjelder = 'barnetSøknadenGjelder',
+    ArbeidsgiversNavn = 'arbeidsgiversNavn',
+    ArbeidsgiversAdresse = 'arbeidsgiversAdresse',
+    SøkersRelasjonTilBarnet = 'søkersRelasjonTilBarnet',
+    SøknadenGjelderEtAnnetBarn = 'søknadenGjelderEtAnnetBarn'
+}
+
 export interface PleiepengesøknadFormData {
-    harGodkjentVilkår: boolean;
-    barnetsEtternavn: string;
-    barnetsFornavn: string;
-    barnetsAdresse: string;
-    barnetsFnr: string;
-    arbeidsgiversNavn: string;
-    arbeidsgiversAdresse: string;
-    søkersRelasjonTilBarnet: string;
-    søknadenGjelderEtAnnetBarn: boolean;
-    barnetSøknadenGjelder: string;
+    [PleiepengesøknadField.HarGodkjentVilkår]: boolean;
+    [PleiepengesøknadField.BarnetsEtternavn]: string;
+    [PleiepengesøknadField.BarnetsFornavn]: string;
+    [PleiepengesøknadField.BarnetsAdresse]: string;
+    [PleiepengesøknadField.BarnetsFødselsnummer]: string;
+    [PleiepengesøknadField.ArbeidsgiversNavn]: string;
+    [PleiepengesøknadField.ArbeidsgiversAdresse]: string;
+    [PleiepengesøknadField.SøkersRelasjonTilBarnet]: string;
+    [PleiepengesøknadField.SøknadenGjelderEtAnnetBarn]: boolean;
+    [PleiepengesøknadField.BarnetSøknadenGjelder]: string;
 }

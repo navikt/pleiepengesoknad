@@ -4,13 +4,13 @@ import { SkjemaelementFeil } from 'nav-frontend-skjema/lib/skjemaelement-feilmel
 import 'nav-frontend-skjema-style';
 import './radioPanelGroup.less';
 
-interface RadioPanelGroupProps {
+interface RadioPanelGroupBaseProps {
     legend: string;
     radios: RadioPanelProps[];
     feil?: SkjemaelementFeil;
 }
 
-const RadioPanelGroup = ({ legend, radios, feil }: RadioPanelGroupProps) => (
+const RadioPanelGroupBase = ({ legend, radios, feil }: RadioPanelGroupBaseProps) => (
     <div className="radioPanelGruppe skjemaelement">
         <Fieldset legend={legend}>
             <SkjemaGruppe className="radioPanelGroup--responsive" feil={feil}>
@@ -24,4 +24,4 @@ const RadioPanelGroup = ({ legend, radios, feil }: RadioPanelGroupProps) => (
     </div>
 );
 
-export default RadioPanelGroup;
+export default RadioPanelGroupBase;
