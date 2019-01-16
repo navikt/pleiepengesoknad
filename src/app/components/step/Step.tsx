@@ -13,9 +13,16 @@ interface StepPropsInterface {
     id: StepID;
     onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
     showSubmitButton?: boolean;
+    showButtonSpinner?: boolean;
 }
 
-const Step: React.FunctionComponent<StepPropsInterface> = ({ id, onSubmit, showSubmitButton, children }) => {
+const Step: React.FunctionComponent<StepPropsInterface> = ({
+    id,
+    onSubmit,
+    showSubmitButton,
+    showButtonSpinner,
+    children
+}) => {
     const conf = stepConfig[id];
     return (
         <Page className={bem.className} title={conf.title}>
@@ -24,7 +31,9 @@ const Step: React.FunctionComponent<StepPropsInterface> = ({ id, onSubmit, showS
                 <form onSubmit={onSubmit}>
                     {children}
                     {showSubmitButton !== false && (
-                        <Button className={bem.element('button')}>{conf.buttonLabel}</Button>
+                        <Button className={bem.element('button')} spinner={showButtonSpinner || false}>
+                            {conf.buttonLabel}
+                        </Button>
                     )}
                 </form>
             </Box>

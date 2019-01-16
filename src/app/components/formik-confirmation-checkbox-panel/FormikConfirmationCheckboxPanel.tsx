@@ -18,6 +18,7 @@ const FormikConfirmationCheckboxPanel = <T extends {}>(): React.FunctionComponen
             const errorMsgProps = submitCount > 0 ? getValidationErrorProps(errors, field.name) : {};
             return (
                 <NAVConfirmationCheckboxPanel
+                    className="skjemaelement"
                     children={children}
                     checked={field.value === true}
                     label={label}

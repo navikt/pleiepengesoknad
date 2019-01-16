@@ -9,6 +9,7 @@ export const initialValues: PleiepengesøknadFormData = {
     [PleiepengesøknadField.BarnetsFornavn]: '',
     [PleiepengesøknadField.BarnetSøknadenGjelder]: '',
     [PleiepengesøknadField.HarGodkjentVilkår]: false,
+    [PleiepengesøknadField.HarBekreftetOpplysninger]: false,
     [PleiepengesøknadField.SøkersRelasjonTilBarnet]: '',
     [PleiepengesøknadField.SøknadenGjelderEtAnnetBarn]: false
 };

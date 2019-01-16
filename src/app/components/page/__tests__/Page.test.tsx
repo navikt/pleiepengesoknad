@@ -25,6 +25,7 @@ describe('<Page />', () => {
                 {children}
             </Page>
         );
+        expect(page.find('div.page').hasClass('page')).toBe(true);
         expect(page.find('div.page').hasClass('testPage')).toBe(true);
     });
 });

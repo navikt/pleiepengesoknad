@@ -1,5 +1,6 @@
 export enum PleiepengesøknadField {
     HarGodkjentVilkår = 'harGodkjentVilkår',
+    HarBekreftetOpplysninger = 'harBekreftetOpplysninger',
     BarnetsEtternavn = 'barnetsEtternavn',
     BarnetsFornavn = 'barnetsFornavn',
     BarnetsFødselsnummer = 'barnetsFødselsnummer',
@@ -13,6 +14,7 @@ export enum PleiepengesøknadField {
 
 export interface PleiepengesøknadFormData {
     [PleiepengesøknadField.HarGodkjentVilkår]: boolean;
+    [PleiepengesøknadField.HarBekreftetOpplysninger]: boolean;
     [PleiepengesøknadField.BarnetsEtternavn]: string;
     [PleiepengesøknadField.BarnetsFornavn]: string;
     [PleiepengesøknadField.BarnetsAdresse]: string;

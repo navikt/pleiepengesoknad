@@ -11,6 +11,7 @@ import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData
 import { FormikBag } from '../../types/FormikBag';
 import { CustomFormikProps as FormikProps } from '../../types/FormikProps';
 import { initialValues } from '../../config/initialValues';
+import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 
 const Pleiepengesøknad = () => (
     <Formik
@@ -49,6 +50,7 @@ const Pleiepengesøknad = () => (
                             <SummaryStep onSubmit={submitForm} values={values} isValid={isValid} {...props} />
                         )}
                     />
+                    <Route path="/soknad-sendt" component={ConfirmationPage} />
                     <Redirect to="/velkommen" />
                 </Switch>
             );
