@@ -1,5 +1,4 @@
 import * as React from 'react';
-import axios from 'axios';
 import Step from '../../step/Step';
 import { StepID } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
@@ -7,8 +6,9 @@ import { PleiepengesøknadField, PleiepengesøknadFormData } from '../../../type
 import ConfirmationCheckboxPanel from '../../confirmation-checkbox-panel/ConfirmationCheckboxPanel';
 import Box from '../../box/Box';
 import { EtikettLiten } from 'nav-frontend-typografi';
-import { getEnvironmentVariable } from '../../../utils/envHelper';
+import { sendApplication } from '../../../utils/apiHelper';
 import { navigateTo } from '../../../utils/navigationHelper';
+import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
 
 export interface SummaryStepProps {
     isValid: boolean;
@@ -22,23 +22,20 @@ interface State {
 
 type Props = SummaryStepProps & HistoryProps;
 
-const apiUrl = getEnvironmentVariable('API_URL');
-
 class SummaryStep extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.sendApplication = this.sendApplication.bind(this);
 
         this.state = {
             sendingInProgress: false
         };
     }
 
-    async sendApplication() {
+    async advanceFromStep() {
         const { values } = this.props;
         try {
-            await axios.post(`${apiUrl}/soknad`, values);
+            await sendApplication(mapFormDataToApiData(values));
             navigateTo('/soknad-sendt', this.props.history);
         } catch (error) {
             navigateTo('/soknad-sendt', this.props.history);
@@ -54,7 +51,7 @@ class SummaryStep extends React.Component<Props, State> {
                 {
                     sendingInProgress: true
                 },
-                this.sendApplication
+                this.advanceFromStep
             );
         }
     }
