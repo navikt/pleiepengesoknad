@@ -56,11 +56,15 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                             <RadioPanelGroup
                                 legend="Hvilket barn gjelder søknaden?"
                                 name={PleiepengesøknadField.BarnetSøknadenGjelder}
-                                radios={søkerdata.barn.map(({ fodselsnummer, fornavn, mellomnavn, etternavn }) => ({
-                                    value: fodselsnummer,
-                                    label: formatName(fornavn, mellomnavn, etternavn),
-                                    disabled: søknadenGjelderEtAnnetBarn
-                                }))}
+                                radios={søkerdata.barn.map((barn) => {
+                                    const { fornavn, mellomnavn, etternavn } = barn;
+                                    return {
+                                        value: JSON.stringify(barn),
+                                        key: formatName(fornavn, mellomnavn, etternavn),
+                                        label: formatName(fornavn, mellomnavn, etternavn),
+                                        disabled: søknadenGjelderEtAnnetBarn
+                                    };
+                                })}
                             />
                             <Checkbox
                                 label="Søknaden gjelder et annet barn"

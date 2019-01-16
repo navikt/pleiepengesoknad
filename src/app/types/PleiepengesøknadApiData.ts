@@ -4,7 +4,7 @@ interface Barn {
     etternavn: string;
     relasjon: string;
     fodselsnummer: string;
-    fodselsdato: string;
+    fodselsdato: Date;
 }
 
 interface Ansettelsesforhold {
@@ -12,13 +12,13 @@ interface Ansettelsesforhold {
 }
 
 interface Vedlegg {
-    innhold: string;
+    innhold: number[];
 }
 
 export interface PleiepengesøknadApiData {
     barn: Barn[];
-    fra_og_med: string;
-    til_og_med: string;
+    fra_og_med: Date;
+    til_og_med: Date;
     ansettelsesforhold: Ansettelsesforhold[];
     vedlegg: Vedlegg[];
 }

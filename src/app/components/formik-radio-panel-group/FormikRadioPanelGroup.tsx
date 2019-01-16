@@ -6,6 +6,7 @@ import RadioPanelGroupBase from '../radio-panel-group-base/RadioPanelGroupBase';
 interface FormikRadioPanelProps {
     label: string;
     value: string;
+    key?: string;
     disabled?: boolean;
 }
 

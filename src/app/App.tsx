@@ -3,14 +3,11 @@ import { render } from 'react-dom';
 import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad';
 import ApplicationWrapper from './components/application-wrapper/ApplicationWrapper';
 import './globalStyles.less';
-import { getEnvironmentVariable } from './utils/envHelper';
-import axios from 'axios';
 import LoadingPage from './components/pages/loading-page/LoadingPage';
 import { Søkerdata } from './types/Søkerdata';
+import { getBarn } from './utils/apiHelper';
 
 const root = document.getElementById('app');
-
-const apiUrl = getEnvironmentVariable('API_URL');
 
 interface State {
     isLoading: boolean;
@@ -29,7 +26,7 @@ class App extends React.Component<{}, State> {
 
     async loadAppEssentials() {
         try {
-            const response = await axios.get(`${apiUrl}/barn`, { withCredentials: true });
+            const response = await getBarn();
             this.setState({ isLoading: false, søkerdata: response.data });
         } catch (response) {
             // temporarily commented out until API is available
