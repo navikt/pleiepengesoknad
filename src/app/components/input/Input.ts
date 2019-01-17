@@ -1,4 +1,4 @@
 import FormikInput from '../formik-input/FormikInput';
-import { PleiepengesøknadField } from '../../types/PleiepengesøknadFormData';
+import { Field } from '../../types/PleiepengesøknadFormData';
 
-export default FormikInput<PleiepengesøknadField>();
+export default FormikInput<Field>();

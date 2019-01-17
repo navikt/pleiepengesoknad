@@ -1,4 +1,4 @@
 import FormikConfirmationCheckboxPanel from '../formik-confirmation-checkbox-panel/FormikConfirmationCheckboxPanel';
-import { PleiepengesøknadField } from '../../types/PleiepengesøknadFormData';
+import { Field } from '../../types/PleiepengesøknadFormData';
 
-export default FormikConfirmationCheckboxPanel<PleiepengesøknadField>();
+export default FormikConfirmationCheckboxPanel<Field>();

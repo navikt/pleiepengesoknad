@@ -1,27 +1,45 @@
-export enum PleiepengesøknadField {
-    HarGodkjentVilkår = 'harGodkjentVilkår',
-    HarBekreftetOpplysninger = 'harBekreftetOpplysninger',
-    BarnetsEtternavn = 'barnetsEtternavn',
-    BarnetsFornavn = 'barnetsFornavn',
-    BarnetsFødselsnummer = 'barnetsFødselsnummer',
-    BarnetsAdresse = 'barnetsAdresse',
-    BarnetSøknadenGjelder = 'barnetSøknadenGjelder',
-    ArbeidsgiversNavn = 'arbeidsgiversNavn',
-    ArbeidsgiversAdresse = 'arbeidsgiversAdresse',
-    SøkersRelasjonTilBarnet = 'søkersRelasjonTilBarnet',
-    SøknadenGjelderEtAnnetBarn = 'søknadenGjelderEtAnnetBarn'
+export enum Field {
+    harGodkjentVilkår = 'harGodkjentVilkår',
+    harBekreftetOpplysninger = 'harBekreftetOpplysninger',
+    barnetsEtternavn = 'barnetsEtternavn',
+    barnetsFornavn = 'barnetsFornavn',
+    barnetsFødselsnummer = 'barnetsFødselsnummer',
+    barnetsAdresse = 'barnetsAdresse',
+    barnetSøknadenGjelder = 'barnetSøknadenGjelder',
+    arbeidsgiversNavn = 'arbeidsgiversNavn',
+    arbeidsgiversAdresse = 'arbeidsgiversAdresse',
+    søkersRelasjonTilBarnet = 'søkersRelasjonTilBarnet',
+    søknadenGjelderEtAnnetBarn = 'søknadenGjelderEtAnnetBarn',
+    periodeFra = 'periodeFra',
+    periodeTil = 'periodeTil'
 }
 
 export interface PleiepengesøknadFormData {
-    [PleiepengesøknadField.HarGodkjentVilkår]: boolean;
-    [PleiepengesøknadField.HarBekreftetOpplysninger]: boolean;
-    [PleiepengesøknadField.BarnetsEtternavn]: string;
-    [PleiepengesøknadField.BarnetsFornavn]: string;
-    [PleiepengesøknadField.BarnetsAdresse]: string;
-    [PleiepengesøknadField.BarnetsFødselsnummer]: string;
-    [PleiepengesøknadField.ArbeidsgiversNavn]: string;
-    [PleiepengesøknadField.ArbeidsgiversAdresse]: string;
-    [PleiepengesøknadField.SøkersRelasjonTilBarnet]: string;
-    [PleiepengesøknadField.SøknadenGjelderEtAnnetBarn]: boolean;
-    [PleiepengesøknadField.BarnetSøknadenGjelder]: string;
+    [Field.harGodkjentVilkår]: boolean;
+    [Field.harBekreftetOpplysninger]: boolean;
+    [Field.barnetsEtternavn]: string;
+    [Field.barnetsFornavn]: string;
+    [Field.barnetsAdresse]: string;
+    [Field.barnetsFødselsnummer]: string;
+    [Field.arbeidsgiversNavn]: string;
+    [Field.arbeidsgiversAdresse]: string;
+    [Field.søkersRelasjonTilBarnet]: string;
+    [Field.søknadenGjelderEtAnnetBarn]: boolean;
+    [Field.barnetSøknadenGjelder]: string;
+    [Field.periodeFra]?: Date;
+    [Field.periodeTil]?: Date;
 }
+
+export const initialValues: PleiepengesøknadFormData = {
+    [Field.arbeidsgiversNavn]: '',
+    [Field.arbeidsgiversAdresse]: '',
+    [Field.barnetsEtternavn]: '',
+    [Field.barnetsAdresse]: '',
+    [Field.barnetsFødselsnummer]: '',
+    [Field.barnetsFornavn]: '',
+    [Field.barnetSøknadenGjelder]: '',
+    [Field.harGodkjentVilkår]: false,
+    [Field.harBekreftetOpplysninger]: false,
+    [Field.søkersRelasjonTilBarnet]: '',
+    [Field.søknadenGjelderEtAnnetBarn]: false
+};

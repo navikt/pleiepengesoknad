@@ -9,10 +9,11 @@ import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
 import { CustomFormikProps as FormikProps } from '../../../types/FormikProps';
 import { formatName } from '../../../utils/personHelper';
-import { PleiepengesøknadField } from '../../../types/PleiepengesøknadFormData';
+import { Field } from '../../../types/PleiepengesøknadFormData';
 import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
 import Checkbox from '../../checkbox/Checkbox';
 import Input from '../../input/Input';
+import Datepicker from '../../datepicker/Datepicker';
 
 interface OpplysningerOmBarnetStepProps {
     isValid: boolean;
@@ -49,13 +50,19 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                 søknadenGjelderEtAnnetBarn === true ||
                 (barnetSøknadenGjelder !== undefined && barnetSøknadenGjelder !== '')
             }>
+            <Datepicker
+                label="Datovelger"
+                validate={(v) => (v === undefined ? 'Påkrevd' : undefined)}
+                name={Field.periodeFra}
+            />
+
             <SøkerdataContextConsumer>
                 {(søkerdata: Søkerdata) =>
                     søkerdata.barn && (
                         <>
                             <RadioPanelGroup
                                 legend="Hvilket barn gjelder søknaden?"
-                                name={PleiepengesøknadField.BarnetSøknadenGjelder}
+                                name={Field.barnetSøknadenGjelder}
                                 radios={søkerdata.barn.map((barn) => {
                                     const { fornavn, mellomnavn, etternavn } = barn;
                                     return {
@@ -68,7 +75,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                             />
                             <Checkbox
                                 label="Søknaden gjelder et annet barn"
-                                name={PleiepengesøknadField.SøknadenGjelderEtAnnetBarn}
+                                name={Field.søknadenGjelderEtAnnetBarn}
                                 afterOnChange={(newValue) => {
                                     if (newValue) {
                                         setFieldValue('barnetSøknadenGjelder', '');
@@ -81,29 +88,17 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
             </SøkerdataContextConsumer>
             {søknadenGjelderEtAnnetBarn && (
                 <>
-                    <Input
-                        label="Hva er barnets etternavn?"
-                        name={PleiepengesøknadField.BarnetsEtternavn}
-                        validate={validateNavn}
-                    />
-                    <Input
-                        label="Hva er barnets fornavn?"
-                        name={PleiepengesøknadField.BarnetsFornavn}
-                        validate={validateNavn}
-                    />
+                    <Input label="Hva er barnets etternavn?" name={Field.barnetsEtternavn} validate={validateNavn} />
+                    <Input label="Hva er barnets fornavn?" name={Field.barnetsFornavn} validate={validateNavn} />
                     <Input
                         label="Hva er barnets fødselsnummer?"
-                        name={PleiepengesøknadField.BarnetsFødselsnummer}
+                        name={Field.barnetsFødselsnummer}
                         validate={validateFnr}
                     />
-                    <Input
-                        label="Hva er barnets adresse?"
-                        name={PleiepengesøknadField.BarnetsAdresse}
-                        validate={validateAdresse}
-                    />
+                    <Input label="Hva er barnets adresse?" name={Field.barnetsAdresse} validate={validateAdresse} />
                     <Input
                         label="Hva er din relasjon til barnet?"
-                        name={PleiepengesøknadField.SøkersRelasjonTilBarnet}
+                        name={Field.søkersRelasjonTilBarnet}
                         validate={validateRelasjonTilBarnet}
                     />
                 </>

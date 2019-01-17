@@ -27,6 +27,7 @@
         "lodash.throttle": "^4.1.1",
         "moment": "^2.23.0",
         "mustache-express": "^1.2.8",
+        "nav-datovelger": "^3.3.0",
         "nav-frontend-ikoner-assets": "^0.2.29",
         "nav-frontend-js-utils": "^1.0.6",
         "nav-frontend-knapper": "^1.0.21",

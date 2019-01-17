@@ -7,10 +7,9 @@ import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
 import OpplysningerOmBarnetStep from '../steps/opplysninger-om-barnet/OpplysningerOmBarnetStep';
 import OpplysningerOmArbeidsforholdStep from '../steps/arbeidsforhold/OpplysningerOmArbeidsforholdStep';
 import SummaryStep from '../steps/summary/SummaryStep';
-import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { initialValues, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { FormikBag } from '../../types/FormikBag';
 import { CustomFormikProps as FormikProps } from '../../types/FormikProps';
-import { initialValues } from '../../config/initialValues';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 
 const Pleiepengesøknad = () => (

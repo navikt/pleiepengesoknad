@@ -6,7 +6,7 @@ import { getNextStepRoute } from '../../../utils/stepConfigHelper';
 import { navigateTo } from '../../../utils/navigationHelper';
 import { validateAdresse, validateNavn } from '../../../utils/validationHelper';
 import Input from '../../input/Input';
-import { PleiepengesøknadField } from '../../../types/PleiepengesøknadFormData';
+import { Field } from '../../../types/PleiepengesøknadFormData';
 
 interface OpplysningerOmArbeidsforholdStep {
     isValid: boolean;
@@ -29,12 +29,12 @@ const OpplysningerOmArbeidsforholdStep: React.FunctionComponent<Props> = ({ isVa
         <Step id={StepID.ARBEIDSFORHOLD} onSubmit={handleSubmit}>
             <Input
                 label="Hva er navnet på arbeidsgiveren din?"
-                name={PleiepengesøknadField.ArbeidsgiversNavn}
+                name={Field.arbeidsgiversNavn}
                 validate={validateNavn}
             />
             <Input
                 label="Hva er adressen til arbeidsgiveren din?"
-                name={PleiepengesøknadField.ArbeidsgiversAdresse}
+                name={Field.arbeidsgiversAdresse}
                 validate={validateAdresse}
             />
         </Step>

@@ -13,7 +13,7 @@ import { navigateTo } from '../../../utils/navigationHelper';
 import routeConfig from '../../../config/routeConfig';
 import { StepID } from '../../../config/stepConfig';
 import ConfirmationCheckboxPanel from '../../confirmation-checkbox-panel/ConfirmationCheckboxPanel';
-import { PleiepengesøknadField } from '../../../types/PleiepengesøknadFormData';
+import { Field } from '../../../types/PleiepengesøknadFormData';
 
 const bem = bemHelper('welcomingPage');
 
@@ -50,7 +50,7 @@ const WelcomingPage: React.FunctionComponent<WelcomingPageProps & InjectedIntlPr
                 <Box margin="l">
                     <ConfirmationCheckboxPanel
                         label={intlHelper(intl, 'jajegsamtykker')}
-                        name={PleiepengesøknadField.HarGodkjentVilkår}
+                        name={Field.harGodkjentVilkår}
                         validate={(value) => {
                             let result;
                             if (value !== true) {

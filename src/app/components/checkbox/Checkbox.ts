@@ -1,4 +1,4 @@
 import FormikCheckbox from '../formik-checkbox/FormikCheckbox';
-import { PleiepengesøknadField } from '../../types/PleiepengesøknadFormData';
+import { Field } from '../../types/PleiepengesøknadFormData';
 
-export default FormikCheckbox<PleiepengesøknadField>();
+export default FormikCheckbox<Field>();
