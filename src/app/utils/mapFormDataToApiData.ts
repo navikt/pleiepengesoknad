@@ -15,7 +15,7 @@ export const mapFormDataToApiData = ({
     søkersRelasjonTilBarnet
 }: PleiepengesøknadFormData): PleiepengesøknadApiData => {
     const date = moment()
-        .subtract(1, 'day')
+        .subtract(2, 'days')
         .toDate();
     return {
         barn: [
