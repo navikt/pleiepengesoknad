@@ -1,4 +1,4 @@
-export const hasValue = (v: string) => v !== '' && v !== undefined && v !== null && v.length > 0;
+export const hasValue = (v: string) => v !== '' && v !== undefined && v !== null;
 
 export const validateFnr = (v: string): string | undefined => {
     if (!hasValue(v)) {
@@ -54,4 +54,18 @@ export const validateAdresse = (v: string): string | undefined => {
         result = 'Adressen kan maks være 30 tegn';
     }
     return result;
+};
+
+export const validateFradato = (v: string): string | undefined => {
+    if (!hasValue(v)) {
+        return 'Feltet er påkrevd';
+    }
+    return undefined;
+};
+
+export const validateTildato = (v: string): string | undefined => {
+    if (!hasValue(v)) {
+        return 'Feltet er påkrevd';
+    }
+    return undefined;
 };

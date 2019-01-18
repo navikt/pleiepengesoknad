@@ -13,7 +13,6 @@ import { Field } from '../../../types/PleiepengesøknadFormData';
 import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
 import Checkbox from '../../checkbox/Checkbox';
 import Input from '../../input/Input';
-import Datepicker from '../../datepicker/Datepicker';
 
 interface OpplysningerOmBarnetStepProps {
     isValid: boolean;
@@ -50,12 +49,6 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                 søknadenGjelderEtAnnetBarn === true ||
                 (barnetSøknadenGjelder !== undefined && barnetSøknadenGjelder !== '')
             }>
-            <Datepicker
-                label="Datovelger"
-                validate={(v) => (v === undefined ? 'Påkrevd' : undefined)}
-                name={Field.periodeFra}
-            />
-
             <SøkerdataContextConsumer>
                 {(søkerdata: Søkerdata) =>
                     søkerdata.barn && (

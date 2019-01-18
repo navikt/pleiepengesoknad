@@ -22,8 +22,7 @@ interface WelcomingPageProps {
     onSubmit: () => Promise<void>;
 }
 
-const nextStepRoute = `${routeConfig.SØKNAD_ROUTE_PREFIX}/${StepID.OPPLYSNINGER_OM_BARNET}`;
-
+const nextStepRoute = `${routeConfig.SØKNAD_ROUTE_PREFIX}/${StepID.TIDSROM}`;
 const WelcomingPage: React.FunctionComponent<WelcomingPageProps & InjectedIntlProps & HistoryProps> = ({
     isValid,
     onSubmit,

@@ -11,6 +11,7 @@ import { initialValues, PleiepengesøknadFormData } from '../../types/Pleiepenge
 import { FormikBag } from '../../types/FormikBag';
 import { CustomFormikProps as FormikProps } from '../../types/FormikProps';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
+import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromStep';
 
 const Pleiepengesøknad = () => (
     <Formik
@@ -25,6 +26,12 @@ const Pleiepengesøknad = () => (
                     <Route
                         path="/velkommen"
                         render={(props) => <WelcomingPage onSubmit={submitForm} isValid={isValid} {...props} />}
+                    />
+                    <Route
+                        path={getSøknadRoute(StepID.TIDSROM)}
+                        render={(props) => (
+                            <OpplysningerOmTidsromStep onSubmit={submitForm} isValid={isValid} {...props} />
+                        )}
                     />
                     <Route
                         path={getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET)}
