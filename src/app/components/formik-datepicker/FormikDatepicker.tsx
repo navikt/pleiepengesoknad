@@ -12,8 +12,7 @@ interface FormikDatepickerProps<T> {
 const FormikDatepicker = <T extends {}>(): React.FunctionComponent<FormikDatepickerProps<T>> => ({
     name,
     validate,
-    label,
-    ...otherInputProps
+    label
 }) => (
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {
@@ -23,7 +22,6 @@ const FormikDatepicker = <T extends {}>(): React.FunctionComponent<FormikDatepic
                 <DatepickerBase
                     label={label}
                     value={field.value}
-                    {...otherInputProps}
                     {...errorMsgProps}
                     {...field}
                     onChange={(date: Date) => {
