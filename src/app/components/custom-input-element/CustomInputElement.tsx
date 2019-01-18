@@ -19,11 +19,12 @@ const CustomInputElement: React.FunctionComponent<CustomInputElementProps> = ({
     validationError
 }) => {
     const wrapperCls = classnames('skjemaelement', { 'skjemaelement--harFeil': validationError !== undefined });
-    const inputCls = classnames({ 'skjema__feilomrade--harFeil': validationError !== undefined });
     return (
         <div className={wrapperCls}>
-            <label htmlFor={id}>{label}</label>
-            <div className={inputCls}>{children}</div>
+            <label className="skjemaelement__label" htmlFor={id}>
+                {label}
+            </label>
+            {children}
             <ValidationErrorMessage feil={validationError} />
         </div>
     );

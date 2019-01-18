@@ -66,7 +66,7 @@ class SummaryStep extends React.Component<Props, State> {
                         .filter((key) => values[key] !== '' && values[key])
                         .map((key) => (
                             <EtikettLiten key={key}>
-                                {key}: {values[key] === true ? 'Ja' : values[key]}
+                                {key}: {values[key] === true ? 'Ja' : `${values[key]}`}
                             </EtikettLiten>
                         ))}
                 </Box>
