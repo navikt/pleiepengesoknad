@@ -22,6 +22,7 @@ const FormikDatepicker = <T extends {}>(): React.FunctionComponent<FormikDatepic
             return (
                 <DatepickerBase
                     label={label}
+                    value={field.value}
                     {...otherInputProps}
                     {...errorMsgProps}
                     {...field}
