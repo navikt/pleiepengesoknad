@@ -10,35 +10,38 @@ import { validateFradato, validateTildato } from '../../../utils/validationHelpe
 
 interface OpplysningerOmTidsromStepProps {
     isValid: boolean;
-    onSubmit: () => Promise<void>;
+    isSubmitting: boolean;
+    handleSubmit: () => void;
 }
 
 type Props = OpplysningerOmTidsromStepProps & HistoryProps;
-
 const nextStepRoute = getNextStepRoute(StepID.TIDSROM);
-const OpplysningerOmTidsromStep: React.FunctionComponent<Props> = ({ isValid, onSubmit, history }) => {
-    async function handleSubmit(e: React.FormEvent) {
-        e.preventDefault();
-        await onSubmit();
-        if (isValid) {
+
+class OpplysningerOmTidsromStep extends React.Component<Props> {
+    componentDidUpdate(previousProps: Readonly<Props>) {
+        if (previousProps.isSubmitting === true && this.props.isSubmitting === false && this.props.isValid === true) {
+            const { history } = this.props;
             navigateTo(nextStepRoute!, history);
         }
     }
 
-    return (
-        <Step id={StepID.TIDSROM} onSubmit={handleSubmit}>
-            <Datepicker
-                label="Hvilken dato ønsker du å ha pleiepenger fra?"
-                validate={validateFradato}
-                name={Field.periodeFra}
-            />
-            <Datepicker
-                label="Hvilken dato ønsker du å ha pleiepenger til?"
-                validate={validateTildato}
-                name={Field.periodeTil}
-            />
-        </Step>
-    );
-};
+    render() {
+        const { handleSubmit } = this.props;
+        return (
+            <Step id={StepID.TIDSROM} onSubmit={handleSubmit}>
+                <Datepicker
+                    label="Hvilken dato ønsker du å ha pleiepenger fra?"
+                    validate={validateFradato}
+                    name={Field.periodeFra}
+                />
+                <Datepicker
+                    label="Hvilken dato ønsker du å ha pleiepenger til?"
+                    validate={validateTildato}
+                    name={Field.periodeTil}
+                />
+            </Step>
+        );
+    }
+}
 
 export default OpplysningerOmTidsromStep;

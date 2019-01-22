@@ -25,6 +25,7 @@ interface WelcomingPageProps {
 
 type Props = WelcomingPageProps & InjectedIntlProps & HistoryProps;
 const nextStepRoute = `${routeConfig.SØKNAD_ROUTE_PREFIX}/${StepID.TIDSROM}`;
+
 class WelcomingPage extends React.Component<Props> {
     componentDidUpdate(previousProps: Props) {
         if (previousProps.isSubmitting === true && this.props.isSubmitting === false && this.props.isValid === true) {
@@ -38,11 +39,9 @@ class WelcomingPage extends React.Component<Props> {
         return (
             <Page title="Velkommen til søknad om pleiepenger" className={bem.className}>
                 <Innholdstittel className={bem.element('title')}>{intlHelper(intl, 'introtittel')}</Innholdstittel>
-
                 <Box margin="m">
                     <Normaltekst>{intlHelper(intl, 'introtekst')}</Normaltekst>
                 </Box>
-
                 <form onSubmit={handleSubmit}>
                     <Box margin="l">
                         <ConfirmationCheckboxPanel
@@ -58,7 +57,6 @@ class WelcomingPage extends React.Component<Props> {
                             {intlHelper(intl, 'forståttrettigheterogplikter')}
                         </ConfirmationCheckboxPanel>
                     </Box>
-
                     <Box margin="l">
                         <Hovedknapp className={bem.element('startApplicationButton')}>
                             {intlHelper(intl, 'begynnsøknad')}
