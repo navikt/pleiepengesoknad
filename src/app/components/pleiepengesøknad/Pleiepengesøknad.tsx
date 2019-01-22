@@ -22,30 +22,14 @@ const Pleiepengesøknad = () => (
             setTouched({});
         }}
         render={(formikProps: FormikProps) => {
-            const { values, isValid, handleSubmit, isSubmitting } = formikProps;
+            const { handleSubmit, isSubmitting, isValid, values } = formikProps;
+            const commonFormikProps = { handleSubmit, isSubmitting, isValid };
             return (
                 <Switch>
-                    <Route
-                        path="/velkommen"
-                        render={(props) => (
-                            <WelcomingPage
-                                handleSubmit={handleSubmit}
-                                isSubmitting={isSubmitting}
-                                isValid={isValid}
-                                {...props}
-                            />
-                        )}
-                    />
+                    <Route path="/velkommen" render={(props) => <WelcomingPage {...commonFormikProps} {...props} />} />
                     <Route
                         path={getSøknadRoute(StepID.TIDSROM)}
-                        render={(props) => (
-                            <OpplysningerOmTidsromStep
-                                handleSubmit={handleSubmit}
-                                isSubmitting={isSubmitting}
-                                isValid={isValid}
-                                {...props}
-                            />
-                        )}
+                        render={(props) => <OpplysningerOmTidsromStep {...commonFormikProps} {...props} />}
                     />
                     <Route
                         path={getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET)}
@@ -53,26 +37,11 @@ const Pleiepengesøknad = () => (
                     />
                     <Route
                         path={getSøknadRoute(StepID.ARBEIDSFORHOLD)}
-                        render={(props) => (
-                            <OpplysningerOmArbeidsforholdStep
-                                handleSubmit={handleSubmit}
-                                isSubmitting={isSubmitting}
-                                isValid={isValid}
-                                {...props}
-                            />
-                        )}
+                        render={(props) => <OpplysningerOmArbeidsforholdStep {...commonFormikProps} {...props} />}
                     />
                     <Route
                         path={getSøknadRoute(StepID.SUMMARY)}
-                        render={(props) => (
-                            <SummaryStep
-                                handleSubmit={handleSubmit}
-                                isSubmitting={isSubmitting}
-                                values={values}
-                                isValid={isValid}
-                                {...props}
-                            />
-                        )}
+                        render={(props) => <SummaryStep values={values} {...commonFormikProps} {...props} />}
                     />
                     <Route path="/soknad-sendt" component={ConfirmationPage} />
                     <Redirect to="/velkommen" />
