@@ -4,7 +4,6 @@ import { Normaltekst, Innholdstittel } from 'nav-frontend-typografi';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import Page from '../../../components/page/Page';
 import bemHelper from '../../../utils/bemHelper';
-import './welcomingPage.less';
 import Box from '../../../components/box/Box';
 import intlHelper from '../../../utils/intlHelper';
 import InjectedIntlProps = ReactIntl.InjectedIntlProps;
@@ -14,6 +13,8 @@ import { Field } from '../../../types/PleiepengesøknadFormData';
 import { navigateTo } from '../../../utils/navigationHelper';
 import routeConfig from '../../../config/routeConfig';
 import { StepID } from '../../../config/stepConfig';
+import { userHasSubmittedValidForm } from '../../../utils/formikHelper';
+import './welcomingPage.less';
 
 const bem = bemHelper('welcomingPage');
 
@@ -28,7 +29,7 @@ const nextStepRoute = `${routeConfig.SØKNAD_ROUTE_PREFIX}/${StepID.TIDSROM}`;
 
 class WelcomingPage extends React.Component<Props> {
     componentDidUpdate(previousProps: Props) {
-        if (previousProps.isSubmitting === true && this.props.isSubmitting === false && this.props.isValid === true) {
+        if (userHasSubmittedValidForm(previousProps, this.props)) {
             const { history } = this.props;
             navigateTo(nextStepRoute, history);
         }

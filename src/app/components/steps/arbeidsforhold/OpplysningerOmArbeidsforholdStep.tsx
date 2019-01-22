@@ -17,26 +17,22 @@ interface OpplysningerOmArbeidsforholdStepProps {
 type Props = OpplysningerOmArbeidsforholdStepProps & HistoryProps;
 const nextStepRoute = getNextStepRoute(StepID.ARBEIDSFORHOLD);
 
-class OpplysningerOmArbeidsforholdStep extends React.Component<Props> {
-    render() {
-        return (
-            <FormikStep
-                id={StepID.ARBEIDSFORHOLD}
-                {...this.props}
-                onValidFormSubmit={() => navigateTo(nextStepRoute!, this.props.history)}>
-                <Input
-                    label="Hva er navnet på arbeidsgiveren din?"
-                    name={Field.arbeidsgiversNavn}
-                    validate={validateNavn}
-                />
-                <Input
-                    label="Hva er adressen til arbeidsgiveren din?"
-                    name={Field.arbeidsgiversAdresse}
-                    validate={validateAdresse}
-                />
-            </FormikStep>
-        );
-    }
-}
+const OpplysningerOmArbeidsforholdStep = ({ history, ...stepProps }: Props) => {
+    const navigate = () => navigateTo(nextStepRoute!, history);
+    return (
+        <FormikStep id={StepID.ARBEIDSFORHOLD} onValidFormSubmit={navigate} {...stepProps}>
+            <Input
+                label="Hva er navnet på arbeidsgiveren din?"
+                name={Field.arbeidsgiversNavn}
+                validate={validateNavn}
+            />
+            <Input
+                label="Hva er adressen til arbeidsgiveren din?"
+                name={Field.arbeidsgiversAdresse}
+                validate={validateAdresse}
+            />
+        </FormikStep>
+    );
+};
 
 export default OpplysningerOmArbeidsforholdStep;

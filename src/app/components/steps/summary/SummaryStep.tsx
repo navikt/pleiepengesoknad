@@ -48,14 +48,10 @@ class SummaryStep extends React.Component<Props, State> {
     render() {
         const { handleSubmit, values, isSubmitting, isValid } = this.props;
         const { sendingInProgress } = this.state;
+        const stepProps = { handleSubmit, isSubmitting, isValid, showButtonSpinner: sendingInProgress };
+
         return (
-            <FormikStep
-                id={StepID.SUMMARY}
-                handleSubmit={handleSubmit}
-                showButtonSpinner={sendingInProgress}
-                isSubmitting={isSubmitting}
-                isValid={isValid}
-                onValidFormSubmit={this.navigate}>
+            <FormikStep id={StepID.SUMMARY} onValidFormSubmit={this.navigate} {...stepProps}>
                 <Box margin="m">
                     {Object.keys(values)
                         .filter((key) => values[key] !== '' && values[key])
