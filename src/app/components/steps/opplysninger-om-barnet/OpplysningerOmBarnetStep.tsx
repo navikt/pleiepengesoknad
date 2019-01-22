@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Step from '../../step/Step';
 import { StepID } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
 import { getNextStepRoute } from '../../../utils/stepConfigHelper';
@@ -13,6 +12,7 @@ import { Field } from '../../../types/PleiepengesøknadFormData';
 import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
 import Checkbox from '../../checkbox/Checkbox';
 import Input from '../../input/Input';
+import FormikStep from '../../formik-step/FormikStep';
 
 interface OpplysningerOmBarnetStepProps {
     formikProps: FormikProps;
@@ -22,21 +22,8 @@ type Props = OpplysningerOmBarnetStepProps & HistoryProps;
 const nextStepRoute = getNextStepRoute(StepID.OPPLYSNINGER_OM_BARNET);
 
 class OpplysningerOmBarnetStep extends React.Component<Props> {
-    componentDidUpdate(previousProps: Readonly<Props>) {
-        const previousFormikProps = previousProps.formikProps;
-        const currentFormikProps = this.props.formikProps;
-        if (
-            previousFormikProps.isSubmitting === true &&
-            currentFormikProps.isSubmitting === false &&
-            currentFormikProps.isValid === true
-        ) {
-            const { history } = this.props;
-            navigateTo(nextStepRoute!, history);
-        }
-    }
-
     render() {
-        const { formikProps } = this.props;
+        const { formikProps, history } = this.props;
         const {
             handleSubmit,
             values: { søknadenGjelderEtAnnetBarn, barnetSøknadenGjelder },
@@ -44,9 +31,12 @@ class OpplysningerOmBarnetStep extends React.Component<Props> {
         } = formikProps;
 
         return (
-            <Step
+            <FormikStep
                 id={StepID.OPPLYSNINGER_OM_BARNET}
-                onSubmit={handleSubmit}
+                isValid={formikProps.isValid}
+                isSubmitting={formikProps.isSubmitting}
+                onValidFormSubmit={() => navigateTo(nextStepRoute!, history)}
+                handleSubmit={handleSubmit}
                 showSubmitButton={
                     søknadenGjelderEtAnnetBarn === true ||
                     (barnetSøknadenGjelder !== undefined && barnetSøknadenGjelder !== '')
@@ -102,7 +92,7 @@ class OpplysningerOmBarnetStep extends React.Component<Props> {
                         />
                     </>
                 )}
-            </Step>
+            </FormikStep>
         );
     }
 }

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Step from '../../step/Step';
 import { StepID } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
 import { getNextStepRoute } from '../../../utils/stepConfigHelper';
@@ -7,6 +6,7 @@ import { navigateTo } from '../../../utils/navigationHelper';
 import { validateAdresse, validateNavn } from '../../../utils/validationHelper';
 import Input from '../../input/Input';
 import { Field } from '../../../types/PleiepengesøknadFormData';
+import FormikStep from '../../formik-step/FormikStep';
 
 interface OpplysningerOmArbeidsforholdStepProps {
     isValid: boolean;
@@ -18,17 +18,12 @@ type Props = OpplysningerOmArbeidsforholdStepProps & HistoryProps;
 const nextStepRoute = getNextStepRoute(StepID.ARBEIDSFORHOLD);
 
 class OpplysningerOmArbeidsforholdStep extends React.Component<Props> {
-    componentDidUpdate(previousProps: Props) {
-        if (previousProps.isSubmitting === true && this.props.isSubmitting === false && this.props.isValid === true) {
-            const { history } = this.props;
-            navigateTo(nextStepRoute!, history);
-        }
-    }
-
     render() {
-        const { handleSubmit } = this.props;
         return (
-            <Step id={StepID.ARBEIDSFORHOLD} onSubmit={handleSubmit}>
+            <FormikStep
+                id={StepID.ARBEIDSFORHOLD}
+                {...this.props}
+                onValidFormSubmit={() => navigateTo(nextStepRoute!, this.props.history)}>
                 <Input
                     label="Hva er navnet på arbeidsgiveren din?"
                     name={Field.arbeidsgiversNavn}
@@ -39,7 +34,7 @@ class OpplysningerOmArbeidsforholdStep extends React.Component<Props> {
                     name={Field.arbeidsgiversAdresse}
                     validate={validateAdresse}
                 />
-            </Step>
+            </FormikStep>
         );
     }
 }

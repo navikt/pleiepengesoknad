@@ -9,16 +9,16 @@ import Box from '../box/Box';
 
 const bem = bemHelper('step');
 
-interface StepPropsInterface {
+export interface StepProps {
     id: StepID;
-    onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+    handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
     showSubmitButton?: boolean;
     showButtonSpinner?: boolean;
 }
 
-const Step: React.FunctionComponent<StepPropsInterface> = ({
+const Step: React.FunctionComponent<StepProps> = ({
     id,
-    onSubmit,
+    handleSubmit,
     showSubmitButton,
     showButtonSpinner,
     children
@@ -28,7 +28,7 @@ const Step: React.FunctionComponent<StepPropsInterface> = ({
         <Page className={bem.className} title={conf.title}>
             <StepIndicator stepConfig={stepConfig} activeStep={conf.index} />
             <Box margin="xl">
-                <form onSubmit={onSubmit}>
+                <form onSubmit={handleSubmit}>
                     {children}
                     {showSubmitButton !== false && (
                         <Button className={bem.element('button')} spinner={showButtonSpinner || false}>

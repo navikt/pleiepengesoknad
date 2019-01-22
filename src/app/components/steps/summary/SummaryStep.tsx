@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Step from '../../step/Step';
 import { StepID } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
 import { Field, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
@@ -7,6 +6,9 @@ import ConfirmationCheckboxPanel from '../../confirmation-checkbox-panel/Confirm
 import Box from '../../box/Box';
 import { EtikettLiten } from 'nav-frontend-typografi';
 import { navigateTo } from '../../../utils/navigationHelper';
+import FormikStep from '../../formik-step/FormikStep';
+import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
+import { sendApplication } from '../../../utils/apiHelper';
 
 export interface SummaryStepProps {
     isValid: boolean;
@@ -27,20 +29,33 @@ class SummaryStep extends React.Component<Props, State> {
         this.state = {
             sendingInProgress: false
         };
+        this.navigate = this.navigate.bind(this);
     }
 
-    componentDidUpdate(previousProps: Props) {
-        if (previousProps.isSubmitting === true && this.props.isSubmitting === false && this.props.isValid === true) {
-            const { history } = this.props;
+    async navigate() {
+        const { history, values } = this.props;
+        this.setState({
+            sendingInProgress: true
+        });
+        try {
+            await sendApplication(mapFormDataToApiData(values));
+            navigateTo('/soknad-sendt', history);
+        } catch {
             navigateTo('/soknad-sendt', history);
         }
     }
 
     render() {
-        const { handleSubmit, values } = this.props;
+        const { handleSubmit, values, isSubmitting, isValid } = this.props;
         const { sendingInProgress } = this.state;
         return (
-            <Step id={StepID.SUMMARY} onSubmit={handleSubmit} showButtonSpinner={sendingInProgress}>
+            <FormikStep
+                id={StepID.SUMMARY}
+                handleSubmit={handleSubmit}
+                showButtonSpinner={sendingInProgress}
+                isSubmitting={isSubmitting}
+                isValid={isValid}
+                onValidFormSubmit={this.navigate}>
                 <Box margin="m">
                     {Object.keys(values)
                         .filter((key) => values[key] !== '' && values[key])
@@ -65,7 +80,7 @@ class SummaryStep extends React.Component<Props, State> {
                         av her.
                     </ConfirmationCheckboxPanel>
                 </Box>
-            </Step>
+            </FormikStep>
         );
     }
 }
