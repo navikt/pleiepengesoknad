@@ -16,16 +16,25 @@ import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromSte
 const Pleiepengesøknad = () => (
     <Formik
         initialValues={initialValues}
-        onSubmit={(values: PleiepengesøknadFormData, { resetForm }: FormikBag) => {
-            resetForm(values);
+        onSubmit={(values: PleiepengesøknadFormData, { setSubmitting, setFormikState, setTouched }: FormikBag) => {
+            setSubmitting(false);
+            setFormikState({ submitCount: 0 });
+            setTouched({});
         }}
         render={(formikProps: FormikProps) => {
-            const { values, isValid, submitForm } = formikProps;
+            const { values, isValid, submitForm, handleSubmit, isSubmitting } = formikProps;
             return (
                 <Switch>
                     <Route
                         path="/velkommen"
-                        render={(props) => <WelcomingPage onSubmit={submitForm} isValid={isValid} {...props} />}
+                        render={(props) => (
+                            <WelcomingPage
+                                isSubmitting={isSubmitting}
+                                handleSubmit={handleSubmit}
+                                isValid={isValid}
+                                {...props}
+                            />
+                        )}
                     />
                     <Route
                         path={getSøknadRoute(StepID.TIDSROM)}

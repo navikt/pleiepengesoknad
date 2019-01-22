@@ -21,6 +21,12 @@ webpackConfig.plugins.push(
     })
 );
 
+webpackConfig.module.rules.push({
+    test: /\.js$/,
+    use: 'source-map-loader',
+    enforce: 'pre'
+});
+
 module.exports = Object.assign(webpackConfig, {
     devtool: 'inline-source-map'
 });
