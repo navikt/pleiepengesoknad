@@ -22,10 +22,10 @@ const FormikCheckbox = <T extends {}>(): React.FunctionComponent<CheckboxProps &
             return (
                 <Checkbox
                     label={label}
+                    name={name}
                     {...otherInputProps}
                     {...errorMsgProps}
                     {...field}
-                    // optional onChange-prop will be overriden
                     onChange={() => {
                         const newValue = !field.value;
                         setFieldValue(field.name, newValue);

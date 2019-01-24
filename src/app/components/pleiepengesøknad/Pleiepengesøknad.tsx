@@ -21,8 +21,8 @@ const Pleiepengesøknad = () => (
             setFormikState({ submitCount: 0 });
             setTouched({});
         }}
-        render={(formikProps: FormikProps) => {
-            const { handleSubmit, isSubmitting, isValid, values } = formikProps;
+        render={(allFormikProps: FormikProps) => {
+            const { handleSubmit, isSubmitting, isValid, values } = allFormikProps;
             const commonFormikProps = { handleSubmit, isSubmitting, isValid };
             return (
                 <Switch>
@@ -33,7 +33,7 @@ const Pleiepengesøknad = () => (
                     />
                     <Route
                         path={getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET)}
-                        render={(props) => <OpplysningerOmBarnetStep formikProps={formikProps} {...props} />}
+                        render={(props) => <OpplysningerOmBarnetStep formikProps={allFormikProps} {...props} />}
                     />
                     <Route
                         path={getSøknadRoute(StepID.ARBEIDSFORHOLD)}
