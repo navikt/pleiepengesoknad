@@ -7,7 +7,7 @@ const classnames = require('classnames');
 
 interface CustomInputElementProps {
     children: React.ReactNode;
-    label: string;
+    label?: string;
     id?: string;
     validationError?: ValidationError;
 }
@@ -21,9 +21,11 @@ const CustomInputElement: React.FunctionComponent<CustomInputElementProps> = ({
     const wrapperCls = classnames('skjemaelement', { 'skjemaelement--harFeil': validationError !== undefined });
     return (
         <div className={wrapperCls}>
-            <label className="skjemaelement__label" htmlFor={id}>
-                {label}
-            </label>
+            {label && (
+                <label className="skjemaelement__label" htmlFor={id}>
+                    {label}
+                </label>
+            )}
             {children}
             <ValidationErrorMessage feil={validationError} />
         </div>

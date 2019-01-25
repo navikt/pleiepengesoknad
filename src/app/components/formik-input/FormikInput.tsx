@@ -18,7 +18,6 @@ const FormikInput = <T extends {}>(): React.FunctionComponent<NavFrontendInputPr
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, submitCount } }: FormikFieldProps) => {
             const errorMsgProps = submitCount > 0 ? getValidationErrorProps(errors, field.name) : {};
-            // optional onChange-prop will be overriden by formik
             return <InputBase label={label} {...otherInputProps} {...errorMsgProps} {...field} />;
         }}
     </FormikField>

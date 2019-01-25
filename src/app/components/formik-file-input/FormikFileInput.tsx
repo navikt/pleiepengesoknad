@@ -1,35 +1,34 @@
 import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorProps } from '../../utils/navFrontendHelper';
-import DatepickerBase from '../datepicker-base/DatepickerBase';
+import FileInputBase from '../file-input-base/FileInputBase';
 
-interface FormikDatepickerProps<T> {
+interface FormikFileInputProps<T> {
     name: T;
     label: string;
     validate?: ((value: any) => string | Promise<void> | undefined);
 }
 
-const FormikDatepicker = <T extends {}>(): React.FunctionComponent<FormikDatepickerProps<T>> => ({
+const FormikFileInput = <T extends {}>(): React.FunctionComponent<FormikFileInputProps<T>> => ({
+    label,
     name,
-    validate,
-    label
+    validate
 }) => (
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {
             const errorMsgProps = submitCount > 0 ? getValidationErrorProps(errors, field.name) : {};
             return (
-                <DatepickerBase
+                <FileInputBase
+                    id={field.name}
                     label={label}
-                    value={field.value}
-                    {...errorMsgProps}
-                    {...field}
-                    onChange={(date: Date) => {
-                        setFieldValue(field.name, date);
+                    onFilesSelect={(files) => {
+                        setFieldValue(field.name, [...(field.value || []), ...files]);
                     }}
+                    {...errorMsgProps}
                 />
             );
         }}
     </FormikField>
 );
 
-export default FormikDatepicker;
+export default FormikFileInput;

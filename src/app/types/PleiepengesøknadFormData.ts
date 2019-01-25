@@ -11,7 +11,8 @@ export enum Field {
     søkersRelasjonTilBarnet = 'søkersRelasjonTilBarnet',
     søknadenGjelderEtAnnetBarn = 'søknadenGjelderEtAnnetBarn',
     periodeFra = 'periodeFra',
-    periodeTil = 'periodeTil'
+    periodeTil = 'periodeTil',
+    legeerklæring = 'legeerklæring'
 }
 
 export interface PleiepengesøknadFormData {
@@ -28,6 +29,7 @@ export interface PleiepengesøknadFormData {
     [Field.barnetSøknadenGjelder]: string;
     [Field.periodeFra]?: Date;
     [Field.periodeTil]?: Date;
+    [Field.legeerklæring]: File[];
 }
 
 export const initialValues: PleiepengesøknadFormData = {
@@ -41,5 +43,6 @@ export const initialValues: PleiepengesøknadFormData = {
     [Field.harGodkjentVilkår]: false,
     [Field.harBekreftetOpplysninger]: false,
     [Field.søkersRelasjonTilBarnet]: '',
-    [Field.søknadenGjelderEtAnnetBarn]: false
+    [Field.søknadenGjelderEtAnnetBarn]: false,
+    [Field.legeerklæring]: []
 };

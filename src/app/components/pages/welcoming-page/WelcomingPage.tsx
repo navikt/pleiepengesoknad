@@ -15,6 +15,7 @@ import routeConfig from '../../../config/routeConfig';
 import { StepID } from '../../../config/stepConfig';
 import { userHasSubmittedValidForm } from '../../../utils/formikHelper';
 import './welcomingPage.less';
+import FileInput from '../../file-input/FileInput';
 
 const bem = bemHelper('welcomingPage');
 
@@ -43,6 +44,9 @@ class WelcomingPage extends React.Component<Props> {
                 <Box margin="m">
                     <Normaltekst>{intlHelper(intl, 'introtekst')}</Normaltekst>
                 </Box>
+
+                <FileInput name={Field.legeerklæring} label="Last opp legeerklæring" validate={() => undefined} />
+
                 <form onSubmit={handleSubmit}>
                     <Box margin="l">
                         <ConfirmationCheckboxPanel
