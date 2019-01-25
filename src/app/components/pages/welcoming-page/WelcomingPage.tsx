@@ -16,6 +16,7 @@ import { StepID } from '../../../config/stepConfig';
 import { userHasSubmittedValidForm } from '../../../utils/formikHelper';
 import './welcomingPage.less';
 import FileInput from '../../file-input/FileInput';
+import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
 
 const bem = bemHelper('welcomingPage');
 
@@ -46,6 +47,7 @@ class WelcomingPage extends React.Component<Props> {
                 </Box>
 
                 <FileInput name={Field.legeerklæring} label="Last opp legeerklæring" validate={() => undefined} />
+                <LegeerklæringFileList />
 
                 <form onSubmit={handleSubmit}>
                     <Box margin="l">
