@@ -18,6 +18,7 @@ const LegeerklæringFileList: React.FunctionComponent<LegeerklæringFileListProp
             onRemoveFileClick={(file: File) =>
                 setFieldValue(Field.legeerklæring, removeElementFromArray(file, legeerklæring))
             }
+            deleteButtonAriaLabel="Fjern vedlegg"
         />
     );
 };

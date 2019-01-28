@@ -3,18 +3,19 @@ import DeleteButton from '../delete-button/DeleteButton';
 import './fileList.less';
 import CustomSVG from '../custom-svg/CustomSVG';
 import bemHelper from '../../utils/bemHelper';
+import PlainList from '../plain-list/PlainList';
 const attachmentIcon = require('../../../assets/attachment.svg').default;
 
 interface FileListProps {
     files: File[];
     onRemoveFileClick: (file: File, e: React.SyntheticEvent) => void;
+    deleteButtonAriaLabel: string;
 }
 
-const listBem = bemHelper('fileList');
-const listElementBem = bemHelper(`${listBem.className}__element`);
+const listElementBem = bemHelper(`fileListElement`);
 
-const FileList: React.FunctionComponent<FileListProps> = ({ files, onRemoveFileClick }) => (
-    <ul className={listBem.className}>
+const FileList: React.FunctionComponent<FileListProps> = ({ files, onRemoveFileClick, deleteButtonAriaLabel }) => (
+    <PlainList>
         {files.map((file, index) => (
             <li className={listElementBem.className} key={file.name + index}>
                 <span>
@@ -23,12 +24,12 @@ const FileList: React.FunctionComponent<FileListProps> = ({ files, onRemoveFileC
                         {file.name} ({file.size})
                     </div>
                 </span>
-                <DeleteButton ariaLabel="Slett vedlegg" onClick={(e) => onRemoveFileClick(file, e)}>
+                <DeleteButton ariaLabel={deleteButtonAriaLabel} onClick={(e) => onRemoveFileClick(file, e)}>
                     Fjern fil
                 </DeleteButton>
             </li>
         ))}
-    </ul>
+    </PlainList>
 );
 
 export default FileList;
