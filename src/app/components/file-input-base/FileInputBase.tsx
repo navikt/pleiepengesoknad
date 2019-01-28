@@ -5,7 +5,7 @@ import CustomSVG from '../custom-svg/CustomSVG';
 import CustomInputElement from '../custom-input-element/CustomInputElement';
 import { SkjemaelementFeil as ValidationError } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
 import { fileExtensionIsValid, VALID_EXTENSIONS } from '../../utils/attachmentHelper';
-const uploadIcon = require('./upload.svg').default;
+const uploadIcon = require('../../../assets/upload.svg').default;
 import './fileInputBase.less';
 
 interface FileInputProps {

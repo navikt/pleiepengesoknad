@@ -1,7 +1,7 @@
 import * as React from 'react';
 import CustomSVG from '../custom-svg/CustomSVG';
 import bemHelper from '../../utils/bemHelper';
-const trashcanIcon = require('./trashcan.svg').default;
+const trashcanIcon = require('../../../assets/trashcan.svg').default;
 import './deleteButton.less';
 
 interface DeleteButtonProps {

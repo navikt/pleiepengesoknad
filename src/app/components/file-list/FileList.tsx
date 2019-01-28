@@ -3,7 +3,7 @@ import DeleteButton from '../delete-button/DeleteButton';
 import './fileList.less';
 import CustomSVG from '../custom-svg/CustomSVG';
 import bemHelper from '../../utils/bemHelper';
-const attachmentIcon = require('./attachment.svg').default;
+const attachmentIcon = require('../../../assets/attachment.svg').default;
 
 interface FileListProps {
     files: File[];
