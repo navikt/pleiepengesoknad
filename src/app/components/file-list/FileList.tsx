@@ -1,4 +1,6 @@
 import * as React from 'react';
+import DeleteButton from '../delete-button/DeleteButton';
+import './fileList.less';
 
 interface FileListProps {
     files: File[];
@@ -9,7 +11,12 @@ const FileList: React.FunctionComponent<FileListProps> = ({ files, onRemoveFileC
     <ul className="fileList">
         {files.map((file, index) => (
             <li key={file.name + index}>
-                {file.name} ({file.size}) <a onClick={(e) => onRemoveFileClick(file, e)}>Fjern fil</a>
+                <span>
+                    {file.name} ({file.size})
+                </span>
+                <DeleteButton ariaLabel="Slett vedlegg" onClick={(e) => onRemoveFileClick(file, e)}>
+                    Fjern fil
+                </DeleteButton>
             </li>
         ))}
     </ul>
