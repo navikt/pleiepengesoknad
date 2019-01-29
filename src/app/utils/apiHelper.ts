@@ -3,16 +3,21 @@ import HttpStatus from 'http-status-codes';
 import { PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
 import { getEnvironmentVariable } from './envHelper';
 const apiUrl = getEnvironmentVariable('API_URL');
-const MockAdapter = require('axios-mock-adapter');
-const mock = new MockAdapter(axios);
-mock.onPost(`${apiUrl}/attachment`).reply(200, 'https://nav.no/');
 
-export const getBarn = () => axios.get(`${apiUrl}/barn`, { withCredentials: true });
+const axiosConfig = { withCredentials: true };
 
-export const sendApplication = (data: PleiepengesøknadApiData) =>
-    axios.post(`${apiUrl}/soknad`, data, { withCredentials: true });
+export const getBarn = () => axios.get(`${apiUrl}/barn`, axiosConfig);
 
-export const uploadAttachment = (file: File) => axios.post(`${apiUrl}/attachment`, file, { withCredentials: true });
+export const sendApplication = (data: PleiepengesøknadApiData) => axios.post(`${apiUrl}/soknad`, data, axiosConfig);
+
+export const uploadAttachment = (file: File) => {
+    const formData = new FormData();
+    formData.append('vedlegg', file);
+    return sendMultipartPostRequest(`${apiUrl}/vedlegg`, formData);
+};
+
+const sendMultipartPostRequest = (url: string, formData: FormData) =>
+    axios.post(url, formData, { headers: { 'Content-Type': 'multipart/form-data' }, ...axiosConfig });
 
 export const isForbidden = ({ response }: AxiosError) =>
     response !== undefined && response.status === HttpStatus.FORBIDDEN;

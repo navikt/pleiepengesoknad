@@ -23,7 +23,6 @@ const LegeerklæringFileUploader: React.FunctionComponent<Props> = ({
             onFilesSelect={(files: File[]) => {
                 for (const file of files) {
                     const attachment = getAttachmentFromFile(file);
-                    attachment.pending = true;
                     setFieldValue(Field.legeerklæring, [
                         ...values[Field.legeerklæring],
                         { ...attachment, pending: true }

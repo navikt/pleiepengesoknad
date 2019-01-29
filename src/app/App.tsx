@@ -5,9 +5,11 @@ import ApplicationWrapper from './components/application-wrapper/ApplicationWrap
 import './globalStyles.less';
 import LoadingPage from './components/pages/loading-page/LoadingPage';
 import { Søkerdata } from './types/Søkerdata';
-import { getBarn } from './utils/apiHelper';
+import { getBarn, isForbidden, isUnauthorized } from './utils/apiHelper';
+import { getEnvironmentVariable } from './utils/envHelper';
 
 const root = document.getElementById('app');
+const loginUrl = getEnvironmentVariable('LOGIN_URL');
 
 interface State {
     isLoading: boolean;
@@ -29,11 +31,10 @@ class App extends React.Component<{}, State> {
             const response = await getBarn();
             this.setState({ isLoading: false, søkerdata: response.data });
         } catch (response) {
-            // temporarily commented out until API is available
-            // if (isForbidden(response) || isUnauthorized(response)) {
-            //     window.location = loginUrl;
-            // }
-            const mockedSøkerdata: Søkerdata = {
+            if (isForbidden(response) || isUnauthorized(response)) {
+                window.location = loginUrl;
+            }
+            /*const mockedSøkerdata: Søkerdata = {
                 barn: [
                     {
                         fodselsdato: '1990-09-29',
@@ -53,7 +54,7 @@ class App extends React.Component<{}, State> {
                     }
                 ]
             };
-            this.setState({ isLoading: false, søkerdata: mockedSøkerdata });
+            this.setState({ isLoading: false, søkerdata: mockedSøkerdata });*/
         }
     }
 
