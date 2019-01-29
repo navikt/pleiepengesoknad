@@ -29,7 +29,7 @@ export interface PleiepengesøknadFormData {
     [Field.barnetSøknadenGjelder]: string;
     [Field.periodeFra]?: Date;
     [Field.periodeTil]?: Date;
-    [Field.legeerklæring]: File[];
+    [Field.legeerklæring]: Attachment[];
 }
 
 export const initialValues: PleiepengesøknadFormData = {

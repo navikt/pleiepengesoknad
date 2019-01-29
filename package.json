@@ -16,6 +16,7 @@
     },
     "dependencies": {
         "axios": "^0.18.0",
+        "axios-mock-adapter": "^1.16.0",
         "classnames": "^2.2.6",
         "compression": "^1.7.3",
         "dotenv": "^6.1.0",
@@ -28,6 +29,7 @@
         "moment": "^2.23.0",
         "mustache-express": "^1.2.8",
         "nav-datovelger": "^3.3.0",
+        "nav-frontend-ikoner-assets": "^0.2.30",
         "nav-frontend-js-utils": "^1.0.6",
         "nav-frontend-knapper": "^1.0.21",
         "nav-frontend-lenker": "^1.0.18",

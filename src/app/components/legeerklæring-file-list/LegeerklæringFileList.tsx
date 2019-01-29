@@ -1,20 +1,18 @@
 import * as React from 'react';
-import { connect, FormikProps } from 'formik';
+import { connect } from 'formik';
 import { Field } from '../../types/PleiepengesøknadFormData';
 import FileList from './../file-list/FileList';
 import { removeElementFromArray } from '../../utils/listHelper';
+import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
 
-interface LegeerklæringFileListProps {
-    formik: FormikProps<Field>;
-}
-
+type LegeerklæringFileListProps = ConnectedFormikProps<Field>;
 const LegeerklæringFileList: React.FunctionComponent<LegeerklæringFileListProps> = ({
     formik: { values, setFieldValue }
 }) => {
-    const legeerklæring = values[Field.legeerklæring];
+    const legeerklæring: Attachment[] = values[Field.legeerklæring];
     return (
         <FileList
-            files={legeerklæring}
+            files={legeerklæring.map(({ file }) => file)}
             onRemoveFileClick={(file: File) =>
                 setFieldValue(Field.legeerklæring, removeElementFromArray(file, legeerklæring))
             }
@@ -23,4 +21,4 @@ const LegeerklæringFileList: React.FunctionComponent<LegeerklæringFileListProp
     );
 };
 
-export default connect<any, LegeerklæringFileListProps>(LegeerklæringFileList);
+export default connect<{}, Field>(LegeerklæringFileList);
