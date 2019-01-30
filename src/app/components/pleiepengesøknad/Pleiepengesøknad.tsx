@@ -12,6 +12,7 @@ import { FormikBag } from '../../types/FormikBag';
 import { CustomFormikProps as FormikProps } from '../../types/FormikProps';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromStep';
+import LegeerklæringStep from '../steps/legeerklæring/LegeerklæringStep';
 
 const Pleiepengesøknad = () => (
     <Formik
@@ -38,6 +39,10 @@ const Pleiepengesøknad = () => (
                     <Route
                         path={getSøknadRoute(StepID.ARBEIDSFORHOLD)}
                         render={(props) => <OpplysningerOmArbeidsforholdStep {...commonFormikProps} {...props} />}
+                    />
+                    <Route
+                        path={getSøknadRoute(StepID.LEGEERKLÆRING)}
+                        render={(props) => <LegeerklæringStep {...commonFormikProps} {...props} />}
                     />
                     <Route
                         path={getSøknadRoute(StepID.SUMMARY)}

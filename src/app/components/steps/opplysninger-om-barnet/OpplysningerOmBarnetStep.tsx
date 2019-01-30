@@ -34,16 +34,15 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
     const stepProps = {
         handleSubmit,
         isSubmitting,
-        isValid,
-        showSubmitButton:
-            søknadenGjelderEtAnnetBarn === true || (barnetSøknadenGjelder !== undefined && barnetSøknadenGjelder !== '')
+        isValid
     };
     const navigate = () => navigateTo(nextStepRoute!, history);
     return (
         <FormikStep id={StepID.OPPLYSNINGER_OM_BARNET} onValidFormSubmit={navigate} {...stepProps}>
             <SøkerdataContextConsumer>
                 {(søkerdata: Søkerdata) =>
-                    søkerdata.barn && (
+                    søkerdata.barn &&
+                    søkerdata.barn.length > 0 && (
                         <>
                             <RadioPanelGroup
                                 legend="Hvilket barn gjelder søknaden?"
@@ -71,23 +70,39 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                     )
                 }
             </SøkerdataContextConsumer>
-            {søknadenGjelderEtAnnetBarn && (
-                <>
-                    <Input label="Hva er barnets etternavn?" name={Field.barnetsEtternavn} validate={validateNavn} />
-                    <Input label="Hva er barnets fornavn?" name={Field.barnetsFornavn} validate={validateNavn} />
-                    <Input
-                        label="Hva er barnets fødselsnummer?"
-                        name={Field.barnetsFødselsnummer}
-                        validate={validateFnr}
-                    />
-                    <Input label="Hva er barnets adresse?" name={Field.barnetsAdresse} validate={validateAdresse} />
-                    <Input
-                        label="Hva er din relasjon til barnet?"
-                        name={Field.søkersRelasjonTilBarnet}
-                        validate={validateRelasjonTilBarnet}
-                    />
-                </>
-            )}
+            <SøkerdataContextConsumer>
+                {(søkerdata: Søkerdata) =>
+                    (søknadenGjelderEtAnnetBarn || (!søkerdata.barn || søkerdata.barn.length === 0)) && (
+                        <>
+                            <Input
+                                label="Hva er barnets etternavn?"
+                                name={Field.barnetsEtternavn}
+                                validate={validateNavn}
+                            />
+                            <Input
+                                label="Hva er barnets fornavn?"
+                                name={Field.barnetsFornavn}
+                                validate={validateNavn}
+                            />
+                            <Input
+                                label="Hva er barnets fødselsnummer?"
+                                name={Field.barnetsFødselsnummer}
+                                validate={validateFnr}
+                            />
+                            <Input
+                                label="Hva er barnets adresse?"
+                                name={Field.barnetsAdresse}
+                                validate={validateAdresse}
+                            />
+                            <Input
+                                label="Hva er din relasjon til barnet?"
+                                name={Field.søkersRelasjonTilBarnet}
+                                validate={validateRelasjonTilBarnet}
+                            />
+                        </>
+                    )
+                }
+            </SøkerdataContextConsumer>
         </FormikStep>
     );
 };
