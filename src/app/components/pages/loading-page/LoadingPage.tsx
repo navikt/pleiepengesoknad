@@ -4,7 +4,7 @@ import LoadingSpinner from '../../loading-spinner/LoadingSpinner';
 
 const LoadingPage: React.FunctionComponent = () => (
     <Page title="Laster...">
-        <LoadingSpinner />
+        <LoadingSpinner type="XXL" />
     </Page>
 );
 

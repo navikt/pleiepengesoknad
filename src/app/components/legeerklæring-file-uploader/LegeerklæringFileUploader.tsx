@@ -3,7 +3,7 @@ import { connect } from 'formik';
 import { Field } from '../../types/PleiepengesøknadFormData';
 import FileInput from '../file-input/FileInput';
 import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
-import { uploadAttachment } from '../../utils/apiHelper';
+import { uploadFile } from '../../utils/apiHelper';
 import { getAttachmentFromFile } from '../../utils/attachmentHelper';
 
 interface LegeerklæringFileUploaderProps {
@@ -27,11 +27,11 @@ const LegeerklæringFileUploader: React.FunctionComponent<Props> = ({
                         ...values[Field.legeerklæring],
                         { ...attachment, pending: true }
                     ]);
-                    uploadAttachment(file).then((response) => {
+                    uploadFile(file).then((response) => {
                         const url = response.headers.location;
                         setFieldValue(Field.legeerklæring, [
                             ...values[Field.legeerklæring],
-                            { ...attachment, pending: false, url }
+                            { ...attachment, pending: false, uploaded: true, url }
                         ]);
                     });
                 }

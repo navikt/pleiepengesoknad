@@ -1,24 +1,24 @@
 import * as React from 'react';
 import { connect } from 'formik';
 import { Field } from '../../types/PleiepengesøknadFormData';
-import FileList from './../file-list/FileList';
+import AttachmentList from '../attachment-list/AttachmentList';
 import { removeElementFromArray } from '../../utils/listHelper';
 import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
 
-type LegeerklæringFileListProps = ConnectedFormikProps<Field>;
-const LegeerklæringFileList: React.FunctionComponent<LegeerklæringFileListProps> = ({
+type LegeerklæringAttachmentListProps = ConnectedFormikProps<Field>;
+const LegeerklæringAttachmentList: React.FunctionComponent<LegeerklæringAttachmentListProps> = ({
     formik: { values, setFieldValue }
 }) => {
     const legeerklæring: Attachment[] = values[Field.legeerklæring];
     return (
-        <FileList
-            files={legeerklæring.map(({ file }) => file)}
-            onRemoveFileClick={(file: File) =>
-                setFieldValue(Field.legeerklæring, removeElementFromArray(file, legeerklæring))
+        <AttachmentList
+            attachments={legeerklæring}
+            onRemoveAttachmentClick={(attachment: Attachment) =>
+                setFieldValue(Field.legeerklæring, removeElementFromArray(attachment, legeerklæring))
             }
             deleteButtonAriaLabel="Fjern vedlegg"
         />
     );
 };
 
-export default connect<{}, Field>(LegeerklæringFileList);
+export default connect<{}, Field>(LegeerklæringAttachmentList);

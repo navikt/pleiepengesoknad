@@ -7,5 +7,6 @@ export const fileExtensionIsValid = (filename: string): boolean => {
 
 export const getAttachmentFromFile = (file: File): Attachment => ({
     file,
-    pending: false
+    pending: false,
+    uploaded: false
 });

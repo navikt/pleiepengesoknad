@@ -10,7 +10,7 @@ export const getBarn = () => axios.get(`${apiUrl}/barn`, axiosConfig);
 
 export const sendApplication = (data: PleiepengesøknadApiData) => axios.post(`${apiUrl}/soknad`, data, axiosConfig);
 
-export const uploadAttachment = (file: File) => {
+export const uploadFile = (file: File) => {
     const formData = new FormData();
     formData.append('vedlegg', file);
     return sendMultipartPostRequest(`${apiUrl}/vedlegg`, formData);
