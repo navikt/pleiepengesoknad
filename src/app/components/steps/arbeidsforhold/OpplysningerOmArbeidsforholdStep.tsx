@@ -7,6 +7,9 @@ import { validateAdresse, validateNavn } from '../../../utils/validationHelper';
 import Input from '../../input/Input';
 import { Field } from '../../../types/PleiepengesøknadFormData';
 import FormikStep from '../../formik-step/FormikStep';
+import CheckboxPanelGroup from '../../checkbox-panel-group/CheckboxPanelGroup';
+import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
+import { Søkerdata } from '../../../types/Søkerdata';
 
 interface OpplysningerOmArbeidsforholdStepProps {
     isValid: boolean;
@@ -21,6 +24,18 @@ const OpplysningerOmArbeidsforholdStep = ({ history, ...stepProps }: Props) => {
     const navigate = () => navigateTo(nextStepRoute!, history);
     return (
         <FormikStep id={StepID.ARBEIDSFORHOLD} onValidFormSubmit={navigate} {...stepProps}>
+            <SøkerdataContextConsumer>
+                {(søkerdata: Søkerdata) => (
+                    <CheckboxPanelGroup
+                        legend="Velg arbeidsforhold"
+                        name={Field.ansettelsesforhold}
+                        checkboxes={søkerdata.ansettelsesforhold.map((a) => ({
+                            label: a.navn,
+                            value: a.organisasjonsnummer
+                        }))}
+                    />
+                )}
+            </SøkerdataContextConsumer>
             <Input
                 label="Hva er navnet på arbeidsgiveren din?"
                 name={Field.arbeidsgiversNavn}

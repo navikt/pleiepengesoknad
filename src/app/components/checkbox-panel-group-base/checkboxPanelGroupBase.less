@@ -1,0 +1,44 @@
+@import '../../../../node_modules/nav-frontend-core/less/_variabler.less';
+
+.checkboxPanelGroup {
+  .skjema__legend {
+    font-weight: normal;
+    margin-bottom: 0.5rem;
+  }
+
+  .checkboxPanelGroup--responsive {
+    @panelBottomMargin: 0.5rem;
+    @panelRightMargin: 1rem;
+
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: -1 * @panelBottomMargin;
+    margin-right: -1 * @panelRightMargin;
+
+    .checkboxPanel {
+      margin: 0 @panelRightMargin @panelBottomMargin 0;
+      &__label {
+        flex-grow: 1;
+        flex-shrink: 0;
+      }
+    }
+
+    @media screen and (max-width: 576px) {
+      display: block;
+    }
+
+    @media screen and (min-width: 577px) and (max-width: @screen-tablet) {
+      .checkboxPanelWrapper {
+        flex-basis: 50%;
+        width: 50%;
+      }
+    }
+
+    @media screen and (min-width: (1 + @screen-tablet)) {
+      .checkboxPanelWrapper {
+        flex-basis: 50%;
+        width: 50%;
+      }
+    }
+  }
+}

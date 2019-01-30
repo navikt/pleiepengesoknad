@@ -52,6 +52,10 @@ class App extends React.Component<{}, State> {
                         fodselsnummer: '12345123452',
                         relasjon: 'mor'
                     }
+                ],
+                ansettelsesforhold: [
+                    { navn: 'NAV', organisasjonsnummer: '123412341234' },
+                    { navn: 'ASD', organisasjonsnummer: '123412341334' }
                 ]
             };
             this.setState({ isLoading: false, søkerdata: mockedSøkerdata });

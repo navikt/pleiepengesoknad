@@ -7,6 +7,12 @@ interface Barn {
     fodselsdato: string;
 }
 
+export interface Ansettelsesforhold {
+    navn: string;
+    organisasjonsnummer: string;
+}
+
 export interface Søkerdata {
     barn: Barn[];
+    ansettelsesforhold: Ansettelsesforhold[];
 }

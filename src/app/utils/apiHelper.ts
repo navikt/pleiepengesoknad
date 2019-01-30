@@ -8,6 +8,8 @@ const axiosConfig = { withCredentials: true };
 
 export const getBarn = () => axios.get(`${apiUrl}/barn`, axiosConfig);
 
+export const getAnsettelsesforhold = () => axios.get(`${apiUrl}/ansettelsesforhold`, axiosConfig);
+
 export const sendApplication = (data: PleiepengesøknadApiData) => axios.post(`${apiUrl}/soknad`, data, axiosConfig);
 
 export const uploadFile = (file: File) => {
