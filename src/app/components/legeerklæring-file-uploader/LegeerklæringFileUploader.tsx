@@ -27,10 +27,11 @@ const LegeerklæringFileUploader: React.FunctionComponent<Props> = ({
                         ...values[Field.legeerklæring],
                         { ...attachment, pending: true }
                     ]);
-                    uploadAttachment(file).then(() => {
+                    uploadAttachment(file).then((response) => {
+                        const url = response.headers.location;
                         setFieldValue(Field.legeerklæring, [
                             ...values[Field.legeerklæring],
-                            { ...attachment, pending: false }
+                            { ...attachment, pending: false, url }
                         ]);
                     });
                 }
