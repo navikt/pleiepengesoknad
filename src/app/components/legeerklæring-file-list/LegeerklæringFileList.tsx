@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'formik';
 import { Field } from '../../types/PleiepengesøknadFormData';
 import AttachmentList from '../attachment-list/AttachmentList';
-import { mergeWithArray, removeElementFromArray } from '../../utils/listHelper';
+import { removeElementFromArray } from '../../utils/listHelper';
 import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
 import { deleteFile } from '../../utils/apiHelper';
 
@@ -16,7 +16,7 @@ const LegeerklæringAttachmentList: React.FunctionComponent<LegeerklæringAttach
             attachments={legeerklæring}
             onRemoveAttachmentClick={(attachment: Attachment) => {
                 attachment.pending = true;
-                setFieldValue(Field.legeerklæring, mergeWithArray(attachment, legeerklæring));
+                setFieldValue(Field.legeerklæring, legeerklæring);
                 deleteFile(attachment.url!).then(
                     () => {
                         setFieldValue(Field.legeerklæring, removeElementFromArray(attachment, legeerklæring));
