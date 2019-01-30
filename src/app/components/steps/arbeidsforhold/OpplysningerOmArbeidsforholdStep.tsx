@@ -31,7 +31,8 @@ const OpplysningerOmArbeidsforholdStep = ({ history, ...stepProps }: Props) => {
                         name={Field.ansettelsesforhold}
                         checkboxes={søkerdata.ansettelsesforhold.map((a) => ({
                             label: a.navn,
-                            value: a.organisasjonsnummer
+                            value: a.organisasjonsnummer,
+                            key: a.organisasjonsnummer
                         }))}
                     />
                 )}

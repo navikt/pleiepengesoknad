@@ -40,7 +40,6 @@ const FormikCheckboxPanelGroup = <T extends {}>(): React.FunctionComponent<Formi
                                 setFieldValue(`${name}`, field.value);
                             }
                         },
-                        key: value,
                         name: `${name}`,
                         value,
                         ...otherProps

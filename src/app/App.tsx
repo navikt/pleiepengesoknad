@@ -5,8 +5,7 @@ import ApplicationWrapper from './components/application-wrapper/ApplicationWrap
 import './globalStyles.less';
 import LoadingPage from './components/pages/loading-page/LoadingPage';
 import { Søkerdata } from './types/Søkerdata';
-import { getBarn } from './utils/apiHelper';
-// import { getEnvironmentVariable } from './utils/envHelper';
+import { getAnsettelsesforhold, getBarn } from './utils/apiHelper';
 
 const root = document.getElementById('app');
 // const loginUrl = getEnvironmentVariable('LOGIN_URL');
@@ -28,8 +27,14 @@ class App extends React.Component<{}, State> {
 
     async loadAppEssentials() {
         try {
-            const response = await getBarn();
-            this.setState({ isLoading: false, søkerdata: response.data });
+            const [barnResponse, ansettelsesforholdResponse] = await Promise.all([getBarn(), getAnsettelsesforhold()]);
+            this.setState({
+                isLoading: false,
+                søkerdata: {
+                    barn: barnResponse.data.barn,
+                    ansettelsesforhold: ansettelsesforholdResponse.data.organisasjoner
+                }
+            });
         } catch (response) {
             /*if (isForbidden(response) || isUnauthorized(response)) {
                 window.location = loginUrl;
