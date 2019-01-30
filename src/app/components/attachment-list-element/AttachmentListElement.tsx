@@ -17,7 +17,7 @@ const AttachmentListElement: React.FunctionComponent<AttachmentListElementProps>
     deleteButtonAriaLabel,
     onRemoveAttachmentClick
 }) => (
-    <li className={listElementBem.className} key={attachment.file.name}>
+    <li className={listElementBem.className}>
         <AttachmentLabel attachment={attachment} />
         <FadingLoadingSpinner
             className={listElementBem.element('rightAlignedContent')}

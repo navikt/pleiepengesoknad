@@ -10,8 +10,8 @@ interface AttachmentListProps {
 
 const AttachmentList: React.FunctionComponent<AttachmentListProps> = ({ attachments, ...otherProps }) => (
     <PlainList>
-        {attachments.map((attachment) => (
-            <AttachmentListElement attachment={attachment} {...otherProps} />
+        {attachments.map((attachment, index) => (
+            <AttachmentListElement attachment={attachment} key={attachment.file.name + index} {...otherProps} />
         ))}
     </PlainList>
 );
