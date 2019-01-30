@@ -4,7 +4,8 @@ import bemHelper from '../../utils/bemHelper';
 import AttachmentLabel from '../attachment-label/AttachmentLabel';
 const listElementBem = bemHelper(`attachmentListElement`);
 import './attachmentListElement.less';
-import FadingLoadingSpinner from '../fading-loading-spinner/FadingLoadingSpinner';
+import ContentSwitcher from '../content-switcher/ContentSwitcher';
+import LoadingSpinner from '../loading-spinner/LoadingSpinner';
 
 interface AttachmentListElementProps {
     attachment: Attachment;
@@ -19,11 +20,11 @@ const AttachmentListElement: React.FunctionComponent<AttachmentListElementProps>
 }) => (
     <li className={listElementBem.className}>
         <AttachmentLabel attachment={attachment} />
-        <FadingLoadingSpinner
+        <ContentSwitcher
             className={listElementBem.element('rightAlignedContent')}
-            type="S"
-            showSpinner={attachment.pending}
-            spinnerReplacement={() => (
+            showInitialContent={attachment.pending}
+            initialContent={() => <LoadingSpinner type="S" />}
+            otherContent={() => (
                 <DeleteButton ariaLabel={deleteButtonAriaLabel} onClick={(e) => onRemoveAttachmentClick(attachment, e)}>
                     Fjern vedlegg
                 </DeleteButton>
