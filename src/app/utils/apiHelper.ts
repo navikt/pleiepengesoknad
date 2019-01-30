@@ -16,6 +16,8 @@ export const uploadFile = (file: File) => {
     return sendMultipartPostRequest(`${apiUrl}/vedlegg`, formData);
 };
 
+export const deleteFile = (url: string) => axios.delete(url);
+
 const sendMultipartPostRequest = (url: string, formData: FormData) =>
     axios.post(url, formData, { headers: { 'Content-Type': 'multipart/form-data' }, ...axiosConfig });
 
