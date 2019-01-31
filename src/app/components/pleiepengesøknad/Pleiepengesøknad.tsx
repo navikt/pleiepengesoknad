@@ -29,16 +29,16 @@ const Pleiepengesøknad = () => (
                 <Switch>
                     <Route path="/velkommen" render={(props) => <WelcomingPage {...commonFormikProps} {...props} />} />
                     <Route
-                        path={getSøknadRoute(StepID.TIDSROM)}
-                        render={(props) => <OpplysningerOmTidsromStep {...commonFormikProps} {...props} />}
-                    />
-                    <Route
                         path={getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET)}
                         render={(props) => <OpplysningerOmBarnetStep formikProps={formikProps} {...props} />}
                     />
                     <Route
                         path={getSøknadRoute(StepID.ARBEIDSFORHOLD)}
                         render={(props) => <OpplysningerOmArbeidsforholdStep {...commonFormikProps} {...props} />}
+                    />
+                    <Route
+                        path={getSøknadRoute(StepID.TIDSROM)}
+                        render={(props) => <OpplysningerOmTidsromStep {...commonFormikProps} {...props} />}
                     />
                     <Route
                         path={getSøknadRoute(StepID.LEGEERKLÆRING)}

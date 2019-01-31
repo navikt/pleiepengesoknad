@@ -6,6 +6,7 @@ import StepIndicator from '../step-indicator/StepIndicator';
 import { Hovedknapp as Button } from 'nav-frontend-knapper';
 import Box from '../box/Box';
 import StepBanner from '../step-banner/StepBanner';
+import { Systemtittel } from 'nav-frontend-typografi';
 import './step.less';
 
 const bem = bemHelper('step');
@@ -28,9 +29,12 @@ const Step: React.FunctionComponent<StepProps> = ({
     return (
         <Page
             className={bem.className}
-            title={conf.title}
+            title={conf.pageTitle}
             topContentRenderer={() => <StepBanner text="Søknad om pleiepenger" />}>
             <StepIndicator stepConfig={stepConfig} activeStep={conf.index} />
+            <Box margin="xl">
+                <Systemtittel className={bem.element('title')}>{conf.stepTitle}</Systemtittel>
+            </Box>
             <Box margin="xl">
                 <form onSubmit={handleSubmit}>
                     {children}
