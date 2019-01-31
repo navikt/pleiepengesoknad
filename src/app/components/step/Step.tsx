@@ -4,8 +4,9 @@ import { stepConfig, StepID } from '../../config/stepConfig';
 import bemHelper from '../../utils/bemHelper';
 import StepIndicator from '../step-indicator/StepIndicator';
 import { Hovedknapp as Button } from 'nav-frontend-knapper';
-import './step.less';
 import Box from '../box/Box';
+import StepBanner from '../step-banner/StepBanner';
+import './step.less';
 
 const bem = bemHelper('step');
 
@@ -25,7 +26,10 @@ const Step: React.FunctionComponent<StepProps> = ({
 }) => {
     const conf = stepConfig[id];
     return (
-        <Page className={bem.className} title={conf.title}>
+        <Page
+            className={bem.className}
+            title={conf.title}
+            topContentRenderer={() => <StepBanner text="Søknad om pleiepenger" />}>
             <StepIndicator stepConfig={stepConfig} activeStep={conf.index} />
             <Box margin="xl">
                 <form onSubmit={handleSubmit}>

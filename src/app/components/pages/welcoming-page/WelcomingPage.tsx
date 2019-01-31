@@ -14,9 +14,8 @@ import { navigateTo } from '../../../utils/navigationHelper';
 import routeConfig from '../../../config/routeConfig';
 import { StepID } from '../../../config/stepConfig';
 import { userHasSubmittedValidForm } from '../../../utils/formikHelper';
+import FrontPageBanner from '../../front-page-banner/FrontPageBanner';
 import './welcomingPage.less';
-import Poster from '../../poster/Poster';
-import CounsellorWithSpeechBubble from '../../counsellor-with-speech-bubble/CounsellorWithSpeechBubble';
 
 const bem = bemHelper('welcomingPage');
 
@@ -43,7 +42,7 @@ class WelcomingPage extends React.Component<Props> {
             <Page
                 title="Søknad om pleiepenger"
                 className={bem.className}
-                topContentRenderer={() => <Poster children={<CounsellorWithSpeechBubble />} />}>
+                topContentRenderer={() => <FrontPageBanner />}>
                 <Innholdstittel className={bem.element('title')}>{intlHelper(intl, 'introtittel')}</Innholdstittel>
                 <Box margin="xl">
                     <Normaltekst>{intlHelper(intl, 'introtekst')}</Normaltekst>

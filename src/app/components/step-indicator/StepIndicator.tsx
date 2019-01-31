@@ -15,7 +15,7 @@ const renderSteps = (stepConfig: StepConfigInterface) =>
     });
 
 const StepIndicator: React.FunctionComponent<StepIndicatorProps> = ({ activeStep, stepConfig }) => (
-    <NAVStepIndicator visLabel={true} kompakt={true} autoResponsiv={true} aktivtSteg={activeStep}>
+    <NAVStepIndicator visLabel={true} autoResponsiv={true} aktivtSteg={activeStep}>
         {renderSteps(stepConfig)}
     </NAVStepIndicator>
 );
