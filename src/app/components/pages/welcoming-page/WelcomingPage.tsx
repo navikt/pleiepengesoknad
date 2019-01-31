@@ -15,6 +15,8 @@ import routeConfig from '../../../config/routeConfig';
 import { StepID } from '../../../config/stepConfig';
 import { userHasSubmittedValidForm } from '../../../utils/formikHelper';
 import './welcomingPage.less';
+import Poster from '../../poster/Poster';
+import CounsellorWithSpeechBubble from '../../counsellor-with-speech-bubble/CounsellorWithSpeechBubble';
 
 const bem = bemHelper('welcomingPage');
 
@@ -38,9 +40,12 @@ class WelcomingPage extends React.Component<Props> {
     render() {
         const { handleSubmit, intl } = this.props;
         return (
-            <Page title="Velkommen til søknad om pleiepenger" className={bem.className}>
+            <Page
+                title="Søknad om pleiepenger"
+                className={bem.className}
+                topContentRenderer={() => <Poster children={<CounsellorWithSpeechBubble />} />}>
                 <Innholdstittel className={bem.element('title')}>{intlHelper(intl, 'introtittel')}</Innholdstittel>
-                <Box margin="m">
+                <Box margin="xl">
                     <Normaltekst>{intlHelper(intl, 'introtekst')}</Normaltekst>
                 </Box>
 
@@ -59,7 +64,7 @@ class WelcomingPage extends React.Component<Props> {
                             {intlHelper(intl, 'forståttrettigheterogplikter')}
                         </ConfirmationCheckboxPanel>
                     </Box>
-                    <Box margin="l">
+                    <Box margin="xl">
                         <Hovedknapp className={bem.element('startApplicationButton')}>
                             {intlHelper(intl, 'begynnsøknad')}
                         </Hovedknapp>
