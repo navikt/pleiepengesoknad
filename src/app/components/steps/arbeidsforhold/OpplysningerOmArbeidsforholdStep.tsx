@@ -3,8 +3,6 @@ import { StepID } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
 import { getNextStepRoute } from '../../../utils/stepConfigHelper';
 import { navigateTo } from '../../../utils/navigationHelper';
-import { validateAdresse, validateNavn } from '../../../utils/validationHelper';
-import Input from '../../input/Input';
 import { Field } from '../../../types/PleiepengesøknadFormData';
 import FormikStep from '../../formik-step/FormikStep';
 import CheckboxPanelGroup from '../../checkbox-panel-group/CheckboxPanelGroup';
@@ -27,7 +25,7 @@ const OpplysningerOmArbeidsforholdStep = ({ history, ...stepProps }: Props) => {
             <SøkerdataContextConsumer>
                 {(søkerdata: Søkerdata) => (
                     <CheckboxPanelGroup
-                        legend="Velg arbeidsforhold"
+                        legend="Fra hvilke(t) arbeidsforhold har du fravær for å ha tilsyn med barnet?"
                         name={Field.ansettelsesforhold}
                         checkboxes={søkerdata.ansettelsesforhold.map((a) => ({
                             label: a.navn,
@@ -37,16 +35,6 @@ const OpplysningerOmArbeidsforholdStep = ({ history, ...stepProps }: Props) => {
                     />
                 )}
             </SøkerdataContextConsumer>
-            <Input
-                label="Hva er navnet på arbeidsgiveren din?"
-                name={Field.arbeidsgiversNavn}
-                validate={validateNavn}
-            />
-            <Input
-                label="Hva er adressen til arbeidsgiveren din?"
-                name={Field.arbeidsgiversAdresse}
-                validate={validateAdresse}
-            />
         </FormikStep>
     );
 };

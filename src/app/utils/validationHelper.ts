@@ -42,20 +42,6 @@ export const validateRelasjonTilBarnet = (v: string): string | undefined => {
     return result;
 };
 
-export const validateAdresse = (v: string): string | undefined => {
-    if (!hasValue(v)) {
-        return 'Feltet er påkrevd';
-    }
-
-    const adrIsValid = v.length <= 30;
-
-    let result;
-    if (!adrIsValid) {
-        result = 'Adressen kan maks være 30 tegn';
-    }
-    return result;
-};
-
 export const validateFradato = (v: string): string | undefined => {
     if (!hasValue(v)) {
         return 'Feltet er påkrevd';

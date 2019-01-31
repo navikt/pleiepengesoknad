@@ -3,7 +3,7 @@ import { StepID } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
 import { getNextStepRoute } from '../../../utils/stepConfigHelper';
 import { navigateTo } from '../../../utils/navigationHelper';
-import { validateAdresse, validateFnr, validateNavn, validateRelasjonTilBarnet } from '../../../utils/validationHelper';
+import { validateFnr, validateNavn, validateRelasjonTilBarnet } from '../../../utils/validationHelper';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
 import { CustomFormikProps as FormikProps } from '../../../types/FormikProps';
@@ -13,6 +13,7 @@ import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
 import Checkbox from '../../checkbox/Checkbox';
 import Input from '../../input/Input';
 import FormikStep from '../../formik-step/FormikStep';
+import { harRegistrerteBarn } from '../../../utils/søkerdataHelper';
 
 interface OpplysningerOmBarnetStepProps {
     formikProps: FormikProps;
@@ -41,11 +42,10 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
         <FormikStep id={StepID.OPPLYSNINGER_OM_BARNET} onValidFormSubmit={navigate} {...stepProps}>
             <SøkerdataContextConsumer>
                 {(søkerdata: Søkerdata) =>
-                    søkerdata.barn &&
-                    søkerdata.barn.length > 0 && (
+                    harRegistrerteBarn(søkerdata) && (
                         <>
                             <RadioPanelGroup
-                                legend="Hvilket barn gjelder søknaden?"
+                                legend="Velg barnet du skal søke pleiepenger for"
                                 name={Field.barnetSøknadenGjelder}
                                 radios={søkerdata.barn.map((barn) => {
                                     const { fornavn, mellomnavn, etternavn } = barn;
@@ -72,32 +72,25 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
             </SøkerdataContextConsumer>
             <SøkerdataContextConsumer>
                 {(søkerdata: Søkerdata) =>
-                    (søknadenGjelderEtAnnetBarn || (!søkerdata.barn || søkerdata.barn.length === 0)) && (
+                    (søknadenGjelderEtAnnetBarn || !harRegistrerteBarn(søkerdata)) && (
                         <>
                             <Input
-                                label="Hva er barnets etternavn?"
-                                name={Field.barnetsEtternavn}
-                                validate={validateNavn}
-                            />
-                            <Input
-                                label="Hva er barnets fornavn?"
-                                name={Field.barnetsFornavn}
-                                validate={validateNavn}
-                            />
-                            <Input
-                                label="Hva er barnets fødselsnummer?"
+                                label="Barnets fødselsnummer"
                                 name={Field.barnetsFødselsnummer}
                                 validate={validateFnr}
+                                placeholder="Skriv inn fødselsnummer her"
                             />
                             <Input
-                                label="Hva er barnets adresse?"
-                                name={Field.barnetsAdresse}
-                                validate={validateAdresse}
+                                label="Barnets navn"
+                                name={Field.barnetsNavn}
+                                validate={validateNavn}
+                                placeholder="Skriv inn barnets navn her"
                             />
                             <Input
-                                label="Hva er din relasjon til barnet?"
+                                label="Min relasjon til barnet"
                                 name={Field.søkersRelasjonTilBarnet}
                                 validate={validateRelasjonTilBarnet}
+                                placeholder="Skriv inn din relasjon til barnet her"
                             />
                         </>
                     )
