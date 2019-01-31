@@ -3,8 +3,10 @@ import { Ansettelsesforhold } from './Søkerdata';
 export enum Field {
     harGodkjentVilkår = 'harGodkjentVilkår',
     harBekreftetOpplysninger = 'harBekreftetOpplysninger',
+    barnetHarIkkeFåttFødselsnummerEnda = 'barnetHarIkkeFåttFødselsnummerEnda',
     barnetsNavn = 'barnetsNavn',
     barnetsFødselsnummer = 'barnetsFødselsnummer',
+    barnetsForeløpigeFødselsnummerEllerDNummer = 'barnetsForeløpigeFødselsnummerEllerDNummer',
     barnetSøknadenGjelder = 'barnetSøknadenGjelder',
     søkersRelasjonTilBarnet = 'søkersRelasjonTilBarnet',
     søknadenGjelderEtAnnetBarn = 'søknadenGjelderEtAnnetBarn',
@@ -26,6 +28,8 @@ export interface PleiepengesøknadFormData {
     [Field.periodeFra]?: Date;
     [Field.periodeTil]?: Date;
     [Field.legeerklæring]: Attachment[];
+    [Field.barnetHarIkkeFåttFødselsnummerEnda]: boolean;
+    [Field.barnetsForeløpigeFødselsnummerEllerDNummer]: string;
 }
 
 export const initialValues: PleiepengesøknadFormData = {
@@ -37,5 +41,7 @@ export const initialValues: PleiepengesøknadFormData = {
     [Field.søkersRelasjonTilBarnet]: '',
     [Field.søknadenGjelderEtAnnetBarn]: false,
     [Field.legeerklæring]: [],
-    [Field.ansettelsesforhold]: []
+    [Field.ansettelsesforhold]: [],
+    [Field.barnetHarIkkeFåttFødselsnummerEnda]: false,
+    [Field.barnetsForeløpigeFødselsnummerEllerDNummer]: ''
 };

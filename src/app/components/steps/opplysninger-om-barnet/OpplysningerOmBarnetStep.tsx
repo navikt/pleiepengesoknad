@@ -3,7 +3,12 @@ import { StepID } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
 import { getNextStepRoute } from '../../../utils/stepConfigHelper';
 import { navigateTo } from '../../../utils/navigationHelper';
-import { validateFnr, validateNavn, validateRelasjonTilBarnet } from '../../../utils/validationHelper';
+import {
+    validateFnr,
+    validateNavn,
+    validateRelasjonTilBarnet,
+    validateValgtBarn
+} from '../../../utils/validationHelper';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
 import { CustomFormikProps as FormikProps } from '../../../types/FormikProps';
@@ -28,7 +33,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
         setFieldValue,
         isSubmitting,
         isValid,
-        values: { søknadenGjelderEtAnnetBarn, barnetSøknadenGjelder }
+        values: { søknadenGjelderEtAnnetBarn, barnetSøknadenGjelder, barnetHarIkkeFåttFødselsnummerEnda }
     },
     history
 }: Props) => {
@@ -56,13 +61,19 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                         disabled: søknadenGjelderEtAnnetBarn
                                     };
                                 })}
+                                validate={(value) => {
+                                    if (søknadenGjelderEtAnnetBarn) {
+                                        return undefined;
+                                    }
+                                    return validateValgtBarn(value);
+                                }}
                             />
                             <Checkbox
                                 label="Søknaden gjelder et annet barn"
                                 name={Field.søknadenGjelderEtAnnetBarn}
                                 afterOnChange={(newValue) => {
                                     if (newValue) {
-                                        setFieldValue('barnetSøknadenGjelder', '');
+                                        setFieldValue(Field.barnetSøknadenGjelder, '');
                                     }
                                 }}
                             />
@@ -77,9 +88,31 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                             <Input
                                 label="Barnets fødselsnummer"
                                 name={Field.barnetsFødselsnummer}
-                                validate={validateFnr}
+                                validate={(fnr) => {
+                                    if (!barnetHarIkkeFåttFødselsnummerEnda) {
+                                        return validateFnr(fnr);
+                                    }
+                                    return undefined;
+                                }}
                                 placeholder="Skriv inn fødselsnummer her"
+                                disabled={barnetHarIkkeFåttFødselsnummerEnda}
                             />
+                            <Checkbox
+                                label="Barnet har ikke fått fødselsnummer enda"
+                                name={Field.barnetHarIkkeFåttFødselsnummerEnda}
+                                afterOnChange={(newValue) => {
+                                    if (newValue) {
+                                        setFieldValue(Field.barnetsFødselsnummer, '');
+                                    }
+                                }}
+                            />
+                            {barnetHarIkkeFåttFødselsnummerEnda && (
+                                <Input
+                                    label="Barnets foreløpige fødselsnummer eller D-nummer"
+                                    name={Field.barnetsForeløpigeFødselsnummerEllerDNummer}
+                                    placeholder="Skriv inn barnets foreløpige fødselsnummer eller D-nummer her"
+                                />
+                            )}
                             <Input
                                 label="Barnets navn"
                                 name={Field.barnetsNavn}

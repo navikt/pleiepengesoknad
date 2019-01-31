@@ -25,7 +25,7 @@ const FormikCheckbox = <T extends {}>(): React.FunctionComponent<CheckboxProps &
                     {...otherInputProps}
                     {...errorMsgProps}
                     {...field}
-                    // optional onChange-prop will be overriden
+                    checked={field.value === true}
                     onChange={() => {
                         const newValue = !field.value;
                         setFieldValue(field.name, newValue);

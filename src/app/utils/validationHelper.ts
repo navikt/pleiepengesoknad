@@ -1,5 +1,13 @@
 export const hasValue = (v: string) => v !== '' && v !== undefined && v !== null;
 
+export const validateValgtBarn = (v: string): string | undefined => {
+    let result;
+    if (!hasValue(v)) {
+        result = 'Feltet er påkrevd';
+    }
+    return result;
+};
+
 export const validateFnr = (v: string): string | undefined => {
     if (!hasValue(v)) {
         return 'Feltet er påkrevd';
