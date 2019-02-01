@@ -3,7 +3,7 @@ import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorProps } from '../../utils/navFrontendHelper';
 import DatepickerBase from '../datepicker-base/DatepickerBase';
 
-interface FormikDatepickerProps<T> {
+export interface FormikDatepickerProps<T> {
     name: T;
     label: string;
     validate?: ((value: any) => string | Promise<void> | undefined);

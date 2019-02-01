@@ -4,9 +4,9 @@ import { StepID } from '../../../config/stepConfig';
 import { navigateTo } from '../../../utils/navigationHelper';
 import { getNextStepRoute } from '../../../utils/stepConfigHelper';
 import { Field } from '../../../types/PleiepengesøknadFormData';
-import Datepicker from '../../datepicker/Datepicker';
 import { validateFradato, validateTildato } from '../../../utils/validationHelper';
 import FormikStep from '../../formik-step/FormikStep';
+import DateIntervalPicker from '../../date-interval-picker/DateIntervalPicker';
 
 interface OpplysningerOmTidsromStepProps {
     isValid: boolean;
@@ -21,15 +21,18 @@ const OpplysningerOmTidsromStep = ({ history, ...stepProps }: Props) => {
     const navigate = () => navigateTo(nextStepRoute!, history);
     return (
         <FormikStep id={StepID.TIDSROM} onValidFormSubmit={navigate} {...stepProps}>
-            <Datepicker
-                label="Hvilken dato ønsker du å ha pleiepenger fra?"
-                validate={validateFradato}
-                name={Field.periodeFra}
-            />
-            <Datepicker
-                label="Hvilken dato ønsker du å ha pleiepenger til?"
-                validate={validateTildato}
-                name={Field.periodeTil}
+            <DateIntervalPicker
+                legend="For hvilken periode søker du pleiepenger?"
+                fromDatepickerProps={{
+                    label: 'Fra og med',
+                    validate: validateFradato,
+                    name: Field.periodeFra
+                }}
+                toDatepickerProps={{
+                    label: 'Til og med',
+                    validate: validateTildato,
+                    name: Field.periodeTil
+                }}
             />
         </FormikStep>
     );
