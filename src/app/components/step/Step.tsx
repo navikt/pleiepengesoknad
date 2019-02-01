@@ -39,9 +39,11 @@ const Step: React.FunctionComponent<StepProps> = ({
                 <form onSubmit={handleSubmit}>
                     {children}
                     {showSubmitButton !== false && (
-                        <Button className={bem.element('button')} spinner={showButtonSpinner || false}>
-                            {conf.buttonLabel}
-                        </Button>
+                        <Box margin="xl">
+                            <Button className={bem.element('button')} spinner={showButtonSpinner || false}>
+                                {conf.buttonLabel}
+                            </Button>
+                        </Box>
                     )}
                 </form>
             </Box>

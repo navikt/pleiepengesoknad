@@ -20,7 +20,7 @@ const DeleteButton: React.FunctionComponent<DeleteButtonProps> = ({ ariaLabel, o
             e.stopPropagation();
             onClick(e);
         }}>
-        <CustomSVG iconRef={trashcanIcon} size={22} />
+        <CustomSVG iconRef={trashcanIcon} size={20} />
     </button>
 );
 

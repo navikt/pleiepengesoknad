@@ -23,7 +23,7 @@ const AttachmentListElement: React.FunctionComponent<AttachmentListElementProps>
         <ContentSwitcher
             className={listElementBem.element('rightAlignedContent')}
             showInitialContent={attachment.pending}
-            initialContent={() => <LoadingSpinner type="S" />}
+            initialContent={() => <LoadingSpinner type="XS" />}
             otherContent={() => (
                 <DeleteButton ariaLabel={deleteButtonAriaLabel} onClick={(e) => onRemoveAttachmentClick(attachment, e)}>
                     Fjern vedlegg

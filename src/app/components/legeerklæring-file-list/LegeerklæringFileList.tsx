@@ -11,6 +11,11 @@ const LegeerklæringAttachmentList: React.FunctionComponent<LegeerklæringAttach
     formik: { values, setFieldValue }
 }) => {
     const legeerklæring: Attachment[] = values[Field.legeerklæring];
+
+    if (!legeerklæring || legeerklæring.length === 0) {
+        return <>Ingen vedlegg er lastet opp</>;
+    }
+
     return (
         <AttachmentList
             attachments={legeerklæring}

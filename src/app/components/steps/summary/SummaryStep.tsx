@@ -4,11 +4,14 @@ import { HistoryProps } from '../../../types/History';
 import { Field, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import ConfirmationCheckboxPanel from '../../confirmation-checkbox-panel/ConfirmationCheckboxPanel';
 import Box from '../../box/Box';
-import { EtikettLiten } from 'nav-frontend-typografi';
+import { EtikettLiten, Normaltekst } from 'nav-frontend-typografi';
 import { navigateTo } from '../../../utils/navigationHelper';
 import FormikStep from '../../formik-step/FormikStep';
 import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
 import { sendApplication } from '../../../utils/apiHelper';
+import Panel from '../../panel/Panel';
+import ContentWithHeader from '../../content-with-header/ContentWithHeader';
+import LegeerklæringAttachmentList from '../../legeerklæring-file-list/LegeerklæringFileList';
 
 export interface SummaryStepProps {
     isValid: boolean;
@@ -60,6 +63,25 @@ class SummaryStep extends React.Component<Props, State> {
                                 {key}: {values[key] === true ? 'Ja' : `${values[key]}`}
                             </EtikettLiten>
                         ))}
+                </Box>
+                <Box margin="l">
+                    <Panel border={true}>
+                        <ContentWithHeader header="Det søkes pleiepenger av:">
+                            <Normaltekst>Ola Nordmann</Normaltekst>
+                            <Normaltekst>Fødselsnummer: 123412341234</Normaltekst>
+                        </ContentWithHeader>
+                        <Box margin="l">
+                            <ContentWithHeader header="Om barnet det gjelder:">
+                                <Normaltekst>Kari Nordmann</Normaltekst>
+                                <Normaltekst>Fødselsnummer: 123412341234</Normaltekst>
+                            </ContentWithHeader>
+                        </Box>
+                        <Box margin="l">
+                            <ContentWithHeader header="Legeerklæring:">
+                                <LegeerklæringAttachmentList />
+                            </ContentWithHeader>
+                        </Box>
+                    </Panel>
                 </Box>
                 <Box margin="l">
                     <ConfirmationCheckboxPanel

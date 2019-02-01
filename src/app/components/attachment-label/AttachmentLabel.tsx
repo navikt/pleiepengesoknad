@@ -14,7 +14,7 @@ const attachmentLabelBem = bemHelper('attachmentLabel');
 
 const AttachmentLabel: React.FunctionComponent<AttachmentLabelProps> = ({ attachment: { url, file } }) => (
     <span>
-        <CustomSVG iconRef={attachmentIcon} size={22} />
+        <CustomSVG iconRef={attachmentIcon} size={20} />
         <ContentSwitcher
             initialContent={() => <div className={attachmentLabelBem.element('text')}>{file.name}</div>}
             otherContent={() => (
