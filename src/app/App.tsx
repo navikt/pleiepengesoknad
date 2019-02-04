@@ -2,13 +2,14 @@ import * as React from 'react';
 import { render } from 'react-dom';
 import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad';
 import ApplicationWrapper from './components/application-wrapper/ApplicationWrapper';
-import './globalStyles.less';
 import LoadingPage from './components/pages/loading-page/LoadingPage';
-import { Søkerdata } from './types/Søkerdata';
-import { getAnsettelsesforhold, getBarn } from './utils/apiHelper';
+import { Ansettelsesforhold, Søkerdata } from './types/Søkerdata';
+import { getBarn, isForbidden, isUnauthorized } from './utils/apiHelper';
+import { getEnvironmentVariable } from './utils/envHelper';
+import './globalStyles.less';
 
 const root = document.getElementById('app');
-// const loginUrl = getEnvironmentVariable('LOGIN_URL');
+const loginUrl = getEnvironmentVariable('LOGIN_URL');
 
 interface State {
     isLoading: boolean;
@@ -19,6 +20,7 @@ class App extends React.Component<{}, State> {
     constructor(props: {}) {
         super(props);
         this.state = { isLoading: true };
+        this.updateAnsettelsesforhold = this.updateAnsettelsesforhold.bind(this);
     }
 
     componentDidMount() {
@@ -27,51 +29,38 @@ class App extends React.Component<{}, State> {
 
     async loadAppEssentials() {
         try {
-            const [barnResponse, ansettelsesforholdResponse] = await Promise.all([getBarn(), getAnsettelsesforhold()]);
+            const response = await getBarn();
             this.setState({
                 isLoading: false,
                 søkerdata: {
-                    barn: barnResponse.data.barn,
-                    ansettelsesforhold: ansettelsesforholdResponse.data.organisasjoner
+                    barn: response.data.barn,
+                    setAnsettelsesforhold: this.updateAnsettelsesforhold
                 }
             });
         } catch (response) {
-            /*if (isForbidden(response) || isUnauthorized(response)) {
+            if (isForbidden(response) || isUnauthorized(response)) {
                 window.location = loginUrl;
-            }*/
-            const mockedSøkerdata: Søkerdata = {
-                barn: [
-                    {
-                        fodselsdato: '1990-09-29',
-                        fornavn: 'Mr. Santa',
-                        mellomnavn: 'Claus',
-                        etternavn: 'Winter',
-                        fodselsnummer: '12345123451',
-                        relasjon: 'far'
-                    },
-                    {
-                        fodselsdato: '1990-09-29',
-                        fornavn: 'Ms. Santa',
-                        mellomnavn: 'Claus',
-                        etternavn: 'Winter',
-                        fodselsnummer: '12345123452',
-                        relasjon: 'mor'
-                    }
-                ],
-                ansettelsesforhold: [
-                    { navn: 'NAV', organisasjonsnummer: '123412341234' },
-                    { navn: 'ASD', organisasjonsnummer: '123412341334' }
-                ]
-            };
-            this.setState({ isLoading: false, søkerdata: mockedSøkerdata });
+            } else {
+                window.location.href = '/feil';
+            }
         }
+    }
+
+    updateAnsettelsesforhold(ansettelsesforhold: Ansettelsesforhold[]) {
+        const { barn, setAnsettelsesforhold } = this.state.søkerdata!;
+        this.setState({ søkerdata: { barn, setAnsettelsesforhold, ansettelsesforhold } });
     }
 
     render() {
         const { isLoading, søkerdata } = this.state;
+
+        if (isLoading) {
+            return <LoadingPage />;
+        }
+
         return (
             <ApplicationWrapper søkerdata={søkerdata}>
-                {isLoading === true ? <LoadingPage /> : <Pleiepengesøknad />}
+                <Pleiepengesøknad />
             </ApplicationWrapper>
         );
     }

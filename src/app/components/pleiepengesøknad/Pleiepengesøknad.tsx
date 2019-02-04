@@ -5,7 +5,7 @@ import { Formik } from 'formik';
 import { Redirect, Route, Switch } from 'react-router';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
 import OpplysningerOmBarnetStep from '../steps/opplysninger-om-barnet/OpplysningerOmBarnetStep';
-import OpplysningerOmArbeidsforholdStep from '../steps/arbeidsforhold/OpplysningerOmArbeidsforholdStep';
+import OpplysningerOmAnsettelsesforholdStep from '../steps/ansettelsesforhold/OpplysningerOmAnsettelsesforholdStep';
 import SummaryStep from '../steps/summary/SummaryStep';
 import { initialValues, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { FormikBag } from '../../types/FormikBag';
@@ -33,12 +33,14 @@ const Pleiepengesøknad = () => (
                         render={(props) => <OpplysningerOmBarnetStep formikProps={formikProps} {...props} />}
                     />
                     <Route
-                        path={getSøknadRoute(StepID.ARBEIDSFORHOLD)}
-                        render={(props) => <OpplysningerOmArbeidsforholdStep {...commonFormikProps} {...props} />}
+                        path={getSøknadRoute(StepID.ANSETTELSESFORHOLD)}
+                        render={(props) => <OpplysningerOmAnsettelsesforholdStep {...commonFormikProps} {...props} />}
                     />
                     <Route
                         path={getSøknadRoute(StepID.TIDSROM)}
-                        render={(props) => <OpplysningerOmTidsromStep {...commonFormikProps} {...props} />}
+                        render={(props) => (
+                            <OpplysningerOmTidsromStep values={values} {...commonFormikProps} {...props} />
+                        )}
                     />
                     <Route
                         path={getSøknadRoute(StepID.LEGEERKLÆRING)}

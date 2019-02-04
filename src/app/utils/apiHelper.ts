@@ -8,7 +8,8 @@ const axiosConfig = { withCredentials: true };
 
 export const getBarn = () => axios.get(`${apiUrl}/barn`, axiosConfig);
 
-export const getAnsettelsesforhold = () => axios.get(`${apiUrl}/ansettelsesforhold`, axiosConfig);
+export const getAnsettelsesforhold = (fom: string, tom: string) =>
+    axios.get(`${apiUrl}/ansettelsesforhold?fra_og_med=${fom}&til_og_med=${tom}`, axiosConfig);
 
 export const sendApplication = (data: PleiepengesøknadApiData) => axios.post(`${apiUrl}/soknad`, data, axiosConfig);
 
