@@ -23,17 +23,19 @@ const OpplysningerOmArbeidsforholdStep = ({ history, ...stepProps }: Props) => {
     return (
         <FormikStep id={StepID.ARBEIDSFORHOLD} onValidFormSubmit={navigate} {...stepProps}>
             <SøkerdataContextConsumer>
-                {(søkerdata: Søkerdata) => (
-                    <CheckboxPanelGroup
-                        legend="Fra hvilke(t) arbeidsforhold har du fravær for å ha tilsyn med barnet?"
-                        name={Field.ansettelsesforhold}
-                        checkboxes={søkerdata.ansettelsesforhold.map((a) => ({
-                            label: a.navn,
-                            value: a.organisasjonsnummer,
-                            key: a.organisasjonsnummer
-                        }))}
-                    />
-                )}
+                {(søkerdata: Søkerdata) =>
+                    søkerdata.ansettelsesforhold && (
+                        <CheckboxPanelGroup
+                            legend="Fra hvilke(t) arbeidsforhold har du fravær for å ha tilsyn med barnet?"
+                            name={Field.ansettelsesforhold}
+                            checkboxes={søkerdata.ansettelsesforhold!.map((a) => ({
+                                label: a.navn,
+                                value: a.organisasjonsnummer,
+                                key: a.organisasjonsnummer
+                            }))}
+                        />
+                    )
+                }
             </SøkerdataContextConsumer>
         </FormikStep>
     );

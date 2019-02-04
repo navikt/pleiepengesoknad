@@ -3,8 +3,8 @@ import { render } from 'react-dom';
 import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad';
 import ApplicationWrapper from './components/application-wrapper/ApplicationWrapper';
 import LoadingPage from './components/pages/loading-page/LoadingPage';
-import { Søkerdata } from './types/Søkerdata';
-import { getAnsettelsesforhold, getBarn, isForbidden, isUnauthorized } from './utils/apiHelper';
+import { Ansettelsesforhold, Søkerdata } from './types/Søkerdata';
+import { getBarn, isForbidden, isUnauthorized } from './utils/apiHelper';
 import { getEnvironmentVariable } from './utils/envHelper';
 import './globalStyles.less';
 
@@ -20,6 +20,7 @@ class App extends React.Component<{}, State> {
     constructor(props: {}) {
         super(props);
         this.state = { isLoading: true };
+        this.updateAnsettelsesforhold = this.updateAnsettelsesforhold.bind(this);
     }
 
     componentDidMount() {
@@ -28,12 +29,12 @@ class App extends React.Component<{}, State> {
 
     async loadAppEssentials() {
         try {
-            const [barnResponse, ansettelsesforholdResponse] = await Promise.all([getBarn(), getAnsettelsesforhold()]);
+            const [barnResponse] = await Promise.all([getBarn()]);
             this.setState({
                 isLoading: false,
                 søkerdata: {
                     barn: barnResponse.data.barn,
-                    ansettelsesforhold: ansettelsesforholdResponse.data.organisasjoner
+                    setAnsettelsesforhold: this.updateAnsettelsesforhold
                 }
             });
         } catch (response) {
@@ -43,11 +44,21 @@ class App extends React.Component<{}, State> {
         }
     }
 
+    updateAnsettelsesforhold(ansettelsesforhold: Ansettelsesforhold[]) {
+        const { barn } = this.state.søkerdata!;
+        this.setState({ søkerdata: { barn, ansettelsesforhold } });
+    }
+
     render() {
         const { isLoading, søkerdata } = this.state;
+
+        if (isLoading) {
+            return <LoadingPage />;
+        }
+
         return (
             <ApplicationWrapper søkerdata={søkerdata}>
-                {isLoading === true ? <LoadingPage /> : <Pleiepengesøknad />}
+                <Pleiepengesøknad />
             </ApplicationWrapper>
         );
     }

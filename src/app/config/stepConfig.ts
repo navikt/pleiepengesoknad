@@ -25,14 +25,6 @@ export const stepConfig: StepConfigInterface = {
         stepTitle: 'Barn',
         stepIndicatorLabel: 'Om barnet',
         index: 0,
-        nextStep: StepID.ARBEIDSFORHOLD,
-        buttonLabel: 'Fortsett'
-    },
-    [StepID.ARBEIDSFORHOLD]: {
-        pageTitle: 'Pleiepengesøknad - opplysninger om ditt arbeidsforhold',
-        stepTitle: 'Arbeidsforhold',
-        stepIndicatorLabel: 'Om ditt arbeidsforhold',
-        index: 1,
         nextStep: StepID.TIDSROM,
         buttonLabel: 'Fortsett'
     },
@@ -40,6 +32,14 @@ export const stepConfig: StepConfigInterface = {
         pageTitle: 'Pleiepengesøknad',
         stepTitle: 'Egenerklæring',
         stepIndicatorLabel: 'Tidsrom',
+        index: 1,
+        nextStep: StepID.ARBEIDSFORHOLD,
+        buttonLabel: 'Fortsett'
+    },
+    [StepID.ARBEIDSFORHOLD]: {
+        pageTitle: 'Pleiepengesøknad - opplysninger om ditt arbeidsforhold',
+        stepTitle: 'Arbeidsforhold',
+        stepIndicatorLabel: 'Om ditt arbeidsforhold',
         index: 2,
         nextStep: StepID.LEGEERKLÆRING,
         buttonLabel: 'Fortsett'

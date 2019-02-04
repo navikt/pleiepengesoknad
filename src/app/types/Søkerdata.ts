@@ -14,5 +14,6 @@ export interface Ansettelsesforhold {
 
 export interface Søkerdata {
     barn: Barn[];
-    ansettelsesforhold: Ansettelsesforhold[];
+    ansettelsesforhold?: Ansettelsesforhold[];
+    setAnsettelsesforhold?: (ansettelsesforhold: Ansettelsesforhold[]) => void;
 }
