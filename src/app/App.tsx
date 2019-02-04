@@ -2,13 +2,14 @@ import * as React from 'react';
 import { render } from 'react-dom';
 import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad';
 import ApplicationWrapper from './components/application-wrapper/ApplicationWrapper';
-import './globalStyles.less';
 import LoadingPage from './components/pages/loading-page/LoadingPage';
 import { Søkerdata } from './types/Søkerdata';
-import { getAnsettelsesforhold, getBarn } from './utils/apiHelper';
+import { getAnsettelsesforhold, getBarn, isForbidden, isUnauthorized } from './utils/apiHelper';
+import { getEnvironmentVariable } from './utils/envHelper';
+import './globalStyles.less';
 
 const root = document.getElementById('app');
-// const loginUrl = getEnvironmentVariable('LOGIN_URL');
+const loginUrl = getEnvironmentVariable('LOGIN_URL');
 
 interface State {
     isLoading: boolean;
@@ -36,34 +37,9 @@ class App extends React.Component<{}, State> {
                 }
             });
         } catch (response) {
-            /*if (isForbidden(response) || isUnauthorized(response)) {
+            if (isForbidden(response) || isUnauthorized(response)) {
                 window.location = loginUrl;
-            }*/
-            const mockedSøkerdata: Søkerdata = {
-                barn: [
-                    {
-                        fodselsdato: '1990-09-29',
-                        fornavn: 'Mr. Santa',
-                        mellomnavn: 'Claus',
-                        etternavn: 'Winter',
-                        fodselsnummer: '12345123451',
-                        relasjon: 'far'
-                    },
-                    {
-                        fodselsdato: '1990-09-29',
-                        fornavn: 'Ms. Santa',
-                        mellomnavn: 'Claus',
-                        etternavn: 'Winter',
-                        fodselsnummer: '12345123452',
-                        relasjon: 'mor'
-                    }
-                ],
-                ansettelsesforhold: [
-                    { navn: 'NAV', organisasjonsnummer: '123412341234' },
-                    { navn: 'ASD', organisasjonsnummer: '123412341334' }
-                ]
-            };
-            this.setState({ isLoading: false, søkerdata: mockedSøkerdata });
+            }
         }
     }
 
