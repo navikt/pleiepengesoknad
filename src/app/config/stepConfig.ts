@@ -1,6 +1,6 @@
 export enum StepID {
     'OPPLYSNINGER_OM_BARNET' = 'opplysninger-om-barnet',
-    'ARBEIDSFORHOLD' = 'arbeidsforhold',
+    'ANSETTELSESFORHOLD' = 'arbeidsforhold',
     'TIDSROM' = 'tidsrom',
     'LEGEERKLÆRING' = 'legeerklaering',
     'SUMMARY' = 'oppsummering'
@@ -33,10 +33,10 @@ export const stepConfig: StepConfigInterface = {
         stepTitle: 'Egenerklæring',
         stepIndicatorLabel: 'Tidsrom',
         index: 1,
-        nextStep: StepID.ARBEIDSFORHOLD,
+        nextStep: StepID.ANSETTELSESFORHOLD,
         buttonLabel: 'Fortsett'
     },
-    [StepID.ARBEIDSFORHOLD]: {
+    [StepID.ANSETTELSESFORHOLD]: {
         pageTitle: 'Pleiepengesøknad - opplysninger om ditt arbeidsforhold',
         stepTitle: 'Arbeidsforhold',
         stepIndicatorLabel: 'Om ditt arbeidsforhold',

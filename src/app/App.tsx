@@ -29,24 +29,26 @@ class App extends React.Component<{}, State> {
 
     async loadAppEssentials() {
         try {
-            const [barnResponse] = await Promise.all([getBarn()]);
+            const response = await getBarn();
             this.setState({
                 isLoading: false,
                 søkerdata: {
-                    barn: barnResponse.data.barn,
+                    barn: response.data.barn,
                     setAnsettelsesforhold: this.updateAnsettelsesforhold
                 }
             });
         } catch (response) {
             if (isForbidden(response) || isUnauthorized(response)) {
                 window.location = loginUrl;
+            } else {
+                window.location.href = '/feil';
             }
         }
     }
 
     updateAnsettelsesforhold(ansettelsesforhold: Ansettelsesforhold[]) {
-        const { barn } = this.state.søkerdata!;
-        this.setState({ søkerdata: { barn, ansettelsesforhold } });
+        const { barn, setAnsettelsesforhold } = this.state.søkerdata!;
+        this.setState({ søkerdata: { barn, setAnsettelsesforhold, ansettelsesforhold } });
     }
 
     render() {

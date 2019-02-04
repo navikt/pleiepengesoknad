@@ -1,17 +1,16 @@
 import * as React from 'react';
 import { HistoryProps } from '../../../types/History';
 import { StepID } from '../../../config/stepConfig';
-import { navigateTo } from '../../../utils/navigationHelper';
+import { navigateTo, navigateToErrorPage } from '../../../utils/navigationHelper';
 import { getNextStepRoute } from '../../../utils/stepConfigHelper';
-import { Field } from '../../../types/PleiepengesøknadFormData';
+import { Field, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { validateFradato, validateTildato } from '../../../utils/validationHelper';
 import FormikStep from '../../formik-step/FormikStep';
 import DateIntervalPicker from '../../date-interval-picker/DateIntervalPicker';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
 import { getAnsettelsesforhold } from '../../../utils/apiHelper';
-import { CustomFormikProps as FormikProps } from '../../../types/FormikProps';
-import * as moment from 'moment';
+import { formatDate } from '../../../utils/dateHelper';
 
 interface OpplysningerOmTidsromStepState {
     isLoadingNextStep: boolean;
@@ -21,7 +20,7 @@ interface OpplysningerOmTidsromStepProps {
     isValid: boolean;
     isSubmitting: boolean;
     handleSubmit: () => void;
-    formikProps: FormikProps;
+    values: PleiepengesøknadFormData;
 }
 
 type Props = OpplysningerOmTidsromStepProps & HistoryProps;
@@ -30,44 +29,43 @@ const nextStepRoute = getNextStepRoute(StepID.TIDSROM);
 class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTidsromStepState> {
     constructor(props: Props) {
         super(props);
-        this.navigate = this.navigate.bind(this);
+
+        this.getAnsettelsesforhold = this.getAnsettelsesforhold.bind(this);
+        this.finishStep = this.finishStep.bind(this);
 
         this.state = {
             isLoadingNextStep: false
         };
     }
 
-    navigate = async (søkerdata: Søkerdata) => {
-        const { history, formikProps } = this.props;
-        const {
-            values: { periodeFra, periodeTil }
-        } = formikProps;
+    getAnsettelsesforhold() {
+        const fromDateString = formatDate(this.props.values[Field.periodeFra]!);
+        const toDateString = formatDate(this.props.values[Field.periodeTil]!);
+        return getAnsettelsesforhold(fromDateString, toDateString);
+    }
 
-        this.setState({
-            isLoadingNextStep: true
-        });
-
-        const fromDateString = moment(periodeFra).format('YYYY-MM-DD');
-        const toDateString = moment(periodeTil).format('YYYY-MM-DD');
-
-        const response = await getAnsettelsesforhold(fromDateString, toDateString);
-        søkerdata.setAnsettelsesforhold!(response.data.organisasjoner);
-
-        navigateTo(nextStepRoute!, history);
-    };
+    async finishStep(søkerdata: Søkerdata) {
+        this.setState({ isLoadingNextStep: true });
+        try {
+            const response = await this.getAnsettelsesforhold();
+            søkerdata.setAnsettelsesforhold!(response.data.organisasjoner);
+            navigateTo(nextStepRoute!, this.props.history);
+        } catch (error) {
+            navigateToErrorPage(this.props.history);
+        }
+    }
 
     render() {
         const { history, ...stepProps } = this.props;
         const { isLoadingNextStep } = this.state;
-
         return (
             <SøkerdataContextConsumer>
                 {(søkerdata) => (
                     <FormikStep
                         id={StepID.TIDSROM}
-                        onValidFormSubmit={() => this.navigate(søkerdata!)}
-                        {...stepProps}
-                        showButtonSpinner={isLoadingNextStep}>
+                        onValidFormSubmit={() => this.finishStep(søkerdata!)}
+                        showButtonSpinner={isLoadingNextStep}
+                        {...stepProps}>
                         <DateIntervalPicker
                             legend="For hvilken periode søker du pleiepenger?"
                             fromDatepickerProps={{

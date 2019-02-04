@@ -9,19 +9,19 @@ import CheckboxPanelGroup from '../../checkbox-panel-group/CheckboxPanelGroup';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
 
-interface OpplysningerOmArbeidsforholdStepProps {
+interface OpplysningerOmAnsettelsesforholdStepProps {
     isValid: boolean;
     isSubmitting: boolean;
     handleSubmit: () => void;
 }
 
-type Props = OpplysningerOmArbeidsforholdStepProps & HistoryProps;
-const nextStepRoute = getNextStepRoute(StepID.ARBEIDSFORHOLD);
+type Props = OpplysningerOmAnsettelsesforholdStepProps & HistoryProps;
+const nextStepRoute = getNextStepRoute(StepID.ANSETTELSESFORHOLD);
 
-const OpplysningerOmArbeidsforholdStep = ({ history, ...stepProps }: Props) => {
+const OpplysningerOmAnsettelsesforholdStep = ({ history, ...stepProps }: Props) => {
     const navigate = () => navigateTo(nextStepRoute!, history);
     return (
-        <FormikStep id={StepID.ARBEIDSFORHOLD} onValidFormSubmit={navigate} {...stepProps}>
+        <FormikStep id={StepID.ANSETTELSESFORHOLD} onValidFormSubmit={navigate} {...stepProps}>
             <SøkerdataContextConsumer>
                 {(søkerdata: Søkerdata) =>
                     søkerdata.ansettelsesforhold && (
@@ -41,4 +41,4 @@ const OpplysningerOmArbeidsforholdStep = ({ history, ...stepProps }: Props) => {
     );
 };
 
-export default OpplysningerOmArbeidsforholdStep;
+export default OpplysningerOmAnsettelsesforholdStep;
