@@ -5,7 +5,7 @@ import './contentWithHeader.less';
 
 interface ContentWithHeaderProps {
     header: string;
-    children: React.ReactElement<any> | Array<React.ReactElement<any>>;
+    children: React.ReactElement<any> | Array<React.ReactElement<any>> | React.ReactNode;
 }
 
 const bem = bemHelper('contentWithHeader');

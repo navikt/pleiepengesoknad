@@ -6,7 +6,7 @@ import { removeElementFromArray } from '../../utils/listHelper';
 
 interface FormikCheckboxPanelProps {
     label: string;
-    value: string;
+    value: any;
     key?: string;
     disabled?: boolean;
 }
