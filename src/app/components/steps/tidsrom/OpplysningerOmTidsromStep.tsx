@@ -47,13 +47,11 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
     async finishStep(søkerdata: Søkerdata) {
         this.setState({ isLoadingNextStep: true });
 
-        if (!søkerdata.ansettelsesforhold) {
-            try {
-                const response = await this.getAnsettelsesforhold();
-                søkerdata.setAnsettelsesforhold!(response.data.organisasjoner);
-            } catch (error) {
-                navigateToErrorPage(this.props.history);
-            }
+        try {
+            const response = await this.getAnsettelsesforhold();
+            søkerdata.setAnsettelsesforhold!(response.data.organisasjoner);
+        } catch (error) {
+            navigateToErrorPage(this.props.history);
         }
 
         navigateTo(nextStepRoute!, this.props.history);
