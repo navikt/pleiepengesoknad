@@ -4,7 +4,7 @@ import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad'
 import ApplicationWrapper from './components/application-wrapper/ApplicationWrapper';
 import LoadingPage from './components/pages/loading-page/LoadingPage';
 import { Ansettelsesforhold, Søkerdata } from './types/Søkerdata';
-import { getBarn, isForbidden, isUnauthorized } from './utils/apiHelper';
+import { getBarn, getSøker, isForbidden, isUnauthorized } from './utils/apiHelper';
 import { getEnvironmentVariable } from './utils/envHelper';
 import './globalStyles.less';
 
@@ -29,11 +29,12 @@ class App extends React.Component<{}, State> {
 
     async loadAppEssentials() {
         try {
-            const response = await getBarn();
+            const [barnResponse, søkerResponse] = await Promise.all([getBarn(), getSøker()]);
             this.setState({
                 isLoading: false,
                 søkerdata: {
-                    barn: response.data.barn,
+                    person: søkerResponse.data,
+                    barn: barnResponse.data.barn,
                     setAnsettelsesforhold: this.updateAnsettelsesforhold
                 }
             });
@@ -47,8 +48,15 @@ class App extends React.Component<{}, State> {
     }
 
     updateAnsettelsesforhold(ansettelsesforhold: Ansettelsesforhold[]) {
-        const { barn, setAnsettelsesforhold } = this.state.søkerdata!;
-        this.setState({ søkerdata: { barn, setAnsettelsesforhold, ansettelsesforhold } });
+        const { barn, person, setAnsettelsesforhold } = this.state.søkerdata!;
+        this.setState({
+            søkerdata: {
+                barn,
+                setAnsettelsesforhold,
+                ansettelsesforhold,
+                person
+            }
+        });
     }
 
     render() {

@@ -5,9 +5,18 @@ import Counsellor from '../counsellor/Counsellor';
 import './counsellorWithSpeechBubble.less';
 
 const bem = bemHelper('counsellorWithSpeechBubble');
-const CounsellorWithSpeechBubble: React.FunctionComponent = () => (
+
+export interface CounsellorWithSpeechBubbleProps {
+    strongText: string;
+    normalText: string;
+}
+
+const CounsellorWithSpeechBubble: React.FunctionComponent<CounsellorWithSpeechBubbleProps> = ({
+    strongText,
+    normalText
+}) => (
     <div className={bem.className}>
-        <SpeechBubble strongText="Hei!" normalText="Velkommen til søknad om pleiepenger for pleie av sykt barn." />
+        <SpeechBubble strongText={strongText} normalText={normalText} />
         <Counsellor />
     </div>
 );

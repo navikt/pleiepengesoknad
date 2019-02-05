@@ -15,6 +15,8 @@ import routeConfig from '../../../config/routeConfig';
 import { StepID } from '../../../config/stepConfig';
 import { userHasSubmittedValidForm } from '../../../utils/formikHelper';
 import FrontPageBanner from '../../front-page-banner/FrontPageBanner';
+import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
+import { Søkerdata } from '../../../types/Søkerdata';
 import './welcomingPage.less';
 
 const bem = bemHelper('welcomingPage');
@@ -38,37 +40,50 @@ class WelcomingPage extends React.Component<Props> {
     render() {
         const { handleSubmit, intl } = this.props;
         return (
-            <Page
-                title="Søknad om pleiepenger"
-                className={bem.className}
-                topContentRenderer={() => <FrontPageBanner />}>
-                <Innholdstittel className={bem.element('title')}>{intlHelper(intl, 'introtittel')}</Innholdstittel>
-                <Box margin="xl">
-                    <Normaltekst>{intlHelper(intl, 'introtekst')}</Normaltekst>
-                </Box>
+            <SøkerdataContextConsumer>
+                {({ person: { fornavn } }: Søkerdata) => (
+                    <Page
+                        title="Søknad om pleiepenger"
+                        className={bem.className}
+                        topContentRenderer={() => (
+                            <FrontPageBanner
+                                counsellorWithSpeechBubbleProps={{
+                                    strongText: `Hei ${fornavn}!`,
+                                    normalText: 'Velkommen til søknad om pleiepenger for pleie av sykt barn.'
+                                }}
+                            />
+                        )}>
+                        <Innholdstittel className={bem.element('title')}>
+                            {intlHelper(intl, 'introtittel')}
+                        </Innholdstittel>
+                        <Box margin="xl">
+                            <Normaltekst>{intlHelper(intl, 'introtekst')}</Normaltekst>
+                        </Box>
 
-                <form onSubmit={handleSubmit}>
-                    <Box margin="l">
-                        <ConfirmationCheckboxPanel
-                            label={intlHelper(intl, 'jajegsamtykker')}
-                            name={Field.harGodkjentVilkår}
-                            validate={(value) => {
-                                let result;
-                                if (value !== true) {
-                                    result = 'Du må godkjenne vilkårene';
-                                }
-                                return result;
-                            }}>
-                            {intlHelper(intl, 'forståttrettigheterogplikter')}
-                        </ConfirmationCheckboxPanel>
-                    </Box>
-                    <Box margin="xl">
-                        <Hovedknapp className={bem.element('startApplicationButton')}>
-                            {intlHelper(intl, 'begynnsøknad')}
-                        </Hovedknapp>
-                    </Box>
-                </form>
-            </Page>
+                        <form onSubmit={handleSubmit}>
+                            <Box margin="l">
+                                <ConfirmationCheckboxPanel
+                                    label={intlHelper(intl, 'jajegsamtykker')}
+                                    name={Field.harGodkjentVilkår}
+                                    validate={(value) => {
+                                        let result;
+                                        if (value !== true) {
+                                            result = 'Du må godkjenne vilkårene';
+                                        }
+                                        return result;
+                                    }}>
+                                    {intlHelper(intl, 'forståttrettigheterogplikter')}
+                                </ConfirmationCheckboxPanel>
+                            </Box>
+                            <Box margin="xl">
+                                <Hovedknapp className={bem.element('startApplicationButton')}>
+                                    {intlHelper(intl, 'begynnsøknad')}
+                                </Hovedknapp>
+                            </Box>
+                        </form>
+                    </Page>
+                )}
+            </SøkerdataContextConsumer>
         );
     }
 }

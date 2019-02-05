@@ -13,6 +13,9 @@ import Panel from '../../panel/Panel';
 import ContentWithHeader from '../../content-with-header/ContentWithHeader';
 import LegeerklæringAttachmentList from '../../legeerklæring-file-list/LegeerklæringFileList';
 import { prettifyDate } from '../../../utils/dateHelper';
+import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
+import { Søkerdata } from '../../../types/Søkerdata';
+import { formatName } from '../../../utils/personHelper';
 
 export interface SummaryStepProps {
     isValid: boolean;
@@ -69,10 +72,14 @@ class SummaryStep extends React.Component<Props, State> {
             <FormikStep id={StepID.SUMMARY} onValidFormSubmit={this.navigate} {...stepProps}>
                 <Box margin="l">
                     <Panel border={true}>
-                        <ContentWithHeader header="Det søkes pleiepenger av:">
-                            <Normaltekst>Ola Nordmann</Normaltekst>
-                            <Normaltekst>Fødselsnummer: 123412341234</Normaltekst>
-                        </ContentWithHeader>
+                        <SøkerdataContextConsumer>
+                            {({ person: { fornavn, mellomnavn, etternavn, fodselsnummer } }: Søkerdata) => (
+                                <ContentWithHeader header="Det søkes pleiepenger av:">
+                                    <Normaltekst>{formatName(fornavn, mellomnavn, etternavn)}</Normaltekst>
+                                    <Normaltekst>Fødselsnummer: {fodselsnummer}</Normaltekst>
+                                </ContentWithHeader>
+                            )}
+                        </SøkerdataContextConsumer>
                         <Box margin="l">
                             <ContentWithHeader header="Tidsrom:">
                                 <Normaltekst>

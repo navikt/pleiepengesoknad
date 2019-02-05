@@ -8,6 +8,8 @@ const axiosConfig = { withCredentials: true };
 
 export const getBarn = () => axios.get(`${apiUrl}/barn`, axiosConfig);
 
+export const getSøker = () => axios.get(`${apiUrl}/soker`, axiosConfig);
+
 export const getAnsettelsesforhold = (fom: string, tom: string) =>
     axios.get(`${apiUrl}/ansettelsesforhold?fra_og_med=${fom}&til_og_med=${tom}`, axiosConfig);
 
@@ -19,7 +21,7 @@ export const uploadFile = (file: File) => {
     return sendMultipartPostRequest(`${apiUrl}/vedlegg`, formData);
 };
 
-export const deleteFile = (url: string) => axios.delete(url);
+export const deleteFile = (url: string) => axios.delete(url, axiosConfig);
 
 const sendMultipartPostRequest = (url: string, formData: FormData) =>
     axios.post(url, formData, { headers: { 'Content-Type': 'multipart/form-data' }, ...axiosConfig });
