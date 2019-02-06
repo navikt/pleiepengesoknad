@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { StepID } from '../../config/stepConfig';
-import { getSøknadRoute } from '../../utils/routeConfigHelper';
 import { Formik } from 'formik';
 import { Redirect, Route, Switch } from 'react-router';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
@@ -13,6 +12,7 @@ import { CustomFormikProps as FormikProps } from '../../types/FormikProps';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromStep';
 import LegeerklæringStep from '../steps/legeerklæring/LegeerklæringStep';
+import { getSøknadRoute, stepRouteIsAvailable } from '../../utils/routeHelper';
 
 const Pleiepengesøknad = () => (
     <Formik
@@ -28,28 +28,46 @@ const Pleiepengesøknad = () => (
             return (
                 <Switch>
                     <Route path="/velkommen" render={(props) => <WelcomingPage {...commonFormikProps} {...props} />} />
-                    <Route
-                        path={getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET)}
-                        render={(props) => <OpplysningerOmBarnetStep formikProps={formikProps} {...props} />}
-                    />
-                    <Route
-                        path={getSøknadRoute(StepID.ANSETTELSESFORHOLD)}
-                        render={(props) => <OpplysningerOmAnsettelsesforholdStep {...commonFormikProps} {...props} />}
-                    />
-                    <Route
-                        path={getSøknadRoute(StepID.TIDSROM)}
-                        render={(props) => (
-                            <OpplysningerOmTidsromStep values={values} {...commonFormikProps} {...props} />
-                        )}
-                    />
-                    <Route
-                        path={getSøknadRoute(StepID.LEGEERKLÆRING)}
-                        render={(props) => <LegeerklæringStep {...commonFormikProps} {...props} />}
-                    />
-                    <Route
-                        path={getSøknadRoute(StepID.SUMMARY)}
-                        render={(props) => <SummaryStep values={values} {...commonFormikProps} {...props} />}
-                    />
+
+                    {stepRouteIsAvailable(StepID.OPPLYSNINGER_OM_BARNET, values) && (
+                        <Route
+                            path={getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET)}
+                            render={(props) => <OpplysningerOmBarnetStep formikProps={formikProps} {...props} />}
+                        />
+                    )}
+
+                    {stepRouteIsAvailable(StepID.TIDSROM, values) && (
+                        <Route
+                            path={getSøknadRoute(StepID.TIDSROM)}
+                            render={(props) => (
+                                <OpplysningerOmTidsromStep values={values} {...commonFormikProps} {...props} />
+                            )}
+                        />
+                    )}
+
+                    {stepRouteIsAvailable(StepID.ANSETTELSESFORHOLD, values) && (
+                        <Route
+                            path={getSøknadRoute(StepID.ANSETTELSESFORHOLD)}
+                            render={(props) => (
+                                <OpplysningerOmAnsettelsesforholdStep {...commonFormikProps} {...props} />
+                            )}
+                        />
+                    )}
+
+                    {stepRouteIsAvailable(StepID.LEGEERKLÆRING, values) && (
+                        <Route
+                            path={getSøknadRoute(StepID.LEGEERKLÆRING)}
+                            render={(props) => <LegeerklæringStep {...commonFormikProps} {...props} />}
+                        />
+                    )}
+
+                    {stepRouteIsAvailable(StepID.SUMMARY, values) && (
+                        <Route
+                            path={getSøknadRoute(StepID.SUMMARY)}
+                            render={(props) => <SummaryStep values={values} {...commonFormikProps} {...props} />}
+                        />
+                    )}
+
                     <Route path="/soknad-sendt" component={ConfirmationPage} />
                     <Redirect to="/velkommen" />
                 </Switch>
