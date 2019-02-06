@@ -40,7 +40,11 @@ const Pleiepengesøknad = () => (
                         <Route
                             path={getSøknadRoute(StepID.TIDSROM)}
                             render={(props) => (
-                                <OpplysningerOmTidsromStep values={values} {...commonFormikProps} {...props} />
+                                <OpplysningerOmTidsromStep
+                                    formikProps={formikProps}
+                                    {...commonFormikProps}
+                                    {...props}
+                                />
                             )}
                         />
                     )}

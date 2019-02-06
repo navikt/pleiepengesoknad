@@ -11,6 +11,7 @@ import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
 import { getAnsettelsesforhold } from '../../../utils/apiHelper';
 import { formatDate } from '../../../utils/dateHelper';
+import { FormikProps } from 'formik';
 
 interface OpplysningerOmTidsromStepState {
     isLoadingNextStep: boolean;
@@ -20,7 +21,7 @@ interface OpplysningerOmTidsromStepProps {
     isValid: boolean;
     isSubmitting: boolean;
     handleSubmit: () => void;
-    values: PleiepengesøknadFormData;
+    formikProps: FormikProps<PleiepengesøknadFormData>;
 }
 
 type Props = OpplysningerOmTidsromStepProps & HistoryProps;
@@ -39,8 +40,9 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
     }
 
     getAnsettelsesforhold() {
-        const fromDateString = formatDate(this.props.values[Field.periodeFra]!);
-        const toDateString = formatDate(this.props.values[Field.periodeTil]!);
+        const values = this.props.formikProps.values;
+        const fromDateString = formatDate(values[Field.periodeFra]!);
+        const toDateString = formatDate(values[Field.periodeTil]!);
         return getAnsettelsesforhold(fromDateString, toDateString);
     }
 
@@ -50,6 +52,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
         try {
             const response = await this.getAnsettelsesforhold();
             søkerdata.setAnsettelsesforhold!(response.data.organisasjoner);
+            this.props.formikProps.setFieldValue(Field.ansettelsesforhold, []);
         } catch (error) {
             navigateToErrorPage(this.props.history);
         }
