@@ -1,4 +1,5 @@
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import fødselsnummerIsValid, { FødselsnummerValidationErrorReason } from './fødselsnummerValidator';
 
 export const welcomingPageIsValid = ({ harGodkjentVilkår }: PleiepengesøknadFormData) => harGodkjentVilkår === true;
 
@@ -37,17 +38,16 @@ export const validateValgtBarn = (v: string): string | undefined => {
 };
 
 export const validateFnr = (v: string): string | undefined => {
-    if (!hasValue(v)) {
-        return 'Feltet er påkrevd';
+    const [isValid, reasons] = fødselsnummerIsValid(v);
+    let errorMessage;
+    if (!isValid) {
+        if (reasons.includes(FødselsnummerValidationErrorReason.MustConsistOf11Digits)) {
+            errorMessage = 'Fødselsnummeret må bestå av 11 tall';
+        } else {
+            errorMessage = 'Fødselsnummeret er ugyldig';
+        }
     }
-
-    const fnrIsValid = v.length === 11;
-
-    let result;
-    if (!fnrIsValid) {
-        result = 'Fødselsnummeret er ugyldig';
-    }
-    return result;
+    return errorMessage;
 };
 
 export const validateNavn = (v: string): string | undefined => {
@@ -55,13 +55,10 @@ export const validateNavn = (v: string): string | undefined => {
         return 'Feltet er påkrevd';
     }
 
-    const nameIsValid = v.length <= 15;
+    const maxNumOfLetters = 40;
+    const nameIsValid = v.length <= maxNumOfLetters;
 
-    let result;
-    if (!nameIsValid) {
-        result = 'Navnet kan være maks 15 tegn';
-    }
-    return result;
+    return nameIsValid ? undefined : `Navnet kan være maks ${maxNumOfLetters} tegn`;
 };
 
 export const validateRelasjonTilBarnet = (v: string): string | undefined => {
@@ -69,13 +66,10 @@ export const validateRelasjonTilBarnet = (v: string): string | undefined => {
         return 'Feltet er påkrevd';
     }
 
-    const relasjonIsValid = v.length <= 15;
+    const maxNumOfLetters = 15;
+    const relasjonIsValid = v.length <= maxNumOfLetters;
 
-    let result;
-    if (!relasjonIsValid) {
-        result = 'Din relasjon til barnet kan maks være beskrevet på 15 tegn';
-    }
-    return result;
+    return relasjonIsValid ? undefined : `Din relasjon til barnet kan maks være beskrevet på ${maxNumOfLetters} tegn`;
 };
 
 export const validateFradato = (v: string): string | undefined => {
