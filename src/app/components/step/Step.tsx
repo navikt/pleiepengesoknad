@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Page from '../page/Page';
 import { stepConfig, StepID } from '../../config/stepConfig';
-import bemHelper from '../../utils/bemHelper';
+import bemHelper from '../../utils/bemUtils';
 import StepIndicator from '../step-indicator/StepIndicator';
 import { Hovedknapp as Button } from 'nav-frontend-knapper';
 import Box from '../box/Box';

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Element } from 'nav-frontend-typografi';
-import bemHelper from '../../utils/bemHelper';
+import bemHelper from '../../utils/bemUtils';
 import CustomSVG from '../custom-svg/CustomSVG';
 import CustomInputElement from '../custom-input-element/CustomInputElement';
 import { SkjemaelementFeil as ValidationError } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
-import { fileExtensionIsValid, VALID_EXTENSIONS } from '../../utils/attachmentHelper';
+import { fileExtensionIsValid, VALID_EXTENSIONS } from '../../utils/attachmentUtils';
 const uploadIcon = require('../../../assets/upload.svg').default;
 import './fileInputBase.less';
 

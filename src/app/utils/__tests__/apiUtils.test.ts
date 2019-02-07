@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { isForbidden, isUnauthorized } from '../apiHelper';
+import { isForbidden, isUnauthorized } from '../apiUtils';
 
 let axiosErrorMock: AxiosError;
 
@@ -7,7 +7,7 @@ jest.mock('./../envHelper.ts', () => {
     return { getEnvironmentVariable: () => 'mockedApiUrl' };
 });
 
-describe('apiHelper', () => {
+describe('apiUtils', () => {
     beforeEach(() => {
         axiosErrorMock = {
             config: {},

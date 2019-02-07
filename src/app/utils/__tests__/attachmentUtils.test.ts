@@ -1,6 +1,6 @@
-import { fileExtensionIsValid, getAttachmentFromFile, VALID_EXTENSIONS } from '../attachmentHelper';
+import { fileExtensionIsValid, getAttachmentFromFile, VALID_EXTENSIONS } from '../attachmentUtils';
 
-describe('attachmentHelper', () => {
+describe('attachmentUtils', () => {
     describe('fileExtensionIsValid', () => {
         it('should only accept file extensions specified by VALID_EXTENSIONS', () => {
             for (const ext of VALID_EXTENSIONS) {

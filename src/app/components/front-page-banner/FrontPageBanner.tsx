@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Banner from '../banner/Banner';
-import bemHelper from '../../utils/bemHelper';
+import bemHelper from '../../utils/bemUtils';
 import CounsellorWithSpeechBubble, {
     CounsellorWithSpeechBubbleProps
 } from '../counsellor-with-speech-bubble/CounsellorWithSpeechBubble';

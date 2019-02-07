@@ -1,4 +1,4 @@
-import { formatName } from '../personHelper';
+import { formatName } from '../personUtils';
 
 describe('formatName', () => {
     it('should format navn containing only fornavn and etternavn correctly', () => {

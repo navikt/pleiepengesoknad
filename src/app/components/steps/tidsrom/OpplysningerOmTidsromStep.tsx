@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { HistoryProps } from '../../../types/History';
 import { StepID } from '../../../config/stepConfig';
-import { navigateTo, navigateToErrorPage } from '../../../utils/navigationHelper';
-import { getNextStepRoute } from '../../../utils/stepConfigHelper';
+import { navigateTo, navigateToErrorPage } from '../../../utils/navigationUtils';
+import { getNextStepRoute } from '../../../utils/stepUtils';
 import { Field, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { validateFradato, validateTildato } from '../../../utils/validationHelper';
+import { validateFradato, validateTildato } from '../../../utils/validationUtils';
 import FormikStep from '../../formik-step/FormikStep';
 import DateIntervalPicker from '../../date-interval-picker/DateIntervalPicker';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
-import { getAnsettelsesforhold } from '../../../utils/apiHelper';
-import { formatDate } from '../../../utils/dateHelper';
+import { formatDate } from '../../../utils/dateUtils';
 import { FormikProps } from 'formik';
+import { getAnsettelsesforhold } from '../../../api/api';
 
 interface OpplysningerOmTidsromStepState {
     isLoadingNextStep: boolean;

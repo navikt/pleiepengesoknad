@@ -3,7 +3,7 @@ import { Fieldset } from 'nav-frontend-skjema';
 import { FormikDatepickerProps } from '../formik-datepicker/FormikDatepicker';
 import { Field } from '../../types/PleiepengesøknadFormData';
 import Datepicker from '../datepicker/Datepicker';
-import bemHelper from '../../utils/bemHelper';
+import bemHelper from '../../utils/bemUtils';
 import './dateIntervalPicker.less';
 
 interface DateIntervalPickerProps {

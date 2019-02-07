@@ -1,4 +1,4 @@
-import { welcomingPageIsValid } from '../validationHelper';
+import { welcomingPageIsValid } from '../validationUtils';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 
 describe('validationHelper tests', () => {

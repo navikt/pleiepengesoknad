@@ -1,10 +1,10 @@
-import intlHelper from '../intlHelper';
+import intlHelper from '../intlUtils';
 
 const intl = {
     formatMessage: jest.fn((a: any, b: any) => a + b)
 };
 
-describe('intlHelper', () => {
+describe('intlUtils', () => {
     it('should call formatMessage with provided parameters and return result', () => {
         const p2 = { v: 'arg2' };
         intlHelper(intl as any, 'p1', p2);

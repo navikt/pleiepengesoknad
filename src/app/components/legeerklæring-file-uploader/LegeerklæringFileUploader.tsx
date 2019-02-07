@@ -3,8 +3,8 @@ import { connect } from 'formik';
 import { Field } from '../../types/PleiepengesøknadFormData';
 import FileInput from '../file-input/FileInput';
 import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
-import { uploadFile } from '../../utils/apiHelper';
-import { getAttachmentFromFile } from '../../utils/attachmentHelper';
+import { getAttachmentFromFile } from '../../utils/attachmentUtils';
+import { uploadFile } from '../../api/api';
 
 interface LegeerklæringFileUploaderProps {
     label: string;

@@ -1,6 +1,6 @@
-import { userHasSubmittedValidForm } from '../formikHelper';
+import { userHasSubmittedValidForm } from '../formikUtils';
 
-describe('formikHelper', () => {
+describe('formikUtils', () => {
     describe('userHasSubmittedValidForm', () => {
         it('should return true if user has submitted a valid form', () => {
             const oldProps = { isSubmitting: true, isValid: false };

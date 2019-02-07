@@ -2,9 +2,9 @@ import * as React from 'react';
 import { connect } from 'formik';
 import { Field } from '../../types/PleiepengesøknadFormData';
 import AttachmentList from '../attachment-list/AttachmentList';
-import { removeElementFromArray } from '../../utils/listHelper';
+import { removeElementFromArray } from '../../utils/listUtils';
 import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
-import { deleteFile } from '../../utils/apiHelper';
+import { deleteFile } from '../../api/api';
 
 type LegeerklæringAttachmentListProps = ConnectedFormikProps<Field>;
 const LegeerklæringAttachmentList: React.FunctionComponent<LegeerklæringAttachmentListProps> = ({

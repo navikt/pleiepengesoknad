@@ -5,17 +5,17 @@ import { Field, PleiepengesøknadFormData } from '../../../types/Pleiepengesøkn
 import ConfirmationCheckboxPanel from '../../confirmation-checkbox-panel/ConfirmationCheckboxPanel';
 import Box from '../../box/Box';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { navigateTo } from '../../../utils/navigationHelper';
+import { navigateTo } from '../../../utils/navigationUtils';
 import FormikStep from '../../formik-step/FormikStep';
 import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
-import { sendApplication } from '../../../utils/apiHelper';
 import Panel from '../../panel/Panel';
 import ContentWithHeader from '../../content-with-header/ContentWithHeader';
 import LegeerklæringAttachmentList from '../../legeerklæring-file-list/LegeerklæringFileList';
-import { prettifyDate } from '../../../utils/dateHelper';
+import { prettifyDate } from '../../../utils/dateUtils';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
-import { formatName } from '../../../utils/personHelper';
+import { formatName } from '../../../utils/personUtils';
+import { sendApplication } from '../../../api/api';
 
 export interface SummaryStepProps {
     isValid: boolean;

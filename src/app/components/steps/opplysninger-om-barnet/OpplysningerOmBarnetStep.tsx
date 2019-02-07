@@ -1,24 +1,24 @@
 import * as React from 'react';
 import { StepID } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
-import { getNextStepRoute } from '../../../utils/stepConfigHelper';
-import { navigateTo } from '../../../utils/navigationHelper';
+import { getNextStepRoute } from '../../../utils/stepUtils';
+import { navigateTo } from '../../../utils/navigationUtils';
 import {
     validateFnr,
     validateNavn,
     validateRelasjonTilBarnet,
     validateValgtBarn
-} from '../../../utils/validationHelper';
+} from '../../../utils/validationUtils';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
 import { CustomFormikProps as FormikProps } from '../../../types/FormikProps';
-import { formatName } from '../../../utils/personHelper';
+import { formatName } from '../../../utils/personUtils';
 import { Field } from '../../../types/PleiepengesøknadFormData';
 import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
 import Checkbox from '../../checkbox/Checkbox';
 import Input from '../../input/Input';
 import FormikStep from '../../formik-step/FormikStep';
-import { harRegistrerteBarn } from '../../../utils/søkerdataHelper';
+import { harRegistrerteBarn } from '../../../utils/søkerdataUtils';
 
 interface OpplysningerOmBarnetStepProps {
     formikProps: FormikProps;

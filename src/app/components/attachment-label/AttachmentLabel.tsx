@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Lenke from 'nav-frontend-lenker';
 import CustomSVG from '../custom-svg/CustomSVG';
-import bemHelper from '../../utils/bemHelper';
+import bemHelper from '../../utils/bemUtils';
 const attachmentIcon = require('./../../../assets/attachment.svg').default;
 import './attachmentLabel.less';
 import ContentSwitcher from '../content-switcher/ContentSwitcher';

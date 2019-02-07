@@ -4,12 +4,13 @@ import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad'
 import ApplicationWrapper from './components/application-wrapper/ApplicationWrapper';
 import LoadingPage from './components/pages/loading-page/LoadingPage';
 import { Ansettelsesforhold, Søkerdata } from './types/Søkerdata';
-import { getBarn, getSøker, isForbidden, isUnauthorized } from './utils/apiHelper';
-import { getEnvironmentVariable } from './utils/envHelper';
-import './globalStyles.less';
+import { isForbidden, isUnauthorized } from './utils/apiUtils';
+import { getEnvironmentVariable } from './utils/envUtils';
 import routeConfig from './config/routeConfig';
-import { userIsCurrentlyOnErrorPage } from './utils/navigationHelper';
+import { userIsCurrentlyOnErrorPage } from './utils/navigationUtils';
 import { AxiosError, AxiosResponse } from 'axios';
+import { getBarn, getSøker } from './api/api';
+import './globalStyles.less';
 
 const root = document.getElementById('app');
 const loginUrl = getEnvironmentVariable('LOGIN_URL');

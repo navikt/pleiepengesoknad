@@ -1,6 +1,6 @@
-import { getEnvironmentVariable } from '../envHelper';
+import { getEnvironmentVariable } from '../envUtils';
 
-describe('envHelper', () => {
+describe('envUtils', () => {
     describe('getEnvironmentVariable', () => {
         it('should get environment variables from window.appSettings object from provided property name', () => {
             (window as any).appSettings = { someEnvVar: 1, someOtherEnvVar: 2 };

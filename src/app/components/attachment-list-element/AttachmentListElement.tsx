@@ -1,6 +1,6 @@
 import * as React from 'react';
 import DeleteButton from '../delete-button/DeleteButton';
-import bemHelper from '../../utils/bemHelper';
+import bemHelper from '../../utils/bemUtils';
 import AttachmentLabel from '../attachment-label/AttachmentLabel';
 const listElementBem = bemHelper(`attachmentListElement`);
 import './attachmentListElement.less';

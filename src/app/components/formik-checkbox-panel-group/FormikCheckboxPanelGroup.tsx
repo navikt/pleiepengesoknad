@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
-import { getValidationErrorProps } from '../../utils/navFrontendHelper';
+import { getValidationErrorProps } from '../../utils/navFrontendUtils';
 import CheckboxPanelGroupBase from '../checkbox-panel-group-base/CheckboxPanelGroupBase';
-import { removeElementFromArray } from '../../utils/listHelper';
+import { removeElementFromArray } from '../../utils/listUtils';
 
 interface FormikCheckboxPanelProps {
     label: string;

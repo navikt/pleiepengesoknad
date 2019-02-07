@@ -1,5 +1,5 @@
 import * as React from 'react';
-import bemHelper from '../../utils/bemHelper';
+import bemHelper from '../../utils/bemUtils';
 import SpeechBubble from '../speech-bubble/SpeechBubble';
 import Counsellor from '../counsellor/Counsellor';
 import './counsellorWithSpeechBubble.less';

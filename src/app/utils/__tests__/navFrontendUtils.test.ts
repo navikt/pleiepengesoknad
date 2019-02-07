@@ -1,5 +1,5 @@
 import { FormikErrors } from 'formik';
-import { getValidationErrorProps } from '../navFrontendHelper';
+import { getValidationErrorProps } from '../navFrontendUtils';
 
 interface SomeFields {
     field1: string;
@@ -8,7 +8,7 @@ interface SomeFields {
 
 let errors: FormikErrors<SomeFields>;
 
-describe('navFrontendHelper', () => {
+describe('navFrontendUtils', () => {
     describe('getValidationErrorProps', () => {
         beforeEach(() => {
             errors = {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Banner from '../banner/Banner';
 import { Undertittel } from 'nav-frontend-typografi';
-import bemHelper from '../../utils/bemHelper';
+import bemHelper from '../../utils/bemUtils';
 import './stepBanner.less';
 
 interface StepBannerProps {

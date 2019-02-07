@@ -1,10 +1,10 @@
-import bemHelper from '../bemHelper';
+import bemHelper from '../bemUtils';
 
 const someClass = 'class';
 const someElement = 'element';
 const someModifier = 'element';
 
-describe('bemHelper', () => {
+describe('bemUtils', () => {
     it('should return correct className when referring to .className-property', () => {
         expect(bemHelper(someClass).className).toEqual(someClass);
     });

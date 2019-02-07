@@ -1,4 +1,4 @@
 import { stepConfig, StepID } from '../config/stepConfig';
-import { getSøknadRoute } from './routeHelper';
+import { getSøknadRoute } from './routeUtils';
 
 export const getNextStepRoute = (stepId: StepID): string | undefined => getSøknadRoute(stepConfig[stepId].nextStep);

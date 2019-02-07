@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { StepID } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
-import { getNextStepRoute } from '../../../utils/stepConfigHelper';
-import { navigateTo } from '../../../utils/navigationHelper';
+import { getNextStepRoute } from '../../../utils/stepUtils';
+import { navigateTo } from '../../../utils/navigationUtils';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringFileUploader from '../../legeerklæring-file-uploader/LegeerklæringFileUploader';
 import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
