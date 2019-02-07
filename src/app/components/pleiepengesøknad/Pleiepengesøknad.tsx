@@ -13,6 +13,8 @@ import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromStep';
 import LegeerklæringStep from '../steps/legeerklæring/LegeerklæringStep';
 import { getSøknadRoute, stepRouteIsAvailable } from '../../utils/routeHelper';
+import ErrorPage from '../pages/error-page/ErrorPage';
+import routeConfig from '../../config/routeConfig';
 
 const Pleiepengesøknad = () => (
     <Formik
@@ -72,6 +74,7 @@ const Pleiepengesøknad = () => (
                         />
                     )}
 
+                    <Route path={routeConfig.ERROR_PAGE_ROUTE} component={ErrorPage} />
                     <Route path="/soknad-sendt" component={ConfirmationPage} />
                     <Redirect to="/velkommen" />
                 </Switch>

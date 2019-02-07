@@ -7,6 +7,9 @@ import { Ansettelsesforhold, Søkerdata } from './types/Søkerdata';
 import { getBarn, getSøker, isForbidden, isUnauthorized } from './utils/apiHelper';
 import { getEnvironmentVariable } from './utils/envHelper';
 import './globalStyles.less';
+import routeConfig from './config/routeConfig';
+import { userIsCurrentlyOnErrorPage } from './utils/navigationHelper';
+import { AxiosError, AxiosResponse } from 'axios';
 
 const root = document.getElementById('app');
 const loginUrl = getEnvironmentVariable('LOGIN_URL');
@@ -20,31 +23,64 @@ class App extends React.Component<{}, State> {
     constructor(props: {}) {
         super(props);
         this.state = { isLoading: true };
-        this.updateAnsettelsesforhold = this.updateAnsettelsesforhold.bind(this);
-    }
 
-    componentDidMount() {
+        this.updateAnsettelsesforhold = this.updateAnsettelsesforhold.bind(this);
+        this.updateSøkerdata = this.updateSøkerdata.bind(this);
+        this.stopLoading = this.stopLoading.bind(this);
+        this.handleSøkerdataFetchSuccess = this.handleSøkerdataFetchSuccess.bind(this);
+        this.handleSøkerdataFetchError = this.handleSøkerdataFetchError.bind(this);
+
         this.loadAppEssentials();
     }
 
     async loadAppEssentials() {
         try {
             const [barnResponse, søkerResponse] = await Promise.all([getBarn(), getSøker()]);
-            this.setState({
-                isLoading: false,
-                søkerdata: {
-                    person: søkerResponse.data,
-                    barn: barnResponse.data.barn,
-                    setAnsettelsesforhold: this.updateAnsettelsesforhold
-                }
-            });
+            this.handleSøkerdataFetchSuccess(barnResponse, søkerResponse);
         } catch (response) {
-            if (isForbidden(response) || isUnauthorized(response)) {
-                window.location = loginUrl;
-            } else {
-                window.location.href = '/feil';
-            }
+            this.handleSøkerdataFetchError(response);
         }
+    }
+
+    handleSøkerdataFetchSuccess(barnResponse: AxiosResponse, søkerResponse: AxiosResponse) {
+        this.updateSøkerdata(
+            {
+                person: søkerResponse.data,
+                barn: barnResponse.data.barn,
+                setAnsettelsesforhold: this.updateAnsettelsesforhold
+            },
+            () => {
+                this.stopLoading();
+                if (userIsCurrentlyOnErrorPage()) {
+                    window.location.href = '/';
+                }
+            }
+        );
+    }
+
+    updateSøkerdata(søkerdata: Søkerdata, callback?: () => void) {
+        this.setState(
+            {
+                isLoading: false,
+                søkerdata: søkerdata ? søkerdata : this.state.søkerdata
+            },
+            callback
+        );
+    }
+
+    stopLoading() {
+        this.setState({
+            isLoading: false
+        });
+    }
+
+    handleSøkerdataFetchError(response: AxiosError) {
+        if (isForbidden(response) || isUnauthorized(response)) {
+            window.location = loginUrl;
+        } else if (!userIsCurrentlyOnErrorPage()) {
+            window.location.href = routeConfig.ERROR_PAGE_ROUTE;
+        }
+        this.stopLoading();
     }
 
     updateAnsettelsesforhold(ansettelsesforhold: Ansettelsesforhold[]) {
