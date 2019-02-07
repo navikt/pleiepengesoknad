@@ -4,7 +4,6 @@ import { StepID } from '../../../config/stepConfig';
 import { navigateTo, navigateToErrorPage } from '../../../utils/navigationUtils';
 import { getNextStepRoute } from '../../../utils/stepUtils';
 import { Field, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { validateFradato, validateTildato } from '../../../utils/validationUtils';
 import FormikStep from '../../formik-step/FormikStep';
 import DateIntervalPicker from '../../date-interval-picker/DateIntervalPicker';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
@@ -12,6 +11,7 @@ import { Søkerdata } from '../../../types/Søkerdata';
 import { formatDate } from '../../../utils/dateUtils';
 import { FormikProps } from 'formik';
 import { getAnsettelsesforhold } from '../../../api/api';
+import { validateFradato, validateTildato } from '../../../utils/validation/fieldValidations';
 
 interface OpplysningerOmTidsromStepState {
     isLoadingNextStep: boolean;

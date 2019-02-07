@@ -4,11 +4,11 @@ import { HistoryProps } from '../../../types/History';
 import { getNextStepRoute } from '../../../utils/stepUtils';
 import { navigateTo } from '../../../utils/navigationUtils';
 import {
-    validateFnr,
+    validateFødselsnummer,
     validateNavn,
     validateRelasjonTilBarnet,
     validateValgtBarn
-} from '../../../utils/validationUtils';
+} from '../../../utils/validation/fieldValidations';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
 import { CustomFormikProps as FormikProps } from '../../../types/FormikProps';
@@ -90,7 +90,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                 name={Field.barnetsFødselsnummer}
                                 validate={(fnr) => {
                                     if (!barnetHarIkkeFåttFødselsnummerEnda) {
-                                        return validateFnr(fnr);
+                                        return validateFødselsnummer(fnr);
                                     }
                                     return undefined;
                                 }}

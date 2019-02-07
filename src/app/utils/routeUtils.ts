@@ -7,7 +7,7 @@ import {
     opplysningerOmBarnetStepIsValid,
     opplysningerOmTidsromStepIsValid,
     welcomingPageIsValid
-} from './validationUtils';
+} from './validation/stepValidations';
 
 export const getSøknadRoute = (stepId: StepID | undefined) => {
     if (stepId !== undefined) {

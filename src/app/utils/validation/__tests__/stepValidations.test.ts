@@ -1,7 +1,7 @@
-import { welcomingPageIsValid } from '../validationUtils';
-import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { welcomingPageIsValid } from '../stepValidations';
+import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 
-describe('validationHelper tests', () => {
+describe('stepValidation tests', () => {
     describe('welcomingPage', () => {
         it('should be valid if harGodkjentVilkår is true', () => {
             const formData = { harGodkjentVilkår: true };
@@ -14,9 +14,5 @@ describe('validationHelper tests', () => {
             formData = { harGodkjentVilkår: false };
             expect(welcomingPageIsValid(formData as PleiepengesøknadFormData)).toBe(false);
         });
-    });
-
-    describe('opplysninger om barnet-step', () => {
-        it('should get validity from validateRelasjonTilBarnet if barnetHarIkkeFåttFødselsnummerEnda', () => {});
     });
 });
