@@ -8,6 +8,9 @@ import CheckboxPanelGroup from '../../checkbox-panel-group/CheckboxPanelGroup';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
 import { getNextStepRoute } from '../../../utils/routeUtils';
+import AlertStripe from 'nav-frontend-alertstriper';
+import Box from '../../box/Box';
+import { Normaltekst } from 'nav-frontend-typografi';
 
 interface OpplysningerOmAnsettelsesforholdStepProps {
     isValid: boolean;
@@ -24,7 +27,7 @@ const OpplysningerOmAnsettelsesforholdStep = ({ history, ...stepProps }: Props) 
         <FormikStep id={StepID.ANSETTELSESFORHOLD} onValidFormSubmit={navigate} {...stepProps}>
             <SøkerdataContextConsumer>
                 {(søkerdata: Søkerdata) =>
-                    søkerdata.ansettelsesforhold && (
+                    søkerdata.ansettelsesforhold ? (
                         <CheckboxPanelGroup
                             legend="Fra hvilke(t) arbeidsforhold har du fravær for å ha tilsyn med barnet?"
                             name={Field.ansettelsesforhold}
@@ -34,9 +37,17 @@ const OpplysningerOmAnsettelsesforholdStep = ({ history, ...stepProps }: Props) 
                                 key: a.organisasjonsnummer
                             }))}
                         />
+                    ) : (
+                        <Normaltekst>Du er ikke registrert med noen arbeidsforhold.</Normaltekst>
                     )
                 }
             </SøkerdataContextConsumer>
+            <Box margin="l">
+                <AlertStripe type="info">
+                    Hvis opplysningene om dine arbeidsforhold er feil eller mangelfulle, må du ta kontakt med
+                    arbeidsgiver for (... at de skal gjøre hva? Her trenger vi en god tekst)
+                </AlertStripe>
+            </Box>
         </FormikStep>
     );
 };

@@ -103,11 +103,13 @@ class SummaryStep extends React.Component<Props, State> {
                         </Box>
                         <Box margin="l">
                             <ContentWithHeader header="Arbeidsforhold:">
-                                {ansettelsesforhold.map(({ navn, organisasjonsnummer }) => (
-                                    <Normaltekst key={organisasjonsnummer}>
-                                        {navn} (organisasjonsnummer: {organisasjonsnummer})
-                                    </Normaltekst>
-                                ))}
+                                {ansettelsesforhold.length > 0
+                                    ? ansettelsesforhold.map(({ navn, organisasjonsnummer }) => (
+                                          <Normaltekst key={organisasjonsnummer}>
+                                              {navn} (organisasjonsnummer: {organisasjonsnummer})
+                                          </Normaltekst>
+                                      ))
+                                    : 'Ingen arbeidsforhold er valgt'}
                             </ContentWithHeader>
                         </Box>
                         <Box margin="l">
