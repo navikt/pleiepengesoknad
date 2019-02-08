@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+const moment = require('moment');
 import fødselsnummerIsValid, { FødselsnummerValidationErrorReason } from './fødselsnummerValidator';
 import { isMoreThan3YearsAgo } from '../dateUtils';
 

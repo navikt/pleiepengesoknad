@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+const moment = require('moment');
 
 const apiDateFormat = 'YYYY-MM-DD';
 const prettyDateFormat = 'DD.MM.YYYY';
