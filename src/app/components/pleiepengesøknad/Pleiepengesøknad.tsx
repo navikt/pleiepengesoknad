@@ -30,7 +30,10 @@ const Pleiepengesøknad = () => (
             const commonFormikProps = { handleSubmit, isSubmitting, isValid };
             return (
                 <Switch>
-                    <Route path="/velkommen" render={(props) => <WelcomingPage {...commonFormikProps} {...props} />} />
+                    <Route
+                        path={routeConfig.WELCOMING_PAGE_ROUTE}
+                        render={(props) => <WelcomingPage {...commonFormikProps} {...props} />}
+                    />
 
                     {stepRouteIsAvailable(StepID.OPPLYSNINGER_OM_BARNET, values) && (
                         <Route
@@ -76,8 +79,8 @@ const Pleiepengesøknad = () => (
                     )}
 
                     <Route path={routeConfig.ERROR_PAGE_ROUTE} component={ErrorPage} />
-                    <Route path="/soknad-sendt" component={ConfirmationPage} />
-                    <Redirect to="/velkommen" />
+                    <Route path={routeConfig.SØKNAD_SENDT_ROUTE} component={ConfirmationPage} />
+                    <Redirect to={routeConfig.WELCOMING_PAGE_ROUTE} />
                 </Switch>
             );
         }}

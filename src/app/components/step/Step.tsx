@@ -8,6 +8,7 @@ import Box from '../box/Box';
 import StepBanner from '../step-banner/StepBanner';
 import { Systemtittel } from 'nav-frontend-typografi';
 import './step.less';
+import BackLink from '../back-link/BackLink';
 
 const bem = bemHelper('step');
 
@@ -31,6 +32,7 @@ const Step: React.FunctionComponent<StepProps> = ({
             className={bem.className}
             title={conf.pageTitle}
             topContentRenderer={() => <StepBanner text="Søknad om pleiepenger" />}>
+            <BackLink className={bem.element('backLink')} href={conf.backLinkHref!} />
             <StepIndicator stepConfig={stepConfig} activeStep={conf.index} />
             <Box margin="xl">
                 <Systemtittel className={bem.element('title')}>{conf.stepTitle}</Systemtittel>

@@ -1,3 +1,6 @@
+import routeConfig from './routeConfig';
+import { getSøknadRoute } from '../utils/routeUtils';
+
 export enum StepID {
     'OPPLYSNINGER_OM_BARNET' = 'opplysninger-om-barnet',
     'ANSETTELSESFORHOLD' = 'arbeidsforhold',
@@ -11,6 +14,7 @@ export interface StepItemConfigInterface {
     stepTitle: string;
     index: number;
     nextStep?: StepID;
+    backLinkHref?: string;
     buttonLabel?: string;
     stepIndicatorLabel: string;
 }
@@ -26,6 +30,7 @@ export const stepConfig: StepConfigInterface = {
         stepIndicatorLabel: 'Om barnet',
         index: 0,
         nextStep: StepID.TIDSROM,
+        backLinkHref: routeConfig.WELCOMING_PAGE_ROUTE,
         buttonLabel: 'Fortsett'
     },
     [StepID.TIDSROM]: {
@@ -34,6 +39,7 @@ export const stepConfig: StepConfigInterface = {
         stepIndicatorLabel: 'Tidsrom',
         index: 1,
         nextStep: StepID.ANSETTELSESFORHOLD,
+        backLinkHref: getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET),
         buttonLabel: 'Fortsett'
     },
     [StepID.ANSETTELSESFORHOLD]: {
@@ -42,6 +48,7 @@ export const stepConfig: StepConfigInterface = {
         stepIndicatorLabel: 'Om ditt arbeidsforhold',
         index: 2,
         nextStep: StepID.LEGEERKLÆRING,
+        backLinkHref: getSøknadRoute(StepID.TIDSROM),
         buttonLabel: 'Fortsett'
     },
     [StepID.LEGEERKLÆRING]: {
@@ -50,6 +57,7 @@ export const stepConfig: StepConfigInterface = {
         stepIndicatorLabel: 'Last opp din legeerklæring',
         index: 3,
         nextStep: StepID.SUMMARY,
+        backLinkHref: getSøknadRoute(StepID.ANSETTELSESFORHOLD),
         buttonLabel: 'Fortsett'
     },
     [StepID.SUMMARY]: {
@@ -57,6 +65,7 @@ export const stepConfig: StepConfigInterface = {
         stepTitle: 'Oppsummering',
         stepIndicatorLabel: 'Oppsummering',
         index: 4,
+        backLinkHref: getSøknadRoute(StepID.LEGEERKLÆRING),
         buttonLabel: 'Send inn søknaden'
     }
 };
