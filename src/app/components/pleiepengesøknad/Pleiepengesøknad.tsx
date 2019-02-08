@@ -12,7 +12,8 @@ import { CustomFormikProps as FormikProps } from '../../types/FormikProps';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromStep';
 import LegeerklæringStep from '../steps/legeerklæring/LegeerklæringStep';
-import { getSøknadRoute, stepRouteIsAvailable } from '../../utils/routeUtils';
+import { getSøknadRoute } from '../../utils/routeUtils';
+import { stepRouteIsAvailable } from '../../utils/stepUtils';
 import ErrorPage from '../pages/error-page/ErrorPage';
 import routeConfig from '../../config/routeConfig';
 

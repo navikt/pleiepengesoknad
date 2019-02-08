@@ -2,7 +2,6 @@ import * as React from 'react';
 import { HistoryProps } from '../../../types/History';
 import { StepID } from '../../../config/stepConfig';
 import { navigateTo, navigateToErrorPage } from '../../../utils/navigationUtils';
-import { getNextStepRoute } from '../../../utils/stepUtils';
 import { Field, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import FormikStep from '../../formik-step/FormikStep';
 import DateIntervalPicker from '../../date-interval-picker/DateIntervalPicker';
@@ -12,6 +11,7 @@ import { formatDate } from '../../../utils/dateUtils';
 import { FormikProps } from 'formik';
 import { getAnsettelsesforhold } from '../../../api/api';
 import { validateFradato, validateTildato } from '../../../utils/validation/fieldValidations';
+import { getNextStepRoute } from '../../../utils/routeUtils';
 
 interface OpplysningerOmTidsromStepState {
     isLoadingNextStep: boolean;

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { StepID } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
-import { getNextStepRoute } from '../../../utils/stepUtils';
 import { navigateTo } from '../../../utils/navigationUtils';
 import {
     validateFødselsnummer,
@@ -19,6 +18,7 @@ import Checkbox from '../../checkbox/Checkbox';
 import Input from '../../input/Input';
 import FormikStep from '../../formik-step/FormikStep';
 import { harRegistrerteBarn } from '../../../utils/søkerdataUtils';
+import { getNextStepRoute } from '../../../utils/routeUtils';
 
 interface OpplysningerOmBarnetStepProps {
     formikProps: FormikProps;

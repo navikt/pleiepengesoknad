@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { StepID } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
-import { getNextStepRoute } from '../../../utils/stepUtils';
 import { navigateTo } from '../../../utils/navigationUtils';
 import { Field } from '../../../types/PleiepengesøknadFormData';
 import FormikStep from '../../formik-step/FormikStep';
 import CheckboxPanelGroup from '../../checkbox-panel-group/CheckboxPanelGroup';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
+import { getNextStepRoute } from '../../../utils/routeUtils';
 
 interface OpplysningerOmAnsettelsesforholdStepProps {
     isValid: boolean;
