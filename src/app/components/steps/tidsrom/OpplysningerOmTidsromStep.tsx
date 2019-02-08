@@ -7,7 +7,7 @@ import FormikStep from '../../formik-step/FormikStep';
 import DateIntervalPicker from '../../date-interval-picker/DateIntervalPicker';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
-import { formatDate } from '../../../utils/dateUtils';
+import { date3YearsAgo, formatDate } from '../../../utils/dateUtils';
 import { FormikProps } from 'formik';
 import { getAnsettelsesforhold } from '../../../api/api';
 import { validateFradato, validateTildato } from '../../../utils/validation/fieldValidations';
@@ -33,6 +33,8 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
 
         this.getAnsettelsesforhold = this.getAnsettelsesforhold.bind(this);
         this.finishStep = this.finishStep.bind(this);
+        this.validateFraDato = this.validateFraDato.bind(this);
+        this.validateTilDato = this.validateTilDato.bind(this);
 
         this.state = {
             isLoadingNextStep: false
@@ -60,9 +62,23 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
         navigateTo(nextStepRoute!, this.props.history);
     }
 
+    validateFraDato(fraDato?: Date) {
+        const { periodeTil } = this.props.formikProps.values;
+        return validateFradato(fraDato, periodeTil);
+    }
+
+    validateTilDato(tilDato?: Date) {
+        const { periodeFra } = this.props.formikProps.values;
+        return validateTildato(tilDato, periodeFra);
+    }
+
     render() {
         const { history, ...stepProps } = this.props;
         const { isLoadingNextStep } = this.state;
+
+        const fraDato = this.props.formikProps.values[Field.periodeFra];
+        const tilDato = this.props.formikProps.values[Field.periodeTil];
+
         return (
             <SøkerdataContextConsumer>
                 {(søkerdata) => (
@@ -75,13 +91,21 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                             legend="For hvilken periode søker du pleiepenger?"
                             fromDatepickerProps={{
                                 label: 'Fra og med',
-                                validate: validateFradato,
-                                name: Field.periodeFra
+                                validate: this.validateFraDato,
+                                name: Field.periodeFra,
+                                dateLimitations: {
+                                    minDato: date3YearsAgo.toDate(),
+                                    maksDato: this.validateTilDato(tilDato) === undefined ? tilDato : undefined
+                                }
                             }}
                             toDatepickerProps={{
                                 label: 'Til og med',
-                                validate: validateTildato,
-                                name: Field.periodeTil
+                                validate: this.validateTilDato,
+                                name: Field.periodeTil,
+                                dateLimitations: {
+                                    minDato:
+                                        this.validateFraDato(fraDato) === undefined ? fraDato : date3YearsAgo.toDate()
+                                }
                             }}
                         />
                     </FormikStep>

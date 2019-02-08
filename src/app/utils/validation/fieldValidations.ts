@@ -1,6 +1,8 @@
+import * as moment from 'moment';
 import fødselsnummerIsValid, { FødselsnummerValidationErrorReason } from './fødselsnummerValidator';
+import { isMoreThan3YearsAgo } from '../dateUtils';
 
-export const hasValue = (v: string) => v !== '' && v !== undefined && v !== null;
+export const hasValue = (v: any) => v !== '' && v !== undefined && v !== null;
 
 export const validateFødselsnummer = (v: string): string | undefined => {
     const [isValid, reasons] = fødselsnummerIsValid(v);
@@ -45,16 +47,38 @@ export const validateRelasjonTilBarnet = (v: string): string | undefined => {
     return relasjonIsValid ? undefined : `Din relasjon til barnet kan maks være beskrevet på ${maxNumOfLetters} tegn`;
 };
 
-export const validateFradato = (v: string): string | undefined => {
-    if (!hasValue(v)) {
+export const validateFradato = (fraDato?: Date, tilDato?: Date): string | undefined => {
+    if (!hasValue(fraDato)) {
         return 'Feltet er påkrevd';
     }
+
+    if (isMoreThan3YearsAgo(fraDato!)) {
+        return 'Du kan ikke søke om pleiepenger for en periode som er mer enn tre år tilbake i tid';
+    }
+
+    if (hasValue(tilDato)) {
+        if (moment(fraDato).isAfter(tilDato)) {
+            return 'Fra-datoen kan ikke være senere enn til-datoen';
+        }
+    }
+
     return undefined;
 };
 
-export const validateTildato = (v: string): string | undefined => {
-    if (!hasValue(v)) {
+export const validateTildato = (tilDato?: Date, fraDato?: Date): string | undefined => {
+    if (!hasValue(tilDato)) {
         return 'Feltet er påkrevd';
     }
+
+    if (isMoreThan3YearsAgo(tilDato!)) {
+        return 'Du kan ikke søke om pleiepenger for en periode som er mer enn tre år tilbake i tid';
+    }
+
+    if (hasValue(fraDato)) {
+        if (moment(tilDato).isBefore(fraDato)) {
+            return 'Til-datoen kan ikke være tidligere enn fra-datoen';
+        }
+    }
+
     return undefined;
 };
