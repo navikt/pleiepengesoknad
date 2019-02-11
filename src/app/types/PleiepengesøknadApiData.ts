@@ -1,7 +1,5 @@
 interface Barn {
-    fornavn: string;
-    mellomnavn: string;
-    etternavn: string;
+    navn: string;
     relasjon: string;
     fodselsnummer: string;
     fodselsdato: Date;

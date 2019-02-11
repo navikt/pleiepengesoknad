@@ -1,22 +1,20 @@
 @import '../../../../node_modules/nav-frontend-core/less/_variabler.less';
 
 .radioPanelGruppe {
+  margin-bottom: 0.5rem;
+
   .skjema__legend {
     font-weight: normal;
     margin-bottom: 0.5rem;
   }
 
   .radioPanelGroup--responsive {
-    @panelBottomMargin: 0.5rem;
-    @panelRightMargin: 1rem;
-
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: -1 * @panelBottomMargin;
-    margin-right: -1 * @panelRightMargin;
+    margin-bottom: 0.5rem;
 
     .radioPanel {
-      margin: 0 @panelRightMargin @panelBottomMargin 0;
+      margin-right: 1rem;
       &__label {
         flex-grow: 1;
         flex-shrink: 0;

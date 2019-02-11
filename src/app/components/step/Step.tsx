@@ -1,11 +1,15 @@
 import * as React from 'react';
 import Page from '../page/Page';
 import { stepConfig, StepID } from '../../config/stepConfig';
-import bemHelper from '../../utils/bemHelper';
+import bemHelper from '../../utils/bemUtils';
 import StepIndicator from '../step-indicator/StepIndicator';
 import { Hovedknapp as Button } from 'nav-frontend-knapper';
-import './step.less';
 import Box from '../box/Box';
+import StepBanner from '../step-banner/StepBanner';
+import { Systemtittel } from 'nav-frontend-typografi';
+import BackLink from '../back-link/BackLink';
+import FormikValidationErrorSummary from '../formik-validation-error-summary/FormikValidationErrorSummary';
+import './step.less';
 
 const bem = bemHelper('step');
 
@@ -25,15 +29,29 @@ const Step: React.FunctionComponent<StepProps> = ({
 }) => {
     const conf = stepConfig[id];
     return (
-        <Page className={bem.className} title={conf.title}>
+        <Page
+            className={bem.className}
+            title={conf.pageTitle}
+            topContentRenderer={() => (
+                <>
+                    <StepBanner text="Søknad om pleiepenger" />
+                    <FormikValidationErrorSummary className={bem.element('validationErrorSummary')} />
+                </>
+            )}>
+            <BackLink className={bem.element('backLink')} href={conf.backLinkHref!} />
             <StepIndicator stepConfig={stepConfig} activeStep={conf.index} />
+            <Box margin="xl">
+                <Systemtittel className={bem.element('title')}>{conf.stepTitle}</Systemtittel>
+            </Box>
             <Box margin="xl">
                 <form onSubmit={handleSubmit}>
                     {children}
                     {showSubmitButton !== false && (
-                        <Button className={bem.element('button')} spinner={showButtonSpinner || false}>
-                            {conf.buttonLabel}
-                        </Button>
+                        <Box margin="xl">
+                            <Button className={bem.element('button')} spinner={showButtonSpinner || false}>
+                                {conf.buttonLabel}
+                            </Button>
+                        </Box>
                     )}
                 </form>
             </Box>

@@ -3,17 +3,20 @@ import { injectIntl } from 'react-intl';
 import { Normaltekst, Innholdstittel } from 'nav-frontend-typografi';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import Page from '../../../components/page/Page';
-import bemHelper from '../../../utils/bemHelper';
+import bemHelper from '../../../utils/bemUtils';
 import Box from '../../../components/box/Box';
-import intlHelper from '../../../utils/intlHelper';
+import intlHelper from '../../../utils/intlUtils';
 import InjectedIntlProps = ReactIntl.InjectedIntlProps;
 import { HistoryProps } from '../../../types/History';
 import ConfirmationCheckboxPanel from '../../confirmation-checkbox-panel/ConfirmationCheckboxPanel';
 import { Field } from '../../../types/PleiepengesøknadFormData';
-import { navigateTo } from '../../../utils/navigationHelper';
+import { navigateTo } from '../../../utils/navigationUtils';
 import routeConfig from '../../../config/routeConfig';
 import { StepID } from '../../../config/stepConfig';
-import { userHasSubmittedValidForm } from '../../../utils/formikHelper';
+import { userHasSubmittedValidForm } from '../../../utils/formikUtils';
+import FrontPageBanner from '../../front-page-banner/FrontPageBanner';
+import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
+import { Søkerdata } from '../../../types/Søkerdata';
 import './welcomingPage.less';
 
 const bem = bemHelper('welcomingPage');
@@ -25,8 +28,7 @@ interface WelcomingPageProps {
 }
 
 type Props = WelcomingPageProps & InjectedIntlProps & HistoryProps;
-const nextStepRoute = `${routeConfig.SØKNAD_ROUTE_PREFIX}/${StepID.TIDSROM}`;
-
+const nextStepRoute = `${routeConfig.SØKNAD_ROUTE_PREFIX}/${StepID.OPPLYSNINGER_OM_BARNET}`;
 class WelcomingPage extends React.Component<Props> {
     componentDidUpdate(previousProps: Props) {
         if (userHasSubmittedValidForm(previousProps, this.props)) {
@@ -38,33 +40,50 @@ class WelcomingPage extends React.Component<Props> {
     render() {
         const { handleSubmit, intl } = this.props;
         return (
-            <Page title="Velkommen til søknad om pleiepenger" className={bem.className}>
-                <Innholdstittel className={bem.element('title')}>{intlHelper(intl, 'introtittel')}</Innholdstittel>
-                <Box margin="m">
-                    <Normaltekst>{intlHelper(intl, 'introtekst')}</Normaltekst>
-                </Box>
-                <form onSubmit={handleSubmit}>
-                    <Box margin="l">
-                        <ConfirmationCheckboxPanel
-                            label={intlHelper(intl, 'jajegsamtykker')}
-                            name={Field.harGodkjentVilkår}
-                            validate={(value) => {
-                                let result;
-                                if (value !== true) {
-                                    result = 'Du må godkjenne vilkårene';
-                                }
-                                return result;
-                            }}>
-                            {intlHelper(intl, 'forståttrettigheterogplikter')}
-                        </ConfirmationCheckboxPanel>
-                    </Box>
-                    <Box margin="l">
-                        <Hovedknapp className={bem.element('startApplicationButton')}>
-                            {intlHelper(intl, 'begynnsøknad')}
-                        </Hovedknapp>
-                    </Box>
-                </form>
-            </Page>
+            <SøkerdataContextConsumer>
+                {({ person: { fornavn } }: Søkerdata) => (
+                    <Page
+                        title="Søknad om pleiepenger"
+                        className={bem.className}
+                        topContentRenderer={() => (
+                            <FrontPageBanner
+                                counsellorWithSpeechBubbleProps={{
+                                    strongText: `Hei ${fornavn}!`,
+                                    normalText: 'Velkommen til søknad om pleiepenger for pleie av sykt barn.'
+                                }}
+                            />
+                        )}>
+                        <Innholdstittel className={bem.element('title')}>
+                            {intlHelper(intl, 'introtittel')}
+                        </Innholdstittel>
+                        <Box margin="xl">
+                            <Normaltekst>{intlHelper(intl, 'introtekst')}</Normaltekst>
+                        </Box>
+
+                        <form onSubmit={handleSubmit}>
+                            <Box margin="l">
+                                <ConfirmationCheckboxPanel
+                                    label={intlHelper(intl, 'jajegsamtykker')}
+                                    name={Field.harGodkjentVilkår}
+                                    validate={(value) => {
+                                        let result;
+                                        if (value !== true) {
+                                            result = 'Du må godkjenne vilkårene';
+                                        }
+                                        return result;
+                                    }}>
+                                    {intlHelper(intl, 'forståttrettigheterogplikter')}
+                                </ConfirmationCheckboxPanel>
+                            </Box>
+                            <Box margin="xl">
+                                <Hovedknapp className={bem.element('startApplicationButton')}>
+                                    {intlHelper(intl, 'begynnsøknad')}
+                                </Hovedknapp>
+                            </Box>
+                        </form>
+                    </Page>
+                )}
+            </SøkerdataContextConsumer>
         );
     }
 }

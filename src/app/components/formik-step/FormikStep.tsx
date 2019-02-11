@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Step, { StepProps } from '../step/Step';
-import { userHasSubmittedValidForm } from '../../utils/formikHelper';
+import { userHasSubmittedValidForm } from '../../utils/formikUtils';
 
 export interface FormikStepProps {
     isSubmitting: boolean;

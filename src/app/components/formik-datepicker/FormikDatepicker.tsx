@@ -1,27 +1,30 @@
 import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
-import { getValidationErrorProps } from '../../utils/navFrontendHelper';
+import { getValidationErrorProps } from '../../utils/navFrontendUtils';
 import DatepickerBase from '../datepicker-base/DatepickerBase';
+import { Avgrensninger as DateLimitations } from 'nav-datovelger';
 
-interface FormikDatepickerProps<T> {
+export interface FormikDatepickerProps<T> {
     name: T;
-    validate?: ((value: any) => string | Promise<void> | undefined);
     label: string;
+    validate?: ((value: any) => string | Promise<void> | undefined);
+    dateLimitations?: DateLimitations;
 }
 
 const FormikDatepicker = <T extends {}>(): React.FunctionComponent<FormikDatepickerProps<T>> => ({
     name,
     validate,
-    label
+    label,
+    dateLimitations
 }) => (
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {
             const errorMsgProps = submitCount > 0 ? getValidationErrorProps(errors, field.name) : {};
-            // optional onChange-prop will be overriden
             return (
                 <DatepickerBase
                     label={label}
                     value={field.value}
+                    dateLimitations={dateLimitations}
                     {...errorMsgProps}
                     {...field}
                     onChange={(date: Date) => {

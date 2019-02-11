@@ -1,14 +1,20 @@
+import routeConfig from './routeConfig';
+import { getSøknadRoute } from '../utils/routeUtils';
+
 export enum StepID {
-    'TIDSROM' = 'tidsrom',
     'OPPLYSNINGER_OM_BARNET' = 'opplysninger-om-barnet',
-    'ARBEIDSFORHOLD' = 'arbeidsforhold',
+    'ANSETTELSESFORHOLD' = 'arbeidsforhold',
+    'TIDSROM' = 'tidsrom',
+    'LEGEERKLÆRING' = 'legeerklaering',
     'SUMMARY' = 'oppsummering'
 }
 
 export interface StepItemConfigInterface {
-    title: string;
+    pageTitle: string;
+    stepTitle: string;
     index: number;
     nextStep?: StepID;
+    backLinkHref?: string;
     buttonLabel?: string;
     stepIndicatorLabel: string;
 }
@@ -18,31 +24,48 @@ export interface StepConfigInterface {
 }
 
 export const stepConfig: StepConfigInterface = {
-    [StepID.TIDSROM]: {
-        title: 'Pleiepengesøknad',
-        stepIndicatorLabel: 'Tidsrom',
-        index: 0,
-        nextStep: StepID.OPPLYSNINGER_OM_BARNET,
-        buttonLabel: 'Fortsett'
-    },
     [StepID.OPPLYSNINGER_OM_BARNET]: {
-        title: 'Pleiepengesøknad - opplysninger om barnet',
+        pageTitle: 'Pleiepengesøknad - opplysninger om barnet',
+        stepTitle: 'Barn',
         stepIndicatorLabel: 'Om barnet',
-        index: 1,
-        nextStep: StepID.ARBEIDSFORHOLD,
+        index: 0,
+        nextStep: StepID.TIDSROM,
+        backLinkHref: routeConfig.WELCOMING_PAGE_ROUTE,
         buttonLabel: 'Fortsett'
     },
-    [StepID.ARBEIDSFORHOLD]: {
-        title: 'Pleiepengesøknad - opplysninger om ditt arbeidsforhold',
+    [StepID.TIDSROM]: {
+        pageTitle: 'Pleiepengesøknad',
+        stepTitle: 'Egenerklæring',
+        stepIndicatorLabel: 'Tidsrom',
+        index: 1,
+        nextStep: StepID.ANSETTELSESFORHOLD,
+        backLinkHref: getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET),
+        buttonLabel: 'Fortsett'
+    },
+    [StepID.ANSETTELSESFORHOLD]: {
+        pageTitle: 'Pleiepengesøknad - opplysninger om ditt arbeidsforhold',
+        stepTitle: 'Arbeidsforhold',
         stepIndicatorLabel: 'Om ditt arbeidsforhold',
         index: 2,
+        nextStep: StepID.LEGEERKLÆRING,
+        backLinkHref: getSøknadRoute(StepID.TIDSROM),
+        buttonLabel: 'Fortsett'
+    },
+    [StepID.LEGEERKLÆRING]: {
+        pageTitle: 'Pleiepengesøknad - legeerklæring',
+        stepTitle: 'Last opp legeerklæring',
+        stepIndicatorLabel: 'Last opp din legeerklæring',
+        index: 3,
         nextStep: StepID.SUMMARY,
+        backLinkHref: getSøknadRoute(StepID.ANSETTELSESFORHOLD),
         buttonLabel: 'Fortsett'
     },
     [StepID.SUMMARY]: {
-        title: 'Pleiepengesøknad - oppsummering',
+        pageTitle: 'Pleiepengesøknad - oppsummering',
+        stepTitle: 'Oppsummering',
         stepIndicatorLabel: 'Oppsummering',
-        index: 3,
+        index: 4,
+        backLinkHref: getSøknadRoute(StepID.LEGEERKLÆRING),
         buttonLabel: 'Send inn søknaden'
     }
 };

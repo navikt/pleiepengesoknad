@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
-import { getValidationErrorProps } from '../../utils/navFrontendHelper';
+import { getValidationErrorProps } from '../../utils/navFrontendUtils';
 import { Checkbox, CheckboxProps } from 'nav-frontend-skjema';
 
 interface FormikCheckboxProps<T> {
@@ -26,6 +26,7 @@ const FormikCheckbox = <T extends {}>(): React.FunctionComponent<CheckboxProps &
                     {...otherInputProps}
                     {...errorMsgProps}
                     {...field}
+                    checked={field.value === true}
                     onChange={() => {
                         const newValue = !field.value;
                         setFieldValue(field.name, newValue);

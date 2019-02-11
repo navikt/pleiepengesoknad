@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
-import { getValidationErrorProps } from '../../utils/navFrontendHelper';
+import { getValidationErrorProps } from '../../utils/navFrontendUtils';
 import InputBase from '../input-base/InputBase';
 import { NavFrontendInputProps } from 'nav-frontend-skjema';
 
@@ -18,7 +18,6 @@ const FormikInput = <T extends {}>(): React.FunctionComponent<NavFrontendInputPr
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, submitCount } }: FormikFieldProps) => {
             const errorMsgProps = submitCount > 0 ? getValidationErrorProps(errors, field.name) : {};
-            // optional onChange-prop will be overriden by formik
             return <InputBase label={label} {...otherInputProps} {...errorMsgProps} {...field} />;
         }}
     </FormikField>

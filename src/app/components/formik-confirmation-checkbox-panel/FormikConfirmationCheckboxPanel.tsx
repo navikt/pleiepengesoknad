@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { BekreftCheckboksPanel as NAVConfirmationCheckboxPanel } from 'nav-frontend-skjema';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
-import { getValidationErrorProps } from '../../utils/navFrontendHelper';
+import { getValidationErrorProps } from '../../utils/navFrontendUtils';
 
 interface FormikConfirmationCheckboxPanelProps<T> {
     label: string;

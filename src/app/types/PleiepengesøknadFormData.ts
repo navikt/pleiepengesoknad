@@ -1,45 +1,47 @@
+import { Ansettelsesforhold } from './Søkerdata';
+
 export enum Field {
     harGodkjentVilkår = 'harGodkjentVilkår',
     harBekreftetOpplysninger = 'harBekreftetOpplysninger',
-    barnetsEtternavn = 'barnetsEtternavn',
-    barnetsFornavn = 'barnetsFornavn',
+    barnetHarIkkeFåttFødselsnummerEnda = 'barnetHarIkkeFåttFødselsnummerEnda',
+    barnetsNavn = 'barnetsNavn',
     barnetsFødselsnummer = 'barnetsFødselsnummer',
-    barnetsAdresse = 'barnetsAdresse',
+    barnetsForeløpigeFødselsnummerEllerDNummer = 'barnetsForeløpigeFødselsnummerEllerDNummer',
     barnetSøknadenGjelder = 'barnetSøknadenGjelder',
-    arbeidsgiversNavn = 'arbeidsgiversNavn',
-    arbeidsgiversAdresse = 'arbeidsgiversAdresse',
     søkersRelasjonTilBarnet = 'søkersRelasjonTilBarnet',
     søknadenGjelderEtAnnetBarn = 'søknadenGjelderEtAnnetBarn',
     periodeFra = 'periodeFra',
-    periodeTil = 'periodeTil'
+    periodeTil = 'periodeTil',
+    legeerklæring = 'legeerklæring',
+    ansettelsesforhold = 'ansettelsesforhold'
 }
 
 export interface PleiepengesøknadFormData {
     [Field.harGodkjentVilkår]: boolean;
     [Field.harBekreftetOpplysninger]: boolean;
-    [Field.barnetsEtternavn]: string;
-    [Field.barnetsFornavn]: string;
-    [Field.barnetsAdresse]: string;
+    [Field.barnetsNavn]: string;
     [Field.barnetsFødselsnummer]: string;
-    [Field.arbeidsgiversNavn]: string;
-    [Field.arbeidsgiversAdresse]: string;
     [Field.søkersRelasjonTilBarnet]: string;
     [Field.søknadenGjelderEtAnnetBarn]: boolean;
     [Field.barnetSøknadenGjelder]: string;
+    [Field.ansettelsesforhold]: Ansettelsesforhold[];
     [Field.periodeFra]?: Date;
     [Field.periodeTil]?: Date;
+    [Field.legeerklæring]: Attachment[];
+    [Field.barnetHarIkkeFåttFødselsnummerEnda]: boolean;
+    [Field.barnetsForeløpigeFødselsnummerEllerDNummer]: string;
 }
 
 export const initialValues: PleiepengesøknadFormData = {
-    [Field.arbeidsgiversNavn]: '',
-    [Field.arbeidsgiversAdresse]: '',
-    [Field.barnetsEtternavn]: '',
-    [Field.barnetsAdresse]: '',
+    [Field.barnetsNavn]: '',
     [Field.barnetsFødselsnummer]: '',
-    [Field.barnetsFornavn]: '',
     [Field.barnetSøknadenGjelder]: '',
     [Field.harGodkjentVilkår]: false,
     [Field.harBekreftetOpplysninger]: false,
     [Field.søkersRelasjonTilBarnet]: '',
-    [Field.søknadenGjelderEtAnnetBarn]: false
+    [Field.søknadenGjelderEtAnnetBarn]: false,
+    [Field.legeerklæring]: [],
+    [Field.ansettelsesforhold]: [],
+    [Field.barnetHarIkkeFåttFødselsnummerEnda]: false,
+    [Field.barnetsForeløpigeFødselsnummerEllerDNummer]: ''
 };

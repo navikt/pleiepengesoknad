@@ -1,8 +1,8 @@
 import * as React from 'react';
-import bemHelper from '../../utils/bemHelper';
+import bemHelper from '../../utils/bemUtils';
 import './box.less';
 
-type BoxMargin = 's' | 'm' | 'l' | 'xl';
+type BoxMargin = 's' | 'm' | 'l' | 'xl' | 'xxl';
 
 interface BoxProps {
     margin: BoxMargin;
