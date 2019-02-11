@@ -22,7 +22,7 @@ const FormikConfirmationCheckboxPanel = <T extends {}>(): React.FunctionComponen
                     children={children}
                     checked={field.value === true}
                     label={label}
-                    inputProps={{ name: `${name}` }}
+                    inputProps={{ name: `${name}`, id: `${name}` }}
                     {...field}
                     {...errorMsgProps}
                     onChange={() => {

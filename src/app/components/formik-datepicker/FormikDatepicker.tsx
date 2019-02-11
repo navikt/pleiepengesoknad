@@ -22,6 +22,7 @@ const FormikDatepicker = <T extends {}>(): React.FunctionComponent<FormikDatepic
             const errorMsgProps = submitCount > 0 ? getValidationErrorProps(errors, field.name) : {};
             return (
                 <DatepickerBase
+                    id={`${name}`}
                     label={label}
                     value={field.value}
                     dateLimitations={dateLimitations}

@@ -11,7 +11,7 @@ const placeholder = 'dd.mm.åååå';
 interface DatepickerBaseProps {
     label: string;
     name: string;
-    id?: string;
+    id: string;
     feil?: ValidationError;
     onChange: (date: Date) => void;
     value?: Date;
