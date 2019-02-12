@@ -13,7 +13,7 @@ interface FormikValidationErrorSummaryProps {
 type Props = FormikValidationErrorSummaryProps & ConnectedFormikProps<Field>;
 
 const FormikValidationErrorSummary: React.FunctionComponent<Props> = ({
-    formik: { errors, submitCount },
+    formik: { errors, submitCount, ...otherFormik },
     className
 }) => {
     if (errors) {

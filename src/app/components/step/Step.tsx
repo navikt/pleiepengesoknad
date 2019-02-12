@@ -7,8 +7,8 @@ import { Hovedknapp as Button } from 'nav-frontend-knapper';
 import Box from '../box/Box';
 import StepBanner from '../step-banner/StepBanner';
 import { Systemtittel } from 'nav-frontend-typografi';
-import BackLink from '../back-link/BackLink';
 import FormikValidationErrorSummary from '../formik-validation-error-summary/FormikValidationErrorSummary';
+import BackLinkWithFormikReset from '../back-link-with-formik-reset/BackLinkWithFormikReset';
 import './step.less';
 
 const bem = bemHelper('step');
@@ -38,7 +38,7 @@ const Step: React.FunctionComponent<StepProps> = ({
                     <FormikValidationErrorSummary className={bem.element('validationErrorSummary')} />
                 </>
             )}>
-            <BackLink className={bem.element('backLink')} href={conf.backLinkHref!} />
+            <BackLinkWithFormikReset className={bem.element('backLink')} href={conf.backLinkHref!} />
             <StepIndicator stepConfig={stepConfig} activeStep={conf.index} />
             <Box margin="xl">
                 <Systemtittel className={bem.element('title')}>{conf.stepTitle}</Systemtittel>
