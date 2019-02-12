@@ -6,7 +6,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { History } from 'history';
 import './backLink.less';
 
-export interface BackLinkProps {
+interface BackLinkProps {
     className?: string;
     href: string;
     onClick?: (href: string, history: History, event: React.SyntheticEvent) => void;
