@@ -43,5 +43,7 @@ export const stepRouteIsAvailable = (stepId: StepID, values: PleiepengesøknadFo
             return legeerklæringStepAvailable(values);
         case StepID.SUMMARY:
             return summaryStepAvailable(values);
+        case StepID.MEDLEMSSKAP:
+            return true;
     }
 };

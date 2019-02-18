@@ -1,4 +1,5 @@
 import { Ansettelsesforhold } from './Søkerdata';
+import { YesOrNo } from './YesOrNo';
 
 export enum Field {
     harGodkjentVilkår = 'harGodkjentVilkår',
@@ -13,7 +14,9 @@ export enum Field {
     periodeFra = 'periodeFra',
     periodeTil = 'periodeTil',
     legeerklæring = 'legeerklæring',
-    ansettelsesforhold = 'ansettelsesforhold'
+    ansettelsesforhold = 'ansettelsesforhold',
+    harBoddUtenforNorgeSiste12Mnd = 'harBoddUtenforNorgeSiste12Mnd',
+    skalBoUtenforNorgeNeste12Mnd = 'skalBoUtenforNorgeNeste12Mnd'
 }
 
 export interface PleiepengesøknadFormData {
@@ -30,6 +33,8 @@ export interface PleiepengesøknadFormData {
     [Field.legeerklæring]: Attachment[];
     [Field.barnetHarIkkeFåttFødselsnummerEnda]: boolean;
     [Field.barnetsForeløpigeFødselsnummerEllerDNummer]: string;
+    [Field.harBoddUtenforNorgeSiste12Mnd]: YesOrNo;
+    [Field.skalBoUtenforNorgeNeste12Mnd]: YesOrNo;
 }
 
 export const initialValues: PleiepengesøknadFormData = {
@@ -43,5 +48,7 @@ export const initialValues: PleiepengesøknadFormData = {
     [Field.legeerklæring]: [],
     [Field.ansettelsesforhold]: [],
     [Field.barnetHarIkkeFåttFødselsnummerEnda]: false,
-    [Field.barnetsForeløpigeFødselsnummerEllerDNummer]: ''
+    [Field.barnetsForeløpigeFødselsnummerEllerDNummer]: '',
+    [Field.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.NO,
+    [Field.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.NO
 };
