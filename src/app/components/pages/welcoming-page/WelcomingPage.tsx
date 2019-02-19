@@ -16,9 +16,9 @@ import FrontPageBanner from '../../front-page-banner/FrontPageBanner';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
 import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl';
-import './welcomingPage.less';
 import Lenke from 'nav-frontend-lenker';
-import Modal from '../../modal/Modal';
+import DinePlikterModal from '../../dine-plikter-modal/DinePlikterModal';
+import './welcomingPage.less';
 
 const bem = bemHelper('welcomingPage');
 
@@ -121,9 +121,11 @@ class WelcomingPage extends React.Component<Props, WelcomingPageState> {
                                 </Hovedknapp>
                             </Box>
                         </form>
-                        <Modal isOpen={omPlikterModalOpen} onRequestClose={this.closePlikterModal}>
-                            Content
-                        </Modal>
+                        <DinePlikterModal
+                            isOpen={omPlikterModalOpen}
+                            onRequestClose={this.closePlikterModal}
+                            contentLabel="Dine plikter"
+                        />
                     </Page>
                 )}
             </SøkerdataContextConsumer>

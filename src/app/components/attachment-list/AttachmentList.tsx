@@ -1,5 +1,5 @@
 import * as React from 'react';
-import PlainList from '../plain-list/PlainList';
+import UnstyledList from '../unstyled-list/UnstyledList';
 import AttachmentListElement from '../attachment-list-element/AttachmentListElement';
 
 interface AttachmentListProps {
@@ -9,11 +9,11 @@ interface AttachmentListProps {
 }
 
 const AttachmentList: React.FunctionComponent<AttachmentListProps> = ({ attachments, ...otherProps }) => (
-    <PlainList>
+    <UnstyledList>
         {attachments.map((attachment, index) => (
             <AttachmentListElement attachment={attachment} key={attachment.file.name + index} {...otherProps} />
         ))}
-    </PlainList>
+    </UnstyledList>
 );
 
 export default AttachmentList;

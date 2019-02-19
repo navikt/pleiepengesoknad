@@ -1,14 +1,23 @@
 import * as React from 'react';
 import { default as NFModal } from 'nav-frontend-modal';
+import bemUtils from '../../utils/bemUtils';
+import './modal.less';
 
-interface ModalProps {
+export interface ModalProps {
+    className?: string;
     isOpen: boolean;
     onRequestClose: () => void;
+    contentLabel: string;
 }
 
-const Modal: React.FunctionComponent<ModalProps> = ({ isOpen, onRequestClose, children }) => (
-    <NFModal isOpen={isOpen} contentLabel="Some contentLabel" onRequestClose={onRequestClose}>
-        {children}
+const bem = bemUtils('modal');
+const Modal: React.FunctionComponent<ModalProps> = ({ isOpen, onRequestClose, contentLabel, className, children }) => (
+    <NFModal
+        className={`${bem.className} ${className}`}
+        isOpen={isOpen}
+        contentLabel={contentLabel}
+        onRequestClose={onRequestClose}>
+        <article className={bem.element('content')}>{children}</article>
     </NFModal>
 );
 
