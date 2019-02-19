@@ -117,12 +117,14 @@ class SummaryStep extends React.Component<Props, State> {
                         </Box>
                         <Box margin="l">
                             <ContentWithHeader header="Bodd i utlandet siste 12 måneder:">
-                                {harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES ? 'Ja' : 'Nei'}
+                                {harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && 'Ja'}
+                                {harBoddUtenforNorgeSiste12Mnd === YesOrNo.NO && 'Nei'}
                             </ContentWithHeader>
                         </Box>
                         <Box margin="l">
                             <ContentWithHeader header="Skal bo i utlandet neste 12 måneder:">
-                                {skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES ? 'Ja' : 'Nei'}
+                                {skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES && 'Ja'}
+                                {skalBoUtenforNorgeNeste12Mnd === YesOrNo.NO && 'Nei'}
                             </ContentWithHeader>
                         </Box>
                         <Box margin="l">

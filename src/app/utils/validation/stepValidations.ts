@@ -1,5 +1,6 @@
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { validateFødselsnummer, validateNavn, validateRelasjonTilBarnet } from './fieldValidations';
+import { YesOrNo } from '../../types/YesOrNo';
 
 export const welcomingPageIsValid = ({ harGodkjentVilkår }: PleiepengesøknadFormData) => harGodkjentVilkår === true;
 
@@ -24,5 +25,12 @@ export const opplysningerOmTidsromStepIsValid = ({ periodeFra, periodeTil }: Ple
 };
 
 export const opplysningerOmAnsettelsesforholdStepIsValid = () => true;
+
+export const medlemsskapStepIsValid = ({
+    harBoddUtenforNorgeSiste12Mnd,
+    skalBoUtenforNorgeNeste12Mnd
+}: PleiepengesøknadFormData) =>
+    (harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES || harBoddUtenforNorgeSiste12Mnd === YesOrNo.NO) &&
+    (skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES || skalBoUtenforNorgeNeste12Mnd === YesOrNo.NO);
 
 export const legeerklæringStepIsValid = () => true;

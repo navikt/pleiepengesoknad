@@ -2,6 +2,7 @@ import { StepID } from '../config/stepConfig';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import {
     legeerklæringStepIsValid,
+    medlemsskapStepIsValid,
     opplysningerOmAnsettelsesforholdStepIsValid,
     opplysningerOmBarnetStepIsValid,
     opplysningerOmTidsromStepIsValid,
@@ -9,44 +10,52 @@ import {
 } from './validation/stepValidations';
 import { appIsRunningInDevEnvironment } from './envUtils';
 
-export const opplysningerOmBarnetAvailable = (formData: PleiepengesøknadFormData) => welcomingPageIsValid(formData);
+export const opplysningerOmBarnetStepAvailable = (formData: PleiepengesøknadFormData) => welcomingPageIsValid(formData);
 
-export const opplysningerOmTidsromAvailable = (formData: PleiepengesøknadFormData) =>
+export const opplysningerOmTidsromStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) && opplysningerOmBarnetStepIsValid(formData);
 
-export const opplysningerOmAnsettelsesforholdAvailable = (formData: PleiepengesøknadFormData) =>
+export const opplysningerOmAnsettelsesforholdStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData);
+
+export const medlemsskapStepAvailable = (formData: PleiepengesøknadFormData) =>
+    welcomingPageIsValid(formData) &&
+    opplysningerOmBarnetStepIsValid(formData) &&
+    opplysningerOmTidsromStepIsValid(formData) &&
+    opplysningerOmAnsettelsesforholdStepIsValid();
 
 export const legeerklæringStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
-    opplysningerOmAnsettelsesforholdStepIsValid();
+    opplysningerOmAnsettelsesforholdStepIsValid() &&
+    medlemsskapStepIsValid(formData);
 
 export const summaryStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
     opplysningerOmAnsettelsesforholdStepIsValid() &&
+    medlemsskapStepIsValid(formData) &&
     legeerklæringStepIsValid();
 
 export const stepRouteIsAvailable = (stepId: StepID, values: PleiepengesøknadFormData) => {
     if (!appIsRunningInDevEnvironment()) {
         switch (stepId) {
             case StepID.OPPLYSNINGER_OM_BARNET:
-                return opplysningerOmBarnetAvailable(values);
+                return opplysningerOmBarnetStepAvailable(values);
             case StepID.TIDSROM:
-                return opplysningerOmTidsromAvailable(values);
+                return opplysningerOmTidsromStepAvailable(values);
             case StepID.ANSETTELSESFORHOLD:
-                return opplysningerOmAnsettelsesforholdAvailable(values);
+                return opplysningerOmAnsettelsesforholdStepAvailable(values);
             case StepID.LEGEERKLÆRING:
                 return legeerklæringStepAvailable(values);
+            case StepID.MEDLEMSSKAP:
+                return medlemsskapStepAvailable(values);
             case StepID.SUMMARY:
                 return summaryStepAvailable(values);
-            case StepID.MEDLEMSSKAP:
-                return true;
         }
     }
     return true;
