@@ -1,12 +1,10 @@
 import * as React from 'react';
-import { injectIntl } from 'react-intl';
 import { Normaltekst, Innholdstittel } from 'nav-frontend-typografi';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import Page from '../../../components/page/Page';
 import bemHelper from '../../../utils/bemUtils';
 import Box from '../../../components/box/Box';
 import intlHelper from '../../../utils/intlUtils';
-import InjectedIntlProps = ReactIntl.InjectedIntlProps;
 import { HistoryProps } from '../../../types/History';
 import ConfirmationCheckboxPanel from '../../confirmation-checkbox-panel/ConfirmationCheckboxPanel';
 import { Field } from '../../../types/PleiepengesøknadFormData';
@@ -17,7 +15,10 @@ import { userHasSubmittedValidForm } from '../../../utils/formikUtils';
 import FrontPageBanner from '../../front-page-banner/FrontPageBanner';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
+import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl';
 import './welcomingPage.less';
+import Lenke from 'nav-frontend-lenker';
+import Modal from '../../modal/Modal';
 
 const bem = bemHelper('welcomingPage');
 
@@ -27,9 +28,25 @@ interface WelcomingPageProps {
     handleSubmit: () => void;
 }
 
+interface WelcomingPageState {
+    omPlikterModalOpen: boolean;
+    omBehandlingAvPersonopplysningerModalOpen: boolean;
+}
+
 type Props = WelcomingPageProps & InjectedIntlProps & HistoryProps;
 const nextStepRoute = `${routeConfig.SØKNAD_ROUTE_PREFIX}/${StepID.OPPLYSNINGER_OM_BARNET}`;
-class WelcomingPage extends React.Component<Props> {
+class WelcomingPage extends React.Component<Props, WelcomingPageState> {
+    constructor(props: Props) {
+        super(props);
+        this.state = {
+            omPlikterModalOpen: false,
+            omBehandlingAvPersonopplysningerModalOpen: false
+        };
+
+        this.openPlikterModal = this.openPlikterModal.bind(this);
+        this.closePlikterModal = this.closePlikterModal.bind(this);
+    }
+
     componentDidUpdate(previousProps: Props) {
         if (userHasSubmittedValidForm(previousProps, this.props)) {
             const { history } = this.props;
@@ -37,8 +54,21 @@ class WelcomingPage extends React.Component<Props> {
         }
     }
 
+    openPlikterModal() {
+        this.setState({
+            omPlikterModalOpen: true
+        });
+    }
+
+    closePlikterModal() {
+        this.setState({
+            omPlikterModalOpen: false
+        });
+    }
+
     render() {
         const { handleSubmit, intl } = this.props;
+        const { omPlikterModalOpen } = this.state;
         return (
             <SøkerdataContextConsumer>
                 {({ person: { fornavn } }: Søkerdata) => (
@@ -72,7 +102,17 @@ class WelcomingPage extends React.Component<Props> {
                                         }
                                         return result;
                                     }}>
-                                    {intlHelper(intl, 'forståttrettigheterogplikter')}
+                                    <FormattedMessage
+                                        id="forståttrettigheterogplikter"
+                                        values={{
+                                            plikterLink: (
+                                                <Lenke href="#" onClick={this.openPlikterModal}>
+                                                    dine plikter.
+                                                </Lenke>
+                                            )
+                                        }}
+                                    />
+                                    <Box margin="l">{intlHelper(intl, 'omlagring')}</Box>
                                 </ConfirmationCheckboxPanel>
                             </Box>
                             <Box margin="xl">
@@ -81,6 +121,9 @@ class WelcomingPage extends React.Component<Props> {
                                 </Hovedknapp>
                             </Box>
                         </form>
+                        <Modal isOpen={omPlikterModalOpen} onRequestClose={this.closePlikterModal}>
+                            Content
+                        </Modal>
                     </Page>
                 )}
             </SøkerdataContextConsumer>

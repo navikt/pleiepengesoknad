@@ -35,6 +35,8 @@
         "nav-frontend-js-utils": "^1.0.6",
         "nav-frontend-knapper": "^1.0.21",
         "nav-frontend-lenker": "^1.0.20",
+        "nav-frontend-lukknapp": "^1.0.19",
+        "nav-frontend-modal": "^1.0.26",
         "nav-frontend-paneler": "^1.0.12",
         "nav-frontend-skjema": "^1.0.52",
         "nav-frontend-spinner": "^1.0.12",
@@ -45,6 +47,7 @@
         "react-document-title": "^2.0.3",
         "react-dom": "^16.6.3",
         "react-intl": "^2.7.2",
+        "react-modal": "^3.8.1",
         "react-router-dom": "^4.3.1"
     },
     "devDependencies": {
@@ -82,6 +85,8 @@
         "nav-frontend-core": "^4.0.5",
         "nav-frontend-knapper-style": "^0.3.19",
         "nav-frontend-lenker-style": "^0.2.18",
+        "nav-frontend-lukknapp-style": "^0.2.17",
+        "nav-frontend-modal-style": "^0.3.27",
         "nav-frontend-paneler-style": "^0.3.11",
         "nav-frontend-skjema-style": "^1.0.30",
         "nav-frontend-spinner-style": "^0.2.5",
