@@ -19,6 +19,7 @@ import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl';
 import Lenke from 'nav-frontend-lenker';
 import DinePlikterModal from '../../dine-plikter-modal/DinePlikterModal';
 import './welcomingPage.less';
+import BehandlingAvPersonopplysningerModal from '../../behandling-av-personopplysninger-modal/BehandlingAvPersonopplysningerModal';
 
 const bem = bemHelper('welcomingPage');
 
@@ -29,8 +30,8 @@ interface WelcomingPageProps {
 }
 
 interface WelcomingPageState {
-    omPlikterModalOpen: boolean;
-    omBehandlingAvPersonopplysningerModalOpen: boolean;
+    dinePlikterModalOpen: boolean;
+    behandlingAvPersonopplysningerModalOpen: boolean;
 }
 
 type Props = WelcomingPageProps & InjectedIntlProps & HistoryProps;
@@ -40,12 +41,14 @@ class WelcomingPage extends React.Component<Props, WelcomingPageState> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            omPlikterModalOpen: false,
-            omBehandlingAvPersonopplysningerModalOpen: false
+            dinePlikterModalOpen: false,
+            behandlingAvPersonopplysningerModalOpen: false
         };
 
-        this.openPlikterModal = this.openPlikterModal.bind(this);
-        this.closePlikterModal = this.closePlikterModal.bind(this);
+        this.openDinePlikterModal = this.openDinePlikterModal.bind(this);
+        this.closeDinePlikterModal = this.closeDinePlikterModal.bind(this);
+        this.openBehandlingAvPersonopplysningerModal = this.openBehandlingAvPersonopplysningerModal.bind(this);
+        this.closeBehandlingAvPersonopplysningerModal = this.closeBehandlingAvPersonopplysningerModal.bind(this);
     }
 
     componentDidUpdate(previousProps: Props) {
@@ -55,81 +58,106 @@ class WelcomingPage extends React.Component<Props, WelcomingPageState> {
         }
     }
 
-    openPlikterModal() {
+    openDinePlikterModal() {
         this.setState({
-            omPlikterModalOpen: true
+            dinePlikterModalOpen: true
         });
     }
 
-    closePlikterModal() {
+    closeDinePlikterModal() {
         this.setState({
-            omPlikterModalOpen: false
+            dinePlikterModalOpen: false
+        });
+    }
+
+    openBehandlingAvPersonopplysningerModal() {
+        this.setState({
+            behandlingAvPersonopplysningerModalOpen: true
+        });
+    }
+
+    closeBehandlingAvPersonopplysningerModal() {
+        this.setState({
+            behandlingAvPersonopplysningerModalOpen: false
         });
     }
 
     render() {
         const { handleSubmit, intl } = this.props;
-        const { omPlikterModalOpen } = this.state;
+        const { dinePlikterModalOpen, behandlingAvPersonopplysningerModalOpen } = this.state;
         return (
-            <SøkerdataContextConsumer>
-                {({ person: { fornavn } }: Søkerdata) => (
-                    <Page
-                        title="Søknad om pleiepenger"
-                        className={bem.className}
-                        topContentRenderer={() => (
-                            <FrontPageBanner
-                                counsellorWithSpeechBubbleProps={{
-                                    strongText: `Hei ${fornavn}!`,
-                                    normalText: 'Velkommen til søknad om pleiepenger for pleie av sykt barn.'
-                                }}
-                            />
-                        )}>
-                        <Innholdstittel className={bem.element('title')}>
-                            {intlHelper(intl, 'introtittel')}
-                        </Innholdstittel>
-                        <Box margin="xl">
-                            <Normaltekst>{intlHelper(intl, 'introtekst')}</Normaltekst>
-                        </Box>
-
-                        <form onSubmit={handleSubmit}>
-                            <Box margin="l">
-                                <ConfirmationCheckboxPanel
-                                    label={intlHelper(intl, 'jajegsamtykker')}
-                                    name={Field.harGodkjentVilkår}
-                                    validate={(value) => {
-                                        let result;
-                                        if (value !== true) {
-                                            result = 'Du må godkjenne vilkårene';
-                                        }
-                                        return result;
-                                    }}>
-                                    <FormattedMessage
-                                        id="forståttrettigheterogplikter"
-                                        values={{
-                                            plikterLink: (
-                                                <Lenke href="#" onClick={this.openPlikterModal}>
-                                                    dine plikter.
-                                                </Lenke>
-                                            )
-                                        }}
-                                    />
-                                    <Box margin="l">{intlHelper(intl, 'omlagring')}</Box>
-                                </ConfirmationCheckboxPanel>
-                            </Box>
+            <>
+                <SøkerdataContextConsumer>
+                    {({ person: { fornavn } }: Søkerdata) => (
+                        <Page
+                            title="Søknad om pleiepenger"
+                            className={bem.className}
+                            topContentRenderer={() => (
+                                <FrontPageBanner
+                                    counsellorWithSpeechBubbleProps={{
+                                        strongText: `Hei ${fornavn}!`,
+                                        normalText: 'Velkommen til søknad om pleiepenger for pleie av sykt barn.'
+                                    }}
+                                />
+                            )}>
+                            <Innholdstittel className={bem.element('title')}>
+                                {intlHelper(intl, 'introtittel')}
+                            </Innholdstittel>
                             <Box margin="xl">
-                                <Hovedknapp className={bem.element('startApplicationButton')}>
-                                    {intlHelper(intl, 'begynnsøknad')}
-                                </Hovedknapp>
+                                <Normaltekst>{intlHelper(intl, 'introtekst')}</Normaltekst>
                             </Box>
-                        </form>
-                        <DinePlikterModal
-                            isOpen={omPlikterModalOpen}
-                            onRequestClose={this.closePlikterModal}
-                            contentLabel="Dine plikter"
-                        />
-                    </Page>
-                )}
-            </SøkerdataContextConsumer>
+
+                            <form onSubmit={handleSubmit}>
+                                <Box margin="l">
+                                    <ConfirmationCheckboxPanel
+                                        label={intlHelper(intl, 'jajegsamtykker')}
+                                        name={Field.harGodkjentVilkår}
+                                        validate={(value) => {
+                                            let result;
+                                            if (value !== true) {
+                                                result = 'Du må godkjenne vilkårene';
+                                            }
+                                            return result;
+                                        }}>
+                                        <FormattedMessage
+                                            id="forståttrettigheterogplikter"
+                                            values={{
+                                                plikterLink: (
+                                                    <Lenke href="#" onClick={this.openDinePlikterModal}>
+                                                        dine plikter.
+                                                    </Lenke>
+                                                )
+                                            }}
+                                        />
+                                        <Box margin="l">{intlHelper(intl, 'omlagring')}</Box>
+                                    </ConfirmationCheckboxPanel>
+                                </Box>
+                                <Box margin="xl">
+                                    <Hovedknapp className={bem.element('startApplicationButton')}>
+                                        {intlHelper(intl, 'begynnsøknad')}
+                                    </Hovedknapp>
+                                </Box>
+                            </form>
+
+                            <Box margin="xl" className={bem.element('personopplysningModalLenke')}>
+                                <Lenke href="#" onClick={this.openBehandlingAvPersonopplysningerModal}>
+                                    Les om hvordan NAV behandler personopplysningene dine
+                                </Lenke>
+                            </Box>
+                        </Page>
+                    )}
+                </SøkerdataContextConsumer>
+                <DinePlikterModal
+                    isOpen={dinePlikterModalOpen}
+                    onRequestClose={this.closeDinePlikterModal}
+                    contentLabel="Om dine plikter"
+                />
+                <BehandlingAvPersonopplysningerModal
+                    isOpen={behandlingAvPersonopplysningerModalOpen}
+                    onRequestClose={this.closeBehandlingAvPersonopplysningerModal}
+                    contentLabel="Om behandling av personopplysninger"
+                />
+            </>
         );
     }
 }
