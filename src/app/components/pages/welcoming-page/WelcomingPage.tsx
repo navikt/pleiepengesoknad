@@ -34,6 +34,7 @@ interface WelcomingPageState {
 }
 
 type Props = WelcomingPageProps & InjectedIntlProps & HistoryProps;
+
 const nextStepRoute = `${routeConfig.SØKNAD_ROUTE_PREFIX}/${StepID.OPPLYSNINGER_OM_BARNET}`;
 class WelcomingPage extends React.Component<Props, WelcomingPageState> {
     constructor(props: Props) {
