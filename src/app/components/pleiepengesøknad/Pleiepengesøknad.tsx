@@ -16,6 +16,7 @@ import { getSøknadRoute } from '../../utils/routeUtils';
 import { stepRouteIsAvailable } from '../../utils/stepUtils';
 import ErrorPage from '../pages/error-page/ErrorPage';
 import routeConfig from '../../config/routeConfig';
+import MedlemsskapStep from '../steps/medlemsskap/MedlemsskapStep';
 
 const Pleiepengesøknad = () => (
     <Formik
@@ -61,6 +62,13 @@ const Pleiepengesøknad = () => (
                             render={(props) => (
                                 <OpplysningerOmAnsettelsesforholdStep {...commonFormikProps} {...props} />
                             )}
+                        />
+                    )}
+
+                    {stepRouteIsAvailable(StepID.MEDLEMSSKAP, values) && (
+                        <Route
+                            path={getSøknadRoute(StepID.MEDLEMSSKAP)}
+                            render={(props) => <MedlemsskapStep {...commonFormikProps} {...props} />}
                         />
                     )}
 

@@ -1,4 +1,5 @@
 export enum YesOrNo {
     'YES' = 'yes',
-    'NO' = 'no'
+    'NO' = 'no',
+    'UNANSWERED' = 'unanswered'
 }

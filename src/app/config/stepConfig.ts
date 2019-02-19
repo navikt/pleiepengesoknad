@@ -48,7 +48,7 @@ export const stepConfig: StepConfigInterface = {
         stepTitle: 'Arbeidsforhold',
         stepIndicatorLabel: 'Om ditt arbeidsforhold',
         index: 2,
-        nextStep: StepID.LEGEERKLÆRING,
+        nextStep: StepID.MEDLEMSSKAP,
         backLinkHref: getSøknadRoute(StepID.TIDSROM),
         buttonLabel: 'Fortsett'
     },

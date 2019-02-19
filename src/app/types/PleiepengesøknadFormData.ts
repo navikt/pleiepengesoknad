@@ -49,6 +49,6 @@ export const initialValues: PleiepengesøknadFormData = {
     [Field.ansettelsesforhold]: [],
     [Field.barnetHarIkkeFåttFødselsnummerEnda]: false,
     [Field.barnetsForeløpigeFødselsnummerEllerDNummer]: '',
-    [Field.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.NO,
-    [Field.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.NO
+    [Field.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,
+    [Field.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.UNANSWERED
 };

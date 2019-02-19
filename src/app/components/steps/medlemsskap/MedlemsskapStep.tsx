@@ -22,12 +22,11 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, ...stepProps
         <FormikStep id={StepID.MEDLEMSSKAP} onValidFormSubmit={navigate} {...stepProps}>
             <YesOrNoQuestion
                 legend="Har du bodd i andre land enn Norge i hele eller deler av de siste 12 månedene?"
-                name={Field.barnetSøknadenGjelder}
+                name={Field.harBoddUtenforNorgeSiste12Mnd}
             />
-
             <YesOrNoQuestion
                 legend="Planlegger du å bo i andre land enn Norge i hele eller deler av de neste 12 månedene?"
-                name={Field.barnetSøknadenGjelder}
+                name={Field.skalBoUtenforNorgeNeste12Mnd}
             />
         </FormikStep>
     );

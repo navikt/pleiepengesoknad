@@ -13,7 +13,7 @@ const YesOrNoQuestion: React.FunctionComponent<YesOrNoQuestionProps> = ({ legend
     <RadioPanelGroup
         legend={legend}
         name={name}
-        radios={[{ label: 'Ja', value: YesOrNo.YES }, { label: 'Nei', value: YesOrNo.NO }]}
+        radios={[{ label: 'Ja', value: YesOrNo.YES, key: 'ja' }, { label: 'Nei', value: YesOrNo.NO, key: 'nei' }]}
     />
 );
 

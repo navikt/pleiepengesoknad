@@ -7,6 +7,7 @@ import {
     opplysningerOmTidsromStepIsValid,
     welcomingPageIsValid
 } from './validation/stepValidations';
+import { appIsRunningInDevEnvironment } from './envUtils';
 
 export const opplysningerOmBarnetAvailable = (formData: PleiepengesøknadFormData) => welcomingPageIsValid(formData);
 
@@ -32,18 +33,21 @@ export const summaryStepAvailable = (formData: PleiepengesøknadFormData) =>
     legeerklæringStepIsValid();
 
 export const stepRouteIsAvailable = (stepId: StepID, values: PleiepengesøknadFormData) => {
-    switch (stepId) {
-        case StepID.OPPLYSNINGER_OM_BARNET:
-            return opplysningerOmBarnetAvailable(values);
-        case StepID.TIDSROM:
-            return opplysningerOmTidsromAvailable(values);
-        case StepID.ANSETTELSESFORHOLD:
-            return opplysningerOmAnsettelsesforholdAvailable(values);
-        case StepID.LEGEERKLÆRING:
-            return legeerklæringStepAvailable(values);
-        case StepID.SUMMARY:
-            return summaryStepAvailable(values);
-        case StepID.MEDLEMSSKAP:
-            return true;
+    if (!appIsRunningInDevEnvironment()) {
+        switch (stepId) {
+            case StepID.OPPLYSNINGER_OM_BARNET:
+                return opplysningerOmBarnetAvailable(values);
+            case StepID.TIDSROM:
+                return opplysningerOmTidsromAvailable(values);
+            case StepID.ANSETTELSESFORHOLD:
+                return opplysningerOmAnsettelsesforholdAvailable(values);
+            case StepID.LEGEERKLÆRING:
+                return legeerklæringStepAvailable(values);
+            case StepID.SUMMARY:
+                return summaryStepAvailable(values);
+            case StepID.MEDLEMSSKAP:
+                return true;
+        }
     }
+    return true;
 };
