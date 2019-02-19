@@ -1,31 +1,38 @@
-const moment = require('moment');
+import { formatDate } from './dateUtils';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import { PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
+import { Barn, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
 
 export const mapFormDataToApiData = ({
     barnetsNavn,
     barnetsFødselsnummer,
+    barnetsForeløpigeFødselsnummerEllerDNummer,
     barnetSøknadenGjelder,
     harBekreftetOpplysninger,
     harGodkjentVilkår,
     søkersRelasjonTilBarnet,
-    ansettelsesforhold
+    ansettelsesforhold,
+    periodeFra,
+    periodeTil,
+    legeerklæring
 }: PleiepengesøknadFormData): PleiepengesøknadApiData => {
-    const date = moment()
-        .subtract(2, 'days')
-        .toDate();
+    const fnrObject: Partial<Barn> = {};
+    if (barnetsFødselsnummer) {
+        fnrObject.fodselsnummer = barnetsFødselsnummer;
+    } else if (barnetsForeløpigeFødselsnummerEllerDNummer) {
+        fnrObject.alternativ_id = barnetsForeløpigeFødselsnummerEllerDNummer;
+    }
+
     return {
-        barn: [
-            {
-                navn: barnetsNavn,
-                fodselsnummer: barnetsFødselsnummer,
-                fodselsdato: date,
-                relasjon: søkersRelasjonTilBarnet
-            }
-        ],
-        ansettelsesforhold,
-        fra_og_med: date,
-        til_og_med: date,
-        vedlegg: [{ innhold: [-1, -40, -1, -37, 0, -124, 0, 8, 6, 6, 7, 6, 5, 8, 7] }]
+        barn: {
+            navn: barnetsNavn,
+            ...fnrObject
+        },
+        relasjon_til_barnet: søkersRelasjonTilBarnet,
+        ansettelsesforhold: {
+            organisasjoner: ansettelsesforhold
+        },
+        fra_og_med: formatDate(periodeFra!),
+        til_og_med: formatDate(periodeTil!),
+        vedlegg: legeerklæring.filter(({ uploaded }) => uploaded === true).map(({ url }) => url!)
     };
 };

@@ -17,6 +17,18 @@ export const validateFødselsnummer = (v: string): string | undefined => {
     return errorMessage;
 };
 
+export const validateForeløpigFødselsnummer = (v: string): string | undefined => {
+    if (!hasValue(v)) {
+        return undefined;
+    }
+
+    const elevenDigits = new RegExp('^\\d{11}$');
+    if (!elevenDigits.test(v)) {
+        return 'Det foreløpige fødselsnummeret / D-nummeret må bestå av 11 tall';
+    }
+    return undefined;
+};
+
 export const validateValgtBarn = (v: string): string | undefined => {
     let result;
     if (!hasValue(v)) {

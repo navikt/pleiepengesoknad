@@ -3,6 +3,7 @@ import { StepID } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
 import { navigateTo } from '../../../utils/navigationUtils';
 import {
+    validateForeløpigFødselsnummer,
     validateFødselsnummer,
     validateNavn,
     validateRelasjonTilBarnet,
@@ -111,6 +112,12 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                     label="Barnets foreløpige fødselsnummer eller D-nummer"
                                     name={Field.barnetsForeløpigeFødselsnummerEllerDNummer}
                                     placeholder="Skriv inn barnets foreløpige fødselsnummer eller D-nummer her"
+                                    validate={(foreløpigFnr) => {
+                                        if (barnetHarIkkeFåttFødselsnummerEnda) {
+                                            return validateForeløpigFødselsnummer(foreløpigFnr);
+                                        }
+                                        return undefined;
+                                    }}
                                 />
                             )}
                             <Input

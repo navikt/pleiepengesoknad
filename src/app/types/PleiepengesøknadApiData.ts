@@ -1,22 +1,18 @@
-interface Barn {
+export interface Barn {
     navn: string;
-    relasjon: string;
-    fodselsnummer: string;
-    fodselsdato: Date;
+    fodselsnummer?: string;
+    alternativ_id?: string;
 }
 
 interface Ansettelsesforhold {
     navn: string;
 }
 
-interface Vedlegg {
-    innhold: number[];
-}
-
 export interface PleiepengesøknadApiData {
-    barn: Barn[];
+    barn: Barn;
+    relasjon_til_barnet: string;
     fra_og_med: Date;
     til_og_med: Date;
-    ansettelsesforhold: Ansettelsesforhold[];
-    vedlegg: Vedlegg[];
+    ansettelsesforhold: { organisasjoner: Ansettelsesforhold[] };
+    vedlegg: string[];
 }
