@@ -16,6 +16,7 @@ import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
 import { formatName } from '../../../utils/personUtils';
 import { sendApplication } from '../../../api/api';
+import { YesOrNo } from '../../../types/YesOrNo';
 
 export interface SummaryStepProps {
     isValid: boolean;
@@ -65,7 +66,9 @@ class SummaryStep extends React.Component<Props, State> {
             barnetHarIkkeFåttFødselsnummerEnda,
             barnetsForeløpigeFødselsnummerEllerDNummer,
             barnetsFødselsnummer,
-            søkersRelasjonTilBarnet
+            søkersRelasjonTilBarnet,
+            harBoddUtenforNorgeSiste12Mnd,
+            skalBoUtenforNorgeNeste12Mnd
         } = values;
 
         return (
@@ -110,6 +113,16 @@ class SummaryStep extends React.Component<Props, State> {
                                           </Normaltekst>
                                       ))
                                     : 'Ingen arbeidsforhold er valgt'}
+                            </ContentWithHeader>
+                        </Box>
+                        <Box margin="l">
+                            <ContentWithHeader header="Bodd i utlandet siste 12 måneder:">
+                                {harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES ? 'Ja' : 'Nei'}
+                            </ContentWithHeader>
+                        </Box>
+                        <Box margin="l">
+                            <ContentWithHeader header="Skal bo i utlandet neste 12 måneder:">
+                                {skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES ? 'Ja' : 'Nei'}
                             </ContentWithHeader>
                         </Box>
                         <Box margin="l">
