@@ -9,11 +9,12 @@ interface YesOrNoQuestionProps {
     validate?: () => undefined | string;
 }
 
-const YesOrNoQuestion: React.FunctionComponent<YesOrNoQuestionProps> = ({ legend, name }) => (
+const YesOrNoQuestion: React.FunctionComponent<YesOrNoQuestionProps> = ({ legend, name, validate }) => (
     <RadioPanelGroup
         legend={legend}
         name={name}
         radios={[{ label: 'Ja', value: YesOrNo.YES, key: 'ja' }, { label: 'Nei', value: YesOrNo.NO, key: 'nei' }]}
+        validate={validate}
     />
 );
 
