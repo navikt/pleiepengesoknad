@@ -17,6 +17,7 @@ import { Søkerdata } from '../../../types/Søkerdata';
 import { formatName } from '../../../utils/personUtils';
 import { sendApplication } from '../../../api/api';
 import { YesOrNo } from '../../../types/YesOrNo';
+import routeConfig from '../../../config/routeConfig';
 
 export interface SummaryStepProps {
     isValid: boolean;
@@ -47,9 +48,9 @@ class SummaryStep extends React.Component<Props, State> {
         });
         try {
             await sendApplication(mapFormDataToApiData(values));
-            navigateTo('/soknad-sendt', history);
+            navigateTo(routeConfig.SØKNAD_SENDT_ROUTE, history);
         } catch {
-            navigateTo('/soknad-sendt', history);
+            navigateTo(routeConfig.SØKNAD_SENDT_ROUTE, history);
         }
     }
 
