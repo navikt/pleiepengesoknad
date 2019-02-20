@@ -1,23 +1,23 @@
 import * as React from 'react';
 
 interface ContentSwitcherProps {
-    initialContent: () => React.ReactElement<any>;
-    otherContent: () => React.ReactElement<any>;
-    showInitialContent: boolean;
+    firstContent: () => React.ReactNode | React.ReactChild;
+    secondContent: () => React.ReactNode | React.ReactChild;
+    showFirstContent: boolean;
     className?: string;
 }
 
 const ContentSwitcher: React.FunctionComponent<ContentSwitcherProps> = ({
-    initialContent,
-    otherContent,
+    firstContent,
+    secondContent,
     className,
-    showInitialContent
+    showFirstContent
 }) => {
     const wrapContent = (children: React.ReactNode) => <span className={className}>{children}</span>;
-    if (showInitialContent) {
-        return wrapContent(initialContent());
+    if (showFirstContent) {
+        return wrapContent(firstContent());
     }
-    return wrapContent(otherContent());
+    return wrapContent(secondContent());
 };
 
 export default ContentSwitcher;

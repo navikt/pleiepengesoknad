@@ -16,13 +16,13 @@ const AttachmentLabel: React.FunctionComponent<AttachmentLabelProps> = ({ attach
     <span>
         <CustomSVG iconRef={attachmentIcon} size={20} />
         <ContentSwitcher
-            initialContent={() => <div className={attachmentLabelBem.element('text')}>{file.name}</div>}
-            otherContent={() => (
+            firstContent={() => <div className={attachmentLabelBem.element('text')}>{file.name}</div>}
+            secondContent={() => (
                 <Lenke className={attachmentLabelBem.element('text')} href={url!} target="_blank">
                     {file.name}
                 </Lenke>
             )}
-            showInitialContent={url === undefined}
+            showFirstContent={url === undefined}
         />
     </span>
 );

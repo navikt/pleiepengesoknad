@@ -22,9 +22,9 @@ const AttachmentListElement: React.FunctionComponent<AttachmentListElementProps>
         <AttachmentLabel attachment={attachment} />
         <ContentSwitcher
             className={listElementBem.element('rightAlignedContent')}
-            showInitialContent={attachment.pending}
-            initialContent={() => <LoadingSpinner type="XS" />}
-            otherContent={() => (
+            showFirstContent={attachment.pending}
+            firstContent={() => <LoadingSpinner type="XS" />}
+            secondContent={() => (
                 <DeleteButton ariaLabel={deleteButtonAriaLabel} onClick={(e) => onRemoveAttachmentClick(attachment, e)}>
                     Fjern vedlegg
                 </DeleteButton>

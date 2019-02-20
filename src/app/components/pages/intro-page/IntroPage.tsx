@@ -2,37 +2,68 @@ import * as React from 'react';
 import { YesOrNo } from '../../../types/YesOrNo';
 import Page from '../../page/Page';
 import StepBanner from '../../step-banner/StepBanner';
-import YesOrNoQuestionBase from '../../yes-or-no-question-base/YesOrNoQuestionBase';
+import { default as YesOrNoQuestion } from '../../yes-or-no-question-base/YesOrNoQuestionBase';
+import ContentSwitcher from '../../content-switcher/ContentSwitcher';
+import GoToApplicationLink from '../../go-to-application-link/GoToApplicationLink';
+import CounsellorPanel from '../../counsellor-panel/CounsellorPanel';
+import bemUtils from '../../../utils/bemUtils';
+import './introPage.less';
+import Lenke from 'nav-frontend-lenker';
+import Box from '../../box/Box';
 
+const bem = bemUtils('introPage');
 const IntroPage: React.FunctionComponent = () => {
-    const [erSelvstendigNæringsdrivende, setErSelvstendigNæringsdrivende] = React.useState(YesOrNo.UNANSWERED);
-    const [erFrilanser, setErFrilanser] = React.useState(YesOrNo.UNANSWERED);
+    const [erSelvstendigNæringsdrivendeEllerFrilanser, setErSelvstendigNæringsdrivendeEllerFrilanser] = React.useState(
+        YesOrNo.UNANSWERED
+    );
     const [skalGraderePleiepenger, setSkalGraderePleiepenger] = React.useState(YesOrNo.UNANSWERED);
+
+    const hasCompletedForm =
+        erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.YES ||
+        (erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.NO && skalGraderePleiepenger !== YesOrNo.UNANSWERED);
 
     return (
         <Page
+            className={bem.className}
             title="Søknad om pleiepenger - intro"
             topContentRenderer={() => <StepBanner text="Søknad om pleiepenger" />}>
-            <YesOrNoQuestionBase
-                legend="Er du selvstendig næringsdrivende?"
-                name="erDuSelvstendigNæringsdrivende"
-                checked={erSelvstendigNæringsdrivende}
-                onChange={(value) => setErSelvstendigNæringsdrivende(value)}
+            <YesOrNoQuestion
+                legend="Er du selvstendig næringsdrivende eller frilanser?"
+                name="erDuSelvstendigNæringsdrivendeEllerFrilanser"
+                checked={erSelvstendigNæringsdrivendeEllerFrilanser}
+                onChange={(value) => setErSelvstendigNæringsdrivendeEllerFrilanser(value)}
             />
 
-            <YesOrNoQuestionBase
-                legend="Er du frilanser?"
-                name="erDuFrilanser"
-                checked={erFrilanser}
-                onChange={(value) => setErFrilanser(value)}
-            />
+            {erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.NO && (
+                <YesOrNoQuestion
+                    legend="Planlegger du å gradere pleiepenger?"
+                    name="planleggerDuÅGraderePleiepenger"
+                    checked={skalGraderePleiepenger}
+                    onChange={(value) => setSkalGraderePleiepenger(value)}
+                />
+            )}
 
-            <YesOrNoQuestionBase
-                legend="Planlegger du å gradere pleiepenger?"
-                name="planleggerDuÅGraderePleiepenger"
-                checked={skalGraderePleiepenger}
-                onChange={(value) => setSkalGraderePleiepenger(value)}
-            />
+            {hasCompletedForm && (
+                <Box margin="l" textAlignCenter={true}>
+                    <ContentSwitcher
+                        firstContent={() => (
+                            <CounsellorPanel>
+                                Om du planlegger å gradere pleiepenger, eller du er selvstendig næringsdrivende eller
+                                frilanser, må du{' '}
+                                <Lenke href="https://www.nav.no/no/Person/Skjemaer-for-privatpersoner/skjemaveileder/vedlegg?key=333802&languagecode=53&veiledertype=privatperson">
+                                    søke på papir
+                                </Lenke>{' '}
+                                og sende i posten.
+                            </CounsellorPanel>
+                        )}
+                        secondContent={() => <GoToApplicationLink />}
+                        showFirstContent={
+                            skalGraderePleiepenger === YesOrNo.YES ||
+                            erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.YES
+                        }
+                    />
+                </Box>
+            )}
         </Page>
     );
 };
