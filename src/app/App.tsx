@@ -5,6 +5,7 @@ import routeConfig from './config/routeConfig';
 import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad';
 import IntroPage from './components/pages/intro-page/IntroPage';
 import { render } from 'react-dom';
+import './globalStyles.less';
 
 const App: React.FunctionComponent = () => {
     return (

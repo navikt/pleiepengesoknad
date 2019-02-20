@@ -1,5 +1,4 @@
 import * as React from 'react';
-import ApplicationWrapper from '../application-wrapper/ApplicationWrapper';
 import LoadingPage from '../pages/loading-page/LoadingPage';
 import { Ansettelsesforhold, Søkerdata } from '../../types/Søkerdata';
 import { isForbidden, isUnauthorized } from '../../utils/apiUtils';
@@ -8,7 +7,7 @@ import routeConfig from '../../config/routeConfig';
 import { userIsCurrentlyOnErrorPage } from '../../utils/navigationUtils';
 import { AxiosError, AxiosResponse } from 'axios';
 import { getBarn, getSøker } from '../../api/api';
-import '../../globalStyles.less';
+import { SøkerdataContextProvider } from '../../context/SøkerdataContext';
 
 const loginUrl = getEnvironmentVariable('LOGIN_URL');
 
@@ -54,7 +53,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
             () => {
                 this.stopLoading();
                 if (userIsCurrentlyOnErrorPage()) {
-                    window.location.href = '/';
+                    window.location.href = routeConfig.WELCOMING_PAGE_ROUTE;
                 }
             }
         );
@@ -105,7 +104,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
             return <LoadingPage />;
         }
 
-        return <ApplicationWrapper søkerdata={søkerdata}>{contentLoadedRenderer()}</ApplicationWrapper>;
+        return <SøkerdataContextProvider value={søkerdata}>{contentLoadedRenderer()}</SøkerdataContextProvider>;
     }
 }
 
