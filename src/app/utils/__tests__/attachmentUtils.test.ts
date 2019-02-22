@@ -1,4 +1,4 @@
-import { fileExtensionIsValid, getAttachmentFromFile, VALID_EXTENSIONS } from '../attachmentUtils';
+import { fileExtensionIsValid, getPendingAttachmentFromFile, VALID_EXTENSIONS } from '../attachmentUtils';
 
 describe('attachmentUtils', () => {
     describe('fileExtensionIsValid', () => {
@@ -10,12 +10,12 @@ describe('attachmentUtils', () => {
         });
     });
 
-    describe('getAttachmentFromFile', () => {
-        it('should return an Attachment-object containing specified File and Attachment-specific properties', () => {
+    describe('getPendingAttachmentFromFile', () => {
+        it('should return a pending Attachment-object containing specified File and Attachment-specific properties', () => {
             const fileMock = new File([''], 'filename', { type: 'text/png' });
-            const { pending, file, uploaded, url } = getAttachmentFromFile(fileMock);
+            const { pending, file, uploaded, url } = getPendingAttachmentFromFile(fileMock);
             expect(file).toEqual(fileMock);
-            expect(pending).toBe(false);
+            expect(pending).toBe(true);
             expect(uploaded).toBe(false);
             expect(url).toBeUndefined();
         });

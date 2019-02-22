@@ -27,15 +27,13 @@ const LegeerklæringStep = ({ history, ...stepProps }: Props) => {
             <FormikFileUploader
                 name={Field.legeerklæring}
                 label="Last opp din legeerklæring her"
-                onErrorUploadingAttachments={(attachments) => {
-                    setFilesThatDidntGetUploaded(attachments.map(({ file }) => file));
-                }}
+                onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
                 onFileInputClick={() => {
                     setFilesThatDidntGetUploaded([]);
                 }}
             />
             <FileUploadErrors filesThatDidntGetUploaded={filesThatDidntGetUploaded} />
-            <LegeerklæringFileList />
+            <LegeerklæringFileList wrapNoAttachmentsInBox={true} />
         </FormikStep>
     );
 };

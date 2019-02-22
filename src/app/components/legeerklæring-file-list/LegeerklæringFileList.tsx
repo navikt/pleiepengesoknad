@@ -5,15 +5,28 @@ import AttachmentList from '../attachment-list/AttachmentList';
 import { removeElementFromArray } from '../../utils/listUtils';
 import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
 import { deleteFile } from '../../api/api';
+import { containsAnyUploadedAttachments } from '../../utils/attachmentUtils';
+import Box from '../box/Box';
+import { Normaltekst } from 'nav-frontend-typografi';
 
-type LegeerklæringAttachmentListProps = ConnectedFormikProps<Field>;
-const LegeerklæringAttachmentList: React.FunctionComponent<LegeerklæringAttachmentListProps> = ({
-    formik: { values, setFieldValue }
+interface LegeerklæringAttachmentListProps {
+    wrapNoAttachmentsInBox?: boolean;
+}
+
+type Props = LegeerklæringAttachmentListProps & ConnectedFormikProps<Field>;
+
+const LegeerklæringAttachmentList: React.FunctionComponent<Props> = ({
+    formik: { values, setFieldValue },
+    wrapNoAttachmentsInBox
 }) => {
     const legeerklæring: Attachment[] = values[Field.legeerklæring];
 
-    if (!legeerklæring || legeerklæring.length === 0) {
-        return <>Ingen vedlegg er lastet opp</>;
+    if (!containsAnyUploadedAttachments(legeerklæring)) {
+        const noAttachmentsText = <Normaltekst>Ingen vedlegg er lastet opp</Normaltekst>;
+        if (wrapNoAttachmentsInBox) {
+            return <Box margin="m">{noAttachmentsText}</Box>;
+        }
+        return noAttachmentsText;
     }
 
     return (
@@ -36,4 +49,4 @@ const LegeerklæringAttachmentList: React.FunctionComponent<LegeerklæringAttach
     );
 };
 
-export default connect<{}, Field>(LegeerklæringAttachmentList);
+export default connect<LegeerklæringAttachmentListProps, Field>(LegeerklæringAttachmentList);

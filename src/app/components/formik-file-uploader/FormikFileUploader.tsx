@@ -3,7 +3,7 @@ import { ArrayHelpers, connect } from 'formik';
 import { Field } from '../../types/PleiepengesøknadFormData';
 import FileInput from '../file-input/FileInput';
 import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
-import { getAttachmentFromFile } from '../../utils/attachmentUtils';
+import { attachmentUploadHasFailed, getPendingAttachmentFromFile } from '../../utils/attachmentUtils';
 import { uploadFile } from '../../api/api';
 import { FieldArrayPushFn, FieldArrayReplaceFn } from '../../types/FormikProps';
 
@@ -12,7 +12,7 @@ interface FormikFileUploader {
     label: string;
     validate?: ((value: any) => string | Promise<void> | undefined);
     onFileInputClick?: () => void;
-    onErrorUploadingAttachments: (attachments: Attachment[]) => void;
+    onErrorUploadingAttachments: (files: File[]) => void;
 }
 
 type Props = FormikFileUploader & ConnectedFormikProps<Field>;
@@ -36,21 +36,24 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
         }
     }
 
-    async function uploadAttachments(attachmentsToUpload: Attachment[], replaceFn: FieldArrayReplaceFn) {
+    async function uploadAttachments(allAttachments: Attachment[], replaceFn: FieldArrayReplaceFn) {
+        const attachmentsToUpload = allAttachments.filter(({ pending, uploaded }) => pending && !uploaded);
         for (const attachment of attachmentsToUpload) {
             if (!attachment.uploaded && attachment.pending) {
                 await uploadAttachment(attachment);
-                replaceFn(attachmentsToUpload.indexOf(attachment), attachment);
-                onErrorUploadingAttachments(
-                    attachmentsToUpload.filter(({ pending, uploaded }: Attachment) => !pending && !uploaded)
-                );
+                replaceFn(allAttachments.indexOf(attachment), attachment);
+                callOnErrorUploadingAttachments(attachmentsToUpload);
             }
         }
     }
 
+    function callOnErrorUploadingAttachments(attachmentsAttemptedToUpload: Attachment[]) {
+        const failedAttachments = attachmentsAttemptedToUpload.filter(attachmentUploadHasFailed);
+        onErrorUploadingAttachments(failedAttachments.map(({ file }) => file));
+    }
+
     function addPendingAttachmentToFieldArray(file: File, pushFn: FieldArrayPushFn) {
-        const attachment = getAttachmentFromFile(file);
-        attachment.pending = true;
+        const attachment = getPendingAttachmentFromFile(file);
         pushFn(attachment);
         return attachment;
     }

@@ -1,6 +1,7 @@
 import { formatDate } from './dateUtils';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { Barn, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
+import { attachmentUploadHasFailed } from './attachmentUtils';
 
 export const mapFormDataToApiData = ({
     barnetsNavn,
@@ -33,6 +34,6 @@ export const mapFormDataToApiData = ({
         },
         fra_og_med: formatDate(periodeFra!),
         til_og_med: formatDate(periodeTil!),
-        vedlegg: legeerklæring.filter(({ uploaded }) => uploaded === true).map(({ url }) => url!)
+        vedlegg: legeerklæring.filter((attachment) => !attachmentUploadHasFailed(attachment)).map(({ url }) => url!)
     };
 };
