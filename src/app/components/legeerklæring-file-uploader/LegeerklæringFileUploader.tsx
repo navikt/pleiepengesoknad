@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { connect } from 'formik';
+import { ArrayHelpers, connect } from 'formik';
 import { Field } from '../../types/PleiepengesøknadFormData';
 import FileInput from '../file-input/FileInput';
 import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
@@ -20,21 +20,28 @@ const LegeerklæringFileUploader: React.FunctionComponent<Props> = ({
     return (
         <FileInput
             name={Field.legeerklæring}
-            onFilesSelect={(files: File[]) => {
-                for (const file of files) {
+            onFilesSelect={async (files: File[], { push, replace }: ArrayHelpers) => {
+                const attachments = files.map((file) => {
                     const attachment = getAttachmentFromFile(file);
-                    setFieldValue(Field.legeerklæring, [
-                        ...values[Field.legeerklæring],
-                        { ...attachment, pending: true }
-                    ]);
-                    uploadFile(file).then((response) => {
-                        const url = response.headers.location;
-                        setFieldValue(Field.legeerklæring, [
-                            ...values[Field.legeerklæring],
-                            { ...attachment, pending: false, uploaded: true, url }
-                        ]);
-                    });
+                    attachment.pending = true;
+                    push(attachment);
+                    return attachment;
+                });
+
+                async function uploadFiles() {
+                    const allAttachments = [...values[Field.legeerklæring], ...attachments];
+                    for (const attachment of [...values[Field.legeerklæring], ...attachments]) {
+                        if (!attachment.uploaded && attachment.pending) {
+                            const response = await uploadFile(attachment.file);
+                            attachment.url = response.headers.location;
+                            attachment.pending = false;
+                            attachment.uploaded = true;
+                            replace(allAttachments.indexOf(attachment), attachment);
+                        }
+                    }
                 }
+
+                await uploadFiles();
             }}
             {...otherProps}
         />
