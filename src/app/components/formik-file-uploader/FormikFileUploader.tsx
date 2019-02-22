@@ -5,6 +5,7 @@ import FileInput from '../file-input/FileInput';
 import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
 import { getAttachmentFromFile } from '../../utils/attachmentUtils';
 import { uploadFile } from '../../api/api';
+import { FieldArrayPushFn, FieldArrayReplaceFn } from '../../types/FormikProps';
 
 interface FormikFileUploader {
     name: Field;
@@ -15,31 +16,40 @@ interface FormikFileUploader {
 type Props = FormikFileUploader & ConnectedFormikProps<Field>;
 
 const FormikFileUploader: React.FunctionComponent<Props> = ({ name, formik: { values }, ...otherProps }) => {
+    async function uploadAttachment(attachment: Attachment) {
+        try {
+            const response = await uploadFile(attachment.file);
+            attachment.url = response.headers.location;
+            attachment.pending = false;
+            attachment.uploaded = true;
+        } catch (error) {
+            attachment.pending = false;
+            attachment.uploaded = false;
+        }
+    }
+
+    async function uploadAttachments(attachmentsToUpload: Attachment[], replaceFn: FieldArrayReplaceFn) {
+        for (const attachment of attachmentsToUpload) {
+            if (!attachment.uploaded && attachment.pending) {
+                await uploadAttachment(attachment);
+                replaceFn(attachmentsToUpload.indexOf(attachment), attachment);
+            }
+        }
+    }
+
+    function addPendingAttachmentToFieldArray(file: File, pushFn: FieldArrayPushFn) {
+        const attachment = getAttachmentFromFile(file);
+        attachment.pending = true;
+        pushFn(attachment);
+        return attachment;
+    }
+
     return (
         <FileInput
             name={name}
             onFilesSelect={async (files: File[], { push, replace }: ArrayHelpers) => {
-                const attachments = files.map((file) => {
-                    const attachment = getAttachmentFromFile(file);
-                    attachment.pending = true;
-                    push(attachment);
-                    return attachment;
-                });
-
-                async function uploadFiles() {
-                    const allAttachments = [...values[name], ...attachments];
-                    for (const attachment of [...values[name], ...attachments]) {
-                        if (!attachment.uploaded && attachment.pending) {
-                            const response = await uploadFile(attachment.file);
-                            attachment.url = response.headers.location;
-                            attachment.pending = false;
-                            attachment.uploaded = true;
-                            replace(allAttachments.indexOf(attachment), attachment);
-                        }
-                    }
-                }
-
-                await uploadFiles();
+                const attachments = files.map((file) => addPendingAttachmentToFieldArray(file, push));
+                await uploadAttachments([...values[name], ...attachments], replace);
             }}
             {...otherProps}
         />
