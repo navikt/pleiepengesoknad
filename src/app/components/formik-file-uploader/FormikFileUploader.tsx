@@ -6,20 +6,18 @@ import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
 import { getAttachmentFromFile } from '../../utils/attachmentUtils';
 import { uploadFile } from '../../api/api';
 
-interface LegeerklæringFileUploaderProps {
+interface FormikFileUploader {
+    name: Field;
     label: string;
     validate?: ((value: any) => string | Promise<void> | undefined);
 }
 
-type Props = LegeerklæringFileUploaderProps & ConnectedFormikProps<Field>;
+type Props = FormikFileUploader & ConnectedFormikProps<Field>;
 
-const LegeerklæringFileUploader: React.FunctionComponent<Props> = ({
-    formik: { setFieldValue, values },
-    ...otherProps
-}) => {
+const FormikFileUploader: React.FunctionComponent<Props> = ({ name, formik: { values }, ...otherProps }) => {
     return (
         <FileInput
-            name={Field.legeerklæring}
+            name={name}
             onFilesSelect={async (files: File[], { push, replace }: ArrayHelpers) => {
                 const attachments = files.map((file) => {
                     const attachment = getAttachmentFromFile(file);
@@ -29,8 +27,8 @@ const LegeerklæringFileUploader: React.FunctionComponent<Props> = ({
                 });
 
                 async function uploadFiles() {
-                    const allAttachments = [...values[Field.legeerklæring], ...attachments];
-                    for (const attachment of [...values[Field.legeerklæring], ...attachments]) {
+                    const allAttachments = [...values[name], ...attachments];
+                    for (const attachment of [...values[name], ...attachments]) {
                         if (!attachment.uploaded && attachment.pending) {
                             const response = await uploadFile(attachment.file);
                             attachment.url = response.headers.location;
@@ -48,4 +46,4 @@ const LegeerklæringFileUploader: React.FunctionComponent<Props> = ({
     );
 };
 
-export default connect<LegeerklæringFileUploaderProps, Field>(LegeerklæringFileUploader);
+export default connect<FormikFileUploader, Field>(FormikFileUploader);
