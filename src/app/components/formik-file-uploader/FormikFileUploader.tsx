@@ -11,11 +11,19 @@ interface FormikFileUploader {
     name: Field;
     label: string;
     validate?: ((value: any) => string | Promise<void> | undefined);
+    onFileInputClick?: () => void;
+    onErrorUploadingAttachments: (attachments: Attachment[]) => void;
 }
 
 type Props = FormikFileUploader & ConnectedFormikProps<Field>;
 
-const FormikFileUploader: React.FunctionComponent<Props> = ({ name, formik: { values }, ...otherProps }) => {
+const FormikFileUploader: React.FunctionComponent<Props> = ({
+    name,
+    formik: { values },
+    onFileInputClick,
+    onErrorUploadingAttachments,
+    ...otherProps
+}) => {
     async function uploadAttachment(attachment: Attachment) {
         try {
             const response = await uploadFile(attachment.file);
@@ -33,6 +41,9 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({ name, formik: { va
             if (!attachment.uploaded && attachment.pending) {
                 await uploadAttachment(attachment);
                 replaceFn(attachmentsToUpload.indexOf(attachment), attachment);
+                onErrorUploadingAttachments(
+                    attachmentsToUpload.filter(({ pending, uploaded }: Attachment) => !pending && !uploaded)
+                );
             }
         }
     }
@@ -51,6 +62,7 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({ name, formik: { va
                 const attachments = files.map((file) => addPendingAttachmentToFieldArray(file, push));
                 await uploadAttachments([...values[name], ...attachments], replace);
             }}
+            onClick={onFileInputClick}
             {...otherProps}
         />
     );

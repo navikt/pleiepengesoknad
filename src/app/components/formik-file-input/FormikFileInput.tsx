@@ -8,13 +8,15 @@ export interface FormikFileInputProps<T> {
     label: string;
     validate?: ((value: any) => string | Promise<void> | undefined);
     onFilesSelect: (files: File[], arrayHelpers: ArrayHelpers) => void;
+    onClick?: () => void;
 }
 
 const FormikFileInput = <T extends {}>(): React.FunctionComponent<FormikFileInputProps<T>> => ({
     label,
     name,
     validate,
-    onFilesSelect
+    onFilesSelect,
+    onClick
 }) => (
     <FieldArray
         name={`${name}`}
@@ -26,6 +28,7 @@ const FormikFileInput = <T extends {}>(): React.FunctionComponent<FormikFileInpu
                         <FileInputBase
                             id={field.name}
                             label={label}
+                            onClick={onClick}
                             onFilesSelect={(files) => onFilesSelect(files, arrayHelpers)}
                             multiple={true}
                             {...errorMsgProps}

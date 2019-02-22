@@ -7,6 +7,7 @@ import LegeerklæringFileList from '../../legeerklæring-file-list/Legeerklærin
 import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
 import { getNextStepRoute } from '../../../utils/routeUtils';
 import { Field } from '../../../types/PleiepengesøknadFormData';
+import FileUploadErrors from '../../file-upload-errors/FileUploadErrors';
 
 interface LegeerklæringStepProps {
     isValid: boolean;
@@ -18,10 +19,22 @@ type Props = LegeerklæringStepProps & HistoryProps;
 const nextStepRoute = getNextStepRoute(StepID.LEGEERKLÆRING);
 
 const LegeerklæringStep = ({ history, ...stepProps }: Props) => {
+    const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
+
     const navigate = () => navigateTo(nextStepRoute!, history);
     return (
         <FormikStep id={StepID.LEGEERKLÆRING} onValidFormSubmit={navigate} {...stepProps}>
-            <FormikFileUploader name={Field.legeerklæring} label="Last opp din legeerklæring her" />
+            <FormikFileUploader
+                name={Field.legeerklæring}
+                label="Last opp din legeerklæring her"
+                onErrorUploadingAttachments={(attachments) => {
+                    setFilesThatDidntGetUploaded(attachments.map(({ file }) => file));
+                }}
+                onFileInputClick={() => {
+                    setFilesThatDidntGetUploaded([]);
+                }}
+            />
+            <FileUploadErrors filesThatDidntGetUploaded={filesThatDidntGetUploaded} />
             <LegeerklæringFileList />
         </FormikStep>
     );

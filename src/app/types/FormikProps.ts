@@ -5,3 +5,4 @@ export type CustomFormikProps = FormikProps<PleiepengesøknadFormData> & { submi
 
 export type FieldArrayReplaceFn = (index: number, value: any) => void;
 export type FieldArrayPushFn = (obj: any) => void;
+export type FieldArrayRemoveFn = (index: number) => undefined;

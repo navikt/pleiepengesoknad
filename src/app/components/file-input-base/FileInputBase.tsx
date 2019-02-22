@@ -14,6 +14,7 @@ interface FileInputProps {
     onFilesSelect: (files: File[]) => void;
     multiple?: boolean;
     feil?: ValidationError;
+    onClick?: () => void;
 }
 
 export default class FileInputBase extends React.Component<FileInputProps> {
@@ -66,7 +67,7 @@ export default class FileInputBase extends React.Component<FileInputProps> {
     }
 
     render() {
-        const { id, label, feil, multiple } = this.props;
+        const { id, label, feil, multiple, onClick } = this.props;
         const bem = bemHelper('attachmentButton');
         const inputId = `${id}-input`;
         return (
@@ -79,7 +80,8 @@ export default class FileInputBase extends React.Component<FileInputProps> {
                     className={bem.className}
                     onDragOver={this.onFileDragOverHandler}
                     onDrop={this.onFileDropHandler}
-                    onKeyPress={this.onKeyPress}>
+                    onKeyPress={this.onKeyPress}
+                    onClick={onClick}>
                     <div className={bem.element('icon')}>
                         <CustomSVG iconRef={uploadIcon} size={22} />
                     </div>
