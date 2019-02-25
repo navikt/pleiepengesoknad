@@ -6,6 +6,9 @@ const historyMock: Partial<History> = {
     push: jest.fn()
 };
 
+// hacky workaround for this issue, which actually seems to be an issue
+// with jsdom (not jest):
+// https://github.com/facebook/jest/issues/5124
 const setWindowLocationPathname = (pathname: string | undefined) => {
     const windowLocation = JSON.stringify(window.location);
     delete window.location;
