@@ -8,7 +8,7 @@ import {
     validateNavn,
     validateRelasjonTilBarnet,
     validateValgtBarn
-} from '../../../utils/validation/fieldValidations';
+} from '../../../validation/fieldValidations';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
 import { CustomFormikProps as FormikProps } from '../../../types/FormikProps';

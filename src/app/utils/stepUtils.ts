@@ -7,7 +7,7 @@ import {
     opplysningerOmBarnetStepIsValid,
     opplysningerOmTidsromStepIsValid,
     welcomingPageIsValid
-} from './validation/stepValidations';
+} from '../validation/stepValidations';
 import { appIsRunningInDevEnvironment } from './envUtils';
 
 export const opplysningerOmBarnetStepAvailable = (formData: PleiepengesøknadFormData) => welcomingPageIsValid(formData);

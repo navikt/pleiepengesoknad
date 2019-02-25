@@ -1,6 +1,6 @@
-import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { validateFødselsnummer, validateNavn, validateRelasjonTilBarnet } from './fieldValidations';
-import { YesOrNo } from '../../types/YesOrNo';
+import { YesOrNo } from '../types/YesOrNo';
 
 export const welcomingPageIsValid = ({ harGodkjentVilkår }: PleiepengesøknadFormData) => harGodkjentVilkår === true;
 

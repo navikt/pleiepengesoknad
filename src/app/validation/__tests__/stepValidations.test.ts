@@ -1,5 +1,5 @@
 import { welcomingPageIsValid } from '../stepValidations';
-import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 
 describe('stepValidation tests', () => {
     describe('welcomingPage', () => {

@@ -2,7 +2,7 @@ import bemHelper from '../bemUtils';
 
 const someClass = 'class';
 const someElement = 'element';
-const someModifier = 'element';
+const someModifier = 'modifier';
 
 describe('bemUtils', () => {
     it('should return correct className when referring to .className-property', () => {

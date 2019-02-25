@@ -10,7 +10,7 @@ import { Søkerdata } from '../../../types/Søkerdata';
 import { date3YearsAgo, formatDate } from '../../../utils/dateUtils';
 import { FormikProps } from 'formik';
 import { getAnsettelsesforhold } from '../../../api/api';
-import { validateFradato, validateTildato } from '../../../utils/validation/fieldValidations';
+import { validateFradato, validateTildato } from '../../../validation/fieldValidations';
 import { getNextStepRoute } from '../../../utils/routeUtils';
 
 interface OpplysningerOmTidsromStepState {

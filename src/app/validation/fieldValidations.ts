@@ -1,6 +1,6 @@
 const moment = require('moment');
 import fødselsnummerIsValid, { FødselsnummerValidationErrorReason } from './fødselsnummerValidator';
-import { isMoreThan3YearsAgo } from '../dateUtils';
+import { isMoreThan3YearsAgo } from '../utils/dateUtils';
 
 export const hasValue = (v: any) => v !== '' && v !== undefined && v !== null;
 
