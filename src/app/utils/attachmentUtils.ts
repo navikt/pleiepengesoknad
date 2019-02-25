@@ -5,11 +5,17 @@ export const fileExtensionIsValid = (filename: string): boolean => {
     return VALID_EXTENSIONS.includes(ext!);
 };
 
-export const getPendingAttachmentFromFile = (file: File): Attachment => ({
+export const getAttachmentFromFile = (file: File): Attachment => ({
     file,
-    pending: true,
+    pending: false,
     uploaded: false
 });
+
+export const getPendingAttachmentFromFile = (file: File): Attachment => {
+    const newAttachment = getAttachmentFromFile(file);
+    newAttachment.pending = true;
+    return newAttachment;
+};
 
 export const attachmentUploadHasFailed = ({ pending, uploaded }: Attachment): boolean => !pending && !uploaded;
 
