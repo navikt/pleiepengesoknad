@@ -1,5 +1,5 @@
-import { AxiosError } from 'axios';
-import { isForbidden, isUnauthorized } from '../apiUtils';
+import axios, { AxiosError } from 'axios';
+import { isForbidden, isUnauthorized, multipartConfig, sendMultipartPostRequest } from '../apiUtils';
 
 let axiosErrorMock: AxiosError;
 
@@ -42,6 +42,15 @@ describe('apiUtils', () => {
             expect(isUnauthorized(axiosErrorMock)).toBe(false);
             axiosErrorMock.response = undefined;
             expect(isUnauthorized(axiosErrorMock)).toBe(false);
+        });
+    });
+
+    describe('sendMultipartPostRequest', () => {
+        it('should use axios to send a multipart post request', () => {
+            const formData = new FormData();
+            formData.set('foo', 'bar');
+            sendMultipartPostRequest('nav.no', formData);
+            expect(axios.post).toHaveBeenCalledWith('nav.no', formData, multipartConfig);
         });
     });
 });
