@@ -1,5 +1,5 @@
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import { validateFødselsnummer, validateNavn, validateRelasjonTilBarnet } from './fieldValidations';
+import * as fieldValidations from './fieldValidations';
 import { YesOrNo } from '../types/YesOrNo';
 
 export const welcomingPageIsValid = ({ harGodkjentVilkår }: PleiepengesøknadFormData) => harGodkjentVilkår === true;
@@ -11,12 +11,13 @@ export const opplysningerOmBarnetStepIsValid = ({
     søkersRelasjonTilBarnet
 }: PleiepengesøknadFormData) => {
     if (barnetHarIkkeFåttFødselsnummerEnda) {
-        return validateRelasjonTilBarnet(søkersRelasjonTilBarnet) === undefined;
+        return fieldValidations.validateRelasjonTilBarnet(søkersRelasjonTilBarnet) === undefined;
     }
+
     return (
-        validateNavn(barnetsNavn) === undefined &&
-        validateFødselsnummer(barnetsFødselsnummer) === undefined &&
-        validateRelasjonTilBarnet(søkersRelasjonTilBarnet) === undefined
+        fieldValidations.validateNavn(barnetsNavn) === undefined &&
+        fieldValidations.validateFødselsnummer(barnetsFødselsnummer) === undefined &&
+        fieldValidations.validateRelasjonTilBarnet(søkersRelasjonTilBarnet) === undefined
     );
 };
 
