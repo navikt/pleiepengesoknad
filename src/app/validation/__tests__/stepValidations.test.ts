@@ -60,9 +60,7 @@ describe('stepValidation tests', () => {
                 jest.resetAllMocks();
             });
 
-            it(`should be valid if ${Field.barnetsNavn}, ${Field.barnetsFødselsnummer} and ${
-                Field.søkersRelasjonTilBarnet
-            } are all valid`, () => {
+            it('should be valid if barnetsNavn, barnetsFødselsnummer and are all valid', () => {
                 expect(opplysningerOmBarnetStepIsValid(formData as PleiepengesøknadFormData)).toBe(true);
             });
 
@@ -110,9 +108,7 @@ describe('stepValidation tests', () => {
     });
 
     describe('medlemsskapStepIsValid', () => {
-        it(`should be valid if both ${Field.harBoddUtenforNorgeSiste12Mnd} and ${
-            Field.skalBoUtenforNorgeNeste12Mnd
-        } are either answered with YES or NO`, () => {
+        it('should be valid if both harBoddUtenforNorgeSiste12Mnd and skalBoUtenforNorgeNeste12Mnd are either answered with YES or NO', () => {
             formData[Field.harBoddUtenforNorgeSiste12Mnd] = YesOrNo.YES;
             formData[Field.skalBoUtenforNorgeNeste12Mnd] = YesOrNo.YES;
             expect(medlemsskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(true);

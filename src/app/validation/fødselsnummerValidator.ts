@@ -11,7 +11,7 @@ interface FnrValidationResult {
     status: 'valid' | 'invalid';
 }
 
-const fødselsnummerIsValid = (value: string): [boolean, FødselsnummerValidationErrorReason[]] => {
+export const fødselsnummerIsValid = (value: string): [boolean, FødselsnummerValidationErrorReason[]] => {
     const { status, reasons }: FnrValidationResult = fnrValidator.fnr(value);
     if (status === 'valid') {
         return [true, []];
@@ -19,5 +19,3 @@ const fødselsnummerIsValid = (value: string): [boolean, FødselsnummerValidatio
         return [false, reasons!];
     }
 };
-
-export default fødselsnummerIsValid;
