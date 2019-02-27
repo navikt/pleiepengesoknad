@@ -1,4 +1,4 @@
-const fnrValidator = require('@navikt/fnrvalidator');
+const fnrvalidator = require('@navikt/fnrvalidator');
 
 export enum FødselsnummerValidationErrorReason {
     MustConsistOf11Digits = 'fnr must consist of 11 digits',
@@ -12,7 +12,7 @@ interface FnrValidationResult {
 }
 
 export const fødselsnummerIsValid = (value: string): [boolean, FødselsnummerValidationErrorReason[]] => {
-    const { status, reasons }: FnrValidationResult = fnrValidator.fnr(value);
+    const { status, reasons }: FnrValidationResult = fnrvalidator.fnr(value);
     if (status === 'valid') {
         return [true, []];
     } else {
