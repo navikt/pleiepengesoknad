@@ -1,21 +1,23 @@
 import axios from 'axios';
 import { PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
-import { getEnvironmentVariable } from '../utils/envUtils';
 import axiosConfig from '../config/axiosConfig';
-import { sendMultipartPostRequest } from '../utils/apiUtils';
+import { getApiUrlByResourceType, sendMultipartPostRequest } from '../utils/apiUtils';
+import { ResourceType } from '../types/ResourceType';
 
-const apiUrl = getEnvironmentVariable('API_URL');
-
-export const getBarn = () => axios.get(`${apiUrl}/barn`, axiosConfig);
-export const getSøker = () => axios.get(`${apiUrl}/soker`, axiosConfig);
+export const getBarn = () => axios.get(getApiUrlByResourceType(ResourceType.BARN), axiosConfig);
+export const getSøker = () => axios.get(getApiUrlByResourceType(ResourceType.SØKER), axiosConfig);
 export const getAnsettelsesforhold = (fom: string, tom: string) =>
-    axios.get(`${apiUrl}/ansettelsesforhold?fra_og_med=${fom}&til_og_med=${tom}`, axiosConfig);
+    axios.get(
+        `${getApiUrlByResourceType(ResourceType.ANSETTELSESFORHOLD)}?fra_og_med=${fom}&til_og_med=${tom}`,
+        axiosConfig
+    );
 
-export const sendApplication = (data: PleiepengesøknadApiData) => axios.post(`${apiUrl}/soknad`, data, axiosConfig);
+export const sendApplication = (data: PleiepengesøknadApiData) =>
+    axios.post(getApiUrlByResourceType(ResourceType.SEND_SØKNAD), data, axiosConfig);
 
 export const uploadFile = (file: File) => {
     const formData = new FormData();
     formData.append('vedlegg', file);
-    return sendMultipartPostRequest(`${apiUrl}/vedlegg`, formData);
+    return sendMultipartPostRequest(getApiUrlByResourceType(ResourceType.VEDLEGG), formData);
 };
 export const deleteFile = (url: string) => axios.delete(url, axiosConfig);

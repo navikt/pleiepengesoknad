@@ -1,10 +1,18 @@
 import axios, { AxiosError } from 'axios';
-import { isForbidden, isUnauthorized, multipartConfig, sendMultipartPostRequest } from '../apiUtils';
+import {
+    getApiUrlByResourceType,
+    isForbidden,
+    isUnauthorized,
+    multipartConfig,
+    sendMultipartPostRequest
+} from '../apiUtils';
+import { ResourceType } from '../../types/ResourceType';
 
 let axiosErrorMock: AxiosError;
 
+const mockedApiUrl = 'mockedApiUrl';
 jest.mock('./../envUtils.ts', () => {
-    return { getEnvironmentVariable: () => 'mockedApiUrl' };
+    return { getEnvironmentVariable: () => mockedApiUrl };
 });
 
 describe('apiUtils', () => {
@@ -51,6 +59,32 @@ describe('apiUtils', () => {
             formData.set('foo', 'bar');
             sendMultipartPostRequest('nav.no', formData);
             expect(axios.post).toHaveBeenCalledWith('nav.no', formData, multipartConfig);
+        });
+    });
+
+    describe('getApiUrlByResourceType', () => {
+        it('should return correct URL for ResourceType.ANSETTELSESFORHOLD', () => {
+            expect(getApiUrlByResourceType(ResourceType.ANSETTELSESFORHOLD)).toEqual(
+                `${mockedApiUrl}/${ResourceType.ANSETTELSESFORHOLD}`
+            );
+        });
+
+        it('should return correct URL for ResourceType.BARN', () => {
+            expect(getApiUrlByResourceType(ResourceType.BARN)).toEqual(`${mockedApiUrl}/${ResourceType.BARN}`);
+        });
+
+        it('should return correct URL for ResourceType.SEND_SØKNAD', () => {
+            expect(getApiUrlByResourceType(ResourceType.SEND_SØKNAD)).toEqual(
+                `${mockedApiUrl}/${ResourceType.SEND_SØKNAD}`
+            );
+        });
+
+        it('should return correct URL for ResourceType.SØKER', () => {
+            expect(getApiUrlByResourceType(ResourceType.SØKER)).toEqual(`${mockedApiUrl}/${ResourceType.SØKER}`);
+        });
+
+        it('should return correct URL for ResourceType.VEDLEGG', () => {
+            expect(getApiUrlByResourceType(ResourceType.VEDLEGG)).toEqual(`${mockedApiUrl}/${ResourceType.VEDLEGG}`);
         });
     });
 });
