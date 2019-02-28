@@ -53,7 +53,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
             () => {
                 this.stopLoading();
                 if (userIsCurrentlyOnErrorPage()) {
-                    window.location.href = routeConfig.WELCOMING_PAGE_ROUTE;
+                    window.location.assign(routeConfig.WELCOMING_PAGE_ROUTE);
                 }
             }
         );
@@ -77,9 +77,9 @@ class AppEssentialsLoader extends React.Component<Props, State> {
 
     handleSøkerdataFetchError(response: AxiosError) {
         if (isForbidden(response) || isUnauthorized(response)) {
-            window.location = loginUrl;
+            window.location.assign(loginUrl);
         } else if (!userIsCurrentlyOnErrorPage()) {
-            window.location.href = routeConfig.ERROR_PAGE_ROUTE;
+            window.location.assign(routeConfig.ERROR_PAGE_ROUTE);
         }
         this.stopLoading();
     }
