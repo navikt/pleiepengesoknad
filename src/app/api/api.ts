@@ -6,11 +6,8 @@ import { ResourceType } from '../types/ResourceType';
 
 export const getBarn = () => axios.get(getApiUrlByResourceType(ResourceType.BARN), axiosConfig);
 export const getSøker = () => axios.get(getApiUrlByResourceType(ResourceType.SØKER), axiosConfig);
-export const getAnsettelsesforhold = (fom: string, tom: string) =>
-    axios.get(
-        `${getApiUrlByResourceType(ResourceType.ANSETTELSESFORHOLD)}?fra_og_med=${fom}&til_og_med=${tom}`,
-        axiosConfig
-    );
+export const getArbeidsgiver = (fom: string, tom: string) =>
+    axios.get(`${getApiUrlByResourceType(ResourceType.ARBEIDSGIVER)}?fra_og_med=${fom}&til_og_med=${tom}`, axiosConfig);
 
 export const sendApplication = (data: PleiepengesøknadApiData) =>
     axios.post(getApiUrlByResourceType(ResourceType.SEND_SØKNAD), data, axiosConfig);

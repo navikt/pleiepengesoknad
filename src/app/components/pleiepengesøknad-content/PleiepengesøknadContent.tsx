@@ -8,7 +8,7 @@ import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
 import routeConfig from '../../config/routeConfig';
 import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromStep';
 import OpplysningerOmAnsettelsesforholdStep from '../steps/ansettelsesforhold/OpplysningerOmAnsettelsesforholdStep';
-import MedlemsskapStep from '../steps/medlemsskap/MedlemsskapStep';
+import MedlemsskapStep from '../steps/medlemskap/MedlemsskapStep';
 import LegeerklæringStep from '../steps/legeerklæring/LegeerklæringStep';
 import SummaryStep from '../steps/summary/SummaryStep';
 import ErrorPage from '../pages/error-page/ErrorPage';
@@ -51,9 +51,9 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
                 />
             )}
 
-            {stepRouteIsAvailable(StepID.MEDLEMSSKAP, values) && (
+            {stepRouteIsAvailable(StepID.MEDLEMSKAP, values) && (
                 <Route
-                    path={getSøknadRoute(StepID.MEDLEMSSKAP)}
+                    path={getSøknadRoute(StepID.MEDLEMSKAP)}
                     render={(props) => <MedlemsskapStep {...commonFormikProps} {...props} />}
                 />
             )}

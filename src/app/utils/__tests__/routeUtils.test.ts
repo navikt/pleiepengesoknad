@@ -7,9 +7,9 @@ jest.mock('./../stepUtils', () => {
     return {
         opplysningerOmBarnetStepAvailable: jest.fn(() => 'barn step available'),
         opplysningerOmTidsromStepAvailable: jest.fn(() => 'tidsrom step available'),
-        opplysningerOmAnsettelsesforholdStepAvailable: jest.fn(() => 'ansettelsesforhold step available'),
+        opplysningerOmAnsettelsesforholdStepAvailable: jest.fn(() => 'arbeidsgivere step available'),
         legeerklæringStepAvailable: jest.fn(() => 'legeerklæring step available'),
-        medlemsskapStepAvailable: jest.fn(() => 'medlemsskap step available'),
+        medlemskapStepAvailable: jest.fn(() => 'medlemskap step available'),
         summaryStepAvailable: jest.fn(() => 'summary step available')
     };
 });

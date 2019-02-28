@@ -5,7 +5,7 @@ export enum StepID {
     'OPPLYSNINGER_OM_BARNET' = 'opplysninger-om-barnet',
     'ANSETTELSESFORHOLD' = 'arbeidsforhold',
     'TIDSROM' = 'tidsrom',
-    'MEDLEMSSKAP' = 'medlemsskap',
+    'MEDLEMSKAP' = 'medlemskap',
     'LEGEERKLÆRING' = 'legeerklaering',
     'SUMMARY' = 'oppsummering'
 }
@@ -48,12 +48,12 @@ export const stepConfig: StepConfigInterface = {
         stepTitle: 'Arbeidsforhold',
         stepIndicatorLabel: 'Om ditt arbeidsforhold',
         index: 2,
-        nextStep: StepID.MEDLEMSSKAP,
+        nextStep: StepID.MEDLEMSKAP,
         backLinkHref: getSøknadRoute(StepID.TIDSROM),
         buttonLabel: 'Fortsett'
     },
-    [StepID.MEDLEMSSKAP]: {
-        pageTitle: 'Pleiepengesøknad - medlemsskap',
+    [StepID.MEDLEMSKAP]: {
+        pageTitle: 'Pleiepengesøknad - medlemskap',
         stepTitle: 'Utenlandsopphold',
         stepIndicatorLabel: 'Om dine utenlandsopphold',
         index: 3,
@@ -67,7 +67,7 @@ export const stepConfig: StepConfigInterface = {
         stepIndicatorLabel: 'Last opp din legeerklæring',
         index: 4,
         nextStep: StepID.SUMMARY,
-        backLinkHref: getSøknadRoute(StepID.MEDLEMSSKAP),
+        backLinkHref: getSøknadRoute(StepID.MEDLEMSKAP),
         buttonLabel: 'Fortsett'
     },
     [StepID.SUMMARY]: {

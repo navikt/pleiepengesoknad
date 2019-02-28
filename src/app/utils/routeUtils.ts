@@ -4,7 +4,7 @@ import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { appIsRunningInDevEnvironment } from './envUtils';
 import {
     legeerklæringStepAvailable,
-    medlemsskapStepAvailable,
+    medlemskapStepAvailable,
     opplysningerOmAnsettelsesforholdStepAvailable,
     opplysningerOmBarnetStepAvailable,
     opplysningerOmTidsromStepAvailable,
@@ -31,8 +31,8 @@ export const stepRouteIsAvailable = (stepId: StepID, values: PleiepengesøknadFo
                 return opplysningerOmAnsettelsesforholdStepAvailable(values);
             case StepID.LEGEERKLÆRING:
                 return legeerklæringStepAvailable(values);
-            case StepID.MEDLEMSSKAP:
-                return medlemsskapStepAvailable(values);
+            case StepID.MEDLEMSKAP:
+                return medlemskapStepAvailable(values);
             case StepID.SUMMARY:
                 return summaryStepAvailable(values);
         }

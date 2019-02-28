@@ -1,5 +1,5 @@
 export enum ResourceType {
-    ANSETTELSESFORHOLD = 'ansettelsesforhold',
+    ARBEIDSGIVER = 'arbeidsgiver',
     BARN = 'barn',
     SEND_SØKNAD = 'soknad',
     SØKER = 'soker',

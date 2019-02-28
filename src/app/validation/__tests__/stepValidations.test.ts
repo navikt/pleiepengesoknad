@@ -1,6 +1,6 @@
 import {
     legeerklæringStepIsValid,
-    medlemsskapStepIsValid,
+    medlemskapStepIsValid,
     opplysningerOmAnsettelsesforholdStepIsValid,
     opplysningerOmBarnetStepIsValid,
     opplysningerOmTidsromStepIsValid,
@@ -107,36 +107,36 @@ describe('stepValidation tests', () => {
         });
     });
 
-    describe('medlemsskapStepIsValid', () => {
+    describe('medlemskapStepIsValid', () => {
         it('should be valid if both harBoddUtenforNorgeSiste12Mnd and skalBoUtenforNorgeNeste12Mnd are either answered with YES or NO', () => {
             formData[Field.harBoddUtenforNorgeSiste12Mnd] = YesOrNo.YES;
             formData[Field.skalBoUtenforNorgeNeste12Mnd] = YesOrNo.YES;
-            expect(medlemsskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(true);
+            expect(medlemskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(true);
             formData[Field.harBoddUtenforNorgeSiste12Mnd] = YesOrNo.NO;
             formData[Field.skalBoUtenforNorgeNeste12Mnd] = YesOrNo.NO;
-            expect(medlemsskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(true);
+            expect(medlemskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(true);
             formData[Field.harBoddUtenforNorgeSiste12Mnd] = YesOrNo.YES;
             formData[Field.skalBoUtenforNorgeNeste12Mnd] = YesOrNo.NO;
-            expect(medlemsskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(true);
+            expect(medlemskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(true);
             formData[Field.harBoddUtenforNorgeSiste12Mnd] = YesOrNo.NO;
             formData[Field.skalBoUtenforNorgeNeste12Mnd] = YesOrNo.YES;
-            expect(medlemsskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(true);
+            expect(medlemskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(true);
         });
 
         it(`should be invalid if ${Field.harBoddUtenforNorgeSiste12Mnd} is UNANSWERED`, () => {
             formData[Field.harBoddUtenforNorgeSiste12Mnd] = YesOrNo.UNANSWERED;
             formData[Field.skalBoUtenforNorgeNeste12Mnd] = YesOrNo.YES;
-            expect(medlemsskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
+            expect(medlemskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
             formData[Field.skalBoUtenforNorgeNeste12Mnd] = YesOrNo.NO;
-            expect(medlemsskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
+            expect(medlemskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
         });
 
         it(`should be invalid if ${Field.skalBoUtenforNorgeNeste12Mnd} is UNANSWERED`, () => {
             formData[Field.skalBoUtenforNorgeNeste12Mnd] = YesOrNo.UNANSWERED;
             formData[Field.harBoddUtenforNorgeSiste12Mnd] = YesOrNo.YES;
-            expect(medlemsskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
+            expect(medlemskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
             formData[Field.harBoddUtenforNorgeSiste12Mnd] = YesOrNo.NO;
-            expect(medlemsskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
+            expect(medlemskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
         });
     });
 

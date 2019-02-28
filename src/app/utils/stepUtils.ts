@@ -1,7 +1,7 @@
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import {
     legeerklæringStepIsValid,
-    medlemsskapStepIsValid,
+    medlemskapStepIsValid,
     opplysningerOmAnsettelsesforholdStepIsValid,
     opplysningerOmBarnetStepIsValid,
     opplysningerOmTidsromStepIsValid,
@@ -18,7 +18,7 @@ export const opplysningerOmAnsettelsesforholdStepAvailable = (formData: Pleiepen
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData);
 
-export const medlemsskapStepAvailable = (formData: PleiepengesøknadFormData) =>
+export const medlemskapStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
@@ -29,12 +29,12 @@ export const legeerklæringStepAvailable = (formData: PleiepengesøknadFormData)
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
     opplysningerOmAnsettelsesforholdStepIsValid() &&
-    medlemsskapStepIsValid(formData);
+    medlemskapStepIsValid(formData);
 
 export const summaryStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
     opplysningerOmAnsettelsesforholdStepIsValid() &&
-    medlemsskapStepIsValid(formData) &&
+    medlemskapStepIsValid(formData) &&
     legeerklæringStepIsValid();

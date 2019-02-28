@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getApiUrlByResourceType, sendMultipartPostRequest } from '../../utils/apiUtils';
 import { ResourceType } from '../../types/ResourceType';
 import axiosConfig from '../../config/axiosConfig';
-import { deleteFile, getAnsettelsesforhold, getBarn, getSøker, sendApplication, uploadFile } from '../api';
+import { deleteFile, getArbeidsgiver, getBarn, getSøker, sendApplication, uploadFile } from '../api';
 
 const mockedApiUrl = 'nav.no/api';
 jest.mock('./../../utils/apiUtils', () => {
@@ -27,11 +27,11 @@ describe('api', () => {
         });
     });
 
-    describe('getAnsettelsesforhold', () => {
+    describe('getArbeidsgiver', () => {
         it('should call axios.get with correct URL and axios config', () => {
             const date1 = 'some date';
             const date2 = 'some other date';
-            getAnsettelsesforhold(date1, date2);
+            getArbeidsgiver(date1, date2);
             const url = `${getApiUrlByResourceType(ResourceType.SØKER)}?fra_og_med=${date1}&til_og_med=${date2}`;
             expect(axios.get).toHaveBeenCalledWith(url, axiosConfig);
         });

@@ -27,7 +27,7 @@ export const opplysningerOmTidsromStepIsValid = ({ periodeFra, periodeTil }: Ple
 
 export const opplysningerOmAnsettelsesforholdStepIsValid = () => true;
 
-export const medlemsskapStepIsValid = ({
+export const medlemskapStepIsValid = ({
     harBoddUtenforNorgeSiste12Mnd,
     skalBoUtenforNorgeNeste12Mnd
 }: PleiepengesøknadFormData) =>

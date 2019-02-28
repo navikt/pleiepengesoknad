@@ -3,6 +3,7 @@ import { mapFormDataToApiData } from '../mapFormDataToApiData';
 import { PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import * as dateUtils from './../dateUtils';
 import * as attachmentUtils from './../attachmentUtils';
+import { YesOrNo } from '../../types/YesOrNo';
 const moment = require('moment');
 
 const todaysDate = moment()
@@ -28,6 +29,8 @@ const formDataMock: Partial<PleiepengesøknadFormData> = {
             organisasjonsnummer: '910831143'
         }
     ],
+    [Field.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.YES,
+    [Field.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.NO,
     [Field.periodeFra]: todaysDate,
     [Field.periodeTil]: moment(todaysDate)
         .add(1, 'day')
@@ -62,8 +65,16 @@ describe('mapFormDataToApiData', () => {
         expect(resultingApiData.relasjon_til_barnet).toEqual(formDataMock[Field.søkersRelasjonTilBarnet]);
     });
 
-    it("should set 'ansettelsesforhold.organisasjoner' in api data correctly", () => {
-        expect(resultingApiData.ansettelsesforhold.organisasjoner).toEqual(formDataMock[Field.ansettelsesforhold]);
+    it("should set 'arbeidsgivere.organisasjoner' in api data correctly", () => {
+        expect(resultingApiData.arbeidsgivere.organisasjoner).toEqual(formDataMock[Field.ansettelsesforhold]);
+    });
+
+    it("should set 'medlemskap.skal_bo_i_utlandet_neste_12_mnd' in api data correctly", () => {
+        expect(resultingApiData.medlemskap.skal_bo_i_utlandet_neste_12_mnd).toBe(false);
+    });
+
+    it("should set 'medlemskap.har_bodd_i_utlandet_siste_12_mnd' in api data correctly", () => {
+        expect(resultingApiData.medlemskap.har_bodd_i_utlandet_siste_12_mnd).toBe(true);
     });
 
     it("should set 'fra_og_med' in api data correctly", () => {

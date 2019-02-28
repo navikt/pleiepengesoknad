@@ -9,7 +9,7 @@ import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
 import { date3YearsAgo, formatDate } from '../../../utils/dateUtils';
 import { FormikProps } from 'formik';
-import { getAnsettelsesforhold } from '../../../api/api';
+import { getArbeidsgiver } from '../../../api/api';
 import { validateFradato, validateTildato } from '../../../validation/fieldValidations';
 import { getNextStepRoute } from '../../../utils/routeUtils';
 
@@ -45,7 +45,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
         const values = this.props.formikProps.values;
         const fromDateString = formatDate(values[Field.periodeFra]!);
         const toDateString = formatDate(values[Field.periodeTil]!);
-        return getAnsettelsesforhold(fromDateString, toDateString);
+        return getArbeidsgiver(fromDateString, toDateString);
     }
 
     async finishStep(søkerdata: Søkerdata) {

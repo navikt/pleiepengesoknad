@@ -2,6 +2,7 @@ import { formatDate } from './dateUtils';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { Barn, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
 import { attachmentUploadHasFailed } from './attachmentUtils';
+import { YesOrNo } from '../types/YesOrNo';
 
 export const mapFormDataToApiData = ({
     barnetsNavn,
@@ -14,7 +15,9 @@ export const mapFormDataToApiData = ({
     ansettelsesforhold,
     periodeFra,
     periodeTil,
-    legeerklæring
+    legeerklæring,
+    harBoddUtenforNorgeSiste12Mnd,
+    skalBoUtenforNorgeNeste12Mnd
 }: PleiepengesøknadFormData): PleiepengesøknadApiData => {
     const fnrObject: Partial<Barn> = {};
     if (barnetsFødselsnummer) {
@@ -29,8 +32,12 @@ export const mapFormDataToApiData = ({
             ...fnrObject
         },
         relasjon_til_barnet: søkersRelasjonTilBarnet,
-        ansettelsesforhold: {
+        arbeidsgivere: {
             organisasjoner: ansettelsesforhold
+        },
+        medlemskap: {
+            har_bodd_i_utlandet_siste_12_mnd: harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES,
+            skal_bo_i_utlandet_neste_12_mnd: skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES
         },
         fra_og_med: formatDate(periodeFra!),
         til_og_med: formatDate(periodeTil!),
