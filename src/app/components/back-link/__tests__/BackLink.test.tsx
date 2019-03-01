@@ -15,8 +15,15 @@ describe('<BackLink />', () => {
     });
 
     it('should navigate user to specified href when link is clicked and no custom onClick handler is provided', () => {
-        const { getByText } = renderWrappedInMemoryRouter(<BackLink href={hrefLocation} />);
-        fireEvent.click(getByText('Tilbake'));
+        const { container } = renderWrappedInMemoryRouter(<BackLink href={hrefLocation} />);
+        fireEvent.click(container.querySelector('div')!);
         expect(historyMockFns.historyMock.push).toHaveBeenCalledWith(hrefLocation);
+    });
+
+    it('should call custom onClick handler if it has been specified', () => {
+        const onClick = jest.fn();
+        const { container } = renderWrappedInMemoryRouter(<BackLink href={hrefLocation} onClick={onClick} />);
+        fireEvent.click(container.querySelector('div')!);
+        expect(onClick).toHaveBeenCalled();
     });
 });
