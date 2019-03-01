@@ -30,7 +30,7 @@ describe('<AppEssentialsLoader />', () => {
         const stringContent = 'Some string content';
         const contentRenderer = () => <p>{stringContent}</p>;
         const { getByText, queryByTestId } = render(<AppEssentialsLoader contentLoadedRenderer={contentRenderer} />);
-        expect(queryByTestId('spinner-element')).not.toBeNull();
+        expect(queryByTestId('spinner-element')).toBeTruthy();
         expect(api.getBarn).toHaveBeenCalled();
         expect(api.getBarn).toHaveBeenCalled();
         await waitForElement(() => getByText(stringContent));
