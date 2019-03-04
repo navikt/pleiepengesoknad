@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { History } from 'history';
 import Step, { StepProps } from '../step/Step';
 import { userHasSubmittedValidForm } from '../../utils/formikUtils';
 import { connect } from 'formik';
@@ -7,12 +8,25 @@ import { Field } from '../../types/PleiepengesøknadFormData';
 
 export interface FormikStepProps {
     onValidFormSubmit?: () => void;
+    history: History;
 }
 
 type Props = FormikStepProps & StepProps;
 type PropsWithFormik = Props & ConnectedFormikProps<Field>;
 
 class FormikStep extends React.Component<PropsWithFormik> {
+    constructor(props: PropsWithFormik) {
+        super(props);
+
+        const {
+            history,
+            formik: { setFormikState }
+        } = props;
+        history.listen(() => {
+            setFormikState({ submitCount: 0 });
+        });
+    }
+
     componentDidUpdate(previousProps: PropsWithFormik) {
         const previousValues = {
             isSubmitting: previousProps.formik.isSubmitting,

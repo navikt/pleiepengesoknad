@@ -84,6 +84,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                         id={StepID.TIDSROM}
                         onValidFormSubmit={() => this.finishStep(søkerdata!)}
                         showButtonSpinner={isLoadingNextStep}
+                        history={history}
                         {...stepProps}>
                         <DateIntervalPicker
                             legend="For hvilken periode søker du pleiepenger?"

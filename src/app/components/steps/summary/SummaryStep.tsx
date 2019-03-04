@@ -53,7 +53,7 @@ class SummaryStep extends React.Component<Props, State> {
     }
 
     render() {
-        const { handleSubmit, values } = this.props;
+        const { handleSubmit, values, history } = this.props;
         const { sendingInProgress } = this.state;
         const stepProps = { handleSubmit, showButtonSpinner: sendingInProgress };
 
@@ -71,7 +71,7 @@ class SummaryStep extends React.Component<Props, State> {
         } = values;
 
         return (
-            <FormikStep id={StepID.SUMMARY} onValidFormSubmit={this.navigate} {...stepProps}>
+            <FormikStep id={StepID.SUMMARY} onValidFormSubmit={this.navigate} history={history} {...stepProps}>
                 <Box margin="l">
                     <Panel border={true}>
                         <SøkerdataContextConsumer>

@@ -38,7 +38,11 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
 }: Props) => {
     const navigate = () => navigateTo(nextStepRoute!, history);
     return (
-        <FormikStep id={StepID.OPPLYSNINGER_OM_BARNET} onValidFormSubmit={navigate} handleSubmit={handleSubmit}>
+        <FormikStep
+            id={StepID.OPPLYSNINGER_OM_BARNET}
+            onValidFormSubmit={navigate}
+            handleSubmit={handleSubmit}
+            history={history}>
             <SøkerdataContextConsumer>
                 {(søkerdata: Søkerdata) =>
                     harRegistrerteBarn(søkerdata) && (

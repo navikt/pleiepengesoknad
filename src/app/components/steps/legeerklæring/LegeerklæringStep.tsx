@@ -21,7 +21,7 @@ const LegeerklæringStep = ({ history, ...stepProps }: Props) => {
 
     const navigate = () => navigateTo(nextStepRoute!, history);
     return (
-        <FormikStep id={StepID.LEGEERKLÆRING} onValidFormSubmit={navigate} {...stepProps}>
+        <FormikStep id={StepID.LEGEERKLÆRING} onValidFormSubmit={navigate} history={history} {...stepProps}>
             <FormikFileUploader
                 name={Field.legeerklæring}
                 label="Last opp din legeerklæring her"

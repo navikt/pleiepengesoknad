@@ -22,7 +22,7 @@ const nextStepRoute = getNextStepRoute(StepID.ANSETTELSESFORHOLD);
 const OpplysningerOmAnsettelsesforholdStep = ({ history, ...stepProps }: Props) => {
     const navigate = () => navigateTo(nextStepRoute!, history);
     return (
-        <FormikStep id={StepID.ANSETTELSESFORHOLD} onValidFormSubmit={navigate} {...stepProps}>
+        <FormikStep id={StepID.ANSETTELSESFORHOLD} onValidFormSubmit={navigate} history={history} {...stepProps}>
             <SøkerdataContextConsumer>
                 {(søkerdata: Søkerdata) =>
                     søkerdata.ansettelsesforhold ? (
