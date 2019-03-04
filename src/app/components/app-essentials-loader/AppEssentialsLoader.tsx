@@ -1,7 +1,7 @@
 import * as React from 'react';
 import LoadingPage from '../pages/loading-page/LoadingPage';
 import { Ansettelsesforhold, Søkerdata } from '../../types/Søkerdata';
-import { isForbidden, isUnauthorized } from '../../utils/apiUtils';
+import * as apiUtils from '../../utils/apiUtils';
 import { getEnvironmentVariable } from '../../utils/envUtils';
 import routeConfig from '../../config/routeConfig';
 import { userIsCurrentlyOnErrorPage } from '../../utils/navigationUtils';
@@ -53,7 +53,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
             () => {
                 this.stopLoading();
                 if (userIsCurrentlyOnErrorPage()) {
-                    window.location.href = routeConfig.WELCOMING_PAGE_ROUTE;
+                    window.location.assign(routeConfig.WELCOMING_PAGE_ROUTE);
                 }
             }
         );
@@ -76,10 +76,10 @@ class AppEssentialsLoader extends React.Component<Props, State> {
     }
 
     handleSøkerdataFetchError(response: AxiosError) {
-        if (isForbidden(response) || isUnauthorized(response)) {
-            window.location = loginUrl;
+        if (apiUtils.isForbidden(response) || apiUtils.isUnauthorized(response)) {
+            window.location.assign(loginUrl);
         } else if (!userIsCurrentlyOnErrorPage()) {
-            window.location.href = routeConfig.ERROR_PAGE_ROUTE;
+            window.location.assign(routeConfig.ERROR_PAGE_ROUTE);
         }
         this.stopLoading();
     }
