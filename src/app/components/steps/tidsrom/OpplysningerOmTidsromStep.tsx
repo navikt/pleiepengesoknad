@@ -18,8 +18,6 @@ interface OpplysningerOmTidsromStepState {
 }
 
 interface OpplysningerOmTidsromStepProps {
-    isValid: boolean;
-    isSubmitting: boolean;
     handleSubmit: () => void;
     formikProps: FormikProps<PleiepengesøknadFormData>;
 }

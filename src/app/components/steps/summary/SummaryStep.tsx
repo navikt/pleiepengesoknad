@@ -20,8 +20,6 @@ import { YesOrNo } from '../../../types/YesOrNo';
 import routeConfig from '../../../config/routeConfig';
 
 export interface SummaryStepProps {
-    isValid: boolean;
-    isSubmitting: boolean;
     handleSubmit: () => void;
     values: PleiepengesøknadFormData;
 }
@@ -55,9 +53,9 @@ class SummaryStep extends React.Component<Props, State> {
     }
 
     render() {
-        const { handleSubmit, values, isSubmitting, isValid } = this.props;
+        const { handleSubmit, values } = this.props;
         const { sendingInProgress } = this.state;
-        const stepProps = { handleSubmit, isSubmitting, isValid, showButtonSpinner: sendingInProgress };
+        const stepProps = { handleSubmit, showButtonSpinner: sendingInProgress };
 
         const {
             periodeFra,

@@ -32,20 +32,13 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
     formikProps: {
         handleSubmit,
         setFieldValue,
-        isSubmitting,
-        isValid,
         values: { søknadenGjelderEtAnnetBarn, barnetSøknadenGjelder, barnetHarIkkeFåttFødselsnummerEnda }
     },
     history
 }: Props) => {
-    const stepProps = {
-        handleSubmit,
-        isSubmitting,
-        isValid
-    };
     const navigate = () => navigateTo(nextStepRoute!, history);
     return (
-        <FormikStep id={StepID.OPPLYSNINGER_OM_BARNET} onValidFormSubmit={navigate} {...stepProps}>
+        <FormikStep id={StepID.OPPLYSNINGER_OM_BARNET} onValidFormSubmit={navigate} handleSubmit={handleSubmit}>
             <SøkerdataContextConsumer>
                 {(søkerdata: Søkerdata) =>
                     harRegistrerteBarn(søkerdata) && (

@@ -8,8 +8,6 @@ import { Field } from '../../../types/PleiepengesøknadFormData';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
 
 interface MedlemsskapStepProps {
-    isValid: boolean;
-    isSubmitting: boolean;
     handleSubmit: () => void;
 }
 

@@ -13,8 +13,6 @@ import Box from '../../box/Box';
 import { Normaltekst } from 'nav-frontend-typografi';
 
 interface OpplysningerOmAnsettelsesforholdStepProps {
-    isValid: boolean;
-    isSubmitting: boolean;
     handleSubmit: () => void;
 }
 

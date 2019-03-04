@@ -19,13 +19,15 @@ interface PleiepengesøknadContentProps {
 }
 
 const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContentProps> = ({ formikProps }) => {
-    const { handleSubmit, isSubmitting, isValid, values } = formikProps;
-    const commonFormikProps = { handleSubmit, isSubmitting, isValid };
+    const { handleSubmit, values, isSubmitting, isValid } = formikProps;
+    const commonFormikProps = { handleSubmit };
     return (
         <Switch>
             <Route
                 path={routeConfig.WELCOMING_PAGE_ROUTE}
-                render={(props) => <WelcomingPage {...commonFormikProps} {...props} />}
+                render={(props) => (
+                    <WelcomingPage {...commonFormikProps} {...props} isSubmitting={isSubmitting} isValid={isValid} />
+                )}
             />
 
             {stepRouteIsAvailable(StepID.OPPLYSNINGER_OM_BARNET, values) && (

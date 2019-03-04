@@ -10,8 +10,6 @@ import { Field } from '../../../types/PleiepengesøknadFormData';
 import FileUploadErrors from '../../file-upload-errors/FileUploadErrors';
 
 interface LegeerklæringStepProps {
-    isValid: boolean;
-    isSubmitting: boolean;
     handleSubmit: () => void;
 }
 
