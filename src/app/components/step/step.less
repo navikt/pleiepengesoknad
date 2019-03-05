@@ -11,10 +11,18 @@
   &__backLink {
     position: relative;
     top: 24px;
+
+    @media (max-width: 768px) {
+      top: -16px;
+    }
   }
 
   &__validationErrorSummary {
     margin: 1rem auto 1rem auto;
     max-width: 704px;
+
+    @media (max-width: 768px) {
+      margin: 0;
+    }
   }
 }
