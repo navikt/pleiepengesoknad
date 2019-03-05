@@ -19,10 +19,14 @@ class ValidationErrorSummaryBase extends Component<ValidationErrorSummaryBasePro
     render() {
         const { errors, title, className } = this.props;
         const listItems = errors.map((error) => {
-            const link = `#${error.name}`;
             return (
                 <li key={error.name}>
-                    <a className={bem.element('link')} href={link}>
+                    <a
+                        className={bem.element('link')}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            document.getElementsByName(error.name)[0].focus();
+                        }}>
                         {error.message}
                     </a>
                 </li>
