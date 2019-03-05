@@ -2,16 +2,16 @@ import * as React from 'react';
 import { CustomFormikProps as FormikProps } from '../../types/FormikProps';
 import OpplysningerOmBarnetStep from '../steps/opplysninger-om-barnet/OpplysningerOmBarnetStep';
 import { StepID } from '../../config/stepConfig';
-import { getSøknadRoute, stepRouteIsAvailable } from '../../utils/routeUtils';
-import { Redirect, Route, Switch } from 'react-router';
+import { getSøknadRoute, isAvailable } from '../../utils/routeUtils';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
-import routeConfig from '../../config/routeConfig';
+import RouteConfig from '../../config/routeConfig';
 import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromStep';
 import OpplysningerOmAnsettelsesforholdStep from '../steps/ansettelsesforhold/OpplysningerOmAnsettelsesforholdStep';
 import MedlemsskapStep from '../steps/medlemskap/MedlemsskapStep';
 import LegeerklæringStep from '../steps/legeerklæring/LegeerklæringStep';
 import SummaryStep from '../steps/summary/SummaryStep';
-import ErrorPage from '../pages/error-page/ErrorPage';
+import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 
 interface PleiepengesøknadContentProps {
@@ -24,20 +24,20 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
     return (
         <Switch>
             <Route
-                path={routeConfig.WELCOMING_PAGE_ROUTE}
+                path={RouteConfig.WELCOMING_PAGE_ROUTE}
                 render={(props) => (
                     <WelcomingPage {...commonFormikProps} {...props} isSubmitting={isSubmitting} isValid={isValid} />
                 )}
             />
 
-            {stepRouteIsAvailable(StepID.OPPLYSNINGER_OM_BARNET, values) && (
+            {isAvailable(StepID.OPPLYSNINGER_OM_BARNET, values) && (
                 <Route
                     path={getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET)}
                     render={(props) => <OpplysningerOmBarnetStep formikProps={formikProps} {...props} />}
                 />
             )}
 
-            {stepRouteIsAvailable(StepID.TIDSROM, values) && (
+            {isAvailable(StepID.TIDSROM, values) && (
                 <Route
                     path={getSøknadRoute(StepID.TIDSROM)}
                     render={(props) => (
@@ -46,37 +46,40 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
                 />
             )}
 
-            {stepRouteIsAvailable(StepID.ANSETTELSESFORHOLD, values) && (
+            {isAvailable(StepID.ANSETTELSESFORHOLD, values) && (
                 <Route
                     path={getSøknadRoute(StepID.ANSETTELSESFORHOLD)}
                     render={(props) => <OpplysningerOmAnsettelsesforholdStep {...commonFormikProps} {...props} />}
                 />
             )}
 
-            {stepRouteIsAvailable(StepID.MEDLEMSKAP, values) && (
+            {isAvailable(StepID.MEDLEMSKAP, values) && (
                 <Route
                     path={getSøknadRoute(StepID.MEDLEMSKAP)}
                     render={(props) => <MedlemsskapStep {...commonFormikProps} {...props} />}
                 />
             )}
 
-            {stepRouteIsAvailable(StepID.LEGEERKLÆRING, values) && (
+            {isAvailable(StepID.LEGEERKLÆRING, values) && (
                 <Route
                     path={getSøknadRoute(StepID.LEGEERKLÆRING)}
                     render={(props) => <LegeerklæringStep {...commonFormikProps} {...props} />}
                 />
             )}
 
-            {stepRouteIsAvailable(StepID.SUMMARY, values) && (
+            {isAvailable(StepID.SUMMARY, values) && (
                 <Route
                     path={getSøknadRoute(StepID.SUMMARY)}
                     render={(props) => <SummaryStep values={values} {...commonFormikProps} {...props} />}
                 />
             )}
 
-            <Route path={routeConfig.ERROR_PAGE_ROUTE} component={ErrorPage} />
-            <Route path={routeConfig.SØKNAD_SENDT_ROUTE} component={ConfirmationPage} />
-            <Redirect to={routeConfig.WELCOMING_PAGE_ROUTE} />
+            {isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, values) && (
+                <Route path={RouteConfig.SØKNAD_SENDT_ROUTE} component={ConfirmationPage} />
+            )}
+
+            <Route path={RouteConfig.ERROR_PAGE_ROUTE} component={GeneralErrorPage} />
+            <Redirect to={RouteConfig.WELCOMING_PAGE_ROUTE} />
         </Switch>
     );
 };

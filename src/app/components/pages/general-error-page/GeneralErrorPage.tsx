@@ -3,7 +3,7 @@ import Page from '../../page/Page';
 import { Innholdstittel, Normaltekst } from 'nav-frontend-typografi';
 import Box from '../../box/Box';
 
-const ErrorPage: React.FunctionComponent = () => (
+const GeneralErrorPage: React.FunctionComponent = () => (
     <Page title="Feil">
         <Innholdstittel>Noe gikk galt...</Innholdstittel>
         <Box margin="l">
@@ -12,4 +12,4 @@ const ErrorPage: React.FunctionComponent = () => (
     </Page>
 );
 
-export default ErrorPage;
+export default GeneralErrorPage;

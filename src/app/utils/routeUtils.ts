@@ -1,6 +1,6 @@
 import { stepConfig, StepID } from '../config/stepConfig';
-import routeConfig from '../config/routeConfig';
-import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import RouteConfig from '../config/routeConfig';
+import { Field, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { appIsRunningInDevEnvironment } from './envUtils';
 import {
     legeerklæringStepAvailable,
@@ -13,16 +13,16 @@ import {
 
 export const getSøknadRoute = (stepId: StepID | undefined) => {
     if (stepId !== undefined) {
-        return `${routeConfig.SØKNAD_ROUTE_PREFIX}/${stepId}`;
+        return `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${stepId}`;
     }
     return undefined;
 };
 
 export const getNextStepRoute = (stepId: StepID): string | undefined => getSøknadRoute(stepConfig[stepId].nextStep);
 
-export const stepRouteIsAvailable = (stepId: StepID, values: PleiepengesøknadFormData) => {
+export const isAvailable = (path: StepID | RouteConfig, values: PleiepengesøknadFormData) => {
     if (!appIsRunningInDevEnvironment()) {
-        switch (stepId) {
+        switch (path) {
             case StepID.OPPLYSNINGER_OM_BARNET:
                 return opplysningerOmBarnetStepAvailable(values);
             case StepID.TIDSROM:
@@ -35,6 +35,8 @@ export const stepRouteIsAvailable = (stepId: StepID, values: PleiepengesøknadFo
                 return medlemskapStepAvailable(values);
             case StepID.SUMMARY:
                 return summaryStepAvailable(values);
+            case RouteConfig.SØKNAD_SENDT_ROUTE:
+                return values[Field.harBekreftetOpplysninger];
         }
     }
     return true;

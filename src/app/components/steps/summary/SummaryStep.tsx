@@ -48,7 +48,7 @@ class SummaryStep extends React.Component<Props, State> {
             await sendApplication(mapFormDataToApiData(values));
             navigateTo(routeConfig.SØKNAD_SENDT_ROUTE, history);
         } catch {
-            navigateTo(routeConfig.SØKNAD_SENDT_ROUTE, history);
+            navigateTo(routeConfig.ERROR_PAGE_ROUTE, history);
         }
     }
 
