@@ -2,9 +2,13 @@ import * as React from 'react';
 import bemHelper from '../../utils/bemUtils';
 import './counsellor.less';
 
+interface CounsellorProps {
+    theme: 'light' | 'dark';
+}
+
 const bem = bemHelper('counsellor');
-const Counsellor: React.FunctionComponent = () => (
-    <div className={bem.className}>
+const Counsellor: React.FunctionComponent<CounsellorProps> = ({ theme }) => (
+    <div className={`${bem.className} ${bem.modifier(theme)}`}>
         <svg version="1.1" x="0px" y="0px" viewBox="0 0 51.9 88.3" xmlSpace="preserve">
             <g>
                 <path

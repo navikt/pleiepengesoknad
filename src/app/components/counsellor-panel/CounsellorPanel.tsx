@@ -4,7 +4,7 @@ import Counsellor from '../counsellor/Counsellor';
 import './counsellorPanel.less';
 
 const CounsellorPanel: React.FunctionComponent = ({ children }) => (
-    <NFCounsellorPanel children={children} svg={<Counsellor />} />
+    <NFCounsellorPanel kompakt={true} children={children} svg={<Counsellor theme="light" />} />
 );
 
 export default CounsellorPanel;

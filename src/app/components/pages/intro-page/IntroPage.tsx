@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { YesOrNo } from '../../../types/YesOrNo';
 import Page from '../../page/Page';
-import StepBanner from '../../step-banner/StepBanner';
 import { default as YesOrNoQuestion } from '../../yes-or-no-question-base/YesOrNoQuestionBase';
 import ContentSwitcher from '../../content-switcher/ContentSwitcher';
 import GoToApplicationLink from '../../go-to-application-link/GoToApplicationLink';
@@ -10,6 +9,7 @@ import bemUtils from '../../../utils/bemUtils';
 import './introPage.less';
 import Lenke from 'nav-frontend-lenker';
 import Box from '../../box/Box';
+import StepBanner from '../../step-banner/StepBanner';
 
 const bem = bemUtils('introPage');
 const IntroPage: React.FunctionComponent = () => {
@@ -44,7 +44,7 @@ const IntroPage: React.FunctionComponent = () => {
             )}
 
             {hasCompletedForm && (
-                <Box margin="l" textAlignCenter={true}>
+                <Box margin="xl" textAlignCenter={true}>
                     <ContentSwitcher
                         firstContent={() => (
                             <CounsellorPanel>
