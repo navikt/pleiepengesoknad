@@ -37,8 +37,8 @@ export const validateValgtBarn = (v: string): string | undefined => {
     return result;
 };
 
-export const validateNavn = (v: string): string | undefined => {
-    if (!hasValue(v)) {
+export const validateNavn = (v: string, isRequired?: boolean): string | undefined => {
+    if (isRequired === true && !hasValue(v)) {
         return 'Feltet er påkrevd';
     }
 

@@ -91,8 +91,8 @@ describe('fieldValidations', () => {
     });
 
     describe('validateNavn', () => {
-        it('should return an error message saying field is required if provided value is empty string', () => {
-            expect(validateNavn('')).toEqual(fieldRequiredErrorMsg);
+        it('should return an error message saying field is required if provided value is empty string and isRequired is set to true', () => {
+            expect(validateNavn('', true)).toEqual(fieldRequiredErrorMsg);
         });
 
         it('should return an error message saying field has to be 50 letters or less, if length is longer than 50 letters', () => {
@@ -102,6 +102,10 @@ describe('fieldValidations', () => {
 
         it('should return undefined if value is valid (length > 0 && length <= 50)', () => {
             expect(validateNavn('a'.repeat(50))).toBeUndefined();
+        });
+
+        it('should return undefined if value is empty string when isRequired set to false', () => {
+            expect(validateNavn('', false)).toBeUndefined();
         });
     });
 

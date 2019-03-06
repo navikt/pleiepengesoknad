@@ -120,7 +120,13 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                             <Input
                                 label="Barnets navn"
                                 name={Field.barnetsNavn}
-                                validate={validateNavn}
+                                validate={(navn) => {
+                                    if (barnetHarIkkeFåttFødselsnummerEnda) {
+                                        return validateNavn(navn, false);
+                                    } else {
+                                        return validateNavn(navn, true);
+                                    }
+                                }}
                                 placeholder="Skriv inn barnets navn her"
                             />
                             <Input
