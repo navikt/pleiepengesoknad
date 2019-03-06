@@ -27,6 +27,7 @@ const FormikFileInput = <T extends {}>(): React.FunctionComponent<FormikFileInpu
                     return (
                         <FileInputBase
                             id={field.name}
+                            name={field.name}
                             label={label}
                             onClick={onClick}
                             onFilesSelect={(files) => onFilesSelect(files, arrayHelpers)}

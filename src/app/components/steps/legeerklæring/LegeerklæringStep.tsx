@@ -8,6 +8,7 @@ import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
 import { getNextStepRoute } from '../../../utils/routeUtils';
 import { Field } from '../../../types/PleiepengesøknadFormData';
 import FileUploadErrors from '../../file-upload-errors/FileUploadErrors';
+import { validateLegeerklæring } from '../../../validation/fieldValidations';
 
 interface LegeerklæringStepProps {
     handleSubmit: () => void;
@@ -29,6 +30,7 @@ const LegeerklæringStep = ({ history, ...stepProps }: Props) => {
                 onFileInputClick={() => {
                     setFilesThatDidntGetUploaded([]);
                 }}
+                validate={validateLegeerklæring}
             />
             <FileUploadErrors filesThatDidntGetUploaded={filesThatDidntGetUploaded} />
             <LegeerklæringFileList wrapNoAttachmentsInBox={true} />

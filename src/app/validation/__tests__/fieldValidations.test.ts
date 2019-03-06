@@ -4,6 +4,7 @@ import {
     validateForeløpigFødselsnummer,
     validateFradato,
     validateFødselsnummer,
+    validateLegeerklæring,
     validateNavn,
     validateRelasjonTilBarnet,
     validateTildato,
@@ -203,6 +204,16 @@ describe('fieldValidations', () => {
 
         it('should return error message saying that field is required if value is YesOrNo.UNANSWERED', () => {
             expect(validateYesOrNoIsAnswered(YesOrNo.UNANSWERED)).toEqual(fieldRequiredErrorMsg);
+        });
+    });
+
+    describe('validateLegeerklæring', () => {
+        it('should return undefined if the file array contains one or more files', () => {
+            expect(validateLegeerklæring([new File([''], 'filename', { type: 'text/png' })])).toBeUndefined();
+        });
+
+        it('should return error message saying that files must be uploaded if file-array is empty', () => {
+            expect(validateLegeerklæring([])).toEqual('Du må laste opp en legeerklæring');
         });
     });
 });

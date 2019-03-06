@@ -25,7 +25,13 @@ class ValidationErrorSummaryBase extends Component<ValidationErrorSummaryBasePro
                         className={bem.element('link')}
                         onClick={(e) => {
                             e.preventDefault();
-                            document.getElementsByName(error.name)[0].focus();
+                            const elementById = document.getElementById(error.name);
+                            const elementByName = document.getElementsByName(error.name)[0];
+                            if (elementById) {
+                                elementById.focus();
+                            } else if (elementByName) {
+                                elementByName.focus();
+                            }
                         }}>
                         {error.message}
                     </a>

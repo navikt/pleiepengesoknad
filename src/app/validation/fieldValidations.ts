@@ -103,3 +103,10 @@ export const validateYesOrNoIsAnswered = (answer: YesOrNo): string | undefined =
     }
     return undefined;
 };
+
+export const validateLegeerklæring = (files: File[]): string | undefined => {
+    if (files.length === 0) {
+        return 'Du må laste opp en legeerklæring';
+    }
+    return undefined;
+};

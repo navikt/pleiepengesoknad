@@ -11,6 +11,7 @@ import './fileInputBase.less';
 interface FileInputProps {
     id: string;
     label: string;
+    name: string;
     onFilesSelect: (files: File[]) => void;
     multiple?: boolean;
     feil?: ValidationError;
@@ -67,7 +68,7 @@ export default class FileInputBase extends React.Component<FileInputProps> {
     }
 
     render() {
-        const { id, label, feil, multiple, onClick } = this.props;
+        const { id, name, label, feil, multiple, onClick } = this.props;
         const bem = bemHelper('attachmentButton');
         const inputId = `${id}-input`;
         return (
@@ -88,6 +89,7 @@ export default class FileInputBase extends React.Component<FileInputProps> {
                     <Element className={bem.element('label')}>{label}</Element>
                     <input
                         id={inputId}
+                        name={name}
                         type="file"
                         accept={VALID_EXTENSIONS.join(', ')}
                         onChange={(e) => this.onFileSelect(e)}
