@@ -18,6 +18,7 @@ export interface StepProps {
     handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
     showSubmitButton?: boolean;
     showButtonSpinner?: boolean;
+    useValidationErrorSummary?: boolean;
 }
 
 const Step: React.FunctionComponent<StepProps> = ({
@@ -25,6 +26,7 @@ const Step: React.FunctionComponent<StepProps> = ({
     handleSubmit,
     showSubmitButton,
     showButtonSpinner,
+    useValidationErrorSummary,
     children
 }) => {
     const conf = stepConfig[id];
@@ -35,7 +37,9 @@ const Step: React.FunctionComponent<StepProps> = ({
             topContentRenderer={() => (
                 <>
                     <StepBanner text="Søknad om pleiepenger" />
-                    <FormikValidationErrorSummary className={bem.element('validationErrorSummary')} />
+                    {useValidationErrorSummary !== false && (
+                        <FormikValidationErrorSummary className={bem.element('validationErrorSummary')} />
+                    )}
                 </>
             )}>
             <BackLinkWithFormikReset className={bem.element('backLink')} href={conf.backLinkHref!} />

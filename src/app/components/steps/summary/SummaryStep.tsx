@@ -71,7 +71,12 @@ class SummaryStep extends React.Component<Props, State> {
         } = values;
 
         return (
-            <FormikStep id={StepID.SUMMARY} onValidFormSubmit={this.navigate} history={history} {...stepProps}>
+            <FormikStep
+                id={StepID.SUMMARY}
+                onValidFormSubmit={this.navigate}
+                history={history}
+                useValidationErrorSummary={false}
+                {...stepProps}>
                 <Box margin="l">
                     <Panel border={true}>
                         <SøkerdataContextConsumer>
