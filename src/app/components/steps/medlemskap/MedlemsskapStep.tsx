@@ -6,6 +6,7 @@ import { getNextStepRoute } from '../../../utils/routeUtils';
 import FormikStep from '../../formik-step/FormikStep';
 import { Field } from '../../../types/PleiepengesøknadFormData';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
+import { validateYesOrNoIsAnswered } from '../../../validation/fieldValidations';
 
 interface MedlemsskapStepProps {
     handleSubmit: () => void;
@@ -21,10 +22,12 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, ...stepProps
             <YesOrNoQuestion
                 legend="Har du bodd i andre land enn Norge i hele eller deler av de siste 12 månedene?"
                 name={Field.harBoddUtenforNorgeSiste12Mnd}
+                validate={validateYesOrNoIsAnswered}
             />
             <YesOrNoQuestion
                 legend="Planlegger du å bo i andre land enn Norge i hele eller deler av de neste 12 månedene?"
                 name={Field.skalBoUtenforNorgeNeste12Mnd}
+                validate={validateYesOrNoIsAnswered}
             />
         </FormikStep>
     );

@@ -13,17 +13,19 @@ interface RadioPanelGroupBaseProps {
 }
 
 const RadioPanelGroupBase = ({ legend, radios, feil }: RadioPanelGroupBaseProps) => (
-    <div className="radioPanelGruppe skjemaelement">
-        <Fieldset legend={legend}>
-            <SkjemaGruppe className="radioPanelGroup--responsive" feil={feil}>
-                {radios.map(({ onChange, value, key, ...otherRadioProps }: RadioPanelBaseProps) => (
-                    <div className="radioPanelWrapper" key={key}>
-                        <RadioPanel onChange={onChange} value={value} {...otherRadioProps} />
-                    </div>
-                ))}
-            </SkjemaGruppe>
-        </Fieldset>
-    </div>
+    <SkjemaGruppe feil={feil}>
+        <div className="radioPanelGruppe skjemaelement">
+            <Fieldset legend={legend}>
+                <div className="radioPanelGroup--responsive">
+                    {radios.map(({ onChange, value, key, ...otherRadioProps }: RadioPanelBaseProps) => (
+                        <div className="radioPanelWrapper" key={key}>
+                            <RadioPanel onChange={onChange} value={value} {...otherRadioProps} />
+                        </div>
+                    ))}
+                </div>
+            </Fieldset>
+        </div>
+    </SkjemaGruppe>
 );
 
 export default RadioPanelGroupBase;

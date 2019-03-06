@@ -13,17 +13,19 @@ interface CheckboxPanelGroupBaseProps {
 }
 
 const CheckboxPanelGroupBase = ({ legend, checkboxes, feil }: CheckboxPanelGroupBaseProps) => (
-    <div className="checkboxPanelGroup skjemaelement">
-        <Fieldset legend={legend}>
-            <SkjemaGruppe className="checkboxPanelGroup--responsive" feil={feil}>
-                {checkboxes.map(({ onChange, value, key, ...otherRadioProps }: CheckboxPanelBaseProps) => (
-                    <div className="checkboxPanelWrapper" key={key}>
-                        <CheckboksPanel onChange={onChange} value={value} {...otherRadioProps} />
-                    </div>
-                ))}
-            </SkjemaGruppe>
-        </Fieldset>
-    </div>
+    <SkjemaGruppe feil={feil}>
+        <div className="checkboxPanelGroup skjemaelement">
+            <Fieldset legend={legend}>
+                <div className="checkboxPanelGroup--responsive">
+                    {checkboxes.map(({ onChange, value, key, ...otherRadioProps }: CheckboxPanelBaseProps) => (
+                        <div className="checkboxPanelWrapper" key={key}>
+                            <CheckboksPanel onChange={onChange} value={value} {...otherRadioProps} />
+                        </div>
+                    ))}
+                </div>
+            </Fieldset>
+        </div>
+    </SkjemaGruppe>
 );
 
 export default CheckboxPanelGroupBase;

@@ -6,10 +6,12 @@ import {
     validateFødselsnummer,
     validateNavn,
     validateRelasjonTilBarnet,
-    validateTildato
+    validateTildato,
+    validateYesOrNoIsAnswered
 } from '../fieldValidations';
 import * as dateUtils from './../../utils/dateUtils';
 import Mock = jest.Mock;
+import { YesOrNo } from '../../types/YesOrNo';
 const moment = require('moment');
 
 jest.mock('../fødselsnummerValidator', () => {
@@ -187,6 +189,20 @@ describe('fieldValidations', () => {
                 .subtract(3, 'years')
                 .toDate();
             expect(validateTildato(date3YearsAgo)).toBeUndefined();
+        });
+    });
+
+    describe('validateYesOrNoIsAnswered', () => {
+        it('should return undefined if value is YesOrNo.YES', () => {
+            expect(validateYesOrNoIsAnswered(YesOrNo.YES)).toBeUndefined();
+        });
+
+        it('should return undefined if value is YesOrNo.NO', () => {
+            expect(validateYesOrNoIsAnswered(YesOrNo.NO)).toBeUndefined();
+        });
+
+        it('should return error message saying that field is required if value is YesOrNo.UNANSWERED', () => {
+            expect(validateYesOrNoIsAnswered(YesOrNo.UNANSWERED)).toEqual(fieldRequiredErrorMsg);
         });
     });
 });

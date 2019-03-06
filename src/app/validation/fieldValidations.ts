@@ -1,6 +1,8 @@
-const moment = require('moment');
+import { YesOrNo } from '../types/YesOrNo';
 import { fødselsnummerIsValid, FødselsnummerValidationErrorReason } from './fødselsnummerValidator';
 import { isMoreThan3YearsAgo } from '../utils/dateUtils';
+
+const moment = require('moment');
 
 export const hasValue = (v: any) => v !== '' && v !== undefined && v !== null;
 
@@ -92,5 +94,12 @@ export const validateTildato = (tilDato?: Date, fraDato?: Date): string | undefi
         }
     }
 
+    return undefined;
+};
+
+export const validateYesOrNoIsAnswered = (answer: YesOrNo): string | undefined => {
+    if (answer === YesOrNo.UNANSWERED) {
+        return 'Feltet er påkrevd';
+    }
     return undefined;
 };

@@ -6,7 +6,7 @@ import { YesOrNo } from '../../types/YesOrNo';
 interface YesOrNoQuestionProps {
     legend: string;
     name: Field;
-    validate?: () => undefined | string;
+    validate?: (value: YesOrNo) => undefined | string;
 }
 
 const YesOrNoQuestion: React.FunctionComponent<YesOrNoQuestionProps> = ({ legend, name, validate }) => (
