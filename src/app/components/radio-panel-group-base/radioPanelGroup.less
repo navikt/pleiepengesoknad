@@ -7,29 +7,28 @@
 .radioPanelGruppe {
   .skjema__legend {
     font-weight: normal;
-    margin-bottom: 0.5rem;
+    margin: 0;
   }
 
   .radioPanelGroup--responsive {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 0.5rem;
 
-    .radioPanel {
-      margin-right: 1rem;
-      &__label {
-        flex-grow: 1;
-        flex-shrink: 0;
+    .radioPanelWrapper {
+      margin-top: 0.5rem;
+
+      .radioPanel {
+        margin-right: 1rem;
+
+        &__label {
+          flex-grow: 1;
+          flex-shrink: 0;
+        }
       }
     }
 
     @media screen and (max-width: 576px) {
       display: block;
-
-
-      .radioPanelWrapper:not(:first-child) {
-        margin-top: 0.5rem;
-      }
     }
 
     @media screen and (min-width: 577px) and (max-width: @screen-tablet) {

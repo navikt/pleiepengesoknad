@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Normaltekst, Innholdstittel } from 'nav-frontend-typografi';
+import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import Page from '../../../components/page/Page';
 import bemHelper from '../../../utils/bemUtils';
@@ -18,8 +18,9 @@ import { Søkerdata } from '../../../types/Søkerdata';
 import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl';
 import Lenke from 'nav-frontend-lenker';
 import DinePlikterModal from '../../dine-plikter-modal/DinePlikterModal';
-import './welcomingPage.less';
 import BehandlingAvPersonopplysningerModal from '../../behandling-av-personopplysninger-modal/BehandlingAvPersonopplysningerModal';
+import LegeerklæringInformation from '../../legeerklæring-information/LegeerklæringInformation';
+import './welcomingPage.less';
 
 const bem = bemHelper('welcomingPage');
 
@@ -100,9 +101,14 @@ class WelcomingPage extends React.Component<Props, WelcomingPageState> {
                                     }}
                                 />
                             )}>
-                            <Innholdstittel className={bem.element('title')}>
-                                {intlHelper(intl, 'introtittel')}
-                            </Innholdstittel>
+                            <Box margin="xxl">
+                                <Sidetittel className={bem.element('title')}>
+                                    {intlHelper(intl, 'introtittel')}
+                                </Sidetittel>
+                            </Box>
+                            <Box margin="xl">
+                                <LegeerklæringInformation text="Har du legeerklæringen klar? Du trenger den senere i søknaden. Da tar du bare et bilde av den og laster opp." />
+                            </Box>
                             <Box margin="xl">
                                 <Normaltekst>{intlHelper(intl, 'introtekst')}</Normaltekst>
                             </Box>

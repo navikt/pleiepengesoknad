@@ -18,6 +18,7 @@ import { formatName } from '../../../utils/personUtils';
 import { sendApplication } from '../../../api/api';
 import { YesOrNo } from '../../../types/YesOrNo';
 import routeConfig from '../../../config/routeConfig';
+import CounsellorPanel from '../../counsellor-panel/CounsellorPanel';
 
 export interface SummaryStepProps {
     handleSubmit: () => void;
@@ -77,7 +78,11 @@ class SummaryStep extends React.Component<Props, State> {
                 history={history}
                 useValidationErrorSummary={false}
                 {...stepProps}>
-                <Box margin="l">
+                <CounsellorPanel>
+                    Les gjennom oppsummeringen før du sender inn søknaden. Hvis du trenger å gjøre endringer kan du gå
+                    tilbake.
+                </CounsellorPanel>
+                <Box margin="xl">
                     <Panel border={true}>
                         <SøkerdataContextConsumer>
                             {({ person: { fornavn, mellomnavn, etternavn, fodselsnummer } }: Søkerdata) => (

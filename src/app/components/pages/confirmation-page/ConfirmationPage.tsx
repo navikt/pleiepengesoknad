@@ -32,7 +32,7 @@ const ConfirmationPage: React.FunctionComponent = () => (
         </Box>
 
         <div className={bem.element('centeredContent')}>
-            <Box margin="xxl">
+            <Box margin="xxxl">
                 <Knapp>Gå til dine saker</Knapp>
             </Box>
         </div>

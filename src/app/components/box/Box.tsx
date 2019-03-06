@@ -3,7 +3,7 @@ import bemHelper from '../../utils/bemUtils';
 import classnames from 'classnames';
 import './box.less';
 
-type BoxMargin = 's' | 'm' | 'l' | 'xl' | 'xxl';
+type BoxMargin = 's' | 'm' | 'l' | 'xl' | 'xxl' | 'xxxl';
 
 interface BoxProps {
     margin: BoxMargin;

@@ -44,7 +44,7 @@ const Step: React.FunctionComponent<StepProps> = ({
             )}>
             <BackLinkWithFormikReset className={bem.element('backLink')} href={conf.backLinkHref!} />
             <StepIndicator stepConfig={stepConfig} activeStep={conf.index} />
-            <Box margin="xl">
+            <Box margin="xxl">
                 <Systemtittel className={bem.element('title')}>{conf.stepTitle}</Systemtittel>
             </Box>
             <Box margin="xl">
