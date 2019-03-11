@@ -25,10 +25,18 @@ const ConfirmationPage: React.FunctionComponent = () => (
         </div>
 
         <Box margin="xl">
-            <Ingress>
-                Lorem ipsum dolor sit amet, rationibus interpretaris eu nam, duo ad legere essent eirmod, mel in tota
-                mediocritatem. Has dico falli in, nec esse vide ut.
-            </Ingress>
+            <Ingress>Husk at du må informere arbeidsgiveren din om at du søker om pleiepenger.</Ingress>
+            <Box margin="l">
+                <Ingress>
+                    Når søknaden er ferdig behandlet, får du et brev fra oss. Se forventet saksbehandlingstid.
+                </Ingress>
+            </Box>
+            <Box margin="l">
+                <Ingress>
+                    Har du spørsmål? Du er velkommen til å ringe 55 55 33 33. Da får du hjelp av veiledere med
+                    spesialkunnskap om pleiepenger.
+                </Ingress>
+            </Box>
         </Box>
 
         <div className={bem.element('centeredContent')}>
