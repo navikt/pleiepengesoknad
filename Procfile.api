@@ -1,1 +1,1 @@
-web: npm run start-express
+web: PORT=8082 node ./api-mock.js
