@@ -7,7 +7,7 @@ server.use((req, res, next) => {
     res.set('X-Frame-Options', 'SAMEORIGIN');
     res.set('X-XSS-Protection', '1; mode=block');
     res.set('X-Content-Type-Options', 'nosniff');
-    res.set('Access-Control-Allow-Origin', 'http://pleiepengesoknad-web.herokuapp.com/');
+    res.set('Access-Control-Allow-Origin', 'http://pleiepengesoknad-web.herokuapp.com');
     res.set('Access-Control-Allow-Headers', 'content-type');
     res.set('Access-Control-Allow-Credentials', true);
     next();
