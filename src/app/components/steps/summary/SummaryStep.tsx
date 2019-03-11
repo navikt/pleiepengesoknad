@@ -154,8 +154,8 @@ class SummaryStep extends React.Component<Props, State> {
                             }
                             return result;
                         }}>
-                        Før du sender søknaden, les nøye gjennom alle opplysningene du har oppgitt og bekreft med å huke
-                        av her.
+                        Opplysningene jeg har oppgitt er riktige, og jeg har ikke holdt tilbake opplysninger som har
+                        betydning for retten jeg har til pleiepenger…
                     </ConfirmationCheckboxPanel>
                 </Box>
             </FormikStep>
