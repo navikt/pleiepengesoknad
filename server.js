@@ -8,10 +8,8 @@ const getDecorator = require('./src/build/scripts/decorator');
 
 const server = express();
 server.use(compression());
-
 server.set('views', `${__dirname}/dist`);
 server.set('view engine', 'mustache');
-
 server.engine('html', mustacheExpress());
 
 createEnvSettingsFile(path.resolve(`${__dirname}/dist/js/settings.js`));
@@ -25,15 +23,15 @@ server.use((req, res, next) => {
 });
 
 const renderApp = (decoratorFragments) =>
-  new Promise((resolve, reject) => {
-      server.render('index.html', decoratorFragments, (err, html) => {
-          if (err) {
-              reject(err);
-          } else {
-              resolve(html);
-          }
-      });
-  });
+    new Promise((resolve, reject) => {
+        server.render('index.html', decoratorFragments, (err, html) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(html);
+            }
+        });
+    });
 
 const startServer = (html) => {
     server.use('/dist/js', express.static(path.resolve(__dirname, 'dist/js')));
@@ -55,8 +53,8 @@ const startServer = (html) => {
 const logError = (errorMessage, details) => console.log(errorMessage, details);
 
 getDecorator()
-  .then(renderApp, (error) => {
-      logError('Failed to get decorator', error);
-      process.exit(1);
-  })
-  .then(startServer, (error) => logError('Failed to render app', error));
+    .then(renderApp, (error) => {
+        logError('Failed to get decorator', error);
+        process.exit(1);
+    })
+    .then(startServer, (error) => logError('Failed to render app', error));
