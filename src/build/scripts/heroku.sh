@@ -1,6 +1,6 @@
 if [ "$BUILD_ENV" = "heroku-web" ]; then
-    echo "Running 'npm run build' for deploying 'heroku-web'"
+    echo "Running 'npm run build' for deploying 'heroku-web'."
     npm run build
 else
-    exit 1
+    echo "heroku.sh was executed, but did nothing."
 fi
