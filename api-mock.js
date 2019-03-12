@@ -43,6 +43,7 @@ const startServer = () => {
     server.post('/vedlegg', (req, res) => {
         const busboy = new Busboy({ headers: req.headers });
         req.pipe(busboy);
+        res.set('Access-Control-Allow-Origin', 'https://pleiepengesoknad-api.herokuapp.com');
         res.set('Access-Control-Expose-Headers', 'Location');
         res.set('Location', 'nav.no');
         res.sendStatus(200);
