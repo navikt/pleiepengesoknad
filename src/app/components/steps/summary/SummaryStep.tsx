@@ -155,7 +155,7 @@ class SummaryStep extends React.Component<Props, State> {
                             return result;
                         }}>
                         Opplysningene jeg har oppgitt er riktige, og jeg har ikke holdt tilbake opplysninger som har
-                        betydning for retten jeg har til pleiepenger…
+                        betydning for retten jeg har til pleiepenger
                     </ConfirmationCheckboxPanel>
                 </Box>
             </FormikStep>
