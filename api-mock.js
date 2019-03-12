@@ -41,12 +41,14 @@ const startServer = () => {
     });
 
     server.post('/vedlegg', (req, res) => {
-        const busboy = new Busboy({ headers: req.headers });
-        req.pipe(busboy);
-        res.set('Access-Control-Allow-Origin', 'https://pleiepengesoknad-web.herokuapp.com');
         res.set('Access-Control-Expose-Headers', 'Location');
         res.set('Location', 'nav.no');
-        res.sendStatus(200);
+        const busboy = new Busboy({ headers: req.headers });
+        busboy.on('finish', () => {
+            res.writeHead(200, { Location: '/vedlegg' });
+            res.end();
+        });
+        req.pipe(busboy);
     });
 
     server.get('/barn', (req, res) => res.sendStatus(200));
