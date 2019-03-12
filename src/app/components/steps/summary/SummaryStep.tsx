@@ -109,7 +109,7 @@ class SummaryStep extends React.Component<Props, State> {
                                 {!barnetHarIkkeFåttFødselsnummerEnda ? (
                                     <Normaltekst>Fødselsnummer: {barnetsFødselsnummer}</Normaltekst>
                                 ) : null}
-                                {barnetsNavn !== undefined ? <Normaltekst>Navn: {barnetsNavn}</Normaltekst> : null}
+                                {barnetsNavn ? <Normaltekst>Navn: {barnetsNavn}</Normaltekst> : null}
                                 <Normaltekst>Din relasjon til barnet: {søkersRelasjonTilBarnet}</Normaltekst>
                             </ContentWithHeader>
                         </Box>
