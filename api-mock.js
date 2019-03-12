@@ -4,12 +4,16 @@ const Busboy = require('busboy');
 const server = express();
 
 server.use((req, res, next) => {
+    const allowedOrigins = ['https://pleiepengesoknad-web.herokuapp.com', 'http://localhost:8080'];
+    const requestOrigin = req.headers.origin;
+    if (allowedOrigins.indexOf(requestOrigin) >= 0) {
+        res.set('Access-Control-Allow-Origin', requestOrigin);
+    }
+
     res.removeHeader('X-Powered-By');
     res.set('X-Frame-Options', 'SAMEORIGIN');
     res.set('X-XSS-Protection', '1; mode=block');
     res.set('X-Content-Type-Options', 'nosniff');
-    res.set('Access-Control-Allow-Origin', 'https://pleiepengesoknad-web.herokuapp.com');
-    // res.set('Access-Control-Allow-Origin', 'http://localhost:8080');
     res.set('Access-Control-Allow-Headers', 'content-type');
     res.set('Access-Control-Allow-Credentials', true);
     next();
