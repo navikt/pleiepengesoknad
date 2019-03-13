@@ -23,11 +23,13 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, ...stepProps
                 legend="Har du bodd i andre land enn Norge i hele eller deler av de siste 12 månedene?"
                 name={Field.harBoddUtenforNorgeSiste12Mnd}
                 validate={validateYesOrNoIsAnswered}
+                helperText="Hva mener vi her? Trenger en god tekst."
             />
             <YesOrNoQuestion
                 legend="Planlegger du å bo i andre land enn Norge i hele eller deler av de neste 12 månedene?"
                 name={Field.skalBoUtenforNorgeNeste12Mnd}
                 validate={validateYesOrNoIsAnswered}
+                helperText="Hva mener vi her? Trenger en god tekst."
             />
         </FormikStep>
     );

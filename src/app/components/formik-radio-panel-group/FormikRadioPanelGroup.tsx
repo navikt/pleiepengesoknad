@@ -22,7 +22,8 @@ const FormikRadioPanelGroup = <T extends {}>(): React.FunctionComponent<FormikRa
     name,
     validate,
     legend,
-    radios
+    radios,
+    helperText
 }) => (
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {
@@ -37,6 +38,7 @@ const FormikRadioPanelGroup = <T extends {}>(): React.FunctionComponent<FormikRa
                         value,
                         ...otherProps
                     }))}
+                    helperText={helperText}
                     {...errorMsgProps}
                 />
             );
