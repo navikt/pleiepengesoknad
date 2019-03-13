@@ -1,6 +1,6 @@
 import * as React from 'react';
 import DocumentTitle from 'react-document-title';
-import InformationMessage from '../information-message/InformationMessage';
+import SystemInformationMessage from '../system-information-message/SystemInformationMessage';
 import './page.less';
 
 interface PageProps {
@@ -12,7 +12,7 @@ interface PageProps {
 const Page: React.FunctionComponent<PageProps> = ({ className, title, children, topContentRenderer }) => (
     <DocumentTitle title={title}>
         <>
-            <InformationMessage message="Denne siden er under utvikling" />
+            <SystemInformationMessage message="Denne siden er under utvikling" />
             {topContentRenderer && topContentRenderer()}
             <div className={`page ${className}`}>{children}</div>
         </>
