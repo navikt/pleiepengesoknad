@@ -17,7 +17,7 @@
         "testEnvironment": "node"
     },
     "dependencies": {
-        "@navikt/fnrvalidator": "^1.0.3",
+        "@navikt/fnrvalidator": "^1.0.4",
         "axios": "^0.18.0",
         "busboy": "^0.3.0",
         "classnames": "^2.2.6",
