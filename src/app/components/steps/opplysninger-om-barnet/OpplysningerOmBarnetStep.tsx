@@ -94,6 +94,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                 }}
                                 placeholder="Skriv inn fødselsnummer her"
                                 disabled={barnetHarIkkeFåttFødselsnummerEnda}
+                                bredde="XL"
                             />
                             <Checkbox
                                 label="Barnet har ikke fått fødselsnummer enda"
@@ -108,13 +109,14 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                 <Input
                                     label="Barnets foreløpige fødselsnummer eller D-nummer"
                                     name={Field.barnetsForeløpigeFødselsnummerEllerDNummer}
-                                    placeholder="Skriv inn barnets foreløpige fødselsnummer eller D-nummer her"
+                                    placeholder="Skriv inn barnets foreløpige fødselsnummer / D-nummer her"
                                     validate={(foreløpigFnr) => {
                                         if (barnetHarIkkeFåttFødselsnummerEnda) {
                                             return validateForeløpigFødselsnummer(foreløpigFnr);
                                         }
                                         return undefined;
                                     }}
+                                    bredde="XL"
                                 />
                             )}
                             <Input
@@ -128,12 +130,14 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                     }
                                 }}
                                 placeholder="Skriv inn barnets navn her"
+                                bredde="XL"
                             />
                             <Input
                                 label="Min relasjon til barnet"
                                 name={Field.søkersRelasjonTilBarnet}
                                 validate={validateRelasjonTilBarnet}
                                 placeholder="Skriv inn din relasjon til barnet her"
+                                bredde="XL"
                             />
                         </>
                     )

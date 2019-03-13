@@ -7,6 +7,7 @@ import { NavFrontendInputProps } from 'nav-frontend-skjema';
 interface FormikInputProps<T> {
     name: T;
     validate?: ((value: any) => string | Promise<void> | undefined);
+    helperText?: string;
 }
 
 const FormikInput = <T extends {}>(): React.FunctionComponent<NavFrontendInputProps & FormikInputProps<T>> => ({
