@@ -16,13 +16,15 @@ interface FormikCheckboxPanelGroupProps<T> {
     name: T;
     checkboxes: FormikCheckboxPanelProps[];
     validate?: ((value: any) => string | Promise<void> | undefined);
+    helperText?: string;
 }
 
 const FormikCheckboxPanelGroup = <T extends {}>(): React.FunctionComponent<FormikCheckboxPanelGroupProps<T>> => ({
     name,
     validate,
     legend,
-    checkboxes
+    checkboxes,
+    helperText
 }) => (
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {
@@ -44,6 +46,7 @@ const FormikCheckboxPanelGroup = <T extends {}>(): React.FunctionComponent<Formi
                         value,
                         ...otherProps
                     }))}
+                    helperText={helperText}
                     {...errorMsgProps}
                 />
             );

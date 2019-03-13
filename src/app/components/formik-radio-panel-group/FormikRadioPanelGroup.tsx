@@ -15,6 +15,7 @@ interface FormikRadioPanelGroupProps<T> {
     name: T;
     radios: FormikRadioPanelProps[];
     validate?: ((value: any) => string | Promise<void> | undefined);
+    helperText?: string;
 }
 
 const FormikRadioPanelGroup = <T extends {}>(): React.FunctionComponent<FormikRadioPanelGroupProps<T>> => ({

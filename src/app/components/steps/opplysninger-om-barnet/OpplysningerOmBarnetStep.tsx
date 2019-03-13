@@ -116,7 +116,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                         }
                                         return undefined;
                                     }}
-                                    bredde="XL"
+                                    bredde="XXL"
                                 />
                             )}
                             <Input
