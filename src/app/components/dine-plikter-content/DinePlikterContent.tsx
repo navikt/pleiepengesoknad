@@ -9,7 +9,7 @@ const DinePlikterContent: React.FunctionComponent = () => (
             <li>
                 <Normaltekst>
                     Jeg forstår at hvis jeg gir uriktige eller holder tilbake opplysninger kan det få konsekvenser for
-                    retten min til foreldrepenger.
+                    retten min til pleiepenger.
                 </Normaltekst>
             </li>
             <li style={{ marginTop: '0.5rem' }}>
