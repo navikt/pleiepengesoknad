@@ -18,6 +18,7 @@ export interface StepItemConfigInterface {
     backLinkHref?: string;
     buttonLabel?: string;
     stepIndicatorLabel: string;
+    buttonAriaLabel?: string;
 }
 
 export interface StepConfigInterface {
@@ -32,7 +33,8 @@ export const stepConfig: StepConfigInterface = {
         index: 0,
         nextStep: StepID.TIDSROM,
         backLinkHref: routeConfig.WELCOMING_PAGE_ROUTE,
-        buttonLabel: 'Fortsett'
+        buttonLabel: 'Fortsett',
+        buttonAriaLabel: 'Gå til neste steg'
     },
     [StepID.TIDSROM]: {
         pageTitle: 'Pleiepengesøknad',
@@ -41,7 +43,8 @@ export const stepConfig: StepConfigInterface = {
         index: 1,
         nextStep: StepID.ANSETTELSESFORHOLD,
         backLinkHref: getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET),
-        buttonLabel: 'Fortsett'
+        buttonLabel: 'Fortsett',
+        buttonAriaLabel: 'Gå til neste steg'
     },
     [StepID.ANSETTELSESFORHOLD]: {
         pageTitle: 'Pleiepengesøknad - opplysninger om ditt arbeidsforhold',
@@ -50,7 +53,8 @@ export const stepConfig: StepConfigInterface = {
         index: 2,
         nextStep: StepID.MEDLEMSKAP,
         backLinkHref: getSøknadRoute(StepID.TIDSROM),
-        buttonLabel: 'Fortsett'
+        buttonLabel: 'Fortsett',
+        buttonAriaLabel: 'Gå til neste steg'
     },
     [StepID.MEDLEMSKAP]: {
         pageTitle: 'Pleiepengesøknad - medlemskap',
@@ -59,7 +63,8 @@ export const stepConfig: StepConfigInterface = {
         index: 3,
         nextStep: StepID.LEGEERKLÆRING,
         backLinkHref: getSøknadRoute(StepID.ANSETTELSESFORHOLD),
-        buttonLabel: 'Fortsett'
+        buttonLabel: 'Fortsett',
+        buttonAriaLabel: 'Gå til neste steg'
     },
     [StepID.LEGEERKLÆRING]: {
         pageTitle: 'Pleiepengesøknad - legeerklæring',
@@ -68,7 +73,8 @@ export const stepConfig: StepConfigInterface = {
         index: 4,
         nextStep: StepID.SUMMARY,
         backLinkHref: getSøknadRoute(StepID.MEDLEMSKAP),
-        buttonLabel: 'Fortsett'
+        buttonLabel: 'Fortsett',
+        buttonAriaLabel: 'Gå til neste steg'
     },
     [StepID.SUMMARY]: {
         pageTitle: 'Pleiepengesøknad - oppsummering',
@@ -76,6 +82,7 @@ export const stepConfig: StepConfigInterface = {
         stepIndicatorLabel: 'Oppsummering',
         index: 5,
         backLinkHref: getSøknadRoute(StepID.LEGEERKLÆRING),
-        buttonLabel: 'Send inn søknaden'
+        buttonLabel: 'Send inn søknaden',
+        buttonAriaLabel: 'Send inn søknaden'
     }
 };

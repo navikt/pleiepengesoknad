@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Systemtittel } from 'nav-frontend-typografi';
+import { Undertittel } from 'nav-frontend-typografi';
 import bemUtils from '../../utils/bemUtils';
 import './validationErrorSummaryBase.less';
 
@@ -23,6 +23,7 @@ class ValidationErrorSummaryBase extends Component<ValidationErrorSummaryBasePro
                 <li key={error.name}>
                     <a
                         className={bem.element('link')}
+                        href="#"
                         onClick={(e) => {
                             e.preventDefault();
                             const elementById = document.getElementById(error.name);
@@ -41,7 +42,7 @@ class ValidationErrorSummaryBase extends Component<ValidationErrorSummaryBasePro
 
         return (
             <article tabIndex={-1} className={`${bem.className} ${className}`}>
-                <Systemtittel>{title}</Systemtittel>
+                <Undertittel>{title}</Undertittel>
                 <ul className={bem.element('list')}>{listItems}</ul>
             </article>
         );

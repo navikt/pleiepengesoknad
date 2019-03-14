@@ -28,7 +28,13 @@ const FormikValidationErrorSummary: React.FunctionComponent<Props> = ({
                 });
             });
 
-            return <ValidationErrorSummaryBase className={className} errors={errorMessages} title="Her er det feil:" />;
+            return (
+                <ValidationErrorSummaryBase
+                    className={className}
+                    errors={errorMessages}
+                    title="Du må rette opp i følgende feil:"
+                />
+            );
         }
     }
 

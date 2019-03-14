@@ -52,7 +52,10 @@ const Step: React.FunctionComponent<StepProps> = ({
                     {children}
                     {showSubmitButton !== false && (
                         <Box margin="xl">
-                            <Button className={bem.element('button')} spinner={showButtonSpinner || false}>
+                            <Button
+                                className={bem.element('button')}
+                                spinner={showButtonSpinner || false}
+                                aria-label={conf.buttonAriaLabel}>
                                 {conf.buttonLabel}
                             </Button>
                         </Box>
