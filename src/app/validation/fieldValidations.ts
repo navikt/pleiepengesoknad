@@ -26,7 +26,7 @@ export const validateForeløpigFødselsnummer = (v: string): string | undefined 
 
     const elevenDigits = new RegExp('^\\d{11}$');
     if (!elevenDigits.test(v)) {
-        return 'Det foreløpige fødselsnummeret / D-nummeret må bestå av 11 tall';
+        return 'Det foreløpige fødselsnummeret / D-nummeret må bestå av 11 siffer';
     }
     return undefined;
 };

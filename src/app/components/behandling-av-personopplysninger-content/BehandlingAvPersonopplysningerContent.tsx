@@ -31,6 +31,7 @@ const BehandlingAvPersonopplysningerContent: React.FunctionComponent = () => (
                 <li>tilknytningen din til Norge, arbeidsforholdene dine og inntekten din</li>
                 <li>ytelser du mottar fra NAV</li>
                 <li>trygdeordninger du kan ha rett til i andre land</li>
+                <li>barnets helseopplysninger</li>
             </ul>
             <Normaltekst>Vi kan også sende opplysninger om deg til trygdeordninger i andre land.</Normaltekst>
         </Box>

@@ -87,7 +87,7 @@ class SummaryStep extends React.Component<Props, State> {
                         <SøkerdataContextConsumer>
                             {({ person: { fornavn, mellomnavn, etternavn, fodselsnummer } }: Søkerdata) => (
                                 <ContentWithHeader header="Det søkes pleiepenger av:">
-                                    <Normaltekst>{formatName(fornavn, mellomnavn, etternavn)}</Normaltekst>
+                                    <Normaltekst>{formatName(fornavn, etternavn, mellomnavn)}</Normaltekst>
                                     <Normaltekst>Fødselsnummer: {fodselsnummer}</Normaltekst>
                                 </ContentWithHeader>
                             )}

@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { Input as NAVInput, NavFrontendInputProps as NAVInputProps } from 'nav-frontend-skjema';
 import LabelWithHelperText from '../label-with-helper-text/LabelWithHelperText';
+import { InputType } from '../../types/InputType';
 
 interface InputBaseProps {
     helperText?: string;
+    type?: InputType;
 }
 
 type Props = NAVInputProps & InputBaseProps;

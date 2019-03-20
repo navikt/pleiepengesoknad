@@ -3,11 +3,13 @@ import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorProps } from '../../utils/navFrontendUtils';
 import InputBase from '../input-base/InputBase';
 import { NavFrontendInputProps } from 'nav-frontend-skjema';
+import { InputType } from '../../types/InputType';
 
 interface FormikInputProps<T> {
     name: T;
     validate?: ((value: any) => string | Promise<void> | undefined);
     helperText?: string;
+    type?: InputType;
 }
 
 const FormikInput = <T extends {}>(): React.FunctionComponent<NavFrontendInputProps & FormikInputProps<T>> => ({
