@@ -11,7 +11,7 @@ export const validateFødselsnummer = (v: string): string | undefined => {
     let errorMessage;
     if (!isValid) {
         if (reasons.includes(FødselsnummerValidationErrorReason.MustConsistOf11Digits)) {
-            errorMessage = 'Fødselsnummeret må bestå av 11 tall';
+            errorMessage = 'Fødselsnummeret må bestå av 11 siffer';
         } else {
             errorMessage = 'Fødselsnummeret er ugyldig';
         }

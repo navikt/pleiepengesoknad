@@ -60,7 +60,7 @@ describe('fieldValidations', () => {
             ]);
             const result = validateFødselsnummer(mockedFnr);
             expect(fødselsnummerValidator.fødselsnummerIsValid).toHaveBeenCalledWith(mockedFnr);
-            expect(result).toEqual('Fødselsnummeret må bestå av 11 tall');
+            expect(result).toEqual('Fødselsnummeret må bestå av 11 siffer');
         });
 
         it('should return an error message saying fnr format is validation has failed, but reason is not MustConsistOf11Digits', () => {
@@ -85,7 +85,7 @@ describe('fieldValidations', () => {
         });
 
         it('should return an error message saying it must be 11 digits, if provided value is something other than a string with 11 digits', () => {
-            const errorMsg = 'Det foreløpige fødselsnummeret / D-nummeret må bestå av 11 tall';
+            const errorMsg = 'Det foreløpige fødselsnummeret / D-nummeret må bestå av 11 siffer';
             expect(validateForeløpigFødselsnummer('1234512345')).toEqual(errorMsg);
             expect(validateForeløpigFødselsnummer('1234512345a')).toEqual(errorMsg);
             expect(validateForeløpigFødselsnummer('123451234512')).toEqual(errorMsg);
