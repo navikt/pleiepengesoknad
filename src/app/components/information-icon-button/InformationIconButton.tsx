@@ -7,10 +7,11 @@ const bem = bemUtils('informationIconButton');
 
 interface InformationIconButtonProps {
     onClick: () => void;
+    ariaLabel: string;
 }
 
-const InformationIconButton: React.FunctionComponent<InformationIconButtonProps> = ({ onClick }) => (
-    <button type="button" className={bem.className} onClick={onClick}>
+const InformationIconButton: React.FunctionComponent<InformationIconButtonProps> = ({ onClick, ariaLabel }) => (
+    <button type="button" className={bem.className} onClick={onClick} aria-label={ariaLabel}>
         <InformationIcon />
     </button>
 );

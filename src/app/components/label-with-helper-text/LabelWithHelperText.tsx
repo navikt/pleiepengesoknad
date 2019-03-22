@@ -19,10 +19,11 @@ const LabelWithHelperText: React.FunctionComponent<LabelWithHelperText> = ({
     showByDefault
 }) => {
     const [showHelperText, setShowHelperText] = React.useState(showByDefault === true);
+    const ariaLabel = showHelperText ? 'Lukk hjelpetekst' : 'Åpne hjelpetekst';
     return (
         <label className={`${bem.className} skjemaelement__label`} htmlFor={htmlFor}>
             {children}
-            <InformationIconButton onClick={() => setShowHelperText(!showHelperText)} />
+            <InformationIconButton onClick={() => setShowHelperText(!showHelperText)} ariaLabel={ariaLabel} />
             {showHelperText && <InformationPanel>{helperText}</InformationPanel>}
         </label>
     );
