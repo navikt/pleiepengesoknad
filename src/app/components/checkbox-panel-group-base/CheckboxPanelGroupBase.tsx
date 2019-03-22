@@ -17,6 +17,7 @@ interface CheckboxPanelGroupBaseProps {
 
 const CheckboxPanelGroupBase = ({ legend, checkboxes, feil, helperText }: CheckboxPanelGroupBaseProps) => {
     const [showHelperText, setShowHelperText] = React.useState(false);
+    const ariaLabel = showHelperText ? 'Lukk hjelpetekst' : 'Åpne hjelpetekst';
     return (
         <SkjemaGruppe feil={feil}>
             <div className="checkboxPanelGroup skjemaelement">
@@ -25,7 +26,10 @@ const CheckboxPanelGroupBase = ({ legend, checkboxes, feil, helperText }: Checkb
                         {legend}
                         {helperText && (
                             <>
-                                <InformationIconButton onClick={() => setShowHelperText(!showHelperText)} />
+                                <InformationIconButton
+                                    onClick={() => setShowHelperText(!showHelperText)}
+                                    ariaLabel={ariaLabel}
+                                />
                                 {showHelperText && <InformationPanel>{helperText}</InformationPanel>}
                             </>
                         )}

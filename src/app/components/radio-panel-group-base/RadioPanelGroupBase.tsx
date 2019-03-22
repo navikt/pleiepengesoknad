@@ -17,6 +17,7 @@ interface RadioPanelGroupBaseProps {
 
 const RadioPanelGroupBase = ({ legend, radios, feil, helperText }: RadioPanelGroupBaseProps) => {
     const [showHelperText, setShowHelperText] = React.useState(false);
+    const ariaLabel = showHelperText ? 'Lukk hjelpetekst' : 'Åpne hjelpetekst';
     return (
         <SkjemaGruppe feil={feil}>
             <div className="radioPanelGruppe skjemaelement">
@@ -25,7 +26,10 @@ const RadioPanelGroupBase = ({ legend, radios, feil, helperText }: RadioPanelGro
                         {legend}
                         {helperText && (
                             <>
-                                <InformationIconButton onClick={() => setShowHelperText(!showHelperText)} />
+                                <InformationIconButton
+                                    onClick={() => setShowHelperText(!showHelperText)}
+                                    ariaLabel={ariaLabel}
+                                />
                                 {showHelperText && <InformationPanel>{helperText}</InformationPanel>}
                             </>
                         )}
