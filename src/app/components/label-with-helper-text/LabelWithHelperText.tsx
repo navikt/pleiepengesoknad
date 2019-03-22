@@ -23,7 +23,11 @@ const LabelWithHelperText: React.FunctionComponent<LabelWithHelperText> = ({
     return (
         <label className={`${bem.className} skjemaelement__label`} htmlFor={htmlFor}>
             {children}
-            <InformationIconButton onClick={() => setShowHelperText(!showHelperText)} ariaLabel={ariaLabel} />
+            <InformationIconButton
+                onClick={() => setShowHelperText(!showHelperText)}
+                ariaLabel={ariaLabel}
+                ariaPressed={showHelperText}
+            />
             {showHelperText && <InformationPanel>{helperText}</InformationPanel>}
         </label>
     );
