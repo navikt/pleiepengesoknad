@@ -29,6 +29,7 @@ const RadioPanelGroupBase = ({ legend, radios, feil, helperText }: RadioPanelGro
                                 <InformationIconButton
                                     onClick={() => setShowHelperText(!showHelperText)}
                                     ariaLabel={ariaLabel}
+                                    ariaPressed={showHelperText}
                                 />
                                 {showHelperText && <InformationPanel>{helperText}</InformationPanel>}
                             </>
