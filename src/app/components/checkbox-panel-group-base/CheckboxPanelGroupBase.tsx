@@ -29,6 +29,7 @@ const CheckboxPanelGroupBase = ({ legend, checkboxes, feil, helperText }: Checkb
                                 <InformationIconButton
                                     onClick={() => setShowHelperText(!showHelperText)}
                                     ariaLabel={ariaLabel}
+                                    ariaPressed={showHelperText}
                                 />
                                 {showHelperText && <InformationPanel>{helperText}</InformationPanel>}
                             </>
