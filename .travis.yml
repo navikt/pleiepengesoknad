@@ -24,6 +24,7 @@ script:
   if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${TRAVIS_BRANCH}" = "master" ]; then
     echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
     docker push $DOCKER_IMG_NAME:$COMMIT_SHORT
+    docker push navikt/pleiepengesoknad-api-mock:$COMMIT_SHORT
     git clone https://x-access-token:$GH_TOKEN@github.com/navikt/helse-iac.git
     cd helse-iac
     ./set-image.sh preprod/$APP_NAME/naiserator-sbs.yaml $DOCKER_IMG_NAME:$COMMIT_SHORT
