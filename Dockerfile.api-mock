@@ -1,0 +1,9 @@
+FROM node:alpine
+
+WORKDIR /usr/src/app
+
+COPY api-mock.js .
+COPY node_modules ./node_modules
+COPY package.json .
+
+CMD ["npm", "run", "start-api-mock"]

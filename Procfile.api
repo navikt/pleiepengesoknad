@@ -1,1 +1,0 @@
-web: node ./api-mock.js

@@ -4,11 +4,7 @@ const Busboy = require('busboy');
 const server = express();
 
 server.use((req, res, next) => {
-    const allowedOrigins = [
-        'http://pleiepengesoknad-web.herokuapp.com',
-        'https://pleiepengesoknad-web.herokuapp.com',
-        'http://localhost:8080'
-    ];
+    const allowedOrigins = ['https://pleiepengesoknad-web.herokuapp.com', 'http://localhost:8080'];
     const requestOrigin = req.headers.origin;
     if (allowedOrigins.indexOf(requestOrigin) >= 0) {
         res.set('Access-Control-Allow-Origin', requestOrigin);
@@ -38,7 +34,10 @@ const arbeidsgivereMock = {
 };
 
 const startServer = () => {
-    const port = process.env.PORT;
+    const port = process.env.PORT || 8082;
+
+    server.get('/health/isAlive', (req, res) => res.sendStatus(200));
+    server.get('/health/isReady', (req, res) => res.sendStatus(200));
 
     server.get('/arbeidsgiver', (req, res) => {
         res.send(arbeidsgivereMock);
