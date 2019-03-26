@@ -5,16 +5,15 @@ import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
 import Box from '../../box/Box';
 import bemUtils from '../../../utils/bemUtils';
-const checkmarkIcon = require('./../../../../assets/checkmark.svg').default;
-import CustomSVG from '../../custom-svg/CustomSVG';
-import { Knapp } from 'nav-frontend-knapper';
+import Lenke from 'nav-frontend-lenker';
+import CheckmarkIcon from '../../checkmark-icon/CheckmarkIcon';
 import './confirmationPage.less';
 
 const bem = bemUtils('confirmationPage');
 const ConfirmationPage: React.FunctionComponent = () => (
     <Page title="Takk for søknaden!" className={bem.className}>
         <div className={bem.element('centeredContent')}>
-            <CustomSVG iconRef={checkmarkIcon} size={48} />
+            <CheckmarkIcon />
             <Box margin="xl">
                 <SøkerdataContextConsumer>
                     {(søkerdata: Søkerdata) => (
@@ -28,7 +27,12 @@ const ConfirmationPage: React.FunctionComponent = () => (
             <Ingress>Husk at du må informere arbeidsgiveren din om at du søker om pleiepenger.</Ingress>
             <Box margin="l">
                 <Ingress>
-                    Når søknaden er ferdig behandlet, får du et brev fra oss. Se forventet saksbehandlingstid.
+                    Når søknaden er ferdig behandlet, får du et brev fra oss.{' '}
+                    <Lenke
+                        href="https://www.nav.no/no/NAV+og+samfunn/Om+NAV/Saksbehandlingstider+i+NAV"
+                        target="_blank">
+                        Se forventet saksbehandlingstid.
+                    </Lenke>
                 </Ingress>
             </Box>
             <Box margin="l">
@@ -38,12 +42,6 @@ const ConfirmationPage: React.FunctionComponent = () => (
                 </Ingress>
             </Box>
         </Box>
-
-        <div className={bem.element('centeredContent')}>
-            <Box margin="xxxl">
-                <Knapp>Gå til dine saker</Knapp>
-            </Box>
-        </div>
     </Page>
 );
 
