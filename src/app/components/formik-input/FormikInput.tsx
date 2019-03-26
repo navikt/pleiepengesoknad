@@ -10,6 +10,7 @@ interface FormikInputProps<T> {
     validate?: ((value: any) => string | Promise<void> | undefined);
     helperText?: string;
     type?: InputType;
+    maxLength?: number;
 }
 
 const FormikInput = <T extends {}>(): React.FunctionComponent<NavFrontendInputProps & FormikInputProps<T>> => ({

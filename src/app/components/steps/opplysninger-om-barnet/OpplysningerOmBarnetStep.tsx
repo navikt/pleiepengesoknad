@@ -96,6 +96,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                 disabled={barnetHarIkkeFåttFødselsnummerEnda}
                                 bredde="XL"
                                 type="tel"
+                                maxLength={11}
                             />
                             <Checkbox
                                 label="Barnet har ikke fått fødselsnummer enda"
@@ -119,6 +120,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                     }}
                                     bredde="XXL"
                                     type="tel"
+                                    maxLength={11}
                                 />
                             )}
                             <Input

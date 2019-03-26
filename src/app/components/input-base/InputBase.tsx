@@ -4,6 +4,7 @@ import LabelWithHelperText from '../label-with-helper-text/LabelWithHelperText';
 import { InputType } from '../../types/InputType';
 
 interface InputBaseProps {
+    maxLength?: number;
     helperText?: string;
     type?: InputType;
 }
