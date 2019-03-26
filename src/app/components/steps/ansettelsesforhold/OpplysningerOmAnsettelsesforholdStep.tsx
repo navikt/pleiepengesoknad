@@ -34,7 +34,6 @@ const OpplysningerOmAnsettelsesforholdStep = ({ history, ...stepProps }: Props) 
                                 value: a,
                                 key: a.organisasjonsnummer
                             }))}
-                            helperText="Vi trenger disse opplysningene fordi..."
                         />
                     ) : (
                         <Normaltekst>Du er ikke registrert med noen arbeidsforhold.</Normaltekst>
