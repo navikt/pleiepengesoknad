@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
+import { Sidetittel } from 'nav-frontend-typografi';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import Page from '../../../components/page/Page';
 import bemHelper from '../../../utils/bemUtils';
@@ -109,12 +109,8 @@ class WelcomingPage extends React.Component<Props, WelcomingPageState> {
                             <Box margin="xl">
                                 <LegeerklæringInformation text="Har du legeerklæringen klar? Du trenger den senere i søknaden. Da tar du bare et bilde av den og laster opp." />
                             </Box>
-                            <Box margin="xl">
-                                <Normaltekst>{intlHelper(intl, 'introtekst')}</Normaltekst>
-                            </Box>
-
                             <form onSubmit={handleSubmit}>
-                                <Box margin="l">
+                                <Box margin="xl">
                                     <ConfirmationCheckboxPanel
                                         label={intlHelper(intl, 'jajegsamtykker')}
                                         name={Field.harGodkjentVilkår}

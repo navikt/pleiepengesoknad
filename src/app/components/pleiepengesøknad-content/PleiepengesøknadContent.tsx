@@ -19,7 +19,8 @@ interface PleiepengesøknadContentProps {
 }
 
 const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContentProps> = ({ formikProps }) => {
-    const { handleSubmit, values, isSubmitting, isValid } = formikProps;
+    const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
+    const { handleSubmit, values, isSubmitting, isValid, resetForm } = formikProps;
     const commonFormikProps = { handleSubmit };
     return (
         <Switch>
@@ -74,8 +75,20 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
                 />
             )}
 
-            {isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, values) && (
-                <Route path={RouteConfig.SØKNAD_SENDT_ROUTE} component={ConfirmationPage} />
+            {(isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, values) || søknadHasBeenSent) && (
+                <Route
+                    path={RouteConfig.SØKNAD_SENDT_ROUTE}
+                    render={() => {
+                        // we clear form state here to ensure that no steps will be available
+                        // after the application has been sent. this is done in a setTimeout
+                        // because we do not want to update state during render.
+                        setTimeout(() => {
+                            resetForm();
+                        });
+                        setSøknadHasBeenSent(true);
+                        return <ConfirmationPage />;
+                    }}
+                />
             )}
 
             <Route path={RouteConfig.ERROR_PAGE_ROUTE} component={GeneralErrorPage} />
