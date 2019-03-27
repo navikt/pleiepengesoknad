@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export default () => (
-    <svg version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 92.1 64">
+    <svg version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 92.1 64" className="legeerklæringIcon">
         <rect x="3.3" y="34.4" width="24.3" height="14.9" fillRule="evenodd" clipRule="evenodd" fill="#c4e6f3" />
         <rect x="22.9" y="34.4" width="4.6" height="14.9" fillRule="evenodd" clipRule="evenodd" fill="#2582ab" />
         <path
