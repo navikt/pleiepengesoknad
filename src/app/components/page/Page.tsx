@@ -9,19 +9,23 @@ interface PageProps {
     topContentRenderer?: () => React.ReactElement<any>;
 }
 
-const Page: React.FunctionComponent<PageProps> = ({ className, title, children, topContentRenderer }) => {
-    React.useEffect(() => {
+class Page extends React.Component<PageProps> {
+    componentDidMount() {
         window.scrollTo(0, 0);
-    }, []);
-    return (
-        <DocumentTitle title={title}>
-            <>
-                <SystemInformationMessage message="Denne siden er under utvikling" />
-                {topContentRenderer && topContentRenderer()}
-                <div className={`page ${className}`}>{children}</div>
-            </>
-        </DocumentTitle>
-    );
-};
+    }
+
+    render() {
+        const { className, title, topContentRenderer, children } = this.props;
+        return (
+            <DocumentTitle title={title}>
+                <>
+                    <SystemInformationMessage message="Denne siden er under utvikling" />
+                    {topContentRenderer && topContentRenderer()}
+                    <div className={`page ${className}`}>{children}</div>
+                </>
+            </DocumentTitle>
+        );
+    }
+}
 
 export default Page;
