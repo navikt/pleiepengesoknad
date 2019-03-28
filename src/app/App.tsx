@@ -5,6 +5,7 @@ import routeConfig from './config/routeConfig';
 import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad';
 import IntroPage from './components/pages/intro-page/IntroPage';
 import { render } from 'react-dom';
+import Modal from 'nav-frontend-modal';
 import './globalStyles.less';
 
 const App: React.FunctionComponent = () => {
@@ -19,4 +20,5 @@ const App: React.FunctionComponent = () => {
 };
 
 const root = document.getElementById('app');
+Modal.setAppElement('#app');
 render(<App />, root);
