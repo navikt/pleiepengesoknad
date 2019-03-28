@@ -28,6 +28,7 @@ jest.mock('./../../../utils/apiUtils', () => {
 
 describe('<AppEssentialsLoader />', () => {
     beforeEach(() => {
+        window.scroll = jest.fn();
         window.location.assign = jest.fn();
     });
 
