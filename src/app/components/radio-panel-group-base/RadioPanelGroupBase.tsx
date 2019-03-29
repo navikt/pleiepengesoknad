@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { RadioPanel, RadioPanelProps, SkjemaGruppe } from 'nav-frontend-skjema';
 import { SkjemaelementFeil } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
-import InformationPanel from '../information-panel/InformationPanel';
-import InformationIconButton from '../information-icon-button/InformationIconButton';
+import HelperTextPanel from '../helper-text-panel/HelperTextPanel';
+import HelperTextButton from '../helper-text-button/HelperTextButton';
 import 'nav-frontend-skjema-style';
 import './radioPanelGroup.less';
 
@@ -26,12 +26,12 @@ const RadioPanelGroupBase = ({ legend, radios, feil, helperText }: RadioPanelGro
                         {legend}
                         {helperText && (
                             <>
-                                <InformationIconButton
+                                <HelperTextButton
                                     onClick={() => setShowHelperText(!showHelperText)}
                                     ariaLabel={ariaLabel}
                                     ariaPressed={showHelperText}
                                 />
-                                {showHelperText && <InformationPanel>{helperText}</InformationPanel>}
+                                {showHelperText && <HelperTextPanel>{helperText}</HelperTextPanel>}
                             </>
                         )}
                     </legend>

@@ -10,6 +10,7 @@ import './introPage.less';
 import Lenke from 'nav-frontend-lenker';
 import Box from '../../box/Box';
 import StepBanner from '../../step-banner/StepBanner';
+import InformationPoster from '../../information-poster/InformationPoster';
 
 const bem = bemUtils('introPage');
 const IntroPage: React.FunctionComponent = () => {
@@ -27,16 +28,25 @@ const IntroPage: React.FunctionComponent = () => {
             className={bem.className}
             title="Søknad om pleiepenger - intro"
             topContentRenderer={() => <StepBanner text="Søknad om pleiepenger" />}>
-            <YesOrNoQuestion
-                legend="Er du selvstendig næringsdrivende eller frilanser?"
-                name="erDuSelvstendigNæringsdrivendeEllerFrilanser"
-                checked={erSelvstendigNæringsdrivendeEllerFrilanser}
-                onChange={(value) => setErSelvstendigNæringsdrivendeEllerFrilanser(value)}
-            />
+            <Box margin="xxxl">
+                <InformationPoster>
+                    Den digitale søknaden er under utvikling og kan foreløpig ikke brukes av alle. Svar på to spørsmål,
+                    så får du vite om du kan søke digitalt.
+                </InformationPoster>
+            </Box>
+
+            <Box margin="xl">
+                <YesOrNoQuestion
+                    legend="Er du selvstendig næringsdrivende eller frilanser?"
+                    name="erDuSelvstendigNæringsdrivendeEllerFrilanser"
+                    checked={erSelvstendigNæringsdrivendeEllerFrilanser}
+                    onChange={(value) => setErSelvstendigNæringsdrivendeEllerFrilanser(value)}
+                />
+            </Box>
 
             {erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.NO && (
                 <YesOrNoQuestion
-                    legend="Planlegger du å gradere pleiepenger?"
+                    legend="Forventer du at barnet kan være noe i barnehage, skole eller liknende?"
                     name="planleggerDuÅGraderePleiepenger"
                     checked={skalGraderePleiepenger}
                     onChange={(value) => setSkalGraderePleiepenger(value)}

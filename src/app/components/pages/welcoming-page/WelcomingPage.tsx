@@ -19,7 +19,7 @@ import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl';
 import Lenke from 'nav-frontend-lenker';
 import DinePlikterModal from '../../dine-plikter-modal/DinePlikterModal';
 import BehandlingAvPersonopplysningerModal from '../../behandling-av-personopplysninger-modal/BehandlingAvPersonopplysningerModal';
-import LegeerklæringInformation from '../../legeerklæring-information/LegeerklæringInformation';
+import LegeerklæringInformationPanel from '../../legeerklæring-information-panel/LegeerklæringInformationPanel';
 import './welcomingPage.less';
 
 const bem = bemHelper('welcomingPage');
@@ -107,7 +107,7 @@ class WelcomingPage extends React.Component<Props, WelcomingPageState> {
                                 </Sidetittel>
                             </Box>
                             <Box margin="xl">
-                                <LegeerklæringInformation text="Har du legeerklæringen klar? Du trenger den senere i søknaden. Da tar du bare et bilde av den og laster opp." />
+                                <LegeerklæringInformationPanel text="Har du legeerklæringen klar? Du trenger den senere i søknaden. Da tar du bare et bilde av den og laster opp." />
                             </Box>
                             <form onSubmit={handleSubmit}>
                                 <Box margin="xl">

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { CheckboksPanel, CheckboksPanelProps, SkjemaGruppe } from 'nav-frontend-skjema';
 import { SkjemaelementFeil } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
-import InformationPanel from '../information-panel/InformationPanel';
-import InformationIconButton from '../information-icon-button/InformationIconButton';
+import HelperTextPanel from '../helper-text-panel/HelperTextPanel';
+import HelperTextButton from '../helper-text-button/HelperTextButton';
 import 'nav-frontend-skjema-style';
 import './checkboxPanelGroupBase.less';
 
@@ -26,12 +26,12 @@ const CheckboxPanelGroupBase = ({ legend, checkboxes, feil, helperText }: Checkb
                         {legend}
                         {helperText && (
                             <>
-                                <InformationIconButton
+                                <HelperTextButton
                                     onClick={() => setShowHelperText(!showHelperText)}
                                     ariaLabel={ariaLabel}
                                     ariaPressed={showHelperText}
                                 />
-                                {showHelperText && <InformationPanel>{helperText}</InformationPanel>}
+                                {showHelperText && <HelperTextPanel>{helperText}</HelperTextPanel>}
                             </>
                         )}
                     </legend>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import bemUtils from '../../utils/bemUtils';
-import InformationIconButton from '../information-icon-button/InformationIconButton';
-import InformationPanel from '../information-panel/InformationPanel';
+import HelperTextButton from '../helper-text-button/HelperTextButton';
+import HelperTextPanel from '../helper-text-panel/HelperTextPanel';
 import './labelWithHelperText.less';
 
 interface LabelWithHelperText {
@@ -23,12 +23,12 @@ const LabelWithHelperText: React.FunctionComponent<LabelWithHelperText> = ({
     return (
         <label className={`${bem.className} skjemaelement__label`} htmlFor={htmlFor}>
             {children}
-            <InformationIconButton
+            <HelperTextButton
                 onClick={() => setShowHelperText(!showHelperText)}
                 ariaLabel={ariaLabel}
                 ariaPressed={showHelperText}
             />
-            {showHelperText && <InformationPanel>{helperText}</InformationPanel>}
+            {showHelperText && <HelperTextPanel>{helperText}</HelperTextPanel>}
         </label>
     );
 };
