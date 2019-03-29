@@ -23,6 +23,7 @@ const AttachmentListWithDeletion: React.FunctionComponent<AttachmentListWithDele
                     <ContentSwitcher
                         showFirstContent={attachment.pending}
                         firstContent={() => <LoadingSpinner type="XS" />}
+                        noSpan={true}
                         secondContent={() => (
                             <DeleteButton
                                 ariaLabel="Slett vedlegg"

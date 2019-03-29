@@ -1,9 +1,10 @@
 import * as React from 'react';
 
 interface ContentSwitcherProps {
-    firstContent: () => React.ReactNode | React.ReactChild;
-    secondContent: () => React.ReactNode | React.ReactChild;
+    firstContent: () => React.ReactElement<any>;
+    secondContent: () => React.ReactElement<any>;
     showFirstContent: boolean;
+    noSpan?: boolean;
     className?: string;
 }
 
@@ -11,13 +12,14 @@ const ContentSwitcher: React.FunctionComponent<ContentSwitcherProps> = ({
     firstContent,
     secondContent,
     className,
-    showFirstContent
+    showFirstContent,
+    noSpan
 }) => {
     const wrapContent = (children: React.ReactNode) => <span className={className}>{children}</span>;
     if (showFirstContent) {
-        return wrapContent(firstContent());
+        return noSpan ? firstContent() : wrapContent(firstContent());
     }
-    return wrapContent(secondContent());
+    return noSpan ? secondContent() : wrapContent(secondContent());
 };
 
 export default ContentSwitcher;
