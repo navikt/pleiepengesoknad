@@ -4,8 +4,6 @@ import AttachmentListElement from '../attachment-list-element/AttachmentListElem
 
 interface AttachmentListProps {
     attachments: Attachment[];
-    onRemoveAttachmentClick: (attachment: Attachment, e: React.SyntheticEvent) => void;
-    deleteButtonAriaLabel: string;
 }
 
 const AttachmentList: React.FunctionComponent<AttachmentListProps> = ({ attachments, ...otherProps }) => (

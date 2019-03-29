@@ -38,7 +38,7 @@ const LegeerklæringStep = ({ history, ...stepProps }: Props) => {
                 validate={validateLegeerklæring}
             />
             <FileUploadErrors filesThatDidntGetUploaded={filesThatDidntGetUploaded} />
-            <LegeerklæringFileList wrapNoAttachmentsInBox={true} />
+            <LegeerklæringFileList wrapNoAttachmentsInBox={true} includeDeletionFunctionality={true} />
         </FormikStep>
     );
 };

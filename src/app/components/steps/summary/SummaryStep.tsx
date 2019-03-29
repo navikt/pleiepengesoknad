@@ -138,7 +138,7 @@ class SummaryStep extends React.Component<Props, State> {
                         </Box>
                         <Box margin="l">
                             <ContentWithHeader header="Legeerklæring:">
-                                <LegeerklæringAttachmentList />
+                                <LegeerklæringAttachmentList includeDeletionFunctionality={false} />
                             </ContentWithHeader>
                         </Box>
                     </Panel>
