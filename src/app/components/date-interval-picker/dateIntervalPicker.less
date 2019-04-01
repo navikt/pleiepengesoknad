@@ -4,10 +4,29 @@
   &__flexContainer {
     display: flex;
 
+    @media (max-width: 736px) {
+      display: block;
+
+      .skjemaelement:not(:first-child) {
+        margin-top: 1rem;
+      }
+    }
+
     .skjemaelement {
       margin-right: 1rem;
       margin-bottom: 0;
       width: 50%;
+
+      @media (max-width: 736px) {
+        width: 100% !important;
+
+        .nav-datovelger__kalenderPortal {
+          top: calc(100% + 10px);
+          width: 100%;
+          text-align: center;
+          background-color: white;
+        }
+      }
 
       .nav-datovelger {
         width: 100%;
@@ -15,22 +34,6 @@
         &__inputContainer {
           width: 100%;
         }
-      }
-    }
-  }
-
-  @media (max-width: 576px) {
-    &__rightDatepicker {
-      .nav-datovelger__kalenderPortal {
-        left: -135px;
-      }
-    }
-  }
-
-  @media (max-width: 320px) {
-    &__rightDatepicker {
-      .nav-datovelger__kalenderPortal {
-        left: -160px;
       }
     }
   }

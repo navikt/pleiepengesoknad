@@ -16,7 +16,6 @@ interface DatepickerBaseProps {
     onChange: (date: Date) => void;
     value?: Date;
     dateLimitations?: DateLimitations;
-    className?: string;
 }
 
 const DatepickerBase: React.FunctionComponent<DatepickerBaseProps> = ({
@@ -26,12 +25,11 @@ const DatepickerBase: React.FunctionComponent<DatepickerBaseProps> = ({
     name,
     value,
     dateLimitations,
-    className,
     ...otherProps
 }) => {
     const elementId = id || guid();
     return (
-        <CustomInputElement className={className} label={label} id={elementId} validationError={feil}>
+        <CustomInputElement label={label} id={elementId} validationError={feil}>
             <NAVDatepicker
                 input={{ name, placeholder, id: elementId }}
                 id={elementId}

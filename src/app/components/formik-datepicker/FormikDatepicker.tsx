@@ -9,7 +9,6 @@ export interface FormikDatepickerProps<T> {
     label: string;
     validate?: ((value: any) => string | Promise<void> | undefined);
     dateLimitations?: DateLimitations;
-    className?: string;
 }
 
 const FormikDatepicker = <T extends {}>(): React.FunctionComponent<FormikDatepickerProps<T>> => ({
