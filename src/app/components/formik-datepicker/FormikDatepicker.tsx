@@ -9,13 +9,15 @@ export interface FormikDatepickerProps<T> {
     label: string;
     validate?: ((value: any) => string | Promise<void> | undefined);
     dateLimitations?: DateLimitations;
+    className?: string;
 }
 
 const FormikDatepicker = <T extends {}>(): React.FunctionComponent<FormikDatepickerProps<T>> => ({
     name,
     validate,
     label,
-    dateLimitations
+    dateLimitations,
+    ...otherProps
 }) => (
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {
@@ -26,6 +28,7 @@ const FormikDatepicker = <T extends {}>(): React.FunctionComponent<FormikDatepic
                     label={label}
                     value={field.value}
                     dateLimitations={dateLimitations}
+                    {...otherProps}
                     {...errorMsgProps}
                     {...field}
                     onChange={(date: Date) => {
