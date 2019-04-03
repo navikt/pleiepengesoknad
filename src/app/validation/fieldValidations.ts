@@ -108,5 +108,8 @@ export const validateLegeerklæring = (files: File[]): string | undefined => {
     if (files.length === 0) {
         return 'Du må laste opp en legeerklæring';
     }
+    if (files.length > 3) {
+        return 'Du kan maksimalt laste opp 3 bilder';
+    }
     return undefined;
 };

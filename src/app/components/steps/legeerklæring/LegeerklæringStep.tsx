@@ -9,6 +9,8 @@ import { getNextStepRoute } from '../../../utils/routeUtils';
 import { Field } from '../../../types/PleiepengesøknadFormData';
 import FileUploadErrors from '../../file-upload-errors/FileUploadErrors';
 import { validateLegeerklæring } from '../../../validation/fieldValidations';
+import HelperTextPanel from '../../helper-text-panel/HelperTextPanel';
+import Box from '../../box/Box';
 
 interface LegeerklæringStepProps {
     handleSubmit: () => void;
@@ -28,15 +30,21 @@ const LegeerklæringStep = ({ history, ...stepProps }: Props) => {
             history={history}
             useValidationErrorSummary={false}
             {...stepProps}>
-            <FormikFileUploader
-                name={Field.legeerklæring}
-                label="Last opp din legeerklæring her"
-                onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
-                onFileInputClick={() => {
-                    setFilesThatDidntGetUploaded([]);
-                }}
-                validate={validateLegeerklæring}
-            />
+            <HelperTextPanel>
+                Legeerklæringen finner du på andre side (del 5) i papirsøknaden for pleiepenger som du får fra legen.
+                Det er nok at du tar bilde og laster opp den delen av søknaden.
+            </HelperTextPanel>
+            <Box margin="l">
+                <FormikFileUploader
+                    name={Field.legeerklæring}
+                    label="Last opp din legeerklæring her (maks 3 bilder)"
+                    onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
+                    onFileInputClick={() => {
+                        setFilesThatDidntGetUploaded([]);
+                    }}
+                    validate={validateLegeerklæring}
+                />
+            </Box>
             <FileUploadErrors filesThatDidntGetUploaded={filesThatDidntGetUploaded} />
             <LegeerklæringFileList wrapNoAttachmentsInBox={true} includeDeletionFunctionality={true} />
         </FormikStep>
