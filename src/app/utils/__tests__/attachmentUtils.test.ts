@@ -1,4 +1,6 @@
 import {
+    attachmentShouldBeProcessed,
+    attachmentShouldBeUploaded,
     attachmentUploadHasFailed,
     containsAnyUploadedAttachments,
     fileExtensionIsValid,
@@ -7,7 +9,8 @@ import {
     VALID_EXTENSIONS
 } from '../attachmentUtils';
 
-const fileMock = new File([''], 'filename', { type: 'text/png' });
+const fileMock = new File([''], 'filename.png', { type: 'text/png' });
+const invalidFileMock = new File([''], 'filename.docx', { type: 'text/png' });
 
 describe('attachmentUtils', () => {
     describe('fileExtensionIsValid', () => {
@@ -39,6 +42,40 @@ describe('attachmentUtils', () => {
         });
     });
 
+    describe('attachmentShouldBeProcessed', () => {
+        it('should return true if attachment is pending but has not been uploaded', () => {
+            const attachment: Attachment = { file: fileMock, pending: true, uploaded: false };
+            expect(attachmentShouldBeProcessed(attachment)).toBe(true);
+        });
+
+        it('should return false if attachment is not pending upload', () => {
+            const attachment: Attachment = { file: fileMock, pending: false, uploaded: false };
+            expect(attachmentShouldBeProcessed(attachment)).toBe(false);
+        });
+
+        it('should return false if attachment has been uploaded', () => {
+            const attachment: Attachment = { file: fileMock, pending: false, uploaded: true };
+            expect(attachmentShouldBeProcessed(attachment)).toBe(false);
+        });
+    });
+
+    describe('attachmentShouldBeUploaded', () => {
+        it('should return false if file extension is invalid', () => {
+            const attachment: Attachment = { file: invalidFileMock, pending: true, uploaded: false };
+            expect(attachmentShouldBeUploaded(attachment)).toBe(false);
+        });
+
+        it('should return false if file is not pending', () => {
+            const attachment: Attachment = { file: fileMock, pending: false, uploaded: false };
+            expect(attachmentShouldBeUploaded(attachment)).toBe(false);
+        });
+
+        it('should return true if file is pending and file extension is valid', () => {
+            const attachment: Attachment = { file: fileMock, pending: true, uploaded: false };
+            expect(attachmentShouldBeUploaded(attachment)).toBe(true);
+        });
+    });
+
     describe('attachmentUploadHasFailed', () => {
         let attachment: Attachment;
 
@@ -46,14 +83,19 @@ describe('attachmentUtils', () => {
             attachment = getAttachmentFromFile(fileMock);
         });
 
-        it('should return true if attachment is neither pending nor uploaded', () => {
+        it('should return true if attachment with valid extension is neither pending nor uploaded', () => {
             attachment.pending = false;
             expect(attachmentUploadHasFailed(attachment)).toBe(true);
         });
 
-        it('should return false if pending is true', () => {
+        it('should return false if attachment has valid extension and pending is true', () => {
             attachment.pending = true;
             expect(attachmentUploadHasFailed(attachment)).toBe(false);
+        });
+
+        it('should return true if attachment file extension is invalid', () => {
+            const invalidAttachment = getAttachmentFromFile(invalidFileMock);
+            expect(attachmentUploadHasFailed(invalidAttachment)).toBe(true);
         });
     });
 

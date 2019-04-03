@@ -5,7 +5,7 @@ import AttachmentList from '../attachment-list/AttachmentList';
 import { removeElementFromArray } from '../../utils/listUtils';
 import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
 import { deleteFile } from '../../api/api';
-import { containsAnyUploadedAttachments } from '../../utils/attachmentUtils';
+import { containsAnyUploadedAttachments, fileExtensionIsValid } from '../../utils/attachmentUtils';
 import Box from '../box/Box';
 import { Normaltekst } from 'nav-frontend-typografi';
 import AttachmentListWithDeletion from '../attachment-list-with-deletion/AttachmentListWithDeletion';
@@ -22,7 +22,9 @@ const LegeerklæringAttachmentList: React.FunctionComponent<Props> = ({
     wrapNoAttachmentsInBox,
     includeDeletionFunctionality
 }) => {
-    const legeerklæring: Attachment[] = values[Field.legeerklæring];
+    const legeerklæring: Attachment[] = values[Field.legeerklæring].filter(({ file }: Attachment) =>
+        fileExtensionIsValid(file.name)
+    );
 
     if (!containsAnyUploadedAttachments(legeerklæring)) {
         const noAttachmentsText = <Normaltekst>Ingen vedlegg er lastet opp</Normaltekst>;

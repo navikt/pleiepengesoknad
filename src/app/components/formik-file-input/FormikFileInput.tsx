@@ -6,6 +6,7 @@ import FileInputBase from '../file-input-base/FileInputBase';
 export interface FormikFileInputProps<T> {
     name: T;
     label: string;
+    acceptedExtensions: string;
     validate?: ((value: any) => string | Promise<void> | undefined);
     onFilesSelect: (files: File[], arrayHelpers: ArrayHelpers) => void;
     onClick?: () => void;
@@ -14,6 +15,7 @@ export interface FormikFileInputProps<T> {
 const FormikFileInput = <T extends {}>(): React.FunctionComponent<FormikFileInputProps<T>> => ({
     label,
     name,
+    acceptedExtensions,
     validate,
     onFilesSelect,
     onClick
@@ -32,6 +34,7 @@ const FormikFileInput = <T extends {}>(): React.FunctionComponent<FormikFileInpu
                             onClick={onClick}
                             onFilesSelect={(files) => onFilesSelect(files, arrayHelpers)}
                             multiple={true}
+                            acceptedExtensions={acceptedExtensions}
                             {...errorMsgProps}
                         />
                     );

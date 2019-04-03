@@ -17,7 +17,13 @@ export const getPendingAttachmentFromFile = (file: File): Attachment => {
     return newAttachment;
 };
 
-export const attachmentUploadHasFailed = ({ pending, uploaded }: Attachment): boolean => !pending && !uploaded;
+export const attachmentShouldBeProcessed = ({ pending, uploaded }: Attachment): boolean => pending && !uploaded;
+
+export const attachmentShouldBeUploaded = (attachment: Attachment): boolean =>
+    attachmentShouldBeProcessed(attachment) && fileExtensionIsValid(attachment.file.name);
+
+export const attachmentUploadHasFailed = ({ pending, uploaded, file: { name } }: Attachment): boolean =>
+    (!pending && !uploaded) || !fileExtensionIsValid(name);
 
 export const containsAnyUploadedAttachments = (attachmentList: Attachment[]) =>
     attachmentList &&

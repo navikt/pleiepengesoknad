@@ -4,7 +4,6 @@ import bemHelper from '../../utils/bemUtils';
 import CustomSVG from '../custom-svg/CustomSVG';
 import CustomInputElement from '../custom-input-element/CustomInputElement';
 import { SkjemaelementFeil as ValidationError } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
-import { fileExtensionIsValid, VALID_EXTENSIONS } from '../../utils/attachmentUtils';
 const uploadIcon = require('../../../assets/upload.svg').default;
 import './fileInputBase.less';
 
@@ -14,6 +13,7 @@ interface FileInputProps {
     name: string;
     onFilesSelect: (files: File[]) => void;
     multiple?: boolean;
+    acceptedExtensions: string;
     feil?: ValidationError;
     onClick?: () => void;
 }
@@ -28,18 +28,9 @@ export default class FileInputBase extends React.Component<FileInputProps> {
         this.onKeyPress = this.onKeyPress.bind(this);
     }
 
-    getValidFiles(files: File[]): File[] {
-        return files.filter((file: File) => {
-            return fileExtensionIsValid(file.name);
-        });
-    }
-
     fileSelectHandler(fileList: FileList) {
         const files = Array.from(fileList) as File[];
-        const validFiles = this.getValidFiles(files);
-        if (validFiles.length > 0) {
-            this.props.onFilesSelect(validFiles);
-        }
+        this.props.onFilesSelect(files);
     }
 
     onFileDragOverHandler(e: React.DragEvent<HTMLLabelElement>) {
@@ -68,7 +59,7 @@ export default class FileInputBase extends React.Component<FileInputProps> {
     }
 
     render() {
-        const { id, name, label, feil, multiple, onClick } = this.props;
+        const { id, name, label, feil, multiple, onClick, acceptedExtensions } = this.props;
         const bem = bemHelper('attachmentButton');
         const inputId = `${id}-input`;
         return (
@@ -91,7 +82,7 @@ export default class FileInputBase extends React.Component<FileInputProps> {
                         id={inputId}
                         name={name}
                         type="file"
-                        accept={VALID_EXTENSIONS.join(', ')}
+                        accept={acceptedExtensions}
                         onChange={(e) => this.onFileSelect(e)}
                         multiple={multiple === true}
                     />
