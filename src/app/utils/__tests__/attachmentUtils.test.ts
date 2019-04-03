@@ -17,6 +17,7 @@ describe('attachmentUtils', () => {
         it('should only accept file extensions specified by VALID_EXTENSIONS', () => {
             for (const ext of VALID_EXTENSIONS) {
                 expect(fileExtensionIsValid(ext)).toBe(true);
+                expect(fileExtensionIsValid(ext.toUpperCase())).toBe(true);
             }
             expect(fileExtensionIsValid('asdf')).toBe(false);
         });
