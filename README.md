@@ -1,5 +1,7 @@
 # Selvbetjeningsløsning for søknad om pleiepenger
 
+[![Build Status](https://travis-ci.com/navikt/pleiepengesoknad.svg?branch=master)](https://travis-ci.com/navikt/pleiepengesoknad)
+
 Kildekoden til frontend-appen for ny selvbetjeningsløsning for
 pleiepenger.
 
