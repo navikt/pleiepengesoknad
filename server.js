@@ -3,24 +3,18 @@ const path = require('path');
 const mustacheExpress = require('mustache-express');
 const Promise = require('promise');
 const compression = require('compression');
+const helmet = require('helmet');
 const createEnvSettingsFile = require('./src/build/scripts/envSettings');
 const getDecorator = require('./src/build/scripts/decorator');
 
 const server = express();
+server.use(helmet());
 server.use(compression());
 server.set('views', `${__dirname}/dist`);
 server.set('view engine', 'mustache');
 server.engine('html', mustacheExpress());
 
 createEnvSettingsFile(path.resolve(`${__dirname}/dist/js/settings.js`));
-
-server.use((req, res, next) => {
-    res.removeHeader('X-Powered-By');
-    res.set('X-Frame-Options', 'SAMEORIGIN');
-    res.set('X-XSS-Protection', '1; mode=block');
-    res.set('X-Content-Type-Options', 'nosniff');
-    next();
-});
 
 const renderApp = (decoratorFragments) =>
     new Promise((resolve, reject) => {
