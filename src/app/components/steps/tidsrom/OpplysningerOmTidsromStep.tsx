@@ -12,9 +12,11 @@ import { FormikProps } from 'formik';
 import { getArbeidsgiver } from '../../../api/api';
 import { validateFradato, validateTildato } from '../../../validation/fieldValidations';
 import { getNextStepRoute } from '../../../utils/routeUtils';
+import SliderBase from '../../slider-base/SliderBase';
 
 interface OpplysningerOmTidsromStepState {
     isLoadingNextStep: boolean;
+    sliderValue: number;
 }
 
 interface OpplysningerOmTidsromStepProps {
@@ -33,9 +35,11 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
         this.finishStep = this.finishStep.bind(this);
         this.validateFraDato = this.validateFraDato.bind(this);
         this.validateTilDato = this.validateTilDato.bind(this);
+        this.updateSliderValue = this.updateSliderValue.bind(this);
 
         this.state = {
-            isLoadingNextStep: false
+            isLoadingNextStep: false,
+            sliderValue: 100
         };
     }
 
@@ -68,6 +72,12 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
     validateTilDato(tilDato?: Date) {
         const { periodeFra } = this.props.formikProps.values;
         return validateTildato(tilDato, periodeFra);
+    }
+
+    updateSliderValue(nextSliderValue: number) {
+        this.setState({
+            sliderValue: nextSliderValue
+        });
     }
 
     render() {
@@ -105,6 +115,19 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                                     minDato:
                                         this.validateFraDato(fraDato) === undefined ? fraDato : date3YearsAgo.toDate()
                                 }
+                            }}
+                        />
+
+                        <SliderBase
+                            name="asdf"
+                            label="Velg grad av pleiepenger du vil søke om"
+                            min={20}
+                            max={100}
+                            value={this.state.sliderValue}
+                            onChange={(e) => {
+                                // tslint:disable-next-line
+                                console.log(e.currentTarget.value);
+                                this.updateSliderValue(+e.currentTarget.value);
                             }}
                         />
                     </FormikStep>
