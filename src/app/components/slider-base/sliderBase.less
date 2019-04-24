@@ -21,8 +21,24 @@
     position: relative;
   }
 
-  &__value {
+  &__valueContainer {
+    border: 2px solid #c1eaf7;
+    border-radius: 4px;
     position: relative;
-    top: 8px;
+    top: 32px;
+    font-weight: bold;
+    padding: 0.5rem 2rem 0.5rem 2rem;
+
+    &__arrow {
+      background-color: white;
+      border-left: 2px solid #c1eaf7;
+      border-top: 2px solid #c1eaf7;
+      width: 1rem;
+      height: 1rem;
+      position: absolute;
+      top: -9px;
+      left: 34px;
+      transform: rotate(42deg) skew(-6deg);
+    }
   }
 }

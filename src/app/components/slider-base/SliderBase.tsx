@@ -22,7 +22,7 @@ const positionOutputElement = (currentValue: number, min: number, max: number) =
 
     const numberOfPixelsPerPoint = inputElement.offsetWidth / (max - min) - 0.4;
     const nextDistanceFromLeft = (currentValue - min) * numberOfPixelsPerPoint;
-    const pxAdjustment = 4;
+    const pxAdjustment = -28;
 
     outputElement.style.left = `${nextDistanceFromLeft + pxAdjustment}px`;
 };
@@ -52,8 +52,10 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
                 value={value}
                 {...otherProps}
             />
-            <output className={bem.element('value')} ref={outputElementRef}>
-                {valueRenderer ? valueRenderer(value) : value}
+            <div className={bem.element('arrow')} />
+            <output className={bem.element('valueContainer')} ref={outputElementRef}>
+                <span className={bem.element('valueContainer__arrow')} />
+                <span>{valueRenderer ? valueRenderer(value) : value}</span>
             </output>
         </CustomInputElement>
     );
