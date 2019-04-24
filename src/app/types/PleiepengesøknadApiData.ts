@@ -22,4 +22,5 @@ export interface PleiepengesøknadApiData {
     vedlegg: string[];
     medlemskap: Medlemskap;
     finnes_det_en_annen_søker: boolean;
+    grad: number;
 }

@@ -17,7 +17,8 @@ export enum Field {
     ansettelsesforhold = 'ansettelsesforhold',
     harBoddUtenforNorgeSiste12Mnd = 'harBoddUtenforNorgeSiste12Mnd',
     skalBoUtenforNorgeNeste12Mnd = 'skalBoUtenforNorgeNeste12Mnd',
-    finnesDetEnAnnenSøker = 'finnesDetEnAnnenSøker'
+    finnesDetEnAnnenSøker = 'finnesDetEnAnnenSøker',
+    grad = 'grad'
 }
 
 export interface PleiepengesøknadFormData {
@@ -37,6 +38,7 @@ export interface PleiepengesøknadFormData {
     [Field.harBoddUtenforNorgeSiste12Mnd]: YesOrNo;
     [Field.skalBoUtenforNorgeNeste12Mnd]: YesOrNo;
     [Field.finnesDetEnAnnenSøker]: YesOrNo;
+    [Field.grad]: number;
 }
 
 export const initialValues: PleiepengesøknadFormData = {
@@ -53,5 +55,6 @@ export const initialValues: PleiepengesøknadFormData = {
     [Field.barnetsForeløpigeFødselsnummerEllerDNummer]: '',
     [Field.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,
     [Field.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.UNANSWERED,
-    [Field.finnesDetEnAnnenSøker]: YesOrNo.UNANSWERED
+    [Field.finnesDetEnAnnenSøker]: YesOrNo.UNANSWERED,
+    [Field.grad]: 100
 };

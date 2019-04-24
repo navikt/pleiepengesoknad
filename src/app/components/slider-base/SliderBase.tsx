@@ -1,19 +1,27 @@
 import * as React from 'react';
 import CustomInputElement from '../custom-input-element/CustomInputElement';
 import bemUtils from '../../utils/bemUtils';
+import { SkjemaelementFeil as ValidationError } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
+import { guid } from 'nav-frontend-js-utils';
 import './sliderBase.less';
 
-interface SliderBaseProps {
+interface SliderBasePrivateProps {
     name: string;
-    label: string;
-    min: number;
-    max: number;
     value: number;
     onChange: (event: React.FormEvent<HTMLInputElement>) => void;
+    feil?: ValidationError;
+}
+
+export interface SliderBasePublicProps {
     valueRenderer?: (value: number) => React.ReactNode;
     minPointLabelRenderer?: (minPoint: number) => React.ReactNode;
     maxPointLabelRenderer?: (maxPoint: number) => React.ReactNode;
+    label: string;
+    min: number;
+    max: number;
 }
+
+type SliderBaseProps = SliderBasePrivateProps & SliderBasePublicProps;
 
 let inputElementRef: React.MutableRefObject<HTMLInputElement | null>;
 let outputElementRef: React.MutableRefObject<HTMLOutputElement | null>;
@@ -40,6 +48,7 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
     max,
     minPointLabelRenderer,
     maxPointLabelRenderer,
+    feil,
     ...otherProps
 }) => {
     inputElementRef = React.useRef(null);
@@ -48,7 +57,7 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
     React.useEffect(() => positionOutputElement(value, min, max), [value]);
 
     return (
-        <CustomInputElement label={label} className={sliderBem.className}>
+        <CustomInputElement label={label} className={sliderBem.className} id={guid()} validationError={feil}>
             <div className={valueEndpointLabelsBem.className}>
                 <div className={valueEndpointLabelsBem.element('minPointLabel')}>
                     {minPointLabelRenderer ? minPointLabelRenderer(min) : min}

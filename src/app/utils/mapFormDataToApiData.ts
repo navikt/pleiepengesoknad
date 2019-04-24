@@ -18,7 +18,8 @@ export const mapFormDataToApiData = ({
     legeerklæring,
     harBoddUtenforNorgeSiste12Mnd,
     skalBoUtenforNorgeNeste12Mnd,
-    finnesDetEnAnnenSøker
+    finnesDetEnAnnenSøker,
+    grad
 }: PleiepengesøknadFormData): PleiepengesøknadApiData => {
     const fnrObject: Partial<Barn> = {};
     if (barnetsFødselsnummer) {
@@ -43,6 +44,7 @@ export const mapFormDataToApiData = ({
         fra_og_med: formatDate(periodeFra!),
         til_og_med: formatDate(periodeTil!),
         vedlegg: legeerklæring.filter((attachment) => !attachmentUploadHasFailed(attachment)).map(({ url }) => url!),
-        finnes_det_en_annen_søker: finnesDetEnAnnenSøker === YesOrNo.YES
+        finnes_det_en_annen_søker: finnesDetEnAnnenSøker === YesOrNo.YES,
+        grad
     };
 };
