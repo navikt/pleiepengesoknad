@@ -125,10 +125,9 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                             max={100}
                             value={this.state.sliderValue}
                             onChange={(e) => {
-                                // tslint:disable-next-line
-                                console.log(e.currentTarget.value);
                                 this.updateSliderValue(+e.currentTarget.value);
                             }}
+                            valueRenderer={(value) => `${value}%`}
                         />
                     </FormikStep>
                 )}
