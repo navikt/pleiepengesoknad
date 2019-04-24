@@ -128,6 +128,8 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                                 this.updateSliderValue(+e.currentTarget.value);
                             }}
                             valueRenderer={(value) => `${value}%`}
+                            minPointLabelRenderer={(minPoint) => `${minPoint}%`}
+                            maxPointLabelRenderer={(maxPoint) => `${maxPoint}%`}
                         />
                     </FormikStep>
                 )}

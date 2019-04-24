@@ -3,6 +3,7 @@
   background: transparent;
   width: 100%;
   outline: none;
+  margin-top: 1.5rem;
 
   &::-webkit-slider-runnable-track {
     background-color: #c1eaf7;
@@ -40,5 +41,21 @@
       left: 34px;
       transform: rotate(42deg) skew(-6deg);
     }
+  }
+}
+
+
+.valueEndpointLabels {
+  display: flex;
+  font-weight: bold;
+
+  &__minPointLabel {
+    flex-basis: 50%;
+    text-align: left;
+  }
+
+  &__maxPointLabel {
+    flex-basis: 50%;
+    text-align: right;
   }
 }

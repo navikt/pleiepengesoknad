@@ -11,6 +11,8 @@ interface SliderBaseProps {
     value: number;
     onChange: (event: React.FormEvent<HTMLInputElement>) => void;
     valueRenderer?: (value: number) => React.ReactNode;
+    minPointLabelRenderer?: (minPoint: number) => React.ReactNode;
+    maxPointLabelRenderer?: (maxPoint: number) => React.ReactNode;
 }
 
 let inputElementRef: React.MutableRefObject<HTMLInputElement | null>;
@@ -27,13 +29,17 @@ const positionOutputElement = (currentValue: number, min: number, max: number) =
     outputElement.style.left = `${nextDistanceFromLeft + pxAdjustment}px`;
 };
 
-const bem = bemUtils('slider');
+const sliderBem = bemUtils('slider');
+const valueEndpointLabelsBem = bemUtils('valueEndpointLabels');
+
 const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
     label,
     valueRenderer,
     value,
     min,
     max,
+    minPointLabelRenderer,
+    maxPointLabelRenderer,
     ...otherProps
 }) => {
     inputElementRef = React.useRef(null);
@@ -43,8 +49,16 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
 
     return (
         <CustomInputElement label={label}>
+            <div className={valueEndpointLabelsBem.className}>
+                <div className={valueEndpointLabelsBem.element('minPointLabel')}>
+                    {minPointLabelRenderer ? minPointLabelRenderer(min) : min}
+                </div>
+                <div className={valueEndpointLabelsBem.element('maxPointLabel')}>
+                    {maxPointLabelRenderer ? maxPointLabelRenderer(max) : max}
+                </div>
+            </div>
             <input
-                className={bem.className}
+                className={sliderBem.className}
                 type="range"
                 ref={inputElementRef}
                 min={min}
@@ -52,9 +66,9 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
                 value={value}
                 {...otherProps}
             />
-            <div className={bem.element('arrow')} />
-            <output className={bem.element('valueContainer')} ref={outputElementRef}>
-                <span className={bem.element('valueContainer__arrow')} />
+            <div className={sliderBem.element('arrow')} />
+            <output className={sliderBem.element('valueContainer')} ref={outputElementRef}>
+                <span className={sliderBem.element('valueContainer__arrow')} />
                 <span>{valueRenderer ? valueRenderer(value) : value}</span>
             </output>
         </CustomInputElement>
