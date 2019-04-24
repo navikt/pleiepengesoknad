@@ -21,4 +21,5 @@ export interface PleiepengesøknadApiData {
     arbeidsgivere: { organisasjoner: Ansettelsesforhold[] };
     vedlegg: string[];
     medlemskap: Medlemskap;
+    finnes_det_en_annen_søker: boolean;
 }

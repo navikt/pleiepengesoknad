@@ -48,7 +48,7 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
     React.useEffect(() => positionOutputElement(value, min, max), [value]);
 
     return (
-        <CustomInputElement label={label}>
+        <CustomInputElement label={label} className={sliderBem.className}>
             <div className={valueEndpointLabelsBem.className}>
                 <div className={valueEndpointLabelsBem.element('minPointLabel')}>
                     {minPointLabelRenderer ? minPointLabelRenderer(min) : min}
@@ -58,7 +58,7 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
                 </div>
             </div>
             <input
-                className={sliderBem.className}
+                className={sliderBem.element('input')}
                 type="range"
                 ref={inputElementRef}
                 min={min}
@@ -66,7 +66,6 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
                 value={value}
                 {...otherProps}
             />
-            <div className={sliderBem.element('arrow')} />
             <output className={sliderBem.element('valueContainer')} ref={outputElementRef}>
                 <span className={sliderBem.element('valueContainer__arrow')} />
                 <span>{valueRenderer ? valueRenderer(value) : value}</span>

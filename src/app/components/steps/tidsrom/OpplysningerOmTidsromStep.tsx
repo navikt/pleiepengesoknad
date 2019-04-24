@@ -10,9 +10,11 @@ import { Søkerdata } from '../../../types/Søkerdata';
 import { date3YearsAgo, formatDate } from '../../../utils/dateUtils';
 import { FormikProps } from 'formik';
 import { getArbeidsgiver } from '../../../api/api';
-import { validateFradato, validateTildato } from '../../../validation/fieldValidations';
+import { validateFradato, validateTildato, validateYesOrNoIsAnswered } from '../../../validation/fieldValidations';
 import { getNextStepRoute } from '../../../utils/routeUtils';
+import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
 import SliderBase from '../../slider-base/SliderBase';
+import Box from '../../box/Box';
 
 interface OpplysningerOmTidsromStepState {
     isLoadingNextStep: boolean;
@@ -118,19 +120,29 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                             }}
                         />
 
-                        <SliderBase
-                            name="asdf"
-                            label="Velg grad av pleiepenger du vil søke om"
-                            min={20}
-                            max={100}
-                            value={this.state.sliderValue}
-                            onChange={(e) => {
-                                this.updateSliderValue(+e.currentTarget.value);
-                            }}
-                            valueRenderer={(value) => `${value}%`}
-                            minPointLabelRenderer={(minPoint) => `${minPoint}%`}
-                            maxPointLabelRenderer={(maxPoint) => `${maxPoint}%`}
-                        />
+                        <Box margin="xxl">
+                            <SliderBase
+                                name="asdf"
+                                label="Velg grad av pleiepenger du vil søke om"
+                                min={20}
+                                max={100}
+                                value={this.state.sliderValue}
+                                onChange={(e) => {
+                                    this.updateSliderValue(+e.currentTarget.value);
+                                }}
+                                valueRenderer={(value) => `${value}%`}
+                                minPointLabelRenderer={(minPoint) => `${minPoint}%`}
+                                maxPointLabelRenderer={(maxPoint) => `${maxPoint}%`}
+                            />
+                        </Box>
+
+                        <Box margin="xxl">
+                            <YesOrNoQuestion
+                                legend="Finnes det en annen søker?"
+                                name={Field.finnesDetEnAnnenSøker}
+                                validate={validateYesOrNoIsAnswered}
+                            />
+                        </Box>
                     </FormikStep>
                 )}
             </SøkerdataContextConsumer>

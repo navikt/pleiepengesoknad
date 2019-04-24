@@ -1,29 +1,35 @@
 .slider {
-  -webkit-appearance: none;
-  background: transparent;
-  width: 100%;
-  outline: none;
-  margin-top: 1.5rem;
-
-  &::-webkit-slider-runnable-track {
-    background-color: #c1eaf7;
-    border-radius: 4px;
-    height: 0.5rem;
+  .skjemaelement__label {
+    font-weight: bold;
   }
 
-  &::-webkit-slider-thumb {
+  &__input {
     -webkit-appearance: none;
-    background-color: white;
-    border: 3px solid #c1eaf7;
-    border-radius: 100%;
-    bottom: 12px;
-    width: 2rem;
-    height: 2rem;
-    position: relative;
+    background: transparent;
+    width: 100%;
+    outline: none;
+    margin-top: 1.5rem;
+
+    &::-webkit-slider-runnable-track {
+      background-color: #66cbec;
+      border-radius: 4px;
+      height: 0.5rem;
+    }
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      background-color: white;
+      border: 3px solid #0067c5;
+      border-radius: 100%;
+      bottom: 12px;
+      width: 2rem;
+      height: 2rem;
+      position: relative;
+    }
   }
 
   &__valueContainer {
-    border: 2px solid #c1eaf7;
+    border: 2px solid #0067c5;
     border-radius: 4px;
     position: relative;
     top: 32px;
@@ -32,8 +38,8 @@
 
     &__arrow {
       background-color: white;
-      border-left: 2px solid #c1eaf7;
-      border-top: 2px solid #c1eaf7;
+      border-left: 2px solid #0067c5;
+      border-top: 2px solid #0067c5;
       width: 1rem;
       height: 1rem;
       position: absolute;
