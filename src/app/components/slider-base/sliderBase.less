@@ -4,20 +4,20 @@
   }
 
   &__input {
-    -webkit-appearance: none;
+    appearance: none;
     background: transparent;
     width: 100%;
-    outline: none;
     margin-top: 1.5rem;
+    outline: none;
 
-    &::-webkit-slider-runnable-track {
+    &::range-track {
       background-color: #66cbec;
       border-radius: 4px;
       height: 0.5rem;
     }
 
-    &::-webkit-slider-thumb {
-      -webkit-appearance: none;
+    &::range-thumb {
+      appearance: none;
       background-color: white;
       border: 3px solid #0067c5;
       border-radius: 100%;
@@ -25,6 +25,13 @@
       width: 2rem;
       height: 2rem;
       position: relative;
+    }
+
+    &:focus {
+      &::range-thumb {
+        border-color: #FFBD66;
+        box-shadow: 0 0 2px #FFBD66;
+      }
     }
   }
 
