@@ -44,7 +44,7 @@ export const mapFormDataToApiData = ({
         fra_og_med: formatDate(periodeFra!),
         til_og_med: formatDate(periodeTil!),
         vedlegg: legeerklæring.filter((attachment) => !attachmentUploadHasFailed(attachment)).map(({ url }) => url!),
-        finnes_det_en_annen_søker: finnesDetEnAnnenSøker === YesOrNo.YES,
+        har_medsoker: finnesDetEnAnnenSøker === YesOrNo.YES,
         grad
     };
 };
