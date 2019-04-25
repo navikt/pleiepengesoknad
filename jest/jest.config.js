@@ -2,7 +2,7 @@ module.exports = {
     transform: {
         '^.+\\.tsx?$': 'ts-jest'
     },
-    setupTestFrameworkScriptFile: './jest/setup.ts',
+    setupFilesAfterEnv: ['./jest/setup.ts'],
     testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$',
     moduleNameMapper: {
         '\\.(css|jpg|png|svg|less)$': '<rootDir>/node_modules/jest-css-modules',
