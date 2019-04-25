@@ -18,7 +18,6 @@ import Slider from '../../slider/Slider';
 
 interface OpplysningerOmTidsromStepState {
     isLoadingNextStep: boolean;
-    sliderValue: number;
 }
 
 interface OpplysningerOmTidsromStepProps {
@@ -37,11 +36,9 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
         this.finishStep = this.finishStep.bind(this);
         this.validateFraDato = this.validateFraDato.bind(this);
         this.validateTilDato = this.validateTilDato.bind(this);
-        this.updateSliderValue = this.updateSliderValue.bind(this);
 
         this.state = {
-            isLoadingNextStep: false,
-            sliderValue: 100
+            isLoadingNextStep: false
         };
     }
 
@@ -74,12 +71,6 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
     validateTilDato(tilDato?: Date) {
         const { periodeFra } = this.props.formikProps.values;
         return validateTildato(tilDato, periodeFra);
-    }
-
-    updateSliderValue(nextSliderValue: number) {
-        this.setState({
-            sliderValue: nextSliderValue
-        });
     }
 
     render() {
@@ -135,7 +126,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                         <Box margin="xxxl">
                             <YesOrNoQuestion
                                 legend="Finnes det en annen søker?"
-                                name={Field.finnesDetEnAnnenSøker}
+                                name={Field.harMedsøker}
                                 validate={validateYesOrNoIsAnswered}
                             />
                         </Box>

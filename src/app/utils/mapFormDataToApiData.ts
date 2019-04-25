@@ -18,7 +18,7 @@ export const mapFormDataToApiData = ({
     legeerklæring,
     harBoddUtenforNorgeSiste12Mnd,
     skalBoUtenforNorgeNeste12Mnd,
-    finnesDetEnAnnenSøker,
+    harMedsøker,
     grad
 }: PleiepengesøknadFormData): PleiepengesøknadApiData => {
     const fnrObject: Partial<Barn> = {};
@@ -44,7 +44,7 @@ export const mapFormDataToApiData = ({
         fra_og_med: formatDate(periodeFra!),
         til_og_med: formatDate(periodeTil!),
         vedlegg: legeerklæring.filter((attachment) => !attachmentUploadHasFailed(attachment)).map(({ url }) => url!),
-        har_medsoker: finnesDetEnAnnenSøker === YesOrNo.YES,
+        har_medsoker: harMedsøker === YesOrNo.YES,
         grad
     };
 };
