@@ -1,5 +1,5 @@
 const webpackConfig = require('./webpack.config.global.js');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 webpackConfig.mode = 'production';
@@ -12,18 +12,12 @@ webpackConfig.plugins.push(
     })
 );
 
-webpackConfig.plugins.push(
-    new UglifyJsPlugin({
-        sourceMap: true,
-        uglifyOptions: {
-            mangle: {
-                keep_fnames: true
-            },
-            compress: {
-                keep_fnames: true
-            }
-        }
-    })
-);
+webpackConfig.optimization = {
+    minimizer: [
+        new TerserPlugin({
+            sourceMap: true
+        })
+    ]
+};
 
 module.exports = webpackConfig;
