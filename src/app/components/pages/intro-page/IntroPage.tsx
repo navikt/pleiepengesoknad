@@ -27,7 +27,7 @@ const IntroPage: React.FunctionComponent = () => {
         <Page
             className={bem.className}
             title="Søknad om pleiepenger - intro"
-            topContentRenderer={() => <StepBanner text="Søknad om pleiepenger" />}>
+            topContentRenderer={() => <StepBanner text="Kan jeg bruke den digitale pleiepengesøknaden?" />}>
             <Box margin="xxxl">
                 <InformationPoster>
                     Den digitale søknaden er under utvikling og kan foreløpig ikke brukes av alle. Svar på to spørsmål,
