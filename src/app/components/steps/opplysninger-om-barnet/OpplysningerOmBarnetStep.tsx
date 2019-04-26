@@ -99,7 +99,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                 maxLength={11}
                             />
                             <Checkbox
-                                label="Barnet har ikke fått fødselsnummer enda"
+                                label="Barnet har ikke fått fødselsnummer ennå"
                                 name={Field.barnetHarIkkeFåttFødselsnummerEnda}
                                 afterOnChange={(newValue) => {
                                     if (newValue) {

@@ -68,7 +68,7 @@ export const stepConfig: StepConfigInterface = {
     },
     [StepID.LEGEERKLÆRING]: {
         pageTitle: 'Pleiepengesøknad - legeerklæring',
-        stepTitle: 'Last opp legeerklæring',
+        stepTitle: 'Legeerklæring',
         stepIndicatorLabel: 'Last opp din legeerklæring',
         index: 4,
         nextStep: StepID.SUMMARY,

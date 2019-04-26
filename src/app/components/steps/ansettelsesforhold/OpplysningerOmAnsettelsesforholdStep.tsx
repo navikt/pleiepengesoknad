@@ -27,7 +27,7 @@ const OpplysningerOmAnsettelsesforholdStep = ({ history, ...stepProps }: Props) 
                 {(søkerdata: Søkerdata) =>
                     søkerdata.ansettelsesforhold && søkerdata.ansettelsesforhold.length > 0 ? (
                         <CheckboxPanelGroup
-                            legend="Hvilke(t) arbeidsforhold må du være borte fra for å pleie barnet?"
+                            legend="Hvilken jobb må du være borte fra for å pleie barnet?"
                             name={Field.ansettelsesforhold}
                             checkboxes={søkerdata.ansettelsesforhold!.map((a) => ({
                                 label: a.navn,
@@ -42,9 +42,8 @@ const OpplysningerOmAnsettelsesforholdStep = ({ history, ...stepProps }: Props) 
             </SøkerdataContextConsumer>
             <Box margin="l">
                 <AlertStripe type="info">
-                    Hvis opplysningene om dine arbeidsforhold er feil eller mangelfulle, må du ta kontakt med
-                    arbeidsgiveren som feilen gjelder, og be dem rette det gjennom å sende en ny A-melding, enten via
-                    deres lønn- og personalsystem, eller gjennom Altinn.
+                    Mangler det en arbeidsgiver her? Be arbeidsgiveren din sende ny A-melding, enten via lønns- og
+                    personalsystemet eller gjennom Altinn
                 </AlertStripe>
             </Box>
         </FormikStep>

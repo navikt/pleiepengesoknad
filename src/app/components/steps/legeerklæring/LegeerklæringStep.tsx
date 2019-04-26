@@ -37,7 +37,7 @@ const LegeerklæringStep = ({ history, ...stepProps }: Props) => {
             <Box margin="l">
                 <FormikFileUploader
                     name={Field.legeerklæring}
-                    label="Last opp din legeerklæring her (maks 3 bilder)"
+                    label="Ta bilde av legeerklæringen og last den opp her (maks 3 bilder)"
                     onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
                     onFileInputClick={() => {
                         setFilesThatDidntGetUploaded([]);

@@ -68,7 +68,9 @@ class SummaryStep extends React.Component<Props, State> {
             barnetsFødselsnummer,
             søkersRelasjonTilBarnet,
             harBoddUtenforNorgeSiste12Mnd,
-            skalBoUtenforNorgeNeste12Mnd
+            skalBoUtenforNorgeNeste12Mnd,
+            grad,
+            harMedsøker
         } = values;
 
         return (
@@ -86,21 +88,21 @@ class SummaryStep extends React.Component<Props, State> {
                     <Panel border={true}>
                         <SøkerdataContextConsumer>
                             {({ person: { fornavn, mellomnavn, etternavn, fodselsnummer } }: Søkerdata) => (
-                                <ContentWithHeader header="Det søkes pleiepenger av:">
+                                <ContentWithHeader header="Det søkes pleiepenger av">
                                     <Normaltekst>{formatName(fornavn, etternavn, mellomnavn)}</Normaltekst>
                                     <Normaltekst>Fødselsnummer: {fodselsnummer}</Normaltekst>
                                 </ContentWithHeader>
                             )}
                         </SøkerdataContextConsumer>
                         <Box margin="l">
-                            <ContentWithHeader header="Tidsrom:">
+                            <ContentWithHeader header="Tidsrom">
                                 <Normaltekst>
                                     Fra {prettifyDate(periodeFra!)} til {prettifyDate(periodeTil!)}
                                 </Normaltekst>
                             </ContentWithHeader>
                         </Box>
                         <Box margin="l">
-                            <ContentWithHeader header="Om barnet:">
+                            <ContentWithHeader header="Om barnet">
                                 {barnetHarIkkeFåttFødselsnummerEnda && barnetsForeløpigeFødselsnummerEllerDNummer ? (
                                     <Normaltekst>
                                         Foreløpig fødselsnummer / D-nummer: {barnetsForeløpigeFødselsnummerEllerDNummer}
@@ -114,7 +116,16 @@ class SummaryStep extends React.Component<Props, State> {
                             </ContentWithHeader>
                         </Box>
                         <Box margin="l">
-                            <ContentWithHeader header="Arbeidsforhold:">
+                            <ContentWithHeader header="Grad">{grad}%</ContentWithHeader>
+                        </Box>
+                        <Box margin="l">
+                            <ContentWithHeader header="Er det en annen søker i samme tidsperiode">
+                                {harMedsøker === YesOrNo.YES && 'Ja'}
+                                {harMedsøker === YesOrNo.NO && 'Nei'}
+                            </ContentWithHeader>
+                        </Box>
+                        <Box margin="l">
+                            <ContentWithHeader header="Arbeidsforhold">
                                 {ansettelsesforhold.length > 0
                                     ? ansettelsesforhold.map(({ navn, organisasjonsnummer }) => (
                                           <Normaltekst key={organisasjonsnummer}>
@@ -125,19 +136,19 @@ class SummaryStep extends React.Component<Props, State> {
                             </ContentWithHeader>
                         </Box>
                         <Box margin="l">
-                            <ContentWithHeader header="Bodd i utlandet siste 12 måneder:">
+                            <ContentWithHeader header="Bodd i utlandet siste 12 måneder">
                                 {harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && 'Ja'}
                                 {harBoddUtenforNorgeSiste12Mnd === YesOrNo.NO && 'Nei'}
                             </ContentWithHeader>
                         </Box>
                         <Box margin="l">
-                            <ContentWithHeader header="Skal bo i utlandet neste 12 måneder:">
+                            <ContentWithHeader header="Skal bo i utlandet neste 12 måneder">
                                 {skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES && 'Ja'}
                                 {skalBoUtenforNorgeNeste12Mnd === YesOrNo.NO && 'Nei'}
                             </ContentWithHeader>
                         </Box>
                         <Box margin="l">
-                            <ContentWithHeader header="Legeerklæring:">
+                            <ContentWithHeader header="Legeerklæring">
                                 <LegeerklæringAttachmentList includeDeletionFunctionality={false} />
                             </ContentWithHeader>
                         </Box>

@@ -1,8 +1,6 @@
 import * as React from 'react';
 import Page from '../../page/Page';
 import { Ingress, Innholdstittel } from 'nav-frontend-typografi';
-import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
-import { Søkerdata } from '../../../types/Søkerdata';
 import Box from '../../box/Box';
 import bemUtils from '../../../utils/bemUtils';
 import Lenke from 'nav-frontend-lenker';
@@ -11,20 +9,16 @@ import './confirmationPage.less';
 
 const bem = bemUtils('confirmationPage');
 const ConfirmationPage: React.FunctionComponent = () => (
-    <Page title="Takk for søknaden!" className={bem.className}>
+    <Page title="Takk for søknaden" className={bem.className}>
         <div className={bem.element('centeredContent')}>
             <CheckmarkIcon />
             <Box margin="xl">
-                <SøkerdataContextConsumer>
-                    {(søkerdata: Søkerdata) => (
-                        <Innholdstittel>Takk for søknaden, {søkerdata!.person.fornavn}!</Innholdstittel>
-                    )}
-                </SøkerdataContextConsumer>
+                <Innholdstittel>Takk for søknaden</Innholdstittel>
             </Box>
         </div>
 
         <Box margin="xl">
-            <Ingress>Husk at du må informere arbeidsgiveren din om at du søker om pleiepenger.</Ingress>
+            <Ingress>Husk å informere arbeidsgiveren din om at du søker om pleiepenger.</Ingress>
             <Box margin="l">
                 <Ingress>
                     Når søknaden er ferdig behandlet, får du et brev fra oss.{' '}

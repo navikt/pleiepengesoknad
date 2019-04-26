@@ -114,7 +114,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                         <Box margin="xxl">
                             <Slider
                                 name={Field.grad}
-                                label="Velg grad av pleiepenger du vil søke om"
+                                label="Velg graden av pleiepenger du vil søke om"
                                 min={20}
                                 max={100}
                                 valueRenderer={(value) => `${value}%`}
@@ -125,7 +125,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
 
                         <Box margin="xxxl">
                             <YesOrNoQuestion
-                                legend="Finnes det en annen søker?"
+                                legend="Er det en annen som skal søke om pleiepenger i samme tidsperiode?"
                                 name={Field.harMedsøker}
                                 validate={validateYesOrNoIsAnswered}
                             />
