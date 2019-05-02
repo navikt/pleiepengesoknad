@@ -16,6 +16,15 @@ server.engine('html', mustacheExpress());
 
 createEnvSettingsFile(path.resolve(`${__dirname}/dist/js/settings.js`));
 
+const verifyLoginUrl = () =>
+    new Promise((resolve, reject) => {
+        if (!process.env.LOGIN_URL) {
+            reject();
+        } else {
+            resolve();
+        }
+    });
+
 const renderApp = (decoratorFragments) =>
     new Promise((resolve, reject) => {
         server.render('index.html', decoratorFragments, (err, html) => {
@@ -46,7 +55,11 @@ const startServer = (html) => {
 
 const logError = (errorMessage, details) => console.log(errorMessage, details);
 
-getDecorator()
+verifyLoginUrl()
+    .then(getDecorator, () => {
+        logError('LOGIN_URL is missing');
+        process.exit(1);
+    })
     .then(renderApp, (error) => {
         logError('Failed to get decorator', error);
         process.exit(1);
