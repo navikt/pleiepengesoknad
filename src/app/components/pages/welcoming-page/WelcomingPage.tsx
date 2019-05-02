@@ -131,7 +131,6 @@ class WelcomingPage extends React.Component<Props, WelcomingPageState> {
                                                 )
                                             }}
                                         />
-                                        <Box margin="l">{intlHelper(intl, 'omlagring')}</Box>
                                     </ConfirmationCheckboxPanel>
                                 </Box>
                                 <Box margin="xl">

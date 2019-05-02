@@ -92,7 +92,6 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                     }
                                     return undefined;
                                 }}
-                                placeholder="Skriv inn fødselsnummer her"
                                 disabled={barnetHarIkkeFåttFødselsnummerEnda}
                                 bredde="XL"
                                 type="tel"
@@ -111,7 +110,6 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                 <Input
                                     label="Barnets foreløpige fødselsnummer eller D-nummer"
                                     name={Field.barnetsForeløpigeFødselsnummerEllerDNummer}
-                                    placeholder="Skriv inn barnets foreløpige fødselsnummer / D-nummer her"
                                     validate={(foreløpigFnr) => {
                                         if (barnetHarIkkeFåttFødselsnummerEnda) {
                                             return validateForeløpigFødselsnummer(foreløpigFnr);
@@ -133,15 +131,14 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                         return validateNavn(navn, true);
                                     }
                                 }}
-                                placeholder="Skriv inn barnets navn her"
                                 bredde="XL"
                             />
                             <Input
                                 label="Min relasjon til barnet"
                                 name={Field.søkersRelasjonTilBarnet}
                                 validate={validateRelasjonTilBarnet}
-                                placeholder="Skriv inn din relasjon til barnet her"
                                 bredde="XL"
+                                helperText="Oppgi din relasjon til barnet her, f.eks. om du er barnets mor, far, tante eller onkel"
                             />
                         </>
                     )
