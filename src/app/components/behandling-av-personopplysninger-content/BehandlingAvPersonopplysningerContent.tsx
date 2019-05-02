@@ -25,33 +25,32 @@ const BehandlingAvPersonopplysningerContent: React.FunctionComponent = () => (
         </Box>
 
         <Box margin="xl">
-            <Ingress>Opplysninger vi innhenter fra deg og offentlige registre</Ingress>
-            <Normaltekst>For å behandle søknaden din henter vi inn opplysninger om</Normaltekst>
+            <Ingress>Opplysningene vi innhenter</Ingress>
+            <Normaltekst>Opplysningene kommer enten fra deg eller fra offentlige registre:</Normaltekst>
             <ul>
-                <li>tilknytningen din til Norge, arbeidsforholdene dine og inntekten din</li>
+                <li>arbeidsforholdene dine og inntekten din</li>
                 <li>ytelser du mottar fra NAV</li>
+                <li>opplysninger om barnets helse</li>
+                <li>tilknytningen din til Norge</li>
                 <li>trygdeordninger du kan ha rett til i andre land</li>
-                <li>barnets helseopplysninger</li>
             </ul>
-            <Normaltekst>Vi kan også sende opplysninger om deg til trygdeordninger i andre land.</Normaltekst>
+            <Normaltekst>Vi kan også sende opplysninger om deg til trygdemyndigheter i andre land. </Normaltekst>
         </Box>
 
         <Box margin="xl">
             <Ingress>Svar på søknaden</Ingress>
-            <Normaltekst>Når søknaden din er behandlet, får du et vedtaksbrev. Det forteller deg om</Normaltekst>
+            <Normaltekst>Du får et brev fra NAV når søknaden din er behandlet. Brevet inneholder</Normaltekst>
             <ul>
-                <li>begrunnelse for beslutningen</li>
-                <li>hvordan du får innsyn i saksbehandlingen og reglene som er blitt brukt</li>
+                <li>begrunnelse for beslutningen og reglene som er brukt</li>
+                <li>hvordan du får innsyn i saksbehandlingen</li>
                 <li>hvordan du kan klage hvis du er uenig</li>
             </ul>
-            <Normaltekst>Vi kan også sende opplysninger om deg til trygdeordninger i andre land.</Normaltekst>
         </Box>
 
         <Box margin="xl">
-            <Ingress>Personvernerklæringen i NAV</Ingress>
+            <Ingress>Personvern i NAV</Ingress>
             <Normaltekst>
-                Du kan lese mer om hvordan NAV behandler personopplysninger i Arbeids- og velferdsetatens
-                personvernerklæring på{' '}
+                Vil du vite mer om hvordan NAV behandler personopplysninger? Se{' '}
                 <Lenke
                     href="https://www.nav.no/no/NAV+og+samfunn/Om+NAV/personvern-i-arbeids-og-velferdsetaten/personvernerkl%C3%A6ring-for-arbeids-og-velferdsetaten"
                     target="_blank">

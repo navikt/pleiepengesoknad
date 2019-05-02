@@ -90,7 +90,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                         history={history}
                         {...stepProps}>
                         <DateIntervalPicker
-                            legend="For hvilken periode søker du pleiepenger?"
+                            legend="Hvilket tidsrom søker du pleiepenger for?"
                             fromDatepickerProps={{
                                 label: 'Fra og med',
                                 validate: this.validateFraDato,

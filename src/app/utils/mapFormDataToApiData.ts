@@ -21,7 +21,7 @@ export const mapFormDataToApiData = ({
     harMedsøker,
     grad
 }: PleiepengesøknadFormData): PleiepengesøknadApiData => {
-    const fnrObject: Partial<Barn> = {};
+    const fnrObject: Barn = { navn: null, fodselsnummer: null, alternativ_id: null };
     if (barnetsFødselsnummer) {
         fnrObject.fodselsnummer = barnetsFødselsnummer;
     } else if (barnetsForeløpigeFødselsnummerEllerDNummer) {
@@ -30,8 +30,9 @@ export const mapFormDataToApiData = ({
 
     return {
         barn: {
-            navn: barnetsNavn,
-            ...fnrObject
+            navn: barnetsNavn !== '' ? barnetsNavn : null,
+            fodselsnummer: fnrObject.fodselsnummer !== '' ? fnrObject.fodselsnummer : null,
+            alternativ_id: fnrObject.alternativ_id !== '' ? fnrObject.alternativ_id : null
         },
         relasjon_til_barnet: søkersRelasjonTilBarnet,
         arbeidsgivere: {

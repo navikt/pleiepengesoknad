@@ -29,12 +29,6 @@ const ConfirmationPage: React.FunctionComponent = () => (
                     </Lenke>
                 </Ingress>
             </Box>
-            <Box margin="l">
-                <Ingress>
-                    Har du spørsmål? Du er velkommen til å ringe 55 55 33 33 og snakke med veiledere som har
-                    spesialkunnskap om pleiepenger.
-                </Ingress>
-            </Box>
         </Box>
     </Page>
 );

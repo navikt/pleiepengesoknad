@@ -29,7 +29,7 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, ...stepProps
                 legend="Planlegger du å bo i andre land enn Norge i hele eller deler av de neste 12 månedene?"
                 name={Field.skalBoUtenforNorgeNeste12Mnd}
                 validate={validateYesOrNoIsAnswered}
-                helperText="Du svarer bare ja hvis du planlegger å oppholde deg fast i et annet land enn Norge. Korte utlandsturer i forbindelse med for eksempel ferie regnes ikke med."
+                helperText="Du svarer ja bare hvis du planlegger å oppholde deg fast i et annet land enn Norge. Korte utlandsturer i forbindelse med for eksempel ferie regnes ikke med."
             />
         </FormikStep>
     );

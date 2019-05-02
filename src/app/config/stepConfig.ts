@@ -38,7 +38,7 @@ export const stepConfig: StepConfigInterface = {
     },
     [StepID.TIDSROM]: {
         pageTitle: 'Pleiepengesøknad',
-        stepTitle: 'Tidsperiode med pleiepenger',
+        stepTitle: 'Tidsrom',
         stepIndicatorLabel: 'Tidsrom',
         index: 1,
         nextStep: StepID.ANSETTELSESFORHOLD,

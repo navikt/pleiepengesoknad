@@ -1,7 +1,7 @@
 export interface Barn {
-    navn: string;
-    fodselsnummer?: string;
-    alternativ_id?: string;
+    navn: string | null;
+    fodselsnummer: string | null;
+    alternativ_id: string | null;
 }
 
 interface Ansettelsesforhold {

@@ -156,7 +156,8 @@ class SummaryStep extends React.Component<Props, State> {
                 </Box>
                 <Box margin="l">
                     <ConfirmationCheckboxPanel
-                        label="Jeg bekrefter at disse opplysningene stemmer"
+                        label="Jeg bekrefter at opplysningene jeg har oppgitt er riktige, og at jeg ikke har holdt tilbake
+                        opplysninger som har betydning for retten jeg har til pleiepenger"
                         name={Field.harBekreftetOpplysninger}
                         validate={(value) => {
                             let result;
@@ -164,10 +165,8 @@ class SummaryStep extends React.Component<Props, State> {
                                 result = 'Du må bekrefte opplysningene';
                             }
                             return result;
-                        }}>
-                        Opplysningene jeg har oppgitt er riktige, og jeg har ikke holdt tilbake opplysninger som har
-                        betydning for retten jeg har til pleiepenger
-                    </ConfirmationCheckboxPanel>
+                        }}
+                    />
                 </Box>
             </FormikStep>
         );

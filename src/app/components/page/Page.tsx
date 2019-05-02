@@ -1,6 +1,5 @@
 import * as React from 'react';
 import DocumentTitle from 'react-document-title';
-import SystemInformationMessage from '../system-information-message/SystemInformationMessage';
 import './page.less';
 
 interface PageProps {
@@ -19,7 +18,6 @@ class Page extends React.Component<PageProps> {
         return (
             <DocumentTitle title={title}>
                 <>
-                    <SystemInformationMessage message="Denne siden er under utvikling" />
                     {topContentRenderer && topContentRenderer()}
                     <div className={`page ${className}`}>{children}</div>
                 </>
