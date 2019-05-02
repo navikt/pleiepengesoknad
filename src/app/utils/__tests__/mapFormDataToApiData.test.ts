@@ -96,7 +96,7 @@ describe('mapFormDataToApiData', () => {
 
     it("should set 'fodselsnummer' in api data to undefined if it doesnt exist, and otherwise it should assign value to 'fodselsnummer' in api data", () => {
         const fnr = '12345123456';
-        expect(resultingApiData.barn.fodselsnummer).toBeUndefined();
+        expect(resultingApiData.barn.fodselsnummer).toBeNull();
         const formDataWithFnr: Partial<PleiepengesøknadFormData> = {
             ...formDataMock,
             [Field.barnetsFødselsnummer]: fnr
@@ -107,7 +107,7 @@ describe('mapFormDataToApiData', () => {
 
     it("should set 'alternativ_id' in api data to undefined if it doesnt exist, and otherwise it should assign value to 'alternativ_id' in api data", () => {
         const fnr = '12345123456';
-        expect(resultingApiData.barn.alternativ_id).toBeUndefined();
+        expect(resultingApiData.barn.alternativ_id).toBeNull();
         const formDataWithFnr: Partial<PleiepengesøknadFormData> = {
             ...formDataMock,
             [Field.barnetsForeløpigeFødselsnummerEllerDNummer]: fnr
@@ -118,14 +118,14 @@ describe('mapFormDataToApiData', () => {
 
     it("should assign fnr to 'fodselsnummer' in api data, and set 'alternativ_id' to undefined, if both barnetsFødselsnummer and barnetsForeløpigeFødselsnummerEllerDNummer has values", () => {
         const fnr = '12345123456';
-        expect(resultingApiData.barn.alternativ_id).toBeUndefined();
+        expect(resultingApiData.barn.alternativ_id).toBeNull();
         const formDataWithFnr: Partial<PleiepengesøknadFormData> = {
             ...formDataMock,
             [Field.barnetsFødselsnummer]: fnr,
             [Field.barnetsForeløpigeFødselsnummerEllerDNummer]: fnr
         };
         const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData);
-        expect(result.barn.alternativ_id).toBeUndefined();
+        expect(result.barn.alternativ_id).toBeNull();
         expect(result.barn.fodselsnummer).toEqual(fnr);
     });
 });
