@@ -120,6 +120,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                                 valueRenderer={(value) => `${value}%`}
                                 minPointLabelRenderer={(minPoint) => `${minPoint}%`}
                                 maxPointLabelRenderer={(maxPoint) => `${maxPoint}%`}
+                                helperText="Test"
                             />
                         </Box>
 

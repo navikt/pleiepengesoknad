@@ -19,6 +19,7 @@ export interface SliderBasePublicProps {
     label: string;
     min: number;
     max: number;
+    helperText?: string;
 }
 
 type SliderBaseProps = SliderBasePrivateProps & SliderBasePublicProps;
@@ -49,6 +50,7 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
     minPointLabelRenderer,
     maxPointLabelRenderer,
     feil,
+    helperText,
     ...otherProps
 }) => {
     inputElementRef = React.useRef(null);
@@ -57,7 +59,12 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
     React.useEffect(() => positionOutputElement(value, min, max), [value]);
 
     return (
-        <CustomInputElement label={label} className={sliderBem.className} id={guid()} validationError={feil}>
+        <CustomInputElement
+            label={label}
+            className={sliderBem.className}
+            id={guid()}
+            validationError={feil}
+            helperText={helperText}>
             <div className={valueEndpointLabelsBem.className}>
                 <div className={valueEndpointLabelsBem.element('minPointLabel')}>
                     {minPointLabelRenderer ? minPointLabelRenderer(min) : min}
