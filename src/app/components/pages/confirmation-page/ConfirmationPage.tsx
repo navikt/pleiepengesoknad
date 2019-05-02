@@ -21,7 +21,7 @@ const ConfirmationPage: React.FunctionComponent = () => (
             <Ingress>Husk å informere arbeidsgiveren din om at du søker om pleiepenger.</Ingress>
             <Box margin="l">
                 <Ingress>
-                    Når søknaden er ferdig behandlet, får du et brev fra oss.{' '}
+                    Du får et brev når søknaden er ferdig behandlet.{' '}
                     <Lenke
                         href="https://www.nav.no/no/NAV+og+samfunn/Om+NAV/Saksbehandlingstider+i+NAV"
                         target="_blank">
@@ -31,7 +31,7 @@ const ConfirmationPage: React.FunctionComponent = () => (
             </Box>
             <Box margin="l">
                 <Ingress>
-                    Har du spørsmål? Du er velkommen til å ringe 55 55 33 33. Da får du hjelp av veiledere med
+                    Har du spørsmål? Du er velkommen til å ringe 55 55 33 33 og snakke med veiledere som har
                     spesialkunnskap om pleiepenger.
                 </Ingress>
             </Box>
