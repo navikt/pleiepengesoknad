@@ -8,6 +8,7 @@ import { userIsCurrentlyOnErrorPage } from '../../utils/navigationUtils';
 import { AxiosError, AxiosResponse } from 'axios';
 import { getBarn, getSøker } from '../../api/api';
 import { SøkerdataContextProvider } from '../../context/SøkerdataContext';
+import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
 
 const loginUrl = getEnvironmentVariable('LOGIN_URL');
 
@@ -36,18 +37,23 @@ class AppEssentialsLoader extends React.Component<Props, State> {
 
     async loadAppEssentials() {
         try {
-            const [barnResponse, søkerResponse] = await Promise.all([getBarn(), getSøker()]);
-            this.handleSøkerdataFetchSuccess(barnResponse, søkerResponse);
+            if (isFeatureEnabled(Feature.HENT_BARN_FEATURE)) {
+                const [søkerResponse, barnResponse] = await Promise.all([getSøker(), getBarn()]);
+                this.handleSøkerdataFetchSuccess(søkerResponse, barnResponse);
+            } else {
+                const søkerResponse = await getSøker();
+                this.handleSøkerdataFetchSuccess(søkerResponse);
+            }
         } catch (response) {
             this.handleSøkerdataFetchError(response);
         }
     }
 
-    handleSøkerdataFetchSuccess(barnResponse: AxiosResponse, søkerResponse: AxiosResponse) {
+    handleSøkerdataFetchSuccess(søkerResponse: AxiosResponse, barnResponse?: AxiosResponse) {
         this.updateSøkerdata(
             {
                 person: søkerResponse.data,
-                barn: barnResponse.data.barn,
+                barn: barnResponse ? barnResponse.data.barn : undefined,
                 setAnsettelsesforhold: this.updateAnsettelsesforhold
             },
             () => {
@@ -81,7 +87,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
         } else if (!userIsCurrentlyOnErrorPage()) {
             window.location.assign(routeConfig.ERROR_PAGE_ROUTE);
         }
-        this.stopLoading();
+        setTimeout(this.stopLoading);
     }
 
     updateAnsettelsesforhold(ansettelsesforhold: Ansettelsesforhold[]) {

@@ -14,12 +14,13 @@ import { Søkerdata } from '../../../types/Søkerdata';
 import { CustomFormikProps as FormikProps } from '../../../types/FormikProps';
 import { formatName } from '../../../utils/personUtils';
 import { Field } from '../../../types/PleiepengesøknadFormData';
-import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
 import Checkbox from '../../checkbox/Checkbox';
 import Input from '../../input/Input';
 import FormikStep from '../../formik-step/FormikStep';
 import { harRegistrerteBarn } from '../../../utils/søkerdataUtils';
 import { getNextStepRoute } from '../../../utils/routeUtils';
+import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
+import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
 
 interface OpplysningerOmBarnetStepProps {
     formikProps: FormikProps;
@@ -43,45 +44,49 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
             onValidFormSubmit={navigate}
             handleSubmit={handleSubmit}
             history={history}>
+            {isFeatureEnabled(Feature.HENT_BARN_FEATURE) && (
+                <SøkerdataContextConsumer>
+                    {(søkerdata: Søkerdata) =>
+                        harRegistrerteBarn(søkerdata) && (
+                            <>
+                                <RadioPanelGroup
+                                    legend="Velg barnet du skal søke pleiepenger for"
+                                    name={Field.barnetSøknadenGjelder}
+                                    radios={søkerdata.barn.map((barn) => {
+                                        const { fornavn, mellomnavn, etternavn } = barn;
+                                        return {
+                                            value: JSON.stringify(barn),
+                                            key: formatName(fornavn, mellomnavn, etternavn),
+                                            label: formatName(fornavn, mellomnavn, etternavn),
+                                            disabled: søknadenGjelderEtAnnetBarn
+                                        };
+                                    })}
+                                    validate={(value) => {
+                                        if (søknadenGjelderEtAnnetBarn) {
+                                            return undefined;
+                                        }
+                                        return validateValgtBarn(value);
+                                    }}
+                                />
+                                <Checkbox
+                                    label="Søknaden gjelder et annet barn"
+                                    name={Field.søknadenGjelderEtAnnetBarn}
+                                    afterOnChange={(newValue) => {
+                                        if (newValue) {
+                                            setFieldValue(Field.barnetSøknadenGjelder, '');
+                                        }
+                                    }}
+                                />
+                            </>
+                        )
+                    }
+                </SøkerdataContextConsumer>
+            )}
             <SøkerdataContextConsumer>
                 {(søkerdata: Søkerdata) =>
-                    harRegistrerteBarn(søkerdata) && (
-                        <>
-                            <RadioPanelGroup
-                                legend="Velg barnet du skal søke pleiepenger for"
-                                name={Field.barnetSøknadenGjelder}
-                                radios={søkerdata.barn.map((barn) => {
-                                    const { fornavn, mellomnavn, etternavn } = barn;
-                                    return {
-                                        value: JSON.stringify(barn),
-                                        key: formatName(fornavn, mellomnavn, etternavn),
-                                        label: formatName(fornavn, mellomnavn, etternavn),
-                                        disabled: søknadenGjelderEtAnnetBarn
-                                    };
-                                })}
-                                validate={(value) => {
-                                    if (søknadenGjelderEtAnnetBarn) {
-                                        return undefined;
-                                    }
-                                    return validateValgtBarn(value);
-                                }}
-                            />
-                            <Checkbox
-                                label="Søknaden gjelder et annet barn"
-                                name={Field.søknadenGjelderEtAnnetBarn}
-                                afterOnChange={(newValue) => {
-                                    if (newValue) {
-                                        setFieldValue(Field.barnetSøknadenGjelder, '');
-                                    }
-                                }}
-                            />
-                        </>
-                    )
-                }
-            </SøkerdataContextConsumer>
-            <SøkerdataContextConsumer>
-                {(søkerdata: Søkerdata) =>
-                    (søknadenGjelderEtAnnetBarn || !harRegistrerteBarn(søkerdata)) && (
+                    (!isFeatureEnabled(Feature.HENT_BARN_FEATURE) ||
+                        søknadenGjelderEtAnnetBarn ||
+                        !harRegistrerteBarn(søkerdata)) && (
                         <>
                             <Input
                                 label="Barnets fødselsnummer"

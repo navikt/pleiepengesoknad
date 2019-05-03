@@ -37,13 +37,11 @@ describe('<AppEssentialsLoader />', () => {
         expect(getByTestId('spinner-element')).toBeTruthy();
     });
 
-    it('should replace the loading spinner with contentRenderer() return value when getBarn and getSøker has resolved', async () => {
+    it('should replace the loading spinner with contentRenderer() return value when getSøker has resolved', async () => {
         const stringContent = 'Some string content';
         const contentRenderer = () => <p>{stringContent}</p>;
         const { getByText, queryByTestId } = render(<AppEssentialsLoader contentLoadedRenderer={contentRenderer} />);
         expect(queryByTestId('spinner-element')).toBeTruthy();
-        expect(api.getBarn).toHaveBeenCalled();
-        expect(api.getBarn).toHaveBeenCalled();
         await waitForElement(() => getByText(stringContent));
         expect(getByText(stringContent)).toBeTruthy();
         expect(queryByTestId('spinner-element')).toBeNull();
