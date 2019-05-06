@@ -134,7 +134,7 @@ describe('mapFormDataToApiData', () => {
     });
 
     it('should set har_forstått_rettigheter_og_plikter to value of harForståttRettigheterOgPlikter in form data', () => {
-        expect(resultingApiData.har_forstått_rettigheter_og_plikter).toBe(
+        expect(resultingApiData.har_forstatt_rettigheter_og_plikter).toBe(
             formDataMock[Field.harForståttRettigheterOgPlikter]
         );
     });

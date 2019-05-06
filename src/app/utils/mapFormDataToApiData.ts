@@ -48,6 +48,6 @@ export const mapFormDataToApiData = ({
         har_medsoker: harMedsøker === YesOrNo.YES,
         grad,
         har_bekreftet_opplysninger: harBekreftetOpplysninger,
-        har_forstått_rettigheter_og_plikter: harForståttRettigheterOgPlikter
+        har_forstatt_rettigheter_og_plikter: harForståttRettigheterOgPlikter
     };
 };
