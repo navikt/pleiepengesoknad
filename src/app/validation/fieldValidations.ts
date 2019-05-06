@@ -1,6 +1,7 @@
 import { YesOrNo } from '../types/YesOrNo';
 import { fødselsnummerIsValid, FødselsnummerValidationErrorReason } from './fødselsnummerValidator';
 import { isMoreThan3YearsAgo } from '../utils/dateUtils';
+import { attachmentHasBeenUploaded } from '../utils/attachmentUtils';
 
 const moment = require('moment');
 
@@ -104,11 +105,12 @@ export const validateYesOrNoIsAnswered = (answer: YesOrNo): string | undefined =
     return undefined;
 };
 
-export const validateLegeerklæring = (files: File[]): string | undefined => {
-    if (files.length === 0) {
+export const validateLegeerklæring = (attachments: Attachment[]): string | undefined => {
+    const uploadedAttachments = attachments.filter((attachment) => attachmentHasBeenUploaded(attachment));
+    if (uploadedAttachments.length === 0) {
         return 'Du må laste opp en legeerklæring';
     }
-    if (files.length > 3) {
+    if (uploadedAttachments.length > 3) {
         return 'Du kan maksimalt laste opp 3 bilder';
     }
     return undefined;

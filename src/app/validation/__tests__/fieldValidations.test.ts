@@ -208,12 +208,32 @@ describe('fieldValidations', () => {
     });
 
     describe('validateLegeerklæring', () => {
-        it('should return undefined if the file array contains one or more files', () => {
-            expect(validateLegeerklæring([new File([''], 'filename', { type: 'text/png' })])).toBeUndefined();
+        const fileMock = new File([''], 'filename.png', { type: 'text/png' });
+
+        const uploadedAttachment: Attachment = { file: fileMock, pending: false, uploaded: true };
+        const failedAttachment1: Attachment = { file: fileMock, pending: true, uploaded: false };
+        const failedAttachment2: Attachment = { file: fileMock, pending: false, uploaded: false };
+
+        it('should return error message saying that files must be uploaded if list is empty', () => {
+            expect(validateLegeerklæring([])).toEqual('Du må laste opp en legeerklæring');
         });
 
-        it('should return error message saying that files must be uploaded if file-array is empty', () => {
-            expect(validateLegeerklæring([])).toEqual('Du må laste opp en legeerklæring');
+        it('should return error message saying that files must be uploaded if list contains no successfully uploaded attachments', () => {
+            expect(validateLegeerklæring([failedAttachment1, failedAttachment2])).toEqual(
+                'Du må laste opp en legeerklæring'
+            );
+        });
+
+        it('should return undefined if list contains between 1-3 successfully uploaded attachments', () => {
+            expect(validateLegeerklæring([uploadedAttachment])).toBeUndefined();
+            expect(validateLegeerklæring([uploadedAttachment, uploadedAttachment])).toBeUndefined();
+            expect(validateLegeerklæring([uploadedAttachment, uploadedAttachment, uploadedAttachment])).toBeUndefined();
+        });
+
+        it('should return error message saying no more than 3 files if list contains 4 files or more', () => {
+            expect(
+                validateLegeerklæring([uploadedAttachment, uploadedAttachment, uploadedAttachment, uploadedAttachment])
+            ).toEqual('Du kan maksimalt laste opp 3 bilder');
         });
     });
 });
