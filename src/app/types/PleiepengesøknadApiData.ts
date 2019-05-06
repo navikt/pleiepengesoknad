@@ -23,4 +23,6 @@ export interface PleiepengesøknadApiData {
     medlemskap: Medlemskap;
     har_medsoker: boolean;
     grad: number;
+    har_forstått_rettigheter_og_plikter: boolean;
+    har_bekreftet_opplysninger: boolean;
 }

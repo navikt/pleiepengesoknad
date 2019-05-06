@@ -24,15 +24,15 @@ const formData: Partial<PleiepengesøknadFormData> = {};
 
 describe('stepValidation tests', () => {
     describe('welcomingPageIsValid', () => {
-        it(`should be valid if ${Field.harGodkjentVilkår} is true`, () => {
-            formData[Field.harGodkjentVilkår] = true;
+        it(`should be valid if ${Field.harForståttRettigheterOgPlikter} is true`, () => {
+            formData[Field.harForståttRettigheterOgPlikter] = true;
             expect(welcomingPageIsValid(formData as PleiepengesøknadFormData)).toBe(true);
         });
 
-        it(`should be invalid if ${Field.harGodkjentVilkår} is undefined or false`, () => {
-            formData[Field.harGodkjentVilkår] = undefined;
+        it(`should be invalid if ${Field.harForståttRettigheterOgPlikter} is undefined or false`, () => {
+            formData[Field.harForståttRettigheterOgPlikter] = undefined;
             expect(welcomingPageIsValid(formData as PleiepengesøknadFormData)).toBe(false);
-            formData[Field.harGodkjentVilkår] = false;
+            formData[Field.harForståttRettigheterOgPlikter] = false;
             expect(welcomingPageIsValid(formData as PleiepengesøknadFormData)).toBe(false);
         });
     });

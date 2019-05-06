@@ -10,7 +10,7 @@ export const mapFormDataToApiData = ({
     barnetsForeløpigeFødselsnummerEllerDNummer,
     barnetSøknadenGjelder,
     harBekreftetOpplysninger,
-    harGodkjentVilkår,
+    harForståttRettigheterOgPlikter,
     søkersRelasjonTilBarnet,
     ansettelsesforhold,
     periodeFra,
@@ -46,6 +46,8 @@ export const mapFormDataToApiData = ({
         til_og_med: formatDate(periodeTil!),
         vedlegg: legeerklæring.filter((attachment) => !attachmentUploadHasFailed(attachment)).map(({ url }) => url!),
         har_medsoker: harMedsøker === YesOrNo.YES,
-        grad
+        grad,
+        har_bekreftet_opplysninger: harBekreftetOpplysninger,
+        har_forstått_rettigheter_og_plikter: harForståttRettigheterOgPlikter
     };
 };

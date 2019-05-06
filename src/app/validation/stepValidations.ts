@@ -2,7 +2,8 @@ import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import * as fieldValidations from './fieldValidations';
 import { YesOrNo } from '../types/YesOrNo';
 
-export const welcomingPageIsValid = ({ harGodkjentVilkår }: PleiepengesøknadFormData) => harGodkjentVilkår === true;
+export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: PleiepengesøknadFormData) =>
+    harForståttRettigheterOgPlikter === true;
 
 export const opplysningerOmBarnetStepIsValid = ({
     barnetsNavn,

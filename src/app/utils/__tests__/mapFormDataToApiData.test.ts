@@ -17,7 +17,7 @@ const attachmentMock2: Partial<AttachmentMock> = { url: 'nav.no/2', failed: fals
 const formDataMock: Partial<PleiepengesøknadFormData> = {
     [Field.barnetsNavn]: 'Ola Foobar',
     [Field.harBekreftetOpplysninger]: true,
-    [Field.harGodkjentVilkår]: true,
+    [Field.harForståttRettigheterOgPlikter]: true,
     [Field.søkersRelasjonTilBarnet]: 'mor',
     [Field.ansettelsesforhold]: [
         {
@@ -127,5 +127,15 @@ describe('mapFormDataToApiData', () => {
         const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData);
         expect(result.barn.alternativ_id).toBeNull();
         expect(result.barn.fodselsnummer).toEqual(fnr);
+    });
+
+    it('should set har_bekreftet_opplysninger to value of harBekreftetOpplysninger in form data', () => {
+        expect(resultingApiData.har_bekreftet_opplysninger).toBe(formDataMock[Field.harBekreftetOpplysninger]);
+    });
+
+    it('should set har_forstått_rettigheter_og_plikter to value of harForståttRettigheterOgPlikter in form data', () => {
+        expect(resultingApiData.har_forstått_rettigheter_og_plikter).toBe(
+            formDataMock[Field.harForståttRettigheterOgPlikter]
+        );
     });
 });

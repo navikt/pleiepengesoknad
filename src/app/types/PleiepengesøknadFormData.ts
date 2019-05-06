@@ -2,7 +2,7 @@ import { Ansettelsesforhold } from './Søkerdata';
 import { YesOrNo } from './YesOrNo';
 
 export enum Field {
-    harGodkjentVilkår = 'harGodkjentVilkår',
+    harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
     harBekreftetOpplysninger = 'harBekreftetOpplysninger',
     barnetHarIkkeFåttFødselsnummerEnda = 'barnetHarIkkeFåttFødselsnummerEnda',
     barnetsNavn = 'barnetsNavn',
@@ -22,7 +22,7 @@ export enum Field {
 }
 
 export interface PleiepengesøknadFormData {
-    [Field.harGodkjentVilkår]: boolean;
+    [Field.harForståttRettigheterOgPlikter]: boolean;
     [Field.harBekreftetOpplysninger]: boolean;
     [Field.barnetsNavn]: string;
     [Field.barnetsFødselsnummer]: string;
@@ -45,7 +45,7 @@ export const initialValues: PleiepengesøknadFormData = {
     [Field.barnetsNavn]: '',
     [Field.barnetsFødselsnummer]: '',
     [Field.barnetSøknadenGjelder]: '',
-    [Field.harGodkjentVilkår]: false,
+    [Field.harForståttRettigheterOgPlikter]: false,
     [Field.harBekreftetOpplysninger]: false,
     [Field.søkersRelasjonTilBarnet]: '',
     [Field.søknadenGjelderEtAnnetBarn]: false,

@@ -107,7 +107,7 @@ class WelcomingPage extends React.Component<Props, WelcomingPageState> {
                         <Box margin="xl">
                             <ConfirmationCheckboxPanel
                                 label={intlHelper(intl, 'jajegsamtykker')}
-                                name={Field.harGodkjentVilkår}
+                                name={Field.harForståttRettigheterOgPlikter}
                                 validate={(value) => {
                                     let result;
                                     if (value !== true) {
