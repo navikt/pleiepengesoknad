@@ -7,7 +7,7 @@
     appearance: none;
     background: transparent;
     width: 100%;
-    margin-top: 1.5rem;
+    margin-top: 0.5rem;
     outline: none;
 
     &::range-track {
@@ -34,33 +34,13 @@
       }
     }
   }
-
-  &__valueContainer {
-    border: 2px solid #0067c5;
-    border-radius: 4px;
-    position: relative;
-    top: 32px;
-    font-weight: bold;
-    padding: 0.5rem 2rem 0.5rem 2rem;
-
-    &__arrow {
-      background-color: white;
-      border-left: 2px solid #0067c5;
-      border-top: 2px solid #0067c5;
-      width: 1rem;
-      height: 1rem;
-      position: absolute;
-      top: -9px;
-      left: 34px;
-      transform: rotate(42deg) skew(-6deg);
-    }
-  }
 }
-
 
 .valueEndpointLabels {
   display: flex;
   font-weight: bold;
+  position: relative;
+  top: 8px;
 
   &__minPointLabel {
     flex-basis: 50%;

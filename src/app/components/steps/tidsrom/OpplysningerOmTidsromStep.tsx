@@ -120,11 +120,12 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                                 valueRenderer={(value) => `${value}%`}
                                 minPointLabelRenderer={(minPoint) => `${minPoint}%`}
                                 maxPointLabelRenderer={(maxPoint) => `${maxPoint}%`}
+                                showTextInput={true}
                                 helperText="Graden av pleiepenger du søker om tilsvarer prosentandelen av arbeidsinntekten du mister som følge av at du må pleie barnet. Det vil si at om du jobber i en 50% stilling og ikke kan jobbe i det hele tatt, kan du søke om 100% pleiepenger."
                             />
                         </Box>
 
-                        <Box margin="xxxl">
+                        <Box margin="xxl">
                             <YesOrNoQuestion
                                 legend="Er det en annen som skal søke om pleiepenger i samme tidsperiode?"
                                 name={Field.harMedsøker}

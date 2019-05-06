@@ -13,6 +13,7 @@ interface SliderBasePrivateProps {
 }
 
 export interface SliderBasePublicProps {
+    showTextInput?: boolean;
     valueRenderer?: (value: number) => React.ReactNode;
     minPointLabelRenderer?: (minPoint: number) => React.ReactNode;
     maxPointLabelRenderer?: (maxPoint: number) => React.ReactNode;
@@ -25,18 +26,6 @@ export interface SliderBasePublicProps {
 type SliderBaseProps = SliderBasePrivateProps & SliderBasePublicProps;
 
 let inputElementRef: React.MutableRefObject<HTMLInputElement | null>;
-let outputElementRef: React.MutableRefObject<HTMLOutputElement | null>;
-
-const positionOutputElement = (currentValue: number, min: number, max: number) => {
-    const inputElement = inputElementRef.current as HTMLElement;
-    const outputElement = outputElementRef.current as HTMLElement;
-
-    const numberOfPixelsPerPoint = inputElement.offsetWidth / (max - min) - 0.4;
-    const nextDistanceFromLeft = (currentValue - min) * numberOfPixelsPerPoint;
-    const pxAdjustment = -28;
-
-    outputElement.style.left = `${nextDistanceFromLeft + pxAdjustment}px`;
-};
 
 const sliderBem = bemUtils('slider');
 const valueEndpointLabelsBem = bemUtils('valueEndpointLabels');
@@ -51,12 +40,10 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
     maxPointLabelRenderer,
     feil,
     helperText,
+    showTextInput,
     ...otherProps
 }) => {
     inputElementRef = React.useRef(null);
-    outputElementRef = React.useRef(null);
-
-    React.useEffect(() => positionOutputElement(value, min, max), [value]);
 
     return (
         <CustomInputElement
@@ -65,14 +52,7 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
             id={guid()}
             validationError={feil}
             helperText={helperText}>
-            <div className={valueEndpointLabelsBem.className}>
-                <div className={valueEndpointLabelsBem.element('minPointLabel')}>
-                    {minPointLabelRenderer ? minPointLabelRenderer(min) : min}
-                </div>
-                <div className={valueEndpointLabelsBem.element('maxPointLabel')}>
-                    {maxPointLabelRenderer ? maxPointLabelRenderer(max) : max}
-                </div>
-            </div>
+            {showTextInput && <input type="text" className="skjemaelement__input" value={value} {...otherProps} />}
             <input
                 className={sliderBem.element('input')}
                 type="range"
@@ -82,10 +62,14 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
                 value={value}
                 {...otherProps}
             />
-            <output className={sliderBem.element('valueContainer')} ref={outputElementRef}>
-                <span className={sliderBem.element('valueContainer__arrow')} />
-                <span>{valueRenderer ? valueRenderer(value) : value}</span>
-            </output>
+            <div className={valueEndpointLabelsBem.className}>
+                <div className={valueEndpointLabelsBem.element('minPointLabel')}>
+                    {minPointLabelRenderer ? minPointLabelRenderer(min) : min}
+                </div>
+                <div className={valueEndpointLabelsBem.element('maxPointLabel')}>
+                    {maxPointLabelRenderer ? maxPointLabelRenderer(max) : max}
+                </div>
+            </div>
         </CustomInputElement>
     );
 };
