@@ -12,7 +12,8 @@ interface CustomInputElementProps {
     children: React.ReactNode;
     className?: string;
     label?: string;
-    id?: string;
+    htmlFor?: string;
+    labelId?: string;
     validationError?: ValidationError;
     helperText?: string;
 }
@@ -21,7 +22,8 @@ const CustomInputElement: React.FunctionComponent<CustomInputElementProps> = ({
     children,
     className,
     label,
-    id,
+    htmlFor,
+    labelId,
     validationError,
     helperText
 }) => {
@@ -34,7 +36,7 @@ const CustomInputElement: React.FunctionComponent<CustomInputElementProps> = ({
     return (
         <div className={wrapperCls}>
             {label && (
-                <label className="skjemaelement__label" htmlFor={id}>
+                <label className="skjemaelement__label" htmlFor={htmlFor} id={labelId ? labelId : ''}>
                     {label}
                     {helperText && (
                         <>

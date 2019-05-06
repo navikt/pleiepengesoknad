@@ -3,6 +3,7 @@ import CustomInputElement from '../custom-input-element/CustomInputElement';
 import bemUtils from '../../utils/bemUtils';
 import { SkjemaelementFeil as ValidationError } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
 import { guid } from 'nav-frontend-js-utils';
+import classnames from 'classnames';
 import './sliderBase.less';
 
 interface SliderBasePrivateProps {
@@ -25,8 +26,6 @@ export interface SliderBasePublicProps {
 
 type SliderBaseProps = SliderBasePrivateProps & SliderBasePublicProps;
 
-let inputElementRef: React.MutableRefObject<HTMLInputElement | null>;
-
 const sliderBem = bemUtils('slider');
 const valueEndpointLabelsBem = bemUtils('valueEndpointLabels');
 
@@ -43,23 +42,28 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
     showTextInput,
     ...otherProps
 }) => {
-    inputElementRef = React.useRef(null);
-
+    const id = guid();
+    const classNames = classnames(sliderBem.className, {
+        [sliderBem.modifier('withTextInput')]: showTextInput !== undefined
+    });
     return (
-        <CustomInputElement
-            label={label}
-            className={sliderBem.className}
-            id={guid()}
-            validationError={feil}
-            helperText={helperText}>
-            {showTextInput && <input type="text" className="skjemaelement__input" value={value} {...otherProps} />}
+        <CustomInputElement label={label} className={classNames} validationError={feil} helperText={helperText}>
+            {showTextInput && (
+                <input
+                    type="text"
+                    className="skjemaelement__input"
+                    value={value}
+                    aria-labelledby={id}
+                    {...otherProps}
+                />
+            )}
             <input
                 className={sliderBem.element('input')}
                 type="range"
-                ref={inputElementRef}
                 min={min}
                 max={max}
                 value={value}
+                aria-labelledby={id}
                 {...otherProps}
             />
             <div className={valueEndpointLabelsBem.className}>

@@ -29,7 +29,7 @@ const DatepickerBase: React.FunctionComponent<DatepickerBaseProps> = ({
 }) => {
     const elementId = id || guid();
     return (
-        <CustomInputElement label={label} id={elementId} validationError={feil}>
+        <CustomInputElement label={label} labelId={elementId} validationError={feil}>
             <NAVDatepicker
                 input={{ name, placeholder, id: elementId }}
                 id={elementId}
