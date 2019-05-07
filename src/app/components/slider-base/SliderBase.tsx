@@ -4,8 +4,8 @@ import bemUtils from '../../utils/bemUtils';
 import { SkjemaelementFeil as ValidationError } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
 import { guid } from 'nav-frontend-js-utils';
 import classnames from 'classnames';
-import './sliderBase.less';
 import { SkjemaGruppe } from 'nav-frontend-skjema';
+import './sliderBase.less';
 
 interface SliderBasePrivateProps {
     name: string;
@@ -44,13 +44,19 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
     onChange,
     ...otherProps
 }) => {
+    const sliderId = guid();
     const labelId = guid();
     const classNames = classnames(sliderBem.className, {
         [sliderBem.modifier('withTextInput')]: showTextInput !== undefined
     });
     return (
         <SkjemaGruppe feil={feil}>
-            <CustomInputElement className={classNames} helperText={helperText} label={label} labelId={labelId}>
+            <CustomInputElement
+                className={classNames}
+                helperText={helperText}
+                label={label}
+                labelId={labelId}
+                labelHtmlFor={sliderId}>
                 {showTextInput && (
                     <input
                         type="text"
@@ -69,6 +75,7 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
                     />
                 )}
                 <input
+                    id={sliderId}
                     className={sliderBem.element('input')}
                     type="range"
                     min={min}
