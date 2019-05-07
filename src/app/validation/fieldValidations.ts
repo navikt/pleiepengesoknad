@@ -115,3 +115,24 @@ export const validateLegeerklæring = (attachments: Attachment[]): string | unde
     }
     return undefined;
 };
+
+export const validateGrad = (grad: number | string): string | undefined => {
+    if (typeof grad === 'string') {
+        const gradNumber = +grad;
+        if (Number.isInteger(gradNumber)) {
+            if (gradNumber < 20 || gradNumber > 100) {
+                return 'Graden må oppgis som et heltall mellom 20 og 100 prosent';
+            } else {
+                return undefined;
+            }
+        } else {
+            return 'Graden må oppgis som et heltall mellom 20 og 100 prosent';
+        }
+    } else {
+        if (grad < 20 || grad > 100) {
+            return 'Graden må oppgis som et heltall mellom 20 og 100 prosent';
+        }
+    }
+
+    return undefined;
+};

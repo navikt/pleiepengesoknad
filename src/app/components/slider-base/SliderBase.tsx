@@ -5,6 +5,7 @@ import { SkjemaelementFeil as ValidationError } from 'nav-frontend-skjema/lib/sk
 import { guid } from 'nav-frontend-js-utils';
 import classnames from 'classnames';
 import './sliderBase.less';
+import { SkjemaGruppe } from 'nav-frontend-skjema';
 
 interface SliderBasePrivateProps {
     name: string;
@@ -15,9 +16,9 @@ interface SliderBasePrivateProps {
 
 export interface SliderBasePublicProps {
     showTextInput?: boolean;
-    valueRenderer?: (value: number) => React.ReactNode;
-    minPointLabelRenderer?: (minPoint: number) => React.ReactNode;
-    maxPointLabelRenderer?: (maxPoint: number) => React.ReactNode;
+    valueRenderer?: (value: number) => React.ReactText;
+    minPointLabelRenderer?: (minPoint: number) => React.ReactText;
+    maxPointLabelRenderer?: (maxPoint: number) => React.ReactText;
     label: string;
     min: number;
     max: number;
@@ -40,41 +41,53 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
     feil,
     helperText,
     showTextInput,
+    onChange,
     ...otherProps
 }) => {
-    const id = guid();
+    const labelId = guid();
     const classNames = classnames(sliderBem.className, {
         [sliderBem.modifier('withTextInput')]: showTextInput !== undefined
     });
     return (
-        <CustomInputElement label={label} className={classNames} validationError={feil} helperText={helperText}>
-            {showTextInput && (
+        <SkjemaGruppe feil={feil}>
+            <CustomInputElement className={classNames} helperText={helperText} label={label} labelId={labelId}>
+                {showTextInput && (
+                    <input
+                        type="text"
+                        className="skjemaelement__input"
+                        value={value}
+                        maxLength={3}
+                        aria-labelledby={labelId}
+                        aria-valuemin={20}
+                        aria-valuemax={100}
+                        {...otherProps}
+                        onChange={(event) => {
+                            if (Number.isInteger(+event.target.value)) {
+                                onChange(event);
+                            }
+                        }}
+                    />
+                )}
                 <input
-                    type="text"
-                    className="skjemaelement__input"
+                    className={sliderBem.element('input')}
+                    type="range"
+                    min={min}
+                    max={max}
                     value={value}
-                    aria-labelledby={id}
+                    onChange={onChange}
+                    aria-labelledby={labelId}
                     {...otherProps}
                 />
-            )}
-            <input
-                className={sliderBem.element('input')}
-                type="range"
-                min={min}
-                max={max}
-                value={value}
-                aria-labelledby={id}
-                {...otherProps}
-            />
-            <div className={valueEndpointLabelsBem.className}>
-                <div className={valueEndpointLabelsBem.element('minPointLabel')}>
-                    {minPointLabelRenderer ? minPointLabelRenderer(min) : min}
+                <div className={valueEndpointLabelsBem.className}>
+                    <div className={valueEndpointLabelsBem.element('minPointLabel')}>
+                        {minPointLabelRenderer ? minPointLabelRenderer(min) : min}
+                    </div>
+                    <div className={valueEndpointLabelsBem.element('maxPointLabel')}>
+                        {maxPointLabelRenderer ? maxPointLabelRenderer(max) : max}
+                    </div>
                 </div>
-                <div className={valueEndpointLabelsBem.element('maxPointLabel')}>
-                    {maxPointLabelRenderer ? maxPointLabelRenderer(max) : max}
-                </div>
-            </div>
-        </CustomInputElement>
+            </CustomInputElement>
+        </SkjemaGruppe>
     );
 };
 

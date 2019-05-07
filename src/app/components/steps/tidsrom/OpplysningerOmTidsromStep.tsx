@@ -10,7 +10,12 @@ import { Søkerdata } from '../../../types/Søkerdata';
 import { date3YearsAgo, formatDate } from '../../../utils/dateUtils';
 import { FormikProps } from 'formik';
 import { getArbeidsgiver } from '../../../api/api';
-import { validateFradato, validateTildato, validateYesOrNoIsAnswered } from '../../../validation/fieldValidations';
+import {
+    validateFradato,
+    validateGrad,
+    validateTildato,
+    validateYesOrNoIsAnswered
+} from '../../../validation/fieldValidations';
 import { getNextStepRoute } from '../../../utils/routeUtils';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
 import Box from '../../box/Box';
@@ -122,6 +127,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                                 maxPointLabelRenderer={(maxPoint) => `${maxPoint}%`}
                                 showTextInput={true}
                                 helperText="Graden av pleiepenger du søker om tilsvarer prosentandelen av arbeidsinntekten du mister som følge av at du må pleie barnet. Det vil si at om du jobber i en 50% stilling og ikke kan jobbe i det hele tatt, kan du søke om 100% pleiepenger."
+                                validate={validateGrad}
                             />
                         </Box>
 
