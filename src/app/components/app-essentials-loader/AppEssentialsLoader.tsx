@@ -13,7 +13,7 @@ import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
 const loginUrl = getEnvironmentVariable('LOGIN_URL');
 
 interface Props {
-    contentLoadedRenderer: () => React.ReactNode;
+    contentLoadedRenderer: (søkerdata?: Søkerdata) => React.ReactNode;
 }
 
 interface State {
@@ -110,7 +110,9 @@ class AppEssentialsLoader extends React.Component<Props, State> {
             return <LoadingPage />;
         }
 
-        return <SøkerdataContextProvider value={søkerdata}>{contentLoadedRenderer()}</SøkerdataContextProvider>;
+        return (
+            <SøkerdataContextProvider value={søkerdata}>{contentLoadedRenderer(søkerdata)}</SøkerdataContextProvider>
+        );
     }
 }
 
