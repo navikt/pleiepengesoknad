@@ -106,7 +106,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
         const { contentLoadedRenderer } = this.props;
         const { isLoading, søkerdata } = this.state;
 
-        if (isLoading) {
+        if (isLoading || !søkerdata) {
             return <LoadingPage />;
         }
 
