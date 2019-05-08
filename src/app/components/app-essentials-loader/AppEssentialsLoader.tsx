@@ -87,7 +87,6 @@ class AppEssentialsLoader extends React.Component<Props, State> {
         } else if (!userIsCurrentlyOnErrorPage()) {
             window.location.assign(routeConfig.ERROR_PAGE_ROUTE);
         }
-        setTimeout(this.stopLoading);
     }
 
     updateAnsettelsesforhold(ansettelsesforhold: Ansettelsesforhold[]) {
@@ -106,7 +105,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
         const { contentLoadedRenderer } = this.props;
         const { isLoading, søkerdata } = this.state;
 
-        if (isLoading || !søkerdata) {
+        if (isLoading) {
             return <LoadingPage />;
         }
 
