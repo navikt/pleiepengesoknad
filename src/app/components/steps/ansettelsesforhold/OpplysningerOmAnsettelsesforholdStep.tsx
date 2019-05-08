@@ -36,7 +36,7 @@ const OpplysningerOmAnsettelsesforholdStep = ({ history, ...stepProps }: Props) 
                             }))}
                         />
                     ) : (
-                        <Normaltekst>Du er ikke registrert med noen arbeidsforhold.</Normaltekst>
+                        <Normaltekst>Vi har ikke noen opplysninger om arbeidsgiver.</Normaltekst>
                     )
                 }
             </SøkerdataContextConsumer>

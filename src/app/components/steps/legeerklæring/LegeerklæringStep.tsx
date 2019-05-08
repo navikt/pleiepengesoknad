@@ -31,13 +31,13 @@ const LegeerklæringStep = ({ history, ...stepProps }: Props) => {
             useValidationErrorSummary={false}
             {...stepProps}>
             <HelperTextPanel>
-                Legeerklæringen finner du på andre side (del 5) i papirsøknaden for pleiepenger som du får fra legen.
-                Det er nok at du tar bilde og laster opp den delen av søknaden.
+                Legeerklæringen er på side to (del 5) i papirsøknaden som du har fått fra legen. Det er nok at du tar
+                bilde og laster opp den delen av søknaden.
             </HelperTextPanel>
             <Box margin="l">
                 <FormikFileUploader
                     name={Field.legeerklæring}
-                    label="Ta bilde av legeerklæringen og last den opp her (maks 3 bilder)"
+                    label="Last opp bilde av legeerklæringen (maks 3 bilder)"
                     onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
                     onFileInputClick={() => {
                         setFilesThatDidntGetUploaded([]);

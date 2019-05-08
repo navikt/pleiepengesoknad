@@ -81,14 +81,14 @@ class SummaryStep extends React.Component<Props, State> {
                 useValidationErrorSummary={false}
                 {...stepProps}>
                 <CounsellorPanel>
-                    Les gjennom oppsummeringen før du sender inn søknaden. Hvis du trenger å gjøre endringer kan du gå
+                    Les gjennom oppsummeringen før du sender inn søknaden. Hvis du trenger å gjøre endringer, kan du gå
                     tilbake.
                 </CounsellorPanel>
                 <Box margin="xl">
                     <Panel border={true}>
                         <SøkerdataContextConsumer>
                             {({ person: { fornavn, mellomnavn, etternavn, fodselsnummer } }: Søkerdata) => (
-                                <ContentWithHeader header="Det søkes pleiepenger av">
+                                <ContentWithHeader header="Den som søker om pleiepenger">
                                     <Normaltekst>{formatName(fornavn, etternavn, mellomnavn)}</Normaltekst>
                                     <Normaltekst>Fødselsnummer: {fodselsnummer}</Normaltekst>
                                 </ContentWithHeader>
@@ -156,8 +156,7 @@ class SummaryStep extends React.Component<Props, State> {
                 </Box>
                 <Box margin="l">
                     <ConfirmationCheckboxPanel
-                        label="Jeg bekrefter at opplysningene jeg har oppgitt er riktige, og at jeg ikke har holdt tilbake
-                        opplysninger som har betydning for retten jeg har til pleiepenger"
+                        label="Jeg bekrefter at opplysningene er riktige, og at jeg ikke har holdt tilbake opplysninger som har betydning for retten til pleiepenger."
                         name={Field.harBekreftetOpplysninger}
                         validate={(value) => {
                             let result;

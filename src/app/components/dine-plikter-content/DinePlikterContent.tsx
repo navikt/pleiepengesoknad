@@ -4,7 +4,7 @@ import Lenke from 'nav-frontend-lenker';
 
 const DinePlikterContent: React.FunctionComponent = () => (
     <>
-        <Systemtittel>Dine plikter</Systemtittel>
+        <Systemtittel>Mine plikter</Systemtittel>
         <ul>
             <li>
                 <Normaltekst>

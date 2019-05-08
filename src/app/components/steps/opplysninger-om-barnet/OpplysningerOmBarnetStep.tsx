@@ -143,7 +143,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                 name={Field.søkersRelasjonTilBarnet}
                                 validate={validateRelasjonTilBarnet}
                                 bredde="XL"
-                                helperText="Oppgi din relasjon til barnet her, f.eks. om du er barnets mor, far, tante eller onkel"
+                                helperText="Eksempler: mor, far, tante, onkel eller andre som står barnet nær"
                             />
                         </>
                     )
