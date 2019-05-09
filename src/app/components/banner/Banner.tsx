@@ -2,8 +2,10 @@ import * as React from 'react';
 import bemHelper from '../../utils/bemUtils';
 import './banner.less';
 
+export type BannerSize = 'small' | 'large' | 'xlarge';
+
 interface BannerProps {
-    size: 'small' | 'large';
+    size: BannerSize;
     className?: string;
 }
 

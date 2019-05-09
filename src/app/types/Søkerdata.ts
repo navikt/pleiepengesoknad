@@ -18,6 +18,7 @@ export interface Person {
     mellomnavn: string;
     kjonn: string;
     fodselsnummer: string;
+    myndig: boolean;
 }
 
 export interface Søkerdata {

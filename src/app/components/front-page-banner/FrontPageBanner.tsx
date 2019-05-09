@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Banner from '../banner/Banner';
+import Banner, { BannerSize } from '../banner/Banner';
 import bemHelper from '../../utils/bemUtils';
 import CounsellorWithSpeechBubble, {
     CounsellorWithSpeechBubbleProps
@@ -9,11 +9,15 @@ import './frontPageBanner.less';
 const bem = bemHelper('frontPageBanner');
 
 interface FrontPageBannerProps {
+    bannerSize: BannerSize;
     counsellorWithSpeechBubbleProps: CounsellorWithSpeechBubbleProps;
 }
 
-const FrontPageBanner: React.FunctionComponent<FrontPageBannerProps> = ({ counsellorWithSpeechBubbleProps }) => (
-    <Banner size="large" className={bem.className}>
+const FrontPageBanner: React.FunctionComponent<FrontPageBannerProps> = ({
+    bannerSize,
+    counsellorWithSpeechBubbleProps
+}) => (
+    <Banner size={bannerSize} className={bem.className}>
         <CounsellorWithSpeechBubble {...counsellorWithSpeechBubbleProps} />
     </Banner>
 );
