@@ -9,14 +9,16 @@ const bem = bemHelper('counsellorWithSpeechBubble');
 export interface CounsellorWithSpeechBubbleProps {
     strongText: string;
     normalText: string;
+    bottomContent?: React.ReactNode;
 }
 
 const CounsellorWithSpeechBubble: React.FunctionComponent<CounsellorWithSpeechBubbleProps> = ({
     strongText,
-    normalText
+    normalText,
+    bottomContent
 }) => (
     <div className={bem.className}>
-        <SpeechBubble strongText={strongText} normalText={normalText} />
+        <SpeechBubble strongText={strongText} normalText={normalText} bottomContent={bottomContent} />
         <Counsellor theme="dark" />
     </div>
 );

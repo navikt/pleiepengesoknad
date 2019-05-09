@@ -91,9 +91,10 @@ class WelcomingPage extends React.Component<Props, WelcomingPageState> {
                     className={bem.className}
                     topContentRenderer={() => (
                         <FrontPageBanner
+                            bannerSize="large"
                             counsellorWithSpeechBubbleProps={{
                                 strongText: `Hei!`,
-                                normalText: 'Velkommen til søknaden om pleiepenger for sykt barn.'
+                                normalText: 'Du har nå kommet til søknaden om pleiepenger for sykt barn.'
                             }}
                         />
                     )}>
