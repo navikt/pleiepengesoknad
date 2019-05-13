@@ -31,7 +31,7 @@ const LegeerklæringStep = ({ history, ...stepProps }: Props) => {
             useValidationErrorSummary={false}
             {...stepProps}>
             <HelperTextPanel>
-                Legeerklæringen er på side to (del 5) i papirsøknaden som du har fått fra legen. Det er nok at du tar
+                Legeerklæringen er på side to (punkt 5) i papirsøknaden som du har fått fra legen. Det er nok at du tar
                 bilde og laster opp den delen av søknaden.
             </HelperTextPanel>
             <Box margin="l">
