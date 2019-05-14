@@ -66,6 +66,7 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
                         aria-labelledby={labelId}
                         aria-valuemin={20}
                         aria-valuemax={100}
+                        autoComplete="off"
                         {...otherProps}
                         onChange={(event) => {
                             if (Number.isInteger(+event.target.value)) {
