@@ -24,7 +24,7 @@ const søkerMock = {
     mellomnavn: undefined,
     etternavn: 'Testesen',
     fodselsnummer: '12345123456',
-    myndig: false
+    myndig: true
 };
 
 const arbeidsgivereMock = {

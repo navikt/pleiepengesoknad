@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { HistoryProps } from '../../../types/History';
 import { StepID } from '../../../config/stepConfig';
-import { navigateTo, navigateToErrorPage } from '../../../utils/navigationUtils';
+import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
 import { Field, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import FormikStep from '../../formik-step/FormikStep';
 import DateIntervalPicker from '../../date-interval-picker/DateIntervalPicker';
@@ -20,6 +20,8 @@ import { getNextStepRoute } from '../../../utils/routeUtils';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
 import Box from '../../box/Box';
 import Slider from '../../slider/Slider';
+import { AxiosError } from "axios";
+import * as apiUtils from "../../../utils/apiUtils";
 
 interface OpplysningerOmTidsromStepState {
     isLoadingNextStep: boolean;
@@ -37,7 +39,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
     constructor(props: Props) {
         super(props);
 
-        this.getAnsettelsesforhold = this.getAnsettelsesforhold.bind(this);
+        this.getArbeidsforhold = this.getArbeidsforhold.bind(this);
         this.finishStep = this.finishStep.bind(this);
         this.validateFraDato = this.validateFraDato.bind(this);
         this.validateTilDato = this.validateTilDato.bind(this);
@@ -47,22 +49,28 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
         };
     }
 
-    getAnsettelsesforhold() {
+    getArbeidsforhold() {
         const values = this.props.formikProps.values;
         const fromDateString = formatDate(values[Field.periodeFra]!);
         const toDateString = formatDate(values[Field.periodeTil]!);
         return getArbeidsgiver(fromDateString, toDateString);
     }
 
+    handleArbeidsforholdFetchError(response: AxiosError) {
+        if (apiUtils.isForbidden(response) || apiUtils.isUnauthorized(response)) {
+            navigateToLoginPage();
+        }
+    }
+
     async finishStep(søkerdata: Søkerdata) {
         this.setState({ isLoadingNextStep: true });
 
         try {
-            const response = await this.getAnsettelsesforhold();
+            const response = await this.getArbeidsforhold();
             søkerdata.setAnsettelsesforhold!(response.data.organisasjoner);
             this.props.formikProps.setFieldValue(Field.ansettelsesforhold, []);
         } catch (error) {
-            navigateToErrorPage(this.props.history);
+            this.handleArbeidsforholdFetchError(error);
         }
 
         navigateTo(nextStepRoute!, this.props.history);

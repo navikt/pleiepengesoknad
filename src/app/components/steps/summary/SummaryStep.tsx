@@ -5,7 +5,7 @@ import { Field, PleiepengesøknadFormData } from '../../../types/Pleiepengesøkn
 import ConfirmationCheckboxPanel from '../../confirmation-checkbox-panel/ConfirmationCheckboxPanel';
 import Box from '../../box/Box';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { navigateTo } from '../../../utils/navigationUtils';
+import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
 import FormikStep from '../../formik-step/FormikStep';
 import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
 import Panel from '../../panel/Panel';
@@ -19,6 +19,7 @@ import { sendApplication } from '../../../api/api';
 import { YesOrNo } from '../../../types/YesOrNo';
 import routeConfig from '../../../config/routeConfig';
 import CounsellorPanel from '../../counsellor-panel/CounsellorPanel';
+import * as apiUtils from "../../../utils/apiUtils";
 
 export interface SummaryStepProps {
     handleSubmit: () => void;
@@ -48,8 +49,12 @@ class SummaryStep extends React.Component<Props, State> {
         try {
             await sendApplication(mapFormDataToApiData(values));
             navigateTo(routeConfig.SØKNAD_SENDT_ROUTE, history);
-        } catch {
-            navigateTo(routeConfig.ERROR_PAGE_ROUTE, history);
+        } catch (error) {
+            if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+                navigateToLoginPage();
+            } else {
+                navigateTo(routeConfig.ERROR_PAGE_ROUTE, history);
+            }
         }
     }
 

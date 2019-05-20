@@ -12,6 +12,7 @@ import {
 } from '../../utils/attachmentUtils';
 import { uploadFile } from '../../api/api';
 import { FieldArrayPushFn, FieldArrayReplaceFn } from '../../types/FormikProps';
+import * as apiUtils from "../../utils/apiUtils";
 
 interface FormikFileUploader {
     name: Field;
@@ -19,6 +20,7 @@ interface FormikFileUploader {
     validate?: ((value: any) => string | Promise<void> | undefined);
     onFileInputClick?: () => void;
     onErrorUploadingAttachments: (files: File[]) => void;
+    onUnauthorizedOrForbiddenUpload: () => void;
 }
 
 type Props = FormikFileUploader & ConnectedFormikProps<Field>;
@@ -28,6 +30,7 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
     formik: { values },
     onFileInputClick,
     onErrorUploadingAttachments,
+    onUnauthorizedOrForbiddenUpload,
     ...otherProps
 }) => {
     async function uploadAttachment(attachment: Attachment) {
@@ -37,6 +40,9 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
             attachment.url = response.headers.location;
             attachment.uploaded = true;
         } catch (error) {
+            if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+                onUnauthorizedOrForbiddenUpload();
+            }
             setAttachmentPendingToFalse(attachment);
         }
     }

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StepID } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
-import { navigateTo } from '../../../utils/navigationUtils';
+import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
 import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
@@ -43,6 +43,7 @@ const LegeerklæringStep = ({ history, ...stepProps }: Props) => {
                         setFilesThatDidntGetUploaded([]);
                     }}
                     validate={validateLegeerklæring}
+                    onUnauthorizedOrForbiddenUpload={navigateToLoginPage}
                 />
             </Box>
             <FileUploadErrors filesThatDidntGetUploaded={filesThatDidntGetUploaded} />

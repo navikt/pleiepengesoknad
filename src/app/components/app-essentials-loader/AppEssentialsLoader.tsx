@@ -2,15 +2,12 @@ import * as React from 'react';
 import LoadingPage from '../pages/loading-page/LoadingPage';
 import { Ansettelsesforhold, Søkerdata } from '../../types/Søkerdata';
 import * as apiUtils from '../../utils/apiUtils';
-import { getEnvironmentVariable } from '../../utils/envUtils';
 import routeConfig from '../../config/routeConfig';
-import { userIsCurrentlyOnErrorPage } from '../../utils/navigationUtils';
+import { navigateToLoginPage, userIsCurrentlyOnErrorPage } from '../../utils/navigationUtils';
 import { AxiosError, AxiosResponse } from 'axios';
 import { getBarn, getSøker } from '../../api/api';
 import { SøkerdataContextProvider } from '../../context/SøkerdataContext';
 import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
-
-const loginUrl = getEnvironmentVariable('LOGIN_URL');
 
 interface Props {
     contentLoadedRenderer: (søkerdata?: Søkerdata) => React.ReactNode;
@@ -83,7 +80,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
 
     handleSøkerdataFetchError(response: AxiosError) {
         if (apiUtils.isForbidden(response) || apiUtils.isUnauthorized(response)) {
-            window.location.assign(loginUrl);
+            navigateToLoginPage();
         } else if (!userIsCurrentlyOnErrorPage()) {
             window.location.assign(routeConfig.ERROR_PAGE_ROUTE);
         }
