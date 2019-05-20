@@ -6,6 +6,10 @@ const historyMock: Partial<History> = {
     push: jest.fn()
 };
 
+jest.mock('./../envUtils.ts', () => {
+    return { getEnvironmentVariable: () => '' };
+});
+
 // hacky workaround for this issue, which actually seems to be an issue
 // with jsdom (not jest):
 // https://github.com/facebook/jest/issues/5124
