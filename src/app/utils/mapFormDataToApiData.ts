@@ -8,6 +8,7 @@ export const mapFormDataToApiData = ({
     barnetsNavn,
     barnetsFødselsnummer,
     barnetsForeløpigeFødselsnummerEllerDNummer,
+    søknadenGjelderEtAnnetBarn,
     barnetSøknadenGjelder,
     harBekreftetOpplysninger,
     harForståttRettigheterOgPlikter,
@@ -29,11 +30,13 @@ export const mapFormDataToApiData = ({
     }
 
     return {
-        barn: {
-            navn: barnetsNavn !== '' ? barnetsNavn : null,
-            fodselsnummer: fnrObject.fodselsnummer !== '' ? fnrObject.fodselsnummer : null,
-            alternativ_id: fnrObject.alternativ_id !== '' ? fnrObject.alternativ_id : null
-        },
+        barn: barnetSøknadenGjelder
+            ? JSON.parse(barnetSøknadenGjelder)
+            : {
+                  navn: barnetsNavn !== '' ? barnetsNavn : null,
+                  fodselsnummer: fnrObject.fodselsnummer !== '' ? fnrObject.fodselsnummer : null,
+                  alternativ_id: fnrObject.alternativ_id !== '' ? fnrObject.alternativ_id : null
+              },
         relasjon_til_barnet: søkersRelasjonTilBarnet,
         arbeidsgivere: {
             organisasjoner: ansettelsesforhold

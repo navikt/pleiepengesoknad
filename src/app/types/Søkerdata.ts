@@ -2,9 +2,8 @@ export interface Barn {
     fornavn: string;
     etternavn: string;
     mellomnavn: string;
-    relasjon: string;
     fodselsnummer: string;
-    fodselsdato: string;
+    alternativ_id: string;
 }
 
 export interface Ansettelsesforhold {

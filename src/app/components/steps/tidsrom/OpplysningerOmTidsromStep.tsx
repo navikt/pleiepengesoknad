@@ -20,8 +20,8 @@ import { getNextStepRoute } from '../../../utils/routeUtils';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
 import Box from '../../box/Box';
 import Slider from '../../slider/Slider';
-import { AxiosError } from "axios";
-import * as apiUtils from "../../../utils/apiUtils";
+import { AxiosError } from 'axios';
+import * as apiUtils from '../../../utils/apiUtils';
 
 interface OpplysningerOmTidsromStepState {
     isLoadingNextStep: boolean;

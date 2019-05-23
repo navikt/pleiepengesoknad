@@ -33,7 +33,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
     formikProps: {
         handleSubmit,
         setFieldValue,
-        values: { søknadenGjelderEtAnnetBarn, barnetSøknadenGjelder, barnetHarIkkeFåttFødselsnummerEnda }
+        values: { søknadenGjelderEtAnnetBarn, barnetHarIkkeFåttFødselsnummerEnda }
     },
     history
 }: Props) => {
@@ -53,11 +53,15 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                     legend="Velg barnet du skal søke pleiepenger for"
                                     name={Field.barnetSøknadenGjelder}
                                     radios={søkerdata.barn.map((barn) => {
-                                        const { fornavn, mellomnavn, etternavn } = barn;
+                                        const { fornavn, mellomnavn, etternavn, alternativ_id, fodselsnummer } = barn;
                                         return {
-                                            value: JSON.stringify(barn),
-                                            key: formatName(fornavn, mellomnavn, etternavn),
-                                            label: formatName(fornavn, mellomnavn, etternavn),
+                                            value: JSON.stringify({
+                                                navn: `${formatName(fornavn, etternavn, mellomnavn)}`,
+                                                fodselsnummer,
+                                                alternativ_id
+                                            }),
+                                            key: formatName(fornavn, etternavn, mellomnavn),
+                                            label: formatName(fornavn, etternavn, mellomnavn),
                                             disabled: søknadenGjelderEtAnnetBarn
                                         };
                                     })}

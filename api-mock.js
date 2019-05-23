@@ -27,6 +27,13 @@ const søkerMock = {
     myndig: true
 };
 
+const barnMock = {
+    barn: [
+        { fodselsdato: '1990-01-01', fornavn: 'Barn', mellomnavn: 'Barne', etternavn: 'Barnesen' },
+        { fodselsdato: '1990-01-02', fornavn: 'Mock', etternavn: 'Mocknes' }
+    ]
+};
+
 const arbeidsgivereMock = {
     organisasjoner: [
         { navn: 'Arbeids- og velferdsetaten', organisasjonsnummer: '123451234' },
@@ -59,7 +66,8 @@ const startServer = () => {
         req.pipe(busboy);
     });
 
-    server.get('/barn', (req, res) => res.sendStatus(200));
+    server.get('/barn', (req, res) => res.send(barnMock));
+
     server.post('/soknad', (req, res) => {
         res.sendStatus(200);
     });
