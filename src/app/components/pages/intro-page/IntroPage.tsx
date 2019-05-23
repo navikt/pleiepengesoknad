@@ -2,15 +2,14 @@ import * as React from 'react';
 import { YesOrNo } from '../../../types/YesOrNo';
 import Page from '../../page/Page';
 import { default as YesOrNoQuestion } from '../../yes-or-no-question-base/YesOrNoQuestionBase';
-import ContentSwitcher from '../../content-switcher/ContentSwitcher';
-import GoToApplicationLink from '../../go-to-application-link/GoToApplicationLink';
 import CounsellorPanel from '../../counsellor-panel/CounsellorPanel';
 import bemUtils from '../../../utils/bemUtils';
-import './introPage.less';
 import Lenke from 'nav-frontend-lenker';
 import Box from '../../box/Box';
 import StepBanner from '../../step-banner/StepBanner';
 import InformationPoster from '../../information-poster/InformationPoster';
+import GoToApplicationLink from '../../go-to-application-link/GoToApplicationLink';
+import './introPage.less';
 
 const bem = bemUtils('introPage');
 const IntroPage: React.FunctionComponent = () => {
@@ -18,10 +17,6 @@ const IntroPage: React.FunctionComponent = () => {
         YesOrNo.UNANSWERED
     );
     const [skalGraderePleiepenger, setSkalGraderePleiepenger] = React.useState(YesOrNo.UNANSWERED);
-
-    const hasCompletedForm =
-        erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.YES ||
-        (erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.NO && skalGraderePleiepenger !== YesOrNo.UNANSWERED);
 
     return (
         <Page
@@ -53,27 +48,33 @@ const IntroPage: React.FunctionComponent = () => {
                 />
             )}
 
-            {hasCompletedForm && (
-                <Box margin="xl" textAlignCenter={true}>
-                    <ContentSwitcher
-                        firstContent={() => (
-                            <CounsellorPanel>
-                                Om du planlegger å gradere pleiepenger, eller du er selvstendig næringsdrivende eller
-                                frilanser, må du{' '}
-                                <Lenke href="https://www.nav.no/no/Person/Skjemaer-for-privatpersoner/skjemaveileder/vedlegg?key=333802&languagecode=53&veiledertype=privatperson">
-                                    søke på papir
-                                </Lenke>{' '}
-                                og sende i posten.
-                            </CounsellorPanel>
-                        )}
-                        secondContent={() => <GoToApplicationLink />}
-                        showFirstContent={
-                            skalGraderePleiepenger === YesOrNo.YES ||
-                            erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.YES
-                        }
-                    />
-                </Box>
-            )}
+            <Box margin="xl" textAlignCenter={true}>
+                {erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.YES && (
+                    <CounsellorPanel>
+                        Den digitale søknaden kan foreløpig ikke brukes av selvstendig næringsdrivende og frilansere. Du
+                        fyller i stedet ut{' '}
+                        <Lenke href="https://www.nav.no/no/Person/Skjemaer-for-privatpersoner/skjemaveileder/vedlegg?key=333802&languagecode=53&veiledertype=privatperson">
+                            søknaden på papir
+                        </Lenke>{' '}
+                        og sender den i posten.
+                    </CounsellorPanel>
+                )}
+
+                {erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.NO && skalGraderePleiepenger === YesOrNo.YES && (
+                    <CounsellorPanel>
+                        Hvis barnet skal være noe i barnehage, skole eller liknende, kan du foreløpig ikke søke
+                        digitalt. Du fyller i stedet ut{' '}
+                        <Lenke href="https://www.nav.no/no/Person/Skjemaer-for-privatpersoner/skjemaveileder/vedlegg?key=333802&languagecode=53&veiledertype=privatperson">
+                            søknaden på papir
+                        </Lenke>{' '}
+                        og sender den i posten.
+                    </CounsellorPanel>
+                )}
+
+                {erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.NO && skalGraderePleiepenger === YesOrNo.NO && (
+                    <GoToApplicationLink />
+                )}
+            </Box>
         </Page>
     );
 };

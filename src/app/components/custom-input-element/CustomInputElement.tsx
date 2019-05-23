@@ -15,7 +15,7 @@ interface CustomInputElementProps {
     labelHtmlFor?: string;
     labelId?: string;
     validationError?: ValidationError;
-    helperText?: string;
+    helperText?: string | React.ReactNode;
 }
 
 const CustomInputElement: React.FunctionComponent<CustomInputElementProps> = ({

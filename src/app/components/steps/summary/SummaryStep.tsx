@@ -19,7 +19,7 @@ import { sendApplication } from '../../../api/api';
 import { YesOrNo } from '../../../types/YesOrNo';
 import routeConfig from '../../../config/routeConfig';
 import CounsellorPanel from '../../counsellor-panel/CounsellorPanel';
-import * as apiUtils from "../../../utils/apiUtils";
+import * as apiUtils from '../../../utils/apiUtils';
 
 export interface SummaryStepProps {
     handleSubmit: () => void;
