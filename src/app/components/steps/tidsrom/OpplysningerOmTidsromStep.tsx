@@ -127,14 +127,22 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                         <Box margin="xxl">
                             <Slider
                                 name={Field.grad}
-                                label="Velg graden av pleiepenger du vil søke om"
+                                label="Hvor mye søker du om?"
                                 min={20}
                                 max={100}
                                 valueRenderer={(value) => `${value}%`}
                                 minPointLabelRenderer={(minPoint) => `${minPoint}%`}
                                 maxPointLabelRenderer={(maxPoint) => `${maxPoint}%`}
                                 showTextInput={true}
-                                helperText="Graden av pleiepenger du søker om tilsvarer prosentandelen av arbeidsinntekten du mister som følge av at du må pleie barnet. Det vil si at om du jobber i en 50% stilling og ikke kan jobbe i det hele tatt, kan du søke om 100% pleiepenger."
+                                helperText={
+                                    <ul style={{ margin: '0.5rem', paddingLeft: '0.5rem' }}>
+                                        <li>Kan du jobbe noe? Da reduserer du prosenten tilsvarende.</li>
+                                        <li style={{ marginTop: '0.5rem' }}>
+                                            Jobber du deltid i utgangspunktet? Du kan likevel søke om 100 % pleiepenger
+                                            hvis du mister hele inntekten fordi du pleier barnet.
+                                        </li>
+                                    </ul>
+                                }
                                 validate={validateGrad}
                             />
                         </Box>

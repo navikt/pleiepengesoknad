@@ -5,8 +5,8 @@ import SliderBase, { SliderBasePublicProps } from '../slider-base/SliderBase';
 
 interface FormikSliderProps<T> {
     name: T;
-    validate?: ((value: any) => string | Promise<void> | undefined);
-    helperText?: string;
+    validate?: (value: any) => string | Promise<void> | undefined;
+    helperText?: string | React.ReactNode;
     maxLength?: number;
 }
 

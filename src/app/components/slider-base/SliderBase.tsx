@@ -22,7 +22,7 @@ export interface SliderBasePublicProps {
     label: string;
     min: number;
     max: number;
-    helperText?: string;
+    helperText?: string | React.ReactNode;
 }
 
 type SliderBaseProps = SliderBasePrivateProps & SliderBasePublicProps;
