@@ -4,11 +4,16 @@ import { PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import * as dateUtils from './../dateUtils';
 import * as attachmentUtils from './../attachmentUtils';
 import { YesOrNo } from '../../types/YesOrNo';
+import { BarnReceivedFromApi } from '../../types/Søkerdata';
 const moment = require('moment');
 
 const todaysDate = moment()
     .startOf('day')
     .toDate();
+
+const barnMock: BarnReceivedFromApi[] = [
+    { fodselsdato: todaysDate, fornavn: 'Mock', etternavn: 'Mocknes', aktoer_id: '123' }
+];
 
 type AttachmentMock = Attachment & { failed: boolean };
 const attachmentMock1: Partial<AttachmentMock> = { url: 'nav.no/1', failed: true };
@@ -54,7 +59,7 @@ describe('mapFormDataToApiData', () => {
     let resultingApiData: PleiepengesøknadApiData;
 
     beforeAll(() => {
-        resultingApiData = mapFormDataToApiData(formDataMock as PleiepengesøknadFormData);
+        resultingApiData = mapFormDataToApiData(formDataMock as PleiepengesøknadFormData, barnMock);
     });
 
     it("should set 'barnetsNavn' in api data correctly", () => {
@@ -101,7 +106,7 @@ describe('mapFormDataToApiData', () => {
             ...formDataMock,
             [Field.barnetsFødselsnummer]: fnr
         };
-        const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData);
+        const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock);
         expect(result.barn.fodselsnummer).toEqual(fnr);
     });
 
@@ -112,7 +117,7 @@ describe('mapFormDataToApiData', () => {
             ...formDataMock,
             [Field.barnetsForeløpigeFødselsnummerEllerDNummer]: fnr
         };
-        const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData);
+        const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock);
         expect(result.barn.alternativ_id).toEqual(fnr);
     });
 
@@ -124,7 +129,7 @@ describe('mapFormDataToApiData', () => {
             [Field.barnetsFødselsnummer]: fnr,
             [Field.barnetsForeløpigeFødselsnummerEllerDNummer]: fnr
         };
-        const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData);
+        const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock);
         expect(result.barn.alternativ_id).toBeNull();
         expect(result.barn.fodselsnummer).toEqual(fnr);
     });

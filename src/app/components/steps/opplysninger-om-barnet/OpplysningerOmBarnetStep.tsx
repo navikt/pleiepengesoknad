@@ -57,17 +57,13 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                     name={Field.barnetSøknadenGjelder}
                                     radios={søkerdata.barn.map((barn) => {
                                         const { fornavn, mellomnavn, etternavn, fodselsdato, aktoer_id } = barn;
+                                        const barnetsNavn = formatName(fornavn, etternavn, mellomnavn);
                                         return {
-                                            value: JSON.stringify({
-                                                navn: `${formatName(fornavn, etternavn, mellomnavn)}`,
-                                                aktoer_id
-                                            }),
-                                            key: formatName(fornavn, etternavn, mellomnavn),
+                                            value: aktoer_id,
+                                            key: aktoer_id,
                                             label: (
                                                 <>
-                                                    <Normaltekst>
-                                                        {formatName(fornavn, etternavn, mellomnavn)}
-                                                    </Normaltekst>
+                                                    <Normaltekst>{barnetsNavn}</Normaltekst>
                                                     <Normaltekst>Født {prettifyDate(fodselsdato)}</Normaltekst>
                                                 </>
                                             ),

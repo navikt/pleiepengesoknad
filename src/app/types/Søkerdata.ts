@@ -1,7 +1,7 @@
-export interface Barn {
+export interface BarnReceivedFromApi {
     fornavn: string;
     etternavn: string;
-    mellomnavn: string;
+    mellomnavn?: string;
     aktoer_id: string;
     fodselsdato: Date;
 }
@@ -22,7 +22,7 @@ export interface Person {
 
 export interface Søkerdata {
     person: Person;
-    barn: Barn[];
+    barn: BarnReceivedFromApi[];
     setAnsettelsesforhold: (ansettelsesforhold: Ansettelsesforhold[]) => void;
     ansettelsesforhold?: Ansettelsesforhold[];
 }

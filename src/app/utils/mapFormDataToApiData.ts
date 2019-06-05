@@ -1,48 +1,52 @@
 import { formatDate } from './dateUtils';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import { Barn, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
+import { BarnToSendToApi, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
 import { attachmentUploadHasFailed } from './attachmentUtils';
 import { YesOrNo } from '../types/YesOrNo';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
+import { formatName } from './personUtils';
+import { BarnReceivedFromApi } from '../types/Søkerdata';
 
-export const mapFormDataToApiData = ({
-    barnetsNavn,
-    barnetsFødselsnummer,
-    barnetsForeløpigeFødselsnummerEllerDNummer,
-    søknadenGjelderEtAnnetBarn,
-    barnetSøknadenGjelder,
-    harBekreftetOpplysninger,
-    harForståttRettigheterOgPlikter,
-    søkersRelasjonTilBarnet,
-    ansettelsesforhold,
-    periodeFra,
-    periodeTil,
-    legeerklæring,
-    harBoddUtenforNorgeSiste12Mnd,
-    skalBoUtenforNorgeNeste12Mnd,
-    harMedsøker,
-    grad
-}: PleiepengesøknadFormData): PleiepengesøknadApiData => {
-    const fnrObject: Barn = { navn: null, fodselsnummer: null, alternativ_id: null, aktoer_id: null };
-    if (barnetsFødselsnummer) {
-        fnrObject.fodselsnummer = barnetsFødselsnummer;
-    } else if (barnetsForeløpigeFødselsnummerEllerDNummer) {
-        fnrObject.alternativ_id = barnetsForeløpigeFødselsnummerEllerDNummer;
+export const mapFormDataToApiData = (
+    {
+        barnetsNavn,
+        barnetsFødselsnummer,
+        barnetsForeløpigeFødselsnummerEllerDNummer,
+        søknadenGjelderEtAnnetBarn,
+        barnetSøknadenGjelder,
+        harBekreftetOpplysninger,
+        harForståttRettigheterOgPlikter,
+        søkersRelasjonTilBarnet,
+        ansettelsesforhold,
+        periodeFra,
+        periodeTil,
+        legeerklæring,
+        harBoddUtenforNorgeSiste12Mnd,
+        skalBoUtenforNorgeNeste12Mnd,
+        harMedsøker,
+        grad
+    }: PleiepengesøknadFormData,
+    barn: BarnReceivedFromApi[]
+): PleiepengesøknadApiData => {
+    const barnObject: BarnToSendToApi = { navn: null, fodselsnummer: null, alternativ_id: null, aktoer_id: null };
+    if (barnetSøknadenGjelder) {
+        const barnChosenFromList = barn.find((currentBarn) => currentBarn.aktoer_id === barnetSøknadenGjelder);
+        const { fornavn, etternavn, mellomnavn, aktoer_id } = barnChosenFromList!;
+        barnObject.aktoer_id = aktoer_id;
+        barnObject.navn = formatName(fornavn, etternavn, mellomnavn);
+    } else {
+        barnObject.navn = barnetsNavn;
+        if (barnetsFødselsnummer) {
+            barnObject.fodselsnummer = barnetsFødselsnummer;
+        } else if (barnetsForeløpigeFødselsnummerEllerDNummer) {
+            barnObject.alternativ_id = barnetsForeløpigeFødselsnummerEllerDNummer;
+        }
     }
 
-    const harValgtBarnFraApi =
-        søknadenGjelderEtAnnetBarn === false && isFeatureEnabled(Feature.HENT_BARN_FEATURE) === true;
-
     return {
-        barn:
-            harValgtBarnFraApi === true
-                ? JSON.parse(barnetSøknadenGjelder)
-                : {
-                      navn: barnetsNavn !== '' ? barnetsNavn : null,
-                      fodselsnummer: fnrObject.fodselsnummer !== '' ? fnrObject.fodselsnummer : null,
-                      alternativ_id: fnrObject.alternativ_id !== '' ? fnrObject.alternativ_id : null
-                  },
-        relasjon_til_barnet: harValgtBarnFraApi === false ? søkersRelasjonTilBarnet : null,
+        barn: barnObject,
+        relasjon_til_barnet:
+            isFeatureEnabled(Feature.HENT_BARN_FEATURE) && barnObject.aktoer_id ? null : søkersRelasjonTilBarnet,
         arbeidsgivere: {
             organisasjoner: ansettelsesforhold
         },

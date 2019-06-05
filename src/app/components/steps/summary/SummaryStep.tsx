@@ -13,7 +13,7 @@ import ContentWithHeader from '../../content-with-header/ContentWithHeader';
 import LegeerklæringAttachmentList from '../../legeerklæring-file-list/LegeerklæringFileList';
 import { prettifyDate } from '../../../utils/dateUtils';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
-import { Søkerdata } from '../../../types/Søkerdata';
+import { BarnReceivedFromApi, Søkerdata } from '../../../types/Søkerdata';
 import { formatName } from '../../../utils/personUtils';
 import { sendApplication } from '../../../api/api';
 import { YesOrNo } from '../../../types/YesOrNo';
@@ -43,13 +43,13 @@ class SummaryStep extends React.Component<Props, State> {
         this.navigate = this.navigate.bind(this);
     }
 
-    async navigate() {
+    async navigate(barn: BarnReceivedFromApi[]) {
         const { history, values } = this.props;
         this.setState({
             sendingInProgress: true
         });
         try {
-            await sendApplication(mapFormDataToApiData(values));
+            await sendApplication(mapFormDataToApiData(values, barn));
             navigateTo(routeConfig.SØKNAD_SENDT_ROUTE, history);
         } catch (error) {
             if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
@@ -83,123 +83,140 @@ class SummaryStep extends React.Component<Props, State> {
         } = values;
 
         return (
-            <FormikStep
-                id={StepID.SUMMARY}
-                onValidFormSubmit={this.navigate}
-                history={history}
-                useValidationErrorSummary={false}
-                {...stepProps}>
-                <CounsellorPanel>
-                    Les gjennom oppsummeringen før du sender inn søknaden. Hvis du trenger å gjøre endringer, kan du gå
-                    tilbake.
-                </CounsellorPanel>
-                <Box margin="xl">
-                    <Panel border={true}>
-                        <SøkerdataContextConsumer>
-                            {({ person: { fornavn, mellomnavn, etternavn, fodselsnummer } }: Søkerdata) => (
+            <SøkerdataContextConsumer>
+                {({ person: { fornavn, mellomnavn, etternavn, fodselsnummer }, barn }: Søkerdata) => (
+                    <FormikStep
+                        id={StepID.SUMMARY}
+                        onValidFormSubmit={() => this.navigate(barn)}
+                        history={history}
+                        useValidationErrorSummary={false}
+                        {...stepProps}>
+                        <CounsellorPanel>
+                            Les gjennom oppsummeringen før du sender inn søknaden. Hvis du trenger å gjøre endringer,
+                            kan du gå tilbake.
+                        </CounsellorPanel>
+                        <Box margin="xl">
+                            <Panel border={true}>
                                 <ContentWithHeader header="Den som søker om pleiepenger">
                                     <Normaltekst>{formatName(fornavn, etternavn, mellomnavn)}</Normaltekst>
                                     <Normaltekst>Fødselsnummer: {fodselsnummer}</Normaltekst>
                                 </ContentWithHeader>
-                            )}
-                        </SøkerdataContextConsumer>
-                        <Box margin="l">
-                            <ContentWithHeader header="Tidsrom">
-                                <Normaltekst>
-                                    Fra {prettifyDate(periodeFra!)} til {prettifyDate(periodeTil!)}
-                                </Normaltekst>
-                            </ContentWithHeader>
+
+                                <Box margin="l">
+                                    <ContentWithHeader header="Tidsrom">
+                                        <Normaltekst>
+                                            Fra {prettifyDate(periodeFra!)} til {prettifyDate(periodeTil!)}
+                                        </Normaltekst>
+                                    </ContentWithHeader>
+                                </Box>
+                                <Box margin="l">
+                                    <ContentWithHeader header="Om barnet">
+                                        <ContentSwitcher
+                                            firstContent={() => (
+                                                <>
+                                                    {barnetHarIkkeFåttFødselsnummerEnda &&
+                                                    barnetsForeløpigeFødselsnummerEllerDNummer ? (
+                                                        <Normaltekst>
+                                                            Foreløpig fødselsnummer / D-nummer:{' '}
+                                                            {barnetsForeløpigeFødselsnummerEllerDNummer}
+                                                        </Normaltekst>
+                                                    ) : null}
+                                                    {!barnetHarIkkeFåttFødselsnummerEnda ? (
+                                                        <Normaltekst>Fødselsnummer: {barnetsFødselsnummer}</Normaltekst>
+                                                    ) : null}
+                                                    {barnetsNavn ? (
+                                                        <Normaltekst>Navn: {barnetsNavn}</Normaltekst>
+                                                    ) : null}
+                                                    <Normaltekst>
+                                                        Din relasjon til barnet: {søkersRelasjonTilBarnet}
+                                                    </Normaltekst>
+                                                </>
+                                            )}
+                                            secondContent={() => {
+                                                const barnReceivedFromApi = barn.find(
+                                                    ({ aktoer_id }) => aktoer_id === barnetSøknadenGjelder
+                                                );
+                                                return barnReceivedFromApi ? (
+                                                    <>
+                                                        <Normaltekst>
+                                                            Navn:{' '}
+                                                            {formatName(
+                                                                barnReceivedFromApi!.fornavn,
+                                                                barnReceivedFromApi!.etternavn,
+                                                                barnReceivedFromApi!.mellomnavn
+                                                            )}
+                                                        </Normaltekst>
+                                                        <Normaltekst>
+                                                            Fødselsdato:{' '}
+                                                            {prettifyDate(barnReceivedFromApi!.fodselsdato)}
+                                                        </Normaltekst>
+                                                    </>
+                                                ) : (
+                                                    <></>
+                                                );
+                                            }}
+                                            showFirstContent={
+                                                søknadenGjelderEtAnnetBarn ||
+                                                isFeatureEnabled(Feature.HENT_BARN_FEATURE) === false
+                                            }
+                                        />
+                                    </ContentWithHeader>
+                                </Box>
+                                <Box margin="l">
+                                    <ContentWithHeader header="Grad">{grad}%</ContentWithHeader>
+                                </Box>
+                                <Box margin="l">
+                                    <ContentWithHeader header="Er det en annen søker i samme tidsperiode">
+                                        {harMedsøker === YesOrNo.YES && 'Ja'}
+                                        {harMedsøker === YesOrNo.NO && 'Nei'}
+                                    </ContentWithHeader>
+                                </Box>
+                                <Box margin="l">
+                                    <ContentWithHeader header="Arbeidsforhold">
+                                        {ansettelsesforhold.length > 0
+                                            ? ansettelsesforhold.map(({ navn, organisasjonsnummer }) => (
+                                                  <Normaltekst key={organisasjonsnummer}>
+                                                      {navn} (organisasjonsnummer: {organisasjonsnummer})
+                                                  </Normaltekst>
+                                              ))
+                                            : 'Ingen arbeidsforhold er valgt'}
+                                    </ContentWithHeader>
+                                </Box>
+                                <Box margin="l">
+                                    <ContentWithHeader header="Bodd i utlandet siste 12 måneder">
+                                        {harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && 'Ja'}
+                                        {harBoddUtenforNorgeSiste12Mnd === YesOrNo.NO && 'Nei'}
+                                    </ContentWithHeader>
+                                </Box>
+                                <Box margin="l">
+                                    <ContentWithHeader header="Skal bo i utlandet neste 12 måneder">
+                                        {skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES && 'Ja'}
+                                        {skalBoUtenforNorgeNeste12Mnd === YesOrNo.NO && 'Nei'}
+                                    </ContentWithHeader>
+                                </Box>
+                                <Box margin="l">
+                                    <ContentWithHeader header="Legeerklæring">
+                                        <LegeerklæringAttachmentList includeDeletionFunctionality={false} />
+                                    </ContentWithHeader>
+                                </Box>
+                            </Panel>
                         </Box>
                         <Box margin="l">
-                            <ContentWithHeader header="Om barnet">
-                                <ContentSwitcher
-                                    firstContent={() => (
-                                        <>
-                                            {barnetHarIkkeFåttFødselsnummerEnda &&
-                                            barnetsForeløpigeFødselsnummerEllerDNummer ? (
-                                                <Normaltekst>
-                                                    Foreløpig fødselsnummer / D-nummer:{' '}
-                                                    {barnetsForeløpigeFødselsnummerEllerDNummer}
-                                                </Normaltekst>
-                                            ) : null}
-                                            {!barnetHarIkkeFåttFødselsnummerEnda ? (
-                                                <Normaltekst>Fødselsnummer: {barnetsFødselsnummer}</Normaltekst>
-                                            ) : null}
-                                            {barnetsNavn ? <Normaltekst>Navn: {barnetsNavn}</Normaltekst> : null}
-                                            <Normaltekst>
-                                                Din relasjon til barnet: {søkersRelasjonTilBarnet}
-                                            </Normaltekst>
-                                        </>
-                                    )}
-                                    secondContent={() => {
-                                        const { navn, fodselsdato } = JSON.parse(barnetSøknadenGjelder);
-                                        return (
-                                            <>
-                                                <Normaltekst>Navn: {navn}</Normaltekst>
-                                                <Normaltekst>Fødselsdato: {prettifyDate(fodselsdato)}</Normaltekst>
-                                            </>
-                                        );
-                                    }}
-                                    showFirstContent={
-                                        søknadenGjelderEtAnnetBarn ||
-                                        isFeatureEnabled(Feature.HENT_BARN_FEATURE) === false
+                            <ConfirmationCheckboxPanel
+                                label="Jeg bekrefter at opplysningene er riktige, og at jeg ikke har holdt tilbake opplysninger som har betydning for retten til pleiepenger."
+                                name={Field.harBekreftetOpplysninger}
+                                validate={(value) => {
+                                    let result;
+                                    if (value !== true) {
+                                        result = 'Du må bekrefte opplysningene';
                                     }
-                                />
-                            </ContentWithHeader>
+                                    return result;
+                                }}
+                            />
                         </Box>
-                        <Box margin="l">
-                            <ContentWithHeader header="Grad">{grad}%</ContentWithHeader>
-                        </Box>
-                        <Box margin="l">
-                            <ContentWithHeader header="Er det en annen søker i samme tidsperiode">
-                                {harMedsøker === YesOrNo.YES && 'Ja'}
-                                {harMedsøker === YesOrNo.NO && 'Nei'}
-                            </ContentWithHeader>
-                        </Box>
-                        <Box margin="l">
-                            <ContentWithHeader header="Arbeidsforhold">
-                                {ansettelsesforhold.length > 0
-                                    ? ansettelsesforhold.map(({ navn, organisasjonsnummer }) => (
-                                          <Normaltekst key={organisasjonsnummer}>
-                                              {navn} (organisasjonsnummer: {organisasjonsnummer})
-                                          </Normaltekst>
-                                      ))
-                                    : 'Ingen arbeidsforhold er valgt'}
-                            </ContentWithHeader>
-                        </Box>
-                        <Box margin="l">
-                            <ContentWithHeader header="Bodd i utlandet siste 12 måneder">
-                                {harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && 'Ja'}
-                                {harBoddUtenforNorgeSiste12Mnd === YesOrNo.NO && 'Nei'}
-                            </ContentWithHeader>
-                        </Box>
-                        <Box margin="l">
-                            <ContentWithHeader header="Skal bo i utlandet neste 12 måneder">
-                                {skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES && 'Ja'}
-                                {skalBoUtenforNorgeNeste12Mnd === YesOrNo.NO && 'Nei'}
-                            </ContentWithHeader>
-                        </Box>
-                        <Box margin="l">
-                            <ContentWithHeader header="Legeerklæring">
-                                <LegeerklæringAttachmentList includeDeletionFunctionality={false} />
-                            </ContentWithHeader>
-                        </Box>
-                    </Panel>
-                </Box>
-                <Box margin="l">
-                    <ConfirmationCheckboxPanel
-                        label="Jeg bekrefter at opplysningene er riktige, og at jeg ikke har holdt tilbake opplysninger som har betydning for retten til pleiepenger."
-                        name={Field.harBekreftetOpplysninger}
-                        validate={(value) => {
-                            let result;
-                            if (value !== true) {
-                                result = 'Du må bekrefte opplysningene';
-                            }
-                            return result;
-                        }}
-                    />
-                </Box>
-            </FormikStep>
+                    </FormikStep>
+                )}
+            </SøkerdataContextConsumer>
         );
     }
 }

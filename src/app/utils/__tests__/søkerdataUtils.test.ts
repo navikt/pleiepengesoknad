@@ -1,14 +1,14 @@
 import { harRegistrerteBarn } from '../søkerdataUtils';
-import { Barn, Søkerdata } from '../../types/Søkerdata';
+import { BarnReceivedFromApi, Søkerdata } from '../../types/Søkerdata';
 
-const barnMock: Partial<Barn> = {
+const barnMock: Partial<BarnReceivedFromApi> = {
     fornavn: 'Ola'
 };
 
 describe('søkerdataUtils', () => {
     describe('harRegistrerteBarn', () => {
         it('should return true if barn-array length his greater than 0', () => {
-            const søkerdata: Partial<Søkerdata> = { barn: [barnMock as Barn] };
+            const søkerdata: Partial<Søkerdata> = { barn: [barnMock as BarnReceivedFromApi] };
             expect(harRegistrerteBarn(søkerdata as Søkerdata)).toBe(true);
         });
 

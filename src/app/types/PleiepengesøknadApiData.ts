@@ -1,4 +1,4 @@
-export interface Barn {
+export interface BarnToSendToApi {
     navn: string | null;
     fodselsnummer: string | null;
     alternativ_id: string | null;
@@ -15,7 +15,7 @@ interface Medlemskap {
 }
 
 export interface PleiepengesøknadApiData {
-    barn: Barn;
+    barn: BarnToSendToApi;
     relasjon_til_barnet: string | null;
     fra_og_med: Date;
     til_og_med: Date;
