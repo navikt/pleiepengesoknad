@@ -21,6 +21,7 @@ import routeConfig from '../../../config/routeConfig';
 import CounsellorPanel from '../../counsellor-panel/CounsellorPanel';
 import * as apiUtils from '../../../utils/apiUtils';
 import ContentSwitcher from '../../content-switcher/ContentSwitcher';
+import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 
 export interface SummaryStepProps {
     handleSubmit: () => void;
@@ -139,7 +140,10 @@ class SummaryStep extends React.Component<Props, State> {
                                             </>
                                         );
                                     }}
-                                    showFirstContent={søknadenGjelderEtAnnetBarn}
+                                    showFirstContent={
+                                        søknadenGjelderEtAnnetBarn ||
+                                        isFeatureEnabled(Feature.HENT_BARN_FEATURE) === false
+                                    }
                                 />
                             </ContentWithHeader>
                         </Box>

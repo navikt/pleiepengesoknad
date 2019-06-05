@@ -3,6 +3,7 @@ import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { Barn, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
 import { attachmentUploadHasFailed } from './attachmentUtils';
 import { YesOrNo } from '../types/YesOrNo';
+import { Feature, isFeatureEnabled } from './featureToggleUtils';
 
 export const mapFormDataToApiData = ({
     barnetsNavn,
@@ -29,16 +30,19 @@ export const mapFormDataToApiData = ({
         fnrObject.alternativ_id = barnetsForeløpigeFødselsnummerEllerDNummer;
     }
 
+    const harValgtBarnFraApi =
+        søknadenGjelderEtAnnetBarn === false && isFeatureEnabled(Feature.HENT_BARN_FEATURE) === true;
+
     return {
         barn:
-            søknadenGjelderEtAnnetBarn === false
+            harValgtBarnFraApi === true
                 ? JSON.parse(barnetSøknadenGjelder)
                 : {
                       navn: barnetsNavn !== '' ? barnetsNavn : null,
                       fodselsnummer: fnrObject.fodselsnummer !== '' ? fnrObject.fodselsnummer : null,
                       alternativ_id: fnrObject.alternativ_id !== '' ? fnrObject.alternativ_id : null
                   },
-        relasjon_til_barnet: søknadenGjelderEtAnnetBarn === true ? søkersRelasjonTilBarnet : null,
+        relasjon_til_barnet: harValgtBarnFraApi === false ? søkersRelasjonTilBarnet : null,
         arbeidsgivere: {
             organisasjoner: ansettelsesforhold
         },
