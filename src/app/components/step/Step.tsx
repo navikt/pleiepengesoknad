@@ -18,6 +18,7 @@ export interface StepProps {
     handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
     showSubmitButton?: boolean;
     showButtonSpinner?: boolean;
+    buttonDisabled?: boolean;
     useValidationErrorSummary?: boolean;
 }
 
@@ -26,6 +27,7 @@ const Step: React.FunctionComponent<StepProps> = ({
     handleSubmit,
     showSubmitButton,
     showButtonSpinner,
+    buttonDisabled,
     useValidationErrorSummary,
     children
 }) => {
@@ -55,6 +57,7 @@ const Step: React.FunctionComponent<StepProps> = ({
                             <Button
                                 className={bem.element('button')}
                                 spinner={showButtonSpinner || false}
+                                disabled={buttonDisabled || false}
                                 aria-label={conf.buttonAriaLabel}>
                                 {conf.buttonLabel}
                             </Button>

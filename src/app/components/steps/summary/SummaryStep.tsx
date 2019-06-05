@@ -61,7 +61,7 @@ class SummaryStep extends React.Component<Props, State> {
     render() {
         const { handleSubmit, values, history } = this.props;
         const { sendingInProgress } = this.state;
-        const stepProps = { handleSubmit, showButtonSpinner: sendingInProgress };
+        const stepProps = { handleSubmit, showButtonSpinner: sendingInProgress, buttonDisabled: sendingInProgress };
 
         const {
             periodeFra,
