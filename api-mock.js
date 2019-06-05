@@ -29,8 +29,8 @@ const søkerMock = {
 
 const barnMock = {
     barn: [
-        { fodselsdato: '1990-01-01', fornavn: 'Barn', mellomnavn: 'Barne', etternavn: 'Barnesen' },
-        { fodselsdato: '1990-01-02', fornavn: 'Mock', etternavn: 'Mocknes' }
+        { fodselsdato: '1990-01-01', fornavn: 'Barn', mellomnavn: 'Barne', etternavn: 'Barnesen', aktoer_id: '1' },
+        { fodselsdato: '1990-01-02', fornavn: 'Mock', etternavn: 'Mocknes', aktoer_id: '2' }
     ]
 };
 
