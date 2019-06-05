@@ -7,6 +7,10 @@ import { YesOrNo } from '../../types/YesOrNo';
 import { BarnReceivedFromApi } from '../../types/Søkerdata';
 const moment = require('moment');
 
+jest.mock('./../featureToggleUtils.ts', () => {
+    return { isFeatureEnabled: () => false, Feature: {} };
+});
+
 const todaysDate = moment()
     .startOf('day')
     .toDate();
