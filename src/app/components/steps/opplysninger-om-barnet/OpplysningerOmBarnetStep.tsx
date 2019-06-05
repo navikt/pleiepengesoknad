@@ -23,7 +23,7 @@ import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
 import { resetFieldValue, resetFieldValues } from '../../../utils/formikUtils';
 import { prettifyDate } from '../../../utils/dateUtils';
-import Normaltekst from 'nav-frontend-typografi/lib/normaltekst';
+import { Normaltekst } from 'nav-frontend-typografi';
 
 interface OpplysningerOmBarnetStepProps {
     formikProps: FormikProps;
@@ -53,7 +53,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                         harRegistrerteBarn(søkerdata) && (
                             <>
                                 <RadioPanelGroup
-                                    legend="Hvilket barn søker du pleiepenger for?"
+                                    legend="Hvilket barn gjelder søknaden?"
                                     name={Field.barnetSøknadenGjelder}
                                     radios={søkerdata.barn.map((barn) => {
                                         const { fornavn, mellomnavn, etternavn, fodselsdato, aktoer_id } = barn;
