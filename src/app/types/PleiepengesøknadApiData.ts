@@ -2,6 +2,7 @@ export interface Barn {
     navn: string | null;
     fodselsnummer: string | null;
     alternativ_id: string | null;
+    aktoer_id: string | null;
 }
 
 interface Ansettelsesforhold {
@@ -15,7 +16,7 @@ interface Medlemskap {
 
 export interface PleiepengesøknadApiData {
     barn: Barn;
-    relasjon_til_barnet: string;
+    relasjon_til_barnet: string | null;
     fra_og_med: Date;
     til_og_med: Date;
     arbeidsgivere: { organisasjoner: Ansettelsesforhold[] };

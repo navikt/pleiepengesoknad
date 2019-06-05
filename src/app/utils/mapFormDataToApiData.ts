@@ -22,7 +22,7 @@ export const mapFormDataToApiData = ({
     harMedsøker,
     grad
 }: PleiepengesøknadFormData): PleiepengesøknadApiData => {
-    const fnrObject: Barn = { navn: null, fodselsnummer: null, alternativ_id: null };
+    const fnrObject: Barn = { navn: null, fodselsnummer: null, alternativ_id: null, aktoer_id: null };
     if (barnetsFødselsnummer) {
         fnrObject.fodselsnummer = barnetsFødselsnummer;
     } else if (barnetsForeløpigeFødselsnummerEllerDNummer) {
@@ -30,14 +30,15 @@ export const mapFormDataToApiData = ({
     }
 
     return {
-        barn: barnetSøknadenGjelder
-            ? JSON.parse(barnetSøknadenGjelder)
-            : {
-                  navn: barnetsNavn !== '' ? barnetsNavn : null,
-                  fodselsnummer: fnrObject.fodselsnummer !== '' ? fnrObject.fodselsnummer : null,
-                  alternativ_id: fnrObject.alternativ_id !== '' ? fnrObject.alternativ_id : null
-              },
-        relasjon_til_barnet: søkersRelasjonTilBarnet,
+        barn:
+            søknadenGjelderEtAnnetBarn === false
+                ? JSON.parse(barnetSøknadenGjelder)
+                : {
+                      navn: barnetsNavn !== '' ? barnetsNavn : null,
+                      fodselsnummer: fnrObject.fodselsnummer !== '' ? fnrObject.fodselsnummer : null,
+                      alternativ_id: fnrObject.alternativ_id !== '' ? fnrObject.alternativ_id : null
+                  },
+        relasjon_til_barnet: søknadenGjelderEtAnnetBarn === true ? søkersRelasjonTilBarnet : null,
         arbeidsgivere: {
             organisasjoner: ansettelsesforhold
         },

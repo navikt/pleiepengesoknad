@@ -21,6 +21,9 @@ import { harRegistrerteBarn } from '../../../utils/søkerdataUtils';
 import { getNextStepRoute } from '../../../utils/routeUtils';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
+import { resetFieldValue, resetFieldValues } from '../../../utils/formikUtils';
+import { prettifyDate } from '../../../utils/dateUtils';
+import Normaltekst from 'nav-frontend-typografi/lib/normaltekst';
 
 interface OpplysningerOmBarnetStepProps {
     formikProps: FormikProps;
@@ -50,18 +53,24 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                         harRegistrerteBarn(søkerdata) && (
                             <>
                                 <RadioPanelGroup
-                                    legend="Velg barnet du skal søke pleiepenger for"
+                                    legend="Hvilket barn søker du pleiepenger for?"
                                     name={Field.barnetSøknadenGjelder}
                                     radios={søkerdata.barn.map((barn) => {
-                                        const { fornavn, mellomnavn, etternavn, alternativ_id, fodselsnummer } = barn;
+                                        const { fornavn, mellomnavn, etternavn, fodselsdato, aktoer_id } = barn;
                                         return {
                                             value: JSON.stringify({
                                                 navn: `${formatName(fornavn, etternavn, mellomnavn)}`,
-                                                fodselsnummer,
-                                                alternativ_id
+                                                aktoer_id
                                             }),
                                             key: formatName(fornavn, etternavn, mellomnavn),
-                                            label: formatName(fornavn, etternavn, mellomnavn),
+                                            label: (
+                                                <>
+                                                    <Normaltekst>
+                                                        {formatName(fornavn, etternavn, mellomnavn)}
+                                                    </Normaltekst>
+                                                    <Normaltekst>Født {prettifyDate(fodselsdato)}</Normaltekst>
+                                                </>
+                                            ),
                                             disabled: søknadenGjelderEtAnnetBarn
                                         };
                                     })}
@@ -77,7 +86,18 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                     name={Field.søknadenGjelderEtAnnetBarn}
                                     afterOnChange={(newValue) => {
                                         if (newValue) {
-                                            setFieldValue(Field.barnetSøknadenGjelder, '');
+                                            resetFieldValue(Field.barnetSøknadenGjelder, setFieldValue);
+                                        } else {
+                                            resetFieldValues(
+                                                [
+                                                    Field.barnetsFødselsnummer,
+                                                    Field.barnetHarIkkeFåttFødselsnummerEnda,
+                                                    Field.barnetsForeløpigeFødselsnummerEllerDNummer,
+                                                    Field.barnetsNavn,
+                                                    Field.søkersRelasjonTilBarnet
+                                                ],
+                                                setFieldValue
+                                            );
                                         }
                                     }}
                                 />

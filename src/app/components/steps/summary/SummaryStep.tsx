@@ -20,6 +20,7 @@ import { YesOrNo } from '../../../types/YesOrNo';
 import routeConfig from '../../../config/routeConfig';
 import CounsellorPanel from '../../counsellor-panel/CounsellorPanel';
 import * as apiUtils from '../../../utils/apiUtils';
+import ContentSwitcher from '../../content-switcher/ContentSwitcher';
 
 export interface SummaryStepProps {
     handleSubmit: () => void;
@@ -71,6 +72,8 @@ class SummaryStep extends React.Component<Props, State> {
             barnetHarIkkeFåttFødselsnummerEnda,
             barnetsForeløpigeFødselsnummerEllerDNummer,
             barnetsFødselsnummer,
+            søknadenGjelderEtAnnetBarn,
+            barnetSøknadenGjelder,
             søkersRelasjonTilBarnet,
             harBoddUtenforNorgeSiste12Mnd,
             skalBoUtenforNorgeNeste12Mnd,
@@ -108,16 +111,36 @@ class SummaryStep extends React.Component<Props, State> {
                         </Box>
                         <Box margin="l">
                             <ContentWithHeader header="Om barnet">
-                                {barnetHarIkkeFåttFødselsnummerEnda && barnetsForeløpigeFødselsnummerEllerDNummer ? (
-                                    <Normaltekst>
-                                        Foreløpig fødselsnummer / D-nummer: {barnetsForeløpigeFødselsnummerEllerDNummer}
-                                    </Normaltekst>
-                                ) : null}
-                                {!barnetHarIkkeFåttFødselsnummerEnda ? (
-                                    <Normaltekst>Fødselsnummer: {barnetsFødselsnummer}</Normaltekst>
-                                ) : null}
-                                {barnetsNavn ? <Normaltekst>Navn: {barnetsNavn}</Normaltekst> : null}
-                                <Normaltekst>Din relasjon til barnet: {søkersRelasjonTilBarnet}</Normaltekst>
+                                <ContentSwitcher
+                                    firstContent={() => (
+                                        <>
+                                            {barnetHarIkkeFåttFødselsnummerEnda &&
+                                            barnetsForeløpigeFødselsnummerEllerDNummer ? (
+                                                <Normaltekst>
+                                                    Foreløpig fødselsnummer / D-nummer:{' '}
+                                                    {barnetsForeløpigeFødselsnummerEllerDNummer}
+                                                </Normaltekst>
+                                            ) : null}
+                                            {!barnetHarIkkeFåttFødselsnummerEnda ? (
+                                                <Normaltekst>Fødselsnummer: {barnetsFødselsnummer}</Normaltekst>
+                                            ) : null}
+                                            {barnetsNavn ? <Normaltekst>Navn: {barnetsNavn}</Normaltekst> : null}
+                                            <Normaltekst>
+                                                Din relasjon til barnet: {søkersRelasjonTilBarnet}
+                                            </Normaltekst>
+                                        </>
+                                    )}
+                                    secondContent={() => {
+                                        const { navn, fodselsdato } = JSON.parse(barnetSøknadenGjelder);
+                                        return (
+                                            <>
+                                                <Normaltekst>Navn: {navn}</Normaltekst>
+                                                <Normaltekst>Fødselsdato: {prettifyDate(fodselsdato)}</Normaltekst>
+                                            </>
+                                        );
+                                    }}
+                                    showFirstContent={søknadenGjelderEtAnnetBarn}
+                                />
                             </ContentWithHeader>
                         </Box>
                         <Box margin="l">

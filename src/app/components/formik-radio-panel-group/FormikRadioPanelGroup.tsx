@@ -4,7 +4,7 @@ import { getValidationErrorProps } from '../../utils/navFrontendUtils';
 import RadioPanelGroupBase from '../radio-panel-group-base/RadioPanelGroupBase';
 
 interface FormikRadioPanelProps {
-    label: string;
+    label: React.ReactNode;
     value: string;
     key?: string;
     disabled?: boolean;
@@ -14,7 +14,7 @@ interface FormikRadioPanelGroupProps<T> {
     legend: string;
     name: T;
     radios: FormikRadioPanelProps[];
-    validate?: ((value: any) => string | Promise<void> | undefined);
+    validate?: (value: any) => string | Promise<void> | undefined;
     helperText?: string;
 }
 
