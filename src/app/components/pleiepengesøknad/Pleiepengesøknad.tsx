@@ -8,20 +8,16 @@ const renderPleiepengesøknadContent = () => (
     <FormikWrapper contentRenderer={(formikProps) => <PleiepengesøknadContent formikProps={formikProps} />} />
 );
 
-const renderPleiepengesøknadBlocker = () => <IkkeMyndigPage />;
-
 const Pleiepengesøknad = () => (
     <AppEssentialsLoader
         contentLoadedRenderer={(søkerdata) => {
             if (søkerdata) {
                 const { person } = søkerdata;
-                if (person.myndig) {
-                    return renderPleiepengesøknadContent();
-                } else {
-                    return renderPleiepengesøknadBlocker();
+                if (!person.myndig) {
+                    return <IkkeMyndigPage />;
                 }
             }
-            return null;
+            return renderPleiepengesøknadContent();
         }}
     />
 );
