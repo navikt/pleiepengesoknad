@@ -20,10 +20,6 @@ jest.mock('./../fieldValidations', () => {
     };
 });
 
-jest.mock('./../../utils/featureToggleUtils', () => {
-    return { isFeatureEnabled: () => false, Feature: {} };
-});
-
 const formData: Partial<PleiepengesøknadFormData> = {};
 
 describe('stepValidation tests', () => {
