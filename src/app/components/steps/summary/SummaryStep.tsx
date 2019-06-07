@@ -112,27 +112,7 @@ class SummaryStep extends React.Component<Props, State> {
                                 <Box margin="l">
                                     <ContentWithHeader header="Om barnet">
                                         <ContentSwitcher
-                                            firstContent={() => (
-                                                <>
-                                                    {barnetHarIkkeFåttFødselsnummerEnda &&
-                                                    barnetsForeløpigeFødselsnummerEllerDNummer ? (
-                                                        <Normaltekst>
-                                                            Foreløpig fødselsnummer / D-nummer:{' '}
-                                                            {barnetsForeløpigeFødselsnummerEllerDNummer}
-                                                        </Normaltekst>
-                                                    ) : null}
-                                                    {!barnetHarIkkeFåttFødselsnummerEnda ? (
-                                                        <Normaltekst>Fødselsnummer: {barnetsFødselsnummer}</Normaltekst>
-                                                    ) : null}
-                                                    {barnetsNavn ? (
-                                                        <Normaltekst>Navn: {barnetsNavn}</Normaltekst>
-                                                    ) : null}
-                                                    <Normaltekst>
-                                                        Din relasjon til barnet: {søkersRelasjonTilBarnet}
-                                                    </Normaltekst>
-                                                </>
-                                            )}
-                                            secondContent={() => {
+                                            firstContent={() => {
                                                 const barnReceivedFromApi = barn.find(
                                                     ({ aktoer_id }) => aktoer_id === barnetSøknadenGjelder
                                                 );
@@ -155,9 +135,31 @@ class SummaryStep extends React.Component<Props, State> {
                                                     <></>
                                                 );
                                             }}
+                                            secondContent={() => (
+                                                <>
+                                                    {barnetHarIkkeFåttFødselsnummerEnda &&
+                                                    barnetsForeløpigeFødselsnummerEllerDNummer ? (
+                                                        <Normaltekst>
+                                                            Foreløpig fødselsnummer / D-nummer:{' '}
+                                                            {barnetsForeløpigeFødselsnummerEllerDNummer}
+                                                        </Normaltekst>
+                                                    ) : null}
+                                                    {!barnetHarIkkeFåttFødselsnummerEnda ? (
+                                                        <Normaltekst>Fødselsnummer: {barnetsFødselsnummer}</Normaltekst>
+                                                    ) : null}
+                                                    {barnetsNavn ? (
+                                                        <Normaltekst>Navn: {barnetsNavn}</Normaltekst>
+                                                    ) : null}
+                                                    <Normaltekst>
+                                                        Din relasjon til barnet: {søkersRelasjonTilBarnet}
+                                                    </Normaltekst>
+                                                </>
+                                            )}
                                             showFirstContent={
-                                                søknadenGjelderEtAnnetBarn ||
-                                                isFeatureEnabled(Feature.HENT_BARN_FEATURE) === false
+                                                isFeatureEnabled(Feature.HENT_BARN_FEATURE) &&
+                                                !søknadenGjelderEtAnnetBarn &&
+                                                barn &&
+                                                barn.length > 0
                                             }
                                         />
                                     </ContentWithHeader>
