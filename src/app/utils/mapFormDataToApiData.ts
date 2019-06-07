@@ -35,7 +35,7 @@ export const mapFormDataToApiData = (
         barnObject.aktoer_id = aktoer_id;
         barnObject.navn = formatName(fornavn, etternavn, mellomnavn);
     } else {
-        barnObject.navn = barnetsNavn;
+        barnObject.navn = barnetsNavn && barnetsNavn !== '' ? barnetsNavn : null;
         if (barnetsFødselsnummer) {
             barnObject.fodselsnummer = barnetsFødselsnummer;
         } else if (barnetsForeløpigeFødselsnummerEllerDNummer) {
