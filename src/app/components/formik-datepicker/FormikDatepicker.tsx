@@ -1,14 +1,13 @@
 import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorProps } from '../../utils/navFrontendUtils';
-import DatepickerBase from '../datepicker-base/DatepickerBase';
-import { Avgrensninger as DateLimitations } from 'nav-datovelger';
+import DatepickerBase, { DateLimitiations } from '../datepicker-base/DatepickerBase';
 
 export interface FormikDatepickerProps<T> {
     name: T;
     label: string;
-    validate?: ((value: any) => string | Promise<void> | undefined);
-    dateLimitations?: DateLimitations;
+    validate?: (value: any) => string | Promise<void> | undefined;
+    dateLimitations?: DateLimitiations;
 }
 
 const FormikDatepicker = <T extends {}>(): React.FunctionComponent<FormikDatepickerProps<T>> => ({
