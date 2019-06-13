@@ -65,9 +65,9 @@ const DatepickerBase: React.FunctionComponent<DatepickerBaseProps> = ({
                 avgrensninger={dateLimitations ? parseDateLimitations(dateLimitations) : undefined}
                 {...otherProps}
                 onChange={(dateString: string) => {
-                    const nyDato = dateString && dateString !== 'Invalid date' ? new Date(dateString) : undefined;
-                    if (value !== nyDato) {
-                        onChange(nyDato);
+                    const newDate = dateString && dateString !== 'Invalid date' ? new Date(dateString) : undefined;
+                    if (value !== newDate) {
+                        onChange(newDate);
                     }
                 }}
             />
