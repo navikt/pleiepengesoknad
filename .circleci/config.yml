@@ -6,37 +6,43 @@ jobs:
   build:
     working_directory: ~/pleiepengesoknad
     docker:
-      - image: 'circleci/node:10.2.1'
+      - image: 'circleci/node:lts-stretch'
     steps:
       - checkout
+      - run:
+          name: Node Version
+          command: node -v
       - restore_cache:
           keys:
             - node-{{ checksum "package.json" }}
       - run: npm install
-      - run: npm test
-      - run: npm run build
       - save_cache:
           paths:
             - ./node_modules
           key: node-{{ checksum "package.json" }}
+      - run: npm test
+      - run: npm run build
       - nais/docker-deploy:
           image: navikt/pleiepengesoknad
   check:
     working_directory: ~/pleiepengesoknad
     docker:
-      - image: 'circleci/node:10.2.1'
+      - image: 'circleci/node:lts-stretch'
     steps:
       - checkout
+      - run:
+          name: Node Version
+          command: node -v
       - restore_cache:
           keys:
             - node-{{ checksum "package.json" }}
       - run: npm install
-      - run: npm test
-      - run: npm run build
       - save_cache:
           paths:
             - ./node_modules
           key: node-{{ checksum "package.json" }}
+      - run: npm test
+      - run: npm run build
 
 workflows:
   version: 2
