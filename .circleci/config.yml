@@ -77,3 +77,18 @@ workflows:
                 - /dev-.*/
           requires:
             - build
+      - nais/deploy:
+          name: prod-deploy
+          build-and-push-docker-image: false
+          repo: navikt/pleiepengesoknad
+          image: navikt/pleiepengesoknad
+          github-app-id: 35124
+          nais-template: nais/prod-sbs.yml
+          environment: prod-sbs
+          team: dusseldorf
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - build

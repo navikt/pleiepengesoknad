@@ -10,7 +10,7 @@
         "start": "node ./src/build/scripts/start-dev.js",
         "start-express": "node ./server.js",
         "start-api-mock": "PORT=8082 node ./api-mock.js",
-        "test": "jest --config ./jest/jest.config.js"
+        "test": "jest --maxWorkers=2 --config ./jest/jest.config.js"
     },
     "jest": {
         "testEnvironment": "node"
