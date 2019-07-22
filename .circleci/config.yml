@@ -1,0 +1,94 @@
+version: 2.1
+orbs:
+  nais: 'navikt/nais-deployment@1.1.0'
+
+jobs:
+  build:
+    working_directory: ~/pleiepengesoknad
+    docker:
+      - image: 'circleci/node:lts-stretch'
+    steps:
+      - checkout
+      - run:
+          name: Node Version
+          command: node -v
+      - restore_cache:
+          keys:
+            - node-{{ checksum "package.json" }}
+      - run: npm install
+      - save_cache:
+          paths:
+            - ./node_modules
+          key: node-{{ checksum "package.json" }}
+      - run: npm test
+      - run: npm run build
+      - nais/docker-deploy:
+          image: navikt/pleiepengesoknad
+  check:
+    working_directory: ~/pleiepengesoknad
+    docker:
+      - image: 'circleci/node:lts-stretch'
+    steps:
+      - checkout
+      - run:
+          name: Node Version
+          command: node -v
+      - restore_cache:
+          keys:
+            - node-{{ checksum "package.json" }}
+      - run: npm install
+      - save_cache:
+          paths:
+            - ./node_modules
+          key: node-{{ checksum "package.json" }}
+      - run: npm test
+      - run: npm run build
+
+workflows:
+  version: 2
+  deploy-docker-and-nais:
+    jobs:
+      - check:
+          filters:
+            branches:
+              ignore:
+                - master
+                - /dev-.*/
+      - build:
+          context: NAIS deployment
+          filters:
+            branches:
+              only:
+                - master
+                - /dev-.*/
+      - nais/deploy:
+          name: dev-deploy
+          build-and-push-docker-image: false
+          repo: navikt/pleiepengesoknad
+          image: navikt/pleiepengesoknad
+          github-app-id: 35124
+          nais-template: nais/dev-sbs.yml
+          environment: dev-sbs
+          team: dusseldorf
+          filters:
+            branches:
+              only:
+                - master
+                - /dev-.*/
+          requires:
+            - build
+      - nais/deploy:
+          name: prod-deploy
+          build-and-push-docker-image: false
+          repo: navikt/pleiepengesoknad
+          image: navikt/pleiepengesoknad
+          github-app-id: 35124
+          nais-template: nais/prod-sbs.yml
+          environment: prod-sbs
+          team: dusseldorf
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - build
