@@ -61,3 +61,19 @@ workflows:
               only:
                 - master
                 - /dev-.*/
+      - nais/deploy:
+          name: dev-deploy
+          build-and-push-docker-image: false
+          repo: navikt/pleiepengesoknad
+          image: navikt/pleiepengesoknad
+          github-app-id: 35124
+          nais-template: nais/dev-sbs.yml
+          environment: dev-sbs
+          team: dusseldorf
+          filters:
+            branches:
+              only:
+                - master
+                - /dev-.*/
+          requires:
+            - build
