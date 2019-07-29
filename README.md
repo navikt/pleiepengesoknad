@@ -1,11 +1,11 @@
-# Selvbetjeningsløsning for søknad om pleiepenger
+# Pleiepengesøknad
 
-[![Build Status](https://travis-ci.com/navikt/pleiepengesoknad.svg?branch=master)](https://travis-ci.com/navikt/pleiepengesoknad)
+[![CircleCI](https://circleci.com/gh/navikt/pleiepengesoknad/tree/master.svg?style=svg)](https://circleci.com/gh/navikt/pleiepengesoknad/tree/master)
 
 Kildekoden til frontend-appen for ny selvbetjeningsløsning for
 pleiepenger.
 
-# Komme i gang
+## Komme i gang
 
 For å kjøre opp app-en i dev:
 
@@ -16,19 +16,17 @@ For å kjøre enhetstester:
 
 1.  `npm install && npm test`.
 
-# Henvendelser
+## Henvendelser
 
 Spørsmål knyttet til koden eller prosjektet kan stilles som issues her på GitHub.
 
-## For NAV-ansatte
+Interne henvendelser kan sendes via Slack i kanalen #team-düsseldorf.
 
-Interne henvendelser kan sendes via Slack i kanalen #område-helse.
-
-### Icon License
+## Icon License
 
 This project uses [Streamline Icons](http://www.streamlineicons.com/). If you use them in your project please adhere to the [Streamline Icons license agreement](http://www.streamlineicons.com/license.html).
 
-### BrowserStack
+## BrowserStack
 
 [![BrowserStack logo](./browserstack-logo-600x315.png)](https://www.browserstack.com/)
 

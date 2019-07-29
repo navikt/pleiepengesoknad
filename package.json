@@ -10,14 +10,16 @@
         "start": "node ./src/build/scripts/start-dev.js",
         "start-express": "node ./server.js",
         "start-api-mock": "PORT=8082 node ./api-mock.js",
-        "test": "jest --config ./jest/jest.config.js"
+        "test": "jest --maxWorkers=2 --config ./jest/jest.config.js",
+        "snyk-protect": "snyk protect",
+        "prepare": "npm run snyk-protect"
     },
     "jest": {
         "testEnvironment": "node"
     },
     "dependencies": {
         "@navikt/fnrvalidator": "^1.0.4",
-        "axios": "^0.18.0",
+        "axios": "^0.18.1",
         "busboy": "^0.3.0",
         "classnames": "^2.2.6",
         "compression": "^1.7.3",
@@ -56,7 +58,8 @@
         "react-dom": "^16.8.6",
         "react-intl": "^2.7.2",
         "react-modal": "^3.8.1",
-        "react-router-dom": "^4.3.1"
+        "react-router-dom": "^4.3.1",
+        "snyk": "^1.196.0"
     },
     "devDependencies": {
         "@babel/core": "^7.2.0",
@@ -122,5 +125,6 @@
     },
     "resolutions": {
         "babel-core": "7.0.0-bridge.0"
-    }
+    },
+    "snyk": true
 }
