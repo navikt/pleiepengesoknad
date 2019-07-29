@@ -1,7 +1,4 @@
 {
-    "introtittel": "Søknad om pleiepenger",
-    "forståttrettigheterogplikter": "For å gå videre med søknaden må du bekrefte at du har lest og forstått {plikterLink}",
-    "jajegsamtykker": "Jeg bekrefter at jeg har lest og forstått",
     "begynnsøknad": "Gå til søknaden",
 
     "gotoApplicationLink.lenketekst": "Gå til den digitale søknaden",
@@ -9,11 +6,50 @@
     "introPage.tittel": "Søknad om pleiepenger - intro",
     "introPage.stegTittel": "Kan jeg bruke den digitale pleiepengesøknaden?",
     "introPage.tekst": "Den digitale søknaden er under utvikling og kan foreløpig ikke brukes av alle. Svar på to spørsmål, så får du vite om du kan søke digitalt.",
-
     "introPage.spm.selvstendigEllerFrilanser": "Er du selvstendig næringsdrivende eller frilanser?",
     "introPage.spm.barnehageEllerSkole": "Forventer du at barnet kan være noe i barnehage, skole eller liknende?",
-
     "introPage.veileder.erSelvstendigEllerFrilanser": "Den digitale søknaden kan foreløpig ikke brukes av selvstendig næringsdrivende og frilansere.",
     "introPage.veileder.skalIBarnehageEllerSkole": "Hvis barnet skal være noe i barnehage, skole eller liknende, kan du foreløpig ikke søke digitalt.",
-    "introPage.veileder.papirLenke.html": "Du fyller i stedet ut <a href=\"{url}\" class=\"lenke\">søknaden på papir</a> og sender den i posten."
+    "introPage.veileder.papirLenke.html": "Du fyller i stedet ut <a href=\"{url}\" class=\"lenke\">søknaden på papir</a> og sender den i posten.",
+
+    "welcomingPage.sidetittel": "Søknad om pleiepenger",
+    "welcomingPage.banner.tittel": "Hei",
+    "welcomingPage.banner.tekst": "Du har nå kommet til søknaden om pleiepenger for sykt barn.",
+    "welcomingPage.introtittel": "Søknad om pleiepenger",
+    "welcomingPage.legeerklæring": "Har du legeerklæringen klar? Du trenger den senere i søknaden. Da tar du bare et bilde av den og laster opp.",
+    "welcomingPage.samtykke.tekst": "Jeg bekrefter at jeg har lest og forstått",
+    "welcomingPage.samtykke.harIkkeGodkjentVilkår": "Du må godkjenne vilkårene",
+    "welcomingPage.samtykke.harForståttLabel": "For å gå videre med søknaden må du bekrefte at du har lest og forstått {plikterLink}.",
+    "welcomingPage.samtykke.harForståttLabel.lenketekst": "dine plikter",
+    "welcomingPage.personopplysninger.lenketekst": "Les om hvordan NAV behandler personopplysningene dine",
+    "welcomingPage.modal.omDinePlikter.tittel": "Om dine plikter",
+    "welcomingPage.modal.behandlingAvPersonalia.tittel": "Om behandling av personopplysninger",
+
+    "modal.personalopplysninger.tittel": "Slik behandler NAV personopplysningene dine",
+    "modal.personalopplysninger.intro.1": "NAV innhenter og mottar opplysninger om deg når du sender inn en søknad. Det er nødvendig for at du skal kunne få riktig tjeneste og ytelser.",
+    "modal.personalopplysninger.intro.2a": "Du har valgt å søke om pleiepenger. Det er en ytelse fra folketrygden som du kan få hvis du fyller vilkårene. Vilkårene står på",
+    "modal.personalopplysninger.intro.2b": "nav.no/pleiepenger",
+    "modal.personalopplysninger.opplysninger.tittel": "Opplysningene vi innhenter",
+    "modal.personalopplysninger.opplysninger.part1": "Opplysningene kommer enten fra deg eller fra offentlige registre:",
+    "modal.personalopplysninger.opplysninger.1": "arbeidsforholdene dine og inntekten din",
+    "modal.personalopplysninger.opplysninger.2": "ytelser du mottar fra NAV",
+    "modal.personalopplysninger.opplysninger.3": "opplysninger om barnets helse",
+    "modal.personalopplysninger.opplysninger.4": "tilknytningen din til Norge",
+    "modal.personalopplysninger.opplysninger.5": "trygdeordninger du kan ha rett til i andre land",
+    "modal.personalopplysninger.opplysninger.part2": "Vi kan også sende opplysninger om deg til trygdemyndigheter i andre land.",
+
+    "modal.personalopplysninger.svar.tittel": "Svar på søknaden",
+    "modal.personalopplysninger.svar.part1": "Du får et brev fra NAV når søknaden din er behandlet. Brevet inneholder",
+    "modal.personalopplysninger.svar.1": "begrunnelse for beslutningen og reglene som er brukt",
+    "modal.personalopplysninger.svar.2": "hvordan du får innsyn i saksbehandlingen",
+    "modal.personalopplysninger.svar.3": "hvordan du kan klage hvis du er uenig",
+
+    "modal.personalopplysninger.personvern.tittel": "Personvern i NAV",
+    "modal.personalopplysninger.personvern.part1a": "Vil du vite mer om hvordan NAV behandler personopplysninger? Se",
+    "modal.personalopplysninger.personvern.part1b": "nav.no/personvern",
+
+    "modal.minePlikter.tittel": "Mine plikter",
+    "modal.minePlikter.part1": "Jeg forstår at hvis jeg gir uriktige eller holder tilbake opplysninger kan det få konsekvenser for retten min til pleiepenger.",
+    "modal.minePlikter.part2a": "Jeg har lest og forstått det som står på",
+    "modal.minePlikter.part2b": "nav.no/rettogplikt"
 }
