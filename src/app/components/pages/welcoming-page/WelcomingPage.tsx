@@ -99,7 +99,9 @@ class WelcomingPage extends React.Component<Props, WelcomingPageState> {
                         />
                     )}>
                     <Box margin="xxl">
-                        <Sidetittel className={bem.element('title')}>{intlHelper(intl, 'introtittel')}</Sidetittel>
+                        <Sidetittel className={bem.element('title')}>
+                            <FormattedMessage id="introtittel" />
+                        </Sidetittel>
                     </Box>
                     <Box margin="xl">
                         <LegeerklæringInformationPanel text="Har du legeerklæringen klar? Du trenger den senere i søknaden. Da tar du bare et bilde av den og laster opp." />

@@ -1,6 +1,19 @@
 {
-  "introtittel": "Søknad om pleiepenger",
-  "forståttrettigheterogplikter": "For å gå videre med søknaden må du bekrefte at du har lest og forstått {plikterLink}",
-  "jajegsamtykker": "Jeg bekrefter at jeg har lest og forstått",
-  "begynnsøknad": "Gå til søknaden"
+    "introtittel": "Søknad om pleiepenger",
+    "forståttrettigheterogplikter": "For å gå videre med søknaden må du bekrefte at du har lest og forstått {plikterLink}",
+    "jajegsamtykker": "Jeg bekrefter at jeg har lest og forstått",
+    "begynnsøknad": "Gå til søknaden",
+
+    "gotoApplicationLink.lenketekst": "Gå til den digitale søknaden",
+
+    "introPage.tittel": "Søknad om pleiepenger - intro",
+    "introPage.stegTittel": "Kan jeg bruke den digitale pleiepengesøknaden?",
+    "introPage.tekst": "Den digitale søknaden er under utvikling og kan foreløpig ikke brukes av alle. Svar på to spørsmål, så får du vite om du kan søke digitalt.",
+
+    "introPage.spm.selvstendigEllerFrilanser": "Er du selvstendig næringsdrivende eller frilanser?",
+    "introPage.spm.barnehageEllerSkole": "Forventer du at barnet kan være noe i barnehage, skole eller liknende?",
+
+    "introPage.veileder.erSelvstendigEllerFrilanser": "Den digitale søknaden kan foreløpig ikke brukes av selvstendig næringsdrivende og frilansere.",
+    "introPage.veileder.skalIBarnehageEllerSkole": "Hvis barnet skal være noe i barnehage, skole eller liknende, kan du foreløpig ikke søke digitalt.",
+    "introPage.veileder.papirLenke.html": "Du fyller i stedet ut <a href=\"{url}\" class=\"lenke\">søknaden på papir</a> og sender den i posten."
 }
