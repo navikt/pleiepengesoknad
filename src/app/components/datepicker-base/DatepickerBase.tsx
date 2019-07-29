@@ -4,19 +4,46 @@ import CustomInputElement from '../custom-input-element/CustomInputElement';
 import { guid } from 'nav-frontend-js-utils';
 import { SkjemaelementFeil as ValidationError } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
 import './datepickerBase.less';
-import { Avgrensninger as DateLimitations } from 'nav-datovelger';
+import { DatovelgerAvgrensninger } from 'nav-datovelger';
+import { dateToISOFormattedDateString } from 'app/utils/dateUtils';
 
 const placeholder = 'dd.mm.åååå';
+
+interface DateRange {
+    fom: Date;
+    tom: Date;
+}
+
+export interface DateLimitiations {
+    minDato?: Date;
+    maksDato?: Date;
+    ugyldigeTidsperioder?: DateRange[];
+    helgedagerIkkeTillatt?: boolean;
+}
 
 interface DatepickerBaseProps {
     label: string;
     name: string;
     id: string;
     feil?: ValidationError;
-    onChange: (date: Date) => void;
+    onChange: (date: Date | undefined) => void;
     value?: Date;
-    dateLimitations?: DateLimitations;
+    dateLimitations?: DateLimitiations;
 }
+
+const parseDateLimitations = (dateLimitations: DateLimitiations): DatovelgerAvgrensninger => {
+    return {
+        maksDato: dateToISOFormattedDateString(dateLimitations.maksDato),
+        minDato: dateToISOFormattedDateString(dateLimitations.minDato),
+        helgedagerIkkeTillatt: dateLimitations.helgedagerIkkeTillatt,
+        ugyldigeTidsperioder:
+            dateLimitations.ugyldigeTidsperioder &&
+            dateLimitations.ugyldigeTidsperioder.map((t: { fom: Date; tom: Date }) => ({
+                fom: dateToISOFormattedDateString(t.fom)!,
+                tom: dateToISOFormattedDateString(t.tom)!
+            }))
+    };
+};
 
 const DatepickerBase: React.FunctionComponent<DatepickerBaseProps> = ({
     label,
@@ -24,6 +51,7 @@ const DatepickerBase: React.FunctionComponent<DatepickerBaseProps> = ({
     feil,
     name,
     value,
+    onChange,
     dateLimitations,
     ...otherProps
 }) => {
@@ -33,9 +61,15 @@ const DatepickerBase: React.FunctionComponent<DatepickerBaseProps> = ({
             <NAVDatepicker
                 input={{ name, placeholder, id: elementId }}
                 id={elementId}
-                dato={value}
-                avgrensninger={dateLimitations}
+                valgtDato={dateToISOFormattedDateString(value)}
+                avgrensninger={dateLimitations ? parseDateLimitations(dateLimitations) : undefined}
                 {...otherProps}
+                onChange={(dateString: string) => {
+                    const newDate = dateString && dateString !== 'Invalid date' ? new Date(dateString) : undefined;
+                    if (value !== newDate) {
+                        onChange(newDate);
+                    }
+                }}
             />
         </CustomInputElement>
     );
