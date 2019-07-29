@@ -24,12 +24,15 @@ import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
 import { resetFieldValue, resetFieldValues } from '../../../utils/formikUtils';
 import { prettifyDate } from '../../../utils/dateUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
+import intlHelper from 'app/utils/intlUtils';
 
 interface OpplysningerOmBarnetStepProps {
     formikProps: FormikProps;
 }
 
-type Props = OpplysningerOmBarnetStepProps & HistoryProps;
+type Props = OpplysningerOmBarnetStepProps & HistoryProps & InjectedIntlProps;
+
 const nextStepRoute = getNextStepRoute(StepID.OPPLYSNINGER_OM_BARNET);
 
 const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
@@ -38,7 +41,8 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
         setFieldValue,
         values: { søknadenGjelderEtAnnetBarn, barnetHarIkkeFåttFødselsnummerEnda }
     },
-    history
+    history,
+    intl
 }: Props) => {
     const navigate = () => navigateTo(nextStepRoute!, history);
     return (
@@ -53,7 +57,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                         harRegistrerteBarn(søkerdata) && (
                             <>
                                 <RadioPanelGroup
-                                    legend="Hvilket barn gjelder søknaden?"
+                                    legend={intlHelper(intl, 'steg.omBarnet.hvilketBarn.spm')}
                                     name={Field.barnetSøknadenGjelder}
                                     radios={søkerdata.barn.map((barn) => {
                                         const { fornavn, mellomnavn, etternavn, fodselsdato, aktoer_id } = barn;
@@ -64,7 +68,12 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                             label: (
                                                 <>
                                                     <Normaltekst>{barnetsNavn}</Normaltekst>
-                                                    <Normaltekst>Født {prettifyDate(fodselsdato)}</Normaltekst>
+                                                    <Normaltekst>
+                                                        <FormattedMessage
+                                                            id="steg.omBarnet.hvilketBarn.født"
+                                                            values={{ dato: prettifyDate(fodselsdato) }}
+                                                        />
+                                                    </Normaltekst>
                                                 </>
                                             ),
                                             disabled: søknadenGjelderEtAnnetBarn
@@ -78,7 +87,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                     }}
                                 />
                                 <Checkbox
-                                    label="Søknaden gjelder et annet barn"
+                                    label={intlHelper(intl, 'steg.omBarnet.gjelderAnnetBarn')}
                                     name={Field.søknadenGjelderEtAnnetBarn}
                                     afterOnChange={(newValue) => {
                                         if (newValue) {
@@ -109,7 +118,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                         !harRegistrerteBarn(søkerdata)) && (
                         <>
                             <Input
-                                label="Barnets fødselsnummer"
+                                label={intlHelper(intl, 'steg.omBarnet.fnr.spm')}
                                 name={Field.barnetsFødselsnummer}
                                 validate={(fnr) => {
                                     if (!barnetHarIkkeFåttFødselsnummerEnda) {
@@ -123,7 +132,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                 maxLength={11}
                             />
                             <Checkbox
-                                label="Barnet har ikke fått fødselsnummer ennå"
+                                label={intlHelper(intl, 'steg.omBarnet.fnr.ikkeFnrEnda')}
                                 name={Field.barnetHarIkkeFåttFødselsnummerEnda}
                                 afterOnChange={(newValue) => {
                                     if (newValue) {
@@ -133,7 +142,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                             />
                             {barnetHarIkkeFåttFødselsnummerEnda && (
                                 <Input
-                                    label="Barnets foreløpige fødselsnummer eller D-nummer"
+                                    label={intlHelper(intl, 'steg.omBarnet.fnr.foreløpig')}
                                     name={Field.barnetsForeløpigeFødselsnummerEllerDNummer}
                                     validate={(foreløpigFnr) => {
                                         if (barnetHarIkkeFåttFødselsnummerEnda) {
@@ -147,7 +156,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                 />
                             )}
                             <Input
-                                label="Barnets navn"
+                                label={intlHelper(intl, 'steg.omBarnet.navn')}
                                 name={Field.barnetsNavn}
                                 validate={(navn) => {
                                     if (barnetHarIkkeFåttFødselsnummerEnda) {
@@ -159,11 +168,11 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                 bredde="XL"
                             />
                             <Input
-                                label="Min relasjon til barnet"
+                                label={intlHelper(intl, 'steg.omBarnet.relasjon')}
                                 name={Field.søkersRelasjonTilBarnet}
                                 validate={validateRelasjonTilBarnet}
                                 bredde="XL"
-                                helperText="Eksempler: mor, far, tante, onkel eller andre som står barnet nær"
+                                helperText={intlHelper(intl, 'steg.omBarnet.relasjon.eksempel')}
                             />
                         </>
                     )
@@ -173,4 +182,4 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
     );
 };
 
-export default OpplysningerOmBarnetStep;
+export default injectIntl(OpplysningerOmBarnetStep);
