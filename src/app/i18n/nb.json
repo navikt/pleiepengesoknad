@@ -103,6 +103,10 @@
     "steg.oppsummering.bekrefterOpplysninger": "Jeg bekrefter at opplysningene er riktige, og at jeg ikke har holdt tilbake opplysninger som har betydning for retten til pleiepenger.",
     "steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet": "Du må bekrefte opplysningene",
 
+    "steg.ansettelsesforhold.hvilket.spm": "Hvilken jobb må du være borte fra for å pleie barnet?",
+    "steg.ansettelsesforhold.ingenOpplysninger": "Vi har ikke noen opplysninger om arbeidsgiver.",
+    "steg.ansettelsesforhold.manglesOpplysninger": "Mangler det en arbeidsgiver her? Be arbeidsgiveren din sende ny A-melding, enten via lønns- og personalsystemet eller gjennom Altinn.",
+
     "page.confirmation.sidetittel": "Takk for søknaden",
     "page.confirmation.tittel": "Takk for søknaden",
     "page.confirmation.part1": "Husk å informere arbeidsgiveren din om at du søker om pleiepenger.",

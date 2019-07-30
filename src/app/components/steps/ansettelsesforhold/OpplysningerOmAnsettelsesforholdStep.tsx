@@ -11,15 +11,17 @@ import { getNextStepRoute } from '../../../utils/routeUtils';
 import AlertStripe from 'nav-frontend-alertstriper';
 import Box from '../../box/Box';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { InjectedIntlProps, FormattedMessage, injectIntl } from 'react-intl';
+import intlHelper from 'app/utils/intlUtils';
 
 interface OpplysningerOmAnsettelsesforholdStepProps {
     handleSubmit: () => void;
 }
 
-type Props = OpplysningerOmAnsettelsesforholdStepProps & HistoryProps;
+type Props = OpplysningerOmAnsettelsesforholdStepProps & HistoryProps & InjectedIntlProps;
 const nextStepRoute = getNextStepRoute(StepID.ANSETTELSESFORHOLD);
 
-const OpplysningerOmAnsettelsesforholdStep = ({ history, ...stepProps }: Props) => {
+const OpplysningerOmAnsettelsesforholdStep = ({ history, intl, ...stepProps }: Props) => {
     const navigate = () => navigateTo(nextStepRoute!, history);
     return (
         <FormikStep id={StepID.ANSETTELSESFORHOLD} onValidFormSubmit={navigate} history={history} {...stepProps}>
@@ -27,7 +29,7 @@ const OpplysningerOmAnsettelsesforholdStep = ({ history, ...stepProps }: Props) 
                 {(søkerdata: Søkerdata) =>
                     søkerdata.ansettelsesforhold && søkerdata.ansettelsesforhold.length > 0 ? (
                         <CheckboxPanelGroup
-                            legend="Hvilken jobb må du være borte fra for å pleie barnet?"
+                            legend={intlHelper(intl, 'steg.ansettelsesforhold.hvilket.spm')}
                             name={Field.ansettelsesforhold}
                             checkboxes={søkerdata.ansettelsesforhold!.map((a) => ({
                                 label: a.navn,
@@ -36,18 +38,19 @@ const OpplysningerOmAnsettelsesforholdStep = ({ history, ...stepProps }: Props) 
                             }))}
                         />
                     ) : (
-                        <Normaltekst>Vi har ikke noen opplysninger om arbeidsgiver.</Normaltekst>
+                        <Normaltekst>
+                            <FormattedMessage id="steg.ansettelsesforhold.ingenOpplysninger" />
+                        </Normaltekst>
                     )
                 }
             </SøkerdataContextConsumer>
             <Box margin="l">
                 <AlertStripe type="info">
-                    Mangler det en arbeidsgiver her? Be arbeidsgiveren din sende ny A-melding, enten via lønns- og
-                    personalsystemet eller gjennom Altinn
+                    <FormattedMessage id="steg.ansettelsesforhold.manglesOpplysninger" />
                 </AlertStripe>
             </Box>
         </FormikStep>
     );
 };
 
-export default OpplysningerOmAnsettelsesforholdStep;
+export default injectIntl(OpplysningerOmAnsettelsesforholdStep);
