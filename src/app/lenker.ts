@@ -1,4 +1,12 @@
-const Lenker = {
+interface Lenker {
+    papirskjemaPrivat: string;
+    vilkårPleiepenger: string;
+    personvern: string;
+    rettOgPlikt: string;
+    saksbehandlingstider: string;
+}
+
+const LenkerBokmål: Lenker = {
     papirskjemaPrivat:
         'https://www.nav.no/no/Person/Skjemaer-for-privatpersoner/skjemaveileder/vedlegg?key=333802&languagecode=53&veiledertype=privatperson',
     vilkårPleiepenger: 'https://www.nav.no/no/Person/Familie/Sykdom+i+familien/pleiepenger+for+pleie+av+sykt+barn',
@@ -8,4 +16,25 @@ const Lenker = {
     saksbehandlingstider: 'https://www.nav.no/no/NAV+og+samfunn/Om+NAV/Saksbehandlingstider+i+NAV'
 };
 
-export default Lenker;
+const LenkerNynorsk: Partial<Lenker> = {
+    papirskjemaPrivat:
+        'https://www.nav.no/no/Person/Skjemaer-for-privatpersoner/skjemaveileder/vedlegg?key=333802&languagecode=54&veiledertype=privatperson',
+    vilkårPleiepenger:
+        'https://www.nav.no/no/Person/Familie/Sykdom+i+familien/Nynorsk/pleiepengar+for+pleie+av+sjukt+barn',
+    rettOgPlikt:
+        'https://www.nav.no/no/NAV+og+samfunn/Om+NAV/Nynorsk/du-har-plikt-til-%C3%A5-gje-nav-riktige-opplysningar'
+};
+
+const getLenker = (locale?: string): Lenker => {
+    switch (locale) {
+        case 'nn':
+            return {
+                ...LenkerBokmål,
+                ...LenkerNynorsk
+            };
+        default:
+            return LenkerBokmål;
+    }
+};
+
+export default getLenker;

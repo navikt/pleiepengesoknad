@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
-import { FormattedMessage } from 'react-intl';
-import Lenker from 'app/lenker';
+import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
+import getLenker from 'app/lenker';
 
 const getText = (part: string) => <FormattedMessage id={`modal.minePlikter.${part}`} />;
 
-const DinePlikterContent: React.FunctionComponent = () => (
+const DinePlikterContent: React.FunctionComponent<InjectedIntlProps> = ({ intl }) => (
     <>
         <Systemtittel>{getText('tittel')}</Systemtittel>
         <ul>
@@ -16,7 +16,7 @@ const DinePlikterContent: React.FunctionComponent = () => (
             <li style={{ marginTop: '0.5rem' }}>
                 <span>
                     {getText('part2a')}{' '}
-                    <Lenke href={Lenker.rettOgPlikt} target="_blank">
+                    <Lenke href={getLenker(intl.locale).rettOgPlikt} target="_blank">
                         {getText('part2b')}
                     </Lenke>
                     .
@@ -26,4 +26,4 @@ const DinePlikterContent: React.FunctionComponent = () => (
     </>
 );
 
-export default DinePlikterContent;
+export default injectIntl(DinePlikterContent);

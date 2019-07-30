@@ -9,9 +9,8 @@ import StepBanner from '../../step-banner/StepBanner';
 import InformationPoster from '../../information-poster/InformationPoster';
 import GoToApplicationLink from '../../go-to-application-link/GoToApplicationLink';
 import { FormattedMessage, InjectedIntlProps, injectIntl, FormattedHTMLMessage } from 'react-intl';
-import Lenker from '../../../lenker';
 import intlHelper from 'app/utils/intlUtils';
-
+import getLenker from '../../../lenker';
 import './introPage.less';
 
 const bem = bemUtils('introPage');
@@ -56,7 +55,7 @@ const IntroPage: React.StatelessComponent<InjectedIntlProps> = ({ intl }) => {
                         <FormattedMessage id="introPage.veileder.erSelvstendigEllerFrilanser" />{' '}
                         <FormattedHTMLMessage
                             id="introPage.veileder.papirLenke.html"
-                            values={{ url: Lenker.papirskjemaPrivat }}
+                            values={{ url: getLenker(intl.locale).papirskjemaPrivat }}
                         />
                     </CounsellorPanel>
                 )}
@@ -66,7 +65,7 @@ const IntroPage: React.StatelessComponent<InjectedIntlProps> = ({ intl }) => {
                         <FormattedMessage id="introPage.veileder.skalIBarnehageEllerSkole" />{' '}
                         <FormattedHTMLMessage
                             id="introPage.veileder.papirLenke.html"
-                            values={{ url: Lenker.papirskjemaPrivat }}
+                            values={{ url: getLenker(intl.locale).papirskjemaPrivat }}
                         />
                     </CounsellorPanel>
                 )}

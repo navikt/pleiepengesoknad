@@ -5,10 +5,10 @@ import Box from '../../box/Box';
 import bemUtils from '../../../utils/bemUtils';
 import Lenke from 'nav-frontend-lenker';
 import CheckmarkIcon from '../../checkmark-icon/CheckmarkIcon';
-import './confirmationPage.less';
 import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
-import Lenker from 'app/lenker';
 import intlHelper from 'app/utils/intlUtils';
+import getLenker from 'app/lenker';
+import './confirmationPage.less';
 
 type Props = InjectedIntlProps;
 
@@ -31,7 +31,7 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ intl }) => (
             <Box margin="l">
                 <Ingress>
                     <FormattedMessage id="page.confirmation.part2" />{' '}
-                    <Lenke href={Lenker.saksbehandlingstider} target="_blank">
+                    <Lenke href={getLenker(intl.locale).saksbehandlingstider} target="_blank">
                         <FormattedMessage id="page.confirmation.saksbehandlingstid" />
                     </Lenke>
                     .

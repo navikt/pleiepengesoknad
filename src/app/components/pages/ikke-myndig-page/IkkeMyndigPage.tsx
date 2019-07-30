@@ -6,7 +6,7 @@ import Box from '../../box/Box';
 import { Innholdstittel } from 'nav-frontend-typografi';
 import intlHelper from 'app/utils/intlUtils';
 import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl';
-import Lenker from 'app/lenker';
+import getLenker from 'app/lenker';
 import './ikkeMyndigPage.less';
 
 const IkkeMyndigPage: React.FunctionComponent<InjectedIntlProps> = ({ intl }) => (
@@ -20,7 +20,7 @@ const IkkeMyndigPage: React.FunctionComponent<InjectedIntlProps> = ({ intl }) =>
                     strongText: intlHelper(intl, 'page.ikkeMyndig.banner.tittel'),
                     normalText: intlHelper(intl, 'page.ikkeMyndig.banner.tekst'),
                     bottomContent: (
-                        <Lenke href={Lenker.papirskjemaPrivat} target="_blank">
+                        <Lenke href={getLenker(intl.locale).papirskjemaPrivat} target="_blank">
                             <FormattedMessage id="page.ikkeMyndig.banner.lastNed" />
                         </Lenke>
                     )

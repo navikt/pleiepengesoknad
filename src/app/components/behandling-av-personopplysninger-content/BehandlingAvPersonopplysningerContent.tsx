@@ -2,14 +2,13 @@ import * as React from 'react';
 import { Ingress, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 import Box from '../box/Box';
-import { FormattedMessage } from 'react-intl';
-import Lenker from 'app/lenker';
-
+import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl';
+import getLenker from 'app/lenker';
 import './behandlingAvPersonopplysningerContent.less';
 
 const getText = (part: string) => <FormattedMessage id={`modal.personalopplysninger.${part}`} />;
 
-const BehandlingAvPersonopplysningerContent: React.FunctionComponent = () => (
+const BehandlingAvPersonopplysningerContent: React.FunctionComponent<InjectedIntlProps> = ({ intl }) => (
     <>
         <Systemtittel>{getText('tittel')}</Systemtittel>
 
@@ -17,7 +16,7 @@ const BehandlingAvPersonopplysningerContent: React.FunctionComponent = () => (
             <Normaltekst>{getText('intro.1')}</Normaltekst>
             <Normaltekst>
                 {getText('intro.2a')}{' '}
-                <Lenke href={Lenker.vilkårPleiepenger} target="_blank">
+                <Lenke href={getLenker(intl.locale).vilkårPleiepenger} target="_blank">
                     {getText('intro.2b')}
                 </Lenke>
                 .
@@ -51,7 +50,7 @@ const BehandlingAvPersonopplysningerContent: React.FunctionComponent = () => (
             <Ingress>{getText('personvern.tittel')}</Ingress>
             <Normaltekst>
                 {getText('personvern.part1a')}{' '}
-                <Lenke href={Lenker.personvern} target="_blank">
+                <Lenke href={getLenker(intl.locale).personvern} target="_blank">
                     {getText('personvern.part1b')}
                 </Lenke>
                 .
@@ -60,4 +59,4 @@ const BehandlingAvPersonopplysningerContent: React.FunctionComponent = () => (
     </>
 );
 
-export default BehandlingAvPersonopplysningerContent;
+export default injectIntl(BehandlingAvPersonopplysningerContent);
