@@ -132,7 +132,7 @@ class WelcomingPage extends React.Component<Props, WelcomingPageState> {
                         </Box>
                         <Box margin="xl">
                             <Hovedknapp className={bem.element('startApplicationButton')}>
-                                {intlHelper(intl, 'begynnsøknad')}
+                                {intlHelper(intl, 'welcomingPage.begynnsøknad')}
                             </Hovedknapp>
                         </Box>
                     </form>

@@ -1,6 +1,4 @@
 {
-    "begynnsøknad": "Gå til søknaden",
-
     "Ja": "Ja",
     "Nei": "Nei",
 
@@ -27,6 +25,7 @@
     "welcomingPage.personopplysninger.lenketekst": "Les om hvordan NAV behandler personopplysningene dine",
     "welcomingPage.modal.omDinePlikter.tittel": "Om dine plikter",
     "welcomingPage.modal.behandlingAvPersonalia.tittel": "Om behandling av personopplysninger",
+    "welcomingPage.begynnsøknad": "Gå til søknaden",
 
     "modal.personalopplysninger.tittel": "Slik behandler NAV personopplysningene dine",
     "modal.personalopplysninger.intro.1": "NAV innhenter og mottar opplysninger om deg når du sender inn en søknad. Det er nødvendig for at du skal kunne få riktig tjeneste og ytelser.",
