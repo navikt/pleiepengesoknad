@@ -7,32 +7,34 @@ import FormikStep from '../../formik-step/FormikStep';
 import { Field } from '../../../types/PleiepengesøknadFormData';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
 import { validateYesOrNoIsAnswered } from '../../../validation/fieldValidations';
+import intlHelper from 'app/utils/intlUtils';
+import { InjectedIntlProps, injectIntl } from 'react-intl';
 
 interface MedlemsskapStepProps {
     handleSubmit: () => void;
 }
 
-type Props = MedlemsskapStepProps & HistoryProps;
+type Props = MedlemsskapStepProps & HistoryProps & InjectedIntlProps;
 const nextStepRoute = getNextStepRoute(StepID.MEDLEMSKAP);
 
-const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, ...stepProps }) => {
+const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, intl, ...stepProps }) => {
     const navigate = () => navigateTo(nextStepRoute!, history);
     return (
         <FormikStep id={StepID.MEDLEMSKAP} onValidFormSubmit={navigate} history={history} {...stepProps}>
             <YesOrNoQuestion
-                legend="Har du bodd i andre land enn Norge i hele eller deler av de siste 12 månedene?"
+                legend={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.spm')}
                 name={Field.harBoddUtenforNorgeSiste12Mnd}
                 validate={validateYesOrNoIsAnswered}
-                helperText="Du svarer ja bare hvis du har oppholdt deg fast i et annet land enn Norge. Korte utlandsturer i forbindelse med for eksempel ferie regnes ikke med."
+                helperText={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.hjelp')}
             />
             <YesOrNoQuestion
-                legend="Planlegger du å bo i andre land enn Norge i hele eller deler av de neste 12 månedene?"
+                legend={intlHelper(intl, 'steg.medlemsskap.annetLandNeste12.spm')}
                 name={Field.skalBoUtenforNorgeNeste12Mnd}
                 validate={validateYesOrNoIsAnswered}
-                helperText="Du svarer ja bare hvis du planlegger å oppholde deg fast i et annet land enn Norge. Korte utlandsturer i forbindelse med for eksempel ferie regnes ikke med."
+                helperText={intlHelper(intl, 'steg.medlemsskap.annetLandNeste12.hjelp')}
             />
         </FormikStep>
     );
 };
 
-export default MedlemsskapStep;
+export default injectIntl(MedlemsskapStep);
