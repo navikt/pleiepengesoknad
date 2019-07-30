@@ -22,6 +22,8 @@ import CounsellorPanel from '../../counsellor-panel/CounsellorPanel';
 import * as apiUtils from '../../../utils/apiUtils';
 import ContentSwitcher from '../../content-switcher/ContentSwitcher';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
+import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
+import intlHelper from 'app/utils/intlUtils';
 
 export interface SummaryStepProps {
     handleSubmit: () => void;
@@ -32,7 +34,7 @@ interface State {
     sendingInProgress: boolean;
 }
 
-type Props = SummaryStepProps & HistoryProps;
+type Props = SummaryStepProps & HistoryProps & InjectedIntlProps;
 
 class SummaryStep extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -61,7 +63,7 @@ class SummaryStep extends React.Component<Props, State> {
     }
 
     render() {
-        const { handleSubmit, values, history } = this.props;
+        const { handleSubmit, values, history, intl } = this.props;
         const { sendingInProgress } = this.state;
         const stepProps = { handleSubmit, showButtonSpinner: sendingInProgress, buttonDisabled: sendingInProgress };
 
@@ -92,25 +94,32 @@ class SummaryStep extends React.Component<Props, State> {
                         useValidationErrorSummary={false}
                         {...stepProps}>
                         <CounsellorPanel>
-                            Les gjennom oppsummeringen før du sender inn søknaden. Hvis du trenger å gjøre endringer,
-                            kan du gå tilbake.
+                            <FormattedMessage id="steg.oppsummering.info" />
                         </CounsellorPanel>
                         <Box margin="xl">
                             <Panel border={true}>
-                                <ContentWithHeader header="Den som søker om pleiepenger">
+                                <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.søker')}>
                                     <Normaltekst>{formatName(fornavn, etternavn, mellomnavn)}</Normaltekst>
-                                    <Normaltekst>Fødselsnummer: {fodselsnummer}</Normaltekst>
+                                    <Normaltekst>
+                                        <FormattedMessage id="steg.oppsummering.søker.fnr" values={{ fodselsnummer }} />
+                                    </Normaltekst>
                                 </ContentWithHeader>
 
                                 <Box margin="l">
                                     <ContentWithHeader header="Tidsrom">
                                         <Normaltekst>
-                                            Fra {prettifyDate(periodeFra!)} til {prettifyDate(periodeTil!)}
+                                            <FormattedMessage
+                                                id="steg.oppsummering.tidsrom"
+                                                values={{
+                                                    fom: prettifyDate(periodeFra!),
+                                                    tom: prettifyDate(periodeTil!)
+                                                }}
+                                            />
                                         </Normaltekst>
                                     </ContentWithHeader>
                                 </Box>
                                 <Box margin="l">
-                                    <ContentWithHeader header="Om barnet">
+                                    <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.barnet')}>
                                         <ContentSwitcher
                                             firstContent={() => {
                                                 const barnReceivedFromApi = barn.find(
@@ -119,16 +128,24 @@ class SummaryStep extends React.Component<Props, State> {
                                                 return barnReceivedFromApi ? (
                                                     <>
                                                         <Normaltekst>
-                                                            Navn:{' '}
-                                                            {formatName(
-                                                                barnReceivedFromApi!.fornavn,
-                                                                barnReceivedFromApi!.etternavn,
-                                                                barnReceivedFromApi!.mellomnavn
-                                                            )}
+                                                            <FormattedMessage
+                                                                id="steg.oppsummering.barnet.navn"
+                                                                values={{
+                                                                    navn: formatName(
+                                                                        barnReceivedFromApi!.fornavn,
+                                                                        barnReceivedFromApi!.etternavn,
+                                                                        barnReceivedFromApi!.mellomnavn
+                                                                    )
+                                                                }}
+                                                            />
                                                         </Normaltekst>
                                                         <Normaltekst>
-                                                            Fødselsdato:{' '}
-                                                            {prettifyDate(barnReceivedFromApi!.fodselsdato)}
+                                                            <FormattedMessage
+                                                                id="steg.oppsummering.barnet.fodselsdato"
+                                                                values={{
+                                                                    dato: prettifyDate(barnReceivedFromApi!.fodselsdato)
+                                                                }}
+                                                            />
                                                         </Normaltekst>
                                                     </>
                                                 ) : (
@@ -140,18 +157,35 @@ class SummaryStep extends React.Component<Props, State> {
                                                     {barnetHarIkkeFåttFødselsnummerEnda &&
                                                     barnetsForeløpigeFødselsnummerEllerDNummer ? (
                                                         <Normaltekst>
-                                                            Foreløpig fødselsnummer / D-nummer:{' '}
-                                                            {barnetsForeløpigeFødselsnummerEllerDNummer}
+                                                            <FormattedMessage
+                                                                id="steg.oppsummering.barnet.forelopigFnr"
+                                                                values={{
+                                                                    fnr: barnetsForeløpigeFødselsnummerEllerDNummer
+                                                                }}
+                                                            />
                                                         </Normaltekst>
                                                     ) : null}
                                                     {!barnetHarIkkeFåttFødselsnummerEnda ? (
-                                                        <Normaltekst>Fødselsnummer: {barnetsFødselsnummer}</Normaltekst>
+                                                        <Normaltekst>
+                                                            <FormattedMessage
+                                                                id="steg.oppsummering.barnet.fnr"
+                                                                values={{ fnr: barnetsFødselsnummer }}
+                                                            />
+                                                        </Normaltekst>
                                                     ) : null}
                                                     {barnetsNavn ? (
-                                                        <Normaltekst>Navn: {barnetsNavn}</Normaltekst>
+                                                        <Normaltekst>
+                                                            <FormattedMessage
+                                                                id="steg.oppsummering.barnet.navn"
+                                                                values={{ navn: barnetsNavn }}
+                                                            />
+                                                        </Normaltekst>
                                                     ) : null}
                                                     <Normaltekst>
-                                                        Din relasjon til barnet: {søkersRelasjonTilBarnet}
+                                                        <FormattedMessage
+                                                            id="steg.oppsummering.barnet.søkersRelasjonTilBarnet"
+                                                            values={{ relasjon: søkersRelasjonTilBarnet }}
+                                                        />
                                                     </Normaltekst>
                                                 </>
                                             )}
@@ -165,39 +199,47 @@ class SummaryStep extends React.Component<Props, State> {
                                     </ContentWithHeader>
                                 </Box>
                                 <Box margin="l">
-                                    <ContentWithHeader header="Grad">{grad}%</ContentWithHeader>
-                                </Box>
-                                <Box margin="l">
-                                    <ContentWithHeader header="Er det en annen søker i samme tidsperiode">
-                                        {harMedsøker === YesOrNo.YES && 'Ja'}
-                                        {harMedsøker === YesOrNo.NO && 'Nei'}
+                                    <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.grad')}>
+                                        {grad}%
                                     </ContentWithHeader>
                                 </Box>
                                 <Box margin="l">
-                                    <ContentWithHeader header="Arbeidsforhold">
-                                        {ansettelsesforhold.length > 0
-                                            ? ansettelsesforhold.map(({ navn, organisasjonsnummer }) => (
-                                                  <Normaltekst key={organisasjonsnummer}>
-                                                      {navn} (organisasjonsnummer: {organisasjonsnummer})
-                                                  </Normaltekst>
-                                              ))
-                                            : 'Ingen arbeidsforhold er valgt'}
+                                    <ContentWithHeader
+                                        header={intlHelper(intl, 'steg.oppsummering.annenSøkerSammePeriode')}>
+                                        {harMedsøker === YesOrNo.YES && intlHelper(intl, 'Ja')}
+                                        {harMedsøker === YesOrNo.NO && intlHelper(intl, 'Nei')}
                                     </ContentWithHeader>
                                 </Box>
                                 <Box margin="l">
-                                    <ContentWithHeader header="Bodd i utlandet siste 12 måneder">
-                                        {harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && 'Ja'}
-                                        {harBoddUtenforNorgeSiste12Mnd === YesOrNo.NO && 'Nei'}
+                                    <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold')}>
+                                        {ansettelsesforhold.length > 0 ? (
+                                            ansettelsesforhold.map(({ navn, organisasjonsnummer }) => (
+                                                <Normaltekst key={organisasjonsnummer}>
+                                                    <FormattedMessage
+                                                        id="steg.oppsummering.arbeidsforhold.forhold"
+                                                        values={{ navn, organisasjonsnummer }}
+                                                    />
+                                                </Normaltekst>
+                                            ))
+                                        ) : (
+                                            <FormattedMessage id="steg.oppsummering.arbeidsforhold.ingenArbeidsforhold" />
+                                        )}
                                     </ContentWithHeader>
                                 </Box>
                                 <Box margin="l">
-                                    <ContentWithHeader header="Skal bo i utlandet neste 12 måneder">
-                                        {skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES && 'Ja'}
-                                        {skalBoUtenforNorgeNeste12Mnd === YesOrNo.NO && 'Nei'}
+                                    <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.utlandetSiste12')}>
+                                        {harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && intlHelper(intl, 'Ja')}
+                                        {harBoddUtenforNorgeSiste12Mnd === YesOrNo.NO && intlHelper(intl, 'Nei')}
                                     </ContentWithHeader>
                                 </Box>
                                 <Box margin="l">
-                                    <ContentWithHeader header="Legeerklæring">
+                                    <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.utlandetNeste12')}>
+                                        {skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES && intlHelper(intl, 'Ja')}
+                                        {skalBoUtenforNorgeNeste12Mnd === YesOrNo.NO && intlHelper(intl, 'Nei')}
+                                    </ContentWithHeader>
+                                </Box>
+                                <Box margin="l">
+                                    <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.legeerklæring')}>
                                         <LegeerklæringAttachmentList includeDeletionFunctionality={false} />
                                     </ContentWithHeader>
                                 </Box>
@@ -205,12 +247,15 @@ class SummaryStep extends React.Component<Props, State> {
                         </Box>
                         <Box margin="l">
                             <ConfirmationCheckboxPanel
-                                label="Jeg bekrefter at opplysningene er riktige, og at jeg ikke har holdt tilbake opplysninger som har betydning for retten til pleiepenger."
+                                label={intlHelper(intl, 'steg.oppsummering.bekrefterOpplysninger')}
                                 name={Field.harBekreftetOpplysninger}
                                 validate={(value) => {
                                     let result;
                                     if (value !== true) {
-                                        result = 'Du må bekrefte opplysningene';
+                                        result = intlHelper(
+                                            intl,
+                                            'steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet'
+                                        );
                                     }
                                     return result;
                                 }}
@@ -223,4 +268,4 @@ class SummaryStep extends React.Component<Props, State> {
     }
 }
 
-export default SummaryStep;
+export default injectIntl(SummaryStep);

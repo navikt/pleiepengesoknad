@@ -1,6 +1,9 @@
 {
     "begynnsøknad": "Gå til søknaden",
 
+    "Ja": "Ja",
+    "Nei": "Nei",
+
     "gotoApplicationLink.lenketekst": "Gå til den digitale søknaden",
 
     "introPage.tittel": "Søknad om pleiepenger - intro",
@@ -77,5 +80,26 @@
     "steg.medlemsskap.annetLandNeste12.hjelp": "Du svarer ja bare hvis du planlegger å oppholde deg fast i et annet land enn Norge. Korte utlandsturer i forbindelse med for eksempel ferie regnes ikke med.",
 
     "steg.lege.info": "Legeerklæringen er på side to (punkt 5) i papirsøknaden som du har fått fra legen. Det er nok at du tar bilde og laster opp den delen av søknaden.",
-    "steg.lege.vedlegg": "Last opp bilde av legeerklæringen (maks 3 bilder)"
+    "steg.lege.vedlegg": "Last opp bilde av legeerklæringen (maks 3 bilder)",
+
+    "steg.oppsummering.info": "Les gjennom oppsummeringen før du sender inn søknaden. Hvis du trenger å gjøre endringer, kan du gå tilbake.",
+    "steg.oppsummering.søker": "Den som søker om pleiepenger",
+    "steg.oppsummering.søker.fnr": "Fødselsnummer: {fodselsnummer}",
+    "steg.oppsummering.tidsrom": "Fra {fom} til {tom}",
+    "steg.oppsummering.barnet": "Om barnet",
+    "steg.oppsummering.barnet.navn": "Navn: {navn}",
+    "steg.oppsummering.barnet.fodselsdato": "Fødselsdato: {dato}",
+    "steg.oppsummering.barnet.forelopigFnr": "Foreløpig fødselsnummer / D-nummer: {fnr}",
+    "steg.oppsummering.barnet.fnr": "Fødselsnummer: {fnr}",
+    "steg.oppsummering.barnet.søkersRelasjonTilBarnet": "Din relasjon til barnet: {relasjon}",
+    "steg.oppsummering.grad": "Grad",
+    "steg.oppsummering.annenSøkerSammePeriode": "Er det en annen søker i samme tidsperiode",
+    "steg.oppsummering.arbeidsforhold": "Arbeidsforhold",
+    "steg.oppsummering.arbeidsforhold.forhold": "{navn} (organisasjonsnummer: {organisasjonsnummer})",
+    "steg.oppsummering.arbeidsforhold.ingenArbeidsforhold": "Ingen arbeidsforhold er valgt",
+    "steg.oppsummering.utlandetSiste12": "Bodd i utlandet siste 12 måneder",
+    "steg.oppsummering.utlandetNeste12": "Skal bo i utlandet neste 12 måneder",
+    "steg.oppsummering.legeerklæring": "Legeerklæring",
+    "steg.oppsummering.bekrefterOpplysninger": "Jeg bekrefter at opplysningene er riktige, og at jeg ikke har holdt tilbake opplysninger som har betydning for retten til pleiepenger.",
+    "steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet": "Du må bekrefte opplysningene"
 }
