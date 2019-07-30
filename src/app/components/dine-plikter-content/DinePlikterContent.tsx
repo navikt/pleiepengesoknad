@@ -1,27 +1,29 @@
 import * as React from 'react';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
+import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
+import getLenker from 'app/lenker';
 
-const DinePlikterContent: React.FunctionComponent = () => (
+const getText = (part: string) => <FormattedMessage id={`modal.minePlikter.${part}`} />;
+
+const DinePlikterContent: React.FunctionComponent<InjectedIntlProps> = ({ intl }) => (
     <>
-        <Systemtittel>Mine plikter</Systemtittel>
+        <Systemtittel>{getText('tittel')}</Systemtittel>
         <ul>
             <li>
-                <Normaltekst>
-                    Jeg forstår at hvis jeg gir uriktige eller holder tilbake opplysninger kan det få konsekvenser for
-                    retten min til pleiepenger.
-                </Normaltekst>
+                <Normaltekst>{getText('part1')}</Normaltekst>
             </li>
             <li style={{ marginTop: '0.5rem' }}>
                 <span>
-                    Jeg har lest og forstått det som står på{' '}
-                    <Lenke href="https://nav.no/rettOgPlikt" target="_blank">
-                        nav.no/rettogplikt.
+                    {getText('part2a')}{' '}
+                    <Lenke href={getLenker(intl.locale).rettOgPlikt} target="_blank">
+                        {getText('part2b')}
                     </Lenke>
+                    .
                 </span>
             </li>
         </ul>
     </>
 );
 
-export default DinePlikterContent;
+export default injectIntl(DinePlikterContent);

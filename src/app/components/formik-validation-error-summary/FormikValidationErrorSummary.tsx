@@ -5,15 +5,18 @@ import ValidationErrorSummaryBase, {
 import { connect } from 'formik';
 import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
 import { Field } from '../../types/PleiepengesøknadFormData';
+import intlHelper from '../../utils/intlUtils';
+import { injectIntl, InjectedIntlProps } from 'react-intl';
 
 interface FormikValidationErrorSummaryProps {
     className?: string;
 }
 
-type Props = FormikValidationErrorSummaryProps & ConnectedFormikProps<Field>;
+type Props = FormikValidationErrorSummaryProps & ConnectedFormikProps<Field> & InjectedIntlProps;
 
 const FormikValidationErrorSummary: React.FunctionComponent<Props> = ({
     formik: { errors, submitCount, ...otherFormik },
+    intl,
     className
 }) => {
     if (errors) {
@@ -32,7 +35,7 @@ const FormikValidationErrorSummary: React.FunctionComponent<Props> = ({
                 <ValidationErrorSummaryBase
                     className={className}
                     errors={errorMessages}
-                    title="Du må rette opp i følgende feil:"
+                    title={intlHelper(intl, 'formikValidationErrorSummary.tittel')}
                 />
             );
         }
@@ -41,4 +44,4 @@ const FormikValidationErrorSummary: React.FunctionComponent<Props> = ({
     return null;
 };
 
-export default connect<FormikValidationErrorSummaryProps, Field>(FormikValidationErrorSummary);
+export default connect<FormikValidationErrorSummaryProps, Field>(injectIntl(FormikValidationErrorSummary));

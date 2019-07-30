@@ -5,32 +5,40 @@ import Box from '../../box/Box';
 import bemUtils from '../../../utils/bemUtils';
 import Lenke from 'nav-frontend-lenker';
 import CheckmarkIcon from '../../checkmark-icon/CheckmarkIcon';
+import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
+import intlHelper from 'app/utils/intlUtils';
+import getLenker from 'app/lenker';
 import './confirmationPage.less';
 
+type Props = InjectedIntlProps;
+
 const bem = bemUtils('confirmationPage');
-const ConfirmationPage: React.FunctionComponent = () => (
-    <Page title="Takk for søknaden" className={bem.className}>
+const ConfirmationPage: React.FunctionComponent<Props> = ({ intl }) => (
+    <Page title={intlHelper(intl, 'page.confirmation.sidetittel')} className={bem.className}>
         <div className={bem.element('centeredContent')}>
             <CheckmarkIcon />
             <Box margin="xl">
-                <Innholdstittel>Takk for søknaden</Innholdstittel>
+                <Innholdstittel>
+                    <FormattedMessage id="page.confirmation.tittel" />
+                </Innholdstittel>
             </Box>
         </div>
 
         <Box margin="xl">
-            <Ingress>Husk å informere arbeidsgiveren din om at du søker om pleiepenger.</Ingress>
+            <Ingress>
+                <FormattedMessage id="page.confirmation.part1" />
+            </Ingress>
             <Box margin="l">
                 <Ingress>
-                    Du får et brev når søknaden er ferdig behandlet.{' '}
-                    <Lenke
-                        href="https://www.nav.no/no/NAV+og+samfunn/Om+NAV/Saksbehandlingstider+i+NAV"
-                        target="_blank">
-                        Se forventet saksbehandlingstid.
+                    <FormattedMessage id="page.confirmation.part2" />{' '}
+                    <Lenke href={getLenker(intl.locale).saksbehandlingstider} target="_blank">
+                        <FormattedMessage id="page.confirmation.saksbehandlingstid" />
                     </Lenke>
+                    .
                 </Ingress>
             </Box>
         </Box>
     </Page>
 );
 
-export default ConfirmationPage;
+export default injectIntl(ConfirmationPage);

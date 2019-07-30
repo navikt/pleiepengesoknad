@@ -3,6 +3,9 @@ import { RadioPanel, RadioPanelProps, SkjemaGruppe } from 'nav-frontend-skjema';
 import { SkjemaelementFeil } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
 import HelperTextPanel from '../helper-text-panel/HelperTextPanel';
 import HelperTextButton from '../helper-text-button/HelperTextButton';
+import intlHelper from 'app/utils/intlUtils';
+import { InjectedIntlProps, injectIntl } from 'react-intl';
+
 import 'nav-frontend-skjema-style';
 import './radioPanelGroup.less';
 
@@ -15,9 +18,15 @@ interface RadioPanelGroupBaseProps {
     helperText?: string;
 }
 
-const RadioPanelGroupBase = ({ legend, radios, feil, helperText }: RadioPanelGroupBaseProps) => {
+const RadioPanelGroupBase = ({
+    legend,
+    radios,
+    feil,
+    helperText,
+    intl
+}: RadioPanelGroupBaseProps & InjectedIntlProps) => {
     const [showHelperText, setShowHelperText] = React.useState(false);
-    const ariaLabel = showHelperText ? 'Lukk hjelpetekst' : 'Åpne hjelpetekst';
+    const ariaLabel = intlHelper(intl, showHelperText ? 'hjelpetekst.skjul' : 'hjelpetekst.vis');
     return (
         <SkjemaGruppe feil={feil}>
             <div className="radioPanelGruppe skjemaelement">
@@ -48,4 +57,4 @@ const RadioPanelGroupBase = ({ legend, radios, feil, helperText }: RadioPanelGro
     );
 };
 
-export default RadioPanelGroupBase;
+export default injectIntl(RadioPanelGroupBase);

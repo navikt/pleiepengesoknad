@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
 import { StepID } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
 import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
@@ -11,15 +12,16 @@ import FileUploadErrors from '../../file-upload-errors/FileUploadErrors';
 import { validateLegeerklæring } from '../../../validation/fieldValidations';
 import HelperTextPanel from '../../helper-text-panel/HelperTextPanel';
 import Box from '../../box/Box';
+import intlHelper from 'app/utils/intlUtils';
 
 interface LegeerklæringStepProps {
     handleSubmit: () => void;
 }
 
-type Props = LegeerklæringStepProps & HistoryProps;
+type Props = LegeerklæringStepProps & HistoryProps & InjectedIntlProps;
 const nextStepRoute = getNextStepRoute(StepID.LEGEERKLÆRING);
 
-const LegeerklæringStep = ({ history, ...stepProps }: Props) => {
+const LegeerklæringStep = ({ history, intl, ...stepProps }: Props) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
 
     const navigate = () => navigateTo(nextStepRoute!, history);
@@ -31,13 +33,12 @@ const LegeerklæringStep = ({ history, ...stepProps }: Props) => {
             useValidationErrorSummary={false}
             {...stepProps}>
             <HelperTextPanel>
-                Legeerklæringen er på side to (punkt 5) i papirsøknaden som du har fått fra legen. Det er nok at du tar
-                bilde og laster opp den delen av søknaden.
+                <FormattedMessage id="steg.lege.info" />
             </HelperTextPanel>
             <Box margin="l">
                 <FormikFileUploader
                     name={Field.legeerklæring}
-                    label="Last opp bilde av legeerklæringen (maks 3 bilder)"
+                    label={intlHelper(intl, 'steg.lege.vedlegg')}
                     onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
                     onFileInputClick={() => {
                         setFilesThatDidntGetUploaded([]);
@@ -52,4 +53,4 @@ const LegeerklæringStep = ({ history, ...stepProps }: Props) => {
     );
 };
 
-export default LegeerklæringStep;
+export default injectIntl(LegeerklæringStep);

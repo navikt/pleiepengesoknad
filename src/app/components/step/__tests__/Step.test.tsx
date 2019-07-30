@@ -3,8 +3,14 @@ import Step from '../Step';
 import { render, RenderResult } from 'react-testing-library';
 import { stepConfig, StepID } from '../../../config/stepConfig';
 import { MemoryRouter } from 'react-router';
+import MockIntlProvider from '../../intl-provider/MockIntlProvider';
 
-const renderWrappedInMemoryRouter = (child: React.ReactNode) => render(<MemoryRouter>{child}</MemoryRouter>);
+const renderWrappedInMemoryRouter = (child: React.ReactNode) =>
+    render(
+        <MockIntlProvider locale="nb">
+            <MemoryRouter>{child}</MemoryRouter>
+        </MockIntlProvider>
+    );
 const handleSubmit = jest.fn();
 
 describe('<Step>', () => {

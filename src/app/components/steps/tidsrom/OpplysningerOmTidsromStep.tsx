@@ -22,6 +22,8 @@ import Box from '../../box/Box';
 import Slider from '../../slider/Slider';
 import { AxiosError } from 'axios';
 import * as apiUtils from '../../../utils/apiUtils';
+import intlHelper from 'app/utils/intlUtils';
+import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl';
 
 interface OpplysningerOmTidsromStepState {
     isLoadingNextStep: boolean;
@@ -32,7 +34,8 @@ interface OpplysningerOmTidsromStepProps {
     formikProps: FormikProps<PleiepengesøknadFormData>;
 }
 
-type Props = OpplysningerOmTidsromStepProps & HistoryProps;
+type Props = OpplysningerOmTidsromStepProps & HistoryProps & InjectedIntlProps;
+
 const nextStepRoute = getNextStepRoute(StepID.TIDSROM);
 
 class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTidsromStepState> {
@@ -87,7 +90,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
     }
 
     render() {
-        const { history, ...stepProps } = this.props;
+        const { history, intl, ...stepProps } = this.props;
         const { isLoadingNextStep } = this.state;
 
         const fraDato = this.props.formikProps.values[Field.periodeFra];
@@ -103,9 +106,9 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                         history={history}
                         {...stepProps}>
                         <DateIntervalPicker
-                            legend="Hvilket tidsrom søker du pleiepenger for?"
+                            legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
                             fromDatepickerProps={{
-                                label: 'Fra og med',
+                                label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.fom'),
                                 validate: this.validateFraDato,
                                 name: Field.periodeFra,
                                 dateLimitations: {
@@ -114,7 +117,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                                 }
                             }}
                             toDatepickerProps={{
-                                label: 'Til og med',
+                                label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.tom'),
                                 validate: this.validateTilDato,
                                 name: Field.periodeTil,
                                 dateLimitations: {
@@ -127,7 +130,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                         <Box margin="xxl">
                             <Slider
                                 name={Field.grad}
-                                label="Hvor mye søker du om?"
+                                label={intlHelper(intl, 'steg.tidsrom.hvorMye.spm')}
                                 min={20}
                                 max={100}
                                 valueRenderer={(value) => `${value}%`}
@@ -136,10 +139,11 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                                 showTextInput={true}
                                 helperText={
                                     <ul style={{ margin: '0.5rem', paddingLeft: '0.5rem' }}>
-                                        <li>Kan du jobbe noe? Da reduserer du prosenten tilsvarende.</li>
+                                        <li>
+                                            <FormattedMessage id="steg.tidsrom.hvorMye.hjelp.part1" />
+                                        </li>
                                         <li style={{ marginTop: '0.5rem' }}>
-                                            Jobber du deltid i utgangspunktet? Du kan likevel søke om 100 % pleiepenger
-                                            hvis du mister hele inntekten fordi du pleier barnet.
+                                            <FormattedMessage id="steg.tidsrom.hvorMye.hjelp.part2" />
                                         </li>
                                     </ul>
                                 }
@@ -149,7 +153,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
 
                         <Box margin="xxl">
                             <YesOrNoQuestion
-                                legend="Er det en annen som skal søke om pleiepenger i samme tidsperiode?"
+                                legend={intlHelper(intl, 'steg.annenSamtidig.spm')}
                                 name={Field.harMedsøker}
                                 validate={validateYesOrNoIsAnswered}
                             />
@@ -161,4 +165,4 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
     }
 }
 
-export default OpplysningerOmTidsromStep;
+export default injectIntl(OpplysningerOmTidsromStep);

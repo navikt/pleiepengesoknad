@@ -87,41 +87,43 @@ class WelcomingPage extends React.Component<Props, WelcomingPageState> {
         return (
             <>
                 <Page
-                    title="Søknad om pleiepenger"
+                    title={intlHelper(intl, 'welcomingPage.sidetittel')}
                     className={bem.className}
                     topContentRenderer={() => (
                         <FrontPageBanner
                             bannerSize="large"
                             counsellorWithSpeechBubbleProps={{
-                                strongText: `Hei!`,
-                                normalText: 'Du har nå kommet til søknaden om pleiepenger for sykt barn.'
+                                strongText: intlHelper(intl, 'welcomingPage.banner.tittel'),
+                                normalText: intlHelper(intl, 'welcomingPage.banner.tekst')
                             }}
                         />
                     )}>
                     <Box margin="xxl">
-                        <Sidetittel className={bem.element('title')}>{intlHelper(intl, 'introtittel')}</Sidetittel>
+                        <Sidetittel className={bem.element('title')}>
+                            <FormattedMessage id="welcomingPage.introtittel" />
+                        </Sidetittel>
                     </Box>
                     <Box margin="xl">
-                        <LegeerklæringInformationPanel text="Har du legeerklæringen klar? Du trenger den senere i søknaden. Da tar du bare et bilde av den og laster opp." />
+                        <LegeerklæringInformationPanel text={intlHelper(intl, 'welcomingPage.legeerklæring')} />
                     </Box>
                     <form onSubmit={handleSubmit}>
                         <Box margin="xl">
                             <ConfirmationCheckboxPanel
-                                label={intlHelper(intl, 'jajegsamtykker')}
+                                label={intlHelper(intl, 'welcomingPage.samtykke.tekst')}
                                 name={Field.harForståttRettigheterOgPlikter}
                                 validate={(value) => {
                                     let result;
                                     if (value !== true) {
-                                        result = 'Du må godkjenne vilkårene';
+                                        result = intlHelper(intl, 'welcomingPage.samtykke.harIkkeGodkjentVilkår');
                                     }
                                     return result;
                                 }}>
                                 <FormattedMessage
-                                    id="forståttrettigheterogplikter"
+                                    id="welcomingPage.samtykke.harForståttLabel"
                                     values={{
                                         plikterLink: (
                                             <Lenke href="#" onClick={this.openDinePlikterModal}>
-                                                dine plikter.
+                                                {intlHelper(intl, 'welcomingPage.samtykke.harForståttLabel.lenketekst')}
                                             </Lenke>
                                         )
                                     }}
@@ -130,26 +132,26 @@ class WelcomingPage extends React.Component<Props, WelcomingPageState> {
                         </Box>
                         <Box margin="xl">
                             <Hovedknapp className={bem.element('startApplicationButton')}>
-                                {intlHelper(intl, 'begynnsøknad')}
+                                {intlHelper(intl, 'welcomingPage.begynnsøknad')}
                             </Hovedknapp>
                         </Box>
                     </form>
 
                     <Box margin="xl" className={bem.element('personopplysningModalLenke')}>
                         <Lenke href="#" onClick={this.openBehandlingAvPersonopplysningerModal}>
-                            Les om hvordan NAV behandler personopplysningene dine
+                            <FormattedMessage id="welcomingPage.personopplysninger.lenketekst" />
                         </Lenke>
                     </Box>
                 </Page>
                 <DinePlikterModal
                     isOpen={dinePlikterModalOpen}
                     onRequestClose={this.closeDinePlikterModal}
-                    contentLabel="Om dine plikter"
+                    contentLabel={intlHelper(intl, 'welcomingPage.modal.omDinePlikter.tittel')}
                 />
                 <BehandlingAvPersonopplysningerModal
                     isOpen={behandlingAvPersonopplysningerModalOpen}
                     onRequestClose={this.closeBehandlingAvPersonopplysningerModal}
-                    contentLabel="Om behandling av personopplysninger"
+                    contentLabel={intlHelper(intl, 'welcomingPage.modal.behandlingAvPersonalia.tittel')}
                 />
             </>
         );

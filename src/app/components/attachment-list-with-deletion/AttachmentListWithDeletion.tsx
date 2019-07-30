@@ -4,38 +4,43 @@ import AttachmentListElement from '../attachment-list-element/AttachmentListElem
 import DeleteButton from '../delete-button/DeleteButton';
 import LoadingSpinner from '../loading-spinner/LoadingSpinner';
 import ContentSwitcher from '../content-switcher/ContentSwitcher';
+import intlHelper from 'app/utils/intlUtils';
+import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
 
 interface AttachmentListWithDeletionProps {
     attachments: Attachment[];
     onRemoveAttachmentClick: (attachment: Attachment, e: React.SyntheticEvent) => void;
 }
 
-const AttachmentListWithDeletion: React.FunctionComponent<AttachmentListWithDeletionProps> = ({
+const AttachmentListWithDeletion: React.FunctionComponent<AttachmentListWithDeletionProps & InjectedIntlProps> = ({
+    intl,
     attachments,
     onRemoveAttachmentClick
 }) => (
     <UnstyledList>
-        {attachments.filter(({ pending, uploaded }) => uploaded || pending).map((attachment, index) => (
-            <AttachmentListElement
-                attachment={attachment}
-                key={attachment.file.name + index}
-                renderRightAlignedContent={() => (
-                    <ContentSwitcher
-                        showFirstContent={attachment.pending}
-                        firstContent={() => <LoadingSpinner type="XS" />}
-                        noSpan={true}
-                        secondContent={() => (
-                            <DeleteButton
-                                ariaLabel="Slett vedlegg"
-                                onClick={(e) => onRemoveAttachmentClick(attachment, e)}>
-                                Fjern vedlegg
-                            </DeleteButton>
-                        )}
-                    />
-                )}
-            />
-        ))}
+        {attachments
+            .filter(({ pending, uploaded }) => uploaded || pending)
+            .map((attachment, index) => (
+                <AttachmentListElement
+                    attachment={attachment}
+                    key={attachment.file.name + index}
+                    renderRightAlignedContent={() => (
+                        <ContentSwitcher
+                            showFirstContent={attachment.pending}
+                            firstContent={() => <LoadingSpinner type="XS" />}
+                            noSpan={true}
+                            secondContent={() => (
+                                <DeleteButton
+                                    ariaLabel={intlHelper(intl, 'vedleggsliste.fjernKnapp')}
+                                    onClick={(e) => onRemoveAttachmentClick(attachment, e)}>
+                                    <FormattedMessage id="vedleggsliste.fjernKnapp" />
+                                </DeleteButton>
+                            )}
+                        />
+                    )}
+                />
+            ))}
     </UnstyledList>
 );
 
-export default AttachmentListWithDeletion;
+export default injectIntl(AttachmentListWithDeletion);
