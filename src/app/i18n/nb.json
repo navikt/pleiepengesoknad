@@ -107,5 +107,17 @@
     "page.confirmation.tittel": "Takk for søknaden",
     "page.confirmation.part1": "Husk å informere arbeidsgiveren din om at du søker om pleiepenger.",
     "page.confirmation.part2": "Du får et brev når søknaden er ferdig behandlet.",
-    "page.confirmation.saksbehandlingstid": "Se forventet saksbehandlingstid"
+    "page.confirmation.saksbehandlingstid": "Se forventet saksbehandlingstid",
+
+    "page.generalErrorPage.sidetittel": "Feil",
+    "page.generalErrorPage.tittel": "Noe gikk galt...",
+    "page.generalErrorPage.tekst": "Beklager, her har det dessverre skjedd en feil.",
+
+    "page.ikkeMyndig.sidetittel": "Søknad om pleiepenger - ikke myndig",
+    "page.ikkeMyndig.banner.tittel": "Hei!",
+    "page.ikkeMyndig.banner.tekst": "Fordi du er under 18 år, må en av foreldrene dine eller en foresatt skrive under på søknaden sammen med deg. Du må derfor fylle ut søknaden på papir og sende den i posten.",
+    "page.ikkeMyndig.banner.lastNed": "Her kan du laste ned papirsøknaden",
+    "page.ikkeMyndig.tittel": "Søknad om pleiepenger",
+
+    "page.loadingPage.sidetittel": "Laster..."
 }

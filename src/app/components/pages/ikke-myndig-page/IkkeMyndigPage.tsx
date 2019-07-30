@@ -4,33 +4,35 @@ import Page from '../../page/Page';
 import Lenke from 'nav-frontend-lenker';
 import Box from '../../box/Box';
 import { Innholdstittel } from 'nav-frontend-typografi';
+import intlHelper from 'app/utils/intlUtils';
+import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl';
+import Lenker from 'app/lenker';
 import './ikkeMyndigPage.less';
 
-const IkkeMyndigPage: React.FunctionComponent = () => (
+const IkkeMyndigPage: React.FunctionComponent<InjectedIntlProps> = ({ intl }) => (
     <Page
         className="ikkeMyndigPage"
-        title="Søknad om pleiepenger - ikke myndig"
+        title={intlHelper(intl, 'page.ikkeMyndig.sidetittel')}
         topContentRenderer={() => (
             <FrontPageBanner
                 bannerSize="xlarge"
                 counsellorWithSpeechBubbleProps={{
-                    strongText: `Hei!`,
-                    normalText:
-                        'Fordi du er under 18 år, må en av foreldrene dine eller en foresatt skrive under på søknaden sammen med deg. Du må derfor fylle ut søknaden på papir og sende den i posten.',
+                    strongText: intlHelper(intl, 'page.ikkeMyndig.banner.tittel'),
+                    normalText: intlHelper(intl, 'page.ikkeMyndig.banner.tekst'),
                     bottomContent: (
-                        <Lenke
-                            href="https://www.nav.no/no/Person/Skjemaer-for-privatpersoner/skjemaveileder/vedlegg?key=333802&languagecode=53&veiledertype=privatperson"
-                            target="_blank">
-                            Her kan du laste ned papirsøknaden
+                        <Lenke href={Lenker.papirskjemaPrivat} target="_blank">
+                            <FormattedMessage id="page.ikkeMyndig.banner.lastNed" />
                         </Lenke>
                     )
                 }}
             />
         )}>
         <Box margin="xxxl">
-            <Innholdstittel>Søknad om pleiepenger</Innholdstittel>
+            <Innholdstittel>
+                <FormattedMessage id="page.ikkeMyndig.tittel" />
+            </Innholdstittel>
         </Box>
     </Page>
 );
 
-export default IkkeMyndigPage;
+export default injectIntl(IkkeMyndigPage);
