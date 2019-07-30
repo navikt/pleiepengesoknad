@@ -61,5 +61,13 @@
     "steg.omBarnet.fnr.foreløpig": "Barnets foreløpige fødselsnummer eller D-nummer",
     "steg.omBarnet.navn": "Barnets navn",
     "steg.omBarnet.relasjon": "Min relasjon til barnet",
-    "steg.omBarnet.relasjon.eksempel": "Eksempler: mor, far, tante, onkel eller andre som står barnet nær"
+    "steg.omBarnet.relasjon.eksempel": "Eksempler: mor, far, tante, onkel eller andre som står barnet nær",
+
+    "steg.tidsrom.hvilketTidsrom.spm": "Hvilket tidsrom søker du pleiepenger for?",
+    "steg.tidsrom.hvilketTidsrom.fom": "Fra og med",
+    "steg.tidsrom.hvilketTidsrom.tom": "Til og med",
+    "steg.tidsrom.hvorMye.spm": "Hvor mye søker du om?",
+    "steg.tidsrom.hvorMye.hjelp.part1": "Kan du jobbe noe? Da reduserer du prosenten tilsvarende.",
+    "steg.tidsrom.hvorMye.hjelp.part2": "Jobber du deltid i utgangspunktet? Du kan likevel søke om 100 % pleiepenger hvis du mister hele inntekten fordi du pleier barnet.",
+    "steg.annenSamtidig.spm": "Er det en annen som skal søke om pleiepenger i samme tidsperiode?"
 }
