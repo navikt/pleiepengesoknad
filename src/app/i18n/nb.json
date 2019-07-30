@@ -101,5 +101,11 @@
     "steg.oppsummering.utlandetNeste12": "Skal bo i utlandet neste 12 måneder",
     "steg.oppsummering.legeerklæring": "Legeerklæring",
     "steg.oppsummering.bekrefterOpplysninger": "Jeg bekrefter at opplysningene er riktige, og at jeg ikke har holdt tilbake opplysninger som har betydning for retten til pleiepenger.",
-    "steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet": "Du må bekrefte opplysningene"
+    "steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet": "Du må bekrefte opplysningene",
+
+    "page.confirmation.sidetittel": "Takk for søknaden",
+    "page.confirmation.tittel": "Takk for søknaden",
+    "page.confirmation.part1": "Husk å informere arbeidsgiveren din om at du søker om pleiepenger.",
+    "page.confirmation.part2": "Du får et brev når søknaden er ferdig behandlet.",
+    "page.confirmation.saksbehandlingstid": "Se forventet saksbehandlingstid"
 }
