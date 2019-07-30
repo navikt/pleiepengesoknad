@@ -98,7 +98,7 @@ class SummaryStep extends React.Component<Props, State> {
                         </CounsellorPanel>
                         <Box margin="xl">
                             <Panel border={true}>
-                                <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.søker')}>
+                                <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.søker.header')}>
                                     <Normaltekst>{formatName(fornavn, etternavn, mellomnavn)}</Normaltekst>
                                     <Normaltekst>
                                         <FormattedMessage id="steg.oppsummering.søker.fnr" values={{ fodselsnummer }} />
@@ -106,10 +106,10 @@ class SummaryStep extends React.Component<Props, State> {
                                 </ContentWithHeader>
 
                                 <Box margin="l">
-                                    <ContentWithHeader header="Tidsrom">
+                                    <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.tidsrom.header')}>
                                         <Normaltekst>
                                             <FormattedMessage
-                                                id="steg.oppsummering.tidsrom"
+                                                id="steg.oppsummering.tidsrom.fomtom"
                                                 values={{
                                                     fom: prettifyDate(periodeFra!),
                                                     tom: prettifyDate(periodeTil!)
@@ -119,7 +119,7 @@ class SummaryStep extends React.Component<Props, State> {
                                     </ContentWithHeader>
                                 </Box>
                                 <Box margin="l">
-                                    <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.barnet')}>
+                                    <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.barnet.header')}>
                                         <ContentSwitcher
                                             firstContent={() => {
                                                 const barnReceivedFromApi = barn.find(
@@ -199,19 +199,20 @@ class SummaryStep extends React.Component<Props, State> {
                                     </ContentWithHeader>
                                 </Box>
                                 <Box margin="l">
-                                    <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.grad')}>
+                                    <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.grad.header')}>
                                         {grad}%
                                     </ContentWithHeader>
                                 </Box>
                                 <Box margin="l">
                                     <ContentWithHeader
-                                        header={intlHelper(intl, 'steg.oppsummering.annenSøkerSammePeriode')}>
+                                        header={intlHelper(intl, 'steg.oppsummering.annenSøkerSammePeriode.header')}>
                                         {harMedsøker === YesOrNo.YES && intlHelper(intl, 'Ja')}
                                         {harMedsøker === YesOrNo.NO && intlHelper(intl, 'Nei')}
                                     </ContentWithHeader>
                                 </Box>
                                 <Box margin="l">
-                                    <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold')}>
+                                    <ContentWithHeader
+                                        header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.header')}>
                                         {ansettelsesforhold.length > 0 ? (
                                             ansettelsesforhold.map(({ navn, organisasjonsnummer }) => (
                                                 <Normaltekst key={organisasjonsnummer}>
@@ -227,19 +228,22 @@ class SummaryStep extends React.Component<Props, State> {
                                     </ContentWithHeader>
                                 </Box>
                                 <Box margin="l">
-                                    <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.utlandetSiste12')}>
+                                    <ContentWithHeader
+                                        header={intlHelper(intl, 'steg.oppsummering.utlandetSiste12.header')}>
                                         {harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && intlHelper(intl, 'Ja')}
                                         {harBoddUtenforNorgeSiste12Mnd === YesOrNo.NO && intlHelper(intl, 'Nei')}
                                     </ContentWithHeader>
                                 </Box>
                                 <Box margin="l">
-                                    <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.utlandetNeste12')}>
+                                    <ContentWithHeader
+                                        header={intlHelper(intl, 'steg.oppsummering.utlandetNeste12.header')}>
                                         {skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES && intlHelper(intl, 'Ja')}
                                         {skalBoUtenforNorgeNeste12Mnd === YesOrNo.NO && intlHelper(intl, 'Nei')}
                                     </ContentWithHeader>
                                 </Box>
                                 <Box margin="l">
-                                    <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.legeerklæring')}>
+                                    <ContentWithHeader
+                                        header={intlHelper(intl, 'steg.oppsummering.legeerklæring.header')}>
                                         <LegeerklæringAttachmentList includeDeletionFunctionality={false} />
                                     </ContentWithHeader>
                                 </Box>

@@ -2,6 +2,8 @@ import * as React from 'react';
 import bemUtils from '../../utils/bemUtils';
 import HelperTextButton from '../helper-text-button/HelperTextButton';
 import HelperTextPanel from '../helper-text-panel/HelperTextPanel';
+import intlHelper from 'app/utils/intlUtils';
+import { InjectedIntlProps, injectIntl } from 'react-intl';
 import './labelWithHelperText.less';
 
 interface LabelWithHelperText {
@@ -12,14 +14,15 @@ interface LabelWithHelperText {
 }
 
 const bem = bemUtils('labelWithHelperText');
-const LabelWithHelperText: React.FunctionComponent<LabelWithHelperText> = ({
+const LabelWithHelperText: React.FunctionComponent<LabelWithHelperText & InjectedIntlProps> = ({
     children,
     helperText,
     htmlFor,
-    showByDefault
+    showByDefault,
+    intl
 }) => {
     const [showHelperText, setShowHelperText] = React.useState(showByDefault === true);
-    const ariaLabel = showHelperText ? 'Lukk hjelpetekst' : 'Åpne hjelpetekst';
+    const ariaLabel = intlHelper(intl, showHelperText ? 'hjelpetekst.skjul' : 'hjelpetekst.vis');
     return (
         <label className={`${bem.className} skjemaelement__label`} htmlFor={htmlFor}>
             {children}
@@ -33,4 +36,4 @@ const LabelWithHelperText: React.FunctionComponent<LabelWithHelperText> = ({
     );
 };
 
-export default LabelWithHelperText;
+export default injectIntl(LabelWithHelperText);

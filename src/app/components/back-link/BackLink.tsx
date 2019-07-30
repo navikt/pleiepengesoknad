@@ -5,6 +5,7 @@ import bemUtils from '../../utils/bemUtils';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { History } from 'history';
 import './backLink.less';
+import { FormattedMessage } from 'react-intl';
 
 interface BackLinkProps {
     className?: string;
@@ -34,7 +35,7 @@ const BackLink: React.FunctionComponent<BackLinkProps & RouteComponentProps> = (
         <div className={`${bem.className} ${className}`} onClick={handleOnClick}>
             <Chevron className={bem.element('chevron')} type="venstre" />
             <Lenke className={bem.element('link')} href={href}>
-                Tilbake
+                <FormattedMessage id="backlink.label" />
             </Lenke>
         </div>
     );

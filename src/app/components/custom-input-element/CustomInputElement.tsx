@@ -7,6 +7,8 @@ import HelperTextButton from '../helper-text-button/HelperTextButton';
 import HelperTextPanel from '../helper-text-panel/HelperTextPanel';
 const classnames = require('classnames');
 import './customInputElement.less';
+import intlHelper from 'app/utils/intlUtils';
+import { injectIntl, InjectedIntlProps } from 'react-intl';
 
 interface CustomInputElementProps {
     children: React.ReactNode;
@@ -18,21 +20,22 @@ interface CustomInputElementProps {
     helperText?: string | React.ReactNode;
 }
 
-const CustomInputElement: React.FunctionComponent<CustomInputElementProps> = ({
+const CustomInputElement: React.FunctionComponent<CustomInputElementProps & InjectedIntlProps> = ({
     children,
     className,
     label,
     labelHtmlFor,
     labelId,
     validationError,
-    helperText
+    helperText,
+    intl
 }) => {
     const wrapperCls = classnames('skjemaelement', {
         'skjemaelement--harFeil': validationError !== undefined,
         [`${className}`]: className !== undefined
     });
     const [showHelperText, setShowHelperText] = React.useState(false);
-    const ariaLabel = showHelperText ? 'Lukk hjelpetekst' : 'Åpne hjelpetekst';
+    const ariaLabel = intlHelper(intl, showHelperText ? 'hjelpetekst.skjul' : 'hjelpetekst.vis');
     return (
         <div className={wrapperCls}>
             {label && (
@@ -56,4 +59,4 @@ const CustomInputElement: React.FunctionComponent<CustomInputElementProps> = ({
     );
 };
 
-export default CustomInputElement;
+export default injectIntl(CustomInputElement);

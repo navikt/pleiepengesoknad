@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import { FormattedMessage } from 'react-intl';
 
 interface FileUploadErrorsProps {
     filesThatDidntGetUploaded: File[];
@@ -12,7 +13,7 @@ const FileUploadErrors: React.FunctionComponent<FileUploadErrorsProps> = ({ file
 
     return (
         <AlertStripeAdvarsel>
-            Det har dessverre skjedd en feil under opplasting av følgende vedlegg:
+            <FormattedMessage id="fileUploadErrors.part1" />
             <ul>
                 {filesThatDidntGetUploaded.map(({ name }) => (
                     <li key={name}>{name}</li>

@@ -3,9 +3,15 @@ import BackLink from '../BackLink';
 import { render, fireEvent } from 'react-testing-library';
 import { MemoryRouter } from 'react-router';
 import * as historyMockFns from '../../../../../__mocks__/history';
+import MockIntlProvider from '../../intl-provider/MockIntlProvider';
 
 const hrefLocation = 'hrefLocation';
-const renderWrappedInMemoryRouter = (child: React.ReactNode) => render(<MemoryRouter>{child}</MemoryRouter>);
+const renderWrappedInMemoryRouter = (child: React.ReactNode) =>
+    render(
+        <MockIntlProvider locale="nb">
+            <MemoryRouter>{child}</MemoryRouter>
+        </MockIntlProvider>
+    );
 
 describe('<BackLink />', () => {
     it('should show a link with text "Tilbake" and href specified from props', () => {
