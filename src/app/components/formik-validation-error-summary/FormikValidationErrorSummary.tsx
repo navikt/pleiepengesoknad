@@ -7,6 +7,7 @@ import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
 import { Field } from '../../types/PleiepengesøknadFormData';
 import intlHelper from '../../utils/intlUtils';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
+import { renderFieldValidationError, isFieldValidationError } from 'app/validation/fieldValidationRenderUtils';
 
 interface FormikValidationErrorSummaryProps {
     className?: string;
@@ -25,10 +26,14 @@ const FormikValidationErrorSummary: React.FunctionComponent<Props> = ({
 
         if (numberOfErrors > 0 && submitCount > 0) {
             Object.keys(errors).forEach((key) => {
-                errorMessages.push({
-                    name: key,
-                    message: errors[key]
-                });
+                const error = errors[key];
+                const message = isFieldValidationError(error) ? renderFieldValidationError(intl, error) : error;
+                if (message) {
+                    errorMessages.push({
+                        name: key,
+                        message
+                    });
+                }
             });
 
             return (

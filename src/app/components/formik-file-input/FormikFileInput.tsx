@@ -2,12 +2,13 @@ import * as React from 'react';
 import { ArrayHelpers, Field as FormikField, FieldArray, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorProps } from '../../utils/navFrontendUtils';
 import FileInputBase from '../file-input-base/FileInputBase';
+import { FormikValidateFunction } from 'app/types/FormikProps';
 
 export interface FormikFileInputProps<T> {
     name: T;
     label: string;
     acceptedExtensions: string;
-    validate?: ((value: any) => string | Promise<void> | undefined);
+    validate?: FormikValidateFunction;
     onFilesSelect: (files: File[], arrayHelpers: ArrayHelpers) => void;
     onClick?: () => void;
 }
