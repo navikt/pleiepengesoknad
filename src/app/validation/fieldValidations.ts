@@ -5,19 +5,33 @@ import { attachmentHasBeenUploaded } from '../utils/attachmentUtils';
 import { FieldValidationResult } from './types';
 const moment = require('moment');
 
-export const getFieldValidationIntlKey = (part: string) => `fieldvalidation.${part}`;
+export enum FieldValidationErrors {
+    'påkrevd' = 'fieldvalidation.påkrevd',
+    'fødselsnummer_11siffer' = 'fieldvalidation.fødselsnummer.11siffer',
+    'fødselsnummer_ugyldig' = 'fieldvalidation.fødselsnummer.ugyldig',
+    'foreløpigFødselsnummer_ugyldig' = 'fieldvalidation.foreløpigFødselsnummer.ugyldig',
+    'navn_maksAntallTegn' = 'fieldvalidation.navn.maksAntallTegn',
+    'relasjon_maksAntallTegn' = 'fieldvalidation.relasjon.maksAntallTegn',
+    'fradato_merEnnTreÅr' = 'fieldvalidation.fradato.merEnnTreÅr',
+    'fradato_erEtterTildato' = 'fieldvalidation.fradato.erEtterTildato',
+    'tildato_merEnnTreÅr' = 'fieldvalidation.tildato.merEnnTreÅr',
+    'tildato_erFørFradato' = 'fieldvalidation.tildato.erFørFradato',
+    'legeerklæring_mangler' = 'fieldvalidation.legeerklæring.mangler',
+    'legeerklæring_forMangeFiler' = 'fieldvalidation.legeerklæring.forMangeFiler',
+    'grad_ugyldig' = 'fieldvalidation.grad.ugyldig'
+}
 
 export const hasValue = (v: any) => v !== '' && v !== undefined && v !== null;
 
-const fieldIsRequiredError = () => fieldValidationError('påkrevd');
+const fieldIsRequiredError = () => fieldValidationError(FieldValidationErrors.påkrevd);
 
 export const validateFødselsnummer = (v: string): FieldValidationResult => {
     const [isValid, reasons] = fødselsnummerIsValid(v);
     if (!isValid) {
         if (reasons.includes(FødselsnummerValidationErrorReason.MustConsistOf11Digits)) {
-            return fieldValidationError('fødselsnummer.11siffer');
+            return fieldValidationError(FieldValidationErrors.fødselsnummer_11siffer);
         } else {
-            return fieldValidationError('fødselsnummer.ugyldig');
+            return fieldValidationError(FieldValidationErrors.fødselsnummer_ugyldig);
         }
     }
 };
@@ -29,7 +43,7 @@ export const validateForeløpigFødselsnummer = (v: string): FieldValidationResu
 
     const elevenDigits = new RegExp('^\\d{11}$');
     if (!elevenDigits.test(v)) {
-        return fieldValidationError('foreløpigFødselsnummer.ugyldig');
+        return fieldValidationError(FieldValidationErrors.foreløpigFødselsnummer_ugyldig);
     }
     return undefined;
 };
@@ -49,7 +63,9 @@ export const validateNavn = (v: string, isRequired?: boolean): FieldValidationRe
     const maxNumOfLetters = 50;
     const nameIsValid = v.length <= maxNumOfLetters;
 
-    return nameIsValid ? undefined : fieldValidationError('navn.maksAntallTegn', { maxNumOfLetters });
+    return nameIsValid
+        ? undefined
+        : fieldValidationError(FieldValidationErrors.navn_maksAntallTegn, { maxNumOfLetters });
 };
 
 export const validateRelasjonTilBarnet = (v: string): FieldValidationResult => {
@@ -60,7 +76,9 @@ export const validateRelasjonTilBarnet = (v: string): FieldValidationResult => {
     const maxNumOfLetters = 15;
     const relasjonIsValid = v.length <= maxNumOfLetters;
 
-    return relasjonIsValid ? undefined : fieldValidationError('relasjon.maksAntallTegn', { maxNumOfLetters });
+    return relasjonIsValid
+        ? undefined
+        : fieldValidationError(FieldValidationErrors.relasjon_maksAntallTegn, { maxNumOfLetters });
 };
 
 export const validateFradato = (fraDato?: Date, tilDato?: Date): FieldValidationResult => {
@@ -69,12 +87,12 @@ export const validateFradato = (fraDato?: Date, tilDato?: Date): FieldValidation
     }
 
     if (isMoreThan3YearsAgo(fraDato!)) {
-        return fieldValidationError('fradato.merEnnTreÅr');
+        return fieldValidationError(FieldValidationErrors.fradato_merEnnTreÅr);
     }
 
     if (hasValue(tilDato)) {
         if (moment(fraDato).isAfter(tilDato)) {
-            return fieldValidationError('fradato.erEtterTildato');
+            return fieldValidationError(FieldValidationErrors.fradato_erEtterTildato);
         }
     }
 
@@ -87,12 +105,12 @@ export const validateTildato = (tilDato?: Date, fraDato?: Date): FieldValidation
     }
 
     if (isMoreThan3YearsAgo(tilDato!)) {
-        return fieldValidationError('tildato.merEnnTreÅr');
+        return fieldValidationError(FieldValidationErrors.tildato_merEnnTreÅr);
     }
 
     if (hasValue(fraDato)) {
         if (moment(tilDato).isBefore(fraDato)) {
-            return fieldValidationError('tildato.erFørFradato');
+            return fieldValidationError(FieldValidationErrors.tildato_erFørFradato);
         }
     }
 
@@ -109,10 +127,10 @@ export const validateYesOrNoIsAnswered = (answer: YesOrNo): FieldValidationResul
 export const validateLegeerklæring = (attachments: Attachment[]): FieldValidationResult => {
     const uploadedAttachments = attachments.filter((attachment) => attachmentHasBeenUploaded(attachment));
     if (uploadedAttachments.length === 0) {
-        return fieldValidationError('legeerklæring.mangler');
+        return fieldValidationError(FieldValidationErrors.legeerklæring_mangler);
     }
     if (uploadedAttachments.length > 3) {
-        return fieldValidationError('legeerklæring.over3bilder');
+        return fieldValidationError(FieldValidationErrors.legeerklæring_forMangeFiler);
     }
     return undefined;
 };
@@ -122,26 +140,26 @@ export const validateGrad = (grad: number | string): FieldValidationResult => {
         const gradNumber = +grad;
         if (Number.isInteger(gradNumber)) {
             if (gradNumber < 20 || gradNumber > 100) {
-                return fieldValidationError('grad.ugyldig');
+                return fieldValidationError(FieldValidationErrors.grad_ugyldig);
             } else {
                 return undefined;
             }
         } else {
-            return fieldValidationError('grad.ugyldig');
+            return fieldValidationError(FieldValidationErrors.grad_ugyldig);
         }
     } else {
         if (grad < 20 || grad > 100) {
-            return fieldValidationError('grad.ugyldig');
+            return fieldValidationError(FieldValidationErrors.grad_ugyldig);
         }
     }
 
     return undefined;
 };
 
-const fieldValidationError = (key: string | undefined, values?: any): FieldValidationResult => {
+export const fieldValidationError = (key: FieldValidationErrors | undefined, values?: any): FieldValidationResult => {
     return key
         ? {
-              key: getFieldValidationIntlKey(key),
+              key,
               values
           }
         : undefined;
