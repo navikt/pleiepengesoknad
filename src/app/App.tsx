@@ -7,15 +7,20 @@ import IntroPage from './components/pages/intro-page/IntroPage';
 import { render } from 'react-dom';
 import Modal from 'nav-frontend-modal';
 import { Locale } from './types/Locale';
+import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
 import './globalStyles.less';
 
-const App: React.FunctionComponent = () => {
-    const [locale, setLocale] = React.useState<{ activeLocale: Locale }>({ activeLocale: 'nb' });
+const localeFromSessionStorage = getLocaleFromSessionStorage();
 
+const App: React.FunctionComponent = () => {
+    const [locale, setLocale] = React.useState<{ activeLocale: Locale }>({ activeLocale: localeFromSessionStorage });
     return (
         <ApplicationWrapper
             locale={locale.activeLocale}
-            onChangeLocale={(activeLocale: Locale) => setLocale({ activeLocale })}>
+            onChangeLocale={(activeLocale: Locale) => {
+                setLocaleInSessionStorage(activeLocale);
+                setLocale({ activeLocale });
+            }}>
             <Switch>
                 <Route path={routeConfig.SØKNAD_ROUTE_PREFIX} component={Pleiepengesøknad} />
                 <Route path="/" component={IntroPage} />
