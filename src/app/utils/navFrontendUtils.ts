@@ -3,20 +3,6 @@ import { FormikErrors } from 'formik';
 import { isFieldValidationError, renderFieldValidationError } from 'app/validation/fieldValidationRenderUtils';
 import { InjectedIntl } from 'react-intl';
 
-export const getValidationErrorProps = <T>(
-    errors: FormikErrors<T>,
-    elementName?: string
-): { feil?: SkjemaelementFeil } => {
-    if (elementName !== undefined && errors[elementName] !== undefined) {
-        return {
-            feil: {
-                feilmelding: errors[elementName]
-            }
-        };
-    }
-    return {};
-};
-
 export const getValidationErrorPropsWithIntl = <T>(
     intl: InjectedIntl,
     errors: FormikErrors<T>,
