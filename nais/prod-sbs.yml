@@ -1,5 +1,5 @@
-apiVersion: 'nais.io/v1alpha1'
-kind: 'Application'
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
 metadata:
     name: pleiepengesoknad
     namespace: default
@@ -45,6 +45,6 @@ spec:
         - name: LOGIN_URL
           value: https://loginservice.nav.no/login?redirect=https://pleiepengesoknad.nav.no/soknad/velkommen
         - name: HENT_BARN_FEATURE
-          value: 'on'
+          value: "on"
         - name: TOGGLE_LANGUAGE
-          value: 'on'
+          value: "on"

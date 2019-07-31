@@ -1,5 +1,5 @@
-apiVersion: 'nais.io/v1alpha1'
-kind: 'Application'
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
 metadata:
     name: pleiepengesoknad
     namespace: default
@@ -11,8 +11,8 @@ spec:
     liveness:
         path: isalive
         initialDelay: 20
-        timeout: 1
         periodSeconds: 5
+        timeout: 1
         failureThreshold: 10
     readiness:
         path: isready
@@ -45,6 +45,6 @@ spec:
         - name: LOGIN_URL
           value: https://loginservice-q.nav.no/login?redirect=https://pleiepengesoknad-q.nav.no/soknad
         - name: HENT_BARN_FEATURE
-          value: 'on'
+          value: "on"
         - name: TOGGLE_LANGUAGE
-          value: 'on'
+          value: "on"
