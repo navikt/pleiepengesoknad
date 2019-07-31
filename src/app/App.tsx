@@ -6,11 +6,16 @@ import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad'
 import IntroPage from './components/pages/intro-page/IntroPage';
 import { render } from 'react-dom';
 import Modal from 'nav-frontend-modal';
+import { Locale } from './types/Locale';
 import './globalStyles.less';
 
 const App: React.FunctionComponent = () => {
+    const [locale, setLocale] = React.useState<{ activeLocale: Locale }>({ activeLocale: 'nb' });
+
     return (
-        <ApplicationWrapper>
+        <ApplicationWrapper
+            locale={locale.activeLocale}
+            onChangeLocale={(activeLocale: Locale) => setLocale({ activeLocale })}>
             <Switch>
                 <Route path={routeConfig.SØKNAD_ROUTE_PREFIX} component={Pleiepengesøknad} />
                 <Route path="/" component={IntroPage} />

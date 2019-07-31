@@ -7,7 +7,8 @@ function createEnvSettingsFile(settingsFile) {
             `window.appSettings = {
                 API_URL: '${process.env.API_URL}',
                 LOGIN_URL: '${process.env.LOGIN_URL}',
-                HENT_BARN_FEATURE: '${process.env.HENT_BARN_FEATURE}'
+                HENT_BARN_FEATURE: '${process.env.HENT_BARN_FEATURE}',
+                TOGGLE_LANGUAGE: '${process.env.TOGGLE_LANGUAGE}',
             };`
         );
     });

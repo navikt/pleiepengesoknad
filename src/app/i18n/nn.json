@@ -2,10 +2,20 @@
     "Ja": "Ja",
     "Nei": "Nei",
 
-    "gotoApplicationLink.lenketekst": "Gå til den digitale søknaden",
+    "locale.nb": "Bokmål - norsk",
+    "locale.nn": "Nynorsk - norsk",
 
-    "introPage.tittel": "Søknad om pleiepenger - intro",
-    "introPage.stegTittel": "Kan jeg bruke den digitale pleiepengesøknaden?",
+    "gotoApplicationLink.lenketekst": "Gå til den digitale søknaden",
+    "backlink.label": "Tilbake",
+
+    "hjelpetekst.skjul": "Lukk hjelpetekst",
+    "hjelpetekst.vis": "Vis hjelpetekst",
+
+    "fileUploadErrors.part1": "Det har dessverre skjedd ein feil under opplasting av følgande vedlegg:",
+    "formikValidationErrorSummary.tittel": "Du må rette opp i følgande feil:",
+
+    "introPage.tittel": "Søknad om pleiepengar - intro",
+    "introPage.stegTittel": "Kan eg bruke den digitale pleiepengesøknaden?",
     "introPage.tekst": "Den digitale søknaden er under utvikling og kan foreløpig ikke brukes av alle. Svar på to spørsmål, så får du vite om du kan søke digitalt.",
     "introPage.spm.selvstendigEllerFrilanser": "Er du selvstendig næringsdrivende eller frilanser?",
     "introPage.spm.barnehageEllerSkole": "Forventer du at barnet kan være noe i barnehage, skole eller liknende?",
@@ -82,29 +92,32 @@
     "steg.lege.vedlegg": "Last opp bilde av legeerklæringen (maks 3 bilder)",
 
     "steg.oppsummering.info": "Les gjennom oppsummeringen før du sender inn søknaden. Hvis du trenger å gjøre endringer, kan du gå tilbake.",
-    "steg.oppsummering.søker": "Den som søker om pleiepenger",
+    "steg.oppsummering.søker.header": "Den som søker om pleiepenger",
     "steg.oppsummering.søker.fnr": "Fødselsnummer: {fodselsnummer}",
-    "steg.oppsummering.tidsrom": "Fra {fom} til {tom}",
-    "steg.oppsummering.barnet": "Om barnet",
+    "steg.oppsummering.tidsrom.header": "Tidsrom",
+    "steg.oppsummering.tidsrom.fomtom": "Fra {fom} til {tom}",
+    "steg.oppsummering.barnet.header": "Om barnet",
     "steg.oppsummering.barnet.navn": "Navn: {navn}",
     "steg.oppsummering.barnet.fodselsdato": "Fødselsdato: {dato}",
     "steg.oppsummering.barnet.forelopigFnr": "Foreløpig fødselsnummer / D-nummer: {fnr}",
     "steg.oppsummering.barnet.fnr": "Fødselsnummer: {fnr}",
     "steg.oppsummering.barnet.søkersRelasjonTilBarnet": "Din relasjon til barnet: {relasjon}",
-    "steg.oppsummering.grad": "Grad",
-    "steg.oppsummering.annenSøkerSammePeriode": "Er det en annen søker i samme tidsperiode",
-    "steg.oppsummering.arbeidsforhold": "Arbeidsforhold",
+    "steg.oppsummering.grad.header": "Grad",
+    "steg.oppsummering.annenSøkerSammePeriode.header": "Er det en annen søker i samme tidsperiode",
+    "steg.oppsummering.arbeidsforhold.header": "Arbeidsforhold",
     "steg.oppsummering.arbeidsforhold.forhold": "{navn} (organisasjonsnummer: {organisasjonsnummer})",
     "steg.oppsummering.arbeidsforhold.ingenArbeidsforhold": "Ingen arbeidsforhold er valgt",
-    "steg.oppsummering.utlandetSiste12": "Bodd i utlandet siste 12 måneder",
-    "steg.oppsummering.utlandetNeste12": "Skal bo i utlandet neste 12 måneder",
-    "steg.oppsummering.legeerklæring": "Legeerklæring",
+    "steg.oppsummering.utlandetSiste12.header": "Bodd i utlandet siste 12 måneder",
+    "steg.oppsummering.utlandetNeste12.header": "Skal bo i utlandet neste 12 måneder",
+    "steg.oppsummering.legeerklæring.header": "Legeerklæring",
     "steg.oppsummering.bekrefterOpplysninger": "Jeg bekrefter at opplysningene er riktige, og at jeg ikke har holdt tilbake opplysninger som har betydning for retten til pleiepenger.",
     "steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet": "Du må bekrefte opplysningene",
 
     "steg.ansettelsesforhold.hvilket.spm": "Hvilken jobb må du være borte fra for å pleie barnet?",
     "steg.ansettelsesforhold.ingenOpplysninger": "Vi har ikke noen opplysninger om arbeidsgiver.",
     "steg.ansettelsesforhold.manglesOpplysninger": "Mangler det en arbeidsgiver her? Be arbeidsgiveren din sende ny A-melding, enten via lønns- og personalsystemet eller gjennom Altinn.",
+
+    "page.loadingPage.tekst": "Laster ...",
 
     "page.confirmation.sidetittel": "Takk for søknaden",
     "page.confirmation.tittel": "Takk for søknaden",
@@ -122,5 +135,19 @@
     "page.ikkeMyndig.banner.lastNed": "Her kan du laste ned papirsøknaden",
     "page.ikkeMyndig.tittel": "Søknad om pleiepenger",
 
-    "vedleggsliste.fjernKnapp": "Fjern vedlegg"
+    "vedleggsliste.fjernKnapp": "Fjern vedlegg",
+
+    "fieldvalidation.påkrevd": "Feltet er påkrevd",
+    "fieldvalidation.fødselsnummer.11siffer": "Fødselsnummeret må bestå av 11 siffer",
+    "fieldvalidation.fødselsnummer.ugyldig": "Fødselsnummeret er ugyldig",
+    "fieldvalidation.foreløpigFødselsnummer.ugyldig": "Det foreløpige fødselsnummeret / D-nummeret må bestå av 11 siffer",
+    "fieldvalidation.navn.maksAntallTegn": "Navnet kan være maks {maxNumOfLetters} tegn",
+    "fieldvalidation.relasjon.maksAntallTegn": "Din relasjon til barnet kan maks være beskrevet på {maxNumOfLetters} tegn",
+    "fieldvalidation.fradato.merEnnTreÅr": "Du kan ikke søke om pleiepenger for en periode som er mer enn tre år tilbake i tid",
+    "fieldvalidation.fradato.erEtterTildato": "Fra-datoen kan ikke være senere enn til-datoen",
+    "fieldvalidation.tildato.merEnnTreÅr": "Du kan ikke søke om pleiepenger for en periode som er mer enn tre år tilbake i tid",
+    "fieldvalidation.tildato.erFørFradato": "Til-datoen kan ikke være tidligere enn fra-datoen",
+    "fieldvalidation.legeerklæring.mangler": "Du må laste opp en legeerklæring",
+    "fieldvalidation.legeerklæring.forMangeFiler": "Du kan maksimalt laste opp 3 bilder",
+    "fieldvalidation.grad.ugyldig": "Graden må oppgis som et heltall mellom 20 og 100 prosent"
 }
