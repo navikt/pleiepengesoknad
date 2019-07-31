@@ -4,9 +4,9 @@ metadata:
     name: pleiepengesoknad
     namespace: default
     labels:
-        team: { { team } }
+        team: {{team}}
 spec:
-    image: { { version } }
+    image: {{version}}
     port: 8080
     liveness:
         path: isalive
