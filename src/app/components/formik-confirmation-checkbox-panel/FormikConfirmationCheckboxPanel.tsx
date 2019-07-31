@@ -2,7 +2,7 @@ import * as React from 'react';
 import { BekreftCheckboksPanel as NAVConfirmationCheckboxPanel } from 'nav-frontend-skjema';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from '../../utils/navFrontendUtils';
-import { FormikValidateFunction, FormikIntlValidationProps } from 'app/types/FormikProps';
+import { FormikValidateFunction, FormikValidationProps } from 'app/types/FormikProps';
 
 interface FormikConfirmationCheckboxPanelProps<T> {
     label: string;
@@ -12,7 +12,7 @@ interface FormikConfirmationCheckboxPanelProps<T> {
 }
 
 const FormikConfirmationCheckboxPanel = <T extends {}>(): React.FunctionComponent<
-    FormikConfirmationCheckboxPanelProps<T> & FormikIntlValidationProps
+    FormikConfirmationCheckboxPanelProps<T> & FormikValidationProps
 > => ({ children, label, name, validate, intl }) => (
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {

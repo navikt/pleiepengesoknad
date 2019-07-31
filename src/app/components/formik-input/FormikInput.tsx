@@ -4,7 +4,7 @@ import { getValidationErrorPropsWithIntl } from '../../utils/navFrontendUtils';
 import InputBase from '../input-base/InputBase';
 import { NavFrontendInputProps } from 'nav-frontend-skjema';
 import { InputType } from '../../types/InputType';
-import { FormikIntlValidationProps } from 'app/types/FormikProps';
+import { FormikValidationProps } from 'app/types/FormikProps';
 
 interface FormikInputProps<T> {
     name: T;
@@ -13,7 +13,7 @@ interface FormikInputProps<T> {
     maxLength?: number;
 }
 
-type Props = NavFrontendInputProps & FormikIntlValidationProps;
+type Props = NavFrontendInputProps & FormikValidationProps;
 
 const FormikInput = <T extends {}>(): React.FunctionComponent<Props & FormikInputProps<T>> => ({
     label,

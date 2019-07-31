@@ -9,7 +9,7 @@ export type FieldArrayReplaceFn = (index: number, value: any) => void;
 export type FieldArrayPushFn = (obj: any) => void;
 export type FieldArrayRemoveFn = (index: number) => undefined;
 
-export interface FormikIntlValidationProps extends InjectedIntlProps {
+export interface FormikValidationProps extends InjectedIntlProps {
     validate?: FormikValidateFunction;
 }
 export type FormikInputValidationResult = FieldValidationResult | string | Promise<void> | undefined;

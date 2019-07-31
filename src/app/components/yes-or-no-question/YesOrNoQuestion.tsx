@@ -2,7 +2,7 @@ import * as React from 'react';
 import RadioPanelGroup from '../radio-panel-group/RadioPanelGroup';
 import { Field } from '../../types/PleiepengesøknadFormData';
 import { YesOrNo } from '../../types/YesOrNo';
-import { FormikIntlValidationProps } from 'app/types/FormikProps';
+import { FormikValidationProps } from 'app/types/FormikProps';
 import { injectIntl } from 'react-intl';
 
 interface YesOrNoQuestionProps {
@@ -11,7 +11,7 @@ interface YesOrNoQuestionProps {
     helperText?: string;
 }
 
-const YesOrNoQuestion: React.FunctionComponent<YesOrNoQuestionProps & FormikIntlValidationProps> = ({
+const YesOrNoQuestion: React.FunctionComponent<YesOrNoQuestionProps & FormikValidationProps> = ({
     legend,
     name,
     validate,

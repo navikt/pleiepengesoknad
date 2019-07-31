@@ -3,7 +3,7 @@ import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from '../../utils/navFrontendUtils';
 import CheckboxPanelGroupBase from '../checkbox-panel-group-base/CheckboxPanelGroupBase';
 import { removeElementFromArray } from '../../utils/listUtils';
-import { FormikValidateFunction, FormikIntlValidationProps } from 'app/types/FormikProps';
+import { FormikValidateFunction, FormikValidationProps } from 'app/types/FormikProps';
 
 interface FormikCheckboxPanelProps {
     label: string;
@@ -21,7 +21,7 @@ interface FormikCheckboxPanelGroupProps<T> {
 }
 
 const FormikCheckboxPanelGroup = <T extends {}>(): React.FunctionComponent<
-    FormikCheckboxPanelGroupProps<T> & FormikIntlValidationProps
+    FormikCheckboxPanelGroupProps<T> & FormikValidationProps
 > => ({ name, validate, legend, checkboxes, helperText, intl }) => (
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {

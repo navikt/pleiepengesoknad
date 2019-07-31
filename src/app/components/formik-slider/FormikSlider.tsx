@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from '../../utils/navFrontendUtils';
 import SliderBase, { SliderBasePublicProps } from '../slider-base/SliderBase';
-import { FormikValidateFunction, FormikIntlValidationProps } from 'app/types/FormikProps';
+import { FormikValidateFunction, FormikValidationProps } from 'app/types/FormikProps';
 
 interface FormikSliderProps<T> {
     name: T;
@@ -12,7 +12,7 @@ interface FormikSliderProps<T> {
 }
 
 const FormikSlider = <T extends {}>(): React.FunctionComponent<
-    FormikSliderProps<T> & SliderBasePublicProps & FormikIntlValidationProps
+    FormikSliderProps<T> & SliderBasePublicProps & FormikValidationProps
 > => ({ label, name, validate, intl, ...otherInputProps }) => (
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, submitCount } }: FormikFieldProps) => {
