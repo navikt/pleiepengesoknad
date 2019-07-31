@@ -2,137 +2,165 @@ import { YesOrNo } from '../types/YesOrNo';
 import { fødselsnummerIsValid, FødselsnummerValidationErrorReason } from './fødselsnummerValidator';
 import { isMoreThan3YearsAgo } from '../utils/dateUtils';
 import { attachmentHasBeenUploaded } from '../utils/attachmentUtils';
-
+import { FieldValidationResult } from './types';
 const moment = require('moment');
+
+export enum FieldValidationErrors {
+    'påkrevd' = 'fieldvalidation.påkrevd',
+    'fødselsnummer_11siffer' = 'fieldvalidation.fødselsnummer.11siffer',
+    'fødselsnummer_ugyldig' = 'fieldvalidation.fødselsnummer.ugyldig',
+    'foreløpigFødselsnummer_ugyldig' = 'fieldvalidation.foreløpigFødselsnummer.ugyldig',
+    'navn_maksAntallTegn' = 'fieldvalidation.navn.maksAntallTegn',
+    'relasjon_maksAntallTegn' = 'fieldvalidation.relasjon.maksAntallTegn',
+    'fradato_merEnnTreÅr' = 'fieldvalidation.fradato.merEnnTreÅr',
+    'fradato_erEtterTildato' = 'fieldvalidation.fradato.erEtterTildato',
+    'tildato_merEnnTreÅr' = 'fieldvalidation.tildato.merEnnTreÅr',
+    'tildato_erFørFradato' = 'fieldvalidation.tildato.erFørFradato',
+    'legeerklæring_mangler' = 'fieldvalidation.legeerklæring.mangler',
+    'legeerklæring_forMangeFiler' = 'fieldvalidation.legeerklæring.forMangeFiler',
+    'grad_ugyldig' = 'fieldvalidation.grad.ugyldig'
+}
 
 export const hasValue = (v: any) => v !== '' && v !== undefined && v !== null;
 
-export const validateFødselsnummer = (v: string): string | undefined => {
+const fieldIsRequiredError = () => fieldValidationError(FieldValidationErrors.påkrevd);
+
+export const validateFødselsnummer = (v: string): FieldValidationResult => {
     const [isValid, reasons] = fødselsnummerIsValid(v);
-    let errorMessage;
     if (!isValid) {
         if (reasons.includes(FødselsnummerValidationErrorReason.MustConsistOf11Digits)) {
-            errorMessage = 'Fødselsnummeret må bestå av 11 siffer';
+            return fieldValidationError(FieldValidationErrors.fødselsnummer_11siffer);
         } else {
-            errorMessage = 'Fødselsnummeret er ugyldig';
+            return fieldValidationError(FieldValidationErrors.fødselsnummer_ugyldig);
         }
     }
-    return errorMessage;
 };
 
-export const validateForeløpigFødselsnummer = (v: string): string | undefined => {
+export const validateForeløpigFødselsnummer = (v: string): FieldValidationResult => {
     if (!hasValue(v)) {
         return undefined;
     }
 
     const elevenDigits = new RegExp('^\\d{11}$');
     if (!elevenDigits.test(v)) {
-        return 'Det foreløpige fødselsnummeret / D-nummeret må bestå av 11 siffer';
+        return fieldValidationError(FieldValidationErrors.foreløpigFødselsnummer_ugyldig);
     }
     return undefined;
 };
 
-export const validateValgtBarn = (v: string): string | undefined => {
-    let result;
+export const validateValgtBarn = (v: string): FieldValidationResult => {
     if (!hasValue(v)) {
-        result = 'Feltet er påkrevd';
+        return fieldIsRequiredError();
     }
-    return result;
+    return undefined;
 };
 
-export const validateNavn = (v: string, isRequired?: boolean): string | undefined => {
+export const validateNavn = (v: string, isRequired?: boolean): FieldValidationResult => {
     if (isRequired === true && !hasValue(v)) {
-        return 'Feltet er påkrevd';
+        return fieldIsRequiredError();
     }
 
     const maxNumOfLetters = 50;
     const nameIsValid = v.length <= maxNumOfLetters;
 
-    return nameIsValid ? undefined : `Navnet kan være maks ${maxNumOfLetters} tegn`;
+    return nameIsValid
+        ? undefined
+        : fieldValidationError(FieldValidationErrors.navn_maksAntallTegn, { maxNumOfLetters });
 };
 
-export const validateRelasjonTilBarnet = (v: string): string | undefined => {
+export const validateRelasjonTilBarnet = (v: string): FieldValidationResult => {
     if (!hasValue(v)) {
-        return 'Feltet er påkrevd';
+        return fieldIsRequiredError();
     }
 
     const maxNumOfLetters = 15;
     const relasjonIsValid = v.length <= maxNumOfLetters;
 
-    return relasjonIsValid ? undefined : `Din relasjon til barnet kan maks være beskrevet på ${maxNumOfLetters} tegn`;
+    return relasjonIsValid
+        ? undefined
+        : fieldValidationError(FieldValidationErrors.relasjon_maksAntallTegn, { maxNumOfLetters });
 };
 
-export const validateFradato = (fraDato?: Date, tilDato?: Date): string | undefined => {
+export const validateFradato = (fraDato?: Date, tilDato?: Date): FieldValidationResult => {
     if (!hasValue(fraDato)) {
-        return 'Feltet er påkrevd';
+        return fieldIsRequiredError();
     }
 
     if (isMoreThan3YearsAgo(fraDato!)) {
-        return 'Du kan ikke søke om pleiepenger for en periode som er mer enn tre år tilbake i tid';
+        return fieldValidationError(FieldValidationErrors.fradato_merEnnTreÅr);
     }
 
     if (hasValue(tilDato)) {
         if (moment(fraDato).isAfter(tilDato)) {
-            return 'Fra-datoen kan ikke være senere enn til-datoen';
+            return fieldValidationError(FieldValidationErrors.fradato_erEtterTildato);
         }
     }
 
     return undefined;
 };
 
-export const validateTildato = (tilDato?: Date, fraDato?: Date): string | undefined => {
+export const validateTildato = (tilDato?: Date, fraDato?: Date): FieldValidationResult => {
     if (!hasValue(tilDato)) {
-        return 'Feltet er påkrevd';
+        return fieldIsRequiredError();
     }
 
     if (isMoreThan3YearsAgo(tilDato!)) {
-        return 'Du kan ikke søke om pleiepenger for en periode som er mer enn tre år tilbake i tid';
+        return fieldValidationError(FieldValidationErrors.tildato_merEnnTreÅr);
     }
 
     if (hasValue(fraDato)) {
         if (moment(tilDato).isBefore(fraDato)) {
-            return 'Til-datoen kan ikke være tidligere enn fra-datoen';
+            return fieldValidationError(FieldValidationErrors.tildato_erFørFradato);
         }
     }
 
     return undefined;
 };
 
-export const validateYesOrNoIsAnswered = (answer: YesOrNo): string | undefined => {
+export const validateYesOrNoIsAnswered = (answer: YesOrNo): FieldValidationResult => {
     if (answer === YesOrNo.UNANSWERED) {
-        return 'Feltet er påkrevd';
+        return fieldIsRequiredError();
     }
     return undefined;
 };
 
-export const validateLegeerklæring = (attachments: Attachment[]): string | undefined => {
+export const validateLegeerklæring = (attachments: Attachment[]): FieldValidationResult => {
     const uploadedAttachments = attachments.filter((attachment) => attachmentHasBeenUploaded(attachment));
     if (uploadedAttachments.length === 0) {
-        return 'Du må laste opp en legeerklæring';
+        return fieldValidationError(FieldValidationErrors.legeerklæring_mangler);
     }
     if (uploadedAttachments.length > 3) {
-        return 'Du kan maksimalt laste opp 3 bilder';
+        return fieldValidationError(FieldValidationErrors.legeerklæring_forMangeFiler);
     }
     return undefined;
 };
 
-export const validateGrad = (grad: number | string): string | undefined => {
+export const validateGrad = (grad: number | string): FieldValidationResult => {
     if (typeof grad === 'string') {
         const gradNumber = +grad;
         if (Number.isInteger(gradNumber)) {
             if (gradNumber < 20 || gradNumber > 100) {
-                return 'Graden må oppgis som et heltall mellom 20 og 100 prosent';
+                return fieldValidationError(FieldValidationErrors.grad_ugyldig);
             } else {
                 return undefined;
             }
         } else {
-            return 'Graden må oppgis som et heltall mellom 20 og 100 prosent';
+            return fieldValidationError(FieldValidationErrors.grad_ugyldig);
         }
     } else {
         if (grad < 20 || grad > 100) {
-            return 'Graden må oppgis som et heltall mellom 20 og 100 prosent';
+            return fieldValidationError(FieldValidationErrors.grad_ugyldig);
         }
     }
 
     return undefined;
+};
+
+export const fieldValidationError = (key: FieldValidationErrors | undefined, values?: any): FieldValidationResult => {
+    return key
+        ? {
+              key,
+              values
+          }
+        : undefined;
 };

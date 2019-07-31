@@ -1,21 +1,22 @@
 import * as React from 'react';
 import { BekreftCheckboksPanel as NAVConfirmationCheckboxPanel } from 'nav-frontend-skjema';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
-import { getValidationErrorProps } from '../../utils/navFrontendUtils';
+import { getValidationErrorPropsWithIntl } from '../../utils/navFrontendUtils';
+import { FormikValidateFunction, FormikValidationProps } from 'app/types/FormikProps';
 
 interface FormikConfirmationCheckboxPanelProps<T> {
     label: string;
     name: T;
-    validate?: ((value: any) => string | Promise<void> | undefined);
+    validate?: FormikValidateFunction;
     children?: React.ReactNode | React.ReactChildren;
 }
 
 const FormikConfirmationCheckboxPanel = <T extends {}>(): React.FunctionComponent<
-    FormikConfirmationCheckboxPanelProps<T>
-> => ({ children, label, name, validate }) => (
+    FormikConfirmationCheckboxPanelProps<T> & FormikValidationProps
+> => ({ children, label, name, validate, intl }) => (
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {
-            const errorMsgProps = submitCount > 0 ? getValidationErrorProps(errors, field.name) : {};
+            const errorMsgProps = submitCount > 0 ? getValidationErrorPropsWithIntl(intl, errors, field.name) : {};
             return (
                 <NAVConfirmationCheckboxPanel
                     className="skjemaelement"

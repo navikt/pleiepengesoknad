@@ -1,25 +1,22 @@
 import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
-import { getValidationErrorProps } from '../../utils/navFrontendUtils';
 import DatepickerBase, { DateLimitiations } from '../datepicker-base/DatepickerBase';
+import { FormikValidateFunction, FormikValidationProps } from 'app/types/FormikProps';
+import { getValidationErrorPropsWithIntl } from 'app/utils/navFrontendUtils';
 
 export interface FormikDatepickerProps<T> {
     name: T;
     label: string;
-    validate?: (value: any) => string | Promise<void> | undefined;
+    validate?: FormikValidateFunction;
     dateLimitations?: DateLimitiations;
 }
 
-const FormikDatepicker = <T extends {}>(): React.FunctionComponent<FormikDatepickerProps<T>> => ({
-    name,
-    validate,
-    label,
-    dateLimitations,
-    ...otherProps
-}) => (
+const FormikDatepicker = <T extends {}>(): React.FunctionComponent<
+    FormikDatepickerProps<T> & FormikValidationProps
+> => ({ name, validate, label, dateLimitations, intl, ...otherProps }) => (
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {
-            const errorMsgProps = submitCount > 0 ? getValidationErrorProps(errors, field.name) : {};
+            const errorMsgProps = submitCount > 0 ? getValidationErrorPropsWithIntl(intl, errors, field.name) : {};
             return (
                 <DatepickerBase
                     id={`${name}`}

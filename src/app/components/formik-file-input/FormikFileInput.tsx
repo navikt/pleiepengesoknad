@@ -1,23 +1,24 @@
 import * as React from 'react';
 import { ArrayHelpers, Field as FormikField, FieldArray, FieldProps as FormikFieldProps } from 'formik';
-import { getValidationErrorProps } from '../../utils/navFrontendUtils';
+import { getValidationErrorPropsWithIntl } from '../../utils/navFrontendUtils';
 import FileInputBase from '../file-input-base/FileInputBase';
+import { FormikValidationProps } from 'app/types/FormikProps';
 
 export interface FormikFileInputProps<T> {
     name: T;
     label: string;
     acceptedExtensions: string;
-    validate?: ((value: any) => string | Promise<void> | undefined);
     onFilesSelect: (files: File[], arrayHelpers: ArrayHelpers) => void;
     onClick?: () => void;
 }
 
-const FormikFileInput = <T extends {}>(): React.FunctionComponent<FormikFileInputProps<T>> => ({
+const FormikFileInput = <T extends {}>(): React.FunctionComponent<FormikFileInputProps<T> & FormikValidationProps> => ({
     label,
     name,
     acceptedExtensions,
     validate,
     onFilesSelect,
+    intl,
     onClick
 }) => (
     <FieldArray
@@ -25,7 +26,8 @@ const FormikFileInput = <T extends {}>(): React.FunctionComponent<FormikFileInpu
         render={(arrayHelpers) => (
             <FormikField validate={validate} name={name}>
                 {({ field, form: { errors, submitCount } }: FormikFieldProps) => {
-                    const errorMsgProps = submitCount > 0 ? getValidationErrorProps(errors, field.name) : {};
+                    const errorMsgProps =
+                        submitCount > 0 ? getValidationErrorPropsWithIntl(intl, errors, field.name) : {};
                     return (
                         <FileInputBase
                             id={field.name}

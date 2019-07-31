@@ -11,13 +11,13 @@ import {
     VALID_EXTENSIONS
 } from '../../utils/attachmentUtils';
 import { uploadFile } from '../../api/api';
-import { FieldArrayPushFn, FieldArrayReplaceFn } from '../../types/FormikProps';
-import * as apiUtils from "../../utils/apiUtils";
+import { FieldArrayPushFn, FieldArrayReplaceFn, FormikValidateFunction } from '../../types/FormikProps';
+import * as apiUtils from '../../utils/apiUtils';
 
 interface FormikFileUploader {
     name: Field;
     label: string;
-    validate?: ((value: any) => string | Promise<void> | undefined);
+    validate?: FormikValidateFunction;
     onFileInputClick?: () => void;
     onErrorUploadingAttachments: (files: File[]) => void;
     onUnauthorizedOrForbiddenUpload: () => void;

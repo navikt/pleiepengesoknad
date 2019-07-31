@@ -8,11 +8,15 @@ import {
     validateNavn,
     validateRelasjonTilBarnet,
     validateTildato,
-    validateYesOrNoIsAnswered
+    validateYesOrNoIsAnswered,
+    FieldValidationErrors,
+    fieldValidationError
 } from '../fieldValidations';
 import * as dateUtils from './../../utils/dateUtils';
 import Mock = jest.Mock;
 import { YesOrNo } from '../../types/YesOrNo';
+import { FieldValidationResult } from '../types';
+
 const moment = require('moment');
 
 jest.mock('../fødselsnummerValidator', () => {
@@ -31,7 +35,7 @@ jest.mock('../../utils/dateUtils', () => {
 });
 
 describe('fieldValidations', () => {
-    const fieldRequiredErrorMsg = 'Feltet er påkrevd';
+    const fieldRequiredError = fieldValidationError(FieldValidationErrors.påkrevd);
 
     describe('hasValue', () => {
         it('should return true if provided value is not undefined, null or empty string', () => {
@@ -60,14 +64,14 @@ describe('fieldValidations', () => {
             ]);
             const result = validateFødselsnummer(mockedFnr);
             expect(fødselsnummerValidator.fødselsnummerIsValid).toHaveBeenCalledWith(mockedFnr);
-            expect(result).toEqual('Fødselsnummeret må bestå av 11 siffer');
+            expect(result).toEqual(fieldValidationError(FieldValidationErrors.fødselsnummer_11siffer));
         });
 
         it('should return an error message saying fnr format is validation has failed, but reason is not MustConsistOf11Digits', () => {
             (fødselsnummerValidator.fødselsnummerIsValid as Mock).mockReturnValue([false, []]);
             const result = validateFødselsnummer(mockedFnr);
             expect(fødselsnummerValidator.fødselsnummerIsValid).toHaveBeenCalledWith(mockedFnr);
-            expect(result).toEqual('Fødselsnummeret er ugyldig');
+            expect(result).toEqual(fieldValidationError(FieldValidationErrors.fødselsnummer_ugyldig));
         });
 
         it('should return undefined if fødselsnummer is valid', () => {
@@ -85,22 +89,23 @@ describe('fieldValidations', () => {
         });
 
         it('should return an error message saying it must be 11 digits, if provided value is something other than a string with 11 digits', () => {
-            const errorMsg = 'Det foreløpige fødselsnummeret / D-nummeret må bestå av 11 siffer';
-            expect(validateForeløpigFødselsnummer('1234512345')).toEqual(errorMsg);
-            expect(validateForeløpigFødselsnummer('1234512345a')).toEqual(errorMsg);
-            expect(validateForeløpigFødselsnummer('123451234512')).toEqual(errorMsg);
-            expect(validateForeløpigFødselsnummer('12345123451a')).toEqual(errorMsg);
+            const error: FieldValidationResult = { key: FieldValidationErrors.foreløpigFødselsnummer_ugyldig };
+            expect(validateForeløpigFødselsnummer('1234512345')).toEqual(error);
+            expect(validateForeløpigFødselsnummer('1234512345a')).toEqual(error);
+            expect(validateForeløpigFødselsnummer('123451234512')).toEqual(error);
+            expect(validateForeløpigFødselsnummer('12345123451a')).toEqual(error);
         });
     });
 
     describe('validateNavn', () => {
         it('should return an error message saying field is required if provided value is empty string and isRequired is set to true', () => {
-            expect(validateNavn('', true)).toEqual(fieldRequiredErrorMsg);
+            expect(validateNavn('', true)).toEqual(fieldRequiredError);
         });
 
         it('should return an error message saying field has to be 50 letters or less, if length is longer than 50 letters', () => {
-            const tooLongErrorMsg = 'Navnet kan være maks 50 tegn';
-            expect(validateNavn('a'.repeat(51))).toEqual(tooLongErrorMsg);
+            expect(validateNavn('a'.repeat(51))).toEqual(
+                fieldValidationError(FieldValidationErrors.navn_maksAntallTegn, { maxNumOfLetters: 50 })
+            );
         });
 
         it('should return undefined if value is valid (length > 0 && length <= 50)', () => {
@@ -114,12 +119,13 @@ describe('fieldValidations', () => {
 
     describe('validateRelasjonTilBarnet', () => {
         it('should return an error message saying field is required if provided value is empty string', () => {
-            expect(validateRelasjonTilBarnet('')).toEqual(fieldRequiredErrorMsg);
+            expect(validateRelasjonTilBarnet('')).toEqual(fieldRequiredError);
         });
 
         it('should return an error message saying field has to be 15 letters or less, if length is longer than 15 letters', () => {
-            const tooLongErrorMsg = 'Din relasjon til barnet kan maks være beskrevet på 15 tegn';
-            expect(validateRelasjonTilBarnet('a'.repeat(16))).toEqual(tooLongErrorMsg);
+            expect(validateRelasjonTilBarnet('a'.repeat(16))).toEqual(
+                fieldValidationError(FieldValidationErrors.relasjon_maksAntallTegn, { maxNumOfLetters: 15 })
+            );
         });
 
         it('should return undefined if value is valid (length > 0 && length <= 15)', () => {
@@ -127,27 +133,27 @@ describe('fieldValidations', () => {
         });
     });
 
-    const dateIsMoreThan3YearBackInTimeErrorMsg =
-        'Du kan ikke søke om pleiepenger for en periode som er mer enn tre år tilbake i tid';
     describe('validateFradato', () => {
         beforeEach(() => {
             jest.resetAllMocks();
         });
 
         it('should return an error message saying field is required if provided value is undefined', () => {
-            expect(validateFradato(undefined)).toEqual(fieldRequiredErrorMsg);
+            expect(validateFradato(undefined)).toEqual(fieldRequiredError);
         });
 
         it('should return an error message saying date cannot be more than 3 years back in time, if date is more than 3 years back in time', () => {
             (dateUtils.isMoreThan3YearsAgo as Mock).mockReturnValue(true);
-            expect(validateFradato(new Date())).toEqual(dateIsMoreThan3YearBackInTimeErrorMsg);
+            expect(validateFradato(new Date())).toEqual(
+                fieldValidationError(FieldValidationErrors.fradato_merEnnTreÅr)
+            );
         });
 
         it('should return an error message saying that fraDato cannot be after tilDato, if fraDato is after tilDato', () => {
             const today = moment();
             const yesterday = today.clone().subtract(1, 'day');
             const result = validateFradato(today.toDate(), yesterday.toDate());
-            expect(result).toEqual('Fra-datoen kan ikke være senere enn til-datoen');
+            expect(result).toEqual(fieldValidationError(FieldValidationErrors.fradato_erEtterTildato));
         });
 
         it('should return undefined if fraDato is inside the last 3 years and equal to or earlier than tilDato', () => {
@@ -167,19 +173,21 @@ describe('fieldValidations', () => {
         });
 
         it('should return an error message saying field is required if provided value is undefined', () => {
-            expect(validateTildato(undefined)).toEqual(fieldRequiredErrorMsg);
+            expect(validateTildato(undefined)).toEqual(fieldRequiredError);
         });
 
         it('should return an error message saying date cannot be more than 3 years back in time, if date is more than 3 years back in time', () => {
             (dateUtils.isMoreThan3YearsAgo as Mock).mockReturnValue(true);
-            expect(validateFradato(new Date())).toEqual(dateIsMoreThan3YearBackInTimeErrorMsg);
+            expect(validateTildato(new Date())).toEqual(
+                fieldValidationError(FieldValidationErrors.tildato_merEnnTreÅr)
+            );
         });
 
         it('should return an error message saying that tilDato cannot be before fraDato, if tilDato is before fraDato', () => {
             const today = moment();
             const yesterday = today.clone().subtract(1, 'day');
             const result = validateTildato(yesterday.toDate(), today.toDate());
-            expect(result).toEqual('Til-datoen kan ikke være tidligere enn fra-datoen');
+            expect(result).toEqual(fieldValidationError(FieldValidationErrors.tildato_erFørFradato));
         });
 
         it('should return undefined if tilDato is inside the last 3 years and equal to or later than fraDato', () => {
@@ -203,7 +211,7 @@ describe('fieldValidations', () => {
         });
 
         it('should return error message saying that field is required if value is YesOrNo.UNANSWERED', () => {
-            expect(validateYesOrNoIsAnswered(YesOrNo.UNANSWERED)).toEqual(fieldRequiredErrorMsg);
+            expect(validateYesOrNoIsAnswered(YesOrNo.UNANSWERED)).toEqual(fieldRequiredError);
         });
     });
 
@@ -215,12 +223,14 @@ describe('fieldValidations', () => {
         const failedAttachment2: Attachment = { file: fileMock, pending: false, uploaded: false };
 
         it('should return error message saying that files must be uploaded if list is empty', () => {
-            expect(validateLegeerklæring([])).toEqual('Du må laste opp en legeerklæring');
+            expect(validateLegeerklæring([])).toEqual(
+                fieldValidationError(FieldValidationErrors.legeerklæring_mangler)
+            );
         });
 
         it('should return error message saying that files must be uploaded if list contains no successfully uploaded attachments', () => {
             expect(validateLegeerklæring([failedAttachment1, failedAttachment2])).toEqual(
-                'Du må laste opp en legeerklæring'
+                fieldValidationError(FieldValidationErrors.legeerklæring_mangler)
             );
         });
 
@@ -233,7 +243,7 @@ describe('fieldValidations', () => {
         it('should return error message saying no more than 3 files if list contains 4 files or more', () => {
             expect(
                 validateLegeerklæring([uploadedAttachment, uploadedAttachment, uploadedAttachment, uploadedAttachment])
-            ).toEqual('Du kan maksimalt laste opp 3 bilder');
+            ).toEqual(fieldValidationError(FieldValidationErrors.legeerklæring_forMangeFiler));
         });
     });
 });

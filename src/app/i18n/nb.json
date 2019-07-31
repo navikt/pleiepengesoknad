@@ -132,5 +132,19 @@
     "page.ikkeMyndig.banner.lastNed": "Her kan du laste ned papirsøknaden",
     "page.ikkeMyndig.tittel": "Søknad om pleiepenger",
 
-    "vedleggsliste.fjernKnapp": "Fjern vedlegg"
+    "vedleggsliste.fjernKnapp": "Fjern vedlegg",
+
+    "fieldvalidation.påkrevd": "Feltet er påkrevd",
+    "fieldvalidation.fødselsnummer.11siffer": "Fødselsnummeret må bestå av 11 siffer",
+    "fieldvalidation.fødselsnummer.ugyldig": "Fødselsnummeret er ugyldig",
+    "fieldvalidation.foreløpigFødselsnummer.ugyldig": "Det foreløpige fødselsnummeret / D-nummeret må bestå av 11 siffer",
+    "fieldvalidation.navn.maksAntallTegn": "Navnet kan være maks {maxNumOfLetters} tegn",
+    "fieldvalidation.relasjon.maksAntallTegn": "Din relasjon til barnet kan maks være beskrevet på {maxNumOfLetters} tegn",
+    "fieldvalidation.fradato.merEnnTreÅr": "Du kan ikke søke om pleiepenger for en periode som er mer enn tre år tilbake i tid",
+    "fieldvalidation.fradato.erEtterTildato": "Fra-datoen kan ikke være senere enn til-datoen",
+    "fieldvalidation.tildato.merEnnTreÅr": "Du kan ikke søke om pleiepenger for en periode som er mer enn tre år tilbake i tid",
+    "fieldvalidation.tildato.erFørFradato": "Til-datoen kan ikke være tidligere enn fra-datoen",
+    "fieldvalidation.legeerklæring.mangler": "Du må laste opp en legeerklæring",
+    "fieldvalidation.legeerklæring.forMangeFiler": "Du kan maksimalt laste opp 3 bilder",
+    "fieldvalidation.grad.ugyldig": "Graden må oppgis som et heltall mellom 20 og 100 prosent"
 }

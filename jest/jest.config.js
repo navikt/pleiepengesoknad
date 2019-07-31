@@ -6,7 +6,8 @@ module.exports = {
     testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$',
     moduleNameMapper: {
         '\\.(css|jpg|png|svg|less)$': '<rootDir>/node_modules/jest-css-modules',
-        'nav-(.*)-style': '<rootDir>/node_modules/jest-css-modules'
+        'nav-(.*)-style': '<rootDir>/node_modules/jest-css-modules',
+        '^app/(.*)': '<rootDir>/src/app/$1'
     },
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
     transformIgnorePatterns: ['node_modules/(?!(nav-frontend-spinner-style)/)'],
