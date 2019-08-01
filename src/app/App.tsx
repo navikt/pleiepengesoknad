@@ -13,13 +13,13 @@ import './globalStyles.less';
 const localeFromSessionStorage = getLocaleFromSessionStorage();
 
 const App: React.FunctionComponent = () => {
-    const [locale, setLocale] = React.useState<{ activeLocale: Locale }>({ activeLocale: localeFromSessionStorage });
+    const [locale, setLocale] = React.useState<Locale>(localeFromSessionStorage);
     return (
         <ApplicationWrapper
-            locale={locale.activeLocale}
+            locale={locale}
             onChangeLocale={(activeLocale: Locale) => {
                 setLocaleInSessionStorage(activeLocale);
-                setLocale({ activeLocale });
+                setLocale(activeLocale);
             }}>
             <Switch>
                 <Route path={routeConfig.SØKNAD_ROUTE_PREFIX} component={Pleiepengesøknad} />
