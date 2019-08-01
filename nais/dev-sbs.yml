@@ -1,48 +1,50 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  name: pleiepengesoknad
-  namespace: default
-  labels:
-    team: {{team}}
+    name: pleiepengesoknad
+    namespace: default
+    labels:
+        team: {{team}}
 spec:
-  image: {{version}}
-  port: 8080
-  liveness:
-    path: isalive
-    initialDelay: 20
-    timeout: 1
-    periodSeconds: 5
-    failureThreshold: 10
-  readiness:
-    path: isready
-    initialDelay: 20
-    timeout: 1
-  resources:
-    limits:
-      cpu: 2000m
-      memory: 512Mi
-    requests:
-      cpu: 50m
-      memory: 128Mi
-  ingresses:
-    - https://pleiepengesoknad-q.nav.no
-    - https://pleiepengesoknad.nais.oera-q.local
-  replicas:
-    min: 1
-    max: 1
-    cpuThresholdPercentage: 90
-  prometheus:
-    enabled: true
-    path: /metrics
-  vault:
-    enabled: false
-  env:
-    - name: APPRES_CMS_URL
-      value: http://appres-q1.nav.no
-    - name: API_URL
-      value: https://pleiepengesoknad-api-q.nav.no
-    - name: LOGIN_URL
-      value: https://loginservice-q.nav.no/login?redirect=https://pleiepengesoknad-q.nav.no/soknad
-    - name: HENT_BARN_FEATURE
-      value: "on"
+    image: {{version}}
+    port: 8080
+    liveness:
+        path: isalive
+        initialDelay: 20
+        periodSeconds: 5
+        timeout: 1
+        failureThreshold: 10
+    readiness:
+        path: isready
+        initialDelay: 20
+        timeout: 1
+    resources:
+        limits:
+            cpu: 2000m
+            memory: 512Mi
+        requests:
+            cpu: 50m
+            memory: 128Mi
+    ingresses:
+        - https://pleiepengesoknad-q.nav.no
+        - https://pleiepengesoknad.nais.oera-q.local
+    replicas:
+        min: 1
+        max: 1
+        cpuThresholdPercentage: 90
+    prometheus:
+        enabled: true
+        path: /metrics
+    vault:
+        enabled: false
+    env:
+        - name: APPRES_CMS_URL
+          value: http://appres-q1.nav.no
+        - name: API_URL
+          value: https://pleiepengesoknad-api-q.nav.no
+        - name: LOGIN_URL
+          value: https://loginservice-q.nav.no/login?redirect=https://pleiepengesoknad-q.nav.no/soknad
+        - name: HENT_BARN_FEATURE
+          value: "on"
+        - name: TOGGLE_LANGUAGE
+          value: "on"

@@ -31,7 +31,7 @@ const BehandlingAvPersonopplysningerContent: React.FunctionComponent<InjectedInt
                 <li>{getText('opplysninger.2')}</li>
                 <li>{getText('opplysninger.3')}</li>
                 <li>{getText('opplysninger.4')}</li>
-                <li>{getText('opplysninger.4')}</li>
+                <li>{getText('opplysninger.5')}</li>
             </ul>
             <Normaltekst>{getText('opplysninger.part2')}</Normaltekst>
         </Box>

@@ -9,6 +9,7 @@ import { containsAnyUploadedAttachments, fileExtensionIsValid } from '../../util
 import Box from '../box/Box';
 import { Normaltekst } from 'nav-frontend-typografi';
 import AttachmentListWithDeletion from '../attachment-list-with-deletion/AttachmentListWithDeletion';
+import { FormattedMessage } from 'react-intl';
 
 interface LegeerklæringAttachmentListProps {
     includeDeletionFunctionality: boolean;
@@ -27,7 +28,11 @@ const LegeerklæringAttachmentList: React.FunctionComponent<Props> = ({
     );
 
     if (!containsAnyUploadedAttachments(legeerklæring)) {
-        const noAttachmentsText = <Normaltekst>Ingen vedlegg er lastet opp</Normaltekst>;
+        const noAttachmentsText = (
+            <Normaltekst>
+                <FormattedMessage id="vedleggsliste.ingenLegeerklæringLastetOpp" />
+            </Normaltekst>
+        );
         if (wrapNoAttachmentsInBox) {
             return <Box margin="m">{noAttachmentsText}</Box>;
         }

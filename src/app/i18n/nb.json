@@ -2,6 +2,9 @@
     "Ja": "Ja",
     "Nei": "Nei",
 
+    "locale.nb": "Bokmål - norsk",
+    "locale.nn": "Nynorsk - norsk",
+
     "gotoApplicationLink.lenketekst": "Gå til den digitale søknaden",
     "backlink.label": "Tilbake",
 
@@ -133,6 +136,7 @@
     "page.ikkeMyndig.tittel": "Søknad om pleiepenger",
 
     "vedleggsliste.fjernKnapp": "Fjern vedlegg",
+    "vedleggsliste.ingenLegeerklæringLastetOpp": "Ingen vedlegg er lastet opp",
 
     "fieldvalidation.påkrevd": "Feltet er påkrevd",
     "fieldvalidation.fødselsnummer.11siffer": "Fødselsnummeret må bestå av 11 siffer",
