@@ -5,6 +5,7 @@ import { userHasSubmittedValidForm } from '../../utils/formikUtils';
 import { connect } from 'formik';
 import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
 import { Field } from '../../types/PleiepengesøknadFormData';
+import { injectIntl, InjectedIntlProps } from 'react-intl';
 
 export interface FormikStepProps {
     onValidFormSubmit?: () => void;
@@ -14,7 +15,7 @@ export interface FormikStepProps {
 type Props = FormikStepProps & StepProps;
 type PropsWithFormik = Props & ConnectedFormikProps<Field>;
 
-class FormikStep extends React.Component<PropsWithFormik> {
+class FormikStep extends React.Component<PropsWithFormik & InjectedIntlProps> {
     constructor(props: PropsWithFormik) {
         super(props);
 
@@ -47,4 +48,4 @@ class FormikStep extends React.Component<PropsWithFormik> {
     }
 }
 
-export default connect<Props, Field>(FormikStep);
+export default injectIntl(connect<Props, Field>(FormikStep));

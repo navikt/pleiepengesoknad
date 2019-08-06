@@ -14,6 +14,35 @@
     "fileUploadErrors.part1": "Det har dessverre skjedd en feil under opplasting av følgende vedlegg:",
     "formikValidationErrorSummary.tittel": "Du må rette opp i følgende feil:",
 
+    "step.nextButtonLabel": "Fortsett",
+    "step.nextButtonAriaLabel": "Gå til neste steg",
+    "step.sendButtonLabel": "Send inn søknaden",
+    "step.sendButtonAriaLabel": "Send inn søknaden",
+
+    "step.opplysninger-om-barnet.pageTitle": "Pleiepengesøknad - opplysninger om barnet",
+    "step.opplysninger-om-barnet.stepTitle": "Barn",
+    "step.opplysninger-om-barnet.stepIndicatorLabel": "Om barnet",
+
+    "step.tidsrom.pageTitle": "Pleiepengesøknad - tidsrom",
+    "step.tidsrom.stepTitle": "Tidsrom",
+    "step.tidsrom.stepIndicatorLabel": "Tidsrom",
+
+    "step.arbeidsforhold.pageTitle": "Pleiepengesøknad - opplysninger om ditt arbeidsforhold",
+    "step.arbeidsforhold.stepTitle": "Arbeidsforhold",
+    "step.arbeidsforhold.stepIndicatorLabel": "Om ditt arbeidsforhold",
+
+    "step.medlemskap.pageTitle": "Pleiepengesøknad - utenlandsopphold",
+    "step.medlemskap.stepTitle": "Utenlandsopphold",
+    "step.medlemskap.stepIndicatorLabel": "Om dine utenlandsopphold",
+
+    "step.legeerklaering.pageTitle": "Pleiepengesøknad - legeerklæring",
+    "step.legeerklaering.stepTitle": "Legeerklæring",
+    "step.legeerklaering.stepIndicatorLabel": "Last opp din legeerklæring",
+
+    "step.oppsummering.pageTitle": "Pleiepengesøknad - oppsummering",
+    "step.oppsummering.stepTitle": "Oppsummering",
+    "step.oppsummering.stepIndicatorLabel": "Oppsummering",
+
     "introPage.tittel": "Søknad om pleiepenger - intro",
     "introPage.stegTittel": "Kan jeg bruke den digitale pleiepengesøknaden?",
     "introPage.tekst": "Den digitale søknaden er under utvikling og kan foreløpig ikke brukes av alle. Svar på to spørsmål, så får du vite om du kan søke digitalt.",

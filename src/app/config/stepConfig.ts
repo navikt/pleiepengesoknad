@@ -10,79 +10,69 @@ export enum StepID {
     'SUMMARY' = 'oppsummering'
 }
 
-export interface StepItemConfigInterface {
+export interface StepConfigItemTexts {
     pageTitle: string;
     stepTitle: string;
+    stepIndicatorLabel: string;
+    nextButtonLabel?: string;
+    nextButtonAriaLabel?: string;
+}
+export interface StepItemConfigInterface extends StepConfigItemTexts {
     index: number;
     nextStep?: StepID;
     backLinkHref?: string;
-    buttonLabel?: string;
-    stepIndicatorLabel: string;
-    buttonAriaLabel?: string;
 }
 
 export interface StepConfigInterface {
     [key: string]: StepItemConfigInterface;
 }
 
+const getStepConfigItemTextKeys = (stepId: StepID): StepConfigItemTexts => {
+    return {
+        pageTitle: `step.${stepId}.pageTitle`,
+        stepTitle: `step.${stepId}.stepTitle`,
+        stepIndicatorLabel: `step.${stepId}.stepIndicatorLabel`,
+        nextButtonLabel: 'step.nextButtonLabel',
+        nextButtonAriaLabel: 'step.nextButtonAriaLabel'
+    };
+};
+
 export const stepConfig: StepConfigInterface = {
     [StepID.OPPLYSNINGER_OM_BARNET]: {
-        pageTitle: 'Pleiepengesøknad - opplysninger om barnet',
-        stepTitle: 'Barn',
-        stepIndicatorLabel: 'Om barnet',
+        ...getStepConfigItemTextKeys(StepID.OPPLYSNINGER_OM_BARNET),
         index: 0,
         nextStep: StepID.TIDSROM,
-        backLinkHref: routeConfig.WELCOMING_PAGE_ROUTE,
-        buttonLabel: 'Fortsett',
-        buttonAriaLabel: 'Gå til neste steg'
+        backLinkHref: routeConfig.WELCOMING_PAGE_ROUTE
     },
     [StepID.TIDSROM]: {
-        pageTitle: 'Pleiepengesøknad',
-        stepTitle: 'Tidsrom',
-        stepIndicatorLabel: 'Tidsrom',
+        ...getStepConfigItemTextKeys(StepID.TIDSROM),
         index: 1,
         nextStep: StepID.ANSETTELSESFORHOLD,
-        backLinkHref: getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET),
-        buttonLabel: 'Fortsett',
-        buttonAriaLabel: 'Gå til neste steg'
+        backLinkHref: getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET)
     },
     [StepID.ANSETTELSESFORHOLD]: {
-        pageTitle: 'Pleiepengesøknad - opplysninger om ditt arbeidsforhold',
-        stepTitle: 'Arbeidsforhold',
-        stepIndicatorLabel: 'Om ditt arbeidsforhold',
+        ...getStepConfigItemTextKeys(StepID.ANSETTELSESFORHOLD),
         index: 2,
         nextStep: StepID.MEDLEMSKAP,
-        backLinkHref: getSøknadRoute(StepID.TIDSROM),
-        buttonLabel: 'Fortsett',
-        buttonAriaLabel: 'Gå til neste steg'
+        backLinkHref: getSøknadRoute(StepID.TIDSROM)
     },
     [StepID.MEDLEMSKAP]: {
-        pageTitle: 'Pleiepengesøknad - medlemskap',
-        stepTitle: 'Utenlandsopphold',
-        stepIndicatorLabel: 'Om dine utenlandsopphold',
+        ...getStepConfigItemTextKeys(StepID.MEDLEMSKAP),
         index: 3,
         nextStep: StepID.LEGEERKLÆRING,
-        backLinkHref: getSøknadRoute(StepID.ANSETTELSESFORHOLD),
-        buttonLabel: 'Fortsett',
-        buttonAriaLabel: 'Gå til neste steg'
+        backLinkHref: getSøknadRoute(StepID.ANSETTELSESFORHOLD)
     },
     [StepID.LEGEERKLÆRING]: {
-        pageTitle: 'Pleiepengesøknad - legeerklæring',
-        stepTitle: 'Legeerklæring',
-        stepIndicatorLabel: 'Last opp din legeerklæring',
+        ...getStepConfigItemTextKeys(StepID.LEGEERKLÆRING),
         index: 4,
         nextStep: StepID.SUMMARY,
-        backLinkHref: getSøknadRoute(StepID.MEDLEMSKAP),
-        buttonLabel: 'Fortsett',
-        buttonAriaLabel: 'Gå til neste steg'
+        backLinkHref: getSøknadRoute(StepID.MEDLEMSKAP)
     },
     [StepID.SUMMARY]: {
-        pageTitle: 'Pleiepengesøknad - oppsummering',
-        stepTitle: 'Oppsummering',
-        stepIndicatorLabel: 'Oppsummering',
+        ...getStepConfigItemTextKeys(StepID.SUMMARY),
         index: 5,
         backLinkHref: getSøknadRoute(StepID.LEGEERKLÆRING),
-        buttonLabel: 'Send inn søknaden',
-        buttonAriaLabel: 'Send inn søknaden'
+        nextButtonLabel: 'step.sendButtonLabel',
+        nextButtonAriaLabel: 'step.sendButtonAriaLabel'
     }
 };

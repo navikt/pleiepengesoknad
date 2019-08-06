@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Page from '../page/Page';
-import { stepConfig, StepID } from '../../config/stepConfig';
+import { stepConfig, StepID, StepConfigItemTexts } from '../../config/stepConfig';
 import bemHelper from '../../utils/bemUtils';
 import StepIndicator from '../step-indicator/StepIndicator';
 import { Hovedknapp as Button } from 'nav-frontend-knapper';
@@ -9,6 +9,9 @@ import StepBanner from '../step-banner/StepBanner';
 import { Systemtittel } from 'nav-frontend-typografi';
 import FormikValidationErrorSummary from '../formik-validation-error-summary/FormikValidationErrorSummary';
 import BackLinkWithFormikReset from '../back-link-with-formik-reset/BackLinkWithFormikReset';
+import { InjectedIntl, injectIntl } from 'react-intl';
+import { getStepTexts } from 'app/utils/stepUtils';
+
 import './step.less';
 
 const bem = bemHelper('step');
@@ -20,6 +23,7 @@ export interface StepProps {
     showButtonSpinner?: boolean;
     buttonDisabled?: boolean;
     useValidationErrorSummary?: boolean;
+    intl: InjectedIntl;
 }
 
 const Step: React.FunctionComponent<StepProps> = ({
@@ -29,13 +33,15 @@ const Step: React.FunctionComponent<StepProps> = ({
     showButtonSpinner,
     buttonDisabled,
     useValidationErrorSummary,
+    intl,
     children
 }) => {
     const conf = stepConfig[id];
+    const stepTexts: StepConfigItemTexts = getStepTexts(intl, id, stepConfig);
     return (
         <Page
             className={bem.className}
-            title={conf.pageTitle}
+            title={stepTexts.pageTitle}
             topContentRenderer={() => (
                 <>
                     <StepBanner text="Søknad om pleiepenger" />
@@ -47,7 +53,7 @@ const Step: React.FunctionComponent<StepProps> = ({
             <BackLinkWithFormikReset className={bem.element('backLink')} href={conf.backLinkHref!} />
             <StepIndicator stepConfig={stepConfig} activeStep={conf.index} />
             <Box margin="xxl">
-                <Systemtittel className={bem.element('title')}>{conf.stepTitle}</Systemtittel>
+                <Systemtittel className={bem.element('title')}>{stepTexts.stepTitle}</Systemtittel>
             </Box>
             <Box margin="xl">
                 <form onSubmit={handleSubmit}>
@@ -58,8 +64,8 @@ const Step: React.FunctionComponent<StepProps> = ({
                                 className={bem.element('button')}
                                 spinner={showButtonSpinner || false}
                                 disabled={buttonDisabled || false}
-                                aria-label={conf.buttonAriaLabel}>
-                                {conf.buttonLabel}
+                                aria-label={stepTexts.nextButtonAriaLabel}>
+                                {stepTexts.nextButtonLabel}
                             </Button>
                         </Box>
                     )}
@@ -69,4 +75,4 @@ const Step: React.FunctionComponent<StepProps> = ({
     );
 };
 
-export default Step;
+export default injectIntl(Step);

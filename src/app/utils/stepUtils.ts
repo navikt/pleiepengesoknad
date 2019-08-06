@@ -7,6 +7,24 @@ import {
     opplysningerOmTidsromStepIsValid,
     welcomingPageIsValid
 } from '../validation/stepValidations';
+import { StepConfigItemTexts, StepID, StepConfigInterface } from 'app/config/stepConfig';
+import { InjectedIntl } from 'react-intl';
+import intlHelper from './intlUtils';
+
+export const getStepTexts = (
+    intl: InjectedIntl,
+    stepId: StepID,
+    stepConfig: StepConfigInterface
+): StepConfigItemTexts => {
+    const conf = stepConfig[stepId];
+    return {
+        pageTitle: intlHelper(intl, conf.pageTitle),
+        stepTitle: intlHelper(intl, conf.stepTitle),
+        stepIndicatorLabel: intlHelper(intl, conf.stepIndicatorLabel),
+        nextButtonLabel: conf.nextButtonLabel ? intlHelper(intl, conf.nextButtonLabel) : undefined,
+        nextButtonAriaLabel: conf.nextButtonAriaLabel ? intlHelper(intl, conf.nextButtonAriaLabel) : undefined
+    };
+};
 
 export const opplysningerOmBarnetStepAvailable = (formData: PleiepengesøknadFormData) => welcomingPageIsValid(formData);
 
