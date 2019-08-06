@@ -18,9 +18,9 @@
     "introPage.stegTittel": "Kan eg bruke den digitale pleiepengesøknaden?",
     "introPage.tekst": "Den digitale søknaden er under utvikling og kan foreløpig ikkje brukast av alle. Svar på to spørsmål, så får du vite om du kan søkje digitalt.",
     "introPage.spm.selvstendigEllerFrilanser": "Er du sjølvstendig næringsdrivande eller frilansar?",
-    "introPage.spm.barnehageEllerSkole": "Forventar du at barnet kan vera noko i barnehage, skule eller liknande?",
+    "introPage.spm.barnehageEllerSkole": "Forventar du at barnet kan vere noko i barnehage, skule eller liknande?",
     "introPage.veileder.erSelvstendigEllerFrilanser": "Den digitale søknaden kan foreløpig ikkje brukast av sjølvstendig næringsdrivande og frilansarer.",
-    "introPage.veileder.skalIBarnehageEllerSkole": "Dersom barnet skal vera noko i barnehage, skule eller liknande, kan du foreløpig ikkje søkje digitalt.",
+    "introPage.veileder.skalIBarnehageEllerSkole": "Dersom barnet skal vere noko i barnehage, skule eller liknande, kan du foreløpig ikkje søkje digitalt.",
     "introPage.veileder.papirLenke.html": "Du fyller i staden ut <a href=\"{url}\" class=\"lenke\">søknaden på papir</a> og sender den i posten.",
 
     "welcomingPage.sidetittel": "Søknad om pleiepengar",
@@ -113,7 +113,7 @@
     "steg.oppsummering.bekrefterOpplysninger": "Eg bekreftar at opplysningane er riktige, og at eg ikkje har halde tilbake opplysningar som har betydning for retten til pleiepengar.",
     "steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet": "Du må bekrefte opplysningane",
 
-    "steg.ansettelsesforhold.hvilket.spm": "Kva jobb må du vera borte frå for å pleie barnet?",
+    "steg.ansettelsesforhold.hvilket.spm": "Kva jobb må du vere borte frå for å pleie barnet?",
     "steg.ansettelsesforhold.ingenOpplysninger": "Me har ikkje nokon opplysningar om arbeidsgjevar.",
     "steg.ansettelsesforhold.manglesOpplysninger": "Mangler det ein arbeidsgjevar her? Be arbeidsgjevaren din sende ny A-melding, enten via lønns- og personalsystemet eller gjennom Altinn.",
 
@@ -142,12 +142,12 @@
     "fieldvalidation.fødselsnummer.11siffer": "Fødselsnummeret må inneholde 11 siffer",
     "fieldvalidation.fødselsnummer.ugyldig": "Fødselsnummeret er ugyldig",
     "fieldvalidation.foreløpigFødselsnummer.ugyldig": "Det foreløpige fødselsnummeret / D-nummeret må inneholde av 11 siffer",
-    "fieldvalidation.navn.maksAntallTegn": "Navnet kan vera maks {maxNumOfLetters} tegn",
-    "fieldvalidation.relasjon.maksAntallTegn": "Din relasjon til barnet kan maks vera beskrivet på {maxNumOfLetters} tegn",
+    "fieldvalidation.navn.maksAntallTegn": "Navnet kan vere maks {maxNumOfLetters} tegn",
+    "fieldvalidation.relasjon.maksAntallTegn": "Din relasjon til barnet kan maks vere beskrivet på {maxNumOfLetters} tegn",
     "fieldvalidation.fradato.merEnnTreÅr": "Du kan ikkje søkje om pleiepengar for ein periode som er meir enn tre år tilbake i tid",
-    "fieldvalidation.fradato.erEtterTildato": "Frå-datoen kan ikkje vera seinare enn til-datoen",
+    "fieldvalidation.fradato.erEtterTildato": "Frå-datoen kan ikkje vere seinare enn til-datoen",
     "fieldvalidation.tildato.merEnnTreÅr": "Du kan ikkje søkje om pleiepengar for ein periode som er meir enn tre år tilbake i tid",
-    "fieldvalidation.tildato.erFørFradato": "Til-datoen kan ikkje vera tidligere enn frå-datoen",
+    "fieldvalidation.tildato.erFørFradato": "Til-datoen kan ikkje vere tidligere enn frå-datoen",
     "fieldvalidation.legeerklæring.mangler": "Du må laste opp ei legeerklæring",
     "fieldvalidation.legeerklæring.forMangeFiler": "Du kan maksimalt laste opp 3 bilete",
     "fieldvalidation.grad.ugyldig": "Graden må oppgis som eit heltall mellom 20 og 100 prosent"
