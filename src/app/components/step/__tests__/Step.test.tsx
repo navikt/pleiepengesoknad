@@ -14,10 +14,6 @@ const renderWrappedInMemoryRouter = (child: React.ReactNode) =>
 
 const handleSubmit = jest.fn();
 
-export const intlForTests = {
-    formatMessage: jest.fn((a: any, b: any) => a + b)
-};
-
 describe('<Step>', () => {
     const stepID: StepID = StepID.OPPLYSNINGER_OM_BARNET;
 
