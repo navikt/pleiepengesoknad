@@ -23,7 +23,7 @@ const IntroPage: React.StatelessComponent<InjectedIntlProps> = ({ intl }) => {
 
     return (
         <Page
-            className={bem.className}
+            className={bem.block}
             title={intlHelper(intl, 'introPage.tittel')}
             topContentRenderer={() => <StepBanner text={intlHelper(intl, 'introPage.stegTittel')} />}>
             <Box margin="xxxl">

@@ -24,7 +24,7 @@ const LabelWithHelperText: React.FunctionComponent<LabelWithHelperText & Injecte
     const [showHelperText, setShowHelperText] = React.useState(showByDefault === true);
     const ariaLabel = intlHelper(intl, showHelperText ? 'hjelpetekst.skjul' : 'hjelpetekst.vis');
     return (
-        <label className={`${bem.className} skjemaelement__label`} htmlFor={htmlFor}>
+        <label className={`${bem.block} skjemaelement__label`} htmlFor={htmlFor}>
             {children}
             <HelperTextButton
                 onClick={() => setShowHelperText(!showHelperText)}

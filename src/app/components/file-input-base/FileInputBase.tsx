@@ -69,7 +69,7 @@ export default class FileInputBase extends React.Component<FileInputProps> {
                     id={id}
                     tabIndex={0}
                     htmlFor={inputId}
-                    className={bem.className}
+                    className={bem.block}
                     onDragOver={this.onFileDragOverHandler}
                     onDrop={this.onFileDropHandler}
                     onKeyPress={this.onKeyPress}

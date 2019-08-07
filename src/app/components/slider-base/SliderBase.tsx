@@ -46,7 +46,7 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
 }) => {
     const sliderId = guid();
     const labelId = guid();
-    const classNames = classnames(sliderBem.className, {
+    const classNames = classnames(sliderBem.block, {
         [sliderBem.modifier('withTextInput')]: showTextInput !== undefined
     });
     return (
@@ -86,7 +86,7 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
                     aria-labelledby={labelId}
                     {...otherProps}
                 />
-                <div className={valueEndpointLabelsBem.className}>
+                <div className={valueEndpointLabelsBem.block}>
                     <div className={valueEndpointLabelsBem.element('minPointLabel')}>
                         {minPointLabelRenderer ? minPointLabelRenderer(min) : min}
                     </div>

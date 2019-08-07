@@ -10,7 +10,7 @@ interface StepBannerProps {
 
 const bem = bemHelper('stepBanner');
 const StepBanner: React.FunctionComponent<StepBannerProps> = ({ text }) => (
-    <Banner size="small" className={bem.className}>
+    <Banner size="small" className={bem.block}>
         <Undertittel tag="h2">{text}</Undertittel>
     </Banner>
 );

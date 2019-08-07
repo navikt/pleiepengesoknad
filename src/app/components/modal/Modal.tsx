@@ -13,7 +13,7 @@ export interface ModalProps {
 const bem = bemUtils('modal');
 const Modal: React.FunctionComponent<ModalProps> = ({ isOpen, onRequestClose, contentLabel, className, children }) => (
     <NFModal
-        className={`${bem.className} ${className}`}
+        className={`${bem.block} ${className}`}
         isOpen={isOpen}
         contentLabel={contentLabel}
         onRequestClose={onRequestClose}>

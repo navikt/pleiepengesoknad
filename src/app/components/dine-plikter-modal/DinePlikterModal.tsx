@@ -6,7 +6,7 @@ import './dinePlikterModal.less';
 
 const bem = bemUtils('dinePlikterModal');
 const DinePlikterModal: React.FunctionComponent<ModalProps> = (props) => (
-    <Modal className={bem.className} {...props}>
+    <Modal className={bem.block} {...props}>
         <DinePlikterContent />
     </Modal>
 );

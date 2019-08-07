@@ -11,7 +11,7 @@ interface BannerProps {
 
 const bem = bemHelper('banner');
 const Banner: React.FunctionComponent<BannerProps> = ({ size, className, children }) => (
-    <div className={`${bem.className} ${bem.className}--${size} ${className}`}>{children}</div>
+    <div className={`${bem.block} ${bem.block}--${size} ${className}`}>{children}</div>
 );
 
 export default Banner;

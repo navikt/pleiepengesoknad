@@ -6,7 +6,7 @@ const someModifier = 'modifier';
 
 describe('bemUtils', () => {
     it('should return correct className when referring to .className-property', () => {
-        expect(bemHelper(someClass).className).toEqual(someClass);
+        expect(bemHelper(someClass).block).toEqual(someClass);
     });
 
     it('should return element className on correct format when calling .element', () => {

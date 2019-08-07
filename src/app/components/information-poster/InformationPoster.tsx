@@ -6,7 +6,7 @@ import './informationPoster.less';
 
 const bem = bemUtils('informationPoster');
 const InformationPoster: React.FunctionComponent = ({ children }) => (
-    <div className={bem.className}>
+    <div className={bem.block}>
         <NFCounsellorPanel svg={<InformationIcon />} type="plakat" kompakt={true}>
             {children}
         </NFCounsellorPanel>

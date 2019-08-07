@@ -41,7 +41,7 @@ class ValidationErrorSummaryBase extends Component<ValidationErrorSummaryBasePro
         });
 
         return (
-            <article tabIndex={-1} className={`${bem.className} ${className}`}>
+            <article tabIndex={-1} className={`${bem.block} ${className}`}>
                 <Undertittel>{title}</Undertittel>
                 <ul className={bem.element('list')}>{listItems}</ul>
             </article>

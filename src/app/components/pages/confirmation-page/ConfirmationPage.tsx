@@ -14,7 +14,7 @@ type Props = InjectedIntlProps;
 
 const bem = bemUtils('confirmationPage');
 const ConfirmationPage: React.FunctionComponent<Props> = ({ intl }) => (
-    <Page title={intlHelper(intl, 'page.confirmation.sidetittel')} className={bem.className}>
+    <Page title={intlHelper(intl, 'page.confirmation.sidetittel')} className={bem.block}>
         <div className={bem.element('centeredContent')}>
             <CheckmarkIcon />
             <Box margin="xl">

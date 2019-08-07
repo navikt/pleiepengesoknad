@@ -11,7 +11,7 @@ interface ContentWithHeaderProps {
 const bem = bemHelper('contentWithHeader');
 const ContentWithHeader: React.FunctionComponent<ContentWithHeaderProps> = ({ header, children }) => {
     return (
-        <div className={bem.className}>
+        <div className={bem.block}>
             <Normaltekst className={bem.element('header')}>{header}</Normaltekst>
             {children}
         </div>

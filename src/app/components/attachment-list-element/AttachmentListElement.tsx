@@ -13,7 +13,7 @@ const AttachmentListElement: React.FunctionComponent<AttachmentListElementProps>
     attachment,
     renderRightAlignedContent
 }) => (
-    <li className={listElementBem.className}>
+    <li className={listElementBem.block}>
         <AttachmentLabel attachment={attachment} />
         {renderRightAlignedContent && (
             <span className={listElementBem.element('rightAlignedContent')}>{renderRightAlignedContent()}</span>
