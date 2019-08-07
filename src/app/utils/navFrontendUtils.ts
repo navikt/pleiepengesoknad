@@ -7,7 +7,7 @@ export const getValidationErrorPropsWithIntl = <T>(
     intl: InjectedIntl,
     errors: FormikErrors<T>,
     elementName: string
-): { feil?: SkjemaelementFeil } | undefined => {
+): { feil?: SkjemaelementFeil } => {
     if (errors[elementName] !== undefined) {
         const error = errors[elementName];
         const feilmelding = isFieldValidationError(error) ? renderFieldValidationError(intl, error) : error;
@@ -17,5 +17,5 @@ export const getValidationErrorPropsWithIntl = <T>(
             }
         };
     }
-    return undefined;
+    return {};
 };
