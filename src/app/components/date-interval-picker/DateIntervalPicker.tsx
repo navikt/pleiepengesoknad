@@ -18,7 +18,7 @@ const DateIntervalPicker: React.FunctionComponent<DateIntervalPickerProps> = ({
     fromDatepickerProps,
     toDatepickerProps
 }) => (
-    <Fieldset legend={legend} className={bem.className}>
+    <Fieldset legend={legend} className={bem.block}>
         <div className={bem.element('flexContainer')}>
             <Datepicker {...fromDatepickerProps} />
             <Datepicker {...toDatepickerProps} />

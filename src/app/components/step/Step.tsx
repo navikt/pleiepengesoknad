@@ -40,7 +40,7 @@ const Step: React.FunctionComponent<StepProps> = ({
     const stepTexts: StepConfigItemTexts = getStepTexts(intl, id, stepConfig);
     return (
         <Page
-            className={bem.className}
+            className={bem.block}
             title={stepTexts.pageTitle}
             topContentRenderer={() => (
                 <>

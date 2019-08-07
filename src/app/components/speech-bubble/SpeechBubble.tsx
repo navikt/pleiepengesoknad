@@ -13,7 +13,7 @@ interface SpeechBubbleProps {
 }
 
 const SpeechBubble: React.FunctionComponent<SpeechBubbleProps> = ({ strongText, normalText, bottomContent }) => (
-    <div className={bem.className}>
+    <div className={bem.block}>
         <NormalText className={bem.element('strongText')}>{strongText}</NormalText>
         <Box margin="m">
             <NormalText className={bem.element('normalText')}>{normalText}</NormalText>

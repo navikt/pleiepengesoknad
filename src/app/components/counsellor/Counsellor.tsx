@@ -8,7 +8,7 @@ interface CounsellorProps {
 
 const bem = bemHelper('counsellor');
 const Counsellor: React.FunctionComponent<CounsellorProps> = ({ theme }) => (
-    <div className={`${bem.className} ${bem.modifier(theme)}`}>
+    <div className={`${bem.block} ${bem.modifier(theme)}`}>
         <svg version="1.1" x="0px" y="0px" viewBox="0 0 51.9 88.3" xmlSpace="preserve">
             <g>
                 <path

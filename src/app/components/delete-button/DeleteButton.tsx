@@ -14,7 +14,7 @@ const bem = bemHelper('deleteButton');
 const DeleteButton: React.FunctionComponent<DeleteButtonProps> = ({ ariaLabel, onClick }) => (
     <button
         type="button"
-        className={bem.className}
+        className={bem.block}
         aria-label={ariaLabel}
         onClick={(e) => {
             e.stopPropagation();

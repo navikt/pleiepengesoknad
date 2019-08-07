@@ -32,7 +32,7 @@ const BackLink: React.FunctionComponent<BackLinkProps & RouteComponentProps> = (
     };
 
     return (
-        <div className={`${bem.className} ${className}`} onClick={handleOnClick}>
+        <div className={`${bem.block} ${className}`} onClick={handleOnClick}>
             <Chevron className={bem.element('chevron')} type="venstre" />
             <Lenke className={bem.element('link')} href={href}>
                 <FormattedMessage id="backlink.label" />

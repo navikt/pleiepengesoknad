@@ -17,7 +17,7 @@ const FrontPageBanner: React.FunctionComponent<FrontPageBannerProps> = ({
     bannerSize,
     counsellorWithSpeechBubbleProps
 }) => (
-    <Banner size={bannerSize} className={bem.className}>
+    <Banner size={bannerSize} className={bem.block}>
         <CounsellorWithSpeechBubble {...counsellorWithSpeechBubbleProps} />
     </Banner>
 );

@@ -88,7 +88,7 @@ class WelcomingPage extends React.Component<Props, WelcomingPageState> {
             <>
                 <Page
                     title={intlHelper(intl, 'welcomingPage.sidetittel')}
-                    className={bem.className}
+                    className={bem.block}
                     topContentRenderer={() => (
                         <FrontPageBanner
                             bannerSize="large"

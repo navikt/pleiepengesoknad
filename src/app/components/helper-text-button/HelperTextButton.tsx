@@ -14,7 +14,7 @@ interface HelperTextButtonProps {
 const HelperTextButton: React.FunctionComponent<HelperTextButtonProps> = ({ onClick, ariaLabel, ariaPressed }) => (
     <button
         type="button"
-        className={bem.className}
+        className={bem.block}
         onClick={onClick}
         aria-label={ariaLabel}
         title={ariaLabel}

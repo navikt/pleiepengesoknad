@@ -14,7 +14,7 @@ interface BoxProps {
 const bem = bemHelper('box');
 
 const Box: React.FunctionComponent<BoxProps> = ({ margin, className, textAlignCenter, children }) => {
-    const classNames = classnames(bem.className, bem.modifier(margin), {
+    const classNames = classnames(bem.block, bem.modifier(margin), {
         [bem.modifier('textAlignCenter')]: textAlignCenter,
         [`${className}`]: className !== undefined
     });
