@@ -7,6 +7,9 @@ export interface BarnToSendToApi {
 
 interface Ansettelsesforhold {
     navn: string;
+    organisasjonsnummer?: string;
+    normal_arbeidsuke?: number;
+    redusert_arbeidsuke?: number;
 }
 
 interface Medlemskap {
