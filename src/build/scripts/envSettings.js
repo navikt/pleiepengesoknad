@@ -9,6 +9,7 @@ function createEnvSettingsFile(settingsFile) {
                 LOGIN_URL: '${process.env.LOGIN_URL}',
                 HENT_BARN_FEATURE: '${process.env.HENT_BARN_FEATURE}',
                 TOGGLE_LANGUAGE: '${process.env.TOGGLE_LANGUAGE}',
+                TOGGLE_GRADERT_ARBEID: '${process.env.TOGGLE_GRADERT_ARBEID}',
             };`
         );
     });

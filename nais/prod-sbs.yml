@@ -48,3 +48,6 @@ spec:
           value: "on"
         - name: TOGGLE_LANGUAGE
           value: "on"
+        - name: TOGGLE_GRADERT_ARBEID
+          value: "off"
+
