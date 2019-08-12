@@ -179,5 +179,7 @@
     "fieldvalidation.tildato.erFørFradato": "Til-datoen kan ikke være tidligere enn fra-datoen",
     "fieldvalidation.legeerklæring.mangler": "Du må laste opp en legeerklæring",
     "fieldvalidation.legeerklæring.forMangeFiler": "Du kan maksimalt laste opp 3 bilder",
-    "fieldvalidation.grad.ugyldig": "Graden må oppgis som et heltall mellom 20 og 100 prosent"
+    "fieldvalidation.grad.ugyldig": "Graden må oppgis som et heltall mellom 20 og 100 prosent",
+    "fieldvalidation.arbeidsforhold_timerUgyldig": "Vennligst fyll ut et tall mellom {min} og {max}",
+    "fieldvalidation.arbeidsforhold_redusertMerEnnNormalt": "Antall timer du skal jobbe er mer enn hva du har jobbet tidligere"
 }

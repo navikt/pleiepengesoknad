@@ -21,3 +21,36 @@ export const resetFieldValues = (fieldNames: Field[], setFieldValue: (field: str
 export const isCheckboxChecked = (fieldValues: any[], value: any, keyProp?: string): boolean => {
     return keyProp ? fieldValues.some((cv) => cv[keyProp] === value[keyProp]) : fieldValues.includes(value);
 };
+
+export const flattenFieldArrayErrors = (errors: Field): Field => {
+    let allErrors: any = {};
+    Object.keys(errors).forEach((key) => {
+        const error = errors[key];
+        if (isFieldArrayErrors(error)) {
+            (error as Field[]).forEach((err, idx) => {
+                allErrors = {
+                    ...allErrors,
+                    ...getErrorsFromFieldArrayErrors(err, key, idx)
+                };
+            });
+        } else {
+            allErrors[key] = error;
+        }
+    });
+    return allErrors;
+};
+
+const isFieldArrayErrors = (error: any): boolean => {
+    if (typeof error === 'object' && error.length && error.length > 0) {
+        return true;
+    }
+    return false;
+};
+
+const getErrorsFromFieldArrayErrors = (field: Field, fieldArrayKey: string, index: number): {} => {
+    const errors: any = {};
+    Object.keys(field).forEach((key) => {
+        errors[`${fieldArrayKey}.${index}.${key}`] = field[key];
+    });
+    return errors;
+};
