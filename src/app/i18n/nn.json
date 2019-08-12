@@ -185,5 +185,6 @@
 
     "gradertArbeidsforhold.timer_arbeidsuke": "Kor mange timar i veka arbeider du vanligvis hjå {navn}?",
     "gradertArbeidsforhold.timer_redusert": "Kor mykje skal du arbeide i denne perioden? Fyll ut antall timar.",
-    "gradertArbeidsforhold.timerPerUkeLabel": "timar per uke"
+    "gradertArbeidsforhold.timerPerUkeLabel": "timar per uke",
+    "gradertArbeidsforhold.redusertProsentLabel": "prosent av {timer, plural, one {# time} other {# timar}}"
 }

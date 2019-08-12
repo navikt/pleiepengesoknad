@@ -184,6 +184,7 @@
     "fieldvalidation.arbeidsforhold_redusertMerEnnNormalt": "Antall timer du skal jobbe er mer enn hva du har jobbet tidligere",
 
     "gradertArbeidsforhold.timer_arbeidsuke": "Hvor mange timer i uka jobber du vanligvis hos {navn}?",
-    "gradertArbeidsforhold.timer_redusert": "Hvor mye skal du jobbe i denne perioden? Fyll ut antall timer.",
-    "gradertArbeidsforhold.timerPerUkeLabel": "timer per uke"
+    "gradertArbeidsforhold.timer_redusert": "Hvor mye skal du jobbe i denne perioden? Fyll ut antall timer eller prosent.",
+    "gradertArbeidsforhold.timerPerUkeLabel": "timer per uke",
+    "gradertArbeidsforhold.redusertProsentLabel": "prosent av {timer, plural, one {# time} other {# timer}}"
 }
