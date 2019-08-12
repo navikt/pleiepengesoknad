@@ -17,3 +17,7 @@ export const resetFieldValue = (fieldName: Field, setFieldValue: (field: string,
 export const resetFieldValues = (fieldNames: Field[], setFieldValue: (field: string, value: any) => void) => {
     fieldNames.forEach((fieldName) => resetFieldValue(fieldName, setFieldValue));
 };
+
+export const isCheckboxChecked = (fieldValues: any[], value: any, keyProp?: string): boolean => {
+    return keyProp ? fieldValues.some((cv) => cv[keyProp] === value[keyProp]) : fieldValues.includes(value);
+};

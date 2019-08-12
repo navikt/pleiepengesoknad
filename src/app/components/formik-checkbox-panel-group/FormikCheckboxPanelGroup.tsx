@@ -4,6 +4,7 @@ import { getValidationErrorPropsWithIntl } from '../../utils/navFrontendUtils';
 import CheckboxPanelGroupBase from '../checkbox-panel-group-base/CheckboxPanelGroupBase';
 import { removeElementFromArray } from '../../utils/listUtils';
 import { FormikValidateFunction, FormikValidationProps } from 'app/types/FormikProps';
+import { isCheckboxChecked } from 'app/utils/formikUtils';
 
 interface FormikCheckboxPanelProps {
     label: string;
@@ -18,11 +19,12 @@ interface FormikCheckboxPanelGroupProps<T> {
     checkboxes: FormikCheckboxPanelProps[];
     validate?: FormikValidateFunction;
     helperText?: string;
+    valueKey?: string;
 }
 
 const FormikCheckboxPanelGroup = <T extends {}>(): React.FunctionComponent<
     FormikCheckboxPanelGroupProps<T> & FormikValidationProps
-> => ({ name, validate, legend, checkboxes, helperText, intl }) => (
+> => ({ name, validate, legend, checkboxes, helperText, intl, valueKey: keyProp }) => (
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {
             const errorMsgProps = submitCount > 0 ? getValidationErrorPropsWithIntl(intl, errors, field.name) : {};
@@ -30,10 +32,10 @@ const FormikCheckboxPanelGroup = <T extends {}>(): React.FunctionComponent<
                 <CheckboxPanelGroupBase
                     legend={legend}
                     checkboxes={checkboxes.map(({ value, ...otherProps }) => ({
-                        checked: field.value.includes(value),
+                        checked: isCheckboxChecked(field.value, value, keyProp),
                         onChange: () => {
-                            if (field.value.includes(value)) {
-                                setFieldValue(`${name}`, removeElementFromArray(value, field.value));
+                            if (isCheckboxChecked(field.value, value, keyProp)) {
+                                setFieldValue(`${name}`, removeElementFromArray(value, field.value, keyProp));
                             } else {
                                 field.value.push(value);
                                 setFieldValue(`${name}`, field.value);
