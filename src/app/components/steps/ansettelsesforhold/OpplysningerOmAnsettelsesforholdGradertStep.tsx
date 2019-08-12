@@ -51,7 +51,7 @@ const OpplysningerOmAnsettelsesforholdStep = ({ history, intl, ...stepProps }: P
                     )
                 }
             </SøkerdataContextConsumer>
-            <Box margin="l">
+            <Box margin="xxl">
                 <AlertStripe type="info">
                     <FormattedMessage id="steg.ansettelsesforhold.manglesOpplysninger" />
                 </AlertStripe>

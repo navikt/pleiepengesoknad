@@ -175,7 +175,7 @@ export const validateNormaleArbeidstimer = (value: number | string, isRequired?:
     return undefined;
 };
 
-export const validateReduserteArbeidstimer = (
+export const validateReduserteArbeidTimer = (
     value: number | string,
     normalTimer: number | string | undefined,
     isRequired?: boolean
