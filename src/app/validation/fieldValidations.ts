@@ -20,6 +20,7 @@ export enum FieldValidationErrors {
     'legeerklæring_forMangeFiler' = 'fieldvalidation.legeerklæring.forMangeFiler',
     'grad_ugyldig' = 'fieldvalidation.grad.ugyldig',
     'arbeidsforhold_timerUgyldig' = 'fieldvalidation.arbeidsforhold_timerUgyldig',
+    'arbeidsforhold_prosentUgyldig' = 'fieldvalidation.arbeidsforhold_prosentUgyldig',
     'arbeidsforhold_redusertMerEnnNormalt' = 'fieldvalidation.arbeidsforhold_redusertMerEnnNormalt'
 }
 
@@ -198,6 +199,17 @@ export const validateReduserteArbeidTimer = (
     }
     if (timer > (timerNormalt || MAX_ARBEIDSTIMER_PER_UKE)) {
         return fieldValidationError(FieldValidationErrors.arbeidsforhold_redusertMerEnnNormalt);
+    }
+    return undefined;
+};
+export const validateReduserteArbeidProsent = (value: number | string, isRequired?: boolean): FieldValidationResult => {
+    if (isRequired && !hasValue(value)) {
+        return fieldIsRequiredError();
+    }
+    const prosent = typeof value === 'string' ? parseFloat(value) : value;
+
+    if (prosent < 1 || prosent > 100) {
+        return fieldValidationError(FieldValidationErrors.arbeidsforhold_prosentUgyldig);
     }
     return undefined;
 };

@@ -4,7 +4,11 @@ import Input from '../input/Input';
 import intlHelper from 'app/utils/intlUtils';
 import { Ansettelsesforhold } from 'app/types/Søkerdata';
 import { Undertittel } from 'nav-frontend-typografi';
-import { validateNormaleArbeidstimer, validateReduserteArbeidTimer } from 'app/validation/fieldValidations';
+import {
+    validateNormaleArbeidstimer,
+    validateReduserteArbeidTimer,
+    validateReduserteArbeidProsent
+} from 'app/validation/fieldValidations';
 import { Field } from 'app/types/PleiepengesøknadFormData';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import Box from '../box/Box';
@@ -63,7 +67,7 @@ const Arbeidsforhold: React.FunctionComponent<ArbeidsforholdProps & InjectedIntl
                                 type="number"
                                 min={0}
                                 validate={(value: any) =>
-                                    validateReduserteArbeidTimer(value, forhold.normal_arbeidsuke)
+                                    validateReduserteArbeidTimer(value, forhold.normal_arbeidsuke, true)
                                 }
                                 name={`${name}.${index}.redusert_arbeidsuke_timer` as Field}
                                 label={intlHelper(intl, 'gradertArbeidsforhold.timerPerUkeLabel')}
@@ -77,9 +81,7 @@ const Arbeidsforhold: React.FunctionComponent<ArbeidsforholdProps & InjectedIntl
                                 type="number"
                                 min={0}
                                 max={100}
-                                validate={(value: any) =>
-                                    validateReduserteArbeidTimer(value, forhold.normal_arbeidsuke)
-                                }
+                                validate={(value: any) => validateReduserteArbeidProsent(value, true)}
                                 name={`${name}.${index}.redusert_arbeidsuke_prosent` as Field}
                                 label={intlHelper(intl, 'gradertArbeidsforhold.redusertProsentLabel', {
                                     timer: forhold.normal_arbeidsuke
