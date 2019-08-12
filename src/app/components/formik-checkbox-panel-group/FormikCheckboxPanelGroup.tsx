@@ -24,7 +24,7 @@ interface FormikCheckboxPanelGroupProps<T> {
 
 const FormikCheckboxPanelGroup = <T extends {}>(): React.FunctionComponent<
     FormikCheckboxPanelGroupProps<T> & FormikValidationProps
-> => ({ name, validate, legend, checkboxes, helperText, intl, valueKey: keyProp }) => (
+> => ({ name, validate, legend, checkboxes, helperText, intl, valueKey }) => (
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {
             const errorMsgProps = submitCount > 0 ? getValidationErrorPropsWithIntl(intl, errors, field.name) : {};
@@ -32,10 +32,10 @@ const FormikCheckboxPanelGroup = <T extends {}>(): React.FunctionComponent<
                 <CheckboxPanelGroupBase
                     legend={legend}
                     checkboxes={checkboxes.map(({ value, ...otherProps }) => ({
-                        checked: isCheckboxChecked(field.value, value, keyProp),
+                        checked: isCheckboxChecked(field.value, value, valueKey),
                         onChange: () => {
-                            if (isCheckboxChecked(field.value, value, keyProp)) {
-                                setFieldValue(`${name}`, removeElementFromArray(value, field.value, keyProp));
+                            if (isCheckboxChecked(field.value, value, valueKey)) {
+                                setFieldValue(`${name}`, removeElementFromArray(value, field.value, valueKey));
                             } else {
                                 field.value.push(value);
                                 setFieldValue(`${name}`, field.value);
