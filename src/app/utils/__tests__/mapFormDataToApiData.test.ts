@@ -63,7 +63,7 @@ describe('mapFormDataToApiData', () => {
     let resultingApiData: PleiepengesøknadApiData;
 
     beforeAll(() => {
-        resultingApiData = mapFormDataToApiData(formDataMock as PleiepengesøknadFormData, barnMock);
+        resultingApiData = mapFormDataToApiData(formDataMock as PleiepengesøknadFormData, barnMock, 'nb');
     });
 
     it("should set 'barnetsNavn' in api data correctly", () => {
@@ -110,7 +110,7 @@ describe('mapFormDataToApiData', () => {
             ...formDataMock,
             [Field.barnetsFødselsnummer]: fnr
         };
-        const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock);
+        const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock, 'nb');
         expect(result.barn.fodselsnummer).toEqual(fnr);
     });
 
@@ -121,7 +121,7 @@ describe('mapFormDataToApiData', () => {
             ...formDataMock,
             [Field.barnetsForeløpigeFødselsnummerEllerDNummer]: fnr
         };
-        const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock);
+        const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock, 'nb');
         expect(result.barn.alternativ_id).toEqual(fnr);
     });
 
@@ -133,7 +133,7 @@ describe('mapFormDataToApiData', () => {
             [Field.barnetsFødselsnummer]: fnr,
             [Field.barnetsForeløpigeFødselsnummerEllerDNummer]: fnr
         };
-        const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock);
+        const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock, 'nb');
         expect(result.barn.alternativ_id).toBeNull();
         expect(result.barn.fodselsnummer).toEqual(fnr);
     });

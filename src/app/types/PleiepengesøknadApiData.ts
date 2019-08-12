@@ -1,3 +1,5 @@
+import { Locale } from './Locale';
+
 export interface BarnToSendToApi {
     navn: string | null;
     fodselsnummer: string | null;
@@ -18,6 +20,7 @@ interface Medlemskap {
 }
 
 export interface PleiepengesøknadApiData {
+    sprak: Locale;
     barn: BarnToSendToApi;
     relasjon_til_barnet: string | null;
     fra_og_med: Date;

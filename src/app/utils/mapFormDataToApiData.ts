@@ -6,6 +6,7 @@ import { YesOrNo } from '../types/YesOrNo';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
 import { formatName } from './personUtils';
 import { BarnReceivedFromApi } from '../types/Søkerdata';
+import { Locale } from 'app/types/Locale';
 
 export const mapFormDataToApiData = (
     {
@@ -26,7 +27,8 @@ export const mapFormDataToApiData = (
         harMedsøker,
         grad
     }: PleiepengesøknadFormData,
-    barn: BarnReceivedFromApi[]
+    barn: BarnReceivedFromApi[],
+    sprak: Locale
 ): PleiepengesøknadApiData => {
     const barnObject: BarnToSendToApi = { navn: null, fodselsnummer: null, alternativ_id: null, aktoer_id: null };
     if (barnetSøknadenGjelder) {
@@ -44,6 +46,7 @@ export const mapFormDataToApiData = (
     }
 
     return {
+        sprak,
         barn: barnObject,
         relasjon_til_barnet:
             isFeatureEnabled(Feature.HENT_BARN_FEATURE) && barnObject.aktoer_id ? null : søkersRelasjonTilBarnet,
