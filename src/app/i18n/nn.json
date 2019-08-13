@@ -181,5 +181,11 @@
     "fieldvalidation.legeerklæring.forMangeFiler": "Du kan maksimalt laste opp 3 bilete",
     "fieldvalidation.grad.ugyldig": "Graden må oppgis som eit heltall mellom 20 og 100 prosent",
     "fieldvalidation.arbeidsforhold_timerUgyldig": "Du må fylle ut eit tal mellom {min} og {max}",
-    "fieldvalidation.arbeidsforhold_redusertMerEnnNormalt": "Antall timar du skal arbeide er høgare enn kva du har arbeida tidligare"
+    "fieldvalidation.arbeidsforhold_redusertMerEnnNormalt": "Antall timar du skal arbeide er høgare enn kva du har arbeida tidligare",
+
+    "gradertArbeidsforhold.timer_arbeidsuke": "Kor mange timar i veka arbeidar du vanlegvis hos {navn}?",
+    "gradertArbeidsforhold.timer_redusert": "Kor mykje skal du arbeide i denne perioden? Fyll ut antall timar eller prosent.",
+    "gradertArbeidsforhold.timerPerUkeLabel_utenVerdi": "timar per veke",
+    "gradertArbeidsforhold.timerPerUkeLabel": "timar per veke ({pst} prosent av normalt)",
+    "gradertArbeidsforhold.redusertProsentLabel": "prosent av {timer, plural, one {# time} other {# timer}}"
 }

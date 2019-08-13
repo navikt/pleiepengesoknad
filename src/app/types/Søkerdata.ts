@@ -1,3 +1,5 @@
+import { YesOrNo } from './YesOrNo';
+
 export interface BarnReceivedFromApi {
     fornavn: string;
     etternavn: string;
@@ -9,8 +11,10 @@ export interface BarnReceivedFromApi {
 export interface Ansettelsesforhold {
     navn: string;
     organisasjonsnummer: string;
+    skalArbeide?: YesOrNo;
     normal_arbeidsuke?: number;
     redusert_arbeidsuke?: number;
+    pstEllerTimer?: 'timer' | 'prosent';
 }
 
 export interface Person {
