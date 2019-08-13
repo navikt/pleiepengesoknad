@@ -25,7 +25,9 @@ const FormikInput = <T extends {}>(): React.FunctionComponent<Props & FormikInpu
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, submitCount } }: FormikFieldProps) => {
             const errorMsgProps = submitCount > 0 ? getValidationErrorPropsWithIntl(intl, errors, field.name) : {};
-            return <InputBase label={label} {...otherInputProps} {...errorMsgProps} {...field} />;
+            return (
+                <InputBase label={label} {...otherInputProps} {...errorMsgProps} {...field} value={field.value || ''} />
+            );
         }}
     </FormikField>
 );

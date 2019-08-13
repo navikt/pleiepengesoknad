@@ -9,6 +9,8 @@ export interface BarnReceivedFromApi {
 export interface Ansettelsesforhold {
     navn: string;
     organisasjonsnummer: string;
+    normal_arbeidsuke?: number;
+    redusert_arbeidsuke?: number;
 }
 
 export interface Person {

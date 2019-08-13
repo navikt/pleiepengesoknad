@@ -24,6 +24,7 @@ import ContentSwitcher from '../../content-switcher/ContentSwitcher';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
 import intlHelper from 'app/utils/intlUtils';
+import { Locale } from 'app/types/Locale';
 
 export interface SummaryStepProps {
     handleSubmit: () => void;
@@ -46,12 +47,12 @@ class SummaryStep extends React.Component<Props, State> {
     }
 
     async navigate(barn: BarnReceivedFromApi[]) {
-        const { history, values } = this.props;
+        const { history, values, intl } = this.props;
         this.setState({
             sendingInProgress: true
         });
         try {
-            await sendApplication(mapFormDataToApiData(values, barn));
+            await sendApplication(mapFormDataToApiData(values, barn, intl.locale as Locale));
             navigateTo(routeConfig.SØKNAD_SENDT_ROUTE, history);
         } catch (error) {
             if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {

@@ -1,59 +1,63 @@
 @import '../../../../node_modules/nav-frontend-core/less/_variabler.less';
 
 .skjema__feilomrade--harFeil {
-  margin-bottom: 2rem;
+    margin-bottom: 2rem;
 }
 
 .checkboxPanelGroup {
-  .skjema__legend {
-    font-weight: bold;
-    margin: 0;
-    width: 98%;
+    .skjema__legend {
+        font-weight: bold;
+        margin: 0;
+        width: 98%;
 
-    .helperTextButton {
-      position: relative;
-      left: 0.5rem;
-    }
-
-    .helperTextPanel {
-      font-weight: normal;
-      margin-top: 0.5rem;
-    }
-  }
-
-  .checkboxPanelGroup--responsive {
-    display: flex;
-    flex-wrap: wrap;
-
-    .checkboxPanelWrapper {
-      margin-top: 0.5rem;
-
-      .checkboksPanel {
-        margin-right: 1rem;
-
-        &__label {
-          flex-grow: 1;
-          flex-shrink: 0;
+        .helperTextButton {
+            position: relative;
+            left: 0.5rem;
         }
-      }
+
+        .helperTextPanel {
+            font-weight: normal;
+            margin-top: 0.5rem;
+        }
     }
 
-    @media screen and (max-width: 576px) {
-      display: block;
-    }
+    .checkboxPanelGroup--responsive {
+        display: flex;
+        flex-wrap: wrap;
 
-    @media screen and (min-width: 577px) and (max-width: @screen-tablet) {
-      .checkboxPanelWrapper {
-        flex-basis: 50%;
-        width: 50%;
-      }
-    }
+        .checkboxPanelWrapper {
+            margin-top: 0.5rem;
+            padding-right: 1rem;
+            .checkboksPanel {
+                &__label {
+                    flex-grow: 1;
+                    flex-shrink: 0;
+                }
+            }
+        }
 
-    @media screen and (min-width: (1 + @screen-tablet)) {
-      .checkboxPanelWrapper {
-        flex-basis: 50%;
-        width: 50%;
-      }
+        @media screen and (max-width: 576px) {
+            display: block;
+        }
+
+        @media screen and (min-width: 577px) and (max-width: @screen-tablet) {
+            .checkboxPanelWrapper {
+                flex-basis: 50%;
+                width: 50%;
+                &:nth-child(2n) {
+                    padding-right: 0;
+                }
+            }
+        }
+
+        @media screen and (min-width: (1 + @screen-tablet)) {
+            .checkboxPanelWrapper {
+                flex-basis: 50%;
+                width: 50%;
+                &:nth-child(2n) {
+                    padding-right: 0;
+                }
+            }
+        }
     }
-  }
 }

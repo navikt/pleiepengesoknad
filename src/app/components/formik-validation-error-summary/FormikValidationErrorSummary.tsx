@@ -8,6 +8,7 @@ import { Field } from '../../types/PleiepengesøknadFormData';
 import intlHelper from '../../utils/intlUtils';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 import { renderFieldValidationError, isFieldValidationError } from '../../validation/fieldValidationRenderUtils';
+import { flattenFieldArrayErrors } from 'app/utils/formikUtils';
 
 interface FormikValidationErrorSummaryProps {
     className?: string;
@@ -25,8 +26,9 @@ const FormikValidationErrorSummary: React.FunctionComponent<Props> = ({
         const errorMessages: ValidationSummaryError[] = [];
 
         if (numberOfErrors > 0 && submitCount > 0) {
-            Object.keys(errors).forEach((key) => {
-                const error = errors[key];
+            const allErrors = flattenFieldArrayErrors(errors);
+            Object.keys(allErrors).forEach((key) => {
+                const error = allErrors[key];
                 const message = isFieldValidationError(error) ? renderFieldValidationError(intl, error) : error;
                 if (message) {
                     errorMessages.push({
@@ -36,6 +38,9 @@ const FormikValidationErrorSummary: React.FunctionComponent<Props> = ({
                 }
             });
 
+            if (Object.keys(allErrors).length === 0) {
+                return null;
+            }
             return (
                 <ValidationErrorSummaryBase
                     className={className}

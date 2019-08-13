@@ -18,8 +18,13 @@ export enum FieldValidationErrors {
     'tildato_erFørFradato' = 'fieldvalidation.tildato.erFørFradato',
     'legeerklæring_mangler' = 'fieldvalidation.legeerklæring.mangler',
     'legeerklæring_forMangeFiler' = 'fieldvalidation.legeerklæring.forMangeFiler',
-    'grad_ugyldig' = 'fieldvalidation.grad.ugyldig'
+    'grad_ugyldig' = 'fieldvalidation.grad.ugyldig',
+    'arbeidsforhold_timerUgyldig' = 'fieldvalidation.arbeidsforhold_timerUgyldig',
+    'arbeidsforhold_redusertMerEnnNormalt' = 'fieldvalidation.arbeidsforhold_redusertMerEnnNormalt'
 }
+
+const MAX_ARBEIDSTIMER_PER_UKE = 150;
+const MIN_ARBEIDSTIMER_PER_UKE = 1;
 
 export const hasValue = (v: any) => v !== '' && v !== undefined && v !== null;
 
@@ -153,6 +158,47 @@ export const validateGrad = (grad: number | string): FieldValidationResult => {
         }
     }
 
+    return undefined;
+};
+
+export const validateNormaleArbeidstimer = (value: number | string, isRequired?: boolean): FieldValidationResult => {
+    if (isRequired && !hasValue(value)) {
+        return fieldIsRequiredError();
+    }
+    const timer = typeof value === 'string' ? parseFloat(value) : value;
+    if (isNaN(timer) || timer < MIN_ARBEIDSTIMER_PER_UKE || timer > MAX_ARBEIDSTIMER_PER_UKE) {
+        return fieldValidationError(FieldValidationErrors.arbeidsforhold_timerUgyldig, {
+            min: MIN_ARBEIDSTIMER_PER_UKE,
+            max: MAX_ARBEIDSTIMER_PER_UKE
+        });
+    }
+    return undefined;
+};
+
+export const validateReduserteArbeidstimer = (
+    value: number | string,
+    normalTimer: number | string | undefined,
+    isRequired?: boolean
+): FieldValidationResult => {
+    if (isRequired && !hasValue(value)) {
+        return fieldIsRequiredError();
+    }
+    const timer = typeof value === 'string' ? parseFloat(value) : value;
+    const timerNormalt = typeof normalTimer === 'string' ? parseFloat(normalTimer) : normalTimer;
+
+    if (timerNormalt === undefined || isNaN(timerNormalt)) {
+        return validateNormaleArbeidstimer(timer);
+    }
+
+    if (timer < MIN_ARBEIDSTIMER_PER_UKE || timer > MAX_ARBEIDSTIMER_PER_UKE) {
+        return fieldValidationError(FieldValidationErrors.arbeidsforhold_timerUgyldig, {
+            min: MIN_ARBEIDSTIMER_PER_UKE,
+            max: Math.max(MAX_ARBEIDSTIMER_PER_UKE, timerNormalt)
+        });
+    }
+    if (timer > (timerNormalt || MAX_ARBEIDSTIMER_PER_UKE)) {
+        return fieldValidationError(FieldValidationErrors.arbeidsforhold_redusertMerEnnNormalt);
+    }
     return undefined;
 };
 

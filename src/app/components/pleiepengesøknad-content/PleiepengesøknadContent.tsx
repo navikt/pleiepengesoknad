@@ -13,6 +13,8 @@ import LegeerklæringStep from '../steps/legeerklæring/LegeerklæringStep';
 import SummaryStep from '../steps/summary/SummaryStep';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
+import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
+import OpplysningerOmAnsettelsesforholdGradertStep from '../steps/ansettelsesforhold/OpplysningerOmAnsettelsesforholdGradertStep';
 
 interface PleiepengesøknadContentProps {
     formikProps: FormikProps;
@@ -50,7 +52,13 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
             {isAvailable(StepID.ANSETTELSESFORHOLD, values) && (
                 <Route
                     path={getSøknadRoute(StepID.ANSETTELSESFORHOLD)}
-                    render={(props) => <OpplysningerOmAnsettelsesforholdStep {...commonFormikProps} {...props} />}
+                    render={(props) => {
+                        return isFeatureEnabled(Feature.TOGGLE_GRADERT_ARBEID) ? (
+                            <OpplysningerOmAnsettelsesforholdGradertStep {...commonFormikProps} {...props} />
+                        ) : (
+                            <OpplysningerOmAnsettelsesforholdStep {...commonFormikProps} {...props} />
+                        );
+                    }}
                 />
             )}
 
