@@ -7,14 +7,21 @@ import 'nav-frontend-skjema-style';
 import './checkboxPanelGroupBase.less';
 import intlHelper from 'app/utils/intlUtils';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
+import Box from '../box/Box';
 
-type CheckboxPanelBaseProps = CheckboksPanelProps & { key?: string };
+export type CheckboxPanelExpandedContentRenderer = () => React.ReactNode;
+
+type CheckboxPanelBaseProps = CheckboksPanelProps & {
+    key?: string;
+    expandedContentRenderer: CheckboxPanelExpandedContentRenderer;
+};
 
 interface CheckboxPanelGroupBaseProps {
     legend: string;
     checkboxes: CheckboxPanelBaseProps[];
     feil?: SkjemaelementFeil;
     helperText?: string;
+    singleColumn?: boolean;
 }
 
 const CheckboxPanelGroupBase = ({
@@ -22,13 +29,17 @@ const CheckboxPanelGroupBase = ({
     checkboxes,
     feil,
     helperText,
+    singleColumn: columns,
     intl
 }: CheckboxPanelGroupBaseProps & InjectedIntlProps) => {
     const [showHelperText, setShowHelperText] = React.useState(false);
     const ariaLabel = intlHelper(intl, showHelperText ? 'hjelpetekst.skjul' : 'hjelpetekst.vis');
     return (
         <SkjemaGruppe feil={feil}>
-            <div className="checkboxPanelGroup skjemaelement">
+            <div
+                className={`checkboxPanelGroup skjemaelement${
+                    columns ? ` checkboxPanelGroup--singleColumn` : undefined
+                }`}>
                 <fieldset className="skjema__fieldset">
                     <legend className="skjema__legend">
                         {legend}
@@ -44,11 +55,22 @@ const CheckboxPanelGroupBase = ({
                         )}
                     </legend>
                     <div className="checkboxPanelGroup--responsive">
-                        {checkboxes.map(({ onChange, value, key, ...otherRadioProps }: CheckboxPanelBaseProps) => (
-                            <div className="checkboxPanelWrapper" key={key}>
-                                <CheckboksPanel onChange={onChange} value={value} {...otherRadioProps} />
-                            </div>
-                        ))}
+                        {checkboxes.map(
+                            ({
+                                onChange,
+                                value,
+                                key,
+                                expandedContentRenderer,
+                                ...otherCheckboxProps
+                            }: CheckboxPanelBaseProps) => (
+                                <div className="checkboxPanelWrapper" key={key}>
+                                    <CheckboksPanel onChange={onChange} value={value} {...otherCheckboxProps} />
+                                    {expandedContentRenderer && otherCheckboxProps.checked && (
+                                        <Box margin="l">{expandedContentRenderer()}</Box>
+                                    )}
+                                </div>
+                            )
+                        )}
                     </div>
                 </fieldset>
             </div>
