@@ -187,5 +187,6 @@
     "gradertArbeidsforhold.timer_redusert": "Kor mykje skal du arbeide i denne perioden? Fyll ut antall timar eller prosent.",
     "gradertArbeidsforhold.timerPerUkeLabel_utenVerdi": "timar per veke",
     "gradertArbeidsforhold.timerPerUkeLabel": "timar per veke ({pst} prosent av normalt)",
-    "gradertArbeidsforhold.redusertProsentLabel": "prosent av {timer, plural, one {# time} other {# timer}}"
+    "gradertArbeidsforhold.redusertProsentLabel_utenVerdi": "prosent av {timer, plural, one {# time} other {# timar}}",
+    "gradertArbeidsforhold.redusertProsentLabel": "prosent av {timer, plural, one {# time} other {# timar}} (tilsvarer {redusertTimer, plural, one {# time} other {# timar}} i veka)"
 }

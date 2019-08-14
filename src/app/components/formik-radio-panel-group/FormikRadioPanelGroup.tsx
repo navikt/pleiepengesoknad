@@ -7,7 +7,7 @@ import { FormikValidateFunction, FormikValidationProps } from 'app/types/FormikP
 interface FormikRadioPanelProps {
     label: React.ReactNode;
     value: string;
-    key?: string;
+    key: string;
     disabled?: boolean;
 }
 

@@ -1,12 +1,13 @@
 import { formatDate } from './dateUtils';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import { BarnToSendToApi, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
+import { BarnToSendToApi, PleiepengesøknadApiData, AnsettelsesforholdApi } from '../types/PleiepengesøknadApiData';
 import { attachmentUploadHasFailed } from './attachmentUtils';
 import { YesOrNo } from '../types/YesOrNo';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
 import { formatName } from './personUtils';
-import { BarnReceivedFromApi } from '../types/Søkerdata';
+import { BarnReceivedFromApi, Ansettelsesforhold } from '../types/Søkerdata';
 import { Locale } from 'app/types/Locale';
+import { calculateRedusertArbeidsuke } from './ansettelsesforholdUtils';
 
 export const mapFormDataToApiData = (
     {
@@ -51,7 +52,7 @@ export const mapFormDataToApiData = (
         relasjon_til_barnet:
             isFeatureEnabled(Feature.HENT_BARN_FEATURE) && barnObject.aktoer_id ? null : søkersRelasjonTilBarnet,
         arbeidsgivere: {
-            organisasjoner: ansettelsesforhold
+            organisasjoner: ansettelsesforhold.map((forhold) => mapAnsettelsesforholdTilApiData(forhold))
         },
         medlemskap: {
             har_bodd_i_utlandet_siste_12_mnd: harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES,
@@ -65,4 +66,20 @@ export const mapFormDataToApiData = (
         har_bekreftet_opplysninger: harBekreftetOpplysninger,
         har_forstatt_rettigheter_og_plikter: harForståttRettigheterOgPlikter
     };
+};
+
+const mapAnsettelsesforholdTilApiData = (ansettelsesforhold: Ansettelsesforhold): AnsettelsesforholdApi => {
+    const { redusert_arbeidsuke, pstEllerTimer, skalArbeide, normal_arbeidsuke, ...rest } = ansettelsesforhold;
+    if (normal_arbeidsuke === undefined || redusert_arbeidsuke === undefined || pstEllerTimer === undefined) {
+        return rest;
+    }
+
+    const forhold: AnsettelsesforholdApi = {
+        ...rest,
+        normal_arbeidsuke,
+        redusert_arbeidsuke: skalArbeide
+            ? calculateRedusertArbeidsuke(normal_arbeidsuke, redusert_arbeidsuke, pstEllerTimer)
+            : 0
+    };
+    return forhold;
 };

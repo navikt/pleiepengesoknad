@@ -11,7 +11,7 @@ import './radioPanelGroup.less';
 import Box from '../box/Box';
 import bemUtils from 'app/utils/bemUtils';
 
-type RadioPanelBaseProps = RadioPanelProps & { key?: string };
+type RadioPanelBaseProps = RadioPanelProps & { key: string };
 
 export type RadioPanelGroupStyle = 'panel' | 'radio';
 
@@ -56,7 +56,7 @@ const RadioPanelGroupBase = ({
                     </legend>
                     <div className={`radioPanelGroup--responsive radioPanelGroup--${style}`}>
                         {radios.map(({ onChange, value, key, ...otherRadioProps }: RadioPanelBaseProps) => (
-                            <div className={`radioPanelWrapper radioPanelWrapper--${style}`} key={key}>
+                            <div className={`radioPanelWrapper radioPanelWrapper--${style}`} key={`${key}${value}`}>
                                 {style === 'panel' && (
                                     <RadioPanel onChange={onChange} value={value} {...otherRadioProps} />
                                 )}

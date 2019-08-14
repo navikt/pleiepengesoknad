@@ -1,7 +1,7 @@
 import React from 'react';
 import Input from '../input/Input';
 import intlHelper from 'app/utils/intlUtils';
-import { Ansettelsesforhold } from 'app/types/Søkerdata';
+import { Ansettelsesforhold, HoursOrPercent } from 'app/types/Søkerdata';
 import {
     validateNormaleArbeidstimer,
     validateReduserteArbeidTimer,
@@ -15,6 +15,7 @@ import Panel from '../panel/Panel';
 import YesOrNoQuestion from '../yes-or-no-question/YesOrNoQuestion';
 import { YesOrNo } from 'app/types/YesOrNo';
 import RadioPanelGroup from '../radio-panel-group/RadioPanelGroup';
+import { calculateRedusertArbeidsuke } from 'app/utils/ansettelsesforholdUtils';
 
 interface ArbeidsforholdDetaljerProps {
     formiInputNamePrefix: string;
@@ -33,9 +34,18 @@ const getReductionPercentValues = (forhold: Ansettelsesforhold): { pst: number }
     const pst = calculateReductionPercent(forhold);
     return pst !== undefined
         ? {
-              pst
+              pst: parseFloat(pst.toFixed(2))
           }
         : undefined;
+};
+
+const getReduserteTimer = (forhold: Ansettelsesforhold): string => {
+    const { redusert_arbeidsuke, pstEllerTimer, normal_arbeidsuke } = forhold;
+    if (normal_arbeidsuke === undefined || redusert_arbeidsuke === undefined || pstEllerTimer === undefined) {
+        return '';
+    }
+    const pst = calculateRedusertArbeidsuke(normal_arbeidsuke, redusert_arbeidsuke, pstEllerTimer);
+    return `${pst}`;
 };
 
 const ArbeidsforholdDetaljer: React.FunctionComponent<ArbeidsforholdDetaljerProps & InjectedIntlProps> = ({
@@ -59,12 +69,12 @@ const ArbeidsforholdDetaljer: React.FunctionComponent<ArbeidsforholdDetaljerProp
                     })}
                     value={forhold.normal_arbeidsuke || ''}
                 />
-                {forhold.normal_arbeidsuke && !isNaN(forhold.normal_arbeidsuke) && (
+                {forhold.normal_arbeidsuke !== undefined && !isNaN(forhold.normal_arbeidsuke) && (
                     <Box margin="l">
                         <YesOrNoQuestion
                             name={getInputName('skalArbeide')}
                             validate={validateRequiredField}
-                            legend="Skal du jobbe noe her, i denne perioden?"
+                            legend={`Skal du jobbe hos ${forhold.navn} i denne perioden?`}
                         />
                     </Box>
                 )}
@@ -74,52 +84,77 @@ const ArbeidsforholdDetaljer: React.FunctionComponent<ArbeidsforholdDetaljerProp
                             <RadioPanelGroup
                                 name={getInputName('pstEllerTimer')}
                                 legend={intlHelper(intl, 'gradertArbeidsforhold.timer_redusert')}
+                                validate={validateRequiredField}
+                                style="radio"
                                 radios={[
                                     {
-                                        value: 'timer',
-                                        label: 'Timer'
+                                        value: HoursOrPercent.hours,
+                                        label: 'Timer',
+                                        key: 'hours'
                                     },
                                     {
-                                        value: 'prosent',
-                                        label: 'Prosent'
+                                        value: HoursOrPercent.percent,
+                                        label: 'Prosent',
+                                        key: 'percent'
                                     }
                                 ]}
+                                childFormRenderer={
+                                    forhold.pstEllerTimer === undefined
+                                        ? undefined
+                                        : () => {
+                                              if (forhold.pstEllerTimer === HoursOrPercent.hours) {
+                                                  return (
+                                                      <Input
+                                                          inputClassName="input--timer"
+                                                          type="number"
+                                                          min={0}
+                                                          validate={(value: any) =>
+                                                              validateReduserteArbeidTimer(
+                                                                  value,
+                                                                  forhold.normal_arbeidsuke,
+                                                                  true
+                                                              )
+                                                          }
+                                                          name={getInputName('redusert_arbeidsuke')}
+                                                          label={intlHelper(
+                                                              intl,
+                                                              forhold.redusert_arbeidsuke
+                                                                  ? 'gradertArbeidsforhold.timerPerUkeLabel'
+                                                                  : 'gradertArbeidsforhold.timerPerUkeLabel_utenVerdi',
+                                                              getReductionPercentValues(forhold)
+                                                          )}
+                                                          value={forhold.redusert_arbeidsuke || ''}
+                                                          className="input--timer"
+                                                      />
+                                                  );
+                                              }
+                                              return (
+                                                  <Input
+                                                      inputClassName="input--timer"
+                                                      type="number"
+                                                      min={0}
+                                                      max={100}
+                                                      validate={(value: any) =>
+                                                          validateReduserteArbeidProsent(value, true)
+                                                      }
+                                                      name={getInputName('redusert_arbeidsuke')}
+                                                      label={intlHelper(
+                                                          intl,
+                                                          forhold.redusert_arbeidsuke
+                                                              ? 'gradertArbeidsforhold.redusertProsentLabel'
+                                                              : 'gradertArbeidsforhold.redusertProsentLabel_utenVerdi',
+                                                          {
+                                                              timer: forhold.normal_arbeidsuke,
+                                                              redusertTimer: getReduserteTimer(forhold)
+                                                          }
+                                                      )}
+                                                      value={forhold.redusert_arbeidsuke || ''}
+                                                      className="input--timer"
+                                                  />
+                                              );
+                                          }
+                                }
                             />
-                            {forhold.pstEllerTimer === 'timer' && (
-                                <Input
-                                    inputClassName="input--timer"
-                                    type="number"
-                                    min={0}
-                                    validate={(value: any) =>
-                                        validateReduserteArbeidTimer(value, forhold.normal_arbeidsuke, true)
-                                    }
-                                    name={getInputName('redusert_arbeidsuke')}
-                                    label={intlHelper(
-                                        intl,
-                                        forhold.redusert_arbeidsuke
-                                            ? 'gradertArbeidsforhold.timerPerUkeLabel'
-                                            : 'gradertArbeidsforhold.timerPerUkeLabel_utenVerdi',
-                                        getReductionPercentValues(forhold)
-                                    )}
-                                    value={forhold.redusert_arbeidsuke || ''}
-                                    className="input--timer"
-                                />
-                            )}
-                            {forhold.pstEllerTimer === 'prosent' && (
-                                <Input
-                                    inputClassName="input--timer"
-                                    type="number"
-                                    min={0}
-                                    max={100}
-                                    validate={(value: any) => validateReduserteArbeidProsent(value, true)}
-                                    name={getInputName('redusert_arbeidsuke')}
-                                    label={intlHelper(intl, 'gradertArbeidsforhold.redusertProsentLabel', {
-                                        timer: forhold.normal_arbeidsuke
-                                    })}
-                                    value={forhold.redusert_arbeidsuke || ''}
-                                    className="input--timer"
-                                />
-                            )}
                         </div>
                     </Box>
                 )}

@@ -7,7 +7,7 @@ export interface BarnToSendToApi {
     aktoer_id: string | null;
 }
 
-interface Ansettelsesforhold {
+export interface AnsettelsesforholdApi {
     navn: string;
     organisasjonsnummer?: string;
     normal_arbeidsuke?: number;
@@ -25,7 +25,7 @@ export interface PleiepengesøknadApiData {
     relasjon_til_barnet: string | null;
     fra_og_med: Date;
     til_og_med: Date;
-    arbeidsgivere: { organisasjoner: Ansettelsesforhold[] };
+    arbeidsgivere: { organisasjoner: AnsettelsesforholdApi[] };
     vedlegg: string[];
     medlemskap: Medlemskap;
     har_medsoker: boolean;

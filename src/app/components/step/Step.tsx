@@ -56,7 +56,7 @@ const Step: React.FunctionComponent<StepProps> = ({
                 <Systemtittel className={bem.element('title')}>{stepTexts.stepTitle}</Systemtittel>
             </Box>
             <Box margin="xl">
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} noValidate={true}>
                     {children}
                     {showSubmitButton !== false && (
                         <Box margin="xl">

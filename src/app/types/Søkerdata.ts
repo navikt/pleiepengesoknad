@@ -1,5 +1,10 @@
 import { YesOrNo } from './YesOrNo';
 
+export enum HoursOrPercent {
+    'hours' = 'hours',
+    'percent' = 'percent'
+}
+
 export interface BarnReceivedFromApi {
     fornavn: string;
     etternavn: string;
@@ -14,7 +19,7 @@ export interface Ansettelsesforhold {
     skalArbeide?: YesOrNo;
     normal_arbeidsuke?: number;
     redusert_arbeidsuke?: number;
-    pstEllerTimer?: 'timer' | 'prosent';
+    pstEllerTimer?: HoursOrPercent;
 }
 
 export interface Person {
