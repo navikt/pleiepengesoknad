@@ -8,6 +8,7 @@ import { formatName } from './personUtils';
 import { BarnReceivedFromApi, Ansettelsesforhold } from '../types/Søkerdata';
 import { Locale } from 'app/types/Locale';
 import { calculateRedusertArbeidsuke } from './ansettelsesforholdUtils';
+import { convertHoursToIso8601Duration } from './timeUtils';
 
 export const mapFormDataToApiData = (
     {
@@ -75,16 +76,10 @@ const mapAnsettelsesforholdTilApiData = (ansettelsesforhold: Ansettelsesforhold)
 
     const forhold: AnsettelsesforholdApi = {
         ...rest,
-        normal_arbeidsuke: convertTimerToIso8601Duration(normal_arbeidsuke),
-        redusert_arbeidsuke: convertTimerToIso8601Duration(
+        normal_arbeidsuke: convertHoursToIso8601Duration(normal_arbeidsuke),
+        redusert_arbeidsuke: convertHoursToIso8601Duration(
             skalArbeide ? calculateRedusertArbeidsuke(normal_arbeidsuke, redusert_arbeidsuke, pstEllerTimer) : 0
         )
     };
     return forhold;
-};
-
-export const convertTimerToIso8601Duration = (timer: number): string => {
-    const hours = Math.floor(timer);
-    const minutes = Math.round(60 * (timer % 1));
-    return `PT${hours}H${minutes}M`;
 };

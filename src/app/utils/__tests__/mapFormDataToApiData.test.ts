@@ -1,5 +1,5 @@
 import { Field, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
-import { mapFormDataToApiData, convertTimerToIso8601Duration } from '../mapFormDataToApiData';
+import { mapFormDataToApiData } from '../mapFormDataToApiData';
 import { PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import * as dateUtils from './../dateUtils';
 import * as attachmentUtils from './../attachmentUtils';
@@ -146,10 +146,5 @@ describe('mapFormDataToApiData', () => {
         expect(resultingApiData.har_forstatt_rettigheter_og_plikter).toBe(
             formDataMock[Field.harForståttRettigheterOgPlikter]
         );
-    });
-
-    it('should send timer in ISO8601Duration format', () => {
-        expect(convertTimerToIso8601Duration(37.5)).toEqual('PT37H30M');
-        expect(convertTimerToIso8601Duration(0)).toEqual('PT0H0M');
     });
 });
