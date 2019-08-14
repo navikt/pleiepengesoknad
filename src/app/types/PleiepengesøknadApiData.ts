@@ -1,5 +1,7 @@
 import { Locale } from './Locale';
 
+export type ISO8601Duration = string;
+
 export interface BarnToSendToApi {
     navn: string | null;
     fodselsnummer: string | null;
@@ -10,8 +12,8 @@ export interface BarnToSendToApi {
 export interface AnsettelsesforholdApi {
     navn: string;
     organisasjonsnummer?: string;
-    normal_arbeidsuke?: number;
-    redusert_arbeidsuke?: number;
+    normal_arbeidsuke?: ISO8601Duration;
+    redusert_arbeidsuke?: ISO8601Duration;
 }
 
 interface Medlemskap {

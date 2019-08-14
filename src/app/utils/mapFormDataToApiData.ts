@@ -14,7 +14,6 @@ export const mapFormDataToApiData = (
         barnetsNavn,
         barnetsFødselsnummer,
         barnetsForeløpigeFødselsnummerEllerDNummer,
-        søknadenGjelderEtAnnetBarn,
         barnetSøknadenGjelder,
         harBekreftetOpplysninger,
         harForståttRettigheterOgPlikter,
@@ -76,10 +75,16 @@ const mapAnsettelsesforholdTilApiData = (ansettelsesforhold: Ansettelsesforhold)
 
     const forhold: AnsettelsesforholdApi = {
         ...rest,
-        normal_arbeidsuke,
-        redusert_arbeidsuke: skalArbeide
-            ? calculateRedusertArbeidsuke(normal_arbeidsuke, redusert_arbeidsuke, pstEllerTimer)
-            : 0
+        normal_arbeidsuke: convertTimerToIso8601Duration(normal_arbeidsuke),
+        redusert_arbeidsuke: convertTimerToIso8601Duration(
+            skalArbeide ? calculateRedusertArbeidsuke(normal_arbeidsuke, redusert_arbeidsuke, pstEllerTimer) : 0
+        )
     };
     return forhold;
+};
+
+const convertTimerToIso8601Duration = (timer: number): string => {
+    const hours = Math.floor(timer);
+    const minutes = 60 * (timer % 1);
+    return `PT${hours}H${minutes}M`;
 };
