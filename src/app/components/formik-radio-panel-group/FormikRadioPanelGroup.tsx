@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from '../../utils/navFrontendUtils';
-import RadioPanelGroupBase from '../radio-panel-group-base/RadioPanelGroupBase';
+import RadioPanelGroupBase, { RadioPanelGroupStyle } from '../radio-panel-group-base/RadioPanelGroupBase';
 import { FormikValidateFunction, FormikValidationProps } from 'app/types/FormikProps';
 
 interface FormikRadioPanelProps {
@@ -17,11 +17,13 @@ interface FormikRadioPanelGroupProps<T> {
     radios: FormikRadioPanelProps[];
     validate?: FormikValidateFunction;
     helperText?: string;
+    childFormRenderer?: () => React.ReactNode;
+    style?: RadioPanelGroupStyle;
 }
 
 const FormikRadioPanelGroup = <T extends {}>(): React.FunctionComponent<
     FormikRadioPanelGroupProps<T> & FormikValidationProps
-> => ({ name, validate, legend, radios, helperText, intl }) => (
+> => ({ name, validate, legend, radios, helperText, style, childFormRenderer, intl }) => (
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {
             const errorMsgProps = submitCount > 0 ? getValidationErrorPropsWithIntl(intl, errors, field.name) : {};
@@ -36,6 +38,8 @@ const FormikRadioPanelGroup = <T extends {}>(): React.FunctionComponent<
                         ...otherProps
                     }))}
                     helperText={helperText}
+                    childFormRender={childFormRenderer}
+                    style={style}
                     {...errorMsgProps}
                 />
             );

@@ -24,6 +24,9 @@
     .radioPanelGroup--responsive {
         display: flex;
         flex-wrap: wrap;
+        &.radioPanelGroup--radio {
+            margin-bottom: -1rem; /* Counter bottom-margin on radios */
+        }
 
         .radioPanelWrapper {
             margin-top: 0.5rem;
@@ -48,6 +51,10 @@
                 &:nth-child(2n) {
                     padding-right: 0;
                 }
+                &--radio {
+                    flex-basis: 0;
+                    width: auto;
+                }
             }
         }
 
@@ -57,6 +64,10 @@
                 width: 50%;
                 &:nth-child(2n) {
                     padding-right: 0;
+                }
+                &--radio {
+                    flex-basis: 0;
+                    width: auto;
                 }
             }
         }
