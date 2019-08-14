@@ -83,8 +83,8 @@ const mapAnsettelsesforholdTilApiData = (ansettelsesforhold: Ansettelsesforhold)
     return forhold;
 };
 
-const convertTimerToIso8601Duration = (timer: number): string => {
+export const convertTimerToIso8601Duration = (timer: number): string => {
     const hours = Math.floor(timer);
-    const minutes = 60 * (timer % 1);
+    const minutes = Math.round(60 * (timer % 1));
     return `PT${hours}H${minutes}M`;
 };
