@@ -34,8 +34,7 @@ const OpplysningerOmAnsettelsesforholdStep = ({ history, intl, ...stepProps }: P
                             checkboxes={søkerdata.ansettelsesforhold!.map((a) => ({
                                 label: a.navn,
                                 value: a,
-                                key: a.organisasjonsnummer,
-                                expandedContentRenderer: () => <div>sdf</div>
+                                key: a.organisasjonsnummer
                             }))}
                         />
                     ) : (

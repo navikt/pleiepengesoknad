@@ -13,7 +13,7 @@ export type CheckboxPanelExpandedContentRenderer = () => React.ReactNode;
 
 type CheckboxPanelBaseProps = CheckboksPanelProps & {
     key?: string;
-    expandedContentRenderer: CheckboxPanelExpandedContentRenderer;
+    expandedContentRenderer?: CheckboxPanelExpandedContentRenderer;
 };
 
 interface CheckboxPanelGroupBaseProps {

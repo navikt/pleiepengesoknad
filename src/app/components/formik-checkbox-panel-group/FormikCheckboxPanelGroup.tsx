@@ -13,7 +13,7 @@ interface FormikCheckboxPanelProps {
     value: any;
     key?: string;
     disabled?: boolean;
-    expandedContentRenderer: CheckboxPanelExpandedContentRenderer;
+    expandedContentRenderer?: CheckboxPanelExpandedContentRenderer;
 }
 
 interface FormikCheckboxPanelGroupProps<T> {
