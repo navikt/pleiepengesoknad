@@ -2,14 +2,13 @@ import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from '../../utils/navFrontendUtils';
 import { FormikValidationProps } from 'app/types/FormikProps';
-import TimefieldBase, { TimefieldValue } from '../timefield-base/TimefieldBase';
+import TimefieldBase from '../timefield-base/TimefieldBase';
 
 interface FormikTimefieldProps<T> {
     name: T;
     label: React.ReactNode;
-    value: TimefieldValue;
     helperText?: string;
-    maxLength?: number;
+    disabled?: boolean;
 }
 
 const FormikTimefield = <T extends {}>(): React.FunctionComponent<FormikTimefieldProps<T> & FormikValidationProps> => ({
@@ -20,10 +19,17 @@ const FormikTimefield = <T extends {}>(): React.FunctionComponent<FormikTimefiel
     ...otherInputProps
 }) => (
     <FormikField validate={validate} name={name}>
-        {({ field, form: { errors, submitCount } }: FormikFieldProps) => {
+        {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {
             const errorMsgProps = submitCount > 0 ? getValidationErrorPropsWithIntl(intl, errors, field.name) : {};
             return (
-                <TimefieldBase label={label} {...otherInputProps} {...errorMsgProps} {...field} value={field.value} />
+                <TimefieldBase
+                    label={label}
+                    {...otherInputProps}
+                    {...errorMsgProps}
+                    {...field}
+                    value={field.value}
+                    onChange={(value) => setFieldValue(field.name, value)}
+                />
             );
         }}
     </FormikField>

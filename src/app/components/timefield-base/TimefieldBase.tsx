@@ -15,16 +15,16 @@ type Props = TimefieldBaseProps;
 
 interface TimefieldBaseProps {
     name: string;
-    value: TimefieldValue | undefined;
     label: React.ReactNode;
+    value: TimefieldValue | undefined;
     onChange: (value: TimefieldValue) => void;
     id?: string;
     disabled?: boolean;
-    maxLength?: number;
     helperText?: string;
 }
 
 const defaultValue: TimefieldValue = { hours: 0, minutes: 0 };
+
 const TimefieldBase: React.FunctionComponent<Props> = ({
     helperText,
     value = defaultValue,
