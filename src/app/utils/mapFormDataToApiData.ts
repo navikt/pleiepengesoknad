@@ -1,11 +1,11 @@
 import { formatDate } from './dateUtils';
-import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { PleiepengesøknadFormData, AnsettelsesforholdForm } from '../types/PleiepengesøknadFormData';
 import { BarnToSendToApi, PleiepengesøknadApiData, AnsettelsesforholdApi } from '../types/PleiepengesøknadApiData';
 import { attachmentUploadHasFailed } from './attachmentUtils';
 import { YesOrNo } from '../types/YesOrNo';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
 import { formatName } from './personUtils';
-import { BarnReceivedFromApi, Ansettelsesforhold } from '../types/Søkerdata';
+import { BarnReceivedFromApi } from '../types/Søkerdata';
 import { Locale } from 'app/types/Locale';
 import { calculateRedusertArbeidsuke } from './ansettelsesforholdUtils';
 import { convertHoursToIso8601Duration } from './timeUtils';
@@ -68,7 +68,7 @@ export const mapFormDataToApiData = (
     };
 };
 
-const mapAnsettelsesforholdTilApiData = (ansettelsesforhold: Ansettelsesforhold): AnsettelsesforholdApi => {
+const mapAnsettelsesforholdTilApiData = (ansettelsesforhold: AnsettelsesforholdForm): AnsettelsesforholdApi => {
     const { redusert_arbeidsuke, pstEllerTimer, skalArbeide, normal_arbeidsuke, ...rest } = ansettelsesforhold;
     if (normal_arbeidsuke === undefined || redusert_arbeidsuke === undefined || pstEllerTimer === undefined) {
         return rest;

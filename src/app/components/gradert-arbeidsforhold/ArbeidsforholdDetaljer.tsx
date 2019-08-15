@@ -1,14 +1,14 @@
 import React from 'react';
 import Input from '../input/Input';
 import intlHelper from 'app/utils/intlUtils';
-import { Ansettelsesforhold, HoursOrPercent } from 'app/types/Søkerdata';
+import { HoursOrPercent } from 'app/types/Søkerdata';
 import {
     validateNormaleArbeidstimer,
     validateReduserteArbeidTimer,
     validateReduserteArbeidProsent,
     validateRequiredField
 } from 'app/validation/fieldValidations';
-import { Field } from 'app/types/PleiepengesøknadFormData';
+import { Field, AnsettelsesforholdForm } from 'app/types/PleiepengesøknadFormData';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import Box from '../box/Box';
 import Panel from '../panel/Panel';
@@ -19,10 +19,10 @@ import { calculateRedusertArbeidsuke } from 'app/utils/ansettelsesforholdUtils';
 
 interface ArbeidsforholdDetaljerProps {
     formiInputNamePrefix: string;
-    forhold: Ansettelsesforhold;
+    forhold: AnsettelsesforholdForm;
 }
 
-const calculateReductionPercent = (forhold: Ansettelsesforhold): number | undefined => {
+const calculateReductionPercent = (forhold: AnsettelsesforholdForm): number | undefined => {
     const { normal_arbeidsuke, redusert_arbeidsuke } = forhold;
     if (normal_arbeidsuke !== undefined && redusert_arbeidsuke !== undefined) {
         return (100 / normal_arbeidsuke) * redusert_arbeidsuke;
@@ -30,7 +30,7 @@ const calculateReductionPercent = (forhold: Ansettelsesforhold): number | undefi
     return undefined;
 };
 
-const getReductionPercentValues = (forhold: Ansettelsesforhold): { pst: number } | undefined => {
+const getReductionPercentValues = (forhold: AnsettelsesforholdForm): { pst: number } | undefined => {
     const pst = calculateReductionPercent(forhold);
     return pst !== undefined
         ? {
@@ -39,7 +39,7 @@ const getReductionPercentValues = (forhold: Ansettelsesforhold): { pst: number }
         : undefined;
 };
 
-const getReduserteTimer = (forhold: Ansettelsesforhold): string => {
+const getReduserteTimer = (forhold: AnsettelsesforholdForm): string => {
     const { redusert_arbeidsuke, pstEllerTimer, normal_arbeidsuke } = forhold;
     if (normal_arbeidsuke === undefined || redusert_arbeidsuke === undefined || pstEllerTimer === undefined) {
         return '';
