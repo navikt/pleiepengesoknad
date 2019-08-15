@@ -188,5 +188,9 @@
     "gradertArbeidsforhold.timerPerUkeLabel_utenVerdi": "timer per uke",
     "gradertArbeidsforhold.timerPerUkeLabel": "timer per uke ({pst} prosent av normalt)",
     "gradertArbeidsforhold.redusertProsentLabel_utenVerdi": "prosent av {timer, plural, one {# time} other {# timer}}",
-    "gradertArbeidsforhold.redusertProsentLabel": "prosent av {timer, plural, one {# time} other {# timer}} (tilsvarer {redusertTimer, plural, one {# time} other {# timer}} i uken)"
+    "gradertArbeidsforhold.redusertProsentLabel": "prosent av {timer, plural, one {# time} other {# timer}} (tilsvarer {redusertTimer, plural, one {# time} other {# timer}} i uken)",
+
+    "gradertArbeidsforhold.oppsummering.orgInfo": "{navn} (organisasjonsnummer {organisasjonsnummer}):",
+    "gradertArbeidsforhold.oppsummering.skalIkkeArbeide": "Skal ikke jobbe her i denne perioden (jobber normalt {timerNormalt, plural, one {# time} other {# timer}} i uken).",
+    "gradertArbeidsforhold.oppsummering.skalArbeideDelvis": "Skal jobbe {timerRedusert, plural, one {# time} other {# timer}} i uken i denne perioden (jobber normalt {timerNormalt, plural, one {# time} other {# timer}} i uken)."
 }

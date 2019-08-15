@@ -25,6 +25,7 @@ import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
 import intlHelper from 'app/utils/intlUtils';
 import { Locale } from 'app/types/Locale';
+import GradertAnsettelsesforholdSummary from 'app/components/gradert-ansettelsesforhold-summary/GradertAnsettelsesforholdSummary';
 
 export interface SummaryStepProps {
     handleSubmit: () => void;
@@ -215,14 +216,24 @@ class SummaryStep extends React.Component<Props, State> {
                                     <ContentWithHeader
                                         header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.header')}>
                                         {ansettelsesforhold.length > 0 ? (
-                                            ansettelsesforhold.map(({ navn, organisasjonsnummer }) => (
-                                                <Normaltekst key={organisasjonsnummer}>
-                                                    <FormattedMessage
-                                                        id="steg.oppsummering.arbeidsforhold.forhold"
-                                                        values={{ navn, organisasjonsnummer }}
+                                            ansettelsesforhold.map((forhold) =>
+                                                isFeatureEnabled(Feature.TOGGLE_GRADERT_ARBEID) ? (
+                                                    <GradertAnsettelsesforholdSummary
+                                                        key={forhold.organisasjonsnummer}
+                                                        ansettelsesforhold={forhold}
                                                     />
-                                                </Normaltekst>
-                                            ))
+                                                ) : (
+                                                    <Normaltekst key={forhold.organisasjonsnummer}>
+                                                        <FormattedMessage
+                                                            id="steg.oppsummering.arbeidsforhold.forhold"
+                                                            values={{
+                                                                navn: forhold.navn,
+                                                                organisasjonsnummer: forhold.organisasjonsnummer
+                                                            }}
+                                                        />
+                                                    </Normaltekst>
+                                                )
+                                            )
                                         ) : (
                                             <FormattedMessage id="steg.oppsummering.arbeidsforhold.ingenArbeidsforhold" />
                                         )}
