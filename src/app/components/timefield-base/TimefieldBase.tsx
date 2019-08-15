@@ -11,8 +11,6 @@ export interface TimefieldValue {
     minutes: number;
 }
 
-type Props = TimefieldBaseProps;
-
 interface TimefieldBaseProps {
     name: string;
     label: React.ReactNode;
@@ -25,12 +23,12 @@ interface TimefieldBaseProps {
 
 const defaultValue: TimefieldValue = { hours: 0, minutes: 0 };
 
-const TimefieldBase: React.FunctionComponent<Props> = ({
+const TimefieldBase: React.FunctionComponent<TimefieldBaseProps> = ({
     helperText,
     value = defaultValue,
     onChange,
     ...otherProps
-}: Props) => {
+}: TimefieldBaseProps) => {
     const { label, name } = otherProps;
 
     return (
