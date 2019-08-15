@@ -1,10 +1,11 @@
-import { Field, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
-import { mapFormDataToApiData } from '../mapFormDataToApiData';
+import { Field, PleiepengesøknadFormData, AnsettelsesforholdForm } from '../../types/PleiepengesøknadFormData';
+import { mapFormDataToApiData, mapAnsettelsesforholdTilApiData } from '../mapFormDataToApiData';
 import { PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import * as dateUtils from './../dateUtils';
 import * as attachmentUtils from './../attachmentUtils';
 import { YesOrNo } from '../../types/YesOrNo';
-import { BarnReceivedFromApi } from '../../types/Søkerdata';
+import { BarnReceivedFromApi, HoursOrPercent } from '../../types/Søkerdata';
+import { convertHoursToIso8601Duration } from '../timeUtils';
 const moment = require('moment');
 
 jest.mock('./../featureToggleUtils.ts', () => {
@@ -19,6 +20,15 @@ const barnMock: BarnReceivedFromApi[] = [
     { fodselsdato: todaysDate, fornavn: 'Mock', etternavn: 'Mocknes', aktoer_id: '123' }
 ];
 
+const ansettelsesforholdTelenor: AnsettelsesforholdForm = {
+    navn: 'Telenor',
+    organisasjonsnummer: '973861778'
+};
+const ansettelsesforholdMaxbo: AnsettelsesforholdForm = {
+    navn: 'Maxbo',
+    organisasjonsnummer: '910831143'
+};
+
 type AttachmentMock = Attachment & { failed: boolean };
 const attachmentMock1: Partial<AttachmentMock> = { url: 'nav.no/1', failed: true };
 const attachmentMock2: Partial<AttachmentMock> = { url: 'nav.no/2', failed: false };
@@ -28,16 +38,7 @@ const formDataMock: Partial<PleiepengesøknadFormData> = {
     [Field.harBekreftetOpplysninger]: true,
     [Field.harForståttRettigheterOgPlikter]: true,
     [Field.søkersRelasjonTilBarnet]: 'mor',
-    [Field.ansettelsesforhold]: [
-        {
-            navn: 'Telenor',
-            organisasjonsnummer: '973861778'
-        },
-        {
-            navn: 'Maxbo',
-            organisasjonsnummer: '910831143'
-        }
-    ],
+    [Field.ansettelsesforhold]: [ansettelsesforholdTelenor, ansettelsesforholdMaxbo],
     [Field.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.YES,
     [Field.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.NO,
     [Field.periodeFra]: todaysDate,
@@ -146,5 +147,37 @@ describe('mapFormDataToApiData', () => {
         expect(resultingApiData.har_forstatt_rettigheter_og_plikter).toBe(
             formDataMock[Field.harForståttRettigheterOgPlikter]
         );
+    });
+
+    describe('maps ansetteslesform', () => {
+        it('should return ansettelsesforhold correctly when skalArbeide is set to [no]', () => {
+            expect(
+                mapAnsettelsesforholdTilApiData({
+                    ...ansettelsesforholdMaxbo,
+                    skalArbeide: YesOrNo.NO,
+                    normal_arbeidsuke: 20
+                })
+            ).toEqual({
+                ...ansettelsesforholdMaxbo,
+                normal_arbeidsuke: convertHoursToIso8601Duration(20),
+                redusert_arbeidsuke: convertHoursToIso8601Duration(0)
+            });
+        });
+
+        it('should return ansettelsesforhold correctly when skalArbeide is set to [yes]', () => {
+            expect(
+                mapAnsettelsesforholdTilApiData({
+                    ...ansettelsesforholdMaxbo,
+                    skalArbeide: YesOrNo.YES,
+                    normal_arbeidsuke: 20,
+                    redusert_arbeidsuke: 10,
+                    pstEllerTimer: HoursOrPercent.hours
+                })
+            ).toEqual({
+                ...ansettelsesforholdMaxbo,
+                normal_arbeidsuke: convertHoursToIso8601Duration(20),
+                redusert_arbeidsuke: convertHoursToIso8601Duration(10)
+            });
+        });
     });
 });

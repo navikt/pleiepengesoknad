@@ -5,7 +5,7 @@ import { attachmentUploadHasFailed } from './attachmentUtils';
 import { YesOrNo } from '../types/YesOrNo';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
 import { formatName } from './personUtils';
-import { BarnReceivedFromApi } from '../types/Søkerdata';
+import { BarnReceivedFromApi, HoursOrPercent } from '../types/Søkerdata';
 import { Locale } from 'app/types/Locale';
 import { calculateRedusertArbeidsuke } from './ansettelsesforholdUtils';
 import { convertHoursToIso8601Duration } from './timeUtils';
@@ -68,9 +68,9 @@ export const mapFormDataToApiData = (
     };
 };
 
-const mapAnsettelsesforholdTilApiData = (ansettelsesforhold: AnsettelsesforholdForm): AnsettelsesforholdApi => {
+export const mapAnsettelsesforholdTilApiData = (ansettelsesforhold: AnsettelsesforholdForm): AnsettelsesforholdApi => {
     const { redusert_arbeidsuke, pstEllerTimer, skalArbeide, normal_arbeidsuke, ...rest } = ansettelsesforhold;
-    if (normal_arbeidsuke === undefined || redusert_arbeidsuke === undefined || pstEllerTimer === undefined) {
+    if (normal_arbeidsuke === undefined || skalArbeide === undefined) {
         return rest;
     }
 
@@ -78,7 +78,13 @@ const mapAnsettelsesforholdTilApiData = (ansettelsesforhold: AnsettelsesforholdF
         ...rest,
         normal_arbeidsuke: convertHoursToIso8601Duration(normal_arbeidsuke),
         redusert_arbeidsuke: convertHoursToIso8601Duration(
-            skalArbeide ? calculateRedusertArbeidsuke(normal_arbeidsuke, redusert_arbeidsuke, pstEllerTimer) : 0
+            skalArbeide
+                ? calculateRedusertArbeidsuke(
+                      normal_arbeidsuke,
+                      redusert_arbeidsuke || 0,
+                      pstEllerTimer || HoursOrPercent.hours
+                  )
+                : 0
         )
     };
     return forhold;
