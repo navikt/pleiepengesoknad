@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Input } from 'nav-frontend-skjema';
 import LabelWithHelperText from '../label-with-helper-text/LabelWithHelperText';
-import { InputType } from '../../types/InputType';
 import Timefield from 'react-simple-timefield';
 import TimefieldUtils from './timefieldUtils';
 
@@ -15,16 +14,23 @@ export interface TimefieldValue {
 type Props = TimefieldBaseProps;
 
 interface TimefieldBaseProps {
+    name: string;
+    value: TimefieldValue | undefined;
+    label: React.ReactNode;
+    onChange: (value: TimefieldValue) => void;
+    id?: string;
+    disabled?: boolean;
     maxLength?: number;
     helperText?: string;
-    type?: InputType;
-    value: TimefieldValue;
-    label: string;
-    name: string;
-    onChange: (value: TimefieldValue) => void;
 }
 
-const TimefieldBase: React.FunctionComponent<Props> = ({ helperText, value, onChange, ...otherProps }: Props) => {
+const defaultValue: TimefieldValue = { hours: 0, minutes: 0 };
+const TimefieldBase: React.FunctionComponent<Props> = ({
+    helperText,
+    value = defaultValue,
+    onChange,
+    ...otherProps
+}: Props) => {
     const { label, name } = otherProps;
 
     return (
