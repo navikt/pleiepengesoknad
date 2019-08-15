@@ -6,11 +6,14 @@ import * as attachmentUtils from './../attachmentUtils';
 import { YesOrNo } from '../../types/YesOrNo';
 import { BarnReceivedFromApi, HoursOrPercent } from '../../types/Søkerdata';
 import { convertHoursToIso8601Duration } from '../timeUtils';
+import { isFeatureEnabled } from '../featureToggleUtils';
+
 const moment = require('moment');
 
-jest.mock('./../featureToggleUtils.ts', () => {
-    return { isFeatureEnabled: () => false, Feature: {} };
-});
+jest.mock('./../featureToggleUtils.ts', () => ({
+    isFeatureEnabled: jest.fn(),
+    Feature: {}
+}));
 
 const todaysDate = moment()
     .startOf('day')
@@ -149,8 +152,22 @@ describe('mapFormDataToApiData', () => {
         );
     });
 
-    describe('maps ansetteslesform', () => {
+    describe('maps ansettelsesform', () => {
+        it('should only send normal ansettelsesforhold when feature TOGGLE_GRADERT_ARBEID is off', () => {
+            (isFeatureEnabled as any).mockImplementation(() => false);
+            expect(
+                mapAnsettelsesforholdTilApiData({
+                    ...ansettelsesforholdMaxbo,
+                    skalArbeide: YesOrNo.NO,
+                    normal_arbeidsuke: 20
+                })
+            ).toEqual({
+                ...ansettelsesforholdMaxbo
+            });
+        });
+
         it('should return ansettelsesforhold correctly when skalArbeide is set to [no]', () => {
+            (isFeatureEnabled as any).mockImplementation(() => true);
             expect(
                 mapAnsettelsesforholdTilApiData({
                     ...ansettelsesforholdMaxbo,
@@ -165,6 +182,7 @@ describe('mapFormDataToApiData', () => {
         });
 
         it('should return ansettelsesforhold correctly when skalArbeide is set to [yes]', () => {
+            (isFeatureEnabled as any).mockImplementation(() => true);
             expect(
                 mapAnsettelsesforholdTilApiData({
                     ...ansettelsesforholdMaxbo,

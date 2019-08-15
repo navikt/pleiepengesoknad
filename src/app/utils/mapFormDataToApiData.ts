@@ -69,6 +69,12 @@ export const mapFormDataToApiData = (
 };
 
 export const mapAnsettelsesforholdTilApiData = (ansettelsesforhold: AnsettelsesforholdForm): AnsettelsesforholdApi => {
+    if (isFeatureEnabled(Feature.TOGGLE_GRADERT_ARBEID) === false) {
+        return {
+            navn: ansettelsesforhold.navn,
+            organisasjonsnummer: ansettelsesforhold.organisasjonsnummer
+        };
+    }
     const { redusert_arbeidsuke, pstEllerTimer, skalArbeide, normal_arbeidsuke, ...rest } = ansettelsesforhold;
     if (normal_arbeidsuke === undefined || skalArbeide === undefined) {
         return rest;
