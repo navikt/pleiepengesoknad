@@ -17,7 +17,7 @@ import { YesOrNo } from 'app/types/YesOrNo';
 import RadioPanelGroup from '../radio-panel-group/RadioPanelGroup';
 import { calculateRedusertArbeidsuke } from 'app/utils/ansettelsesforholdUtils';
 
-interface ArbeidsforholdDetaljerProps {
+interface Props {
     formiInputNamePrefix: string;
     forhold: AnsettelsesforholdForm;
 }
@@ -48,7 +48,7 @@ const getReduserteTimer = (forhold: AnsettelsesforholdForm): string => {
     return `${pst}`;
 };
 
-const ArbeidsforholdDetaljer: React.FunctionComponent<ArbeidsforholdDetaljerProps & InjectedIntlProps> = ({
+const AnsettelsesforholdDetaljer: React.FunctionComponent<Props & InjectedIntlProps> = ({
     forhold,
     formiInputNamePrefix,
     intl
@@ -64,7 +64,7 @@ const ArbeidsforholdDetaljer: React.FunctionComponent<ArbeidsforholdDetaljerProp
                     min={0}
                     validate={(value: any) => validateNormaleArbeidstimer(value, true)}
                     name={getInputName('normal_arbeidsuke')}
-                    label={intlHelper(intl, 'gradertArbeidsforhold.timer_arbeidsuke', {
+                    label={intlHelper(intl, 'gradertAnsettelsesforhold.timer_arbeidsuke', {
                         navn: forhold.navn
                     })}
                     value={forhold.normal_arbeidsuke || ''}
@@ -83,7 +83,7 @@ const ArbeidsforholdDetaljer: React.FunctionComponent<ArbeidsforholdDetaljerProp
                         <div className="timerEllerProsent">
                             <RadioPanelGroup
                                 name={getInputName('pstEllerTimer')}
-                                legend={intlHelper(intl, 'gradertArbeidsforhold.timer_redusert')}
+                                legend={intlHelper(intl, 'gradertAnsettelsesforhold.timer_redusert')}
                                 validate={validateRequiredField}
                                 style="radio"
                                 radios={[
@@ -119,8 +119,8 @@ const ArbeidsforholdDetaljer: React.FunctionComponent<ArbeidsforholdDetaljerProp
                                                           label={intlHelper(
                                                               intl,
                                                               forhold.redusert_arbeidsuke
-                                                                  ? 'gradertArbeidsforhold.timerPerUkeLabel'
-                                                                  : 'gradertArbeidsforhold.timerPerUkeLabel_utenVerdi',
+                                                                  ? 'gradertAnsettelsesforhold.timerPerUkeLabel'
+                                                                  : 'gradertAnsettelsesforhold.timerPerUkeLabel_utenVerdi',
                                                               getReductionPercentValues(forhold)
                                                           )}
                                                           value={forhold.redusert_arbeidsuke || ''}
@@ -141,8 +141,8 @@ const ArbeidsforholdDetaljer: React.FunctionComponent<ArbeidsforholdDetaljerProp
                                                       label={intlHelper(
                                                           intl,
                                                           forhold.redusert_arbeidsuke
-                                                              ? 'gradertArbeidsforhold.redusertProsentLabel'
-                                                              : 'gradertArbeidsforhold.redusertProsentLabel_utenVerdi',
+                                                              ? 'gradertAnsettelsesforhold.redusertProsentLabel'
+                                                              : 'gradertAnsettelsesforhold.redusertProsentLabel_utenVerdi',
                                                           {
                                                               timer: forhold.normal_arbeidsuke,
                                                               redusertTimer: getReduserteTimer(forhold)
@@ -163,4 +163,4 @@ const ArbeidsforholdDetaljer: React.FunctionComponent<ArbeidsforholdDetaljerProp
     );
 };
 
-export default injectIntl(ArbeidsforholdDetaljer);
+export default injectIntl(AnsettelsesforholdDetaljer);

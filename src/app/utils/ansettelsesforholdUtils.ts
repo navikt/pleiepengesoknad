@@ -20,17 +20,17 @@ export const getIntlAnsettelsesforholdsdetaljerForSummary = (
     const { normal_arbeidsuke, pstEllerTimer, redusert_arbeidsuke, skalArbeide } = forhold;
     if (skalArbeide === YesOrNo.NO) {
         return {
-            id: 'gradertArbeidsforhold.oppsummering.skalIkkeArbeide',
+            id: 'gradertAnsettelsesforhold.oppsummering.skalIkkeArbeide',
             values: { timerNormalt: normal_arbeidsuke }
         };
     }
     if (!pstEllerTimer || !normal_arbeidsuke || !redusert_arbeidsuke) {
-        return { id: 'steg.oppsummering.arbeidsforhold.forhold' };
+        return { id: 'steg.oppsummering.ansettelsesforhold.forhold' };
     }
 
     const timerRedusert = calculateRedusertArbeidsuke(normal_arbeidsuke, redusert_arbeidsuke, pstEllerTimer);
     return {
-        id: 'gradertArbeidsforhold.oppsummering.skalArbeideDelvis',
+        id: 'gradertAnsettelsesforhold.oppsummering.skalArbeideDelvis',
         values: { timerNormalt: normal_arbeidsuke, timerRedusert }
     };
 };

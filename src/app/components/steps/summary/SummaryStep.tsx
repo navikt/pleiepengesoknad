@@ -214,7 +214,7 @@ class SummaryStep extends React.Component<Props, State> {
                                 </Box>
                                 <Box margin="l">
                                     <ContentWithHeader
-                                        header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.header')}>
+                                        header={intlHelper(intl, 'steg.oppsummering.ansettelsesforhold.header')}>
                                         {ansettelsesforhold.length > 0 ? (
                                             ansettelsesforhold.map((forhold) =>
                                                 isFeatureEnabled(Feature.TOGGLE_GRADERT_ARBEID) ? (
@@ -225,7 +225,7 @@ class SummaryStep extends React.Component<Props, State> {
                                                 ) : (
                                                     <Normaltekst key={forhold.organisasjonsnummer}>
                                                         <FormattedMessage
-                                                            id="steg.oppsummering.arbeidsforhold.forhold"
+                                                            id="steg.oppsummering.ansettelsesforhold.forhold"
                                                             values={{
                                                                 navn: forhold.navn,
                                                                 organisasjonsnummer: forhold.organisasjonsnummer
@@ -235,7 +235,7 @@ class SummaryStep extends React.Component<Props, State> {
                                                 )
                                             )
                                         ) : (
-                                            <FormattedMessage id="steg.oppsummering.arbeidsforhold.ingenArbeidsforhold" />
+                                            <FormattedMessage id="steg.oppsummering.ansettelsesforhold.ingenAnsettelsesforhold" />
                                         )}
                                     </ContentWithHeader>
                                 </Box>

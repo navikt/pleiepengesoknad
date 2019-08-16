@@ -20,9 +20,9 @@ export enum FieldValidationErrors {
     'legeerklæring_mangler' = 'fieldvalidation.legeerklæring.mangler',
     'legeerklæring_forMangeFiler' = 'fieldvalidation.legeerklæring.forMangeFiler',
     'grad_ugyldig' = 'fieldvalidation.grad.ugyldig',
-    'arbeidsforhold_timerUgyldig' = 'fieldvalidation.arbeidsforhold_timerUgyldig',
-    'arbeidsforhold_prosentUgyldig' = 'fieldvalidation.arbeidsforhold_prosentUgyldig',
-    'arbeidsforhold_redusertMerEnnNormalt' = 'fieldvalidation.arbeidsforhold_redusertMerEnnNormalt'
+    'ansettelsesforhold_timerUgyldig' = 'fieldvalidation.ansettelsesforhold_timerUgyldig',
+    'ansettelsesforhold_prosentUgyldig' = 'fieldvalidation.ansettelsesforhold_prosentUgyldig',
+    'ansettelsesforhold_redusertMerEnnNormalt' = 'fieldvalidation.ansettelsesforhold_redusertMerEnnNormalt'
 }
 
 const MAX_ARBEIDSTIMER_PER_UKE = 150;
@@ -176,7 +176,7 @@ export const validateNormaleArbeidstimer = (value: number | string, isRequired?:
     }
     const timer = typeof value === 'string' ? parseFloat(value) : value;
     if (isNaN(timer) || timer < MIN_ARBEIDSTIMER_PER_UKE || timer > MAX_ARBEIDSTIMER_PER_UKE) {
-        return fieldValidationError(FieldValidationErrors.arbeidsforhold_timerUgyldig, {
+        return fieldValidationError(FieldValidationErrors.ansettelsesforhold_timerUgyldig, {
             min: MIN_ARBEIDSTIMER_PER_UKE,
             max: MAX_ARBEIDSTIMER_PER_UKE
         });
@@ -200,13 +200,13 @@ export const validateReduserteArbeidTimer = (
     }
 
     if (timer < MIN_ARBEIDSTIMER_PER_UKE || timer > MAX_ARBEIDSTIMER_PER_UKE) {
-        return fieldValidationError(FieldValidationErrors.arbeidsforhold_timerUgyldig, {
+        return fieldValidationError(FieldValidationErrors.ansettelsesforhold_timerUgyldig, {
             min: MIN_ARBEIDSTIMER_PER_UKE,
             max: Math.max(MAX_ARBEIDSTIMER_PER_UKE, timerNormalt)
         });
     }
     if (timer > (timerNormalt || MAX_ARBEIDSTIMER_PER_UKE)) {
-        return fieldValidationError(FieldValidationErrors.arbeidsforhold_redusertMerEnnNormalt);
+        return fieldValidationError(FieldValidationErrors.ansettelsesforhold_redusertMerEnnNormalt);
     }
     return undefined;
 };
@@ -217,7 +217,7 @@ export const validateReduserteArbeidProsent = (value: number | string, isRequire
     const prosent = typeof value === 'string' ? parseFloat(value) : value;
 
     if (prosent < 1 || prosent > 100) {
-        return fieldValidationError(FieldValidationErrors.arbeidsforhold_prosentUgyldig);
+        return fieldValidationError(FieldValidationErrors.ansettelsesforhold_prosentUgyldig);
     }
     return undefined;
 };

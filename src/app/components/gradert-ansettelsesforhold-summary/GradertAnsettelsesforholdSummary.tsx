@@ -22,7 +22,7 @@ const GradertAnsettelsesforholdSummary: React.FunctionComponent<Ansettelsesforho
     return (
         <div className={bem.block}>
             <div className={bem.element('org')}>
-                <FormattedMessage id="gradertArbeidsforhold.oppsummering.orgInfo" values={orgInfo} />
+                <FormattedMessage id="gradertAnsettelsesforhold.oppsummering.orgInfo" values={orgInfo} />
             </div>
             {intlInfo !== undefined && (
                 <div className={bem.element('detaljer')}>

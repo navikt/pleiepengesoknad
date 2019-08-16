@@ -2,15 +2,15 @@ import React from 'react';
 import { FieldArray } from 'formik';
 import { PleiepengesøknadFormData, Field } from 'app/types/PleiepengesøknadFormData';
 import { Ansettelsesforhold } from 'app/types/Søkerdata';
+import AnsettelsesforholdDetaljer from './AnsettelsesforholdDetaljer';
 
-import './gradertArbeidsforhold.less';
-import ArbeidsforholdDetaljer from './ArbeidsforholdDetaljer';
+import './gradertAnsettelsesforhold.less';
 
-interface GradertArbeidsforholdProps {
+interface Props {
     organisasjonsnummer: string;
 }
 
-const GradertArbeidsforhold: React.FunctionComponent<GradertArbeidsforholdProps> = ({ organisasjonsnummer }) => (
+const GradertAnsettelsesforhold: React.FunctionComponent<Props> = ({ organisasjonsnummer }) => (
     <FieldArray name={Field.ansettelsesforhold}>
         {({ name, form: { values } }) => {
             const idx: number = (values as PleiepengesøknadFormData).ansettelsesforhold.findIndex(
@@ -21,12 +21,12 @@ const GradertArbeidsforhold: React.FunctionComponent<GradertArbeidsforholdProps>
             }
             const forhold: Ansettelsesforhold = values.ansettelsesforhold[idx];
             return (
-                <div className="gradert-arbeidsforhold">
-                    <ArbeidsforholdDetaljer forhold={forhold} formiInputNamePrefix={`${name}.${idx}.`} />
+                <div className="gradert-ansettelsesforhold">
+                    <AnsettelsesforholdDetaljer forhold={forhold} formiInputNamePrefix={`${name}.${idx}.`} />
                 </div>
             );
         }}
     </FieldArray>
 );
 
-export default GradertArbeidsforhold;
+export default GradertAnsettelsesforhold;

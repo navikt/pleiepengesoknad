@@ -248,10 +248,10 @@ describe('fieldValidations', () => {
         });
     });
 
-    describe('validate arbeidsforhold', () => {
+    describe('validate ansettelsesforhold', () => {
         it('should only allow values from 1 and 150', () => {
             expect(validateNormaleArbeidstimer(0)).toEqual(
-                fieldValidationError(FieldValidationErrors.arbeidsforhold_timerUgyldig, { min: 1, max: 150 })
+                fieldValidationError(FieldValidationErrors.ansettelsesforhold_timerUgyldig, { min: 1, max: 150 })
             );
         });
     });

@@ -13,7 +13,7 @@ import Box from '../../box/Box';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { InjectedIntlProps, FormattedMessage, injectIntl } from 'react-intl';
 import intlHelper from 'app/utils/intlUtils';
-import GradertArbeidsforhold from '../../gradert-arbeidsforhold/GradertArbeidsforhold';
+import GradertAnsettelsesforhold from '../../gradert-ansettelsesforhold/GradertAnsettelsesforhold';
 
 interface OpplysningerOmAnsettelsesforholdStepProps {
     handleSubmit: () => void;
@@ -41,7 +41,7 @@ const OpplysningerOmAnsettelsesforholdStep = ({ history, intl, ...stepProps }: P
                                     value: a,
                                     key: a.organisasjonsnummer,
                                     expandedContentRenderer: () => (
-                                        <GradertArbeidsforhold organisasjonsnummer={a.organisasjonsnummer} />
+                                        <GradertAnsettelsesforhold organisasjonsnummer={a.organisasjonsnummer} />
                                     )
                                 }))}
                             />
