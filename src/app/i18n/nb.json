@@ -27,9 +27,9 @@
     "step.tidsrom.stepTitle": "Tidsrom",
     "step.tidsrom.stepIndicatorLabel": "Tidsrom",
 
-    "step.arbeidsforhold.pageTitle": "Pleiepengesøknad - opplysninger om ditt arbeidsforhold",
-    "step.arbeidsforhold.stepTitle": "Arbeidsforhold",
-    "step.arbeidsforhold.stepIndicatorLabel": "Om ditt arbeidsforhold",
+    "step.ansettelsesforhold.pageTitle": "Pleiepengesøknad - opplysninger om ditt arbeidsforhold",
+    "step.ansettelsesforhold.stepTitle": "Arbeidsforhold",
+    "step.ansettelsesforhold.stepIndicatorLabel": "Om ditt arbeidsforhold",
 
     "step.medlemskap.pageTitle": "Pleiepengesøknad - utenlandsopphold",
     "step.medlemskap.stepTitle": "Utenlandsopphold",
@@ -133,16 +133,16 @@
     "steg.oppsummering.barnet.søkersRelasjonTilBarnet": "Din relasjon til barnet: {relasjon}",
     "steg.oppsummering.grad.header": "Grad",
     "steg.oppsummering.annenSøkerSammePeriode.header": "Er det en annen søker i samme tidsperiode",
-    "steg.oppsummering.arbeidsforhold.header": "Arbeidsforhold",
-    "steg.oppsummering.arbeidsforhold.forhold": "{navn} (organisasjonsnummer: {organisasjonsnummer})",
-    "steg.oppsummering.arbeidsforhold.ingenArbeidsforhold": "Ingen arbeidsforhold er valgt",
+    "steg.oppsummering.ansettelsesforhold.header": "Arbeidsforhold",
+    "steg.oppsummering.ansettelsesforhold.forhold": "{navn} (organisasjonsnummer: {organisasjonsnummer})",
+    "steg.oppsummering.ansettelsesforhold.ingenAnsettelsesforhold": "Ingen arbeidsforhold er valgt",
     "steg.oppsummering.utlandetSiste12.header": "Bodd i utlandet siste 12 måneder",
     "steg.oppsummering.utlandetNeste12.header": "Skal bo i utlandet neste 12 måneder",
     "steg.oppsummering.legeerklæring.header": "Legeerklæring",
     "steg.oppsummering.bekrefterOpplysninger": "Jeg bekrefter at opplysningene er riktige, og at jeg ikke har holdt tilbake opplysninger som har betydning for retten til pleiepenger.",
     "steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet": "Du må bekrefte opplysningene",
 
-    "steg.ansettelsesforhold.hvilket.spm": "Hvilken jobb må du være borte fra for å pleie barnet?",
+    "steg.ansettelsesforhold.hvilket.spm": "Hvilke arbeidsforhold har du i perioden du søker om?",
     "steg.ansettelsesforhold.ingenOpplysninger": "Vi har ikke noen opplysninger om arbeidsgiver.",
     "steg.ansettelsesforhold.manglesOpplysninger": "Mangler det en arbeidsgiver her? Be arbeidsgiveren din sende ny A-melding, enten via lønns- og personalsystemet eller gjennom Altinn.",
 
@@ -180,6 +180,17 @@
     "fieldvalidation.legeerklæring.mangler": "Du må laste opp en legeerklæring",
     "fieldvalidation.legeerklæring.forMangeFiler": "Du kan maksimalt laste opp 3 bilder",
     "fieldvalidation.grad.ugyldig": "Graden må oppgis som et heltall mellom 20 og 100 prosent",
-    "fieldvalidation.arbeidsforhold_timerUgyldig": "Vennligst fyll ut et tall mellom {min} og {max}",
-    "fieldvalidation.arbeidsforhold_redusertMerEnnNormalt": "Antall timer du skal jobbe er mer enn hva du har jobbet tidligere"
+    "fieldvalidation.ansettelsesforhold_timerUgyldig": "Vennligst fyll ut et tall mellom {min} og {max}",
+    "fieldvalidation.ansettelsesforhold_redusertMerEnnNormalt": "Antall timer du skal jobbe er mer enn hva du har jobbet tidligere",
+
+    "gradertAnsettelsesforhold.timer_arbeidsuke": "Hvor mange timer i uka jobber du vanligvis hos {navn}?",
+    "gradertAnsettelsesforhold.timer_redusert": "Hvor mye skal du jobbe i denne perioden?",
+    "gradertAnsettelsesforhold.timerPerUkeLabel_utenVerdi": "timer per uke",
+    "gradertAnsettelsesforhold.timerPerUkeLabel": "timer per uke ({pst} prosent av normalt)",
+    "gradertAnsettelsesforhold.redusertProsentLabel_utenVerdi": "prosent av {timer, plural, one {# time} other {# timer}}",
+    "gradertAnsettelsesforhold.redusertProsentLabel": "prosent av {timer, plural, one {# time} other {# timer}} (tilsvarer {redusertTimer, plural, one {# time} other {# timer}} i uken)",
+
+    "gradertAnsettelsesforhold.oppsummering.orgInfo": "{navn} (organisasjonsnummer {organisasjonsnummer}):",
+    "gradertAnsettelsesforhold.oppsummering.skalIkkeArbeide": "Skal ikke jobbe her i denne perioden (jobber normalt {timerNormalt, plural, one {# time} other {# timer}} i uken).",
+    "gradertAnsettelsesforhold.oppsummering.skalArbeideDelvis": "Skal jobbe {timerRedusert, plural, one {# time} other {# timer}} i uken i denne perioden (jobber normalt {timerNormalt, plural, one {# time} other {# timer}} i uken)."
 }

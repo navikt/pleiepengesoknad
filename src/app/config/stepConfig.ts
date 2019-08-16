@@ -3,7 +3,7 @@ import { getSøknadRoute } from '../utils/routeUtils';
 
 export enum StepID {
     'OPPLYSNINGER_OM_BARNET' = 'opplysninger-om-barnet',
-    'ANSETTELSESFORHOLD' = 'arbeidsforhold',
+    'ANSETTELSESFORHOLD' = 'ansettelsesforhold',
     'TIDSROM' = 'tidsrom',
     'MEDLEMSKAP' = 'medlemskap',
     'LEGEERKLÆRING' = 'legeerklaering',

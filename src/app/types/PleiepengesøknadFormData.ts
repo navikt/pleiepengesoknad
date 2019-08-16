@@ -1,5 +1,12 @@
-import { Ansettelsesforhold } from './Søkerdata';
+import { Ansettelsesforhold, HoursOrPercent } from './Søkerdata';
 import { YesOrNo } from './YesOrNo';
+
+export interface AnsettelsesforholdForm extends Ansettelsesforhold {
+    skalArbeide?: YesOrNo;
+    normal_arbeidsuke?: number;
+    redusert_arbeidsuke?: number;
+    pstEllerTimer?: HoursOrPercent;
+}
 
 export enum Field {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
@@ -29,7 +36,7 @@ export interface PleiepengesøknadFormData {
     [Field.søkersRelasjonTilBarnet]: string;
     [Field.søknadenGjelderEtAnnetBarn]: boolean;
     [Field.barnetSøknadenGjelder]: string;
-    [Field.ansettelsesforhold]: Ansettelsesforhold[];
+    [Field.ansettelsesforhold]: AnsettelsesforholdForm[];
     [Field.periodeFra]?: Date;
     [Field.periodeTil]?: Date;
     [Field.legeerklæring]: Attachment[];

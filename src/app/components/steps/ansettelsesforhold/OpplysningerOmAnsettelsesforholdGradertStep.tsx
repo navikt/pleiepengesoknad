@@ -13,8 +13,7 @@ import Box from '../../box/Box';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { InjectedIntlProps, FormattedMessage, injectIntl } from 'react-intl';
 import intlHelper from 'app/utils/intlUtils';
-import GradertArbeidsforhold from '../../gradert-arbeidsforhold/GradertArbeidsforhold';
-import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
+import GradertAnsettelsesforhold from '../../gradert-ansettelsesforhold/GradertAnsettelsesforhold';
 
 interface OpplysningerOmAnsettelsesforholdStepProps {
     handleSubmit: () => void;
@@ -36,13 +35,16 @@ const OpplysningerOmAnsettelsesforholdStep = ({ history, intl, ...stepProps }: P
                                 legend={intlHelper(intl, 'steg.ansettelsesforhold.hvilket.spm')}
                                 name={Field.ansettelsesforhold}
                                 valueKey="organisasjonsnummer"
+                                singleColumn={true}
                                 checkboxes={søkerdata.ansettelsesforhold!.map((a) => ({
                                     label: a.navn,
                                     value: a,
-                                    key: a.organisasjonsnummer
+                                    key: a.organisasjonsnummer,
+                                    expandedContentRenderer: () => (
+                                        <GradertAnsettelsesforhold organisasjonsnummer={a.organisasjonsnummer} />
+                                    )
                                 }))}
                             />
-                            {isFeatureEnabled(Feature.TOGGLE_GRADERT_ARBEID) && <GradertArbeidsforhold />}
                         </>
                     ) : (
                         <Normaltekst>

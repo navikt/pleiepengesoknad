@@ -1,5 +1,7 @@
 import { Locale } from './Locale';
 
+export type ISO8601Duration = string;
+
 export interface BarnToSendToApi {
     navn: string | null;
     fodselsnummer: string | null;
@@ -7,11 +9,11 @@ export interface BarnToSendToApi {
     aktoer_id: string | null;
 }
 
-interface Ansettelsesforhold {
+export interface AnsettelsesforholdApi {
     navn: string;
     organisasjonsnummer?: string;
-    normal_arbeidsuke?: number;
-    redusert_arbeidsuke?: number;
+    normal_arbeidsuke?: ISO8601Duration;
+    redusert_arbeidsuke?: ISO8601Duration;
 }
 
 interface Medlemskap {
@@ -25,7 +27,7 @@ export interface PleiepengesøknadApiData {
     relasjon_til_barnet: string | null;
     fra_og_med: Date;
     til_og_med: Date;
-    arbeidsgivere: { organisasjoner: Ansettelsesforhold[] };
+    arbeidsgivere: { organisasjoner: AnsettelsesforholdApi[] };
     vedlegg: string[];
     medlemskap: Medlemskap;
     har_medsoker: boolean;

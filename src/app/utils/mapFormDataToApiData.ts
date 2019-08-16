@@ -1,19 +1,20 @@
 import { formatDate } from './dateUtils';
-import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import { BarnToSendToApi, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
+import { PleiepengesøknadFormData, AnsettelsesforholdForm } from '../types/PleiepengesøknadFormData';
+import { BarnToSendToApi, PleiepengesøknadApiData, AnsettelsesforholdApi } from '../types/PleiepengesøknadApiData';
 import { attachmentUploadHasFailed } from './attachmentUtils';
 import { YesOrNo } from '../types/YesOrNo';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
 import { formatName } from './personUtils';
-import { BarnReceivedFromApi } from '../types/Søkerdata';
+import { BarnReceivedFromApi, HoursOrPercent } from '../types/Søkerdata';
 import { Locale } from 'app/types/Locale';
+import { calculateRedusertArbeidsuke } from './ansettelsesforholdUtils';
+import { convertHoursToIso8601Duration } from './timeUtils';
 
 export const mapFormDataToApiData = (
     {
         barnetsNavn,
         barnetsFødselsnummer,
         barnetsForeløpigeFødselsnummerEllerDNummer,
-        søknadenGjelderEtAnnetBarn,
         barnetSøknadenGjelder,
         harBekreftetOpplysninger,
         harForståttRettigheterOgPlikter,
@@ -51,7 +52,7 @@ export const mapFormDataToApiData = (
         relasjon_til_barnet:
             isFeatureEnabled(Feature.HENT_BARN_FEATURE) && barnObject.aktoer_id ? null : søkersRelasjonTilBarnet,
         arbeidsgivere: {
-            organisasjoner: ansettelsesforhold
+            organisasjoner: ansettelsesforhold.map((forhold) => mapAnsettelsesforholdTilApiData(forhold))
         },
         medlemskap: {
             har_bodd_i_utlandet_siste_12_mnd: harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES,
@@ -65,4 +66,32 @@ export const mapFormDataToApiData = (
         har_bekreftet_opplysninger: harBekreftetOpplysninger,
         har_forstatt_rettigheter_og_plikter: harForståttRettigheterOgPlikter
     };
+};
+
+export const mapAnsettelsesforholdTilApiData = (ansettelsesforhold: AnsettelsesforholdForm): AnsettelsesforholdApi => {
+    if (isFeatureEnabled(Feature.TOGGLE_GRADERT_ARBEID) === false) {
+        return {
+            navn: ansettelsesforhold.navn,
+            organisasjonsnummer: ansettelsesforhold.organisasjonsnummer
+        };
+    }
+    const { redusert_arbeidsuke, pstEllerTimer, skalArbeide, normal_arbeidsuke, ...rest } = ansettelsesforhold;
+    if (normal_arbeidsuke === undefined || skalArbeide === undefined) {
+        return rest;
+    }
+
+    const forhold: AnsettelsesforholdApi = {
+        ...rest,
+        normal_arbeidsuke: convertHoursToIso8601Duration(normal_arbeidsuke),
+        redusert_arbeidsuke: convertHoursToIso8601Duration(
+            skalArbeide
+                ? calculateRedusertArbeidsuke(
+                      normal_arbeidsuke,
+                      redusert_arbeidsuke || 0,
+                      pstEllerTimer || HoursOrPercent.hours
+                  )
+                : 0
+        )
+    };
+    return forhold;
 };
