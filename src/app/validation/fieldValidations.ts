@@ -3,7 +3,7 @@ import { fødselsnummerIsValid, FødselsnummerValidationErrorReason } from './f�
 import { isMoreThan3YearsAgo } from '../utils/dateUtils';
 import { attachmentHasBeenUploaded } from '../utils/attachmentUtils';
 import { FieldValidationResult } from './types';
-import { getDecimalTimeFromTime } from 'app/utils/timeUtils';
+import { timeToDecimalTime } from 'app/utils/timeUtils';
 import { Time } from 'app/types/Time';
 
 const moment = require('moment');
@@ -202,10 +202,10 @@ export const validateReduserteArbeidTimer = (
     if (timer < MIN_ARBEIDSTIMER_PER_UKE || timer > MAX_ARBEIDSTIMER_PER_UKE) {
         return fieldValidationError(FieldValidationErrors.ansettelsesforhold_timerUgyldig, {
             min: MIN_ARBEIDSTIMER_PER_UKE,
-            max: Math.max(MAX_ARBEIDSTIMER_PER_UKE, getDecimalTimeFromTime(normalTimer))
+            max: Math.max(MAX_ARBEIDSTIMER_PER_UKE, timeToDecimalTime(normalTimer))
         });
     }
-    if (timer > (getDecimalTimeFromTime(normalTimer) || MAX_ARBEIDSTIMER_PER_UKE)) {
+    if (timer > (timeToDecimalTime(normalTimer) || MAX_ARBEIDSTIMER_PER_UKE)) {
         return fieldValidationError(FieldValidationErrors.ansettelsesforhold_redusertMerEnnNormalt);
     }
     return undefined;

@@ -2,12 +2,11 @@ import { InjectedIntl } from 'react-intl';
 import intlHelper from './intlUtils';
 import { Time } from 'app/types/Time';
 
-export const convertHoursToIso8601Duration = (time: number): string => {
-    const { hours, minutes } = convertHoursToHoursAndMinutes(time);
+export const timeToIso8601Duration = ({ hours, minutes }: Time): string => {
     return `PT${hours}H${minutes}M`;
 };
 
-export const convertHoursToHoursAndMinutes = (time: number): Time => {
+export const decimalTimeToTime = (time: number): Time => {
     const hours = Math.floor(time);
     const minutes = Math.round(60 * (time % 1));
     return {
@@ -16,7 +15,7 @@ export const convertHoursToHoursAndMinutes = (time: number): Time => {
     };
 };
 
-export const getDecimalTimeFromTime = (time: Time): number => {
+export const timeToDecimalTime = (time: Time): number => {
     return (time.hours || 0) + ((100 / 60) * (time.minutes || 0)) / 100;
 };
 

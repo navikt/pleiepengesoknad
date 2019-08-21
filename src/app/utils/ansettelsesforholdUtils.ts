@@ -1,23 +1,41 @@
 import { AnsettelsesforholdForm } from 'app/types/PleiepengesøknadFormData';
 import { YesOrNo } from 'app/types/YesOrNo';
-import { getDecimalTimeFromTime, convertHoursToHoursAndMinutes, timeToString } from './timeUtils';
+import { timeToDecimalTime, decimalTimeToTime, timeToString } from './timeUtils';
 import { HoursOrPercent } from 'app/types/Søkerdata';
 import { InjectedIntl } from 'react-intl';
 import intlHelper from './intlUtils';
 import { Time } from 'app/types/Time';
 
-export const calculateArbeidstimerFraProsent = (normal: Time, redusert: number): Time => {
-    const hoursNormalt = getDecimalTimeFromTime(normal);
-    const hoursReduced = (hoursNormalt / 100) * redusert;
-    return convertHoursToHoursAndMinutes(hoursReduced);
+export const getRedusertTidForAnsettelsesforhold = ({
+    timer_normalt,
+    timer_redusert,
+    prosent_redusert,
+    pstEllerTimer
+}: AnsettelsesforholdForm): Time | undefined => {
+    if (!timer_normalt) {
+        return undefined;
+    }
+    if (pstEllerTimer === HoursOrPercent.hours && timer_redusert !== undefined) {
+        return timer_redusert;
+    }
+    if (pstEllerTimer === HoursOrPercent.percent && prosent_redusert !== undefined) {
+        return calculateArbeidstimerFraProsent(timer_normalt, prosent_redusert);
+    }
+    return undefined;
+};
+
+export const calculateArbeidstimerFraProsent = (normal: Time, prosentRedusert: number): Time => {
+    const hoursNormalt = timeToDecimalTime(normal);
+    const hoursReduced = (hoursNormalt / 100) * prosentRedusert;
+    return decimalTimeToTime(hoursReduced);
 };
 
 export const calculateRedusertArbeidsukeprosent = (normal: Time, redusert: Time | undefined): number => {
     if (redusert === undefined) {
         return 100;
     }
-    const hoursNormalt = getDecimalTimeFromTime(normal);
-    const hoursRedusert = getDecimalTimeFromTime(redusert);
+    const hoursNormalt = timeToDecimalTime(normal);
+    const hoursRedusert = timeToDecimalTime(redusert);
     const reducedHours = (hoursNormalt / 100) * hoursRedusert;
     return parseFloat(reducedHours.toFixed(2));
 };

@@ -15,7 +15,7 @@ import Panel from '../panel/Panel';
 import YesOrNoQuestion from '../yes-or-no-question/YesOrNoQuestion';
 import { YesOrNo } from 'app/types/YesOrNo';
 import RadioPanelGroup from '../radio-panel-group/RadioPanelGroup';
-import { getDecimalTimeFromTime, isValidTime, timeToString } from 'app/utils/timeUtils';
+import { timeToDecimalTime, isValidTime, timeToString } from 'app/utils/timeUtils';
 import TimeInput from '../time-input/TimeInput';
 import { calculateArbeidstimerFraProsent, calculateRedusertArbeidsukeprosent } from 'app/utils/ansettelsesforholdUtils';
 import { Time } from 'app/types/Time';
@@ -74,7 +74,7 @@ const AnsettelsesforholdDetaljer: React.FunctionComponent<Props & InjectedIntlPr
     intl
 }) => {
     const getInputName = (input: string): Field => `${formiInputNamePrefix}${input}` as Field;
-    const timerNormalt = forhold.timer_normalt ? getDecimalTimeFromTime(forhold.timer_normalt) : 0;
+    const timerNormalt = forhold.timer_normalt ? timeToDecimalTime(forhold.timer_normalt) : 0;
     return (
         <Box padBottom="m">
             <Panel border={true}>
