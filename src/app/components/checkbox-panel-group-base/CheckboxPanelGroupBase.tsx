@@ -66,7 +66,7 @@ const CheckboxPanelGroupBase = ({
                                 <div className="checkboxPanelWrapper" key={key}>
                                     <CheckboksPanel onChange={onChange} value={value} {...otherCheckboxProps} />
                                     {expandedContentRenderer && otherCheckboxProps.checked && (
-                                        <Box margin="l">{expandedContentRenderer()}</Box>
+                                        <Box margin="m">{expandedContentRenderer()}</Box>
                                     )}
                                 </div>
                             )
