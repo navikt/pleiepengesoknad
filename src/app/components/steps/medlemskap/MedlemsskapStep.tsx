@@ -9,6 +9,7 @@ import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
 import { validateYesOrNoIsAnswered } from '../../../validation/fieldValidations';
 import intlHelper from 'app/utils/intlUtils';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
+import Box from 'app/components/box/Box';
 
 interface MedlemsskapStepProps {
     handleSubmit: () => void;
@@ -21,12 +22,14 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, intl, ...ste
     const navigate = () => navigateTo(nextStepRoute!, history);
     return (
         <FormikStep id={StepID.MEDLEMSKAP} onValidFormSubmit={navigate} history={history} {...stepProps}>
-            <YesOrNoQuestion
-                legend={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.spm')}
-                name={Field.harBoddUtenforNorgeSiste12Mnd}
-                validate={validateYesOrNoIsAnswered}
-                helperText={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.hjelp')}
-            />
+            <Box padBottom="m">
+                <YesOrNoQuestion
+                    legend={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.spm')}
+                    name={Field.harBoddUtenforNorgeSiste12Mnd}
+                    validate={validateYesOrNoIsAnswered}
+                    helperText={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.hjelp')}
+                />
+            </Box>
             <YesOrNoQuestion
                 legend={intlHelper(intl, 'steg.medlemsskap.annetLandNeste12.spm')}
                 name={Field.skalBoUtenforNorgeNeste12Mnd}
