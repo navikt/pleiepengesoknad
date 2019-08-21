@@ -5,10 +5,10 @@ import { attachmentUploadHasFailed } from './attachmentUtils';
 import { YesOrNo } from '../types/YesOrNo';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
 import { formatName } from './personUtils';
-import { BarnReceivedFromApi, HoursOrPercent } from '../types/Søkerdata';
+import { BarnReceivedFromApi } from '../types/Søkerdata';
 import { Locale } from 'app/types/Locale';
-import { calculateRedusertArbeidsuke } from './ansettelsesforholdUtils';
-import { convertHoursToIso8601Duration } from './timeUtils';
+import { calculateRedusertArbeidsukeprosent } from './ansettelsesforholdUtils';
+import { convertHoursToIso8601Duration, getDecimalTimeFromTime } from './timeUtils';
 
 export const mapFormDataToApiData = (
     {
@@ -75,22 +75,17 @@ export const mapAnsettelsesforholdTilApiData = (ansettelsesforhold: Ansettelsesf
             organisasjonsnummer: ansettelsesforhold.organisasjonsnummer
         };
     }
-    const { redusert_arbeidsuke, pstEllerTimer, skalArbeide, normal_arbeidsuke, ...rest } = ansettelsesforhold;
-    if (normal_arbeidsuke === undefined || skalArbeide === undefined) {
+    const { timer_redusert, pstEllerTimer, skalArbeide, timer_normalt, ...rest } = ansettelsesforhold;
+
+    if (timer_redusert === undefined || skalArbeide === undefined) {
         return rest;
     }
 
     const forhold: AnsettelsesforholdApi = {
         ...rest,
-        normal_arbeidsuke: convertHoursToIso8601Duration(normal_arbeidsuke),
+        normal_arbeidsuke: convertHoursToIso8601Duration(getDecimalTimeFromTime(timer_normalt!)),
         redusert_arbeidsuke: convertHoursToIso8601Duration(
-            skalArbeide
-                ? calculateRedusertArbeidsuke(
-                      normal_arbeidsuke,
-                      redusert_arbeidsuke || 0,
-                      pstEllerTimer || HoursOrPercent.hours
-                  )
-                : 0
+            skalArbeide ? calculateRedusertArbeidsukeprosent(timer_normalt!, timer_redusert) : 0
         )
     };
     return forhold;

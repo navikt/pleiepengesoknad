@@ -1,0 +1,28 @@
+@import '../../../../node_modules/nav-frontend-core/less/core.less';
+@import '../../../../node_modules/nav-frontend-skjema-style/src/input.less';
+
+.mixin-transition(@varighet: 150ms, @type: all) {
+    transition: @type @varighet cubic-bezier(0.465, 0.183, 0.153, 0.946);
+}
+
+.timeInput {
+    display: flex;
+    &__hours,
+    &__minutes {
+        .skjemaelement__input();
+        width: 4rem;
+        margin-bottom: 0.5rem;
+    }
+    &__inputWrapper {
+        display: flex;
+        align-items: baseline;
+        margin-right: 1rem;
+    }
+    &__label {
+        padding-left: 0.5rem;
+        order: 2;
+    }
+    &__input {
+        order: 1;
+    }
+}

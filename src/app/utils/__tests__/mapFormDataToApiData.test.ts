@@ -159,7 +159,10 @@ describe('mapFormDataToApiData', () => {
                 mapAnsettelsesforholdTilApiData({
                     ...ansettelsesforholdMaxbo,
                     skalArbeide: YesOrNo.NO,
-                    normal_arbeidsuke: 20
+                    timer_normalt: {
+                        hours: 20,
+                        minutes: 0
+                    }
                 })
             ).toEqual({
                 ...ansettelsesforholdMaxbo
@@ -172,7 +175,10 @@ describe('mapFormDataToApiData', () => {
                 mapAnsettelsesforholdTilApiData({
                     ...ansettelsesforholdMaxbo,
                     skalArbeide: YesOrNo.NO,
-                    normal_arbeidsuke: 20
+                    timer_normalt: {
+                        hours: 20,
+                        minutes: 0
+                    }
                 })
             ).toEqual({
                 ...ansettelsesforholdMaxbo,
@@ -187,8 +193,11 @@ describe('mapFormDataToApiData', () => {
                 mapAnsettelsesforholdTilApiData({
                     ...ansettelsesforholdMaxbo,
                     skalArbeide: YesOrNo.YES,
-                    normal_arbeidsuke: 20,
-                    redusert_arbeidsuke: 10,
+                    timer_normalt: {
+                        hours: 20,
+                        minutes: 0
+                    },
+                    timer_redusert: { hours: 10, minutes: 0 },
                     pstEllerTimer: HoursOrPercent.hours
                 })
             ).toEqual({

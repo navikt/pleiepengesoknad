@@ -3,26 +3,16 @@
         max-width: 4rem;
     }
     .timerEllerProsent {
+        width: 100%;
+        &__label {
+            white-space: nowrap;
+        }
         .nav_frontend_skjemaelement_input {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
             .skjemaelement__input {
-                order: 1;
-                display: inline-block;
+                max-width: 4rem;
             }
             .skjemaelement__label {
-                order: 2;
-                padding-left: 0.75rem;
                 font-weight: normal;
-                display: inline-block;
-                margin: 0;
-            }
-            div[role='alert'] {
-                order: 3;
-                display: block;
-                width: 100%;
-                min-width: 100%;
             }
         }
     }
