@@ -1,6 +1,6 @@
-import { Time } from 'app/components/time-input-base/TimeInputBase';
 import { InjectedIntl } from 'react-intl';
 import intlHelper from './intlUtils';
+import { Time } from 'app/types/Time';
 
 export const convertHoursToIso8601Duration = (time: number): string => {
     const { hours, minutes } = convertHoursToHoursAndMinutes(time);

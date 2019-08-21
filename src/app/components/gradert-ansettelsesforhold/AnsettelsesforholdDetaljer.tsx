@@ -18,7 +18,7 @@ import RadioPanelGroup from '../radio-panel-group/RadioPanelGroup';
 import { getDecimalTimeFromTime } from 'app/utils/timeUtils';
 import TimeInput from '../time-input/TimeInput';
 import { calculateArbeidstimerFraProsent } from 'app/utils/ansettelsesforholdUtils';
-import { Time } from '../time-input-base/TimeInputBase';
+import { Time } from 'app/types/Time';
 
 interface Props {
     formiInputNamePrefix: string;

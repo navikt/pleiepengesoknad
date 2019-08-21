@@ -1,6 +1,6 @@
 import { Ansettelsesforhold, HoursOrPercent } from './Søkerdata';
 import { YesOrNo } from './YesOrNo';
-import { Time } from 'app/components/time-input-base/TimeInputBase';
+import { Time } from './Time';
 
 export interface AnsettelsesforholdForm extends Ansettelsesforhold {
     skalArbeide?: YesOrNo;

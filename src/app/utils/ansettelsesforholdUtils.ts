@@ -1,10 +1,10 @@
 import { AnsettelsesforholdForm } from 'app/types/PleiepengesøknadFormData';
 import { YesOrNo } from 'app/types/YesOrNo';
 import { getDecimalTimeFromTime, convertHoursToHoursAndMinutes, timeToString } from './timeUtils';
-import { Time } from 'app/components/time-input-base/TimeInputBase';
 import { HoursOrPercent } from 'app/types/Søkerdata';
 import { InjectedIntl } from 'react-intl';
 import intlHelper from './intlUtils';
+import { Time } from 'app/types/Time';
 
 export const calculateArbeidstimerFraProsent = (normal: Time, redusert: number): Time => {
     const hoursNormalt = getDecimalTimeFromTime(normal);

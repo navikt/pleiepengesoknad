@@ -2,7 +2,8 @@ import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from '../../utils/navFrontendUtils';
 import { FormikValidationProps } from 'app/types/FormikProps';
-import TimeInputBase, { Time } from '../time-input-base/TimeInputBase';
+import TimeInputBase from '../time-input-base/TimeInputBase';
+import { Time } from 'app/types/Time';
 
 interface FormikTimeInputProps<T> {
     name: T;

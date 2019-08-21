@@ -3,8 +3,8 @@ import { fødselsnummerIsValid, FødselsnummerValidationErrorReason } from './f�
 import { isMoreThan3YearsAgo } from '../utils/dateUtils';
 import { attachmentHasBeenUploaded } from '../utils/attachmentUtils';
 import { FieldValidationResult } from './types';
-import { Time } from 'app/components/time-input-base/TimeInputBase';
 import { getDecimalTimeFromTime } from 'app/utils/timeUtils';
+import { Time } from 'app/types/Time';
 
 const moment = require('moment');
 

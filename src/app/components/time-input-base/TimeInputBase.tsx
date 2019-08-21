@@ -2,18 +2,15 @@ import React, { useState } from 'react';
 import bemUtils from 'app/utils/bemUtils';
 import CustomInputElement from '../custom-input-element/CustomInputElement';
 import { SkjemaelementFeil } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
-import './timeInput.less';
 import { isValidTime } from 'app/utils/timeUtils';
 import { guid } from 'nav-frontend-js-utils';
 import { hasValue } from 'app/validation/fieldValidations';
+import { Time } from 'app/types/Time';
+
+import './timeInput.less';
 
 export const MAX_HOURS = 150;
 export const MAX_MINUTES = 59;
-
-export interface Time {
-    hours: number;
-    minutes: number;
-}
 
 type TimeInputChangeFunc = (time: Time | undefined) => void;
 
