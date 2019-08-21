@@ -15,9 +15,9 @@ import Panel from '../panel/Panel';
 import YesOrNoQuestion from '../yes-or-no-question/YesOrNoQuestion';
 import { YesOrNo } from 'app/types/YesOrNo';
 import RadioPanelGroup from '../radio-panel-group/RadioPanelGroup';
-import { getDecimalTimeFromTime } from 'app/utils/timeUtils';
+import { getDecimalTimeFromTime, isValidTime, timeToString } from 'app/utils/timeUtils';
 import TimeInput from '../time-input/TimeInput';
-import { calculateArbeidstimerFraProsent } from 'app/utils/ansettelsesforholdUtils';
+import { calculateArbeidstimerFraProsent, calculateRedusertArbeidsukeprosent } from 'app/utils/ansettelsesforholdUtils';
 import { Time } from 'app/types/Time';
 
 interface Props {
@@ -25,30 +25,16 @@ interface Props {
     forhold: AnsettelsesforholdForm;
 }
 
-const calculateReductionPercent = (forhold: AnsettelsesforholdForm): number | undefined => {
-    const { timer_normalt, timer_redusert } = forhold;
-    if (timer_normalt !== undefined && timer_redusert !== undefined) {
-        const normalTid = getDecimalTimeFromTime(timer_normalt);
-        const redusertTid = getDecimalTimeFromTime(timer_redusert);
-        return (100 / normalTid) * redusertTid;
+const getRedusertProsentIntlValues = ({
+    timer_normalt,
+    timer_redusert
+}: AnsettelsesforholdForm): { pst: number } | undefined => {
+    if (isValidTime(timer_normalt) && isValidTime(timer_redusert)) {
+        return {
+            pst: parseFloat(calculateRedusertArbeidsukeprosent(timer_normalt, timer_redusert).toFixed(2))
+        };
     }
     return undefined;
-};
-
-const getRedusertProsent = (forhold: AnsettelsesforholdForm): { pst: number } | undefined => {
-    const pst = calculateReductionPercent(forhold);
-    return pst !== undefined
-        ? {
-              pst: parseFloat(pst.toFixed(2))
-          }
-        : undefined;
-};
-
-const getTimerOgMinutterTekst = (time: Time, intl: InjectedIntl): string => {
-    if (time.minutes === 0) {
-        return intlHelper(intl, 'timer', { timer: time.hours });
-    }
-    return intlHelper(intl, 'timerOgMinutter', { timer: time.hours, minutter: time.minutes });
 };
 
 const getReduserteTimerTekst = (forhold: AnsettelsesforholdForm, intl: InjectedIntl): string => {
@@ -57,7 +43,7 @@ const getReduserteTimerTekst = (forhold: AnsettelsesforholdForm, intl: InjectedI
         return '';
     }
     const tid: Time = calculateArbeidstimerFraProsent(timer_normalt, prosent_redusert);
-    return getTimerOgMinutterTekst(tid, intl);
+    return timeToString(tid, intl);
 };
 
 const getLabelForProsentInput = (forhold: AnsettelsesforholdForm, intl: InjectedIntl): string => {
@@ -67,7 +53,7 @@ const getLabelForProsentInput = (forhold: AnsettelsesforholdForm, intl: Injected
             ? 'gradertAnsettelsesforhold.redusertProsentLabel'
             : 'gradertAnsettelsesforhold.redusertProsentLabel_utenVerdi',
         {
-            timerNormalt: getTimerOgMinutterTekst(forhold.timer_normalt!, intl),
+            timerNormalt: timeToString(forhold.timer_normalt!, intl),
             timerRedusert: getReduserteTimerTekst(forhold, intl)
         }
     );
@@ -79,7 +65,7 @@ const getLabelForTimerInput = (forhold: AnsettelsesforholdForm, intl: InjectedIn
         forhold.timer_redusert
             ? 'gradertAnsettelsesforhold.timerPerUkeLabel'
             : 'gradertAnsettelsesforhold.timerPerUkeLabel_utenVerdi',
-        getRedusertProsent(forhold)
+        getRedusertProsentIntlValues(forhold)
     );
 
 const AnsettelsesforholdDetaljer: React.FunctionComponent<Props & InjectedIntlProps> = ({
