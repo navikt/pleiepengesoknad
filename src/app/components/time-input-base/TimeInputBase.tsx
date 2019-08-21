@@ -54,8 +54,8 @@ const TimeInputBase: React.FunctionComponent<TimeInputProps> = ({
     const minutesLabelId = `${id}-minutes`;
 
     return (
-        <CustomInputElement label={label} validationError={feil}>
-            <div className={bem.block}>
+        <CustomInputElement label={label} validationError={feil} className={bem.block}>
+            <div className={bem.element('contentWrapper')}>
                 <div className={bem.element('inputWrapper')}>
                     <label className={bem.element('label')} htmlFor={hoursLabelId}>
                         timer

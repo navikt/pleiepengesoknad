@@ -86,7 +86,7 @@ const AnsettelsesforholdDetaljer: React.FunctionComponent<Props & InjectedIntlPr
                     })}
                 />
                 {forhold.timer_normalt !== undefined && !isNaN(timerNormalt) && (
-                    <Box margin="l">
+                    <Box margin="xl">
                         <YesOrNoQuestion
                             name={getInputName('skalArbeide')}
                             validate={validateRequiredField}
@@ -95,7 +95,7 @@ const AnsettelsesforholdDetaljer: React.FunctionComponent<Props & InjectedIntlPr
                     </Box>
                 )}
                 {forhold.skalArbeide === YesOrNo.YES && (
-                    <Box margin="s" className="timerEllerProsent">
+                    <Box margin="xl" className="timerEllerProsent">
                         <RadioPanelGroup
                             name={getInputName('pstEllerTimer')}
                             legend={intlHelper(intl, 'gradertAnsettelsesforhold.timer_redusert')}
@@ -118,7 +118,7 @@ const AnsettelsesforholdDetaljer: React.FunctionComponent<Props & InjectedIntlPr
                                     ? undefined
                                     : () => {
                                           return forhold.pstEllerTimer === HoursOrPercent.hours ? (
-                                              <>
+                                              <Box margin="xl">
                                                   <TimeInput
                                                       validate={(value) =>
                                                           validateReduserteArbeidTimer(
@@ -130,19 +130,21 @@ const AnsettelsesforholdDetaljer: React.FunctionComponent<Props & InjectedIntlPr
                                                       name={getInputName('timer_redusert')}
                                                       label={getLabelForTimerInput(forhold, intl)}
                                                   />
-                                              </>
+                                              </Box>
                                           ) : (
-                                              <Input
-                                                  inputClassName="input--timer"
-                                                  type="number"
-                                                  min={0}
-                                                  max={100}
-                                                  validate={(value) => validateReduserteArbeidProsent(value, true)}
-                                                  name={getInputName('prosent_redusert')}
-                                                  label={getLabelForProsentInput(forhold, intl)}
-                                                  value={forhold.prosent_redusert || ''}
-                                                  className="input--timer"
-                                              />
+                                              <Box margin="xl">
+                                                  <Input
+                                                      inputClassName="input--timer"
+                                                      type="number"
+                                                      min={0}
+                                                      max={100}
+                                                      validate={(value) => validateReduserteArbeidProsent(value, true)}
+                                                      name={getInputName('prosent_redusert')}
+                                                      label={getLabelForProsentInput(forhold, intl)}
+                                                      value={forhold.prosent_redusert || ''}
+                                                      className="input--timer"
+                                                  />
+                                              </Box>
                                           );
                                       }
                             }
