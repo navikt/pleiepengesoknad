@@ -110,7 +110,8 @@
     "steg.tidsrom.hvorMye.spm": "Kor mye søkjer du om?",
     "steg.tidsrom.hvorMye.hjelp.part1": "Kan du jobbe noko? Då reduserer du prosenten tilsvarande.",
     "steg.tidsrom.hvorMye.hjelp.part2": "Jobbar du deltid i utgangspunktet? Du kan likevel søkje om 100 % pleiepengar dersom du mister heile inntekta fordi du pleier barnet.",
-    "steg.annenSamtidig.spm": "Er det ein annan som skal søkje om pleiepengar i same tidsperiode?",
+    "steg.tidsrom.annenSamtidig.spm": "Er det ein annan som skal søkje om pleiepengar i same tidsperiode?",
+    "steg.tidsrom.dagerMedPleie.spm": "Kor mange dagar i veka skal du vera saman med barnet?",
 
     "steg.medlemsskap.annetLandSiste12.spm": "Har du budd i andre land enn Noreg heilt eller delvis dei siste 12 månedane?",
     "steg.medlemsskap.annetLandSiste12.hjelp": "Du svarar ja berre dersom du har opphalde deg fast i eit anna land enn Noreg. Korte utlandsturar i samband med for eksempel ferie tas ikkje med.",

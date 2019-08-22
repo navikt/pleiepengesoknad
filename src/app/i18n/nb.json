@@ -110,7 +110,8 @@
     "steg.tidsrom.hvorMye.spm": "Hvor mye søker du om?",
     "steg.tidsrom.hvorMye.hjelp.part1": "Kan du jobbe noe? Da reduserer du prosenten tilsvarende.",
     "steg.tidsrom.hvorMye.hjelp.part2": "Jobber du deltid i utgangspunktet? Du kan likevel søke om 100 % pleiepenger hvis du mister hele inntekten fordi du pleier barnet.",
-    "steg.annenSamtidig.spm": "Er det en annen som skal søke om pleiepenger i samme tidsperiode?",
+    "steg.tidsrom.annenSamtidig.spm": "Er det en annen som skal søke om pleiepenger i samme tidsperiode?",
+    "steg.tidsrom.dagerMedPleie.spm": "Hvor mange dager i uka skal du være sammen med barnet?",
 
     "steg.medlemsskap.annetLandSiste12.spm": "Har du bodd i andre land enn Norge i hele eller deler av de siste 12 månedene?",
     "steg.medlemsskap.annetLandSiste12.hjelp": "Du svarer ja bare hvis du har oppholdt deg fast i et annet land enn Norge. Korte utlandsturer i forbindelse med for eksempel ferie regnes ikke med.",
@@ -182,6 +183,7 @@
     "fieldvalidation.grad.ugyldig": "Graden må oppgis som et heltall mellom 20 og 100 prosent",
     "fieldvalidation.ansettelsesforhold_timerUgyldig": "Vennligst fyll ut et tall mellom {min} og {max}",
     "fieldvalidation.ansettelsesforhold_redusertMerEnnNormalt": "Antall timer du skal jobbe er mer enn hva du har jobbet tidligere",
+    "fieldvalidation.dagerMedPleie_ugyldig": "Ugyldig verdi. Antall dager må være mellom {min} og {max}",
 
     "gradertAnsettelsesforhold.timer_arbeidsuke": "Hvor mange timer i uka jobber du vanligvis hos {navn}?",
     "gradertAnsettelsesforhold.timer_redusert": "Hvor mye skal du jobbe i denne perioden?",
