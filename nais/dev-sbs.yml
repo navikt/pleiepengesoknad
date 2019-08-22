@@ -50,3 +50,5 @@ spec:
           value: "on"
         - name: TOGGLE_GRADERT_ARBEID
           value: "off"
+        - name: TOGGLE_DAGER_MED_PLEIE
+          value: "off"
