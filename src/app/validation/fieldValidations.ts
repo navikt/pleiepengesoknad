@@ -22,7 +22,8 @@ export enum FieldValidationErrors {
     'grad_ugyldig' = 'fieldvalidation.grad.ugyldig',
     'ansettelsesforhold_timerUgyldig' = 'fieldvalidation.ansettelsesforhold_timerUgyldig',
     'ansettelsesforhold_prosentUgyldig' = 'fieldvalidation.ansettelsesforhold_prosentUgyldig',
-    'ansettelsesforhold_redusertMerEnnNormalt' = 'fieldvalidation.ansettelsesforhold_redusertMerEnnNormalt'
+    'ansettelsesforhold_redusertMerEnnNormalt' = 'fieldvalidation.ansettelsesforhold_redusertMerEnnNormalt',
+    'dagerMedPleie_ugyldig' = 'fieldvalidation.dagerMedPleie_ugyldig'
 }
 
 const MAX_ARBEIDSTIMER_PER_UKE = 150;
@@ -180,6 +181,21 @@ export const validateNormaleArbeidstimer = (value: number | string, isRequired?:
             min: MIN_ARBEIDSTIMER_PER_UKE,
             max: MAX_ARBEIDSTIMER_PER_UKE
         });
+    }
+    return undefined;
+};
+
+export const validateDagerMedPleie = (value: string, isRequired?: boolean): FieldValidationResult => {
+    if (isRequired && !hasValue(value)) {
+        return fieldIsRequiredError();
+    }
+    const dager = typeof value === 'string' ? parseFloat(value) : value;
+    const range = {
+        min: 0,
+        max: 5
+    };
+    if (isNaN(dager) || dager < range.min || dager > range.max) {
+        return fieldValidationError(FieldValidationErrors.dagerMedPleie_ugyldig, range);
     }
     return undefined;
 };
