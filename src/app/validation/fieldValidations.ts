@@ -192,7 +192,7 @@ export const validateDagerMedPleie = (value: string, isRequired?: boolean): Fiel
     }
     const dager = typeof value === 'string' ? parseFloat(value) : value;
     const range = {
-        min: 0,
+        min: 0.1,
         max: 5
     };
     if (isNaN(dager) || dager < range.min || dager > range.max) {

@@ -134,30 +134,31 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                             }}
                         />
 
-                        <Box margin="xl">
-                            <Slider
-                                name={Field.grad}
-                                label={intlHelper(intl, 'steg.tidsrom.hvorMye.spm')}
-                                min={20}
-                                max={100}
-                                valueRenderer={(value) => `${value}%`}
-                                minPointLabelRenderer={(minPoint) => `${minPoint}%`}
-                                maxPointLabelRenderer={(maxPoint) => `${maxPoint}%`}
-                                showTextInput={true}
-                                helperText={
-                                    <ul style={{ margin: '0.5rem', paddingLeft: '0.5rem' }}>
-                                        <li>
-                                            <FormattedMessage id="steg.tidsrom.hvorMye.hjelp.part1" />
-                                        </li>
-                                        <li style={{ marginTop: '0.5rem' }}>
-                                            <FormattedMessage id="steg.tidsrom.hvorMye.hjelp.part2" />
-                                        </li>
-                                    </ul>
-                                }
-                                validate={validateGrad}
-                            />
-                        </Box>
-
+                        {isFeatureEnabled(Feature.TOGGLE_DAGER_MED_PLEIE) === false && (
+                            <Box margin="xl">
+                                <Slider
+                                    name={Field.grad}
+                                    label={intlHelper(intl, 'steg.tidsrom.hvorMye.spm')}
+                                    min={20}
+                                    max={100}
+                                    valueRenderer={(value) => `${value}%`}
+                                    minPointLabelRenderer={(minPoint) => `${minPoint}%`}
+                                    maxPointLabelRenderer={(maxPoint) => `${maxPoint}%`}
+                                    showTextInput={true}
+                                    helperText={
+                                        <ul style={{ margin: '0.5rem', paddingLeft: '0.5rem' }}>
+                                            <li>
+                                                <FormattedMessage id="steg.tidsrom.hvorMye.hjelp.part1" />
+                                            </li>
+                                            <li style={{ marginTop: '0.5rem' }}>
+                                                <FormattedMessage id="steg.tidsrom.hvorMye.hjelp.part2" />
+                                            </li>
+                                        </ul>
+                                    }
+                                    validate={validateGrad}
+                                />
+                            </Box>
+                        )}
                         <Box margin="xxl">
                             <YesOrNoQuestion
                                 legend={intlHelper(intl, 'steg.tidsrom.annenSamtidig.spm')}
