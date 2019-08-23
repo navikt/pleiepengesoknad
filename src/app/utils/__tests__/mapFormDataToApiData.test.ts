@@ -5,7 +5,7 @@ import * as dateUtils from './../dateUtils';
 import * as attachmentUtils from './../attachmentUtils';
 import { YesOrNo } from '../../types/YesOrNo';
 import { BarnReceivedFromApi, HoursOrPercent } from '../../types/Søkerdata';
-import { convertHoursToIso8601Duration } from '../timeUtils';
+import { timeToIso8601Duration } from '../timeUtils';
 import { isFeatureEnabled } from '../featureToggleUtils';
 
 const moment = require('moment');
@@ -159,7 +159,10 @@ describe('mapFormDataToApiData', () => {
                 mapAnsettelsesforholdTilApiData({
                     ...ansettelsesforholdMaxbo,
                     skalArbeide: YesOrNo.NO,
-                    normal_arbeidsuke: 20
+                    timer_normalt: {
+                        hours: 20,
+                        minutes: 0
+                    }
                 })
             ).toEqual({
                 ...ansettelsesforholdMaxbo
@@ -168,16 +171,17 @@ describe('mapFormDataToApiData', () => {
 
         it('should return ansettelsesforhold correctly when skalArbeide is set to [no]', () => {
             (isFeatureEnabled as any).mockImplementation(() => true);
-            expect(
-                mapAnsettelsesforholdTilApiData({
-                    ...ansettelsesforholdMaxbo,
-                    skalArbeide: YesOrNo.NO,
-                    normal_arbeidsuke: 20
-                })
-            ).toEqual({
+            const mappedData = mapAnsettelsesforholdTilApiData({
                 ...ansettelsesforholdMaxbo,
-                normal_arbeidsuke: convertHoursToIso8601Duration(20),
-                redusert_arbeidsuke: convertHoursToIso8601Duration(0)
+                skalArbeide: YesOrNo.NO,
+                timer_normalt: {
+                    hours: 20,
+                    minutes: 0
+                }
+            });
+            expect(mappedData).toEqual({
+                ...ansettelsesforholdMaxbo,
+                normal_arbeidsuke: timeToIso8601Duration({ hours: 20, minutes: 0 })
             });
         });
 
@@ -187,14 +191,17 @@ describe('mapFormDataToApiData', () => {
                 mapAnsettelsesforholdTilApiData({
                     ...ansettelsesforholdMaxbo,
                     skalArbeide: YesOrNo.YES,
-                    normal_arbeidsuke: 20,
-                    redusert_arbeidsuke: 10,
+                    timer_normalt: {
+                        hours: 20,
+                        minutes: 0
+                    },
+                    timer_redusert: { hours: 10, minutes: 0 },
                     pstEllerTimer: HoursOrPercent.hours
                 })
             ).toEqual({
                 ...ansettelsesforholdMaxbo,
-                normal_arbeidsuke: convertHoursToIso8601Duration(20),
-                redusert_arbeidsuke: convertHoursToIso8601Duration(10)
+                normal_arbeidsuke: timeToIso8601Duration({ hours: 20, minutes: 0 }),
+                redusert_arbeidsuke: timeToIso8601Duration({ hours: 10, minutes: 0 })
             });
         });
     });

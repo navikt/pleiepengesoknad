@@ -127,7 +127,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                             }}
                         />
 
-                        <Box margin="xxl">
+                        <Box margin="xl">
                             <Slider
                                 name={Field.grad}
                                 label={intlHelper(intl, 'steg.tidsrom.hvorMye.spm')}

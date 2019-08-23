@@ -5,11 +5,11 @@ import HelperTextPanel from '../helper-text-panel/HelperTextPanel';
 import HelperTextButton from '../helper-text-button/HelperTextButton';
 import intlHelper from 'app/utils/intlUtils';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-
-import 'nav-frontend-skjema-style';
-import './radioPanelGroup.less';
 import Box from '../box/Box';
 import bemUtils from 'app/utils/bemUtils';
+import 'nav-frontend-skjema-style';
+
+import './radioPanelGroup.less';
 
 type RadioPanelBaseProps = RadioPanelProps & { key: string };
 

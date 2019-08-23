@@ -11,6 +11,10 @@
     "hjelpetekst.skjul": "Lukk hjelpetekst",
     "hjelpetekst.vis": "Vis hjelpetekst",
 
+    "timer": "{timer, plural, one {# time} other {# timar}}",
+    "minutter": "{minutter, plural, one {# minutt} other {# minutter}}",
+    "timerOgMinutter": "{timer, plural, one {# time} other {# timer}} og {minutter, plural, one {# minutt} other {# minutter}}",
+
     "fileUploadErrors.part1": "Det har dessverre skjedd ein feil under opplasting av følgjande vedlegg:",
     "formikValidationErrorSummary.tittel": "Du må rette opp i følgjande feil:",
 
@@ -187,10 +191,15 @@
     "gradertAnsettelsesforhold.timer_redusert": "Kor mykje skal du arbeide i denne perioden? Fyll ut antall timar eller prosent.",
     "gradertAnsettelsesforhold.timerPerUkeLabel_utenVerdi": "timar per veke",
     "gradertAnsettelsesforhold.timerPerUkeLabel": "timar per veke ({pst} prosent av normalt)",
-    "gradertAnsettelsesforhold.redusertProsentLabel_utenVerdi": "prosent av {timer, plural, one {# time} other {# timar}}",
-    "gradertAnsettelsesforhold.redusertProsentLabel": "prosent av {timer, plural, one {# time} other {# timar}} (tilsvarer {redusertTimer, plural, one {# time} other {# timar}} i veka)",
+    "gradertAnsettelsesforhold.redusertProsentLabel_utenVerdi": "prosent av {timerNormalt}",
+    "gradertAnsettelsesforhold.redusertProsentLabel": "prosent av {timerNormalt} (tilsvarer {timerRedusert} i veka)",
+    "gradertAnsettelsesforhold.oppgiTimer": "Oppgi antall timar",
+    "gradertAnsettelsesforhold.oppgiProsent": "Oppgi antall prosent",
 
     "gradertAnsettelsesforhold.oppsummering.orgInfo": "{navn} (organisasjonsnummer {organisasjonsnummer}):",
-    "gradertAnsettelsesforhold.oppsummering.skalIkkeArbeide": "Skal ikkje arbeide her i denne perioden (arbeider normalt {timerNormalt, plural, one {# time} other {# timar}} i veka).",
-    "gradertAnsettelsesforhold.oppsummering.skalArbeideDelvis": "Skal arbeide {timerRedusert, plural, one {# time} other {# timar}} i veka i denne perioden (arbeider normalt {timerNormalt, plural, one {# time} other {# timar}} i veka)."
+    "gradertAnsettelsesforhold.oppsummering.skalIkkeArbeide": "Skal ikkje arbeide her i denne perioden (arbeider normalt {timerNormalt} i veka).",
+    "gradertAnsettelsesforhold.oppsummering.skalArbeideDelvis": "Skal arbeide {timerRedusert} i veka i denne perioden (arbeider normalt {timerNormalt} i veka).",
+
+    "timeInput.hours": "Timer",
+    "timeInput.minutes": "Minutter"
 }
