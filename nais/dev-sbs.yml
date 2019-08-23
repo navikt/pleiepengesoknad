@@ -49,6 +49,6 @@ spec:
         - name: TOGGLE_LANGUAGE
           value: "on"
         - name: TOGGLE_GRADERT_ARBEID
-          value: "off"
+          value: "on"
         - name: TOGGLE_DAGER_MED_PLEIE
-          value: "off"
+          value: "on"
