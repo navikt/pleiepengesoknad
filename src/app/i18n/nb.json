@@ -193,6 +193,8 @@
     "gradertAnsettelsesforhold.timerPerUkeLabel": "Timer per uke ({pst} prosent av normalt)",
     "gradertAnsettelsesforhold.redusertProsentLabel_utenVerdi": "Prosent av {timerNormalt}",
     "gradertAnsettelsesforhold.redusertProsentLabel": "Prosent av {timerNormalt} (tilsvarer {timerRedusert})",
+    "gradertAnsettelsesforhold.oppgiTimer": "Oppgi antall timer",
+    "gradertAnsettelsesforhold.oppgiProsent": "Oppgi antall prosent",
 
     "gradertAnsettelsesforhold.oppsummering.orgInfo": "{navn} (organisasjonsnummer {organisasjonsnummer}):",
     "gradertAnsettelsesforhold.oppsummering.skalIkkeArbeide": "Skal ikke jobbe her i denne perioden (jobber normalt {timerNormalt} i uken).",
