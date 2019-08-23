@@ -9,7 +9,7 @@ import {
     validateNormaleArbeidstimer
 } from 'app/validation/fieldValidations';
 import { Field, AnsettelsesforholdForm } from 'app/types/PleiepengesøknadFormData';
-import { InjectedIntlProps, injectIntl, InjectedIntl } from 'react-intl';
+import { InjectedIntlProps, injectIntl, InjectedIntl, FormattedMessage } from 'react-intl';
 import Box from '../box/Box';
 import Panel from '../panel/Panel';
 import YesOrNoQuestion from '../yes-or-no-question/YesOrNoQuestion';
@@ -104,12 +104,20 @@ const AnsettelsesforholdDetaljer: React.FunctionComponent<Props & InjectedIntlPr
                             radios={[
                                 {
                                     value: HoursOrPercent.hours,
-                                    label: <span className="timerEllerProsent__label">Oppgi antall timer</span>,
+                                    label: (
+                                        <span className="timerEllerProsent__label">
+                                            <FormattedMessage id="gradertAnsettelsesforhold.oppgiTimer" />
+                                        </span>
+                                    ),
                                     key: 'hours'
                                 },
                                 {
                                     value: HoursOrPercent.percent,
-                                    label: <span className="timerEllerProsent__label">Oppgi antall prosent</span>,
+                                    label: (
+                                        <span className="timerEllerProsent__label">
+                                            <FormattedMessage id="gradertAnsettelsesforhold.oppgiProsent" />
+                                        </span>
+                                    ),
                                     key: 'percent'
                                 }
                             ]}
