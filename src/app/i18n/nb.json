@@ -189,14 +189,7 @@
     "fieldvalidation.ansettelsesforhold_redusertMerEnnNormalt": "Antall timer du skal jobbe er mer enn hva du har jobbet tidligere",
     "fieldvalidation.dagerMedPleie_ugyldig": "Ugyldig verdi. Antall dager må være mellom {min} og {max}",
 
-    "gradertAnsettelsesforhold.timer_arbeidsuke": "Hvor mange timer i uka jobber du vanligvis hos {navn}?",
-    "gradertAnsettelsesforhold.timer_redusert": "Hvor mye skal du jobbe i denne perioden?",
-    "gradertAnsettelsesforhold.timerPerUkeLabel_utenVerdi": "Timer per uke",
-    "gradertAnsettelsesforhold.timerPerUkeLabel": "Timer per uke ({pst} prosent av normalt)",
-    "gradertAnsettelsesforhold.redusertProsentLabel_utenVerdi": "Prosent av {timerNormalt}",
-    "gradertAnsettelsesforhold.redusertProsentLabel": "Prosent av {timerNormalt} (tilsvarer {timerRedusert})",
-    "gradertAnsettelsesforhold.oppgiTimer": "Oppgi antall timer",
-    "gradertAnsettelsesforhold.oppgiProsent": "Oppgi antall prosent",
+    "gradertAnsettelsesforhold.timer_redusert": "'Hvor mye skal du arbeide her i forhold til det du arbeider vanligvis? Oppgi i prosent.'",
 
     "gradertAnsettelsesforhold.oppsummering.orgInfo": "{navn} (organisasjonsnummer {organisasjonsnummer}):",
     "gradertAnsettelsesforhold.oppsummering.skalIkkeArbeide": "Skal ikke jobbe her i denne perioden (jobber normalt {timerNormalt} i uken).",

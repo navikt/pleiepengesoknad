@@ -7,8 +7,6 @@ import { Feature, isFeatureEnabled } from './featureToggleUtils';
 import { formatName } from './personUtils';
 import { BarnReceivedFromApi } from '../types/Søkerdata';
 import { Locale } from 'app/types/Locale';
-import { getRedusertTidForAnsettelsesforhold } from './ansettelsesforholdUtils';
-import { timeToIso8601Duration } from './timeUtils';
 
 export const mapFormDataToApiData = (
     {
@@ -69,35 +67,9 @@ export const mapFormDataToApiData = (
 };
 
 export const mapAnsettelsesforholdTilApiData = (ansettelsesforhold: AnsettelsesforholdForm): AnsettelsesforholdApi => {
-    const {
-        timer_normalt,
-        timer_redusert,
-        prosent_redusert,
-        pstEllerTimer,
-        skalArbeide,
-        ...orgInfo
-    } = ansettelsesforhold;
-
-    if (
-        isFeatureEnabled(Feature.TOGGLE_GRADERT_ARBEID) === false ||
-        timer_normalt === undefined ||
-        skalArbeide === undefined
-    ) {
-        return {
-            navn: ansettelsesforhold.navn,
-            organisasjonsnummer: ansettelsesforhold.organisasjonsnummer
-        };
+    const { redusert_arbeidsprosent, ...orgInfo } = ansettelsesforhold;
+    if (isFeatureEnabled(Feature.TOGGLE_GRADERT_ARBEID) === false || redusert_arbeidsprosent === undefined) {
+        return orgInfo;
     }
-
-    const forholdApi: AnsettelsesforholdApi = {
-        ...orgInfo,
-        normal_arbeidsuke: timeToIso8601Duration(timer_normalt)
-    };
-
-    if (skalArbeide === YesOrNo.NO) {
-        return forholdApi;
-    }
-
-    const redusertTid = getRedusertTidForAnsettelsesforhold(ansettelsesforhold);
-    return { ...forholdApi, redusert_arbeidsuke: redusertTid ? timeToIso8601Duration(redusertTid) : undefined };
+    return { ...orgInfo, redusert_arbeidsprosent };
 };

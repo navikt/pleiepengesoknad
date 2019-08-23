@@ -137,7 +137,7 @@
     "steg.oppsummering.barnet.fnr": "Fødselsnummer: {fnr}",
     "steg.oppsummering.barnet.søkersRelasjonTilBarnet": "Din relasjon til barnet: {relasjon}",
     "steg.oppsummering.grad.header": "Grad",
-    "steg.oppsummering.annenSøkerSammePeriode.header": "Er det ein annen søkjer i same tidsperiode",
+    "steg.oppsummering.annenSøkerSammePeriode.header": "Er det ein annan som søkjer for same tidsperiode",
     "steg.oppsummering.ansettelsesforhold.header": "Arbeidsforhold",
     "steg.oppsummering.ansettelsesforhold.forhold": "{navn} (organisasjonsnummer: {organisasjonsnummer})",
     "steg.oppsummering.ansettelsesforhold.ingenAnsettelsesforhold": "Ingen arbeidsforhold er valgt",

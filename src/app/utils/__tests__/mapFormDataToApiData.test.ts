@@ -4,8 +4,7 @@ import { PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import * as dateUtils from './../dateUtils';
 import * as attachmentUtils from './../attachmentUtils';
 import { YesOrNo } from '../../types/YesOrNo';
-import { BarnReceivedFromApi, HoursOrPercent } from '../../types/Søkerdata';
-import { timeToIso8601Duration } from '../timeUtils';
+import { BarnReceivedFromApi } from '../../types/Søkerdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
 
 const moment = require('moment');
@@ -158,50 +157,23 @@ describe('mapFormDataToApiData', () => {
             expect(
                 mapAnsettelsesforholdTilApiData({
                     ...ansettelsesforholdMaxbo,
-                    skalArbeide: YesOrNo.NO,
-                    timer_normalt: {
-                        hours: 20,
-                        minutes: 0
-                    }
+                    redusert_arbeidsprosent: 100
                 })
             ).toEqual({
                 ...ansettelsesforholdMaxbo
             });
         });
 
-        it('should return ansettelsesforhold correctly when skalArbeide is set to [no]', () => {
-            (isFeatureEnabled as any).mockImplementation(() => true);
-            const mappedData = mapAnsettelsesforholdTilApiData({
-                ...ansettelsesforholdMaxbo,
-                skalArbeide: YesOrNo.NO,
-                timer_normalt: {
-                    hours: 20,
-                    minutes: 0
-                }
-            });
-            expect(mappedData).toEqual({
-                ...ansettelsesforholdMaxbo,
-                normal_arbeidsuke: timeToIso8601Duration({ hours: 20, minutes: 0 })
-            });
-        });
-
-        it('should return ansettelsesforhold correctly when skalArbeide is set to [yes]', () => {
+        it('should return ansettelsesforhold correctly feature TOGGLE_GRADERT_ARBEID is on', () => {
             (isFeatureEnabled as any).mockImplementation(() => true);
             expect(
                 mapAnsettelsesforholdTilApiData({
                     ...ansettelsesforholdMaxbo,
-                    skalArbeide: YesOrNo.YES,
-                    timer_normalt: {
-                        hours: 20,
-                        minutes: 0
-                    },
-                    timer_redusert: { hours: 10, minutes: 0 },
-                    pstEllerTimer: HoursOrPercent.hours
+                    redusert_arbeidsprosent: 100
                 })
             ).toEqual({
                 ...ansettelsesforholdMaxbo,
-                normal_arbeidsuke: timeToIso8601Duration({ hours: 20, minutes: 0 }),
-                redusert_arbeidsuke: timeToIso8601Duration({ hours: 10, minutes: 0 })
+                redusert_arbeidsprosent: 100
             });
         });
     });

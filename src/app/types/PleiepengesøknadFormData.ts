@@ -1,13 +1,11 @@
-import { Ansettelsesforhold, HoursOrPercent } from './Søkerdata';
+import { Ansettelsesforhold } from './Søkerdata';
 import { YesOrNo } from './YesOrNo';
-import { Time } from './Time';
 
 export interface AnsettelsesforholdForm extends Ansettelsesforhold {
-    skalArbeide?: YesOrNo;
-    timer_normalt?: Time;
-    timer_redusert?: Time;
-    prosent_redusert?: number;
-    pstEllerTimer?: HoursOrPercent;
+    redusert_arbeidsprosent?: number;
+}
+export enum AnsettelsesforholdField {
+    'redusert_arbeidsprosent' = 'redusert_arbeidsprosent'
 }
 
 export enum Field {
