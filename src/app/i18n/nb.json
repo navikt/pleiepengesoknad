@@ -198,5 +198,8 @@
 
     "gradertAnsettelsesforhold.oppsummering.orgInfo": "{navn} (organisasjonsnummer {organisasjonsnummer}):",
     "gradertAnsettelsesforhold.oppsummering.skalIkkeArbeide": "Skal ikke jobbe her i denne perioden (jobber normalt {timerNormalt} i uken).",
-    "gradertAnsettelsesforhold.oppsummering.skalArbeideDelvis": "Skal jobbe {timerRedusert} i uken i denne perioden (jobber normalt {timerNormalt} i uken)."
+    "gradertAnsettelsesforhold.oppsummering.skalArbeideDelvis": "Skal jobbe {timerRedusert} i uken i denne perioden (jobber normalt {timerNormalt} i uken).",
+
+    "timeInput.hours": "Timer",
+    "timeInput.minutes": "Minutter"
 }
