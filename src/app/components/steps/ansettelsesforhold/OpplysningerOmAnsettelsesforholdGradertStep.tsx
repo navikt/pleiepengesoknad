@@ -27,6 +27,11 @@ const OpplysningerOmAnsettelsesforholdStep = ({ history, intl, ...stepProps }: P
 
     return (
         <FormikStep id={StepID.ANSETTELSESFORHOLD} onValidFormSubmit={navigate} history={history} {...stepProps}>
+            <Box padBottom="xl">
+                <AlertStripe type="info">
+                    <FormattedMessage id="steg.ansettelsesforhold.manglesOpplysninger" />
+                </AlertStripe>
+            </Box>
             <SøkerdataContextConsumer>
                 {(søkerdata: Søkerdata) =>
                     søkerdata.ansettelsesforhold && søkerdata.ansettelsesforhold.length > 0 ? (
@@ -53,11 +58,6 @@ const OpplysningerOmAnsettelsesforholdStep = ({ history, intl, ...stepProps }: P
                     )
                 }
             </SøkerdataContextConsumer>
-            <Box margin="l">
-                <AlertStripe type="info">
-                    <FormattedMessage id="steg.ansettelsesforhold.manglesOpplysninger" />
-                </AlertStripe>
-            </Box>
         </FormikStep>
     );
 };

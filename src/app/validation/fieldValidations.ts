@@ -3,6 +3,8 @@ import { fødselsnummerIsValid, FødselsnummerValidationErrorReason } from './f�
 import { isMoreThan3YearsAgo } from '../utils/dateUtils';
 import { attachmentHasBeenUploaded } from '../utils/attachmentUtils';
 import { FieldValidationResult } from './types';
+import { timeToDecimalTime } from 'app/utils/timeUtils';
+import { Time } from 'app/types/Time';
 
 const moment = require('moment');
 
@@ -171,12 +173,11 @@ export const validateRequiredField = (value: any): FieldValidationResult => {
     return undefined;
 };
 
-export const validateNormaleArbeidstimer = (value: number | string, isRequired?: boolean): FieldValidationResult => {
-    if (isRequired && !hasValue(value)) {
+export const validateNormaleArbeidstimer = (time: Time | undefined, isRequired?: boolean): FieldValidationResult => {
+    if (isRequired && time === undefined) {
         return fieldIsRequiredError();
     }
-    const timer = typeof value === 'string' ? parseFloat(value) : value;
-    if (isNaN(timer) || timer < MIN_ARBEIDSTIMER_PER_UKE || timer > MAX_ARBEIDSTIMER_PER_UKE) {
+    if (time && (time.hours < MIN_ARBEIDSTIMER_PER_UKE || time.hours > MAX_ARBEIDSTIMER_PER_UKE)) {
         return fieldValidationError(FieldValidationErrors.ansettelsesforhold_timerUgyldig, {
             min: MIN_ARBEIDSTIMER_PER_UKE,
             max: MAX_ARBEIDSTIMER_PER_UKE
@@ -202,26 +203,25 @@ export const validateDagerMedPleie = (value: string, isRequired?: boolean): Fiel
 
 export const validateReduserteArbeidTimer = (
     value: number | string,
-    normalTimer: number | string | undefined,
+    normalTimer: Time | undefined,
     isRequired?: boolean
 ): FieldValidationResult => {
     if (isRequired && !hasValue(value)) {
         return fieldIsRequiredError();
     }
     const timer = typeof value === 'string' ? parseFloat(value) : value;
-    const timerNormalt = typeof normalTimer === 'string' ? parseFloat(normalTimer) : normalTimer;
 
-    if (timerNormalt === undefined || isNaN(timerNormalt)) {
-        return validateNormaleArbeidstimer(timer);
+    if (normalTimer === undefined) {
+        return validateNormaleArbeidstimer({ hours: timer, minutes: 0 });
     }
 
     if (timer < MIN_ARBEIDSTIMER_PER_UKE || timer > MAX_ARBEIDSTIMER_PER_UKE) {
         return fieldValidationError(FieldValidationErrors.ansettelsesforhold_timerUgyldig, {
             min: MIN_ARBEIDSTIMER_PER_UKE,
-            max: Math.max(MAX_ARBEIDSTIMER_PER_UKE, timerNormalt)
+            max: Math.max(MAX_ARBEIDSTIMER_PER_UKE, timeToDecimalTime(normalTimer))
         });
     }
-    if (timer > (timerNormalt || MAX_ARBEIDSTIMER_PER_UKE)) {
+    if (timer > (timeToDecimalTime(normalTimer) || MAX_ARBEIDSTIMER_PER_UKE)) {
         return fieldValidationError(FieldValidationErrors.ansettelsesforhold_redusertMerEnnNormalt);
     }
     return undefined;

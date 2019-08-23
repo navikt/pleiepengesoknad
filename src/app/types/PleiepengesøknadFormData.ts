@@ -1,10 +1,12 @@
 import { Ansettelsesforhold, HoursOrPercent } from './Søkerdata';
 import { YesOrNo } from './YesOrNo';
+import { Time } from './Time';
 
 export interface AnsettelsesforholdForm extends Ansettelsesforhold {
     skalArbeide?: YesOrNo;
-    normal_arbeidsuke?: number;
-    redusert_arbeidsuke?: number;
+    timer_normalt?: Time;
+    timer_redusert?: Time;
+    prosent_redusert?: number;
     pstEllerTimer?: HoursOrPercent;
 }
 
