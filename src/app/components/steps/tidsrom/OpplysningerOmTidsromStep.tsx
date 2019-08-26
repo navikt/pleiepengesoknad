@@ -141,7 +141,6 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                                     label={intlHelper(intl, 'steg.tidsrom.hvorMye.spm')}
                                     min={20}
                                     max={100}
-                                    valueRenderer={(value) => `${value}%`}
                                     minPointLabelRenderer={(minPoint) => `${minPoint}%`}
                                     maxPointLabelRenderer={(maxPoint) => `${maxPoint}%`}
                                     showTextInput={true}
@@ -175,7 +174,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                                     validate={validateDagerMedPleie}
                                     type="number"
                                     max={5}
-                                    min={0}
+                                    min={0.5}
                                     inputClassName="input--dagerMedPleie"
                                 />
                             </Box>

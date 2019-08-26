@@ -187,7 +187,7 @@
     "fieldvalidation.grad.ugyldig": "Graden må oppgis som eit heltall mellom 20 og 100 prosent",
     "fieldvalidation.ansettelsesforhold_timerUgyldig": "Du må fylle ut eit tal mellom {min} og {max}",
     "fieldvalidation.ansettelsesforhold_redusertMerEnnNormalt": "Antall timar du skal arbeide er høgare enn kva du har arbeida tidligare",
-    "fieldvalidation.dagerMedPleie_ugyldig": "Ugyldig verdi. Antall dagar må vera mellom {min} og {max}",
+    "fieldvalidation.dagerMedPleie_ugyldig": "Ugyldig verdi. Antall dagar må vera mellom {min} og {max}, og oppgis i heile eller halve dagar",
 
     "gradertAnsettelsesforhold.timer_arbeidsuke": "Kor mange timar i veka arbeidar du vanlegvis hos {navn}?",
     "gradertAnsettelsesforhold.timer_redusert": "Kor mykje skal du arbeide i denne perioden? Fyll ut antall timar eller prosent.",
