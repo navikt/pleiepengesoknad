@@ -189,7 +189,7 @@ describe('mapFormDataToApiData and TOGGLE_GRADERT_ARBEID feature', () => {
     });
 
     it('should include redusert_arbeidsprosent if feature is on', () => {
-        (isFeatureEnabled as any).mockImplementation(() => false);
+        (isFeatureEnabled as any).mockImplementation(() => true);
         const formData = {
             ...formDataMock,
             ansettelsesforhold: [...arbeidsgiverinfoMedRedusertArbeidsprosent]
