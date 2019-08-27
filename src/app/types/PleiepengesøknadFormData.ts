@@ -46,7 +46,7 @@ export interface PleiepengesøknadFormData {
     [Field.harBoddUtenforNorgeSiste12Mnd]: YesOrNo;
     [Field.skalBoUtenforNorgeNeste12Mnd]: YesOrNo;
     [Field.harMedsøker]: YesOrNo;
-    [Field.grad]: number;
+    [Field.grad]?: number;
     [Field.dagerPerUkeBorteFraJobb]?: number;
 }
 
@@ -65,6 +65,6 @@ export const initialValues: PleiepengesøknadFormData = {
     [Field.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,
     [Field.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.UNANSWERED,
     [Field.harMedsøker]: YesOrNo.UNANSWERED,
-    [Field.grad]: 100,
+    [Field.grad]: undefined,
     [Field.dagerPerUkeBorteFraJobb]: undefined
 };

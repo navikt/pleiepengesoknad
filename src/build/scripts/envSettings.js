@@ -10,7 +10,7 @@ function createEnvSettingsFile(settingsFile) {
                 HENT_BARN_FEATURE: '${process.env.HENT_BARN_FEATURE}',
                 TOGGLE_LANGUAGE: '${process.env.TOGGLE_LANGUAGE}',
                 TOGGLE_GRADERT_ARBEID: '${process.env.TOGGLE_GRADERT_ARBEID}',
-                TOGGLE_DAGER_MED_PLEIE: '${process.env.TOGGLE_DAGER_MED_PLEIE}',
+                TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE: '${process.env.TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE}',
             };`
         );
     });

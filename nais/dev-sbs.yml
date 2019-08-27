@@ -50,5 +50,5 @@ spec:
           value: "on"
         - name: TOGGLE_GRADERT_ARBEID
           value: "on"
-        - name: TOGGLE_DAGER_MED_PLEIE
+        - name: TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE
           value: "on"

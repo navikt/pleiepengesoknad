@@ -66,7 +66,7 @@ export const mapFormDataToApiData = (
         dager_per_uke_borte_fra_jobb: dagerPerUkeBorteFraJobb
     };
 
-    if (isFeatureEnabled(Feature.TOGGLE_GRADERT_ARBEID) === false) {
+    if (isFeatureEnabled(Feature.TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE) === false && grad !== undefined) {
         apiData.grad = +grad;
     }
 

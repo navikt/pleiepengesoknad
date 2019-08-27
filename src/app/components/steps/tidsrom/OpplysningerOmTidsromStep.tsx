@@ -134,7 +134,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                             }}
                         />
 
-                        {isFeatureEnabled(Feature.TOGGLE_DAGER_MED_PLEIE) === false && (
+                        {isFeatureEnabled(Feature.TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE) === false && (
                             <Box margin="xl">
                                 <Slider
                                     name={Field.grad}
@@ -166,7 +166,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                             />
                         </Box>
 
-                        {isFeatureEnabled(Feature.TOGGLE_DAGER_MED_PLEIE) && harMedsøker === YesOrNo.YES && (
+                        {isFeatureEnabled(Feature.TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE) && harMedsøker === YesOrNo.YES && (
                             <Box margin="xxl">
                                 <Input
                                     name={Field.dagerPerUkeBorteFraJobb}

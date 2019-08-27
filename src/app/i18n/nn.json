@@ -14,6 +14,7 @@
     "timer": "{timer, plural, one {# time} other {# timar}}",
     "minutter": "{minutter, plural, one {# minutt} other {# minutter}}",
     "timerOgMinutter": "{timer, plural, one {# time} other {# timer}} og {minutter, plural, one {# minutt} other {# minutter}}",
+    "dager": "{dager, plural, one {# dag} other {# dagar}}",
 
     "fileUploadErrors.part1": "Det har dessverre skjedd ein feil under opplasting av følgjande vedlegg:",
     "formikValidationErrorSummary.tittel": "Du må rette opp i følgjande feil:",
@@ -137,6 +138,7 @@
     "steg.oppsummering.barnet.fnr": "Fødselsnummer: {fnr}",
     "steg.oppsummering.barnet.søkersRelasjonTilBarnet": "Din relasjon til barnet: {relasjon}",
     "steg.oppsummering.grad.header": "Grad",
+    "steg.oppsummering.dagerPerUkeBorteFraJobb.header": "Antall dagar i veka du skal vera borte frå jobb for å ta hand om barnet",
     "steg.oppsummering.annenSøkerSammePeriode.header": "Er det ein annan som søkjer for same tidsperiode",
     "steg.oppsummering.ansettelsesforhold.header": "Arbeidsforhold",
     "steg.oppsummering.ansettelsesforhold.forhold": "{navn} (organisasjonsnummer: {organisasjonsnummer})",

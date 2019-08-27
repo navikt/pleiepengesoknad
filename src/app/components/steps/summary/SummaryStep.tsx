@@ -83,6 +83,7 @@ class SummaryStep extends React.Component<Props, State> {
             harBoddUtenforNorgeSiste12Mnd,
             skalBoUtenforNorgeNeste12Mnd,
             grad,
+            dagerPerUkeBorteFraJobb,
             harMedsøker
         } = values;
 
@@ -200,11 +201,25 @@ class SummaryStep extends React.Component<Props, State> {
                                         />
                                     </ContentWithHeader>
                                 </Box>
-                                <Box margin="l">
-                                    <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.grad.header')}>
-                                        {grad}%
-                                    </ContentWithHeader>
-                                </Box>
+                                {isFeatureEnabled(Feature.TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE) === false && (
+                                    <Box margin="l">
+                                        <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.grad.header')}>
+                                            {grad}%
+                                        </ContentWithHeader>
+                                    </Box>
+                                )}
+                                {isFeatureEnabled(Feature.TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE) === true && (
+                                    <Box margin="l">
+                                        <ContentWithHeader
+                                            header={intlHelper(
+                                                intl,
+                                                'steg.oppsummering.dagerPerUkeBorteFraJobb.header'
+                                            )}>
+                                            <FormattedMessage id="dager" values={{ dager: dagerPerUkeBorteFraJobb }} />
+                                        </ContentWithHeader>
+                                    </Box>
+                                )}
+
                                 <Box margin="l">
                                     <ContentWithHeader
                                         header={intlHelper(intl, 'steg.oppsummering.annenSøkerSammePeriode.header')}>
