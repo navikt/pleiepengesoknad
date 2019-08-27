@@ -165,48 +165,36 @@ describe('mapFormDataToApiData', () => {
     });
 });
 
+describe('mapFormDataToApiData and TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE feature', () => {
+    const formData = { ...formDataMock, [Field.grad]: 100 };
+    it('should include grad when feature is off', () => {
+        (isFeatureEnabled as any).mockImplementation(() => false);
+        const resultingApiData = mapFormDataToApiData(formData as PleiepengesøknadFormData, barnMock, 'nb');
+        expect(resultingApiData[Field.grad]).toBeDefined();
+    });
+    it('should not include grad when feature is on', () => {
+        (isFeatureEnabled as any).mockImplementation(() => true);
+        const resultingApiData = mapFormDataToApiData(formData as PleiepengesøknadFormData, barnMock, 'nb');
+        expect(resultingApiData[Field.grad]).toBeUndefined();
+    });
+});
+
 describe('mapFormDataToApiData and TOGGLE_GRADERT_ARBEID feature', () => {
-    describe('TOGGLE_GRADERT_ARBEID: off', () => {
-        let resultingApiData: PleiepengesøknadApiData;
-        beforeAll(() => {
-            (isFeatureEnabled as any).mockImplementation(() => false);
-            resultingApiData = mapFormDataToApiData(formDataMock as PleiepengesøknadFormData, barnMock, 'nb');
-        });
+    let resultApiData: PleiepengesøknadApiData;
 
-        it('should only include name and orgnumber on ansettelsesforhold', () => {
-            expect(resultingApiData.arbeidsgivere.organisasjoner).toEqual(formDataMock[Field.ansettelsesforhold]);
-        });
-
-        it('should include grad', () => {
-            expect(resultingApiData[Field.grad]).toBeDefined();
-        });
+    it('should not include redusert_arbeidsprosent if feature is off', () => {
+        (isFeatureEnabled as any).mockImplementation(() => false);
+        resultApiData = mapFormDataToApiData(formDataMock as PleiepengesøknadFormData, barnMock, 'nb');
+        expect(resultApiData.arbeidsgivere.organisasjoner).toEqual(formDataMock[Field.ansettelsesforhold]);
     });
 
-    describe('TOGGLE_GRADERT_ARBEID: on', () => {
-        let resultingApiData: PleiepengesøknadApiData;
-
-        const formDataWithRedusertArbeidsprosent = {
+    it('should include redusert_arbeidsprosent if feature is on', () => {
+        (isFeatureEnabled as any).mockImplementation(() => false);
+        const formData = {
             ...formDataMock,
             ansettelsesforhold: [...arbeidsgiverinfoMedRedusertArbeidsprosent]
         };
-
-        beforeAll(() => {
-            (isFeatureEnabled as any).mockImplementation(() => true);
-            resultingApiData = mapFormDataToApiData(
-                formDataWithRedusertArbeidsprosent as PleiepengesøknadFormData,
-                barnMock,
-                'nb'
-            );
-        });
-
-        it('should include redusert_arbeidsprosent, name and orgnumber on ansettelsesforhold', () => {
-            expect(resultingApiData.arbeidsgivere.organisasjoner).toEqual(
-                formDataWithRedusertArbeidsprosent[Field.ansettelsesforhold]
-            );
-        });
-
-        it('should not include grad', () => {
-            expect(resultingApiData[Field.grad]).toBeUndefined();
-        });
+        resultApiData = mapFormDataToApiData(formData as PleiepengesøknadFormData, barnMock, 'nb');
+        expect(resultApiData.arbeidsgivere.organisasjoner).toEqual(formData[Field.ansettelsesforhold]);
     });
 });
