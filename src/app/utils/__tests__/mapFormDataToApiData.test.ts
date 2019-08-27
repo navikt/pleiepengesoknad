@@ -1,5 +1,5 @@
 import { Field, PleiepengesøknadFormData, AnsettelsesforholdForm } from '../../types/PleiepengesøknadFormData';
-import { mapFormDataToApiData, mapAnsettelsesforholdTilApiData } from '../mapFormDataToApiData';
+import { mapFormDataToApiData } from '../mapFormDataToApiData';
 import { PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import * as dateUtils from './../dateUtils';
 import * as attachmentUtils from './../attachmentUtils';
@@ -31,6 +31,13 @@ const ansettelsesforholdMaxbo: AnsettelsesforholdForm = {
     organisasjonsnummer: '910831143'
 };
 
+const arbeidsgiverinfoMedRedusertArbeidsprosent = [
+    { ...ansettelsesforholdTelenor, redusert_arbeidsprosent: 100 },
+    { ...ansettelsesforholdMaxbo, redusert_arbeidsprosent: 100 }
+];
+
+const arbeidsgiverinfoUtenRedusertArbeidsprosent = [ansettelsesforholdTelenor, ansettelsesforholdMaxbo];
+
 type AttachmentMock = Attachment & { failed: boolean };
 const attachmentMock1: Partial<AttachmentMock> = { url: 'nav.no/1', failed: true };
 const attachmentMock2: Partial<AttachmentMock> = { url: 'nav.no/2', failed: false };
@@ -40,7 +47,7 @@ const formDataMock: Partial<PleiepengesøknadFormData> = {
     [Field.harBekreftetOpplysninger]: true,
     [Field.harForståttRettigheterOgPlikter]: true,
     [Field.søkersRelasjonTilBarnet]: 'mor',
-    [Field.ansettelsesforhold]: [ansettelsesforholdTelenor, ansettelsesforholdMaxbo],
+    [Field.ansettelsesforhold]: arbeidsgiverinfoUtenRedusertArbeidsprosent,
     [Field.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.YES,
     [Field.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.NO,
     [Field.periodeFra]: todaysDate,
@@ -151,30 +158,55 @@ describe('mapFormDataToApiData', () => {
         );
     });
 
-    describe('maps ansettelsesform', () => {
-        it('should only send normal ansettelsesforhold when feature TOGGLE_GRADERT_ARBEID is off', () => {
+    describe('grad or dagerPerUkeBorteFraJobb', () => {
+        it('should send grad, not dagerPerUkeBorteFraJobb when TOGGLE_GRADERT_ARBEID is off', () => {
             (isFeatureEnabled as any).mockImplementation(() => false);
-            expect(
-                mapAnsettelsesforholdTilApiData({
-                    ...ansettelsesforholdMaxbo,
-                    redusert_arbeidsprosent: 100
-                })
-            ).toEqual({
-                ...ansettelsesforholdMaxbo
-            });
+        });
+    });
+});
+
+describe('mapFormDataToApiData and TOGGLE_GRADERT_ARBEID feature', () => {
+    describe('TOGGLE_GRADERT_ARBEID: off', () => {
+        let resultingApiData: PleiepengesøknadApiData;
+        beforeAll(() => {
+            (isFeatureEnabled as any).mockImplementation(() => false);
+            resultingApiData = mapFormDataToApiData(formDataMock as PleiepengesøknadFormData, barnMock, 'nb');
         });
 
-        it('should return ansettelsesforhold correctly feature TOGGLE_GRADERT_ARBEID is on', () => {
+        it('should only include name and orgnumber on ansettelsesforhold', () => {
+            expect(resultingApiData.arbeidsgivere.organisasjoner).toEqual(formDataMock[Field.ansettelsesforhold]);
+        });
+
+        it('should include grad', () => {
+            expect(resultingApiData[Field.grad]).toBeDefined();
+        });
+    });
+
+    describe('TOGGLE_GRADERT_ARBEID: on', () => {
+        let resultingApiData: PleiepengesøknadApiData;
+
+        const formDataWithRedusertArbeidsprosent = {
+            ...formDataMock,
+            ansettelsesforhold: [...arbeidsgiverinfoMedRedusertArbeidsprosent]
+        };
+
+        beforeAll(() => {
             (isFeatureEnabled as any).mockImplementation(() => true);
-            expect(
-                mapAnsettelsesforholdTilApiData({
-                    ...ansettelsesforholdMaxbo,
-                    redusert_arbeidsprosent: 100
-                })
-            ).toEqual({
-                ...ansettelsesforholdMaxbo,
-                redusert_arbeidsprosent: 100
-            });
+            resultingApiData = mapFormDataToApiData(
+                formDataWithRedusertArbeidsprosent as PleiepengesøknadFormData,
+                barnMock,
+                'nb'
+            );
+        });
+
+        it('should include redusert_arbeidsprosent, name and orgnumber on ansettelsesforhold', () => {
+            expect(resultingApiData.arbeidsgivere.organisasjoner).toEqual(
+                formDataWithRedusertArbeidsprosent[Field.ansettelsesforhold]
+            );
+        });
+
+        it('should not include grad', () => {
+            expect(resultingApiData[Field.grad]).toBeUndefined();
         });
     });
 });
