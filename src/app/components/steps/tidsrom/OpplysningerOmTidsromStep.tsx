@@ -15,7 +15,7 @@ import {
     validateGrad,
     validateTildato,
     validateYesOrNoIsAnswered,
-    validateDagerMedPleie
+    validateDagerPerUkeBorteFraJobb
 } from '../../../validation/fieldValidations';
 import { getNextStepRoute } from '../../../utils/routeUtils';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
@@ -29,7 +29,7 @@ import Input from 'app/components/input/Input';
 import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 import { YesOrNo } from 'app/types/YesOrNo';
 
-import './dagerMedPleie.less';
+import './dagerPerUkeBorteFraJobb.less';
 
 interface OpplysningerOmTidsromStepState {
     isLoadingNextStep: boolean;
@@ -169,13 +169,13 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                         {isFeatureEnabled(Feature.TOGGLE_DAGER_MED_PLEIE) && harMedsøker === YesOrNo.YES && (
                             <Box margin="xxl">
                                 <Input
-                                    name={Field.dagerMedPleie}
-                                    label={intlHelper(intl, 'steg.tidsrom.dagerMedPleie.spm')}
-                                    validate={validateDagerMedPleie}
+                                    name={Field.dagerPerUkeBorteFraJobb}
+                                    label={intlHelper(intl, 'steg.tidsrom.dagerPerUkeBorteFraJobb.spm')}
+                                    validate={validateDagerPerUkeBorteFraJobb}
                                     type="number"
                                     max={5}
                                     min={0.5}
-                                    inputClassName="input--dagerMedPleie"
+                                    inputClassName="input--dagerPerUkeBorteFraJobb"
                                 />
                             </Box>
                         )}
