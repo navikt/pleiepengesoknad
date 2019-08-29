@@ -49,6 +49,6 @@ spec:
         - name: TOGGLE_LANGUAGE
           value: "on"
         - name: TOGGLE_GRADERT_ARBEID
-          value: "on"
+          value: "off"
         - name: TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE
           value: "on"
