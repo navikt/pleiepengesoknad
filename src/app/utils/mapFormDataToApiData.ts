@@ -62,12 +62,14 @@ export const mapFormDataToApiData = (
         vedlegg: legeerklæring.filter((attachment) => !attachmentUploadHasFailed(attachment)).map(({ url }) => url!),
         har_medsoker: harMedsøker === YesOrNo.YES,
         har_bekreftet_opplysninger: harBekreftetOpplysninger,
-        har_forstatt_rettigheter_og_plikter: harForståttRettigheterOgPlikter,
-        dager_per_uke_borte_fra_jobb: dagerPerUkeBorteFraJobb
+        har_forstatt_rettigheter_og_plikter: harForståttRettigheterOgPlikter
     };
 
     if (isFeatureEnabled(Feature.TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE) === false && grad !== undefined) {
         apiData.grad = +grad;
+    }
+    if (isFeatureEnabled(Feature.TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE) === true && apiData.har_medsoker === true) {
+        apiData.dager_per_uke_borte_fra_jobb = dagerPerUkeBorteFraJobb;
     }
 
     return apiData;

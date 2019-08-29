@@ -167,15 +167,48 @@ describe('mapFormDataToApiData', () => {
 
 describe('mapFormDataToApiData and TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE feature', () => {
     const formData = { ...formDataMock, [Field.grad]: 100 };
-    it('should include grad when feature is off', () => {
-        (isFeatureEnabled as any).mockImplementation(() => false);
-        const resultingApiData = mapFormDataToApiData(formData as PleiepengesøknadFormData, barnMock, 'nb');
-        expect(resultingApiData[Field.grad]).toBeDefined();
+    describe('TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE is off', () => {
+        beforeAll(() => {
+            (isFeatureEnabled as any).mockImplementation(() => false);
+        });
+        it('should include grad', () => {
+            const resultingApiData = mapFormDataToApiData(formData as PleiepengesøknadFormData, barnMock, 'nb');
+            expect(resultingApiData.grad).toBeDefined();
+        });
+        it('should not include dagerBorteFraJobb', () => {
+            const data: PleiepengesøknadFormData = { ...(formData as PleiepengesøknadFormData) };
+            const resultingApiData = mapFormDataToApiData(data, barnMock, 'nb');
+            expect(resultingApiData.dager_per_uke_borte_fra_jobb).toBeUndefined();
+        });
     });
-    it('should not include grad when feature is on', () => {
-        (isFeatureEnabled as any).mockImplementation(() => true);
-        const resultingApiData = mapFormDataToApiData(formData as PleiepengesøknadFormData, barnMock, 'nb');
-        expect(resultingApiData[Field.grad]).toBeUndefined();
+
+    describe('TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE is on', () => {
+        const formDataFeatureOn: PleiepengesøknadFormData = {
+            ...(formData as PleiepengesøknadFormData),
+            [Field.harMedsøker]: YesOrNo.YES,
+            [Field.dagerPerUkeBorteFraJobb]: 2
+        };
+
+        beforeAll(() => {
+            (isFeatureEnabled as any).mockImplementation(() => true);
+        });
+        it('should not include grad', () => {
+            const resultingApiData = mapFormDataToApiData(formDataFeatureOn, barnMock, 'nb');
+            expect(resultingApiData.grad).toBeUndefined();
+        });
+        it('should not include dagerBorteFraJobb if harMedsoker is no', () => {
+            const resultingApiData = mapFormDataToApiData(
+                { ...formDataFeatureOn, harMedsøker: YesOrNo.NO },
+                barnMock,
+                'nb'
+            );
+            expect(resultingApiData.dager_per_uke_borte_fra_jobb).toBeUndefined();
+        });
+        it('should include dagerBorteFraJobb if harMedsoker is yes', () => {
+            const dataHarMedsøker = { ...formDataFeatureOn, harMedsøker: YesOrNo.YES };
+            const resultingApiData = mapFormDataToApiData(dataHarMedsøker, barnMock, 'nb');
+            expect(resultingApiData.dager_per_uke_borte_fra_jobb).toBeDefined();
+        });
     });
 });
 
