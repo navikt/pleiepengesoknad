@@ -208,17 +208,21 @@ class SummaryStep extends React.Component<Props, State> {
                                         </ContentWithHeader>
                                     </Box>
                                 )}
-                                {isFeatureEnabled(Feature.TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE) === true && (
-                                    <Box margin="l">
-                                        <ContentWithHeader
-                                            header={intlHelper(
-                                                intl,
-                                                'steg.oppsummering.dagerPerUkeBorteFraJobb.header'
-                                            )}>
-                                            <FormattedMessage id="dager" values={{ dager: dagerPerUkeBorteFraJobb }} />
-                                        </ContentWithHeader>
-                                    </Box>
-                                )}
+                                {isFeatureEnabled(Feature.TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE) === true &&
+                                    harMedsøker === YesOrNo.YES && (
+                                        <Box margin="l">
+                                            <ContentWithHeader
+                                                header={intlHelper(
+                                                    intl,
+                                                    'steg.oppsummering.dagerPerUkeBorteFraJobb.header'
+                                                )}>
+                                                <FormattedMessage
+                                                    id="dager"
+                                                    values={{ dager: dagerPerUkeBorteFraJobb }}
+                                                />
+                                            </ContentWithHeader>
+                                        </Box>
+                                    )}
 
                                 <Box margin="l">
                                     <ContentWithHeader
