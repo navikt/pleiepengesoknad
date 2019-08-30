@@ -4,7 +4,6 @@ import IntlProvider from '../intl-provider/IntlProvider';
 import { Søkerdata } from '../../types/Søkerdata';
 import LanguageToggle from '../language-toggle/LanguageToggle';
 import { Locale } from 'app/types/Locale';
-import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 
 interface ApplicationWrapperProps {
     søkerdata?: Søkerdata;
@@ -16,9 +15,7 @@ const ApplicationWrapper: React.FunctionComponent<ApplicationWrapperProps> = ({ 
     return (
         <IntlProvider locale={locale}>
             <div>
-                {isFeatureEnabled(Feature.TOGGLE_LANGUAGE) && (
-                    <LanguageToggle locale={locale} toggle={onChangeLocale} />
-                )}
+                <LanguageToggle locale={locale} toggle={onChangeLocale} />
                 <Router>{children}</Router>
             </div>
         </IntlProvider>

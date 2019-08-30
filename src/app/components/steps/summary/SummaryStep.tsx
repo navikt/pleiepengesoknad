@@ -192,12 +192,7 @@ class SummaryStep extends React.Component<Props, State> {
                                                     </Normaltekst>
                                                 </>
                                             )}
-                                            showFirstContent={
-                                                isFeatureEnabled(Feature.HENT_BARN_FEATURE) &&
-                                                !søknadenGjelderEtAnnetBarn &&
-                                                barn &&
-                                                barn.length > 0
-                                            }
+                                            showFirstContent={!søknadenGjelderEtAnnetBarn && barn && barn.length > 0}
                                         />
                                     </ContentWithHeader>
                                 </Box>
@@ -208,21 +203,17 @@ class SummaryStep extends React.Component<Props, State> {
                                         </ContentWithHeader>
                                     </Box>
                                 )}
-                                {isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === true &&
-                                    harMedsøker === YesOrNo.YES && (
-                                        <Box margin="l">
-                                            <ContentWithHeader
-                                                header={intlHelper(
-                                                    intl,
-                                                    'steg.oppsummering.dagerPerUkeBorteFraJobb.header'
-                                                )}>
-                                                <FormattedMessage
-                                                    id="dager"
-                                                    values={{ dager: dagerPerUkeBorteFraJobb }}
-                                                />
-                                            </ContentWithHeader>
-                                        </Box>
-                                    )}
+                                {isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === true && harMedsøker === YesOrNo.YES && (
+                                    <Box margin="l">
+                                        <ContentWithHeader
+                                            header={intlHelper(
+                                                intl,
+                                                'steg.oppsummering.dagerPerUkeBorteFraJobb.header'
+                                            )}>
+                                            <FormattedMessage id="dager" values={{ dager: dagerPerUkeBorteFraJobb }} />
+                                        </ContentWithHeader>
+                                    </Box>
+                                )}
 
                                 <Box margin="l">
                                     <ContentWithHeader

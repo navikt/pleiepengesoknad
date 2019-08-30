@@ -1,7 +1,6 @@
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import * as fieldValidations from './fieldValidations';
 import { YesOrNo } from '../types/YesOrNo';
-import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
 
 export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: PleiepengesøknadFormData) =>
     harForståttRettigheterOgPlikter === true;
@@ -22,9 +21,9 @@ export const opplysningerOmBarnetStepIsValid = ({
         fieldValidations.validateFødselsnummer(barnetsFødselsnummer) === undefined &&
         fieldValidations.validateRelasjonTilBarnet(søkersRelasjonTilBarnet) === undefined;
 
-    if (!formIsValid && isFeatureEnabled(Feature.HENT_BARN_FEATURE)) {
-        return fieldValidations.validateValgtBarn(barnetSøknadenGjelder) === undefined;
-    }
+    // if (!formIsValid) {
+    //     return fieldValidations.validateValgtBarn(barnetSøknadenGjelder) === undefined;
+    // }
 
     return formIsValid;
 };

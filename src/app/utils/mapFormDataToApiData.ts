@@ -48,8 +48,7 @@ export const mapFormDataToApiData = (
     const apiData: PleiepengesøknadApiData = {
         sprak,
         barn: barnObject,
-        relasjon_til_barnet:
-            isFeatureEnabled(Feature.HENT_BARN_FEATURE) && barnObject.aktoer_id ? null : søkersRelasjonTilBarnet,
+        relasjon_til_barnet: barnObject.aktoer_id ? null : søkersRelasjonTilBarnet,
         arbeidsgivere: {
             organisasjoner: ansettelsesforhold.map((forhold) => mapAnsettelsesforholdTilApiData(forhold))
         },
