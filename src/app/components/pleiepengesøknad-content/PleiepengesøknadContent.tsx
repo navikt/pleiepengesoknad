@@ -53,7 +53,7 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
                 <Route
                     path={getSøknadRoute(StepID.ANSETTELSESFORHOLD)}
                     render={(props) => {
-                        return isFeatureEnabled(Feature.TOGGLE_GRADERT_ARBEID) ? (
+                        return isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) ? (
                             <OpplysningerOmAnsettelsesforholdGradertStep {...commonFormikProps} {...props} />
                         ) : (
                             <OpplysningerOmAnsettelsesforholdStep {...commonFormikProps} {...props} />

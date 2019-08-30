@@ -159,15 +159,15 @@ describe('mapFormDataToApiData', () => {
     });
 
     describe('grad or dagerPerUkeBorteFraJobb', () => {
-        it('should send grad, not dagerPerUkeBorteFraJobb when TOGGLE_GRADERT_ARBEID is off', () => {
+        it('should send grad, not dagerPerUkeBorteFraJobb when TOGGLE_FJERN_GRAD is off', () => {
             (isFeatureEnabled as any).mockImplementation(() => false);
         });
     });
 });
 
-describe('mapFormDataToApiData and TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE feature', () => {
+describe('mapFormDataToApiData and TOGGLE_FJERN_GRAD feature', () => {
     const formData = { ...formDataMock, [Field.grad]: 100 };
-    describe('TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE is off', () => {
+    describe('TOGGLE_FJERN_GRAD is off', () => {
         beforeAll(() => {
             (isFeatureEnabled as any).mockImplementation(() => false);
         });
@@ -180,15 +180,19 @@ describe('mapFormDataToApiData and TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE feature',
             const resultingApiData = mapFormDataToApiData(data, barnMock, 'nb');
             expect(resultingApiData.dager_per_uke_borte_fra_jobb).toBeUndefined();
         });
+        it('should not include redusert_arbeidsprosent if feature is off', () => {
+            const resultApiData = mapFormDataToApiData(formDataMock as PleiepengesøknadFormData, barnMock, 'nb');
+            expect(resultApiData.arbeidsgivere.organisasjoner).toEqual(formDataMock[Field.ansettelsesforhold]);
+        });
     });
 
-    describe('TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE is on', () => {
+    describe('TOGGLE_FJERN_GRAD is on', () => {
         const formDataFeatureOn: PleiepengesøknadFormData = {
             ...(formData as PleiepengesøknadFormData),
             [Field.harMedsøker]: YesOrNo.YES,
-            [Field.dagerPerUkeBorteFraJobb]: 2
+            [Field.dagerPerUkeBorteFraJobb]: 2,
+            ansettelsesforhold: arbeidsgiverinfoMedRedusertArbeidsprosent
         };
-
         beforeAll(() => {
             (isFeatureEnabled as any).mockImplementation(() => true);
         });
@@ -209,25 +213,13 @@ describe('mapFormDataToApiData and TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE feature',
             const resultingApiData = mapFormDataToApiData(dataHarMedsøker, barnMock, 'nb');
             expect(resultingApiData.dager_per_uke_borte_fra_jobb).toBeDefined();
         });
-    });
-});
-
-describe('mapFormDataToApiData and TOGGLE_GRADERT_ARBEID feature', () => {
-    let resultApiData: PleiepengesøknadApiData;
-
-    it('should not include redusert_arbeidsprosent if feature is off', () => {
-        (isFeatureEnabled as any).mockImplementation(() => false);
-        resultApiData = mapFormDataToApiData(formDataMock as PleiepengesøknadFormData, barnMock, 'nb');
-        expect(resultApiData.arbeidsgivere.organisasjoner).toEqual(formDataMock[Field.ansettelsesforhold]);
-    });
-
-    it('should include redusert_arbeidsprosent if feature is on', () => {
-        (isFeatureEnabled as any).mockImplementation(() => true);
-        const formData = {
-            ...formDataMock,
-            ansettelsesforhold: [...arbeidsgiverinfoMedRedusertArbeidsprosent]
-        };
-        resultApiData = mapFormDataToApiData(formData as PleiepengesøknadFormData, barnMock, 'nb');
-        expect(resultApiData.arbeidsgivere.organisasjoner).toEqual(formData[Field.ansettelsesforhold]);
+        it('should include redusert_arbeidsprosent', () => {
+            const resultApiData = mapFormDataToApiData(
+                { ...formDataFeatureOn, ansettelsesforhold: [...arbeidsgiverinfoMedRedusertArbeidsprosent] },
+                barnMock,
+                'nb'
+            );
+            expect(resultApiData.arbeidsgivere.organisasjoner).toEqual(formDataFeatureOn[Field.ansettelsesforhold]);
+        });
     });
 });

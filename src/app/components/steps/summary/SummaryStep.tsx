@@ -201,14 +201,14 @@ class SummaryStep extends React.Component<Props, State> {
                                         />
                                     </ContentWithHeader>
                                 </Box>
-                                {isFeatureEnabled(Feature.TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE) === false && (
+                                {isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === false && (
                                     <Box margin="l">
                                         <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.grad.header')}>
                                             {grad}%
                                         </ContentWithHeader>
                                     </Box>
                                 )}
-                                {isFeatureEnabled(Feature.TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE) === true &&
+                                {isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === true &&
                                     harMedsøker === YesOrNo.YES && (
                                         <Box margin="l">
                                             <ContentWithHeader
@@ -236,7 +236,7 @@ class SummaryStep extends React.Component<Props, State> {
                                         header={intlHelper(intl, 'steg.oppsummering.ansettelsesforhold.header')}>
                                         {ansettelsesforhold.length > 0 ? (
                                             ansettelsesforhold.map((forhold) =>
-                                                isFeatureEnabled(Feature.TOGGLE_GRADERT_ARBEID) ? (
+                                                isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) ? (
                                                     <GradertAnsettelsesforholdSummary
                                                         key={forhold.organisasjonsnummer}
                                                         ansettelsesforhold={forhold}

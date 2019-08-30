@@ -65,10 +65,11 @@ export const mapFormDataToApiData = (
         har_forstatt_rettigheter_og_plikter: harForståttRettigheterOgPlikter
     };
 
-    if (isFeatureEnabled(Feature.TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE) === false && grad !== undefined) {
+    if (isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === false && grad !== undefined) {
         apiData.grad = +grad;
     }
-    if (isFeatureEnabled(Feature.TOGGLE_ERSTATT_GRAD_MED_DAGER_BORTE) === true && apiData.har_medsoker === true) {
+
+    if (isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === true && apiData.har_medsoker === true) {
         apiData.dager_per_uke_borte_fra_jobb = dagerPerUkeBorteFraJobb;
     }
 
@@ -77,7 +78,7 @@ export const mapFormDataToApiData = (
 
 export const mapAnsettelsesforholdTilApiData = (ansettelsesforhold: AnsettelsesforholdForm): AnsettelsesforholdApi => {
     const { redusert_arbeidsprosent, ...orgInfo } = ansettelsesforhold;
-    if (isFeatureEnabled(Feature.TOGGLE_GRADERT_ARBEID) === false || redusert_arbeidsprosent === undefined) {
+    if (isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === false || redusert_arbeidsprosent === undefined) {
         return orgInfo;
     }
     return { ...orgInfo, redusert_arbeidsprosent };
