@@ -49,4 +49,4 @@ spec:
         - name: TOGGLE_LANGUAGE
           value: "on"
         - name: TOGGLE_FJERN_GRAD
-          value: "off"
+          value: "on"
