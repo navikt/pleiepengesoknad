@@ -16,7 +16,6 @@ import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { BarnReceivedFromApi, Søkerdata } from '../../../types/Søkerdata';
 import { formatName } from '../../../utils/personUtils';
 import { sendApplication } from '../../../api/api';
-import { YesOrNo } from '../../../types/YesOrNo';
 import routeConfig from '../../../config/routeConfig';
 import CounsellorPanel from '../../counsellor-panel/CounsellorPanel';
 import * as apiUtils from '../../../utils/apiUtils';
@@ -65,230 +64,235 @@ class SummaryStep extends React.Component<Props, State> {
     }
 
     render() {
-        const { handleSubmit, values, history, intl } = this.props;
+        const { handleSubmit, values: formValues, history, intl } = this.props;
         const { sendingInProgress } = this.state;
         const stepProps = { handleSubmit, showButtonSpinner: sendingInProgress, buttonDisabled: sendingInProgress };
 
-        const {
-            periodeFra,
-            periodeTil,
-            ansettelsesforhold,
-            barnetsNavn,
-            barnetHarIkkeFåttFødselsnummerEnda,
-            barnetsForeløpigeFødselsnummerEllerDNummer,
-            barnetsFødselsnummer,
-            søknadenGjelderEtAnnetBarn,
-            barnetSøknadenGjelder,
-            søkersRelasjonTilBarnet,
-            harBoddUtenforNorgeSiste12Mnd,
-            skalBoUtenforNorgeNeste12Mnd,
-            grad,
-            dagerPerUkeBorteFraJobb,
-            harMedsøker
-        } = values;
-
         return (
             <SøkerdataContextConsumer>
-                {({ person: { fornavn, mellomnavn, etternavn, fodselsnummer }, barn }: Søkerdata) => (
-                    <FormikStep
-                        id={StepID.SUMMARY}
-                        onValidFormSubmit={() => this.navigate(barn)}
-                        history={history}
-                        useValidationErrorSummary={false}
-                        {...stepProps}>
-                        <CounsellorPanel>
-                            <FormattedMessage id="steg.oppsummering.info" />
-                        </CounsellorPanel>
-                        <Box margin="xl">
-                            <Panel border={true}>
-                                <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.søker.header')}>
-                                    <Normaltekst>{formatName(fornavn, etternavn, mellomnavn)}</Normaltekst>
-                                    <Normaltekst>
-                                        <FormattedMessage id="steg.oppsummering.søker.fnr" values={{ fodselsnummer }} />
-                                    </Normaltekst>
-                                </ContentWithHeader>
+                {({ person: { fornavn, mellomnavn, etternavn, fodselsnummer }, barn }: Søkerdata) => {
+                    const apiValues = mapFormDataToApiData(formValues, barn, intl.locale as Locale);
 
-                                <Box margin="l">
-                                    <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.tidsrom.header')}>
+                    return (
+                        <FormikStep
+                            id={StepID.SUMMARY}
+                            onValidFormSubmit={() => this.navigate(barn)}
+                            history={history}
+                            useValidationErrorSummary={false}
+                            {...stepProps}>
+                            <CounsellorPanel>
+                                <FormattedMessage id="steg.oppsummering.info" />
+                            </CounsellorPanel>
+                            <Box margin="xl">
+                                <Panel border={true}>
+                                    <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.søker.header')}>
+                                        <Normaltekst>{formatName(fornavn, etternavn, mellomnavn)}</Normaltekst>
                                         <Normaltekst>
                                             <FormattedMessage
-                                                id="steg.oppsummering.tidsrom.fomtom"
-                                                values={{
-                                                    fom: prettifyDate(periodeFra!),
-                                                    tom: prettifyDate(periodeTil!)
-                                                }}
+                                                id="steg.oppsummering.søker.fnr"
+                                                values={{ fodselsnummer }}
                                             />
                                         </Normaltekst>
                                     </ContentWithHeader>
-                                </Box>
-                                <Box margin="l">
-                                    <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.barnet.header')}>
-                                        <ContentSwitcher
-                                            firstContent={() => {
-                                                const barnReceivedFromApi = barn.find(
-                                                    ({ aktoer_id }) => aktoer_id === barnetSøknadenGjelder
-                                                );
-                                                return barnReceivedFromApi ? (
+
+                                    <Box margin="l">
+                                        <ContentWithHeader
+                                            header={intlHelper(intl, 'steg.oppsummering.tidsrom.header')}>
+                                            <Normaltekst>
+                                                <FormattedMessage
+                                                    id="steg.oppsummering.tidsrom.fomtom"
+                                                    values={{
+                                                        fom: prettifyDate(apiValues.fra_og_med),
+                                                        tom: prettifyDate(apiValues.til_og_med)
+                                                    }}
+                                                />
+                                            </Normaltekst>
+                                        </ContentWithHeader>
+                                    </Box>
+                                    <Box margin="l">
+                                        <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.barnet.header')}>
+                                            <ContentSwitcher
+                                                firstContent={() => {
+                                                    const barnReceivedFromApi = barn.find(
+                                                        ({ aktoer_id }) =>
+                                                            aktoer_id === formValues.barnetSøknadenGjelder
+                                                    );
+                                                    return barnReceivedFromApi ? (
+                                                        <>
+                                                            <Normaltekst>
+                                                                <FormattedMessage
+                                                                    id="steg.oppsummering.barnet.navn"
+                                                                    values={{
+                                                                        navn: formatName(
+                                                                            barnReceivedFromApi!.fornavn,
+                                                                            barnReceivedFromApi!.etternavn,
+                                                                            barnReceivedFromApi!.mellomnavn
+                                                                        )
+                                                                    }}
+                                                                />
+                                                            </Normaltekst>
+                                                            <Normaltekst>
+                                                                <FormattedMessage
+                                                                    id="steg.oppsummering.barnet.fodselsdato"
+                                                                    values={{
+                                                                        dato: prettifyDate(
+                                                                            barnReceivedFromApi!.fodselsdato
+                                                                        )
+                                                                    }}
+                                                                />
+                                                            </Normaltekst>
+                                                        </>
+                                                    ) : (
+                                                        <></>
+                                                    );
+                                                }}
+                                                secondContent={() => (
                                                     <>
+                                                        {apiValues.barn.alternativ_id ? (
+                                                            <Normaltekst>
+                                                                <FormattedMessage
+                                                                    id="steg.oppsummering.barnet.forelopigFnr"
+                                                                    values={{
+                                                                        fnr: apiValues.barn.alternativ_id
+                                                                    }}
+                                                                />
+                                                            </Normaltekst>
+                                                        ) : null}
+                                                        {!apiValues.barn.alternativ_id ? (
+                                                            <Normaltekst>
+                                                                <FormattedMessage
+                                                                    id="steg.oppsummering.barnet.fnr"
+                                                                    values={{ fnr: apiValues.barn.fodselsnummer }}
+                                                                />
+                                                            </Normaltekst>
+                                                        ) : null}
+                                                        {apiValues.barn.navn ? (
+                                                            <Normaltekst>
+                                                                <FormattedMessage
+                                                                    id="steg.oppsummering.barnet.navn"
+                                                                    values={{ navn: apiValues.barn.navn }}
+                                                                />
+                                                            </Normaltekst>
+                                                        ) : null}
                                                         <Normaltekst>
                                                             <FormattedMessage
-                                                                id="steg.oppsummering.barnet.navn"
-                                                                values={{
-                                                                    navn: formatName(
-                                                                        barnReceivedFromApi!.fornavn,
-                                                                        barnReceivedFromApi!.etternavn,
-                                                                        barnReceivedFromApi!.mellomnavn
-                                                                    )
-                                                                }}
-                                                            />
-                                                        </Normaltekst>
-                                                        <Normaltekst>
-                                                            <FormattedMessage
-                                                                id="steg.oppsummering.barnet.fodselsdato"
-                                                                values={{
-                                                                    dato: prettifyDate(barnReceivedFromApi!.fodselsdato)
-                                                                }}
+                                                                id="steg.oppsummering.barnet.søkersRelasjonTilBarnet"
+                                                                values={{ relasjon: apiValues.relasjon_til_barnet }}
                                                             />
                                                         </Normaltekst>
                                                     </>
-                                                ) : (
-                                                    <></>
-                                                );
-                                            }}
-                                            secondContent={() => (
-                                                <>
-                                                    {barnetHarIkkeFåttFødselsnummerEnda &&
-                                                    barnetsForeløpigeFødselsnummerEllerDNummer ? (
-                                                        <Normaltekst>
-                                                            <FormattedMessage
-                                                                id="steg.oppsummering.barnet.forelopigFnr"
-                                                                values={{
-                                                                    fnr: barnetsForeløpigeFødselsnummerEllerDNummer
-                                                                }}
-                                                            />
-                                                        </Normaltekst>
-                                                    ) : null}
-                                                    {!barnetHarIkkeFåttFødselsnummerEnda ? (
-                                                        <Normaltekst>
-                                                            <FormattedMessage
-                                                                id="steg.oppsummering.barnet.fnr"
-                                                                values={{ fnr: barnetsFødselsnummer }}
-                                                            />
-                                                        </Normaltekst>
-                                                    ) : null}
-                                                    {barnetsNavn ? (
-                                                        <Normaltekst>
-                                                            <FormattedMessage
-                                                                id="steg.oppsummering.barnet.navn"
-                                                                values={{ navn: barnetsNavn }}
-                                                            />
-                                                        </Normaltekst>
-                                                    ) : null}
-                                                    <Normaltekst>
-                                                        <FormattedMessage
-                                                            id="steg.oppsummering.barnet.søkersRelasjonTilBarnet"
-                                                            values={{ relasjon: søkersRelasjonTilBarnet }}
-                                                        />
-                                                    </Normaltekst>
-                                                </>
-                                            )}
-                                            showFirstContent={!søknadenGjelderEtAnnetBarn && barn && barn.length > 0}
-                                        />
-                                    </ContentWithHeader>
-                                </Box>
-                                {isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === false && (
-                                    <Box margin="l">
-                                        <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.grad.header')}>
-                                            {grad}%
+                                                )}
+                                                showFirstContent={
+                                                    !formValues.søknadenGjelderEtAnnetBarn && barn && barn.length > 0
+                                                }
+                                            />
                                         </ContentWithHeader>
                                     </Box>
-                                )}
-                                {isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === true && harMedsøker === YesOrNo.YES && (
+                                    {isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === false && (
+                                        <Box margin="l">
+                                            <ContentWithHeader
+                                                header={intlHelper(intl, 'steg.oppsummering.grad.header')}>
+                                                {apiValues.grad}%
+                                            </ContentWithHeader>
+                                        </Box>
+                                    )}
+                                    {isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === true && apiValues.har_medsoker && (
+                                        <Box margin="l">
+                                            <ContentWithHeader
+                                                header={intlHelper(
+                                                    intl,
+                                                    'steg.oppsummering.dagerPerUkeBorteFraJobb.header'
+                                                )}>
+                                                <FormattedMessage
+                                                    id="dager"
+                                                    values={{ dager: apiValues.dager_per_uke_borte_fra_jobb }}
+                                                />
+                                            </ContentWithHeader>
+                                        </Box>
+                                    )}
+
                                     <Box margin="l">
                                         <ContentWithHeader
                                             header={intlHelper(
                                                 intl,
-                                                'steg.oppsummering.dagerPerUkeBorteFraJobb.header'
+                                                'steg.oppsummering.annenSøkerSammePeriode.header'
                                             )}>
-                                            <FormattedMessage id="dager" values={{ dager: dagerPerUkeBorteFraJobb }} />
+                                            {apiValues.har_medsoker === true && intlHelper(intl, 'Ja')}
+                                            {apiValues.har_medsoker === false && intlHelper(intl, 'Nei')}
                                         </ContentWithHeader>
                                     </Box>
-                                )}
-
-                                <Box margin="l">
-                                    <ContentWithHeader
-                                        header={intlHelper(intl, 'steg.oppsummering.annenSøkerSammePeriode.header')}>
-                                        {harMedsøker === YesOrNo.YES && intlHelper(intl, 'Ja')}
-                                        {harMedsøker === YesOrNo.NO && intlHelper(intl, 'Nei')}
-                                    </ContentWithHeader>
-                                </Box>
-                                <Box margin="l">
-                                    <ContentWithHeader
-                                        header={intlHelper(intl, 'steg.oppsummering.ansettelsesforhold.header')}>
-                                        {ansettelsesforhold.length > 0 ? (
-                                            ansettelsesforhold.map((forhold) =>
-                                                isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) ? (
-                                                    <GradertAnsettelsesforholdSummary
-                                                        key={forhold.organisasjonsnummer}
-                                                        ansettelsesforhold={forhold}
-                                                    />
-                                                ) : (
-                                                    <Normaltekst key={forhold.organisasjonsnummer}>
-                                                        <FormattedMessage
-                                                            id="steg.oppsummering.ansettelsesforhold.forhold"
-                                                            values={{
-                                                                navn: forhold.navn,
-                                                                organisasjonsnummer: forhold.organisasjonsnummer
-                                                            }}
+                                    <Box margin="l">
+                                        <ContentWithHeader
+                                            header={intlHelper(intl, 'steg.oppsummering.ansettelsesforhold.header')}>
+                                            {apiValues.arbeidsgivere.organisasjoner.length > 0 ? (
+                                                apiValues.arbeidsgivere.organisasjoner.map((forhold) =>
+                                                    isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) ? (
+                                                        <GradertAnsettelsesforholdSummary
+                                                            key={forhold.organisasjonsnummer}
+                                                            ansettelsesforhold={forhold}
                                                         />
-                                                    </Normaltekst>
+                                                    ) : (
+                                                        <Normaltekst key={forhold.organisasjonsnummer}>
+                                                            <FormattedMessage
+                                                                id="steg.oppsummering.ansettelsesforhold.forhold"
+                                                                values={{
+                                                                    navn: forhold.navn,
+                                                                    organisasjonsnummer: forhold.organisasjonsnummer
+                                                                }}
+                                                            />
+                                                        </Normaltekst>
+                                                    )
                                                 )
-                                            )
-                                        ) : (
-                                            <FormattedMessage id="steg.oppsummering.ansettelsesforhold.ingenAnsettelsesforhold" />
-                                        )}
-                                    </ContentWithHeader>
-                                </Box>
-                                <Box margin="l">
-                                    <ContentWithHeader
-                                        header={intlHelper(intl, 'steg.oppsummering.utlandetSiste12.header')}>
-                                        {harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && intlHelper(intl, 'Ja')}
-                                        {harBoddUtenforNorgeSiste12Mnd === YesOrNo.NO && intlHelper(intl, 'Nei')}
-                                    </ContentWithHeader>
-                                </Box>
-                                <Box margin="l">
-                                    <ContentWithHeader
-                                        header={intlHelper(intl, 'steg.oppsummering.utlandetNeste12.header')}>
-                                        {skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES && intlHelper(intl, 'Ja')}
-                                        {skalBoUtenforNorgeNeste12Mnd === YesOrNo.NO && intlHelper(intl, 'Nei')}
-                                    </ContentWithHeader>
-                                </Box>
-                                <Box margin="l">
-                                    <ContentWithHeader
-                                        header={intlHelper(intl, 'steg.oppsummering.legeerklæring.header')}>
-                                        <LegeerklæringAttachmentList includeDeletionFunctionality={false} />
-                                    </ContentWithHeader>
-                                </Box>
-                            </Panel>
-                        </Box>
-                        <Box margin="l">
-                            <ConfirmationCheckboxPanel
-                                label={intlHelper(intl, 'steg.oppsummering.bekrefterOpplysninger')}
-                                name={Field.harBekreftetOpplysninger}
-                                validate={(value) => {
-                                    let result;
-                                    if (value !== true) {
-                                        result = intlHelper(
-                                            intl,
-                                            'steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet'
-                                        );
-                                    }
-                                    return result;
-                                }}
-                            />
-                        </Box>
-                    </FormikStep>
-                )}
+                                            ) : (
+                                                <FormattedMessage id="steg.oppsummering.ansettelsesforhold.ingenAnsettelsesforhold" />
+                                            )}
+                                        </ContentWithHeader>
+                                    </Box>
+                                    <Box margin="l">
+                                        <ContentWithHeader
+                                            header={intlHelper(intl, 'steg.oppsummering.utlandetSiste12.header')}>
+                                            {apiValues.medlemskap.har_bodd_i_utlandet_siste_12_mnd === true &&
+                                                intlHelper(intl, 'Ja')}
+                                            {apiValues.medlemskap.har_bodd_i_utlandet_siste_12_mnd === false &&
+                                                intlHelper(intl, 'Nei')}
+                                        </ContentWithHeader>
+                                    </Box>
+                                    <Box margin="l">
+                                        <ContentWithHeader
+                                            header={intlHelper(intl, 'steg.oppsummering.utlandetNeste12.header')}>
+                                            {apiValues.medlemskap.skal_bo_i_utlandet_neste_12_mnd === true &&
+                                                intlHelper(intl, 'Ja')}
+                                            {apiValues.medlemskap.skal_bo_i_utlandet_neste_12_mnd === false &&
+                                                intlHelper(intl, 'Nei')}
+                                        </ContentWithHeader>
+                                    </Box>
+                                    <Box margin="l">
+                                        <ContentWithHeader
+                                            header={intlHelper(intl, 'steg.oppsummering.legeerklæring.header')}>
+                                            <LegeerklæringAttachmentList includeDeletionFunctionality={false} />
+                                        </ContentWithHeader>
+                                    </Box>
+                                </Panel>
+                            </Box>
+                            <Box margin="l">
+                                <ConfirmationCheckboxPanel
+                                    label={intlHelper(intl, 'steg.oppsummering.bekrefterOpplysninger')}
+                                    name={Field.harBekreftetOpplysninger}
+                                    validate={(value) => {
+                                        let result;
+                                        if (value !== true) {
+                                            result = intlHelper(
+                                                intl,
+                                                'steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet'
+                                            );
+                                        }
+                                        return result;
+                                    }}
+                                />
+                            </Box>
+                        </FormikStep>
+                    );
+                }}
             </SøkerdataContextConsumer>
         );
     }
