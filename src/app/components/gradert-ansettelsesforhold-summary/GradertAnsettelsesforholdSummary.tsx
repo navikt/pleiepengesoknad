@@ -1,13 +1,13 @@
 import React from 'react';
-import { AnsettelsesforholdForm } from 'app/types/PleiepengesøknadFormData';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
 import bemUtils from 'app/utils/bemUtils';
 
 import './gradertAnsettelsforholdSummary.less';
+import { AnsettelsesforholdApi } from 'app/types/PleiepengesøknadApiData';
 
 interface AnsettelsesforholdSummaryProps {
-    ansettelsesforhold: AnsettelsesforholdForm;
+    ansettelsesforhold: AnsettelsesforholdApi;
 }
 
 const bem = bemUtils('gradertAnsettelsesforholdSummary');
