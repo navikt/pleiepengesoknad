@@ -19,7 +19,6 @@ import Input from '../../input/Input';
 import FormikStep from '../../formik-step/FormikStep';
 import { harRegistrerteBarn } from '../../../utils/søkerdataUtils';
 import { getNextStepRoute } from '../../../utils/routeUtils';
-import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
 import { resetFieldValue, resetFieldValues } from '../../../utils/formikUtils';
 import { prettifyDate } from '../../../utils/dateUtils';
@@ -51,71 +50,68 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
             onValidFormSubmit={navigate}
             handleSubmit={handleSubmit}
             history={history}>
-            {isFeatureEnabled(Feature.HENT_BARN_FEATURE) && (
-                <SøkerdataContextConsumer>
-                    {(søkerdata: Søkerdata) =>
-                        harRegistrerteBarn(søkerdata) && (
-                            <>
-                                <RadioPanelGroup
-                                    legend={intlHelper(intl, 'steg.omBarnet.hvilketBarn.spm')}
-                                    name={Field.barnetSøknadenGjelder}
-                                    radios={søkerdata.barn.map((barn) => {
-                                        const { fornavn, mellomnavn, etternavn, fodselsdato, aktoer_id } = barn;
-                                        const barnetsNavn = formatName(fornavn, etternavn, mellomnavn);
-                                        return {
-                                            value: aktoer_id,
-                                            key: aktoer_id,
-                                            label: (
-                                                <>
-                                                    <Normaltekst>{barnetsNavn}</Normaltekst>
-                                                    <Normaltekst>
-                                                        <FormattedMessage
-                                                            id="steg.omBarnet.hvilketBarn.født"
-                                                            values={{ dato: prettifyDate(fodselsdato) }}
-                                                        />
-                                                    </Normaltekst>
-                                                </>
-                                            ),
-                                            disabled: søknadenGjelderEtAnnetBarn
-                                        };
-                                    })}
-                                    validate={(value) => {
-                                        if (søknadenGjelderEtAnnetBarn) {
-                                            return undefined;
-                                        }
-                                        return validateValgtBarn(value);
-                                    }}
-                                />
-                                <Checkbox
-                                    label={intlHelper(intl, 'steg.omBarnet.gjelderAnnetBarn')}
-                                    name={Field.søknadenGjelderEtAnnetBarn}
-                                    afterOnChange={(newValue) => {
-                                        if (newValue) {
-                                            resetFieldValue(Field.barnetSøknadenGjelder, setFieldValue);
-                                        } else {
-                                            resetFieldValues(
-                                                [
-                                                    Field.barnetsFødselsnummer,
-                                                    Field.barnetHarIkkeFåttFødselsnummerEnda,
-                                                    Field.barnetsForeløpigeFødselsnummerEllerDNummer,
-                                                    Field.barnetsNavn,
-                                                    Field.søkersRelasjonTilBarnet
-                                                ],
-                                                setFieldValue
-                                            );
-                                        }
-                                    }}
-                                />
-                            </>
-                        )
-                    }
-                </SøkerdataContextConsumer>
-            )}
             <SøkerdataContextConsumer>
                 {(søkerdata: Søkerdata) =>
-                    (!isFeatureEnabled(Feature.HENT_BARN_FEATURE) ||
-                        søknadenGjelderEtAnnetBarn ||
-                        !harRegistrerteBarn(søkerdata)) && (
+                    harRegistrerteBarn(søkerdata) && (
+                        <>
+                            <RadioPanelGroup
+                                legend={intlHelper(intl, 'steg.omBarnet.hvilketBarn.spm')}
+                                name={Field.barnetSøknadenGjelder}
+                                radios={søkerdata.barn.map((barn) => {
+                                    const { fornavn, mellomnavn, etternavn, fodselsdato, aktoer_id } = barn;
+                                    const barnetsNavn = formatName(fornavn, etternavn, mellomnavn);
+                                    return {
+                                        value: aktoer_id,
+                                        key: aktoer_id,
+                                        label: (
+                                            <>
+                                                <Normaltekst>{barnetsNavn}</Normaltekst>
+                                                <Normaltekst>
+                                                    <FormattedMessage
+                                                        id="steg.omBarnet.hvilketBarn.født"
+                                                        values={{ dato: prettifyDate(fodselsdato) }}
+                                                    />
+                                                </Normaltekst>
+                                            </>
+                                        ),
+                                        disabled: søknadenGjelderEtAnnetBarn
+                                    };
+                                })}
+                                validate={(value) => {
+                                    if (søknadenGjelderEtAnnetBarn) {
+                                        return undefined;
+                                    }
+                                    return validateValgtBarn(value);
+                                }}
+                            />
+                            <Checkbox
+                                label={intlHelper(intl, 'steg.omBarnet.gjelderAnnetBarn')}
+                                name={Field.søknadenGjelderEtAnnetBarn}
+                                afterOnChange={(newValue) => {
+                                    if (newValue) {
+                                        resetFieldValue(Field.barnetSøknadenGjelder, setFieldValue);
+                                    } else {
+                                        resetFieldValues(
+                                            [
+                                                Field.barnetsFødselsnummer,
+                                                Field.barnetHarIkkeFåttFødselsnummerEnda,
+                                                Field.barnetsForeløpigeFødselsnummerEllerDNummer,
+                                                Field.barnetsNavn,
+                                                Field.søkersRelasjonTilBarnet
+                                            ],
+                                            setFieldValue
+                                        );
+                                    }
+                                }}
+                            />
+                        </>
+                    )
+                }
+            </SøkerdataContextConsumer>
+
+            <SøkerdataContextConsumer>
+                {(søkerdata: Søkerdata) =>
+                    (søknadenGjelderEtAnnetBarn || !harRegistrerteBarn(søkerdata)) && (
                         <>
                             <Input
                                 label={intlHelper(intl, 'steg.omBarnet.fnr.spm')}

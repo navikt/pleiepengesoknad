@@ -1,7 +1,5 @@
 export enum Feature {
-    'HENT_BARN_FEATURE' = 'HENT_BARN_FEATURE',
-    'TOGGLE_LANGUAGE' = 'TOGGLE_LANGUAGE',
-    'TOGGLE_GRADERT_ARBEID' = 'TOGGLE_GRADERT_ARBEID'
+    'TOGGLE_FJERN_GRAD' = 'TOGGLE_FJERN_GRAD'
 }
 
 export const isFeatureEnabled = (feature: Feature) =>

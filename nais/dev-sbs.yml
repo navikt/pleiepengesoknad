@@ -44,9 +44,5 @@ spec:
           value: https://pleiepengesoknad-api-q.nav.no
         - name: LOGIN_URL
           value: https://loginservice-q.nav.no/login?redirect=https://pleiepengesoknad-q.nav.no/soknad
-        - name: HENT_BARN_FEATURE
-          value: "on"
-        - name: TOGGLE_LANGUAGE
-          value: "on"
-        - name: TOGGLE_GRADERT_ARBEID
+        - name: TOGGLE_FJERN_GRAD
           value: "off"

@@ -83,6 +83,7 @@ class SummaryStep extends React.Component<Props, State> {
             harBoddUtenforNorgeSiste12Mnd,
             skalBoUtenforNorgeNeste12Mnd,
             grad,
+            dagerPerUkeBorteFraJobb,
             harMedsøker
         } = values;
 
@@ -191,20 +192,29 @@ class SummaryStep extends React.Component<Props, State> {
                                                     </Normaltekst>
                                                 </>
                                             )}
-                                            showFirstContent={
-                                                isFeatureEnabled(Feature.HENT_BARN_FEATURE) &&
-                                                !søknadenGjelderEtAnnetBarn &&
-                                                barn &&
-                                                barn.length > 0
-                                            }
+                                            showFirstContent={!søknadenGjelderEtAnnetBarn && barn && barn.length > 0}
                                         />
                                     </ContentWithHeader>
                                 </Box>
-                                <Box margin="l">
-                                    <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.grad.header')}>
-                                        {grad}%
-                                    </ContentWithHeader>
-                                </Box>
+                                {isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === false && (
+                                    <Box margin="l">
+                                        <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.grad.header')}>
+                                            {grad}%
+                                        </ContentWithHeader>
+                                    </Box>
+                                )}
+                                {isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === true && harMedsøker === YesOrNo.YES && (
+                                    <Box margin="l">
+                                        <ContentWithHeader
+                                            header={intlHelper(
+                                                intl,
+                                                'steg.oppsummering.dagerPerUkeBorteFraJobb.header'
+                                            )}>
+                                            <FormattedMessage id="dager" values={{ dager: dagerPerUkeBorteFraJobb }} />
+                                        </ContentWithHeader>
+                                    </Box>
+                                )}
+
                                 <Box margin="l">
                                     <ContentWithHeader
                                         header={intlHelper(intl, 'steg.oppsummering.annenSøkerSammePeriode.header')}>
@@ -217,7 +227,7 @@ class SummaryStep extends React.Component<Props, State> {
                                         header={intlHelper(intl, 'steg.oppsummering.ansettelsesforhold.header')}>
                                         {ansettelsesforhold.length > 0 ? (
                                             ansettelsesforhold.map((forhold) =>
-                                                isFeatureEnabled(Feature.TOGGLE_GRADERT_ARBEID) ? (
+                                                isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) ? (
                                                     <GradertAnsettelsesforholdSummary
                                                         key={forhold.organisasjonsnummer}
                                                         ansettelsesforhold={forhold}

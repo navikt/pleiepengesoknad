@@ -15,7 +15,7 @@ export const renderFieldValidationValues = (
     const parsedValues: { [key: string]: string } = {};
     Object.keys(values).forEach((key) => {
         const valueOrFunc = values[key];
-        if (valueOrFunc) {
+        if (valueOrFunc !== undefined) {
             parsedValues[key] = typeof valueOrFunc === 'function' ? valueOrFunc(intl) : `${valueOrFunc}`;
         }
     });

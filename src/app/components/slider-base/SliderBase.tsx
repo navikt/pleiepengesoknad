@@ -16,12 +16,12 @@ interface SliderBasePrivateProps {
 
 export interface SliderBasePublicProps {
     showTextInput?: boolean;
-    valueRenderer?: (value: number) => React.ReactText;
     minPointLabelRenderer?: (minPoint: number) => React.ReactText;
     maxPointLabelRenderer?: (maxPoint: number) => React.ReactText;
     label: string;
     min: number;
     max: number;
+    step?: number;
     helperText?: string | React.ReactNode;
 }
 
@@ -32,7 +32,6 @@ const valueEndpointLabelsBem = bemUtils('valueEndpointLabels');
 
 const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
     label,
-    valueRenderer,
     value,
     min,
     max,
@@ -41,6 +40,7 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
     feil,
     helperText,
     showTextInput,
+    step,
     onChange,
     ...otherProps
 }) => {
@@ -49,6 +49,7 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
     const classNames = classnames(sliderBem.block, {
         [sliderBem.modifier('withTextInput')]: showTextInput !== undefined
     });
+
     return (
         <SkjemaGruppe feil={feil}>
             <CustomInputElement
@@ -59,15 +60,17 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
                 labelHtmlFor={sliderId}>
                 {showTextInput && (
                     <input
-                        type="text"
+                        type="number"
                         className="skjemaelement__input"
-                        value={value}
                         maxLength={3}
+                        min={min}
+                        max={max}
                         aria-labelledby={labelId}
-                        aria-valuemin={20}
-                        aria-valuemax={100}
+                        aria-valuemin={min}
+                        aria-valuemax={max}
                         autoComplete="off"
                         {...otherProps}
+                        value={value === undefined ? '' : value}
                         onChange={(event) => {
                             if (Number.isInteger(+event.target.value)) {
                                 onChange(event);
@@ -81,6 +84,7 @@ const SliderBase: React.FunctionComponent<SliderBaseProps> = ({
                     type="range"
                     min={min}
                     max={max}
+                    step={step}
                     value={value}
                     onChange={onChange}
                     aria-labelledby={labelId}

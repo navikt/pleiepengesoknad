@@ -7,7 +7,6 @@ import { navigateToLoginPage, userIsCurrentlyOnErrorPage } from '../../utils/nav
 import { AxiosError, AxiosResponse } from 'axios';
 import { getBarn, getSøker } from '../../api/api';
 import { SøkerdataContextProvider } from '../../context/SøkerdataContext';
-import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
 
 interface Props {
     contentLoadedRenderer: (søkerdata?: Søkerdata) => React.ReactNode;
@@ -34,13 +33,8 @@ class AppEssentialsLoader extends React.Component<Props, State> {
 
     async loadAppEssentials() {
         try {
-            if (isFeatureEnabled(Feature.HENT_BARN_FEATURE)) {
-                const [søkerResponse, barnResponse] = await Promise.all([getSøker(), getBarn()]);
-                this.handleSøkerdataFetchSuccess(søkerResponse, barnResponse);
-            } else {
-                const søkerResponse = await getSøker();
-                this.handleSøkerdataFetchSuccess(søkerResponse);
-            }
+            const [søkerResponse, barnResponse] = await Promise.all([getSøker(), getBarn()]);
+            this.handleSøkerdataFetchSuccess(søkerResponse, barnResponse);
         } catch (response) {
             this.handleSøkerdataFetchError(response);
         }

@@ -1,13 +1,11 @@
-import { Ansettelsesforhold, HoursOrPercent } from './Søkerdata';
+import { Ansettelsesforhold } from './Søkerdata';
 import { YesOrNo } from './YesOrNo';
-import { Time } from './Time';
 
 export interface AnsettelsesforholdForm extends Ansettelsesforhold {
-    skalArbeide?: YesOrNo;
-    timer_normalt?: Time;
-    timer_redusert?: Time;
-    prosent_redusert?: number;
-    pstEllerTimer?: HoursOrPercent;
+    redusert_arbeidsprosent?: number;
+}
+export enum AnsettelsesforholdField {
+    'redusert_arbeidsprosent' = 'redusert_arbeidsprosent'
 }
 
 export enum Field {
@@ -27,7 +25,8 @@ export enum Field {
     harBoddUtenforNorgeSiste12Mnd = 'harBoddUtenforNorgeSiste12Mnd',
     skalBoUtenforNorgeNeste12Mnd = 'skalBoUtenforNorgeNeste12Mnd',
     harMedsøker = 'harMedsøker',
-    grad = 'grad'
+    grad = 'grad',
+    dagerPerUkeBorteFraJobb = 'dagerPerUkeBorteFraJobb'
 }
 
 export interface PleiepengesøknadFormData {
@@ -47,7 +46,8 @@ export interface PleiepengesøknadFormData {
     [Field.harBoddUtenforNorgeSiste12Mnd]: YesOrNo;
     [Field.skalBoUtenforNorgeNeste12Mnd]: YesOrNo;
     [Field.harMedsøker]: YesOrNo;
-    [Field.grad]: number;
+    [Field.grad]?: number;
+    [Field.dagerPerUkeBorteFraJobb]?: number;
 }
 
 export const initialValues: PleiepengesøknadFormData = {
@@ -65,5 +65,6 @@ export const initialValues: PleiepengesøknadFormData = {
     [Field.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,
     [Field.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.UNANSWERED,
     [Field.harMedsøker]: YesOrNo.UNANSWERED,
-    [Field.grad]: 100
+    [Field.grad]: undefined,
+    [Field.dagerPerUkeBorteFraJobb]: undefined
 };

@@ -7,8 +7,6 @@ import { Feature, isFeatureEnabled } from './featureToggleUtils';
 import { formatName } from './personUtils';
 import { BarnReceivedFromApi } from '../types/Søkerdata';
 import { Locale } from 'app/types/Locale';
-import { getRedusertTidForAnsettelsesforhold } from './ansettelsesforholdUtils';
-import { timeToIso8601Duration } from './timeUtils';
 
 export const mapFormDataToApiData = (
     {
@@ -26,7 +24,8 @@ export const mapFormDataToApiData = (
         harBoddUtenforNorgeSiste12Mnd,
         skalBoUtenforNorgeNeste12Mnd,
         harMedsøker,
-        grad
+        grad,
+        dagerPerUkeBorteFraJobb
     }: PleiepengesøknadFormData,
     barn: BarnReceivedFromApi[],
     sprak: Locale
@@ -46,11 +45,10 @@ export const mapFormDataToApiData = (
         }
     }
 
-    return {
+    const apiData: PleiepengesøknadApiData = {
         sprak,
         barn: barnObject,
-        relasjon_til_barnet:
-            isFeatureEnabled(Feature.HENT_BARN_FEATURE) && barnObject.aktoer_id ? null : søkersRelasjonTilBarnet,
+        relasjon_til_barnet: barnObject.aktoer_id ? null : søkersRelasjonTilBarnet,
         arbeidsgivere: {
             organisasjoner: ansettelsesforhold.map((forhold) => mapAnsettelsesforholdTilApiData(forhold))
         },
@@ -62,42 +60,25 @@ export const mapFormDataToApiData = (
         til_og_med: formatDate(periodeTil!),
         vedlegg: legeerklæring.filter((attachment) => !attachmentUploadHasFailed(attachment)).map(({ url }) => url!),
         har_medsoker: harMedsøker === YesOrNo.YES,
-        grad: +grad,
         har_bekreftet_opplysninger: harBekreftetOpplysninger,
         har_forstatt_rettigheter_og_plikter: harForståttRettigheterOgPlikter
     };
+
+    if (isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === false && grad !== undefined) {
+        apiData.grad = +grad;
+    }
+
+    if (isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === true && apiData.har_medsoker === true) {
+        apiData.dager_per_uke_borte_fra_jobb = dagerPerUkeBorteFraJobb;
+    }
+
+    return apiData;
 };
 
 export const mapAnsettelsesforholdTilApiData = (ansettelsesforhold: AnsettelsesforholdForm): AnsettelsesforholdApi => {
-    const {
-        timer_normalt,
-        timer_redusert,
-        prosent_redusert,
-        pstEllerTimer,
-        skalArbeide,
-        ...orgInfo
-    } = ansettelsesforhold;
-
-    if (
-        isFeatureEnabled(Feature.TOGGLE_GRADERT_ARBEID) === false ||
-        timer_normalt === undefined ||
-        skalArbeide === undefined
-    ) {
-        return {
-            navn: ansettelsesforhold.navn,
-            organisasjonsnummer: ansettelsesforhold.organisasjonsnummer
-        };
+    const { redusert_arbeidsprosent, ...orgInfo } = ansettelsesforhold;
+    if (isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === false || redusert_arbeidsprosent === undefined) {
+        return orgInfo;
     }
-
-    const forholdApi: AnsettelsesforholdApi = {
-        ...orgInfo,
-        normal_arbeidsuke: timeToIso8601Duration(timer_normalt)
-    };
-
-    if (skalArbeide === YesOrNo.NO) {
-        return forholdApi;
-    }
-
-    const redusertTid = getRedusertTidForAnsettelsesforhold(ansettelsesforhold);
-    return { ...forholdApi, redusert_arbeidsuke: redusertTid ? timeToIso8601Duration(redusertTid) : undefined };
+    return { ...orgInfo, redusert_arbeidsprosent };
 };

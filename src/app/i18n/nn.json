@@ -14,6 +14,7 @@
     "timer": "{timer, plural, one {# time} other {# timar}}",
     "minutter": "{minutter, plural, one {# minutt} other {# minutter}}",
     "timerOgMinutter": "{timer, plural, one {# time} other {# timer}} og {minutter, plural, one {# minutt} other {# minutter}}",
+    "dager": "{dager, plural, one {# dag} other {# dagar}}",
 
     "fileUploadErrors.part1": "Det har dessverre skjedd ein feil under opplasting av følgjande vedlegg:",
     "formikValidationErrorSummary.tittel": "Du må rette opp i følgjande feil:",
@@ -114,7 +115,8 @@
     "steg.tidsrom.hvorMye.spm": "Kor mye søkjer du om?",
     "steg.tidsrom.hvorMye.hjelp.part1": "Kan du jobbe noko? Då reduserer du prosenten tilsvarande.",
     "steg.tidsrom.hvorMye.hjelp.part2": "Jobbar du deltid i utgangspunktet? Du kan likevel søkje om 100 % pleiepengar dersom du mister heile inntekta fordi du pleier barnet.",
-    "steg.annenSamtidig.spm": "Er det ein annan som skal søkje om pleiepengar i same tidsperiode?",
+    "steg.tidsrom.annenSamtidig.spm": "Er det ein annan som skal søkje om pleiepengar i same tidsperiode?",
+    "steg.tidsrom.dagerPerUkeBorteFraJobb.spm": "Kor mange dagar i veka skal du vera borte fra arbeid for å ta hand om barnet?",
 
     "steg.medlemsskap.annetLandSiste12.spm": "Har du budd i andre land enn Noreg heilt eller delvis dei siste 12 månedane?",
     "steg.medlemsskap.annetLandSiste12.hjelp": "Du svarar ja berre dersom du har opphalde deg fast i eit anna land enn Noreg. Korte utlandsturar i samband med for eksempel ferie tas ikkje med.",
@@ -136,7 +138,8 @@
     "steg.oppsummering.barnet.fnr": "Fødselsnummer: {fnr}",
     "steg.oppsummering.barnet.søkersRelasjonTilBarnet": "Din relasjon til barnet: {relasjon}",
     "steg.oppsummering.grad.header": "Grad",
-    "steg.oppsummering.annenSøkerSammePeriode.header": "Er det ein annen søkjer i same tidsperiode",
+    "steg.oppsummering.dagerPerUkeBorteFraJobb.header": "Antall dagar i veka du skal vera borte frå jobb for å ta hand om barnet",
+    "steg.oppsummering.annenSøkerSammePeriode.header": "Er det ein annan som søkjer for same tidsperiode",
     "steg.oppsummering.ansettelsesforhold.header": "Arbeidsforhold",
     "steg.oppsummering.ansettelsesforhold.forhold": "{navn} (organisasjonsnummer: {organisasjonsnummer})",
     "steg.oppsummering.ansettelsesforhold.ingenAnsettelsesforhold": "Ingen arbeidsforhold er valgt",
@@ -186,6 +189,7 @@
     "fieldvalidation.grad.ugyldig": "Graden må oppgis som eit heltall mellom 20 og 100 prosent",
     "fieldvalidation.ansettelsesforhold_timerUgyldig": "Du må fylle ut eit tal mellom {min} og {max}",
     "fieldvalidation.ansettelsesforhold_redusertMerEnnNormalt": "Antall timar du skal arbeide er høgare enn kva du har arbeida tidligare",
+    "fieldvalidation.dagerPerUkeBorteFraJobb_ugyldig": "Ugyldig verdi. Antall dagar må vera mellom {min} og {max}, og oppgis i heile eller halve dagar",
 
     "gradertAnsettelsesforhold.timer_arbeidsuke": "Kor mange timar i veka arbeidar du vanlegvis hos {navn}?",
     "gradertAnsettelsesforhold.timer_redusert": "Kor mykje skal du arbeide i denne perioden? Fyll ut antall timar eller prosent.",

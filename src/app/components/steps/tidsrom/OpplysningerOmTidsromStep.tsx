@@ -14,7 +14,8 @@ import {
     validateFradato,
     validateGrad,
     validateTildato,
-    validateYesOrNoIsAnswered
+    validateYesOrNoIsAnswered,
+    validateDagerPerUkeBorteFraJobb
 } from '../../../validation/fieldValidations';
 import { getNextStepRoute } from '../../../utils/routeUtils';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
@@ -24,6 +25,11 @@ import { AxiosError } from 'axios';
 import * as apiUtils from '../../../utils/apiUtils';
 import intlHelper from 'app/utils/intlUtils';
 import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl';
+import Input from 'app/components/input/Input';
+import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
+import { YesOrNo } from 'app/types/YesOrNo';
+
+import './dagerPerUkeBorteFraJobb.less';
 
 interface OpplysningerOmTidsromStepState {
     isLoadingNextStep: boolean;
@@ -95,6 +101,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
 
         const fraDato = this.props.formikProps.values[Field.periodeFra];
         const tilDato = this.props.formikProps.values[Field.periodeTil];
+        const harMedsøker = this.props.formikProps.values[Field.harMedsøker];
 
         return (
             <SøkerdataContextConsumer>
@@ -127,37 +134,51 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                             }}
                         />
 
-                        <Box margin="xl">
-                            <Slider
-                                name={Field.grad}
-                                label={intlHelper(intl, 'steg.tidsrom.hvorMye.spm')}
-                                min={20}
-                                max={100}
-                                valueRenderer={(value) => `${value}%`}
-                                minPointLabelRenderer={(minPoint) => `${minPoint}%`}
-                                maxPointLabelRenderer={(maxPoint) => `${maxPoint}%`}
-                                showTextInput={true}
-                                helperText={
-                                    <ul style={{ margin: '0.5rem', paddingLeft: '0.5rem' }}>
-                                        <li>
-                                            <FormattedMessage id="steg.tidsrom.hvorMye.hjelp.part1" />
-                                        </li>
-                                        <li style={{ marginTop: '0.5rem' }}>
-                                            <FormattedMessage id="steg.tidsrom.hvorMye.hjelp.part2" />
-                                        </li>
-                                    </ul>
-                                }
-                                validate={validateGrad}
-                            />
-                        </Box>
-
+                        {isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === false && (
+                            <Box margin="xl">
+                                <Slider
+                                    name={Field.grad}
+                                    label={intlHelper(intl, 'steg.tidsrom.hvorMye.spm')}
+                                    min={20}
+                                    max={100}
+                                    minPointLabelRenderer={(minPoint) => `${minPoint}%`}
+                                    maxPointLabelRenderer={(maxPoint) => `${maxPoint}%`}
+                                    showTextInput={true}
+                                    helperText={
+                                        <ul style={{ margin: '0.5rem', paddingLeft: '0.5rem' }}>
+                                            <li>
+                                                <FormattedMessage id="steg.tidsrom.hvorMye.hjelp.part1" />
+                                            </li>
+                                            <li style={{ marginTop: '0.5rem' }}>
+                                                <FormattedMessage id="steg.tidsrom.hvorMye.hjelp.part2" />
+                                            </li>
+                                        </ul>
+                                    }
+                                    validate={validateGrad}
+                                />
+                            </Box>
+                        )}
                         <Box margin="xxl">
                             <YesOrNoQuestion
-                                legend={intlHelper(intl, 'steg.annenSamtidig.spm')}
+                                legend={intlHelper(intl, 'steg.tidsrom.annenSamtidig.spm')}
                                 name={Field.harMedsøker}
                                 validate={validateYesOrNoIsAnswered}
                             />
                         </Box>
+
+                        {isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) && harMedsøker === YesOrNo.YES && (
+                            <Box margin="xxl">
+                                <Input
+                                    name={Field.dagerPerUkeBorteFraJobb}
+                                    label={intlHelper(intl, 'steg.tidsrom.dagerPerUkeBorteFraJobb.spm')}
+                                    validate={validateDagerPerUkeBorteFraJobb}
+                                    type="number"
+                                    max={5}
+                                    min={0.5}
+                                    inputClassName="input--dagerPerUkeBorteFraJobb"
+                                />
+                            </Box>
+                        )}
                     </FormikStep>
                 )}
             </SøkerdataContextConsumer>
