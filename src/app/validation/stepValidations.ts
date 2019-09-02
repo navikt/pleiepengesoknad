@@ -21,9 +21,9 @@ export const opplysningerOmBarnetStepIsValid = ({
         fieldValidations.validateFødselsnummer(barnetsFødselsnummer) === undefined &&
         fieldValidations.validateRelasjonTilBarnet(søkersRelasjonTilBarnet) === undefined;
 
-    // if (!formIsValid) {
-    //     return fieldValidations.validateValgtBarn(barnetSøknadenGjelder) === undefined;
-    // }
+    if (!formIsValid && barnetSøknadenGjelder !== undefined) {
+        return fieldValidations.validateValgtBarn(barnetSøknadenGjelder) === undefined;
+    }
 
     return formIsValid;
 };
