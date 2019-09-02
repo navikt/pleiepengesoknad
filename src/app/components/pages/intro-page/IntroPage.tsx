@@ -42,12 +42,14 @@ const IntroPage: React.StatelessComponent<InjectedIntlProps> = ({ intl }) => {
             </Box>
 
             {erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.NO && (
-                <YesOrNoQuestion
-                    legend={intlHelper(intl, 'introPage.spm.barnehageEllerSkole')}
-                    name="planleggerDuÅGraderePleiepenger"
-                    checked={skalGraderePleiepenger}
-                    onChange={(value) => setSkalGraderePleiepenger(value)}
-                />
+                <Box margin="xl">
+                    <YesOrNoQuestion
+                        legend={intlHelper(intl, 'introPage.spm.barnehageEllerSkole')}
+                        name="planleggerDuÅGraderePleiepenger"
+                        checked={skalGraderePleiepenger}
+                        onChange={(value) => setSkalGraderePleiepenger(value)}
+                    />
+                </Box>
             )}
             <Box margin="xl" textAlignCenter={true}>
                 {erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.YES && (
