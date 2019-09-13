@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { cleanup, render, waitForElement } from 'react-testing-library';
+import { cleanup, render, waitForElement } from '@testing-library/react';
 import AppEssentialsLoader from '../AppEssentialsLoader';
 import MockIntlProvider from '../../../components/intl-provider/MockIntlProvider';
 

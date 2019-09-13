@@ -1,6 +1,6 @@
 import * as React from 'react';
 import AttachmentLabel from '../AttachmentLabel';
-import { render } from 'react-testing-library';
+import { render } from '@testing-library/react';
 
 jest.mock('./../../custom-svg/CustomSVG', () => () => {
     // tslint:disable-next-line no-shadowed-variable

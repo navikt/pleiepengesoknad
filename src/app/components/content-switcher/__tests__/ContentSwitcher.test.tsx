@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render } from 'react-testing-library';
+import { render } from '@testing-library/react';
 import ContentSwitcher from '../ContentSwitcher';
 
 const firstContent = 'First content';

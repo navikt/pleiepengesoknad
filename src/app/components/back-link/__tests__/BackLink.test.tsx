@@ -1,11 +1,12 @@
 import * as React from 'react';
 import BackLink from '../BackLink';
-import { render, fireEvent } from 'react-testing-library';
+import { render, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import * as historyMockFns from '../../../../../__mocks__/history';
 import MockIntlProvider from '../../intl-provider/MockIntlProvider';
 
 const hrefLocation = 'hrefLocation';
+
 const renderWrappedInMemoryRouter = (child: React.ReactNode) =>
     render(
         <MockIntlProvider locale="nb">
