@@ -112,7 +112,7 @@
         "postcss-loader": "^3.0.0",
         "prettier": "^1.18.2",
         "pretty-quick": "^1.11.1",
-        "react-testing-library": "^6.0.0",
+        "react-testing-library": "^8.0.1",
         "regenerator-runtime": "^0.13.1",
         "source-map-loader": "^0.2.4",
         "style-loader": "^0.23.1",
