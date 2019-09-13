@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Step from '../Step';
-import { render, RenderResult } from 'react-testing-library';
+import { render, RenderResult } from '@testing-library/react';
 import { StepID } from '../../../config/stepConfig';
 import { MemoryRouter } from 'react-router';
 import MockIntlProvider from '../../intl-provider/MockIntlProvider';
