@@ -59,7 +59,7 @@
     "react-aria-menubutton": "^6.2.0",
     "react-day-picker": "^7.3.0",
     "react-dom": "^16.9.0",
-    "react-intl": "^2.7.2",
+    "react-intl": "^3.2.2",
     "react-modal": "^3.10.1",
     "react-router-dom": "^5.0.1",
     "react-simple-timefield": "^2.0.3",
