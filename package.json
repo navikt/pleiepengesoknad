@@ -126,7 +126,7 @@
     "tslint-config-prettier": "^1.17.0",
     "tslint-loader": "^3.5.4",
     "tslint-react": "^3.6.0",
-    "typescript": "3.1.6",
+    "typescript": "3.6.3",
     "webpack": "^4.40.2",
     "webpack-dev-server": "^3.1.10"
   },
