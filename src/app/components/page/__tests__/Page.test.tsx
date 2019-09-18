@@ -1,7 +1,7 @@
 import * as React from 'react';
-import DocumentTitle from 'react-document-title';
 import { shallow } from 'enzyme';
 import Page from '../Page';
+import DocumentTitle from 'app/components/document-title/DocumentTitle';
 
 const title = 'Some title';
 const children = <div className="children">Child contents</div>;
