@@ -1,6 +1,6 @@
 import * as React from 'react';
-import DocumentTitle from 'react-document-title';
 import './page.less';
+import DocumentTitle from '../document-title/DocumentTitle';
 
 interface PageProps {
     className?: string;
