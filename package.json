@@ -61,7 +61,7 @@
     "react-dom": "^16.9.0",
     "react-intl": "^2.7.2",
     "react-modal": "^3.10.1",
-    "react-router-dom": "^5.0.1",
+    "react-router-dom": "^5.1.0",
     "react-simple-timefield": "^2.0.3",
     "snyk": "^1.196.0"
   },
