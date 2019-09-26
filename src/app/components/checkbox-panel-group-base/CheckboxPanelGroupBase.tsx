@@ -6,7 +6,7 @@ import HelperTextButton from '../helper-text-button/HelperTextButton';
 import 'nav-frontend-skjema-style';
 import './checkboxPanelGroupBase.less';
 import intlHelper from 'app/utils/intlUtils';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { WrappedComponentProps, injectIntl } from 'react-intl';
 import Box from '../box/Box';
 
 export type CheckboxPanelExpandedContentRenderer = () => React.ReactNode;
@@ -31,7 +31,7 @@ const CheckboxPanelGroupBase = ({
     helperText,
     singleColumn: columns,
     intl
-}: CheckboxPanelGroupBaseProps & InjectedIntlProps) => {
+}: CheckboxPanelGroupBaseProps & WrappedComponentProps) => {
     const [showHelperText, setShowHelperText] = React.useState(false);
     const ariaLabel = intlHelper(intl, showHelperText ? 'hjelpetekst.skjul' : 'hjelpetekst.vis');
     return (

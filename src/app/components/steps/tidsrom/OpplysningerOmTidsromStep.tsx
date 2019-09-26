@@ -24,7 +24,7 @@ import Slider from '../../slider/Slider';
 import { AxiosError } from 'axios';
 import * as apiUtils from '../../../utils/apiUtils';
 import intlHelper from 'app/utils/intlUtils';
-import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl';
+import { WrappedComponentProps, injectIntl, FormattedMessage } from 'react-intl';
 import Input from 'app/components/input/Input';
 import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 import { YesOrNo } from 'app/types/YesOrNo';
@@ -40,7 +40,7 @@ interface OpplysningerOmTidsromStepProps {
     formikProps: FormikProps<PleiepengesøknadFormData>;
 }
 
-type Props = OpplysningerOmTidsromStepProps & HistoryProps & InjectedIntlProps;
+type Props = OpplysningerOmTidsromStepProps & HistoryProps & WrappedComponentProps;
 
 const nextStepRoute = getNextStepRoute(StepID.TIDSROM);
 

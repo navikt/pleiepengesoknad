@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
+import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import { StepID } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
 import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
@@ -18,7 +18,7 @@ interface LegeerklæringStepProps {
     handleSubmit: () => void;
 }
 
-type Props = LegeerklæringStepProps & HistoryProps & InjectedIntlProps;
+type Props = LegeerklæringStepProps & HistoryProps & WrappedComponentProps;
 const nextStepRoute = getNextStepRoute(StepID.LEGEERKLÆRING);
 
 const LegeerklæringStep = ({ history, intl, ...stepProps }: Props) => {

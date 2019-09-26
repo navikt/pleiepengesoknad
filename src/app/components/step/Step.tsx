@@ -9,7 +9,7 @@ import StepBanner from '../step-banner/StepBanner';
 import { Systemtittel } from 'nav-frontend-typografi';
 import FormikValidationErrorSummary from '../formik-validation-error-summary/FormikValidationErrorSummary';
 import BackLinkWithFormikReset from '../back-link-with-formik-reset/BackLinkWithFormikReset';
-import { InjectedIntl, injectIntl } from 'react-intl';
+import { IntlShape, injectIntl } from 'react-intl';
 import { getStepTexts } from 'app/utils/stepUtils';
 
 import './step.less';
@@ -23,7 +23,7 @@ export interface StepProps {
     showButtonSpinner?: boolean;
     buttonDisabled?: boolean;
     useValidationErrorSummary?: boolean;
-    intl: InjectedIntl;
+    intl: IntlShape;
 }
 
 const Step: React.FunctionComponent<StepProps> = ({

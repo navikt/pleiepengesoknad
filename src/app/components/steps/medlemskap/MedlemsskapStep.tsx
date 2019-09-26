@@ -8,14 +8,14 @@ import { Field } from '../../../types/PleiepengesøknadFormData';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
 import { validateYesOrNoIsAnswered } from '../../../validation/fieldValidations';
 import intlHelper from 'app/utils/intlUtils';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { WrappedComponentProps, injectIntl } from 'react-intl';
 import Box from 'app/components/box/Box';
 
 interface MedlemsskapStepProps {
     handleSubmit: () => void;
 }
 
-type Props = MedlemsskapStepProps & HistoryProps & InjectedIntlProps;
+type Props = MedlemsskapStepProps & HistoryProps & WrappedComponentProps;
 const nextStepRoute = getNextStepRoute(StepID.MEDLEMSKAP);
 
 const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, intl, ...stepProps }) => {
