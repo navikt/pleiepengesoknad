@@ -1,13 +1,18 @@
 import { Ansettelsesforhold } from './Søkerdata';
 import { YesOrNo } from './YesOrNo';
+import { Time } from './Time';
 
 export interface AnsettelsesforholdForm extends Ansettelsesforhold {
     redusert_arbeidsprosent?: number;
 }
-export enum AnsettelsesforholdField {
-    'redusert_arbeidsprosent' = 'redusert_arbeidsprosent'
-}
 
+export interface Tilsynsuke {
+    mandag?: Time;
+    tirsdag?: Time;
+    onsdag?: Time;
+    torsdag?: Time;
+    fredag?: Time;
+}
 export enum Field {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
     harBekreftetOpplysninger = 'harBekreftetOpplysninger',
@@ -26,7 +31,8 @@ export enum Field {
     skalBoUtenforNorgeNeste12Mnd = 'skalBoUtenforNorgeNeste12Mnd',
     harMedsøker = 'harMedsøker',
     grad = 'grad',
-    dagerPerUkeBorteFraJobb = 'dagerPerUkeBorteFraJobb'
+    dagerPerUkeBorteFraJobb = 'dagerPerUkeBorteFraJobb',
+    tilsynsordning = 'tilsynsordning'
 }
 
 export interface PleiepengesøknadFormData {
@@ -48,6 +54,7 @@ export interface PleiepengesøknadFormData {
     [Field.harMedsøker]: YesOrNo;
     [Field.grad]?: number;
     [Field.dagerPerUkeBorteFraJobb]?: number;
+    [Field.tilsynsordning]?: Tilsynsuke;
 }
 
 export const initialValues: PleiepengesøknadFormData = {

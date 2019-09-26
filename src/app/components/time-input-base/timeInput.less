@@ -6,6 +6,52 @@
     transition: @type @varighet cubic-bezier(0.465, 0.183, 0.153, 0.946);
 }
 
+.timeInputCompactChildren() {
+    > .skjemaelement__label {
+        font-weight: normal;
+        text-align: center;
+        padding: 0.5rem;
+        margin-bottom: 0;
+    }
+    input {
+        text-align: center;
+        width: 100%;
+        padding: 0.5rem;
+    }
+
+    .timeInput {
+        &__label {
+            display: none;
+        }
+        &__hours,
+        &__minutes {
+            margin: 0;
+        }
+        &__hours {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        &__minutes {
+            border-left: none;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        &__contentWrapper {
+            white-space: nowrap;
+            padding: 0 0.5rem 0.5rem 0.5rem;
+            display: flex;
+            justify-content: center;
+            > * {
+                flex: 1;
+            }
+        }
+        &__inputWrapper {
+            max-width: 5rem;
+            margin: 0;
+        }
+    }
+}
+
 .timeInput {
     .skjemaelement__label {
         font-weight: bold;
@@ -18,11 +64,15 @@
         .skjemaelement__input();
         width: 4rem;
         margin-bottom: 0.5rem;
+        &:focus {
+            z-index: 2;
+        }
     }
     &__inputWrapper {
         display: flex;
         align-items: baseline;
         margin-right: 1rem;
+        padding: 0;
     }
     &__label {
         padding-left: 0.5rem;
@@ -30,5 +80,8 @@
     }
     &__input {
         order: 1;
+    }
+    &--compact {
+        .timeInputCompactChildren();
     }
 }
