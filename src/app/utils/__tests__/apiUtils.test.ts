@@ -19,6 +19,7 @@ describe('apiUtils', () => {
     beforeEach(() => {
         axiosErrorMock = {
             config: {},
+            isAxiosError: false,
             name: '',
             message: '',
             response: { status: 200, data: {}, statusText: '', headers: [], config: {} }
