@@ -6,7 +6,7 @@ import { connect } from 'formik';
 import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
 import { Field } from '../../types/PleiepengesøknadFormData';
 import intlHelper from '../../utils/intlUtils';
-import { injectIntl, InjectedIntlProps } from 'react-intl';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { renderFieldValidationError, isFieldValidationError } from '../../validation/fieldValidationRenderUtils';
 import { flattenFieldArrayErrors } from 'app/utils/formikUtils';
 
@@ -14,7 +14,7 @@ interface FormikValidationErrorSummaryProps {
     className?: string;
 }
 
-type Props = FormikValidationErrorSummaryProps & ConnectedFormikProps<Field> & InjectedIntlProps;
+type Props = FormikValidationErrorSummaryProps & ConnectedFormikProps<Field> & WrappedComponentProps;
 
 const FormikValidationErrorSummary: React.FunctionComponent<Props> = ({
     formik: { errors, submitCount, ...otherFormik },

@@ -11,7 +11,7 @@ import { getNextStepRoute } from '../../../utils/routeUtils';
 import AlertStripe from 'nav-frontend-alertstriper';
 import Box from '../../box/Box';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { InjectedIntlProps, FormattedMessage, injectIntl } from 'react-intl';
+import { WrappedComponentProps, FormattedMessage, injectIntl } from 'react-intl';
 import intlHelper from 'app/utils/intlUtils';
 import GradertAnsettelsesforhold from '../../gradert-ansettelsesforhold/GradertAnsettelsesforhold';
 
@@ -19,7 +19,7 @@ interface OpplysningerOmAnsettelsesforholdStepProps {
     handleSubmit: () => void;
 }
 
-type Props = OpplysningerOmAnsettelsesforholdStepProps & HistoryProps & InjectedIntlProps;
+type Props = OpplysningerOmAnsettelsesforholdStepProps & HistoryProps & WrappedComponentProps;
 const nextStepRoute = getNextStepRoute(StepID.ANSETTELSESFORHOLD);
 
 const OpplysningerOmAnsettelsesforholdStep = ({ history, intl, ...stepProps }: Props) => {
