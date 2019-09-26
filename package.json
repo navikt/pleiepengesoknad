@@ -19,6 +19,7 @@
         "testEnvironment": "node"
     },
     "dependencies": {
+        "@formatjs/intl-pluralrules": "^1.2.0",
         "@navikt/fnrvalidator": "^1.0.4",
         "@testing-library/react": "^9.1.4",
         "@types/react-aria-menubutton": "^6.2.2",
@@ -59,7 +60,7 @@
         "react-aria-menubutton": "^6.2.0",
         "react-day-picker": "^7.3.2",
         "react-dom": "^16.9.0",
-        "react-intl": "^2.7.2",
+        "react-intl": "^3.3.1",
         "react-modal": "^3.10.1",
         "react-router-dom": "^5.1.0",
         "react-simple-timefield": "^2.0.3",
@@ -79,7 +80,6 @@
         "@types/react": "^16.9.3",
         "@types/react-document-title": "^2.0.3",
         "@types/react-dom": "^16.9.0",
-        "@types/react-intl": "^2.3.14",
         "@types/react-router-dom": "^4.3.1",
         "autoprefixer": "^9.6.1",
         "awesome-typescript-loader": "^5.2.1",

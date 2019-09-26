@@ -5,14 +5,14 @@ import DeleteButton from '../delete-button/DeleteButton';
 import LoadingSpinner from '../loading-spinner/LoadingSpinner';
 import ContentSwitcher from '../content-switcher/ContentSwitcher';
 import intlHelper from 'app/utils/intlUtils';
-import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
+import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
 
 interface AttachmentListWithDeletionProps {
     attachments: Attachment[];
     onRemoveAttachmentClick: (attachment: Attachment, e: React.SyntheticEvent) => void;
 }
 
-const AttachmentListWithDeletion: React.FunctionComponent<AttachmentListWithDeletionProps & InjectedIntlProps> = ({
+const AttachmentListWithDeletion: React.FunctionComponent<AttachmentListWithDeletionProps & WrappedComponentProps> = ({
     intl,
     attachments,
     onRemoveAttachmentClick

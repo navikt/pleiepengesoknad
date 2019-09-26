@@ -8,13 +8,13 @@ import Panel from '../panel/Panel';
 import Input from '../input/Input';
 import { validateReduserteArbeidProsent } from 'app/validation/fieldValidations';
 import intlHelper from 'app/utils/intlUtils';
-import { injectIntl, InjectedIntlProps } from 'react-intl';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 interface Props {
     organisasjonsnummer: string;
 }
 
-const GradertAnsettelsesforhold: React.FunctionComponent<Props & InjectedIntlProps> = ({
+const GradertAnsettelsesforhold: React.FunctionComponent<Props & WrappedComponentProps> = ({
     organisasjonsnummer,
     intl
 }) => (

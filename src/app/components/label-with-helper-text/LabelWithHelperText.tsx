@@ -3,7 +3,7 @@ import bemUtils from '../../utils/bemUtils';
 import HelperTextButton from '../helper-text-button/HelperTextButton';
 import HelperTextPanel from '../helper-text-panel/HelperTextPanel';
 import intlHelper from 'app/utils/intlUtils';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { WrappedComponentProps, injectIntl } from 'react-intl';
 import './labelWithHelperText.less';
 
 interface LabelWithHelperText {
@@ -14,7 +14,7 @@ interface LabelWithHelperText {
 }
 
 const bem = bemUtils('labelWithHelperText');
-const LabelWithHelperText: React.FunctionComponent<LabelWithHelperText & InjectedIntlProps> = ({
+const LabelWithHelperText: React.FunctionComponent<LabelWithHelperText & WrappedComponentProps> = ({
     children,
     helperText,
     htmlFor,

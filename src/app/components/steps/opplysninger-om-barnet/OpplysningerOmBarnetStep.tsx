@@ -23,14 +23,14 @@ import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
 import { resetFieldValue, resetFieldValues } from '../../../utils/formikUtils';
 import { prettifyDate } from '../../../utils/dateUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
+import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
 import intlHelper from 'app/utils/intlUtils';
 
 interface OpplysningerOmBarnetStepProps {
     formikProps: FormikProps;
 }
 
-type Props = OpplysningerOmBarnetStepProps & HistoryProps & InjectedIntlProps;
+type Props = OpplysningerOmBarnetStepProps & HistoryProps & WrappedComponentProps;
 
 const nextStepRoute = getNextStepRoute(StepID.OPPLYSNINGER_OM_BARNET);
 
