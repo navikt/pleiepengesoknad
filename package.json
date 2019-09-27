@@ -19,7 +19,7 @@
         "testEnvironment": "node"
     },
     "dependencies": {
-        "@formatjs/intl-pluralrules": "^1.2.0",
+        "@formatjs/intl-pluralrules": "^1.2.1",
         "@navikt/fnrvalidator": "^1.0.4",
         "@testing-library/react": "^9.2.0",
         "@types/react-aria-menubutton": "^6.2.2",
