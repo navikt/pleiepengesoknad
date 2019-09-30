@@ -107,7 +107,7 @@
         "nav-frontend-skjema-style": "^1.0.44",
         "nav-frontend-spinner-style": "^0.2.5",
         "nav-frontend-stegindikator-style": "^1.0.22",
-        "nav-frontend-typografi-style": "^1.0.14",
+        "nav-frontend-typografi-style": "^1.0.15",
         "nav-frontend-veileder-style": "^2.0.9",
         "nav-frontend-veilederpanel-style": "0.0.17",
         "postcss-input-range": "^4.0.0",
