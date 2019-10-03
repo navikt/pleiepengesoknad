@@ -330,3 +330,8 @@ patch:
         patched: '2019-07-22T12:51:28.584Z'
     - nav-datovelger > babel-preset-env > babel-plugin-transform-es2015-classes > babel-helper-define-map > babel-helper-function-name > babel-template > babel-traverse > babel-types > lodash:
         patched: '2019-07-22T12:51:28.584Z'
+  SNYK-JS-HTTPSPROXYAGENT-469131:
+    - snyk > proxy-agent > https-proxy-agent:
+        patched: '2019-10-03T23:29:42.659Z'
+    - snyk > proxy-agent > pac-proxy-agent > https-proxy-agent:
+        patched: '2019-10-03T23:29:42.659Z'
