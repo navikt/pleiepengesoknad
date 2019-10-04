@@ -64,7 +64,7 @@
         "react-modal": "^3.10.1",
         "react-router-dom": "^5.1.2",
         "react-simple-timefield": "^3.0.0",
-        "snyk": "^1.230.0"
+        "snyk": "^1.230.5"
     },
     "devDependencies": {
         "@babel/core": "^7.6.2",
