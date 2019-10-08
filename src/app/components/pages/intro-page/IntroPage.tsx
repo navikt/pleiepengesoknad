@@ -12,6 +12,7 @@ import { FormattedMessage, WrappedComponentProps, injectIntl, FormattedHTMLMessa
 import intlHelper from 'app/utils/intlUtils';
 import getLenker from '../../../lenker';
 import './introPage.less';
+import { isFeatureEnabled, Feature } from '../../../utils/featureToggleUtils';
 
 const bem = bemUtils('introPage');
 
@@ -20,6 +21,7 @@ const IntroPage: React.StatelessComponent<WrappedComponentProps> = ({ intl }) =>
         YesOrNo.UNANSWERED
     );
     const [skalGraderePleiepenger, setSkalGraderePleiepenger] = React.useState(YesOrNo.UNANSWERED);
+    const withoutTilsynTextKey = isFeatureEnabled(Feature.TOGGLE_TILSYN) === true ? '.utenTilsyn' : '';
 
     return (
         <Page
@@ -28,10 +30,9 @@ const IntroPage: React.StatelessComponent<WrappedComponentProps> = ({ intl }) =>
             topContentRenderer={() => <StepBanner text={intlHelper(intl, 'introPage.stegTittel')} />}>
             <Box margin="xxxl">
                 <InformationPoster>
-                    <FormattedMessage id="introPage.tekst" />
+                    <FormattedMessage id={`introPage.tekst${withoutTilsynTextKey}`} />
                 </InformationPoster>
             </Box>
-
             <Box margin="xl">
                 <YesOrNoQuestion
                     legend={intlHelper(intl, 'introPage.spm.selvstendigEllerFrilanser')}
@@ -40,23 +41,25 @@ const IntroPage: React.StatelessComponent<WrappedComponentProps> = ({ intl }) =>
                     onChange={(value) => setErSelvstendigNæringsdrivendeEllerFrilanser(value)}
                 />
             </Box>
-
-            {erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.NO && (
-                <Box margin="xl">
-                    <YesOrNoQuestion
-                        legend={intlHelper(intl, 'introPage.spm.barnehageEllerSkole')}
-                        name="planleggerDuÅGraderePleiepenger"
-                        checked={skalGraderePleiepenger}
-                        onChange={(value) => setSkalGraderePleiepenger(value)}
-                    />
-                </Box>
-            )}
+            {isFeatureEnabled(Feature.TOGGLE_TILSYN) === false &&
+                erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.NO && (
+                    <Box margin="xl">
+                        <YesOrNoQuestion
+                            legend={intlHelper(intl, 'introPage.spm.barnehageEllerSkole')}
+                            name="planleggerDuÅGraderePleiepenger"
+                            checked={skalGraderePleiepenger}
+                            onChange={(value) => setSkalGraderePleiepenger(value)}
+                        />
+                    </Box>
+                )}
             <Box margin="xl" textAlignCenter={true}>
                 {erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.YES && (
                     <CounsellorPanel>
-                        <FormattedMessage id="introPage.veileder.erSelvstendigEllerFrilanser" />{' '}
                         <FormattedHTMLMessage
-                            id="introPage.veileder.papirLenke.html"
+                            id={`introPage.veileder.erSelvstendigEllerFrilanser${withoutTilsynTextKey}`}
+                        />{' '}
+                        <FormattedHTMLMessage
+                            id={`introPage.veileder.papirLenke${withoutTilsynTextKey}.html`}
                             values={{ url: getLenker(intl.locale).papirskjemaPrivat }}
                         />
                     </CounsellorPanel>
@@ -72,9 +75,10 @@ const IntroPage: React.StatelessComponent<WrappedComponentProps> = ({ intl }) =>
                     </CounsellorPanel>
                 )}
 
-                {erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.NO && skalGraderePleiepenger === YesOrNo.NO && (
-                    <GoToApplicationLink />
-                )}
+                {erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.NO &&
+                    (skalGraderePleiepenger === YesOrNo.NO || isFeatureEnabled(Feature.TOGGLE_TILSYN) === true) && (
+                        <GoToApplicationLink />
+                    )}
             </Box>
         </Page>
     );

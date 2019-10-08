@@ -1,4 +1,5 @@
 import { Field, initialValues } from '../types/PleiepengesøknadFormData';
+import flatten from 'flat';
 
 interface HasSubmittedValidFormProps {
     isSubmitting: boolean;
@@ -33,11 +34,40 @@ export const flattenFieldArrayErrors = (errors: Field): Field => {
                     ...getErrorsFromFieldArrayErrors(err, key, idx)
                 };
             });
-        } else {
+        } else if (error.key) {
             allErrors[key] = error;
+        } else if (typeof error === 'object') {
+            const errorNode = findErrorNodeInObject(key, error);
+            if (errorNode) {
+                allErrors[errorNode.field] = errorNode.error;
+            }
         }
     });
     return allErrors;
+};
+
+interface ErrorNodeInObject {
+    field: string;
+    error: {
+        key: string;
+        values: object;
+    };
+}
+
+const findErrorNodeInObject = (key: string, error: object): undefined | ErrorNodeInObject => {
+    const flatError: object = flatten({ [key]: error });
+    const keys = Object.keys(flatError);
+    if (keys.length === 2) {
+        const field = keys[0].split('.key')[0];
+        return {
+            field,
+            error: {
+                key: flatError[keys[0]],
+                values: flatten.unflatten(flatError[keys[1]])
+            }
+        };
+    }
+    return undefined;
 };
 
 const isFieldArrayErrors = (error: any): boolean => {

@@ -20,13 +20,23 @@ export const getValidationErrorPropsWithIntl = <T>(
     elementName: string
 ): { feil?: SkjemaelementFeil } => {
     const error = getIn(errors, elementName);
-    if (error !== undefined && isNotEmpty(error) && !isArray(error)) {
+    if (
+        error !== undefined &&
+        isNotEmpty(error) &&
+        !isArray(error) &&
+        (isFieldValidationError(error) || typeof error === 'string')
+        // Ekstra sjekk for å ikke ta med treff på forelder-node der
+        // fields har objektstruktur, og en feil i barn-node
+        // treffes av foreldernode (getIn finner begge)
+    ) {
         const feilmelding: string = isFieldValidationError(error) ? renderFieldValidationError(intl, error) : error;
-        return {
-            feil: {
-                feilmelding
-            }
-        };
+        if (typeof feilmelding === 'string') {
+            return {
+                feil: {
+                    feilmelding: typeof feilmelding === 'string' ? feilmelding : 'invalid error object'
+                }
+            };
+        }
     }
     return {};
 };

@@ -1,9 +1,15 @@
 import { StepID } from '../../config/stepConfig';
-import routeConfig from '../../config/routeConfig';
 import RouteConfig from '../../config/routeConfig';
 import { getSøknadRoute, isAvailable } from '../routeUtils';
 import * as stepUtils from '../stepUtils';
 import { Field } from '../../types/PleiepengesøknadFormData';
+
+jest.mock('../featureToggleUtils', () => {
+    return {
+        isFeatureEnabled: () => false,
+        Feature: {}
+    };
+});
 
 jest.mock('./../stepUtils', () => {
     return {
@@ -23,8 +29,8 @@ describe('routeUtils', () => {
         it('should prefix provided string with a common prefix for routes', () => {
             const s1 = StepID.ANSETTELSESFORHOLD;
             const s2 = StepID.SUMMARY;
-            expect(getSøknadRoute(s1)).toEqual(`${routeConfig.SØKNAD_ROUTE_PREFIX}/${s1}`);
-            expect(getSøknadRoute(s2)).toEqual(`${routeConfig.SØKNAD_ROUTE_PREFIX}/${s2}`);
+            expect(getSøknadRoute(s1)).toEqual(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${s1}`);
+            expect(getSøknadRoute(s2)).toEqual(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${s2}`);
         });
     });
 

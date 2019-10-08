@@ -9,6 +9,8 @@ interface FormikTimeInputProps<T> {
     name: T;
     label: string;
     helperText?: string;
+    maxHours?: number;
+    maxMinutes?: number;
 }
 
 type Props = FormikValidationProps;

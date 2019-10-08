@@ -1,14 +1,14 @@
 import * as React from 'react';
 import ApplicationWrapper from './components/application-wrapper/ApplicationWrapper';
 import { Route, Switch } from 'react-router-dom';
-import routeConfig from './config/routeConfig';
+import RouteConfig from './config/routeConfig';
 import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad';
 import IntroPage from './components/pages/intro-page/IntroPage';
 import { render } from 'react-dom';
 import Modal from 'nav-frontend-modal';
 import { Locale } from './types/Locale';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
-import './globalStyles.less';
+import './styles/globalStyles.less';
 
 const localeFromSessionStorage = getLocaleFromSessionStorage();
 
@@ -22,7 +22,7 @@ const App: React.FunctionComponent = () => {
                 setLocale(activeLocale);
             }}>
             <Switch>
-                <Route path={routeConfig.SØKNAD_ROUTE_PREFIX} component={Pleiepengesøknad} />
+                <Route path={RouteConfig.SØKNAD_ROUTE_PREFIX} component={Pleiepengesøknad} />
                 <Route path="/" component={IntroPage} />
             </Switch>
         </ApplicationWrapper>

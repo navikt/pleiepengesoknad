@@ -3,25 +3,25 @@
 @import '../../../../node_modules/nav-frontend-paneler-style/src/mixins';
 
 .validationErrorSummary {
-  background-color: @redErrorLighten20;
-  color: @white;
-  padding: 1.75rem;
+    background-color: @redErrorLighten20;
+    color: @white;
+    padding: 1.75rem;
 
-  .panel-focus-mixin();
+    .panel-focus-mixin();
 
-  &__list {
-    line-height: 1.75rem;
-  }
-
-  &__link {
-    .lenke-mixin();
-    color: white;
-    font-style: italic;
-
-    &:hover,
-    &--hover {
-      color: @navBlaLighten80;
-      border-bottom: 0;
+    &__list {
+        line-height: 1.75rem;
     }
-  }
+
+    &__link {
+        .lenke-mixin();
+        color: white;
+        font-style: italic;
+
+        &:hover,
+        &--hover {
+            color: @navBlaLighten80;
+            border-bottom: 0;
+        }
+    }
 }

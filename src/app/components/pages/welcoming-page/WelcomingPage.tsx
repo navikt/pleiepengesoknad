@@ -9,8 +9,7 @@ import { HistoryProps } from '../../../types/History';
 import ConfirmationCheckboxPanel from '../../confirmation-checkbox-panel/ConfirmationCheckboxPanel';
 import { Field } from '../../../types/PleiepengesøknadFormData';
 import { navigateTo } from '../../../utils/navigationUtils';
-import routeConfig from '../../../config/routeConfig';
-import { StepID } from '../../../config/stepConfig';
+import { StepConfigProps } from '../../../config/stepConfig';
 import { userHasSubmittedValidForm } from '../../../utils/formikUtils';
 import FrontPageBanner from '../../front-page-banner/FrontPageBanner';
 import { WrappedComponentProps, injectIntl, FormattedMessage } from 'react-intl';
@@ -33,9 +32,8 @@ interface WelcomingPageState {
     behandlingAvPersonopplysningerModalOpen: boolean;
 }
 
-type Props = WelcomingPageProps & WrappedComponentProps & HistoryProps;
+type Props = WelcomingPageProps & WrappedComponentProps & HistoryProps & StepConfigProps;
 
-const nextStepRoute = `${routeConfig.SØKNAD_ROUTE_PREFIX}/${StepID.OPPLYSNINGER_OM_BARNET}`;
 class WelcomingPage extends React.Component<Props, WelcomingPageState> {
     constructor(props: Props) {
         super(props);
@@ -52,8 +50,10 @@ class WelcomingPage extends React.Component<Props, WelcomingPageState> {
 
     componentDidUpdate(previousProps: Props) {
         if (userHasSubmittedValidForm(previousProps, this.props)) {
-            const { history } = this.props;
-            navigateTo(nextStepRoute, history);
+            const { history, nextStepRoute } = this.props;
+            if (nextStepRoute) {
+                navigateTo(nextStepRoute, history);
+            }
         }
     }
 

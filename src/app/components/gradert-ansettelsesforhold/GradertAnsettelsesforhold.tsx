@@ -1,14 +1,20 @@
 import React from 'react';
 import { FieldArray } from 'formik';
-import { PleiepengesøknadFormData, Field, AnsettelsesforholdForm } from 'app/types/PleiepengesøknadFormData';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
+import {
+    PleiepengesøknadFormData,
+    Field,
+    AnsettelsesforholdForm,
+    AnsettelsesforholdSkalJobbeSvar,
+    AnsettelsesforholdField
+} from 'app/types/PleiepengesøknadFormData';
+import Box from '../box/Box';
+import { validateRequiredField } from 'app/validation/fieldValidations';
+import RadioPanelGroup from '../radio-panel-group/RadioPanelGroup';
+import intlHelper from '../../utils/intlUtils';
+import RedusertAnsettelsesforholdPart from './RedusertAnsettelsesforholdPart';
 
 import './gradertAnsettelsesforhold.less';
-import Box from '../box/Box';
-import Panel from '../panel/Panel';
-import Input from '../input/Input';
-import { validateReduserteArbeidProsent } from 'app/validation/fieldValidations';
-import intlHelper from 'app/utils/intlUtils';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 interface Props {
     organisasjonsnummer: string;
@@ -20,29 +26,47 @@ const GradertAnsettelsesforhold: React.FunctionComponent<Props & WrappedComponen
 }) => (
     <FieldArray name={Field.ansettelsesforhold}>
         {({ name, form: { values } }) => {
-            const idx: number = (values as PleiepengesøknadFormData).ansettelsesforhold.findIndex(
-                (a) => a.organisasjonsnummer === organisasjonsnummer
+            const index: number = (values as PleiepengesøknadFormData).ansettelsesforhold.findIndex(
+                (forhold) => forhold.organisasjonsnummer === organisasjonsnummer
             );
-            if (idx < 0) {
+            if (index < 0) {
                 return null;
             }
-            const forhold: AnsettelsesforholdForm = values.ansettelsesforhold[idx];
+            const ansettelsesforhold: AnsettelsesforholdForm = values.ansettelsesforhold[index];
+            const getFieldName = (field: AnsettelsesforholdField) => `${name}.${index}.${field}` as Field;
+
             return (
                 <div className="gradert-ansettelsesforhold">
                     <Box padBottom="m">
-                        <Panel border={true}>
-                            <Input
-                                inputClassName="input--timer"
-                                type="number"
-                                min={0}
-                                max={100}
-                                validate={(value) => validateReduserteArbeidProsent(value, true)}
-                                name={`${name}.${idx}.redusert_arbeidsprosent` as Field}
-                                label={intlHelper(intl, 'gradertAnsettelsesforhold.timer_redusert')}
-                                value={forhold.redusert_arbeidsprosent || ''}
-                                className="input--timer"
+                        <RadioPanelGroup
+                            legend={intlHelper(intl, 'gradertAnsettelsesforhold.arbeidsforhold.spm')}
+                            singleColumn={true}
+                            name={getFieldName(AnsettelsesforholdField.skalJobbe)}
+                            validate={validateRequiredField}
+                            radios={[
+                                {
+                                    label: intlHelper(intl, 'gradertAnsettelsesforhold.arbeidsforhold.ja'),
+                                    value: AnsettelsesforholdSkalJobbeSvar.ja,
+                                    key: AnsettelsesforholdSkalJobbeSvar.ja
+                                },
+                                {
+                                    label: intlHelper(intl, 'gradertAnsettelsesforhold.arbeidsforhold.nei'),
+                                    value: AnsettelsesforholdSkalJobbeSvar.nei,
+                                    key: AnsettelsesforholdSkalJobbeSvar.nei
+                                },
+                                {
+                                    label: intlHelper(intl, 'gradertAnsettelsesforhold.arbeidsforhold.redusert'),
+                                    value: AnsettelsesforholdSkalJobbeSvar.redusert,
+                                    key: AnsettelsesforholdSkalJobbeSvar.redusert
+                                }
+                            ]}
+                        />
+                        {ansettelsesforhold.skalJobbe === AnsettelsesforholdSkalJobbeSvar.redusert && (
+                            <RedusertAnsettelsesforholdPart
+                                ansettelsesforhold={ansettelsesforhold}
+                                getFieldName={getFieldName}
                             />
-                        </Panel>
+                        )}
                     </Box>
                 </div>
             );

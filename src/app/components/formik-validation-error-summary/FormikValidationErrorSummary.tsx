@@ -30,7 +30,7 @@ const FormikValidationErrorSummary: React.FunctionComponent<Props> = ({
             Object.keys(allErrors).forEach((key) => {
                 const error = allErrors[key];
                 const message = isFieldValidationError(error) ? renderFieldValidationError(intl, error) : error;
-                if (message) {
+                if (message && typeof message === 'string') {
                     errorMessages.push({
                         name: key,
                         message
@@ -38,7 +38,7 @@ const FormikValidationErrorSummary: React.FunctionComponent<Props> = ({
                 }
             });
 
-            if (Object.keys(allErrors).length === 0) {
+            if (errorMessages.length === 0) {
                 return null;
             }
             return (

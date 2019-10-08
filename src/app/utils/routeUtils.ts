@@ -1,14 +1,16 @@
-import { stepConfig, StepID } from '../config/stepConfig';
+import { StepID, getStepConfig } from '../config/stepConfig';
 import RouteConfig from '../config/routeConfig';
 import { Field, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import { appIsRunningInDevEnvironment } from './envUtils';
+import { appIsRunningInDevEnvironment, appIsRunningInDemoMode } from './envUtils';
 import {
     legeerklæringStepAvailable,
     medlemskapStepAvailable,
     opplysningerOmAnsettelsesforholdStepAvailable,
     opplysningerOmBarnetStepAvailable,
     opplysningerOmTidsromStepAvailable,
-    summaryStepAvailable
+    summaryStepAvailable,
+    tilsynsordningStepAvailable,
+    nattevåkOgBeredskapStepAvailable
 } from './stepUtils';
 
 export const getSøknadRoute = (stepId: StepID | undefined) => {
@@ -18,10 +20,13 @@ export const getSøknadRoute = (stepId: StepID | undefined) => {
     return undefined;
 };
 
-export const getNextStepRoute = (stepId: StepID): string | undefined => getSøknadRoute(stepConfig[stepId].nextStep);
+export const getNextStepRoute = (stepId: StepID, formData?: PleiepengesøknadFormData): string | undefined => {
+    const stepConfig = getStepConfig(formData);
+    return stepConfig[stepId] ? getSøknadRoute(stepConfig[stepId].nextStep) : undefined;
+};
 
 export const isAvailable = (path: StepID | RouteConfig, values: PleiepengesøknadFormData) => {
-    if (!appIsRunningInDevEnvironment()) {
+    if (!appIsRunningInDevEnvironment() && !appIsRunningInDemoMode()) {
         switch (path) {
             case StepID.OPPLYSNINGER_OM_BARNET:
                 return opplysningerOmBarnetStepAvailable(values);
@@ -29,6 +34,10 @@ export const isAvailable = (path: StepID | RouteConfig, values: Pleiepengesøkna
                 return opplysningerOmTidsromStepAvailable(values);
             case StepID.ANSETTELSESFORHOLD:
                 return opplysningerOmAnsettelsesforholdStepAvailable(values);
+            case StepID.TILSYNSORDNING:
+                return tilsynsordningStepAvailable(values);
+            case StepID.NATTEVÅK_OG_BEREDSKAP:
+                return nattevåkOgBeredskapStepAvailable(values);
             case StepID.LEGEERKLÆRING:
                 return legeerklæringStepAvailable(values);
             case StepID.MEDLEMSKAP:

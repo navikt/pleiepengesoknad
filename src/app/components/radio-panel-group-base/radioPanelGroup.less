@@ -7,7 +7,6 @@
 .radioPanelGruppe {
     .skjema__legend {
         font-weight: bold;
-        margin: 0;
         width: 98%;
 
         .helperTextButton {
@@ -21,6 +20,19 @@
         }
     }
 
+    &--singleColumn {
+        .radioPanelWrapper {
+            width: 100% !important;
+            padding-right: 0 !important;
+            min-width: 100% !important;
+            flex-basis: 100% !important;
+        }
+    }
+
+    .radioPanelGroup__expandedContent {
+        padding: 1.5rem 0 1.5rem 1.5rem;
+    }
+
     .radioPanelGroup--responsive {
         display: flex;
         flex-wrap: wrap;
@@ -29,7 +41,10 @@
         }
 
         .radioPanelWrapper {
-            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            &:last-child {
+                margin-bottom: 0;
+            }
             padding-right: 1rem;
 
             .radioPanel {
@@ -69,6 +84,9 @@
                     flex-basis: 0;
                     width: auto;
                 }
+            }
+            .radioPanelGroup__expandedContent {
+                padding: 1.5rem 0 1.5rem 3rem;
             }
         }
     }

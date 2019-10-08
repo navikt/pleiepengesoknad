@@ -1,16 +1,12 @@
 import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from '../../utils/navFrontendUtils';
-import InputBase from '../input-base/InputBase';
+import InputBase, { InputBaseProps } from '../input-base/InputBase';
 import { NavFrontendInputProps } from 'nav-frontend-skjema';
-import { InputType } from '../../types/InputType';
 import { FormikValidationProps } from 'app/types/FormikProps';
 
-interface FormikInputProps<T> {
+interface FormikInputProps<T> extends InputBaseProps {
     name: T;
-    helperText?: string;
-    type?: InputType;
-    maxLength?: number;
 }
 
 type Props = NavFrontendInputProps & FormikValidationProps;
@@ -26,7 +22,13 @@ const FormikInput = <T extends {}>(): React.FunctionComponent<Props & FormikInpu
         {({ field, form: { errors, submitCount } }: FormikFieldProps) => {
             const errorMsgProps = submitCount > 0 ? getValidationErrorPropsWithIntl(intl, errors, field.name) : {};
             return (
-                <InputBase label={label} {...otherInputProps} {...errorMsgProps} {...field} value={field.value === undefined ? '' : field.value} />
+                <InputBase
+                    label={label}
+                    {...otherInputProps}
+                    {...errorMsgProps}
+                    {...field}
+                    value={field.value === undefined ? '' : field.value}
+                />
             );
         }}
     </FormikField>

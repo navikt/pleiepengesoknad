@@ -7,6 +7,8 @@ import { navigateToLoginPage, userIsCurrentlyOnErrorPage } from '../../utils/nav
 import { AxiosError, AxiosResponse } from 'axios';
 import { getBarn, getSøker } from '../../api/api';
 import { SøkerdataContextProvider } from '../../context/SøkerdataContext';
+import demoSøkerdata from '../../demo/demoData';
+import { appIsRunningInDemoMode } from '../../utils/envUtils';
 
 interface Props {
     contentLoadedRenderer: (søkerdata?: Søkerdata) => React.ReactNode;
@@ -27,8 +29,13 @@ class AppEssentialsLoader extends React.Component<Props, State> {
         this.stopLoading = this.stopLoading.bind(this);
         this.handleSøkerdataFetchSuccess = this.handleSøkerdataFetchSuccess.bind(this);
         this.handleSøkerdataFetchError = this.handleSøkerdataFetchError.bind(this);
+        this.initDemoMode = this.initDemoMode.bind(this);
 
-        this.loadAppEssentials();
+        if (appIsRunningInDemoMode()) {
+            setTimeout(this.initDemoMode, 1000);
+        } else {
+            this.loadAppEssentials();
+        }
     }
 
     async loadAppEssentials() {
@@ -38,6 +45,17 @@ class AppEssentialsLoader extends React.Component<Props, State> {
         } catch (response) {
             this.handleSøkerdataFetchError(response);
         }
+    }
+
+    initDemoMode() {
+        this.setState({
+            isLoading: false,
+            søkerdata: {
+                ...(demoSøkerdata as Søkerdata),
+                setAnsettelsesforhold: this.updateAnsettelsesforhold
+            }
+        });
+        this.stopLoading();
     }
 
     handleSøkerdataFetchSuccess(søkerResponse: AxiosResponse, barnResponse?: AxiosResponse) {
@@ -105,7 +123,11 @@ class AppEssentialsLoader extends React.Component<Props, State> {
         }
 
         return (
-            <SøkerdataContextProvider value={søkerdata}>{contentLoadedRenderer(søkerdata)}</SøkerdataContextProvider>
+            <>
+                <SøkerdataContextProvider value={søkerdata}>
+                    {contentLoadedRenderer(søkerdata)}
+                </SøkerdataContextProvider>
+            </>
         );
     }
 }

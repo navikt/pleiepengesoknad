@@ -1,9 +1,5 @@
 import * as React from 'react';
 import { IntlProvider as Provider } from 'react-intl';
-import '@formatjs/intl-pluralrules/polyfill';
-import '@formatjs/intl-pluralrules/dist/locale-data/nb';
-import '@formatjs/intl-pluralrules/dist/locale-data/nn';
-
 import { Locale } from '../../types/Locale';
 
 const bokmålstekster = require('../../i18n/nb.json');
