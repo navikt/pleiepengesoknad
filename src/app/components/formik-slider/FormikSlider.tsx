@@ -17,7 +17,15 @@ const FormikSlider = <T extends {}>(): React.FunctionComponent<
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, submitCount } }: FormikFieldProps) => {
             const errorMsgProps = submitCount > 0 ? getValidationErrorPropsWithIntl(intl, errors, field.name) : {};
-            return <SliderBase label={label} {...otherInputProps} {...errorMsgProps} {...field} />;
+            return (
+                <SliderBase
+                    label={label}
+                    {...otherInputProps}
+                    {...errorMsgProps}
+                    {...field}
+                    value={field.value || ''}
+                />
+            );
         }}
     </FormikField>
 );

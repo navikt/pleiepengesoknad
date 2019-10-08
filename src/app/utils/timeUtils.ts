@@ -1,9 +1,21 @@
 import { IntlShape } from 'react-intl';
 import intlHelper from './intlUtils';
 import { Time } from 'app/types/Time';
+import { parse } from 'iso8601-duration';
 
-export const timeToIso8601Duration = ({ hours, minutes }: Time): string => {
-    return `PT${hours}H${minutes}M`;
+export const timeToIso8601Duration = ({ hours, minutes }: Partial<Time>): string => {
+    return `PT${hours || 0}H${minutes || 0}M`;
+};
+
+export const iso8601DurationToTime = (duration: string): Partial<Time> | undefined => {
+    const parts = parse(duration);
+
+    return parts
+        ? {
+              hours: parts.hours,
+              minutes: parts.minutes
+          }
+        : undefined;
 };
 
 export const decimalTimeToTime = (time: number): Time => {

@@ -1,4 +1,5 @@
 import { Locale } from './Locale';
+import { TilsynVetIkkeHvorfor } from './PleiepengesøknadFormData';
 
 export type ISO8601Duration = string;
 
@@ -12,7 +13,59 @@ export interface BarnToSendToApi {
 export interface AnsettelsesforholdApi {
     navn: string;
     organisasjonsnummer?: string;
-    redusert_arbeidsprosent?: number;
+    skal_jobbe?: 'ja' | 'nei' | 'redusert';
+    jobber_normalt_timer?: number;
+    skal_jobbe_timer?: number;
+    skal_jobbe_prosent?: number;
+}
+export type AnsettelsesforholdApiNei = Pick<
+    AnsettelsesforholdApi,
+    'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'skal_jobbe_prosent' | 'jobber_normalt_timer'
+>;
+export type AnsettelsesforholdApiRedusert = Pick<
+    AnsettelsesforholdApi,
+    'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'skal_jobbe_prosent' | 'jobber_normalt_timer' | 'skal_jobbe_timer'
+>;
+
+export type AnsettelsesforholdApiSomVanlig = Pick<
+    AnsettelsesforholdApi,
+    'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'skal_jobbe_prosent'
+>;
+
+export interface AnsettelsesforholdApiSkalJobbe {}
+
+export interface TilsynsukeApi {
+    mandag?: string;
+    tirsdag?: string;
+    onsdag?: string;
+    torsdag?: string;
+    fredag?: string;
+}
+export type TilsynsordningApi = TilsynsordningApiVetIkke | TilsynsordningApiNei | TilsynsordningApiJa;
+
+interface TilsynsordningApiBase {
+    svar: 'ja' | 'nei' | 'vet_ikke';
+}
+export interface TilsynsordningApiNei extends TilsynsordningApiBase {
+    svar: 'nei';
+}
+export interface TilsynsordningApiJa extends TilsynsordningApiBase {
+    svar: 'ja';
+    ja: {
+        mandag?: string;
+        tirsdag?: string;
+        onsdag?: string;
+        torsdag?: string;
+        fredag?: string;
+        tilleggsinformasjon?: string;
+    };
+}
+export interface TilsynsordningApiVetIkke extends TilsynsordningApiBase {
+    svar: 'vet_ikke';
+    vet_ikke: {
+        svar: TilsynVetIkkeHvorfor;
+        annet?: string;
+    };
 }
 
 interface Medlemskap {
@@ -34,4 +87,13 @@ export interface PleiepengesøknadApiData {
     har_bekreftet_opplysninger: boolean;
     grad?: number;
     dager_per_uke_borte_fra_jobb?: number;
+    tilsynsordning?: TilsynsordningApi;
+    nattevaak?: {
+        har_nattevaak: boolean;
+        tilleggsinformasjon?: string;
+    };
+    beredskap?: {
+        i_beredskap: boolean;
+        tilleggsinformasjon?: string;
+    };
 }

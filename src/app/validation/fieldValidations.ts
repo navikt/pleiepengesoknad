@@ -5,6 +5,8 @@ import { attachmentHasBeenUploaded } from '../utils/attachmentUtils';
 import { FieldValidationResult } from './types';
 import { timeToDecimalTime } from 'app/utils/timeUtils';
 import { Time } from 'app/types/Time';
+import { Tilsynsordning } from '../types/PleiepengesøknadFormData';
+import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
 
 const moment = require('moment');
 
@@ -25,7 +27,10 @@ export enum FieldValidationErrors {
     'ansettelsesforhold_timerUgyldig' = 'fieldvalidation.ansettelsesforhold_timerUgyldig',
     'ansettelsesforhold_prosentUgyldig' = 'fieldvalidation.ansettelsesforhold_prosentUgyldig',
     'ansettelsesforhold_redusertMerEnnNormalt' = 'fieldvalidation.ansettelsesforhold_redusertMerEnnNormalt',
-    'dagerPerUkeBorteFraJobb_ugyldig' = 'fieldvalidation.dagerPerUkeBorteFraJobb_ugyldig'
+    'dagerPerUkeBorteFraJobb_ugyldig' = 'fieldvalidation.dagerPerUkeBorteFraJobb_ugyldig',
+    'tilsynsordning_ingenInfo' = 'fieldvalidation.tilsynsordning_ingenInfo',
+    'tilsynsordning_forMangeTimerTotalt' = 'fieldvalidation.tilsynsordning_forMangeTimerTotalt',
+    'tilsynsordning_forMangeTimerEnDag' = 'fieldvalidation.tilsynsordning_forMangeTimerEnDag'
 }
 
 const MAX_ARBEIDSTIMER_PER_UKE = 150;
@@ -128,7 +133,7 @@ export const validateTildato = (tilDato?: Date, fraDato?: Date): FieldValidation
 };
 
 export const validateYesOrNoIsAnswered = (answer: YesOrNo): FieldValidationResult => {
-    if (answer === YesOrNo.UNANSWERED) {
+    if (answer === YesOrNo.UNANSWERED || answer === undefined) {
         return fieldIsRequiredError();
     }
     return undefined;
@@ -169,6 +174,31 @@ export const validateGrad = (grad: number | string): FieldValidationResult => {
 export const validateRequiredField = (value: any): FieldValidationResult => {
     if (!hasValue(value)) {
         return fieldIsRequiredError();
+    }
+    return undefined;
+};
+
+export const validateSkalHaTilsynsordning = (tilsynsordning: Tilsynsordning): FieldValidationResult => {
+    if (tilsynsordning.skalBarnHaTilsyn === YesOrNo.YES) {
+        if (tilsynsordning.ja === undefined) {
+            return fieldValidationError(FieldValidationErrors.tilsynsordning_ingenInfo);
+        }
+        const { ekstrainfo, tilsyn } = tilsynsordning.ja;
+        const hasEkstrainformasjon: boolean = (ekstrainfo || '').trim().length > 5;
+        const hoursInTotal = tilsyn ? sumTimerMedTilsyn(tilsyn) : 0;
+        if (hoursInTotal === 0 && hasEkstrainformasjon === false) {
+            return fieldValidationError(FieldValidationErrors.tilsynsordning_ingenInfo);
+        }
+        if (hoursInTotal >= 37.5) {
+            return fieldValidationError(FieldValidationErrors.tilsynsordning_forMangeTimerTotalt);
+        }
+    }
+    return undefined;
+};
+
+export const validateTilsynstimerEnDag = (time: Time): FieldValidationResult => {
+    if (time && timeToDecimalTime(time) > 7.5) {
+        return fieldValidationError(FieldValidationErrors.tilsynsordning_forMangeTimerEnDag);
     }
     return undefined;
 };

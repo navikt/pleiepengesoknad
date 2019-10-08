@@ -4,6 +4,9 @@ import IntlProvider from '../intl-provider/IntlProvider';
 import { Søkerdata } from '../../types/Søkerdata';
 import LanguageToggle from '../language-toggle/LanguageToggle';
 import { Locale } from 'app/types/Locale';
+import { Normaltekst } from 'nav-frontend-typografi';
+import DemoModeInfo from '../demo-mode-info/DemoModeInfo';
+import { appIsRunningInDemoMode } from '../../utils/envUtils';
 
 interface ApplicationWrapperProps {
     søkerdata?: Søkerdata;
@@ -11,13 +14,16 @@ interface ApplicationWrapperProps {
     onChangeLocale: (locale: Locale) => void;
 }
 
+const demoMode = appIsRunningInDemoMode();
+
 const ApplicationWrapper: React.FunctionComponent<ApplicationWrapperProps> = ({ locale, onChangeLocale, children }) => {
     return (
         <IntlProvider locale={locale}>
-            <div>
+            <Normaltekst tag="div">
+                {demoMode && <DemoModeInfo />}
                 <LanguageToggle locale={locale} toggle={onChangeLocale} />
                 <Router>{children}</Router>
-            </div>
+            </Normaltekst>
         </IntlProvider>
     );
 };

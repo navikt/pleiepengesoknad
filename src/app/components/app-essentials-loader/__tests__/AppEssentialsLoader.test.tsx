@@ -5,7 +5,8 @@ import MockIntlProvider from '../../../components/intl-provider/MockIntlProvider
 
 jest.mock('./../../../utils/envUtils', () => {
     return {
-        getEnvironmentVariable: () => 'someEnvVar'
+        getEnvironmentVariable: () => 'someEnvVar',
+        appIsRunningInDemoMode: () => false
     };
 });
 

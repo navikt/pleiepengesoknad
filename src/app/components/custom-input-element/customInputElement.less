@@ -1,13 +1,19 @@
-.skjemaelement {
-  &__label {
-    .helperTextButton {
-      position: relative;
-      left: 0.5rem;
-    }
+@import '../../../../node_modules/nav-frontend-core/less/_variabler';
+@import '../../../../node_modules/nav-frontend-paneler-style/src/mixins';
 
-    .helperTextPanel {
-      font-weight: normal;
-      margin-top: 0.5rem;
+.skjemaelement {
+    &__label {
+        .helperTextButton {
+            position: relative;
+            left: 0.5rem;
+        }
+
+        .helperTextPanel {
+            font-weight: normal;
+            margin-top: 0.5rem;
+        }
     }
-  }
+    &--focusEnabled {
+        .panel-focus-mixin();
+    }
 }

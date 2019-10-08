@@ -6,7 +6,9 @@ import { injectIntl, WrappedComponentProps } from 'react-intl';
 
 const LoadingPage: React.FunctionComponent<WrappedComponentProps> = ({ intl }) => (
     <Page title={intlHelper(intl, 'page.loadingPage.tekst')}>
-        <LoadingSpinner type="XXL" />
+        <div style={{ display: 'flex', justifyContent: 'center', minHeight: '15rem', alignItems: 'center' }}>
+            <LoadingSpinner type="XXL" />
+        </div>
     </Page>
 );
 

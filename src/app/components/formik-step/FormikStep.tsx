@@ -11,6 +11,7 @@ export interface FormikStepProps {
     children: React.ReactNode;
     onValidFormSubmit?: () => void;
     history: History;
+    skipValidation?: boolean;
 }
 
 type Props = FormikStepProps & StepProps;
@@ -35,8 +36,12 @@ class FormikStep extends React.Component<PropsWithFormik & WrappedComponentProps
             isValid: previousProps.formik.isValid
         };
         const currentValues = { isSubmitting: this.props.formik.isSubmitting, isValid: this.props.formik.isValid };
+        const { skipValidation } = this.props;
 
-        if (userHasSubmittedValidForm(previousValues, currentValues)) {
+        if (
+            userHasSubmittedValidForm(previousValues, currentValues) ||
+            (skipValidation && previousValues.isSubmitting === true && currentValues.isSubmitting === false)
+        ) {
             const { onValidFormSubmit } = this.props;
             if (onValidFormSubmit) {
                 onValidFormSubmit();

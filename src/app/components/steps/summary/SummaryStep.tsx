@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StepID } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
-import { Field, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { Field } from '../../../types/PleiepengesøknadFormData';
 import ConfirmationCheckboxPanel from '../../confirmation-checkbox-panel/ConfirmationCheckboxPanel';
 import Box from '../../box/Box';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -25,17 +25,16 @@ import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl'
 import intlHelper from 'app/utils/intlUtils';
 import { Locale } from 'app/types/Locale';
 import GradertAnsettelsesforholdSummary from 'app/components/gradert-ansettelsesforhold-summary/GradertAnsettelsesforholdSummary';
-
-export interface SummaryStepProps {
-    handleSubmit: () => void;
-    values: PleiepengesøknadFormData;
-}
+import TilsynsordningSummary from './TilsynsordningSummary';
+import TextareaSummary from '../../textarea-summary/TextareaSummary';
+import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
+import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 
 interface State {
     sendingInProgress: boolean;
 }
 
-type Props = SummaryStepProps & HistoryProps & WrappedComponentProps;
+type Props = CommonStepFormikProps & HistoryProps & WrappedComponentProps;
 
 class SummaryStep extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -47,31 +46,42 @@ class SummaryStep extends React.Component<Props, State> {
     }
 
     async navigate(barn: BarnReceivedFromApi[]) {
-        const { history, values, intl } = this.props;
+        const { history, formValues, intl } = this.props;
         this.setState({
             sendingInProgress: true
         });
-        try {
-            await sendApplication(mapFormDataToApiData(values, barn, intl.locale as Locale));
+        if (appIsRunningInDemoMode()) {
             navigateTo(routeConfig.SØKNAD_SENDT_ROUTE, history);
-        } catch (error) {
-            if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
-                navigateToLoginPage();
-            } else {
-                navigateTo(routeConfig.ERROR_PAGE_ROUTE, history);
+        } else {
+            try {
+                await sendApplication(mapFormDataToApiData(formValues, barn, intl.locale as Locale));
+                navigateTo(routeConfig.SØKNAD_SENDT_ROUTE, history);
+            } catch (error) {
+                if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+                    navigateToLoginPage();
+                } else {
+                    navigateTo(routeConfig.ERROR_PAGE_ROUTE, history);
+                }
             }
         }
     }
 
     render() {
-        const { handleSubmit, values: formValues, history, intl } = this.props;
+        const { handleSubmit, formValues, history, intl } = this.props;
         const { sendingInProgress } = this.state;
-        const stepProps = { handleSubmit, showButtonSpinner: sendingInProgress, buttonDisabled: sendingInProgress };
+        const stepProps = {
+            formValues,
+            handleSubmit,
+            showButtonSpinner: sendingInProgress,
+            buttonDisabled: sendingInProgress
+        };
 
         return (
             <SøkerdataContextConsumer>
                 {({ person: { fornavn, mellomnavn, etternavn, fodselsnummer }, barn }: Søkerdata) => {
                     const apiValues = mapFormDataToApiData(formValues, barn, intl.locale as Locale);
+
+                    const { tilsynsordning, nattevaak: nattevak, beredskap } = apiValues;
 
                     return (
                         <FormikStep
@@ -221,6 +231,7 @@ class SummaryStep extends React.Component<Props, State> {
                                             {apiValues.har_medsoker === false && intlHelper(intl, 'Nei')}
                                         </ContentWithHeader>
                                     </Box>
+
                                     <Box margin="l">
                                         <ContentWithHeader
                                             header={intlHelper(intl, 'steg.oppsummering.ansettelsesforhold.header')}>
@@ -248,6 +259,37 @@ class SummaryStep extends React.Component<Props, State> {
                                             )}
                                         </ContentWithHeader>
                                     </Box>
+                                    {isFeatureEnabled(Feature.TOGGLE_TILSYN) === true && (
+                                        <>
+                                            {tilsynsordning && (
+                                                <TilsynsordningSummary tilsynsordning={tilsynsordning} />
+                                            )}
+                                            {nattevak && (
+                                                <Box margin="l">
+                                                    <ContentWithHeader
+                                                        header={intlHelper(intl, 'steg.oppsummering.nattevåk.header')}>
+                                                        {nattevak.har_nattevaak === true && intlHelper(intl, 'Ja')}
+                                                        {nattevak.har_nattevaak === false && intlHelper(intl, 'Nei')}
+                                                        {nattevak.tilleggsinformasjon && (
+                                                            <TextareaSummary text={nattevak.tilleggsinformasjon} />
+                                                        )}
+                                                    </ContentWithHeader>
+                                                </Box>
+                                            )}
+                                            {beredskap && (
+                                                <Box margin="l">
+                                                    <ContentWithHeader
+                                                        header={intlHelper(intl, 'steg.oppsummering.beredskap.header')}>
+                                                        {beredskap.i_beredskap === true && intlHelper(intl, 'Ja')}
+                                                        {beredskap.i_beredskap === false && intlHelper(intl, 'Nei')}
+                                                        {beredskap.tilleggsinformasjon && (
+                                                            <TextareaSummary text={beredskap.tilleggsinformasjon} />
+                                                        )}
+                                                    </ContentWithHeader>
+                                                </Box>
+                                            )}
+                                        </>
+                                    )}
                                     <Box margin="l">
                                         <ContentWithHeader
                                             header={intlHelper(intl, 'steg.oppsummering.utlandetSiste12.header')}>

@@ -10,21 +10,24 @@ interface LabelWithHelperText {
     children: React.ReactNode;
     helperText: string;
     htmlFor?: string;
+    tag?: 'label' | 'div';
     showByDefault?: boolean;
 }
 
 const bem = bemUtils('labelWithHelperText');
+
 const LabelWithHelperText: React.FunctionComponent<LabelWithHelperText & WrappedComponentProps> = ({
     children,
     helperText,
     htmlFor,
     showByDefault,
+    tag = 'label',
     intl
 }) => {
     const [showHelperText, setShowHelperText] = React.useState(showByDefault === true);
     const ariaLabel = intlHelper(intl, showHelperText ? 'hjelpetekst.skjul' : 'hjelpetekst.vis');
-    return (
-        <label className={`${bem.block} skjemaelement__label`} htmlFor={htmlFor}>
+    const content = (
+        <>
             {children}
             <HelperTextButton
                 onClick={() => setShowHelperText(!showHelperText)}
@@ -32,6 +35,14 @@ const LabelWithHelperText: React.FunctionComponent<LabelWithHelperText & Wrapped
                 ariaPressed={showHelperText}
             />
             {showHelperText && <HelperTextPanel>{helperText}</HelperTextPanel>}
+        </>
+    );
+    if (tag === 'div') {
+        return <div>{content}</div>;
+    }
+    return (
+        <label className={`${bem.block} skjemaelement__label`} htmlFor={htmlFor}>
+            {content}
         </label>
     );
 };

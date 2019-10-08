@@ -9,8 +9,10 @@ const classnames = require('classnames');
 import './customInputElement.less';
 import intlHelper from 'app/utils/intlUtils';
 import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { guid } from 'nav-frontend-js-utils';
 
 interface CustomInputElementProps {
+    name?: string;
     children: React.ReactNode;
     className?: string;
     label?: string;
@@ -22,22 +24,28 @@ interface CustomInputElementProps {
 
 const CustomInputElement: React.FunctionComponent<CustomInputElementProps & WrappedComponentProps> = ({
     children,
+    name,
     className,
     label,
     labelHtmlFor,
-    labelId,
+    labelId = guid(),
     validationError,
     helperText,
     intl
 }) => {
     const wrapperCls = classnames('skjemaelement', {
         'skjemaelement--harFeil': validationError !== undefined,
-        [`${className}`]: className !== undefined
+        [`${className}`]: className !== undefined,
+        'skjemaelement--focusEnabled': validationError !== undefined
     });
     const [showHelperText, setShowHelperText] = React.useState(false);
-    const ariaLabel = intlHelper(intl, showHelperText ? 'hjelpetekst.skjul' : 'hjelpetekst.vis');
+    const helperTextAriaLabel = intlHelper(intl, showHelperText ? 'hjelpetekst.skjul' : 'hjelpetekst.vis');
     return (
-        <div className={wrapperCls}>
+        <div
+            className={wrapperCls}
+            id={name}
+            tabIndex={validationError ? -1 : undefined}
+            aria-describedby={labelId ? labelId : ''}>
             {label && (
                 <label className="skjemaelement__label" htmlFor={labelHtmlFor} id={labelId ? labelId : ''}>
                     {label}
@@ -45,7 +53,7 @@ const CustomInputElement: React.FunctionComponent<CustomInputElementProps & Wrap
                         <>
                             <HelperTextButton
                                 onClick={() => setShowHelperText(!showHelperText)}
-                                ariaLabel={ariaLabel}
+                                ariaLabel={helperTextAriaLabel}
                                 ariaPressed={showHelperText}
                             />
                             {showHelperText && <HelperTextPanel>{helperText}</HelperTextPanel>}

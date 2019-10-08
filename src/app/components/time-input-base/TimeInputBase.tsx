@@ -2,20 +2,20 @@ import React, { useState } from 'react';
 import bemUtils from 'app/utils/bemUtils';
 import CustomInputElement from '../custom-input-element/CustomInputElement';
 import { SkjemaelementFeil } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
-import { isValidTime } from 'app/utils/timeUtils';
 import { guid } from 'nav-frontend-js-utils';
 import { Time } from 'app/types/Time';
+import AriaAlternative from '../aria/AriaAlternative';
 
 import './timeInput.less';
 
 const MAX_HOURS = 23;
 const MAX_MINUTES = 59;
 
-type TimeInputChangeFunc = (time: Time | undefined) => void;
+type TimeInputChangeFunc = (time: Partial<Time> | undefined) => void;
 
 interface TimeInputProps {
-    label: string;
     name: string;
+    label: string;
     feil?: SkjemaelementFeil;
     time?: Time | undefined;
     maxHours?: number;
@@ -27,12 +27,10 @@ interface TimeInputProps {
 const bem = bemUtils('timeInput');
 
 const handleTimeChange = (time: Partial<Time>, onChange: TimeInputChangeFunc) => {
-    if (isValidTime(time)) {
-        onChange(time);
+    if ((time.hours === undefined || isNaN(time.hours)) && (time.minutes === undefined || isNaN(time.minutes))) {
+        onChange(undefined);
     } else {
-        if (time.hours === undefined || isNaN(time.hours) || (time.minutes === undefined || isNaN(time.minutes))) {
-            onChange(undefined);
-        }
+        onChange(time);
     }
 };
 
@@ -65,6 +63,7 @@ const getNewTime = (
 };
 
 const TimeInputBase: React.FunctionComponent<TimeInputProps> = ({
+    name,
     time = { hours: undefined, minutes: undefined },
     label,
     feil,
@@ -88,23 +87,24 @@ const TimeInputBase: React.FunctionComponent<TimeInputProps> = ({
 
     return (
         <CustomInputElement
+            name={name}
             label={label}
             validationError={feil}
             className={bem.classNames(bem.block, bem.modifier(layout))}>
             <div className={bem.element('contentWrapper')}>
                 <div className={bem.element('inputWrapper')}>
                     <label className={bem.element('label')} htmlFor={hoursLabelId}>
-                        timer
+                        <AriaAlternative ariaText={`timer ${label}`} visibleText={'timer'} />
                     </label>
                     <input
                         id={hoursLabelId}
-                        aria-label="Timer"
                         className={bem.element('hours')}
                         type="number"
                         min={0}
                         max={maxHours}
                         maxLength={2}
                         value={hours}
+                        autoComplete="off"
                         onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
                             const newTime = getNewTime(stateTime, { hours: evt.target.value });
                             setStateTime(newTime);
@@ -114,17 +114,17 @@ const TimeInputBase: React.FunctionComponent<TimeInputProps> = ({
                 </div>
                 <div className={bem.element('inputWrapper')}>
                     <label className={bem.element('label')} htmlFor={minutesLabelId}>
-                        minutter
+                        <AriaAlternative ariaText={`minutter ${label}`} visibleText={'minutter'} />
                     </label>
                     <input
                         id={minutesLabelId}
-                        aria-label="Minutter"
                         className={bem.element('minutes')}
                         type="number"
                         min={0}
                         maxLength={2}
                         max={maxMinutes}
                         value={minutes}
+                        autoComplete="off"
                         onBlur={(evt: React.FocusEvent<HTMLInputElement>) => {
                             if (evt.target.value === '' || evt.target.value === '0') {
                                 const newTime = {

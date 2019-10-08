@@ -2,10 +2,10 @@ import * as React from 'react';
 import { Formik } from 'formik';
 import { initialValues, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { FormikBag } from '../../types/FormikBag';
-import { CustomFormikProps as FormikProps } from '../../types/FormikProps';
+import { CustomFormikProps } from '../../types/FormikProps';
 
 interface FormikWrapperProps {
-    contentRenderer: (formikProps: FormikProps) => JSX.Element;
+    contentRenderer: (formikProps: CustomFormikProps) => JSX.Element;
 }
 
 const FormikWrapper: React.FunctionComponent<FormikWrapperProps> = ({ contentRenderer }) => (

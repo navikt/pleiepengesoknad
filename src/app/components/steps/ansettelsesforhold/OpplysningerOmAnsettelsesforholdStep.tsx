@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StepID } from '../../../config/stepConfig';
+import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
 import { navigateTo } from '../../../utils/navigationUtils';
 import { Field } from '../../../types/PleiepengesøknadFormData';
@@ -7,29 +7,35 @@ import FormikStep from '../../formik-step/FormikStep';
 import CheckboxPanelGroup from '../../checkbox-panel-group/CheckboxPanelGroup';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
-import { getNextStepRoute } from '../../../utils/routeUtils';
 import AlertStripe from 'nav-frontend-alertstriper';
 import Box from '../../box/Box';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { WrappedComponentProps, FormattedMessage, injectIntl } from 'react-intl';
 import intlHelper from 'app/utils/intlUtils';
+import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 
-interface OpplysningerOmAnsettelsesforholdStepProps {
-    handleSubmit: () => void;
-}
+type Props = CommonStepFormikProps & HistoryProps & WrappedComponentProps & StepConfigProps;
 
-type Props = OpplysningerOmAnsettelsesforholdStepProps & HistoryProps & WrappedComponentProps;
-const nextStepRoute = getNextStepRoute(StepID.ANSETTELSESFORHOLD);
-
-const OpplysningerOmAnsettelsesforholdStep = ({ history, intl, ...stepProps }: Props) => {
-    const navigate = () => navigateTo(nextStepRoute!, history);
+const OpplysningerOmAnsettelsesforholdStep = ({
+    history,
+    intl,
+    nextStepRoute,
+    formValues: values,
+    ...stepProps
+}: Props) => {
+    const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
     return (
-        <FormikStep id={StepID.ANSETTELSESFORHOLD} onValidFormSubmit={navigate} history={history} {...stepProps}>
+        <FormikStep
+            id={StepID.ANSETTELSESFORHOLD}
+            onValidFormSubmit={navigate}
+            history={history}
+            formValues={values}
+            {...stepProps}>
             <SøkerdataContextConsumer>
                 {(søkerdata: Søkerdata) =>
                     søkerdata.ansettelsesforhold && søkerdata.ansettelsesforhold.length > 0 ? (
                         <CheckboxPanelGroup
-                            legend={intlHelper(intl, 'steg.ansettelsesforhold.hvilket.spm')}
+                            legend={intlHelper(intl, 'steg.ansettelsesforhold.væreBorteFra.spm')}
                             name={Field.ansettelsesforhold}
                             checkboxes={søkerdata.ansettelsesforhold!.map((a) => ({
                                 label: a.navn,

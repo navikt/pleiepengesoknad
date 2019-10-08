@@ -2,8 +2,10 @@ import { Ansettelsesforhold } from './Søkerdata';
 import { YesOrNo } from './YesOrNo';
 import { Time } from './Time';
 
-export interface AnsettelsesforholdForm extends Ansettelsesforhold {
-    redusert_arbeidsprosent?: number;
+export enum AnsettelsesforholdSkalJobbeSvar {
+    'ja' = 'ja',
+    'nei' = 'nei',
+    'redusert' = 'redusert'
 }
 
 export interface Tilsynsuke {
@@ -13,6 +15,19 @@ export interface Tilsynsuke {
     torsdag?: Time;
     fredag?: Time;
 }
+
+export interface Tilsynsordning {
+    skalBarnHaTilsyn: YesOrNo;
+    ja?: {
+        tilsyn?: Tilsynsuke;
+        ekstrainfo: string;
+    };
+    vetIkke?: {
+        hvorfor: TilsynVetIkkeHvorfor;
+        ekstrainfo: string;
+    };
+}
+
 export enum Field {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
     harBekreftetOpplysninger = 'harBekreftetOpplysninger',
@@ -32,7 +47,38 @@ export enum Field {
     harMedsøker = 'harMedsøker',
     grad = 'grad',
     dagerPerUkeBorteFraJobb = 'dagerPerUkeBorteFraJobb',
-    tilsynsordning = 'tilsynsordning'
+    harNattevåk = 'harNattevåk',
+    harNattevåk_ekstrainfo = 'harNattevåk_ekstrainfo',
+    harBeredskap = 'harBeredskap',
+    harBeredskap_ekstrainfo = 'harBeredskap_ekstrainfo',
+    tilsynsordning = 'tilsynsordning',
+    tilsynsordning__skalBarnHaTilsyn = 'tilsynsordning.skalBarnHaTilsyn',
+    tilsynsordning__ja__tilsyn = 'tilsynsordning.ja.tilsyn',
+    tilsynsordning__ja__ekstrainfo = 'tilsynsordning.ja.ekstrainfo',
+    tilsynsordning__vetIkke__hvorfor = 'tilsynsordning.vetIkke.hvorfor',
+    tilsynsordning__vetIkke__ekstrainfo = 'tilsynsordning.vetIkke.ekstrainfo'
+}
+
+export enum AnsettelsesforholdField {
+    skalJobbe = 'skalJobbe',
+    timerEllerProsent = 'timerEllerProsent',
+    jobberNormaltTimer = 'jobberNormaltTimer',
+    skalJobbeTimer = 'skalJobbeTimer',
+    skalJobbeProsent = 'skalJobbeProsent'
+}
+
+export interface AnsettelsesforholdForm extends Ansettelsesforhold {
+    [AnsettelsesforholdField.skalJobbe]?: AnsettelsesforholdSkalJobbeSvar;
+    [AnsettelsesforholdField.timerEllerProsent]?: 'timer' | 'prosent';
+    [AnsettelsesforholdField.jobberNormaltTimer]?: number;
+    [AnsettelsesforholdField.skalJobbeTimer]?: number;
+    [AnsettelsesforholdField.skalJobbeProsent]?: number;
+}
+
+export enum TilsynVetIkkeHvorfor {
+    'er_sporadisk' = 'er_sporadisk',
+    'er_ikke_laget_en_plan' = 'er_ikke_laget_en_plan',
+    'annet' = 'annet'
 }
 
 export interface PleiepengesøknadFormData {
@@ -54,7 +100,11 @@ export interface PleiepengesøknadFormData {
     [Field.harMedsøker]: YesOrNo;
     [Field.grad]?: number;
     [Field.dagerPerUkeBorteFraJobb]?: number;
-    [Field.tilsynsordning]?: Tilsynsuke;
+    [Field.tilsynsordning]?: Tilsynsordning;
+    [Field.harNattevåk]: YesOrNo;
+    [Field.harNattevåk_ekstrainfo]?: string;
+    [Field.harBeredskap]: YesOrNo;
+    [Field.harBeredskap_ekstrainfo]?: string;
 }
 
 export const initialValues: PleiepengesøknadFormData = {
@@ -73,5 +123,8 @@ export const initialValues: PleiepengesøknadFormData = {
     [Field.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.UNANSWERED,
     [Field.harMedsøker]: YesOrNo.UNANSWERED,
     [Field.grad]: undefined,
-    [Field.dagerPerUkeBorteFraJobb]: undefined
+    [Field.dagerPerUkeBorteFraJobb]: undefined,
+    [Field.tilsynsordning]: undefined,
+    [Field.harNattevåk]: YesOrNo.UNANSWERED,
+    [Field.harBeredskap]: YesOrNo.UNANSWERED
 };

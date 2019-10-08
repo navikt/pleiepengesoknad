@@ -7,8 +7,7 @@ interface Lenker {
 }
 
 const LenkerBokmål: Lenker = {
-    papirskjemaPrivat:
-        'https://www.nav.no/no/Person/Skjemaer-for-privatpersoner/skjemaveileder/vedlegg?key=333802&languagecode=53&veiledertype=privatperson',
+    papirskjemaPrivat: 'https://www.nav.no/soknader/nb/person/familie/omsorgspenger/NAV%2009-11.05/brev',
     vilkårPleiepenger: 'https://www.nav.no/no/Person/Familie/Sykdom+i+familien/pleiepenger+for+pleie+av+sykt+barn',
     personvern:
         'https://www.nav.no/no/NAV+og+samfunn/Om+NAV/personvern-i-arbeids-og-velferdsetaten/personvernerkl%C3%A6ring-for-arbeids-og-velferdsetaten',
@@ -17,8 +16,7 @@ const LenkerBokmål: Lenker = {
 };
 
 const LenkerNynorsk: Partial<Lenker> = {
-    papirskjemaPrivat:
-        'https://www.nav.no/no/Person/Skjemaer-for-privatpersoner/skjemaveileder/vedlegg?key=333802&languagecode=54&veiledertype=privatperson',
+    papirskjemaPrivat: 'https://www.nav.no/soknader/nb/person/familie/omsorgspenger/NAV%2009-11.05/brev',
     vilkårPleiepenger:
         'https://www.nav.no/no/Person/Familie/Sykdom+i+familien/Nynorsk/pleiepengar+for+pleie+av+sjukt+barn',
     rettOgPlikt:
