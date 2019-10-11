@@ -89,7 +89,7 @@
         "case-sensitive-paths-webpack-plugin": "^2.1.2",
         "css-loader": "^3.2.0",
         "enzyme": "^3.10.0",
-        "enzyme-adapter-react-16": "^1.14.0",
+        "enzyme-adapter-react-16": "^1.15.1",
         "extract-text-webpack-plugin": "^4.0.0-beta.0",
         "html-webpack-harddisk-plugin": "^1.0.1",
         "intl": "^1.2.5",
