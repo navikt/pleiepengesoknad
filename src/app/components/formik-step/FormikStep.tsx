@@ -5,7 +5,7 @@ import { userHasSubmittedValidForm } from '../../utils/formikUtils';
 import { connect } from 'formik';
 import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
 import { Field } from '../../types/PleiepengesøknadFormData';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { injectIntl, InjectedIntlProps } from 'react-intl';
 
 export interface FormikStepProps {
     children: React.ReactNode;
@@ -17,7 +17,7 @@ export interface FormikStepProps {
 type Props = FormikStepProps & StepProps;
 type PropsWithFormik = Props & ConnectedFormikProps<Field>;
 
-class FormikStep extends React.Component<PropsWithFormik & WrappedComponentProps> {
+class FormikStep extends React.Component<PropsWithFormik & InjectedIntlProps> {
     constructor(props: PropsWithFormik) {
         super(props);
 

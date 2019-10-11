@@ -3,7 +3,7 @@ import { TilsynsordningApi, TilsynsordningApiJa } from '../../../types/Pleiepeng
 import Box from '../../box/Box';
 import ContentWithHeader from '../../content-with-header/ContentWithHeader';
 import intlHelper from '../../../utils/intlUtils';
-import { injectIntl, WrappedComponentProps, FormattedMessage, IntlShape } from 'react-intl';
+import { injectIntl, InjectedIntlProps, FormattedMessage, InjectedIntl } from 'react-intl';
 import { hasValue } from '../../../validation/fieldValidations';
 import { TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
 import { Time } from '../../../types/Time';
@@ -14,7 +14,7 @@ interface Props {
     tilsynsordning: TilsynsordningApi;
 }
 
-const formatTime = (intl: IntlShape, time: Partial<Time>): string => {
+const formatTime = (intl: InjectedIntl, time: Partial<Time>): string => {
     const { hours, minutes } = time;
     if (hours && minutes) {
         return intl.formatMessage({ id: 'tilsynsordning.timerPerDag.timerOgMinutter' }, time);
@@ -26,7 +26,7 @@ const formatTime = (intl: IntlShape, time: Partial<Time>): string => {
     return '';
 };
 
-const summarizeDaysInWeek = (tilsynsordning: TilsynsordningApiJa, intl: IntlShape): string => {
+const summarizeDaysInWeek = (tilsynsordning: TilsynsordningApiJa, intl: InjectedIntl): string => {
     const {
         ja: { tilleggsinformasjon, ...allDays }
     } = tilsynsordning;
@@ -41,7 +41,7 @@ const summarizeDaysInWeek = (tilsynsordning: TilsynsordningApiJa, intl: IntlShap
     return intlHelper(intl, 'tilsynsordning.ingenDagerValgt');
 };
 
-const TilsynsordningSummary: React.FunctionComponent<Props & WrappedComponentProps> = ({ tilsynsordning, intl }) => {
+const TilsynsordningSummary: React.FunctionComponent<Props & InjectedIntlProps> = ({ tilsynsordning, intl }) => {
     const { svar } = tilsynsordning;
     return (
         <>

@@ -10,11 +10,11 @@ import { Søkerdata } from '../../../types/Søkerdata';
 import AlertStripe from 'nav-frontend-alertstriper';
 import Box from '../../box/Box';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { WrappedComponentProps, FormattedMessage, injectIntl } from 'react-intl';
+import { InjectedIntlProps, FormattedMessage, injectIntl } from 'react-intl';
 import intlHelper from 'app/utils/intlUtils';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 
-type Props = CommonStepFormikProps & HistoryProps & WrappedComponentProps & StepConfigProps;
+type Props = CommonStepFormikProps & HistoryProps & InjectedIntlProps & StepConfigProps;
 
 const OpplysningerOmAnsettelsesforholdStep = ({
     history,

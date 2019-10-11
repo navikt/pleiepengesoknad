@@ -21,7 +21,7 @@ import CounsellorPanel from '../../counsellor-panel/CounsellorPanel';
 import * as apiUtils from '../../../utils/apiUtils';
 import ContentSwitcher from '../../content-switcher/ContentSwitcher';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
-import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
+import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
 import intlHelper from 'app/utils/intlUtils';
 import { Locale } from 'app/types/Locale';
 import GradertAnsettelsesforholdSummary from 'app/components/gradert-ansettelsesforhold-summary/GradertAnsettelsesforholdSummary';
@@ -34,7 +34,7 @@ interface State {
     sendingInProgress: boolean;
 }
 
-type Props = CommonStepFormikProps & HistoryProps & WrappedComponentProps;
+type Props = CommonStepFormikProps & HistoryProps & InjectedIntlProps;
 
 class SummaryStep extends React.Component<Props, State> {
     constructor(props: Props) {

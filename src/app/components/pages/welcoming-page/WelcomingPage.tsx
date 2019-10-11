@@ -12,7 +12,7 @@ import { navigateTo } from '../../../utils/navigationUtils';
 import { StepConfigProps } from '../../../config/stepConfig';
 import { userHasSubmittedValidForm } from '../../../utils/formikUtils';
 import FrontPageBanner from '../../front-page-banner/FrontPageBanner';
-import { WrappedComponentProps, injectIntl, FormattedMessage } from 'react-intl';
+import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl';
 import Lenke from 'nav-frontend-lenker';
 import DinePlikterModal from '../../dine-plikter-modal/DinePlikterModal';
 import BehandlingAvPersonopplysningerModal from '../../behandling-av-personopplysninger-modal/BehandlingAvPersonopplysningerModal';
@@ -32,7 +32,7 @@ interface WelcomingPageState {
     behandlingAvPersonopplysningerModalOpen: boolean;
 }
 
-type Props = WelcomingPageProps & WrappedComponentProps & HistoryProps & StepConfigProps;
+type Props = WelcomingPageProps & InjectedIntlProps & HistoryProps & StepConfigProps;
 
 class WelcomingPage extends React.Component<Props, WelcomingPageState> {
     constructor(props: Props) {

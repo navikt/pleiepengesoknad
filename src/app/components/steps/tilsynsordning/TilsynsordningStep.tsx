@@ -3,7 +3,7 @@ import { navigateTo } from '../../../utils/navigationUtils';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
 import FormikStep from '../../formik-step/FormikStep';
-import { WrappedComponentProps, injectIntl, FormattedMessage } from 'react-intl';
+import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl';
 import { Field, TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
 import Box from '../../box/Box';
@@ -18,7 +18,7 @@ import CounsellorPanel from '../../counsellor-panel/CounsellorPanel';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import { getNextStepRoute } from '../../../utils/routeUtils';
 
-type Props = CommonStepFormikProps & HistoryProps & WrappedComponentProps & StepConfigProps;
+type Props = CommonStepFormikProps & HistoryProps & InjectedIntlProps & StepConfigProps;
 
 const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, intl, formValues, ...stepProps }) => {
     const nextStepRoute = getNextStepRoute(StepID.TILSYNSORDNING, formValues);

@@ -2,10 +2,10 @@ import * as React from 'react';
 import Page from '../../page/Page';
 import { Innholdstittel, Normaltekst } from 'nav-frontend-typografi';
 import Box from '../../box/Box';
-import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
+import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
 import intlHelper from 'app/utils/intlUtils';
 
-const GeneralErrorPage: React.FunctionComponent<WrappedComponentProps> = ({ intl }) => (
+const GeneralErrorPage: React.FunctionComponent<InjectedIntlProps> = ({ intl }) => (
     <Page title={intlHelper(intl, 'page.generalErrorPage.sidetittel')}>
         <Innholdstittel>
             <FormattedMessage id="page.generalErrorPage.tittel" />

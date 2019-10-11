@@ -8,7 +8,7 @@ import Box from '../../box/Box';
 import StepBanner from '../../step-banner/StepBanner';
 import InformationPoster from '../../information-poster/InformationPoster';
 import GoToApplicationLink from '../../go-to-application-link/GoToApplicationLink';
-import { FormattedMessage, WrappedComponentProps, injectIntl, FormattedHTMLMessage } from 'react-intl';
+import { FormattedMessage, InjectedIntlProps, injectIntl, FormattedHTMLMessage } from 'react-intl';
 import intlHelper from 'app/utils/intlUtils';
 import getLenker from '../../../lenker';
 import './introPage.less';
@@ -16,7 +16,7 @@ import { isFeatureEnabled, Feature } from '../../../utils/featureToggleUtils';
 
 const bem = bemUtils('introPage');
 
-const IntroPage: React.StatelessComponent<WrappedComponentProps> = ({ intl }) => {
+const IntroPage: React.StatelessComponent<InjectedIntlProps> = ({ intl }) => {
     const [erSelvstendigNæringsdrivendeEllerFrilanser, setErSelvstendigNæringsdrivendeEllerFrilanser] = React.useState(
         YesOrNo.UNANSWERED
     );

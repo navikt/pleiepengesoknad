@@ -8,10 +8,10 @@ import {
     welcomingPageIsValid
 } from '../validation/stepValidations';
 import { StepConfigItemTexts, StepID, StepConfigInterface } from 'app/config/stepConfig';
-import { IntlShape } from 'react-intl';
+import { InjectedIntl } from 'react-intl';
 import intlHelper from './intlUtils';
 
-export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
+export const getStepTexts = (intl: InjectedIntl, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
     const conf = stepConfig[stepId];
     return {
         pageTitle: intlHelper(intl, conf.pageTitle),

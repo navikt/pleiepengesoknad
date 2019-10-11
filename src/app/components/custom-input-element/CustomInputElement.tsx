@@ -8,7 +8,7 @@ import HelperTextPanel from '../helper-text-panel/HelperTextPanel';
 const classnames = require('classnames');
 import './customInputElement.less';
 import intlHelper from 'app/utils/intlUtils';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { injectIntl, InjectedIntlProps } from 'react-intl';
 import { guid } from 'nav-frontend-js-utils';
 
 interface CustomInputElementProps {
@@ -22,7 +22,7 @@ interface CustomInputElementProps {
     helperText?: string | React.ReactNode;
 }
 
-const CustomInputElement: React.FunctionComponent<CustomInputElementProps & WrappedComponentProps> = ({
+const CustomInputElement: React.FunctionComponent<CustomInputElementProps & InjectedIntlProps> = ({
     children,
     name,
     className,

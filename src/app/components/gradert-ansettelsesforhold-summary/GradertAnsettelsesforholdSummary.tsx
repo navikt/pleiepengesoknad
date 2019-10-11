@@ -1,6 +1,6 @@
 import React from 'react';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
+import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
 import bemUtils from 'app/utils/bemUtils';
 import { AnsettelsesforholdApi } from 'app/types/PleiepengesøknadApiData';
 import intlHelper from '../../utils/intlUtils';
@@ -15,7 +15,7 @@ interface AnsettelsesforholdSummaryProps {
 const bem = bemUtils('gradertAnsettelsesforholdSummary');
 
 const GradertAnsettelsesforholdSummary: React.FunctionComponent<
-    AnsettelsesforholdSummaryProps & WrappedComponentProps
+    AnsettelsesforholdSummaryProps & InjectedIntlProps
 > = ({ ansettelsesforhold, intl }) => {
     const {
         navn,

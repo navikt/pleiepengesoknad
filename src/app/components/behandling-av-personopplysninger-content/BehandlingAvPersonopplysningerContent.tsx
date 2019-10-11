@@ -2,13 +2,13 @@ import * as React from 'react';
 import { Ingress, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 import Box from '../box/Box';
-import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
+import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl';
 import getLenker from 'app/lenker';
 import './behandlingAvPersonopplysningerContent.less';
 
 const getText = (part: string) => <FormattedMessage id={`modal.personalopplysninger.${part}`} />;
 
-const BehandlingAvPersonopplysningerContent: React.FunctionComponent<WrappedComponentProps> = ({ intl }) => (
+const BehandlingAvPersonopplysningerContent: React.FunctionComponent<InjectedIntlProps> = ({ intl }) => (
     <>
         <Systemtittel>{getText('tittel')}</Systemtittel>
 

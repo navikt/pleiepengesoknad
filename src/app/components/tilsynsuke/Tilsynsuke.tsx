@@ -2,7 +2,7 @@ import React from 'react';
 import TimeInput from '../time-input/TimeInput';
 import { Field } from '../../types/PleiepengesøknadFormData';
 import { validateTilsynstimerEnDag } from '../../validation/fieldValidations';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { injectIntl, InjectedIntlProps } from 'react-intl';
 import intlHelper from '../../utils/intlUtils';
 import Box from '../box/Box';
 
@@ -12,7 +12,7 @@ interface Props {
     name: Field;
 }
 
-const Tilsynsuke: React.FunctionComponent<Props & WrappedComponentProps> = ({ name, intl }) => {
+const Tilsynsuke: React.FunctionComponent<Props & InjectedIntlProps> = ({ name, intl }) => {
     return (
         <>
             {/* <CounsellorPanel>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FieldArray } from 'formik';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { injectIntl, InjectedIntlProps } from 'react-intl';
 import {
     PleiepengesøknadFormData,
     Field,
@@ -20,7 +20,7 @@ interface Props {
     organisasjonsnummer: string;
 }
 
-const GradertAnsettelsesforhold: React.FunctionComponent<Props & WrappedComponentProps> = ({
+const GradertAnsettelsesforhold: React.FunctionComponent<Props & InjectedIntlProps> = ({
     organisasjonsnummer,
     intl
 }) => (
