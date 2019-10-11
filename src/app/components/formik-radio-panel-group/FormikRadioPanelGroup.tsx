@@ -17,13 +17,14 @@ interface FormikRadioPanelGroupProps<T> {
     radios: FormikRadioPanelProps[];
     validate?: FormikValidateFunction;
     helperText?: string;
-    childFormRenderer?: () => React.ReactNode;
+    expandedContentRenderer?: () => React.ReactNode;
+    singleColumn?: boolean;
     style?: RadioPanelGroupStyle;
 }
 
 const FormikRadioPanelGroup = <T extends {}>(): React.FunctionComponent<
     FormikRadioPanelGroupProps<T> & FormikValidationProps
-> => ({ name, validate, legend, radios, helperText, style, childFormRenderer, intl }) => (
+> => ({ name, validate, legend, radios, helperText, style, singleColumn, expandedContentRenderer, intl }) => (
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {
             const errorMsgProps = submitCount > 0 ? getValidationErrorPropsWithIntl(intl, errors, field.name) : {};
@@ -38,8 +39,9 @@ const FormikRadioPanelGroup = <T extends {}>(): React.FunctionComponent<
                         ...otherProps
                     }))}
                     helperText={helperText}
-                    childFormRender={childFormRenderer}
+                    expandedContentRenderer={expandedContentRenderer}
                     style={style}
+                    singleColumn={singleColumn}
                     {...errorMsgProps}
                 />
             );

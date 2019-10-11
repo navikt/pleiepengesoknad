@@ -19,7 +19,7 @@ const TextareaBase: React.FunctionComponent<Props> = ({ helperText, ...otherProp
                 <Textarea
                     {...otherProps}
                     label={
-                        <LabelWithHelperText helperText={helperText} htmlFor={name}>
+                        <LabelWithHelperText helperText={helperText} htmlFor={name} tag="div">
                             {label}
                         </LabelWithHelperText>
                     }

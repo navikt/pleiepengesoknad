@@ -1,14 +1,13 @@
 import * as React from 'react';
 import { HistoryProps } from '../../../types/History';
-import { StepID } from '../../../config/stepConfig';
+import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
-import { Field, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { Field } from '../../../types/PleiepengesøknadFormData';
 import FormikStep from '../../formik-step/FormikStep';
 import DateIntervalPicker from '../../date-interval-picker/DateIntervalPicker';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
 import { date3YearsAgo, formatDate } from '../../../utils/dateUtils';
-import { FormikProps } from 'formik';
 import { getArbeidsgiver } from '../../../api/api';
 import {
     validateFradato,
@@ -17,17 +16,19 @@ import {
     validateYesOrNoIsAnswered,
     validateDagerPerUkeBorteFraJobb
 } from '../../../validation/fieldValidations';
-import { getNextStepRoute } from '../../../utils/routeUtils';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
 import Box from '../../box/Box';
 import Slider from '../../slider/Slider';
 import { AxiosError } from 'axios';
 import * as apiUtils from '../../../utils/apiUtils';
 import intlHelper from 'app/utils/intlUtils';
-import { WrappedComponentProps, injectIntl, FormattedMessage } from 'react-intl';
+import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl';
 import Input from 'app/components/input/Input';
 import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 import { YesOrNo } from 'app/types/YesOrNo';
+import { CustomFormikProps } from '../../../types/FormikProps';
+import demoSøkerdata from '../../../demo/demoData';
+import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 
 import './dagerPerUkeBorteFraJobb.less';
 
@@ -36,13 +37,10 @@ interface OpplysningerOmTidsromStepState {
 }
 
 interface OpplysningerOmTidsromStepProps {
-    handleSubmit: () => void;
-    formikProps: FormikProps<PleiepengesøknadFormData>;
+    formikProps: CustomFormikProps;
 }
 
-type Props = OpplysningerOmTidsromStepProps & HistoryProps & WrappedComponentProps;
-
-const nextStepRoute = getNextStepRoute(StepID.TIDSROM);
+type Props = OpplysningerOmTidsromStepProps & HistoryProps & InjectedIntlProps & StepConfigProps;
 
 class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTidsromStepState> {
     constructor(props: Props) {
@@ -74,6 +72,12 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
     async finishStep(søkerdata: Søkerdata) {
         this.setState({ isLoadingNextStep: true });
 
+        if (appIsRunningInDemoMode()) {
+            søkerdata.setAnsettelsesforhold(demoSøkerdata.ansettelsesforhold);
+            navigateTo(this.props.nextStepRoute!, this.props.history);
+            return;
+        }
+
         try {
             const response = await this.getArbeidsforhold();
             søkerdata.setAnsettelsesforhold!(response.data.organisasjoner);
@@ -82,7 +86,10 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
             this.handleArbeidsforholdFetchError(error);
         }
 
-        navigateTo(nextStepRoute!, this.props.history);
+        const { nextStepRoute } = this.props;
+        if (nextStepRoute) {
+            navigateTo(nextStepRoute, this.props.history);
+        }
     }
 
     validateFraDato(fraDato?: Date) {
@@ -96,7 +103,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
     }
 
     render() {
-        const { history, intl, ...stepProps } = this.props;
+        const { history, intl, formikProps, ...stepProps } = this.props;
         const { isLoadingNextStep } = this.state;
 
         const fraDato = this.props.formikProps.values[Field.periodeFra];
@@ -110,6 +117,8 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                         id={StepID.TIDSROM}
                         onValidFormSubmit={() => this.finishStep(søkerdata!)}
                         showButtonSpinner={isLoadingNextStep}
+                        formValues={formikProps.values}
+                        handleSubmit={formikProps.handleSubmit}
                         history={history}
                         {...stepProps}>
                         <DateIntervalPicker
@@ -158,7 +167,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                                 />
                             </Box>
                         )}
-                        <Box margin="xxl">
+                        <Box margin="xl">
                             <YesOrNoQuestion
                                 legend={intlHelper(intl, 'steg.tidsrom.annenSamtidig.spm')}
                                 name={Field.harMedsøker}
@@ -167,7 +176,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                         </Box>
 
                         {isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) && harMedsøker === YesOrNo.YES && (
-                            <Box margin="xxl">
+                            <Box margin="xl">
                                 <Input
                                     name={Field.dagerPerUkeBorteFraJobb}
                                     label={intlHelper(intl, 'steg.tidsrom.dagerPerUkeBorteFraJobb.spm')}
@@ -175,6 +184,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                                     type="number"
                                     max={5}
                                     min={0.5}
+                                    step={0.5}
                                     inputClassName="input--dagerPerUkeBorteFraJobb"
                                 />
                             </Box>

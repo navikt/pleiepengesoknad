@@ -4,11 +4,9 @@ import { SkjemaelementFeil } from 'nav-frontend-skjema/lib/skjemaelement-feilmel
 import HelperTextPanel from '../helper-text-panel/HelperTextPanel';
 import HelperTextButton from '../helper-text-button/HelperTextButton';
 import intlHelper from 'app/utils/intlUtils';
-import { WrappedComponentProps, injectIntl } from 'react-intl';
-import Box from '../box/Box';
+import { InjectedIntlProps, injectIntl } from 'react-intl';
 import bemUtils from 'app/utils/bemUtils';
 import 'nav-frontend-skjema-style';
-
 import './radioPanelGroup.less';
 
 type RadioPanelBaseProps = RadioPanelProps & { key: string };
@@ -21,7 +19,8 @@ interface RadioPanelGroupBaseProps {
     feil?: SkjemaelementFeil;
     helperText?: string;
     style?: RadioPanelGroupStyle;
-    childFormRender?: () => React.ReactNode;
+    singleColumn?: boolean;
+    expandedContentRenderer?: () => React.ReactNode;
 }
 
 const bem = bemUtils('radioPanelGruppe');
@@ -31,15 +30,21 @@ const RadioPanelGroupBase = ({
     radios,
     feil,
     helperText,
-    childFormRender,
+    expandedContentRenderer,
     style = 'panel',
+    singleColumn = false,
     intl
-}: RadioPanelGroupBaseProps & WrappedComponentProps) => {
+}: RadioPanelGroupBaseProps & InjectedIntlProps) => {
     const [showHelperText, setShowHelperText] = React.useState(false);
     const ariaLabel = intlHelper(intl, showHelperText ? 'hjelpetekst.skjul' : 'hjelpetekst.vis');
     return (
         <SkjemaGruppe feil={feil}>
-            <div className={bem.classNames(bem.block, 'skjemaelement')}>
+            <div
+                className={bem.classNames(
+                    bem.block,
+                    'skjemaelement',
+                    bem.modifierConditional('singleColumn', singleColumn)
+                )}>
                 <fieldset className="skjema__fieldset">
                     <legend className="skjema__legend">
                         {legend}
@@ -58,13 +63,22 @@ const RadioPanelGroupBase = ({
                         {radios.map(({ onChange, value, key, ...otherRadioProps }: RadioPanelBaseProps) => (
                             <div className={`radioPanelWrapper radioPanelWrapper--${style}`} key={`${key}${value}`}>
                                 {style === 'panel' && (
-                                    <RadioPanel onChange={onChange} value={value} {...otherRadioProps} />
+                                    <RadioPanel
+                                        onChange={onChange}
+                                        value={value}
+                                        {...otherRadioProps}
+                                        inputProps={{ autoComplete: 'off' }}
+                                    />
                                 )}
-                                {style === 'radio' && <Radio onChange={onChange} value={value} {...otherRadioProps} />}
+                                {style === 'radio' && (
+                                    <Radio onChange={onChange} value={value} {...otherRadioProps} autoComplete="off" />
+                                )}
                             </div>
                         ))}
                     </div>
-                    {!!childFormRender && <Box margin="l">{childFormRender()}</Box>}
+                    {!!expandedContentRenderer && (
+                        <div className="radioPanelGroup__expandedContent">{expandedContentRenderer()}</div>
+                    )}
                 </fieldset>
             </div>
         </SkjemaGruppe>

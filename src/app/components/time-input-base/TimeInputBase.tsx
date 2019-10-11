@@ -2,77 +2,111 @@ import React, { useState } from 'react';
 import bemUtils from 'app/utils/bemUtils';
 import CustomInputElement from '../custom-input-element/CustomInputElement';
 import { SkjemaelementFeil } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
-import { isValidTime } from 'app/utils/timeUtils';
 import { guid } from 'nav-frontend-js-utils';
-import { hasValue } from 'app/validation/fieldValidations';
 import { Time } from 'app/types/Time';
+import AriaAlternative from '../aria/AriaAlternative';
 
 import './timeInput.less';
 
-export const MAX_HOURS = 150;
-export const MAX_MINUTES = 59;
+const MAX_HOURS = 23;
+const MAX_MINUTES = 59;
 
-type TimeInputChangeFunc = (time: Time | undefined) => void;
+type TimeInputChangeFunc = (time: Partial<Time> | undefined) => void;
 
 interface TimeInputProps {
-    label: string;
     name: string;
+    label: string;
     feil?: SkjemaelementFeil;
     time?: Time | undefined;
+    maxHours?: number;
+    maxMinutes?: number;
     onChange: TimeInputChangeFunc;
+    layout?: 'normal' | 'compact';
 }
 
 const bem = bemUtils('timeInput');
 
 const handleTimeChange = (time: Partial<Time>, onChange: TimeInputChangeFunc) => {
-    if (isValidTime(time)) {
-        onChange(time);
+    if ((time.hours === undefined || isNaN(time.hours)) && (time.minutes === undefined || isNaN(time.minutes))) {
+        onChange(undefined);
     } else {
-        if (time.hours === undefined || isNaN(time.hours) || (time.minutes === undefined || isNaN(time.minutes))) {
-            onChange(undefined);
-        }
+        onChange(time);
     }
 };
 
+const getNewTime = (
+    stateTime: Partial<Time> | undefined = {},
+    values: { hours?: string; minutes?: string }
+): Partial<Time> => {
+    if (values.hours !== undefined) {
+        const hours = parseInt(values.hours, 10);
+        if (!isNaN(hours)) {
+            return {
+                ...stateTime,
+                hours
+            };
+        }
+        return stateTime.minutes ? { ...stateTime, hours: undefined } : { hours: undefined };
+    }
+    if (values.minutes !== undefined) {
+        const minutes = parseInt(values.minutes, 10);
+        if (!isNaN(minutes)) {
+            return {
+                ...stateTime,
+                minutes
+            };
+        }
+        return stateTime.hours ? { ...stateTime, minutes: undefined } : { minutes: undefined };
+    }
+
+    return stateTime;
+};
+
 const TimeInputBase: React.FunctionComponent<TimeInputProps> = ({
+    name,
     time = { hours: undefined, minutes: undefined },
     label,
     feil,
-    onChange
+    maxHours = MAX_HOURS,
+    maxMinutes = MAX_MINUTES,
+    onChange,
+    layout = 'compact'
 }) => {
     const [stateTime, setStateTime] = useState<Partial<Time> | undefined>(time);
     const hours =
         !stateTime || stateTime.hours === undefined || isNaN(stateTime.hours)
             ? ''
-            : Math.min(stateTime.hours, MAX_HOURS);
+            : Math.min(stateTime.hours, maxHours);
     const minutes =
         !stateTime || stateTime.minutes === undefined || isNaN(stateTime.minutes)
             ? ''
-            : Math.min(stateTime.minutes, MAX_MINUTES);
+            : Math.min(stateTime.minutes, maxMinutes);
     const id = guid();
     const hoursLabelId = `${id}-hours`;
     const minutesLabelId = `${id}-minutes`;
 
     return (
-        <CustomInputElement label={label} validationError={feil} className={bem.block}>
+        <CustomInputElement
+            name={name}
+            label={label}
+            validationError={feil}
+            className={bem.classNames(bem.block, bem.modifier(layout))}>
             <div className={bem.element('contentWrapper')}>
                 <div className={bem.element('inputWrapper')}>
                     <label className={bem.element('label')} htmlFor={hoursLabelId}>
-                        timer
+                        <AriaAlternative ariaText={`timer ${label}`} visibleText={'timer'} />
                     </label>
                     <input
                         id={hoursLabelId}
                         className={bem.element('hours')}
                         type="number"
                         min={0}
-                        max={MAX_HOURS}
-                        maxLength={3}
+                        max={maxHours}
+                        maxLength={2}
                         value={hours}
+                        autoComplete="off"
                         onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
-                            const newTime = {
-                                hours: parseFloat(evt.target.value),
-                                minutes: stateTime && hasValue(stateTime.minutes) ? stateTime.minutes : 0
-                            };
+                            const newTime = getNewTime(stateTime, { hours: evt.target.value });
                             setStateTime(newTime);
                             handleTimeChange(newTime, onChange);
                         }}
@@ -80,7 +114,7 @@ const TimeInputBase: React.FunctionComponent<TimeInputProps> = ({
                 </div>
                 <div className={bem.element('inputWrapper')}>
                     <label className={bem.element('label')} htmlFor={minutesLabelId}>
-                        minutter
+                        <AriaAlternative ariaText={`minutter ${label}`} visibleText={'minutter'} />
                     </label>
                     <input
                         id={minutesLabelId}
@@ -88,24 +122,21 @@ const TimeInputBase: React.FunctionComponent<TimeInputProps> = ({
                         type="number"
                         min={0}
                         maxLength={2}
-                        max={MAX_MINUTES}
+                        max={maxMinutes}
                         value={minutes}
+                        autoComplete="off"
                         onBlur={(evt: React.FocusEvent<HTMLInputElement>) => {
-                            if (evt.target.value === '') {
+                            if (evt.target.value === '' || evt.target.value === '0') {
                                 const newTime = {
                                     ...stateTime,
-                                    minutes: 0
+                                    minutes: stateTime && stateTime.hours !== undefined ? 0 : undefined
                                 };
                                 setStateTime(newTime);
                                 handleTimeChange(newTime, onChange);
                             }
                         }}
                         onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
-                            const mins = parseFloat(evt.target.value);
-                            const newTime = {
-                                ...stateTime,
-                                minutes: isNaN(mins) && evt.target.value !== '' ? 0 : mins
-                            };
+                            const newTime = getNewTime(stateTime, { minutes: evt.target.value });
                             setStateTime(newTime);
                             handleTimeChange(newTime, onChange);
                         }}

@@ -1,7 +1,6 @@
-import { IntlShape } from 'react-intl';
-import { PrimitiveType } from 'intl-messageformat';
+import { InjectedIntl, MessageValue } from 'react-intl';
 
-const intlHelper = (intl: IntlShape, id: string, value?: Record<string, PrimitiveType>): string =>
+const intlHelper = (intl: InjectedIntl, id: string, value?: { [key: string]: MessageValue }): string =>
     intl.formatMessage({ id }, value);
 
 export default intlHelper;

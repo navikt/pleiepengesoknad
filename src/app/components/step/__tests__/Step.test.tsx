@@ -4,6 +4,14 @@ import { render, RenderResult } from '@testing-library/react';
 import { StepID } from '../../../config/stepConfig';
 import { MemoryRouter } from 'react-router';
 import MockIntlProvider from '../../intl-provider/MockIntlProvider';
+import { initialValues } from '../../../types/PleiepengesøknadFormData';
+
+jest.mock('../../../utils/featureToggleUtils', () => {
+    return {
+        isFeatureEnabled: () => false,
+        Feature: {}
+    };
+});
 
 const renderWrappedInMemoryRouter = (child: React.ReactNode) =>
     render(
@@ -20,7 +28,9 @@ describe('<Step>', () => {
     let renderResult: RenderResult;
 
     beforeAll(() => {
-        renderResult = renderWrappedInMemoryRouter(<Step id={stepID} handleSubmit={handleSubmit} />);
+        renderResult = renderWrappedInMemoryRouter(
+            <Step id={stepID} handleSubmit={handleSubmit} formValues={initialValues} />
+        );
     });
 
     it('should render common <Step> content', () => {

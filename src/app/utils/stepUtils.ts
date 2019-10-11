@@ -8,10 +8,10 @@ import {
     welcomingPageIsValid
 } from '../validation/stepValidations';
 import { StepConfigItemTexts, StepID, StepConfigInterface } from 'app/config/stepConfig';
-import { IntlShape } from 'react-intl';
+import { InjectedIntl } from 'react-intl';
 import intlHelper from './intlUtils';
 
-export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
+export const getStepTexts = (intl: InjectedIntl, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
     const conf = stepConfig[stepId];
     return {
         pageTitle: intlHelper(intl, conf.pageTitle),
@@ -31,6 +31,19 @@ export const opplysningerOmAnsettelsesforholdStepAvailable = (formData: Pleiepen
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData);
+
+export const tilsynsordningStepAvailable = (formData: PleiepengesøknadFormData) =>
+    welcomingPageIsValid(formData) &&
+    opplysningerOmBarnetStepIsValid(formData) &&
+    opplysningerOmTidsromStepIsValid(formData) &&
+    opplysningerOmAnsettelsesforholdStepIsValid();
+
+export const nattevåkOgBeredskapStepAvailable = (formData: PleiepengesøknadFormData) =>
+    welcomingPageIsValid(formData) &&
+    opplysningerOmBarnetStepIsValid(formData) &&
+    opplysningerOmTidsromStepIsValid(formData) &&
+    opplysningerOmAnsettelsesforholdStepIsValid() &&
+    tilsynsordningStepAvailable(formData);
 
 export const medlemskapStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&

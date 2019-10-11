@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Page from '../page/Page';
-import { stepConfig, StepID, StepConfigItemTexts } from '../../config/stepConfig';
+import { StepID, StepConfigItemTexts, getStepConfig } from '../../config/stepConfig';
 import bemHelper from '../../utils/bemUtils';
 import StepIndicator from '../step-indicator/StepIndicator';
 import { Hovedknapp as Button } from 'nav-frontend-knapper';
@@ -9,8 +9,9 @@ import StepBanner from '../step-banner/StepBanner';
 import { Systemtittel } from 'nav-frontend-typografi';
 import FormikValidationErrorSummary from '../formik-validation-error-summary/FormikValidationErrorSummary';
 import BackLinkWithFormikReset from '../back-link-with-formik-reset/BackLinkWithFormikReset';
-import { IntlShape, injectIntl } from 'react-intl';
+import { InjectedIntl, injectIntl } from 'react-intl';
 import { getStepTexts } from 'app/utils/stepUtils';
+import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 
 import './step.less';
 
@@ -18,16 +19,18 @@ const bem = bemHelper('step');
 
 export interface StepProps {
     id: StepID;
+    formValues: PleiepengesøknadFormData;
     handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
     showSubmitButton?: boolean;
     showButtonSpinner?: boolean;
     buttonDisabled?: boolean;
     useValidationErrorSummary?: boolean;
-    intl: IntlShape;
+    intl: InjectedIntl;
 }
 
 const Step: React.FunctionComponent<StepProps> = ({
     id,
+    formValues,
     handleSubmit,
     showSubmitButton,
     showButtonSpinner,
@@ -36,6 +39,7 @@ const Step: React.FunctionComponent<StepProps> = ({
     intl,
     children
 }) => {
+    const stepConfig = getStepConfig(formValues);
     const conf = stepConfig[id];
     const stepTexts: StepConfigItemTexts = getStepTexts(intl, id, stepConfig);
     return (

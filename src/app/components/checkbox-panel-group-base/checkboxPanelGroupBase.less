@@ -7,7 +7,6 @@
 .checkboxPanelGroup {
     .skjema__legend {
         font-weight: bold;
-        margin: 0;
         width: 98%;
 
         .helperTextButton {
@@ -28,12 +27,19 @@
         }
     }
 
+    .checkboxPanelGroup__expandedContent {
+        padding: 1.5rem 0 1.5rem 1.5rem;
+    }
+
     .checkboxPanelGroup--responsive {
         display: flex;
         flex-wrap: wrap;
 
         .checkboxPanelWrapper {
-            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            &:last-child {
+                margin-bottom: 0;
+            }
             padding-right: 1rem;
             .checkboksPanel {
                 &__label {
@@ -64,6 +70,9 @@
                 &:nth-child(2n) {
                     padding-right: 0;
                 }
+            }
+            .checkboxPanelGroup__expandedContent {
+                padding: 1.5rem 0 1.5rem 3rem;
             }
         }
     }

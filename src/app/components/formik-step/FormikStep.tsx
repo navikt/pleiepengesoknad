@@ -5,18 +5,19 @@ import { userHasSubmittedValidForm } from '../../utils/formikUtils';
 import { connect } from 'formik';
 import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
 import { Field } from '../../types/PleiepengesøknadFormData';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { injectIntl, InjectedIntlProps } from 'react-intl';
 
 export interface FormikStepProps {
     children: React.ReactNode;
     onValidFormSubmit?: () => void;
     history: History;
+    skipValidation?: boolean;
 }
 
 type Props = FormikStepProps & StepProps;
 type PropsWithFormik = Props & ConnectedFormikProps<Field>;
 
-class FormikStep extends React.Component<PropsWithFormik & WrappedComponentProps> {
+class FormikStep extends React.Component<PropsWithFormik & InjectedIntlProps> {
     constructor(props: PropsWithFormik) {
         super(props);
 
@@ -35,8 +36,12 @@ class FormikStep extends React.Component<PropsWithFormik & WrappedComponentProps
             isValid: previousProps.formik.isValid
         };
         const currentValues = { isSubmitting: this.props.formik.isSubmitting, isValid: this.props.formik.isValid };
+        const { skipValidation } = this.props;
 
-        if (userHasSubmittedValidForm(previousValues, currentValues)) {
+        if (
+            userHasSubmittedValidForm(previousValues, currentValues) ||
+            (skipValidation && previousValues.isSubmitting === true && currentValues.isSubmitting === false)
+        ) {
             const { onValidFormSubmit } = this.props;
             if (onValidFormSubmit) {
                 onValidFormSubmit();

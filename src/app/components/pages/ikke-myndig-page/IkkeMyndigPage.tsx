@@ -5,11 +5,11 @@ import Lenke from 'nav-frontend-lenker';
 import Box from '../../box/Box';
 import { Innholdstittel } from 'nav-frontend-typografi';
 import intlHelper from 'app/utils/intlUtils';
-import { WrappedComponentProps, injectIntl, FormattedMessage } from 'react-intl';
+import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl';
 import getLenker from 'app/lenker';
 import './ikkeMyndigPage.less';
 
-const IkkeMyndigPage: React.FunctionComponent<WrappedComponentProps> = ({ intl }) => (
+const IkkeMyndigPage: React.FunctionComponent<InjectedIntlProps> = ({ intl }) => (
     <Page
         className="ikkeMyndigPage"
         title={intlHelper(intl, 'page.ikkeMyndig.sidetittel')}

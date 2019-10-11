@@ -1,54 +1,69 @@
 import * as React from 'react';
-import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
-import { StepID } from '../../../config/stepConfig';
+import { injectIntl, InjectedIntlProps, FormattedHTMLMessage } from 'react-intl';
+import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
 import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
 import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
-import { getNextStepRoute } from '../../../utils/routeUtils';
 import { Field } from '../../../types/PleiepengesøknadFormData';
 import FileUploadErrors from '../../file-upload-errors/FileUploadErrors';
 import { validateLegeerklæring } from '../../../validation/fieldValidations';
 import HelperTextPanel from '../../helper-text-panel/HelperTextPanel';
 import Box from '../../box/Box';
 import intlHelper from 'app/utils/intlUtils';
+import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
+import { AlertStripeInfo } from 'nav-frontend-alertstriper';
+import { appIsRunningInDemoMode } from '../../../utils/envUtils';
+import { CustomFormikProps } from '../../../types/FormikProps';
 
-interface LegeerklæringStepProps {
-    handleSubmit: () => void;
-}
+type Props = { formikProps: CustomFormikProps } & CommonStepFormikProps &
+    HistoryProps &
+    InjectedIntlProps &
+    StepConfigProps;
 
-type Props = LegeerklæringStepProps & HistoryProps & WrappedComponentProps;
-const nextStepRoute = getNextStepRoute(StepID.LEGEERKLÆRING);
-
-const LegeerklæringStep = ({ history, intl, ...stepProps }: Props) => {
+const LegeerklæringStep = ({ history, intl, nextStepRoute, formikProps, ...stepProps }: Props) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
 
-    const navigate = () => navigateTo(nextStepRoute!, history);
+    const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
+    const isRunningDemoMode = appIsRunningInDemoMode();
+
     return (
         <FormikStep
             id={StepID.LEGEERKLÆRING}
             onValidFormSubmit={navigate}
             history={history}
             useValidationErrorSummary={false}
+            skipValidation={isRunningDemoMode}
             {...stepProps}>
-            <HelperTextPanel>
-                <FormattedMessage id="steg.lege.info" />
-            </HelperTextPanel>
-            <Box margin="l">
-                <FormikFileUploader
-                    name={Field.legeerklæring}
-                    label={intlHelper(intl, 'steg.lege.vedlegg')}
-                    onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
-                    onFileInputClick={() => {
-                        setFilesThatDidntGetUploaded([]);
-                    }}
-                    validate={validateLegeerklæring}
-                    onUnauthorizedOrForbiddenUpload={navigateToLoginPage}
-                />
-            </Box>
-            <FileUploadErrors filesThatDidntGetUploaded={filesThatDidntGetUploaded} />
-            <LegeerklæringFileList wrapNoAttachmentsInBox={true} includeDeletionFunctionality={true} />
+            {isRunningDemoMode && (
+                <Box>
+                    <AlertStripeInfo>
+                        Opplasting av legeerklæring er ikke tilgjengelig i demo versjon. Du kan klikke Fortsett.
+                    </AlertStripeInfo>
+                </Box>
+            )}
+            {false === isRunningDemoMode && (
+                <>
+                    <HelperTextPanel>
+                        <FormattedHTMLMessage id="steg.lege.info.html" />
+                    </HelperTextPanel>
+                    <Box margin="l">
+                        <FormikFileUploader
+                            name={Field.legeerklæring}
+                            label={intlHelper(intl, 'steg.lege.vedlegg')}
+                            onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
+                            onFileInputClick={() => {
+                                setFilesThatDidntGetUploaded([]);
+                            }}
+                            validate={validateLegeerklæring}
+                            onUnauthorizedOrForbiddenUpload={navigateToLoginPage}
+                        />
+                    </Box>
+                    <FileUploadErrors filesThatDidntGetUploaded={filesThatDidntGetUploaded} />
+                    <LegeerklæringFileList wrapNoAttachmentsInBox={true} includeDeletionFunctionality={true} />
+                </>
+            )}
         </FormikStep>
     );
 };

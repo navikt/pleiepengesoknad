@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StepID } from '../../../config/stepConfig';
+import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
 import { navigateTo } from '../../../utils/navigationUtils';
 import {
@@ -11,45 +11,41 @@ import {
 } from '../../../validation/fieldValidations';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
-import { CustomFormikProps as FormikProps } from '../../../types/FormikProps';
+import { CustomFormikProps } from '../../../types/FormikProps';
 import { formatName } from '../../../utils/personUtils';
 import { Field } from '../../../types/PleiepengesøknadFormData';
 import Checkbox from '../../checkbox/Checkbox';
 import Input from '../../input/Input';
 import FormikStep from '../../formik-step/FormikStep';
 import { harRegistrerteBarn } from '../../../utils/søkerdataUtils';
-import { getNextStepRoute } from '../../../utils/routeUtils';
 import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
 import { resetFieldValue, resetFieldValues } from '../../../utils/formikUtils';
 import { prettifyDate } from '../../../utils/dateUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
+import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
 import intlHelper from 'app/utils/intlUtils';
 
 interface OpplysningerOmBarnetStepProps {
-    formikProps: FormikProps;
+    formikProps: CustomFormikProps;
 }
 
-type Props = OpplysningerOmBarnetStepProps & HistoryProps & WrappedComponentProps;
-
-const nextStepRoute = getNextStepRoute(StepID.OPPLYSNINGER_OM_BARNET);
+type Props = OpplysningerOmBarnetStepProps & HistoryProps & InjectedIntlProps & StepConfigProps;
 
 const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
-    formikProps: {
-        handleSubmit,
-        setFieldValue,
-        values: { søknadenGjelderEtAnnetBarn, barnetHarIkkeFåttFødselsnummerEnda }
-    },
+    formikProps: { handleSubmit, setFieldValue, values },
+    nextStepRoute,
     history,
     intl
 }: Props) => {
-    const navigate = () => navigateTo(nextStepRoute!, history);
+    const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
+    const { søknadenGjelderEtAnnetBarn, barnetHarIkkeFåttFødselsnummerEnda } = values;
     return (
         <FormikStep
             id={StepID.OPPLYSNINGER_OM_BARNET}
             onValidFormSubmit={navigate}
             handleSubmit={handleSubmit}
-            history={history}>
+            history={history}
+            formValues={values}>
             <SøkerdataContextConsumer>
                 {(søkerdata: Søkerdata) =>
                     harRegistrerteBarn(søkerdata) && (

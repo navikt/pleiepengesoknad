@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { injectIntl, WrappedComponentProps, IntlShape } from 'react-intl';
+import { injectIntl, InjectedIntlProps, InjectedIntl } from 'react-intl';
 import { Wrapper, Button, Menu, MenuItem } from 'react-aria-menubutton';
 const { NedChevron } = require('nav-frontend-chevron');
 import intlHelper from 'app/utils/intlUtils';
@@ -15,7 +15,7 @@ interface Props {
 
 const AvailableLocales: Locale[] = ['nb', 'nn'];
 
-const renderMenuItem = (intl: IntlShape, locale: Locale) => {
+const renderMenuItem = (intl: InjectedIntl, locale: Locale) => {
     return (
         <li key={locale}>
             <MenuItem className="languageToggle__menu__item">
@@ -30,12 +30,12 @@ const renderMenuItem = (intl: IntlShape, locale: Locale) => {
     );
 };
 
-const LanguageToggle: React.StatelessComponent<Props & WrappedComponentProps> = ({
+const LanguageToggle: React.StatelessComponent<Props & InjectedIntlProps> = ({
     intl,
     locale,
     toggle: toggleLanguage
 }) => {
-    const menuLanguages: Locale[] = [...AvailableLocales].filter((code) => code !== locale) as Locale[];
+    const selectableOtherMenuLanguages: Locale[] = [...AvailableLocales].filter((code) => code !== locale) as Locale[];
 
     return (
         <div className="languageToggle">
@@ -52,7 +52,7 @@ const LanguageToggle: React.StatelessComponent<Props & WrappedComponentProps> = 
                     </div>
                 </Button>
                 <Menu className="languageToggle__menu">
-                    <ul>{menuLanguages.map((code) => renderMenuItem(intl, code))}</ul>
+                    <ul>{selectableOtherMenuLanguages.map((code) => renderMenuItem(intl, code))}</ul>
                 </Menu>
             </Wrapper>
         </div>

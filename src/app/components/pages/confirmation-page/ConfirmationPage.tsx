@@ -5,12 +5,12 @@ import Box from '../../box/Box';
 import bemUtils from '../../../utils/bemUtils';
 import Lenke from 'nav-frontend-lenker';
 import CheckmarkIcon from '../../checkmark-icon/CheckmarkIcon';
-import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
+import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
 import intlHelper from 'app/utils/intlUtils';
 import getLenker from 'app/lenker';
 import './confirmationPage.less';
 
-type Props = WrappedComponentProps;
+type Props = InjectedIntlProps;
 
 const bem = bemUtils('confirmationPage');
 const ConfirmationPage: React.FunctionComponent<Props> = ({ intl }) => (
