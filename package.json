@@ -113,7 +113,7 @@
         "nav-frontend-stegindikator-style": "^1.0.24",
         "nav-frontend-typografi-style": "^1.0.16",
         "nav-frontend-veileder-style": "^2.0.9",
-        "nav-frontend-veilederpanel-style": "0.0.17",
+        "nav-frontend-veilederpanel-style": "0.0.20",
         "postcss-input-range": "^4.0.0",
         "postcss-loader": "^3.0.0",
         "prettier": "^1.18.2",
