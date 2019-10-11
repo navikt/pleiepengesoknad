@@ -1,12 +1,12 @@
-apiVersion: 'nais.io/v1alpha1'
-kind: 'Application'
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
 metadata:
     name: pleiepengesoknad
     namespace: default
     labels:
-        team: { { team } }
+        team: {{team}}
 spec:
-    image: { { version } }
+    image: {{version}}
     port: 8080
     liveness:
         path: isalive
@@ -45,6 +45,6 @@ spec:
         - name: LOGIN_URL
           value: https://loginservice-q.nav.no/login?redirect=https://pleiepengesoknad-q.nav.no/soknad
         - name: TOGGLE_FJERN_GRAD
-          value: 'off'
+          value: "off"
         - name: TOGGLE_TILSYN
-          value: 'off'
+          value: "off"
