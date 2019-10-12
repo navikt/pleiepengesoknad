@@ -151,6 +151,9 @@ export const validateLegeerklæring = (attachments: Attachment[]): FieldValidati
 };
 
 export const validateGrad = (grad: number | string): FieldValidationResult => {
+    if (!hasValue(grad)) {
+        return fieldIsRequiredError();
+    }
     if (typeof grad === 'string') {
         const gradNumber = +grad;
         if (Number.isInteger(gradNumber)) {
