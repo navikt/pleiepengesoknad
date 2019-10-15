@@ -50,6 +50,11 @@ const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, intl, for
                         label={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.spm')}
                         validate={validateSkalHaTilsynsordning}
                         name={Field.tilsynsordning}>
+                        <p>
+                            Oppgi hvor mye barnet gjennomsnittlig skal være i et omsorgstilbud. Hvis det er usikkert
+                            hvor mye, oppgir du det som er planlagt, og bruker feltet for tilleggsopplysninger dersom
+                            det er nødvendig.
+                        </p>
                         <Tilsynsuke name={Field.tilsynsordning__ja__tilsyn} />
                     </InputGroup>
                     <Box margin="xl">

@@ -15,6 +15,7 @@ import intlHelper from 'app/utils/intlUtils';
 import GradertAnsettelsesforhold from '../../gradert-ansettelsesforhold/GradertAnsettelsesforhold';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import { isFeatureEnabled, Feature } from '../../../utils/featureToggleUtils';
+import CounsellorPanel from '../../counsellor-panel/CounsellorPanel';
 
 type Props = CommonStepFormikProps & HistoryProps & InjectedIntlProps & StepConfigProps;
 
@@ -27,12 +28,16 @@ const OpplysningerOmAnsettelsesforholdStep = ({ history, intl, nextStepRoute, ..
                 {(søkerdata: Søkerdata) =>
                     søkerdata.ansettelsesforhold && søkerdata.ansettelsesforhold.length > 0 ? (
                         <>
+                            <Box padBottom="xl">
+                                <CounsellorPanel>
+                                    <FormattedMessage id="steg.ansettelsesforhold.aktivtArbeidsforhold.info" />
+                                </CounsellorPanel>
+                            </Box>
                             <CheckboxPanelGroup
                                 legend={intlHelper(intl, 'steg.ansettelsesforhold.aktivtArbeidsforhold.spm')}
                                 name={Field.ansettelsesforhold}
                                 valueKey="organisasjonsnummer"
                                 singleColumn={true}
-                                helperText={intlHelper(intl, 'steg.ansettelsesforhold.aktivtArbeidsforhold.spm')}
                                 checkboxes={søkerdata.ansettelsesforhold!.map((a) => ({
                                     label: a.navn,
                                     value: a,
