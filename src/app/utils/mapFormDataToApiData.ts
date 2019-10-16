@@ -40,6 +40,7 @@ export const mapFormDataToApiData = (
         harBoddUtenforNorgeSiste12Mnd,
         skalBoUtenforNorgeNeste12Mnd,
         harMedsøker,
+        samtidigHjemme,
         grad,
         dagerPerUkeBorteFraJobb,
         tilsynsordning,
@@ -90,7 +91,7 @@ export const mapFormDataToApiData = (
     }
 
     if (isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === true && apiData.har_medsoker === true) {
-        apiData.dager_per_uke_borte_fra_jobb = dagerPerUkeBorteFraJobb;
+        apiData.samtidig_hjemme = samtidigHjemme === YesOrNo.YES;
     }
 
     if (isFeatureEnabled(Feature.TOGGLE_TILSYN) === true && tilsynsordning) {

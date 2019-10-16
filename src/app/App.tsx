@@ -9,6 +9,7 @@ import Modal from 'nav-frontend-modal';
 import { Locale } from './types/Locale';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
 import './styles/globalStyles.less';
+import { appIsRunningInDemoMode } from './utils/envUtils';
 
 const localeFromSessionStorage = getLocaleFromSessionStorage();
 
@@ -21,10 +22,13 @@ const App: React.FunctionComponent = () => {
                 setLocaleInSessionStorage(activeLocale);
                 setLocale(activeLocale);
             }}>
-            <Switch>
-                <Route path={RouteConfig.SØKNAD_ROUTE_PREFIX} component={Pleiepengesøknad} />
-                <Route path="/" component={IntroPage} />
-            </Switch>
+            {appIsRunningInDemoMode() && <Pleiepengesøknad />}
+            {appIsRunningInDemoMode() === false && (
+                <Switch>
+                    <Route path={RouteConfig.SØKNAD_ROUTE_PREFIX} component={Pleiepengesøknad} />
+                    <Route path="/" component={IntroPage} />
+                </Switch>
+            )}
         </ApplicationWrapper>
     );
 };

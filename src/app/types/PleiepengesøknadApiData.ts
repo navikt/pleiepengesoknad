@@ -83,10 +83,10 @@ export interface PleiepengesøknadApiData {
     vedlegg: string[];
     medlemskap: Medlemskap;
     har_medsoker: boolean;
+    samtidig_hjemme?: boolean;
     har_forstatt_rettigheter_og_plikter: boolean;
     har_bekreftet_opplysninger: boolean;
     grad?: number;
-    dager_per_uke_borte_fra_jobb?: number;
     tilsynsordning?: TilsynsordningApi;
     nattevaak?: {
         har_nattevaak: boolean;

@@ -192,6 +192,7 @@
 
     "steg.oppsummering.grad.header": "Grad",
     "steg.oppsummering.dagerPerUkeBorteFraJobb.header": "Antall dager i uken du skal være borte fra jobb for å ta hånd om barnet",
+    "steg.oppsummering.samtidigHjemme.header": "Skal dere være borte fra jobb samtidig",
     "steg.oppsummering.annenSøkerSammePeriode.header": "Er det en annen person som søker om pleiepenger i samme periode?",
     "steg.oppsummering.nattevåk.header": "Nattvåk",
     "steg.oppsummering.beredskap.header": "Beredskap",

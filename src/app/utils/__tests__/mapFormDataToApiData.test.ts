@@ -189,7 +189,7 @@ describe('mapFormDataToApiData and TOGGLE_FJERN_GRAD feature', () => {
         it('should not include dagerBorteFraJobb', () => {
             const data: PleiepengesøknadFormData = { ...(formData as PleiepengesøknadFormData) };
             const resultingApiData = mapFormDataToApiData(data, barnMock, 'nb');
-            expect(resultingApiData.dager_per_uke_borte_fra_jobb).toBeUndefined();
+            expect(resultingApiData.samtidig_hjemme).toBeUndefined();
         });
         it('should not include prosentAvVanligUke if feature is off', () => {
             const resultApiData = mapFormDataToApiData(formDataMock as PleiepengesøknadFormData, barnMock, 'nb');
@@ -217,13 +217,13 @@ describe('mapFormDataToApiData and TOGGLE_FJERN_GRAD feature', () => {
                 barnMock,
                 'nb'
             );
-            expect(resultingApiData.dager_per_uke_borte_fra_jobb).toBeUndefined();
+            expect(resultingApiData.samtidig_hjemme).toBeUndefined();
         });
 
         it('should include dagerBorteFraJobb if harMedsoker is yes', () => {
             const dataHarMedsøker = { ...formDataFeatureOn, harMedsøker: YesOrNo.YES };
             const resultingApiData = mapFormDataToApiData(dataHarMedsøker, barnMock, 'nb');
-            expect(resultingApiData.dager_per_uke_borte_fra_jobb).toBeDefined();
+            expect(resultingApiData.samtidig_hjemme).toBeDefined();
         });
 
         it('should include prosentAvVanligUke when skalJobbe is redusert', () => {

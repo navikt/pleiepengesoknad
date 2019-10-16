@@ -29,6 +29,7 @@ import TilsynsordningSummary from './TilsynsordningSummary';
 import TextareaSummary from '../../textarea-summary/TextareaSummary';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
+import { YesOrNo } from '../../../types/YesOrNo';
 
 interface State {
     sendingInProgress: boolean;
@@ -209,14 +210,8 @@ class SummaryStep extends React.Component<Props, State> {
                                     {isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === true && apiValues.har_medsoker && (
                                         <Box margin="l">
                                             <ContentWithHeader
-                                                header={intlHelper(
-                                                    intl,
-                                                    'steg.oppsummering.dagerPerUkeBorteFraJobb.header'
-                                                )}>
-                                                <FormattedMessage
-                                                    id="dager"
-                                                    values={{ dager: apiValues.dager_per_uke_borte_fra_jobb }}
-                                                />
+                                                header={intlHelper(intl, 'steg.oppsummering.samtidigHjemme.header')}>
+                                                <FormattedMessage id={apiValues.samtidig_hjemme ? 'Ja' : 'Nei'} />
                                             </ContentWithHeader>
                                         </Box>
                                     )}
