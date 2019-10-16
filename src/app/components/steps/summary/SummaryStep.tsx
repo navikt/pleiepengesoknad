@@ -29,7 +29,6 @@ import TilsynsordningSummary from './TilsynsordningSummary';
 import TextareaSummary from '../../textarea-summary/TextareaSummary';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
-import { YesOrNo } from '../../../types/YesOrNo';
 
 interface State {
     sendingInProgress: boolean;
