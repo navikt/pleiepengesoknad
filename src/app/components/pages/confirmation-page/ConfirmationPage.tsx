@@ -9,10 +9,13 @@ import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
 import intlHelper from 'app/utils/intlUtils';
 import getLenker from 'app/lenker';
 import './confirmationPage.less';
+import { appIsRunningInDemoMode } from '../../../utils/envUtils';
+import AlertStripe from 'nav-frontend-alertstriper';
 
 type Props = InjectedIntlProps;
 
 const bem = bemUtils('confirmationPage');
+
 const ConfirmationPage: React.FunctionComponent<Props> = ({ intl }) => (
     <Page title={intlHelper(intl, 'page.confirmation.sidetittel')} className={bem.block}>
         <div className={bem.element('centeredContent')}>
@@ -23,7 +26,6 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ intl }) => (
                 </Innholdstittel>
             </Box>
         </div>
-
         <Box margin="xl">
             <Ingress>
                 <FormattedMessage id="page.confirmation.part1" />
@@ -38,6 +40,22 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ intl }) => (
                 </Ingress>
             </Box>
         </Box>
+        {appIsRunningInDemoMode() && (
+            <Box margin="xxl">
+                <AlertStripe type="info">
+                    <h2>Takk for at du testet søknaden</h2>
+                    <p>
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                        laboris nisi ut aliquip ex ea commodo consequat.
+                    </p>
+                    <h4>Vil du hjelpe oss mer ved å svare på noen spørsmål?</h4>
+                    <a href="https://surveys.hotjar.com/s?siteId=148751&surveyId=144079">
+                        Ja, ta meg til tilbakemeldingsskjema
+                    </a>
+                </AlertStripe>
+            </Box>
+        )}
     </Page>
 );
 
