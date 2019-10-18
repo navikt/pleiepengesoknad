@@ -43,9 +43,9 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ intl }) => (
         {appIsRunningInDemoMode() && (
             <Box margin="xxl">
                 <AlertStripe type="info">
-                    <p>Takk for at du var med og testet søknadsskjemaet</p>
                     <p>
-                        Dersom du ønsker å si hvordan du opplevde skjemaet, kan du{' '}
+                        Takk for at du var med og testet søknadsskjemaet. Hvis du har innspill til hvordan vi kan gjøre
+                        skjemaet bedre, kan du{' '}
                         <a href="https://surveys.hotjar.com/s?siteId=148751&surveyId=144184">
                             skrive til oss på denne siden
                         </a>
