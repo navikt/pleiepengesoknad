@@ -5,7 +5,7 @@ import { HistoryProps } from '../../../types/History';
 import FormikStep from '../../formik-step/FormikStep';
 import { Field } from '../../../types/PleiepengesøknadFormData';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
-import { validateYesOrNoIsAnswered } from '../../../validation/fieldValidations';
+import { validateYesOrNoIsAnswered, validateRequiredField } from '../../../validation/fieldValidations';
 import intlHelper from 'app/utils/intlUtils';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import Box from 'app/components/box/Box';
@@ -46,6 +46,7 @@ const BeredskapStep: React.FunctionComponent<Props> = ({
                     <Textarea
                         name={Field.harBeredskap_ekstrainfo}
                         label={intlHelper(intl, 'steg.beredskap.tilleggsinfo.spm')}
+                        validate={validateRequiredField}
                         maxLength={1000}
                     />
                 </Box>

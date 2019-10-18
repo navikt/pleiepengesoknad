@@ -11,7 +11,11 @@ import { YesOrNo } from '../../../types/YesOrNo';
 import Textarea from '../../textarea/Textarea';
 import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
 import InputGroup from '../../input-group/InputGroup';
-import { validateSkalHaTilsynsordning, validateYesOrNoIsAnswered } from '../../../validation/fieldValidations';
+import {
+    validateSkalHaTilsynsordning,
+    validateYesOrNoIsAnswered,
+    validateRequiredField
+} from '../../../validation/fieldValidations';
 import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
 import intlHelper from '../../../utils/intlUtils';
 import CounsellorPanel from '../../counsellor-panel/CounsellorPanel';
@@ -21,13 +25,13 @@ import { getNextStepRoute } from '../../../utils/routeUtils';
 type Props = CommonStepFormikProps & HistoryProps & InjectedIntlProps & StepConfigProps;
 
 const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, intl, formValues, ...stepProps }) => {
-    const nextStepRoute = getNextStepRoute(StepID.TILSYNSORDNING, formValues);
+    const nextStepRoute = getNextStepRoute(StepID.OMSORGSTILBUD, formValues);
     const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
     const { tilsynsordning } = formValues;
     const { skalBarnHaTilsyn, vetIkke } = tilsynsordning || {};
     return (
         <FormikStep
-            id={StepID.TILSYNSORDNING}
+            id={StepID.OMSORGSTILBUD}
             onValidFormSubmit={navigate}
             history={history}
             {...stepProps}
@@ -52,21 +56,22 @@ const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, intl, for
                         name={Field.tilsynsordning}>
                         <Tilsynsuke name={Field.tilsynsordning__ja__tilsyn} />
                     </InputGroup>
-                    {/* <Box margin="xl">
+                    <Box margin="xl">
                         <YesOrNoQuestion
                             legend={intlHelper(intl, 'steg.tilsyn.ja.harEkstrainfo.spm')}
                             name={Field.tilsynsordning__ja__harEkstrainfo}
-                        />
-                    </Box> */}
-                    {/* {tilsynsordning.ja && tilsynsordning.ja.harEkstrainfo === YesOrNo.YES && ( */}
-                    <Box margin="xl">
-                        <Textarea
-                            name={Field.tilsynsordning__ja__ekstrainfo}
-                            label={intlHelper(intl, 'steg.tilsyn.ja.tilleggsopplysninger.spm')}
-                            maxLength={1000}
+                            validate={validateRequiredField}
                         />
                     </Box>
-                    {/* )} */}
+                    {tilsynsordning.ja && tilsynsordning.ja.harEkstrainfo === YesOrNo.YES && (
+                        <Box margin="xl">
+                            <Textarea
+                                name={Field.tilsynsordning__ja__ekstrainfo}
+                                label={intlHelper(intl, 'steg.tilsyn.ja.tilleggsopplysninger.spm')}
+                                maxLength={1000}
+                            />
+                        </Box>
+                    )}
                 </Box>
             )}
             {YesOrNo.DO_NOT_KNOW === skalBarnHaTilsyn && (

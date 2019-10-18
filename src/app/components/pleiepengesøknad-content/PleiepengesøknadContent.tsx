@@ -95,15 +95,15 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
                 />
             )}
 
-            {isAvailable(StepID.TILSYNSORDNING, values) && (
+            {isAvailable(StepID.OMSORGSTILBUD, values) && (
                 <Route
-                    path={getSøknadRoute(StepID.TILSYNSORDNING)}
+                    path={getSøknadRoute(StepID.OMSORGSTILBUD)}
                     render={(props) => {
                         return (
                             <TilsynsordningStep
                                 {...commonFormikProps}
                                 {...props}
-                                nextStepRoute={getNextStepRoute(StepID.TILSYNSORDNING, values)}
+                                nextStepRoute={getNextStepRoute(StepID.OMSORGSTILBUD, values)}
                             />
                         );
                     }}

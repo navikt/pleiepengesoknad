@@ -35,7 +35,7 @@ export const isAvailable = (path: StepID | RouteConfig, values: Pleiepengesøkna
                 return opplysningerOmTidsromStepAvailable(values);
             case StepID.ANSETTELSESFORHOLD:
                 return opplysningerOmAnsettelsesforholdStepAvailable(values);
-            case StepID.TILSYNSORDNING:
+            case StepID.OMSORGSTILBUD:
                 return tilsynsordningStepAvailable(values);
             case StepID.NATTEVÅK:
                 return nattevåkStepAvailable(values);

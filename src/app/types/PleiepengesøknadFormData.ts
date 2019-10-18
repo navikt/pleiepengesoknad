@@ -50,6 +50,7 @@ export enum Field {
     grad = 'grad',
     dagerPerUkeBorteFraJobb = 'dagerPerUkeBorteFraJobb',
     harNattevåk = 'harNattevåk',
+    harNattevåk_borteFraJobb = 'harNattevåk_borteFraJobb',
     harNattevåk_ekstrainfo = 'harNattevåk_ekstrainfo',
     harBeredskap = 'harBeredskap',
     harBeredskap_ekstrainfo = 'harBeredskap_ekstrainfo',
@@ -106,6 +107,7 @@ export interface PleiepengesøknadFormData {
     [Field.dagerPerUkeBorteFraJobb]?: number;
     [Field.tilsynsordning]?: Tilsynsordning;
     [Field.harNattevåk]: YesOrNo;
+    [Field.harNattevåk_borteFraJobb]: YesOrNo;
     [Field.harNattevåk_ekstrainfo]?: string;
     [Field.harBeredskap]: YesOrNo;
     [Field.harBeredskap_ekstrainfo]?: string;
@@ -130,6 +132,7 @@ export const initialValues: PleiepengesøknadFormData = {
     [Field.grad]: undefined,
     [Field.dagerPerUkeBorteFraJobb]: undefined,
     [Field.tilsynsordning]: undefined,
+    [Field.harNattevåk_borteFraJobb]: YesOrNo.UNANSWERED,
     [Field.harNattevåk]: YesOrNo.UNANSWERED,
     [Field.harBeredskap]: YesOrNo.UNANSWERED
 };

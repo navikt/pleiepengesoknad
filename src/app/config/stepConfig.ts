@@ -7,7 +7,7 @@ import { YesOrNo } from '../types/YesOrNo';
 export enum StepID {
     'OPPLYSNINGER_OM_BARNET' = 'opplysninger-om-barnet',
     'ANSETTELSESFORHOLD' = 'ansettelsesforhold',
-    'TILSYNSORDNING' = 'tilsynsordning',
+    'OMSORGSTILBUD' = 'omsorgstilbud',
     'NATTEVÅK' = 'nattevåk',
     'BEREDSKAP' = 'beredskap',
     'TIDSROM' = 'tidsrom',
@@ -68,26 +68,26 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
         [StepID.ANSETTELSESFORHOLD]: {
             ...getStepConfigItemTextKeys(StepID.ANSETTELSESFORHOLD),
             index: idx++,
-            nextStep: tilsynIsEnabled ? StepID.TILSYNSORDNING : StepID.MEDLEMSKAP,
+            nextStep: tilsynIsEnabled ? StepID.OMSORGSTILBUD : StepID.MEDLEMSKAP,
             backLinkHref: getSøknadRoute(StepID.TIDSROM)
         }
     };
 
     let backLinkStep: StepID = StepID.ANSETTELSESFORHOLD;
     if (tilsynIsEnabled) {
-        config[StepID.TILSYNSORDNING] = {
-            ...getStepConfigItemTextKeys(StepID.TILSYNSORDNING),
+        config[StepID.OMSORGSTILBUD] = {
+            ...getStepConfigItemTextKeys(StepID.OMSORGSTILBUD),
             index: idx++,
             nextStep: includeNattevåkAndBeredskap ? StepID.NATTEVÅK : StepID.MEDLEMSKAP,
             backLinkHref: getSøknadRoute(StepID.ANSETTELSESFORHOLD)
         };
-        backLinkStep = StepID.TILSYNSORDNING;
+        backLinkStep = StepID.OMSORGSTILBUD;
         if (includeNattevåkAndBeredskap) {
             config[StepID.NATTEVÅK] = {
                 ...getStepConfigItemTextKeys(StepID.NATTEVÅK),
                 index: idx++,
                 nextStep: StepID.BEREDSKAP,
-                backLinkHref: getSøknadRoute(StepID.TILSYNSORDNING)
+                backLinkHref: getSøknadRoute(StepID.OMSORGSTILBUD)
             };
             config[StepID.BEREDSKAP] = {
                 ...getStepConfigItemTextKeys(StepID.BEREDSKAP),

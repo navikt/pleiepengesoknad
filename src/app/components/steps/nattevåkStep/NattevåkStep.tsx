@@ -5,7 +5,7 @@ import { HistoryProps } from '../../../types/History';
 import FormikStep from '../../formik-step/FormikStep';
 import { Field } from '../../../types/PleiepengesøknadFormData';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
-import { validateYesOrNoIsAnswered } from '../../../validation/fieldValidations';
+import { validateYesOrNoIsAnswered, validateRequiredField } from '../../../validation/fieldValidations';
 import intlHelper from 'app/utils/intlUtils';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import Box from 'app/components/box/Box';
@@ -28,7 +28,7 @@ const NattevåkStep: React.FunctionComponent<Props> = ({
     ...stepProps
 }) => {
     const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
-    const { harNattevåk } = values;
+    const { harNattevåk, harNattevåk_borteFraJobb } = values;
     return (
         <FormikStep
             id={StepID.NATTEVÅK}
@@ -42,13 +42,23 @@ const NattevåkStep: React.FunctionComponent<Props> = ({
                 validate={validateYesOrNoIsAnswered}
             />
             {harNattevåk === YesOrNo.YES && (
-                <Box margin="xl">
-                    <Textarea
-                        name={Field.harNattevåk_ekstrainfo}
-                        label={intlHelper(intl, 'steg.nattevåk.tilleggsinfo.spm')}
-                        maxLength={1000}
+                <>
+                    <YesOrNoQuestion
+                        legend={intlHelper(intl, 'steg.nattevåk.borteFraJobb.spm')}
+                        name={Field.harNattevåk_borteFraJobb}
+                        validate={validateYesOrNoIsAnswered}
                     />
-                </Box>
+                    {harNattevåk_borteFraJobb === YesOrNo.YES && (
+                        <Box margin="xl">
+                            <Textarea
+                                name={Field.harNattevåk_ekstrainfo}
+                                label={intlHelper(intl, 'steg.nattevåk.tilleggsinfo.spm')}
+                                maxLength={1000}
+                                validate={validateRequiredField}
+                            />
+                        </Box>
+                    )}
+                </>
             )}
         </FormikStep>
     );
