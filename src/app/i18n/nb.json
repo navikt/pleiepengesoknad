@@ -1,7 +1,7 @@
 {
     "Ja": "Ja",
     "Nei": "Nei",
-    "VetIkke": "Vet ikke",
+    "VetIkke": "Jeg er usikker",
 
     "locale.nb": "Bokmål - norsk",
     "locale.nn": "Nynorsk - norsk",
@@ -153,16 +153,18 @@
     "steg.tidsrom.samtidigHjemme.spm": "Skal dere være borte fra jobb samtidig?",
     "steg.tidsrom.dagerPerUkeBorteFraJobb.spm": "Hvor mange dager per uke skal du være borte fra jobb for å ta hånd om barnet? Rund av til nærmeste halve dag.",
 
-    "steg.tilsyn.veileder": "Du må oppgi alle timene barnet er i et omsorgstilbud. Et omsorgstilbud kan være barnehage, skole, SFO eller andre organiserte tilbud. ",
+    "steg.tilsyn.veileder": "Et omsorgstilbud kan være barnehage, skole, SFO eller andre organiserte tilbud. Du må oppgi alle timene barnet er i et omsorgstilbud.",
     "steg.tilsyn.skalBarnetHaTilsyn.spm": "Skal barnet være i et omsorgstilbud i perioden du søker om pleiepenger?",
-    "steg.tilsyn.ja.hvorMyeTilsyn.spm": "Oppgi når barnet er i et omsorgstilbud",
-    "steg.tilsyn.ja.tilleggsopplysninger.spm": "Tilleggsopplysninger?",
+    "steg.tilsyn.ja.hvorMyeTilsyn.spm": "Oppgi tiden barnet er i et omsorgstilbud",
+    "steg.tilsyn.ja.harEkstrainfo.spm": "Er det noe mer om omsorgstilbudet vi skal vite?",
+    "steg.tilsyn.ja.tilleggsopplysninger.spm": "Dersom det er noe mer om omsorgstilbudet vi skal vite, oppgi dette her",
+    "steg.tilsyn.ja.ekstrainfo.spm": "Oppgi mer om omsorgstilbudet",
     "steg.tilsyn.tilsynsuke.veileder": "Hvis du vet hvor mye barnet skal være i et omsorgstilbud, må du fylle ut hvor mange timer og minutter per dag andre skal passe barnet.",
-    "steg.tilsyn.vetIkke.årsak.spm": "Hva er grunnen til at du ikke vet?",
-    "steg.tilsyn.vetIkke.årsak.sporadisk": "Barnets opphold varierer og er sporadisk",
-    "steg.tilsyn.vetIkke.årsak.ikkeLagetPlan": "Det er ikke laget noen plan enda",
+    "steg.tilsyn.vetIkke.årsak.spm": "Hvorfor er du usikker?",
+    "steg.tilsyn.vetIkke.årsak.sporadisk": "Barnet er i omsorgstilbud, men tiden varierer",
+    "steg.tilsyn.vetIkke.årsak.ikkeLagetPlan": "Det er ikke laget en plan for barnet enda",
     "steg.tilsyn.vetIkke.årsak.annet": "Annet",
-    "steg.tilsyn.vetIkke.årsak.annet.tilleggsopplysninger": "Beskriv kort hva",
+    "steg.tilsyn.vetIkke.årsak.annet.tilleggsopplysninger": "Forklar situasjonen:",
 
     "steg.nattevåkOgBeredskap.nattevåk.spm": "Gjør barnets sykdom at du må være noe våken på natta?",
     "steg.nattevåkOgBeredskap.nattevåk.tilleggsinfo.spm": "Beskriv hva som gjør at du må være våken",
@@ -288,7 +290,7 @@
 
     "tilsynsordning.svar.ja": "Ja",
     "tilsynsordning.svar.nei": "Nei",
-    "tilsynsordning.svar.vet_ikke": "Vet ikke",
+    "tilsynsordning.svar.vet_ikke": "Jeg er usikker",
     "tilsynsordning.timerPerDag.timerOgMinutter": "{hours}t {minutes}m",
     "tilsynsordning.timerPerDag.timer": "{hours}t",
     "tilsynsordning.timerPerDag.minutter": "{minutes}m",

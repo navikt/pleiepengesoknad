@@ -20,6 +20,7 @@ export interface Tilsynsordning {
     skalBarnHaTilsyn: YesOrNo;
     ja?: {
         tilsyn?: Tilsynsuke;
+        harEkstrainfo?: YesOrNo;
         ekstrainfo: string;
     };
     vetIkke?: {
@@ -55,6 +56,7 @@ export enum Field {
     tilsynsordning = 'tilsynsordning',
     tilsynsordning__skalBarnHaTilsyn = 'tilsynsordning.skalBarnHaTilsyn',
     tilsynsordning__ja__tilsyn = 'tilsynsordning.ja.tilsyn',
+    tilsynsordning__ja__harEkstrainfo = 'tilsynsordning.ja.harEkstrainfo',
     tilsynsordning__ja__ekstrainfo = 'tilsynsordning.ja.ekstrainfo',
     tilsynsordning__vetIkke__hvorfor = 'tilsynsordning.vetIkke.hvorfor',
     tilsynsordning__vetIkke__ekstrainfo = 'tilsynsordning.vetIkke.ekstrainfo'

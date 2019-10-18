@@ -50,13 +50,15 @@ const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, intl, for
                         label={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.spm')}
                         validate={validateSkalHaTilsynsordning}
                         name={Field.tilsynsordning}>
-                        <p>
-                            Oppgi hvor mye barnet gjennomsnittlig skal være i et omsorgstilbud. Hvis det er usikkert
-                            hvor mye, oppgir du det som er planlagt, og bruker feltet for tilleggsopplysninger dersom
-                            det er nødvendig.
-                        </p>
                         <Tilsynsuke name={Field.tilsynsordning__ja__tilsyn} />
                     </InputGroup>
+                    {/* <Box margin="xl">
+                        <YesOrNoQuestion
+                            legend={intlHelper(intl, 'steg.tilsyn.ja.harEkstrainfo.spm')}
+                            name={Field.tilsynsordning__ja__harEkstrainfo}
+                        />
+                    </Box> */}
+                    {/* {tilsynsordning.ja && tilsynsordning.ja.harEkstrainfo === YesOrNo.YES && ( */}
                     <Box margin="xl">
                         <Textarea
                             name={Field.tilsynsordning__ja__ekstrainfo}
@@ -64,6 +66,7 @@ const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, intl, for
                             maxLength={1000}
                         />
                     </Box>
+                    {/* )} */}
                 </Box>
             )}
             {YesOrNo.DO_NOT_KNOW === skalBarnHaTilsyn && (
