@@ -63,9 +63,13 @@
     "step.tilsynsordning.stepTitle": "Omsorgstilbud",
     "step.tilsynsordning.stepIndicatorLabel": "Omsorgstilbud",
 
-    "step.nattevåkOgBeredskap.pageTitle": "Pleiepengesøknad - nattevåk og beredskap",
-    "step.nattevåkOgBeredskap.stepTitle": "Nattevåk og beredskap",
-    "step.nattevåkOgBeredskap.stepIndicatorLabel": "Nattevåk og beredskap",
+    "step.nattevåk.pageTitle": "Pleiepengesøknad - nattevåk",
+    "step.nattevåk.stepTitle": "Nattevåk",
+    "step.nattevåk.stepIndicatorLabel": "Nattevåk",
+
+    "step.beredskap.pageTitle": "Pleiepengesøknad - beredskap",
+    "step.beredskap.stepTitle": "Beredskap",
+    "step.beredskap.stepIndicatorLabel": "Beredskap",
 
     "step.medlemskap.pageTitle": "Pleiepengesøknad - utenlandsopphold",
     "step.medlemskap.stepTitle": "Utenlandsopphold",
@@ -166,10 +170,10 @@
     "steg.tilsyn.vetIkke.årsak.annet": "Annet",
     "steg.tilsyn.vetIkke.årsak.annet.tilleggsopplysninger": "Forklar situasjonen:",
 
-    "steg.nattevåkOgBeredskap.nattevåk.spm": "Gjør barnets sykdom at du må være noe våken på natta?",
-    "steg.nattevåkOgBeredskap.nattevåk.tilleggsinfo.spm": "Beskriv hva som gjør at du må være våken",
-    "steg.nattevåkOgBeredskap.beredskap.spm": "Gjør barnets sykdom at du må være i beredskap eller være tilgjengelig også når barnet er i et omsorgstilbud?",
-    "steg.nattevåkOgBeredskap.beredskap.tilleggsinfo.spm": "Beskriv hva som gjør at du må være tilgjengelig",
+    "steg.nattevåk.spm": "Gjør barnets sykdom at du må være noe våken på natta?",
+    "steg.nattevåk.tilleggsinfo.spm": "Beskriv hva som gjør at du må være våken",
+    "steg.beredskap.spm": "Gjør barnets sykdom at du må være i beredskap eller være tilgjengelig også når barnet er i et omsorgstilbud?",
+    "steg.beredskap.tilleggsinfo.spm": "Beskriv hva som gjør at du må være tilgjengelig",
 
     "steg.medlemsskap.annetLandSiste12.spm": "Har du bodd i andre land enn Norge i hele eller deler av de siste 12 månedene?",
     "steg.medlemsskap.annetLandSiste12.hjelp": "Du svarer ja bare hvis du har oppholdt deg fast i et annet land enn Norge. Korte utlandsturer i forbindelse med for eksempel ferie regnes ikke med.",

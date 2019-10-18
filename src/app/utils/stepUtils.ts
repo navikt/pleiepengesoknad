@@ -11,7 +11,11 @@ import { StepConfigItemTexts, StepID, StepConfigInterface } from 'app/config/ste
 import { InjectedIntl } from 'react-intl';
 import intlHelper from './intlUtils';
 
-export const getStepTexts = (intl: InjectedIntl, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
+export const getStepTexts = (
+    intl: InjectedIntl,
+    stepId: StepID,
+    stepConfig: StepConfigInterface
+): StepConfigItemTexts => {
     const conf = stepConfig[stepId];
     return {
         pageTitle: intlHelper(intl, conf.pageTitle),
@@ -38,12 +42,20 @@ export const tilsynsordningStepAvailable = (formData: PleiepengesøknadFormData)
     opplysningerOmTidsromStepIsValid(formData) &&
     opplysningerOmAnsettelsesforholdStepIsValid();
 
-export const nattevåkOgBeredskapStepAvailable = (formData: PleiepengesøknadFormData) =>
+export const nattevåkStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
     opplysningerOmAnsettelsesforholdStepIsValid() &&
     tilsynsordningStepAvailable(formData);
+
+export const beredskapStepAvailable = (formData: PleiepengesøknadFormData) =>
+    welcomingPageIsValid(formData) &&
+    opplysningerOmBarnetStepIsValid(formData) &&
+    opplysningerOmTidsromStepIsValid(formData) &&
+    opplysningerOmAnsettelsesforholdStepIsValid() &&
+    tilsynsordningStepAvailable(formData) &&
+    nattevåkStepAvailable(formData);
 
 export const medlemskapStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&

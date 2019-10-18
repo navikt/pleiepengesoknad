@@ -8,7 +8,8 @@ export enum StepID {
     'OPPLYSNINGER_OM_BARNET' = 'opplysninger-om-barnet',
     'ANSETTELSESFORHOLD' = 'ansettelsesforhold',
     'TILSYNSORDNING' = 'tilsynsordning',
-    'NATTEVÅK_OG_BEREDSKAP' = 'nattevåkOgBeredskap',
+    'NATTEVÅK' = 'nattevåk',
+    'BEREDSKAP' = 'beredskap',
     'TIDSROM' = 'tidsrom',
     'MEDLEMSKAP' = 'medlemskap',
     'LEGEERKLÆRING' = 'legeerklaering',
@@ -44,11 +45,12 @@ const getStepConfigItemTextKeys = (stepId: StepID): StepConfigItemTexts => {
 
 export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
     const tilsynIsEnabled = isFeatureEnabled(Feature.TOGGLE_TILSYN);
-    const includeNattevåk =
+    const includeNattevåkAndBeredskap =
         tilsynIsEnabled &&
         formValues &&
         formValues.tilsynsordning &&
-        formValues.tilsynsordning.skalBarnHaTilsyn === YesOrNo.YES;
+        (formValues.tilsynsordning.skalBarnHaTilsyn === YesOrNo.YES ||
+            formValues.tilsynsordning.skalBarnHaTilsyn === YesOrNo.DO_NOT_KNOW);
     let idx = 0;
     let config = {
         [StepID.OPPLYSNINGER_OM_BARNET]: {
@@ -76,18 +78,24 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
         config[StepID.TILSYNSORDNING] = {
             ...getStepConfigItemTextKeys(StepID.TILSYNSORDNING),
             index: idx++,
-            nextStep: includeNattevåk ? StepID.NATTEVÅK_OG_BEREDSKAP : StepID.MEDLEMSKAP,
+            nextStep: includeNattevåkAndBeredskap ? StepID.NATTEVÅK : StepID.MEDLEMSKAP,
             backLinkHref: getSøknadRoute(StepID.ANSETTELSESFORHOLD)
         };
         backLinkStep = StepID.TILSYNSORDNING;
-        if (includeNattevåk) {
-            config[StepID.NATTEVÅK_OG_BEREDSKAP] = {
-                ...getStepConfigItemTextKeys(StepID.NATTEVÅK_OG_BEREDSKAP),
+        if (includeNattevåkAndBeredskap) {
+            config[StepID.NATTEVÅK] = {
+                ...getStepConfigItemTextKeys(StepID.NATTEVÅK),
                 index: idx++,
-                nextStep: StepID.MEDLEMSKAP,
+                nextStep: StepID.BEREDSKAP,
                 backLinkHref: getSøknadRoute(StepID.TILSYNSORDNING)
             };
-            backLinkStep = StepID.NATTEVÅK_OG_BEREDSKAP;
+            config[StepID.BEREDSKAP] = {
+                ...getStepConfigItemTextKeys(StepID.BEREDSKAP),
+                index: idx++,
+                nextStep: StepID.MEDLEMSKAP,
+                backLinkHref: getSøknadRoute(StepID.NATTEVÅK)
+            };
+            backLinkStep = StepID.BEREDSKAP;
         }
     }
 

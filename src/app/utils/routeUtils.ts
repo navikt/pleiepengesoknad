@@ -10,7 +10,8 @@ import {
     opplysningerOmTidsromStepAvailable,
     summaryStepAvailable,
     tilsynsordningStepAvailable,
-    nattevåkOgBeredskapStepAvailable
+    nattevåkStepAvailable,
+    beredskapStepAvailable
 } from './stepUtils';
 
 export const getSøknadRoute = (stepId: StepID | undefined) => {
@@ -36,8 +37,10 @@ export const isAvailable = (path: StepID | RouteConfig, values: Pleiepengesøkna
                 return opplysningerOmAnsettelsesforholdStepAvailable(values);
             case StepID.TILSYNSORDNING:
                 return tilsynsordningStepAvailable(values);
-            case StepID.NATTEVÅK_OG_BEREDSKAP:
-                return nattevåkOgBeredskapStepAvailable(values);
+            case StepID.NATTEVÅK:
+                return nattevåkStepAvailable(values);
+            case StepID.BEREDSKAP:
+                return beredskapStepAvailable(values);
             case StepID.LEGEERKLÆRING:
                 return legeerklæringStepAvailable(values);
             case StepID.MEDLEMSKAP:

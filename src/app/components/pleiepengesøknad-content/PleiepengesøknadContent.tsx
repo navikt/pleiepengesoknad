@@ -16,8 +16,9 @@ import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 import OpplysningerOmAnsettelsesforholdGradertStep from '../steps/ansettelsesforhold/OpplysningerOmAnsettelsesforholdGradertStep';
 import TilsynsordningStep from '../steps/tilsynsordning/TilsynsordningStep';
-import NattevåkOgBeredskapStep from '../steps/nattevåkOgBeredskapStep/NattevåkOgBeredskapStep';
+import NattevåkStep from '../steps/nattevåkStep/NattevåkStep';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import BeredskapStep from '../steps/beredskapStep/BeredskapStep';
 
 interface PleiepengesøknadContentProps {
     formikProps: CustomFormikProps;
@@ -109,16 +110,32 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
                 />
             )}
 
-            {isAvailable(StepID.NATTEVÅK_OG_BEREDSKAP, values) && (
+            {isAvailable(StepID.NATTEVÅK, values) && (
                 <Route
-                    path={getSøknadRoute(StepID.NATTEVÅK_OG_BEREDSKAP)}
+                    path={getSøknadRoute(StepID.NATTEVÅK)}
                     render={(props) => {
                         return (
-                            <NattevåkOgBeredskapStep
+                            <NattevåkStep
                                 formikProps={formikProps}
                                 {...commonFormikProps}
                                 {...props}
-                                nextStepRoute={getNextStepRoute(StepID.NATTEVÅK_OG_BEREDSKAP, values)}
+                                nextStepRoute={getNextStepRoute(StepID.NATTEVÅK, values)}
+                            />
+                        );
+                    }}
+                />
+            )}
+
+            {isAvailable(StepID.BEREDSKAP, values) && (
+                <Route
+                    path={getSøknadRoute(StepID.BEREDSKAP)}
+                    render={(props) => {
+                        return (
+                            <BeredskapStep
+                                formikProps={formikProps}
+                                {...commonFormikProps}
+                                {...props}
+                                nextStepRoute={getNextStepRoute(StepID.BEREDSKAP, values)}
                             />
                         );
                     }}

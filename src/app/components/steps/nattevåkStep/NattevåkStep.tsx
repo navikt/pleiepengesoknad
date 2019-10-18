@@ -20,7 +20,7 @@ interface StepProps {
 
 type Props = StepProps & HistoryProps & InjectedIntlProps & StepConfigProps;
 
-const NattevåkOgBeredskapStep: React.FunctionComponent<Props> = ({
+const NattevåkStep: React.FunctionComponent<Props> = ({
     history,
     intl,
     formikProps: { values },
@@ -28,16 +28,16 @@ const NattevåkOgBeredskapStep: React.FunctionComponent<Props> = ({
     ...stepProps
 }) => {
     const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
-    const { harNattevåk, harBeredskap } = values;
+    const { harNattevåk } = values;
     return (
         <FormikStep
-            id={StepID.NATTEVÅK_OG_BEREDSKAP}
+            id={StepID.NATTEVÅK}
             onValidFormSubmit={navigate}
             history={history}
             {...stepProps}
             formValues={values}>
             <YesOrNoQuestion
-                legend={intlHelper(intl, 'steg.nattevåkOgBeredskap.nattevåk.spm')}
+                legend={intlHelper(intl, 'steg.nattevåk.spm')}
                 name={Field.harNattevåk}
                 validate={validateYesOrNoIsAnswered}
             />
@@ -45,29 +45,13 @@ const NattevåkOgBeredskapStep: React.FunctionComponent<Props> = ({
                 <Box margin="xl">
                     <Textarea
                         name={Field.harNattevåk_ekstrainfo}
-                        label={intlHelper(intl, 'steg.nattevåkOgBeredskap.nattevåk.tilleggsinfo.spm')}
+                        label={intlHelper(intl, 'steg.nattevåk.tilleggsinfo.spm')}
                         maxLength={1000}
                     />
                 </Box>
             )}
-            <Box margin="xl">
-                <YesOrNoQuestion
-                    legend={intlHelper(intl, 'steg.nattevåkOgBeredskap.beredskap.spm')}
-                    name={Field.harBeredskap}
-                    validate={validateYesOrNoIsAnswered}
-                />
-                {harBeredskap === YesOrNo.YES && (
-                    <Box margin="xl">
-                        <Textarea
-                            name={Field.harBeredskap_ekstrainfo}
-                            label={intlHelper(intl, 'steg.nattevåkOgBeredskap.beredskap.tilleggsinfo.spm')}
-                            maxLength={1000}
-                        />
-                    </Box>
-                )}
-            </Box>
         </FormikStep>
     );
 };
 
-export default injectIntl(NattevåkOgBeredskapStep);
+export default injectIntl(NattevåkStep);
