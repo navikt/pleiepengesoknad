@@ -43,16 +43,14 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ intl }) => (
         {appIsRunningInDemoMode() && (
             <Box margin="xxl">
                 <AlertStripe type="info">
-                    <h2>Takk for at du testet søknaden</h2>
+                    <p>Takk for at du var med og testet søknadsskjemaet</p>
                     <p>
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                        laboris nisi ut aliquip ex ea commodo consequat.
+                        Dersom du ønsker å si hvordan du opplevde skjemaet, kan du{' '}
+                        <a href="https://surveys.hotjar.com/s?siteId=148751&surveyId=144184">
+                            skrive til oss på denne siden
+                        </a>
+                        .
                     </p>
-                    <h4>Vil du hjelpe oss mer ved å svare på noen spørsmål?</h4>
-                    <a href="https://surveys.hotjar.com/s?siteId=148751&surveyId=144079">
-                        Ja, ta meg til tilbakemeldingsskjema
-                    </a>
                 </AlertStripe>
             </Box>
         )}
