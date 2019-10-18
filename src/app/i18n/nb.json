@@ -59,9 +59,9 @@
     "step.ansettelsesforhold.stepTitle": "Arbeidsforhold",
     "step.ansettelsesforhold.stepIndicatorLabel": "Om ditt arbeidsforhold",
 
-    "step.tilsynsordning.pageTitle": "Pleiepengesøknad - omsorgstilbud",
-    "step.tilsynsordning.stepTitle": "Omsorgstilbud",
-    "step.tilsynsordning.stepIndicatorLabel": "Omsorgstilbud",
+    "step.omsorgstilbud.pageTitle": "Pleiepengesøknad - omsorgstilbud",
+    "step.omsorgstilbud.stepTitle": "Omsorgstilbud",
+    "step.omsorgstilbud.stepIndicatorLabel": "Omsorgstilbud",
 
     "step.nattevåk.pageTitle": "Pleiepengesøknad - nattevåk",
     "step.nattevåk.stepTitle": "Nattevåk",
