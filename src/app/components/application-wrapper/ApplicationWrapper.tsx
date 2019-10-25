@@ -21,7 +21,7 @@ const ApplicationWrapper: React.FunctionComponent<ApplicationWrapperProps> = ({ 
         <IntlProvider locale={locale}>
             <Normaltekst tag="div">
                 {demoMode && <DemoModeInfo />}
-                <LanguageToggle locale={locale} toggle={onChangeLocale} />
+                {demoMode === false && <LanguageToggle locale={locale} toggle={onChangeLocale} />}
                 <Router>{children}</Router>
             </Normaltekst>
         </IntlProvider>

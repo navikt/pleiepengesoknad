@@ -44,13 +44,10 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ intl }) => (
             <Box margin="xxl">
                 <AlertStripe type="info">
                     <p>
-                        Takk for at du var med og testet søknadsskjemaet. Hvis du har innspill til hvordan vi kan gjøre
-                        skjemaet bedre, kan du{' '}
-                        <a href="https://surveys.hotjar.com/s?siteId=148751&surveyId=144184">
-                            skrive til oss på denne siden
-                        </a>
-                        .
+                        Hvis du har flere innspill til oss om hvordan vi kan gjøre søknaden bedre, kan du skrive til oss{' '}
+                        <a href="https://surveys.hotjar.com/s?siteId=148751&surveyId=144184">på denne siden</a>.
                     </p>
+                    <p>Tusen takk for hjelpen!</p>
                 </AlertStripe>
             </Box>
         )}

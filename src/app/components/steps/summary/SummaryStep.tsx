@@ -81,7 +81,7 @@ class SummaryStep extends React.Component<Props, State> {
                 {({ person: { fornavn, mellomnavn, etternavn, fodselsnummer }, barn }: Søkerdata) => {
                     const apiValues = mapFormDataToApiData(formValues, barn, intl.locale as Locale);
 
-                    const { tilsynsordning, nattevaak: nattevak, beredskap } = apiValues;
+                    const { tilsynsordning, nattevaak, beredskap } = apiValues;
 
                     return (
                         <FormikStep
@@ -258,17 +258,40 @@ class SummaryStep extends React.Component<Props, State> {
                                             {tilsynsordning && (
                                                 <TilsynsordningSummary tilsynsordning={tilsynsordning} />
                                             )}
-                                            {nattevak && (
-                                                <Box margin="l">
-                                                    <ContentWithHeader
-                                                        header={intlHelper(intl, 'steg.oppsummering.nattevåk.header')}>
-                                                        {nattevak.har_nattevaak === true && intlHelper(intl, 'Ja')}
-                                                        {nattevak.har_nattevaak === false && intlHelper(intl, 'Nei')}
-                                                        {nattevak.tilleggsinformasjon && (
-                                                            <TextareaSummary text={nattevak.tilleggsinformasjon} />
-                                                        )}
-                                                    </ContentWithHeader>
-                                                </Box>
+                                            {nattevaak && (
+                                                <>
+                                                    <Box margin="l">
+                                                        <ContentWithHeader
+                                                            header={intlHelper(
+                                                                intl,
+                                                                'steg.oppsummering.nattevåk.header'
+                                                            )}>
+                                                            {nattevaak.har_nattevaak === true && intlHelper(intl, 'Ja')}
+                                                            {nattevaak.har_nattevaak === false &&
+                                                                intlHelper(intl, 'Nei')}
+                                                        </ContentWithHeader>
+                                                    </Box>
+                                                    <Box margin="l">
+                                                        <ContentWithHeader
+                                                            header={intlHelper(
+                                                                intl,
+                                                                'steg.oppsummering.nattevåk.borteFraJobb.header'
+                                                            )}>
+                                                            {nattevaak.borte_fra_jobb === true && (
+                                                                <>
+                                                                    <div>{intlHelper(intl, 'Ja')}</div>
+                                                                    {nattevaak.tilleggsinformasjon && (
+                                                                        <TextareaSummary
+                                                                            text={nattevaak.tilleggsinformasjon}
+                                                                        />
+                                                                    )}
+                                                                </>
+                                                            )}
+                                                            {nattevaak.borte_fra_jobb === false &&
+                                                                intlHelper(intl, 'Nei')}
+                                                        </ContentWithHeader>
+                                                    </Box>
+                                                </>
                                             )}
                                             {beredskap && (
                                                 <Box margin="l">

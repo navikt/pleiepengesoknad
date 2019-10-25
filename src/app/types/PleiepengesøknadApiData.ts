@@ -90,6 +90,7 @@ export interface PleiepengesøknadApiData {
     tilsynsordning?: TilsynsordningApi;
     nattevaak?: {
         har_nattevaak: boolean;
+        borte_fra_jobb: boolean;
         tilleggsinformasjon?: string;
     };
     beredskap?: {

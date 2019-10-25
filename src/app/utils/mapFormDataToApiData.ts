@@ -47,6 +47,7 @@ export const mapFormDataToApiData = (
         harBeredskap,
         harBeredskap_ekstrainfo,
         harNattevåk,
+        harNattevåk_borteFraJobb,
         harNattevåk_ekstrainfo
     }: PleiepengesøknadFormData,
     barn: BarnReceivedFromApi[],
@@ -96,9 +97,13 @@ export const mapFormDataToApiData = (
 
     if (isFeatureEnabled(Feature.TOGGLE_TILSYN) === true && tilsynsordning) {
         apiData.tilsynsordning = mapTilsynsordningToApiData(tilsynsordning);
-        if (tilsynsordning.skalBarnHaTilsyn === YesOrNo.YES) {
+        if (
+            tilsynsordning.skalBarnHaTilsyn === YesOrNo.YES ||
+            tilsynsordning.skalBarnHaTilsyn === YesOrNo.DO_NOT_KNOW
+        ) {
             apiData.nattevaak = {
                 har_nattevaak: harNattevåk === YesOrNo.YES,
+                borte_fra_jobb: harNattevåk_borteFraJobb === YesOrNo.YES,
                 tilleggsinformasjon: harNattevåk_ekstrainfo
             };
             apiData.beredskap = {
