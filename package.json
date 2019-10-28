@@ -78,7 +78,7 @@
         "@types/enzyme-adapter-react-16": "^1.0.3",
         "@types/flat": "0.0.28",
         "@types/intl": "^1.2.0",
-        "@types/jest": "^24.0.18",
+        "@types/jest": "^24.0.20",
         "@types/react-intl": "^2.3.18",
         "@types/react": "^16.9.5",
         "@types/react-aria-menubutton": "^6.2.2",
