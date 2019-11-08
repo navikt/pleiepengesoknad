@@ -6,10 +6,15 @@ import StepBanner from '../../step-banner/StepBanner';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { Undertittel } from 'nav-frontend-typografi';
 import './unavailablePage.less';
+import Lenke from 'nav-frontend-lenker';
+import { injectIntl, InjectedIntlProps } from 'react-intl';
 
 const bem = bemUtils('introPage');
 
-const UnavailablePage: React.StatelessComponent<{}> = () => {
+const link =
+    'https://www.nav.no/no/Person/Skjemaer-for-privatpersoner/skjemaveileder/vedlegg?key=333802&languagecode=53&veiledertype=privatperson';
+
+const UnavailablePage: React.StatelessComponent<InjectedIntlProps> = ({ intl }) => {
     const title = 'Søknad om pleiepenger';
     return (
         <Page className={bem.block} title={title} topContentRenderer={() => <StepBanner text={title} />}>
@@ -19,14 +24,19 @@ const UnavailablePage: React.StatelessComponent<{}> = () => {
                         <Undertittel>Pleiepengesøknaden er ikke tilgjengelig akkurat nå</Undertittel>
                     </Box>
                     <p>
-                        Vi har dessverre tekniske problemer med pleiepengesøknaden, så vi må be deg komme tilbake litt
-                        senere.
+                        Den digitale pleiepengesøknaden er dessverre ikke tilgjengelig på grunn av teknisk feil. Vi
+                        jobber med å løse feilen slik at du kan søke digitalt. Frem til vi får fikset dette, kan du
+                        fylle ut vårt {' '}
+                        <strong>
+                            <Lenke href={link}>vanlige skjema for pleiepengesøknad sykt barn</Lenke>
+                        </strong>
+                        .
                     </p>
-                    <p>Vi beklager dette.</p>
+                    <p>Vi beklager.</p>
                 </AlertStripeAdvarsel>
             </Box>
         </Page>
     );
 };
 
-export default UnavailablePage;
+export default injectIntl(UnavailablePage);
