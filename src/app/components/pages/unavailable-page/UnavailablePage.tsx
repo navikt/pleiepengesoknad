@@ -3,10 +3,9 @@ import Page from '../../page/Page';
 import bemUtils from '../../../utils/bemUtils';
 import Box from '../../box/Box';
 import StepBanner from '../../step-banner/StepBanner';
-
-import './unavailablePage.less';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { Undertittel } from 'nav-frontend-typografi';
+import './unavailablePage.less';
 
 const bem = bemUtils('introPage');
 
