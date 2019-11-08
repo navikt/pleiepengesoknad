@@ -23,7 +23,7 @@ const UnavailablePage: React.StatelessComponent<{}> = () => {
                         jobber med å løse feilen slik at du kan søke digitalt. Frem til vi får fikset dette, kan du
                         fylle ut vårt {' '}
                         <strong>
-                            <Lenke href={link}>vanlige skjema for pleiepengesøknad sykt barn</Lenke>
+                            <Lenke href={link}>vanlige skjema for pleiepenger sykt barn</Lenke>
                         </strong>
                         .
                     </p>
