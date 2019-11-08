@@ -21,9 +21,9 @@ const UnavailablePage: React.StatelessComponent<{}> = () => {
                     <p>
                         Den digitale pleiepengesøknaden er dessverre ikke tilgjengelig på grunn av teknisk feil. Vi
                         jobber med å løse feilen slik at du kan søke digitalt. Frem til vi får fikset dette, kan du
-                        fylle ut vårt {' '}
+                        fylle ut vårt{' '}
                         <strong>
-                            <Lenke href={link}>vanlige skjema for pleiepenger sykt barn</Lenke>
+                            <Lenke href={link}>papirskjema for pleiepenger sykt barn</Lenke>
                         </strong>
                         .
                     </p>
