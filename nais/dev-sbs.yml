@@ -48,3 +48,5 @@ spec:
           value: "on"
         - name: TOGGLE_TILSYN
           value: "on"
+        - name: UTILGJENGELIG
+          value: "on"
