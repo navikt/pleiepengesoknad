@@ -19,10 +19,11 @@ const UnavailablePage: React.StatelessComponent<{}> = () => {
                     <Box padBottom="s">
                         <Undertittel>Pleiepengesøknaden er ikke tilgjengelig akkurat nå</Undertittel>
                     </Box>
-                    Vi har dessverre tekniske problemer med pleiepengesøknaden, så vi må be deg komme tilbake litt
-                    senere.
-                    <br />
-                    Vi beklager dette.
+                    <p>
+                        Vi har dessverre tekniske problemer med pleiepengesøknaden, så vi må be deg komme tilbake litt
+                        senere.
+                    </p>
+                    <p>Vi beklager dette.</p>
                 </AlertStripeAdvarsel>
             </Box>
         </Page>
