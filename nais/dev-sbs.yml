@@ -49,4 +49,4 @@ spec:
         - name: TOGGLE_TILSYN
           value: "on"
         - name: UTILGJENGELIG
-          value: "on"
+          value: "off"
