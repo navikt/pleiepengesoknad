@@ -86,7 +86,6 @@ export interface PleiepengesøknadApiData {
     samtidig_hjemme?: boolean;
     har_forstatt_rettigheter_og_plikter: boolean;
     har_bekreftet_opplysninger: boolean;
-    grad?: number;
     tilsynsordning?: TilsynsordningApi;
     nattevaak?: {
         har_nattevaak: boolean;

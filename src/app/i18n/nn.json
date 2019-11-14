@@ -189,7 +189,6 @@
     "steg.oppsummering.barnet.fnr": "Fødselsnummer: {fnr}",
     "steg.oppsummering.barnet.søkersRelasjonTilBarnet": "Din relasjon til barnet: {relasjon}",
 
-    "steg.oppsummering.grad.header": "Grad",
     "steg.oppsummering.dagerPerUkeBorteFraJobb.header": "Antall dagar i veka du skal vera borte frå jobb for å ta hand om barnet",
     "steg.oppsummering.annenSøkerSammePeriode.header": "Er det ein annan som søkjer for same tidsperiode",
     "steg.oppsummering.nattevåk.header": "Nattvåk",

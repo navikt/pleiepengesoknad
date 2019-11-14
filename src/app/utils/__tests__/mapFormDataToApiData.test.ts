@@ -176,80 +176,55 @@ describe('mapFormDataToApiData', () => {
     });
 });
 
-describe('mapFormDataToApiData and TOGGLE_FJERN_GRAD feature', () => {
-    const formData = { ...formDataMock, [Field.grad]: 100 };
-    describe('TOGGLE_FJERN_GRAD is off', () => {
-        beforeAll(() => {
-            (isFeatureEnabled as any).mockImplementation(() => false);
-        });
-        it('should include grad', () => {
-            const resultingApiData = mapFormDataToApiData(formData as PleiepengesøknadFormData, barnMock, 'nb');
-            expect(resultingApiData.grad).toBeDefined();
-        });
-        it('should not include dagerBorteFraJobb', () => {
-            const data: PleiepengesøknadFormData = { ...(formData as PleiepengesøknadFormData) };
-            const resultingApiData = mapFormDataToApiData(data, barnMock, 'nb');
-            expect(resultingApiData.samtidig_hjemme).toBeUndefined();
-        });
-        it('should not include prosentAvVanligUke if feature is off', () => {
-            const resultApiData = mapFormDataToApiData(formDataMock as PleiepengesøknadFormData, barnMock, 'nb');
-            expect(resultApiData.arbeidsgivere.organisasjoner).toEqual(formDataMock[Field.ansettelsesforhold]);
-        });
+describe('mapFormDataToApiData', () => {
+    const formData = { ...formDataMock };
+
+    const formDataFeatureOn: PleiepengesøknadFormData = {
+        ...(formData as PleiepengesøknadFormData),
+        [Field.harMedsøker]: YesOrNo.YES,
+        ansettelsesforhold: [telenorRedusertJobbing, maxboIngenJobbing]
+    };
+    beforeAll(() => {
+        (isFeatureEnabled as any).mockImplementation(() => true);
+    });
+    it('should not include dagerBorteFraJobb if harMedsoker is no', () => {
+        const resultingApiData = mapFormDataToApiData(
+            { ...formDataFeatureOn, harMedsøker: YesOrNo.NO },
+            barnMock,
+            'nb'
+        );
+        expect(resultingApiData.samtidig_hjemme).toBeUndefined();
     });
 
-    describe('TOGGLE_FJERN_GRAD is on', () => {
-        const formDataFeatureOn: PleiepengesøknadFormData = {
-            ...(formData as PleiepengesøknadFormData),
-            [Field.harMedsøker]: YesOrNo.YES,
-            [Field.dagerPerUkeBorteFraJobb]: 2,
-            ansettelsesforhold: [telenorRedusertJobbing, maxboIngenJobbing]
+    it('should include dagerBorteFraJobb if harMedsoker is yes', () => {
+        const dataHarMedsøker = { ...formDataFeatureOn, harMedsøker: YesOrNo.YES };
+        const resultingApiData = mapFormDataToApiData(dataHarMedsøker, barnMock, 'nb');
+        expect(resultingApiData.samtidig_hjemme).toBeDefined();
+    });
+
+    it('should include prosentAvVanligUke when skalJobbe is redusert', () => {
+        const resultApiData = mapFormDataToApiData(
+            { ...formDataFeatureOn, ansettelsesforhold: [telenorRedusertJobbing] },
+            barnMock,
+            'nb'
+        );
+        const result: AnsettelsesforholdApiRedusert = {
+            ...ansettelsesforholdTelenor,
+            jobber_normalt_timer: 20,
+            skal_jobbe: 'redusert',
+            skal_jobbe_prosent: 50
         };
-        beforeAll(() => {
-            (isFeatureEnabled as any).mockImplementation(() => true);
-        });
-        it('should not include grad', () => {
-            const resultingApiData = mapFormDataToApiData(formDataFeatureOn, barnMock, 'nb');
-            expect(resultingApiData.grad).toBeUndefined();
-        });
-        it('should not include dagerBorteFraJobb if harMedsoker is no', () => {
-            const resultingApiData = mapFormDataToApiData(
-                { ...formDataFeatureOn, harMedsøker: YesOrNo.NO },
-                barnMock,
-                'nb'
-            );
-            expect(resultingApiData.samtidig_hjemme).toBeUndefined();
-        });
-
-        it('should include dagerBorteFraJobb if harMedsoker is yes', () => {
-            const dataHarMedsøker = { ...formDataFeatureOn, harMedsøker: YesOrNo.YES };
-            const resultingApiData = mapFormDataToApiData(dataHarMedsøker, barnMock, 'nb');
-            expect(resultingApiData.samtidig_hjemme).toBeDefined();
-        });
-
-        it('should include prosentAvVanligUke when skalJobbe is redusert', () => {
-            const resultApiData = mapFormDataToApiData(
-                { ...formDataFeatureOn, ansettelsesforhold: [telenorRedusertJobbing] },
-                barnMock,
-                'nb'
-            );
-            const result: AnsettelsesforholdApiRedusert = {
-                ...ansettelsesforholdTelenor,
-                jobber_normalt_timer: 20,
-                skal_jobbe: 'redusert',
-                skal_jobbe_prosent: 50
-            };
-            expect(resultApiData.arbeidsgivere.organisasjoner).toEqual([result]);
-        });
-        it('should include prosentAvVanligUke when skalJobbe is nei', () => {
-            const {
-                arbeidsgivere: { organisasjoner }
-            } = mapFormDataToApiData({ ...formDataFeatureOn, ansettelsesforhold: [maxboIngenJobbing] }, barnMock, 'nb');
-            const result: AnsettelsesforholdApiNei = {
-                ...ansettelsesforholdMaxbo,
-                skal_jobbe: 'nei',
-                skal_jobbe_prosent: 0
-            };
-            expect(organisasjoner).toEqual([result]);
-        });
+        expect(resultApiData.arbeidsgivere.organisasjoner).toEqual([result]);
+    });
+    it('should include prosentAvVanligUke when skalJobbe is nei', () => {
+        const {
+            arbeidsgivere: { organisasjoner }
+        } = mapFormDataToApiData({ ...formDataFeatureOn, ansettelsesforhold: [maxboIngenJobbing] }, barnMock, 'nb');
+        const result: AnsettelsesforholdApiNei = {
+            ...ansettelsesforholdMaxbo,
+            skal_jobbe: 'nei',
+            skal_jobbe_prosent: 0
+        };
+        expect(organisasjoner).toEqual([result]);
     });
 });

@@ -40,7 +40,6 @@ export const mapFormDataToApiData = (
         skalBoUtenforNorgeNeste12Mnd,
         harMedsøker,
         samtidigHjemme,
-        grad,
         tilsynsordning,
         harBeredskap,
         harBeredskap_ekstrainfo,
