@@ -17,7 +17,6 @@ import {
 } from '../types/PleiepengesøknadApiData';
 import { attachmentUploadHasFailed } from './attachmentUtils';
 import { YesOrNo } from '../types/YesOrNo';
-import { Feature, isFeatureEnabled } from './featureToggleUtils';
 import { formatName } from './personUtils';
 import { BarnReceivedFromApi } from '../types/Søkerdata';
 import { Locale } from 'app/types/Locale';
@@ -42,7 +41,6 @@ export const mapFormDataToApiData = (
         harMedsøker,
         samtidigHjemme,
         grad,
-        dagerPerUkeBorteFraJobb,
         tilsynsordning,
         harBeredskap,
         harBeredskap_ekstrainfo,
@@ -87,15 +85,9 @@ export const mapFormDataToApiData = (
         har_forstatt_rettigheter_og_plikter: harForståttRettigheterOgPlikter
     };
 
-    if (isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === false && grad !== undefined) {
-        apiData.grad = +grad;
-    }
+    apiData.samtidig_hjemme = samtidigHjemme === YesOrNo.YES;
 
-    if (isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === true && apiData.har_medsoker === true) {
-        apiData.samtidig_hjemme = samtidigHjemme === YesOrNo.YES;
-    }
-
-    if (isFeatureEnabled(Feature.TOGGLE_TILSYN) === true && tilsynsordning) {
+    if (tilsynsordning !== undefined) {
         apiData.tilsynsordning = mapTilsynsordningToApiData(tilsynsordning);
         if (
             tilsynsordning.skalBarnHaTilsyn === YesOrNo.YES ||
@@ -128,10 +120,6 @@ const mapAnsettelsesforholdTilApiData = (ansettelsesforhold: AnsettelsesforholdF
     } = ansettelsesforhold;
 
     const orgInfo = { navn, organisasjonsnummer };
-    if (isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === false) {
-        return orgInfo;
-    }
-
     if (skalJobbe === AnsettelsesforholdSkalJobbeSvar.redusert) {
         if (jobberNormaltTimer === undefined) {
             throw new Error('invalid data: missing jobberNormaltTimer');

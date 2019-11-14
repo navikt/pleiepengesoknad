@@ -14,7 +14,6 @@ import { InjectedIntlProps, FormattedMessage, injectIntl } from 'react-intl';
 import intlHelper from 'app/utils/intlUtils';
 import GradertAnsettelsesforhold from '../../gradert-ansettelsesforhold/GradertAnsettelsesforhold';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
-import { isFeatureEnabled, Feature } from '../../../utils/featureToggleUtils';
 import CounsellorPanel from '../../counsellor-panel/CounsellorPanel';
 
 type Props = CommonStepFormikProps & HistoryProps & InjectedIntlProps & StepConfigProps;
@@ -57,12 +56,7 @@ const OpplysningerOmAnsettelsesforholdStep = ({ history, intl, nextStepRoute, ..
             </SøkerdataContextConsumer>
             <Box margin="xl" padBottom="m">
                 <AlertStripe type="info">
-                    {isFeatureEnabled(Feature.TOGGLE_TILSYN) && (
-                        <FormattedMessage id="steg.ansettelsesforhold.gradert.manglesOpplysninger" />
-                    )}
-                    {!isFeatureEnabled(Feature.TOGGLE_TILSYN) && (
-                        <FormattedMessage id="steg.ansettelsesforhold.manglesOpplysninger" />
-                    )}
+                    <FormattedMessage id="steg.ansettelsesforhold.gradert.manglesOpplysninger" />
                 </AlertStripe>
             </Box>
         </FormikStep>

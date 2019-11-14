@@ -20,7 +20,6 @@ import routeConfig from '../../../config/routeConfig';
 import CounsellorPanel from '../../counsellor-panel/CounsellorPanel';
 import * as apiUtils from '../../../utils/apiUtils';
 import ContentSwitcher from '../../content-switcher/ContentSwitcher';
-import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
 import intlHelper from 'app/utils/intlUtils';
 import { Locale } from 'app/types/Locale';
@@ -198,15 +197,7 @@ class SummaryStep extends React.Component<Props, State> {
                                             />
                                         </ContentWithHeader>
                                     </Box>
-                                    {isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === false && (
-                                        <Box margin="l">
-                                            <ContentWithHeader
-                                                header={intlHelper(intl, 'steg.oppsummering.grad.header')}>
-                                                {apiValues.grad}%
-                                            </ContentWithHeader>
-                                        </Box>
-                                    )}
-                                    {isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) === true && apiValues.har_medsoker && (
+                                    {apiValues.har_medsoker && (
                                         <Box margin="l">
                                             <ContentWithHeader
                                                 header={intlHelper(intl, 'steg.oppsummering.samtidigHjemme.header')}>
@@ -230,83 +221,60 @@ class SummaryStep extends React.Component<Props, State> {
                                         <ContentWithHeader
                                             header={intlHelper(intl, 'steg.oppsummering.ansettelsesforhold.header')}>
                                             {apiValues.arbeidsgivere.organisasjoner.length > 0 ? (
-                                                apiValues.arbeidsgivere.organisasjoner.map((forhold) =>
-                                                    isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) ? (
-                                                        <GradertAnsettelsesforholdSummary
-                                                            key={forhold.organisasjonsnummer}
-                                                            ansettelsesforhold={forhold}
-                                                        />
-                                                    ) : (
-                                                        <Normaltekst key={forhold.organisasjonsnummer}>
-                                                            <FormattedMessage
-                                                                id="steg.oppsummering.ansettelsesforhold.forhold"
-                                                                values={{
-                                                                    navn: forhold.navn,
-                                                                    organisasjonsnummer: forhold.organisasjonsnummer
-                                                                }}
-                                                            />
-                                                        </Normaltekst>
-                                                    )
-                                                )
+                                                apiValues.arbeidsgivere.organisasjoner.map((forhold) => (
+                                                    <GradertAnsettelsesforholdSummary
+                                                        key={forhold.organisasjonsnummer}
+                                                        ansettelsesforhold={forhold}
+                                                    />
+                                                ))
                                             ) : (
                                                 <FormattedMessage id="steg.oppsummering.ansettelsesforhold.ingenAnsettelsesforhold" />
                                             )}
                                         </ContentWithHeader>
                                     </Box>
-                                    {isFeatureEnabled(Feature.TOGGLE_TILSYN) === true && (
+
+                                    {tilsynsordning && <TilsynsordningSummary tilsynsordning={tilsynsordning} />}
+                                    {nattevaak && (
                                         <>
-                                            {tilsynsordning && (
-                                                <TilsynsordningSummary tilsynsordning={tilsynsordning} />
-                                            )}
-                                            {nattevaak && (
-                                                <>
-                                                    <Box margin="l">
-                                                        <ContentWithHeader
-                                                            header={intlHelper(
-                                                                intl,
-                                                                'steg.oppsummering.nattevåk.header'
-                                                            )}>
-                                                            {nattevaak.har_nattevaak === true && intlHelper(intl, 'Ja')}
-                                                            {nattevaak.har_nattevaak === false &&
-                                                                intlHelper(intl, 'Nei')}
-                                                        </ContentWithHeader>
-                                                    </Box>
-                                                    <Box margin="l">
-                                                        <ContentWithHeader
-                                                            header={intlHelper(
-                                                                intl,
-                                                                'steg.oppsummering.nattevåk.borteFraJobb.header'
-                                                            )}>
-                                                            {nattevaak.borte_fra_jobb === true && (
-                                                                <>
-                                                                    <div>{intlHelper(intl, 'Ja')}</div>
-                                                                    {nattevaak.tilleggsinformasjon && (
-                                                                        <TextareaSummary
-                                                                            text={nattevaak.tilleggsinformasjon}
-                                                                        />
-                                                                    )}
-                                                                </>
+                                            <Box margin="l">
+                                                <ContentWithHeader
+                                                    header={intlHelper(intl, 'steg.oppsummering.nattevåk.header')}>
+                                                    {nattevaak.har_nattevaak === true && intlHelper(intl, 'Ja')}
+                                                    {nattevaak.har_nattevaak === false && intlHelper(intl, 'Nei')}
+                                                </ContentWithHeader>
+                                            </Box>
+                                            <Box margin="l">
+                                                <ContentWithHeader
+                                                    header={intlHelper(
+                                                        intl,
+                                                        'steg.oppsummering.nattevåk.borteFraJobb.header'
+                                                    )}>
+                                                    {nattevaak.borte_fra_jobb === true && (
+                                                        <>
+                                                            <div>{intlHelper(intl, 'Ja')}</div>
+                                                            {nattevaak.tilleggsinformasjon && (
+                                                                <TextareaSummary text={nattevaak.tilleggsinformasjon} />
                                                             )}
-                                                            {nattevaak.borte_fra_jobb === false &&
-                                                                intlHelper(intl, 'Nei')}
-                                                        </ContentWithHeader>
-                                                    </Box>
-                                                </>
-                                            )}
-                                            {beredskap && (
-                                                <Box margin="l">
-                                                    <ContentWithHeader
-                                                        header={intlHelper(intl, 'steg.oppsummering.beredskap.header')}>
-                                                        {beredskap.i_beredskap === true && intlHelper(intl, 'Ja')}
-                                                        {beredskap.i_beredskap === false && intlHelper(intl, 'Nei')}
-                                                        {beredskap.tilleggsinformasjon && (
-                                                            <TextareaSummary text={beredskap.tilleggsinformasjon} />
-                                                        )}
-                                                    </ContentWithHeader>
-                                                </Box>
-                                            )}
+                                                        </>
+                                                    )}
+                                                    {nattevaak.borte_fra_jobb === false && intlHelper(intl, 'Nei')}
+                                                </ContentWithHeader>
+                                            </Box>
                                         </>
                                     )}
+                                    {beredskap && (
+                                        <Box margin="l">
+                                            <ContentWithHeader
+                                                header={intlHelper(intl, 'steg.oppsummering.beredskap.header')}>
+                                                {beredskap.i_beredskap === true && intlHelper(intl, 'Ja')}
+                                                {beredskap.i_beredskap === false && intlHelper(intl, 'Nei')}
+                                                {beredskap.tilleggsinformasjon && (
+                                                    <TextareaSummary text={beredskap.tilleggsinformasjon} />
+                                                )}
+                                            </ContentWithHeader>
+                                        </Box>
+                                    )}
+
                                     <Box margin="l">
                                         <ContentWithHeader
                                             header={intlHelper(intl, 'steg.oppsummering.utlandetSiste12.header')}>
@@ -316,6 +284,7 @@ class SummaryStep extends React.Component<Props, State> {
                                                 intlHelper(intl, 'Nei')}
                                         </ContentWithHeader>
                                     </Box>
+
                                     <Box margin="l">
                                         <ContentWithHeader
                                             header={intlHelper(intl, 'steg.oppsummering.utlandetNeste12.header')}>

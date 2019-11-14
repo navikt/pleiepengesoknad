@@ -12,7 +12,6 @@ import { FormattedMessage, InjectedIntlProps, injectIntl, FormattedHTMLMessage }
 import intlHelper from 'app/utils/intlUtils';
 import getLenker from '../../../lenker';
 import './introPage.less';
-import { isFeatureEnabled, Feature } from '../../../utils/featureToggleUtils';
 
 const bem = bemUtils('introPage');
 
@@ -20,8 +19,7 @@ const IntroPage: React.StatelessComponent<InjectedIntlProps> = ({ intl }) => {
     const [erSelvstendigNæringsdrivendeEllerFrilanser, setErSelvstendigNæringsdrivendeEllerFrilanser] = React.useState(
         YesOrNo.UNANSWERED
     );
-    const [skalGraderePleiepenger, setSkalGraderePleiepenger] = React.useState(YesOrNo.UNANSWERED);
-    const withoutTilsynTextKey = isFeatureEnabled(Feature.TOGGLE_TILSYN) === true ? '.utenTilsyn' : '';
+    const withoutTilsynTextKey = '.utenTilsyn';
 
     return (
         <Page
@@ -41,17 +39,6 @@ const IntroPage: React.StatelessComponent<InjectedIntlProps> = ({ intl }) => {
                     onChange={(value) => setErSelvstendigNæringsdrivendeEllerFrilanser(value)}
                 />
             </Box>
-            {isFeatureEnabled(Feature.TOGGLE_TILSYN) === false &&
-                erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.NO && (
-                    <Box margin="xl">
-                        <YesOrNoQuestion
-                            legend={intlHelper(intl, 'introPage.spm.barnehageEllerSkole')}
-                            name="planleggerDuÅGraderePleiepenger"
-                            checked={skalGraderePleiepenger}
-                            onChange={(value) => setSkalGraderePleiepenger(value)}
-                        />
-                    </Box>
-                )}
             <Box margin="xl" textAlignCenter={true}>
                 {erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.YES && (
                     <CounsellorPanel>
@@ -64,21 +51,7 @@ const IntroPage: React.StatelessComponent<InjectedIntlProps> = ({ intl }) => {
                         />
                     </CounsellorPanel>
                 )}
-
-                {erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.NO && skalGraderePleiepenger === YesOrNo.YES && (
-                    <CounsellorPanel>
-                        <FormattedMessage id="introPage.veileder.skalIBarnehageEllerSkole" />{' '}
-                        <FormattedHTMLMessage
-                            id="introPage.veileder.papirLenke.html"
-                            values={{ url: getLenker(intl.locale).papirskjemaPrivat }}
-                        />
-                    </CounsellorPanel>
-                )}
-
-                {erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.NO &&
-                    (skalGraderePleiepenger === YesOrNo.NO || isFeatureEnabled(Feature.TOGGLE_TILSYN) === true) && (
-                        <GoToApplicationLink />
-                    )}
+                {erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.NO && <GoToApplicationLink />}
             </Box>
         </Page>
     );

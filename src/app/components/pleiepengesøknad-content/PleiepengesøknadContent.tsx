@@ -7,13 +7,11 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
 import RouteConfig from '../../config/routeConfig';
 import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromStep';
-import OpplysningerOmAnsettelsesforholdStep from '../steps/ansettelsesforhold/OpplysningerOmAnsettelsesforholdStep';
 import MedlemsskapStep from '../steps/medlemskap/MedlemsskapStep';
 import LegeerklæringStep from '../steps/legeerklæring/LegeerklæringStep';
 import SummaryStep from '../steps/summary/SummaryStep';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
-import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 import OpplysningerOmAnsettelsesforholdGradertStep from '../steps/ansettelsesforhold/OpplysningerOmAnsettelsesforholdGradertStep';
 import TilsynsordningStep from '../steps/tilsynsordning/TilsynsordningStep';
 import NattevåkStep from '../steps/nattevåkStep/NattevåkStep';
@@ -77,21 +75,13 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
             {isAvailable(StepID.ANSETTELSESFORHOLD, values) && (
                 <Route
                     path={getSøknadRoute(StepID.ANSETTELSESFORHOLD)}
-                    render={(props) => {
-                        return isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) ? (
-                            <OpplysningerOmAnsettelsesforholdGradertStep
-                                {...commonFormikProps}
-                                {...props}
-                                nextStepRoute={getNextStepRoute(StepID.ANSETTELSESFORHOLD, values)}
-                            />
-                        ) : (
-                            <OpplysningerOmAnsettelsesforholdStep
-                                {...commonFormikProps}
-                                {...props}
-                                nextStepRoute={getNextStepRoute(StepID.ANSETTELSESFORHOLD, values)}
-                            />
-                        );
-                    }}
+                    render={(props) => (
+                        <OpplysningerOmAnsettelsesforholdGradertStep
+                            {...commonFormikProps}
+                            {...props}
+                            nextStepRoute={getNextStepRoute(StepID.ANSETTELSESFORHOLD, values)}
+                        />
+                    )}
                 />
             )}
 
