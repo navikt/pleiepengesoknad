@@ -39,7 +39,7 @@ spec:
         enabled: false
     env:
         - name: APPRES_CMS_URL
-          value: http://appres-q1.nav.no
+          value: http://appres.nav.no
         - name: API_URL
           value: https://pleiepengesoknad-api-q.nav.no
         - name: LOGIN_URL
@@ -48,3 +48,5 @@ spec:
           value: "on"
         - name: TOGGLE_TILSYN
           value: "on"
+        - name: UTILGJENGELIG
+          value: "off"

@@ -50,4 +50,6 @@ spec:
           value: "on"
         - name: TOGGLE_FJERN_GRAD
           value: "off"
+        - name: UTILGJENGELIG
+          value: "off"
 

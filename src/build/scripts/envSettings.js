@@ -9,7 +9,8 @@ function createEnvSettingsFile(settingsFile) {
                 LOGIN_URL: '${process.env.LOGIN_URL}',
                 TOGGLE_FJERN_GRAD: '${process.env.TOGGLE_FJERN_GRAD}',
                 TOGGLE_TILSYN: '${process.env.TOGGLE_TILSYN}',
-                DEMO_MODE: '${process.env.DEMO_MODE}'
+                DEMO_MODE: '${process.env.DEMO_MODE}',
+                UTILGJENGELIG: '${process.env.UTILGJENGELIG}'
             };`
         );
     });

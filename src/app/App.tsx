@@ -10,6 +10,8 @@ import { Locale } from './types/Locale';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
 import './styles/globalStyles.less';
 import { appIsRunningInDemoMode } from './utils/envUtils';
+import { isFeatureEnabled, Feature } from './utils/featureToggleUtils';
+import UnavailablePage from './components/pages/unavailable-page/UnavailablePage';
 
 const localeFromSessionStorage = getLocaleFromSessionStorage();
 
@@ -24,10 +26,16 @@ const App: React.FunctionComponent = () => {
             }}>
             {appIsRunningInDemoMode() && <Pleiepengesøknad />}
             {appIsRunningInDemoMode() === false && (
-                <Switch>
-                    <Route path={RouteConfig.SØKNAD_ROUTE_PREFIX} component={Pleiepengesøknad} />
-                    <Route path="/" component={IntroPage} />
-                </Switch>
+                <>
+                    {isFeatureEnabled(Feature.UTILGJENGELIG) ? (
+                        <UnavailablePage />
+                    ) : (
+                        <Switch>
+                            <Route path={RouteConfig.SØKNAD_ROUTE_PREFIX} component={Pleiepengesøknad} />
+                            <Route path="/" component={IntroPage} />
+                        </Switch>
+                    )}
+                </>
             )}
         </ApplicationWrapper>
     );
