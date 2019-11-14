@@ -13,10 +13,11 @@ export interface BarnToSendToApi {
 export interface AnsettelsesforholdApi {
     navn: string;
     organisasjonsnummer?: string;
-    skal_jobbe?: 'ja' | 'nei' | 'redusert';
+    skal_jobbe?: 'ja' | 'nei' | 'redusert' | 'vet_ikke';
     jobber_normalt_timer?: number;
     skal_jobbe_timer?: number;
     skal_jobbe_prosent?: number;
+    vet_ikke_ekstrainfo?: string;
 }
 export type AnsettelsesforholdApiNei = Pick<
     AnsettelsesforholdApi,
@@ -25,6 +26,11 @@ export type AnsettelsesforholdApiNei = Pick<
 export type AnsettelsesforholdApiRedusert = Pick<
     AnsettelsesforholdApi,
     'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'skal_jobbe_prosent' | 'jobber_normalt_timer' | 'skal_jobbe_timer'
+>;
+
+export type AnsettelsesforholdApiVetIkke = Pick<
+    AnsettelsesforholdApi,
+    'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'jobber_normalt_timer' | 'vet_ikke_ekstrainfo'
 >;
 
 export type AnsettelsesforholdApiSomVanlig = Pick<

@@ -5,7 +5,8 @@ import { Time } from './Time';
 export enum AnsettelsesforholdSkalJobbeSvar {
     'ja' = 'ja',
     'nei' = 'nei',
-    'redusert' = 'redusert'
+    'redusert' = 'redusert',
+    'vetIkke' = 'vetIkke'
 }
 
 export interface Tilsynsuke {
@@ -65,6 +66,7 @@ export enum AnsettelsesforholdField {
     skalJobbe = 'skalJobbe',
     timerEllerProsent = 'timerEllerProsent',
     jobberNormaltTimer = 'jobberNormaltTimer',
+    vetIkkeEkstrainfo = 'vetIkkeEkstrainfo',
     skalJobbeTimer = 'skalJobbeTimer',
     skalJobbeProsent = 'skalJobbeProsent'
 }
@@ -73,6 +75,7 @@ export interface AnsettelsesforholdForm extends Ansettelsesforhold {
     [AnsettelsesforholdField.skalJobbe]?: AnsettelsesforholdSkalJobbeSvar;
     [AnsettelsesforholdField.timerEllerProsent]?: 'timer' | 'prosent';
     [AnsettelsesforholdField.jobberNormaltTimer]?: number;
+    [AnsettelsesforholdField.vetIkkeEkstrainfo]?: string;
     [AnsettelsesforholdField.skalJobbeTimer]?: number;
     [AnsettelsesforholdField.skalJobbeProsent]?: number;
 }

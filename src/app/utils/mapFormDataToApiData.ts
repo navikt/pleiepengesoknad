@@ -13,7 +13,8 @@ import {
     TilsynsordningApi,
     AnsettelsesforholdApiNei,
     AnsettelsesforholdApiRedusert,
-    AnsettelsesforholdApiSomVanlig
+    AnsettelsesforholdApiSomVanlig,
+    AnsettelsesforholdApiVetIkke
 } from '../types/PleiepengesøknadApiData';
 import { attachmentUploadHasFailed } from './attachmentUtils';
 import { YesOrNo } from '../types/YesOrNo';
@@ -112,6 +113,7 @@ const mapAnsettelsesforholdTilApiData = (ansettelsesforhold: AnsettelsesforholdF
         skalJobbe,
         timerEllerProsent,
         jobberNormaltTimer,
+        vetIkkeEkstrainfo,
         skalJobbeTimer,
         skalJobbeProsent,
         navn,
@@ -137,6 +139,18 @@ const mapAnsettelsesforholdTilApiData = (ansettelsesforhold: AnsettelsesforholdF
                   })
         };
         return redusertForhold;
+    }
+    if (skalJobbe === AnsettelsesforholdSkalJobbeSvar.vetIkke) {
+        if (jobberNormaltTimer === undefined) {
+            throw new Error('invalid data: missing jobberNormaltTimer');
+        }
+        const vetIkkeForhold: AnsettelsesforholdApiVetIkke = {
+            ...orgInfo,
+            skal_jobbe: 'vet_ikke',
+            jobber_normalt_timer: jobberNormaltTimer,
+            vet_ikke_ekstrainfo: vetIkkeEkstrainfo
+        };
+        return vetIkkeForhold;
     }
     if (skalJobbe === AnsettelsesforholdSkalJobbeSvar.nei) {
         const forhold: AnsettelsesforholdApiNei = {
