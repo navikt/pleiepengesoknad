@@ -42,7 +42,7 @@
         "nav-datovelger": "^4.3.0",
         "nav-frontend-alertstriper": "^3.0.6",
         "nav-frontend-chevron": "^1.0.10",
-        "nav-frontend-core": "^4.0.1",
+        "nav-frontend-core": "^4.0.11",
         "nav-frontend-ikoner-assets": "^1.0.2",
         "nav-frontend-js-utils": "^1.0.8",
         "nav-frontend-knapper": "^1.0.36",
@@ -65,7 +65,7 @@
         "react-modal": "^3.11.1",
         "react-router-dom": "^5.1.2",
         "react-simple-timefield": "^3.0.0",
-        "snyk": "^1.240.3"
+        "snyk": "^1.248.0"
     },
     "devDependencies": {
         "@babel/core": "^7.7.2",
