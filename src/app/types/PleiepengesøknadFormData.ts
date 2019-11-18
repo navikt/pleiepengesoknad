@@ -127,7 +127,6 @@ export const initialValues: PleiepengesøknadFormData = {
     [Field.harMedsøker]: YesOrNo.UNANSWERED,
     [Field.samtidigHjemme]: YesOrNo.UNANSWERED,
     [Field.tilsynsordning]: undefined,
-    [Field.harNattevåk_borteFraJobb]: YesOrNo.UNANSWERED,
     [Field.harNattevåk]: YesOrNo.UNANSWERED,
     [Field.harBeredskap]: YesOrNo.UNANSWERED
 };

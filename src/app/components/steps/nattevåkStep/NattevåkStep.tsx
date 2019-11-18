@@ -28,7 +28,7 @@ const NattevåkStep: React.FunctionComponent<Props> = ({
     ...stepProps
 }) => {
     const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
-    const { harNattevåk, harNattevåk_borteFraJobb } = values;
+    const { harNattevåk } = values;
     return (
         <FormikStep
             id={StepID.NATTEVÅK}
@@ -42,23 +42,14 @@ const NattevåkStep: React.FunctionComponent<Props> = ({
                 validate={validateYesOrNoIsAnswered}
             />
             {harNattevåk === YesOrNo.YES && (
-                <>
-                    <YesOrNoQuestion
-                        legend={intlHelper(intl, 'steg.nattevåk.borteFraJobb.spm')}
-                        name={Field.harNattevåk_borteFraJobb}
-                        validate={validateYesOrNoIsAnswered}
+                <Box margin="xl">
+                    <Textarea
+                        name={Field.harNattevåk_ekstrainfo}
+                        label={intlHelper(intl, 'steg.nattevåk.tilleggsinfo.spm')}
+                        maxLength={1000}
+                        validate={validateRequiredField}
                     />
-                    {harNattevåk_borteFraJobb === YesOrNo.YES && (
-                        <Box margin="xl">
-                            <Textarea
-                                name={Field.harNattevåk_ekstrainfo}
-                                label={intlHelper(intl, 'steg.nattevåk.tilleggsinfo.spm')}
-                                maxLength={1000}
-                                validate={validateRequiredField}
-                            />
-                        </Box>
-                    )}
-                </>
+                </Box>
             )}
         </FormikStep>
     );
