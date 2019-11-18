@@ -8,7 +8,8 @@ import { mapFormDataToApiData } from '../mapFormDataToApiData';
 import {
     PleiepengesøknadApiData,
     AnsettelsesforholdApiNei,
-    AnsettelsesforholdApiRedusert
+    AnsettelsesforholdApiRedusert,
+    AnsettelsesforholdApiVetIkke
 } from '../../types/PleiepengesøknadApiData';
 import * as dateUtils from './../dateUtils';
 import * as attachmentUtils from './../attachmentUtils';
@@ -52,6 +53,13 @@ const maxboIngenJobbing = {
     skalJobbe: AnsettelsesforholdSkalJobbeSvar.nei,
     jobberNormaltTimer: 20,
     skalJobbeProsent: 0
+};
+
+const maxboVetIkke = {
+    ...ansettelsesforholdMaxbo,
+    skalJobbe: AnsettelsesforholdSkalJobbeSvar.vetIkke,
+    jobberNormaltTimer: 20,
+    vetIkkeEkstrainfo: 'ekstrainfo'
 };
 
 type AttachmentMock = Attachment & { failed: boolean };
@@ -99,10 +107,6 @@ describe('mapFormDataToApiData', () => {
 
     it("should set 'relasjon_til_barnet' in api data correctly", () => {
         expect(resultingApiData.relasjon_til_barnet).toEqual(formDataMock[Field.søkersRelasjonTilBarnet]);
-    });
-
-    it("should set 'arbeidsgivere.organisasjoner' in api data correctly", () => {
-        expect(resultingApiData.arbeidsgivere.organisasjoner).toEqual(formDataMock[Field.ansettelsesforhold]);
     });
 
     it("should set 'medlemskap.skal_bo_i_utlandet_neste_12_mnd' in api data correctly", () => {
@@ -187,7 +191,7 @@ describe('mapFormDataToApiData', () => {
     beforeAll(() => {
         (isFeatureEnabled as any).mockImplementation(() => true);
     });
-    it('should not include dagerBorteFraJobb if harMedsoker is no', () => {
+    it('should not include samtidig_hjemme if harMedsøker is no', () => {
         const resultingApiData = mapFormDataToApiData(
             { ...formDataFeatureOn, harMedsøker: YesOrNo.NO },
             barnMock,
@@ -196,7 +200,7 @@ describe('mapFormDataToApiData', () => {
         expect(resultingApiData.samtidig_hjemme).toBeUndefined();
     });
 
-    it('should include dagerBorteFraJobb if harMedsoker is yes', () => {
+    it('should include samtidig_hjemme if harMedsøker is yes', () => {
         const dataHarMedsøker = { ...formDataFeatureOn, harMedsøker: YesOrNo.YES };
         const resultingApiData = mapFormDataToApiData(dataHarMedsøker, barnMock, 'nb');
         expect(resultingApiData.samtidig_hjemme).toBeDefined();
@@ -226,5 +230,19 @@ describe('mapFormDataToApiData', () => {
             skal_jobbe_prosent: 0
         };
         expect(organisasjoner).toEqual([result]);
+    });
+    it('should include correct ansettelsesdata when skalJobbe is vet_ikke', () => {
+        const {
+            arbeidsgivere: { organisasjoner }
+        } = mapFormDataToApiData({ ...formDataFeatureOn, ansettelsesforhold: [maxboVetIkke] }, barnMock, 'nb');
+        const result: AnsettelsesforholdApiVetIkke = {
+            ...ansettelsesforholdMaxbo,
+            jobber_normalt_timer: 20,
+            skal_jobbe: 'vet_ikke',
+            vet_ikke_ekstrainfo: 'ekstrainfo'
+        };
+        expect(organisasjoner).toEqual([result]);
+        expect(organisasjoner[0].skal_jobbe_timer).toBeUndefined();
+        expect(organisasjoner[0].skal_jobbe_prosent).toBeUndefined();
     });
 });

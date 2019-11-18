@@ -84,7 +84,7 @@ export const mapFormDataToApiData = (
         har_forstatt_rettigheter_og_plikter: harForståttRettigheterOgPlikter
     };
 
-    apiData.samtidig_hjemme = samtidigHjemme === YesOrNo.YES;
+    apiData.samtidig_hjemme = harMedsøker === YesOrNo.YES ? samtidigHjemme === YesOrNo.YES : undefined;
 
     if (tilsynsordning !== undefined) {
         apiData.tilsynsordning = mapTilsynsordningToApiData(tilsynsordning);
