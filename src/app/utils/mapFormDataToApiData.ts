@@ -45,7 +45,6 @@ export const mapFormDataToApiData = (
         harBeredskap,
         harBeredskap_ekstrainfo,
         harNattevåk,
-        harNattevåk_borteFraJobb,
         harNattevåk_ekstrainfo
     }: PleiepengesøknadFormData,
     barn: BarnReceivedFromApi[],
@@ -95,7 +94,6 @@ export const mapFormDataToApiData = (
         ) {
             apiData.nattevaak = {
                 har_nattevaak: harNattevåk === YesOrNo.YES,
-                borte_fra_jobb: harNattevåk_borteFraJobb === YesOrNo.YES,
                 tilleggsinformasjon: harNattevåk_ekstrainfo
             };
             apiData.beredskap = {

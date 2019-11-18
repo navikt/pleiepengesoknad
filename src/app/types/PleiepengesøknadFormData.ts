@@ -49,7 +49,6 @@ export enum Field {
     harMedsøker = 'harMedsøker',
     samtidigHjemme = 'samtidigHjemme',
     harNattevåk = 'harNattevåk',
-    harNattevåk_borteFraJobb = 'harNattevåk_borteFraJobb',
     harNattevåk_ekstrainfo = 'harNattevåk_ekstrainfo',
     harBeredskap = 'harBeredskap',
     harBeredskap_ekstrainfo = 'harBeredskap_ekstrainfo',
@@ -106,7 +105,6 @@ export interface PleiepengesøknadFormData {
     [Field.samtidigHjemme]: YesOrNo;
     [Field.tilsynsordning]?: Tilsynsordning;
     [Field.harNattevåk]: YesOrNo;
-    [Field.harNattevåk_borteFraJobb]: YesOrNo;
     [Field.harNattevåk_ekstrainfo]?: string;
     [Field.harBeredskap]: YesOrNo;
     [Field.harBeredskap_ekstrainfo]?: string;

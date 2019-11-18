@@ -241,23 +241,10 @@ class SummaryStep extends React.Component<Props, State> {
                                                     header={intlHelper(intl, 'steg.oppsummering.nattevåk.header')}>
                                                     {nattevaak.har_nattevaak === true && intlHelper(intl, 'Ja')}
                                                     {nattevaak.har_nattevaak === false && intlHelper(intl, 'Nei')}
-                                                </ContentWithHeader>
-                                            </Box>
-                                            <Box margin="l">
-                                                <ContentWithHeader
-                                                    header={intlHelper(
-                                                        intl,
-                                                        'steg.oppsummering.nattevåk.borteFraJobb.header'
-                                                    )}>
-                                                    {nattevaak.borte_fra_jobb === true && (
-                                                        <>
-                                                            <div>{intlHelper(intl, 'Ja')}</div>
-                                                            {nattevaak.tilleggsinformasjon && (
-                                                                <TextareaSummary text={nattevaak.tilleggsinformasjon} />
-                                                            )}
-                                                        </>
-                                                    )}
-                                                    {nattevaak.borte_fra_jobb === false && intlHelper(intl, 'Nei')}
+                                                    {nattevaak.har_nattevaak === true &&
+                                                        nattevaak.tilleggsinformasjon && (
+                                                            <TextareaSummary text={nattevaak.tilleggsinformasjon} />
+                                                        )}
                                                 </ContentWithHeader>
                                             </Box>
                                         </>
