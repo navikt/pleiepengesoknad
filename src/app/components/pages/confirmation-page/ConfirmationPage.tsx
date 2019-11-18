@@ -5,18 +5,18 @@ import Box from '../../box/Box';
 import bemUtils from '../../../utils/bemUtils';
 import Lenke from 'nav-frontend-lenker';
 import CheckmarkIcon from '../../checkmark-icon/CheckmarkIcon';
-import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
+import { FormattedMessage, injectIntl, InjectedIntlProps, FormattedHTMLMessage } from 'react-intl';
 import intlHelper from 'app/utils/intlUtils';
 import getLenker from 'app/lenker';
 import './confirmationPage.less';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 import AlertStripe from 'nav-frontend-alertstriper';
 
-type Props = InjectedIntlProps;
+type Props = InjectedIntlProps & { numberOfAnsettelsesforhold: number };
 
 const bem = bemUtils('confirmationPage');
 
-const ConfirmationPage: React.FunctionComponent<Props> = ({ intl }) => (
+const ConfirmationPage: React.FunctionComponent<Props> = ({ intl, numberOfAnsettelsesforhold }) => (
     <Page title={intlHelper(intl, 'page.confirmation.sidetittel')} className={bem.block}>
         <div className={bem.element('centeredContent')}>
             <CheckmarkIcon />
@@ -27,18 +27,26 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ intl }) => (
             </Box>
         </div>
         <Box margin="xl">
-            <Ingress>
-                <FormattedMessage id="page.confirmation.part1" />
-            </Ingress>
-            <Box margin="l">
-                <Ingress>
+            <Ingress tag="div">
+                {numberOfAnsettelsesforhold > 0 && (
+                    <p>
+                        <FormattedHTMLMessage
+                            id="page.confirmation.ansettelsesforhold"
+                            values={{ numberOfAnsettelsesforhold }}
+                        />
+                    </p>
+                )}
+                <p>
+                    <FormattedHTMLMessage id="page.confirmation.part3" />
+                </p>
+                <p>
                     <FormattedMessage id="page.confirmation.part2" />{' '}
                     <Lenke href={getLenker(intl.locale).saksbehandlingstider} target="_blank">
                         <FormattedMessage id="page.confirmation.saksbehandlingstid" />
                     </Lenke>
                     .
-                </Ingress>
-            </Box>
+                </p>
+            </Ingress>
         </Box>
         {appIsRunningInDemoMode() && (
             <Box margin="xxl">

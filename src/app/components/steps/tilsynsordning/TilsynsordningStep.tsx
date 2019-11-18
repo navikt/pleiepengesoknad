@@ -3,7 +3,7 @@ import { navigateTo } from '../../../utils/navigationUtils';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
 import FormikStep from '../../formik-step/FormikStep';
-import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl';
+import { InjectedIntlProps, injectIntl, FormattedHTMLMessage } from 'react-intl';
 import { Field, TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
 import Box from '../../box/Box';
@@ -11,11 +11,7 @@ import { YesOrNo } from '../../../types/YesOrNo';
 import Textarea from '../../textarea/Textarea';
 import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
 import InputGroup from '../../input-group/InputGroup';
-import {
-    validateSkalHaTilsynsordning,
-    validateYesOrNoIsAnswered,
-    validateRequiredField
-} from '../../../validation/fieldValidations';
+import { validateSkalHaTilsynsordning, validateYesOrNoIsAnswered } from '../../../validation/fieldValidations';
 import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
 import intlHelper from '../../../utils/intlUtils';
 import CounsellorPanel from '../../counsellor-panel/CounsellorPanel';
@@ -37,7 +33,7 @@ const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, intl, for
             {...stepProps}
             formValues={formValues}>
             <CounsellorPanel>
-                <FormattedMessage id="steg.tilsyn.veileder" />
+                <FormattedHTMLMessage id="steg.tilsyn.veileder.html" />
             </CounsellorPanel>
             <Box margin="xl">
                 <YesOrNoQuestion
@@ -57,21 +53,12 @@ const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, intl, for
                         <Tilsynsuke name={Field.tilsynsordning__ja__tilsyn} />
                     </InputGroup>
                     <Box margin="xl">
-                        <YesOrNoQuestion
-                            legend={intlHelper(intl, 'steg.tilsyn.ja.harEkstrainfo.spm')}
-                            name={Field.tilsynsordning__ja__harEkstrainfo}
-                            validate={validateRequiredField}
+                        <Textarea
+                            name={Field.tilsynsordning__ja__ekstrainfo}
+                            label={intlHelper(intl, 'steg.tilsyn.ja.tilleggsopplysninger.spm')}
+                            maxLength={1000}
                         />
                     </Box>
-                    {tilsynsordning.ja && tilsynsordning.ja.harEkstrainfo === YesOrNo.YES && (
-                        <Box margin="xl">
-                            <Textarea
-                                name={Field.tilsynsordning__ja__ekstrainfo}
-                                label={intlHelper(intl, 'steg.tilsyn.ja.tilleggsopplysninger.spm')}
-                                maxLength={1000}
-                            />
-                        </Box>
-                    )}
                 </Box>
             )}
             {YesOrNo.DO_NOT_KNOW === skalBarnHaTilsyn && (

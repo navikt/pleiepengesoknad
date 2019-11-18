@@ -71,9 +71,9 @@
     "step.beredskap.stepTitle": "Beredskap",
     "step.beredskap.stepIndicatorLabel": "Beredskap",
 
-    "step.medlemskap.pageTitle": "Pleiepengesøknad - utenlandsopphold",
-    "step.medlemskap.stepTitle": "Utenlandsopphold",
-    "step.medlemskap.stepIndicatorLabel": "Om dine utenlandsopphold",
+    "step.medlemskap.pageTitle": "Pleiepengesøknad - medlemskap",
+    "step.medlemskap.stepTitle": "Medlemskap",
+    "step.medlemskap.stepIndicatorLabel": "Om medlemskap i folketrygden",
 
     "step.legeerklaering.pageTitle": "Pleiepengesøknad - legeerklæring",
     "step.legeerklaering.stepTitle": "Legeerklæring",
@@ -133,7 +133,9 @@
     "modal.personalopplysninger.personvern.part1b": "nav.no/personvern",
 
     "modal.minePlikter.tittel": "Mine plikter",
-    "modal.minePlikter.part1": "Jeg forstår at hvis jeg gir uriktige eller holder tilbake opplysninger kan det få konsekvenser for retten min til pleiepenger.",
+    "modal.minePlikter.part1": "Jeg forstår at det kan få konsekvenser for retten min til pleiepenger hvis jeg",
+    "modal.minePlikter.part1a": "gir uriktig informasjon eller",
+    "modal.minePlikter.part1b": "holder tilbake opplysninger",
     "modal.minePlikter.part2a": "Jeg har lest og forstått det som står på",
     "modal.minePlikter.part2b": "nav.no/rettogplikt",
 
@@ -147,6 +149,7 @@
     "steg.omBarnet.relasjon": "Min relasjon til barnet",
     "steg.omBarnet.relasjon.eksempel": "Eksempler: mor, far, tante, onkel eller andre som står barnet nær",
 
+    "steg.tidsrom.hjelpetekst": "Søknaden er under utvikling: Hvis du skal søke for flere perioder må du sende én søknad for hver periode.",
     "steg.tidsrom.hvilketTidsrom.spm": "Hvilken periode søker du pleiepenger for?",
     "steg.tidsrom.hvilketTidsrom.fom": "Fra og med",
     "steg.tidsrom.hvilketTidsrom.tom": "Til og med",
@@ -157,24 +160,23 @@
     "steg.tidsrom.samtidigHjemme.spm": "Skal dere være borte fra jobb samtidig?",
     "steg.tidsrom.dagerPerUkeBorteFraJobb.spm": "Hvor mange dager per uke skal du være borte fra jobb for å ta hånd om barnet? Rund av til nærmeste halve dag.",
 
-    "steg.tilsyn.veileder": "Et omsorgstilbud kan være barnehage, skole, SFO eller andre organiserte tilbud. Du må oppgi alle timene barnet er i et omsorgstilbud.",
+    "steg.tilsyn.veileder.html": "<p>Et omsorgstilbud kan være barnehage, skole, SFO, omsorgsbolig, BPA (brukerstyrt personlig assistent) eller andre organiserte tilbud.</p><p>Du må oppgi alle timene barnet er i et omsorgstilbud.</p>",
     "steg.tilsyn.skalBarnetHaTilsyn.spm": "Skal barnet være i et omsorgstilbud i perioden du søker om pleiepenger?",
     "steg.tilsyn.ja.hvorMyeTilsyn.spm": "Oppgi tiden barnet er i et omsorgstilbud",
     "steg.tilsyn.ja.harEkstrainfo.spm": "Er det noe mer om omsorgstilbudet vi skal vite?",
-    "steg.tilsyn.ja.tilleggsopplysninger.spm": "Oppgi mer om omsorgstilbudet",
+    "steg.tilsyn.ja.tilleggsopplysninger.spm": "Her kan du skrive inn eventuelle tilleggsopplysninger om omsorgstilbudet (valgfritt)",
     "steg.tilsyn.ja.ekstrainfo.spm": "Oppgi mer om omsorgstilbudet",
     "steg.tilsyn.tilsynsuke.veileder": "Hvis du vet hvor mye barnet skal være i et omsorgstilbud, må du fylle ut hvor mange timer og minutter per dag andre skal passe barnet.",
     "steg.tilsyn.vetIkke.årsak.spm": "Hvorfor er du usikker?",
     "steg.tilsyn.vetIkke.årsak.sporadisk": "Barnet er i omsorgstilbud, men tiden varierer",
-    "steg.tilsyn.vetIkke.årsak.ikkeLagetPlan": "Det er ikke laget en plan for barnet enda",
+    "steg.tilsyn.vetIkke.årsak.ikkeLagetPlan": "Det er ikke laget en plan for dette enda",
     "steg.tilsyn.vetIkke.årsak.annet": "Annet",
     "steg.tilsyn.vetIkke.årsak.annet.tilleggsopplysninger": "Forklar situasjonen",
 
-    "steg.nattevåk.spm": "Gjør barnets sykdom at du må være noe våken på natta?",
-    "steg.nattevåk.borteFraJobb.spm": "Gjør dette at du må være borte fra jobb?",
+    "steg.nattevåk.spm": "Gjør barnets sykdom at du må være våken på natta og derfor må være borte fra jobb dagen etter?",
     "steg.nattevåk.tilleggsinfo.spm": "Beskriv hva som gjør at du må være våken",
-    "steg.beredskap.spm": "Må du være tilgjengelig fra jobb når barnet er i et omsorgstilbud?",
-    "steg.beredskap.tilleggsinfo.spm": "Beskriv hvorfor du må være tilgjengelig",
+    "steg.beredskap.spm": "Gjør barnets sykdom at du må være i beredskap eller være tilgjengelig selv om barnet er i et omsorgstilbud?",
+    "steg.beredskap.tilleggsinfo.spm": "Beskriv hva som gjør at du må være i beredskap eller være tilgjengelig",
 
     "steg.medlemsskap.annetLandSiste12.spm": "Har du bodd i andre land enn Norge i hele eller deler av de siste 12 månedene?",
     "steg.medlemsskap.annetLandSiste12.hjelp": "Du svarer ja bare hvis du har oppholdt deg fast i et annet land enn Norge. Korte utlandsturer i forbindelse med for eksempel ferie regnes ikke med.",
@@ -184,7 +186,7 @@
     "steg.lege.info.html": "Ta bilde av feltene i papirsøknaden som legen har fylt ut om barnet. Vær nøye med at <strong>all tekst</strong> på bildet er med, og at bildet er leselig.",
     "steg.lege.vedlegg": "Last opp bilde av legeerklæringen (maks 3 bilder)",
 
-    "steg.oppsummering.info": "Les gjennom oppsummeringen før du sender inn søknaden. Hvis du trenger å gjøre endringer, kan du gå tilbake.",
+    "steg.oppsummering.info": "Les gjennom oppsummeringen før du sender inn søknaden. Hvis du vil gjøre endringer, kan du gå tilbake.",
     "steg.oppsummering.søker.header": "Navn på søker",
     "steg.oppsummering.søker.fnr": "Fødselsnummer: {fodselsnummer}",
     "steg.oppsummering.tidsrom.header": "Periode",
@@ -209,7 +211,7 @@
     "steg.oppsummering.tilsynsordning.ja.tilleggsinformasjon.header": "Tilleggsopplysninger",
     "steg.oppsummering.tilsynsordning.vetIkke.header": "Hvorfor er du usikker?",
     "steg.oppsummering.tilsynsordning.vetIkke.årsak.er_sporadisk": "Barnet er i omsorgstilbud, men tiden varierer",
-    "steg.oppsummering.tilsynsordning.vetIkke.årsak.er_ikke_laget_en_plan": "Det er ikke laget en plan for barnet enda",
+    "steg.oppsummering.tilsynsordning.vetIkke.årsak.er_ikke_laget_en_plan": "Det er ikke laget en plan for dette enda",
     "steg.oppsummering.tilsynsordning.vetIkke.årsak.annet": "Annet",
     "steg.oppsummering.tilsynsordning.vetIkke.annet.header": "Beskriv årsak",
 
@@ -225,16 +227,18 @@
 
     "steg.ansettelsesforhold.væreBorteFra.spm": "Hvilken jobb må du vært borte fra for å pleie barnet?",
     "steg.ansettelsesforhold.aktivtArbeidsforhold.spm": "Velg arbeidsforholdene du har i perioden du søker pleiepenger for",
-    "steg.ansettelsesforhold.aktivtArbeidsforhold.info": "Vi har funnet disse arbeidsforholdene registrert på deg.",
+    "steg.ansettelsesforhold.aktivtArbeidsforhold.info.html": "<p>For å ha rett til pleiepenger må du ha minst 20 prosent inntektstap mens du pleier barnet ditt. Dagpenger, sykepenger, Foreldrepenger, pleiepenger og opplæringspenger regnes som inntekt.</p><p>Vi har funnet disse arbeidsforholdene registrert på deg.</p>",
     "steg.ansettelsesforhold.ingenOpplysninger": "Vi har ikke noen opplysninger om arbeidsgiver.",
     "steg.ansettelsesforhold.manglesOpplysninger": "Mangler det en arbeidsgiver her? Be arbeidsgiveren din sende ny A-melding, enten via lønns- og personalsystemet eller gjennom Altinn.",
     "steg.ansettelsesforhold.gradert.manglesOpplysninger": "Er det feil eller mangler i informasjonen om dine arbeidsforhold? Da må du be din arbeidsgiver oppdatere med riktig informasjon i Arbeidsgiver- og arbeidstakerregisteret.",
 
-    "page.confirmation.sidetittel": "Takk for søknaden",
-    "page.confirmation.tittel": "Takk for søknaden",
-    "page.confirmation.part1": "Husk å informere arbeidsgiveren din om at du søker om pleiepenger.",
+    "page.confirmation.sidetittel": "Vi har mottatt søknaden din",
+    "page.confirmation.tittel": "Vi har mottatt søknaden din",
+    "page.confirmation.ansettelsesforhold": "Husk å be {numberOfAnsettelsesforhold, plural, one {arbeidsgiveren din} other {arbeidsgiverene dine}}  om å sende inntektsmelding til oss.",
+    "page.confirmation.part1.html": "Hvis du er arbeidstaker, husk å be arbeidsgiveren din om å sende inntektsmelding til oss.",
     "page.confirmation.part2": "Du får et brev når søknaden er ferdig behandlet.",
     "page.confirmation.saksbehandlingstid": "Se forventet saksbehandlingstid",
+    "page.confirmation.part3": "Du kan logge den inn på Ditt NAV -  for å se status på søknaden din. ",
 
     "page.generalErrorPage.sidetittel": "Feil",
     "page.generalErrorPage.tittel": "Noe gikk galt...",

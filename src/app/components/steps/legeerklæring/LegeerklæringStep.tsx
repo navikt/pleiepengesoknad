@@ -16,6 +16,7 @@ import { CommonStepFormikProps } from '../../pleiepengesøknad-content/Pleiepeng
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 import { CustomFormikProps } from '../../../types/FormikProps';
+import CounsellorPanel from '../../counsellor-panel/CounsellorPanel';
 
 type Props = { formikProps: CustomFormikProps } & CommonStepFormikProps &
     HistoryProps &
@@ -45,6 +46,18 @@ const LegeerklæringStep = ({ history, intl, nextStepRoute, formikProps, ...step
             )}
             {false === isRunningDemoMode && (
                 <>
+                    <Box padBottom="xl">
+                        <CounsellorPanel>
+                            <p>
+                                For de første 8 ukene må legeerklæringen skrives av en sykehuslege. Etter de første 8
+                                ukene kan legeerklæringen skrives av alle leger i spesialisthelsetjenesten.
+                            </p>
+                            <p>
+                                Disse yrkesgruppene kan ikke undertegne legeerklæringen: Sosionom, legesekretær,
+                                psykolog, psykologspesialist, fysioterapeut, fastlege og spesialist i allmennmedisin.
+                            </p>
+                        </CounsellorPanel>
+                    </Box>
                     <HelperTextPanel>
                         <FormattedHTMLMessage id="steg.lege.info.html" />
                     </HelperTextPanel>

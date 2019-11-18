@@ -114,6 +114,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                         {...stepProps}>
                         <DateIntervalPicker
                             legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
+                            helperText={intlHelper(intl, 'steg.tidsrom.hjelpetekst')}
                             fromDatepickerProps={{
                                 label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.fom'),
                                 validate: this.validateFraDato,

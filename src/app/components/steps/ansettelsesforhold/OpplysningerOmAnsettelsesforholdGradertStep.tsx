@@ -10,7 +10,7 @@ import { Søkerdata } from '../../../types/Søkerdata';
 import AlertStripe from 'nav-frontend-alertstriper';
 import Box from '../../box/Box';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { InjectedIntlProps, FormattedMessage, injectIntl } from 'react-intl';
+import { InjectedIntlProps, FormattedMessage, injectIntl, FormattedHTMLMessage } from 'react-intl';
 import intlHelper from 'app/utils/intlUtils';
 import GradertAnsettelsesforhold from '../../gradert-ansettelsesforhold/GradertAnsettelsesforhold';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
@@ -29,7 +29,7 @@ const OpplysningerOmAnsettelsesforholdStep = ({ history, intl, nextStepRoute, ..
                         <>
                             <Box padBottom="xl">
                                 <CounsellorPanel>
-                                    <FormattedMessage id="steg.ansettelsesforhold.aktivtArbeidsforhold.info" />
+                                    <FormattedHTMLMessage id="steg.ansettelsesforhold.aktivtArbeidsforhold.info.html" />
                                 </CounsellorPanel>
                             </Box>
                             <CheckboxPanelGroup

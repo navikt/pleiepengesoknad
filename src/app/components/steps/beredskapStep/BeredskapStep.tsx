@@ -12,6 +12,7 @@ import Box from 'app/components/box/Box';
 import { CustomFormikProps } from '../../../types/FormikProps';
 import { YesOrNo } from '../../../types/YesOrNo';
 import Textarea from '../../textarea/Textarea';
+import CounsellorPanel from '../../counsellor-panel/CounsellorPanel';
 
 interface StepProps {
     formikProps: CustomFormikProps;
@@ -36,6 +37,14 @@ const BeredskapStep: React.FunctionComponent<Props> = ({
             history={history}
             {...stepProps}
             formValues={values}>
+            <Box padBottom="xxl">
+                <CounsellorPanel>
+                    I noen tilfeller kan barnets sykdom gjøre at du må være i beredskap eller være tilgjengelig, selv om
+                    barnet er i et omsorgstilbud. Det kan for eksempel være at du må være tilstede i klasserommet, eller
+                    at du må reise fra jobb på kort varsel for å være tilgjengelig for barnet ditt. I disse tilfellene
+                    vil du som hovedregel få pleiepenger.
+                </CounsellorPanel>
+            </Box>
             <YesOrNoQuestion
                 legend={intlHelper(intl, 'steg.beredskap.spm')}
                 name={Field.harBeredskap}
