@@ -3,7 +3,6 @@ import Page from '../../page/Page';
 import { Ingress, Innholdstittel } from 'nav-frontend-typografi';
 import Box from '../../box/Box';
 import bemUtils from '../../../utils/bemUtils';
-import Lenke from 'nav-frontend-lenker';
 import CheckmarkIcon from '../../checkmark-icon/CheckmarkIcon';
 import { FormattedMessage, injectIntl, InjectedIntlProps, FormattedHTMLMessage } from 'react-intl';
 import intlHelper from 'app/utils/intlUtils';
@@ -27,26 +26,25 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ intl, numberOfAnsett
             </Box>
         </div>
         <Box margin="xl">
-            <Ingress tag="div">
-                {numberOfAnsettelsesforhold > 0 && (
-                    <p>
-                        <FormattedHTMLMessage
-                            id="page.confirmation.ansettelsesforhold"
-                            values={{ numberOfAnsettelsesforhold }}
-                        />
-                    </p>
-                )}
-                <p>
-                    <FormattedHTMLMessage id="page.confirmation.part3" />
-                </p>
-                <p>
-                    <FormattedMessage id="page.confirmation.part2" />{' '}
-                    <Lenke href={getLenker(intl.locale).saksbehandlingstider} target="_blank">
-                        <FormattedMessage id="page.confirmation.saksbehandlingstid" />
-                    </Lenke>
-                    .
-                </p>
+            <Ingress>
+                <FormattedMessage id="page.confirmation.undertittel" />
             </Ingress>
+            <ul className="bulletList">
+                {numberOfAnsettelsesforhold > 0 && (
+                    <li>
+                        <FormattedHTMLMessage id="page.confirmation.søker" values={{ numberOfAnsettelsesforhold }} />
+                    </li>
+                )}
+                <li>
+                    <FormattedHTMLMessage
+                        id="page.confirmation.nav.html"
+                        values={{
+                            numberOfAnsettelsesforhold,
+                            lenke: getLenker(intl.locale).saksbehandlingstider
+                        }}
+                    />
+                </li>
+            </ul>
         </Box>
         {appIsRunningInDemoMode() && (
             <Box margin="xxl">

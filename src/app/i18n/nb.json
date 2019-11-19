@@ -164,7 +164,7 @@
     "steg.tilsyn.skalBarnetHaTilsyn.spm": "Skal barnet være i et omsorgstilbud i perioden du søker om pleiepenger?",
     "steg.tilsyn.ja.hvorMyeTilsyn.spm": "Oppgi tiden barnet er i et omsorgstilbud",
     "steg.tilsyn.ja.harEkstrainfo.spm": "Er det noe mer om omsorgstilbudet vi skal vite?",
-    "steg.tilsyn.ja.tilleggsopplysninger.spm": "Her kan du skrive inn eventuelle tilleggsopplysninger om omsorgstilbudet (valgfritt)",
+    "steg.tilsyn.ja.tilleggsopplysninger.spm": "Her kan du skrive eventuelle tilleggsopplysninger om omsorgstilbudet (valgfritt)",
     "steg.tilsyn.ja.ekstrainfo.spm": "Oppgi mer om omsorgstilbudet",
     "steg.tilsyn.tilsynsuke.veileder": "Hvis du vet hvor mye barnet skal være i et omsorgstilbud, må du fylle ut hvor mange timer og minutter per dag andre skal passe barnet.",
     "steg.tilsyn.vetIkke.årsak.spm": "Hvorfor er du usikker?",
@@ -177,6 +177,7 @@
     "steg.nattevåk.tilleggsinfo.spm": "Beskriv hva som gjør at du må være våken",
     "steg.beredskap.spm": "Gjør barnets sykdom at du må være i beredskap eller være tilgjengelig selv om barnet er i et omsorgstilbud?",
     "steg.beredskap.tilleggsinfo.spm": "Beskriv hva som gjør at du må være i beredskap eller være tilgjengelig",
+    "steg.beredskap.veileder": "I noen tilfeller kan barnets sykdom gjøre at du må være i beredskap eller være tilgjengelig, selv om barnet er i et omsorgstilbud. Det kan for eksempel være at du må være tilstede i klasserommet, eller at du må reise fra jobb på kort varsel for å være tilgjengelig for barnet ditt.",
 
     "steg.medlemsskap.annetLandSiste12.spm": "Har du bodd i andre land enn Norge i hele eller deler av de siste 12 månedene?",
     "steg.medlemsskap.annetLandSiste12.hjelp": "Du svarer ja bare hvis du har oppholdt deg fast i et annet land enn Norge. Korte utlandsturer i forbindelse med for eksempel ferie regnes ikke med.",
@@ -185,6 +186,8 @@
 
     "steg.lege.info.html": "Ta bilde av feltene i papirsøknaden som legen har fylt ut om barnet. Vær nøye med at <strong>all tekst</strong> på bildet er med, og at bildet er leselig.",
     "steg.lege.vedlegg": "Last opp bilde av legeerklæringen (maks 3 bilder)",
+    "steg.lege.intro.1.html": "For de første 8 ukene må legeerklæringen skrives av en sykehuslege. Etter de første 8 ukene kan legeerklæringen skrives av alle leger i spesialisthelsetjenesten.",
+    "steg.lege.intro.2.html": "Disse yrkesgruppene kan <strong>ikke</strong> undertegne legeerklæringen: Sosionom, legesekretær, psykolog, psykologspesialist, fysioterapeut, fastlege og spesialist i allmennmedisin.",
 
     "steg.oppsummering.info": "Les gjennom oppsummeringen før du sender inn søknaden. Hvis du vil gjøre endringer, kan du gå tilbake.",
     "steg.oppsummering.søker.header": "Navn på søker",
@@ -218,7 +221,7 @@
     "steg.oppsummering.utlandetSiste12.header": "Bodd i utlandet siste 12 måneder",
     "steg.oppsummering.utlandetNeste12.header": "Skal bo i utlandet neste 12 måneder",
     "steg.oppsummering.legeerklæring.header": "Legeerklæring",
-    "steg.oppsummering.bekrefterOpplysninger": "Jeg bekrefter at opplysningene er riktige, og at jeg ikke har holdt tilbake opplysninger som har betydning for retten til pleiepenger.",
+    "steg.oppsummering.bekrefterOpplysninger": "Jeg bekrefter at opplysningene jeg har gitt er riktige, og at jeg ikke har holdt tilbake opplysninger som har betydning for min rett til pleiepenger.",
     "steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet": "Du må bekrefte opplysningene",
 
     "steg.oppsummering.ansettelsesforhold.header": "Arbeidsforhold",
@@ -233,12 +236,10 @@
     "steg.ansettelsesforhold.gradert.manglesOpplysninger": "Er det feil eller mangler i informasjonen om dine arbeidsforhold? Da må du be din arbeidsgiver oppdatere med riktig informasjon i Arbeidsgiver- og arbeidstakerregisteret.",
 
     "page.confirmation.sidetittel": "Vi har mottatt søknaden din",
-    "page.confirmation.tittel": "Vi har mottatt søknaden din",
-    "page.confirmation.ansettelsesforhold": "Husk å be {numberOfAnsettelsesforhold, plural, one {arbeidsgiveren din} other {arbeidsgiverene dine}}  om å sende inntektsmelding til oss.",
-    "page.confirmation.part1.html": "Hvis du er arbeidstaker, husk å be arbeidsgiveren din om å sende inntektsmelding til oss.",
-    "page.confirmation.part2": "Du får et brev når søknaden er ferdig behandlet.",
-    "page.confirmation.saksbehandlingstid": "Se forventet saksbehandlingstid",
-    "page.confirmation.part3": "Du kan logge den inn på Ditt NAV -  for å se status på søknaden din. ",
+    "page.confirmation.tittel": "Vi har mottatt søknad fra deg om pleiepenger",
+    "page.confirmation.undertittel": "Hva skjer videre nå?",
+    "page.confirmation.søker": "Du må be {numberOfAnsettelsesforhold, plural, one {arbeidsgiver} other {arbeidsgiverene dine}} din om å sende inntektsmelding til oss",
+    "page.confirmation.nav.html": "<p>Vi starter behandlingen av søknaden, og den vil bli synlig på Ditt NAV innen en uke. Når søknaden er ferdig behandlet, får du et svarbrev fra oss. Du kan se <a href=\"{saksbehandlingstiden for ditt fylke her}\" className=\"lenke\" rel=\"noopener\">saksbehandlingstiden for ditt fylke her</a>.</p><p>Vi tar kontakt med deg hvis vi trenger flere opplysninger i saken din.</p>",
 
     "page.generalErrorPage.sidetittel": "Feil",
     "page.generalErrorPage.tittel": "Noe gikk galt...",

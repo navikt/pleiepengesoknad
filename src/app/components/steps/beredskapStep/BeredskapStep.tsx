@@ -7,7 +7,7 @@ import { Field } from '../../../types/PleiepengesøknadFormData';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
 import { validateYesOrNoIsAnswered, validateRequiredField } from '../../../validation/fieldValidations';
 import intlHelper from 'app/utils/intlUtils';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl';
 import Box from 'app/components/box/Box';
 import { CustomFormikProps } from '../../../types/FormikProps';
 import { YesOrNo } from '../../../types/YesOrNo';
@@ -39,10 +39,7 @@ const BeredskapStep: React.FunctionComponent<Props> = ({
             formValues={values}>
             <Box padBottom="xxl">
                 <CounsellorPanel>
-                    I noen tilfeller kan barnets sykdom gjøre at du må være i beredskap eller være tilgjengelig, selv om
-                    barnet er i et omsorgstilbud. Det kan for eksempel være at du må være tilstede i klasserommet, eller
-                    at du må reise fra jobb på kort varsel for å være tilgjengelig for barnet ditt. I disse tilfellene
-                    vil du som hovedregel få pleiepenger.
+                    <FormattedMessage id="steg.beredskap.veileder" />
                 </CounsellorPanel>
             </Box>
             <YesOrNoQuestion

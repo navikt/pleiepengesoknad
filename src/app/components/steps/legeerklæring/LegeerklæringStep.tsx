@@ -49,12 +49,10 @@ const LegeerklæringStep = ({ history, intl, nextStepRoute, formikProps, ...step
                     <Box padBottom="xl">
                         <CounsellorPanel>
                             <p>
-                                For de første 8 ukene må legeerklæringen skrives av en sykehuslege. Etter de første 8
-                                ukene kan legeerklæringen skrives av alle leger i spesialisthelsetjenesten.
+                                <FormattedHTMLMessage id="steg.lege.intro.1.html" />
                             </p>
                             <p>
-                                Disse yrkesgruppene kan ikke undertegne legeerklæringen: Sosionom, legesekretær,
-                                psykolog, psykologspesialist, fysioterapeut, fastlege og spesialist i allmennmedisin.
+                                <FormattedHTMLMessage id="steg.lege.intro.2.html" />
                             </p>
                         </CounsellorPanel>
                     </Box>
