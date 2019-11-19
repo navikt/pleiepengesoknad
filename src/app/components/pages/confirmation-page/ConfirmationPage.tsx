@@ -39,7 +39,6 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ intl, numberOfAnsett
                     <FormattedHTMLMessage
                         id="page.confirmation.nav.html"
                         values={{
-                            numberOfAnsettelsesforhold,
                             lenke: getLenker(intl.locale).saksbehandlingstider
                         }}
                     />
