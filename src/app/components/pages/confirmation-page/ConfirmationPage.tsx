@@ -29,7 +29,7 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ intl, numberOfAnsett
             <Ingress>
                 <FormattedMessage id="page.confirmation.undertittel" />
             </Ingress>
-            <ul className="bulletList">
+            <ul className="checklist">
                 {numberOfAnsettelsesforhold > 0 && (
                     <li>
                         <FormattedHTMLMessage id="page.confirmation.søker" values={{ numberOfAnsettelsesforhold }} />
