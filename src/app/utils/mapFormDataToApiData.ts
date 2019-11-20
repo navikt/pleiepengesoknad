@@ -66,7 +66,7 @@ export const mapFormDataToApiData = (
     }
 
     const apiData: PleiepengesøknadApiData = {
-        newVersion: true,
+        new_version: true,
         sprak,
         barn: barnObject,
         relasjon_til_barnet: barnObject.aktoer_id ? null : søkersRelasjonTilBarnet,

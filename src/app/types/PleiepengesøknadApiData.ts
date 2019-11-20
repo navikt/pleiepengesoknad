@@ -80,7 +80,7 @@ interface Medlemskap {
 }
 
 export interface PleiepengesøknadApiData {
-    newVersion: boolean;
+    new_version: boolean;
     sprak: Locale;
     barn: BarnToSendToApi;
     relasjon_til_barnet: string | null;
