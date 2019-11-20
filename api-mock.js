@@ -3,6 +3,7 @@ const Busboy = require('busboy');
 
 const server = express();
 
+//
 server.use((req, res, next) => {
     const allowedOrigins = ['https://pleiepengesoknad-mock.nais.oera.no', 'http://localhost:8080'];
     const requestOrigin = req.headers.origin;
