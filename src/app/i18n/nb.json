@@ -157,7 +157,7 @@
     "steg.tidsrom.hvorMye.hjelp.part1": "Kan du jobbe noe? Da reduserer du prosenten tilsvarende.",
     "steg.tidsrom.hvorMye.hjelp.part2": "Jobber du deltid i utgangspunktet? Du kan likevel søke om 100 % pleiepenger hvis du mister hele inntekten fordi du pleier barnet.",
     "steg.tidsrom.annenSamtidig.spm": "Er det en annen person som søker om pleiepenger i samme periode som deg?",
-    "steg.tidsrom.samtidigHjemme.spm": "Skal dere være borte fra jobb samtidig?",
+    "steg.tidsrom.samtidigHjemme.spm": "Skal dere være hjemme/på sykehus samtidig for å pleie barnet?",
     "steg.tidsrom.dagerPerUkeBorteFraJobb.spm": "Hvor mange dager per uke skal du være borte fra jobb for å ta hånd om barnet? Rund av til nærmeste halve dag.",
 
     "steg.tilsyn.veileder.html": "<p>Et omsorgstilbud kan være barnehage, skole, SFO, omsorgsbolig, BPA (brukerstyrt personlig assistent) eller andre organiserte tilbud.</p><p>Du må oppgi alle timene barnet er i et omsorgstilbud.</p>",
@@ -230,7 +230,7 @@
 
     "steg.ansettelsesforhold.væreBorteFra.spm": "Hvilken jobb må du vært borte fra for å pleie barnet?",
     "steg.ansettelsesforhold.aktivtArbeidsforhold.spm": "Velg arbeidsforholdene du har i perioden du søker pleiepenger for",
-    "steg.ansettelsesforhold.aktivtArbeidsforhold.info.html": "<p>For å ha rett til pleiepenger må du ha minst 20 prosent inntektstap mens du pleier barnet ditt. Dagpenger, sykepenger, Foreldrepenger, pleiepenger og opplæringspenger regnes som inntekt.</p><p>Vi har funnet disse arbeidsforholdene registrert på deg.</p>",
+    "steg.ansettelsesforhold.aktivtArbeidsforhold.info.html": "<p>For å ha rett til pleiepenger må du ha minst 20 prosent inntektstap mens du pleier barnet ditt. Dagpenger, sykepenger, Foreldrepenger, pleiepenger og opplæringspenger regnes også som inntekt.</p><p>Vi har funnet disse arbeidsforholdene registrert på deg.</p>",
     "steg.ansettelsesforhold.ingenOpplysninger": "Vi har ikke noen opplysninger om arbeidsgiver.",
     "steg.ansettelsesforhold.manglesOpplysninger": "Mangler det en arbeidsgiver her? Be arbeidsgiveren din sende ny A-melding, enten via lønns- og personalsystemet eller gjennom Altinn.",
     "steg.ansettelsesforhold.gradert.manglesOpplysninger": "Er det feil eller mangler i informasjonen om dine arbeidsforhold? Da må du be din arbeidsgiver oppdatere med riktig informasjon i Arbeidsgiver- og arbeidstakerregisteret.",
