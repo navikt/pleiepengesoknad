@@ -177,7 +177,7 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
                             resetForm();
                         });
                         setSøknadHasBeenSent(true);
-                        return <ConfirmationPage numberOfAnsettelsesforhold={1} />;
+                        return <ConfirmationPage numberOfAnsettelsesforhold={values.ansettelsesforhold.length} />;
                     }}
                 />
             )}
