@@ -112,7 +112,6 @@ const mapAnsettelsesforholdTilApiData = (ansettelsesforhold: AnsettelsesforholdF
         skalJobbe,
         timerEllerProsent,
         jobberNormaltTimer,
-        vetIkkeEkstrainfo,
         skalJobbeTimer,
         skalJobbeProsent,
         navn,
@@ -146,8 +145,7 @@ const mapAnsettelsesforholdTilApiData = (ansettelsesforhold: AnsettelsesforholdF
         const vetIkkeForhold: AnsettelsesforholdApiVetIkke = {
             ...orgInfo,
             skal_jobbe: 'vet_ikke',
-            jobber_normalt_timer: jobberNormaltTimer,
-            vet_ikke_ekstrainfo: vetIkkeEkstrainfo
+            jobber_normalt_timer: jobberNormaltTimer
         };
         return vetIkkeForhold;
     }

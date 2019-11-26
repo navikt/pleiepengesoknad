@@ -238,8 +238,7 @@ describe('mapFormDataToApiData', () => {
         const result: AnsettelsesforholdApiVetIkke = {
             ...ansettelsesforholdMaxbo,
             jobber_normalt_timer: 20,
-            skal_jobbe: 'vet_ikke',
-            vet_ikke_ekstrainfo: 'ekstrainfo'
+            skal_jobbe: 'vet_ikke'
         };
         expect(organisasjoner).toEqual([result]);
         expect(organisasjoner[0].skal_jobbe_timer).toBeUndefined();

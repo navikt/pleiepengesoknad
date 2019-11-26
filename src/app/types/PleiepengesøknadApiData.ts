@@ -17,7 +17,6 @@ export interface AnsettelsesforholdApi {
     jobber_normalt_timer?: number;
     skal_jobbe_timer?: number;
     skal_jobbe_prosent?: number;
-    vet_ikke_ekstrainfo?: string;
 }
 export type AnsettelsesforholdApiNei = Pick<
     AnsettelsesforholdApi,
@@ -30,7 +29,7 @@ export type AnsettelsesforholdApiRedusert = Pick<
 
 export type AnsettelsesforholdApiVetIkke = Pick<
     AnsettelsesforholdApi,
-    'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'jobber_normalt_timer' | 'vet_ikke_ekstrainfo'
+    'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'jobber_normalt_timer'
 >;
 
 export type AnsettelsesforholdApiSomVanlig = Pick<

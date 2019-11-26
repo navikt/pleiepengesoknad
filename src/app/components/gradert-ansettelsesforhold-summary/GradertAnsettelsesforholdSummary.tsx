@@ -4,10 +4,9 @@ import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
 import bemUtils from 'app/utils/bemUtils';
 import { AnsettelsesforholdApi } from 'app/types/PleiepengesøknadApiData';
 import intlHelper from '../../utils/intlUtils';
+import { calcRedusertProsentFromRedusertTimer } from '../../utils/ansettelsesforholdUtils';
 
 import './gradertAnsettelsforholdSummary.less';
-import { calcRedusertProsentFromRedusertTimer } from '../../utils/ansettelsesforholdUtils';
-import TextareaSummary from '../textarea-summary/TextareaSummary';
 
 interface AnsettelsesforholdSummaryProps {
     ansettelsesforhold: AnsettelsesforholdApi;
@@ -67,7 +66,6 @@ const GradertAnsettelsesforholdSummary: React.FunctionComponent<Ansettelsesforho
                     <Normaltekst>
                         <FormattedMessage id={`gradertAnsettelsesforhold.oppsummering.svar.vet_ikke`} />
                     </Normaltekst>
-                    <TextareaSummary text={ansettelsesforhold.vet_ikke_ekstrainfo} />
                 </div>
             )}
             {skal_jobbe !== 'vet_ikke' && skal_jobbe !== 'redusert' && (

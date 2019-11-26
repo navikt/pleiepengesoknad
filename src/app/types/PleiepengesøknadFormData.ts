@@ -64,7 +64,6 @@ export enum AnsettelsesforholdField {
     skalJobbe = 'skalJobbe',
     timerEllerProsent = 'timerEllerProsent',
     jobberNormaltTimer = 'jobberNormaltTimer',
-    vetIkkeEkstrainfo = 'vetIkkeEkstrainfo',
     skalJobbeTimer = 'skalJobbeTimer',
     skalJobbeProsent = 'skalJobbeProsent'
 }
@@ -73,7 +72,6 @@ export interface AnsettelsesforholdForm extends Ansettelsesforhold {
     [AnsettelsesforholdField.skalJobbe]?: AnsettelsesforholdSkalJobbeSvar;
     [AnsettelsesforholdField.timerEllerProsent]?: 'timer' | 'prosent';
     [AnsettelsesforholdField.jobberNormaltTimer]?: number;
-    [AnsettelsesforholdField.vetIkkeEkstrainfo]?: string;
     [AnsettelsesforholdField.skalJobbeTimer]?: number;
     [AnsettelsesforholdField.skalJobbeProsent]?: number;
 }

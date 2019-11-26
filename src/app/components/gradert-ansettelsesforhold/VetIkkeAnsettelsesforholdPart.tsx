@@ -4,9 +4,8 @@ import { SkjemaGruppe } from 'nav-frontend-skjema';
 import Input from '../input/Input';
 import { AnsettelsesforholdForm, AnsettelsesforholdField, Field } from '../../types/PleiepengesøknadFormData';
 import intlHelper from '../../utils/intlUtils';
-import { validateReduserteArbeidProsent, validateRequiredField } from '../../validation/fieldValidations';
+import { validateReduserteArbeidProsent } from '../../validation/fieldValidations';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
-import Textarea from '../textarea/Textarea';
 
 interface Props {
     ansettelsesforhold: AnsettelsesforholdForm;
@@ -39,18 +38,6 @@ const VetIkkeAnsettelsesforholdPart: React.FunctionComponent<Props & InjectedInt
                     />
                 </SkjemaGruppe>
             </Box>
-            {jobberNormaltTimer !== undefined && (
-                <>
-                    <Box margin="xl">
-                        <Textarea
-                            name={getFieldName(AnsettelsesforholdField.vetIkkeEkstrainfo)}
-                            label={intlHelper(intl, 'gradertAnsettelsesforhold.arbeidsforhold.vetIkke.ekstrainfo')}
-                            maxLength={1000}
-                            validate={validateRequiredField}
-                        />
-                    </Box>
-                </>
-            )}
         </>
     );
 };
