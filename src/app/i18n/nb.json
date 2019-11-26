@@ -296,7 +296,7 @@
     "gradertAnsettelsesforhold.oppsummering.skalArbeideDelvis": "Skal jobbe {timerRedusert} i uken i denne perioden (jobber normalt {timerNormalt} i uken).",
     "gradertAnsettelsesforhold.oppsummering.svar.ja": "Skal jobbe som vanlig",
     "gradertAnsettelsesforhold.oppsummering.svar.nei": "Skal ikke jobbe",
-    "gradertAnsettelsesforhold.oppsummering.svar.vet_ikke": "Vet ikke, men jeg melder fra hvis jeg skal jobbe i perioden jeg søker for",
+    "gradertAnsettelsesforhold.oppsummering.svar.vet_ikke": "Jeg vet ikke om jeg skal jobbe her i perioden jeg søker for, men jeg melder fra hvis jeg skal gjøre det",
     "gradertAnsettelsesforhold.oppsummering.svar.redusert.timer": "Skal jobbe {timerRedusert} i uka ({prosentRedusert} prosent av vanlig)",
     "gradertAnsettelsesforhold.oppsummering.svar.redusert.prosent": "Skal jobbe {prosentRedusert} prosent av {timerNormalt} i uka.",
 
