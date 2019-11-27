@@ -7,17 +7,16 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
 import RouteConfig from '../../config/routeConfig';
 import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromStep';
-import OpplysningerOmAnsettelsesforholdStep from '../steps/ansettelsesforhold/OpplysningerOmAnsettelsesforholdStep';
 import MedlemsskapStep from '../steps/medlemskap/MedlemsskapStep';
 import LegeerklæringStep from '../steps/legeerklæring/LegeerklæringStep';
 import SummaryStep from '../steps/summary/SummaryStep';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
-import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 import OpplysningerOmAnsettelsesforholdGradertStep from '../steps/ansettelsesforhold/OpplysningerOmAnsettelsesforholdGradertStep';
 import TilsynsordningStep from '../steps/tilsynsordning/TilsynsordningStep';
-import NattevåkOgBeredskapStep from '../steps/nattevåkOgBeredskapStep/NattevåkOgBeredskapStep';
+import NattevåkStep from '../steps/nattevåkStep/NattevåkStep';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import BeredskapStep from '../steps/beredskapStep/BeredskapStep';
 
 interface PleiepengesøknadContentProps {
     formikProps: CustomFormikProps;
@@ -76,49 +75,57 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
             {isAvailable(StepID.ANSETTELSESFORHOLD, values) && (
                 <Route
                     path={getSøknadRoute(StepID.ANSETTELSESFORHOLD)}
-                    render={(props) => {
-                        return isFeatureEnabled(Feature.TOGGLE_FJERN_GRAD) ? (
-                            <OpplysningerOmAnsettelsesforholdGradertStep
-                                {...commonFormikProps}
-                                {...props}
-                                nextStepRoute={getNextStepRoute(StepID.ANSETTELSESFORHOLD, values)}
-                            />
-                        ) : (
-                            <OpplysningerOmAnsettelsesforholdStep
-                                {...commonFormikProps}
-                                {...props}
-                                nextStepRoute={getNextStepRoute(StepID.ANSETTELSESFORHOLD, values)}
-                            />
-                        );
-                    }}
+                    render={(props) => (
+                        <OpplysningerOmAnsettelsesforholdGradertStep
+                            {...commonFormikProps}
+                            {...props}
+                            nextStepRoute={getNextStepRoute(StepID.ANSETTELSESFORHOLD, values)}
+                        />
+                    )}
                 />
             )}
 
-            {isAvailable(StepID.TILSYNSORDNING, values) && (
+            {isAvailable(StepID.OMSORGSTILBUD, values) && (
                 <Route
-                    path={getSøknadRoute(StepID.TILSYNSORDNING)}
+                    path={getSøknadRoute(StepID.OMSORGSTILBUD)}
                     render={(props) => {
                         return (
                             <TilsynsordningStep
                                 {...commonFormikProps}
                                 {...props}
-                                nextStepRoute={getNextStepRoute(StepID.TILSYNSORDNING, values)}
+                                nextStepRoute={getNextStepRoute(StepID.OMSORGSTILBUD, values)}
                             />
                         );
                     }}
                 />
             )}
 
-            {isAvailable(StepID.NATTEVÅK_OG_BEREDSKAP, values) && (
+            {isAvailable(StepID.NATTEVÅK, values) && (
                 <Route
-                    path={getSøknadRoute(StepID.NATTEVÅK_OG_BEREDSKAP)}
+                    path={getSøknadRoute(StepID.NATTEVÅK)}
                     render={(props) => {
                         return (
-                            <NattevåkOgBeredskapStep
+                            <NattevåkStep
                                 formikProps={formikProps}
                                 {...commonFormikProps}
                                 {...props}
-                                nextStepRoute={getNextStepRoute(StepID.NATTEVÅK_OG_BEREDSKAP, values)}
+                                nextStepRoute={getNextStepRoute(StepID.NATTEVÅK, values)}
+                            />
+                        );
+                    }}
+                />
+            )}
+
+            {isAvailable(StepID.BEREDSKAP, values) && (
+                <Route
+                    path={getSøknadRoute(StepID.BEREDSKAP)}
+                    render={(props) => {
+                        return (
+                            <BeredskapStep
+                                formikProps={formikProps}
+                                {...commonFormikProps}
+                                {...props}
+                                nextStepRoute={getNextStepRoute(StepID.BEREDSKAP, values)}
                             />
                         );
                     }}
@@ -170,7 +177,7 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
                             resetForm();
                         });
                         setSøknadHasBeenSent(true);
-                        return <ConfirmationPage />;
+                        return <ConfirmationPage numberOfAnsettelsesforhold={values.ansettelsesforhold.length} />;
                     }}
                 />
             )}

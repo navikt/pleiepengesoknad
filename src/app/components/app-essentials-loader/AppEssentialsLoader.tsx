@@ -63,7 +63,8 @@ class AppEssentialsLoader extends React.Component<Props, State> {
             {
                 person: søkerResponse.data,
                 barn: barnResponse ? barnResponse.data.barn : undefined,
-                setAnsettelsesforhold: this.updateAnsettelsesforhold
+                setAnsettelsesforhold: this.updateAnsettelsesforhold,
+                ansettelsesforhold: []
             },
             () => {
                 this.stopLoading();

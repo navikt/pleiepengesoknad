@@ -5,7 +5,8 @@ import { Time } from './Time';
 export enum AnsettelsesforholdSkalJobbeSvar {
     'ja' = 'ja',
     'nei' = 'nei',
-    'redusert' = 'redusert'
+    'redusert' = 'redusert',
+    'vetIkke' = 'vetIkke'
 }
 
 export interface Tilsynsuke {
@@ -20,6 +21,7 @@ export interface Tilsynsordning {
     skalBarnHaTilsyn: YesOrNo;
     ja?: {
         tilsyn?: Tilsynsuke;
+        harEkstrainfo?: YesOrNo;
         ekstrainfo: string;
     };
     vetIkke?: {
@@ -45,8 +47,7 @@ export enum Field {
     harBoddUtenforNorgeSiste12Mnd = 'harBoddUtenforNorgeSiste12Mnd',
     skalBoUtenforNorgeNeste12Mnd = 'skalBoUtenforNorgeNeste12Mnd',
     harMedsøker = 'harMedsøker',
-    grad = 'grad',
-    dagerPerUkeBorteFraJobb = 'dagerPerUkeBorteFraJobb',
+    samtidigHjemme = 'samtidigHjemme',
     harNattevåk = 'harNattevåk',
     harNattevåk_ekstrainfo = 'harNattevåk_ekstrainfo',
     harBeredskap = 'harBeredskap',
@@ -98,8 +99,7 @@ export interface PleiepengesøknadFormData {
     [Field.harBoddUtenforNorgeSiste12Mnd]: YesOrNo;
     [Field.skalBoUtenforNorgeNeste12Mnd]: YesOrNo;
     [Field.harMedsøker]: YesOrNo;
-    [Field.grad]?: number;
-    [Field.dagerPerUkeBorteFraJobb]?: number;
+    [Field.samtidigHjemme]: YesOrNo;
     [Field.tilsynsordning]?: Tilsynsordning;
     [Field.harNattevåk]: YesOrNo;
     [Field.harNattevåk_ekstrainfo]?: string;
@@ -122,8 +122,7 @@ export const initialValues: PleiepengesøknadFormData = {
     [Field.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,
     [Field.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.UNANSWERED,
     [Field.harMedsøker]: YesOrNo.UNANSWERED,
-    [Field.grad]: undefined,
-    [Field.dagerPerUkeBorteFraJobb]: undefined,
+    [Field.samtidigHjemme]: YesOrNo.UNANSWERED,
     [Field.tilsynsordning]: undefined,
     [Field.harNattevåk]: YesOrNo.UNANSWERED,
     [Field.harBeredskap]: YesOrNo.UNANSWERED

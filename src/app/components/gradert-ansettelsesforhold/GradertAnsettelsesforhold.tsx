@@ -15,6 +15,7 @@ import intlHelper from '../../utils/intlUtils';
 import RedusertAnsettelsesforholdPart from './RedusertAnsettelsesforholdPart';
 
 import './gradertAnsettelsesforhold.less';
+import VetIkkeAnsettelsesforholdPart from './VetIkkeAnsettelsesforholdPart';
 
 interface Props {
     organisasjonsnummer: string;
@@ -45,14 +46,19 @@ const GradertAnsettelsesforhold: React.FunctionComponent<Props & InjectedIntlPro
                             validate={validateRequiredField}
                             radios={[
                                 {
-                                    label: intlHelper(intl, 'gradertAnsettelsesforhold.arbeidsforhold.ja'),
-                                    value: AnsettelsesforholdSkalJobbeSvar.ja,
-                                    key: AnsettelsesforholdSkalJobbeSvar.ja
-                                },
-                                {
                                     label: intlHelper(intl, 'gradertAnsettelsesforhold.arbeidsforhold.nei'),
                                     value: AnsettelsesforholdSkalJobbeSvar.nei,
                                     key: AnsettelsesforholdSkalJobbeSvar.nei
+                                },
+                                {
+                                    label: intlHelper(intl, 'gradertAnsettelsesforhold.arbeidsforhold.vetIkke'),
+                                    value: AnsettelsesforholdSkalJobbeSvar.vetIkke,
+                                    key: AnsettelsesforholdSkalJobbeSvar.vetIkke
+                                },
+                                {
+                                    label: intlHelper(intl, 'gradertAnsettelsesforhold.arbeidsforhold.ja'),
+                                    value: AnsettelsesforholdSkalJobbeSvar.ja,
+                                    key: AnsettelsesforholdSkalJobbeSvar.ja
                                 },
                                 {
                                     label: intlHelper(intl, 'gradertAnsettelsesforhold.arbeidsforhold.redusert'),
@@ -63,6 +69,12 @@ const GradertAnsettelsesforhold: React.FunctionComponent<Props & InjectedIntlPro
                         />
                         {ansettelsesforhold.skalJobbe === AnsettelsesforholdSkalJobbeSvar.redusert && (
                             <RedusertAnsettelsesforholdPart
+                                ansettelsesforhold={ansettelsesforhold}
+                                getFieldName={getFieldName}
+                            />
+                        )}
+                        {ansettelsesforhold.skalJobbe === AnsettelsesforholdSkalJobbeSvar.vetIkke && (
+                            <VetIkkeAnsettelsesforholdPart
                                 ansettelsesforhold={ansettelsesforhold}
                                 getFieldName={getFieldName}
                             />

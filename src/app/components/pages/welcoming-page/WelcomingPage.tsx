@@ -18,6 +18,7 @@ import DinePlikterModal from '../../dine-plikter-modal/DinePlikterModal';
 import BehandlingAvPersonopplysningerModal from '../../behandling-av-personopplysninger-modal/BehandlingAvPersonopplysningerModal';
 import LegeerklæringInformationPanel from '../../legeerklæring-information-panel/LegeerklæringInformationPanel';
 import './welcomingPage.less';
+import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 
 const bem = bemHelper('welcomingPage');
 
@@ -103,9 +104,13 @@ class WelcomingPage extends React.Component<Props, WelcomingPageState> {
                             <FormattedMessage id="welcomingPage.introtittel" />
                         </Sidetittel>
                     </Box>
-                    <Box margin="xl">
-                        <LegeerklæringInformationPanel text={intlHelper(intl, 'welcomingPage.legeerklæring')} />
-                    </Box>
+
+                    {appIsRunningInDemoMode() === false && (
+                        <Box margin="xl">
+                            <LegeerklæringInformationPanel text={intlHelper(intl, 'welcomingPage.legeerklæring')} />
+                        </Box>
+                    )}
+
                     <form onSubmit={handleSubmit}>
                         <Box margin="xl">
                             <ConfirmationCheckboxPanel

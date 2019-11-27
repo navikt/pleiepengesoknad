@@ -4,9 +4,9 @@ import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
 import bemUtils from 'app/utils/bemUtils';
 import { AnsettelsesforholdApi } from 'app/types/PleiepengesøknadApiData';
 import intlHelper from '../../utils/intlUtils';
+import { calcRedusertProsentFromRedusertTimer } from '../../utils/ansettelsesforholdUtils';
 
 import './gradertAnsettelsforholdSummary.less';
-import { calcRedusertProsentFromRedusertTimer } from '../../utils/ansettelsesforholdUtils';
 
 interface AnsettelsesforholdSummaryProps {
     ansettelsesforhold: AnsettelsesforholdApi;
@@ -14,9 +14,10 @@ interface AnsettelsesforholdSummaryProps {
 
 const bem = bemUtils('gradertAnsettelsesforholdSummary');
 
-const GradertAnsettelsesforholdSummary: React.FunctionComponent<
-    AnsettelsesforholdSummaryProps & InjectedIntlProps
-> = ({ ansettelsesforhold, intl }) => {
+const GradertAnsettelsesforholdSummary: React.FunctionComponent<AnsettelsesforholdSummaryProps & InjectedIntlProps> = ({
+    ansettelsesforhold,
+    intl
+}) => {
     const {
         navn,
         organisasjonsnummer,
@@ -31,7 +32,7 @@ const GradertAnsettelsesforholdSummary: React.FunctionComponent<
             <div className={bem.element('org')}>
                 <FormattedMessage id="gradertAnsettelsesforhold.oppsummering.orgInfo" values={orgInfo} />
             </div>
-            {skal_jobbe === 'redusert' ? (
+            {skal_jobbe === 'redusert' && (
                 <div className={bem.element('detaljer')}>
                     {skal_jobbe_timer !== undefined ? (
                         <Normaltekst>
@@ -59,7 +60,15 @@ const GradertAnsettelsesforholdSummary: React.FunctionComponent<
                         </Normaltekst>
                     )}
                 </div>
-            ) : (
+            )}
+            {skal_jobbe === 'vet_ikke' && (
+                <div className={bem.element('detaljer')}>
+                    <Normaltekst>
+                        <FormattedMessage id={`gradertAnsettelsesforhold.oppsummering.svar.vet_ikke`} />
+                    </Normaltekst>
+                </div>
+            )}
+            {skal_jobbe !== 'vet_ikke' && skal_jobbe !== 'redusert' && (
                 <div className={bem.element('detaljer')}>
                     <Normaltekst>
                         <FormattedMessage id={`gradertAnsettelsesforhold.oppsummering.svar.${skal_jobbe}`} />

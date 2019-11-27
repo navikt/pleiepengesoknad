@@ -12,6 +12,10 @@ const DinePlikterContent: React.FunctionComponent<InjectedIntlProps> = ({ intl }
         <ul>
             <li>
                 <Normaltekst>{getText('part1')}</Normaltekst>
+                <ul>
+                    <li>{getText('part1a')}</li>
+                    <li>{getText('part1b')}</li>
+                </ul>
             </li>
             <li style={{ marginTop: '0.5rem' }}>
                 <span>

@@ -23,7 +23,6 @@ export enum FieldValidationErrors {
     'tildato_erFørFradato' = 'fieldvalidation.tildato.erFørFradato',
     'legeerklæring_mangler' = 'fieldvalidation.legeerklæring.mangler',
     'legeerklæring_forMangeFiler' = 'fieldvalidation.legeerklæring.forMangeFiler',
-    'grad_ugyldig' = 'fieldvalidation.grad.ugyldig',
     'ansettelsesforhold_timerUgyldig' = 'fieldvalidation.ansettelsesforhold_timerUgyldig',
     'ansettelsesforhold_prosentUgyldig' = 'fieldvalidation.ansettelsesforhold_prosentUgyldig',
     'ansettelsesforhold_redusertMerEnnNormalt' = 'fieldvalidation.ansettelsesforhold_redusertMerEnnNormalt',
@@ -147,30 +146,6 @@ export const validateLegeerklæring = (attachments: Attachment[]): FieldValidati
     if (uploadedAttachments.length > 3) {
         return fieldValidationError(FieldValidationErrors.legeerklæring_forMangeFiler);
     }
-    return undefined;
-};
-
-export const validateGrad = (grad: number | string): FieldValidationResult => {
-    if (!hasValue(grad)) {
-        return fieldIsRequiredError();
-    }
-    if (typeof grad === 'string') {
-        const gradNumber = +grad;
-        if (Number.isInteger(gradNumber)) {
-            if (gradNumber < 20 || gradNumber > 100) {
-                return fieldValidationError(FieldValidationErrors.grad_ugyldig);
-            } else {
-                return undefined;
-            }
-        } else {
-            return fieldValidationError(FieldValidationErrors.grad_ugyldig);
-        }
-    } else {
-        if (grad < 20 || grad > 100) {
-            return fieldValidationError(FieldValidationErrors.grad_ugyldig);
-        }
-    }
-
     return undefined;
 };
 

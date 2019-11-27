@@ -5,13 +5,14 @@ import { HistoryProps } from '../../../types/History';
 import FormikStep from '../../formik-step/FormikStep';
 import { Field } from '../../../types/PleiepengesøknadFormData';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
-import { validateYesOrNoIsAnswered } from '../../../validation/fieldValidations';
+import { validateYesOrNoIsAnswered, validateRequiredField } from '../../../validation/fieldValidations';
 import intlHelper from 'app/utils/intlUtils';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl';
 import Box from 'app/components/box/Box';
 import { CustomFormikProps } from '../../../types/FormikProps';
 import { YesOrNo } from '../../../types/YesOrNo';
 import Textarea from '../../textarea/Textarea';
+import CounsellorPanel from '../../counsellor-panel/CounsellorPanel';
 
 interface StepProps {
     formikProps: CustomFormikProps;
@@ -20,7 +21,7 @@ interface StepProps {
 
 type Props = StepProps & HistoryProps & InjectedIntlProps & StepConfigProps;
 
-const NattevåkOgBeredskapStep: React.FunctionComponent<Props> = ({
+const BeredskapStep: React.FunctionComponent<Props> = ({
     history,
     intl,
     formikProps: { values },
@@ -28,46 +29,36 @@ const NattevåkOgBeredskapStep: React.FunctionComponent<Props> = ({
     ...stepProps
 }) => {
     const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
-    const { harNattevåk, harBeredskap } = values;
+    const { harBeredskap } = values;
     return (
         <FormikStep
-            id={StepID.NATTEVÅK_OG_BEREDSKAP}
+            id={StepID.BEREDSKAP}
             onValidFormSubmit={navigate}
             history={history}
             {...stepProps}
             formValues={values}>
+            <Box padBottom="xxl">
+                <CounsellorPanel>
+                    <FormattedMessage id="steg.beredskap.veileder" />
+                </CounsellorPanel>
+            </Box>
             <YesOrNoQuestion
-                legend={intlHelper(intl, 'steg.nattevåkOgBeredskap.nattevåk.spm')}
-                name={Field.harNattevåk}
+                legend={intlHelper(intl, 'steg.beredskap.spm')}
+                name={Field.harBeredskap}
                 validate={validateYesOrNoIsAnswered}
             />
-            {harNattevåk === YesOrNo.YES && (
+            {harBeredskap === YesOrNo.YES && (
                 <Box margin="xl">
                     <Textarea
-                        name={Field.harNattevåk_ekstrainfo}
-                        label={intlHelper(intl, 'steg.nattevåkOgBeredskap.nattevåk.tilleggsinfo.spm')}
+                        name={Field.harBeredskap_ekstrainfo}
+                        label={intlHelper(intl, 'steg.beredskap.tilleggsinfo.spm')}
+                        validate={validateRequiredField}
                         maxLength={1000}
                     />
                 </Box>
             )}
-            <Box margin="xl">
-                <YesOrNoQuestion
-                    legend={intlHelper(intl, 'steg.nattevåkOgBeredskap.beredskap.spm')}
-                    name={Field.harBeredskap}
-                    validate={validateYesOrNoIsAnswered}
-                />
-                {harBeredskap === YesOrNo.YES && (
-                    <Box margin="xl">
-                        <Textarea
-                            name={Field.harBeredskap_ekstrainfo}
-                            label={intlHelper(intl, 'steg.nattevåkOgBeredskap.beredskap.tilleggsinfo.spm')}
-                            maxLength={1000}
-                        />
-                    </Box>
-                )}
-            </Box>
         </FormikStep>
     );
 };
 
-export default injectIntl(NattevåkOgBeredskapStep);
+export default injectIntl(BeredskapStep);

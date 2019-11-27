@@ -1,14 +1,14 @@
 const demoSøkerdata = {
     barn: [
         {
-            fodselsdato: new Date('1990-01-01'),
+            fodselsdato: new Date('2008-01-01'),
             fornavn: 'Jan',
             mellomnavn: 'Testperson',
             etternavn: 'Hansen',
             aktoer_id: '1'
         },
         {
-            fodselsdato: new Date('1990-01-02'),
+            fodselsdato: new Date('2014-05-02'),
             fornavn: 'Kari',
             mellomnavn: 'Testperson',
             etternavn: 'Hansen',

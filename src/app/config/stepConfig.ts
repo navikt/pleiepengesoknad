@@ -1,14 +1,14 @@
 import routeConfig from './routeConfig';
 import { getSøknadRoute } from '../utils/routeUtils';
-import { isFeatureEnabled, Feature } from '../utils/featureToggleUtils';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { YesOrNo } from '../types/YesOrNo';
 
 export enum StepID {
     'OPPLYSNINGER_OM_BARNET' = 'opplysninger-om-barnet',
     'ANSETTELSESFORHOLD' = 'ansettelsesforhold',
-    'TILSYNSORDNING' = 'tilsynsordning',
-    'NATTEVÅK_OG_BEREDSKAP' = 'nattevåkOgBeredskap',
+    'OMSORGSTILBUD' = 'omsorgstilbud',
+    'NATTEVÅK' = 'nattevåk',
+    'BEREDSKAP' = 'beredskap',
     'TIDSROM' = 'tidsrom',
     'MEDLEMSKAP' = 'medlemskap',
     'LEGEERKLÆRING' = 'legeerklaering',
@@ -43,12 +43,11 @@ const getStepConfigItemTextKeys = (stepId: StepID): StepConfigItemTexts => {
 };
 
 export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
-    const tilsynIsEnabled = isFeatureEnabled(Feature.TOGGLE_TILSYN);
-    const includeNattevåk =
-        tilsynIsEnabled &&
+    const includeNattevåkAndBeredskap =
         formValues &&
         formValues.tilsynsordning &&
-        formValues.tilsynsordning.skalBarnHaTilsyn === YesOrNo.YES;
+        (formValues.tilsynsordning.skalBarnHaTilsyn === YesOrNo.YES ||
+            formValues.tilsynsordning.skalBarnHaTilsyn === YesOrNo.DO_NOT_KNOW);
     let idx = 0;
     let config = {
         [StepID.OPPLYSNINGER_OM_BARNET]: {
@@ -66,29 +65,32 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
         [StepID.ANSETTELSESFORHOLD]: {
             ...getStepConfigItemTextKeys(StepID.ANSETTELSESFORHOLD),
             index: idx++,
-            nextStep: tilsynIsEnabled ? StepID.TILSYNSORDNING : StepID.MEDLEMSKAP,
+            nextStep: StepID.OMSORGSTILBUD,
             backLinkHref: getSøknadRoute(StepID.TIDSROM)
+        },
+        [StepID.OMSORGSTILBUD]: {
+            ...getStepConfigItemTextKeys(StepID.OMSORGSTILBUD),
+            index: idx++,
+            nextStep: includeNattevåkAndBeredskap ? StepID.NATTEVÅK : StepID.MEDLEMSKAP,
+            backLinkHref: getSøknadRoute(StepID.ANSETTELSESFORHOLD)
         }
     };
 
-    let backLinkStep: StepID = StepID.ANSETTELSESFORHOLD;
-    if (tilsynIsEnabled) {
-        config[StepID.TILSYNSORDNING] = {
-            ...getStepConfigItemTextKeys(StepID.TILSYNSORDNING),
+    let backLinkStep: StepID = StepID.OMSORGSTILBUD;
+    if (includeNattevåkAndBeredskap) {
+        config[StepID.NATTEVÅK] = {
+            ...getStepConfigItemTextKeys(StepID.NATTEVÅK),
             index: idx++,
-            nextStep: includeNattevåk ? StepID.NATTEVÅK_OG_BEREDSKAP : StepID.MEDLEMSKAP,
-            backLinkHref: getSøknadRoute(StepID.ANSETTELSESFORHOLD)
+            nextStep: StepID.BEREDSKAP,
+            backLinkHref: getSøknadRoute(StepID.OMSORGSTILBUD)
         };
-        backLinkStep = StepID.TILSYNSORDNING;
-        if (includeNattevåk) {
-            config[StepID.NATTEVÅK_OG_BEREDSKAP] = {
-                ...getStepConfigItemTextKeys(StepID.NATTEVÅK_OG_BEREDSKAP),
-                index: idx++,
-                nextStep: StepID.MEDLEMSKAP,
-                backLinkHref: getSøknadRoute(StepID.TILSYNSORDNING)
-            };
-            backLinkStep = StepID.NATTEVÅK_OG_BEREDSKAP;
-        }
+        config[StepID.BEREDSKAP] = {
+            ...getStepConfigItemTextKeys(StepID.BEREDSKAP),
+            index: idx++,
+            nextStep: StepID.MEDLEMSKAP,
+            backLinkHref: getSøknadRoute(StepID.NATTEVÅK)
+        };
+        backLinkStep = StepID.BEREDSKAP;
     }
 
     config = {

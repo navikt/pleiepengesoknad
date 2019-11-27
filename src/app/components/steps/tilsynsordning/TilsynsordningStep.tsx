@@ -3,7 +3,7 @@ import { navigateTo } from '../../../utils/navigationUtils';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from '../../../types/History';
 import FormikStep from '../../formik-step/FormikStep';
-import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl';
+import { InjectedIntlProps, injectIntl, FormattedHTMLMessage } from 'react-intl';
 import { Field, TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
 import Box from '../../box/Box';
@@ -21,19 +21,19 @@ import { getNextStepRoute } from '../../../utils/routeUtils';
 type Props = CommonStepFormikProps & HistoryProps & InjectedIntlProps & StepConfigProps;
 
 const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, intl, formValues, ...stepProps }) => {
-    const nextStepRoute = getNextStepRoute(StepID.TILSYNSORDNING, formValues);
+    const nextStepRoute = getNextStepRoute(StepID.OMSORGSTILBUD, formValues);
     const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
     const { tilsynsordning } = formValues;
     const { skalBarnHaTilsyn, vetIkke } = tilsynsordning || {};
     return (
         <FormikStep
-            id={StepID.TILSYNSORDNING}
+            id={StepID.OMSORGSTILBUD}
             onValidFormSubmit={navigate}
             history={history}
             {...stepProps}
             formValues={formValues}>
             <CounsellorPanel>
-                <FormattedMessage id="steg.tilsyn.veileder" />
+                <FormattedHTMLMessage id="steg.tilsyn.veileder.html" />
             </CounsellorPanel>
             <Box margin="xl">
                 <YesOrNoQuestion

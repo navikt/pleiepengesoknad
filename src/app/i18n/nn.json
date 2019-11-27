@@ -152,7 +152,7 @@
     "steg.tidsrom.annenSamtidig.spm": "Er det ein annan som skal søkje om pleiepengar i same tidsperiode?",
     "steg.tidsrom.dagerPerUkeBorteFraJobb.spm": "Kor mange dagar i veka skal du vera borte fra arbeid for å ta hand om barnet?",
 
-    "steg.tilsyn.veileder": "Omsorgstilbod kan vera barnehage, skule, SFO eller anna organisert tilbod. Alle timane barnet er i omsorgstilbod skal vera med i søknaden.",
+    "steg.tilsyn.veileder.html": "Omsorgstilbod kan vera barnehage, skule, SFO eller anna organisert tilbod. Alle timane barnet er i omsorgstilbod skal vera med i søknaden.",
     "steg.tilsyn.skalBarnetHaTilsyn.spm": "Skal barnet vera i eit omsorgstilbod i perioden du søker om pleiepengar?",
     "steg.tilsyn.ja.hvorMyeTilsyn.spm": "Legg inn når barnet er i barnehage, skule eller andre organiserte tilbod",
     "steg.tilsyn.ja.tilleggsopplysninger.spm": "Tilleggsopplysninger?",
@@ -189,7 +189,6 @@
     "steg.oppsummering.barnet.fnr": "Fødselsnummer: {fnr}",
     "steg.oppsummering.barnet.søkersRelasjonTilBarnet": "Din relasjon til barnet: {relasjon}",
 
-    "steg.oppsummering.grad.header": "Grad",
     "steg.oppsummering.dagerPerUkeBorteFraJobb.header": "Antall dagar i veka du skal vera borte frå jobb for å ta hand om barnet",
     "steg.oppsummering.annenSøkerSammePeriode.header": "Er det ein annan som søkjer for same tidsperiode",
     "steg.oppsummering.nattevåk.header": "Nattvåk",

@@ -24,6 +24,7 @@ import { prettifyDate } from '../../../utils/dateUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
 import intlHelper from 'app/utils/intlUtils';
+import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 
 interface OpplysningerOmBarnetStepProps {
     formikProps: CustomFormikProps;
@@ -80,26 +81,28 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                     return validateValgtBarn(value);
                                 }}
                             />
-                            <Checkbox
-                                label={intlHelper(intl, 'steg.omBarnet.gjelderAnnetBarn')}
-                                name={Field.søknadenGjelderEtAnnetBarn}
-                                afterOnChange={(newValue) => {
-                                    if (newValue) {
-                                        resetFieldValue(Field.barnetSøknadenGjelder, setFieldValue);
-                                    } else {
-                                        resetFieldValues(
-                                            [
-                                                Field.barnetsFødselsnummer,
-                                                Field.barnetHarIkkeFåttFødselsnummerEnda,
-                                                Field.barnetsForeløpigeFødselsnummerEllerDNummer,
-                                                Field.barnetsNavn,
-                                                Field.søkersRelasjonTilBarnet
-                                            ],
-                                            setFieldValue
-                                        );
-                                    }
-                                }}
-                            />
+                            {appIsRunningInDemoMode() === false && (
+                                <Checkbox
+                                    label={intlHelper(intl, 'steg.omBarnet.gjelderAnnetBarn')}
+                                    name={Field.søknadenGjelderEtAnnetBarn}
+                                    afterOnChange={(newValue) => {
+                                        if (newValue) {
+                                            resetFieldValue(Field.barnetSøknadenGjelder, setFieldValue);
+                                        } else {
+                                            resetFieldValues(
+                                                [
+                                                    Field.barnetsFødselsnummer,
+                                                    Field.barnetHarIkkeFåttFødselsnummerEnda,
+                                                    Field.barnetsForeløpigeFødselsnummerEllerDNummer,
+                                                    Field.barnetsNavn,
+                                                    Field.søkersRelasjonTilBarnet
+                                                ],
+                                                setFieldValue
+                                            );
+                                        }
+                                    }}
+                                />
+                            )}
                         </>
                     )
                 }
