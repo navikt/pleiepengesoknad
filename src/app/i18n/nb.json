@@ -238,7 +238,7 @@
     "page.confirmation.sidetittel": "Vi har mottatt søknaden din",
     "page.confirmation.tittel": "Vi har mottatt søknad fra deg om pleiepenger",
     "page.confirmation.undertittel": "Hva skjer videre nå?",
-    "page.confirmation.søker": "Du må be {numberOfAnsettelsesforhold, plural, one {arbeidsgiver} other {arbeidsgiverene dine}} din om å sende inntektsmelding til oss",
+    "page.confirmation.søker": "Du må be {numberOfAnsettelsesforhold, plural, one {arbeidsgiveren din} other {arbeidsgiverene dine}} om å sende inntektsmelding til oss.",
     "page.confirmation.nav.html": "<p>Vi starter behandlingen av søknaden, og den vil bli synlig på Ditt NAV innen en uke. Når søknaden er ferdig behandlet, får du et svarbrev fra oss. Du kan se <a href=\"{lenke}\" className=\"lenke\" rel=\"noopener\">saksbehandlingstiden for ditt fylke her</a>.</p><p>Vi kontakter deg hvis vi trenger flere opplysninger i saken din.</p>",
 
     "page.generalErrorPage.sidetittel": "Feil",
