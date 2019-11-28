@@ -29,6 +29,7 @@ export interface CommonStepFormikProps {
 
 const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContentProps> = ({ formikProps }) => {
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
+    const [antallAnsettelsesforhold, setAntallAnsettelsesforhold] = React.useState<number>(0);
     const { handleSubmit, values, isSubmitting, isValid, resetForm } = formikProps;
     const commonFormikProps: CommonStepFormikProps = { handleSubmit, formValues: formikProps.values };
     return (
@@ -166,18 +167,24 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
                 />
             )}
 
-            {(isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, values) || søknadHasBeenSent) && (
+            {(isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, values) || søknadHasBeenSent === true) && (
                 <Route
                     path={RouteConfig.SØKNAD_SENDT_ROUTE}
                     render={() => {
                         // we clear form state here to ensure that no steps will be available
                         // after the application has been sent. this is done in a setTimeout
                         // because we do not want to update state during render.
-                        setTimeout(() => {
-                            resetForm();
-                        });
-                        setSøknadHasBeenSent(true);
-                        return <ConfirmationPage numberOfAnsettelsesforhold={values.ansettelsesforhold.length} />;
+                        if (values.harForståttRettigheterOgPlikter === true) {
+                            // Only call reset if it has not been called before (prevent loop)
+                            setTimeout(() => {
+                                setAntallAnsettelsesforhold(values.ansettelsesforhold.length);
+                                resetForm();
+                            });
+                        }
+                        if (søknadHasBeenSent === false) {
+                            setSøknadHasBeenSent(true);
+                        }
+                        return <ConfirmationPage numberOfAnsettelsesforhold={antallAnsettelsesforhold} />;
                     }}
                 />
             )}
