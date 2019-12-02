@@ -57,7 +57,7 @@ const LegeerklæringStep = ({ history, intl, nextStepRoute, formikProps, ...step
                         </CounsellorPanel>
                     </Box>
                     <HelperTextPanel>
-                        <FormattedHTMLMessage id="steg.lege.info.html" />
+                        <FormattedHTMLMessage tagName="div" id="steg.lege.info.html" />
                     </HelperTextPanel>
                     <Box margin="l">
                         <FormikFileUploader

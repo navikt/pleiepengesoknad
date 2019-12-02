@@ -184,7 +184,7 @@
     "steg.medlemsskap.annetLandNeste12.spm": "Planlegger du å bo i andre land enn Norge i hele eller deler av de neste 12 månedene?",
     "steg.medlemsskap.annetLandNeste12.hjelp": "Du svarer ja bare hvis du planlegger å oppholde deg fast i et annet land enn Norge. Korte utlandsturer i forbindelse med for eksempel ferie regnes ikke med.",
 
-    "steg.lege.info.html": "Ta bilde av feltene i papirsøknaden som legen har fylt ut om barnet. Vær nøye med at <strong>all tekst</strong> på bildet er med, og at bildet er leselig.",
+    "steg.lege.info.html": "<p>Ta bilde av leggerklæringen og last opp. Hvis legen har skrevet erklæringen i papirsøknaden, ta bilde av feltene som legen har fylt ut om barnet.</p><p>Vær nøye med at <strong>all tekst</strong> på bildet er med, og at bildet er leselig.</p>",
     "steg.lege.vedlegg": "Last opp bilde av legeerklæringen (maks 3 bilder)",
     "steg.lege.intro.1.html": "For de første 8 ukene må legeerklæringen skrives av en sykehuslege. Etter de første 8 ukene kan legeerklæringen skrives av alle leger i spesialisthelsetjenesten.",
     "steg.lege.intro.2.html": "Disse yrkesgruppene kan <strong>ikke</strong> undertegne legeerklæringen: Sosionom, legesekretær, psykolog, psykologspesialist, fysioterapeut, fastlege og spesialist i allmennmedisin.",
