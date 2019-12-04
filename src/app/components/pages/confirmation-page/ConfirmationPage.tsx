@@ -30,14 +30,20 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ intl, numberOfAnsett
                 <FormattedMessage id="page.confirmation.undertittel" />
             </Ingress>
             <ul className="checklist">
+                <li>
+                    <FormattedMessage id="page.confirmation.dittNav" />
+                </li>
                 {numberOfAnsettelsesforhold > 0 && (
                     <li>
                         <FormattedHTMLMessage id="page.confirmation.søker" values={{ numberOfAnsettelsesforhold }} />
                     </li>
                 )}
                 <li>
+                    <FormattedMessage id="page.confirmation.behandling" />
+                </li>
+                <li>
                     <FormattedHTMLMessage
-                        id="page.confirmation.nav.html"
+                        id="page.confirmation.behandlet.html"
                         values={{
                             lenke: getLenker(intl.locale).saksbehandlingstider
                         }}
