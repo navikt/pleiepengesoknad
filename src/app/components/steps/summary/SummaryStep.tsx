@@ -28,6 +28,8 @@ import TilsynsordningSummary from './TilsynsordningSummary';
 import TextareaSummary from '../../textarea-summary/TextareaSummary';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
+import ValidationErrorSummaryBase from '../../validation-error-summary-base/ValidationErrorSummaryBase';
+import { validateApiValues } from '../../../validation/apiValuesValidation';
 
 interface State {
     sendingInProgress: boolean;
@@ -79,6 +81,7 @@ class SummaryStep extends React.Component<Props, State> {
             <SøkerdataContextConsumer>
                 {({ person: { fornavn, mellomnavn, etternavn, fodselsnummer }, barn }: Søkerdata) => {
                     const apiValues = mapFormDataToApiData(formValues, barn, intl.locale as Locale);
+                    const apiValuesValidationErrors = validateApiValues(apiValues, intl);
 
                     const { tilsynsordning, nattevaak, beredskap } = apiValues;
 
@@ -88,6 +91,17 @@ class SummaryStep extends React.Component<Props, State> {
                             onValidFormSubmit={() => this.navigate(barn)}
                             history={history}
                             useValidationErrorSummary={false}
+                            showSubmitButton={apiValuesValidationErrors === undefined}
+                            customErrorSummaryRenderer={
+                                apiValuesValidationErrors
+                                    ? () => (
+                                          <ValidationErrorSummaryBase
+                                              title={intlHelper(intl, 'formikValidationErrorSummary.tittel')}
+                                              errors={apiValuesValidationErrors}
+                                          />
+                                      )
+                                    : undefined
+                            }
                             {...stepProps}>
                             <CounsellorPanel>
                                 <FormattedMessage id="steg.oppsummering.info" />
