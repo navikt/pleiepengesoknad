@@ -26,6 +26,7 @@ export interface StepProps {
     buttonDisabled?: boolean;
     useValidationErrorSummary?: boolean;
     intl: InjectedIntl;
+    customErrorSummaryRenderer?: () => React.ReactNode;
 }
 
 const Step: React.FunctionComponent<StepProps> = ({
@@ -36,6 +37,7 @@ const Step: React.FunctionComponent<StepProps> = ({
     showButtonSpinner,
     buttonDisabled,
     useValidationErrorSummary,
+    customErrorSummaryRenderer,
     intl,
     children
 }) => {
@@ -51,6 +53,9 @@ const Step: React.FunctionComponent<StepProps> = ({
                     <StepBanner text="Søknad om pleiepenger" />
                     {useValidationErrorSummary !== false && (
                         <FormikValidationErrorSummary className={bem.element('validationErrorSummary')} />
+                    )}
+                    {customErrorSummaryRenderer && (
+                        <div className={bem.element('validationErrorSummary')}>{customErrorSummaryRenderer()}</div>
                     )}
                 </>
             )}>

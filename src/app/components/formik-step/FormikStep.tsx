@@ -12,6 +12,7 @@ export interface FormikStepProps {
     onValidFormSubmit?: () => void;
     history: History;
     skipValidation?: boolean;
+    customErrorSummaryRenderer?: () => React.ReactNode;
 }
 
 type Props = FormikStepProps & StepProps;
