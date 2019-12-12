@@ -1,10 +1,10 @@
 import * as React from 'react';
-import FrontPageBanner from '../../front-page-banner/FrontPageBanner';
-import Page from '../../page/Page';
+import FrontPageBanner from 'common/components/front-page-banner/FrontPageBanner';
+import Page from 'common/components/page/Page';
 import Lenke from 'nav-frontend-lenker';
-import Box from '../../box/Box';
+import Box from 'common/components/box/Box';
 import { Innholdstittel } from 'nav-frontend-typografi';
-import intlHelper from 'app/utils/intlUtils';
+import intlHelper from 'common/utils/intlUtils';
 import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl';
 import getLenker from 'app/lenker';
 import './ikkeMyndigPage.less';

@@ -6,7 +6,7 @@ import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad'
 import IntroPage from './components/pages/intro-page/IntroPage';
 import { render } from 'react-dom';
 import Modal from 'nav-frontend-modal';
-import { Locale } from './types/Locale';
+import { Locale } from 'common/types/Locale';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
 import './styles/globalStyles.less';
 import { appIsRunningInDemoMode } from './utils/envUtils';

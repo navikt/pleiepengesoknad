@@ -1,11 +1,11 @@
 import * as React from 'react';
 import RadioPanelGroup from '../radio-panel-group/RadioPanelGroup';
 import { Field } from '../../types/PleiepengesøknadFormData';
-import { YesOrNo } from '../../types/YesOrNo';
+import { YesOrNo } from 'common/types/YesOrNo';
 import { FormikValidationProps } from 'app/types/FormikProps';
 import { injectIntl } from 'react-intl';
-import { RadioPanelGroupStyle } from '../radio-panel-group-base/RadioPanelGroupBase';
-import intlHelper from '../../utils/intlUtils';
+import { RadioPanelGroupStyle } from 'common/form-components/radio-panel-group-base/RadioPanelGroupBase';
+import intlHelper from 'common/utils/intlUtils';
 
 interface YesOrNoQuestionProps {
     legend: string;

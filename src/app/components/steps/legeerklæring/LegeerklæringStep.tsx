@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { injectIntl, InjectedIntlProps, FormattedHTMLMessage } from 'react-intl';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
-import { HistoryProps } from '../../../types/History';
+import { HistoryProps } from 'common/types/History';
 import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
@@ -9,14 +9,14 @@ import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
 import { Field } from '../../../types/PleiepengesøknadFormData';
 import FileUploadErrors from '../../file-upload-errors/FileUploadErrors';
 import { validateLegeerklæring } from '../../../validation/fieldValidations';
-import HelperTextPanel from '../../helper-text-panel/HelperTextPanel';
-import Box from '../../box/Box';
-import intlHelper from 'app/utils/intlUtils';
+import Box from 'common/components/box/Box';
+import intlHelper from 'common/utils/intlUtils';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 import { CustomFormikProps } from '../../../types/FormikProps';
-import CounsellorPanel from '../../counsellor-panel/CounsellorPanel';
+import HelperTextPanel from 'common/components/helper-text-panel/HelperTextPanel';
+import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 
 type Props = { formikProps: CustomFormikProps } & CommonStepFormikProps &
     HistoryProps &

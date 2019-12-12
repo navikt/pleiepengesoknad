@@ -11,11 +11,12 @@ import {
     AnsettelsesforholdApiRedusert,
     AnsettelsesforholdApiVetIkke
 } from '../../types/PleiepengesøknadApiData';
-import * as dateUtils from './../dateUtils';
-import * as attachmentUtils from './../attachmentUtils';
-import { YesOrNo } from '../../types/YesOrNo';
+import * as dateUtils from 'common/utils/dateUtils';
+import * as attachmentUtils from 'common/utils/attachmentUtils';
+import { YesOrNo } from 'common/types/YesOrNo';
 import { BarnReceivedFromApi } from '../../types/Søkerdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
+import { Attachment } from 'common/types/Attachment';
 
 const moment = require('moment');
 

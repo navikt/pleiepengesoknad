@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Undertittel } from 'nav-frontend-typografi';
-import bemUtils from '../../utils/bemUtils';
+import bemUtils from 'common/utils/bemUtils';
 import './validationErrorSummaryBase.less';
 
 export interface ValidationSummaryError {

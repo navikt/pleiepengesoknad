@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Element } from 'nav-frontend-typografi';
-import bemHelper from '../../utils/bemUtils';
+import bemHelper from 'common/utils/bemUtils';
 import CustomSVG from '../../components/custom-svg/CustomSVG';
 import CustomInputElement from '../custom-input-element/CustomInputElement';
 import { SkjemaelementFeil as ValidationError } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';

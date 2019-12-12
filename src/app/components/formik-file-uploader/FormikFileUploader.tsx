@@ -9,10 +9,11 @@ import {
     attachmentUploadHasFailed,
     getPendingAttachmentFromFile,
     VALID_EXTENSIONS
-} from '../../utils/attachmentUtils';
+} from 'common/utils/attachmentUtils';
 import { uploadFile } from '../../api/api';
 import { FieldArrayPushFn, FieldArrayReplaceFn, FormikValidateFunction } from '../../types/FormikProps';
 import * as apiUtils from '../../utils/apiUtils';
+import { Attachment } from 'common/types/Attachment';
 
 interface FormikFileUploader {
     name: Field;

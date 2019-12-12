@@ -1,18 +1,18 @@
 import React from 'react';
-import Box from '../box/Box';
+import Box from 'common/components/box/Box';
 import { SkjemaGruppe } from 'nav-frontend-skjema';
 import Input from '../input/Input';
 import { AnsettelsesforholdForm, AnsettelsesforholdField, Field } from '../../types/PleiepengesøknadFormData';
-import intlHelper from '../../utils/intlUtils';
+import intlHelper from 'common/utils/intlUtils';
 import { validateReduserteArbeidProsent, validateRequiredField } from '../../validation/fieldValidations';
 import RadioPanelGroup from '../radio-panel-group/RadioPanelGroup';
 import { injectIntl, InjectedIntlProps, FormattedMessage, InjectedIntl } from 'react-intl';
-import CounsellorPanel from '../counsellor-panel/CounsellorPanel';
+import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import {
     calcReduserteTimerFromRedusertProsent,
     calcRedusertProsentFromRedusertTimer
 } from '../../utils/ansettelsesforholdUtils';
-import { decimalTimeToTime } from '../../utils/timeUtils';
+import { decimalTimeToTime } from 'common/utils/timeUtils';
 
 interface Props {
     ansettelsesforhold: AnsettelsesforholdForm;

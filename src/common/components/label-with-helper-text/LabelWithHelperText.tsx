@@ -1,5 +1,5 @@
 import * as React from 'react';
-import bemUtils from '../../utils/bemUtils';
+import bemUtils from 'common/utils/bemUtils';
 import HelperTextButton from '../helper-text-button/HelperTextButton';
 import HelperTextPanel from '../helper-text-panel/HelperTextPanel';
 import intlHelper from 'common/utils/intlUtils';

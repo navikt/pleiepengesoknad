@@ -3,7 +3,7 @@ import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from '../../utils/navFrontendUtils';
 import { FormikValidationProps } from 'app/types/FormikProps';
 import TimeInputBase from '../time-input-base/TimeInputBase';
-import { Time } from 'app/types/Time';
+import { Time } from 'common/types/Time';
 
 interface FormikTimeInputProps<T> {
     name: T;

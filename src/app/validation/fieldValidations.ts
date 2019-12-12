@@ -1,12 +1,13 @@
-import { YesOrNo } from '../types/YesOrNo';
+import { YesOrNo } from 'common/types/YesOrNo';
 import { fødselsnummerIsValid, FødselsnummerValidationErrorReason } from './fødselsnummerValidator';
-import { isMoreThan3YearsAgo } from '../utils/dateUtils';
-import { attachmentHasBeenUploaded } from '../utils/attachmentUtils';
+import { isMoreThan3YearsAgo } from 'common/utils/dateUtils';
+import { attachmentHasBeenUploaded } from 'common/utils/attachmentUtils';
 import { FieldValidationResult } from './types';
-import { timeToDecimalTime } from 'app/utils/timeUtils';
-import { Time } from 'app/types/Time';
+import { timeToDecimalTime } from 'common/utils/timeUtils';
+import { Time } from 'common/types/Time';
 import { Tilsynsordning } from '../types/PleiepengesøknadFormData';
 import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
+import { Attachment } from 'common/types/Attachment';
 
 const moment = require('moment');
 

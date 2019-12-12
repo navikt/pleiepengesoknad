@@ -8,10 +8,10 @@ import {
     AnsettelsesforholdSkalJobbeSvar,
     AnsettelsesforholdField
 } from 'app/types/PleiepengesøknadFormData';
-import Box from '../box/Box';
+import Box from 'common/components/box/Box';
 import { validateRequiredField } from 'app/validation/fieldValidations';
 import RadioPanelGroup from '../radio-panel-group/RadioPanelGroup';
-import intlHelper from '../../utils/intlUtils';
+import intlHelper from 'common/utils/intlUtils';
 import RedusertAnsettelsesforholdPart from './RedusertAnsettelsesforholdPart';
 
 import './gradertAnsettelsesforhold.less';

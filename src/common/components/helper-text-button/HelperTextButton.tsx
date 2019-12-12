@@ -1,6 +1,6 @@
 import * as React from 'react';
 import HelperTextIcon from '../helper-text-icon/HelperTextIcon';
-import bemUtils from '../../utils/bemUtils';
+import bemUtils from 'common/utils/bemUtils';
 import './helperTextButton.less';
 
 const bem = bemUtils('helperTextButton');

@@ -1,5 +1,5 @@
 import { Tilsynsuke } from '../types/PleiepengesøknadFormData';
-import { timeToDecimalTime } from './timeUtils';
+import { timeToDecimalTime } from 'common/utils/timeUtils';
 
 export const sumTimerMedTilsyn = (uke: Tilsynsuke): number => {
     return Object.keys(uke).reduce((timer: number, key: string) => {

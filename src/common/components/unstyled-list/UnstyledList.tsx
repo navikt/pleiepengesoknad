@@ -1,5 +1,5 @@
 import * as React from 'react';
-import bemHelper from '../../utils/bemUtils';
+import bemHelper from 'common/utils/bemUtils';
 import './unstyledList.less';
 
 const bem = bemHelper('unstyledList');

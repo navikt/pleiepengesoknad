@@ -1,8 +1,8 @@
 import * as React from 'react';
-import bemHelper from '../../utils/bemUtils';
+import bemHelper from 'common/utils/bemUtils';
 import { Normaltekst as NormalText } from 'nav-frontend-typografi';
 import './speechBubble.less';
-import Box from '../box/Box';
+import Box from 'common/components/box/Box';
 
 const bem = bemHelper('speechBubble');
 

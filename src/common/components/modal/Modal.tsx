@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { default as NFModal } from 'nav-frontend-modal';
-import bemUtils from '../../utils/bemUtils';
+import bemUtils from 'common/utils/bemUtils';
 import './modal.less';
 
 export interface ModalProps {

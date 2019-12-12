@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from '../../utils/navFrontendUtils';
-import RadioPanelGroupBase, { RadioPanelGroupStyle } from '../radio-panel-group-base/RadioPanelGroupBase';
+import RadioPanelGroupBase, {
+    RadioPanelGroupStyle
+} from 'common/form-components/radio-panel-group-base/RadioPanelGroupBase';
 import { FormikValidateFunction, FormikValidationProps } from 'app/types/FormikProps';
 
 interface FormikRadioPanelProps {
@@ -22,9 +24,18 @@ interface FormikRadioPanelGroupProps<T> {
     style?: RadioPanelGroupStyle;
 }
 
-const FormikRadioPanelGroup = <T extends {}>(): React.FunctionComponent<
-    FormikRadioPanelGroupProps<T> & FormikValidationProps
-> => ({ name, validate, legend, radios, helperText, style, singleColumn, expandedContentRenderer, intl }) => (
+const FormikRadioPanelGroup = <T extends {}>(): React.FunctionComponent<FormikRadioPanelGroupProps<T> &
+    FormikValidationProps> => ({
+    name,
+    validate,
+    legend,
+    radios,
+    helperText,
+    style,
+    singleColumn,
+    expandedContentRenderer,
+    intl
+}) => (
     <FormikField validate={validate} name={name}>
         {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {
             const errorMsgProps = submitCount > 0 ? getValidationErrorPropsWithIntl(intl, errors, field.name) : {};

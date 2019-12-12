@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Normaltekst } from 'nav-frontend-typografi';
-import bemHelper from '../../utils/bemUtils';
+import bemHelper from 'common/utils/bemUtils';
 import './contentWithHeader.less';
 
 interface ContentWithHeaderProps {

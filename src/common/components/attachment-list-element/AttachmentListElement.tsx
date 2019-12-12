@@ -1,5 +1,5 @@
 import * as React from 'react';
-import bemHelper from '../../utils/bemUtils';
+import bemHelper from 'common/utils/bemUtils';
 import AttachmentLabel from '../attachment-label/AttachmentLabel';
 const listElementBem = bemHelper(`attachmentListElement`);
 import './attachmentListElement.less';

@@ -1,7 +1,7 @@
 import { ValidationSummaryError } from '../components/validation-error-summary-base/ValidationErrorSummaryBase';
 import { PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
 import { InjectedIntl } from 'react-intl';
-import intlHelper from '../utils/intlUtils';
+import intlHelper from 'common/utils/intlUtils';
 
 export const validateApiValues = (
     values: PleiepengesøknadApiData,

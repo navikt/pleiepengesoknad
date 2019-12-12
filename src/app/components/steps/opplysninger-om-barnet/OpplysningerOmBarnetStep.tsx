@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
-import { HistoryProps } from '../../../types/History';
+import { HistoryProps } from 'common/types/History';
 import { navigateTo } from '../../../utils/navigationUtils';
 import {
     validateForeløpigFødselsnummer,
@@ -12,7 +12,7 @@ import {
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
 import { CustomFormikProps } from '../../../types/FormikProps';
-import { formatName } from '../../../utils/personUtils';
+import { formatName } from 'common/utils/personUtils';
 import { Field } from '../../../types/PleiepengesøknadFormData';
 import Checkbox from '../../checkbox/Checkbox';
 import Input from '../../input/Input';
@@ -20,10 +20,10 @@ import FormikStep from '../../formik-step/FormikStep';
 import { harRegistrerteBarn } from '../../../utils/søkerdataUtils';
 import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
 import { resetFieldValue, resetFieldValues } from '../../../utils/formikUtils';
-import { prettifyDate } from '../../../utils/dateUtils';
+import { prettifyDate } from 'common/utils/dateUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
-import intlHelper from 'app/utils/intlUtils';
+import intlHelper from 'common/utils/intlUtils';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 
 interface OpplysningerOmBarnetStepProps {

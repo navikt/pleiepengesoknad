@@ -1,9 +1,9 @@
 import React from 'react';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
-import bemUtils from 'app/utils/bemUtils';
+import bemUtils from 'common/utils/bemUtils';
 import { AnsettelsesforholdApi } from 'app/types/PleiepengesøknadApiData';
-import intlHelper from '../../utils/intlUtils';
+import intlHelper from 'common/utils/intlUtils';
 import { calcRedusertProsentFromRedusertTimer } from '../../utils/ansettelsesforholdUtils';
 
 import './gradertAnsettelsforholdSummary.less';

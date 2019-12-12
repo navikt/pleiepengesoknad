@@ -9,7 +9,7 @@ import {
 } from '../validation/stepValidations';
 import { StepConfigItemTexts, StepID, StepConfigInterface } from 'app/config/stepConfig';
 import { InjectedIntl } from 'react-intl';
-import intlHelper from './intlUtils';
+import intlHelper from 'common/utils/intlUtils';
 
 export const getStepTexts = (
     intl: InjectedIntl,

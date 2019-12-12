@@ -1,6 +1,6 @@
 import { InjectedIntl } from 'react-intl';
 import { FieldValidationResultValues, FieldValidationError } from './types';
-import intlHelper from '../utils/intlUtils';
+import intlHelper from 'common/utils/intlUtils';
 
 export const isFieldValidationError = (error: any): error is FieldValidationError =>
     typeof error === 'object' && error.key !== undefined;

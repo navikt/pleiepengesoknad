@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Input as NAVInput, NavFrontendInputProps as NAVInputProps } from 'nav-frontend-skjema';
 import LabelWithHelperText from '../../components/label-with-helper-text/LabelWithHelperText';
 import { InputType } from '../../types/InputType';
-import bemUtils from '../../utils/bemUtils';
+import bemUtils from 'common/utils/bemUtils';
 import './inputBase.less';
 
 export interface InputBaseProps {

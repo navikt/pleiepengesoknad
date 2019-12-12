@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ArrayHelpers, Field as FormikField, FieldArray, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from '../../utils/navFrontendUtils';
-import FileInputBase from '../file-input-base/FileInputBase';
+import FileInputBase from 'common/form-components/file-input-base/FileInputBase';
 import { FormikValidationProps } from 'app/types/FormikProps';
 
 export interface FormikFileInputProps<T> {

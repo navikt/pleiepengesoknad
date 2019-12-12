@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Chevron from 'nav-frontend-chevron';
 import Lenke from 'nav-frontend-lenker';
-import bemUtils from '../../utils/bemUtils';
+import bemUtils from 'common/utils/bemUtils';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { History } from 'history';
 import './backLink.less';
