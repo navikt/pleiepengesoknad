@@ -1,20 +1,20 @@
 import * as React from 'react';
 import { navigateTo } from '../../../utils/navigationUtils';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
-import { HistoryProps } from '../../../types/History';
+import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
 import { InjectedIntlProps, injectIntl, FormattedHTMLMessage } from 'react-intl';
 import { Field, TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
-import Box from '../../box/Box';
-import { YesOrNo } from '../../../types/YesOrNo';
+import Box from 'common/components/box/Box';
+import { YesOrNo } from 'common/types/YesOrNo';
 import Textarea from '../../textarea/Textarea';
 import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
 import InputGroup from '../../input-group/InputGroup';
 import { validateSkalHaTilsynsordning, validateYesOrNoIsAnswered } from '../../../validation/fieldValidations';
 import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
-import intlHelper from '../../../utils/intlUtils';
-import CounsellorPanel from '../../counsellor-panel/CounsellorPanel';
+import intlHelper from 'common/utils/intlUtils';
+import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import { getNextStepRoute } from '../../../utils/routeUtils';
 

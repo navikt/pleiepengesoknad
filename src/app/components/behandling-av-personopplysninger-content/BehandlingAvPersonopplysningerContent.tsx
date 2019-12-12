@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Ingress, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
-import Box from '../box/Box';
+import Box from 'common/components/box/Box';
 import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl';
 import getLenker from 'app/lenker';
 import './behandlingAvPersonopplysningerContent.less';

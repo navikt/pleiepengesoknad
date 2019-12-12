@@ -1,4 +1,4 @@
-import { formatDate } from './dateUtils';
+import { formatDate } from 'common/utils/dateUtils';
 import {
     PleiepengesøknadFormData,
     AnsettelsesforholdForm,
@@ -16,12 +16,12 @@ import {
     AnsettelsesforholdApiSomVanlig,
     AnsettelsesforholdApiVetIkke
 } from '../types/PleiepengesøknadApiData';
-import { attachmentUploadHasFailed } from './attachmentUtils';
-import { YesOrNo } from '../types/YesOrNo';
-import { formatName } from './personUtils';
+import { attachmentUploadHasFailed } from 'common/utils/attachmentUtils';
+import { YesOrNo } from 'common/types/YesOrNo';
+import { formatName } from 'common/utils/personUtils';
 import { BarnReceivedFromApi } from '../types/Søkerdata';
-import { Locale } from 'app/types/Locale';
-import { timeToIso8601Duration } from './timeUtils';
+import { Locale } from 'common/types/Locale';
+import { timeToIso8601Duration } from 'common/utils/timeUtils';
 import { calcRedusertProsentFromRedusertTimer } from './ansettelsesforholdUtils';
 
 export const mapFormDataToApiData = (

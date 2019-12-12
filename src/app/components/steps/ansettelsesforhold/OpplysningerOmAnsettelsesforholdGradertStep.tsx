@@ -1,6 +1,6 @@
 import React from 'react';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
-import { HistoryProps } from '../../../types/History';
+import { HistoryProps } from 'common/types/History';
 import { navigateTo } from '../../../utils/navigationUtils';
 import { Field } from '../../../types/PleiepengesøknadFormData';
 import FormikStep from '../../formik-step/FormikStep';
@@ -8,13 +8,13 @@ import CheckboxPanelGroup from '../../checkbox-panel-group/CheckboxPanelGroup';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
 import AlertStripe from 'nav-frontend-alertstriper';
-import Box from '../../box/Box';
+import Box from 'common/components/box/Box';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { InjectedIntlProps, FormattedMessage, injectIntl, FormattedHTMLMessage } from 'react-intl';
-import intlHelper from 'app/utils/intlUtils';
+import intlHelper from 'common/utils/intlUtils';
 import GradertAnsettelsesforhold from '../../gradert-ansettelsesforhold/GradertAnsettelsesforhold';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
-import CounsellorPanel from '../../counsellor-panel/CounsellorPanel';
+import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 
 type Props = CommonStepFormikProps & HistoryProps & InjectedIntlProps & StepConfigProps;
 

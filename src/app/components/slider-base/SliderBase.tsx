@@ -1,6 +1,6 @@
 import * as React from 'react';
-import CustomInputElement from '../custom-input-element/CustomInputElement';
-import bemUtils from '../../utils/bemUtils';
+import CustomInputElement from 'common/form-components/custom-input-element/CustomInputElement';
+import bemUtils from 'common/utils/bemUtils';
 import { SkjemaelementFeil as ValidationError } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
 import { guid } from 'nav-frontend-js-utils';
 import classnames from 'classnames';

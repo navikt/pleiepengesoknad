@@ -1,7 +1,7 @@
 import { Tilsynsordning } from '../../types/PleiepengesøknadFormData';
 import { mapTilsynsordningToApiData } from '../mapFormDataToApiData';
 import { TilsynsordningApi } from '../../types/PleiepengesøknadApiData';
-import { YesOrNo } from '../../types/YesOrNo';
+import { YesOrNo } from 'common/types/YesOrNo';
 
 jest.mock('./../featureToggleUtils.ts', () => ({
     isFeatureEnabled: jest.fn(),

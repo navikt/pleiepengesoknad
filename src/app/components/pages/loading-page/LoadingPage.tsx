@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Page from '../../page/Page';
-import LoadingSpinner from '../../loading-spinner/LoadingSpinner';
-import intlHelper from '../../../utils/intlUtils';
+import Page from 'common/components/page/Page';
+import LoadingSpinner from 'common/components/loading-spinner/LoadingSpinner';
+import intlHelper from 'common/utils/intlUtils';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 
 const LoadingPage: React.FunctionComponent<InjectedIntlProps> = ({ intl }) => (

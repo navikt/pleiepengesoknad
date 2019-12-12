@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Input } from 'nav-frontend-skjema';
-import LabelWithHelperText from '../label-with-helper-text/LabelWithHelperText';
+import LabelWithHelperText from 'common/components/label-with-helper-text/LabelWithHelperText';
 import Timefield from 'react-simple-timefield';
 import TimefieldUtils from './timefieldUtils';
 

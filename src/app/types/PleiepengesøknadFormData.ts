@@ -1,6 +1,7 @@
 import { Ansettelsesforhold } from './Søkerdata';
-import { YesOrNo } from './YesOrNo';
-import { Time } from './Time';
+import { YesOrNo } from 'common/types/YesOrNo';
+import { Time } from 'common/types/Time';
+import { Attachment } from 'common/types/Attachment';
 
 export enum AnsettelsesforholdSkalJobbeSvar {
     'ja' = 'ja',

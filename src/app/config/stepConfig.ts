@@ -1,7 +1,7 @@
 import routeConfig from './routeConfig';
 import { getSøknadRoute } from '../utils/routeUtils';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import { YesOrNo } from '../types/YesOrNo';
+import { YesOrNo } from 'common/types/YesOrNo';
 
 export enum StepID {
     'OPPLYSNINGER_OM_BARNET' = 'opplysninger-om-barnet',

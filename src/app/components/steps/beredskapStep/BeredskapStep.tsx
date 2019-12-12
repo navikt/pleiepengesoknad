@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { navigateTo } from '../../../utils/navigationUtils';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
-import { HistoryProps } from '../../../types/History';
+import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
 import { Field } from '../../../types/PleiepengesøknadFormData';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
 import { validateYesOrNoIsAnswered, validateRequiredField } from '../../../validation/fieldValidations';
-import intlHelper from 'app/utils/intlUtils';
+import intlHelper from 'common/utils/intlUtils';
 import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl';
-import Box from 'app/components/box/Box';
+import Box from 'common/components/box/Box';
 import { CustomFormikProps } from '../../../types/FormikProps';
-import { YesOrNo } from '../../../types/YesOrNo';
-import Textarea from '../../textarea/Textarea';
-import CounsellorPanel from '../../counsellor-panel/CounsellorPanel';
+import { YesOrNo } from 'common/types/YesOrNo';
+import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
+import Textarea from 'app/components/textarea/Textarea';
 
 interface StepProps {
     formikProps: CustomFormikProps;

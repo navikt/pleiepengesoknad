@@ -1,14 +1,14 @@
 import React from 'react';
 import { TilsynsordningApi, TilsynsordningApiJa } from '../../../types/PleiepengesøknadApiData';
-import Box from '../../box/Box';
-import ContentWithHeader from '../../content-with-header/ContentWithHeader';
-import intlHelper from '../../../utils/intlUtils';
+import Box from 'common/components/box/Box';
+import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
+import intlHelper from 'common/utils/intlUtils';
 import { injectIntl, InjectedIntlProps, FormattedMessage, InjectedIntl } from 'react-intl';
 import { hasValue } from '../../../validation/fieldValidations';
 import { TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
-import { Time } from '../../../types/Time';
+import { Time } from 'common/types/Time';
 import TextareaSummary from '../../textarea-summary/TextareaSummary';
-import { iso8601DurationToTime } from '../../../utils/timeUtils';
+import { iso8601DurationToTime } from 'common/utils/timeUtils';
 
 interface Props {
     tilsynsordning: TilsynsordningApi;

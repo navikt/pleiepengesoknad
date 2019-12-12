@@ -1,4 +1,4 @@
-import { Locale } from './Locale';
+import { Locale } from 'common/types/Locale';
 import { TilsynVetIkkeHvorfor } from './PleiepengesøknadFormData';
 
 export type ISO8601Duration = string;

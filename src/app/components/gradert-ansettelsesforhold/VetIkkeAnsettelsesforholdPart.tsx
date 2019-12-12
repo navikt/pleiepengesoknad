@@ -1,9 +1,9 @@
 import React from 'react';
-import Box from '../box/Box';
+import Box from 'common/components/box/Box';
 import { SkjemaGruppe } from 'nav-frontend-skjema';
 import Input from '../input/Input';
 import { AnsettelsesforholdForm, AnsettelsesforholdField, Field } from '../../types/PleiepengesøknadFormData';
-import intlHelper from '../../utils/intlUtils';
+import intlHelper from 'common/utils/intlUtils';
 import { validateReduserteArbeidProsent } from '../../validation/fieldValidations';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 

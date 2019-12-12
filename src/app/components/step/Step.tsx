@@ -1,10 +1,10 @@
 import * as React from 'react';
-import Page from '../page/Page';
+import Page from 'common/components/page/Page';
 import { StepID, StepConfigItemTexts, getStepConfig } from '../../config/stepConfig';
-import bemHelper from '../../utils/bemUtils';
+import bemHelper from 'common/utils/bemUtils';
 import StepIndicator from '../step-indicator/StepIndicator';
 import { Hovedknapp as Button } from 'nav-frontend-knapper';
-import Box from '../box/Box';
+import Box from 'common/components/box/Box';
 import StepBanner from '../step-banner/StepBanner';
 import { Systemtittel } from 'nav-frontend-typografi';
 import FormikValidationErrorSummary from '../formik-validation-error-summary/FormikValidationErrorSummary';

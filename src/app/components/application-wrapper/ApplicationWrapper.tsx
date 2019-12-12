@@ -3,7 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import IntlProvider from '../intl-provider/IntlProvider';
 import { Søkerdata } from '../../types/Søkerdata';
 // import LanguageToggle from '../language-toggle/LanguageToggle';
-import { Locale } from 'app/types/Locale';
+import { Locale } from 'common/types/Locale';
 import { Normaltekst } from 'nav-frontend-typografi';
 import DemoModeInfo from '../demo-mode-info/DemoModeInfo';
 import { appIsRunningInDemoMode } from '../../utils/envUtils';

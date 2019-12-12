@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IntlProvider as Provider } from 'react-intl';
-import { Locale } from '../../types/Locale';
+import { Locale } from 'common/types/Locale';
 
 const bokmålstekster = require('../../i18n/nb.json');
 const nynorsktekster = require('../../i18n/nn.json');

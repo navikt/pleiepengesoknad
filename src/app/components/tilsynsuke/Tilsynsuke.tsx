@@ -3,8 +3,8 @@ import TimeInput from '../time-input/TimeInput';
 import { Field } from '../../types/PleiepengesøknadFormData';
 import { validateTilsynstimerEnDag } from '../../validation/fieldValidations';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
-import intlHelper from '../../utils/intlUtils';
-import Box from '../box/Box';
+import intlHelper from 'common/utils/intlUtils';
+import Box from 'common/components/box/Box';
 
 import './tilsynsuke.less';
 
