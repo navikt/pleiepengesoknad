@@ -8,10 +8,10 @@ import { render } from 'react-dom';
 import Modal from 'nav-frontend-modal';
 import { Locale } from 'common/types/Locale';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
-import './styles/globalStyles.less';
 import { appIsRunningInDemoMode } from './utils/envUtils';
 import { isFeatureEnabled, Feature } from './utils/featureToggleUtils';
 import UnavailablePage from './components/pages/unavailable-page/UnavailablePage';
+import 'common/styles/globalStyles.less';
 
 const localeFromSessionStorage = getLocaleFromSessionStorage();
 

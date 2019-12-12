@@ -82,13 +82,13 @@ const formDataMock: Partial<PleiepengesøknadFormData> = {
     [Field.legeerklæring]: [attachmentMock1 as AttachmentMock, attachmentMock2 as AttachmentMock]
 };
 
-jest.mock('../dateUtils', () => {
+jest.mock('common/utils/dateUtils', () => {
     return {
         formatDate: jest.fn((date: Date) => date.toDateString())
     };
 });
 
-jest.mock('../attachmentUtils', () => {
+jest.mock('common/utils/attachmentUtils', () => {
     return {
         attachmentUploadHasFailed: jest.fn((attachment: AttachmentMock) => attachment.failed)
     };
