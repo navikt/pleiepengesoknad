@@ -9,7 +9,7 @@ import {
 import { Field, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import * as fieldValidations from './../fieldValidations';
 import Mock = jest.Mock;
-import { YesOrNo } from '../../types/YesOrNo';
+import { YesOrNo } from 'common/types/YesOrNo';
 const moment = require('moment');
 
 jest.mock('./../fieldValidations', () => {
