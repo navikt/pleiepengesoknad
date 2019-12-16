@@ -6,6 +6,11 @@ interface HasSubmittedValidFormProps {
     isValid: boolean;
 }
 
+export const showValidationErrors = (
+    formikStatus: undefined | { stepSubmitCount: number },
+    submitCount: number
+): boolean => formikStatus !== undefined && submitCount > formikStatus.stepSubmitCount;
+
 export const userHasSubmittedValidForm = (
     oldProps: HasSubmittedValidFormProps,
     currentProps: HasSubmittedValidFormProps
@@ -20,7 +25,7 @@ export const resetFieldValues = (fieldNames: Field[], setFieldValue: (field: str
 };
 
 export const isCheckboxChecked = (fieldValues: any[], value: any, keyProp?: string): boolean => {
-    return keyProp ? fieldValues.some((cv) => cv[keyProp] === value[keyProp]) : fieldValues.includes(value);
+    return keyProp ? (fieldValues || []).some((cv) => cv[keyProp] === value[keyProp]) : fieldValues.includes(value);
 };
 
 export const flattenFieldArrayErrors = (errors: Field): Field => {

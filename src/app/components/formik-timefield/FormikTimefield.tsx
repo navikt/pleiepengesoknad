@@ -3,6 +3,7 @@ import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from '../../utils/navFrontendUtils';
 import { FormikValidationProps } from 'app/types/FormikProps';
 import TimefieldBase from '../timefield-base/TimefieldBase';
+import { showValidationErrors } from 'app/utils/formikUtils';
 
 interface FormikTimefieldProps<T> {
     name: T;
@@ -19,8 +20,10 @@ const FormikTimefield = <T extends {}>(): React.FunctionComponent<FormikTimefiel
     ...otherInputProps
 }) => (
     <FormikField validate={validate} name={name}>
-        {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {
-            const errorMsgProps = submitCount > 0 ? getValidationErrorPropsWithIntl(intl, errors, field.name) : {};
+        {({ field, form: { errors, status, submitCount, setFieldValue } }: FormikFieldProps) => {
+            const errorMsgProps = showValidationErrors(status, submitCount)
+                ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                : {};
             return (
                 <TimefieldBase
                     label={label}

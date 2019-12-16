@@ -3,6 +3,7 @@ import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import DatepickerBase, { DateLimitiations } from 'common/form-components/datepicker-base/DatepickerBase';
 import { FormikValidateFunction, FormikValidationProps } from 'app/types/FormikProps';
 import { getValidationErrorPropsWithIntl } from 'app/utils/navFrontendUtils';
+import { showValidationErrors } from 'app/utils/formikUtils';
 
 export interface FormikDatepickerProps<T> {
     name: T;
@@ -14,8 +15,10 @@ export interface FormikDatepickerProps<T> {
 const FormikDatepicker = <T extends {}>(): React.FunctionComponent<FormikDatepickerProps<T> &
     FormikValidationProps> => ({ name, validate, label, dateLimitations, intl, ...otherProps }) => (
     <FormikField validate={validate} name={name}>
-        {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {
-            const errorMsgProps = submitCount > 0 ? getValidationErrorPropsWithIntl(intl, errors, field.name) : {};
+        {({ field, form: { errors, status, submitCount, setFieldValue } }: FormikFieldProps) => {
+            const errorMsgProps = showValidationErrors(status, submitCount)
+                ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                : {};
             return (
                 <DatepickerBase
                     id={`${name}`}

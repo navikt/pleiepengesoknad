@@ -11,13 +11,12 @@ interface FormikWrapperProps {
 const FormikWrapper: React.FunctionComponent<FormikWrapperProps> = ({ contentRenderer }) => (
     <Formik
         initialValues={initialValues}
-        onSubmit={(values: PleiepengesøknadFormData, { setSubmitting, setFormikState, setTouched }: FormikBag) => {
+        onSubmit={(values: PleiepengesøknadFormData, { setSubmitting, setStatus, setTouched }: FormikBag) => {
             setSubmitting(false);
-            setFormikState({ submitCount: 0 });
             setTouched({});
-        }}
-        render={contentRenderer}
-    />
+        }}>
+        {contentRenderer}
+    </Formik>
 );
 
 export default FormikWrapper;

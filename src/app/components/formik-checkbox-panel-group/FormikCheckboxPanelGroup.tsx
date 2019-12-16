@@ -6,7 +6,7 @@ import CheckboxPanelGroupBase, {
 } from 'common/form-components/checkbox-panel-group-base/CheckboxPanelGroupBase';
 import { removeElementFromArray } from 'common/utils/listUtils';
 import { FormikValidateFunction, FormikValidationProps } from 'app/types/FormikProps';
-import { isCheckboxChecked } from 'app/utils/formikUtils';
+import { isCheckboxChecked, showValidationErrors } from 'app/utils/formikUtils';
 
 interface FormikCheckboxPanelProps {
     label: string;
@@ -27,29 +27,26 @@ interface FormikCheckboxPanelGroupProps<T> {
 }
 
 const FormikCheckboxPanelGroup = <T extends {}>(): React.FunctionComponent<FormikCheckboxPanelGroupProps<T> &
-    FormikValidationProps> => ({
-    name,
-    validate,
-    legend,
-    checkboxes,
-    singleColumn: columns,
-    helperText,
-    intl,
-    valueKey
-}) => (
+    FormikValidationProps> => ({ name, validate, legend, checkboxes, singleColumn, helperText, intl, valueKey }) => (
     <FormikField validate={validate} name={name}>
-        {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {
-            const errorMsgProps = submitCount > 0 ? getValidationErrorPropsWithIntl(intl, errors, field.name) : {};
+        {({ field, form: { errors, status, submitCount, setFieldValue } }: FormikFieldProps) => {
+            const errorMsgProps = showValidationErrors(status, submitCount)
+                ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                : {};
             return (
                 <CheckboxPanelGroupBase
                     legend={legend}
                     checkboxes={checkboxes.map(({ value, ...otherProps }) => ({
                         checked: isCheckboxChecked(field.value, value, valueKey),
-                        onChange: () => {
+                        onChange: (evt) => {
                             if (isCheckboxChecked(field.value, value, valueKey)) {
                                 setFieldValue(`${name}`, removeElementFromArray(value, field.value, valueKey));
                             } else {
-                                field.value.push(value);
+                                if (field.value) {
+                                    field.value.push(value);
+                                } else {
+                                    field.value = [value];
+                                }
                                 setFieldValue(`${name}`, field.value);
                             }
                         },
@@ -58,7 +55,7 @@ const FormikCheckboxPanelGroup = <T extends {}>(): React.FunctionComponent<Formi
                         ...otherProps
                     }))}
                     helperText={helperText}
-                    singleColumn={columns}
+                    singleColumn={singleColumn}
                     {...errorMsgProps}
                 />
             );

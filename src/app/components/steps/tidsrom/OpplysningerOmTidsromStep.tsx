@@ -68,11 +68,9 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
             navigateTo(this.props.nextStepRoute!, this.props.history);
             return;
         }
-
         try {
             const response = await this.getArbeidsforhold();
             søkerdata.setAnsettelsesforhold!(response.data.organisasjoner);
-            this.props.formikProps.setFieldValue(Field.ansettelsesforhold, []);
         } catch (error) {
             this.handleArbeidsforholdFetchError(error);
         }

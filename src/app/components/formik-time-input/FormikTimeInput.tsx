@@ -4,6 +4,7 @@ import { getValidationErrorPropsWithIntl } from '../../utils/navFrontendUtils';
 import { FormikValidationProps } from 'app/types/FormikProps';
 import TimeInputBase from '../time-input-base/TimeInputBase';
 import { Time } from 'common/types/Time';
+import { showValidationErrors } from 'app/utils/formikUtils';
 
 interface FormikTimeInputProps<T> {
     name: T;
@@ -23,8 +24,10 @@ const FormikTimeInput = <T extends {}>(): React.FunctionComponent<Props & Formik
     ...otherInputProps
 }) => (
     <FormikField validate={validate} name={name}>
-        {({ field, form: { errors, submitCount, setFieldValue } }: FormikFieldProps) => {
-            const errorMsgProps = submitCount > 0 ? getValidationErrorPropsWithIntl(intl, errors, field.name) : {};
+        {({ field, form: { errors, status, submitCount, setFieldValue } }: FormikFieldProps) => {
+            const errorMsgProps = showValidationErrors(status, submitCount)
+                ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                : {};
             return (
                 <TimeInputBase
                     label={label}

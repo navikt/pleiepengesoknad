@@ -8,10 +8,11 @@ import Box from 'common/components/box/Box';
 import StepBanner from '../step-banner/StepBanner';
 import { Systemtittel } from 'nav-frontend-typografi';
 import FormikValidationErrorSummary from '../formik-validation-error-summary/FormikValidationErrorSummary';
-import BackLinkWithFormikReset from '../back-link-with-formik-reset/BackLinkWithFormikReset';
 import { InjectedIntl, injectIntl } from 'react-intl';
 import { getStepTexts } from 'app/utils/stepUtils';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { History } from 'history';
+import BackLink from 'app/components/back-link/BackLink';
 
 import './step.less';
 
@@ -59,7 +60,15 @@ const Step: React.FunctionComponent<StepProps> = ({
                     )}
                 </>
             )}>
-            <BackLinkWithFormikReset className={bem.element('backLink')} href={conf.backLinkHref!} />
+            <BackLink
+                href={conf.backLinkHref!}
+                className={bem.element('backLink')}
+                onClick={(nextHref: string, history: History, event: React.SyntheticEvent) => {
+                    event.preventDefault();
+                    history.push(nextHref);
+                }}
+            />
+
             <StepIndicator stepConfig={stepConfig} activeStep={conf.index} />
             <Box margin="xxl">
                 <Systemtittel className={bem.element('title')}>{stepTexts.stepTitle}</Systemtittel>
