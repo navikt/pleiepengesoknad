@@ -11,7 +11,11 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import Textarea from '../../textarea/Textarea';
 import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
 import InputGroup from '../../input-group/InputGroup';
-import { validateSkalHaTilsynsordning, validateYesOrNoIsAnswered } from '../../../validation/fieldValidations';
+import {
+    validateSkalHaTilsynsordning,
+    validateYesOrNoIsAnswered,
+    validateTilsynsordningTilleggsinfo
+} from '../../../validation/fieldValidations';
 import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
 import intlHelper from 'common/utils/intlUtils';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
@@ -56,6 +60,7 @@ const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, intl, for
                         <Textarea
                             name={Field.tilsynsordning__ja__ekstrainfo}
                             label={intlHelper(intl, 'steg.tilsyn.ja.tilleggsopplysninger.spm')}
+                            validate={validateTilsynsordningTilleggsinfo}
                             maxLength={1000}
                         />
                     </Box>
@@ -91,6 +96,7 @@ const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, intl, for
                                 name={Field.tilsynsordning__vetIkke__ekstrainfo}
                                 label={intlHelper(intl, 'steg.tilsyn.vetIkke.årsak.annet.tilleggsopplysninger')}
                                 maxLength={1000}
+                                validate={validateTilsynsordningTilleggsinfo}
                             />
                         </Box>
                     )}

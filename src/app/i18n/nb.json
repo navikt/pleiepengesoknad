@@ -277,6 +277,7 @@
     "fieldvalidation.dagerPerUkeBorteFraJobb_ugyldig": "Ugyldig verdi. Antall dager må være mellom {min} og {max}, og oppgis i hele eller halve dager",
     "fieldvalidation.tilsynsordning_ingenInfo": "Du har ikke oppgitt noen informasjon om hvor mye barnet skal ha tilsyn.",
     "fieldvalidation.tilsynsordning_forMangeTimerEnDag": "7 timer og 30 minutter er maks per dag",
+    "fieldvalidation.tilsynsordning_forMangeTegn": "For mange tegn. Maks antall tegn er 1000.",
 
     "gradertAnsettelsesforhold.arbeidsforhold.spm": "Skal du jobbe her mens du har pleiepenger?",
     "gradertAnsettelsesforhold.arbeidsforhold.ja": "Ja, jeg skal jobbe som vanlig",

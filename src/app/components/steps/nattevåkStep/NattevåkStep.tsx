@@ -5,7 +5,7 @@ import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
 import { Field } from '../../../types/PleiepengesøknadFormData';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
-import { validateYesOrNoIsAnswered, validateRequiredField } from '../../../validation/fieldValidations';
+import { validateYesOrNoIsAnswered, validateNattevåkTilleggsinfo } from '../../../validation/fieldValidations';
 import intlHelper from 'common/utils/intlUtils';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import Box from 'common/components/box/Box';
@@ -46,8 +46,8 @@ const NattevåkStep: React.FunctionComponent<Props> = ({
                     <Textarea
                         name={Field.harNattevåk_ekstrainfo}
                         label={intlHelper(intl, 'steg.nattevåk.tilleggsinfo.spm')}
+                        validate={validateNattevåkTilleggsinfo}
                         maxLength={1000}
-                        validate={validateRequiredField}
                     />
                 </Box>
             )}
