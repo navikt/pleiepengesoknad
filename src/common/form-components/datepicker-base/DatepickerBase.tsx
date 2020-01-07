@@ -3,9 +3,11 @@ import NAVDatepicker from 'nav-datovelger/dist/datovelger/Datovelger';
 import CustomInputElement from '../custom-input-element/CustomInputElement';
 import { guid } from 'nav-frontend-js-utils';
 import { SkjemaelementFeil as ValidationError } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
-import './datepickerBase.less';
 import { DatovelgerAvgrensninger } from 'nav-datovelger';
 import { dateToISOFormattedDateString } from 'common/utils/dateUtils';
+import useMedia from 'use-media';
+
+import './datepickerBase.less';
 
 const placeholder = 'dd.mm.åååå';
 
@@ -29,6 +31,7 @@ interface DatepickerBaseProps {
     onChange: (date: Date | undefined) => void;
     value?: Date;
     dateLimitations?: DateLimitiations;
+    fullScreenOnMobile?: boolean;
 }
 
 const parseDateLimitations = (dateLimitations: DateLimitiations): DatovelgerAvgrensninger => {
@@ -52,9 +55,11 @@ const DatepickerBase: React.FunctionComponent<DatepickerBaseProps> = ({
     name,
     value,
     onChange,
+    fullScreenOnMobile = true,
     dateLimitations,
     ...otherProps
 }) => {
+    const isWide = useMedia({ minWidth: 736 });
     const elementId = id || guid();
     return (
         <CustomInputElement label={label} labelId={elementId} validationError={feil}>
@@ -64,6 +69,7 @@ const DatepickerBase: React.FunctionComponent<DatepickerBaseProps> = ({
                 valgtDato={dateToISOFormattedDateString(value)}
                 avgrensninger={dateLimitations ? parseDateLimitations(dateLimitations) : undefined}
                 {...otherProps}
+                kalender={{ plassering: fullScreenOnMobile && isWide === false ? 'fullskjerm' : undefined }}
                 onChange={(dateString: string) => {
                     const newDate = dateString && dateString !== 'Invalid date' ? new Date(dateString) : undefined;
                     if (value !== newDate) {

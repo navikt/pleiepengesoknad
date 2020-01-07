@@ -1,7 +1,7 @@
 import { FormikProps } from 'formik';
 import { PleiepengesøknadFormData } from './PleiepengesøknadFormData';
 import { InjectedIntlProps } from 'react-intl';
-import { FieldValidationResult } from 'app/validation/types';
+import { FieldValidationResult } from 'common/validation/types';
 
 export type CustomFormikProps = FormikProps<PleiepengesøknadFormData> & { submitForm: () => Promise<void> };
 

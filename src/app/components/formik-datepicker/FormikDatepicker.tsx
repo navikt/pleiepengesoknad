@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import DatepickerBase, { DateLimitiations } from 'common/form-components/datepicker-base/DatepickerBase';
 import { FormikValidateFunction, FormikValidationProps } from 'app/types/FormikProps';
-import { getValidationErrorPropsWithIntl } from 'app/utils/navFrontendUtils';
 import { showValidationErrors } from 'app/utils/formikUtils';
+import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 
 export interface FormikDatepickerProps<T> {
     name: T;

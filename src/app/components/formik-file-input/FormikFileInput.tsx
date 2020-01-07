@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ArrayHelpers, Field as FormikField, FieldArray, FieldProps as FormikFieldProps } from 'formik';
-import { getValidationErrorPropsWithIntl } from '../../utils/navFrontendUtils';
+import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import FileInputBase from 'common/form-components/file-input-base/FileInputBase';
 import { FormikValidationProps } from 'app/types/FormikProps';
 import { showValidationErrors } from 'app/utils/formikUtils';

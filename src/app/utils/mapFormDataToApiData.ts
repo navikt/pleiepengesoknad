@@ -1,4 +1,4 @@
-import { formatDate } from 'common/utils/dateUtils';
+import { formatDateToApiFormat } from 'common/utils/dateUtils';
 import {
     PleiepengesøknadFormData,
     AnsettelsesforholdForm,
@@ -77,8 +77,8 @@ export const mapFormDataToApiData = (
             har_bodd_i_utlandet_siste_12_mnd: harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES,
             skal_bo_i_utlandet_neste_12_mnd: skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES
         },
-        fra_og_med: formatDate(periodeFra!),
-        til_og_med: formatDate(periodeTil!),
+        fra_og_med: formatDateToApiFormat(periodeFra!),
+        til_og_med: formatDateToApiFormat(periodeTil!),
         vedlegg: legeerklæring.filter((attachment) => !attachmentUploadHasFailed(attachment)).map(({ url }) => url!),
         har_medsoker: harMedsøker === YesOrNo.YES,
         har_bekreftet_opplysninger: harBekreftetOpplysninger,

@@ -1,0 +1,32 @@
+.utenlandsoppholdForm {
+    min-width: 24rem;
+    @media (max-width: 799px) {
+        min-width: 0;
+        width: 100%;
+    }
+    &__knapper {
+        display: flex;
+        justify-items: stretch;
+        button {
+            flex: 1 1 0;
+            &:first-child {
+                margin-right: 1rem;
+            }
+        }
+    }
+    &__datoer {
+        @media (min-width: 800px) {
+            display: flex;
+            justify-items: stretch;
+            > .utenlandsoppholdForm__dato {
+                width: 50%;
+                &:nth-child(2) {
+                    .nav-datovelger__kalenderPortal {
+                        left: auto;
+                        right: 0;
+                    }
+                }
+            }
+        }
+    }
+}

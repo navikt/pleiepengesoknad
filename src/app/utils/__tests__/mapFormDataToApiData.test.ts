@@ -84,7 +84,7 @@ const formDataMock: Partial<PleiepengesøknadFormData> = {
 
 jest.mock('common/utils/dateUtils', () => {
     return {
-        formatDate: jest.fn((date: Date) => date.toDateString())
+        formatDateToApiFormat: jest.fn((date: Date) => date.toDateString())
     };
 });
 
@@ -119,13 +119,13 @@ describe('mapFormDataToApiData', () => {
     });
 
     it("should set 'fra_og_med' in api data correctly", () => {
-        expect(dateUtils.formatDate).toHaveBeenCalledWith(formDataMock[Field.periodeFra]);
-        expect(resultingApiData.fra_og_med).toEqual(dateUtils.formatDate(formDataMock[Field.periodeFra]!));
+        expect(dateUtils.formatDateToApiFormat).toHaveBeenCalledWith(formDataMock[Field.periodeFra]);
+        expect(resultingApiData.fra_og_med).toEqual(dateUtils.formatDateToApiFormat(formDataMock[Field.periodeFra]!));
     });
 
     it("should set 'til_og_med' in api data correctly", () => {
-        expect(dateUtils.formatDate).toHaveBeenCalledWith(formDataMock[Field.periodeTil]);
-        expect(resultingApiData.til_og_med).toEqual(dateUtils.formatDate(formDataMock[Field.periodeTil]!));
+        expect(dateUtils.formatDateToApiFormat).toHaveBeenCalledWith(formDataMock[Field.periodeTil]);
+        expect(resultingApiData.til_og_med).toEqual(dateUtils.formatDateToApiFormat(formDataMock[Field.periodeTil]!));
     });
 
     it("should set 'vedlegg' in api data correctly by only including the urls of attachments that have been successfully uploaded", () => {

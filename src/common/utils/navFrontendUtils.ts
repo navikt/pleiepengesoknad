@@ -1,6 +1,6 @@
 import { SkjemaelementFeil } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
 import { FormikErrors, getIn } from 'formik';
-import { isFieldValidationError, renderFieldValidationError } from 'app/validation/fieldValidationRenderUtils';
+import { isFieldValidationError, renderFieldValidationError } from 'common/validation/fieldValidationRenderUtils';
 import { InjectedIntl } from 'react-intl';
 import { isArray } from 'util';
 

@@ -7,7 +7,7 @@ import FormikStep from '../../formik-step/FormikStep';
 import DateIntervalPicker from '../../date-interval-picker/DateIntervalPicker';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
-import { date3YearsAgo, formatDate } from 'common/utils/dateUtils';
+import { date3YearsAgo, formatDateToApiFormat } from 'common/utils/dateUtils';
 import { getArbeidsgiver } from '../../../api/api';
 import { validateFradato, validateTildato, validateYesOrNoIsAnswered } from '../../../validation/fieldValidations';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
@@ -49,8 +49,8 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
 
     getArbeidsforhold() {
         const values = this.props.formikProps.values;
-        const fromDateString = formatDate(values[Field.periodeFra]!);
-        const toDateString = formatDate(values[Field.periodeTil]!);
+        const fromDateString = formatDateToApiFormat(values[Field.periodeFra]!);
+        const toDateString = formatDateToApiFormat(values[Field.periodeTil]!);
         return getArbeidsgiver(fromDateString, toDateString);
     }
 

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { FormikValidateFunction, FormikValidationProps } from 'app/types/FormikProps';
-import { getValidationErrorPropsWithIntl } from 'app/utils/navFrontendUtils';
 import { SkjemaGruppe } from 'nav-frontend-skjema';
 
 import './formikInputGroup.less';
 import { showValidationErrors } from 'app/utils/formikUtils';
+import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 
 interface Props<T> {
     label: string;

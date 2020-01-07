@@ -17,7 +17,7 @@ import * as dateUtils from 'common/utils/dateUtils';
 import Mock = jest.Mock;
 import { YesOrNo } from 'common/types/YesOrNo';
 import { Attachment } from 'common/types/Attachment';
-import { FieldValidationResult } from '../types';
+import { FieldValidationResult } from 'common/validation/types';
 
 const moment = require('moment');
 

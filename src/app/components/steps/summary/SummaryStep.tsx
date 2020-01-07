@@ -125,8 +125,8 @@ class SummaryStep extends React.Component<Props, State> {
                                                 <FormattedMessage
                                                     id="steg.oppsummering.tidsrom.fomtom"
                                                     values={{
-                                                        fom: prettifyDate(apiValues.fra_og_med),
-                                                        tom: prettifyDate(apiValues.til_og_med)
+                                                        fom: apiValues.fra_og_med,
+                                                        tom: apiValues.til_og_med
                                                     }}
                                                 />
                                             </Normaltekst>

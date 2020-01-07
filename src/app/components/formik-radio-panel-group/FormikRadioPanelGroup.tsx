@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
-import { getValidationErrorPropsWithIntl } from '../../utils/navFrontendUtils';
+import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import RadioPanelGroupBase, {
     RadioPanelGroupStyle
 } from 'common/form-components/radio-panel-group-base/RadioPanelGroupBase';

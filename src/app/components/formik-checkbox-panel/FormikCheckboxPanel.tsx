@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
-import { getValidationErrorPropsWithIntl } from '../../utils/navFrontendUtils';
 import { CheckboksPanel, CheckboksPanelProps } from 'nav-frontend-skjema';
 import { FormikValidateFunction, FormikValidationProps } from 'app/types/FormikProps';
 import { showValidationErrors } from 'app/utils/formikUtils';
+import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 
 interface FormikCheckboxProps<T> {
     validate?: FormikValidateFunction;
