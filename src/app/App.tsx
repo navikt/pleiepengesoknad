@@ -11,9 +11,11 @@ import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/
 import { appIsRunningInDemoMode } from './utils/envUtils';
 import { isFeatureEnabled, Feature } from './utils/featureToggleUtils';
 import UnavailablePage from './components/pages/unavailable-page/UnavailablePage';
+import moment from 'moment';
 import 'common/styles/globalStyles.less';
 
 const localeFromSessionStorage = getLocaleFromSessionStorage();
+moment.locale(localeFromSessionStorage);
 
 const App: React.FunctionComponent = () => {
     const [locale, setLocale] = React.useState<Locale>(localeFromSessionStorage);
