@@ -30,7 +30,8 @@ export enum FieldValidationErrors {
     'dagerPerUkeBorteFraJobb_ugyldig' = 'fieldvalidation.dagerPerUkeBorteFraJobb_ugyldig',
     'tilsynsordning_ingenInfo' = 'fieldvalidation.tilsynsordning_ingenInfo',
     'tilsynsordning_forMangeTimerTotalt' = 'fieldvalidation.tilsynsordning_forMangeTimerTotalt',
-    'tilsynsordning_forMangeTimerEnDag' = 'fieldvalidation.tilsynsordning_forMangeTimerEnDag'
+    'tilsynsordning_forMangeTimerEnDag' = 'fieldvalidation.tilsynsordning_forMangeTimerEnDag',
+    'tilsynsordning_forMangeTegn' = 'fieldvalidation.tilsynsordning_forMangeTegn'
 }
 
 const MAX_ARBEIDSTIMER_PER_UKE = 150;
@@ -129,6 +130,40 @@ export const validateTildato = (tilDato?: Date, fraDato?: Date): FieldValidation
         }
     }
 
+    return undefined;
+};
+
+export const validateTextarea1000 = (text: string): FieldValidationResult => {
+    if (text && text.length > 1000) {
+        return fieldValidationError(FieldValidationErrors.tilsynsordning_forMangeTegn);
+    }
+    return undefined;
+};
+
+export const validateTilsynsordningTilleggsinfo = (text: string): FieldValidationResult => {
+    if (text.length > 1000) {
+        return fieldValidationError(FieldValidationErrors.tilsynsordning_forMangeTegn);
+    }
+    return undefined;
+};
+
+export const validateNattevåkTilleggsinfo = (text: string): FieldValidationResult => {
+    if (!hasValue(text)) {
+        return fieldIsRequiredError();
+    }
+    if (text.length > 1000) {
+        return fieldValidationError(FieldValidationErrors.tilsynsordning_forMangeTegn);
+    }
+    return undefined;
+};
+
+export const validateBeredskapTilleggsinfo = (text: string): FieldValidationResult => {
+    if (!hasValue(text)) {
+        return fieldIsRequiredError();
+    }
+    if (text.length > 1000) {
+        return fieldValidationError(FieldValidationErrors.tilsynsordning_forMangeTegn);
+    }
     return undefined;
 };
 

@@ -258,6 +258,7 @@
     "fieldvalidation.dagerPerUkeBorteFraJobb_ugyldig": "Ugyldig verdi. Antall dagar må vera mellom {min} og {max}, og oppgis i heile eller halve dagar",
     "fieldvalidation.tilsynsordning_ingenInfo": "Du har ikkje gitt noko informasjon om kor mykje barnet skal vera i eit omsorgstilbod",
     "fieldvalidation.tilsynsordning_forMangeTimerEnDag": "7 timar og 30 minutt er maks per dag",
+    "fieldvalidation.tilsynsordning_forMangeTegn": "For mange teikn. Maks antall teikn er 1000.",
 
     "gradertAnsettelsesforhold.arbeidsforhold.spm": "Skal du jobbe her i denne perioden?",
     "gradertAnsettelsesforhold.arbeidsforhold.ja": "Ja, eg skal jobbe som vanleg",
