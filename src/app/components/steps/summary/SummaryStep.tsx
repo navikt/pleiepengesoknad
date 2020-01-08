@@ -11,7 +11,7 @@ import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
 import Panel from 'common/components/panel/Panel';
 import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
 import LegeerklæringAttachmentList from '../../legeerklæring-file-list/LegeerklæringFileList';
-import { prettifyDate } from 'common/utils/dateUtils';
+import { prettifyDate, apiStringDateToDate } from 'common/utils/dateUtils';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { BarnReceivedFromApi, Søkerdata } from '../../../types/Søkerdata';
 import { formatName } from 'common/utils/personUtils';
@@ -125,8 +125,8 @@ class SummaryStep extends React.Component<Props, State> {
                                                 <FormattedMessage
                                                     id="steg.oppsummering.tidsrom.fomtom"
                                                     values={{
-                                                        fom: apiValues.fra_og_med,
-                                                        tom: apiValues.til_og_med
+                                                        fom: prettifyDate(apiStringDateToDate(apiValues.fra_og_med)),
+                                                        tom: prettifyDate(apiStringDateToDate(apiValues.til_og_med))
                                                     }}
                                                 />
                                             </Normaltekst>

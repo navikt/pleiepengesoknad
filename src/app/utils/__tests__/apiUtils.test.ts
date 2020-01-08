@@ -22,6 +22,7 @@ describe('apiUtils', () => {
             isAxiosError: false,
             name: '',
             message: '',
+            toJSON: () => ({}),
             response: { status: 200, data: {}, statusText: '', headers: [], config: {} }
         };
     });
