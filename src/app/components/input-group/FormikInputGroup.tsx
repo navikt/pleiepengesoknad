@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { FormikValidateFunction, FormikValidationProps } from 'app/types/FormikProps';
-import { getValidationErrorPropsWithIntl } from 'app/utils/navFrontendUtils';
 import { SkjemaGruppe } from 'nav-frontend-skjema';
 
 import './formikInputGroup.less';
+import { showValidationErrors } from 'app/utils/formikUtils';
+import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 
 interface Props<T> {
     label: string;
@@ -21,8 +22,10 @@ const FormikInputGroup = <T extends {}>(): React.FunctionComponent<Props<T> & Fo
     intl
 }) => (
     <FormikField validate={validate} name={name}>
-        {({ field, form: { errors, submitCount } }: FormikFieldProps) => {
-            const errorMsgProps = submitCount > 0 ? getValidationErrorPropsWithIntl(intl, errors, field.name) : {};
+        {({ field, form: { errors, status, submitCount } }: FormikFieldProps) => {
+            const errorMsgProps = showValidationErrors(status, submitCount)
+                ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                : {};
             return (
                 <div className="formikInputGroupWrapper" id={field.name} tabIndex={errorMsgProps.feil ? -1 : undefined}>
                     <SkjemaGruppe title={label} feil={errorMsgProps.feil}>

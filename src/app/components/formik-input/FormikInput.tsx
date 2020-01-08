@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
-import { getValidationErrorPropsWithIntl } from '../../utils/navFrontendUtils';
+import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import InputBase, { InputBaseProps } from 'common/form-components/input-base/InputBase';
 import { NavFrontendInputProps } from 'nav-frontend-skjema';
 import { FormikValidationProps } from 'app/types/FormikProps';
+import { showValidationErrors } from 'app/utils/formikUtils';
 
 interface FormikInputProps<T> extends InputBaseProps {
     name: T;
@@ -19,8 +20,10 @@ const FormikInput = <T extends {}>(): React.FunctionComponent<Props & FormikInpu
     ...otherInputProps
 }) => (
     <FormikField validate={validate} name={name}>
-        {({ field, form: { errors, submitCount } }: FormikFieldProps) => {
-            const errorMsgProps = submitCount > 0 ? getValidationErrorPropsWithIntl(intl, errors, field.name) : {};
+        {({ field, form: { errors, status, submitCount } }: FormikFieldProps) => {
+            const errorMsgProps = showValidationErrors(status, submitCount)
+                ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                : {};
             return (
                 <InputBase
                     label={label}

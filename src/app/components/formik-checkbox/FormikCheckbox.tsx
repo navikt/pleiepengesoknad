@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
-import { getValidationErrorPropsWithIntl } from '../../utils/navFrontendUtils';
+import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import { Checkbox, CheckboxProps } from 'nav-frontend-skjema';
 import { FormikValidateFunction, FormikValidationProps } from 'app/types/FormikProps';
+import { showValidationErrors } from 'app/utils/formikUtils';
 
 interface FormikCheckboxProps<T> {
     validate?: FormikValidateFunction;
@@ -10,12 +11,14 @@ interface FormikCheckboxProps<T> {
     name: T;
 }
 
-const FormikCheckbox = <T extends {}>(): React.FunctionComponent<
-    CheckboxProps & FormikCheckboxProps<T> & FormikValidationProps
-> => ({ name, label, validate, afterOnChange, intl, ...otherInputProps }) => (
+const FormikCheckbox = <T extends {}>(): React.FunctionComponent<CheckboxProps &
+    FormikCheckboxProps<T> &
+    FormikValidationProps> => ({ name, label, validate, afterOnChange, intl, ...otherInputProps }) => (
     <FormikField validate={validate} name={name}>
-        {({ field, form: { errors, setFieldValue, submitCount } }: FormikFieldProps) => {
-            const errorMsgProps = submitCount > 0 ? getValidationErrorPropsWithIntl(intl, errors, field.name) : {};
+        {({ field, form: { errors, setFieldValue, status, submitCount } }: FormikFieldProps) => {
+            const errorMsgProps = showValidationErrors(status, submitCount)
+                ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                : {};
             return (
                 <Checkbox
                     label={label}

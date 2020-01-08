@@ -7,8 +7,8 @@ import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
 import { Field } from '../../types/PleiepengesøknadFormData';
 import intlHelper from 'common/utils/intlUtils';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
-import { renderFieldValidationError, isFieldValidationError } from '../../validation/fieldValidationRenderUtils';
-import { flattenFieldArrayErrors } from 'app/utils/formikUtils';
+import { flattenFieldArrayErrors, showValidationErrors } from 'app/utils/formikUtils';
+import { isFieldValidationError, renderFieldValidationError } from 'common/validation/fieldValidationRenderUtils';
 
 interface FormikValidationErrorSummaryProps {
     className?: string;
@@ -16,16 +16,16 @@ interface FormikValidationErrorSummaryProps {
 
 type Props = FormikValidationErrorSummaryProps & ConnectedFormikProps<Field> & InjectedIntlProps;
 
-const FormikValidationErrorSummary: React.FunctionComponent<Props> = ({
-    formik: { errors, submitCount, ...otherFormik },
-    intl,
-    className
-}) => {
+const FormikValidationErrorSummary: React.FunctionComponent<Props> = ({ formik, intl, className }) => {
+    if (formik === undefined) {
+        return null;
+    }
+    const { errors, submitCount, status } = formik;
     if (errors) {
         const numberOfErrors = Object.keys(errors).length;
         const errorMessages: ValidationSummaryError[] = [];
 
-        if (numberOfErrors > 0 && submitCount > 0) {
+        if (numberOfErrors > 0 && showValidationErrors(status, submitCount)) {
             const allErrors = flattenFieldArrayErrors(errors);
             Object.keys(allErrors).forEach((key) => {
                 const error = allErrors[key];

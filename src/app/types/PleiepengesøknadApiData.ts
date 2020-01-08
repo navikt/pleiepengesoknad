@@ -1,5 +1,6 @@
 import { Locale } from 'common/types/Locale';
 import { TilsynVetIkkeHvorfor } from './PleiepengesøknadFormData';
+import { ApiStringDate } from '../../common/types/ApiStringDate';
 
 export type ISO8601Duration = string;
 
@@ -83,8 +84,8 @@ export interface PleiepengesøknadApiData {
     sprak: Locale;
     barn: BarnToSendToApi;
     relasjon_til_barnet: string | null;
-    fra_og_med: Date;
-    til_og_med: Date;
+    fra_og_med: ApiStringDate;
+    til_og_med: ApiStringDate;
     arbeidsgivere: { organisasjoner: AnsettelsesforholdApi[] };
     vedlegg: string[];
     medlemskap: Medlemskap;

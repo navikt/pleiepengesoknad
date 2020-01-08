@@ -7,8 +7,15 @@ import '@formatjs/intl-pluralrules/dist/locale-data/nn';
 
 import { Locale } from '../../../common/types/Locale';
 
-const bokmålstekster = require('../../i18n/nb.json');
-const nynorsktekster = require('../../i18n/nn.json');
+const appBokmålstekster = require('../../i18n/nb.json');
+const appNynorsktekster = require('../../i18n/nn.json');
+
+// Modultekster
+const utenlandsoppholdBokmål = require('../../../common/forms/utenlandsopphold/utenlandsopphold.nb.json');
+const utenlandsoppholdNynorsk = require('../../../common/forms/utenlandsopphold/utenlandsopphold.nn.json');
+
+const bokmålstekster = { ...appBokmålstekster, ...utenlandsoppholdBokmål };
+const nynorsktekster = { ...appNynorsktekster, ...utenlandsoppholdNynorsk };
 
 export interface IntlProviderProps {
     locale: Locale;
