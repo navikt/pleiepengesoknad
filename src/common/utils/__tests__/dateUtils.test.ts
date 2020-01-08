@@ -12,7 +12,7 @@ import {
 const mockedDate = moment('20111031', 'YYYYMMDD').toDate();
 
 describe('dateUtils', () => {
-    describe('formatDate', () => {
+    describe('formatDateToApiFormat', () => {
         it('should format provided date on correct format for API', () => {
             expect(formatDateToApiFormat(mockedDate)).toEqual('2011-10-31');
         });

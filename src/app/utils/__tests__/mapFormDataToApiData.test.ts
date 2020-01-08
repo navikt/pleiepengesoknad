@@ -17,6 +17,7 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import { BarnReceivedFromApi } from '../../types/Søkerdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
 import { Attachment } from 'common/types/Attachment';
+import { ApiStringDate } from 'common/types/ApiStringDate';
 
 const moment = require('moment');
 
@@ -86,7 +87,14 @@ const formDataMock: Partial<PleiepengesøknadFormData> = {
 
 jest.mock('common/utils/dateUtils', () => {
     return {
-        formatDateToApiFormat: jest.fn((date: Date) => date.toDateString())
+        formatDateToApiFormat: jest.fn((date: Date) => {
+            const lPadNumber = (nbr: number): string => (nbr < 10 ? `${nbr}`.padStart(2, '0') : `${nbr}`);
+            return `${date.getFullYear()}-${lPadNumber(date.getMonth())}-${lPadNumber(date.getDate())}`;
+        }),
+        apiStringDateToDate: jest.fn((date: ApiStringDate) => {
+            const values = date.split('-');
+            return new Date(parseInt(values[0], 10), parseInt(values[1], 10), parseInt(values[2], 10));
+        })
     };
 });
 
@@ -95,6 +103,61 @@ jest.mock('common/utils/attachmentUtils', () => {
         attachmentUploadHasFailed: jest.fn((attachment: AttachmentMock) => attachment.failed)
     };
 });
+
+const completedAttachmentMock = { uploaded: true, url: attachmentMock1.url, pending: false };
+
+const completeFormDataMock: PleiepengesøknadFormData = {
+    ansettelsesforhold: [ansettelsesforholdMaxbo],
+    barnetHarIkkeFåttFødselsnummerEnda: false,
+    barnetSøknadenGjelder: barnMock[0].aktoer_id,
+    harBekreftetOpplysninger: true,
+    harMedsøker: YesOrNo.YES,
+    harBeredskap: YesOrNo.YES,
+    harNattevåk: YesOrNo.YES,
+    harForståttRettigheterOgPlikter: true,
+    harBeredskap_ekstrainfo: 'harBeredskap_ekstrainfo',
+    harNattevåk_ekstrainfo: 'harNattevåk_ekstrainfo',
+    søkersRelasjonTilBarnet: '',
+    legeerklæring: [completedAttachmentMock as AttachmentMock],
+    samtidigHjemme: YesOrNo.YES,
+    harBoddUtenforNorgeSiste12Mnd: YesOrNo.YES,
+    skalBoUtenforNorgeNeste12Mnd: YesOrNo.YES,
+    søknadenGjelderEtAnnetBarn: false,
+    periodeFra: dateUtils.apiStringDateToDate('2020-01-01'),
+    periodeTil: dateUtils.apiStringDateToDate('2020-02-01'),
+    tilsynsordning: {
+        skalBarnHaTilsyn: YesOrNo.YES,
+        ja: {
+            ekstrainfo: 'tilsynsordning-ekstrainfo',
+            harEkstrainfo: YesOrNo.YES,
+            tilsyn: {
+                fredag: {
+                    hours: 1,
+                    minutes: 0
+                }
+            }
+        }
+    },
+    utenlandsoppholdSiste12Mnd: [
+        {
+            countryCode: 'SE',
+            fromDate: new Date(2020, 1, 1),
+            toDate: new Date(2020, 2, 1),
+            id: '345'
+        }
+    ],
+    utenlandsoppholdNeste12Mnd: [
+        {
+            countryCode: 'NO',
+            fromDate: new Date(2020, 3, 1),
+            toDate: new Date(2020, 4, 1),
+            id: '123'
+        }
+    ],
+    barnetsNavn: 'barnets-navn',
+    barnetsForeløpigeFødselsnummerEllerDNummer: '',
+    barnetsFødselsnummer: 'barnets-fnr'
+};
 
 describe('mapFormDataToApiData', () => {
     let resultingApiData: PleiepengesøknadApiData;
@@ -250,5 +313,69 @@ describe('mapFormDataToApiData', () => {
         expect(organisasjoner).toEqual([result]);
         expect(organisasjoner[0].skal_jobbe_timer).toBeUndefined();
         expect(organisasjoner[0].skal_jobbe_prosent).toBeUndefined();
+    });
+
+    it('should use correct format for a complete mapped application', () => {
+        const mappedData = mapFormDataToApiData(completeFormDataMock, barnMock, 'nb');
+        const resultApiData: PleiepengesøknadApiData = {
+            new_version: true,
+            sprak: 'nb',
+            barn: {
+                navn: 'Mock Mocknes',
+                fodselsnummer: null,
+                alternativ_id: null,
+                aktoer_id: barnMock[0].aktoer_id
+            },
+            relasjon_til_barnet: null,
+            arbeidsgivere: {
+                organisasjoner: [
+                    { navn: 'Maxbo', organisasjonsnummer: '910831143', skal_jobbe: 'ja', skal_jobbe_prosent: 100 }
+                ]
+            },
+            medlemskap: {
+                har_bodd_i_utlandet_siste_12_mnd: true,
+                skal_bo_i_utlandet_neste_12_mnd: true,
+                utenlandsopphold_siste_12_mnd: [
+                    {
+                        landnavn: 'Sverige',
+                        landkode: 'SE',
+                        fra_og_med: '2020-01-01',
+                        til_og_med: '2020-02-01'
+                    }
+                ],
+                utenlandsopphold_neste_12_mnd: [
+                    {
+                        landnavn: 'Norge',
+                        landkode: 'NO',
+                        fra_og_med: '2020-03-01',
+                        til_og_med: '2020-04-01'
+                    }
+                ]
+            },
+            fra_og_med: '2020-01-01',
+            til_og_med: '2020-02-01',
+            vedlegg: ['nav.no/1'],
+            har_medsoker: true,
+            har_bekreftet_opplysninger: true,
+            har_forstatt_rettigheter_og_plikter: true,
+            samtidig_hjemme: true,
+            tilsynsordning: {
+                svar: 'ja',
+                ja: {
+                    fredag: 'PT1H0M',
+                    tilleggsinformasjon: 'tilsynsordning-ekstrainfo'
+                }
+            },
+            nattevaak: {
+                har_nattevaak: true,
+                tilleggsinformasjon: 'harNattevåk_ekstrainfo'
+            },
+
+            beredskap: {
+                i_beredskap: true,
+                tilleggsinformasjon: 'harBeredskap_ekstrainfo'
+            }
+        };
+        expect(JSON.stringify(mappedData)).toEqual(JSON.stringify(resultApiData));
     });
 });
