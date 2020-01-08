@@ -75,6 +75,8 @@ const formDataMock: Partial<PleiepengesøknadFormData> = {
     [AppFormField.ansettelsesforhold]: [ansettelsesforholdTelenor, ansettelsesforholdMaxbo],
     [AppFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.YES,
     [AppFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.NO,
+    [AppFormField.utenlandsoppholdNeste12Mnd]: [],
+    [AppFormField.utenlandsoppholdSiste12Mnd]: [],
     [AppFormField.periodeFra]: todaysDate,
     [AppFormField.periodeTil]: moment(todaysDate)
         .add(1, 'day')
@@ -120,12 +122,16 @@ describe('mapFormDataToApiData', () => {
 
     it("should set 'fra_og_med' in api data correctly", () => {
         expect(dateUtils.formatDateToApiFormat).toHaveBeenCalledWith(formDataMock[AppFormField.periodeFra]);
-        expect(resultingApiData.fra_og_med).toEqual(dateUtils.formatDateToApiFormat(formDataMock[AppFormField.periodeFra]!));
+        expect(resultingApiData.fra_og_med).toEqual(
+            dateUtils.formatDateToApiFormat(formDataMock[AppFormField.periodeFra]!)
+        );
     });
 
     it("should set 'til_og_med' in api data correctly", () => {
         expect(dateUtils.formatDateToApiFormat).toHaveBeenCalledWith(formDataMock[AppFormField.periodeTil]);
-        expect(resultingApiData.til_og_med).toEqual(dateUtils.formatDateToApiFormat(formDataMock[AppFormField.periodeTil]!));
+        expect(resultingApiData.til_og_med).toEqual(
+            dateUtils.formatDateToApiFormat(formDataMock[AppFormField.periodeTil]!)
+        );
     });
 
     it("should set 'vedlegg' in api data correctly by only including the urls of attachments that have been successfully uploaded", () => {
