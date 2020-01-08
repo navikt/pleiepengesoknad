@@ -48,4 +48,6 @@ spec:
           value: "on"
         - name: UTILGJENGELIG
           value: "off"
+        - name: TOGGLE_UTENLANDSOPPHOLD
+          value: "off"
 
