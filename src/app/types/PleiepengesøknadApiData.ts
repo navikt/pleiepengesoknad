@@ -77,6 +77,15 @@ export interface TilsynsordningApiVetIkke extends TilsynsordningApiBase {
 interface Medlemskap {
     har_bodd_i_utlandet_siste_12_mnd: boolean;
     skal_bo_i_utlandet_neste_12_mnd: boolean;
+    utenlandsopphold_neste_12_mnd: UtenlandsoppholdApiData[];
+    utenlandsopphold_siste_12_mnd: UtenlandsoppholdApiData[];
+}
+
+export interface UtenlandsoppholdApiData {
+    fra_og_med: ApiStringDate;
+    til_og_med: ApiStringDate;
+    landkode: string;
+    landnavn: string;
 }
 
 export interface PleiepengesøknadApiData {

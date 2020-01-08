@@ -2,14 +2,14 @@ import React from 'react';
 import Box from 'common/components/box/Box';
 import { SkjemaGruppe } from 'nav-frontend-skjema';
 import Input from '../input/Input';
-import { AnsettelsesforholdForm, AnsettelsesforholdField, Field } from '../../types/PleiepengesøknadFormData';
+import { AnsettelsesforholdForm, AnsettelsesforholdField, AppFormField } from '../../types/PleiepengesøknadFormData';
 import intlHelper from 'common/utils/intlUtils';
 import { validateReduserteArbeidProsent } from '../../validation/fieldValidations';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 
 interface Props {
     ansettelsesforhold: AnsettelsesforholdForm;
-    getFieldName: (name: AnsettelsesforholdField) => Field;
+    getFieldName: (name: AnsettelsesforholdField) => AppFormField;
 }
 
 const VetIkkeAnsettelsesforholdPart: React.FunctionComponent<Props & InjectedIntlProps> = ({

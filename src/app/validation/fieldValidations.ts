@@ -1,6 +1,12 @@
 import { YesOrNo } from 'common/types/YesOrNo';
 import { fødselsnummerIsValid, FødselsnummerValidationErrorReason } from './fødselsnummerValidator';
-import { isMoreThan3YearsAgo } from 'common/utils/dateUtils';
+import {
+    isMoreThan3YearsAgo,
+    dateRangesCollide,
+    dateRangesExceedsRange,
+    date1YearAgo,
+    date1YearFromNow
+} from 'common/utils/dateUtils';
 import { attachmentHasBeenUploaded } from 'common/utils/attachmentUtils';
 import { timeToDecimalTime } from 'common/utils/timeUtils';
 import { Time } from 'common/types/Time';
@@ -8,6 +14,7 @@ import { Tilsynsordning } from '../types/PleiepengesøknadFormData';
 import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
 import { Attachment } from 'common/types/Attachment';
 import { FieldValidationResult } from 'common/validation/types';
+import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 
 const moment = require('moment');
 
@@ -31,7 +38,10 @@ export enum FieldValidationErrors {
     'tilsynsordning_ingenInfo' = 'fieldvalidation.tilsynsordning_ingenInfo',
     'tilsynsordning_forMangeTimerTotalt' = 'fieldvalidation.tilsynsordning_forMangeTimerTotalt',
     'tilsynsordning_forMangeTimerEnDag' = 'fieldvalidation.tilsynsordning_forMangeTimerEnDag',
-    'tilsynsordning_forMangeTegn' = 'fieldvalidation.tilsynsordning_forMangeTegn'
+    'tilsynsordning_forMangeTegn' = 'fieldvalidation.tilsynsordning_forMangeTegn',
+    'utenlandsopphold_ikke_registrert' = 'fieldvalidation.utenlandsopphold_ikke_registrert',
+    'utenlandsopphold_overlapper' = 'fieldvalidation.utenlandsopphold_overlapper',
+    'utenlandsopphold_utenfor_periode' = 'fieldvalidation.utenlandsopphold_utenfor_periode'
 }
 
 const MAX_ARBEIDSTIMER_PER_UKE = 150;
@@ -170,6 +180,35 @@ export const validateBeredskapTilleggsinfo = (text: string): FieldValidationResu
 export const validateYesOrNoIsAnswered = (answer: YesOrNo): FieldValidationResult => {
     if (answer === YesOrNo.UNANSWERED || answer === undefined) {
         return fieldIsRequiredError();
+    }
+    return undefined;
+};
+
+export const validateUtenlandsoppholdSiste12Mnd = (utenlandsopphold: Utenlandsopphold[]): FieldValidationResult => {
+    if (utenlandsopphold.length === 0) {
+        return fieldValidationError(FieldValidationErrors.utenlandsopphold_ikke_registrert);
+    }
+    const dateRanges = utenlandsopphold.map((u) => ({ from: u.fromDate, to: u.toDate }));
+    if (dateRangesCollide(dateRanges)) {
+        return fieldValidationError(FieldValidationErrors.utenlandsopphold_overlapper);
+    }
+    if (dateRangesExceedsRange(dateRanges, { from: date1YearAgo, to: new Date() })) {
+        return fieldValidationError(FieldValidationErrors.utenlandsopphold_utenfor_periode);
+    }
+
+    return undefined;
+};
+
+export const validateUtenlandsoppholdNeste12Mnd = (utenlandsopphold: Utenlandsopphold[]): FieldValidationResult => {
+    if (utenlandsopphold.length === 0) {
+        return fieldValidationError(FieldValidationErrors.utenlandsopphold_ikke_registrert);
+    }
+    const dateRanges = utenlandsopphold.map((u) => ({ from: u.fromDate, to: u.toDate }));
+    if (dateRangesCollide(dateRanges)) {
+        return fieldValidationError(FieldValidationErrors.utenlandsopphold_overlapper);
+    }
+    if (dateRangesExceedsRange(dateRanges, { from: new Date(), to: date1YearFromNow })) {
+        return fieldValidationError(FieldValidationErrors.utenlandsopphold_utenfor_periode);
     }
     return undefined;
 };

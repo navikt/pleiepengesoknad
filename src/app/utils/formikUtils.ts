@@ -1,4 +1,4 @@
-import { Field, initialValues } from '../types/PleiepengesøknadFormData';
+import { AppFormField, initialValues } from '../types/PleiepengesøknadFormData';
 import flatten from 'flat';
 
 interface HasSubmittedValidFormProps {
@@ -16,11 +16,11 @@ export const userHasSubmittedValidForm = (
     currentProps: HasSubmittedValidFormProps
 ) => oldProps.isSubmitting === true && currentProps.isSubmitting === false && currentProps.isValid === true;
 
-export const resetFieldValue = (fieldName: Field, setFieldValue: (field: string, value: any) => void) => {
+export const resetFieldValue = (fieldName: AppFormField, setFieldValue: (field: string, value: any) => void) => {
     setFieldValue(fieldName, initialValues[fieldName]);
 };
 
-export const resetFieldValues = (fieldNames: Field[], setFieldValue: (field: string, value: any) => void) => {
+export const resetFieldValues = (fieldNames: AppFormField[], setFieldValue: (field: string, value: any) => void) => {
     fieldNames.forEach((fieldName) => resetFieldValue(fieldName, setFieldValue));
 };
 
@@ -28,12 +28,12 @@ export const isCheckboxChecked = (fieldValues: any[], value: any, keyProp?: stri
     return keyProp ? (fieldValues || []).some((cv) => cv[keyProp] === value[keyProp]) : fieldValues.includes(value);
 };
 
-export const flattenFieldArrayErrors = (errors: Field): Field => {
+export const flattenFieldArrayErrors = (errors: AppFormField): AppFormField => {
     let allErrors: any = {};
     Object.keys(errors).forEach((key) => {
         const error = errors[key];
         if (isFieldArrayErrors(error)) {
-            (error as Field[]).forEach((err, idx) => {
+            (error as AppFormField[]).forEach((err, idx) => {
                 allErrors = {
                     ...allErrors,
                     ...getErrorsFromFieldArrayErrors(err, key, idx)
@@ -82,7 +82,7 @@ const isFieldArrayErrors = (error: any): boolean => {
     return false;
 };
 
-const getErrorsFromFieldArrayErrors = (field: Field, fieldArrayKey: string, index: number): {} => {
+const getErrorsFromFieldArrayErrors = (field: AppFormField, fieldArrayKey: string, index: number): {} => {
     const errors: any = {};
     Object.keys(field).forEach((key) => {
         errors[`${fieldArrayKey}.${index}.${key}`] = field[key];

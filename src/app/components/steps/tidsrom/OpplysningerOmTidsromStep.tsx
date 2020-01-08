@@ -2,7 +2,7 @@ import * as React from 'react';
 import { HistoryProps } from 'common/types/History';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
-import { Field } from '../../../types/PleiepengesøknadFormData';
+import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 import FormikStep from '../../formik-step/FormikStep';
 import DateIntervalPicker from '../../date-interval-picker/DateIntervalPicker';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
@@ -49,8 +49,8 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
 
     getArbeidsforhold() {
         const values = this.props.formikProps.values;
-        const fromDateString = formatDateToApiFormat(values[Field.periodeFra]!);
-        const toDateString = formatDateToApiFormat(values[Field.periodeTil]!);
+        const fromDateString = formatDateToApiFormat(values[AppFormField.periodeFra]!);
+        const toDateString = formatDateToApiFormat(values[AppFormField.periodeTil]!);
         return getArbeidsgiver(fromDateString, toDateString);
     }
 
@@ -95,9 +95,9 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
         const { history, intl, formikProps, ...stepProps } = this.props;
         const { isLoadingNextStep } = this.state;
 
-        const fraDato = this.props.formikProps.values[Field.periodeFra];
-        const tilDato = this.props.formikProps.values[Field.periodeTil];
-        const harMedsøker = this.props.formikProps.values[Field.harMedsøker];
+        const fraDato = this.props.formikProps.values[AppFormField.periodeFra];
+        const tilDato = this.props.formikProps.values[AppFormField.periodeTil];
+        const harMedsøker = this.props.formikProps.values[AppFormField.harMedsøker];
 
         return (
             <SøkerdataContextConsumer>
@@ -116,7 +116,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                             fromDatepickerProps={{
                                 label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.fom'),
                                 validate: this.validateFraDato,
-                                name: Field.periodeFra,
+                                name: AppFormField.periodeFra,
                                 dateLimitations: {
                                     minDato: date3YearsAgo.toDate(),
                                     maksDato: this.validateTilDato(tilDato) === undefined ? tilDato : undefined
@@ -125,7 +125,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                             toDatepickerProps={{
                                 label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.tom'),
                                 validate: this.validateTilDato,
-                                name: Field.periodeTil,
+                                name: AppFormField.periodeTil,
                                 dateLimitations: {
                                     minDato:
                                         this.validateFraDato(fraDato) === undefined ? fraDato : date3YearsAgo.toDate()
@@ -136,7 +136,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                         <Box margin="xl">
                             <YesOrNoQuestion
                                 legend={intlHelper(intl, 'steg.tidsrom.annenSamtidig.spm')}
-                                name={Field.harMedsøker}
+                                name={AppFormField.harMedsøker}
                                 validate={validateYesOrNoIsAnswered}
                             />
                         </Box>
@@ -144,7 +144,7 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
                         {harMedsøker === YesOrNo.YES && (
                             <YesOrNoQuestion
                                 legend={intlHelper(intl, 'steg.tidsrom.samtidigHjemme.spm')}
-                                name={Field.samtidigHjemme}
+                                name={AppFormField.samtidigHjemme}
                                 validate={validateYesOrNoIsAnswered}
                             />
                         )}

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StepID } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
-import { Field } from '../../../types/PleiepengesøknadFormData';
+import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 import ConfirmationCheckboxPanel from '../../confirmation-checkbox-panel/ConfirmationCheckboxPanel';
 import Box from 'common/components/box/Box';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -304,7 +304,7 @@ class SummaryStep extends React.Component<Props, State> {
                             <Box margin="l">
                                 <ConfirmationCheckboxPanel
                                     label={intlHelper(intl, 'steg.oppsummering.bekrefterOpplysninger')}
-                                    name={Field.harBekreftetOpplysninger}
+                                    name={AppFormField.harBekreftetOpplysninger}
                                     validate={(value) => {
                                         let result;
                                         if (value !== true) {

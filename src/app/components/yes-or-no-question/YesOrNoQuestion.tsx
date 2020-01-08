@@ -1,6 +1,6 @@
 import * as React from 'react';
 import RadioPanelGroup from '../radio-panel-group/RadioPanelGroup';
-import { Field } from '../../types/PleiepengesøknadFormData';
+import { AppFormField } from '../../types/PleiepengesøknadFormData';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { FormikValidationProps } from 'app/types/FormikProps';
 import { injectIntl } from 'react-intl';
@@ -9,7 +9,7 @@ import intlHelper from 'common/utils/intlUtils';
 
 interface YesOrNoQuestionProps {
     legend: string;
-    name: Field;
+    name: AppFormField;
     includeDoNotKnowOption?: boolean;
     labels?: {
         [YesOrNo.YES]?: string;

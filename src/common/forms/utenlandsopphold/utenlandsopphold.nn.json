@@ -1,7 +1,9 @@
 {
+    "utenlandsopphold.modal.title": "Utenlandsopphold",
+    "utenlandsopphold.list.add": "+ Legg til opphold",
     "utenlandsopphold.form.validation.required": "Feltet er påkrevd",
     "utenlandsopphold.form.validation.dateOutsideRange": "Datoen er utenfor gyldig tidsrom",
-    "utenlandsopphold.form.validation.date.fromDateAfterToDate": "Fra-dato må være før til-dato",
-    "utenlandsopphold.form.validation.date.toDateBeforeFromDate": "Til-dato må være etter fra-dato",
+    "utenlandsopphold.form.validation.fromDateAfterToDate": "Fra-dato må være lik eller før til-dato",
+    "utenlandsopphold.form.validation.toDateBeforeFromDate": "Til-dato må være lik eller etter fra-dato",
     "utenlandsopphold.form.validation.country.required": "Feltet er påkrevd"
 }

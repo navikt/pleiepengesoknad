@@ -3,7 +3,7 @@ import { FieldArray } from 'formik';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 import {
     PleiepengesøknadFormData,
-    Field,
+    AppFormField,
     AnsettelsesforholdForm,
     AnsettelsesforholdSkalJobbeSvar,
     AnsettelsesforholdField
@@ -25,7 +25,7 @@ const GradertAnsettelsesforhold: React.FunctionComponent<Props & InjectedIntlPro
     organisasjonsnummer,
     intl
 }) => (
-    <FieldArray name={Field.ansettelsesforhold}>
+    <FieldArray name={AppFormField.ansettelsesforhold}>
         {({ name, form: { values } }) => {
             const index: number = (values as PleiepengesøknadFormData).ansettelsesforhold.findIndex(
                 (forhold) => forhold.organisasjonsnummer === organisasjonsnummer
@@ -34,7 +34,7 @@ const GradertAnsettelsesforhold: React.FunctionComponent<Props & InjectedIntlPro
                 return null;
             }
             const ansettelsesforhold: AnsettelsesforholdForm = values.ansettelsesforhold[index];
-            const getFieldName = (field: AnsettelsesforholdField) => `${name}.${index}.${field}` as Field;
+            const getFieldName = (field: AnsettelsesforholdField) => `${name}.${index}.${field}` as AppFormField;
 
             return (
                 <div className="gradert-ansettelsesforhold">

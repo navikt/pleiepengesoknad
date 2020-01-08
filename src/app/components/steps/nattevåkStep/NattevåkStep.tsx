@@ -3,7 +3,7 @@ import { navigateTo } from '../../../utils/navigationUtils';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
-import { Field } from '../../../types/PleiepengesøknadFormData';
+import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
 import { validateYesOrNoIsAnswered, validateNattevåkTilleggsinfo } from '../../../validation/fieldValidations';
 import intlHelper from 'common/utils/intlUtils';
@@ -38,13 +38,13 @@ const NattevåkStep: React.FunctionComponent<Props> = ({
             formValues={values}>
             <YesOrNoQuestion
                 legend={intlHelper(intl, 'steg.nattevåk.spm')}
-                name={Field.harNattevåk}
+                name={AppFormField.harNattevåk}
                 validate={validateYesOrNoIsAnswered}
             />
             {harNattevåk === YesOrNo.YES && (
                 <Box margin="xl">
                     <Textarea
-                        name={Field.harNattevåk_ekstrainfo}
+                        name={AppFormField.harNattevåk_ekstrainfo}
                         label={intlHelper(intl, 'steg.nattevåk.tilleggsinfo.spm')}
                         validate={validateNattevåkTilleggsinfo}
                         maxLength={1000}
