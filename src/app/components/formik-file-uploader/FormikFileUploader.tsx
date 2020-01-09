@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ArrayHelpers, connect } from 'formik';
-import { Field } from '../../types/PleiepengesøknadFormData';
+import { AppFormField } from '../../types/PleiepengesøknadFormData';
 import FileInput from '../file-input/FileInput';
 import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
 import {
@@ -16,7 +16,7 @@ import * as apiUtils from '../../utils/apiUtils';
 import { Attachment } from 'common/types/Attachment';
 
 interface FormikFileUploader {
-    name: Field;
+    name: AppFormField;
     label: string;
     validate?: FormikValidateFunction;
     onFileInputClick?: () => void;
@@ -24,7 +24,7 @@ interface FormikFileUploader {
     onUnauthorizedOrForbiddenUpload: () => void;
 }
 
-type Props = FormikFileUploader & ConnectedFormikProps<Field>;
+type Props = FormikFileUploader & ConnectedFormikProps<AppFormField>;
 
 const FormikFileUploader: React.FunctionComponent<Props> = ({
     name,
@@ -115,4 +115,4 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
     );
 };
 
-export default connect<FormikFileUploader, Field>(FormikFileUploader);
+export default connect<FormikFileUploader, AppFormField>(FormikFileUploader);

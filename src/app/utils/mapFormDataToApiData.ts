@@ -14,7 +14,8 @@ import {
     AnsettelsesforholdApiNei,
     AnsettelsesforholdApiRedusert,
     AnsettelsesforholdApiSomVanlig,
-    AnsettelsesforholdApiVetIkke
+    AnsettelsesforholdApiVetIkke,
+    UtenlandsoppholdApiData
 } from '../types/PleiepengesøknadApiData';
 import { attachmentUploadHasFailed } from 'common/utils/attachmentUtils';
 import { YesOrNo } from 'common/types/YesOrNo';
@@ -23,6 +24,8 @@ import { BarnReceivedFromApi } from '../types/Søkerdata';
 import { Locale } from 'common/types/Locale';
 import { timeToIso8601Duration } from 'common/utils/timeUtils';
 import { calcRedusertProsentFromRedusertTimer } from './ansettelsesforholdUtils';
+import { getCountryName } from 'common/components/country-select/CountrySelect';
+import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 
 export const mapFormDataToApiData = (
     {
@@ -39,6 +42,8 @@ export const mapFormDataToApiData = (
         legeerklæring,
         harBoddUtenforNorgeSiste12Mnd,
         skalBoUtenforNorgeNeste12Mnd,
+        utenlandsoppholdNeste12Mnd,
+        utenlandsoppholdSiste12Mnd,
         harMedsøker,
         samtidigHjemme,
         tilsynsordning,
@@ -75,7 +80,15 @@ export const mapFormDataToApiData = (
         },
         medlemskap: {
             har_bodd_i_utlandet_siste_12_mnd: harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES,
-            skal_bo_i_utlandet_neste_12_mnd: skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES
+            skal_bo_i_utlandet_neste_12_mnd: skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES,
+            utenlandsopphold_siste_12_mnd:
+                harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES
+                    ? utenlandsoppholdSiste12Mnd.map((o) => mapUtenlandsoppholdTilApiData(o, sprak))
+                    : [],
+            utenlandsopphold_neste_12_mnd:
+                skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES
+                    ? utenlandsoppholdNeste12Mnd.map((o) => mapUtenlandsoppholdTilApiData(o, sprak))
+                    : []
         },
         fra_og_med: formatDateToApiFormat(periodeFra!),
         til_og_med: formatDateToApiFormat(periodeTil!),
@@ -206,3 +219,10 @@ export const mapTilsynsordningToApiData = (tilsynsordning: Tilsynsordning): Tils
     }
     return undefined;
 };
+
+const mapUtenlandsoppholdTilApiData = (opphold: Utenlandsopphold, locale: string): UtenlandsoppholdApiData => ({
+    landnavn: getCountryName(opphold.countryCode, locale),
+    landkode: opphold.countryCode,
+    fra_og_med: formatDateToApiFormat(opphold.fromDate),
+    til_og_med: formatDateToApiFormat(opphold.toDate)
+});

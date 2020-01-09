@@ -1,6 +1,6 @@
 import { StepID, getStepConfig } from '../config/stepConfig';
 import RouteConfig from '../config/routeConfig';
-import { Field, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { AppFormField, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { appIsRunningInDevEnvironment, appIsRunningInDemoMode } from './envUtils';
 import {
     legeerklæringStepAvailable,
@@ -48,7 +48,7 @@ export const isAvailable = (path: StepID | RouteConfig, values: Pleiepengesøkna
             case StepID.SUMMARY:
                 return summaryStepAvailable(values);
             case RouteConfig.SØKNAD_SENDT_ROUTE:
-                return values[Field.harBekreftetOpplysninger];
+                return values[AppFormField.harBekreftetOpplysninger];
         }
     }
     return true;

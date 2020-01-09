@@ -124,6 +124,7 @@ const createCountryOptions = (onluEuAndEftaCountries: boolean, intl: InjectedInt
 };
 
 export const getCountryName = (isoCode: string, locale: string): string => {
+    console.log(isoCode);
     const names = countries.getNames(locale);
     return names[isoCode];
 };

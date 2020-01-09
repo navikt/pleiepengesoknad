@@ -1,5 +1,5 @@
-import { Field } from '../../types/PleiepengesøknadFormData';
+import { AppFormField } from '../../types/PleiepengesøknadFormData';
 import { injectIntl } from 'react-intl';
 import FormikTextarea from '../formik-textarea/FormikTextarea';
 
-export default injectIntl(FormikTextarea<Field>());
+export default injectIntl(FormikTextarea<AppFormField>());

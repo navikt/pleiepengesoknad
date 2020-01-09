@@ -5,7 +5,10 @@ const apiDateFormat = 'YYYY-MM-DD';
 const prettyDateFormat = 'DD.MM.YYYY';
 const prettyDateFormatExtended = 'DD. MMM YYYY';
 
-export const formatDateToApiFormat = (date: Date): ApiStringDate => moment(date).format(apiDateFormat);
+export const formatDateToApiFormat = (date: Date): ApiStringDate => {
+    const apiFormattedDate = moment(date).format(apiDateFormat);
+    return apiFormattedDate;
+};
 export const prettifyDate = (date: Date): string => moment(date).format(prettyDateFormat);
 export const prettifyDateExtended = (date: Date) => moment(date).format(prettyDateFormatExtended);
 export const apiStringDateToDate = (date: ApiStringDate): Date => moment(date, apiDateFormat).toDate();

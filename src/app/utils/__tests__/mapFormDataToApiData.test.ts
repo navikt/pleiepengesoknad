@@ -1,5 +1,5 @@
 import {
-    Field,
+    AppFormField,
     PleiepengesøknadFormData,
     AnsettelsesforholdForm,
     AnsettelsesforholdSkalJobbeSvar
@@ -17,6 +17,7 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import { BarnReceivedFromApi } from '../../types/Søkerdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
 import { Attachment } from 'common/types/Attachment';
+import { ApiStringDate } from 'common/types/ApiStringDate';
 
 const moment = require('moment');
 
@@ -68,23 +69,32 @@ const attachmentMock1: Partial<AttachmentMock> = { url: 'nav.no/1', failed: true
 const attachmentMock2: Partial<AttachmentMock> = { url: 'nav.no/2', failed: false };
 
 const formDataMock: Partial<PleiepengesøknadFormData> = {
-    [Field.barnetsNavn]: 'Ola Foobar',
-    [Field.harBekreftetOpplysninger]: true,
-    [Field.harForståttRettigheterOgPlikter]: true,
-    [Field.søkersRelasjonTilBarnet]: 'mor',
-    [Field.ansettelsesforhold]: [ansettelsesforholdTelenor, ansettelsesforholdMaxbo],
-    [Field.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.YES,
-    [Field.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.NO,
-    [Field.periodeFra]: todaysDate,
-    [Field.periodeTil]: moment(todaysDate)
+    [AppFormField.barnetsNavn]: 'Ola Foobar',
+    [AppFormField.harBekreftetOpplysninger]: true,
+    [AppFormField.harForståttRettigheterOgPlikter]: true,
+    [AppFormField.søkersRelasjonTilBarnet]: 'mor',
+    [AppFormField.ansettelsesforhold]: [ansettelsesforholdTelenor, ansettelsesforholdMaxbo],
+    [AppFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.YES,
+    [AppFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.NO,
+    [AppFormField.utenlandsoppholdNeste12Mnd]: [],
+    [AppFormField.utenlandsoppholdSiste12Mnd]: [],
+    [AppFormField.periodeFra]: todaysDate,
+    [AppFormField.periodeTil]: moment(todaysDate)
         .add(1, 'day')
         .toDate(),
-    [Field.legeerklæring]: [attachmentMock1 as AttachmentMock, attachmentMock2 as AttachmentMock]
+    [AppFormField.legeerklæring]: [attachmentMock1 as AttachmentMock, attachmentMock2 as AttachmentMock]
 };
 
 jest.mock('common/utils/dateUtils', () => {
     return {
-        formatDateToApiFormat: jest.fn((date: Date) => date.toDateString())
+        formatDateToApiFormat: jest.fn((date: Date) => {
+            const lPadNumber = (nbr: number): string => (nbr < 10 ? `${nbr}`.padStart(2, '0') : `${nbr}`);
+            return `${date.getFullYear()}-${lPadNumber(date.getMonth())}-${lPadNumber(date.getDate())}`;
+        }),
+        apiStringDateToDate: jest.fn((date: ApiStringDate) => {
+            const values = date.split('-');
+            return new Date(parseInt(values[0], 10), parseInt(values[1], 10), parseInt(values[2], 10));
+        })
     };
 });
 
@@ -93,6 +103,61 @@ jest.mock('common/utils/attachmentUtils', () => {
         attachmentUploadHasFailed: jest.fn((attachment: AttachmentMock) => attachment.failed)
     };
 });
+
+const completedAttachmentMock = { uploaded: true, url: attachmentMock1.url, pending: false };
+
+const completeFormDataMock: PleiepengesøknadFormData = {
+    ansettelsesforhold: [ansettelsesforholdMaxbo],
+    barnetHarIkkeFåttFødselsnummerEnda: false,
+    barnetSøknadenGjelder: barnMock[0].aktoer_id,
+    harBekreftetOpplysninger: true,
+    harMedsøker: YesOrNo.YES,
+    harBeredskap: YesOrNo.YES,
+    harNattevåk: YesOrNo.YES,
+    harForståttRettigheterOgPlikter: true,
+    harBeredskap_ekstrainfo: 'harBeredskap_ekstrainfo',
+    harNattevåk_ekstrainfo: 'harNattevåk_ekstrainfo',
+    søkersRelasjonTilBarnet: '',
+    legeerklæring: [completedAttachmentMock as AttachmentMock],
+    samtidigHjemme: YesOrNo.YES,
+    harBoddUtenforNorgeSiste12Mnd: YesOrNo.YES,
+    skalBoUtenforNorgeNeste12Mnd: YesOrNo.YES,
+    søknadenGjelderEtAnnetBarn: false,
+    periodeFra: dateUtils.apiStringDateToDate('2020-01-01'),
+    periodeTil: dateUtils.apiStringDateToDate('2020-02-01'),
+    tilsynsordning: {
+        skalBarnHaTilsyn: YesOrNo.YES,
+        ja: {
+            ekstrainfo: 'tilsynsordning-ekstrainfo',
+            harEkstrainfo: YesOrNo.YES,
+            tilsyn: {
+                fredag: {
+                    hours: 1,
+                    minutes: 0
+                }
+            }
+        }
+    },
+    utenlandsoppholdSiste12Mnd: [
+        {
+            countryCode: 'SE',
+            fromDate: new Date(2020, 1, 1),
+            toDate: new Date(2020, 2, 1),
+            id: '345'
+        }
+    ],
+    utenlandsoppholdNeste12Mnd: [
+        {
+            countryCode: 'NO',
+            fromDate: new Date(2020, 3, 1),
+            toDate: new Date(2020, 4, 1),
+            id: '123'
+        }
+    ],
+    barnetsNavn: 'barnets-navn',
+    barnetsForeløpigeFødselsnummerEllerDNummer: '',
+    barnetsFødselsnummer: 'barnets-fnr'
+};
 
 describe('mapFormDataToApiData', () => {
     let resultingApiData: PleiepengesøknadApiData;
@@ -103,11 +168,11 @@ describe('mapFormDataToApiData', () => {
     });
 
     it("should set 'barnetsNavn' in api data correctly", () => {
-        expect(resultingApiData.barn.navn).toEqual(formDataMock[Field.barnetsNavn]);
+        expect(resultingApiData.barn.navn).toEqual(formDataMock[AppFormField.barnetsNavn]);
     });
 
     it("should set 'relasjon_til_barnet' in api data correctly", () => {
-        expect(resultingApiData.relasjon_til_barnet).toEqual(formDataMock[Field.søkersRelasjonTilBarnet]);
+        expect(resultingApiData.relasjon_til_barnet).toEqual(formDataMock[AppFormField.søkersRelasjonTilBarnet]);
     });
 
     it("should set 'medlemskap.skal_bo_i_utlandet_neste_12_mnd' in api data correctly", () => {
@@ -119,13 +184,17 @@ describe('mapFormDataToApiData', () => {
     });
 
     it("should set 'fra_og_med' in api data correctly", () => {
-        expect(dateUtils.formatDateToApiFormat).toHaveBeenCalledWith(formDataMock[Field.periodeFra]);
-        expect(resultingApiData.fra_og_med).toEqual(dateUtils.formatDateToApiFormat(formDataMock[Field.periodeFra]!));
+        expect(dateUtils.formatDateToApiFormat).toHaveBeenCalledWith(formDataMock[AppFormField.periodeFra]);
+        expect(resultingApiData.fra_og_med).toEqual(
+            dateUtils.formatDateToApiFormat(formDataMock[AppFormField.periodeFra]!)
+        );
     });
 
     it("should set 'til_og_med' in api data correctly", () => {
-        expect(dateUtils.formatDateToApiFormat).toHaveBeenCalledWith(formDataMock[Field.periodeTil]);
-        expect(resultingApiData.til_og_med).toEqual(dateUtils.formatDateToApiFormat(formDataMock[Field.periodeTil]!));
+        expect(dateUtils.formatDateToApiFormat).toHaveBeenCalledWith(formDataMock[AppFormField.periodeTil]);
+        expect(resultingApiData.til_og_med).toEqual(
+            dateUtils.formatDateToApiFormat(formDataMock[AppFormField.periodeTil]!)
+        );
     });
 
     it("should set 'vedlegg' in api data correctly by only including the urls of attachments that have been successfully uploaded", () => {
@@ -140,7 +209,7 @@ describe('mapFormDataToApiData', () => {
         expect(resultingApiData.barn.fodselsnummer).toBeNull();
         const formDataWithFnr: Partial<PleiepengesøknadFormData> = {
             ...formDataMock,
-            [Field.barnetsFødselsnummer]: fnr
+            [AppFormField.barnetsFødselsnummer]: fnr
         };
         const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock, 'nb');
         expect(result.barn.fodselsnummer).toEqual(fnr);
@@ -151,7 +220,7 @@ describe('mapFormDataToApiData', () => {
         expect(resultingApiData.barn.alternativ_id).toBeNull();
         const formDataWithFnr: Partial<PleiepengesøknadFormData> = {
             ...formDataMock,
-            [Field.barnetsForeløpigeFødselsnummerEllerDNummer]: fnr
+            [AppFormField.barnetsForeløpigeFødselsnummerEllerDNummer]: fnr
         };
         const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock, 'nb');
         expect(result.barn.alternativ_id).toEqual(fnr);
@@ -162,8 +231,8 @@ describe('mapFormDataToApiData', () => {
         expect(resultingApiData.barn.alternativ_id).toBeNull();
         const formDataWithFnr: Partial<PleiepengesøknadFormData> = {
             ...formDataMock,
-            [Field.barnetsFødselsnummer]: fnr,
-            [Field.barnetsForeløpigeFødselsnummerEllerDNummer]: fnr
+            [AppFormField.barnetsFødselsnummer]: fnr,
+            [AppFormField.barnetsForeløpigeFødselsnummerEllerDNummer]: fnr
         };
         const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock, 'nb');
         expect(result.barn.alternativ_id).toBeNull();
@@ -171,12 +240,12 @@ describe('mapFormDataToApiData', () => {
     });
 
     it('should set har_bekreftet_opplysninger to value of harBekreftetOpplysninger in form data', () => {
-        expect(resultingApiData.har_bekreftet_opplysninger).toBe(formDataMock[Field.harBekreftetOpplysninger]);
+        expect(resultingApiData.har_bekreftet_opplysninger).toBe(formDataMock[AppFormField.harBekreftetOpplysninger]);
     });
 
     it('should set har_forstått_rettigheter_og_plikter to value of harForståttRettigheterOgPlikter in form data', () => {
         expect(resultingApiData.har_forstatt_rettigheter_og_plikter).toBe(
-            formDataMock[Field.harForståttRettigheterOgPlikter]
+            formDataMock[AppFormField.harForståttRettigheterOgPlikter]
         );
     });
 });
@@ -186,7 +255,7 @@ describe('mapFormDataToApiData', () => {
 
     const formDataFeatureOn: PleiepengesøknadFormData = {
         ...(formData as PleiepengesøknadFormData),
-        [Field.harMedsøker]: YesOrNo.YES,
+        [AppFormField.harMedsøker]: YesOrNo.YES,
         ansettelsesforhold: [telenorRedusertJobbing, maxboIngenJobbing]
     };
     beforeAll(() => {
@@ -244,5 +313,69 @@ describe('mapFormDataToApiData', () => {
         expect(organisasjoner).toEqual([result]);
         expect(organisasjoner[0].skal_jobbe_timer).toBeUndefined();
         expect(organisasjoner[0].skal_jobbe_prosent).toBeUndefined();
+    });
+
+    it('should use correct format for a complete mapped application', () => {
+        const mappedData = mapFormDataToApiData(completeFormDataMock, barnMock, 'nb');
+        const resultApiData: PleiepengesøknadApiData = {
+            new_version: true,
+            sprak: 'nb',
+            barn: {
+                navn: 'Mock Mocknes',
+                fodselsnummer: null,
+                alternativ_id: null,
+                aktoer_id: barnMock[0].aktoer_id
+            },
+            relasjon_til_barnet: null,
+            arbeidsgivere: {
+                organisasjoner: [
+                    { navn: 'Maxbo', organisasjonsnummer: '910831143', skal_jobbe: 'ja', skal_jobbe_prosent: 100 }
+                ]
+            },
+            medlemskap: {
+                har_bodd_i_utlandet_siste_12_mnd: true,
+                skal_bo_i_utlandet_neste_12_mnd: true,
+                utenlandsopphold_siste_12_mnd: [
+                    {
+                        landnavn: 'Sverige',
+                        landkode: 'SE',
+                        fra_og_med: '2020-01-01',
+                        til_og_med: '2020-02-01'
+                    }
+                ],
+                utenlandsopphold_neste_12_mnd: [
+                    {
+                        landnavn: 'Norge',
+                        landkode: 'NO',
+                        fra_og_med: '2020-03-01',
+                        til_og_med: '2020-04-01'
+                    }
+                ]
+            },
+            fra_og_med: '2020-01-01',
+            til_og_med: '2020-02-01',
+            vedlegg: ['nav.no/1'],
+            har_medsoker: true,
+            har_bekreftet_opplysninger: true,
+            har_forstatt_rettigheter_og_plikter: true,
+            samtidig_hjemme: true,
+            tilsynsordning: {
+                svar: 'ja',
+                ja: {
+                    fredag: 'PT1H0M',
+                    tilleggsinformasjon: 'tilsynsordning-ekstrainfo'
+                }
+            },
+            nattevaak: {
+                har_nattevaak: true,
+                tilleggsinformasjon: 'harNattevåk_ekstrainfo'
+            },
+
+            beredskap: {
+                i_beredskap: true,
+                tilleggsinformasjon: 'harBeredskap_ekstrainfo'
+            }
+        };
+        expect(JSON.stringify(mappedData)).toEqual(JSON.stringify(resultApiData));
     });
 });

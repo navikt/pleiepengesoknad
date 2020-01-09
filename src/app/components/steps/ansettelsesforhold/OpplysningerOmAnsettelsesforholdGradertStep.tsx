@@ -2,7 +2,7 @@ import React from 'react';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import { navigateTo } from '../../../utils/navigationUtils';
-import { Field } from '../../../types/PleiepengesøknadFormData';
+import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 import FormikStep from '../../formik-step/FormikStep';
 import CheckboxPanelGroup from '../../checkbox-panel-group/CheckboxPanelGroup';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
@@ -34,7 +34,7 @@ const OpplysningerOmAnsettelsesforholdStep = ({ history, intl, nextStepRoute, ..
                             </Box>
                             <CheckboxPanelGroup
                                 legend={intlHelper(intl, 'steg.ansettelsesforhold.aktivtArbeidsforhold.spm')}
-                                name={Field.ansettelsesforhold}
+                                name={AppFormField.ansettelsesforhold}
                                 valueKey="organisasjonsnummer"
                                 singleColumn={true}
                                 checkboxes={søkerdata.ansettelsesforhold!.map((a) => ({

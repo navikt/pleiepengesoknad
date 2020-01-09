@@ -2,7 +2,7 @@ import { StepID } from '../../config/stepConfig';
 import RouteConfig from '../../config/routeConfig';
 import { getSøknadRoute, isAvailable } from '../routeUtils';
 import * as stepUtils from '../stepUtils';
-import { Field } from '../../types/PleiepengesøknadFormData';
+import { AppFormField } from '../../types/PleiepengesøknadFormData';
 
 jest.mock('../featureToggleUtils', () => {
     return {
@@ -74,7 +74,7 @@ describe('routeUtils', () => {
         it('should return true if route=RouteConfig.SØKNAD_SENDT_ROUTE and harBekreftetOpplysninger is true', () => {
             const result = isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, {
                 ...formValues,
-                [Field.harBekreftetOpplysninger]: true
+                [AppFormField.harBekreftetOpplysninger]: true
             });
             expect(result).toBe(true);
         });
@@ -82,7 +82,7 @@ describe('routeUtils', () => {
         it('should return false if route=RouteConfig.SØKNAD_SENDT_ROUTE and harBekreftetOpplysninger is false', () => {
             const result = isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, {
                 ...formValues,
-                [Field.harBekreftetOpplysninger]: false
+                [AppFormField.harBekreftetOpplysninger]: false
             });
             expect(result).toBe(false);
         });

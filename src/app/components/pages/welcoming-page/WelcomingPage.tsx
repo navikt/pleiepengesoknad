@@ -7,7 +7,7 @@ import Box from 'common/components/box/Box';
 import intlHelper from 'common/utils/intlUtils';
 import { HistoryProps } from 'common/types/History';
 import ConfirmationCheckboxPanel from '../../confirmation-checkbox-panel/ConfirmationCheckboxPanel';
-import { Field } from '../../../types/PleiepengesøknadFormData';
+import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 import { navigateTo } from '../../../utils/navigationUtils';
 import { StepConfigProps } from '../../../config/stepConfig';
 import { userHasSubmittedValidForm } from '../../../utils/formikUtils';
@@ -115,7 +115,7 @@ class WelcomingPage extends React.Component<Props, WelcomingPageState> {
                         <Box margin="xl">
                             <ConfirmationCheckboxPanel
                                 label={intlHelper(intl, 'welcomingPage.samtykke.tekst')}
-                                name={Field.harForståttRettigheterOgPlikter}
+                                name={AppFormField.harForståttRettigheterOgPlikter}
                                 validate={(value) => {
                                     let result;
                                     if (value !== true) {

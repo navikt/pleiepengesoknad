@@ -4,7 +4,7 @@ import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
 import { InjectedIntlProps, injectIntl, FormattedHTMLMessage } from 'react-intl';
-import { Field, TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
+import { AppFormField, TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
 import Box from 'common/components/box/Box';
 import { YesOrNo } from 'common/types/YesOrNo';
@@ -41,7 +41,7 @@ const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, intl, for
             </CounsellorPanel>
             <Box margin="xl">
                 <YesOrNoQuestion
-                    name={Field.tilsynsordning__skalBarnHaTilsyn}
+                    name={AppFormField.tilsynsordning__skalBarnHaTilsyn}
                     legend={intlHelper(intl, 'steg.tilsyn.skalBarnetHaTilsyn.spm')}
                     includeDoNotKnowOption={true}
                     validate={validateYesOrNoIsAnswered}
@@ -53,12 +53,12 @@ const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, intl, for
                     <InputGroup
                         label={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.spm')}
                         validate={validateSkalHaTilsynsordning}
-                        name={Field.tilsynsordning}>
-                        <Tilsynsuke name={Field.tilsynsordning__ja__tilsyn} />
+                        name={AppFormField.tilsynsordning}>
+                        <Tilsynsuke name={AppFormField.tilsynsordning__ja__tilsyn} />
                     </InputGroup>
                     <Box margin="xl">
                         <Textarea
-                            name={Field.tilsynsordning__ja__ekstrainfo}
+                            name={AppFormField.tilsynsordning__ja__ekstrainfo}
                             label={intlHelper(intl, 'steg.tilsyn.ja.tilleggsopplysninger.spm')}
                             validate={validateTilsynsordningTilleggsinfo}
                             maxLength={1000}
@@ -70,7 +70,7 @@ const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, intl, for
                 <Box margin="xxl">
                     <RadioPanelGroup
                         legend={intlHelper(intl, 'steg.tilsyn.vetIkke.årsak.spm')}
-                        name={Field.tilsynsordning__vetIkke__hvorfor}
+                        name={AppFormField.tilsynsordning__vetIkke__hvorfor}
                         singleColumn={true}
                         radios={[
                             {
@@ -93,7 +93,7 @@ const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, intl, for
                     {vetIkke && vetIkke.hvorfor === TilsynVetIkkeHvorfor.annet && (
                         <Box margin="xl">
                             <Textarea
-                                name={Field.tilsynsordning__vetIkke__ekstrainfo}
+                                name={AppFormField.tilsynsordning__vetIkke__ekstrainfo}
                                 label={intlHelper(intl, 'steg.tilsyn.vetIkke.årsak.annet.tilleggsopplysninger')}
                                 maxLength={1000}
                                 validate={validateTilsynsordningTilleggsinfo}

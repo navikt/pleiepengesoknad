@@ -2,7 +2,7 @@ import React from 'react';
 import Box from 'common/components/box/Box';
 import { SkjemaGruppe } from 'nav-frontend-skjema';
 import Input from '../input/Input';
-import { AnsettelsesforholdForm, AnsettelsesforholdField, Field } from '../../types/PleiepengesøknadFormData';
+import { AnsettelsesforholdForm, AnsettelsesforholdField, AppFormField } from '../../types/PleiepengesøknadFormData';
 import intlHelper from 'common/utils/intlUtils';
 import { validateReduserteArbeidProsent, validateRequiredField } from '../../validation/fieldValidations';
 import RadioPanelGroup from '../radio-panel-group/RadioPanelGroup';
@@ -16,7 +16,7 @@ import { decimalTimeToTime } from 'common/utils/timeUtils';
 
 interface Props {
     ansettelsesforhold: AnsettelsesforholdForm;
-    getFieldName: (name: AnsettelsesforholdField) => Field;
+    getFieldName: (name: AnsettelsesforholdField) => AppFormField;
 }
 
 const getLabelForProsentRedusert = (intl: InjectedIntl, timerNormalt: number, prosentRedusert: number | undefined) => {

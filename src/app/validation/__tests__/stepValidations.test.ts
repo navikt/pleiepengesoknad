@@ -6,7 +6,7 @@ import {
     opplysningerOmTidsromStepIsValid,
     welcomingPageIsValid
 } from '../stepValidations';
-import { Field, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { AppFormField, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import * as fieldValidations from './../fieldValidations';
 import Mock = jest.Mock;
 import { YesOrNo } from 'common/types/YesOrNo';
@@ -29,39 +29,39 @@ const formData: Partial<PleiepengesøknadFormData> = {};
 
 describe('stepValidation tests', () => {
     describe('welcomingPageIsValid', () => {
-        it(`should be valid if ${Field.harForståttRettigheterOgPlikter} is true`, () => {
-            formData[Field.harForståttRettigheterOgPlikter] = true;
+        it(`should be valid if ${AppFormField.harForståttRettigheterOgPlikter} is true`, () => {
+            formData[AppFormField.harForståttRettigheterOgPlikter] = true;
             expect(welcomingPageIsValid(formData as PleiepengesøknadFormData)).toBe(true);
         });
 
-        it(`should be invalid if ${Field.harForståttRettigheterOgPlikter} is undefined or false`, () => {
-            formData[Field.harForståttRettigheterOgPlikter] = undefined;
+        it(`should be invalid if ${AppFormField.harForståttRettigheterOgPlikter} is undefined or false`, () => {
+            formData[AppFormField.harForståttRettigheterOgPlikter] = undefined;
             expect(welcomingPageIsValid(formData as PleiepengesøknadFormData)).toBe(false);
-            formData[Field.harForståttRettigheterOgPlikter] = false;
+            formData[AppFormField.harForståttRettigheterOgPlikter] = false;
             expect(welcomingPageIsValid(formData as PleiepengesøknadFormData)).toBe(false);
         });
     });
 
     describe('opplysningerOmBarnetStepIsValid', () => {
-        describe(`when ${Field.barnetHarIkkeFåttFødselsnummerEnda} is true`, () => {
+        describe(`when ${AppFormField.barnetHarIkkeFåttFødselsnummerEnda} is true`, () => {
             beforeEach(() => {
-                formData[Field.barnetHarIkkeFåttFødselsnummerEnda] = true;
+                formData[AppFormField.barnetHarIkkeFåttFødselsnummerEnda] = true;
             });
 
-            it(`should be invalid if ${Field.søkersRelasjonTilBarnet} is invalid`, () => {
+            it(`should be invalid if ${AppFormField.søkersRelasjonTilBarnet} is invalid`, () => {
                 (fieldValidations.validateRelasjonTilBarnet as Mock).mockReturnValue('some error message');
                 expect(opplysningerOmBarnetStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
             });
 
-            it(`should be valid if ${Field.søkersRelasjonTilBarnet} is valid`, () => {
+            it(`should be valid if ${AppFormField.søkersRelasjonTilBarnet} is valid`, () => {
                 (fieldValidations.validateRelasjonTilBarnet as Mock).mockReturnValue(undefined);
                 expect(opplysningerOmBarnetStepIsValid(formData as PleiepengesøknadFormData)).toBe(true);
             });
         });
 
-        describe(`when ${Field.barnetHarIkkeFåttFødselsnummerEnda} is false`, () => {
+        describe(`when ${AppFormField.barnetHarIkkeFåttFødselsnummerEnda} is false`, () => {
             beforeEach(() => {
-                formData[Field.barnetHarIkkeFåttFødselsnummerEnda] = false;
+                formData[AppFormField.barnetHarIkkeFåttFødselsnummerEnda] = false;
                 jest.resetAllMocks();
             });
 
@@ -69,17 +69,17 @@ describe('stepValidation tests', () => {
                 expect(opplysningerOmBarnetStepIsValid(formData as PleiepengesøknadFormData)).toBe(true);
             });
 
-            it(`should be invalid if ${Field.barnetsNavn} is invalid`, () => {
+            it(`should be invalid if ${AppFormField.barnetsNavn} is invalid`, () => {
                 (fieldValidations.validateNavn as Mock).mockReturnValue('some error message');
                 expect(opplysningerOmBarnetStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
             });
 
-            it(`should be invalid if ${Field.barnetsFødselsnummer} is invalid`, () => {
+            it(`should be invalid if ${AppFormField.barnetsFødselsnummer} is invalid`, () => {
                 (fieldValidations.validateFødselsnummer as Mock).mockReturnValue('some error message');
                 expect(opplysningerOmBarnetStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
             });
 
-            it(`should be invalid if ${Field.søkersRelasjonTilBarnet} is invalid`, () => {
+            it(`should be invalid if ${AppFormField.søkersRelasjonTilBarnet} is invalid`, () => {
                 (fieldValidations.validateRelasjonTilBarnet as Mock).mockReturnValue('some error message');
                 expect(opplysningerOmBarnetStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
             });
@@ -87,21 +87,21 @@ describe('stepValidation tests', () => {
     });
 
     describe('opplysningerOmTidsromStepIsValid', () => {
-        it(`should be valid if both ${Field.periodeFra} and ${Field.periodeTil} are defined`, () => {
-            formData[Field.periodeFra] = moment().toDate();
-            formData[Field.periodeTil] = moment().toDate();
+        it(`should be valid if both ${AppFormField.periodeFra} and ${AppFormField.periodeTil} are defined`, () => {
+            formData[AppFormField.periodeFra] = moment().toDate();
+            formData[AppFormField.periodeTil] = moment().toDate();
             expect(opplysningerOmTidsromStepIsValid(formData as PleiepengesøknadFormData)).toBe(true);
         });
 
-        it(`should be invalid if ${Field.periodeFra} is undefined`, () => {
-            formData[Field.periodeFra] = undefined;
-            formData[Field.periodeTil] = moment().toDate();
+        it(`should be invalid if ${AppFormField.periodeFra} is undefined`, () => {
+            formData[AppFormField.periodeFra] = undefined;
+            formData[AppFormField.periodeTil] = moment().toDate();
             expect(opplysningerOmTidsromStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
         });
 
-        it(`should be invalid if ${Field.periodeTil} is undefined`, () => {
-            formData[Field.periodeFra] = moment().toDate();
-            formData[Field.periodeTil] = undefined;
+        it(`should be invalid if ${AppFormField.periodeTil} is undefined`, () => {
+            formData[AppFormField.periodeFra] = moment().toDate();
+            formData[AppFormField.periodeTil] = undefined;
             expect(opplysningerOmTidsromStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
         });
     });
@@ -114,33 +114,33 @@ describe('stepValidation tests', () => {
 
     describe('medlemskapStepIsValid', () => {
         it('should be valid if both harBoddUtenforNorgeSiste12Mnd and skalBoUtenforNorgeNeste12Mnd are either answered with YES or NO', () => {
-            formData[Field.harBoddUtenforNorgeSiste12Mnd] = YesOrNo.YES;
-            formData[Field.skalBoUtenforNorgeNeste12Mnd] = YesOrNo.YES;
+            formData[AppFormField.harBoddUtenforNorgeSiste12Mnd] = YesOrNo.YES;
+            formData[AppFormField.skalBoUtenforNorgeNeste12Mnd] = YesOrNo.YES;
             expect(medlemskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(true);
-            formData[Field.harBoddUtenforNorgeSiste12Mnd] = YesOrNo.NO;
-            formData[Field.skalBoUtenforNorgeNeste12Mnd] = YesOrNo.NO;
+            formData[AppFormField.harBoddUtenforNorgeSiste12Mnd] = YesOrNo.NO;
+            formData[AppFormField.skalBoUtenforNorgeNeste12Mnd] = YesOrNo.NO;
             expect(medlemskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(true);
-            formData[Field.harBoddUtenforNorgeSiste12Mnd] = YesOrNo.YES;
-            formData[Field.skalBoUtenforNorgeNeste12Mnd] = YesOrNo.NO;
+            formData[AppFormField.harBoddUtenforNorgeSiste12Mnd] = YesOrNo.YES;
+            formData[AppFormField.skalBoUtenforNorgeNeste12Mnd] = YesOrNo.NO;
             expect(medlemskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(true);
-            formData[Field.harBoddUtenforNorgeSiste12Mnd] = YesOrNo.NO;
-            formData[Field.skalBoUtenforNorgeNeste12Mnd] = YesOrNo.YES;
+            formData[AppFormField.harBoddUtenforNorgeSiste12Mnd] = YesOrNo.NO;
+            formData[AppFormField.skalBoUtenforNorgeNeste12Mnd] = YesOrNo.YES;
             expect(medlemskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(true);
         });
 
-        it(`should be invalid if ${Field.harBoddUtenforNorgeSiste12Mnd} is UNANSWERED`, () => {
-            formData[Field.harBoddUtenforNorgeSiste12Mnd] = YesOrNo.UNANSWERED;
-            formData[Field.skalBoUtenforNorgeNeste12Mnd] = YesOrNo.YES;
+        it(`should be invalid if ${AppFormField.harBoddUtenforNorgeSiste12Mnd} is UNANSWERED`, () => {
+            formData[AppFormField.harBoddUtenforNorgeSiste12Mnd] = YesOrNo.UNANSWERED;
+            formData[AppFormField.skalBoUtenforNorgeNeste12Mnd] = YesOrNo.YES;
             expect(medlemskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
-            formData[Field.skalBoUtenforNorgeNeste12Mnd] = YesOrNo.NO;
+            formData[AppFormField.skalBoUtenforNorgeNeste12Mnd] = YesOrNo.NO;
             expect(medlemskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
         });
 
-        it(`should be invalid if ${Field.skalBoUtenforNorgeNeste12Mnd} is UNANSWERED`, () => {
-            formData[Field.skalBoUtenforNorgeNeste12Mnd] = YesOrNo.UNANSWERED;
-            formData[Field.harBoddUtenforNorgeSiste12Mnd] = YesOrNo.YES;
+        it(`should be invalid if ${AppFormField.skalBoUtenforNorgeNeste12Mnd} is UNANSWERED`, () => {
+            formData[AppFormField.skalBoUtenforNorgeNeste12Mnd] = YesOrNo.UNANSWERED;
+            formData[AppFormField.harBoddUtenforNorgeSiste12Mnd] = YesOrNo.YES;
             expect(medlemskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
-            formData[Field.harBoddUtenforNorgeSiste12Mnd] = YesOrNo.NO;
+            formData[AppFormField.harBoddUtenforNorgeSiste12Mnd] = YesOrNo.NO;
             expect(medlemskapStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
         });
     });
