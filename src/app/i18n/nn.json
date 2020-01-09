@@ -279,6 +279,7 @@
     "fieldvalidation.tilsynsordning_forMangeTimerEnDag": "7 timar og 30 minutt er maks per dag",
     "fieldvalidation.tilsynsordning_forMangeTegn": "For mange teikn. Maks antall teikn er 1000.",
 
+    "gradertAnsettelsesforhold.erAnsattIPerioden.spm": "Er du ansatt her i perioden?",
     "gradertAnsettelsesforhold.arbeidsforhold.spm": "Skal du jobbe her i denne perioden?",
     "gradertAnsettelsesforhold.arbeidsforhold.ja": "Ja, eg skal jobbe som vanleg",
     "gradertAnsettelsesforhold.arbeidsforhold.nei": "Nei, eg skal ikkje jobbe",

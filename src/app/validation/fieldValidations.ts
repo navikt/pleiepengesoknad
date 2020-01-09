@@ -10,7 +10,7 @@ import {
 import { attachmentHasBeenUploaded } from 'common/utils/attachmentUtils';
 import { timeToDecimalTime } from 'common/utils/timeUtils';
 import { Time } from 'common/types/Time';
-import { Tilsynsordning } from '../types/PleiepengesøknadFormData';
+import { Tilsynsordning, AnsettelsesforholdForm } from '../types/PleiepengesøknadFormData';
 import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
 import { Attachment } from 'common/types/Attachment';
 import { FieldValidationResult } from 'common/validation/types';
@@ -228,6 +228,22 @@ export const validateRequiredField = (value: any): FieldValidationResult => {
     if (!hasValue(value)) {
         return fieldIsRequiredError();
     }
+    return undefined;
+};
+
+export const validateErAnsattIPerioden = (
+    ansettelsesforhold: AnsettelsesforholdForm[],
+    orgnummer: string
+): FieldValidationResult => {
+    const forhold = ansettelsesforhold.find((a) => a.organisasjonsnummer === orgnummer);
+    if (
+        forhold === undefined ||
+        forhold.erAnsattIPerioden === undefined ||
+        forhold.erAnsattIPerioden === YesOrNo.UNANSWERED
+    ) {
+        return fieldIsRequiredError();
+    }
+
     return undefined;
 };
 

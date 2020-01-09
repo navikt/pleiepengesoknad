@@ -76,7 +76,9 @@ export const mapFormDataToApiData = (
         barn: barnObject,
         relasjon_til_barnet: barnObject.aktoer_id ? null : søkersRelasjonTilBarnet,
         arbeidsgivere: {
-            organisasjoner: ansettelsesforhold.map((forhold) => mapAnsettelsesforholdTilApiData(forhold))
+            organisasjoner: ansettelsesforhold
+                .filter((a) => a.erAnsattIPerioden === YesOrNo.YES)
+                .map((forhold) => mapAnsettelsesforholdTilApiData(forhold))
         },
         medlemskap: {
             har_bodd_i_utlandet_siste_12_mnd: harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES,

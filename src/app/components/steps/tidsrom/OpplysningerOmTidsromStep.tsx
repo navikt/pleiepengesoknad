@@ -71,6 +71,11 @@ class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTid
         try {
             const response = await this.getArbeidsforhold();
             søkerdata.setAnsettelsesforhold!(response.data.organisasjoner);
+            if (this.props.formikProps.values[AppFormField.ansettelsesforhold].length === 0) {
+                this.props.formikProps.setFieldValue(AppFormField.ansettelsesforhold, [
+                    ...response.data.organisasjoner
+                ]);
+            }
         } catch (error) {
             this.handleArbeidsforholdFetchError(error);
         }

@@ -12,7 +12,7 @@ import LegeerklæringStep from '../steps/legeerklæring/LegeerklæringStep';
 import SummaryStep from '../steps/summary/SummaryStep';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
-import OpplysningerOmAnsettelsesforholdGradertStep from '../steps/ansettelsesforhold/OpplysningerOmAnsettelsesforholdGradertStep';
+import AnsettelsesforholdStep from '../steps/ansettelsesforhold/AnsettelsesforholdStep';
 import TilsynsordningStep from '../steps/tilsynsordning/TilsynsordningStep';
 import NattevåkStep from '../steps/nattevåkStep/NattevåkStep';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
@@ -77,7 +77,7 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
                 <Route
                     path={getSøknadRoute(StepID.ANSETTELSESFORHOLD)}
                     render={(props) => (
-                        <OpplysningerOmAnsettelsesforholdGradertStep
+                        <AnsettelsesforholdStep
                             {...commonFormikProps}
                             {...props}
                             nextStepRoute={getNextStepRoute(StepID.ANSETTELSESFORHOLD, values)}

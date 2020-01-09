@@ -65,6 +65,7 @@ export enum AppFormField {
 }
 
 export enum AnsettelsesforholdField {
+    erAnsattIPerioden = 'erAnsattIPerioden',
     skalJobbe = 'skalJobbe',
     timerEllerProsent = 'timerEllerProsent',
     jobberNormaltTimer = 'jobberNormaltTimer',
@@ -73,6 +74,7 @@ export enum AnsettelsesforholdField {
 }
 
 export interface AnsettelsesforholdForm extends Ansettelsesforhold {
+    [AnsettelsesforholdField.erAnsattIPerioden]?: YesOrNo;
     [AnsettelsesforholdField.skalJobbe]?: AnsettelsesforholdSkalJobbeSvar;
     [AnsettelsesforholdField.timerEllerProsent]?: 'timer' | 'prosent';
     [AnsettelsesforholdField.jobberNormaltTimer]?: number;

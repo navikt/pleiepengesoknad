@@ -314,6 +314,23 @@ describe('mapFormDataToApiData', () => {
         expect(organisasjoner[0].skal_jobbe_timer).toBeUndefined();
         expect(organisasjoner[0].skal_jobbe_prosent).toBeUndefined();
     });
+    it('should not include ansettelsesforhold where user is not working', () => {
+        const {
+            arbeidsgivere: { organisasjoner }
+        } = mapFormDataToApiData(
+            { ...formDataFeatureOn, ansettelsesforhold: [{ ...maxboVetIkke, erAnsattIPerioden: YesOrNo.NO }] },
+            barnMock,
+            'nb'
+        );
+        const result: AnsettelsesforholdApiVetIkke = {
+            ...ansettelsesforholdMaxbo,
+            jobber_normalt_timer: 20,
+            skal_jobbe: 'vet_ikke'
+        };
+        expect(organisasjoner).toEqual([result]);
+        expect(organisasjoner[0].skal_jobbe_timer).toBeUndefined();
+        expect(organisasjoner[0].skal_jobbe_prosent).toBeUndefined();
+    });
 
     it('should use correct format for a complete mapped application', () => {
         const mappedData = mapFormDataToApiData(completeFormDataMock, barnMock, 'nb');
