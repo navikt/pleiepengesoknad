@@ -19,3 +19,10 @@ export const isUnauthorized = ({ response }: AxiosError) =>
 export const getApiUrlByResourceType = (resourceType: ResourceType) => {
     return `${getEnvironmentVariable('API_URL')}/${resourceType}`;
 };
+
+export const apiUtils = {
+    isForbidden,
+    isUnauthorized,
+    getApiUrlByResourceType,
+    sendMultipartPostRequest
+};

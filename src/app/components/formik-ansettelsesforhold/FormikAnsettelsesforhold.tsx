@@ -23,7 +23,7 @@ interface Props {
     index: number;
 }
 
-const GradertAnsettelsesforhold: React.FunctionComponent<Props & InjectedIntlProps> = ({
+const FormikAnsettelsesforhold: React.FunctionComponent<Props & InjectedIntlProps> = ({
     ansettelsesforhold,
     index,
     intl
@@ -88,4 +88,4 @@ const GradertAnsettelsesforhold: React.FunctionComponent<Props & InjectedIntlPro
     </FieldArray>
 );
 
-export default injectIntl(GradertAnsettelsesforhold);
+export default injectIntl(FormikAnsettelsesforhold);

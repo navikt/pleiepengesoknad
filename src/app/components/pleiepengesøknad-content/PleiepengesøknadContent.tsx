@@ -17,6 +17,7 @@ import TilsynsordningStep from '../steps/tilsynsordning/TilsynsordningStep';
 import NattevåkStep from '../steps/nattevåkStep/NattevåkStep';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import BeredskapStep from '../steps/beredskapStep/BeredskapStep';
+import { SøkerdataContextConsumer } from 'app/context/SøkerdataContext';
 
 interface PleiepengesøknadContentProps {
     formikProps: CustomFormikProps;
@@ -77,11 +78,22 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
                 <Route
                     path={getSøknadRoute(StepID.ANSETTELSESFORHOLD)}
                     render={(props) => (
-                        <AnsettelsesforholdStep
-                            {...commonFormikProps}
-                            {...props}
-                            nextStepRoute={getNextStepRoute(StepID.ANSETTELSESFORHOLD, values)}
-                        />
+                        <SøkerdataContextConsumer>
+                            {(søkerdata) => {
+                                if (søkerdata) {
+                                    return (
+                                        <AnsettelsesforholdStep
+                                            {...commonFormikProps}
+                                            formikProps={formikProps}
+                                            søkerdata={søkerdata}
+                                            {...props}
+                                            nextStepRoute={getNextStepRoute(StepID.ANSETTELSESFORHOLD, values)}
+                                        />
+                                    );
+                                }
+                                return <div>Manglende søkerdata</div>;
+                            }}
+                        </SøkerdataContextConsumer>
                     )}
                 />
             )}
