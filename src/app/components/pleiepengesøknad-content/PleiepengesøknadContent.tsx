@@ -12,7 +12,7 @@ import LegeerklæringStep from '../steps/legeerklæring/LegeerklæringStep';
 import SummaryStep from '../steps/summary/SummaryStep';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
-import AnsettelsesforholdStep from '../steps/ansettelsesforhold/AnsettelsesforholdStep';
+import ArbeidsforholdStep from '../steps/arbeidsforholdStep/ArbeidsforholdStep';
 import TilsynsordningStep from '../steps/tilsynsordning/TilsynsordningStep';
 import NattevåkStep from '../steps/nattevåkStep/NattevåkStep';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
@@ -30,7 +30,7 @@ export interface CommonStepFormikProps {
 
 const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContentProps> = ({ formikProps }) => {
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
-    const [antallAnsettelsesforhold, setAntallAnsettelsesforhold] = React.useState<number>(0);
+    const [antallArbeidsforhold, setAntallArbeidsforhold] = React.useState<number>(0);
     const { handleSubmit, values, isSubmitting, isValid, resetForm } = formikProps;
     const commonFormikProps: CommonStepFormikProps = { handleSubmit, formValues: formikProps.values };
     return (
@@ -74,20 +74,20 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
                 />
             )}
 
-            {isAvailable(StepID.ANSETTELSESFORHOLD, values) && (
+            {isAvailable(StepID.ARBEIDSFORHOLD, values) && (
                 <Route
-                    path={getSøknadRoute(StepID.ANSETTELSESFORHOLD)}
+                    path={getSøknadRoute(StepID.ARBEIDSFORHOLD)}
                     render={(props) => (
                         <SøkerdataContextConsumer>
                             {(søkerdata) => {
                                 if (søkerdata) {
                                     return (
-                                        <AnsettelsesforholdStep
+                                        <ArbeidsforholdStep
                                             {...commonFormikProps}
                                             formikProps={formikProps}
                                             søkerdata={søkerdata}
                                             {...props}
-                                            nextStepRoute={getNextStepRoute(StepID.ANSETTELSESFORHOLD, values)}
+                                            nextStepRoute={getNextStepRoute(StepID.ARBEIDSFORHOLD, values)}
                                         />
                                     );
                                 }
@@ -189,14 +189,14 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
                         if (values.harForståttRettigheterOgPlikter === true) {
                             // Only call reset if it has not been called before (prevent loop)
                             setTimeout(() => {
-                                setAntallAnsettelsesforhold(values.ansettelsesforhold.length);
+                                setAntallArbeidsforhold(values.arbeidsforhold.length);
                                 resetForm();
                             });
                         }
                         if (søknadHasBeenSent === false) {
                             setSøknadHasBeenSent(true);
                         }
-                        return <ConfirmationPage numberOfAnsettelsesforhold={antallAnsettelsesforhold} />;
+                        return <ConfirmationPage numberOfArbeidsforhold={antallArbeidsforhold} />;
                     }}
                 />
             )}

@@ -1,47 +1,44 @@
-import { Ansettelsesforhold } from 'app/types/Søkerdata';
-import { AnsettelsesforholdForm } from 'app/types/PleiepengesøknadFormData';
-import { syncAnsettelsesforholdInFormDataWithSøkerdata } from '../ansettelsesforholdUtils';
+import { Arbeidsgiver } from 'app/types/Søkerdata';
+import { Arbeidsforhold } from 'app/types/PleiepengesøknadFormData';
+import { syndArbeidsforholdWithArbeidsgivere } from '../arbeidsforholdUtils';
 import { YesOrNo } from 'common/types/YesOrNo';
 
-const organisasjoner: Ansettelsesforhold[] = [
+const organisasjoner: Arbeidsgiver[] = [
     { navn: 'Org1', organisasjonsnummer: '1' },
     { navn: 'Org2', organisasjonsnummer: '2' }
 ];
 
-const organisasjonerPartiallyEqual: Ansettelsesforhold[] = [
+const organisasjonerPartiallyEqual: Arbeidsgiver[] = [
     { navn: 'Org3', organisasjonsnummer: '3' },
     { navn: 'NewOrg', organisasjonsnummer: 'new' }
 ];
 
-const organisasjonerEqual: Ansettelsesforhold[] = [
+const organisasjonerEqual: Arbeidsgiver[] = [
     { navn: 'Org3', organisasjonsnummer: '3' },
     { navn: 'Org4', organisasjonsnummer: '4' }
 ];
 
-const ansettelsesforhold: AnsettelsesforholdForm[] = [
+const arbeidsforhold: Arbeidsforhold[] = [
     { navn: 'Org3', organisasjonsnummer: '3', erAnsattIPerioden: YesOrNo.YES },
     { navn: 'Org4', organisasjonsnummer: '4', erAnsattIPerioden: YesOrNo.UNANSWERED }
 ];
 
-describe('ansettelsesforholdUtils', () => {
-    describe('syncAnsettelsesforholdInFormDataWithSøkerdata', () => {
-        it('should replace all ansettelsesforhold if none present in organisasjoner', () => {
-            const result = syncAnsettelsesforholdInFormDataWithSøkerdata(organisasjoner, ansettelsesforhold);
+describe('arbeidsforholdUtils', () => {
+    describe('syncArbeidsforholdWithArbeidsgivere', () => {
+        it('should replace all arbeidsforhold if none present in arbeidsgivere', () => {
+            const result = syndArbeidsforholdWithArbeidsgivere(organisasjoner, arbeidsforhold);
             expect(JSON.stringify(result)).toEqual(JSON.stringify(organisasjoner));
         });
 
-        it('should keep those ansettelsesforhold which still are present in organisasjoner', () => {
-            const result = syncAnsettelsesforholdInFormDataWithSøkerdata(
-                organisasjonerPartiallyEqual,
-                ansettelsesforhold
-            );
+        it('should keep those arbeidsforhold which still are present in arbeidsgivere', () => {
+            const result = syndArbeidsforholdWithArbeidsgivere(organisasjonerPartiallyEqual, arbeidsforhold);
             expect(result[0].organisasjonsnummer).toBe('3');
             expect(result[0].erAnsattIPerioden).toBe(YesOrNo.YES);
             expect(result[1].organisasjonsnummer).toBe('new');
         });
 
-        it('should keep all ansettelsesforhold when all are present in organisasjoner', () => {
-            const result = syncAnsettelsesforholdInFormDataWithSøkerdata(organisasjonerEqual, ansettelsesforhold);
+        it('should keep all arbeidsforhold when all are present in arbeidsgivere', () => {
+            const result = syndArbeidsforholdWithArbeidsgivere(organisasjonerEqual, arbeidsforhold);
             expect(result[0].organisasjonsnummer).toBe('3');
             expect(result[0].erAnsattIPerioden).toBe(YesOrNo.YES);
             expect(result[1].organisasjonsnummer).toBe('4');

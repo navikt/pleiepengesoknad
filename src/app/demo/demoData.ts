@@ -15,7 +15,7 @@ const demoSøkerdata = {
             aktoer_id: '2'
         }
     ],
-    ansettelsesforhold: [
+    arbeidsgivere: [
         { navn: 'Bakeriet søtt og godt', organisasjonsnummer: '123451234' },
         { navn: 'Tromsø kommune', organisasjonsnummer: '123451236' }
     ],

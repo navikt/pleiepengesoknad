@@ -1,5 +1,5 @@
-import { Ansettelsesforhold } from 'app/types/Søkerdata';
-import { AnsettelsesforholdForm } from 'app/types/PleiepengesøknadFormData';
+import { Arbeidsgiver } from 'app/types/Søkerdata';
+import { Arbeidsforhold } from 'app/types/PleiepengesøknadFormData';
 
 const roundWithTwoDecimals = (nbr: number): number => Math.round(nbr * 100) / 100;
 
@@ -11,12 +11,12 @@ export const calcReduserteTimerFromRedusertProsent = (timerNormalt: number, pros
     return roundWithTwoDecimals((timerNormalt / 100) * prosentRedusert);
 };
 
-export const syncAnsettelsesforholdInFormDataWithSøkerdata = (
-    organisasjoner: Ansettelsesforhold[],
-    ansettelsesforhold: AnsettelsesforholdForm[]
-): AnsettelsesforholdForm[] => {
-    return organisasjoner.map((organisasjon) => ({
+export const syndArbeidsforholdWithArbeidsgivere = (
+    arbeidsgivere: Arbeidsgiver[],
+    arbeidsforhold: Arbeidsforhold[]
+): Arbeidsforhold[] => {
+    return arbeidsgivere.map((organisasjon) => ({
         ...organisasjon,
-        ...ansettelsesforhold.find((f) => f.organisasjonsnummer === organisasjon.organisasjonsnummer)
+        ...arbeidsforhold.find((f) => f.organisasjonsnummer === organisasjon.organisasjonsnummer)
     }));
 };

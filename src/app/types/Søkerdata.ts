@@ -11,7 +11,7 @@ export interface BarnReceivedFromApi {
     fodselsdato: Date;
 }
 
-export interface Ansettelsesforhold {
+export interface Arbeidsgiver {
     navn: string;
     organisasjonsnummer: string;
 }
@@ -28,6 +28,6 @@ export interface Person {
 export interface Søkerdata {
     person: Person;
     barn: BarnReceivedFromApi[];
-    setAnsettelsesforhold: (ansettelsesforhold: Ansettelsesforhold[]) => void;
-    ansettelsesforhold?: Ansettelsesforhold[];
+    setArbeidsgivere: (arbeidsgivere: Arbeidsgiver[]) => void;
+    arbeidsgivere?: Arbeidsgiver[];
 }

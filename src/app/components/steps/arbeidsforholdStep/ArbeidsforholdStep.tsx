@@ -7,12 +7,12 @@ import AlertStripe from 'nav-frontend-alertstriper';
 import Box from 'common/components/box/Box';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { InjectedIntlProps, FormattedMessage, injectIntl, FormattedHTMLMessage } from 'react-intl';
-import FormikAnsettelsesforhold from '../../formik-ansettelsesforhold/FormikAnsettelsesforhold';
+import FormikArbeidsforhold from '../../formik-arbeidsforhold/FormikArbeidsforhold';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import FormSection from 'common/components/form-section/FormSection';
 import { getArbeidsgiver } from 'app/api/api';
-import { Søkerdata, Ansettelsesforhold } from 'app/types/Søkerdata';
+import { Søkerdata, Arbeidsgiver } from 'app/types/Søkerdata';
 import { formatDateToApiFormat } from 'common/utils/dateUtils';
 import { CustomFormikProps } from 'app/types/FormikProps';
 import { AppFormField } from 'app/types/PleiepengesøknadFormData';
@@ -20,41 +20,36 @@ import LoadingSpinner from 'common/components/loading-spinner/LoadingSpinner';
 import { apiUtils } from 'app/utils/apiUtils';
 import { appIsRunningInDemoMode } from 'app/utils/envUtils';
 import demoSøkerdata from 'app/demo/demoData';
-import { syncAnsettelsesforholdInFormDataWithSøkerdata } from 'app/utils/ansettelsesforholdUtils';
+import { syndArbeidsforholdWithArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
 
-interface AnsettelsesforholdStepProps {
+interface OwnProps {
     formikProps: CustomFormikProps;
     søkerdata: Søkerdata;
 }
 
-type Props = CommonStepFormikProps & AnsettelsesforholdStepProps & HistoryProps & InjectedIntlProps & StepConfigProps;
+type Props = CommonStepFormikProps & OwnProps & HistoryProps & InjectedIntlProps & StepConfigProps;
 
-const updateAnsettelsforholdForm = (formikProps: CustomFormikProps, organisasjoner: Ansettelsesforhold[]) => {
-    const updatedAnsettelsesforhold = syncAnsettelsesforholdInFormDataWithSøkerdata(
-        organisasjoner,
-        formikProps.values[AppFormField.ansettelsesforhold]
+const updateArbeidsforhold = (formikProps: CustomFormikProps, arbeidsgivere: Arbeidsgiver[]) => {
+    const updatedArbeidsforhold = syndArbeidsforholdWithArbeidsgivere(
+        arbeidsgivere,
+        formikProps.values[AppFormField.arbeidsforhold]
     );
-    if (updatedAnsettelsesforhold.length > 0) {
-        formikProps.setFieldValue(AppFormField.ansettelsesforhold, updatedAnsettelsesforhold);
+    if (updatedArbeidsforhold.length > 0) {
+        formikProps.setFieldValue(AppFormField.arbeidsforhold, updatedArbeidsforhold);
     }
 };
 
-async function getAnsettelsesforhold(
-    fromDate: Date,
-    toDate: Date,
-    formikProps: CustomFormikProps,
-    søkerdata: Søkerdata
-) {
+async function getArbeidsgivere(fromDate: Date, toDate: Date, formikProps: CustomFormikProps, søkerdata: Søkerdata) {
     if (appIsRunningInDemoMode()) {
-        søkerdata.setAnsettelsesforhold(demoSøkerdata.ansettelsesforhold);
-        updateAnsettelsforholdForm(formikProps, demoSøkerdata.ansettelsesforhold);
+        søkerdata.setArbeidsgivere(demoSøkerdata.arbeidsgivere);
+        updateArbeidsforhold(formikProps, demoSøkerdata.arbeidsgivere);
         return;
     }
     try {
         const response = await getArbeidsgiver(formatDateToApiFormat(fromDate), formatDateToApiFormat(toDate));
         const { organisasjoner } = response.data;
-        søkerdata.setAnsettelsesforhold!(organisasjoner);
-        updateAnsettelsforholdForm(formikProps, organisasjoner);
+        søkerdata.setArbeidsgivere!(organisasjoner);
+        updateArbeidsforhold(formikProps, organisasjoner);
     } catch (error) {
         if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
             navigateToLoginPage();
@@ -62,10 +57,10 @@ async function getAnsettelsesforhold(
     }
 }
 
-const AnsettelsesforholdStep = ({ history, intl, søkerdata, nextStepRoute, formikProps, ...stepProps }: Props) => {
+const ArbeidsforholdStep = ({ history, intl, søkerdata, nextStepRoute, formikProps, ...stepProps }: Props) => {
     const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
     const [isLoading, setIsLoading] = useState(false);
-    const { ansettelsesforhold } = formikProps.values;
+    const { arbeidsforhold } = formikProps.values;
 
     useEffect(() => {
         const fraDato = formikProps.values[AppFormField.periodeFra];
@@ -73,7 +68,7 @@ const AnsettelsesforholdStep = ({ history, intl, søkerdata, nextStepRoute, form
 
         const fetchData = async () => {
             if (fraDato && tilDato) {
-                await getAnsettelsesforhold(fraDato, tilDato, formikProps, søkerdata);
+                await getArbeidsgivere(fraDato, tilDato, formikProps, søkerdata);
                 setIsLoading(false);
             }
         };
@@ -85,7 +80,7 @@ const AnsettelsesforholdStep = ({ history, intl, søkerdata, nextStepRoute, form
 
     return (
         <FormikStep
-            id={StepID.ANSETTELSESFORHOLD}
+            id={StepID.ARBEIDSFORHOLD}
             onValidFormSubmit={navigate}
             history={history}
             {...stepProps}
@@ -95,28 +90,28 @@ const AnsettelsesforholdStep = ({ history, intl, søkerdata, nextStepRoute, form
                 <>
                     <Box padBottom="xl">
                         <CounsellorPanel>
-                            <FormattedHTMLMessage id="steg.ansettelsesforhold.aktivtArbeidsforhold.info.html" />
+                            <FormattedHTMLMessage id="steg.arbeidsforhold.aktivtArbeidsforhold.info.html" />
                         </CounsellorPanel>
                     </Box>
-                    {ansettelsesforhold.length > 0 && (
+                    {arbeidsforhold.length > 0 && (
                         <>
-                            {ansettelsesforhold.map((forhold, index) => (
+                            {arbeidsforhold.map((forhold, index) => (
                                 <Box padBottom="l" key={forhold.organisasjonsnummer}>
                                     <FormSection title={forhold.navn}>
-                                        <FormikAnsettelsesforhold ansettelsesforhold={forhold} index={index} />
+                                        <FormikArbeidsforhold arbeidsforhold={forhold} index={index} />
                                     </FormSection>
                                 </Box>
                             ))}
                         </>
                     )}
-                    {ansettelsesforhold.length === 0 && (
+                    {arbeidsforhold.length === 0 && (
                         <Normaltekst>
-                            <FormattedMessage id="steg.ansettelsesforhold.ingenOpplysninger" />
+                            <FormattedMessage id="steg.arbeidsforhold.ingenOpplysninger" />
                         </Normaltekst>
                     )}
                     <Box margin="m" padBottom="m">
                         <AlertStripe type="info">
-                            <FormattedMessage id="steg.ansettelsesforhold.gradert.manglesOpplysninger" />
+                            <FormattedMessage id="steg.arbeidsforhold.gradert.manglesOpplysninger" />
                         </AlertStripe>
                     </Box>
                 </>
@@ -125,4 +120,4 @@ const AnsettelsesforholdStep = ({ history, intl, søkerdata, nextStepRoute, form
     );
 };
 
-export default injectIntl(AnsettelsesforholdStep);
+export default injectIntl(ArbeidsforholdStep);

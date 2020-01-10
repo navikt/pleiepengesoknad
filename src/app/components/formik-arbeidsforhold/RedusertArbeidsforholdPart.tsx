@@ -2,7 +2,7 @@ import React from 'react';
 import Box from 'common/components/box/Box';
 import { SkjemaGruppe } from 'nav-frontend-skjema';
 import Input from '../input/Input';
-import { AnsettelsesforholdForm, AnsettelsesforholdField, AppFormField } from '../../types/PleiepengesøknadFormData';
+import { Arbeidsforhold, ArbeidsforholdField, AppFormField } from '../../types/PleiepengesøknadFormData';
 import intlHelper from 'common/utils/intlUtils';
 import { validateReduserteArbeidProsent, validateRequiredField } from '../../validation/fieldValidations';
 import RadioPanelGroup from '../radio-panel-group/RadioPanelGroup';
@@ -11,12 +11,12 @@ import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel'
 import {
     calcReduserteTimerFromRedusertProsent,
     calcRedusertProsentFromRedusertTimer
-} from '../../utils/ansettelsesforholdUtils';
+} from '../../utils/arbeidsforholdUtils';
 import { decimalTimeToTime } from 'common/utils/timeUtils';
 
 interface Props {
-    ansettelsesforhold: AnsettelsesforholdForm;
-    getFieldName: (name: AnsettelsesforholdField) => AppFormField;
+    arbeidsforhold: Arbeidsforhold;
+    getFieldName: (name: ArbeidsforholdField) => AppFormField;
 }
 
 const getLabelForProsentRedusert = (intl: InjectedIntl, timerNormalt: number, prosentRedusert: number | undefined) => {
@@ -24,26 +24,26 @@ const getLabelForProsentRedusert = (intl: InjectedIntl, timerNormalt: number, pr
         const { hours: timer = 0, minutes: minutter = 0 } = decimalTimeToTime(
             calcReduserteTimerFromRedusertProsent(timerNormalt, prosentRedusert)
         );
-        return intlHelper(intl, 'gradertAnsettelsesforhold.prosent.utledet.medTimer', {
+        return intlHelper(intl, 'arbeidsforhold.prosent.utledet.medTimer', {
             timer: timerNormalt,
             timerRedusert: intlHelper(intl, 'timerOgMinutter', { timer, minutter })
         });
     }
-    return intlHelper(intl, 'gradertAnsettelsesforhold.prosent.utledet', { timer: timerNormalt });
+    return intlHelper(intl, 'arbeidsforhold.prosent.utledet', { timer: timerNormalt });
 };
 
 const getLabelForTimerRedusert = (intl: InjectedIntl, timerNormalt: number, timerRedusert: number | undefined) => {
     if (timerRedusert && timerRedusert > 0) {
-        return intlHelper(intl, 'gradertAnsettelsesforhold.timer.utledet.medProsent', {
+        return intlHelper(intl, 'arbeidsforhold.timer.utledet.medProsent', {
             timer: timerNormalt,
             prosentRedusert: calcRedusertProsentFromRedusertTimer(timerNormalt, timerRedusert).toFixed(2)
         });
     }
-    return intlHelper(intl, 'gradertAnsettelsesforhold.timer.utledet', { timer: timerNormalt });
+    return intlHelper(intl, 'arbeidsforhold.timer.utledet', { timer: timerNormalt });
 };
 
-const RedusertAnsettelsesforholdPart: React.FunctionComponent<Props & InjectedIntlProps> = ({
-    ansettelsesforhold: { navn, timerEllerProsent, jobberNormaltTimer, skalJobbeTimer, skalJobbeProsent },
+const RedusertArbeidsforholdPart: React.FunctionComponent<Props & InjectedIntlProps> = ({
+    arbeidsforhold: { navn, timerEllerProsent, jobberNormaltTimer, skalJobbeTimer, skalJobbeProsent },
     getFieldName,
     intl
 }) => {
@@ -51,13 +51,13 @@ const RedusertAnsettelsesforholdPart: React.FunctionComponent<Props & InjectedIn
         <>
             <Box margin="xl">
                 <SkjemaGruppe
-                    title={intlHelper(intl, 'gradertAnsettelsesforhold.iDag.spm', {
+                    title={intlHelper(intl, 'arbeidsforhold.iDag.spm', {
                         arbeidsforhold: navn
                     })}>
                     <Input
-                        name={getFieldName(AnsettelsesforholdField.jobberNormaltTimer)}
+                        name={getFieldName(ArbeidsforholdField.jobberNormaltTimer)}
                         type="number"
-                        label={intlHelper(intl, 'gradertAnsettelsesforhold.iDag.utledet')}
+                        label={intlHelper(intl, 'arbeidsforhold.iDag.utledet')}
                         inputClassName="input--timer"
                         validate={(value) => validateReduserteArbeidProsent(value, true)}
                         value={jobberNormaltTimer || ''}
@@ -72,17 +72,17 @@ const RedusertAnsettelsesforholdPart: React.FunctionComponent<Props & InjectedIn
                 <>
                     <Box margin="l">
                         <RadioPanelGroup
-                            name={getFieldName(AnsettelsesforholdField.timerEllerProsent)}
-                            legend={intlHelper(intl, 'gradertAnsettelsesforhold.hvorMye.spm')}
+                            name={getFieldName(ArbeidsforholdField.timerEllerProsent)}
+                            legend={intlHelper(intl, 'arbeidsforhold.hvorMye.spm')}
                             validate={validateRequiredField}
                             radios={[
                                 {
-                                    label: intlHelper(intl, 'gradertAnsettelsesforhold.hvorMye.timer'),
+                                    label: intlHelper(intl, 'arbeidsforhold.hvorMye.timer'),
                                     value: 'timer',
                                     key: 'timer'
                                 },
                                 {
-                                    label: intlHelper(intl, 'gradertAnsettelsesforhold.hvorMye.prosent'),
+                                    label: intlHelper(intl, 'arbeidsforhold.hvorMye.prosent'),
                                     value: 'prosent',
                                     key: 'prosent'
                                 }
@@ -91,9 +91,9 @@ const RedusertAnsettelsesforholdPart: React.FunctionComponent<Props & InjectedIn
                     </Box>
                     {timerEllerProsent === 'timer' && (
                         <Box margin="l">
-                            <SkjemaGruppe title={intlHelper(intl, 'gradertAnsettelsesforhold.timer.spm')}>
+                            <SkjemaGruppe title={intlHelper(intl, 'arbeidsforhold.timer.spm')}>
                                 <Input
-                                    name={getFieldName(AnsettelsesforholdField.skalJobbeTimer)}
+                                    name={getFieldName(ArbeidsforholdField.skalJobbeTimer)}
                                     type="number"
                                     label={getLabelForTimerRedusert(intl, jobberNormaltTimer, skalJobbeTimer)}
                                     validate={validateRequiredField}
@@ -110,15 +110,16 @@ const RedusertAnsettelsesforholdPart: React.FunctionComponent<Props & InjectedIn
                     {timerEllerProsent === 'prosent' && (
                         <>
                             <Box margin="l">
-                                <SkjemaGruppe title={intlHelper(intl, 'gradertAnsettelsesforhold.prosent.spm')}>
+                                <SkjemaGruppe title={intlHelper(intl, 'arbeidsforhold.prosent.spm')}>
                                     <Input
-                                        name={getFieldName(AnsettelsesforholdField.skalJobbeProsent)}
+                                        name={getFieldName(ArbeidsforholdField.skalJobbeProsent)}
                                         type="number"
                                         label={getLabelForProsentRedusert(intl, jobberNormaltTimer, skalJobbeProsent)}
                                         validate={validateRequiredField}
                                         labelRight={true}
                                         inputClassName="input--timer"
                                         value={skalJobbeProsent || ''}
+                                        style={{ maxWidth: '4rem' }}
                                         min={0}
                                         max={100}
                                     />
@@ -126,7 +127,7 @@ const RedusertAnsettelsesforholdPart: React.FunctionComponent<Props & InjectedIn
                             </Box>
                             <Box margin="xl">
                                 <CounsellorPanel>
-                                    <FormattedMessage id="gradertAnsettelsesforhold.prosent.veileder" />
+                                    <FormattedMessage id="arbeidsforhold.prosent.veileder" />
                                 </CounsellorPanel>
                             </Box>
                         </>
@@ -137,4 +138,4 @@ const RedusertAnsettelsesforholdPart: React.FunctionComponent<Props & InjectedIn
     );
 };
 
-export default injectIntl(RedusertAnsettelsesforholdPart);
+export default injectIntl(RedusertArbeidsforholdPart);

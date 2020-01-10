@@ -1,20 +1,20 @@
 import { formatDateToApiFormat } from 'common/utils/dateUtils';
 import {
     PleiepengesøknadFormData,
-    AnsettelsesforholdForm,
+    Arbeidsforhold,
     Tilsynsordning,
     TilsynVetIkkeHvorfor,
-    AnsettelsesforholdSkalJobbeSvar
+    ArbeidsforholdSkalJobbeSvar
 } from '../types/PleiepengesøknadFormData';
 import {
     BarnToSendToApi,
     PleiepengesøknadApiData,
-    AnsettelsesforholdApi,
+    ArbeidsforholdApi,
     TilsynsordningApi,
-    AnsettelsesforholdApiNei,
-    AnsettelsesforholdApiRedusert,
-    AnsettelsesforholdApiSomVanlig,
-    AnsettelsesforholdApiVetIkke,
+    ArbeidsforholdApiNei,
+    ArbeidsforholdApiRedusert,
+    ArbeidsforholdApiSomVanlig,
+    ArbeidsforholdApiVetIkke,
     UtenlandsoppholdApiData
 } from '../types/PleiepengesøknadApiData';
 import { attachmentUploadHasFailed } from 'common/utils/attachmentUtils';
@@ -23,7 +23,7 @@ import { formatName } from 'common/utils/personUtils';
 import { BarnReceivedFromApi } from '../types/Søkerdata';
 import { Locale } from 'common/types/Locale';
 import { timeToIso8601Duration } from 'common/utils/timeUtils';
-import { calcRedusertProsentFromRedusertTimer } from './ansettelsesforholdUtils';
+import { calcRedusertProsentFromRedusertTimer } from './arbeidsforholdUtils';
 import { getCountryName } from 'common/components/country-select/CountrySelect';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 
@@ -36,7 +36,7 @@ export const mapFormDataToApiData = (
         harBekreftetOpplysninger,
         harForståttRettigheterOgPlikter,
         søkersRelasjonTilBarnet,
-        ansettelsesforhold,
+        arbeidsforhold,
         periodeFra,
         periodeTil,
         legeerklæring,
@@ -76,9 +76,9 @@ export const mapFormDataToApiData = (
         barn: barnObject,
         relasjon_til_barnet: barnObject.aktoer_id ? null : søkersRelasjonTilBarnet,
         arbeidsgivere: {
-            organisasjoner: ansettelsesforhold
+            organisasjoner: arbeidsforhold
                 .filter((a) => a.erAnsattIPerioden === YesOrNo.YES)
-                .map((forhold) => mapAnsettelsesforholdTilApiData(forhold))
+                .map((forhold) => mapArbeidsforholdTilApiData(forhold))
         },
         medlemskap: {
             har_bodd_i_utlandet_siste_12_mnd: harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES,
@@ -122,7 +122,7 @@ export const mapFormDataToApiData = (
     return apiData;
 };
 
-const mapAnsettelsesforholdTilApiData = (ansettelsesforhold: AnsettelsesforholdForm): AnsettelsesforholdApi => {
+const mapArbeidsforholdTilApiData = (arbeidsforhold: Arbeidsforhold): ArbeidsforholdApi => {
     const {
         skalJobbe,
         timerEllerProsent,
@@ -131,14 +131,14 @@ const mapAnsettelsesforholdTilApiData = (ansettelsesforhold: AnsettelsesforholdF
         skalJobbeProsent,
         navn,
         organisasjonsnummer
-    } = ansettelsesforhold;
+    } = arbeidsforhold;
 
     const orgInfo = { navn, organisasjonsnummer };
-    if (skalJobbe === AnsettelsesforholdSkalJobbeSvar.redusert) {
+    if (skalJobbe === ArbeidsforholdSkalJobbeSvar.redusert) {
         if (jobberNormaltTimer === undefined) {
             throw new Error('invalid data: missing jobberNormaltTimer');
         }
-        const redusertForhold: AnsettelsesforholdApiRedusert = {
+        const redusertForhold: ArbeidsforholdApiRedusert = {
             ...orgInfo,
             skal_jobbe: 'redusert',
             jobber_normalt_timer: jobberNormaltTimer,
@@ -153,26 +153,26 @@ const mapAnsettelsesforholdTilApiData = (ansettelsesforhold: AnsettelsesforholdF
         };
         return redusertForhold;
     }
-    if (skalJobbe === AnsettelsesforholdSkalJobbeSvar.vetIkke) {
+    if (skalJobbe === ArbeidsforholdSkalJobbeSvar.vetIkke) {
         if (jobberNormaltTimer === undefined) {
             throw new Error('invalid data: missing jobberNormaltTimer');
         }
-        const vetIkkeForhold: AnsettelsesforholdApiVetIkke = {
+        const vetIkkeForhold: ArbeidsforholdApiVetIkke = {
             ...orgInfo,
             skal_jobbe: 'vet_ikke',
             jobber_normalt_timer: jobberNormaltTimer
         };
         return vetIkkeForhold;
     }
-    if (skalJobbe === AnsettelsesforholdSkalJobbeSvar.nei) {
-        const forhold: AnsettelsesforholdApiNei = {
+    if (skalJobbe === ArbeidsforholdSkalJobbeSvar.nei) {
+        const forhold: ArbeidsforholdApiNei = {
             ...orgInfo,
             skal_jobbe: 'nei',
             skal_jobbe_prosent: 0
         };
         return forhold;
     }
-    const forholdSomVanlig: AnsettelsesforholdApiSomVanlig = {
+    const forholdSomVanlig: ArbeidsforholdApiSomVanlig = {
         ...orgInfo,
         skal_jobbe: 'ja',
         skal_jobbe_prosent: 100

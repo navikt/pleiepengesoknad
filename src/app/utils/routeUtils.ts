@@ -5,7 +5,7 @@ import { appIsRunningInDevEnvironment, appIsRunningInDemoMode } from './envUtils
 import {
     legeerklæringStepAvailable,
     medlemskapStepAvailable,
-    opplysningerOmAnsettelsesforholdStepAvailable,
+    arbeidsforholdStepAvailable,
     opplysningerOmBarnetStepAvailable,
     opplysningerOmTidsromStepAvailable,
     summaryStepAvailable,
@@ -33,8 +33,8 @@ export const isAvailable = (path: StepID | RouteConfig, values: Pleiepengesøkna
                 return opplysningerOmBarnetStepAvailable(values);
             case StepID.TIDSROM:
                 return opplysningerOmTidsromStepAvailable(values);
-            case StepID.ANSETTELSESFORHOLD:
-                return opplysningerOmAnsettelsesforholdStepAvailable(values);
+            case StepID.ARBEIDSFORHOLD:
+                return arbeidsforholdStepAvailable(values);
             case StepID.OMSORGSTILBUD:
                 return tilsynsordningStepAvailable(values);
             case StepID.NATTEVÅK:

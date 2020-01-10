@@ -23,7 +23,7 @@ import ContentSwitcher from 'common/components/content-switcher/ContentSwitcher'
 import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
 import intlHelper from 'common/utils/intlUtils';
 import { Locale } from 'common/types/Locale';
-import GradertAnsettelsesforholdSummary from 'app/components/gradert-ansettelsesforhold-summary/GradertAnsettelsesforholdSummary';
+import ArbeidsforholdSummary from 'app/components/arbeidsforhold-summary/ArbeidsforholdSummary';
 import TilsynsordningSummary from './TilsynsordningSummary';
 import TextareaSummary from '../../textarea-summary/TextareaSummary';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
@@ -233,16 +233,16 @@ class SummaryStep extends React.Component<Props, State> {
                                     )}
                                     <Box margin="l">
                                         <ContentWithHeader
-                                            header={intlHelper(intl, 'steg.oppsummering.ansettelsesforhold.header')}>
+                                            header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.header')}>
                                             {apiValues.arbeidsgivere.organisasjoner.length > 0 ? (
                                                 apiValues.arbeidsgivere.organisasjoner.map((forhold) => (
-                                                    <GradertAnsettelsesforholdSummary
+                                                    <ArbeidsforholdSummary
                                                         key={forhold.organisasjonsnummer}
-                                                        ansettelsesforhold={forhold}
+                                                        arbeidsforhold={forhold}
                                                     />
                                                 ))
                                             ) : (
-                                                <FormattedMessage id="steg.oppsummering.ansettelsesforhold.ingenAnsettelsesforhold" />
+                                                <FormattedMessage id="steg.oppsummering.arbeidsforhold.ingenArbeidsforhold" />
                                             )}
                                         </ContentWithHeader>
                                     </Box>

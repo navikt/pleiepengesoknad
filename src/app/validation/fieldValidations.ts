@@ -10,7 +10,7 @@ import {
 import { attachmentHasBeenUploaded } from 'common/utils/attachmentUtils';
 import { timeToDecimalTime } from 'common/utils/timeUtils';
 import { Time } from 'common/types/Time';
-import { Tilsynsordning, AnsettelsesforholdForm } from '../types/PleiepengesøknadFormData';
+import { Tilsynsordning, Arbeidsforhold } from '../types/PleiepengesøknadFormData';
 import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
 import { Attachment } from 'common/types/Attachment';
 import { FieldValidationResult } from 'common/validation/types';
@@ -31,9 +31,9 @@ export enum FieldValidationErrors {
     'tildato_erFørFradato' = 'fieldvalidation.tildato.erFørFradato',
     'legeerklæring_mangler' = 'fieldvalidation.legeerklæring.mangler',
     'legeerklæring_forMangeFiler' = 'fieldvalidation.legeerklæring.forMangeFiler',
-    'ansettelsesforhold_timerUgyldig' = 'fieldvalidation.ansettelsesforhold_timerUgyldig',
-    'ansettelsesforhold_prosentUgyldig' = 'fieldvalidation.ansettelsesforhold_prosentUgyldig',
-    'ansettelsesforhold_redusertMerEnnNormalt' = 'fieldvalidation.ansettelsesforhold_redusertMerEnnNormalt',
+    'arbeidsforhold_timerUgyldig' = 'fieldvalidation.arbeidsforhold_timerUgyldig',
+    'arbeidsforhold_prosentUgyldig' = 'fieldvalidation.arbeidsforhold_prosentUgyldig',
+    'arbeidsforhold_redusertMerEnnNormalt' = 'fieldvalidation.arbeidsforhold_redusertMerEnnNormalt',
     'dagerPerUkeBorteFraJobb_ugyldig' = 'fieldvalidation.dagerPerUkeBorteFraJobb_ugyldig',
     'tilsynsordning_ingenInfo' = 'fieldvalidation.tilsynsordning_ingenInfo',
     'tilsynsordning_forMangeTimerTotalt' = 'fieldvalidation.tilsynsordning_forMangeTimerTotalt',
@@ -232,10 +232,10 @@ export const validateRequiredField = (value: any): FieldValidationResult => {
 };
 
 export const validateErAnsattIPerioden = (
-    ansettelsesforhold: AnsettelsesforholdForm[],
+    arbeidsforhold: Arbeidsforhold[],
     orgnummer: string
 ): FieldValidationResult => {
-    const forhold = ansettelsesforhold.find((a) => a.organisasjonsnummer === orgnummer);
+    const forhold = arbeidsforhold.find((a) => a.organisasjonsnummer === orgnummer);
     if (
         forhold === undefined ||
         forhold.erAnsattIPerioden === undefined ||
@@ -277,7 +277,7 @@ export const validateNormaleArbeidstimer = (time: Time | undefined, isRequired?:
         return fieldIsRequiredError();
     }
     if (time && (time.hours < MIN_ARBEIDSTIMER_PER_UKE || time.hours > MAX_ARBEIDSTIMER_PER_UKE)) {
-        return fieldValidationError(FieldValidationErrors.ansettelsesforhold_timerUgyldig, {
+        return fieldValidationError(FieldValidationErrors.arbeidsforhold_timerUgyldig, {
             min: MIN_ARBEIDSTIMER_PER_UKE,
             max: MAX_ARBEIDSTIMER_PER_UKE
         });
@@ -315,13 +315,13 @@ export const validateReduserteArbeidTimer = (
     }
 
     if (timer < MIN_ARBEIDSTIMER_PER_UKE || timer > MAX_ARBEIDSTIMER_PER_UKE) {
-        return fieldValidationError(FieldValidationErrors.ansettelsesforhold_timerUgyldig, {
+        return fieldValidationError(FieldValidationErrors.arbeidsforhold_timerUgyldig, {
             min: MIN_ARBEIDSTIMER_PER_UKE,
             max: Math.max(MAX_ARBEIDSTIMER_PER_UKE, timeToDecimalTime(normalTimer))
         });
     }
     if (timer > (timeToDecimalTime(normalTimer) || MAX_ARBEIDSTIMER_PER_UKE)) {
-        return fieldValidationError(FieldValidationErrors.ansettelsesforhold_redusertMerEnnNormalt);
+        return fieldValidationError(FieldValidationErrors.arbeidsforhold_redusertMerEnnNormalt);
     }
     return undefined;
 };
@@ -332,7 +332,7 @@ export const validateReduserteArbeidProsent = (value: number | string, isRequire
     const prosent = typeof value === 'string' ? parseFloat(value) : value;
 
     if (prosent < 1 || prosent > 100) {
-        return fieldValidationError(FieldValidationErrors.ansettelsesforhold_prosentUgyldig);
+        return fieldValidationError(FieldValidationErrors.arbeidsforhold_prosentUgyldig);
     }
     return undefined;
 };

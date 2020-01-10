@@ -2,7 +2,7 @@ import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import {
     legeerklæringStepIsValid,
     medlemskapStepIsValid,
-    opplysningerOmAnsettelsesforholdStepIsValid,
+    arbeidsforholdStepIsValid,
     opplysningerOmBarnetStepIsValid,
     opplysningerOmTidsromStepIsValid,
     welcomingPageIsValid
@@ -31,7 +31,7 @@ export const opplysningerOmBarnetStepAvailable = (formData: PleiepengesøknadFor
 export const opplysningerOmTidsromStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) && opplysningerOmBarnetStepIsValid(formData);
 
-export const opplysningerOmAnsettelsesforholdStepAvailable = (formData: PleiepengesøknadFormData) =>
+export const arbeidsforholdStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData);
@@ -40,20 +40,20 @@ export const tilsynsordningStepAvailable = (formData: PleiepengesøknadFormData)
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
-    opplysningerOmAnsettelsesforholdStepIsValid();
+    arbeidsforholdStepIsValid();
 
 export const nattevåkStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
-    opplysningerOmAnsettelsesforholdStepIsValid() &&
+    arbeidsforholdStepIsValid() &&
     tilsynsordningStepAvailable(formData);
 
 export const beredskapStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
-    opplysningerOmAnsettelsesforholdStepIsValid() &&
+    arbeidsforholdStepIsValid() &&
     tilsynsordningStepAvailable(formData) &&
     nattevåkStepAvailable(formData);
 
@@ -61,19 +61,19 @@ export const medlemskapStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
-    opplysningerOmAnsettelsesforholdStepIsValid();
+    arbeidsforholdStepIsValid();
 
 export const legeerklæringStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
-    opplysningerOmAnsettelsesforholdStepIsValid() &&
+    arbeidsforholdStepIsValid() &&
     medlemskapStepIsValid(formData);
 
 export const summaryStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
-    opplysningerOmAnsettelsesforholdStepIsValid() &&
+    arbeidsforholdStepIsValid() &&
     medlemskapStepIsValid(formData) &&
     legeerklæringStepIsValid();
