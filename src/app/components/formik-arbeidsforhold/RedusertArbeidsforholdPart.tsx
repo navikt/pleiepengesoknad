@@ -13,6 +13,7 @@ import {
     calcRedusertProsentFromRedusertTimer
 } from '../../utils/arbeidsforholdUtils';
 import { decimalTimeToTime } from 'common/utils/timeUtils';
+import './timerInput.less';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
@@ -119,7 +120,6 @@ const RedusertArbeidsforholdPart: React.FunctionComponent<Props & InjectedIntlPr
                                         labelRight={true}
                                         inputClassName="input--timer"
                                         value={skalJobbeProsent || ''}
-                                        style={{ maxWidth: '4rem' }}
                                         min={0}
                                         max={100}
                                     />
