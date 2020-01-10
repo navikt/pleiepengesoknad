@@ -30,6 +30,8 @@ import { CommonStepFormikProps } from '../../pleiepengesøknad-content/Pleiepeng
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 import ValidationErrorSummaryBase from '../../validation-error-summary-base/ValidationErrorSummaryBase';
 import { validateApiValues } from '../../../validation/apiValuesValidation';
+import SummaryList from 'common/components/summary-list/SummaryList';
+import { renderUtenlandsoppholdSummary } from 'common/components/summary-renderers/renderUtenlandsoppholdSummary';
 
 interface State {
     sendingInProgress: boolean;
@@ -83,7 +85,7 @@ class SummaryStep extends React.Component<Props, State> {
                     const apiValues = mapFormDataToApiData(formValues, barn, intl.locale as Locale);
                     const apiValuesValidationErrors = validateApiValues(apiValues, intl);
 
-                    const { tilsynsordning, nattevaak, beredskap } = apiValues;
+                    const { medlemskap, tilsynsordning, nattevaak, beredskap } = apiValues;
 
                     return (
                         <FormikStep
@@ -283,6 +285,21 @@ class SummaryStep extends React.Component<Props, State> {
                                                 intlHelper(intl, 'Nei')}
                                         </ContentWithHeader>
                                     </Box>
+                                    {apiValues.medlemskap.har_bodd_i_utlandet_siste_12_mnd === true &&
+                                        medlemskap.utenlandsopphold_siste_12_mnd.length > 0 && (
+                                            <Box margin="l">
+                                                <ContentWithHeader
+                                                    header={intlHelper(
+                                                        intl,
+                                                        'steg.oppsummering.utlandetSiste12.liste.header'
+                                                    )}>
+                                                    <SummaryList
+                                                        items={medlemskap.utenlandsopphold_siste_12_mnd}
+                                                        itemRenderer={renderUtenlandsoppholdSummary}
+                                                    />
+                                                </ContentWithHeader>
+                                            </Box>
+                                        )}
 
                                     <Box margin="l">
                                         <ContentWithHeader
@@ -293,6 +310,22 @@ class SummaryStep extends React.Component<Props, State> {
                                                 intlHelper(intl, 'Nei')}
                                         </ContentWithHeader>
                                     </Box>
+                                    {apiValues.medlemskap.skal_bo_i_utlandet_neste_12_mnd === true &&
+                                        medlemskap.utenlandsopphold_neste_12_mnd.length > 0 && (
+                                            <Box margin="l">
+                                                <ContentWithHeader
+                                                    header={intlHelper(
+                                                        intl,
+                                                        'steg.oppsummering.utlandetNeste12.liste.header'
+                                                    )}>
+                                                    <SummaryList
+                                                        items={medlemskap.utenlandsopphold_neste_12_mnd}
+                                                        itemRenderer={renderUtenlandsoppholdSummary}
+                                                    />
+                                                </ContentWithHeader>
+                                            </Box>
+                                        )}
+
                                     <Box margin="l">
                                         <ContentWithHeader
                                             header={intlHelper(intl, 'steg.oppsummering.legeerklæring.header')}>

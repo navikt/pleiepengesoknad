@@ -222,6 +222,8 @@
 
     "steg.oppsummering.utlandetSiste12.header": "Bodd i utlandet siste 12 måneder",
     "steg.oppsummering.utlandetNeste12.header": "Skal bo i utlandet neste 12 måneder",
+    "steg.oppsummering.utlandetSiste12.liste.header": "Utenlandsopphold siste 12 måneder",
+    "steg.oppsummering.utlandetNeste12.liste.header": "Utenlandsopphold neste 12 måneder",
     "steg.oppsummering.legeerklæring.header": "Legeerklæring",
     "steg.oppsummering.bekrefterOpplysninger": "Jeg bekrefter at opplysningene jeg har gitt er riktige, og at jeg ikke har holdt tilbake opplysninger som har betydning for min rett til pleiepenger.",
     "steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet": "Du må bekrefte opplysningene",
