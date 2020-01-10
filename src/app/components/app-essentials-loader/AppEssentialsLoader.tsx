@@ -64,10 +64,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
                 person: søkerResponse.data,
                 barn: barnResponse ? barnResponse.data.barn : undefined,
                 setAnsettelsesforhold: this.updateAnsettelsesforhold,
-                ansettelsesforhold: [
-                    { navn: 'Arbeids- og velferdsetaten', organisasjonsnummer: '123451234' },
-                    { navn: 'Arbeids- og sosialdepartementet', organisasjonsnummer: '123451235' }
-                ]
+                ansettelsesforhold: []
             },
             () => {
                 this.stopLoading();
