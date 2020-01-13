@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { injectIntl, InjectedIntlProps, FormattedHTMLMessage } from 'react-intl';
+import {injectIntl, InjectedIntlProps, FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
@@ -17,6 +17,7 @@ import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 import { CustomFormikProps } from '../../../types/FormikProps';
 import HelperTextPanel from 'common/components/helper-text-panel/HelperTextPanel';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
+import CollapsableTextBlock from "../../../../common/components/collapsable-text-block/CollapsableTextblock";
 
 type Props = { formikProps: CustomFormikProps } & CommonStepFormikProps &
     HistoryProps &
@@ -58,6 +59,10 @@ const LegeerklæringStep = ({ history, intl, nextStepRoute, formikProps, ...step
                     </Box>
                     <HelperTextPanel>
                         <FormattedHTMLMessage tagName="div" id="steg.lege.info.html" />
+
+                        <CollapsableTextBlock title={intlHelper(intl, "steg.lege.collapsable.tittel")}>
+                            <h3>Bra og dårlige eksempler på bilder av legeerklæring</h3>
+                        </CollapsableTextBlock>
                     </HelperTextPanel>
                     <Box margin="l">
                         <FormikFileUploader
