@@ -1,0 +1,30 @@
+.collapsableTextBlock {
+    /* Justere på grunn av animasjon */
+    p {
+        margin: 0 !important;
+        padding-bottom: 1rem;
+    }
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    &--open {
+        .collapsableTextBlock__content {
+            padding-top: 1rem;
+        }
+    }
+    &__toggler {
+        .collapsableTextBlock__title {
+            margin: 0;
+            display: inline-block;
+            font-weight: normal;
+        }
+    }
+    &__content {
+        > div > p:last-child {
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+    }
+
+
+}
