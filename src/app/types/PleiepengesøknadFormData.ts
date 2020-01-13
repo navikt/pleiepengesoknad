@@ -116,8 +116,8 @@ export interface PleiepengesøknadFormData {
 }
 
 export const initialValues: PleiepengesøknadFormData = {
-    [AppFormField.periodeFra]: undefined,
-    [AppFormField.periodeTil]: undefined,
+    [AppFormField.periodeFra]: new Date(),
+    [AppFormField.periodeTil]: new Date(),
     [AppFormField.barnetsNavn]: '',
     [AppFormField.barnetsFødselsnummer]: '',
     [AppFormField.barnetSøknadenGjelder]: '',

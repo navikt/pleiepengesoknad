@@ -286,7 +286,7 @@
     "fieldvalidation.utenlandsopphold_overlapper": "Ett eller flere av utenlandsoppholdene har datoer som overlapper",
     "fieldvalidation.utenlandsopphold_utenfor_periode": "Ett eller flere av utenlandsoppholdene er utenfor tillatt tidsrom",
 
-    "arbeidsforhold.erAnsattIPerioden.spm": "Er du ansatt her i perioden?",
+    "arbeidsforhold.erAnsattIPerioden.spm": "Er du ansatt her i perioden du søker pleiepenger?",
     "arbeidsforhold.arbeidsforhold.spm": "Skal du jobbe her mens du har pleiepenger?",
     "arbeidsforhold.arbeidsforhold.ja": "Ja, jeg skal jobbe som vanlig",
     "arbeidsforhold.arbeidsforhold.nei": "Nei, jeg skal ikke jobbe",

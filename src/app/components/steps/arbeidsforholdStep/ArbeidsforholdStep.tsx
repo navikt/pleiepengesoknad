@@ -21,6 +21,7 @@ import { apiUtils } from 'app/utils/apiUtils';
 import { appIsRunningInDemoMode } from 'app/utils/envUtils';
 import demoSøkerdata from 'app/demo/demoData';
 import { syndArbeidsforholdWithArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
+import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
 
 interface OwnProps {
     formikProps: CustomFormikProps;
@@ -88,7 +89,7 @@ const ArbeidsforholdStep = ({ history, intl, søkerdata, nextStepRoute, formikPr
             {isLoading && <LoadingSpinner type="XS" style={'block'} blockTitle="Henter arbeidsforhold" />}
             {!isLoading && (
                 <>
-                    <Box padBottom="xl">
+                    <Box padBottom="xxl">
                         <CounsellorPanel>
                             <FormattedHTMLMessage id="steg.arbeidsforhold.aktivtArbeidsforhold.info.html" />
                         </CounsellorPanel>
@@ -97,7 +98,7 @@ const ArbeidsforholdStep = ({ history, intl, søkerdata, nextStepRoute, formikPr
                         <>
                             {arbeidsforhold.map((forhold, index) => (
                                 <Box padBottom="l" key={forhold.organisasjonsnummer}>
-                                    <FormSection title={forhold.navn}>
+                                    <FormSection titleTag="h4" title={forhold.navn} titleIcon={<BuildingIcon />}>
                                         <FormikArbeidsforhold arbeidsforhold={forhold} index={index} />
                                     </FormSection>
                                 </Box>
