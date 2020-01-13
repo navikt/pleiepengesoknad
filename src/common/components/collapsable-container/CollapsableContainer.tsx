@@ -9,7 +9,6 @@ export interface Props {
     isOpen?: boolean;
     ariaLive?: 'assertive' | 'polite' | 'off';
     animated?: boolean;
-    hasNestedCollapse?: boolean;
 }
 
 const CollapseContainer: React.StatelessComponent<Props> = ({
