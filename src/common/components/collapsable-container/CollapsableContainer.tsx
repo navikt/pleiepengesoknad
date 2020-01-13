@@ -17,7 +17,6 @@ const CollapseContainer: React.StatelessComponent<Props> = ({
     animated = true,
     isOpen = false,
     ariaLive = 'off',
-    hasNestedCollapse
 }) => {
     const content = <div aria-live={ariaLive}>{isOpen ? <div>{children}</div> : <div />}</div>;
     if (!animated) {
