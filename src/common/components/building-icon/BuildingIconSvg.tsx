@@ -9,7 +9,7 @@ function BuildingIcon(props: any) {
             height={24}
             role="presentation"
             focusable={false}
-            ariaHidden={true}
+            aria-hidden={true}
             {...props}>
             <path
                 fill="#3e3832"

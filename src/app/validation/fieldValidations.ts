@@ -151,7 +151,7 @@ export const validateTextarea1000 = (text: string): FieldValidationResult => {
 };
 
 export const validateTilsynsordningTilleggsinfo = (text: string): FieldValidationResult => {
-    if (text.length > 1000) {
+    if (text !== undefined && text.length > 1000) {
         return fieldValidationError(FieldValidationErrors.tilsynsordning_forMangeTegn);
     }
     return undefined;
