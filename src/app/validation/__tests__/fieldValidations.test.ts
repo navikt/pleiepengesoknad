@@ -18,7 +18,6 @@ import Mock = jest.Mock;
 import { YesOrNo } from 'common/types/YesOrNo';
 import { Attachment } from 'common/types/Attachment';
 import moment from 'moment';
-// import { FieldValidationResult } from 'common/validation/types';
 
 jest.mock('../fødselsnummerValidator', () => {
     return {

@@ -23,7 +23,7 @@ export enum FieldValidationErrors {
     'påkrevd' = 'fieldvalidation.påkrevd',
     'fødselsnummer_11siffer' = 'fieldvalidation.fødselsnummer.11siffer',
     'fødselsnummer_ugyldig' = 'fieldvalidation.fødselsnummer.ugyldig',
-    'ugyldig_fødselsdato' = 'fieldvalidation.ugyldig_fødselsdato',
+    'fødselsdato_ugyldig' = 'fieldvalidation.fødelsdato.ugyldig',
     'navn_maksAntallTegn' = 'fieldvalidation.navn.maksAntallTegn',
     'relasjon_maksAntallTegn' = 'fieldvalidation.relasjon.maksAntallTegn',
     'fradato_merEnnTreÅr' = 'fieldvalidation.fradato.merEnnTreÅr',
@@ -68,7 +68,7 @@ export const validateFødselsdato = (date: Date): FieldValidationResult => {
         return undefined;
     }
     if (moment(date).isAfter(dateToday)) {
-        return fieldValidationError(FieldValidationErrors.fødselsnummer_ugyldig);
+        return fieldValidationError(FieldValidationErrors.fødselsdato_ugyldig);
     }
     return undefined;
 };

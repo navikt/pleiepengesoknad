@@ -264,7 +264,7 @@
     "fieldvalidation.påkrevd": "Feltet er påkrevd",
     "fieldvalidation.fødselsnummer.11siffer": "Fødselsnummeret / D-nummeret må bestå av 11 siffer",
     "fieldvalidation.fødselsnummer.ugyldig": "Fødselsnummeret / D-nummeret er ugyldig",
-    "fieldvalidation.fødselsdato.ugyldig": "Fødselsdatoen er ugyldig",
+    "fieldvalidation.fødelsdato.ugyldig": "Fødselsdatoen er ugyldig",
     "fieldvalidation.navn.maksAntallTegn": "Navnet kan være maks {maxNumOfLetters} tegn",
     "fieldvalidation.relasjon.maksAntallTegn": "Din relasjon til barnet kan maks være beskrevet på {maxNumOfLetters} tegn",
     "fieldvalidation.fradato.merEnnTreÅr": "Du kan ikke søke om pleiepenger for en periode som er mer enn tre år tilbake i tid",
