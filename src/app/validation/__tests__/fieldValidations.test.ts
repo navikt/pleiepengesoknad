@@ -1,7 +1,7 @@
 import * as fødselsnummerValidator from './../fødselsnummerValidator';
 import {
     hasValue,
-    // validateFødselsdato,
+    validateFødselsdato,
     validateFradato,
     validateFødselsnummer,
     validateLegeerklæring,
@@ -17,9 +17,8 @@ import * as dateUtils from 'common/utils/dateUtils';
 import Mock = jest.Mock;
 import { YesOrNo } from 'common/types/YesOrNo';
 import { Attachment } from 'common/types/Attachment';
+import moment from 'moment';
 // import { FieldValidationResult } from 'common/validation/types';
-
-const moment = require('moment');
 
 jest.mock('../fødselsnummerValidator', () => {
     return {
@@ -85,18 +84,19 @@ describe('fieldValidations', () => {
     });
 
     describe('validateFødselsdato', () => {
-        // TODO
-        // it('should return undefined if value is valid (when it has either 11 digits or no value)', () => {
-        //     expect(validateFødselsdato('1'.repeat(11))).toBeUndefined();
-        //     expect(validateFødselsdato('')).toBeUndefined();
-        // });
-        // it('should return an error message saying it must be 11 digits, if provided value is something other than a string with 11 digits', () => {
-        //     const error: FieldValidationResult = { key: FieldValidationErrors.foreløpigFødselsnummer_ugyldig };
-        //     expect(validateFødselsdato('1234512345')).toEqual(error);
-        //     expect(validateFødselsdato('1234512345a')).toEqual(error);
-        //     expect(validateFødselsdato('123451234512')).toEqual(error);
-        //     expect(validateFødselsdato('12345123451a')).toEqual(error);
-        // });
+        it('should return error if date is after today', () => {
+            const tomorrow: Date = moment()
+                .add(1, 'day')
+                .toDate();
+            expect(validateFødselsdato(tomorrow)).toBeDefined();
+        });
+        it('should return undefined if date is same as today or earlier', () => {
+            const yesterday: Date = moment()
+                .subtract(1, 'day')
+                .toDate();
+            expect(validateFødselsdato(yesterday)).toBeUndefined();
+            expect(validateFødselsdato(dateUtils.dateToday)).toBeUndefined();
+        });
     });
 
     describe('validateNavn', () => {
