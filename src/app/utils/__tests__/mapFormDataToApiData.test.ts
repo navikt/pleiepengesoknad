@@ -1,20 +1,20 @@
 import {
     AppFormField,
     PleiepengesøknadFormData,
-    AnsettelsesforholdForm,
-    AnsettelsesforholdSkalJobbeSvar
+    Arbeidsforhold,
+    ArbeidsforholdSkalJobbeSvar
 } from '../../types/PleiepengesøknadFormData';
 import { mapFormDataToApiData } from '../mapFormDataToApiData';
 import {
     PleiepengesøknadApiData,
-    AnsettelsesforholdApiNei,
-    AnsettelsesforholdApiRedusert,
-    AnsettelsesforholdApiVetIkke
+    ArbeidsforholdApiNei,
+    ArbeidsforholdApiRedusert,
+    ArbeidsforholdApiVetIkke
 } from '../../types/PleiepengesøknadApiData';
 import * as dateUtils from 'common/utils/dateUtils';
 import * as attachmentUtils from 'common/utils/attachmentUtils';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { BarnReceivedFromApi } from '../../types/Søkerdata';
+import { BarnReceivedFromApi, Arbeidsgiver } from '../../types/Søkerdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
 import { Attachment } from 'common/types/Attachment';
 import { ApiStringDate } from 'common/types/ApiStringDate';
@@ -34,32 +34,35 @@ const barnMock: BarnReceivedFromApi[] = [
     { fodselsdato: todaysDate, fornavn: 'Mock', etternavn: 'Mocknes', aktoer_id: '123' }
 ];
 
-const ansettelsesforholdTelenor: AnsettelsesforholdForm = {
+const organisasjonTelenor: Arbeidsgiver = {
     navn: 'Telenor',
     organisasjonsnummer: '973861778'
 };
-const ansettelsesforholdMaxbo: AnsettelsesforholdForm = {
+const organisasjonMaxbo: Arbeidsgiver = {
     navn: 'Maxbo',
     organisasjonsnummer: '910831143'
 };
 
-const telenorRedusertJobbing = {
-    ...ansettelsesforholdTelenor,
-    skalJobbe: AnsettelsesforholdSkalJobbeSvar.redusert,
+const telenorRedusertJobbing: Arbeidsforhold = {
+    ...organisasjonTelenor,
+    erAnsattIPerioden: YesOrNo.YES,
+    skalJobbe: ArbeidsforholdSkalJobbeSvar.redusert,
     jobberNormaltTimer: 20,
     skalJobbeProsent: 50
 };
 
 const maxboIngenJobbing = {
-    ...ansettelsesforholdMaxbo,
-    skalJobbe: AnsettelsesforholdSkalJobbeSvar.nei,
+    ...organisasjonMaxbo,
+    erAnsattIPerioden: YesOrNo.YES,
+    skalJobbe: ArbeidsforholdSkalJobbeSvar.nei,
     jobberNormaltTimer: 20,
     skalJobbeProsent: 0
 };
 
 const maxboVetIkke = {
-    ...ansettelsesforholdMaxbo,
-    skalJobbe: AnsettelsesforholdSkalJobbeSvar.vetIkke,
+    ...organisasjonMaxbo,
+    erAnsattIPerioden: YesOrNo.YES,
+    skalJobbe: ArbeidsforholdSkalJobbeSvar.vetIkke,
     jobberNormaltTimer: 20,
     vetIkkeEkstrainfo: 'ekstrainfo'
 };
@@ -73,7 +76,7 @@ const formDataMock: Partial<PleiepengesøknadFormData> = {
     [AppFormField.harBekreftetOpplysninger]: true,
     [AppFormField.harForståttRettigheterOgPlikter]: true,
     [AppFormField.søkersRelasjonTilBarnet]: 'mor',
-    [AppFormField.ansettelsesforhold]: [ansettelsesforholdTelenor, ansettelsesforholdMaxbo],
+    [AppFormField.arbeidsforhold]: [organisasjonTelenor, organisasjonMaxbo],
     [AppFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.YES,
     [AppFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.NO,
     [AppFormField.utenlandsoppholdNeste12Mnd]: [],
@@ -107,7 +110,7 @@ jest.mock('common/utils/attachmentUtils', () => {
 const completedAttachmentMock = { uploaded: true, url: attachmentMock1.url, pending: false };
 
 const completeFormDataMock: PleiepengesøknadFormData = {
-    ansettelsesforhold: [ansettelsesforholdMaxbo],
+    arbeidsforhold: [{ ...organisasjonMaxbo, erAnsattIPerioden: YesOrNo.YES }],
     barnetHarIkkeFåttFødselsnummerEnda: false,
     barnetSøknadenGjelder: barnMock[0].aktoer_id,
     harBekreftetOpplysninger: true,
@@ -256,7 +259,7 @@ describe('mapFormDataToApiData', () => {
     const formDataFeatureOn: PleiepengesøknadFormData = {
         ...(formData as PleiepengesøknadFormData),
         [AppFormField.harMedsøker]: YesOrNo.YES,
-        ansettelsesforhold: [telenorRedusertJobbing, maxboIngenJobbing]
+        arbeidsforhold: [telenorRedusertJobbing, maxboIngenJobbing]
     };
     beforeAll(() => {
         (isFeatureEnabled as any).mockImplementation(() => true);
@@ -278,12 +281,12 @@ describe('mapFormDataToApiData', () => {
 
     it('should include prosentAvVanligUke when skalJobbe is redusert', () => {
         const resultApiData = mapFormDataToApiData(
-            { ...formDataFeatureOn, ansettelsesforhold: [telenorRedusertJobbing] },
+            { ...formDataFeatureOn, arbeidsforhold: [telenorRedusertJobbing] },
             barnMock,
             'nb'
         );
-        const result: AnsettelsesforholdApiRedusert = {
-            ...ansettelsesforholdTelenor,
+        const result: ArbeidsforholdApiRedusert = {
+            ...organisasjonTelenor,
             jobber_normalt_timer: 20,
             skal_jobbe: 'redusert',
             skal_jobbe_prosent: 50
@@ -293,26 +296,37 @@ describe('mapFormDataToApiData', () => {
     it('should include prosentAvVanligUke when skalJobbe is nei', () => {
         const {
             arbeidsgivere: { organisasjoner }
-        } = mapFormDataToApiData({ ...formDataFeatureOn, ansettelsesforhold: [maxboIngenJobbing] }, barnMock, 'nb');
-        const result: AnsettelsesforholdApiNei = {
-            ...ansettelsesforholdMaxbo,
+        } = mapFormDataToApiData({ ...formDataFeatureOn, arbeidsforhold: [maxboIngenJobbing] }, barnMock, 'nb');
+        const result: ArbeidsforholdApiNei = {
+            ...organisasjonMaxbo,
             skal_jobbe: 'nei',
             skal_jobbe_prosent: 0
         };
         expect(organisasjoner).toEqual([result]);
     });
-    it('should include correct ansettelsesdata when skalJobbe is vet_ikke', () => {
+    it('should include correct arbeidsforhold when skalJobbe is vet_ikke', () => {
         const {
             arbeidsgivere: { organisasjoner }
-        } = mapFormDataToApiData({ ...formDataFeatureOn, ansettelsesforhold: [maxboVetIkke] }, barnMock, 'nb');
-        const result: AnsettelsesforholdApiVetIkke = {
-            ...ansettelsesforholdMaxbo,
+        } = mapFormDataToApiData({ ...formDataFeatureOn, arbeidsforhold: [maxboVetIkke] }, barnMock, 'nb');
+        const result: ArbeidsforholdApiVetIkke = {
+            ...organisasjonMaxbo,
             jobber_normalt_timer: 20,
             skal_jobbe: 'vet_ikke'
         };
         expect(organisasjoner).toEqual([result]);
         expect(organisasjoner[0].skal_jobbe_timer).toBeUndefined();
         expect(organisasjoner[0].skal_jobbe_prosent).toBeUndefined();
+    });
+
+    it('should not include arbeidsforhold where user is not ansatt', () => {
+        const {
+            arbeidsgivere: { organisasjoner }
+        } = mapFormDataToApiData(
+            { ...formDataFeatureOn, arbeidsforhold: [{ ...maxboVetIkke, erAnsattIPerioden: YesOrNo.NO }] },
+            barnMock,
+            'nb'
+        );
+        expect(organisasjoner).toEqual([]);
     });
 
     it('should use correct format for a complete mapped application', () => {

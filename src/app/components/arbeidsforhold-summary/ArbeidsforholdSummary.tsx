@@ -2,42 +2,41 @@ import React from 'react';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
 import bemUtils from 'common/utils/bemUtils';
-import { AnsettelsesforholdApi } from 'app/types/PleiepengesøknadApiData';
+import { ArbeidsforholdApi } from 'app/types/PleiepengesøknadApiData';
 import intlHelper from 'common/utils/intlUtils';
-import { calcRedusertProsentFromRedusertTimer } from '../../utils/ansettelsesforholdUtils';
+import { calcRedusertProsentFromRedusertTimer } from '../../utils/arbeidsforholdUtils';
 
-import './gradertAnsettelsforholdSummary.less';
+import './arbeidsforholdSummary.less';
 
-interface AnsettelsesforholdSummaryProps {
-    ansettelsesforhold: AnsettelsesforholdApi;
+interface OwnProps {
+    arbeidsforhold: ArbeidsforholdApi;
 }
 
-const bem = bemUtils('gradertAnsettelsesforholdSummary');
+const bem = bemUtils('arbeidsforholdSummary');
 
-const GradertAnsettelsesforholdSummary: React.FunctionComponent<AnsettelsesforholdSummaryProps & InjectedIntlProps> = ({
-    ansettelsesforhold,
-    intl
-}) => {
-    const {
+const ArbeidsforholdSummary: React.FunctionComponent<OwnProps & InjectedIntlProps> = ({
+    arbeidsforhold: {
         navn,
         organisasjonsnummer,
         skal_jobbe_prosent,
         skal_jobbe_timer,
         jobber_normalt_timer,
         skal_jobbe
-    } = ansettelsesforhold;
+    },
+    intl
+}) => {
     const orgInfo = { navn, organisasjonsnummer };
     return (
         <div className={bem.block}>
             <div className={bem.element('org')}>
-                <FormattedMessage id="gradertAnsettelsesforhold.oppsummering.orgInfo" values={orgInfo} />
+                <FormattedMessage id="arbeidsforhold.oppsummering.orgInfo" values={orgInfo} />
             </div>
             {skal_jobbe === 'redusert' && (
                 <div className={bem.element('detaljer')}>
                     {skal_jobbe_timer !== undefined ? (
                         <Normaltekst>
                             <FormattedMessage
-                                id={`gradertAnsettelsesforhold.oppsummering.svar.redusert.timer`}
+                                id={`arbeidsforhold.oppsummering.svar.redusert.timer`}
                                 values={{
                                     timerRedusert: intlHelper(intl, 'timer', { timer: skal_jobbe_timer }),
                                     timerNormalt: intlHelper(intl, 'timer', { timer: jobber_normalt_timer }),
@@ -51,7 +50,7 @@ const GradertAnsettelsesforholdSummary: React.FunctionComponent<Ansettelsesforho
                     ) : (
                         <Normaltekst>
                             <FormattedMessage
-                                id={`gradertAnsettelsesforhold.oppsummering.svar.redusert.prosent`}
+                                id={`arbeidsforhold.oppsummering.svar.redusert.prosent`}
                                 values={{
                                     timerNormalt: intlHelper(intl, 'timer', { timer: jobber_normalt_timer }),
                                     prosentRedusert: skal_jobbe_prosent
@@ -64,14 +63,14 @@ const GradertAnsettelsesforholdSummary: React.FunctionComponent<Ansettelsesforho
             {skal_jobbe === 'vet_ikke' && (
                 <div className={bem.element('detaljer')}>
                     <Normaltekst>
-                        <FormattedMessage id={`gradertAnsettelsesforhold.oppsummering.svar.vet_ikke`} />
+                        <FormattedMessage id={`arbeidsforhold.oppsummering.svar.vet_ikke`} />
                     </Normaltekst>
                 </div>
             )}
             {skal_jobbe !== 'vet_ikke' && skal_jobbe !== 'redusert' && (
                 <div className={bem.element('detaljer')}>
                     <Normaltekst>
-                        <FormattedMessage id={`gradertAnsettelsesforhold.oppsummering.svar.${skal_jobbe}`} />
+                        <FormattedMessage id={`arbeidsforhold.oppsummering.svar.${skal_jobbe}`} />
                     </Normaltekst>
                 </div>
             )}
@@ -79,4 +78,4 @@ const GradertAnsettelsesforholdSummary: React.FunctionComponent<Ansettelsesforho
     );
 };
 
-export default injectIntl(GradertAnsettelsesforholdSummary);
+export default injectIntl(ArbeidsforholdSummary);

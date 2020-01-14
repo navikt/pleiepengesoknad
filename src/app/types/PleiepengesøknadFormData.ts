@@ -1,10 +1,10 @@
-import { Ansettelsesforhold } from './Søkerdata';
+import { Arbeidsgiver } from './Søkerdata';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { Time } from 'common/types/Time';
 import { Attachment } from 'common/types/Attachment';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 
-export enum AnsettelsesforholdSkalJobbeSvar {
+export enum ArbeidsforholdSkalJobbeSvar {
     'ja' = 'ja',
     'nei' = 'nei',
     'redusert' = 'redusert',
@@ -45,7 +45,7 @@ export enum AppFormField {
     periodeFra = 'periodeFra',
     periodeTil = 'periodeTil',
     legeerklæring = 'legeerklæring',
-    ansettelsesforhold = 'ansettelsesforhold',
+    arbeidsforhold = 'arbeidsforhold',
     harBoddUtenforNorgeSiste12Mnd = 'harBoddUtenforNorgeSiste12Mnd',
     utenlandsoppholdSiste12Mnd = 'utenlandsoppholdSiste12Mnd',
     skalBoUtenforNorgeNeste12Mnd = 'skalBoUtenforNorgeNeste12Mnd',
@@ -64,7 +64,8 @@ export enum AppFormField {
     tilsynsordning__vetIkke__ekstrainfo = 'tilsynsordning.vetIkke.ekstrainfo'
 }
 
-export enum AnsettelsesforholdField {
+export enum ArbeidsforholdField {
+    erAnsattIPerioden = 'erAnsattIPerioden',
     skalJobbe = 'skalJobbe',
     timerEllerProsent = 'timerEllerProsent',
     jobberNormaltTimer = 'jobberNormaltTimer',
@@ -72,12 +73,13 @@ export enum AnsettelsesforholdField {
     skalJobbeProsent = 'skalJobbeProsent'
 }
 
-export interface AnsettelsesforholdForm extends Ansettelsesforhold {
-    [AnsettelsesforholdField.skalJobbe]?: AnsettelsesforholdSkalJobbeSvar;
-    [AnsettelsesforholdField.timerEllerProsent]?: 'timer' | 'prosent';
-    [AnsettelsesforholdField.jobberNormaltTimer]?: number;
-    [AnsettelsesforholdField.skalJobbeTimer]?: number;
-    [AnsettelsesforholdField.skalJobbeProsent]?: number;
+export interface Arbeidsforhold extends Arbeidsgiver {
+    [ArbeidsforholdField.erAnsattIPerioden]?: YesOrNo;
+    [ArbeidsforholdField.skalJobbe]?: ArbeidsforholdSkalJobbeSvar;
+    [ArbeidsforholdField.timerEllerProsent]?: 'timer' | 'prosent';
+    [ArbeidsforholdField.jobberNormaltTimer]?: number;
+    [ArbeidsforholdField.skalJobbeTimer]?: number;
+    [ArbeidsforholdField.skalJobbeProsent]?: number;
 }
 
 export enum TilsynVetIkkeHvorfor {
@@ -94,7 +96,7 @@ export interface PleiepengesøknadFormData {
     [AppFormField.søkersRelasjonTilBarnet]: string;
     [AppFormField.søknadenGjelderEtAnnetBarn]: boolean;
     [AppFormField.barnetSøknadenGjelder]: string;
-    [AppFormField.ansettelsesforhold]: AnsettelsesforholdForm[];
+    [AppFormField.arbeidsforhold]: Arbeidsforhold[];
     [AppFormField.periodeFra]?: Date;
     [AppFormField.periodeTil]?: Date;
     [AppFormField.legeerklæring]: Attachment[];
@@ -114,6 +116,8 @@ export interface PleiepengesøknadFormData {
 }
 
 export const initialValues: PleiepengesøknadFormData = {
+    [AppFormField.periodeFra]: undefined,
+    [AppFormField.periodeTil]: undefined,
     [AppFormField.barnetsNavn]: '',
     [AppFormField.barnetsFødselsnummer]: '',
     [AppFormField.barnetSøknadenGjelder]: '',
@@ -122,7 +126,7 @@ export const initialValues: PleiepengesøknadFormData = {
     [AppFormField.søkersRelasjonTilBarnet]: '',
     [AppFormField.søknadenGjelderEtAnnetBarn]: false,
     [AppFormField.legeerklæring]: [],
-    [AppFormField.ansettelsesforhold]: [],
+    [AppFormField.arbeidsforhold]: [],
     [AppFormField.barnetHarIkkeFåttFødselsnummerEnda]: false,
     [AppFormField.barnetsForeløpigeFødselsnummerEllerDNummer]: '',
     [AppFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,

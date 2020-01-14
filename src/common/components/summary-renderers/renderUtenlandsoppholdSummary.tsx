@@ -1,19 +1,17 @@
 import React from 'react';
-import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
-import { prettifyDateExtended } from 'common/utils/dateUtils';
+import { prettifyDateExtended, apiStringDateToDate } from 'common/utils/dateUtils';
 import bemUtils from 'common/utils/bemUtils';
-import CountryName from '../country-name/CountryName';
+import { UtenlandsoppholdApiData } from 'app/types/PleiepengesøknadApiData';
 import './utenlandsoppholdSummaryItem.less';
 
 const bem = bemUtils('utenlandsoppholdSummaryItem');
 
-export const renderUtenlandsoppholdSummary = (opphold: Utenlandsopphold): React.ReactNode => (
+export const renderUtenlandsoppholdSummary = (opphold: UtenlandsoppholdApiData): React.ReactNode => (
     <div className={bem.block}>
         <span className={bem.element('dates')}>
-            {prettifyDateExtended(opphold.fromDate)} - {prettifyDateExtended(opphold.toDate)}
+            {prettifyDateExtended(apiStringDateToDate(opphold.fra_og_med))} -{' '}
+            {prettifyDateExtended(apiStringDateToDate(opphold.til_og_med))}
         </span>
-        <span className={bem.element('country')}>
-            <CountryName countryCode={opphold.countryCode} />
-        </span>
+        <span className={bem.element('country')}>{opphold.landnavn}</span>
     </div>
 );

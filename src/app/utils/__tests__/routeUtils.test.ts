@@ -15,7 +15,7 @@ jest.mock('./../stepUtils', () => {
     return {
         opplysningerOmBarnetStepAvailable: jest.fn(() => 'barn step available'),
         opplysningerOmTidsromStepAvailable: jest.fn(() => 'tidsrom step available'),
-        opplysningerOmAnsettelsesforholdStepAvailable: jest.fn(() => 'arbeidsgivere step available'),
+        arbeidsforholdStepAvailable: jest.fn(() => 'arbeidsforhold step available'),
         legeerklæringStepAvailable: jest.fn(() => 'legeerklæring step available'),
         medlemskapStepAvailable: jest.fn(() => 'medlemskap step available'),
         summaryStepAvailable: jest.fn(() => 'summary step available')
@@ -27,7 +27,7 @@ const formValues = {} as any;
 describe('routeUtils', () => {
     describe('getSøknadRoute', () => {
         it('should prefix provided string with a common prefix for routes', () => {
-            const s1 = StepID.ANSETTELSESFORHOLD;
+            const s1 = StepID.ARBEIDSFORHOLD;
             const s2 = StepID.SUMMARY;
             expect(getSøknadRoute(s1)).toEqual(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${s1}`);
             expect(getSøknadRoute(s2)).toEqual(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${s2}`);
@@ -47,10 +47,10 @@ describe('routeUtils', () => {
             expect(result).toEqual(stepUtils.opplysningerOmTidsromStepAvailable(formValues));
         });
 
-        it('should return result from calling opplysningerOmAnsettelsesforholdStepAvailable if route=StepID.ANSETTELSESFORHOLD', () => {
-            const result = isAvailable(StepID.ANSETTELSESFORHOLD, formValues);
-            expect(stepUtils.opplysningerOmAnsettelsesforholdStepAvailable).toHaveBeenCalledWith(formValues);
-            expect(result).toEqual(stepUtils.opplysningerOmAnsettelsesforholdStepAvailable(formValues));
+        it('should return result from calling arbeidsforholdStepAvailable if route=StepID.ARBEIDSFORHOLD', () => {
+            const result = isAvailable(StepID.ARBEIDSFORHOLD, formValues);
+            expect(stepUtils.arbeidsforholdStepAvailable).toHaveBeenCalledWith(formValues);
+            expect(result).toEqual(stepUtils.arbeidsforholdStepAvailable(formValues));
         });
 
         it('should return result from calling legeerklæringStepAvailable if route=StepID.LEGEERKLÆRING', () => {

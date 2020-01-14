@@ -11,7 +11,7 @@ export interface BarnToSendToApi {
     aktoer_id: string | null;
 }
 
-export interface AnsettelsesforholdApi {
+export interface ArbeidsforholdApi {
     navn: string;
     organisasjonsnummer?: string;
     skal_jobbe?: 'ja' | 'nei' | 'redusert' | 'vet_ikke';
@@ -19,26 +19,26 @@ export interface AnsettelsesforholdApi {
     skal_jobbe_timer?: number;
     skal_jobbe_prosent?: number;
 }
-export type AnsettelsesforholdApiNei = Pick<
-    AnsettelsesforholdApi,
+export type ArbeidsforholdApiNei = Pick<
+    ArbeidsforholdApi,
     'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'skal_jobbe_prosent' | 'jobber_normalt_timer'
 >;
-export type AnsettelsesforholdApiRedusert = Pick<
-    AnsettelsesforholdApi,
+export type ArbeidsforholdApiRedusert = Pick<
+    ArbeidsforholdApi,
     'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'skal_jobbe_prosent' | 'jobber_normalt_timer' | 'skal_jobbe_timer'
 >;
 
-export type AnsettelsesforholdApiVetIkke = Pick<
-    AnsettelsesforholdApi,
+export type ArbeidsforholdApiVetIkke = Pick<
+    ArbeidsforholdApi,
     'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'jobber_normalt_timer'
 >;
 
-export type AnsettelsesforholdApiSomVanlig = Pick<
-    AnsettelsesforholdApi,
+export type ArbeidsforholdApiSomVanlig = Pick<
+    ArbeidsforholdApi,
     'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'skal_jobbe_prosent'
 >;
 
-export interface AnsettelsesforholdApiSkalJobbe {}
+export interface ArbeidsforholdApiSkalJobbe {}
 
 export interface TilsynsukeApi {
     mandag?: string;
@@ -95,7 +95,7 @@ export interface PleiepengesøknadApiData {
     relasjon_til_barnet: string | null;
     fra_og_med: ApiStringDate;
     til_og_med: ApiStringDate;
-    arbeidsgivere: { organisasjoner: AnsettelsesforholdApi[] };
+    arbeidsgivere: { organisasjoner: ArbeidsforholdApi[] };
     vedlegg: string[];
     medlemskap: Medlemskap;
     har_medsoker: boolean;

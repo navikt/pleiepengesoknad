@@ -23,13 +23,15 @@ import ContentSwitcher from 'common/components/content-switcher/ContentSwitcher'
 import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
 import intlHelper from 'common/utils/intlUtils';
 import { Locale } from 'common/types/Locale';
-import GradertAnsettelsesforholdSummary from 'app/components/gradert-ansettelsesforhold-summary/GradertAnsettelsesforholdSummary';
+import ArbeidsforholdSummary from 'app/components/arbeidsforhold-summary/ArbeidsforholdSummary';
 import TilsynsordningSummary from './TilsynsordningSummary';
 import TextareaSummary from '../../textarea-summary/TextareaSummary';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 import ValidationErrorSummaryBase from '../../validation-error-summary-base/ValidationErrorSummaryBase';
 import { validateApiValues } from '../../../validation/apiValuesValidation';
+import SummaryList from 'common/components/summary-list/SummaryList';
+import { renderUtenlandsoppholdSummary } from 'common/components/summary-renderers/renderUtenlandsoppholdSummary';
 
 interface State {
     sendingInProgress: boolean;
@@ -83,7 +85,7 @@ class SummaryStep extends React.Component<Props, State> {
                     const apiValues = mapFormDataToApiData(formValues, barn, intl.locale as Locale);
                     const apiValuesValidationErrors = validateApiValues(apiValues, intl);
 
-                    const { tilsynsordning, nattevaak, beredskap } = apiValues;
+                    const { medlemskap, tilsynsordning, nattevaak, beredskap } = apiValues;
 
                     return (
                         <FormikStep
@@ -231,16 +233,16 @@ class SummaryStep extends React.Component<Props, State> {
                                     )}
                                     <Box margin="l">
                                         <ContentWithHeader
-                                            header={intlHelper(intl, 'steg.oppsummering.ansettelsesforhold.header')}>
+                                            header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.header')}>
                                             {apiValues.arbeidsgivere.organisasjoner.length > 0 ? (
                                                 apiValues.arbeidsgivere.organisasjoner.map((forhold) => (
-                                                    <GradertAnsettelsesforholdSummary
+                                                    <ArbeidsforholdSummary
                                                         key={forhold.organisasjonsnummer}
-                                                        ansettelsesforhold={forhold}
+                                                        arbeidsforhold={forhold}
                                                     />
                                                 ))
                                             ) : (
-                                                <FormattedMessage id="steg.oppsummering.ansettelsesforhold.ingenAnsettelsesforhold" />
+                                                <FormattedMessage id="steg.oppsummering.arbeidsforhold.ingenArbeidsforhold" />
                                             )}
                                         </ContentWithHeader>
                                     </Box>
@@ -283,6 +285,21 @@ class SummaryStep extends React.Component<Props, State> {
                                                 intlHelper(intl, 'Nei')}
                                         </ContentWithHeader>
                                     </Box>
+                                    {apiValues.medlemskap.har_bodd_i_utlandet_siste_12_mnd === true &&
+                                        medlemskap.utenlandsopphold_siste_12_mnd.length > 0 && (
+                                            <Box margin="l">
+                                                <ContentWithHeader
+                                                    header={intlHelper(
+                                                        intl,
+                                                        'steg.oppsummering.utlandetSiste12.liste.header'
+                                                    )}>
+                                                    <SummaryList
+                                                        items={medlemskap.utenlandsopphold_siste_12_mnd}
+                                                        itemRenderer={renderUtenlandsoppholdSummary}
+                                                    />
+                                                </ContentWithHeader>
+                                            </Box>
+                                        )}
 
                                     <Box margin="l">
                                         <ContentWithHeader
@@ -293,6 +310,22 @@ class SummaryStep extends React.Component<Props, State> {
                                                 intlHelper(intl, 'Nei')}
                                         </ContentWithHeader>
                                     </Box>
+                                    {apiValues.medlemskap.skal_bo_i_utlandet_neste_12_mnd === true &&
+                                        medlemskap.utenlandsopphold_neste_12_mnd.length > 0 && (
+                                            <Box margin="l">
+                                                <ContentWithHeader
+                                                    header={intlHelper(
+                                                        intl,
+                                                        'steg.oppsummering.utlandetNeste12.liste.header'
+                                                    )}>
+                                                    <SummaryList
+                                                        items={medlemskap.utenlandsopphold_neste_12_mnd}
+                                                        itemRenderer={renderUtenlandsoppholdSummary}
+                                                    />
+                                                </ContentWithHeader>
+                                            </Box>
+                                        )}
+
                                     <Box margin="l">
                                         <ContentWithHeader
                                             header={intlHelper(intl, 'steg.oppsummering.legeerklæring.header')}>

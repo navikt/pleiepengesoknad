@@ -1,17 +1,26 @@
 import * as React from 'react';
 import RadioPanelGroupBase from '../radio-panel-group-base/RadioPanelGroupBase';
 import { YesOrNo } from 'common/types/YesOrNo';
+import { SkjemaelementFeil } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
 
 interface YesOrNoQuestionProps {
     legend: string;
     name: string;
     checked: YesOrNo;
+    feil?: SkjemaelementFeil;
     onChange: (answer: YesOrNo) => void;
 }
 
-const YesOrNoQuestionBase: React.FunctionComponent<YesOrNoQuestionProps> = ({ legend, name, checked, onChange }) => (
+const YesOrNoQuestionBase: React.FunctionComponent<YesOrNoQuestionProps> = ({
+    legend,
+    name,
+    checked,
+    feil,
+    onChange
+}) => (
     <RadioPanelGroupBase
         legend={legend}
+        feil={feil}
         radios={[
             {
                 name,
