@@ -158,7 +158,7 @@ const completeFormDataMock: PleiepengesøknadFormData = {
         }
     ],
     barnetsNavn: 'barnets-navn',
-    barnetsForeløpigeFødselsnummerEllerDNummer: '',
+    barnetsFødselsdato: undefined,
     barnetsFødselsnummer: 'barnets-fnr'
 };
 
@@ -218,27 +218,27 @@ describe('mapFormDataToApiData', () => {
         expect(result.barn.fodselsnummer).toEqual(fnr);
     });
 
-    it("should set 'alternativ_id' in api data to undefined if it doesnt exist, and otherwise it should assign value to 'alternativ_id' in api data", () => {
-        const fnr = '12345123456';
-        expect(resultingApiData.barn.alternativ_id).toBeNull();
+    it("should set 'fodselsdato' in api data to undefined if it doesnt exist, and otherwise it should assign value to 'fodselsdato' in api data", () => {
+        expect(resultingApiData.barn.fodselsdato).toBeNull();
+        const fdato = new Date();
         const formDataWithFnr: Partial<PleiepengesøknadFormData> = {
             ...formDataMock,
-            [AppFormField.barnetsForeløpigeFødselsnummerEllerDNummer]: fnr
+            [AppFormField.barnetsFødselsdato]: fdato
         };
         const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock, 'nb');
-        expect(result.barn.alternativ_id).toEqual(fnr);
+        expect(result.barn.fodselsdato).toEqual(dateUtils.formatDateToApiFormat(fdato));
     });
 
-    it("should assign fnr to 'fodselsnummer' in api data, and set 'alternativ_id' to undefined, if both barnetsFødselsnummer and barnetsForeløpigeFødselsnummerEllerDNummer has values", () => {
+    it("should assign fnr to 'fodselsnummer' in api data, and set 'fodselsdato' to undefined, if both barnetsFødselsnummer and barnetsFødselsdato has values", () => {
         const fnr = '12345123456';
-        expect(resultingApiData.barn.alternativ_id).toBeNull();
+        expect(resultingApiData.barn.fodselsdato).toBeNull();
         const formDataWithFnr: Partial<PleiepengesøknadFormData> = {
             ...formDataMock,
             [AppFormField.barnetsFødselsnummer]: fnr,
-            [AppFormField.barnetsForeløpigeFødselsnummerEllerDNummer]: fnr
+            [AppFormField.barnetsFødselsdato]: new Date()
         };
         const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock, 'nb');
-        expect(result.barn.alternativ_id).toBeNull();
+        expect(result.barn.fodselsdato).toBeNull();
         expect(result.barn.fodselsnummer).toEqual(fnr);
     });
 
@@ -337,8 +337,8 @@ describe('mapFormDataToApiData', () => {
             barn: {
                 navn: 'Mock Mocknes',
                 fodselsnummer: null,
-                alternativ_id: null,
-                aktoer_id: barnMock[0].aktoer_id
+                aktoer_id: barnMock[0].aktoer_id,
+                fodselsdato: null
             },
             relasjon_til_barnet: null,
             arbeidsgivere: {

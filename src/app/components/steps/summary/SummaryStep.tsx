@@ -158,7 +158,7 @@ class SummaryStep extends React.Component<Props, State> {
                                                             </Normaltekst>
                                                             <Normaltekst>
                                                                 <FormattedMessage
-                                                                    id="steg.oppsummering.barnet.fodselsdato"
+                                                                    id="steg.oppsummering.barnet.fødselsdato"
                                                                     values={{
                                                                         dato: prettifyDate(
                                                                             barnReceivedFromApi!.fodselsdato
@@ -173,17 +173,21 @@ class SummaryStep extends React.Component<Props, State> {
                                                 }}
                                                 secondContent={() => (
                                                     <>
-                                                        {apiValues.barn.alternativ_id ? (
+                                                        {apiValues.barn.fodselsdato ? (
                                                             <Normaltekst>
                                                                 <FormattedMessage
-                                                                    id="steg.oppsummering.barnet.forelopigFnr"
+                                                                    id="steg.oppsummering.barnet.fødselsdato"
                                                                     values={{
-                                                                        fnr: apiValues.barn.alternativ_id
+                                                                        fdato: prettifyDate(
+                                                                            apiStringDateToDate(
+                                                                                apiValues.barn.fodselsdato
+                                                                            )
+                                                                        )
                                                                     }}
                                                                 />
                                                             </Normaltekst>
                                                         ) : null}
-                                                        {!apiValues.barn.alternativ_id ? (
+                                                        {!apiValues.barn.fodselsdato ? (
                                                             <Normaltekst>
                                                                 <FormattedMessage
                                                                     id="steg.oppsummering.barnet.fnr"
