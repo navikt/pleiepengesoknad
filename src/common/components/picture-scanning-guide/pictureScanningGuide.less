@@ -1,0 +1,28 @@
+.pictureScanningGuide {
+  svg {
+    pointer-events: none;
+  }
+  &__body {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+  }
+  &__cell {
+    max-width: 25%;
+    height: auto;
+  }
+  &__text-block {
+    margin-left: 1rem !important;
+    margin-bottom: 1rem;
+    p {
+      padding-bottom: 0;
+      padding-left: 0.25rem;
+    }
+    strong {
+      padding-left: 0.5rem;
+    }
+    span {
+      font-size: 0.8rem;
+    }
+  }
+}
