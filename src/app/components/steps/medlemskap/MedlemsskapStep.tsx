@@ -8,7 +8,9 @@ import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
 import {
     validateYesOrNoIsAnswered,
     validateUtenlandsoppholdSiste12Mnd,
-    validateUtenlandsoppholdNeste12Mnd
+    validateUtenlandsoppholdNeste12Mnd,
+    validateRequiredField,
+    validateUtenlandsoppholdIPerioden
 } from '../../../validation/fieldValidations';
 import intlHelper from 'common/utils/intlUtils';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
@@ -19,11 +21,11 @@ import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../../lenker';
 import { Field, FieldProps } from 'formik';
 import UtenlandsoppholdInput from 'common/forms/utenlandsopphold';
-import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
+import { Utenlandsopphold, UtenlandsoppholdIPerioden } from 'common/forms/utenlandsopphold/types';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { showValidationErrors } from 'app/utils/formikUtils';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
-import { dateToday, date1YearFromNow, date1YearAgo } from 'common/utils/dateUtils';
+import { dateToday, date1YearFromNow, date1YearAgo, DateRange } from 'common/utils/dateUtils';
 import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 
 type Props = CommonStepFormikProps & HistoryProps & InjectedIntlProps & StepConfigProps;
@@ -31,6 +33,10 @@ type Props = CommonStepFormikProps & HistoryProps & InjectedIntlProps & StepConf
 const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, intl, nextStepRoute, ...stepProps }) => {
     const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
     const { formValues } = stepProps;
+    const { periodeFra, periodeTil } = formValues;
+
+    const periode: DateRange | undefined = periodeFra && periodeTil ? { from: periodeFra, to: periodeTil } : undefined;
+
     return (
         <FormikStep id={StepID.MEDLEMSKAP} onValidFormSubmit={navigate} history={history} {...stepProps}>
             <Box padBottom="xxl">
@@ -62,7 +68,10 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, intl, nextSt
                                 return (
                                     <UtenlandsoppholdInput
                                         labels={{
-                                            tittel: intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.listeTittel')
+                                            listeTittel: intlHelper(
+                                                intl,
+                                                'steg.medlemsskap.annetLandSiste12.listeTittel'
+                                            )
                                         }}
                                         utenlandsopphold={field.value}
                                         tidsrom={{ from: date1YearAgo, to: dateToday }}
@@ -97,8 +106,66 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, intl, nextSt
                                 return (
                                     <UtenlandsoppholdInput
                                         labels={{
-                                            tittel: intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.listeTittel')
+                                            listeTittel: intlHelper(
+                                                intl,
+                                                'steg.medlemsskap.annetLandSiste12.listeTittel'
+                                            )
                                         }}
+                                        utenlandsopphold={field.value}
+                                        tidsrom={{ from: dateToday, to: date1YearFromNow }}
+                                        onChange={(utenlandsopphold: Utenlandsopphold[]) => {
+                                            setFieldValue(field.name, utenlandsopphold);
+                                        }}
+                                        {...errorMsgProps}
+                                    />
+                                );
+                            }}
+                        </Field>
+                    </Box>
+                )}
+            {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD) && (
+                <Box margin="xl">
+                    <YesOrNoQuestion
+                        legend={intlHelper(intl, 'steg.medlemsskap.iUtlandetIPerioden.spm')}
+                        name={AppFormField.skalOppholdsSegIUtlandetIPerioden}
+                        validate={validateRequiredField}
+                    />
+                </Box>
+            )}
+            {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD) &&
+                formValues.skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES && (
+                    <Box margin="m">
+                        <Field
+                            name={AppFormField.utenlandsoppholdIPerioden}
+                            validate={
+                                periode
+                                    ? (opphold: UtenlandsoppholdIPerioden[]) =>
+                                          validateUtenlandsoppholdIPerioden(periode, opphold)
+                                    : undefined
+                            }>
+                            {({ field, form: { errors, setFieldValue, status, submitCount } }: FieldProps) => {
+                                const errorMsgProps = showValidationErrors(status, submitCount)
+                                    ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                                    : {};
+                                return (
+                                    <UtenlandsoppholdInput
+                                        labels={{
+                                            listeTittel: intlHelper(
+                                                intl,
+                                                'steg.medlemsskap.iUtlandetIPerioden.listeTittel'
+                                            ),
+                                            formLabels: {
+                                                eøsReason: intlHelper(
+                                                    intl,
+                                                    'steg.medlemsskap.iUtlandetIPerioden.eøs.årsak.spm'
+                                                ),
+                                                reasonHelperText: intlHelper(
+                                                    intl,
+                                                    'steg.medlemsskap.iUtlandetIPerioden.eøs.årsak.hjelp'
+                                                )
+                                            }
+                                        }}
+                                        spørOmÅrsakVedOppholdIEØSLand={true}
                                         utenlandsopphold={field.value}
                                         tidsrom={{ from: dateToday, to: date1YearFromNow }}
                                         onChange={(utenlandsopphold: Utenlandsopphold[]) => {

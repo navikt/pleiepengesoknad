@@ -96,9 +96,6 @@ export interface UtenlandsoppholdUtenforEøsApiData extends UtenlandsoppholdIPer
 
 export type UtenlandsoppholdIPeriodenApiData = UtenlandsoppholdApiData | UtenlandsoppholdUtenforEøsApiData;
 
-// export const isUtenlandsoppholdUtenforEøsApiData = (opphold: any): opphold is UtenlandsoppholdUtenforEøsApiData =>
-//     opphold.er_utenfor_eos === true;
-
 export interface PleiepengesøknadApiData {
     new_version: boolean;
     sprak: Locale;
