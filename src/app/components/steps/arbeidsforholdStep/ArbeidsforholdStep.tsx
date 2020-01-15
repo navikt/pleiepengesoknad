@@ -112,7 +112,7 @@ const ArbeidsforholdStep = ({ history, intl, søkerdata, nextStepRoute, formikPr
                     )}
                     <Box margin="m" padBottom="m">
                         <AlertStripe type="info">
-                            <FormattedMessage id="steg.arbeidsforhold.gradert.manglesOpplysninger" />
+                            <FormattedMessage id="steg.arbeidsforhold.manglesOpplysninger" />
                         </AlertStripe>
                     </Box>
                 </>
