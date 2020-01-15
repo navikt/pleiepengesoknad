@@ -15,7 +15,6 @@ interface ApplicationWrapperProps {
 }
 
 const demoMode = appIsRunningInDemoMode();
-const languageToggleEnabled = false;
 
 const ApplicationWrapper: React.FunctionComponent<ApplicationWrapperProps> = ({ locale, onChangeLocale, children }) => {
     return (
@@ -23,9 +22,7 @@ const ApplicationWrapper: React.FunctionComponent<ApplicationWrapperProps> = ({ 
             <Normaltekst tag="div">
                 {demoMode && <DemoModeInfo />}
 
-                {demoMode === false && languageToggleEnabled && (
-                    <LanguageToggle locale={locale} toggle={onChangeLocale} />
-                )}
+                {demoMode === false && <LanguageToggle locale={locale} toggle={onChangeLocale} />}
                 <Router>{children}</Router>
             </Normaltekst>
         </IntlProvider>
