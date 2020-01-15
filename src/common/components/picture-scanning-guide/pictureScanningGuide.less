@@ -8,8 +8,12 @@
     justify-content: space-around;
   }
   &__cell {
-    max-width: 25%;
+    flex: 1 1 50%;
     height: auto;
+
+    @media screen and (min-width: 768px) {
+      max-width: 25%;
+    }
   }
   &__text-block {
     margin-left: 1rem !important;
