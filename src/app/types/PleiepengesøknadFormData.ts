@@ -2,7 +2,7 @@ import { Arbeidsgiver } from './Søkerdata';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { Time } from 'common/types/Time';
 import { Attachment } from 'common/types/Attachment';
-import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
+import { Utenlandsopphold, UtenlandsoppholdIPerioden } from 'common/forms/utenlandsopphold/types';
 
 export enum ArbeidsforholdSkalJobbeSvar {
     'ja' = 'ja',
@@ -50,6 +50,8 @@ export enum AppFormField {
     utenlandsoppholdSiste12Mnd = 'utenlandsoppholdSiste12Mnd',
     skalBoUtenforNorgeNeste12Mnd = 'skalBoUtenforNorgeNeste12Mnd',
     utenlandsoppholdNeste12Mnd = 'utenlandsoppholdNeste12Mnd',
+    skalOppholdsSegIUtlandetIPerioden = 'skalOppholdeSegIUtlandetIPerioden',
+    utenlandsoppholdIPerioden = 'utenlandsoppholdIPerioden',
     harMedsøker = 'harMedsøker',
     samtidigHjemme = 'samtidigHjemme',
     harNattevåk = 'harNattevåk',
@@ -106,6 +108,8 @@ export interface PleiepengesøknadFormData {
     [AppFormField.utenlandsoppholdSiste12Mnd]: Utenlandsopphold[];
     [AppFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo;
     [AppFormField.utenlandsoppholdNeste12Mnd]: Utenlandsopphold[];
+    [AppFormField.skalOppholdsSegIUtlandetIPerioden]: YesOrNo;
+    [AppFormField.utenlandsoppholdIPerioden]: UtenlandsoppholdIPerioden[];
     [AppFormField.harMedsøker]: YesOrNo;
     [AppFormField.samtidigHjemme]: YesOrNo;
     [AppFormField.tilsynsordning]?: Tilsynsordning;
@@ -133,6 +137,8 @@ export const initialValues: PleiepengesøknadFormData = {
     [AppFormField.utenlandsoppholdSiste12Mnd]: [],
     [AppFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.UNANSWERED,
     [AppFormField.utenlandsoppholdNeste12Mnd]: [],
+    [AppFormField.skalOppholdsSegIUtlandetIPerioden]: YesOrNo.UNANSWERED,
+    [AppFormField.utenlandsoppholdIPerioden]: [],
     [AppFormField.harMedsøker]: YesOrNo.UNANSWERED,
     [AppFormField.samtidigHjemme]: YesOrNo.UNANSWERED,
     [AppFormField.tilsynsordning]: undefined,

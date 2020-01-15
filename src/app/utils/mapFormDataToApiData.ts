@@ -50,7 +50,9 @@ export const mapFormDataToApiData = (
         harBeredskap,
         harBeredskap_ekstrainfo,
         harNattevåk,
-        harNattevåk_ekstrainfo
+        harNattevåk_ekstrainfo,
+        skalOppholdeSegIUtlandetIPerioden,
+        utenlandsoppholdIPerioden
     }: PleiepengesøknadFormData,
     barn: BarnReceivedFromApi[],
     sprak: Locale
@@ -91,6 +93,13 @@ export const mapFormDataToApiData = (
                 skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES
                     ? utenlandsoppholdNeste12Mnd.map((o) => mapUtenlandsoppholdTilApiData(o, sprak))
                     : []
+        },
+        utenlandsopphold_i_perioden: {
+            skal_oppholde_seg_i_i_utlandet_i_perioden: skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES,
+            opphold: utenlandsoppholdIPerioden.map((o) => ({
+                ...mapUtenlandsoppholdTilApiData(o, sprak),
+                er_utenfor_eos: o.erUtenforEØS === YesOrNo.YES
+            }))
         },
         fra_og_med: formatDateToApiFormat(periodeFra!),
         til_og_med: formatDateToApiFormat(periodeTil!),

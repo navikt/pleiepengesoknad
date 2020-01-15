@@ -1,6 +1,7 @@
 import { Locale } from 'common/types/Locale';
 import { TilsynVetIkkeHvorfor } from './PleiepengesøknadFormData';
 import { ApiStringDate } from '../../common/types/ApiStringDate';
+import { UtenlandsoppholdIPerioden } from 'common/forms/utenlandsopphold/types';
 
 export type ISO8601Duration = string;
 
@@ -88,6 +89,16 @@ export interface UtenlandsoppholdApiData {
     landnavn: string;
 }
 
+export interface UtenlandsoppholdUtenforEøsApiData extends UtenlandsoppholdIPerioden {
+    er_utenfor_eos: true;
+    arsak: string;
+}
+
+export type UtenlandsoppholdIPeriodenApiData = UtenlandsoppholdApiData | UtenlandsoppholdUtenforEøsApiData;
+
+// export const isUtenlandsoppholdUtenforEøsApiData = (opphold: any): opphold is UtenlandsoppholdUtenforEøsApiData =>
+//     opphold.er_utenfor_eos === true;
+
 export interface PleiepengesøknadApiData {
     new_version: boolean;
     sprak: Locale;
@@ -98,6 +109,10 @@ export interface PleiepengesøknadApiData {
     arbeidsgivere: { organisasjoner: ArbeidsforholdApi[] };
     vedlegg: string[];
     medlemskap: Medlemskap;
+    utenlandsopphold_i_perioden: {
+        skal_oppholde_seg_i_i_utlandet_i_perioden: boolean;
+        opphold: UtenlandsoppholdIPeriodenApiData[];
+    };
     har_medsoker: boolean;
     samtidig_hjemme?: boolean;
     har_forstatt_rettigheter_og_plikter: boolean;
