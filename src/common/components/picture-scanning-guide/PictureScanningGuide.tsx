@@ -1,51 +1,61 @@
 import * as React from 'react';
-import {injectIntl, FormattedHTMLMessage} from 'react-intl';
+import {injectIntl, FormattedMessage, FormattedHTMLMessage, InjectedIntlProps} from 'react-intl';
 import Lenkepanel from 'nav-frontend-lenkepanel/lib';
+
 import ScanningIcon from '../scanning-icon/ScanningIcon';
 import StatusIkon from '../status-icon/StatusIcon';
 import bemHelper from '../../utils/bemUtils';
+import intlHelper from '../../utils/intlUtils';
 
 import './pictureScanningGuide.less';
 
 const bem = bemHelper('pictureScanningGuide');
+type Props = InjectedIntlProps;
 
-const PictureScanningGuide = () => {
+const PictureScanningGuide: React.FunctionComponent<Props> = ({intl}) => {
   const svgIconSize = 100;
   return (
-    <div className={bem.block}>
-      <h3>Bra og dårlige eksempler på bilder av legeerklæring</h3>
-      <div className={bem.element('body')}>
-        <div className={bem.element('cell')}>
-          <ScanningIcon status="good" size={svgIconSize} />
-          <div className={bem.element('text-block')}>
-            <p><StatusIkon status="suksess"/><FormattedHTMLMessage id="picturescanningguide.good" /></p>
-            <span>Legeerklæringen fyller hele bildet</span>
+    <>
+      <FormattedHTMLMessage tagName="h2" id="psg.innholdstittel"/>
+      <FormattedHTMLMessage tagName="h3" id="psg.section1.tittel"/>
+      <FormattedHTMLMessage tagName="ul" id="psg.section1.liste"/>
+      <FormattedHTMLMessage tagName="h3" id="psg.section2.tittel"/>
+      <FormattedHTMLMessage tagName="ul" id="psg.section2.liste"/>
+      <div className={bem.block}>
+        <h3><FormattedMessage id="psg.icon.heading" /></h3>
+        <div className={bem.element('body')}>
+          <div className={bem.element('cell')}>
+            <ScanningIcon status="good" size={svgIconSize} />
+            <div className={bem.element('text-block')}>
+              <p><StatusIkon status="suksess"/><FormattedHTMLMessage tagName="strong" id="psg.good" /></p>
+              <FormattedHTMLMessage tagName="span" id="psg.icon.label.good" />
+            </div>
+          </div>
+          <div className={bem.element('cell')}>
+            <ScanningIcon status="keystone" size={svgIconSize} />
+            <div className={bem.element('text-block')}>
+              <p><StatusIkon status="feil"/><FormattedHTMLMessage tagName="strong" id="psg.bad" /></p>
+              <FormattedHTMLMessage tagName="span" id="psg.icon.label.keystone" />
+            </div>
+          </div>
+          <div className={bem.element('cell')}>
+            <ScanningIcon status="horizontal" size={svgIconSize} />
+            <div className={bem.element('text-block')}>
+              <p><StatusIkon status="feil"/><FormattedHTMLMessage tagName="strong" id="psg.bad" /></p>
+              <FormattedHTMLMessage tagName="span" id="psg.icon.label.horizontal" />
+            </div>
+          </div>
+          <div className={bem.element('cell')}>
+            <ScanningIcon status="shadow" size={svgIconSize} />
+            <div className={bem.element('text-block')}>
+              <p><StatusIkon status="feil"/><FormattedHTMLMessage tagName="strong" id="psg.bad" /></p>
+              <FormattedHTMLMessage tagName="span" id="psg.icon.label.shadow" />
+            </div>
           </div>
         </div>
-        <div className={bem.element('cell')}>
-          <ScanningIcon status="keystone" size={svgIconSize} />
-          <div className={bem.element('text-block')}>
-            <p><StatusIkon status="feil"/><strong>Dårlig</strong></p>
-            <span>Bildet er ikke tatt overfra</span>
-          </div>
-        </div>
-        <div className={bem.element('cell')}>
-          <ScanningIcon status="horizontal" size={svgIconSize} />
-          <div className={bem.element('text-block')}>
-            <p><StatusIkon status="feil"/><strong>Dårlig</strong></p>
-            <span>Bildet har ikke riktig retning</span>
-          </div>
-        </div>
-        <div className={bem.element('cell')}>
-          <ScanningIcon status="shadow" size={svgIconSize} />
-          <div className={bem.element('text-block')}>
-            <p><StatusIkon status="feil"/><strong>Dårlig</strong></p>
-            <span>Bildet har skygge oppå legeerkæring</span>
-          </div>
-        </div>
+        <Lenkepanel tittelProps="normaltekst" target="_blank" href={intlHelper(intl, 'psg.lenkepanel.url')}><FormattedMessage id="psg.lenkepanel.text" /></Lenkepanel>
       </div>
-      <Lenkepanel tittelProps="normaltekst" target="_blank" href="https://www.nav.no/no/nav-og-samfunn/kontakt-nav/relatert-informasjon/ta-bilde-av-vedleggene-med-mobilen">Mer hjelp til opplasting av vedlegg (åpnes i et nytt vindu).</Lenkepanel>
-    </div>
+      </>
   );
 };
 export default injectIntl(PictureScanningGuide);

@@ -1,4 +1,16 @@
 {
-  "picturescanningguide.good": "<strong>Bra</strong>",
-  "picturescanningguide.bad": "<strong>Dårlig</strong>"
+  "psg.innholdstittel": "Ta bilde av legeerklæringen og last opp",
+  "psg.section1.tittel": "Slik tar du et godt bilde:",
+  "psg.section1.liste": "<li>Hold mobilen eller kameraet direkte over dokumentet.</li><li>Legeerklæringen skal fylle hele bildet. Bildet skal ikke <i>ikke</i> inneholde annen dokumentasjon eller gjenstander.</li><li>Bildet må inneholde all tekst i legeerkaring. Hvis legeerklæringen er skrevet på mer enn én side, bør du last opp flere bilder. Du kan ikke laste opp mer enn 3 bilder.</li>",
+  "psg.section2.tittel": "Etter at du har tatt bildet, sjekk følgende før du laster opp:",
+  "psg.section2.liste": "<li>Legeerklæringen har riktig retting.</li><li>Teksten til legeerklæringen er godt leselig.</li><li>Bildet er godt opplyst, uten skygger.</li>",
+  "psg.icon.heading": "Bra og dårlige eksempler på bilder av legeerklæring",
+  "psg.good": "Bra",
+  "psg.bad": "Dårlig",
+  "psg.icon.label.good": "Legeerklæringen fyller hele bildet",
+  "psg.icon.label.keystone": "Bildet er ikke tatt overfra",
+  "psg.icon.label.horizontal": "Bildet har ikke riktig retning",
+  "psg.icon.label.shadow": "Bildet har skygge oppå legeerkæring",
+  "psg.lenkepanel.url": "https://www.nav.no/no/nav-og-samfunn/kontakt-nav/relatert-informasjon/ta-bilde-av-vedleggene-med-mobilen",
+  "psg.lenkepanel.text": "Mer hjelp til opplasting av vedlegg (åpnes i et nytt vindu)."
 }

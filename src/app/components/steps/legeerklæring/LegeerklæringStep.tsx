@@ -49,16 +49,11 @@ const LegeerklæringStep = ({history, intl, nextStepRoute, formikProps, ...stepP
         <>
           <Box padBottom="xl">
             <CounsellorPanel>
-              <p>
-                <FormattedHTMLMessage id="steg.lege.intro.1.html"/>
-              </p>
-              <p>
-                <FormattedHTMLMessage id="steg.lege.intro.2.html"/>
-              </p>
+              <p><FormattedHTMLMessage id="steg.lege.intro.1.html"/></p>
+              <p><FormattedHTMLMessage id="steg.lege.intro.2.html"/></p>
             </CounsellorPanel>
           </Box>
           <HelperTextPanel>
-            <FormattedHTMLMessage tagName="div" id="steg.lege.info.html"/>
             <PictureScanningGuide />
           </HelperTextPanel>
           <Box margin="l">
