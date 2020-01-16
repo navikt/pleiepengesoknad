@@ -38,7 +38,7 @@ export enum AppFormField {
     barnetHarIkkeFåttFødselsnummerEnda = 'barnetHarIkkeFåttFødselsnummerEnda',
     barnetsNavn = 'barnetsNavn',
     barnetsFødselsnummer = 'barnetsFødselsnummer',
-    barnetsForeløpigeFødselsnummerEllerDNummer = 'barnetsForeløpigeFødselsnummerEllerDNummer',
+    barnetsFødselsdato = 'barnetsFødselsdato',
     barnetSøknadenGjelder = 'barnetSøknadenGjelder',
     søkersRelasjonTilBarnet = 'søkersRelasjonTilBarnet',
     søknadenGjelderEtAnnetBarn = 'søknadenGjelderEtAnnetBarn',
@@ -96,14 +96,14 @@ export interface PleiepengesøknadFormData {
     [AppFormField.barnetsNavn]: string;
     [AppFormField.barnetsFødselsnummer]: string;
     [AppFormField.søkersRelasjonTilBarnet]: string;
+    [AppFormField.barnetsFødselsdato]?: Date;
     [AppFormField.søknadenGjelderEtAnnetBarn]: boolean;
     [AppFormField.barnetSøknadenGjelder]: string;
+    [AppFormField.barnetHarIkkeFåttFødselsnummerEnda]: boolean;
     [AppFormField.arbeidsforhold]: Arbeidsforhold[];
     [AppFormField.periodeFra]?: Date;
     [AppFormField.periodeTil]?: Date;
     [AppFormField.legeerklæring]: Attachment[];
-    [AppFormField.barnetHarIkkeFåttFødselsnummerEnda]: boolean;
-    [AppFormField.barnetsForeløpigeFødselsnummerEllerDNummer]: string;
     [AppFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo;
     [AppFormField.utenlandsoppholdSiste12Mnd]: Utenlandsopphold[];
     [AppFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo;
@@ -132,7 +132,7 @@ export const initialValues: PleiepengesøknadFormData = {
     [AppFormField.legeerklæring]: [],
     [AppFormField.arbeidsforhold]: [],
     [AppFormField.barnetHarIkkeFåttFødselsnummerEnda]: false,
-    [AppFormField.barnetsForeløpigeFødselsnummerEllerDNummer]: '',
+    [AppFormField.barnetsFødselsdato]: undefined,
     [AppFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,
     [AppFormField.utenlandsoppholdSiste12Mnd]: [],
     [AppFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.UNANSWERED,

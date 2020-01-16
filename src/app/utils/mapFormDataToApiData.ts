@@ -32,7 +32,7 @@ export const mapFormDataToApiData = (
     {
         barnetsNavn,
         barnetsFødselsnummer,
-        barnetsForeløpigeFødselsnummerEllerDNummer,
+        barnetsFødselsdato,
         barnetSøknadenGjelder,
         harBekreftetOpplysninger,
         harForståttRettigheterOgPlikter,
@@ -58,7 +58,12 @@ export const mapFormDataToApiData = (
     barn: BarnReceivedFromApi[],
     sprak: Locale
 ): PleiepengesøknadApiData => {
-    const barnObject: BarnToSendToApi = { navn: null, fodselsnummer: null, alternativ_id: null, aktoer_id: null };
+    const barnObject: BarnToSendToApi = {
+        navn: null,
+        fodselsnummer: null,
+        aktoer_id: null,
+        fodselsdato: null
+    };
     if (barnetSøknadenGjelder) {
         const barnChosenFromList = barn.find((currentBarn) => currentBarn.aktoer_id === barnetSøknadenGjelder);
         const { fornavn, etternavn, mellomnavn, aktoer_id } = barnChosenFromList!;
@@ -68,8 +73,8 @@ export const mapFormDataToApiData = (
         barnObject.navn = barnetsNavn && barnetsNavn !== '' ? barnetsNavn : null;
         if (barnetsFødselsnummer) {
             barnObject.fodselsnummer = barnetsFødselsnummer;
-        } else if (barnetsForeløpigeFødselsnummerEllerDNummer) {
-            barnObject.alternativ_id = barnetsForeløpigeFødselsnummerEllerDNummer;
+        } else if (barnetsFødselsdato) {
+            barnObject.fodselsdato = formatDateToApiFormat(barnetsFødselsdato);
         }
     }
 

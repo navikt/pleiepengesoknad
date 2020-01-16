@@ -6,7 +6,8 @@ import {
     dateRangesExceedsRange,
     date1YearAgo,
     date1YearFromNow,
-    DateRange
+    DateRange,
+    dateToday
 } from 'common/utils/dateUtils';
 import { attachmentHasBeenUploaded } from 'common/utils/attachmentUtils';
 import { timeToDecimalTime } from 'common/utils/timeUtils';
@@ -23,7 +24,7 @@ export enum FieldValidationErrors {
     'påkrevd' = 'fieldvalidation.påkrevd',
     'fødselsnummer_11siffer' = 'fieldvalidation.fødselsnummer.11siffer',
     'fødselsnummer_ugyldig' = 'fieldvalidation.fødselsnummer.ugyldig',
-    'foreløpigFødselsnummer_ugyldig' = 'fieldvalidation.foreløpigFødselsnummer.ugyldig',
+    'fødselsdato_ugyldig' = 'fieldvalidation.fødelsdato.ugyldig',
     'navn_maksAntallTegn' = 'fieldvalidation.navn.maksAntallTegn',
     'relasjon_maksAntallTegn' = 'fieldvalidation.relasjon.maksAntallTegn',
     'fradato_merEnnTreÅr' = 'fieldvalidation.fradato.merEnnTreÅr',
@@ -63,14 +64,12 @@ export const validateFødselsnummer = (v: string): FieldValidationResult => {
     }
 };
 
-export const validateForeløpigFødselsnummer = (v: string): FieldValidationResult => {
-    if (!hasValue(v)) {
+export const validateFødselsdato = (date: Date): FieldValidationResult => {
+    if (!hasValue(date)) {
         return undefined;
     }
-
-    const elevenDigits = new RegExp('^\\d{11}$');
-    if (!elevenDigits.test(v)) {
-        return fieldValidationError(FieldValidationErrors.foreløpigFødselsnummer_ugyldig);
+    if (moment(date).isAfter(dateToday)) {
+        return fieldValidationError(FieldValidationErrors.fødselsdato_ugyldig);
     }
     return undefined;
 };
@@ -213,6 +212,7 @@ export const validateUtenlandsoppholdNeste12Mnd = (utenlandsopphold: Utenlandsop
     }
     return undefined;
 };
+
 export const validateUtenlandsoppholdIPerioden = (
     periode: DateRange,
     utenlandsopphold: Utenlandsopphold[]
