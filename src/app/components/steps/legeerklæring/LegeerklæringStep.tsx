@@ -17,7 +17,6 @@ import {appIsRunningInDemoMode} from '../../../utils/envUtils';
 import {CustomFormikProps} from '../../../types/FormikProps';
 import HelperTextPanel from 'common/components/helper-text-panel/HelperTextPanel';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import CollapsableTextBlock from "../../../../common/components/collapsable-text-block/CollapsableTextblock";
 import PictureScanningGuide from '../../../../common/components/picture-scanning-guide/PictureScanningGuide';
 
 type Props = { formikProps: CustomFormikProps } & CommonStepFormikProps &
@@ -60,10 +59,7 @@ const LegeerklæringStep = ({history, intl, nextStepRoute, formikProps, ...stepP
           </Box>
           <HelperTextPanel>
             <FormattedHTMLMessage tagName="div" id="steg.lege.info.html"/>
-
-            <CollapsableTextBlock title={intlHelper(intl, "steg.lege.collapsable.tittel")}>
-              <PictureScanningGuide />
-            </CollapsableTextBlock>
+            <PictureScanningGuide />
           </HelperTextPanel>
           <Box margin="l">
             <FormikFileUploader

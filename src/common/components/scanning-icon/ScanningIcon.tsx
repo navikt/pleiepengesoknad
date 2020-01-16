@@ -13,7 +13,7 @@ type Props = OwnProps;
 const GoodScanning: React.StatelessComponent<Props> = (props) => {
   return (
     <svg role="presentation" focusable="false" viewBox="0 0 83 121" width={props.size} height={props.size}>
-      <title>{"1_bra"}</title>
+      <title>bra-scan-1</title>
       <defs>
         <filter
           x="-10.6%"
@@ -21,7 +21,7 @@ const GoodScanning: React.StatelessComponent<Props> = (props) => {
           width="121.2%"
           height="115.1%"
           filterUnits="objectBoundingBox"
-          id="prefix__a"
+          id="good_1__a"
         >
           <feOffset dy={2} in="SourceAlpha" result="shadowOffsetOuter1" />
           <feGaussianBlur
@@ -34,7 +34,7 @@ const GoodScanning: React.StatelessComponent<Props> = (props) => {
             in="shadowBlurOuter1"
           />
         </filter>
-        <path id="prefix__b" d="M8 11h66v93H8z" />
+        <path id="good_1__b" d="M8 11h66v93H8z" />
       </defs>
       <g fill="none" fillRule="evenodd">
         <path
@@ -44,8 +44,8 @@ const GoodScanning: React.StatelessComponent<Props> = (props) => {
           strokeOpacity={0.85}
           strokeWidth={2}
         />
-        <use fill="#000" filter="url(#prefix__a)" xlinkHref="#prefix__b" />
-        <use fill="#FFF" xlinkHref="#prefix__b" />
+        <use fill="#000" filter="url(#good_1__a)" xlinkHref="#good_1__b" />
+        <use fill="#FFF" xlinkHref="#good_1__b" />
         <g stroke="#B7B4B4" strokeLinecap="square" strokeWidth={2}>
           <path d="M15.5 30.5h53M15.5 44.5h50M15.5 23.5h45M15.5 37.5h43" />
         </g>
@@ -68,7 +68,7 @@ const KeystoneScanning: React.StatelessComponent<Props> = (props) => {
           width="119.4%"
           height="120.3%"
           filterUnits="objectBoundingBox"
-          id="prefix__a"
+          id="keystone_2__a"
         >
           <feOffset dy={2} in="SourceAlpha" result="shadowOffsetOuter1" />
           <feGaussianBlur
@@ -81,7 +81,7 @@ const KeystoneScanning: React.StatelessComponent<Props> = (props) => {
             in="shadowBlurOuter1"
           />
         </filter>
-        <path id="prefix__b" d="M16.528 20h49.06L78 89H6z" />
+        <path id="keystone_2__b" d="M16.528 20h49.06L78 89H6z" />
       </defs>
       <g fill="none" fillRule="evenodd">
         <path
@@ -91,8 +91,8 @@ const KeystoneScanning: React.StatelessComponent<Props> = (props) => {
           strokeOpacity={0.85}
           strokeWidth={2}
         />
-        <use fill="#000" filter="url(#prefix__a)" xlinkHref="#prefix__b" />
-        <use fill="#FFF" xlinkHref="#prefix__b" />
+        <use fill="#000" filter="url(#keystone_2__a)" xlinkHref="#keystone_2__b" />
+        <use fill="#FFF" xlinkHref="#keystone_2__b" />
         <g stroke="#B7B4B4" strokeLinecap="square" strokeWidth={2}>
           <path d="M20 41.5h37M21 35.5h39M22 29.5h36M19 47.5h43" />
         </g>
@@ -110,12 +110,12 @@ return (
     <desc>Bildet har ikke riktig retning</desc>
     <defs>
       <filter
-        x="-10%"
-        y="-10.6%"
-        width="120%"
-        height="129.8%"
+        x="-10.6%"
+        y="-11.1%"
+        width="121.2%"
+        height="131.1%"
         filterUnits="objectBoundingBox"
-        id="prefix__a"
+        id="horizontal_3__a"
       >
         <feOffset dy={2} in="SourceAlpha" result="shadowOffsetOuter1" />
         <feGaussianBlur
@@ -128,27 +128,24 @@ return (
           in="shadowBlurOuter1"
         />
       </filter>
-      <path id="prefix__b" d="M6 36h70v47H6z" />
+      <path id="horizontal_3__b" d="M8 36h66v45H8z" />
     </defs>
     <g fill="none" fillRule="evenodd">
       <path
-        strokeOpacity={0.85}
-        stroke="#000"
-        strokeWidth={2}
-        fill="#BABABA"
         d="M1 1h81v119H1z"
+        fill="#BABABA"
+        stroke="#000"
+        strokeOpacity={0.85}
+        strokeWidth={2}
       />
-      <path fill="#FFF" d="M7 37h70v47H7z" />
-      <g transform="translate(1 1)">
-        <use fill="#000" filter="url(#prefix__a)" xlinkHref="#prefix__b" />
-        <use fill="#FFF" xlinkHref="#prefix__b" />
-      </g>
-      <g stroke="#B7B4B4" strokeLinecap="square" strokeWidth={2}>
-        <path d="M69 43v30M63 42.833v35.334M56 43v30M49.5 43v33" />
-      </g>
-      <g stroke="#B7B4B4" strokeLinecap="square" strokeWidth={2}>
-        <path d="M38 43v30M25 42.833v35.334M18.5 43v33M32 43v30" />
-      </g>
+      <use fill="#000" filter="url(#horizontal_3__a)" xlinkHref="#horizontal_3__b" />
+      <use fill="#FFF" xlinkHref="#horizontal_3__b" />
+      <path
+        stroke="#B7B4B4"
+        strokeWidth={2}
+        strokeLinecap="square"
+        d="M35 44v28M30 44v22M25 44v19M20 44v24M52 44v24M57 44v30M47 44v27M62 44v26"
+      />
     </g>
   </svg>
 );
@@ -165,7 +162,7 @@ const ShadowScanning: React.StatelessComponent<Props> = (props) => {
           width="120%"
           height="114.6%"
           filterUnits="objectBoundingBox"
-          id="prefix__a"
+          id="shadow_4__a"
         >
           <feOffset dy={2} in="SourceAlpha" result="shadowOffsetOuter1" />
           <feGaussianBlur
@@ -178,7 +175,7 @@ const ShadowScanning: React.StatelessComponent<Props> = (props) => {
             in="shadowBlurOuter1"
           />
         </filter>
-        <path id="prefix__b" d="M6 12h70v96H6z" />
+        <path id="shadow_4__b" d="M6 12h70v96H6z" />
       </defs>
       <g fill="none" fillRule="evenodd">
         <path
@@ -189,8 +186,8 @@ const ShadowScanning: React.StatelessComponent<Props> = (props) => {
           d="M1 1h81v119H1z"
         />
         <g transform="translate(1 1)">
-          <use fill="#000" filter="url(#prefix__a)" xlinkHref="#prefix__b" />
-          <use fill="#FFF" xlinkHref="#prefix__b" />
+          <use fill="#000" filter="url(#shadow_4__a)" xlinkHref="#shadow_4__b" />
+          <use fill="#FFF" xlinkHref="#shadow_4__b" />
         </g>
         <g stroke="#B7B4B4" strokeLinecap="square" strokeWidth={2}>
           <path d="M15.5 30.5h53M15.5 44.5h50M15.5 23.5h45M15.5 37.5h43" />
