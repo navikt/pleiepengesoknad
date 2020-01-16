@@ -6,6 +6,7 @@ import {
     dateRangesExceedsRange,
     date1YearAgo,
     date1YearFromNow,
+    DateRange,
     dateToday
 } from 'common/utils/dateUtils';
 import { attachmentHasBeenUploaded } from 'common/utils/attachmentUtils';
@@ -207,6 +208,23 @@ export const validateUtenlandsoppholdNeste12Mnd = (utenlandsopphold: Utenlandsop
         return fieldValidationError(FieldValidationErrors.utenlandsopphold_overlapper);
     }
     if (dateRangesExceedsRange(dateRanges, { from: new Date(), to: date1YearFromNow })) {
+        return fieldValidationError(FieldValidationErrors.utenlandsopphold_utenfor_periode);
+    }
+    return undefined;
+};
+
+export const validateUtenlandsoppholdIPerioden = (
+    periode: DateRange,
+    utenlandsopphold: Utenlandsopphold[]
+): FieldValidationResult => {
+    if (utenlandsopphold.length === 0) {
+        return fieldValidationError(FieldValidationErrors.utenlandsopphold_ikke_registrert);
+    }
+    const dateRanges = utenlandsopphold.map((u) => ({ from: u.fromDate, to: u.toDate }));
+    if (dateRangesCollide(dateRanges)) {
+        return fieldValidationError(FieldValidationErrors.utenlandsopphold_overlapper);
+    }
+    if (dateRangesExceedsRange(dateRanges, periode)) {
         return fieldValidationError(FieldValidationErrors.utenlandsopphold_utenfor_periode);
     }
     return undefined;

@@ -82,6 +82,7 @@ const formDataMock: Partial<PleiepengesøknadFormData> = {
     [AppFormField.utenlandsoppholdNeste12Mnd]: [],
     [AppFormField.utenlandsoppholdSiste12Mnd]: [],
     [AppFormField.periodeFra]: todaysDate,
+    [AppFormField.utenlandsoppholdIPerioden]: [],
     [AppFormField.periodeTil]: moment(todaysDate)
         .add(1, 'day')
         .toDate(),
@@ -126,6 +127,8 @@ const completeFormDataMock: PleiepengesøknadFormData = {
     harBoddUtenforNorgeSiste12Mnd: YesOrNo.YES,
     skalBoUtenforNorgeNeste12Mnd: YesOrNo.YES,
     søknadenGjelderEtAnnetBarn: false,
+    skalOppholdeSegIUtlandetIPerioden: YesOrNo.NO,
+    utenlandsoppholdIPerioden: [],
     periodeFra: dateUtils.apiStringDateToDate('2020-01-01'),
     periodeTil: dateUtils.apiStringDateToDate('2020-02-01'),
     tilsynsordning: {
@@ -365,6 +368,10 @@ describe('mapFormDataToApiData', () => {
                         til_og_med: '2020-04-01'
                     }
                 ]
+            },
+            utenlandsopphold_i_perioden: {
+                skal_oppholde_seg_i_i_utlandet_i_perioden: false,
+                opphold: []
             },
             fra_og_med: '2020-01-01',
             til_og_med: '2020-02-01',

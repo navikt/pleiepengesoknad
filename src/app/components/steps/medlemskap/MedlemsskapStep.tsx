@@ -31,6 +31,7 @@ type Props = CommonStepFormikProps & HistoryProps & InjectedIntlProps & StepConf
 const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, intl, nextStepRoute, ...stepProps }) => {
     const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
     const { formValues } = stepProps;
+
     return (
         <FormikStep id={StepID.MEDLEMSKAP} onValidFormSubmit={navigate} history={history} {...stepProps}>
             <Box padBottom="xxl">
@@ -62,7 +63,10 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, intl, nextSt
                                 return (
                                     <UtenlandsoppholdInput
                                         labels={{
-                                            tittel: intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.listeTittel')
+                                            listeTittel: intlHelper(
+                                                intl,
+                                                'steg.medlemsskap.annetLandSiste12.listeTittel'
+                                            )
                                         }}
                                         utenlandsopphold={field.value}
                                         tidsrom={{ from: date1YearAgo, to: dateToday }}
@@ -97,7 +101,10 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, intl, nextSt
                                 return (
                                     <UtenlandsoppholdInput
                                         labels={{
-                                            tittel: intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.listeTittel')
+                                            listeTittel: intlHelper(
+                                                intl,
+                                                'steg.medlemsskap.annetLandSiste12.listeTittel'
+                                            )
                                         }}
                                         utenlandsopphold={field.value}
                                         tidsrom={{ from: dateToday, to: date1YearFromNow }}

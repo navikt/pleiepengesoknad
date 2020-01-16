@@ -4,7 +4,7 @@ import { Utenlandsopphold } from './types';
 import Box from '../../components/box/Box';
 import { Knapp } from 'nav-frontend-knapper';
 import Modal from '../../components/modal/Modal';
-import UtenlandsoppholdForm from './UtenlandsoppholdForm';
+import UtenlandsoppholdForm, { UtenlandsoppholdFormLabels } from './UtenlandsoppholdForm';
 import { DateRange } from '../../utils/dateUtils';
 import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
 import moment from 'moment';
@@ -12,18 +12,20 @@ import { guid } from 'nav-frontend-js-utils';
 import bemUtils from '../../utils/bemUtils';
 import { SkjemaelementFeil } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
 import UtenlandsoppholdListe from './UtenlandsoppholdListe';
+import intlHelper from 'common/utils/intlUtils';
 
 import './utenlandsoppholdListe.less';
-import intlHelper from 'common/utils/intlUtils';
 
 interface Props {
     labels: {
-        tittel: string;
+        listeTittel: string;
         helpertext?: string;
+        formLabels?: Partial<UtenlandsoppholdFormLabels>;
     };
     tidsrom: DateRange;
     feil?: SkjemaelementFeil;
     utenlandsopphold: Utenlandsopphold[];
+    spørOmÅrsakVedOppholdIEØSLand?: boolean;
     onChange: (utenlandsopphold: Utenlandsopphold[]) => void;
 }
 
@@ -36,11 +38,12 @@ const sortUtenlandsopphold = (u1: Utenlandsopphold, u2: Utenlandsopphold): numbe
     return 1;
 };
 
-const UtenlandsoppholdMain: React.FunctionComponent<Props & InjectedIntlProps> = ({
+const UtenlandsoppholdInput: React.FunctionComponent<Props & InjectedIntlProps> = ({
     labels,
     utenlandsopphold,
     onChange,
     tidsrom,
+    spørOmÅrsakVedOppholdIEØSLand,
     feil,
     intl
 }) => {
@@ -69,6 +72,8 @@ const UtenlandsoppholdMain: React.FunctionComponent<Props & InjectedIntlProps> =
         setModalState({ isVisible: false, utenlandsopphold: undefined });
     };
 
+    const sortedUtenlandsoppholdList = [...utenlandsopphold].sort(sortUtenlandsopphold);
+
     return (
         <div className={bem.block}>
             <Modal
@@ -76,16 +81,18 @@ const UtenlandsoppholdMain: React.FunctionComponent<Props & InjectedIntlProps> =
                 contentLabel={intlHelper(intl, 'utenlandsopphold.modal.title')}
                 onRequestClose={resetModal}>
                 <UtenlandsoppholdForm
+                    labels={labels.formLabels}
                     minDate={tidsrom.from}
                     maxDate={tidsrom.to}
                     onCancel={resetModal}
                     onSubmit={handleOnSubmit}
                     values={modalState.utenlandsopphold}
+                    reasonNeeded={spørOmÅrsakVedOppholdIEØSLand}
                 />
             </Modal>
-            <FieldsetBase legend={labels.tittel} helperText={labels.helpertext} feil={feil}>
+            <FieldsetBase legend={labels.listeTittel} helperText={labels.helpertext} feil={feil}>
                 <UtenlandsoppholdListe
-                    utenlandsopphold={utenlandsopphold}
+                    utenlandsopphold={sortedUtenlandsoppholdList}
                     onDelete={handleDeleteUtenlandsopphold}
                     onEdit={handleEditUtenlandsopphold}
                 />
@@ -99,4 +106,4 @@ const UtenlandsoppholdMain: React.FunctionComponent<Props & InjectedIntlProps> =
     );
 };
 
-export default injectIntl(UtenlandsoppholdMain);
+export default injectIntl(UtenlandsoppholdInput);

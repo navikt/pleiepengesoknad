@@ -26,6 +26,7 @@ import { timeToIso8601Duration } from 'common/utils/timeUtils';
 import { calcRedusertProsentFromRedusertTimer } from './arbeidsforholdUtils';
 import { getCountryName } from 'common/components/country-select/CountrySelect';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
+import { isNotMemberOfEEC } from 'common/utils/eecUtils';
 
 export const mapFormDataToApiData = (
     {
@@ -50,7 +51,9 @@ export const mapFormDataToApiData = (
         harBeredskap,
         harBeredskap_ekstrainfo,
         harNattevåk,
-        harNattevåk_ekstrainfo
+        harNattevåk_ekstrainfo,
+        skalOppholdeSegIUtlandetIPerioden,
+        utenlandsoppholdIPerioden
     }: PleiepengesøknadFormData,
     barn: BarnReceivedFromApi[],
     sprak: Locale
@@ -96,6 +99,17 @@ export const mapFormDataToApiData = (
                 skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES
                     ? utenlandsoppholdNeste12Mnd.map((o) => mapUtenlandsoppholdTilApiData(o, sprak))
                     : []
+        },
+        utenlandsopphold_i_perioden: {
+            skal_oppholde_seg_i_i_utlandet_i_perioden: skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES,
+            opphold: utenlandsoppholdIPerioden.map((o) => {
+                const erUtenforEØS: boolean = isNotMemberOfEEC(o.countryCode);
+                return {
+                    ...mapUtenlandsoppholdTilApiData(o, sprak),
+                    er_utenfor_eos: erUtenforEØS,
+                    arsak: erUtenforEØS ? o.reason : null
+                };
+            })
         },
         fra_og_med: formatDateToApiFormat(periodeFra!),
         til_og_med: formatDateToApiFormat(periodeTil!),

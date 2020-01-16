@@ -185,6 +185,10 @@
     "steg.medlemsskap.annetLandSiste12.listeTittel": "Utenlandsopphold siste 12 måneder",
     "steg.medlemsskap.annetLandNeste12.hjelp": "Du svarer ja bare hvis du planlegger å oppholde deg fast i et annet land enn Norge. Korte utlandsturer i forbindelse med for eksempel ferie regnes ikke med.",
     "steg.medlemsskap.annetLandNeste12.listeTittel": "Utenlandsopphold neste 12 måneder",
+    "steg.medlemsskap.iUtlandetIPerioden.listeTittel": "Utenlandsopphold i perioden du søker for",
+    "steg.medlemsskap.iUtlandetIPerioden.eøs.årsak.hjelp": "Dette trenger vi fordi ...",
+    "steg.medlemsskap.iUtlandetIPerioden.spm": "Skal du reise til utlandet i perioden du søker for?",
+    "steg.medlemsskap.iUtlandetIPerioden.eøs.årsak.spm": "Hva er formålet med denne reisen?",
 
     "steg.lege.info.html": "<p>Ta bilde av leggerklæringen og last opp. Hvis legen har skrevet erklæringen i papirsøknaden, ta bilde av feltene som legen har fylt ut om barnet.</p><p>Vær nøye med at <strong>all tekst</strong> på bildet er med, og at bildet er leselig.</p>",
     "steg.lege.vedlegg": "Last opp bilde av legeerklæringen (maks 3 bilder)",
@@ -238,7 +242,6 @@
     "steg.arbeidsforhold.aktivtArbeidsforhold.info.html": "<p>For å ha rett til pleiepenger må du ha minst 20 prosent inntektstap mens du pleier barnet ditt. Dagpenger, sykepenger, foreldrepenger, pleiepenger og opplæringspenger regnes også som inntekt.</p><p>Vi har funnet disse arbeidsforholdene registrert på deg.</p>",
     "steg.arbeidsforhold.ingenOpplysninger": "Vi har ikke noen opplysninger om arbeidsgiver.",
     "steg.arbeidsforhold.manglesOpplysninger": "Mangler det en arbeidsgiver her? Be arbeidsgiveren din sende ny A-melding, enten via lønns- og personalsystemet eller gjennom Altinn.",
-    "steg.arbeidsforhold.gradert.manglesOpplysninger": "Er det feil eller mangler i informasjonen om dine arbeidsforhold? Da må du be din arbeidsgiver oppdatere med riktig informasjon i Arbeidsgiver- og arbeidstakerregisteret.",
 
     "page.confirmation.sidetittel": "Vi har mottatt søknaden din",
     "page.confirmation.tittel": "Vi har mottatt søknad fra deg om pleiepenger",
@@ -286,6 +289,7 @@
     "fieldvalidation.utenlandsopphold_utenfor_periode": "Ett eller flere av utenlandsoppholdene er utenfor tillatt tidsrom",
 
     "arbeidsforhold.erAnsattIPerioden.spm": "Er du ansatt her i perioden du søker pleiepenger?",
+
     "arbeidsforhold.arbeidsforhold.spm": "Skal du jobbe her mens du har pleiepenger?",
     "arbeidsforhold.arbeidsforhold.ja": "Ja, jeg skal jobbe som vanlig",
     "arbeidsforhold.arbeidsforhold.nei": "Nei, jeg skal ikke jobbe",
