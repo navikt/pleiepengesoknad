@@ -3,4 +3,5 @@ export interface Utenlandsopphold {
     fromDate: Date;
     toDate: Date;
     countryCode: string;
+    reason?: string;
 }

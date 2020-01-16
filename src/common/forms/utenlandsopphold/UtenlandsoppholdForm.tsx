@@ -10,14 +10,21 @@ import { Systemtittel } from 'nav-frontend-typografi';
 import Box from 'common/components/box/Box';
 import validation from './utenlandsoppholdFormValidation';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
+import { isMemberOfEEC } from 'common/utils/eecUtils';
+import AlertStripe from 'nav-frontend-alertstriper';
+import TextareaBase from 'common/form-components/textarea-base/TextareaBase';
+import { hasValue } from 'app/validation/fieldValidations';
 
 import './utenlandsoppholdForm.less';
 
-interface FormLabels {
+export interface UtenlandsoppholdFormLabels {
     title: string;
     fromDate: string;
     toDate: string;
     country: string;
+    eøsInfo?: string;
+    reasonLabel?: string;
+    reasonHelperText?: string;
     okButton: string;
     cancelButton: string;
 }
@@ -26,35 +33,45 @@ interface Props {
     minDate: Date;
     maxDate: Date;
     values?: Utenlandsopphold;
-    labels?: FormLabels;
+    labels?: Partial<UtenlandsoppholdFormLabels>;
+    reasonNeeded?: boolean;
     onSubmit: (values: Utenlandsopphold) => void;
     onCancel: () => void;
 }
 
-export enum UtenlandsoppholdFields {
+export enum UtenlandsoppholdFormFields {
     fromDate = 'fromDate',
     toDate = 'toDate',
-    countryCode = 'countryCode'
+    countryCode = 'countryCode',
+    reason = 'reason',
+    outsideEØS = 'outsideEØS'
 }
 
-const defaultLabels: FormLabels = {
+const defaultLabels: UtenlandsoppholdFormLabels = {
     title: 'Utenlandsopphold',
     fromDate: 'Fra og med',
     toDate: 'Til og med',
     country: 'Hvilket land',
+    reasonLabel: 'Hva er årsaken til denne reisen?',
     okButton: 'Ok',
     cancelButton: 'Avbryt'
 };
 
 const bem = bemUtils('utenlandsoppholdForm');
 
-const defaultFormValues: Partial<Utenlandsopphold> = {};
+const defaultFormValues: Partial<Utenlandsopphold> = {
+    fromDate: undefined,
+    toDate: undefined,
+    countryCode: undefined,
+    reason: undefined
+};
 
 const UtenlandsoppholdForm: React.FunctionComponent<Props & InjectedIntlProps> = ({
     intl,
     maxDate,
     minDate,
-    labels = defaultLabels,
+    reasonNeeded,
+    labels,
     values: initialValues = defaultFormValues,
     onSubmit,
     onCancel
@@ -62,116 +79,168 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props & InjectedIntlProps> =
     const [showErrors, setShowErrors] = useState(false);
 
     const onFormikSubmit = (formValues: Utenlandsopphold) => {
-        onSubmit(formValues);
+        const reason = isMemberOfEEC(formValues.countryCode) ? undefined : formValues.reason;
+        onSubmit({ ...formValues, reason });
     };
+
+    const formLabels: UtenlandsoppholdFormLabels = { ...defaultLabels, ...labels };
 
     return (
         <Formik initialValues={initialValues} onSubmit={onFormikSubmit} validateOnChange={true} validateOnMount={true}>
-            {({ handleSubmit, values, isValid, errors }) => (
-                <form onSubmit={handleSubmit} className={bem.block}>
-                    <div>
-                        <Box padBottom="l">
-                            <Systemtittel tag="h1">{labels.title}</Systemtittel>
-                        </Box>
-                        <div className={bem.element('datoer')}>
-                            <div className={bem.element('dato')}>
+            {({ handleSubmit, values, isValid, errors, ...rest }) => {
+                const showReasonField =
+                    reasonNeeded &&
+                    values.countryCode !== undefined &&
+                    hasValue(values.countryCode) &&
+                    !isMemberOfEEC(values.countryCode);
+                return (
+                    <form onSubmit={handleSubmit} className={bem.block}>
+                        <div>
+                            <Box padBottom="l">
+                                <Systemtittel tag="h1">{formLabels.title}</Systemtittel>
+                            </Box>
+
+                            <Box padBottom="l">
+                                <div className={bem.element('datoer')}>
+                                    <div className={bem.element('dato')}>
+                                        <Field
+                                            name={UtenlandsoppholdFormFields.fromDate}
+                                            validate={(date: Date) =>
+                                                validation.validateFromDate(date, minDate, maxDate, values.toDate)
+                                            }>
+                                            {({ field, form: { setFieldValue } }: FieldProps) => {
+                                                const errorMsgProps = showErrors
+                                                    ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                                                    : null;
+
+                                                return (
+                                                    <DatepickerBase
+                                                        id="utenlandsoppholdStart"
+                                                        value={field.value}
+                                                        name={field.name}
+                                                        label={formLabels.fromDate}
+                                                        onChange={(date) => {
+                                                            setFieldValue(field.name, date);
+                                                        }}
+                                                        {...errorMsgProps}
+                                                        dateLimitations={{
+                                                            minDato: minDate,
+                                                            maksDato: values.toDate || maxDate
+                                                        }}
+                                                    />
+                                                );
+                                            }}
+                                        </Field>
+                                    </div>
+                                    <div className={bem.element('dato')}>
+                                        <Field
+                                            name={UtenlandsoppholdFormFields.toDate}
+                                            validate={(date: Date) =>
+                                                validation.validateToDate(date, minDate, maxDate, values.fromDate)
+                                            }>
+                                            {({ field, form: { setFieldValue } }: FieldProps) => {
+                                                const errorMsgProps = showErrors
+                                                    ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                                                    : null;
+                                                return (
+                                                    <DatepickerBase
+                                                        id="utenlandsoppholdStop"
+                                                        value={field.value}
+                                                        name={field.name}
+                                                        label={formLabels.toDate}
+                                                        onChange={(date) => setFieldValue(field.name, date)}
+                                                        {...errorMsgProps}
+                                                        dateLimitations={{
+                                                            minDato: values.fromDate || minDate,
+                                                            maksDato: maxDate
+                                                        }}
+                                                    />
+                                                );
+                                            }}
+                                        </Field>
+                                    </div>
+                                </div>
+                            </Box>
+                            <Box padBottom="l">
                                 <Field
-                                    name={UtenlandsoppholdFields.fromDate}
-                                    validate={(date: Date) =>
-                                        validation.validateFromDate(date, minDate, maxDate, values.toDate)
-                                    }>
-                                    {({ field, form: { setFieldValue } }: FieldProps) => {
+                                    name={UtenlandsoppholdFormFields.countryCode}
+                                    validate={validation.validateCountry}>
+                                    {({ field, form: { setFieldValue, setFieldTouched } }: FieldProps) => {
                                         const errorMsgProps = showErrors
                                             ? getValidationErrorPropsWithIntl(intl, errors, field.name)
                                             : null;
-
                                         return (
-                                            <DatepickerBase
-                                                id="utenlandsoppholdStart"
-                                                value={field.value}
+                                            <CountrySelect
                                                 name={field.name}
-                                                label={labels.fromDate}
-                                                onChange={(date) => {
-                                                    setFieldValue(field.name, date);
+                                                label={formLabels.country}
+                                                defaultValue={field.value}
+                                                onChange={(country) => {
+                                                    setFieldValue(UtenlandsoppholdFormFields.countryCode, country);
+                                                    setTimeout(() => {
+                                                        // Needs to delay for formik to register
+                                                        // validation on the reason field. Bug I could
+                                                        // not find out if was ours or Formiks (Frode)
+                                                        setFieldTouched(UtenlandsoppholdFormFields.reason);
+                                                    }, 50);
                                                 }}
                                                 {...errorMsgProps}
-                                                dateLimitations={{
-                                                    minDato: minDate,
-                                                    maksDato: values.toDate || maxDate
-                                                }}
                                             />
                                         );
                                     }}
                                 </Field>
-                            </div>
-                            <div className={bem.element('dato')}>
-                                <Field
-                                    name={UtenlandsoppholdFields.toDate}
-                                    validate={(date: Date) =>
-                                        validation.validateToDate(date, minDate, maxDate, values.fromDate)
-                                    }>
-                                    {({ field, form: { setFieldValue } }: FieldProps) => {
-                                        const errorMsgProps = showErrors
-                                            ? getValidationErrorPropsWithIntl(intl, errors, field.name)
-                                            : null;
-                                        return (
-                                            <DatepickerBase
-                                                id="utenlandsoppholdStop"
-                                                value={field.value}
-                                                name={field.name}
-                                                label={labels.toDate}
-                                                onChange={(date) => setFieldValue(field.name, date)}
-                                                {...errorMsgProps}
-                                                dateLimitations={{
-                                                    minDato: values.fromDate || minDate,
-                                                    maksDato: maxDate
-                                                }}
-                                            />
-                                        );
-                                    }}
-                                </Field>
+                            </Box>
+                            {showReasonField && (
+                                <Box padBottom="m">
+                                    {formLabels.eøsInfo && (
+                                        <Box padBottom="l">
+                                            <AlertStripe type="info">{formLabels.eøsInfo}</AlertStripe>
+                                        </Box>
+                                    )}
+                                    <Field
+                                        name={UtenlandsoppholdFormFields.reason}
+                                        validateOnMount={true}
+                                        validate={validation.validateReason}>
+                                        {({ field, form: { setFieldValue } }: FieldProps) => {
+                                            const errorMsgProps = showErrors
+                                                ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                                                : null;
+                                            return (
+                                                <TextareaBase
+                                                    helperText={formLabels.reasonHelperText}
+                                                    name={field.name}
+                                                    label={formLabels.reasonLabel}
+                                                    value={field.value || ''}
+                                                    onChange={(evt) => {
+                                                        setFieldValue(field.name, evt.target.value);
+                                                    }}
+                                                    maxLength={250}
+                                                    {...errorMsgProps}
+                                                />
+                                            );
+                                        }}
+                                    </Field>
+                                </Box>
+                            )}
+                            <div className={bem.element('knapper')}>
+                                <Knapp
+                                    type="hoved"
+                                    htmlType="button"
+                                    onClick={() => {
+                                        setShowErrors(true);
+                                        if (isValid) {
+                                            onFormikSubmit(values as Utenlandsopphold);
+                                        }
+                                    }}>
+                                    {formLabels.okButton}
+                                </Knapp>
+                                <Knapp type="flat" htmlType="button" onClick={() => onCancel()}>
+                                    {formLabels.cancelButton}
+                                </Knapp>
                             </div>
                         </div>
-
-                        <Box padBottom="m">
-                            <Field name={UtenlandsoppholdFields.countryCode} validate={validation.validateCountry}>
-                                {({ field, form: { setFieldValue } }: FieldProps) => {
-                                    const errorMsgProps = showErrors
-                                        ? getValidationErrorPropsWithIntl(intl, errors, field.name)
-                                        : null;
-                                    return (
-                                        <CountrySelect
-                                            name={field.name}
-                                            label={labels.country}
-                                            defaultValue={field.value}
-                                            onChange={(country) =>
-                                                setFieldValue(UtenlandsoppholdFields.countryCode, country)
-                                            }
-                                            {...errorMsgProps}
-                                        />
-                                    );
-                                }}
-                            </Field>
-                        </Box>
-                        <div className={bem.element('knapper')}>
-                            <Knapp
-                                type="hoved"
-                                htmlType="button"
-                                onClick={() => {
-                                    setShowErrors(true);
-                                    if (isValid) {
-                                        onFormikSubmit(values as Utenlandsopphold);
-                                    }
-                                }}>
-                                {labels.okButton}
-                            </Knapp>
-                            <Knapp type="flat" htmlType="button" onClick={() => onCancel()}>
-                                {labels.cancelButton}
-                            </Knapp>
-                        </div>
-                    </div>
-                </form>
-            )}
+                    </form>
+                );
+            }}
         </Formik>
     );
 };

@@ -88,6 +88,13 @@ export interface UtenlandsoppholdApiData {
     landnavn: string;
 }
 
+export interface UtenlandsoppholdUtenforEØSApiData extends UtenlandsoppholdApiData {
+    er_utenfor_eos: true;
+    arsak: string;
+}
+
+export type UtenlandsoppholdIPeriodenApiData = UtenlandsoppholdApiData | UtenlandsoppholdUtenforEØSApiData;
+
 export interface PleiepengesøknadApiData {
     new_version: boolean;
     sprak: Locale;
@@ -98,6 +105,10 @@ export interface PleiepengesøknadApiData {
     arbeidsgivere: { organisasjoner: ArbeidsforholdApi[] };
     vedlegg: string[];
     medlemskap: Medlemskap;
+    utenlandsopphold_i_perioden: {
+        skal_oppholde_seg_i_i_utlandet_i_perioden: boolean;
+        opphold: UtenlandsoppholdIPeriodenApiData[];
+    };
     har_medsoker: boolean;
     samtidig_hjemme?: boolean;
     har_forstatt_rettigheter_og_plikter: boolean;

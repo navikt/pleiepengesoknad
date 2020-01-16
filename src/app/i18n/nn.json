@@ -185,6 +185,10 @@
     "steg.medlemsskap.annetLandNeste12.hjelp": "Du svarer ja berre dersom du planlegg å opphalde deg fast i eit anna land enn Noreg. Korte utanlandsturar i samband med for eksempel ferie blir ikkje rekna med..",
     "steg.medlemsskap.annetLandSiste12.listeTittel": "Utenlandsopphald siste 12 måneder",
     "steg.medlemsskap.annetLandNeste12.listeTittel": "Utenlandsopphald neste 12 måneder",
+    "steg.medlemsskap.iUtlandetIPerioden.spm": "Skal du reise til utlandet i perioden du søkjer for?",
+    "steg.medlemsskap.iUtlandetIPerioden.listeTittel": "Utenlandsopphald i perioden du søkjer for",
+    "steg.medlemsskap.iUtlandetIPerioden.eøs.årsak.hjelp": "Dette treng vi fordi ...",
+    "steg.medlemsskap.iUtlandetIPerioden.eøs.årsak.spm": "Kva er formålet med denne reisa?",
 
     "steg.lege.info.html": "<p>Ta bilete av legeerklæringa og last opp. Dersom legen har skrive erklæringa i papirsøknaden, ta bilete av felta som legen har fylt ut om barnet.</p><p>Ver nøye med at <strong>all tekst</strong> på biletet er med, og at biletet er leseleg.</p>",
     "steg.lege.vedlegg": "Last opp bilete av legeerklæringa (maks 3 bilete).",

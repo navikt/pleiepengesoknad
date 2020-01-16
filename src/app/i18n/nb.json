@@ -185,6 +185,10 @@
     "steg.medlemsskap.annetLandSiste12.listeTittel": "Utenlandsopphold siste 12 måneder",
     "steg.medlemsskap.annetLandNeste12.hjelp": "Du svarer ja bare hvis du planlegger å oppholde deg fast i et annet land enn Norge. Korte utlandsturer i forbindelse med for eksempel ferie regnes ikke med.",
     "steg.medlemsskap.annetLandNeste12.listeTittel": "Utenlandsopphold neste 12 måneder",
+    "steg.medlemsskap.iUtlandetIPerioden.listeTittel": "Utenlandsopphold i perioden du søker for",
+    "steg.medlemsskap.iUtlandetIPerioden.eøs.årsak.hjelp": "Dette trenger vi fordi ...",
+    "steg.medlemsskap.iUtlandetIPerioden.spm": "Skal du reise til utlandet i perioden du søker for?",
+    "steg.medlemsskap.iUtlandetIPerioden.eøs.årsak.spm": "Hva er formålet med denne reisen?",
 
     "steg.lege.info.html": "<p>Ta bilde av leggerklæringen og last opp. Hvis legen har skrevet erklæringen i papirsøknaden, ta bilde av feltene som legen har fylt ut om barnet.</p><p>Vær nøye med at <strong>all tekst</strong> på bildet er med, og at bildet er leselig.</p>",
     "steg.lege.vedlegg": "Last opp bilde av legeerklæringen (maks 3 bilder)",

@@ -5,5 +5,7 @@
     "utenlandsopphold.form.validation.dateOutsideRange": "Datoen er utenfor gyldig tidsrom",
     "utenlandsopphold.form.validation.fromDateAfterToDate": "Fra-dato må være lik eller før til-dato",
     "utenlandsopphold.form.validation.toDateBeforeFromDate": "Til-dato må være lik eller etter fra-dato",
-    "utenlandsopphold.form.validation.country.required": "Feltet er påkrevd"
+    "utenlandsopphold.form.validation.country.required": "Feltet er påkrevd",
+    "utenlandsopphold.form.validation.reasonOver250": "Feltet kan inneholde maks 250 tegn",
+    "utenlandsopphold.form.validation.reasonUnder5": "Feltet må inneholde minst 5 tegn"
 }
