@@ -1,9 +1,11 @@
 import * as React from 'react';
+import {injectIntl, FormattedHTMLMessage} from 'react-intl';
+import Lenkepanel from 'nav-frontend-lenkepanel/lib';
 import ScanningIcon from '../scanning-icon/ScanningIcon';
 import StatusIkon from '../status-icon/StatusIcon';
 import bemHelper from '../../utils/bemUtils';
+
 import './pictureScanningGuide.less';
-import Lenkepanel from "nav-frontend-lenkepanel/lib";
 
 const bem = bemHelper('pictureScanningGuide');
 
@@ -16,7 +18,7 @@ const PictureScanningGuide = () => {
         <div className={bem.element('cell')}>
           <ScanningIcon status="good" size={svgIconSize} />
           <div className={bem.element('text-block')}>
-            <p><StatusIkon status="suksess"/><strong>Bra</strong></p>
+            <p><StatusIkon status="suksess"/><FormattedHTMLMessage id="picturescanningguide.good" /></p>
             <span>Legeerklæringen fyller hele bildet</span>
           </div>
         </div>
@@ -42,8 +44,8 @@ const PictureScanningGuide = () => {
           </div>
         </div>
       </div>
-      <Lenkepanel tittelProps="normaltekst" href="https://www.nav.no/no/nav-og-samfunn/kontakt-nav/relatert-informasjon/ta-bilde-av-vedleggene-med-mobilen">Mer hjelp til opplasting av vedlegg.</Lenkepanel>
+      <Lenkepanel tittelProps="normaltekst" target="_blank" href="https://www.nav.no/no/nav-og-samfunn/kontakt-nav/relatert-informasjon/ta-bilde-av-vedleggene-med-mobilen">Mer hjelp til opplasting av vedlegg (åpnes i et nytt vindu).</Lenkepanel>
     </div>
   );
 };
-export default PictureScanningGuide;
+export default injectIntl(PictureScanningGuide);

@@ -13,8 +13,8 @@ const appNynorsktekster = require('../../i18n/nn.json');
 // Modultekster
 const utenlandsoppholdBokmål = require('../../../common/forms/utenlandsopphold/utenlandsopphold.nb.json');
 const utenlandsoppholdNynorsk = require('../../../common/forms/utenlandsopphold/utenlandsopphold.nn.json');
-
-const bokmålstekster = { ...appBokmålstekster, ...utenlandsoppholdBokmål };
+const pictureScanningGuideBokmål = require('../../../common/components/picture-scanning-guide/picturescanningguide.nb.json');
+const bokmålstekster = { ...appBokmålstekster, ...utenlandsoppholdBokmål, ...pictureScanningGuideBokmål };
 const nynorsktekster = { ...appNynorsktekster, ...utenlandsoppholdNynorsk };
 
 export interface IntlProviderProps {
