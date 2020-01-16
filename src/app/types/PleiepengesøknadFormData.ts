@@ -2,7 +2,7 @@ import { Arbeidsgiver } from './Søkerdata';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { Time } from 'common/types/Time';
 import { Attachment } from 'common/types/Attachment';
-import { Utenlandsopphold, UtenlandsoppholdIPerioden } from 'common/forms/utenlandsopphold/types';
+import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 
 export enum ArbeidsforholdSkalJobbeSvar {
     'ja' = 'ja',
@@ -109,7 +109,7 @@ export interface PleiepengesøknadFormData {
     [AppFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo;
     [AppFormField.utenlandsoppholdNeste12Mnd]: Utenlandsopphold[];
     [AppFormField.skalOppholdsSegIUtlandetIPerioden]: YesOrNo;
-    [AppFormField.utenlandsoppholdIPerioden]: UtenlandsoppholdIPerioden[];
+    [AppFormField.utenlandsoppholdIPerioden]: Utenlandsopphold[];
     [AppFormField.harMedsøker]: YesOrNo;
     [AppFormField.samtidigHjemme]: YesOrNo;
     [AppFormField.tilsynsordning]?: Tilsynsordning;

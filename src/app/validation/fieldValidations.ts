@@ -15,7 +15,7 @@ import { Tilsynsordning, Arbeidsforhold } from '../types/PleiepengesøknadFormDa
 import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
 import { Attachment } from 'common/types/Attachment';
 import { FieldValidationResult } from 'common/validation/types';
-import { Utenlandsopphold, UtenlandsoppholdIPerioden } from 'common/forms/utenlandsopphold/types';
+import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 
 const moment = require('moment');
 
@@ -215,7 +215,7 @@ export const validateUtenlandsoppholdNeste12Mnd = (utenlandsopphold: Utenlandsop
 };
 export const validateUtenlandsoppholdIPerioden = (
     periode: DateRange,
-    utenlandsopphold: UtenlandsoppholdIPerioden[]
+    utenlandsopphold: Utenlandsopphold[]
 ): FieldValidationResult => {
     if (utenlandsopphold.length === 0) {
         return fieldValidationError(FieldValidationErrors.utenlandsopphold_ikke_registrert);

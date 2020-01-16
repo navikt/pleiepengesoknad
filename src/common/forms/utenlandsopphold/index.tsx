@@ -43,7 +43,7 @@ const UtenlandsoppholdInput: React.FunctionComponent<Props & InjectedIntlProps> 
     utenlandsopphold,
     onChange,
     tidsrom,
-    spørOmÅrsakVedOppholdIEØSLand: spørOmÅrsakVedEøs,
+    spørOmÅrsakVedOppholdIEØSLand,
     feil,
     intl
 }) => {
@@ -72,6 +72,8 @@ const UtenlandsoppholdInput: React.FunctionComponent<Props & InjectedIntlProps> 
         setModalState({ isVisible: false, utenlandsopphold: undefined });
     };
 
+    const sortedUtenlandsoppholdList = [...utenlandsopphold].sort(sortUtenlandsopphold);
+
     return (
         <div className={bem.block}>
             <Modal
@@ -85,12 +87,12 @@ const UtenlandsoppholdInput: React.FunctionComponent<Props & InjectedIntlProps> 
                     onCancel={resetModal}
                     onSubmit={handleOnSubmit}
                     values={modalState.utenlandsopphold}
-                    includeEøsQuestion={spørOmÅrsakVedEøs}
+                    reasonNeeded={spørOmÅrsakVedOppholdIEØSLand}
                 />
             </Modal>
             <FieldsetBase legend={labels.listeTittel} helperText={labels.helpertext} feil={feil}>
                 <UtenlandsoppholdListe
-                    utenlandsopphold={utenlandsopphold}
+                    utenlandsopphold={sortedUtenlandsoppholdList}
                     onDelete={handleDeleteUtenlandsopphold}
                     onEdit={handleEditUtenlandsopphold}
                 />

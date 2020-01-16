@@ -1,7 +1,6 @@
 import { Locale } from 'common/types/Locale';
 import { TilsynVetIkkeHvorfor } from './PleiepengesøknadFormData';
 import { ApiStringDate } from '../../common/types/ApiStringDate';
-import { UtenlandsoppholdIPerioden } from 'common/forms/utenlandsopphold/types';
 
 export type ISO8601Duration = string;
 
@@ -89,12 +88,12 @@ export interface UtenlandsoppholdApiData {
     landnavn: string;
 }
 
-export interface UtenlandsoppholdUtenforEøsApiData extends UtenlandsoppholdIPerioden {
+export interface UtenlandsoppholdUtenforEØSApiData extends UtenlandsoppholdApiData {
     er_utenfor_eos: true;
     arsak: string;
 }
 
-export type UtenlandsoppholdIPeriodenApiData = UtenlandsoppholdApiData | UtenlandsoppholdUtenforEøsApiData;
+export type UtenlandsoppholdIPeriodenApiData = UtenlandsoppholdApiData | UtenlandsoppholdUtenforEØSApiData;
 
 export interface PleiepengesøknadApiData {
     new_version: boolean;
