@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { hasValue } from 'app/validation/fieldValidations';
 
 const dateIsWithinRange = (date: Date, minDate: Date, maxDate: Date) => {
     return moment(date).isBetween(minDate, maxDate, 'day', '[]');
@@ -46,17 +47,35 @@ const validateToDate = (date: Date | undefined, minDate: Date, maxDate: Date, fr
 
 const validateCountry = (country: string) => {
     if (country) {
-        return null;
+        return undefined;
     }
     return {
         key: 'utenlandsopphold.form.validation.required'
     };
 };
 
+const validateReason = (reason: string) => {
+    if (!hasValue(reason)) {
+        return {
+            key: 'utenlandsopphold.form.validation.required'
+        };
+    } else if (reason.length > 250) {
+        return {
+            key: 'utenlandsopphold.form.validation.reasonOver250'
+        };
+    } else if (reason.length < 5) {
+        return {
+            key: 'utenlandsopphold.form.validation.reasonUnder5'
+        };
+    }
+    return undefined;
+};
+
 const utenlandsoppholdFormValidation = {
     validateCountry,
     validateFromDate,
-    validateToDate
+    validateToDate,
+    validateReason
 };
 
 export default utenlandsoppholdFormValidation;

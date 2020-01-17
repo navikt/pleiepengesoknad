@@ -1,7 +1,7 @@
 import * as fødselsnummerValidator from './../fødselsnummerValidator';
 import {
     hasValue,
-    validateForeløpigFødselsnummer,
+    validateFødselsdato,
     validateFradato,
     validateFødselsnummer,
     validateLegeerklæring,
@@ -17,9 +17,7 @@ import * as dateUtils from 'common/utils/dateUtils';
 import Mock = jest.Mock;
 import { YesOrNo } from 'common/types/YesOrNo';
 import { Attachment } from 'common/types/Attachment';
-import { FieldValidationResult } from 'common/validation/types';
-
-const moment = require('moment');
+import moment from 'moment';
 
 jest.mock('../fødselsnummerValidator', () => {
     return {
@@ -84,18 +82,19 @@ describe('fieldValidations', () => {
         });
     });
 
-    describe('validateForeløpigFødselsnummer', () => {
-        it('should return undefined if value is valid (when it has either 11 digits or no value)', () => {
-            expect(validateForeløpigFødselsnummer('1'.repeat(11))).toBeUndefined();
-            expect(validateForeløpigFødselsnummer('')).toBeUndefined();
+    describe('validateFødselsdato', () => {
+        it('should return error if date is after today', () => {
+            const tomorrow: Date = moment()
+                .add(1, 'day')
+                .toDate();
+            expect(validateFødselsdato(tomorrow)).toBeDefined();
         });
-
-        it('should return an error message saying it must be 11 digits, if provided value is something other than a string with 11 digits', () => {
-            const error: FieldValidationResult = { key: FieldValidationErrors.foreløpigFødselsnummer_ugyldig };
-            expect(validateForeløpigFødselsnummer('1234512345')).toEqual(error);
-            expect(validateForeløpigFødselsnummer('1234512345a')).toEqual(error);
-            expect(validateForeløpigFødselsnummer('123451234512')).toEqual(error);
-            expect(validateForeløpigFødselsnummer('12345123451a')).toEqual(error);
+        it('should return undefined if date is same as today or earlier', () => {
+            const yesterday: Date = moment()
+                .subtract(1, 'day')
+                .toDate();
+            expect(validateFødselsdato(yesterday)).toBeUndefined();
+            expect(validateFødselsdato(dateUtils.dateToday)).toBeUndefined();
         });
     });
 
@@ -249,10 +248,10 @@ describe('fieldValidations', () => {
         });
     });
 
-    describe('validate ansettelsesforhold', () => {
+    describe('validate arbeidsforhold', () => {
         it('should only allow values from 1 and 150', () => {
             expect(validateNormaleArbeidstimer({ hours: 0, minutes: 0 })).toEqual(
-                fieldValidationError(FieldValidationErrors.ansettelsesforhold_timerUgyldig, { min: 1, max: 150 })
+                fieldValidationError(FieldValidationErrors.arbeidsforhold_timerUgyldig, { min: 1, max: 150 })
             );
         });
     });

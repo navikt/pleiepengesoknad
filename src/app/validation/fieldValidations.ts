@@ -5,12 +5,14 @@ import {
     dateRangesCollide,
     dateRangesExceedsRange,
     date1YearAgo,
-    date1YearFromNow
+    date1YearFromNow,
+    DateRange,
+    dateToday
 } from 'common/utils/dateUtils';
 import { attachmentHasBeenUploaded } from 'common/utils/attachmentUtils';
 import { timeToDecimalTime } from 'common/utils/timeUtils';
 import { Time } from 'common/types/Time';
-import { Tilsynsordning } from '../types/PleiepengesøknadFormData';
+import { Tilsynsordning, Arbeidsforhold } from '../types/PleiepengesøknadFormData';
 import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
 import { Attachment } from 'common/types/Attachment';
 import { FieldValidationResult } from 'common/validation/types';
@@ -22,7 +24,7 @@ export enum FieldValidationErrors {
     'påkrevd' = 'fieldvalidation.påkrevd',
     'fødselsnummer_11siffer' = 'fieldvalidation.fødselsnummer.11siffer',
     'fødselsnummer_ugyldig' = 'fieldvalidation.fødselsnummer.ugyldig',
-    'foreløpigFødselsnummer_ugyldig' = 'fieldvalidation.foreløpigFødselsnummer.ugyldig',
+    'fødselsdato_ugyldig' = 'fieldvalidation.fødelsdato.ugyldig',
     'navn_maksAntallTegn' = 'fieldvalidation.navn.maksAntallTegn',
     'relasjon_maksAntallTegn' = 'fieldvalidation.relasjon.maksAntallTegn',
     'fradato_merEnnTreÅr' = 'fieldvalidation.fradato.merEnnTreÅr',
@@ -31,9 +33,9 @@ export enum FieldValidationErrors {
     'tildato_erFørFradato' = 'fieldvalidation.tildato.erFørFradato',
     'legeerklæring_mangler' = 'fieldvalidation.legeerklæring.mangler',
     'legeerklæring_forMangeFiler' = 'fieldvalidation.legeerklæring.forMangeFiler',
-    'ansettelsesforhold_timerUgyldig' = 'fieldvalidation.ansettelsesforhold_timerUgyldig',
-    'ansettelsesforhold_prosentUgyldig' = 'fieldvalidation.ansettelsesforhold_prosentUgyldig',
-    'ansettelsesforhold_redusertMerEnnNormalt' = 'fieldvalidation.ansettelsesforhold_redusertMerEnnNormalt',
+    'arbeidsforhold_timerUgyldig' = 'fieldvalidation.arbeidsforhold_timerUgyldig',
+    'arbeidsforhold_prosentUgyldig' = 'fieldvalidation.arbeidsforhold_prosentUgyldig',
+    'arbeidsforhold_redusertMerEnnNormalt' = 'fieldvalidation.arbeidsforhold_redusertMerEnnNormalt',
     'dagerPerUkeBorteFraJobb_ugyldig' = 'fieldvalidation.dagerPerUkeBorteFraJobb_ugyldig',
     'tilsynsordning_ingenInfo' = 'fieldvalidation.tilsynsordning_ingenInfo',
     'tilsynsordning_forMangeTimerTotalt' = 'fieldvalidation.tilsynsordning_forMangeTimerTotalt',
@@ -62,14 +64,12 @@ export const validateFødselsnummer = (v: string): FieldValidationResult => {
     }
 };
 
-export const validateForeløpigFødselsnummer = (v: string): FieldValidationResult => {
-    if (!hasValue(v)) {
+export const validateFødselsdato = (date: Date): FieldValidationResult => {
+    if (!hasValue(date)) {
         return undefined;
     }
-
-    const elevenDigits = new RegExp('^\\d{11}$');
-    if (!elevenDigits.test(v)) {
-        return fieldValidationError(FieldValidationErrors.foreløpigFødselsnummer_ugyldig);
+    if (moment(date).isAfter(dateToday)) {
+        return fieldValidationError(FieldValidationErrors.fødselsdato_ugyldig);
     }
     return undefined;
 };
@@ -151,7 +151,7 @@ export const validateTextarea1000 = (text: string): FieldValidationResult => {
 };
 
 export const validateTilsynsordningTilleggsinfo = (text: string): FieldValidationResult => {
-    if (text.length > 1000) {
+    if (text !== undefined && text.length > 1000) {
         return fieldValidationError(FieldValidationErrors.tilsynsordning_forMangeTegn);
     }
     return undefined;
@@ -213,6 +213,23 @@ export const validateUtenlandsoppholdNeste12Mnd = (utenlandsopphold: Utenlandsop
     return undefined;
 };
 
+export const validateUtenlandsoppholdIPerioden = (
+    periode: DateRange,
+    utenlandsopphold: Utenlandsopphold[]
+): FieldValidationResult => {
+    if (utenlandsopphold.length === 0) {
+        return fieldValidationError(FieldValidationErrors.utenlandsopphold_ikke_registrert);
+    }
+    const dateRanges = utenlandsopphold.map((u) => ({ from: u.fromDate, to: u.toDate }));
+    if (dateRangesCollide(dateRanges)) {
+        return fieldValidationError(FieldValidationErrors.utenlandsopphold_overlapper);
+    }
+    if (dateRangesExceedsRange(dateRanges, periode)) {
+        return fieldValidationError(FieldValidationErrors.utenlandsopphold_utenfor_periode);
+    }
+    return undefined;
+};
+
 export const validateLegeerklæring = (attachments: Attachment[]): FieldValidationResult => {
     const uploadedAttachments = attachments.filter((attachment) => attachmentHasBeenUploaded(attachment));
     if (uploadedAttachments.length === 0) {
@@ -228,6 +245,22 @@ export const validateRequiredField = (value: any): FieldValidationResult => {
     if (!hasValue(value)) {
         return fieldIsRequiredError();
     }
+    return undefined;
+};
+
+export const validateErAnsattIPerioden = (
+    arbeidsforhold: Arbeidsforhold[],
+    orgnummer: string
+): FieldValidationResult => {
+    const forhold = arbeidsforhold.find((a) => a.organisasjonsnummer === orgnummer);
+    if (
+        forhold === undefined ||
+        forhold.erAnsattIPerioden === undefined ||
+        forhold.erAnsattIPerioden === YesOrNo.UNANSWERED
+    ) {
+        return fieldIsRequiredError();
+    }
+
     return undefined;
 };
 
@@ -261,7 +294,7 @@ export const validateNormaleArbeidstimer = (time: Time | undefined, isRequired?:
         return fieldIsRequiredError();
     }
     if (time && (time.hours < MIN_ARBEIDSTIMER_PER_UKE || time.hours > MAX_ARBEIDSTIMER_PER_UKE)) {
-        return fieldValidationError(FieldValidationErrors.ansettelsesforhold_timerUgyldig, {
+        return fieldValidationError(FieldValidationErrors.arbeidsforhold_timerUgyldig, {
             min: MIN_ARBEIDSTIMER_PER_UKE,
             max: MAX_ARBEIDSTIMER_PER_UKE
         });
@@ -299,13 +332,13 @@ export const validateReduserteArbeidTimer = (
     }
 
     if (timer < MIN_ARBEIDSTIMER_PER_UKE || timer > MAX_ARBEIDSTIMER_PER_UKE) {
-        return fieldValidationError(FieldValidationErrors.ansettelsesforhold_timerUgyldig, {
+        return fieldValidationError(FieldValidationErrors.arbeidsforhold_timerUgyldig, {
             min: MIN_ARBEIDSTIMER_PER_UKE,
             max: Math.max(MAX_ARBEIDSTIMER_PER_UKE, timeToDecimalTime(normalTimer))
         });
     }
     if (timer > (timeToDecimalTime(normalTimer) || MAX_ARBEIDSTIMER_PER_UKE)) {
-        return fieldValidationError(FieldValidationErrors.ansettelsesforhold_redusertMerEnnNormalt);
+        return fieldValidationError(FieldValidationErrors.arbeidsforhold_redusertMerEnnNormalt);
     }
     return undefined;
 };
@@ -316,7 +349,7 @@ export const validateReduserteArbeidProsent = (value: number | string, isRequire
     const prosent = typeof value === 'string' ? parseFloat(value) : value;
 
     if (prosent < 1 || prosent > 100) {
-        return fieldValidationError(FieldValidationErrors.ansettelsesforhold_prosentUgyldig);
+        return fieldValidationError(FieldValidationErrors.arbeidsforhold_prosentUgyldig);
     }
     return undefined;
 };

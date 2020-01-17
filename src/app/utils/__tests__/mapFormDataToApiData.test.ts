@@ -1,20 +1,20 @@
 import {
     AppFormField,
     PleiepengesøknadFormData,
-    AnsettelsesforholdForm,
-    AnsettelsesforholdSkalJobbeSvar
+    Arbeidsforhold,
+    ArbeidsforholdSkalJobbeSvar
 } from '../../types/PleiepengesøknadFormData';
 import { mapFormDataToApiData } from '../mapFormDataToApiData';
 import {
     PleiepengesøknadApiData,
-    AnsettelsesforholdApiNei,
-    AnsettelsesforholdApiRedusert,
-    AnsettelsesforholdApiVetIkke
+    ArbeidsforholdApiNei,
+    ArbeidsforholdApiRedusert,
+    ArbeidsforholdApiVetIkke
 } from '../../types/PleiepengesøknadApiData';
 import * as dateUtils from 'common/utils/dateUtils';
 import * as attachmentUtils from 'common/utils/attachmentUtils';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { BarnReceivedFromApi } from '../../types/Søkerdata';
+import { BarnReceivedFromApi, Arbeidsgiver } from '../../types/Søkerdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
 import { Attachment } from 'common/types/Attachment';
 import { ApiStringDate } from 'common/types/ApiStringDate';
@@ -34,32 +34,35 @@ const barnMock: BarnReceivedFromApi[] = [
     { fodselsdato: todaysDate, fornavn: 'Mock', etternavn: 'Mocknes', aktoer_id: '123' }
 ];
 
-const ansettelsesforholdTelenor: AnsettelsesforholdForm = {
+const organisasjonTelenor: Arbeidsgiver = {
     navn: 'Telenor',
     organisasjonsnummer: '973861778'
 };
-const ansettelsesforholdMaxbo: AnsettelsesforholdForm = {
+const organisasjonMaxbo: Arbeidsgiver = {
     navn: 'Maxbo',
     organisasjonsnummer: '910831143'
 };
 
-const telenorRedusertJobbing = {
-    ...ansettelsesforholdTelenor,
-    skalJobbe: AnsettelsesforholdSkalJobbeSvar.redusert,
+const telenorRedusertJobbing: Arbeidsforhold = {
+    ...organisasjonTelenor,
+    erAnsattIPerioden: YesOrNo.YES,
+    skalJobbe: ArbeidsforholdSkalJobbeSvar.redusert,
     jobberNormaltTimer: 20,
     skalJobbeProsent: 50
 };
 
 const maxboIngenJobbing = {
-    ...ansettelsesforholdMaxbo,
-    skalJobbe: AnsettelsesforholdSkalJobbeSvar.nei,
+    ...organisasjonMaxbo,
+    erAnsattIPerioden: YesOrNo.YES,
+    skalJobbe: ArbeidsforholdSkalJobbeSvar.nei,
     jobberNormaltTimer: 20,
     skalJobbeProsent: 0
 };
 
 const maxboVetIkke = {
-    ...ansettelsesforholdMaxbo,
-    skalJobbe: AnsettelsesforholdSkalJobbeSvar.vetIkke,
+    ...organisasjonMaxbo,
+    erAnsattIPerioden: YesOrNo.YES,
+    skalJobbe: ArbeidsforholdSkalJobbeSvar.vetIkke,
     jobberNormaltTimer: 20,
     vetIkkeEkstrainfo: 'ekstrainfo'
 };
@@ -73,12 +76,13 @@ const formDataMock: Partial<PleiepengesøknadFormData> = {
     [AppFormField.harBekreftetOpplysninger]: true,
     [AppFormField.harForståttRettigheterOgPlikter]: true,
     [AppFormField.søkersRelasjonTilBarnet]: 'mor',
-    [AppFormField.ansettelsesforhold]: [ansettelsesforholdTelenor, ansettelsesforholdMaxbo],
+    [AppFormField.arbeidsforhold]: [organisasjonTelenor, organisasjonMaxbo],
     [AppFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.YES,
     [AppFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.NO,
     [AppFormField.utenlandsoppholdNeste12Mnd]: [],
     [AppFormField.utenlandsoppholdSiste12Mnd]: [],
     [AppFormField.periodeFra]: todaysDate,
+    [AppFormField.utenlandsoppholdIPerioden]: [],
     [AppFormField.periodeTil]: moment(todaysDate)
         .add(1, 'day')
         .toDate(),
@@ -107,7 +111,7 @@ jest.mock('common/utils/attachmentUtils', () => {
 const completedAttachmentMock = { uploaded: true, url: attachmentMock1.url, pending: false };
 
 const completeFormDataMock: PleiepengesøknadFormData = {
-    ansettelsesforhold: [ansettelsesforholdMaxbo],
+    arbeidsforhold: [{ ...organisasjonMaxbo, erAnsattIPerioden: YesOrNo.YES }],
     barnetHarIkkeFåttFødselsnummerEnda: false,
     barnetSøknadenGjelder: barnMock[0].aktoer_id,
     harBekreftetOpplysninger: true,
@@ -123,6 +127,8 @@ const completeFormDataMock: PleiepengesøknadFormData = {
     harBoddUtenforNorgeSiste12Mnd: YesOrNo.YES,
     skalBoUtenforNorgeNeste12Mnd: YesOrNo.YES,
     søknadenGjelderEtAnnetBarn: false,
+    skalOppholdeSegIUtlandetIPerioden: YesOrNo.NO,
+    utenlandsoppholdIPerioden: [],
     periodeFra: dateUtils.apiStringDateToDate('2020-01-01'),
     periodeTil: dateUtils.apiStringDateToDate('2020-02-01'),
     tilsynsordning: {
@@ -155,7 +161,7 @@ const completeFormDataMock: PleiepengesøknadFormData = {
         }
     ],
     barnetsNavn: 'barnets-navn',
-    barnetsForeløpigeFødselsnummerEllerDNummer: '',
+    barnetsFødselsdato: undefined,
     barnetsFødselsnummer: 'barnets-fnr'
 };
 
@@ -215,27 +221,27 @@ describe('mapFormDataToApiData', () => {
         expect(result.barn.fodselsnummer).toEqual(fnr);
     });
 
-    it("should set 'alternativ_id' in api data to undefined if it doesnt exist, and otherwise it should assign value to 'alternativ_id' in api data", () => {
-        const fnr = '12345123456';
-        expect(resultingApiData.barn.alternativ_id).toBeNull();
+    it("should set 'fodselsdato' in api data to undefined if it doesnt exist, and otherwise it should assign value to 'fodselsdato' in api data", () => {
+        expect(resultingApiData.barn.fodselsdato).toBeNull();
+        const fdato = new Date();
         const formDataWithFnr: Partial<PleiepengesøknadFormData> = {
             ...formDataMock,
-            [AppFormField.barnetsForeløpigeFødselsnummerEllerDNummer]: fnr
+            [AppFormField.barnetsFødselsdato]: fdato
         };
         const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock, 'nb');
-        expect(result.barn.alternativ_id).toEqual(fnr);
+        expect(result.barn.fodselsdato).toEqual(dateUtils.formatDateToApiFormat(fdato));
     });
 
-    it("should assign fnr to 'fodselsnummer' in api data, and set 'alternativ_id' to undefined, if both barnetsFødselsnummer and barnetsForeløpigeFødselsnummerEllerDNummer has values", () => {
+    it("should assign fnr to 'fodselsnummer' in api data, and set 'fodselsdato' to undefined, if both barnetsFødselsnummer and barnetsFødselsdato has values", () => {
         const fnr = '12345123456';
-        expect(resultingApiData.barn.alternativ_id).toBeNull();
+        expect(resultingApiData.barn.fodselsdato).toBeNull();
         const formDataWithFnr: Partial<PleiepengesøknadFormData> = {
             ...formDataMock,
             [AppFormField.barnetsFødselsnummer]: fnr,
-            [AppFormField.barnetsForeløpigeFødselsnummerEllerDNummer]: fnr
+            [AppFormField.barnetsFødselsdato]: new Date()
         };
         const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock, 'nb');
-        expect(result.barn.alternativ_id).toBeNull();
+        expect(result.barn.fodselsdato).toBeNull();
         expect(result.barn.fodselsnummer).toEqual(fnr);
     });
 
@@ -256,7 +262,7 @@ describe('mapFormDataToApiData', () => {
     const formDataFeatureOn: PleiepengesøknadFormData = {
         ...(formData as PleiepengesøknadFormData),
         [AppFormField.harMedsøker]: YesOrNo.YES,
-        ansettelsesforhold: [telenorRedusertJobbing, maxboIngenJobbing]
+        arbeidsforhold: [telenorRedusertJobbing, maxboIngenJobbing]
     };
     beforeAll(() => {
         (isFeatureEnabled as any).mockImplementation(() => true);
@@ -278,12 +284,12 @@ describe('mapFormDataToApiData', () => {
 
     it('should include prosentAvVanligUke when skalJobbe is redusert', () => {
         const resultApiData = mapFormDataToApiData(
-            { ...formDataFeatureOn, ansettelsesforhold: [telenorRedusertJobbing] },
+            { ...formDataFeatureOn, arbeidsforhold: [telenorRedusertJobbing] },
             barnMock,
             'nb'
         );
-        const result: AnsettelsesforholdApiRedusert = {
-            ...ansettelsesforholdTelenor,
+        const result: ArbeidsforholdApiRedusert = {
+            ...organisasjonTelenor,
             jobber_normalt_timer: 20,
             skal_jobbe: 'redusert',
             skal_jobbe_prosent: 50
@@ -293,26 +299,37 @@ describe('mapFormDataToApiData', () => {
     it('should include prosentAvVanligUke when skalJobbe is nei', () => {
         const {
             arbeidsgivere: { organisasjoner }
-        } = mapFormDataToApiData({ ...formDataFeatureOn, ansettelsesforhold: [maxboIngenJobbing] }, barnMock, 'nb');
-        const result: AnsettelsesforholdApiNei = {
-            ...ansettelsesforholdMaxbo,
+        } = mapFormDataToApiData({ ...formDataFeatureOn, arbeidsforhold: [maxboIngenJobbing] }, barnMock, 'nb');
+        const result: ArbeidsforholdApiNei = {
+            ...organisasjonMaxbo,
             skal_jobbe: 'nei',
             skal_jobbe_prosent: 0
         };
         expect(organisasjoner).toEqual([result]);
     });
-    it('should include correct ansettelsesdata when skalJobbe is vet_ikke', () => {
+    it('should include correct arbeidsforhold when skalJobbe is vet_ikke', () => {
         const {
             arbeidsgivere: { organisasjoner }
-        } = mapFormDataToApiData({ ...formDataFeatureOn, ansettelsesforhold: [maxboVetIkke] }, barnMock, 'nb');
-        const result: AnsettelsesforholdApiVetIkke = {
-            ...ansettelsesforholdMaxbo,
+        } = mapFormDataToApiData({ ...formDataFeatureOn, arbeidsforhold: [maxboVetIkke] }, barnMock, 'nb');
+        const result: ArbeidsforholdApiVetIkke = {
+            ...organisasjonMaxbo,
             jobber_normalt_timer: 20,
             skal_jobbe: 'vet_ikke'
         };
         expect(organisasjoner).toEqual([result]);
         expect(organisasjoner[0].skal_jobbe_timer).toBeUndefined();
         expect(organisasjoner[0].skal_jobbe_prosent).toBeUndefined();
+    });
+
+    it('should not include arbeidsforhold where user is not ansatt', () => {
+        const {
+            arbeidsgivere: { organisasjoner }
+        } = mapFormDataToApiData(
+            { ...formDataFeatureOn, arbeidsforhold: [{ ...maxboVetIkke, erAnsattIPerioden: YesOrNo.NO }] },
+            barnMock,
+            'nb'
+        );
+        expect(organisasjoner).toEqual([]);
     });
 
     it('should use correct format for a complete mapped application', () => {
@@ -323,8 +340,8 @@ describe('mapFormDataToApiData', () => {
             barn: {
                 navn: 'Mock Mocknes',
                 fodselsnummer: null,
-                alternativ_id: null,
-                aktoer_id: barnMock[0].aktoer_id
+                aktoer_id: barnMock[0].aktoer_id,
+                fodselsdato: null
             },
             relasjon_til_barnet: null,
             arbeidsgivere: {
@@ -351,6 +368,10 @@ describe('mapFormDataToApiData', () => {
                         til_og_med: '2020-04-01'
                     }
                 ]
+            },
+            utenlandsopphold_i_perioden: {
+                skal_oppholde_seg_i_i_utlandet_i_perioden: false,
+                opphold: []
             },
             fra_og_med: '2020-01-01',
             til_og_med: '2020-02-01',

@@ -3,7 +3,7 @@ import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import { navigateTo } from '../../../utils/navigationUtils';
 import {
-    validateForeløpigFødselsnummer,
+    validateFødselsdato,
     validateFødselsnummer,
     validateNavn,
     validateRelasjonTilBarnet,
@@ -20,11 +20,12 @@ import FormikStep from '../../formik-step/FormikStep';
 import { harRegistrerteBarn } from '../../../utils/søkerdataUtils';
 import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
 import { resetFieldValue, resetFieldValues } from '../../../utils/formikUtils';
-import { prettifyDate } from 'common/utils/dateUtils';
+import { prettifyDate, dateToday } from 'common/utils/dateUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
 import intlHelper from 'common/utils/intlUtils';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
+import Datepicker from 'app/components/datepicker/Datepicker';
 
 interface OpplysningerOmBarnetStepProps {
     formikProps: CustomFormikProps;
@@ -93,7 +94,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                                 [
                                                     AppFormField.barnetsFødselsnummer,
                                                     AppFormField.barnetHarIkkeFåttFødselsnummerEnda,
-                                                    AppFormField.barnetsForeløpigeFødselsnummerEllerDNummer,
+                                                    AppFormField.barnetsFødselsdato,
                                                     AppFormField.barnetsNavn,
                                                     AppFormField.søkersRelasjonTilBarnet
                                                 ],
@@ -136,18 +137,16 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                 }}
                             />
                             {barnetHarIkkeFåttFødselsnummerEnda && (
-                                <Input
-                                    label={intlHelper(intl, 'steg.omBarnet.fnr.foreløpig')}
-                                    name={AppFormField.barnetsForeløpigeFødselsnummerEllerDNummer}
-                                    validate={(foreløpigFnr) => {
+                                <Datepicker
+                                    name={AppFormField.barnetsFødselsdato}
+                                    dateLimitations={{ maksDato: dateToday }}
+                                    label={intlHelper(intl, 'steg.omBarnet.fødselsdato')}
+                                    validate={(dato) => {
                                         if (barnetHarIkkeFåttFødselsnummerEnda) {
-                                            return validateForeløpigFødselsnummer(foreløpigFnr);
+                                            return validateFødselsdato(dato);
                                         }
                                         return undefined;
                                     }}
-                                    bredde="XXL"
-                                    type="tel"
-                                    maxLength={11}
                                 />
                             )}
                             <Input

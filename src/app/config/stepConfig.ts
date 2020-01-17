@@ -5,7 +5,7 @@ import { YesOrNo } from 'common/types/YesOrNo';
 
 export enum StepID {
     'OPPLYSNINGER_OM_BARNET' = 'opplysninger-om-barnet',
-    'ANSETTELSESFORHOLD' = 'ansettelsesforhold',
+    'ARBEIDSFORHOLD' = 'arbeidsforhold',
     'OMSORGSTILBUD' = 'omsorgstilbud',
     'NATTEVÅK' = 'nattevåk',
     'BEREDSKAP' = 'beredskap',
@@ -59,11 +59,11 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
         [StepID.TIDSROM]: {
             ...getStepConfigItemTextKeys(StepID.TIDSROM),
             index: idx++,
-            nextStep: StepID.ANSETTELSESFORHOLD,
+            nextStep: StepID.ARBEIDSFORHOLD,
             backLinkHref: getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET)
         },
-        [StepID.ANSETTELSESFORHOLD]: {
-            ...getStepConfigItemTextKeys(StepID.ANSETTELSESFORHOLD),
+        [StepID.ARBEIDSFORHOLD]: {
+            ...getStepConfigItemTextKeys(StepID.ARBEIDSFORHOLD),
             index: idx++,
             nextStep: StepID.OMSORGSTILBUD,
             backLinkHref: getSøknadRoute(StepID.TIDSROM)
@@ -72,7 +72,7 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
             ...getStepConfigItemTextKeys(StepID.OMSORGSTILBUD),
             index: idx++,
             nextStep: includeNattevåkAndBeredskap ? StepID.NATTEVÅK : StepID.MEDLEMSKAP,
-            backLinkHref: getSøknadRoute(StepID.ANSETTELSESFORHOLD)
+            backLinkHref: getSøknadRoute(StepID.ARBEIDSFORHOLD)
         }
     };
 

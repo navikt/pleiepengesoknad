@@ -1,7 +1,7 @@
 import {
     legeerklæringStepIsValid,
     medlemskapStepIsValid,
-    opplysningerOmAnsettelsesforholdStepIsValid,
+    arbeidsforholdStepIsValid,
     opplysningerOmBarnetStepIsValid,
     opplysningerOmTidsromStepIsValid,
     welcomingPageIsValid
@@ -108,7 +108,7 @@ describe('stepValidation tests', () => {
 
     describe('opplysningerOmTidsromStepIsValid', () => {
         it('should always be valid', () => {
-            expect(opplysningerOmAnsettelsesforholdStepIsValid()).toBe(true);
+            expect(arbeidsforholdStepIsValid()).toBe(true);
         });
     });
 

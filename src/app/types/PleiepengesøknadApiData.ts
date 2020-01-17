@@ -7,11 +7,11 @@ export type ISO8601Duration = string;
 export interface BarnToSendToApi {
     navn: string | null;
     fodselsnummer: string | null;
-    alternativ_id: string | null;
+    fodselsdato: string | null;
     aktoer_id: string | null;
 }
 
-export interface AnsettelsesforholdApi {
+export interface ArbeidsforholdApi {
     navn: string;
     organisasjonsnummer?: string;
     skal_jobbe?: 'ja' | 'nei' | 'redusert' | 'vet_ikke';
@@ -19,26 +19,26 @@ export interface AnsettelsesforholdApi {
     skal_jobbe_timer?: number;
     skal_jobbe_prosent?: number;
 }
-export type AnsettelsesforholdApiNei = Pick<
-    AnsettelsesforholdApi,
+export type ArbeidsforholdApiNei = Pick<
+    ArbeidsforholdApi,
     'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'skal_jobbe_prosent' | 'jobber_normalt_timer'
 >;
-export type AnsettelsesforholdApiRedusert = Pick<
-    AnsettelsesforholdApi,
+export type ArbeidsforholdApiRedusert = Pick<
+    ArbeidsforholdApi,
     'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'skal_jobbe_prosent' | 'jobber_normalt_timer' | 'skal_jobbe_timer'
 >;
 
-export type AnsettelsesforholdApiVetIkke = Pick<
-    AnsettelsesforholdApi,
+export type ArbeidsforholdApiVetIkke = Pick<
+    ArbeidsforholdApi,
     'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'jobber_normalt_timer'
 >;
 
-export type AnsettelsesforholdApiSomVanlig = Pick<
-    AnsettelsesforholdApi,
+export type ArbeidsforholdApiSomVanlig = Pick<
+    ArbeidsforholdApi,
     'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'skal_jobbe_prosent'
 >;
 
-export interface AnsettelsesforholdApiSkalJobbe {}
+export interface ArbeidsforholdApiSkalJobbe {}
 
 export interface TilsynsukeApi {
     mandag?: string;
@@ -88,6 +88,13 @@ export interface UtenlandsoppholdApiData {
     landnavn: string;
 }
 
+export interface UtenlandsoppholdUtenforEØSApiData extends UtenlandsoppholdApiData {
+    er_utenfor_eos: true;
+    arsak: string;
+}
+
+export type UtenlandsoppholdIPeriodenApiData = UtenlandsoppholdApiData | UtenlandsoppholdUtenforEØSApiData;
+
 export interface PleiepengesøknadApiData {
     new_version: boolean;
     sprak: Locale;
@@ -95,9 +102,13 @@ export interface PleiepengesøknadApiData {
     relasjon_til_barnet: string | null;
     fra_og_med: ApiStringDate;
     til_og_med: ApiStringDate;
-    arbeidsgivere: { organisasjoner: AnsettelsesforholdApi[] };
+    arbeidsgivere: { organisasjoner: ArbeidsforholdApi[] };
     vedlegg: string[];
     medlemskap: Medlemskap;
+    utenlandsopphold_i_perioden: {
+        skal_oppholde_seg_i_i_utlandet_i_perioden: boolean;
+        opphold: UtenlandsoppholdIPeriodenApiData[];
+    };
     har_medsoker: boolean;
     samtidig_hjemme?: boolean;
     har_forstatt_rettigheter_og_plikter: boolean;

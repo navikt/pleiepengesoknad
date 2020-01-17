@@ -2,18 +2,18 @@ import React from 'react';
 import Box from 'common/components/box/Box';
 import { SkjemaGruppe } from 'nav-frontend-skjema';
 import Input from '../input/Input';
-import { AnsettelsesforholdForm, AnsettelsesforholdField, AppFormField } from '../../types/PleiepengesøknadFormData';
+import { Arbeidsforhold, ArbeidsforholdField, AppFormField } from '../../types/PleiepengesøknadFormData';
 import intlHelper from 'common/utils/intlUtils';
 import { validateReduserteArbeidProsent } from '../../validation/fieldValidations';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 
 interface Props {
-    ansettelsesforhold: AnsettelsesforholdForm;
-    getFieldName: (name: AnsettelsesforholdField) => AppFormField;
+    arbeidsforhold: Arbeidsforhold;
+    getFieldName: (name: ArbeidsforholdField) => AppFormField;
 }
 
-const VetIkkeAnsettelsesforholdPart: React.FunctionComponent<Props & InjectedIntlProps> = ({
-    ansettelsesforhold: { navn, timerEllerProsent, jobberNormaltTimer, skalJobbeTimer, skalJobbeProsent },
+const VetIkkeArbeidsforholdPart: React.FunctionComponent<Props & InjectedIntlProps> = ({
+    arbeidsforhold: { navn, jobberNormaltTimer },
     getFieldName,
     intl
 }) => {
@@ -21,13 +21,13 @@ const VetIkkeAnsettelsesforholdPart: React.FunctionComponent<Props & InjectedInt
         <>
             <Box margin="xl">
                 <SkjemaGruppe
-                    title={intlHelper(intl, 'gradertAnsettelsesforhold.iDag.spm', {
+                    title={intlHelper(intl, 'arbeidsforhold.iDag.spm', {
                         arbeidsforhold: navn
                     })}>
                     <Input
-                        name={getFieldName(AnsettelsesforholdField.jobberNormaltTimer)}
+                        name={getFieldName(ArbeidsforholdField.jobberNormaltTimer)}
                         type="number"
-                        label={intlHelper(intl, 'gradertAnsettelsesforhold.iDag.utledet')}
+                        label={intlHelper(intl, 'arbeidsforhold.iDag.utledet')}
                         inputClassName="input--timer"
                         validate={(value) => validateReduserteArbeidProsent(value, true)}
                         value={jobberNormaltTimer || ''}
@@ -42,4 +42,4 @@ const VetIkkeAnsettelsesforholdPart: React.FunctionComponent<Props & InjectedInt
     );
 };
 
-export default injectIntl(VetIkkeAnsettelsesforholdPart);
+export default injectIntl(VetIkkeArbeidsforholdPart);

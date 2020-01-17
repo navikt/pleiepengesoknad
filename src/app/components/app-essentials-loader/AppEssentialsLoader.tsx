@@ -1,6 +1,6 @@
 import * as React from 'react';
 import LoadingPage from '../pages/loading-page/LoadingPage';
-import { Ansettelsesforhold, Søkerdata } from '../../types/Søkerdata';
+import { Arbeidsgiver, Søkerdata } from '../../types/Søkerdata';
 import * as apiUtils from '../../utils/apiUtils';
 import routeConfig from '../../config/routeConfig';
 import { navigateToLoginPage, userIsCurrentlyOnErrorPage } from '../../utils/navigationUtils';
@@ -24,7 +24,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
         super(props);
         this.state = { isLoading: true };
 
-        this.updateAnsettelsesforhold = this.updateAnsettelsesforhold.bind(this);
+        this.updateArbeidsgivere = this.updateArbeidsgivere.bind(this);
         this.updateSøkerdata = this.updateSøkerdata.bind(this);
         this.stopLoading = this.stopLoading.bind(this);
         this.handleSøkerdataFetchSuccess = this.handleSøkerdataFetchSuccess.bind(this);
@@ -52,7 +52,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
             isLoading: false,
             søkerdata: {
                 ...(demoSøkerdata as Søkerdata),
-                setAnsettelsesforhold: this.updateAnsettelsesforhold
+                setArbeidsgivere: this.updateArbeidsgivere
             }
         });
         this.stopLoading();
@@ -63,8 +63,8 @@ class AppEssentialsLoader extends React.Component<Props, State> {
             {
                 person: søkerResponse.data,
                 barn: barnResponse ? barnResponse.data.barn : undefined,
-                setAnsettelsesforhold: this.updateAnsettelsesforhold,
-                ansettelsesforhold: []
+                setArbeidsgivere: this.updateArbeidsgivere,
+                arbeidsgivere: []
             },
             () => {
                 this.stopLoading();
@@ -103,13 +103,13 @@ class AppEssentialsLoader extends React.Component<Props, State> {
         setTimeout(this.stopLoading, 200);
     }
 
-    updateAnsettelsesforhold(ansettelsesforhold: Ansettelsesforhold[]) {
-        const { barn, person, setAnsettelsesforhold } = this.state.søkerdata!;
+    updateArbeidsgivere(arbeidsgivere: Arbeidsgiver[]) {
+        const { barn, person, setArbeidsgivere } = this.state.søkerdata!;
         this.setState({
             søkerdata: {
                 barn,
-                setAnsettelsesforhold,
-                ansettelsesforhold,
+                setArbeidsgivere,
+                arbeidsgivere,
                 person
             }
         });

@@ -1,31 +1,32 @@
 import * as React from 'react';
 import { HistoryProps } from 'common/types/History';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
-import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
+import { navigateTo } from '../../../utils/navigationUtils';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 import FormikStep from '../../formik-step/FormikStep';
 import DateIntervalPicker from '../../date-interval-picker/DateIntervalPicker';
-import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
-import { Søkerdata } from '../../../types/Søkerdata';
-import { date3YearsAgo, formatDateToApiFormat } from 'common/utils/dateUtils';
-import { getArbeidsgiver } from '../../../api/api';
-import { validateFradato, validateTildato, validateYesOrNoIsAnswered } from '../../../validation/fieldValidations';
+import { date3YearsAgo, DateRange, date1YearFromNow, date1YearAgo } from 'common/utils/dateUtils';
+import {
+    validateYesOrNoIsAnswered,
+    validateFradato,
+    validateTildato,
+    validateRequiredField,
+    validateUtenlandsoppholdIPerioden
+} from '../../../validation/fieldValidations';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
 import Box from 'common/components/box/Box';
-import { AxiosError } from 'axios';
-import * as apiUtils from '../../../utils/apiUtils';
 import intlHelper from 'common/utils/intlUtils';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { CustomFormikProps } from '../../../types/FormikProps';
-import demoSøkerdata from '../../../demo/demoData';
-import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 
 import './dagerPerUkeBorteFraJobb.less';
-
-interface OpplysningerOmTidsromStepState {
-    isLoadingNextStep: boolean;
-}
+import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
+import { Field, FieldProps } from 'formik';
+import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
+import UtenlandsoppholdInput from 'common/forms/utenlandsopphold';
+import { showValidationErrors } from 'app/utils/formikUtils';
+import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 
 interface OpplysningerOmTidsromStepProps {
     formikProps: CustomFormikProps;
@@ -33,126 +34,128 @@ interface OpplysningerOmTidsromStepProps {
 
 type Props = OpplysningerOmTidsromStepProps & HistoryProps & InjectedIntlProps & StepConfigProps;
 
-class OpplysningerOmTidsromStep extends React.Component<Props, OpplysningerOmTidsromStepState> {
-    constructor(props: Props) {
-        super(props);
+const OpplysningerOmTidsromStep = ({ history, intl, nextStepRoute, formikProps, ...stepProps }: Props) => {
+    const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
 
-        this.getArbeidsforhold = this.getArbeidsforhold.bind(this);
-        this.finishStep = this.finishStep.bind(this);
-        this.validateFraDato = this.validateFraDato.bind(this);
-        this.validateTilDato = this.validateTilDato.bind(this);
+    const fraDato = formikProps.values[AppFormField.periodeFra];
+    const tilDato = formikProps.values[AppFormField.periodeTil];
+    const harMedsøker = formikProps.values[AppFormField.harMedsøker];
 
-        this.state = {
-            isLoadingNextStep: false
-        };
-    }
+    const { periodeFra, periodeTil } = formikProps.values;
 
-    getArbeidsforhold() {
-        const values = this.props.formikProps.values;
-        const fromDateString = formatDateToApiFormat(values[AppFormField.periodeFra]!);
-        const toDateString = formatDateToApiFormat(values[AppFormField.periodeTil]!);
-        return getArbeidsgiver(fromDateString, toDateString);
-    }
+    const validateFraDatoField = (date?: Date) => {
+        return validateFradato(date, periodeTil);
+    };
 
-    handleArbeidsforholdFetchError(response: AxiosError) {
-        if (apiUtils.isForbidden(response) || apiUtils.isUnauthorized(response)) {
-            navigateToLoginPage();
-        }
-    }
+    const validateTilDatoField = (date?: Date) => {
+        return validateTildato(date, periodeFra);
+    };
 
-    async finishStep(søkerdata: Søkerdata) {
-        this.setState({ isLoadingNextStep: true });
+    const periode: DateRange = { from: periodeFra || date1YearAgo, to: periodeTil || date1YearFromNow };
 
-        if (appIsRunningInDemoMode()) {
-            søkerdata.setAnsettelsesforhold(demoSøkerdata.ansettelsesforhold);
-            navigateTo(this.props.nextStepRoute!, this.props.history);
-            return;
-        }
-        try {
-            const response = await this.getArbeidsforhold();
-            søkerdata.setAnsettelsesforhold!(response.data.organisasjoner);
-        } catch (error) {
-            this.handleArbeidsforholdFetchError(error);
-        }
+    return (
+        <FormikStep
+            id={StepID.TIDSROM}
+            onValidFormSubmit={navigate}
+            formValues={formikProps.values}
+            handleSubmit={formikProps.handleSubmit}
+            history={history}
+            {...stepProps}>
+            <DateIntervalPicker
+                legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
+                helperText={intlHelper(intl, 'steg.tidsrom.hjelpetekst')}
+                fromDatepickerProps={{
+                    label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.fom'),
+                    validate: validateFraDatoField,
+                    name: AppFormField.periodeFra,
+                    dateLimitations: {
+                        minDato: date3YearsAgo.toDate(),
+                        maksDato: validateTilDatoField(tilDato) === undefined ? tilDato : undefined
+                    }
+                }}
+                toDatepickerProps={{
+                    label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.tom'),
+                    validate: validateTilDatoField,
+                    name: AppFormField.periodeTil,
+                    dateLimitations: {
+                        minDato: validateFraDatoField(fraDato) === undefined ? fraDato : date3YearsAgo.toDate()
+                    }
+                }}
+            />
 
-        const { nextStepRoute } = this.props;
-        if (nextStepRoute) {
-            navigateTo(nextStepRoute, this.props.history);
-        }
-    }
-
-    validateFraDato(fraDato?: Date) {
-        const { periodeTil } = this.props.formikProps.values;
-        return validateFradato(fraDato, periodeTil);
-    }
-
-    validateTilDato(tilDato?: Date) {
-        const { periodeFra } = this.props.formikProps.values;
-        return validateTildato(tilDato, periodeFra);
-    }
-
-    render() {
-        const { history, intl, formikProps, ...stepProps } = this.props;
-        const { isLoadingNextStep } = this.state;
-
-        const fraDato = this.props.formikProps.values[AppFormField.periodeFra];
-        const tilDato = this.props.formikProps.values[AppFormField.periodeTil];
-        const harMedsøker = this.props.formikProps.values[AppFormField.harMedsøker];
-
-        return (
-            <SøkerdataContextConsumer>
-                {(søkerdata) => (
-                    <FormikStep
-                        id={StepID.TIDSROM}
-                        onValidFormSubmit={() => this.finishStep(søkerdata!)}
-                        showButtonSpinner={isLoadingNextStep}
-                        formValues={formikProps.values}
-                        handleSubmit={formikProps.handleSubmit}
-                        history={history}
-                        {...stepProps}>
-                        <DateIntervalPicker
-                            legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
-                            helperText={intlHelper(intl, 'steg.tidsrom.hjelpetekst')}
-                            fromDatepickerProps={{
-                                label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.fom'),
-                                validate: this.validateFraDato,
-                                name: AppFormField.periodeFra,
-                                dateLimitations: {
-                                    minDato: date3YearsAgo.toDate(),
-                                    maksDato: this.validateTilDato(tilDato) === undefined ? tilDato : undefined
-                                }
+            {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD) && (
+                <Box margin="xl">
+                    <YesOrNoQuestion
+                        legend={intlHelper(intl, 'steg.medlemsskap.iUtlandetIPerioden.spm')}
+                        name={AppFormField.skalOppholdsSegIUtlandetIPerioden}
+                        validate={validateRequiredField}
+                    />
+                </Box>
+            )}
+            {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD) &&
+                formikProps.values.skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES && (
+                    <Box margin="m">
+                        <Field
+                            name={AppFormField.utenlandsoppholdIPerioden}
+                            validate={
+                                periode
+                                    ? (opphold: Utenlandsopphold[]) =>
+                                          validateUtenlandsoppholdIPerioden(periode, opphold)
+                                    : undefined
+                            }>
+                            {({ field, form: { errors, setFieldValue, status, submitCount } }: FieldProps) => {
+                                const errorMsgProps = showValidationErrors(status, submitCount)
+                                    ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                                    : {};
+                                return (
+                                    <UtenlandsoppholdInput
+                                        labels={{
+                                            listeTittel: intlHelper(
+                                                intl,
+                                                'steg.medlemsskap.iUtlandetIPerioden.listeTittel'
+                                            ),
+                                            formLabels: {
+                                                reasonLabel: intlHelper(
+                                                    intl,
+                                                    'steg.medlemsskap.iUtlandetIPerioden.eøs.årsak.spm'
+                                                ),
+                                                reasonHelperText: intlHelper(
+                                                    intl,
+                                                    'steg.medlemsskap.iUtlandetIPerioden.eøs.årsak.hjelp'
+                                                )
+                                            }
+                                        }}
+                                        spørOmÅrsakVedOppholdIEØSLand={true}
+                                        utenlandsopphold={field.value}
+                                        tidsrom={periode || { from: date1YearFromNow, to: date1YearFromNow }}
+                                        onChange={(utenlandsopphold: Utenlandsopphold[]) => {
+                                            setFieldValue(field.name, utenlandsopphold);
+                                        }}
+                                        {...errorMsgProps}
+                                    />
+                                );
                             }}
-                            toDatepickerProps={{
-                                label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.tom'),
-                                validate: this.validateTilDato,
-                                name: AppFormField.periodeTil,
-                                dateLimitations: {
-                                    minDato:
-                                        this.validateFraDato(fraDato) === undefined ? fraDato : date3YearsAgo.toDate()
-                                }
-                            }}
-                        />
-
-                        <Box margin="xl">
-                            <YesOrNoQuestion
-                                legend={intlHelper(intl, 'steg.tidsrom.annenSamtidig.spm')}
-                                name={AppFormField.harMedsøker}
-                                validate={validateYesOrNoIsAnswered}
-                            />
-                        </Box>
-
-                        {harMedsøker === YesOrNo.YES && (
-                            <YesOrNoQuestion
-                                legend={intlHelper(intl, 'steg.tidsrom.samtidigHjemme.spm')}
-                                name={AppFormField.samtidigHjemme}
-                                validate={validateYesOrNoIsAnswered}
-                            />
-                        )}
-                    </FormikStep>
+                        </Field>
+                    </Box>
                 )}
-            </SøkerdataContextConsumer>
-        );
-    }
-}
+
+            <Box margin="xl">
+                <YesOrNoQuestion
+                    legend={intlHelper(intl, 'steg.tidsrom.annenSamtidig.spm')}
+                    name={AppFormField.harMedsøker}
+                    validate={validateYesOrNoIsAnswered}
+                />
+            </Box>
+
+            {harMedsøker === YesOrNo.YES && (
+                <YesOrNoQuestion
+                    legend={intlHelper(intl, 'steg.tidsrom.samtidigHjemme.spm')}
+                    name={AppFormField.samtidigHjemme}
+                    validate={validateYesOrNoIsAnswered}
+                />
+            )}
+        </FormikStep>
+    );
+};
 
 export default injectIntl(OpplysningerOmTidsromStep);
