@@ -160,7 +160,7 @@ class SummaryStep extends React.Component<Props, State> {
                                                                 <FormattedMessage
                                                                     id="steg.oppsummering.barnet.fødselsdato"
                                                                     values={{
-                                                                        dato: prettifyDate(
+                                                                        fdato: prettifyDate(
                                                                             barnReceivedFromApi!.fodselsdato
                                                                         )
                                                                     }}

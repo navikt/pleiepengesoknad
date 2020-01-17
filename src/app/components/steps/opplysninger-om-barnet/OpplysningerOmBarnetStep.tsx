@@ -46,11 +46,6 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
         <FormikStep
             id={StepID.OPPLYSNINGER_OM_BARNET}
             onValidFormSubmit={() => {
-                /*persist().then(() => {
-                    if (navigate) {
-                        navigate();
-                    }
-                })*/
                 persist(values);
                 if (navigate) {
                     navigate();
