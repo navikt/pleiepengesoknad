@@ -19,6 +19,7 @@ import intlHelper from 'common/utils/intlUtils';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { CustomFormikProps } from '../../../types/FormikProps';
+import { persist } from 'app/api/api';
 
 import './dagerPerUkeBorteFraJobb.less';
 import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
@@ -56,7 +57,12 @@ const OpplysningerOmTidsromStep = ({ history, intl, nextStepRoute, formikProps, 
     return (
         <FormikStep
             id={StepID.TIDSROM}
-            onValidFormSubmit={navigate}
+            onValidFormSubmit={() => {
+                persist(formikProps.values);
+                if (navigate) {
+                    navigate();
+                }
+            }}
             formValues={formikProps.values}
             handleSubmit={formikProps.handleSubmit}
             history={history}

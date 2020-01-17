@@ -13,6 +13,7 @@ import { CustomFormikProps } from '../../../types/FormikProps';
 import { YesOrNo } from 'common/types/YesOrNo';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import Textarea from 'app/components/textarea/Textarea';
+import { persist } from '../../../api/api';
 
 interface StepProps {
     formikProps: CustomFormikProps;
@@ -33,7 +34,12 @@ const BeredskapStep: React.FunctionComponent<Props> = ({
     return (
         <FormikStep
             id={StepID.BEREDSKAP}
-            onValidFormSubmit={navigate}
+            onValidFormSubmit={() => {
+                persist(values);
+                if (navigate) {
+                    navigate();
+                }
+            }}
             history={history}
             {...stepProps}
             formValues={values}>

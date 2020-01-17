@@ -5,6 +5,8 @@ import { getApiUrlByResourceType, sendMultipartPostRequest } from '../utils/apiU
 import { ResourceType } from '../types/ResourceType';
 import { Arbeidsgiver } from 'app/types/Søkerdata';
 
+export const persist = (data: any) => axios.post(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), data, axiosConfig);
+
 export const getBarn = () => axios.get(getApiUrlByResourceType(ResourceType.BARN), axiosConfig);
 export const getSøker = () => axios.get(getApiUrlByResourceType(ResourceType.SØKER), axiosConfig);
 export const getArbeidsgiver = (fom: string, tom: string): Promise<AxiosResponse<{ organisasjoner: Arbeidsgiver[] }>> =>

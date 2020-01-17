@@ -25,6 +25,7 @@ import { showValidationErrors } from 'app/utils/formikUtils';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import { dateToday, date1YearFromNow, date1YearAgo } from 'common/utils/dateUtils';
 import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
+import { persist } from '../../../api/api';
 
 type Props = CommonStepFormikProps & HistoryProps & InjectedIntlProps & StepConfigProps;
 
@@ -33,7 +34,12 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, intl, nextSt
     const { formValues } = stepProps;
 
     return (
-        <FormikStep id={StepID.MEDLEMSKAP} onValidFormSubmit={navigate} history={history} {...stepProps}>
+        <FormikStep id={StepID.MEDLEMSKAP} onValidFormSubmit={() => {
+            persist(formValues);
+            if (navigate) {
+                navigate();
+            }
+        }} history={history} {...stepProps}>
             <Box padBottom="xxl">
                 <CounsellorPanel>
                     Medlemskap i folketrygden er nøkkelen til rettigheter fra NAV. Hvis du bor eller jobber i Norge er

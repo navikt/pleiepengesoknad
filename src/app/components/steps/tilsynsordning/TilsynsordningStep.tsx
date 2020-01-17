@@ -21,6 +21,7 @@ import intlHelper from 'common/utils/intlUtils';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import { getNextStepRoute } from '../../../utils/routeUtils';
+import { persist } from '../../../api/api';
 
 type Props = CommonStepFormikProps & HistoryProps & InjectedIntlProps & StepConfigProps;
 
@@ -32,7 +33,12 @@ const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, intl, for
     return (
         <FormikStep
             id={StepID.OMSORGSTILBUD}
-            onValidFormSubmit={navigate}
+            onValidFormSubmit={() => {
+                persist(formValues);
+                if (navigate) {
+                    navigate();
+                }
+            }}
             history={history}
             {...stepProps}
             formValues={formValues}>

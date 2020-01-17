@@ -26,6 +26,7 @@ import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
 import intlHelper from 'common/utils/intlUtils';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 import Datepicker from 'app/components/datepicker/Datepicker';
+import { persist } from '../../../api/api';
 
 interface OpplysningerOmBarnetStepProps {
     formikProps: CustomFormikProps;
@@ -44,7 +45,17 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
     return (
         <FormikStep
             id={StepID.OPPLYSNINGER_OM_BARNET}
-            onValidFormSubmit={navigate}
+            onValidFormSubmit={() => {
+                /*persist().then(() => {
+                    if (navigate) {
+                        navigate();
+                    }
+                })*/
+                persist(values);
+                if (navigate) {
+                    navigate();
+                }
+            }}
             handleSubmit={handleSubmit}
             history={history}
             formValues={values}>

@@ -11,7 +11,7 @@ import FormikArbeidsforhold from '../../formik-arbeidsforhold/FormikArbeidsforho
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import FormSection from 'common/components/form-section/FormSection';
-import { getArbeidsgiver } from 'app/api/api';
+import { getArbeidsgiver, persist } from 'app/api/api';
 import { Søkerdata, Arbeidsgiver } from 'app/types/Søkerdata';
 import { formatDateToApiFormat } from 'common/utils/dateUtils';
 import { CustomFormikProps } from 'app/types/FormikProps';
@@ -82,7 +82,12 @@ const ArbeidsforholdStep = ({ history, intl, søkerdata, nextStepRoute, formikPr
     return (
         <FormikStep
             id={StepID.ARBEIDSFORHOLD}
-            onValidFormSubmit={navigate}
+            onValidFormSubmit={() => {
+                persist(formikProps.values);
+                if (navigate) {
+                    navigate();
+                }
+            }}
             history={history}
             {...stepProps}
             buttonDisabled={isLoading}>
