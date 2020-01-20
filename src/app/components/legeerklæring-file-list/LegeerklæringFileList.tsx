@@ -13,67 +13,68 @@ import { Attachment } from 'common/types/Attachment';
 import AttachmentList from 'common/components/attachment-list/AttachmentList';
 
 interface LegeerklæringAttachmentListProps {
-  includeDeletionFunctionality: boolean;
-  wrapNoAttachmentsInBox?: boolean;
+    includeDeletionFunctionality: boolean;
+    wrapNoAttachmentsInBox?: boolean;
 }
 
 type Props = LegeerklæringAttachmentListProps & ConnectedFormikProps<AppFormField>;
+
 const InfoText = () => <Element><FormattedMessage id="vedleggsliste.legeerklæringLastetOppSjekkliste"/></Element>;
 
 const LegeerklæringAttachmentList: React.FunctionComponent<Props> = ({
-                                                                       formik: {values, setFieldValue},
-                                                                       wrapNoAttachmentsInBox,
-                                                                       includeDeletionFunctionality
-                                                                     }) => {
-  const legeerklæring: Attachment[] = values[AppFormField.legeerklæring].filter(({file}: Attachment) =>
-    fileExtensionIsValid(file.name)
-  );
-
-  if (!containsAnyUploadedAttachments(legeerklæring)) {
-    const noAttachmentsText = (
-      <Normaltekst>
-        <FormattedMessage id="vedleggsliste.ingenLegeerklæringLastetOpp"/>
-      </Normaltekst>
+    formik: { values, setFieldValue },
+    wrapNoAttachmentsInBox,
+    includeDeletionFunctionality
+}) => {
+    const legeerklæring: Attachment[] = values[AppFormField.legeerklæring].filter(({ file }: Attachment) =>
+        fileExtensionIsValid(file.name)
     );
-    if (wrapNoAttachmentsInBox) {
-      return <Box margin="m">{noAttachmentsText}</Box>;
+
+    if (!containsAnyUploadedAttachments(legeerklæring)) {
+        const noAttachmentsText = (
+            <Normaltekst>
+                <FormattedMessage id="vedleggsliste.ingenLegeerklæringLastetOpp" />
+            </Normaltekst>
+        );
+        if (wrapNoAttachmentsInBox) {
+            return <Box margin="m">{noAttachmentsText}</Box>;
+        }
+        return noAttachmentsText;
     }
-    return noAttachmentsText;
-  }
 
-  if (includeDeletionFunctionality) {
-    return (
-      <>
-          <AttachmentListWithDeletion
-            attachments={legeerklæring}
-            onRemoveAttachmentClick={(attachment: Attachment) => {
-              attachment.pending = true;
-              setFieldValue(AppFormField.legeerklæring, legeerklæring);
-              deleteFile(attachment.url!).then(
-                () => {
-                  setFieldValue(AppFormField.legeerklæring, removeElementFromArray(attachment, legeerklæring));
-                },
-                () => {
-                  setFieldValue(AppFormField.legeerklæring, removeElementFromArray(attachment, legeerklæring));
-                }
-              );
-            }}
-          />
-        <Box margin="m" padBottom="l">
-          <InfoText />
-        </Box>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <AttachmentList attachments={legeerklæring}/>
-        <Box margin="m" padBottom="l">
-          <InfoText />
-        </Box>
-      </>
-    );
-  }
+    if (includeDeletionFunctionality) {
+        return (
+            <>
+                <AttachmentListWithDeletion
+                    attachments={legeerklæring}
+                    onRemoveAttachmentClick={(attachment: Attachment) => {
+                        attachment.pending = true;
+                        setFieldValue(AppFormField.legeerklæring, legeerklæring);
+                        deleteFile(attachment.url!).then(
+                            () => {
+                                setFieldValue(AppFormField.legeerklæring, removeElementFromArray(attachment, legeerklæring));
+                            },
+                            () => {
+                                setFieldValue(AppFormField.legeerklæring, removeElementFromArray(attachment, legeerklæring));
+                            }
+                        );
+                    }}
+                />
+                <Box margin="m" padBottom="l">
+                    <InfoText/>
+                </Box>
+            </>
+        );
+    } else {
+        return (
+            <>
+                <AttachmentList attachments={legeerklæring}/>
+                <Box margin="m" padBottom="l">
+                    <InfoText/>
+                </Box>
+            </>
+        );
+    }
 };
 
 export default connect<LegeerklæringAttachmentListProps, AppFormField>(LegeerklæringAttachmentList);
