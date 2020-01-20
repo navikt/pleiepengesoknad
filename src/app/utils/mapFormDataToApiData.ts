@@ -80,7 +80,7 @@ export const mapFormDataToApiData = (
 
     const apiData: PleiepengesøknadApiData = {
         new_version: true,
-        sprak,
+        sprak: (sprak as any) === 'en' ? 'nn' : sprak,
         barn: barnObject,
         relasjon_til_barnet: barnObject.aktoer_id ? null : søkersRelasjonTilBarnet,
         arbeidsgivere: {
