@@ -6,11 +6,12 @@ import { CustomFormikProps } from '../../types/FormikProps';
 
 interface FormikWrapperProps {
     contentRenderer: (formikProps: CustomFormikProps) => JSX.Element;
+    mellomlagring: PleiepengesøknadFormData;
 }
 
-const FormikWrapper: React.FunctionComponent<FormikWrapperProps> = ({ contentRenderer }) => (
+const FormikWrapper: React.FunctionComponent<FormikWrapperProps> = ({ contentRenderer, mellomlagring }) => (
     <Formik
-        initialValues={initialValues}
+        initialValues={mellomlagring || initialValues}
         onSubmit={(values: PleiepengesøknadFormData, { setSubmitting, setStatus, setTouched }: FormikBag) => {
             setSubmitting(false);
             setTouched({});

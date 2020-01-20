@@ -41,7 +41,44 @@ const arbeidsgivereMock = {
         { navn: 'Arbeids- og sosialdepartementet', organisasjonsnummer: '123451235' }
     ]
 };
-
+const mellomlagringMock = {
+    periodeFra: '2020-01-20T00:00:00.000Z',
+    periodeTil: '2021-01-31T00:00:00.000Z',
+    barnetsNavn: '',
+    barnetsFødselsnummer: '',
+    barnetSøknadenGjelder: '1',
+    harForståttRettigheterOgPlikter: true,
+    harBekreftetOpplysninger: false,
+    søkersRelasjonTilBarnet: '',
+    søknadenGjelderEtAnnetBarn: false,
+    legeerklæring: [],
+    arbeidsforhold: [
+        {
+            navn: 'Arbeids- og velferdsetaten',
+            organisasjonsnummer: '123451234',
+            erAnsattIPerioden: 'no',
+        },
+        {
+            navn: 'Arbeids- og sosialdepartementet',
+            organisasjonsnummer: '123451235',
+            erAnsattIPerioden: 'no',
+        },
+    ],
+    barnetHarIkkeFåttFødselsnummerEnda: false,
+    harBoddUtenforNorgeSiste12Mnd: 'no',
+    utenlandsoppholdSiste12Mnd: [],
+    skalBoUtenforNorgeNeste12Mnd: 'no',
+    utenlandsoppholdNeste12Mnd: [],
+    skalOppholdeSegIUtlandetIPerioden: 'no',
+    utenlandsoppholdIPerioden: [],
+    harMedsøker: 'no',
+    samtidigHjemme: 'unanswered',
+    tilsynsordning: {
+        skalBarnHaTilsyn: 'no',
+    },
+    harNattevåk: 'unanswered',
+    harBeredskap: 'unanswered',
+};
 const startServer = () => {
     const port = process.env.PORT || 8082;
 
@@ -73,6 +110,9 @@ const startServer = () => {
         res.sendStatus(200);
     });
 
+    server.get('/mellomlagring', (req, res) => {
+        res.send(mellomlagringMock);
+    });
     server.post('/mellomlagring', (req, res) => {
         res.sendStatus(200);
     });

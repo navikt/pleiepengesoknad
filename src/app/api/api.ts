@@ -7,6 +7,7 @@ import { ResourceType } from '../types/ResourceType';
 import { Arbeidsgiver } from 'app/types/Søkerdata';
 
 export const persist = (data: PleiepengesøknadFormData) => axios.post(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), data, axiosConfig);
+export const rehydrate = () => axios.get(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), axiosConfig);
 
 export const getBarn = () => axios.get(getApiUrlByResourceType(ResourceType.BARN), axiosConfig);
 export const getSøker = () => axios.get(getApiUrlByResourceType(ResourceType.SØKER), axiosConfig);
