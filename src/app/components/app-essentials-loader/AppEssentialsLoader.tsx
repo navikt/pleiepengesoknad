@@ -64,7 +64,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
     }
 
     handleSøkerdataFetchSuccess(mellomlagringResponse:  AxiosResponse, søkerResponse: AxiosResponse, barnResponse?: AxiosResponse) {
-        const mellomlagring = mellomlagringResponse && mellomlagringResponse.data ? mellomlagringResponse.data : initialValues;
+        const mellomlagring = mellomlagringResponse && mellomlagringResponse.data ? { ...initialValues, ...mellomlagringResponse.data } : initialValues;
         this.updateSøkerdata(
             mellomlagring,
             {

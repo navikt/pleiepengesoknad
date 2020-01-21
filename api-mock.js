@@ -1,9 +1,11 @@
+const os = require('os');
+const fs = require('fs');
 const express = require('express');
 const Busboy = require('busboy');
 
 const server = express();
 
-//
+server.use(express.json());
 server.use((req, res, next) => {
     const allowedOrigins = ['https://pleiepengesoknad-mock.nais.oera.no', 'http://localhost:8080'];
     const requestOrigin = req.headers.origin;
@@ -16,6 +18,7 @@ server.use((req, res, next) => {
     res.set('X-XSS-Protection', '1; mode=block');
     res.set('X-Content-Type-Options', 'nosniff');
     res.set('Access-Control-Allow-Headers', 'content-type');
+    res.set('Access-Control-Allow-Methods', ['GET','POST','DELETE']);
     res.set('Access-Control-Allow-Credentials', true);
     next();
 });
@@ -41,44 +44,31 @@ const arbeidsgivereMock = {
         { navn: 'Arbeids- og sosialdepartementet', organisasjonsnummer: '123451235' }
     ]
 };
-const mellomlagringMock = {
-    periodeFra: '2020-01-20T00:00:00.000Z',
-    periodeTil: '2021-01-31T00:00:00.000Z',
-    barnetsNavn: '',
-    barnetsFødselsnummer: '',
-    barnetSøknadenGjelder: '1',
-    harForståttRettigheterOgPlikter: true,
-    harBekreftetOpplysninger: false,
-    søkersRelasjonTilBarnet: '',
-    søknadenGjelderEtAnnetBarn: false,
-    legeerklæring: [],
-    arbeidsforhold: [
-        {
-            navn: 'Arbeids- og velferdsetaten',
-            organisasjonsnummer: '123451234',
-            erAnsattIPerioden: 'no',
-        },
-        {
-            navn: 'Arbeids- og sosialdepartementet',
-            organisasjonsnummer: '123451235',
-            erAnsattIPerioden: 'no',
-        },
-    ],
-    barnetHarIkkeFåttFødselsnummerEnda: false,
-    harBoddUtenforNorgeSiste12Mnd: 'no',
-    utenlandsoppholdSiste12Mnd: [],
-    skalBoUtenforNorgeNeste12Mnd: 'no',
-    utenlandsoppholdNeste12Mnd: [],
-    skalOppholdeSegIUtlandetIPerioden: 'no',
-    utenlandsoppholdIPerioden: [],
-    harMedsøker: 'no',
-    samtidigHjemme: 'unanswered',
-    tilsynsordning: {
-        skalBarnHaTilsyn: 'no',
-    },
-    harNattevåk: 'unanswered',
-    harBeredskap: 'unanswered',
+const MELLOMLAGRING_JSON = `${os.tmpdir()}/mellomlagring.json`;
+
+const isJSON = (str) => {
+    try {
+        return (JSON.parse(str) && !!str);
+    } catch (e) {
+        return false;
+    }
 };
+const writeFileSync = (path, text) => {
+    return fs.writeFileSync(path, text);
+};
+const writeFileAsync = async (path, text) => {
+    return new Promise((resolve, reject) => {
+        fs.writeFile(path, text, 'utf8', err => {
+            if (err) reject(err);
+            else resolve();
+        });
+    });
+};
+const readFileSync = (path) => {
+    return fs.readFileSync(path, 'utf8');
+};
+const existsSync = (path) => fs.existsSync(path);
+
 const startServer = () => {
     const port = process.env.PORT || 8082;
 
@@ -111,9 +101,23 @@ const startServer = () => {
     });
 
     server.get('/mellomlagring', (req, res) => {
-        res.send(mellomlagringMock);
+        if (existsSync(MELLOMLAGRING_JSON)) {
+            const body = readFileSync(MELLOMLAGRING_JSON);
+            res.send(JSON.parse(body));
+        }
+        else {
+            res.send({});
+        }
     });
     server.post('/mellomlagring', (req, res) => {
+        const body = req.body;
+        const jsBody = isJSON(body) ? JSON.parse(body) : body;
+        writeFileAsync(MELLOMLAGRING_JSON, JSON.stringify(jsBody, null, 2));
+        res.sendStatus(200);
+
+    });
+    server.delete('/mellomlagring', (req, res) => {
+        writeFileAsync(MELLOMLAGRING_JSON, JSON.stringify({}, null, 2));
         res.sendStatus(200);
     });
 
