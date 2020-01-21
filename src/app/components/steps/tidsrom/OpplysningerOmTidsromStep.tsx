@@ -16,7 +16,7 @@ import {
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
 import Box from 'common/components/box/Box';
 import intlHelper from 'common/utils/intlUtils';
-import { WrappedComponentProps, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { CustomFormikProps } from '../../../types/FormikProps';
 
@@ -32,9 +32,9 @@ interface OpplysningerOmTidsromStepProps {
     formikProps: CustomFormikProps;
 }
 
-type Props = OpplysningerOmTidsromStepProps & HistoryProps & WrappedComponentProps & StepConfigProps;
+type Props = OpplysningerOmTidsromStepProps & HistoryProps & StepConfigProps;
 
-const OpplysningerOmTidsromStep = ({ history, intl, nextStepRoute, formikProps, ...stepProps }: Props) => {
+const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...stepProps }: Props) => {
     const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
 
     const fraDato = formikProps.values[AppFormField.periodeFra];
@@ -52,6 +52,7 @@ const OpplysningerOmTidsromStep = ({ history, intl, nextStepRoute, formikProps, 
     };
 
     const periode: DateRange = { from: periodeFra || date1YearAgo, to: periodeTil || date1YearFromNow };
+    const intl = useIntl();
 
     return (
         <FormikStep
@@ -158,4 +159,4 @@ const OpplysningerOmTidsromStep = ({ history, intl, nextStepRoute, formikProps, 
     );
 };
 
-export default injectIntl(OpplysningerOmTidsromStep);
+export default OpplysningerOmTidsromStep;

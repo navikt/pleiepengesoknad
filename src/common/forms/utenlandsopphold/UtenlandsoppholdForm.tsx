@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Formik, Field, FieldProps } from 'formik';
 import { Knapp } from 'nav-frontend-knapper';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { useIntl } from 'react-intl';
 import DatepickerBase from 'common/form-components/datepicker-base/DatepickerBase';
 import CountrySelect from 'common/components/country-select/CountrySelect';
 import bemUtils from 'common/utils/bemUtils';
@@ -66,8 +66,7 @@ const defaultFormValues: Partial<Utenlandsopphold> = {
     reason: undefined
 };
 
-const UtenlandsoppholdForm: React.FunctionComponent<Props & WrappedComponentProps> = ({
-    intl,
+const UtenlandsoppholdForm: React.FunctionComponent<Props> = ({
     maxDate,
     minDate,
     reasonNeeded,
@@ -76,6 +75,7 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props & WrappedComponentProp
     onSubmit,
     onCancel
 }) => {
+    const intl = useIntl();
     const [showErrors, setShowErrors] = useState(false);
 
     const onFormikSubmit = (formValues: Utenlandsopphold) => {
@@ -245,4 +245,4 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props & WrappedComponentProp
     );
 };
 
-export default injectIntl(UtenlandsoppholdForm);
+export default UtenlandsoppholdForm;

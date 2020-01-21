@@ -6,6 +6,7 @@ import RadioPanelGroupBase, {
 } from 'common/form-components/radio-panel-group-base/RadioPanelGroupBase';
 import { FormikValidateFunction, FormikValidationProps } from 'app/types/FormikProps';
 import { showValidationErrors } from 'app/utils/formikUtils';
+import { useIntl } from 'react-intl';
 
 interface FormikRadioPanelProps {
     label: React.ReactNode;
@@ -34,33 +35,35 @@ const FormikRadioPanelGroup = <T extends {}>(): React.FunctionComponent<FormikRa
     helperText,
     style,
     singleColumn,
-    expandedContentRenderer,
-    intl
-}) => (
-    <FormikField validate={validate} name={name}>
-        {({ field, form: { errors, status, submitCount, setFieldValue } }: FormikFieldProps) => {
-            const errorMsgProps = showValidationErrors(status, submitCount)
-                ? getValidationErrorPropsWithIntl(intl, errors, field.name)
-                : {};
-            return (
-                <RadioPanelGroupBase
-                    legend={legend}
-                    radios={radios.map(({ value, ...otherProps }) => ({
-                        checked: field.value === value,
-                        onChange: () => setFieldValue(field.name, value),
-                        name: `${name}`,
-                        value,
-                        ...otherProps
-                    }))}
-                    helperText={helperText}
-                    expandedContentRenderer={expandedContentRenderer}
-                    style={style}
-                    singleColumn={singleColumn}
-                    {...errorMsgProps}
-                />
-            );
-        }}
-    </FormikField>
-);
+    expandedContentRenderer
+}) => {
+    const intl = useIntl();
+    return (
+        <FormikField validate={validate} name={name}>
+            {({ field, form: { errors, status, submitCount, setFieldValue } }: FormikFieldProps) => {
+                const errorMsgProps = showValidationErrors(status, submitCount)
+                    ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                    : {};
+                return (
+                    <RadioPanelGroupBase
+                        legend={legend}
+                        radios={radios.map(({ value, ...otherProps }) => ({
+                            checked: field.value === value,
+                            onChange: () => setFieldValue(field.name, value),
+                            name: `${name}`,
+                            value,
+                            ...otherProps
+                        }))}
+                        helperText={helperText}
+                        expandedContentRenderer={expandedContentRenderer}
+                        style={style}
+                        singleColumn={singleColumn}
+                        {...errorMsgProps}
+                    />
+                );
+            }}
+        </FormikField>
+    );
+};
 
 export default FormikRadioPanelGroup;
