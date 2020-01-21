@@ -1,4 +1,3 @@
-import { AppFormField, initialValues } from '../types/PleiepengesøknadFormData';
 import flatten from 'flat';
 
 interface HasSubmittedValidFormProps {
@@ -16,24 +15,32 @@ export const userHasSubmittedValidForm = (
     currentProps: HasSubmittedValidFormProps
 ) => oldProps.isSubmitting === true && currentProps.isSubmitting === false && currentProps.isValid === true;
 
-export const resetFieldValue = (fieldName: AppFormField, setFieldValue: (field: string, value: any) => void) => {
-    setFieldValue(fieldName, initialValues[fieldName]);
-};
+export function resetFieldValue<T extends string, FormDataType>(
+    fieldName: T,
+    setFieldValue: (field: string, value: any) => void,
+    initialValues: FormDataType
+) {
+    setFieldValue(fieldName, initialValues[fieldName as string]);
+}
 
-export const resetFieldValues = (fieldNames: AppFormField[], setFieldValue: (field: string, value: any) => void) => {
-    fieldNames.forEach((fieldName) => resetFieldValue(fieldName, setFieldValue));
-};
+export function resetFieldValues<T extends string, FormDataType>(
+    fieldNames: T[],
+    setFieldValue: (field: string, value: any) => void,
+    initialValues: FormDataType
+) {
+    fieldNames.forEach((fieldName) => resetFieldValue(fieldName, setFieldValue, initialValues));
+}
 
 export const isCheckboxChecked = (fieldValues: any[], value: any, keyProp?: string): boolean => {
     return keyProp ? (fieldValues || []).some((cv) => cv[keyProp] === value[keyProp]) : fieldValues.includes(value);
 };
 
-export const flattenFieldArrayErrors = (errors: AppFormField): AppFormField => {
+export function flattenFieldArrayErrors<T>(errors: T): T {
     let allErrors: any = {};
     Object.keys(errors).forEach((key) => {
         const error = errors[key];
         if (isFieldArrayErrors(error)) {
-            (error as AppFormField[]).forEach((err, idx) => {
+            (error as T[]).forEach((err, idx) => {
                 allErrors = {
                     ...allErrors,
                     ...getErrorsFromFieldArrayErrors(err, key, idx)
@@ -49,7 +56,7 @@ export const flattenFieldArrayErrors = (errors: AppFormField): AppFormField => {
         }
     });
     return allErrors;
-};
+}
 
 interface ErrorNodeInObject {
     field: string;
@@ -82,10 +89,10 @@ const isFieldArrayErrors = (error: any): boolean => {
     return false;
 };
 
-const getErrorsFromFieldArrayErrors = (field: AppFormField, fieldArrayKey: string, index: number): {} => {
+function getErrorsFromFieldArrayErrors<T>(field: T, fieldArrayKey: string, index: number): {} {
     const errors: any = {};
     Object.keys(field).forEach((key) => {
         errors[`${fieldArrayKey}.${index}.${key}`] = field[key];
     });
     return errors;
-};
+}

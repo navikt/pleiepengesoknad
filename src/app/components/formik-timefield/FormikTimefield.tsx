@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
-import { FormikValidationProps } from 'app/types/FormikProps';
 import TimefieldBase from '../timefield-base/TimefieldBase';
-import { showValidationErrors } from 'app/utils/formikUtils';
+import { showValidationErrors } from 'common/formik/formikUtils';
 import { useIntl } from 'react-intl';
+import { FormikValidationProps } from 'common/formik/FormikProps';
 
 interface FormikTimefieldProps<T> {
     name: T;

@@ -1,11 +1,11 @@
 import * as React from 'react';
-import RadioPanelGroup from '../radio-panel-group/RadioPanelGroup';
 import { AppFormField } from '../../types/PleiepengesøknadFormData';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { FormikValidationProps } from 'app/types/FormikProps';
 import { useIntl } from 'react-intl';
 import { RadioPanelGroupStyle } from 'common/form-components/radio-panel-group-base/RadioPanelGroupBase';
 import intlHelper from 'common/utils/intlUtils';
+import FormikRadioPanelGroup from '../formik-radio-panel-group/FormikRadioPanelGroup';
+import { FormikValidationProps } from 'common/formik/FormikProps';
 
 interface YesOrNoQuestionProps {
     legend: string;
@@ -38,7 +38,7 @@ const YesOrNoQuestion: React.FunctionComponent<YesOrNoQuestionProps & FormikVali
         doNotKnow: doNotKnowLabel = intlHelper(intl, 'VetIkke')
     } = labels || {};
     return (
-        <RadioPanelGroup
+        <FormikRadioPanelGroup<AppFormField>
             legend={legend}
             name={name}
             radios={[

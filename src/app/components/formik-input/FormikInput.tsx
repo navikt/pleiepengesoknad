@@ -3,22 +3,17 @@ import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import InputBase, { InputBaseProps } from 'common/form-components/input-base/InputBase';
 import { NavFrontendInputProps } from 'nav-frontend-skjema';
-import { FormikValidationProps } from 'app/types/FormikProps';
-import { showValidationErrors } from 'app/utils/formikUtils';
+import { showValidationErrors } from 'common/formik/formikUtils';
 import { useIntl } from 'react-intl';
+import { FormikValidationProps } from 'common/formik/FormikProps';
 
 interface FormikInputProps<T> extends InputBaseProps {
     name: T;
 }
 
-type Props = NavFrontendInputProps & FormikValidationProps;
+type Props<T> = FormikInputProps<T> & NavFrontendInputProps & FormikValidationProps;
 
-const FormikInput = <T extends {}>(): React.FunctionComponent<Props & FormikInputProps<T>> => ({
-    label,
-    name,
-    validate,
-    ...otherInputProps
-}) => {
+function FormikInput<T>({ label, name, validate, ...otherInputProps }: Props<T>) {
     const intl = useIntl();
     return (
         <FormikField validate={validate} name={name}>
@@ -38,6 +33,6 @@ const FormikInput = <T extends {}>(): React.FunctionComponent<Props & FormikInpu
             }}
         </FormikField>
     );
-};
+}
 
 export default FormikInput;

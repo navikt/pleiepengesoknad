@@ -7,7 +7,7 @@ import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
 import { AppFormField } from '../../types/PleiepengesøknadFormData';
 import intlHelper from 'common/utils/intlUtils';
 import { useIntl } from 'react-intl';
-import { flattenFieldArrayErrors, showValidationErrors } from 'app/utils/formikUtils';
+import { flattenFieldArrayErrors, showValidationErrors } from 'common/formik/formikUtils';
 import { isFieldValidationError, renderFieldValidationError } from 'common/validation/fieldValidationRenderUtils';
 
 interface FormikValidationErrorSummaryProps {

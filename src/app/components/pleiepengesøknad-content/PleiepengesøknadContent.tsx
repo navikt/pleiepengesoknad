@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CustomFormikProps } from '../../types/FormikProps';
+import { PleiepengesøknadFormikProps } from '../../types/PleiepengesøknadFormikProps';
 import OpplysningerOmBarnetStep from '../steps/opplysninger-om-barnet/OpplysningerOmBarnetStep';
 import { StepID } from '../../config/stepConfig';
 import { getSøknadRoute, isAvailable, getNextStepRoute } from '../../utils/routeUtils';
@@ -21,7 +21,7 @@ import { SøkerdataContextConsumer } from 'app/context/SøkerdataContext';
 import { getAktiveArbeidsforholdIPerioden } from 'app/utils/arbeidsforholdUtils';
 
 interface PleiepengesøknadContentProps {
-    formikProps: CustomFormikProps;
+    formikProps: PleiepengesøknadFormikProps;
 }
 
 export interface CommonStepFormikProps {

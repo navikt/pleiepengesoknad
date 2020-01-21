@@ -5,9 +5,9 @@ import CheckboxPanelGroupBase, {
     CheckboxPanelExpandedContentRenderer
 } from 'common/form-components/checkbox-panel-group-base/CheckboxPanelGroupBase';
 import { removeElementFromArray } from 'common/utils/listUtils';
-import { FormikValidateFunction, FormikValidationProps } from 'app/types/FormikProps';
-import { isCheckboxChecked, showValidationErrors } from 'app/utils/formikUtils';
+import { isCheckboxChecked, showValidationErrors } from 'common/formik/formikUtils';
 import { useIntl } from 'react-intl';
+import { FormikValidateFunction, FormikValidationProps } from 'common/formik/FormikProps';
 
 interface FormikCheckboxPanelProps {
     label: string;

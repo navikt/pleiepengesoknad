@@ -9,13 +9,13 @@ import { validateYesOrNoIsAnswered, validateBeredskapTilleggsinfo } from '../../
 import intlHelper from 'common/utils/intlUtils';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from 'common/components/box/Box';
-import { CustomFormikProps } from '../../../types/FormikProps';
+import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
 import { YesOrNo } from 'common/types/YesOrNo';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import Textarea from 'app/components/textarea/Textarea';
+import FormikTextarea from 'app/components/formik-textarea/FormikTextarea';
 
 interface StepProps {
-    formikProps: CustomFormikProps;
+    formikProps: PleiepengesøknadFormikProps;
     handleSubmit: () => void;
 }
 
@@ -50,7 +50,7 @@ const BeredskapStep: React.FunctionComponent<Props> = ({
             />
             {harBeredskap === YesOrNo.YES && (
                 <Box margin="xl">
-                    <Textarea
+                    <FormikTextarea<AppFormField>
                         name={AppFormField.harBeredskap_ekstrainfo}
                         label={intlHelper(intl, 'steg.beredskap.tilleggsinfo.spm')}
                         maxLength={1000}

@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import SliderBase, { SliderBasePublicProps } from '../slider-base/SliderBase';
-import { FormikValidateFunction, FormikValidationProps } from 'app/types/FormikProps';
-import { showValidationErrors } from 'app/utils/formikUtils';
+import { FormikValidateFunction, FormikValidationProps } from 'common/formik/FormikProps';
+import { showValidationErrors } from 'common/formik/formikUtils';
 import { useIntl } from 'react-intl';
 
 interface FormikSliderProps<T> {

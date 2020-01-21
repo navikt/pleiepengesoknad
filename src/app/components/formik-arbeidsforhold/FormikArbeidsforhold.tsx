@@ -8,13 +8,13 @@ import {
 } from 'app/types/PleiepengesøknadFormData';
 import Box from 'common/components/box/Box';
 import { validateRequiredField } from 'app/validation/fieldValidations';
-import RadioPanelGroup from '../radio-panel-group/RadioPanelGroup';
 import intlHelper from 'common/utils/intlUtils';
 import RedusertArbeidsforholdPart from './RedusertArbeidsforholdPart';
 import VetIkkeArbeidsforholdPart from './VetIkkeArbeidsforholdPart';
 import YesOrNoQuestion from '../yes-or-no-question/YesOrNoQuestion';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { useIntl } from 'react-intl';
+import FormikRadioPanelGroup from '../formik-radio-panel-group/FormikRadioPanelGroup';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
@@ -36,7 +36,7 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                         />
                         {arbeidsforhold.erAnsattIPerioden === YesOrNo.YES && (
                             <Box padBottom="m">
-                                <RadioPanelGroup
+                                <FormikRadioPanelGroup<AppFormField>
                                     legend={intlHelper(intl, 'arbeidsforhold.arbeidsforhold.spm')}
                                     singleColumn={true}
                                     name={getFieldName(ArbeidsforholdField.skalJobbe)}

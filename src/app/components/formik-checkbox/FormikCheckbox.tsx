@@ -2,9 +2,9 @@ import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import { Checkbox, CheckboxProps } from 'nav-frontend-skjema';
-import { FormikValidateFunction, FormikValidationProps } from 'app/types/FormikProps';
-import { showValidationErrors } from 'app/utils/formikUtils';
+import { showValidationErrors } from 'common/formik/formikUtils';
 import { useIntl } from 'react-intl';
+import { FormikValidationProps, FormikValidateFunction } from 'common/formik/FormikProps';
 
 interface FormikCheckboxProps<T> {
     validate?: FormikValidateFunction;
@@ -12,9 +12,9 @@ interface FormikCheckboxProps<T> {
     name: T;
 }
 
-const FormikCheckbox = <T extends {}>(): React.FunctionComponent<CheckboxProps &
-    FormikCheckboxProps<T> &
-    FormikValidationProps> => ({ name, label, validate, afterOnChange, ...otherInputProps }) => {
+type Props<T> = CheckboxProps & FormikCheckboxProps<T> & FormikValidationProps;
+
+function FormikCheckbox<T>({ name, label, validate, afterOnChange, ...otherInputProps }: Props<T>) {
     const intl = useIntl();
     return (
         <FormikField validate={validate} name={name}>
@@ -42,6 +42,6 @@ const FormikCheckbox = <T extends {}>(): React.FunctionComponent<CheckboxProps &
             }}
         </FormikField>
     );
-};
+}
 
 export default FormikCheckbox;

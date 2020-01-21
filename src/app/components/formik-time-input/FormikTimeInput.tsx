@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
-import { FormikValidationProps } from 'app/types/FormikProps';
 import TimeInputBase from '../time-input-base/TimeInputBase';
 import { Time } from 'common/types/Time';
-import { showValidationErrors } from 'app/utils/formikUtils';
+import { showValidationErrors } from 'common/formik/formikUtils';
 import { useIntl } from 'react-intl';
+import { FormikValidationProps } from 'common/formik/FormikProps';
 
 interface FormikTimeInputProps<T> {
     name: T;
@@ -15,14 +15,9 @@ interface FormikTimeInputProps<T> {
     maxMinutes?: number;
 }
 
-type Props = FormikValidationProps;
+type Props<T> = FormikValidationProps & FormikTimeInputProps<T>;
 
-const FormikTimeInput = <T extends {}>(): React.FunctionComponent<Props & FormikTimeInputProps<T>> => ({
-    label,
-    name,
-    validate,
-    ...otherInputProps
-}) => {
+function FormikTimeInput<T>({ label, name, validate, ...otherInputProps }: Props<T>) {
     const intl = useIntl();
     return (
         <FormikField validate={validate} name={name}>
@@ -45,6 +40,6 @@ const FormikTimeInput = <T extends {}>(): React.FunctionComponent<Props & Formik
             }}
         </FormikField>
     );
-};
+}
 
 export default FormikTimeInput;

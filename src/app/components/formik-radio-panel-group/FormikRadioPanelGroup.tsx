@@ -4,8 +4,8 @@ import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import RadioPanelGroupBase, {
     RadioPanelGroupStyle
 } from 'common/form-components/radio-panel-group-base/RadioPanelGroupBase';
-import { FormikValidateFunction, FormikValidationProps } from 'app/types/FormikProps';
-import { showValidationErrors } from 'app/utils/formikUtils';
+import { FormikValidateFunction, FormikValidationProps } from 'common/formik/FormikProps';
+import { showValidationErrors } from 'common/formik/formikUtils';
 import { useIntl } from 'react-intl';
 
 interface FormikRadioPanelProps {
@@ -26,8 +26,9 @@ interface FormikRadioPanelGroupProps<T> {
     style?: RadioPanelGroupStyle;
 }
 
-const FormikRadioPanelGroup = <T extends {}>(): React.FunctionComponent<FormikRadioPanelGroupProps<T> &
-    FormikValidationProps> => ({
+type Props<T> = FormikRadioPanelGroupProps<T> & FormikValidationProps;
+
+function FormikRadioPanelGroup<T>({
     name,
     validate,
     legend,
@@ -36,7 +37,7 @@ const FormikRadioPanelGroup = <T extends {}>(): React.FunctionComponent<FormikRa
     style,
     singleColumn,
     expandedContentRenderer
-}) => {
+}: Props<T>) {
     const intl = useIntl();
     return (
         <FormikField validate={validate} name={name}>
@@ -64,6 +65,6 @@ const FormikRadioPanelGroup = <T extends {}>(): React.FunctionComponent<FormikRa
             }}
         </FormikField>
     );
-};
+}
 
 export default FormikRadioPanelGroup;

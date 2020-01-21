@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { History } from 'history';
 import Step, { StepProps } from '../step/Step';
-import { userHasSubmittedValidForm } from '../../utils/formikUtils';
+import { userHasSubmittedValidForm } from '../../../common/formik/formikUtils';
 import { connect } from 'formik';
 import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
 import { AppFormField } from '../../types/PleiepengesøknadFormData';

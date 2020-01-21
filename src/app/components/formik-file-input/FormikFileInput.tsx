@@ -2,9 +2,9 @@ import * as React from 'react';
 import { ArrayHelpers, Field as FormikField, FieldArray, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import FileInputBase from 'common/form-components/file-input-base/FileInputBase';
-import { FormikValidationProps } from 'app/types/FormikProps';
-import { showValidationErrors } from 'app/utils/formikUtils';
+import { showValidationErrors } from 'common/formik/formikUtils';
 import { useIntl } from 'react-intl';
+import { FormikValidationProps } from 'common/formik/FormikProps';
 
 export interface FormikFileInputProps<T> {
     name: T;
@@ -14,14 +14,14 @@ export interface FormikFileInputProps<T> {
     onClick?: () => void;
 }
 
-const FormikFileInput = <T extends {}>(): React.FunctionComponent<FormikFileInputProps<T> & FormikValidationProps> => ({
+function FormikFileInput<T>({
     label,
     name,
     acceptedExtensions,
     validate,
     onFilesSelect,
     onClick
-}) => {
+}: FormikFileInputProps<T> & FormikValidationProps) {
     const intl = useIntl();
     return (
         <FieldArray
@@ -49,6 +49,6 @@ const FormikFileInput = <T extends {}>(): React.FunctionComponent<FormikFileInpu
             )}
         />
     );
-};
+}
 
 export default FormikFileInput;

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { ArrayHelpers, connect } from 'formik';
 import { AppFormField } from '../../types/PleiepengesøknadFormData';
-import FileInput from '../file-input/FileInput';
 import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
 import {
     attachmentShouldBeProcessed,
@@ -11,9 +10,10 @@ import {
     VALID_EXTENSIONS
 } from 'common/utils/attachmentUtils';
 import { uploadFile } from '../../api/api';
-import { FieldArrayPushFn, FieldArrayReplaceFn, FormikValidateFunction } from '../../types/FormikProps';
 import * as apiUtils from '../../utils/apiUtils';
 import { Attachment } from 'common/types/Attachment';
+import FormikFileInput from '../formik-file-input/FormikFileInput';
+import { FormikValidateFunction, FieldArrayReplaceFn, FieldArrayPushFn } from 'common/formik/FormikProps';
 
 interface FormikFileUploader {
     name: AppFormField;
@@ -102,7 +102,7 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
     }
 
     return (
-        <FileInput
+        <FormikFileInput<AppFormField>
             name={name}
             acceptedExtensions={VALID_EXTENSIONS.join(', ')}
             onFilesSelect={async (files: File[], { push, replace }: ArrayHelpers) => {

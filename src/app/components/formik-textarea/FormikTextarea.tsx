@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
-import { FormikValidationProps } from 'app/types/FormikProps';
 import TextareaBase from 'common/form-components/textarea-base/TextareaBase';
 import { TextareaProps } from 'nav-frontend-skjema';
-import { showValidationErrors } from 'app/utils/formikUtils';
+import { showValidationErrors } from 'common/formik/formikUtils';
 import { useIntl } from 'react-intl';
+import { FormikValidationProps } from 'common/formik/FormikProps';
 
 interface FormikTextareaProps<T> {
     name: T;
@@ -15,14 +15,9 @@ interface FormikTextareaProps<T> {
 
 export type SelectedTextareaProps = Partial<TextareaProps>;
 
-type Props = SelectedTextareaProps & FormikValidationProps;
+type Props<T> = FormikTextareaProps<T> & SelectedTextareaProps & FormikValidationProps;
 
-const FormikTextarea = <T extends {}>(): React.FunctionComponent<Props & FormikTextareaProps<T>> => ({
-    label,
-    name,
-    validate,
-    ...otherTextareaProps
-}) => {
+function FormikTextarea<T>({ label, name, validate, ...otherTextareaProps }: Props<T>) {
     const intl = useIntl();
     return (
         <FormikField validate={validate} name={name}>
@@ -43,6 +38,6 @@ const FormikTextarea = <T extends {}>(): React.FunctionComponent<Props & FormikT
             }}
         </FormikField>
     );
-};
+}
 
 export default FormikTextarea;
