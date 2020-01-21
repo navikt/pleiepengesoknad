@@ -66,7 +66,7 @@ export const validateFødselsnummer = (v: string): FieldValidationResult => {
 
 export const validateFødselsdato = (date: Date): FieldValidationResult => {
     if (!hasValue(date)) {
-        return undefined;
+        return fieldIsRequiredError();
     }
     if (moment(date).isAfter(dateToday)) {
         return fieldValidationError(FieldValidationErrors.fødselsdato_ugyldig);

@@ -30,7 +30,8 @@ jest.mock('../fødselsnummerValidator', () => {
 
 jest.mock('common/utils/dateUtils', () => {
     return {
-        isMoreThan3YearsAgo: jest.fn()
+        isMoreThan3YearsAgo: jest.fn(),
+        dateToday: new Date()
     };
 });
 
