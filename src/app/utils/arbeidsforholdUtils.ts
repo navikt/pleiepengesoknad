@@ -1,5 +1,6 @@
 import { Arbeidsgiver } from 'app/types/Søkerdata';
 import { Arbeidsforhold } from 'app/types/PleiepengesøknadFormData';
+import { YesOrNo } from 'common/types/YesOrNo';
 
 const roundWithTwoDecimals = (nbr: number): number => Math.round(nbr * 100) / 100;
 
@@ -19,4 +20,8 @@ export const syndArbeidsforholdWithArbeidsgivere = (
         ...organisasjon,
         ...arbeidsforhold.find((f) => f.organisasjonsnummer === organisasjon.organisasjonsnummer)
     }));
+};
+
+export const getAktiveArbeidsforholdIPerioden = (arbeidsforhold: Arbeidsforhold[]) => {
+    return arbeidsforhold.filter((a) => a.erAnsattIPerioden === YesOrNo.YES);
 };

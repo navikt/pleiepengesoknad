@@ -3,7 +3,7 @@ import { TilsynsordningApi, TilsynsordningApiJa } from '../../../types/Pleiepeng
 import Box from 'common/components/box/Box';
 import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
 import intlHelper from 'common/utils/intlUtils';
-import { injectIntl, WrappedComponentProps, FormattedMessage, IntlShape } from 'react-intl';
+import { useIntl, FormattedMessage, IntlShape } from 'react-intl';
 import { hasValue } from '../../../validation/fieldValidations';
 import { TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
 import { Time } from 'common/types/Time';
@@ -41,7 +41,8 @@ const summarizeDaysInWeek = (tilsynsordning: TilsynsordningApiJa, intl: IntlShap
     return intlHelper(intl, 'tilsynsordning.ingenDagerValgt');
 };
 
-const TilsynsordningSummary: React.FunctionComponent<Props & WrappedComponentProps> = ({ tilsynsordning, intl }) => {
+const TilsynsordningSummary: React.FunctionComponent<Props> = ({ tilsynsordning }) => {
+    const intl = useIntl();
     const { svar } = tilsynsordning;
     return (
         <>
@@ -97,4 +98,4 @@ const TilsynsordningSummary: React.FunctionComponent<Props & WrappedComponentPro
     );
 };
 
-export default injectIntl(TilsynsordningSummary);
+export default TilsynsordningSummary;

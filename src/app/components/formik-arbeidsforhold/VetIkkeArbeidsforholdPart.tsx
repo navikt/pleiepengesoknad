@@ -5,18 +5,18 @@ import Input from '../input/Input';
 import { Arbeidsforhold, ArbeidsforholdField, AppFormField } from '../../types/PleiepengesøknadFormData';
 import intlHelper from 'common/utils/intlUtils';
 import { validateReduserteArbeidProsent } from '../../validation/fieldValidations';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
     getFieldName: (name: ArbeidsforholdField) => AppFormField;
 }
 
-const VetIkkeArbeidsforholdPart: React.FunctionComponent<Props & WrappedComponentProps> = ({
+const VetIkkeArbeidsforholdPart: React.FunctionComponent<Props> = ({
     arbeidsforhold: { navn, jobberNormaltTimer },
-    getFieldName,
-    intl
+    getFieldName
 }) => {
+    const intl = useIntl();
     return (
         <>
             <Box margin="xl">
@@ -42,4 +42,4 @@ const VetIkkeArbeidsforholdPart: React.FunctionComponent<Props & WrappedComponen
     );
 };
 
-export default injectIntl(VetIkkeArbeidsforholdPart);
+export default VetIkkeArbeidsforholdPart;

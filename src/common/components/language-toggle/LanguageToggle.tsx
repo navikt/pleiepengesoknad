@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { injectIntl, WrappedComponentProps, IntlShape } from 'react-intl';
+import { useIntl, IntlShape } from 'react-intl';
 import { Wrapper, Button, Menu, MenuItem } from 'react-aria-menubutton';
 const { NedChevron } = require('nav-frontend-chevron');
 import intlHelper from 'common/utils/intlUtils';
@@ -30,12 +30,9 @@ const renderMenuItem = (intl: IntlShape, locale: Locale) => {
     );
 };
 
-const LanguageToggle: React.StatelessComponent<Props & WrappedComponentProps> = ({
-    intl,
-    locale,
-    toggle: toggleLanguage
-}) => {
+const LanguageToggle: React.StatelessComponent<Props> = ({ locale, toggle: toggleLanguage }) => {
     const selectableOtherMenuLanguages: Locale[] = [...AvailableLocales].filter((code) => code !== locale) as Locale[];
+    const intl = useIntl();
 
     return (
         <div className="languageToggle">
@@ -58,4 +55,4 @@ const LanguageToggle: React.StatelessComponent<Props & WrappedComponentProps> = 
         </div>
     );
 };
-export default injectIntl(LanguageToggle);
+export default LanguageToggle;

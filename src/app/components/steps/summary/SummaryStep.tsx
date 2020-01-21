@@ -20,7 +20,7 @@ import routeConfig from '../../../config/routeConfig';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import * as apiUtils from '../../../utils/apiUtils';
 import ContentSwitcher from 'common/components/content-switcher/ContentSwitcher';
-import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
+import { WrappedComponentProps, FormattedMessage, injectIntl } from 'react-intl';
 import intlHelper from 'common/utils/intlUtils';
 import { Locale } from 'common/types/Locale';
 import ArbeidsforholdSummary from 'app/components/arbeidsforhold-summary/ArbeidsforholdSummary';

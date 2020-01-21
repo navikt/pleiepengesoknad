@@ -7,6 +7,7 @@ import CheckboxPanelGroupBase, {
 import { removeElementFromArray } from 'common/utils/listUtils';
 import { FormikValidateFunction, FormikValidationProps } from 'app/types/FormikProps';
 import { isCheckboxChecked, showValidationErrors } from 'app/utils/formikUtils';
+import { useIntl } from 'react-intl';
 
 interface FormikCheckboxPanelProps {
     label: string;
@@ -27,40 +28,43 @@ interface FormikCheckboxPanelGroupProps<T> {
 }
 
 const FormikCheckboxPanelGroup = <T extends {}>(): React.FunctionComponent<FormikCheckboxPanelGroupProps<T> &
-    FormikValidationProps> => ({ name, validate, legend, checkboxes, singleColumn, helperText, intl, valueKey }) => (
-    <FormikField validate={validate} name={name}>
-        {({ field, form: { errors, status, submitCount, setFieldValue } }: FormikFieldProps) => {
-            const errorMsgProps = showValidationErrors(status, submitCount)
-                ? getValidationErrorPropsWithIntl(intl, errors, field.name)
-                : {};
-            return (
-                <CheckboxPanelGroupBase
-                    legend={legend}
-                    checkboxes={checkboxes.map(({ value, ...otherProps }) => ({
-                        checked: isCheckboxChecked(field.value, value, valueKey),
-                        onChange: (evt) => {
-                            if (isCheckboxChecked(field.value, value, valueKey)) {
-                                setFieldValue(`${name}`, removeElementFromArray(value, field.value, valueKey));
-                            } else {
-                                if (field.value) {
-                                    field.value.push(value);
+    FormikValidationProps> => ({ name, validate, legend, checkboxes, singleColumn, helperText, valueKey }) => {
+    const intl = useIntl();
+    return (
+        <FormikField validate={validate} name={name}>
+            {({ field, form: { errors, status, submitCount, setFieldValue } }: FormikFieldProps) => {
+                const errorMsgProps = showValidationErrors(status, submitCount)
+                    ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                    : {};
+                return (
+                    <CheckboxPanelGroupBase
+                        legend={legend}
+                        checkboxes={checkboxes.map(({ value, ...otherProps }) => ({
+                            checked: isCheckboxChecked(field.value, value, valueKey),
+                            onChange: (evt) => {
+                                if (isCheckboxChecked(field.value, value, valueKey)) {
+                                    setFieldValue(`${name}`, removeElementFromArray(value, field.value, valueKey));
                                 } else {
-                                    field.value = [value];
+                                    if (field.value) {
+                                        field.value.push(value);
+                                    } else {
+                                        field.value = [value];
+                                    }
+                                    setFieldValue(`${name}`, field.value);
                                 }
-                                setFieldValue(`${name}`, field.value);
-                            }
-                        },
-                        name: `${name}`,
-                        value,
-                        ...otherProps
-                    }))}
-                    helperText={helperText}
-                    singleColumn={singleColumn}
-                    {...errorMsgProps}
-                />
-            );
-        }}
-    </FormikField>
-);
+                            },
+                            name: `${name}`,
+                            value,
+                            ...otherProps
+                        }))}
+                        helperText={helperText}
+                        singleColumn={singleColumn}
+                        {...errorMsgProps}
+                    />
+                );
+            }}
+        </FormikField>
+    );
+};
 
 export default FormikCheckboxPanelGroup;

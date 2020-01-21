@@ -7,7 +7,7 @@ import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
 import { validateYesOrNoIsAnswered, validateNattevåkTilleggsinfo } from '../../../validation/fieldValidations';
 import intlHelper from 'common/utils/intlUtils';
-import { WrappedComponentProps, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import Box from 'common/components/box/Box';
 import { CustomFormikProps } from '../../../types/FormikProps';
 import { YesOrNo } from 'common/types/YesOrNo';
@@ -18,16 +18,16 @@ interface StepProps {
     handleSubmit: () => void;
 }
 
-type Props = StepProps & HistoryProps & WrappedComponentProps & StepConfigProps;
+type Props = StepProps & HistoryProps & StepConfigProps;
 
 const NattevåkStep: React.FunctionComponent<Props> = ({
     history,
-    intl,
     formikProps: { values },
     nextStepRoute,
     ...stepProps
 }) => {
     const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
+    const intl = useIntl();
     const { harNattevåk } = values;
     return (
         <FormikStep
@@ -55,4 +55,4 @@ const NattevåkStep: React.FunctionComponent<Props> = ({
     );
 };
 
-export default injectIntl(NattevåkStep);
+export default NattevåkStep;

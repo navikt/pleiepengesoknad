@@ -6,7 +6,7 @@ import FormikStep from '../../formik-step/FormikStep';
 import AlertStripe from 'nav-frontend-alertstriper';
 import Box from 'common/components/box/Box';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { WrappedComponentProps, FormattedMessage, injectIntl, FormattedHTMLMessage } from 'react-intl';
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 import FormikArbeidsforhold from '../../formik-arbeidsforhold/FormikArbeidsforhold';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
@@ -28,7 +28,7 @@ interface OwnProps {
     søkerdata: Søkerdata;
 }
 
-type Props = CommonStepFormikProps & OwnProps & HistoryProps & WrappedComponentProps & StepConfigProps;
+type Props = CommonStepFormikProps & OwnProps & HistoryProps & StepConfigProps;
 
 const updateArbeidsforhold = (formikProps: CustomFormikProps, arbeidsgivere: Arbeidsgiver[]) => {
     const updatedArbeidsforhold = syndArbeidsforholdWithArbeidsgivere(
@@ -58,7 +58,7 @@ async function getArbeidsgivere(fromDate: Date, toDate: Date, formikProps: Custo
     }
 }
 
-const ArbeidsforholdStep = ({ history, intl, søkerdata, nextStepRoute, formikProps, ...stepProps }: Props) => {
+const ArbeidsforholdStep = ({ history, søkerdata, nextStepRoute, formikProps, ...stepProps }: Props) => {
     const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
     const [isLoading, setIsLoading] = useState(false);
     const { arbeidsforhold } = formikProps.values;
@@ -121,4 +121,4 @@ const ArbeidsforholdStep = ({ history, intl, søkerdata, nextStepRoute, formikPr
     );
 };
 
-export default injectIntl(ArbeidsforholdStep);
+export default ArbeidsforholdStep;

@@ -3,7 +3,7 @@ import RadioPanelGroup from '../radio-panel-group/RadioPanelGroup';
 import { AppFormField } from '../../types/PleiepengesøknadFormData';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { FormikValidationProps } from 'app/types/FormikProps';
-import { injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { RadioPanelGroupStyle } from 'common/form-components/radio-panel-group-base/RadioPanelGroupBase';
 import intlHelper from 'common/utils/intlUtils';
 
@@ -24,7 +24,6 @@ interface YesOrNoQuestionProps {
 const YesOrNoQuestion: React.FunctionComponent<YesOrNoQuestionProps & FormikValidationProps> = ({
     legend,
     name,
-    intl,
     includeDoNotKnowOption,
     validate,
     labels,
@@ -32,6 +31,7 @@ const YesOrNoQuestion: React.FunctionComponent<YesOrNoQuestionProps & FormikVali
     singleColumn,
     helperText
 }) => {
+    const intl = useIntl();
     const {
         yes: yesLabel = intlHelper(intl, 'Ja'),
         no: noLabel = intlHelper(intl, 'Nei'),
@@ -56,4 +56,4 @@ const YesOrNoQuestion: React.FunctionComponent<YesOrNoQuestionProps & FormikVali
     );
 };
 
-export default injectIntl(YesOrNoQuestion);
+export default YesOrNoQuestion;

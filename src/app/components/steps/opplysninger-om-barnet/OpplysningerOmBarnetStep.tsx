@@ -22,7 +22,7 @@ import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
 import { resetFieldValue, resetFieldValues } from '../../../utils/formikUtils';
 import { prettifyDate, dateToday } from 'common/utils/dateUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
+import { useIntl, FormattedMessage } from 'react-intl';
 import intlHelper from 'common/utils/intlUtils';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 import Datepicker from 'app/components/datepicker/Datepicker';
@@ -31,16 +31,16 @@ interface OpplysningerOmBarnetStepProps {
     formikProps: CustomFormikProps;
 }
 
-type Props = OpplysningerOmBarnetStepProps & HistoryProps & WrappedComponentProps & StepConfigProps;
+type Props = OpplysningerOmBarnetStepProps & HistoryProps & StepConfigProps;
 
 const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
     formikProps: { handleSubmit, setFieldValue, values },
     nextStepRoute,
-    history,
-    intl
+    history
 }: Props) => {
     const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
     const { søknadenGjelderEtAnnetBarn, barnetHarIkkeFåttFødselsnummerEnda } = values;
+    const intl = useIntl();
     return (
         <FormikStep
             id={StepID.OPPLYSNINGER_OM_BARNET}
@@ -176,4 +176,4 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
     );
 };
 
-export default injectIntl(OpplysningerOmBarnetStep);
+export default OpplysningerOmBarnetStep;

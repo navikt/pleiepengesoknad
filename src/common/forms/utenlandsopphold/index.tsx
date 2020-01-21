@@ -6,7 +6,7 @@ import { Knapp } from 'nav-frontend-knapper';
 import Modal from '../../components/modal/Modal';
 import UtenlandsoppholdForm, { UtenlandsoppholdFormLabels } from './UtenlandsoppholdForm';
 import { DateRange } from '../../utils/dateUtils';
-import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
+import { useIntl, FormattedMessage } from 'react-intl';
 import moment from 'moment';
 import { guid } from 'nav-frontend-js-utils';
 import bemUtils from '../../utils/bemUtils';
@@ -38,15 +38,15 @@ const sortUtenlandsopphold = (u1: Utenlandsopphold, u2: Utenlandsopphold): numbe
     return 1;
 };
 
-const UtenlandsoppholdInput: React.FunctionComponent<Props & WrappedComponentProps> = ({
+const UtenlandsoppholdInput: React.FunctionComponent<Props> = ({
     labels,
     utenlandsopphold,
     onChange,
     tidsrom,
     spørOmÅrsakVedOppholdIEØSLand,
-    feil,
-    intl
+    feil
 }) => {
+    const intl = useIntl();
     const [modalState, setModalState] = React.useState<{ isVisible: boolean; utenlandsopphold?: Utenlandsopphold }>({
         isVisible: false
     });
@@ -106,4 +106,4 @@ const UtenlandsoppholdInput: React.FunctionComponent<Props & WrappedComponentPro
     );
 };
 
-export default injectIntl(UtenlandsoppholdInput);
+export default UtenlandsoppholdInput;
