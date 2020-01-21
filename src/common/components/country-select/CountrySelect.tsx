@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { injectIntl, WrappedComponentProps, IntlShape } from 'react-intl';
+import { IntlShape, injectIntl, WrappedComponentProps } from 'react-intl';
 import { Select } from 'nav-frontend-skjema';
 
 import * as countries from 'i18n-iso-countries';
@@ -46,19 +46,19 @@ class CountrySelect extends React.Component<Props> {
         };
     }
 
-    getCountryOptions(): React.ReactNode[] {
-        if (!this.countryOptionsCache || this.props.intl.locale !== this.countryOptionsCache.locale) {
-            this.updateCache(this.props.intl);
+    getCountryOptions(intl: IntlShape): React.ReactNode[] {
+        if (!this.countryOptionsCache || intl.locale !== this.countryOptionsCache.locale) {
+            this.updateCache(intl);
         }
         return this.countryOptionsCache.options;
     }
 
     render() {
-        const { onChange, name, showOnlyEuAndEftaCountries, ...restProps } = this.props;
+        const { onChange, name, showOnlyEuAndEftaCountries, intl, ...restProps } = this.props;
         return (
             <Select name={name} {...restProps} onChange={(e) => onChange(e.target.value)}>
                 <option value="" />
-                {this.getCountryOptions()}
+                {this.getCountryOptions(intl)}
             </Select>
         );
     }

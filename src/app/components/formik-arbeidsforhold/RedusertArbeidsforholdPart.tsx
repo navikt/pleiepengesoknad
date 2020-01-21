@@ -6,7 +6,7 @@ import { Arbeidsforhold, ArbeidsforholdField, AppFormField } from '../../types/P
 import intlHelper from 'common/utils/intlUtils';
 import { validateReduserteArbeidProsent, validateRequiredField } from '../../validation/fieldValidations';
 import RadioPanelGroup from '../radio-panel-group/RadioPanelGroup';
-import { injectIntl, WrappedComponentProps, FormattedMessage, IntlShape } from 'react-intl';
+import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import {
     calcReduserteTimerFromRedusertProsent,
@@ -43,11 +43,11 @@ const getLabelForTimerRedusert = (intl: IntlShape, timerNormalt: number, timerRe
     return intlHelper(intl, 'arbeidsforhold.timer.utledet', { timer: timerNormalt });
 };
 
-const RedusertArbeidsforholdPart: React.FunctionComponent<Props & WrappedComponentProps> = ({
+const RedusertArbeidsforholdPart: React.FunctionComponent<Props> = ({
     arbeidsforhold: { navn, timerEllerProsent, jobberNormaltTimer, skalJobbeTimer, skalJobbeProsent },
-    getFieldName,
-    intl
+    getFieldName
 }) => {
+    const intl = useIntl();
     return (
         <>
             <Box margin="xl">
@@ -138,4 +138,4 @@ const RedusertArbeidsforholdPart: React.FunctionComponent<Props & WrappedCompone
     );
 };
 
-export default injectIntl(RedusertArbeidsforholdPart);
+export default RedusertArbeidsforholdPart;

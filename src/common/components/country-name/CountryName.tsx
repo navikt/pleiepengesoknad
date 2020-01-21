@@ -1,6 +1,6 @@
 import React from 'react';
-import { getCountryName } from '../country-select/CountrySelect';
 import { useIntl } from 'react-intl';
+import { getCountryName } from '../country-select/CountrySelect';
 
 interface Props {
     countryCode: string;

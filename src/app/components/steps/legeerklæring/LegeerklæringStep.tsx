@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { injectIntl, WrappedComponentProps, FormattedHTMLMessage } from 'react-intl';
+import { useIntl, FormattedHTMLMessage } from 'react-intl';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
@@ -18,14 +18,11 @@ import { CustomFormikProps } from '../../../types/FormikProps';
 import HelperTextPanel from 'common/components/helper-text-panel/HelperTextPanel';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 
-type Props = { formikProps: CustomFormikProps } & CommonStepFormikProps &
-    HistoryProps &
-    WrappedComponentProps &
-    StepConfigProps;
+type Props = { formikProps: CustomFormikProps } & CommonStepFormikProps & HistoryProps & StepConfigProps;
 
-const LegeerklæringStep = ({ history, intl, nextStepRoute, formikProps, ...stepProps }: Props) => {
+const LegeerklæringStep = ({ history, nextStepRoute, formikProps, ...stepProps }: Props) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
-
+    const intl = useIntl();
     const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
     const isRunningDemoMode = appIsRunningInDemoMode();
 
@@ -79,4 +76,4 @@ const LegeerklæringStep = ({ history, intl, nextStepRoute, formikProps, ...step
     );
 };
 
-export default injectIntl(LegeerklæringStep);
+export default LegeerklæringStep;

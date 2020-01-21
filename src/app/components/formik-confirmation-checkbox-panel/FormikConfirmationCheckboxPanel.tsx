@@ -4,6 +4,7 @@ import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import { FormikValidateFunction, FormikValidationProps } from 'app/types/FormikProps';
 import { showValidationErrors } from 'app/utils/formikUtils';
+import { useIntl } from 'react-intl';
 
 interface FormikConfirmationCheckboxPanelProps<T> {
     label: string;
@@ -15,28 +16,31 @@ interface FormikConfirmationCheckboxPanelProps<T> {
 const FormikConfirmationCheckboxPanel = <T extends {}>(): React.FunctionComponent<FormikConfirmationCheckboxPanelProps<
     T
 > &
-    FormikValidationProps> => ({ children, label, name, validate, intl }) => (
-    <FormikField validate={validate} name={name}>
-        {({ field, form: { errors, submitCount, status, setFieldValue } }: FormikFieldProps) => {
-            const errorMsgProps = showValidationErrors(status, submitCount)
-                ? getValidationErrorPropsWithIntl(intl, errors, field.name)
-                : {};
-            return (
-                <NAVConfirmationCheckboxPanel
-                    className="skjemaelement"
-                    children={children}
-                    checked={field.value === true}
-                    label={label}
-                    inputProps={{ name: `${name}`, id: `${name}` }}
-                    {...field}
-                    {...errorMsgProps}
-                    onChange={() => {
-                        setFieldValue(`${name}`, !field.value);
-                    }}
-                />
-            );
-        }}
-    </FormikField>
-);
+    FormikValidationProps> => ({ children, label, name, validate }) => {
+    const intl = useIntl();
+    return (
+        <FormikField validate={validate} name={name}>
+            {({ field, form: { errors, submitCount, status, setFieldValue } }: FormikFieldProps) => {
+                const errorMsgProps = showValidationErrors(status, submitCount)
+                    ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                    : {};
+                return (
+                    <NAVConfirmationCheckboxPanel
+                        className="skjemaelement"
+                        children={children}
+                        checked={field.value === true}
+                        label={label}
+                        inputProps={{ name: `${name}`, id: `${name}` }}
+                        {...field}
+                        {...errorMsgProps}
+                        onChange={() => {
+                            setFieldValue(`${name}`, !field.value);
+                        }}
+                    />
+                );
+            }}
+        </FormikField>
+    );
+};
 
 export default FormikConfirmationCheckboxPanel;

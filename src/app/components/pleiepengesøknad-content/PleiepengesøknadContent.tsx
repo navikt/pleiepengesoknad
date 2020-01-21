@@ -18,6 +18,7 @@ import NattevåkStep from '../steps/nattevåkStep/NattevåkStep';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import BeredskapStep from '../steps/beredskapStep/BeredskapStep';
 import { SøkerdataContextConsumer } from 'app/context/SøkerdataContext';
+import { getAktiveArbeidsforholdIPerioden } from 'app/utils/arbeidsforholdUtils';
 
 interface PleiepengesøknadContentProps {
     formikProps: CustomFormikProps;
@@ -189,7 +190,7 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
                         if (values.harForståttRettigheterOgPlikter === true) {
                             // Only call reset if it has not been called before (prevent loop)
                             setTimeout(() => {
-                                setAntallArbeidsforhold(values.arbeidsforhold.length);
+                                setAntallArbeidsforhold(getAktiveArbeidsforholdIPerioden(values.arbeidsforhold).length);
                                 resetForm();
                             });
                         }

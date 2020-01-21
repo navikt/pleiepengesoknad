@@ -2,7 +2,7 @@ import React from 'react';
 import TimeInput from '../time-input/TimeInput';
 import { AppFormField } from '../../types/PleiepengesøknadFormData';
 import { validateTilsynstimerEnDag } from '../../validation/fieldValidations';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { useIntl } from 'react-intl';
 import intlHelper from 'common/utils/intlUtils';
 import Box from 'common/components/box/Box';
 
@@ -12,7 +12,8 @@ interface Props {
     name: AppFormField;
 }
 
-const Tilsynsuke: React.FunctionComponent<Props & WrappedComponentProps> = ({ name, intl }) => {
+const Tilsynsuke: React.FunctionComponent<Props> = ({ name }) => {
+    const intl = useIntl();
     return (
         <>
             {/* <CounsellorPanel>
@@ -51,4 +52,4 @@ const Tilsynsuke: React.FunctionComponent<Props & WrappedComponentProps> = ({ na
     );
 };
 
-export default injectIntl(Tilsynsuke);
+export default Tilsynsuke;

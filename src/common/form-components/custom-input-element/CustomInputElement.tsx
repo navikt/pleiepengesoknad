@@ -8,7 +8,7 @@ import HelperTextPanel from '../../components/helper-text-panel/HelperTextPanel'
 const classnames = require('classnames');
 import './customInputElement.less';
 import intlHelper from 'common/utils/intlUtils';
-import { injectIntl, WrappedComponentProps } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { guid } from 'nav-frontend-js-utils';
 
 interface CustomInputElementProps {
@@ -22,7 +22,7 @@ interface CustomInputElementProps {
     helperText?: string | React.ReactNode;
 }
 
-const CustomInputElement: React.FunctionComponent<CustomInputElementProps & WrappedComponentProps> = ({
+const CustomInputElement: React.FunctionComponent<CustomInputElementProps> = ({
     children,
     name,
     className,
@@ -30,9 +30,9 @@ const CustomInputElement: React.FunctionComponent<CustomInputElementProps & Wrap
     labelHtmlFor,
     labelId = guid(),
     validationError,
-    helperText,
-    intl
+    helperText
 }) => {
+    const intl = useIntl();
     const wrapperCls = classnames('skjemaelement', {
         'skjemaelement--harFeil': validationError !== undefined,
         [`${className}`]: className !== undefined,
@@ -67,4 +67,4 @@ const CustomInputElement: React.FunctionComponent<CustomInputElementProps & Wrap
     );
 };
 
-export default injectIntl(CustomInputElement);
+export default CustomInputElement;

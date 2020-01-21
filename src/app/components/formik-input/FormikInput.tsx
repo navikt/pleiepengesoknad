@@ -5,6 +5,7 @@ import InputBase, { InputBaseProps } from 'common/form-components/input-base/Inp
 import { NavFrontendInputProps } from 'nav-frontend-skjema';
 import { FormikValidationProps } from 'app/types/FormikProps';
 import { showValidationErrors } from 'app/utils/formikUtils';
+import { useIntl } from 'react-intl';
 
 interface FormikInputProps<T> extends InputBaseProps {
     name: T;
@@ -16,25 +17,27 @@ const FormikInput = <T extends {}>(): React.FunctionComponent<Props & FormikInpu
     label,
     name,
     validate,
-    intl,
     ...otherInputProps
-}) => (
-    <FormikField validate={validate} name={name}>
-        {({ field, form: { errors, status, submitCount } }: FormikFieldProps) => {
-            const errorMsgProps = showValidationErrors(status, submitCount)
-                ? getValidationErrorPropsWithIntl(intl, errors, field.name)
-                : {};
-            return (
-                <InputBase
-                    label={label}
-                    {...otherInputProps}
-                    {...errorMsgProps}
-                    {...field}
-                    value={field.value === undefined ? '' : field.value}
-                />
-            );
-        }}
-    </FormikField>
-);
+}) => {
+    const intl = useIntl();
+    return (
+        <FormikField validate={validate} name={name}>
+            {({ field, form: { errors, status, submitCount } }: FormikFieldProps) => {
+                const errorMsgProps = showValidationErrors(status, submitCount)
+                    ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                    : {};
+                return (
+                    <InputBase
+                        label={label}
+                        {...otherInputProps}
+                        {...errorMsgProps}
+                        {...field}
+                        value={field.value === undefined ? '' : field.value}
+                    />
+                );
+            }}
+        </FormikField>
+    );
+};
 
 export default FormikInput;

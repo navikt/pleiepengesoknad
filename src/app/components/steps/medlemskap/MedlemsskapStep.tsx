@@ -11,7 +11,7 @@ import {
     validateUtenlandsoppholdNeste12Mnd
 } from '../../../validation/fieldValidations';
 import intlHelper from 'common/utils/intlUtils';
-import { WrappedComponentProps, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import Box from 'common/components/box/Box';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
@@ -26,11 +26,12 @@ import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import { dateToday, date1YearFromNow, date1YearAgo } from 'common/utils/dateUtils';
 import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 
-type Props = CommonStepFormikProps & HistoryProps & WrappedComponentProps & StepConfigProps;
+type Props = CommonStepFormikProps & HistoryProps & StepConfigProps;
 
-const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, intl, nextStepRoute, ...stepProps }) => {
+const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, nextStepRoute, ...stepProps }) => {
     const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
     const { formValues } = stepProps;
+    const intl = useIntl();
 
     return (
         <FormikStep id={StepID.MEDLEMSKAP} onValidFormSubmit={navigate} history={history} {...stepProps}>
@@ -122,4 +123,4 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, intl, nextSt
     );
 };
 
-export default injectIntl(MedlemsskapStep);
+export default MedlemsskapStep;
