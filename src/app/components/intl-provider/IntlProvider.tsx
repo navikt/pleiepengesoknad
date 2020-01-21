@@ -14,8 +14,9 @@ const appNynorsktekster = require('../../i18n/nn.json');
 const utenlandsoppholdBokmål = require('../../../common/forms/utenlandsopphold/utenlandsopphold.nb.json');
 const utenlandsoppholdNynorsk = require('../../../common/forms/utenlandsopphold/utenlandsopphold.nn.json');
 const pictureScanningGuideBokmål = require('../../../common/components/picture-scanning-guide/picturescanningguide.nb.json');
+const pictureScanningGuideNynorsk = require('../../../common/components/picture-scanning-guide/picturescanningguide.nn.json');
 const bokmålstekster = { ...appBokmålstekster, ...utenlandsoppholdBokmål, ...pictureScanningGuideBokmål };
-const nynorsktekster = { ...appNynorsktekster, ...utenlandsoppholdNynorsk };
+const nynorsktekster = { ...appNynorsktekster, ...utenlandsoppholdNynorsk, ...pictureScanningGuideNynorsk };
 
 export interface IntlProviderProps {
     locale: Locale;

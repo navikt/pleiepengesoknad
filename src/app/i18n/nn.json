@@ -76,7 +76,7 @@
     "step.medlemskap.stepIndicatorLabel": "Om medlemskap i folketrygda",
 
     "step.legeerklaering.pageTitle": "Pleiepengesøknad – legeerklæring",
-    "step.legeerklaering.stepTitle": "Legeerklæring",
+    "step.legeerklaering.stepTitle": "Last opp legeerklæring",
     "step.legeerklaering.stepIndicatorLabel": "Last opp legeerklæringa di.",
 
     "step.oppsummering.pageTitle": "Pleiepengesøknad – oppsummering",
@@ -189,11 +189,10 @@
     "steg.medlemsskap.iUtlandetIPerioden.listeTittel": "Utenlandsopphald i perioden du søkjer for",
     "steg.medlemsskap.iUtlandetIPerioden.eøs.årsak.hjelp": "Dette treng vi fordi ...",
     "steg.medlemsskap.iUtlandetIPerioden.eøs.årsak.spm": "Kva er formålet med denne reisa?",
-
-    "steg.lege.info.html": "<p>Ta bilete av legeerklæringa og last opp. Dersom legen har skrive erklæringa i papirsøknaden, ta bilete av felta som legen har fylt ut om barnet.</p><p>Ver nøye med at <strong>all tekst</strong> på biletet er med, og at biletet er leseleg.</p>",
+    "steg.lege.info.html": "<h2>Ta bilete av legeerklæringa og last opp.</h2>h3>Slik tar du et godt bilde:</h3><ul><li>Hold mobilen eller kameraet direkte over dokumentet.</li><li>Legeerklæringen skal fylle hele bildet. Bildet skal ikke <i>ikke</i> inneholde annen dokumentasjon eller gjenstander.</li><li>Bildet må inneholde all tekst i legeerkaring. Hvis legeerklæringen er skrevet på mer enn én side, bør du last opp flere bilder. Du kan ikke laste opp mer enn 3 bilder.</li></ul><h3>Etter at du har tatt bildet, sjekk følgende før du laster opp:</h3><ul><li>Legeerklæringen har riktig retting.</li><li>Teksten til legeerklæringen er godt leselig.</li><li>Bildet er godt opplyst, uten skygger.</li></ul>",
     "steg.lege.vedlegg": "Last opp bilete av legeerklæringa (maks 3 bilete).",
     "steg.lege.intro.1.html": "For dei første 8 vekene må legeerklæringa skrivast av ein sjukehuslege. Etter dei første 8 vekene kan legeerklæringa skrivast av alle leger i spesialisthelsetjenesta.",
-    "steg.lege.intro.2.html": "Desse yrkesgruppene kan <strong>ikkje</strong> skrive under legeerklæringa: sosionom, legesekretær, psykolog, psykologspesialist, fysioterapeut, fastlege og spesialist i allmennmedisin.",
+    "steg.lege.intro.2.html": "Desse yrkesgruppene kan <strong>ikkje</strong> skrive under legeerklæringa: fastlege, spesialist i allmenmedisin, legesekretær, sosionom, psykolog, psykologspesialist eller fysioterapeut, fastlege og spesialist i allmennmedisin.",
 
     "steg.oppsummering.info": "Les gjennom oppsummeringa før du sender inn søknaden. Dersom du vil gjere endringar, kan du gå tilbake.",
     "steg.oppsummering.søker.header": "Namn på søkjar",
@@ -264,6 +263,7 @@
 
     "vedleggsliste.fjernKnapp": "Fjern vedlegg",
     "vedleggsliste.ingenLegeerklæringLastetOpp": "Ingen vedlegg er lasta opp.",
+    "vedleggsliste.legeerklæringLastetOppSjekkliste": "Før du fortsetter, klikk på hvert enkelt filnavn og sjekk at bildekvaliteten er god nok.<br /> Bildet åpner i en ny fane.",
 
     "fieldvalidation.påkrevd": "Feltet må fyllast ut.",
     "fieldvalidation.fødselsnummer.11siffer": "Fødselsnummeret må bestå av 11 siffer.",

@@ -8,9 +8,10 @@ import { containsAnyUploadedAttachments, fileExtensionIsValid } from 'common/uti
 import Box from 'common/components/box/Box';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 import AttachmentListWithDeletion from 'common/components/attachment-list-with-deletion/AttachmentListWithDeletion';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 import { Attachment } from 'common/types/Attachment';
 import AttachmentList from 'common/components/attachment-list/AttachmentList';
+import { Panel } from 'nav-frontend-paneler';
 
 interface LegeerklæringAttachmentListProps {
     includeDeletionFunctionality: boolean;
@@ -19,7 +20,7 @@ interface LegeerklæringAttachmentListProps {
 
 type Props = LegeerklæringAttachmentListProps & ConnectedFormikProps<AppFormField>;
 
-const InfoText = () => <Element><FormattedMessage id="vedleggsliste.legeerklæringLastetOppSjekkliste"/></Element>;
+const InfoText = () => <Panel><Element><FormattedHTMLMessage id="vedleggsliste.legeerklæringLastetOppSjekkliste" /></Element></Panel>;
 
 const LegeerklæringAttachmentList: React.FunctionComponent<Props> = ({
     formik: { values, setFieldValue },

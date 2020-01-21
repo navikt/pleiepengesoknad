@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {injectIntl, FormattedMessage, FormattedHTMLMessage, InjectedIntlProps} from 'react-intl';
-import Lenkepanel from 'nav-frontend-lenkepanel/lib';
+import Lenke from 'nav-frontend-lenker';
 
 import ScanningIcon from '../scanning-icon/ScanningIcon';
 import StatusIkon from '../status-icon/StatusIcon';
@@ -27,35 +27,43 @@ const PictureScanningGuide: React.FunctionComponent<Props> = ({intl}) => {
                     <div className={bem.element('cell')}>
                         <ScanningIcon status="good" size={svgIconSize}/>
                         <div className={bem.element('text-block')}>
-                            <p><StatusIkon status="suksess"/><FormattedHTMLMessage tagName="strong" id="psg.good"/></p>
-                            <FormattedHTMLMessage tagName="span" id="psg.icon.label.good"/>
+                            <p><StatusIkon status="suksess"/><FormattedHTMLMessage tagName="strong" id="psg.good" /></p>
+                        </div>
+                        <div className={bem.element('text-block')}>
+                            <FormattedHTMLMessage tagName="span" id="psg.icon.label.good" />
                         </div>
                     </div>
                     <div className={bem.element('cell')}>
                         <ScanningIcon status="keystone" size={svgIconSize}/>
                         <div className={bem.element('text-block')}>
-                            <p><StatusIkon status="feil"/><FormattedHTMLMessage tagName="strong" id="psg.bad"/></p>
-                            <FormattedHTMLMessage tagName="span" id="psg.icon.label.keystone"/>
+                            <p><StatusIkon status="feil"/><FormattedHTMLMessage tagName="strong" id="psg.bad" /></p>
+                        </div>
+                        <div className={bem.element('text-block')}>
+                            <FormattedHTMLMessage tagName="span" id="psg.icon.label.keystone" />
                         </div>
                     </div>
                     <div className={bem.element('cell')}>
                         <ScanningIcon status="horizontal" size={svgIconSize}/>
                         <div className={bem.element('text-block')}>
-                            <p><StatusIkon status="feil"/><FormattedHTMLMessage tagName="strong" id="psg.bad"/></p>
-                            <FormattedHTMLMessage tagName="span" id="psg.icon.label.horizontal"/>
+                            <p><StatusIkon status="feil"/><FormattedHTMLMessage tagName="strong" id="psg.bad" /></p>
+                        </div>
+                        <div className={bem.element('text-block')}>
+                            <FormattedHTMLMessage tagName="span" id="psg.icon.label.horizontal" />
                         </div>
                     </div>
                     <div className={bem.element('cell')}>
                         <ScanningIcon status="shadow" size={svgIconSize}/>
                         <div className={bem.element('text-block')}>
-                            <p><StatusIkon status="feil"/><FormattedHTMLMessage tagName="strong" id="psg.bad"/></p>
-                            <FormattedHTMLMessage tagName="span" id="psg.icon.label.shadow"/>
+                            <p><StatusIkon status="feil"/><FormattedHTMLMessage tagName="strong" id="psg.bad" /></p>
+                        </div>
+                        <div className={bem.element('text-block')}>
+                            <FormattedHTMLMessage tagName="span" id="psg.icon.label.shadow" />
                         </div>
                     </div>
                 </div>
-                <Lenkepanel tittelProps="normaltekst" target="_blank" href={intlHelper(intl, 'psg.lenkepanel.url')}>
-                    <FormattedMessage id="psg.lenkepanel.text"/>
-                </Lenkepanel>
+                <Lenke ariaLabel="Mer hjelp til opplasting av bilde" target="_blank" href={intlHelper(intl, 'psg.lenkepanel.url')}>
+                    <FormattedMessage id="psg.lenkepanel.text" />
+                </Lenke>
             </div>
         </>
     );
