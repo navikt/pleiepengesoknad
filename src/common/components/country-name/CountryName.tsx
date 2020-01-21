@@ -1,12 +1,12 @@
 import React from 'react';
-import { injectIntl, InjectedIntlProps } from 'react-intl';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { getCountryName } from '../country-select/CountrySelect';
 
 interface Props {
     countryCode: string;
 }
 
-const CountryName: React.FunctionComponent<Props & InjectedIntlProps> = ({ countryCode, intl }) => (
+const CountryName: React.FunctionComponent<Props & WrappedComponentProps> = ({ countryCode, intl }) => (
     <>{getCountryName(countryCode, intl.locale)}</>
 );
 

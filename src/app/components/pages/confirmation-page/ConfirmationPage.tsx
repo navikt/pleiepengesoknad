@@ -4,14 +4,14 @@ import { Ingress, Innholdstittel } from 'nav-frontend-typografi';
 import Box from 'common/components/box/Box';
 import bemUtils from 'common/utils/bemUtils';
 import CheckmarkIcon from 'common/components/checkmark-icon/CheckmarkIcon';
-import { FormattedMessage, injectIntl, InjectedIntlProps, FormattedHTMLMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, WrappedComponentProps, FormattedHTMLMessage } from 'react-intl';
 import intlHelper from 'common/utils/intlUtils';
 import getLenker from 'app/lenker';
 import './confirmationPage.less';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 import AlertStripe from 'nav-frontend-alertstriper';
 
-type Props = InjectedIntlProps & { numberOfArbeidsforhold: number };
+type Props = WrappedComponentProps & { numberOfArbeidsforhold: number };
 
 const bem = bemUtils('confirmationPage');
 

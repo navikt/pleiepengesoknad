@@ -8,7 +8,7 @@ import Box from 'common/components/box/Box';
 import StepBanner from '../step-banner/StepBanner';
 import { Systemtittel } from 'nav-frontend-typografi';
 import FormikValidationErrorSummary from '../formik-validation-error-summary/FormikValidationErrorSummary';
-import { InjectedIntl, injectIntl } from 'react-intl';
+import { IntlShape, injectIntl } from 'react-intl';
 import { getStepTexts } from 'app/utils/stepUtils';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { History } from 'history';
@@ -26,7 +26,7 @@ export interface StepProps {
     showButtonSpinner?: boolean;
     buttonDisabled?: boolean;
     useValidationErrorSummary?: boolean;
-    intl: InjectedIntl;
+    intl: IntlShape;
     customErrorSummaryRenderer?: () => React.ReactNode;
 }
 

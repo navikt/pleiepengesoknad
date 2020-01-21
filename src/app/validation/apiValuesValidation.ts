@@ -1,6 +1,6 @@
 import { ValidationSummaryError } from '../components/validation-error-summary-base/ValidationErrorSummaryBase';
 import { PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
-import { InjectedIntl } from 'react-intl';
+import { IntlShape } from 'react-intl';
 import intlHelper from 'common/utils/intlUtils';
 
 export const apiVedleggIsInvalid = (vedlegg: string[]): boolean => {
@@ -12,7 +12,7 @@ export const apiVedleggIsInvalid = (vedlegg: string[]): boolean => {
 
 export const validateApiValues = (
     values: PleiepengesøknadApiData,
-    intl: InjectedIntl
+    intl: IntlShape
 ): ValidationSummaryError[] | undefined => {
     const errors: ValidationSummaryError[] = [];
 

@@ -1,7 +1,7 @@
 import { SkjemaelementFeil } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
 import { FormikErrors, getIn } from 'formik';
 import { isFieldValidationError, renderFieldValidationError } from 'common/validation/fieldValidationRenderUtils';
-import { InjectedIntl } from 'react-intl';
+import { IntlShape } from 'react-intl';
 import { isArray } from 'util';
 
 const isNotEmpty = (obj: any): boolean => {
@@ -15,7 +15,7 @@ const isNotEmpty = (obj: any): boolean => {
 };
 
 export const getValidationErrorPropsWithIntl = <T>(
-    intl: InjectedIntl,
+    intl: IntlShape,
     errors: FormikErrors<T>,
     elementName: string
 ): { feil?: SkjemaelementFeil } => {
