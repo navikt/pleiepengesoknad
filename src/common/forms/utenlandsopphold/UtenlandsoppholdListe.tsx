@@ -23,20 +23,12 @@ const UtenlandsoppholdListe: React.FunctionComponent<Props & InjectedIntlProps> 
     onEdit,
     intl
 }) => {
-    const getUtenlandsopphold = (id: string): Utenlandsopphold | undefined => {
-        return utenlandsopphold.find((u) => u.id === id);
-    };
-
-    const renderUtenlandsoppholdLabel = (id: string): React.ReactNode => {
-        const opphold = getUtenlandsopphold(id);
-        if (!opphold) {
-            return <div>"N/A"</div>;
-        }
+    const renderUtenlandsoppholdLabel = (opphold: Utenlandsopphold): React.ReactNode => {
         const navn = getCountryName(opphold.countryCode, intl.locale);
         return (
             <div className={bem.element('label')}>
                 <span className={bem.element('land')}>
-                    {onEdit && <ActionLink onClick={() => handleEdit(id)}>{navn}</ActionLink>}
+                    {onEdit && <ActionLink onClick={() => onEdit(opphold)}>{navn}</ActionLink>}
                     {!onEdit && <span>{navn}</span>}
                 </span>
                 <span className={bem.element('dato')}>
@@ -46,35 +38,14 @@ const UtenlandsoppholdListe: React.FunctionComponent<Props & InjectedIntlProps> 
         );
     };
 
-    const handleEdit = (id: string) => {
-        if (onEdit) {
-            const opphold = getUtenlandsopphold(id);
-            if (opphold) {
-                onEdit(opphold);
-            }
-        }
-    };
-
-    const handleDelete = (id: string) => {
-        if (onDelete) {
-            const opphold = getUtenlandsopphold(id);
-            if (opphold) {
-                onDelete(opphold);
-            }
-        }
-    };
-
     return (
-        <ItemList
-            onDelete={onDelete ? handleDelete : undefined}
-            onEdit={onEdit ? handleEdit : undefined}
+        <ItemList<Utenlandsopphold>
+            getItemId={(opphold) => opphold.id}
+            getItemTitle={(opphold) => getCountryName(opphold.countryCode, intl.locale)}
+            onDelete={onDelete}
+            onEdit={onEdit}
             labelRenderer={renderUtenlandsoppholdLabel}
-            items={utenlandsopphold
-                .filter((u) => u.id !== undefined)
-                .map((u) => ({
-                    id: u.id!,
-                    label: getCountryName(u.countryCode, intl.locale)
-                }))}
+            items={utenlandsopphold}
         />
     );
 };

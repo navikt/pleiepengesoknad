@@ -24,9 +24,14 @@ import './dagerPerUkeBorteFraJobb.less';
 import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 import { Field, FieldProps } from 'formik';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
-import UtenlandsoppholdInput from 'common/forms/utenlandsopphold';
 import { showValidationErrors } from 'app/utils/formikUtils';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
+import { Ferieuttak } from 'common/forms/ferieuttak/types';
+import ModalFormAndList from 'common/components/modal-form-and-list/ModalFormAndList';
+import FerieuttakListe from 'common/forms/ferieuttak/FerieuttakList';
+import FerieuttakForm from 'common/forms/ferieuttak/FerieuttakForm';
+import UtenlandsoppholdListe from 'common/forms/utenlandsopphold/UtenlandsoppholdListe';
+import UtenlandsoppholdForm from 'common/forms/utenlandsopphold/UtenlandsoppholdForm';
 
 interface OpplysningerOmTidsromStepProps {
     formikProps: CustomFormikProps;
@@ -87,7 +92,7 @@ const OpplysningerOmTidsromStep = ({ history, intl, nextStepRoute, formikProps, 
                 <Box margin="xl">
                     <YesOrNoQuestion
                         legend={intlHelper(intl, 'steg.medlemsskap.iUtlandetIPerioden.spm')}
-                        name={AppFormField.skalOppholdsSegIUtlandetIPerioden}
+                        name={AppFormField.skalOppholdeSegIUtlandetIPerioden}
                         validate={validateRequiredField}
                     />
                 </Box>
@@ -108,36 +113,89 @@ const OpplysningerOmTidsromStep = ({ history, intl, nextStepRoute, formikProps, 
                                     ? getValidationErrorPropsWithIntl(intl, errors, field.name)
                                     : {};
                                 return (
-                                    <UtenlandsoppholdInput
-                                        labels={{
-                                            listeTittel: intlHelper(
-                                                intl,
-                                                'steg.medlemsskap.iUtlandetIPerioden.listeTittel'
-                                            ),
-                                            formLabels: {
-                                                reasonLabel: intlHelper(
-                                                    intl,
-                                                    'steg.medlemsskap.iUtlandetIPerioden.eøs.årsak.spm'
-                                                ),
-                                                reasonHelperText: intlHelper(
-                                                    intl,
-                                                    'steg.medlemsskap.iUtlandetIPerioden.eøs.årsak.hjelp'
-                                                )
-                                            }
-                                        }}
-                                        spørOmÅrsakVedOppholdIEØSLand={true}
-                                        utenlandsopphold={field.value}
-                                        tidsrom={periode || { from: date1YearFromNow, to: date1YearFromNow }}
-                                        onChange={(utenlandsopphold: Utenlandsopphold[]) => {
-                                            setFieldValue(field.name, utenlandsopphold);
-                                        }}
-                                        {...errorMsgProps}
-                                    />
+                                    <>
+                                        <ModalFormAndList<Utenlandsopphold>
+                                            items={field.value}
+                                            onChange={(oppholdsliste) => {
+                                                setFieldValue(field.name, oppholdsliste);
+                                            }}
+                                            labels={{
+                                                modalTitle: 'Utenlandsopphold',
+                                                listTitle: 'Registrerte utenlandsopphold i perioden',
+                                                addLabel: 'Legg til utenlandsopphold'
+                                            }}
+                                            listRenderer={(onEdit, onDelete) => (
+                                                <UtenlandsoppholdListe
+                                                    utenlandsopphold={field.value}
+                                                    onDelete={onDelete}
+                                                    onEdit={onEdit}
+                                                />
+                                            )}
+                                            formRenderer={(onSubmit, onCancel, opphold) => (
+                                                <UtenlandsoppholdForm
+                                                    labels={{}}
+                                                    opphold={opphold}
+                                                    onCancel={onCancel}
+                                                    onSubmit={onSubmit}
+                                                    minDate={date1YearAgo}
+                                                    maxDate={date1YearFromNow}
+                                                    {...errorMsgProps}
+                                                />
+                                            )}
+                                        />
+                                    </>
                                 );
                             }}
                         </Field>
                     </Box>
                 )}
+
+            {isFeatureEnabled(Feature.TOGGLE_FERIEUTTAK) && (
+                <Box margin="xl">
+                    <YesOrNoQuestion
+                        legend={intlHelper(intl, 'steg.medlemsskap.ferieuttakIPerioden.spm')}
+                        name={AppFormField.skalTaUtFerieIPerioden}
+                        validate={validateRequiredField}
+                    />
+                </Box>
+            )}
+            {isFeatureEnabled(Feature.TOGGLE_FERIEUTTAK) && formikProps.values.skalTaUtFerieIPerioden === YesOrNo.YES && (
+                <Box margin="m">
+                    <Field name={AppFormField.ferieuttakIPerioden}>
+                        {({ field, form: { errors, setFieldValue, status, submitCount } }: FieldProps) => {
+                            const errorMsgProps = showValidationErrors(status, submitCount)
+                                ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                                : {};
+                            return (
+                                <ModalFormAndList<Ferieuttak>
+                                    items={field.value}
+                                    onChange={(ferieuttak) => {
+                                        setFieldValue(field.name, ferieuttak);
+                                    }}
+                                    labels={{
+                                        modalTitle: 'Ferieuttak',
+                                        listTitle: 'Registrerte ferieuttak i perioden',
+                                        addLabel: 'Legg til periode med ferieuttak'
+                                    }}
+                                    listRenderer={(onEdit, onDelete) => (
+                                        <FerieuttakListe ferieuttak={field.value} onDelete={onDelete} onEdit={onEdit} />
+                                    )}
+                                    formRenderer={(onSubmit, onCancel, ferieuttak) => (
+                                        <FerieuttakForm
+                                            ferieuttak={ferieuttak}
+                                            onCancel={onCancel}
+                                            onSubmit={onSubmit}
+                                            minDate={date1YearAgo}
+                                            maxDate={date1YearFromNow}
+                                            {...errorMsgProps}
+                                        />
+                                    )}
+                                />
+                            );
+                        }}
+                    </Field>
+                </Box>
+            )}
 
             <Box margin="xl">
                 <YesOrNoQuestion

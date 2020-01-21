@@ -86,7 +86,7 @@ const UtenlandsoppholdInput: React.FunctionComponent<Props & InjectedIntlProps> 
                     maxDate={tidsrom.to}
                     onCancel={resetModal}
                     onSubmit={handleOnSubmit}
-                    values={modalState.utenlandsopphold}
+                    opphold={modalState.utenlandsopphold}
                     reasonNeeded={spørOmÅrsakVedOppholdIEØSLand}
                 />
             </Modal>

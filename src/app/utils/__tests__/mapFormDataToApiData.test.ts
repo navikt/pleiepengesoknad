@@ -129,6 +129,8 @@ const completeFormDataMock: PleiepengesøknadFormData = {
     søknadenGjelderEtAnnetBarn: false,
     skalOppholdeSegIUtlandetIPerioden: YesOrNo.NO,
     utenlandsoppholdIPerioden: [],
+    skalTaUtFerieIPerioden: YesOrNo.NO,
+    ferieuttakIPerioden: [],
     periodeFra: dateUtils.apiStringDateToDate('2020-01-01'),
     periodeTil: dateUtils.apiStringDateToDate('2020-02-01'),
     tilsynsordning: {

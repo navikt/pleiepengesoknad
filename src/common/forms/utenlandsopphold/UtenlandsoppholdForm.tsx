@@ -32,7 +32,7 @@ export interface UtenlandsoppholdFormLabels {
 interface Props {
     minDate: Date;
     maxDate: Date;
-    values?: Utenlandsopphold;
+    opphold?: Utenlandsopphold;
     labels?: Partial<UtenlandsoppholdFormLabels>;
     reasonNeeded?: boolean;
     onSubmit: (values: Utenlandsopphold) => void;
@@ -72,7 +72,7 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props & InjectedIntlProps> =
     minDate,
     reasonNeeded,
     labels,
-    values: initialValues = defaultFormValues,
+    opphold: initialValues = defaultFormValues,
     onSubmit,
     onCancel
 }) => {
