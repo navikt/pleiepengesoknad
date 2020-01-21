@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IntlShape, useIntl } from 'react-intl';
+import { IntlShape, injectIntl, WrappedComponentProps } from 'react-intl';
 import { Select } from 'nav-frontend-skjema';
 
 import * as countries from 'i18n-iso-countries';
@@ -18,7 +18,7 @@ interface StateProps {
 
 export type ChangeEvent = React.ChangeEvent<HTMLSelectElement>;
 
-type Props = StateProps;
+type Props = StateProps & WrappedComponentProps;
 
 interface CountryOptionsCache {
     locale: string;
@@ -54,8 +54,7 @@ class CountrySelect extends React.Component<Props> {
     }
 
     render() {
-        const { onChange, name, showOnlyEuAndEftaCountries, ...restProps } = this.props;
-        const intl = useIntl();
+        const { onChange, name, showOnlyEuAndEftaCountries, intl, ...restProps } = this.props;
         return (
             <Select name={name} {...restProps} onChange={(e) => onChange(e.target.value)}>
                 <option value="" />
@@ -129,4 +128,4 @@ export const getCountryName = (isoCode: string, locale: string): string => {
     return names[isoCode];
 };
 
-export default CountrySelect;
+export default injectIntl(CountrySelect);
