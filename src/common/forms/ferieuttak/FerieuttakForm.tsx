@@ -5,11 +5,12 @@ import Box from 'common/components/box/Box';
 import { Systemtittel } from 'nav-frontend-typografi';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import DatepickerBase from 'common/form-components/datepicker-base/DatepickerBase';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
 import bemUtils from 'common/utils/bemUtils';
 import { Knapp } from 'nav-frontend-knapper';
+import DateIntervalPicker from 'app/components/date-interval-picker/DateIntervalPicker';
 
 import './ferieuttakForm.less';
+import { useIntl } from 'react-intl';
 
 export interface FerieuttakFormLabels {
     title: string;
@@ -42,8 +43,7 @@ enum FerieuttakFormFields {
 }
 const bem = bemUtils('ferieuttakForm');
 
-const FerieuttakForm: React.FunctionComponent<Props & InjectedIntlProps> = ({
-    intl,
+const FerieuttakForm: React.FunctionComponent<Props> = ({
     maxDate,
     minDate,
     labels,
@@ -52,6 +52,7 @@ const FerieuttakForm: React.FunctionComponent<Props & InjectedIntlProps> = ({
     onCancel
 }) => {
     const [showErrors, setShowErrors] = useState(false);
+    const intl = useIntl();
 
     const onFormikSubmit = (formValues: Ferieuttak) => {
         onSubmit(formValues);
@@ -68,6 +69,15 @@ const FerieuttakForm: React.FunctionComponent<Props & InjectedIntlProps> = ({
                             <Box padBottom="l">
                                 <Systemtittel tag="h1">{formLabels.title}</Systemtittel>
                             </Box>
+
+                            <DateIntervalPicker<FerieuttakFormFields>
+                                legend="abc"
+                                fromDatepickerProps={{
+                                    name: FerieuttakFormFields.fromDate,
+                                    label: 'abc'
+                                }}
+                                toDatepickerProps={{ name: FerieuttakFormFields.toDate, label: 'sdf' }}
+                            />
 
                             <Box padBottom="l">
                                 <div className={bem.element('datoer')}>
@@ -147,4 +157,4 @@ const FerieuttakForm: React.FunctionComponent<Props & InjectedIntlProps> = ({
     );
 };
 
-export default injectIntl(FerieuttakForm);
+export default FerieuttakForm;
