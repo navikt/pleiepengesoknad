@@ -3,7 +3,7 @@ import BackLink from '../BackLink';
 import { render, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import * as historyMockFns from '../../../../../__mocks__/history';
-import MockIntlProvider from '../../intl-provider/MockIntlProvider';
+import MockIntlProvider from '../../../../app/components/intl-provider/MockIntlProvider';
 
 const hrefLocation = 'hrefLocation';
 

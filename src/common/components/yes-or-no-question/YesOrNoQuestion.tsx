@@ -1,15 +1,14 @@
 import * as React from 'react';
-import { AppFormField } from '../../types/PleiepengesøknadFormData';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { useIntl } from 'react-intl';
 import { RadioPanelGroupStyle } from 'common/form-components/radio-panel-group-base/RadioPanelGroupBase';
 import intlHelper from 'common/utils/intlUtils';
-import FormikRadioPanelGroup from '../formik-radio-panel-group/FormikRadioPanelGroup';
+import FormikRadioPanelGroup from '../../formik/formik-radio-panel-group/FormikRadioPanelGroup';
 import { FormikValidationProps } from 'common/formik/FormikProps';
 
-interface YesOrNoQuestionProps {
+interface YesOrNoQuestionProps<T> {
     legend: string;
-    name: AppFormField;
+    name: T;
     includeDoNotKnowOption?: boolean;
     labels?: {
         [YesOrNo.YES]?: string;
@@ -21,7 +20,7 @@ interface YesOrNoQuestionProps {
     style?: RadioPanelGroupStyle;
 }
 
-const YesOrNoQuestion: React.FunctionComponent<YesOrNoQuestionProps & FormikValidationProps> = ({
+function YesOrNoQuestion<T>({
     legend,
     name,
     includeDoNotKnowOption,
@@ -30,7 +29,7 @@ const YesOrNoQuestion: React.FunctionComponent<YesOrNoQuestionProps & FormikVali
     style,
     singleColumn,
     helperText
-}) => {
+}: YesOrNoQuestionProps<T> & FormikValidationProps) {
     const intl = useIntl();
     const {
         yes: yesLabel = intlHelper(intl, 'Ja'),
@@ -38,7 +37,7 @@ const YesOrNoQuestion: React.FunctionComponent<YesOrNoQuestionProps & FormikVali
         doNotKnow: doNotKnowLabel = intlHelper(intl, 'VetIkke')
     } = labels || {};
     return (
-        <FormikRadioPanelGroup<AppFormField>
+        <FormikRadioPanelGroup<T>
             legend={legend}
             name={name}
             radios={[
@@ -54,6 +53,6 @@ const YesOrNoQuestion: React.FunctionComponent<YesOrNoQuestionProps & FormikVali
             singleColumn={singleColumn}
         />
     );
-};
+}
 
 export default YesOrNoQuestion;

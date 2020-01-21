@@ -5,7 +5,7 @@ import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
 import { useIntl, FormattedHTMLMessage } from 'react-intl';
 import { AppFormField, TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
-import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
+import YesOrNoQuestion from '../../../../common/components/yes-or-no-question/YesOrNoQuestion';
 import Box from 'common/components/box/Box';
 import { YesOrNo } from 'common/types/YesOrNo';
 import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
@@ -18,9 +18,9 @@ import intlHelper from 'common/utils/intlUtils';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import { getNextStepRoute } from '../../../utils/routeUtils';
-import FormikInputGroup from 'app/components/input-group/FormikInputGroup';
-import FormikTextarea from 'app/components/formik-textarea/FormikTextarea';
-import FormikRadioPanelGroup from 'app/components/formik-radio-panel-group/FormikRadioPanelGroup';
+import FormikInputGroup from 'common/formik/formik-input-group/FormikInputGroup';
+import FormikTextarea from 'common/formik/formik-textarea/FormikTextarea';
+import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
 
 type Props = CommonStepFormikProps & HistoryProps & StepConfigProps;
 

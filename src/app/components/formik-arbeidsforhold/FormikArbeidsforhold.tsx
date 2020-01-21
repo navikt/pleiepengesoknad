@@ -11,10 +11,10 @@ import { validateRequiredField } from 'app/validation/fieldValidations';
 import intlHelper from 'common/utils/intlUtils';
 import RedusertArbeidsforholdPart from './RedusertArbeidsforholdPart';
 import VetIkkeArbeidsforholdPart from './VetIkkeArbeidsforholdPart';
-import YesOrNoQuestion from '../yes-or-no-question/YesOrNoQuestion';
+import YesOrNoQuestion from '../../../common/components/yes-or-no-question/YesOrNoQuestion';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { useIntl } from 'react-intl';
-import FormikRadioPanelGroup from '../formik-radio-panel-group/FormikRadioPanelGroup';
+import FormikRadioPanelGroup from '../../../common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;

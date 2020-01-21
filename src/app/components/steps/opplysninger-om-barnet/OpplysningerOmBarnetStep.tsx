@@ -22,10 +22,10 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { useIntl, FormattedMessage } from 'react-intl';
 import intlHelper from 'common/utils/intlUtils';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
-import FormikInput from 'app/components/formik-input/FormikInput';
-import FormikCheckbox from 'app/components/formik-checkbox/FormikCheckbox';
-import FormikRadioPanelGroup from 'app/components/formik-radio-panel-group/FormikRadioPanelGroup';
-import FormikDatepicker from 'app/components/formik-datepicker/FormikDatepicker';
+import FormikInput from 'common/formik/formik-input/FormikInput';
+import FormikCheckbox from 'common/formik/formik-checkbox/FormikCheckbox';
+import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
+import FormikDatepicker from 'common/formik/formik-datepicker/FormikDatepicker';
 
 interface OpplysningerOmBarnetStepProps {
     formikProps: PleiepengesøknadFormikProps;

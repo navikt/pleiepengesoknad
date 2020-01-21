@@ -4,7 +4,7 @@ import CustomInputElement from 'common/form-components/custom-input-element/Cust
 import { SkjemaelementFeil } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
 import { guid } from 'nav-frontend-js-utils';
 import { Time } from 'common/types/Time';
-import AriaAlternative from '../aria/AriaAlternative';
+import AriaAlternative from '../../components/aria/AriaAlternative';
 
 import './timeInput.less';
 

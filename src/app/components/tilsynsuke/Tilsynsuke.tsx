@@ -6,7 +6,7 @@ import intlHelper from 'common/utils/intlUtils';
 import Box from 'common/components/box/Box';
 
 import './tilsynsuke.less';
-import FormikTimeInput from '../formik-time-input/FormikTimeInput';
+import FormikTimeInput from '../../../common/formik/formik-time-input/FormikTimeInput';
 
 interface Props {
     name: AppFormField;

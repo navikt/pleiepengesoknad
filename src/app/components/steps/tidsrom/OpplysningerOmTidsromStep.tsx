@@ -13,7 +13,7 @@ import {
     validateRequiredField,
     validateUtenlandsoppholdIPerioden
 } from '../../../validation/fieldValidations';
-import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
+import YesOrNoQuestion from '../../../../common/components/yes-or-no-question/YesOrNoQuestion';
 import Box from 'common/components/box/Box';
 import intlHelper from 'common/utils/intlUtils';
 import { useIntl } from 'react-intl';

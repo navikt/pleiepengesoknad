@@ -18,7 +18,7 @@ import BehandlingAvPersonopplysningerModal from '../../behandling-av-personopply
 import LegeerklæringInformationPanel from '../../legeerklæring-information-panel/LegeerklæringInformationPanel';
 import './welcomingPage.less';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
-import FormikConfirmationCheckboxPanel from 'app/components/formik-confirmation-checkbox-panel/FormikConfirmationCheckboxPanel';
+import FormikConfirmationCheckboxPanel from 'common/formik/formik-confirmation-checkbox-panel/FormikConfirmationCheckboxPanel';
 
 const bem = bemHelper('welcomingPage');
 

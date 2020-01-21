@@ -5,7 +5,7 @@ import bemHelper from 'common/utils/bemUtils';
 import './dateIntervalPicker.less';
 import HelperTextButton from 'common/components/helper-text-button/HelperTextButton';
 import HelperTextPanel from 'common/components/helper-text-panel/HelperTextPanel';
-import FormikDatepicker, { FormikDatepickerProps } from '../formik-datepicker/FormikDatepicker';
+import FormikDatepicker, { FormikDatepickerProps } from '../../../common/formik/formik-datepicker/FormikDatepicker';
 
 interface DateIntervalPickerProps {
     legend: string;

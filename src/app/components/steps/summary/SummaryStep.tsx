@@ -24,14 +24,14 @@ import intlHelper from 'common/utils/intlUtils';
 import { Locale } from 'common/types/Locale';
 import ArbeidsforholdSummary from 'app/components/arbeidsforhold-summary/ArbeidsforholdSummary';
 import TilsynsordningSummary from './TilsynsordningSummary';
-import TextareaSummary from '../../textarea-summary/TextareaSummary';
+import TextareaSummary from '../../../../common/components/textarea-summary/TextareaSummary';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
-import ValidationErrorSummaryBase from '../../validation-error-summary-base/ValidationErrorSummaryBase';
+import ValidationErrorSummaryBase from '../../../../common/components/validation-error-summary-base/ValidationErrorSummaryBase';
 import { validateApiValues } from '../../../validation/apiValuesValidation';
 import SummaryList from 'common/components/summary-list/SummaryList';
 import { renderUtenlandsoppholdSummary } from 'common/components/summary-renderers/renderUtenlandsoppholdSummary';
-import FormikConfirmationCheckboxPanel from 'app/components/formik-confirmation-checkbox-panel/FormikConfirmationCheckboxPanel';
+import FormikConfirmationCheckboxPanel from 'common/formik/formik-confirmation-checkbox-panel/FormikConfirmationCheckboxPanel';
 
 interface State {
     sendingInProgress: boolean;

@@ -1,23 +1,24 @@
 import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
-import TimeInputBase from '../time-input-base/TimeInputBase';
-import { Time } from 'common/types/Time';
+import TimefieldBase from '../../form-components/timefield-base/TimefieldBase';
 import { showValidationErrors } from 'common/formik/formikUtils';
 import { useIntl } from 'react-intl';
 import { FormikValidationProps } from 'common/formik/FormikProps';
 
-interface FormikTimeInputProps<T> {
+interface FormikTimefieldProps<T> {
     name: T;
-    label: string;
+    label: React.ReactNode;
     helperText?: string;
-    maxHours?: number;
-    maxMinutes?: number;
+    disabled?: boolean;
 }
 
-type Props<T> = FormikValidationProps & FormikTimeInputProps<T>;
-
-function FormikTimeInput<T>({ label, name, validate, ...otherInputProps }: Props<T>) {
+const FormikTimefield = <T extends {}>(): React.FunctionComponent<FormikTimefieldProps<T> & FormikValidationProps> => ({
+    label,
+    name,
+    validate,
+    ...otherInputProps
+}) => {
     const intl = useIntl();
     return (
         <FormikField validate={validate} name={name}>
@@ -26,20 +27,18 @@ function FormikTimeInput<T>({ label, name, validate, ...otherInputProps }: Props
                     ? getValidationErrorPropsWithIntl(intl, errors, field.name)
                     : {};
                 return (
-                    <TimeInputBase
+                    <TimefieldBase
                         label={label}
                         {...otherInputProps}
                         {...errorMsgProps}
                         {...field}
-                        time={field.value || undefined}
-                        onChange={(time: Time) => {
-                            setFieldValue(field.name, time);
-                        }}
+                        value={field.value}
+                        onChange={(value) => setFieldValue(field.name, value)}
                     />
                 );
             }}
         </FormikField>
     );
-}
+};
 
-export default FormikTimeInput;
+export default FormikTimefield;

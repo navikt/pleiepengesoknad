@@ -6,7 +6,7 @@ import intlHelper from 'common/utils/intlUtils';
 import { useIntl, FormattedMessage, IntlShape } from 'react-intl';
 import { TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
 import { Time } from 'common/types/Time';
-import TextareaSummary from '../../textarea-summary/TextareaSummary';
+import TextareaSummary from '../../../../common/components/textarea-summary/TextareaSummary';
 import { iso8601DurationToTime } from 'common/utils/timeUtils';
 import { hasValue } from 'common/validation/hasValue';
 
