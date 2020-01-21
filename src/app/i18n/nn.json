@@ -145,6 +145,7 @@
     "steg.omBarnet.fnr.spm": "Fødselsnummeret til barnet",
     "steg.omBarnet.fnr.ikkeFnrEnda": "Barnet har ikkje fått fødselsnummer enno.",
     "steg.omBarnet.fnr.foreløpig": "Det førebelse fødselsnummeret eller D-nummeret til barnet ",
+    "steg.omBarnet.fødselsdato": "Fødselsdato",
     "steg.omBarnet.navn": "Namnet til barnet",
     "steg.omBarnet.relasjon": "Relasjonen min til barnet",
     "steg.omBarnet.relasjon.eksempel": "Eksempel: mor, far, tante, onkel eller andre som står barnet nær",
