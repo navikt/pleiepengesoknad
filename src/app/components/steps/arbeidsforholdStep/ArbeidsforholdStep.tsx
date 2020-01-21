@@ -6,7 +6,7 @@ import FormikStep from '../../formik-step/FormikStep';
 import AlertStripe from 'nav-frontend-alertstriper';
 import Box from 'common/components/box/Box';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { InjectedIntlProps, FormattedMessage, injectIntl, FormattedHTMLMessage } from 'react-intl';
+import { WrappedComponentProps, FormattedMessage, injectIntl, FormattedHTMLMessage } from 'react-intl';
 import FormikArbeidsforhold from '../../formik-arbeidsforhold/FormikArbeidsforhold';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
@@ -28,7 +28,7 @@ interface OwnProps {
     søkerdata: Søkerdata;
 }
 
-type Props = CommonStepFormikProps & OwnProps & HistoryProps & InjectedIntlProps & StepConfigProps;
+type Props = CommonStepFormikProps & OwnProps & HistoryProps & WrappedComponentProps & StepConfigProps;
 
 const updateArbeidsforhold = (formikProps: CustomFormikProps, arbeidsgivere: Arbeidsgiver[]) => {
     const updatedArbeidsforhold = syndArbeidsforholdWithArbeidsgivere(

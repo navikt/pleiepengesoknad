@@ -4,7 +4,7 @@ import { SkjemaelementFeil } from 'nav-frontend-skjema/lib/skjemaelement-feilmel
 import HelperTextPanel from '../../components/helper-text-panel/HelperTextPanel';
 import HelperTextButton from '../../components/helper-text-button/HelperTextButton';
 import intlHelper from 'common/utils/intlUtils';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { WrappedComponentProps, injectIntl } from 'react-intl';
 import bemUtils from 'common/utils/bemUtils';
 import 'nav-frontend-skjema-style';
 import './radioPanelGroup.less';
@@ -36,7 +36,7 @@ const RadioPanelGroupBase = ({
     style = 'panel',
     singleColumn = false,
     intl
-}: RadioPanelGroupBaseProps & InjectedIntlProps) => {
+}: RadioPanelGroupBaseProps & WrappedComponentProps) => {
     const [showHelperText, setShowHelperText] = React.useState(false);
     const ariaLabel = intlHelper(intl, showHelperText ? 'hjelpetekst.skjul' : 'hjelpetekst.vis');
     return (

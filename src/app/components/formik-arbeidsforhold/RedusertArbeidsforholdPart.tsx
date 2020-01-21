@@ -6,7 +6,7 @@ import { Arbeidsforhold, ArbeidsforholdField, AppFormField } from '../../types/P
 import intlHelper from 'common/utils/intlUtils';
 import { validateReduserteArbeidProsent, validateRequiredField } from '../../validation/fieldValidations';
 import RadioPanelGroup from '../radio-panel-group/RadioPanelGroup';
-import { injectIntl, InjectedIntlProps, FormattedMessage, InjectedIntl } from 'react-intl';
+import { injectIntl, WrappedComponentProps, FormattedMessage, IntlShape } from 'react-intl';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import {
     calcReduserteTimerFromRedusertProsent,
@@ -20,7 +20,7 @@ interface Props {
     getFieldName: (name: ArbeidsforholdField) => AppFormField;
 }
 
-const getLabelForProsentRedusert = (intl: InjectedIntl, timerNormalt: number, prosentRedusert: number | undefined) => {
+const getLabelForProsentRedusert = (intl: IntlShape, timerNormalt: number, prosentRedusert: number | undefined) => {
     if (prosentRedusert && prosentRedusert > 0) {
         const { hours: timer = 0, minutes: minutter = 0 } = decimalTimeToTime(
             calcReduserteTimerFromRedusertProsent(timerNormalt, prosentRedusert)
@@ -33,7 +33,7 @@ const getLabelForProsentRedusert = (intl: InjectedIntl, timerNormalt: number, pr
     return intlHelper(intl, 'arbeidsforhold.prosent.utledet', { timer: timerNormalt });
 };
 
-const getLabelForTimerRedusert = (intl: InjectedIntl, timerNormalt: number, timerRedusert: number | undefined) => {
+const getLabelForTimerRedusert = (intl: IntlShape, timerNormalt: number, timerRedusert: number | undefined) => {
     if (timerRedusert && timerRedusert > 0) {
         return intlHelper(intl, 'arbeidsforhold.timer.utledet.medProsent', {
             timer: timerNormalt,
@@ -43,7 +43,7 @@ const getLabelForTimerRedusert = (intl: InjectedIntl, timerNormalt: number, time
     return intlHelper(intl, 'arbeidsforhold.timer.utledet', { timer: timerNormalt });
 };
 
-const RedusertArbeidsforholdPart: React.FunctionComponent<Props & InjectedIntlProps> = ({
+const RedusertArbeidsforholdPart: React.FunctionComponent<Props & WrappedComponentProps> = ({
     arbeidsforhold: { navn, timerEllerProsent, jobberNormaltTimer, skalJobbeTimer, skalJobbeProsent },
     getFieldName,
     intl

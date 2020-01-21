@@ -1,6 +1,6 @@
 import React from 'react';
 import { FieldArray } from 'formik';
-import { injectIntl, InjectedIntlProps } from 'react-intl';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import {
     AppFormField,
     Arbeidsforhold,
@@ -21,7 +21,7 @@ interface Props {
     index: number;
 }
 
-const FormikArbeidsforhold: React.FunctionComponent<Props & InjectedIntlProps> = ({ arbeidsforhold, index, intl }) => (
+const FormikArbeidsforhold: React.FunctionComponent<Props & WrappedComponentProps> = ({ arbeidsforhold, index, intl }) => (
     <FieldArray name={AppFormField.arbeidsforhold}>
         {({ name }) => {
             const getFieldName = (field: ArbeidsforholdField) => `${name}.${index}.${field}` as AppFormField;

@@ -1,6 +1,6 @@
-import { InjectedIntl } from 'react-intl';
+import { IntlShape } from 'react-intl';
 
-type valueFunction = (intl: InjectedIntl) => string;
+type valueFunction = (intl: IntlShape) => string;
 
 export interface FieldValidationResultValues {
     [key: string]: string | number | Date | valueFunction | undefined;

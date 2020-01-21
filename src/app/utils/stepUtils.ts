@@ -8,11 +8,11 @@ import {
     welcomingPageIsValid
 } from '../validation/stepValidations';
 import { StepConfigItemTexts, StepID, StepConfigInterface } from 'app/config/stepConfig';
-import { InjectedIntl } from 'react-intl';
+import { IntlShape } from 'react-intl';
 import intlHelper from 'common/utils/intlUtils';
 
 export const getStepTexts = (
-    intl: InjectedIntl,
+    intl: IntlShape,
     stepId: StepID,
     stepConfig: StepConfigInterface
 ): StepConfigItemTexts => {

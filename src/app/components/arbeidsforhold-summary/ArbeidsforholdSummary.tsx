@@ -1,6 +1,6 @@
 import React from 'react';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
+import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import bemUtils from 'common/utils/bemUtils';
 import { ArbeidsforholdApi } from 'app/types/PleiepengesøknadApiData';
 import intlHelper from 'common/utils/intlUtils';
@@ -14,7 +14,7 @@ interface OwnProps {
 
 const bem = bemUtils('arbeidsforholdSummary');
 
-const ArbeidsforholdSummary: React.FunctionComponent<OwnProps & InjectedIntlProps> = ({
+const ArbeidsforholdSummary: React.FunctionComponent<OwnProps & WrappedComponentProps> = ({
     arbeidsforhold: {
         navn,
         organisasjonsnummer,

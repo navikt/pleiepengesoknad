@@ -16,7 +16,7 @@ import {
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
 import Box from 'common/components/box/Box';
 import intlHelper from 'common/utils/intlUtils';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { CustomFormikProps } from '../../../types/FormikProps';
 
@@ -37,7 +37,7 @@ interface OpplysningerOmTidsromStepProps {
     formikProps: CustomFormikProps;
 }
 
-type Props = OpplysningerOmTidsromStepProps & HistoryProps & InjectedIntlProps & StepConfigProps;
+type Props = OpplysningerOmTidsromStepProps & HistoryProps & WrappedComponentProps & StepConfigProps;
 
 const OpplysningerOmTidsromStep = ({ history, intl, nextStepRoute, formikProps, ...stepProps }: Props) => {
     const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
