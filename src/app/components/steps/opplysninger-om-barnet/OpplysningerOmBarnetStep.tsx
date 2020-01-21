@@ -22,7 +22,7 @@ import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
 import { resetFieldValue, resetFieldValues } from '../../../utils/formikUtils';
 import { prettifyDate, dateToday } from 'common/utils/dateUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
+import { injectIntl, WrappedComponentProps, FormattedMessage } from 'react-intl';
 import intlHelper from 'common/utils/intlUtils';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 import Datepicker from 'app/components/datepicker/Datepicker';
@@ -31,7 +31,7 @@ interface OpplysningerOmBarnetStepProps {
     formikProps: CustomFormikProps;
 }
 
-type Props = OpplysningerOmBarnetStepProps & HistoryProps & InjectedIntlProps & StepConfigProps;
+type Props = OpplysningerOmBarnetStepProps & HistoryProps & WrappedComponentProps & StepConfigProps;
 
 const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
     formikProps: { handleSubmit, setFieldValue, values },

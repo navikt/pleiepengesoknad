@@ -1,4 +1,4 @@
-import { InjectedIntl } from 'react-intl';
+import { IntlShape } from 'react-intl';
 import { FieldValidationResultValues, FieldValidationError } from './types';
 import intlHelper from '../utils/intlUtils';
 
@@ -6,7 +6,7 @@ export const isFieldValidationError = (error: any): error is FieldValidationErro
     typeof error === 'object' && error.key !== undefined;
 
 export const renderFieldValidationValues = (
-    intl: InjectedIntl,
+    intl: IntlShape,
     values: FieldValidationResultValues | undefined
 ): { [key: string]: string } | undefined => {
     if (values === undefined) {
@@ -22,6 +22,6 @@ export const renderFieldValidationValues = (
     return parsedValues;
 };
 
-export const renderFieldValidationError = (intl: InjectedIntl, error: FieldValidationError): string => {
+export const renderFieldValidationError = (intl: IntlShape, error: FieldValidationError): string => {
     return intlHelper(intl, error.key, renderFieldValidationValues(intl, error.values));
 };

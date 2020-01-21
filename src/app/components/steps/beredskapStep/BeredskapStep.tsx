@@ -7,7 +7,7 @@ import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
 import { validateYesOrNoIsAnswered, validateBeredskapTilleggsinfo } from '../../../validation/fieldValidations';
 import intlHelper from 'common/utils/intlUtils';
-import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl';
+import { WrappedComponentProps, injectIntl, FormattedMessage } from 'react-intl';
 import Box from 'common/components/box/Box';
 import { CustomFormikProps } from '../../../types/FormikProps';
 import { YesOrNo } from 'common/types/YesOrNo';
@@ -19,7 +19,7 @@ interface StepProps {
     handleSubmit: () => void;
 }
 
-type Props = StepProps & HistoryProps & InjectedIntlProps & StepConfigProps;
+type Props = StepProps & HistoryProps & WrappedComponentProps & StepConfigProps;
 
 const BeredskapStep: React.FunctionComponent<Props> = ({
     history,

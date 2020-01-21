@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { injectIntl, InjectedIntlProps, FormattedHTMLMessage } from 'react-intl';
+import { injectIntl, WrappedComponentProps, FormattedHTMLMessage } from 'react-intl';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
@@ -20,7 +20,7 @@ import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel'
 
 type Props = { formikProps: CustomFormikProps } & CommonStepFormikProps &
     HistoryProps &
-    InjectedIntlProps &
+    WrappedComponentProps &
     StepConfigProps;
 
 const LegeerklæringStep = ({ history, intl, nextStepRoute, formikProps, ...stepProps }: Props) => {

@@ -8,14 +8,14 @@ import Box from 'common/components/box/Box';
 import StepBanner from '../../step-banner/StepBanner';
 import InformationPoster from 'common/components/information-poster/InformationPoster';
 import GoToApplicationLink from '../../go-to-application-link/GoToApplicationLink';
-import { FormattedMessage, InjectedIntlProps, injectIntl, FormattedHTMLMessage } from 'react-intl';
+import { FormattedMessage, WrappedComponentProps, injectIntl, FormattedHTMLMessage } from 'react-intl';
 import intlHelper from 'common/utils/intlUtils';
 import getLenker from '../../../lenker';
 import './introPage.less';
 
 const bem = bemUtils('introPage');
 
-const IntroPage: React.StatelessComponent<InjectedIntlProps> = ({ intl }) => {
+const IntroPage: React.StatelessComponent<WrappedComponentProps> = ({ intl }) => {
     const [erSelvstendigNæringsdrivendeEllerFrilanser, setErSelvstendigNæringsdrivendeEllerFrilanser] = React.useState(
         YesOrNo.UNANSWERED
     );

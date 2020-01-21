@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { injectIntl, InjectedIntlProps, InjectedIntl } from 'react-intl';
+import { injectIntl, WrappedComponentProps, IntlShape } from 'react-intl';
 import { Select } from 'nav-frontend-skjema';
 
 import * as countries from 'i18n-iso-countries';
@@ -18,7 +18,7 @@ interface StateProps {
 
 export type ChangeEvent = React.ChangeEvent<HTMLSelectElement>;
 
-type Props = StateProps & InjectedIntlProps;
+type Props = StateProps & WrappedComponentProps;
 
 interface CountryOptionsCache {
     locale: string;
@@ -36,7 +36,7 @@ class CountrySelect extends React.Component<Props> {
         this.updateCache = this.updateCache.bind(this);
     }
 
-    updateCache(intl: InjectedIntl) {
+    updateCache(intl: IntlShape) {
         this.countryOptionsCache = {
             locale: intl.locale,
             options: createCountryOptions(
@@ -108,7 +108,7 @@ const filteredListEØSCountries = (countryOptionValue: string, shouldFilter?: bo
     }
 };
 
-const createCountryOptions = (onluEuAndEftaCountries: boolean, intl: InjectedIntl): React.ReactNode[] => {
+const createCountryOptions = (onluEuAndEftaCountries: boolean, intl: IntlShape): React.ReactNode[] => {
     const locale = intl.locale;
 
     return Object.entries(countries.getNames(locale))
