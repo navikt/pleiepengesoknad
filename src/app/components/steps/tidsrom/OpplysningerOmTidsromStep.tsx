@@ -58,7 +58,7 @@ const OpplysningerOmTidsromStep = ({ history, intl, nextStepRoute, formikProps, 
         <FormikStep
             id={StepID.TIDSROM}
             onValidFormSubmit={() => {
-                persist(formikProps.values);
+                persist(formikProps.values, StepID.TIDSROM);
                 if (navigate) {
                     navigate();
                 }

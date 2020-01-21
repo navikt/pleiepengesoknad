@@ -3,7 +3,7 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import { Time } from 'common/types/Time';
 import { Attachment } from 'common/types/Attachment';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
-
+// import { } from 'app/config/'
 export enum ArbeidsforholdSkalJobbeSvar {
     'ja' = 'ja',
     'nei' = 'nei',

@@ -83,7 +83,7 @@ const ArbeidsforholdStep = ({ history, intl, søkerdata, nextStepRoute, formikPr
         <FormikStep
             id={StepID.ARBEIDSFORHOLD}
             onValidFormSubmit={() => {
-                persist(formikProps.values);
+                persist(formikProps.values, StepID.ARBEIDSFORHOLD);
                 if (navigate) {
                     navigate();
                 }

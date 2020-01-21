@@ -5,9 +5,11 @@ import PleiepengesøknadContent from '../pleiepengesøknad-content/Pleiepengesø
 import IkkeMyndigPage from '../pages/ikke-myndig-page/IkkeMyndigPage';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 
-const renderPleiepengesøknadContent = (mellomlagring: PleiepengesøknadFormData) => (
-    <FormikWrapper mellomlagring={mellomlagring} contentRenderer={(formikProps) => <PleiepengesøknadContent formikProps={formikProps} />} />
-);
+const renderPleiepengesøknadContent = (mellomlagring: PleiepengesøknadFormData) => {
+    return (
+        <FormikWrapper mellomlagring={mellomlagring} contentRenderer={(formikProps) => <PleiepengesøknadContent formikProps={formikProps} />} />
+    );
+};
 
 const Pleiepengesøknad = () => (
     <AppEssentialsLoader

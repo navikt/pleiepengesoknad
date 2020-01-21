@@ -35,7 +35,7 @@ const BeredskapStep: React.FunctionComponent<Props> = ({
         <FormikStep
             id={StepID.BEREDSKAP}
             onValidFormSubmit={() => {
-                persist(values);
+                persist(values, StepID.BEREDSKAP);
                 if (navigate) {
                     navigate();
                 }

@@ -34,7 +34,7 @@ const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, intl, for
         <FormikStep
             id={StepID.OMSORGSTILBUD}
             onValidFormSubmit={() => {
-                persist(formValues);
+                persist(formValues, StepID.OMSORGSTILBUD);
                 if (navigate) {
                     navigate();
                 }

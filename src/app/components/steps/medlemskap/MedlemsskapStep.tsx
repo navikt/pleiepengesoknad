@@ -34,8 +34,8 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, intl, nextSt
     const { formValues } = stepProps;
 
     return (
-        <FormikStep id={StepID.MEDLEMSKAP} onValidFormSubmit={() => {
-            persist(formValues);
+        <FormikStep id={StepID.MEDLEMSKAP}onValidFormSubmit={() => {
+            persist(formValues, StepID.MEDLEMSKAP);
             if (navigate) {
                 navigate();
             }
