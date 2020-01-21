@@ -19,14 +19,14 @@ import intlHelper from 'common/utils/intlUtils';
 import { useIntl } from 'react-intl';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
-
-import './dagerPerUkeBorteFraJobb.less';
 import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 import { Field, FieldProps } from 'formik';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 import UtenlandsoppholdInput from 'common/forms/utenlandsopphold';
 import { showValidationErrors } from 'common/formik/formikUtils';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
+
+import './dagerPerUkeBorteFraJobb.less';
 
 interface OpplysningerOmTidsromStepProps {
     formikProps: PleiepengesøknadFormikProps;

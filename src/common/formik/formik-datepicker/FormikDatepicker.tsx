@@ -15,7 +15,7 @@ export interface FormikDatepickerProps<T> {
 
 type Props<T> = FormikDatepickerProps<T> & FormikValidationProps;
 
-function FormikDatepicker<FormField>({ validate, label, dateLimitations, ...otherProps }: Props<FormField>) {
+function FormikDatepicker<FormField>({ validate, label, dateLimitations, name, ...otherProps }: Props<FormField>) {
     const intl = useIntl();
     return (
         <FormikField validate={validate} name={name}>
