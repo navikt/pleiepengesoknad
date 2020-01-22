@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ArrayHelpers, connect } from 'formik';
-import { AppFormField } from '../../../app/types/PleiepengesøknadFormData';
-import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
+import { AppFormField } from '../../types/PleiepengesøknadFormData';
+import { ConnectedFormikProps } from '../../../common/types/ConnectedFormikProps';
 import {
     attachmentShouldBeProcessed,
     attachmentShouldBeUploaded,
@@ -9,10 +9,10 @@ import {
     getPendingAttachmentFromFile,
     VALID_EXTENSIONS
 } from 'common/utils/attachmentUtils';
-import { uploadFile } from '../../../app/api/api';
-import * as apiUtils from '../../../app/utils/apiUtils';
+import { uploadFile } from '../../api/api';
+import * as apiUtils from '../../utils/apiUtils';
 import { Attachment } from 'common/types/Attachment';
-import FormikFileInput from '../formik-file-input/FormikFileInput';
+import FormikFileInput from '../../../common/formik/formik-file-input/FormikFileInput';
 import { FormikValidateFunction, FieldArrayReplaceFn, FieldArrayPushFn } from 'common/formik/FormikProps';
 
 interface FormikFileUploader {

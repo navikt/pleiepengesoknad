@@ -5,7 +5,7 @@ import { HistoryProps } from 'common/types/History';
 import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
-import FormikFileUploader from '../../../../common/formik/formik-file-uploader/FormikFileUploader';
+import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 import FileUploadErrors from '../../../../common/components/file-upload-errors/FileUploadErrors';
 import { validateLegeerklæring } from '../../../validation/fieldValidations';
