@@ -4,7 +4,7 @@ import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { navigateTo } from '../../../utils/navigationUtils';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 import FormikStep from '../../formik-step/FormikStep';
-import DateIntervalPicker from '../../date-interval-picker/DateIntervalPicker';
+import FormikDateIntervalPicker from '../../../../common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
 import { date3YearsAgo, DateRange, date1YearFromNow, date1YearAgo } from 'common/utils/dateUtils';
 import {
     validateYesOrNoIsAnswered,
@@ -13,18 +13,15 @@ import {
     validateRequiredField,
     validateUtenlandsoppholdIPerioden
 } from '../../../validation/fieldValidations';
-import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
+import YesOrNoQuestion from '../../../../common/components/yes-or-no-question/YesOrNoQuestion';
 import Box from 'common/components/box/Box';
 import intlHelper from 'common/utils/intlUtils';
 import { useIntl } from 'react-intl';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { CustomFormikProps } from '../../../types/FormikProps';
-
-import './dagerPerUkeBorteFraJobb.less';
+import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
 import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 import { Field, FieldProps } from 'formik';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
-import { showValidationErrors } from 'app/utils/formikUtils';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import { Ferieuttak } from 'common/forms/ferieuttak/types';
 import ModalFormAndList from 'common/components/modal-form-and-list/ModalFormAndList';
@@ -33,8 +30,11 @@ import FerieuttakForm from 'common/forms/ferieuttak/FerieuttakForm';
 import UtenlandsoppholdListe from 'common/forms/utenlandsopphold/UtenlandsoppholdListe';
 import UtenlandsoppholdForm from 'common/forms/utenlandsopphold/UtenlandsoppholdForm';
 
+import './dagerPerUkeBorteFraJobb.less';
+import { showValidationErrors } from 'common/formik/formikUtils';
+
 interface OpplysningerOmTidsromStepProps {
-    formikProps: CustomFormikProps;
+    formikProps: PleiepengesøknadFormikProps;
 }
 
 type Props = OpplysningerOmTidsromStepProps & HistoryProps & StepConfigProps;
@@ -67,7 +67,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
             handleSubmit={formikProps.handleSubmit}
             history={history}
             {...stepProps}>
-            <DateIntervalPicker
+            <FormikDateIntervalPicker
                 legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
                 helperText={intlHelper(intl, 'steg.tidsrom.hjelpetekst')}
                 fromDatepickerProps={{
@@ -91,7 +91,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
 
             {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD) && (
                 <Box margin="xl">
-                    <YesOrNoQuestion
+                    <YesOrNoQuestion<AppFormField>
                         legend={intlHelper(intl, 'steg.medlemsskap.iUtlandetIPerioden.spm')}
                         name={AppFormField.skalOppholdeSegIUtlandetIPerioden}
                         validate={validateRequiredField}

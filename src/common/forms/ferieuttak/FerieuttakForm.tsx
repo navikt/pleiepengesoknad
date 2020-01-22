@@ -7,7 +7,7 @@ import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import DatepickerBase from 'common/form-components/datepicker-base/DatepickerBase';
 import bemUtils from 'common/utils/bemUtils';
 import { Knapp } from 'nav-frontend-knapper';
-import DateIntervalPicker from 'app/components/date-interval-picker/DateIntervalPicker';
+import FormikDateIntervalPicker from 'common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
 
 import './ferieuttakForm.less';
 import { useIntl } from 'react-intl';
@@ -70,7 +70,7 @@ const FerieuttakForm: React.FunctionComponent<Props> = ({
                                 <Systemtittel tag="h1">{formLabels.title}</Systemtittel>
                             </Box>
 
-                            <DateIntervalPicker<FerieuttakFormFields>
+                            <FormikDateIntervalPicker<FerieuttakFormFields>
                                 legend="abc"
                                 fromDatepickerProps={{
                                     name: FerieuttakFormFields.fromDate,

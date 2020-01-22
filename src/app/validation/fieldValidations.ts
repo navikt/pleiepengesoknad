@@ -17,6 +17,7 @@ import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
 import { Attachment } from 'common/types/Attachment';
 import { FieldValidationResult } from 'common/validation/types';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
+import { hasValue } from 'common/validation/hasValue';
 
 const moment = require('moment');
 
@@ -48,8 +49,6 @@ export enum FieldValidationErrors {
 
 const MAX_ARBEIDSTIMER_PER_UKE = 150;
 const MIN_ARBEIDSTIMER_PER_UKE = 1;
-
-export const hasValue = (v: any) => v !== '' && v !== undefined && v !== null;
 
 const fieldIsRequiredError = () => fieldValidationError(FieldValidationErrors.påkrevd);
 

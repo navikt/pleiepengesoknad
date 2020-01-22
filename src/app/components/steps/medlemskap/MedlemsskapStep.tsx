@@ -4,7 +4,7 @@ import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
+import YesOrNoQuestion from '../../../../common/components/yes-or-no-question/YesOrNoQuestion';
 import {
     validateYesOrNoIsAnswered,
     validateUtenlandsoppholdSiste12Mnd,
@@ -21,7 +21,7 @@ import { Field, FieldProps } from 'formik';
 import UtenlandsoppholdInput from 'common/forms/utenlandsopphold';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { showValidationErrors } from 'app/utils/formikUtils';
+import { showValidationErrors } from 'common/formik/formikUtils';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import { dateToday, date1YearFromNow, date1YearAgo } from 'common/utils/dateUtils';
 import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';

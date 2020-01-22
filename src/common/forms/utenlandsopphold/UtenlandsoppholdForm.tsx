@@ -13,9 +13,9 @@ import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 import { isMemberOfEEC } from 'common/utils/eecUtils';
 import AlertStripe from 'nav-frontend-alertstriper';
 import TextareaBase from 'common/form-components/textarea-base/TextareaBase';
-import { hasValue } from 'app/validation/fieldValidations';
 
 import './utenlandsoppholdForm.less';
+import { hasValue } from 'common/validation/hasValue';
 
 export interface UtenlandsoppholdFormLabels {
     title: string;

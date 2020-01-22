@@ -22,12 +22,13 @@ export interface IntlProviderProps {
 }
 export interface IntlProviderProps {
     locale: Locale;
+    onError?: (error: any) => void;
 }
 
-const IntlProvider: React.FunctionComponent<IntlProviderProps> = ({ locale, children }) => {
+const IntlProvider: React.FunctionComponent<IntlProviderProps> = ({ locale, onError, children }) => {
     const messages = locale === 'nb' ? bokmålstekster : nynorsktekster;
     return (
-        <Provider locale={locale} messages={messages}>
+        <Provider locale={locale} messages={messages} onError={onError}>
             {children}
         </Provider>
     );

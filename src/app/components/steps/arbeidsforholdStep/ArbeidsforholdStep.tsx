@@ -14,7 +14,7 @@ import FormSection from 'common/components/form-section/FormSection';
 import { getArbeidsgiver } from 'app/api/api';
 import { Søkerdata, Arbeidsgiver } from 'app/types/Søkerdata';
 import { formatDateToApiFormat } from 'common/utils/dateUtils';
-import { CustomFormikProps } from 'app/types/FormikProps';
+import { PleiepengesøknadFormikProps } from 'app/types/PleiepengesøknadFormikProps';
 import { AppFormField } from 'app/types/PleiepengesøknadFormData';
 import LoadingSpinner from 'common/components/loading-spinner/LoadingSpinner';
 import { apiUtils } from 'app/utils/apiUtils';
@@ -24,13 +24,13 @@ import { syndArbeidsforholdWithArbeidsgivere } from 'app/utils/arbeidsforholdUti
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
 
 interface OwnProps {
-    formikProps: CustomFormikProps;
+    formikProps: PleiepengesøknadFormikProps;
     søkerdata: Søkerdata;
 }
 
 type Props = CommonStepFormikProps & OwnProps & HistoryProps & StepConfigProps;
 
-const updateArbeidsforhold = (formikProps: CustomFormikProps, arbeidsgivere: Arbeidsgiver[]) => {
+const updateArbeidsforhold = (formikProps: PleiepengesøknadFormikProps, arbeidsgivere: Arbeidsgiver[]) => {
     const updatedArbeidsforhold = syndArbeidsforholdWithArbeidsgivere(
         arbeidsgivere,
         formikProps.values[AppFormField.arbeidsforhold]
@@ -40,7 +40,12 @@ const updateArbeidsforhold = (formikProps: CustomFormikProps, arbeidsgivere: Arb
     }
 };
 
-async function getArbeidsgivere(fromDate: Date, toDate: Date, formikProps: CustomFormikProps, søkerdata: Søkerdata) {
+async function getArbeidsgivere(
+    fromDate: Date,
+    toDate: Date,
+    formikProps: PleiepengesøknadFormikProps,
+    søkerdata: Søkerdata
+) {
     if (appIsRunningInDemoMode()) {
         søkerdata.setArbeidsgivere(demoSøkerdata.arbeidsgivere);
         updateArbeidsforhold(formikProps, demoSøkerdata.arbeidsgivere);
