@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Formik, Field, FieldProps } from 'formik';
 import { Knapp } from 'nav-frontend-knapper';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
-import { injectIntl, InjectedIntlProps } from 'react-intl';
+import { useIntl } from 'react-intl';
 import DatepickerBase from 'common/form-components/datepicker-base/DatepickerBase';
 import CountrySelect from 'common/components/country-select/CountrySelect';
 import bemUtils from 'common/utils/bemUtils';
@@ -13,9 +13,9 @@ import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 import { isMemberOfEEC } from 'common/utils/eecUtils';
 import AlertStripe from 'nav-frontend-alertstriper';
 import TextareaBase from 'common/form-components/textarea-base/TextareaBase';
-import { hasValue } from 'app/validation/fieldValidations';
 
 import './utenlandsoppholdForm.less';
+import { hasValue } from 'common/validation/hasValue';
 
 export interface UtenlandsoppholdFormLabels {
     title: string;
@@ -66,8 +66,7 @@ const defaultFormValues: Partial<Utenlandsopphold> = {
     reason: undefined
 };
 
-const UtenlandsoppholdForm: React.FunctionComponent<Props & InjectedIntlProps> = ({
-    intl,
+const UtenlandsoppholdForm: React.FunctionComponent<Props> = ({
     maxDate,
     minDate,
     reasonNeeded,
@@ -76,6 +75,7 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props & InjectedIntlProps> =
     onSubmit,
     onCancel
 }) => {
+    const intl = useIntl();
     const [showErrors, setShowErrors] = useState(false);
 
     const onFormikSubmit = (formValues: Utenlandsopphold) => {
@@ -245,4 +245,4 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props & InjectedIntlProps> =
     );
 };
 
-export default injectIntl(UtenlandsoppholdForm);
+export default UtenlandsoppholdForm;

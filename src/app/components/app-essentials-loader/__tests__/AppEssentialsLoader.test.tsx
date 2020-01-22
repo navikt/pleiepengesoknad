@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { cleanup, render, waitForElement } from '@testing-library/react';
 import AppEssentialsLoader from '../AppEssentialsLoader';
-import MockIntlProvider from '../../../components/intl-provider/MockIntlProvider';
+import IntlProvider from '../../../components/intl-provider/IntlProvider';
 
 jest.mock('./../../../utils/envUtils', () => {
     return {
@@ -31,8 +31,12 @@ jest.mock('./../../../utils/apiUtils', () => {
     };
 });
 
-const renderWrappedInMockIntlProvider = (child: React.ReactNode) =>
-    render(<MockIntlProvider locale="nb">{child}</MockIntlProvider>);
+const renderWrappedInIntlProvider = (child: React.ReactNode) =>
+    render(
+        <IntlProvider locale="nb" onError={() => null}>
+            {child}
+        </IntlProvider>
+    );
 
 describe('<AppEssentialsLoader />', () => {
     beforeEach(() => {
@@ -40,17 +44,10 @@ describe('<AppEssentialsLoader />', () => {
         window.location.assign = jest.fn();
     });
 
-    it('should show user a loading spinner initially', () => {
-        const { getByTestId } = renderWrappedInMockIntlProvider(
-            <AppEssentialsLoader contentLoadedRenderer={() => null} />
-        );
-        expect(getByTestId('spinner-element')).toBeTruthy();
-    });
-
-    it('should replace the loading spinner with contentRenderer() return value when getSøker has resolved', async () => {
+    it('should show user a loading spinner initially and should then replace the loading spinner with contentRenderer() return value when getSøker has resolved', async () => {
         const stringContent = 'Some string content';
         const contentRenderer = () => <p>{stringContent}</p>;
-        const { getByText, queryByTestId } = renderWrappedInMockIntlProvider(
+        const { getByText, queryByTestId } = renderWrappedInIntlProvider(
             <AppEssentialsLoader contentLoadedRenderer={contentRenderer} />
         );
         expect(queryByTestId('spinner-element')).toBeTruthy();

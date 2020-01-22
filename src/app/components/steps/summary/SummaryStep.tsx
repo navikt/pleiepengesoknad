@@ -2,7 +2,6 @@ import * as React from 'react';
 import { StepID } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import ConfirmationCheckboxPanel from '../../confirmation-checkbox-panel/ConfirmationCheckboxPanel';
 import Box from 'common/components/box/Box';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
@@ -20,24 +19,25 @@ import routeConfig from '../../../config/routeConfig';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import * as apiUtils from '../../../utils/apiUtils';
 import ContentSwitcher from 'common/components/content-switcher/ContentSwitcher';
-import { injectIntl, InjectedIntlProps, FormattedMessage } from 'react-intl';
+import { WrappedComponentProps, FormattedMessage, injectIntl } from 'react-intl';
 import intlHelper from 'common/utils/intlUtils';
 import { Locale } from 'common/types/Locale';
 import ArbeidsforholdSummary from 'app/components/arbeidsforhold-summary/ArbeidsforholdSummary';
 import TilsynsordningSummary from './TilsynsordningSummary';
-import TextareaSummary from '../../textarea-summary/TextareaSummary';
+import TextareaSummary from '../../../../common/components/textarea-summary/TextareaSummary';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
-import ValidationErrorSummaryBase from '../../validation-error-summary-base/ValidationErrorSummaryBase';
+import ValidationErrorSummaryBase from '../../../../common/components/validation-error-summary-base/ValidationErrorSummaryBase';
 import { validateApiValues } from '../../../validation/apiValuesValidation';
 import SummaryList from 'common/components/summary-list/SummaryList';
-import { renderUtenlandsoppholdSummary } from 'common/components/summary-renderers/renderUtenlandsoppholdSummary';
+import { renderUtenlandsoppholdSummary } from 'app/components/summary-renderers/renderUtenlandsoppholdSummary';
+import FormikConfirmationCheckboxPanel from 'common/formik/formik-confirmation-checkbox-panel/FormikConfirmationCheckboxPanel';
 
 interface State {
     sendingInProgress: boolean;
 }
 
-type Props = CommonStepFormikProps & HistoryProps & InjectedIntlProps;
+type Props = CommonStepFormikProps & HistoryProps & WrappedComponentProps;
 
 class SummaryStep extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -340,7 +340,7 @@ class SummaryStep extends React.Component<Props, State> {
                                 </Panel>
                             </Box>
                             <Box margin="l">
-                                <ConfirmationCheckboxPanel
+                                <FormikConfirmationCheckboxPanel<AppFormField>
                                     label={intlHelper(intl, 'steg.oppsummering.bekrefterOpplysninger')}
                                     name={AppFormField.harBekreftetOpplysninger}
                                     validate={(value) => {

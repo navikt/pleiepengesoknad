@@ -1,6 +1,6 @@
 import React from 'react';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import bemUtils from 'common/utils/bemUtils';
 import { ArbeidsforholdApi } from 'app/types/PleiepengesøknadApiData';
 import intlHelper from 'common/utils/intlUtils';
@@ -14,7 +14,7 @@ interface OwnProps {
 
 const bem = bemUtils('arbeidsforholdSummary');
 
-const ArbeidsforholdSummary: React.FunctionComponent<OwnProps & InjectedIntlProps> = ({
+const ArbeidsforholdSummary: React.FunctionComponent<OwnProps> = ({
     arbeidsforhold: {
         navn,
         organisasjonsnummer,
@@ -22,10 +22,10 @@ const ArbeidsforholdSummary: React.FunctionComponent<OwnProps & InjectedIntlProp
         skal_jobbe_timer,
         jobber_normalt_timer,
         skal_jobbe
-    },
-    intl
+    }
 }) => {
     const orgInfo = { navn, organisasjonsnummer };
+    const intl = useIntl();
     return (
         <div className={bem.block}>
             <div className={bem.element('org')}>
@@ -78,4 +78,4 @@ const ArbeidsforholdSummary: React.FunctionComponent<OwnProps & InjectedIntlProp
     );
 };
 
-export default injectIntl(ArbeidsforholdSummary);
+export default ArbeidsforholdSummary;

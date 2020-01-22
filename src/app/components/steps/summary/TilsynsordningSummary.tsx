@@ -3,18 +3,18 @@ import { TilsynsordningApi, TilsynsordningApiJa } from '../../../types/Pleiepeng
 import Box from 'common/components/box/Box';
 import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
 import intlHelper from 'common/utils/intlUtils';
-import { injectIntl, InjectedIntlProps, FormattedMessage, InjectedIntl } from 'react-intl';
-import { hasValue } from '../../../validation/fieldValidations';
+import { useIntl, FormattedMessage, IntlShape } from 'react-intl';
 import { TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
 import { Time } from 'common/types/Time';
-import TextareaSummary from '../../textarea-summary/TextareaSummary';
+import TextareaSummary from '../../../../common/components/textarea-summary/TextareaSummary';
 import { iso8601DurationToTime } from 'common/utils/timeUtils';
+import { hasValue } from 'common/validation/hasValue';
 
 interface Props {
     tilsynsordning: TilsynsordningApi;
 }
 
-const formatTime = (intl: InjectedIntl, time: Partial<Time>): string => {
+const formatTime = (intl: IntlShape, time: Partial<Time>): string => {
     const { hours, minutes } = time;
     if (hours && minutes) {
         return intl.formatMessage({ id: 'tilsynsordning.timerPerDag.timerOgMinutter' }, time);
@@ -26,7 +26,7 @@ const formatTime = (intl: InjectedIntl, time: Partial<Time>): string => {
     return '';
 };
 
-const summarizeDaysInWeek = (tilsynsordning: TilsynsordningApiJa, intl: InjectedIntl): string => {
+const summarizeDaysInWeek = (tilsynsordning: TilsynsordningApiJa, intl: IntlShape): string => {
     const {
         ja: { tilleggsinformasjon, ...allDays }
     } = tilsynsordning;
@@ -41,7 +41,8 @@ const summarizeDaysInWeek = (tilsynsordning: TilsynsordningApiJa, intl: Injected
     return intlHelper(intl, 'tilsynsordning.ingenDagerValgt');
 };
 
-const TilsynsordningSummary: React.FunctionComponent<Props & InjectedIntlProps> = ({ tilsynsordning, intl }) => {
+const TilsynsordningSummary: React.FunctionComponent<Props> = ({ tilsynsordning }) => {
+    const intl = useIntl();
     const { svar } = tilsynsordning;
     return (
         <>
@@ -97,4 +98,4 @@ const TilsynsordningSummary: React.FunctionComponent<Props & InjectedIntlProps> 
     );
 };
 
-export default injectIntl(TilsynsordningSummary);
+export default TilsynsordningSummary;

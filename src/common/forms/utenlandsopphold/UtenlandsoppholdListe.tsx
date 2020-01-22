@@ -3,7 +3,7 @@ import { Utenlandsopphold } from './types';
 import ItemList from '../../components/item-list/ItemList';
 import { prettifyDateExtended } from '../../utils/dateUtils';
 import { getCountryName } from '../../components/country-select/CountrySelect';
-import { injectIntl, InjectedIntlProps } from 'react-intl';
+import { useIntl } from 'react-intl';
 import ActionLink from '../../components/action-link/ActionLink';
 import bemUtils from '../../utils/bemUtils';
 
@@ -17,12 +17,8 @@ interface Props {
 
 const bem = bemUtils('utenlandsoppholdListe');
 
-const UtenlandsoppholdListe: React.FunctionComponent<Props & InjectedIntlProps> = ({
-    utenlandsopphold,
-    onDelete,
-    onEdit,
-    intl
-}) => {
+const UtenlandsoppholdListe: React.FunctionComponent<Props> = ({ utenlandsopphold, onDelete, onEdit }) => {
+    const intl = useIntl();
     const getUtenlandsopphold = (id: string): Utenlandsopphold | undefined => {
         return utenlandsopphold.find((u) => u.id === id);
     };
@@ -79,4 +75,4 @@ const UtenlandsoppholdListe: React.FunctionComponent<Props & InjectedIntlProps> 
     );
 };
 
-export default injectIntl(UtenlandsoppholdListe);
+export default UtenlandsoppholdListe;

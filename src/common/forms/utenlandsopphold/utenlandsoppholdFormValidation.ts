@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { hasValue } from 'app/validation/fieldValidations';
+import { hasValue } from 'common/validation/hasValue';
 
 const dateIsWithinRange = (date: Date, minDate: Date, maxDate: Date) => {
     return moment(date).isBetween(minDate, maxDate, 'day', '[]');

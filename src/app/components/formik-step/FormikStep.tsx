@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { History } from 'history';
 import Step, { StepProps } from '../step/Step';
-import { userHasSubmittedValidForm } from '../../utils/formikUtils';
+import { userHasSubmittedValidForm } from '../../../common/formik/formikUtils';
 import { connect } from 'formik';
-import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
+import { ConnectedFormikProps } from '../../../common/types/ConnectedFormikProps';
 import { AppFormField } from '../../types/PleiepengesøknadFormData';
-import { injectIntl, InjectedIntlProps } from 'react-intl';
 
 export interface FormikStepProps {
     children: React.ReactNode;
@@ -18,7 +17,7 @@ export interface FormikStepProps {
 type Props = FormikStepProps & StepProps;
 type PropsWithFormik = Props & ConnectedFormikProps<AppFormField>;
 
-class FormikStep extends React.Component<PropsWithFormik & InjectedIntlProps> {
+class FormikStep extends React.Component<PropsWithFormik> {
     constructor(props: PropsWithFormik) {
         super(props);
         this.props.formik.setStatus({ stepSubmitCount: this.props.formik.submitCount });
@@ -53,4 +52,4 @@ class FormikStep extends React.Component<PropsWithFormik & InjectedIntlProps> {
     }
 }
 
-export default injectIntl(connect<Props, AppFormField>(FormikStep));
+export default connect<Props, AppFormField>(FormikStep);

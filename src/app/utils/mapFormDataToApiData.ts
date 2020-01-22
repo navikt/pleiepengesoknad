@@ -56,7 +56,7 @@ export const mapFormDataToApiData = (
         utenlandsoppholdIPerioden
     }: PleiepengesøknadFormData,
     barn: BarnReceivedFromApi[],
-    sprak: Locale
+    sprak: Locale = 'nb'
 ): PleiepengesøknadApiData => {
     const barnObject: BarnToSendToApi = {
         navn: null,
@@ -80,7 +80,7 @@ export const mapFormDataToApiData = (
 
     const apiData: PleiepengesøknadApiData = {
         new_version: true,
-        sprak,
+        sprak: (sprak as any) === 'en' ? 'nn' : sprak,
         barn: barnObject,
         relasjon_til_barnet: barnObject.aktoer_id ? null : søkersRelasjonTilBarnet,
         arbeidsgivere: {

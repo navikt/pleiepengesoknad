@@ -3,30 +3,31 @@ import { navigateTo } from '../../../utils/navigationUtils';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
-import { InjectedIntlProps, injectIntl, FormattedHTMLMessage } from 'react-intl';
+import { useIntl, FormattedHTMLMessage } from 'react-intl';
 import { AppFormField, TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
-import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
+import YesOrNoQuestion from '../../../../common/components/yes-or-no-question/YesOrNoQuestion';
 import Box from 'common/components/box/Box';
 import { YesOrNo } from 'common/types/YesOrNo';
-import Textarea from '../../textarea/Textarea';
 import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
-import InputGroup from '../../input-group/InputGroup';
 import {
     validateSkalHaTilsynsordning,
     validateYesOrNoIsAnswered,
     validateTilsynsordningTilleggsinfo
 } from '../../../validation/fieldValidations';
-import RadioPanelGroup from '../../radio-panel-group/RadioPanelGroup';
 import intlHelper from 'common/utils/intlUtils';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import { getNextStepRoute } from '../../../utils/routeUtils';
 import { persist } from '../../../api/api';
+import FormikInputGroup from 'common/formik/formik-input-group/FormikInputGroup';
+import FormikTextarea from 'common/formik/formik-textarea/FormikTextarea';
+import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
 
-type Props = CommonStepFormikProps & HistoryProps & InjectedIntlProps & StepConfigProps;
+type Props = CommonStepFormikProps & HistoryProps & StepConfigProps;
 
-const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, intl, formValues, ...stepProps }) => {
+const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, formValues, ...stepProps }) => {
     const nextStepRoute = getNextStepRoute(StepID.OMSORGSTILBUD, formValues);
+    const intl = useIntl();
     const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
     const { tilsynsordning } = formValues;
     const { skalBarnHaTilsyn, vetIkke } = tilsynsordning || {};
@@ -56,14 +57,14 @@ const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, intl, for
             </Box>
             {YesOrNo.YES === skalBarnHaTilsyn && tilsynsordning && (
                 <Box margin="xxl">
-                    <InputGroup
+                    <FormikInputGroup<AppFormField>
                         label={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.spm')}
                         validate={validateSkalHaTilsynsordning}
                         name={AppFormField.tilsynsordning}>
                         <Tilsynsuke name={AppFormField.tilsynsordning__ja__tilsyn} />
-                    </InputGroup>
+                    </FormikInputGroup>
                     <Box margin="xl">
-                        <Textarea
+                        <FormikTextarea<AppFormField>
                             name={AppFormField.tilsynsordning__ja__ekstrainfo}
                             label={intlHelper(intl, 'steg.tilsyn.ja.tilleggsopplysninger.spm')}
                             validate={validateTilsynsordningTilleggsinfo}
@@ -74,7 +75,7 @@ const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, intl, for
             )}
             {YesOrNo.DO_NOT_KNOW === skalBarnHaTilsyn && (
                 <Box margin="xxl">
-                    <RadioPanelGroup
+                    <FormikRadioPanelGroup<AppFormField>
                         legend={intlHelper(intl, 'steg.tilsyn.vetIkke.årsak.spm')}
                         name={AppFormField.tilsynsordning__vetIkke__hvorfor}
                         singleColumn={true}
@@ -98,7 +99,7 @@ const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, intl, for
                     />
                     {vetIkke && vetIkke.hvorfor === TilsynVetIkkeHvorfor.annet && (
                         <Box margin="xl">
-                            <Textarea
+                            <FormikTextarea<AppFormField>
                                 name={AppFormField.tilsynsordning__vetIkke__ekstrainfo}
                                 label={intlHelper(intl, 'steg.tilsyn.vetIkke.årsak.annet.tilleggsopplysninger')}
                                 maxLength={1000}
@@ -112,4 +113,4 @@ const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, intl, for
     );
 };
 
-export default injectIntl(TilsynsordningStep);
+export default TilsynsordningStep;
