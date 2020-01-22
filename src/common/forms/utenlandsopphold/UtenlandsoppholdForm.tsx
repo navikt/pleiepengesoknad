@@ -105,7 +105,7 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props> = ({
                             <Box padBottom="l">
                                 <FormikDateIntervalPicker<UtenlandsoppholdFormFields>
                                     legend={formLabels.intervalTitle}
-                                    validationErrorsVisible={showErrors}
+                                    showValidationErrors={showErrors}
                                     fromDatepickerProps={{
                                         name: UtenlandsoppholdFormFields.fromDate,
                                         label: formLabels.fromDate,

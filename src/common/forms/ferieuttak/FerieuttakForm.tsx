@@ -71,7 +71,7 @@ const FerieuttakForm: React.FunctionComponent<Props> = ({
 
                             <FormikDateIntervalPicker<FerieuttakFormFields>
                                 legend={formLabels.intervalTitle}
-                                validationErrorsVisible={showErrors}
+                                showValidationErrors={showErrors}
                                 fromDatepickerProps={{
                                     label: formLabels.fromDate,
                                     name: FerieuttakFormFields.fromDate,

@@ -12,7 +12,7 @@ interface DateIntervalPickerProps<T> {
     fromDatepickerProps: FormikDatepickerProps<T>;
     toDatepickerProps: FormikDatepickerProps<T>;
     helperText?: string;
-    validationErrorsVisible?: boolean;
+    showValidationErrors?: boolean;
 }
 
 const bem = bemHelper('dateIntervalPicker');
@@ -21,7 +21,7 @@ function FormikDateIntervalPicker<T>({
     legend,
     fromDatepickerProps,
     toDatepickerProps,
-    validationErrorsVisible: showValidationErrors,
+    showValidationErrors,
     helperText
 }: DateIntervalPickerProps<T>) {
     const [showHelperText, setShowHelperText] = React.useState(false);
