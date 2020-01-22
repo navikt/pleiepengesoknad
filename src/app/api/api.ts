@@ -6,10 +6,10 @@ import { getApiUrlByResourceType, sendMultipartPostRequest } from '../utils/apiU
 import { ResourceType } from '../types/ResourceType';
 import { Arbeidsgiver } from 'app/types/Søkerdata';
 
-export const persist = (data: PleiepengesøknadFormData, stepID: string) => {
-    const metadata = { stepID };
+export const persist = (data: PleiepengesøknadFormData, lastStepID: string) => {
+    const metadata = { lastStepID };
     const body = { ...initialValues, ...data, metadata };
-    axios.post(`${getApiUrlByResourceType(ResourceType.MELLOMLAGRING)}?lastStepID=${stepID}`, { ...body }, axiosConfig);
+    axios.post(`${getApiUrlByResourceType(ResourceType.MELLOMLAGRING)}?lastStepID=${lastStepID}`, { ...body }, axiosConfig);
 };
 export const rehydrate = () => axios.get(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), axiosConfig);
 export const purge = () => axios.delete(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), {...axiosConfig, data: {}});
