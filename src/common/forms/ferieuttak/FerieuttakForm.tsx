@@ -14,6 +14,7 @@ export interface FerieuttakFormLabels {
     title: string;
     fromDate: string;
     toDate: string;
+    intervalTitle: string;
     okButton: string;
     cancelButton: string;
 }
@@ -28,9 +29,10 @@ interface Props {
 }
 
 const defaultLabels: FerieuttakFormLabels = {
-    title: 'Ferieuttak',
+    title: 'Registrer uttak av ferie',
     fromDate: 'Fra og med',
     toDate: 'Til og med',
+    intervalTitle: 'Velg tidsrom',
     okButton: 'Ok',
     cancelButton: 'Avbryt'
 };
@@ -68,11 +70,12 @@ const FerieuttakForm: React.FunctionComponent<Props> = ({
                             </Box>
 
                             <FormikDateIntervalPicker<FerieuttakFormFields>
-                                legend={formLabels.title}
+                                legend={formLabels.intervalTitle}
                                 validationErrorsVisible={showErrors}
                                 fromDatepickerProps={{
-                                    label: 'Fra',
+                                    label: formLabels.fromDate,
                                     name: FerieuttakFormFields.fromDate,
+                                    fullscreenOverlay: true,
                                     validate: (date: Date) =>
                                         ferieuttakFormValidation.validateFromDate(
                                             date,
@@ -82,8 +85,9 @@ const FerieuttakForm: React.FunctionComponent<Props> = ({
                                         )
                                 }}
                                 toDatepickerProps={{
-                                    label: 'To',
+                                    label: formLabels.toDate,
                                     name: FerieuttakFormFields.toDate,
+                                    fullscreenOverlay: true,
                                     validate: (date: Date) =>
                                         ferieuttakFormValidation.validateToDate(
                                             date,

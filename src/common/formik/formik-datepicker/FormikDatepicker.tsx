@@ -11,6 +11,7 @@ export interface FormikDatepickerProps<T> {
     label: string;
     validate?: FormikValidateFunction;
     dateLimitations?: DateLimitiations;
+    fullscreenOverlay?: boolean;
 }
 
 type Props<T> = FormikDatepickerProps<T> & FormikValidationProps;
@@ -21,6 +22,7 @@ function FormikDatepicker<T>({
     dateLimitations,
     name,
     showValidationErrors,
+    fullscreenOverlay,
     ...otherProps
 }: Props<T>) {
     const intl = useIntl();
@@ -40,6 +42,7 @@ function FormikDatepicker<T>({
                         {...otherProps}
                         {...errorMsgProps}
                         {...field}
+                        fullscreenOverlay={fullscreenOverlay}
                         onChange={(date: Date) => {
                             setFieldValue(field.name, date);
                         }}

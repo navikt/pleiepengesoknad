@@ -92,7 +92,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
             {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD) && (
                 <Box margin="xl">
                     <YesOrNoQuestion<AppFormField>
-                        legend={intlHelper(intl, 'steg.medlemsskap.iUtlandetIPerioden.spm')}
+                        legend={intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.spm')}
                         name={AppFormField.skalOppholdeSegIUtlandetIPerioden}
                         validate={validateRequiredField}
                     />
@@ -154,7 +154,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
             {isFeatureEnabled(Feature.TOGGLE_FERIEUTTAK) && (
                 <Box margin="xl">
                     <YesOrNoQuestion
-                        legend={intlHelper(intl, 'steg.medlemsskap.ferieuttakIPerioden.spm')}
+                        legend={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.spm')}
                         name={AppFormField.skalTaUtFerieIPerioden}
                         validate={validateRequiredField}
                     />
