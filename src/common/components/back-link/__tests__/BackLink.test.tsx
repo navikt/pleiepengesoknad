@@ -1,17 +1,17 @@
 import * as React from 'react';
 import BackLink from '../BackLink';
-import { render, fireEvent } from '@testing-library/react';
+import { cleanup, render, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import * as historyMockFns from '../../../../../__mocks__/history';
-import MockIntlProvider from '../../../../app/components/intl-provider/MockIntlProvider';
+import IntlProvider from '../../../../app/components/intl-provider/IntlProvider';
 
 const hrefLocation = 'hrefLocation';
 
 const renderWrappedInMemoryRouter = (child: React.ReactNode) =>
     render(
-        <MockIntlProvider locale="nb">
+        <IntlProvider locale="nb" onError={() => null}>
             <MemoryRouter>{child}</MemoryRouter>
-        </MockIntlProvider>
+        </IntlProvider>
     );
 
 describe('<BackLink />', () => {
@@ -33,4 +33,6 @@ describe('<BackLink />', () => {
         fireEvent.click(container.querySelector('div')!);
         expect(onClick).toHaveBeenCalled();
     });
+
+    afterAll(cleanup);
 });
