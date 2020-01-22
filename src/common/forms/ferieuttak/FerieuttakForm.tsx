@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { Ferieuttak } from './types';
-import { Formik, Field, FieldProps } from 'formik';
+import { Formik } from 'formik';
 import Box from 'common/components/box/Box';
 import { Systemtittel } from 'nav-frontend-typografi';
-import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
-import DatepickerBase from 'common/form-components/datepicker-base/DatepickerBase';
 import bemUtils from 'common/utils/bemUtils';
 import { Knapp } from 'nav-frontend-knapper';
 import FormikDateIntervalPicker from 'common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
+import ferieuttakFormValidation from './ferieuttakFormValidation';
 
 import './ferieuttakForm.less';
-import { useIntl } from 'react-intl';
 
 export interface FerieuttakFormLabels {
     title: string;
@@ -52,7 +50,6 @@ const FerieuttakForm: React.FunctionComponent<Props> = ({
     onCancel
 }) => {
     const [showErrors, setShowErrors] = useState(false);
-    const intl = useIntl();
 
     const onFormikSubmit = (formValues: Ferieuttak) => {
         onSubmit(formValues);
@@ -71,67 +68,31 @@ const FerieuttakForm: React.FunctionComponent<Props> = ({
                             </Box>
 
                             <FormikDateIntervalPicker<FerieuttakFormFields>
-                                legend="abc"
+                                legend={formLabels.title}
+                                validationErrorsVisible={showErrors}
                                 fromDatepickerProps={{
+                                    label: 'Fra',
                                     name: FerieuttakFormFields.fromDate,
-                                    label: 'abc'
+                                    validate: (date: Date) =>
+                                        ferieuttakFormValidation.validateFromDate(
+                                            date,
+                                            minDate,
+                                            maxDate,
+                                            ferieuttak.toDate
+                                        )
                                 }}
-                                toDatepickerProps={{ name: FerieuttakFormFields.toDate, label: 'sdf' }}
+                                toDatepickerProps={{
+                                    label: 'To',
+                                    name: FerieuttakFormFields.toDate,
+                                    validate: (date: Date) =>
+                                        ferieuttakFormValidation.validateToDate(
+                                            date,
+                                            minDate,
+                                            maxDate,
+                                            ferieuttak.fromDate
+                                        )
+                                }}
                             />
-
-                            <Box padBottom="l">
-                                <div className={bem.element('datoer')}>
-                                    <div className={bem.element('dato')}>
-                                        <Field name={FerieuttakFormFields.fromDate}>
-                                            {({ field, form: { setFieldValue } }: FieldProps) => {
-                                                const errorMsgProps = showErrors
-                                                    ? getValidationErrorPropsWithIntl(intl, errors, field.name)
-                                                    : null;
-
-                                                return (
-                                                    <DatepickerBase
-                                                        id="utenlandsoppholdStart"
-                                                        value={field.value}
-                                                        name={field.name}
-                                                        label={formLabels.fromDate}
-                                                        onChange={(date) => {
-                                                            setFieldValue(field.name, date);
-                                                        }}
-                                                        {...errorMsgProps}
-                                                        dateLimitations={{
-                                                            minDato: minDate,
-                                                            maksDato: ferieuttak.toDate || maxDate
-                                                        }}
-                                                    />
-                                                );
-                                            }}
-                                        </Field>
-                                    </div>
-                                    <div className={bem.element('dato')}>
-                                        <Field name={FerieuttakFormFields.toDate}>
-                                            {({ field, form: { setFieldValue } }: FieldProps) => {
-                                                const errorMsgProps = showErrors
-                                                    ? getValidationErrorPropsWithIntl(intl, errors, field.name)
-                                                    : null;
-                                                return (
-                                                    <DatepickerBase
-                                                        id="utenlandsoppholdStop"
-                                                        value={field.value}
-                                                        name={field.name}
-                                                        label={formLabels.toDate}
-                                                        onChange={(date) => setFieldValue(field.name, date)}
-                                                        {...errorMsgProps}
-                                                        dateLimitations={{
-                                                            minDato: ferieuttak.fromDate || minDate,
-                                                            maksDato: maxDate
-                                                        }}
-                                                    />
-                                                );
-                                            }}
-                                        </Field>
-                                    </div>
-                                </div>
-                            </Box>
 
                             <div className={bem.element('knapper')}>
                                 <Knapp

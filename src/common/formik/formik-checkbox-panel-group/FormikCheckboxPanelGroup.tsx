@@ -5,7 +5,7 @@ import CheckboxPanelGroupBase, {
     CheckboxPanelExpandedContentRenderer
 } from 'common/form-components/checkbox-panel-group-base/CheckboxPanelGroupBase';
 import { removeElementFromArray } from 'common/utils/listUtils';
-import { isCheckboxChecked, showValidationErrors } from 'common/formik/formikUtils';
+import { isCheckboxChecked, isValidationErrorsVisible } from 'common/formik/formikUtils';
 import { useIntl } from 'react-intl';
 import { FormikValidateFunction, FormikValidationProps } from 'common/formik/FormikProps';
 
@@ -34,15 +34,17 @@ function FormikCheckboxPanelGroup<T>({
     checkboxes,
     singleColumn,
     helperText,
+    showValidationErrors,
     valueKey
 }: FormikCheckboxPanelGroupProps<T> & FormikValidationProps) {
     const intl = useIntl();
     return (
         <FormikField validate={validate} name={name}>
             {({ field, form: { errors, status, submitCount, setFieldValue } }: FormikFieldProps) => {
-                const errorMsgProps = showValidationErrors(status, submitCount)
-                    ? getValidationErrorPropsWithIntl(intl, errors, field.name)
-                    : {};
+                const errorMsgProps =
+                    showValidationErrors || isValidationErrorsVisible(status, submitCount)
+                        ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                        : {};
                 return (
                     <CheckboxPanelGroupBase
                         legend={legend}

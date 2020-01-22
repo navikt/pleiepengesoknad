@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ArrayHelpers, Field as FormikField, FieldArray, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import FileInputBase from 'common/form-components/file-input-base/FileInputBase';
-import { showValidationErrors } from 'common/formik/formikUtils';
+import { isValidationErrorsVisible } from 'common/formik/formikUtils';
 import { useIntl } from 'react-intl';
 import { FormikValidationProps } from 'common/formik/FormikProps';
 
@@ -20,6 +20,7 @@ function FormikFileInput<T>({
     acceptedExtensions,
     validate,
     onFilesSelect,
+    showValidationErrors,
     onClick
 }: FormikFileInputProps<T> & FormikValidationProps) {
     const intl = useIntl();
@@ -29,9 +30,10 @@ function FormikFileInput<T>({
             render={(arrayHelpers) => (
                 <FormikField validate={validate} name={name}>
                     {({ field, form: { errors, status, submitCount } }: FormikFieldProps) => {
-                        const errorMsgProps = showValidationErrors(status, submitCount)
-                            ? getValidationErrorPropsWithIntl(intl, errors, field.name)
-                            : {};
+                        const errorMsgProps =
+                            showValidationErrors || isValidationErrorsVisible(status, submitCount)
+                                ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                                : {};
                         return (
                             <FileInputBase
                                 id={field.name}

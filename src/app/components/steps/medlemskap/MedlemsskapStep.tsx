@@ -21,7 +21,7 @@ import { Field, FieldProps } from 'formik';
 import UtenlandsoppholdInput from 'common/forms/utenlandsopphold';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { showValidationErrors } from 'common/formik/formikUtils';
+import { isValidationErrorsVisible } from 'common/formik/formikUtils';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import { dateToday, date1YearFromNow, date1YearAgo } from 'common/utils/dateUtils';
 import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
@@ -58,7 +58,7 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, nextStepRout
                             name={AppFormField.utenlandsoppholdSiste12Mnd}
                             validate={validateUtenlandsoppholdSiste12Mnd}>
                             {({ field, form: { errors, setFieldValue, status, submitCount } }: FieldProps) => {
-                                const errorMsgProps = showValidationErrors(status, submitCount)
+                                const errorMsgProps = isValidationErrorsVisible(status, submitCount)
                                     ? getValidationErrorPropsWithIntl(intl, errors, field.name)
                                     : {};
                                 return (
@@ -96,7 +96,7 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, nextStepRout
                             name={AppFormField.utenlandsoppholdNeste12Mnd}
                             validate={validateUtenlandsoppholdNeste12Mnd}>
                             {({ field, form: { errors, setFieldValue, status, submitCount } }: FieldProps) => {
-                                const errorMsgProps = showValidationErrors(status, submitCount)
+                                const errorMsgProps = isValidationErrorsVisible(status, submitCount)
                                     ? getValidationErrorPropsWithIntl(intl, errors, field.name)
                                     : {};
                                 return (

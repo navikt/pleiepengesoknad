@@ -31,7 +31,7 @@ import UtenlandsoppholdListe from 'common/forms/utenlandsopphold/Utenlandsopphol
 import UtenlandsoppholdForm from 'common/forms/utenlandsopphold/UtenlandsoppholdForm';
 
 import './dagerPerUkeBorteFraJobb.less';
-import { showValidationErrors } from 'common/formik/formikUtils';
+import { isValidationErrorsVisible } from 'common/formik/formikUtils';
 
 interface OpplysningerOmTidsromStepProps {
     formikProps: PleiepengesøknadFormikProps;
@@ -110,7 +110,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                                     : undefined
                             }>
                             {({ field, form: { errors, setFieldValue, status, submitCount } }: FieldProps) => {
-                                const errorMsgProps = showValidationErrors(status, submitCount)
+                                const errorMsgProps = isValidationErrorsVisible(status, submitCount)
                                     ? getValidationErrorPropsWithIntl(intl, errors, field.name)
                                     : {};
                                 return (
@@ -164,7 +164,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                 <Box margin="m">
                     <Field name={AppFormField.ferieuttakIPerioden}>
                         {({ field, form: { errors, setFieldValue, status, submitCount } }: FieldProps) => {
-                            const errorMsgProps = showValidationErrors(status, submitCount)
+                            const errorMsgProps = isValidationErrorsVisible(status, submitCount)
                                 ? getValidationErrorPropsWithIntl(intl, errors, field.name)
                                 : {};
                             return (

@@ -12,6 +12,7 @@ interface DateIntervalPickerProps<T> {
     fromDatepickerProps: FormikDatepickerProps<T>;
     toDatepickerProps: FormikDatepickerProps<T>;
     helperText?: string;
+    validationErrorsVisible?: boolean;
 }
 
 const bem = bemHelper('dateIntervalPicker');
@@ -20,6 +21,7 @@ function FormikDateIntervalPicker<T>({
     legend,
     fromDatepickerProps,
     toDatepickerProps,
+    validationErrorsVisible: showValidationErrors,
     helperText
 }: DateIntervalPickerProps<T>) {
     const [showHelperText, setShowHelperText] = React.useState(false);
@@ -40,8 +42,8 @@ function FormikDateIntervalPicker<T>({
     return (
         <Fieldset legend={legendContent} className={bem.block}>
             <div className={bem.element('flexContainer')}>
-                <FormikDatepicker<T> {...fromDatepickerProps} />
-                <FormikDatepicker<T> {...toDatepickerProps} />
+                <FormikDatepicker<T> {...fromDatepickerProps} showValidationErrors={showValidationErrors} />
+                <FormikDatepicker<T> {...toDatepickerProps} showValidationErrors={showValidationErrors} />
             </div>
         </Fieldset>
     );
