@@ -30,7 +30,7 @@ import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 import ValidationErrorSummaryBase from '../../../../common/components/validation-error-summary-base/ValidationErrorSummaryBase';
 import { validateApiValues } from '../../../validation/apiValuesValidation';
 import SummaryList from 'common/components/summary-list/SummaryList';
-import { renderUtenlandsoppholdSummary } from 'common/components/summary-renderers/renderUtenlandsoppholdSummary';
+import { renderUtenlandsoppholdSummary } from 'app/components/summary-renderers/renderUtenlandsoppholdSummary';
 import FormikConfirmationCheckboxPanel from 'common/formik/formik-confirmation-checkbox-panel/FormikConfirmationCheckboxPanel';
 
 interface State {

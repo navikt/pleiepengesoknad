@@ -27,8 +27,15 @@ interface FormikCheckboxPanelGroupProps<T> {
     singleColumn?: boolean;
 }
 
-const FormikCheckboxPanelGroup = <T extends {}>(): React.FunctionComponent<FormikCheckboxPanelGroupProps<T> &
-    FormikValidationProps> => ({ name, validate, legend, checkboxes, singleColumn, helperText, valueKey }) => {
+function FormikCheckboxPanelGroup<T>({
+    name,
+    validate,
+    legend,
+    checkboxes,
+    singleColumn,
+    helperText,
+    valueKey
+}: FormikCheckboxPanelGroupProps<T> & FormikValidationProps) {
     const intl = useIntl();
     return (
         <FormikField validate={validate} name={name}>
@@ -65,6 +72,6 @@ const FormikCheckboxPanelGroup = <T extends {}>(): React.FunctionComponent<Formi
             }}
         </FormikField>
     );
-};
+}
 
 export default FormikCheckboxPanelGroup;
