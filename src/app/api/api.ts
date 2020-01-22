@@ -1,14 +1,15 @@
 import axios, { AxiosResponse } from 'axios';
 import { PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
-import { PleiepengesøknadFormData, initialValues } from '../types/PleiepengesøknadFormData';
+import { initialValues, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import axiosConfig from '../config/axiosConfig';
 import { getApiUrlByResourceType, sendMultipartPostRequest } from '../utils/apiUtils';
 import { ResourceType } from '../types/ResourceType';
 import { Arbeidsgiver } from 'app/types/Søkerdata';
+import { MellomlagringData } from '../types/storage';
+import { StepID } from '../config/stepConfig';
 
-export const persist = (data: PleiepengesøknadFormData, lastStepID: string) => {
-    const metadata = { lastStepID };
-    const body = { ...initialValues, ...data, metadata };
+export const persist = (formData: PleiepengesøknadFormData, lastStepID: StepID) => {
+    const body: MellomlagringData = { formData, metadata: {step: lastStepID} };
     axios.post(`${getApiUrlByResourceType(ResourceType.MELLOMLAGRING)}?lastStepID=${lastStepID}`, { ...body }, axiosConfig);
 };
 export const rehydrate = () => axios.get(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), axiosConfig);

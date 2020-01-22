@@ -3,7 +3,7 @@ import { navigateTo } from '../../../utils/navigationUtils';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
-import { AppFormField } from '../../../types/PleiepengesøknadFormData';
+import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import YesOrNoQuestion from '../../../../common/components/yes-or-no-question/YesOrNoQuestion';
 import { validateYesOrNoIsAnswered, validateBeredskapTilleggsinfo } from '../../../validation/fieldValidations';
 import intlHelper from 'common/utils/intlUtils';
@@ -13,6 +13,7 @@ import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFo
 import { YesOrNo } from 'common/types/YesOrNo';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import FormikTextarea from 'common/formik/formik-textarea/FormikTextarea';
+import { persist } from '../../../api/api';
 
 interface StepProps {
     formikProps: PleiepengesøknadFormikProps;
@@ -27,19 +28,18 @@ const BeredskapStep: React.FunctionComponent<Props> = ({
     nextStepRoute,
     ...stepProps
 }) => {
-    const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
+    const persistAndNavigateTo = (data: PleiepengesøknadFormData, nextStep: string) => {
+        persist(data, nextStep);
+        navigateTo(nextStep, history);
+    };
+    const navigate = nextStepRoute ? () => persistAndNavigateTo(values, nextStepRoute) : undefined;
     const { harBeredskap } = values;
     const intl = useIntl();
 
     return (
         <FormikStep
             id={StepID.BEREDSKAP}
-            onValidFormSubmit={() => {
-                persist(values, StepID.BEREDSKAP);
-                if (navigate) {
-                    navigate();
-                }
-            }}
+            onValidFormSubmit={navigate}
             history={history}
             {...stepProps}
             formValues={values}>

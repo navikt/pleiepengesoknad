@@ -3,7 +3,7 @@ import { navigateTo } from '../../../utils/navigationUtils';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
-import { AppFormField } from '../../../types/PleiepengesøknadFormData';
+import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import YesOrNoQuestion from '../../../../common/components/yes-or-no-question/YesOrNoQuestion';
 import {
     validateYesOrNoIsAnswered,
@@ -30,32 +30,34 @@ import { persist } from '../../../api/api';
 type Props = CommonStepFormikProps & HistoryProps & StepConfigProps;
 
 const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, nextStepRoute, ...stepProps }) => {
-    const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
     const { formValues } = stepProps;
+    const persistAndNavigateTo = (data: PleiepengesøknadFormData, nextStep: string) => {
+        persist(data, nextStep);
+        navigateTo(nextStep, history);
+    };
+    const navigate = nextStepRoute ? () => persistAndNavigateTo(formValues, nextStepRoute) : undefined;
     const intl = useIntl();
 
     return (
-        <FormikStep id={StepID.MEDLEMSKAP}onValidFormSubmit={() => {
-            persist(formValues, StepID.MEDLEMSKAP);
-            if (navigate) {
-                navigate();
-            }
-        }} history={history} {...stepProps}>
-            <Box padBottom="xxl">
-                <CounsellorPanel>
-                    Medlemskap i folketrygden er nøkkelen til rettigheter fra NAV. Hvis du bor eller jobber i Norge er
-                    du vanligvis medlem. Du kan lese mer om medlemskap på{' '}
-                    <Lenke href={getLenker().medlemskap} target="_blank">
-                        nav.no
-                    </Lenke>
-                    .
-                </CounsellorPanel>
-            </Box>
-            <YesOrNoQuestion
-                legend={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.spm')}
-                name={AppFormField.harBoddUtenforNorgeSiste12Mnd}
-                validate={validateYesOrNoIsAnswered}
-                helperText={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.hjelp')}
+        <FormikStep
+            id={StepID.MEDLEMSKAP}
+            onValidFormSubmit={navigate}
+            history={history} {...stepProps}>
+                <Box padBottom="xxl">
+                    <CounsellorPanel>
+                        Medlemskap i folketrygden er nøkkelen til rettigheter fra NAV. Hvis du bor eller jobber i Norge er
+                        du vanligvis medlem. Du kan lese mer om medlemskap på{' '}
+                        <Lenke href={getLenker().medlemskap} target="_blank">
+                            nav.no
+                        </Lenke>
+                        .
+                    </CounsellorPanel>
+                </Box>
+                <YesOrNoQuestion
+                    legend={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.spm')}
+                    name={AppFormField.harBoddUtenforNorgeSiste12Mnd}
+                    validate={validateYesOrNoIsAnswered}
+                    helperText={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.hjelp')}
             />
             {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD) &&
                 formValues.harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && (

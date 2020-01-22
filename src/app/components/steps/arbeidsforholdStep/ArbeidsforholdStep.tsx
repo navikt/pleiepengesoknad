@@ -15,7 +15,7 @@ import { getArbeidsgiver, persist } from 'app/api/api';
 import { Søkerdata, Arbeidsgiver } from 'app/types/Søkerdata';
 import { formatDateToApiFormat } from 'common/utils/dateUtils';
 import { PleiepengesøknadFormikProps } from 'app/types/PleiepengesøknadFormikProps';
-import { AppFormField } from 'app/types/PleiepengesøknadFormData';
+import { AppFormField, PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
 import LoadingSpinner from 'common/components/loading-spinner/LoadingSpinner';
 import { apiUtils } from 'app/utils/apiUtils';
 import { appIsRunningInDemoMode } from 'app/utils/envUtils';
@@ -64,9 +64,13 @@ async function getArbeidsgivere(
 }
 
 const ArbeidsforholdStep = ({ history, søkerdata, nextStepRoute, formikProps, ...stepProps }: Props) => {
-    const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
+    const { values, values: { arbeidsforhold} } = formikProps;
+    const persistAndNavigateTo = (data: PleiepengesøknadFormData, nextStep: string) => {
+        persist(data, nextStep);
+        navigateTo(nextStep, history);
+    };
+    const navigate = nextStepRoute ? () => persistAndNavigateTo(values, nextStepRoute) : undefined;
     const [isLoading, setIsLoading] = useState(false);
-    const { arbeidsforhold } = formikProps.values;
 
     useEffect(() => {
         const fraDato = formikProps.values[AppFormField.periodeFra];
@@ -87,12 +91,7 @@ const ArbeidsforholdStep = ({ history, søkerdata, nextStepRoute, formikProps, .
     return (
         <FormikStep
             id={StepID.ARBEIDSFORHOLD}
-            onValidFormSubmit={() => {
-                persist(formikProps.values, StepID.ARBEIDSFORHOLD);
-                if (navigate) {
-                    navigate();
-                }
-            }}
+            onValidFormSubmit={navigate}
             history={history}
             {...stepProps}
             buttonDisabled={isLoading}>

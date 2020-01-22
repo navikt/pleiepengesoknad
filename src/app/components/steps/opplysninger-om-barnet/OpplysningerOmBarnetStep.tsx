@@ -13,7 +13,7 @@ import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
 import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
 import { formatName } from 'common/utils/personUtils';
-import { AppFormField, initialValues } from '../../../types/PleiepengesøknadFormData';
+import { AppFormField, initialValues, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import FormikStep from '../../formik-step/FormikStep';
 import { harRegistrerteBarn } from '../../../utils/søkerdataUtils';
 import { resetFieldValue, resetFieldValues } from '../../../../common/formik/formikUtils';
@@ -39,18 +39,17 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
     nextStepRoute,
     history
 }: Props) => {
-    const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
+    const persistAndNavigateTo = (data: PleiepengesøknadFormData, nextStep: string) => {
+        persist(data, nextStep);
+        navigateTo(nextStep, history);
+    };
+    const navigate = nextStepRoute ? () => persistAndNavigateTo(values, nextStepRoute) : undefined;
     const { søknadenGjelderEtAnnetBarn, barnetHarIkkeFåttFødselsnummerEnda } = values;
     const intl = useIntl();
     return (
         <FormikStep
             id={StepID.OPPLYSNINGER_OM_BARNET}
-            onValidFormSubmit={() => {
-                persist(values, StepID.OPPLYSNINGER_OM_BARNET);
-                if (navigate) {
-                    navigate();
-                }
-            }}
+            onValidFormSubmit={navigate}
             handleSubmit={handleSubmit}
             history={history}
             formValues={values}>

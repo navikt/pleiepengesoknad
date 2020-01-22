@@ -4,7 +4,7 @@ import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
 import { useIntl, FormattedHTMLMessage } from 'react-intl';
-import { AppFormField, TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
+import { AppFormField, PleiepengesøknadFormData, TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
 import YesOrNoQuestion from '../../../../common/components/yes-or-no-question/YesOrNoQuestion';
 import Box from 'common/components/box/Box';
 import { YesOrNo } from 'common/types/YesOrNo';
@@ -28,18 +28,17 @@ type Props = CommonStepFormikProps & HistoryProps & StepConfigProps;
 const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, formValues, ...stepProps }) => {
     const nextStepRoute = getNextStepRoute(StepID.OMSORGSTILBUD, formValues);
     const intl = useIntl();
-    const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
+    const persistAndNavigateTo = (data: PleiepengesøknadFormData, nextStep: string) => {
+        persist(data, nextStep);
+        navigateTo(nextStep, history);
+    };
+    const navigate = nextStepRoute ? () => persistAndNavigateTo(formValues, nextStepRoute) : undefined;
     const { tilsynsordning } = formValues;
     const { skalBarnHaTilsyn, vetIkke } = tilsynsordning || {};
     return (
         <FormikStep
             id={StepID.OMSORGSTILBUD}
-            onValidFormSubmit={() => {
-                persist(formValues, StepID.OMSORGSTILBUD);
-                if (navigate) {
-                    navigate();
-                }
-            }}
+            onValidFormSubmit={navigate}
             history={history}
             {...stepProps}
             formValues={formValues}>

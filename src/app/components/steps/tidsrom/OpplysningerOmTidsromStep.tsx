@@ -2,7 +2,7 @@ import * as React from 'react';
 import { HistoryProps } from 'common/types/History';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { navigateTo } from '../../../utils/navigationUtils';
-import { AppFormField } from '../../../types/PleiepengesøknadFormData';
+import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import FormikStep from '../../formik-step/FormikStep';
 import DateIntervalPicker from '../../date-interval-picker/DateIntervalPicker';
 import { date3YearsAgo, DateRange, date1YearFromNow, date1YearAgo } from 'common/utils/dateUtils';
@@ -21,7 +21,6 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
 import { persist } from 'app/api/api';
 
-import './dagerPerUkeBorteFraJobb.less';
 import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 import { Field, FieldProps } from 'formik';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
@@ -38,7 +37,13 @@ interface OpplysningerOmTidsromStepProps {
 type Props = OpplysningerOmTidsromStepProps & HistoryProps & StepConfigProps;
 
 const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...stepProps }: Props) => {
-    const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
+    const { values, handleSubmit } = formikProps;
+
+    const persistAndNavigateTo = (data: PleiepengesøknadFormData, nextStep: string) => {
+        persist(data, nextStep);
+        navigateTo(nextStep, history);
+    };
+    const navigate = nextStepRoute ? () => persistAndNavigateTo(values, nextStepRoute) : undefined;
 
     const fraDato = formikProps.values[AppFormField.periodeFra];
     const tilDato = formikProps.values[AppFormField.periodeTil];
@@ -60,14 +65,9 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
     return (
         <FormikStep
             id={StepID.TIDSROM}
-            onValidFormSubmit={() => {
-                persist(formikProps.values, StepID.TIDSROM);
-                if (navigate) {
-                    navigate();
-                }
-            }}
-            formValues={formikProps.values}
-            handleSubmit={formikProps.handleSubmit}
+            onValidFormSubmit={navigate}
+            formValues={values}
+            handleSubmit={handleSubmit}
             history={history}
             {...stepProps}>
             <DateIntervalPicker

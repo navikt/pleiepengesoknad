@@ -10,6 +10,7 @@ import { SøkerdataContextProvider } from '../../context/SøkerdataContext';
 import demoSøkerdata from '../../demo/demoData';
 import { appIsRunningInDemoMode } from '../../utils/envUtils';
 import { initialValues, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { MellomlagringData } from '../../types/storage';
 
 interface Props {
     contentLoadedRenderer: (mellomlagring: PleiepengesøknadFormData, søkerdata?: Søkerdata) => React.ReactNode;
@@ -64,9 +65,16 @@ class AppEssentialsLoader extends React.Component<Props, State> {
     }
 
     handleSøkerdataFetchSuccess(mellomlagringResponse:  AxiosResponse, søkerResponse: AxiosResponse, barnResponse?: AxiosResponse) {
-        const mellomlagring = mellomlagringResponse && mellomlagringResponse.data ? { ...initialValues, ...mellomlagringResponse.data } : initialValues;
+        const mellomlagring: MellomlagringData | undefined = mellomlagringResponse?.data;
+        let formData;
+        let stepId;
+        if (mellomlagring) {
+            formData = mellomlagring.formData;
+            stepId = mellomlagring.metadata.step;
+        }
+
         this.updateSøkerdata(
-            mellomlagring,
+            formData || {...initialValues},
             {
                 person: søkerResponse.data,
                 barn: barnResponse ? barnResponse.data.barn : undefined,
