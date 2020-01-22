@@ -3,7 +3,6 @@ import { Formik, Field, FieldProps } from 'formik';
 import { Knapp } from 'nav-frontend-knapper';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import { useIntl } from 'react-intl';
-import DatepickerBase from 'common/form-components/datepicker-base/DatepickerBase';
 import CountrySelect from 'common/components/country-select/CountrySelect';
 import bemUtils from 'common/utils/bemUtils';
 import { Systemtittel } from 'nav-frontend-typografi';
@@ -16,9 +15,11 @@ import TextareaBase from 'common/form-components/textarea-base/TextareaBase';
 
 import './utenlandsoppholdForm.less';
 import { hasValue } from 'common/validation/hasValue';
+import FormikDateIntervalPicker from 'common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
 
 export interface UtenlandsoppholdFormLabels {
     title: string;
+    intervalTitle: string;
     fromDate: string;
     toDate: string;
     country: string;
@@ -49,6 +50,7 @@ export enum UtenlandsoppholdFormFields {
 
 const defaultLabels: UtenlandsoppholdFormLabels = {
     title: 'Utenlandsopphold',
+    intervalTitle: 'Velg tidsrom',
     fromDate: 'Fra og med',
     toDate: 'Til og med',
     country: 'Hvilket land',
@@ -101,66 +103,32 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props> = ({
                             </Box>
 
                             <Box padBottom="l">
-                                <div className={bem.element('datoer')}>
-                                    <div className={bem.element('dato')}>
-                                        <Field
-                                            name={UtenlandsoppholdFormFields.fromDate}
-                                            validate={(date: Date) =>
-                                                validation.validateFromDate(date, minDate, maxDate, values.toDate)
-                                            }>
-                                            {({ field, form: { setFieldValue } }: FieldProps) => {
-                                                const errorMsgProps = showErrors
-                                                    ? getValidationErrorPropsWithIntl(intl, errors, field.name)
-                                                    : null;
-
-                                                return (
-                                                    <DatepickerBase
-                                                        id="utenlandsoppholdStart"
-                                                        value={field.value}
-                                                        name={field.name}
-                                                        label={formLabels.fromDate}
-                                                        onChange={(date) => {
-                                                            setFieldValue(field.name, date);
-                                                        }}
-                                                        {...errorMsgProps}
-                                                        dateLimitations={{
-                                                            minDato: minDate,
-                                                            maksDato: values.toDate || maxDate
-                                                        }}
-                                                    />
-                                                );
-                                            }}
-                                        </Field>
-                                    </div>
-                                    <div className={bem.element('dato')}>
-                                        <Field
-                                            name={UtenlandsoppholdFormFields.toDate}
-                                            validate={(date: Date) =>
-                                                validation.validateToDate(date, minDate, maxDate, values.fromDate)
-                                            }>
-                                            {({ field, form: { setFieldValue } }: FieldProps) => {
-                                                const errorMsgProps = showErrors
-                                                    ? getValidationErrorPropsWithIntl(intl, errors, field.name)
-                                                    : null;
-                                                return (
-                                                    <DatepickerBase
-                                                        id="utenlandsoppholdStop"
-                                                        value={field.value}
-                                                        name={field.name}
-                                                        label={formLabels.toDate}
-                                                        onChange={(date) => setFieldValue(field.name, date)}
-                                                        {...errorMsgProps}
-                                                        dateLimitations={{
-                                                            minDato: values.fromDate || minDate,
-                                                            maksDato: maxDate
-                                                        }}
-                                                    />
-                                                );
-                                            }}
-                                        </Field>
-                                    </div>
-                                </div>
+                                <FormikDateIntervalPicker<UtenlandsoppholdFormFields>
+                                    legend={formLabels.intervalTitle}
+                                    validationErrorsVisible={showErrors}
+                                    fromDatepickerProps={{
+                                        name: UtenlandsoppholdFormFields.fromDate,
+                                        label: formLabels.fromDate,
+                                        dateLimitations: {
+                                            minDato: minDate,
+                                            maksDato: values.toDate || maxDate
+                                        },
+                                        validate: (date: Date) =>
+                                            validation.validateFromDate(date, minDate, maxDate, values.toDate)
+                                    }}
+                                    toDatepickerProps={{
+                                        name: UtenlandsoppholdFormFields.toDate,
+                                        label: formLabels.toDate,
+                                        dateLimitations: {
+                                            minDato: values.fromDate || minDate,
+                                            maksDato: maxDate
+                                        },
+                                        validate: (date: Date) =>
+                                            validation.validateToDate(date, minDate, maxDate, values.fromDate)
+                                    }}
+                                />
                             </Box>
+
                             <Box padBottom="l">
                                 <Field
                                     name={UtenlandsoppholdFormFields.countryCode}
