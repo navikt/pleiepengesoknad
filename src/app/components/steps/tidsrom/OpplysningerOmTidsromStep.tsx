@@ -13,23 +13,23 @@ import {
     validateRequiredField,
     validateUtenlandsoppholdIPerioden
 } from '../../../validation/fieldValidations';
-import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
+import YesOrNoQuestion from '../../../../common/components/yes-or-no-question/YesOrNoQuestion';
 import Box from 'common/components/box/Box';
 import intlHelper from 'common/utils/intlUtils';
 import { useIntl } from 'react-intl';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { CustomFormikProps } from '../../../types/FormikProps';
-
-import './dagerPerUkeBorteFraJobb.less';
+import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
 import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 import { Field, FieldProps } from 'formik';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 import UtenlandsoppholdInput from 'common/forms/utenlandsopphold';
-import { showValidationErrors } from 'app/utils/formikUtils';
+import { showValidationErrors } from 'common/formik/formikUtils';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 
+import './dagerPerUkeBorteFraJobb.less';
+
 interface OpplysningerOmTidsromStepProps {
-    formikProps: CustomFormikProps;
+    formikProps: PleiepengesøknadFormikProps;
 }
 
 type Props = OpplysningerOmTidsromStepProps & HistoryProps & StepConfigProps;

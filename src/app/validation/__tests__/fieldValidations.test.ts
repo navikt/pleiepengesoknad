@@ -1,6 +1,5 @@
 import * as fødselsnummerValidator from './../fødselsnummerValidator';
 import {
-    hasValue,
     validateFødselsdato,
     validateFradato,
     validateFødselsnummer,
@@ -18,6 +17,7 @@ import Mock = jest.Mock;
 import { YesOrNo } from 'common/types/YesOrNo';
 import { Attachment } from 'common/types/Attachment';
 import moment from 'moment';
+import { hasValue } from 'common/validation/hasValue';
 
 jest.mock('../fødselsnummerValidator', () => {
     return {

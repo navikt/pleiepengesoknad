@@ -5,20 +5,20 @@ import { HistoryProps } from 'common/types/History';
 import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
-import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
+import FormikFileUploader from '../../../../common/formik/formik-file-uploader/FormikFileUploader';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import FileUploadErrors from '../../file-upload-errors/FileUploadErrors';
+import FileUploadErrors from '../../../../common/components/file-upload-errors/FileUploadErrors';
 import { validateLegeerklæring } from '../../../validation/fieldValidations';
 import intlHelper from 'common/utils/intlUtils';
 import Box from 'common/components/box/Box';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
-import { CustomFormikProps } from '../../../types/FormikProps';
+import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
 import HelperTextPanel from 'common/components/helper-text-panel/HelperTextPanel';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 
-type Props = { formikProps: CustomFormikProps } & CommonStepFormikProps & HistoryProps & StepConfigProps;
+type Props = { formikProps: PleiepengesøknadFormikProps } & CommonStepFormikProps & HistoryProps & StepConfigProps;
 
 const LegeerklæringStep = ({ history, nextStepRoute, formikProps, ...stepProps }: Props) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
