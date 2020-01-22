@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { FormattedMessage, FormattedHTMLMessage, useIntl } from 'react-intl';
 import Lenke from 'nav-frontend-lenker';
-
 import ScanningIcon from '../scanning-icon/ScanningIcon';
-import StatusIkon from '../status-icon/StatusIcon';
 import bemHelper from '../../utils/bemUtils';
 import intlHelper from '../../utils/intlUtils';
+import PictureScanningExample from './PictureScanningExample';
+import { Undertittel, Systemtittel } from 'nav-frontend-typografi';
 
 import './pictureScanningGuide.less';
 
@@ -13,76 +13,66 @@ const bem = bemHelper('pictureScanningGuide');
 
 const PictureScanningGuide: React.FunctionComponent = () => {
     const intl = useIntl();
-    const svgIconSize = 100;
+    const svgIconHeight = 100;
     return (
-        <>
-            <FormattedHTMLMessage tagName="h2" id="psg.innholdstittel" />
-            <FormattedHTMLMessage tagName="h3" id="psg.section1.tittel" />
+        <div className={bem.block}>
+            <Systemtittel className={bem.element('title')}>
+                <FormattedMessage id="psg.innholdstittel" />
+            </Systemtittel>
+
+            <Undertittel className={bem.element('title')}>
+                <FormattedMessage id="psg.section1.tittel" />
+            </Undertittel>
             <FormattedHTMLMessage tagName="ul" id="psg.section1.liste" />
-            <FormattedHTMLMessage tagName="h3" id="psg.section2.tittel" />
+
+            <Undertittel className={bem.element('title')}>
+                <FormattedMessage id="psg.section2.tittel" />
+            </Undertittel>
+
             <FormattedHTMLMessage tagName="ul" id="psg.section2.liste" />
-            <div className={bem.block}>
-                <h3>
+            <div className={bem.element('examples')}>
+                <Undertittel tag="h3" className={bem.element('title')}>
                     <FormattedMessage id="psg.icon.heading" />
-                </h3>
+                </Undertittel>
                 <div className={bem.element('body')}>
                     <div className={bem.element('cell')}>
-                        <ScanningIcon status="good" size={svgIconSize} />
-                        <div className={bem.element('text-block')}>
-                            <p>
-                                <StatusIkon status="suksess" />
-                                <FormattedHTMLMessage tagName="strong" id="psg.good" />
-                            </p>
-                        </div>
-                        <div className={bem.element('text-block')}>
-                            <FormattedHTMLMessage tagName="span" id="psg.icon.label.good" />
-                        </div>
+                        <PictureScanningExample
+                            image={<ScanningIcon status="good" height={svgIconHeight} />}
+                            status="suksess"
+                            statusText={intlHelper(intl, 'psg.good')}
+                            description={intlHelper(intl, 'psg.icon.label.good')}
+                        />
                     </div>
                     <div className={bem.element('cell')}>
-                        <ScanningIcon status="keystone" size={svgIconSize} />
-                        <div className={bem.element('text-block')}>
-                            <p>
-                                <StatusIkon status="feil" />
-                                <FormattedHTMLMessage tagName="strong" id="psg.bad" />
-                            </p>
-                        </div>
-                        <div className={bem.element('text-block')}>
-                            <FormattedHTMLMessage tagName="span" id="psg.icon.label.keystone" />
-                        </div>
+                        <PictureScanningExample
+                            image={<ScanningIcon status="keystone" height={svgIconHeight} />}
+                            status="feil"
+                            statusText={intlHelper(intl, 'psg.bad')}
+                            description={intlHelper(intl, 'psg.icon.label.keystone')}
+                        />
                     </div>
                     <div className={bem.element('cell')}>
-                        <ScanningIcon status="horizontal" size={svgIconSize} />
-                        <div className={bem.element('text-block')}>
-                            <p>
-                                <StatusIkon status="feil" />
-                                <FormattedHTMLMessage tagName="strong" id="psg.bad" />
-                            </p>
-                        </div>
-                        <div className={bem.element('text-block')}>
-                            <FormattedHTMLMessage tagName="span" id="psg.icon.label.horizontal" />
-                        </div>
+                        <PictureScanningExample
+                            image={<ScanningIcon status="horizontal" height={svgIconHeight} />}
+                            status="feil"
+                            statusText={intlHelper(intl, 'psg.bad')}
+                            description={intlHelper(intl, 'psg.icon.label.horizontal')}
+                        />
                     </div>
                     <div className={bem.element('cell')}>
-                        <ScanningIcon status="shadow" size={svgIconSize} />
-                        <div className={bem.element('text-block')}>
-                            <p>
-                                <StatusIkon status="feil" />
-                                <FormattedHTMLMessage tagName="strong" id="psg.bad" />
-                            </p>
-                        </div>
-                        <div className={bem.element('text-block')}>
-                            <FormattedHTMLMessage tagName="span" id="psg.icon.label.shadow" />
-                        </div>
+                        <PictureScanningExample
+                            image={<ScanningIcon status="shadow" height={svgIconHeight} />}
+                            status="feil"
+                            statusText={intlHelper(intl, 'psg.bad')}
+                            description={intlHelper(intl, 'psg.icon.label.shadow')}
+                        />
                     </div>
                 </div>
-                <Lenke
-                    ariaLabel="Mer hjelp til opplasting av bilde"
-                    target="_blank"
-                    href={intlHelper(intl, 'psg.lenkepanel.url')}>
+                <Lenke target="_blank" href={intlHelper(intl, 'psg.lenkepanel.url')}>
                     <FormattedMessage id="psg.lenkepanel.text" />
                 </Lenke>
             </div>
-        </>
+        </div>
     );
 };
 export default PictureScanningGuide;
