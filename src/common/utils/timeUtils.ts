@@ -1,4 +1,4 @@
-import { InjectedIntl } from 'react-intl';
+import { IntlShape } from 'react-intl';
 import intlHelper from './intlUtils';
 import { Time } from 'common/types/Time';
 import { parse } from 'iso8601-duration';
@@ -42,6 +42,6 @@ export const isValidTime = (time: Partial<Time> | undefined): time is Time => {
     );
 };
 
-export const timeToString = (time: Time, intl: InjectedIntl): string => {
+export const timeToString = (time: Time, intl: IntlShape): string => {
     return intlHelper(intl, 'timerOgMinutter', { timer: time.hours, minutter: time.minutes });
 };

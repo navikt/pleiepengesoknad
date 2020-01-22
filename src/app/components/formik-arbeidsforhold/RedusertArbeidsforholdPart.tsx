@@ -1,12 +1,10 @@
 import React from 'react';
 import Box from 'common/components/box/Box';
 import { SkjemaGruppe } from 'nav-frontend-skjema';
-import Input from '../input/Input';
 import { Arbeidsforhold, ArbeidsforholdField, AppFormField } from '../../types/PleiepengesøknadFormData';
 import intlHelper from 'common/utils/intlUtils';
 import { validateReduserteArbeidProsent, validateRequiredField } from '../../validation/fieldValidations';
-import RadioPanelGroup from '../radio-panel-group/RadioPanelGroup';
-import { injectIntl, InjectedIntlProps, FormattedMessage, InjectedIntl } from 'react-intl';
+import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import {
     calcReduserteTimerFromRedusertProsent,
@@ -14,13 +12,15 @@ import {
 } from '../../utils/arbeidsforholdUtils';
 import { decimalTimeToTime } from 'common/utils/timeUtils';
 import './timerInput.less';
+import FormikInput from '../../../common/formik/formik-input/FormikInput';
+import FormikRadioPanelGroup from '../../../common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
     getFieldName: (name: ArbeidsforholdField) => AppFormField;
 }
 
-const getLabelForProsentRedusert = (intl: InjectedIntl, timerNormalt: number, prosentRedusert: number | undefined) => {
+const getLabelForProsentRedusert = (intl: IntlShape, timerNormalt: number, prosentRedusert: number | undefined) => {
     if (prosentRedusert && prosentRedusert > 0) {
         const { hours: timer = 0, minutes: minutter = 0 } = decimalTimeToTime(
             calcReduserteTimerFromRedusertProsent(timerNormalt, prosentRedusert)
@@ -33,7 +33,7 @@ const getLabelForProsentRedusert = (intl: InjectedIntl, timerNormalt: number, pr
     return intlHelper(intl, 'arbeidsforhold.prosent.utledet', { timer: timerNormalt });
 };
 
-const getLabelForTimerRedusert = (intl: InjectedIntl, timerNormalt: number, timerRedusert: number | undefined) => {
+const getLabelForTimerRedusert = (intl: IntlShape, timerNormalt: number, timerRedusert: number | undefined) => {
     if (timerRedusert && timerRedusert > 0) {
         return intlHelper(intl, 'arbeidsforhold.timer.utledet.medProsent', {
             timer: timerNormalt,
@@ -43,11 +43,11 @@ const getLabelForTimerRedusert = (intl: InjectedIntl, timerNormalt: number, time
     return intlHelper(intl, 'arbeidsforhold.timer.utledet', { timer: timerNormalt });
 };
 
-const RedusertArbeidsforholdPart: React.FunctionComponent<Props & InjectedIntlProps> = ({
+const RedusertArbeidsforholdPart: React.FunctionComponent<Props> = ({
     arbeidsforhold: { navn, timerEllerProsent, jobberNormaltTimer, skalJobbeTimer, skalJobbeProsent },
-    getFieldName,
-    intl
+    getFieldName
 }) => {
+    const intl = useIntl();
     return (
         <>
             <Box margin="xl">
@@ -55,7 +55,7 @@ const RedusertArbeidsforholdPart: React.FunctionComponent<Props & InjectedIntlPr
                     title={intlHelper(intl, 'arbeidsforhold.iDag.spm', {
                         arbeidsforhold: navn
                     })}>
-                    <Input
+                    <FormikInput<AppFormField>
                         name={getFieldName(ArbeidsforholdField.jobberNormaltTimer)}
                         type="number"
                         label={intlHelper(intl, 'arbeidsforhold.iDag.utledet')}
@@ -72,7 +72,7 @@ const RedusertArbeidsforholdPart: React.FunctionComponent<Props & InjectedIntlPr
             {jobberNormaltTimer !== undefined && (
                 <>
                     <Box margin="l">
-                        <RadioPanelGroup
+                        <FormikRadioPanelGroup<AppFormField>
                             name={getFieldName(ArbeidsforholdField.timerEllerProsent)}
                             legend={intlHelper(intl, 'arbeidsforhold.hvorMye.spm')}
                             validate={validateRequiredField}
@@ -93,7 +93,7 @@ const RedusertArbeidsforholdPart: React.FunctionComponent<Props & InjectedIntlPr
                     {timerEllerProsent === 'timer' && (
                         <Box margin="l">
                             <SkjemaGruppe title={intlHelper(intl, 'arbeidsforhold.timer.spm')}>
-                                <Input
+                                <FormikInput<AppFormField>
                                     name={getFieldName(ArbeidsforholdField.skalJobbeTimer)}
                                     type="number"
                                     label={getLabelForTimerRedusert(intl, jobberNormaltTimer, skalJobbeTimer)}
@@ -112,7 +112,7 @@ const RedusertArbeidsforholdPart: React.FunctionComponent<Props & InjectedIntlPr
                         <>
                             <Box margin="l">
                                 <SkjemaGruppe title={intlHelper(intl, 'arbeidsforhold.prosent.spm')}>
-                                    <Input
+                                    <FormikInput<AppFormField>
                                         name={getFieldName(ArbeidsforholdField.skalJobbeProsent)}
                                         type="number"
                                         label={getLabelForProsentRedusert(intl, jobberNormaltTimer, skalJobbeProsent)}
@@ -138,4 +138,4 @@ const RedusertArbeidsforholdPart: React.FunctionComponent<Props & InjectedIntlPr
     );
 };
 
-export default injectIntl(RedusertArbeidsforholdPart);
+export default RedusertArbeidsforholdPart;

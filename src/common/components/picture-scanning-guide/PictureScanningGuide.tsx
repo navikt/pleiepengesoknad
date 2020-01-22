@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {injectIntl, FormattedMessage, FormattedHTMLMessage, InjectedIntlProps} from 'react-intl';
+import { FormattedMessage, FormattedHTMLMessage, useIntl } from 'react-intl';
 import Lenke from 'nav-frontend-lenker';
 
 import ScanningIcon from '../scanning-icon/ScanningIcon';
@@ -10,62 +10,79 @@ import intlHelper from '../../utils/intlUtils';
 import './pictureScanningGuide.less';
 
 const bem = bemHelper('pictureScanningGuide');
-type Props = InjectedIntlProps;
 
-const PictureScanningGuide: React.FunctionComponent<Props> = ({intl}) => {
+const PictureScanningGuide: React.FunctionComponent = () => {
+    const intl = useIntl();
     const svgIconSize = 100;
     return (
         <>
-            <FormattedHTMLMessage tagName="h2" id="psg.innholdstittel"/>
-            <FormattedHTMLMessage tagName="h3" id="psg.section1.tittel"/>
-            <FormattedHTMLMessage tagName="ul" id="psg.section1.liste"/>
-            <FormattedHTMLMessage tagName="h3" id="psg.section2.tittel"/>
-            <FormattedHTMLMessage tagName="ul" id="psg.section2.liste"/>
+            <FormattedHTMLMessage tagName="h2" id="psg.innholdstittel" />
+            <FormattedHTMLMessage tagName="h3" id="psg.section1.tittel" />
+            <FormattedHTMLMessage tagName="ul" id="psg.section1.liste" />
+            <FormattedHTMLMessage tagName="h3" id="psg.section2.tittel" />
+            <FormattedHTMLMessage tagName="ul" id="psg.section2.liste" />
             <div className={bem.block}>
-                <h3><FormattedMessage id="psg.icon.heading"/></h3>
+                <h3>
+                    <FormattedMessage id="psg.icon.heading" />
+                </h3>
                 <div className={bem.element('body')}>
                     <div className={bem.element('cell')}>
-                        <ScanningIcon status="good" size={svgIconSize}/>
+                        <ScanningIcon status="good" size={svgIconSize} />
                         <div className={bem.element('text-block')}>
-                            <p><StatusIkon status="suksess"/><FormattedHTMLMessage tagName="strong" id="psg.good" /></p>
+                            <p>
+                                <StatusIkon status="suksess" />
+                                <FormattedHTMLMessage tagName="strong" id="psg.good" />
+                            </p>
                         </div>
                         <div className={bem.element('text-block')}>
                             <FormattedHTMLMessage tagName="span" id="psg.icon.label.good" />
                         </div>
                     </div>
                     <div className={bem.element('cell')}>
-                        <ScanningIcon status="keystone" size={svgIconSize}/>
+                        <ScanningIcon status="keystone" size={svgIconSize} />
                         <div className={bem.element('text-block')}>
-                            <p><StatusIkon status="feil"/><FormattedHTMLMessage tagName="strong" id="psg.bad" /></p>
+                            <p>
+                                <StatusIkon status="feil" />
+                                <FormattedHTMLMessage tagName="strong" id="psg.bad" />
+                            </p>
                         </div>
                         <div className={bem.element('text-block')}>
                             <FormattedHTMLMessage tagName="span" id="psg.icon.label.keystone" />
                         </div>
                     </div>
                     <div className={bem.element('cell')}>
-                        <ScanningIcon status="horizontal" size={svgIconSize}/>
+                        <ScanningIcon status="horizontal" size={svgIconSize} />
                         <div className={bem.element('text-block')}>
-                            <p><StatusIkon status="feil"/><FormattedHTMLMessage tagName="strong" id="psg.bad" /></p>
+                            <p>
+                                <StatusIkon status="feil" />
+                                <FormattedHTMLMessage tagName="strong" id="psg.bad" />
+                            </p>
                         </div>
                         <div className={bem.element('text-block')}>
                             <FormattedHTMLMessage tagName="span" id="psg.icon.label.horizontal" />
                         </div>
                     </div>
                     <div className={bem.element('cell')}>
-                        <ScanningIcon status="shadow" size={svgIconSize}/>
+                        <ScanningIcon status="shadow" size={svgIconSize} />
                         <div className={bem.element('text-block')}>
-                            <p><StatusIkon status="feil"/><FormattedHTMLMessage tagName="strong" id="psg.bad" /></p>
+                            <p>
+                                <StatusIkon status="feil" />
+                                <FormattedHTMLMessage tagName="strong" id="psg.bad" />
+                            </p>
                         </div>
                         <div className={bem.element('text-block')}>
                             <FormattedHTMLMessage tagName="span" id="psg.icon.label.shadow" />
                         </div>
                     </div>
                 </div>
-                <Lenke ariaLabel="Mer hjelp til opplasting av bilde" target="_blank" href={intlHelper(intl, 'psg.lenkepanel.url')}>
+                <Lenke
+                    ariaLabel="Mer hjelp til opplasting av bilde"
+                    target="_blank"
+                    href={intlHelper(intl, 'psg.lenkepanel.url')}>
                     <FormattedMessage id="psg.lenkepanel.text" />
                 </Lenke>
             </div>
         </>
     );
 };
-export default injectIntl(PictureScanningGuide);
+export default PictureScanningGuide;

@@ -1,10 +1,12 @@
 import * as React from 'react';
 import Step from '../Step';
-import { render, RenderResult } from '@testing-library/react';
+import { cleanup, render, RenderResult } from '@testing-library/react';
 import { StepID } from '../../../config/stepConfig';
 import { MemoryRouter } from 'react-router';
-import MockIntlProvider from '../../intl-provider/MockIntlProvider';
+import IntlProvider from '../../intl-provider/IntlProvider';
 import { initialValues } from '../../../types/PleiepengesøknadFormData';
+
+import { Formik } from 'formik';
 
 jest.mock('../../../utils/featureToggleUtils', () => {
     return {
@@ -13,12 +15,17 @@ jest.mock('../../../utils/featureToggleUtils', () => {
     };
 });
 
-const renderWrappedInMemoryRouter = (child: React.ReactNode) =>
-    render(
-        <MockIntlProvider locale="nb">
-            <MemoryRouter>{child}</MemoryRouter>
-        </MockIntlProvider>
+const mock = jest.fn();
+
+const renderWrappedInMemoryRouter = (child: React.ReactNode) => {
+    return render(
+        <IntlProvider locale="nb" onError={() => null}>
+            <Formik initialValues={{ data: undefined }} onSubmit={mock}>
+                <MemoryRouter>{child}</MemoryRouter>
+            </Formik>
+        </IntlProvider>
     );
+};
 
 const handleSubmit = jest.fn();
 
@@ -40,4 +47,6 @@ describe('<Step>', () => {
         expect(getByText('Fortsett')).toBeTruthy();
         expect(getByText('Tilbake')).toBeTruthy();
     });
+
+    afterAll(cleanup);
 });

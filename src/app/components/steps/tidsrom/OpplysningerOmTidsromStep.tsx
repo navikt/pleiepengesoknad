@@ -13,28 +13,28 @@ import {
     validateRequiredField,
     validateUtenlandsoppholdIPerioden
 } from '../../../validation/fieldValidations';
-import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
+import YesOrNoQuestion from '../../../../common/components/yes-or-no-question/YesOrNoQuestion';
 import Box from 'common/components/box/Box';
 import intlHelper from 'common/utils/intlUtils';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { CustomFormikProps } from '../../../types/FormikProps';
-
-import './dagerPerUkeBorteFraJobb.less';
+import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
 import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 import { Field, FieldProps } from 'formik';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 import UtenlandsoppholdInput from 'common/forms/utenlandsopphold';
-import { showValidationErrors } from 'app/utils/formikUtils';
+import { showValidationErrors } from 'common/formik/formikUtils';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 
+import './dagerPerUkeBorteFraJobb.less';
+
 interface OpplysningerOmTidsromStepProps {
-    formikProps: CustomFormikProps;
+    formikProps: PleiepengesøknadFormikProps;
 }
 
-type Props = OpplysningerOmTidsromStepProps & HistoryProps & InjectedIntlProps & StepConfigProps;
+type Props = OpplysningerOmTidsromStepProps & HistoryProps & StepConfigProps;
 
-const OpplysningerOmTidsromStep = ({ history, intl, nextStepRoute, formikProps, ...stepProps }: Props) => {
+const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...stepProps }: Props) => {
     const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
 
     const fraDato = formikProps.values[AppFormField.periodeFra];
@@ -52,6 +52,7 @@ const OpplysningerOmTidsromStep = ({ history, intl, nextStepRoute, formikProps, 
     };
 
     const periode: DateRange = { from: periodeFra || date1YearAgo, to: periodeTil || date1YearFromNow };
+    const intl = useIntl();
 
     return (
         <FormikStep
@@ -158,4 +159,4 @@ const OpplysningerOmTidsromStep = ({ history, intl, nextStepRoute, formikProps, 
     );
 };
 
-export default injectIntl(OpplysningerOmTidsromStep);
+export default OpplysningerOmTidsromStep;

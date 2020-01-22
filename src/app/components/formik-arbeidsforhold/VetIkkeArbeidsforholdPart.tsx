@@ -1,22 +1,22 @@
 import React from 'react';
 import Box from 'common/components/box/Box';
 import { SkjemaGruppe } from 'nav-frontend-skjema';
-import Input from '../input/Input';
 import { Arbeidsforhold, ArbeidsforholdField, AppFormField } from '../../types/PleiepengesøknadFormData';
 import intlHelper from 'common/utils/intlUtils';
 import { validateReduserteArbeidProsent } from '../../validation/fieldValidations';
-import { injectIntl, InjectedIntlProps } from 'react-intl';
+import { useIntl } from 'react-intl';
+import FormikInput from '../../../common/formik/formik-input/FormikInput';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
     getFieldName: (name: ArbeidsforholdField) => AppFormField;
 }
 
-const VetIkkeArbeidsforholdPart: React.FunctionComponent<Props & InjectedIntlProps> = ({
+const VetIkkeArbeidsforholdPart: React.FunctionComponent<Props> = ({
     arbeidsforhold: { navn, jobberNormaltTimer },
-    getFieldName,
-    intl
+    getFieldName
 }) => {
+    const intl = useIntl();
     return (
         <>
             <Box margin="xl">
@@ -24,7 +24,7 @@ const VetIkkeArbeidsforholdPart: React.FunctionComponent<Props & InjectedIntlPro
                     title={intlHelper(intl, 'arbeidsforhold.iDag.spm', {
                         arbeidsforhold: navn
                     })}>
-                    <Input
+                    <FormikInput<AppFormField>
                         name={getFieldName(ArbeidsforholdField.jobberNormaltTimer)}
                         type="number"
                         label={intlHelper(intl, 'arbeidsforhold.iDag.utledet')}
@@ -42,4 +42,4 @@ const VetIkkeArbeidsforholdPart: React.FunctionComponent<Props & InjectedIntlPro
     );
 };
 
-export default injectIntl(VetIkkeArbeidsforholdPart);
+export default VetIkkeArbeidsforholdPart;

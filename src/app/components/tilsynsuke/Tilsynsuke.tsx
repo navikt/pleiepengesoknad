@@ -1,46 +1,44 @@
 import React from 'react';
-import TimeInput from '../time-input/TimeInput';
 import { AppFormField } from '../../types/PleiepengesøknadFormData';
 import { validateTilsynstimerEnDag } from '../../validation/fieldValidations';
-import { injectIntl, InjectedIntlProps } from 'react-intl';
+import { useIntl } from 'react-intl';
 import intlHelper from 'common/utils/intlUtils';
 import Box from 'common/components/box/Box';
 
 import './tilsynsuke.less';
+import FormikTimeInput from '../../../common/formik/formik-time-input/FormikTimeInput';
 
 interface Props {
     name: AppFormField;
 }
 
-const Tilsynsuke: React.FunctionComponent<Props & InjectedIntlProps> = ({ name, intl }) => {
+const Tilsynsuke: React.FunctionComponent<Props> = ({ name }) => {
+    const intl = useIntl();
     return (
         <>
-            {/* <CounsellorPanel>
-                <FormattedMessage id="steg.tilsyn.tilsynsuke.veileder" />
-            </CounsellorPanel> */}
             <Box margin="l">
                 <div className="tilsynsuke">
-                    <TimeInput
+                    <FormikTimeInput<AppFormField>
                         label={intlHelper(intl, 'Mandag')}
                         name={`${name}.mandag` as AppFormField}
                         validate={validateTilsynstimerEnDag}
                     />
-                    <TimeInput
+                    <FormikTimeInput<AppFormField>
                         label={intlHelper(intl, 'Tirsdag')}
                         name={`${name}.tirsdag` as AppFormField}
                         validate={validateTilsynstimerEnDag}
                     />
-                    <TimeInput
+                    <FormikTimeInput<AppFormField>
                         label={intlHelper(intl, 'Onsdag')}
                         name={`${name}.onsdag` as AppFormField}
                         validate={validateTilsynstimerEnDag}
                     />
-                    <TimeInput
+                    <FormikTimeInput<AppFormField>
                         label={intlHelper(intl, 'Torsdag')}
                         name={`${name}.torsdag` as AppFormField}
                         validate={validateTilsynstimerEnDag}
                     />
-                    <TimeInput
+                    <FormikTimeInput<AppFormField>
                         label={intlHelper(intl, 'Fredag')}
                         name={`${name}.fredag` as AppFormField}
                         validate={validateTilsynstimerEnDag}
@@ -51,4 +49,4 @@ const Tilsynsuke: React.FunctionComponent<Props & InjectedIntlProps> = ({ name, 
     );
 };
 
-export default injectIntl(Tilsynsuke);
+export default Tilsynsuke;

@@ -5,14 +5,14 @@ import bemHelper from 'common/utils/bemUtils';
 import StepIndicator from '../step-indicator/StepIndicator';
 import { Hovedknapp as Button } from 'nav-frontend-knapper';
 import Box from 'common/components/box/Box';
-import StepBanner from '../step-banner/StepBanner';
+import StepBanner from '../../../common/components/step-banner/StepBanner';
 import { Systemtittel } from 'nav-frontend-typografi';
 import FormikValidationErrorSummary from '../formik-validation-error-summary/FormikValidationErrorSummary';
-import { InjectedIntl, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { getStepTexts } from 'app/utils/stepUtils';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { History } from 'history';
-import BackLink from 'app/components/back-link/BackLink';
+import BackLink from 'common/components/back-link/BackLink';
 
 import './step.less';
 
@@ -26,7 +26,6 @@ export interface StepProps {
     showButtonSpinner?: boolean;
     buttonDisabled?: boolean;
     useValidationErrorSummary?: boolean;
-    intl: InjectedIntl;
     customErrorSummaryRenderer?: () => React.ReactNode;
 }
 
@@ -39,11 +38,11 @@ const Step: React.FunctionComponent<StepProps> = ({
     buttonDisabled,
     useValidationErrorSummary,
     customErrorSummaryRenderer,
-    intl,
     children
 }) => {
     const stepConfig = getStepConfig(formValues);
     const conf = stepConfig[id];
+    const intl = useIntl();
     const stepTexts: StepConfigItemTexts = getStepTexts(intl, id, stepConfig);
     return (
         <Page
@@ -93,4 +92,4 @@ const Step: React.FunctionComponent<StepProps> = ({
     );
 };
 
-export default injectIntl(Step);
+export default Step;

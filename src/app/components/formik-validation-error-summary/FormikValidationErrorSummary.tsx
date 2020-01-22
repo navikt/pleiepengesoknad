@@ -1,25 +1,26 @@
 import * as React from 'react';
 import ValidationErrorSummaryBase, {
     ValidationSummaryError
-} from '../validation-error-summary-base/ValidationErrorSummaryBase';
+} from '../../../common/components/validation-error-summary-base/ValidationErrorSummaryBase';
 import { connect } from 'formik';
-import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
+import { ConnectedFormikProps } from '../../../common/types/ConnectedFormikProps';
 import { AppFormField } from '../../types/PleiepengesøknadFormData';
 import intlHelper from 'common/utils/intlUtils';
-import { injectIntl, InjectedIntlProps } from 'react-intl';
-import { flattenFieldArrayErrors, showValidationErrors } from 'app/utils/formikUtils';
+import { useIntl } from 'react-intl';
+import { flattenFieldArrayErrors, showValidationErrors } from 'common/formik/formikUtils';
 import { isFieldValidationError, renderFieldValidationError } from 'common/validation/fieldValidationRenderUtils';
 
 interface FormikValidationErrorSummaryProps {
     className?: string;
 }
 
-type Props = FormikValidationErrorSummaryProps & ConnectedFormikProps<AppFormField> & InjectedIntlProps;
+type Props = FormikValidationErrorSummaryProps & ConnectedFormikProps<AppFormField>;
 
-const FormikValidationErrorSummary: React.FunctionComponent<Props> = ({ formik, intl, className }) => {
+const FormikValidationErrorSummary: React.FunctionComponent<Props> = ({ formik, className }) => {
     if (formik === undefined) {
         return null;
     }
+    const intl = useIntl();
     const { errors, submitCount, status } = formik;
     if (errors) {
         const numberOfErrors = Object.keys(errors).length;
@@ -54,4 +55,4 @@ const FormikValidationErrorSummary: React.FunctionComponent<Props> = ({ formik, 
     return null;
 };
 
-export default connect<FormikValidationErrorSummaryProps, AppFormField>(injectIntl(FormikValidationErrorSummary));
+export default connect<FormikValidationErrorSummaryProps, AppFormField>(FormikValidationErrorSummary);

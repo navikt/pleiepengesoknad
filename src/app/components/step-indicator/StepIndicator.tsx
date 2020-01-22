@@ -2,7 +2,7 @@ import * as React from 'react';
 import NAVStepIndicator from 'nav-frontend-stegindikator/lib/stegindikator';
 import { default as Step } from 'nav-frontend-stegindikator/lib/stegindikator-steg';
 import { StepConfigInterface, StepID } from '../../config/stepConfig';
-import { injectIntl, InjectedIntlProps, InjectedIntl } from 'react-intl';
+import { useIntl, IntlShape } from 'react-intl';
 import { getStepTexts } from 'app/utils/stepUtils';
 
 interface StepIndicatorProps {
@@ -10,21 +10,20 @@ interface StepIndicatorProps {
     stepConfig: StepConfigInterface;
 }
 
-const renderSteps = (stepConfig: StepConfigInterface, intl: InjectedIntl) =>
+const renderSteps = (stepConfig: StepConfigInterface, intl: IntlShape) =>
     Object.keys(stepConfig).map((stepId) => {
         const { stepIndicatorLabel } = getStepTexts(intl, stepId as StepID, stepConfig);
         const { index } = stepConfig[stepId];
         return <Step label={stepIndicatorLabel} index={index} key={`${stepIndicatorLabel + index}`} />;
     });
 
-const StepIndicator: React.FunctionComponent<StepIndicatorProps & InjectedIntlProps> = ({
-    activeStep,
-    stepConfig,
-    intl
-}) => (
-    <NAVStepIndicator visLabel={true} autoResponsiv={true} aktivtSteg={activeStep}>
-        {renderSteps(stepConfig, intl)}
-    </NAVStepIndicator>
-);
+const StepIndicator: React.FunctionComponent<StepIndicatorProps> = ({ activeStep, stepConfig }) => {
+    const intl = useIntl();
+    return (
+        <NAVStepIndicator visLabel={true} autoResponsiv={true} aktivtSteg={activeStep}>
+            {renderSteps(stepConfig, intl)}
+        </NAVStepIndicator>
+    );
+};
 
-export default injectIntl(StepIndicator);
+export default StepIndicator;

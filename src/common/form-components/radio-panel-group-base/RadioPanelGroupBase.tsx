@@ -4,7 +4,7 @@ import { SkjemaelementFeil } from 'nav-frontend-skjema/lib/skjemaelement-feilmel
 import HelperTextPanel from '../../components/helper-text-panel/HelperTextPanel';
 import HelperTextButton from '../../components/helper-text-button/HelperTextButton';
 import intlHelper from 'common/utils/intlUtils';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import bemUtils from 'common/utils/bemUtils';
 import 'nav-frontend-skjema-style';
 import './radioPanelGroup.less';
@@ -34,10 +34,10 @@ const RadioPanelGroupBase = ({
     helperText,
     expandedContentRenderer,
     style = 'panel',
-    singleColumn = false,
-    intl
-}: RadioPanelGroupBaseProps & InjectedIntlProps) => {
+    singleColumn = false
+}: RadioPanelGroupBaseProps) => {
     const [showHelperText, setShowHelperText] = React.useState(false);
+    const intl = useIntl();
     const ariaLabel = intlHelper(intl, showHelperText ? 'hjelpetekst.skjul' : 'hjelpetekst.vis');
     return (
         <SkjemaGruppe feil={feil}>
@@ -61,7 +61,7 @@ const RadioPanelGroupBase = ({
                             </>
                         )}
                     </legend>
-                    { description && <p className={bem.element("description")}>{description}</p>}
+                    {description && <p className={bem.element('description')}>{description}</p>}
                     <div className={`radioPanelGroup--responsive radioPanelGroup--${style}`}>
                         {radios.map(({ onChange, value, key, ...otherRadioProps }: RadioPanelBaseProps) => (
                             <div className={`radioPanelWrapper radioPanelWrapper--${style}`} key={`${key}${value}`}>
@@ -88,4 +88,4 @@ const RadioPanelGroupBase = ({
     );
 };
 
-export default injectIntl(RadioPanelGroupBase);
+export default RadioPanelGroupBase;

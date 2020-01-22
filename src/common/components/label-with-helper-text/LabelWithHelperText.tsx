@@ -3,7 +3,7 @@ import bemUtils from 'common/utils/bemUtils';
 import HelperTextButton from '../helper-text-button/HelperTextButton';
 import HelperTextPanel from '../helper-text-panel/HelperTextPanel';
 import intlHelper from 'common/utils/intlUtils';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import './labelWithHelperText.less';
 
 interface LabelWithHelperText {
@@ -16,15 +16,15 @@ interface LabelWithHelperText {
 
 const bem = bemUtils('labelWithHelperText');
 
-const LabelWithHelperText: React.FunctionComponent<LabelWithHelperText & InjectedIntlProps> = ({
+const LabelWithHelperText: React.FunctionComponent<LabelWithHelperText> = ({
     children,
     helperText,
     htmlFor,
     showByDefault,
-    tag = 'label',
-    intl
+    tag = 'label'
 }) => {
     const [showHelperText, setShowHelperText] = React.useState(showByDefault === true);
+    const intl = useIntl();
     const ariaLabel = intlHelper(intl, showHelperText ? 'hjelpetekst.skjul' : 'hjelpetekst.vis');
     const content = (
         <>
@@ -47,4 +47,4 @@ const LabelWithHelperText: React.FunctionComponent<LabelWithHelperText & Injecte
     );
 };
 
-export default injectIntl(LabelWithHelperText);
+export default LabelWithHelperText;

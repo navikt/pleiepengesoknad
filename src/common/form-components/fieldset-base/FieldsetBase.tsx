@@ -4,7 +4,7 @@ import { SkjemaelementFeil } from 'nav-frontend-skjema/lib/skjemaelement-feilmel
 import HelperTextPanel from '../../components/helper-text-panel/HelperTextPanel';
 import HelperTextButton from '../../components/helper-text-button/HelperTextButton';
 import intlHelper from 'common/utils/intlUtils';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import bemUtils from 'common/utils/bemUtils';
 
 import './fieldsetBase.less';
@@ -20,8 +20,9 @@ interface Props {
 
 const bem = bemUtils('skjema__fieldset');
 
-const FieldsetBase = ({ legend, feil, helperText, description, children, intl }: Props & InjectedIntlProps) => {
+const FieldsetBase = ({ legend, feil, helperText, description, children }: Props) => {
     const [showHelperText, setShowHelperText] = React.useState(false);
+    const intl = useIntl();
     const ariaLabel = intlHelper(intl, showHelperText ? 'hjelpetekst.skjul' : 'hjelpetekst.vis');
     return (
         <SkjemaGruppe feil={feil}>
@@ -50,4 +51,4 @@ const FieldsetBase = ({ legend, feil, helperText, description, children, intl }:
     );
 };
 
-export default injectIntl(FieldsetBase);
+export default FieldsetBase;

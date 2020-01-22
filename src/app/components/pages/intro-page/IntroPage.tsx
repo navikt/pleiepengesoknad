@@ -5,21 +5,22 @@ import { default as YesOrNoQuestion } from 'common/form-components/yes-or-no-que
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import bemUtils from 'common/utils/bemUtils';
 import Box from 'common/components/box/Box';
-import StepBanner from '../../step-banner/StepBanner';
+import StepBanner from '../../../../common/components/step-banner/StepBanner';
 import InformationPoster from 'common/components/information-poster/InformationPoster';
 import GoToApplicationLink from '../../go-to-application-link/GoToApplicationLink';
-import { FormattedMessage, InjectedIntlProps, injectIntl, FormattedHTMLMessage } from 'react-intl';
+import { FormattedMessage, useIntl, FormattedHTMLMessage } from 'react-intl';
 import intlHelper from 'common/utils/intlUtils';
 import getLenker from '../../../lenker';
 import './introPage.less';
 
 const bem = bemUtils('introPage');
 
-const IntroPage: React.StatelessComponent<InjectedIntlProps> = ({ intl }) => {
+const IntroPage: React.StatelessComponent = () => {
     const [erSelvstendigNæringsdrivendeEllerFrilanser, setErSelvstendigNæringsdrivendeEllerFrilanser] = React.useState(
         YesOrNo.UNANSWERED
     );
     const withoutTilsynTextKey = '.utenTilsyn';
+    const intl = useIntl();
 
     return (
         <Page
@@ -57,4 +58,4 @@ const IntroPage: React.StatelessComponent<InjectedIntlProps> = ({ intl }) => {
     );
 };
 
-export default injectIntl(IntroPage);
+export default IntroPage;

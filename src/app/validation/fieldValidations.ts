@@ -17,6 +17,7 @@ import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
 import { Attachment } from 'common/types/Attachment';
 import { FieldValidationResult } from 'common/validation/types';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
+import { hasValue } from 'common/validation/hasValue';
 
 const moment = require('moment');
 
@@ -49,8 +50,6 @@ export enum FieldValidationErrors {
 const MAX_ARBEIDSTIMER_PER_UKE = 150;
 const MIN_ARBEIDSTIMER_PER_UKE = 1;
 
-export const hasValue = (v: any) => v !== '' && v !== undefined && v !== null;
-
 const fieldIsRequiredError = () => fieldValidationError(FieldValidationErrors.påkrevd);
 
 export const validateFødselsnummer = (v: string): FieldValidationResult => {
@@ -66,7 +65,7 @@ export const validateFødselsnummer = (v: string): FieldValidationResult => {
 
 export const validateFødselsdato = (date: Date): FieldValidationResult => {
     if (!hasValue(date)) {
-        return undefined;
+        return fieldIsRequiredError();
     }
     if (moment(date).isAfter(dateToday)) {
         return fieldValidationError(FieldValidationErrors.fødselsdato_ugyldig);

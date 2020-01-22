@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'formik';
 import { AppFormField } from '../../types/PleiepengesøknadFormData';
 import { removeElementFromArray } from 'common/utils/listUtils';
-import { ConnectedFormikProps } from '../../types/ConnectedFormikProps';
+import { ConnectedFormikProps } from '../../../common/types/ConnectedFormikProps';
 import { deleteFile } from '../../api/api';
 import { containsAnyUploadedAttachments, fileExtensionIsValid } from 'common/utils/attachmentUtils';
 import Box from 'common/components/box/Box';
@@ -20,7 +20,13 @@ interface LegeerklæringAttachmentListProps {
 
 type Props = LegeerklæringAttachmentListProps & ConnectedFormikProps<AppFormField>;
 
-const InfoText = () => <Panel><Element><FormattedHTMLMessage id="vedleggsliste.legeerklæringLastetOppSjekkliste" /></Element></Panel>;
+const InfoText = () => (
+    <Panel>
+        <Element>
+            <FormattedHTMLMessage id="vedleggsliste.legeerklæringLastetOppSjekkliste" />
+        </Element>
+    </Panel>
+);
 
 const LegeerklæringAttachmentList: React.FunctionComponent<Props> = ({
     formik: { values, setFieldValue },
@@ -53,25 +59,31 @@ const LegeerklæringAttachmentList: React.FunctionComponent<Props> = ({
                         setFieldValue(AppFormField.legeerklæring, legeerklæring);
                         deleteFile(attachment.url!).then(
                             () => {
-                                setFieldValue(AppFormField.legeerklæring, removeElementFromArray(attachment, legeerklæring));
+                                setFieldValue(
+                                    AppFormField.legeerklæring,
+                                    removeElementFromArray(attachment, legeerklæring)
+                                );
                             },
                             () => {
-                                setFieldValue(AppFormField.legeerklæring, removeElementFromArray(attachment, legeerklæring));
+                                setFieldValue(
+                                    AppFormField.legeerklæring,
+                                    removeElementFromArray(attachment, legeerklæring)
+                                );
                             }
                         );
                     }}
                 />
                 <Box margin="m" padBottom="l">
-                    <InfoText/>
+                    <InfoText />
                 </Box>
             </>
         );
     } else {
         return (
             <>
-                <AttachmentList attachments={legeerklæring}/>
+                <AttachmentList attachments={legeerklæring} />
                 <Box margin="m" padBottom="l">
-                    <InfoText/>
+                    <InfoText />
                 </Box>
             </>
         );

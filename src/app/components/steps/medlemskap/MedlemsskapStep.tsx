@@ -4,14 +4,14 @@ import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import YesOrNoQuestion from '../../yes-or-no-question/YesOrNoQuestion';
+import YesOrNoQuestion from '../../../../common/components/yes-or-no-question/YesOrNoQuestion';
 import {
     validateYesOrNoIsAnswered,
     validateUtenlandsoppholdSiste12Mnd,
     validateUtenlandsoppholdNeste12Mnd
 } from '../../../validation/fieldValidations';
 import intlHelper from 'common/utils/intlUtils';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import Box from 'common/components/box/Box';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
@@ -21,16 +21,17 @@ import { Field, FieldProps } from 'formik';
 import UtenlandsoppholdInput from 'common/forms/utenlandsopphold';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { showValidationErrors } from 'app/utils/formikUtils';
+import { showValidationErrors } from 'common/formik/formikUtils';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import { dateToday, date1YearFromNow, date1YearAgo } from 'common/utils/dateUtils';
 import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 
-type Props = CommonStepFormikProps & HistoryProps & InjectedIntlProps & StepConfigProps;
+type Props = CommonStepFormikProps & HistoryProps & StepConfigProps;
 
-const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, intl, nextStepRoute, ...stepProps }) => {
+const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, nextStepRoute, ...stepProps }) => {
     const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
     const { formValues } = stepProps;
+    const intl = useIntl();
 
     return (
         <FormikStep id={StepID.MEDLEMSKAP} onValidFormSubmit={navigate} history={history} {...stepProps}>
@@ -122,4 +123,4 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, intl, nextSt
     );
 };
 
-export default injectIntl(MedlemsskapStep);
+export default MedlemsskapStep;
