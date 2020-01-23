@@ -26,7 +26,7 @@ import { timeToIso8601Duration } from 'common/utils/timeUtils';
 import { calcRedusertProsentFromRedusertTimer } from './arbeidsforholdUtils';
 import { getCountryName } from 'common/components/country-select/CountrySelect';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
-import { isNotMemberOfEEC } from 'common/utils/eecUtils';
+import { countryIsMemberOfEøsOrEfta } from 'common/utils/countryUtils';
 
 export const mapFormDataToApiData = (
     {
@@ -103,7 +103,7 @@ export const mapFormDataToApiData = (
         utenlandsopphold_i_perioden: {
             skal_oppholde_seg_i_i_utlandet_i_perioden: skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES,
             opphold: utenlandsoppholdIPerioden.map((o) => {
-                const erUtenforEØS: boolean = isNotMemberOfEEC(o.countryCode);
+                const erUtenforEØS: boolean = countryIsMemberOfEøsOrEfta(o.countryCode);
                 return {
                     ...mapUtenlandsoppholdTilApiData(o, sprak),
                     er_utenfor_eos: erUtenforEØS,

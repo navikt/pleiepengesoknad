@@ -57,6 +57,7 @@ function UtenlandsoppholdIPeriodenFormPart({ periode }: Props) {
                                     onSubmit={onSubmit}
                                     minDate={date1YearAgo}
                                     maxDate={date1YearFromNow}
+                                    reasonNeeded={true}
                                     {...errorMsgProps}
                                 />
                             )}

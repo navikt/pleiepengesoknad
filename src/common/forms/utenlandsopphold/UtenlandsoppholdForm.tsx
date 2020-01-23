@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Formik, Field, FieldProps } from 'formik';
 import { Knapp } from 'nav-frontend-knapper';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import { useIntl } from 'react-intl';
-import CountrySelect from 'common/components/country-select/CountrySelect';
+// import CountrySelect from 'common/components/country-select/CountrySelect';
 import bemUtils from 'common/utils/bemUtils';
 import { Systemtittel } from 'nav-frontend-typografi';
 import Box from 'common/components/box/Box';
 import validation from './utenlandsoppholdFormValidation';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
-import { isMemberOfEEC } from 'common/utils/eecUtils';
 import AlertStripe from 'nav-frontend-alertstriper';
 import TextareaBase from 'common/form-components/textarea-base/TextareaBase';
 import { hasValue } from 'common/validation/hasValue';
 import FormikDateIntervalPicker from 'common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
+import FormikSelect from 'common/formik/formik-select/FormikSelect';
 
 import './utenlandsoppholdForm.less';
+import { getCountriesForLocale, countryIsMemberOfEøsOrEfta } from 'common/utils/countryUtils';
 
 export interface UtenlandsoppholdFormLabels {
     title: string;
@@ -79,9 +80,21 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props> = ({
 }) => {
     const intl = useIntl();
     const [showErrors, setShowErrors] = useState(false);
+    const countryOptions = useMemo((): React.ReactNode[] => {
+        return [
+            <option key="empty" value="" />,
+            ...getCountriesForLocale(intl.locale).map((country) => {
+                return (
+                    <option key={country.isoCode} value={country.isoCode}>
+                        {country.name}
+                    </option>
+                );
+            })
+        ];
+    }, [intl.locale]);
 
     const onFormikSubmit = (formValues: Utenlandsopphold) => {
-        const reason = isMemberOfEEC(formValues.countryCode) ? undefined : formValues.reason;
+        const reason = countryIsMemberOfEøsOrEfta(formValues.countryCode) ? undefined : formValues.reason;
         onSubmit({ ...formValues, reason });
     };
 
@@ -89,12 +102,13 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props> = ({
 
     return (
         <Formik initialValues={initialValues} onSubmit={onFormikSubmit} validateOnChange={true} validateOnMount={true}>
-            {({ handleSubmit, values, isValid, errors, ...rest }) => {
-                const showReasonField =
-                    reasonNeeded &&
+            {({ handleSubmit, values, isValid, errors, setFieldValue, setFieldTouched }) => {
+                const showReasonField: boolean =
+                    reasonNeeded === true &&
                     values.countryCode !== undefined &&
                     hasValue(values.countryCode) &&
-                    !isMemberOfEEC(values.countryCode);
+                    !countryIsMemberOfEøsOrEfta(values.countryCode);
+
                 return (
                     <form onSubmit={handleSubmit} className={bem.block}>
                         <div>
@@ -132,32 +146,12 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props> = ({
                             </Box>
 
                             <Box padBottom="l">
-                                <Field
+                                <FormikSelect<UtenlandsoppholdFormFields>
                                     name={UtenlandsoppholdFormFields.countryCode}
-                                    validate={validation.validateCountry}>
-                                    {({ field, form: { setFieldValue, setFieldTouched } }: FieldProps) => {
-                                        const errorMsgProps = showErrors
-                                            ? getValidationErrorPropsWithIntl(intl, errors, field.name)
-                                            : null;
-                                        return (
-                                            <CountrySelect
-                                                name={field.name}
-                                                label={formLabels.country}
-                                                defaultValue={field.value}
-                                                onChange={(country) => {
-                                                    setFieldValue(UtenlandsoppholdFormFields.countryCode, country);
-                                                    setTimeout(() => {
-                                                        // Needs to delay for formik to register
-                                                        // validation on the reason field. Bug I could
-                                                        // not find out if was ours or Formiks (Frode)
-                                                        setFieldTouched(UtenlandsoppholdFormFields.reason);
-                                                    }, 50);
-                                                }}
-                                                {...errorMsgProps}
-                                            />
-                                        );
-                                    }}
-                                </Field>
+                                    label={formLabels.country}
+                                    value={values.countryCode}>
+                                    {countryOptions}
+                                </FormikSelect>
                             </Box>
                             {showReasonField && (
                                 <Box padBottom="m">
@@ -170,7 +164,7 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props> = ({
                                         name={UtenlandsoppholdFormFields.reason}
                                         validateOnMount={true}
                                         validate={validation.validateReason}>
-                                        {({ field, form: { setFieldValue } }: FieldProps) => {
+                                        {({ field, form: { setFieldValue: setReasonFieldValue } }: FieldProps) => {
                                             const errorMsgProps = showErrors
                                                 ? getValidationErrorPropsWithIntl(intl, errors, field.name)
                                                 : null;
@@ -181,7 +175,7 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props> = ({
                                                     label={formLabels.reasonLabel}
                                                     value={field.value || ''}
                                                     onChange={(evt) => {
-                                                        setFieldValue(field.name, evt.target.value);
+                                                        setReasonFieldValue(field.name, evt.target.value);
                                                     }}
                                                     maxLength={250}
                                                     {...errorMsgProps}
