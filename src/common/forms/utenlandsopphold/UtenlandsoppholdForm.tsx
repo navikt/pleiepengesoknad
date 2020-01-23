@@ -12,10 +12,10 @@ import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 import { isMemberOfEEC } from 'common/utils/eecUtils';
 import AlertStripe from 'nav-frontend-alertstriper';
 import TextareaBase from 'common/form-components/textarea-base/TextareaBase';
-
-import './utenlandsoppholdForm.less';
 import { hasValue } from 'common/validation/hasValue';
 import FormikDateIntervalPicker from 'common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
+
+import './utenlandsoppholdForm.less';
 
 export interface UtenlandsoppholdFormLabels {
     title: string;
@@ -109,6 +109,7 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props> = ({
                                     fromDatepickerProps={{
                                         name: UtenlandsoppholdFormFields.fromDate,
                                         label: formLabels.fromDate,
+                                        fullscreenOverlay: true,
                                         dateLimitations: {
                                             minDato: minDate,
                                             maksDato: values.toDate || maxDate
@@ -119,6 +120,7 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props> = ({
                                     toDatepickerProps={{
                                         name: UtenlandsoppholdFormFields.toDate,
                                         label: formLabels.toDate,
+                                        fullscreenOverlay: true,
                                         dateLimitations: {
                                             minDato: values.fromDate || minDate,
                                             maksDato: maxDate

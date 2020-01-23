@@ -18,6 +18,7 @@ import { Attachment } from 'common/types/Attachment';
 import { FieldValidationResult } from 'common/validation/types';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 import { hasValue } from 'common/validation/hasValue';
+import { Ferieuttak } from 'common/forms/ferieuttak/types';
 
 const moment = require('moment');
 
@@ -44,7 +45,10 @@ export enum FieldValidationErrors {
     'tilsynsordning_forMangeTegn' = 'fieldvalidation.tilsynsordning_forMangeTegn',
     'utenlandsopphold_ikke_registrert' = 'fieldvalidation.utenlandsopphold_ikke_registrert',
     'utenlandsopphold_overlapper' = 'fieldvalidation.utenlandsopphold_overlapper',
-    'utenlandsopphold_utenfor_periode' = 'fieldvalidation.utenlandsopphold_utenfor_periode'
+    'utenlandsopphold_utenfor_periode' = 'fieldvalidation.utenlandsopphold_utenfor_periode',
+    'ferieuttak_ikke_registrert' = 'fieldvalidation.ferieuttak_ikke_registrert',
+    'ferieuttak_overlapper' = 'fieldvalidation.ferieuttak_overlapper',
+    'ferieuttak_utenfor_periode' = 'fieldvalidation.ferieuttak_utenfor_periode'
 }
 
 const MAX_ARBEIDSTIMER_PER_UKE = 150;
@@ -225,6 +229,20 @@ export const validateUtenlandsoppholdIPerioden = (
     }
     if (dateRangesExceedsRange(dateRanges, periode)) {
         return fieldValidationError(FieldValidationErrors.utenlandsopphold_utenfor_periode);
+    }
+    return undefined;
+};
+
+export const validateFerieuttakIPerioden = (periode: DateRange, ferieuttak: Ferieuttak[]): FieldValidationResult => {
+    if (ferieuttak.length === 0) {
+        return fieldValidationError(FieldValidationErrors.ferieuttak_ikke_registrert);
+    }
+    const dateRanges = ferieuttak.map((u) => ({ from: u.fromDate, to: u.toDate }));
+    if (dateRangesCollide(dateRanges)) {
+        return fieldValidationError(FieldValidationErrors.ferieuttak_overlapper);
+    }
+    if (dateRangesExceedsRange(dateRanges, periode)) {
+        return fieldValidationError(FieldValidationErrors.ferieuttak_utenfor_periode);
     }
     return undefined;
 };

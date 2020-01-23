@@ -13,13 +13,15 @@ export interface ListItemBase {
     id?: string;
 }
 
+export interface ModalFormAndListLabels {
+    modalTitle: string;
+    listTitle: string;
+    addLabel: string;
+    info?: string;
+}
+
 interface Props<T extends ListItemBase> {
-    labels: {
-        modalTitle: string;
-        listTitle: string;
-        addLabel: string;
-        info?: string;
-    };
+    labels: ModalFormAndListLabels;
     items: T[];
     listRenderer: ListRenderer;
     formRenderer: ModalFormRenderer<T>;
