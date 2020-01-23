@@ -3,6 +3,7 @@ import Page from 'common/components/page/Page';
 import { StepID, StepConfigItemTexts, getStepConfig } from '../../config/stepConfig';
 import bemHelper from 'common/utils/bemUtils';
 import StepIndicator from '../step-indicator/StepIndicator';
+import StepFooter from '../stepFooter/StepFooter';
 import { Hovedknapp as Button } from 'nav-frontend-knapper';
 import Box from 'common/components/box/Box';
 import StepBanner from '../../../common/components/step-banner/StepBanner';
@@ -88,6 +89,7 @@ const Step: React.FunctionComponent<StepProps> = ({
                     )}
                 </form>
             </Box>
+            <StepFooter />
         </Page>
     );
 };

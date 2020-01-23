@@ -139,6 +139,8 @@
     "modal.minePlikter.part2a": "Jeg har lest og forstått det som står på",
     "modal.minePlikter.part2b": "nav.no/rettogplikt",
 
+    "steg.footer.avbryt": "Avbryt og slett søknad",
+    "steg.footer.fortsettSenere": "Avslutt og fortsett senere",
     "steg.omBarnet.hvilketBarn.spm": "Hvilket barn gjelder søknaden?",
     "steg.omBarnet.hvilketBarn.født": "Født {dato}",
     "steg.omBarnet.gjelderAnnetBarn": "Søknaden gjelder et annet barn",
