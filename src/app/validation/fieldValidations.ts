@@ -191,7 +191,7 @@ export const validateUtenlandsoppholdSiste12Mnd = (utenlandsopphold: Utenlandsop
     if (utenlandsopphold.length === 0) {
         return fieldValidationError(FieldValidationErrors.utenlandsopphold_ikke_registrert);
     }
-    const dateRanges = utenlandsopphold.map((u) => ({ from: u.fromDate, to: u.toDate }));
+    const dateRanges = utenlandsopphold.map((u) => ({ from: u.fom, to: u.tom }));
     if (dateRangesCollide(dateRanges)) {
         return fieldValidationError(FieldValidationErrors.utenlandsopphold_overlapper);
     }
@@ -206,7 +206,7 @@ export const validateUtenlandsoppholdNeste12Mnd = (utenlandsopphold: Utenlandsop
     if (utenlandsopphold.length === 0) {
         return fieldValidationError(FieldValidationErrors.utenlandsopphold_ikke_registrert);
     }
-    const dateRanges = utenlandsopphold.map((u) => ({ from: u.fromDate, to: u.toDate }));
+    const dateRanges = utenlandsopphold.map((u) => ({ from: u.fom, to: u.tom }));
     if (dateRangesCollide(dateRanges)) {
         return fieldValidationError(FieldValidationErrors.utenlandsopphold_overlapper);
     }
@@ -223,7 +223,7 @@ export const validateUtenlandsoppholdIPerioden = (
     if (utenlandsopphold.length === 0) {
         return fieldValidationError(FieldValidationErrors.utenlandsopphold_ikke_registrert);
     }
-    const dateRanges = utenlandsopphold.map((u) => ({ from: u.fromDate, to: u.toDate }));
+    const dateRanges = utenlandsopphold.map((u) => ({ from: u.fom, to: u.tom }));
     if (dateRangesCollide(dateRanges)) {
         return fieldValidationError(FieldValidationErrors.utenlandsopphold_overlapper);
     }
@@ -259,6 +259,13 @@ export const validateLegeerklæring = (attachments: Attachment[]): FieldValidati
 };
 
 export const validateRequiredField = (value: any): FieldValidationResult => {
+    if (!hasValue(value)) {
+        return fieldIsRequiredError();
+    }
+    return undefined;
+};
+
+export const validateRequiredSelect = (value: any): FieldValidationResult => {
     if (!hasValue(value)) {
         return fieldIsRequiredError();
     }

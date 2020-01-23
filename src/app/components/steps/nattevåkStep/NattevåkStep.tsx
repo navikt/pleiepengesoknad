@@ -4,7 +4,7 @@ import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import YesOrNoQuestion from '../../../../common/components/yes-or-no-question/YesOrNoQuestion';
+import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import { validateYesOrNoIsAnswered, validateNattevåkTilleggsinfo } from '../../../validation/fieldValidations';
 import intlHelper from 'common/utils/intlUtils';
 import { useIntl } from 'react-intl';
@@ -36,7 +36,7 @@ const NattevåkStep: React.FunctionComponent<Props> = ({
             history={history}
             {...stepProps}
             formValues={values}>
-            <YesOrNoQuestion
+            <FormikYesOrNoQuestion
                 legend={intlHelper(intl, 'steg.nattevåk.spm')}
                 name={AppFormField.harNattevåk}
                 validate={validateYesOrNoIsAnswered}

@@ -51,8 +51,8 @@ function BostedsoppholdIUtlandetFormPart<T>({ periode, name, labels }: Props<T>)
                                     opphold={opphold}
                                     onCancel={onCancel}
                                     onSubmit={onSubmit}
-                                    minDate={periode.from}
-                                    maxDate={periode.to}
+                                    minDato={periode.from}
+                                    maxDato={periode.to}
                                     {...errorMsgProps}
                                 />
                             )}

@@ -51,13 +51,12 @@ function UtenlandsoppholdIPeriodenFormPart({ periode }: Props) {
                             )}
                             formRenderer={(onSubmit, onCancel, opphold) => (
                                 <UtenlandsoppholdForm
-                                    labels={{}}
                                     opphold={opphold}
                                     onCancel={onCancel}
                                     onSubmit={onSubmit}
-                                    minDate={date1YearAgo}
-                                    maxDate={date1YearFromNow}
-                                    reasonNeeded={true}
+                                    minDato={date1YearAgo}
+                                    maxDato={date1YearFromNow}
+                                    inkluderInnlagtBarn={true}
                                     {...errorMsgProps}
                                 />
                             )}

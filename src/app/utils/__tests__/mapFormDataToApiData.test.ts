@@ -148,17 +148,17 @@ const completeFormDataMock: PleiepengesøknadFormData = {
     },
     utenlandsoppholdSiste12Mnd: [
         {
-            countryCode: 'SE',
-            fromDate: new Date(2020, 1, 1),
-            toDate: new Date(2020, 2, 1),
+            landkode: 'SE',
+            fom: new Date(2020, 1, 1),
+            tom: new Date(2020, 2, 1),
             id: '345'
         }
     ],
     utenlandsoppholdNeste12Mnd: [
         {
-            countryCode: 'NO',
-            fromDate: new Date(2020, 3, 1),
-            toDate: new Date(2020, 4, 1),
+            landkode: 'NO',
+            fom: new Date(2020, 3, 1),
+            tom: new Date(2020, 4, 1),
             id: '123'
         }
     ],

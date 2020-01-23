@@ -103,11 +103,11 @@ export const mapFormDataToApiData = (
         utenlandsopphold_i_perioden: {
             skal_oppholde_seg_i_i_utlandet_i_perioden: skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES,
             opphold: utenlandsoppholdIPerioden.map((o) => {
-                const erUtenforEØS: boolean = countryIsMemberOfEøsOrEfta(o.countryCode);
+                const erUtenforEØS: boolean = countryIsMemberOfEøsOrEfta(o.landkode);
                 return {
                     ...mapUtenlandsoppholdTilApiData(o, sprak),
                     er_utenfor_eos: erUtenforEØS,
-                    arsak: erUtenforEØS ? o.reason : null
+                    arsak: erUtenforEØS ? o.årsak : null
                 };
             })
         },
@@ -242,8 +242,8 @@ export const mapTilsynsordningToApiData = (tilsynsordning: Tilsynsordning): Tils
 };
 
 const mapUtenlandsoppholdTilApiData = (opphold: Utenlandsopphold, locale: string): UtenlandsoppholdApiData => ({
-    landnavn: getCountryName(opphold.countryCode, locale),
-    landkode: opphold.countryCode,
-    fra_og_med: formatDateToApiFormat(opphold.fromDate),
-    til_og_med: formatDateToApiFormat(opphold.toDate)
+    landnavn: getCountryName(opphold.landkode, locale),
+    landkode: opphold.landkode,
+    fra_og_med: formatDateToApiFormat(opphold.fom),
+    til_og_med: formatDateToApiFormat(opphold.tom)
 });

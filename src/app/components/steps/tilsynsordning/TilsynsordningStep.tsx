@@ -5,7 +5,7 @@ import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
 import { useIntl, FormattedHTMLMessage } from 'react-intl';
 import { AppFormField, TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
-import YesOrNoQuestion from '../../../../common/components/yes-or-no-question/YesOrNoQuestion';
+import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import Box from 'common/components/box/Box';
 import { YesOrNo } from 'common/types/YesOrNo';
 import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
@@ -41,7 +41,7 @@ const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, formValue
                 <FormattedHTMLMessage id="steg.tilsyn.veileder.html" />
             </CounsellorPanel>
             <Box margin="xl">
-                <YesOrNoQuestion
+                <FormikYesOrNoQuestion
                     name={AppFormField.tilsynsordning__skalBarnHaTilsyn}
                     legend={intlHelper(intl, 'steg.tilsyn.skalBarnetHaTilsyn.spm')}
                     includeDoNotKnowOption={true}

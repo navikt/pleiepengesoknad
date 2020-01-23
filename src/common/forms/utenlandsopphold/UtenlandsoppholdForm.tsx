@@ -1,79 +1,71 @@
 import React, { useState, useMemo } from 'react';
-import { Formik, Field, FieldProps } from 'formik';
+import { Formik } from 'formik';
 import { Knapp } from 'nav-frontend-knapper';
-import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
-import { useIntl } from 'react-intl';
-// import CountrySelect from 'common/components/country-select/CountrySelect';
+import { useIntl, FormattedMessage } from 'react-intl';
 import bemUtils from 'common/utils/bemUtils';
 import { Systemtittel } from 'nav-frontend-typografi';
 import Box from 'common/components/box/Box';
 import validation from './utenlandsoppholdFormValidation';
-import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
-import AlertStripe from 'nav-frontend-alertstriper';
-import TextareaBase from 'common/form-components/textarea-base/TextareaBase';
+import { Utenlandsopphold, UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
 import { hasValue } from 'common/validation/hasValue';
 import FormikDateIntervalPicker from 'common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
 import FormikSelect from 'common/formik/formik-select/FormikSelect';
+import { getCountriesForLocale, countryIsMemberOfEøsOrEfta } from 'common/utils/countryUtils';
+import { YesOrNo } from 'common/types/YesOrNo';
+import FormikYesOrNoQuestion from 'common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
+import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
+import intlHelper from 'common/utils/intlUtils';
 
 import './utenlandsoppholdForm.less';
-import { getCountriesForLocale, countryIsMemberOfEøsOrEfta } from 'common/utils/countryUtils';
+import {
+    validateRequiredField,
+    validateYesOrNoIsAnswered,
+    validateRequiredSelect
+} from 'app/validation/fieldValidations';
 
 export interface UtenlandsoppholdFormLabels {
-    title: string;
-    intervalTitle: string;
-    fromDate: string;
-    toDate: string;
-    country: string;
-    eøsInfo?: string;
-    reasonLabel?: string;
-    reasonHelperText?: string;
-    okButton: string;
-    cancelButton: string;
+    tittel: string;
 }
 
 interface Props {
-    minDate: Date;
-    maxDate: Date;
+    minDato: Date;
+    maxDato: Date;
     opphold?: Utenlandsopphold;
-    labels?: Partial<UtenlandsoppholdFormLabels>;
-    reasonNeeded?: boolean;
+    inkluderInnlagtBarn?: boolean;
     onSubmit: (values: Utenlandsopphold) => void;
     onCancel: () => void;
 }
 
 export enum UtenlandsoppholdFormFields {
-    fromDate = 'fromDate',
-    toDate = 'toDate',
-    countryCode = 'countryCode',
-    reason = 'reason',
-    outsideEØS = 'outsideEØS'
+    fom = 'fom',
+    tom = 'tom',
+    landkode = 'landkode',
+    årsak = 'årsak',
+    erBarnetInnlagt = 'erBarnetInnlagt'
 }
 
-const defaultLabels: UtenlandsoppholdFormLabels = {
-    title: 'Utenlandsopphold',
-    intervalTitle: 'Velg tidsrom',
-    fromDate: 'Fra og med',
-    toDate: 'Til og med',
-    country: 'Hvilket land',
-    reasonLabel: 'Hva er årsaken til denne reisen?',
-    okButton: 'Ok',
-    cancelButton: 'Avbryt'
-};
+interface UtenlandsoppholdFormData {
+    [UtenlandsoppholdFormFields.fom]: Date;
+    [UtenlandsoppholdFormFields.tom]: Date;
+    [UtenlandsoppholdFormFields.landkode]: string;
+    [UtenlandsoppholdFormFields.erBarnetInnlagt]?: YesOrNo;
+    [UtenlandsoppholdFormFields.årsak]?: UtenlandsoppholdÅrsak;
+}
 
 const bem = bemUtils('utenlandsoppholdForm');
 
-const defaultFormValues: Partial<Utenlandsopphold> = {
-    fromDate: undefined,
-    toDate: undefined,
-    countryCode: undefined,
-    reason: undefined
+const defaultFormValues: Partial<UtenlandsoppholdFormData> = {
+    fom: undefined,
+    tom: undefined,
+    landkode: undefined,
+    erBarnetInnlagt: YesOrNo.UNANSWERED,
+    årsak: undefined
 };
 
 const UtenlandsoppholdForm: React.FunctionComponent<Props> = ({
-    maxDate,
-    minDate,
-    reasonNeeded,
-    labels,
+    maxDato: maxDate,
+    minDato: minDate,
+    inkluderInnlagtBarn: reasonNeeded,
     opphold: initialValues = defaultFormValues,
     onSubmit,
     onCancel
@@ -94,96 +86,118 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props> = ({
     }, [intl.locale]);
 
     const onFormikSubmit = (formValues: Utenlandsopphold) => {
-        const reason = countryIsMemberOfEøsOrEfta(formValues.countryCode) ? undefined : formValues.reason;
-        onSubmit({ ...formValues, reason });
+        onSubmit({
+            ...formValues,
+            årsak: countryIsMemberOfEøsOrEfta(formValues.landkode) ? undefined : formValues.årsak
+        });
     };
 
-    const formLabels: UtenlandsoppholdFormLabels = { ...defaultLabels, ...labels };
-
     return (
-        <Formik initialValues={initialValues} onSubmit={onFormikSubmit} validateOnChange={true} validateOnMount={true}>
-            {({ handleSubmit, values, isValid, errors, setFieldValue, setFieldTouched }) => {
-                const showReasonField: boolean =
+        <Formik initialValues={initialValues} onSubmit={onFormikSubmit} validateOnMount={true} validateOnChange={true}>
+            {({ handleSubmit, values, isValid }) => {
+                const showInnlagtQuestion: boolean =
                     reasonNeeded === true &&
-                    values.countryCode !== undefined &&
-                    hasValue(values.countryCode) &&
-                    !countryIsMemberOfEøsOrEfta(values.countryCode);
+                    values.landkode !== undefined &&
+                    hasValue(values.landkode) &&
+                    !countryIsMemberOfEøsOrEfta(values.landkode);
 
                 return (
                     <form onSubmit={handleSubmit} className={bem.block}>
                         <div>
                             <Box padBottom="l">
-                                <Systemtittel tag="h1">{formLabels.title}</Systemtittel>
+                                <Systemtittel tag="h1">
+                                    <FormattedMessage id="utenlandsopphold.form.tittel" />
+                                </Systemtittel>
                             </Box>
 
                             <Box padBottom="l">
                                 <FormikDateIntervalPicker<UtenlandsoppholdFormFields>
-                                    legend={formLabels.intervalTitle}
+                                    legend={intlHelper(intl, 'utenlandsopphold.form.tidsperiode.spm')}
                                     showValidationErrors={showErrors}
                                     fromDatepickerProps={{
-                                        name: UtenlandsoppholdFormFields.fromDate,
-                                        label: formLabels.fromDate,
+                                        name: UtenlandsoppholdFormFields.fom,
+                                        label: intlHelper(intl, 'utenlandsopphold.form.tidsperiode.fraDato'),
                                         fullscreenOverlay: true,
                                         dateLimitations: {
                                             minDato: minDate,
-                                            maksDato: values.toDate || maxDate
+                                            maksDato: values.tom || maxDate
                                         },
                                         validate: (date: Date) =>
-                                            validation.validateFromDate(date, minDate, maxDate, values.toDate)
+                                            validation.validateFromDate(date, minDate, maxDate, values.tom)
                                     }}
                                     toDatepickerProps={{
-                                        name: UtenlandsoppholdFormFields.toDate,
-                                        label: formLabels.toDate,
+                                        name: UtenlandsoppholdFormFields.tom,
+                                        label: intlHelper(intl, 'utenlandsopphold.form.tidsperiode.tilDato'),
                                         fullscreenOverlay: true,
                                         dateLimitations: {
-                                            minDato: values.fromDate || minDate,
+                                            minDato: values.fom || minDate,
                                             maksDato: maxDate
                                         },
                                         validate: (date: Date) =>
-                                            validation.validateToDate(date, minDate, maxDate, values.fromDate)
+                                            validation.validateToDate(date, minDate, maxDate, values.fom)
                                     }}
                                 />
                             </Box>
 
                             <Box padBottom="l">
                                 <FormikSelect<UtenlandsoppholdFormFields>
-                                    name={UtenlandsoppholdFormFields.countryCode}
-                                    label={formLabels.country}
-                                    value={values.countryCode}>
+                                    name={UtenlandsoppholdFormFields.landkode}
+                                    label={intlHelper(intl, 'utenlandsopphold.form.land.spm')}
+                                    value={values.landkode}
+                                    showValidationErrors={showErrors}
+                                    validate={validateRequiredSelect}>
                                     {countryOptions}
                                 </FormikSelect>
                             </Box>
-                            {showReasonField && (
-                                <Box padBottom="m">
-                                    {formLabels.eøsInfo && (
-                                        <Box padBottom="l">
-                                            <AlertStripe type="info">{formLabels.eøsInfo}</AlertStripe>
-                                        </Box>
+                            {showInnlagtQuestion && (
+                                <>
+                                    <Box padBottom="m">
+                                        <FormikYesOrNoQuestion<UtenlandsoppholdFormFields>
+                                            name={UtenlandsoppholdFormFields.erBarnetInnlagt}
+                                            legend={intlHelper(intl, 'utenlandsopphold.form.erBarnetInnlagt.spm')}
+                                            singleColumn={true}
+                                            showValidationErrors={showErrors}
+                                            validate={validateYesOrNoIsAnswered}
+                                        />
+                                    </Box>
+                                    {values.erBarnetInnlagt === YesOrNo.YES && (
+                                        <>
+                                            <FormikRadioPanelGroup<UtenlandsoppholdFormFields>
+                                                singleColumn={true}
+                                                legend={intlHelper(intl, 'utenlandsopphold.form.årsak.spm')}
+                                                name={UtenlandsoppholdFormFields.årsak}
+                                                validate={validateRequiredField}
+                                                showValidationErrors={showErrors}
+                                                radios={[
+                                                    {
+                                                        key: UtenlandsoppholdÅrsak.INNLAGT_DEKKET_NORGE,
+                                                        value: UtenlandsoppholdÅrsak.INNLAGT_DEKKET_NORGE,
+                                                        label: intlHelper(
+                                                            intl,
+                                                            `utenlandsopphold.form.årsak.${UtenlandsoppholdÅrsak.INNLAGT_DEKKET_NORGE}`
+                                                        )
+                                                    },
+                                                    {
+                                                        key: UtenlandsoppholdÅrsak.INNLAGT_DEKKET_ANNET_LAND,
+                                                        value: UtenlandsoppholdÅrsak.INNLAGT_DEKKET_ANNET_LAND,
+                                                        label: intlHelper(
+                                                            intl,
+                                                            `utenlandsopphold.form.årsak.${UtenlandsoppholdÅrsak.INNLAGT_DEKKET_ANNET_LAND}`
+                                                        )
+                                                    },
+                                                    {
+                                                        key: UtenlandsoppholdÅrsak.ANNET,
+                                                        value: UtenlandsoppholdÅrsak.ANNET,
+                                                        label: intlHelper(
+                                                            intl,
+                                                            `utenlandsopphold.form.årsak.${UtenlandsoppholdÅrsak.ANNET}`
+                                                        )
+                                                    }
+                                                ]}
+                                            />
+                                        </>
                                     )}
-                                    <Field
-                                        name={UtenlandsoppholdFormFields.reason}
-                                        validateOnMount={true}
-                                        validate={validation.validateReason}>
-                                        {({ field, form: { setFieldValue: setReasonFieldValue } }: FieldProps) => {
-                                            const errorMsgProps = showErrors
-                                                ? getValidationErrorPropsWithIntl(intl, errors, field.name)
-                                                : null;
-                                            return (
-                                                <TextareaBase
-                                                    helperText={formLabels.reasonHelperText}
-                                                    name={field.name}
-                                                    label={formLabels.reasonLabel}
-                                                    value={field.value || ''}
-                                                    onChange={(evt) => {
-                                                        setReasonFieldValue(field.name, evt.target.value);
-                                                    }}
-                                                    maxLength={250}
-                                                    {...errorMsgProps}
-                                                />
-                                            );
-                                        }}
-                                    </Field>
-                                </Box>
+                                </>
                             )}
                             <div className={bem.element('knapper')}>
                                 <Knapp
@@ -195,10 +209,10 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props> = ({
                                             onFormikSubmit(values as Utenlandsopphold);
                                         }
                                     }}>
-                                    {formLabels.okButton}
+                                    <FormattedMessage id="utenlandsopphold.form.ok" />
                                 </Knapp>
                                 <Knapp type="flat" htmlType="button" onClick={() => onCancel()}>
-                                    {formLabels.cancelButton}
+                                    <FormattedMessage id="utenlandsopphold.form.avbryt" />
                                 </Knapp>
                             </div>
                         </div>

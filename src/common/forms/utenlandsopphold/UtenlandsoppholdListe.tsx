@@ -20,7 +20,7 @@ const bem = bemUtils('utenlandsoppholdListe');
 const UtenlandsoppholdListe: React.FunctionComponent<Props> = ({ utenlandsopphold, onDelete, onEdit }) => {
     const intl = useIntl();
     const renderUtenlandsoppholdLabel = (opphold: Utenlandsopphold): React.ReactNode => {
-        const navn = getCountryName(opphold.countryCode, intl.locale);
+        const navn = getCountryName(opphold.landkode, intl.locale);
         return (
             <div className={bem.element('label')}>
                 <span className={bem.element('land')}>
@@ -28,7 +28,7 @@ const UtenlandsoppholdListe: React.FunctionComponent<Props> = ({ utenlandsopphol
                     {!onEdit && <span>{navn}</span>}
                 </span>
                 <span className={bem.element('dato')}>
-                    {prettifyDateExtended(opphold.fromDate)} - {prettifyDateExtended(opphold.toDate)}
+                    {prettifyDateExtended(opphold.fom)} - {prettifyDateExtended(opphold.tom)}
                 </span>
             </div>
         );
@@ -37,7 +37,7 @@ const UtenlandsoppholdListe: React.FunctionComponent<Props> = ({ utenlandsopphol
     return (
         <ItemList<Utenlandsopphold>
             getItemId={(opphold) => opphold.id}
-            getItemTitle={(opphold) => getCountryName(opphold.countryCode, intl.locale)}
+            getItemTitle={(opphold) => getCountryName(opphold.landkode, intl.locale)}
             onDelete={onDelete}
             onEdit={onEdit}
             labelRenderer={renderUtenlandsoppholdLabel}

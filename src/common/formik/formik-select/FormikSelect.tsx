@@ -13,18 +13,18 @@ interface FormikSelectProps<T> extends SelectBaseProps {
 
 type Props = SelectProps & FormikValidationProps;
 
-function FormikSelect<T>({ label, name, children, validate, ...otherInputProps }: Props & FormikSelectProps<T>) {
+function FormikSelect<T>({ label, name, children, validate, showValidationErrors }: Props & FormikSelectProps<T>) {
     const intl = useIntl();
     return (
         <Field validate={validate} name={name}>
             {({ field, form: { errors, status, submitCount } }: FieldProps) => {
-                const errorMsgProps = isValidationErrorsVisible(status, submitCount)
-                    ? getValidationErrorPropsWithIntl(intl, errors, field.name)
-                    : {};
+                const errorMsgProps =
+                    showValidationErrors || isValidationErrorsVisible(status, submitCount)
+                        ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                        : {};
                 return (
                     <SelectBase
                         label={label}
-                        {...otherInputProps}
                         {...errorMsgProps}
                         {...field}
                         value={field.value === undefined ? '' : field.value}>

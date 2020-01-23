@@ -4,7 +4,7 @@ import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import YesOrNoQuestion from '../../../../common/components/yes-or-no-question/YesOrNoQuestion';
+import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import { validateYesOrNoIsAnswered } from '../../../validation/fieldValidations';
 import intlHelper from 'common/utils/intlUtils';
 import { useIntl } from 'react-intl';
@@ -37,7 +37,7 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, nextStepRout
                     .
                 </CounsellorPanel>
             </Box>
-            <YesOrNoQuestion
+            <FormikYesOrNoQuestion
                 legend={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.spm')}
                 name={AppFormField.harBoddUtenforNorgeSiste12Mnd}
                 validate={validateYesOrNoIsAnswered}
@@ -58,7 +58,7 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, nextStepRout
                     </Box>
                 )}
             <Box margin="xl">
-                <YesOrNoQuestion
+                <FormikYesOrNoQuestion
                     legend={intlHelper(intl, 'steg.medlemsskap.annetLandNeste12.spm')}
                     name={AppFormField.skalBoUtenforNorgeNeste12Mnd}
                     validate={validateYesOrNoIsAnswered}

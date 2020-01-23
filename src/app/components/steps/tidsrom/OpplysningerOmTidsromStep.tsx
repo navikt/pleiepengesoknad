@@ -7,7 +7,7 @@ import FormikStep from '../../formik-step/FormikStep';
 import FormikDateIntervalPicker from '../../../../common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
 import { date3YearsAgo, DateRange, date1YearFromNow, date1YearAgo } from 'common/utils/dateUtils';
 import { validateYesOrNoIsAnswered, validateFradato, validateTildato } from '../../../validation/fieldValidations';
-import YesOrNoQuestion from '../../../../common/components/yes-or-no-question/YesOrNoQuestion';
+import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import Box from 'common/components/box/Box';
 import intlHelper from 'common/utils/intlUtils';
 import { useIntl } from 'react-intl';
@@ -76,7 +76,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
             {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD) && (
                 <>
                     <Box margin="xl">
-                        <YesOrNoQuestion<AppFormField>
+                        <FormikYesOrNoQuestion<AppFormField>
                             legend={intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.spm')}
                             name={AppFormField.skalOppholdeSegIUtlandetIPerioden}
                             validate={validateYesOrNoIsAnswered}
@@ -93,7 +93,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
             {isFeatureEnabled(Feature.TOGGLE_FERIEUTTAK) && (
                 <>
                     <Box margin="xl">
-                        <YesOrNoQuestion<AppFormField>
+                        <FormikYesOrNoQuestion<AppFormField>
                             legend={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.spm')}
                             name={AppFormField.skalTaUtFerieIPerioden}
                             validate={validateYesOrNoIsAnswered}
@@ -108,7 +108,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
             )}
 
             <Box margin="xl">
-                <YesOrNoQuestion
+                <FormikYesOrNoQuestion
                     legend={intlHelper(intl, 'steg.tidsrom.annenSamtidig.spm')}
                     name={AppFormField.harMedsøker}
                     validate={validateYesOrNoIsAnswered}
@@ -116,7 +116,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
             </Box>
 
             {harMedsøker === YesOrNo.YES && (
-                <YesOrNoQuestion
+                <FormikYesOrNoQuestion
                     legend={intlHelper(intl, 'steg.tidsrom.samtidigHjemme.spm')}
                     name={AppFormField.samtidigHjemme}
                     validate={validateYesOrNoIsAnswered}

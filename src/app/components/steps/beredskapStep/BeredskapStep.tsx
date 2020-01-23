@@ -4,7 +4,7 @@ import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import YesOrNoQuestion from '../../../../common/components/yes-or-no-question/YesOrNoQuestion';
+import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import { validateYesOrNoIsAnswered, validateBeredskapTilleggsinfo } from '../../../validation/fieldValidations';
 import intlHelper from 'common/utils/intlUtils';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -43,7 +43,7 @@ const BeredskapStep: React.FunctionComponent<Props> = ({
                     <FormattedMessage id="steg.beredskap.veileder" />
                 </CounsellorPanel>
             </Box>
-            <YesOrNoQuestion
+            <FormikYesOrNoQuestion
                 legend={intlHelper(intl, 'steg.beredskap.spm')}
                 name={AppFormField.harBeredskap}
                 validate={validateYesOrNoIsAnswered}
