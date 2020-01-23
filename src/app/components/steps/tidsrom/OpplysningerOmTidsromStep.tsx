@@ -16,6 +16,7 @@ import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFo
 import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 import FerieuttakIPeriodenFormPart from './FerieuttakIPeriodenFormPart';
 import UtenlandsoppholdIPeriodenFormPart from './UtenlandsoppholdIPeriodenFormPart';
+import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 
 interface OpplysningerOmTidsromStepProps {
     formikProps: PleiepengesøknadFormikProps;
@@ -73,9 +74,33 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                 }}
             />
 
+            <Box margin="xl">
+                <FormikYesOrNoQuestion
+                    legend={intlHelper(intl, 'steg.tidsrom.annenSamtidig.spm')}
+                    name={AppFormField.harMedsøker}
+                    validate={validateYesOrNoIsAnswered}
+                />
+            </Box>
+
+            {harMedsøker === YesOrNo.YES && (
+                <Box margin="l">
+                    <FormikYesOrNoQuestion
+                        legend={intlHelper(intl, 'steg.tidsrom.samtidigHjemme.spm')}
+                        name={AppFormField.samtidigHjemme}
+                        validate={validateYesOrNoIsAnswered}
+                    />
+                </Box>
+            )}
+
             {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD) && (
                 <>
-                    <Box margin="xl">
+                    <Box margin="xxl">
+                        <CounsellorPanel>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis quia maiores quo
+                            reprehenderit dolorum voluptate cum consequatur
+                        </CounsellorPanel>
+                    </Box>
+                    <Box margin="xxl">
                         <FormikYesOrNoQuestion<AppFormField>
                             legend={intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.spm')}
                             name={AppFormField.skalOppholdeSegIUtlandetIPerioden}
@@ -92,7 +117,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
 
             {isFeatureEnabled(Feature.TOGGLE_FERIEUTTAK) && (
                 <>
-                    <Box margin="xl">
+                    <Box margin="l">
                         <FormikYesOrNoQuestion<AppFormField>
                             legend={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.spm')}
                             name={AppFormField.skalTaUtFerieIPerioden}
@@ -100,27 +125,11 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                         />
                     </Box>
                     {formikProps.values.skalTaUtFerieIPerioden === YesOrNo.YES && (
-                        <Box margin="m">
+                        <Box margin="l">
                             <FerieuttakIPeriodenFormPart periode={periode} />
                         </Box>
                     )}
                 </>
-            )}
-
-            <Box margin="xl">
-                <FormikYesOrNoQuestion
-                    legend={intlHelper(intl, 'steg.tidsrom.annenSamtidig.spm')}
-                    name={AppFormField.harMedsøker}
-                    validate={validateYesOrNoIsAnswered}
-                />
-            </Box>
-
-            {harMedsøker === YesOrNo.YES && (
-                <FormikYesOrNoQuestion
-                    legend={intlHelper(intl, 'steg.tidsrom.samtidigHjemme.spm')}
-                    name={AppFormField.samtidigHjemme}
-                    validate={validateYesOrNoIsAnswered}
-                />
             )}
         </FormikStep>
     );
