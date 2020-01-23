@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { HistoryProps } from 'common/types/History';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
-import { navigateTo } from '../../../utils/navigationUtils';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import FormikStep from '../../formik-step/FormikStep';
 import DateIntervalPicker from '../../date-interval-picker/DateIntervalPicker';
@@ -39,11 +38,12 @@ type Props = OpplysningerOmTidsromStepProps & HistoryProps & StepConfigProps;
 const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...stepProps }: Props) => {
     const { values, handleSubmit } = formikProps;
 
-    const persistAndNavigateTo = (data: PleiepengesøknadFormData, nextStep: string) => {
-        persist(data, nextStep);
-        navigateTo(nextStep, history);
+    const persistAndNavigateTo = ( lastStepID: StepID, data: PleiepengesøknadFormData, nextStep?: string) => {
+        persist(data, lastStepID);
+        if (nextStep) {
+            history.push(nextStep);
+        }
     };
-    const navigate = nextStepRoute ? () => persistAndNavigateTo(values, nextStepRoute) : undefined;
 
     const fraDato = formikProps.values[AppFormField.periodeFra];
     const tilDato = formikProps.values[AppFormField.periodeTil];
@@ -65,7 +65,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
     return (
         <FormikStep
             id={StepID.TIDSROM}
-            onValidFormSubmit={navigate}
+            onValidFormSubmit={() => persistAndNavigateTo(StepID.TIDSROM, values, nextStepRoute)}
             formValues={values}
             handleSubmit={handleSubmit}
             history={history}

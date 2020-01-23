@@ -2,7 +2,7 @@ import { PleiepengesøknadFormData } from './PleiepengesøknadFormData';
 import { StepID } from '../config/stepConfig';
 
 interface StorageMetadata {
-    step: StepID;
+    lastStepID: StepID;
 }
 
 export interface MellomlagringData {

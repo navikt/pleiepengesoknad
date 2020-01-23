@@ -1,16 +1,17 @@
 import axios, { AxiosResponse } from 'axios';
-import { PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
-import { initialValues, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import axiosConfig from '../config/axiosConfig';
 import { getApiUrlByResourceType, sendMultipartPostRequest } from '../utils/apiUtils';
+import { PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
+import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { ResourceType } from '../types/ResourceType';
 import { Arbeidsgiver } from 'app/types/Søkerdata';
 import { MellomlagringData } from '../types/storage';
 import { StepID } from '../config/stepConfig';
 
 export const persist = (formData: PleiepengesøknadFormData, lastStepID: StepID) => {
-    const body: MellomlagringData = { formData, metadata: {step: lastStepID} };
-    axios.post(`${getApiUrlByResourceType(ResourceType.MELLOMLAGRING)}?lastStepID=${lastStepID}`, { ...body }, axiosConfig);
+    const body: MellomlagringData = { formData, metadata: { lastStepID } };
+    const url = `${getApiUrlByResourceType(ResourceType.MELLOMLAGRING)}?lastStepID=${encodeURI(lastStepID)}`;
+    axios.post(url, { ...body }, axiosConfig);
 };
 export const rehydrate = () => axios.get(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), axiosConfig);
 export const purge = () => axios.delete(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), {...axiosConfig, data: {}});

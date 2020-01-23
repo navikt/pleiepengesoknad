@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { navigateTo } from '../../../utils/navigationUtils';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
@@ -28,18 +27,20 @@ const BeredskapStep: React.FunctionComponent<Props> = ({
     nextStepRoute,
     ...stepProps
 }) => {
-    const persistAndNavigateTo = (data: PleiepengesøknadFormData, nextStep: string) => {
-        persist(data, nextStep);
-        navigateTo(nextStep, history);
+    const persistAndNavigateTo = ( lastStepID: StepID, data: PleiepengesøknadFormData, nextStep?: string) => {
+        persist(data, lastStepID);
+        if (nextStep) {
+            history.push(nextStep)
+        }
     };
-    const navigate = nextStepRoute ? () => persistAndNavigateTo(values, nextStepRoute) : undefined;
+
     const { harBeredskap } = values;
     const intl = useIntl();
 
     return (
         <FormikStep
             id={StepID.BEREDSKAP}
-            onValidFormSubmit={navigate}
+            onValidFormSubmit={() => persistAndNavigateTo(StepID.BEREDSKAP, values, nextStepRoute)}
             history={history}
             {...stepProps}
             formValues={values}>

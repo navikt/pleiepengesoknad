@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
-import { navigateTo } from '../../../utils/navigationUtils';
 import {
     validateFødselsdato,
     validateFødselsnummer,
@@ -39,17 +38,18 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
     nextStepRoute,
     history
 }: Props) => {
-    const persistAndNavigateTo = (data: PleiepengesøknadFormData, nextStep: string) => {
-        persist(data, nextStep);
-        navigateTo(nextStep, history);
+    const persistAndNavigateTo = ( lastStepID: StepID, data: PleiepengesøknadFormData, nextStep?: string) => {
+        persist(data, lastStepID);
+        if (nextStep) {
+            history.push(nextStep);
+        }
     };
-    const navigate = nextStepRoute ? () => persistAndNavigateTo(values, nextStepRoute) : undefined;
     const { søknadenGjelderEtAnnetBarn, barnetHarIkkeFåttFødselsnummerEnda } = values;
     const intl = useIntl();
     return (
         <FormikStep
             id={StepID.OPPLYSNINGER_OM_BARNET}
-            onValidFormSubmit={navigate}
+            onValidFormSubmit={() => persistAndNavigateTo(StepID.OPPLYSNINGER_OM_BARNET, values, nextStepRoute)}
             handleSubmit={handleSubmit}
             history={history}
             formValues={values}>

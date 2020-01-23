@@ -3,16 +3,15 @@ import { Formik } from 'formik';
 import { initialValues, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { FormikBag } from '../../types/FormikBag';
 import { PleiepengesøknadFormikProps } from '../../types/PleiepengesøknadFormikProps';
-import { MellomlagringData } from '../../types/storage';
 
 interface FormikWrapperProps {
     contentRenderer: (formikProps: PleiepengesøknadFormikProps) => JSX.Element;
-    mellomlagring: MellomlagringData;
+    formdata: PleiepengesøknadFormData;
 }
 
-const FormikWrapper: React.FunctionComponent<FormikWrapperProps> = ({ contentRenderer, mellomlagring }) => (
+const FormikWrapper: React.FunctionComponent<FormikWrapperProps> = ({ contentRenderer, formdata }) => (
     <Formik
-        initialValues={mellomlagring.formData || initialValues}
+        initialValues={formdata || initialValues}
         onSubmit={(values: PleiepengesøknadFormData, { setSubmitting, setStatus, setTouched }: FormikBag) => {
             setSubmitting(false);
             setTouched({});
