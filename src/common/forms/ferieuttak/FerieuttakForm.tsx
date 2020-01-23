@@ -47,7 +47,7 @@ const FerieuttakForm: React.FunctionComponent<Props> = ({
     maxDate,
     minDate,
     labels,
-    ferieuttak: initialValues = { fromDate: undefined, toDate: undefined },
+    ferieuttak: initialValues = { fom: undefined, tom: undefined },
     onSubmit,
     onCancel
 }) => {
@@ -81,7 +81,7 @@ const FerieuttakForm: React.FunctionComponent<Props> = ({
                                             date,
                                             minDate,
                                             maxDate,
-                                            ferieuttak.toDate
+                                            ferieuttak.tom
                                         )
                                 }}
                                 toDatepickerProps={{
@@ -93,7 +93,7 @@ const FerieuttakForm: React.FunctionComponent<Props> = ({
                                             date,
                                             minDate,
                                             maxDate,
-                                            ferieuttak.fromDate
+                                            ferieuttak.fom
                                         )
                                 }}
                             />

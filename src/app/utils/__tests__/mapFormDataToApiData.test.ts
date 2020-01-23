@@ -9,7 +9,9 @@ import {
     PleiepengesøknadApiData,
     ArbeidsforholdApiNei,
     ArbeidsforholdApiRedusert,
-    ArbeidsforholdApiVetIkke
+    ArbeidsforholdApiVetIkke,
+    UtenlandsoppholdApiData,
+    UtenlandsoppholdUtenforEØSApiData
 } from '../../types/PleiepengesøknadApiData';
 import * as dateUtils from 'common/utils/dateUtils';
 import * as attachmentUtils from 'common/utils/attachmentUtils';
@@ -18,6 +20,7 @@ import { BarnReceivedFromApi, Arbeidsgiver } from '../../types/Søkerdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
 import { Attachment } from 'common/types/Attachment';
 import { ApiStringDate } from 'common/types/ApiStringDate';
+import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
 
 const moment = require('moment');
 
@@ -86,7 +89,9 @@ const formDataMock: Partial<PleiepengesøknadFormData> = {
     [AppFormField.periodeTil]: moment(todaysDate)
         .add(1, 'day')
         .toDate(),
-    [AppFormField.legeerklæring]: [attachmentMock1 as AttachmentMock, attachmentMock2 as AttachmentMock]
+    [AppFormField.legeerklæring]: [attachmentMock1 as AttachmentMock, attachmentMock2 as AttachmentMock],
+    [AppFormField.skalTaUtFerieIPerioden]: undefined,
+    [AppFormField.ferieuttakIPerioden]: []
 };
 
 jest.mock('common/utils/dateUtils', () => {
@@ -127,10 +132,29 @@ const completeFormDataMock: PleiepengesøknadFormData = {
     harBoddUtenforNorgeSiste12Mnd: YesOrNo.YES,
     skalBoUtenforNorgeNeste12Mnd: YesOrNo.YES,
     søknadenGjelderEtAnnetBarn: false,
-    skalOppholdeSegIUtlandetIPerioden: YesOrNo.NO,
-    utenlandsoppholdIPerioden: [],
-    skalTaUtFerieIPerioden: YesOrNo.NO,
-    ferieuttakIPerioden: [],
+    skalOppholdeSegIUtlandetIPerioden: YesOrNo.YES,
+    utenlandsoppholdIPerioden: [
+        {
+            fom: dateUtils.apiStringDateToDate('2020-01-05'),
+            tom: dateUtils.apiStringDateToDate('2020-01-07'),
+            landkode: 'SE',
+            erBarnetInnlagt: YesOrNo.YES
+        },
+        {
+            fom: dateUtils.apiStringDateToDate('2020-01-08'),
+            tom: dateUtils.apiStringDateToDate('2020-01-09'),
+            landkode: 'US',
+            erBarnetInnlagt: YesOrNo.YES,
+            årsak: UtenlandsoppholdÅrsak.ANNET
+        }
+    ],
+    skalTaUtFerieIPerioden: YesOrNo.YES,
+    ferieuttakIPerioden: [
+        {
+            fom: dateUtils.apiStringDateToDate('2020-01-05'),
+            tom: dateUtils.apiStringDateToDate('2020-01-07')
+        }
+    ],
     periodeFra: dateUtils.apiStringDateToDate('2020-01-01'),
     periodeTil: dateUtils.apiStringDateToDate('2020-02-01'),
     tilsynsordning: {
@@ -336,6 +360,22 @@ describe('mapFormDataToApiData', () => {
 
     it('should use correct format for a complete mapped application', () => {
         const mappedData = mapFormDataToApiData(completeFormDataMock, barnMock, 'nb');
+
+        const utenlandsoppholdISverige: UtenlandsoppholdApiData = {
+            landnavn: 'Sverige',
+            landkode: 'SE',
+            fra_og_med: '2020-01-05',
+            til_og_med: '2020-01-07'
+        };
+        const utenlandsoppholdIUSA: UtenlandsoppholdUtenforEØSApiData = {
+            landnavn: 'USA',
+            landkode: 'US',
+            fra_og_med: '2020-01-08',
+            til_og_med: '2020-01-09',
+            er_utenfor_eos: true,
+            er_barnet_innlagt: true,
+            arsak: UtenlandsoppholdÅrsak.ANNET
+        };
         const resultApiData: PleiepengesøknadApiData = {
             new_version: true,
             sprak: 'nb',
@@ -372,8 +412,17 @@ describe('mapFormDataToApiData', () => {
                 ]
             },
             utenlandsopphold_i_perioden: {
-                skal_oppholde_seg_i_i_utlandet_i_perioden: false,
-                opphold: []
+                skal_oppholde_seg_i_i_utlandet_i_perioden: true,
+                opphold: [utenlandsoppholdISverige, utenlandsoppholdIUSA]
+            },
+            ferieuttak_i_perioden: {
+                skal_ta_ut_ferie_i_periode: true,
+                ferieuttak: [
+                    {
+                        fra_og_med: '2020-01-05',
+                        til_og_med: '2020-01-07'
+                    }
+                ]
             },
             fra_og_med: '2020-01-01',
             til_og_med: '2020-02-01',

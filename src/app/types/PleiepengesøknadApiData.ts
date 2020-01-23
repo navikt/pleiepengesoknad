@@ -1,6 +1,7 @@
 import { Locale } from 'common/types/Locale';
 import { TilsynVetIkkeHvorfor } from './PleiepengesøknadFormData';
 import { ApiStringDate } from '../../common/types/ApiStringDate';
+import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
 
 export type ISO8601Duration = string;
 
@@ -89,11 +90,17 @@ export interface UtenlandsoppholdApiData {
 }
 
 export interface UtenlandsoppholdUtenforEØSApiData extends UtenlandsoppholdApiData {
-    er_utenfor_eos: true;
-    arsak: string;
+    er_barnet_innlagt: boolean;
+    er_utenfor_eos: boolean;
+    arsak: UtenlandsoppholdÅrsak;
 }
 
 export type UtenlandsoppholdIPeriodenApiData = UtenlandsoppholdApiData | UtenlandsoppholdUtenforEØSApiData;
+
+export interface FerieuttakIPeriodeApiData {
+    fra_og_med: ApiStringDate;
+    til_og_med: ApiStringDate;
+}
 
 export interface PleiepengesøknadApiData {
     new_version: boolean;
@@ -108,6 +115,10 @@ export interface PleiepengesøknadApiData {
     utenlandsopphold_i_perioden: {
         skal_oppholde_seg_i_i_utlandet_i_perioden: boolean;
         opphold: UtenlandsoppholdIPeriodenApiData[];
+    };
+    ferieuttak_i_perioden: {
+        skal_ta_ut_ferie_i_periode: boolean;
+        ferieuttak: FerieuttakIPeriodeApiData[];
     };
     har_medsoker: boolean;
     samtidig_hjemme?: boolean;

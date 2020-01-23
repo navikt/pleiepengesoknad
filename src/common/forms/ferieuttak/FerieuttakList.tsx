@@ -12,7 +12,7 @@ interface Props {
 
 const FerieuttakListe: React.FunctionComponent<Props> = ({ ferieuttak, onDelete, onEdit }) => {
     const getDateTitleString = (uttak: Ferieuttak) =>
-        `${prettifyDateExtended(uttak.fromDate)} - ${prettifyDateExtended(uttak.toDate)}`;
+        `${prettifyDateExtended(uttak.fom)} - ${prettifyDateExtended(uttak.tom)}`;
 
     const renderFerieuttakLabel = (uttak: Ferieuttak): React.ReactNode => {
         const title = getDateTitleString(uttak);

@@ -237,7 +237,7 @@ export const validateFerieuttakIPerioden = (periode: DateRange, ferieuttak: Feri
     if (ferieuttak.length === 0) {
         return fieldValidationError(FieldValidationErrors.ferieuttak_ikke_registrert);
     }
-    const dateRanges = ferieuttak.map((u) => ({ from: u.fromDate, to: u.toDate }));
+    const dateRanges = ferieuttak.map((u) => ({ from: u.fom, to: u.tom }));
     if (dateRangesCollide(dateRanges)) {
         return fieldValidationError(FieldValidationErrors.ferieuttak_overlapper);
     }

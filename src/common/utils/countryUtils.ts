@@ -4,6 +4,7 @@ countries.registerLocale(require('i18n-iso-countries/langs/nb.json'));
 countries.registerLocale(require('i18n-iso-countries/langs/nn.json'));
 
 export const eøsAndEftaCountries = {
+    NO: true,
     BE: true,
     BG: true,
     DK: true,

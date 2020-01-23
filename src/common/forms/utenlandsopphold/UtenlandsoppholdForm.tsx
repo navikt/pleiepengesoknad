@@ -75,13 +75,15 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props> = ({
     const countryOptions = useMemo((): React.ReactNode[] => {
         return [
             <option key="empty" value="" />,
-            ...getCountriesForLocale(intl.locale).map((country) => {
-                return (
-                    <option key={country.isoCode} value={country.isoCode}>
-                        {country.name}
-                    </option>
-                );
-            })
+            ...getCountriesForLocale(intl.locale)
+                .filter((country) => country.isoCode !== 'NO')
+                .map((country) => {
+                    return (
+                        <option key={country.isoCode} value={country.isoCode}>
+                            {country.name}
+                        </option>
+                    );
+                })
         ];
     }, [intl.locale]);
 
