@@ -61,25 +61,13 @@ export const mapFormDataToApiData = (
     barn: BarnReceivedFromApi[],
     sprak: Locale = 'nb'
 ): PleiepengesøknadApiData => {
-    const barnObject: BarnToSendToApi = {
-        navn: null,
-        fodselsnummer: null,
-        aktoer_id: null,
-        fodselsdato: null
-    };
-    if (barnetSøknadenGjelder) {
-        const barnChosenFromList = barn.find((currentBarn) => currentBarn.aktoer_id === barnetSøknadenGjelder);
-        const { fornavn, etternavn, mellomnavn, aktoer_id } = barnChosenFromList!;
-        barnObject.aktoer_id = aktoer_id;
-        barnObject.navn = formatName(fornavn, etternavn, mellomnavn);
-    } else {
-        barnObject.navn = barnetsNavn && barnetsNavn !== '' ? barnetsNavn : null;
-        if (barnetsFødselsnummer) {
-            barnObject.fodselsnummer = barnetsFødselsnummer;
-        } else if (barnetsFødselsdato) {
-            barnObject.fodselsdato = formatDateToApiFormat(barnetsFødselsdato);
-        }
-    }
+    const barnObject: BarnToSendToApi = mapBarnToApiData(
+        barn,
+        barnetsNavn,
+        barnetsFødselsnummer,
+        barnetsFødselsdato,
+        barnetSøknadenGjelder
+    );
 
     const apiData: PleiepengesøknadApiData = {
         new_version: true,
@@ -155,6 +143,32 @@ export const mapFormDataToApiData = (
     }
 
     return apiData;
+};
+
+export const mapBarnToApiData = (
+    barn: BarnReceivedFromApi[],
+    barnetsNavn: string,
+    barnetsFødselsnummer: string | undefined,
+    barnetsFødselsdato: Date | undefined,
+    barnetSøknadenGjelder: string | undefined
+): BarnToSendToApi => {
+    if (barnetSøknadenGjelder) {
+        const barnChosenFromList = barn.find((currentBarn) => currentBarn.aktoer_id === barnetSøknadenGjelder)!;
+        const { fornavn, etternavn, mellomnavn, aktoer_id } = barnChosenFromList;
+        return {
+            navn: formatName(fornavn, etternavn, mellomnavn),
+            fodselsnummer: null,
+            aktoer_id,
+            fodselsdato: formatDateToApiFormat(barnChosenFromList.fodselsdato)
+        };
+    } else {
+        return {
+            navn: barnetsNavn && barnetsNavn !== '' ? barnetsNavn : null,
+            fodselsnummer: barnetsFødselsnummer || null,
+            aktoer_id: null,
+            fodselsdato: barnetsFødselsdato !== undefined ? formatDateToApiFormat(barnetsFødselsdato) : null
+        };
+    }
 };
 
 const mapArbeidsforholdTilApiData = (arbeidsforhold: Arbeidsforhold): ArbeidsforholdApi => {

@@ -247,7 +247,7 @@ describe('mapFormDataToApiData', () => {
         expect(result.barn.fodselsnummer).toEqual(fnr);
     });
 
-    it("should set 'fodselsdato' in api data to undefined if it doesnt exist, and otherwise it should assign value to 'fodselsdato' in api data", () => {
+    it("should set 'fodselsdato' in api data to null if it doesnt exist, and otherwise it should assign value to 'fodselsdato' in api data", () => {
         expect(resultingApiData.barn.fodselsdato).toBeNull();
         const fdato = new Date();
         const formDataWithFnr: Partial<PleiepengesøknadFormData> = {
@@ -256,19 +256,6 @@ describe('mapFormDataToApiData', () => {
         };
         const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock, 'nb');
         expect(result.barn.fodselsdato).toEqual(dateUtils.formatDateToApiFormat(fdato));
-    });
-
-    it("should assign fnr to 'fodselsnummer' in api data, and set 'fodselsdato' to undefined, if both barnetsFødselsnummer and barnetsFødselsdato has values", () => {
-        const fnr = '12345123456';
-        expect(resultingApiData.barn.fodselsdato).toBeNull();
-        const formDataWithFnr: Partial<PleiepengesøknadFormData> = {
-            ...formDataMock,
-            [AppFormField.barnetsFødselsnummer]: fnr,
-            [AppFormField.barnetsFødselsdato]: new Date()
-        };
-        const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock, 'nb');
-        expect(result.barn.fodselsdato).toBeNull();
-        expect(result.barn.fodselsnummer).toEqual(fnr);
     });
 
     it('should set har_bekreftet_opplysninger to value of harBekreftetOpplysninger in form data', () => {
@@ -358,6 +345,8 @@ describe('mapFormDataToApiData', () => {
         expect(organisasjoner).toEqual([]);
     });
 
+    it('should always send barns fodselsdato', () => {});
+
     it('should use correct format for a complete mapped application', () => {
         const mappedData = mapFormDataToApiData(completeFormDataMock, barnMock, 'nb');
 
@@ -383,7 +372,7 @@ describe('mapFormDataToApiData', () => {
                 navn: 'Mock Mocknes',
                 fodselsnummer: null,
                 aktoer_id: barnMock[0].aktoer_id,
-                fodselsdato: null
+                fodselsdato: '2020-00-24'
             },
             relasjon_til_barnet: null,
             arbeidsgivere: {

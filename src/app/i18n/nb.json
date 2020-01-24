@@ -204,7 +204,7 @@
 
     "steg.oppsummering.barnet.header": "Om barnet",
     "steg.oppsummering.barnet.navn": "Navn: {navn}",
-    "steg.oppsummering.barnet.fødselsdato": "Fødselsdato: {fdato}",
+    "steg.oppsummering.barnet.fødselsdato": "Fødselsdato: {dato}",
     "steg.oppsummering.barnet.fnr": "Fødselsnummer: {fnr}",
     "steg.oppsummering.barnet.søkersRelasjonTilBarnet": "Din relasjon til barnet: {relasjon}",
 
