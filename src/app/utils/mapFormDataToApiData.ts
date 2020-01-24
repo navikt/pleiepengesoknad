@@ -93,27 +93,33 @@ export const mapFormDataToApiData = (
         },
         utenlandsopphold_i_perioden: {
             skal_oppholde_seg_i_i_utlandet_i_perioden: skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES,
-            opphold: utenlandsoppholdIPerioden.map((o) => {
-                const erUtenforEØS: boolean = countryIsMemberOfEøsOrEfta(o.landkode) === false;
-                if (erUtenforEØS && o.årsak) {
-                    const periodeopphold: UtenlandsoppholdUtenforEØSApiData = {
-                        ...mapUtenlandsoppholdTilApiData(o, sprak),
-                        er_utenfor_eos: erUtenforEØS,
-                        er_barnet_innlagt: o.erBarnetInnlagt === YesOrNo.YES,
-                        arsak: o.årsak
-                    };
-                    return periodeopphold;
-                } else {
-                    return mapUtenlandsoppholdTilApiData(o, sprak);
-                }
-            })
+            opphold:
+                skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES
+                    ? utenlandsoppholdIPerioden.map((o) => {
+                          const erUtenforEØS: boolean = countryIsMemberOfEøsOrEfta(o.landkode) === false;
+                          if (erUtenforEØS && o.årsak) {
+                              const periodeopphold: UtenlandsoppholdUtenforEØSApiData = {
+                                  ...mapUtenlandsoppholdTilApiData(o, sprak),
+                                  er_utenfor_eos: erUtenforEØS,
+                                  er_barnet_innlagt: o.erBarnetInnlagt === YesOrNo.YES,
+                                  arsak: o.årsak
+                              };
+                              return periodeopphold;
+                          } else {
+                              return mapUtenlandsoppholdTilApiData(o, sprak);
+                          }
+                      })
+                    : []
         },
         ferieuttak_i_perioden: {
             skal_ta_ut_ferie_i_periode: skalTaUtFerieIPerioden === YesOrNo.YES,
-            ferieuttak: ferieuttakIPerioden.map((uttak) => ({
-                fra_og_med: formatDateToApiFormat(uttak.fom),
-                til_og_med: formatDateToApiFormat(uttak.tom)
-            }))
+            ferieuttak:
+                skalTaUtFerieIPerioden === YesOrNo.YES
+                    ? ferieuttakIPerioden.map((uttak) => ({
+                          fra_og_med: formatDateToApiFormat(uttak.fom),
+                          til_og_med: formatDateToApiFormat(uttak.tom)
+                      }))
+                    : []
         },
         fra_og_med: formatDateToApiFormat(periodeFra!),
         til_og_med: formatDateToApiFormat(periodeTil!),
