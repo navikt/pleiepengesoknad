@@ -42,6 +42,17 @@
     "fileUploadErrors.part1": "Det har dessverre skjedd en feil under opplasting av følgende vedlegg:",
     "formikValidationErrorSummary.tittel": "Du må rette opp i følgende feil:",
 
+    "avbrytSøknadDialog.avbrytSøknadLabel": "Ja, avbryt søknad",
+    "avbrytSøknadDialog.fortsettSøknadLabel": "Nei",
+    "avbrytSøknadDialog.intro": "Det du har fylt ut i søknaden blir slettet, og du kommer tilbake til velkomstsiden.",
+    "avbrytSøknadDialog.spørsmål": "Ønsker du å slette søknaden?",
+    "avbrytSøknadDialog.tittel": "Avbryt og slett søknad",
+    "fortsettSøknadSenereDialog.avbrytSøknadLabel": "Ja, fortsett senere",
+    "fortsettSøknadSenereDialog.fortsettSøknadLabel": "Nei",
+    "fortsettSøknadSenereDialog.intro": "Vi lagrer søknaden din for deg i 24 timer.",
+    "fortsettSøknadSenereDialog.spørsmål": "Vil du avslutte nå og fortsette senere?",
+    "fortsettSøknadSenereDialog.tittel": "Avslutt og fortsett senere",
+
     "step.nextButtonLabel": "Fortsett",
     "step.nextButtonAriaLabel": "Gå til neste steg",
     "step.sendButtonLabel": "Send inn søknaden",
