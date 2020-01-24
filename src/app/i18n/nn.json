@@ -209,6 +209,11 @@
     "steg.oppsummering.barnet.fnr": "Fødselsnummer: {fnr}",
     "steg.oppsummering.barnet.søkersRelasjonTilBarnet": "Relasjonen din til barnet: {relasjon}",
 
+    "steg.oppsummering.utenlandsoppholdIPerioden.header": "Skal du være i utlandet i perioden?",
+    "steg.oppsummering.utenlandsoppholdIPerioden.listetittel": "Utenlandsopphold i perioden",
+    "steg.oppsummering.ferieuttakIPerioden.header": "Skal du ta ut ferie i perioden?",
+    "steg.oppsummering.ferieuttakIPerioden.listetittel": "Ferieuttak i perioden",
+
     "steg.oppsummering.dagerPerUkeBorteFraJobb.header": "Talet på dagar i veka du skal vere borte frå jobb for å ta hand om barnet",
     "steg.oppsummering.samtidigHjemme.header": "Skal de vere heime / på sjukehus samtidig?",
     "steg.oppsummering.annenSøkerSammePeriode.header": "Er det ein annan person som søkjer om pleiepengar i same perioden?",

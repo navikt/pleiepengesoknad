@@ -97,6 +97,12 @@ export interface UtenlandsoppholdUtenforEØSApiData extends UtenlandsoppholdApiD
 
 export type UtenlandsoppholdIPeriodenApiData = UtenlandsoppholdApiData | UtenlandsoppholdUtenforEØSApiData;
 
+export function isUtenlandsoppholdUtenforEØSApiData(
+    opphold: UtenlandsoppholdIPeriodenApiData
+): opphold is UtenlandsoppholdUtenforEØSApiData {
+    return Object.keys(opphold).includes('er_barnet_innlagt');
+}
+
 export interface FerieuttakIPeriodeApiData {
     fra_og_med: ApiStringDate;
     til_og_med: ApiStringDate;

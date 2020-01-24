@@ -1,9 +1,14 @@
 .utenlandsoppholdSummaryItem {
     display: flex;
+    flex-wrap: wrap;
     &__dates {
         padding-right: 1rem;
         &::after {
             content: ':';
         }
+    }
+    &__details {
+        width: 100%;
+        padding: 0.25rem 0;
     }
 }
