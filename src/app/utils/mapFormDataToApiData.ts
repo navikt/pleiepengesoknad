@@ -65,10 +65,11 @@ export const mapFormDataToApiData = (
         fodselsdato: null
     };
     if (barnetSøknadenGjelder) {
-        const barnChosenFromList = barn.find((currentBarn) => currentBarn.aktoer_id === barnetSøknadenGjelder);
-        const { fornavn, etternavn, mellomnavn, aktoer_id } = barnChosenFromList!;
+        const barnChosenFromList = barn.find((currentBarn) => currentBarn.aktoer_id === barnetSøknadenGjelder)!;
+        const { fornavn, etternavn, mellomnavn, aktoer_id } = barnChosenFromList;
         barnObject.aktoer_id = aktoer_id;
         barnObject.navn = formatName(fornavn, etternavn, mellomnavn);
+        barnObject.fodselsdato = formatDateToApiFormat(barnChosenFromList.fodselsdato);
     } else {
         barnObject.navn = barnetsNavn && barnetsNavn !== '' ? barnetsNavn : null;
         if (barnetsFødselsnummer) {
