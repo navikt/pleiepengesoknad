@@ -341,7 +341,7 @@ describe('mapFormDataToApiData', () => {
                 navn: 'Mock Mocknes',
                 fodselsnummer: null,
                 aktoer_id: barnMock[0].aktoer_id,
-                fodselsdato: null
+                fodselsdato: '2020-00-24'
             },
             relasjon_til_barnet: null,
             arbeidsgivere: {
