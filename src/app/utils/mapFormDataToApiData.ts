@@ -102,7 +102,7 @@ export const mapFormDataToApiData = (
                                   ...mapUtenlandsoppholdTilApiData(o, sprak),
                                   er_utenfor_eos: erUtenforEØS,
                                   er_barnet_innlagt: o.erBarnetInnlagt === YesOrNo.YES,
-                                  arsak: o.årsak
+                                  arsak: o.erBarnetInnlagt === YesOrNo.YES ? o.årsak : null
                               };
                               return periodeopphold;
                           } else {

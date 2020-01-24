@@ -92,7 +92,7 @@ export interface UtenlandsoppholdApiData {
 export interface UtenlandsoppholdUtenforEØSApiData extends UtenlandsoppholdApiData {
     er_barnet_innlagt: boolean;
     er_utenfor_eos: boolean;
-    arsak: UtenlandsoppholdÅrsak;
+    arsak: UtenlandsoppholdÅrsak | null;
 }
 
 export type UtenlandsoppholdIPeriodenApiData = UtenlandsoppholdApiData | UtenlandsoppholdUtenforEØSApiData;
