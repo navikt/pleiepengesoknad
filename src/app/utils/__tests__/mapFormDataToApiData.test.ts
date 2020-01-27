@@ -30,8 +30,9 @@ const todaysDate = moment()
     .startOf('day')
     .toDate();
 
+const barnFodselsdato = new Date(2020, 0, 24);
 const barnMock: BarnReceivedFromApi[] = [
-    { fodselsdato: todaysDate, fornavn: 'Mock', etternavn: 'Mocknes', aktoer_id: '123' }
+    { fodselsdato: barnFodselsdato, fornavn: 'Mock', etternavn: 'Mocknes', aktoer_id: '123' }
 ];
 
 const organisasjonTelenor: Arbeidsgiver = {
