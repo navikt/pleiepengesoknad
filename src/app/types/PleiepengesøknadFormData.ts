@@ -66,7 +66,8 @@ export enum AppFormField {
     tilsynsordning__ja__tilsyn = 'tilsynsordning.ja.tilsyn',
     tilsynsordning__ja__ekstrainfo = 'tilsynsordning.ja.ekstrainfo',
     tilsynsordning__vetIkke__hvorfor = 'tilsynsordning.vetIkke.hvorfor',
-    tilsynsordning__vetIkke__ekstrainfo = 'tilsynsordning.vetIkke.ekstrainfo'
+    tilsynsordning__vetIkke__ekstrainfo = 'tilsynsordning.vetIkke.ekstrainfo',
+    metadata = 'metadata'
 }
 
 export enum ArbeidsforholdField {

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
-import { navigateTo } from '../../../utils/navigationUtils';
 import {
     validateFødselsdato,
     validateFødselsnummer,
@@ -13,7 +12,7 @@ import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
 import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
 import { formatName } from 'common/utils/personUtils';
-import { AppFormField, initialValues } from '../../../types/PleiepengesøknadFormData';
+import { AppFormField, initialValues, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import FormikStep from '../../formik-step/FormikStep';
 import { harRegistrerteBarn } from '../../../utils/søkerdataUtils';
 import { resetFieldValue, resetFieldValues } from '../../../../common/formik/formikUtils';
@@ -26,6 +25,7 @@ import FormikInput from 'common/formik/formik-input/FormikInput';
 import FormikCheckbox from 'common/formik/formik-checkbox/FormikCheckbox';
 import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
 import FormikDatepicker from 'common/formik/formik-datepicker/FormikDatepicker';
+import { persist } from '../../../api/api';
 
 interface OpplysningerOmBarnetStepProps {
     formikProps: PleiepengesøknadFormikProps;
@@ -38,13 +38,18 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
     nextStepRoute,
     history
 }: Props) => {
-    const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
+    const persistAndNavigateTo = ( lastStepID: StepID, data: PleiepengesøknadFormData, nextStep?: string) => {
+        persist(data, lastStepID);
+        if (nextStep) {
+            history.push(nextStep);
+        }
+    };
     const { søknadenGjelderEtAnnetBarn, barnetHarIkkeFåttFødselsnummerEnda } = values;
     const intl = useIntl();
     return (
         <FormikStep
             id={StepID.OPPLYSNINGER_OM_BARNET}
-            onValidFormSubmit={navigate}
+            onValidFormSubmit={() => persistAndNavigateTo(StepID.OPPLYSNINGER_OM_BARNET, values, nextStepRoute)}
             handleSubmit={handleSubmit}
             history={history}
             formValues={values}>

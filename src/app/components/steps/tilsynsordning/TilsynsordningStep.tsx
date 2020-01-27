@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { navigateTo } from '../../../utils/navigationUtils';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
 import { useIntl, FormattedHTMLMessage } from 'react-intl';
-import { AppFormField, TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
 import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
+import { AppFormField, PleiepengesøknadFormData, TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
 import Box from 'common/components/box/Box';
 import { YesOrNo } from 'common/types/YesOrNo';
 import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
@@ -18,6 +17,7 @@ import intlHelper from 'common/utils/intlUtils';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import { getNextStepRoute } from '../../../utils/routeUtils';
+import { persist } from '../../../api/api';
 import FormikInputGroup from 'common/formik/formik-input-group/FormikInputGroup';
 import FormikTextarea from 'common/formik/formik-textarea/FormikTextarea';
 import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
@@ -27,13 +27,18 @@ type Props = CommonStepFormikProps & HistoryProps & StepConfigProps;
 const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, formValues, ...stepProps }) => {
     const nextStepRoute = getNextStepRoute(StepID.OMSORGSTILBUD, formValues);
     const intl = useIntl();
-    const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
+    const persistAndNavigateTo = (lastStepID: StepID, data: PleiepengesøknadFormData, nextStep?: string) => {
+        persist(data, lastStepID);
+        if (nextStep) {
+            history.push(nextStep);
+        }
+    };
     const { tilsynsordning } = formValues;
     const { skalBarnHaTilsyn, vetIkke } = tilsynsordning || {};
     return (
         <FormikStep
             id={StepID.OMSORGSTILBUD}
-            onValidFormSubmit={navigate}
+            onValidFormSubmit={() => persistAndNavigateTo(StepID.OMSORGSTILBUD, formValues, nextStepRoute)}
             history={history}
             {...stepProps}
             formValues={formValues}>

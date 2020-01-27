@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { navigateTo } from '../../../utils/navigationUtils';
-import { StepID, StepConfigProps } from '../../../config/stepConfig';
+import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
-import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
-import { validateYesOrNoIsAnswered } from '../../../validation/fieldValidations';
+import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import intlHelper from 'common/utils/intlUtils';
 import { useIntl } from 'react-intl';
 import Box from 'common/components/box/Box';
@@ -14,19 +12,30 @@ import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel'
 import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../../lenker';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { dateToday, date1YearFromNow, date1YearAgo } from 'common/utils/dateUtils';
-import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 import BostedsoppholdIUtlandetFormPart from './BostedsoppholdIUtlandetFormPart';
+import { date1YearAgo, date1YearFromNow, dateToday } from 'common/utils/dateUtils';
+import { Feature, isFeatureEnabled } from 'app/utils/featureToggleUtils';
+import { persist } from '../../../api/api';
+import { validateYesOrNoIsAnswered } from 'app/validation/fieldValidations';
 
 type Props = CommonStepFormikProps & HistoryProps & StepConfigProps;
 
 const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, nextStepRoute, ...stepProps }) => {
-    const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
     const { formValues } = stepProps;
+    const persistAndNavigateTo = (lastStepID: StepID, data: PleiepengesøknadFormData, nextStep?: string) => {
+        persist(data, lastStepID);
+        if (nextStep) {
+            history.push(nextStep);
+        }
+    };
     const intl = useIntl();
 
     return (
-        <FormikStep id={StepID.MEDLEMSKAP} onValidFormSubmit={navigate} history={history} {...stepProps}>
+        <FormikStep
+            id={StepID.MEDLEMSKAP}
+            onValidFormSubmit={() => persistAndNavigateTo(StepID.MEDLEMSKAP, formValues, nextStepRoute)}
+            history={history}
+            {...stepProps}>
             <Box padBottom="xxl">
                 <CounsellorPanel>
                     Medlemskap i folketrygden er nøkkelen til rettigheter fra NAV. Hvis du bor eller jobber i Norge er

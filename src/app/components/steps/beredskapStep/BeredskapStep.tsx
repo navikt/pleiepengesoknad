@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { navigateTo } from '../../../utils/navigationUtils';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
-import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
+import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { validateYesOrNoIsAnswered, validateBeredskapTilleggsinfo } from '../../../validation/fieldValidations';
 import intlHelper from 'common/utils/intlUtils';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -13,6 +12,7 @@ import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFo
 import { YesOrNo } from 'common/types/YesOrNo';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import FormikTextarea from 'common/formik/formik-textarea/FormikTextarea';
+import { persist } from '../../../api/api';
 
 interface StepProps {
     formikProps: PleiepengesøknadFormikProps;
@@ -27,14 +27,20 @@ const BeredskapStep: React.FunctionComponent<Props> = ({
     nextStepRoute,
     ...stepProps
 }) => {
-    const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
+    const persistAndNavigateTo = (lastStepID: StepID, data: PleiepengesøknadFormData, nextStep?: string) => {
+        persist(data, lastStepID);
+        if (nextStep) {
+            history.push(nextStep);
+        }
+    };
+
     const { harBeredskap } = values;
     const intl = useIntl();
 
     return (
         <FormikStep
             id={StepID.BEREDSKAP}
-            onValidFormSubmit={navigate}
+            onValidFormSubmit={() => persistAndNavigateTo(StepID.BEREDSKAP, values, nextStepRoute)}
             history={history}
             {...stepProps}
             formValues={values}>

@@ -6,11 +6,12 @@ import { PleiepengesøknadFormikProps } from '../../types/PleiepengesøknadFormi
 
 interface FormikWrapperProps {
     contentRenderer: (formikProps: PleiepengesøknadFormikProps) => JSX.Element;
+    formdata: PleiepengesøknadFormData;
 }
 
-const FormikWrapper: React.FunctionComponent<FormikWrapperProps> = ({ contentRenderer }) => (
+const FormikWrapper: React.FunctionComponent<FormikWrapperProps> = ({ contentRenderer, formdata }) => (
     <Formik
-        initialValues={initialValues}
+        initialValues={formdata || initialValues}
         onSubmit={(values: PleiepengesøknadFormData, { setSubmitting, setStatus, setTouched }: FormikBag) => {
             setSubmitting(false);
             setTouched({});
