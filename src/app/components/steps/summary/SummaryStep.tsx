@@ -14,7 +14,7 @@ import { prettifyDate, apiStringDateToDate } from 'common/utils/dateUtils';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { BarnReceivedFromApi, Søkerdata } from '../../../types/Søkerdata';
 import { formatName } from 'common/utils/personUtils';
-import { sendApplication } from '../../../api/api';
+import { sendApplication, purge } from '../../../api/api';
 import routeConfig from '../../../config/routeConfig';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import * as apiUtils from '../../../utils/apiUtils';
@@ -57,6 +57,7 @@ class SummaryStep extends React.Component<Props, State> {
             navigateTo(routeConfig.SØKNAD_SENDT_ROUTE, history);
         } else {
             try {
+                await purge();
                 await sendApplication(mapFormDataToApiData(formValues, barn, intl.locale as Locale));
                 navigateTo(routeConfig.SØKNAD_SENDT_ROUTE, history);
             } catch (error) {
@@ -160,7 +161,7 @@ class SummaryStep extends React.Component<Props, State> {
                                                                 <FormattedMessage
                                                                     id="steg.oppsummering.barnet.fødselsdato"
                                                                     values={{
-                                                                        dato: prettifyDate(
+                                                                        fdato: prettifyDate(
                                                                             barnReceivedFromApi!.fodselsdato
                                                                         )
                                                                     }}

@@ -3,6 +3,7 @@ import Page from 'common/components/page/Page';
 import { StepID, StepConfigItemTexts, getStepConfig } from '../../config/stepConfig';
 import bemHelper from 'common/utils/bemUtils';
 import StepIndicator from '../step-indicator/StepIndicator';
+import StepFooter from '../stepFooter/StepFooter';
 import { Hovedknapp as Button } from 'nav-frontend-knapper';
 import Box from 'common/components/box/Box';
 import StepBanner from '../../../common/components/step-banner/StepBanner';
@@ -13,6 +14,10 @@ import { getStepTexts } from 'app/utils/stepUtils';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { History } from 'history';
 import BackLink from 'common/components/back-link/BackLink';
+import FortsettSøknadSenereDialog from '../../../common/components/dialogs/fortsettSøknadSenereDialog/FortsettSøknadSenereDialog'
+import AvbrytSøknadDialog from '../../../common/components/dialogs/avbrytSøknadDialog/AvbrytSøknadDialog';
+import { purge } from 'app/api/api';
+import routeConfig from '../../config/routeConfig';
 
 import './step.less';
 
@@ -44,6 +49,15 @@ const Step: React.FunctionComponent<StepProps> = ({
     const conf = stepConfig[id];
     const intl = useIntl();
     const stepTexts: StepConfigItemTexts = getStepTexts(intl, id, stepConfig);
+    const [visAvbrytDialog, setVisAvbrytDialog] = React.useState<boolean>(false);
+    const [visFortsettSenereDialog, setVisFortsettSenereDialog] = React.useState<boolean>(false);
+    const handleAvsluttOgFortsettSenere = () => {
+        (window as any).location = '/';
+    };
+    const handleAvbrytSøknad = () => {
+        purge();
+        (window as any).location = routeConfig.WELCOMING_PAGE_ROUTE;
+    };
     return (
         <Page
             className={bem.block}
@@ -88,6 +102,20 @@ const Step: React.FunctionComponent<StepProps> = ({
                     )}
                 </form>
             </Box>
+            <StepFooter
+                onFortsettSenere={() => setVisFortsettSenereDialog(true)}
+                onAvbryt={() => setVisAvbrytDialog(true)}
+            />
+            <FortsettSøknadSenereDialog
+                synlig={visFortsettSenereDialog}
+                onFortsettSøknadSenere={() => handleAvsluttOgFortsettSenere()}
+                onFortsettSøknad={() => setVisFortsettSenereDialog(false)}
+            />
+            <AvbrytSøknadDialog
+                synlig={visAvbrytDialog}
+                onFortsettSøknadSenere={() => handleAvbrytSøknad()}
+                onFortsettSøknad={() => setVisAvbrytDialog(false)}
+            />
         </Page>
     );
 };

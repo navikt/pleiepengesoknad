@@ -5,24 +5,33 @@ import * as apiUtils from '../../utils/apiUtils';
 import routeConfig from '../../config/routeConfig';
 import { navigateToLoginPage, userIsCurrentlyOnErrorPage } from '../../utils/navigationUtils';
 import { AxiosError, AxiosResponse } from 'axios';
-import { getBarn, getSøker } from '../../api/api';
+import { getBarn, getSøker, rehydrate } from '../../api/api';
 import { SøkerdataContextProvider } from '../../context/SøkerdataContext';
 import demoSøkerdata from '../../demo/demoData';
 import { appIsRunningInDemoMode } from '../../utils/envUtils';
+import { initialValues, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { MellomlagringData } from '../../types/storage';
+import { StepID } from '../../config/stepConfig';
 
 interface Props {
-    contentLoadedRenderer: (søkerdata?: Søkerdata) => React.ReactNode;
+    contentLoadedRenderer: (formdata: PleiepengesøknadFormData, lastStepID?: StepID, søkerdata?: Søkerdata) => React.ReactNode;
 }
 
 interface State {
     isLoading: boolean;
+    lastStepID?: StepID,
+    formdata: PleiepengesøknadFormData;
     søkerdata?: Søkerdata;
 }
 
 class AppEssentialsLoader extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
-        this.state = { isLoading: true };
+        this.state = {
+            isLoading: true,
+            lastStepID: undefined,
+            formdata: initialValues,
+        };
 
         this.updateArbeidsgivere = this.updateArbeidsgivere.bind(this);
         this.updateSøkerdata = this.updateSøkerdata.bind(this);
@@ -40,8 +49,8 @@ class AppEssentialsLoader extends React.Component<Props, State> {
 
     async loadAppEssentials() {
         try {
-            const [søkerResponse, barnResponse] = await Promise.all([getSøker(), getBarn()]);
-            this.handleSøkerdataFetchSuccess(søkerResponse, barnResponse);
+            const [mellomlagringResponse, søkerResponse, barnResponse] = await Promise.all([rehydrate(), getSøker(), getBarn()]);
+            this.handleSøkerdataFetchSuccess(mellomlagringResponse, søkerResponse, barnResponse);
         } catch (response) {
             this.handleSøkerdataFetchError(response);
         }
@@ -58,14 +67,26 @@ class AppEssentialsLoader extends React.Component<Props, State> {
         this.stopLoading();
     }
 
-    handleSøkerdataFetchSuccess(søkerResponse: AxiosResponse, barnResponse?: AxiosResponse) {
+    handleSøkerdataFetchSuccess(mellomlagringResponse:  AxiosResponse, søkerResponse: AxiosResponse, barnResponse?: AxiosResponse) {
+        const mellomlagring: MellomlagringData | undefined = mellomlagringResponse?.data;
+
+        let formData;
+        if ( mellomlagring && mellomlagring.formData) {
+            formData = { ... mellomlagring.formData }
+        }
+        let lastStepID;
+        if (mellomlagring && mellomlagring.metadata) {
+            lastStepID = mellomlagring.metadata.lastStepID
+        }
         this.updateSøkerdata(
+            formData || {...initialValues},
             {
                 person: søkerResponse.data,
                 barn: barnResponse ? barnResponse.data.barn : undefined,
                 setArbeidsgivere: this.updateArbeidsgivere,
                 arbeidsgivere: []
             },
+            lastStepID,
             () => {
                 this.stopLoading();
                 if (userIsCurrentlyOnErrorPage()) {
@@ -75,10 +96,13 @@ class AppEssentialsLoader extends React.Component<Props, State> {
         );
     }
 
-    updateSøkerdata(søkerdata: Søkerdata, callback?: () => void) {
+
+    updateSøkerdata(formdata: PleiepengesøknadFormData, søkerdata: Søkerdata, lastStepID?: StepID, callback?: () => void) {
         this.setState(
             {
                 isLoading: false,
+                lastStepID: lastStepID ? lastStepID: this.state.lastStepID,
+                formdata: formdata ? formdata : this.state.formdata,
                 søkerdata: søkerdata ? søkerdata : this.state.søkerdata
             },
             callback
@@ -117,16 +141,14 @@ class AppEssentialsLoader extends React.Component<Props, State> {
 
     render() {
         const { contentLoadedRenderer } = this.props;
-        const { isLoading, søkerdata } = this.state;
-
+        const { isLoading, lastStepID, formdata, søkerdata } = this.state;
         if (isLoading) {
             return <LoadingPage />;
         }
-
         return (
             <>
                 <SøkerdataContextProvider value={søkerdata}>
-                    {contentLoadedRenderer(søkerdata)}
+                    {contentLoadedRenderer(formdata, lastStepID, søkerdata)}
                 </SøkerdataContextProvider>
             </>
         );

@@ -3,7 +3,7 @@ import { PleiepengesøknadFormikProps } from '../../types/PleiepengesøknadFormi
 import OpplysningerOmBarnetStep from '../steps/opplysninger-om-barnet/OpplysningerOmBarnetStep';
 import { StepID } from '../../config/stepConfig';
 import { getSøknadRoute, isAvailable, getNextStepRoute } from '../../utils/routeUtils';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
 import RouteConfig from '../../config/routeConfig';
 import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromStep';
@@ -19,8 +19,10 @@ import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData
 import BeredskapStep from '../steps/beredskapStep/BeredskapStep';
 import { SøkerdataContextConsumer } from 'app/context/SøkerdataContext';
 import { getAktiveArbeidsforholdIPerioden } from 'app/utils/arbeidsforholdUtils';
+import { redirectTo } from '../../utils/navigationUtils';
 
 interface PleiepengesøknadContentProps {
+    lastStepID: StepID;
     formikProps: PleiepengesøknadFormikProps;
 }
 
@@ -29,11 +31,19 @@ export interface CommonStepFormikProps {
     handleSubmit: () => void;
 }
 
-const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContentProps> = ({ formikProps }) => {
+const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContentProps> = ({lastStepID, formikProps }) => {
+    const location = useLocation();
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
     const [antallArbeidsforhold, setAntallArbeidsforhold] = React.useState<number>(0);
     const { handleSubmit, values, isSubmitting, isValid, resetForm } = formikProps;
     const commonFormikProps: CommonStepFormikProps = { handleSubmit, formValues: formikProps.values };
+
+    if (location.pathname === RouteConfig.WELCOMING_PAGE_ROUTE) {
+        const nextStepRoute = getNextStepRoute(lastStepID, values);
+        if (nextStepRoute) {
+            redirectTo(nextStepRoute);
+        }
+    }
     return (
         <Switch>
             <Route

@@ -42,6 +42,17 @@
     "fileUploadErrors.part1": "Det har dessverre skjedd ein feil under opplastinga av dei følgjande vedlegga:",
     "formikValidationErrorSummary.tittel": "Du må rette opp i dei følgjande feila:",
 
+    "avbrytSøknadDialog.avbrytSøknadLabel": "Ja, avbryt søknaden",
+    "avbrytSøknadDialog.fortsettSøknadLabel": "Nei",
+    "avbrytSøknadDialog.intro": "Det du har fylt ut i søknaden, blir sletta, og du kjem tilbake til velkomstsida.",
+    "avbrytSøknadDialog.spørsmål": "Ønskjer du å slette søknaden?",
+    "avbrytSøknadDialog.tittel": "Avbryt søknaden",
+    "fortsettSøknadSenereDialog.avbrytSøknadLabel": "Ja, fortsett senere",
+    "fortsettSøknadSenereDialog.fortsettSøknadLabel": "Nei",
+    "fortsettSøknadSenereDialog.intro": "Vi lagrer søknaden din for deg i 24 timer.",
+    "fortsettSøknadSenereDialog.spørsmål": "Vil du avslutte nå og fortsette senere?",
+    "fortsettSøknadSenereDialog.tittel": "Avslutt og fortsett senere",
+
     "step.nextButtonLabel": "Fortset",
     "step.nextButtonAriaLabel": "Gå til neste steg",
     "step.sendButtonLabel": "Send inn søknaden",
@@ -139,6 +150,8 @@
     "modal.minePlikter.part2a": "Eg har lese og forstått det som står på",
     "modal.minePlikter.part2b": "nav.no/rettogplikt",
 
+    "steg.footer.avbryt": "Avbryt og slett søknad",
+    "steg.footer.fortsettSenere": "Avslutt og fortsett senere",
     "steg.omBarnet.hvilketBarn.spm": "Kva barn gjeld søknaden?",
     "steg.omBarnet.hvilketBarn.født": "Født {dato}",
     "steg.omBarnet.gjelderAnnetBarn": "Søknaden gjeld eit anna barn",
