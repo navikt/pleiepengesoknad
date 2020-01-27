@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { hasValue } from 'common/validation/hasValue';
+import { prettifyDateExtended } from 'common/utils/dateUtils';
 
 const dateIsWithinRange = (date: Date, minDate: Date, maxDate: Date) => {
     return moment(date).isBetween(minDate, maxDate, 'day', '[]');
@@ -13,7 +14,11 @@ const validateDateInRange = (date: Date | undefined, minDate: Date, maxDate: Dat
     }
     if (!dateIsWithinRange(date, minDate, maxDate)) {
         return {
-            key: 'utenlandsopphold.form.validation.dateOutsideRange'
+            key: 'utenlandsopphold.form.validation.dateOutsideRange',
+            values: {
+                fom: prettifyDateExtended(minDate),
+                tom: prettifyDateExtended(maxDate)
+            }
         };
     }
     return undefined;

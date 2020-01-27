@@ -2,7 +2,7 @@
     "utenlandsopphold.list.add": "+ Legg til opphold",
     "utenlandsopphold.form.tittel": "Utenlandsopphold",
     "utenlandsopphold.form.validation.required": "Feltet er påkrevd",
-    "utenlandsopphold.form.validation.dateOutsideRange": "Datoen er utenfor gyldig tidsrom",
+    "utenlandsopphold.form.validation.dateOutsideRange": "Første gyldige dato er {fom}, og siste gyldige dato er {tom}",
     "utenlandsopphold.form.validation.fromDateAfterToDate": "Fra-dato må være lik eller før til-dato",
     "utenlandsopphold.form.validation.toDateBeforeFromDate": "Til-dato må være lik eller etter fra-dato",
     "utenlandsopphold.form.validation.country.required": "Feltet er påkrevd",
