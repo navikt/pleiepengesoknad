@@ -6,9 +6,10 @@ import { validateUtenlandsoppholdIPerioden } from 'app/validation/fieldValidatio
 import { isValidationErrorsVisible } from 'common/formik/formikUtils';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import ModalFormAndList, { ModalFormAndListLabels } from 'common/components/modal-form-and-list/ModalFormAndList';
-import UtenlandsoppholdListe from 'common/forms/utenlandsopphold/UtenlandsoppholdListe';
-import UtenlandsoppholdForm from 'common/forms/utenlandsopphold/UtenlandsoppholdForm';
 import { DateRange } from 'common/utils/dateUtils';
+import { BostedUtland } from 'common/forms/bosted-utland/types';
+import BostedUtlandListe from 'common/forms/bosted-utland/BostedUtlandListe';
+import BostedUtlandForm from 'common/forms/bosted-utland/BostedUtlandForm';
 
 interface Props<T> {
     periode: DateRange;
@@ -32,7 +33,7 @@ function BostedsoppholdIUtlandetFormPart<T>({ periode, name, labels }: Props<T>)
                     : {};
                 return (
                     <>
-                        <ModalFormAndList<Utenlandsopphold>
+                        <ModalFormAndList<BostedUtland>
                             items={field.value}
                             error={errorMsgProps?.feil}
                             onChange={(oppholdsliste) => {
@@ -40,19 +41,15 @@ function BostedsoppholdIUtlandetFormPart<T>({ periode, name, labels }: Props<T>)
                             }}
                             labels={labels}
                             listRenderer={(onEdit, onDelete) => (
-                                <UtenlandsoppholdListe
-                                    utenlandsopphold={field.value}
-                                    onDelete={onDelete}
-                                    onEdit={onEdit}
-                                />
+                                <BostedUtlandListe bosteder={field.value} onDelete={onDelete} onEdit={onEdit} />
                             )}
-                            formRenderer={(onSubmit, onCancel, opphold) => (
-                                <UtenlandsoppholdForm
-                                    opphold={opphold}
+                            formRenderer={(onSubmit, onCancel, bosteder) => (
+                                <BostedUtlandForm
+                                    bosteder={bosteder}
                                     onCancel={onCancel}
                                     onSubmit={onSubmit}
                                     minDato={periode.from}
-                                    maxDato={periode.to}
+                                    maksDato={periode.to}
                                     {...errorMsgProps}
                                 />
                             )}

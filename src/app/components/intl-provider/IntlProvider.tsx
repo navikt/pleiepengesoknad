@@ -13,9 +13,11 @@ const appNynorsktekster = require('../../i18n/nn.json');
 // Modultekster
 const utenlandsoppholdBokmål = require('../../../common/forms/utenlandsopphold/utenlandsopphold.nb.json');
 const utenlandsoppholdNynorsk = require('../../../common/forms/utenlandsopphold/utenlandsopphold.nn.json');
+const bostedUtlandBokmål = require('../../../common/forms/bosted-utland/bostedUtland.nb.json');
+const bostedUtlandNynorsk = require('../../../common/forms/bosted-utland/bostedUtland.nn.json');
 
-const bokmålstekster = { ...appBokmålstekster, ...utenlandsoppholdBokmål };
-const nynorsktekster = { ...appNynorsktekster, ...utenlandsoppholdNynorsk };
+const bokmålstekster = { ...appBokmålstekster, ...utenlandsoppholdBokmål, ...bostedUtlandBokmål };
+const nynorsktekster = { ...appNynorsktekster, ...utenlandsoppholdNynorsk, ...bostedUtlandNynorsk };
 
 export interface IntlProviderProps {
     locale: Locale;

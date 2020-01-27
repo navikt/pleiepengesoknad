@@ -9,7 +9,7 @@ import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import ModalFormAndList from 'common/components/modal-form-and-list/ModalFormAndList';
 import UtenlandsoppholdListe from 'common/forms/utenlandsopphold/UtenlandsoppholdListe';
 import UtenlandsoppholdForm from 'common/forms/utenlandsopphold/UtenlandsoppholdForm';
-import { date1YearAgo, date1YearFromNow, DateRange } from 'common/utils/dateUtils';
+import { DateRange } from 'common/utils/dateUtils';
 
 interface Props {
     periode: DateRange;
@@ -54,9 +54,8 @@ function UtenlandsoppholdIPeriodenFormPart({ periode }: Props) {
                                     opphold={opphold}
                                     onCancel={onCancel}
                                     onSubmit={onSubmit}
-                                    minDato={date1YearAgo}
-                                    maxDato={date1YearFromNow}
-                                    inkluderInnlagtBarn={true}
+                                    minDato={periode.from}
+                                    maksDato={periode.to}
                                     {...errorMsgProps}
                                 />
                             )}

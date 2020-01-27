@@ -10,8 +10,8 @@ import {
     ArbeidsforholdApiNei,
     ArbeidsforholdApiRedusert,
     ArbeidsforholdApiVetIkke,
-    UtenlandsoppholdApiData,
-    UtenlandsoppholdUtenforEØSApiData
+    BostedUtlandApiData,
+    UtenlandsoppholdUtenforEøsIPeriodenApiData
 } from '../../types/PleiepengesøknadApiData';
 import * as dateUtils from 'common/utils/dateUtils';
 import * as attachmentUtils from 'common/utils/attachmentUtils';
@@ -33,8 +33,9 @@ const todaysDate = moment()
     .startOf('day')
     .toDate();
 
+const barnsFødselsdato = new Date(2020, 0, 20);
 const barnMock: BarnReceivedFromApi[] = [
-    { fodselsdato: todaysDate, fornavn: 'Mock', etternavn: 'Mocknes', aktoer_id: '123' }
+    { fodselsdato: barnsFødselsdato, fornavn: 'Mock', etternavn: 'Mocknes', aktoer_id: '123' }
 ];
 
 const organisasjonTelenor: Arbeidsgiver = {
@@ -416,13 +417,14 @@ describe('mapFormDataToApiData', () => {
     it('should use correct format for a complete mapped application', () => {
         const mappedData = mapFormDataToApiData(completeFormDataMock, barnMock, 'nb');
 
-        const utenlandsoppholdISverige: UtenlandsoppholdApiData = {
+        const utenlandsoppholdISverige: BostedUtlandApiData = {
             landnavn: 'Sverige',
             landkode: 'SE',
             fra_og_med: '2020-01-05',
             til_og_med: '2020-01-07'
         };
-        const utenlandsoppholdIUSA: UtenlandsoppholdUtenforEØSApiData = {
+
+        const utenlandsoppholdIUSA: UtenlandsoppholdUtenforEøsIPeriodenApiData = {
             landnavn: 'USA',
             landkode: 'US',
             fra_og_med: '2020-01-08',
@@ -431,6 +433,7 @@ describe('mapFormDataToApiData', () => {
             er_barnet_innlagt: true,
             arsak: UtenlandsoppholdÅrsak.ANNET
         };
+
         const resultApiData: PleiepengesøknadApiData = {
             new_version: true,
             sprak: 'nb',
@@ -438,7 +441,7 @@ describe('mapFormDataToApiData', () => {
                 navn: 'Mock Mocknes',
                 fodselsnummer: null,
                 aktoer_id: barnMock[0].aktoer_id,
-                fodselsdato: '2020-00-24'
+                fodselsdato: '2020-00-20'
             },
             relasjon_til_barnet: null,
             arbeidsgivere: {

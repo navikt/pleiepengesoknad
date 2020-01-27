@@ -5,7 +5,6 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import bemUtils from 'common/utils/bemUtils';
 import { Systemtittel } from 'nav-frontend-typografi';
 import Box from 'common/components/box/Box';
-import validation from './utenlandsoppholdFormValidation';
 import { Utenlandsopphold, UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
 import { hasValue } from 'common/validation/hasValue';
 import FormikDateIntervalPicker from 'common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
@@ -15,13 +14,14 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import FormikYesOrNoQuestion from 'common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
 import intlHelper from 'common/utils/intlUtils';
-
-import './utenlandsoppholdForm.less';
 import {
     validateRequiredField,
     validateYesOrNoIsAnswered,
     validateRequiredSelect
 } from 'app/validation/fieldValidations';
+import dateRangeValidation from 'common/validation/dateRangeValidation';
+
+import './utenlandsoppholdForm.less';
 
 export interface UtenlandsoppholdFormLabels {
     tittel: string;
@@ -29,9 +29,8 @@ export interface UtenlandsoppholdFormLabels {
 
 interface Props {
     minDato: Date;
-    maxDato: Date;
+    maksDato: Date;
     opphold?: Utenlandsopphold;
-    inkluderInnlagtBarn?: boolean;
     onSubmit: (values: Utenlandsopphold) => void;
     onCancel: () => void;
 }
@@ -63,9 +62,8 @@ const defaultFormValues: Partial<UtenlandsoppholdFormData> = {
 };
 
 const UtenlandsoppholdForm: React.FunctionComponent<Props> = ({
-    maxDato: maxDate,
-    minDato: minDate,
-    inkluderInnlagtBarn: reasonNeeded,
+    maksDato,
+    minDato,
     opphold: initialValues = defaultFormValues,
     onSubmit,
     onCancel
@@ -98,7 +96,6 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props> = ({
         <Formik initialValues={initialValues} onSubmit={onFormikSubmit} validateOnMount={true} validateOnChange={true}>
             {({ handleSubmit, values, isValid }) => {
                 const showInnlagtQuestion: boolean =
-                    reasonNeeded === true &&
                     values.landkode !== undefined &&
                     hasValue(values.landkode) &&
                     !countryIsMemberOfEøsOrEfta(values.landkode);
@@ -121,22 +118,22 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props> = ({
                                         label: intlHelper(intl, 'utenlandsopphold.form.tidsperiode.fraDato'),
                                         fullscreenOverlay: true,
                                         dateLimitations: {
-                                            minDato: minDate,
-                                            maksDato: values.tom || maxDate
+                                            minDato,
+                                            maksDato: values.tom || maksDato
                                         },
                                         validate: (date: Date) =>
-                                            validation.validateFromDate(date, minDate, maxDate, values.tom)
+                                            dateRangeValidation.validateFromDate(date, minDato, maksDato, values.tom)
                                     }}
                                     toDatepickerProps={{
                                         name: UtenlandsoppholdFormFields.tom,
                                         label: intlHelper(intl, 'utenlandsopphold.form.tidsperiode.tilDato'),
                                         fullscreenOverlay: true,
                                         dateLimitations: {
-                                            minDato: values.fom || minDate,
-                                            maksDato: maxDate
+                                            minDato: values.fom || minDato,
+                                            maksDato
                                         },
                                         validate: (date: Date) =>
-                                            validation.validateToDate(date, minDate, maxDate, values.fom)
+                                            dateRangeValidation.validateToDate(date, minDato, maksDato, values.fom)
                                     }}
                                 />
                             </Box>

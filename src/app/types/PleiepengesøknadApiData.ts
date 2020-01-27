@@ -78,28 +78,33 @@ export interface TilsynsordningApiVetIkke extends TilsynsordningApiBase {
 interface Medlemskap {
     har_bodd_i_utlandet_siste_12_mnd: boolean;
     skal_bo_i_utlandet_neste_12_mnd: boolean;
-    utenlandsopphold_neste_12_mnd: UtenlandsoppholdApiData[];
-    utenlandsopphold_siste_12_mnd: UtenlandsoppholdApiData[];
+    utenlandsopphold_neste_12_mnd: BostedUtlandApiData[];
+    utenlandsopphold_siste_12_mnd: BostedUtlandApiData[];
 }
 
-export interface UtenlandsoppholdApiData {
+export interface BostedUtlandApiData {
     fra_og_med: ApiStringDate;
     til_og_med: ApiStringDate;
     landkode: string;
     landnavn: string;
 }
 
-export interface UtenlandsoppholdUtenforEØSApiData extends UtenlandsoppholdApiData {
+export interface UtenlandsoppholdIPeriodenApiData {
+    fra_og_med: ApiStringDate;
+    til_og_med: ApiStringDate;
+    landkode: string;
+    landnavn: string;
+}
+
+export interface UtenlandsoppholdUtenforEøsIPeriodenApiData extends UtenlandsoppholdIPeriodenApiData {
     er_barnet_innlagt: boolean;
     er_utenfor_eos: boolean;
     arsak: UtenlandsoppholdÅrsak | null;
 }
 
-export type UtenlandsoppholdIPeriodenApiData = UtenlandsoppholdApiData | UtenlandsoppholdUtenforEØSApiData;
-
 export function isUtenlandsoppholdUtenforEØSApiData(
     opphold: UtenlandsoppholdIPeriodenApiData
-): opphold is UtenlandsoppholdUtenforEØSApiData {
+): opphold is UtenlandsoppholdUtenforEøsIPeriodenApiData {
     return Object.keys(opphold).includes('er_barnet_innlagt');
 }
 

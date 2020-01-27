@@ -1,5 +1,4 @@
 import moment from 'moment';
-import { hasValue } from 'common/validation/hasValue';
 import { prettifyDateExtended } from 'common/utils/dateUtils';
 
 const dateIsWithinRange = (date: Date, minDate: Date, maxDate: Date) => {
@@ -50,37 +49,9 @@ const validateToDate = (date: Date | undefined, minDate: Date, maxDate: Date, fr
     return undefined;
 };
 
-const validateCountry = (country: string) => {
-    if (country) {
-        return undefined;
-    }
-    return {
-        key: 'utenlandsopphold.form.validation.required'
-    };
-};
-
-const validateReason = (reason: string) => {
-    if (!hasValue(reason)) {
-        return {
-            key: 'utenlandsopphold.form.validation.required'
-        };
-    } else if (reason.length > 250) {
-        return {
-            key: 'utenlandsopphold.form.validation.reasonOver250'
-        };
-    } else if (reason.length < 5) {
-        return {
-            key: 'utenlandsopphold.form.validation.reasonUnder5'
-        };
-    }
-    return undefined;
-};
-
-const utenlandsoppholdFormValidation = {
-    validateCountry,
-    validateFromDate,
+const dateRangeValidation = {
     validateToDate,
-    validateReason
+    validateFromDate
 };
 
-export default utenlandsoppholdFormValidation;
+export default dateRangeValidation;

@@ -2,7 +2,7 @@ import React from 'react';
 import { prettifyDateExtended, apiStringDateToDate } from 'common/utils/dateUtils';
 import bemUtils from 'common/utils/bemUtils';
 import {
-    UtenlandsoppholdApiData,
+    BostedUtlandApiData,
     UtenlandsoppholdIPeriodenApiData,
     isUtenlandsoppholdUtenforEØSApiData,
     FerieuttakIPeriodeApiData
@@ -22,7 +22,7 @@ export const renderFerieuttakIPeriodenSummary = (ferieuttak: FerieuttakIPeriodeA
     </div>
 );
 
-export const renderUtenlandsoppholdSummary = (opphold: UtenlandsoppholdApiData): React.ReactNode => (
+export const renderUtenlandsoppholdSummary = (opphold: BostedUtlandApiData): React.ReactNode => (
     <div className={bem.block}>
         <span className={bem.element('dates')}>
             {prettifyDateExtended(apiStringDateToDate(opphold.fra_og_med))} -{' '}

@@ -1,0 +1,17 @@
+{
+    "bostedUtland.list.add": "+ Legg til opphold",
+    "bostedUtland.form.tittel": "Utenlandsopphold",
+    "bostedUtland.form.validation.required": "Feltet er påkrevd",
+    "bostedUtland.form.validation.dateOutsideRange": "Første gyldige dato er {fom}, og siste gyldige dato er {tom}",
+    "bostedUtland.form.validation.fromDateAfterToDate": "Fra-dato må være lik eller før til-dato",
+    "bostedUtland.form.validation.toDateBeforeFromDate": "Til-dato må være lik eller etter fra-dato",
+    "bostedUtland.form.validation.country.required": "Feltet er påkrevd",
+    "bostedUtland.form.validation.reasonOver250": "Feltet kan inneholde maks 250 tegn",
+    "bostedUtland.form.validation.reasonUnder5": "Feltet må inneholde minst 5 tegn",
+    "bostedUtland.form.tidsperiode.spm": "Tidsperiode",
+    "bostedUtland.form.tidsperiode.fraDato": "Fra og med",
+    "bostedUtland.form.tidsperiode.tilDato": "Til og med",
+    "bostedUtland.form.land.spm": "Velg land",
+    "bostedUtland.form.ok": "Legg til",
+    "bostedUtland.form.avbryt": "Avbryt"
+}

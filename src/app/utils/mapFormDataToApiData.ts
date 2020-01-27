@@ -15,8 +15,8 @@ import {
     ArbeidsforholdApiRedusert,
     ArbeidsforholdApiSomVanlig,
     ArbeidsforholdApiVetIkke,
-    UtenlandsoppholdApiData,
-    UtenlandsoppholdUtenforEØSApiData
+    BostedUtlandApiData,
+    UtenlandsoppholdUtenforEøsIPeriodenApiData
 } from '../types/PleiepengesøknadApiData';
 import { attachmentUploadHasFailed } from 'common/utils/attachmentUtils';
 import { YesOrNo } from 'common/types/YesOrNo';
@@ -98,7 +98,7 @@ export const mapFormDataToApiData = (
                     ? utenlandsoppholdIPerioden.map((o) => {
                           const erUtenforEØS: boolean = countryIsMemberOfEøsOrEfta(o.landkode) === false;
                           if (erUtenforEØS && o.årsak) {
-                              const periodeopphold: UtenlandsoppholdUtenforEØSApiData = {
+                              const periodeopphold: UtenlandsoppholdUtenforEøsIPeriodenApiData = {
                                   ...mapUtenlandsoppholdTilApiData(o, sprak),
                                   er_utenfor_eos: erUtenforEØS,
                                   er_barnet_innlagt: o.erBarnetInnlagt === YesOrNo.YES,
@@ -277,7 +277,7 @@ export const mapTilsynsordningToApiData = (tilsynsordning: Tilsynsordning): Tils
     return undefined;
 };
 
-const mapUtenlandsoppholdTilApiData = (opphold: Utenlandsopphold, locale: string): UtenlandsoppholdApiData => ({
+const mapUtenlandsoppholdTilApiData = (opphold: Utenlandsopphold, locale: string): BostedUtlandApiData => ({
     landnavn: getCountryName(opphold.landkode, locale),
     landkode: opphold.landkode,
     fra_og_med: formatDateToApiFormat(opphold.fom),
