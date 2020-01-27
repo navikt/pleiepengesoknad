@@ -17,6 +17,7 @@ import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
 import HelperTextPanel from 'common/components/helper-text-panel/HelperTextPanel';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
+import PictureScanningGuide from '../../../../common/components/picture-scanning-guide/PictureScanningGuide';
 
 type Props = { formikProps: PleiepengesøknadFormikProps } & CommonStepFormikProps & HistoryProps & StepConfigProps;
 
@@ -54,7 +55,7 @@ const LegeerklæringStep = ({ history, nextStepRoute, formikProps, ...stepProps 
                         </CounsellorPanel>
                     </Box>
                     <HelperTextPanel>
-                        <FormattedHTMLMessage tagName="div" id="steg.lege.info.html" />
+                        <PictureScanningGuide/>
                     </HelperTextPanel>
                     <Box margin="l">
                         <FormikFileUploader

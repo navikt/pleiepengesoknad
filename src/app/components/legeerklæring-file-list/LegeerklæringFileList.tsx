@@ -6,11 +6,12 @@ import { ConnectedFormikProps } from '../../../common/types/ConnectedFormikProps
 import { deleteFile } from '../../api/api';
 import { containsAnyUploadedAttachments, fileExtensionIsValid } from 'common/utils/attachmentUtils';
 import Box from 'common/components/box/Box';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { Normaltekst, Element } from 'nav-frontend-typografi';
 import AttachmentListWithDeletion from 'common/components/attachment-list-with-deletion/AttachmentListWithDeletion';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 import { Attachment } from 'common/types/Attachment';
 import AttachmentList from 'common/components/attachment-list/AttachmentList';
+import { Panel } from 'nav-frontend-paneler';
 
 interface LegeerklæringAttachmentListProps {
     includeDeletionFunctionality: boolean;
@@ -18,6 +19,14 @@ interface LegeerklæringAttachmentListProps {
 }
 
 type Props = LegeerklæringAttachmentListProps & ConnectedFormikProps<AppFormField>;
+
+const InfoText = () => (
+    <Panel>
+        <Element>
+            <FormattedHTMLMessage id="vedleggsliste.legeerklæringLastetOppSjekkliste" />
+        </Element>
+    </Panel>
+);
 
 const LegeerklæringAttachmentList: React.FunctionComponent<Props> = ({
     formik: { values, setFieldValue },
@@ -42,30 +51,42 @@ const LegeerklæringAttachmentList: React.FunctionComponent<Props> = ({
 
     if (includeDeletionFunctionality) {
         return (
-            <AttachmentListWithDeletion
-                attachments={legeerklæring}
-                onRemoveAttachmentClick={(attachment: Attachment) => {
-                    attachment.pending = true;
-                    setFieldValue(AppFormField.legeerklæring, legeerklæring);
-                    deleteFile(attachment.url!).then(
-                        () => {
-                            setFieldValue(
-                                AppFormField.legeerklæring,
-                                removeElementFromArray(attachment, legeerklæring)
-                            );
-                        },
-                        () => {
-                            setFieldValue(
-                                AppFormField.legeerklæring,
-                                removeElementFromArray(attachment, legeerklæring)
-                            );
-                        }
-                    );
-                }}
-            />
+            <>
+                <AttachmentListWithDeletion
+                    attachments={legeerklæring}
+                    onRemoveAttachmentClick={(attachment: Attachment) => {
+                        attachment.pending = true;
+                        setFieldValue(AppFormField.legeerklæring, legeerklæring);
+                        deleteFile(attachment.url!).then(
+                            () => {
+                                setFieldValue(
+                                    AppFormField.legeerklæring,
+                                    removeElementFromArray(attachment, legeerklæring)
+                                );
+                            },
+                            () => {
+                                setFieldValue(
+                                    AppFormField.legeerklæring,
+                                    removeElementFromArray(attachment, legeerklæring)
+                                );
+                            }
+                        );
+                    }}
+                />
+                <Box margin="m" padBottom="l">
+                    <InfoText />
+                </Box>
+            </>
         );
     } else {
-        return <AttachmentList attachments={legeerklæring} />;
+        return (
+            <>
+                <AttachmentList attachments={legeerklæring} />
+                <Box margin="m" padBottom="l">
+                    <InfoText />
+                </Box>
+            </>
+        );
     }
 };
 
