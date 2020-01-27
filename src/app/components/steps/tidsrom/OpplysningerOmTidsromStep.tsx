@@ -108,7 +108,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                         />
                     </Box>
                     {formikProps.values.skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES && (
-                        <Box margin="m">
+                        <Box margin="m" padBottom="l">
                             <UtenlandsoppholdIPeriodenFormPart periode={periode} />
                         </Box>
                     )}
@@ -125,7 +125,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                         />
                     </Box>
                     {formikProps.values.skalTaUtFerieIPerioden === YesOrNo.YES && (
-                        <Box margin="l">
+                        <Box margin="m" padBottom="l">
                             <FerieuttakIPeriodenFormPart periode={periode} />
                         </Box>
                     )}
