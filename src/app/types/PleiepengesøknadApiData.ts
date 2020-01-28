@@ -123,11 +123,11 @@ export interface PleiepengesøknadApiData {
     arbeidsgivere: { organisasjoner: ArbeidsforholdApi[] };
     vedlegg: string[];
     medlemskap: Medlemskap;
-    utenlandsopphold_i_perioden: {
+    utenlandsopphold_i_perioden?: {
         skal_oppholde_seg_i_i_utlandet_i_perioden: boolean;
         opphold: UtenlandsoppholdIPeriodenApiData[];
     };
-    ferieuttak_i_perioden: {
+    ferieuttak_i_perioden?: {
         skal_ta_ut_ferie_i_periode: boolean;
         ferieuttak: FerieuttakIPeriodeApiData[];
     };

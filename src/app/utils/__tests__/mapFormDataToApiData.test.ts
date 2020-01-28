@@ -316,6 +316,7 @@ describe('mapFormDataToApiData', () => {
         };
         expect(organisasjoner).toEqual([result]);
     });
+
     it('should include correct arbeidsforhold when skalJobbe is vet_ikke', () => {
         const {
             arbeidsgivere: { organisasjoner }
@@ -357,7 +358,7 @@ describe('mapFormDataToApiData', () => {
             barnMock,
             'nb'
         );
-        expect(utenlandsopphold_i_perioden.opphold.length).toBe(0);
+        expect(utenlandsopphold_i_perioden!.opphold.length).toBe(0);
     });
 
     it('should include utenlandsoppholdIPerioden if skalOppholdeSegIUtlandet is YES', () => {
@@ -376,7 +377,8 @@ describe('mapFormDataToApiData', () => {
             barnMock,
             'nb'
         );
-        expect(utenlandsopphold_i_perioden.opphold.length).toBe(1);
+        expect(utenlandsopphold_i_perioden).toBeDefined();
+        expect(utenlandsopphold_i_perioden!.opphold.length).toBe(1);
     });
 
     it('should not include ferieuttakIPerioden if skalTaUtFerieIPerioden is NO', () => {
@@ -394,7 +396,8 @@ describe('mapFormDataToApiData', () => {
             barnMock,
             'nb'
         );
-        expect(ferieuttak_i_perioden.ferieuttak.length).toBe(0);
+        expect(ferieuttak_i_perioden).toBeDefined();
+        expect(ferieuttak_i_perioden!.ferieuttak.length).toBe(0);
     });
     it('should include ferieuttakIPerioden if skalTaUtFerieIPerioden is YES', () => {
         const { ferieuttak_i_perioden } = mapFormDataToApiData(
@@ -411,7 +414,7 @@ describe('mapFormDataToApiData', () => {
             barnMock,
             'nb'
         );
-        expect(ferieuttak_i_perioden.ferieuttak.length).toBe(1);
+        expect(ferieuttak_i_perioden!.ferieuttak.length).toBe(1);
     });
 
     it('should use correct format for a complete mapped application', () => {
@@ -469,6 +472,12 @@ describe('mapFormDataToApiData', () => {
                     }
                 ]
             },
+            fra_og_med: '2020-01-01',
+            til_og_med: '2020-02-01',
+            vedlegg: ['nav.no/1'],
+            har_medsoker: true,
+            har_bekreftet_opplysninger: true,
+            har_forstatt_rettigheter_og_plikter: true,
             utenlandsopphold_i_perioden: {
                 skal_oppholde_seg_i_i_utlandet_i_perioden: true,
                 opphold: [utenlandsoppholdISverige, utenlandsoppholdIUSA]
@@ -482,12 +491,7 @@ describe('mapFormDataToApiData', () => {
                     }
                 ]
             },
-            fra_og_med: '2020-01-01',
-            til_og_med: '2020-02-01',
-            vedlegg: ['nav.no/1'],
-            har_medsoker: true,
-            har_bekreftet_opplysninger: true,
-            har_forstatt_rettigheter_og_plikter: true,
+
             samtidig_hjemme: true,
             tilsynsordning: {
                 svar: 'ja',

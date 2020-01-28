@@ -91,7 +91,14 @@ class SummaryStep extends React.Component<Props, State> {
                     const apiValues = mapFormDataToApiData(formValues, barn, intl.locale as Locale);
                     const apiValuesValidationErrors = validateApiValues(apiValues, intl);
 
-                    const { medlemskap, tilsynsordning, nattevaak, beredskap } = apiValues;
+                    const {
+                        medlemskap,
+                        tilsynsordning,
+                        nattevaak,
+                        beredskap,
+                        utenlandsopphold_i_perioden,
+                        ferieuttak_i_perioden
+                    } = apiValues;
 
                     return (
                         <FormikStep
@@ -243,7 +250,7 @@ class SummaryStep extends React.Component<Props, State> {
                                     )}
 
                                     {/* Utenlandsopphold i perioden */}
-                                    {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD) && (
+                                    {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD) && utenlandsopphold_i_perioden && (
                                         <>
                                             <Box margin="l">
                                                 <ContentWithHeader
@@ -253,15 +260,14 @@ class SummaryStep extends React.Component<Props, State> {
                                                     )}>
                                                     <FormattedMessage
                                                         id={
-                                                            apiValues.utenlandsopphold_i_perioden
-                                                                .skal_oppholde_seg_i_i_utlandet_i_perioden
+                                                            utenlandsopphold_i_perioden.skal_oppholde_seg_i_i_utlandet_i_perioden
                                                                 ? 'Ja'
                                                                 : 'Nei'
                                                         }
                                                     />
                                                 </ContentWithHeader>
                                             </Box>
-                                            {apiValues.utenlandsopphold_i_perioden.opphold.length > 0 && (
+                                            {utenlandsopphold_i_perioden.opphold.length > 0 && (
                                                 <Box margin="l">
                                                     <ContentWithHeader
                                                         header={intlHelper(
@@ -269,7 +275,7 @@ class SummaryStep extends React.Component<Props, State> {
                                                             'steg.oppsummering.utenlandsoppholdIPerioden.listetittel'
                                                         )}>
                                                         <SummaryList
-                                                            items={apiValues.utenlandsopphold_i_perioden.opphold}
+                                                            items={utenlandsopphold_i_perioden.opphold}
                                                             itemRenderer={renderUtenlandsoppholdIPeriodenSummary}
                                                         />
                                                     </ContentWithHeader>
@@ -278,7 +284,7 @@ class SummaryStep extends React.Component<Props, State> {
                                         </>
                                     )}
                                     {/* Ferieuttak i perioden */}
-                                    {isFeatureEnabled(Feature.TOGGLE_FERIEUTTAK) && (
+                                    {isFeatureEnabled(Feature.TOGGLE_FERIEUTTAK) && ferieuttak_i_perioden && (
                                         <>
                                             <Box margin="l">
                                                 <ContentWithHeader
@@ -288,14 +294,14 @@ class SummaryStep extends React.Component<Props, State> {
                                                     )}>
                                                     <FormattedMessage
                                                         id={
-                                                            apiValues.ferieuttak_i_perioden.skal_ta_ut_ferie_i_periode
+                                                            ferieuttak_i_perioden.skal_ta_ut_ferie_i_periode
                                                                 ? 'Ja'
                                                                 : 'Nei'
                                                         }
                                                     />
                                                 </ContentWithHeader>
                                             </Box>
-                                            {apiValues.ferieuttak_i_perioden.ferieuttak.length > 0 && (
+                                            {ferieuttak_i_perioden.ferieuttak.length > 0 && (
                                                 <Box margin="l">
                                                     <ContentWithHeader
                                                         header={intlHelper(
@@ -303,7 +309,7 @@ class SummaryStep extends React.Component<Props, State> {
                                                             'steg.oppsummering.ferieuttakIPerioden.listetittel'
                                                         )}>
                                                         <SummaryList
-                                                            items={apiValues.ferieuttak_i_perioden.ferieuttak}
+                                                            items={ferieuttak_i_perioden.ferieuttak}
                                                             itemRenderer={renderFerieuttakIPeriodenSummary}
                                                         />
                                                     </ContentWithHeader>

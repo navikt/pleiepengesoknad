@@ -28,6 +28,7 @@ import { calcRedusertProsentFromRedusertTimer } from './arbeidsforholdUtils';
 import { getCountryName } from 'common/components/country-select/CountrySelect';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 import { countryIsMemberOfEøsOrEfta } from 'common/utils/countryUtils';
+import { isFeatureEnabled, Feature } from './featureToggleUtils';
 
 export const mapFormDataToApiData = (
     {
@@ -91,7 +92,16 @@ export const mapFormDataToApiData = (
                     ? utenlandsoppholdNeste12Mnd.map((o) => mapUtenlandsoppholdTilApiData(o, sprak))
                     : []
         },
-        utenlandsopphold_i_perioden: {
+        fra_og_med: formatDateToApiFormat(periodeFra!),
+        til_og_med: formatDateToApiFormat(periodeTil!),
+        vedlegg: legeerklæring.filter((attachment) => !attachmentUploadHasFailed(attachment)).map(({ url }) => url!),
+        har_medsoker: harMedsøker === YesOrNo.YES,
+        har_bekreftet_opplysninger: harBekreftetOpplysninger,
+        har_forstatt_rettigheter_og_plikter: harForståttRettigheterOgPlikter
+    };
+
+    if (isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD)) {
+        apiData.utenlandsopphold_i_perioden = {
             skal_oppholde_seg_i_i_utlandet_i_perioden: skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES,
             opphold:
                 skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES
@@ -110,8 +120,11 @@ export const mapFormDataToApiData = (
                           }
                       })
                     : []
-        },
-        ferieuttak_i_perioden: {
+        };
+    }
+
+    if (isFeatureEnabled(Feature.TOGGLE_FERIEUTTAK)) {
+        apiData.ferieuttak_i_perioden = {
             skal_ta_ut_ferie_i_periode: skalTaUtFerieIPerioden === YesOrNo.YES,
             ferieuttak:
                 skalTaUtFerieIPerioden === YesOrNo.YES
@@ -120,15 +133,8 @@ export const mapFormDataToApiData = (
                           til_og_med: formatDateToApiFormat(uttak.tom)
                       }))
                     : []
-        },
-        fra_og_med: formatDateToApiFormat(periodeFra!),
-        til_og_med: formatDateToApiFormat(periodeTil!),
-        vedlegg: legeerklæring.filter((attachment) => !attachmentUploadHasFailed(attachment)).map(({ url }) => url!),
-        har_medsoker: harMedsøker === YesOrNo.YES,
-        har_bekreftet_opplysninger: harBekreftetOpplysninger,
-        har_forstatt_rettigheter_og_plikter: harForståttRettigheterOgPlikter
-    };
-
+        };
+    }
     apiData.samtidig_hjemme = harMedsøker === YesOrNo.YES ? samtidigHjemme === YesOrNo.YES : undefined;
 
     if (tilsynsordning !== undefined) {
