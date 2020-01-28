@@ -79,14 +79,7 @@ const LegeerklæringAttachmentList: React.FunctionComponent<Props> = ({
             </>
         );
     } else {
-        return (
-            <>
-                <AttachmentList attachments={legeerklæring} />
-                <Box margin="m" padBottom="l">
-                    <InfoText />
-                </Box>
-            </>
-        );
+        return <AttachmentList attachments={legeerklæring} />;
     }
 };
 
