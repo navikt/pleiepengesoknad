@@ -72,7 +72,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
 
         let formData;
         if ( mellomlagring && mellomlagring.formData) {
-            formData = { ... mellomlagring.formData }
+            formData = { ... mellomlagring.formData };
         }
         let lastStepID;
         if (mellomlagring && mellomlagring.metadata) {

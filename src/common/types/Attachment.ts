@@ -1,3 +1,8 @@
+
+export interface PersistedFileRef {
+    name: string;
+}
+
 export interface Attachment {
     file: File;
     pending: boolean;
