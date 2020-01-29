@@ -65,6 +65,8 @@
     "step.tidsrom.pageTitle": "Pleiepengesøknad - periode",
     "step.tidsrom.stepTitle": "Periode",
     "step.tidsrom.stepIndicatorLabel": "Periode",
+    "step.tidsrom.infotekst": "For å ha rett til pleiepenger må du ha omsorgen for barnet i hele perioden du søker for.",
+    "steg.tidsrom.veileder.utenlandsopphold.html": "Du kan beholde pleiepengene mens du oppholder deg <strong>i et EØS land</strong>, så lenge du <ul><li>du reiser sammen med barnet du pleier</li><li>har rett på pleiepenger i perioden du er i utlandet</li></ul>Hvis du oppholder deg <strong>i et EØS land</strong>, kan du beholde pleiepengene i opptil 8 uker av en 12 måneder lang periode.",
     "steg.tidsrom.iUtlandetIPerioden.listeTittel": "Utenlandsopphold i perioden du søker for",
     "steg.tidsrom.iUtlandetIPerioden.eøs.årsak.hjelp": "Dette trenger vi fordi ...",
     "steg.tidsrom.iUtlandetIPerioden.spm": "Skal du reise til utlandet i perioden du søker for?",

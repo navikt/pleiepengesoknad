@@ -9,7 +9,7 @@ import { validateYesOrNoIsAnswered, validateFradato, validateTildato } from '../
 import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import Box from 'common/components/box/Box';
 import intlHelper from 'common/utils/intlUtils';
-import { useIntl } from 'react-intl';
+import { useIntl, FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
 import { persist } from 'app/api/api';
@@ -63,7 +63,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
             {...stepProps}>
             <Box padBottom="xxl">
                 <AlertStripeInfo>
-                    For å ha rett til pleiepenger må du ha omsorgen for barnet i hele perioden du søker for.
+                    <FormattedMessage id="step.tidsrom.infotekst" />
                 </AlertStripeInfo>
             </Box>
             <FormikDateIntervalPicker<AppFormField>
@@ -110,14 +110,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                 <>
                     <Box margin="xxl">
                         <CounsellorPanel>
-                            Du kan beholde pleiepengene mens du oppholder deg <strong>i et EØS land</strong>, så lenge
-                            du
-                            <ul>
-                                <li>du reiser sammen med barnet du pleier</li>
-                                <li>har rett på pleiepenger i perioden du er i utlandet</li>
-                            </ul>
-                            Hvis du oppholder deg <strong>i et EØS land</strong>, kan du beholde pleiepengene i opptil 8
-                            uker av en 12 måneder lang periode.
+                            <FormattedHTMLMessage id="steg.tidsrom.veileder.utenlandsopphold.html" />
                         </CounsellorPanel>
                     </Box>
                     <Box margin="xxl">
