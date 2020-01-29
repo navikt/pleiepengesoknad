@@ -69,7 +69,7 @@
     "steg.tidsrom.iUtlandetIPerioden.eøs.årsak.hjelp": "Dette trenger vi fordi ...",
     "steg.tidsrom.iUtlandetIPerioden.spm": "Skal du reise til utlandet i perioden du søker for?",
     "steg.tidsrom.iUtlandetIPerioden.eøs.årsak.spm": "Hva er formålet med denne reisen?",
-    "steg.tidsrom.ferieuttakIPerioden.spm": "Skal du ta ut feriedager i perioden?",
+    "steg.tidsrom.ferieuttakIPerioden.spm": "Skal du ta ut feriedager i perioden du søker for?",
 
     "step.arbeidsforhold.pageTitle": "Pleiepengesøknad - opplysninger om ditt arbeidsforhold",
     "step.arbeidsforhold.stepTitle": "Arbeidsforhold",
@@ -99,7 +99,7 @@
     "step.oppsummering.stepTitle": "Oppsummering",
     "step.oppsummering.stepIndicatorLabel": "Oppsummering",
 
-    "introPage.tittel": "Søknad om pleiepenger - intro",
+    "introPage.tittel": "Søknad om pleiepenger - kan jeg bruke den digitale søknaden",
     "introPage.stegTittel": "Kan jeg bruke den digitale pleiepengesøknaden?",
     "introPage.tekst": "Den digitale søknaden er under utvikling og kan foreløpig ikke brukes av alle. Svar på to spørsmål, så får du vite om du kan søke digitalt.",
     "introPage.tekst.utenTilsyn": "Den digitale søknaden er under utvikling og kan foreløpig ikke brukes av alle. Svar på ett spørsmål, så får du vite om du kan søke digitalt.",
@@ -111,10 +111,10 @@
     "introPage.veileder.papirLenke.html": "Du fyller i stedet ut <a href=\"{url}\" class=\"lenke\">søknaden på papir</a> og sender den i posten.",
     "introPage.veileder.papirLenke.utenTilsyn.html": "Hvis det gjelder deg fyller du i stedet ut <a href=\"{url}\">søknaden på papir</a> og sender den i posten.",
 
-    "welcomingPage.sidetittel": "Søknad om pleiepenger",
+    "welcomingPage.sidetittel": "Søknad om pleiepenger for sykt barn og person over 18 år",
     "welcomingPage.banner.tittel": "Hei,",
     "welcomingPage.banner.tekst": "jeg vil hjelpe deg med å fylle ut søknaden!",
-    "welcomingPage.introtittel": "Søknad om pleiepenger",
+    "welcomingPage.introtittel": "Søknad om pleiepenger for sykt barn og person over 18 år",
     "welcomingPage.legeerklæring": "Har du legeerklæringen klar? Du trenger den senere i søknaden. Da tar du bare et bilde av den og laster opp.",
     "welcomingPage.samtykke.tekst": "Jeg bekrefter at jeg har lest og forstått",
     "welcomingPage.samtykke.harIkkeGodkjentVilkår": "Du må godkjenne vilkårene",

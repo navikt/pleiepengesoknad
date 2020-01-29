@@ -18,6 +18,7 @@ import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 import FerieuttakIPeriodenFormPart from './FerieuttakIPeriodenFormPart';
 import UtenlandsoppholdIPeriodenFormPart from './UtenlandsoppholdIPeriodenFormPart';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
+import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 
 interface OpplysningerOmTidsromStepProps {
     formikProps: PleiepengesøknadFormikProps;
@@ -28,7 +29,7 @@ type Props = OpplysningerOmTidsromStepProps & HistoryProps & StepConfigProps;
 const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...stepProps }: Props) => {
     const { values, handleSubmit } = formikProps;
 
-    const persistAndNavigateTo = ( lastStepID: StepID, data: PleiepengesøknadFormData, nextStep?: string) => {
+    const persistAndNavigateTo = (lastStepID: StepID, data: PleiepengesøknadFormData, nextStep?: string) => {
         persist(data, lastStepID);
         if (nextStep) {
             history.push(nextStep);
@@ -60,6 +61,11 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
             handleSubmit={handleSubmit}
             history={history}
             {...stepProps}>
+            <Box padBottom="xxl">
+                <AlertStripeInfo>
+                    For å ha rett til pleiepenger må du ha omsorgen for barnet i hele perioden du søker for.
+                </AlertStripeInfo>
+            </Box>
             <FormikDateIntervalPicker<AppFormField>
                 legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
                 helperText={intlHelper(intl, 'steg.tidsrom.hjelpetekst')}
@@ -104,8 +110,14 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                 <>
                     <Box margin="xxl">
                         <CounsellorPanel>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis quia maiores quo
-                            reprehenderit dolorum voluptate cum consequatur
+                            Du kan beholde pleiepengene mens du oppholder deg <strong>i et EØS land</strong>, så lenge
+                            du
+                            <ul>
+                                <li>du reiser sammen med barnet du pleier</li>
+                                <li>har rett på pleiepenger i perioden du er i utlandet</li>
+                            </ul>
+                            Hvis du oppholder deg <strong>i et EØS land</strong>, kan du beholde pleiepengene i opptil 8
+                            uker av en 12 måneder lang periode.
                         </CounsellorPanel>
                     </Box>
                     <Box margin="xxl">
