@@ -14,10 +14,10 @@ import { getStepTexts } from 'app/utils/stepUtils';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { History } from 'history';
 import BackLink from 'common/components/back-link/BackLink';
-import FortsettSøknadSenereDialog from '../../../common/components/dialogs/fortsettSøknadSenereDialog/FortsettSøknadSenereDialog'
+import FortsettSøknadSenereDialog from '../../../common/components/dialogs/fortsettSøknadSenereDialog/FortsettSøknadSenereDialog';
 import AvbrytSøknadDialog from '../../../common/components/dialogs/avbrytSøknadDialog/AvbrytSøknadDialog';
 import { purge } from 'app/api/api';
-import routeConfig from '../../config/routeConfig';
+import { navigateToNAVno, navigateToWelcomePage } from 'app/utils/navigationUtils';
 
 import './step.less';
 
@@ -52,11 +52,11 @@ const Step: React.FunctionComponent<StepProps> = ({
     const [visAvbrytDialog, setVisAvbrytDialog] = React.useState<boolean>(false);
     const [visFortsettSenereDialog, setVisFortsettSenereDialog] = React.useState<boolean>(false);
     const handleAvsluttOgFortsettSenere = () => {
-        (window as any).location = '/';
+        navigateToNAVno();
     };
     const handleAvbrytSøknad = () => {
         purge();
-        (window as any).location = routeConfig.WELCOMING_PAGE_ROUTE;
+        navigateToWelcomePage();
     };
     return (
         <Page

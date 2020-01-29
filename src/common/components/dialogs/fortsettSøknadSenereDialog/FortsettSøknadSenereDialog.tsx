@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import BekreftDialog from '../bekreft-dialog/BekreftDialog';
-import Box from '../../box/Box';
 import Undertittel from 'nav-frontend-typografi/lib/undertittel';
-import Normaltekst from 'nav-frontend-typografi/lib/normaltekst';
 import intlHelper from 'common/utils/intlUtils';
 export interface Props {
     synlig: boolean;
@@ -24,13 +22,15 @@ const FortsettSøknadSenereDialog: React.FunctionComponent<Props> = (props) => {
             onBekreft={onFortsettSøknadSenere}
             størrelse="30"
             onRequestClose={onFortsettSøknad}>
-            <Box margin="s">
-                <Undertittel tag="h1"><FormattedMessage id="fortsettSøknadSenereDialog.tittel" /></Undertittel>
-            </Box>
-            <Box margin="s">
-                <Normaltekst><FormattedMessage id="fortsettSøknadSenereDialog.intro" /></Normaltekst>
-            </Box>
-            <Normaltekst><FormattedMessage id="fortsettSøknadSenereDialog.spørsmål" /></Normaltekst>
+            <Undertittel tag="h1">
+                <FormattedMessage id="fortsettSøknadSenereDialog.tittel" />
+            </Undertittel>
+            <p>
+                <FormattedMessage id="fortsettSøknadSenereDialog.intro" />
+            </p>
+            <p>
+                <FormattedMessage id="fortsettSøknadSenereDialog.spørsmål" />
+            </p>
         </BekreftDialog>
     );
 };
