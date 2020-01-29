@@ -1,7 +1,7 @@
 import { Arbeidsgiver } from './Søkerdata';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { Time } from 'common/types/Time';
-import { Attachment, PersistedFileRef } from 'common/types/Attachment';
+import { Attachment } from 'common/types/Attachment';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 
 export enum ArbeidsforholdSkalJobbeSvar {
@@ -104,7 +104,7 @@ export interface PleiepengesøknadFormData {
     [AppFormField.arbeidsforhold]: Arbeidsforhold[];
     [AppFormField.periodeFra]?: Date;
     [AppFormField.periodeTil]?: Date;
-    [AppFormField.legeerklæring]: Attachment[] | PersistedFileRef[];
+    [AppFormField.legeerklæring]: Attachment[];
     [AppFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo;
     [AppFormField.utenlandsoppholdSiste12Mnd]: Utenlandsopphold[];
     [AppFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo;

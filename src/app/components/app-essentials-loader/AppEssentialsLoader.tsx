@@ -9,9 +9,10 @@ import { getBarn, getSøker, rehydrate } from '../../api/api';
 import { SøkerdataContextProvider } from '../../context/SøkerdataContext';
 import demoSøkerdata from '../../demo/demoData';
 import { appIsRunningInDemoMode } from '../../utils/envUtils';
-import { initialValues, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { AppFormField, initialValues, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { MellomlagringData } from '../../types/storage';
 import { StepID } from '../../config/stepConfig';
+import { Attachment } from '../../../common/types/Attachment';
 
 interface Props {
     contentLoadedRenderer: (formdata: PleiepengesøknadFormData, lastStepID?: StepID, søkerdata?: Søkerdata) => React.ReactNode;
@@ -72,7 +73,18 @@ class AppEssentialsLoader extends React.Component<Props, State> {
 
         let formData;
         if ( mellomlagring && mellomlagring.formData) {
-            formData = { ... mellomlagring.formData };
+            const attachments: Attachment[] = mellomlagring.formData[AppFormField.legeerklæring].map(elem => {
+                const { file: { name, lastModified, type }, url, pending, uploaded} = elem;
+                const file = new File(['foo'], name, { type, lastModified });
+                const attachment: Attachment = {
+                    file,
+                    pending,
+                    uploaded,
+                    url
+                };
+                return attachment;
+            });
+            formData = { ...mellomlagring.formData, [AppFormField.legeerklæring]: attachments };
         }
         let lastStepID;
         if (mellomlagring && mellomlagring.metadata) {

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FormattedHTMLMessage, useIntl } from 'react-intl';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
-import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
+import { navigateToLoginPage } from '../../../utils/navigationUtils';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
 import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
@@ -18,8 +18,8 @@ import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFo
 import HelperTextPanel from 'common/components/helper-text-panel/HelperTextPanel';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import PictureScanningGuide from '../../../../common/components/picture-scanning-guide/PictureScanningGuide';
-import { Attachment, PersistedFileRef } from 'common/types/Attachment';
-// import { persist } from '../../../api/api';
+import { Attachment } from 'common/types/Attachment';
+import { persist } from '../../../api/api';
 
 type Props = { formikProps: PleiepengesøknadFormikProps } & CommonStepFormikProps & HistoryProps & StepConfigProps;
 
@@ -28,28 +28,29 @@ const LegeerklæringStep = ({ history, nextStepRoute, formikProps, ...stepProps 
     const intl = useIntl();
     const isRunningDemoMode = appIsRunningInDemoMode();
     const { values } = formikProps;
-    const attachments: Attachment[] | PersistedFileRef[] = values ? values[AppFormField.legeerklæring] : [];
-    /*
-    const persistedFileRefs: PersistedFileRef[] = attachments.map(elem => {
-        const { file: { name}} = elem;
+    const attachments: Attachment[] = values ? values[AppFormField.legeerklæring] : [];
+    const persistAttachments = attachments.map(attachment => {
+        const { file: { name, lastModified, size, type, slice }, url, uploaded, pending} = attachment;
         return {
-            name
-        }
+            file: { name, lastModified, size, type, slice  },
+            uploaded,
+            pending,
+            url
+        };
     });
-    */
-    const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
     return (
         <FormikStep
             id={StepID.LEGEERKLÆRING}
-            /*onValidFormSubmit={() => {
-                const formData = { ...values };
-                formData[AppFormField.legeerklæring] = [...attachments as PersistedFileRef[]];
+            onValidFormSubmit={() => {
+                const formData = {
+                    ...values,
+                    [AppFormField.legeerklæring]: persistAttachments
+                };
                 persist(formData, StepID.LEGEERKLÆRING);
                 if (nextStepRoute) {
                     history.push(nextStepRoute);
                 }
-            }}*/
-            onValidFormSubmit={navigate}
+            }}
             history={history}
             useValidationErrorSummary={false}
             skipValidation={isRunningDemoMode}
@@ -76,22 +77,18 @@ const LegeerklæringStep = ({ history, nextStepRoute, formikProps, ...stepProps 
                     <HelperTextPanel>
                         <PictureScanningGuide/>
                     </HelperTextPanel>
-                    {attachments && attachments.length === 0 && (
-                      <>
-                          <Box margin="l">
-                              <FormikFileUploader
-                                  name={AppFormField.legeerklæring}
-                                  label={intlHelper(intl, 'steg.lege.vedlegg')}
-                                  onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
-                                  onFileInputClick={() => {
-                                      setFilesThatDidntGetUploaded([]);
-                                  }}
-                                  validate={validateLegeerklæring}
-                                  onUnauthorizedOrForbiddenUpload={navigateToLoginPage}
-                              />
-                          </Box>
-                      </>
-                    )}
+                    <Box margin="l">
+                        <FormikFileUploader
+                            name={AppFormField.legeerklæring}
+                            label={intlHelper(intl, 'steg.lege.vedlegg')}
+                            onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
+                            onFileInputClick={() => {
+                                setFilesThatDidntGetUploaded([]);
+                            }}
+                            validate={validateLegeerklæring}
+                            onUnauthorizedOrForbiddenUpload={navigateToLoginPage}
+                        />
+                    </Box>
                     <FileUploadErrors filesThatDidntGetUploaded={filesThatDidntGetUploaded} />
                     <LegeerklæringFileList wrapNoAttachmentsInBox={true} includeDeletionFunctionality={true}/>
                 </>
