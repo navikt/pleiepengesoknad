@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
+import { Field, FieldProps as FormikFieldProps } from 'formik';
 import DatepickerBase, { DateLimitiations } from 'common/form-components/datepicker-base/DatepickerBase';
 import { FormikValidateFunction, FormikValidationProps } from 'common/formik/FormikProps';
-import { showValidationErrors } from 'common/formik/formikUtils';
+import { isValidationErrorsVisible } from 'common/formik/formikUtils';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import { useIntl } from 'react-intl';
 
@@ -11,18 +11,28 @@ export interface FormikDatepickerProps<T> {
     label: string;
     validate?: FormikValidateFunction;
     dateLimitations?: DateLimitiations;
+    fullscreenOverlay?: boolean;
 }
 
 type Props<T> = FormikDatepickerProps<T> & FormikValidationProps;
 
-function FormikDatepicker<FormField>({ validate, label, dateLimitations, name, ...otherProps }: Props<FormField>) {
+function FormikDatepicker<T>({
+    validate,
+    label,
+    dateLimitations,
+    name,
+    showValidationErrors,
+    fullscreenOverlay,
+    ...otherProps
+}: Props<T>) {
     const intl = useIntl();
     return (
-        <FormikField validate={validate} name={name}>
+        <Field validate={validate} name={name}>
             {({ field, form: { errors, status, submitCount, setFieldValue } }: FormikFieldProps) => {
-                const errorMsgProps = showValidationErrors(status, submitCount)
-                    ? getValidationErrorPropsWithIntl(intl, errors, field.name)
-                    : {};
+                const errorMsgProps =
+                    showValidationErrors || isValidationErrorsVisible(status, submitCount)
+                        ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                        : {};
                 return (
                     <DatepickerBase
                         id={`${name}`}
@@ -32,13 +42,14 @@ function FormikDatepicker<FormField>({ validate, label, dateLimitations, name, .
                         {...otherProps}
                         {...errorMsgProps}
                         {...field}
+                        fullscreenOverlay={fullscreenOverlay}
                         onChange={(date: Date) => {
                             setFieldValue(field.name, date);
                         }}
                     />
                 );
             }}
-        </FormikField>
+        </Field>
     );
 }
 

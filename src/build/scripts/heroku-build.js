@@ -12,7 +12,8 @@ function createEnvSettingsFileForHeroku() {
                 API_URL: 'https://pleiepenger.herokuapp.com/',
                 LOGIN_URL: 'https://pleiepenger.herokuapp.com/',
                 DEMO_MODE: 'on',
-                TOGGLE_UTENLANDSOPPHOLD: 'on'
+                TOGGLE_UTENLANDSOPPHOLD: 'on',
+                TOGGLE_FERIEUTTAK: 'on'
             };`
         );
     });

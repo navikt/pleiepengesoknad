@@ -1,26 +1,29 @@
 import * as React from 'react';
 import { Fieldset } from 'nav-frontend-skjema';
-import { AppFormField } from '../../types/PleiepengesøknadFormData';
 import bemHelper from 'common/utils/bemUtils';
-import './dateIntervalPicker.less';
 import HelperTextButton from 'common/components/helper-text-button/HelperTextButton';
 import HelperTextPanel from 'common/components/helper-text-panel/HelperTextPanel';
-import FormikDatepicker, { FormikDatepickerProps } from '../../../common/formik/formik-datepicker/FormikDatepicker';
+import FormikDatepicker, { FormikDatepickerProps } from '../formik-datepicker/FormikDatepicker';
 
-interface DateIntervalPickerProps {
+import './dateIntervalPicker.less';
+
+interface DateIntervalPickerProps<T> {
     legend: string;
-    fromDatepickerProps: FormikDatepickerProps<AppFormField>;
-    toDatepickerProps: FormikDatepickerProps<AppFormField>;
+    fromDatepickerProps: FormikDatepickerProps<T>;
+    toDatepickerProps: FormikDatepickerProps<T>;
     helperText?: string;
+    showValidationErrors?: boolean;
 }
 
 const bem = bemHelper('dateIntervalPicker');
-const DateIntervalPicker: React.FunctionComponent<DateIntervalPickerProps> = ({
+
+function FormikDateIntervalPicker<T>({
     legend,
     fromDatepickerProps,
     toDatepickerProps,
+    showValidationErrors,
     helperText
-}) => {
+}: DateIntervalPickerProps<T>) {
     const [showHelperText, setShowHelperText] = React.useState(false);
     const legendContent = helperText ? (
         <>
@@ -39,11 +42,11 @@ const DateIntervalPicker: React.FunctionComponent<DateIntervalPickerProps> = ({
     return (
         <Fieldset legend={legendContent} className={bem.block}>
             <div className={bem.element('flexContainer')}>
-                <FormikDatepicker<AppFormField> {...fromDatepickerProps} />
-                <FormikDatepicker<AppFormField> {...toDatepickerProps} />
+                <FormikDatepicker<T> {...fromDatepickerProps} showValidationErrors={showValidationErrors} />
+                <FormikDatepicker<T> {...toDatepickerProps} showValidationErrors={showValidationErrors} />
             </div>
         </Fieldset>
     );
-};
+}
 
-export default DateIntervalPicker;
+export default FormikDateIntervalPicker;

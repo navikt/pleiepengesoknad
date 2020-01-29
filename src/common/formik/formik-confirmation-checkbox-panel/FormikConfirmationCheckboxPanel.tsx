@@ -2,7 +2,7 @@ import * as React from 'react';
 import { BekreftCheckboksPanel as NAVConfirmationCheckboxPanel } from 'nav-frontend-skjema';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
-import { showValidationErrors } from 'common/formik/formikUtils';
+import { isValidationErrorsVisible } from 'common/formik/formikUtils';
 import { useIntl } from 'react-intl';
 import { FormikValidationProps, FormikValidateFunction } from 'common/formik/FormikProps';
 
@@ -15,14 +15,15 @@ interface FormikConfirmationCheckboxPanelProps<T> {
 
 type Props<T> = FormikConfirmationCheckboxPanelProps<T> & FormikValidationProps;
 
-function FormikConfirmationCheckboxPanel<T>({ children, label, name, validate }: Props<T>) {
+function FormikConfirmationCheckboxPanel<T>({ children, label, name, validate, showValidationErrors }: Props<T>) {
     const intl = useIntl();
     return (
         <FormikField validate={validate} name={name}>
             {({ field, form: { errors, submitCount, status, setFieldValue } }: FormikFieldProps) => {
-                const errorMsgProps = showValidationErrors(status, submitCount)
-                    ? getValidationErrorPropsWithIntl(intl, errors, field.name)
-                    : {};
+                const errorMsgProps =
+                    showValidationErrors || isValidationErrorsVisible(status, submitCount)
+                        ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                        : {};
                 return (
                     <NAVConfirmationCheckboxPanel
                         className="skjemaelement"

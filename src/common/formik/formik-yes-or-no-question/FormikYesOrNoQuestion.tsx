@@ -3,7 +3,7 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import { useIntl } from 'react-intl';
 import { RadioPanelGroupStyle } from 'common/form-components/radio-panel-group-base/RadioPanelGroupBase';
 import intlHelper from 'common/utils/intlUtils';
-import FormikRadioPanelGroup from '../../formik/formik-radio-panel-group/FormikRadioPanelGroup';
+import FormikRadioPanelGroup from '../formik-radio-panel-group/FormikRadioPanelGroup';
 import { FormikValidationProps } from 'common/formik/FormikProps';
 
 interface YesOrNoQuestionProps<T> {
@@ -20,15 +20,12 @@ interface YesOrNoQuestionProps<T> {
     style?: RadioPanelGroupStyle;
 }
 
-function YesOrNoQuestion<T>({
+function FormikYesOrNoQuestion<T>({
     legend,
     name,
     includeDoNotKnowOption,
-    validate,
     labels,
-    style,
-    singleColumn,
-    helperText
+    ...restProps
 }: YesOrNoQuestionProps<T> & FormikValidationProps) {
     const intl = useIntl();
     const {
@@ -47,12 +44,9 @@ function YesOrNoQuestion<T>({
                     ? [{ label: doNotKnowLabel, value: YesOrNo.DO_NOT_KNOW, key: YesOrNo.DO_NOT_KNOW }]
                     : [])
             ]}
-            validate={validate}
-            helperText={helperText}
-            style={style}
-            singleColumn={singleColumn}
+            {...restProps}
         />
     );
 }
 
-export default YesOrNoQuestion;
+export default FormikYesOrNoQuestion;

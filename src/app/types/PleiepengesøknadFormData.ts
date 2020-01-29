@@ -3,6 +3,7 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import { Time } from 'common/types/Time';
 import { Attachment } from 'common/types/Attachment';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
+import { Ferieuttak } from 'common/forms/ferieuttak/types';
 
 export enum ArbeidsforholdSkalJobbeSvar {
     'ja' = 'ja',
@@ -50,7 +51,9 @@ export enum AppFormField {
     utenlandsoppholdSiste12Mnd = 'utenlandsoppholdSiste12Mnd',
     skalBoUtenforNorgeNeste12Mnd = 'skalBoUtenforNorgeNeste12Mnd',
     utenlandsoppholdNeste12Mnd = 'utenlandsoppholdNeste12Mnd',
-    skalOppholdsSegIUtlandetIPerioden = 'skalOppholdeSegIUtlandetIPerioden',
+    skalOppholdeSegIUtlandetIPerioden = 'skalOppholdeSegIUtlandetIPerioden',
+    skalTaUtFerieIPerioden = 'skalTaUtFerieIPerioden',
+    ferieuttakIPerioden = 'ferieuttakIPerioden',
     utenlandsoppholdIPerioden = 'utenlandsoppholdIPerioden',
     harMedsøker = 'harMedsøker',
     samtidigHjemme = 'samtidigHjemme',
@@ -109,8 +112,10 @@ export interface PleiepengesøknadFormData {
     [AppFormField.utenlandsoppholdSiste12Mnd]: Utenlandsopphold[];
     [AppFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo;
     [AppFormField.utenlandsoppholdNeste12Mnd]: Utenlandsopphold[];
-    [AppFormField.skalOppholdsSegIUtlandetIPerioden]: YesOrNo;
+    [AppFormField.skalOppholdeSegIUtlandetIPerioden]: YesOrNo;
     [AppFormField.utenlandsoppholdIPerioden]: Utenlandsopphold[];
+    [AppFormField.skalTaUtFerieIPerioden]: YesOrNo;
+    [AppFormField.ferieuttakIPerioden]: Ferieuttak[];
     [AppFormField.harMedsøker]: YesOrNo;
     [AppFormField.samtidigHjemme]: YesOrNo;
     [AppFormField.tilsynsordning]?: Tilsynsordning;
@@ -138,8 +143,10 @@ export const initialValues: PleiepengesøknadFormData = {
     [AppFormField.utenlandsoppholdSiste12Mnd]: [],
     [AppFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.UNANSWERED,
     [AppFormField.utenlandsoppholdNeste12Mnd]: [],
-    [AppFormField.skalOppholdsSegIUtlandetIPerioden]: YesOrNo.UNANSWERED,
+    [AppFormField.skalOppholdeSegIUtlandetIPerioden]: YesOrNo.UNANSWERED,
     [AppFormField.utenlandsoppholdIPerioden]: [],
+    [AppFormField.skalTaUtFerieIPerioden]: YesOrNo.UNANSWERED,
+    [AppFormField.ferieuttakIPerioden]: [],
     [AppFormField.harMedsøker]: YesOrNo.UNANSWERED,
     [AppFormField.samtidigHjemme]: YesOrNo.UNANSWERED,
     [AppFormField.tilsynsordning]: undefined,

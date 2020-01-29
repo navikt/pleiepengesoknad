@@ -3,8 +3,8 @@ import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
 import { useIntl, FormattedHTMLMessage } from 'react-intl';
+import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import { AppFormField, PleiepengesøknadFormData, TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
-import YesOrNoQuestion from '../../../../common/components/yes-or-no-question/YesOrNoQuestion';
 import Box from 'common/components/box/Box';
 import { YesOrNo } from 'common/types/YesOrNo';
 import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
@@ -27,7 +27,7 @@ type Props = CommonStepFormikProps & HistoryProps & StepConfigProps;
 const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, formValues, ...stepProps }) => {
     const nextStepRoute = getNextStepRoute(StepID.OMSORGSTILBUD, formValues);
     const intl = useIntl();
-    const persistAndNavigateTo = ( lastStepID: StepID, data: PleiepengesøknadFormData, nextStep?: string) => {
+    const persistAndNavigateTo = (lastStepID: StepID, data: PleiepengesøknadFormData, nextStep?: string) => {
         persist(data, lastStepID);
         if (nextStep) {
             history.push(nextStep);
@@ -46,7 +46,7 @@ const TilsynsordningStep: React.FunctionComponent<Props> = ({ history, formValue
                 <FormattedHTMLMessage id="steg.tilsyn.veileder.html" />
             </CounsellorPanel>
             <Box margin="xl">
-                <YesOrNoQuestion
+                <FormikYesOrNoQuestion
                     name={AppFormField.tilsynsordning__skalBarnHaTilsyn}
                     legend={intlHelper(intl, 'steg.tilsyn.skalBarnetHaTilsyn.spm')}
                     includeDoNotKnowOption={true}

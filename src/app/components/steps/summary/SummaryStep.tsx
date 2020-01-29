@@ -30,8 +30,13 @@ import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 import ValidationErrorSummaryBase from '../../../../common/components/validation-error-summary-base/ValidationErrorSummaryBase';
 import { validateApiValues } from '../../../validation/apiValuesValidation';
 import SummaryList from 'common/components/summary-list/SummaryList';
-import { renderUtenlandsoppholdSummary } from 'app/components/summary-renderers/renderUtenlandsoppholdSummary';
+import {
+    renderUtenlandsoppholdSummary,
+    renderUtenlandsoppholdIPeriodenSummary,
+    renderFerieuttakIPeriodenSummary
+} from 'app/components/summary-renderers/renderUtenlandsoppholdSummary';
 import FormikConfirmationCheckboxPanel from 'common/formik/formik-confirmation-checkbox-panel/FormikConfirmationCheckboxPanel';
+import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 
 interface State {
     sendingInProgress: boolean;
@@ -86,7 +91,14 @@ class SummaryStep extends React.Component<Props, State> {
                     const apiValues = mapFormDataToApiData(formValues, barn, intl.locale as Locale);
                     const apiValuesValidationErrors = validateApiValues(apiValues, intl);
 
-                    const { medlemskap, tilsynsordning, nattevaak, beredskap } = apiValues;
+                    const {
+                        medlemskap,
+                        tilsynsordning,
+                        nattevaak,
+                        beredskap,
+                        utenlandsopphold_i_perioden,
+                        ferieuttak_i_perioden
+                    } = apiValues;
 
                     return (
                         <FormikStep
@@ -236,6 +248,76 @@ class SummaryStep extends React.Component<Props, State> {
                                             </ContentWithHeader>
                                         </Box>
                                     )}
+
+                                    {/* Utenlandsopphold i perioden */}
+                                    {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD) && utenlandsopphold_i_perioden && (
+                                        <>
+                                            <Box margin="l">
+                                                <ContentWithHeader
+                                                    header={intlHelper(
+                                                        intl,
+                                                        'steg.oppsummering.utenlandsoppholdIPerioden.header'
+                                                    )}>
+                                                    <FormattedMessage
+                                                        id={
+                                                            utenlandsopphold_i_perioden.skal_oppholde_seg_i_i_utlandet_i_perioden
+                                                                ? 'Ja'
+                                                                : 'Nei'
+                                                        }
+                                                    />
+                                                </ContentWithHeader>
+                                            </Box>
+                                            {utenlandsopphold_i_perioden.opphold.length > 0 && (
+                                                <Box margin="l">
+                                                    <ContentWithHeader
+                                                        header={intlHelper(
+                                                            intl,
+                                                            'steg.oppsummering.utenlandsoppholdIPerioden.listetittel'
+                                                        )}>
+                                                        <SummaryList
+                                                            items={utenlandsopphold_i_perioden.opphold}
+                                                            itemRenderer={renderUtenlandsoppholdIPeriodenSummary}
+                                                        />
+                                                    </ContentWithHeader>
+                                                </Box>
+                                            )}
+                                        </>
+                                    )}
+                                    {/* Ferieuttak i perioden */}
+                                    {isFeatureEnabled(Feature.TOGGLE_FERIEUTTAK) && ferieuttak_i_perioden && (
+                                        <>
+                                            <Box margin="l">
+                                                <ContentWithHeader
+                                                    header={intlHelper(
+                                                        intl,
+                                                        'steg.oppsummering.ferieuttakIPerioden.header'
+                                                    )}>
+                                                    <FormattedMessage
+                                                        id={
+                                                            ferieuttak_i_perioden.skal_ta_ut_ferie_i_periode
+                                                                ? 'Ja'
+                                                                : 'Nei'
+                                                        }
+                                                    />
+                                                </ContentWithHeader>
+                                            </Box>
+                                            {ferieuttak_i_perioden.ferieuttak.length > 0 && (
+                                                <Box margin="l">
+                                                    <ContentWithHeader
+                                                        header={intlHelper(
+                                                            intl,
+                                                            'steg.oppsummering.ferieuttakIPerioden.listetittel'
+                                                        )}>
+                                                        <SummaryList
+                                                            items={ferieuttak_i_perioden.ferieuttak}
+                                                            itemRenderer={renderFerieuttakIPeriodenSummary}
+                                                        />
+                                                    </ContentWithHeader>
+                                                </Box>
+                                            )}
+                                        </>
+                                    )}
+
                                     <Box margin="l">
                                         <ContentWithHeader
                                             header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.header')}>

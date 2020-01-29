@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import TimefieldBase from '../../form-components/timefield-base/TimefieldBase';
-import { showValidationErrors } from 'common/formik/formikUtils';
+import { isValidationErrorsVisible } from 'common/formik/formikUtils';
 import { useIntl } from 'react-intl';
 import { FormikValidationProps } from 'common/formik/FormikProps';
 
@@ -17,15 +17,17 @@ const FormikTimefield = <T extends {}>(): React.FunctionComponent<FormikTimefiel
     label,
     name,
     validate,
+    showValidationErrors,
     ...otherInputProps
 }) => {
     const intl = useIntl();
     return (
         <FormikField validate={validate} name={name}>
             {({ field, form: { errors, status, submitCount, setFieldValue } }: FormikFieldProps) => {
-                const errorMsgProps = showValidationErrors(status, submitCount)
-                    ? getValidationErrorPropsWithIntl(intl, errors, field.name)
-                    : {};
+                const errorMsgProps =
+                    showValidationErrors || isValidationErrorsVisible(status, submitCount)
+                        ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                        : {};
                 return (
                     <TimefieldBase
                         label={label}

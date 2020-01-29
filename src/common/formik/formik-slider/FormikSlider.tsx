@@ -3,7 +3,7 @@ import { Field as FormikField, FieldProps as FormikFieldProps } from 'formik';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import SliderBase, { SliderBasePublicProps } from '../../form-components/slider-base/SliderBase';
 import { FormikValidateFunction, FormikValidationProps } from 'common/formik/FormikProps';
-import { showValidationErrors } from 'common/formik/formikUtils';
+import { isValidationErrorsVisible } from 'common/formik/formikUtils';
 import { useIntl } from 'react-intl';
 
 interface FormikSliderProps<T> {
@@ -15,14 +15,15 @@ interface FormikSliderProps<T> {
 
 const FormikSlider = <T extends {}>(): React.FunctionComponent<FormikSliderProps<T> &
     SliderBasePublicProps &
-    FormikValidationProps> => ({ label, name, validate, ...otherInputProps }) => {
+    FormikValidationProps> => ({ label, name, validate, showValidationErrors, ...otherInputProps }) => {
     const intl = useIntl();
     return (
         <FormikField validate={validate} name={name}>
             {({ field, form: { errors, status, submitCount } }: FormikFieldProps) => {
-                const errorMsgProps = showValidationErrors(status, submitCount)
-                    ? getValidationErrorPropsWithIntl(intl, errors, field.name)
-                    : {};
+                const errorMsgProps =
+                    showValidationErrors || isValidationErrorsVisible(status, submitCount)
+                        ? getValidationErrorPropsWithIntl(intl, errors, field.name)
+                        : {};
                 return (
                     <SliderBase
                         label={label}

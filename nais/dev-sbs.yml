@@ -47,5 +47,8 @@ spec:
         - name: UTILGJENGELIG
           value: "off"
         - name: TOGGLE_UTENLANDSOPPHOLD
-          value: "on"
+          value: "off"
+        - name: TOGGLE_FERIEUTTAK
+          value: "off"
+
 

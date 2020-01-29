@@ -1,6 +1,7 @@
 import { Locale } from 'common/types/Locale';
 import { TilsynVetIkkeHvorfor } from './PleiepengesøknadFormData';
 import { ApiStringDate } from '../../common/types/ApiStringDate';
+import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
 
 export type ISO8601Duration = string;
 
@@ -77,23 +78,40 @@ export interface TilsynsordningApiVetIkke extends TilsynsordningApiBase {
 interface Medlemskap {
     har_bodd_i_utlandet_siste_12_mnd: boolean;
     skal_bo_i_utlandet_neste_12_mnd: boolean;
-    utenlandsopphold_neste_12_mnd: UtenlandsoppholdApiData[];
-    utenlandsopphold_siste_12_mnd: UtenlandsoppholdApiData[];
+    utenlandsopphold_neste_12_mnd: BostedUtlandApiData[];
+    utenlandsopphold_siste_12_mnd: BostedUtlandApiData[];
 }
 
-export interface UtenlandsoppholdApiData {
+export interface BostedUtlandApiData {
     fra_og_med: ApiStringDate;
     til_og_med: ApiStringDate;
     landkode: string;
     landnavn: string;
 }
 
-export interface UtenlandsoppholdUtenforEØSApiData extends UtenlandsoppholdApiData {
-    er_utenfor_eos: true;
-    arsak: string;
+export interface UtenlandsoppholdIPeriodenApiData {
+    fra_og_med: ApiStringDate;
+    til_og_med: ApiStringDate;
+    landkode: string;
+    landnavn: string;
 }
 
-export type UtenlandsoppholdIPeriodenApiData = UtenlandsoppholdApiData | UtenlandsoppholdUtenforEØSApiData;
+export interface UtenlandsoppholdUtenforEøsIPeriodenApiData extends UtenlandsoppholdIPeriodenApiData {
+    er_barnet_innlagt: boolean;
+    er_utenfor_eos: boolean;
+    arsak: UtenlandsoppholdÅrsak | null;
+}
+
+export function isUtenlandsoppholdUtenforEØSApiData(
+    opphold: UtenlandsoppholdIPeriodenApiData
+): opphold is UtenlandsoppholdUtenforEøsIPeriodenApiData {
+    return Object.keys(opphold).includes('er_barnet_innlagt');
+}
+
+export interface FerieuttakIPeriodeApiData {
+    fra_og_med: ApiStringDate;
+    til_og_med: ApiStringDate;
+}
 
 export interface PleiepengesøknadApiData {
     new_version: boolean;
@@ -105,9 +123,13 @@ export interface PleiepengesøknadApiData {
     arbeidsgivere: { organisasjoner: ArbeidsforholdApi[] };
     vedlegg: string[];
     medlemskap: Medlemskap;
-    utenlandsopphold_i_perioden: {
+    utenlandsopphold_i_perioden?: {
         skal_oppholde_seg_i_i_utlandet_i_perioden: boolean;
         opphold: UtenlandsoppholdIPeriodenApiData[];
+    };
+    ferieuttak_i_perioden?: {
+        skal_ta_ut_ferie_i_periode: boolean;
+        ferieuttak: FerieuttakIPeriodeApiData[];
     };
     har_medsoker: boolean;
     samtidig_hjemme?: boolean;

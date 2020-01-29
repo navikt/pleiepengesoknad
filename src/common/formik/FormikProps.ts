@@ -6,6 +6,7 @@ export type FieldArrayRemoveFn = (index: number) => undefined;
 
 export interface FormikValidationProps {
     validate?: FormikValidateFunction;
+    showValidationErrors?: boolean;
 }
 export type FormikInputValidationResult = FieldValidationResult | string | Promise<void> | undefined;
 export type FormikValidateFunction = (value: any) => FormikInputValidationResult;

@@ -9,7 +9,9 @@ import {
     PleiepengesøknadApiData,
     ArbeidsforholdApiNei,
     ArbeidsforholdApiRedusert,
-    ArbeidsforholdApiVetIkke
+    ArbeidsforholdApiVetIkke,
+    BostedUtlandApiData,
+    UtenlandsoppholdUtenforEøsIPeriodenApiData
 } from '../../types/PleiepengesøknadApiData';
 import * as dateUtils from 'common/utils/dateUtils';
 import * as attachmentUtils from 'common/utils/attachmentUtils';
@@ -18,6 +20,7 @@ import { BarnReceivedFromApi, Arbeidsgiver } from '../../types/Søkerdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
 import { Attachment } from 'common/types/Attachment';
 import { ApiStringDate } from 'common/types/ApiStringDate';
+import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
 
 const moment = require('moment');
 
@@ -30,9 +33,9 @@ const todaysDate = moment()
     .startOf('day')
     .toDate();
 
-const barnFodselsdato = new Date(2020, 0, 24);
+const barnsFødselsdato = new Date(2020, 0, 20);
 const barnMock: BarnReceivedFromApi[] = [
-    { fodselsdato: barnFodselsdato, fornavn: 'Mock', etternavn: 'Mocknes', aktoer_id: '123' }
+    { fodselsdato: barnsFødselsdato, fornavn: 'Mock', etternavn: 'Mocknes', aktoer_id: '123' }
 ];
 
 const organisasjonTelenor: Arbeidsgiver = {
@@ -87,7 +90,9 @@ const formDataMock: Partial<PleiepengesøknadFormData> = {
     [AppFormField.periodeTil]: moment(todaysDate)
         .add(1, 'day')
         .toDate(),
-    [AppFormField.legeerklæring]: [attachmentMock1 as AttachmentMock, attachmentMock2 as AttachmentMock]
+    [AppFormField.legeerklæring]: [attachmentMock1 as AttachmentMock, attachmentMock2 as AttachmentMock],
+    [AppFormField.skalTaUtFerieIPerioden]: undefined,
+    [AppFormField.ferieuttakIPerioden]: []
 };
 
 jest.mock('common/utils/dateUtils', () => {
@@ -128,8 +133,29 @@ const completeFormDataMock: PleiepengesøknadFormData = {
     harBoddUtenforNorgeSiste12Mnd: YesOrNo.YES,
     skalBoUtenforNorgeNeste12Mnd: YesOrNo.YES,
     søknadenGjelderEtAnnetBarn: false,
-    skalOppholdeSegIUtlandetIPerioden: YesOrNo.NO,
-    utenlandsoppholdIPerioden: [],
+    skalOppholdeSegIUtlandetIPerioden: YesOrNo.YES,
+    utenlandsoppholdIPerioden: [
+        {
+            fom: dateUtils.apiStringDateToDate('2020-01-05'),
+            tom: dateUtils.apiStringDateToDate('2020-01-07'),
+            landkode: 'SE',
+            erBarnetInnlagt: YesOrNo.YES
+        },
+        {
+            fom: dateUtils.apiStringDateToDate('2020-01-08'),
+            tom: dateUtils.apiStringDateToDate('2020-01-09'),
+            landkode: 'US',
+            erBarnetInnlagt: YesOrNo.YES,
+            årsak: UtenlandsoppholdÅrsak.ANNET
+        }
+    ],
+    skalTaUtFerieIPerioden: YesOrNo.YES,
+    ferieuttakIPerioden: [
+        {
+            fom: dateUtils.apiStringDateToDate('2020-01-05'),
+            tom: dateUtils.apiStringDateToDate('2020-01-07')
+        }
+    ],
     periodeFra: dateUtils.apiStringDateToDate('2020-01-01'),
     periodeTil: dateUtils.apiStringDateToDate('2020-02-01'),
     tilsynsordning: {
@@ -147,17 +173,17 @@ const completeFormDataMock: PleiepengesøknadFormData = {
     },
     utenlandsoppholdSiste12Mnd: [
         {
-            countryCode: 'SE',
-            fromDate: new Date(2020, 1, 1),
-            toDate: new Date(2020, 2, 1),
+            landkode: 'SE',
+            fom: new Date(2020, 1, 1),
+            tom: new Date(2020, 2, 1),
             id: '345'
         }
     ],
     utenlandsoppholdNeste12Mnd: [
         {
-            countryCode: 'NO',
-            fromDate: new Date(2020, 3, 1),
-            toDate: new Date(2020, 4, 1),
+            landkode: 'NO',
+            fom: new Date(2020, 3, 1),
+            tom: new Date(2020, 4, 1),
             id: '123'
         }
     ],
@@ -245,34 +271,29 @@ describe('mapFormDataToApiData', () => {
 });
 
 describe('mapFormDataToApiData', () => {
-    const formData = { ...formDataMock };
-
-    const formDataFeatureOn: PleiepengesøknadFormData = {
-        ...(formData as PleiepengesøknadFormData),
+    const formData: PleiepengesøknadFormData = {
+        ...(formDataMock as PleiepengesøknadFormData),
         [AppFormField.harMedsøker]: YesOrNo.YES,
         arbeidsforhold: [telenorRedusertJobbing, maxboIngenJobbing]
     };
+
     beforeAll(() => {
         (isFeatureEnabled as any).mockImplementation(() => true);
     });
     it('should not include samtidig_hjemme if harMedsøker is no', () => {
-        const resultingApiData = mapFormDataToApiData(
-            { ...formDataFeatureOn, harMedsøker: YesOrNo.NO },
-            barnMock,
-            'nb'
-        );
+        const resultingApiData = mapFormDataToApiData({ ...formData, harMedsøker: YesOrNo.NO }, barnMock, 'nb');
         expect(resultingApiData.samtidig_hjemme).toBeUndefined();
     });
 
     it('should include samtidig_hjemme if harMedsøker is yes', () => {
-        const dataHarMedsøker = { ...formDataFeatureOn, harMedsøker: YesOrNo.YES };
+        const dataHarMedsøker = { ...formData, harMedsøker: YesOrNo.YES };
         const resultingApiData = mapFormDataToApiData(dataHarMedsøker, barnMock, 'nb');
         expect(resultingApiData.samtidig_hjemme).toBeDefined();
     });
 
     it('should include prosentAvVanligUke when skalJobbe is redusert', () => {
         const resultApiData = mapFormDataToApiData(
-            { ...formDataFeatureOn, arbeidsforhold: [telenorRedusertJobbing] },
+            { ...formData, arbeidsforhold: [telenorRedusertJobbing] },
             barnMock,
             'nb'
         );
@@ -287,7 +308,7 @@ describe('mapFormDataToApiData', () => {
     it('should include prosentAvVanligUke when skalJobbe is nei', () => {
         const {
             arbeidsgivere: { organisasjoner }
-        } = mapFormDataToApiData({ ...formDataFeatureOn, arbeidsforhold: [maxboIngenJobbing] }, barnMock, 'nb');
+        } = mapFormDataToApiData({ ...formData, arbeidsforhold: [maxboIngenJobbing] }, barnMock, 'nb');
         const result: ArbeidsforholdApiNei = {
             ...organisasjonMaxbo,
             skal_jobbe: 'nei',
@@ -295,10 +316,11 @@ describe('mapFormDataToApiData', () => {
         };
         expect(organisasjoner).toEqual([result]);
     });
+
     it('should include correct arbeidsforhold when skalJobbe is vet_ikke', () => {
         const {
             arbeidsgivere: { organisasjoner }
-        } = mapFormDataToApiData({ ...formDataFeatureOn, arbeidsforhold: [maxboVetIkke] }, barnMock, 'nb');
+        } = mapFormDataToApiData({ ...formData, arbeidsforhold: [maxboVetIkke] }, barnMock, 'nb');
         const result: ArbeidsforholdApiVetIkke = {
             ...organisasjonMaxbo,
             jobber_normalt_timer: 20,
@@ -313,17 +335,108 @@ describe('mapFormDataToApiData', () => {
         const {
             arbeidsgivere: { organisasjoner }
         } = mapFormDataToApiData(
-            { ...formDataFeatureOn, arbeidsforhold: [{ ...maxboVetIkke, erAnsattIPerioden: YesOrNo.NO }] },
+            { ...formData, arbeidsforhold: [{ ...maxboVetIkke, erAnsattIPerioden: YesOrNo.NO }] },
             barnMock,
             'nb'
         );
         expect(organisasjoner).toEqual([]);
     });
 
-    it('should always send barns fodselsdato', () => {});
+    it('should not include utenlandsoppholdIPerioden if skalOppholdeSegIUtlandet is NO', () => {
+        const { utenlandsopphold_i_perioden } = mapFormDataToApiData(
+            {
+                ...formData,
+                skalOppholdeSegIUtlandetIPerioden: YesOrNo.NO,
+                utenlandsoppholdIPerioden: [
+                    {
+                        fom: new Date(),
+                        tom: new Date(),
+                        landkode: 'SE'
+                    }
+                ]
+            },
+            barnMock,
+            'nb'
+        );
+        expect(utenlandsopphold_i_perioden!.opphold.length).toBe(0);
+    });
+
+    it('should include utenlandsoppholdIPerioden if skalOppholdeSegIUtlandet is YES', () => {
+        const { utenlandsopphold_i_perioden } = mapFormDataToApiData(
+            {
+                ...formData,
+                skalOppholdeSegIUtlandetIPerioden: YesOrNo.YES,
+                utenlandsoppholdIPerioden: [
+                    {
+                        fom: new Date(),
+                        tom: new Date(),
+                        landkode: 'SE'
+                    }
+                ]
+            },
+            barnMock,
+            'nb'
+        );
+        expect(utenlandsopphold_i_perioden).toBeDefined();
+        expect(utenlandsopphold_i_perioden!.opphold.length).toBe(1);
+    });
+
+    it('should not include ferieuttakIPerioden if skalTaUtFerieIPerioden is NO', () => {
+        const { ferieuttak_i_perioden } = mapFormDataToApiData(
+            {
+                ...formData,
+                skalTaUtFerieIPerioden: YesOrNo.NO,
+                ferieuttakIPerioden: [
+                    {
+                        fom: new Date(),
+                        tom: new Date()
+                    }
+                ]
+            },
+            barnMock,
+            'nb'
+        );
+        expect(ferieuttak_i_perioden).toBeDefined();
+        expect(ferieuttak_i_perioden!.ferieuttak.length).toBe(0);
+    });
+    it('should include ferieuttakIPerioden if skalTaUtFerieIPerioden is YES', () => {
+        const { ferieuttak_i_perioden } = mapFormDataToApiData(
+            {
+                ...formData,
+                skalTaUtFerieIPerioden: YesOrNo.YES,
+                ferieuttakIPerioden: [
+                    {
+                        fom: new Date(),
+                        tom: new Date()
+                    }
+                ]
+            },
+            barnMock,
+            'nb'
+        );
+        expect(ferieuttak_i_perioden!.ferieuttak.length).toBe(1);
+    });
 
     it('should use correct format for a complete mapped application', () => {
         const mappedData = mapFormDataToApiData(completeFormDataMock, barnMock, 'nb');
+
+        const utenlandsoppholdISverige: BostedUtlandApiData = {
+            landnavn: 'Sverige',
+            landkode: 'SE',
+            fra_og_med: '2020-01-05',
+            til_og_med: '2020-01-07'
+        };
+
+        const utenlandsoppholdIUSA: UtenlandsoppholdUtenforEøsIPeriodenApiData = {
+            landnavn: 'USA',
+            landkode: 'US',
+            fra_og_med: '2020-01-08',
+            til_og_med: '2020-01-09',
+            er_utenfor_eos: true,
+            er_barnet_innlagt: true,
+            arsak: UtenlandsoppholdÅrsak.ANNET
+        };
+
         const resultApiData: PleiepengesøknadApiData = {
             new_version: true,
             sprak: 'nb',
@@ -331,7 +444,7 @@ describe('mapFormDataToApiData', () => {
                 navn: 'Mock Mocknes',
                 fodselsnummer: null,
                 aktoer_id: barnMock[0].aktoer_id,
-                fodselsdato: '2020-00-24'
+                fodselsdato: '2020-00-20'
             },
             relasjon_til_barnet: null,
             arbeidsgivere: {
@@ -359,16 +472,26 @@ describe('mapFormDataToApiData', () => {
                     }
                 ]
             },
-            utenlandsopphold_i_perioden: {
-                skal_oppholde_seg_i_i_utlandet_i_perioden: false,
-                opphold: []
-            },
             fra_og_med: '2020-01-01',
             til_og_med: '2020-02-01',
             vedlegg: ['nav.no/1'],
             har_medsoker: true,
             har_bekreftet_opplysninger: true,
             har_forstatt_rettigheter_og_plikter: true,
+            utenlandsopphold_i_perioden: {
+                skal_oppholde_seg_i_i_utlandet_i_perioden: true,
+                opphold: [utenlandsoppholdISverige, utenlandsoppholdIUSA]
+            },
+            ferieuttak_i_perioden: {
+                skal_ta_ut_ferie_i_periode: true,
+                ferieuttak: [
+                    {
+                        fra_og_med: '2020-01-05',
+                        til_og_med: '2020-01-07'
+                    }
+                ]
+            },
+
             samtidig_hjemme: true,
             tilsynsordning: {
                 svar: 'ja',

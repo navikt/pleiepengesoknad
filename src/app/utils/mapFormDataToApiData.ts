@@ -15,7 +15,8 @@ import {
     ArbeidsforholdApiRedusert,
     ArbeidsforholdApiSomVanlig,
     ArbeidsforholdApiVetIkke,
-    UtenlandsoppholdApiData
+    BostedUtlandApiData,
+    UtenlandsoppholdUtenforEøsIPeriodenApiData
 } from '../types/PleiepengesøknadApiData';
 import { attachmentUploadHasFailed } from 'common/utils/attachmentUtils';
 import { YesOrNo } from 'common/types/YesOrNo';
@@ -26,7 +27,8 @@ import { timeToIso8601Duration } from 'common/utils/timeUtils';
 import { calcRedusertProsentFromRedusertTimer } from './arbeidsforholdUtils';
 import { getCountryName } from 'common/components/country-select/CountrySelect';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
-import { isNotMemberOfEEC } from 'common/utils/eecUtils';
+import { countryIsMemberOfEøsOrEfta } from 'common/utils/countryUtils';
+import { isFeatureEnabled, Feature } from './featureToggleUtils';
 
 export const mapFormDataToApiData = (
     {
@@ -53,7 +55,9 @@ export const mapFormDataToApiData = (
         harNattevåk,
         harNattevåk_ekstrainfo,
         skalOppholdeSegIUtlandetIPerioden,
-        utenlandsoppholdIPerioden
+        utenlandsoppholdIPerioden,
+        ferieuttakIPerioden,
+        skalTaUtFerieIPerioden
     }: PleiepengesøknadFormData,
     barn: BarnReceivedFromApi[],
     sprak: Locale = 'nb'
@@ -88,17 +92,6 @@ export const mapFormDataToApiData = (
                     ? utenlandsoppholdNeste12Mnd.map((o) => mapUtenlandsoppholdTilApiData(o, sprak))
                     : []
         },
-        utenlandsopphold_i_perioden: {
-            skal_oppholde_seg_i_i_utlandet_i_perioden: skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES,
-            opphold: utenlandsoppholdIPerioden.map((o) => {
-                const erUtenforEØS: boolean = isNotMemberOfEEC(o.countryCode);
-                return {
-                    ...mapUtenlandsoppholdTilApiData(o, sprak),
-                    er_utenfor_eos: erUtenforEØS,
-                    arsak: erUtenforEØS ? o.reason : null
-                };
-            })
-        },
         fra_og_med: formatDateToApiFormat(periodeFra!),
         til_og_med: formatDateToApiFormat(periodeTil!),
         vedlegg: legeerklæring.filter((attachment) => !attachmentUploadHasFailed(attachment)).map(({ url }) => url!),
@@ -107,6 +100,41 @@ export const mapFormDataToApiData = (
         har_forstatt_rettigheter_og_plikter: harForståttRettigheterOgPlikter
     };
 
+    if (isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD)) {
+        apiData.utenlandsopphold_i_perioden = {
+            skal_oppholde_seg_i_i_utlandet_i_perioden: skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES,
+            opphold:
+                skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES
+                    ? utenlandsoppholdIPerioden.map((o) => {
+                          const erUtenforEØS: boolean = countryIsMemberOfEøsOrEfta(o.landkode) === false;
+                          if (erUtenforEØS && o.årsak) {
+                              const periodeopphold: UtenlandsoppholdUtenforEøsIPeriodenApiData = {
+                                  ...mapUtenlandsoppholdTilApiData(o, sprak),
+                                  er_utenfor_eos: erUtenforEØS,
+                                  er_barnet_innlagt: o.erBarnetInnlagt === YesOrNo.YES,
+                                  arsak: o.erBarnetInnlagt === YesOrNo.YES ? o.årsak : null
+                              };
+                              return periodeopphold;
+                          } else {
+                              return mapUtenlandsoppholdTilApiData(o, sprak);
+                          }
+                      })
+                    : []
+        };
+    }
+
+    if (isFeatureEnabled(Feature.TOGGLE_FERIEUTTAK)) {
+        apiData.ferieuttak_i_perioden = {
+            skal_ta_ut_ferie_i_periode: skalTaUtFerieIPerioden === YesOrNo.YES,
+            ferieuttak:
+                skalTaUtFerieIPerioden === YesOrNo.YES
+                    ? ferieuttakIPerioden.map((uttak) => ({
+                          fra_og_med: formatDateToApiFormat(uttak.fom),
+                          til_og_med: formatDateToApiFormat(uttak.tom)
+                      }))
+                    : []
+        };
+    }
     apiData.samtidig_hjemme = harMedsøker === YesOrNo.YES ? samtidigHjemme === YesOrNo.YES : undefined;
 
     if (tilsynsordning !== undefined) {
@@ -255,9 +283,9 @@ export const mapTilsynsordningToApiData = (tilsynsordning: Tilsynsordning): Tils
     return undefined;
 };
 
-const mapUtenlandsoppholdTilApiData = (opphold: Utenlandsopphold, locale: string): UtenlandsoppholdApiData => ({
-    landnavn: getCountryName(opphold.countryCode, locale),
-    landkode: opphold.countryCode,
-    fra_og_med: formatDateToApiFormat(opphold.fromDate),
-    til_og_med: formatDateToApiFormat(opphold.toDate)
+const mapUtenlandsoppholdTilApiData = (opphold: Utenlandsopphold, locale: string): BostedUtlandApiData => ({
+    landnavn: getCountryName(opphold.landkode, locale),
+    landkode: opphold.landkode,
+    fra_og_med: formatDateToApiFormat(opphold.fom),
+    til_og_med: formatDateToApiFormat(opphold.tom)
 });

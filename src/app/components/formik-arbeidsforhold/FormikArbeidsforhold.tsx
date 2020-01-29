@@ -11,7 +11,7 @@ import { validateRequiredField } from 'app/validation/fieldValidations';
 import intlHelper from 'common/utils/intlUtils';
 import RedusertArbeidsforholdPart from './RedusertArbeidsforholdPart';
 import VetIkkeArbeidsforholdPart from './VetIkkeArbeidsforholdPart';
-import YesOrNoQuestion from '../../../common/components/yes-or-no-question/YesOrNoQuestion';
+import FormikYesOrNoQuestion from '../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { useIntl } from 'react-intl';
 import FormikRadioPanelGroup from '../../../common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
@@ -29,7 +29,7 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                 const getFieldName = (field: ArbeidsforholdField) => `${name}.${index}.${field}` as AppFormField;
                 return (
                     <>
-                        <YesOrNoQuestion
+                        <FormikYesOrNoQuestion
                             legend={intlHelper(intl, 'arbeidsforhold.erAnsattIPerioden.spm')}
                             name={getFieldName(ArbeidsforholdField.erAnsattIPerioden)}
                             validate={validateRequiredField}

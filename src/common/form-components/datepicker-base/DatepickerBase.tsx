@@ -32,6 +32,7 @@ interface DatepickerBaseProps {
     value?: Date;
     dateLimitations?: DateLimitiations;
     fullScreenOnMobile?: boolean;
+    fullscreenOverlay?: boolean;
 }
 
 const parseDateLimitations = (dateLimitations: DateLimitiations): DatovelgerAvgrensninger => {
@@ -56,6 +57,7 @@ const DatepickerBase: React.FunctionComponent<DatepickerBaseProps> = ({
     value,
     onChange,
     fullScreenOnMobile = true,
+    fullscreenOverlay,
     dateLimitations,
     ...otherProps
 }) => {
@@ -69,7 +71,9 @@ const DatepickerBase: React.FunctionComponent<DatepickerBaseProps> = ({
                 valgtDato={dateToISOFormattedDateString(value)}
                 avgrensninger={dateLimitations ? parseDateLimitations(dateLimitations) : undefined}
                 {...otherProps}
-                kalender={{ plassering: fullScreenOnMobile && isWide === false ? 'fullskjerm' : undefined }}
+                kalender={{
+                    plassering: fullscreenOverlay || (fullScreenOnMobile && isWide === false) ? 'fullskjerm' : undefined
+                }}
                 onChange={(dateString: string) => {
                     const newDate = dateString && dateString !== 'Invalid date' ? new Date(dateString) : undefined;
                     if (value !== newDate) {

@@ -7,7 +7,7 @@ import { ConnectedFormikProps } from '../../../common/types/ConnectedFormikProps
 import { AppFormField } from '../../types/PleiepengesøknadFormData';
 import intlHelper from 'common/utils/intlUtils';
 import { useIntl } from 'react-intl';
-import { flattenFieldArrayErrors, showValidationErrors } from 'common/formik/formikUtils';
+import { flattenFieldArrayErrors, isValidationErrorsVisible } from 'common/formik/formikUtils';
 import { isFieldValidationError, renderFieldValidationError } from 'common/validation/fieldValidationRenderUtils';
 
 interface FormikValidationErrorSummaryProps {
@@ -26,7 +26,7 @@ const FormikValidationErrorSummary: React.FunctionComponent<Props> = ({ formik, 
         const numberOfErrors = Object.keys(errors).length;
         const errorMessages: ValidationSummaryError[] = [];
 
-        if (numberOfErrors > 0 && showValidationErrors(status, submitCount)) {
+        if (numberOfErrors > 0 && isValidationErrorsVisible(status, submitCount)) {
             const allErrors = flattenFieldArrayErrors(errors);
             Object.keys(allErrors).forEach((key) => {
                 const error = allErrors[key];
