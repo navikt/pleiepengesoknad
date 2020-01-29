@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import BekreftDialog from '../bekreft-dialog/BekreftDialog';
-import Box from '../../box/Box';
 import Undertittel from 'nav-frontend-typografi/lib/undertittel';
-import Normaltekst from 'nav-frontend-typografi/lib/normaltekst';
 import intlHelper from '../../../utils/intlUtils';
 
 export interface Props {
@@ -12,7 +10,7 @@ export interface Props {
     onFortsettSøknad: () => void;
 }
 
-const AvbrytSøknadDialog:React.FunctionComponent<Props> = (props) => {
+const AvbrytSøknadDialog: React.FunctionComponent<Props> = (props) => {
     const intl = useIntl();
     const { synlig, onFortsettSøknad, onFortsettSøknadSenere } = props;
     return (
@@ -25,13 +23,15 @@ const AvbrytSøknadDialog:React.FunctionComponent<Props> = (props) => {
             onBekreft={onFortsettSøknadSenere}
             størrelse="30"
             onRequestClose={onFortsettSøknad}>
-            <Box margin="m">
-                <Undertittel tag="h1"><FormattedMessage id="avbrytSøknadDialog.tittel" /></Undertittel>
-            </Box>
-            <Box margin="m">
-                <Normaltekst><FormattedMessage id="avbrytSøknadDialog.intro" /></Normaltekst>
-            </Box>
-            <Normaltekst><FormattedMessage id="avbrytSøknadDialog.spørsmål" /></Normaltekst>
+            <Undertittel tag="h1">
+                <FormattedMessage id="avbrytSøknadDialog.tittel" />
+            </Undertittel>
+            <p>
+                <FormattedMessage id="avbrytSøknadDialog.intro" />
+            </p>
+            <p>
+                <FormattedMessage id="avbrytSøknadDialog.spørsmål" />
+            </p>
         </BekreftDialog>
     );
 };

@@ -15,6 +15,12 @@ jest.mock('../../../utils/featureToggleUtils', () => {
     };
 });
 
+jest.mock('../../../utils/envUtils', () => {
+    return {
+        getEnvironmentVariable: (name: string) => ''
+    };
+});
+
 const mock = jest.fn();
 
 const renderWrappedInMemoryRouter = (child: React.ReactNode) => {
