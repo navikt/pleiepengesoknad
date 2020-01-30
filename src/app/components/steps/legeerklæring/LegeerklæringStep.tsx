@@ -20,6 +20,7 @@ import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel'
 import PictureScanningGuide from '../../../../common/components/picture-scanning-guide/PictureScanningGuide';
 import { Attachment } from 'common/types/Attachment';
 import { persist } from '../../../api/api';
+import { mapFileToPersistedFile } from 'common/utils/attachmentUtils';
 
 type Props = { formikProps: PleiepengesøknadFormikProps } & CommonStepFormikProps & HistoryProps & StepConfigProps;
 
@@ -29,22 +30,16 @@ const LegeerklæringStep = ({ history, nextStepRoute, formikProps, ...stepProps 
     const isRunningDemoMode = appIsRunningInDemoMode();
     const { values } = formikProps;
     const attachments: Attachment[] = values ? values[AppFormField.legeerklæring] : [];
-    const persistAttachments = attachments.map(attachment => {
-        const { file: { name, lastModified, size, type, slice }, url, uploaded, pending} = attachment;
-        return {
-            file: { name, lastModified, size, type, slice  },
-            uploaded,
-            pending,
-            url
-        };
-    });
     return (
         <FormikStep
             id={StepID.LEGEERKLÆRING}
             onValidFormSubmit={() => {
                 const formData = {
                     ...values,
-                    [AppFormField.legeerklæring]: persistAttachments
+                    [AppFormField.legeerklæring]: attachments.map((a) => ({
+                        ...a,
+                        file: mapFileToPersistedFile(a.file)
+                    }))
                 };
                 persist(formData, StepID.LEGEERKLÆRING);
                 if (nextStepRoute) {
@@ -67,15 +62,15 @@ const LegeerklæringStep = ({ history, nextStepRoute, formikProps, ...stepProps 
                     <Box padBottom="xl">
                         <CounsellorPanel>
                             <p>
-                                <FormattedHTMLMessage id="steg.lege.intro.1.html"/>
+                                <FormattedHTMLMessage id="steg.lege.intro.1.html" />
                             </p>
                             <p>
-                                <FormattedHTMLMessage id="steg.lege.intro.2.html"/>
+                                <FormattedHTMLMessage id="steg.lege.intro.2.html" />
                             </p>
                         </CounsellorPanel>
                     </Box>
                     <HelperTextPanel>
-                        <PictureScanningGuide/>
+                        <PictureScanningGuide />
                     </HelperTextPanel>
                     <Box margin="l">
                         <FormikFileUploader
@@ -90,7 +85,7 @@ const LegeerklæringStep = ({ history, nextStepRoute, formikProps, ...stepProps 
                         />
                     </Box>
                     <FileUploadErrors filesThatDidntGetUploaded={filesThatDidntGetUploaded} />
-                    <LegeerklæringFileList wrapNoAttachmentsInBox={true} includeDeletionFunctionality={true}/>
+                    <LegeerklæringFileList wrapNoAttachmentsInBox={true} includeDeletionFunctionality={true} />
                 </>
             )}
         </FormikStep>

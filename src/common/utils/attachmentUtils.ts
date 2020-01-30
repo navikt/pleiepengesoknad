@@ -1,4 +1,4 @@
-import { Attachment } from '../types/Attachment';
+import { Attachment, PersistedFile } from '../types/Attachment';
 
 export const VALID_EXTENSIONS = ['.pdf', '.jpeg', '.jpg', '.png'];
 
@@ -6,6 +6,22 @@ export const fileExtensionIsValid = (filename: string): boolean => {
     const ext = filename.split('.').pop();
     return VALID_EXTENSIONS.includes(`.${ext!.toLowerCase()}`);
 };
+
+export const isFileObject = (file: File | PersistedFile): file is File => (file as any).isPersistedFile !== true;
+
+export const mapFileToPersistedFile = ({
+    name,
+    lastModified,
+    type,
+    size,
+    ...rest
+}: File | PersistedFile): PersistedFile => ({
+    isPersistedFile: true,
+    name,
+    lastModified,
+    type,
+    size
+});
 
 export const getAttachmentFromFile = (file: File): Attachment => ({
     file,
