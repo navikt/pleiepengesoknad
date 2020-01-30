@@ -64,14 +64,14 @@
 
     "step.tidsrom.pageTitle": "Pleiepengesøknad – periode",
     "step.tidsrom.stepTitle": "Periode",
-    "step.tidsrom.stepIndicatorLabel": "Periode",
+    "step.tidsrom.stepIndicatorLabel": "Perioden med pleiepenger",
     "step.tidsrom.infotekst": "For å ha rett til pleiepenger må du ha omsorgen for barnet i hele perioden du søker for.",
-    "steg.tidsrom.veileder.utenlandsopphold.html": "Du kan beholde pleiepengane mens du oppheld deg <strong>i eit EØS land</strong>, så lenge du <ul><li>du reiser saman med barnet du pleier</li><li>har rett på pleiepengar i perioden du er i utlandet</li></ul>Dersom du oppheld deg <strong>i eit EØS land</strong>, kan du beholde pleiepengane i opptil 8 veker av ein 12 månedar lang periode.",
+    "steg.tidsrom.veileder.utenlandsopphold.html": "Du kan beholde pleiepengane mens du oppheld deg <strong>i eit EØS land</strong>, så lenge du <ul><li>reiser saman med barnet du pleier</li><li>har rett på pleiepengar i perioden du er i utlandet</li></ul>Dersom du oppheld deg <strong>i eit land utenfor EØS</strong>, kan du beholde pleiepengane i opptil 8 veker av ein 12 månedar lang periode.",
     "steg.tidsrom.iUtlandetIPerioden.listeTittel": "Utenlandsopphold i perioden du søker for",
     "steg.tidsrom.iUtlandetIPerioden.eøs.årsak.hjelp": "Dette treng vi fordi ...",
     "steg.tidsrom.iUtlandetIPerioden.spm": "Skal du reise til utlandet i perioden du søkjer for?",
     "steg.tidsrom.iUtlandetIPerioden.eøs.årsak.spm": "Kva er formålet med denne reisa?",
-    "steg.tidsrom.ferieuttakIPerioden.spm": "Skal du ta ut feriedagar i perioden du søkjer for?",
+    "steg.tidsrom.ferieuttakIPerioden.spm": "Skal du ha ferie i perioden du søkjer for?",
 
     "step.arbeidsforhold.pageTitle": "Pleiepengesøknad – opplysningar om arbeidsforholdet ditt",
     "step.arbeidsforhold.stepTitle": "Arbeidsforhold",

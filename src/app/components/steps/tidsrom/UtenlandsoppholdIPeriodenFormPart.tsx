@@ -39,7 +39,7 @@ function UtenlandsoppholdIPeriodenFormPart({ periode }: Props) {
                             error={errorMsgProps?.feil}
                             labels={{
                                 modalTitle: 'Utenlandsopphold',
-                                listTitle: 'Registrerte utenlandsopphold i perioden',
+                                listTitle: 'Utenlandsopphold i perioden',
                                 addLabel: 'Legg til utenlandsopphold'
                             }}
                             listRenderer={(onEdit, onDelete) => (

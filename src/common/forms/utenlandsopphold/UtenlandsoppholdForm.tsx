@@ -22,6 +22,7 @@ import {
 import dateRangeValidation from 'common/validation/dateRangeValidation';
 
 import './utenlandsoppholdForm.less';
+import { getCountryName } from 'common/components/country-select/CountrySelect';
 
 export interface UtenlandsoppholdFormLabels {
     tittel: string;
@@ -148,12 +149,15 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props> = ({
                                     {countryOptions}
                                 </FormikSelect>
                             </Box>
-                            {showInnlagtQuestion && (
+
+                            {showInnlagtQuestion && values.landkode && (
                                 <>
                                     <Box padBottom="m">
                                         <FormikYesOrNoQuestion<UtenlandsoppholdFormFields>
                                             name={UtenlandsoppholdFormFields.erBarnetInnlagt}
-                                            legend={intlHelper(intl, 'utenlandsopphold.form.erBarnetInnlagt.spm')}
+                                            legend={intlHelper(intl, 'utenlandsopphold.form.erBarnetInnlagt.spm', {
+                                                land: getCountryName(values.landkode, intl.locale)
+                                            })}
                                             singleColumn={true}
                                             showValidationErrors={showErrors}
                                             validate={validateYesOrNoIsAnswered}
@@ -163,7 +167,9 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props> = ({
                                         <>
                                             <FormikRadioPanelGroup<UtenlandsoppholdFormFields>
                                                 singleColumn={true}
-                                                legend={intlHelper(intl, 'utenlandsopphold.form.årsak.spm')}
+                                                legend={intlHelper(intl, 'utenlandsopphold.form.årsak.spm', {
+                                                    land: getCountryName(values.landkode, intl.locale)
+                                                })}
                                                 name={UtenlandsoppholdFormFields.årsak}
                                                 validate={validateRequiredField}
                                                 showValidationErrors={showErrors}
@@ -181,7 +187,8 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props> = ({
                                                         value: UtenlandsoppholdÅrsak.INNLAGT_DEKKET_ANNET_LAND,
                                                         label: intlHelper(
                                                             intl,
-                                                            `utenlandsopphold.form.årsak.${UtenlandsoppholdÅrsak.INNLAGT_DEKKET_ANNET_LAND}`
+                                                            `utenlandsopphold.form.årsak.${UtenlandsoppholdÅrsak.INNLAGT_DEKKET_ANNET_LAND}`,
+                                                            { land: getCountryName(values.landkode, intl.locale) }
                                                         )
                                                     },
                                                     {

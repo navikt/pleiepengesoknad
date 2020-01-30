@@ -9,7 +9,7 @@ import { validateYesOrNoIsAnswered, validateFradato, validateTildato } from '../
 import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import Box from 'common/components/box/Box';
 import intlHelper from 'common/utils/intlUtils';
-import { useIntl, FormattedMessage, FormattedHTMLMessage } from 'react-intl';
+import { useIntl, FormattedHTMLMessage } from 'react-intl';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
 import { persist } from 'app/api/api';
@@ -18,7 +18,6 @@ import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 import FerieuttakIPeriodenFormPart from './FerieuttakIPeriodenFormPart';
 import UtenlandsoppholdIPeriodenFormPart from './UtenlandsoppholdIPeriodenFormPart';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 
 interface OpplysningerOmTidsromStepProps {
     formikProps: PleiepengesøknadFormikProps;
@@ -61,11 +60,6 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
             handleSubmit={handleSubmit}
             history={history}
             {...stepProps}>
-            <Box padBottom="xxl">
-                <AlertStripeInfo>
-                    <FormattedMessage id="step.tidsrom.infotekst" />
-                </AlertStripeInfo>
-            </Box>
             <FormikDateIntervalPicker<AppFormField>
                 legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
                 helperText={intlHelper(intl, 'steg.tidsrom.hjelpetekst')}

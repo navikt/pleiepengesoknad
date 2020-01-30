@@ -33,9 +33,9 @@ function FerieuttakIPeriodenFormPart({ periode }: Props) {
                         }}
                         error={errorMsgProps?.feil}
                         labels={{
-                            modalTitle: 'Ferieuttak',
-                            listTitle: 'Registrerte ferieuttak i perioden',
-                            addLabel: 'Legg til periode med ferieuttak'
+                            modalTitle: 'Ferie',
+                            listTitle: 'Ferie i perioden',
+                            addLabel: 'Legg til periode med ferie'
                         }}
                         listRenderer={(onEdit, onDelete) => (
                             <FerieuttakListe ferieuttak={field.value} onDelete={onDelete} onEdit={onEdit} />

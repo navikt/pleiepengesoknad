@@ -63,15 +63,15 @@
     "step.opplysninger-om-barnet.stepIndicatorLabel": "Om barnet",
 
     "step.tidsrom.pageTitle": "Pleiepengesøknad - periode",
-    "step.tidsrom.stepTitle": "Periode",
+    "step.tidsrom.stepTitle": "Perioden med pleiepenger",
     "step.tidsrom.stepIndicatorLabel": "Periode",
     "step.tidsrom.infotekst": "For å ha rett til pleiepenger må du ha omsorgen for barnet i hele perioden du søker for.",
-    "steg.tidsrom.veileder.utenlandsopphold.html": "Du kan beholde pleiepengene mens du oppholder deg <strong>i et EØS land</strong>, så lenge du <ul><li>du reiser sammen med barnet du pleier</li><li>har rett på pleiepenger i perioden du er i utlandet</li></ul>Hvis du oppholder deg <strong>i et EØS land</strong>, kan du beholde pleiepengene i opptil 8 uker av en 12 måneder lang periode.",
+    "steg.tidsrom.veileder.utenlandsopphold.html": "Du kan beholde pleiepengene mens du oppholder deg <strong>i et EØS land</strong>, så lenge du <ul><li>reiser sammen med barnet du pleier</li><li>har rett på pleiepenger i perioden du er i utlandet</li></ul>Hvis du oppholder deg <strong>i et land utenfor EØS</strong>, kan du beholde pleiepengene i opptil 8 uker av en 12 måneder lang periode.",
     "steg.tidsrom.iUtlandetIPerioden.listeTittel": "Utenlandsopphold i perioden du søker for",
     "steg.tidsrom.iUtlandetIPerioden.eøs.årsak.hjelp": "Dette trenger vi fordi ...",
     "steg.tidsrom.iUtlandetIPerioden.spm": "Skal du reise til utlandet i perioden du søker for?",
     "steg.tidsrom.iUtlandetIPerioden.eøs.årsak.spm": "Hva er formålet med denne reisen?",
-    "steg.tidsrom.ferieuttakIPerioden.spm": "Skal du ta ut feriedager i perioden du søker for?",
+    "steg.tidsrom.ferieuttakIPerioden.spm": "Skal du ha ferie i perioden du søker for?",
 
     "step.arbeidsforhold.pageTitle": "Pleiepengesøknad - opplysninger om ditt arbeidsforhold",
     "step.arbeidsforhold.stepTitle": "Arbeidsforhold",
@@ -170,7 +170,7 @@
     "steg.omBarnet.relasjon.eksempel": "Eksempler: mor, far, tante, onkel eller andre som står barnet nær",
 
     "steg.tidsrom.hjelpetekst": "Søknaden er under utvikling: Hvis du skal søke for flere perioder må du sende én søknad for hver periode.",
-    "steg.tidsrom.hvilketTidsrom.spm": "Hvilken periode søker du pleiepenger for?",
+    "steg.tidsrom.hvilketTidsrom.spm": "Hvilken periode søker du for?",
     "steg.tidsrom.hvilketTidsrom.fom": "Fra og med",
     "steg.tidsrom.hvilketTidsrom.tom": "Til og med",
     "steg.tidsrom.hvorMye.spm": "Hvor mye søker du om?",
