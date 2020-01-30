@@ -10,6 +10,7 @@ import FerieuttakListe from 'common/forms/ferieuttak/FerieuttakList';
 import FerieuttakForm from 'common/forms/ferieuttak/FerieuttakForm';
 import { DateRange } from 'common/utils/dateUtils';
 import { validateFerieuttakIPerioden } from 'app/validation/fieldValidations';
+import intlHelper from 'common/utils/intlUtils';
 
 interface Props {
     periode: DateRange;
@@ -33,9 +34,9 @@ function FerieuttakIPeriodenFormPart({ periode }: Props) {
                         }}
                         error={errorMsgProps?.feil}
                         labels={{
-                            modalTitle: 'Ferieuttak',
-                            listTitle: 'Registrerte ferieuttak i perioden',
-                            addLabel: 'Legg til periode med ferieuttak'
+                            modalTitle: intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.modalTitle'),
+                            listTitle: intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.listTitle'),
+                            addLabel: intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.addLabel')
                         }}
                         listRenderer={(onEdit, onDelete) => (
                             <FerieuttakListe ferieuttak={field.value} onDelete={onDelete} onEdit={onEdit} />

@@ -11,6 +11,7 @@ function createEnvSettingsFileForHeroku() {
             `window.appSettings = {
                 API_URL: 'https://pleiepenger.herokuapp.com/',
                 LOGIN_URL: 'https://pleiepenger.herokuapp.com/',
+                PUBLIC_PATH: '',
                 DEMO_MODE: 'on',
                 TOGGLE_UTENLANDSOPPHOLD: 'on',
                 TOGGLE_FERIEUTTAK: 'on'

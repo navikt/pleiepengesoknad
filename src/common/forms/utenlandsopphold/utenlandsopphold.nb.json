@@ -5,12 +5,12 @@
     "utenlandsopphold.form.tidsperiode.fraDato": "Fra og med",
     "utenlandsopphold.form.tidsperiode.tilDato": "Til og med",
     "utenlandsopphold.form.land.spm": "Velg land",
-    "utenlandsopphold.form.erBarnetInnlagt.spm": "Er barnet innlagt?",
-    "utenlandsopphold.form.årsak.spm": "Årsak?",
-    "utenlandsopphold.form.årsak.BARNET_INNLAGT_I_HELSEINSTITUSJON_FOR_NORSK_OFFENTLIG_REGNING": "Barnet er innlagt i helseinstitusjon for norsk offentlig regning",
-    "utenlandsopphold.form.årsak.BARNET_INNLAGT_I_HELSEINSTITUSJON_DEKKET_ETTER_AVTALE_MED_ET_ANNET_LAND_OM_TRYGD": "Barnet er innlagt i helseinstitusjon dekket etter avtale med et annet land om trygd",
-    "utenlandsopphold.form.årsak.ANNET": "Annet",
-    "utenlandsopphold.oppsummering.årsak.ANNET": "Barnet er innlagt",
+    "utenlandsopphold.form.erBarnetInnlagt.spm": "Er, eller skal, barnet bli innlagt i helseinstitusjon i {land}?",
+    "utenlandsopphold.form.årsak.spm": "Hvordan dekkes utgiftene til innleggelsen?",
+    "utenlandsopphold.form.årsak.BARNET_INNLAGT_I_HELSEINSTITUSJON_FOR_NORSK_OFFENTLIG_REGNING": "For norsk offentlig regning",
+    "utenlandsopphold.form.årsak.BARNET_INNLAGT_I_HELSEINSTITUSJON_DEKKET_ETTER_AVTALE_MED_ET_ANNET_LAND_OM_TRYGD": "Etter trygdeavtale med {land}",
+    "utenlandsopphold.form.årsak.ANNET": "Jeg dekker utgiftene selv",
+    "utenlandsopphold.oppsummering.årsak.ANNET": "Jeg dekker utgiftene selv",
     "utenlandsopphold.form.ok": "Legg til",
     "utenlandsopphold.form.avbryt": "Avbryt"
 }

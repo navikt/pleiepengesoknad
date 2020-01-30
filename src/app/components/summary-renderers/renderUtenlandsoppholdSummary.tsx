@@ -43,7 +43,10 @@ export const renderUtenlandsoppholdIPeriodenSummary = (opphold: Utenlandsopphold
             {isUtenlandsoppholdUtenforEØSApiData(opphold) && opphold.er_barnet_innlagt === true && (
                 <div className={bem.element('details')}>
                     {opphold.arsak !== UtenlandsoppholdÅrsak.ANNET && (
-                        <FormattedMessage id={`utenlandsopphold.form.årsak.${opphold.arsak}`} />
+                        <FormattedMessage
+                            id={`utenlandsopphold.form.årsak.${opphold.arsak}`}
+                            values={{ land: opphold.landnavn }}
+                        />
                     )}
                     {opphold.arsak === UtenlandsoppholdÅrsak.ANNET && (
                         <FormattedMessage id={`utenlandsopphold.oppsummering.årsak.ANNET`} />

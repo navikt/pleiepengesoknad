@@ -15,18 +15,22 @@ const utenlandsoppholdBokmål = require('../../../common/forms/utenlandsopphold/
 const utenlandsoppholdNynorsk = require('../../../common/forms/utenlandsopphold/utenlandsopphold.nn.json');
 const bostedUtlandBokmål = require('../../../common/forms/bosted-utland/bostedUtland.nb.json');
 const bostedUtlandNynorsk = require('../../../common/forms/bosted-utland/bostedUtland.nn.json');
+const ferieBokmål = require('../../../common/forms/ferieuttak/ferieuttak.nb.json');
+const ferieNynorsk = require('../../../common/forms/ferieuttak/ferieuttak.nn.json');
 const pictureScanningGuideBokmål = require('../../../common/components/picture-scanning-guide/picturescanningguide.nb.json');
 const pictureScanningGuideNynorsk = require('../../../common/components/picture-scanning-guide/picturescanningguide.nn.json');
 
 const bokmålstekster = {
     ...appBokmålstekster,
     ...utenlandsoppholdBokmål,
+    ...ferieBokmål,
     ...pictureScanningGuideBokmål,
     ...bostedUtlandBokmål
 };
 const nynorsktekster = {
     ...appNynorsktekster,
     ...utenlandsoppholdNynorsk,
+    ...ferieNynorsk,
     ...pictureScanningGuideNynorsk,
     ...bostedUtlandNynorsk
 };
