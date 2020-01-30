@@ -10,6 +10,7 @@ import ModalFormAndList from 'common/components/modal-form-and-list/ModalFormAnd
 import UtenlandsoppholdListe from 'common/forms/utenlandsopphold/UtenlandsoppholdListe';
 import UtenlandsoppholdForm from 'common/forms/utenlandsopphold/UtenlandsoppholdForm';
 import { DateRange } from 'common/utils/dateUtils';
+import intlHelper from 'common/utils/intlUtils';
 
 interface Props {
     periode: DateRange;
@@ -38,9 +39,9 @@ function UtenlandsoppholdIPeriodenFormPart({ periode }: Props) {
                             }}
                             error={errorMsgProps?.feil}
                             labels={{
-                                modalTitle: 'Utenlandsopphold',
-                                listTitle: 'Utenlandsopphold i perioden',
-                                addLabel: 'Legg til utenlandsopphold'
+                                modalTitle: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.modalTitle'),
+                                listTitle: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.listTitle'),
+                                addLabel: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.addLabel')
                             }}
                             listRenderer={(onEdit, onDelete) => (
                                 <UtenlandsoppholdListe
