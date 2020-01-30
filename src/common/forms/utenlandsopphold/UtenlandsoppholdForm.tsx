@@ -14,14 +14,14 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import FormikYesOrNoQuestion from 'common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
 import intlHelper from 'common/utils/intlUtils';
-import {
-    validateRequiredField,
-    validateYesOrNoIsAnswered,
-    validateRequiredSelect
-} from 'app/validation/fieldValidations';
 import dateRangeValidation from 'common/validation/dateRangeValidation';
 
 import './utenlandsoppholdForm.less';
+import {
+    validateRequiredSelect,
+    validateYesOrNoIsAnswered,
+    validateRequiredField
+} from 'common/validation/commonFieldValidations';
 
 export interface UtenlandsoppholdFormLabels {
     tittel: string;

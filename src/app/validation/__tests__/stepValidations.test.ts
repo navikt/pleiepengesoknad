@@ -10,6 +10,7 @@ import { AppFormField, PleiepengesøknadFormData } from '../../types/Pleiepenges
 import * as fieldValidations from './../fieldValidations';
 import Mock = jest.Mock;
 import { YesOrNo } from 'common/types/YesOrNo';
+import { validateFødselsnummer } from 'common/validation/commonFieldValidations';
 const moment = require('moment');
 
 jest.mock('./../fieldValidations', () => {
@@ -18,6 +19,12 @@ jest.mock('./../fieldValidations', () => {
         validateNavn: jest.fn(() => undefined),
         validateFødselsnummer: jest.fn(() => undefined),
         validateValgtBarn: jest.fn(() => undefined)
+    };
+});
+
+jest.mock('common/validation/commonFieldValidations', () => {
+    return {
+        validateFødselsnummer: jest.fn(() => undefined)
     };
 });
 
@@ -75,7 +82,7 @@ describe('stepValidation tests', () => {
             });
 
             it(`should be invalid if ${AppFormField.barnetsFødselsnummer} is invalid`, () => {
-                (fieldValidations.validateFødselsnummer as Mock).mockReturnValue('some error message');
+                (validateFødselsnummer as Mock).mockReturnValue('some error message');
                 expect(opplysningerOmBarnetStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
             });
 

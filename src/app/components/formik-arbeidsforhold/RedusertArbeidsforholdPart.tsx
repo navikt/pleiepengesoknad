@@ -3,7 +3,7 @@ import Box from 'common/components/box/Box';
 import { SkjemaGruppe } from 'nav-frontend-skjema';
 import { Arbeidsforhold, ArbeidsforholdField, AppFormField } from '../../types/PleiepengesøknadFormData';
 import intlHelper from 'common/utils/intlUtils';
-import { validateReduserteArbeidProsent, validateRequiredField } from '../../validation/fieldValidations';
+import { validateReduserteArbeidProsent } from '../../validation/fieldValidations';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import {
@@ -14,6 +14,7 @@ import { decimalTimeToTime } from 'common/utils/timeUtils';
 import './timerInput.less';
 import FormikInput from '../../../common/formik/formik-input/FormikInput';
 import FormikRadioPanelGroup from '../../../common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
+import { validateRequiredField } from 'common/validation/commonFieldValidations';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;

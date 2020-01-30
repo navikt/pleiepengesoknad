@@ -5,7 +5,7 @@ import { AppFormField, PleiepengesøknadFormData } from '../../../types/Pleiepen
 import FormikStep from '../../formik-step/FormikStep';
 import FormikDateIntervalPicker from '../../../../common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
 import { date3YearsAgo, DateRange, date1YearFromNow, date1YearAgo } from 'common/utils/dateUtils';
-import { validateYesOrNoIsAnswered, validateFradato, validateTildato } from '../../../validation/fieldValidations';
+import { validateFradato, validateTildato } from '../../../validation/fieldValidations';
 import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import Box from 'common/components/box/Box';
 import intlHelper from 'common/utils/intlUtils';
@@ -18,6 +18,7 @@ import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 import FerieuttakIPeriodenFormPart from './FerieuttakIPeriodenFormPart';
 import UtenlandsoppholdIPeriodenFormPart from './UtenlandsoppholdIPeriodenFormPart';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
+import { validateYesOrNoIsAnswered } from 'common/validation/commonFieldValidations';
 
 interface OpplysningerOmTidsromStepProps {
     formikProps: PleiepengesøknadFormikProps;
@@ -28,7 +29,7 @@ type Props = OpplysningerOmTidsromStepProps & HistoryProps & StepConfigProps;
 const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...stepProps }: Props) => {
     const { values, handleSubmit } = formikProps;
 
-    const persistAndNavigateTo = ( lastStepID: StepID, data: PleiepengesøknadFormData, nextStep?: string) => {
+    const persistAndNavigateTo = (lastStepID: StepID, data: PleiepengesøknadFormData, nextStep?: string) => {
         persist(data, lastStepID);
         if (nextStep) {
             history.push(nextStep);

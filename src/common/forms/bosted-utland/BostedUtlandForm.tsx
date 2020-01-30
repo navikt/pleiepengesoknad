@@ -9,11 +9,11 @@ import FormikDateIntervalPicker from 'common/formik/formik-date-interval-picker/
 import FormikSelect from 'common/formik/formik-select/FormikSelect';
 import { getCountriesForLocale } from 'common/utils/countryUtils';
 import intlHelper from 'common/utils/intlUtils';
-import { validateRequiredSelect } from 'app/validation/fieldValidations';
 import { BostedUtland } from './types';
 import dateRangeValidation from 'common/validation/dateRangeValidation';
 
 import './bostedUtlandForm.less';
+import { validateRequiredSelect } from 'common/validation/commonFieldValidations';
 
 export interface BostedUtlandFormLabels {
     tittel: string;

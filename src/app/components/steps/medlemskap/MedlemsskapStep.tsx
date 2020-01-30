@@ -16,7 +16,7 @@ import BostedsoppholdIUtlandetFormPart from './BostedsoppholdIUtlandetFormPart';
 import { date1YearAgo, date1YearFromNow, dateToday } from 'common/utils/dateUtils';
 import { Feature, isFeatureEnabled } from 'app/utils/featureToggleUtils';
 import { persist } from '../../../api/api';
-import { validateYesOrNoIsAnswered } from 'app/validation/fieldValidations';
+import { validateYesOrNoIsAnswered } from 'common/validation/commonFieldValidations';
 
 type Props = CommonStepFormikProps & HistoryProps & StepConfigProps;
 

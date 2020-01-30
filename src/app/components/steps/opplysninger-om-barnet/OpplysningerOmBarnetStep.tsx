@@ -3,7 +3,6 @@ import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import {
     validateFødselsdato,
-    validateFødselsnummer,
     validateNavn,
     validateRelasjonTilBarnet,
     validateValgtBarn
@@ -26,6 +25,7 @@ import FormikCheckbox from 'common/formik/formik-checkbox/FormikCheckbox';
 import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
 import FormikDatepicker from 'common/formik/formik-datepicker/FormikDatepicker';
 import { persist } from '../../../api/api';
+import { validateFødselsnummer } from 'common/validation/commonFieldValidations';
 
 interface OpplysningerOmBarnetStepProps {
     formikProps: PleiepengesøknadFormikProps;
@@ -38,7 +38,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
     nextStepRoute,
     history
 }: Props) => {
-    const persistAndNavigateTo = ( lastStepID: StepID, data: PleiepengesøknadFormData, nextStep?: string) => {
+    const persistAndNavigateTo = (lastStepID: StepID, data: PleiepengesøknadFormData, nextStep?: string) => {
         persist(data, lastStepID);
         if (nextStep) {
             history.push(nextStep);

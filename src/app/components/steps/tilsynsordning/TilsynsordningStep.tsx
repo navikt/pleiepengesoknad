@@ -8,11 +8,7 @@ import { AppFormField, PleiepengesøknadFormData, TilsynVetIkkeHvorfor } from '.
 import Box from 'common/components/box/Box';
 import { YesOrNo } from 'common/types/YesOrNo';
 import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
-import {
-    validateSkalHaTilsynsordning,
-    validateYesOrNoIsAnswered,
-    validateTilsynsordningTilleggsinfo
-} from '../../../validation/fieldValidations';
+import { validateSkalHaTilsynsordning, validateTilsynsordningTilleggsinfo } from '../../../validation/fieldValidations';
 import intlHelper from 'common/utils/intlUtils';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
@@ -21,6 +17,7 @@ import { persist } from '../../../api/api';
 import FormikInputGroup from 'common/formik/formik-input-group/FormikInputGroup';
 import FormikTextarea from 'common/formik/formik-textarea/FormikTextarea';
 import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
+import { validateYesOrNoIsAnswered } from 'common/validation/commonFieldValidations';
 
 type Props = CommonStepFormikProps & HistoryProps & StepConfigProps;
 

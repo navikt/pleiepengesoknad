@@ -1,6 +1,7 @@
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import * as fieldValidations from './fieldValidations';
 import { YesOrNo } from 'common/types/YesOrNo';
+import { validateFødselsnummer } from 'common/validation/commonFieldValidations';
+import { validateNavn, validateRelasjonTilBarnet, validateValgtBarn } from './fieldValidations';
 
 export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: PleiepengesøknadFormData) =>
     harForståttRettigheterOgPlikter === true;
@@ -13,16 +14,16 @@ export const opplysningerOmBarnetStepIsValid = ({
     barnetSøknadenGjelder
 }: PleiepengesøknadFormData) => {
     if (barnetHarIkkeFåttFødselsnummerEnda) {
-        return fieldValidations.validateRelasjonTilBarnet(søkersRelasjonTilBarnet) === undefined;
+        return validateRelasjonTilBarnet(søkersRelasjonTilBarnet) === undefined;
     }
 
     const formIsValid =
-        fieldValidations.validateNavn(barnetsNavn) === undefined &&
-        fieldValidations.validateFødselsnummer(barnetsFødselsnummer) === undefined &&
-        fieldValidations.validateRelasjonTilBarnet(søkersRelasjonTilBarnet) === undefined;
+        validateNavn(barnetsNavn) === undefined &&
+        validateFødselsnummer(barnetsFødselsnummer) === undefined &&
+        validateRelasjonTilBarnet(søkersRelasjonTilBarnet) === undefined;
 
     if (!formIsValid && barnetSøknadenGjelder !== undefined) {
-        return fieldValidations.validateValgtBarn(barnetSøknadenGjelder) === undefined;
+        return validateValgtBarn(barnetSøknadenGjelder) === undefined;
     }
 
     return formIsValid;

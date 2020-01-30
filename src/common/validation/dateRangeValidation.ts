@@ -8,12 +8,12 @@ const dateIsWithinRange = (date: Date, minDate: Date, maxDate: Date) => {
 const validateDateInRange = (date: Date | undefined, minDate: Date, maxDate: Date) => {
     if (date === undefined) {
         return {
-            key: 'utenlandsopphold.form.validation.required'
+            key: 'common.dateRangeValidation.error.isRequired'
         };
     }
     if (!dateIsWithinRange(date, minDate, maxDate)) {
         return {
-            key: 'utenlandsopphold.form.validation.dateOutsideRange',
+            key: 'common.dateRangeValidation.error.dateOutsideRange',
             values: {
                 fom: prettifyDateExtended(minDate),
                 tom: prettifyDateExtended(maxDate)
@@ -30,7 +30,7 @@ const validateFromDate = (date: Date | undefined, minDate: Date, maxDate: Date, 
     }
     if (toDate && moment(date).isAfter(toDate, 'day')) {
         return {
-            key: 'utenlandsopphold.form.validation.fromDateAfterToDate'
+            key: 'common.dateRangeValidation.error.fromDateAfterToDate'
         };
     }
     return undefined;
@@ -43,7 +43,7 @@ const validateToDate = (date: Date | undefined, minDate: Date, maxDate: Date, fr
     }
     if (fromDate && moment(date).isBefore(fromDate, 'day')) {
         return {
-            key: 'utenlandsopphold.form.validation.toDateBeforeFromDate'
+            key: 'common.dateRangeValidation.error.toDateBeforeFromDate'
         };
     }
     return undefined;

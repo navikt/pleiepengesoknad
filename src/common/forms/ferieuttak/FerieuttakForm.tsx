@@ -6,9 +6,9 @@ import { Systemtittel } from 'nav-frontend-typografi';
 import bemUtils from 'common/utils/bemUtils';
 import { Knapp } from 'nav-frontend-knapper';
 import FormikDateIntervalPicker from 'common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
-import ferieuttakFormValidation from './ferieuttakFormValidation';
 
 import './ferieuttakForm.less';
+import dateRangeValidation from 'common/validation/dateRangeValidation';
 
 export interface FerieuttakFormLabels {
     title: string;
@@ -77,24 +77,14 @@ const FerieuttakForm: React.FunctionComponent<Props> = ({
                                     name: FerieuttakFormFields.fromDate,
                                     fullscreenOverlay: true,
                                     validate: (date: Date) =>
-                                        ferieuttakFormValidation.validateFromDate(
-                                            date,
-                                            minDate,
-                                            maxDate,
-                                            ferieuttak.tom
-                                        )
+                                        dateRangeValidation.validateFromDate(date, minDate, maxDate, ferieuttak.tom)
                                 }}
                                 toDatepickerProps={{
                                     label: formLabels.toDate,
                                     name: FerieuttakFormFields.toDate,
                                     fullscreenOverlay: true,
                                     validate: (date: Date) =>
-                                        ferieuttakFormValidation.validateToDate(
-                                            date,
-                                            minDate,
-                                            maxDate,
-                                            ferieuttak.fom
-                                        )
+                                        dateRangeValidation.validateToDate(date, minDate, maxDate, ferieuttak.fom)
                                 }}
                             />
 
