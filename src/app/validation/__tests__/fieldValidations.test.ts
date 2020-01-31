@@ -6,8 +6,8 @@ import {
     validateRelasjonTilBarnet,
     validateTildato,
     validateNormaleArbeidstimer,
-    FieldValidationErrors,
-    appFieldValidationError
+    AppFieldValidationErrors,
+    createFieldValidationError
 } from '../fieldValidations';
 import * as dateUtils from 'common/utils/dateUtils';
 import Mock = jest.Mock;
@@ -33,7 +33,7 @@ jest.mock('common/utils/dateUtils', () => {
 });
 
 describe('fieldValidations', () => {
-    const fieldRequiredError = appFieldValidationError(CommonFieldValidationErrors.påkrevd);
+    const fieldRequiredError = createFieldValidationError(CommonFieldValidationErrors.påkrevd);
 
     describe('hasValue', () => {
         it('should return true if provided value is not undefined, null or empty string', () => {
@@ -75,7 +75,7 @@ describe('fieldValidations', () => {
 
         it('should return an error message saying field has to be 50 letters or less, if length is longer than 50 letters', () => {
             expect(validateNavn('a'.repeat(51))).toEqual(
-                appFieldValidationError(FieldValidationErrors.navn_maksAntallTegn, { maxNumOfLetters: 50 })
+                createFieldValidationError(AppFieldValidationErrors.navn_maksAntallTegn, { maxNumOfLetters: 50 })
             );
         });
 
@@ -95,7 +95,7 @@ describe('fieldValidations', () => {
 
         it('should return an error message saying field has to be 15 letters or less, if length is longer than 15 letters', () => {
             expect(validateRelasjonTilBarnet('a'.repeat(16))).toEqual(
-                appFieldValidationError(FieldValidationErrors.relasjon_maksAntallTegn, { maxNumOfLetters: 15 })
+                createFieldValidationError(AppFieldValidationErrors.relasjon_maksAntallTegn, { maxNumOfLetters: 15 })
             );
         });
 
@@ -116,7 +116,7 @@ describe('fieldValidations', () => {
         it('should return an error message saying date cannot be more than 3 years back in time, if date is more than 3 years back in time', () => {
             (dateUtils.isMoreThan3YearsAgo as Mock).mockReturnValue(true);
             expect(validateFradato(new Date())).toEqual(
-                appFieldValidationError(FieldValidationErrors.fradato_merEnnTreÅr)
+                createFieldValidationError(AppFieldValidationErrors.fradato_merEnnTreÅr)
             );
         });
 
@@ -124,7 +124,7 @@ describe('fieldValidations', () => {
             const today = moment();
             const yesterday = today.clone().subtract(1, 'day');
             const result = validateFradato(today.toDate(), yesterday.toDate());
-            expect(result).toEqual(appFieldValidationError(FieldValidationErrors.fradato_erEtterTildato));
+            expect(result).toEqual(createFieldValidationError(AppFieldValidationErrors.fradato_erEtterTildato));
         });
 
         it('should return undefined if fraDato is inside the last 3 years and equal to or earlier than tilDato', () => {
@@ -150,7 +150,7 @@ describe('fieldValidations', () => {
         it('should return an error message saying date cannot be more than 3 years back in time, if date is more than 3 years back in time', () => {
             (dateUtils.isMoreThan3YearsAgo as Mock).mockReturnValue(true);
             expect(validateTildato(new Date())).toEqual(
-                appFieldValidationError(FieldValidationErrors.tildato_merEnnTreÅr)
+                createFieldValidationError(AppFieldValidationErrors.tildato_merEnnTreÅr)
             );
         });
 
@@ -158,7 +158,7 @@ describe('fieldValidations', () => {
             const today = moment();
             const yesterday = today.clone().subtract(1, 'day');
             const result = validateTildato(yesterday.toDate(), today.toDate());
-            expect(result).toEqual(appFieldValidationError(FieldValidationErrors.tildato_erFørFradato));
+            expect(result).toEqual(createFieldValidationError(AppFieldValidationErrors.tildato_erFørFradato));
         });
 
         it('should return undefined if tilDato is inside the last 3 years and equal to or later than fraDato', () => {
@@ -181,13 +181,13 @@ describe('fieldValidations', () => {
 
         it('should return error message saying that files must be uploaded if list is empty', () => {
             expect(validateLegeerklæring([])).toEqual(
-                appFieldValidationError(FieldValidationErrors.legeerklæring_mangler)
+                createFieldValidationError(AppFieldValidationErrors.legeerklæring_mangler)
             );
         });
 
         it('should return error message saying that files must be uploaded if list contains no successfully uploaded attachments', () => {
             expect(validateLegeerklæring([failedAttachment1, failedAttachment2])).toEqual(
-                appFieldValidationError(FieldValidationErrors.legeerklæring_mangler)
+                createFieldValidationError(AppFieldValidationErrors.legeerklæring_mangler)
             );
         });
 
@@ -200,14 +200,14 @@ describe('fieldValidations', () => {
         it('should return error message saying no more than 3 files if list contains 4 files or more', () => {
             expect(
                 validateLegeerklæring([uploadedAttachment, uploadedAttachment, uploadedAttachment, uploadedAttachment])
-            ).toEqual(appFieldValidationError(FieldValidationErrors.legeerklæring_forMangeFiler));
+            ).toEqual(createFieldValidationError(AppFieldValidationErrors.legeerklæring_forMangeFiler));
         });
     });
 
     describe('validate arbeidsforhold', () => {
         it('should only allow values from 1 and 150', () => {
             expect(validateNormaleArbeidstimer({ hours: 0, minutes: 0 })).toEqual(
-                appFieldValidationError(FieldValidationErrors.arbeidsforhold_timerUgyldig, { min: 1, max: 150 })
+                createFieldValidationError(AppFieldValidationErrors.arbeidsforhold_timerUgyldig, { min: 1, max: 150 })
             );
         });
     });
