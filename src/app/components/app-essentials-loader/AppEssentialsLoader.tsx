@@ -9,9 +9,10 @@ import { getBarn, getSøker, rehydrate } from '../../api/api';
 import { SøkerdataContextProvider } from '../../context/SøkerdataContext';
 import demoSøkerdata from '../../demo/demoData';
 import { appIsRunningInDemoMode } from '../../utils/envUtils';
-import { initialValues, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { initialValues, PleiepengesøknadFormData, AppFormField } from '../../types/PleiepengesøknadFormData';
 import { MellomlagringData } from '../../types/storage';
 import { StepID } from '../../config/stepConfig';
+import { Attachment } from 'common/types/Attachment';
 
 interface Props {
     contentLoadedRenderer: (
@@ -27,6 +28,12 @@ interface State {
     formdata: PleiepengesøknadFormData;
     søkerdata?: Søkerdata;
 }
+
+const getValidAttachments = (attachments: Attachment[] = []): Attachment[] => {
+    return attachments.filter((a) => {
+        return a.file?.name !== undefined;
+    });
+};
 
 class AppEssentialsLoader extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -81,7 +88,12 @@ class AppEssentialsLoader extends React.Component<Props, State> {
         barnResponse?: AxiosResponse
     ) {
         const mellomlagring: MellomlagringData | undefined = mellomlagringResponse?.data;
-        const formData = mellomlagring?.formData ? { ...mellomlagring.formData } : undefined;
+        const formData = mellomlagring?.formData
+            ? {
+                  ...mellomlagring.formData,
+                  [AppFormField.legeerklæring]: getValidAttachments(mellomlagring.formData.legeerklæring)
+              }
+            : undefined;
         const lastStepID = mellomlagring?.metadata?.lastStepID;
         this.updateSøkerdata(
             formData || { ...initialValues },
