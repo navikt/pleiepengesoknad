@@ -9,7 +9,7 @@ import { validateYesOrNoIsAnswered, validateFradato, validateTildato } from '../
 import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import Box from 'common/components/box/Box';
 import intlHelper from 'common/utils/intlUtils';
-import { useIntl } from 'react-intl';
+import { useIntl, FormattedHTMLMessage } from 'react-intl';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
 import { persist } from 'app/api/api';
@@ -28,7 +28,7 @@ type Props = OpplysningerOmTidsromStepProps & HistoryProps & StepConfigProps;
 const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...stepProps }: Props) => {
     const { values, handleSubmit } = formikProps;
 
-    const persistAndNavigateTo = ( lastStepID: StepID, data: PleiepengesøknadFormData, nextStep?: string) => {
+    const persistAndNavigateTo = (lastStepID: StepID, data: PleiepengesøknadFormData, nextStep?: string) => {
         persist(data, lastStepID);
         if (nextStep) {
             history.push(nextStep);
@@ -104,8 +104,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                 <>
                     <Box margin="xxl">
                         <CounsellorPanel>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis quia maiores quo
-                            reprehenderit dolorum voluptate cum consequatur
+                            <FormattedHTMLMessage id="steg.tidsrom.veileder.utenlandsopphold.html" />
                         </CounsellorPanel>
                     </Box>
                     <Box margin="xxl">
