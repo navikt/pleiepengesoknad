@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { useIntl, FormattedHTMLMessage } from 'react-intl';
-import { StepID, StepConfigProps } from '../../../config/stepConfig';
+import { FormattedHTMLMessage, useIntl } from 'react-intl';
+import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
-import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
+import { navigateToLoginPage } from '../../../utils/navigationUtils';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
 import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
@@ -18,19 +18,34 @@ import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFo
 import HelperTextPanel from 'common/components/helper-text-panel/HelperTextPanel';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import PictureScanningGuide from '../../../../common/components/picture-scanning-guide/PictureScanningGuide';
+import { Attachment } from 'common/types/Attachment';
+import { persist } from '../../../api/api';
+import { mapFileToPersistedFile } from 'common/utils/attachmentUtils';
 
 type Props = { formikProps: PleiepengesøknadFormikProps } & CommonStepFormikProps & HistoryProps & StepConfigProps;
 
 const LegeerklæringStep = ({ history, nextStepRoute, formikProps, ...stepProps }: Props) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
     const intl = useIntl();
-    const navigate = nextStepRoute ? () => navigateTo(nextStepRoute, history) : undefined;
     const isRunningDemoMode = appIsRunningInDemoMode();
-
+    const { values } = formikProps;
+    const attachments: Attachment[] = values ? values[AppFormField.legeerklæring] : [];
     return (
         <FormikStep
             id={StepID.LEGEERKLÆRING}
-            onValidFormSubmit={navigate}
+            onValidFormSubmit={() => {
+                const formData = {
+                    ...values,
+                    [AppFormField.legeerklæring]: attachments.map((a) => ({
+                        ...a,
+                        file: mapFileToPersistedFile(a.file)
+                    }))
+                };
+                persist(formData, StepID.LEGEERKLÆRING);
+                if (nextStepRoute) {
+                    history.push(nextStepRoute);
+                }
+            }}
             history={history}
             useValidationErrorSummary={false}
             skipValidation={isRunningDemoMode}
@@ -55,7 +70,7 @@ const LegeerklæringStep = ({ history, nextStepRoute, formikProps, ...stepProps 
                         </CounsellorPanel>
                     </Box>
                     <HelperTextPanel>
-                        <PictureScanningGuide/>
+                        <PictureScanningGuide />
                     </HelperTextPanel>
                     <Box margin="l">
                         <FormikFileUploader

@@ -7,11 +7,12 @@ import {
     attachmentShouldBeUploaded,
     attachmentUploadHasFailed,
     getPendingAttachmentFromFile,
-    VALID_EXTENSIONS
+    VALID_EXTENSIONS,
+    isFileObject
 } from 'common/utils/attachmentUtils';
 import { uploadFile } from '../../api/api';
 import * as apiUtils from '../../utils/apiUtils';
-import { Attachment } from 'common/types/Attachment';
+import { Attachment, PersistedFile } from 'common/types/Attachment';
 import FormikFileInput from '../../../common/formik/formik-file-input/FormikFileInput';
 import { FormikValidateFunction, FieldArrayReplaceFn, FieldArrayPushFn } from 'common/formik/FormikProps';
 
@@ -35,16 +36,19 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
     ...otherProps
 }) => {
     async function uploadAttachment(attachment: Attachment) {
-        try {
-            const response = await uploadFile(attachment.file);
-            attachment = setAttachmentPendingToFalse(attachment);
-            attachment.url = response.headers.location;
-            attachment.uploaded = true;
-        } catch (error) {
-            if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
-                onUnauthorizedOrForbiddenUpload();
+        const { file } = attachment;
+        if (isFileObject(file)) {
+            try {
+                const response = await uploadFile(file);
+                attachment = setAttachmentPendingToFalse(attachment);
+                attachment.url = response.headers.location;
+                attachment.uploaded = true;
+            } catch (error) {
+                if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+                    onUnauthorizedOrForbiddenUpload();
+                }
+                setAttachmentPendingToFalse(attachment);
             }
-            setAttachmentPendingToFalse(attachment);
         }
     }
 
@@ -71,7 +75,11 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
             attachment = setAttachmentPendingToFalse(attachment);
             updateAttachmentListElement(allAttachments, attachment, replaceFn);
         });
-        onErrorUploadingAttachments(failedAttachments.map(({ file }) => file));
+        const failedFiles: File[] = failedAttachments
+            .map(({ file }) => file)
+            .filter((f: File | PersistedFile) => isFileObject(f)) as File[];
+
+        onErrorUploadingAttachments(failedFiles);
     }
 
     function findAttachmentsToProcess(attachments: Attachment[]): Attachment[] {
