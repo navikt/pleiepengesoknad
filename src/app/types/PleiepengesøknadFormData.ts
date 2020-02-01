@@ -4,6 +4,7 @@ import { Time } from 'common/types/Time';
 import { Attachment } from 'common/types/Attachment';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 import { Ferieuttak } from 'common/forms/ferieuttak/types';
+import { FrilansOppdragFormData } from 'common/forms/frilans/types';
 
 export enum ArbeidsforholdSkalJobbeSvar {
     'ja' = 'ja',
@@ -67,7 +68,12 @@ export enum AppFormField {
     tilsynsordning__ja__ekstrainfo = 'tilsynsordning.ja.ekstrainfo',
     tilsynsordning__vetIkke__hvorfor = 'tilsynsordning.vetIkke.hvorfor',
     tilsynsordning__vetIkke__ekstrainfo = 'tilsynsordning.vetIkke.ekstrainfo',
-    metadata = 'metadata'
+    frilans_harHattInntektSomFrilanser = 'harHattInntektSomFrilanser',
+    frilans_startdato = 'frilans_startdato',
+    frilans_jobberFortsattSomFrilans = 'frilans_jobberFortsattSomFrilans',
+    frilans_harHattOppdragForFamilieVenner = 'frilans_harHattOppdragForFamilieVenner',
+    frilans_harInntektSomFosterforelder = 'frilans_harInntektSomFosterforelder',
+    frilans_oppdrag = 'frilans_oppdrag'
 }
 
 export enum ArbeidsforholdField {
@@ -123,6 +129,12 @@ export interface PleiepengesøknadFormData {
     [AppFormField.harNattevåk_ekstrainfo]?: string;
     [AppFormField.harBeredskap]: YesOrNo;
     [AppFormField.harBeredskap_ekstrainfo]?: string;
+    [AppFormField.frilans_harHattInntektSomFrilanser]: YesOrNo;
+    [AppFormField.frilans_startdato]?: Date;
+    [AppFormField.frilans_harHattOppdragForFamilieVenner]?: YesOrNo;
+    [AppFormField.frilans_harInntektSomFosterforelder]?: YesOrNo;
+    [AppFormField.frilans_jobberFortsattSomFrilans]?: YesOrNo;
+    [AppFormField.frilans_oppdrag]?: FrilansOppdragFormData[];
 }
 
 export const initialValues: PleiepengesøknadFormData = {
@@ -151,5 +163,7 @@ export const initialValues: PleiepengesøknadFormData = {
     [AppFormField.samtidigHjemme]: YesOrNo.UNANSWERED,
     [AppFormField.tilsynsordning]: undefined,
     [AppFormField.harNattevåk]: YesOrNo.UNANSWERED,
-    [AppFormField.harBeredskap]: YesOrNo.UNANSWERED
+    [AppFormField.harBeredskap]: YesOrNo.UNANSWERED,
+    [AppFormField.frilans_harHattInntektSomFrilanser]: YesOrNo.UNANSWERED,
+    [AppFormField.frilans_oppdrag]: []
 };

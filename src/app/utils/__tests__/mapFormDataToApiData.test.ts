@@ -189,7 +189,8 @@ const completeFormDataMock: PleiepengesøknadFormData = {
     ],
     barnetsNavn: 'barnets-navn',
     barnetsFødselsdato: undefined,
-    barnetsFødselsnummer: 'barnets-fnr'
+    barnetsFødselsnummer: 'barnets-fnr',
+    harHattInntektSomFrilanser: YesOrNo.UNANSWERED
 };
 
 describe('mapFormDataToApiData', () => {

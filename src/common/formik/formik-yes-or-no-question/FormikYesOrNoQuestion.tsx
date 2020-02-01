@@ -16,7 +16,7 @@ interface YesOrNoQuestionProps<T> {
         [YesOrNo.DO_NOT_KNOW]?: string;
     };
     singleColumn?: boolean;
-    helperText?: string;
+    helperText?: React.ReactNode;
     style?: RadioPanelGroupStyle;
 }
 

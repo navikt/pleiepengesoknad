@@ -20,7 +20,7 @@ interface FormikRadioPanelGroupProps<T> {
     name: T;
     radios: FormikRadioPanelProps[];
     validate?: FormikValidateFunction;
-    helperText?: string;
+    helperText?: React.ReactNode;
     expandedContentRenderer?: () => React.ReactNode;
     singleColumn?: boolean;
     style?: RadioPanelGroupStyle;
