@@ -75,19 +75,20 @@ const ArbeidsforholdStep = ({ history, søkerdata, nextStepRoute, formikProps, .
                             ))}
                         </>
                     )}
+
                     {arbeidsforhold.length === 0 && <FormattedMessage id="steg.arbeidsforhold.ingenOpplysninger" />}
+
+                    <Box margin="s" padBottom="xl">
+                        <AlertStripe type="info">
+                            <FormattedMessage id="steg.arbeidsforhold.manglesOpplysninger" />
+                        </AlertStripe>
+                    </Box>
 
                     {isFeatureEnabled(Feature.TOGGLE_FRILANS) && (
                         <Box margin="l" padBottom="l">
                             <FrilansFormPart formValues={values} />
                         </Box>
                     )}
-
-                    <Box margin="m" padBottom="m">
-                        <AlertStripe type="info">
-                            <FormattedMessage id="steg.arbeidsforhold.manglesOpplysninger" />
-                        </AlertStripe>
-                    </Box>
                 </>
             )}
         </FormikStep>
