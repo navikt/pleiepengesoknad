@@ -212,12 +212,14 @@ const mapFrilansToApiData = (formData: PleiepengesøknadFormData): FrilansApiDat
             har_hatt_inntekt_som_fosterforelder: frilans_harInntektSomFosterforelder === YesOrNo.YES,
             startdato: formatDateToApiFormat(frilans_startdato),
             jobber_fortsatt_som_frilans: frilans_harInntektSomFosterforelder === YesOrNo.YES,
-            oppdrag: frilans_oppdrag.map((oppdrag) => ({
-                arbeidsgivernavn: oppdrag.arbeidsgiverNavn,
-                fra_og_med: formatDateToApiFormat(oppdrag.fom),
-                til_og_med: oppdrag.erPågående ? null : formatDateToApiFormat(oppdrag.tom),
-                er_pagaende: oppdrag.erPågående
-            }))
+            oppdrag: frilans_oppdrag.map(({ fom, tom, erPågående, arbeidsgiverNavn }) => {
+                return {
+                    arbeidsgivernavn: arbeidsgiverNavn,
+                    fra_og_med: formatDateToApiFormat(fom),
+                    til_og_med: erPågående || tom === undefined ? null : formatDateToApiFormat(tom),
+                    er_pagaende: erPågående
+                };
+            })
         };
         return data;
     }

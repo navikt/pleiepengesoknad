@@ -23,7 +23,8 @@ const FrilansoppdragListe: React.FunctionComponent<Props> = ({ oppdrag, onDelete
                     {!onEdit && <span>{o.arbeidsgiverNavn}</span>}
                 </span>
                 <span className={bem.element('dato')}>
-                    {prettifyDateExtended(o.fom)} - {prettifyDateExtended(o.tom)}
+                    {prettifyDateExtended(o.fom)}
+                    {`${o.tom ? `- ${prettifyDateExtended(o.tom)}` : ''}`}
                 </span>
             </div>
         );

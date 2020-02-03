@@ -9,6 +9,6 @@ export interface FrilansoppdragFormData {
     id?: string;
     [FrilansoppdragFormField.arbeidsgiverNavn]: string;
     [FrilansoppdragFormField.fom]: Date;
-    [FrilansoppdragFormField.tom]: Date;
-    [FrilansoppdragFormField.erPågående]: boolean;
+    [FrilansoppdragFormField.tom]: Date | undefined;
+    [FrilansoppdragFormField.erPågående]: boolean | undefined;
 }

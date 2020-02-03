@@ -134,7 +134,7 @@ export interface PleiepengesøknadFormData {
     [AppFormField.frilans_harHattOppdragForFamilieVenner]?: YesOrNo;
     [AppFormField.frilans_harInntektSomFosterforelder]?: YesOrNo;
     [AppFormField.frilans_jobberFortsattSomFrilans]?: YesOrNo;
-    [AppFormField.frilans_oppdrag]?: FrilansoppdragFormData[];
+    [AppFormField.frilans_oppdrag]: FrilansoppdragFormData[];
 }
 
 export const initialValues: PleiepengesøknadFormData = {
