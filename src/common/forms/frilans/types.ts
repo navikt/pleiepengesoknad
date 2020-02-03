@@ -1,16 +1,14 @@
-import { YesOrNo } from 'common/types/YesOrNo';
-
-export enum FrilansOppdragFormField {
+export enum FrilansoppdragFormField {
     'arbeidsgiverNavn' = 'arbeidsgiverNavn',
     'fom' = 'fom',
     'tom' = 'tom',
     'erPågående' = 'erPågående'
 }
 
-export interface FrilansOppdragFormData {
+export interface FrilansoppdragFormData {
     id?: string;
-    [FrilansOppdragFormField.arbeidsgiverNavn]: string;
-    [FrilansOppdragFormField.fom]: Date;
-    [FrilansOppdragFormField.tom]: Date;
-    [FrilansOppdragFormField.erPågående]: YesOrNo;
+    [FrilansoppdragFormField.arbeidsgiverNavn]: string;
+    [FrilansoppdragFormField.fom]: Date;
+    [FrilansoppdragFormField.tom]: Date;
+    [FrilansoppdragFormField.erPågående]: boolean;
 }

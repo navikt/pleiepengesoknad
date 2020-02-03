@@ -12,6 +12,7 @@ export interface FormikDatepickerProps<T> {
     validate?: FormikValidateFunction;
     dateLimitations?: DateLimitiations;
     fullscreenOverlay?: boolean;
+    disabled?: boolean;
 }
 
 type Props<T> = FormikDatepickerProps<T> & FormikValidationProps;

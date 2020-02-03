@@ -11,7 +11,8 @@ function createEnvSettingsFile(settingsFile) {
                 DEMO_MODE: '${process.env.DEMO_MODE}',
                 UTILGJENGELIG: '${process.env.UTILGJENGELIG}',
                 TOGGLE_UTENLANDSOPPHOLD: '${process.env.TOGGLE_UTENLANDSOPPHOLD}',
-                TOGGLE_FERIEUTTAK: '${process.env.TOGGLE_FERIEUTTAK}'
+                TOGGLE_FERIEUTTAK: '${process.env.TOGGLE_FERIEUTTAK}',
+                TOGGLE_FRILANS: '${process.env.TOGGLE_FRILANS}'
             };`
         );
     });

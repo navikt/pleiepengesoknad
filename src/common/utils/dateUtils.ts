@@ -22,6 +22,11 @@ export const isMoreThan3YearsAgo = (date: Date) => moment(date).isBefore(date3Ye
 export const dateToISOFormattedDateString = (date?: Date) =>
     date ? moment.utc(date).format(apiDateFormat) : undefined;
 
+export const date10MonthsAgo = moment()
+    .subtract(10, 'months')
+    .startOf('day')
+    .toDate();
+
 export const date1YearAgo = moment()
     .subtract(1, 'years')
     .startOf('day')

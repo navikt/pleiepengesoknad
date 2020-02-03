@@ -63,16 +63,17 @@ const DatepickerBase: React.FunctionComponent<DatepickerBaseProps> = ({
 }) => {
     const isWide = useMedia({ minWidth: 736 });
     const elementId = id || guid();
+    const plassering = fullscreenOverlay || (fullScreenOnMobile && isWide === false) ? 'fullskjerm' : undefined;
     return (
         <CustomInputElement label={label} labelId={elementId} validationError={feil}>
             <NAVDatepicker
                 input={{ name, placeholder, id: elementId }}
                 id={elementId}
-                valgtDato={dateToISOFormattedDateString(value)}
+                valgtDato={value ? dateToISOFormattedDateString(value) : ''}
                 avgrensninger={dateLimitations ? parseDateLimitations(dateLimitations) : undefined}
                 {...otherProps}
                 kalender={{
-                    plassering: fullscreenOverlay || (fullScreenOnMobile && isWide === false) ? 'fullskjerm' : undefined
+                    plassering
                 }}
                 onChange={(dateString: string) => {
                     const newDate = dateString && dateString !== 'Invalid date' ? new Date(dateString) : undefined;

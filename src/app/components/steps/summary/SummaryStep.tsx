@@ -7,7 +7,6 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
 import FormikStep from '../../formik-step/FormikStep';
 import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
-import Panel from 'common/components/panel/Panel';
 import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
 import LegeerklæringAttachmentList from '../../legeerklæring-file-list/LegeerklæringFileList';
 import { prettifyDate, apiStringDateToDate } from 'common/utils/dateUtils';
@@ -37,6 +36,7 @@ import {
 } from 'app/components/summary-renderers/renderUtenlandsoppholdSummary';
 import FormikConfirmationCheckboxPanel from 'common/formik/formik-confirmation-checkbox-panel/FormikConfirmationCheckboxPanel';
 import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
+import Panel from 'nav-frontend-paneler';
 
 interface State {
     sendingInProgress: boolean;
