@@ -15,7 +15,7 @@ const FrilansSummary: React.FunctionComponent<Props> = ({ apiValues }) => {
     return (
         <>
             <Box margin="l">
-                <SummaryBlock header="Har hatt inntekst som frilanser siste 10 månedene">
+                <SummaryBlock header="Har hatt inntekt som frilanser siste 10 månedene">
                     <JaNeiSvar harSvartJa={har_hatt_inntekt_som_frilanser} />
                 </SummaryBlock>
             </Box>

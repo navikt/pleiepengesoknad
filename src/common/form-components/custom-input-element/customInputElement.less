@@ -1,8 +1,8 @@
 @import '../../../../node_modules/nav-frontend-core/less/_variabler';
 @import '../../../../node_modules/nav-frontend-paneler-style/src/mixins';
 
-.skjemaelement {
-    &__label {
+.customInputElement.skjemaelement {
+    .skjemaelement__label {
         font-weight: bold;
         .helperTextButton {
             position: relative;
@@ -14,7 +14,7 @@
             margin-top: 0.5rem;
         }
     }
-    &--focusEnabled {
+    &.skjemaelement--focusEnabled {
         .panel-focus-mixin();
     }
 }
