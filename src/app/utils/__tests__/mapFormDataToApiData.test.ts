@@ -24,6 +24,12 @@ import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
 
 const moment = require('moment');
 
+jest.mock('./../envUtils', () => {
+    return {
+        getEnvironmentVariable: () => 'someEnvVar'
+    };
+});
+
 jest.mock('./../featureToggleUtils.ts', () => ({
     isFeatureEnabled: jest.fn(),
     Feature: {}
