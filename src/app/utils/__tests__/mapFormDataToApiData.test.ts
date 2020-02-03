@@ -448,11 +448,37 @@ describe('mapFormDataToApiData', () => {
         expect(ferieuttak_i_perioden!.ferieuttak.length).toBe(1);
     });
 
-    it('should map frilanserdata if user har answered yes to question about frilans', () => {
-        const formDataWithFrilansInfo = { ...formData, ...frilansPartialFormData };
-        const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
-        expect(mappedData.frilans).toBeDefined();
-        expect(mappedData.frilans?.oppdrag.length).toEqual(2);
+    describe('frilanser part', () => {
+        it('should map frilanserdata if user har answered yes to question about frilans', () => {
+            const formDataWithFrilansInfo = { ...formData, ...frilansPartialFormData };
+            const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
+            expect(mappedData.har_hatt_inntekt_som_frilanser).toBeTruthy();
+            expect(mappedData.frilans).toBeDefined();
+            expect(mappedData.frilans?.oppdrag.length).toEqual(2);
+
+            const oppdrag1 = mappedData.frilans!.oppdrag[0];
+            expect(oppdrag1.arbeidsgivernavn).toBeDefined();
+            expect(oppdrag1.fra_og_med).toBeDefined();
+            expect(oppdrag1.til_og_med).toBeDefined();
+            expect(oppdrag1.er_pagaende).toBeFalsy();
+
+            const oppdrag2 = mappedData.frilans!.oppdrag[1];
+            expect(oppdrag2.arbeidsgivernavn).toBeDefined();
+            expect(oppdrag2.fra_og_med).toBeDefined();
+            expect(oppdrag2.til_og_med).toBeNull();
+            expect(oppdrag2.er_pagaende).toBeTruthy();
+        });
+
+        it('should not include frilanserdata if user has answered no on harHattInntektSomFrilanser', () => {
+            const formDataWithFrilansInfo = {
+                ...formData,
+                ...frilansPartialFormData,
+                harHattInntektSomFrilanser: YesOrNo.NO
+            };
+            const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
+            expect(mappedData.har_hatt_inntekt_som_frilanser).toBeFalsy();
+            expect(mappedData.frilans).toBeUndefined();
+        });
     });
 
     it('should use correct format for a complete mapped application', () => {
