@@ -14,6 +14,7 @@ import FrilansoppdragForm from 'common/forms/frilans/FrilansoppdragForm';
 import { date10MonthsAgo, dateToday } from 'common/utils/dateUtils';
 import FrilansOppdragListe from 'common/forms/frilans/FrilansoppdragListe';
 import Panel from 'nav-frontend-paneler';
+import { validateRequiredField } from 'app/validation/fieldValidations';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
@@ -57,18 +58,21 @@ const FrilansFormPart: React.FunctionComponent<Props> = ({ formValues }) => {
                             label="Når startet du som frilanser?"
                             showYearSelector={true}
                             dateLimitations={{ maksDato: dateToday }}
+                            validate={validateRequiredField}
                         />
                     </Box>
                     <Box margin="xl">
                         <FormikYesOrNoQuestion<AppFormField>
                             name={AppFormField.frilans_jobberFortsattSomFrilans}
                             legend="Jobber du fortsatt som frilanser?"
+                            validate={validateRequiredField}
                         />
                     </Box>
                     <Box margin="xl">
                         <FormikYesOrNoQuestion<AppFormField>
                             name={AppFormField.frilans_harHattOppdragForFamilieVenner}
                             legend="Har du hatt oppdrag for nær venn eller familie de 10 siste månedene?"
+                            validate={validateRequiredField}
                         />
                     </Box>
                     {harHattInntektFraFamilie && (
@@ -118,6 +122,7 @@ const FrilansFormPart: React.FunctionComponent<Props> = ({ formValues }) => {
                         <FormikYesOrNoQuestion<AppFormField>
                             name={AppFormField.frilans_harInntektSomFosterforelder}
                             legend="Har du inntekt som fosterforelder?"
+                            validate={validateRequiredField}
                         />
                     </Box>
                 </Panel>

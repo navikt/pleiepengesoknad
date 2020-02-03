@@ -114,8 +114,7 @@ export interface FerieuttakIPeriodeApiData {
 }
 
 export interface FrilansApiData {
-    har_hatt_inntekt: boolean;
-    startdato: Date;
+    startdato: ApiStringDate;
     jobber_fortsatt_som_frilans: boolean;
     har_hatt_oppdrag_for_familie: boolean;
     har_hatt_inntekt_som_fosterforelder: boolean;
@@ -125,7 +124,7 @@ export interface FrilansApiData {
 export interface FrilansoppdragApiData {
     arbeidsgivernavn: string;
     fra_og_med: ApiStringDate;
-    til_og_med?: ApiStringDate;
+    til_og_med: ApiStringDate | null;
     er_pagaende?: boolean;
 }
 
@@ -160,5 +159,6 @@ export interface PleiepengesøknadApiData {
         i_beredskap: boolean;
         tilleggsinformasjon?: string;
     };
+    har_hatt_inntekt_som_frilanser?: boolean;
     frilans?: FrilansApiData;
 }

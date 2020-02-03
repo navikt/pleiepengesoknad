@@ -16,7 +16,8 @@ import {
     ArbeidsforholdApiSomVanlig,
     ArbeidsforholdApiVetIkke,
     BostedUtlandApiData,
-    UtenlandsoppholdUtenforEøsIPeriodenApiData
+    UtenlandsoppholdUtenforEøsIPeriodenApiData,
+    FrilansApiData
 } from '../types/PleiepengesøknadApiData';
 import { attachmentUploadHasFailed } from 'common/utils/attachmentUtils';
 import { YesOrNo } from 'common/types/YesOrNo';
@@ -31,7 +32,11 @@ import { countryIsMemberOfEøsOrEfta } from 'common/utils/countryUtils';
 import { isFeatureEnabled, Feature } from './featureToggleUtils';
 
 export const mapFormDataToApiData = (
-    {
+    formData: PleiepengesøknadFormData,
+    barn: BarnReceivedFromApi[],
+    sprak: Locale = 'nb'
+): PleiepengesøknadApiData => {
+    const {
         barnetsNavn,
         barnetsFødselsnummer,
         barnetsFødselsdato,
@@ -57,11 +62,9 @@ export const mapFormDataToApiData = (
         skalOppholdeSegIUtlandetIPerioden,
         utenlandsoppholdIPerioden,
         ferieuttakIPerioden,
-        skalTaUtFerieIPerioden
-    }: PleiepengesøknadFormData,
-    barn: BarnReceivedFromApi[],
-    sprak: Locale = 'nb'
-): PleiepengesøknadApiData => {
+        skalTaUtFerieIPerioden,
+        harHattInntektSomFrilanser
+    } = formData;
     const barnObject: BarnToSendToApi = mapBarnToApiData(
         barn,
         barnetsNavn,
@@ -97,7 +100,8 @@ export const mapFormDataToApiData = (
         vedlegg: legeerklæring.filter((attachment) => !attachmentUploadHasFailed(attachment)).map(({ url }) => url!),
         har_medsoker: harMedsøker === YesOrNo.YES,
         har_bekreftet_opplysninger: harBekreftetOpplysninger,
-        har_forstatt_rettigheter_og_plikter: harForståttRettigheterOgPlikter
+        har_forstatt_rettigheter_og_plikter: harForståttRettigheterOgPlikter,
+        har_hatt_inntekt_som_frilanser: harHattInntektSomFrilanser === YesOrNo.YES
     };
 
     if (isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD)) {
@@ -134,6 +138,10 @@ export const mapFormDataToApiData = (
                       }))
                     : []
         };
+    }
+
+    if (isFeatureEnabled(Feature.TOGGLE_FRILANS) && apiData.har_hatt_inntekt_som_frilanser) {
+        apiData.frilans = mapFrilansToApiData(formData);
     }
     apiData.samtidig_hjemme = harMedsøker === YesOrNo.YES ? samtidigHjemme === YesOrNo.YES : undefined;
 
@@ -181,6 +189,39 @@ export const mapBarnToApiData = (
             fodselsdato: barnetsFødselsdato !== undefined ? formatDateToApiFormat(barnetsFødselsdato) : null
         };
     }
+};
+
+const mapFrilansToApiData = (formData: PleiepengesøknadFormData): FrilansApiData | undefined => {
+    const {
+        frilans_harHattOppdragForFamilieVenner,
+        frilans_jobberFortsattSomFrilans,
+        frilans_harInntektSomFosterforelder,
+        frilans_startdato,
+        frilans_oppdrag
+    } = formData;
+
+    if (
+        frilans_harHattOppdragForFamilieVenner &&
+        frilans_jobberFortsattSomFrilans &&
+        frilans_harInntektSomFosterforelder &&
+        frilans_startdato &&
+        frilans_oppdrag
+    ) {
+        const data: FrilansApiData = {
+            har_hatt_oppdrag_for_familie: frilans_harHattOppdragForFamilieVenner === YesOrNo.YES,
+            har_hatt_inntekt_som_fosterforelder: frilans_harInntektSomFosterforelder === YesOrNo.YES,
+            startdato: formatDateToApiFormat(frilans_startdato),
+            jobber_fortsatt_som_frilans: frilans_harInntektSomFosterforelder === YesOrNo.YES,
+            oppdrag: frilans_oppdrag.map((oppdrag) => ({
+                arbeidsgivernavn: oppdrag.arbeidsgiverNavn,
+                fra_og_med: formatDateToApiFormat(oppdrag.fom),
+                til_og_med: oppdrag.erPågående ? null : formatDateToApiFormat(oppdrag.tom),
+                er_pagaende: oppdrag.erPågående
+            }))
+        };
+        return data;
+    }
+    return undefined;
 };
 
 const mapArbeidsforholdTilApiData = (arbeidsforhold: Arbeidsforhold): ArbeidsforholdApi => {
