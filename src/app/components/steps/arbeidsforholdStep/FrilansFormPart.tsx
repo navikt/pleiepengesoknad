@@ -55,6 +55,8 @@ const FrilansFormPart: React.FunctionComponent<Props> = ({ formValues }) => {
                         <FormikDatepicker<AppFormField>
                             name={AppFormField.frilans_startdato}
                             label="Når startet du som frilanser?"
+                            showYearSelector={true}
+                            dateLimitations={{ maksDato: dateToday }}
                         />
                     </Box>
                     <Box margin="xl">

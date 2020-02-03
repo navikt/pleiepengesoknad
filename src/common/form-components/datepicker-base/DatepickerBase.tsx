@@ -31,6 +31,7 @@ interface DatepickerBaseProps {
     onChange: (date: Date | undefined) => void;
     value?: Date;
     dateLimitations?: DateLimitiations;
+    showYearSelector?: boolean;
     fullScreenOnMobile?: boolean;
     fullscreenOverlay?: boolean;
 }
@@ -59,6 +60,7 @@ const DatepickerBase: React.FunctionComponent<DatepickerBaseProps> = ({
     fullScreenOnMobile = true,
     fullscreenOverlay,
     dateLimitations,
+    showYearSelector,
     ...otherProps
 }) => {
     const isWide = useMedia({ minWidth: 736 });
@@ -72,6 +74,7 @@ const DatepickerBase: React.FunctionComponent<DatepickerBaseProps> = ({
                 valgtDato={value ? dateToISOFormattedDateString(value) : ''}
                 avgrensninger={dateLimitations ? parseDateLimitations(dateLimitations) : undefined}
                 {...otherProps}
+                visÅrVelger={showYearSelector}
                 kalender={{
                     plassering
                 }}

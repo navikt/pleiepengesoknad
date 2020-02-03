@@ -57,6 +57,7 @@ const FrilansoppdragForm: React.FunctionComponent<Props> = ({
                                     label: 'Fra og med',
                                     fullscreenOverlay: true,
                                     name: FrilansoppdragFormField.fom,
+                                    showYearSelector: true,
                                     dateLimitations: {
                                         minDato,
                                         maksDato: values.tom || maksDato
@@ -74,6 +75,7 @@ const FrilansoppdragForm: React.FunctionComponent<Props> = ({
                                     name: FrilansoppdragFormField.tom,
                                     fullscreenOverlay: true,
                                     disabled: values.erPågående === true,
+                                    showYearSelector: true,
                                     dateLimitations: {
                                         minDato: values.fom || minDato,
                                         maksDato
