@@ -37,6 +37,7 @@ import {
 import FormikConfirmationCheckboxPanel from 'common/formik/formik-confirmation-checkbox-panel/FormikConfirmationCheckboxPanel';
 import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 import Panel from 'nav-frontend-paneler';
+import FrilansSummary from './FrilansSummary';
 
 interface State {
     sendingInProgress: boolean;
@@ -132,7 +133,6 @@ class SummaryStep extends React.Component<Props, State> {
                                             />
                                         </Normaltekst>
                                     </ContentWithHeader>
-
                                     <Box margin="l">
                                         <ContentWithHeader
                                             header={intlHelper(intl, 'steg.oppsummering.tidsrom.header')}>
@@ -248,7 +248,6 @@ class SummaryStep extends React.Component<Props, State> {
                                             </ContentWithHeader>
                                         </Box>
                                     )}
-
                                     {/* Utenlandsopphold i perioden */}
                                     {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD) && utenlandsopphold_i_perioden && (
                                         <>
@@ -317,7 +316,6 @@ class SummaryStep extends React.Component<Props, State> {
                                             )}
                                         </>
                                     )}
-
                                     <Box margin="l">
                                         <ContentWithHeader
                                             header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.header')}>
@@ -333,6 +331,10 @@ class SummaryStep extends React.Component<Props, State> {
                                             )}
                                         </ContentWithHeader>
                                     </Box>
+
+                                    {isFeatureEnabled(Feature.TOGGLE_FRILANS) && (
+                                        <FrilansSummary apiValues={apiValues} />
+                                    )}
 
                                     {tilsynsordning && <TilsynsordningSummary tilsynsordning={tilsynsordning} />}
                                     {nattevaak && (
@@ -362,7 +364,6 @@ class SummaryStep extends React.Component<Props, State> {
                                             </ContentWithHeader>
                                         </Box>
                                     )}
-
                                     <Box margin="l">
                                         <ContentWithHeader
                                             header={intlHelper(intl, 'steg.oppsummering.utlandetSiste12.header')}>
@@ -387,7 +388,6 @@ class SummaryStep extends React.Component<Props, State> {
                                                 </ContentWithHeader>
                                             </Box>
                                         )}
-
                                     <Box margin="l">
                                         <ContentWithHeader
                                             header={intlHelper(intl, 'steg.oppsummering.utlandetNeste12.header')}>
@@ -412,7 +412,6 @@ class SummaryStep extends React.Component<Props, State> {
                                                 </ContentWithHeader>
                                             </Box>
                                         )}
-
                                     <Box margin="l">
                                         <ContentWithHeader
                                             header={intlHelper(intl, 'steg.oppsummering.legeerklæring.header')}>
