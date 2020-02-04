@@ -2,34 +2,34 @@ import React, { useState } from 'react';
 import Box from 'common/components/box/Box';
 import { Formik } from 'formik';
 import { Systemtittel } from 'nav-frontend-typografi';
-import { VirksomhetFormData } from './types';
+import { NæringFormData } from './types';
 import FormKnapperad from '../components/FormKnapperad';
 
 interface Props {
-    virksomhet?: VirksomhetFormData;
+    næring?: NæringFormData;
     minDato: Date;
     maksDato: Date;
-    onSubmit: (oppdrag: VirksomhetFormData) => void;
+    onSubmit: (oppdrag: NæringFormData) => void;
     onCancel: () => void;
 }
 
-const initialValues: Partial<VirksomhetFormData> = {};
+const initialValues: Partial<NæringFormData> = {};
 
-const VirksomhetForm: React.FunctionComponent<Props> = ({
+const NæringForm: React.FunctionComponent<Props> = ({
     onCancel,
-    virksomhet = initialValues,
+    næring = initialValues,
     onSubmit,
     minDato,
     maksDato
 }) => {
     const [showErrors, setShowErrors] = useState(false);
 
-    const onFormikSubmit = (values: VirksomhetFormData) => {
+    const onFormikSubmit = (values: NæringFormData) => {
         onSubmit(values);
     };
 
     return (
-        <Formik initialValues={virksomhet} onSubmit={onFormikSubmit} validateOnMount={true} validateOnChange={true}>
+        <Formik initialValues={næring} onSubmit={onFormikSubmit} validateOnMount={true} validateOnChange={true}>
             {({ handleSubmit, isValid, setFieldValue, setFieldTouched, values }) => {
                 return (
                     <form onSubmit={handleSubmit}>
@@ -42,7 +42,7 @@ const VirksomhetForm: React.FunctionComponent<Props> = ({
                                 onSubmit={() => {
                                     setShowErrors(true);
                                     if (isValid) {
-                                        onFormikSubmit(values as VirksomhetFormData);
+                                        onFormikSubmit(values as NæringFormData);
                                     }
                                 }}
                                 onCancel={onCancel}
@@ -55,4 +55,4 @@ const VirksomhetForm: React.FunctionComponent<Props> = ({
     );
 };
 
-export default VirksomhetForm;
+export default NæringForm;

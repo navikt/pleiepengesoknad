@@ -1,7 +1,7 @@
 import React from 'react';
 import { PleiepengesøknadFormData, AppFormField } from 'app/types/PleiepengesøknadFormData';
 import ModalFormAndList from 'common/components/modal-form-and-list/ModalFormAndList';
-import { VirksomhetFormData } from 'common/forms/virksomhet/types';
+import { NæringFormData } from 'common/forms/næring/types';
 import { Field, FieldProps } from 'formik';
 import { isValidationErrorsVisible } from 'common/formik/formikUtils';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
@@ -11,7 +11,7 @@ import FormikYesOrNoQuestion from 'common/formik/formik-yes-or-no-question/Formi
 import { validateRequiredField } from 'app/validation/fieldValidations';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { Panel } from 'nav-frontend-paneler';
-import VirksomhetListe from 'common/forms/virksomhet/VirksomhetListe';
+import NæringListe from 'common/forms/næring/NæringListe';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
@@ -35,15 +35,15 @@ const SelvstendigNæringsdrivendeFormPart: React.FunctionComponent<Props> = ({ f
                             {({
                                 field,
                                 form: { errors, setFieldValue, status, submitCount }
-                            }: FieldProps<VirksomhetFormData[]>) => {
+                            }: FieldProps<NæringFormData[]>) => {
                                 const errorMsgProps = isValidationErrorsVisible(status, submitCount)
                                     ? getValidationErrorPropsWithIntl(intl, errors, field.name)
                                     : {};
 
-                                const virksomheter: VirksomhetFormData[] = field.value || [];
+                                const virksomheter: NæringFormData[] = field.value || [];
 
                                 return (
-                                    <ModalFormAndList<VirksomhetFormData>
+                                    <ModalFormAndList<NæringFormData>
                                         items={virksomheter}
                                         {...errorMsgProps}
                                         labels={{
@@ -53,11 +53,7 @@ const SelvstendigNæringsdrivendeFormPart: React.FunctionComponent<Props> = ({ f
                                         }}
                                         onChange={(value) => setFieldValue(field.name, value)}
                                         listRenderer={(onEdit, onDelete) => (
-                                            <VirksomhetListe
-                                                virksomheter={field.value}
-                                                onEdit={onEdit}
-                                                onDelete={onDelete}
-                                            />
+                                            <NæringListe næringer={field.value} onEdit={onEdit} onDelete={onDelete} />
                                         )}
                                         formRenderer={() => <div>Skjema</div>}
                                     />
