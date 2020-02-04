@@ -114,6 +114,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                             validate={validateYesOrNoIsAnswered}
                         />
                     </Box>
+                    {/* TODO: Vise informasjon og lenke til NAV.no for å lese mer om dette */}
                     {formikProps.values.skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES && (
                         <Box margin="m" padBottom="l">
                             <UtenlandsoppholdIPeriodenFormPart periode={periode} />
@@ -129,6 +130,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                             legend={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.spm')}
                             name={AppFormField.skalTaUtFerieIPerioden}
                             validate={validateYesOrNoIsAnswered}
+                            helperText="Dersom du er usikker på om det er lovbestemt ferie, må du høre med din arbeidsgiver."
                         />
                     </Box>
                     {formikProps.values.skalTaUtFerieIPerioden === YesOrNo.YES && (
