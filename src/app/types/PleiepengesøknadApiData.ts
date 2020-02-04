@@ -113,6 +113,21 @@ export interface FerieuttakIPeriodeApiData {
     til_og_med: ApiStringDate;
 }
 
+export interface FrilansApiData {
+    startdato: ApiStringDate;
+    jobber_fortsatt_som_frilans: boolean;
+    har_hatt_oppdrag_for_familie: boolean;
+    har_hatt_inntekt_som_fosterforelder: boolean;
+    oppdrag: FrilansoppdragApiData[];
+}
+
+export interface FrilansoppdragApiData {
+    arbeidsgivernavn: string;
+    fra_og_med: ApiStringDate;
+    til_og_med: ApiStringDate | null;
+    er_pagaende?: boolean;
+}
+
 export interface PleiepengesøknadApiData {
     new_version: boolean;
     sprak: Locale;
@@ -144,4 +159,6 @@ export interface PleiepengesøknadApiData {
         i_beredskap: boolean;
         tilleggsinformasjon?: string;
     };
+    har_hatt_inntekt_som_frilanser?: boolean;
+    frilans?: FrilansApiData;
 }

@@ -33,7 +33,7 @@ const CustomInputElement: React.FunctionComponent<CustomInputElementProps> = ({
     helperText
 }) => {
     const intl = useIntl();
-    const wrapperCls = classnames('skjemaelement', {
+    const wrapperCls = classnames('skjemaelement', 'customInputElement', {
         'skjemaelement--harFeil': validationError !== undefined,
         [`${className}`]: className !== undefined,
         'skjemaelement--focusEnabled': validationError !== undefined
