@@ -18,6 +18,7 @@ import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 import FerieuttakIPeriodenFormPart from './FerieuttakIPeriodenFormPart';
 import UtenlandsoppholdIPeriodenFormPart from './UtenlandsoppholdIPeriodenFormPart';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
+import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning';
 
 interface OpplysningerOmTidsromStepProps {
     formikProps: PleiepengesøknadFormikProps;
@@ -51,6 +52,10 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
 
     const periode: DateRange = { from: periodeFra || date1YearAgo, to: periodeTil || date1YearFromNow };
     const intl = useIntl();
+
+    const visInfoOmUtenlandsopphold = harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning(
+        values.utenlandsoppholdIPerioden
+    );
 
     return (
         <FormikStep
@@ -103,21 +108,22 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
             {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD) && (
                 <>
                     <Box margin="xxl">
-                        <CounsellorPanel>
-                            <FormattedHTMLMessage id="steg.tidsrom.veileder.utenlandsopphold.html" />
-                        </CounsellorPanel>
-                    </Box>
-                    <Box margin="xxl">
                         <FormikYesOrNoQuestion<AppFormField>
                             legend={intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.spm')}
                             name={AppFormField.skalOppholdeSegIUtlandetIPerioden}
                             validate={validateYesOrNoIsAnswered}
                         />
                     </Box>
-                    {/* TODO: Vise informasjon og lenke til NAV.no for å lese mer om dette */}
                     {formikProps.values.skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES && (
-                        <Box margin="m" padBottom="l">
+                        <Box margin="m">
                             <UtenlandsoppholdIPeriodenFormPart periode={periode} />
+                        </Box>
+                    )}
+                    {visInfoOmUtenlandsopphold && (
+                        <Box margin="l" padBottom="l">
+                            <CounsellorPanel>
+                                <FormattedHTMLMessage id="steg.tidsrom.veileder.utenlandsopphold.html" />
+                            </CounsellorPanel>
                         </Box>
                     )}
                 </>
@@ -130,7 +136,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                             legend={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.spm')}
                             name={AppFormField.skalTaUtFerieIPerioden}
                             validate={validateYesOrNoIsAnswered}
-                            helperText="Dersom du er usikker på om det er lovbestemt ferie, må du høre med din arbeidsgiver."
+                            helperText={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.veileder')}
                         />
                     </Box>
                     {formikProps.values.skalTaUtFerieIPerioden === YesOrNo.YES && (
