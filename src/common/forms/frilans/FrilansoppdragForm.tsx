@@ -4,13 +4,12 @@ import FormikInput from 'common/formik/formik-input/FormikInput';
 import Box from 'common/components/box/Box';
 import FormikDateIntervalPicker from 'common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
 import FormikCheckbox from 'common/formik/formik-checkbox/FormikCheckbox';
-import Knapperad from 'common/components/knapperad/Knapperad';
-import { Knapp } from 'nav-frontend-knapper';
 import { Formik } from 'formik';
 import { validateRequiredField } from 'app/validation/fieldValidations';
 import { Systemtittel } from 'nav-frontend-typografi';
 import dateRangeValidation from 'common/validation/dateRangeValidation';
 import { dateToday, date10MonthsAgo } from 'common/utils/dateUtils';
+import FormKnapperad from '../components/FormKnapperad';
 
 interface Props {
     oppdrag?: FrilansoppdragFormData;
@@ -103,22 +102,15 @@ const FrilansoppdragForm: React.FunctionComponent<Props> = ({
                             />
                         </Box>
                         <Box margin="xl">
-                            <Knapperad>
-                                <Knapp
-                                    type="hoved"
-                                    htmlType="button"
-                                    onClick={() => {
-                                        setShowErrors(true);
-                                        if (isValid) {
-                                            onFormikSubmit(values as FrilansoppdragFormData);
-                                        }
-                                    }}>
-                                    Ok
-                                </Knapp>
-                                <Knapp type="flat" htmlType="button" onClick={() => onCancel()}>
-                                    Avbryt
-                                </Knapp>
-                            </Knapperad>
+                            <FormKnapperad
+                                onSubmit={() => {
+                                    setShowErrors(true);
+                                    if (isValid) {
+                                        onFormikSubmit(values as FrilansoppdragFormData);
+                                    }
+                                }}
+                                onCancel={onCancel}
+                            />
                         </Box>
                     </form>
                 );

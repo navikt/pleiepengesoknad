@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import { Formik } from 'formik';
-import { Knapp } from 'nav-frontend-knapper';
 import { useIntl, FormattedMessage } from 'react-intl';
 import bemUtils from 'common/utils/bemUtils';
 import { Systemtittel } from 'nav-frontend-typografi';
@@ -23,6 +22,7 @@ import dateRangeValidation from 'common/validation/dateRangeValidation';
 
 import './utenlandsoppholdForm.less';
 import { getCountryName } from 'common/components/country-select/CountrySelect';
+import FormKnapperad from '../components/FormKnapperad';
 
 export interface UtenlandsoppholdFormLabels {
     tittel: string;
@@ -205,22 +205,15 @@ const UtenlandsoppholdForm: React.FunctionComponent<Props> = ({
                                     )}
                                 </>
                             )}
-                            <div className={bem.element('knapper')}>
-                                <Knapp
-                                    type="hoved"
-                                    htmlType="button"
-                                    onClick={() => {
-                                        setShowErrors(true);
-                                        if (isValid) {
-                                            onFormikSubmit(values as Utenlandsopphold);
-                                        }
-                                    }}>
-                                    <FormattedMessage id="utenlandsopphold.form.ok" />
-                                </Knapp>
-                                <Knapp type="flat" htmlType="button" onClick={() => onCancel()}>
-                                    <FormattedMessage id="utenlandsopphold.form.avbryt" />
-                                </Knapp>
-                            </div>
+                            <FormKnapperad
+                                onSubmit={() => {
+                                    setShowErrors(true);
+                                    if (isValid) {
+                                        onFormikSubmit(values as Utenlandsopphold);
+                                    }
+                                }}
+                                onCancel={onCancel}
+                            />
                         </div>
                     </form>
                 );

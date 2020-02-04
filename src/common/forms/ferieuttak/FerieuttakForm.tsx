@@ -4,11 +4,11 @@ import { Formik } from 'formik';
 import Box from 'common/components/box/Box';
 import { Systemtittel } from 'nav-frontend-typografi';
 import bemUtils from 'common/utils/bemUtils';
-import { Knapp } from 'nav-frontend-knapper';
 import FormikDateIntervalPicker from 'common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
 import ferieuttakFormValidation from './ferieuttakFormValidation';
 
 import './ferieuttakForm.less';
+import FormKnapperad from '../components/FormKnapperad';
 
 export interface FerieuttakFormLabels {
     title: string;
@@ -61,7 +61,7 @@ const FerieuttakForm: React.FunctionComponent<Props> = ({
 
     return (
         <Formik initialValues={initialValues} onSubmit={onFormikSubmit} validateOnChange={true} validateOnMount={true}>
-            {({ handleSubmit, values: ferieuttak, isValid, errors }) => {
+            {({ handleSubmit, values, isValid, errors }) => {
                 return (
                     <form onSubmit={handleSubmit} className={bem.block}>
                         <div className={bem.block}>
@@ -77,43 +77,28 @@ const FerieuttakForm: React.FunctionComponent<Props> = ({
                                     name: FerieuttakFormFields.fromDate,
                                     fullscreenOverlay: true,
                                     validate: (date: Date) =>
-                                        ferieuttakFormValidation.validateFromDate(
-                                            date,
-                                            minDate,
-                                            maxDate,
-                                            ferieuttak.tom
-                                        )
+                                        ferieuttakFormValidation.validateFromDate(date, minDate, maxDate, values.tom)
                                 }}
                                 toDatepickerProps={{
                                     label: formLabels.toDate,
                                     name: FerieuttakFormFields.toDate,
                                     fullscreenOverlay: true,
                                     validate: (date: Date) =>
-                                        ferieuttakFormValidation.validateToDate(
-                                            date,
-                                            minDate,
-                                            maxDate,
-                                            ferieuttak.fom
-                                        )
+                                        ferieuttakFormValidation.validateToDate(date, minDate, maxDate, values.fom)
                                 }}
                             />
 
-                            <div className={bem.element('knapper')}>
-                                <Knapp
-                                    type="hoved"
-                                    htmlType="button"
-                                    onClick={() => {
+                            <Box margin="xl">
+                                <FormKnapperad
+                                    onSubmit={() => {
                                         setShowErrors(true);
                                         if (isValid) {
-                                            onFormikSubmit(ferieuttak as Ferieuttak);
+                                            onFormikSubmit(values as Ferieuttak);
                                         }
-                                    }}>
-                                    {formLabels.okButton}
-                                </Knapp>
-                                <Knapp type="flat" htmlType="button" onClick={() => onCancel()}>
-                                    {formLabels.cancelButton}
-                                </Knapp>
-                            </div>
+                                    }}
+                                    onCancel={onCancel}
+                                />
+                            </Box>
                         </div>
                     </form>
                 );

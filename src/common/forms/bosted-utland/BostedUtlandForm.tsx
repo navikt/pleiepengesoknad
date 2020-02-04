@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import { Formik } from 'formik';
-import { Knapp } from 'nav-frontend-knapper';
 import { useIntl, FormattedMessage } from 'react-intl';
 import bemUtils from 'common/utils/bemUtils';
 import { Systemtittel } from 'nav-frontend-typografi';
@@ -14,6 +13,7 @@ import { BostedUtland } from './types';
 import dateRangeValidation from 'common/validation/dateRangeValidation';
 
 import './bostedUtlandForm.less';
+import FormKnapperad from '../components/FormKnapperad';
 
 export interface BostedUtlandFormLabels {
     tittel: string;
@@ -128,23 +128,17 @@ const BostedUtlandForm: React.FunctionComponent<Props> = ({
                                     {countryOptions}
                                 </FormikSelect>
                             </Box>
-
-                            <div className={bem.element('knapper')}>
-                                <Knapp
-                                    type="hoved"
-                                    htmlType="button"
-                                    onClick={() => {
+                            <Box margin="xl">
+                                <FormKnapperad
+                                    onSubmit={() => {
                                         setShowErrors(true);
                                         if (isValid) {
                                             onFormikSubmit(values as BostedUtland);
                                         }
-                                    }}>
-                                    <FormattedMessage id="bostedUtland.form.ok" />
-                                </Knapp>
-                                <Knapp type="flat" htmlType="button" onClick={() => onCancel()}>
-                                    <FormattedMessage id="bostedUtland.form.avbryt" />
-                                </Knapp>
-                            </div>
+                                    }}
+                                    onCancel={onCancel}
+                                />
+                            </Box>
                         </div>
                     </form>
                 );

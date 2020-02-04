@@ -18,6 +18,7 @@ import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
 import FrilansFormPart from './FrilansFormPart';
 import { persistAndNavigateTo } from 'app/utils/navigationUtils';
 import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
+import SelvstendigNæringsdrivendeFormPart from './SelvstendigNæringsdrivendePart';
 
 interface OwnProps {
     formikProps: PleiepengesøknadFormikProps;
@@ -87,6 +88,12 @@ const ArbeidsforholdStep = ({ history, søkerdata, nextStepRoute, formikProps, .
                     {isFeatureEnabled(Feature.TOGGLE_FRILANS) && (
                         <Box margin="l" padBottom="l">
                             <FrilansFormPart formValues={values} />
+                        </Box>
+                    )}
+
+                    {isFeatureEnabled(Feature.TOGGLE_SELVSTENDIG) && (
+                        <Box margin="l" padBottom="l">
+                            <SelvstendigNæringsdrivendeFormPart formValues={values} />
                         </Box>
                     )}
                 </>

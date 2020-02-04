@@ -7,7 +7,7 @@ import './knapperad.less';
 export interface Props {
     children: React.ReactNode;
     align?: 'left' | 'right' | 'center';
-    style?: 'normal' | 'mobile-50-50';
+    style?: 'normal' | 'mobile-50-50' | 'stretch';
 }
 const bem = bemUtils('knapperad');
 
