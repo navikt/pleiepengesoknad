@@ -29,6 +29,7 @@ const FrilansFormPart: React.FunctionComponent<Props> = ({ formValues }) => {
             <FormikYesOrNoQuestion<AppFormField>
                 name={AppFormField.frilans_harHattInntektSomFrilanser}
                 legend="Har du jobbet og hatt inntekt som frilanser de siste 10 månedene?"
+                validate={validateRequiredField}
                 helperText={
                     <>
                         Eksempel på hvem som kan være frilansere er:

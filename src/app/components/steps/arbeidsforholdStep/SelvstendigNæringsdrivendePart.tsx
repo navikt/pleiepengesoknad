@@ -12,6 +12,7 @@ import { validateRequiredField } from 'app/validation/fieldValidations';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { Panel } from 'nav-frontend-paneler';
 import NæringListe from 'common/forms/næring/NæringListe';
+import NæringForm from 'common/forms/næring/NæringForm';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
@@ -55,7 +56,9 @@ const SelvstendigNæringsdrivendeFormPart: React.FunctionComponent<Props> = ({ f
                                         listRenderer={(onEdit, onDelete) => (
                                             <NæringListe næringer={field.value} onEdit={onEdit} onDelete={onDelete} />
                                         )}
-                                        formRenderer={() => <div>Skjema</div>}
+                                        formRenderer={(onSubmit, onCancel) => (
+                                            <NæringForm onSubmit={onSubmit} onCancel={onCancel} />
+                                        )}
                                     />
                                 );
                             }}
