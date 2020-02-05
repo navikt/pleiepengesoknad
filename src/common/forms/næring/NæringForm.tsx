@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { useState } from 'react';
 import Box from 'common/components/box/Box';
 import { Formik } from 'formik';
@@ -14,6 +15,11 @@ import FormikYesOrNoQuestion from 'common/formik/formik-yes-or-no-question/Formi
 import FormikCountrySelect from 'common/formik/formik-country-select/FormikCountrySelect';
 import { YesOrNo } from 'common/types/YesOrNo';
 import FormikDateIntervalPicker from 'common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
+import FormikCheckbox from 'common/formik/formik-checkbox/FormikCheckbox';
+import { date4YearsAgo } from 'common/utils/dateUtils';
+import FormikDatepicker from 'common/formik/formik-datepicker/FormikDatepicker';
+import FormikTextarea from 'common/formik/formik-textarea/FormikTextarea';
+import { Panel } from 'nav-frontend-paneler';
 
 interface Props {
     næring?: NæringFormData;
@@ -39,12 +45,12 @@ const NæringForm: React.FunctionComponent<Props> = ({ onCancel, næring = initi
                 return (
                     <form onSubmit={handleSubmit}>
                         <Box padBottom="l">
-                            <Systemtittel tag="h1">Frilansoppdrag</Systemtittel>
+                            <Systemtittel tag="h1">Opplysninger om virksomheten din</Systemtittel>
                         </Box>
 
                         <FormikCheckboxPanelGroup<NæringFormField>
                             name={NæringFormField.næringstyper}
-                            legend="Næringstype"
+                            legend="Hvilken type virksomhet har du?"
                             showValidationErrors={showErrors}
                             checkboxes={[
                                 {
@@ -116,20 +122,169 @@ const NæringForm: React.FunctionComponent<Props> = ({ onCancel, næring = initi
                             </Box>
                         )}
 
-                        {(values.registrertINorge === YesOrNo.YES || hasValue(values.registrertILand)) && (
+                        {(values.registrertINorge === YesOrNo.YES || values.registrertINorge === YesOrNo.NO) && (
                             <Box margin="xl">
                                 <FormikDateIntervalPicker<NæringFormField>
                                     legend={`Når startet du ${navnPåNæringen}?`}
                                     fromDatepickerProps={{
                                         label: 'Startdato',
-                                        name: NæringFormField.oppstartsdato
+                                        name: NæringFormField.fom,
+                                        showYearSelector: true
                                     }}
                                     toDatepickerProps={{
                                         label: 'Eventuell avsluttet dato',
-                                        name: NæringFormField.avsluttetdato
+                                        name: NæringFormField.tom,
+                                        disabled: values.erPågående === true,
+                                        showYearSelector: true
+                                    }}
+                                />
+                                <FormikCheckbox<NæringFormField>
+                                    label="Er pågående"
+                                    name={NæringFormField.erPågående}
+                                    afterOnChange={(checked) => {
+                                        if (checked) {
+                                            setFieldValue(NæringFormField.tom, undefined);
+                                        }
                                     }}
                                 />
                             </Box>
+                        )}
+
+                        {values.fom && moment(values.fom).isAfter(date4YearsAgo) && (
+                            <>
+                                <Box margin="xl">
+                                    <FormikInput<NæringFormField>
+                                        name={NæringFormField.næringsinntekt}
+                                        label="Næringsinntekt"
+                                        validate={validateRequiredField}
+                                    />
+                                </Box>
+                                <Box margin="xl">
+                                    <FormikYesOrNoQuestion<NæringFormField>
+                                        name={NæringFormField.harBlittYrkesaktivILøpetAvDeTreSisteFerdigliknedeÅrene}
+                                        legend="Har du begynt å jobbe i løpet av de tre siste ferdigliknede årene?"
+                                    />
+                                </Box>
+                                {values.harBlittYrkesaktivILøpetAvDeTreSisteFerdigliknedeÅrene === YesOrNo.YES && (
+                                    <Panel>
+                                        <FormikDatepicker<NæringFormField>
+                                            name={NæringFormField.oppstartsdato}
+                                            label="Oppgi dato for når du ble yrkesaktiv"
+                                            showYearSelector={true}
+                                        />
+                                    </Panel>
+                                )}
+                            </>
+                        )}
+                        {values.fom && moment(values.fom).isAfter(date4YearsAgo) === false && (
+                            <>
+                                <Box margin="xl">
+                                    <FormikYesOrNoQuestion<NæringFormField>
+                                        name={NæringFormField.hattVarigEndringAvNæringsinntektSiste4Kalenderår}
+                                        legend="Har du hatt en varig endring i arbeidsforholdet ditt, virksomheten eller arbeidssituasjonen din de siste fire årene?"
+                                    />
+                                </Box>
+                                {values.hattVarigEndringAvNæringsinntektSiste4Kalenderår === YesOrNo.YES && (
+                                    <>
+                                        <Box margin="xl">
+                                            <FormikDatepicker<NæringFormField>
+                                                name={NæringFormField.varigEndringINæringsinntekt_dato}
+                                                label="Oppgi dato for endringen"
+                                                validate={validateRequiredField}
+                                            />
+                                        </Box>
+                                        <Box margin="xl">
+                                            <FormikInput<NæringFormField>
+                                                name={NæringFormField.varigEndringINæringsinntekt_inntektEtterEndring}
+                                                label="Oppgi næringsinntekten din etter endringen. Oppgi årsinntekten i hele kroner."
+                                                validate={validateRequiredField}
+                                            />
+                                        </Box>
+                                        <Box margin="xl">
+                                            <FormikTextarea<NæringFormField>
+                                                name={NæringFormField.varigEndringINæringsinntekt_forklaring}
+                                                label="Her kan du skrive kort hva som har endret seg i arbeidsforholdet ditt, virksomheten eller arbeidssituasjonen din"
+                                                validate={validateRequiredField}
+                                                maxLength={1000}
+                                            />
+                                        </Box>
+                                    </>
+                                )}
+                            </>
+                        )}
+
+                        {(values.fom || values.registrertINorge === YesOrNo.YES) && (
+                            <>
+                                <Box margin="xl">
+                                    <FormikYesOrNoQuestion<NæringFormField>
+                                        name={NæringFormField.harRevisor}
+                                        legend="Har du revisor?"
+                                    />
+                                </Box>
+
+                                {values.harRevisor === YesOrNo.YES && (
+                                    <Panel>
+                                        <FormikInput<NæringFormField>
+                                            name={NæringFormField.revisor_navn}
+                                            label="Oppgi navnet til revisor"
+                                            validate={validateRequiredField}
+                                        />
+                                        <Box margin="xl">
+                                            <FormikInput<NæringFormField>
+                                                name={NæringFormField.revisor_telefon}
+                                                label="Oppgi telefonnummeret til revisor"
+                                                validate={validateRequiredField}
+                                            />
+                                        </Box>
+                                        <Box margin="xl">
+                                            <FormikYesOrNoQuestion<NæringFormField>
+                                                name={NæringFormField.revisor_erNærVennEllerFamilie}
+                                                legend="Er dere nære venner eller i familie?"
+                                                validate={validateRequiredField}
+                                            />
+                                        </Box>
+                                        {values.revisor_erNærVennEllerFamilie === YesOrNo.YES && (
+                                            <Box margin="xl">
+                                                <FormikYesOrNoQuestion<NæringFormField>
+                                                    name={NæringFormField.kanInnhenteOpplsyningerFraRevisor}
+                                                    legend="Gir du NAV fullmakt til å innhente opplysninger direkte fra revisor?"
+                                                    validate={validateRequiredField}
+                                                />
+                                            </Box>
+                                        )}
+                                    </Panel>
+                                )}
+                                <Box margin="xl">
+                                    <FormikYesOrNoQuestion<NæringFormField>
+                                        name={NæringFormField.harRegnskapsfører}
+                                        legend="Har du regnskapsfører?"
+                                    />
+                                </Box>
+
+                                {values.harRegnskapsfører === YesOrNo.YES && (
+                                    <Panel>
+                                        <FormikInput<NæringFormField>
+                                            name={NæringFormField.regnskapsfører_navn}
+                                            label="Oppgi navnet til regnskapsfører"
+                                            validate={validateRequiredField}
+                                        />
+                                        <Box margin="xl">
+                                            <FormikInput<NæringFormField>
+                                                name={NæringFormField.regnskapsfører_telefon}
+                                                label="Oppgi telefonnummeret til regnskapsfører"
+                                                validate={validateRequiredField}
+                                            />
+                                        </Box>
+                                        <Box margin="xl">
+                                            <FormikYesOrNoQuestion<NæringFormField>
+                                                name={NæringFormField.regnskapsfører_erNærVennEllerFamilie}
+                                                legend="Er dere nære venner eller i familie?"
+                                                validate={validateRequiredField}
+                                            />
+                                        </Box>
+                                    </Panel>
+                                )}
+                            </>
                         )}
 
                         <Box margin="xl">

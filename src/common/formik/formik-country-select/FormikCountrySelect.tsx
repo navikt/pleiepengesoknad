@@ -24,7 +24,7 @@ function FormikCountrySelect<T>({
     const intl = useIntl();
     return (
         <Field validate={validate} name={name}>
-            {({ field, form: { errors, status, submitCount } }: FieldProps) => {
+            {({ field, form: { errors, status, submitCount, setFieldValue } }: FieldProps) => {
                 const errorMsgProps =
                     showValidationErrors || isValidationErrorsVisible(status, submitCount)
                         ? getValidationErrorPropsWithIntl(intl, errors, field.name)
@@ -35,6 +35,7 @@ function FormikCountrySelect<T>({
                         label={<span style={{ fontWeight: 'bold' }}>{label}</span>}
                         {...errorMsgProps}
                         {...field}
+                        onChange={(value) => setFieldValue(field.name, value)}
                         showOnlyEuAndEftaCountries={showOnlyEuAndEftaCountries}
                     />
                 );

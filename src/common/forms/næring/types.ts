@@ -12,7 +12,7 @@ export enum NæringFormField {
     'fom' = 'fom',
     'tom' = 'tom',
     'næringsinntekt' = 'næringsinntekt',
-    'pågående' = 'pågående',
+    'erPågående' = 'erPågående',
     'navnPåNæringen' = 'navnPåNæringen',
     'organisasjonsnummer' = 'organisasjonsnummer',
     'registrertINorge' = 'registrertINorge',
@@ -20,13 +20,20 @@ export enum NæringFormField {
     'stillingsprosent' = 'stillingsprosent',
     'harBlittYrkesaktivILøpetAvDeTreSisteFerdigliknedeÅrene' = 'harBlittYrkesaktivILøpetAvDeTreSisteFerdigliknedeÅrene',
     'oppstartsdato' = 'oppstartsdato',
-    'avsluttetdato' = 'avsluttetdato',
     'hattVarigEndringAvNæringsinntektSiste4Kalenderår' = 'hattVarigEndringAvNæringsinntektSiste4Kalenderår',
+    'varigEndringINæringsinntekt_dato' = 'varigEndringINæringsinntekt_dato',
+    'varigEndringINæringsinntekt_inntektEtterEndring' = 'varigEndringINæringsinntekt_inntektEtterEndring',
+    'varigEndringINæringsinntekt_forklaring' = 'varigEndringINæringsinntekt_forklaring',
     'endretNæringsinntektInformasjon' = 'endretNæringsinntektInformasjon',
     'harRegnskapsfører' = 'harRegnskapsfører',
     'regnskapsfører' = 'regnskapsfører',
+    'regnskapsfører_navn' = 'regnskapsfører_navn',
+    'regnskapsfører_telefon' = 'regnskapsfører_telefon',
+    'regnskapsfører_erNærVennEllerFamilie' = 'regnskapsfører_erNærVennEllerFamilie',
     'harRevisor' = 'harRevisor',
-    'revisor' = 'revisor',
+    'revisor_navn' = 'revisor_navn',
+    'revisor_telefon' = 'revisor_telefon',
+    'revisor_erNærVennEllerFamilie' = 'revisor_erNærVennEllerFamilie',
     'kanInnhenteOpplsyningerFraRevisor' = 'kanInnhenteOpplsyningerFraRevisor'
 }
 
@@ -36,7 +43,7 @@ export class NæringFormData {
     [NæringFormField.fom]: Date;
     [NæringFormField.tom]: Date;
     [NæringFormField.næringsinntekt]: number;
-    [NæringFormField.pågående]: YesOrNo;
+    [NæringFormField.erPågående]: boolean;
     [NæringFormField.navnPåNæringen]: string;
     [NæringFormField.organisasjonsnummer]: string;
     [NæringFormField.registrertINorge]: YesOrNo;
@@ -47,9 +54,13 @@ export class NæringFormData {
     [NæringFormField.hattVarigEndringAvNæringsinntektSiste4Kalenderår]?: YesOrNo;
     [NæringFormField.endretNæringsinntektInformasjon]?: EndretNæringsinntektInformasjon;
     [NæringFormField.harRegnskapsfører]: YesOrNo;
-    [NæringFormField.regnskapsfører]: Næringsrelasjon;
+    [NæringFormField.regnskapsfører_navn]?: string;
+    [NæringFormField.regnskapsfører_telefon]?: string;
+    [NæringFormField.regnskapsfører_erNærVennEllerFamilie]?: YesOrNo;
     [NæringFormField.harRevisor]: YesOrNo;
-    [NæringFormField.revisor]: Næringsrelasjon;
+    [NæringFormField.revisor_navn]?: string;
+    [NæringFormField.revisor_telefon]?: string;
+    [NæringFormField.revisor_erNærVennEllerFamilie]?: YesOrNo;
     [NæringFormField.kanInnhenteOpplsyningerFraRevisor]: YesOrNo;
 }
 
@@ -57,10 +68,4 @@ export class EndretNæringsinntektInformasjon {
     dato: Date;
     næringsinntektEtterEndring: number;
     forklaring: string;
-}
-
-export class Næringsrelasjon {
-    navn: string;
-    telefonnummer: string;
-    erNærVennEllerFamilie: YesOrNo;
 }

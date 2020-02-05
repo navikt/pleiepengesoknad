@@ -32,6 +32,11 @@ export const date1YearAgo = moment()
     .startOf('day')
     .toDate();
 
+export const date4YearsAgo = moment()
+    .subtract(4, 'years')
+    .startOf('day')
+    .toDate();
+
 export const date1YearFromNow = moment()
     .add(1, 'years')
     .endOf('day')
