@@ -52,5 +52,7 @@ spec:
           value: "off"
         - name: TOGGLE_FERIEUTTAK
           value: "off"
+        - name: TOGGLE_FRILANS
+          value: "off"
 
 

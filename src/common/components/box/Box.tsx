@@ -2,7 +2,7 @@ import * as React from 'react';
 import bemHelper from 'common/utils/bemUtils';
 import './box.less';
 
-type BoxMargin = 's' | 'm' | 'l' | 'xl' | 'xxl' | 'xxxl';
+type BoxMargin = 's' | 'm' | 'l' | 'xl' | 'xxl' | 'xxxl' | 'none';
 
 interface BoxProps {
     margin?: BoxMargin;

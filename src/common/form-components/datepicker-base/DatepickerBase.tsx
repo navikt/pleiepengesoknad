@@ -31,6 +31,7 @@ interface DatepickerBaseProps {
     onChange: (date: Date | undefined) => void;
     value?: Date;
     dateLimitations?: DateLimitiations;
+    showYearSelector?: boolean;
     fullScreenOnMobile?: boolean;
     fullscreenOverlay?: boolean;
 }
@@ -59,20 +60,23 @@ const DatepickerBase: React.FunctionComponent<DatepickerBaseProps> = ({
     fullScreenOnMobile = true,
     fullscreenOverlay,
     dateLimitations,
+    showYearSelector,
     ...otherProps
 }) => {
     const isWide = useMedia({ minWidth: 736 });
     const elementId = id || guid();
+    const plassering = fullscreenOverlay || (fullScreenOnMobile && isWide === false) ? 'fullskjerm' : undefined;
     return (
         <CustomInputElement label={label} labelId={elementId} validationError={feil}>
             <NAVDatepicker
                 input={{ name, placeholder, id: elementId }}
                 id={elementId}
-                valgtDato={dateToISOFormattedDateString(value)}
+                valgtDato={value ? dateToISOFormattedDateString(value) : ''}
                 avgrensninger={dateLimitations ? parseDateLimitations(dateLimitations) : undefined}
                 {...otherProps}
+                visÅrVelger={showYearSelector}
                 kalender={{
-                    plassering: fullscreenOverlay || (fullScreenOnMobile && isWide === false) ? 'fullskjerm' : undefined
+                    plassering
                 }}
                 onChange={(dateString: string) => {
                     const newDate = dateString && dateString !== 'Invalid date' ? new Date(dateString) : undefined;

@@ -22,7 +22,7 @@
         "testEnvironment": "node"
     },
     "dependencies": {
-        "@formatjs/intl-pluralrules": "^1.5.1",
+        "@formatjs/intl-pluralrules": "^1.5.2",
         "@navikt/fnrvalidator": "^1.1.0",
         "@testing-library/react": "^9.4.0",
         "axios": "^0.19.2",
@@ -32,7 +32,7 @@
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
         "flat": "^5.0.0",
-        "formik": "^2.1.2",
+        "formik": "^2.1.3",
         "fs-extra": "^8.1.0",
         "helmet": "^3.21.2",
         "history": "^4.10.1",
@@ -51,9 +51,9 @@
         "nav-frontend-js-utils": "^1.0.8",
         "nav-frontend-knapper": "^1.0.39",
         "nav-frontend-lenker": "^1.0.33",
-        "nav-frontend-lukknapp": "^1.0.23",
-        "nav-frontend-modal": "^1.0.31",
-        "nav-frontend-paneler": "^1.0.22",
+        "nav-frontend-lukknapp": "^1.0.24",
+        "nav-frontend-modal": "^1.0.32",
+        "nav-frontend-paneler": "^1.0.23",
         "nav-frontend-skjema": "^1.0.78",
         "nav-frontend-spinner": "^1.0.21",
         "nav-frontend-stegindikator": "0.0.41",
@@ -70,14 +70,14 @@
         "react-modal": "^3.11.1",
         "react-router-dom": "^5.1.2",
         "react-simple-timefield": "^3.0.0",
-        "snyk": "^1.281.1",
+        "snyk": "^1.290.1",
         "use-media": "^1.4.0"
     },
     "devDependencies": {
-        "@babel/core": "^7.8.3",
+        "@babel/core": "^7.8.4",
         "@babel/plugin-proposal-object-rest-spread": "^7.8.3",
         "@babel/plugin-transform-modules-commonjs": "^7.8.3",
-        "@babel/preset-env": "^7.8.3",
+        "@babel/preset-env": "^7.8.4",
         "@babel/preset-react": "^7.8.3",
         "@types/classnames": "^2.2.9",
         "@types/enzyme": "^3.10.4",
@@ -119,7 +119,7 @@
         "nav-frontend-stegindikator-style": "^1.0.26",
         "nav-frontend-typografi-style": "^1.0.18",
         "nav-frontend-veileder-style": "^2.0.12",
-        "nav-frontend-veilederpanel-style": "0.0.23",
+        "nav-frontend-veilederpanel-style": "0.0.24",
         "postcss-input-range": "^4.0.0",
         "postcss-loader": "^3.0.0",
         "prettier": "^1.19.1",
@@ -129,7 +129,7 @@
         "source-map-loader": "^0.2.4",
         "style-loader": "^1.1.3",
         "svg-sprite-loader": "4.1.3",
-        "terser-webpack-plugin": "^2.3.2",
+        "terser-webpack-plugin": "^2.3.4",
         "ts-jest": "^24.3.0",
         "tslint": "^5.20.1",
         "tslint-config-prettier": "^1.17.0",
@@ -137,7 +137,7 @@
         "tslint-react": "^4.2.0",
         "typescript": "3.7.2",
         "webpack": "^4.41.5",
-        "webpack-dev-server": "^3.10.1"
+        "webpack-dev-server": "^3.10.2"
     },
     "resolutions": {
         "babel-core": "7.0.0-bridge.0"

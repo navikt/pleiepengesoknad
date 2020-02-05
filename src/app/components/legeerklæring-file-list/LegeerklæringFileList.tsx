@@ -11,7 +11,7 @@ import AttachmentListWithDeletion from 'common/components/attachment-list-with-d
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 import { Attachment } from 'common/types/Attachment';
 import AttachmentList from 'common/components/attachment-list/AttachmentList';
-import { Panel } from 'nav-frontend-paneler';
+import Panel from 'nav-frontend-paneler';
 
 interface LegeerklæringAttachmentListProps {
     includeDeletionFunctionality: boolean;
