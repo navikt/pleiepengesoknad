@@ -15,7 +15,7 @@ import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFo
 import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 import FerieuttakIPeriodenFormPart from './FerieuttakIPeriodenFormPart';
 import UtenlandsoppholdIPeriodenFormPart from './UtenlandsoppholdIPeriodenFormPart';
-import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
+import CounsellorPanel from '@navikt/sif-common/lib/common/components/counsellor-panel/CounsellorPanel';
 import { persistAndNavigateTo } from 'app/utils/navigationUtils';
 
 interface OpplysningerOmTidsromStepProps {
