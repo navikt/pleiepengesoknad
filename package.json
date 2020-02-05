@@ -14,7 +14,9 @@
         "start-api-mock": "PORT=8082 node ./api-mock.js",
         "test": "jest --maxWorkers=2 --config ./jest/jest.config.js",
         "snyk-protect": "snyk protect",
-        "prepare": "npm run snyk-protect"
+        "prepare": "npm run snyk-protect",
+        "cypress:open": "cypress open",
+        "cypress:run": "cypress run"
     },
     "jest": {
         "testEnvironment": "node"
@@ -95,6 +97,7 @@
         "babel-polyfill": "^6.26.0",
         "case-sensitive-paths-webpack-plugin": "^2.3.0",
         "css-loader": "^3.4.2",
+        "cypress": "^3.8.3",
         "enzyme": "^3.11.0",
         "enzyme-adapter-react-16": "^1.15.2",
         "extract-text-webpack-plugin": "^4.0.0-beta.0",
