@@ -131,7 +131,7 @@ const frilansPartialFormData: Partial<PleiepengesøknadFormData> = {
     frilans_oppdrag: [
         {
             arbeidsgiverNavn: 'Arb1',
-            erPågående: false,
+            erPågående: true,
             fom: new Date(2019, 1, 1),
             tom: new Date(2020, 1, 1)
         },

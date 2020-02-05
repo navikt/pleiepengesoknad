@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'formik';
 import { AppFormField } from '../../types/PleiepengesøknadFormData';
 import { removeElementFromArray } from 'common/utils/listUtils';
-import { ConnectedFormikProps } from '../../../common/types/ConnectedFormikProps';
+import { ConnectedFormikProps } from 'common/types/ConnectedFormikProps';
 import { deleteFile } from '../../api/api';
 import { containsAnyUploadedAttachments, fileExtensionIsValid } from 'common/utils/attachmentUtils';
 import Box from 'common/components/box/Box';

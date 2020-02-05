@@ -6,7 +6,7 @@ import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad'
 import IntroPage from './components/pages/intro-page/IntroPage';
 import { render } from 'react-dom';
 import Modal from 'nav-frontend-modal';
-// import { Locale } from 'common/types/Locale';
+import { Locale } from 'common/types/Locale';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
 import { appIsRunningInDemoMode } from './utils/envUtils';
 import { isFeatureEnabled, Feature } from './utils/featureToggleUtils';
@@ -14,7 +14,6 @@ import UnavailablePage from './components/pages/unavailable-page/UnavailablePage
 import moment from 'moment';
 import 'common/styles/globalStyles.less';
 import Workbench from './dev/Workbench';
-import { Locale } from 'common/types/Locale';
 
 const localeFromSessionStorage = getLocaleFromSessionStorage();
 moment.locale(localeFromSessionStorage);

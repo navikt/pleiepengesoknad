@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
-import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
+import FormikYesOrNoQuestion from 'common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 import intlHelper from 'common/utils/intlUtils';
 import { useIntl } from 'react-intl';

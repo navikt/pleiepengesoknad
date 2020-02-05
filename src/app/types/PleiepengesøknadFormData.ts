@@ -4,8 +4,8 @@ import { Time } from 'common/types/Time';
 import { Attachment } from 'common/types/Attachment';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 import { Ferieuttak } from 'common/forms/ferieuttak/types';
-import { FrilansoppdragFormData } from 'common/forms/frilans/types';
-import { NæringFormData } from 'common/forms/næring/types';
+import { Frilansoppdrag } from 'common/forms/frilans/types';
+import { Næring } from 'common/forms/næring/types';
 
 export enum ArbeidsforholdSkalJobbeSvar {
     'ja' = 'ja',
@@ -137,9 +137,9 @@ export interface PleiepengesøknadFormData {
     [AppFormField.frilans_harHattOppdragForFamilieVenner]?: YesOrNo;
     [AppFormField.frilans_harInntektSomFosterforelder]?: YesOrNo;
     [AppFormField.frilans_jobberFortsattSomFrilans]?: YesOrNo;
-    [AppFormField.frilans_oppdrag]: FrilansoppdragFormData[];
+    [AppFormField.frilans_oppdrag]: Frilansoppdrag[];
     [AppFormField.sn_harHattInntektSomSN]: YesOrNo;
-    [AppFormField.sn_registrerte_virksomheter]: NæringFormData[];
+    [AppFormField.sn_registrerte_virksomheter]: Næring[];
 }
 
 export const initialValues: PleiepengesøknadFormData = {

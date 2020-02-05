@@ -1,7 +1,7 @@
 import React from 'react';
 import { PleiepengesøknadFormData, AppFormField } from 'app/types/PleiepengesøknadFormData';
 import ModalFormAndList from 'common/components/modal-form-and-list/ModalFormAndList';
-import { NæringFormData } from 'common/forms/næring/types';
+import { Næring } from 'common/forms/næring/types';
 import { Field, FieldProps } from 'formik';
 import { isValidationErrorsVisible } from 'common/formik/formikUtils';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
@@ -36,15 +36,15 @@ const SelvstendigNæringsdrivendeFormPart: React.FunctionComponent<Props> = ({ f
                             {({
                                 field,
                                 form: { errors, setFieldValue, status, submitCount }
-                            }: FieldProps<NæringFormData[]>) => {
+                            }: FieldProps<Næring[]>) => {
                                 const errorMsgProps = isValidationErrorsVisible(status, submitCount)
                                     ? getValidationErrorPropsWithIntl(intl, errors, field.name)
                                     : {};
 
-                                const virksomheter: NæringFormData[] = field.value || [];
+                                const virksomheter: Næring[] = field.value || [];
 
                                 return (
-                                    <ModalFormAndList<NæringFormData>
+                                    <ModalFormAndList<Næring>
                                         items={virksomheter}
                                         {...errorMsgProps}
                                         labels={{
