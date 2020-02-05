@@ -64,7 +64,7 @@ export class NæringFormData {
     [NæringFormField.kanInnhenteOpplsyningerFraRevisor]: YesOrNo;
 }
 
-export class EndretNæringsinntektInformasjon {
+export interface EndretNæringsinntektInformasjon {
     dato: Date;
     næringsinntektEtterEndring: number;
     forklaring: string;
