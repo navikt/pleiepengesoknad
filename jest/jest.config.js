@@ -11,10 +11,7 @@ module.exports = {
         '^common/(.*)': '<rootDir>/node_modules/@navikt/sif-common/lib/common/$1'
     },
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-    transformIgnorePatterns: [
-        'node_modules/(?!(nav-frontend-spinner-style)/)',
-        'node_modules/(?!(@navikt/sif-common)/)'
-    ],
+    transformIgnorePatterns: ['node_modules/(?!(nav-frontend-spinner-style)/)'],
     globals: {
         'ts-jest': {
             tsConfig: './tsconfig.json',
