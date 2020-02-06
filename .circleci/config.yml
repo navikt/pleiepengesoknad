@@ -60,10 +60,10 @@ jobs:
           name: npm run cypress:ci
       - store_test_results:
           path: results
-            - store_artifacts:
-                path: cypress/videos
-            - store_artifacts:
-                path: cypress/screenshots
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
 workflows:
   version: 2
   deploy-docker-and-nais:
