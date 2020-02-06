@@ -23,6 +23,12 @@ const arbeidsforhold: Arbeidsforhold[] = [
     { navn: 'Org4', organisasjonsnummer: '4', erAnsattIPerioden: YesOrNo.UNANSWERED }
 ];
 
+jest.mock('./../envUtils', () => {
+    return {
+        getEnvironmentVariable: () => 'someEnvVar'
+    };
+});
+
 describe('arbeidsforholdUtils', () => {
     describe('syncArbeidsforholdWithArbeidsgivere', () => {
         it('should replace all arbeidsforhold if none present in arbeidsgivere', () => {

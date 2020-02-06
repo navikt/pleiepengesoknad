@@ -18,7 +18,7 @@ interface RadioPanelGroupBaseProps {
     description?: string;
     radios: RadioPanelBaseProps[];
     feil?: SkjemaelementFeil;
-    helperText?: string;
+    helperText?: React.ReactNode;
     style?: RadioPanelGroupStyle;
     singleColumn?: boolean;
     expandedContentRenderer?: () => React.ReactNode;
