@@ -3,6 +3,12 @@ import { mapTilsynsordningToApiData } from '../mapFormDataToApiData';
 import { TilsynsordningApi } from '../../types/PleiepengesøknadApiData';
 import { YesOrNo } from 'common/types/YesOrNo';
 
+jest.mock('./../envUtils', () => {
+    return {
+        getEnvironmentVariable: () => 'someEnvVar'
+    };
+});
+
 jest.mock('./../featureToggleUtils.ts', () => ({
     isFeatureEnabled: jest.fn(),
     Feature: {}

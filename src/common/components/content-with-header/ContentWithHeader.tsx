@@ -9,6 +9,7 @@ interface ContentWithHeaderProps {
 }
 
 const bem = bemHelper('contentWithHeader');
+
 const ContentWithHeader: React.FunctionComponent<ContentWithHeaderProps> = ({ header, children }) => {
     return (
         <div className={bem.block}>

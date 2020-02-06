@@ -30,7 +30,7 @@ interface Props<T extends ListItemBase> {
 }
 
 function ModalFormAndList<T extends ListItemBase>({
-    items,
+    items = [],
     listRenderer,
     formRenderer,
     labels,

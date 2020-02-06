@@ -24,6 +24,12 @@ import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
 
 const moment = require('moment');
 
+jest.mock('./../envUtils', () => {
+    return {
+        getEnvironmentVariable: () => 'someEnvVar'
+    };
+});
+
 jest.mock('./../featureToggleUtils.ts', () => ({
     isFeatureEnabled: jest.fn(),
     Feature: {}
@@ -116,6 +122,28 @@ jest.mock('common/utils/attachmentUtils', () => {
 
 const completedAttachmentMock = { uploaded: true, url: attachmentMock1.url, pending: false };
 
+const frilansPartialFormData: Partial<PleiepengesøknadFormData> = {
+    harHattInntektSomFrilanser: YesOrNo.YES,
+    frilans_harHattOppdragForFamilieVenner: YesOrNo.YES,
+    frilans_jobberFortsattSomFrilans: YesOrNo.YES,
+    frilans_harInntektSomFosterforelder: YesOrNo.YES,
+    frilans_startdato: new Date(2018, 1, 1),
+    frilans_oppdrag: [
+        {
+            arbeidsgiverNavn: 'Arb1',
+            erPågående: false,
+            fom: new Date(2019, 1, 1),
+            tom: new Date(2020, 1, 1)
+        },
+        {
+            arbeidsgiverNavn: 'Arb2',
+            erPågående: true,
+            fom: new Date(2020, 10, 1),
+            tom: undefined
+        }
+    ]
+};
+
 const completeFormDataMock: PleiepengesøknadFormData = {
     arbeidsforhold: [{ ...organisasjonMaxbo, erAnsattIPerioden: YesOrNo.YES }],
     barnetHarIkkeFåttFødselsnummerEnda: false,
@@ -189,7 +217,9 @@ const completeFormDataMock: PleiepengesøknadFormData = {
     ],
     barnetsNavn: 'barnets-navn',
     barnetsFødselsdato: undefined,
-    barnetsFødselsnummer: 'barnets-fnr'
+    barnetsFødselsnummer: 'barnets-fnr',
+    harHattInntektSomFrilanser: YesOrNo.UNANSWERED,
+    frilans_oppdrag: []
 };
 
 describe('mapFormDataToApiData', () => {
@@ -399,6 +429,7 @@ describe('mapFormDataToApiData', () => {
         expect(ferieuttak_i_perioden).toBeDefined();
         expect(ferieuttak_i_perioden!.ferieuttak.length).toBe(0);
     });
+
     it('should include ferieuttakIPerioden if skalTaUtFerieIPerioden is YES', () => {
         const { ferieuttak_i_perioden } = mapFormDataToApiData(
             {
@@ -415,6 +446,39 @@ describe('mapFormDataToApiData', () => {
             'nb'
         );
         expect(ferieuttak_i_perioden!.ferieuttak.length).toBe(1);
+    });
+
+    describe('frilanser part', () => {
+        it('should map frilanserdata if user har answered yes to question about frilans', () => {
+            const formDataWithFrilansInfo = { ...formData, ...frilansPartialFormData };
+            const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
+            expect(mappedData.har_hatt_inntekt_som_frilanser).toBeTruthy();
+            expect(mappedData.frilans).toBeDefined();
+            expect(mappedData.frilans?.oppdrag.length).toEqual(2);
+
+            const oppdrag1 = mappedData.frilans!.oppdrag[0];
+            expect(oppdrag1.arbeidsgivernavn).toBeDefined();
+            expect(oppdrag1.fra_og_med).toBeDefined();
+            expect(oppdrag1.til_og_med).toBeDefined();
+            expect(oppdrag1.er_pagaende).toBeFalsy();
+
+            const oppdrag2 = mappedData.frilans!.oppdrag[1];
+            expect(oppdrag2.arbeidsgivernavn).toBeDefined();
+            expect(oppdrag2.fra_og_med).toBeDefined();
+            expect(oppdrag2.til_og_med).toBeNull();
+            expect(oppdrag2.er_pagaende).toBeTruthy();
+        });
+
+        it('should not include frilanserdata if user has answered no on harHattInntektSomFrilanser', () => {
+            const formDataWithFrilansInfo = {
+                ...formData,
+                ...frilansPartialFormData,
+                harHattInntektSomFrilanser: YesOrNo.NO
+            };
+            const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
+            expect(mappedData.har_hatt_inntekt_som_frilanser).toBeFalsy();
+            expect(mappedData.frilans).toBeUndefined();
+        });
     });
 
     it('should use correct format for a complete mapped application', () => {
@@ -478,6 +542,7 @@ describe('mapFormDataToApiData', () => {
             har_medsoker: true,
             har_bekreftet_opplysninger: true,
             har_forstatt_rettigheter_og_plikter: true,
+            har_hatt_inntekt_som_frilanser: false,
             utenlandsopphold_i_perioden: {
                 skal_oppholde_seg_i_i_utlandet_i_perioden: true,
                 opphold: [utenlandsoppholdISverige, utenlandsoppholdIUSA]

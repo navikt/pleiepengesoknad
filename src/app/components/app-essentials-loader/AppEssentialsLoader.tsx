@@ -9,20 +9,31 @@ import { getBarn, getSøker, rehydrate } from '../../api/api';
 import { SøkerdataContextProvider } from '../../context/SøkerdataContext';
 import demoSøkerdata from '../../demo/demoData';
 import { appIsRunningInDemoMode } from '../../utils/envUtils';
-import { initialValues, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { initialValues, PleiepengesøknadFormData, AppFormField } from '../../types/PleiepengesøknadFormData';
 import { MellomlagringData } from '../../types/storage';
 import { StepID } from '../../config/stepConfig';
+import { Attachment } from 'common/types/Attachment';
 
 interface Props {
-    contentLoadedRenderer: (formdata: PleiepengesøknadFormData, lastStepID?: StepID, søkerdata?: Søkerdata) => React.ReactNode;
+    contentLoadedRenderer: (
+        formdata: PleiepengesøknadFormData,
+        lastStepID?: StepID,
+        søkerdata?: Søkerdata
+    ) => React.ReactNode;
 }
 
 interface State {
     isLoading: boolean;
-    lastStepID?: StepID,
+    lastStepID?: StepID;
     formdata: PleiepengesøknadFormData;
     søkerdata?: Søkerdata;
 }
+
+const getValidAttachments = (attachments: Attachment[] = []): Attachment[] => {
+    return attachments.filter((a) => {
+        return a.file?.name !== undefined;
+    });
+};
 
 class AppEssentialsLoader extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -30,7 +41,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
         this.state = {
             isLoading: true,
             lastStepID: undefined,
-            formdata: initialValues,
+            formdata: initialValues
         };
 
         this.updateArbeidsgivere = this.updateArbeidsgivere.bind(this);
@@ -49,7 +60,11 @@ class AppEssentialsLoader extends React.Component<Props, State> {
 
     async loadAppEssentials() {
         try {
-            const [mellomlagringResponse, søkerResponse, barnResponse] = await Promise.all([rehydrate(), getSøker(), getBarn()]);
+            const [mellomlagringResponse, søkerResponse, barnResponse] = await Promise.all([
+                rehydrate(),
+                getSøker(),
+                getBarn()
+            ]);
             this.handleSøkerdataFetchSuccess(mellomlagringResponse, søkerResponse, barnResponse);
         } catch (response) {
             this.handleSøkerdataFetchError(response);
@@ -67,19 +82,21 @@ class AppEssentialsLoader extends React.Component<Props, State> {
         this.stopLoading();
     }
 
-    handleSøkerdataFetchSuccess(mellomlagringResponse:  AxiosResponse, søkerResponse: AxiosResponse, barnResponse?: AxiosResponse) {
+    handleSøkerdataFetchSuccess(
+        mellomlagringResponse: AxiosResponse,
+        søkerResponse: AxiosResponse,
+        barnResponse?: AxiosResponse
+    ) {
         const mellomlagring: MellomlagringData | undefined = mellomlagringResponse?.data;
-
-        let formData;
-        if ( mellomlagring && mellomlagring.formData) {
-            formData = { ... mellomlagring.formData }
-        }
-        let lastStepID;
-        if (mellomlagring && mellomlagring.metadata) {
-            lastStepID = mellomlagring.metadata.lastStepID
-        }
+        const formData = mellomlagring?.formData
+            ? {
+                  ...mellomlagring.formData,
+                  [AppFormField.legeerklæring]: getValidAttachments(mellomlagring.formData.legeerklæring)
+              }
+            : undefined;
+        const lastStepID = mellomlagring?.metadata?.lastStepID;
         this.updateSøkerdata(
-            formData || {...initialValues},
+            formData || { ...initialValues },
             {
                 person: søkerResponse.data,
                 barn: barnResponse ? barnResponse.data.barn : undefined,
@@ -96,14 +113,18 @@ class AppEssentialsLoader extends React.Component<Props, State> {
         );
     }
 
-
-    updateSøkerdata(formdata: PleiepengesøknadFormData, søkerdata: Søkerdata, lastStepID?: StepID, callback?: () => void) {
+    updateSøkerdata(
+        formdata: PleiepengesøknadFormData,
+        søkerdata: Søkerdata,
+        lastStepID?: StepID,
+        callback?: () => void
+    ) {
         this.setState(
             {
                 isLoading: false,
-                lastStepID: lastStepID ? lastStepID: this.state.lastStepID,
-                formdata: formdata ? formdata : this.state.formdata,
-                søkerdata: søkerdata ? søkerdata : this.state.søkerdata
+                lastStepID: lastStepID || this.state.lastStepID,
+                formdata: formdata || this.state.formdata,
+                søkerdata: søkerdata || this.state.søkerdata
             },
             callback
         );
