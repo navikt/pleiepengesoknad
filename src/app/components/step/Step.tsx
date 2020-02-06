@@ -55,8 +55,9 @@ const Step: React.FunctionComponent<StepProps> = ({
         navigateToNAVno();
     };
     const handleAvbrytSøknad = () => {
-        purge();
-        navigateToWelcomePage();
+        purge().then(() => {
+            navigateToWelcomePage();
+        });
     };
     return (
         <Page
@@ -113,7 +114,7 @@ const Step: React.FunctionComponent<StepProps> = ({
             />
             <AvbrytSøknadDialog
                 synlig={visAvbrytDialog}
-                onFortsettSøknadSenere={() => handleAvbrytSøknad()}
+                onAvbrytSøknad={() => handleAvbrytSøknad()}
                 onFortsettSøknad={() => setVisAvbrytDialog(false)}
             />
         </Page>
