@@ -15,6 +15,8 @@ import './timerInput.less';
 import FormikInput from '../../../common/formik/formik-input/FormikInput';
 import FormikRadioPanelGroup from '../../../common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
 import { validateRequiredField } from 'common/validation/commonFieldValidations';
+import FormikInput from 'common/formik/formik-input/FormikInput';
+import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;

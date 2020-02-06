@@ -19,10 +19,10 @@ import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 import { hasValue } from 'common/validation/hasValue';
 import { Ferieuttak } from 'common/forms/ferieuttak/types';
 import {
-    fieldValidationError,
     fieldIsRequiredError,
-    CommonFieldValidationErrors
-} from 'common/validation/commonFieldValidations';
+    FieldValidationErrors,
+    createFieldValidationError
+} from 'common/validation/fieldValidations';
 
 const moment = require('moment');
 
@@ -55,11 +55,11 @@ export enum AppFieldValidationErrors {
 const MAX_ARBEIDSTIMER_PER_UKE = 150;
 const MIN_ARBEIDSTIMER_PER_UKE = 1;
 
-export const createFieldValidationError = (
-    error: AppFieldValidationErrors | CommonFieldValidationErrors,
+export const createAppFieldValidationError = (
+    error: AppFieldValidationErrors | FieldValidationErrors,
     values?: any
 ): FieldValidationResult => {
-    return fieldValidationError<AppFieldValidationErrors>(error, values);
+    return createFieldValidationError<AppFieldValidationErrors | FieldValidationErrors>(error, values);
 };
 
 export const validateFødselsdato = (date: Date): FieldValidationResult => {
@@ -67,7 +67,7 @@ export const validateFødselsdato = (date: Date): FieldValidationResult => {
         return fieldIsRequiredError();
     }
     if (moment(date).isAfter(dateToday)) {
-        return createFieldValidationError(AppFieldValidationErrors.fødselsdato_ugyldig);
+        return createAppFieldValidationError(AppFieldValidationErrors.fødselsdato_ugyldig);
     }
     return undefined;
 };
@@ -89,7 +89,7 @@ export const validateNavn = (v: string, isRequired?: boolean): FieldValidationRe
 
     return nameIsValid
         ? undefined
-        : createFieldValidationError(AppFieldValidationErrors.navn_maksAntallTegn, { maxNumOfLetters });
+        : createAppFieldValidationError(AppFieldValidationErrors.navn_maksAntallTegn, { maxNumOfLetters });
 };
 
 export const validateRelasjonTilBarnet = (v: string): FieldValidationResult => {
@@ -102,7 +102,7 @@ export const validateRelasjonTilBarnet = (v: string): FieldValidationResult => {
 
     return relasjonIsValid
         ? undefined
-        : createFieldValidationError(AppFieldValidationErrors.relasjon_maksAntallTegn, { maxNumOfLetters });
+        : createAppFieldValidationError(AppFieldValidationErrors.relasjon_maksAntallTegn, { maxNumOfLetters });
 };
 
 export const validateFradato = (fraDato?: Date, tilDato?: Date): FieldValidationResult => {
@@ -111,12 +111,12 @@ export const validateFradato = (fraDato?: Date, tilDato?: Date): FieldValidation
     }
 
     if (isMoreThan3YearsAgo(fraDato!)) {
-        return createFieldValidationError(AppFieldValidationErrors.fradato_merEnnTreÅr);
+        return createAppFieldValidationError(AppFieldValidationErrors.fradato_merEnnTreÅr);
     }
 
     if (hasValue(tilDato)) {
         if (moment(fraDato).isAfter(tilDato)) {
-            return createFieldValidationError(AppFieldValidationErrors.fradato_erEtterTildato);
+            return createAppFieldValidationError(AppFieldValidationErrors.fradato_erEtterTildato);
         }
     }
 
@@ -129,12 +129,12 @@ export const validateTildato = (tilDato?: Date, fraDato?: Date): FieldValidation
     }
 
     if (isMoreThan3YearsAgo(tilDato!)) {
-        return createFieldValidationError(AppFieldValidationErrors.tildato_merEnnTreÅr);
+        return createAppFieldValidationError(AppFieldValidationErrors.tildato_merEnnTreÅr);
     }
 
     if (hasValue(fraDato)) {
         if (moment(tilDato).isBefore(fraDato)) {
-            return createFieldValidationError(AppFieldValidationErrors.tildato_erFørFradato);
+            return createAppFieldValidationError(AppFieldValidationErrors.tildato_erFørFradato);
         }
     }
 
@@ -143,14 +143,14 @@ export const validateTildato = (tilDato?: Date, fraDato?: Date): FieldValidation
 
 export const validateTextarea1000 = (text: string): FieldValidationResult => {
     if (text && text.length > 1000) {
-        return createFieldValidationError(AppFieldValidationErrors.tilsynsordning_forMangeTegn);
+        return createAppFieldValidationError(AppFieldValidationErrors.tilsynsordning_forMangeTegn);
     }
     return undefined;
 };
 
 export const validateTilsynsordningTilleggsinfo = (text: string): FieldValidationResult => {
     if (text !== undefined && text.length > 1000) {
-        return createFieldValidationError(AppFieldValidationErrors.tilsynsordning_forMangeTegn);
+        return createAppFieldValidationError(AppFieldValidationErrors.tilsynsordning_forMangeTegn);
     }
     return undefined;
 };
@@ -160,7 +160,7 @@ export const validateNattevåkTilleggsinfo = (text: string): FieldValidationResu
         return fieldIsRequiredError();
     }
     if (text.length > 1000) {
-        return createFieldValidationError(AppFieldValidationErrors.tilsynsordning_forMangeTegn);
+        return createAppFieldValidationError(AppFieldValidationErrors.tilsynsordning_forMangeTegn);
     }
     return undefined;
 };
@@ -170,21 +170,21 @@ export const validateBeredskapTilleggsinfo = (text: string): FieldValidationResu
         return fieldIsRequiredError();
     }
     if (text.length > 1000) {
-        return createFieldValidationError(AppFieldValidationErrors.tilsynsordning_forMangeTegn);
+        return createAppFieldValidationError(AppFieldValidationErrors.tilsynsordning_forMangeTegn);
     }
     return undefined;
 };
 
 export const validateUtenlandsoppholdSiste12Mnd = (utenlandsopphold: Utenlandsopphold[]): FieldValidationResult => {
     if (utenlandsopphold.length === 0) {
-        return createFieldValidationError(AppFieldValidationErrors.utenlandsopphold_ikke_registrert);
+        return createAppFieldValidationError(AppFieldValidationErrors.utenlandsopphold_ikke_registrert);
     }
     const dateRanges = utenlandsopphold.map((u) => ({ from: u.fom, to: u.tom }));
     if (dateRangesCollide(dateRanges)) {
-        return createFieldValidationError(AppFieldValidationErrors.utenlandsopphold_overlapper);
+        return createAppFieldValidationError(AppFieldValidationErrors.utenlandsopphold_overlapper);
     }
     if (dateRangesExceedsRange(dateRanges, { from: date1YearAgo, to: new Date() })) {
-        return createFieldValidationError(AppFieldValidationErrors.utenlandsopphold_utenfor_periode);
+        return createAppFieldValidationError(AppFieldValidationErrors.utenlandsopphold_utenfor_periode);
     }
 
     return undefined;
@@ -192,14 +192,14 @@ export const validateUtenlandsoppholdSiste12Mnd = (utenlandsopphold: Utenlandsop
 
 export const validateUtenlandsoppholdNeste12Mnd = (utenlandsopphold: Utenlandsopphold[]): FieldValidationResult => {
     if (utenlandsopphold.length === 0) {
-        return createFieldValidationError(AppFieldValidationErrors.utenlandsopphold_ikke_registrert);
+        return createAppFieldValidationError(AppFieldValidationErrors.utenlandsopphold_ikke_registrert);
     }
     const dateRanges = utenlandsopphold.map((u) => ({ from: u.fom, to: u.tom }));
     if (dateRangesCollide(dateRanges)) {
-        return createFieldValidationError(AppFieldValidationErrors.utenlandsopphold_overlapper);
+        return createAppFieldValidationError(AppFieldValidationErrors.utenlandsopphold_overlapper);
     }
     if (dateRangesExceedsRange(dateRanges, { from: new Date(), to: date1YearFromNow })) {
-        return createFieldValidationError(AppFieldValidationErrors.utenlandsopphold_utenfor_periode);
+        return createAppFieldValidationError(AppFieldValidationErrors.utenlandsopphold_utenfor_periode);
     }
     return undefined;
 };
@@ -209,28 +209,28 @@ export const validateUtenlandsoppholdIPerioden = (
     utenlandsopphold: Utenlandsopphold[]
 ): FieldValidationResult => {
     if (utenlandsopphold.length === 0) {
-        return createFieldValidationError(AppFieldValidationErrors.utenlandsopphold_ikke_registrert);
+        return createAppFieldValidationError(AppFieldValidationErrors.utenlandsopphold_ikke_registrert);
     }
     const dateRanges = utenlandsopphold.map((u) => ({ from: u.fom, to: u.tom }));
     if (dateRangesCollide(dateRanges)) {
-        return createFieldValidationError(AppFieldValidationErrors.utenlandsopphold_overlapper);
+        return createAppFieldValidationError(AppFieldValidationErrors.utenlandsopphold_overlapper);
     }
     if (dateRangesExceedsRange(dateRanges, periode)) {
-        return createFieldValidationError(AppFieldValidationErrors.utenlandsopphold_utenfor_periode);
+        return createAppFieldValidationError(AppFieldValidationErrors.utenlandsopphold_utenfor_periode);
     }
     return undefined;
 };
 
 export const validateFerieuttakIPerioden = (periode: DateRange, ferieuttak: Ferieuttak[]): FieldValidationResult => {
     if (ferieuttak.length === 0) {
-        return createFieldValidationError(AppFieldValidationErrors.ferieuttak_ikke_registrert);
+        return createAppFieldValidationError(AppFieldValidationErrors.ferieuttak_ikke_registrert);
     }
     const dateRanges = ferieuttak.map((u) => ({ from: u.fom, to: u.tom }));
     if (dateRangesCollide(dateRanges)) {
-        return createFieldValidationError(AppFieldValidationErrors.ferieuttak_overlapper);
+        return createAppFieldValidationError(AppFieldValidationErrors.ferieuttak_overlapper);
     }
     if (dateRangesExceedsRange(dateRanges, periode)) {
-        return createFieldValidationError(AppFieldValidationErrors.ferieuttak_utenfor_periode);
+        return createAppFieldValidationError(AppFieldValidationErrors.ferieuttak_utenfor_periode);
     }
     return undefined;
 };
@@ -238,10 +238,10 @@ export const validateFerieuttakIPerioden = (periode: DateRange, ferieuttak: Feri
 export const validateLegeerklæring = (attachments: Attachment[]): FieldValidationResult => {
     const uploadedAttachments = attachments.filter((attachment) => attachmentHasBeenUploaded(attachment));
     if (uploadedAttachments.length === 0) {
-        return createFieldValidationError(AppFieldValidationErrors.legeerklæring_mangler);
+        return createAppFieldValidationError(AppFieldValidationErrors.legeerklæring_mangler);
     }
     if (uploadedAttachments.length > 3) {
-        return createFieldValidationError(AppFieldValidationErrors.legeerklæring_forMangeFiler);
+        return createAppFieldValidationError(AppFieldValidationErrors.legeerklæring_forMangeFiler);
     }
     return undefined;
 };
@@ -272,16 +272,16 @@ export const validateErAnsattIPerioden = (
 export const validateSkalHaTilsynsordning = (tilsynsordning: Tilsynsordning): FieldValidationResult => {
     if (tilsynsordning.skalBarnHaTilsyn === YesOrNo.YES) {
         if (tilsynsordning.ja === undefined) {
-            return createFieldValidationError(AppFieldValidationErrors.tilsynsordning_ingenInfo);
+            return createAppFieldValidationError(AppFieldValidationErrors.tilsynsordning_ingenInfo);
         }
         const { ekstrainfo, tilsyn } = tilsynsordning.ja;
         const hasEkstrainformasjon: boolean = (ekstrainfo || '').trim().length > 5;
         const hoursInTotal = tilsyn ? sumTimerMedTilsyn(tilsyn) : 0;
         if (hoursInTotal === 0 && hasEkstrainformasjon === false) {
-            return createFieldValidationError(AppFieldValidationErrors.tilsynsordning_ingenInfo);
+            return createAppFieldValidationError(AppFieldValidationErrors.tilsynsordning_ingenInfo);
         }
         if (hoursInTotal >= 37.5) {
-            return createFieldValidationError(AppFieldValidationErrors.tilsynsordning_forMangeTimerTotalt);
+            return createAppFieldValidationError(AppFieldValidationErrors.tilsynsordning_forMangeTimerTotalt);
         }
     }
     return undefined;
@@ -289,7 +289,7 @@ export const validateSkalHaTilsynsordning = (tilsynsordning: Tilsynsordning): Fi
 
 export const validateTilsynstimerEnDag = (time: Time): FieldValidationResult => {
     if (time && timeToDecimalTime(time) > 7.5) {
-        return createFieldValidationError(AppFieldValidationErrors.tilsynsordning_forMangeTimerEnDag);
+        return createAppFieldValidationError(AppFieldValidationErrors.tilsynsordning_forMangeTimerEnDag);
     }
     return undefined;
 };
@@ -299,7 +299,7 @@ export const validateNormaleArbeidstimer = (time: Time | undefined, isRequired?:
         return fieldIsRequiredError();
     }
     if (time && (time.hours < MIN_ARBEIDSTIMER_PER_UKE || time.hours > MAX_ARBEIDSTIMER_PER_UKE)) {
-        return createFieldValidationError(AppFieldValidationErrors.arbeidsforhold_timerUgyldig, {
+        return createAppFieldValidationError(AppFieldValidationErrors.arbeidsforhold_timerUgyldig, {
             min: MIN_ARBEIDSTIMER_PER_UKE,
             max: MAX_ARBEIDSTIMER_PER_UKE
         });
@@ -317,7 +317,7 @@ export const validateDagerPerUkeBorteFraJobb = (value: string, isRequired?: bool
         max: 5
     };
     if (isNaN(dager) || dager % 0.5 !== 0 || dager < range.min || dager > range.max) {
-        return createFieldValidationError(AppFieldValidationErrors.dagerPerUkeBorteFraJobb_ugyldig, range);
+        return createAppFieldValidationError(AppFieldValidationErrors.dagerPerUkeBorteFraJobb_ugyldig, range);
     }
     return undefined;
 };
@@ -337,13 +337,13 @@ export const validateReduserteArbeidTimer = (
     }
 
     if (timer < MIN_ARBEIDSTIMER_PER_UKE || timer > MAX_ARBEIDSTIMER_PER_UKE) {
-        return createFieldValidationError(AppFieldValidationErrors.arbeidsforhold_timerUgyldig, {
+        return createAppFieldValidationError(AppFieldValidationErrors.arbeidsforhold_timerUgyldig, {
             min: MIN_ARBEIDSTIMER_PER_UKE,
             max: Math.max(MAX_ARBEIDSTIMER_PER_UKE, timeToDecimalTime(normalTimer))
         });
     }
     if (timer > (timeToDecimalTime(normalTimer) || MAX_ARBEIDSTIMER_PER_UKE)) {
-        return createFieldValidationError(AppFieldValidationErrors.arbeidsforhold_redusertMerEnnNormalt);
+        return createAppFieldValidationError(AppFieldValidationErrors.arbeidsforhold_redusertMerEnnNormalt);
     }
     return undefined;
 };
@@ -354,7 +354,7 @@ export const validateReduserteArbeidProsent = (value: number | string, isRequire
     const prosent = typeof value === 'string' ? parseFloat(value) : value;
 
     if (prosent < 1 || prosent > 100) {
-        return createFieldValidationError(AppFieldValidationErrors.arbeidsforhold_prosentUgyldig);
+        return createAppFieldValidationError(AppFieldValidationErrors.arbeidsforhold_prosentUgyldig);
     }
     return undefined;
 };

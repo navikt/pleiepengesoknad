@@ -18,15 +18,13 @@
         "suppressImplicitAnyIndexErrors": true,
         "noUnusedLocals": true,
         "baseUrl": "./src",
-        "typeRoots": ["./node_modules/@types", "./src/@types"]
+        "typeRoots": ["./node_modules/@types", "./src/@types"],
+        "paths": {
+            "common*": ["../node_modules/@navikt/sif-common/lib/common*"]
+        }
     },
     "awesomeTypescriptLoaderOptions": {
         "useCache": false
     },
-    "exclude": [
-        "node_modules",
-        "src/build",
-        "**.js",
-        "dist"
-    ]
+    "exclude": ["node_modules", "src/build", "**.js", "dist"]
 }

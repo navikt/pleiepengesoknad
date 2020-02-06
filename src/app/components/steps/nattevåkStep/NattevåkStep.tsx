@@ -1,18 +1,5 @@
 import * as React from 'react';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
-import { HistoryProps } from 'common/types/History';
-import FormikStep from '../../formik-step/FormikStep';
-import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
-import { validateNattevåkTilleggsinfo } from '../../../validation/fieldValidations';
-import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import intlHelper from 'common/utils/intlUtils';
-import { useIntl } from 'react-intl';
-import Box from 'common/components/box/Box';
-import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
-import { YesOrNo } from 'common/types/YesOrNo';
-import FormikTextarea from 'common/formik/formik-textarea/FormikTextarea';
-import { validateYesOrNoIsAnswered } from 'common/validation/commonFieldValidations';
-import { persistAndNavigateTo } from 'app/utils/navigationUtils';
 
 interface StepProps {
     formikProps: PleiepengesøknadFormikProps;

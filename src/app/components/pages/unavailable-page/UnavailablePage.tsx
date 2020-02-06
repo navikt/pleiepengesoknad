@@ -2,7 +2,7 @@ import * as React from 'react';
 import Page from 'common/components/page/Page';
 import bemUtils from 'common/utils/bemUtils';
 import Box from 'common/components/box/Box';
-import StepBanner from '../../../../common/components/step-banner/StepBanner';
+import StepBanner from 'common/components/step-banner/StepBanner';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import './unavailablePage.less';
 import Lenke from 'nav-frontend-lenker';

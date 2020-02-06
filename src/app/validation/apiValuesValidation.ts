@@ -1,4 +1,4 @@
-import { ValidationSummaryError } from '../../common/components/validation-error-summary-base/ValidationErrorSummaryBase';
+import { ValidationSummaryError } from 'common/components/validation-error-summary-base/ValidationErrorSummaryBase';
 import { PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
 import { IntlShape } from 'react-intl';
 import intlHelper from 'common/utils/intlUtils';

@@ -5,7 +5,7 @@ import Box from 'common/components/box/Box';
 import FormikYesOrNoQuestion from 'common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { Field, FieldProps } from 'formik';
-import { FrilansoppdragFormData } from 'common/forms/frilans/types';
+import { Frilansoppdrag } from 'common/forms/frilans/types';
 import { isValidationErrorsVisible } from 'common/formik/formikUtils';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import { useIntl } from 'react-intl';
@@ -29,6 +29,7 @@ const FrilansFormPart: React.FunctionComponent<Props> = ({ formValues }) => {
             <FormikYesOrNoQuestion<AppFormField>
                 name={AppFormField.frilans_harHattInntektSomFrilanser}
                 legend="Har du jobbet og hatt inntekt som frilanser de siste 10 månedene?"
+                validate={validateRequiredField}
                 helperText={
                     <>
                         Eksempel på hvem som kan være frilansere er:
@@ -80,15 +81,15 @@ const FrilansFormPart: React.FunctionComponent<Props> = ({ formValues }) => {
                             {({
                                 field,
                                 form: { errors, setFieldValue, status, submitCount }
-                            }: FieldProps<FrilansoppdragFormData[]>) => {
+                            }: FieldProps<Frilansoppdrag[]>) => {
                                 const errorMsgProps = isValidationErrorsVisible(status, submitCount)
                                     ? getValidationErrorPropsWithIntl(intl, errors, field.name)
                                     : {};
 
-                                const oppdrag: FrilansoppdragFormData[] = field.value || [];
+                                const oppdrag: Frilansoppdrag[] = field.value || [];
 
                                 return (
-                                    <ModalFormAndList<FrilansoppdragFormData>
+                                    <ModalFormAndList<Frilansoppdrag>
                                         labels={{
                                             listTitle: 'Frilansoppdrag',
                                             modalTitle: 'Frilansoppdrag',

@@ -219,7 +219,9 @@ const completeFormDataMock: PleiepengesøknadFormData = {
     barnetsFødselsdato: undefined,
     barnetsFødselsnummer: 'barnets-fnr',
     harHattInntektSomFrilanser: YesOrNo.UNANSWERED,
-    frilans_oppdrag: []
+    frilans_oppdrag: [],
+    sn_harHattInntektSomSN: YesOrNo.UNANSWERED,
+    sn_registrerte_virksomheter: []
 };
 
 describe('mapFormDataToApiData', () => {
@@ -556,7 +558,6 @@ describe('mapFormDataToApiData', () => {
                     }
                 ]
             },
-
             samtidig_hjemme: true,
             tilsynsordning: {
                 svar: 'ja',

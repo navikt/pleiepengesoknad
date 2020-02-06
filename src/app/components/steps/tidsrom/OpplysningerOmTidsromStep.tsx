@@ -1,24 +1,13 @@
 import * as React from 'react';
 import { FormattedHTMLMessage, useIntl } from 'react-intl';
-import Box from 'common/components/box/Box';
-import { HistoryProps } from 'common/types/History';
-import { YesOrNo } from 'common/types/YesOrNo';
-import intlHelper from 'common/utils/intlUtils';
-import FormikDateIntervalPicker from '../../../../common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
-import { date3YearsAgo, DateRange, date1YearFromNow, date1YearAgo } from 'common/utils/dateUtils';
-import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
-import { Feature, isFeatureEnabled } from 'app/utils/featureToggleUtils';
-import { persistAndNavigateTo } from 'app/utils/navigationUtils';
-import { StepConfigProps, StepID } from '../../../config/stepConfig';
-import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
-import { validateFradato, validateTildato } from '../../../validation/fieldValidations';
-import FormikStep from '../../formik-step/FormikStep';
+
 import FerieuttakIPeriodenFormPart from './FerieuttakIPeriodenFormPart';
 import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
-import UtenlandsoppholdIPeriodenFormPart from './UtenlandsoppholdIPeriodenFormPart';
-import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import { validateYesOrNoIsAnswered } from 'common/validation/commonFieldValidations';
+import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
+import { HistoryProps } from '../../../../@common/types/History';
+import { StepConfigProps } from '../../../config/stepConfig';
+import { AppFormField } from '../../../types/PleiepengesøknadFormData';
+import { validateFradato, validateTildato } from '../../../validation/fieldValidations';
 
 interface OpplysningerOmTidsromStepProps {
     formikProps: PleiepengesøknadFormikProps;

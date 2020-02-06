@@ -14,7 +14,7 @@ import { formatName } from 'common/utils/personUtils';
 import { AppFormField, initialValues } from '../../../types/PleiepengesøknadFormData';
 import FormikStep from '../../formik-step/FormikStep';
 import { harRegistrerteBarn } from '../../../utils/søkerdataUtils';
-import { resetFieldValue, resetFieldValues } from '../../../../common/formik/formikUtils';
+import { resetFieldValue, resetFieldValues } from 'common/formik/formikUtils';
 import { prettifyDate, dateToday } from 'common/utils/dateUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { useIntl, FormattedMessage } from 'react-intl';

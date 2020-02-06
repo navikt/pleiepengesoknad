@@ -1,9 +1,0 @@
-{
-    "common.fieldvalidation.isRequired": "Feltet er påkrevd",
-    "common.fieldvalidation.fødselsnummer.11siffer": "Fødselsnummeret / D-nummeret må bestå av 11 siffer",
-    "common.fieldvalidation.fødselsnummer.ugyldig": "Fødselsnummeret / D-nummeret er ugyldig",
-    "common.dateRangeValidation.error.isRequired": "Feltet er påkrevd",
-    "common.dateRangeValidation.error.dateOutsideRange": "Første gyldige dato er {fom}, og siste gyldige dato er {tom}",
-    "common.dateRangeValidation.error.fromDateAfterToDate": "Fra-dato må være lik eller før til-dato",
-    "common.dateRangeValidation.error.toDateBeforeFromDate": "Til-dato må være lik eller etter fra-dato"
-}
