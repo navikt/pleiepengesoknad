@@ -67,11 +67,16 @@
     "step.tidsrom.stepIndicatorLabel": "Perioden med pleiepenger",
     "step.tidsrom.infotekst": "For å ha rett til pleiepenger må du ha omsorgen for barnet i hele perioden du søker for.",
     "steg.tidsrom.veileder.utenlandsopphold.html": "Du kan beholde pleiepengane mens du oppheld deg <strong>i eit EØS land</strong>, så lenge du <ul><li>reiser saman med barnet du pleier</li><li>har rett på pleiepengar i perioden du er i utlandet</li></ul>Dersom du oppheld deg <strong>i eit land utenfor EØS</strong>, kan du beholde pleiepengane i opptil 8 veker av ein 12 månedar lang periode.",
-    "steg.tidsrom.iUtlandetIPerioden.listeTittel": "Utenlandsopphold i perioden du søker for",
-    "steg.tidsrom.iUtlandetIPerioden.eøs.årsak.hjelp": "Dette treng vi fordi ...",
+
     "steg.tidsrom.iUtlandetIPerioden.spm": "Skal du reise til utlandet i perioden du søkjer for?",
-    "steg.tidsrom.iUtlandetIPerioden.eøs.årsak.spm": "Kva er formålet med denne reisa?",
+    "steg.tidsrom.iUtlandetIPerioden.listTitle": "Utenlandsopphald i perioden",
+    "steg.tidsrom.iUtlandetIPerioden.modalTitle": "Utenlandsopphald",
+    "steg.tidsrom.iUtlandetIPerioden.addLabel": "Legg til utenlandsopphald",
+
     "steg.tidsrom.ferieuttakIPerioden.spm": "Skal du ha ferie i perioden du søkjer for?",
+    "steg.tidsrom.ferieuttakIPerioden.listTitle": "Ferie i perioden",
+    "steg.tidsrom.ferieuttakIPerioden.modalTitle": "Ferie",
+    "steg.tidsrom.ferieuttakIPerioden.addLabel": "Legg til ferie",
 
     "step.arbeidsforhold.pageTitle": "Pleiepengesøknad – opplysningar om arbeidsforholdet ditt",
     "step.arbeidsforhold.stepTitle": "Arbeidsforhold",
@@ -335,7 +340,7 @@
     "arbeidsforhold.oppsummering.skalArbeideDelvis": "Skal jobbe {timerRedusert} i veka i denne perioden (jobbar normalt {timerNormalt} i veka).",
     "arbeidsforhold.oppsummering.svar.ja": "Skal jobbe som vanleg",
     "arbeidsforhold.oppsummering.svar.nei": "Skal ikkje jobbe",
-    "arbeidsforhold.oppsummering.svar.vet_ikke": "Eg veit ikkje om eg skal jobbe her i perioden eg søkjer for, men eg melder frå dersom eg skal gjere det.",
+    "arbeidsforhold.oppsummering.svar.vet_ikke": "Eg veit ikkje om eg skal jobbe her i perioden eg søkjer for, men eg melder frå dersom eg skal gjere det. Jobber vanlegvis {timer} i veka.",
     "arbeidsforhold.oppsummering.svar.redusert.timer": "Skal jobbe {timerRedusert} i uka ({prosentRedusert} prosent av vanleg)",
     "arbeidsforhold.oppsummering.svar.redusert.prosent": "Skal jobbe {prosentRedusert} prosent av {timerNormalt} i veka.",
 

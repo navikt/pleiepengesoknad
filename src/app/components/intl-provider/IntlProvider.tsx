@@ -17,18 +17,22 @@ const bostedUtlandBokmål = require('../../../common/forms/bosted-utland/bostedU
 const bostedUtlandNynorsk = require('../../../common/forms/bosted-utland/bostedUtland.nn.json');
 const pictureScanningGuideBokmål = require('../../../common/components/picture-scanning-guide/picturescanningguide.nb.json');
 const pictureScanningGuideNynorsk = require('../../../common/components/picture-scanning-guide/picturescanningguide.nn.json');
+const commonFieldValidationNb = require('../../../common/i18n/validationErrors.nb.json');
+const commonFieldValidationNn = require('../../../common/i18n/validationErrors.nn.json');
 
 const bokmålstekster = {
     ...appBokmålstekster,
     ...utenlandsoppholdBokmål,
     ...pictureScanningGuideBokmål,
-    ...bostedUtlandBokmål
+    ...bostedUtlandBokmål,
+    ...commonFieldValidationNb
 };
 const nynorsktekster = {
     ...appNynorsktekster,
     ...utenlandsoppholdNynorsk,
     ...pictureScanningGuideNynorsk,
-    ...bostedUtlandNynorsk
+    ...bostedUtlandNynorsk,
+    ...commonFieldValidationNn
 };
 
 export interface IntlProviderProps {
