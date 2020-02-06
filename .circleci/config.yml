@@ -58,12 +58,6 @@ jobs:
           command: npm run start-no-decorator
       - run:
           name: npm run cypress:ci
-      - store_test_results:
-          path: results
-      - store_artifacts:
-          path: cypress/videos
-      - store_artifacts:
-          path: cypress/screenshots
 workflows:
   version: 2
   deploy-docker-and-nais:
@@ -78,7 +72,7 @@ workflows:
       - e2e:
           name: Cypress e2e testing
           requires:
-            - build
+            - check
       - build:
           context: NAIS deployment
           filters:
