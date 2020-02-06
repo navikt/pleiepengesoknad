@@ -12,8 +12,8 @@ import dateRangeValidation from 'common/validation/dateRangeValidation';
 
 export interface FerieuttakFormLabels {
     title: string;
-    fromDate: string;
-    toDate: string;
+    fom: string;
+    tom: string;
     intervalTitle: string;
     okButton: string;
     cancelButton: string;
@@ -30,16 +30,16 @@ interface Props {
 
 const defaultLabels: FerieuttakFormLabels = {
     title: 'Registrer uttak av ferie',
-    fromDate: 'Fra og med',
-    toDate: 'Til og med',
+    fom: 'Fra og med',
+    tom: 'Til og med',
     intervalTitle: 'Velg tidsrom',
     okButton: 'Ok',
     cancelButton: 'Avbryt'
 };
 
 enum FerieuttakFormFields {
-    toDate = 'toDate',
-    fromDate = 'fromDate'
+    tom = 'tom',
+    fom = 'fom'
 }
 const bem = bemUtils('ferieuttakForm');
 
@@ -73,15 +73,15 @@ const FerieuttakForm: React.FunctionComponent<Props> = ({
                                 legend={formLabels.intervalTitle}
                                 showValidationErrors={showErrors}
                                 fromDatepickerProps={{
-                                    label: formLabels.fromDate,
-                                    name: FerieuttakFormFields.fromDate,
+                                    label: formLabels.fom,
+                                    name: FerieuttakFormFields.fom,
                                     fullscreenOverlay: true,
                                     validate: (date: Date) =>
                                         dateRangeValidation.validateFromDate(date, minDate, maxDate, ferieuttak.tom)
                                 }}
                                 toDatepickerProps={{
-                                    label: formLabels.toDate,
-                                    name: FerieuttakFormFields.toDate,
+                                    label: formLabels.tom,
+                                    name: FerieuttakFormFields.tom,
                                     fullscreenOverlay: true,
                                     validate: (date: Date) =>
                                         dateRangeValidation.validateToDate(date, minDate, maxDate, ferieuttak.fom)

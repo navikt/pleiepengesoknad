@@ -8,7 +8,7 @@
     "utenlandsopphold.form.erBarnetInnlagt.spm": "Er, eller skal, barnet verta innlagt i helseinstitusjon i {land}?",
     "utenlandsopphold.form.årsak.spm": "Korleis vert utgiftene til innlegginga dekka?",
     "utenlandsopphold.form.årsak.BARNET_INNLAGT_I_HELSEINSTITUSJON_FOR_NORSK_OFFENTLIG_REGNING": "For norsk offentlig rekning",
-    "utenlandsopphold.form.årsak.BARNET_INNLAGT_I_HELSEINSTITUSJON_DEKKET_ETTER_AVTALE_MED_ET_ANNET_LAND_OM_TRYGD": "Etter trygdeavtale med {land}",
+    "utenlandsopphold.form.årsak.BARNET_INNLAGT_I_HELSEINSTITUSJON_DEKKET_ETTER_AVTALE_MED_ET_ANNET_LAND_OM_TRYGD": "Etter trygdeavtale med eit anna land",
     "utenlandsopphold.form.årsak.ANNET": "Eg dekker utgiftene sjølv",
     "utenlandsopphold.oppsummering.årsak.ANNET": "Eg dekker utgiftene sjølv",
     "utenlandsopphold.form.ok": "Legg til",
