@@ -16,7 +16,8 @@
         "snyk-protect": "snyk protect",
         "prepare": "npm run snyk-protect",
         "cypress:open": "CYPRESS_baseUrl=http://localhost:8080 cypress open",
-        "cypress:run": "cypress run"
+        "cypress:run": "CYPRESS_baseUrl=http://localhost:8080 cypress run",
+        "cypress:ci": "CYPRESS_baseUrl=http://localhost:8080 cypress run --reporter junit --reporter-options \"mochaFile=results/my-test-output.xml\""
     },
     "jest": {
         "testEnvironment": "node"
