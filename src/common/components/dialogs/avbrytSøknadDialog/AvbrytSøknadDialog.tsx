@@ -6,13 +6,13 @@ import intlHelper from '../../../utils/intlUtils';
 
 export interface Props {
     synlig: boolean;
-    onFortsettSøknadSenere: () => void;
+    onAvbrytSøknad: () => void;
     onFortsettSøknad: () => void;
 }
 
 const AvbrytSøknadDialog: React.FunctionComponent<Props> = (props) => {
     const intl = useIntl();
-    const { synlig, onFortsettSøknad, onFortsettSøknadSenere } = props;
+    const { synlig, onFortsettSøknad, onAvbrytSøknad: onFortsettSøknadSenere } = props;
     return (
         <BekreftDialog
             isOpen={synlig}
