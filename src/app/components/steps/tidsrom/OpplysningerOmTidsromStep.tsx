@@ -1,22 +1,23 @@
 import * as React from 'react';
-import { HistoryProps } from 'common/types/History';
-import { StepID, StepConfigProps } from '../../../config/stepConfig';
-import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import FormikStep from '../../formik-step/FormikStep';
-import FormikDateIntervalPicker from '../../../../common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
-import { date3YearsAgo, DateRange, date1YearFromNow, date1YearAgo } from 'common/utils/dateUtils';
-import { validateYesOrNoIsAnswered, validateFradato, validateTildato } from '../../../validation/fieldValidations';
-import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
+import { FormattedHTMLMessage, useIntl } from 'react-intl';
 import Box from 'common/components/box/Box';
-import intlHelper from 'common/utils/intlUtils';
-import { useIntl, FormattedHTMLMessage } from 'react-intl';
-import { YesOrNo } from 'common/types/YesOrNo';
-import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
-import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
-import FerieuttakIPeriodenFormPart from './FerieuttakIPeriodenFormPart';
-import UtenlandsoppholdIPeriodenFormPart from './UtenlandsoppholdIPeriodenFormPart';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
+import { HistoryProps } from 'common/types/History';
+import { YesOrNo } from 'common/types/YesOrNo';
+import { date1YearAgo, date1YearFromNow, date3YearsAgo, DateRange } from 'common/utils/dateUtils';
+import intlHelper from 'common/utils/intlUtils';
+import FormikDateIntervalPicker from '../../../../common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
+import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
+import { Feature, isFeatureEnabled } from 'app/utils/featureToggleUtils';
 import { persistAndNavigateTo } from 'app/utils/navigationUtils';
+import { StepConfigProps, StepID } from '../../../config/stepConfig';
+import { AppFormField } from '../../../types/PleiepengesøknadFormData';
+import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
+import { validateFradato, validateTildato, validateYesOrNoIsAnswered } from '../../../validation/fieldValidations';
+import FormikStep from '../../formik-step/FormikStep';
+import FerieuttakIPeriodenFormPart from './FerieuttakIPeriodenFormPart';
+import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
+import UtenlandsoppholdIPeriodenFormPart from './UtenlandsoppholdIPeriodenFormPart';
 
 interface OpplysningerOmTidsromStepProps {
     formikProps: PleiepengesøknadFormikProps;
@@ -43,6 +44,10 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
 
     const periode: DateRange = { from: periodeFra || date1YearAgo, to: periodeTil || date1YearFromNow };
     const intl = useIntl();
+
+    const visInfoOmUtenlandsopphold = harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning(
+        values.utenlandsoppholdIPerioden
+    );
 
     return (
         <FormikStep
@@ -95,11 +100,6 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
             {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD) && (
                 <>
                     <Box margin="xxl">
-                        <CounsellorPanel>
-                            <FormattedHTMLMessage id="steg.tidsrom.veileder.utenlandsopphold.html" />
-                        </CounsellorPanel>
-                    </Box>
-                    <Box margin="xxl">
                         <FormikYesOrNoQuestion<AppFormField>
                             legend={intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.spm')}
                             name={AppFormField.skalOppholdeSegIUtlandetIPerioden}
@@ -107,8 +107,15 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                         />
                     </Box>
                     {formikProps.values.skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES && (
-                        <Box margin="m" padBottom="l">
+                        <Box margin="m">
                             <UtenlandsoppholdIPeriodenFormPart periode={periode} />
+                        </Box>
+                    )}
+                    {visInfoOmUtenlandsopphold && (
+                        <Box margin="l" padBottom="l">
+                            <CounsellorPanel>
+                                <FormattedHTMLMessage id="steg.tidsrom.veileder.utenlandsopphold.html" />
+                            </CounsellorPanel>
                         </Box>
                     )}
                 </>
@@ -121,6 +128,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                             legend={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.spm')}
                             name={AppFormField.skalTaUtFerieIPerioden}
                             validate={validateYesOrNoIsAnswered}
+                            helperText={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.veileder')}
                         />
                     </Box>
                     {formikProps.values.skalTaUtFerieIPerioden === YesOrNo.YES && (

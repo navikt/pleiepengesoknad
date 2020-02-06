@@ -66,7 +66,7 @@
     "step.tidsrom.stepTitle": "Perioden med pleiepenger",
     "step.tidsrom.stepIndicatorLabel": "Periode",
     "step.tidsrom.infotekst": "For å ha rett til pleiepenger må du ha omsorgen for barnet i hele perioden du søker for.",
-    "steg.tidsrom.veileder.utenlandsopphold.html": "Du kan beholde pleiepengene mens du oppholder deg <strong>i et EØS land</strong>, så lenge du <ul><li>reiser sammen med barnet du pleier</li><li>har rett på pleiepenger i perioden du er i utlandet</li></ul>Hvis du oppholder deg <strong>i et land utenfor EØS</strong>, kan du beholde pleiepengene i opptil 8 uker av en 12 måneder lang periode.",
+    "steg.tidsrom.veileder.utenlandsopphold.html": "Når du oppholder deg i et land utenfor EØS, kan du beholde pleiepengene i en begrenset periode på opptil 8 uker av en 12 måneder lang periode.",
 
     "steg.tidsrom.iUtlandetIPerioden.listeTittel": "Utenlandsopphold i perioden du søker for",
     "steg.tidsrom.iUtlandetIPerioden.eøs.årsak.hjelp": "Dette trenger vi fordi ...",
@@ -77,10 +77,11 @@
     "steg.tidsrom.iUtlandetIPerioden.modalTitle": "Utenlandsopphold",
     "steg.tidsrom.iUtlandetIPerioden.addLabel": "Legg til utenlandsopphold",
 
-    "steg.tidsrom.ferieuttakIPerioden.spm": "Skal du ha ferie i perioden du søker for?",
+    "steg.tidsrom.ferieuttakIPerioden.spm": "Skal du ha lovbestemt ferie i perioden du søker for?",
     "steg.tidsrom.ferieuttakIPerioden.listTitle": "Ferie i perioden",
     "steg.tidsrom.ferieuttakIPerioden.modalTitle": "Ferie",
     "steg.tidsrom.ferieuttakIPerioden.addLabel": "Legg til ferie",
+    "steg.tidsrom.ferieuttakIPerioden.veileder": "Hvis du skal ha ferie og er usikker på om det er lovbestemt ferie, må du sjekke det med arbeidsgiveren din.",
 
     "step.arbeidsforhold.pageTitle": "Pleiepengesøknad - opplysninger om ditt arbeidsforhold",
     "step.arbeidsforhold.stepTitle": "Arbeidsforhold",
