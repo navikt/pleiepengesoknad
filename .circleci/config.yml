@@ -69,10 +69,6 @@ workflows:
                 - master
                 - /dev-.*/
                 - /snyk-.*/
-      - e2e:
-          name: Cypress e2e testing
-          requires:
-            - check
       - build:
           context: NAIS deployment
           filters:
@@ -81,6 +77,10 @@ workflows:
                 - master
                 - /dev-.*/
                 - /snyk-.*/
+      - e2e:
+          name: Cypress e2e testing
+          requires:
+            - build
       - nais/deploy:
           name: dev-deploy
           build-and-push-docker-image: false
