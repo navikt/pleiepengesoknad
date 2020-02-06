@@ -43,6 +43,13 @@ jobs:
           key: node-{{ checksum "package.json" }}
       - run: npm test
       - run: npm run build
+  e2e:
+    working_directory: ~/pleiepengesoknad
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: ls -la cypress
+      - run: ls -la cypress/integration
 
 workflows:
   version: 2
@@ -63,6 +70,7 @@ workflows:
                 - master
                 - /dev-.*/
                 - /snyk-.*/
+      - e2e:
       - nais/deploy:
           name: dev-deploy
           build-and-push-docker-image: false
