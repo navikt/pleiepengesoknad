@@ -49,7 +49,7 @@ jobs:
       - image: cypress/base:8
     steps:
       - attach_workspace:
-          at: ~/
+          at: ~/pleiepengesoknad
       - run: ls -la cypress
       - run: ls -la cypress/integration
       - run: npm run start-api-mock
