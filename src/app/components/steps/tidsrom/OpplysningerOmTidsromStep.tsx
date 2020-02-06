@@ -13,12 +13,10 @@ import { persistAndNavigateTo } from 'app/utils/navigationUtils';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
-import {
-    validateFradato, validateTildato, validateYesOrNoIsAnswered
-} from '../../../validation/fieldValidations';
+import { validateFradato, validateTildato, validateYesOrNoIsAnswered } from '../../../validation/fieldValidations';
 import FormikStep from '../../formik-step/FormikStep';
 import FerieuttakIPeriodenFormPart from './FerieuttakIPeriodenFormPart';
-import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning';
+import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
 import UtenlandsoppholdIPeriodenFormPart from './UtenlandsoppholdIPeriodenFormPart';
 
 interface OpplysningerOmTidsromStepProps {
