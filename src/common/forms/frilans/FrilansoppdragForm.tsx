@@ -7,10 +7,10 @@ import FormikCheckbox from 'common/formik/formik-checkbox/FormikCheckbox';
 import Knapperad from 'common/components/knapperad/Knapperad';
 import { Knapp } from 'nav-frontend-knapper';
 import { Formik } from 'formik';
-import { validateRequiredField } from 'app/validation/fieldValidations';
 import { Systemtittel } from 'nav-frontend-typografi';
 import dateRangeValidation from 'common/validation/dateRangeValidation';
 import { dateToday, date10MonthsAgo } from 'common/utils/dateUtils';
+import { validateRequiredField } from '../../validation/commonFieldValidations';
 
 interface Props {
     oppdrag?: FrilansoppdragFormData;
