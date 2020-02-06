@@ -44,7 +44,7 @@ jobs:
       - run: npm test
       - run: ls -la cypress
       - run: ls -la cypress/integration
-      - run: npm run e2e
+      - run: npm runstart-api-mock && npn run start-no-decorator && npm run cypress:ci
       - run: npm run build
   e2e:
     working_directory: ~/pleiepengesoknad
