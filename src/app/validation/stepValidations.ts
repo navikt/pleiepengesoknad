@@ -1,6 +1,6 @@
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { validateFødselsnummer } from 'common/validation/commonFieldValidations';
+import { validateFødselsnummer } from 'common/validation/fieldValidations';
 import { validateNavn, validateRelasjonTilBarnet, validateValgtBarn } from './fieldValidations';
 
 export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: PleiepengesøknadFormData) =>

@@ -6,15 +6,14 @@ import {
     validateRelasjonTilBarnet,
     validateTildato,
     validateNormaleArbeidstimer,
-    AppFieldValidationErrors,
-    createFieldValidationError
+    AppFieldValidationErrors
 } from '../fieldValidations';
 import * as dateUtils from 'common/utils/dateUtils';
 import Mock = jest.Mock;
 import { Attachment } from 'common/types/Attachment';
 import moment from 'moment';
 import { hasValue } from 'common/validation/hasValue';
-import { CommonFieldValidationErrors } from 'common/validation/commonFieldValidations';
+import { FieldValidationErrors, createFieldValidationError } from 'common/validation/fieldValidations';
 
 jest.mock('common/validation/fødselsnummerValidator', () => {
     return {
@@ -33,7 +32,7 @@ jest.mock('common/utils/dateUtils', () => {
 });
 
 describe('fieldValidations', () => {
-    const fieldRequiredError = createFieldValidationError(CommonFieldValidationErrors.påkrevd);
+    const fieldRequiredError = createFieldValidationError(FieldValidationErrors.påkrevd);
 
     describe('hasValue', () => {
         it('should return true if provided value is not undefined, null or empty string', () => {

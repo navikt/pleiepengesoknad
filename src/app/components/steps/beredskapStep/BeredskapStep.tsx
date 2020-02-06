@@ -12,7 +12,7 @@ import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFo
 import { YesOrNo } from 'common/types/YesOrNo';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import FormikTextarea from 'common/formik/formik-textarea/FormikTextarea';
-import { validateYesOrNoIsAnswered } from 'common/validation/commonFieldValidations';
+import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { persistAndNavigateTo } from 'app/utils/navigationUtils';
 
 interface StepProps {

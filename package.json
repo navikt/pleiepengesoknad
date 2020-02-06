@@ -22,7 +22,7 @@
     "dependencies": {
         "@formatjs/intl-pluralrules": "^1.5.2",
         "@navikt/fnrvalidator": "^1.1.0",
-        "@navikt/sif-common": "^1.0.8",
+        "@navikt/sif-common": "^1.0.9",
         "@testing-library/react": "^9.4.0",
         "axios": "^0.19.2",
         "busboy": "^0.3.0",

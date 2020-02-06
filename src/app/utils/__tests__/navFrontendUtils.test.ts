@@ -1,6 +1,6 @@
 import { FormikErrors } from 'formik';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
-import { CommonFieldValidationErrors } from 'common/validation/commonFieldValidations';
+import { FieldValidationErrors } from 'common/validation/fieldValidations';
 
 interface SomeFields {
     field1: string;
@@ -18,9 +18,9 @@ describe('navFrontendUtils', () => {
     describe('getValidationErrorPropsWithIntl', () => {
         beforeEach(() => {
             errors = {
-                field1: CommonFieldValidationErrors.påkrevd,
-                field2: CommonFieldValidationErrors.påkrevd,
-                field3: CommonFieldValidationErrors.påkrevd
+                field1: FieldValidationErrors.påkrevd,
+                field2: FieldValidationErrors.påkrevd,
+                field3: FieldValidationErrors.påkrevd
             };
         });
 

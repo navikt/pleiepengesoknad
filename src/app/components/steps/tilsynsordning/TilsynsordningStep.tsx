@@ -16,7 +16,7 @@ import { getNextStepRoute } from '../../../utils/routeUtils';
 import FormikInputGroup from 'common/formik/formik-input-group/FormikInputGroup';
 import FormikTextarea from 'common/formik/formik-textarea/FormikTextarea';
 import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
-import { validateYesOrNoIsAnswered } from 'common/validation/commonFieldValidations';
+import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { persistAndNavigateTo } from 'app/utils/navigationUtils';
 
 type Props = CommonStepFormikProps & HistoryProps & StepConfigProps;

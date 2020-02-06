@@ -14,7 +14,7 @@ import FrilansoppdragForm from 'common/forms/frilans/FrilansoppdragForm';
 import { date10MonthsAgo, dateToday } from 'common/utils/dateUtils';
 import FrilansOppdragListe from 'common/forms/frilans/FrilansoppdragListe';
 import Panel from 'nav-frontend-paneler';
-import { validateRequiredField } from '../../../../common/validation/commonFieldValidations';
+import { validateRequiredField } from 'common/validation/fieldValidations';
 
 interface Props {
     formValues: PleiepengesøknadFormData;

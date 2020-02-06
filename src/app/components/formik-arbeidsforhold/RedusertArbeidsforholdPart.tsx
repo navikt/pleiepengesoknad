@@ -12,9 +12,7 @@ import {
 } from '../../utils/arbeidsforholdUtils';
 import { decimalTimeToTime } from 'common/utils/timeUtils';
 import './timerInput.less';
-import FormikInput from '../../../common/formik/formik-input/FormikInput';
-import FormikRadioPanelGroup from '../../../common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
-import { validateRequiredField } from 'common/validation/commonFieldValidations';
+import { validateRequiredField } from 'common/validation/fieldValidations';
 import FormikInput from 'common/formik/formik-input/FormikInput';
 import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
 

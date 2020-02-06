@@ -8,11 +8,11 @@ import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
 import { useIntl } from 'react-intl';
 import Box from 'common/components/box/Box';
 import FormikYesOrNoQuestion from 'common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
-import { validateRequiredField } from 'app/validation/fieldValidations';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { Panel } from 'nav-frontend-paneler';
 import NæringListe from 'common/forms/næring/NæringListe';
 import NæringForm from 'common/forms/næring/NæringForm';
+import { validateRequiredField } from '@navikt/sif-common/lib/common/validation/fieldValidations';
 
 interface Props {
     formValues: PleiepengesøknadFormData;

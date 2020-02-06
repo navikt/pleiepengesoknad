@@ -24,7 +24,7 @@ import FormikInput from 'common/formik/formik-input/FormikInput';
 import FormikCheckbox from 'common/formik/formik-checkbox/FormikCheckbox';
 import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
 import FormikDatepicker from 'common/formik/formik-datepicker/FormikDatepicker';
-import { validateFødselsnummer } from 'common/validation/commonFieldValidations';
+import { validateFødselsnummer } from 'common/validation/fieldValidations';
 import { persistAndNavigateTo } from 'app/utils/navigationUtils';
 
 interface OpplysningerOmBarnetStepProps {

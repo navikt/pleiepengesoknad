@@ -10,7 +10,7 @@ import { AppFormField, PleiepengesøknadFormData } from '../../types/Pleiepenges
 import * as fieldValidations from './../fieldValidations';
 import Mock = jest.Mock;
 import { YesOrNo } from 'common/types/YesOrNo';
-import { validateFødselsnummer } from 'common/validation/commonFieldValidations';
+import { validateFødselsnummer } from 'common/validation/fieldValidations';
 const moment = require('moment');
 
 jest.mock('./../fieldValidations', () => {
@@ -22,7 +22,7 @@ jest.mock('./../fieldValidations', () => {
     };
 });
 
-jest.mock('common/validation/commonFieldValidations', () => {
+jest.mock('common/validation/fieldValidations', () => {
     return {
         validateFødselsnummer: jest.fn(() => undefined)
     };
