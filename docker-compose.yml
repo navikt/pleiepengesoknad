@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+  api-mock:
+    build:
+      context: .
+      dockerfile: Dockerfile.api-mock
+    ports:
+      - 8082:8082
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    ports:
+      - 8080:8080
+    depends_on:
+      - api-mock
+
