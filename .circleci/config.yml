@@ -43,18 +43,7 @@ jobs:
           key: node-{{ checksum "package.json" }}
       - run: npm test
       - run: npm run build
-  e2e:
-    working_directory: ~/pleiepengesoknad
-    docker:
-      - image: cypress/base:8
-    steps:
-      - attach_workspace:
-          at: ~/pleiepengesoknad
-      - run: ls -la cypress
-      - run: ls -la cypress/integration
-      - run: npm run start-api-mock
-      - run: npm run start-no-decorator
-      - run: npm run cypress:ci
+
 workflows:
   version: 2
   deploy-docker-and-nais:
@@ -63,11 +52,9 @@ workflows:
           filters:
             branches:
               ignore:
+                - master
                 - /dev-.*/
                 - /snyk-.*/
-      - e2e:
-          requires:
-            - check
       - build:
           context: NAIS deployment
           filters:
