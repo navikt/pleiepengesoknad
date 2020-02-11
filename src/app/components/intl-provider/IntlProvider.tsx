@@ -10,29 +10,15 @@ import { Locale } from 'common/types/Locale';
 const appBokmålstekster = require('../../i18n/nb.json');
 const appNynorsktekster = require('../../i18n/nn.json');
 
-// Modultekster
-const utenlandsoppholdBokmål = require('common/forms/utenlandsopphold/utenlandsopphold.nb.json');
-const utenlandsoppholdNynorsk = require('common/forms/utenlandsopphold/utenlandsopphold.nn.json');
-const bostedUtlandBokmål = require('common/forms/bosted-utland/bostedUtland.nb.json');
-const bostedUtlandNynorsk = require('common/forms/bosted-utland/bostedUtland.nn.json');
-const pictureScanningGuideBokmål = require('common/components/picture-scanning-guide/picturescanningguide.nb.json');
-const pictureScanningGuideNynorsk = require('common/components/picture-scanning-guide/picturescanningguide.nn.json');
-const commonFieldValidationNb = require('common/i18n/validationErrors.nb.json');
-const commonFieldValidationNn = require('common/i18n/validationErrors.nn.json');
+import { allCommonMessages } from 'common/i18n/allCommonMessages';
 
 const bokmålstekster = {
-    ...appBokmålstekster,
-    ...utenlandsoppholdBokmål,
-    ...pictureScanningGuideBokmål,
-    ...bostedUtlandBokmål,
-    ...commonFieldValidationNb
+    ...allCommonMessages.nb,
+    ...appBokmålstekster
 };
 const nynorsktekster = {
-    ...appNynorsktekster,
-    ...utenlandsoppholdNynorsk,
-    ...pictureScanningGuideNynorsk,
-    ...bostedUtlandNynorsk,
-    ...commonFieldValidationNn
+    ...allCommonMessages.nn,
+    ...appNynorsktekster
 };
 
 export interface IntlProviderProps {
