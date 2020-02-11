@@ -5,7 +5,7 @@ import { Arbeidsforhold, ArbeidsforholdField, AppFormField } from '../../types/P
 import intlHelper from 'common/utils/intlUtils';
 import { validateReduserteArbeidProsent } from '../../validation/fieldValidations';
 import { useIntl } from 'react-intl';
-import FormikInput from '../../../common/formik/formik-input/FormikInput';
+import FormikInput from 'common/formik/formik-input/FormikInput';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;

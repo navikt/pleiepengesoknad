@@ -17,7 +17,7 @@ const webpackConfig = {
         extensions: ['.ts', '.tsx', '.js', '.json', '.jsx'],
         alias: {
             app: path.resolve(__dirname, './../../app'),
-            common: path.resolve(__dirname, './../../common')
+            common: path.resolve(__dirname, './../../../node_modules/@navikt/sif-common/lib/common')
         }
     },
     module: {
@@ -29,7 +29,7 @@ const webpackConfig = {
             },
             {
                 test: /\.(ts|tsx)$/,
-                include: [path.resolve(__dirname, './../../app'), path.resolve(__dirname, './../../common')],
+                include: [path.resolve(__dirname, './../../app')],
                 loader: require.resolve('awesome-typescript-loader')
             },
             {

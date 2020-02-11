@@ -43,9 +43,9 @@ function BostedsoppholdIUtlandetFormPart<T>({ periode, name, labels }: Props<T>)
                             listRenderer={(onEdit, onDelete) => (
                                 <BostedUtlandListe bosteder={field.value} onDelete={onDelete} onEdit={onEdit} />
                             )}
-                            formRenderer={(onSubmit, onCancel, bosteder) => (
+                            formRenderer={(onSubmit, onCancel, bosted) => (
                                 <BostedUtlandForm
-                                    bosteder={bosteder}
+                                    bosted={bosted}
                                     onCancel={onCancel}
                                     onSubmit={onSubmit}
                                     minDato={periode.from}

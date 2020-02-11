@@ -68,11 +68,7 @@
     "step.tidsrom.infotekst": "For å ha rett til pleiepenger må du ha omsorgen for barnet i hele perioden du søker for.",
     "steg.tidsrom.veileder.utenlandsopphold.html": "Når du oppholder deg i et land utenfor EØS, kan du beholde pleiepengene i en begrenset periode på opptil 8 uker av en 12 måneder lang periode.",
 
-    "steg.tidsrom.iUtlandetIPerioden.listeTittel": "Utenlandsopphold i perioden du søker for",
-    "steg.tidsrom.iUtlandetIPerioden.eøs.årsak.hjelp": "Dette trenger vi fordi ...",
     "steg.tidsrom.iUtlandetIPerioden.spm": "Skal du reise til utlandet i perioden du søker for?",
-    "steg.tidsrom.iUtlandetIPerioden.eøs.årsak.spm": "Hva er formålet med denne reisen?",
-
     "steg.tidsrom.iUtlandetIPerioden.listTitle": "Utenlandsopphold i perioden",
     "steg.tidsrom.iUtlandetIPerioden.modalTitle": "Utenlandsopphold",
     "steg.tidsrom.iUtlandetIPerioden.addLabel": "Legg til utenlandsopphold",
@@ -345,7 +341,7 @@
     "arbeidsforhold.oppsummering.skalArbeideDelvis": "Skal jobbe {timerRedusert} i uken i denne perioden (jobber normalt {timerNormalt} i uken).",
     "arbeidsforhold.oppsummering.svar.ja": "Skal jobbe som vanlig",
     "arbeidsforhold.oppsummering.svar.nei": "Skal ikke jobbe",
-    "arbeidsforhold.oppsummering.svar.vet_ikke": "Jeg vet ikke om jeg skal jobbe her i perioden jeg søker for, men jeg melder fra hvis jeg skal gjøre det",
+    "arbeidsforhold.oppsummering.svar.vet_ikke": "Jeg vet ikke om jeg skal jobbe her i perioden jeg søker for, men jeg melder fra hvis jeg skal gjøre det. Jobber vanligvis {timer} i uken.",
     "arbeidsforhold.oppsummering.svar.redusert.timer": "Skal jobbe {timerRedusert} i uka ({prosentRedusert} prosent av vanlig)",
     "arbeidsforhold.oppsummering.svar.redusert.prosent": "Skal jobbe {prosentRedusert} prosent av {timerNormalt} i uka.",
 

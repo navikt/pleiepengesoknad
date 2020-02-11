@@ -1,6 +1,6 @@
 import { Locale } from 'common/types/Locale';
 import { TilsynVetIkkeHvorfor } from './PleiepengesøknadFormData';
-import { ApiStringDate } from '../../common/types/ApiStringDate';
+import { ApiStringDate } from 'common/types/ApiStringDate';
 import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
 
 export type ISO8601Duration = string;

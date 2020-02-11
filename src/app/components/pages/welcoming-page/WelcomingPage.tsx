@@ -9,7 +9,7 @@ import { HistoryProps } from 'common/types/History';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 import { navigateTo } from '../../../utils/navigationUtils';
 import { StepConfigProps } from '../../../config/stepConfig';
-import { userHasSubmittedValidForm } from '../../../../common/formik/formikUtils';
+import { userHasSubmittedValidForm } from 'common/formik/formikUtils';
 import FrontPageBanner from 'common/components/front-page-banner/FrontPageBanner';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import Lenke from 'nav-frontend-lenker';

@@ -3,7 +3,6 @@ import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import {
     validateFødselsdato,
-    validateFødselsnummer,
     validateNavn,
     validateRelasjonTilBarnet,
     validateValgtBarn
@@ -15,7 +14,7 @@ import { formatName } from 'common/utils/personUtils';
 import { AppFormField, initialValues } from '../../../types/PleiepengesøknadFormData';
 import FormikStep from '../../formik-step/FormikStep';
 import { harRegistrerteBarn } from '../../../utils/søkerdataUtils';
-import { resetFieldValue, resetFieldValues } from '../../../../common/formik/formikUtils';
+import { resetFieldValue, resetFieldValues } from 'common/formik/formikUtils';
 import { prettifyDate, dateToday } from 'common/utils/dateUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { useIntl, FormattedMessage } from 'react-intl';
@@ -25,6 +24,7 @@ import FormikInput from 'common/formik/formik-input/FormikInput';
 import FormikCheckbox from 'common/formik/formik-checkbox/FormikCheckbox';
 import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
 import FormikDatepicker from 'common/formik/formik-datepicker/FormikDatepicker';
+import { validateFødselsnummer } from 'common/validation/fieldValidations';
 import { persistAndNavigateTo } from 'app/utils/navigationUtils';
 
 interface OpplysningerOmBarnetStepProps {

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
-import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
+import FormikYesOrNoQuestion from 'common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 import intlHelper from 'common/utils/intlUtils';
 import { useIntl } from 'react-intl';
@@ -15,7 +15,7 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import BostedsoppholdIUtlandetFormPart from './BostedsoppholdIUtlandetFormPart';
 import { date1YearAgo, date1YearFromNow, dateToday } from 'common/utils/dateUtils';
 import { Feature, isFeatureEnabled } from 'app/utils/featureToggleUtils';
-import { validateYesOrNoIsAnswered } from 'app/validation/fieldValidations';
+import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { persistAndNavigateTo } from 'app/utils/navigationUtils';
 
 type Props = CommonStepFormikProps & HistoryProps & StepConfigProps;

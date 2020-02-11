@@ -68,10 +68,10 @@
     "step.tidsrom.infotekst": "For å ha rett til pleiepenger må du ha omsorgen for barnet i hele perioden du søker for.",
     "steg.tidsrom.veileder.utenlandsopphold.html": "Når du oppheld deg i eit land utanfor EØS, kan du behalde pleiepengane i ein begrensa periode på opptil 8 veker av ein 12 månedar lang periode.",
 
-    "steg.tidsrom.iUtlandetIPerioden.listeTittel": "Utenlandsopphold i perioden du søker for",
-    "steg.tidsrom.iUtlandetIPerioden.eøs.årsak.hjelp": "Dette treng vi fordi ...",
-    "steg.tidsrom.iUtlandetIPerioden.spm": "Skal du reise til utlandet i perioden du søkjer for?",
-    "steg.tidsrom.iUtlandetIPerioden.eøs.årsak.spm": "Kva er formålet med denne reisa?",
+    "steg.tidsrom.iUtlandetIPerioden.spm": "Skal du reise til utlandet i perioden du søker for?",
+    "steg.tidsrom.iUtlandetIPerioden.listTitle": "Utenlandsopphald i perioden",
+    "steg.tidsrom.iUtlandetIPerioden.modalTitle": "Utenlandsopphald",
+    "steg.tidsrom.iUtlandetIPerioden.addLabel": "Legg til utenlandsopphald",
 
     "steg.tidsrom.ferieuttakIPerioden.spm": "Skal du ha lovbestemt ferie i perioden du søkjer for?",
     "steg.tidsrom.ferieuttakIPerioden.listTitle": "Ferie i perioden",
@@ -341,7 +341,7 @@
     "arbeidsforhold.oppsummering.skalArbeideDelvis": "Skal jobbe {timerRedusert} i veka i denne perioden (jobbar normalt {timerNormalt} i veka).",
     "arbeidsforhold.oppsummering.svar.ja": "Skal jobbe som vanleg",
     "arbeidsforhold.oppsummering.svar.nei": "Skal ikkje jobbe",
-    "arbeidsforhold.oppsummering.svar.vet_ikke": "Eg veit ikkje om eg skal jobbe her i perioden eg søkjer for, men eg melder frå dersom eg skal gjere det.",
+    "arbeidsforhold.oppsummering.svar.vet_ikke": "Eg veit ikkje om eg skal jobbe her i perioden eg søkjer for, men eg melder frå dersom eg skal gjere det. Jobber vanlegvis {timer} i veka.",
     "arbeidsforhold.oppsummering.svar.redusert.timer": "Skal jobbe {timerRedusert} i uka ({prosentRedusert} prosent av vanleg)",
     "arbeidsforhold.oppsummering.svar.redusert.prosent": "Skal jobbe {prosentRedusert} prosent av {timerNormalt} i veka.",
 
