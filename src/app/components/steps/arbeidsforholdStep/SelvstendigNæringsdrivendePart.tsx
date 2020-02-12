@@ -53,11 +53,11 @@ const SelvstendigNæringsdrivendeFormPart: React.FunctionComponent<Props> = ({ f
                                             modalTitle: 'Virksomhet'
                                         }}
                                         onChange={(value) => setFieldValue(field.name, value)}
-                                        listRenderer={(onEdit, onDelete) => (
+                                        listRenderer={({ onEdit, onDelete }) => (
                                             <NæringListe næringer={field.value} onEdit={onEdit} onDelete={onDelete} />
                                         )}
-                                        formRenderer={(onSubmit, onCancel) => (
-                                            <NæringForm onSubmit={onSubmit} onCancel={onCancel} />
+                                        formRenderer={({ onSubmit, onCancel, item }) => (
+                                            <NæringForm næring={item} onSubmit={onSubmit} onCancel={onCancel} />
                                         )}
                                     />
                                 );
