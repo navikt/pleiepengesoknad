@@ -43,7 +43,6 @@ export enum AppFormField {
     barnetsFødselsnummer = 'barnetsFødselsnummer',
     barnetsFødselsdato = 'barnetsFødselsdato',
     barnetSøknadenGjelder = 'barnetSøknadenGjelder',
-    søkersRelasjonTilBarnet = 'søkersRelasjonTilBarnet',
     søknadenGjelderEtAnnetBarn = 'søknadenGjelderEtAnnetBarn',
     periodeFra = 'periodeFra',
     periodeTil = 'periodeTil',
@@ -108,7 +107,6 @@ export interface PleiepengesøknadFormData {
     [AppFormField.harBekreftetOpplysninger]: boolean;
     [AppFormField.barnetsNavn]: string;
     [AppFormField.barnetsFødselsnummer]: string;
-    [AppFormField.søkersRelasjonTilBarnet]: string;
     [AppFormField.barnetsFødselsdato]?: Date;
     [AppFormField.søknadenGjelderEtAnnetBarn]: boolean;
     [AppFormField.barnetSøknadenGjelder]: string;
@@ -150,7 +148,6 @@ export const initialValues: PleiepengesøknadFormData = {
     [AppFormField.barnetSøknadenGjelder]: '',
     [AppFormField.harForståttRettigheterOgPlikter]: false,
     [AppFormField.harBekreftetOpplysninger]: false,
-    [AppFormField.søkersRelasjonTilBarnet]: '',
     [AppFormField.søknadenGjelderEtAnnetBarn]: false,
     [AppFormField.legeerklæring]: [],
     [AppFormField.arbeidsforhold]: [],

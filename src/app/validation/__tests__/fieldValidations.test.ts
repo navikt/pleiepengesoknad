@@ -3,7 +3,6 @@ import {
     validateFradato,
     validateLegeerklæring,
     validateNavn,
-    validateRelasjonTilBarnet,
     validateTildato,
     validateNormaleArbeidstimer,
     AppFieldValidationErrors
@@ -84,22 +83,6 @@ describe('fieldValidations', () => {
 
         it('should return undefined if value is empty string when isRequired set to false', () => {
             expect(validateNavn('', false)).toBeUndefined();
-        });
-    });
-
-    describe('validateRelasjonTilBarnet', () => {
-        it('should return an error message saying field is required if provided value is empty string', () => {
-            expect(validateRelasjonTilBarnet('')).toEqual(fieldRequiredError);
-        });
-
-        it('should return an error message saying field has to be 15 letters or less, if length is longer than 15 letters', () => {
-            expect(validateRelasjonTilBarnet('a'.repeat(16))).toEqual(
-                createFieldValidationError(AppFieldValidationErrors.relasjon_maksAntallTegn, { maxNumOfLetters: 15 })
-            );
-        });
-
-        it('should return undefined if value is valid (length > 0 && length <= 15)', () => {
-            expect(validateRelasjonTilBarnet('a'.repeat(15))).toBeUndefined();
         });
     });
 

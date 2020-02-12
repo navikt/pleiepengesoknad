@@ -85,7 +85,6 @@ const formDataMock: Partial<PleiepengesøknadFormData> = {
     [AppFormField.barnetsNavn]: 'Ola Foobar',
     [AppFormField.harBekreftetOpplysninger]: true,
     [AppFormField.harForståttRettigheterOgPlikter]: true,
-    [AppFormField.søkersRelasjonTilBarnet]: 'mor',
     [AppFormField.arbeidsforhold]: [organisasjonTelenor, organisasjonMaxbo],
     [AppFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.YES,
     [AppFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.NO,
@@ -155,7 +154,6 @@ const completeFormDataMock: PleiepengesøknadFormData = {
     harForståttRettigheterOgPlikter: true,
     harBeredskap_ekstrainfo: 'harBeredskap_ekstrainfo',
     harNattevåk_ekstrainfo: 'harNattevåk_ekstrainfo',
-    søkersRelasjonTilBarnet: '',
     legeerklæring: [completedAttachmentMock as AttachmentMock],
     samtidigHjemme: YesOrNo.YES,
     harBoddUtenforNorgeSiste12Mnd: YesOrNo.YES,
@@ -234,10 +232,6 @@ describe('mapFormDataToApiData', () => {
 
     it("should set 'barnetsNavn' in api data correctly", () => {
         expect(resultingApiData.barn.navn).toEqual(formDataMock[AppFormField.barnetsNavn]);
-    });
-
-    it("should set 'relasjon_til_barnet' in api data correctly", () => {
-        expect(resultingApiData.relasjon_til_barnet).toEqual(formDataMock[AppFormField.søkersRelasjonTilBarnet]);
     });
 
     it("should set 'medlemskap.skal_bo_i_utlandet_neste_12_mnd' in api data correctly", () => {
@@ -512,7 +506,6 @@ describe('mapFormDataToApiData', () => {
                 aktoer_id: barnMock[0].aktoer_id,
                 fodselsdato: '2020-00-20'
             },
-            relasjon_til_barnet: null,
             arbeidsgivere: {
                 organisasjoner: [
                     { navn: 'Maxbo', organisasjonsnummer: '910831143', skal_jobbe: 'ja', skal_jobbe_prosent: 100 }

@@ -1,12 +1,7 @@
 import * as React from 'react';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
-import {
-    validateFødselsdato,
-    validateNavn,
-    validateRelasjonTilBarnet,
-    validateValgtBarn
-} from '../../../validation/fieldValidations';
+import { validateFødselsdato, validateNavn, validateValgtBarn } from '../../../validation/fieldValidations';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
 import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
@@ -100,8 +95,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                                     AppFormField.barnetsFødselsnummer,
                                                     AppFormField.barnetHarIkkeFåttFødselsnummerEnda,
                                                     AppFormField.barnetsFødselsdato,
-                                                    AppFormField.barnetsNavn,
-                                                    AppFormField.søkersRelasjonTilBarnet
+                                                    AppFormField.barnetsNavn
                                                 ],
                                                 setFieldValue,
                                                 initialValues
@@ -144,6 +138,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                             />
                             {barnetHarIkkeFåttFødselsnummerEnda && (
                                 <FormikDatepicker<AppFormField>
+                                    showYearSelector={true}
                                     name={AppFormField.barnetsFødselsdato}
                                     dateLimitations={{ maksDato: dateToday }}
                                     label={intlHelper(intl, 'steg.omBarnet.fødselsdato')}
@@ -166,13 +161,6 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                     }
                                 }}
                                 bredde="XL"
-                            />
-                            <FormikInput<AppFormField>
-                                label={intlHelper(intl, 'steg.omBarnet.relasjon')}
-                                name={AppFormField.søkersRelasjonTilBarnet}
-                                validate={validateRelasjonTilBarnet}
-                                bredde="XL"
-                                helperText={intlHelper(intl, 'steg.omBarnet.relasjon.eksempel')}
                             />
                         </>
                     )

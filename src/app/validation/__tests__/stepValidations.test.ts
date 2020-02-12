@@ -15,7 +15,6 @@ const moment = require('moment');
 
 jest.mock('./../fieldValidations', () => {
     return {
-        validateRelasjonTilBarnet: jest.fn(() => undefined),
         validateNavn: jest.fn(() => undefined),
         validateFødselsnummer: jest.fn(() => undefined),
         validateValgtBarn: jest.fn(() => undefined)
@@ -54,14 +53,7 @@ describe('stepValidation tests', () => {
             beforeEach(() => {
                 formData[AppFormField.barnetHarIkkeFåttFødselsnummerEnda] = true;
             });
-
-            it(`should be invalid if ${AppFormField.søkersRelasjonTilBarnet} is invalid`, () => {
-                (fieldValidations.validateRelasjonTilBarnet as Mock).mockReturnValue('some error message');
-                expect(opplysningerOmBarnetStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
-            });
-
-            it(`should be valid if ${AppFormField.søkersRelasjonTilBarnet} is valid`, () => {
-                (fieldValidations.validateRelasjonTilBarnet as Mock).mockReturnValue(undefined);
+            it(`should be valid`, () => {
                 expect(opplysningerOmBarnetStepIsValid(formData as PleiepengesøknadFormData)).toBe(true);
             });
         });
@@ -83,11 +75,6 @@ describe('stepValidation tests', () => {
 
             it(`should be invalid if ${AppFormField.barnetsFødselsnummer} is invalid`, () => {
                 (validateFødselsnummer as Mock).mockReturnValue('some error message');
-                expect(opplysningerOmBarnetStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
-            });
-
-            it(`should be invalid if ${AppFormField.søkersRelasjonTilBarnet} is invalid`, () => {
-                (fieldValidations.validateRelasjonTilBarnet as Mock).mockReturnValue('some error message');
                 expect(opplysningerOmBarnetStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
             });
         });

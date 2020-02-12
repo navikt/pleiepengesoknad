@@ -172,8 +172,6 @@
     "steg.omBarnet.fnr.ikkeFnrEnda": "Barnet har ikkje fått fødselsnummer enno.",
     "steg.omBarnet.fødselsdato": "Fødselsdato",
     "steg.omBarnet.navn": "Namnet til barnet",
-    "steg.omBarnet.relasjon": "Relasjonen min til barnet",
-    "steg.omBarnet.relasjon.eksempel": "Eksempel: mor, far, tante, onkel eller andre som står barnet nær",
 
     "steg.tidsrom.hjelpetekst": "Søknaden er under utvikling: Dersom du skal søkje for fleire periodar, må du sende éin søknad for kvar periode.",
     "steg.tidsrom.hvilketTidsrom.spm": "Kva periode søkjer du pleiepengar for?",
@@ -228,7 +226,6 @@
     "steg.oppsummering.barnet.fødselsdato": "Fødselsdato: {dato}",
     "steg.oppsummering.barnet.forelopigFnr": "Førebels fødselsnummer / D-nummer: {fnr}",
     "steg.oppsummering.barnet.fnr": "Fødselsnummer: {fnr}",
-    "steg.oppsummering.barnet.søkersRelasjonTilBarnet": "Relasjonen din til barnet: {relasjon}",
 
     "steg.oppsummering.utenlandsoppholdIPerioden.header": "Skal du være i utlandet i perioden?",
     "steg.oppsummering.utenlandsoppholdIPerioden.listetittel": "Utenlandsopphold i perioden",
@@ -298,7 +295,6 @@
     "fieldvalidation.fødselsnummer.ugyldig": "Fødselsnummeret er ugyldig.",
     "fieldvalidation.foreløpigFødselsnummer.ugyldig": "Det førebelse fødselsnummeret / D-nummeret må bestå av 11 siffer.",
     "fieldvalidation.navn.maksAntallTegn": "Namnet kan vere maks {maxNumOfLetters} teikn.",
-    "fieldvalidation.relasjon.maksAntallTegn": "Relasjonen din til barnet kan maks vere skildra på {maxNumOfLetters} teikn",
     "fieldvalidation.fradato.merEnnTreÅr": "Du kan ikkje søkje om pleiepengar for ein periode som er meir enn tre år tilbake i tid.",
     "fieldvalidation.fradato.erEtterTildato": "Frå-datoen kan ikkje vere seinare enn til-datoen.",
     "fieldvalidation.tildato.merEnnTreÅr": "Du kan ikkje søkje om pleiepengar for ein periode som er meir enn tre år tilbake i tid.",

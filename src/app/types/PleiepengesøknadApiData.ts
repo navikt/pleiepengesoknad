@@ -132,7 +132,6 @@ export interface PleiepengesøknadApiData {
     new_version: boolean;
     sprak: Locale;
     barn: BarnToSendToApi;
-    relasjon_til_barnet: string | null;
     fra_og_med: ApiStringDate;
     til_og_med: ApiStringDate;
     arbeidsgivere: { organisasjoner: ArbeidsforholdApi[] };
