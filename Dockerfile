@@ -48,6 +48,8 @@ COPY src/build/scripts/decorator.js ./src/build/scripts/decorator.js
 COPY src/build/scripts/envSettings.js ./src/build/scripts/envSettings.js
 
 COPY src/app ./src/app
+
+EXPOSE 8080
 CMD ["npm", "run", "start-no-decorator"]
 # ------------------------------------------------
 
@@ -62,4 +64,5 @@ FROM node:alpine as startApiMock
 WORKDIR /usr/src/mock
 COPY api-mock.js .
 COPY --from=builderApiMock /tmp/mock/. ./
+EXPOSE 8082
 CMD ["node", "./api-mock.js"]
