@@ -13,7 +13,9 @@ export const opplysningerOmBarnetStepIsValid = ({
     barnetSøknadenGjelder
 }: PleiepengesøknadFormData) => {
     const formIsValid =
-        validateNavn(barnetsNavn) === undefined && validateFødselsnummer(barnetsFødselsnummer) === undefined;
+        validateNavn(barnetsNavn) === undefined && barnetHarIkkeFåttFødselsnummerEnda
+            ? true
+            : validateFødselsnummer(barnetsFødselsnummer) === undefined;
 
     if (!formIsValid && barnetSøknadenGjelder !== undefined) {
         return validateValgtBarn(barnetSøknadenGjelder) === undefined;

@@ -20,7 +20,7 @@ const FrilansFormPart: React.FunctionComponent<Props> = ({ formValues }) => {
         <>
             <FormikYesOrNoQuestion<AppFormField>
                 name={AppFormField.frilans_harHattInntektSomFrilanser}
-                legend="Har du jobbet og hatt inntekt som frilanser de siste 10 månedene?"
+                legend="Har du jobbet og hatt inntekt som frilanser de siste 4 ukene?"
                 validate={validateRequiredField}
                 helperText={
                     <>
