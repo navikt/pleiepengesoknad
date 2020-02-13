@@ -16,7 +16,7 @@ import { date1YearAgo, date1YearFromNow, dateToday } from 'common/utils/dateUtil
 import { Feature, isFeatureEnabled } from 'app/utils/featureToggleUtils';
 import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { persistAndNavigateTo } from 'app/utils/navigationUtils';
-import BostedUtlandListAndDialog from '@navikt/sif-common/lib/common/forms/bosted-utland/BostedUtlandListAndDialog';
+import BostedsoppholdIUtlandetFormPart from './BostedsoppholdIUtlandetFormPart';
 
 type Props = CommonStepFormikProps & HistoryProps & StepConfigProps;
 
@@ -49,10 +49,9 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, nextStepRout
             {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD) &&
                 formValues.harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && (
                     <Box margin="m">
-                        <BostedUtlandListAndDialog<AppFormField>
-                            name={name}
-                            minDate={date1YearAgo}
-                            maxDate={date1YearFromNow}
+                        <BostedsoppholdIUtlandetFormPart
+                            periode={{ from: date1YearAgo, to: dateToday }}
+                            name={AppFormField.utenlandsoppholdSiste12Mnd}
                             labels={{
                                 addLabel: 'Legg til nytt utenlandsopphold',
                                 listTitle: intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.listeTittel'),
@@ -72,9 +71,8 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, nextStepRout
             {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD) &&
                 formValues.skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES && (
                     <Box margin="m">
-                        <BostedUtlandListAndDialog<AppFormField>
-                            minDate={dateToday}
-                            maxDate={date1YearFromNow}
+                        <BostedsoppholdIUtlandetFormPart
+                            periode={{ from: dateToday, to: date1YearFromNow }}
                             name={AppFormField.utenlandsoppholdNeste12Mnd}
                             labels={{
                                 addLabel: 'Legg til nytt utenlandsopphold',
