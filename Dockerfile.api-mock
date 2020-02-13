@@ -1,9 +1,13 @@
-FROM node:alpine
+FROM node:alpine as builderApiMock
+WORKDIR /tmp/mock
+RUN npm init --yes
+RUN npm add busboy express
+RUN npm install
 
-WORKDIR /usr/src/app
-
+# ------------------------------------------------
+FROM node:alpine as startApiMock
+WORKDIR /usr/src/mock
 COPY api-mock.js .
-COPY node_modules ./node_modules
-COPY package.json .
-
-CMD ["npm", "run", "start-api-mock"]
+COPY --from=builderApiMock /tmp/mock/. ./
+EXPOSE 8082
+CMD ["node", "./api-mock.js"]
