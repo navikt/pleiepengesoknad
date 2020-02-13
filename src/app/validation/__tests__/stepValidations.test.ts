@@ -52,6 +52,7 @@ describe('stepValidation tests', () => {
         describe(`when ${AppFormField.barnetHarIkkeFåttFødselsnummerEnda} is true`, () => {
             beforeEach(() => {
                 formData[AppFormField.barnetHarIkkeFåttFødselsnummerEnda] = true;
+                formData[AppFormField.barnetsFødselsdato] = new Date();
             });
             it(`should be valid`, () => {
                 expect(opplysningerOmBarnetStepIsValid(formData as PleiepengesøknadFormData)).toBe(true);

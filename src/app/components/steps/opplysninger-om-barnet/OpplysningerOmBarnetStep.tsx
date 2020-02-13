@@ -154,11 +154,11 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                 label={intlHelper(intl, 'steg.omBarnet.navn')}
                                 name={AppFormField.barnetsNavn}
                                 validate={(navn) => {
-                                    if (barnetHarIkkeFåttFødselsnummerEnda) {
-                                        return validateNavn(navn, false);
-                                    } else {
-                                        return validateNavn(navn, true);
-                                    }
+                                    // if (barnetHarIkkeFåttFødselsnummerEnda) {
+                                    // return validateNavn(navn, false);
+                                    // } else {
+                                    return validateNavn(navn, true);
+                                    // }
                                 }}
                                 bredde="XL"
                             />

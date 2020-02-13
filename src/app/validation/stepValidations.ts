@@ -2,6 +2,7 @@ import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { validateFødselsnummer } from 'common/validation/fieldValidations';
 import { validateNavn, validateValgtBarn } from './fieldValidations';
+import { hasValue } from '@navikt/sif-common/lib/common/validation/hasValue';
 
 export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: PleiepengesøknadFormData) =>
     harForståttRettigheterOgPlikter === true;
@@ -9,13 +10,15 @@ export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: Pleie
 export const opplysningerOmBarnetStepIsValid = ({
     barnetsNavn,
     barnetsFødselsnummer,
+    barnetsFødselsdato,
     barnetHarIkkeFåttFødselsnummerEnda,
     barnetSøknadenGjelder
 }: PleiepengesøknadFormData) => {
+    if (barnetHarIkkeFåttFødselsnummerEnda) {
+        return hasValue(barnetsFødselsdato);
+    }
     const formIsValid =
-        validateNavn(barnetsNavn) === undefined && barnetHarIkkeFåttFødselsnummerEnda
-            ? true
-            : validateFødselsnummer(barnetsFødselsnummer) === undefined;
+        validateNavn(barnetsNavn) === undefined && validateFødselsnummer(barnetsFødselsnummer) === undefined;
 
     if (!formIsValid && barnetSøknadenGjelder !== undefined) {
         return validateValgtBarn(barnetSøknadenGjelder) === undefined;
