@@ -29,7 +29,6 @@ const moment = require('moment');
 export enum AppFieldValidationErrors {
     'fødselsdato_ugyldig' = 'fieldvalidation.fødelsdato.ugyldig',
     'navn_maksAntallTegn' = 'fieldvalidation.navn.maksAntallTegn',
-    'relasjon_maksAntallTegn' = 'fieldvalidation.relasjon.maksAntallTegn',
     'fradato_merEnnTreÅr' = 'fieldvalidation.fradato.merEnnTreÅr',
     'fradato_erEtterTildato' = 'fieldvalidation.fradato.erEtterTildato',
     'tildato_merEnnTreÅr' = 'fieldvalidation.tildato.merEnnTreÅr',
@@ -90,19 +89,6 @@ export const validateNavn = (v: string, isRequired?: boolean): FieldValidationRe
     return nameIsValid
         ? undefined
         : createAppFieldValidationError(AppFieldValidationErrors.navn_maksAntallTegn, { maxNumOfLetters });
-};
-
-export const validateRelasjonTilBarnet = (v: string): FieldValidationResult => {
-    if (!hasValue(v)) {
-        return fieldIsRequiredError();
-    }
-
-    const maxNumOfLetters = 15;
-    const relasjonIsValid = v.length <= maxNumOfLetters;
-
-    return relasjonIsValid
-        ? undefined
-        : createAppFieldValidationError(AppFieldValidationErrors.relasjon_maksAntallTegn, { maxNumOfLetters });
 };
 
 export const validateFradato = (fraDato?: Date, tilDato?: Date): FieldValidationResult => {

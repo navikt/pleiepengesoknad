@@ -4,10 +4,10 @@ import { AppFormField, PleiepengesøknadFormData } from 'app/types/Pleiepengesø
 import Box from 'common/components/box/Box';
 import FormikYesOrNoQuestion from 'common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import { YesOrNo } from 'common/types/YesOrNo';
+import FrilansoppdragListAndDialog from 'common/forms/frilans/FrilansoppdragListAndDialog';
 import { date10MonthsAgo, dateToday } from 'common/utils/dateUtils';
 import Panel from 'nav-frontend-paneler';
-import { validateRequiredField } from 'common/validation/fieldValidations';
-import FrilansoppdragListAndDialog from 'common/forms/frilans/FrilansoppdragListAndDialog';
+import { validateRequiredField, validateRequiredList } from 'common/validation/fieldValidations';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
@@ -71,13 +71,14 @@ const FrilansFormPart: React.FunctionComponent<Props> = ({ formValues }) => {
                     {harHattInntektFraFamilie && (
                         <FrilansoppdragListAndDialog<AppFormField>
                             name={AppFormField.frilans_oppdrag}
-                            labels={{
-                                listTitle: 'Frilansoppdrag',
-                                modalTitle: 'Frilansoppdrag',
-                                addLabel: 'Legg til frilansoppdrag'
-                            }}
                             minDate={date10MonthsAgo}
                             maxDate={dateToday}
+                            validate={validateRequiredList}
+                            labels={{
+                                addLabel: 'Legg til frilansoppdrag',
+                                listTitle: 'Frilansoppdrag',
+                                modalTitle: 'Frilansoppdrag'
+                            }}
                         />
                     )}
                     <Box margin="xl">
