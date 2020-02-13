@@ -216,12 +216,6 @@ class SummaryStep extends React.Component<Props, State> {
                                                                 />
                                                             </Normaltekst>
                                                         ) : null}
-                                                        <Normaltekst>
-                                                            <FormattedMessage
-                                                                id="steg.oppsummering.barnet.søkersRelasjonTilBarnet"
-                                                                values={{ relasjon: apiValues.relasjon_til_barnet }}
-                                                            />
-                                                        </Normaltekst>
                                                     </>
                                                 )}
                                                 showFirstContent={

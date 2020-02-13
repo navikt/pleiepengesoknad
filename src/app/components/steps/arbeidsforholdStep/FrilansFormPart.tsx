@@ -4,24 +4,16 @@ import { AppFormField, PleiepengesøknadFormData } from 'app/types/Pleiepengesø
 import Box from 'common/components/box/Box';
 import FormikYesOrNoQuestion from 'common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { Field, FieldProps } from 'formik';
-import { Frilansoppdrag } from 'common/forms/frilans/types';
-import { isValidationErrorsVisible } from 'common/formik/formikUtils';
-import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
-import { useIntl } from 'react-intl';
-import ModalFormAndList from 'common/components/modal-form-and-list/ModalFormAndList';
-import FrilansoppdragForm from 'common/forms/frilans/FrilansoppdragForm';
+import FrilansoppdragListAndDialog from 'common/forms/frilans/FrilansoppdragListAndDialog';
 import { date10MonthsAgo, dateToday } from 'common/utils/dateUtils';
-import FrilansOppdragListe from 'common/forms/frilans/FrilansoppdragListe';
 import Panel from 'nav-frontend-paneler';
-import { validateRequiredField } from 'common/validation/fieldValidations';
+import { validateRequiredField, validateRequiredList } from 'common/validation/fieldValidations';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
 }
 
 const FrilansFormPart: React.FunctionComponent<Props> = ({ formValues }) => {
-    const intl = useIntl();
     const harHattInntektSomFrilanser = formValues[AppFormField.frilans_harHattInntektSomFrilanser] === YesOrNo.YES;
     const harHattInntektFraFamilie = formValues[AppFormField.frilans_harHattOppdragForFamilieVenner] === YesOrNo.YES;
     return (
@@ -77,47 +69,17 @@ const FrilansFormPart: React.FunctionComponent<Props> = ({ formValues }) => {
                         />
                     </Box>
                     {harHattInntektFraFamilie && (
-                        <Field name={AppFormField.frilans_oppdrag}>
-                            {({
-                                field,
-                                form: { errors, setFieldValue, status, submitCount }
-                            }: FieldProps<Frilansoppdrag[]>) => {
-                                const errorMsgProps = isValidationErrorsVisible(status, submitCount)
-                                    ? getValidationErrorPropsWithIntl(intl, errors, field.name)
-                                    : {};
-
-                                const oppdrag: Frilansoppdrag[] = field.value || [];
-
-                                return (
-                                    <ModalFormAndList<Frilansoppdrag>
-                                        labels={{
-                                            listTitle: 'Frilansoppdrag',
-                                            modalTitle: 'Frilansoppdrag',
-                                            addLabel: 'Legg til frilansoppdrag'
-                                        }}
-                                        error={errorMsgProps?.feil}
-                                        items={oppdrag}
-                                        onChange={(value) => setFieldValue(field.name, value)}
-                                        listRenderer={(onEdit, onDelete) => (
-                                            <FrilansOppdragListe
-                                                onEdit={onEdit}
-                                                onDelete={onDelete}
-                                                oppdrag={oppdrag}
-                                            />
-                                        )}
-                                        formRenderer={(onSubmit, onCancel, oppdragData) => (
-                                            <FrilansoppdragForm
-                                                oppdrag={oppdragData}
-                                                onSubmit={onSubmit}
-                                                onCancel={onCancel}
-                                                minDato={date10MonthsAgo}
-                                                maksDato={dateToday}
-                                            />
-                                        )}
-                                    />
-                                );
+                        <FrilansoppdragListAndDialog<AppFormField>
+                            name={AppFormField.frilans_oppdrag}
+                            minDate={date10MonthsAgo}
+                            maxDate={dateToday}
+                            validate={validateRequiredList}
+                            labels={{
+                                addLabel: 'Legg til frilansoppdrag',
+                                listTitle: 'Frilansoppdrag',
+                                modalTitle: 'Frilansoppdrag'
                             }}
-                        </Field>
+                        />
                     )}
                     <Box margin="xl">
                         <FormikYesOrNoQuestion<AppFormField>
