@@ -1,14 +1,9 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { Field, FieldProps } from 'formik';
 import { AppFormField } from 'app/types/PleiepengesøknadFormData';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 import { validateUtenlandsoppholdIPerioden } from 'app/validation/fieldValidations';
-import { isValidationErrorsVisible } from 'common/formik/formikUtils';
-import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
-import ModalFormAndList from 'common/components/modal-form-and-list/ModalFormAndList';
-import UtenlandsoppholdListe from 'common/forms/utenlandsopphold/UtenlandsoppholdListe';
-import UtenlandsoppholdForm from 'common/forms/utenlandsopphold/UtenlandsoppholdForm';
+import UtenlandsoppholdListAndDialog from 'common/forms/utenlandsopphold/UtenlandsoppholdListAndDialog';
 import { DateRange } from 'common/utils/dateUtils';
 import intlHelper from 'common/utils/intlUtils';
 
@@ -19,52 +14,21 @@ interface Props {
 function UtenlandsoppholdIPeriodenFormPart({ periode }: Props) {
     const intl = useIntl();
     return (
-        <Field
+        <UtenlandsoppholdListAndDialog<AppFormField>
             name={AppFormField.utenlandsoppholdIPerioden}
+            minDate={periode.from}
+            maxDate={periode.to}
             validate={
                 periode
                     ? (opphold: Utenlandsopphold[]) => validateUtenlandsoppholdIPerioden(periode, opphold)
                     : undefined
-            }>
-            {({ field, form: { errors, setFieldValue, status, submitCount } }: FieldProps) => {
-                const errorMsgProps = isValidationErrorsVisible(status, submitCount)
-                    ? getValidationErrorPropsWithIntl(intl, errors, field.name)
-                    : {};
-                return (
-                    <>
-                        <ModalFormAndList<Utenlandsopphold>
-                            items={field.value}
-                            onChange={(oppholdsliste) => {
-                                setFieldValue(field.name, oppholdsliste);
-                            }}
-                            error={errorMsgProps?.feil}
-                            labels={{
-                                modalTitle: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.modalTitle'),
-                                listTitle: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.listTitle'),
-                                addLabel: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.addLabel')
-                            }}
-                            listRenderer={(onEdit, onDelete) => (
-                                <UtenlandsoppholdListe
-                                    utenlandsopphold={field.value}
-                                    onDelete={onDelete}
-                                    onEdit={onEdit}
-                                />
-                            )}
-                            formRenderer={(onSubmit, onCancel, opphold) => (
-                                <UtenlandsoppholdForm
-                                    opphold={opphold}
-                                    onCancel={onCancel}
-                                    onSubmit={onSubmit}
-                                    minDato={periode.from}
-                                    maksDato={periode.to}
-                                    {...errorMsgProps}
-                                />
-                            )}
-                        />
-                    </>
-                );
+            }
+            labels={{
+                modalTitle: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.modalTitle'),
+                listTitle: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.listTitle'),
+                addLabel: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.addLabel')
             }}
-        </Field>
+        />
     );
 }
 export default UtenlandsoppholdIPeriodenFormPart;

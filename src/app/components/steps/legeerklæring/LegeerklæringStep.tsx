@@ -30,6 +30,8 @@ const LegeerklæringStep = ({ history, nextStepRoute, formikProps, ...stepProps 
     const isRunningDemoMode = appIsRunningInDemoMode();
     const { values } = formikProps;
     const attachments: Attachment[] = values ? values[AppFormField.legeerklæring] : [];
+    const hasPendingUploads: boolean = attachments.find((a) => a.pending === true) !== undefined;
+
     return (
         <FormikStep
             id={StepID.LEGEERKLÆRING}
@@ -49,6 +51,7 @@ const LegeerklæringStep = ({ history, nextStepRoute, formikProps, ...stepProps 
             history={history}
             useValidationErrorSummary={false}
             skipValidation={isRunningDemoMode}
+            buttonDisabled={hasPendingUploads}
             {...stepProps}>
             {isRunningDemoMode && (
                 <Box>

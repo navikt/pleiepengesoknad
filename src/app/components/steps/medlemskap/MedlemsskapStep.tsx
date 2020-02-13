@@ -50,7 +50,7 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, nextStepRout
                 formValues.harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && (
                     <Box margin="m">
                         <BostedsoppholdIUtlandetFormPart
-                            periode={{ from: date1YearAgo, to: date1YearFromNow }}
+                            periode={{ from: date1YearAgo, to: dateToday }}
                             name={AppFormField.utenlandsoppholdSiste12Mnd}
                             labels={{
                                 addLabel: 'Legg til nytt utenlandsopphold',
