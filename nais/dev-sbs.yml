@@ -49,10 +49,10 @@ spec:
         - name: UTILGJENGELIG
           value: "off"
         - name: TOGGLE_UTENLANDSOPPHOLD
-          value: "off"
+          value: "on"
         - name: TOGGLE_FERIEUTTAK
-          value: "off"
+          value: "on"
         - name: TOGGLE_FRILANS
-          value: "off"
+          value: "on"
 
 
