@@ -253,7 +253,7 @@ class SummaryStep extends React.Component<Props, State> {
                                                     )}>
                                                     <FormattedMessage
                                                         id={
-                                                            utenlandsopphold_i_perioden.skal_oppholde_seg_i_i_utlandet_i_perioden
+                                                            utenlandsopphold_i_perioden.skal_oppholde_seg_i_utlandet_i_perioden
                                                                 ? 'Ja'
                                                                 : 'Nei'
                                                         }

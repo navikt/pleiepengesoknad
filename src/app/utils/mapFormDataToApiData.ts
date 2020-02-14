@@ -104,7 +104,7 @@ export const mapFormDataToApiData = (
 
     if (isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD)) {
         apiData.utenlandsopphold_i_perioden = {
-            skal_oppholde_seg_i_i_utlandet_i_perioden: skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES,
+            skal_oppholde_seg_i_utlandet_i_perioden: skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES,
             opphold:
                 skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES
                     ? utenlandsoppholdIPerioden.map((o) => {
