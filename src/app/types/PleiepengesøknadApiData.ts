@@ -138,7 +138,7 @@ export interface PleiepengesøknadApiData {
     vedlegg: string[];
     medlemskap: Medlemskap;
     utenlandsopphold_i_perioden?: {
-        skal_oppholde_seg_i_i_utlandet_i_perioden: boolean;
+        skal_oppholde_seg_i_utlandet_i_perioden: boolean;
         opphold: UtenlandsoppholdIPeriodenApiData[];
     };
     ferieuttak_i_perioden?: {
