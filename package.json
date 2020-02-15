@@ -20,7 +20,8 @@
         "cypress:ci": "CYPRESS_baseUrl=http://localhost:8080 cypress run --reporter junit --reporter-options \"mochaFile=results/my-test-output.xml\"",
         "cypress:headless": "docker run --net=\"host\" -e CYPRESS_video=false -e CYPRESS_baseUrl=http://$(ipconfig getifaddr en0):8080 -it -v $PWD:/e2e -w /e2e cypress/included:3.2.0",
         "dev": "npm-run-all -p start-api-mock start-no-decorator",
-        "e2e": "npm-run-all -p start-api-mock start-no-decorator -r cypress:headless"
+        "e2e": "npm-run-all -p start-api-mock start-no-decorator -r cypress:headless",
+        "e2e-docker-compose": "docker-compose up --build --exit-code-from cypress"
     },
     "jest": {
         "testEnvironment": "node"
@@ -110,6 +111,7 @@
         "jest-css-modules": "^2.1.0",
         "less": "^3.10.3",
         "less-loader": "^5.0.0",
+        "lodash": "^4.17.15",
         "nav-frontend-alertstriper-style": "^2.0.7",
         "nav-frontend-chevron-style": "^0.3.5",
         "nav-frontend-knapper-style": "^0.3.34",
