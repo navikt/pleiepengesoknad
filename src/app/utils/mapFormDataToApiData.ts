@@ -1,35 +1,24 @@
-import { formatDateToApiFormat } from 'common/utils/dateUtils';
-import {
-    PleiepengesøknadFormData,
-    Arbeidsforhold,
-    Tilsynsordning,
-    TilsynVetIkkeHvorfor,
-    ArbeidsforholdSkalJobbeSvar
-} from '../types/PleiepengesøknadFormData';
-import {
-    BarnToSendToApi,
-    PleiepengesøknadApiData,
-    ArbeidsforholdApi,
-    TilsynsordningApi,
-    ArbeidsforholdApiNei,
-    ArbeidsforholdApiRedusert,
-    ArbeidsforholdApiSomVanlig,
-    ArbeidsforholdApiVetIkke,
-    BostedUtlandApiData,
-    UtenlandsoppholdUtenforEøsIPeriodenApiData,
-    FrilansApiData
-} from '../types/PleiepengesøknadApiData';
-import { attachmentUploadHasFailed } from 'common/utils/attachmentUtils';
-import { YesOrNo } from 'common/types/YesOrNo';
-import { formatName } from 'common/utils/personUtils';
-import { BarnReceivedFromApi } from '../types/Søkerdata';
-import { Locale } from 'common/types/Locale';
-import { timeToIso8601Duration } from 'common/utils/timeUtils';
-import { calcRedusertProsentFromRedusertTimer } from './arbeidsforholdUtils';
 import { getCountryName } from 'common/components/country-select/CountrySelect';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
+import { Locale } from 'common/types/Locale';
+import { YesOrNo } from 'common/types/YesOrNo';
+import { attachmentUploadHasFailed } from 'common/utils/attachmentUtils';
 import { countryIsMemberOfEøsOrEfta } from 'common/utils/countryUtils';
-import { isFeatureEnabled, Feature } from './featureToggleUtils';
+import { formatDateToApiFormat } from 'common/utils/dateUtils';
+import { formatName } from 'common/utils/personUtils';
+import { timeToIso8601Duration } from 'common/utils/timeUtils';
+import {
+    ArbeidsforholdApi, ArbeidsforholdApiNei, ArbeidsforholdApiRedusert, ArbeidsforholdApiSomVanlig,
+    ArbeidsforholdApiVetIkke, BarnToSendToApi, BostedUtlandApiData, FrilansApiData,
+    PleiepengesøknadApiData, TilsynsordningApi, UtenlandsoppholdUtenforEøsIPeriodenApiData
+} from '../types/PleiepengesøknadApiData';
+import {
+    Arbeidsforhold, ArbeidsforholdSkalJobbeSvar, PleiepengesøknadFormData, Tilsynsordning,
+    TilsynVetIkkeHvorfor
+} from '../types/PleiepengesøknadFormData';
+import { BarnReceivedFromApi } from '../types/Søkerdata';
+import { calcRedusertProsentFromRedusertTimer } from './arbeidsforholdUtils';
+import { Feature, isFeatureEnabled } from './featureToggleUtils';
 
 export const mapFormDataToApiData = (
     formData: PleiepengesøknadFormData,
@@ -104,7 +93,7 @@ export const mapFormDataToApiData = (
 
     if (isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD)) {
         apiData.utenlandsopphold_i_perioden = {
-            skal_oppholde_seg_i_i_utlandet_i_perioden: skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES,
+            skal_oppholde_seg_i_utlandet_i_perioden: skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES,
             opphold:
                 skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES
                     ? utenlandsoppholdIPerioden.map((o) => {

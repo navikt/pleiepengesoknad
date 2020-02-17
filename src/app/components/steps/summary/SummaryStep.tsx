@@ -1,43 +1,42 @@
 import * as React from 'react';
-import { StepID } from '../../../config/stepConfig';
-import { HistoryProps } from 'common/types/History';
-import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import Box from 'common/components/box/Box';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
-import FormikStep from '../../formik-step/FormikStep';
-import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
-import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
-import LegeerklæringAttachmentList from '../../legeerklæring-file-list/LegeerklæringFileList';
-import { prettifyDate, apiStringDateToDate } from 'common/utils/dateUtils';
-import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
-import { BarnReceivedFromApi, Søkerdata } from '../../../types/Søkerdata';
-import { formatName } from 'common/utils/personUtils';
-import { sendApplication, purge } from '../../../api/api';
-import routeConfig from '../../../config/routeConfig';
-import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import * as apiUtils from '../../../utils/apiUtils';
-import ContentSwitcher from 'common/components/content-switcher/ContentSwitcher';
-import { WrappedComponentProps, FormattedMessage, injectIntl } from 'react-intl';
-import intlHelper from 'common/utils/intlUtils';
-import { Locale } from 'common/types/Locale';
-import ArbeidsforholdSummary from 'app/components/arbeidsforhold-summary/ArbeidsforholdSummary';
-import TilsynsordningSummary from './TilsynsordningSummary';
-import TextareaSummary from 'common/components/textarea-summary/TextareaSummary';
-import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
-import { appIsRunningInDemoMode } from '../../../utils/envUtils';
-import ValidationErrorSummaryBase from 'common/components/validation-error-summary-base/ValidationErrorSummaryBase';
-import { validateApiValues } from '../../../validation/apiValuesValidation';
-import SummaryList from 'common/components/summary-list/SummaryList';
-import {
-    renderUtenlandsoppholdSummary,
-    renderUtenlandsoppholdIPeriodenSummary,
-    renderFerieuttakIPeriodenSummary
-} from 'app/components/summary-renderers/renderUtenlandsoppholdSummary';
-import FormikConfirmationCheckboxPanel from 'common/formik/formik-confirmation-checkbox-panel/FormikConfirmationCheckboxPanel';
-import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
+import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import Panel from 'nav-frontend-paneler';
+import { Normaltekst } from 'nav-frontend-typografi';
+import Box from 'common/components/box/Box';
+import ContentSwitcher from 'common/components/content-switcher/ContentSwitcher';
+import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
+import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
+import SummaryList from 'common/components/summary-list/SummaryList';
+import TextareaSummary from 'common/components/textarea-summary/TextareaSummary';
+import ValidationErrorSummaryBase from 'common/components/validation-error-summary-base/ValidationErrorSummaryBase';
+import FormikConfirmationCheckboxPanel from 'common/formik/formik-confirmation-checkbox-panel/FormikConfirmationCheckboxPanel';
+import { HistoryProps } from 'common/types/History';
+import { Locale } from 'common/types/Locale';
+import { apiStringDateToDate, prettifyDate } from 'common/utils/dateUtils';
+import intlHelper from 'common/utils/intlUtils';
+import { formatName } from 'common/utils/personUtils';
+import ArbeidsforholdSummary from 'app/components/arbeidsforhold-summary/ArbeidsforholdSummary';
+import {
+    renderFerieuttakIPeriodenSummary, renderUtenlandsoppholdIPeriodenSummary,
+    renderUtenlandsoppholdSummary
+} from 'app/components/summary-renderers/renderUtenlandsoppholdSummary';
+import { Feature, isFeatureEnabled } from 'app/utils/featureToggleUtils';
+import { purge, sendApplication } from '../../../api/api';
+import routeConfig from '../../../config/routeConfig';
+import { StepID } from '../../../config/stepConfig';
+import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
+import { AppFormField } from '../../../types/PleiepengesøknadFormData';
+import { BarnReceivedFromApi, Søkerdata } from '../../../types/Søkerdata';
+import * as apiUtils from '../../../utils/apiUtils';
+import { appIsRunningInDemoMode } from '../../../utils/envUtils';
+import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
+import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
+import { validateApiValues } from '../../../validation/apiValuesValidation';
+import FormikStep from '../../formik-step/FormikStep';
+import LegeerklæringAttachmentList from '../../legeerklæring-file-list/LegeerklæringFileList';
+import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import FrilansSummary from './FrilansSummary';
+import TilsynsordningSummary from './TilsynsordningSummary';
 
 interface State {
     sendingInProgress: boolean;
@@ -253,7 +252,7 @@ class SummaryStep extends React.Component<Props, State> {
                                                     )}>
                                                     <FormattedMessage
                                                         id={
-                                                            utenlandsopphold_i_perioden.skal_oppholde_seg_i_i_utlandet_i_perioden
+                                                            utenlandsopphold_i_perioden.skal_oppholde_seg_i_utlandet_i_perioden
                                                                 ? 'Ja'
                                                                 : 'Nei'
                                                         }
