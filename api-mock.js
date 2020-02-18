@@ -2,6 +2,28 @@ const os = require('os');
 const fs = require('fs');
 const express = require('express');
 const Busboy = require('busboy');
+const _ = require('lodash');
+
+
+const platformNIC = () => {
+    const interfaces = os.networkInterfaces();
+    switch (process.platform) {
+        case 'darwin':
+            return interfaces.lo0;
+        case 'linux':
+            if (interfaces.ens192) return interfaces.ens192;
+            if (interfaces.eno16780032) return interfaces.eno16780032;
+            return interfaces.lo;
+        default:
+            return interfaces.Ethernet0 ? interfaces.Ethernet0 : interfaces['Wi-Fi']
+
+    }
+};
+const getIpAdress = () => {
+    const nic = platformNIC();
+    const ipv4 = _.find(nic, item => item.family === 'IPv4');
+    return ipv4.address;
+};
 
 const server = express();
 
@@ -123,7 +145,9 @@ const startServer = () => {
 
     server.listen(port, () => {
         console.log(`App listening on port: ${port}`);
+        console.log('nic ipv4=', getIpAdress());
     });
 };
 
 startServer();
+

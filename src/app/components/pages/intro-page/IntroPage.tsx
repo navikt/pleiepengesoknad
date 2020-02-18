@@ -43,13 +43,15 @@ const IntroPage: React.StatelessComponent = () => {
             <Box margin="xl" textAlignCenter={true}>
                 {erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.YES && (
                     <CounsellorPanel>
-                        <FormattedHTMLMessage
-                            id={`introPage.veileder.erSelvstendigEllerFrilanser${withoutTilsynTextKey}`}
-                        />{' '}
-                        <FormattedHTMLMessage
-                            id={`introPage.veileder.papirLenke${withoutTilsynTextKey}.html`}
-                            values={{ url: getLenker(intl.locale).papirskjemaPrivat }}
-                        />
+                        <div data-cy="erSelvstendigEllerFrilanser">
+                            <FormattedHTMLMessage
+                                id={`introPage.veileder.erSelvstendigEllerFrilanser${withoutTilsynTextKey}`}
+                            />{' '}
+                            <FormattedHTMLMessage
+                                id={`introPage.veileder.papirLenke${withoutTilsynTextKey}.html`}
+                                values={{ url: getLenker(intl.locale).papirskjemaPrivat }}
+                            />
+                        </div>
                     </CounsellorPanel>
                 )}
                 {erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.NO && <GoToApplicationLink />}
