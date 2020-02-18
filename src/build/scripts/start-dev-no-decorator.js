@@ -19,7 +19,7 @@ const server = new WebpackDevServer(compiler, configureDevServer({}));
 // 0.0.0.0 is only used for listening (aka "bind") connections, and is a wildcard meaning "listen to all network interfaces on this machine"
 
 server.listen(8080, '127.0.0.1', () => {  // Used with docker-compose, and normal npm strart
-//server.listen(8080, '0.0.0.0', () => { // Used with docker run
+// server.listen(8080, '0.0.0.0', () => { // Used with docker run
     console.log('Started server on http://localhost:8080');
     console.log('WEBnic ipv4=', getIpAdress());
 });

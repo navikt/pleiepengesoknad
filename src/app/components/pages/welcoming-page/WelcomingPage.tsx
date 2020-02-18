@@ -110,7 +110,6 @@ class WelcomingPage extends React.Component<Props, WelcomingPageState> {
                             <LegeerklæringInformationPanel text={intlHelper(intl, 'welcomingPage.legeerklæring')} />
                         </Box>
                     )}
-
                     <form onSubmit={handleSubmit}>
                         <Box margin="xl">
                             <FormikConfirmationCheckboxPanel<AppFormField>
