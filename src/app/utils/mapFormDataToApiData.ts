@@ -43,7 +43,6 @@ export const mapFormDataToApiData = (
         barnetSøknadenGjelder,
         harBekreftetOpplysninger,
         harForståttRettigheterOgPlikter,
-        søkersRelasjonTilBarnet,
         arbeidsforhold,
         periodeFra,
         periodeTil,
@@ -77,7 +76,6 @@ export const mapFormDataToApiData = (
         new_version: true,
         sprak: (sprak as any) === 'en' ? 'nn' : sprak,
         barn: barnObject,
-        relasjon_til_barnet: barnObject.aktoer_id ? null : søkersRelasjonTilBarnet,
         arbeidsgivere: {
             organisasjoner: arbeidsforhold
                 .filter((a) => a.erAnsattIPerioden === YesOrNo.YES)
@@ -106,7 +104,7 @@ export const mapFormDataToApiData = (
 
     if (isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD)) {
         apiData.utenlandsopphold_i_perioden = {
-            skal_oppholde_seg_i_i_utlandet_i_perioden: skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES,
+            skal_oppholde_seg_i_utlandet_i_perioden: skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES,
             opphold:
                 skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES
                     ? utenlandsoppholdIPerioden.map((o) => {

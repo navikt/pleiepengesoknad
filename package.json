@@ -8,7 +8,11 @@
     "scripts": {
         "build": "node src/build/scripts/production-build.js",
         "build-heroku": "node src/build/scripts/heroku-build.js",
+        "dev-api": "PORT=8082 node ./api-mock.js",
+        "dev": "node ./src/build/scripts/start-dev-no-decorator.js",
         "start": "node ./src/build/scripts/start-dev.js",
+        "snd": "node ./src/build/scripts/start-dev-no-decorator.js",
+        "sam": "PORT=8082 node ./api-mock.js",
         "start-no-decorator": "node ./src/build/scripts/start-dev-no-decorator.js",
         "start-express": "node ./server.js",
         "start-api-mock": "PORT=8082 node ./api-mock.js",
@@ -29,6 +33,7 @@
     "dependencies": {
         "@formatjs/intl-pluralrules": "^1.5.2",
         "@navikt/fnrvalidator": "^1.1.0",
+        "@navikt/sif-common": "^3.1.1",
         "@testing-library/react": "^9.4.0",
         "axios": "^0.19.2",
         "busboy": "^0.3.0",

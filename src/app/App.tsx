@@ -13,6 +13,7 @@ import { isFeatureEnabled, Feature } from './utils/featureToggleUtils';
 import UnavailablePage from './components/pages/unavailable-page/UnavailablePage';
 import moment from 'moment';
 import 'common/styles/globalStyles.less';
+import Workbench from './dev/Workbench';
 
 const localeFromSessionStorage = getLocaleFromSessionStorage();
 moment.locale(localeFromSessionStorage);
@@ -34,6 +35,7 @@ const App: React.FunctionComponent = () => {
                     ) : (
                         <Switch>
                             <Route path={RouteConfig.SØKNAD_ROUTE_PREFIX} component={Pleiepengesøknad} />
+                            <Route path="/workbench" component={Workbench} />
                             <Route path="/" component={IntroPage} />
                         </Switch>
                     )}

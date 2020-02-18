@@ -1,23 +1,36 @@
 import * as React from 'react';
 import { FormattedHTMLMessage, useIntl } from 'react-intl';
-import Box from 'common/components/box/Box';
-import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import { HistoryProps } from 'common/types/History';
-import { YesOrNo } from 'common/types/YesOrNo';
-import { date1YearAgo, date1YearFromNow, date3YearsAgo, DateRange } from 'common/utils/dateUtils';
-import intlHelper from 'common/utils/intlUtils';
-import FormikDateIntervalPicker from '../../../../common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
-import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
-import { Feature, isFeatureEnabled } from 'app/utils/featureToggleUtils';
-import { persistAndNavigateTo } from 'app/utils/navigationUtils';
+import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
+import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
-import { validateFradato, validateTildato, validateYesOrNoIsAnswered } from '../../../validation/fieldValidations';
+import {
+    validateFradato,
+    validateTildato,
+    validateUtenlandsoppholdIPerioden,
+    validateFerieuttakIPerioden
+} from '../../../validation/fieldValidations';
+import { HistoryProps } from '@navikt/sif-common/lib/common/types/History';
+import {
+    date1YearAgo,
+    date1YearFromNow,
+    DateRange,
+    date3YearsAgo
+} from '@navikt/sif-common/lib/common/utils/dateUtils';
 import FormikStep from '../../formik-step/FormikStep';
-import FerieuttakIPeriodenFormPart from './FerieuttakIPeriodenFormPart';
-import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
-import UtenlandsoppholdIPeriodenFormPart from './UtenlandsoppholdIPeriodenFormPart';
+import { persistAndNavigateTo } from '../../../utils/navigationUtils';
+import intlHelper from '@navikt/sif-common/lib/common/utils/intlUtils';
+import FormikYesOrNoQuestion from '@navikt/sif-common/lib/common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
+import Box from '@navikt/sif-common/lib/common/components/box/Box';
+import { validateYesOrNoIsAnswered } from '@navikt/sif-common/lib/common/validation/fieldValidations';
+import { YesOrNo } from '@navikt/sif-common/lib/common/types/YesOrNo';
+import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
+import CounsellorPanel from '@navikt/sif-common/lib/common/components/counsellor-panel/CounsellorPanel';
+import FormikDateIntervalPicker from 'common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
+import UtenlandsoppholdListAndDialog from '@navikt/sif-common/lib/common/forms/utenlandsopphold/UtenlandsoppholdListAndDialog';
+import FerieuttakListAndDialog from '@navikt/sif-common/lib/common/forms/ferieuttak/FerieuttakListAndDialog';
+import { Utenlandsopphold } from '@navikt/sif-common/lib/common/forms/utenlandsopphold/types';
+import { Ferieuttak } from '@navikt/sif-common/lib/common/forms/ferieuttak/types';
 
 interface OpplysningerOmTidsromStepProps {
     formikProps: PleiepengesøknadFormikProps;
@@ -108,7 +121,23 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                     </Box>
                     {formikProps.values.skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES && (
                         <Box margin="m">
-                            <UtenlandsoppholdIPeriodenFormPart periode={periode} />
+                            <UtenlandsoppholdListAndDialog<AppFormField>
+                                name={AppFormField.utenlandsoppholdIPerioden}
+                                minDate={periode.from}
+                                maxDate={periode.to}
+                                labels={{
+                                    modalTitle: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.modalTitle'),
+                                    listTitle: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.listTitle'),
+                                    addLabel: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.addLabel'),
+                                    emptyListText: 'Ingen utenlandsopphold er registrert'
+                                }}
+                                validate={
+                                    periode
+                                        ? (opphold: Utenlandsopphold[]) =>
+                                              validateUtenlandsoppholdIPerioden(periode, opphold)
+                                        : undefined
+                                }
+                            />
                         </Box>
                     )}
                     {visInfoOmUtenlandsopphold && (
@@ -123,7 +152,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
 
             {isFeatureEnabled(Feature.TOGGLE_FERIEUTTAK) && (
                 <>
-                    <Box margin="l">
+                    <Box margin="xxl">
                         <FormikYesOrNoQuestion<AppFormField>
                             legend={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.spm')}
                             name={AppFormField.skalTaUtFerieIPerioden}
@@ -133,7 +162,21 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                     </Box>
                     {formikProps.values.skalTaUtFerieIPerioden === YesOrNo.YES && (
                         <Box margin="m" padBottom="l">
-                            <FerieuttakIPeriodenFormPart periode={periode} />
+                            <FerieuttakListAndDialog<AppFormField>
+                                name={AppFormField.ferieuttakIPerioden}
+                                minDate={periode.from}
+                                maxDate={periode.to}
+                                labels={{
+                                    modalTitle: intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.modalTitle'),
+                                    listTitle: intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.listTitle'),
+                                    addLabel: intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.addLabel')
+                                }}
+                                validate={
+                                    periode
+                                        ? (ferie: Ferieuttak[]) => validateFerieuttakIPerioden(periode, ferie)
+                                        : undefined
+                                }
+                            />
                         </Box>
                     )}
                 </>

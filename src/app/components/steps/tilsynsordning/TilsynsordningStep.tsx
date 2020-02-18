@@ -3,16 +3,12 @@ import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
 import { useIntl, FormattedHTMLMessage } from 'react-intl';
-import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
+import FormikYesOrNoQuestion from 'common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import { AppFormField, TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
 import Box from 'common/components/box/Box';
 import { YesOrNo } from 'common/types/YesOrNo';
 import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
-import {
-    validateSkalHaTilsynsordning,
-    validateYesOrNoIsAnswered,
-    validateTilsynsordningTilleggsinfo
-} from '../../../validation/fieldValidations';
+import { validateSkalHaTilsynsordning, validateTilsynsordningTilleggsinfo } from '../../../validation/fieldValidations';
 import intlHelper from 'common/utils/intlUtils';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
@@ -20,6 +16,7 @@ import { getNextStepRoute } from '../../../utils/routeUtils';
 import FormikInputGroup from 'common/formik/formik-input-group/FormikInputGroup';
 import FormikTextarea from 'common/formik/formik-textarea/FormikTextarea';
 import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
+import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { persistAndNavigateTo } from 'app/utils/navigationUtils';
 
 type Props = CommonStepFormikProps & HistoryProps & StepConfigProps;

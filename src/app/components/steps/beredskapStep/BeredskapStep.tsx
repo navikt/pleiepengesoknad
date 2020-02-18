@@ -2,9 +2,9 @@ import * as React from 'react';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
 import FormikStep from '../../formik-step/FormikStep';
-import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
+import FormikYesOrNoQuestion from 'common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import { validateYesOrNoIsAnswered, validateBeredskapTilleggsinfo } from '../../../validation/fieldValidations';
+import { validateBeredskapTilleggsinfo } from '../../../validation/fieldValidations';
 import intlHelper from 'common/utils/intlUtils';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from 'common/components/box/Box';
@@ -12,6 +12,7 @@ import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFo
 import { YesOrNo } from 'common/types/YesOrNo';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import FormikTextarea from 'common/formik/formik-textarea/FormikTextarea';
+import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { persistAndNavigateTo } from 'app/utils/navigationUtils';
 
 interface StepProps {

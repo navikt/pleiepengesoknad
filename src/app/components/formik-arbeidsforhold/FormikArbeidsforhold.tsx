@@ -7,14 +7,14 @@ import {
     ArbeidsforholdField
 } from 'app/types/PleiepengesøknadFormData';
 import Box from 'common/components/box/Box';
-import { validateRequiredField } from 'app/validation/fieldValidations';
+import { validateRequiredField } from 'common/validation/fieldValidations';
 import intlHelper from 'common/utils/intlUtils';
 import RedusertArbeidsforholdPart from './RedusertArbeidsforholdPart';
 import VetIkkeArbeidsforholdPart from './VetIkkeArbeidsforholdPart';
-import FormikYesOrNoQuestion from '../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
+import FormikYesOrNoQuestion from 'common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { useIntl } from 'react-intl';
-import FormikRadioPanelGroup from '../../../common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
+import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;

@@ -7,7 +7,7 @@ import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
 import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import FileUploadErrors from '../../../../common/components/file-upload-errors/FileUploadErrors';
+import FileUploadErrors from 'common/components/file-upload-errors/FileUploadErrors';
 import { validateLegeerklæring } from '../../../validation/fieldValidations';
 import intlHelper from 'common/utils/intlUtils';
 import Box from 'common/components/box/Box';
@@ -17,7 +17,7 @@ import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
 import HelperTextPanel from 'common/components/helper-text-panel/HelperTextPanel';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import PictureScanningGuide from '../../../../common/components/picture-scanning-guide/PictureScanningGuide';
+import PictureScanningGuide from 'common/components/picture-scanning-guide/PictureScanningGuide';
 import { Attachment } from 'common/types/Attachment';
 import { persist } from '../../../api/api';
 import { mapFileToPersistedFile } from 'common/utils/attachmentUtils';
@@ -30,6 +30,8 @@ const LegeerklæringStep = ({ history, nextStepRoute, formikProps, ...stepProps 
     const isRunningDemoMode = appIsRunningInDemoMode();
     const { values } = formikProps;
     const attachments: Attachment[] = values ? values[AppFormField.legeerklæring] : [];
+    const hasPendingUploads: boolean = attachments.find((a) => a.pending === true) !== undefined;
+
     return (
         <FormikStep
             id={StepID.LEGEERKLÆRING}
@@ -49,6 +51,7 @@ const LegeerklæringStep = ({ history, nextStepRoute, formikProps, ...stepProps 
             history={history}
             useValidationErrorSummary={false}
             skipValidation={isRunningDemoMode}
+            buttonDisabled={hasPendingUploads}
             {...stepProps}>
             {isRunningDemoMode && (
                 <Box>

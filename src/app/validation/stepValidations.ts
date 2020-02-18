@@ -1,6 +1,8 @@
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import * as fieldValidations from './fieldValidations';
 import { YesOrNo } from 'common/types/YesOrNo';
+import { validateFødselsnummer } from 'common/validation/fieldValidations';
+import { validateNavn, validateValgtBarn } from './fieldValidations';
+import { hasValue } from '@navikt/sif-common/lib/common/validation/hasValue';
 
 export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: PleiepengesøknadFormData) =>
     harForståttRettigheterOgPlikter === true;
@@ -8,21 +10,18 @@ export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: Pleie
 export const opplysningerOmBarnetStepIsValid = ({
     barnetsNavn,
     barnetsFødselsnummer,
+    barnetsFødselsdato,
     barnetHarIkkeFåttFødselsnummerEnda,
-    søkersRelasjonTilBarnet,
     barnetSøknadenGjelder
 }: PleiepengesøknadFormData) => {
     if (barnetHarIkkeFåttFødselsnummerEnda) {
-        return fieldValidations.validateRelasjonTilBarnet(søkersRelasjonTilBarnet) === undefined;
+        return hasValue(barnetsFødselsdato);
     }
-
     const formIsValid =
-        fieldValidations.validateNavn(barnetsNavn) === undefined &&
-        fieldValidations.validateFødselsnummer(barnetsFødselsnummer) === undefined &&
-        fieldValidations.validateRelasjonTilBarnet(søkersRelasjonTilBarnet) === undefined;
+        validateNavn(barnetsNavn) === undefined && validateFødselsnummer(barnetsFødselsnummer) === undefined;
 
     if (!formIsValid && barnetSøknadenGjelder !== undefined) {
-        return fieldValidations.validateValgtBarn(barnetSøknadenGjelder) === undefined;
+        return validateValgtBarn(barnetSøknadenGjelder) === undefined;
     }
 
     return formIsValid;

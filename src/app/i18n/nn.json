@@ -68,10 +68,10 @@
     "step.tidsrom.infotekst": "For å ha rett til pleiepenger må du ha omsorgen for barnet i hele perioden du søker for.",
     "steg.tidsrom.veileder.utenlandsopphold.html": "Når du oppheld deg i eit land utanfor EØS, kan du behalde pleiepengane i ein begrensa periode på opptil 8 veker av ein 12 månedar lang periode.",
 
-    "steg.tidsrom.iUtlandetIPerioden.listeTittel": "Utenlandsopphold i perioden du søker for",
-    "steg.tidsrom.iUtlandetIPerioden.eøs.årsak.hjelp": "Dette treng vi fordi ...",
-    "steg.tidsrom.iUtlandetIPerioden.spm": "Skal du reise til utlandet i perioden du søkjer for?",
-    "steg.tidsrom.iUtlandetIPerioden.eøs.årsak.spm": "Kva er formålet med denne reisa?",
+    "steg.tidsrom.iUtlandetIPerioden.spm": "Skal du reise til utlandet i perioden du søker for?",
+    "steg.tidsrom.iUtlandetIPerioden.listTitle": "Utenlandsopphald i perioden",
+    "steg.tidsrom.iUtlandetIPerioden.modalTitle": "Utenlandsopphald",
+    "steg.tidsrom.iUtlandetIPerioden.addLabel": "Legg til utenlandsopphald",
 
     "steg.tidsrom.ferieuttakIPerioden.spm": "Skal du ha lovbestemt ferie i perioden du søkjer for?",
     "steg.tidsrom.ferieuttakIPerioden.listTitle": "Ferie i perioden",
@@ -172,8 +172,6 @@
     "steg.omBarnet.fnr.ikkeFnrEnda": "Barnet har ikkje fått fødselsnummer enno.",
     "steg.omBarnet.fødselsdato": "Fødselsdato",
     "steg.omBarnet.navn": "Namnet til barnet",
-    "steg.omBarnet.relasjon": "Relasjonen min til barnet",
-    "steg.omBarnet.relasjon.eksempel": "Eksempel: mor, far, tante, onkel eller andre som står barnet nær",
 
     "steg.tidsrom.hjelpetekst": "Søknaden er under utvikling: Dersom du skal søkje for fleire periodar, må du sende éin søknad for kvar periode.",
     "steg.tidsrom.hvilketTidsrom.spm": "Kva periode søkjer du pleiepengar for?",
@@ -228,7 +226,6 @@
     "steg.oppsummering.barnet.fødselsdato": "Fødselsdato: {dato}",
     "steg.oppsummering.barnet.forelopigFnr": "Førebels fødselsnummer / D-nummer: {fnr}",
     "steg.oppsummering.barnet.fnr": "Fødselsnummer: {fnr}",
-    "steg.oppsummering.barnet.søkersRelasjonTilBarnet": "Relasjonen din til barnet: {relasjon}",
 
     "steg.oppsummering.utenlandsoppholdIPerioden.header": "Skal du være i utlandet i perioden?",
     "steg.oppsummering.utenlandsoppholdIPerioden.listetittel": "Utenlandsopphold i perioden",
@@ -298,7 +295,6 @@
     "fieldvalidation.fødselsnummer.ugyldig": "Fødselsnummeret er ugyldig.",
     "fieldvalidation.foreløpigFødselsnummer.ugyldig": "Det førebelse fødselsnummeret / D-nummeret må bestå av 11 siffer.",
     "fieldvalidation.navn.maksAntallTegn": "Namnet kan vere maks {maxNumOfLetters} teikn.",
-    "fieldvalidation.relasjon.maksAntallTegn": "Relasjonen din til barnet kan maks vere skildra på {maxNumOfLetters} teikn",
     "fieldvalidation.fradato.merEnnTreÅr": "Du kan ikkje søkje om pleiepengar for ein periode som er meir enn tre år tilbake i tid.",
     "fieldvalidation.fradato.erEtterTildato": "Frå-datoen kan ikkje vere seinare enn til-datoen.",
     "fieldvalidation.tildato.merEnnTreÅr": "Du kan ikkje søkje om pleiepengar for ein periode som er meir enn tre år tilbake i tid.",
@@ -341,7 +337,7 @@
     "arbeidsforhold.oppsummering.skalArbeideDelvis": "Skal jobbe {timerRedusert} i veka i denne perioden (jobbar normalt {timerNormalt} i veka).",
     "arbeidsforhold.oppsummering.svar.ja": "Skal jobbe som vanleg",
     "arbeidsforhold.oppsummering.svar.nei": "Skal ikkje jobbe",
-    "arbeidsforhold.oppsummering.svar.vet_ikke": "Eg veit ikkje om eg skal jobbe her i perioden eg søkjer for, men eg melder frå dersom eg skal gjere det.",
+    "arbeidsforhold.oppsummering.svar.vet_ikke": "Eg veit ikkje om eg skal jobbe her i perioden eg søkjer for, men eg melder frå dersom eg skal gjere det. Jobber vanlegvis {timer} i veka.",
     "arbeidsforhold.oppsummering.svar.redusert.timer": "Skal jobbe {timerRedusert} i uka ({prosentRedusert} prosent av vanleg)",
     "arbeidsforhold.oppsummering.svar.redusert.prosent": "Skal jobbe {prosentRedusert} prosent av {timerNormalt} i veka.",
 

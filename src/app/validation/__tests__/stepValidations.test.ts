@@ -10,14 +10,20 @@ import { AppFormField, PleiepengesøknadFormData } from '../../types/Pleiepenges
 import * as fieldValidations from './../fieldValidations';
 import Mock = jest.Mock;
 import { YesOrNo } from 'common/types/YesOrNo';
+import { validateFødselsnummer } from 'common/validation/fieldValidations';
 const moment = require('moment');
 
 jest.mock('./../fieldValidations', () => {
     return {
-        validateRelasjonTilBarnet: jest.fn(() => undefined),
         validateNavn: jest.fn(() => undefined),
         validateFødselsnummer: jest.fn(() => undefined),
         validateValgtBarn: jest.fn(() => undefined)
+    };
+});
+
+jest.mock('common/validation/fieldValidations', () => {
+    return {
+        validateFødselsnummer: jest.fn(() => undefined)
     };
 });
 
@@ -46,15 +52,9 @@ describe('stepValidation tests', () => {
         describe(`when ${AppFormField.barnetHarIkkeFåttFødselsnummerEnda} is true`, () => {
             beforeEach(() => {
                 formData[AppFormField.barnetHarIkkeFåttFødselsnummerEnda] = true;
+                formData[AppFormField.barnetsFødselsdato] = new Date();
             });
-
-            it(`should be invalid if ${AppFormField.søkersRelasjonTilBarnet} is invalid`, () => {
-                (fieldValidations.validateRelasjonTilBarnet as Mock).mockReturnValue('some error message');
-                expect(opplysningerOmBarnetStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
-            });
-
-            it(`should be valid if ${AppFormField.søkersRelasjonTilBarnet} is valid`, () => {
-                (fieldValidations.validateRelasjonTilBarnet as Mock).mockReturnValue(undefined);
+            it(`should be valid`, () => {
                 expect(opplysningerOmBarnetStepIsValid(formData as PleiepengesøknadFormData)).toBe(true);
             });
         });
@@ -75,12 +75,7 @@ describe('stepValidation tests', () => {
             });
 
             it(`should be invalid if ${AppFormField.barnetsFødselsnummer} is invalid`, () => {
-                (fieldValidations.validateFødselsnummer as Mock).mockReturnValue('some error message');
-                expect(opplysningerOmBarnetStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
-            });
-
-            it(`should be invalid if ${AppFormField.søkersRelasjonTilBarnet} is invalid`, () => {
-                (fieldValidations.validateRelasjonTilBarnet as Mock).mockReturnValue('some error message');
+                (validateFødselsnummer as Mock).mockReturnValue('some error message');
                 expect(opplysningerOmBarnetStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
             });
         });

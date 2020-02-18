@@ -63,7 +63,7 @@ const ArbeidsforholdSummary: React.FunctionComponent<OwnProps> = ({
             {skal_jobbe === 'vet_ikke' && (
                 <div className={bem.element('detaljer')}>
                     <Normaltekst>
-                        <FormattedMessage id={`arbeidsforhold.oppsummering.svar.vet_ikke`} />
+                        <FormattedMessage id={`arbeidsforhold.oppsummering.svar.vet_ikke`} values={{ timer: intlHelper(intl, 'timer', { timer: jobber_normalt_timer }) }}/>
                     </Normaltekst>
                 </div>
             )}

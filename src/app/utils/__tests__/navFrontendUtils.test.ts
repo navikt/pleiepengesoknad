@@ -1,6 +1,6 @@
 import { FormikErrors } from 'formik';
-import { FieldValidationErrors } from 'app/validation/fieldValidations';
 import { getValidationErrorPropsWithIntl } from 'common/utils/navFrontendUtils';
+import { FieldValidationErrors } from 'common/validation/fieldValidations';
 
 interface SomeFields {
     field1: string;

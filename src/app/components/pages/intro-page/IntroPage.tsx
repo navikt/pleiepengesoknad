@@ -5,7 +5,7 @@ import { default as YesOrNoQuestion } from 'common/form-components/yes-or-no-que
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import bemUtils from 'common/utils/bemUtils';
 import Box from 'common/components/box/Box';
-import StepBanner from '../../../../common/components/step-banner/StepBanner';
+import StepBanner from 'common/components/step-banner/StepBanner';
 import InformationPoster from 'common/components/information-poster/InformationPoster';
 import GoToApplicationLink from '../../go-to-application-link/GoToApplicationLink';
 import { FormattedMessage, useIntl, FormattedHTMLMessage } from 'react-intl';

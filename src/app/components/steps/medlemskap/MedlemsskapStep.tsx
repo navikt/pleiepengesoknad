@@ -1,22 +1,22 @@
 import * as React from 'react';
-import { StepConfigProps, StepID } from '../../../config/stepConfig';
-import { HistoryProps } from 'common/types/History';
-import FormikStep from '../../formik-step/FormikStep';
-import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
-import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import intlHelper from 'common/utils/intlUtils';
 import { useIntl } from 'react-intl';
-import Box from 'common/components/box/Box';
-import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
-import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import Lenke from 'nav-frontend-lenker';
-import getLenker from '../../../lenker';
+import Box from 'common/components/box/Box';
+import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
+import FormikYesOrNoQuestion from 'common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
+import { HistoryProps } from 'common/types/History';
 import { YesOrNo } from 'common/types/YesOrNo';
-import BostedsoppholdIUtlandetFormPart from './BostedsoppholdIUtlandetFormPart';
 import { date1YearAgo, date1YearFromNow, dateToday } from 'common/utils/dateUtils';
+import intlHelper from 'common/utils/intlUtils';
+import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { Feature, isFeatureEnabled } from 'app/utils/featureToggleUtils';
-import { validateYesOrNoIsAnswered } from 'app/validation/fieldValidations';
 import { persistAndNavigateTo } from 'app/utils/navigationUtils';
+import { StepConfigProps, StepID } from '../../../config/stepConfig';
+import getLenker from '../../../lenker';
+import { AppFormField } from '../../../types/PleiepengesøknadFormData';
+import FormikStep from '../../formik-step/FormikStep';
+import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
+import BostedsoppholdIUtlandetFormPart from './BostedsoppholdIUtlandetFormPart';
 
 type Props = CommonStepFormikProps & HistoryProps & StepConfigProps;
 
@@ -46,11 +46,11 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, nextStepRout
                 validate={validateYesOrNoIsAnswered}
                 helperText={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.hjelp')}
             />
-            {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD) &&
+            {isFeatureEnabled(Feature.TOGGLE_BOSTED_UTLAND) &&
                 formValues.harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && (
                     <Box margin="m">
                         <BostedsoppholdIUtlandetFormPart
-                            periode={{ from: date1YearAgo, to: date1YearFromNow }}
+                            periode={{ from: date1YearAgo, to: dateToday }}
                             name={AppFormField.utenlandsoppholdSiste12Mnd}
                             labels={{
                                 addLabel: 'Legg til nytt utenlandsopphold',
@@ -68,7 +68,7 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, nextStepRout
                     helperText={intlHelper(intl, 'steg.medlemsskap.annetLandNeste12.hjelp')}
                 />
             </Box>
-            {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD) &&
+            {isFeatureEnabled(Feature.TOGGLE_BOSTED_UTLAND) &&
                 formValues.skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES && (
                     <Box margin="m">
                         <BostedsoppholdIUtlandetFormPart

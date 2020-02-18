@@ -1,17 +1,18 @@
 import * as React from 'react';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
-import { HistoryProps } from 'common/types/History';
-import FormikStep from '../../formik-step/FormikStep';
-import FormikYesOrNoQuestion from '../../../../common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
-import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import { validateYesOrNoIsAnswered, validateNattevåkTilleggsinfo } from '../../../validation/fieldValidations';
-import intlHelper from 'common/utils/intlUtils';
-import { useIntl } from 'react-intl';
-import Box from 'common/components/box/Box';
 import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
-import { YesOrNo } from 'common/types/YesOrNo';
-import FormikTextarea from 'common/formik/formik-textarea/FormikTextarea';
-import { persistAndNavigateTo } from 'app/utils/navigationUtils';
+import { HistoryProps } from '@navikt/sif-common/lib/common/types/History';
+import { useIntl } from 'react-intl';
+import FormikStep from '../../formik-step/FormikStep';
+import { persistAndNavigateTo } from '../../../utils/navigationUtils';
+import FormikYesOrNoQuestion from '@navikt/sif-common/lib/common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
+import intlHelper from '@navikt/sif-common/lib/common/utils/intlUtils';
+import { AppFormField } from '../../../types/PleiepengesøknadFormData';
+import { validateYesOrNoIsAnswered } from '@navikt/sif-common/lib/common/validation/fieldValidations';
+import { YesOrNo } from '@navikt/sif-common/lib/common/types/YesOrNo';
+import Box from '@navikt/sif-common/lib/common/components/box/Box';
+import FormikTextarea from '@navikt/sif-common/lib/common/formik/formik-textarea/FormikTextarea';
+import { validateNattevåkTilleggsinfo } from '../../../validation/fieldValidations';
 
 interface StepProps {
     formikProps: PleiepengesøknadFormikProps;

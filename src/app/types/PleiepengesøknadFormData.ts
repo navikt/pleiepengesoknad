@@ -4,7 +4,8 @@ import { Time } from 'common/types/Time';
 import { Attachment } from 'common/types/Attachment';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 import { Ferieuttak } from 'common/forms/ferieuttak/types';
-import { FrilansoppdragFormData } from 'common/forms/frilans/types';
+import { Frilansoppdrag } from 'common/forms/frilans/types';
+import { Næring } from 'common/forms/næring/types';
 
 export enum ArbeidsforholdSkalJobbeSvar {
     'ja' = 'ja',
@@ -42,7 +43,6 @@ export enum AppFormField {
     barnetsFødselsnummer = 'barnetsFødselsnummer',
     barnetsFødselsdato = 'barnetsFødselsdato',
     barnetSøknadenGjelder = 'barnetSøknadenGjelder',
-    søkersRelasjonTilBarnet = 'søkersRelasjonTilBarnet',
     søknadenGjelderEtAnnetBarn = 'søknadenGjelderEtAnnetBarn',
     periodeFra = 'periodeFra',
     periodeTil = 'periodeTil',
@@ -73,7 +73,9 @@ export enum AppFormField {
     frilans_jobberFortsattSomFrilans = 'frilans_jobberFortsattSomFrilans',
     frilans_harHattOppdragForFamilieVenner = 'frilans_harHattOppdragForFamilieVenner',
     frilans_harInntektSomFosterforelder = 'frilans_harInntektSomFosterforelder',
-    frilans_oppdrag = 'frilans_oppdrag'
+    frilans_oppdrag = 'frilans_oppdrag',
+    sn_harHattInntektSomSN = 'sn_harHattInntektSomSN',
+    sn_registrerte_virksomheter = 'sn_registrerte_virksomheter'
 }
 
 export enum ArbeidsforholdField {
@@ -105,7 +107,6 @@ export interface PleiepengesøknadFormData {
     [AppFormField.harBekreftetOpplysninger]: boolean;
     [AppFormField.barnetsNavn]: string;
     [AppFormField.barnetsFødselsnummer]: string;
-    [AppFormField.søkersRelasjonTilBarnet]: string;
     [AppFormField.barnetsFødselsdato]?: Date;
     [AppFormField.søknadenGjelderEtAnnetBarn]: boolean;
     [AppFormField.barnetSøknadenGjelder]: string;
@@ -134,7 +135,9 @@ export interface PleiepengesøknadFormData {
     [AppFormField.frilans_harHattOppdragForFamilieVenner]?: YesOrNo;
     [AppFormField.frilans_harInntektSomFosterforelder]?: YesOrNo;
     [AppFormField.frilans_jobberFortsattSomFrilans]?: YesOrNo;
-    [AppFormField.frilans_oppdrag]: FrilansoppdragFormData[];
+    [AppFormField.frilans_oppdrag]: Frilansoppdrag[];
+    [AppFormField.sn_harHattInntektSomSN]: YesOrNo;
+    [AppFormField.sn_registrerte_virksomheter]: Næring[];
 }
 
 export const initialValues: PleiepengesøknadFormData = {
@@ -145,7 +148,6 @@ export const initialValues: PleiepengesøknadFormData = {
     [AppFormField.barnetSøknadenGjelder]: '',
     [AppFormField.harForståttRettigheterOgPlikter]: false,
     [AppFormField.harBekreftetOpplysninger]: false,
-    [AppFormField.søkersRelasjonTilBarnet]: '',
     [AppFormField.søknadenGjelderEtAnnetBarn]: false,
     [AppFormField.legeerklæring]: [],
     [AppFormField.arbeidsforhold]: [],
@@ -165,5 +167,7 @@ export const initialValues: PleiepengesøknadFormData = {
     [AppFormField.harNattevåk]: YesOrNo.UNANSWERED,
     [AppFormField.harBeredskap]: YesOrNo.UNANSWERED,
     [AppFormField.frilans_harHattInntektSomFrilanser]: YesOrNo.UNANSWERED,
-    [AppFormField.frilans_oppdrag]: []
+    [AppFormField.frilans_oppdrag]: [],
+    [AppFormField.sn_harHattInntektSomSN]: YesOrNo.UNANSWERED,
+    [AppFormField.sn_registrerte_virksomheter]: []
 };

@@ -1,13 +1,7 @@
 import * as React from 'react';
 import { StepID, StepConfigProps } from '../../../config/stepConfig';
 import { HistoryProps } from 'common/types/History';
-import {
-    validateFødselsdato,
-    validateFødselsnummer,
-    validateNavn,
-    validateRelasjonTilBarnet,
-    validateValgtBarn
-} from '../../../validation/fieldValidations';
+import { validateFødselsdato, validateNavn, validateValgtBarn } from '../../../validation/fieldValidations';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { Søkerdata } from '../../../types/Søkerdata';
 import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
@@ -15,7 +9,7 @@ import { formatName } from 'common/utils/personUtils';
 import { AppFormField, initialValues } from '../../../types/PleiepengesøknadFormData';
 import FormikStep from '../../formik-step/FormikStep';
 import { harRegistrerteBarn } from '../../../utils/søkerdataUtils';
-import { resetFieldValue, resetFieldValues } from '../../../../common/formik/formikUtils';
+import { resetFieldValue, resetFieldValues } from 'common/formik/formikUtils';
 import { prettifyDate, dateToday } from 'common/utils/dateUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { useIntl, FormattedMessage } from 'react-intl';
@@ -25,6 +19,7 @@ import FormikInput from 'common/formik/formik-input/FormikInput';
 import FormikCheckbox from 'common/formik/formik-checkbox/FormikCheckbox';
 import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
 import FormikDatepicker from 'common/formik/formik-datepicker/FormikDatepicker';
+import { validateFødselsnummer } from 'common/validation/fieldValidations';
 import { persistAndNavigateTo } from 'app/utils/navigationUtils';
 
 interface OpplysningerOmBarnetStepProps {
@@ -100,8 +95,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                                     AppFormField.barnetsFødselsnummer,
                                                     AppFormField.barnetHarIkkeFåttFødselsnummerEnda,
                                                     AppFormField.barnetsFødselsdato,
-                                                    AppFormField.barnetsNavn,
-                                                    AppFormField.søkersRelasjonTilBarnet
+                                                    AppFormField.barnetsNavn
                                                 ],
                                                 setFieldValue,
                                                 initialValues
@@ -144,6 +138,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                             />
                             {barnetHarIkkeFåttFødselsnummerEnda && (
                                 <FormikDatepicker<AppFormField>
+                                    showYearSelector={true}
                                     name={AppFormField.barnetsFødselsdato}
                                     dateLimitations={{ maksDato: dateToday }}
                                     label={intlHelper(intl, 'steg.omBarnet.fødselsdato')}
@@ -159,20 +154,13 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                 label={intlHelper(intl, 'steg.omBarnet.navn')}
                                 name={AppFormField.barnetsNavn}
                                 validate={(navn) => {
-                                    if (barnetHarIkkeFåttFødselsnummerEnda) {
-                                        return validateNavn(navn, false);
-                                    } else {
-                                        return validateNavn(navn, true);
-                                    }
+                                    // if (barnetHarIkkeFåttFødselsnummerEnda) {
+                                    // return validateNavn(navn, false);
+                                    // } else {
+                                    return validateNavn(navn, true);
+                                    // }
                                 }}
                                 bredde="XL"
-                            />
-                            <FormikInput<AppFormField>
-                                label={intlHelper(intl, 'steg.omBarnet.relasjon')}
-                                name={AppFormField.søkersRelasjonTilBarnet}
-                                validate={validateRelasjonTilBarnet}
-                                bredde="XL"
-                                helperText={intlHelper(intl, 'steg.omBarnet.relasjon.eksempel')}
                             />
                         </>
                     )

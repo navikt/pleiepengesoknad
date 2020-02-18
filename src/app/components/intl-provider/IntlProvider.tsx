@@ -5,34 +5,20 @@ import '@formatjs/intl-pluralrules/polyfill';
 import '@formatjs/intl-pluralrules/dist/locale-data/nb';
 import '@formatjs/intl-pluralrules/dist/locale-data/nn';
 
-import { Locale } from '../../../common/types/Locale';
+import { Locale } from 'common/types/Locale';
 
 const appBokmålstekster = require('../../i18n/nb.json');
 const appNynorsktekster = require('../../i18n/nn.json');
 
-// Modultekster
-const utenlandsoppholdBokmål = require('../../../common/forms/utenlandsopphold/utenlandsopphold.nb.json');
-const utenlandsoppholdNynorsk = require('../../../common/forms/utenlandsopphold/utenlandsopphold.nn.json');
-const bostedUtlandBokmål = require('../../../common/forms/bosted-utland/bostedUtland.nb.json');
-const bostedUtlandNynorsk = require('../../../common/forms/bosted-utland/bostedUtland.nn.json');
-const ferieBokmål = require('../../../common/forms/ferieuttak/ferieuttak.nb.json');
-const ferieNynorsk = require('../../../common/forms/ferieuttak/ferieuttak.nn.json');
-const pictureScanningGuideBokmål = require('../../../common/components/picture-scanning-guide/picturescanningguide.nb.json');
-const pictureScanningGuideNynorsk = require('../../../common/components/picture-scanning-guide/picturescanningguide.nn.json');
+import { allCommonMessages } from 'common/i18n/allCommonMessages';
 
 const bokmålstekster = {
-    ...appBokmålstekster,
-    ...utenlandsoppholdBokmål,
-    ...ferieBokmål,
-    ...pictureScanningGuideBokmål,
-    ...bostedUtlandBokmål
+    ...allCommonMessages.nb,
+    ...appBokmålstekster
 };
 const nynorsktekster = {
-    ...appNynorsktekster,
-    ...utenlandsoppholdNynorsk,
-    ...ferieNynorsk,
-    ...pictureScanningGuideNynorsk,
-    ...bostedUtlandNynorsk
+    ...allCommonMessages.nn,
+    ...appNynorsktekster
 };
 
 export interface IntlProviderProps {
