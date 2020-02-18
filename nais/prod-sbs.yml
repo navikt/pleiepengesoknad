@@ -51,7 +51,7 @@ spec:
         - name: UTILGJENGELIG
           value: "off"
         - name: TOGGLE_BOSTED_UTLAND
-          value: "off"
+          value: "on"
         - name: TOGGLE_UTENLANDSOPPHOLD
           value: "off"
         - name: TOGGLE_FERIEUTTAK
