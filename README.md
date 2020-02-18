@@ -10,7 +10,11 @@ pleiepenger.
 For å kjøre opp app-en i dev:
 
 1.  `npm install`.
-2.  `npm run start`.
+2.  `npm run dev`.
+
+For å kjøre opp api-mock i dev:
+
+1.  `npm run dev-api`.
 
 For å kjøre enhetstester:
 
