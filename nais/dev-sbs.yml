@@ -50,11 +50,13 @@ spec:
           value: "off"
         - name: TOGGLE_BOSTED_UTLAND
           value: "on"
-        - name: TOGGLE_UTENLANDSOPPHOLD
-          value: "off"
+        - name: TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN
+          value: "on"
         - name: TOGGLE_FERIEUTTAK
-          value: "off"
+          value: "on"
         - name: TOGGLE_FRILANS
-          value: "off"
+          value: "on"
+        - name: TOGGLE_SELVSTENDIG
+          value: "on"
 
 
