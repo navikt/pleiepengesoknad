@@ -1,7 +1,7 @@
-import { Tilsynsordning } from '../../types/PleiepengesøknadFormData';
-import { mapTilsynsordningToApiData } from '../mapFormDataToApiData';
-import { TilsynsordningApi } from '../../types/PleiepengesøknadApiData';
 import { YesOrNo } from 'common/types/YesOrNo';
+import { TilsynsordningApi } from '../../types/PleiepengesøknadApiData';
+import { Tilsynsordning } from '../../types/PleiepengesøknadFormData';
+import { mapTilsynsordningToApiData } from '../formToApiMaps/mapTilsynsordningToApiData';
 
 jest.mock('./../envUtils', () => {
     return {
