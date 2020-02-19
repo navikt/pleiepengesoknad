@@ -139,11 +139,11 @@ export interface VirksomhetApiData {
     organisasjonsnummer?: string;
     registrert_i_norge: boolean;
     registrert_i_land?: string;
-    har_blitt_yrkesaktiv_siste_tre_ferdigliknede_arene: boolean;
+    har_blitt_yrkesaktiv_siste_tre_ferdigliknede_arene?: boolean;
     yrkesaktiv_siste_tre_ferdigliknede_arene?: {
         oppstartsdato: ApiStringDate;
     };
-    har_varig_endring_av_inntekt_siste_4_kalenderar: boolean;
+    har_varig_endring_av_inntekt_siste_4_kalenderar?: boolean;
     varig_endring?: {
         dato?: ApiStringDate | null;
         inntekt_etter_endring?: number;
@@ -155,7 +155,7 @@ export interface VirksomhetApiData {
         telefon: string;
         er_nar_venn_familie: boolean;
     };
-    har_revisor: boolean;
+    har_revisor?: boolean;
     revisor?: {
         navn: string;
         telefon: string;
