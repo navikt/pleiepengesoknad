@@ -1,3 +1,4 @@
+import { mapVirksomhetToVirksomhetApiData } from 'common/forms/virksomhet/mapVirksomhetToApiData';
 import { Locale } from 'common/types/Locale';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { attachmentUploadHasFailed } from 'common/utils/attachmentUtils';
@@ -14,7 +15,6 @@ import { mapTilsynsordningToApiData } from './formToApiMaps/mapTilsynsordningToA
 import {
     mapUtenlandsoppholdIPeriodenToApiData
 } from './formToApiMaps/mapUtenlandsoppholdIPeriodenToApiData';
-import { mapVirksomhetToVirksomhetApiData } from './formToApiMaps/mapVirksomhetToApiData';
 
 export const mapFormDataToApiData = (
     formData: PleiepengesøknadFormData,

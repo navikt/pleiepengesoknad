@@ -1,9 +1,10 @@
 import React from 'react';
+import { FrilansoppdragApiData } from '@navikt/sif-common/lib/common/forms/frilans/types';
 import Box from 'common/components/box/Box';
-import { PleiepengesøknadApiData, FrilansoppdragApiData } from 'app/types/PleiepengesøknadApiData';
-import JaNeiSvar from './JaNeiSvar';
 import SummaryList from 'common/components/summary-list/SummaryList';
+import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
 import DatoSvar from './DatoSvar';
+import JaNeiSvar from './JaNeiSvar';
 import SummaryBlock from './SummaryBlock';
 
 interface Props {

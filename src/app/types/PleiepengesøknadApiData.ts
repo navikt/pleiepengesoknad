@@ -1,4 +1,5 @@
-import { Næringstype } from '@navikt/sif-common/lib/common/forms/virksomhet/types';
+import { FrilansoppdragApiData } from '@navikt/sif-common/lib/common/forms/frilans/types';
+import { VirksomhetApiData } from '@navikt/sif-common/lib/common/forms/virksomhet/types';
 import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
 import { ApiStringDate } from 'common/types/ApiStringDate';
 import { Locale } from 'common/types/Locale';
@@ -120,48 +121,6 @@ export interface FrilansApiData {
     har_hatt_oppdrag_for_familie: boolean;
     har_hatt_inntekt_som_fosterforelder: boolean;
     oppdrag: FrilansoppdragApiData[];
-}
-
-export interface FrilansoppdragApiData {
-    arbeidsgivernavn: string;
-    fra_og_med: ApiStringDate;
-    til_og_med: ApiStringDate | null;
-    er_pagaende?: boolean;
-}
-
-export interface VirksomhetApiData {
-    naringstype: Næringstype[];
-    fra_og_med: ApiStringDate;
-    til_og_med?: ApiStringDate | null;
-    er_pagaende?: boolean;
-    naringsinntekt: number;
-    navn_pa_virksomheten: string;
-    organisasjonsnummer?: string;
-    registrert_i_norge: boolean;
-    registrert_i_land?: string;
-    har_blitt_yrkesaktiv_siste_tre_ferdigliknede_arene?: boolean;
-    yrkesaktiv_siste_tre_ferdigliknede_arene?: {
-        oppstartsdato: ApiStringDate;
-    };
-    har_varig_endring_av_inntekt_siste_4_kalenderar?: boolean;
-    varig_endring?: {
-        dato?: ApiStringDate | null;
-        inntekt_etter_endring?: number;
-        forklaring?: string;
-    };
-    har_regnskapsforer: boolean;
-    regnskapsforer?: {
-        navn: string;
-        telefon: string;
-        er_nar_venn_familie: boolean;
-    };
-    har_revisor?: boolean;
-    revisor?: {
-        navn: string;
-        telefon: string;
-        er_nar_venn_familie: boolean;
-        kan_innhente_opplysninger?: boolean;
-    };
 }
 
 export interface PleiepengesøknadApiData {
