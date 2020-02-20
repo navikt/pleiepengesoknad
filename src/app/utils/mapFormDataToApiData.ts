@@ -83,8 +83,7 @@ export const mapFormDataToApiData = (
         vedlegg: legeerklæring.filter((attachment) => !attachmentUploadHasFailed(attachment)).map(({ url }) => url!),
         har_medsoker: harMedsøker === YesOrNo.YES,
         har_bekreftet_opplysninger: harBekreftetOpplysninger,
-        har_forstatt_rettigheter_og_plikter: harForståttRettigheterOgPlikter,
-        har_hatt_inntekt_som_frilanser: harHattInntektSomFrilanser === YesOrNo.YES
+        har_forstatt_rettigheter_og_plikter: harForståttRettigheterOgPlikter
     };
 
     if (isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN)) {
@@ -110,12 +109,17 @@ export const mapFormDataToApiData = (
         };
     }
 
-    if (isFeatureEnabled(Feature.TOGGLE_FRILANS) && apiData.har_hatt_inntekt_som_frilanser) {
+    if (isFeatureEnabled(Feature.TOGGLE_FRILANS)) {
+        apiData.har_hatt_inntekt_som_frilanser = harHattInntektSomFrilanser === YesOrNo.YES;
         apiData.frilans = mapFrilansToApiData(formData);
     }
 
-    if (isFeatureEnabled(Feature.TOGGLE_SELVSTENDIG) && apiData.har_hatt_inntekt_som_selvstendig_naringsdrivende) {
-        apiData.selvstendig_virksomheter = formData.selvstendig_virksomheter.map(mapVirksomhetToVirksomhetApiData);
+    if (isFeatureEnabled(Feature.TOGGLE_SELVSTENDIG) && formData.selvstendig_virksomheter) {
+        const harHattInntektSomSn = formData.selvstendig_harHattInntektSomSN === YesOrNo.YES;
+        apiData.har_hatt_inntekt_som_selvstendig_naringsdrivende = harHattInntektSomSn;
+        if (harHattInntektSomSn) {
+            apiData.selvstendig_virksomheter = formData.selvstendig_virksomheter.map(mapVirksomhetToVirksomhetApiData);
+        }
     }
 
     apiData.samtidig_hjemme = harMedsøker === YesOrNo.YES ? samtidigHjemme === YesOrNo.YES : undefined;

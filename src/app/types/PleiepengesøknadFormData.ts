@@ -119,10 +119,10 @@ export interface PleiepengesøknadFormData {
     [AppFormField.utenlandsoppholdSiste12Mnd]: Utenlandsopphold[];
     [AppFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo;
     [AppFormField.utenlandsoppholdNeste12Mnd]: Utenlandsopphold[];
-    [AppFormField.skalOppholdeSegIUtlandetIPerioden]: YesOrNo;
-    [AppFormField.utenlandsoppholdIPerioden]: Utenlandsopphold[];
-    [AppFormField.skalTaUtFerieIPerioden]: YesOrNo;
-    [AppFormField.ferieuttakIPerioden]: Ferieuttak[];
+    [AppFormField.skalOppholdeSegIUtlandetIPerioden]?: YesOrNo;
+    [AppFormField.utenlandsoppholdIPerioden]?: Utenlandsopphold[];
+    [AppFormField.skalTaUtFerieIPerioden]?: YesOrNo;
+    [AppFormField.ferieuttakIPerioden]?: Ferieuttak[];
     [AppFormField.harMedsøker]: YesOrNo;
     [AppFormField.samtidigHjemme]: YesOrNo;
     [AppFormField.tilsynsordning]?: Tilsynsordning;
@@ -130,14 +130,14 @@ export interface PleiepengesøknadFormData {
     [AppFormField.harNattevåk_ekstrainfo]?: string;
     [AppFormField.harBeredskap]: YesOrNo;
     [AppFormField.harBeredskap_ekstrainfo]?: string;
-    [AppFormField.frilans_harHattInntektSomFrilanser]: YesOrNo;
+    [AppFormField.frilans_harHattInntektSomFrilanser]?: YesOrNo;
     [AppFormField.frilans_startdato]?: Date;
     [AppFormField.frilans_harHattOppdragForFamilieVenner]?: YesOrNo;
     [AppFormField.frilans_harInntektSomFosterforelder]?: YesOrNo;
     [AppFormField.frilans_jobberFortsattSomFrilans]?: YesOrNo;
-    [AppFormField.frilans_oppdrag]: Frilansoppdrag[];
-    [AppFormField.selvstendig_harHattInntektSomSN]: YesOrNo;
-    [AppFormField.selvstendig_virksomheter]: Virksomhet[];
+    [AppFormField.frilans_oppdrag]?: Frilansoppdrag[];
+    [AppFormField.selvstendig_harHattInntektSomSN]?: YesOrNo;
+    [AppFormField.selvstendig_virksomheter]?: Virksomhet[];
 }
 
 export const initialValues: PleiepengesøknadFormData = {
