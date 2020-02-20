@@ -90,7 +90,7 @@ export const mapFormDataToApiData = (
         apiData.utenlandsopphold_i_perioden = {
             skal_oppholde_seg_i_utlandet_i_perioden: skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES,
             opphold:
-                skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES
+                skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES && utenlandsoppholdIPerioden
                     ? utenlandsoppholdIPerioden.map((o) => mapUtenlandsoppholdIPeriodenToApiData(o, sprak))
                     : []
         };
@@ -100,7 +100,7 @@ export const mapFormDataToApiData = (
         apiData.ferieuttak_i_perioden = {
             skal_ta_ut_ferie_i_periode: skalTaUtFerieIPerioden === YesOrNo.YES,
             ferieuttak:
-                skalTaUtFerieIPerioden === YesOrNo.YES
+                skalTaUtFerieIPerioden === YesOrNo.YES && ferieuttakIPerioden
                     ? ferieuttakIPerioden.map((uttak) => ({
                           fra_og_med: formatDateToApiFormat(uttak.fom),
                           til_og_med: formatDateToApiFormat(uttak.tom)

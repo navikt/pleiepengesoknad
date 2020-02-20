@@ -54,9 +54,9 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
     const periode: DateRange = { from: periodeFra || date1YearAgo, to: periodeTil || date1YearFromNow };
     const intl = useIntl();
 
-    const visInfoOmUtenlandsopphold = harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning(
-        values.utenlandsoppholdIPerioden
-    );
+    const visInfoOmUtenlandsopphold =
+        values.utenlandsoppholdIPerioden &&
+        harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning(values.utenlandsoppholdIPerioden);
 
     return (
         <FormikStep
