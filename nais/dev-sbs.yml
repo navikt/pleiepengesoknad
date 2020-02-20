@@ -48,8 +48,6 @@ spec:
           value: https://loginservice-q.nav.no/login?redirect=https://pleiepengesoknad-q.nav.no/soknad
         - name: UTILGJENGELIG
           value: "off"
-        - name: TOGGLE_BOSTED_UTLAND
-          value: "on"
         - name: TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN
           value: "on"
         - name: TOGGLE_FERIEUTTAK
