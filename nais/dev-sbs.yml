@@ -49,12 +49,12 @@ spec:
         - name: UTILGJENGELIG
           value: "off"
         - name: TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN
-          value: "on"
+          value: "off"
         - name: TOGGLE_FERIEUTTAK
-          value: "on"
+          value: "off"
         - name: TOGGLE_FRILANS
-          value: "on"
+          value: "off"
         - name: TOGGLE_SELVSTENDIG
-          value: "on"
+          value: "off"
 
 
