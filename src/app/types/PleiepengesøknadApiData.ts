@@ -1,3 +1,5 @@
+import { FrilansoppdragApiData } from '@navikt/sif-common/lib/common/forms/frilans/types';
+import { VirksomhetApiData } from '@navikt/sif-common/lib/common/forms/virksomhet/types';
 import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
 import { ApiStringDate } from 'common/types/ApiStringDate';
 import { Locale } from 'common/types/Locale';
@@ -121,13 +123,6 @@ export interface FrilansApiData {
     oppdrag: FrilansoppdragApiData[];
 }
 
-export interface FrilansoppdragApiData {
-    arbeidsgivernavn: string;
-    fra_og_med: ApiStringDate;
-    til_og_med: ApiStringDate | null;
-    er_pagaende?: boolean;
-}
-
 export interface PleiepengesøknadApiData {
     new_version: boolean;
     sprak: Locale;
@@ -159,5 +154,7 @@ export interface PleiepengesøknadApiData {
         tilleggsinformasjon?: string;
     };
     har_hatt_inntekt_som_frilanser?: boolean;
+    har_hatt_inntekt_som_selvstendig_naringsdrivende?: boolean;
     frilans?: FrilansApiData;
+    selvstendig_virksomheter?: VirksomhetApiData[];
 }

@@ -1,3 +1,4 @@
+import { Næringstype } from '@navikt/sif-common/lib/common/forms/virksomhet/types';
 import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
 import { ApiStringDate } from 'common/types/ApiStringDate';
 import { Attachment } from 'common/types/Attachment';
@@ -5,14 +6,16 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import * as attachmentUtils from 'common/utils/attachmentUtils';
 import * as dateUtils from 'common/utils/dateUtils';
 import {
-    ArbeidsforholdApiNei, ArbeidsforholdApiRedusert, ArbeidsforholdApiVetIkke, BostedUtlandApiData,
-    PleiepengesøknadApiData, UtenlandsoppholdUtenforEøsIPeriodenApiData
+    ArbeidsforholdApiNei, ArbeidsforholdApiRedusert, ArbeidsforholdApiVetIkke,
+    PleiepengesøknadApiData, UtenlandsoppholdIPeriodenApiData,
+    UtenlandsoppholdUtenforEøsIPeriodenApiData
 } from '../../types/PleiepengesøknadApiData';
 import {
     AppFormField, Arbeidsforhold, ArbeidsforholdSkalJobbeSvar, PleiepengesøknadFormData
 } from '../../types/PleiepengesøknadFormData';
 import { Arbeidsgiver, BarnReceivedFromApi } from '../../types/Søkerdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
+import { jsonSort } from '../jsonSort';
 import { mapFormDataToApiData } from '../mapFormDataToApiData';
 
 const moment = require('moment');
@@ -135,6 +138,22 @@ const frilansPartialFormData: Partial<PleiepengesøknadFormData> = {
         }
     ]
 };
+const selvstendigPartialFormData: Partial<PleiepengesøknadFormData> = {
+    selvstendig_harHattInntektSomSN: YesOrNo.YES,
+    selvstendig_virksomheter: [
+        {
+            fom: new Date(),
+            erPågående: true,
+            navnPåVirksomheten: 'abc',
+            næringsinntekt: 200,
+            næringstyper: [Næringstype.ANNET],
+            registrertINorge: YesOrNo.YES,
+            organisasjonsnummer: '123123123',
+            harRegnskapsfører: YesOrNo.NO,
+            harRevisor: YesOrNo.NO
+        }
+    ]
+};
 
 const completeFormDataMock: PleiepengesøknadFormData = {
     arbeidsforhold: [{ ...organisasjonMaxbo, erAnsattIPerioden: YesOrNo.YES }],
@@ -152,29 +171,6 @@ const completeFormDataMock: PleiepengesøknadFormData = {
     harBoddUtenforNorgeSiste12Mnd: YesOrNo.YES,
     skalBoUtenforNorgeNeste12Mnd: YesOrNo.YES,
     søknadenGjelderEtAnnetBarn: false,
-    skalOppholdeSegIUtlandetIPerioden: YesOrNo.YES,
-    utenlandsoppholdIPerioden: [
-        {
-            fom: dateUtils.apiStringDateToDate('2020-01-05'),
-            tom: dateUtils.apiStringDateToDate('2020-01-07'),
-            landkode: 'SE',
-            erBarnetInnlagt: YesOrNo.YES
-        },
-        {
-            fom: dateUtils.apiStringDateToDate('2020-01-08'),
-            tom: dateUtils.apiStringDateToDate('2020-01-09'),
-            landkode: 'US',
-            erBarnetInnlagt: YesOrNo.YES,
-            årsak: UtenlandsoppholdÅrsak.ANNET
-        }
-    ],
-    skalTaUtFerieIPerioden: YesOrNo.YES,
-    ferieuttakIPerioden: [
-        {
-            fom: dateUtils.apiStringDateToDate('2020-01-05'),
-            tom: dateUtils.apiStringDateToDate('2020-01-07')
-        }
-    ],
     periodeFra: dateUtils.apiStringDateToDate('2020-01-01'),
     periodeTil: dateUtils.apiStringDateToDate('2020-02-01'),
     tilsynsordning: {
@@ -208,11 +204,7 @@ const completeFormDataMock: PleiepengesøknadFormData = {
     ],
     barnetsNavn: 'barnets-navn',
     barnetsFødselsdato: undefined,
-    barnetsFødselsnummer: 'barnets-fnr',
-    harHattInntektSomFrilanser: YesOrNo.UNANSWERED,
-    frilans_oppdrag: [],
-    sn_harHattInntektSomSN: YesOrNo.UNANSWERED,
-    sn_registrerte_virksomheter: []
+    barnetsFødselsnummer: 'barnets-fnr'
 };
 
 describe('mapFormDataToApiData', () => {
@@ -458,110 +450,255 @@ describe('mapFormDataToApiData', () => {
             expect(oppdrag2.er_pagaende).toBeTruthy();
         });
 
-        it('should not include frilanserdata if user has answered no on harHattInntektSomFrilanser', () => {
-            const formDataWithFrilansInfo = {
-                ...formData,
-                ...frilansPartialFormData,
-                harHattInntektSomFrilanser: YesOrNo.NO
-            };
-            const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
-            expect(mappedData.har_hatt_inntekt_som_frilanser).toBeFalsy();
-            expect(mappedData.frilans).toBeUndefined();
+        describe('Frilans toggle', () => {
+            it('should not include frilans info if TOGGLE_FRILANS === off', () => {
+                (isFeatureEnabled as any).mockImplementation(() => false);
+                const formDataWithFrilansInfo = {
+                    ...formData,
+                    ...frilansPartialFormData,
+                    harHattInntektSomFrilanser: YesOrNo.NO
+                };
+                const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
+                expect(mappedData.frilans).toBeUndefined();
+                expect(mappedData.har_hatt_inntekt_som_frilanser).toBeUndefined();
+            });
+
+            it('should include frilanserdata if TOGGLE_FRILANS === on', () => {
+                (isFeatureEnabled as any).mockImplementation(() => true);
+                const formDataWithFrilansInfo = {
+                    ...formData,
+                    ...frilansPartialFormData,
+                    harHattInntektSomFrilanser: YesOrNo.NO
+                };
+                const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
+                expect(mappedData.har_hatt_inntekt_som_frilanser).toBeFalsy();
+                expect(mappedData.frilans).toBeDefined();
+            });
+        });
+        describe('Selvstendig toggle', () => {
+            it('should not include selvstendig info if TOGGLE_SELVSTENDIG === off', () => {
+                (isFeatureEnabled as any).mockImplementation(() => false);
+                const formDataWithFrilansInfo = {
+                    ...formData,
+                    ...frilansPartialFormData,
+                    harHattInntektSomFrilanser: YesOrNo.NO
+                };
+                const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
+                expect(mappedData.frilans).toBeUndefined();
+                expect(mappedData.har_hatt_inntekt_som_frilanser).toBeUndefined();
+            });
+
+            it('should include selvstendig info TOGGLE_SELVSTENDIG === on', () => {
+                (isFeatureEnabled as any).mockImplementation(() => true);
+                const formDataWithSelvstendigInfo = {
+                    ...formData,
+                    ...selvstendigPartialFormData,
+                    harHattInntektSomFrilanser: YesOrNo.NO
+                };
+                const mappedData = mapFormDataToApiData(formDataWithSelvstendigInfo, barnMock, 'nb');
+                expect(mappedData.har_hatt_inntekt_som_selvstendig_naringsdrivende).toBeTruthy();
+                expect(mappedData.selvstendig_virksomheter).toBeDefined();
+            });
         });
     });
+});
 
-    it('should use correct format for a complete mapped application', () => {
-        const mappedData = mapFormDataToApiData(completeFormDataMock, barnMock, 'nb');
-
-        const utenlandsoppholdISverige: BostedUtlandApiData = {
-            landnavn: 'Sverige',
-            landkode: 'SE',
-            fra_og_med: '2020-01-05',
-            til_og_med: '2020-01-07'
-        };
-
-        const utenlandsoppholdIUSA: UtenlandsoppholdUtenforEøsIPeriodenApiData = {
-            landnavn: 'USA',
-            landkode: 'US',
-            fra_og_med: '2020-01-08',
-            til_og_med: '2020-01-09',
-            er_utenfor_eos: true,
-            er_barnet_innlagt: true,
-            arsak: UtenlandsoppholdÅrsak.ANNET
-        };
-
-        const resultApiData: PleiepengesøknadApiData = {
-            new_version: true,
-            sprak: 'nb',
-            barn: {
-                navn: 'Mock Mocknes',
-                fodselsnummer: null,
-                aktoer_id: barnMock[0].aktoer_id,
-                fodselsdato: '2020-00-20'
-            },
-            arbeidsgivere: {
-                organisasjoner: [
-                    { navn: 'Maxbo', organisasjonsnummer: '910831143', skal_jobbe: 'ja', skal_jobbe_prosent: 100 }
-                ]
-            },
-            medlemskap: {
-                har_bodd_i_utlandet_siste_12_mnd: true,
-                skal_bo_i_utlandet_neste_12_mnd: true,
-                utenlandsopphold_siste_12_mnd: [
-                    {
-                        landnavn: 'Sverige',
-                        landkode: 'SE',
-                        fra_og_med: '2020-01-01',
-                        til_og_med: '2020-02-01'
-                    }
-                ],
-                utenlandsopphold_neste_12_mnd: [
-                    {
-                        landnavn: 'Norge',
-                        landkode: 'NO',
-                        fra_og_med: '2020-03-01',
-                        til_og_med: '2020-04-01'
-                    }
-                ]
-            },
-            fra_og_med: '2020-01-01',
-            til_og_med: '2020-02-01',
-            vedlegg: ['nav.no/1'],
-            har_medsoker: true,
-            har_bekreftet_opplysninger: true,
-            har_forstatt_rettigheter_og_plikter: true,
-            har_hatt_inntekt_som_frilanser: false,
-            utenlandsopphold_i_perioden: {
-                skal_oppholde_seg_i_utlandet_i_perioden: true,
-                opphold: [utenlandsoppholdISverige, utenlandsoppholdIUSA]
-            },
-            ferieuttak_i_perioden: {
-                skal_ta_ut_ferie_i_periode: true,
-                ferieuttak: [
-                    {
-                        fra_og_med: '2020-01-05',
-                        til_og_med: '2020-01-07'
-                    }
-                ]
-            },
-            samtidig_hjemme: true,
-            tilsynsordning: {
-                svar: 'ja',
-                ja: {
-                    fredag: 'PT1H0M',
-                    tilleggsinformasjon: 'tilsynsordning-ekstrainfo'
+describe('Test complete applications', () => {
+    const resultApiData: PleiepengesøknadApiData = {
+        new_version: true,
+        sprak: 'nb',
+        barn: {
+            navn: 'Mock Mocknes',
+            fodselsnummer: null,
+            aktoer_id: barnMock[0].aktoer_id,
+            fodselsdato: '2020-00-20'
+        },
+        arbeidsgivere: {
+            organisasjoner: [
+                { navn: 'Maxbo', organisasjonsnummer: '910831143', skal_jobbe: 'ja', skal_jobbe_prosent: 100 }
+            ]
+        },
+        medlemskap: {
+            har_bodd_i_utlandet_siste_12_mnd: true,
+            skal_bo_i_utlandet_neste_12_mnd: true,
+            utenlandsopphold_siste_12_mnd: [
+                {
+                    landnavn: 'Sverige',
+                    landkode: 'SE',
+                    fra_og_med: '2020-01-01',
+                    til_og_med: '2020-02-01'
                 }
-            },
-            nattevaak: {
-                har_nattevaak: true,
-                tilleggsinformasjon: 'harNattevåk_ekstrainfo'
-            },
-
-            beredskap: {
-                i_beredskap: true,
-                tilleggsinformasjon: 'harBeredskap_ekstrainfo'
+            ],
+            utenlandsopphold_neste_12_mnd: [
+                {
+                    landnavn: 'Norge',
+                    landkode: 'NO',
+                    fra_og_med: '2020-03-01',
+                    til_og_med: '2020-04-01'
+                }
+            ]
+        },
+        fra_og_med: '2020-01-01',
+        til_og_med: '2020-02-01',
+        vedlegg: ['nav.no/1'],
+        har_medsoker: true,
+        har_bekreftet_opplysninger: true,
+        har_forstatt_rettigheter_og_plikter: true,
+        samtidig_hjemme: true,
+        tilsynsordning: {
+            svar: 'ja',
+            ja: {
+                fredag: 'PT1H0M',
+                tilleggsinformasjon: 'tilsynsordning-ekstrainfo'
             }
+        },
+        nattevaak: {
+            har_nattevaak: true,
+            tilleggsinformasjon: 'harNattevåk_ekstrainfo'
+        },
+
+        beredskap: {
+            i_beredskap: true,
+            tilleggsinformasjon: 'harBeredskap_ekstrainfo'
+        }
+    };
+
+    const utenlandsoppholdISverigeApiData: UtenlandsoppholdIPeriodenApiData = {
+        landnavn: 'Sverige',
+        landkode: 'SE',
+        fra_og_med: '2020-01-05',
+        til_og_med: '2020-01-07'
+    };
+
+    const utenlandsoppholdIUSAApiData: UtenlandsoppholdUtenforEøsIPeriodenApiData = {
+        landnavn: 'USA',
+        landkode: 'US',
+        fra_og_med: '2020-01-08',
+        til_og_med: '2020-01-09',
+        er_utenfor_eos: true,
+        er_barnet_innlagt: true,
+        arsak: UtenlandsoppholdÅrsak.ANNET
+    };
+
+    const featureUtenlandsoppholdIPeriodenApiData: Partial<PleiepengesøknadApiData> = {
+        utenlandsopphold_i_perioden: {
+            skal_oppholde_seg_i_utlandet_i_perioden: true,
+            opphold: [utenlandsoppholdISverigeApiData, utenlandsoppholdIUSAApiData]
+        }
+    };
+    const featureFerieIPeriodenApiData: Partial<PleiepengesøknadApiData> = {
+        ferieuttak_i_perioden: {
+            skal_ta_ut_ferie_i_periode: true,
+            ferieuttak: [
+                {
+                    fra_og_med: '2020-01-05',
+                    til_og_med: '2020-01-07'
+                }
+            ]
+        }
+    };
+    const frilansDate = new Date(2020, 0, 1);
+    const featureFrilansApiData: Partial<PleiepengesøknadApiData> = {
+        har_hatt_inntekt_som_frilanser: true,
+        frilans: {
+            har_hatt_inntekt_som_fosterforelder: true,
+            har_hatt_oppdrag_for_familie: true,
+            jobber_fortsatt_som_frilans: true,
+            startdato: dateUtils.formatDateToApiFormat(frilansDate),
+            oppdrag: [
+                {
+                    arbeidsgivernavn: 'abc',
+                    fra_og_med: dateUtils.formatDateToApiFormat(frilansDate),
+                    til_og_med: null,
+                    er_pagaende: true
+                }
+            ]
+        }
+    };
+    const featureSelvstendigApiData: Partial<PleiepengesøknadApiData> = {
+        har_hatt_inntekt_som_selvstendig_naringsdrivende: true,
+        selvstendig_virksomheter: []
+    };
+
+    it('All features off', () => {
+        (isFeatureEnabled as any).mockImplementation(() => false);
+        const mappedData = mapFormDataToApiData(completeFormDataMock, barnMock, 'nb');
+        expect(JSON.stringify(jsonSort(mappedData))).toEqual(JSON.stringify(jsonSort(resultApiData)));
+    });
+
+    it('All features on', () => {
+        (isFeatureEnabled as any).mockImplementation(() => true);
+
+        const featureUtenlandsoppholdIPeriodenFormData: Partial<PleiepengesøknadFormData> = {
+            skalOppholdeSegIUtlandetIPerioden: YesOrNo.YES,
+            utenlandsoppholdIPerioden: [
+                {
+                    fom: dateUtils.apiStringDateToDate('2020-01-05'),
+                    tom: dateUtils.apiStringDateToDate('2020-01-07'),
+                    landkode: 'SE',
+                    erBarnetInnlagt: YesOrNo.YES
+                },
+                {
+                    fom: dateUtils.apiStringDateToDate('2020-01-08'),
+                    tom: dateUtils.apiStringDateToDate('2020-01-09'),
+                    landkode: 'US',
+                    erBarnetInnlagt: YesOrNo.YES,
+                    årsak: UtenlandsoppholdÅrsak.ANNET
+                }
+            ]
         };
-        expect(JSON.stringify(mappedData)).toEqual(JSON.stringify(resultApiData));
+
+        const featureFerieIPeriodenFormData: Partial<PleiepengesøknadFormData> = {
+            skalTaUtFerieIPerioden: YesOrNo.YES,
+            ferieuttakIPerioden: [
+                {
+                    fom: dateUtils.apiStringDateToDate('2020-01-05'),
+                    tom: dateUtils.apiStringDateToDate('2020-01-07')
+                }
+            ]
+        };
+
+        const featureFrilanserFormData: Partial<PleiepengesøknadFormData> = {
+            harHattInntektSomFrilanser: YesOrNo.YES,
+            frilans_harHattOppdragForFamilieVenner: YesOrNo.YES,
+            frilans_startdato: frilansDate,
+            frilans_jobberFortsattSomFrilans: YesOrNo.YES,
+            frilans_harInntektSomFosterforelder: YesOrNo.YES,
+            frilans_oppdrag: [
+                {
+                    arbeidsgiverNavn: 'abc',
+                    erPågående: true,
+                    fom: frilansDate,
+                    tom: undefined
+                }
+            ]
+        };
+
+        const featureSelvstendigFormData: Partial<PleiepengesøknadFormData> = {
+            selvstendig_harHattInntektSomSN: YesOrNo.YES,
+            selvstendig_virksomheter: []
+        };
+
+        const mappedData = mapFormDataToApiData(
+            {
+                ...completeFormDataMock,
+                ...featureFerieIPeriodenFormData,
+                ...featureFrilanserFormData,
+                ...featureUtenlandsoppholdIPeriodenFormData,
+                ...featureSelvstendigFormData
+            },
+            barnMock,
+            'nb'
+        );
+
+        const resultApiDataWithFeatures = {
+            ...resultApiData,
+            ...featureFrilansApiData,
+            ...featureSelvstendigApiData,
+            ...featureFerieIPeriodenApiData,
+            ...featureUtenlandsoppholdIPeriodenApiData
+        };
+
+        expect(JSON.stringify(jsonSort(mappedData))).toEqual(JSON.stringify(jsonSort(resultApiDataWithFeatures)));
     });
 });

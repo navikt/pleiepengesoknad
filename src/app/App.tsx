@@ -1,19 +1,18 @@
 import * as React from 'react';
-import ApplicationWrapper from './components/application-wrapper/ApplicationWrapper';
-import { Route, Switch } from 'react-router-dom';
-import RouteConfig from './config/routeConfig';
-import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad';
-import IntroPage from './components/pages/intro-page/IntroPage';
 import { render } from 'react-dom';
+import { Route, Switch } from 'react-router-dom';
+import moment from 'moment';
 import Modal from 'nav-frontend-modal';
 import { Locale } from 'common/types/Locale';
-import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
-import { appIsRunningInDemoMode } from './utils/envUtils';
-import { isFeatureEnabled, Feature } from './utils/featureToggleUtils';
+import ApplicationWrapper from './components/application-wrapper/ApplicationWrapper';
+import IntroPage from './components/pages/intro-page/IntroPage';
 import UnavailablePage from './components/pages/unavailable-page/UnavailablePage';
-import moment from 'moment';
+import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad';
+import RouteConfig from './config/routeConfig';
+import { appIsRunningInDemoMode } from './utils/envUtils';
+import { Feature, isFeatureEnabled } from './utils/featureToggleUtils';
+import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
 import 'common/styles/globalStyles.less';
-import Workbench from './dev/Workbench';
 
 const localeFromSessionStorage = getLocaleFromSessionStorage();
 moment.locale(localeFromSessionStorage);
@@ -35,7 +34,6 @@ const App: React.FunctionComponent = () => {
                     ) : (
                         <Switch>
                             <Route path={RouteConfig.SØKNAD_ROUTE_PREFIX} component={Pleiepengesøknad} />
-                            <Route path="/workbench" component={Workbench} />
                             <Route path="/" component={IntroPage} />
                         </Switch>
                     )}

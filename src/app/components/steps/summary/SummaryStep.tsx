@@ -242,39 +242,40 @@ class SummaryStep extends React.Component<Props, State> {
                                         </Box>
                                     )}
                                     {/* Utenlandsopphold i perioden */}
-                                    {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD) && utenlandsopphold_i_perioden && (
-                                        <>
-                                            <Box margin="l">
-                                                <ContentWithHeader
-                                                    header={intlHelper(
-                                                        intl,
-                                                        'steg.oppsummering.utenlandsoppholdIPerioden.header'
-                                                    )}>
-                                                    <FormattedMessage
-                                                        id={
-                                                            utenlandsopphold_i_perioden.skal_oppholde_seg_i_utlandet_i_perioden
-                                                                ? 'Ja'
-                                                                : 'Nei'
-                                                        }
-                                                    />
-                                                </ContentWithHeader>
-                                            </Box>
-                                            {utenlandsopphold_i_perioden.opphold.length > 0 && (
+                                    {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) &&
+                                        utenlandsopphold_i_perioden && (
+                                            <>
                                                 <Box margin="l">
                                                     <ContentWithHeader
                                                         header={intlHelper(
                                                             intl,
-                                                            'steg.oppsummering.utenlandsoppholdIPerioden.listetittel'
+                                                            'steg.oppsummering.utenlandsoppholdIPerioden.header'
                                                         )}>
-                                                        <SummaryList
-                                                            items={utenlandsopphold_i_perioden.opphold}
-                                                            itemRenderer={renderUtenlandsoppholdIPeriodenSummary}
+                                                        <FormattedMessage
+                                                            id={
+                                                                utenlandsopphold_i_perioden.skal_oppholde_seg_i_utlandet_i_perioden
+                                                                    ? 'Ja'
+                                                                    : 'Nei'
+                                                            }
                                                         />
                                                     </ContentWithHeader>
                                                 </Box>
-                                            )}
-                                        </>
-                                    )}
+                                                {utenlandsopphold_i_perioden.opphold.length > 0 && (
+                                                    <Box margin="l">
+                                                        <ContentWithHeader
+                                                            header={intlHelper(
+                                                                intl,
+                                                                'steg.oppsummering.utenlandsoppholdIPerioden.listetittel'
+                                                            )}>
+                                                            <SummaryList
+                                                                items={utenlandsopphold_i_perioden.opphold}
+                                                                itemRenderer={renderUtenlandsoppholdIPeriodenSummary}
+                                                            />
+                                                        </ContentWithHeader>
+                                                    </Box>
+                                                )}
+                                            </>
+                                        )}
                                     {/* Ferieuttak i perioden */}
                                     {isFeatureEnabled(Feature.TOGGLE_FERIEUTTAK) && ferieuttak_i_perioden && (
                                         <>
