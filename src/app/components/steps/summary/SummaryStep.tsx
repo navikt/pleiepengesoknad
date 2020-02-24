@@ -3,7 +3,6 @@ import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl'
 import Panel from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Box from 'common/components/box/Box';
-import ContentSwitcher from 'common/components/content-switcher/ContentSwitcher';
 import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import SummaryList from 'common/components/summary-list/SummaryList';
@@ -35,7 +34,9 @@ import { validateApiValues } from '../../../validation/apiValuesValidation';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringAttachmentList from '../../legeerklæring-file-list/LegeerklæringFileList';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
+import BarnSummary from './BarnSummary';
 import FrilansSummary from './FrilansSummary';
+import SelvstendigSummary from './SelvstendigSummary';
 import TilsynsordningSummary from './TilsynsordningSummary';
 
 interface State {
@@ -147,81 +148,7 @@ class SummaryStep extends React.Component<Props, State> {
                                         </ContentWithHeader>
                                     </Box>
                                     <Box margin="l">
-                                        <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.barnet.header')}>
-                                            <ContentSwitcher
-                                                firstContent={() => {
-                                                    const barnReceivedFromApi = barn.find(
-                                                        ({ aktoer_id }) =>
-                                                            aktoer_id === formValues.barnetSøknadenGjelder
-                                                    );
-                                                    return barnReceivedFromApi ? (
-                                                        <>
-                                                            <Normaltekst>
-                                                                <FormattedMessage
-                                                                    id="steg.oppsummering.barnet.navn"
-                                                                    values={{
-                                                                        navn: formatName(
-                                                                            barnReceivedFromApi!.fornavn,
-                                                                            barnReceivedFromApi!.etternavn,
-                                                                            barnReceivedFromApi!.mellomnavn
-                                                                        )
-                                                                    }}
-                                                                />
-                                                            </Normaltekst>
-                                                            <Normaltekst>
-                                                                <FormattedMessage
-                                                                    id="steg.oppsummering.barnet.fødselsdato"
-                                                                    values={{
-                                                                        dato: prettifyDate(
-                                                                            barnReceivedFromApi!.fodselsdato
-                                                                        )
-                                                                    }}
-                                                                />
-                                                            </Normaltekst>
-                                                        </>
-                                                    ) : (
-                                                        <></>
-                                                    );
-                                                }}
-                                                secondContent={() => (
-                                                    <>
-                                                        {apiValues.barn.fodselsdato ? (
-                                                            <Normaltekst>
-                                                                <FormattedMessage
-                                                                    id="steg.oppsummering.barnet.fødselsdato"
-                                                                    values={{
-                                                                        dato: prettifyDate(
-                                                                            apiStringDateToDate(
-                                                                                apiValues.barn.fodselsdato
-                                                                            )
-                                                                        )
-                                                                    }}
-                                                                />
-                                                            </Normaltekst>
-                                                        ) : null}
-                                                        {!apiValues.barn.fodselsdato ? (
-                                                            <Normaltekst>
-                                                                <FormattedMessage
-                                                                    id="steg.oppsummering.barnet.fnr"
-                                                                    values={{ fnr: apiValues.barn.fodselsnummer }}
-                                                                />
-                                                            </Normaltekst>
-                                                        ) : null}
-                                                        {apiValues.barn.navn ? (
-                                                            <Normaltekst>
-                                                                <FormattedMessage
-                                                                    id="steg.oppsummering.barnet.navn"
-                                                                    values={{ navn: apiValues.barn.navn }}
-                                                                />
-                                                            </Normaltekst>
-                                                        ) : null}
-                                                    </>
-                                                )}
-                                                showFirstContent={
-                                                    !formValues.søknadenGjelderEtAnnetBarn && barn && barn.length > 0
-                                                }
-                                            />
-                                        </ContentWithHeader>
+                                        <BarnSummary barn={barn} formValues={formValues} apiValues={apiValues} />
                                     </Box>
                                     <Box margin="l">
                                         <ContentWithHeader
@@ -328,6 +255,10 @@ class SummaryStep extends React.Component<Props, State> {
 
                                     {isFeatureEnabled(Feature.TOGGLE_FRILANS) && (
                                         <FrilansSummary apiValues={apiValues} />
+                                    )}
+
+                                    {isFeatureEnabled(Feature.TOGGLE_SELVSTENDIG) && (
+                                        <SelvstendigSummary apiValues={apiValues} />
                                     )}
 
                                     {tilsynsordning && <TilsynsordningSummary tilsynsordning={tilsynsordning} />}

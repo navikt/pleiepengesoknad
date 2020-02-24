@@ -3,6 +3,8 @@
     "selvstendig.list.tittel": "Registrerte virksomheter",
     "selvstendig.list.leggTilLabel": "Legg til virksomhet",
     "selvstendig.dialog.navn": "Virksomhet",
+    "selvstendig.summary.harDuHattInntekt.header": "Har du hatt inntekt som selvstendig næringsdrivende siste 4 uker?",
+
     "frilanser.harDuHattInntekt.spm": "Har du jobbet og hatt inntekt som frilanser de siste 4 ukene?",
     "frilanser.nårStartet.spm": "Når startet du som frilanser?",
     "frilanser.jobberFortsatt.spm": "Jobber du fortsatt som frilanser?",
