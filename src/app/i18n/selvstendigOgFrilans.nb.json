@@ -28,7 +28,7 @@
     "selvstendig.harDuHattInntekt.spm": "Har du hatt inntekt som selvstendig næringsdrivende siste 4 uker?",
     "selvstendig.list.tittel": "Registrerte virksomheter",
     "selvstendig.list.leggTilLabel": "Legg til virksomhet",
-    "selvstendig.dialog.navn": "Virksomhet",
+    "selvstendig.dialog.tittel": "Virksomhet",
     "selvstendig.summary.harDuHattInntekt.header": "Har du hatt inntekt som selvstendig næringsdrivende siste 4 uker?",
 
     "frilanser.harDuHattInntekt.spm": "Har du jobbet og hatt inntekt som frilanser de siste 4 ukene?",
@@ -37,7 +37,7 @@
     "frilanser.oppdragFamilieVenner.spm": "Har du hatt oppdrag for nær venn eller familie de 4 siste ukene?",
     "frilanser.list.tittel": "Registrerte frilansoppdrag",
     "frilanser.list.leggTilLabel": "Legg til oppdrag",
-    "frilanser.dialog.navn": "Frilansoppdrag",
+    "frilanser.dialog.tittel": "Frilansoppdrag",
     "frilanser.inntektFosterforelder.spm": "Har du inntekt som fosterforelder?",
     "frilanser.summary.harDuHattInntekt.header": "Har du jobbet og hatt inntekt som frilanser de siste 4 ukene?",
     "frilanser.summary.nårStartet.header": "Når startet du som frilanser?",
