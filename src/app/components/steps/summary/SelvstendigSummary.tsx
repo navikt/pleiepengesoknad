@@ -18,8 +18,6 @@ interface Props {
 }
 
 const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape) => {
-    console.log(virksomhet);
-
     return (
         <SummaryBlock header={virksomhet.navn_pa_virksomheten}>
             <IntlLabelValue labelKey="summary.virksomhet.næringstype">

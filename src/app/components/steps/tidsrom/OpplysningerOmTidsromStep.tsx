@@ -74,7 +74,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                     validate: validateFraDatoField,
                     name: AppFormField.periodeFra,
                     dateLimitations: {
-                        minDato: date3YearsAgo.toDate(),
+                        minDato: date3YearsAgo,
                         maksDato: validateTilDatoField(tilDato) === undefined ? tilDato : undefined
                     }
                 }}
@@ -83,7 +83,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                     validate: validateTilDatoField,
                     name: AppFormField.periodeTil,
                     dateLimitations: {
-                        minDato: validateFraDatoField(fraDato) === undefined ? fraDato : date3YearsAgo.toDate()
+                        minDato: validateFraDatoField(fraDato) === undefined ? fraDato : date3YearsAgo
                     }
                 }}
             />

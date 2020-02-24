@@ -25,7 +25,7 @@ const FrilansFormPart: React.FunctionComponent<Props> = ({ formValues }) => {
             <FormikYesOrNoQuestion<AppFormField>
                 name={AppFormField.frilans_harHattInntektSomFrilanser}
                 legend={intlHelper(intl, 'frilanser.harDuHattInntekt.spm')}
-                validate={validateRequiredField}
+                isRequired={true}
                 helperText={<FrilansEksempeltHtml />}
             />
             {harHattInntektSomFrilanser && (
@@ -43,14 +43,14 @@ const FrilansFormPart: React.FunctionComponent<Props> = ({ formValues }) => {
                         <FormikYesOrNoQuestion<AppFormField>
                             name={AppFormField.frilans_jobberFortsattSomFrilans}
                             legend={intlHelper(intl, 'frilanser.jobberFortsatt.spm')}
-                            validate={validateRequiredField}
+                            isRequired={true}
                         />
                     </Box>
                     <Box margin="xl">
                         <FormikYesOrNoQuestion<AppFormField>
                             name={AppFormField.frilans_harHattOppdragForFamilieVenner}
                             legend={intlHelper(intl, 'frilanser.oppdragFamilieVenner.spm')}
-                            validate={validateRequiredField}
+                            isRequired={true}
                         />
                     </Box>
                     {harHattInntektFraFamilie && (
@@ -70,7 +70,7 @@ const FrilansFormPart: React.FunctionComponent<Props> = ({ formValues }) => {
                         <FormikYesOrNoQuestion<AppFormField>
                             name={AppFormField.frilans_harInntektSomFosterforelder}
                             legend={intlHelper(intl, 'frilanser.inntektFosterforelder.spm')}
-                            validate={validateRequiredField}
+                            isRequired={true}
                         />
                     </Box>
                 </Panel>
