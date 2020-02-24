@@ -7,7 +7,7 @@ import FormikDatepicker from 'common/formik/formik-datepicker/FormikDatepicker';
 import FormikYesOrNoQuestion from 'common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import FrilansoppdragListAndDialog from 'common/forms/frilans/FrilansoppdragListAndDialog';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { date10MonthsAgo, dateToday } from 'common/utils/dateUtils';
+import { date4WeeksAgo, dateToday } from 'common/utils/dateUtils';
 import { validateRequiredField, validateRequiredList } from 'common/validation/fieldValidations';
 import { AppFormField, PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
 import FrilansEksempeltHtml from './FrilansEksempelHtml';
@@ -56,7 +56,7 @@ const FrilansFormPart: React.FunctionComponent<Props> = ({ formValues }) => {
                     {harHattInntektFraFamilie && (
                         <FrilansoppdragListAndDialog<AppFormField>
                             name={AppFormField.frilans_oppdrag}
-                            minDate={date10MonthsAgo}
+                            minDate={date4WeeksAgo}
                             maxDate={dateToday}
                             validate={validateRequiredList}
                             labels={{

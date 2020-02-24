@@ -1,20 +1,17 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
 import { FieldArray } from 'formik';
-import {
-    AppFormField,
-    Arbeidsforhold,
-    ArbeidsforholdSkalJobbeSvar,
-    ArbeidsforholdField
-} from 'app/types/PleiepengesøknadFormData';
 import Box from 'common/components/box/Box';
-import { validateRequiredField } from 'common/validation/fieldValidations';
-import intlHelper from 'common/utils/intlUtils';
-import RedusertArbeidsforholdPart from './RedusertArbeidsforholdPart';
-import VetIkkeArbeidsforholdPart from './VetIkkeArbeidsforholdPart';
+import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
 import FormikYesOrNoQuestion from 'common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { useIntl } from 'react-intl';
-import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
+import intlHelper from 'common/utils/intlUtils';
+import { validateRequiredField } from 'common/validation/fieldValidations';
+import {
+    AppFormField, Arbeidsforhold, ArbeidsforholdField, ArbeidsforholdSkalJobbeSvar
+} from 'app/types/PleiepengesøknadFormData';
+import RedusertArbeidsforholdPart from './RedusertArbeidsforholdPart';
+import VetIkkeArbeidsforholdPart from './VetIkkeArbeidsforholdPart';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
@@ -32,7 +29,7 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                         <FormikYesOrNoQuestion
                             legend={intlHelper(intl, 'arbeidsforhold.erAnsattIPerioden.spm')}
                             name={getFieldName(ArbeidsforholdField.erAnsattIPerioden)}
-                            validate={validateRequiredField}
+                            isRequired={true}
                         />
                         {arbeidsforhold.erAnsattIPerioden === YesOrNo.YES && (
                             <Box padBottom="m">
