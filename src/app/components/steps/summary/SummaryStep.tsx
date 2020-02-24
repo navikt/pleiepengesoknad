@@ -18,7 +18,7 @@ import ArbeidsforholdSummary from 'app/components/arbeidsforhold-summary/Arbeids
 import {
     renderFerieuttakIPeriodenSummary, renderUtenlandsoppholdIPeriodenSummary,
     renderUtenlandsoppholdSummary
-} from 'app/components/summary-renderers/renderUtenlandsoppholdSummary';
+} from 'app/components/steps/summary/renderUtenlandsoppholdSummary';
 import { Feature, isFeatureEnabled } from 'app/utils/featureToggleUtils';
 import { purge, sendApplication } from '../../../api/api';
 import routeConfig from '../../../config/routeConfig';
@@ -38,6 +38,7 @@ import BarnSummary from './BarnSummary';
 import FrilansSummary from './FrilansSummary';
 import SelvstendigSummary from './SelvstendigSummary';
 import TilsynsordningSummary from './TilsynsordningSummary';
+import './summary.less';
 
 interface State {
     sendingInProgress: boolean;

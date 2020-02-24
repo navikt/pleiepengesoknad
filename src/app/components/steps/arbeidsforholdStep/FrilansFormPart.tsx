@@ -24,7 +24,7 @@ const FrilansFormPart: React.FunctionComponent<Props> = ({ formValues }) => {
         <>
             <FormikYesOrNoQuestion<AppFormField>
                 name={AppFormField.frilans_harHattInntektSomFrilanser}
-                legend={intlHelper(intl, 'frilans.harHattInntekt.spm')}
+                legend={intlHelper(intl, 'frilanser.harDuHattInntekt.spm')}
                 validate={validateRequiredField}
                 helperText={<FrilansEksempeltHtml />}
             />

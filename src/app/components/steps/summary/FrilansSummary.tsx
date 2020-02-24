@@ -47,6 +47,7 @@ const FrilansSummary: React.FunctionComponent<Props> = ({ apiValues }) => {
                                             </>
                                         ) : (
                                             <>
+                                                {' '}
                                                 <FormattedMessage id="frilanser.summary.list.til" />{' '}
                                                 <DatoSvar apiDato={oppdrag.til_og_med} />
                                             </>
