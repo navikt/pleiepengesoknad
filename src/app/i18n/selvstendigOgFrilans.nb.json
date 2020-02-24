@@ -1,0 +1,22 @@
+{
+    "selvstendig.harDuHattInntekt.spm": "Har du hatt inntekt som selvstendig næringsdrivende siste 4 uker?",
+    "selvstendig.list.tittel": "Registrerte virksomheter",
+    "selvstendig.list.leggTilLabel": "Legg til virksomhet",
+    "selvstendig.dialog.navn": "Virksomhet",
+    "frilanser.harDuHattInntekt.spm": "Har du jobbet og hatt inntekt som frilanser de siste 4 ukene?",
+    "frilanser.nårStartet.spm": "Når startet du som frilanser?",
+    "frilanser.jobberFortsatt.spm": "Jobber du fortsatt som frilanser?",
+    "frilanser.oppdragFamilieVenner.spm": "Har du hatt oppdrag for nær venn eller familie de 10 siste månedene?",
+    "frilanser.list.tittel": "Registrerte frilansoppdrag",
+    "frilanser.list.leggTilLabel": "Legg til oppdrag",
+    "frilanser.dialog.navn": "Frilansoppdrag",
+    "frilanser.inntektFosterforelder.spm": "Har du inntekt som fosterforelder?",
+    "frilanser.summary.harDuHattInntekt.header": "Har du jobbet og hatt inntekt som frilanser de siste 4 ukene?",
+    "frilanser.summary.nårStartet.header": "Når startet du som frilanser?",
+    "frilanser.summary.jobberFortsatt.header": "Jobber du fortsatt som frilanser?",
+    "frilanser.summary.oppdragFamilieVenner.header": "Har du hatt oppdrag for nær venn eller familie de 10 siste månedene?",
+    "frilanser.summary.list.tittel": "Registrerte frilansoppdrag",
+    "frilanser.summary.list.pågående": "(pågående)",
+    "frilanser.summary.list.til": "til",
+    "frilanser.summary.inntektFosterforelder.header": "Har du inntekt som fosterforelder?"
+}

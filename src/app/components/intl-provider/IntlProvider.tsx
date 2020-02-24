@@ -1,24 +1,26 @@
 import * as React from 'react';
 import { IntlProvider as Provider } from 'react-intl';
-
-import '@formatjs/intl-pluralrules/polyfill';
 import '@formatjs/intl-pluralrules/dist/locale-data/nb';
 import '@formatjs/intl-pluralrules/dist/locale-data/nn';
-
+import '@formatjs/intl-pluralrules/polyfill';
+import { allCommonMessages } from 'common/i18n/allCommonMessages';
 import { Locale } from 'common/types/Locale';
+
+const selvstendigMessagesNb = require('../../i18n/selvstendigOgFrilans.nb.json');
+const selvstendigMessagesNn = require('../../i18n/selvstendigOgFrilans.nn.json');
 
 const appBokmålstekster = require('../../i18n/nb.json');
 const appNynorsktekster = require('../../i18n/nn.json');
 
-import { allCommonMessages } from 'common/i18n/allCommonMessages';
-
 const bokmålstekster = {
     ...allCommonMessages.nb,
-    ...appBokmålstekster
+    ...appBokmålstekster,
+    ...selvstendigMessagesNb
 };
 const nynorsktekster = {
     ...allCommonMessages.nn,
-    ...appNynorsktekster
+    ...appNynorsktekster,
+    ...selvstendigMessagesNn
 };
 
 export interface IntlProviderProps {
