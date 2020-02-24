@@ -1,4 +1,4 @@
-describe('Pleiepenger for sykt barn fra Velkommen', () => {
+describe.skip('Pleiepenger for sykt barn fra Velkommen', () => {
     before(() => {
         cy.visit('/soknad/velkommen');
         cy.server();
