@@ -53,8 +53,8 @@ spec:
         - name: TOGGLE_FERIEUTTAK
           value: "off"
         - name: TOGGLE_FRILANS
-          value: "off"
+          value: "on"
         - name: TOGGLE_SELVSTENDIG
-          value: "off"
+          value: "on"
 
 
