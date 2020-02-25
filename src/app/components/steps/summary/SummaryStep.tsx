@@ -242,12 +242,15 @@ class SummaryStep extends React.Component<Props, State> {
                                         <ContentWithHeader
                                             header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.header')}>
                                             {apiValues.arbeidsgivere.organisasjoner.length > 0 ? (
-                                                apiValues.arbeidsgivere.organisasjoner.map((forhold) => (
-                                                    <ArbeidsforholdSummary
-                                                        key={forhold.organisasjonsnummer}
-                                                        arbeidsforhold={forhold}
-                                                    />
-                                                ))
+                                                <SummaryList
+                                                    items={apiValues.arbeidsgivere.organisasjoner}
+                                                    itemRenderer={(forhold) => (
+                                                        <ArbeidsforholdSummary
+                                                            key={forhold.organisasjonsnummer}
+                                                            arbeidsforhold={forhold}
+                                                        />
+                                                    )}
+                                                />
                                             ) : (
                                                 <FormattedMessage id="steg.oppsummering.arbeidsforhold.ingenArbeidsforhold" />
                                             )}

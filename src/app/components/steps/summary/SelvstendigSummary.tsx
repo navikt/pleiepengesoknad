@@ -3,6 +3,7 @@ import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
 import {
     getCountryName
 } from '@navikt/sif-common/lib/common/components/country-select/CountrySelect';
+import SummaryList from '@navikt/sif-common/lib/common/components/summary-list/SummaryList';
 import TextareaSummary from '@navikt/sif-common/lib/common/components/textarea-summary/TextareaSummary';
 import { VirksomhetApiData } from '@navikt/sif-common/lib/common/forms/virksomhet/types';
 import intlHelper from '@navikt/sif-common/lib/common/utils/intlUtils';
@@ -36,7 +37,7 @@ const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape)
                 {tidsinfo}
             </p>
             {virksomhet.har_varig_endring_av_inntekt_siste_4_kalenderar === true && virksomhet.varig_endring?.dato && (
-                <p>
+                <Box padBottom="l">
                     Har hatt varig endring i arbeidsforholdet, virksomheten eller arbeidssituasjonen de siste fire
                     årene. Dato for endring var <DatoSvar apiDato={virksomhet.varig_endring?.dato} />, og næringsinntekt
                     etter endringen er {` `}
@@ -44,7 +45,7 @@ const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape)
                     <Sitat>
                         <TextareaSummary text={virksomhet.varig_endring.forklaring} />
                     </Sitat>
-                </p>
+                </Box>
             )}
             {virksomhet.yrkesaktiv_siste_tre_ferdigliknede_arene?.oppstartsdato !== undefined && (
                 <p>
@@ -104,12 +105,11 @@ const SelvstendigSummary: React.FunctionComponent<Props> = ({ apiValues }) => {
                     <JaNeiSvar harSvartJa={harHattInntekt} />
                 </SummaryBlock>
             </Box>
-            {harHattInntekt && (
-                <ul>
-                    {virksomheter?.map((virksomhet, idx) => (
-                        <li key={idx}>{renderVirksomhetSummary(virksomhet, intl)}</li>
-                    ))}
-                </ul>
+            {harHattInntekt && virksomheter && (
+                <SummaryList
+                    items={virksomheter}
+                    itemRenderer={(virksomhet) => renderVirksomhetSummary(virksomhet, intl)}
+                />
             )}
         </>
     );
