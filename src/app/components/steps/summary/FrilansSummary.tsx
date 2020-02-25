@@ -1,5 +1,7 @@
 import React from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { FrilansoppdragApiData } from '@navikt/sif-common/lib/common/forms/frilans/types';
+import intlHelper from '@navikt/sif-common/lib/common/utils/intlUtils';
 import Box from 'common/components/box/Box';
 import SummaryList from 'common/components/summary-list/SummaryList';
 import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
@@ -13,35 +15,40 @@ interface Props {
 
 const FrilansSummary: React.FunctionComponent<Props> = ({ apiValues }) => {
     const { har_hatt_inntekt_som_frilanser, frilans } = apiValues;
+    const intl = useIntl();
     return (
         <>
             <Box margin="l">
-                <SummaryBlock header="Har hatt inntekt som frilanser siste 10 månedene">
+                <SummaryBlock header={intlHelper(intl, 'frilanser.summary.harDuHattInntekt.header')}>
                     <JaNeiSvar harSvartJa={har_hatt_inntekt_som_frilanser} />
                 </SummaryBlock>
             </Box>
             {har_hatt_inntekt_som_frilanser && frilans !== undefined && (
                 <>
-                    <SummaryBlock header="Når startet du som frilanser">
+                    <SummaryBlock header={intlHelper(intl, 'frilanser.summary.nårStartet.header')}>
                         <DatoSvar apiDato={frilans.startdato} />
                     </SummaryBlock>
-                    <SummaryBlock header="Jobber du fortsatt som frilanser?">
+                    <SummaryBlock header={intlHelper(intl, 'frilanser.summary.jobberFortsatt.header')}>
                         <JaNeiSvar harSvartJa={frilans.jobber_fortsatt_som_frilans} />
                     </SummaryBlock>
-                    <SummaryBlock header="Har du hatt oppdrag for nær venn eller familie de 10 siste månedene?">
+                    <SummaryBlock header={intlHelper(intl, 'frilanser.summary.oppdragFamilieVenner.header')}>
                         <JaNeiSvar harSvartJa={frilans.har_hatt_oppdrag_for_familie} />
                     </SummaryBlock>
                     {frilans.har_hatt_oppdrag_for_familie && (
-                        <SummaryBlock header="Frilansoppdrag">
+                        <SummaryBlock header={intlHelper(intl, 'frilanser.summary.list.tittel')}>
                             <SummaryList
                                 itemRenderer={(oppdrag: FrilansoppdragApiData) => (
                                     <div>
                                         {oppdrag.arbeidsgivernavn} - fra {<DatoSvar apiDato={oppdrag.fra_og_med} />}
                                         {oppdrag.til_og_med === null ? (
-                                            ' (pågående)'
+                                            <>
+                                                {' '}
+                                                (<FormattedMessage id="frilanser.summary.list.pågående" />)
+                                            </>
                                         ) : (
                                             <>
-                                                til{` `}
+                                                {' '}
+                                                <FormattedMessage id="frilanser.summary.list.til" />{' '}
                                                 <DatoSvar apiDato={oppdrag.til_og_med} />
                                             </>
                                         )}
@@ -51,7 +58,7 @@ const FrilansSummary: React.FunctionComponent<Props> = ({ apiValues }) => {
                             />
                         </SummaryBlock>
                     )}
-                    <SummaryBlock header="Har du inntekt som fosterforelder?">
+                    <SummaryBlock header={intlHelper(intl, 'frilanser.summary.inntektFosterforelder.header')}>
                         <JaNeiSvar harSvartJa={frilans.har_hatt_inntekt_som_fosterforelder} />
                     </SummaryBlock>
                 </>

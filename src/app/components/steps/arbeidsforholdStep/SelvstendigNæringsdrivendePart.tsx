@@ -1,8 +1,8 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
 import { Panel } from 'nav-frontend-paneler';
-import {
-    validateRequiredField, validateRequiredList
-} from '@navikt/sif-common/lib/common/validation/fieldValidations';
+import intlHelper from '@navikt/sif-common/lib/common/utils/intlUtils';
+import { validateRequiredList } from '@navikt/sif-common/lib/common/validation/fieldValidations';
 import Box from 'common/components/box/Box';
 import FormikYesOrNoQuestion from 'common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import VirksomhetListAndDialog from 'common/forms/virksomhet/VirksomhetListAndDialog';
@@ -14,13 +14,14 @@ interface Props {
 }
 
 const SelvstendigNæringsdrivendeFormPart: React.FunctionComponent<Props> = ({ formValues }) => {
+    const intl = useIntl();
     return (
         <>
             <Box margin="l">
                 <FormikYesOrNoQuestion<AppFormField>
                     name={AppFormField.selvstendig_harHattInntektSomSN}
-                    legend={'Har du hatt inntekt som selvstendig næringsdrivende siste 10 måneder?'}
-                    validate={validateRequiredField}
+                    legend={intlHelper(intl, 'selvstendig.harDuHattInntekt.spm')}
+                    isRequired={true}
                 />
             </Box>
             {formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES && (
@@ -29,9 +30,9 @@ const SelvstendigNæringsdrivendeFormPart: React.FunctionComponent<Props> = ({ f
                         <VirksomhetListAndDialog
                             name={AppFormField.selvstendig_virksomheter}
                             labels={{
-                                listTitle: 'Registrerte virksomheter',
-                                addLabel: 'Legg til virksomhet',
-                                modalTitle: 'Virksomhet'
+                                listTitle: intlHelper(intl, 'selvstendig.list.tittel'),
+                                addLabel: intlHelper(intl, 'selvstendig.list.leggTilLabel'),
+                                modalTitle: intlHelper(intl, 'selvstendig.dialog.tittel')
                             }}
                             validate={validateRequiredList}
                         />

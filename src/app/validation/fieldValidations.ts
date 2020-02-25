@@ -1,28 +1,21 @@
-import { YesOrNo } from 'common/types/YesOrNo';
-import {
-    isMoreThan3YearsAgo,
-    dateRangesCollide,
-    dateRangesExceedsRange,
-    date1YearAgo,
-    date1YearFromNow,
-    DateRange,
-    dateToday
-} from 'common/utils/dateUtils';
-import { attachmentHasBeenUploaded } from 'common/utils/attachmentUtils';
-import { timeToDecimalTime } from 'common/utils/timeUtils';
-import { Time } from 'common/types/Time';
-import { Tilsynsordning, Arbeidsforhold } from '../types/PleiepengesøknadFormData';
-import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
-import { Attachment } from 'common/types/Attachment';
-import { FieldValidationResult } from 'common/validation/types';
-import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
-import { hasValue } from 'common/validation/hasValue';
 import { Ferieuttak } from 'common/forms/ferieuttak/types';
+import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
+import { Attachment } from 'common/types/Attachment';
+import { Time } from 'common/types/Time';
+import { YesOrNo } from 'common/types/YesOrNo';
+import { attachmentHasBeenUploaded } from 'common/utils/attachmentUtils';
 import {
-    fieldIsRequiredError,
-    FieldValidationErrors,
-    createFieldValidationError
+    date1YearAgo, date1YearFromNow, DateRange, dateRangesCollide, dateRangesExceedsRange, dateToday,
+    isMoreThan3YearsAgo
+} from 'common/utils/dateUtils';
+import { timeToDecimalTime } from 'common/utils/timeUtils';
+import {
+    createFieldValidationError, fieldIsRequiredError, FieldValidationErrors
 } from 'common/validation/fieldValidations';
+import { hasValue } from 'common/validation/hasValue';
+import { FieldValidationResult } from 'common/validation/types';
+import { Arbeidsforhold, Tilsynsordning } from '../types/PleiepengesøknadFormData';
+import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
 
 const moment = require('moment');
 
@@ -231,13 +224,6 @@ export const validateLegeerklæring = (attachments: Attachment[]): FieldValidati
     }
     return undefined;
 };
-
-// export const validateRequiredField = (value: any): FieldValidationResult => {
-//     if (!hasValue(value)) {
-//         return fieldIsRequiredError();
-//     }
-//     return undefined;
-// };
 
 export const validateErAnsattIPerioden = (
     arbeidsforhold: Arbeidsforhold[],
