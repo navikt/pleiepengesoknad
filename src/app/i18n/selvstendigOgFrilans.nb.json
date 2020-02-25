@@ -2,7 +2,7 @@
     "næringstype.FISKE": "Fiske",
     "næringstype.JORDBRUK_SKOGBRUK": "Jordbruk",
     "næringstype.DAGMAMMA": "Dagmamma",
-    "næringstype.ANNEN": "Annet",
+    "næringstype.ANNEN": "Annen virksomhet",
 
     "summary.virksomhet.næringstype": "Næringstype",
     "summary.virksomhet.registrertILand": "Registrert i",

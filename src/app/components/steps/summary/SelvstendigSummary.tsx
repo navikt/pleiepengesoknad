@@ -3,13 +3,15 @@ import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
 import {
     getCountryName
 } from '@navikt/sif-common/lib/common/components/country-select/CountrySelect';
+import TextareaSummary from '@navikt/sif-common/lib/common/components/textarea-summary/TextareaSummary';
 import { VirksomhetApiData } from '@navikt/sif-common/lib/common/forms/virksomhet/types';
 import intlHelper from '@navikt/sif-common/lib/common/utils/intlUtils';
 import Box from 'common/components/box/Box';
 import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
-import DatoSvar from './DatoSvar';
+import DatoSvar, { prettifyApiDate } from './DatoSvar';
 import IntlLabelValue from './IntlLabelValue';
 import JaNeiSvar from './JaNeiSvar';
+import Sitat from './Sitat';
 import SummaryBlock from './SummaryBlock';
 import TallSvar from './TallSvar';
 
@@ -18,112 +20,72 @@ interface Props {
 }
 
 const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape) => {
+    const land = getCountryName(virksomhet.registrert_i_land || 'NO', intl.locale);
+    const næringstyper = virksomhet.naringstype.map((næring) => intlHelper(intl, `næringstype.${næring}`)).join(', ');
+    const tidsinfo = `Startet ${prettifyApiDate(virksomhet.fra_og_med)}${
+        virksomhet.til_og_med ? `, avsluttet ${prettifyApiDate(virksomhet.fra_og_med)}.` : ' (pågående).'
+    }`;
+
     return (
         <SummaryBlock header={virksomhet.navn_pa_virksomheten}>
-            <IntlLabelValue labelKey="summary.virksomhet.næringstype">
-                {virksomhet.naringstype.map((næring) => intlHelper(intl, `næringstype.${næring}`)).join(', ')}
-            </IntlLabelValue>
-            <IntlLabelValue labelKey="summary.virksomhet.registrertILand">
-                {getCountryName(virksomhet.registrert_i_land || 'NO', intl.locale)}
-            </IntlLabelValue>
-            {virksomhet.registrert_i_norge && (
-                <>
-                    <IntlLabelValue labelKey="summary.virksomhet.orgnr">
-                        {virksomhet.organisasjonsnummer}
-                    </IntlLabelValue>
-                </>
-            )}
-            {virksomhet.fra_og_med && (
-                <IntlLabelValue labelKey="summary.virksomhet.opprettet">
-                    <DatoSvar apiDato={virksomhet.fra_og_med} />
-                    {virksomhet.er_pagaende && (
-                        <>
-                            {' '}
-                            (<FormattedMessage id="summary.virksomhet.pågående" />)
-                        </>
-                    )}
-                </IntlLabelValue>
-            )}
-            {virksomhet.til_og_med && (
-                <IntlLabelValue labelKey="summary.virksomhet.avsluttet">
-                    <DatoSvar apiDato={virksomhet.til_og_med} />
-                </IntlLabelValue>
-            )}
-            {virksomhet.har_varig_endring_av_inntekt_siste_4_kalenderar === undefined ? (
-                <IntlLabelValue labelKey="summary.virksomhet.inntekt">{virksomhet.naringsinntekt}</IntlLabelValue>
-            ) : (
-                <IntlLabelValue labelKey="summary.virksomhet.varigEndring">
-                    <JaNeiSvar harSvartJa={virksomhet.har_varig_endring_av_inntekt_siste_4_kalenderar} />
-                </IntlLabelValue>
-            )}
+            <IntlLabelValue labelKey="summary.virksomhet.næringstype">{næringstyper}</IntlLabelValue>
+            <p>
+                Registrert i {land}
+                {virksomhet.registrert_i_norge ? ` (organisasjonsnummer ${virksomhet.organisasjonsnummer})` : ``}.{' '}
+                <br />
+                {tidsinfo}
+            </p>
             {virksomhet.har_varig_endring_av_inntekt_siste_4_kalenderar === true && virksomhet.varig_endring?.dato && (
-                <>
-                    <IntlLabelValue labelKey="summary.virksomhet.varigEndring.dato">
-                        <DatoSvar apiDato={virksomhet.varig_endring?.dato} />
-                    </IntlLabelValue>
-                    <IntlLabelValue labelKey="summary.virksomhet.varigEndring.endretInntekt">
-                        <TallSvar verdi={virksomhet.varig_endring.inntekt_etter_endring} />
-                    </IntlLabelValue>
-                    <IntlLabelValue labelKey="summary.virksomhet.varigEndring.forklaring">
-                        {virksomhet.varig_endring.forklaring}
-                    </IntlLabelValue>
-                </>
+                <p>
+                    Har hatt varig endring i arbeidsforholdet, virksomheten eller arbeidssituasjonen de siste fire
+                    årene. Dato for endring var <DatoSvar apiDato={virksomhet.varig_endring?.dato} />, og næringsinntekt
+                    etter endringen er {` `}
+                    <TallSvar verdi={virksomhet.varig_endring.inntekt_etter_endring} />. Beskrivelse av endringen:{` `}
+                    <Sitat>
+                        <TextareaSummary text={virksomhet.varig_endring.forklaring} />
+                    </Sitat>
+                </p>
             )}
-            {virksomhet.har_blitt_yrkesaktiv_siste_tre_ferdigliknede_arene !== undefined && (
-                <IntlLabelValue labelKey="summary.virksomhet.yrkesaktivSisteTreÅr">
-                    <JaNeiSvar harSvartJa={virksomhet.har_blitt_yrkesaktiv_siste_tre_ferdigliknede_arene} />
-                </IntlLabelValue>
+            {virksomhet.yrkesaktiv_siste_tre_ferdigliknede_arene?.oppstartsdato !== undefined && (
+                <p>
+                    Ble yrkesaktiv{' '}
+                    <DatoSvar apiDato={virksomhet.yrkesaktiv_siste_tre_ferdigliknede_arene?.oppstartsdato} />
+                </p>
             )}
-            {virksomhet.har_blitt_yrkesaktiv_siste_tre_ferdigliknede_arene === true &&
-                virksomhet.yrkesaktiv_siste_tre_ferdigliknede_arene?.oppstartsdato && (
-                    <IntlLabelValue labelKey="summary.virksomhet.yrkesaktivSisteTreÅr.dato">
-                        <DatoSvar apiDato={virksomhet.yrkesaktiv_siste_tre_ferdigliknede_arene?.oppstartsdato} />
-                    </IntlLabelValue>
-                )}
 
             {/* Regnskapsfører */}
-            <IntlLabelValue labelKey="summary.virksomhet.harRegnskapsfører">
-                <JaNeiSvar harSvartJa={virksomhet.har_regnskapsforer} />
-            </IntlLabelValue>
             {virksomhet.regnskapsforer && (
-                <>
-                    <IntlLabelValue labelKey="summary.virksomhet.regnskapsfører">
-                        <FormattedMessage
-                            tagName="span"
-                            id="summary.virksomhet.revisorEllerRegnskapsførerDetaljer"
-                            values={{ ...virksomhet.regnskapsforer }}
-                        />
-                    </IntlLabelValue>
-                    <IntlLabelValue labelKey="summary.virksomhet.erNærVennEllerFamilie">
-                        <JaNeiSvar harSvartJa={virksomhet.regnskapsforer.er_nar_venn_familie} />
-                    </IntlLabelValue>
-                </>
+                <p>
+                    Regnskapsfører er
+                    <FormattedMessage
+                        tagName="span"
+                        id="summary.virksomhet.revisorEllerRegnskapsførerDetaljer"
+                        values={{ ...virksomhet.regnskapsforer }}
+                    />
+                    {virksomhet.regnskapsforer.er_nar_venn_familie ? ' Er nær venn eller familie.' : ''}
+                </p>
             )}
-
             {/* Revisor */}
-            {virksomhet.har_regnskapsforer === false && (
-                <>
-                    <IntlLabelValue labelKey="summary.virksomhet.harRevisor">
-                        <JaNeiSvar harSvartJa={virksomhet.har_revisor} />
-                    </IntlLabelValue>
-                    {virksomhet.revisor && (
+            {virksomhet.har_regnskapsforer === false && virksomhet.revisor && (
+                <p>
+                    Revisor er
+                    <FormattedMessage
+                        tagName="span"
+                        id="summary.virksomhet.revisorEllerRegnskapsførerDetaljer"
+                        values={{ ...virksomhet.revisor }}
+                    />
+                    {virksomhet.revisor.er_nar_venn_familie === true && (
                         <>
-                            <IntlLabelValue labelKey="summary.virksomhet.revisor">
-                                <FormattedMessage
-                                    tagName="span"
-                                    id="summary.virksomhet.revisorEllerRegnskapsførerDetaljer"
-                                    values={{ ...virksomhet.revisor }}
-                                />
-                            </IntlLabelValue>
-                            <IntlLabelValue labelKey="summary.virksomhet.erNærVennEllerFamilie">
-                                <JaNeiSvar harSvartJa={virksomhet.revisor.er_nar_venn_familie} />
-                            </IntlLabelValue>
-                            <IntlLabelValue labelKey="summary.virksomhet.revisor.kanInnhenteOpplysninger">
-                                <JaNeiSvar harSvartJa={virksomhet.revisor.kan_innhente_opplysninger} />
-                            </IntlLabelValue>
+                            {` `}Er nær venn eller familie.
+                            {virksomhet.revisor.kan_innhente_opplysninger === true && (
+                                <>
+                                    <br />
+                                    Nav har fullmakt til å innhente opplysninger direkte fra revisor.
+                                </>
+                            )}
                         </>
                     )}
-                </>
+                </p>
             )}
         </SummaryBlock>
     );
