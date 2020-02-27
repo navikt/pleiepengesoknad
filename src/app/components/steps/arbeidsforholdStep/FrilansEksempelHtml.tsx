@@ -7,6 +7,8 @@ const FrilansEksempeltHtml = () => {
         <>
             Eksempel på hvem som kan være frilansere er:
             <ul>
+                <li>Personer med omsorgsstønad</li>
+                <li>Fosterforeldre</li>
                 <li>Musikere</li>
                 <li>Tekstforfattere</li>
                 <li>Skuespillere</li>
@@ -17,7 +19,6 @@ const FrilansEksempeltHtml = () => {
                     arbeid
                 </li>
                 <li>Støttekontakt</li>
-                <li>Fosterforeldre, og personer med omsorgslønn</li>
             </ul>
             Hvis du er usikker på om du er frilanser, kan du lese mer om hva det betyr å være frilanser på skatteetaten
             sinhjemmeside.
@@ -26,6 +27,8 @@ const FrilansEksempeltHtml = () => {
         <>
             Eksempel på hvem som kan være frilansere er:
             <ul>
+                <li>Personer med omsorgsstønad</li>
+                <li>Fosterforeldre</li>
                 <li>Musikere</li>
                 <li>Tekstforfattere</li>
                 <li>Skuespillere</li>
@@ -36,7 +39,6 @@ const FrilansEksempeltHtml = () => {
                     arbeid
                 </li>
                 <li>Støttekontakt</li>
-                <li>Fosterforeldre, og personer med omsorgslønn</li>
             </ul>
             Hvis du er usikker på om du er frilanser, kan du lese mer om hva det betyr å være frilanser på skatteetaten
             sinhjemmeside.
