@@ -63,7 +63,6 @@ const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape)
                         id="summary.virksomhet.revisorEllerRegnskapsførerDetaljer"
                         values={{ ...virksomhet.regnskapsforer }}
                     />
-                    {virksomhet.regnskapsforer.er_nar_venn_familie ? ' Er nær venn eller familie.' : ''}
                 </p>
             )}
             {/* Revisor */}
@@ -75,15 +74,10 @@ const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape)
                         id="summary.virksomhet.revisorEllerRegnskapsførerDetaljer"
                         values={{ ...virksomhet.revisor }}
                     />
-                    {virksomhet.revisor.er_nar_venn_familie === true && (
+                    {virksomhet.revisor.kan_innhente_opplysninger === true && (
                         <>
-                            {` `}Er nær venn eller familie.
-                            {virksomhet.revisor.kan_innhente_opplysninger === true && (
-                                <>
-                                    <br />
-                                    Nav har fullmakt til å innhente opplysninger direkte fra revisor.
-                                </>
-                            )}
+                            <br />
+                            Nav har fullmakt til å innhente opplysninger direkte fra revisor.
                         </>
                     )}
                 </p>
