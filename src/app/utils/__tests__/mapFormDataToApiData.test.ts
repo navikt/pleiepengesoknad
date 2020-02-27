@@ -119,24 +119,8 @@ const completedAttachmentMock = { uploaded: true, url: attachmentMock1.url, pend
 
 const frilansPartialFormData: Partial<PleiepengesøknadFormData> = {
     harHattInntektSomFrilanser: YesOrNo.YES,
-    frilans_harHattOppdragForFamilieVenner: YesOrNo.YES,
     frilans_jobberFortsattSomFrilans: YesOrNo.YES,
-    frilans_harInntektSomFosterforelder: YesOrNo.YES,
-    frilans_startdato: new Date(2018, 1, 1),
-    frilans_oppdrag: [
-        {
-            arbeidsgiverNavn: 'Arb1',
-            erPågående: false,
-            fom: new Date(2019, 1, 1),
-            tom: new Date(2020, 1, 1)
-        },
-        {
-            arbeidsgiverNavn: 'Arb2',
-            erPågående: true,
-            fom: new Date(2020, 10, 1),
-            tom: undefined
-        }
-    ]
+    frilans_startdato: new Date(2018, 1, 1)
 };
 const selvstendigPartialFormData: Partial<PleiepengesøknadFormData> = {
     selvstendig_harHattInntektSomSN: YesOrNo.YES,
@@ -435,19 +419,6 @@ describe('mapFormDataToApiData', () => {
             const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
             expect(mappedData.har_hatt_inntekt_som_frilanser).toBeTruthy();
             expect(mappedData.frilans).toBeDefined();
-            expect(mappedData.frilans?.oppdrag.length).toEqual(2);
-
-            const oppdrag1 = mappedData.frilans!.oppdrag[0];
-            expect(oppdrag1.arbeidsgivernavn).toBeDefined();
-            expect(oppdrag1.fra_og_med).toBeDefined();
-            expect(oppdrag1.til_og_med).toBeDefined();
-            expect(oppdrag1.er_pagaende).toBeFalsy();
-
-            const oppdrag2 = mappedData.frilans!.oppdrag[1];
-            expect(oppdrag2.arbeidsgivernavn).toBeDefined();
-            expect(oppdrag2.fra_og_med).toBeDefined();
-            expect(oppdrag2.til_og_med).toBeNull();
-            expect(oppdrag2.er_pagaende).toBeTruthy();
         });
 
         describe('Frilans toggle', () => {
@@ -601,18 +572,8 @@ describe('Test complete applications', () => {
     const featureFrilansApiData: Partial<PleiepengesøknadApiData> = {
         har_hatt_inntekt_som_frilanser: true,
         frilans: {
-            har_hatt_inntekt_som_fosterforelder: true,
-            har_hatt_oppdrag_for_familie: true,
             jobber_fortsatt_som_frilans: true,
-            startdato: dateUtils.formatDateToApiFormat(frilansDate),
-            oppdrag: [
-                {
-                    arbeidsgivernavn: 'abc',
-                    fra_og_med: dateUtils.formatDateToApiFormat(frilansDate),
-                    til_og_med: null,
-                    er_pagaende: true
-                }
-            ]
+            startdato: dateUtils.formatDateToApiFormat(frilansDate)
         }
     };
     const featureSelvstendigApiData: Partial<PleiepengesøknadApiData> = {
@@ -660,18 +621,8 @@ describe('Test complete applications', () => {
 
         const featureFrilanserFormData: Partial<PleiepengesøknadFormData> = {
             harHattInntektSomFrilanser: YesOrNo.YES,
-            frilans_harHattOppdragForFamilieVenner: YesOrNo.YES,
             frilans_startdato: frilansDate,
-            frilans_jobberFortsattSomFrilans: YesOrNo.YES,
-            frilans_harInntektSomFosterforelder: YesOrNo.YES,
-            frilans_oppdrag: [
-                {
-                    arbeidsgiverNavn: 'abc',
-                    erPågående: true,
-                    fom: frilansDate,
-                    tom: undefined
-                }
-            ]
+            frilans_jobberFortsattSomFrilans: YesOrNo.YES
         };
 
         const featureSelvstendigFormData: Partial<PleiepengesøknadFormData> = {

@@ -1,6 +1,5 @@
 import { Virksomhet } from '@navikt/sif-common/lib/common/forms/virksomhet/types';
 import { Ferieuttak } from 'common/forms/ferieuttak/types';
-import { Frilansoppdrag } from 'common/forms/frilans/types';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 import { Attachment } from 'common/types/Attachment';
 import { Time } from 'common/types/Time';
@@ -71,9 +70,6 @@ export enum AppFormField {
     frilans_harHattInntektSomFrilanser = 'harHattInntektSomFrilanser',
     frilans_startdato = 'frilans_startdato',
     frilans_jobberFortsattSomFrilans = 'frilans_jobberFortsattSomFrilans',
-    frilans_harHattOppdragForFamilieVenner = 'frilans_harHattOppdragForFamilieVenner',
-    frilans_harInntektSomFosterforelder = 'frilans_harInntektSomFosterforelder',
-    frilans_oppdrag = 'frilans_oppdrag',
     selvstendig_harHattInntektSomSN = 'selvstendig_harHattInntektSomSN',
     selvstendig_virksomheter = 'selvstendig_virksomheter'
 }
@@ -132,10 +128,7 @@ export interface PleiepengesøknadFormData {
     [AppFormField.harBeredskap_ekstrainfo]?: string;
     [AppFormField.frilans_harHattInntektSomFrilanser]?: YesOrNo;
     [AppFormField.frilans_startdato]?: Date;
-    [AppFormField.frilans_harHattOppdragForFamilieVenner]?: YesOrNo;
-    [AppFormField.frilans_harInntektSomFosterforelder]?: YesOrNo;
     [AppFormField.frilans_jobberFortsattSomFrilans]?: YesOrNo;
-    [AppFormField.frilans_oppdrag]?: Frilansoppdrag[];
     [AppFormField.selvstendig_harHattInntektSomSN]?: YesOrNo;
     [AppFormField.selvstendig_virksomheter]?: Virksomhet[];
 }
@@ -167,7 +160,6 @@ export const initialValues: PleiepengesøknadFormData = {
     [AppFormField.harNattevåk]: YesOrNo.UNANSWERED,
     [AppFormField.harBeredskap]: YesOrNo.UNANSWERED,
     [AppFormField.frilans_harHattInntektSomFrilanser]: YesOrNo.UNANSWERED,
-    [AppFormField.frilans_oppdrag]: [],
     [AppFormField.selvstendig_harHattInntektSomSN]: YesOrNo.UNANSWERED,
     [AppFormField.selvstendig_virksomheter]: []
 };

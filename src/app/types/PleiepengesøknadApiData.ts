@@ -1,4 +1,3 @@
-import { FrilansoppdragApiData } from '@navikt/sif-common/lib/common/forms/frilans/types';
 import { VirksomhetApiData } from '@navikt/sif-common/lib/common/forms/virksomhet/types';
 import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
 import { ApiStringDate } from 'common/types/ApiStringDate';
@@ -118,9 +117,6 @@ export interface FerieuttakIPeriodeApiData {
 export interface FrilansApiData {
     startdato: ApiStringDate;
     jobber_fortsatt_som_frilans: boolean;
-    har_hatt_oppdrag_for_familie: boolean;
-    har_hatt_inntekt_som_fosterforelder: boolean;
-    oppdrag: FrilansoppdragApiData[];
 }
 
 export interface PleiepengesøknadApiData {
