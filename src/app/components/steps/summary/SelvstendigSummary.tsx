@@ -8,6 +8,7 @@ import TextareaSummary from '@navikt/sif-common/lib/common/components/textarea-s
 import { VirksomhetApiData } from '@navikt/sif-common/lib/common/forms/virksomhet/types';
 import intlHelper from '@navikt/sif-common/lib/common/utils/intlUtils';
 import Box from 'common/components/box/Box';
+import { harFiskerNæringstype } from 'common/forms/virksomhet/virksomhetUtils';
 import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
 import DatoSvar, { prettifyApiDate } from './DatoSvar';
 import IntlLabelValue from './IntlLabelValue';
@@ -23,6 +24,10 @@ interface Props {
 const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape) => {
     const land = getCountryName(virksomhet.registrert_i_land || 'NO', intl.locale);
     const næringstyper = virksomhet.naringstype.map((næring) => intlHelper(intl, `næringstype.${næring}`)).join(', ');
+    const fiskerinfo =
+        harFiskerNæringstype(virksomhet.naringstype) && virksomhet.fiskerinfo
+            ? virksomhet.fiskerinfo.map((info) => intlHelper(intl, `fiskerinfo.${info}`)).join(', ')
+            : undefined;
     const tidsinfo = `Startet ${prettifyApiDate(virksomhet.fra_og_med)}${
         virksomhet.til_og_med ? `, avsluttet ${prettifyApiDate(virksomhet.fra_og_med)}.` : ' (pågående).'
     }`;
@@ -30,6 +35,7 @@ const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape)
     return (
         <SummaryBlock header={virksomhet.navn_pa_virksomheten}>
             <IntlLabelValue labelKey="summary.virksomhet.næringstype">{næringstyper}</IntlLabelValue>
+            {fiskerinfo && <IntlLabelValue labelKey="summary.virksomhet.fiskerinfo">{fiskerinfo}</IntlLabelValue>}
             <p>
                 Registrert i {land}
                 {virksomhet.registrert_i_norge ? ` (organisasjonsnummer ${virksomhet.organisasjonsnummer})` : ``}.{' '}
