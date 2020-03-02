@@ -1,10 +1,16 @@
 {
     "næringstype.FISKE": "Fiske",
     "næringstype.JORDBRUK_SKOGBRUK": "Jordbruk",
-    "næringstype.DAGMAMMA": "Dagmamma",
+    "næringstype.DAGMAMMA": "Dagmamma i eget hjem",
     "næringstype.ANNEN": "Annen virksomhet",
 
+    "fiskerinfo.LOTT": "Lott",
+    "fiskerinfo.HYRE": "Hyre",
+    "fiskerinfo.BLAD_A": "Blad A",
+    "fiskerinfo.BLAD_B": "Blad B",
+
     "summary.virksomhet.næringstype": "Næringstype",
+    "summary.virksomhet.fiskerinfo": "Fisker",
     "summary.virksomhet.registrertILand": "Registrert i",
     "summary.virksomhet.orgnr": "Organisasjonsnummer",
     "summary.virksomhet.inntekt": "Næringsinntekt",
@@ -21,7 +27,6 @@
     "summary.virksomhet.harRevisor": "Har revisor",
     "summary.virksomhet.regnskapsfører": "Regnskapsfører",
     "summary.virksomhet.revisor": "Revisor",
-    "summary.virksomhet.erNærVennEllerFamilie": "Er nær venn eller familie",
     "summary.virksomhet.revisorEllerRegnskapsførerDetaljer": "{navn}, telefon: {telefon}.",
     "summary.virksomhet.revisor.kanInnhenteOpplysninger": "Kan innhente opplysninger",
 
@@ -34,17 +39,7 @@
     "frilanser.harDuHattInntekt.spm": "Har du jobbet og hatt inntekt som frilanser de siste 4 ukene?",
     "frilanser.nårStartet.spm": "Når startet du som frilanser?",
     "frilanser.jobberFortsatt.spm": "Jobber du fortsatt som frilanser?",
-    "frilanser.oppdragFamilieVenner.spm": "Har du hatt oppdrag for nær venn eller familie de 4 siste ukene?",
-    "frilanser.list.tittel": "Registrerte frilansoppdrag",
-    "frilanser.list.leggTilLabel": "Legg til oppdrag",
-    "frilanser.dialog.tittel": "Frilansoppdrag",
-    "frilanser.inntektFosterforelder.spm": "Har du inntekt som fosterforelder?",
     "frilanser.summary.harDuHattInntekt.header": "Har du jobbet og hatt inntekt som frilanser de siste 4 ukene?",
     "frilanser.summary.nårStartet.header": "Når startet du som frilanser?",
-    "frilanser.summary.jobberFortsatt.header": "Jobber du fortsatt som frilanser?",
-    "frilanser.summary.oppdragFamilieVenner.header": "Har du hatt oppdrag for nær venn eller familie de 4 siste ukene?",
-    "frilanser.summary.list.tittel": "Registrerte frilansoppdrag",
-    "frilanser.summary.list.pågående": "(pågående)",
-    "frilanser.summary.list.til": "til",
-    "frilanser.summary.inntektFosterforelder.header": "Har du inntekt som fosterforelder?"
+    "frilanser.summary.jobberFortsatt.header": "Jobber du fortsatt som frilanser?"
 }
