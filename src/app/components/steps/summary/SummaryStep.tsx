@@ -1,43 +1,44 @@
 import * as React from 'react';
-import { StepID } from '../../../config/stepConfig';
-import { HistoryProps } from 'common/types/History';
-import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import Box from 'common/components/box/Box';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
-import FormikStep from '../../formik-step/FormikStep';
-import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
-import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
-import LegeerklæringAttachmentList from '../../legeerklæring-file-list/LegeerklæringFileList';
-import { prettifyDate, apiStringDateToDate } from 'common/utils/dateUtils';
-import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
-import { BarnReceivedFromApi, Søkerdata } from '../../../types/Søkerdata';
-import { formatName } from 'common/utils/personUtils';
-import { sendApplication, purge } from '../../../api/api';
-import routeConfig from '../../../config/routeConfig';
-import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import * as apiUtils from '../../../utils/apiUtils';
-import ContentSwitcher from 'common/components/content-switcher/ContentSwitcher';
-import { WrappedComponentProps, FormattedMessage, injectIntl } from 'react-intl';
-import intlHelper from 'common/utils/intlUtils';
-import { Locale } from 'common/types/Locale';
-import ArbeidsforholdSummary from 'app/components/arbeidsforhold-summary/ArbeidsforholdSummary';
-import TilsynsordningSummary from './TilsynsordningSummary';
-import TextareaSummary from 'common/components/textarea-summary/TextareaSummary';
-import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
-import { appIsRunningInDemoMode } from '../../../utils/envUtils';
-import ValidationErrorSummaryBase from 'common/components/validation-error-summary-base/ValidationErrorSummaryBase';
-import { validateApiValues } from '../../../validation/apiValuesValidation';
-import SummaryList from 'common/components/summary-list/SummaryList';
-import {
-    renderUtenlandsoppholdSummary,
-    renderUtenlandsoppholdIPeriodenSummary,
-    renderFerieuttakIPeriodenSummary
-} from 'app/components/summary-renderers/renderUtenlandsoppholdSummary';
-import FormikConfirmationCheckboxPanel from 'common/formik/formik-confirmation-checkbox-panel/FormikConfirmationCheckboxPanel';
-import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
+import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import Panel from 'nav-frontend-paneler';
+import { Normaltekst } from 'nav-frontend-typografi';
+import Box from 'common/components/box/Box';
+import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
+import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
+import SummaryList from 'common/components/summary-list/SummaryList';
+import TextareaSummary from 'common/components/textarea-summary/TextareaSummary';
+import ValidationErrorSummaryBase from 'common/components/validation-error-summary-base/ValidationErrorSummaryBase';
+import FormikConfirmationCheckboxPanel from 'common/formik/formik-confirmation-checkbox-panel/FormikConfirmationCheckboxPanel';
+import { HistoryProps } from 'common/types/History';
+import { Locale } from 'common/types/Locale';
+import { apiStringDateToDate, prettifyDate } from 'common/utils/dateUtils';
+import intlHelper from 'common/utils/intlUtils';
+import { formatName } from 'common/utils/personUtils';
+import ArbeidsforholdSummary from 'app/components/arbeidsforhold-summary/ArbeidsforholdSummary';
+import {
+    renderFerieuttakIPeriodenSummary, renderUtenlandsoppholdIPeriodenSummary,
+    renderUtenlandsoppholdSummary
+} from 'app/components/steps/summary/renderUtenlandsoppholdSummary';
+import { Feature, isFeatureEnabled } from 'app/utils/featureToggleUtils';
+import { purge, sendApplication } from '../../../api/api';
+import routeConfig from '../../../config/routeConfig';
+import { StepID } from '../../../config/stepConfig';
+import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
+import { AppFormField } from '../../../types/PleiepengesøknadFormData';
+import { BarnReceivedFromApi, Søkerdata } from '../../../types/Søkerdata';
+import * as apiUtils from '../../../utils/apiUtils';
+import { appIsRunningInDemoMode } from '../../../utils/envUtils';
+import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
+import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
+import { validateApiValues } from '../../../validation/apiValuesValidation';
+import FormikStep from '../../formik-step/FormikStep';
+import LegeerklæringAttachmentList from '../../legeerklæring-file-list/LegeerklæringFileList';
+import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
+import BarnSummary from './BarnSummary';
 import FrilansSummary from './FrilansSummary';
+import SelvstendigSummary from './SelvstendigSummary';
+import TilsynsordningSummary from './TilsynsordningSummary';
+import './summary.less';
 
 interface State {
     sendingInProgress: boolean;
@@ -148,81 +149,7 @@ class SummaryStep extends React.Component<Props, State> {
                                         </ContentWithHeader>
                                     </Box>
                                     <Box margin="l">
-                                        <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.barnet.header')}>
-                                            <ContentSwitcher
-                                                firstContent={() => {
-                                                    const barnReceivedFromApi = barn.find(
-                                                        ({ aktoer_id }) =>
-                                                            aktoer_id === formValues.barnetSøknadenGjelder
-                                                    );
-                                                    return barnReceivedFromApi ? (
-                                                        <>
-                                                            <Normaltekst>
-                                                                <FormattedMessage
-                                                                    id="steg.oppsummering.barnet.navn"
-                                                                    values={{
-                                                                        navn: formatName(
-                                                                            barnReceivedFromApi!.fornavn,
-                                                                            barnReceivedFromApi!.etternavn,
-                                                                            barnReceivedFromApi!.mellomnavn
-                                                                        )
-                                                                    }}
-                                                                />
-                                                            </Normaltekst>
-                                                            <Normaltekst>
-                                                                <FormattedMessage
-                                                                    id="steg.oppsummering.barnet.fødselsdato"
-                                                                    values={{
-                                                                        dato: prettifyDate(
-                                                                            barnReceivedFromApi!.fodselsdato
-                                                                        )
-                                                                    }}
-                                                                />
-                                                            </Normaltekst>
-                                                        </>
-                                                    ) : (
-                                                        <></>
-                                                    );
-                                                }}
-                                                secondContent={() => (
-                                                    <>
-                                                        {apiValues.barn.fodselsdato ? (
-                                                            <Normaltekst>
-                                                                <FormattedMessage
-                                                                    id="steg.oppsummering.barnet.fødselsdato"
-                                                                    values={{
-                                                                        dato: prettifyDate(
-                                                                            apiStringDateToDate(
-                                                                                apiValues.barn.fodselsdato
-                                                                            )
-                                                                        )
-                                                                    }}
-                                                                />
-                                                            </Normaltekst>
-                                                        ) : null}
-                                                        {!apiValues.barn.fodselsdato ? (
-                                                            <Normaltekst>
-                                                                <FormattedMessage
-                                                                    id="steg.oppsummering.barnet.fnr"
-                                                                    values={{ fnr: apiValues.barn.fodselsnummer }}
-                                                                />
-                                                            </Normaltekst>
-                                                        ) : null}
-                                                        {apiValues.barn.navn ? (
-                                                            <Normaltekst>
-                                                                <FormattedMessage
-                                                                    id="steg.oppsummering.barnet.navn"
-                                                                    values={{ navn: apiValues.barn.navn }}
-                                                                />
-                                                            </Normaltekst>
-                                                        ) : null}
-                                                    </>
-                                                )}
-                                                showFirstContent={
-                                                    !formValues.søknadenGjelderEtAnnetBarn && barn && barn.length > 0
-                                                }
-                                            />
-                                        </ContentWithHeader>
+                                        <BarnSummary barn={barn} formValues={formValues} apiValues={apiValues} />
                                     </Box>
                                     <Box margin="l">
                                         <ContentWithHeader
@@ -243,39 +170,40 @@ class SummaryStep extends React.Component<Props, State> {
                                         </Box>
                                     )}
                                     {/* Utenlandsopphold i perioden */}
-                                    {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD) && utenlandsopphold_i_perioden && (
-                                        <>
-                                            <Box margin="l">
-                                                <ContentWithHeader
-                                                    header={intlHelper(
-                                                        intl,
-                                                        'steg.oppsummering.utenlandsoppholdIPerioden.header'
-                                                    )}>
-                                                    <FormattedMessage
-                                                        id={
-                                                            utenlandsopphold_i_perioden.skal_oppholde_seg_i_utlandet_i_perioden
-                                                                ? 'Ja'
-                                                                : 'Nei'
-                                                        }
-                                                    />
-                                                </ContentWithHeader>
-                                            </Box>
-                                            {utenlandsopphold_i_perioden.opphold.length > 0 && (
+                                    {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) &&
+                                        utenlandsopphold_i_perioden && (
+                                            <>
                                                 <Box margin="l">
                                                     <ContentWithHeader
                                                         header={intlHelper(
                                                             intl,
-                                                            'steg.oppsummering.utenlandsoppholdIPerioden.listetittel'
+                                                            'steg.oppsummering.utenlandsoppholdIPerioden.header'
                                                         )}>
-                                                        <SummaryList
-                                                            items={utenlandsopphold_i_perioden.opphold}
-                                                            itemRenderer={renderUtenlandsoppholdIPeriodenSummary}
+                                                        <FormattedMessage
+                                                            id={
+                                                                utenlandsopphold_i_perioden.skal_oppholde_seg_i_utlandet_i_perioden
+                                                                    ? 'Ja'
+                                                                    : 'Nei'
+                                                            }
                                                         />
                                                     </ContentWithHeader>
                                                 </Box>
-                                            )}
-                                        </>
-                                    )}
+                                                {utenlandsopphold_i_perioden.opphold.length > 0 && (
+                                                    <Box margin="l">
+                                                        <ContentWithHeader
+                                                            header={intlHelper(
+                                                                intl,
+                                                                'steg.oppsummering.utenlandsoppholdIPerioden.listetittel'
+                                                            )}>
+                                                            <SummaryList
+                                                                items={utenlandsopphold_i_perioden.opphold}
+                                                                itemRenderer={renderUtenlandsoppholdIPeriodenSummary}
+                                                            />
+                                                        </ContentWithHeader>
+                                                    </Box>
+                                                )}
+                                            </>
+                                        )}
                                     {/* Ferieuttak i perioden */}
                                     {isFeatureEnabled(Feature.TOGGLE_FERIEUTTAK) && ferieuttak_i_perioden && (
                                         <>
@@ -314,12 +242,15 @@ class SummaryStep extends React.Component<Props, State> {
                                         <ContentWithHeader
                                             header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.header')}>
                                             {apiValues.arbeidsgivere.organisasjoner.length > 0 ? (
-                                                apiValues.arbeidsgivere.organisasjoner.map((forhold) => (
-                                                    <ArbeidsforholdSummary
-                                                        key={forhold.organisasjonsnummer}
-                                                        arbeidsforhold={forhold}
-                                                    />
-                                                ))
+                                                <SummaryList
+                                                    items={apiValues.arbeidsgivere.organisasjoner}
+                                                    itemRenderer={(forhold) => (
+                                                        <ArbeidsforholdSummary
+                                                            key={forhold.organisasjonsnummer}
+                                                            arbeidsforhold={forhold}
+                                                        />
+                                                    )}
+                                                />
                                             ) : (
                                                 <FormattedMessage id="steg.oppsummering.arbeidsforhold.ingenArbeidsforhold" />
                                             )}
@@ -328,6 +259,10 @@ class SummaryStep extends React.Component<Props, State> {
 
                                     {isFeatureEnabled(Feature.TOGGLE_FRILANS) && (
                                         <FrilansSummary apiValues={apiValues} />
+                                    )}
+
+                                    {isFeatureEnabled(Feature.TOGGLE_SELVSTENDIG) && (
+                                        <SelvstendigSummary apiValues={apiValues} />
                                     )}
 
                                     {tilsynsordning && <TilsynsordningSummary tilsynsordning={tilsynsordning} />}

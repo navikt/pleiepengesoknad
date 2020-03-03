@@ -1,26 +1,28 @@
 import * as React from 'react';
-import { StepID, StepConfigProps } from '../../../config/stepConfig';
-import { HistoryProps } from 'common/types/History';
-import { validateFødselsdato, validateNavn, validateValgtBarn } from '../../../validation/fieldValidations';
-import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
-import { Søkerdata } from '../../../types/Søkerdata';
-import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
-import { formatName } from 'common/utils/personUtils';
-import { AppFormField, initialValues } from '../../../types/PleiepengesøknadFormData';
-import FormikStep from '../../formik-step/FormikStep';
-import { harRegistrerteBarn } from '../../../utils/søkerdataUtils';
-import { resetFieldValue, resetFieldValues } from 'common/formik/formikUtils';
-import { prettifyDate, dateToday } from 'common/utils/dateUtils';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { useIntl, FormattedMessage } from 'react-intl';
-import intlHelper from 'common/utils/intlUtils';
-import { appIsRunningInDemoMode } from '../../../utils/envUtils';
-import FormikInput from 'common/formik/formik-input/FormikInput';
 import FormikCheckbox from 'common/formik/formik-checkbox/FormikCheckbox';
-import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
 import FormikDatepicker from 'common/formik/formik-datepicker/FormikDatepicker';
+import FormikInput from 'common/formik/formik-input/FormikInput';
+import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
+import { resetFieldValue, resetFieldValues } from 'common/formik/formikUtils';
+import { HistoryProps } from 'common/types/History';
+import { dateToday, prettifyDate } from 'common/utils/dateUtils';
+import intlHelper from 'common/utils/intlUtils';
+import { formatName } from 'common/utils/personUtils';
 import { validateFødselsnummer } from 'common/validation/fieldValidations';
 import { persistAndNavigateTo } from 'app/utils/navigationUtils';
+import { StepConfigProps, StepID } from '../../../config/stepConfig';
+import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
+import { AppFormField, initialValues } from '../../../types/PleiepengesøknadFormData';
+import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
+import { Søkerdata } from '../../../types/Søkerdata';
+import { appIsRunningInDemoMode } from '../../../utils/envUtils';
+import { harRegistrerteBarn } from '../../../utils/søkerdataUtils';
+import {
+    validateFødselsdato, validateNavn, validateValgtBarn
+} from '../../../validation/fieldValidations';
+import FormikStep from '../../formik-step/FormikStep';
 
 interface OpplysningerOmBarnetStepProps {
     formikProps: PleiepengesøknadFormikProps;
@@ -154,11 +156,7 @@ const OpplysningerOmBarnetStep: React.FunctionComponent<Props> = ({
                                 label={intlHelper(intl, 'steg.omBarnet.navn')}
                                 name={AppFormField.barnetsNavn}
                                 validate={(navn) => {
-                                    // if (barnetHarIkkeFåttFødselsnummerEnda) {
-                                    // return validateNavn(navn, false);
-                                    // } else {
-                                    return validateNavn(navn, true);
-                                    // }
+                                    return validateNavn(navn, false);
                                 }}
                                 bredde="XL"
                             />

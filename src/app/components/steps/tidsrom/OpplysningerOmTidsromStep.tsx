@@ -1,36 +1,32 @@
 import * as React from 'react';
 import { FormattedHTMLMessage, useIntl } from 'react-intl';
-import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
-import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
+import Box from '@navikt/sif-common/lib/common/components/box/Box';
+import CounsellorPanel from '@navikt/sif-common/lib/common/components/counsellor-panel/CounsellorPanel';
+import FormikYesOrNoQuestion from '@navikt/sif-common/lib/common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
+import FerieuttakListAndDialog from '@navikt/sif-common/lib/common/forms/ferieuttak/FerieuttakListAndDialog';
+import { Ferieuttak } from '@navikt/sif-common/lib/common/forms/ferieuttak/types';
+import { Utenlandsopphold } from '@navikt/sif-common/lib/common/forms/utenlandsopphold/types';
+import UtenlandsoppholdListAndDialog from '@navikt/sif-common/lib/common/forms/utenlandsopphold/UtenlandsoppholdListAndDialog';
+import { HistoryProps } from '@navikt/sif-common/lib/common/types/History';
+import { YesOrNo } from '@navikt/sif-common/lib/common/types/YesOrNo';
+import {
+    date1YearAgo, date1YearFromNow, date3YearsAgo, DateRange
+} from '@navikt/sif-common/lib/common/utils/dateUtils';
+import intlHelper from '@navikt/sif-common/lib/common/utils/intlUtils';
+import {
+    validateYesOrNoIsAnswered
+} from '@navikt/sif-common/lib/common/validation/fieldValidations';
+import FormikDateIntervalPicker from 'common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import {
-    validateFradato,
-    validateTildato,
-    validateUtenlandsoppholdIPerioden,
-    validateFerieuttakIPerioden
-} from '../../../validation/fieldValidations';
-import { HistoryProps } from '@navikt/sif-common/lib/common/types/History';
-import {
-    date1YearAgo,
-    date1YearFromNow,
-    DateRange,
-    date3YearsAgo
-} from '@navikt/sif-common/lib/common/utils/dateUtils';
-import FormikStep from '../../formik-step/FormikStep';
-import { persistAndNavigateTo } from '../../../utils/navigationUtils';
-import intlHelper from '@navikt/sif-common/lib/common/utils/intlUtils';
-import FormikYesOrNoQuestion from '@navikt/sif-common/lib/common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
-import Box from '@navikt/sif-common/lib/common/components/box/Box';
-import { validateYesOrNoIsAnswered } from '@navikt/sif-common/lib/common/validation/fieldValidations';
-import { YesOrNo } from '@navikt/sif-common/lib/common/types/YesOrNo';
+import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
-import CounsellorPanel from '@navikt/sif-common/lib/common/components/counsellor-panel/CounsellorPanel';
-import FormikDateIntervalPicker from 'common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
-import UtenlandsoppholdListAndDialog from '@navikt/sif-common/lib/common/forms/utenlandsopphold/UtenlandsoppholdListAndDialog';
-import FerieuttakListAndDialog from '@navikt/sif-common/lib/common/forms/ferieuttak/FerieuttakListAndDialog';
-import { Utenlandsopphold } from '@navikt/sif-common/lib/common/forms/utenlandsopphold/types';
-import { Ferieuttak } from '@navikt/sif-common/lib/common/forms/ferieuttak/types';
+import { persistAndNavigateTo } from '../../../utils/navigationUtils';
+import {
+    validateFerieuttakIPerioden, validateFradato, validateTildato, validateUtenlandsoppholdIPerioden
+} from '../../../validation/fieldValidations';
+import FormikStep from '../../formik-step/FormikStep';
+import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
 
 interface OpplysningerOmTidsromStepProps {
     formikProps: PleiepengesøknadFormikProps;
@@ -58,9 +54,9 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
     const periode: DateRange = { from: periodeFra || date1YearAgo, to: periodeTil || date1YearFromNow };
     const intl = useIntl();
 
-    const visInfoOmUtenlandsopphold = harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning(
-        values.utenlandsoppholdIPerioden
-    );
+    const visInfoOmUtenlandsopphold =
+        values.utenlandsoppholdIPerioden &&
+        harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning(values.utenlandsoppholdIPerioden);
 
     return (
         <FormikStep
@@ -78,7 +74,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                     validate: validateFraDatoField,
                     name: AppFormField.periodeFra,
                     dateLimitations: {
-                        minDato: date3YearsAgo.toDate(),
+                        minDato: date3YearsAgo,
                         maksDato: validateTilDatoField(tilDato) === undefined ? tilDato : undefined
                     }
                 }}
@@ -87,7 +83,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                     validate: validateTilDatoField,
                     name: AppFormField.periodeTil,
                     dateLimitations: {
-                        minDato: validateFraDatoField(fraDato) === undefined ? fraDato : date3YearsAgo.toDate()
+                        minDato: validateFraDatoField(fraDato) === undefined ? fraDato : date3YearsAgo
                     }
                 }}
             />
@@ -110,7 +106,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                 </Box>
             )}
 
-            {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD) && (
+            {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) && (
                 <>
                     <Box margin="xxl">
                         <FormikYesOrNoQuestion<AppFormField>

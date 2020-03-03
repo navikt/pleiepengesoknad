@@ -9,7 +9,6 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import { date1YearAgo, date1YearFromNow, dateToday } from 'common/utils/dateUtils';
 import intlHelper from 'common/utils/intlUtils';
 import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
-import { Feature, isFeatureEnabled } from 'app/utils/featureToggleUtils';
 import { persistAndNavigateTo } from 'app/utils/navigationUtils';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import getLenker from '../../../lenker';
@@ -46,20 +45,19 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, nextStepRout
                 validate={validateYesOrNoIsAnswered}
                 helperText={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.hjelp')}
             />
-            {isFeatureEnabled(Feature.TOGGLE_BOSTED_UTLAND) &&
-                formValues.harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && (
-                    <Box margin="m">
-                        <BostedsoppholdIUtlandetFormPart
-                            periode={{ from: date1YearAgo, to: dateToday }}
-                            name={AppFormField.utenlandsoppholdSiste12Mnd}
-                            labels={{
-                                addLabel: 'Legg til nytt utenlandsopphold',
-                                listTitle: intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.listeTittel'),
-                                modalTitle: 'Utenlandsopphold siste 12 måneder'
-                            }}
-                        />
-                    </Box>
-                )}
+            {formValues.harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && (
+                <Box margin="m">
+                    <BostedsoppholdIUtlandetFormPart
+                        periode={{ from: date1YearAgo, to: dateToday }}
+                        name={AppFormField.utenlandsoppholdSiste12Mnd}
+                        labels={{
+                            addLabel: 'Legg til nytt utenlandsopphold',
+                            listTitle: intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.listeTittel'),
+                            modalTitle: 'Utenlandsopphold siste 12 måneder'
+                        }}
+                    />
+                </Box>
+            )}
             <Box margin="xl">
                 <FormikYesOrNoQuestion
                     legend={intlHelper(intl, 'steg.medlemsskap.annetLandNeste12.spm')}
@@ -68,20 +66,19 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, nextStepRout
                     helperText={intlHelper(intl, 'steg.medlemsskap.annetLandNeste12.hjelp')}
                 />
             </Box>
-            {isFeatureEnabled(Feature.TOGGLE_BOSTED_UTLAND) &&
-                formValues.skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES && (
-                    <Box margin="m">
-                        <BostedsoppholdIUtlandetFormPart
-                            periode={{ from: dateToday, to: date1YearFromNow }}
-                            name={AppFormField.utenlandsoppholdNeste12Mnd}
-                            labels={{
-                                addLabel: 'Legg til nytt utenlandsopphold',
-                                listTitle: intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.listeTittel'),
-                                modalTitle: 'Utenlandsopphold neste 12 måneder'
-                            }}
-                        />
-                    </Box>
-                )}
+            {formValues.skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES && (
+                <Box margin="m">
+                    <BostedsoppholdIUtlandetFormPart
+                        periode={{ from: dateToday, to: date1YearFromNow }}
+                        name={AppFormField.utenlandsoppholdNeste12Mnd}
+                        labels={{
+                            addLabel: 'Legg til nytt utenlandsopphold',
+                            listTitle: intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.listeTittel'),
+                            modalTitle: 'Utenlandsopphold neste 12 måneder'
+                        }}
+                    />
+                </Box>
+            )}
         </FormikStep>
     );
 };

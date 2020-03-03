@@ -13,7 +13,6 @@ function createEnvSettingsFileForHeroku() {
                 LOGIN_URL: 'https://pleiepenger.herokuapp.com/',
                 PUBLIC_PATH: '',
                 DEMO_MODE: 'on',
-                TOGGLE_BOSTED_UTLAND: 'on',
                 TOGGLE_FERIEUTTAK: 'on',
                 TOGGLE_FERIEUTTAK: 'on',
                 TOGGLE_FRILANS: 'on',

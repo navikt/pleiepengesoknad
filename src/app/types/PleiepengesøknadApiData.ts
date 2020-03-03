@@ -1,7 +1,8 @@
+import { VirksomhetApiData } from '@navikt/sif-common/lib/common/forms/virksomhet/types';
+import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
+import { ApiStringDate } from 'common/types/ApiStringDate';
 import { Locale } from 'common/types/Locale';
 import { TilsynVetIkkeHvorfor } from './PleiepengesøknadFormData';
-import { ApiStringDate } from 'common/types/ApiStringDate';
-import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
 
 export type ISO8601Duration = string;
 
@@ -116,16 +117,6 @@ export interface FerieuttakIPeriodeApiData {
 export interface FrilansApiData {
     startdato: ApiStringDate;
     jobber_fortsatt_som_frilans: boolean;
-    har_hatt_oppdrag_for_familie: boolean;
-    har_hatt_inntekt_som_fosterforelder: boolean;
-    oppdrag: FrilansoppdragApiData[];
-}
-
-export interface FrilansoppdragApiData {
-    arbeidsgivernavn: string;
-    fra_og_med: ApiStringDate;
-    til_og_med: ApiStringDate | null;
-    er_pagaende?: boolean;
 }
 
 export interface PleiepengesøknadApiData {
@@ -159,5 +150,7 @@ export interface PleiepengesøknadApiData {
         tilleggsinformasjon?: string;
     };
     har_hatt_inntekt_som_frilanser?: boolean;
+    har_hatt_inntekt_som_selvstendig_naringsdrivende?: boolean;
     frilans?: FrilansApiData;
+    selvstendig_virksomheter?: VirksomhetApiData[];
 }

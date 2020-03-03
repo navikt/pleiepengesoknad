@@ -1,11 +1,10 @@
 import React from 'react';
-import { Normaltekst } from 'nav-frontend-typografi';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { Normaltekst } from 'nav-frontend-typografi';
 import bemUtils from 'common/utils/bemUtils';
-import { ArbeidsforholdApi } from 'app/types/PleiepengesøknadApiData';
 import intlHelper from 'common/utils/intlUtils';
+import { ArbeidsforholdApi } from 'app/types/PleiepengesøknadApiData';
 import { calcRedusertProsentFromRedusertTimer } from '../../utils/arbeidsforholdUtils';
-
 import './arbeidsforholdSummary.less';
 
 interface OwnProps {
@@ -63,7 +62,10 @@ const ArbeidsforholdSummary: React.FunctionComponent<OwnProps> = ({
             {skal_jobbe === 'vet_ikke' && (
                 <div className={bem.element('detaljer')}>
                     <Normaltekst>
-                        <FormattedMessage id={`arbeidsforhold.oppsummering.svar.vet_ikke`} values={{ timer: intlHelper(intl, 'timer', { timer: jobber_normalt_timer }) }}/>
+                        <FormattedMessage
+                            id={`arbeidsforhold.oppsummering.svar.vet_ikke`}
+                            values={{ timer: intlHelper(intl, 'timer', { timer: jobber_normalt_timer }) }}
+                        />
                     </Normaltekst>
                 </div>
             )}
