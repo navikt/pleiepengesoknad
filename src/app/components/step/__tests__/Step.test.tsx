@@ -48,7 +48,7 @@ describe('<Step>', () => {
 
     it('should render common <Step> content', () => {
         const { getByText } = renderResult;
-        expect(getByText('Søknad om pleiepenger')).toBeTruthy();
+        expect(getByText('Søknad om pleiepenger for sykt barn eller person over 18 år')).toBeTruthy();
         expect(getByText('Barn')).toBeTruthy();
         expect(getByText('Fortsett')).toBeTruthy();
         expect(getByText('Tilbake')).toBeTruthy();
