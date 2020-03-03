@@ -43,7 +43,6 @@ jobs:
           key: node-{{ checksum "package.json" }}
       - run: npm test
       - run: npm run build
-      - run: npm run e2e-docker-compose
 
 workflows:
   version: 2
