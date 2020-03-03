@@ -2,6 +2,8 @@
 
 [![CircleCI](https://circleci.com/gh/navikt/pleiepengesoknad/tree/master.svg?style=svg)](https://circleci.com/gh/navikt/pleiepengesoknad/tree/master)
 
+![Bygg branch eller PR](https://github.com/navikt/pleiepengesoknad/workflows/Bygg%20branch%20eller%20PR/badge.svg) 
+
 Kildekoden til frontend-appen for ny selvbetjeningsløsning for
 pleiepenger.
 
