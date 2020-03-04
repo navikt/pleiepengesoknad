@@ -1,6 +1,7 @@
 # Pleiepengesøknad
 
-[![CircleCI](https://circleci.com/gh/navikt/pleiepengesoknad/tree/master.svg?style=svg)](https://circleci.com/gh/navikt/pleiepengesoknad/tree/master)
+![CI / CD](https://github.com/navikt/pleiepengesoknad/workflows/CI%20/%20CD/badge.svg)
+
 
 Kildekoden til frontend-appen for ny selvbetjeningsløsning for
 pleiepenger.
