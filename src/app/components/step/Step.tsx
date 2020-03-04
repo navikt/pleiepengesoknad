@@ -65,7 +65,7 @@ const Step: React.FunctionComponent<StepProps> = ({
             title={stepTexts.pageTitle}
             topContentRenderer={() => (
                 <>
-                    <StepBanner text="Søknad om pleiepenger" />
+                    <StepBanner text="Søknad om pleiepenger for sykt barn eller person over 18 år" />
                     {useValidationErrorSummary !== false && (
                         <FormikValidationErrorSummary className={bem.element('validationErrorSummary')} />
                     )}
