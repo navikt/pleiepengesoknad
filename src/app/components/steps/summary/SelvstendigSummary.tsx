@@ -24,10 +24,11 @@ interface Props {
 const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape) => {
     const land = getCountryName(virksomhet.registrert_i_land || 'NO', intl.locale);
     const næringstyper = virksomhet.naringstype.map((næring) => intlHelper(intl, `næringstype.${næring}`)).join(', ');
-    const fiskerinfo =
-        harFiskerNæringstype(virksomhet.naringstype) && virksomhet.fiskerinfo
-            ? virksomhet.fiskerinfo.map((info) => intlHelper(intl, `fiskerinfo.${info}`)).join(', ')
-            : undefined;
+    const fiskerinfo = harFiskerNæringstype(virksomhet.naringstype)
+        ? {
+              erPåPlaneB: virksomhet.fiskerErPåPlanB === true
+          }
+        : undefined;
     const tidsinfo = `Startet ${prettifyApiDate(virksomhet.fra_og_med)}${
         virksomhet.til_og_med ? `, avsluttet ${prettifyApiDate(virksomhet.fra_og_med)}.` : ' (pågående).'
     }`;
@@ -35,7 +36,11 @@ const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape)
     return (
         <SummaryBlock header={virksomhet.navn_pa_virksomheten}>
             <IntlLabelValue labelKey="summary.virksomhet.næringstype">{næringstyper}</IntlLabelValue>
-            {fiskerinfo && <IntlLabelValue labelKey="summary.virksomhet.fiskerinfo">{fiskerinfo}</IntlLabelValue>}
+            {fiskerinfo && (
+                <IntlLabelValue labelKey="summary.virksomhet.fiskerErPåPlanB">
+                    <JaNeiSvar harSvartJa={fiskerinfo.erPåPlaneB} />
+                </IntlLabelValue>
+            )}
             <p>
                 Registrert i {land}
                 {virksomhet.registrert_i_norge ? ` (organisasjonsnummer ${virksomhet.organisasjonsnummer})` : ``}.{' '}
@@ -87,6 +92,10 @@ const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape)
                         </>
                     )}
                 </p>
+            )}
+            {/** Har hverken revisor eller regnskapsfører */}
+            {virksomhet.har_regnskapsforer === false && virksomhet.har_revisor === false && (
+                <p>Har ikke regnskapsfører eller revisor.</p>
             )}
         </SummaryBlock>
     );
