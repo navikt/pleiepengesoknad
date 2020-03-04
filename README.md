@@ -2,6 +2,7 @@
 
 ![CI / CD](https://github.com/navikt/pleiepengesoknad/workflows/CI%20/%20CD/badge.svg)
 
+
 Kildekoden til frontend-appen for ny selvbetjeningsløsning for
 pleiepenger.
 
