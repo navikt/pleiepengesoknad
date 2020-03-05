@@ -15,6 +15,7 @@ import { mapTilsynsordningToApiData } from './formToApiMaps/mapTilsynsordningToA
 import {
     mapUtenlandsoppholdIPeriodenToApiData
 } from './formToApiMaps/mapUtenlandsoppholdIPeriodenToApiData';
+import { erPeriodeOver8Uker } from './søkerOver8UkerUtils';
 
 export const mapFormDataToApiData = (
     formData: PleiepengesøknadFormData,
@@ -85,6 +86,13 @@ export const mapFormDataToApiData = (
         har_bekreftet_opplysninger: harBekreftetOpplysninger,
         har_forstatt_rettigheter_og_plikter: harForståttRettigheterOgPlikter
     };
+
+    if (isFeatureEnabled(Feature.TOGGLE_8_UKER)) {
+        const info8uker = erPeriodeOver8Uker(periodeFra!, periodeTil!);
+        if (info8uker.erOver8Uker) {
+            apiData.bekrefter_periode_over_8_uker = formData.bekrefterPeriodeOver8uker === YesOrNo.YES;
+        }
+    }
 
     if (isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN)) {
         apiData.utenlandsopphold_i_perioden = {

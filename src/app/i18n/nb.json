@@ -1,4 +1,13 @@
 {
+    "common.dag": "dag",
+    "common.dager": "dager",
+    "common.varighet.dager": "{dager, plural, one {# dag} other {# dager}}",
+    "common.varighet.uker": "{uker, plural, one {# uke} other {# uker}}",
+    "common.varighet.ukerogdager": "{uker, plural, zero {} one {# uke} other {# uker}} {dager, plural, =0 {} one {og # dag} other {og # dager}}",
+    "common.varighet.og": "og",
+    "common.varighet.separator--full": " og ",
+    "common.varighet.separator--normal": ", ",
+
     "Ja": "Ja",
     "Nei": "Nei",
     "VetIkke": "Jeg er usikker",
@@ -220,6 +229,7 @@
     "steg.oppsummering.søker.fnr": "Fødselsnummer: {fodselsnummer}",
     "steg.oppsummering.tidsrom.header": "Periode",
     "steg.oppsummering.tidsrom.fomtom": "Fra {fom} til {tom}",
+    "steg.oppsummering.over8uker.header": "Bekrefter at søknad er for en periode lenger enn 8 uker ({varighet})?",
 
     "steg.oppsummering.barnet.header": "Om barnet",
     "steg.oppsummering.barnet.navn": "Navn: {navn}",
@@ -297,6 +307,7 @@
     "fieldvalidation.fradato.merEnnTreÅr": "Du kan ikke søke om pleiepenger for en periode som er mer enn tre år tilbake i tid",
     "fieldvalidation.fradato.erEtterTildato": "Fra-datoen kan ikke være senere enn til-datoen",
     "fieldvalidation.tildato.merEnnTreÅr": "Du kan ikke søke om pleiepenger for en periode som er mer enn tre år tilbake i tid",
+    "fieldvalidation.periodeErOver8UkerMenIkkeØnsket": "Du må bekrefte at du ønsker å søke for en periode over 8 uker ({varighet}), eller redusere varigheten på perioden til 8 uker i feltene over.",
     "fieldvalidation.tildato.erFørFradato": "Til-datoen kan ikke være tidligere enn fra-datoen",
     "fieldvalidation.legeerklæring.mangler": "Du må laste opp en legeerklæring",
     "fieldvalidation.legeerklæring.forMangeFiler": "Du kan maksimalt laste opp 3 bilder",

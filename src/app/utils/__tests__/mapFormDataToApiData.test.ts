@@ -581,6 +581,23 @@ describe('Test complete applications', () => {
         selvstendig_virksomheter: []
     };
 
+    const baseDato = new Date(2020, 1, 1);
+
+    const feature8UkerDatoer = {
+        under8Uker: {
+            periodeFra: moment(baseDato).toDate(),
+            periodeTil: moment(baseDato)
+                .add(3, 'weeks')
+                .toDate()
+        },
+        over8Uker: {
+            periodeFra: moment(baseDato).toDate(),
+            periodeTil: moment(baseDato)
+                .add(9, 'weeks')
+                .toDate()
+        }
+    };
+
     it('All features off', () => {
         (isFeatureEnabled as any).mockImplementation(() => false);
         const mappedData = mapFormDataToApiData(completeFormDataMock, barnMock, 'nb');
@@ -630,17 +647,17 @@ describe('Test complete applications', () => {
             selvstendig_virksomheter: []
         };
 
-        const mappedData = mapFormDataToApiData(
-            {
-                ...completeFormDataMock,
-                ...featureFerieIPeriodenFormData,
-                ...featureFrilanserFormData,
-                ...featureUtenlandsoppholdIPeriodenFormData,
-                ...featureSelvstendigFormData
-            },
-            barnMock,
-            'nb'
-        );
+        const featuresOnFormData: PleiepengesøknadFormData = {
+            ...completeFormDataMock,
+            ...featureFerieIPeriodenFormData,
+            ...featureFrilanserFormData,
+            ...featureUtenlandsoppholdIPeriodenFormData,
+            ...featureSelvstendigFormData
+        };
+
+        const mapFeaturesOnData = (data: PleiepengesøknadFormData): PleiepengesøknadApiData => {
+            return mapFormDataToApiData(data, barnMock, 'nb');
+        };
 
         const resultApiDataWithFeatures = {
             ...resultApiData,
@@ -650,6 +667,35 @@ describe('Test complete applications', () => {
             ...featureUtenlandsoppholdIPeriodenApiData
         };
 
-        expect(JSON.stringify(jsonSort(mappedData))).toEqual(JSON.stringify(jsonSort(resultApiDataWithFeatures)));
+        expect(JSON.stringify(jsonSort(mapFeaturesOnData(featuresOnFormData)))).toEqual(
+            JSON.stringify(jsonSort(resultApiDataWithFeatures))
+        );
+
+        const feature8UkerOver8ukerFormData: Partial<PleiepengesøknadFormData> = {
+            ...feature8UkerDatoer.over8Uker,
+            bekrefterPeriodeOver8uker: YesOrNo.YES
+        };
+
+        const feature8UkerOver8UkerApiData: Partial<PleiepengesøknadApiData> = {
+            fra_og_med: dateUtils.formatDateToApiFormat(feature8UkerDatoer.over8Uker.periodeFra),
+            til_og_med: dateUtils.formatDateToApiFormat(feature8UkerDatoer.over8Uker.periodeTil),
+            bekrefter_periode_over_8_uker: true
+        };
+
+        expect(
+            JSON.stringify(jsonSort(mapFeaturesOnData({ ...featuresOnFormData, ...feature8UkerOver8ukerFormData })))
+        ).toEqual(JSON.stringify(jsonSort({ ...resultApiDataWithFeatures, ...feature8UkerOver8UkerApiData })));
+
+        const feature8UkerUnder8ukerFormData: Partial<PleiepengesøknadFormData> = {
+            ...feature8UkerDatoer.under8Uker
+        };
+        const feature8UkerUnder8UkerApiData: Partial<PleiepengesøknadApiData> = {
+            fra_og_med: dateUtils.formatDateToApiFormat(feature8UkerDatoer.under8Uker.periodeFra),
+            til_og_med: dateUtils.formatDateToApiFormat(feature8UkerDatoer.under8Uker.periodeTil)
+        };
+
+        expect(
+            JSON.stringify(jsonSort(mapFeaturesOnData({ ...featuresOnFormData, ...feature8UkerUnder8ukerFormData })))
+        ).toEqual(JSON.stringify(jsonSort({ ...resultApiDataWithFeatures, ...feature8UkerUnder8UkerApiData })));
     });
 });

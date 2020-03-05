@@ -58,4 +58,6 @@ spec:
           value: "off"
         - name: TOGGLE_SELVSTENDIG
           value: "off"
+        - name: TOGGLE_8_UKER
+          value: "off"
 
