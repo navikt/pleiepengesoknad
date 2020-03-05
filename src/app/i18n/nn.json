@@ -193,6 +193,9 @@
     "steg.tidsrom.samtidigHjemme.spm": "Skal de vere heime / på sjukehus samtidig for å pleie barnet?",
     "steg.tidsrom.dagerPerUkeBorteFraJobb.spm": "Kor mange dagar per veke skal du vere borte frå jobb for å ta hand om barnet? Rund av til næraste halve dag.",
 
+    "steg.tidsrom.skalOppholdeSegSammenMedBarnetIPerioden.spm": "Skal du bo sammen med barnet i hele perioden?",
+    "steg.tidsrom.bekreftOmsorgEkstrainfo.spm": "Beskriv omsorgsrollen du har for barnet i tidsrommet du skal ha pleiepenger:",
+
     "steg.tilsyn.veileder.html": "<p>Eit omsorgstilbod kan vere barnehage, skule, SFO, omsorgsbustad, BPA (brukarstyrt personleg assistent) eller andre organiserte tilbod.</p><p>Du må gi opp alle timane barnet er i eit omsorgstilbod.</p>",
     "steg.tilsyn.skalBarnetHaTilsyn.spm": "Skal barnet vere i eit omsorgstilbod i perioden du søkjer om pleiepengar?",
     "steg.tilsyn.ja.hvorMyeTilsyn.spm": "Gi opp tida barnet er i eit omsorgstilbod.",

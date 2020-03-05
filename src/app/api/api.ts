@@ -27,6 +27,15 @@ export const getSøker = () => axios.get(getApiUrlByResourceType(ResourceType.S�
 export const getArbeidsgiver = (fom: string, tom: string): Promise<AxiosResponse<{ organisasjoner: Arbeidsgiver[] }>> =>
     axios.get(`${getApiUrlByResourceType(ResourceType.ARBEIDSGIVER)}?fra_og_med=${fom}&til_og_med=${tom}`, axiosConfig);
 
+export const getSkalBekrefteOmsorg = (
+    id: string,
+    erRegistrertBarn: boolean
+): Promise<AxiosResponse<{ skalBekrefteOmsorg: boolean }>> => {
+    const params = erRegistrertBarn ? `aktor_id=${id}` : `fnr=${id}`;
+    const url = `${getApiUrlByResourceType(ResourceType.BEKREFT_OMSORG)}?${params}`;
+    return axios.get(url, axiosConfig);
+};
+
 export const sendApplication = (data: PleiepengesøknadApiData) =>
     axios.post(getApiUrlByResourceType(ResourceType.SEND_SØKNAD), data, axiosConfig);
 

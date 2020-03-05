@@ -46,6 +46,8 @@ export enum AppFormField {
     periodeFra = 'periodeFra',
     periodeTil = 'periodeTil',
     bekrefterPeriodeOver8uker = 'bekrefterPeriodeOver8uker',
+    skalOppholdeSegSammenMedBarnetIPerioden = 'skalOppholdeSegSammenMedBarnetIPerioden',
+    bekreftOmsorgForBarnetEkstrainfo = 'bekreftOmsorgForBarnetEkstrainfo',
     legeerklæring = 'legeerklæring',
     arbeidsforhold = 'arbeidsforhold',
     harBoddUtenforNorgeSiste12Mnd = 'harBoddUtenforNorgeSiste12Mnd',
@@ -112,6 +114,8 @@ export interface PleiepengesøknadFormData {
     [AppFormField.periodeFra]?: Date;
     [AppFormField.periodeTil]?: Date;
     [AppFormField.bekrefterPeriodeOver8uker]?: YesOrNo;
+    [AppFormField.skalOppholdeSegSammenMedBarnetIPerioden]?: YesOrNo;
+    [AppFormField.bekreftOmsorgForBarnetEkstrainfo]?: string;
     [AppFormField.legeerklæring]: Attachment[];
     [AppFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo;
     [AppFormField.utenlandsoppholdSiste12Mnd]: Utenlandsopphold[];
