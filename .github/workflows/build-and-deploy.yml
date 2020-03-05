@@ -28,7 +28,7 @@ jobs:
         run: |
           npm ci
           # npm run test
-          npn run e2e
+          npm run e2e
 
   build-code-and-push-docker:
     name: Build code and push docker image
