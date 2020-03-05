@@ -26,7 +26,7 @@ const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape)
     const næringstyper = virksomhet.naringstype.map((næring) => intlHelper(intl, `næringstype.${næring}`)).join(', ');
     const fiskerinfo = harFiskerNæringstype(virksomhet.naringstype)
         ? {
-              erPåPlaneB: virksomhet.fiskerErPåPlanB === true
+              erPåPlaneB: virksomhet.fiskerErPåBladB === true
           }
         : undefined;
     const tidsinfo = `Startet ${prettifyApiDate(virksomhet.fra_og_med)}${
@@ -37,7 +37,7 @@ const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape)
         <SummaryBlock header={virksomhet.navn_pa_virksomheten}>
             <IntlLabelValue labelKey="summary.virksomhet.næringstype">{næringstyper}</IntlLabelValue>
             {fiskerinfo && (
-                <IntlLabelValue labelKey="summary.virksomhet.fiskerErPåPlanB">
+                <IntlLabelValue labelKey="summary.virksomhet.fiskerErPåBladB">
                     <JaNeiSvar harSvartJa={fiskerinfo.erPåPlaneB} />
                 </IntlLabelValue>
             )}
