@@ -125,6 +125,7 @@ export interface PleiepengesøknadApiData {
     barn: BarnToSendToApi;
     fra_og_med: ApiStringDate;
     til_og_med: ApiStringDate;
+    bekrefter_periode_over_8_uker?: boolean;
     arbeidsgivere: { organisasjoner: ArbeidsforholdApi[] };
     vedlegg: string[];
     medlemskap: Medlemskap;

@@ -30,12 +30,15 @@ import * as apiUtils from '../../../utils/apiUtils';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
 import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
+import { erPeriodeOver8Uker } from '../../../utils/søkerOver8UkerUtils';
+import { getVarighetString } from '../../../utils/varighetUtils';
 import { validateApiValues } from '../../../validation/apiValuesValidation';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringAttachmentList from '../../legeerklæring-file-list/LegeerklæringFileList';
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import BarnSummary from './BarnSummary';
 import FrilansSummary from './FrilansSummary';
+import JaNeiSvar from './JaNeiSvar';
 import SelvstendigSummary from './SelvstendigSummary';
 import TilsynsordningSummary from './TilsynsordningSummary';
 import './summary.less';
@@ -86,6 +89,12 @@ class SummaryStep extends React.Component<Props, State> {
             showButtonSpinner: sendingInProgress,
             buttonDisabled: sendingInProgress
         };
+
+        const { periodeFra, periodeTil } = formValues;
+        const info8uker =
+            isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) && periodeFra && periodeTil
+                ? erPeriodeOver8Uker(periodeFra, periodeTil)
+                : undefined;
 
         return (
             <SøkerdataContextConsumer>
@@ -148,6 +157,20 @@ class SummaryStep extends React.Component<Props, State> {
                                             </Normaltekst>
                                         </ContentWithHeader>
                                     </Box>
+                                    {isFeatureEnabled(Feature.TOGGLE_8_UKER) && info8uker?.erOver8Uker && (
+                                        <Box margin="l">
+                                            <ContentWithHeader
+                                                header={intlHelper(
+                                                    intl,
+                                                    'steg.oppsummering.over8uker.header',
+                                                    info8uker
+                                                        ? { varighet: getVarighetString(info8uker?.antallDager, intl) }
+                                                        : undefined
+                                                )}>
+                                                <JaNeiSvar harSvartJa={apiValues.bekrefter_periode_over_8_uker} />
+                                            </ContentWithHeader>
+                                        </Box>
+                                    )}
                                     <Box margin="l">
                                         <BarnSummary barn={barn} formValues={formValues} apiValues={apiValues} />
                                     </Box>
