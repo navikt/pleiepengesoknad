@@ -1,4 +1,13 @@
 {
+    "common.dag": "dag",
+    "common.dager": "dagar",
+    "common.varighet.dager": "{dager, plural, one {# dag} other {# dagar}}",
+    "common.varighet.uker": "{uker, plural, one {# veke} other {# veker}}",
+    "common.varighet.ukerogdager": "{uker, plural, zero {} one {# veke} other {# veker}} {dager, plural, =0 {} one {og # dag} other {og # dagar}}",
+    "common.varighet.og": "og",
+    "common.varighet.separator--full": " og ",
+    "common.varighet.separator--normal": ", ",
+
     "Ja": "Ja",
     "Nei": "Nei",
     "VetIkke": "Eg er usikker",
@@ -299,6 +308,7 @@
     "fieldvalidation.fradato.erEtterTildato": "Frå-datoen kan ikkje vere seinare enn til-datoen.",
     "fieldvalidation.tildato.merEnnTreÅr": "Du kan ikkje søkje om pleiepengar for ein periode som er meir enn tre år tilbake i tid.",
     "fieldvalidation.tildato.erFørFradato": "Til-datoen kan ikkje vere tidlegare enn frå-datoen.",
+    "fieldvalidation.periodeErOver8UkerMenIkkeØnsket": "Du har søkt om periode som er over 8 uker ({varighet}), men ikke bekreftet at du ønsker å gjøre dette. Vennligst bekreft dette under, eller reduser lengden på perioden.",
     "fieldvalidation.legeerklæring.mangler": "Du må laste opp ei legeerklæring.",
     "fieldvalidation.legeerklæring.forMangeFiler": "Du kan maksimalt laste opp 3 bilete.",
     "fieldvalidation.grad.ugyldig": "Du må gi opp graden som eit heiltal mellom 20 og 100 prosent.",

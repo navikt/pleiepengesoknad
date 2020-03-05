@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { FormattedHTMLMessage, useIntl } from 'react-intl';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Box from '@navikt/sif-common/lib/common/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common/lib/common/components/counsellor-panel/CounsellorPanel';
 import FormikYesOrNoQuestion from '@navikt/sif-common/lib/common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
+import { isValidationErrorsVisible } from '@navikt/sif-common/lib/common/formik/formikUtils';
 import FerieuttakListAndDialog from '@navikt/sif-common/lib/common/forms/ferieuttak/FerieuttakListAndDialog';
 import { Ferieuttak } from '@navikt/sif-common/lib/common/forms/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common/lib/common/forms/utenlandsopphold/types';
@@ -16,12 +18,14 @@ import intlHelper from '@navikt/sif-common/lib/common/utils/intlUtils';
 import {
     validateYesOrNoIsAnswered
 } from '@navikt/sif-common/lib/common/validation/fieldValidations';
+import { FieldValidationError } from '@navikt/sif-common/lib/common/validation/types';
 import FormikDateIntervalPicker from 'common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { persistAndNavigateTo } from '../../../utils/navigationUtils';
+import { getAntallDager, getVarighetString } from '../../../utils/varighetUtils';
 import {
     validateFerieuttakIPerioden, validateFradato, validateTildato, validateUtenlandsoppholdIPerioden
 } from '../../../validation/fieldValidations';
@@ -42,6 +46,12 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
     const harMedsøker = formikProps.values[AppFormField.harMedsøker];
 
     const { periodeFra, periodeTil } = formikProps.values;
+    const periode: DateRange = { from: periodeFra || date1YearAgo, to: periodeTil || date1YearFromNow };
+    const intl = useIntl();
+
+    const antallDager = periodeFra && periodeTil ? getAntallDager(periodeFra, periodeTil) : undefined;
+    const erOver8uker = antallDager && antallDager > 5 * 8;
+    const varighet = antallDager && erOver8uker ? getVarighetString(antallDager, intl) : undefined;
 
     const validateFraDatoField = (date?: Date) => {
         return validateFradato(date, periodeTil);
@@ -51,8 +61,23 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
         return validateTildato(date, periodeFra);
     };
 
-    const periode: DateRange = { from: periodeFra || date1YearAgo, to: periodeTil || date1YearFromNow };
-    const intl = useIntl();
+    const validateBekreft8uker = (value: YesOrNo): FieldValidationError | undefined => {
+        const err = validateYesOrNoIsAnswered(value);
+        if (err) {
+            return err;
+        }
+
+        if (value === YesOrNo.NO && erOver8uker && periodeFra && periodeTil) {
+            const error: FieldValidationError = {
+                key: 'fieldvalidation.periodeErOver8UkerMenIkkeØnsket',
+                values: {
+                    varighet
+                }
+            };
+            return error;
+        }
+        return undefined;
+    };
 
     const visInfoOmUtenlandsopphold =
         values.utenlandsoppholdIPerioden &&
@@ -87,6 +112,31 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                     }
                 }}
             />
+            {isFeatureEnabled(Feature.TOGGLE_8_UKER) && (
+                <>
+                    {erOver8uker && (
+                        <>
+                            <Box margin="xl">
+                                <FormikYesOrNoQuestion<AppFormField>
+                                    name={AppFormField.søkerPeriodeOver8uker}
+                                    legend={`Når du velger en periode som er mer enn 8 uker (${varighet}), må du bekrefte  at du ønsker dette. Ønsker du å søke om mer enn 8 uker med pleiepenger?`}
+                                    validate={validateBekreft8uker}
+                                />
+                            </Box>
+                            {values.søkerPeriodeOver8uker === YesOrNo.NO &&
+                                !isValidationErrorsVisible(formikProps.status, formikProps.submitCount) && (
+                                    <>
+                                        <AlertStripeAdvarsel>
+                                            For å kunne sende inn en søknad for en periode som er mer enn 8 uker, må du
+                                            bekrefte at du ønsker dette for å komme videre. Dersom du ikke bekrefter, må
+                                            du redusere redusere varigheten på perioden til maks 8 uker.
+                                        </AlertStripeAdvarsel>
+                                    </>
+                                )}
+                        </>
+                    )}
+                </>
+            )}
 
             <Box margin="xl">
                 <FormikYesOrNoQuestion

@@ -56,5 +56,7 @@ spec:
           value: "on"
         - name: TOGGLE_SELVSTENDIG
           value: "on"
+        - name: TOGGLE_8_UKER
+          value: "on"
 
 
