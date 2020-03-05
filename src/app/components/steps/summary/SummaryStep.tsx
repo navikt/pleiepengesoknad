@@ -30,6 +30,8 @@ import * as apiUtils from '../../../utils/apiUtils';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
 import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
+import { erPeriodeOver8Uker } from '../../../utils/søkerOver8UkerUtils';
+import { getVarighetString } from '../../../utils/varighetUtils';
 import { validateApiValues } from '../../../validation/apiValuesValidation';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringAttachmentList from '../../legeerklæring-file-list/LegeerklæringFileList';
@@ -87,6 +89,12 @@ class SummaryStep extends React.Component<Props, State> {
             showButtonSpinner: sendingInProgress,
             buttonDisabled: sendingInProgress
         };
+
+        const { periodeFra, periodeTil } = formValues;
+        const info8uker =
+            isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) && periodeFra && periodeTil
+                ? erPeriodeOver8Uker(periodeFra, periodeTil)
+                : undefined;
 
         return (
             <SøkerdataContextConsumer>
@@ -152,7 +160,13 @@ class SummaryStep extends React.Component<Props, State> {
                                     {isFeatureEnabled(Feature.TOGGLE_8_UKER) && (
                                         <Box margin="l">
                                             <ContentWithHeader
-                                                header={intlHelper(intl, 'steg.oppsummering.over8uker.header')}>
+                                                header={intlHelper(
+                                                    intl,
+                                                    'steg.oppsummering.over8uker.header',
+                                                    info8uker
+                                                        ? { varighet: getVarighetString(info8uker?.antallDager, intl) }
+                                                        : undefined
+                                                )}>
                                                 <JaNeiSvar harSvartJa={apiValues.bekrefter_periode_over_8_uker} />
                                             </ContentWithHeader>
                                         </Box>

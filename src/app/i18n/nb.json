@@ -229,7 +229,7 @@
     "steg.oppsummering.søker.fnr": "Fødselsnummer: {fodselsnummer}",
     "steg.oppsummering.tidsrom.header": "Periode",
     "steg.oppsummering.tidsrom.fomtom": "Fra {fom} til {tom}",
-    "steg.oppsummering.over8uker.header": "Bekrefter at søknad er for en periode lenger enn 8 uker?",
+    "steg.oppsummering.over8uker.header": "Bekrefter at søknad er for en periode lenger enn 8 uker ({varighet})?",
 
     "steg.oppsummering.barnet.header": "Om barnet",
     "steg.oppsummering.barnet.navn": "Navn: {navn}",
