@@ -90,7 +90,7 @@ export const mapFormDataToApiData = (
     if (isFeatureEnabled(Feature.TOGGLE_8_UKER)) {
         const info8uker = erPeriodeOver8Uker(periodeFra!, periodeTil!);
         if (info8uker.erOver8Uker) {
-            apiData.bekrefter_periode_over_8_uker = formData.søkerPeriodeOver8uker === YesOrNo.YES;
+            apiData.bekrefter_periode_over_8_uker = formData.bekrefterPeriodeOver8uker === YesOrNo.YES;
         }
     }
 

@@ -117,7 +117,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                         <>
                             <Box margin="xl">
                                 <FormikYesOrNoQuestion<AppFormField>
-                                    name={AppFormField.søkerPeriodeOver8uker}
+                                    name={AppFormField.bekrefterPeriodeOver8uker}
                                     legend={`Når du velger en periode som er mer enn 8 uker (${getVarighetString(
                                         info8uker.antallDager,
                                         intl
@@ -125,7 +125,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                                     validate={validateBekreft8uker}
                                 />
                             </Box>
-                            {values.søkerPeriodeOver8uker === YesOrNo.NO &&
+                            {values.bekrefterPeriodeOver8uker === YesOrNo.NO &&
                                 !isValidationErrorsVisible(formikProps.status, formikProps.submitCount) && (
                                     <>
                                         <AlertStripeAdvarsel>
