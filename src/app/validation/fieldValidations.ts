@@ -5,8 +5,8 @@ import { Time } from 'common/types/Time';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { attachmentHasBeenUploaded } from 'common/utils/attachmentUtils';
 import {
-    date1YearAgo, date1YearFromNow, DateRange, dateRangesCollide, dateRangesExceedsRange, dateToday,
-    isMoreThan3YearsAgo
+    date1YearAgo, date1YearFromNow, DateRange, dateRangesCollide, dateRangesExceedsRange,
+    dateRangesHasFromDateEqualPreviousRangeToDate, dateToday, isMoreThan3YearsAgo
 } from 'common/utils/dateUtils';
 import { timeToDecimalTime } from 'common/utils/timeUtils';
 import {
@@ -38,6 +38,7 @@ export enum AppFieldValidationErrors {
     'tilsynsordning_forMangeTegn' = 'fieldvalidation.tilsynsordning_forMangeTegn',
     'utenlandsopphold_ikke_registrert' = 'fieldvalidation.utenlandsopphold_ikke_registrert',
     'utenlandsopphold_overlapper' = 'fieldvalidation.utenlandsopphold_overlapper',
+    'utenlandsopphold_overlapper_samme_start_slutt' = 'fieldvalidation.utenlandsopphold_overlapper_samme_start_slutt',
     'utenlandsopphold_utenfor_periode' = 'fieldvalidation.utenlandsopphold_utenfor_periode',
     'ferieuttak_ikke_registrert' = 'fieldvalidation.ferieuttak_ikke_registrert',
     'ferieuttak_overlapper' = 'fieldvalidation.ferieuttak_overlapper',
@@ -180,6 +181,10 @@ export const validateUtenlandsoppholdNeste12Mnd = (utenlandsopphold: Utenlandsop
     if (dateRangesExceedsRange(dateRanges, { from: new Date(), to: date1YearFromNow })) {
         return createAppFieldValidationError(AppFieldValidationErrors.utenlandsopphold_utenfor_periode);
     }
+    if (dateRangesHasFromDateEqualPreviousRangeToDate(dateRanges)) {
+        return createAppFieldValidationError(AppFieldValidationErrors.utenlandsopphold_overlapper_samme_start_slutt);
+    }
+
     return undefined;
 };
 
@@ -196,6 +201,9 @@ export const validateUtenlandsoppholdIPerioden = (
     }
     if (dateRangesExceedsRange(dateRanges, periode)) {
         return createAppFieldValidationError(AppFieldValidationErrors.utenlandsopphold_utenfor_periode);
+    }
+    if (dateRangesHasFromDateEqualPreviousRangeToDate(dateRanges)) {
+        return createAppFieldValidationError(AppFieldValidationErrors.utenlandsopphold_overlapper_samme_start_slutt);
     }
     return undefined;
 };
