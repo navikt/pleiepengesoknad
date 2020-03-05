@@ -20,18 +20,19 @@ import intlHelper from '@navikt/sif-common/lib/common/utils/intlUtils';
 import {
     validateYesOrNoIsAnswered
 } from '@navikt/sif-common/lib/common/validation/fieldValidations';
-import { hasValue } from '@navikt/sif-common/lib/common/validation/hasValue';
 import { FieldValidationError } from '@navikt/sif-common/lib/common/validation/types';
 import FormikDateIntervalPicker from 'common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
+import { Søkerdata } from '../../../types/Søkerdata';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { persistAndNavigateTo } from '../../../utils/navigationUtils';
-import {
-    getSkalBrukerBekrefteOmsorgForBarnet, skalSjekkeOmBrukerMåBekrefteOmsorgIPerioden
-} from '../../../utils/omsorgUtils';
+import { getSkalBrukerBekrefteOmsorgForBarnet } from '../../../utils/omsorgUtils';
 import { erPeriodeOver8Uker } from '../../../utils/søkerOver8UkerUtils';
+import {
+    skalSpørreApiOmBrukerMåBekrefteOmsorg, søkerHarBarn, søkerHarValgtRegistrertBarn
+} from '../../../utils/tidsromUtils';
 import { getVarighetString } from '../../../utils/varighetUtils';
 import {
     validateBekreftOmsorgEkstrainfo, validateFerieuttakIPerioden, validateFradato, validateTildato,
@@ -42,11 +43,12 @@ import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './h
 
 interface OpplysningerOmTidsromStepProps {
     formikProps: PleiepengesøknadFormikProps;
+    søkerdata: Søkerdata;
 }
 
 type Props = OpplysningerOmTidsromStepProps & HistoryProps & StepConfigProps;
 
-const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...stepProps }: Props) => {
+const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, søkerdata, ...stepProps }: Props) => {
     const { values, handleSubmit } = formikProps;
     const [isLoading, setIsLoading] = React.useState(false);
 
@@ -58,31 +60,22 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
     const periode: DateRange = { from: periodeFra || date1YearAgo, to: periodeTil || date1YearFromNow };
     const intl = useIntl();
 
-    const barnHarBareFødselsdato: boolean =
-        values.søknadenGjelderEtAnnetBarn === true &&
-        !hasValue(values.barnetsFødselsnummer) &&
-        hasValue(values.barnetsFødselsdato);
-
     const info8uker = periodeFra && periodeTil ? erPeriodeOver8Uker(periodeFra, periodeTil) : undefined;
 
     React.useEffect(() => {
         const fetchData = async () => {
-            const erRegistrertBarn =
-                values.barnetSøknadenGjelder !== undefined && values.søknadenGjelderEtAnnetBarn !== true;
             const skalBekrefteOmsorg = await getSkalBrukerBekrefteOmsorgForBarnet(
                 values.barnetSøknadenGjelder,
-                erRegistrertBarn
+                søkerHarBarn(søkerdata) && søkerHarValgtRegistrertBarn(values)
             );
             formikProps.setFieldValue(AppFormField.skalBekrefteOmsorg, skalBekrefteOmsorg);
             setIsLoading(false);
         };
-        if (
-            isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG) &&
-            !barnHarBareFødselsdato &&
-            skalSjekkeOmBrukerMåBekrefteOmsorgIPerioden(values)
-        ) {
+        if (skalSpørreApiOmBrukerMåBekrefteOmsorg(søkerdata, values)) {
             setIsLoading(true);
             fetchData();
+        } else {
+            formikProps.setFieldValue(AppFormField.skalBekrefteOmsorg, true);
         }
     }, []);
 
@@ -178,28 +171,27 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                         </>
                     )}
 
-                    {isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG) &&
-                        (values.skalBekrefteOmsorg || barnHarBareFødselsdato) && (
-                            <>
+                    {isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG) && values.skalBekrefteOmsorg && (
+                        <>
+                            <Box margin="xl">
+                                <FormikYesOrNoQuestion<AppFormField>
+                                    legend={intlHelper(intl, 'steg.tidsrom.skalPassePåBarnetIHelePerioden.spm')}
+                                    name={AppFormField.skalPassePåBarnetIHelePerioden}
+                                    validate={validateYesOrNoIsAnswered}
+                                />
+                            </Box>
+                            {values.skalPassePåBarnetIHelePerioden === YesOrNo.NO && (
                                 <Box margin="xl">
-                                    <FormikYesOrNoQuestion<AppFormField>
-                                        legend={intlHelper(intl, 'steg.tidsrom.skalPassePåBarnetIHelePerioden.spm')}
-                                        name={AppFormField.skalPassePåBarnetIHelePerioden}
-                                        validate={validateYesOrNoIsAnswered}
+                                    <FormikTextarea<AppFormField>
+                                        label={intlHelper(intl, 'steg.tidsrom.bekreftOmsorgEkstrainfo.spm')}
+                                        name={AppFormField.beskrivelseOmsorgsrolleIPerioden}
+                                        validate={validateBekreftOmsorgEkstrainfo}
+                                        maxLength={1000}
                                     />
                                 </Box>
-                                {(barnHarBareFødselsdato || values.skalPassePåBarnetIHelePerioden === YesOrNo.NO) && (
-                                    <Box margin="xl">
-                                        <FormikTextarea<AppFormField>
-                                            label={intlHelper(intl, 'steg.tidsrom.bekreftOmsorgEkstrainfo.spm')}
-                                            name={AppFormField.beskrivelseOmsorgsrolleIPerioden}
-                                            validate={validateBekreftOmsorgEkstrainfo}
-                                            maxLength={1000}
-                                        />
-                                    </Box>
-                                )}
-                            </>
-                        )}
+                            )}
+                        </>
+                    )}
 
                     <Box margin="xl">
                         <FormikYesOrNoQuestion

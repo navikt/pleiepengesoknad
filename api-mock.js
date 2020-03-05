@@ -116,7 +116,13 @@ const startServer = () => {
 
     server.get('/barn', (req, res) => res.send(barnMock));
 
-    server.get('/skalBekrefteOmsorg', (req, res) => res.send({ skalBekrefteOmsorg: true }));
+    server.get('/skalBekrefteOmsorg', (req, res) => {
+        if (req.query['aktor_id']) {
+            res.send({ skalBekrefteOmsorg: false });
+        } else {
+            res.send({ skalBekrefteOmsorg: true });
+        }
+    });
 
     server.post('/soknad', (req, res) => {
         res.sendStatus(200);

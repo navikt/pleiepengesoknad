@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { Søkerdata } from '../types/Søkerdata';
-import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData'
 import { StepID } from '../config/stepConfig';
+import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { Søkerdata } from '../types/Søkerdata';
 
 export interface Appdata {
-    lastStepID?: StepID,
+    lastStepID?: StepID;
     søkerdata: Søkerdata;
     formdata: PleiepengesøknadFormData;
 }
-const SøkerdataContext = React.createContext<Søkerdata | undefined>(undefined);
+
+export const SøkerdataContext = React.createContext<Søkerdata | undefined>(undefined);
 
 export const SøkerdataContextProvider = SøkerdataContext.Provider;
 export const SøkerdataContextConsumer = SøkerdataContext.Consumer;
