@@ -10,7 +10,6 @@ services:
     ports:
       - 8082:8082
   web:
-    network_mode: "host"
     build:
       context: ../
       dockerfile: Dockerfile.web
@@ -18,14 +17,15 @@ services:
       - 8080:8080
     depends_on:
       - api-mock
-  cypress:
-    network_mode: "host"
-    image: "cypress/included:3.2.0"
+  e2e:
+    image: "cypress/included:4.1.0"
+    container_name: cypress
     depends_on:
       - web
     environment:
       - CYPRESS_video=false
-      - CYPRESS_baseUrl=http://127.0.0.1:8080
+      - CYPRESS_baseUrl=http://web:8080
+    command: npx run cypress
     working_dir: /e2e
     volumes:
       - ./:/e2e

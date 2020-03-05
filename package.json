@@ -24,7 +24,7 @@
         "cypress:ci": "npm add -D cypress && CYPRESS_baseUrl=http://localhost:8080 run --project $PWD/e2e --reporter junit --reporter-options \\\"mochaFile=results/my-test-output.xml\\\"",
         "cypress:headless": "docker run --net=\"host\" -e CYPRESS_video=false -e CYPRESS_baseUrl=http://$(ipconfig getifaddr en0):8080 -it -v $PWD/e2e:/e2e -w /e2e cypress/included:4.0.1",
         "e2e": "npm-run-all -p dev -r cypress:headless",
-        "e2e-docker-compose": "docker-compose -f ./e2e/docker-compose.yml up --build --exit-code-from cypress"
+        "e2e-docker-compose": "docker-compose -f ./e2e/docker-compose.yml up --build --exit-code-from e2e"
     },
     "jest": {
         "testEnvironment": "node"
