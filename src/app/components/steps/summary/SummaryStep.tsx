@@ -157,7 +157,7 @@ class SummaryStep extends React.Component<Props, State> {
                                             </Normaltekst>
                                         </ContentWithHeader>
                                     </Box>
-                                    {isFeatureEnabled(Feature.TOGGLE_8_UKER) && (
+                                    {isFeatureEnabled(Feature.TOGGLE_8_UKER) && info8uker?.erOver8Uker && (
                                         <Box margin="l">
                                             <ContentWithHeader
                                                 header={intlHelper(
