@@ -7,7 +7,7 @@ export const getAntallDager = (fom: Date, tom: Date): number => {
     return Uttaksdagen(fom).getUttaksdagerFremTilDato(tom);
 };
 
-export const erTidsperiodeOver8uker = (antallDager: number): boolean => {
+export const erAntallDagerOver8Uker = (antallDager: number): boolean => {
     return antallDager > dagerI8uker;
 };
 

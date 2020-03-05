@@ -36,6 +36,7 @@ import LegeerklæringAttachmentList from '../../legeerklæring-file-list/Legeerk
 import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import BarnSummary from './BarnSummary';
 import FrilansSummary from './FrilansSummary';
+import JaNeiSvar from './JaNeiSvar';
 import SelvstendigSummary from './SelvstendigSummary';
 import TilsynsordningSummary from './TilsynsordningSummary';
 import './summary.less';
@@ -148,6 +149,14 @@ class SummaryStep extends React.Component<Props, State> {
                                             </Normaltekst>
                                         </ContentWithHeader>
                                     </Box>
+                                    {isFeatureEnabled(Feature.TOGGLE_8_UKER) && (
+                                        <Box margin="l">
+                                            <ContentWithHeader
+                                                header={intlHelper(intl, 'steg.oppsummering.over8uker.header')}>
+                                                <JaNeiSvar harSvartJa={apiValues.bekrefter_periode_over_8_uker} />
+                                            </ContentWithHeader>
+                                        </Box>
+                                    )}
                                     <Box margin="l">
                                         <BarnSummary barn={barn} formValues={formValues} apiValues={apiValues} />
                                     </Box>
