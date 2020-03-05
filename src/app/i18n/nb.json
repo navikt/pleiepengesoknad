@@ -193,7 +193,7 @@
     "steg.tidsrom.samtidigHjemme.spm": "Skal dere være hjemme/på sykehus samtidig for å pleie barnet?",
     "steg.tidsrom.dagerPerUkeBorteFraJobb.spm": "Hvor mange dager per uke skal du være borte fra jobb for å ta hånd om barnet? Rund av til nærmeste halve dag.",
 
-    "steg.tidsrom.skalOppholdeSegSammenMedBarnetIPerioden.spm": "Skal du bo sammen med barnet i hele perioden?",
+    "steg.tidsrom.skalPassePåBarnetIHelePerioden.spm": "Skal du passe på barnet i hele tidsrommet du skal ha pleiepenger?",
     "steg.tidsrom.bekreftOmsorgEkstrainfo.spm": "Beskriv omsorgsrollen du har for barnet i tidsrommet du skal ha pleiepenger:",
 
     "steg.tilsyn.veileder.html": "<p>Et omsorgstilbud kan være barnehage, skole, SFO, omsorgsbolig, BPA (brukerstyrt personlig assistent) eller andre organiserte tilbud.</p><p>Du må oppgi alle timene barnet er i et omsorgstilbud.</p>",
@@ -233,6 +233,9 @@
     "steg.oppsummering.tidsrom.header": "Periode",
     "steg.oppsummering.tidsrom.fomtom": "Fra {fom} til {tom}",
     "steg.oppsummering.over8uker.header": "Bekrefter at søknad er for en periode lenger enn 8 uker ({varighet})?",
+
+    "steg.oppsummering.skalPassePåBarnetIHelePerioden.header": "Skal du passe på barnet i hele tidsrommet du skal ha pleiepenger?",
+    "steg.oppsummering.bekreftOmsorgEkstrainfo.header": "Beskriv omsorgsrollen du har for barnet i tidsrommet du skal ha pleiepenger:",
 
     "steg.oppsummering.barnet.header": "Om barnet",
     "steg.oppsummering.barnet.navn": "Navn: {navn}",

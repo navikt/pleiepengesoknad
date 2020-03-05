@@ -46,8 +46,8 @@ export enum AppFormField {
     periodeFra = 'periodeFra',
     periodeTil = 'periodeTil',
     bekrefterPeriodeOver8uker = 'bekrefterPeriodeOver8uker',
-    skalOppholdeSegSammenMedBarnetIPerioden = 'skalOppholdeSegSammenMedBarnetIPerioden',
-    bekreftOmsorgForBarnetEkstrainfo = 'bekreftOmsorgForBarnetEkstrainfo',
+    skalPassePåBarnetIHelePerioden = 'skalPassePåBarnetIHelePerioden',
+    beskrivelseOmsorgsrolleIPerioden = 'beskrivelseOmsorgsrolleIPerioden',
     legeerklæring = 'legeerklæring',
     arbeidsforhold = 'arbeidsforhold',
     harBoddUtenforNorgeSiste12Mnd = 'harBoddUtenforNorgeSiste12Mnd',
@@ -74,7 +74,8 @@ export enum AppFormField {
     frilans_startdato = 'frilans_startdato',
     frilans_jobberFortsattSomFrilans = 'frilans_jobberFortsattSomFrilans',
     selvstendig_harHattInntektSomSN = 'selvstendig_harHattInntektSomSN',
-    selvstendig_virksomheter = 'selvstendig_virksomheter'
+    selvstendig_virksomheter = 'selvstendig_virksomheter',
+    skalBekrefteOmsorg = 'skalBekrefteOmsorg'
 }
 
 export enum ArbeidsforholdField {
@@ -114,8 +115,9 @@ export interface PleiepengesøknadFormData {
     [AppFormField.periodeFra]?: Date;
     [AppFormField.periodeTil]?: Date;
     [AppFormField.bekrefterPeriodeOver8uker]?: YesOrNo;
-    [AppFormField.skalOppholdeSegSammenMedBarnetIPerioden]?: YesOrNo;
-    [AppFormField.bekreftOmsorgForBarnetEkstrainfo]?: string;
+    [AppFormField.skalBekrefteOmsorg]?: boolean;
+    [AppFormField.skalPassePåBarnetIHelePerioden]?: YesOrNo;
+    [AppFormField.beskrivelseOmsorgsrolleIPerioden]?: string;
     [AppFormField.legeerklæring]: Attachment[];
     [AppFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo;
     [AppFormField.utenlandsoppholdSiste12Mnd]: Utenlandsopphold[];

@@ -157,6 +157,30 @@ class SummaryStep extends React.Component<Props, State> {
                                             </Normaltekst>
                                         </ContentWithHeader>
                                     </Box>
+                                    {isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG) && apiValues.skal_bekrefte_omsorg && (
+                                        <Box margin="l">
+                                            <ContentWithHeader
+                                                header={intlHelper(
+                                                    intl,
+                                                    'steg.oppsummering.skalPassePåBarnetIHelePerioden.header'
+                                                )}>
+                                                <JaNeiSvar
+                                                    harSvartJa={apiValues.skal_passe_pa_barnet_i_hele_perioden}
+                                                />
+                                            </ContentWithHeader>
+                                            {apiValues.skal_passe_pa_barnet_i_hele_perioden === false && (
+                                                <Box margin="l">
+                                                    <ContentWithHeader
+                                                        header={intlHelper(
+                                                            intl,
+                                                            'steg.oppsummering.bekreftOmsorgEkstrainfo.header'
+                                                        )}>
+                                                        <TextareaSummary text={apiValues.beskrivelse_omsorgsrollen} />
+                                                    </ContentWithHeader>
+                                                </Box>
+                                            )}
+                                        </Box>
+                                    )}
                                     {isFeatureEnabled(Feature.TOGGLE_8_UKER) && info8uker?.erOver8Uker && (
                                         <Box margin="l">
                                             <ContentWithHeader

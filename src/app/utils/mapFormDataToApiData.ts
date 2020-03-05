@@ -87,6 +87,16 @@ export const mapFormDataToApiData = (
         har_forstatt_rettigheter_og_plikter: harForståttRettigheterOgPlikter
     };
 
+    if (isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG)) {
+        if (formData.skalBekrefteOmsorg) {
+            apiData.skal_bekrefte_omsorg = formData.skalBekrefteOmsorg;
+            apiData.skal_passe_pa_barnet_i_hele_perioden = formData.skalPassePåBarnetIHelePerioden === YesOrNo.YES;
+            if (apiData.skal_passe_pa_barnet_i_hele_perioden === false) {
+                apiData.beskrivelse_omsorgsrollen = formData.beskrivelseOmsorgsrolleIPerioden;
+            }
+        }
+    }
+
     if (isFeatureEnabled(Feature.TOGGLE_8_UKER)) {
         const info8uker = erPeriodeOver8Uker(periodeFra!, periodeTil!);
         if (info8uker.erOver8Uker) {

@@ -125,6 +125,9 @@ export interface PleiepengesøknadApiData {
     barn: BarnToSendToApi;
     fra_og_med: ApiStringDate;
     til_og_med: ApiStringDate;
+    skal_bekrefte_omsorg?: boolean;
+    skal_passe_pa_barnet_i_hele_perioden?: boolean;
+    beskrivelse_omsorgsrollen?: string;
     bekrefter_periode_over_8_uker?: boolean;
     arbeidsgivere: { organisasjoner: ArbeidsforholdApi[] };
     vedlegg: string[];

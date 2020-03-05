@@ -48,7 +48,6 @@ type Props = OpplysningerOmTidsromStepProps & HistoryProps & StepConfigProps;
 const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...stepProps }: Props) => {
     const { values, handleSubmit } = formikProps;
     const [isLoading, setIsLoading] = React.useState(false);
-    const [brukerMåBekrefteOmsorg, setBrukerMåBekrefteOmsorg] = React.useState<boolean | undefined>();
 
     const fraDato = formikProps.values[AppFormField.periodeFra];
     const tilDato = formikProps.values[AppFormField.periodeTil];
@@ -70,7 +69,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
             const erRegistrertBarn =
                 values.barnetSøknadenGjelder !== undefined && values.søknadenGjelderEtAnnetBarn !== true;
             const result = await getSkalBekrefteOmsorg(values.barnetSøknadenGjelder, erRegistrertBarn);
-            setBrukerMåBekrefteOmsorg(result.data.skalBekrefteOmsorg === true);
+            formikProps.setFieldValue(AppFormField.skalBekrefteOmsorg, result.data.skalBekrefteOmsorg === true);
             setIsLoading(false);
         };
         if (
@@ -176,24 +175,20 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                     )}
 
                     {isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG) &&
-                        (brukerMåBekrefteOmsorg || barnHarBareFødselsdato) && (
+                        (values.skalBekrefteOmsorg || barnHarBareFødselsdato) && (
                             <>
                                 <Box margin="xl">
                                     <FormikYesOrNoQuestion<AppFormField>
-                                        legend={intlHelper(
-                                            intl,
-                                            'steg.tidsrom.skalOppholdeSegSammenMedBarnetIPerioden.spm'
-                                        )}
-                                        name={AppFormField.skalOppholdeSegSammenMedBarnetIPerioden}
+                                        legend={intlHelper(intl, 'steg.tidsrom.skalPassePåBarnetIHelePerioden.spm')}
+                                        name={AppFormField.skalPassePåBarnetIHelePerioden}
                                         validate={validateYesOrNoIsAnswered}
                                     />
                                 </Box>
-                                {(barnHarBareFødselsdato ||
-                                    values.skalOppholdeSegSammenMedBarnetIPerioden === YesOrNo.NO) && (
+                                {(barnHarBareFødselsdato || values.skalPassePåBarnetIHelePerioden === YesOrNo.NO) && (
                                     <Box margin="xl">
                                         <FormikTextarea<AppFormField>
                                             label={intlHelper(intl, 'steg.tidsrom.bekreftOmsorgEkstrainfo.spm')}
-                                            name={AppFormField.bekreftOmsorgForBarnetEkstrainfo}
+                                            name={AppFormField.beskrivelseOmsorgsrolleIPerioden}
                                             validate={validateBekreftOmsorgEkstrainfo}
                                             maxLength={1000}
                                         />
