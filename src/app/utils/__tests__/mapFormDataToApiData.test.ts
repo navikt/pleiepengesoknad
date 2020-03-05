@@ -576,9 +576,16 @@ describe('Test complete applications', () => {
             startdato: dateUtils.formatDateToApiFormat(frilansDate)
         }
     };
+
     const featureSelvstendigApiData: Partial<PleiepengesøknadApiData> = {
         har_hatt_inntekt_som_selvstendig_naringsdrivende: true,
         selvstendig_virksomheter: []
+    };
+
+    const featureBekreftOmsorgApiData: Partial<PleiepengesøknadApiData> = {
+        skal_bekrefte_omsorg: true,
+        skal_passe_pa_barnet_i_hele_perioden: false,
+        beskrivelse_omsorgsrollen: 'avhengighet'
     };
 
     const baseDato = new Date(2020, 1, 1);
@@ -647,12 +654,19 @@ describe('Test complete applications', () => {
             selvstendig_virksomheter: []
         };
 
+        const featureBekreftOmsorgFormData: Partial<PleiepengesøknadFormData> = {
+            skalBekrefteOmsorg: true,
+            skalPassePåBarnetIHelePerioden: YesOrNo.NO,
+            beskrivelseOmsorgsrolleIPerioden: 'avhengighet'
+        };
+
         const featuresOnFormData: PleiepengesøknadFormData = {
             ...completeFormDataMock,
             ...featureFerieIPeriodenFormData,
             ...featureFrilanserFormData,
             ...featureUtenlandsoppholdIPeriodenFormData,
-            ...featureSelvstendigFormData
+            ...featureSelvstendigFormData,
+            ...featureBekreftOmsorgFormData
         };
 
         const mapFeaturesOnData = (data: PleiepengesøknadFormData): PleiepengesøknadApiData => {
@@ -664,7 +678,8 @@ describe('Test complete applications', () => {
             ...featureFrilansApiData,
             ...featureSelvstendigApiData,
             ...featureFerieIPeriodenApiData,
-            ...featureUtenlandsoppholdIPeriodenApiData
+            ...featureUtenlandsoppholdIPeriodenApiData,
+            ...featureBekreftOmsorgApiData
         };
 
         expect(JSON.stringify(jsonSort(mapFeaturesOnData(featuresOnFormData)))).toEqual(
