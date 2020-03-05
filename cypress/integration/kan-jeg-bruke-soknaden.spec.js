@@ -1,5 +1,5 @@
 describe('Kan jeg bruke den digitale pleiepengesøknaden', () => {
-    beforeEach(() => {
+    before(() => {
         cy.visit('/');
     });
 

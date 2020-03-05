@@ -96,7 +96,9 @@ const Step: React.FunctionComponent<StepProps> = ({
                                 className={bem.element('button')}
                                 spinner={showButtonSpinner || false}
                                 disabled={buttonDisabled || false}
-                                aria-label={stepTexts.nextButtonAriaLabel}>
+                                data-cy={"fortsett-knapp"}
+                                aria-label={stepTexts.nextButtonAriaLabel}
+                            >
                                 {stepTexts.nextButtonLabel}
                             </Button>
                         </Box>
