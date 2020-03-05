@@ -19,12 +19,12 @@
         "test": "jest --maxWorkers=2 --config ./jest/jest.config.js",
         "snyk-protect": "snyk protect",
         "prepare": "npm run snyk-protect",
-        "cypress:open": "npm add -D cypress && CYPRESS_baseUrl=http://localhost:8080 cypress open",
-        "cypress:run": "npm add -D cypress && CYPRESS_baseUrl=http://localhost:8080 cypress run",
-        "cypress:ci": "CYPRESS_baseUrl=http://localhost:8080 cypress run --reporter junit --reporter-options \"mochaFile=results/my-test-output.xml\"",
-        "cypress:headless": "docker run --net=\"host\" -e CYPRESS_video=false -e CYPRESS_baseUrl=http://$(ipconfig getifaddr en0):8080 -it -v $PWD:/e2e -w /e2e cypress/included:3.2.0",
+        "cypress:open": "npm add -D cypress && CYPRESS_baseUrl=http://localhost:8080 cypress open --project $PWD/e2e",
+        "cypress:run": "npm add -D cypress && CYPRESS_baseUrl=http://localhost:8080 cypress run --project $PWD/e2e",
+        "cypress:ci": "npm add -D cypress && CYPRESS_baseUrl=http://localhost:8080 run --project $PWD/e2e --reporter junit --reporter-options \\\"mochaFile=results/my-test-output.xml\\\"",
+        "cypress:headless": "docker run --net=\"host\" -e CYPRESS_video=false -e CYPRESS_baseUrl=http://$(ipconfig getifaddr en0):8080 -it -v $PWD/e2e:/e2e -w /e2e cypress/included:4.0.1",
         "e2e": "npm-run-all -p start-api-mock start-no-decorator -r cypress:headless",
-        "e2e-docker-compose": "docker-compose up --build --exit-code-from cypress"
+        "e2e-docker-compose": "docker-compose -f ./e2e/docker-compose.yml up --build --exit-code-from cypress"
     },
     "jest": {
         "testEnvironment": "node"
@@ -106,6 +106,7 @@
         "babel-polyfill": "^6.26.0",
         "case-sensitive-paths-webpack-plugin": "^2.3.0",
         "css-loader": "^3.4.2",
+        "cypress": "^4.1.0",
         "enzyme": "^3.11.0",
         "enzyme-adapter-react-16": "^1.15.2",
         "extract-text-webpack-plugin": "^4.0.0-beta.0",
