@@ -27,8 +27,7 @@ jobs:
       - name: Test code
         run: |
           npm ci
-          # npm run test
-          npm run e2e
+          npm run test
 
   build-code-and-push-docker:
     name: Build code and push docker image
