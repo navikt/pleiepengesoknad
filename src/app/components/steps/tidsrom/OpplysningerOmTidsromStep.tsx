@@ -23,13 +23,14 @@ import {
 import { hasValue } from '@navikt/sif-common/lib/common/validation/hasValue';
 import { FieldValidationError } from '@navikt/sif-common/lib/common/validation/types';
 import FormikDateIntervalPicker from 'common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
-import { getSkalBekrefteOmsorg } from '../../../api/api';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { persistAndNavigateTo } from '../../../utils/navigationUtils';
-import { skalSjekkeOmBrukerMåBekrefteOmsorgIPerioden } from '../../../utils/omsorgUtils';
+import {
+    getSkalBrukerBekrefteOmsorgForBarnet, skalSjekkeOmBrukerMåBekrefteOmsorgIPerioden
+} from '../../../utils/omsorgUtils';
 import { erPeriodeOver8Uker } from '../../../utils/søkerOver8UkerUtils';
 import { getVarighetString } from '../../../utils/varighetUtils';
 import {
@@ -68,8 +69,11 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
         const fetchData = async () => {
             const erRegistrertBarn =
                 values.barnetSøknadenGjelder !== undefined && values.søknadenGjelderEtAnnetBarn !== true;
-            const result = await getSkalBekrefteOmsorg(values.barnetSøknadenGjelder, erRegistrertBarn);
-            formikProps.setFieldValue(AppFormField.skalBekrefteOmsorg, result.data.skalBekrefteOmsorg === true);
+            const skalBekrefteOmsorg = await getSkalBrukerBekrefteOmsorgForBarnet(
+                values.barnetSøknadenGjelder,
+                erRegistrertBarn
+            );
+            formikProps.setFieldValue(AppFormField.skalBekrefteOmsorg, skalBekrefteOmsorg);
             setIsLoading(false);
         };
         if (
@@ -120,7 +124,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
             handleSubmit={handleSubmit}
             history={history}
             {...stepProps}>
-            {isLoading && <LoadingSpinner type="XS" style={'block'} blockTitle="Henter arbeidsforhold" />}
+            {isLoading && <LoadingSpinner type="XS" style={'block'} blockTitle="Vennligst vent" />}
             {!isLoading && (
                 <>
                     <FormikDateIntervalPicker<AppFormField>
