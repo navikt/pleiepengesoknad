@@ -1,5 +1,4 @@
 import { AppFormField, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
-import { Søkerdata } from '../../types/Søkerdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
 import {
     skalSpørreApiOmBrukerMåBekrefteOmsorg, søkerHarValgtRegistrertBarn
@@ -9,10 +8,6 @@ jest.mock('../featureToggleUtils.ts', () => ({
     isFeatureEnabled: jest.fn(),
     Feature: {}
 }));
-
-const søkerdata: Partial<Søkerdata> = {
-    barn: []
-};
 
 describe('søkerHarValgtRegistrertBarn', () => {
     it('should return false if only fødselsnummer is registered', () => {
@@ -29,7 +24,7 @@ describe('skalSpørreApiOmBrukerMåBekrefteOmsorg', () => {
             (isFeatureEnabled as any).mockImplementation(() => false);
         });
         it(`should return false if feature us turned off`, () => {
-            expect(skalSpørreApiOmBrukerMåBekrefteOmsorg(søkerdata, {})).toBeFalsy();
+            expect(skalSpørreApiOmBrukerMåBekrefteOmsorg({})).toBeFalsy();
         });
     });
 
@@ -39,7 +34,7 @@ describe('skalSpørreApiOmBrukerMåBekrefteOmsorg', () => {
         });
 
         it('should return false if user has no kids', () => {
-            expect(skalSpørreApiOmBrukerMåBekrefteOmsorg(søkerdata, {})).toBeFalsy();
+            expect(skalSpørreApiOmBrukerMåBekrefteOmsorg({})).toBeFalsy();
         });
 
         it(`should return false if user has checked ${AppFormField.barnetHarIkkeFåttFødselsnummerEnda}`, () => {
@@ -48,7 +43,7 @@ describe('skalSpørreApiOmBrukerMåBekrefteOmsorg', () => {
                 barnetSøknadenGjelder: '123',
                 barnetHarIkkeFåttFødselsnummerEnda: true
             };
-            expect(skalSpørreApiOmBrukerMåBekrefteOmsorg(søkerdata, formData)).toBeFalsy();
+            expect(skalSpørreApiOmBrukerMåBekrefteOmsorg(formData)).toBeFalsy();
         });
     });
 });

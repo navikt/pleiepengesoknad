@@ -11,10 +11,7 @@ export const søkerHarValgtRegistrertBarn = (values: Partial<PleiepengesøknadFo
     return hasValue(values.barnetSøknadenGjelder) && values.søknadenGjelderEtAnnetBarn !== true;
 };
 
-export const skalSpørreApiOmBrukerMåBekrefteOmsorg = (
-    søkerdata: Partial<Søkerdata>,
-    values: Partial<PleiepengesøknadFormData>
-): boolean => {
+export const skalSpørreApiOmBrukerMåBekrefteOmsorg = (values: Partial<PleiepengesøknadFormData>): boolean => {
     if (!isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG)) {
         return false;
     }

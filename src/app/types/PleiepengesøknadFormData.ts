@@ -75,7 +75,8 @@ export enum AppFormField {
     frilans_jobberFortsattSomFrilans = 'frilans_jobberFortsattSomFrilans',
     selvstendig_harHattInntektSomSN = 'selvstendig_harHattInntektSomSN',
     selvstendig_virksomheter = 'selvstendig_virksomheter',
-    skalBekrefteOmsorg = 'skalBekrefteOmsorg'
+    skalBekrefteOmsorg = 'skalBekrefteOmsorg',
+    skalBeskriveOmsorg = 'skalBeskriveOmsorg'
 }
 
 export enum ArbeidsforholdField {
@@ -116,6 +117,7 @@ export interface PleiepengesøknadFormData {
     [AppFormField.periodeTil]?: Date;
     [AppFormField.bekrefterPeriodeOver8uker]?: YesOrNo;
     [AppFormField.skalBekrefteOmsorg]?: boolean;
+    [AppFormField.skalBeskriveOmsorg]?: boolean;
     [AppFormField.skalPassePåBarnetIHelePerioden]?: YesOrNo;
     [AppFormField.beskrivelseOmsorgsrolleIPerioden]?: string;
     [AppFormField.legeerklæring]: Attachment[];

@@ -1,4 +1,5 @@
 import { getSkalBekrefteOmsorg } from '../api/api';
+import { GetSkalBekrefteOmsorgApiResponse } from '../api/types';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { apiUtils } from './apiUtils';
 import { navigateToLoginPage } from './navigationUtils';
@@ -20,11 +21,15 @@ export const skalSjekkeOmBrukerMåBekrefteOmsorgIPerioden = ({
 export async function getSkalBrukerBekrefteOmsorgForBarnet(id: string, erRegistrertBarn: boolean) {
     try {
         const response = await getSkalBekrefteOmsorg(id, erRegistrertBarn);
-        return response.data.skalBekrefteOmsorg === true;
+        return { ...response.data };
     } catch (error) {
         if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
             navigateToLoginPage();
         }
-        return true;
+        const fallbackResponse: GetSkalBekrefteOmsorgApiResponse = {
+            skalBekrefteOmsorg: true,
+            skalBeskriveOmsorg: true
+        };
+        return fallbackResponse;
     }
 }

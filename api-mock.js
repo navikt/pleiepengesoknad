@@ -118,9 +118,9 @@ const startServer = () => {
 
     server.get('/skalBekrefteOmsorg', (req, res) => {
         if (req.query['aktor_id']) {
-            res.send({ skalBekrefteOmsorg: false });
+            res.send({ skalBekrefteOmsorg: true, skalBeskriveOmsorg: false });
         } else {
-            res.send({ skalBekrefteOmsorg: true });
+            res.send({ skalBekrefteOmsorg: true, skalBeskriveOmsorg: true });
         }
     });
 

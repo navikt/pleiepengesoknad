@@ -22,6 +22,7 @@ import {
 } from '@navikt/sif-common/lib/common/validation/fieldValidations';
 import { FieldValidationError } from '@navikt/sif-common/lib/common/validation/types';
 import FormikDateIntervalPicker from 'common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
+import { GetSkalBekrefteOmsorgApiResponse } from '../../../api/types';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
@@ -64,18 +65,23 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, søker
 
     React.useEffect(() => {
         const fetchData = async () => {
-            const skalBekrefteOmsorg = await getSkalBrukerBekrefteOmsorgForBarnet(
+            const {
+                skalBekrefteOmsorg,
+                skalBeskriveOmsorg
+            }: GetSkalBekrefteOmsorgApiResponse = await getSkalBrukerBekrefteOmsorgForBarnet(
                 values.barnetSøknadenGjelder,
                 søkerHarBarn(søkerdata) && søkerHarValgtRegistrertBarn(values)
             );
             formikProps.setFieldValue(AppFormField.skalBekrefteOmsorg, skalBekrefteOmsorg);
+            formikProps.setFieldValue(AppFormField.skalBeskriveOmsorg, skalBeskriveOmsorg);
             setIsLoading(false);
         };
-        if (skalSpørreApiOmBrukerMåBekrefteOmsorg(søkerdata, values)) {
+        if (skalSpørreApiOmBrukerMåBekrefteOmsorg(values)) {
             setIsLoading(true);
             fetchData();
         } else {
             formikProps.setFieldValue(AppFormField.skalBekrefteOmsorg, true);
+            formikProps.setFieldValue(AppFormField.skalBeskriveOmsorg, true);
         }
     }, []);
 
@@ -180,7 +186,8 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, søker
                                     validate={validateYesOrNoIsAnswered}
                                 />
                             </Box>
-                            {values.skalPassePåBarnetIHelePerioden === YesOrNo.NO && (
+                            {(values.skalPassePåBarnetIHelePerioden === YesOrNo.NO ||
+                                values.skalBeskriveOmsorg === true) && (
                                 <Box margin="xl">
                                     <FormikTextarea<AppFormField>
                                         label={intlHelper(intl, 'steg.tidsrom.bekreftOmsorgEkstrainfo.spm')}

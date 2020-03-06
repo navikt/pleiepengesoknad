@@ -8,6 +8,7 @@ import { ResourceType } from '../types/ResourceType';
 import { MellomlagringData } from '../types/storage';
 import { getApiUrlByResourceType, sendMultipartPostRequest } from '../utils/apiUtils';
 import { storageParser } from '../utils/parser';
+import { GetSkalBekrefteOmsorgApiResponse } from './types';
 
 export const persist = (formData: PleiepengesøknadFormData, lastStepID: StepID) => {
     const body: MellomlagringData = { formData, metadata: { lastStepID } };
@@ -30,7 +31,7 @@ export const getArbeidsgiver = (fom: string, tom: string): Promise<AxiosResponse
 export const getSkalBekrefteOmsorg = (
     id: string,
     erRegistrertBarn: boolean
-): Promise<AxiosResponse<{ skalBekrefteOmsorg: boolean }>> => {
+): Promise<AxiosResponse<GetSkalBekrefteOmsorgApiResponse>> => {
     const params = erRegistrertBarn ? `aktor_id=${id}` : `fnr=${id}`;
     const url = `${getApiUrlByResourceType(ResourceType.BEKREFT_OMSORG)}?${params}`;
     return axios.get(url, axiosConfig);
