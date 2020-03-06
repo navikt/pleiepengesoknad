@@ -1,3 +1,5 @@
+import {dataCy} from '../support/commands';
+
 describe('Kan jeg bruke den digitale pleiepengesøknaden', () => {
     before(() => {
         cy.visit('/');
@@ -21,7 +23,7 @@ describe('Kan jeg bruke den digitale pleiepengesøknaden', () => {
                 cy.get('[type="radio"]')
                 .first()
                 .check({ force: true }); // Må, bruke force her, pga cypress tror radio-knappen har størrelse (0,0)
-                cy.dataCy('erSelvstendigEllerFrilanser'); // Custom command; <==> cy.get('[data-cy="erSelvstendigEllerFrilanser"');
+                dataCy(cy, 'erSelvstendigEllerFrilanser'); // Custom command; <==> cy.get('[data-cy="erSelvstendigEllerFrilanser"');
             });
         });
         context('Nei, jeg er privatperson', () => {

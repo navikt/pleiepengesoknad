@@ -24,7 +24,10 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-import 'cypress-file-upload';
+export const dataCy = (cy, value) => {
+    return cy.get(`[data-cy=${value}]`);
+}
+
 
 Cypress.Commands.add('dataCy', (value) => {
     cy.get(`[data-cy=${value}]`);
