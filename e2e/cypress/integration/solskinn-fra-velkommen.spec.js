@@ -1,4 +1,4 @@
-describe.skip('Pleiepenger for sykt barn fra Velkommen', () => {
+describe('Pleiepenger for sykt barn fra Velkommen', () => {
     before(() => {
         cy.visit('/soknad/velkommen');
         cy.server();
@@ -58,11 +58,11 @@ describe.skip('Pleiepenger for sykt barn fra Velkommen', () => {
                         });
                 });
             });
-            /*context('Hvilket barn gjelder søknaden?', () => {
+            context('Hvilket barn gjelder søknaden?', () => {
                 it('Merker den første radio knappen', () => {
                     cy.get('input[type=radio]').first().click({ force: true });
                 });
-                it('Klikker på "FORTSETT" knappen', ()=> {
+                it('Klikker på "FORTSETT" knappen', () => {
                     cy.get('button')
                         .click({ position: 'topLeft' });
                     cy.location().should((loc) => {
@@ -70,7 +70,7 @@ describe.skip('Pleiepenger for sykt barn fra Velkommen', () => {
                         //expect(loc.pathname).to.eq('/soknad/tidsrom');
                     });
                 });
-            });*/
+            });
         });
     });
 });
