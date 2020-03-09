@@ -1,25 +1,25 @@
 import * as React from 'react';
-import { PleiepengesøknadFormikProps } from '../../types/PleiepengesøknadFormikProps';
-import OpplysningerOmBarnetStep from '../steps/opplysninger-om-barnet/OpplysningerOmBarnetStep';
-import { StepID } from '../../config/stepConfig';
-import { getSøknadRoute, isAvailable, getNextStepRoute } from '../../utils/routeUtils';
 import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
-import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
-import RouteConfig from '../../config/routeConfig';
-import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromStep';
-import MedlemsskapStep from '../steps/medlemskap/MedlemsskapStep';
-import LegeerklæringStep from '../steps/legeerklæring/LegeerklæringStep';
-import SummaryStep from '../steps/summary/SummaryStep';
-import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
-import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
-import ArbeidsforholdStep from '../steps/arbeidsforholdStep/ArbeidsforholdStep';
-import TilsynsordningStep from '../steps/tilsynsordning/TilsynsordningStep';
-import NattevåkStep from '../steps/nattevåkStep/NattevåkStep';
-import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
-import BeredskapStep from '../steps/beredskapStep/BeredskapStep';
 import { SøkerdataContextConsumer } from 'app/context/SøkerdataContext';
 import { getAktiveArbeidsforholdIPerioden } from 'app/utils/arbeidsforholdUtils';
+import RouteConfig from '../../config/routeConfig';
+import { StepID } from '../../config/stepConfig';
+import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { PleiepengesøknadFormikProps } from '../../types/PleiepengesøknadFormikProps';
 import { redirectTo } from '../../utils/navigationUtils';
+import { getNextStepRoute, getSøknadRoute, isAvailable } from '../../utils/routeUtils';
+import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
+import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
+import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
+import ArbeidsforholdStep from '../steps/arbeidsforholdStep/ArbeidsforholdStep';
+import BeredskapStep from '../steps/beredskapStep/BeredskapStep';
+import LegeerklæringStep from '../steps/legeerklæring/LegeerklæringStep';
+import MedlemsskapStep from '../steps/medlemskap/MedlemsskapStep';
+import NattevåkStep from '../steps/nattevåkStep/NattevåkStep';
+import OpplysningerOmBarnetStep from '../steps/opplysninger-om-barnet/OpplysningerOmBarnetStep';
+import SummaryStep from '../steps/summary/SummaryStep';
+import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromStep';
+import TilsynsordningStep from '../steps/tilsynsordning/TilsynsordningStep';
 
 interface PleiepengesøknadContentProps {
     lastStepID: StepID;
@@ -31,7 +31,10 @@ export interface CommonStepFormikProps {
     handleSubmit: () => void;
 }
 
-const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContentProps> = ({lastStepID, formikProps }) => {
+const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContentProps> = ({
+    lastStepID,
+    formikProps
+}) => {
     const location = useLocation();
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
     const [antallArbeidsforhold, setAntallArbeidsforhold] = React.useState<number>(0);
@@ -76,11 +79,21 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
                 <Route
                     path={getSøknadRoute(StepID.TIDSROM)}
                     render={(props) => (
-                        <OpplysningerOmTidsromStep
-                            formikProps={formikProps}
-                            nextStepRoute={getNextStepRoute(StepID.TIDSROM, values)}
-                            {...props}
-                        />
+                        <SøkerdataContextConsumer>
+                            {(søkerdata) => {
+                                if (søkerdata) {
+                                    return (
+                                        <OpplysningerOmTidsromStep
+                                            formikProps={formikProps}
+                                            søkerdata={søkerdata}
+                                            nextStepRoute={getNextStepRoute(StepID.TIDSROM, values)}
+                                            {...props}
+                                        />
+                                    );
+                                }
+                                return <div>Manglende søkerdata</div>;
+                            }}
+                        </SøkerdataContextConsumer>
                     )}
                 />
             )}

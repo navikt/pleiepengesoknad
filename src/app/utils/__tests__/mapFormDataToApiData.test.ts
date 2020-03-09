@@ -37,7 +37,7 @@ const todaysDate = moment()
 
 const barnsFødselsdato = new Date(2020, 0, 20);
 const barnMock: BarnReceivedFromApi[] = [
-    { fodselsdato: barnsFødselsdato, fornavn: 'Mock', etternavn: 'Mocknes', aktoer_id: '123' }
+    { fodselsdato: barnsFødselsdato, fornavn: 'Mock', etternavn: 'Mocknes', aktoer_id: '123', sammeAdresse: true }
 ];
 
 const organisasjonTelenor: Arbeidsgiver = {
@@ -482,7 +482,8 @@ describe('Test complete applications', () => {
             navn: 'Mock Mocknes',
             fodselsnummer: null,
             aktoer_id: barnMock[0].aktoer_id,
-            fodselsdato: '2020-00-20'
+            fodselsdato: '2020-00-20',
+            samme_adresse: null
         },
         arbeidsgivere: {
             organisasjoner: [
@@ -576,6 +577,7 @@ describe('Test complete applications', () => {
             startdato: dateUtils.formatDateToApiFormat(frilansDate)
         }
     };
+
     const featureSelvstendigApiData: Partial<PleiepengesøknadApiData> = {
         har_hatt_inntekt_som_selvstendig_naringsdrivende: true,
         selvstendig_virksomheter: []
@@ -647,12 +649,18 @@ describe('Test complete applications', () => {
             selvstendig_virksomheter: []
         };
 
+        const featureBekreftOmsorgFormData: Partial<PleiepengesøknadFormData> = {
+            skalPassePåBarnetIHelePerioden: YesOrNo.NO,
+            beskrivelseOmsorgsrolleIPerioden: 'avhengighet'
+        };
+
         const featuresOnFormData: PleiepengesøknadFormData = {
             ...completeFormDataMock,
             ...featureFerieIPeriodenFormData,
             ...featureFrilanserFormData,
             ...featureUtenlandsoppholdIPeriodenFormData,
-            ...featureSelvstendigFormData
+            ...featureSelvstendigFormData,
+            ...featureBekreftOmsorgFormData
         };
 
         const mapFeaturesOnData = (data: PleiepengesøknadFormData): PleiepengesøknadApiData => {

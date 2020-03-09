@@ -3,6 +3,7 @@ import { FormattedHTMLMessage, useIntl } from 'react-intl';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Box from '@navikt/sif-common/lib/common/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common/lib/common/components/counsellor-panel/CounsellorPanel';
+import FormikTextarea from '@navikt/sif-common/lib/common/formik/formik-textarea/FormikTextarea';
 import FormikYesOrNoQuestion from '@navikt/sif-common/lib/common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import { isValidationErrorsVisible } from '@navikt/sif-common/lib/common/formik/formikUtils';
 import FerieuttakListAndDialog from '@navikt/sif-common/lib/common/forms/ferieuttak/FerieuttakListAndDialog';
@@ -23,23 +24,29 @@ import FormikDateIntervalPicker from 'common/formik/formik-date-interval-picker/
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
+import { Søkerdata } from '../../../types/Søkerdata';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { persistAndNavigateTo } from '../../../utils/navigationUtils';
 import { erPeriodeOver8Uker } from '../../../utils/søkerOver8UkerUtils';
+import {
+    brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet
+} from '../../../utils/tidsromUtils';
 import { getVarighetString } from '../../../utils/varighetUtils';
 import {
-    validateFerieuttakIPerioden, validateFradato, validateTildato, validateUtenlandsoppholdIPerioden
+    validateBekreftOmsorgEkstrainfo, validateFerieuttakIPerioden, validateFradato, validateTildato,
+    validateUtenlandsoppholdIPerioden
 } from '../../../validation/fieldValidations';
 import FormikStep from '../../formik-step/FormikStep';
 import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
 
 interface OpplysningerOmTidsromStepProps {
     formikProps: PleiepengesøknadFormikProps;
+    søkerdata: Søkerdata;
 }
 
 type Props = OpplysningerOmTidsromStepProps & HistoryProps & StepConfigProps;
 
-const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...stepProps }: Props) => {
+const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, søkerdata, ...stepProps }: Props) => {
     const { values, handleSubmit } = formikProps;
 
     const fraDato = formikProps.values[AppFormField.periodeFra];
@@ -139,6 +146,29 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                     )}
                 </>
             )}
+
+            {isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG) &&
+                brukerSkalBekrefteOmsorgForBarnet(values, søkerdata.barn) && (
+                    <>
+                        <Box margin="xl">
+                            <FormikYesOrNoQuestion<AppFormField>
+                                legend={intlHelper(intl, 'steg.tidsrom.skalPassePåBarnetIHelePerioden.spm')}
+                                name={AppFormField.skalPassePåBarnetIHelePerioden}
+                                validate={validateYesOrNoIsAnswered}
+                            />
+                        </Box>
+                        {brukerSkalBeskriveOmsorgForBarnet(values, søkerdata.barn) && (
+                            <Box margin="xl">
+                                <FormikTextarea<AppFormField>
+                                    label={intlHelper(intl, 'steg.tidsrom.bekreftOmsorgEkstrainfo.spm')}
+                                    name={AppFormField.beskrivelseOmsorgsrolleIPerioden}
+                                    validate={validateBekreftOmsorgEkstrainfo}
+                                    maxLength={1000}
+                                />
+                            </Box>
+                        )}
+                    </>
+                )}
 
             <Box margin="xl">
                 <FormikYesOrNoQuestion
