@@ -482,7 +482,8 @@ describe('Test complete applications', () => {
             navn: 'Mock Mocknes',
             fodselsnummer: null,
             aktoer_id: barnMock[0].aktoer_id,
-            fodselsdato: '2020-00-20'
+            fodselsdato: '2020-00-20',
+            samme_adresse: null
         },
         arbeidsgivere: {
             organisasjoner: [

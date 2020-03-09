@@ -11,6 +11,7 @@ export interface BarnToSendToApi {
     fodselsnummer: string | null;
     fodselsdato: string | null;
     aktoer_id: string | null;
+    samme_adresse: boolean | null;
 }
 
 export interface ArbeidsforholdApi {
