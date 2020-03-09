@@ -9,7 +9,7 @@ services:
   web:
     build:
       context: ../
-      dockerfile: ../Dockerfile.web-cypress
+      dockerfile: Dockerfile.web-cypress
     ports:
       - 8080:8080
     depends_on:
