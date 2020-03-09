@@ -7,18 +7,6 @@ services:
     ports:
       - 8082:8082
   web:
-    environment:
-      - APPRES_CMS_URL=http://appres.nav.no
-      - API_URL=${API_URL}
-      - LOGIN_URL=${LOGIN_URL}
-      - PUBLIC_PATH=${PUBLIC_PATH}
-      - DEMO_MODE=${DEMO_MODE}
-      - UTILGJENGELIG=${UTILGJENGELIG}
-      - TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN=${TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN}
-      - TOGGLE_FERIEUTTAK=${TOGGLE_FERIEUTTAK}
-      - TOGGLE_FRILANS=${TOGGLE_FRILANS}
-      - TOGGLE_SELVSTENDIG=${TOGGLE_SELVSTENDIG},
-      - TOGGLE_8_UKER=${TOGGLE_8_UKER}
     build:
       context: ../
       dockerfile: Dockerfile.web-cypress
