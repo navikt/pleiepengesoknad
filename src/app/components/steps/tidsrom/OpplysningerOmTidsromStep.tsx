@@ -157,8 +157,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, søker
                                 validate={validateYesOrNoIsAnswered}
                             />
                         </Box>
-                        {(values.skalPassePåBarnetIHelePerioden === YesOrNo.NO ||
-                            brukerSkalBeskriveOmsorgForBarnet(values, søkerdata.barn)) && (
+                        {brukerSkalBeskriveOmsorgForBarnet(values, søkerdata.barn) && (
                             <Box margin="xl">
                                 <FormikTextarea<AppFormField>
                                     label={intlHelper(intl, 'steg.tidsrom.bekreftOmsorgEkstrainfo.spm')}

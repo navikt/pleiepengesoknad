@@ -2,6 +2,7 @@ import * as React from 'react';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import Panel from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { hasValue } from '@navikt/sif-common/lib/common/validation/hasValue';
 import Box from 'common/components/box/Box';
 import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
@@ -157,30 +158,6 @@ class SummaryStep extends React.Component<Props, State> {
                                             </Normaltekst>
                                         </ContentWithHeader>
                                     </Box>
-                                    {isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG) && apiValues.skal_bekrefte_omsorg && (
-                                        <Box margin="l">
-                                            <ContentWithHeader
-                                                header={intlHelper(
-                                                    intl,
-                                                    'steg.oppsummering.skalPassePåBarnetIHelePerioden.header'
-                                                )}>
-                                                <JaNeiSvar
-                                                    harSvartJa={apiValues.skal_passe_pa_barnet_i_hele_perioden}
-                                                />
-                                            </ContentWithHeader>
-                                            {apiValues.skal_passe_pa_barnet_i_hele_perioden === false && (
-                                                <Box margin="l">
-                                                    <ContentWithHeader
-                                                        header={intlHelper(
-                                                            intl,
-                                                            'steg.oppsummering.bekreftOmsorgEkstrainfo.header'
-                                                        )}>
-                                                        <TextareaSummary text={apiValues.beskrivelse_omsorgsrollen} />
-                                                    </ContentWithHeader>
-                                                </Box>
-                                            )}
-                                        </Box>
-                                    )}
                                     {isFeatureEnabled(Feature.TOGGLE_8_UKER) && info8uker?.erOver8Uker && (
                                         <Box margin="l">
                                             <ContentWithHeader
@@ -198,6 +175,30 @@ class SummaryStep extends React.Component<Props, State> {
                                     <Box margin="l">
                                         <BarnSummary barn={barn} formValues={formValues} apiValues={apiValues} />
                                     </Box>
+                                    {isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG) && apiValues.skal_bekrefte_omsorg && (
+                                        <Box margin="l">
+                                            <ContentWithHeader
+                                                header={intlHelper(
+                                                    intl,
+                                                    'steg.oppsummering.skalPassePåBarnetIHelePerioden.header'
+                                                )}>
+                                                <JaNeiSvar
+                                                    harSvartJa={apiValues.skal_passe_pa_barnet_i_hele_perioden}
+                                                />
+                                            </ContentWithHeader>
+                                            {hasValue(apiValues.beskrivelse_omsorgsrollen) && (
+                                                <Box margin="l">
+                                                    <ContentWithHeader
+                                                        header={intlHelper(
+                                                            intl,
+                                                            'steg.oppsummering.bekreftOmsorgEkstrainfo.header'
+                                                        )}>
+                                                        <TextareaSummary text={apiValues.beskrivelse_omsorgsrollen} />
+                                                    </ContentWithHeader>
+                                                </Box>
+                                            )}
+                                        </Box>
+                                    )}
                                     <Box margin="l">
                                         <ContentWithHeader
                                             header={intlHelper(
@@ -208,6 +209,7 @@ class SummaryStep extends React.Component<Props, State> {
                                             {apiValues.har_medsoker === false && intlHelper(intl, 'Nei')}
                                         </ContentWithHeader>
                                     </Box>
+
                                     {apiValues.har_medsoker && (
                                         <Box margin="l">
                                             <ContentWithHeader
