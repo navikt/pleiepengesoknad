@@ -12,11 +12,11 @@ on:
 
 jobs:
   test:
-    name: Test Code
+    name: Test Code with Jest
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [13.x]
+        node-version: [lts/erbium]
 
     steps:
       - uses: actions/checkout@v1
@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [13.x]
+        node-version: [lts/erbium]
     steps:
       - uses: actions/checkout@v1
       - name: Setup kernel for react + node, increase watchers
