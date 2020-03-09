@@ -18,7 +18,7 @@ export const mapBarnToApiData = (
             fodselsnummer: null,
             aktoer_id,
             fodselsdato: formatDateToApiFormat(barnChosenFromList.fodselsdato),
-            samme_adresse: sammeAdresse
+            samme_adresse: sammeAdresse || null
         };
     } else {
         return {

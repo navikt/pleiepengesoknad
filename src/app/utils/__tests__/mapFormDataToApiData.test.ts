@@ -483,7 +483,7 @@ describe('Test complete applications', () => {
             fodselsnummer: null,
             aktoer_id: barnMock[0].aktoer_id,
             fodselsdato: '2020-00-20',
-            samme_adresse: null
+            samme_adresse: true
         },
         arbeidsgivere: {
             organisasjoner: [
