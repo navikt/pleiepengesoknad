@@ -1,8 +1,6 @@
-import { AppFormField, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { BarnReceivedFromApi } from '../../types/Søkerdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
-import {
-    skalSpørreApiOmBrukerMåBekrefteOmsorg, søkerHarValgtRegistrertBarn
-} from '../tidsromUtils';
+import { brukerSkalBekrefteOmsorgForBarnet, søkerHarValgtRegistrertBarn } from '../tidsromUtils';
 
 jest.mock('../featureToggleUtils.ts', () => ({
     isFeatureEnabled: jest.fn(),
@@ -18,32 +16,35 @@ describe('søkerHarValgtRegistrertBarn', () => {
     });
 });
 
-describe('skalSpørreApiOmBrukerMåBekrefteOmsorg', () => {
-    describe('when feature is toggled off', () => {
-        beforeAll(() => {
-            (isFeatureEnabled as any).mockImplementation(() => false);
-        });
-        it(`should return false if feature us turned off`, () => {
-            expect(skalSpørreApiOmBrukerMåBekrefteOmsorg({})).toBeFalsy();
-        });
+describe('omsorgForBarnet', () => {
+    beforeEach(() => {
+        (isFeatureEnabled as any).mockImplementation(() => true);
     });
 
-    describe('when feature is toggled on', () => {
-        beforeAll(() => {
-            (isFeatureEnabled as any).mockImplementation(() => true);
+    const barnAktørId = '123';
+    const barn: BarnReceivedFromApi = {
+        fornavn: 'barn',
+        etternavn: 'etternavn',
+        aktoer_id: barnAktørId,
+        sammeAdresse: true,
+        fodselsdato: new Date()
+    };
+    describe('brukerSkalBekrefteOmsorgForBarnet', () => {
+        it('should return false if user has chosen registrered child with same address', () => {
+            expect(brukerSkalBekrefteOmsorgForBarnet({ barnetSøknadenGjelder: barnAktørId }, [barn])).toBeFalsy();
         });
 
-        it('should return false if user has no kids', () => {
-            expect(skalSpørreApiOmBrukerMåBekrefteOmsorg({})).toBeFalsy();
+        it('should return true if user has chosen registrered child without same address', () => {
+            expect(
+                brukerSkalBekrefteOmsorgForBarnet({ barnetSøknadenGjelder: barnAktørId }, [
+                    { ...barn, sammeAdresse: false }
+                ])
+            ).toBeTruthy();
         });
 
-        it(`should return false if user has checked ${AppFormField.barnetHarIkkeFåttFødselsnummerEnda}`, () => {
-            const formData: Partial<PleiepengesøknadFormData> = {
-                søknadenGjelderEtAnnetBarn: true,
-                barnetSøknadenGjelder: '123',
-                barnetHarIkkeFåttFødselsnummerEnda: true
-            };
-            expect(skalSpørreApiOmBrukerMåBekrefteOmsorg(formData)).toBeFalsy();
+        it('should return true if user has not chosen a registered child', () => {
+            expect(brukerSkalBekrefteOmsorgForBarnet({ barnetSøknadenGjelder: undefined }, [barn])).toBeTruthy();
+            expect(brukerSkalBekrefteOmsorgForBarnet({ søknadenGjelderEtAnnetBarn: true }, [barn])).toBeTruthy();
         });
     });
 });

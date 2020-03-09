@@ -37,7 +37,7 @@ const todaysDate = moment()
 
 const barnsFødselsdato = new Date(2020, 0, 20);
 const barnMock: BarnReceivedFromApi[] = [
-    { fodselsdato: barnsFødselsdato, fornavn: 'Mock', etternavn: 'Mocknes', aktoer_id: '123' }
+    { fodselsdato: barnsFødselsdato, fornavn: 'Mock', etternavn: 'Mocknes', aktoer_id: '123', sammeAdresse: true }
 ];
 
 const organisasjonTelenor: Arbeidsgiver = {
@@ -582,12 +582,6 @@ describe('Test complete applications', () => {
         selvstendig_virksomheter: []
     };
 
-    const featureBekreftOmsorgApiData: Partial<PleiepengesøknadApiData> = {
-        skal_bekrefte_omsorg: true,
-        skal_passe_pa_barnet_i_hele_perioden: false,
-        beskrivelse_omsorgsrollen: 'avhengighet'
-    };
-
     const baseDato = new Date(2020, 1, 1);
 
     const feature8UkerDatoer = {
@@ -655,7 +649,6 @@ describe('Test complete applications', () => {
         };
 
         const featureBekreftOmsorgFormData: Partial<PleiepengesøknadFormData> = {
-            skalBekrefteOmsorg: true,
             skalPassePåBarnetIHelePerioden: YesOrNo.NO,
             beskrivelseOmsorgsrolleIPerioden: 'avhengighet'
         };
@@ -678,8 +671,7 @@ describe('Test complete applications', () => {
             ...featureFrilansApiData,
             ...featureSelvstendigApiData,
             ...featureFerieIPeriodenApiData,
-            ...featureUtenlandsoppholdIPeriodenApiData,
-            ...featureBekreftOmsorgApiData
+            ...featureUtenlandsoppholdIPeriodenApiData
         };
 
         expect(JSON.stringify(jsonSort(mapFeaturesOnData(featuresOnFormData)))).toEqual(

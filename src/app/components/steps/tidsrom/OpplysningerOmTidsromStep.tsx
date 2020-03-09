@@ -3,7 +3,6 @@ import { FormattedHTMLMessage, useIntl } from 'react-intl';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Box from '@navikt/sif-common/lib/common/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common/lib/common/components/counsellor-panel/CounsellorPanel';
-import LoadingSpinner from '@navikt/sif-common/lib/common/components/loading-spinner/LoadingSpinner';
 import FormikTextarea from '@navikt/sif-common/lib/common/formik/formik-textarea/FormikTextarea';
 import FormikYesOrNoQuestion from '@navikt/sif-common/lib/common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import { isValidationErrorsVisible } from '@navikt/sif-common/lib/common/formik/formikUtils';
@@ -22,17 +21,15 @@ import {
 } from '@navikt/sif-common/lib/common/validation/fieldValidations';
 import { FieldValidationError } from '@navikt/sif-common/lib/common/validation/types';
 import FormikDateIntervalPicker from 'common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
-import { GetSkalBekrefteOmsorgApiResponse } from '../../../api/types';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
 import { Søkerdata } from '../../../types/Søkerdata';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { persistAndNavigateTo } from '../../../utils/navigationUtils';
-import { getSkalBrukerBekrefteOmsorgForBarnet } from '../../../utils/omsorgUtils';
 import { erPeriodeOver8Uker } from '../../../utils/søkerOver8UkerUtils';
 import {
-    skalSpørreApiOmBrukerMåBekrefteOmsorg, søkerHarBarn, søkerHarValgtRegistrertBarn
+    brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet
 } from '../../../utils/tidsromUtils';
 import { getVarighetString } from '../../../utils/varighetUtils';
 import {
@@ -51,7 +48,6 @@ type Props = OpplysningerOmTidsromStepProps & HistoryProps & StepConfigProps;
 
 const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, søkerdata, ...stepProps }: Props) => {
     const { values, handleSubmit } = formikProps;
-    const [isLoading, setIsLoading] = React.useState(false);
 
     const fraDato = formikProps.values[AppFormField.periodeFra];
     const tilDato = formikProps.values[AppFormField.periodeTil];
@@ -62,28 +58,6 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, søker
     const intl = useIntl();
 
     const info8uker = periodeFra && periodeTil ? erPeriodeOver8Uker(periodeFra, periodeTil) : undefined;
-
-    React.useEffect(() => {
-        const fetchData = async () => {
-            const {
-                skalBekrefteOmsorg,
-                skalBeskriveOmsorg
-            }: GetSkalBekrefteOmsorgApiResponse = await getSkalBrukerBekrefteOmsorgForBarnet(
-                values.barnetSøknadenGjelder,
-                søkerHarBarn(søkerdata) && søkerHarValgtRegistrertBarn(values)
-            );
-            formikProps.setFieldValue(AppFormField.skalBekrefteOmsorg, skalBekrefteOmsorg);
-            formikProps.setFieldValue(AppFormField.skalBeskriveOmsorg, skalBeskriveOmsorg);
-            setIsLoading(false);
-        };
-        if (skalSpørreApiOmBrukerMåBekrefteOmsorg(values)) {
-            setIsLoading(true);
-            fetchData();
-        } else {
-            formikProps.setFieldValue(AppFormField.skalBekrefteOmsorg, true);
-            formikProps.setFieldValue(AppFormField.skalBeskriveOmsorg, true);
-        }
-    }, []);
 
     const validateFraDatoField = (date?: Date) => {
         return validateFradato(date, periodeTil);
@@ -123,171 +97,166 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, søker
             handleSubmit={handleSubmit}
             history={history}
             {...stepProps}>
-            {isLoading && <LoadingSpinner type="XS" style={'block'} blockTitle="Vennligst vent" />}
-            {!isLoading && (
+            <FormikDateIntervalPicker<AppFormField>
+                legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
+                helperText={intlHelper(intl, 'steg.tidsrom.hjelpetekst')}
+                fromDatepickerProps={{
+                    label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.fom'),
+                    validate: validateFraDatoField,
+                    name: AppFormField.periodeFra,
+                    dateLimitations: {
+                        minDato: date3YearsAgo,
+                        maksDato: validateTilDatoField(tilDato) === undefined ? tilDato : undefined
+                    }
+                }}
+                toDatepickerProps={{
+                    label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.tom'),
+                    validate: validateTilDatoField,
+                    name: AppFormField.periodeTil,
+                    dateLimitations: {
+                        minDato: validateFraDatoField(fraDato) === undefined ? fraDato : date3YearsAgo
+                    }
+                }}
+            />
+            {isFeatureEnabled(Feature.TOGGLE_8_UKER) && (
                 <>
-                    <FormikDateIntervalPicker<AppFormField>
-                        legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
-                        helperText={intlHelper(intl, 'steg.tidsrom.hjelpetekst')}
-                        fromDatepickerProps={{
-                            label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.fom'),
-                            validate: validateFraDatoField,
-                            name: AppFormField.periodeFra,
-                            dateLimitations: {
-                                minDato: date3YearsAgo,
-                                maksDato: validateTilDatoField(tilDato) === undefined ? tilDato : undefined
-                            }
-                        }}
-                        toDatepickerProps={{
-                            label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.tom'),
-                            validate: validateTilDatoField,
-                            name: AppFormField.periodeTil,
-                            dateLimitations: {
-                                minDato: validateFraDatoField(fraDato) === undefined ? fraDato : date3YearsAgo
-                            }
-                        }}
-                    />
-                    {isFeatureEnabled(Feature.TOGGLE_8_UKER) && (
-                        <>
-                            {info8uker?.erOver8Uker && (
-                                <>
-                                    <Box margin="xl">
-                                        <FormikYesOrNoQuestion<AppFormField>
-                                            name={AppFormField.bekrefterPeriodeOver8uker}
-                                            legend={`Når du velger en periode som er mer enn 8 uker (${getVarighetString(
-                                                info8uker.antallDager,
-                                                intl
-                                            )}), må du bekrefte  at du ønsker dette. Ønsker du å søke om mer enn 8 uker med pleiepenger?`}
-                                            validate={validateBekreft8uker}
-                                        />
-                                    </Box>
-                                    {values.bekrefterPeriodeOver8uker === YesOrNo.NO &&
-                                        !isValidationErrorsVisible(formikProps.status, formikProps.submitCount) && (
-                                            <>
-                                                <AlertStripeAdvarsel>
-                                                    For å kunne sende inn en søknad for en periode som er mer enn 8
-                                                    uker, må du bekrefte at du ønsker dette for å komme videre. Dersom
-                                                    du ikke bekrefter, må du redusere redusere varigheten på perioden
-                                                    til maks 8 uker.
-                                                </AlertStripeAdvarsel>
-                                            </>
-                                        )}
-                                </>
-                            )}
-                        </>
-                    )}
-
-                    {isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG) && values.skalBekrefteOmsorg && (
+                    {info8uker?.erOver8Uker && (
                         <>
                             <Box margin="xl">
                                 <FormikYesOrNoQuestion<AppFormField>
-                                    legend={intlHelper(intl, 'steg.tidsrom.skalPassePåBarnetIHelePerioden.spm')}
-                                    name={AppFormField.skalPassePåBarnetIHelePerioden}
-                                    validate={validateYesOrNoIsAnswered}
+                                    name={AppFormField.bekrefterPeriodeOver8uker}
+                                    legend={`Når du velger en periode som er mer enn 8 uker (${getVarighetString(
+                                        info8uker.antallDager,
+                                        intl
+                                    )}), må du bekrefte  at du ønsker dette. Ønsker du å søke om mer enn 8 uker med pleiepenger?`}
+                                    validate={validateBekreft8uker}
                                 />
                             </Box>
-                            {(values.skalPassePåBarnetIHelePerioden === YesOrNo.NO ||
-                                values.skalBeskriveOmsorg === true) && (
-                                <Box margin="xl">
-                                    <FormikTextarea<AppFormField>
-                                        label={intlHelper(intl, 'steg.tidsrom.bekreftOmsorgEkstrainfo.spm')}
-                                        name={AppFormField.beskrivelseOmsorgsrolleIPerioden}
-                                        validate={validateBekreftOmsorgEkstrainfo}
-                                        maxLength={1000}
-                                    />
-                                </Box>
-                            )}
+                            {values.bekrefterPeriodeOver8uker === YesOrNo.NO &&
+                                !isValidationErrorsVisible(formikProps.status, formikProps.submitCount) && (
+                                    <>
+                                        <AlertStripeAdvarsel>
+                                            For å kunne sende inn en søknad for en periode som er mer enn 8 uker, må du
+                                            bekrefte at du ønsker dette for å komme videre. Dersom du ikke bekrefter, må
+                                            du redusere redusere varigheten på perioden til maks 8 uker.
+                                        </AlertStripeAdvarsel>
+                                    </>
+                                )}
                         </>
                     )}
+                </>
+            )}
 
-                    <Box margin="xl">
-                        <FormikYesOrNoQuestion
-                            legend={intlHelper(intl, 'steg.tidsrom.annenSamtidig.spm')}
-                            name={AppFormField.harMedsøker}
-                            validate={validateYesOrNoIsAnswered}
-                        />
-                    </Box>
-
-                    {harMedsøker === YesOrNo.YES && (
+            {isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG) &&
+                brukerSkalBekrefteOmsorgForBarnet(values, søkerdata.barn) && (
+                    <>
                         <Box margin="xl">
-                            <FormikYesOrNoQuestion
-                                legend={intlHelper(intl, 'steg.tidsrom.samtidigHjemme.spm')}
-                                name={AppFormField.samtidigHjemme}
+                            <FormikYesOrNoQuestion<AppFormField>
+                                legend={intlHelper(intl, 'steg.tidsrom.skalPassePåBarnetIHelePerioden.spm')}
+                                name={AppFormField.skalPassePåBarnetIHelePerioden}
                                 validate={validateYesOrNoIsAnswered}
                             />
                         </Box>
-                    )}
-
-                    {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) && (
-                        <>
+                        {(values.skalPassePåBarnetIHelePerioden === YesOrNo.NO ||
+                            brukerSkalBeskriveOmsorgForBarnet(values, søkerdata.barn)) && (
                             <Box margin="xl">
-                                <FormikYesOrNoQuestion<AppFormField>
-                                    legend={intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.spm')}
-                                    name={AppFormField.skalOppholdeSegIUtlandetIPerioden}
-                                    validate={validateYesOrNoIsAnswered}
+                                <FormikTextarea<AppFormField>
+                                    label={intlHelper(intl, 'steg.tidsrom.bekreftOmsorgEkstrainfo.spm')}
+                                    name={AppFormField.beskrivelseOmsorgsrolleIPerioden}
+                                    validate={validateBekreftOmsorgEkstrainfo}
+                                    maxLength={1000}
                                 />
                             </Box>
-                            {formikProps.values.skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES && (
-                                <Box margin="m">
-                                    <UtenlandsoppholdListAndDialog<AppFormField>
-                                        name={AppFormField.utenlandsoppholdIPerioden}
-                                        minDate={periode.from}
-                                        maxDate={periode.to}
-                                        labels={{
-                                            modalTitle: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.modalTitle'),
-                                            listTitle: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.listTitle'),
-                                            addLabel: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.addLabel'),
-                                            emptyListText: 'Ingen utenlandsopphold er registrert'
-                                        }}
-                                        validate={
-                                            periode
-                                                ? (opphold: Utenlandsopphold[]) =>
-                                                      validateUtenlandsoppholdIPerioden(periode, opphold)
-                                                : undefined
-                                        }
-                                    />
-                                </Box>
-                            )}
-                            {visInfoOmUtenlandsopphold && (
-                                <Box margin="l" padBottom="l">
-                                    <CounsellorPanel>
-                                        <FormattedHTMLMessage id="steg.tidsrom.veileder.utenlandsopphold.html" />
-                                    </CounsellorPanel>
-                                </Box>
-                            )}
-                        </>
-                    )}
+                        )}
+                    </>
+                )}
 
-                    {isFeatureEnabled(Feature.TOGGLE_FERIEUTTAK) && (
-                        <>
-                            <Box margin="xl">
-                                <FormikYesOrNoQuestion<AppFormField>
-                                    legend={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.spm')}
-                                    name={AppFormField.skalTaUtFerieIPerioden}
-                                    validate={validateYesOrNoIsAnswered}
-                                    helperText={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.veileder')}
-                                />
-                            </Box>
-                            {formikProps.values.skalTaUtFerieIPerioden === YesOrNo.YES && (
-                                <Box margin="m" padBottom="l">
-                                    <FerieuttakListAndDialog<AppFormField>
-                                        name={AppFormField.ferieuttakIPerioden}
-                                        minDate={periode.from}
-                                        maxDate={periode.to}
-                                        labels={{
-                                            modalTitle: intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.modalTitle'),
-                                            listTitle: intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.listTitle'),
-                                            addLabel: intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.addLabel')
-                                        }}
-                                        validate={
-                                            periode
-                                                ? (ferie: Ferieuttak[]) => validateFerieuttakIPerioden(periode, ferie)
-                                                : undefined
-                                        }
-                                    />
-                                </Box>
-                            )}
-                        </>
+            <Box margin="xl">
+                <FormikYesOrNoQuestion
+                    legend={intlHelper(intl, 'steg.tidsrom.annenSamtidig.spm')}
+                    name={AppFormField.harMedsøker}
+                    validate={validateYesOrNoIsAnswered}
+                />
+            </Box>
+
+            {harMedsøker === YesOrNo.YES && (
+                <Box margin="xl">
+                    <FormikYesOrNoQuestion
+                        legend={intlHelper(intl, 'steg.tidsrom.samtidigHjemme.spm')}
+                        name={AppFormField.samtidigHjemme}
+                        validate={validateYesOrNoIsAnswered}
+                    />
+                </Box>
+            )}
+
+            {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) && (
+                <>
+                    <Box margin="xl">
+                        <FormikYesOrNoQuestion<AppFormField>
+                            legend={intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.spm')}
+                            name={AppFormField.skalOppholdeSegIUtlandetIPerioden}
+                            validate={validateYesOrNoIsAnswered}
+                        />
+                    </Box>
+                    {formikProps.values.skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES && (
+                        <Box margin="m">
+                            <UtenlandsoppholdListAndDialog<AppFormField>
+                                name={AppFormField.utenlandsoppholdIPerioden}
+                                minDate={periode.from}
+                                maxDate={periode.to}
+                                labels={{
+                                    modalTitle: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.modalTitle'),
+                                    listTitle: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.listTitle'),
+                                    addLabel: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.addLabel'),
+                                    emptyListText: 'Ingen utenlandsopphold er registrert'
+                                }}
+                                validate={
+                                    periode
+                                        ? (opphold: Utenlandsopphold[]) =>
+                                              validateUtenlandsoppholdIPerioden(periode, opphold)
+                                        : undefined
+                                }
+                            />
+                        </Box>
+                    )}
+                    {visInfoOmUtenlandsopphold && (
+                        <Box margin="l" padBottom="l">
+                            <CounsellorPanel>
+                                <FormattedHTMLMessage id="steg.tidsrom.veileder.utenlandsopphold.html" />
+                            </CounsellorPanel>
+                        </Box>
+                    )}
+                </>
+            )}
+
+            {isFeatureEnabled(Feature.TOGGLE_FERIEUTTAK) && (
+                <>
+                    <Box margin="xl">
+                        <FormikYesOrNoQuestion<AppFormField>
+                            legend={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.spm')}
+                            name={AppFormField.skalTaUtFerieIPerioden}
+                            validate={validateYesOrNoIsAnswered}
+                            helperText={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.veileder')}
+                        />
+                    </Box>
+                    {formikProps.values.skalTaUtFerieIPerioden === YesOrNo.YES && (
+                        <Box margin="m" padBottom="l">
+                            <FerieuttakListAndDialog<AppFormField>
+                                name={AppFormField.ferieuttakIPerioden}
+                                minDate={periode.from}
+                                maxDate={periode.to}
+                                labels={{
+                                    modalTitle: intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.modalTitle'),
+                                    listTitle: intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.listTitle'),
+                                    addLabel: intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.addLabel')
+                                }}
+                                validate={
+                                    periode
+                                        ? (ferie: Ferieuttak[]) => validateFerieuttakIPerioden(periode, ferie)
+                                        : undefined
+                                }
+                            />
+                        </Box>
                     )}
                 </>
             )}

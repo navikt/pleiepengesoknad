@@ -16,6 +16,9 @@ import {
     mapUtenlandsoppholdIPeriodenToApiData
 } from './formToApiMaps/mapUtenlandsoppholdIPeriodenToApiData';
 import { erPeriodeOver8Uker } from './søkerOver8UkerUtils';
+import {
+    brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet
+} from './tidsromUtils';
 
 export const mapFormDataToApiData = (
     formData: PleiepengesøknadFormData,
@@ -88,10 +91,12 @@ export const mapFormDataToApiData = (
     };
 
     if (isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG)) {
-        if (formData.skalBekrefteOmsorg) {
-            apiData.skal_bekrefte_omsorg = formData.skalBekrefteOmsorg;
+        const skalBekrefteOmsorgForBarnet = brukerSkalBekrefteOmsorgForBarnet(formData, barn);
+        const skalBeskriveOmsorgForBarnet = brukerSkalBeskriveOmsorgForBarnet(formData, barn);
+        if (skalBekrefteOmsorgForBarnet) {
+            apiData.skal_bekrefte_omsorg = true;
             apiData.skal_passe_pa_barnet_i_hele_perioden = formData.skalPassePåBarnetIHelePerioden === YesOrNo.YES;
-            if (apiData.skal_passe_pa_barnet_i_hele_perioden === false) {
+            if (skalBeskriveOmsorgForBarnet) {
                 apiData.beskrivelse_omsorgsrollen = formData.beskrivelseOmsorgsrolleIPerioden;
             }
         }

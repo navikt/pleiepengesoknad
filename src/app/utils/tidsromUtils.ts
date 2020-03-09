@@ -1,6 +1,6 @@
 import { hasValue } from '@navikt/sif-common/lib/common/validation/hasValue';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import { Søkerdata } from '../types/Søkerdata';
+import { BarnReceivedFromApi, Søkerdata } from '../types/Søkerdata';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
 
 export const søkerHarBarn = (søkerdata: Søkerdata) => {
@@ -11,12 +11,34 @@ export const søkerHarValgtRegistrertBarn = (values: Partial<PleiepengesøknadFo
     return hasValue(values.barnetSøknadenGjelder) && values.søknadenGjelderEtAnnetBarn !== true;
 };
 
-export const skalSpørreApiOmBrukerMåBekrefteOmsorg = (values: Partial<PleiepengesøknadFormData>): boolean => {
+export const brukerSkalBekrefteOmsorgForBarnet = (
+    values: Partial<PleiepengesøknadFormData>,
+    registrerteBarn?: BarnReceivedFromApi[]
+): boolean => {
     if (!isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG)) {
         return false;
     }
-    if (values.barnetHarIkkeFåttFødselsnummerEnda === true) {
+    const valgtBarn: BarnReceivedFromApi | undefined = (registrerteBarn || []).find(
+        (b) => b.aktoer_id === values.barnetSøknadenGjelder
+    );
+    if (valgtBarn && valgtBarn.sammeAdresse === true) {
         return false;
     }
-    return hasValue(values.barnetsFødselsnummer) || hasValue(values.barnetSøknadenGjelder);
+    return true;
+};
+
+export const brukerSkalBeskriveOmsorgForBarnet = (
+    values: Partial<PleiepengesøknadFormData>,
+    registrerteBarn?: BarnReceivedFromApi[]
+): boolean => {
+    if (!isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG)) {
+        return false;
+    }
+    const valgtBarn: BarnReceivedFromApi | undefined = (registrerteBarn || []).find(
+        (b) => b.aktoer_id === values.barnetSøknadenGjelder
+    );
+    if (valgtBarn) {
+        return false;
+    }
+    return true;
 };
