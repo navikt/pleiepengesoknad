@@ -59,6 +59,6 @@ spec:
         - name: TOGGLE_8_UKER
           value: "on"
         - name: TOGGLE_BEKREFT_OMSORG
-          value: "on"
+          value: "off"
 
 
