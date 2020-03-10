@@ -310,7 +310,8 @@ describe('mapFormDataToApiData', () => {
         const result: ArbeidsforholdApiNei = {
             ...organisasjonMaxbo,
             skal_jobbe: 'nei',
-            skal_jobbe_prosent: 0
+            skal_jobbe_prosent: 0,
+            jobber_normalt_timer: 20
         };
         expect(organisasjoner).toEqual([result]);
     });
