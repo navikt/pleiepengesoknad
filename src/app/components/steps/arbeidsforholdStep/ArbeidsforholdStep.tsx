@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { useFormikContext } from 'formik';
 import AlertStripe from 'nav-frontend-alertstriper';
 import Box from 'common/components/box/Box';
@@ -57,33 +58,33 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                     {arbeidsforhold.length > 0 && (
                         <>
                             {arbeidsforhold.map((forhold, index) => (
-                                <Box padBottom="l" key={forhold.organisasjonsnummer}>
+                                <FormBlock key={forhold.organisasjonsnummer}>
                                     <FormSection titleTag="h4" title={forhold.navn} titleIcon={<BuildingIcon />}>
                                         <FormikArbeidsforhold arbeidsforhold={forhold} index={index} />
                                     </FormSection>
-                                </Box>
+                                </FormBlock>
                             ))}
                         </>
                     )}
 
                     {arbeidsforhold.length === 0 && <FormattedMessage id="steg.arbeidsforhold.ingenOpplysninger" />}
 
-                    <Box margin="s" padBottom="xl">
+                    <Box margin="l">
                         <AlertStripe type="info">
                             <FormattedMessage id="steg.arbeidsforhold.manglesOpplysninger" />
                         </AlertStripe>
                     </Box>
 
                     {isFeatureEnabled(Feature.TOGGLE_FRILANS) && (
-                        <Box margin="l" padBottom="l">
+                        <FormBlock>
                             <FrilansFormPart formValues={values} />
-                        </Box>
+                        </FormBlock>
                     )}
 
                     {isFeatureEnabled(Feature.TOGGLE_SELVSTENDIG) && (
-                        <Box margin="l" padBottom="l">
+                        <FormBlock>
                             <SelvstendigNæringsdrivendeFormPart formValues={values} />
-                        </Box>
+                        </FormBlock>
                     )}
                 </>
             )}

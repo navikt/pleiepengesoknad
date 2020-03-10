@@ -1,7 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { FieldArray } from 'formik';
-import Box from 'common/components/box/Box';
 import FormikRadioPanelGroup from 'common/formik/components/formik-radio-panel-group/FormikRadioPanelGroup';
 import FormikYesOrNoQuestion from 'common/formik/components/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import { YesOrNo } from 'common/types/YesOrNo';
@@ -34,43 +34,49 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                             validate={validateYesOrNoIsAnswered}
                         />
                         {arbeidsforhold.erAnsattIPerioden === YesOrNo.YES && (
-                            <Box padBottom="m">
-                                <FormikRadioPanelGroup<AppFormField>
-                                    legend={intlHelper(intl, 'arbeidsforhold.arbeidsforhold.spm')}
-                                    name={getFieldName(ArbeidsforholdField.skalJobbe)}
-                                    validate={validateRequiredField}
-                                    radios={[
-                                        {
-                                            label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.nei'),
-                                            value: ArbeidsforholdSkalJobbeSvar.nei
-                                        },
-                                        {
-                                            label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.vetIkke'),
-                                            value: ArbeidsforholdSkalJobbeSvar.vetIkke
-                                        },
-                                        {
-                                            label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.ja'),
-                                            value: ArbeidsforholdSkalJobbeSvar.ja
-                                        },
-                                        {
-                                            label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.redusert'),
-                                            value: ArbeidsforholdSkalJobbeSvar.redusert
-                                        }
-                                    ]}
-                                />
-                                {arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.redusert && (
-                                    <RedusertArbeidsforholdPart
-                                        arbeidsforhold={arbeidsforhold}
-                                        getFieldName={getFieldName}
+                            <>
+                                <FormBlock>
+                                    <FormikRadioPanelGroup<AppFormField>
+                                        legend={intlHelper(intl, 'arbeidsforhold.arbeidsforhold.spm')}
+                                        name={getFieldName(ArbeidsforholdField.skalJobbe)}
+                                        validate={validateRequiredField}
+                                        radios={[
+                                            {
+                                                label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.nei'),
+                                                value: ArbeidsforholdSkalJobbeSvar.nei
+                                            },
+                                            {
+                                                label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.vetIkke'),
+                                                value: ArbeidsforholdSkalJobbeSvar.vetIkke
+                                            },
+                                            {
+                                                label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.ja'),
+                                                value: ArbeidsforholdSkalJobbeSvar.ja
+                                            },
+                                            {
+                                                label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.redusert'),
+                                                value: ArbeidsforholdSkalJobbeSvar.redusert
+                                            }
+                                        ]}
                                     />
+                                </FormBlock>
+                                {arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.redusert && (
+                                    <FormBlock>
+                                        <RedusertArbeidsforholdPart
+                                            arbeidsforhold={arbeidsforhold}
+                                            getFieldName={getFieldName}
+                                        />
+                                    </FormBlock>
                                 )}
                                 {arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.vetIkke && (
-                                    <VetIkkeArbeidsforholdPart
-                                        arbeidsforhold={arbeidsforhold}
-                                        getFieldName={getFieldName}
-                                    />
+                                    <FormBlock>
+                                        <VetIkkeArbeidsforholdPart
+                                            arbeidsforhold={arbeidsforhold}
+                                            getFieldName={getFieldName}
+                                        />
+                                    </FormBlock>
                                 )}
-                            </Box>
+                            </>
                         )}
                     </>
                 );
