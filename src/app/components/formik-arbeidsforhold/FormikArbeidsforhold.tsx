@@ -7,6 +7,7 @@ import {
 } from '@navikt/sif-common-formik/lib';
 import { FieldArray } from 'formik';
 import { SkjemaGruppe } from 'nav-frontend-skjema';
+import { Element } from 'nav-frontend-typografi';
 import { YesOrNo } from 'common/types/YesOrNo';
 import intlHelper from 'common/utils/intlUtils';
 import {
@@ -66,14 +67,18 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                                 {arbeidsforhold.skalJobbe && (
                                     <FormBlock>
                                         <SkjemaGruppe
-                                            legend={intlHelper(intl, 'arbeidsforhold.iDag.spm', {
-                                                arbeidsforhold: arbeidsforhold.navn
-                                            })}>
+                                            legend={
+                                                <Element>
+                                                    {intlHelper(intl, 'arbeidsforhold.iDag.spm', {
+                                                        arbeidsforhold: arbeidsforhold.navn
+                                                    })}
+                                                </Element>
+                                            }>
                                             <FormikInput<AppFormField>
                                                 name={getFieldName(ArbeidsforholdField.jobberNormaltTimer)}
                                                 type="number"
+                                                className={'skjemaelement--timer-input'}
                                                 label={intlHelper(intl, 'arbeidsforhold.iDag.utledet')}
-                                                inputClassName="input--timer"
                                                 validate={(value) => validateReduserteArbeidProsent(value, true)}
                                                 value={arbeidsforhold.jobberNormaltTimer || ''}
                                                 min={0}

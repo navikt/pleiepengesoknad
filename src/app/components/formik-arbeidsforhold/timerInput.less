@@ -1,3 +1,25 @@
-input.input--timer {
-    max-width: 4rem;
+.skjemaelement--timer-input {
+    input {
+        max-width: 4rem;
+    }
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-items: flex-start;
+    .skjemaelement__input {
+        order: 1;
+        margin-right: 0.5rem;
+    }
+    .skjemaelement__label {
+        order: 2;
+        font-weight: normal;
+        * {
+            font-weight: normal;
+        }
+    }
+    [role='alert'] {
+        order: 3;
+        flex-basis: 100%;
+    }
 }
