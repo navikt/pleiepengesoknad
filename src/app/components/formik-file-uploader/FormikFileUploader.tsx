@@ -1,20 +1,19 @@
 import * as React from 'react';
-import { ArrayHelpers, connect } from 'formik';
-import { AppFormField } from '../../types/PleiepengesøknadFormData';
-import { ConnectedFormikProps } from 'common/types/ConnectedFormikProps';
+import { FormikValidateFunction } from '@navikt/sif-common-formik/lib';
+import { ArrayHelpers, connect, useFormikContext } from 'formik';
+import FormikFileInput from 'common/formik/components/formik-file-input/FormikFileInput';
+import { Attachment, PersistedFile } from 'common/types/Attachment';
 import {
-    attachmentShouldBeProcessed,
-    attachmentShouldBeUploaded,
-    attachmentUploadHasFailed,
-    getPendingAttachmentFromFile,
-    VALID_EXTENSIONS,
-    isFileObject
+    attachmentShouldBeProcessed, attachmentShouldBeUploaded, attachmentUploadHasFailed,
+    getPendingAttachmentFromFile, isFileObject, VALID_EXTENSIONS
 } from 'common/utils/attachmentUtils';
 import { uploadFile } from '../../api/api';
+import { AppFormField, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import * as apiUtils from '../../utils/apiUtils';
-import { Attachment, PersistedFile } from 'common/types/Attachment';
-import FormikFileInput from 'common/formik/formik-file-input/FormikFileInput';
-import { FormikValidateFunction, FieldArrayReplaceFn, FieldArrayPushFn } from 'common/formik/FormikProps';
+
+export type FieldArrayReplaceFn = (index: number, value: any) => void;
+export type FieldArrayPushFn = (obj: any) => void;
+export type FieldArrayRemoveFn = (index: number) => undefined;
 
 interface FormikFileUploader {
     name: AppFormField;
@@ -25,16 +24,16 @@ interface FormikFileUploader {
     onUnauthorizedOrForbiddenUpload: () => void;
 }
 
-type Props = FormikFileUploader & ConnectedFormikProps<AppFormField>;
+type Props = FormikFileUploader;
 
 const FormikFileUploader: React.FunctionComponent<Props> = ({
     name,
-    formik: { values },
     onFileInputClick,
     onErrorUploadingAttachments,
     onUnauthorizedOrForbiddenUpload,
     ...otherProps
 }) => {
+    const { values } = useFormikContext<PleiepengesøknadFormData>();
     async function uploadAttachment(attachment: Attachment) {
         const { file } = attachment;
         if (isFileObject(file)) {

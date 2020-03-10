@@ -1,8 +1,8 @@
-import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { validateFødselsnummer } from 'common/validation/fieldValidations';
+import { hasValue } from 'common/validation/hasValue';
+import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { validateNavn, validateValgtBarn } from './fieldValidations';
-import { hasValue } from '@navikt/sif-common/lib/common/validation/hasValue';
 
 export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: PleiepengesøknadFormData) =>
     harForståttRettigheterOgPlikter === true;

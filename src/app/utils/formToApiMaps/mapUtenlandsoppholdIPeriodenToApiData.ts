@@ -1,10 +1,8 @@
-import {
-    getCountryName
-} from '@navikt/sif-common/lib/common/components/country-select/CountrySelect';
-import { Utenlandsopphold } from '@navikt/sif-common/lib/common/forms/utenlandsopphold/types';
-import { YesOrNo } from '@navikt/sif-common/lib/common/types/YesOrNo';
-import { countryIsMemberOfEøsOrEfta } from '@navikt/sif-common/lib/common/utils/countryUtils';
-import { formatDateToApiFormat } from '@navikt/sif-common/lib/common/utils/dateUtils';
+import { getCountryName } from '@navikt/sif-common-formik/lib';
+import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
+import { YesOrNo } from 'common/types/YesOrNo';
+import { countryIsMemberOfEøsOrEfta } from 'common/utils/countryUtils';
+import { formatDateToApiFormat } from 'common/utils/dateUtils';
 import {
     UtenlandsoppholdIPeriodenApiData, UtenlandsoppholdUtenforEøsIPeriodenApiData
 } from '../../types/PleiepengesøknadApiData';

@@ -2,11 +2,13 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { FieldArray } from 'formik';
 import Box from 'common/components/box/Box';
-import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
-import FormikYesOrNoQuestion from 'common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
+import FormikRadioPanelGroup from 'common/formik/components/formik-radio-panel-group/FormikRadioPanelGroup';
+import FormikYesOrNoQuestion from 'common/formik/components/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import { YesOrNo } from 'common/types/YesOrNo';
 import intlHelper from 'common/utils/intlUtils';
-import { validateRequiredField } from 'common/validation/fieldValidations';
+import {
+    validateRequiredField, validateYesOrNoIsAnswered
+} from 'common/validation/fieldValidations';
 import {
     AppFormField, Arbeidsforhold, ArbeidsforholdField, ArbeidsforholdSkalJobbeSvar
 } from 'app/types/PleiepengesøknadFormData';
@@ -29,35 +31,30 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                         <FormikYesOrNoQuestion
                             legend={intlHelper(intl, 'arbeidsforhold.erAnsattIPerioden.spm')}
                             name={getFieldName(ArbeidsforholdField.erAnsattIPerioden)}
-                            isRequired={true}
+                            validate={validateYesOrNoIsAnswered}
                         />
                         {arbeidsforhold.erAnsattIPerioden === YesOrNo.YES && (
                             <Box padBottom="m">
                                 <FormikRadioPanelGroup<AppFormField>
                                     legend={intlHelper(intl, 'arbeidsforhold.arbeidsforhold.spm')}
-                                    singleColumn={true}
                                     name={getFieldName(ArbeidsforholdField.skalJobbe)}
                                     validate={validateRequiredField}
                                     radios={[
                                         {
                                             label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.nei'),
-                                            value: ArbeidsforholdSkalJobbeSvar.nei,
-                                            key: ArbeidsforholdSkalJobbeSvar.nei
+                                            value: ArbeidsforholdSkalJobbeSvar.nei
                                         },
                                         {
                                             label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.vetIkke'),
-                                            value: ArbeidsforholdSkalJobbeSvar.vetIkke,
-                                            key: ArbeidsforholdSkalJobbeSvar.vetIkke
+                                            value: ArbeidsforholdSkalJobbeSvar.vetIkke
                                         },
                                         {
                                             label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.ja'),
-                                            value: ArbeidsforholdSkalJobbeSvar.ja,
-                                            key: ArbeidsforholdSkalJobbeSvar.ja
+                                            value: ArbeidsforholdSkalJobbeSvar.ja
                                         },
                                         {
                                             label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.redusert'),
-                                            value: ArbeidsforholdSkalJobbeSvar.redusert,
-                                            key: ArbeidsforholdSkalJobbeSvar.redusert
+                                            value: ArbeidsforholdSkalJobbeSvar.redusert
                                         }
                                     ]}
                                 />

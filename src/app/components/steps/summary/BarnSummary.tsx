@@ -1,10 +1,10 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
-import ContentWithHeader from '@navikt/sif-common/lib/common/components/content-with-header/ContentWithHeader';
-import { apiStringDateToDate, prettifyDate } from '@navikt/sif-common/lib/common/utils/dateUtils';
-import intlHelper from '@navikt/sif-common/lib/common/utils/intlUtils';
-import { formatName } from '@navikt/sif-common/lib/common/utils/personUtils';
+import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
+import { apiStringDateToDate, prettifyDate } from 'common/utils/dateUtils';
+import intlHelper from 'common/utils/intlUtils';
+import { formatName } from 'common/utils/personUtils';
 import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../../../types/Søkerdata';

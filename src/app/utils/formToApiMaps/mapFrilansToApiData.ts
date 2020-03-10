@@ -1,5 +1,5 @@
-import { YesOrNo } from '@navikt/sif-common/lib/common/types/YesOrNo';
-import { formatDateToApiFormat } from '@navikt/sif-common/lib/common/utils/dateUtils';
+import { YesOrNo } from 'common/types/YesOrNo';
+import { formatDateToApiFormat } from 'common/utils/dateUtils';
 import { FrilansApiData } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 

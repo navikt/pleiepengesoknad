@@ -7,8 +7,7 @@ import ContentWithHeader from 'common/components/content-with-header/ContentWith
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import SummaryList from 'common/components/summary-list/SummaryList';
 import TextareaSummary from 'common/components/textarea-summary/TextareaSummary';
-import ValidationErrorSummaryBase from 'common/components/validation-error-summary-base/ValidationErrorSummaryBase';
-import FormikConfirmationCheckboxPanel from 'common/formik/formik-confirmation-checkbox-panel/FormikConfirmationCheckboxPanel';
+import FormikConfirmationCheckboxPanel from 'common/formik/components/formik-confirmation-checkbox-panel/FormikConfirmationCheckboxPanel';
 import { HistoryProps } from 'common/types/History';
 import { Locale } from 'common/types/Locale';
 import { apiStringDateToDate, prettifyDate } from 'common/utils/dateUtils';
@@ -24,7 +23,7 @@ import { purge, sendApplication } from '../../../api/api';
 import routeConfig from '../../../config/routeConfig';
 import { StepID } from '../../../config/stepConfig';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
-import { AppFormField } from '../../../types/PleiepengesøknadFormData';
+import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi, Søkerdata } from '../../../types/Søkerdata';
 import * as apiUtils from '../../../utils/apiUtils';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
@@ -35,7 +34,6 @@ import { getVarighetString } from '../../../utils/varighetUtils';
 import { validateApiValues } from '../../../validation/apiValuesValidation';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringAttachmentList from '../../legeerklæring-file-list/LegeerklæringFileList';
-import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import BarnSummary from './BarnSummary';
 import FrilansSummary from './FrilansSummary';
 import JaNeiSvar from './JaNeiSvar';
@@ -47,7 +45,11 @@ interface State {
     sendingInProgress: boolean;
 }
 
-type Props = CommonStepFormikProps & HistoryProps & WrappedComponentProps;
+interface OwnProps {
+    values: PleiepengesøknadFormData;
+}
+
+type Props = OwnProps & HistoryProps & WrappedComponentProps;
 
 class SummaryStep extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -59,7 +61,7 @@ class SummaryStep extends React.Component<Props, State> {
     }
 
     async navigate(barn: BarnReceivedFromApi[]) {
-        const { history, formValues, intl } = this.props;
+        const { history, values, intl } = this.props;
         this.setState({
             sendingInProgress: true
         });
@@ -68,7 +70,7 @@ class SummaryStep extends React.Component<Props, State> {
         } else {
             try {
                 await purge();
-                await sendApplication(mapFormDataToApiData(formValues, barn, intl.locale as Locale));
+                await sendApplication(mapFormDataToApiData(values, barn, intl.locale as Locale));
                 navigateTo(routeConfig.SØKNAD_SENDT_ROUTE, history);
             } catch (error) {
                 if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
@@ -81,16 +83,10 @@ class SummaryStep extends React.Component<Props, State> {
     }
 
     render() {
-        const { handleSubmit, formValues, history, intl } = this.props;
+        const { values, intl } = this.props;
         const { sendingInProgress } = this.state;
-        const stepProps = {
-            formValues,
-            handleSubmit,
-            showButtonSpinner: sendingInProgress,
-            buttonDisabled: sendingInProgress
-        };
 
-        const { periodeFra, periodeTil } = formValues;
+        const { periodeFra, periodeTil } = values;
         const info8uker =
             isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) && periodeFra && periodeTil
                 ? erPeriodeOver8Uker(periodeFra, periodeTil)
@@ -99,7 +95,7 @@ class SummaryStep extends React.Component<Props, State> {
         return (
             <SøkerdataContextConsumer>
                 {({ person: { fornavn, mellomnavn, etternavn, fodselsnummer }, barn }: Søkerdata) => {
-                    const apiValues = mapFormDataToApiData(formValues, barn, intl.locale as Locale);
+                    const apiValues = mapFormDataToApiData(values, barn, intl.locale as Locale);
                     const apiValuesValidationErrors = validateApiValues(apiValues, intl);
 
                     const {
@@ -115,20 +111,23 @@ class SummaryStep extends React.Component<Props, State> {
                         <FormikStep
                             id={StepID.SUMMARY}
                             onValidFormSubmit={() => this.navigate(barn)}
-                            history={history}
                             useValidationErrorSummary={false}
                             showSubmitButton={apiValuesValidationErrors === undefined}
-                            customErrorSummaryRenderer={
-                                apiValuesValidationErrors
-                                    ? () => (
-                                          <ValidationErrorSummaryBase
-                                              title={intlHelper(intl, 'formikValidationErrorSummary.tittel')}
-                                              errors={apiValuesValidationErrors}
-                                          />
-                                      )
-                                    : undefined
-                            }
-                            {...stepProps}>
+                            buttonDisabled={sendingInProgress}
+                            showButtonSpinner={sendingInProgress}
+
+                            // customErrorSummaryRenderer={
+                            //     apiValuesValidationErrors
+                            //         ? () => (
+                            //               <ValidationErrorSummaryBase
+                            //                   title={intlHelper(intl, 'formikValidationErrorSummary.tittel')}
+                            //                   errors={apiValuesValidationErrors}
+                            //               />
+                            //           )
+                            //         : undefined
+                            // }
+                            // {...stepProps}
+                        >
                             <CounsellorPanel>
                                 <FormattedMessage id="steg.oppsummering.info" />
                             </CounsellorPanel>
@@ -172,7 +171,7 @@ class SummaryStep extends React.Component<Props, State> {
                                         </Box>
                                     )}
                                     <Box margin="l">
-                                        <BarnSummary barn={barn} formValues={formValues} apiValues={apiValues} />
+                                        <BarnSummary barn={barn} formValues={values} apiValues={apiValues} />
                                     </Box>
                                     <Box margin="l">
                                         <ContentWithHeader

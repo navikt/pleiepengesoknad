@@ -1,5 +1,5 @@
-import { formatDateToApiFormat } from '@navikt/sif-common/lib/common/utils/dateUtils';
-import { formatName } from '@navikt/sif-common/lib/common/utils/personUtils';
+import { formatDateToApiFormat } from 'common/utils/dateUtils';
+import { formatName } from 'common/utils/personUtils';
 import { BarnToSendToApi } from '../../types/PleiepengesøknadApiData';
 import { BarnReceivedFromApi } from '../../types/Søkerdata';
 

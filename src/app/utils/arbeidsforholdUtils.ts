@@ -1,12 +1,14 @@
-import { Arbeidsgiver, Søkerdata } from 'app/types/Søkerdata';
-import { Arbeidsforhold, AppFormField } from 'app/types/PleiepengesøknadFormData';
+import { FormikProps } from 'formik';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { PleiepengesøknadFormikProps } from 'app/types/PleiepengesøknadFormikProps';
-import { appIsRunningInDemoMode } from './envUtils';
-import demoSøkerdata from 'app/demo/demoData';
-import { getArbeidsgiver } from 'app/api/api';
 import { formatDateToApiFormat } from 'common/utils/dateUtils';
+import { getArbeidsgiver } from 'app/api/api';
+import demoSøkerdata from 'app/demo/demoData';
+import {
+    AppFormField, Arbeidsforhold, PleiepengesøknadFormData
+} from 'app/types/PleiepengesøknadFormData';
+import { Arbeidsgiver, Søkerdata } from 'app/types/Søkerdata';
 import { apiUtils } from './apiUtils';
+import { appIsRunningInDemoMode } from './envUtils';
 import { navigateToLoginPage } from './navigationUtils';
 
 const roundWithTwoDecimals = (nbr: number): number => Math.round(nbr * 100) / 100;
@@ -33,7 +35,10 @@ export const getAktiveArbeidsforholdIPerioden = (arbeidsforhold: Arbeidsforhold[
     return arbeidsforhold.filter((a) => a.erAnsattIPerioden === YesOrNo.YES);
 };
 
-export const updateArbeidsforhold = (formikProps: PleiepengesøknadFormikProps, arbeidsgivere: Arbeidsgiver[]) => {
+export const updateArbeidsforhold = (
+    formikProps: FormikProps<PleiepengesøknadFormData>,
+    arbeidsgivere: Arbeidsgiver[]
+) => {
     const updatedArbeidsforhold = syndArbeidsforholdWithArbeidsgivere(
         arbeidsgivere,
         formikProps.values[AppFormField.arbeidsforhold]
@@ -46,7 +51,7 @@ export const updateArbeidsforhold = (formikProps: PleiepengesøknadFormikProps, 
 export async function getArbeidsgivere(
     fromDate: Date,
     toDate: Date,
-    formikProps: PleiepengesøknadFormikProps,
+    formikProps: FormikProps<PleiepengesøknadFormData>,
     søkerdata: Søkerdata
 ) {
     if (appIsRunningInDemoMode()) {

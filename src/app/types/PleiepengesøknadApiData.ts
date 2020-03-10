@@ -1,5 +1,5 @@
-import { VirksomhetApiData } from '@navikt/sif-common/lib/common/forms/virksomhet/types';
 import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
+import { VirksomhetApiData } from 'common/forms/virksomhet/types';
 import { ApiStringDate } from 'common/types/ApiStringDate';
 import { Locale } from 'common/types/Locale';
 import { TilsynVetIkkeHvorfor } from './PleiepengesøknadFormData';

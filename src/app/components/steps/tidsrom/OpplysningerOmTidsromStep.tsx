@@ -1,30 +1,24 @@
 import * as React from 'react';
 import { FormattedHTMLMessage, useIntl } from 'react-intl';
+import { IntlFieldValidationError } from '@navikt/sif-common-core/lib/validation/types';
+import { TypedFormikFormContext } from '@navikt/sif-common-formik/lib';
+import { useFormikContext } from 'formik';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import Box from '@navikt/sif-common/lib/common/components/box/Box';
-import CounsellorPanel from '@navikt/sif-common/lib/common/components/counsellor-panel/CounsellorPanel';
-import FormikYesOrNoQuestion from '@navikt/sif-common/lib/common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
-import { isValidationErrorsVisible } from '@navikt/sif-common/lib/common/formik/formikUtils';
-import FerieuttakListAndDialog from '@navikt/sif-common/lib/common/forms/ferieuttak/FerieuttakListAndDialog';
-import { Ferieuttak } from '@navikt/sif-common/lib/common/forms/ferieuttak/types';
-import { Utenlandsopphold } from '@navikt/sif-common/lib/common/forms/utenlandsopphold/types';
-import UtenlandsoppholdListAndDialog from '@navikt/sif-common/lib/common/forms/utenlandsopphold/UtenlandsoppholdListAndDialog';
-import { HistoryProps } from '@navikt/sif-common/lib/common/types/History';
-import { YesOrNo } from '@navikt/sif-common/lib/common/types/YesOrNo';
-import {
-    date1YearAgo, date1YearFromNow, date3YearsAgo, DateRange
-} from '@navikt/sif-common/lib/common/utils/dateUtils';
-import intlHelper from '@navikt/sif-common/lib/common/utils/intlUtils';
-import {
-    validateYesOrNoIsAnswered
-} from '@navikt/sif-common/lib/common/validation/fieldValidations';
-import { FieldValidationError } from '@navikt/sif-common/lib/common/validation/types';
-import FormikDateIntervalPicker from 'common/formik/formik-date-interval-picker/FormikDateIntervalPicker';
+import Box from 'common/components/box/Box';
+import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
+import FormikDateIntervalPicker from 'common/formik/components/formik-date-interval-picker/FormikDateIntervalPicker';
+import FormikYesOrNoQuestion from 'common/formik/components/formik-yes-or-no-question/FormikYesOrNoQuestion';
+import FerieuttakListAndDialog from 'common/forms/ferieuttak/FerieuttakListAndDialog';
+import { Ferieuttak } from 'common/forms/ferieuttak/types';
+import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
+import UtenlandsoppholdListAndDialog from 'common/forms/utenlandsopphold/UtenlandsoppholdListAndDialog';
+import { YesOrNo } from 'common/types/YesOrNo';
+import { date1YearAgo, date1YearFromNow, date3YearsAgo, DateRange } from 'common/utils/dateUtils';
+import intlHelper from 'common/utils/intlUtils';
+import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
-import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
+import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
-import { persistAndNavigateTo } from '../../../utils/navigationUtils';
 import { erPeriodeOver8Uker } from '../../../utils/søkerOver8UkerUtils';
 import { getVarighetString } from '../../../utils/varighetUtils';
 import {
@@ -33,20 +27,15 @@ import {
 import FormikStep from '../../formik-step/FormikStep';
 import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
 
-interface OpplysningerOmTidsromStepProps {
-    formikProps: PleiepengesøknadFormikProps;
-}
+const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
+    const { values } = useFormikContext<PleiepengesøknadFormData>();
+    const { showErrors } = React.useContext(TypedFormikFormContext) || { showErrors: false };
 
-type Props = OpplysningerOmTidsromStepProps & HistoryProps & StepConfigProps;
+    const fraDato = values[AppFormField.periodeFra];
+    const tilDato = values[AppFormField.periodeTil];
+    const harMedsøker = values[AppFormField.harMedsøker];
 
-const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...stepProps }: Props) => {
-    const { values, handleSubmit } = formikProps;
-
-    const fraDato = formikProps.values[AppFormField.periodeFra];
-    const tilDato = formikProps.values[AppFormField.periodeTil];
-    const harMedsøker = formikProps.values[AppFormField.harMedsøker];
-
-    const { periodeFra, periodeTil } = formikProps.values;
+    const { periodeFra, periodeTil } = values;
     const periode: DateRange = { from: periodeFra || date1YearAgo, to: periodeTil || date1YearFromNow };
     const intl = useIntl();
 
@@ -60,14 +49,14 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
         return validateTildato(date, periodeFra);
     };
 
-    const validateBekreft8uker = (value: YesOrNo): FieldValidationError | undefined => {
+    const validateBekreft8uker = (value: YesOrNo): IntlFieldValidationError | undefined => {
         const err = validateYesOrNoIsAnswered(value);
         if (err) {
             return err;
         }
 
         if (value === YesOrNo.NO && info8uker && info8uker?.erOver8Uker) {
-            const error: FieldValidationError = {
+            const error: IntlFieldValidationError = {
                 key: 'fieldvalidation.periodeErOver8UkerMenIkkeØnsket',
                 values: {
                     varighet: getVarighetString(info8uker.antallDager, intl)
@@ -83,16 +72,10 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
         harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning(values.utenlandsoppholdIPerioden);
 
     return (
-        <FormikStep
-            id={StepID.TIDSROM}
-            onValidFormSubmit={() => persistAndNavigateTo(history, StepID.TIDSROM, values, nextStepRoute)}
-            formValues={values}
-            handleSubmit={handleSubmit}
-            history={history}
-            {...stepProps}>
+        <FormikStep id={StepID.TIDSROM} onValidFormSubmit={onValidSubmit}>
             <FormikDateIntervalPicker<AppFormField>
                 legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
-                helperText={intlHelper(intl, 'steg.tidsrom.hjelpetekst')}
+                info={intlHelper(intl, 'steg.tidsrom.hjelpetekst')}
                 fromDatepickerProps={{
                     label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.fom'),
                     validate: validateFraDatoField,
@@ -125,16 +108,15 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                                     validate={validateBekreft8uker}
                                 />
                             </Box>
-                            {values.bekrefterPeriodeOver8uker === YesOrNo.NO &&
-                                !isValidationErrorsVisible(formikProps.status, formikProps.submitCount) && (
-                                    <>
-                                        <AlertStripeAdvarsel>
-                                            For å kunne sende inn en søknad for en periode som er mer enn 8 uker, må du
-                                            bekrefte at du ønsker dette for å komme videre. Dersom du ikke bekrefter, må
-                                            du redusere redusere varigheten på perioden til maks 8 uker.
-                                        </AlertStripeAdvarsel>
-                                    </>
-                                )}
+                            {values.bekrefterPeriodeOver8uker === YesOrNo.NO && showErrors && (
+                                <>
+                                    <AlertStripeAdvarsel>
+                                        For å kunne sende inn en søknad for en periode som er mer enn 8 uker, må du
+                                        bekrefte at du ønsker dette for å komme videre. Dersom du ikke bekrefter, må du
+                                        redusere redusere varigheten på perioden til maks 8 uker.
+                                    </AlertStripeAdvarsel>
+                                </>
+                            )}
                         </>
                     )}
                 </>
@@ -167,7 +149,7 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                             validate={validateYesOrNoIsAnswered}
                         />
                     </Box>
-                    {formikProps.values.skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES && (
+                    {values.skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES && (
                         <Box margin="m">
                             <UtenlandsoppholdListAndDialog<AppFormField>
                                 name={AppFormField.utenlandsoppholdIPerioden}
@@ -205,10 +187,10 @@ const OpplysningerOmTidsromStep = ({ history, nextStepRoute, formikProps, ...ste
                             legend={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.spm')}
                             name={AppFormField.skalTaUtFerieIPerioden}
                             validate={validateYesOrNoIsAnswered}
-                            helperText={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.veileder')}
+                            info={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.veileder')}
                         />
                     </Box>
-                    {formikProps.values.skalTaUtFerieIPerioden === YesOrNo.YES && (
+                    {values.skalTaUtFerieIPerioden === YesOrNo.YES && (
                         <Box margin="m" padBottom="l">
                             <FerieuttakListAndDialog<AppFormField>
                                 name={AppFormField.ferieuttakIPerioden}

@@ -1,34 +1,26 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
+import { useFormikContext } from 'formik';
 import Lenke from 'nav-frontend-lenker';
 import Box from 'common/components/box/Box';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import FormikYesOrNoQuestion from 'common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
-import { HistoryProps } from 'common/types/History';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { date1YearAgo, date1YearFromNow, dateToday } from 'common/utils/dateUtils';
 import intlHelper from 'common/utils/intlUtils';
 import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
-import { persistAndNavigateTo } from 'app/utils/navigationUtils';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import getLenker from '../../../lenker';
-import { AppFormField } from '../../../types/PleiepengesøknadFormData';
+import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
-import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import BostedsoppholdIUtlandetFormPart from './BostedsoppholdIUtlandetFormPart';
 
-type Props = CommonStepFormikProps & HistoryProps & StepConfigProps;
-
-const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, nextStepRoute, ...stepProps }) => {
-    const { formValues } = stepProps;
+const MedlemsskapStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) => {
+    const { values } = useFormikContext<PleiepengesøknadFormData>();
     const intl = useIntl();
 
     return (
-        <FormikStep
-            id={StepID.MEDLEMSKAP}
-            onValidFormSubmit={() => persistAndNavigateTo(history, StepID.MEDLEMSKAP, formValues, nextStepRoute)}
-            history={history}
-            {...stepProps}>
+        <FormikStep id={StepID.MEDLEMSKAP} onValidFormSubmit={onValidSubmit}>
             <Box padBottom="xxl">
                 <CounsellorPanel>
                     Medlemskap i folketrygden er nøkkelen til rettigheter fra NAV. Hvis du bor eller jobber i Norge er
@@ -39,13 +31,13 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, nextStepRout
                     .
                 </CounsellorPanel>
             </Box>
-            <FormikYesOrNoQuestion
+            <AppForm.YesOrNoQuestion
                 legend={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.spm')}
                 name={AppFormField.harBoddUtenforNorgeSiste12Mnd}
                 validate={validateYesOrNoIsAnswered}
-                helperText={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.hjelp')}
+                info={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.hjelp')}
             />
-            {formValues.harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && (
+            {values.harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && (
                 <Box margin="m">
                     <BostedsoppholdIUtlandetFormPart
                         periode={{ from: date1YearAgo, to: dateToday }}
@@ -59,14 +51,14 @@ const MedlemsskapStep: React.FunctionComponent<Props> = ({ history, nextStepRout
                 </Box>
             )}
             <Box margin="xl">
-                <FormikYesOrNoQuestion
+                <AppForm.YesOrNoQuestion
                     legend={intlHelper(intl, 'steg.medlemsskap.annetLandNeste12.spm')}
                     name={AppFormField.skalBoUtenforNorgeNeste12Mnd}
                     validate={validateYesOrNoIsAnswered}
-                    helperText={intlHelper(intl, 'steg.medlemsskap.annetLandNeste12.hjelp')}
+                    info={intlHelper(intl, 'steg.medlemsskap.annetLandNeste12.hjelp')}
                 />
             </Box>
-            {formValues.skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES && (
+            {values.skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES && (
                 <Box margin="m">
                     <BostedsoppholdIUtlandetFormPart
                         periode={{ from: dateToday, to: date1YearFromNow }}

@@ -1,42 +1,36 @@
 import * as React from 'react';
-import { PleiepengesøknadFormikProps } from '../../types/PleiepengesøknadFormikProps';
-import OpplysningerOmBarnetStep from '../steps/opplysninger-om-barnet/OpplysningerOmBarnetStep';
-import { StepID } from '../../config/stepConfig';
-import { getSøknadRoute, isAvailable, getNextStepRoute } from '../../utils/routeUtils';
-import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
-import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
-import RouteConfig from '../../config/routeConfig';
-import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromStep';
-import MedlemsskapStep from '../steps/medlemskap/MedlemsskapStep';
-import LegeerklæringStep from '../steps/legeerklæring/LegeerklæringStep';
-import SummaryStep from '../steps/summary/SummaryStep';
-import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
-import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
-import ArbeidsforholdStep from '../steps/arbeidsforholdStep/ArbeidsforholdStep';
-import TilsynsordningStep from '../steps/tilsynsordning/TilsynsordningStep';
-import NattevåkStep from '../steps/nattevåkStep/NattevåkStep';
-import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
-import BeredskapStep from '../steps/beredskapStep/BeredskapStep';
-import { SøkerdataContextConsumer } from 'app/context/SøkerdataContext';
+import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import { useFormikContext } from 'formik';
 import { getAktiveArbeidsforholdIPerioden } from 'app/utils/arbeidsforholdUtils';
-import { redirectTo } from '../../utils/navigationUtils';
+import RouteConfig from '../../config/routeConfig';
+import { StepID } from '../../config/stepConfig';
+import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { navigateTo, redirectTo } from '../../utils/navigationUtils';
+import { getNextStepRoute, getSøknadRoute, isAvailable } from '../../utils/routeUtils';
+import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
+import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
+import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
+import ArbeidsforholdStep from '../steps/arbeidsforholdStep/ArbeidsforholdStep';
+import BeredskapStep from '../steps/beredskapStep/BeredskapStep';
+import LegeerklæringStep from '../steps/legeerklæring/LegeerklæringStep';
+import MedlemsskapStep from '../steps/medlemskap/MedlemsskapStep';
+import NattevåkStep from '../steps/nattevåkStep/NattevåkStep';
+import OpplysningerOmBarnetStep from '../steps/opplysninger-om-barnet/OpplysningerOmBarnetStep';
+import SummaryStep from '../steps/summary/SummaryStep';
+import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromStep';
+import TilsynsordningStep from '../steps/tilsynsordning/TilsynsordningStep';
 
 interface PleiepengesøknadContentProps {
     lastStepID: StepID;
-    formikProps: PleiepengesøknadFormikProps;
 }
 
-export interface CommonStepFormikProps {
-    formValues: PleiepengesøknadFormData;
-    handleSubmit: () => void;
-}
-
-const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContentProps> = ({lastStepID, formikProps }) => {
+const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContentProps> = ({ lastStepID }) => {
     const location = useLocation();
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
     const [antallArbeidsforhold, setAntallArbeidsforhold] = React.useState<number>(0);
-    const { handleSubmit, values, isSubmitting, isValid, resetForm } = formikProps;
-    const commonFormikProps: CommonStepFormikProps = { handleSubmit, formValues: formikProps.values };
+    const { values, resetForm } = useFormikContext<PleiepengesøknadFormData>();
+
+    const history = useHistory();
 
     if (location.pathname === RouteConfig.WELCOMING_PAGE_ROUTE) {
         const nextStepRoute = getNextStepRoute(lastStepID, values);
@@ -44,17 +38,30 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
             redirectTo(nextStepRoute);
         }
     }
+
+    const navigateToNextStep = (stepId: StepID) => {
+        setTimeout(() => {
+            const nextStepRoute = getNextStepRoute(stepId, values);
+            if (nextStepRoute) {
+                navigateTo(nextStepRoute, history);
+            }
+        });
+    };
+
     return (
         <Switch>
             <Route
                 path={RouteConfig.WELCOMING_PAGE_ROUTE}
-                render={(props) => (
+                render={() => (
                     <WelcomingPage
-                        {...commonFormikProps}
-                        {...props}
-                        isSubmitting={isSubmitting}
-                        isValid={isValid}
-                        nextStepRoute={`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.OPPLYSNINGER_OM_BARNET}`}
+                        onValidSubmit={() =>
+                            setTimeout(() => {
+                                navigateTo(
+                                    `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.OPPLYSNINGER_OM_BARNET}`,
+                                    history
+                                );
+                            })
+                        }
                     />
                 )}
             />
@@ -62,11 +69,9 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
             {isAvailable(StepID.OPPLYSNINGER_OM_BARNET, values) && (
                 <Route
                     path={getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET)}
-                    render={(props) => (
+                    render={() => (
                         <OpplysningerOmBarnetStep
-                            formikProps={formikProps}
-                            {...props}
-                            nextStepRoute={getNextStepRoute(StepID.OPPLYSNINGER_OM_BARNET, values)}
+                            onValidSubmit={() => navigateToNextStep(StepID.OPPLYSNINGER_OM_BARNET)}
                         />
                     )}
                 />
@@ -75,12 +80,8 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
             {isAvailable(StepID.TIDSROM, values) && (
                 <Route
                     path={getSøknadRoute(StepID.TIDSROM)}
-                    render={(props) => (
-                        <OpplysningerOmTidsromStep
-                            formikProps={formikProps}
-                            nextStepRoute={getNextStepRoute(StepID.TIDSROM, values)}
-                            {...props}
-                        />
+                    render={() => (
+                        <OpplysningerOmTidsromStep onValidSubmit={() => navigateToNextStep(StepID.TIDSROM)} />
                     )}
                 />
             )}
@@ -88,23 +89,8 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
             {isAvailable(StepID.ARBEIDSFORHOLD, values) && (
                 <Route
                     path={getSøknadRoute(StepID.ARBEIDSFORHOLD)}
-                    render={(props) => (
-                        <SøkerdataContextConsumer>
-                            {(søkerdata) => {
-                                if (søkerdata) {
-                                    return (
-                                        <ArbeidsforholdStep
-                                            {...commonFormikProps}
-                                            formikProps={formikProps}
-                                            søkerdata={søkerdata}
-                                            {...props}
-                                            nextStepRoute={getNextStepRoute(StepID.ARBEIDSFORHOLD, values)}
-                                        />
-                                    );
-                                }
-                                return <div>Manglende søkerdata</div>;
-                            }}
-                        </SøkerdataContextConsumer>
+                    render={() => (
+                        <ArbeidsforholdStep onValidSubmit={() => navigateToNextStep(StepID.ARBEIDSFORHOLD)} />
                     )}
                 />
             )}
@@ -112,14 +98,8 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
             {isAvailable(StepID.OMSORGSTILBUD, values) && (
                 <Route
                     path={getSøknadRoute(StepID.OMSORGSTILBUD)}
-                    render={(props) => {
-                        return (
-                            <TilsynsordningStep
-                                {...commonFormikProps}
-                                {...props}
-                                nextStepRoute={getNextStepRoute(StepID.OMSORGSTILBUD, values)}
-                            />
-                        );
+                    render={() => {
+                        return <TilsynsordningStep onValidSubmit={() => navigateToNextStep(StepID.OMSORGSTILBUD)} />;
                     }}
                 />
             )}
@@ -127,15 +107,8 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
             {isAvailable(StepID.NATTEVÅK, values) && (
                 <Route
                     path={getSøknadRoute(StepID.NATTEVÅK)}
-                    render={(props) => {
-                        return (
-                            <NattevåkStep
-                                formikProps={formikProps}
-                                {...commonFormikProps}
-                                {...props}
-                                nextStepRoute={getNextStepRoute(StepID.NATTEVÅK, values)}
-                            />
-                        );
+                    render={() => {
+                        return <NattevåkStep onValidSubmit={() => navigateToNextStep(StepID.NATTEVÅK)} />;
                     }}
                 />
             )}
@@ -143,15 +116,8 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
             {isAvailable(StepID.BEREDSKAP, values) && (
                 <Route
                     path={getSøknadRoute(StepID.BEREDSKAP)}
-                    render={(props) => {
-                        return (
-                            <BeredskapStep
-                                formikProps={formikProps}
-                                {...commonFormikProps}
-                                {...props}
-                                nextStepRoute={getNextStepRoute(StepID.BEREDSKAP, values)}
-                            />
-                        );
+                    render={() => {
+                        return <BeredskapStep onValidSubmit={() => navigateToNextStep(StepID.BEREDSKAP)} />;
                     }}
                 />
             )}
@@ -159,34 +125,21 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
             {isAvailable(StepID.MEDLEMSKAP, values) && (
                 <Route
                     path={getSøknadRoute(StepID.MEDLEMSKAP)}
-                    render={(props) => (
-                        <MedlemsskapStep
-                            {...commonFormikProps}
-                            {...props}
-                            nextStepRoute={getNextStepRoute(StepID.MEDLEMSKAP, values)}
-                        />
-                    )}
+                    render={() => <MedlemsskapStep onValidSubmit={() => navigateToNextStep(StepID.MEDLEMSKAP)} />}
                 />
             )}
 
             {isAvailable(StepID.LEGEERKLÆRING, values) && (
                 <Route
                     path={getSøknadRoute(StepID.LEGEERKLÆRING)}
-                    render={(props) => (
-                        <LegeerklæringStep
-                            formikProps={formikProps}
-                            {...commonFormikProps}
-                            {...props}
-                            nextStepRoute={getNextStepRoute(StepID.LEGEERKLÆRING, values)}
-                        />
-                    )}
+                    render={() => <LegeerklæringStep onValidSubmit={() => navigateToNextStep(StepID.LEGEERKLÆRING)} />}
                 />
             )}
 
             {isAvailable(StepID.SUMMARY, values) && (
                 <Route
                     path={getSøknadRoute(StepID.SUMMARY)}
-                    render={(props) => <SummaryStep {...commonFormikProps} {...props} />}
+                    render={() => <SummaryStep history={history} values={values} />}
                 />
             )}
 

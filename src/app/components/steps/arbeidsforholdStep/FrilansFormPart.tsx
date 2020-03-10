@@ -1,13 +1,15 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import Panel from 'nav-frontend-paneler';
-import intlHelper from '@navikt/sif-common/lib/common/utils/intlUtils';
 import Box from 'common/components/box/Box';
-import FormikDatepicker from 'common/formik/formik-datepicker/FormikDatepicker';
-import FormikYesOrNoQuestion from 'common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
+import FormikDatepicker from 'common/formik/components/formik-datepicker/FormikDatepicker';
+import FormikYesOrNoQuestion from 'common/formik/components/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { dateToday } from 'common/utils/dateUtils';
-import { validateRequiredField } from 'common/validation/fieldValidations';
+import intlHelper from 'common/utils/intlUtils';
+import {
+    validateRequiredField, validateYesOrNoIsAnswered
+} from 'common/validation/fieldValidations';
 import { AppFormField, PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
 import FrilansEksempeltHtml from './FrilansEksempelHtml';
 
@@ -23,8 +25,8 @@ const FrilansFormPart: React.FunctionComponent<Props> = ({ formValues }) => {
             <FormikYesOrNoQuestion<AppFormField>
                 name={AppFormField.frilans_harHattInntektSomFrilanser}
                 legend={intlHelper(intl, 'frilanser.harDuHattInntekt.spm')}
-                isRequired={true}
-                helperText={<FrilansEksempeltHtml />}
+                validate={validateYesOrNoIsAnswered}
+                info={<FrilansEksempeltHtml />}
             />
             {harHattInntektSomFrilanser && (
                 <Panel>
@@ -41,7 +43,7 @@ const FrilansFormPart: React.FunctionComponent<Props> = ({ formValues }) => {
                         <FormikYesOrNoQuestion<AppFormField>
                             name={AppFormField.frilans_jobberFortsattSomFrilans}
                             legend={intlHelper(intl, 'frilanser.jobberFortsatt.spm')}
-                            isRequired={true}
+                            validate={validateYesOrNoIsAnswered}
                         />
                     </Box>
                 </Panel>

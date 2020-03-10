@@ -1,5 +1,5 @@
-import { Næringstype } from '@navikt/sif-common/lib/common/forms/virksomhet/types';
 import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
+import { Næringstype } from 'common/forms/virksomhet/types';
 import { ApiStringDate } from 'common/types/ApiStringDate';
 import { Attachment } from 'common/types/Attachment';
 import { YesOrNo } from 'common/types/YesOrNo';
