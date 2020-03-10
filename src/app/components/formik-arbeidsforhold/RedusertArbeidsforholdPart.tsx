@@ -1,20 +1,20 @@
 import React from 'react';
-import Box from 'common/components/box/Box';
-import { SkjemaGruppe } from 'nav-frontend-skjema';
-import { Arbeidsforhold, ArbeidsforholdField, AppFormField } from '../../types/PleiepengesøknadFormData';
-import intlHelper from 'common/utils/intlUtils';
-import { validateReduserteArbeidProsent } from '../../validation/fieldValidations';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
+import { SkjemaGruppe } from 'nav-frontend-skjema';
+import Box from 'common/components/box/Box';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import {
-    calcReduserteTimerFromRedusertProsent,
-    calcRedusertProsentFromRedusertTimer
-} from '../../utils/arbeidsforholdUtils';
-import { decimalTimeToTime } from 'common/utils/timeUtils';
-import './timerInput.less';
-import { validateRequiredField } from 'common/validation/fieldValidations';
 import FormikInput from 'common/formik/formik-input/FormikInput';
 import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
+import intlHelper from 'common/utils/intlUtils';
+import { decimalTimeToTime } from 'common/utils/timeUtils';
+import { validateRequiredField } from 'common/validation/fieldValidations';
+import {
+    AppFormField, Arbeidsforhold, ArbeidsforholdField
+} from '../../types/PleiepengesøknadFormData';
+import {
+    calcReduserteTimerFromRedusertProsent, calcRedusertProsentFromRedusertTimer
+} from '../../utils/arbeidsforholdUtils';
+import './timerInput.less';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
@@ -51,25 +51,6 @@ const RedusertArbeidsforholdPart: React.FunctionComponent<Props> = ({
     const intl = useIntl();
     return (
         <>
-            <Box margin="xl">
-                <SkjemaGruppe
-                    title={intlHelper(intl, 'arbeidsforhold.iDag.spm', {
-                        arbeidsforhold: navn
-                    })}>
-                    <FormikInput<AppFormField>
-                        name={getFieldName(ArbeidsforholdField.jobberNormaltTimer)}
-                        type="number"
-                        label={intlHelper(intl, 'arbeidsforhold.iDag.utledet')}
-                        inputClassName="input--timer"
-                        validate={(value) => validateReduserteArbeidProsent(value, true)}
-                        value={jobberNormaltTimer || ''}
-                        labelRight={true}
-                        min={0}
-                        max={100}
-                        maxLength={2}
-                    />
-                </SkjemaGruppe>
-            </Box>
             {jobberNormaltTimer !== undefined && (
                 <>
                     <Box margin="l">

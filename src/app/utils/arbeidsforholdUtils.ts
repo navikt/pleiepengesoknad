@@ -1,12 +1,12 @@
-import { Arbeidsgiver, Søkerdata } from 'app/types/Søkerdata';
-import { Arbeidsforhold, AppFormField } from 'app/types/PleiepengesøknadFormData';
 import { YesOrNo } from 'common/types/YesOrNo';
-import { PleiepengesøknadFormikProps } from 'app/types/PleiepengesøknadFormikProps';
-import { appIsRunningInDemoMode } from './envUtils';
-import demoSøkerdata from 'app/demo/demoData';
-import { getArbeidsgiver } from 'app/api/api';
 import { formatDateToApiFormat } from 'common/utils/dateUtils';
+import { getArbeidsgiver } from 'app/api/api';
+import demoSøkerdata from 'app/demo/demoData';
+import { AppFormField, Arbeidsforhold } from 'app/types/PleiepengesøknadFormData';
+import { PleiepengesøknadFormikProps } from 'app/types/PleiepengesøknadFormikProps';
+import { Arbeidsgiver, Søkerdata } from 'app/types/Søkerdata';
 import { apiUtils } from './apiUtils';
+import { appIsRunningInDemoMode } from './envUtils';
 import { navigateToLoginPage } from './navigationUtils';
 
 const roundWithTwoDecimals = (nbr: number): number => Math.round(nbr * 100) / 100;
@@ -19,14 +19,19 @@ export const calcReduserteTimerFromRedusertProsent = (timerNormalt: number, pros
     return roundWithTwoDecimals((timerNormalt / 100) * prosentRedusert);
 };
 
-export const syndArbeidsforholdWithArbeidsgivere = (
+export const syncArbeidsforholdWithArbeidsgivere = (
     arbeidsgivere: Arbeidsgiver[],
     arbeidsforhold: Arbeidsforhold[]
-): Arbeidsforhold[] => {
-    return arbeidsgivere.map((organisasjon) => ({
-        ...organisasjon,
-        ...arbeidsforhold.find((f) => f.organisasjonsnummer === organisasjon.organisasjonsnummer)
-    }));
+): Array<Partial<Arbeidsforhold>> => {
+    return arbeidsgivere.map((organisasjon) => {
+        const forhold: Arbeidsforhold | undefined = arbeidsforhold.find(
+            (f) => f.organisasjonsnummer === organisasjon.organisasjonsnummer
+        );
+        return {
+            ...organisasjon,
+            ...forhold
+        };
+    });
 };
 
 export const getAktiveArbeidsforholdIPerioden = (arbeidsforhold: Arbeidsforhold[]) => {
@@ -34,7 +39,7 @@ export const getAktiveArbeidsforholdIPerioden = (arbeidsforhold: Arbeidsforhold[
 };
 
 export const updateArbeidsforhold = (formikProps: PleiepengesøknadFormikProps, arbeidsgivere: Arbeidsgiver[]) => {
-    const updatedArbeidsforhold = syndArbeidsforholdWithArbeidsgivere(
+    const updatedArbeidsforhold = syncArbeidsforholdWithArbeidsgivere(
         arbeidsgivere,
         formikProps.values[AppFormField.arbeidsforhold]
     );

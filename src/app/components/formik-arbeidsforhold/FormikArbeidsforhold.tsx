@@ -1,6 +1,8 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { FieldArray } from 'formik';
+import { SkjemaGruppe } from 'nav-frontend-skjema';
+import FormikInput from '@navikt/sif-common/lib/common/formik/formik-input/FormikInput';
 import Box from 'common/components/box/Box';
 import FormikRadioPanelGroup from 'common/formik/formik-radio-panel-group/FormikRadioPanelGroup';
 import FormikYesOrNoQuestion from 'common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
@@ -10,8 +12,8 @@ import { validateRequiredField } from 'common/validation/fieldValidations';
 import {
     AppFormField, Arbeidsforhold, ArbeidsforholdField, ArbeidsforholdSkalJobbeSvar
 } from 'app/types/PleiepengesøknadFormData';
+import { validateReduserteArbeidProsent } from '../../validation/fieldValidations';
 import RedusertArbeidsforholdPart from './RedusertArbeidsforholdPart';
-import VetIkkeArbeidsforholdPart from './VetIkkeArbeidsforholdPart';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
@@ -61,14 +63,29 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                                         }
                                     ]}
                                 />
+                                {arbeidsforhold.skalJobbe && (
+                                    <Box margin="xl">
+                                        <SkjemaGruppe
+                                            title={intlHelper(intl, 'arbeidsforhold.iDag.spm', {
+                                                arbeidsforhold: arbeidsforhold.navn
+                                            })}>
+                                            <FormikInput<AppFormField>
+                                                name={getFieldName(ArbeidsforholdField.jobberNormaltTimer)}
+                                                type="number"
+                                                label={intlHelper(intl, 'arbeidsforhold.iDag.utledet')}
+                                                inputClassName="input--timer"
+                                                validate={(value) => validateReduserteArbeidProsent(value, true)}
+                                                value={arbeidsforhold.jobberNormaltTimer || ''}
+                                                labelRight={true}
+                                                min={0}
+                                                max={100}
+                                                maxLength={2}
+                                            />
+                                        </SkjemaGruppe>
+                                    </Box>
+                                )}
                                 {arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.redusert && (
                                     <RedusertArbeidsforholdPart
-                                        arbeidsforhold={arbeidsforhold}
-                                        getFieldName={getFieldName}
-                                    />
-                                )}
-                                {arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.vetIkke && (
-                                    <VetIkkeArbeidsforholdPart
                                         arbeidsforhold={arbeidsforhold}
                                         getFieldName={getFieldName}
                                     />

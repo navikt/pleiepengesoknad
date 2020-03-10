@@ -81,7 +81,10 @@ const formDataMock: Partial<PleiepengesøknadFormData> = {
     [AppFormField.barnetsNavn]: 'Ola Foobar',
     [AppFormField.harBekreftetOpplysninger]: true,
     [AppFormField.harForståttRettigheterOgPlikter]: true,
-    [AppFormField.arbeidsforhold]: [organisasjonTelenor, organisasjonMaxbo],
+    [AppFormField.arbeidsforhold]: [
+        { ...organisasjonTelenor, jobberNormaltTimer: 10 },
+        { ...organisasjonMaxbo, jobberNormaltTimer: 20 }
+    ],
     [AppFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.YES,
     [AppFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.NO,
     [AppFormField.utenlandsoppholdNeste12Mnd]: [],
@@ -140,7 +143,7 @@ const selvstendigPartialFormData: Partial<PleiepengesøknadFormData> = {
 };
 
 const completeFormDataMock: PleiepengesøknadFormData = {
-    arbeidsforhold: [{ ...organisasjonMaxbo, erAnsattIPerioden: YesOrNo.YES }],
+    arbeidsforhold: [{ ...organisasjonMaxbo, erAnsattIPerioden: YesOrNo.YES, jobberNormaltTimer: 37.5 }],
     barnetHarIkkeFåttFødselsnummerEnda: false,
     barnetSøknadenGjelder: barnMock[0].aktoer_id,
     harBekreftetOpplysninger: true,
@@ -486,7 +489,13 @@ describe('Test complete applications', () => {
         },
         arbeidsgivere: {
             organisasjoner: [
-                { navn: 'Maxbo', organisasjonsnummer: '910831143', skal_jobbe: 'ja', skal_jobbe_prosent: 100 }
+                {
+                    navn: 'Maxbo',
+                    organisasjonsnummer: '910831143',
+                    skal_jobbe: 'ja',
+                    skal_jobbe_prosent: 100,
+                    jobber_normalt_timer: 37.5
+                }
             ]
         },
         medlemskap: {

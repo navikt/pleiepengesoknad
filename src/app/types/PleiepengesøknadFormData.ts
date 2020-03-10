@@ -86,9 +86,9 @@ export enum ArbeidsforholdField {
 
 export interface Arbeidsforhold extends Arbeidsgiver {
     [ArbeidsforholdField.erAnsattIPerioden]?: YesOrNo;
+    [ArbeidsforholdField.jobberNormaltTimer]: number;
     [ArbeidsforholdField.skalJobbe]?: ArbeidsforholdSkalJobbeSvar;
     [ArbeidsforholdField.timerEllerProsent]?: 'timer' | 'prosent';
-    [ArbeidsforholdField.jobberNormaltTimer]?: number;
     [ArbeidsforholdField.skalJobbeTimer]?: number;
     [ArbeidsforholdField.skalJobbeProsent]?: number;
 }
