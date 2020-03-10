@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
@@ -59,26 +60,28 @@ const RegistrertBarnPart: React.FunctionComponent<Props> = ({ søkersBarn }) => 
                 }}
             />
             {appIsRunningInDemoMode() === false && (
-                <AppForm.Checkbox
-                    label={intlHelper(intl, 'steg.omBarnet.gjelderAnnetBarn')}
-                    name={AppFormField.søknadenGjelderEtAnnetBarn}
-                    afterOnChange={(newValue) => {
-                        if (newValue) {
-                            resetFieldValue(AppFormField.barnetSøknadenGjelder, setFieldValue, initialValues);
-                        } else {
-                            resetFieldValues(
-                                [
-                                    AppFormField.barnetsFødselsnummer,
-                                    AppFormField.barnetHarIkkeFåttFødselsnummerEnda,
-                                    AppFormField.barnetsFødselsdato,
-                                    AppFormField.barnetsNavn
-                                ],
-                                setFieldValue,
-                                initialValues
-                            );
-                        }
-                    }}
-                />
+                <FormBlock margin="l">
+                    <AppForm.Checkbox
+                        label={intlHelper(intl, 'steg.omBarnet.gjelderAnnetBarn')}
+                        name={AppFormField.søknadenGjelderEtAnnetBarn}
+                        afterOnChange={(newValue) => {
+                            if (newValue) {
+                                resetFieldValue(AppFormField.barnetSøknadenGjelder, setFieldValue, initialValues);
+                            } else {
+                                resetFieldValues(
+                                    [
+                                        AppFormField.barnetsFødselsnummer,
+                                        AppFormField.barnetHarIkkeFåttFødselsnummerEnda,
+                                        AppFormField.barnetsFødselsdato,
+                                        AppFormField.barnetsNavn
+                                    ],
+                                    setFieldValue,
+                                    initialValues
+                                );
+                            }
+                        }}
+                    />
+                </FormBlock>
             )}
         </>
     );

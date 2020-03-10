@@ -1,7 +1,7 @@
 {
     "næringstype.FISKE": "Fiske",
     "næringstype.JORDBRUK_SKOGBRUK": "Jordbruk",
-    "næringstype.DAGMAMMA": "Dagmamma i eget hjem",
+    "næringstype.DAGMAMMA": "Dagmamma eller familiebarnehage i eget hjem",
     "næringstype.ANNEN": "Annen virksomhet",
 
     "fiskerinfo.LOTT": "Lott",
@@ -31,9 +31,9 @@
     "summary.virksomhet.revisor.kanInnhenteOpplysninger": "Kan innhente opplysninger",
 
     "selvstendig.harDuHattInntekt.spm": "Har du hatt inntekt som selvstendig næringsdrivende siste 4 uker?",
-    "selvstendig.list.tittel": "Registrerte virksomheter",
-    "selvstendig.list.leggTilLabel": "Legg til virksomhet",
-    "selvstendig.dialog.tittel": "Virksomhet",
+    "selvstendig.list.tittel": "Dine registrerte næringsvirksomheter",
+    "selvstendig.list.leggTilLabel": "Legg til næringsvirksomhet",
+    "selvstendig.dialog.tittel": "Næringsvirksomhet",
     "selvstendig.summary.harDuHattInntekt.header": "Har du hatt inntekt som selvstendig næringsdrivende siste 4 uker?",
 
     "frilanser.harDuHattInntekt.spm": "Har du jobbet og hatt inntekt som frilanser de siste 4 ukene?",

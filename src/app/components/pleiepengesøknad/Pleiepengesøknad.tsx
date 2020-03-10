@@ -17,7 +17,7 @@ const Pleiepengesøknad = () => (
             }
             return (
                 <TypedFormikWrapper<PleiepengesøknadFormData>
-                    initialValues={initialValues}
+                    initialValues={formdata || initialValues}
                     onSubmit={() => null}
                     renderForm={() => <PleiepengesøknadContent lastStepID={lastStepID} />}
                 />
