@@ -21,7 +21,7 @@ export const brukerSkalBekrefteOmsorgForBarnet = (
     const valgtBarn: BarnReceivedFromApi | undefined = (registrerteBarn || []).find(
         (b) => b.aktoer_id === values.barnetSøknadenGjelder
     );
-    if (valgtBarn && valgtBarn.sammeAdresse === true) {
+    if (valgtBarn && valgtBarn.har_samme_adresse === true) {
         return false;
     }
     return true;

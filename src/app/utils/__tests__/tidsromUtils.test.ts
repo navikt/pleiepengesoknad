@@ -26,7 +26,7 @@ describe('omsorgForBarnet', () => {
         fornavn: 'barn',
         etternavn: 'etternavn',
         aktoer_id: barnAktørId,
-        sammeAdresse: true,
+        har_samme_adresse: true,
         fodselsdato: new Date()
     };
     describe('brukerSkalBekrefteOmsorgForBarnet', () => {
@@ -37,7 +37,7 @@ describe('omsorgForBarnet', () => {
         it('should return true if user has chosen registrered child without same address', () => {
             expect(
                 brukerSkalBekrefteOmsorgForBarnet({ barnetSøknadenGjelder: barnAktørId }, [
-                    { ...barn, sammeAdresse: false }
+                    { ...barn, har_samme_adresse: false }
                 ])
             ).toBeTruthy();
         });

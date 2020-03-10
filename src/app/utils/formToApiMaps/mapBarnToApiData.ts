@@ -12,7 +12,7 @@ export const mapBarnToApiData = (
 ): BarnToSendToApi => {
     if (barnetSøknadenGjelder) {
         const barnChosenFromList = barn.find((currentBarn) => currentBarn.aktoer_id === barnetSøknadenGjelder)!;
-        const { fornavn, etternavn, mellomnavn, aktoer_id, sammeAdresse } = barnChosenFromList;
+        const { fornavn, etternavn, mellomnavn, aktoer_id, har_samme_adresse: sammeAdresse } = barnChosenFromList;
         return {
             navn: formatName(fornavn, etternavn, mellomnavn),
             fodselsnummer: null,

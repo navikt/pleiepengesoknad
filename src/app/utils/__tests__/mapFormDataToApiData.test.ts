@@ -37,7 +37,7 @@ const todaysDate = moment()
 
 const barnsFødselsdato = new Date(2020, 0, 20);
 const barnMock: BarnReceivedFromApi[] = [
-    { fodselsdato: barnsFødselsdato, fornavn: 'Mock', etternavn: 'Mocknes', aktoer_id: '123', sammeAdresse: true }
+    { fodselsdato: barnsFødselsdato, fornavn: 'Mock', etternavn: 'Mocknes', aktoer_id: '123', har_samme_adresse: true }
 ];
 
 const organisasjonTelenor: Arbeidsgiver = {

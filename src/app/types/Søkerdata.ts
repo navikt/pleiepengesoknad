@@ -9,7 +9,7 @@ export interface BarnReceivedFromApi {
     mellomnavn?: string;
     aktoer_id: string;
     fodselsdato: Date;
-    sammeAdresse?: boolean;
+    har_samme_adresse?: boolean;
 }
 
 export interface Arbeidsgiver {
