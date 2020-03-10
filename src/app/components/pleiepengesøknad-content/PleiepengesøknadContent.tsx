@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { useFormikContext } from 'formik';
 import { getAktiveArbeidsforholdIPerioden } from 'app/utils/arbeidsforholdUtils';
+import { persist } from '../../api/api';
 import RouteConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
@@ -43,6 +44,7 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
         setTimeout(() => {
             const nextStepRoute = getNextStepRoute(stepId, values);
             if (nextStepRoute) {
+                persist(values, lastStepID);
                 navigateTo(nextStepRoute, history);
             }
         });
