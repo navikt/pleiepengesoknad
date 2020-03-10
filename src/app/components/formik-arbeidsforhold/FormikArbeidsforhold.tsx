@@ -1,9 +1,12 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import {
+    FormikInput, FormikRadioPanelGroup, FormikYesOrNoQuestion
+} from '@navikt/sif-common-formik/lib';
 import { FieldArray } from 'formik';
-import FormikRadioPanelGroup from 'common/formik/components/formik-radio-panel-group/FormikRadioPanelGroup';
-import FormikYesOrNoQuestion from 'common/formik/components/formik-yes-or-no-question/FormikYesOrNoQuestion';
+import { SkjemaGruppe } from 'nav-frontend-skjema';
 import { YesOrNo } from 'common/types/YesOrNo';
 import intlHelper from 'common/utils/intlUtils';
 import {
@@ -12,8 +15,8 @@ import {
 import {
     AppFormField, Arbeidsforhold, ArbeidsforholdField, ArbeidsforholdSkalJobbeSvar
 } from 'app/types/PleiepengesøknadFormData';
+import { validateReduserteArbeidProsent } from '../../validation/fieldValidations';
 import RedusertArbeidsforholdPart from './RedusertArbeidsforholdPart';
-import VetIkkeArbeidsforholdPart from './VetIkkeArbeidsforholdPart';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
@@ -27,8 +30,8 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
             {({ name }) => {
                 const getFieldName = (field: ArbeidsforholdField) => `${name}.${index}.${field}` as AppFormField;
                 return (
-                    <>
-                        <FormikYesOrNoQuestion
+                    <Box padBottom="l">
+                        <FormikYesOrNoQuestion<AppFormField>
                             legend={intlHelper(intl, 'arbeidsforhold.erAnsattIPerioden.spm')}
                             name={getFieldName(ArbeidsforholdField.erAnsattIPerioden)}
                             validate={validateYesOrNoIsAnswered}
@@ -60,6 +63,32 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                                         ]}
                                     />
                                 </FormBlock>
+                                {arbeidsforhold.skalJobbe && (
+                                    <FormBlock>
+                                        <SkjemaGruppe
+                                            legend={intlHelper(intl, 'arbeidsforhold.iDag.spm', {
+                                                arbeidsforhold: arbeidsforhold.navn
+                                            })}>
+                                            <FormikInput<AppFormField>
+                                                name={getFieldName(ArbeidsforholdField.jobberNormaltTimer)}
+                                                type="number"
+                                                label={intlHelper(intl, 'arbeidsforhold.iDag.utledet')}
+                                                inputClassName="input--timer"
+                                                validate={(value) => validateReduserteArbeidProsent(value, true)}
+                                                value={arbeidsforhold.jobberNormaltTimer || ''}
+                                                min={0}
+                                                max={100}
+                                                maxLength={2}
+                                            />
+                                        </SkjemaGruppe>
+                                    </FormBlock>
+                                )}
+                                {arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.redusert && (
+                                    <RedusertArbeidsforholdPart
+                                        arbeidsforhold={arbeidsforhold}
+                                        getFieldName={getFieldName}
+                                    />
+                                )}
                                 {arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.redusert && (
                                     <FormBlock>
                                         <RedusertArbeidsforholdPart
@@ -68,17 +97,9 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                                         />
                                     </FormBlock>
                                 )}
-                                {arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.vetIkke && (
-                                    <FormBlock>
-                                        <VetIkkeArbeidsforholdPart
-                                            arbeidsforhold={arbeidsforhold}
-                                            getFieldName={getFieldName}
-                                        />
-                                    </FormBlock>
-                                )}
                             </>
                         )}
-                    </>
+                    </Box>
                 );
             }}
         </FieldArray>

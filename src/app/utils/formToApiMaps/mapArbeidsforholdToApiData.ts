@@ -17,10 +17,18 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
     } = arbeidsforhold;
 
     const orgInfo = { navn, organisasjonsnummer };
+
+    if (skalJobbe === ArbeidsforholdSkalJobbeSvar.nei) {
+        const forhold: ArbeidsforholdApiNei = {
+            ...orgInfo,
+            skal_jobbe: 'nei',
+            skal_jobbe_prosent: 0,
+            jobber_normalt_timer: jobberNormaltTimer
+        };
+        return forhold;
+    }
+
     if (skalJobbe === ArbeidsforholdSkalJobbeSvar.redusert) {
-        if (jobberNormaltTimer === undefined) {
-            throw new Error('invalid data: missing jobberNormaltTimer');
-        }
         const redusertForhold: ArbeidsforholdApiRedusert = {
             ...orgInfo,
             skal_jobbe: 'redusert',
@@ -28,7 +36,9 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
             ...(timerEllerProsent === 'timer' && skalJobbeTimer
                 ? {
                       skal_jobbe_timer: skalJobbeTimer,
-                      skal_jobbe_prosent: calcRedusertProsentFromRedusertTimer(jobberNormaltTimer, skalJobbeTimer)
+                      skal_jobbe_prosent: jobberNormaltTimer
+                          ? calcRedusertProsentFromRedusertTimer(jobberNormaltTimer, skalJobbeTimer)
+                          : 0
                   }
                 : {
                       skal_jobbe_prosent: skalJobbeProsent
@@ -37,9 +47,6 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
         return redusertForhold;
     }
     if (skalJobbe === ArbeidsforholdSkalJobbeSvar.vetIkke) {
-        if (jobberNormaltTimer === undefined) {
-            throw new Error('invalid data: missing jobberNormaltTimer');
-        }
         const vetIkkeForhold: ArbeidsforholdApiVetIkke = {
             ...orgInfo,
             skal_jobbe: 'vet_ikke',
@@ -47,18 +54,11 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
         };
         return vetIkkeForhold;
     }
-    if (skalJobbe === ArbeidsforholdSkalJobbeSvar.nei) {
-        const forhold: ArbeidsforholdApiNei = {
-            ...orgInfo,
-            skal_jobbe: 'nei',
-            skal_jobbe_prosent: 0
-        };
-        return forhold;
-    }
     const forholdSomVanlig: ArbeidsforholdApiSomVanlig = {
         ...orgInfo,
         skal_jobbe: 'ja',
-        skal_jobbe_prosent: 100
+        skal_jobbe_prosent: 100,
+        jobber_normalt_timer: jobberNormaltTimer
     };
     return forholdSomVanlig;
 };

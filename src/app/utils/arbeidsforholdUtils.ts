@@ -21,14 +21,19 @@ export const calcReduserteTimerFromRedusertProsent = (timerNormalt: number, pros
     return roundWithTwoDecimals((timerNormalt / 100) * prosentRedusert);
 };
 
-export const syndArbeidsforholdWithArbeidsgivere = (
+export const syncArbeidsforholdWithArbeidsgivere = (
     arbeidsgivere: Arbeidsgiver[],
     arbeidsforhold: Arbeidsforhold[]
-): Arbeidsforhold[] => {
-    return arbeidsgivere.map((organisasjon) => ({
-        ...organisasjon,
-        ...arbeidsforhold.find((f) => f.organisasjonsnummer === organisasjon.organisasjonsnummer)
-    }));
+): Array<Partial<Arbeidsforhold>> => {
+    return arbeidsgivere.map((organisasjon) => {
+        const forhold: Arbeidsforhold | undefined = arbeidsforhold.find(
+            (f) => f.organisasjonsnummer === organisasjon.organisasjonsnummer
+        );
+        return {
+            ...organisasjon,
+            ...forhold
+        };
+    });
 };
 
 export const getAktiveArbeidsforholdIPerioden = (arbeidsforhold: Arbeidsforhold[]) => {
@@ -39,7 +44,7 @@ export const updateArbeidsforhold = (
     formikProps: FormikProps<PleiepengesøknadFormData>,
     arbeidsgivere: Arbeidsgiver[]
 ) => {
-    const updatedArbeidsforhold = syndArbeidsforholdWithArbeidsgivere(
+    const updatedArbeidsforhold = syncArbeidsforholdWithArbeidsgivere(
         arbeidsgivere,
         formikProps.values[AppFormField.arbeidsforhold]
     );

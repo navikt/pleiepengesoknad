@@ -32,12 +32,12 @@ export type ArbeidsforholdApiRedusert = Pick<
 
 export type ArbeidsforholdApiVetIkke = Pick<
     ArbeidsforholdApi,
-    'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'jobber_normalt_timer'
+    'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'jobber_normalt_timer' | 'jobber_normalt_timer'
 >;
 
 export type ArbeidsforholdApiSomVanlig = Pick<
     ArbeidsforholdApi,
-    'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'skal_jobbe_prosent'
+    'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'skal_jobbe_prosent' | 'jobber_normalt_timer'
 >;
 
 export interface ArbeidsforholdApiSkalJobbe {}

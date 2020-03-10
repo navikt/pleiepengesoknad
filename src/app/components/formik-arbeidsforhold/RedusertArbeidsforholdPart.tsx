@@ -1,10 +1,9 @@
 import React from 'react';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
+import { FormikInput, FormikRadioPanelGroup } from '@navikt/sif-common-formik/lib';
 import { SkjemaGruppe } from 'nav-frontend-skjema';
 import Box from 'common/components/box/Box';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import FormikInput from 'common/formik/components/formik-input/FormikInput';
-import FormikRadioPanelGroup from 'common/formik/components/formik-radio-panel-group/FormikRadioPanelGroup';
 import intlHelper from 'common/utils/intlUtils';
 import { decimalTimeToTime } from 'common/utils/timeUtils';
 import { validateRequiredField } from 'common/validation/fieldValidations';
@@ -14,7 +13,6 @@ import {
 import {
     calcReduserteTimerFromRedusertProsent, calcRedusertProsentFromRedusertTimer
 } from '../../utils/arbeidsforholdUtils';
-import { validateReduserteArbeidProsent } from '../../validation/fieldValidations';
 import './timerInput.less';
 
 interface Props {
@@ -52,24 +50,6 @@ const RedusertArbeidsforholdPart: React.FunctionComponent<Props> = ({
     const intl = useIntl();
     return (
         <>
-            <Box margin="xl">
-                <SkjemaGruppe
-                    legend={intlHelper(intl, 'arbeidsforhold.iDag.spm', {
-                        arbeidsforhold: navn
-                    })}>
-                    <FormikInput<AppFormField>
-                        name={getFieldName(ArbeidsforholdField.jobberNormaltTimer)}
-                        type="number"
-                        label={intlHelper(intl, 'arbeidsforhold.iDag.utledet')}
-                        inputClassName="input--timer"
-                        validate={(value) => validateReduserteArbeidProsent(value, true)}
-                        value={jobberNormaltTimer || ''}
-                        min={0}
-                        max={100}
-                        maxLength={2}
-                    />
-                </SkjemaGruppe>
-            </Box>
             {jobberNormaltTimer !== undefined && (
                 <>
                     <Box margin="l">
