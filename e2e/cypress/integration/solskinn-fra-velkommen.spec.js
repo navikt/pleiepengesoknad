@@ -33,7 +33,7 @@ describe('Pleiepenger for sykt barn fra Velkommen', () => {
                 });
             });
         });
-        describe.skip('Barn', () => {
+        describe('Barn', () => {
             context('Sjekker default verdier i skjema Barn', () => {
                 it('Vi har kommet til steget Barn', () => {
                     cy.location().should((loc) => {

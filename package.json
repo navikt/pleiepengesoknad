@@ -22,9 +22,9 @@
         "cypress:install": "npm add -D cypress cypress-file-upload",
         "cypress:open": "CYPRESS_baseUrl=http://localhost:8080 cypress open --project $PWD/e2e",
         "cypress:run": "CYPRESS_baseUrl=http://localhost:8080 cypress run --project $PWD/e2e",
-        "cypress:ci": "CYPRESS_baseUrl=http://localhost:8080 run --project $PWD/e2e --reporter junit --reporter-options \\\"mochaFile=results/my-test-output.xml\\\"",
-        "cypress:headless": "docker run --net=\"host\" -e CYPRESS_video=false -e CYPRESS_baseUrl=http://$(ipconfig getifaddr en0):8080 -it -v $PWD/e2e:/e2e -w /e2e cypress/included:4.0.1",
-        "e2e": "npm-run-all -p dev -r cypress:headless",
+        "cypress:ci": "CYPRESS_baseUrl=http://localhost:8080 cypress run --project $PWD/e2e --reporter junit --reporter-options \\\"mochaFile=results/my-test-output.xml\\\"",
+        "cypress:headless": "docker run -e CYPRESS_video=false -e CYPRESS_baseUrl=http://host.docker.internal:8080 -it -v $PWD/e2e:/e2e -w /e2e cypress/included:4.0.1",
+        "e2e": "API_URL=http://host.docker.internal:8082 npm-run-all -p dev -r cypress:headless",
         "e2e-docker-compose": "docker-compose -f ./e2e/docker-compose.yml up --build --exit-code-from e2e"
     },
     "jest": {

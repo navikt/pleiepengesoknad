@@ -30,7 +30,11 @@ const server = express();
 
 server.use(express.json());
 server.use((req, res, next) => {
-    const allowedOrigins = ['https://pleiepengesoknad-mock.nais.oera.no', 'http://localhost:8080'];
+    const allowedOrigins = [
+        'http://host.docker.internal:8080',
+        'https://pleiepengesoknad-mock.nais.oera.no',
+        'http://localhost:8080'
+    ];
     const requestOrigin = req.headers.origin;
     if (allowedOrigins.indexOf(requestOrigin) >= 0) {
         res.set('Access-Control-Allow-Origin', requestOrigin);
