@@ -50,7 +50,8 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
         const vetIkkeForhold: ArbeidsforholdApiVetIkke = {
             ...orgInfo,
             skal_jobbe: 'vet_ikke',
-            jobber_normalt_timer: jobberNormaltTimer
+            jobber_normalt_timer: jobberNormaltTimer,
+            skal_jobbe_prosent: 0
         };
         return vetIkkeForhold;
     }

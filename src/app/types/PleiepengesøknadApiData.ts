@@ -32,7 +32,7 @@ export type ArbeidsforholdApiRedusert = Pick<
 
 export type ArbeidsforholdApiVetIkke = Pick<
     ArbeidsforholdApi,
-    'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'jobber_normalt_timer' | 'jobber_normalt_timer'
+    'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'jobber_normalt_timer' | 'skal_jobbe_prosent'
 >;
 
 export type ArbeidsforholdApiSomVanlig = Pick<
