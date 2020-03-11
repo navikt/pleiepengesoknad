@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { useFormikContext } from 'formik';
 import Lenke from 'nav-frontend-lenker';
 import Box from 'common/components/box/Box';
@@ -38,7 +39,7 @@ const MedlemsskapStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubm
                 info={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.hjelp')}
             />
             {values.harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && (
-                <Box margin="m">
+                <FormBlock margin="l">
                     <BostedsoppholdIUtlandetFormPart
                         periode={{ from: date1YearAgo, to: dateToday }}
                         name={AppFormField.utenlandsoppholdSiste12Mnd}
@@ -48,7 +49,7 @@ const MedlemsskapStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubm
                             modalTitle: 'Utenlandsopphold siste 12 måneder'
                         }}
                     />
-                </Box>
+                </FormBlock>
             )}
             <Box margin="xl">
                 <AppForm.YesOrNoQuestion
@@ -59,7 +60,7 @@ const MedlemsskapStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubm
                 />
             </Box>
             {values.skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES && (
-                <Box margin="m">
+                <FormBlock margin="l">
                     <BostedsoppholdIUtlandetFormPart
                         periode={{ from: dateToday, to: date1YearFromNow }}
                         name={AppFormField.utenlandsoppholdNeste12Mnd}
@@ -69,7 +70,7 @@ const MedlemsskapStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubm
                             modalTitle: 'Utenlandsopphold neste 12 måneder'
                         }}
                     />
-                </Box>
+                </FormBlock>
             )}
         </FormikStep>
     );
