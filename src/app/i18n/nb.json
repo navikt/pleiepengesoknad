@@ -196,6 +196,9 @@
     "steg.tidsrom.samtidigHjemme.spm": "Skal dere være hjemme/på sykehus samtidig for å pleie barnet?",
     "steg.tidsrom.dagerPerUkeBorteFraJobb.spm": "Hvor mange dager per uke skal du være borte fra jobb for å ta hånd om barnet? Rund av til nærmeste halve dag.",
 
+    "steg.tidsrom.skalPassePåBarnetIHelePerioden.spm": "Skal du passe på barnet i hele tidsrommet du skal ha pleiepenger?",
+    "steg.tidsrom.bekreftOmsorgEkstrainfo.spm": "Beskriv omsorgsrollen du har for barnet i tidsrommet du skal ha pleiepenger:",
+
     "steg.tilsyn.veileder.html": "<p>Et omsorgstilbud kan være barnehage, skole, SFO, omsorgsbolig, BPA (brukerstyrt personlig assistent) eller andre organiserte tilbud.</p><p>Du må oppgi alle timene barnet er i et omsorgstilbud.</p>",
     "steg.tilsyn.skalBarnetHaTilsyn.spm": "Skal barnet være i et omsorgstilbud i perioden du søker om pleiepenger?",
     "steg.tilsyn.ja.hvorMyeTilsyn.spm": "Oppgi tiden barnet er i et omsorgstilbud",
@@ -233,6 +236,9 @@
     "steg.oppsummering.tidsrom.header": "Periode",
     "steg.oppsummering.tidsrom.fomtom": "Fra {fom} til {tom}",
     "steg.oppsummering.over8uker.header": "Bekrefter at søknaden gjelder for en periode på mer enn 8 uker",
+
+    "steg.oppsummering.skalPassePåBarnetIHelePerioden.header": "Skal du passe på barnet i hele tidsrommet du skal ha pleiepenger?",
+    "steg.oppsummering.bekreftOmsorgEkstrainfo.header": "Beskriv omsorgsrollen du har for barnet i tidsrommet du skal ha pleiepenger:",
 
     "steg.oppsummering.barnet.header": "Om barnet",
     "steg.oppsummering.barnet.navn": "Navn: {navn}",
@@ -311,6 +317,7 @@
     "fieldvalidation.fradato.erEtterTildato": "Fra-datoen kan ikke være senere enn til-datoen",
     "fieldvalidation.tildato.merEnnTreÅr": "Du kan ikke søke om pleiepenger for en periode som er mer enn tre år tilbake i tid",
     "fieldvalidation.periodeErOver8UkerMenIkkeØnsket": "For å kunne fortsette må du enten velge \"Ja\" for å bekrefte at du vil søke for en lenger periode enn 8 uker, eller du må legge inn en kortere periode enn 8 uker hvis du har svart \"Nei\".",
+    "fieldvalidation.bekreftOmsorg_ekstrainfoForMangeTegn": "For mange tegn. Maks antall tegn er 1000.",
     "fieldvalidation.tildato.erFørFradato": "Til-datoen kan ikke være tidligere enn fra-datoen",
     "fieldvalidation.legeerklæring.mangler": "Du må laste opp en legeerklæring",
     "fieldvalidation.legeerklæring.forMangeFiler": "Du kan maksimalt laste opp 3 bilder",

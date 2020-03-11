@@ -1,26 +1,33 @@
 import * as React from 'react';
 import { FormattedHTMLMessage, FormattedMessage, useIntl } from 'react-intl';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import {
+    date1YearAgo, date1YearFromNow, date3YearsAgo, DateRange
+} from '@navikt/sif-common-core/lib/utils/dateUtils';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { validateYesOrNoIsAnswered } from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import { IntlFieldValidationError } from '@navikt/sif-common-core/lib/validation/types';
 import { TypedFormikFormContext } from '@navikt/sif-common-formik/lib';
+import FerieuttakListAndDialog from '@navikt/sif-common-forms/lib/ferieuttak/FerieuttakListAndDialog';
+import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
+import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
+import UtenlandsoppholdListAndDialog from '@navikt/sif-common-forms/lib/utenlandsopphold/UtenlandsoppholdListAndDialog';
 import { useFormikContext } from 'formik';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import Box from 'common/components/box/Box';
-import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import FerieuttakListAndDialog from 'common/forms/ferieuttak/FerieuttakListAndDialog';
-import { Ferieuttak } from 'common/forms/ferieuttak/types';
-import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
-import UtenlandsoppholdListAndDialog from 'common/forms/utenlandsopphold/UtenlandsoppholdListAndDialog';
-import { YesOrNo } from 'common/types/YesOrNo';
-import { date1YearAgo, date1YearFromNow, date3YearsAgo, DateRange } from 'common/utils/dateUtils';
-import intlHelper from 'common/utils/intlUtils';
-import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
+import { SøkerdataContext } from '../../../context/SøkerdataContext';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { erPeriodeOver8Uker } from '../../../utils/søkerOver8UkerUtils';
+import {
+    brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet
+} from '../../../utils/tidsromUtils';
 import { getVarighetString } from '../../../utils/varighetUtils';
 import {
-    validateFerieuttakIPerioden, validateFradato, validateTildato, validateUtenlandsoppholdIPerioden
+    validateBekreftOmsorgEkstrainfo, validateFerieuttakIPerioden, validateFradato, validateTildato,
+    validateUtenlandsoppholdIPerioden
 } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
@@ -29,6 +36,7 @@ import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './h
 const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<PleiepengesøknadFormData>();
     const { showErrors } = React.useContext(TypedFormikFormContext) || { showErrors: false };
+    const søkerdata = React.useContext(SøkerdataContext)!;
 
     const fraDato = values[AppFormField.periodeFra];
     const tilDato = values[AppFormField.periodeTil];
@@ -115,6 +123,29 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                     )}
                 </>
             )}
+
+            {isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG) &&
+                brukerSkalBekrefteOmsorgForBarnet(values, søkerdata.barn) && (
+                    <>
+                        <Box margin="xl">
+                            <AppForm.YesOrNoQuestion
+                                legend={intlHelper(intl, 'steg.tidsrom.skalPassePåBarnetIHelePerioden.spm')}
+                                name={AppFormField.skalPassePåBarnetIHelePerioden}
+                                validate={validateYesOrNoIsAnswered}
+                            />
+                        </Box>
+                        {brukerSkalBeskriveOmsorgForBarnet(values, søkerdata.barn) && (
+                            <Box margin="xl">
+                                <AppForm.Textarea
+                                    label={intlHelper(intl, 'steg.tidsrom.bekreftOmsorgEkstrainfo.spm')}
+                                    name={AppFormField.beskrivelseOmsorgsrolleIPerioden}
+                                    validate={validateBekreftOmsorgEkstrainfo}
+                                    maxLength={1000}
+                                />
+                            </Box>
+                        )}
+                    </>
+                )}
 
             <Box margin="xl">
                 <AppForm.YesOrNoQuestion

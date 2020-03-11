@@ -26,6 +26,7 @@ export enum AppFieldValidationErrors {
     'fradato_erEtterTildato' = 'fieldvalidation.fradato.erEtterTildato',
     'tildato_merEnnTreÅr' = 'fieldvalidation.tildato.merEnnTreÅr',
     'tildato_erFørFradato' = 'fieldvalidation.tildato.erFørFradato',
+    'bekreftOmsorg_ekstrainfoForMangeTegn' = 'fieldvalidation.bekreftOmsorg_ekstrainfoForMangeTegn',
     'legeerklæring_mangler' = 'fieldvalidation.legeerklæring.mangler',
     'legeerklæring_forMangeFiler' = 'fieldvalidation.legeerklæring.forMangeFiler',
     'arbeidsforhold_timerUgyldig' = 'fieldvalidation.arbeidsforhold_timerUgyldig',
@@ -123,6 +124,16 @@ export const validateTildato = (tilDato?: Date, fraDato?: Date): FieldValidation
 export const validateTextarea1000 = (text: string): FieldValidationResult => {
     if (text && text.length > 1000) {
         return createAppFieldValidationError(AppFieldValidationErrors.tilsynsordning_forMangeTegn);
+    }
+    return undefined;
+};
+
+export const validateBekreftOmsorgEkstrainfo = (text: string): FieldValidationResult => {
+    if (!hasValue(text)) {
+        return fieldIsRequiredError();
+    }
+    if (text && text.length > 1000) {
+        return createAppFieldValidationError(AppFieldValidationErrors.bekreftOmsorg_ekstrainfoForMangeTegn);
     }
     return undefined;
 };
