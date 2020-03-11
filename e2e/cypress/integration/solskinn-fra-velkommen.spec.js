@@ -1,4 +1,4 @@
-describe.skip('Pleiepenger for sykt barn fra Velkommen', () => {
+describe('Pleiepenger for sykt barn fra Velkommen', () => {
 
     beforeEach('intercept mellomlagring og levere tomt objekt', () => {
         cy.server();
@@ -12,7 +12,7 @@ describe.skip('Pleiepenger for sykt barn fra Velkommen', () => {
             it('Vi har kommet til steget Velkommen', () => {
 
                 it('Har checkboksen "Jeg har lest og forstått", som ikke er merket', () => {
-                    cy.get('[name="harForståttRettigheterOgPlikter"]')
+                    cy.get('#harForståttRettigheterOgPlikter')
                         .should('not.be.checked');
                 });
             });
@@ -20,11 +20,11 @@ describe.skip('Pleiepenger for sykt barn fra Velkommen', () => {
                 it('Går IKKE til neste steg, dersom checkbox ikke er merket', () => {
                     cy.get('button')
                         .click({ position: 'topLeft' });
-                    cy.get('[name="harForståttRettigheterOgPlikter"]')
+                    cy.get('#harForståttRettigheterOgPlikter')
                         .should('not.be.checked');
                 });
                 it('Går til neste steg dersom checkbox er merket', () => {
-                    cy.get('[name="harForståttRettigheterOgPlikter"]').click({ force: true });
+                    cy.get('#harForståttRettigheterOgPlikter').click({ force: true });
                     cy.get('button')
                         .click({ position: 'topLeft' });
                     cy.location().should((loc) => {
@@ -33,7 +33,7 @@ describe.skip('Pleiepenger for sykt barn fra Velkommen', () => {
                 });
             });
         });
-        describe('Barn', () => {
+        describe.skip('Barn', () => {
             context('Sjekker default verdier i skjema Barn', () => {
                 it('Vi har kommet til steget Barn', () => {
                     cy.location().should((loc) => {

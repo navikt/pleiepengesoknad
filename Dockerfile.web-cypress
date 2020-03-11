@@ -3,9 +3,9 @@ WORKDIR /usr/src/app
 COPY . .
 RUN npm ci
 RUN npm run build
-
+ENV HOST=web
 ENV APPRES_CMS_URL=http://appres.nav.no
 ENV LOGIN_URL=http://localhost:8081/auth-mock/cookie?subject=mockSubject&redirect_location=http://localhost:8080
 EXPOSE 8080
-CMD ["npm", "run", "start-express"]
+CMD ["npm", "run", "start"]
 

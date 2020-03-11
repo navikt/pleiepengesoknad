@@ -1,4 +1,5 @@
 const os = require('os');
+const process = require('process');
 const fs = require('fs');
 const express = require('express');
 const Busboy = require('busboy');
@@ -75,9 +76,9 @@ const isJSON = (str) => {
         return false;
     }
 };
-const writeFileSync = (path, text) => {
+/*const writeFileSync = (path, text) => {
     return fs.writeFileSync(path, text);
-};
+};*/
 const writeFileAsync = async (path, text) => {
     return new Promise((resolve, reject) => {
         fs.writeFile(path, text, 'utf8', err => {
@@ -91,7 +92,7 @@ const readFileSync = (path) => {
 };
 const existsSync = (path) => fs.existsSync(path);
 
-const startServer = () => {
+const startExpressServer = () => {
     const port = process.env.PORT || 8082;
 
     server.get('/health/isAlive', (req, res) => res.sendStatus(200));
@@ -144,10 +145,10 @@ const startServer = () => {
     });
 
     server.listen(port, () => {
-        console.log(`App listening on port: ${port}`);
-        console.log('nic ipv4=', getIpAdress());
+        console.log(`Express mock-api server listening on port: ${port}`);
+        console.log('nic ipv4_host=', getIpAdress());
     });
 };
 
-startServer();
+startExpressServer();
 
