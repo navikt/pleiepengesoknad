@@ -44,7 +44,7 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
         setTimeout(() => {
             const nextStepRoute = getNextStepRoute(stepId, values);
             if (nextStepRoute) {
-                persist(values, lastStepID);
+                persist(values, stepId);
                 navigateTo(nextStepRoute, history);
             }
         });

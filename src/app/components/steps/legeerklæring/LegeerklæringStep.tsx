@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { FormattedHTMLMessage, useIntl } from 'react-intl';
+import { mapFileToPersistedFile } from '@navikt/sif-common-core/lib/utils/attachmentUtils';
 import { useFormikContext } from 'formik';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import Box from 'common/components/box/Box';
@@ -9,6 +10,7 @@ import HelperTextPanel from 'common/components/helper-text-panel/HelperTextPanel
 import PictureScanningGuide from 'common/components/picture-scanning-guide/PictureScanningGuide';
 import { Attachment } from 'common/types/Attachment';
 import intlHelper from 'common/utils/intlUtils';
+import { persist } from '../../../api/api';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
@@ -26,25 +28,34 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const attachments: Attachment[] = values ? values[AppFormField.legeerklæring] : [];
     const hasPendingUploads: boolean = attachments.find((a) => a.pending === true) !== undefined;
 
+    const ref = React.useRef({ attachments });
+
+    React.useEffect(() => {
+        const hasPendingAttachments = attachments.find((a) => a.pending === true);
+        if (hasPendingAttachments) {
+            return;
+        }
+        if (attachments.length !== ref.current.attachments.length) {
+            const newValues = attachments.map((a) => {
+                const persistedFile = mapFileToPersistedFile(a.file);
+                return {
+                    ...a,
+                    file: persistedFile
+                };
+            });
+            persist({ ...values, legeerklæring: newValues }, StepID.LEGEERKLÆRING);
+        }
+        ref.current = {
+            attachments
+        };
+    }, [attachments]);
+
     return (
         <FormikStep
             id={StepID.LEGEERKLÆRING}
-            onValidFormSubmit={
-                onValidSubmit
-                /*() => {
-                const formData = {
-                    ...values,
-                    [AppFormField.legeerklæring]: attachments.map((a) => ({
-                        ...a,
-                        file: mapFileToPersistedFile(a.file)
-                    }))
-                };
-                persist(formData, StepID.LEGEERKLÆRING);
-                if (nextStepRoute) {
-                    history.push(nextStepRoute);
-                }
-            }*/
-            }
+            onValidFormSubmit={() => {
+                onValidSubmit();
+            }}
             useValidationErrorSummary={false}
             skipValidation={isRunningDemoMode}
             buttonDisabled={hasPendingUploads}>

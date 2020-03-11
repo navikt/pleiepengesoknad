@@ -19,6 +19,7 @@ interface FormikFileUploader {
     name: AppFormField;
     label: string;
     validate?: FormikValidateFunction;
+    onFileUploadComplete?: () => void;
     onFileInputClick?: () => void;
     onErrorUploadingAttachments: (files: File[]) => void;
     onUnauthorizedOrForbiddenUpload: () => void;
@@ -29,8 +30,10 @@ type Props = FormikFileUploader;
 const FormikFileUploader: React.FunctionComponent<Props> = ({
     name,
     onFileInputClick,
+    onFileUploadComplete,
     onErrorUploadingAttachments,
     onUnauthorizedOrForbiddenUpload,
+    onFileUploadComplete: onFileUploadSuccess,
     ...otherProps
 }) => {
     const { values } = useFormikContext<PleiepengesøknadFormData>();
@@ -63,6 +66,9 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
 
         const failedAttachments = [...attachmentsNotToUpload, ...attachmentsToUpload.filter(attachmentUploadHasFailed)];
         updateFailedAttachments(allAttachments, failedAttachments, replaceFn);
+        if (onFileUploadComplete) {
+            onFileUploadComplete();
+        }
     }
 
     function updateFailedAttachments(
@@ -115,6 +121,9 @@ const FormikFileUploader: React.FunctionComponent<Props> = ({
             onFilesSelect={async (files: File[], { push, replace }: ArrayHelpers) => {
                 const attachments = files.map((file) => addPendingAttachmentToFieldArray(file, push));
                 await uploadAttachments([...values[name], ...attachments], replace);
+                if (onFileUploadComplete) {
+                    onFileUploadComplete();
+                }
             }}
             onClick={onFileInputClick}
             {...otherProps}
