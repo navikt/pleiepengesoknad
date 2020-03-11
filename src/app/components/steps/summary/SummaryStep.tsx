@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
+import ValidationErrorSummaryBase from '@navikt/sif-common-core/lib/components/validation-error-summary-base/ValidationErrorSummaryBase';
 import Panel from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Box from 'common/components/box/Box';
@@ -7,7 +8,6 @@ import ContentWithHeader from 'common/components/content-with-header/ContentWith
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import SummaryList from 'common/components/summary-list/SummaryList';
 import TextareaSummary from 'common/components/textarea-summary/TextareaSummary';
-import FormikConfirmationCheckboxPanel from 'common/formik/components/formik-confirmation-checkbox-panel/FormikConfirmationCheckboxPanel';
 import { HistoryProps } from 'common/types/History';
 import { Locale } from 'common/types/Locale';
 import { apiStringDateToDate, prettifyDate } from 'common/utils/dateUtils';
@@ -32,6 +32,7 @@ import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils'
 import { erPeriodeOver8Uker } from '../../../utils/søkerOver8UkerUtils';
 import { getVarighetString } from '../../../utils/varighetUtils';
 import { validateApiValues } from '../../../validation/apiValuesValidation';
+import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringAttachmentList from '../../legeerklæring-file-list/LegeerklæringFileList';
 import BarnSummary from './BarnSummary';
@@ -110,24 +111,26 @@ class SummaryStep extends React.Component<Props, State> {
                     return (
                         <FormikStep
                             id={StepID.SUMMARY}
-                            onValidFormSubmit={() => this.navigate(barn)}
+                            onValidFormSubmit={() => {
+                                setTimeout(() => {
+                                    // La view oppdatere seg først
+                                    this.navigate(barn);
+                                });
+                            }}
                             useValidationErrorSummary={false}
                             showSubmitButton={apiValuesValidationErrors === undefined}
-                            buttonDisabled={sendingInProgress}
+                            buttonDisabled={sendingInProgress || apiValuesValidationErrors !== undefined}
                             showButtonSpinner={sendingInProgress}
-
-                            // customErrorSummaryRenderer={
-                            //     apiValuesValidationErrors
-                            //         ? () => (
-                            //               <ValidationErrorSummaryBase
-                            //                   title={intlHelper(intl, 'formikValidationErrorSummary.tittel')}
-                            //                   errors={apiValuesValidationErrors}
-                            //               />
-                            //           )
-                            //         : undefined
-                            // }
-                            // {...stepProps}
-                        >
+                            customErrorSummary={
+                                apiValuesValidationErrors
+                                    ? () => (
+                                          <ValidationErrorSummaryBase
+                                              title={intlHelper(intl, 'formikValidationErrorSummary.tittel')}
+                                              errors={apiValuesValidationErrors}
+                                          />
+                                      )
+                                    : undefined
+                            }>
                             <CounsellorPanel>
                                 <FormattedMessage id="steg.oppsummering.info" />
                             </CounsellorPanel>
@@ -372,7 +375,7 @@ class SummaryStep extends React.Component<Props, State> {
                                 </Panel>
                             </Box>
                             <Box margin="l">
-                                <FormikConfirmationCheckboxPanel<AppFormField>
+                                <AppForm.ConfirmationCheckbox
                                     label={intlHelper(intl, 'steg.oppsummering.bekrefterOpplysninger')}
                                     name={AppFormField.harBekreftetOpplysninger}
                                     validate={(value) => {

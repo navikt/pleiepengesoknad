@@ -17,6 +17,7 @@ export interface FormikStepProps {
     buttonDisabled?: boolean;
     onValidFormSubmit?: () => void;
     skipValidation?: boolean;
+    customErrorSummary?: () => React.ReactNode;
 }
 
 type Props = FormikStepProps & StepProps;
@@ -24,7 +25,7 @@ type Props = FormikStepProps & StepProps;
 const FormikStep: React.FunctionComponent<Props> = (props) => {
     const formik = useFormikContext<PleiepengesøknadFormData>();
     const intl = useIntl();
-    const { children, onValidFormSubmit, showButtonSpinner, buttonDisabled, id } = props;
+    const { children, onValidFormSubmit, showButtonSpinner, buttonDisabled, id, customErrorSummary } = props;
     const stepConfig = getStepConfig(formik.values);
     const texts = getStepTexts(intl, id, stepConfig);
     return (
@@ -34,6 +35,7 @@ const FormikStep: React.FunctionComponent<Props> = (props) => {
                 includeButtons={false}
                 fieldErrorRenderer={(error) => commonFieldErrorRenderer(intl, error)}>
                 {children}
+                {customErrorSummary && <FormBlock>{customErrorSummary()}</FormBlock>}
                 <FormBlock>
                     <Knapp
                         type="hoved"

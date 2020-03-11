@@ -6,8 +6,6 @@ import { useFormikContext } from 'formik';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Box from 'common/components/box/Box';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import FormikDateIntervalPicker from 'common/formik/components/formik-date-interval-picker/FormikDateIntervalPicker';
-import FormikYesOrNoQuestion from 'common/formik/components/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import FerieuttakListAndDialog from 'common/forms/ferieuttak/FerieuttakListAndDialog';
 import { Ferieuttak } from 'common/forms/ferieuttak/types';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
@@ -24,6 +22,7 @@ import { getVarighetString } from '../../../utils/varighetUtils';
 import {
     validateFerieuttakIPerioden, validateFradato, validateTildato, validateUtenlandsoppholdIPerioden
 } from '../../../validation/fieldValidations';
+import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
 
@@ -73,7 +72,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
 
     return (
         <FormikStep id={StepID.TIDSROM} onValidFormSubmit={onValidSubmit}>
-            <FormikDateIntervalPicker<AppFormField>
+            <AppForm.DateIntervalPicker
                 legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
                 info={intlHelper(intl, 'steg.tidsrom.hjelpetekst')}
                 fromDatepickerProps={{
@@ -99,7 +98,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                     {info8uker?.erOver8Uker && (
                         <>
                             <Box margin="xl">
-                                <FormikYesOrNoQuestion<AppFormField>
+                                <AppForm.YesOrNoQuestion
                                     name={AppFormField.bekrefterPeriodeOver8uker}
                                     legend={`Når du velger en periode som er mer enn 8 uker (${getVarighetString(
                                         info8uker.antallDager,
@@ -123,7 +122,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
             )}
 
             <Box margin="xl">
-                <FormikYesOrNoQuestion
+                <AppForm.YesOrNoQuestion
                     legend={intlHelper(intl, 'steg.tidsrom.annenSamtidig.spm')}
                     name={AppFormField.harMedsøker}
                     validate={validateYesOrNoIsAnswered}
@@ -132,7 +131,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
 
             {harMedsøker === YesOrNo.YES && (
                 <Box margin="xl">
-                    <FormikYesOrNoQuestion
+                    <AppForm.YesOrNoQuestion
                         legend={intlHelper(intl, 'steg.tidsrom.samtidigHjemme.spm')}
                         name={AppFormField.samtidigHjemme}
                         validate={validateYesOrNoIsAnswered}
@@ -143,7 +142,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
             {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) && (
                 <>
                     <Box margin="xl">
-                        <FormikYesOrNoQuestion<AppFormField>
+                        <AppForm.YesOrNoQuestion
                             legend={intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.spm')}
                             name={AppFormField.skalOppholdeSegIUtlandetIPerioden}
                             validate={validateYesOrNoIsAnswered}
@@ -183,7 +182,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
             {isFeatureEnabled(Feature.TOGGLE_FERIEUTTAK) && (
                 <>
                     <Box margin="xl">
-                        <FormikYesOrNoQuestion<AppFormField>
+                        <AppForm.YesOrNoQuestion
                             legend={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.spm')}
                             name={AppFormField.skalTaUtFerieIPerioden}
                             validate={validateYesOrNoIsAnswered}

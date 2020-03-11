@@ -315,7 +315,6 @@
     "fieldvalidation.arbeidsforhold_timerUgyldig": "Vennligst fyll ut et tall mellom {min} og {max}",
     "fieldvalidation.arbeidsforhold_redusertMerEnnNormalt": "Antall timer du skal jobbe er mer enn hva du har jobbet tidligere",
     "fieldvalidation.arbeidsforhold_prosentUgyldig": "Prosenten kan være fra 1 til 99",
-    "fieldvalidation.dagerPerUkeBorteFraJobb_ugyldig": "Ugyldig verdi. Antall dager må være mellom {min} og {max}, og oppgis i hele eller halve dager",
     "fieldvalidation.tilsynsordning_ingenInfo": "Du har ikke oppgitt noen informasjon om hvor mye barnet skal ha tilsyn.",
     "fieldvalidation.tilsynsordning_forMangeTimerEnDag": "7 timer og 30 minutter er maks per dag",
     "fieldvalidation.tilsynsordning_forMangeTegn": "For mange tegn. Maks antall tegn er 1000.",

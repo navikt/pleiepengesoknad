@@ -2,9 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import {
-    FormikInput, FormikRadioPanelGroup, FormikYesOrNoQuestion, SkjemagruppeQuestion
-} from '@navikt/sif-common-formik/lib';
+import { SkjemagruppeQuestion } from '@navikt/sif-common-formik';
 import { FieldArray } from 'formik';
 import { YesOrNo } from 'common/types/YesOrNo';
 import intlHelper from 'common/utils/intlUtils';
@@ -15,6 +13,7 @@ import {
     AppFormField, Arbeidsforhold, ArbeidsforholdField, ArbeidsforholdSkalJobbeSvar
 } from 'app/types/PleiepengesøknadFormData';
 import { validateReduserteArbeidProsent } from '../../validation/fieldValidations';
+import AppForm from '../app-form/AppForm';
 import RedusertArbeidsforholdPart from './RedusertArbeidsforholdPart';
 
 interface Props {
@@ -30,7 +29,7 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                 const getFieldName = (field: ArbeidsforholdField) => `${name}.${index}.${field}` as AppFormField;
                 return (
                     <Box padBottom="l">
-                        <FormikYesOrNoQuestion<AppFormField>
+                        <AppForm.YesOrNoQuestion
                             legend={intlHelper(intl, 'arbeidsforhold.erAnsattIPerioden.spm')}
                             name={getFieldName(ArbeidsforholdField.erAnsattIPerioden)}
                             validate={validateYesOrNoIsAnswered}
@@ -38,7 +37,7 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                         {arbeidsforhold.erAnsattIPerioden === YesOrNo.YES && (
                             <>
                                 <FormBlock>
-                                    <FormikRadioPanelGroup<AppFormField>
+                                    <AppForm.RadioPanelGroup
                                         legend={intlHelper(intl, 'arbeidsforhold.arbeidsforhold.spm')}
                                         name={getFieldName(ArbeidsforholdField.skalJobbe)}
                                         validate={validateRequiredField}
@@ -68,7 +67,7 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                                             legend={intlHelper(intl, 'arbeidsforhold.iDag.spm', {
                                                 arbeidsforhold: arbeidsforhold.navn
                                             })}>
-                                            <FormikInput<AppFormField>
+                                            <AppForm.Input
                                                 name={getFieldName(ArbeidsforholdField.jobberNormaltTimer)}
                                                 type="number"
                                                 className={'skjemaelement--timer-input'}

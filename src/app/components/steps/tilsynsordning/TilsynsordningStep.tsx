@@ -3,10 +3,6 @@ import { FormattedHTMLMessage, useIntl } from 'react-intl';
 import { useFormikContext } from 'formik';
 import Box from 'common/components/box/Box';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import FormikInputGroup from 'common/formik/components/formik-input-group/FormikInputGroup';
-import FormikRadioPanelGroup from 'common/formik/components/formik-radio-panel-group/FormikRadioPanelGroup';
-import FormikTextarea from 'common/formik/components/formik-textarea/FormikTextarea';
-import FormikYesOrNoQuestion from 'common/formik/components/formik-yes-or-no-question/FormikYesOrNoQuestion';
 import { YesOrNo } from 'common/types/YesOrNo';
 import intlHelper from 'common/utils/intlUtils';
 import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
@@ -17,6 +13,7 @@ import {
 import {
     validateSkalHaTilsynsordning, validateTilsynsordningTilleggsinfo
 } from '../../../validation/fieldValidations';
+import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
 
@@ -31,7 +28,7 @@ const TilsynsordningStep: React.FunctionComponent<StepConfigProps> = ({ onValidS
                 <FormattedHTMLMessage id="steg.tilsyn.veileder.html" />
             </CounsellorPanel>
             <Box margin="xl">
-                <FormikYesOrNoQuestion
+                <AppForm.YesOrNoQuestion
                     name={AppFormField.tilsynsordning__skalBarnHaTilsyn}
                     legend={intlHelper(intl, 'steg.tilsyn.skalBarnetHaTilsyn.spm')}
                     includeDoNotKnowOption={true}
@@ -40,14 +37,14 @@ const TilsynsordningStep: React.FunctionComponent<StepConfigProps> = ({ onValidS
             </Box>
             {YesOrNo.YES === skalBarnHaTilsyn && tilsynsordning && (
                 <Box margin="xxl">
-                    <FormikInputGroup<AppFormField>
+                    <AppForm.InputGroup
                         legend={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.spm')}
                         validate={validateSkalHaTilsynsordning}
                         name={AppFormField.tilsynsordning}>
                         <Tilsynsuke name={AppFormField.tilsynsordning__ja__tilsyn} />
-                    </FormikInputGroup>
+                    </AppForm.InputGroup>
                     <Box margin="xl">
-                        <FormikTextarea<AppFormField>
+                        <AppForm.Textarea
                             name={AppFormField.tilsynsordning__ja__ekstrainfo}
                             label={intlHelper(intl, 'steg.tilsyn.ja.tilleggsopplysninger.spm')}
                             validate={validateTilsynsordningTilleggsinfo}
@@ -58,7 +55,7 @@ const TilsynsordningStep: React.FunctionComponent<StepConfigProps> = ({ onValidS
             )}
             {YesOrNo.DO_NOT_KNOW === skalBarnHaTilsyn && (
                 <Box margin="xxl">
-                    <FormikRadioPanelGroup<AppFormField>
+                    <AppForm.RadioPanelGroup
                         legend={intlHelper(intl, 'steg.tilsyn.vetIkke.årsak.spm')}
                         name={AppFormField.tilsynsordning__vetIkke__hvorfor}
                         radios={[
@@ -78,7 +75,7 @@ const TilsynsordningStep: React.FunctionComponent<StepConfigProps> = ({ onValidS
                     />
                     {vetIkke && vetIkke.hvorfor === TilsynVetIkkeHvorfor.annet && (
                         <Box margin="xl">
-                            <FormikTextarea<AppFormField>
+                            <AppForm.Textarea
                                 name={AppFormField.tilsynsordning__vetIkke__ekstrainfo}
                                 label={intlHelper(intl, 'steg.tilsyn.vetIkke.årsak.annet.tilleggsopplysninger')}
                                 maxLength={1000}

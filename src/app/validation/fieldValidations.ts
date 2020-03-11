@@ -31,7 +31,6 @@ export enum AppFieldValidationErrors {
     'arbeidsforhold_timerUgyldig' = 'fieldvalidation.arbeidsforhold_timerUgyldig',
     'arbeidsforhold_prosentUgyldig' = 'fieldvalidation.arbeidsforhold_prosentUgyldig',
     'arbeidsforhold_redusertMerEnnNormalt' = 'fieldvalidation.arbeidsforhold_redusertMerEnnNormalt',
-    'dagerPerUkeBorteFraJobb_ugyldig' = 'fieldvalidation.dagerPerUkeBorteFraJobb_ugyldig',
     'tilsynsordning_ingenInfo' = 'fieldvalidation.tilsynsordning_ingenInfo',
     'tilsynsordning_forMangeTimerTotalt' = 'fieldvalidation.tilsynsordning_forMangeTimerTotalt',
     'tilsynsordning_forMangeTimerEnDag' = 'fieldvalidation.tilsynsordning_forMangeTimerEnDag',
@@ -283,21 +282,6 @@ export const validateNormaleArbeidstimer = (time: Time | undefined, isRequired?:
             min: MIN_ARBEIDSTIMER_PER_UKE,
             max: MAX_ARBEIDSTIMER_PER_UKE
         });
-    }
-    return undefined;
-};
-
-export const validateDagerPerUkeBorteFraJobb = (value: string, isRequired?: boolean): FieldValidationResult => {
-    if (isRequired && !hasValue(value)) {
-        return fieldIsRequiredError();
-    }
-    const dager = typeof value === 'string' ? parseFloat(value) : value;
-    const range = {
-        min: 0.5,
-        max: 5
-    };
-    if (isNaN(dager) || dager % 0.5 !== 0 || dager < range.min || dager > range.max) {
-        return createAppFieldValidationError(AppFieldValidationErrors.dagerPerUkeBorteFraJobb_ugyldig, range);
     }
     return undefined;
 };
