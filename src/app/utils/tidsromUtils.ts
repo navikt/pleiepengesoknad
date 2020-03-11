@@ -1,4 +1,4 @@
-import { hasValue } from '@navikt/sif-common/lib/common/validation/hasValue';
+import { hasValue } from '@navikt/sif-common-core/lib/validation/hasValue';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi, Søkerdata } from '../types/Søkerdata';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';

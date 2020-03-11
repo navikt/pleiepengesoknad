@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import ValidationErrorSummaryBase from '@navikt/sif-common-core/lib/components/validation-error-summary-base/ValidationErrorSummaryBase';
+import { hasValue } from '@navikt/sif-common-core/lib/validation/hasValue';
 import Panel from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { hasValue } from '@navikt/sif-common/lib/common/validation/hasValue';
 import Box from 'common/components/box/Box';
 import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
