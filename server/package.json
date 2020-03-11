@@ -5,7 +5,7 @@
   "main": "api-mock.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-api-mock": "PORT=8082 node api-mock.js"
+    "start-api-mock": "node api-mock.js"
   },
   "keywords": [],
   "author": "",
