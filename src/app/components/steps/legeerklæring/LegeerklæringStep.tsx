@@ -22,7 +22,7 @@ import LegeerklæringFileList from '../../legeerklæring-file-list/Legeerklærin
 
 const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
-    const { values } = useFormikContext<PleiepengesøknadFormData>();
+    const { values, setFieldValue } = useFormikContext<PleiepengesøknadFormData>();
     const intl = useIntl();
     const isRunningDemoMode = appIsRunningInDemoMode();
     const attachments: Attachment[] = values ? values[AppFormField.legeerklæring] : [];
@@ -43,7 +43,9 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
                     file: persistedFile
                 };
             });
-            persist({ ...values, legeerklæring: newValues }, StepID.LEGEERKLÆRING);
+            const valuesToPersist = { ...values, legeerklæring: newValues };
+            setFieldValue(AppFormField.legeerklæring, newValues);
+            persist(valuesToPersist, StepID.LEGEERKLÆRING);
         }
         ref.current = {
             attachments
