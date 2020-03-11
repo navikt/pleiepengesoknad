@@ -323,11 +323,12 @@ describe('mapFormDataToApiData', () => {
         const result: ArbeidsforholdApiVetIkke = {
             ...organisasjonMaxbo,
             jobber_normalt_timer: 20,
-            skal_jobbe: 'vet_ikke'
+            skal_jobbe: 'vet_ikke',
+            skal_jobbe_prosent: 0
         };
         expect(organisasjoner).toEqual([result]);
         expect(organisasjoner[0].skal_jobbe_timer).toBeUndefined();
-        expect(organisasjoner[0].skal_jobbe_prosent).toBeUndefined();
+        expect(organisasjoner[0].skal_jobbe_prosent).toEqual(0);
     });
 
     it('should not include arbeidsforhold where user is not ansatt', () => {
