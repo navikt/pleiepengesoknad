@@ -3,11 +3,9 @@ import { useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import {
-    FormikInput, FormikRadioPanelGroup, FormikYesOrNoQuestion
+    FormikInput, FormikRadioPanelGroup, FormikYesOrNoQuestion, SkjemagruppeQuestion
 } from '@navikt/sif-common-formik/lib';
 import { FieldArray } from 'formik';
-import { SkjemaGruppe } from 'nav-frontend-skjema';
-import { Element } from 'nav-frontend-typografi';
 import { YesOrNo } from 'common/types/YesOrNo';
 import intlHelper from 'common/utils/intlUtils';
 import {
@@ -66,14 +64,10 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                                 </FormBlock>
                                 {arbeidsforhold.skalJobbe && (
                                     <FormBlock>
-                                        <SkjemaGruppe
-                                            legend={
-                                                <Element>
-                                                    {intlHelper(intl, 'arbeidsforhold.iDag.spm', {
-                                                        arbeidsforhold: arbeidsforhold.navn
-                                                    })}
-                                                </Element>
-                                            }>
+                                        <SkjemagruppeQuestion
+                                            legend={intlHelper(intl, 'arbeidsforhold.iDag.spm', {
+                                                arbeidsforhold: arbeidsforhold.navn
+                                            })}>
                                             <FormikInput<AppFormField>
                                                 name={getFieldName(ArbeidsforholdField.jobberNormaltTimer)}
                                                 type="number"
@@ -85,7 +79,7 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                                                 max={100}
                                                 maxLength={2}
                                             />
-                                        </SkjemaGruppe>
+                                        </SkjemagruppeQuestion>
                                     </FormBlock>
                                 )}
                                 {arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.redusert && (
@@ -93,14 +87,6 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                                         arbeidsforhold={arbeidsforhold}
                                         getFieldName={getFieldName}
                                     />
-                                )}
-                                {arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.redusert && (
-                                    <FormBlock>
-                                        <RedusertArbeidsforholdPart
-                                            arbeidsforhold={arbeidsforhold}
-                                            getFieldName={getFieldName}
-                                        />
-                                    </FormBlock>
                                 )}
                             </>
                         )}

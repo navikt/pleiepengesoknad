@@ -1,6 +1,8 @@
 import React from 'react';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
-import { FormikInput, FormikRadioPanelGroup } from '@navikt/sif-common-formik/lib';
+import {
+    FormikInput, FormikRadioPanelGroup, SkjemagruppeQuestion
+} from '@navikt/sif-common-formik/lib';
 import { SkjemaGruppe } from 'nav-frontend-skjema';
 import Box from 'common/components/box/Box';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
@@ -57,6 +59,7 @@ const RedusertArbeidsforholdPart: React.FunctionComponent<Props> = ({
                             name={getFieldName(ArbeidsforholdField.timerEllerProsent)}
                             legend={intlHelper(intl, 'arbeidsforhold.hvorMye.spm')}
                             validate={validateRequiredField}
+                            useTwoColumns={true}
                             radios={[
                                 {
                                     label: intlHelper(intl, 'arbeidsforhold.hvorMye.timer'),
@@ -71,18 +74,18 @@ const RedusertArbeidsforholdPart: React.FunctionComponent<Props> = ({
                     </Box>
                     {timerEllerProsent === 'timer' && (
                         <Box margin="l">
-                            <SkjemaGruppe legend={intlHelper(intl, 'arbeidsforhold.timer.spm')}>
+                            <SkjemagruppeQuestion legend={intlHelper(intl, 'arbeidsforhold.timer.spm')}>
                                 <FormikInput<AppFormField>
                                     name={getFieldName(ArbeidsforholdField.skalJobbeTimer)}
                                     type="number"
                                     label={getLabelForTimerRedusert(intl, jobberNormaltTimer, skalJobbeTimer)}
                                     validate={validateRequiredField}
-                                    inputClassName="input--timer"
+                                    className="skjemaelement--timer-input"
                                     value={skalJobbeTimer || ''}
                                     min={0}
                                     max={100}
                                 />
-                            </SkjemaGruppe>
+                            </SkjemagruppeQuestion>
                         </Box>
                     )}
 
@@ -95,7 +98,7 @@ const RedusertArbeidsforholdPart: React.FunctionComponent<Props> = ({
                                         type="number"
                                         label={getLabelForProsentRedusert(intl, jobberNormaltTimer, skalJobbeProsent)}
                                         validate={validateRequiredField}
-                                        inputClassName="input--timer"
+                                        className="skjemaelement--timer-input"
                                         value={skalJobbeProsent || ''}
                                         min={0}
                                         max={100}
