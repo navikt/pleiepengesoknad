@@ -77,6 +77,9 @@
     "step.tidsrom.infotekst": "For å ha rett til pleiepenger må du ha omsorgen for barnet i hele perioden du søker for.",
     "steg.tidsrom.veileder.utenlandsopphold.html": "Når du oppheld deg i eit land utanfor EØS, kan du behalde pleiepengane i ein begrensa periode på opptil 8 veker av ein 12 månedar lang periode.",
 
+    "steg.tidsrom.over8uker": "Du har lagt inn ein periode som er lengre enn 8 veker. Ønskjer du dette?",
+    "steg.tidsrom.over8uker.veileder": "Dersom du ikkje vil søkje for ein periode som er lengre enn 8 veker, må du legge inn ein kortare periode i kalenderen.",
+
     "steg.tidsrom.iUtlandetIPerioden.spm": "Skal du reise til utlandet i perioden du søker for?",
     "steg.tidsrom.iUtlandetIPerioden.listTitle": "Utenlandsopphald i perioden",
     "steg.tidsrom.iUtlandetIPerioden.modalTitle": "Utenlandsopphald",
@@ -219,7 +222,7 @@
     "steg.medlemsskap.annetLandSiste12.listeTittel": "Utenlandsopphald siste 12 måneder",
     "steg.medlemsskap.annetLandNeste12.listeTittel": "Utenlandsopphald neste 12 måneder",
 
-    "steg.lege.info.html": "<h2>Ta bilete av legeerklæringa og last opp.</h2>h3>Slik tar du et godt bilde:</h3><ul><li>Hold mobilen eller kameraet direkte over dokumentet.</li><li>Legeerklæringen skal fylle hele bildet. Bildet skal ikke <i>ikke</i> inneholde annen dokumentasjon eller gjenstander.</li><li>Bildet må inneholde all tekst i legeerkaring. Hvis legeerklæringen er skrevet på mer enn én side, bør du last opp flere bilder. Du kan ikke laste opp mer enn 3 bilder.</li></ul><h3>Etter at du har tatt bildet, sjekk følgende før du laster opp:</h3><ul><li>Legeerklæringen har riktig retting.</li><li>Teksten til legeerklæringen er godt leselig.</li><li>Bildet er godt opplyst, uten skygger.</li></ul>",
+    "steg.lege.info.html": "<h2>Ta bilete av legeerklæringa og last opp.</h2>h3>Slik tar du et godt bilde:</h3><ul><li>Hold mobilen eller kameraet direkte over dokumentet.</li><li>Legeerklæringen skal fylle hele bildet. Bildet skal ikke <i>ikke</i> inneholde annen dokumentasjon eller gjenstander.</li><li>Bildet må inneholde all tekst i legeerkaring. Dersom legeerklæringa er skrevet på mer enn én side, bør du last opp flere bilder. Du kan ikke laste opp mer enn 3 bilder.</li></ul><h3>Etter at du har tatt bildet, sjekk følgende før du laster opp:</h3><ul><li>Legeerklæringen har riktig retting.</li><li>Teksten til legeerklæringen er godt leselig.</li><li>Bildet er godt opplyst, uten skygger.</li></ul>",
     "steg.lege.vedlegg": "Last opp bilete av legeerklæringa (maks 3 bilete).",
     "steg.lege.intro.1.html": "For dei første 8 vekene må legeerklæringa skrivast av ein sjukehuslege. Etter dei første 8 vekene kan legeerklæringa skrivast av alle leger i spesialisthelsetjenesta.",
     "steg.lege.intro.2.html": "Desse yrkesgruppene kan <strong>ikkje</strong> skrive under legeerklæringa: fastlege, spesialist i allmenmedisin, legesekretær, sosionom, psykolog, psykologspesialist eller fysioterapeut, fastlege og spesialist i allmennmedisin.",
@@ -309,7 +312,7 @@
     "fieldvalidation.fradato.erEtterTildato": "Frå-datoen kan ikkje vere seinare enn til-datoen.",
     "fieldvalidation.tildato.merEnnTreÅr": "Du kan ikkje søkje om pleiepengar for ein periode som er meir enn tre år tilbake i tid.",
     "fieldvalidation.tildato.erFørFradato": "Til-datoen kan ikkje vere tidlegare enn frå-datoen.",
-    "fieldvalidation.periodeErOver8UkerMenIkkeØnsket": "Du har søkt om periode som er over 8 uker ({varighet}), men ikke bekreftet at du ønsker å gjøre dette. Vennligst bekreft dette under, eller reduser lengden på perioden.",
+    "fieldvalidation.periodeErOver8UkerMenIkkeØnsket": "For å kunne fortsette må du enten velge \"Ja\" for å bekrefte at du vil søkje for ein lengre periode enn 8 veker, eller du må legge inn ein kortare periode enn 8 veker dersom du har svart \"Nei\".",
     "fieldvalidation.legeerklæring.mangler": "Du må laste opp ei legeerklæring.",
     "fieldvalidation.legeerklæring.forMangeFiler": "Du kan maksimalt laste opp 3 bilete.",
     "fieldvalidation.grad.ugyldig": "Du må gi opp graden som eit heiltal mellom 20 og 100 prosent.",

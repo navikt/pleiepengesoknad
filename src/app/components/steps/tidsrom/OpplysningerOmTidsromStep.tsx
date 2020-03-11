@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormattedHTMLMessage, useIntl } from 'react-intl';
+import { FormattedHTMLMessage, FormattedMessage, useIntl } from 'react-intl';
 import { IntlFieldValidationError } from '@navikt/sif-common-core/lib/validation/types';
 import { TypedFormikFormContext } from '@navikt/sif-common-formik/lib';
 import { useFormikContext } from 'formik';
@@ -100,19 +100,14 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                             <Box margin="xl">
                                 <AppForm.YesOrNoQuestion
                                     name={AppFormField.bekrefterPeriodeOver8uker}
-                                    legend={`Når du velger en periode som er mer enn 8 uker (${getVarighetString(
-                                        info8uker.antallDager,
-                                        intl
-                                    )}), må du bekrefte  at du ønsker dette. Ønsker du å søke om mer enn 8 uker med pleiepenger?`}
+                                    legend={intlHelper(intl, 'steg.tidsrom.over8uker')}
                                     validate={validateBekreft8uker}
                                 />
                             </Box>
                             {values.bekrefterPeriodeOver8uker === YesOrNo.NO && showErrors && (
                                 <>
                                     <AlertStripeAdvarsel>
-                                        For å kunne sende inn en søknad for en periode som er mer enn 8 uker, må du
-                                        bekrefte at du ønsker dette for å komme videre. Dersom du ikke bekrefter, må du
-                                        redusere redusere varigheten på perioden til maks 8 uker.
+                                        <FormattedMessage id="steg.tidrom.over8uker.veileder" />
                                     </AlertStripeAdvarsel>
                                 </>
                             )}

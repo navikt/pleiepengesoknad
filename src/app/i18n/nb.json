@@ -77,6 +77,9 @@
     "step.tidsrom.infotekst": "For å ha rett til pleiepenger må du ha omsorgen for barnet i hele perioden du søker for.",
     "steg.tidsrom.veileder.utenlandsopphold.html": "Når du oppholder deg i et land utenfor EØS, kan du beholde pleiepengene i en begrenset periode på opptil 8 uker av en 12 måneder lang periode.",
 
+    "steg.tidsrom.over8uker": "Du har lagt inn en periode som er lenger enn 8 uker. Ønsker du dette?",
+    "steg.tidsrom.over8uker.veileder": "Hvis du ikke vil søke for en periode som er lenger enn 8 uker, må du legge inn en kortere periode i kalenderen.",
+
     "steg.tidsrom.iUtlandetIPerioden.spm": "Skal du reise til utlandet i perioden du søker for?",
     "steg.tidsrom.iUtlandetIPerioden.listTitle": "Utenlandsopphold i perioden",
     "steg.tidsrom.iUtlandetIPerioden.modalTitle": "Utenlandsopphold",
@@ -229,7 +232,7 @@
     "steg.oppsummering.søker.fnr": "Fødselsnummer: {fodselsnummer}",
     "steg.oppsummering.tidsrom.header": "Periode",
     "steg.oppsummering.tidsrom.fomtom": "Fra {fom} til {tom}",
-    "steg.oppsummering.over8uker.header": "Bekrefter at søknad er for en periode lenger enn 8 uker ({varighet})?",
+    "steg.oppsummering.over8uker.header": "Bekrefter at søknaden gjelder for en periode på mer enn 8 uker",
 
     "steg.oppsummering.barnet.header": "Om barnet",
     "steg.oppsummering.barnet.navn": "Navn: {navn}",
@@ -307,7 +310,7 @@
     "fieldvalidation.fradato.merEnnTreÅr": "Du kan ikke søke om pleiepenger for en periode som er mer enn tre år tilbake i tid",
     "fieldvalidation.fradato.erEtterTildato": "Fra-datoen kan ikke være senere enn til-datoen",
     "fieldvalidation.tildato.merEnnTreÅr": "Du kan ikke søke om pleiepenger for en periode som er mer enn tre år tilbake i tid",
-    "fieldvalidation.periodeErOver8UkerMenIkkeØnsket": "Du må bekrefte at du ønsker å søke for en periode over 8 uker ({varighet}), eller redusere varigheten på perioden til 8 uker i feltene over.",
+    "fieldvalidation.periodeErOver8UkerMenIkkeØnsket": "For å kunne fortsette må du enten velge \"Ja\" for å bekrefte at du vil søke for en lenger periode enn 8 uker, eller du må legge inn en kortere periode enn 8 uker hvis du har svart \"Nei\".",
     "fieldvalidation.tildato.erFørFradato": "Til-datoen kan ikke være tidligere enn fra-datoen",
     "fieldvalidation.legeerklæring.mangler": "Du må laste opp en legeerklæring",
     "fieldvalidation.legeerklæring.forMangeFiler": "Du kan maksimalt laste opp 3 bilder",
