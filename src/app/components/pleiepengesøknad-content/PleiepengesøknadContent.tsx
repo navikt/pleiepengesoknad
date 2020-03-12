@@ -1,11 +1,15 @@
 import * as React from 'react';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import { apiStringDateToDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { useFormikContext } from 'formik';
-import { getAktiveArbeidsforholdIPerioden } from 'app/utils/arbeidsforholdUtils';
+// import moment from 'moment';
 import { persist } from '../../api/api';
 import RouteConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';
+import { ArbeidsforholdApi, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { Søkerdata } from '../../types/Søkerdata';
 import { navigateTo, redirectTo } from '../../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../../utils/routeUtils';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
@@ -25,10 +29,34 @@ interface PleiepengesøknadContentProps {
     lastStepID: StepID;
 }
 
+export interface KvitteringInfo {
+    fom: Date;
+    tom: Date;
+    søkernavn: string;
+    arbeidsforhold: ArbeidsforholdApi[];
+}
+
+const getKvitteringInfoFromApiData = (
+    apiValues: PleiepengesøknadApiData,
+    søkerdata: Søkerdata
+): KvitteringInfo | undefined => {
+    const aktiveArbeidsforhold = apiValues.arbeidsgivere.organisasjoner?.filter((o) => o.skal_jobbe);
+    if (aktiveArbeidsforhold.length > 0) {
+        const { fornavn, mellomnavn, etternavn } = søkerdata.person;
+        return {
+            arbeidsforhold: aktiveArbeidsforhold,
+            fom: apiStringDateToDate(apiValues.fra_og_med),
+            tom: apiStringDateToDate(apiValues.til_og_med),
+            søkernavn: formatName(fornavn, etternavn, mellomnavn)
+        };
+    }
+    return undefined;
+};
+
 const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContentProps> = ({ lastStepID }) => {
     const location = useLocation();
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
-    const [antallArbeidsforhold, setAntallArbeidsforhold] = React.useState<number>(0);
+    const [kvitteringInfo, setKvitteringInfo] = React.useState<KvitteringInfo | undefined>(undefined);
     const { values, resetForm } = useFormikContext<PleiepengesøknadFormData>();
 
     const history = useHistory();
@@ -141,29 +169,26 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
             {isAvailable(StepID.SUMMARY, values) && (
                 <Route
                     path={getSøknadRoute(StepID.SUMMARY)}
-                    render={() => <SummaryStep history={history} values={values} />}
+                    render={() => (
+                        <SummaryStep
+                            history={history}
+                            values={values}
+                            onApplicationSent={(apiData: PleiepengesøknadApiData, søkerdata: Søkerdata) => {
+                                const info = getKvitteringInfoFromApiData(apiData, søkerdata);
+                                setKvitteringInfo(info);
+                                setSøknadHasBeenSent(true);
+                                resetForm();
+                                navigateTo(RouteConfig.SØKNAD_SENDT_ROUTE, history);
+                            }}
+                        />
+                    )}
                 />
             )}
 
-            {(isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, values) || søknadHasBeenSent === true) && (
+            {isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, values) && søknadHasBeenSent === true && (
                 <Route
                     path={RouteConfig.SØKNAD_SENDT_ROUTE}
-                    render={() => {
-                        // we clear form state here to ensure that no steps will be available
-                        // after the application has been sent. this is done in a setTimeout
-                        // because we do not want to update state during render.
-                        if (values.harForståttRettigheterOgPlikter === true) {
-                            // Only call reset if it has not been called before (prevent loop)
-                            setTimeout(() => {
-                                setAntallArbeidsforhold(getAktiveArbeidsforholdIPerioden(values.arbeidsforhold).length);
-                                resetForm();
-                            });
-                        }
-                        if (søknadHasBeenSent === false) {
-                            setSøknadHasBeenSent(true);
-                        }
-                        return <ConfirmationPage numberOfArbeidsforhold={antallArbeidsforhold} />;
-                    }}
+                    render={() => <ConfirmationPage kvitteringInfo={kvitteringInfo} />}
                 />
             )}
 
@@ -172,5 +197,20 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
         </Switch>
     );
 };
+
+// const mockKvitteringInfo: KvitteringInfo = {
+//     fom: moment()
+//         .subtract(4, 'week')
+//         .toDate(),
+//     tom: moment()
+//         .subtract(1, 'week')
+//         .toDate(),
+//     søkernavn: 'Frode Hansen',
+//     arbeidsforhold: [
+//         {
+//             navn: 'BEKK Consulting AS'
+//         }
+//     ]
+// };
 
 export default PleiepengesøknadContent;

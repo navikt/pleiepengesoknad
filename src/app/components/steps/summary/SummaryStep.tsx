@@ -24,8 +24,9 @@ import { purge, sendApplication } from '../../../api/api';
 import routeConfig from '../../../config/routeConfig';
 import { StepID } from '../../../config/stepConfig';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
+import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { BarnReceivedFromApi, Søkerdata } from '../../../types/Søkerdata';
+import { Søkerdata } from '../../../types/Søkerdata';
 import * as apiUtils from '../../../utils/apiUtils';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
@@ -49,6 +50,7 @@ interface State {
 
 interface OwnProps {
     values: PleiepengesøknadFormData;
+    onApplicationSent: (apiValues: PleiepengesøknadApiData, søkerdata: Søkerdata) => void;
 }
 
 type Props = OwnProps & HistoryProps & WrappedComponentProps;
@@ -62,8 +64,8 @@ class SummaryStep extends React.Component<Props, State> {
         this.navigate = this.navigate.bind(this);
     }
 
-    async navigate(barn: BarnReceivedFromApi[]) {
-        const { history, values, intl } = this.props;
+    async navigate(apiValues: PleiepengesøknadApiData, søkerdata: Søkerdata) {
+        const { history, onApplicationSent } = this.props;
         this.setState({
             sendingInProgress: true
         });
@@ -72,8 +74,8 @@ class SummaryStep extends React.Component<Props, State> {
         } else {
             try {
                 await purge();
-                await sendApplication(mapFormDataToApiData(values, barn, intl.locale as Locale));
-                navigateTo(routeConfig.SØKNAD_SENDT_ROUTE, history);
+                await sendApplication(apiValues);
+                onApplicationSent(apiValues, søkerdata);
             } catch (error) {
                 if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
                     navigateToLoginPage();
@@ -96,7 +98,11 @@ class SummaryStep extends React.Component<Props, State> {
 
         return (
             <SøkerdataContextConsumer>
-                {({ person: { fornavn, mellomnavn, etternavn, fodselsnummer }, barn }: Søkerdata) => {
+                {(søkerdata: Søkerdata) => {
+                    const {
+                        person: { fornavn, mellomnavn, etternavn, fodselsnummer },
+                        barn
+                    } = søkerdata;
                     const apiValues = mapFormDataToApiData(values, barn, intl.locale as Locale);
                     const apiValuesValidationErrors = validateApiValues(apiValues, intl);
 
@@ -115,7 +121,7 @@ class SummaryStep extends React.Component<Props, State> {
                             onValidFormSubmit={() => {
                                 setTimeout(() => {
                                     // La view oppdatere seg først
-                                    this.navigate(barn);
+                                    this.navigate(apiValues, søkerdata);
                                 });
                             }}
                             useValidationErrorSummary={false}
