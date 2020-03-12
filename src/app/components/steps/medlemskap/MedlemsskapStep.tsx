@@ -5,7 +5,6 @@ import { useFormikContext } from 'formik';
 import Lenke from 'nav-frontend-lenker';
 import Box from 'common/components/box/Box';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import { YesOrNo } from 'common/types/YesOrNo';
 import { date1YearAgo, date1YearFromNow, dateToday } from 'common/utils/dateUtils';
 import intlHelper from 'common/utils/intlUtils';
 import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
@@ -15,10 +14,12 @@ import { AppFormField, PleiepengesøknadFormData } from '../../../types/Pleiepen
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import BostedsoppholdIUtlandetFormPart from './BostedsoppholdIUtlandetFormPart';
+import { medlemskapQuestions } from './medlemskapConfig';
 
 const MedlemsskapStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) => {
     const { values } = useFormikContext<PleiepengesøknadFormData>();
     const intl = useIntl();
+    const questions = medlemskapQuestions.getVisbility(values);
 
     return (
         <FormikStep id={StepID.MEDLEMSKAP} onValidFormSubmit={onValidSubmit}>
@@ -38,7 +39,7 @@ const MedlemsskapStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubm
                 validate={validateYesOrNoIsAnswered}
                 info={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.hjelp')}
             />
-            {values.harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && (
+            {questions.isVisible(AppFormField.utenlandsoppholdSiste12Mnd) && (
                 <FormBlock margin="l">
                     <BostedsoppholdIUtlandetFormPart
                         periode={{ from: date1YearAgo, to: dateToday }}
@@ -51,15 +52,15 @@ const MedlemsskapStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubm
                     />
                 </FormBlock>
             )}
-            <Box margin="xl">
+            <FormBlock>
                 <AppForm.YesOrNoQuestion
                     legend={intlHelper(intl, 'steg.medlemsskap.annetLandNeste12.spm')}
                     name={AppFormField.skalBoUtenforNorgeNeste12Mnd}
                     validate={validateYesOrNoIsAnswered}
                     info={intlHelper(intl, 'steg.medlemsskap.annetLandNeste12.hjelp')}
                 />
-            </Box>
-            {values.skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES && (
+            </FormBlock>
+            {questions.isVisible(AppFormField.utenlandsoppholdNeste12Mnd) && (
                 <FormBlock margin="l">
                     <BostedsoppholdIUtlandetFormPart
                         periode={{ from: dateToday, to: date1YearFromNow }}
