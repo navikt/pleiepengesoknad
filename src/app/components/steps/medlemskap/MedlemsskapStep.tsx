@@ -36,7 +36,7 @@ const MedlemsskapStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubm
             <AppForm.YesOrNoQuestion
                 legend={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.spm')}
                 name={AppFormField.harBoddUtenforNorgeSiste12Mnd}
-                validate={validateYesOrNoIsAnswered}
+                validate={questions.validate(AppFormField.harBoddUtenforNorgeSiste12Mnd)}
                 info={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.hjelp')}
             />
             {questions.isVisible(AppFormField.utenlandsoppholdSiste12Mnd) && (

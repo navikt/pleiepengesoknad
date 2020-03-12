@@ -20,7 +20,7 @@ export interface QuestionConfig<Payload, QuestionKeys, ErrorFormat = any> {
         /** Additional feature for toggling visibility of the question */
         visibilityFilter?: (props: Payload) => boolean;
         /** Fieldvalidation */
-        validate?: (props: Payload) => boolean | ErrorFormat | ErrorFormat[];
+        validate?: (payload: Payload) => undefined | boolean | ErrorFormat | ErrorFormat[];
     };
 }
 
@@ -73,7 +73,21 @@ const areAllQuestionsAnswered = <Payload, QuestionKeys, ErrorFormat>(
     return allQuestionsHasAnswers;
 };
 
-export interface QuestionVisibility<QuestionKeys> {
+const validateQuestion = <Value, QuestionKeys, Payload, ErrorFormat = any>(
+    value: Value,
+    questions: QuestionConfig<Payload, QuestionKeys, ErrorFormat>,
+    question: QuestionKeys,
+    payload: Payload
+): undefined | boolean | ErrorFormat | ErrorFormat[] => {
+    const config = questions[question as any];
+    if (!config || !config.validate) {
+        return undefined;
+    }
+    return config.validate(payload);
+};
+
+export interface QuestionVisibility<QuestionKeys, ErrorFormat = any> {
+    validate: (key: QuestionKeys) => (value: any) => undefined | boolean | ErrorFormat | ErrorFormat[];
     isVisible: (key: QuestionKeys) => boolean;
     isAnswered: (key: QuestionKeys) => boolean;
     areAllQuestionsAnswered: () => boolean;
@@ -82,9 +96,13 @@ export interface QuestionVisibility<QuestionKeys> {
 export const Questions = <Payload, QuestionKeys, ErrorFormat = undefined>(
     questions: QuestionConfig<Payload, QuestionKeys, ErrorFormat>
 ) => ({
-    getVisbility: (payload: Payload): QuestionVisibility<QuestionKeys> => ({
-        isVisible: (key: QuestionKeys) => isQuestionVisible(questions, key, payload),
-        isAnswered: (key: QuestionKeys) => isQuestionAnswered(questions, key, payload),
-        areAllQuestionsAnswered: () => areAllQuestionsAnswered(questions, payload)
+    getVisbility: (payload: Payload): QuestionVisibility<QuestionKeys, ErrorFormat> => ({
+        validate: (key: QuestionKeys) => (value: any) =>
+            validateQuestion<any, QuestionKeys, Payload, ErrorFormat>(value, questions, key, payload),
+        isVisible: (key: QuestionKeys) =>
+            isQuestionVisible<Payload, QuestionKeys, ErrorFormat>(questions, key, payload),
+        isAnswered: (key: QuestionKeys) =>
+            isQuestionAnswered<Payload, QuestionKeys, ErrorFormat>(questions, key, payload),
+        areAllQuestionsAnswered: () => areAllQuestionsAnswered<Payload, QuestionKeys, ErrorFormat>(questions, payload)
     })
 });
