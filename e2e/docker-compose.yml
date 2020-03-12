@@ -6,7 +6,7 @@ services:
       - "PORT=8082"
     ports:
       - 8082:8082
-  e2e:
+  web:
     build:
       context: ../
       dockerfile: Dockerfile.web-cypress
@@ -15,18 +15,18 @@ services:
     depends_on:
       - api-mock
     environment:
-      - API_URL=http://localhost:8082
+      - API_URL=http://api-mock:8082
       - HOST=localhost
-#  e2e:
-#    image: "cypress/included:4.1.0"
-#    container_name: cypress
-#    depends_on:
-#      - web
-#    environment:
-#      - CYPRESS_video=false
-#      - CYPRESS_baseUrl=http://web:8080
-#    command: npx run cypress
-#    working_dir: /e2e
-#    volumes:
-#      - ./:/e2e
+  e2e:
+    image: "cypress/included:4.1.0"
+    container_name: cypress
+    depends_on:
+      - web
+    environment:
+      - CYPRESS_video=false
+      - CYPRESS_baseUrl=http://web:8080
+    command: npx run cypress
+    working_dir: /e2e
+    volumes:
+      - ./:/e2e
 
