@@ -14,7 +14,8 @@ function createEnvSettingsFile(settingsFile) {
                 TOGGLE_FERIEUTTAK: '${process.env.TOGGLE_FERIEUTTAK}',
                 TOGGLE_FRILANS: '${process.env.TOGGLE_FRILANS}',
                 TOGGLE_SELVSTENDIG: '${process.env.TOGGLE_SELVSTENDIG}',
-                TOGGLE_8_UKER: '${process.env.TOGGLE_8_UKER}'
+                TOGGLE_8_UKER: '${process.env.TOGGLE_8_UKER}',
+                TOGGLE_BEKREFT_OMSORG: '${process.env.TOGGLE_BEKREFT_OMSORG}'
             };`
         );
     });
