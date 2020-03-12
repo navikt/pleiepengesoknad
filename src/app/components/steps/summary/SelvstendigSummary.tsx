@@ -24,7 +24,7 @@ const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape)
     const næringstyper = virksomhet.naringstype.map((næring) => intlHelper(intl, `næringstype.${næring}`)).join(', ');
     const fiskerinfo = harFiskerNæringstype(virksomhet.naringstype)
         ? {
-              erPåPlaneB: virksomhet.fiskerErPåBladB === true
+              erPåPlaneB: virksomhet.fisker_er_paa_blad_b === true
           }
         : undefined;
     const tidsinfo = `Startet ${prettifyApiDate(virksomhet.fra_og_med)}${
