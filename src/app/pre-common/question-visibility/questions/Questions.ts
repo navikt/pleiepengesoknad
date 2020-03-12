@@ -93,6 +93,12 @@ export interface QuestionVisibility<QuestionKeys, ErrorFormat = any> {
     areAllQuestionsAnswered: () => boolean;
 }
 
+export interface QuestionVisibilityInfo<ErrorFormat = any> {
+    validate: (value: any) => undefined | boolean | ErrorFormat | ErrorFormat[];
+    isVisible: () => boolean;
+    isAnswered: () => boolean;
+}
+
 export const Questions = <Payload, QuestionKeys, ErrorFormat = undefined>(
     questions: QuestionConfig<Payload, QuestionKeys, ErrorFormat>
 ) => ({
@@ -104,5 +110,14 @@ export const Questions = <Payload, QuestionKeys, ErrorFormat = undefined>(
         isAnswered: (key: QuestionKeys) =>
             isQuestionAnswered<Payload, QuestionKeys, ErrorFormat>(questions, key, payload),
         areAllQuestionsAnswered: () => areAllQuestionsAnswered<Payload, QuestionKeys, ErrorFormat>(questions, payload)
-    })
+    }),
+    getQuestionVisbilityInfo: (key: QuestionKeys, payload: Payload): QuestionVisibilityInfo<ErrorFormat> => {
+        const info: QuestionVisibilityInfo = {
+            validate: (value: any) =>
+                validateQuestion<any, QuestionKeys, Payload, ErrorFormat>(value, questions, key, payload),
+            isVisible: () => isQuestionVisible<Payload, QuestionKeys, ErrorFormat>(questions, key, payload),
+            isAnswered: () => isQuestionAnswered<Payload, QuestionKeys, ErrorFormat>(questions, key, payload)
+        };
+        return info;
+    }
 });
