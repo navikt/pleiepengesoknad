@@ -34,6 +34,7 @@ const IntroPage: React.StatelessComponent = () => {
             </Box>
             <Box margin="xl">
                 <RadioPanelGruppe
+                    className={'twoColumnPanelGruppe'}
                     legend={intlHelper(intl, 'introPage.spm.selvstendigEllerFrilanser')}
                     name="erDuSelvstendigNæringsdrivendeEllerFrilanser"
                     checked={erSelvstendigNæringsdrivendeEllerFrilanser}
