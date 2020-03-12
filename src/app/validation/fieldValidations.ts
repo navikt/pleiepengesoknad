@@ -55,6 +55,10 @@ export const createAppFieldValidationError = (
     return createFieldValidationError<AppFieldValidationErrors | FieldValidationErrors>(error, values);
 };
 
+export const isYesOrNoAnswered = (answer: YesOrNo) => {
+    return answer === YesOrNo.NO || answer === YesOrNo.YES || answer === YesOrNo.DO_NOT_KNOW;
+};
+
 export const validateFødselsdato = (date: Date): FieldValidationResult => {
     if (!hasValue(date)) {
         return fieldIsRequiredError();

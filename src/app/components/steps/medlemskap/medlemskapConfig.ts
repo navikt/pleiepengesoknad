@@ -1,16 +1,18 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { validateYesOrNoIsAnswered } from '@navikt/sif-common-core/lib/validation/fieldValidations';
+import { FieldValidationResult } from '@navikt/sif-common-core/lib/validation/types';
 import {
     QuestionConfig, Questions
 } from '../../../pre-common/question-visibility/questions/Questions';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
 
-const isYesOrNoAnswered = (answer: YesOrNo) => {
-    return answer === YesOrNo.NO || answer === YesOrNo.YES || answer === YesOrNo.DO_NOT_KNOW;
-};
-
-const medlemsskapQuestionConfig: QuestionConfig<PleiepengesøknadFormData, AppFormField> = {
+const medlemsskapQuestionConfig: QuestionConfig<PleiepengesøknadFormData, AppFormField, FieldValidationResult> = {
     [AppFormField.harBoddUtenforNorgeSiste12Mnd]: {
-        isAnswered: ({ harBoddUtenforNorgeSiste12Mnd }) => isYesOrNoAnswered(harBoddUtenforNorgeSiste12Mnd)
+        isAnswered: ({ harBoddUtenforNorgeSiste12Mnd }) => isYesOrNoAnswered(harBoddUtenforNorgeSiste12Mnd),
+        validate: ({ harBoddUtenforNorgeSiste12Mnd }) => {
+            return validateYesOrNoIsAnswered(harBoddUtenforNorgeSiste12Mnd);
+        }
     },
     [AppFormField.utenlandsoppholdSiste12Mnd]: {
         isIncluded: ({ harBoddUtenforNorgeSiste12Mnd }) => harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES,
@@ -25,4 +27,6 @@ const medlemsskapQuestionConfig: QuestionConfig<PleiepengesøknadFormData, AppFo
     }
 };
 
-export const medlemskapQuestions = Questions<PleiepengesøknadFormData, AppFormField>(medlemsskapQuestionConfig);
+export const medlemskapQuestions = Questions<PleiepengesøknadFormData, AppFormField, FieldValidationResult>(
+    medlemsskapQuestionConfig
+);

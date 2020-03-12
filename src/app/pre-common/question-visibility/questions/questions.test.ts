@@ -1,3 +1,4 @@
+import { FieldValidationResult } from '@navikt/sif-common-core/lib/validation/types';
 import { QuestionConfig, Questions, questionValueIsOk, QuestionVisibility } from './Questions';
 
 enum TestKeys {
@@ -19,7 +20,7 @@ type TestQuestionVisibility = QuestionVisibility<TestKeys>;
 
 const testPayload: TestPayload = {};
 
-export const questionConfig: QuestionConfig<TestPayload, TestKeys> = {
+export const questionConfig: QuestionConfig<TestPayload, TestKeys, FieldValidationResult> = {
     [TestKeys.parent]: {
         isIncluded: () => true,
         isAnswered: (payload: TestPayload) => questionValueIsOk(payload.parent)
