@@ -2,7 +2,6 @@
 
 ![CI / CD](https://github.com/navikt/pleiepengesoknad/workflows/CI%20/%20CD/badge.svg)
 
-
 Kildekoden til frontend-appen for ny selvbetjeningsløsning for
 pleiepenger.
 
@@ -15,11 +14,11 @@ For å kjøre opp app-en i dev:
 
 For å kjøre opp api-mock i dev:
 
-1.  `npm run dev-api`.
+1.  `npm run dev-api`
 
 For å kjøre enhetstester:
 
-1.  `npm install && npm test`.
+1.  `npm install && npm test`
 
 ## Henvendelser
 

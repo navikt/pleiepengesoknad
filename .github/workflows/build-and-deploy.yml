@@ -1,7 +1,6 @@
 # This workflow trigger on push to any branch
 name: CI / CD
 on:
-  deployment:
   push:
     paths-ignore:
       - "**.md"
@@ -9,6 +8,11 @@ on:
       - "LICENCE"
       - "CODEOWNERS"
     branches:
+
+env:
+  IMAGE: docker.pkg.github.com/${{ github.repository }}/pleiepengesoknad:${{ github.sha }}
+  GITHUB_USERNAME: x-access-token
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   test:
@@ -49,6 +53,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
+      - name: Cache NPM dependencies
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-npm-cache-
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -57,64 +68,11 @@ jobs:
         run: |
           npm i
           npm run build
-      - name: Create Docker tag
-        env:
-          NAME: pleiepengesoknad
+      - name: Build and publish Docker image
         run: |
-          echo "docker.pkg.github.com"/"$GITHUB_REPOSITORY"/"$NAME" > .docker_image
-          echo "$(date "+%Y.%m.%d")-$(git rev-parse --short HEAD)" > .docker_tag
-      - name: Build Docker image
-        run: |
-          docker build -t $(cat .docker_image):$(cat .docker_tag) .
-      - name: Login to Github Package Registry
-        env:
-          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          docker login -u ${GITHUB_REPOSITORY} -p ${DOCKER_PASSWORD} docker.pkg.github.com
-      - name: Push Docker image
-        run: "docker push $(cat .docker_image):$(cat .docker_tag)"
-      - name: pass image file to next job.
-        uses: actions/upload-artifact@v1
-        with:
-          name: docker_image
-          path: .docker_image
-      - name: pass tag file to next job.
-        uses: actions/upload-artifact@v1
-        with:
-          name: docker_tag
-          path: .docker_tag
-
-  deploy:
-    name: Deploy environment
-    if: github.event.deployment.payload.triggered # Deploy if triggered by cli
-    needs: build-code-and-push-docker # Depends on build-code-and-push-docker job
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v1
-        # Download the image and tag file to use for the deployment cli.
-      - name: Download image file
-        uses: actions/download-artifact@v1
-        with:
-          name: docker_image
-      - name: Download tag file
-        uses: actions/download-artifact@v1
-        with:
-          name: docker_tag
-      - name: unpack
-        run: |
-          cp docker_image/.docker_image .
-          cp docker_tag/.docker_tag .
-      - name: debug
-        run: ls -la
-      - name: deploy to environment
-        uses: navikt/deployment-cli/action@0.4.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          cluster: ${{ github.event.deployment.environment }}
-          team: dusseldorf
-          resources: ${{  format('nais/{0}.yml', github.event.deployment.environment) }}
+          docker build --tag ${IMAGE} .
+          docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
+          docker push ${IMAGE}
 
   deploy-dev-sbs:
     name: deploy-dev-sbs
@@ -122,29 +80,12 @@ jobs:
     needs: build-code-and-push-docker # Depends on build-code-and-push-docker job
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v1
-        # Download the image and tag file to use for the deployment cli.
-      - name: Download image file
-        uses: actions/download-artifact@v1
-        with:
-          name: docker_image
-      - name: Download tag file
-        uses: actions/download-artifact@v1
-        with:
-          name: docker_tag
-      - name: unpack
-        run: |
-          cp docker_image/.docker_image .
-          cp docker_tag/.docker_tag .
-      - name: deploy to dev-sbs
-        uses: navikt/deployment-cli/action@0.4.0
+      - uses: actions/checkout@v1
+      - uses: nais/deploy/actions/deploy@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          cluster: dev-sbs
-          team: dusseldorf
-          resources: nais/dev-sbs.yml
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: dev-sbs
+          RESOURCE: nais/dev-sbs.yml
 
   deploy-prod-sbs:
     name: deploy-prod-sbs
@@ -152,26 +93,9 @@ jobs:
     needs: build-code-and-push-docker # Depends on build-code-and-push-docker job
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v1
-        # Download the image and tag file to use for the deployment cli.
-      - name: Download image file
-        uses: actions/download-artifact@v1
-        with:
-          name: docker_image
-      - name: Download tag file
-        uses: actions/download-artifact@v1
-        with:
-          name: docker_tag
-      - name: unpack
-        run: |
-          cp docker_image/.docker_image .
-          cp docker_tag/.docker_tag .
-      - name: deploy to prod-sbs
-        uses: navikt/deployment-cli/action@0.4.0
+      - uses: actions/checkout@v1
+      - uses: nais/deploy/actions/deploy@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          cluster: prod-sbs
-          team: dusseldorf
-          resources: nais/prod-sbs.yml
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: prod-sbs
+          RESOURCE: nais/prod-sbs.yml
