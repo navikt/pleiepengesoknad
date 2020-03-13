@@ -21,31 +21,35 @@ const FrilansFormPart: React.FunctionComponent<Props> = ({ formValues }) => {
     const intl = useIntl();
     return (
         <>
-            <AppForm.YesOrNoQuestion
-                name={AppFormField.frilans_harHattInntektSomFrilanser}
-                legend={intlHelper(intl, 'frilanser.harDuHattInntekt.spm')}
-                validate={validateYesOrNoIsAnswered}
-                info={<FrilansEksempeltHtml />}
-            />
+            <Box margin="l">
+                <AppForm.YesOrNoQuestion
+                    name={AppFormField.frilans_harHattInntektSomFrilanser}
+                    legend={intlHelper(intl, 'frilanser.harDuHattInntekt.spm')}
+                    validate={validateYesOrNoIsAnswered}
+                    info={<FrilansEksempeltHtml />}
+                />
+            </Box>
             {harHattInntektSomFrilanser && (
-                <Panel>
-                    <Box>
-                        <AppForm.DatePicker
-                            name={AppFormField.frilans_startdato}
-                            label={intlHelper(intl, 'frilanser.nårStartet.spm')}
-                            showYearSelector={true}
-                            dateLimitations={{ maksDato: dateToday }}
-                            validate={validateRequiredField}
-                        />
-                    </Box>
-                    <Box margin="xl">
-                        <AppForm.YesOrNoQuestion
-                            name={AppFormField.frilans_jobberFortsattSomFrilans}
-                            legend={intlHelper(intl, 'frilanser.jobberFortsatt.spm')}
-                            validate={validateYesOrNoIsAnswered}
-                        />
-                    </Box>
-                </Panel>
+                <Box margin="l">
+                    <Panel>
+                        <Box>
+                            <AppForm.DatePicker
+                                name={AppFormField.frilans_startdato}
+                                label={intlHelper(intl, 'frilanser.nårStartet.spm')}
+                                showYearSelector={true}
+                                dateLimitations={{ maksDato: dateToday }}
+                                validate={validateRequiredField}
+                            />
+                        </Box>
+                        <Box margin="xl">
+                            <AppForm.YesOrNoQuestion
+                                name={AppFormField.frilans_jobberFortsattSomFrilans}
+                                legend={intlHelper(intl, 'frilanser.jobberFortsatt.spm')}
+                                validate={validateYesOrNoIsAnswered}
+                            />
+                        </Box>
+                    </Panel>
+                </Box>
             )}
         </>
     );

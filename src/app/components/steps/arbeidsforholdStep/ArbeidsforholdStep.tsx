@@ -6,8 +6,8 @@ import AlertStripe from 'nav-frontend-alertstriper';
 import Box from 'common/components/box/Box';
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import FormSection from 'common/components/form-section/FormSection';
 import LoadingSpinner from 'common/components/loading-spinner/LoadingSpinner';
+import FormSection from '../../../pre-common/form-section/FormSection';
 import { AppFormField, PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
 import { getArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
 import { Feature, isFeatureEnabled } from 'app/utils/featureToggleUtils';
@@ -50,7 +50,7 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
             {isLoading && <LoadingSpinner type="XS" style={'block'} blockTitle="Henter arbeidsforhold" />}
             {!isLoading && (
                 <>
-                    <Box padBottom="xxl">
+                    <Box padBottom="m">
                         <CounsellorPanel>
                             <FormattedHTMLMessage id="steg.arbeidsforhold.aktivtArbeidsforhold.info.html" />
                         </CounsellorPanel>
@@ -59,7 +59,11 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                         <>
                             {arbeidsforhold.map((forhold, index) => (
                                 <FormBlock key={forhold.organisasjonsnummer}>
-                                    <FormSection titleTag="h4" title={forhold.navn} titleIcon={<BuildingIcon />}>
+                                    <FormSection
+                                        titleTag="h4"
+                                        title={forhold.navn}
+                                        titleIcon={<BuildingIcon />}
+                                        indentContent={false}>
                                         <FormikArbeidsforhold arbeidsforhold={forhold} index={index} />
                                     </FormSection>
                                 </FormBlock>
@@ -75,17 +79,21 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                         </AlertStripe>
                     </Box>
 
-                    {isFeatureEnabled(Feature.TOGGLE_FRILANS) && (
-                        <FormBlock>
-                            <FrilansFormPart formValues={values} />
-                        </FormBlock>
-                    )}
+                    <Box margin="xl">
+                        <FormSection title="Frilans og selvstendig næringsdrivende">
+                            {isFeatureEnabled(Feature.TOGGLE_FRILANS) && (
+                                <FormBlock>
+                                    <FrilansFormPart formValues={values} />
+                                </FormBlock>
+                            )}
 
-                    {isFeatureEnabled(Feature.TOGGLE_SELVSTENDIG) && (
-                        <FormBlock>
-                            <SelvstendigNæringsdrivendeFormPart formValues={values} />
-                        </FormBlock>
-                    )}
+                            {isFeatureEnabled(Feature.TOGGLE_SELVSTENDIG) && (
+                                <FormBlock>
+                                    <SelvstendigNæringsdrivendeFormPart formValues={values} />
+                                </FormBlock>
+                            )}
+                        </FormSection>
+                    </Box>
                 </>
             )}
         </FormikStep>
