@@ -82,7 +82,7 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                             </Box>
 
                             <Box margin="xl">
-                                <FormSection title="Frilans og selvstendig næringsdrivende">
+                                <FormSection title="Frilansere og selvstendig næringsdrivende">
                                     {isFeatureEnabled(Feature.TOGGLE_FRILANS) && (
                                         <FormBlock>
                                             <FrilansFormPart formValues={values} />

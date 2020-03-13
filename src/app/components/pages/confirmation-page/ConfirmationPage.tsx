@@ -59,7 +59,7 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ kvitteringInfo }) =>
                         {numberOfArbeidsforhold > 0 && (
                             <>
                                 <li>
-                                    <p>
+                                    <div>
                                         Du må be {pluralize(numberOfArbeidsforhold, 'arbeidsgiver', 'arbeidsgiverene')}{' '}
                                         om å sende inntektsmelding til oss, hvis:
                                         <ul>
@@ -69,7 +69,7 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ kvitteringInfo }) =>
                                                 4 uker siden du hadde pleiepenger sist.
                                             </li>
                                         </ul>
-                                    </p>
+                                    </div>
                                 </li>
                                 <li>
                                     {pluralize(numberOfArbeidsforhold, 'Arbeidsgiver', 'Arbeidsgiverene')} behøver{' '}
