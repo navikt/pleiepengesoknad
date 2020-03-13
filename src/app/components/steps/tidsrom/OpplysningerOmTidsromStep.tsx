@@ -112,12 +112,12 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                                     validate={validateBekreft8uker}
                                 />
                             </Box>
-                            {values.bekrefterPeriodeOver8uker === YesOrNo.NO && showErrors && (
-                                <>
+                            {values.bekrefterPeriodeOver8uker === YesOrNo.NO && !showErrors && (
+                                <Box margin="m">
                                     <AlertStripeAdvarsel>
-                                        <FormattedMessage id="steg.tidrom.over8uker.veileder" />
+                                        <FormattedMessage id="steg.tidsrom.over8uker.veileder" />
                                     </AlertStripeAdvarsel>
-                                </>
+                                </Box>
                             )}
                         </>
                     )}
