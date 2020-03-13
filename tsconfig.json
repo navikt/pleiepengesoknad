@@ -28,5 +28,7 @@
     "awesomeTypescriptLoaderOptions": {
         "useCache": false
     },
-    "exclude": ["node_modules", "src/build", "**.js", "dist", "cypress"]
+    "exclude": ["node_modules", "src/build", "**.js", "dist",
+      "e2e/cypress"
+    ]
 }

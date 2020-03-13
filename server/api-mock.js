@@ -1,4 +1,5 @@
 const os = require('os');
+const process = require('process');
 const fs = require('fs');
 const express = require('express');
 const Busboy = require('busboy');
@@ -29,7 +30,12 @@ const server = express();
 
 server.use(express.json());
 server.use((req, res, next) => {
-    const allowedOrigins = ['https://pleiepengesoknad-mock.nais.oera.no', 'http://localhost:8080'];
+    const allowedOrigins = [
+        'http://host.docker.internal:8080',
+        'https://pleiepengesoknad-mock.nais.oera.no',
+        'http://localhost:8080',
+        'http://web:8080'
+    ];
     const requestOrigin = req.headers.origin;
     if (allowedOrigins.indexOf(requestOrigin) >= 0) {
         res.set('Access-Control-Allow-Origin', requestOrigin);
@@ -75,9 +81,9 @@ const isJSON = (str) => {
         return false;
     }
 };
-const writeFileSync = (path, text) => {
+/*const writeFileSync = (path, text) => {
     return fs.writeFileSync(path, text);
-};
+};*/
 const writeFileAsync = async (path, text) => {
     return new Promise((resolve, reject) => {
         fs.writeFile(path, text, 'utf8', err => {
@@ -91,7 +97,7 @@ const readFileSync = (path) => {
 };
 const existsSync = (path) => fs.existsSync(path);
 
-const startServer = () => {
+const startExpressServer = () => {
     const port = process.env.PORT || 8082;
 
     server.get('/health/isAlive', (req, res) => res.sendStatus(200));
@@ -144,10 +150,10 @@ const startServer = () => {
     });
 
     server.listen(port, () => {
-        console.log(`App listening on port: ${port}`);
-        console.log('nic ipv4=', getIpAdress());
+        console.log(`Express mock-api server listening on port: ${port}`);
+        console.log('nic ipv4_host=', getIpAdress());
     });
 };
 
-startServer();
+startExpressServer();
 
