@@ -4,4 +4,6 @@
 /node_modules
 .DS_Store
 /heroku/dist
-/cypress/screenshots/
+/e2e/cypress/screenshots/
+/e2e/cypress/videos/
+/pleiepengesoknad.iml

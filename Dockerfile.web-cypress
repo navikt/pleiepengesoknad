@@ -3,5 +3,6 @@ WORKDIR /usr/src/app
 COPY . .
 RUN apk update && apk add bash && apk add curl
 RUN CYPRESS_INSTALL_BINARY=0 npm ci
+RUN npm run build
 EXPOSE 8080
-CMD ["npm", "run", "start-no-decorator"]
+CMD ["npm", "run", "server-test"]
