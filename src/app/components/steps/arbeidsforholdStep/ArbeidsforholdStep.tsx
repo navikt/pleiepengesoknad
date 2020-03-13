@@ -73,27 +73,31 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
 
                     {arbeidsforhold.length === 0 && <FormattedMessage id="steg.arbeidsforhold.ingenOpplysninger" />}
 
-                    <Box margin="l">
-                        <AlertStripe type="info">
-                            <FormattedMessage id="steg.arbeidsforhold.manglesOpplysninger" />
-                        </AlertStripe>
-                    </Box>
+                    {isFeatureEnabled(Feature.TOGGLE_FRILANS) && isFeatureEnabled(Feature.TOGGLE_SELVSTENDIG) && (
+                        <>
+                            <Box margin="l">
+                                <AlertStripe type="info">
+                                    <FormattedMessage id="steg.arbeidsforhold.manglesOpplysninger" />
+                                </AlertStripe>
+                            </Box>
 
-                    <Box margin="xl">
-                        <FormSection title="Frilans og selvstendig næringsdrivende">
-                            {isFeatureEnabled(Feature.TOGGLE_FRILANS) && (
-                                <FormBlock>
-                                    <FrilansFormPart formValues={values} />
-                                </FormBlock>
-                            )}
+                            <Box margin="xl">
+                                <FormSection title="Frilans og selvstendig næringsdrivende">
+                                    {isFeatureEnabled(Feature.TOGGLE_FRILANS) && (
+                                        <FormBlock>
+                                            <FrilansFormPart formValues={values} />
+                                        </FormBlock>
+                                    )}
 
-                            {isFeatureEnabled(Feature.TOGGLE_SELVSTENDIG) && (
-                                <FormBlock>
-                                    <SelvstendigNæringsdrivendeFormPart formValues={values} />
-                                </FormBlock>
-                            )}
-                        </FormSection>
-                    </Box>
+                                    {isFeatureEnabled(Feature.TOGGLE_SELVSTENDIG) && (
+                                        <FormBlock>
+                                            <SelvstendigNæringsdrivendeFormPart formValues={values} />
+                                        </FormBlock>
+                                    )}
+                                </FormSection>
+                            </Box>
+                        </>
+                    )}
                 </>
             )}
         </FormikStep>
