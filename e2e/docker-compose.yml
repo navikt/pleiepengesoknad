@@ -18,15 +18,14 @@ services:
       - API_URL=http://api-mock:8082
       - HOST=localhost
   e2e:
-    image: "cypress/included:4.1.0"
-    container_name: cypress
+    build: .
     depends_on:
       - web
     environment:
       - CYPRESS_video=false
       - CYPRESS_baseUrl=http://web:8080
-    command: npx run cypress
-    working_dir: /e2e
-    volumes:
-      - ./:/e2e
+# Dersom debugging er nødvendig
+#    working_dir: /e2e
+#    volumes:
+#      - ./:/e2e
 
