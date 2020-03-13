@@ -3,7 +3,6 @@ import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-d
 import { apiStringDateToDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { useFormikContext } from 'formik';
-// import moment from 'moment';
 import { persist } from '../../api/api';
 import RouteConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';
@@ -185,10 +184,10 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
                 />
             )}
 
-            {isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, values) && søknadHasBeenSent === true && (
+            {isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, values) && søknadHasBeenSent /* || 1 + 1 === 2*/ && (
                 <Route
                     path={RouteConfig.SØKNAD_SENDT_ROUTE}
-                    render={() => <ConfirmationPage kvitteringInfo={kvitteringInfo} />}
+                    render={() => <ConfirmationPage kvitteringInfo={kvitteringInfo /* || mockKvitteringInfo*/} />}
                 />
             )}
 
@@ -209,6 +208,9 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
 //     arbeidsforhold: [
 //         {
 //             navn: 'BEKK Consulting AS'
+//         },
+//         {
+//             navn: 'Framnes mat og drikke'
 //         }
 //     ]
 // };

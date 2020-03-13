@@ -1,4 +1,5 @@
 import React from 'react';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import { prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
@@ -17,7 +18,7 @@ const bem = bemUtils('arbeidsgiverUtskrift');
 
 const ArbeidsgiverUtskrift: React.FunctionComponent<Props> = ({ arbeidsgiver, søkernavn, fom, tom }) => (
     <div className={bem.block}>
-        <Systemtittel style={{ marginBottom: '1rem' }}>Til {arbeidsgiver}</Systemtittel>
+        <Systemtittel style={{ marginBottom: '1.5rem' }}>Til {arbeidsgiver}</Systemtittel>
         <p>
             <Element tag="span">Vi har mottatt følgende opplysninger:</Element>
         </p>
@@ -28,17 +29,19 @@ const ArbeidsgiverUtskrift: React.FunctionComponent<Props> = ({ arbeidsgiver, s�
             {søkernavn} søker om Pleiepenger for perioden <strong>{prettifyDate(fom)}</strong> til{' '}
             <strong>{prettifyDate(tom)}</strong>
         </p>
-        <AlertStripeInfo className={bem.element('frist')}>
-            <p>
-                Vi kan ikke behandle søkaden før vi har fått inntektsmeldingen til {søkernavn}. For å unngå at
-                utbetalingen fra NAV til {søkernavn} blir forsinket, må du sende inn inntektsmeldingen til NAV så snart
-                som mulig.
-            </p>
-            <p>
-                Hvis du allerede har sendt inntektsmeldingen i tråd med {søkernavn} sin nåværende søknad, kan du se bort
-                fra denne meldingen.
-            </p>
-        </AlertStripeInfo>
+        <Box margin="xl">
+            <AlertStripeInfo className={bem.element('frist')}>
+                <p>
+                    Vi kan ikke behandle søkaden før vi har fått inntektsmeldingen til {søkernavn}. For å unngå at
+                    utbetalingen fra NAV til {søkernavn} blir forsinket, må du sende inn inntektsmeldingen til NAV så
+                    snart som mulig.
+                </p>
+                <p>
+                    Hvis du allerede har sendt inntektsmeldingen i tråd med {søkernavn} sin nåværende søknad, kan du se
+                    bort fra denne meldingen.
+                </p>
+            </AlertStripeInfo>
+        </Box>
 
         <Element style={{ marginTop: '2rem' }}>Slik sender du inntektsmeldingen</Element>
         <ul>
