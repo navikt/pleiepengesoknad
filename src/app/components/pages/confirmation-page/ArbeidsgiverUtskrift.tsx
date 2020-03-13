@@ -23,11 +23,15 @@ const ArbeidsgiverUtskrift: React.FunctionComponent<Props> = ({ arbeidsgiver, s�
             <Element tag="span">Vi har mottatt følgende opplysninger:</Element>
         </p>
         <p>
-            {søkernavn} har et arbeidsforhold til {arbeidsgiver}
+            {søkernavn} er ansatt hos {arbeidsgiver}
         </p>
         <p>
-            {søkernavn} søker om Pleiepenger for perioden <strong>{prettifyDate(fom)}</strong> til{' '}
-            <strong>{prettifyDate(tom)}</strong>
+            {søkernavn} søker om Pleiepenger for perioden
+            <ul>
+                <li>
+                    <strong>{prettifyDate(fom)}</strong> til <strong>{prettifyDate(tom)}</strong>
+                </li>
+            </ul>
         </p>
         <Box margin="xl">
             <AlertStripeInfo className={bem.element('frist')}>
@@ -44,23 +48,18 @@ const ArbeidsgiverUtskrift: React.FunctionComponent<Props> = ({ arbeidsgiver, s�
         </Box>
 
         <Element style={{ marginTop: '2rem' }}>Slik sender du inntektsmeldingen</Element>
-        <ul>
-            <li>
-                Bruk enten deres eget lønns- eller personalsystem, eller send meldingen på{' '}
-                <Lenke href="https://nav.no" target="_blank">
-                    nav.no
-                </Lenke>
-            </li>
-            <li>I inntektsmeldingen, legg inn inntekten til {søkernavn}</li>
-            <li>
-                Fyll inn startdato <strong>{prettifyDate(fom)}</strong>. Hvis datoen ikke stemmer med det som er avtalt
-                mellom dere, må du avklare dette med {søkernavn} før du sender inntektsmeldingen. Ved feil dato, må
-                {søkernavn} sende inn en ny søknad.
-            </li>
-        </ul>
-
         <p>
-            Du kan lese mer om inntektsmeldingen på{' '}
+            Inntektsmeldingen sendes fra arbeidsgivers eget lønns- og personalsystem eller fra altinn.no. Meldingen
+            inneholder inntektsopplysninger og annen informasjon NAV må ha for å behandle søknaden arbeidstaker har
+            sendt.
+        </p>
+        <p>
+            Fyll inn startdato som samsvarer med arbeidstakers søknad. Navn Navnesen har søkt pleiepenger fra 1. februar
+            2020. Hvis datoen ikke stemmer med hva dere har avtalt, må dere avklare dette dere imellom før du sender
+            inntektsmeldingen.
+        </p>
+        <p>
+            Du får mer informasjon om inntektsmeldingen på
             <Lenke href="https://nav.no/inntektsmelding" target="_blank">
                 nav.no/inntektsmelding
             </Lenke>

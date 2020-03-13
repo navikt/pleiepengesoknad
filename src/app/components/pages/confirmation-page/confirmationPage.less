@@ -9,7 +9,7 @@
 ul.checklist {
     margin: 1.5rem 0;
     padding: 0 0 0 1.5rem;
-    li {
+    > li {
         list-style: none;
         margin-bottom: 1rem;
         padding-left: 1.5rem;
@@ -24,6 +24,13 @@ ul.checklist {
             background-repeat: no-repeat;
             position: absolute;
             margin-left: -2.5rem;
+        }
+        li {
+            &:first-child {
+                margin-top: 0.5rem;
+            }
+            list-style: disc;
+            margin-bottom: 0.5rem;
         }
     }
 }

@@ -184,10 +184,10 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
                 />
             )}
 
-            {isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, values) && søknadHasBeenSent /* || 1 + 1 === 2*/ && (
+            {isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, values) && søknadHasBeenSent === true && (
                 <Route
                     path={RouteConfig.SØKNAD_SENDT_ROUTE}
-                    render={() => <ConfirmationPage kvitteringInfo={kvitteringInfo /* || mockKvitteringInfo*/} />}
+                    render={() => <ConfirmationPage kvitteringInfo={kvitteringInfo} />}
                 />
             )}
 
@@ -196,23 +196,5 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
         </Switch>
     );
 };
-
-// const mockKvitteringInfo: KvitteringInfo = {
-//     fom: moment()
-//         .subtract(4, 'week')
-//         .toDate(),
-//     tom: moment()
-//         .subtract(1, 'week')
-//         .toDate(),
-//     søkernavn: 'Frode Hansen',
-//     arbeidsforhold: [
-//         {
-//             navn: 'BEKK Consulting AS'
-//         },
-//         {
-//             navn: 'Framnes mat og drikke'
-//         }
-//     ]
-// };
 
 export default PleiepengesøknadContent;

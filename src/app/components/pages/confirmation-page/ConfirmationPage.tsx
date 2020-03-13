@@ -2,7 +2,8 @@ import * as React from 'react';
 import { FormattedHTMLMessage, FormattedMessage, useIntl } from 'react-intl';
 import AlertStripe, { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { Knapp } from 'nav-frontend-knapper';
-import { Element, Ingress, Innholdstittel } from 'nav-frontend-typografi';
+import { Panel } from 'nav-frontend-paneler';
+import { Ingress, Innholdstittel } from 'nav-frontend-typografi';
 import Box from 'common/components/box/Box';
 import CheckmarkIcon from 'common/components/checkmark-icon/CheckmarkIcon';
 import Page from 'common/components/page/Page';
@@ -37,67 +38,86 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ kvitteringInfo }) =>
                     </Innholdstittel>
                 </Box>
             </div>
-            <Box margin="xl">
-                <AlertStripeInfo>
-                    Informasjonen på denne siden vises kun denne éne gangen, og da er det viktig viktig at du får med
-                    deg alt under, før du går videre.
-                </AlertStripeInfo>
-            </Box>
-            <Box margin="xl">
-                <Ingress>
-                    <FormattedMessage id="page.confirmation.undertittel" />
-                </Ingress>
-                <ul className="checklist">
-                    {numberOfArbeidsforhold > 0 && (
+            {numberOfArbeidsforhold > 0 && (
+                <Box margin="xl">
+                    <AlertStripeInfo>
+                        <strong>Obs!</strong> Denne siden forsvinner når du lukker den. Det er derfor viktig at du leser
+                        gjennom siden før du går videre.
+                        <p style={{ marginBottom: 0 }}>
+                            Siden kan skrives ut, og gis til{' '}
+                            {pluralize(numberOfArbeidsforhold, 'arbeidsgiveren din', 'arbeidsgiverene dine')}.
+                        </p>
+                    </AlertStripeInfo>
+                </Box>
+            )}
+            <Box margin="l">
+                <Panel className={bem.element('steps')} border={true}>
+                    <Ingress>
+                        <FormattedMessage id="page.confirmation.undertittel" />
+                    </Ingress>
+                    <ul className="checklist">
+                        {numberOfArbeidsforhold > 0 && (
+                            <>
+                                <li>
+                                    <p>
+                                        Du må be {pluralize(numberOfArbeidsforhold, 'arbeidsgiver', 'arbeidsgiverene')}{' '}
+                                        om å sende inntektsmelding til oss, hvis:
+                                        <ul>
+                                            <li>du har sendt søknad for første gang, eller</li>
+                                            <li>
+                                                du skal søke på nytt etter et opphold. Et opphold vil si at det er minst
+                                                4 uker siden du hadde pleiepenger sist.
+                                            </li>
+                                        </ul>
+                                    </p>
+                                </li>
+                                <li>
+                                    {pluralize(numberOfArbeidsforhold, 'Arbeidsgiver', 'Arbeidsgiverene')} behøver{' '}
+                                    <strong>ikke</strong> sende inntektsmelding på ny når du søker om å forlenge
+                                    perioden din med pleiepenger.
+                                </li>
+                                <li>
+                                    Du kan skrive ut denne informasjonssiden og gi utskriften til{' '}
+                                    {pluralize(numberOfArbeidsforhold, 'arbeidsgiveren din', 'arbeidsgiverene dine')}.
+                                    Hvis du er registrert med flere arbeidsgivere, får du en utskrift til hver av dem.
+                                </li>
+                            </>
+                        )}
                         <li>
-                            <p>
-                                Du må be{' '}
-                                {pluralize(numberOfArbeidsforhold, 'arbeidsgiveren din', 'arbeidsgiverene dine')} om å
-                                sende inntektsmelding til oss. Dette kan du gjøre ved å skrive ut denne siden, og gi
-                                utskriften til arbeidsgiver. Knapp for å skrive ut finner du nedenfor.
-                                {numberOfArbeidsforhold > 1 && (
-                                    <>Uskriften vil innholde en side for hver av arbeidsgiverene dine.</>
-                                )}
-                            </p>
-                            <p>
-                                Dersom du ikke har printer, kan du ta skjermbilder av denne siden i stedet. Husk å ta
-                                bilder av alt som står nedenfor!
-                            </p>
-                            {/* <FormattedHTMLMessage id="page.confirmation.søker" values={{ numberOfArbeidsforhold }} /> */}
+                            <FormattedMessage id="page.confirmation.dittNav" />
                         </li>
+                        <li>
+                            <FormattedMessage id="page.confirmation.behandling" />
+                        </li>
+                        <li>
+                            <FormattedHTMLMessage
+                                id="page.confirmation.behandlet.html"
+                                values={{
+                                    lenke: getLenker(intl.locale).saksbehandlingstider
+                                }}
+                            />
+                        </li>
+                    </ul>
+
+                    {kvitteringInfo?.arbeidsforhold && (
+                        <Box margin="xxl">
+                            <div style={{ textAlign: 'center', marginBottom: '2rem' }} className={'screenOnly'}>
+                                <Knapp htmlType="button" onClick={() => window.print()} type="hoved">
+                                    Skriv ut denne siden nå
+                                </Knapp>
+                            </div>
+                            <div style={{ margin: '0 auto', maxWidth: '50rem', marginBottom: '1rem' }}>
+                                <strong>
+                                    Hvis du ikke vil eller kan skrive ut, kan du ta skjermbilder av denne siden. Husk
+                                    også å ta bilde av informasjonen under, som du kan gi til arbeidsgiver.
+                                </strong>
+                            </div>
+                        </Box>
                     )}
-                    <li>
-                        <FormattedMessage id="page.confirmation.dittNav" />
-                    </li>
-                    <li>
-                        <FormattedMessage id="page.confirmation.behandling" />
-                    </li>
-                    <li>
-                        <FormattedHTMLMessage
-                            id="page.confirmation.behandlet.html"
-                            values={{
-                                lenke: getLenker(intl.locale).saksbehandlingstider
-                            }}
-                        />
-                    </li>
-                </ul>
+                </Panel>
             </Box>
             {kvitteringInfo?.arbeidsforhold && (
-                <Box margin="xxl">
-                    <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-                        <Knapp htmlType="button" onClick={() => window.print()} type="hoved">
-                            Skriv ut denne siden nå
-                        </Knapp>
-                    </div>
-                    <Element tag="p">
-                        {pluralize(
-                            numberOfArbeidsforhold,
-                            `Side som du skal gi til ${kvitteringInfo.arbeidsforhold[0].navn}:`,
-                            'Sider som du skal gi til de respektive arbeidsgivere:'
-                        )}
-                        .
-                    </Element>
-
+                <Box margin="xl">
                     {kvitteringInfo?.arbeidsforhold.map((a, idx) => (
                         <Box margin="xxl" key={idx}>
                             <NavPrintPage>
