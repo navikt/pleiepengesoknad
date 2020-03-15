@@ -1,14 +1,16 @@
 import * as React from 'react';
 import { FormattedHTMLMessage, FormattedMessage, useIntl } from 'react-intl';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
+import Page from '@navikt/sif-common-core/lib/components/page/Page';
+import StepBanner from '@navikt/sif-common-core/lib/components/step-banner/StepBanner';
+import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { YesOrNo } from '@navikt/sif-common-formik/lib';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import Lenke from 'nav-frontend-lenker';
 import { RadioPanelGruppe } from 'nav-frontend-skjema';
-import Box from 'common/components/box/Box';
-import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import InformationPoster from 'common/components/information-poster/InformationPoster';
-import Page from 'common/components/page/Page';
-import StepBanner from 'common/components/step-banner/StepBanner';
-import { YesOrNo } from 'common/types/YesOrNo';
-import bemUtils from 'common/utils/bemUtils';
-import intlHelper from 'common/utils/intlUtils';
 import getLenker from '../../../lenker';
 import GoToApplicationLink from '../../go-to-application-link/GoToApplicationLink';
 import './introPage.less';
@@ -27,6 +29,14 @@ const IntroPage: React.StatelessComponent = () => {
             className={bem.block}
             title={intlHelper(intl, 'introPage.tittel')}
             topContentRenderer={() => <StepBanner text={intlHelper(intl, 'introPage.stegTittel')} />}>
+            <Box margin="xxl">
+                <AlertStripeAdvarsel>
+                    <Lenke href="https://www.nav.no/no/driftsmeldinger/ustabilitet-pa-nav.no-soendag-15mars">
+                        Ustabile selvbetjeningstjenester søndag 15. mars
+                    </Lenke>
+                    .
+                </AlertStripeAdvarsel>
+            </Box>
             <Box margin="xxxl">
                 <InformationPoster>
                     <FormattedMessage id={`introPage.tekst${withoutTilsynTextKey}`} />
