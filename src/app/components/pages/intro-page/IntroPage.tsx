@@ -19,6 +19,8 @@ import './introPage.less';
 
 const bem = bemUtils('introPage');
 
+const showSystemUnstabilityMessage = false;
+
 const IntroPage: React.StatelessComponent = () => {
     const [erSelvstendigNæringsdrivendeEllerFrilanser, setErSelvstendigNæringsdrivendeEllerFrilanser] = React.useState(
         YesOrNo.UNANSWERED
@@ -31,14 +33,16 @@ const IntroPage: React.StatelessComponent = () => {
             className={bem.block}
             title={intlHelper(intl, 'introPage.tittel')}
             topContentRenderer={() => <StepBanner text={intlHelper(intl, 'introPage.stegTittel')} />}>
-            <Box margin="xxl">
-                <AlertStripeAdvarsel>
-                    <Lenke href="https://www.nav.no/no/driftsmeldinger/ustabilitet-pa-nav.no-soendag-15mars">
-                        Ustabile selvbetjeningstjenester søndag 15. mars
-                    </Lenke>
-                    .
-                </AlertStripeAdvarsel>
-            </Box>
+            {showSystemUnstabilityMessage && (
+                <Box margin="xxl">
+                    <AlertStripeAdvarsel>
+                        <Lenke href="https://www.nav.no/no/driftsmeldinger/ustabilitet-pa-nav.no-soendag-15mars">
+                            Ustabile selvbetjeningstjenester søndag 15. mars
+                        </Lenke>
+                        .
+                    </AlertStripeAdvarsel>
+                </Box>
+            )}
             <Box margin="xxxl">
                 <InformationPoster>
                     <FormattedMessage id={`introPage.tekst${withoutTilsynTextKey}`} />
