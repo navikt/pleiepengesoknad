@@ -1,16 +1,20 @@
 import * as React from 'react';
-import { YesOrNo } from 'common/types/YesOrNo';
-import Page from 'common/components/page/Page';
-import { default as YesOrNoQuestion } from 'common/form-components/yes-or-no-question-base/YesOrNoQuestionBase';
-import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import bemUtils from 'common/utils/bemUtils';
+import { FormattedHTMLMessage, FormattedMessage, useIntl } from 'react-intl';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import Lenke from 'nav-frontend-lenker';
 import Box from 'common/components/box/Box';
-import StepBanner from 'common/components/step-banner/StepBanner';
+import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import InformationPoster from 'common/components/information-poster/InformationPoster';
-import GoToApplicationLink from '../../go-to-application-link/GoToApplicationLink';
-import { FormattedMessage, useIntl, FormattedHTMLMessage } from 'react-intl';
+import Page from 'common/components/page/Page';
+import StepBanner from 'common/components/step-banner/StepBanner';
+import {
+    default as YesOrNoQuestion
+} from 'common/form-components/yes-or-no-question-base/YesOrNoQuestionBase';
+import { YesOrNo } from 'common/types/YesOrNo';
+import bemUtils from 'common/utils/bemUtils';
 import intlHelper from 'common/utils/intlUtils';
 import getLenker from '../../../lenker';
+import GoToApplicationLink from '../../go-to-application-link/GoToApplicationLink';
 import './introPage.less';
 
 const bem = bemUtils('introPage');
@@ -27,6 +31,14 @@ const IntroPage: React.StatelessComponent = () => {
             className={bem.block}
             title={intlHelper(intl, 'introPage.tittel')}
             topContentRenderer={() => <StepBanner text={intlHelper(intl, 'introPage.stegTittel')} />}>
+            <Box margin="xxl">
+                <AlertStripeAdvarsel>
+                    <Lenke href="https://www.nav.no/no/driftsmeldinger/ustabilitet-pa-nav.no-soendag-15mars">
+                        Ustabile selvbetjeningstjenester søndag 15. mars
+                    </Lenke>
+                    .
+                </AlertStripeAdvarsel>
+            </Box>
             <Box margin="xxxl">
                 <InformationPoster>
                     <FormattedMessage id={`introPage.tekst${withoutTilsynTextKey}`} />
