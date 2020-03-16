@@ -1,22 +1,28 @@
 import * as React from 'react';
-import Page from 'common/components/page/Page';
-import { Innholdstittel, Normaltekst } from 'nav-frontend-typografi';
-import Box from 'common/components/box/Box';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { Ingress, Systemtittel } from 'nav-frontend-typografi';
+import Veilederpanel from 'nav-frontend-veilederpanel';
+import Box from 'common/components/box/Box';
+import Page from 'common/components/page/Page';
 import intlHelper from 'common/utils/intlUtils';
+import VeilederLokal from './VeilederLokal';
 
 const GeneralErrorPage: React.FunctionComponent = () => {
     const intl = useIntl();
     return (
         <Page title={intlHelper(intl, 'page.generalErrorPage.sidetittel')}>
-            <Innholdstittel>
-                <FormattedMessage id="page.generalErrorPage.tittel" />
-            </Innholdstittel>
-            <Box margin="l">
-                <Normaltekst>
-                    <FormattedMessage id="page.generalErrorPage.tekst" />
-                </Normaltekst>
-            </Box>
+            <div style={{ paddingTop: '1rem' }}>
+                <Veilederpanel type="plakat" kompakt={true} fargetema="normal" svg={<VeilederLokal mood="uncertain" />}>
+                    <Systemtittel tag="h2">
+                        <FormattedMessage id="page.generalErrorPage.tittel" />
+                    </Systemtittel>
+                    <Box margin="m" padBottom="l">
+                        <Ingress>
+                            <FormattedMessage id="page.generalErrorPage.tekst" />
+                        </Ingress>
+                    </Box>
+                </Veilederpanel>
+            </div>
         </Page>
     );
 };
