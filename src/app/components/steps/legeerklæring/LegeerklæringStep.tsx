@@ -50,7 +50,7 @@ const LegeerklæringStep = ({ history, nextStepRoute, formikProps, ...stepProps 
             }}
             history={history}
             useValidationErrorSummary={false}
-            skipValidation={isRunningDemoMode}
+            skipValidation={true}
             buttonDisabled={hasPendingUploads}
             {...stepProps}>
             {isRunningDemoMode && (
