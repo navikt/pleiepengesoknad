@@ -1,26 +1,26 @@
 import * as React from 'react';
 import { FormattedHTMLMessage, useIntl } from 'react-intl';
-import { StepConfigProps, StepID } from '../../../config/stepConfig';
-import { HistoryProps } from 'common/types/History';
-import { navigateToLoginPage } from '../../../utils/navigationUtils';
-import FormikStep from '../../formik-step/FormikStep';
-import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
-import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
-import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import FileUploadErrors from 'common/components/file-upload-errors/FileUploadErrors';
-import { validateLegeerklæring } from '../../../validation/fieldValidations';
-import intlHelper from 'common/utils/intlUtils';
-import Box from 'common/components/box/Box';
-import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
-import { appIsRunningInDemoMode } from '../../../utils/envUtils';
-import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
-import HelperTextPanel from 'common/components/helper-text-panel/HelperTextPanel';
+import Box from 'common/components/box/Box';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
+import FileUploadErrors from 'common/components/file-upload-errors/FileUploadErrors';
+import HelperTextPanel from 'common/components/helper-text-panel/HelperTextPanel';
 import PictureScanningGuide from 'common/components/picture-scanning-guide/PictureScanningGuide';
 import { Attachment } from 'common/types/Attachment';
-import { persist } from '../../../api/api';
+import { HistoryProps } from 'common/types/History';
 import { mapFileToPersistedFile } from 'common/utils/attachmentUtils';
+import intlHelper from 'common/utils/intlUtils';
+import { persist } from '../../../api/api';
+import { StepConfigProps, StepID } from '../../../config/stepConfig';
+import { AppFormField } from '../../../types/PleiepengesøknadFormData';
+import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
+import { appIsRunningInDemoMode } from '../../../utils/envUtils';
+import { navigateToLoginPage } from '../../../utils/navigationUtils';
+import { validateLegeerklæring } from '../../../validation/fieldValidations';
+import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
+import FormikStep from '../../formik-step/FormikStep';
+import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
+import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 
 type Props = { formikProps: PleiepengesøknadFormikProps } & CommonStepFormikProps & HistoryProps & StepConfigProps;
 
@@ -64,6 +64,17 @@ const LegeerklæringStep = ({ history, nextStepRoute, formikProps, ...stepProps 
                 <>
                     <Box padBottom="xl">
                         <CounsellorPanel>
+                            <p>
+                                Regelverket for pleiepenger er <strong>ikke</strong> endret i forhold til
+                                koronasituasjonen.
+                            </p>
+                            <p>For å få pleiepenger må barnet</p>
+                            <ul>
+                                <li style={{ marginBottom: '.5rem' }}>
+                                    ha vært til behandling eller utredning i sykehus eller annen spesialisthelsetjeneste
+                                </li>
+                                <li>ha pleie hele tiden på grunn av sykdom</li>
+                            </ul>
                             <p>
                                 <FormattedHTMLMessage id="steg.lege.intro.1.html" />
                             </p>
