@@ -24,8 +24,9 @@ import { purge, sendApplication } from '../../../api/api';
 import routeConfig from '../../../config/routeConfig';
 import { StepID } from '../../../config/stepConfig';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
+import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import { BarnReceivedFromApi, Søkerdata } from '../../../types/Søkerdata';
+import { Søkerdata } from '../../../types/Søkerdata';
 import * as apiUtils from '../../../utils/apiUtils';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
@@ -58,8 +59,8 @@ class SummaryStep extends React.Component<Props, State> {
         this.navigate = this.navigate.bind(this);
     }
 
-    async navigate(barn: BarnReceivedFromApi[]) {
-        const { history, formValues, intl } = this.props;
+    async navigate(apiValues: PleiepengesøknadApiData) {
+        const { history } = this.props;
         this.setState({
             sendingInProgress: true
         });
@@ -68,7 +69,7 @@ class SummaryStep extends React.Component<Props, State> {
         } else {
             try {
                 await purge();
-                await sendApplication(mapFormDataToApiData(formValues, barn, intl.locale as Locale));
+                await sendApplication(apiValues);
                 navigateTo(routeConfig.SØKNAD_SENDT_ROUTE, history);
             } catch (error) {
                 if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
@@ -100,6 +101,10 @@ class SummaryStep extends React.Component<Props, State> {
             <SøkerdataContextConsumer>
                 {({ person: { fornavn, mellomnavn, etternavn, fodselsnummer }, barn }: Søkerdata) => {
                     const apiValues = mapFormDataToApiData(formValues, barn, intl.locale as Locale);
+
+                    if (apiValues === undefined) {
+                        return <div>Det oppstod en feil</div>;
+                    }
                     const apiValuesValidationErrors = validateApiValues(apiValues, intl);
 
                     const {
@@ -114,7 +119,7 @@ class SummaryStep extends React.Component<Props, State> {
                     return (
                         <FormikStep
                             id={StepID.SUMMARY}
-                            onValidFormSubmit={() => this.navigate(barn)}
+                            onValidFormSubmit={() => this.navigate(apiValues)}
                             history={history}
                             useValidationErrorSummary={false}
                             showSubmitButton={apiValuesValidationErrors === undefined}
