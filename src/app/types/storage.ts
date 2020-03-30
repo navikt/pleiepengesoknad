@@ -1,7 +1,10 @@
-import { PleiepengesøknadFormData } from './PleiepengesøknadFormData';
 import { StepID } from '../config/stepConfig';
+import { PleiepengesøknadFormData } from './PleiepengesøknadFormData';
+
+export const MELLOMLAGRING_VERSION = '1';
 
 interface StorageMetadata {
+    version: string;
     lastStepID: StepID;
 }
 

@@ -5,12 +5,12 @@ import { StepID } from '../config/stepConfig';
 import { PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { ResourceType } from '../types/ResourceType';
-import { MellomlagringData } from '../types/storage';
+import { MELLOMLAGRING_VERSION, MellomlagringData } from '../types/storage';
 import { getApiUrlByResourceType, sendMultipartPostRequest } from '../utils/apiUtils';
 import { storageParser } from '../utils/parser';
 
 export const persist = (formData: PleiepengesøknadFormData, lastStepID: StepID) => {
-    const body: MellomlagringData = { formData, metadata: { lastStepID } };
+    const body: MellomlagringData = { formData, metadata: { lastStepID, version: MELLOMLAGRING_VERSION } };
     const url = `${getApiUrlByResourceType(ResourceType.MELLOMLAGRING)}?lastStepID=${encodeURI(lastStepID)}`;
     axios.post(url, { ...body }, axiosConfig);
 };
