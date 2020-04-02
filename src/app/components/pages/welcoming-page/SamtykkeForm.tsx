@@ -29,6 +29,7 @@ const SamtykkeForm: React.FunctionComponent<Props> = ({ onConfirm, onOpenDinePli
                 <AppForm.ConfirmationCheckbox
                     label={intlHelper(intl, 'welcomingPage.samtykke.tekst')}
                     name={AppFormField.harForståttRettigheterOgPlikter}
+                    data-cy={'harForståttRettigheterOgPlikter'}
                     validate={(value) => {
                         let result;
                         if (value !== true) {

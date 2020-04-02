@@ -10,7 +10,7 @@ describe('Pleiepenger for sykt barn fra Velkommen', () => {
         context('Sjekker default verdier i skjema', () => {
             it('Vi har kommet til steget Velkommen', () => {
                 it('Har checkboksen "Jeg har lest og forstått", som ikke er merket', () => {
-                    cy.get('#harForståttRettigheterOgPlikter').should('not.be.checked');
+                    cy.get('.bekreftCheckboksPanel input[type=checkbox]').should('not.be.checked');
                 });
             });
             context('Klikker på knappen "GÅ TIL SØKNADEN"', () => {
