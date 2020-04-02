@@ -20,7 +20,7 @@ interface Props {
 }
 
 const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape) => {
-    const land = getCountryName(virksomhet.registrert_i_land || 'NO', intl.locale);
+    const land = virksomhet.registrert_i_land ? virksomhet.registrert_i_land : getCountryName('NO', intl.locale);
     const næringstyper = virksomhet.naringstype.map((næring) => intlHelper(intl, `næringstype.${næring}`)).join(', ');
     const fiskerinfo = harFiskerNæringstype(virksomhet.naringstype)
         ? {

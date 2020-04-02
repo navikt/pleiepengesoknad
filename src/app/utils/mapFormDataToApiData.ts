@@ -15,6 +15,7 @@ import { mapTilsynsordningToApiData } from './formToApiMaps/mapTilsynsordningToA
 import { mapUtenlandsoppholdIPeriodenToApiData } from './formToApiMaps/mapUtenlandsoppholdIPeriodenToApiData';
 import { erPeriodeOver8Uker } from './søkerOver8UkerUtils';
 import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet } from './tidsromUtils';
+import { getCountryName } from '@navikt/sif-common-formik/lib';
 
 export const mapFormDataToApiData = (
     formData: PleiepengesøknadFormData,
@@ -141,9 +142,17 @@ export const mapFormDataToApiData = (
             const harHattInntektSomSn = formData.selvstendig_harHattInntektSomSN === YesOrNo.YES;
             apiData.har_hatt_inntekt_som_selvstendig_naringsdrivende = harHattInntektSomSn;
             if (harHattInntektSomSn) {
-                apiData.selvstendig_virksomheter = formData.selvstendig_virksomheter.map(
-                    mapVirksomhetToVirksomhetApiData
-                );
+                apiData.selvstendig_virksomheter = formData.selvstendig_virksomheter
+                    .map(mapVirksomhetToVirksomhetApiData)
+                    .map((v) => {
+                        if (v.registrert_i_land !== undefined) {
+                            return {
+                                ...v,
+                                registrert_i_land: getCountryName(v.registrert_i_land, sprak)
+                            };
+                        }
+                        return v;
+                    });
             }
         }
 
