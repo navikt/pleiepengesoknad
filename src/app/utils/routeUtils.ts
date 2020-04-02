@@ -1,17 +1,11 @@
-import { StepID, getStepConfig } from '../config/stepConfig';
 import RouteConfig from '../config/routeConfig';
+import { getStepConfig, StepID } from '../config/stepConfig';
 import { AppFormField, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import { appIsRunningInDevEnvironment, appIsRunningInDemoMode } from './envUtils';
+import { appIsRunningInDemoMode, appIsRunningInDevEnvironment } from './envUtils';
 import {
-    legeerklæringStepAvailable,
-    medlemskapStepAvailable,
-    arbeidsforholdStepAvailable,
-    opplysningerOmBarnetStepAvailable,
-    opplysningerOmTidsromStepAvailable,
-    summaryStepAvailable,
-    tilsynsordningStepAvailable,
-    nattevåkStepAvailable,
-    beredskapStepAvailable
+    arbeidsforholdStepAvailable, beredskapStepAvailable, legeerklæringStepAvailable,
+    medlemskapStepAvailable, nattevåkStepAvailable, opplysningerOmBarnetStepAvailable,
+    opplysningerOmTidsromStepAvailable, summaryStepAvailable, tilsynsordningStepAvailable
 } from './stepUtils';
 
 export const getSøknadRoute = (stepId: StepID | undefined) => {

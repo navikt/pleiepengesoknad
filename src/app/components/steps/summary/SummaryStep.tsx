@@ -16,7 +16,8 @@ import intlHelper from 'common/utils/intlUtils';
 import { formatName } from 'common/utils/personUtils';
 import ArbeidsforholdSummary from 'app/components/arbeidsforhold-summary/ArbeidsforholdSummary';
 import {
-    renderFerieuttakIPeriodenSummary, renderUtenlandsoppholdIPeriodenSummary,
+    renderFerieuttakIPeriodenSummary,
+    renderUtenlandsoppholdIPeriodenSummary,
     renderUtenlandsoppholdSummary
 } from 'app/components/steps/summary/renderUtenlandsoppholdSummary';
 import { Feature, isFeatureEnabled } from 'app/utils/featureToggleUtils';
@@ -104,6 +105,11 @@ class SummaryStep extends React.Component<Props, State> {
                         barn
                     } = søkerdata;
                     const apiValues = mapFormDataToApiData(values, barn, intl.locale as Locale);
+
+                    if (apiValues === undefined) {
+                        return <div>Det oppstod en feil</div>;
+                    }
+
                     const apiValuesValidationErrors = validateApiValues(apiValues, intl);
 
                     const {

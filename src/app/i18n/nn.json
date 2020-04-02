@@ -333,7 +333,7 @@
     "arbeidsforhold.erAnsattIPerioden.spm": "Er du ansatt her i perioden du søkjer pleiepengar?",
 
     "arbeidsforhold.arbeidsforhold.spm": "Skal du jobbe her mens du har pleiepengar?",
-    "arbeidsforhold.arbeidsforhold.ja": "Ja, eg skal jobbe som vanlig.",
+    "arbeidsforhold.arbeidsforhold.ja": "Ja, eg skal jobbe som vanleg.",
     "arbeidsforhold.arbeidsforhold.nei": "Nei, eg skal ikkje jobbe.",
     "arbeidsforhold.arbeidsforhold.vetIkke": "Veit ikkje, men eg melder frå dersom eg skal jobbe i perioden eg søkjer for.",
     "arbeidsforhold.arbeidsforhold.redusert": "Ja, men eg skal jobbe mindre enn vanleg.",
@@ -357,6 +357,7 @@
     "arbeidsforhold.oppsummering.svar.vet_ikke": "Eg veit ikkje om eg skal jobbe her i perioden eg søkjer for, men eg melder frå dersom eg skal gjere det. Jobber vanlegvis {timer} i veka.",
     "arbeidsforhold.oppsummering.svar.redusert.timer": "Skal jobbe {timerRedusert} i uka ({prosentRedusert} prosent av vanleg)",
     "arbeidsforhold.oppsummering.svar.redusert.prosent": "Skal jobbe {prosentRedusert} prosent av {timerNormalt} i veka.",
+    "arbeidsforhold.oppsummering.jobberNormalt": "Jobber vanlegvis {timer, plural, one {# time} other {# timer}} i veka.",
 
     "tilsynsordning.svar.ja": "Ja",
     "tilsynsordning.svar.nei": "Nei",

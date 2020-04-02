@@ -1,5 +1,8 @@
 import {
-    ArbeidsforholdApi, ArbeidsforholdApiNei, ArbeidsforholdApiRedusert, ArbeidsforholdApiSomVanlig,
+    ArbeidsforholdApi,
+    ArbeidsforholdApiNei,
+    ArbeidsforholdApiRedusert,
+    ArbeidsforholdApiSomVanlig,
     ArbeidsforholdApiVetIkke
 } from '../../types/PleiepengesøknadApiData';
 import { Arbeidsforhold, ArbeidsforholdSkalJobbeSvar } from '../../types/PleiepengesøknadFormData';

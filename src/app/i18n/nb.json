@@ -361,6 +361,7 @@
     "arbeidsforhold.oppsummering.svar.vet_ikke": "Jeg vet ikke om jeg skal jobbe her i perioden jeg søker for, men jeg melder fra hvis jeg skal gjøre det. Jobber vanligvis {timer} i uken.",
     "arbeidsforhold.oppsummering.svar.redusert.timer": "Skal jobbe {timerRedusert} i uka ({prosentRedusert} prosent av vanlig)",
     "arbeidsforhold.oppsummering.svar.redusert.prosent": "Skal jobbe {prosentRedusert} prosent av {timerNormalt} i uka.",
+    "arbeidsforhold.oppsummering.jobberNormalt": "Jobber vanligvis {timer, plural, one {# time} other {# timer}} i uken.",
 
     "tilsynsordning.svar.ja": "Ja",
     "tilsynsordning.svar.nei": "Nei",

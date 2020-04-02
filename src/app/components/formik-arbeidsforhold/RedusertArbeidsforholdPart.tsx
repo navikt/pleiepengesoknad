@@ -1,21 +1,18 @@
 import React from 'react';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
-import {
-    FormikInput, FormikRadioPanelGroup, SkjemagruppeQuestion
-} from '@navikt/sif-common-formik/lib';
 import { SkjemaGruppe } from 'nav-frontend-skjema';
 import Box from 'common/components/box/Box';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import intlHelper from 'common/utils/intlUtils';
 import { decimalTimeToTime } from 'common/utils/timeUtils';
 import { validateRequiredField } from 'common/validation/fieldValidations';
+import { AppFormField, Arbeidsforhold, ArbeidsforholdField } from '../../types/PleiepengesøknadFormData';
 import {
-    AppFormField, Arbeidsforhold, ArbeidsforholdField
-} from '../../types/PleiepengesøknadFormData';
-import {
-    calcReduserteTimerFromRedusertProsent, calcRedusertProsentFromRedusertTimer
+    calcReduserteTimerFromRedusertProsent,
+    calcRedusertProsentFromRedusertTimer
 } from '../../utils/arbeidsforholdUtils';
 import './timerInput.less';
+import { SkjemagruppeQuestion, FormikRadioPanelGroup, FormikInput } from '@navikt/sif-common-formik/lib';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
@@ -50,72 +47,68 @@ const RedusertArbeidsforholdPart: React.FunctionComponent<Props> = ({
     getFieldName
 }) => {
     const intl = useIntl();
-    return (
+    return jobberNormaltTimer ? (
         <>
-            {jobberNormaltTimer !== undefined && (
+            <Box margin="l">
+                <FormikRadioPanelGroup<AppFormField>
+                    name={getFieldName(ArbeidsforholdField.timerEllerProsent)}
+                    legend={intlHelper(intl, 'arbeidsforhold.hvorMye.spm')}
+                    validate={validateRequiredField}
+                    useTwoColumns={true}
+                    radios={[
+                        {
+                            label: intlHelper(intl, 'arbeidsforhold.hvorMye.timer'),
+                            value: 'timer'
+                        },
+                        {
+                            label: intlHelper(intl, 'arbeidsforhold.hvorMye.prosent'),
+                            value: 'prosent'
+                        }
+                    ]}
+                />{' '}
+            </Box>
+            {timerEllerProsent === 'timer' && (
+                <Box margin="l">
+                    <SkjemagruppeQuestion legend={intlHelper(intl, 'arbeidsforhold.timer.spm')}>
+                        <FormikInput<AppFormField>
+                            name={getFieldName(ArbeidsforholdField.skalJobbeTimer)}
+                            type="number"
+                            label={getLabelForTimerRedusert(intl, jobberNormaltTimer, skalJobbeTimer)}
+                            validate={validateRequiredField}
+                            className="skjemaelement--timer-input"
+                            value={skalJobbeTimer || ''}
+                            min={0}
+                            max={100}
+                        />
+                    </SkjemagruppeQuestion>
+                </Box>
+            )}
+
+            {timerEllerProsent === 'prosent' && (
                 <>
                     <Box margin="l">
-                        <FormikRadioPanelGroup<AppFormField>
-                            name={getFieldName(ArbeidsforholdField.timerEllerProsent)}
-                            legend={intlHelper(intl, 'arbeidsforhold.hvorMye.spm')}
-                            validate={validateRequiredField}
-                            useTwoColumns={true}
-                            radios={[
-                                {
-                                    label: intlHelper(intl, 'arbeidsforhold.hvorMye.timer'),
-                                    value: 'timer'
-                                },
-                                {
-                                    label: intlHelper(intl, 'arbeidsforhold.hvorMye.prosent'),
-                                    value: 'prosent'
-                                }
-                            ]}
-                        />
+                        <SkjemaGruppe legend={intlHelper(intl, 'arbeidsforhold.prosent.spm')}>
+                            <FormikInput<AppFormField>
+                                name={getFieldName(ArbeidsforholdField.skalJobbeProsent)}
+                                type="number"
+                                label={getLabelForProsentRedusert(intl, jobberNormaltTimer, skalJobbeProsent)}
+                                validate={validateRequiredField}
+                                className="skjemaelement--timer-input"
+                                value={skalJobbeProsent || ''}
+                                min={0}
+                                max={100}
+                            />
+                        </SkjemaGruppe>
                     </Box>
-                    {timerEllerProsent === 'timer' && (
-                        <Box margin="l">
-                            <SkjemagruppeQuestion legend={intlHelper(intl, 'arbeidsforhold.timer.spm')}>
-                                <FormikInput<AppFormField>
-                                    name={getFieldName(ArbeidsforholdField.skalJobbeTimer)}
-                                    type="number"
-                                    label={getLabelForTimerRedusert(intl, jobberNormaltTimer, skalJobbeTimer)}
-                                    validate={validateRequiredField}
-                                    className="skjemaelement--timer-input"
-                                    value={skalJobbeTimer || ''}
-                                    min={0}
-                                    max={100}
-                                />
-                            </SkjemagruppeQuestion>
-                        </Box>
-                    )}
-
-                    {timerEllerProsent === 'prosent' && (
-                        <>
-                            <Box margin="l">
-                                <SkjemaGruppe legend={intlHelper(intl, 'arbeidsforhold.prosent.spm')}>
-                                    <FormikInput<AppFormField>
-                                        name={getFieldName(ArbeidsforholdField.skalJobbeProsent)}
-                                        type="number"
-                                        label={getLabelForProsentRedusert(intl, jobberNormaltTimer, skalJobbeProsent)}
-                                        validate={validateRequiredField}
-                                        className="skjemaelement--timer-input"
-                                        value={skalJobbeProsent || ''}
-                                        min={0}
-                                        max={100}
-                                    />
-                                </SkjemaGruppe>
-                            </Box>
-                            <Box margin="xl">
-                                <CounsellorPanel>
-                                    <FormattedMessage id="arbeidsforhold.prosent.veileder" />
-                                </CounsellorPanel>
-                            </Box>
-                        </>
-                    )}
+                    <Box margin="xl">
+                        <CounsellorPanel>
+                            <FormattedMessage id="arbeidsforhold.prosent.veileder" />
+                        </CounsellorPanel>
+                    </Box>
                 </>
             )}
         </>
-    );
+    ) : null;
 };
 
 export default RedusertArbeidsforholdPart;
