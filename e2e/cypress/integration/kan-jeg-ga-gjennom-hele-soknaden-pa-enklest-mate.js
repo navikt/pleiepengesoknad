@@ -16,7 +16,14 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
             cy.route('/mellomlagring', {}); // mellomlagring må slås av.
         });
         before('gå til startsiden', () => {
-            cy.visit('/velkommen');
+            cy.visit('/');
+        });
+
+        it('INTROSIDE', () => {
+            cy.get('[type="radio"]')
+                .last()
+                .check({ force: true }); // Må, bruke force her, pga cypress tror radio-knappen har størrelse (0,0)
+            cy.get('a[href*="/soknad/velkommen"]').click();
         });
         it('VELKOMMEN SIDE', () => {
             cy.get('.bekreftCheckboksPanel label').click();
