@@ -15,6 +15,7 @@ import {
 import { validateReduserteArbeidProsent } from '../../validation/fieldValidations';
 import AppForm from '../app-form/AppForm';
 import RedusertArbeidsforholdPart from './RedusertArbeidsforholdPart';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
@@ -35,7 +36,7 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                             validate={validateYesOrNoIsAnswered}
                         />
                         {arbeidsforhold.erAnsattIPerioden === YesOrNo.YES && (
-                            <Box padBottom="m">
+                            <FormBlock>
                                 <AppForm.RadioPanelGroup
                                     legend={intlHelper(intl, 'arbeidsforhold.arbeidsforhold.spm')}
                                     name={getFieldName(ArbeidsforholdField.skalJobbe)}
@@ -87,7 +88,7 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                                         getFieldName={getFieldName}
                                     />
                                 )}
-                            </Box>
+                            </FormBlock>
                         )}
                     </Box>
                 );
