@@ -9,17 +9,21 @@ import { Locale } from 'common/types/Locale';
 const selvstendigMessagesNb = require('../../i18n/selvstendigOgFrilans.nb.json');
 const selvstendigMessagesNn = require('../../i18n/selvstendigOgFrilans.nn.json');
 
+import bostedMessages from '@navikt/sif-common-forms/lib/bosted-utland/bostedUtlandMessages';
+
 const appBokmålstekster = require('../../i18n/nb.json');
 const appNynorsktekster = require('../../i18n/nn.json');
 
 const bokmålstekster = {
     ...allCommonMessages.nb,
     ...appBokmålstekster,
+    ...bostedMessages.nb,
     ...selvstendigMessagesNb
 };
 const nynorsktekster = {
     ...allCommonMessages.nn,
     ...appNynorsktekster,
+    ...bostedMessages.nn,
     ...selvstendigMessagesNn
 };
 
