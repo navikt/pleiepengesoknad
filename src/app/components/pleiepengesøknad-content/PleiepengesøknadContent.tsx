@@ -184,7 +184,7 @@ const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContent
                 />
             )}
 
-            {isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, values) && søknadHasBeenSent === true && (
+            {isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, values, søknadHasBeenSent) && (
                 <Route
                     path={RouteConfig.SØKNAD_SENDT_ROUTE}
                     render={() => <ConfirmationPage kvitteringInfo={kvitteringInfo} />}
