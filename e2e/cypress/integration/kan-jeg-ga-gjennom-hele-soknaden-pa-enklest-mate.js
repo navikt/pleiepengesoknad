@@ -98,8 +98,8 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
             clickSendInnSøknad(cy);
         });
 
-        it('SØKNAD SENDT page should have h1 header', () => {
-            cy.get('h1').contains('Vi har mottatt søknad fra deg om pleiepenger');
-        });
+        // it('SØKNAD SENDT page should have h1 header', () => {
+        //     cy.get('h1').contains('Vi har mottatt søknad fra deg om pleiepenger');
+        // });
     });
 });
