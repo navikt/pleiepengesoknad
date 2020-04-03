@@ -2,8 +2,7 @@
 
 ![CI / CD](https://github.com/navikt/pleiepengesoknad/workflows/CI%20/%20CD/badge.svg)
 
-Kildekoden til frontend-appen for ny selvbetjeningsløsning for
-søknad om pleiepenger for sykt barn og voksen over 18.
+Kildekoden til frontend-appen for ny selvbetjeningsløsning for søknad om pleiepenger for sykt barn og voksen over 18.
 
 ## Komme i gang
 
