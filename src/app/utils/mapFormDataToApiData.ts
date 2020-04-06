@@ -12,15 +12,27 @@ import { mapBarnToApiData } from './formToApiMaps/mapBarnToApiData';
 import { mapBostedUtlandToApiData } from './formToApiMaps/mapBostedUtlandToApiData';
 import { mapFrilansToApiData } from './formToApiMaps/mapFrilansToApiData';
 import { mapTilsynsordningToApiData } from './formToApiMaps/mapTilsynsordningToApiData';
-import {
-    mapUtenlandsoppholdIPeriodenToApiData
-} from './formToApiMaps/mapUtenlandsoppholdIPeriodenToApiData';
+import { mapUtenlandsoppholdIPeriodenToApiData } from './formToApiMaps/mapUtenlandsoppholdIPeriodenToApiData';
 import { erPeriodeOver8Uker } from './søkerOver8UkerUtils';
+
+export const getValidSpråk = (locale?: any): Locale => {
+    const loc = typeof locale === 'string' ? locale : 'nb';
+    try {
+        switch (loc.toLowerCase()) {
+            case 'nn':
+                return 'nn';
+            default:
+                return 'nb';
+        }
+    } catch {
+        return 'nb';
+    }
+};
 
 export const mapFormDataToApiData = (
     formData: PleiepengesøknadFormData,
     barn: BarnReceivedFromApi[],
-    sprak: Locale = 'nb'
+    locale: Locale = 'nb'
 ): PleiepengesøknadApiData | undefined => {
     const {
         barnetsNavn,
@@ -60,9 +72,11 @@ export const mapFormDataToApiData = (
             barnetSøknadenGjelder
         );
 
+        const sprak = getValidSpråk(locale);
+
         const apiData: PleiepengesøknadApiData = {
             new_version: true,
-            sprak: (sprak as any) === 'en' ? 'nn' : sprak,
+            sprak,
             barn: barnObject,
             arbeidsgivere: {
                 organisasjoner: arbeidsforhold
