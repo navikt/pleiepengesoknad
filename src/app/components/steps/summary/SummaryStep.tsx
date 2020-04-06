@@ -104,6 +104,7 @@ class SummaryStep extends React.Component<Props, State> {
                         person: { fornavn, mellomnavn, etternavn, fodselsnummer },
                         barn
                     } = søkerdata;
+
                     const apiValues = mapFormDataToApiData(values, barn, intl.locale as Locale);
 
                     if (apiValues === undefined) {

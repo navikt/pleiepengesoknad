@@ -17,10 +17,19 @@ import { erPeriodeOver8Uker } from './søkerOver8UkerUtils';
 import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet } from './tidsromUtils';
 import { getCountryName } from '@navikt/sif-common-formik/lib';
 
+const getValidSpråk = (locale?: any): Locale => {
+    switch (locale) {
+        case 'nn':
+            return 'nn';
+        default:
+            return 'nb';
+    }
+};
+
 export const mapFormDataToApiData = (
     formData: PleiepengesøknadFormData,
     barn: BarnReceivedFromApi[],
-    sprak: Locale = 'nb'
+    locale: Locale = 'nb'
 ): PleiepengesøknadApiData | undefined => {
     const {
         barnetsNavn,
@@ -60,9 +69,10 @@ export const mapFormDataToApiData = (
             barnetSøknadenGjelder
         );
 
+        const sprak = getValidSpråk(locale);
         const apiData: PleiepengesøknadApiData = {
             new_version: true,
-            sprak: (sprak as any) === 'en' ? 'nn' : sprak,
+            sprak,
             barn: barnObject,
             arbeidsgivere: {
                 organisasjoner: arbeidsforhold
