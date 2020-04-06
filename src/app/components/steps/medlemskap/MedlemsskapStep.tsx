@@ -15,11 +15,27 @@ import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import BostedsoppholdIUtlandetFormPart from './BostedsoppholdIUtlandetFormPart';
 import { medlemskapQuestions } from './medlemskapConfig';
+import moment from 'moment';
+import { BostedUtland } from '@navikt/sif-common-forms/lib/bosted-utland/types';
+
+const getFomForBostedNeste12 = (bosted: BostedUtland[]): Date => {
+    const sisteBosted = bosted.length > 0 ? bosted[bosted.length - 1] : undefined;
+    if (sisteBosted) {
+        return moment(sisteBosted.tom).isSame(dateToday, 'day')
+            ? moment(dateToday)
+                  .add(1, 'day')
+                  .toDate()
+            : dateToday;
+    }
+    return dateToday;
+};
 
 const MedlemsskapStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) => {
     const { values } = useFormikContext<PleiepengesøknadFormData>();
     const intl = useIntl();
     const questions = medlemskapQuestions.getVisbility(values);
+
+    const neste12FomDate = getFomForBostedNeste12(values.utenlandsoppholdSiste12Mnd);
 
     return (
         <FormikStep id={StepID.MEDLEMSKAP} onValidFormSubmit={onValidSubmit}>
@@ -63,7 +79,7 @@ const MedlemsskapStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubm
             {questions.isVisible(AppFormField.utenlandsoppholdNeste12Mnd) && (
                 <FormBlock margin="l">
                     <BostedsoppholdIUtlandetFormPart
-                        periode={{ from: dateToday, to: date1YearFromNow }}
+                        periode={{ from: neste12FomDate, to: date1YearFromNow }}
                         name={AppFormField.utenlandsoppholdNeste12Mnd}
                         labels={{
                             addLabel: 'Legg til nytt utenlandsopphold',
