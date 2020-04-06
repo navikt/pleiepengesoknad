@@ -6,17 +6,23 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import * as attachmentUtils from 'common/utils/attachmentUtils';
 import * as dateUtils from 'common/utils/dateUtils';
 import {
-    ArbeidsforholdApiNei, ArbeidsforholdApiRedusert, ArbeidsforholdApiVetIkke,
-    PleiepengesøknadApiData, UtenlandsoppholdIPeriodenApiData,
+    ArbeidsforholdApiNei,
+    ArbeidsforholdApiRedusert,
+    ArbeidsforholdApiVetIkke,
+    PleiepengesøknadApiData,
+    UtenlandsoppholdIPeriodenApiData,
     UtenlandsoppholdUtenforEøsIPeriodenApiData
 } from '../../types/PleiepengesøknadApiData';
 import {
-    AppFormField, Arbeidsforhold, ArbeidsforholdSkalJobbeSvar, PleiepengesøknadFormData
+    AppFormField,
+    Arbeidsforhold,
+    ArbeidsforholdSkalJobbeSvar,
+    PleiepengesøknadFormData
 } from '../../types/PleiepengesøknadFormData';
 import { Arbeidsgiver, BarnReceivedFromApi } from '../../types/Søkerdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
 import { jsonSort } from '../jsonSort';
-import { mapFormDataToApiData } from '../mapFormDataToApiData';
+import { mapFormDataToApiData, getValidSpråk } from '../mapFormDataToApiData';
 
 const moment = require('moment');
 
@@ -810,5 +816,21 @@ describe('Test complete applications', () => {
         expect(
             JSON.stringify(jsonSort(mapFeaturesOnData({ ...featuresOnFormData, ...feature8UkerUnder8ukerFormData })))
         ).toEqual(JSON.stringify(jsonSort({ ...resultApiDataWithFeatures, ...feature8UkerUnder8UkerApiData })));
+    });
+});
+
+describe('getValidSpråk', () => {
+    it('always returns nn if selected', () => {
+        expect(getValidSpråk('nn')).toBe('nn');
+        expect(getValidSpråk('NN')).toBe('nn');
+    });
+    it('returns nb in all other cases than nn', () => {
+        expect(getValidSpråk()).toBe('nb');
+        expect(getValidSpråk(null)).toBe('nb');
+        expect(getValidSpråk(undefined)).toBe('nb');
+        expect(getValidSpråk('nb')).toBe('nb');
+        expect(getValidSpråk('en')).toBe('nb');
+        expect(getValidSpråk('NB')).toBe('nb');
+        expect(getValidSpråk('nn')).toBe('nn');
     });
 });
