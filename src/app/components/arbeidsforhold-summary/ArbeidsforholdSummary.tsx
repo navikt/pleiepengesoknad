@@ -55,6 +55,14 @@ const ArbeidsforholdSummary: React.FunctionComponent<OwnProps> = ({
                                     prosentRedusert: skal_jobbe_prosent
                                 }}
                             />
+                            {jobber_normalt_timer && (
+                                <>
+                                    <FormattedMessage
+                                        id={'arbeidsforhold.oppsummering.jobberNormalt'}
+                                        values={{ timer: jobber_normalt_timer }}
+                                    />
+                                </>
+                            )}
                         </Normaltekst>
                     )}
                 </div>
@@ -73,6 +81,15 @@ const ArbeidsforholdSummary: React.FunctionComponent<OwnProps> = ({
                 <div className={bem.element('detaljer')}>
                     <Normaltekst>
                         <FormattedMessage id={`arbeidsforhold.oppsummering.svar.${skal_jobbe}`} />
+                        {jobber_normalt_timer && (
+                            <>
+                                .{' '}
+                                <FormattedMessage
+                                    id={'arbeidsforhold.oppsummering.jobberNormalt'}
+                                    values={{ timer: jobber_normalt_timer }}
+                                />
+                            </>
+                        )}
                     </Normaltekst>
                 </div>
             )}

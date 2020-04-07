@@ -43,7 +43,8 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
         const vetIkkeForhold: ArbeidsforholdApiVetIkke = {
             ...orgInfo,
             skal_jobbe: 'vet_ikke',
-            jobber_normalt_timer: jobberNormaltTimer
+            jobber_normalt_timer: jobberNormaltTimer,
+            skal_jobbe_prosent: 0
         };
         return vetIkkeForhold;
     }
@@ -51,14 +52,16 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
         const forhold: ArbeidsforholdApiNei = {
             ...orgInfo,
             skal_jobbe: 'nei',
-            skal_jobbe_prosent: 0
+            skal_jobbe_prosent: 0,
+            jobber_normalt_timer: jobberNormaltTimer
         };
         return forhold;
     }
     const forholdSomVanlig: ArbeidsforholdApiSomVanlig = {
         ...orgInfo,
         skal_jobbe: 'ja',
-        skal_jobbe_prosent: 100
+        skal_jobbe_prosent: 100,
+        jobber_normalt_timer: jobberNormaltTimer
     };
     return forholdSomVanlig;
 };

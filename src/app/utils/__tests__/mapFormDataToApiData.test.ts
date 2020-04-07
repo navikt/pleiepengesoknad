@@ -6,17 +6,23 @@ import { YesOrNo } from 'common/types/YesOrNo';
 import * as attachmentUtils from 'common/utils/attachmentUtils';
 import * as dateUtils from 'common/utils/dateUtils';
 import {
-    ArbeidsforholdApiNei, ArbeidsforholdApiRedusert, ArbeidsforholdApiVetIkke,
-    PleiepengesøknadApiData, UtenlandsoppholdIPeriodenApiData,
+    ArbeidsforholdApiNei,
+    ArbeidsforholdApiRedusert,
+    ArbeidsforholdApiVetIkke,
+    PleiepengesøknadApiData,
+    UtenlandsoppholdIPeriodenApiData,
     UtenlandsoppholdUtenforEøsIPeriodenApiData
 } from '../../types/PleiepengesøknadApiData';
 import {
-    AppFormField, Arbeidsforhold, ArbeidsforholdSkalJobbeSvar, PleiepengesøknadFormData
+    AppFormField,
+    Arbeidsforhold,
+    ArbeidsforholdSkalJobbeSvar,
+    PleiepengesøknadFormData
 } from '../../types/PleiepengesøknadFormData';
 import { Arbeidsgiver, BarnReceivedFromApi } from '../../types/Søkerdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
 import { jsonSort } from '../jsonSort';
-import { mapFormDataToApiData } from '../mapFormDataToApiData';
+import { mapFormDataToApiData, getValidSpråk } from '../mapFormDataToApiData';
 
 const moment = require('moment');
 
@@ -71,6 +77,13 @@ const maxboVetIkke = {
     skalJobbe: ArbeidsforholdSkalJobbeSvar.vetIkke,
     jobberNormaltTimer: 20,
     vetIkkeEkstrainfo: 'ekstrainfo'
+};
+
+const maxboJobbeSomVanlig = {
+    ...organisasjonMaxbo,
+    erAnsattIPerioden: YesOrNo.YES,
+    skalJobbe: ArbeidsforholdSkalJobbeSvar.ja,
+    jobberNormaltTimer: 20
 };
 
 type AttachmentMock = Attachment & { failed: boolean };
@@ -196,7 +209,7 @@ describe('mapFormDataToApiData', () => {
 
     beforeAll(() => {
         (isFeatureEnabled as any).mockImplementation(() => false);
-        resultingApiData = mapFormDataToApiData(formDataMock as PleiepengesøknadFormData, barnMock, 'nb');
+        resultingApiData = mapFormDataToApiData(formDataMock as PleiepengesøknadFormData, barnMock, 'nb')!;
     });
 
     it("should set 'barnetsNavn' in api data correctly", () => {
@@ -240,7 +253,10 @@ describe('mapFormDataToApiData', () => {
             [AppFormField.barnetsFødselsnummer]: fnr
         };
         const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock, 'nb');
-        expect(result.barn.fodselsnummer).toEqual(fnr);
+        expect(result).toBeDefined();
+        if (result) {
+            expect(result.barn.fodselsnummer).toEqual(fnr);
+        }
     });
 
     it("should set 'fodselsdato' in api data to null if it doesnt exist, and otherwise it should assign value to 'fodselsdato' in api data", () => {
@@ -251,7 +267,10 @@ describe('mapFormDataToApiData', () => {
             [AppFormField.barnetsFødselsdato]: fdato
         };
         const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock, 'nb');
-        expect(result.barn.fodselsdato).toEqual(dateUtils.formatDateToApiFormat(fdato));
+        expect(result).toBeDefined();
+        if (result) {
+            expect(result.barn.fodselsdato).toEqual(dateUtils.formatDateToApiFormat(fdato));
+        }
     });
 
     it('should set har_bekreftet_opplysninger to value of harBekreftetOpplysninger in form data', () => {
@@ -277,68 +296,137 @@ describe('mapFormDataToApiData', () => {
     });
     it('should not include samtidig_hjemme if harMedsøker is no', () => {
         const resultingApiData = mapFormDataToApiData({ ...formData, harMedsøker: YesOrNo.NO }, barnMock, 'nb');
-        expect(resultingApiData.samtidig_hjemme).toBeUndefined();
+        expect(resultingApiData).toBeDefined();
+        if (resultingApiData) {
+            expect(resultingApiData.samtidig_hjemme).toBeUndefined();
+        }
     });
 
     it('should include samtidig_hjemme if harMedsøker is yes', () => {
         const dataHarMedsøker = { ...formData, harMedsøker: YesOrNo.YES };
         const resultingApiData = mapFormDataToApiData(dataHarMedsøker, barnMock, 'nb');
-        expect(resultingApiData.samtidig_hjemme).toBeDefined();
+        expect(resultingApiData).toBeDefined();
+        if (resultingApiData) {
+            expect(resultingApiData.samtidig_hjemme).toBeDefined();
+        }
     });
 
     it('should include prosentAvVanligUke when skalJobbe is redusert', () => {
-        const resultApiData = mapFormDataToApiData(
+        const resultingApiData = mapFormDataToApiData(
             { ...formData, arbeidsforhold: [telenorRedusertJobbing] },
             barnMock,
             'nb'
         );
-        const result: ArbeidsforholdApiRedusert = {
-            ...organisasjonTelenor,
-            jobber_normalt_timer: 20,
-            skal_jobbe: 'redusert',
-            skal_jobbe_prosent: 50
-        };
-        expect(resultApiData.arbeidsgivere.organisasjoner).toEqual([result]);
+        expect(resultingApiData).toBeDefined();
+        if (resultingApiData) {
+            const result: ArbeidsforholdApiRedusert = {
+                ...organisasjonTelenor,
+                jobber_normalt_timer: 20,
+                skal_jobbe: 'redusert',
+                skal_jobbe_prosent: 50
+            };
+            expect(resultingApiData.arbeidsgivere.organisasjoner).toEqual([result]);
+        }
     });
+
+    describe('should always include jobber_normalt_timer and skal_jobbe_prosent', () => {
+        it('when skalJobbe is nei', () => {
+            const resultingApiData = mapFormDataToApiData(
+                { ...formData, arbeidsforhold: [maxboIngenJobbing] },
+                barnMock,
+                'nb'
+            );
+            expect(resultingApiData?.arbeidsgivere.organisasjoner[0].jobber_normalt_timer).toBeDefined();
+            expect(resultingApiData?.arbeidsgivere.organisasjoner[0].skal_jobbe_prosent).toBeDefined();
+        });
+        it('when skalJobbe is vetIkke', () => {
+            const resultingApiData = mapFormDataToApiData(
+                { ...formData, arbeidsforhold: [maxboVetIkke] },
+                barnMock,
+                'nb'
+            );
+            expect(resultingApiData?.arbeidsgivere.organisasjoner[0].jobber_normalt_timer).toBeDefined();
+            expect(resultingApiData?.arbeidsgivere.organisasjoner[0].skal_jobbe_prosent).toBeDefined();
+        });
+        it('when skalJobbe is redusert', () => {
+            const resultingApiData = mapFormDataToApiData(
+                { ...formData, arbeidsforhold: [telenorRedusertJobbing] },
+                barnMock,
+                'nb'
+            );
+            expect(resultingApiData?.arbeidsgivere.organisasjoner[0].jobber_normalt_timer).toBeDefined();
+            expect(resultingApiData?.arbeidsgivere.organisasjoner[0].skal_jobbe_prosent).toBeDefined();
+        });
+        it('when skalJobbe is somVanlig', () => {
+            const resultingApiData = mapFormDataToApiData(
+                {
+                    ...formData,
+                    arbeidsforhold: [maxboJobbeSomVanlig]
+                },
+                barnMock,
+                'nb'
+            );
+            expect(resultingApiData?.arbeidsgivere.organisasjoner[0].jobber_normalt_timer).toBeDefined();
+            expect(resultingApiData?.arbeidsgivere.organisasjoner[0].skal_jobbe_prosent).toBeDefined();
+        });
+    });
+
     it('should include prosentAvVanligUke when skalJobbe is nei', () => {
-        const {
-            arbeidsgivere: { organisasjoner }
-        } = mapFormDataToApiData({ ...formData, arbeidsforhold: [maxboIngenJobbing] }, barnMock, 'nb');
-        const result: ArbeidsforholdApiNei = {
-            ...organisasjonMaxbo,
-            skal_jobbe: 'nei',
-            skal_jobbe_prosent: 0
-        };
-        expect(organisasjoner).toEqual([result]);
+        const resultingApiData = mapFormDataToApiData(
+            { ...formData, arbeidsforhold: [maxboIngenJobbing] },
+            barnMock,
+            'nb'
+        );
+        expect(resultingApiData).toBeDefined();
+        if (resultingApiData) {
+            const {
+                arbeidsgivere: { organisasjoner }
+            } = resultingApiData;
+            const result: ArbeidsforholdApiNei = {
+                ...organisasjonMaxbo,
+                skal_jobbe: 'nei',
+                skal_jobbe_prosent: 0,
+                jobber_normalt_timer: 20
+            };
+            expect(JSON.stringify(jsonSort(organisasjoner))).toEqual(JSON.stringify(jsonSort([result])));
+        }
     });
 
     it('should include correct arbeidsforhold when skalJobbe is vet_ikke', () => {
-        const {
-            arbeidsgivere: { organisasjoner }
-        } = mapFormDataToApiData({ ...formData, arbeidsforhold: [maxboVetIkke] }, barnMock, 'nb');
-        const result: ArbeidsforholdApiVetIkke = {
-            ...organisasjonMaxbo,
-            jobber_normalt_timer: 20,
-            skal_jobbe: 'vet_ikke'
-        };
-        expect(organisasjoner).toEqual([result]);
-        expect(organisasjoner[0].skal_jobbe_timer).toBeUndefined();
-        expect(organisasjoner[0].skal_jobbe_prosent).toBeUndefined();
+        const resultingApiData = mapFormDataToApiData({ ...formData, arbeidsforhold: [maxboVetIkke] }, barnMock, 'nb');
+        expect(resultingApiData).toBeDefined();
+        if (resultingApiData) {
+            const {
+                arbeidsgivere: { organisasjoner }
+            } = resultingApiData;
+            const result: ArbeidsforholdApiVetIkke = {
+                ...organisasjonMaxbo,
+                jobber_normalt_timer: 20,
+                skal_jobbe: 'vet_ikke',
+                skal_jobbe_prosent: 0
+            };
+            expect(organisasjoner).toEqual([result]);
+            expect(organisasjoner[0].skal_jobbe_timer).toBeUndefined();
+        }
     });
 
     it('should not include arbeidsforhold where user is not ansatt', () => {
-        const {
-            arbeidsgivere: { organisasjoner }
-        } = mapFormDataToApiData(
+        const resultingApiData = mapFormDataToApiData(
             { ...formData, arbeidsforhold: [{ ...maxboVetIkke, erAnsattIPerioden: YesOrNo.NO }] },
             barnMock,
             'nb'
         );
-        expect(organisasjoner).toEqual([]);
+        expect(resultingApiData).toBeDefined();
+        if (resultingApiData) {
+            const {
+                arbeidsgivere: { organisasjoner }
+            } = resultingApiData;
+            expect(organisasjoner).toEqual([]);
+        }
     });
 
     it('should not include utenlandsoppholdIPerioden if skalOppholdeSegIUtlandet is NO', () => {
-        const { utenlandsopphold_i_perioden } = mapFormDataToApiData(
+        const resultingApiData = mapFormDataToApiData(
             {
                 ...formData,
                 skalOppholdeSegIUtlandetIPerioden: YesOrNo.NO,
@@ -353,11 +441,15 @@ describe('mapFormDataToApiData', () => {
             barnMock,
             'nb'
         );
-        expect(utenlandsopphold_i_perioden!.opphold.length).toBe(0);
+        expect(resultingApiData).toBeDefined();
+        if (resultingApiData) {
+            const { utenlandsopphold_i_perioden } = resultingApiData;
+            expect(utenlandsopphold_i_perioden!.opphold.length).toBe(0);
+        }
     });
 
     it('should include utenlandsoppholdIPerioden if skalOppholdeSegIUtlandet is YES', () => {
-        const { utenlandsopphold_i_perioden } = mapFormDataToApiData(
+        const resultingApiData = mapFormDataToApiData(
             {
                 ...formData,
                 skalOppholdeSegIUtlandetIPerioden: YesOrNo.YES,
@@ -372,12 +464,16 @@ describe('mapFormDataToApiData', () => {
             barnMock,
             'nb'
         );
-        expect(utenlandsopphold_i_perioden).toBeDefined();
-        expect(utenlandsopphold_i_perioden!.opphold.length).toBe(1);
+        expect(resultingApiData).toBeDefined();
+        if (resultingApiData) {
+            const { utenlandsopphold_i_perioden } = resultingApiData;
+            expect(utenlandsopphold_i_perioden).toBeDefined();
+            expect(utenlandsopphold_i_perioden!.opphold.length).toBe(1);
+        }
     });
 
     it('should not include ferieuttakIPerioden if skalTaUtFerieIPerioden is NO', () => {
-        const { ferieuttak_i_perioden } = mapFormDataToApiData(
+        const resultingApiData = mapFormDataToApiData(
             {
                 ...formData,
                 skalTaUtFerieIPerioden: YesOrNo.NO,
@@ -391,12 +487,16 @@ describe('mapFormDataToApiData', () => {
             barnMock,
             'nb'
         );
-        expect(ferieuttak_i_perioden).toBeDefined();
-        expect(ferieuttak_i_perioden!.ferieuttak.length).toBe(0);
+        expect(resultingApiData).toBeDefined();
+        if (resultingApiData) {
+            const { ferieuttak_i_perioden } = resultingApiData;
+            expect(ferieuttak_i_perioden).toBeDefined();
+            expect(ferieuttak_i_perioden!.ferieuttak.length).toBe(0);
+        }
     });
 
     it('should include ferieuttakIPerioden if skalTaUtFerieIPerioden is YES', () => {
-        const { ferieuttak_i_perioden } = mapFormDataToApiData(
+        const resultingApiData = mapFormDataToApiData(
             {
                 ...formData,
                 skalTaUtFerieIPerioden: YesOrNo.YES,
@@ -410,15 +510,22 @@ describe('mapFormDataToApiData', () => {
             barnMock,
             'nb'
         );
-        expect(ferieuttak_i_perioden!.ferieuttak.length).toBe(1);
+        expect(resultingApiData).toBeDefined();
+        if (resultingApiData) {
+            const { ferieuttak_i_perioden } = resultingApiData;
+            expect(ferieuttak_i_perioden!.ferieuttak.length).toBe(1);
+        }
     });
 
     describe('frilanser part', () => {
         it('should map frilanserdata if user har answered yes to question about frilans', () => {
             const formDataWithFrilansInfo = { ...formData, ...frilansPartialFormData };
             const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
-            expect(mappedData.har_hatt_inntekt_som_frilanser).toBeTruthy();
-            expect(mappedData.frilans).toBeDefined();
+            expect(mappedData).toBeDefined();
+            if (mappedData) {
+                expect(mappedData.har_hatt_inntekt_som_frilanser).toBeTruthy();
+                expect(mappedData.frilans).toBeDefined();
+            }
         });
 
         describe('Frilans toggle', () => {
@@ -430,8 +537,11 @@ describe('mapFormDataToApiData', () => {
                     harHattInntektSomFrilanser: YesOrNo.NO
                 };
                 const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
-                expect(mappedData.frilans).toBeUndefined();
-                expect(mappedData.har_hatt_inntekt_som_frilanser).toBeUndefined();
+                expect(mappedData).toBeDefined();
+                if (mappedData) {
+                    expect(mappedData.frilans).toBeUndefined();
+                    expect(mappedData.har_hatt_inntekt_som_frilanser).toBeUndefined();
+                }
             });
 
             it('should include frilanserdata if TOGGLE_FRILANS === on', () => {
@@ -442,8 +552,11 @@ describe('mapFormDataToApiData', () => {
                     harHattInntektSomFrilanser: YesOrNo.NO
                 };
                 const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
-                expect(mappedData.har_hatt_inntekt_som_frilanser).toBeFalsy();
-                expect(mappedData.frilans).toBeDefined();
+                expect(mappedData).toBeDefined();
+                if (mappedData) {
+                    expect(mappedData.har_hatt_inntekt_som_frilanser).toBeFalsy();
+                    expect(mappedData.frilans).toBeDefined();
+                }
             });
         });
         describe('Selvstendig toggle', () => {
@@ -455,8 +568,11 @@ describe('mapFormDataToApiData', () => {
                     harHattInntektSomFrilanser: YesOrNo.NO
                 };
                 const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
-                expect(mappedData.frilans).toBeUndefined();
-                expect(mappedData.har_hatt_inntekt_som_frilanser).toBeUndefined();
+                expect(mappedData).toBeDefined();
+                if (mappedData) {
+                    expect(mappedData.frilans).toBeUndefined();
+                    expect(mappedData.har_hatt_inntekt_som_frilanser).toBeUndefined();
+                }
             });
 
             it('should include selvstendig info TOGGLE_SELVSTENDIG === on', () => {
@@ -467,8 +583,11 @@ describe('mapFormDataToApiData', () => {
                     harHattInntektSomFrilanser: YesOrNo.NO
                 };
                 const mappedData = mapFormDataToApiData(formDataWithSelvstendigInfo, barnMock, 'nb');
-                expect(mappedData.har_hatt_inntekt_som_selvstendig_naringsdrivende).toBeTruthy();
-                expect(mappedData.selvstendig_virksomheter).toBeDefined();
+                expect(mappedData).toBeDefined();
+                if (mappedData) {
+                    expect(mappedData.har_hatt_inntekt_som_selvstendig_naringsdrivende).toBeTruthy();
+                    expect(mappedData.selvstendig_virksomheter).toBeDefined();
+                }
             });
         });
     });
@@ -656,7 +775,7 @@ describe('Test complete applications', () => {
         };
 
         const mapFeaturesOnData = (data: PleiepengesøknadFormData): PleiepengesøknadApiData => {
-            return mapFormDataToApiData(data, barnMock, 'nb');
+            return mapFormDataToApiData(data, barnMock, 'nb')!;
         };
 
         const resultApiDataWithFeatures = {
@@ -697,5 +816,21 @@ describe('Test complete applications', () => {
         expect(
             JSON.stringify(jsonSort(mapFeaturesOnData({ ...featuresOnFormData, ...feature8UkerUnder8ukerFormData })))
         ).toEqual(JSON.stringify(jsonSort({ ...resultApiDataWithFeatures, ...feature8UkerUnder8UkerApiData })));
+    });
+});
+
+describe('getValidSpråk', () => {
+    it('always returns nn if selected', () => {
+        expect(getValidSpråk('nn')).toBe('nn');
+        expect(getValidSpråk('NN')).toBe('nn');
+    });
+    it('returns nb in all other cases than nn', () => {
+        expect(getValidSpråk()).toBe('nb');
+        expect(getValidSpråk(null)).toBe('nb');
+        expect(getValidSpråk(undefined)).toBe('nb');
+        expect(getValidSpråk('nb')).toBe('nb');
+        expect(getValidSpråk('en')).toBe('nb');
+        expect(getValidSpråk('NB')).toBe('nb');
+        expect(getValidSpråk('nn')).toBe('nn');
     });
 });

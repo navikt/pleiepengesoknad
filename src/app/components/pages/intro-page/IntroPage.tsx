@@ -43,6 +43,24 @@ const IntroPage: React.StatelessComponent = () => {
                     </AlertStripeAdvarsel>
                 </Box>
             )}
+            <Box margin="xxxl" padBottom="m">
+                <CounsellorPanel>
+                    <p>
+                        Regelverket for pleiepenger er <strong>ikke</strong> endret i forhold til koronasituasjonen.
+                    </p>
+                    <p>
+                        For å få pleiepenger må barnet være sykt, eller under utredning for sykdom, og på grunn av dette
+                        trenge pleie hele tiden. Barnet må også ha vært til behandling/utredning i sykehus eller annen
+                        spesialisthelsetjeneste. Du kan ikke få pleiepenger for å forebygge eventuell sykdom.
+                    </p>
+                    <p>
+                        <Lenke href="https://www.nav.no/familie/sykdom-i-familien/nb/pleiepenger-for-sykt-barn#Hvem-kan-fa-pleiepenger">
+                            Les mer her om hvem som kan ha rett på pleiepenger for sykt barn
+                        </Lenke>
+                    </p>
+                </CounsellorPanel>
+            </Box>
+
             <Box margin="xxxl">
                 <InformationPoster>
                     <FormattedMessage id={`introPage.tekst${withoutTilsynTextKey}`} />
