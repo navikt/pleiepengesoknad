@@ -7,7 +7,7 @@ export const apiVedleggIsInvalid = (vedlegg: string[]): boolean => {
     vedlegg.find((v) => {
         return v === undefined;
     });
-    return vedlegg.length === 0 || vedlegg.find((v) => v === undefined || v === '' || v === null) !== undefined;
+    return false;
 };
 
 export const validateApiValues = (
