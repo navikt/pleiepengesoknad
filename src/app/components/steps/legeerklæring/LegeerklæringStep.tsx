@@ -94,9 +94,11 @@ const LegeerklæringStep = ({ history, nextStepRoute, formikProps, ...stepProps 
                             </p>
                         </CounsellorPanel>
                     </Box>
+
                     <HelperTextPanel>
                         <PictureScanningGuide />
                     </HelperTextPanel>
+
                     <Box margin="l">
                         <FormikFileUploader
                             name={AppFormField.legeerklæring}
