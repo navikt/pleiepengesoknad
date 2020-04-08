@@ -87,7 +87,7 @@ const LegeerklæringStep = ({ history, nextStepRoute, formikProps, ...stepProps 
                             <p>
                                 Vi jobber for at du skal kunne ettersende dokumentasjon digitalt, men per i dag må du
                                 sende det i posten.{' '}
-                                <Lenke href="Link: https://www.nav.no/soknader/nb/person/familie/pleiepenger-og-opplaringspenger/NAV%2009-11.05/ettersendelse">
+                                <Lenke href="https://www.nav.no/soknader/nb/person/familie/pleiepenger-og-opplaringspenger/NAV%2009-11.05/ettersendelse">
                                     Her får du veiledning til hvordan du ettersender dokumentasjon
                                 </Lenke>
                                 .
