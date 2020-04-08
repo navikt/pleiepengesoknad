@@ -73,11 +73,11 @@
 
     "step.tidsrom.pageTitle": "Pleiepengesøknad – periode",
     "step.tidsrom.stepTitle": "Periode",
-    "step.tidsrom.stepIndicatorLabel": "Perioden med pleiepenger",
-    "step.tidsrom.infotekst": "For å ha rett til pleiepenger må du ha omsorgen for barnet i hele perioden du søker for.",
+    "step.tidsrom.stepIndicatorLabel": "Perioden med pleiepengar",
+    "step.tidsrom.infotekst": "For å ha rett til pleiepengar må du ha omsorgen for barnet i heile perioden du søkjer for.",
     "steg.tidsrom.veileder.utenlandsopphold.html": "Når du oppheld deg i eit land utanfor EØS, kan du behalde pleiepengane i ein begrensa periode på opptil 8 veker av ein 12 månedar lang periode.",
 
-    "steg.tidsrom.iUtlandetIPerioden.spm": "Skal du reise til utlandet i perioden du søker for?",
+    "steg.tidsrom.iUtlandetIPerioden.spm": "Skal du reise til utlandet i perioden du søkjer for?",
     "steg.tidsrom.iUtlandetIPerioden.listTitle": "Utenlandsopphald i perioden",
     "steg.tidsrom.iUtlandetIPerioden.modalTitle": "Utenlandsopphald",
     "steg.tidsrom.iUtlandetIPerioden.addLabel": "Legg til utenlandsopphald",
@@ -132,7 +132,7 @@
     "welcomingPage.banner.tittel": "Hei,",
     "welcomingPage.banner.tekst": "eg vil hjelpe deg med å fylle ut søknaden.",
     "welcomingPage.introtittel": "Søknad om pleiepengar",
-    "welcomingPage.legeerklæring.html": "<p>For å søkje om pleiepengar må du ha ei legeerklæring, eller ein bekreftelse på at barnet/personen over 18 år har vore til behandling/utredning i sjukehus eller annan spesialisthelsetjeneste.</p><p>Dersom du ikkje har legeerklæring eller bekreftelse tilgjengeleg når du søker, kan det ettersendes.</p>",
+    "welcomingPage.legeerklæring.html": "<p>For å søkje om pleiepengar må du ha ei legeerklæring, eller ein bekreftelse på at barnet/personen over 18 år har vore til behandling/utredning i sjukehus eller annan spesialisthelsetjeneste.</p><p>Dersom du ikkje har legeerklæring eller bekreftelse tilgjengeleg når du søkjer, kan det ettersendes.</p>",
     "welcomingPage.legeerklæring": "Har du legeerklæringa klar? Du treng henne seinare i søknaden. Då tek du berre eit bilete av henne og laster opp.",
     "welcomingPage.samtykke.tekst": "Eg stadfestar at eg har lese og forstått.",
     "welcomingPage.samtykke.harIkkeGodkjentVilkår": "Du må godkjenne vilkåra.",
@@ -280,7 +280,7 @@
     "steg.arbeidsforhold.manglesOpplysninger": "Manglar det ein arbeidsgivar her? Be arbeidsgivaren din sende ny A-melding, anten via lønns- og personalsystemet eller gjennom Altinn.",
 
     "page.confirmation.sidetittel": "Vi har fått søknaden din.",
-    "page.confirmation.tittel": "Vi har mottatt søknad fra deg om pleiepenger",
+    "page.confirmation.tittel": "Vi har mottatt søknad fra deg om pleiepengar",
     "page.confirmation.undertittel": "Kva skjer vidare no?",
     "page.confirmation.dittNav": "Søknaden din blir synleg på Ditt NAV etter omkring ei veke. Då vil du også kunne sjå kva slags dokumentasjon vi har fått frå deg.",
     "page.confirmation.søker": "Du må be {numberOfArbeidsforhold, plural, one {arbeidsgiveren din} other {arbeidsgiverene dine}} om å sende inntektsmelding til oss.",
