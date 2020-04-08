@@ -4,12 +4,12 @@ import Veilederpanel from 'nav-frontend-veilederpanel';
 import './legeerklæringInformationPanel.less';
 
 interface LegeerklæringInformationPanelProps {
-    text: string;
+    children: React.ReactNode;
 }
 
-const LegeerklæringInformationPanel: React.FunctionComponent<LegeerklæringInformationPanelProps> = ({ text }) => (
+const LegeerklæringInformationPanel: React.FunctionComponent<LegeerklæringInformationPanelProps> = ({ children }) => (
     <Veilederpanel svg={<LegeerklæringIcon />} kompakt={true}>
-        {text}
+        {children}
     </Veilederpanel>
 );
 

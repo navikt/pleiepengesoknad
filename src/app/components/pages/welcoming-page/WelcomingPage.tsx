@@ -11,7 +11,7 @@ import { navigateTo } from '../../../utils/navigationUtils';
 import { StepConfigProps } from '../../../config/stepConfig';
 import { userHasSubmittedValidForm } from 'common/formik/formikUtils';
 import FrontPageBanner from 'common/components/front-page-banner/FrontPageBanner';
-import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
+import { FormattedMessage, injectIntl, WrappedComponentProps, FormattedHTMLMessage } from 'react-intl';
 import Lenke from 'nav-frontend-lenker';
 import DinePlikterModal from '../../dine-plikter-modal/DinePlikterModal';
 import BehandlingAvPersonopplysningerModal from '../../behandling-av-personopplysninger-modal/BehandlingAvPersonopplysningerModal';
@@ -107,7 +107,9 @@ class WelcomingPage extends React.Component<Props, WelcomingPageState> {
 
                     {appIsRunningInDemoMode() === false && (
                         <Box margin="xl">
-                            <LegeerklæringInformationPanel text={intlHelper(intl, 'welcomingPage.legeerklæring')} />
+                            <LegeerklæringInformationPanel>
+                                <FormattedHTMLMessage id="welcomingPage.legeerklæring.html" />
+                            </LegeerklæringInformationPanel>
                         </Box>
                     )}
 
