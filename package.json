@@ -36,7 +36,7 @@
     "dependencies": {
         "@formatjs/intl-pluralrules": "^1.5.2",
         "@formatjs/intl-relativetimeformat": "^4.5.9",
-        "@navikt/sif-common-core": "^3.1.2",
+        "@navikt/sif-common-core": "^3.2.0",
         "@navikt/sif-common-formik": "^7.0.0",
         "@navikt/sif-common-forms": "^4.0.0",
         "@testing-library/react": "^9.5.0",
@@ -80,6 +80,7 @@
         "babel-core": "^7.0.0-bridge.0",
         "babel-jest": "^24.9.0",
         "babel-polyfill": "^6.26.0",
+        "canvas": "^2.6.1",
         "case-sensitive-paths-webpack-plugin": "^2.3.0",
         "css-loader": "^3.4.2",
         "cypress": "^4.3.0",
