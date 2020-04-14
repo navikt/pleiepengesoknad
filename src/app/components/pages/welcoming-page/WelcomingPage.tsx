@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl, FormattedHTMLMessage } from 'react-intl';
 import ActionLink from '@navikt/sif-common-core/lib/components/action-link/ActionLink';
 import { Sidetittel } from 'nav-frontend-typografi';
 import Box from 'common/components/box/Box';
@@ -46,7 +46,9 @@ const WelcomingPage: React.StatelessComponent<Props> = ({ onValidSubmit }) => {
 
                 {appIsRunningInDemoMode() === false && (
                     <Box margin="xl">
-                        <LegeerklæringInformationPanel text={intlHelper(intl, 'welcomingPage.legeerklæring')} />
+                        <LegeerklæringInformationPanel>
+                            <FormattedHTMLMessage id="welcomingPage.legeerklæring.html" />
+                        </LegeerklæringInformationPanel>
                     </Box>
                 )}
 

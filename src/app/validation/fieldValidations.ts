@@ -5,12 +5,20 @@ import { Time } from 'common/types/Time';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { attachmentHasBeenUploaded } from 'common/utils/attachmentUtils';
 import {
-    date1YearAgo, date1YearFromNow, DateRange, dateRangesCollide, dateRangesExceedsRange,
-    dateRangesHasFromDateEqualPreviousRangeToDate, dateToday, isMoreThan3YearsAgo
+    date1YearAgo,
+    date1YearFromNow,
+    DateRange,
+    dateRangesCollide,
+    dateRangesExceedsRange,
+    dateRangesHasFromDateEqualPreviousRangeToDate,
+    dateToday,
+    isMoreThan3YearsAgo
 } from 'common/utils/dateUtils';
 import { timeToDecimalTime } from 'common/utils/timeUtils';
 import {
-    createFieldValidationError, fieldIsRequiredError, FieldValidationErrors
+    createFieldValidationError,
+    fieldIsRequiredError,
+    FieldValidationErrors
 } from 'common/validation/fieldValidations';
 import { hasValue } from 'common/validation/hasValue';
 import { FieldValidationResult } from 'common/validation/types';
@@ -238,9 +246,9 @@ export const validateFerieuttakIPerioden = (periode: DateRange, ferieuttak: Feri
 
 export const validateLegeerklæring = (attachments: Attachment[]): FieldValidationResult => {
     const uploadedAttachments = attachments.filter((attachment) => attachmentHasBeenUploaded(attachment));
-    if (uploadedAttachments.length === 0) {
-        return createAppFieldValidationError(AppFieldValidationErrors.legeerklæring_mangler);
-    }
+    // if (uploadedAttachments.length === 0) {
+    //     return createAppFieldValidationError(AppFieldValidationErrors.legeerklæring_mangler);
+    // }
     if (uploadedAttachments.length > 3) {
         return createAppFieldValidationError(AppFieldValidationErrors.legeerklæring_forMangeFiler);
     }

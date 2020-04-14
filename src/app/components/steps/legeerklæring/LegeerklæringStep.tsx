@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { FormattedHTMLMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
+import Lenke from 'nav-frontend-lenker';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import Box from 'common/components/box/Box';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
@@ -59,7 +60,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
                 onValidSubmit();
             }}
             useValidationErrorSummary={false}
-            skipValidation={isRunningDemoMode}
+            skipValidation={true}
             buttonDisabled={hasPendingUploads}>
             {isRunningDemoMode && (
                 <Box>
@@ -84,16 +85,28 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
                                 <li>ha pleie hele tiden på grunn av sykdom</li>
                             </ul>
                             <p>
-                                <FormattedHTMLMessage id="steg.lege.intro.1.html" />
+                                Her skal du laste opp legeerklæring <strong>eller</strong> en bekreftelse på at barnet
+                                har vært til behandling/utredning i sykehus eller annen spesialisthelsetjeneste.
                             </p>
                             <p>
-                                <FormattedHTMLMessage id="steg.lege.intro.2.html" />
+                                Vi har forståelse for at det kan være vanskelig å skaffe legeerklæring/bekreftelse på
+                                grunn av koronasituasjonen. Hvis du ikke har dokumentasjonen nå, kan du ettersende den.
+                            </p>
+                            <p>
+                                Vi jobber for at du skal kunne ettersende dokumentasjon digitalt, men per i dag må du
+                                sende det i posten.{' '}
+                                <Lenke href="https://www.nav.no/soknader/nb/person/familie/pleiepenger-og-opplaringspenger/NAV%2009-11.05/ettersendelse">
+                                    Her får du veiledning til hvordan du ettersender dokumentasjon
+                                </Lenke>
+                                .
                             </p>
                         </CounsellorPanel>
                     </Box>
+
                     <HelperTextPanel>
                         <PictureScanningGuide />
                     </HelperTextPanel>
+
                     <Box margin="l">
                         <FormikFileUploader
                             name={AppFormField.legeerklæring}
