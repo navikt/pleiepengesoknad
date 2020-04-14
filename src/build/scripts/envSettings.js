@@ -14,6 +14,7 @@ const createEnvSettingsFile = async (settingsFile) => {
     const TOGGLE_FRILANS = process.env.TOGGLE_FRILANS;
     const TOGGLE_SELVSTENDIG = process.env.TOGGLE_SELVSTENDIG;
     const TOGGLE_8_UKER = process.env.TOGGLE_8_UKER;
+    const UTVIDET_KVITTERING = process.env.UTVIDET_KVITTERING;
 
     const appSettings = `
     window.appSettings = {
@@ -27,7 +28,8 @@ const createEnvSettingsFile = async (settingsFile) => {
         TOGGLE_FRILANS: '${TOGGLE_FRILANS}',
         TOGGLE_SELVSTENDIG: '${TOGGLE_SELVSTENDIG}',
         TOGGLE_8_UKER: '${TOGGLE_8_UKER}',
-        TOGGLE_BEKREFT_OMSORG: '${process.env.TOGGLE_BEKREFT_OMSORG}'
+        TOGGLE_BEKREFT_OMSORG: '${process.env.TOGGLE_BEKREFT_OMSORG}',
+        UTVIDET_KVITTERING: '${process.env.UTVIDET_KVITTERING}',
     };`
         .trim()
         .replace(/ /g, '');

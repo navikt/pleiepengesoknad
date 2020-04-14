@@ -16,7 +16,8 @@ function createEnvSettingsFileForHeroku() {
                 TOGGLE_FERIEUTTAK: 'on',
                 TOGGLE_FERIEUTTAK: 'on',
                 TOGGLE_FRILANS: 'on',
-                TOGGLE_SELVSTENDIG: 'on'
+                TOGGLE_SELVSTENDIG: 'on',
+                UTVIDET_KVITTERING: 'off
             };`
         );
     });
