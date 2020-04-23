@@ -82,15 +82,10 @@ const LegeerklæringStep = ({ history, nextStepRoute, formikProps, ...stepProps 
                             </p>
                             <p>
                                 Vi har forståelse for at det kan være vanskelig å skaffe legeerklæring/bekreftelse på
-                                grunn av koronasituasjonen. Hvis du ikke har dokumentasjonen nå, kan du ettersende den.
-                            </p>
-                            <p>
-                                Vi jobber for at du skal kunne ettersende dokumentasjon digitalt, men per i dag må du
-                                sende det i posten.{' '}
+                                grunn av koronasituasjonen. Hvis du ikke har dokumentasjonen nå, kan du ettersende den.{' '}
                                 <Lenke href="https://www.nav.no/soknader/nb/person/familie/pleiepenger-og-opplaringspenger/NAV%2009-11.05/ettersendelse">
                                     Her får du veiledning til hvordan du ettersender dokumentasjon
                                 </Lenke>
-                                .
                             </p>
                         </CounsellorPanel>
                     </Box>
