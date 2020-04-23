@@ -7,9 +7,7 @@ import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel'
 import InformationPoster from 'common/components/information-poster/InformationPoster';
 import Page from 'common/components/page/Page';
 import StepBanner from 'common/components/step-banner/StepBanner';
-import {
-    default as YesOrNoQuestion
-} from 'common/form-components/yes-or-no-question-base/YesOrNoQuestionBase';
+import { default as YesOrNoQuestion } from 'common/form-components/yes-or-no-question-base/YesOrNoQuestionBase';
 import { YesOrNo } from 'common/types/YesOrNo';
 import bemUtils from 'common/utils/bemUtils';
 import intlHelper from 'common/utils/intlUtils';
@@ -57,6 +55,15 @@ const IntroPage: React.StatelessComponent = () => {
                         <Lenke href="https://www.nav.no/familie/sykdom-i-familien/nb/pleiepenger-for-sykt-barn#Hvem-kan-fa-pleiepenger">
                             Les mer her om hvem som kan ha rett på pleiepenger for sykt barn
                         </Lenke>
+                    </p>
+                    <p>
+                        Hvis barnet ditt ikke kan gå i barnehage eller skole på grunn av særlige smittevernhensyn i
+                        forhold til koronaviruset kan du ha rett til å bruke omsorgsdager fram til og med 30. juni 2020.
+                        Det kan være av smittevernhensyn til barnet eller andre familiemedlemmer som bor med barnet.{' '}
+                        <Lenke href="https://www.nav.no/familie/sykdom-i-familien/nb/omsorgspenger">
+                            Les mer om hvem som har rett på omsorgsdager her
+                        </Lenke>
+                        .
                     </p>
                 </CounsellorPanel>
             </Box>
