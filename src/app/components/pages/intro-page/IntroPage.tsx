@@ -56,6 +56,15 @@ const IntroPage: React.StatelessComponent = () => {
                             Les mer her om hvem som kan ha rett på pleiepenger for sykt barn
                         </Lenke>
                     </p>
+                    <p>
+                        Hvis barnet ditt ikke kan gå i barnehage eller skole på grunn av særlige smittevernhensyn i
+                        forhold til koronaviruset kan du ha rett til å bruke omsorgsdager fram til og med 30. juni 2020.
+                        Det kan være av smittevernhensyn til barnet eller andre familiemedlemmer som bor med barnet.{' '}
+                        <Lenke href="https://www.nav.no/familie/sykdom-i-familien/nb/omsorgspenger">
+                            Les mer om hvem som har rett på omsorgsdager her
+                        </Lenke>
+                        .
+                    </p>
                 </CounsellorPanel>
             </Box>
 
