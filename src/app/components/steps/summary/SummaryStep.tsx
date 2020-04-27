@@ -326,7 +326,9 @@ class SummaryStep extends React.Component<Props, State> {
                                     )}
 
                                     {isFeatureEnabled(Feature.TOGGLE_SELVSTENDIG) && (
-                                        <SelvstendigSummary apiValues={apiValues} />
+                                        <SelvstendigSummary
+                                            selvstendigVirksomheter={apiValues.selvstendig_virksomheter}
+                                        />
                                     )}
 
                                     {tilsynsordning && <TilsynsordningSummary tilsynsordning={tilsynsordning} />}
