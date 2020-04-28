@@ -5,14 +5,10 @@ import Box from 'common/components/box/Box';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import { YesOrNo } from 'common/types/YesOrNo';
 import intlHelper from 'common/utils/intlUtils';
-import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
+import { validateYesOrNoIsAnswered, validateRequiredField } from 'common/validation/fieldValidations';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
-import {
-    AppFormField, PleiepengesøknadFormData, TilsynVetIkkeHvorfor
-} from '../../../types/PleiepengesøknadFormData';
-import {
-    validateSkalHaTilsynsordning, validateTilsynsordningTilleggsinfo
-} from '../../../validation/fieldValidations';
+import { AppFormField, PleiepengesøknadFormData, TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
+import { validateSkalHaTilsynsordning, validateTilsynsordningTilleggsinfo } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
@@ -72,6 +68,7 @@ const TilsynsordningStep: React.FunctionComponent<StepConfigProps> = ({ onValidS
                                 value: TilsynVetIkkeHvorfor.annet
                             }
                         ]}
+                        validate={validateRequiredField}
                     />
                     {vetIkke && vetIkke.hvorfor === TilsynVetIkkeHvorfor.annet && (
                         <Box margin="xl">

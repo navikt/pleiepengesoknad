@@ -154,6 +154,9 @@ export const validateTilsynsordningTilleggsinfo = (text: string): FieldValidatio
     if (text !== undefined && text.length > 1000) {
         return createAppFieldValidationError(AppFieldValidationErrors.tilsynsordning_forMangeTegn);
     }
+    if (text === undefined || text.length < 5) {
+        return fieldIsRequiredError();
+    }
     return undefined;
 };
 
