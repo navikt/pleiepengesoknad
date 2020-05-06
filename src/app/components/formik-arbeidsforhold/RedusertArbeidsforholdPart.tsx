@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
-import { SkjemaGruppe } from 'nav-frontend-skjema';
 import Box from 'common/components/box/Box';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import intlHelper from 'common/utils/intlUtils';
