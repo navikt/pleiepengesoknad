@@ -96,8 +96,8 @@ export interface Arbeidsforhold extends Arbeidsgiver {
 }
 
 export enum TilsynVetIkkeHvorfor {
-    'er_sporadisk' = 'er_sporadisk',
-    'er_ikke_laget_en_plan' = 'er_ikke_laget_en_plan',
+    'erSporadisk' = 'erSporadisk',
+    'erIkkeLagetEnPlaneEnda' = 'erIkkeLagetEnPlan',
     'annet' = 'annet'
 }
 

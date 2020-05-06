@@ -57,11 +57,11 @@ const TilsynsordningStep: React.FunctionComponent<StepConfigProps> = ({ onValidS
                         radios={[
                             {
                                 label: intlHelper(intl, 'steg.tilsyn.vetIkke.årsak.sporadisk'),
-                                value: TilsynVetIkkeHvorfor.er_sporadisk
+                                value: TilsynVetIkkeHvorfor.erSporadisk
                             },
                             {
                                 label: intlHelper(intl, 'steg.tilsyn.vetIkke.årsak.ikkeLagetPlan'),
-                                value: TilsynVetIkkeHvorfor.er_ikke_laget_en_plan
+                                value: TilsynVetIkkeHvorfor.erIkkeLagetEnPlaneEnda
                             },
                             {
                                 label: intlHelper(intl, 'steg.tilsyn.vetIkke.årsak.annet'),
