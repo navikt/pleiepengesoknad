@@ -19,9 +19,9 @@ export const brukerSkalBekrefteOmsorgForBarnet = (
         return false;
     }
     const valgtBarn: BarnReceivedFromApi | undefined = (registrerteBarn || []).find(
-        (b) => b.aktoer_id === values.barnetSøknadenGjelder
+        (b) => b.aktørId === values.barnetSøknadenGjelder
     );
-    if (valgtBarn && valgtBarn.har_samme_adresse === true) {
+    if (valgtBarn && valgtBarn.harSammeAdresse === true) {
         return false;
     }
     return true;
@@ -35,7 +35,7 @@ export const brukerSkalBeskriveOmsorgForBarnet = (
         return false;
     }
     const valgtBarn: BarnReceivedFromApi | undefined = (registrerteBarn || []).find(
-        (b) => b.aktoer_id === values.barnetSøknadenGjelder
+        (b) => b.aktørId === values.barnetSøknadenGjelder
     );
     if (valgtBarn) {
         return false;

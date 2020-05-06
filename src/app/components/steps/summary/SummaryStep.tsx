@@ -101,7 +101,7 @@ class SummaryStep extends React.Component<Props, State> {
             <SøkerdataContextConsumer>
                 {(søkerdata: Søkerdata) => {
                     const {
-                        person: { fornavn, mellomnavn, etternavn, fodselsnummer },
+                        person: { fornavn, mellomnavn, etternavn, fødselsnummer },
                         barn
                     } = søkerdata;
 
@@ -155,7 +155,7 @@ class SummaryStep extends React.Component<Props, State> {
                                         <Normaltekst>
                                             <FormattedMessage
                                                 id="steg.oppsummering.søker.fnr"
-                                                values={{ fodselsnummer }}
+                                                values={{ fødselsnummer }}
                                             />
                                         </Normaltekst>
                                     </ContentWithHeader>

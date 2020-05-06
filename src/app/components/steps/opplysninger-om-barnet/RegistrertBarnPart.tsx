@@ -7,9 +7,7 @@ import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { resetFieldValue, resetFieldValues } from '@navikt/sif-common-formik/lib';
 import { useFormikContext } from 'formik';
 import { Normaltekst } from 'nav-frontend-typografi';
-import {
-    AppFormField, initialValues, PleiepengesøknadFormData
-} from '../../../types/PleiepengesøknadFormData';
+import { AppFormField, initialValues, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../../../types/Søkerdata';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 import { validateValgtBarn } from '../../../validation/fieldValidations';
@@ -33,18 +31,18 @@ const RegistrertBarnPart: React.FunctionComponent<Props> = ({ søkersBarn }) => 
                 name={AppFormField.barnetSøknadenGjelder}
                 useTwoColumns={true}
                 radios={søkersBarn.map((barn) => {
-                    const { fornavn, mellomnavn, etternavn, fodselsdato, aktoer_id } = barn;
+                    const { fornavn, mellomnavn, etternavn, fødselsdato, aktørId } = barn;
                     const barnetsNavn = formatName(fornavn, etternavn, mellomnavn);
                     return {
-                        value: aktoer_id,
-                        key: aktoer_id,
+                        value: aktørId,
+                        key: aktørId,
                         label: (
                             <>
                                 <Normaltekst>{barnetsNavn}</Normaltekst>
                                 <Normaltekst>
                                     <FormattedMessage
                                         id="steg.omBarnet.hvilketBarn.født"
-                                        values={{ dato: prettifyDate(fodselsdato) }}
+                                        values={{ dato: prettifyDate(fødselsdato) }}
                                     />
                                 </Normaltekst>
                             </>

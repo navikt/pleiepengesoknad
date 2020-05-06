@@ -43,7 +43,7 @@ const todaysDate = moment()
 
 const barnsFødselsdato = new Date(2020, 0, 20);
 const barnMock: BarnReceivedFromApi[] = [
-    { fodselsdato: barnsFødselsdato, fornavn: 'Mock', etternavn: 'Mocknes', aktoer_id: '123', har_samme_adresse: true }
+    { fødselsdato: barnsFødselsdato, fornavn: 'Mock', etternavn: 'Mocknes', aktørId: '123', harSammeAdresse: true }
 ];
 
 const organisasjonTelenor: Arbeidsgiver = {
@@ -158,7 +158,7 @@ const selvstendigPartialFormData: Partial<PleiepengesøknadFormData> = {
 const completeFormDataMock: PleiepengesøknadFormData = {
     arbeidsforhold: [{ ...organisasjonMaxbo, erAnsattIPerioden: YesOrNo.YES, jobberNormaltTimer: 37.5 }],
     barnetHarIkkeFåttFødselsnummerEnda: false,
-    barnetSøknadenGjelder: barnMock[0].aktoer_id,
+    barnetSøknadenGjelder: barnMock[0].aktørId,
     harBekreftetOpplysninger: true,
     harMedsøker: YesOrNo.YES,
     harBeredskap: YesOrNo.YES,
@@ -262,7 +262,7 @@ describe('mapFormDataToApiData', () => {
         }
     });
 
-    it("should set 'fodselsdato' in api data to null if it doesnt exist, and otherwise it should assign value to 'fodselsdato' in api data", () => {
+    it("should set 'fødselsdato' in api data to null if it doesnt exist, and otherwise it should assign value to 'fødselsdato' in api data", () => {
         expect(resultingApiData.barn.fødselsdato).toBeNull();
         const fdato = new Date();
         const formDataWithFnr: Partial<PleiepengesøknadFormData> = {
@@ -603,7 +603,7 @@ describe('Test complete applications', () => {
         barn: {
             navn: 'Mock Mocknes',
             fødselsnummer: null,
-            aktørId: barnMock[0].aktoer_id,
+            aktørId: barnMock[0].aktørId,
             fødselsdato: '2020-00-20',
             sammeAdresse: true
         },

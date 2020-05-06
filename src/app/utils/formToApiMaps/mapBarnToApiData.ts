@@ -11,13 +11,13 @@ export const mapBarnToApiData = (
     barnetSøknadenGjelder: string | undefined
 ): BarnToSendToApi => {
     if (barnetSøknadenGjelder) {
-        const barnChosenFromList = barn.find((currentBarn) => currentBarn.aktoer_id === barnetSøknadenGjelder)!;
-        const { fornavn, etternavn, mellomnavn, aktoer_id, har_samme_adresse: sammeAdresse } = barnChosenFromList;
+        const barnChosenFromList = barn.find((currentBarn) => currentBarn.aktørId === barnetSøknadenGjelder)!;
+        const { fornavn, etternavn, mellomnavn, aktørId, harSammeAdresse: sammeAdresse } = barnChosenFromList;
         return {
             navn: formatName(fornavn, etternavn, mellomnavn),
             fødselsnummer: null,
-            aktørId: aktoer_id,
-            fødselsdato: formatDateToApiFormat(barnChosenFromList.fodselsdato),
+            aktørId,
+            fødselsdato: formatDateToApiFormat(barnChosenFromList.fødselsdato),
             sammeAdresse: sammeAdresse || null
         };
     } else {

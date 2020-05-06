@@ -25,9 +25,9 @@ describe('omsorgForBarnet', () => {
     const barn: BarnReceivedFromApi = {
         fornavn: 'barn',
         etternavn: 'etternavn',
-        aktoer_id: barnAktørId,
-        har_samme_adresse: true,
-        fodselsdato: new Date()
+        aktørId: barnAktørId,
+        harSammeAdresse: true,
+        fødselsdato: new Date()
     };
     describe('brukerSkalBekrefteOmsorgForBarnet', () => {
         it('should return false if user has chosen registrered child with same address', () => {
@@ -37,7 +37,7 @@ describe('omsorgForBarnet', () => {
         it('should return true if user has chosen registrered child without same address', () => {
             expect(
                 brukerSkalBekrefteOmsorgForBarnet({ barnetSøknadenGjelder: barnAktørId }, [
-                    { ...barn, har_samme_adresse: false }
+                    { ...barn, harSammeAdresse: false }
                 ])
             ).toBeTruthy();
         });

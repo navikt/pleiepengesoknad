@@ -29,7 +29,7 @@ const apiBarnSummary = (apiBarn: BarnReceivedFromApi) => (
             <FormattedMessage
                 id="steg.oppsummering.barnet.fødselsdato"
                 values={{
-                    dato: prettifyDate(apiBarn.fodselsdato)
+                    dato: prettifyDate(apiBarn.fødselsdato)
                 }}
             />
         </Normaltekst>
@@ -63,7 +63,7 @@ const annetBarnSummary = (apiValues: PleiepengesøknadApiData) => (
 
 const BarnSummary: React.FunctionComponent<Props> = ({ formValues, apiValues, barn }) => {
     const intl = useIntl();
-    const apiBarn = barn.find(({ aktoer_id }) => aktoer_id === formValues.barnetSøknadenGjelder);
+    const apiBarn = barn.find(({ aktørId }) => aktørId === formValues.barnetSøknadenGjelder);
     const useApiBarn = !formValues.søknadenGjelderEtAnnetBarn && barn && barn.length > 0;
 
     return (
