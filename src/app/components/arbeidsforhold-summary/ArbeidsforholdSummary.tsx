@@ -54,7 +54,7 @@ const ArbeidsforholdSummary: React.FunctionComponent<OwnProps> = ({
                                     timerNormalt: intlHelper(intl, 'timer', { timer: jobberNormaltTimer }),
                                     prosentRedusert: skalJobbeProsent
                                 }}
-                            />
+                            />{' '}
                             {jobberNormaltTimer && (
                                 <>
                                     <FormattedMessage

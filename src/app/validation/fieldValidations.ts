@@ -241,9 +241,9 @@ export const validateFerieuttakIPerioden = (periode: DateRange, ferieuttak: Feri
     if (dateRangesCollide(dateRanges)) {
         return createAppFieldValidationError(AppFieldValidationErrors.ferieuttak_overlapper);
     }
-    if (dateRangesExceedsRange(dateRanges, periode)) {
-        return createAppFieldValidationError(AppFieldValidationErrors.ferieuttak_utenfor_periode);
-    }
+    // if (dateRangesExceedsRange(dateRanges, periode)) {
+    //     return createAppFieldValidationError(AppFieldValidationErrors.ferieuttak_utenfor_periode);
+    // }
     return undefined;
 };
 

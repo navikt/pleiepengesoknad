@@ -1,21 +1,24 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { SkjemagruppeQuestion } from '@navikt/sif-common-formik';
 import { FieldArray } from 'formik';
 import { YesOrNo } from 'common/types/YesOrNo';
 import intlHelper from 'common/utils/intlUtils';
-import { validateRequiredField, validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
+import {
+    validateRequiredField,
+    validateRequiredNumber,
+    validateYesOrNoIsAnswered
+} from 'common/validation/fieldValidations';
 import {
     AppFormField,
     Arbeidsforhold,
     ArbeidsforholdField,
     ArbeidsforholdSkalJobbeSvar
 } from 'app/types/PleiepengesøknadFormData';
-import { validateReduserteArbeidProsent } from '../../validation/fieldValidations';
 import AppForm from '../app-form/AppForm';
 import RedusertArbeidsforholdPart from './RedusertArbeidsforholdPart';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
@@ -72,7 +75,9 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                                                     type="number"
                                                     className={'skjemaelement--timer-input'}
                                                     label={intlHelper(intl, 'arbeidsforhold.iDag.utledet')}
-                                                    validate={(value) => validateReduserteArbeidProsent(value, true)}
+                                                    validate={(value) =>
+                                                        validateRequiredNumber({ min: 0, max: 100 })(value)
+                                                    }
                                                     value={arbeidsforhold.jobberNormaltTimer || ''}
                                                     min={0}
                                                     max={100}

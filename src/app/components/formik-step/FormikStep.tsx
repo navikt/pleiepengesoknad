@@ -34,6 +34,7 @@ const FormikStep: React.FunctionComponent<Props> = (props) => {
                 onValidSubmit={onValidFormSubmit}
                 includeButtons={false}
                 includeValidationSummary={true}
+                runDelayedFormValidation={true}
                 fieldErrorRenderer={(error) => commonFieldErrorRenderer(intl, error)}>
                 {children}
                 {customErrorSummary && <FormBlock>{customErrorSummary()}</FormBlock>}

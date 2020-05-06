@@ -87,7 +87,7 @@ const RedusertArbeidsforholdPart: React.FunctionComponent<Props> = ({
             {timerEllerProsent === 'prosent' && (
                 <>
                     <Box margin="l">
-                        <SkjemaGruppe legend={intlHelper(intl, 'arbeidsforhold.prosent.spm')}>
+                        <SkjemagruppeQuestion legend={intlHelper(intl, 'arbeidsforhold.prosent.spm')}>
                             <FormikInput<AppFormField>
                                 name={getFieldName(ArbeidsforholdField.skalJobbeProsent)}
                                 type="number"
@@ -98,7 +98,7 @@ const RedusertArbeidsforholdPart: React.FunctionComponent<Props> = ({
                                 min={0}
                                 max={100}
                             />
-                        </SkjemaGruppe>
+                        </SkjemagruppeQuestion>
                     </Box>
                     <Box margin="xl">
                         <CounsellorPanel>

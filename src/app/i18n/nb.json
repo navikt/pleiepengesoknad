@@ -266,7 +266,7 @@
     "steg.oppsummering.tilsynsordning.vetIkke.årsak.annet": "Annet",
     "steg.oppsummering.tilsynsordning.vetIkke.annet.header": "Beskriv årsak",
 
-    "steg.oppsummering.utlandetSiste12.header": "Bodd i utlandet siste 12 måneder",
+    "steg.oppsummering.utlandetSiste12.header": "Har bodd i utlandet siste 12 måneder",
     "steg.oppsummering.utlandetNeste12.header": "Skal bo i utlandet neste 12 måneder",
     "steg.oppsummering.utlandetSiste12.liste.header": "Utenlandsopphold siste 12 måneder",
     "steg.oppsummering.utlandetNeste12.liste.header": "Utenlandsopphold neste 12 måneder",
@@ -328,11 +328,13 @@
     "fieldvalidation.tilsynsordning_ingenInfo": "Du har ikke oppgitt noen informasjon om hvor mye barnet skal ha tilsyn.",
     "fieldvalidation.tilsynsordning_forMangeTimerEnDag": "7 timer og 30 minutter er maks per dag",
     "fieldvalidation.tilsynsordning_forMangeTegn": "For mange tegn. Maks antall tegn er 1000.",
+    "fieldvalidation.tilsynsordning_forMangeTimerTotalt": "Du kan registrere maks 7 timer og 30 minutter hver ukedag",
     "fieldvalidation.utenlandsopphold_ikke_registrert": "Du har ikke registrert noen utenlandsopphold for perioden",
     "fieldvalidation.utenlandsopphold_overlapper": "Ett eller flere av utenlandsoppholdene har datoer som overlapper",
     "fieldvalidation.utenlandsopphold_utenfor_periode": "Ett eller flere av utenlandsoppholdene er utenfor tillatt tidsrom",
     "fieldvalidation.utenlandsopphold_overlapper_samme_start_slutt": "Ett utenlandsopphold kan ikke starte samme dag som et annet avsluttes",
     "fieldvalidation.ferieuttak_ikke_registrert": "Du har ikke registrert noen ferieuttak for perioden",
+    "fieldvalidation.ferieuttak_utenfor_periode": "En ferie du har lagt inn overlapper ikke med perioden du søker for. Da kan denne fjernes.",
 
     "arbeidsforhold.erAnsattIPerioden.spm": "Er du ansatt her i perioden du søker pleiepenger?",
 
