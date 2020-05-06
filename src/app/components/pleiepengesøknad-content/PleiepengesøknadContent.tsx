@@ -39,13 +39,13 @@ const getKvitteringInfoFromApiData = (
     apiValues: PleiepengesøknadApiData,
     søkerdata: Søkerdata
 ): KvitteringInfo | undefined => {
-    const aktiveArbeidsforhold = apiValues.arbeidsgivere.organisasjoner?.filter((o) => o.skal_jobbe);
+    const aktiveArbeidsforhold = apiValues.arbeidsgivere.organisasjoner?.filter((o) => o.skalJobbe);
     if (aktiveArbeidsforhold.length > 0) {
         const { fornavn, mellomnavn, etternavn } = søkerdata.person;
         return {
             arbeidsforhold: aktiveArbeidsforhold,
-            fom: apiStringDateToDate(apiValues.fra_og_med),
-            tom: apiStringDateToDate(apiValues.til_og_med),
+            fom: apiStringDateToDate(apiValues.fraOgMed),
+            tom: apiStringDateToDate(apiValues.tilOgMed),
             søkernavn: formatName(fornavn, etternavn, mellomnavn)
         };
     }

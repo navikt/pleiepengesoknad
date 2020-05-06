@@ -26,8 +26,8 @@ export const mapTilsynsordningToApiData = (tilsynsordning: Tilsynsordning): Tils
     }
     if (YesOrNo.DO_NOT_KNOW === skalBarnHaTilsyn && vetIkke) {
         return {
-            svar: 'vet_ikke',
-            vet_ikke: {
+            svar: 'vetIkke',
+            vetIkke: {
                 svar: vetIkke.hvorfor,
                 ...(vetIkke.hvorfor === TilsynVetIkkeHvorfor.annet
                     ? {

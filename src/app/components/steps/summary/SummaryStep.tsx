@@ -116,10 +116,10 @@ class SummaryStep extends React.Component<Props, State> {
                     const {
                         medlemskap,
                         tilsynsordning,
-                        nattevaak,
+                        nattevåk: nattevaak,
                         beredskap,
-                        utenlandsopphold_i_perioden,
-                        ferieuttak_i_perioden
+                        utenlandsoppholdIPerioden,
+                        ferieuttakIPerioden
                     } = apiValues;
 
                     return (
@@ -166,8 +166,8 @@ class SummaryStep extends React.Component<Props, State> {
                                                 <FormattedMessage
                                                     id="steg.oppsummering.tidsrom.fomtom"
                                                     values={{
-                                                        fom: prettifyDate(apiStringDateToDate(apiValues.fra_og_med)),
-                                                        tom: prettifyDate(apiStringDateToDate(apiValues.til_og_med))
+                                                        fom: prettifyDate(apiStringDateToDate(apiValues.fraOgMed)),
+                                                        tom: prettifyDate(apiStringDateToDate(apiValues.tilOgMed))
                                                     }}
                                                 />
                                             </Normaltekst>
@@ -183,32 +183,30 @@ class SummaryStep extends React.Component<Props, State> {
                                                         ? { varighet: getVarighetString(info8uker?.antallDager, intl) }
                                                         : undefined
                                                 )}>
-                                                <JaNeiSvar harSvartJa={apiValues.bekrefter_periode_over_8_uker} />
+                                                <JaNeiSvar harSvartJa={apiValues.bekrefterPeriodeOver8Uker} />
                                             </ContentWithHeader>
                                         </Box>
                                     )}
                                     <Box margin="l">
                                         <BarnSummary barn={barn} formValues={values} apiValues={apiValues} />
                                     </Box>
-                                    {isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG) && apiValues.skal_bekrefte_omsorg && (
+                                    {isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG) && apiValues.skalBegrefteOmsorg && (
                                         <Box margin="l">
                                             <ContentWithHeader
                                                 header={intlHelper(
                                                     intl,
                                                     'steg.oppsummering.skalPassePåBarnetIHelePerioden.header'
                                                 )}>
-                                                <JaNeiSvar
-                                                    harSvartJa={apiValues.skal_passe_pa_barnet_i_hele_perioden}
-                                                />
+                                                <JaNeiSvar harSvartJa={apiValues.skalPassePåBarnetIHelePerioden} />
                                             </ContentWithHeader>
-                                            {hasValue(apiValues.beskrivelse_omsorgsrollen) && (
+                                            {hasValue(apiValues.beskrivelseOmsorgsrollen) && (
                                                 <Box margin="l">
                                                     <ContentWithHeader
                                                         header={intlHelper(
                                                             intl,
                                                             'steg.oppsummering.bekreftOmsorgEkstrainfo.header'
                                                         )}>
-                                                        <TextareaSummary text={apiValues.beskrivelse_omsorgsrollen} />
+                                                        <TextareaSummary text={apiValues.beskrivelseOmsorgsrollen} />
                                                     </ContentWithHeader>
                                                 </Box>
                                             )}
@@ -220,22 +218,22 @@ class SummaryStep extends React.Component<Props, State> {
                                                 intl,
                                                 'steg.oppsummering.annenSøkerSammePeriode.header'
                                             )}>
-                                            {apiValues.har_medsoker === true && intlHelper(intl, 'Ja')}
-                                            {apiValues.har_medsoker === false && intlHelper(intl, 'Nei')}
+                                            {apiValues.harMedsøker === true && intlHelper(intl, 'Ja')}
+                                            {apiValues.harMedsøker === false && intlHelper(intl, 'Nei')}
                                         </ContentWithHeader>
                                     </Box>
 
-                                    {apiValues.har_medsoker && (
+                                    {apiValues.harMedsøker && (
                                         <Box margin="l">
                                             <ContentWithHeader
                                                 header={intlHelper(intl, 'steg.oppsummering.samtidigHjemme.header')}>
-                                                <FormattedMessage id={apiValues.samtidig_hjemme ? 'Ja' : 'Nei'} />
+                                                <FormattedMessage id={apiValues.samtidigHjemme ? 'Ja' : 'Nei'} />
                                             </ContentWithHeader>
                                         </Box>
                                     )}
                                     {/* Utenlandsopphold i perioden */}
                                     {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) &&
-                                        utenlandsopphold_i_perioden && (
+                                        utenlandsoppholdIPerioden && (
                                             <>
                                                 <Box margin="l">
                                                     <ContentWithHeader
@@ -245,14 +243,14 @@ class SummaryStep extends React.Component<Props, State> {
                                                         )}>
                                                         <FormattedMessage
                                                             id={
-                                                                utenlandsopphold_i_perioden.skal_oppholde_seg_i_utlandet_i_perioden
+                                                                utenlandsoppholdIPerioden.skalOppholdeSegIUtlandetIPerioden
                                                                     ? 'Ja'
                                                                     : 'Nei'
                                                             }
                                                         />
                                                     </ContentWithHeader>
                                                 </Box>
-                                                {utenlandsopphold_i_perioden.opphold.length > 0 && (
+                                                {utenlandsoppholdIPerioden.opphold.length > 0 && (
                                                     <Box margin="l">
                                                         <ContentWithHeader
                                                             header={intlHelper(
@@ -260,7 +258,7 @@ class SummaryStep extends React.Component<Props, State> {
                                                                 'steg.oppsummering.utenlandsoppholdIPerioden.listetittel'
                                                             )}>
                                                             <SummaryList
-                                                                items={utenlandsopphold_i_perioden.opphold}
+                                                                items={utenlandsoppholdIPerioden.opphold}
                                                                 itemRenderer={renderUtenlandsoppholdIPeriodenSummary}
                                                             />
                                                         </ContentWithHeader>
@@ -269,7 +267,7 @@ class SummaryStep extends React.Component<Props, State> {
                                             </>
                                         )}
                                     {/* Ferieuttak i perioden */}
-                                    {isFeatureEnabled(Feature.TOGGLE_FERIEUTTAK) && ferieuttak_i_perioden && (
+                                    {isFeatureEnabled(Feature.TOGGLE_FERIEUTTAK) && ferieuttakIPerioden && (
                                         <>
                                             <Box margin="l">
                                                 <ContentWithHeader
@@ -278,15 +276,11 @@ class SummaryStep extends React.Component<Props, State> {
                                                         'steg.oppsummering.ferieuttakIPerioden.header'
                                                     )}>
                                                     <FormattedMessage
-                                                        id={
-                                                            ferieuttak_i_perioden.skal_ta_ut_ferie_i_periode
-                                                                ? 'Ja'
-                                                                : 'Nei'
-                                                        }
+                                                        id={ferieuttakIPerioden.skalTaUtFerieIPerioden ? 'Ja' : 'Nei'}
                                                     />
                                                 </ContentWithHeader>
                                             </Box>
-                                            {ferieuttak_i_perioden.ferieuttak.length > 0 && (
+                                            {ferieuttakIPerioden.ferieuttak.length > 0 && (
                                                 <Box margin="l">
                                                     <ContentWithHeader
                                                         header={intlHelper(
@@ -294,7 +288,7 @@ class SummaryStep extends React.Component<Props, State> {
                                                             'steg.oppsummering.ferieuttakIPerioden.listetittel'
                                                         )}>
                                                         <SummaryList
-                                                            items={ferieuttak_i_perioden.ferieuttak}
+                                                            items={ferieuttakIPerioden.ferieuttak}
                                                             itemRenderer={renderFerieuttakIPeriodenSummary}
                                                         />
                                                     </ContentWithHeader>
@@ -327,7 +321,7 @@ class SummaryStep extends React.Component<Props, State> {
 
                                     {isFeatureEnabled(Feature.TOGGLE_SELVSTENDIG) && (
                                         <SelvstendigSummary
-                                            selvstendigVirksomheter={apiValues.selvstendig_virksomheter}
+                                            selvstendigVirksomheter={apiValues.selvstendigVirksomheter}
                                         />
                                     )}
 
@@ -337,9 +331,9 @@ class SummaryStep extends React.Component<Props, State> {
                                             <Box margin="l">
                                                 <ContentWithHeader
                                                     header={intlHelper(intl, 'steg.oppsummering.nattevåk.header')}>
-                                                    {nattevaak.har_nattevaak === true && intlHelper(intl, 'Ja')}
-                                                    {nattevaak.har_nattevaak === false && intlHelper(intl, 'Nei')}
-                                                    {nattevaak.har_nattevaak === true &&
+                                                    {nattevaak.harNattevåk === true && intlHelper(intl, 'Ja')}
+                                                    {nattevaak.harNattevåk === false && intlHelper(intl, 'Nei')}
+                                                    {nattevaak.harNattevåk === true &&
                                                         nattevaak.tilleggsinformasjon && (
                                                             <TextareaSummary text={nattevaak.tilleggsinformasjon} />
                                                         )}
@@ -351,8 +345,8 @@ class SummaryStep extends React.Component<Props, State> {
                                         <Box margin="l">
                                             <ContentWithHeader
                                                 header={intlHelper(intl, 'steg.oppsummering.beredskap.header')}>
-                                                {beredskap.i_beredskap === true && intlHelper(intl, 'Ja')}
-                                                {beredskap.i_beredskap === false && intlHelper(intl, 'Nei')}
+                                                {beredskap.beredskap === true && intlHelper(intl, 'Ja')}
+                                                {beredskap.beredskap === false && intlHelper(intl, 'Nei')}
                                                 {beredskap.tilleggsinformasjon && (
                                                     <TextareaSummary text={beredskap.tilleggsinformasjon} />
                                                 )}
@@ -362,14 +356,14 @@ class SummaryStep extends React.Component<Props, State> {
                                     <Box margin="l">
                                         <ContentWithHeader
                                             header={intlHelper(intl, 'steg.oppsummering.utlandetSiste12.header')}>
-                                            {apiValues.medlemskap.har_bodd_i_utlandet_siste_12_mnd === true &&
+                                            {apiValues.medlemskap.harBoddIUtlandetSiste12Mnd === true &&
                                                 intlHelper(intl, 'Ja')}
-                                            {apiValues.medlemskap.har_bodd_i_utlandet_siste_12_mnd === false &&
+                                            {apiValues.medlemskap.harBoddIUtlandetSiste12Mnd === false &&
                                                 intlHelper(intl, 'Nei')}
                                         </ContentWithHeader>
                                     </Box>
-                                    {apiValues.medlemskap.har_bodd_i_utlandet_siste_12_mnd === true &&
-                                        medlemskap.utenlandsopphold_siste_12_mnd.length > 0 && (
+                                    {apiValues.medlemskap.harBoddIUtlandetSiste12Mnd === true &&
+                                        medlemskap.utenlandsoppholdSiste12Mnd.length > 0 && (
                                             <Box margin="l">
                                                 <ContentWithHeader
                                                     header={intlHelper(
@@ -377,7 +371,7 @@ class SummaryStep extends React.Component<Props, State> {
                                                         'steg.oppsummering.utlandetSiste12.liste.header'
                                                     )}>
                                                     <SummaryList
-                                                        items={medlemskap.utenlandsopphold_siste_12_mnd}
+                                                        items={medlemskap.utenlandsoppholdSiste12Mnd}
                                                         itemRenderer={renderUtenlandsoppholdSummary}
                                                     />
                                                 </ContentWithHeader>
@@ -386,14 +380,14 @@ class SummaryStep extends React.Component<Props, State> {
                                     <Box margin="l">
                                         <ContentWithHeader
                                             header={intlHelper(intl, 'steg.oppsummering.utlandetNeste12.header')}>
-                                            {apiValues.medlemskap.skal_bo_i_utlandet_neste_12_mnd === true &&
+                                            {apiValues.medlemskap.skalBoIUtlandetNeste12Mnd === true &&
                                                 intlHelper(intl, 'Ja')}
-                                            {apiValues.medlemskap.skal_bo_i_utlandet_neste_12_mnd === false &&
+                                            {apiValues.medlemskap.skalBoIUtlandetNeste12Mnd === false &&
                                                 intlHelper(intl, 'Nei')}
                                         </ContentWithHeader>
                                     </Box>
-                                    {apiValues.medlemskap.skal_bo_i_utlandet_neste_12_mnd === true &&
-                                        medlemskap.utenlandsopphold_neste_12_mnd.length > 0 && (
+                                    {apiValues.medlemskap.skalBoIUtlandetNeste12Mnd === true &&
+                                        medlemskap.utenlandsoppholdNeste12Mnd.length > 0 && (
                                             <Box margin="l">
                                                 <ContentWithHeader
                                                     header={intlHelper(
@@ -401,7 +395,7 @@ class SummaryStep extends React.Component<Props, State> {
                                                         'steg.oppsummering.utlandetNeste12.liste.header'
                                                     )}>
                                                     <SummaryList
-                                                        items={medlemskap.utenlandsopphold_neste_12_mnd}
+                                                        items={medlemskap.utenlandsoppholdNeste12Mnd}
                                                         itemRenderer={renderUtenlandsoppholdSummary}
                                                     />
                                                 </ContentWithHeader>

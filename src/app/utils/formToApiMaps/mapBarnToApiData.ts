@@ -15,18 +15,18 @@ export const mapBarnToApiData = (
         const { fornavn, etternavn, mellomnavn, aktoer_id, har_samme_adresse: sammeAdresse } = barnChosenFromList;
         return {
             navn: formatName(fornavn, etternavn, mellomnavn),
-            fodselsnummer: null,
-            aktoer_id,
-            fodselsdato: formatDateToApiFormat(barnChosenFromList.fodselsdato),
-            samme_adresse: sammeAdresse || null
+            fødselsnummer: null,
+            aktørId: aktoer_id,
+            fødselsdato: formatDateToApiFormat(barnChosenFromList.fodselsdato),
+            sammeAdresse: sammeAdresse || null
         };
     } else {
         return {
             navn: barnetsNavn && barnetsNavn !== '' ? barnetsNavn : null,
-            fodselsnummer: barnetsFødselsnummer || null,
-            aktoer_id: null,
-            fodselsdato: barnetsFødselsdato !== undefined ? formatDateToApiFormat(barnetsFødselsdato) : null,
-            samme_adresse: null
+            fødselsnummer: barnetsFødselsnummer || null,
+            aktørId: null,
+            fødselsdato: barnetsFødselsdato !== undefined ? formatDateToApiFormat(barnetsFødselsdato) : null,
+            sammeAdresse: null
         };
     }
 };

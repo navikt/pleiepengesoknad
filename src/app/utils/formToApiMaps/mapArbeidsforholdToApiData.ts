@@ -24,9 +24,9 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
     if (skalJobbe === ArbeidsforholdSkalJobbeSvar.nei) {
         const forhold: ArbeidsforholdApiNei = {
             ...orgInfo,
-            skal_jobbe: 'nei',
-            skal_jobbe_prosent: 0,
-            jobber_normalt_timer: jobberNormaltTimer
+            skalJobbe: 'nei',
+            skalJobbeProsent: 0,
+            jobberNormaltTimer
         };
         return forhold;
     }
@@ -34,17 +34,17 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
     if (skalJobbe === ArbeidsforholdSkalJobbeSvar.redusert) {
         const redusertForhold: ArbeidsforholdApiRedusert = {
             ...orgInfo,
-            skal_jobbe: 'redusert',
-            jobber_normalt_timer: jobberNormaltTimer,
+            skalJobbe: 'redusert',
+            jobberNormaltTimer,
             ...(timerEllerProsent === 'timer' && skalJobbeTimer
                 ? {
-                      skal_jobbe_timer: skalJobbeTimer,
-                      skal_jobbe_prosent: jobberNormaltTimer
+                      skalJobbeTimer,
+                      skalJobbeProsent: jobberNormaltTimer
                           ? calcRedusertProsentFromRedusertTimer(jobberNormaltTimer, skalJobbeTimer)
                           : 0
                   }
                 : {
-                      skal_jobbe_prosent: skalJobbeProsent
+                      skalJobbeProsent
                   })
         };
         return redusertForhold;
@@ -52,17 +52,17 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
     if (skalJobbe === ArbeidsforholdSkalJobbeSvar.vetIkke) {
         const vetIkkeForhold: ArbeidsforholdApiVetIkke = {
             ...orgInfo,
-            skal_jobbe: 'vet_ikke',
-            jobber_normalt_timer: jobberNormaltTimer,
-            skal_jobbe_prosent: 0
+            skalJobbe: 'vetIkke',
+            jobberNormaltTimer,
+            skalJobbeProsent: 0
         };
         return vetIkkeForhold;
     }
     const forholdSomVanlig: ArbeidsforholdApiSomVanlig = {
         ...orgInfo,
-        skal_jobbe: 'ja',
-        skal_jobbe_prosent: 100,
-        jobber_normalt_timer: jobberNormaltTimer
+        skalJobbe: 'ja',
+        skalJobbeProsent: 100,
+        jobberNormaltTimer
     };
     return forholdSomVanlig;
 };

@@ -9,7 +9,7 @@ export const mapFrilansToApiData = (formData: PleiepengesøknadFormData): Frilan
     if (frilans_jobberFortsattSomFrilans && frilans_startdato) {
         const data: FrilansApiData = {
             startdato: formatDateToApiFormat(frilans_startdato),
-            jobber_fortsatt_som_frilans: frilans_jobberFortsattSomFrilans === YesOrNo.YES
+            jobberFortsattSomFrilans: frilans_jobberFortsattSomFrilans === YesOrNo.YES
         };
         return data;
     }

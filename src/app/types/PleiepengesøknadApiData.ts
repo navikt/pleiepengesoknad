@@ -8,37 +8,37 @@ export type ISO8601Duration = string;
 
 export interface BarnToSendToApi {
     navn: string | null;
-    fodselsnummer: string | null;
-    fodselsdato: string | null;
-    aktoer_id: string | null;
-    samme_adresse: boolean | null;
+    fødselsnummer: string | null;
+    fødselsdato: string | null;
+    aktørId: string | null;
+    sammeAdresse: boolean | null;
 }
 
 export interface ArbeidsforholdApi {
     navn: string;
     organisasjonsnummer?: string;
-    skal_jobbe?: 'ja' | 'nei' | 'redusert' | 'vet_ikke';
-    jobber_normalt_timer?: number;
-    skal_jobbe_timer?: number;
-    skal_jobbe_prosent?: number;
+    skalJobbe?: 'ja' | 'nei' | 'redusert' | 'vetIkke';
+    jobberNormaltTimer?: number;
+    skalJobbeTimer?: number;
+    skalJobbeProsent?: number;
 }
 export type ArbeidsforholdApiNei = Pick<
     ArbeidsforholdApi,
-    'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'skal_jobbe_prosent' | 'jobber_normalt_timer'
+    'navn' | 'organisasjonsnummer' | 'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer'
 >;
 export type ArbeidsforholdApiRedusert = Pick<
     ArbeidsforholdApi,
-    'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'skal_jobbe_prosent' | 'jobber_normalt_timer' | 'skal_jobbe_timer'
+    'navn' | 'organisasjonsnummer' | 'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | 'skalJobbeTimer'
 >;
 
 export type ArbeidsforholdApiVetIkke = Pick<
     ArbeidsforholdApi,
-    'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'jobber_normalt_timer' | 'skal_jobbe_prosent'
+    'navn' | 'organisasjonsnummer' | 'skalJobbe' | 'jobberNormaltTimer' | 'skalJobbeProsent'
 >;
 
 export type ArbeidsforholdApiSomVanlig = Pick<
     ArbeidsforholdApi,
-    'navn' | 'organisasjonsnummer' | 'skal_jobbe' | 'skal_jobbe_prosent' | 'jobber_normalt_timer'
+    'navn' | 'organisasjonsnummer' | 'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer'
 >;
 
 export interface ArbeidsforholdApiSkalJobbe {}
@@ -53,7 +53,7 @@ export interface TilsynsukeApi {
 export type TilsynsordningApi = TilsynsordningApiVetIkke | TilsynsordningApiNei | TilsynsordningApiJa;
 
 interface TilsynsordningApiBase {
-    svar: 'ja' | 'nei' | 'vet_ikke';
+    svar: 'ja' | 'nei' | 'vetIkke';
 }
 export interface TilsynsordningApiNei extends TilsynsordningApiBase {
     svar: 'nei';
@@ -70,92 +70,92 @@ export interface TilsynsordningApiJa extends TilsynsordningApiBase {
     };
 }
 export interface TilsynsordningApiVetIkke extends TilsynsordningApiBase {
-    svar: 'vet_ikke';
-    vet_ikke: {
+    svar: 'vetIkke';
+    vetIkke: {
         svar: TilsynVetIkkeHvorfor;
         annet?: string;
     };
 }
 
 interface Medlemskap {
-    har_bodd_i_utlandet_siste_12_mnd: boolean;
-    skal_bo_i_utlandet_neste_12_mnd: boolean;
-    utenlandsopphold_neste_12_mnd: BostedUtlandApiData[];
-    utenlandsopphold_siste_12_mnd: BostedUtlandApiData[];
+    harBoddIUtlandetSiste12Mnd: boolean;
+    skalBoIUtlandetNeste12Mnd: boolean;
+    utenlandsoppholdNeste12Mnd: BostedUtlandApiData[];
+    utenlandsoppholdSiste12Mnd: BostedUtlandApiData[];
 }
 
 export interface BostedUtlandApiData {
-    fra_og_med: ApiStringDate;
-    til_og_med: ApiStringDate;
+    fraOgMed: ApiStringDate;
+    tilOgMed: ApiStringDate;
     landkode: string;
     landnavn: string;
 }
 
 export interface UtenlandsoppholdIPeriodenApiData {
-    fra_og_med: ApiStringDate;
-    til_og_med: ApiStringDate;
+    fraOgMed: ApiStringDate;
+    tilOgMed: ApiStringDate;
     landkode: string;
     landnavn: string;
 }
 
 export interface UtenlandsoppholdUtenforEøsIPeriodenApiData extends UtenlandsoppholdIPeriodenApiData {
-    er_barnet_innlagt: boolean;
-    er_utenfor_eos: boolean;
-    arsak: UtenlandsoppholdÅrsak | null;
+    erBarnetInnlagt: boolean;
+    erUtenforEøs: boolean;
+    årsak: UtenlandsoppholdÅrsak | null;
 }
 
 export function isUtenlandsoppholdUtenforEØSApiData(
     opphold: UtenlandsoppholdIPeriodenApiData
 ): opphold is UtenlandsoppholdUtenforEøsIPeriodenApiData {
-    return Object.keys(opphold).includes('er_barnet_innlagt');
+    return Object.keys(opphold).includes('erBarnetInnlagt');
 }
 
 export interface FerieuttakIPeriodeApiData {
-    fra_og_med: ApiStringDate;
-    til_og_med: ApiStringDate;
+    fraOgMed: ApiStringDate;
+    tilOgMed: ApiStringDate;
 }
 
 export interface FrilansApiData {
     startdato: ApiStringDate;
-    jobber_fortsatt_som_frilans: boolean;
+    jobberFortsattSomFrilans: boolean;
 }
 
 export interface PleiepengesøknadApiData {
-    new_version: boolean;
-    sprak: Locale;
+    newVersion: boolean;
+    språk: Locale;
     barn: BarnToSendToApi;
-    fra_og_med: ApiStringDate;
-    til_og_med: ApiStringDate;
-    skal_bekrefte_omsorg?: boolean;
-    skal_passe_pa_barnet_i_hele_perioden?: boolean;
-    beskrivelse_omsorgsrollen?: string;
-    bekrefter_periode_over_8_uker?: boolean;
+    fraOgMed: ApiStringDate;
+    tilOgMed: ApiStringDate;
+    skalBegrefteOmsorg?: boolean;
+    skalPassePåBarnetIHelePerioden?: boolean;
+    beskrivelseOmsorgsrollen?: string;
+    bekrefterPeriodeOver8Uker?: boolean;
     arbeidsgivere: { organisasjoner: ArbeidsforholdApi[] };
     vedlegg: string[];
     medlemskap: Medlemskap;
-    utenlandsopphold_i_perioden?: {
-        skal_oppholde_seg_i_utlandet_i_perioden: boolean;
+    utenlandsoppholdIPerioden?: {
+        skalOppholdeSegIUtlandetIPerioden: boolean;
         opphold: UtenlandsoppholdIPeriodenApiData[];
     };
-    ferieuttak_i_perioden?: {
-        skal_ta_ut_ferie_i_periode: boolean;
+    ferieuttakIPerioden?: {
+        skalTaUtFerieIPerioden: boolean;
         ferieuttak: FerieuttakIPeriodeApiData[];
     };
-    har_medsoker: boolean;
-    samtidig_hjemme?: boolean;
-    har_forstatt_rettigheter_og_plikter: boolean;
-    har_bekreftet_opplysninger: boolean;
+    harMedsøker: boolean;
+    samtidigHjemme?: boolean;
+    harForståttRettigheterOgPlikter: boolean;
+    harBekreftetOpplysninger: boolean;
     tilsynsordning?: TilsynsordningApi;
-    nattevaak?: {
-        har_nattevaak: boolean;
+    nattevåk?: {
+        harNattevåk: boolean;
         tilleggsinformasjon?: string;
     };
     beredskap?: {
-        i_beredskap: boolean;
+        beredskap: boolean;
         tilleggsinformasjon?: string;
     };
-    har_hatt_inntekt_som_frilanser?: boolean;
-    har_hatt_inntekt_som_selvstendig_naringsdrivende?: boolean;
+    harHattInntektSomFrilanser?: boolean;
+    harHattInntektSomSelvstendigNæringsdrivende?: boolean;
     frilans?: FrilansApiData;
-    selvstendig_virksomheter?: VirksomhetApiData[];
+    selvstendigVirksomheter?: VirksomhetApiData[];
 }

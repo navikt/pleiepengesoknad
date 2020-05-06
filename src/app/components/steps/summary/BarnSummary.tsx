@@ -38,19 +38,19 @@ const apiBarnSummary = (apiBarn: BarnReceivedFromApi) => (
 
 const annetBarnSummary = (apiValues: PleiepengesøknadApiData) => (
     <>
-        {apiValues.barn.fodselsdato ? (
+        {apiValues.barn.fødselsdato ? (
             <Normaltekst>
                 <FormattedMessage
                     id="steg.oppsummering.barnet.fødselsdato"
                     values={{
-                        dato: prettifyDate(apiStringDateToDate(apiValues.barn.fodselsdato))
+                        dato: prettifyDate(apiStringDateToDate(apiValues.barn.fødselsdato))
                     }}
                 />
             </Normaltekst>
         ) : null}
-        {!apiValues.barn.fodselsdato ? (
+        {!apiValues.barn.fødselsdato ? (
             <Normaltekst>
-                <FormattedMessage id="steg.oppsummering.barnet.fnr" values={{ fnr: apiValues.barn.fodselsnummer }} />
+                <FormattedMessage id="steg.oppsummering.barnet.fnr" values={{ fnr: apiValues.barn.fødselsnummer }} />
             </Normaltekst>
         ) : null}
         {apiValues.barn.navn ? (
