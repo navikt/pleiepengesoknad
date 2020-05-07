@@ -61,7 +61,7 @@ spec:
         - name: TOGGLE_BEKREFT_OMSORG
           value: "off"
         - name: UTVIDET_KVITTERING
-          value: "off"
+          value: "on"
 
 
 

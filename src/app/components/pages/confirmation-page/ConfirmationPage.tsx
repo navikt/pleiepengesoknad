@@ -78,7 +78,7 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ kvitteringInfo }) =>
                                 du leser gjennom siden før du går videre.
                                 <p style={{ marginBottom: 0 }}>
                                     Siden kan skrives ut, og gis til{' '}
-                                    {pluralize(numberOfArbeidsforhold, 'arbeidsgiveren din', 'arbeidsgiverene dine')}.
+                                    {pluralize(numberOfArbeidsforhold, 'arbeidsgiveren din', 'arbeidsgiverne dine')}.
                                 </p>
                             </AlertStripeInfo>
                         </Box>
@@ -94,8 +94,8 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ kvitteringInfo }) =>
                                         <li>
                                             <div>
                                                 Du må be{' '}
-                                                {pluralize(numberOfArbeidsforhold, 'arbeidsgiver', 'arbeidsgiverene')}{' '}
-                                                om å sende inntektsmelding til oss, hvis:
+                                                {pluralize(numberOfArbeidsforhold, 'arbeidsgiver', 'arbeidsgiverne')} om
+                                                å sende inntektsmelding til oss, hvis:
                                                 <ul>
                                                     <li>du har sendt søknad for første gang, eller</li>
                                                     <li>
@@ -106,7 +106,7 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ kvitteringInfo }) =>
                                             </div>
                                         </li>
                                         <li>
-                                            {pluralize(numberOfArbeidsforhold, 'Arbeidsgiver', 'Arbeidsgiverene')}{' '}
+                                            {pluralize(numberOfArbeidsforhold, 'Arbeidsgiver', 'Arbeidsgiverne')}{' '}
                                             behøver <strong>ikke</strong> sende inntektsmelding på ny når du søker om å
                                             forlenge perioden din med pleiepenger.
                                         </li>
@@ -115,7 +115,7 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ kvitteringInfo }) =>
                                             {pluralize(
                                                 numberOfArbeidsforhold,
                                                 'arbeidsgiveren din',
-                                                'arbeidsgiverene dine'
+                                                'arbeidsgiverne dine'
                                             )}
                                             . Hvis du er registrert med flere arbeidsgivere, får du en utskrift til hver
                                             av dem.
