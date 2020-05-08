@@ -14,6 +14,7 @@ import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import NavPrintPage from '../../nav-print-page/NavPrintPage';
 import { KvitteringInfo } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import ArbeidsgiverUtskrift from './ArbeidsgiverUtskrift';
+import Lenke from 'nav-frontend-lenker';
 import './confirmationPage.less';
 
 interface Props {
@@ -74,68 +75,51 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ kvitteringInfo }) =>
                     {numberOfArbeidsforhold > 0 && (
                         <Box margin="xl">
                             <AlertStripeInfo>
-                                <strong>Obs!</strong> Denne siden forsvinner når du lukker den. Det er derfor viktig at
-                                du leser gjennom siden før du går videre.
-                                <p style={{ marginBottom: 0 }}>
-                                    Siden kan skrives ut, og gis til{' '}
+                                <strong>Obs!</strong> Denne informasjonssiden forsvinner når du lukker den. Det er
+                                derfor viktig at du leser gjennom før du går videre.
+                                <p>
+                                    Siden kan printes ut, slik at du kan gi utskrift til{' '}
                                     {pluralize(numberOfArbeidsforhold, 'arbeidsgiveren din', 'arbeidsgiverne dine')}.
                                 </p>
                             </AlertStripeInfo>
                         </Box>
                     )}
-                    <Box margin="l">
+                    <Box margin="xl">
                         <Panel className={bem.element('steps')} border={true}>
                             <Ingress>
                                 <FormattedMessage id="page.confirmation.undertittel" />
                             </Ingress>
                             <ul className="checklist">
+                                <li>
+                                    Dette er en bekreftelse på at vi har mottatt søknaden din. På grunn av stor pågang
+                                    er det vanskelig å si når søknaden blir synlig for deg på Ditt NAV.
+                                    <p>
+                                        Når søknaden din er ferdigbehandlet, får du et svar fra oss. Se{' '}
+                                        <Lenke href={getLenker(intl.locale).saksbehandlingstider}>
+                                            saksbehandlingstiden som gjelder for ditt fylke
+                                        </Lenke>{' '}
+                                        .
+                                    </p>
+                                </li>
                                 {numberOfArbeidsforhold > 0 && (
                                     <>
                                         <li>
-                                            <div>
-                                                Du må be{' '}
-                                                {pluralize(numberOfArbeidsforhold, 'arbeidsgiver', 'arbeidsgiverne')} om
-                                                å sende inntektsmelding til oss, hvis:
-                                                <ul>
-                                                    <li>du har sendt søknad for første gang, eller</li>
-                                                    <li>
-                                                        du skal søke på nytt etter et opphold. Et opphold vil si at det
-                                                        er minst 4 uker siden du hadde pleiepenger sist.
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            {pluralize(numberOfArbeidsforhold, 'Arbeidsgiver', 'Arbeidsgiverne')}{' '}
-                                            behøver <strong>ikke</strong> sende inntektsmelding på ny når du søker om å
-                                            forlenge perioden din med pleiepenger.
+                                            Du må be arbeidsgiver om å sende inntektsmelding til oss. Det er viktig at
+                                            arbeidsgiver krysser av for at inntektsmeldingen gjelder{' '}
+                                            <strong>pleiepenger</strong>.
+                                            <p>Vi kontakter deg hvis vi trenger flere opplysninger i saken din.</p>
                                         </li>
                                         <li>
                                             Du kan skrive ut denne informasjonssiden og gi utskriften til{' '}
                                             {pluralize(
                                                 numberOfArbeidsforhold,
-                                                'arbeidsgiveren din',
+                                                'arbeidsgiver din',
                                                 'arbeidsgiverne dine'
                                             )}
-                                            . Hvis du er registrert med flere arbeidsgivere, får du en utskrift til hver
-                                            av dem.
+                                            .
                                         </li>
                                     </>
                                 )}
-                                <li>
-                                    <FormattedMessage id="page.confirmation.dittNav" />
-                                </li>
-                                <li>
-                                    <FormattedMessage id="page.confirmation.behandling" />
-                                </li>
-                                <li>
-                                    <FormattedHTMLMessage
-                                        id="page.confirmation.behandlet.html"
-                                        values={{
-                                            lenke: getLenker(intl.locale).saksbehandlingstider
-                                        }}
-                                    />
-                                </li>
                             </ul>
 
                             {kvitteringInfo?.arbeidsforhold && (
@@ -147,8 +131,9 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ kvitteringInfo }) =>
                                     </div>
                                     <div style={{ margin: '0 auto', maxWidth: '50rem', marginBottom: '1rem' }}>
                                         <strong>
-                                            Hvis du ikke vil eller kan skrive ut, kan du ta skjermbilder av denne siden.
-                                            Husk også å ta bilde av informasjonen under, som du kan gi til arbeidsgiver.
+                                            Hvis du ikke kan skrive ut denne informasjonssiden, kan du ta bilde av den.
+                                            Husk også å ta bilde av informasjonen som kommer under, som du kan gi til
+                                            arbeidsgiver.
                                         </strong>
                                     </div>
                                 </Box>

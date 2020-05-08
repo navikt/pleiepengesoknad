@@ -19,14 +19,14 @@ const bem = bemUtils('arbeidsgiverUtskrift');
 const ArbeidsgiverUtskrift: React.FunctionComponent<Props> = ({ arbeidsgiver, søkernavn, fom, tom }) => (
     <div className={bem.block}>
         <Systemtittel style={{ marginBottom: '1.5rem' }}>Til {arbeidsgiver}</Systemtittel>
+        <p>NAV har mottatt følgende opplysninger:</p>
         <p>
-            <Element tag="span">Vi har mottatt følgende opplysninger:</Element>
+            <strong>
+                {søkernavn} er ansatt hos {arbeidsgiver}
+            </strong>
         </p>
         <p>
-            {søkernavn} er ansatt hos {arbeidsgiver}
-        </p>
-        <p>
-            {søkernavn} søker om Pleiepenger for perioden
+            <strong>{søkernavn} søker om Pleiepenger for perioden:</strong>
             <ul>
                 <li>
                     <strong>{prettifyDate(fom)}</strong> til <strong>{prettifyDate(tom)}</strong>
@@ -36,14 +36,15 @@ const ArbeidsgiverUtskrift: React.FunctionComponent<Props> = ({ arbeidsgiver, s�
         <Box margin="xl">
             <AlertStripeInfo className={bem.element('frist')}>
                 <p>
-                    Vi kan ikke behandle søkaden før vi har fått inntektsmeldingen til {søkernavn}. For å unngå at
-                    utbetalingen fra NAV til {søkernavn} blir forsinket, må du sende inn inntektsmeldingen til NAV så
-                    snart som mulig.
+                    For at arbeidstaker skal få raskt svar på søknaden sin, ber vi om at inntektsmeldingen blir sendt
+                    til oss så snart som mulig.{' '}
                 </p>
+
                 <p>
-                    Hvis du allerede har sendt inntektsmeldingen i tråd med {søkernavn} sin nåværende søknad, kan du se
-                    bort fra denne meldingen.
+                    <strong>Det er viktig at du krysser av for at inntektsmeldingen gjelder pleiepenger</strong>.
                 </p>
+
+                <p>Hvis inntektsmeldingen allerede er sendt, kan du se bort fra denne meldingen.</p>
             </AlertStripeInfo>
         </Box>
 
@@ -51,13 +52,18 @@ const ArbeidsgiverUtskrift: React.FunctionComponent<Props> = ({ arbeidsgiver, s�
         <p>
             Inntektsmeldingen sendes fra arbeidsgivers eget lønns- og personalsystem eller fra altinn.no. Meldingen
             inneholder inntektsopplysninger og annen informasjon NAV må ha for å behandle søknaden arbeidstaker har
-            sendt.
+            sendt. Husk å velge riktig inntektsmelding.
         </p>
+
         <p>
-            Fyll inn startdato som samsvarer med arbeidstakers søknad. Navn Navnesen har søkt pleiepenger fra 1. februar
-            2020. Hvis datoen ikke stemmer med hva dere har avtalt, må dere avklare dette dere imellom før du sender
+            Fyll inn startdato som samsvarer med arbeidstakers søknad.{' '}
+            <strong>
+                {søkernavn} har søkt pleiepenger fra {prettifyDate(fom)}
+            </strong>{' '}
+            . Hvis datoen ikke stemmer med hva dere har avtalt, må dere avklare dette dere imellom før du sender
             inntektsmeldingen.
         </p>
+
         <p>
             Du får mer informasjon om inntektsmeldingen på
             <Lenke href="https://nav.no/inntektsmelding" target="_blank">
