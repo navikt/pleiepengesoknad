@@ -91,7 +91,9 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
                             <p>
                                 Vi har forståelse for at det kan være vanskelig å skaffe legeerklæring/bekreftelse på
                                 grunn av koronasituasjonen. Hvis du ikke har dokumentasjonen nå, kan du ettersende den.{' '}
-                                <Lenke href="https://www.nav.no/soknader/nb/person/familie/pleiepenger-og-opplaringspenger/NAV%2009-11.05/ettersendelse">
+                                <Lenke
+                                    href="https://www.nav.no/soknader/nb/person/familie/pleiepenger-og-opplaringspenger/NAV%2009-11.05/ettersendelse"
+                                    target="_blank">
                                     Her får du veiledning til hvordan du ettersender dokumentasjon
                                 </Lenke>
                             </p>
