@@ -253,7 +253,7 @@
     "steg.oppsummering.dagerPerUkeBorteFraJobb.header": "Antall dager i uken du skal være borte fra jobb for å ta hånd om barnet",
     "steg.oppsummering.samtidigHjemme.header": "Skal dere være hjemme/på sykehus samtidig?",
     "steg.oppsummering.annenSøkerSammePeriode.header": "Er det en annen person som søker om pleiepenger i samme periode?",
-    "steg.oppsummering.nattevåk.header": "Nattvåk",
+    "steg.oppsummering.nattevåk.header": "Nattevåk",
     "steg.oppsummering.nattevåk.borteFraJobb.header": "Må være borte fra jobb",
     "steg.oppsummering.beredskap.header": "Beredskap",
 
@@ -261,8 +261,8 @@
     "steg.oppsummering.tilsynsordning.ja.header": "Dager med omsorgstilbud",
     "steg.oppsummering.tilsynsordning.ja.tilleggsinformasjon.header": "Tilleggsopplysninger",
     "steg.oppsummering.tilsynsordning.vetIkke.header": "Hvorfor er du usikker?",
-    "steg.oppsummering.tilsynsordning.vetIkke.årsak.er_sporadisk": "Barnet er i omsorgstilbud, men tiden varierer",
-    "steg.oppsummering.tilsynsordning.vetIkke.årsak.er_ikke_laget_en_plan": "Det er ikke laget en plan for dette enda",
+    "steg.oppsummering.tilsynsordning.vetIkke.årsak.erSporadisk": "Barnet er i omsorgstilbud, men tiden varierer",
+    "steg.oppsummering.tilsynsordning.vetIkke.årsak.erIkkeLagetEnPlanEnda": "Det er ikke laget en plan for dette enda",
     "steg.oppsummering.tilsynsordning.vetIkke.årsak.annet": "Annet",
     "steg.oppsummering.tilsynsordning.vetIkke.annet.header": "Beskriv årsak",
 

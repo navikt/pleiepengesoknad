@@ -61,7 +61,7 @@ const TilsynsordningStep: React.FunctionComponent<StepConfigProps> = ({ onValidS
                             },
                             {
                                 label: intlHelper(intl, 'steg.tilsyn.vetIkke.årsak.ikkeLagetPlan'),
-                                value: TilsynVetIkkeHvorfor.erIkkeLagetEnPlaneEnda
+                                value: TilsynVetIkkeHvorfor.erIkkeLagetEnPlanEnda
                             },
                             {
                                 label: intlHelper(intl, 'steg.tilsyn.vetIkke.årsak.annet'),

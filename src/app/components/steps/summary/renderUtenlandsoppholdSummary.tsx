@@ -14,7 +14,7 @@ import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
 const bem = bemUtils('utenlandsoppholdSummaryItem');
 
 export const renderFerieuttakIPeriodenSummary = (ferieuttak: FerieuttakIPeriodeApiData): React.ReactNode => (
-    <div className={bem.block}>
+    <div className={bem.classNames(bem.block, bem.modifier('no-details'))}>
         <span className={bem.element('dates')}>
             {prettifyDateExtended(apiStringDateToDate(ferieuttak.fraOgMed))} -{' '}
             {prettifyDateExtended(apiStringDateToDate(ferieuttak.tilOgMed))}

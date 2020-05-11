@@ -260,8 +260,8 @@
     "steg.oppsummering.tilsynsordning.ja.header": "Dagar med omsorgstilbod",
     "steg.oppsummering.tilsynsordning.ja.tilleggsinformasjon.header": "Tilleggsopplysningar",
     "steg.oppsummering.tilsynsordning.vetIkke.header": "Kvifor er du usikker?",
-    "steg.oppsummering.tilsynsordning.vetIkke.årsak.er_sporadisk": "Barnet er i omsorgstilbod, men tida varierer.",
-    "steg.oppsummering.tilsynsordning.vetIkke.årsak.er_ikke_laget_en_plan": "Det er ikkje laga ein plan for dette enno.",
+    "steg.oppsummering.tilsynsordning.vetIkke.årsak.erSporadisk": "Barnet er i omsorgstilbod, men tida varierer.",
+    "steg.oppsummering.tilsynsordning.vetIkke.årsak.erIkkeLagetEnPlanEnda": "Det er ikkje laga ein plan for dette enno.",
     "steg.oppsummering.tilsynsordning.vetIkke.årsak.annet": "Anna",
     "steg.oppsummering.tilsynsordning.vetIkke.annet.header": "Beskriv årsak",
 
