@@ -335,6 +335,7 @@
     "fieldvalidation.utenlandsopphold_overlapper_samme_start_slutt": "Ett utenlandsopphold kan ikke starte samme dag som et annet avsluttes",
     "fieldvalidation.ferieuttak_ikke_registrert": "Du har ikke registrert noen ferieuttak for perioden",
     "fieldvalidation.ferieuttak_utenfor_periode": "En ferie du har lagt inn overlapper ikke med perioden du søker for. Da kan denne fjernes.",
+    "fieldvalidation.ferieuttak_overlapper": "En eller flere av feriene går over de samme datoene",
 
     "arbeidsforhold.erAnsattIPerioden.spm": "Er du ansatt her i perioden du søker pleiepenger?",
 

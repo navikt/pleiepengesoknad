@@ -330,6 +330,9 @@
     "fieldvalidation.utenlandsopphold_overlapper": "Eitt eller fleire av opphalda i utlandet har datoar som overlappar",
     "fieldvalidation.utenlandsopphold_utenfor_periode": "Eitt eller fleire av opphalda i utlandet er utanfor tillate tidsrom",
     "fieldvalidation.utenlandsopphold_overlapper_samme_start_slutt": "Eitt opphald i utlandet kan ikkje starte same dag som eit anna vert avslutta",
+    "fieldvalidation.ferieuttak_ikke_registrert": "Du har ikkje registrert nokon ferieuttak for perioden",
+    "fieldvalidation.ferieuttak_utenfor_periode": "Ein ferie du har lagt inn overlappar ikkje med perioden du søkjer for. Då kan du ta bort denne ferien.",
+    "fieldvalidation.ferieuttak_overlapper": "Ein eller fleire av feriane går over dei same datoane",
 
     "arbeidsforhold.erAnsattIPerioden.spm": "Er du ansatt her i perioden du søkjer pleiepengar?",
 
