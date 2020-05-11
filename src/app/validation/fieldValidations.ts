@@ -154,9 +154,6 @@ export const validateTilsynsordningTilleggsinfo = (text: string): FieldValidatio
     if (text !== undefined && text.length > 1000) {
         return createAppFieldValidationError(AppFieldValidationErrors.tilsynsordning_forMangeTegn);
     }
-    if (text === undefined || text.length < 5) {
-        return fieldIsRequiredError();
-    }
     return undefined;
 };
 
@@ -285,7 +282,7 @@ export const validateSkalHaTilsynsordning = (tilsynsordning: Tilsynsordning): Fi
         if (hoursInTotal === 0 && hasEkstrainformasjon === false) {
             return createAppFieldValidationError(AppFieldValidationErrors.tilsynsordning_ingenInfo);
         }
-        if (hoursInTotal >= 37.5) {
+        if (hoursInTotal > 37.5) {
             return createAppFieldValidationError(AppFieldValidationErrors.tilsynsordning_forMangeTimerTotalt);
         }
     }

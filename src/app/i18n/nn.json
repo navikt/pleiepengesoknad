@@ -326,6 +326,7 @@
     "fieldvalidation.tilsynsordning_ingenInfo": "Du har ikkje gitt opp nokon informasjon om kor mykje barnet skal ha tilsyn.",
     "fieldvalidation.tilsynsordning_forMangeTimerEnDag": "7 timar og 30 minutt er maks per dag.",
     "fieldvalidation.tilsynsordning_forMangeTegn": "For mange teikn. Maks antall teikn er 1000.",
+    "fieldvalidation.tilsynsordning_forMangeTimerTotalt": "Du kan registrere maks 7 timer og 30 minutter kvar vekedag",
     "fieldvalidation.utenlandsopphold_ikke_registrert": "Du har ikkje registrert noko opphald i utlandet for perioden",
     "fieldvalidation.utenlandsopphold_overlapper": "Eitt eller fleire av opphalda i utlandet har datoar som overlappar",
     "fieldvalidation.utenlandsopphold_utenfor_periode": "Eitt eller fleire av opphalda i utlandet er utanfor tillate tidsrom",
