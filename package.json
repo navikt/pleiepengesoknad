@@ -36,9 +36,9 @@
     "dependencies": {
         "@formatjs/intl-pluralrules": "^1.5.2",
         "@formatjs/intl-relativetimeformat": "^4.5.9",
-        "@navikt/sif-common-core": "^3.3.5",
+        "@navikt/sif-common-core": "^3.3.6",
         "@navikt/sif-common-formik": "^7.1.6",
-        "@navikt/sif-common-forms": "^6.1.4",
+        "@navikt/sif-common-forms": "^6.1.5",
         "@testing-library/react": "^9.5.0",
         "axios": "^0.19.2",
         "busboy": "^0.3.0",
