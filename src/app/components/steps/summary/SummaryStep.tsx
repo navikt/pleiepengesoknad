@@ -153,10 +153,7 @@ class SummaryStep extends React.Component<Props, State> {
                                     <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.søker.header')}>
                                         <Normaltekst>{formatName(fornavn, etternavn, mellomnavn)}</Normaltekst>
                                         <Normaltekst>
-                                            <FormattedMessage
-                                                id="steg.oppsummering.søker.fnr"
-                                                values={{ fødselsnummer }}
-                                            />
+                                            <Normaltekst>Fødselsnummer: {fødselsnummer}</Normaltekst>
                                         </Normaltekst>
                                     </ContentWithHeader>
                                     <Box margin="l">

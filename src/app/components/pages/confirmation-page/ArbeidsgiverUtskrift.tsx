@@ -65,7 +65,7 @@ const ArbeidsgiverUtskrift: React.FunctionComponent<Props> = ({ arbeidsgiver, s�
         </p>
 
         <p>
-            Du får mer informasjon om inntektsmeldingen på
+            Du får mer informasjon om inntektsmeldingen på{' '}
             <Lenke href="https://nav.no/inntektsmelding" target="_blank">
                 nav.no/inntektsmelding
             </Lenke>
