@@ -1,0 +1,22 @@
+@import '../../../../node_modules/@navikt/sif-common-core/lib/styles/assets.less';
+
+.formSection {
+    &__title {
+        display: flex;
+        width: 100%;
+        justify-items: stretch;
+    }
+    &__titleIcon {
+        margin-right: 0.5rem;
+        width: 2rem;
+        svg * {
+            fill: @navMorkGra;
+        }
+    }
+    &__content {
+        margin-top: 1rem;
+        &--indent {
+            margin-left: 2.5rem;
+        }
+    }
+}

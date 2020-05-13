@@ -1,5 +1,5 @@
-import { YesOrNo } from '@navikt/sif-common/lib/common/types/YesOrNo';
-import { timeToIso8601Duration } from '@navikt/sif-common/lib/common/utils/timeUtils';
+import { YesOrNo } from 'common/types/YesOrNo';
+import { timeToIso8601Duration } from 'common/utils/timeUtils';
 import { TilsynsordningApi } from '../../types/PleiepengesøknadApiData';
 import { Tilsynsordning, TilsynVetIkkeHvorfor } from '../../types/PleiepengesøknadFormData';
 
@@ -26,8 +26,8 @@ export const mapTilsynsordningToApiData = (tilsynsordning: Tilsynsordning): Tils
     }
     if (YesOrNo.DO_NOT_KNOW === skalBarnHaTilsyn && vetIkke) {
         return {
-            svar: 'vet_ikke',
-            vet_ikke: {
+            svar: 'vetIkke',
+            vetIkke: {
                 svar: vetIkke.hvorfor,
                 ...(vetIkke.hvorfor === TilsynVetIkkeHvorfor.annet
                     ? {

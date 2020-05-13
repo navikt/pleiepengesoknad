@@ -21,7 +21,7 @@ const FrilansEksempeltHtml = () => {
                 <li>Støttekontakt</li>
             </ul>
             Hvis du er usikker på om du er frilanser, kan du lese mer om hva det betyr å være frilanser på skatteetaten
-            sinhjemmeside.
+            sin hjemmeside.
         </>
     ) : (
         <>
@@ -41,7 +41,7 @@ const FrilansEksempeltHtml = () => {
                 <li>Støttekontakt</li>
             </ul>
             Hvis du er usikker på om du er frilanser, kan du lese mer om hva det betyr å være frilanser på skatteetaten
-            sinhjemmeside.
+            sin hjemmeside.
         </>
     );
 };

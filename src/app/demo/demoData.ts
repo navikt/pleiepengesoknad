@@ -1,18 +1,18 @@
 const demoSøkerdata = {
     barn: [
         {
-            fodselsdato: new Date('2008-01-01'),
+            fødselsdato: new Date('2008-01-01'),
             fornavn: 'Jan',
             mellomnavn: 'Testperson',
             etternavn: 'Hansen',
-            aktoer_id: '1'
+            aktørId: '1'
         },
         {
-            fodselsdato: new Date('2014-05-02'),
+            fødselsdato: new Date('2014-05-02'),
             fornavn: 'Kari',
             mellomnavn: 'Testperson',
             etternavn: 'Hansen',
-            aktoer_id: '2'
+            aktørId: '2'
         }
     ],
     arbeidsgivere: [
@@ -22,9 +22,9 @@ const demoSøkerdata = {
     person: {
         fornavn: 'Testperson',
         mellomnavn: '',
-        kjonn: 'k',
+        kjønn: 'k',
         etternavn: 'Hansen',
-        fodselsnummer: '12345123456',
+        fødselsnummer: '12345123456',
         myndig: true
     }
 };

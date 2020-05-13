@@ -1,7 +1,8 @@
-const clickFortsett = () => cy.dataCy('fortsett-knapp').click();
+const clickFortsett = () => cy.get('button[aria-label="Gå til neste steg"]').click();
+const clickSendInnSøknad = () => cy.get('button[aria-label="Send inn søknaden"]').click();
 
 const clickNeiPaAlleSporsmal = () => {
-    cy.get('label[class="inputPanel radioPanel"]').each(element => {
+    cy.get('label[class="inputPanel radioPanel"]').each((element) => {
         if (element.text() === 'Nei') {
             element.click();
         }
@@ -24,9 +25,8 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
                 .check({ force: true }); // Må, bruke force her, pga cypress tror radio-knappen har størrelse (0,0)
             cy.get('a[href*="/soknad/velkommen"]').click();
         });
-
         it('VELKOMMEN SIDE', () => {
-            cy.get('label[for=harForståttRettigheterOgPlikter]').click();
+            cy.get('.bekreftCheckboksPanel label').click();
             cy.get('button[class="knapp welcomingPage__startApplicationButton knapp--hoved"]').click();
         });
         it('STEG 1: BARN', () => {
@@ -94,14 +94,12 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
         });
 
         it('STEG 7: Oppsummering', () => {
-            cy.get('label[for=harBekreftetOpplysninger]')
-                .first()
-                .click();
-            clickFortsett(cy);
+            cy.get('.bekreftCheckboksPanel label').click();
+            clickSendInnSøknad(cy);
         });
 
-        it('SØKNAD SENDT page should have h1 header', () => {
-            cy.get('h1').contains('Vi har mottatt søknad fra deg om pleiepenger');
-        });
+        // it('SØKNAD SENDT page should have h1 header', () => {
+        //     cy.get('h1').contains('Vi har mottatt søknad fra deg om pleiepenger');
+        // });
     });
 });

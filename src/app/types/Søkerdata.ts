@@ -7,8 +7,9 @@ export interface BarnReceivedFromApi {
     fornavn: string;
     etternavn: string;
     mellomnavn?: string;
-    aktoer_id: string;
-    fodselsdato: Date;
+    aktørId: string;
+    fødselsdato: Date;
+    harSammeAdresse?: boolean;
 }
 
 export interface Arbeidsgiver {
@@ -20,8 +21,8 @@ export interface Person {
     etternavn: string;
     fornavn: string;
     mellomnavn: string;
-    kjonn: string;
-    fodselsnummer: string;
+    kjønn: string;
+    fødselsnummer: string;
     myndig: boolean;
 }
 

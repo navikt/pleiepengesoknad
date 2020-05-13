@@ -1,10 +1,10 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
-import ContentWithHeader from '@navikt/sif-common/lib/common/components/content-with-header/ContentWithHeader';
-import { apiStringDateToDate, prettifyDate } from '@navikt/sif-common/lib/common/utils/dateUtils';
-import intlHelper from '@navikt/sif-common/lib/common/utils/intlUtils';
-import { formatName } from '@navikt/sif-common/lib/common/utils/personUtils';
+import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
+import { apiStringDateToDate, prettifyDate } from 'common/utils/dateUtils';
+import intlHelper from 'common/utils/intlUtils';
+import { formatName } from 'common/utils/personUtils';
 import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../../../types/Søkerdata';
@@ -29,7 +29,7 @@ const apiBarnSummary = (apiBarn: BarnReceivedFromApi) => (
             <FormattedMessage
                 id="steg.oppsummering.barnet.fødselsdato"
                 values={{
-                    dato: prettifyDate(apiBarn.fodselsdato)
+                    dato: prettifyDate(apiBarn.fødselsdato)
                 }}
             />
         </Normaltekst>
@@ -38,19 +38,19 @@ const apiBarnSummary = (apiBarn: BarnReceivedFromApi) => (
 
 const annetBarnSummary = (apiValues: PleiepengesøknadApiData) => (
     <>
-        {apiValues.barn.fodselsdato ? (
+        {apiValues.barn.fødselsdato ? (
             <Normaltekst>
                 <FormattedMessage
                     id="steg.oppsummering.barnet.fødselsdato"
                     values={{
-                        dato: prettifyDate(apiStringDateToDate(apiValues.barn.fodselsdato))
+                        dato: prettifyDate(apiStringDateToDate(apiValues.barn.fødselsdato))
                     }}
                 />
             </Normaltekst>
         ) : null}
-        {!apiValues.barn.fodselsdato ? (
+        {!apiValues.barn.fødselsdato ? (
             <Normaltekst>
-                <FormattedMessage id="steg.oppsummering.barnet.fnr" values={{ fnr: apiValues.barn.fodselsnummer }} />
+                <FormattedMessage id="steg.oppsummering.barnet.fnr" values={{ fnr: apiValues.barn.fødselsnummer }} />
             </Normaltekst>
         ) : null}
         {apiValues.barn.navn ? (
@@ -63,7 +63,7 @@ const annetBarnSummary = (apiValues: PleiepengesøknadApiData) => (
 
 const BarnSummary: React.FunctionComponent<Props> = ({ formValues, apiValues, barn }) => {
     const intl = useIntl();
-    const apiBarn = barn.find(({ aktoer_id }) => aktoer_id === formValues.barnetSøknadenGjelder);
+    const apiBarn = barn.find(({ aktørId }) => aktørId === formValues.barnetSøknadenGjelder);
     const useApiBarn = !formValues.søknadenGjelderEtAnnetBarn && barn && barn.length > 0;
 
     return (

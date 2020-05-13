@@ -17,10 +17,10 @@ const ArbeidsforholdSummary: React.FunctionComponent<OwnProps> = ({
     arbeidsforhold: {
         navn,
         organisasjonsnummer,
-        skal_jobbe_prosent,
-        skal_jobbe_timer,
-        jobber_normalt_timer,
-        skal_jobbe
+        skalJobbeProsent,
+        skalJobbeTimer,
+        jobberNormaltTimer,
+        skalJobbe: skalJobbe
     }
 }) => {
     const orgInfo = { navn, organisasjonsnummer };
@@ -30,18 +30,18 @@ const ArbeidsforholdSummary: React.FunctionComponent<OwnProps> = ({
             <div className={bem.element('org')}>
                 <FormattedMessage id="arbeidsforhold.oppsummering.orgInfo" values={orgInfo} />
             </div>
-            {skal_jobbe === 'redusert' && (
+            {skalJobbe === 'redusert' && (
                 <div className={bem.element('detaljer')}>
-                    {skal_jobbe_timer !== undefined ? (
+                    {skalJobbeTimer !== undefined ? (
                         <Normaltekst>
                             <FormattedMessage
                                 id={`arbeidsforhold.oppsummering.svar.redusert.timer`}
                                 values={{
-                                    timerRedusert: intlHelper(intl, 'timer', { timer: skal_jobbe_timer }),
-                                    timerNormalt: intlHelper(intl, 'timer', { timer: jobber_normalt_timer }),
+                                    timerRedusert: intlHelper(intl, 'timer', { timer: skalJobbeTimer }),
+                                    timerNormalt: intlHelper(intl, 'timer', { timer: jobberNormaltTimer }),
                                     prosentRedusert: calcRedusertProsentFromRedusertTimer(
-                                        jobber_normalt_timer!,
-                                        skal_jobbe_timer
+                                        jobberNormaltTimer!,
+                                        skalJobbeTimer
                                     ).toFixed(2)
                                 }}
                             />
@@ -51,15 +51,15 @@ const ArbeidsforholdSummary: React.FunctionComponent<OwnProps> = ({
                             <FormattedMessage
                                 id={`arbeidsforhold.oppsummering.svar.redusert.prosent`}
                                 values={{
-                                    timerNormalt: intlHelper(intl, 'timer', { timer: jobber_normalt_timer }),
-                                    prosentRedusert: skal_jobbe_prosent
+                                    timerNormalt: intlHelper(intl, 'timer', { timer: jobberNormaltTimer }),
+                                    prosentRedusert: skalJobbeProsent
                                 }}
-                            />
-                            {jobber_normalt_timer && (
+                            />{' '}
+                            {jobberNormaltTimer && (
                                 <>
                                     <FormattedMessage
                                         id={'arbeidsforhold.oppsummering.jobberNormalt'}
-                                        values={{ timer: jobber_normalt_timer }}
+                                        values={{ timer: jobberNormaltTimer }}
                                     />
                                 </>
                             )}
@@ -67,29 +67,23 @@ const ArbeidsforholdSummary: React.FunctionComponent<OwnProps> = ({
                     )}
                 </div>
             )}
-            {skal_jobbe === 'vet_ikke' && (
+            {skalJobbe === 'vetIkke' && (
                 <div className={bem.element('detaljer')}>
                     <Normaltekst>
                         <FormattedMessage
-                            id={`arbeidsforhold.oppsummering.svar.vet_ikke`}
-                            values={{ timer: intlHelper(intl, 'timer', { timer: jobber_normalt_timer }) }}
+                            id={`arbeidsforhold.oppsummering.svar.vetIkke`}
+                            values={{ timer: intlHelper(intl, 'timer', { timer: jobberNormaltTimer }) }}
                         />
                     </Normaltekst>
                 </div>
             )}
-            {skal_jobbe !== 'vet_ikke' && skal_jobbe !== 'redusert' && (
+            {skalJobbe !== 'vetIkke' && skalJobbe !== 'redusert' && (
                 <div className={bem.element('detaljer')}>
                     <Normaltekst>
-                        <FormattedMessage id={`arbeidsforhold.oppsummering.svar.${skal_jobbe}`} />
-                        {jobber_normalt_timer && (
-                            <>
-                                .{' '}
-                                <FormattedMessage
-                                    id={'arbeidsforhold.oppsummering.jobberNormalt'}
-                                    values={{ timer: jobber_normalt_timer }}
-                                />
-                            </>
-                        )}
+                        <FormattedMessage
+                            id={`arbeidsforhold.oppsummering.svar.${skalJobbe}`}
+                            values={{ timer: jobberNormaltTimer }}
+                        />
                     </Normaltekst>
                 </div>
             )}

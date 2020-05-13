@@ -79,17 +79,15 @@ const TilsynsordningSummary: React.FunctionComponent<Props> = ({ tilsynsordning 
                     )}
                 </>
             )}
-            {tilsynsordning.svar === 'vet_ikke' && (
+            {tilsynsordning.svar === 'vetIkke' && (
                 <>
                     <Box margin="l">
                         <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.tilsynsordning.vetIkke.header')}>
                             <FormattedMessage
-                                id={`steg.oppsummering.tilsynsordning.vetIkke.årsak.${tilsynsordning.vet_ikke.svar}`}
+                                id={`steg.oppsummering.tilsynsordning.vetIkke.årsak.${tilsynsordning.vetIkke.svar}`}
                             />
-                            {TilsynVetIkkeHvorfor.annet === tilsynsordning.vet_ikke.svar &&
-                                tilsynsordning.vet_ikke.annet && (
-                                    <TextareaSummary text={tilsynsordning.vet_ikke.annet} />
-                                )}
+                            {TilsynVetIkkeHvorfor.annet === tilsynsordning.vetIkke.svar &&
+                                tilsynsordning.vetIkke.annet && <TextareaSummary text={tilsynsordning.vetIkke.annet} />}
                         </ContentWithHeader>
                     </Box>
                 </>

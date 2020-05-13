@@ -1,51 +1,40 @@
 import * as React from 'react';
-import Page from 'common/components/page/Page';
-import { StepID, StepConfigItemTexts, getStepConfig } from '../../config/stepConfig';
-import bemHelper from 'common/utils/bemUtils';
-import StepIndicator from '../step-indicator/StepIndicator';
-import StepFooter from '../stepFooter/StepFooter';
-import { Hovedknapp as Button } from 'nav-frontend-knapper';
-import Box from 'common/components/box/Box';
-import StepBanner from 'common/components/step-banner/StepBanner';
-import { Systemtittel } from 'nav-frontend-typografi';
-import FormikValidationErrorSummary from '../formik-validation-error-summary/FormikValidationErrorSummary';
 import { useIntl } from 'react-intl';
-import { getStepTexts } from 'app/utils/stepUtils';
-import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { FormikValidationErrorSummary } from '@navikt/sif-common-formik/lib';
 import { History } from 'history';
+import { Systemtittel } from 'nav-frontend-typografi';
 import BackLink from 'common/components/back-link/BackLink';
-import FortsettSøknadSenereDialog from 'common/components/dialogs/fortsettSøknadSenereDialog/FortsettSøknadSenereDialog';
+import Box from 'common/components/box/Box';
 import AvbrytSøknadDialog from 'common/components/dialogs/avbrytSøknadDialog/AvbrytSøknadDialog';
+import FortsettSøknadSenereDialog from 'common/components/dialogs/fortsettSøknadSenereDialog/FortsettSøknadSenereDialog';
+import Page from 'common/components/page/Page';
+import StepBanner from 'common/components/step-banner/StepBanner';
+import bemHelper from 'common/utils/bemUtils';
 import { purge } from 'app/api/api';
 import { navigateToNAVno, navigateToWelcomePage } from 'app/utils/navigationUtils';
-
+import { getStepTexts } from 'app/utils/stepUtils';
+import { StepConfigInterface, StepConfigItemTexts, StepID } from '../../config/stepConfig';
+import StepIndicator from '../step-indicator/StepIndicator';
+import StepFooter from '../stepFooter/StepFooter';
 import './step.less';
-
-const bem = bemHelper('step');
 
 export interface StepProps {
     id: StepID;
-    formValues: PleiepengesøknadFormData;
-    handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-    showSubmitButton?: boolean;
-    showButtonSpinner?: boolean;
-    buttonDisabled?: boolean;
     useValidationErrorSummary?: boolean;
-    customErrorSummaryRenderer?: () => React.ReactNode;
 }
 
-const Step: React.FunctionComponent<StepProps> = ({
+interface OwnProps {
+    stepConfig: StepConfigInterface;
+}
+
+const bem = bemHelper('step');
+
+const Step: React.FunctionComponent<StepProps & OwnProps> = ({
     id,
-    formValues,
-    handleSubmit,
-    showSubmitButton,
-    showButtonSpinner,
-    buttonDisabled,
     useValidationErrorSummary,
-    customErrorSummaryRenderer,
+    stepConfig,
     children
 }) => {
-    const stepConfig = getStepConfig(formValues);
     const conf = stepConfig[id];
     const intl = useIntl();
     const stepTexts: StepConfigItemTexts = getStepTexts(intl, id, stepConfig);
@@ -66,12 +55,7 @@ const Step: React.FunctionComponent<StepProps> = ({
             topContentRenderer={() => (
                 <>
                     <StepBanner text="Søknad om pleiepenger for sykt barn eller person over 18 år" />
-                    {useValidationErrorSummary !== false && (
-                        <FormikValidationErrorSummary className={bem.element('validationErrorSummary')} />
-                    )}
-                    {customErrorSummaryRenderer && (
-                        <div className={bem.element('validationErrorSummary')}>{customErrorSummaryRenderer()}</div>
-                    )}
+                    {useValidationErrorSummary !== false && <FormikValidationErrorSummary />}
                 </>
             )}>
             <BackLink
@@ -87,24 +71,7 @@ const Step: React.FunctionComponent<StepProps> = ({
             <Box margin="xxl">
                 <Systemtittel className={bem.element('title')}>{stepTexts.stepTitle}</Systemtittel>
             </Box>
-            <Box margin="xl">
-                <form onSubmit={handleSubmit} noValidate={true}>
-                    {children}
-                    {showSubmitButton !== false && (
-                        <Box margin="xl">
-                            <Button
-                                className={bem.element('button')}
-                                spinner={showButtonSpinner || false}
-                                disabled={buttonDisabled || false}
-                                data-cy={"fortsett-knapp"}
-                                aria-label={stepTexts.nextButtonAriaLabel}
-                            >
-                                {stepTexts.nextButtonLabel}
-                            </Button>
-                        </Box>
-                    )}
-                </form>
-            </Box>
+            <Box margin="xl">{children}</Box>
             <StepFooter
                 onFortsettSenere={() => setVisFortsettSenereDialog(true)}
                 onAvbryt={() => setVisAvbrytDialog(true)}

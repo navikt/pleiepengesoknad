@@ -1,6 +1,6 @@
 import RouteConfig from '../config/routeConfig';
 import { getStepConfig, StepID } from '../config/stepConfig';
-import { AppFormField, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { appIsRunningInDemoMode, appIsRunningInDevEnvironment } from './envUtils';
 import {
     arbeidsforholdStepAvailable, beredskapStepAvailable, legeerklæringStepAvailable,
@@ -20,7 +20,7 @@ export const getNextStepRoute = (stepId: StepID, formData?: PleiepengesøknadFor
     return stepConfig[stepId] ? getSøknadRoute(stepConfig[stepId].nextStep) : undefined;
 };
 
-export const isAvailable = (path: StepID | RouteConfig, values: PleiepengesøknadFormData) => {
+export const isAvailable = (path: StepID | RouteConfig, values: PleiepengesøknadFormData, søknadHasBeenSent?: boolean) => {
     if (!appIsRunningInDevEnvironment() && !appIsRunningInDemoMode()) {
         switch (path) {
             case StepID.OPPLYSNINGER_OM_BARNET:
@@ -42,7 +42,7 @@ export const isAvailable = (path: StepID | RouteConfig, values: Pleiepengesøkna
             case StepID.SUMMARY:
                 return summaryStepAvailable(values);
             case RouteConfig.SØKNAD_SENDT_ROUTE:
-                return values[AppFormField.harBekreftetOpplysninger];
+                return søknadHasBeenSent === true;
         }
     }
     return true;

@@ -158,20 +158,20 @@ describe('fieldValidations', () => {
         const fileMock = new File([''], 'filename.png', { type: 'text/png' });
 
         const uploadedAttachment: Attachment = { file: fileMock, pending: false, uploaded: true };
-        const failedAttachment1: Attachment = { file: fileMock, pending: true, uploaded: false };
-        const failedAttachment2: Attachment = { file: fileMock, pending: false, uploaded: false };
+        // const failedAttachment1: Attachment = { file: fileMock, pending: true, uploaded: false };
+        // const failedAttachment2: Attachment = { file: fileMock, pending: false, uploaded: false };
 
-        it('should return error message saying that files must be uploaded if list is empty', () => {
-            expect(validateLegeerklæring([])).toEqual(
-                createFieldValidationError(AppFieldValidationErrors.legeerklæring_mangler)
-            );
-        });
+        // it('should return error message saying that files must be uploaded if list is empty', () => {
+        //     expect(validateLegeerklæring([])).toEqual(
+        //         createFieldValidationError(AppFieldValidationErrors.legeerklæring_mangler)
+        //     );
+        // });
 
-        it('should return error message saying that files must be uploaded if list contains no successfully uploaded attachments', () => {
-            expect(validateLegeerklæring([failedAttachment1, failedAttachment2])).toEqual(
-                createFieldValidationError(AppFieldValidationErrors.legeerklæring_mangler)
-            );
-        });
+        // it('should return error message saying that files must be uploaded if list contains no successfully uploaded attachments', () => {
+        //     expect(validateLegeerklæring([failedAttachment1, failedAttachment2])).toEqual(
+        //         createFieldValidationError(AppFieldValidationErrors.legeerklæring_mangler)
+        //     );
+        // });
 
         it('should return undefined if list contains between 1-3 successfully uploaded attachments', () => {
             expect(validateLegeerklæring([uploadedAttachment])).toBeUndefined();

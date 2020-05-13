@@ -1,6 +1,6 @@
-import { Virksomhet } from '@navikt/sif-common/lib/common/forms/virksomhet/types';
 import { Ferieuttak } from 'common/forms/ferieuttak/types';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
+import { Virksomhet } from 'common/forms/virksomhet/types';
 import { Attachment } from 'common/types/Attachment';
 import { Time } from 'common/types/Time';
 import { YesOrNo } from 'common/types/YesOrNo';
@@ -46,6 +46,8 @@ export enum AppFormField {
     periodeFra = 'periodeFra',
     periodeTil = 'periodeTil',
     bekrefterPeriodeOver8uker = 'bekrefterPeriodeOver8uker',
+    skalPassePåBarnetIHelePerioden = 'skalPassePåBarnetIHelePerioden',
+    beskrivelseOmsorgsrolleIPerioden = 'beskrivelseOmsorgsrolleIPerioden',
     legeerklæring = 'legeerklæring',
     arbeidsforhold = 'arbeidsforhold',
     harBoddUtenforNorgeSiste12Mnd = 'harBoddUtenforNorgeSiste12Mnd',
@@ -86,16 +88,16 @@ export enum ArbeidsforholdField {
 
 export interface Arbeidsforhold extends Arbeidsgiver {
     [ArbeidsforholdField.erAnsattIPerioden]?: YesOrNo;
+    [ArbeidsforholdField.jobberNormaltTimer]?: number;
     [ArbeidsforholdField.skalJobbe]?: ArbeidsforholdSkalJobbeSvar;
     [ArbeidsforholdField.timerEllerProsent]?: 'timer' | 'prosent';
-    [ArbeidsforholdField.jobberNormaltTimer]?: number;
     [ArbeidsforholdField.skalJobbeTimer]?: number;
     [ArbeidsforholdField.skalJobbeProsent]?: number;
 }
 
 export enum TilsynVetIkkeHvorfor {
-    'er_sporadisk' = 'er_sporadisk',
-    'er_ikke_laget_en_plan' = 'er_ikke_laget_en_plan',
+    'erSporadisk' = 'erSporadisk',
+    'erIkkeLagetEnPlan' = 'erIkkeLagetEnPlan',
     'annet' = 'annet'
 }
 
@@ -112,6 +114,8 @@ export interface PleiepengesøknadFormData {
     [AppFormField.periodeFra]?: Date;
     [AppFormField.periodeTil]?: Date;
     [AppFormField.bekrefterPeriodeOver8uker]?: YesOrNo;
+    [AppFormField.skalPassePåBarnetIHelePerioden]?: YesOrNo;
+    [AppFormField.beskrivelseOmsorgsrolleIPerioden]?: string;
     [AppFormField.legeerklæring]: Attachment[];
     [AppFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo;
     [AppFormField.utenlandsoppholdSiste12Mnd]: Utenlandsopphold[];

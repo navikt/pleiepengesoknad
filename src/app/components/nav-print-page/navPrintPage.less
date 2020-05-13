@@ -1,0 +1,17 @@
+.navPrintPage {
+    border-top: 1px dashed #b7b1a9;
+    padding-top: 2rem;
+    page-break-before: always;
+    &--noTopBorder {
+        border-top: none;
+        padding-top: 0;
+    }
+    &__logo {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    @media print {
+        padding: 0;
+        border: none;
+    }
+}

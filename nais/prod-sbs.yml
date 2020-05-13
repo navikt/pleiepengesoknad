@@ -53,11 +53,17 @@ spec:
         - name: TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN
           value: "off"
         - name: TOGGLE_FERIEUTTAK
-          value: "off"
+          value: "on"
         - name: TOGGLE_FRILANS
-          value: "off"
+          value: "on"
         - name: TOGGLE_SELVSTENDIG
-          value: "off"
+          value: "on"
         - name: TOGGLE_8_UKER
           value: "off"
+        - name: TOGGLE_BEKREFT_OMSORG
+          value: "off"
+        - name: UTVIDET_KVITTERING
+          value: "on"
+          
+
 

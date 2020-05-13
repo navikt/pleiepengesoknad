@@ -17,7 +17,9 @@ const webpackConfig = {
         extensions: ['.ts', '.tsx', '.js', '.json', '.jsx'],
         alias: {
             app: path.resolve(__dirname, './../../app'),
-            common: path.resolve(__dirname, './../../../node_modules/@navikt/sif-common/lib/common')
+            ['common/forms']: path.resolve(__dirname, './../../../node_modules/@navikt/sif-common-forms/lib'),
+            ['common/formik']: path.resolve(__dirname, './../../../node_modules/@navikt/sif-common-formik/lib'),
+            ['common']: path.resolve(__dirname, './../../../node_modules/@navikt/sif-common-core/lib')
         }
     },
     module: {

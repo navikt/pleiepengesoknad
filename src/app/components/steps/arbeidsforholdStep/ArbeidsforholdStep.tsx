@@ -1,47 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import { StepConfigProps, StepID } from '../../../config/stepConfig';
-import { HistoryProps } from 'common/types/History';
-import FormikStep from '../../formik-step/FormikStep';
+import React, { useContext, useEffect, useState } from 'react';
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import { useFormikContext } from 'formik';
 import AlertStripe from 'nav-frontend-alertstriper';
 import Box from 'common/components/box/Box';
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl';
-import FormikArbeidsforhold from '../../formik-arbeidsforhold/FormikArbeidsforhold';
-import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
-import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import FormSection from 'common/components/form-section/FormSection';
-import { Søkerdata } from 'app/types/Søkerdata';
-import { PleiepengesøknadFormikProps } from 'app/types/PleiepengesøknadFormikProps';
-import { AppFormField } from 'app/types/PleiepengesøknadFormData';
-import LoadingSpinner from 'common/components/loading-spinner/LoadingSpinner';
-import { getArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
 import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
+import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
+import LoadingSpinner from 'common/components/loading-spinner/LoadingSpinner';
+import FormSection from '../../../pre-common/form-section/FormSection';
+import { AppFormField, PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
+import { getArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
+import { Feature, isFeatureEnabled } from 'app/utils/featureToggleUtils';
+import { StepConfigProps, StepID } from '../../../config/stepConfig';
+import { SøkerdataContext } from '../../../context/SøkerdataContext';
+import FormikArbeidsforhold from '../../formik-arbeidsforhold/FormikArbeidsforhold';
+import FormikStep from '../../formik-step/FormikStep';
 import FrilansFormPart from './FrilansFormPart';
-import { persistAndNavigateTo } from 'app/utils/navigationUtils';
-import { isFeatureEnabled, Feature } from 'app/utils/featureToggleUtils';
 import SelvstendigNæringsdrivendeFormPart from './SelvstendigNæringsdrivendePart';
 
-interface OwnProps {
-    formikProps: PleiepengesøknadFormikProps;
-    søkerdata: Søkerdata;
-}
-
-type Props = CommonStepFormikProps & OwnProps & HistoryProps & StepConfigProps;
-
-const ArbeidsforholdStep = ({ history, søkerdata, nextStepRoute, formikProps, ...stepProps }: Props) => {
+const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
+    const formikProps = useFormikContext<PleiepengesøknadFormData>();
     const {
         values,
         values: { arbeidsforhold }
     } = formikProps;
     const [isLoading, setIsLoading] = useState(false);
+    const søkerdata = useContext(SøkerdataContext);
 
     useEffect(() => {
-        const fraDato = formikProps.values[AppFormField.periodeFra];
-        const tilDato = formikProps.values[AppFormField.periodeFra];
+        const fraDato = values[AppFormField.periodeFra];
+        const tilDato = values[AppFormField.periodeFra];
 
         const fetchData = async () => {
-            if (fraDato && tilDato) {
-                await getArbeidsgivere(fraDato, tilDato, formikProps, søkerdata);
-                setIsLoading(false);
+            if (søkerdata) {
+                if (fraDato && tilDato) {
+                    await getArbeidsgivere(fraDato, tilDato, formikProps, søkerdata);
+                    setIsLoading(false);
+                }
             }
         };
         if (fraDato && tilDato) {
@@ -51,16 +46,11 @@ const ArbeidsforholdStep = ({ history, søkerdata, nextStepRoute, formikProps, .
     }, []);
 
     return (
-        <FormikStep
-            id={StepID.ARBEIDSFORHOLD}
-            onValidFormSubmit={() => persistAndNavigateTo(history, StepID.ARBEIDSFORHOLD, values, nextStepRoute)}
-            history={history}
-            {...stepProps}
-            buttonDisabled={isLoading}>
+        <FormikStep id={StepID.ARBEIDSFORHOLD} onValidFormSubmit={onValidSubmit} buttonDisabled={isLoading}>
             {isLoading && <LoadingSpinner type="XS" style={'block'} blockTitle="Henter arbeidsforhold" />}
             {!isLoading && (
                 <>
-                    <Box padBottom="xxl">
+                    <Box padBottom="m">
                         <CounsellorPanel>
                             <FormattedHTMLMessage id="steg.arbeidsforhold.aktivtArbeidsforhold.info.html" />
                         </CounsellorPanel>
@@ -68,33 +58,45 @@ const ArbeidsforholdStep = ({ history, søkerdata, nextStepRoute, formikProps, .
                     {arbeidsforhold.length > 0 && (
                         <>
                             {arbeidsforhold.map((forhold, index) => (
-                                <Box padBottom="l" key={forhold.organisasjonsnummer}>
-                                    <FormSection titleTag="h4" title={forhold.navn} titleIcon={<BuildingIcon />}>
+                                <FormBlock key={forhold.organisasjonsnummer}>
+                                    <FormSection
+                                        titleTag="h4"
+                                        title={forhold.navn}
+                                        titleIcon={<BuildingIcon />}
+                                        indentContent={false}>
                                         <FormikArbeidsforhold arbeidsforhold={forhold} index={index} />
                                     </FormSection>
-                                </Box>
+                                </FormBlock>
                             ))}
                         </>
                     )}
 
                     {arbeidsforhold.length === 0 && <FormattedMessage id="steg.arbeidsforhold.ingenOpplysninger" />}
 
-                    <Box margin="s" padBottom="xl">
-                        <AlertStripe type="info">
-                            <FormattedMessage id="steg.arbeidsforhold.manglesOpplysninger" />
-                        </AlertStripe>
-                    </Box>
+                    {isFeatureEnabled(Feature.TOGGLE_FRILANS) && isFeatureEnabled(Feature.TOGGLE_SELVSTENDIG) && (
+                        <>
+                            <Box margin="l">
+                                <AlertStripe type="info">
+                                    <FormattedMessage id="steg.arbeidsforhold.manglesOpplysninger" />
+                                </AlertStripe>
+                            </Box>
 
-                    {isFeatureEnabled(Feature.TOGGLE_FRILANS) && (
-                        <Box margin="l" padBottom="l">
-                            <FrilansFormPart formValues={values} />
-                        </Box>
-                    )}
+                            <Box margin="xl">
+                                <FormSection title="Frilansere og selvstendig næringsdrivende">
+                                    {isFeatureEnabled(Feature.TOGGLE_FRILANS) && (
+                                        <FormBlock>
+                                            <FrilansFormPart formValues={values} />
+                                        </FormBlock>
+                                    )}
 
-                    {isFeatureEnabled(Feature.TOGGLE_SELVSTENDIG) && (
-                        <Box margin="l" padBottom="l">
-                            <SelvstendigNæringsdrivendeFormPart formValues={values} />
-                        </Box>
+                                    {isFeatureEnabled(Feature.TOGGLE_SELVSTENDIG) && (
+                                        <FormBlock>
+                                            <SelvstendigNæringsdrivendeFormPart formValues={values} />
+                                        </FormBlock>
+                                    )}
+                                </FormSection>
+                            </Box>
+                        </>
                     )}
                 </>
             )}

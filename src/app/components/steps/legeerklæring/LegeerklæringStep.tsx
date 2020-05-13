@@ -8,52 +8,60 @@ import FileUploadErrors from 'common/components/file-upload-errors/FileUploadErr
 import HelperTextPanel from 'common/components/helper-text-panel/HelperTextPanel';
 import PictureScanningGuide from 'common/components/picture-scanning-guide/PictureScanningGuide';
 import { Attachment } from 'common/types/Attachment';
-import { HistoryProps } from 'common/types/History';
 import { mapFileToPersistedFile } from 'common/utils/attachmentUtils';
 import intlHelper from 'common/utils/intlUtils';
 import { persist } from '../../../api/api';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
-import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
+import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 import { navigateToLoginPage } from '../../../utils/navigationUtils';
 import { validateLegeerklæring } from '../../../validation/fieldValidations';
 import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
-import { CommonStepFormikProps } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
+import { useFormikContext } from 'formik';
 
-type Props = { formikProps: PleiepengesøknadFormikProps } & CommonStepFormikProps & HistoryProps & StepConfigProps;
-
-const LegeerklæringStep = ({ history, nextStepRoute, formikProps, ...stepProps }: Props) => {
+const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
+    const { values, setFieldValue } = useFormikContext<PleiepengesøknadFormData>();
     const intl = useIntl();
     const isRunningDemoMode = appIsRunningInDemoMode();
-    const { values } = formikProps;
     const attachments: Attachment[] = values ? values[AppFormField.legeerklæring] : [];
     const hasPendingUploads: boolean = attachments.find((a) => a.pending === true) !== undefined;
+
+    const ref = React.useRef({ attachments });
+
+    React.useEffect(() => {
+        const hasPendingAttachments = attachments.find((a) => a.pending === true);
+        if (hasPendingAttachments) {
+            return;
+        }
+        if (attachments.length !== ref.current.attachments.length) {
+            const newValues = attachments.map((a) => {
+                const persistedFile = mapFileToPersistedFile(a.file);
+                return {
+                    ...a,
+                    file: persistedFile
+                };
+            });
+            const valuesToPersist = { ...values, legeerklæring: newValues };
+            setFieldValue(AppFormField.legeerklæring, newValues);
+            persist(valuesToPersist, StepID.LEGEERKLÆRING);
+        }
+        ref.current = {
+            attachments
+        };
+    }, [attachments]);
 
     return (
         <FormikStep
             id={StepID.LEGEERKLÆRING}
             onValidFormSubmit={() => {
-                const formData = {
-                    ...values,
-                    [AppFormField.legeerklæring]: attachments.map((a) => ({
-                        ...a,
-                        file: mapFileToPersistedFile(a.file)
-                    }))
-                };
-                persist(formData, StepID.LEGEERKLÆRING);
-                if (nextStepRoute) {
-                    history.push(nextStepRoute);
-                }
+                onValidSubmit();
             }}
-            history={history}
             useValidationErrorSummary={false}
             skipValidation={true}
-            buttonDisabled={hasPendingUploads}
-            {...stepProps}>
+            buttonDisabled={hasPendingUploads}>
             {isRunningDemoMode && (
                 <Box>
                     <AlertStripeInfo>
@@ -83,7 +91,9 @@ const LegeerklæringStep = ({ history, nextStepRoute, formikProps, ...stepProps 
                             <p>
                                 Vi har forståelse for at det kan være vanskelig å skaffe legeerklæring/bekreftelse på
                                 grunn av koronasituasjonen. Hvis du ikke har dokumentasjonen nå, kan du ettersende den.{' '}
-                                <Lenke href="https://www.nav.no/soknader/nb/person/familie/pleiepenger-og-opplaringspenger/NAV%2009-11.05/ettersendelse">
+                                <Lenke
+                                    href="https://www.nav.no/soknader/nb/person/familie/pleiepenger-og-opplaringspenger/NAV%2009-11.05/ettersendelse"
+                                    target="_blank">
                                     Her får du veiledning til hvordan du ettersender dokumentasjon
                                 </Lenke>
                             </p>

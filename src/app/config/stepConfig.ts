@@ -1,7 +1,7 @@
-import routeConfig from './routeConfig';
-import { getSøknadRoute } from '../utils/routeUtils';
-import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { YesOrNo } from 'common/types/YesOrNo';
+import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { getSøknadRoute } from '../utils/routeUtils';
+import routeConfig from './routeConfig';
 
 export enum StepID {
     'OPPLYSNINGER_OM_BARNET' = 'opplysninger-om-barnet',
@@ -121,7 +121,7 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
 };
 
 export interface StepConfigProps {
-    nextStepRoute: string | undefined;
+    onValidSubmit: () => void;
 }
 
 export const stepConfig: StepConfigInterface = getStepConfig();

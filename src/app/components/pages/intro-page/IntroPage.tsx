@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { FormattedHTMLMessage, FormattedMessage, useIntl } from 'react-intl';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
+import Page from '@navikt/sif-common-core/lib/components/page/Page';
+import StepBanner from '@navikt/sif-common-core/lib/components/step-banner/StepBanner';
+import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
-import Box from 'common/components/box/Box';
-import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
+import { RadioPanelGruppe } from 'nav-frontend-skjema';
 import InformationPoster from 'common/components/information-poster/InformationPoster';
-import Page from 'common/components/page/Page';
-import StepBanner from 'common/components/step-banner/StepBanner';
-import { default as YesOrNoQuestion } from 'common/form-components/yes-or-no-question-base/YesOrNoQuestionBase';
-import { YesOrNo } from 'common/types/YesOrNo';
-import bemUtils from 'common/utils/bemUtils';
-import intlHelper from 'common/utils/intlUtils';
 import getLenker from '../../../lenker';
 import GoToApplicationLink from '../../go-to-application-link/GoToApplicationLink';
 import './introPage.less';
@@ -74,11 +74,22 @@ const IntroPage: React.StatelessComponent = () => {
                 </InformationPoster>
             </Box>
             <Box margin="xl">
-                <YesOrNoQuestion
+                <RadioPanelGruppe
+                    className={'twoColumnPanelGruppe'}
                     legend={intlHelper(intl, 'introPage.spm.selvstendigEllerFrilanser')}
                     name="erDuSelvstendigNæringsdrivendeEllerFrilanser"
                     checked={erSelvstendigNæringsdrivendeEllerFrilanser}
-                    onChange={(value) => setErSelvstendigNæringsdrivendeEllerFrilanser(value)}
+                    onChange={(evt, value) => setErSelvstendigNæringsdrivendeEllerFrilanser(value)}
+                    radios={[
+                        {
+                            label: 'Ja',
+                            value: YesOrNo.YES
+                        },
+                        {
+                            label: 'Nei',
+                            value: YesOrNo.NO
+                        }
+                    ]}
                 />
             </Box>
             <Box margin="xl" textAlignCenter={true}>

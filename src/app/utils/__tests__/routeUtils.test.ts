@@ -75,7 +75,7 @@ describe('routeUtils', () => {
             const result = isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, {
                 ...formValues,
                 [AppFormField.harBekreftetOpplysninger]: true
-            });
+            }, true);
             expect(result).toBe(true);
         });
 
@@ -83,7 +83,7 @@ describe('routeUtils', () => {
             const result = isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, {
                 ...formValues,
                 [AppFormField.harBekreftetOpplysninger]: false
-            });
+            }, false);
             expect(result).toBe(false);
         });
 

@@ -1,49 +1,30 @@
 import * as React from 'react';
-import { StepID, StepConfigProps } from '../../../config/stepConfig';
-import { PleiepengesøknadFormikProps } from '../../../types/PleiepengesøknadFormikProps';
-import { HistoryProps } from '@navikt/sif-common/lib/common/types/History';
 import { useIntl } from 'react-intl';
-import FormikStep from '../../formik-step/FormikStep';
-import { persistAndNavigateTo } from '../../../utils/navigationUtils';
-import FormikYesOrNoQuestion from '@navikt/sif-common/lib/common/formik/formik-yes-or-no-question/FormikYesOrNoQuestion';
-import intlHelper from '@navikt/sif-common/lib/common/utils/intlUtils';
-import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import { validateYesOrNoIsAnswered } from '@navikt/sif-common/lib/common/validation/fieldValidations';
-import { YesOrNo } from '@navikt/sif-common/lib/common/types/YesOrNo';
-import Box from '@navikt/sif-common/lib/common/components/box/Box';
-import FormikTextarea from '@navikt/sif-common/lib/common/formik/formik-textarea/FormikTextarea';
+import { useFormikContext } from 'formik';
+import Box from 'common/components/box/Box';
+import { YesOrNo } from 'common/types/YesOrNo';
+import intlHelper from 'common/utils/intlUtils';
+import { validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
+import { StepConfigProps, StepID } from '../../../config/stepConfig';
+import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { validateNattevåkTilleggsinfo } from '../../../validation/fieldValidations';
+import AppForm from '../../app-form/AppForm';
+import FormikStep from '../../formik-step/FormikStep';
 
-interface StepProps {
-    formikProps: PleiepengesøknadFormikProps;
-    handleSubmit: () => void;
-}
-
-type Props = StepProps & HistoryProps & StepConfigProps;
-
-const NattevåkStep: React.FunctionComponent<Props> = ({
-    history,
-    formikProps: { values },
-    nextStepRoute,
-    ...stepProps
-}) => {
+const NattevåkStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) => {
     const intl = useIntl();
+    const { values } = useFormikContext<PleiepengesøknadFormData>();
     const { harNattevåk } = values;
     return (
-        <FormikStep
-            id={StepID.NATTEVÅK}
-            onValidFormSubmit={() => persistAndNavigateTo(history, StepID.NATTEVÅK, values, nextStepRoute)}
-            history={history}
-            {...stepProps}
-            formValues={values}>
-            <FormikYesOrNoQuestion
+        <FormikStep id={StepID.NATTEVÅK} onValidFormSubmit={onValidSubmit}>
+            <AppForm.YesOrNoQuestion
                 legend={intlHelper(intl, 'steg.nattevåk.spm')}
                 name={AppFormField.harNattevåk}
                 validate={validateYesOrNoIsAnswered}
             />
             {harNattevåk === YesOrNo.YES && (
                 <Box margin="xl">
-                    <FormikTextarea<AppFormField>
+                    <AppForm.Textarea
                         name={AppFormField.harNattevåk_ekstrainfo}
                         label={intlHelper(intl, 'steg.nattevåk.tilleggsinfo.spm')}
                         validate={validateNattevåkTilleggsinfo}

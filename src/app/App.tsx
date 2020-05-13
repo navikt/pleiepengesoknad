@@ -13,12 +13,15 @@ import { appIsRunningInDemoMode } from './utils/envUtils';
 import { Feature, isFeatureEnabled } from './utils/featureToggleUtils';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
 import 'common/styles/globalStyles.less';
+import './app.less';
 
 const localeFromSessionStorage = getLocaleFromSessionStorage();
 moment.locale(localeFromSessionStorage);
 
 const App: React.FunctionComponent = () => {
     const [locale, setLocale] = React.useState<Locale>(localeFromSessionStorage);
+    const isOenForFrilansAndSelvstendig =
+        isFeatureEnabled(Feature.TOGGLE_FRILANS) && isFeatureEnabled(Feature.TOGGLE_SELVSTENDIG);
     return (
         <ApplicationWrapper
             locale={locale}
@@ -26,16 +29,21 @@ const App: React.FunctionComponent = () => {
                 setLocaleInSessionStorage(activeLocale);
                 setLocale(activeLocale);
             }}>
-            {appIsRunningInDemoMode() && <Pleiepengesøknad />}
-            {appIsRunningInDemoMode() === false && (
+            {isOenForFrilansAndSelvstendig && <Pleiepengesøknad />}
+            {!isOenForFrilansAndSelvstendig && (
                 <>
-                    {isFeatureEnabled(Feature.UTILGJENGELIG) ? (
-                        <UnavailablePage />
-                    ) : (
-                        <Switch>
-                            <Route path={RouteConfig.SØKNAD_ROUTE_PREFIX} component={Pleiepengesøknad} />
-                            <Route path="/" component={IntroPage} />
-                        </Switch>
+                    {appIsRunningInDemoMode() && <Pleiepengesøknad />}
+                    {appIsRunningInDemoMode() === false && (
+                        <>
+                            {isFeatureEnabled(Feature.UTILGJENGELIG) ? (
+                                <UnavailablePage />
+                            ) : (
+                                <Switch>
+                                    <Route path={RouteConfig.SØKNAD_ROUTE_PREFIX} component={Pleiepengesøknad} />
+                                    <Route path="/" component={IntroPage} />
+                                </Switch>
+                            )}
+                        </>
                     )}
                 </>
             )}
