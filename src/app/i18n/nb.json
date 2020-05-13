@@ -292,7 +292,7 @@
     "page.confirmation.dittNav": "Søknaden din vil bli synlig på Ditt NAV etter omkring en uke. Da vil du også kunne se hva slags dokumentasjon vi har fått fra deg.",
     "page.confirmation.søker": "Du må be {numberOfArbeidsforhold, plural, one {arbeidsgiveren din} other {arbeidsgiverne dine}} om å sende inntektsmelding til oss.",
     "page.confirmation.behandling": "Vi starter behandlingen av søknaden din når vi har mottatt all nødvendig dokumentasjon. Vi kontakter deg hvis vi trenger flere opplysninger i saken din.",
-    "page.confirmation.behandlet.html": "Når søknaden er ferdig behandlet, får du et svarbrev fra oss. Du kan se <a href=\"{lenke}\" class=\"lenke\" rel=\"noopener\">saksbehandlingstiden</a> for ditt fylke her.",
+    "page.confirmation.behandlet.html": "Når søknaden er ferdig behandlet, får du et svarbrev fra oss. Du kan se <a href=\"{lenke}\" class=\"lenke\" target=\"blank\" rel=\"noopener\">saksbehandlingstiden</a> for ditt fylke her.",
 
     "page.generalErrorPage.sidetittel": "Feil",
     "page.generalErrorPage.tittel": "Noe gikk galt...",
