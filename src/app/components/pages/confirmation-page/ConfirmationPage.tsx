@@ -95,7 +95,7 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ kvitteringInfo }) =>
                                     er det vanskelig å si når søknaden blir synlig for deg på Ditt NAV.
                                     <p>
                                         Når søknaden din er ferdigbehandlet, får du et svar fra oss. Se{' '}
-                                        <Lenke href={getLenker(intl.locale).saksbehandlingstider}>
+                                        <Lenke href={getLenker(intl.locale).saksbehandlingstider} target="_blank">
                                             saksbehandlingstiden som gjelder for ditt fylke
                                         </Lenke>{' '}
                                         .
