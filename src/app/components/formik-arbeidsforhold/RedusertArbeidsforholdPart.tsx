@@ -4,7 +4,7 @@ import Box from 'common/components/box/Box';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import intlHelper from 'common/utils/intlUtils';
 import { decimalTimeToTime } from 'common/utils/timeUtils';
-import { validateRequiredField } from 'common/validation/fieldValidations';
+import { validateRequiredField, validateRequiredNumber } from 'common/validation/fieldValidations';
 import { AppFormField, Arbeidsforhold, ArbeidsforholdField } from '../../types/PleiepengesøknadFormData';
 import {
     calcReduserteTimerFromRedusertProsent,
@@ -91,11 +91,11 @@ const RedusertArbeidsforholdPart: React.FunctionComponent<Props> = ({
                                 name={getFieldName(ArbeidsforholdField.skalJobbeProsent)}
                                 type="number"
                                 label={getLabelForProsentRedusert(intl, jobberNormaltTimer, skalJobbeProsent)}
-                                validate={validateRequiredField}
+                                validate={validateRequiredNumber({ min: 1, max: 99 })}
                                 className="skjemaelement--timer-input"
                                 value={skalJobbeProsent || ''}
-                                min={0}
-                                max={100}
+                                min={1}
+                                max={99}
                             />
                         </SkjemagruppeQuestion>
                     </Box>
