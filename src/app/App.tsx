@@ -9,7 +9,6 @@ import IntroPage from './components/pages/intro-page/IntroPage';
 import UnavailablePage from './components/pages/unavailable-page/UnavailablePage';
 import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad';
 import RouteConfig from './config/routeConfig';
-import { appIsRunningInDemoMode } from './utils/envUtils';
 import { Feature, isFeatureEnabled } from './utils/featureToggleUtils';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
 import 'common/styles/globalStyles.less';
@@ -32,20 +31,16 @@ const App: React.FunctionComponent = () => {
             {isOenForFrilansAndSelvstendig && <Pleiepengesøknad />}
             {!isOenForFrilansAndSelvstendig && (
                 <>
-                    {appIsRunningInDemoMode() && <Pleiepengesøknad />}
-                    {appIsRunningInDemoMode() === false && (
-                        <>
-                            {isFeatureEnabled(Feature.UTILGJENGELIG) ? (
-                                <UnavailablePage />
-                            ) : (
-                                <Switch>
-                                    <Route path={RouteConfig.SØKNAD_ROUTE_PREFIX} component={Pleiepengesøknad} />
-                                    <Route path="/" component={IntroPage} />
-                                </Switch>
-                            )}
-                        </>
+                    {isFeatureEnabled(Feature.UTILGJENGELIG) ? (
+                        <UnavailablePage />
+                    ) : (
+                        <Switch>
+                            <Route path={RouteConfig.SØKNAD_ROUTE_PREFIX} component={Pleiepengesøknad} />
+                            <Route path="/" component={IntroPage} />
+                        </Switch>
                     )}
                 </>
+            )}
             )}
         </ApplicationWrapper>
     );

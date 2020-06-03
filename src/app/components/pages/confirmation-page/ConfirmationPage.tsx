@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormattedHTMLMessage, FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { Knapp } from 'nav-frontend-knapper';
 import { Panel } from 'nav-frontend-paneler';
@@ -50,17 +50,14 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ kvitteringInfo }) =>
                         </li>
                         {numberOfArbeidsforhold > 0 && (
                             <li>
-                                <FormattedHTMLMessage
-                                    id="page.confirmation.søker"
-                                    values={{ numberOfArbeidsforhold }}
-                                />
+                                <FormattedMessage id="page.confirmation.søker" values={{ numberOfArbeidsforhold }} />
                             </li>
                         )}
                         <li>
                             <FormattedMessage id="page.confirmation.behandling" />
                         </li>
                         <li>
-                            <FormattedHTMLMessage
+                            <FormattedMessage
                                 id="page.confirmation.behandlet.html"
                                 values={{
                                     lenke: getLenker(intl.locale).saksbehandlingstider
@@ -95,7 +92,7 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ kvitteringInfo }) =>
                                     er det vanskelig å si når søknaden blir synlig for deg på Ditt NAV.
                                     <p>
                                         Når søknaden din er ferdigbehandlet, får du et svar fra oss. Se{' '}
-                                        <Lenke href={getLenker(intl.locale).saksbehandlingstider}>
+                                        <Lenke href={getLenker(intl.locale).saksbehandlingstider} target="_blank">
                                             saksbehandlingstiden som gjelder for ditt fylke
                                         </Lenke>{' '}
                                         .

@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { FormattedHTMLMessage, FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import {
-    date1YearAgo, date1YearFromNow, date3YearsAgo, DateRange
-} from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { date1YearAgo, date1YearFromNow, date3YearsAgo, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { validateYesOrNoIsAnswered } from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import { IntlFieldValidationError } from '@navikt/sif-common-core/lib/validation/types';
@@ -21,12 +19,13 @@ import { SøkerdataContext } from '../../../context/SøkerdataContext';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { erPeriodeOver8Uker } from '../../../utils/søkerOver8UkerUtils';
-import {
-    brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet
-} from '../../../utils/tidsromUtils';
+import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet } from '../../../utils/tidsromUtils';
 import { getVarighetString } from '../../../utils/varighetUtils';
 import {
-    validateBekreftOmsorgEkstrainfo, validateFerieuttakIPerioden, validateFradato, validateTildato,
+    validateBekreftOmsorgEkstrainfo,
+    validateFerieuttakIPerioden,
+    validateFradato,
+    validateTildato,
     validateUtenlandsoppholdIPerioden
 } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
@@ -198,7 +197,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                     {visInfoOmUtenlandsopphold && (
                         <Box margin="l" padBottom="l">
                             <CounsellorPanel>
-                                <FormattedHTMLMessage id="steg.tidsrom.veileder.utenlandsopphold.html" />
+                                <FormattedMessage id="steg.tidsrom.veileder.utenlandsopphold" />
                             </CounsellorPanel>
                         </Box>
                     )}

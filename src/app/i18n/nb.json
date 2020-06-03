@@ -75,7 +75,7 @@
     "step.tidsrom.stepTitle": "Perioden med pleiepenger",
     "step.tidsrom.stepIndicatorLabel": "Periode",
     "step.tidsrom.infotekst": "For å ha rett til pleiepenger må du ha omsorgen for barnet i hele perioden du søker for.",
-    "steg.tidsrom.veileder.utenlandsopphold.html": "Når du oppholder deg i et land utenfor EØS, kan du beholde pleiepengene i en begrenset periode på opptil 8 uker av en 12 måneder lang periode.",
+    "steg.tidsrom.veileder.utenlandsopphold": "Når du oppholder deg i et land utenfor EØS, kan du beholde pleiepengene i en begrenset periode på opptil 8 uker av en 12 måneder lang periode.",
 
     "steg.tidsrom.over8uker": "Du har lagt inn en periode som er lenger enn 8 uker. Ønsker du dette?",
     "steg.tidsrom.over8uker.veileder": "Hvis du ikke vil søke for en periode som er lenger enn 8 uker, må du legge inn en kortere periode i kalenderen.",
@@ -128,8 +128,8 @@
     "introPage.veileder.erSelvstendigEllerFrilanser": "Den digitale søknaden kan foreløpig ikke brukes av selvstendig næringsdrivende og frilansere.",
     "introPage.veileder.erSelvstendigEllerFrilanser.utenTilsyn": "Den digitale søknaden er under utvikling og kan foreløpig ikke brukes av selvstendig næringsdrivende og frilansere.<br/>",
     "introPage.veileder.skalIBarnehageEllerSkole": "Hvis barnet skal være noe i barnehage, skole eller liknende, kan du foreløpig ikke søke digitalt.",
-    "introPage.veileder.papirLenke.html": "Du fyller i stedet ut <a href=\"{url}\" class=\"lenke\">søknaden på papir</a> og sender den i posten.",
-    "introPage.veileder.papirLenke.utenTilsyn.html": "Hvis det gjelder deg fyller du i stedet ut <a href=\"{url}\">søknaden på papir</a> og sender den i posten.",
+    "introPage.veileder.papirLenke.html": "Du fyller i stedet ut <a href=\"{url}\" class=\"lenke\" target=\"_blank\" rel=\"noopener\">søknaden på papir</a> og sender den i posten.",
+    "introPage.veileder.papirLenke.utenTilsyn.html": "Hvis det gjelder deg fyller du i stedet ut <a href=\"{url}\" class=\"lenke\" target=\"_blank\" rel=\"noopener\">søknaden på papir</a> og sender den i posten.",
 
     "welcomingPage.sidetittel": "Søknad om pleiepenger for sykt barn eller person over 18 år",
     "welcomingPage.banner.tittel": "Hei,",
@@ -218,7 +218,7 @@
     "steg.beredskap.tilleggsinfo.spm": "Beskriv hva som gjør at du må være i beredskap eller være tilgjengelig",
     "steg.beredskap.veileder": "I noen tilfeller kan barnets sykdom gjøre at du må være i beredskap eller være tilgjengelig, selv om barnet er i et omsorgstilbud. Det kan for eksempel være at du må være tilstede i klasserommet, eller at du må reise fra jobb på kort varsel for å være tilgjengelig for barnet ditt.",
 
-    "steg.medlemsskap.annetLandSiste12.spm": "Har du bodd i andre land enn Norge i hele eller deler av de siste 12 månedene?",
+    "steg.medlemsskap.annetLandSiste12.spm": "Har du bodd i utlandet i hele eller deler av de siste 12 månedene?",
     "steg.medlemsskap.annetLandSiste12.hjelp": "Du svarer ja bare hvis du har oppholdt deg fast i et annet land enn Norge. Korte utlandsturer i forbindelse med for eksempel ferie regnes ikke med.",
     "steg.medlemsskap.annetLandNeste12.spm": "Planlegger du å bo i andre land enn Norge i hele eller deler av de neste 12 månedene?",
     "steg.medlemsskap.annetLandSiste12.listeTittel": "Utenlandsopphold siste 12 måneder",
@@ -292,7 +292,7 @@
     "page.confirmation.dittNav": "Søknaden din vil bli synlig på Ditt NAV etter omkring en uke. Da vil du også kunne se hva slags dokumentasjon vi har fått fra deg.",
     "page.confirmation.søker": "Du må be {numberOfArbeidsforhold, plural, one {arbeidsgiveren din} other {arbeidsgiverne dine}} om å sende inntektsmelding til oss.",
     "page.confirmation.behandling": "Vi starter behandlingen av søknaden din når vi har mottatt all nødvendig dokumentasjon. Vi kontakter deg hvis vi trenger flere opplysninger i saken din.",
-    "page.confirmation.behandlet.html": "Når søknaden er ferdig behandlet, får du et svarbrev fra oss. Du kan se <a href=\"{lenke}\" class=\"lenke\" target=\"blank\" rel=\"noopener\">saksbehandlingstiden</a> for ditt fylke her.",
+    "page.confirmation.behandlet.html": "Når søknaden er ferdig behandlet, får du et svarbrev fra oss. Du kan se <a href=\"{lenke}\" class=\"lenke\" target=\"_blank\" rel=\"noopener\">saksbehandlingstiden</a> for ditt fylke her.",
 
     "page.generalErrorPage.sidetittel": "Feil",
     "page.generalErrorPage.tittel": "Noe gikk galt...",
@@ -306,7 +306,8 @@
 
     "vedleggsliste.fjernKnapp": "Fjern vedlegg",
     "vedleggsliste.ingenLegeerklæringLastetOpp": "Ingen vedlegg er lastet opp",
-    "vedleggsliste.legeerklæringLastetOppSjekkliste": "Før du fortsetter, klikk på hvert enkelt filnavn og sjekk at bildekvaliteten er god nok.<br /> Bildet åpnes i en ny fane.",
+    "vedleggsliste.legeerklæringLastetOppSjekkliste.1": "Før du fortsetter, klikk på hvert enkelt filnavn og sjekk at bildekvaliteten er god nok.",
+    "vedleggsliste.legeerklæringLastetOppSjekkliste.2": "Bildet åpnes i en ny fane.",
 
     "fieldvalidation.påkrevd": "Feltet er påkrevd",
     "fieldvalidation.fødselsnummer.11siffer": "Fødselsnummeret / D-nummeret må bestå av 11 siffer",
@@ -359,10 +360,10 @@
     "arbeidsforhold.oppsummering.orgInfo": "{navn} (organisasjonsnummer {organisasjonsnummer}):",
     "arbeidsforhold.oppsummering.skalIkkeArbeide": "Skal ikke jobbe her i denne perioden (jobber normalt {timerNormalt} i uken).",
     "arbeidsforhold.oppsummering.skalArbeideDelvis": "Skal jobbe {timerRedusert} i uken i denne perioden (jobber normalt {timerNormalt} i uken).",
-    "arbeidsforhold.oppsummering.svar.ja": "Skal jobbe som vanlig. Jobber vanligvis {timer} i uken.",
-    "arbeidsforhold.oppsummering.svar.nei": "Skal ikke jobbe. Jobber vanligvis {timer} i uken.",
+    "arbeidsforhold.oppsummering.svar.ja": "Skal jobbe som vanlig. Jobber vanligvis {timer, plural, one {# time} other {# timer}} i uken.",
+    "arbeidsforhold.oppsummering.svar.nei": "Skal ikke jobbe. Jobber vanligvis {timer, plural, one {# time} other {# timer}} i uken.",
     "arbeidsforhold.oppsummering.svar.vetIkke": "Jeg vet ikke om jeg skal jobbe her i perioden jeg søker for, men jeg melder fra hvis jeg skal gjøre det. Jobber vanligvis {timer} i uken.",
-    "arbeidsforhold.oppsummering.svar.redusert.timer": "Skal jobbe {timerRedusert} i uka ({prosentRedusert} prosent av vanlig)",
+    "arbeidsforhold.oppsummering.svar.redusert.timer": "Skal jobbe {timerRedusert} i uka ({prosentRedusert} prosent av vanlig). Jobber normalt {timerNormalt} i uken.",
     "arbeidsforhold.oppsummering.svar.redusert.prosent": "Skal jobbe {prosentRedusert} prosent av {timerNormalt} i uka.",
     "arbeidsforhold.oppsummering.jobberNormalt": "Jobber vanligvis {timer, plural, one {# time} other {# timer}} i uken.",
 
@@ -372,7 +373,5 @@
     "tilsynsordning.timerPerDag.timerOgMinutter": "{hours}t {minutes}m",
     "tilsynsordning.timerPerDag.timer": "{hours}t",
     "tilsynsordning.timerPerDag.minutter": "{minutes}m",
-    "tilsynsordning.ingenDagerValgt": "Ingen dager med tilsyn er registrert",
-
-    "demoInfo.html": "Dette er en <strong>demoversjon</strong> av søknadsskjemaet for pleiepenger, og blir kun brukt i sammenheng med brukertest på <a href=\"http://navlab.no/\">http://navlab.no/</a>"
+    "tilsynsordning.ingenDagerValgt": "Ingen dager med tilsyn er registrert"
 }

@@ -9,7 +9,6 @@ import { useFormikContext } from 'formik';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { AppFormField, initialValues, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../../../types/Søkerdata';
-import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 import { validateValgtBarn } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
 
@@ -57,30 +56,28 @@ const RegistrertBarnPart: React.FunctionComponent<Props> = ({ søkersBarn }) => 
                     return validateValgtBarn(value);
                 }}
             />
-            {appIsRunningInDemoMode() === false && (
-                <FormBlock margin="l">
-                    <AppForm.Checkbox
-                        label={intlHelper(intl, 'steg.omBarnet.gjelderAnnetBarn')}
-                        name={AppFormField.søknadenGjelderEtAnnetBarn}
-                        afterOnChange={(newValue) => {
-                            if (newValue) {
-                                resetFieldValue(AppFormField.barnetSøknadenGjelder, setFieldValue, initialValues);
-                            } else {
-                                resetFieldValues(
-                                    [
-                                        AppFormField.barnetsFødselsnummer,
-                                        AppFormField.barnetHarIkkeFåttFødselsnummerEnda,
-                                        AppFormField.barnetsFødselsdato,
-                                        AppFormField.barnetsNavn
-                                    ],
-                                    setFieldValue,
-                                    initialValues
-                                );
-                            }
-                        }}
-                    />
-                </FormBlock>
-            )}
+            <FormBlock margin="l">
+                <AppForm.Checkbox
+                    label={intlHelper(intl, 'steg.omBarnet.gjelderAnnetBarn')}
+                    name={AppFormField.søknadenGjelderEtAnnetBarn}
+                    afterOnChange={(newValue) => {
+                        if (newValue) {
+                            resetFieldValue(AppFormField.barnetSøknadenGjelder, setFieldValue, initialValues);
+                        } else {
+                            resetFieldValues(
+                                [
+                                    AppFormField.barnetsFødselsnummer,
+                                    AppFormField.barnetHarIkkeFåttFødselsnummerEnda,
+                                    AppFormField.barnetsFødselsdato,
+                                    AppFormField.barnetsNavn
+                                ],
+                                setFieldValue,
+                                initialValues
+                            );
+                        }
+                    }}
+                />
+            </FormBlock>
         </>
     );
 };

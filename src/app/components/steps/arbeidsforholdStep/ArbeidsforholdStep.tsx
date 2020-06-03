@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { useFormikContext } from 'formik';
 import AlertStripe from 'nav-frontend-alertstriper';
@@ -52,7 +52,10 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                 <>
                     <Box padBottom="m">
                         <CounsellorPanel>
-                            <FormattedHTMLMessage id="steg.arbeidsforhold.aktivtArbeidsforhold.info.html" />
+                            <FormattedMessage
+                                id="steg.arbeidsforhold.aktivtArbeidsforhold.info.html"
+                                values={{ p: (msg: string) => <p>{msg}</p> }}
+                            />
                         </CounsellorPanel>
                     </Box>
                     {arbeidsforhold.length > 0 && (

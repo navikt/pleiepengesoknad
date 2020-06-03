@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { connect, useFormikContext } from 'formik';
 import Panel from 'nav-frontend-paneler';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
@@ -22,7 +22,9 @@ type Props = LegeerklæringAttachmentListProps;
 const InfoText = () => (
     <Panel>
         <Element>
-            <FormattedHTMLMessage id="vedleggsliste.legeerklæringLastetOppSjekkliste" />
+            <FormattedMessage id="vedleggsliste.legeerklæringLastetOppSjekkliste.1" />
+            <br />
+            <FormattedMessage id="vedleggsliste.legeerklæringLastetOppSjekkliste.2" />
         </Element>
     </Panel>
 );

@@ -7,7 +7,6 @@ const createEnvSettingsFile = async (settingsFile) => {
     const API_URL = process.env.API_URL;
     const LOGIN_URL = process.env.LOGIN_URL;
     const PUBLIC_PATH = process.env.PUBLIC_PATH;
-    const DEMO_MODE = process.env.DEMO_MODE;
     const UTILGJENGELIG = process.env.UTILGJENGELIG;
     const TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN = process.env.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN;
     const TOGGLE_FERIEUTTAK = process.env.TOGGLE_FERIEUTTAK;
@@ -21,7 +20,6 @@ const createEnvSettingsFile = async (settingsFile) => {
         API_URL: '${API_URL}',
         LOGIN_URL: '${LOGIN_URL}',
         PUBLIC_PATH: '${PUBLIC_PATH}',
-        DEMO_MODE: '${DEMO_MODE}',
         UTILGJENGELIG: '${UTILGJENGELIG}',
         TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN: '${TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN}',
         TOGGLE_FERIEUTTAK: '${TOGGLE_FERIEUTTAK}',

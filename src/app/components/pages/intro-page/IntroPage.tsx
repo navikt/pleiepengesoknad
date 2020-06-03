@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormattedHTMLMessage, FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import Page from '@navikt/sif-common-core/lib/components/page/Page';
@@ -52,7 +52,9 @@ const IntroPage: React.StatelessComponent = () => {
                         spesialisthelsetjeneste. Du kan ikke få pleiepenger for å forebygge eventuell sykdom.
                     </p>
                     <p>
-                        <Lenke href="https://www.nav.no/familie/sykdom-i-familien/nb/pleiepenger-for-sykt-barn#Hvem-kan-fa-pleiepenger">
+                        <Lenke
+                            href="https://www.nav.no/familie/sykdom-i-familien/nb/pleiepenger-for-sykt-barn#Hvem-kan-fa-pleiepenger"
+                            target="_blank">
                             Les mer her om hvem som kan ha rett på pleiepenger for sykt barn
                         </Lenke>
                     </p>
@@ -60,7 +62,7 @@ const IntroPage: React.StatelessComponent = () => {
                         Hvis barnet ditt ikke kan gå i barnehage eller skole på grunn av særlige smittevernhensyn i
                         forhold til koronaviruset kan du ha rett til å bruke omsorgsdager fram til og med 30. juni 2020.
                         Det kan være av smittevernhensyn til barnet eller andre familiemedlemmer som bor med barnet.{' '}
-                        <Lenke href="https://www.nav.no/familie/sykdom-i-familien/nb/omsorgspenger">
+                        <Lenke href="https://www.nav.no/familie/sykdom-i-familien/nb/omsorgspenger" target="_blank">
                             Les mer om hvem som har rett på omsorgsdager her
                         </Lenke>
                         .
@@ -96,10 +98,10 @@ const IntroPage: React.StatelessComponent = () => {
                 {erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.YES && (
                     <CounsellorPanel>
                         <div data-cy="erSelvstendigEllerFrilanser">
-                            <FormattedHTMLMessage
+                            <FormattedMessage
                                 id={`introPage.veileder.erSelvstendigEllerFrilanser${withoutTilsynTextKey}`}
                             />{' '}
-                            <FormattedHTMLMessage
+                            <FormattedMessage
                                 id={`introPage.veileder.papirLenke${withoutTilsynTextKey}.html`}
                                 values={{ url: getLenker(intl.locale).papirskjemaPrivat }}
                             />
