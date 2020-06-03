@@ -128,8 +128,6 @@
     "introPage.veileder.erSelvstendigEllerFrilanser": "Den digitale søknaden kan førebels ikkje brukast av sjølvstendig næringsdrivande og frilansarar.",
     "introPage.veileder.erSelvstendigEllerFrilanser.utenTilsyn": "Den digitale søknaden er under utvikling og kan førebels ikkje brukast av sjølvstendig næringsdrivande og frilansarar.<br/>",
     "introPage.veileder.skalIBarnehageEllerSkole": "Dersom barnet skal vere noko i barnehage, skule eller liknande, kan du førebels ikkje søkje digitalt.",
-    "introPage.veileder.papirLenke.html": "Du fyller i staden ut <a href=\"{url}\" class=\"lenke\" target=\"_blank\" rel=\"noopener\">søknaden på papir</a> og sender han i posten.",
-    "introPage.veileder.papirLenke.utenTilsyn.html": "Dersom det gjeld deg, fyller du i staden ut <a href=\"{url}\" class=\"lenke\" target=\"_blank\" rel=\"noopener\">søknaden på papir</a> og sender han i posten.",
 
     "welcomingPage.sidetittel": "Søknad om pleiepengar",
     "welcomingPage.banner.tittel": "Hei,",
@@ -226,10 +224,7 @@
     "steg.medlemsskap.annetLandSiste12.listeTittel": "Utenlandsopphald siste 12 måneder",
     "steg.medlemsskap.annetLandNeste12.listeTittel": "Utenlandsopphald neste 12 måneder",
 
-    "steg.lege.info.html": "<h2>Ta bilete av legeerklæringa og last opp.</h2>h3>Slik tar du et godt bilde:</h3><ul><li>Hold mobilen eller kameraet direkte over dokumentet.</li><li>Legeerklæringen skal fylle hele bildet. Bildet skal ikke <i>ikke</i> inneholde annen dokumentasjon eller gjenstander.</li><li>Bildet må inneholde all tekst i legeerkaring. Dersom legeerklæringa er skrevet på mer enn én side, bør du last opp flere bilder. Du kan ikke laste opp mer enn 3 bilder.</li></ul><h3>Etter at du har tatt bildet, sjekk følgende før du laster opp:</h3><ul><li>Legeerklæringen har riktig retting.</li><li>Teksten til legeerklæringen er godt leselig.</li><li>Bildet er godt opplyst, uten skygger.</li></ul>",
     "steg.lege.vedlegg": "Last opp bilete av legeerklæringa (maks 3 bilete).",
-    "steg.lege.intro.1.html": "For dei første 8 vekene må legeerklæringa skrivast av ein sjukehuslege. Etter dei første 8 vekene kan legeerklæringa skrivast av alle leger i spesialisthelsetjenesta.",
-    "steg.lege.intro.2.html": "Desse yrkesgruppene kan <strong>ikkje</strong> skrive under legeerklæringa: fastlege, spesialist i allmenmedisin, legesekretær, sosionom, psykolog, psykologspesialist eller fysioterapeut, fastlege og spesialist i allmennmedisin.",
 
     "steg.oppsummering.info": "Les gjennom oppsummeringa før du sender inn søknaden. Dersom du vil gjere endringar, kan du gå tilbake.",
     "steg.oppsummering.søker.header": "Namn på søkjar",
