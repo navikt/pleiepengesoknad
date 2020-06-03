@@ -12,7 +12,6 @@ function createEnvSettingsFileForHeroku() {
                 API_URL: 'https://pleiepenger.herokuapp.com/',
                 LOGIN_URL: 'https://pleiepenger.herokuapp.com/',
                 PUBLIC_PATH: '',
-                DEMO_MODE: 'on',
                 TOGGLE_FERIEUTTAK: 'on',
                 TOGGLE_FERIEUTTAK: 'on',
                 TOGGLE_FRILANS: 'on',

@@ -1,11 +1,17 @@
 import RouteConfig from '../config/routeConfig';
 import { getStepConfig, StepID } from '../config/stepConfig';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import { appIsRunningInDemoMode, appIsRunningInDevEnvironment } from './envUtils';
+import { appIsRunningInDevEnvironment } from './envUtils';
 import {
-    arbeidsforholdStepAvailable, beredskapStepAvailable, legeerklæringStepAvailable,
-    medlemskapStepAvailable, nattevåkStepAvailable, opplysningerOmBarnetStepAvailable,
-    opplysningerOmTidsromStepAvailable, summaryStepAvailable, tilsynsordningStepAvailable
+    arbeidsforholdStepAvailable,
+    beredskapStepAvailable,
+    legeerklæringStepAvailable,
+    medlemskapStepAvailable,
+    nattevåkStepAvailable,
+    opplysningerOmBarnetStepAvailable,
+    opplysningerOmTidsromStepAvailable,
+    summaryStepAvailable,
+    tilsynsordningStepAvailable
 } from './stepUtils';
 
 export const getSøknadRoute = (stepId: StepID | undefined) => {
@@ -20,8 +26,12 @@ export const getNextStepRoute = (stepId: StepID, formData?: PleiepengesøknadFor
     return stepConfig[stepId] ? getSøknadRoute(stepConfig[stepId].nextStep) : undefined;
 };
 
-export const isAvailable = (path: StepID | RouteConfig, values: PleiepengesøknadFormData, søknadHasBeenSent?: boolean) => {
-    if (!appIsRunningInDevEnvironment() && !appIsRunningInDemoMode()) {
+export const isAvailable = (
+    path: StepID | RouteConfig,
+    values: PleiepengesøknadFormData,
+    søknadHasBeenSent?: boolean
+) => {
+    if (!appIsRunningInDevEnvironment()) {
         switch (path) {
             case StepID.OPPLYSNINGER_OM_BARNET:
                 return opplysningerOmBarnetStepAvailable(values);

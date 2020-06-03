@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormattedHTMLMessage, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useFormikContext } from 'formik';
 import Box from 'common/components/box/Box';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
@@ -21,7 +21,7 @@ const TilsynsordningStep: React.FunctionComponent<StepConfigProps> = ({ onValidS
     return (
         <FormikStep id={StepID.OMSORGSTILBUD} onValidFormSubmit={onValidSubmit}>
             <CounsellorPanel>
-                <FormattedHTMLMessage id="steg.tilsyn.veileder.html" />
+                <FormattedMessage id="steg.tilsyn.veileder.html" values={{ p: (msg: string) => <p>{msg}</p> }} />
             </CounsellorPanel>
             <Box margin="xl">
                 <AppForm.YesOrNoQuestion

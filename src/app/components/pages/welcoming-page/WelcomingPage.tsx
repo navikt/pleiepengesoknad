@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormattedMessage, useIntl, FormattedHTMLMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import ActionLink from '@navikt/sif-common-core/lib/components/action-link/ActionLink';
 import { Sidetittel } from 'nav-frontend-typografi';
 import Box from 'common/components/box/Box';
@@ -8,7 +8,6 @@ import Page from 'common/components/page/Page';
 import bemHelper from 'common/utils/bemUtils';
 import intlHelper from 'common/utils/intlUtils';
 import { StepConfigProps } from '../../../config/stepConfig';
-import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 import BehandlingAvPersonopplysningerModal from '../../behandling-av-personopplysninger-modal/BehandlingAvPersonopplysningerModal';
 import DinePlikterModal from '../../dine-plikter-modal/DinePlikterModal';
 import LegeerklæringInformationPanel from '../../legeerklæring-information-panel/LegeerklæringInformationPanel';
@@ -44,13 +43,14 @@ const WelcomingPage: React.StatelessComponent<Props> = ({ onValidSubmit }) => {
                     </Sidetittel>
                 </Box>
 
-                {appIsRunningInDemoMode() === false && (
-                    <Box margin="xl">
-                        <LegeerklæringInformationPanel>
-                            <FormattedHTMLMessage id="welcomingPage.legeerklæring.html" />
-                        </LegeerklæringInformationPanel>
-                    </Box>
-                )}
+                <Box margin="xl">
+                    <LegeerklæringInformationPanel>
+                        <FormattedMessage
+                            id="welcomingPage.legeerklæring.html"
+                            values={{ p: (msg: string) => <p>{msg}</p> }}
+                        />
+                    </LegeerklæringInformationPanel>
+                </Box>
 
                 <SamtykkeForm onConfirm={onValidSubmit} onOpenDinePlikterModal={() => setDinePlikterModalOpen(true)} />
 

@@ -75,7 +75,7 @@
     "step.tidsrom.stepTitle": "Periode",
     "step.tidsrom.stepIndicatorLabel": "Perioden med pleiepengar",
     "step.tidsrom.infotekst": "For å ha rett til pleiepengar må du ha omsorgen for barnet i heile perioden du søkjer for.",
-    "steg.tidsrom.veileder.utenlandsopphold.html": "Når du oppheld deg i eit land utanfor EØS, kan du behalde pleiepengane i ein begrensa periode på opptil 8 veker av ein 12 månedar lang periode.",
+    "steg.tidsrom.veileder.utenlandsopphold": "Når du oppheld deg i eit land utanfor EØS, kan du behalde pleiepengane i ein begrensa periode på opptil 8 veker av ein 12 månedar lang periode.",
 
     "steg.tidsrom.over8uker": "Du har lagt inn ein periode som er lengre enn 8 veker. Ønskjer du dette?",
     "steg.tidsrom.over8uker.veileder": "Dersom du ikkje vil søkje for ein periode som er lengre enn 8 veker, må du legge inn ein kortare periode i kalenderen.",
@@ -305,7 +305,8 @@
 
     "vedleggsliste.fjernKnapp": "Fjern vedlegg",
     "vedleggsliste.ingenLegeerklæringLastetOpp": "Ingen vedlegg er lasta opp.",
-    "vedleggsliste.legeerklæringLastetOppSjekkliste": "Før du fortsetter, klikk på hvert enkelt filnavn og sjekk at bildekvaliteten er god nok.<br /> Bildet åpner i en ny fane.",
+    "vedleggsliste.legeerklæringLastetOppSjekkliste.1": "Før du fortsetter, klikk på hvert enkelt filnavn og sjekk at bildekvaliteten er god nok.",
+    "vedleggsliste.legeerklæringLastetOppSjekkliste.2": "Bildet åpner i en ny fane.",
 
     "fieldvalidation.påkrevd": "Feltet må fyllast ut.",
     "fieldvalidation.fødselsnummer.11siffer": "Fødselsnummeret må bestå av 11 siffer.",
@@ -370,7 +371,5 @@
     "tilsynsordning.timerPerDag.timerOgMinutter": "{hours}t {minutes}m",
     "tilsynsordning.timerPerDag.timer": "{hours}t",
     "tilsynsordning.timerPerDag.minutter": "{minutes}m",
-    "tilsynsordning.ingenDagerValgt": "Ingen dagar med tilsyn er registrerte",
-
-    "demoInfo.html": "Dette er ein <strong>demoversjon</strong> av søknadsskjemaet for pleiepengar, og blir berre brukt i samanheng med brukartest på <a href=\"http://navlab.no/\">http://navlab.no/</a>."
+    "tilsynsordning.ingenDagerValgt": "Ingen dagar med tilsyn er registrerte"
 }

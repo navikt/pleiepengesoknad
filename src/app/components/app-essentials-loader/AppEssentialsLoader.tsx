@@ -5,12 +5,10 @@ import { getBarn, getSøker, rehydrate } from '../../api/api';
 import routeConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';
 import { SøkerdataContextProvider } from '../../context/SøkerdataContext';
-import demoSøkerdata from '../../demo/demoData';
 import { AppFormField, initialValues, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { MELLOMLAGRING_VERSION, MellomlagringData } from '../../types/storage';
 import { Arbeidsgiver, Søkerdata } from '../../types/Søkerdata';
 import * as apiUtils from '../../utils/apiUtils';
-import { appIsRunningInDemoMode } from '../../utils/envUtils';
 import { navigateToLoginPage, userIsCurrentlyOnErrorPage } from '../../utils/navigationUtils';
 import LoadingPage from '../pages/loading-page/LoadingPage';
 
@@ -51,13 +49,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
         this.stopLoading = this.stopLoading.bind(this);
         this.handleSøkerdataFetchSuccess = this.handleSøkerdataFetchSuccess.bind(this);
         this.handleSøkerdataFetchError = this.handleSøkerdataFetchError.bind(this);
-        this.initDemoMode = this.initDemoMode.bind(this);
-
-        if (appIsRunningInDemoMode()) {
-            setTimeout(this.initDemoMode, 1000);
-        } else {
-            this.loadAppEssentials();
-        }
+        this.loadAppEssentials();
     }
 
     async loadAppEssentials() {
@@ -71,17 +63,6 @@ class AppEssentialsLoader extends React.Component<Props, State> {
         } catch (response) {
             this.handleSøkerdataFetchError(response);
         }
-    }
-
-    initDemoMode() {
-        this.setState({
-            isLoading: false,
-            søkerdata: {
-                ...(demoSøkerdata as Søkerdata),
-                setArbeidsgivere: this.updateArbeidsgivere
-            }
-        });
-        this.stopLoading();
     }
 
     getValidMellomlagring = (data?: MellomlagringData): MellomlagringData | undefined => {

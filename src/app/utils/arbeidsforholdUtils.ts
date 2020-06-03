@@ -2,13 +2,9 @@ import { FormikProps } from 'formik';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { formatDateToApiFormat } from 'common/utils/dateUtils';
 import { getArbeidsgiver } from 'app/api/api';
-import demoSøkerdata from 'app/demo/demoData';
-import {
-    AppFormField, Arbeidsforhold, PleiepengesøknadFormData
-} from 'app/types/PleiepengesøknadFormData';
+import { AppFormField, Arbeidsforhold, PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
 import { Arbeidsgiver, Søkerdata } from 'app/types/Søkerdata';
 import { apiUtils } from './apiUtils';
-import { appIsRunningInDemoMode } from './envUtils';
 import { navigateToLoginPage } from './navigationUtils';
 
 const roundWithTwoDecimals = (nbr: number): number => Math.round(nbr * 100) / 100;
@@ -59,11 +55,6 @@ export async function getArbeidsgivere(
     formikProps: FormikProps<PleiepengesøknadFormData>,
     søkerdata: Søkerdata
 ) {
-    if (appIsRunningInDemoMode()) {
-        søkerdata.setArbeidsgivere(demoSøkerdata.arbeidsgivere);
-        updateArbeidsforhold(formikProps, demoSøkerdata.arbeidsgivere);
-        return;
-    }
     try {
         const response = await getArbeidsgiver(formatDateToApiFormat(fromDate), formatDateToApiFormat(toDate));
         const { organisasjoner } = response.data;

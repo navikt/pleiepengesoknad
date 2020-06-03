@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormattedHTMLMessage, FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import Page from '@navikt/sif-common-core/lib/components/page/Page';
@@ -98,10 +98,10 @@ const IntroPage: React.StatelessComponent = () => {
                 {erSelvstendigNæringsdrivendeEllerFrilanser === YesOrNo.YES && (
                     <CounsellorPanel>
                         <div data-cy="erSelvstendigEllerFrilanser">
-                            <FormattedHTMLMessage
+                            <FormattedMessage
                                 id={`introPage.veileder.erSelvstendigEllerFrilanser${withoutTilsynTextKey}`}
                             />{' '}
-                            <FormattedHTMLMessage
+                            <FormattedMessage
                                 id={`introPage.veileder.papirLenke${withoutTilsynTextKey}.html`}
                                 values={{ url: getLenker(intl.locale).papirskjemaPrivat }}
                             />

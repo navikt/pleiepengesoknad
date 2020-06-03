@@ -29,7 +29,6 @@ import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiDat
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { Søkerdata } from '../../../types/Søkerdata';
 import * as apiUtils from '../../../utils/apiUtils';
-import { appIsRunningInDemoMode } from '../../../utils/envUtils';
 import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
 import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
 import { erPeriodeOver8Uker } from '../../../utils/søkerOver8UkerUtils';
@@ -70,19 +69,15 @@ class SummaryStep extends React.Component<Props, State> {
         this.setState({
             sendingInProgress: true
         });
-        if (appIsRunningInDemoMode()) {
-            navigateTo(routeConfig.SØKNAD_SENDT_ROUTE, history);
-        } else {
-            try {
-                await purge();
-                await sendApplication(apiValues);
-                onApplicationSent(apiValues, søkerdata);
-            } catch (error) {
-                if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
-                    navigateToLoginPage();
-                } else {
-                    navigateTo(routeConfig.ERROR_PAGE_ROUTE, history);
-                }
+        try {
+            await purge();
+            await sendApplication(apiValues);
+            onApplicationSent(apiValues, søkerdata);
+        } catch (error) {
+            if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+                navigateToLoginPage();
+            } else {
+                navigateTo(routeConfig.ERROR_PAGE_ROUTE, history);
             }
         }
     }
