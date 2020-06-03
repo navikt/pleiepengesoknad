@@ -41,7 +41,6 @@ const App: React.FunctionComponent = () => {
                     )}
                 </>
             )}
-            )}
         </ApplicationWrapper>
     );
 };
