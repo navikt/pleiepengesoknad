@@ -128,8 +128,8 @@
     "introPage.veileder.erSelvstendigEllerFrilanser": "Den digitale søknaden kan førebels ikkje brukast av sjølvstendig næringsdrivande og frilansarar.",
     "introPage.veileder.erSelvstendigEllerFrilanser.utenTilsyn": "Den digitale søknaden er under utvikling og kan førebels ikkje brukast av sjølvstendig næringsdrivande og frilansarar.<br/>",
     "introPage.veileder.skalIBarnehageEllerSkole": "Dersom barnet skal vere noko i barnehage, skule eller liknande, kan du førebels ikkje søkje digitalt.",
-    "introPage.veileder.papirLenke.html": "Du fyller i staden ut <a href=\"{url}\" class=\"lenke\">søknaden på papir</a> og sender han i posten.",
-    "introPage.veileder.papirLenke.utenTilsyn.html": "Dersom det gjeld deg, fyller du i staden ut <a href=\"{url}\">søknaden på papir</a> og sender han i posten.",
+    "introPage.veileder.papirLenke.html": "Du fyller i staden ut <a href=\"{url}\" class=\"lenke\" target=\"_blank\" rel=\"noopener\">søknaden på papir</a> og sender han i posten.",
+    "introPage.veileder.papirLenke.utenTilsyn.html": "Dersom det gjeld deg, fyller du i staden ut <a href=\"{url}\" class=\"lenke\" target=\"_blank\" rel=\"noopener\">søknaden på papir</a> og sender han i posten.",
 
     "welcomingPage.sidetittel": "Søknad om pleiepengar",
     "welcomingPage.banner.tittel": "Hei,",
@@ -291,7 +291,7 @@
     "page.confirmation.dittNav": "Søknaden din blir synleg på Ditt NAV etter omkring ei veke. Då vil du også kunne sjå kva slags dokumentasjon vi har fått frå deg.",
     "page.confirmation.søker": "Du må be {numberOfArbeidsforhold, plural, one {arbeidsgiveren din} other {arbeidsgiverne dine}} om å sende inntektsmelding til oss.",
     "page.confirmation.behandling": "Vi startar å behandle søknaden din når vi har fått all nødvendig dokumentasjon. Vi kontaktar deg dersom vi treng fleire opplysningar i saka di.",
-    "page.confirmation.behandlet.html": "Når søknaden er ferdig behandla, får du et svarbrev frå oss. Du kan sjå <a href=\"{lenke}\" class=\"lenke\" target=\"blank\" rel=\"noopener\">saksbehandlingstida</a> for fylket ditt her.",
+    "page.confirmation.behandlet.html": "Når søknaden er ferdig behandla, får du et svarbrev frå oss. Du kan sjå <a href=\"{lenke}\" class=\"lenke\" target=\"_blank\" rel=\"noopener\">saksbehandlingstida</a> for fylket ditt her.",
 
     "page.generalErrorPage.sidetittel": "Feil",
     "page.generalErrorPage.tittel": "Noko gjekk gale...",
