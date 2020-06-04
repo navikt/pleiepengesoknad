@@ -62,7 +62,6 @@ class AppEssentialsLoader extends React.Component<Props, State> {
             ]);
             this.handleSøkerdataFetchSuccess(mellomlagringResponse, søkerResponse, barnResponse);
         } catch (error) {
-            appSentryLogger.logApiError(error);
             this.handleSøkerdataFetchError(error);
         }
     }
@@ -131,10 +130,11 @@ class AppEssentialsLoader extends React.Component<Props, State> {
         });
     }
 
-    handleSøkerdataFetchError(response: AxiosError) {
-        if (apiUtils.isForbidden(response) || apiUtils.isUnauthorized(response)) {
+    handleSøkerdataFetchError(error: AxiosError) {
+        if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
             navigateToLoginPage();
         } else if (!userIsCurrentlyOnErrorPage()) {
+            appSentryLogger.logApiError(error);
             window.location.assign(routeConfig.ERROR_PAGE_ROUTE);
         }
         // this timeout is set because if isLoading is updated in the state too soon,
