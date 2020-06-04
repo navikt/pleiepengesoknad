@@ -3,6 +3,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 webpackConfig.mode = 'production';
+webpackConfig.devtool = 'source-map';
 
 webpackConfig.plugins.push(
     new HtmlWebpackPlugin({

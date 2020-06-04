@@ -15,6 +15,7 @@ import { mapTilsynsordningToApiData } from './formToApiMaps/mapTilsynsordningToA
 import { mapUtenlandsoppholdIPeriodenToApiData } from './formToApiMaps/mapUtenlandsoppholdIPeriodenToApiData';
 import { erPeriodeOver8Uker } from './søkerOver8UkerUtils';
 import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet } from './tidsromUtils';
+import appSentryLogger from './appSentryLogger';
 
 export const getValidSpråk = (locale?: any): Locale => {
     const loc = typeof locale === 'string' ? locale : 'nb';
@@ -26,6 +27,7 @@ export const getValidSpråk = (locale?: any): Locale => {
                 return 'nb';
         }
     } catch {
+        appSentryLogger.logInfo('Fallback on getValidSpråk', loc);
         return 'nb';
     }
 };
@@ -61,7 +63,7 @@ export const mapFormDataToApiData = (
         utenlandsoppholdIPerioden,
         ferieuttakIPerioden,
         skalTaUtFerieIPerioden,
-        harHattInntektSomFrilanser
+        harHattInntektSomFrilanser,
     } = formData;
 
     try {
@@ -81,7 +83,7 @@ export const mapFormDataToApiData = (
             arbeidsgivere: {
                 organisasjoner: arbeidsforhold
                     .filter((a) => a.erAnsattIPerioden === YesOrNo.YES)
-                    .map((forhold) => mapArbeidsforholdToApiData(forhold))
+                    .map((forhold) => mapArbeidsforholdToApiData(forhold)),
             },
             medlemskap: {
                 harBoddIUtlandetSiste12Mnd: harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES,
@@ -93,7 +95,7 @@ export const mapFormDataToApiData = (
                 utenlandsoppholdNeste12Mnd:
                     skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES
                         ? utenlandsoppholdNeste12Mnd.map((o) => mapBostedUtlandToApiData(o, sprak))
-                        : []
+                        : [],
             },
             fraOgMed: formatDateToApiFormat(periodeFra!),
             tilOgMed: formatDateToApiFormat(periodeTil!),
@@ -102,7 +104,7 @@ export const mapFormDataToApiData = (
                 .map(({ url }) => url!),
             harMedsøker: harMedsøker === YesOrNo.YES,
             harBekreftetOpplysninger,
-            harForståttRettigheterOgPlikter
+            harForståttRettigheterOgPlikter,
         };
 
         if (isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG)) {
@@ -130,7 +132,7 @@ export const mapFormDataToApiData = (
                 opphold:
                     skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES && utenlandsoppholdIPerioden
                         ? utenlandsoppholdIPerioden.map((o) => mapUtenlandsoppholdIPeriodenToApiData(o, sprak))
-                        : []
+                        : [],
             };
         }
 
@@ -141,9 +143,9 @@ export const mapFormDataToApiData = (
                     skalTaUtFerieIPerioden === YesOrNo.YES && ferieuttakIPerioden
                         ? ferieuttakIPerioden.map((uttak) => ({
                               fraOgMed: formatDateToApiFormat(uttak.fom),
-                              tilOgMed: formatDateToApiFormat(uttak.tom)
+                              tilOgMed: formatDateToApiFormat(uttak.tom),
                           }))
-                        : []
+                        : [],
             };
         }
 
@@ -172,16 +174,17 @@ export const mapFormDataToApiData = (
             ) {
                 apiData.nattevåk = {
                     harNattevåk: harNattevåk === YesOrNo.YES,
-                    tilleggsinformasjon: harNattevåk_ekstrainfo
+                    tilleggsinformasjon: harNattevåk_ekstrainfo,
                 };
                 apiData.beredskap = {
                     beredskap: harBeredskap === YesOrNo.YES,
-                    tilleggsinformasjon: harBeredskap_ekstrainfo
+                    tilleggsinformasjon: harBeredskap_ekstrainfo,
                 };
             }
         }
         return apiData;
     } catch (e) {
+        appSentryLogger.logError('mapFormDataToApiData failed', e);
         return undefined;
     }
 };
