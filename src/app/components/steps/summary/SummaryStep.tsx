@@ -18,7 +18,7 @@ import ArbeidsforholdSummary from 'app/components/arbeidsforhold-summary/Arbeids
 import {
     renderFerieuttakIPeriodenSummary,
     renderUtenlandsoppholdIPeriodenSummary,
-    renderUtenlandsoppholdSummary
+    renderUtenlandsoppholdSummary,
 } from 'app/components/steps/summary/renderUtenlandsoppholdSummary';
 import { Feature, isFeatureEnabled } from 'app/utils/featureToggleUtils';
 import { purge, sendApplication } from '../../../api/api';
@@ -43,6 +43,7 @@ import JaNeiSvar from './JaNeiSvar';
 import SelvstendigSummary from './SelvstendigSummary';
 import TilsynsordningSummary from './TilsynsordningSummary';
 import './summary.less';
+import appSentryLogger from '../../../utils/appSentryLogger';
 
 interface State {
     sendingInProgress: boolean;
@@ -59,7 +60,7 @@ class SummaryStep extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            sendingInProgress: false
+            sendingInProgress: false,
         };
         this.navigate = this.navigate.bind(this);
     }
@@ -67,7 +68,7 @@ class SummaryStep extends React.Component<Props, State> {
     async navigate(apiValues: PleiepengesøknadApiData, søkerdata: Søkerdata) {
         const { history, onApplicationSent } = this.props;
         this.setState({
-            sendingInProgress: true
+            sendingInProgress: true,
         });
         try {
             await purge();
@@ -77,6 +78,7 @@ class SummaryStep extends React.Component<Props, State> {
             if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
                 navigateToLoginPage();
             } else {
+                appSentryLogger.logApiError(error);
                 navigateTo(routeConfig.ERROR_PAGE_ROUTE, history);
             }
         }
@@ -97,7 +99,7 @@ class SummaryStep extends React.Component<Props, State> {
                 {(søkerdata: Søkerdata) => {
                     const {
                         person: { fornavn, mellomnavn, etternavn, fødselsnummer },
-                        barn
+                        barn,
                     } = søkerdata;
 
                     const apiValues = mapFormDataToApiData(values, barn, intl.locale as Locale);
@@ -114,7 +116,7 @@ class SummaryStep extends React.Component<Props, State> {
                         nattevåk: nattevaak,
                         beredskap,
                         utenlandsoppholdIPerioden,
-                        ferieuttakIPerioden
+                        ferieuttakIPerioden,
                     } = apiValues;
 
                     return (
@@ -159,7 +161,7 @@ class SummaryStep extends React.Component<Props, State> {
                                                     id="steg.oppsummering.tidsrom.fomtom"
                                                     values={{
                                                         fom: prettifyDate(apiStringDateToDate(apiValues.fraOgMed)),
-                                                        tom: prettifyDate(apiStringDateToDate(apiValues.tilOgMed))
+                                                        tom: prettifyDate(apiStringDateToDate(apiValues.tilOgMed)),
                                                     }}
                                                 />
                                             </Normaltekst>

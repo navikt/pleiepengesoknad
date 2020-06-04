@@ -6,6 +6,7 @@ import { AppFormField, Arbeidsforhold, PleiepengesøknadFormData } from 'app/typ
 import { Arbeidsgiver, Søkerdata } from 'app/types/Søkerdata';
 import { apiUtils } from './apiUtils';
 import { navigateToLoginPage } from './navigationUtils';
+import appSentryLogger from './appSentryLogger';
 
 const roundWithTwoDecimals = (nbr: number): number => Math.round(nbr * 100) / 100;
 
@@ -27,7 +28,7 @@ export const syncArbeidsforholdWithArbeidsgivere = (
         );
         return {
             ...organisasjon,
-            ...forhold
+            ...forhold,
         };
     });
 };
@@ -58,11 +59,13 @@ export async function getArbeidsgivere(
     try {
         const response = await getArbeidsgiver(formatDateToApiFormat(fromDate), formatDateToApiFormat(toDate));
         const { organisasjoner } = response.data;
-        søkerdata.setArbeidsgivere!(organisasjoner);
+        søkerdata.setArbeidsgivere(organisasjoner);
         updateArbeidsforhold(formikProps, organisasjoner);
     } catch (error) {
         if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
             navigateToLoginPage();
+        } else {
+            appSentryLogger.logApiError(error);
         }
     }
 }

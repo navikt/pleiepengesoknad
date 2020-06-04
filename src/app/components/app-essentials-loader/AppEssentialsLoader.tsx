@@ -9,6 +9,7 @@ import { AppFormField, initialValues, PleiepengesøknadFormData } from '../../ty
 import { MELLOMLAGRING_VERSION, MellomlagringData } from '../../types/storage';
 import { Arbeidsgiver, Søkerdata } from '../../types/Søkerdata';
 import * as apiUtils from '../../utils/apiUtils';
+import appSentryLogger from '../../utils/appSentryLogger';
 import { navigateToLoginPage, userIsCurrentlyOnErrorPage } from '../../utils/navigationUtils';
 import LoadingPage from '../pages/loading-page/LoadingPage';
 
@@ -41,7 +42,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
         this.state = {
             isLoading: true,
             lastStepID: undefined,
-            formdata: initialValues
+            formdata: initialValues,
         };
 
         this.updateArbeidsgivere = this.updateArbeidsgivere.bind(this);
@@ -57,11 +58,12 @@ class AppEssentialsLoader extends React.Component<Props, State> {
             const [mellomlagringResponse, søkerResponse, barnResponse] = await Promise.all([
                 rehydrate(),
                 getSøker(),
-                getBarn()
+                getBarn(),
             ]);
             this.handleSøkerdataFetchSuccess(mellomlagringResponse, søkerResponse, barnResponse);
-        } catch (response) {
-            this.handleSøkerdataFetchError(response);
+        } catch (error) {
+            appSentryLogger.logApiError(error);
+            this.handleSøkerdataFetchError(error);
         }
     }
 
@@ -84,7 +86,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
         const formData = mellomlagring?.formData
             ? {
                   ...mellomlagring.formData,
-                  [AppFormField.legeerklæring]: getValidAttachments(mellomlagring.formData.legeerklæring)
+                  [AppFormField.legeerklæring]: getValidAttachments(mellomlagring.formData.legeerklæring),
               }
             : undefined;
         const lastStepID = mellomlagring?.metadata?.lastStepID;
@@ -94,7 +96,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
                 person: søkerResponse.data,
                 barn: barnResponse ? barnResponse.data.barn : undefined,
                 setArbeidsgivere: this.updateArbeidsgivere,
-                arbeidsgivere: []
+                arbeidsgivere: [],
             },
             lastStepID,
             () => {
@@ -117,7 +119,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
                 isLoading: false,
                 lastStepID: lastStepID || this.state.lastStepID,
                 formdata: formdata || this.state.formdata,
-                søkerdata: søkerdata || this.state.søkerdata
+                søkerdata: søkerdata || this.state.søkerdata,
             },
             callback
         );
@@ -125,7 +127,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
 
     stopLoading() {
         this.setState({
-            isLoading: false
+            isLoading: false,
         });
     }
 
@@ -142,15 +144,17 @@ class AppEssentialsLoader extends React.Component<Props, State> {
     }
 
     updateArbeidsgivere(arbeidsgivere: Arbeidsgiver[]) {
-        const { barn, person, setArbeidsgivere } = this.state.søkerdata!;
-        this.setState({
-            søkerdata: {
-                barn,
-                setArbeidsgivere,
-                arbeidsgivere,
-                person
-            }
-        });
+        if (this.state.søkerdata) {
+            const { barn, person, setArbeidsgivere } = this.state.søkerdata;
+            this.setState({
+                søkerdata: {
+                    barn,
+                    setArbeidsgivere,
+                    arbeidsgivere,
+                    person,
+                },
+            });
+        }
     }
 
     render() {
