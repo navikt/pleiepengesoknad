@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { Knapp } from 'nav-frontend-knapper';
-import { Panel } from 'nav-frontend-paneler';
+import Panel from 'nav-frontend-paneler';
 import { Ingress, Innholdstittel } from 'nav-frontend-typografi';
 import Box from 'common/components/box/Box';
 import CheckmarkIcon from 'common/components/checkmark-icon/CheckmarkIcon';
@@ -25,7 +25,7 @@ const bem = bemUtils('confirmationPage');
 
 export const pluralize = (count: number, single: string, other: string) => (count === 1 ? single : other);
 
-const ConfirmationPage: React.FunctionComponent<Props> = ({ kvitteringInfo }) => {
+const ConfirmationPage: React.FunctionComponent<Props> = ({ kvitteringInfo }: Props) => {
     const intl = useIntl();
     const numberOfArbeidsforhold = kvitteringInfo ? kvitteringInfo.arbeidsforhold.length : 0;
 
@@ -60,7 +60,7 @@ const ConfirmationPage: React.FunctionComponent<Props> = ({ kvitteringInfo }) =>
                             <FormattedMessage
                                 id="page.confirmation.behandlet.html"
                                 values={{
-                                    lenke: getLenker(intl.locale).saksbehandlingstider
+                                    lenke: getLenker(intl.locale).saksbehandlingstider,
                                 }}
                             />
                         </li>

@@ -1,13 +1,11 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { Panel } from 'nav-frontend-paneler';
+import Panel from 'nav-frontend-paneler';
 import Box from 'common/components/box/Box';
 import VirksomhetListAndDialog from 'common/forms/virksomhet/VirksomhetListAndDialog';
 import { YesOrNo } from 'common/types/YesOrNo';
 import intlHelper from 'common/utils/intlUtils';
-import {
-    validateRequiredList, validateYesOrNoIsAnswered
-} from 'common/validation/fieldValidations';
+import { validateRequiredList, validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { AppFormField, PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
 import AppForm from '../../app-form/AppForm';
 
@@ -15,7 +13,7 @@ interface Props {
     formValues: PleiepengesøknadFormData;
 }
 
-const SelvstendigNæringsdrivendeFormPart: React.FunctionComponent<Props> = ({ formValues }) => {
+const SelvstendigNæringsdrivendeFormPart: React.FunctionComponent<Props> = ({ formValues }: Props) => {
     const intl = useIntl();
     return (
         <>
@@ -34,7 +32,7 @@ const SelvstendigNæringsdrivendeFormPart: React.FunctionComponent<Props> = ({ f
                             labels={{
                                 listTitle: intlHelper(intl, 'selvstendig.list.tittel'),
                                 addLabel: intlHelper(intl, 'selvstendig.list.leggTilLabel'),
-                                modalTitle: intlHelper(intl, 'selvstendig.dialog.tittel')
+                                modalTitle: intlHelper(intl, 'selvstendig.dialog.tittel'),
                             }}
                             validate={validateRequiredList}
                         />
