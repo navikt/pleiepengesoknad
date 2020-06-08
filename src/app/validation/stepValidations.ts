@@ -12,7 +12,7 @@ export const opplysningerOmBarnetStepIsValid = ({
     barnetsFødselsnummer,
     barnetsFødselsdato,
     barnetHarIkkeFåttFødselsnummerEnda,
-    barnetSøknadenGjelder
+    barnetSøknadenGjelder,
 }: PleiepengesøknadFormData) => {
     if (barnetHarIkkeFåttFødselsnummerEnda) {
         return hasValue(barnetsFødselsdato);
@@ -35,7 +35,7 @@ export const arbeidsforholdStepIsValid = () => true;
 
 export const medlemskapStepIsValid = ({
     harBoddUtenforNorgeSiste12Mnd,
-    skalBoUtenforNorgeNeste12Mnd
+    skalBoUtenforNorgeNeste12Mnd,
 }: PleiepengesøknadFormData) =>
     (harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES || harBoddUtenforNorgeSiste12Mnd === YesOrNo.NO) &&
     (skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES || skalBoUtenforNorgeNeste12Mnd === YesOrNo.NO);

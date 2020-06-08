@@ -5,26 +5,26 @@ import { mapTilsynsordningToApiData } from '../formToApiMaps/mapTilsynsordningTo
 
 jest.mock('./../envUtils', () => {
     return {
-        getEnvironmentVariable: () => 'someEnvVar'
+        getEnvironmentVariable: () => 'someEnvVar',
     };
 });
 
 jest.mock('./../featureToggleUtils.ts', () => ({
     isFeatureEnabled: jest.fn(),
-    Feature: {}
+    Feature: {},
 }));
 
 describe('mapTilsynsordningToApiData', () => {
     it('should return correct values when NO is selected', () => {
         const result: TilsynsordningApi = {
-            svar: 'nei'
+            svar: 'nei',
         };
         const tilsyn: Tilsynsordning = {
             skalBarnHaTilsyn: YesOrNo.NO,
             ja: {
                 tilsyn: undefined,
-                ekstrainfo: 'sdf'
-            }
+                ekstrainfo: 'sdf',
+            },
         };
         expect(JSON.stringify(result)).toEqual(JSON.stringify(mapTilsynsordningToApiData(tilsyn)));
     });

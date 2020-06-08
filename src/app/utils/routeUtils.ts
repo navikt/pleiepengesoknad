@@ -11,7 +11,7 @@ import {
     opplysningerOmBarnetStepAvailable,
     opplysningerOmTidsromStepAvailable,
     summaryStepAvailable,
-    tilsynsordningStepAvailable
+    tilsynsordningStepAvailable,
 } from './stepUtils';
 
 export const getSøknadRoute = (stepId: StepID | undefined) => {

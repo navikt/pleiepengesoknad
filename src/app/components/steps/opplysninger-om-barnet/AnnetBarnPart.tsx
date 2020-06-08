@@ -13,7 +13,7 @@ interface Props {
     formValues: PleiepengesøknadFormData;
 }
 
-const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues }) => {
+const AnnetBarnPart = ({ formValues }: Props) => {
     const intl = useIntl();
     const { barnetHarIkkeFåttFødselsnummerEnda } = formValues;
     const { setFieldValue } = useFormikContext<PleiepengesøknadFormData>();

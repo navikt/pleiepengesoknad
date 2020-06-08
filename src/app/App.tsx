@@ -9,18 +9,18 @@ import IntroPage from './components/pages/intro-page/IntroPage';
 import UnavailablePage from './components/pages/unavailable-page/UnavailablePage';
 import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad';
 import RouteConfig from './config/routeConfig';
+import appSentryLogger from './utils/appSentryLogger';
 import { Feature, isFeatureEnabled } from './utils/featureToggleUtils';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
 import 'common/styles/globalStyles.less';
 import './app.less';
-import appSentryLogger from './utils/appSentryLogger';
 
 appSentryLogger.init();
 
 const localeFromSessionStorage = getLocaleFromSessionStorage();
 moment.locale(localeFromSessionStorage);
 
-const App: React.FunctionComponent = () => {
+const App = () => {
     const [locale, setLocale] = React.useState<Locale>(localeFromSessionStorage);
     const isOenForFrilansAndSelvstendig =
         isFeatureEnabled(Feature.TOGGLE_FRILANS) && isFeatureEnabled(Feature.TOGGLE_SELVSTENDIG);

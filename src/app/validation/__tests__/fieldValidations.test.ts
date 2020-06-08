@@ -1,32 +1,32 @@
+import moment from 'moment';
+import { Attachment } from 'common/types/Attachment';
+import * as dateUtils from 'common/utils/dateUtils';
+import { createFieldValidationError, FieldValidationErrors } from 'common/validation/fieldValidations';
+import { hasValue } from 'common/validation/hasValue';
 import {
-    validateFødselsdato,
+    AppFieldValidationErrors,
     validateFradato,
+    validateFødselsdato,
     validateLegeerklæring,
     validateNavn,
-    validateTildato,
     validateNormaleArbeidstimer,
-    AppFieldValidationErrors
+    validateTildato,
 } from '../fieldValidations';
-import * as dateUtils from 'common/utils/dateUtils';
-import Mock = jest.Mock;
-import { Attachment } from 'common/types/Attachment';
-import moment from 'moment';
-import { hasValue } from 'common/validation/hasValue';
-import { FieldValidationErrors, createFieldValidationError } from 'common/validation/fieldValidations';
 
+import Mock = jest.Mock;
 jest.mock('common/validation/fødselsnummerValidator', () => {
     return {
         fødselsnummerIsValid: jest.fn(),
         FødselsnummerValidationErrorReason: {
-            MustConsistOf11Digits: 'MustConsistOf11Digits'
-        }
+            MustConsistOf11Digits: 'MustConsistOf11Digits',
+        },
     };
 });
 
 jest.mock('common/utils/dateUtils', () => {
     return {
         isMoreThan3YearsAgo: jest.fn(),
-        dateToday: new Date()
+        dateToday: new Date(),
     };
 });
 
@@ -52,15 +52,11 @@ describe('fieldValidations', () => {
 
     describe('validateFødselsdato', () => {
         it('should return error if date is after today', () => {
-            const tomorrow: Date = moment()
-                .add(1, 'day')
-                .toDate();
+            const tomorrow: Date = moment().add(1, 'day').toDate();
             expect(validateFødselsdato(tomorrow)).toBeDefined();
         });
         it('should return undefined if date is same as today or earlier', () => {
-            const yesterday: Date = moment()
-                .subtract(1, 'day')
-                .toDate();
+            const yesterday: Date = moment().subtract(1, 'day').toDate();
             expect(validateFødselsdato(yesterday)).toBeUndefined();
             expect(validateFødselsdato(dateUtils.dateToday)).toBeUndefined();
         });
@@ -113,9 +109,7 @@ describe('fieldValidations', () => {
             const fraDato = moment();
             const tilDato = fraDato.clone();
             expect(validateFradato(fraDato.toDate(), tilDato.toDate())).toBeUndefined();
-            const date3YearsAgo = moment()
-                .subtract(3, 'years')
-                .toDate();
+            const date3YearsAgo = moment().subtract(3, 'years').toDate();
             expect(validateFradato(date3YearsAgo)).toBeUndefined();
         });
     });
@@ -147,9 +141,7 @@ describe('fieldValidations', () => {
             const tilDato = moment();
             const fraDato = tilDato.clone();
             expect(validateTildato(tilDato.toDate(), fraDato.toDate())).toBeUndefined();
-            const date3YearsAgo = moment()
-                .subtract(3, 'years')
-                .toDate();
+            const date3YearsAgo = moment().subtract(3, 'years').toDate();
             expect(validateTildato(date3YearsAgo)).toBeUndefined();
         });
     });

@@ -8,7 +8,7 @@ import FormikStep from '../../formik-step/FormikStep';
 import AnnetBarnPart from './AnnetBarnPart';
 import RegistrertBarnPart from './RegistrertBarnPart';
 
-const OpplysningerOmBarnetStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }: StepConfigProps) => {
+const OpplysningerOmBarnetStep = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<PleiepengesøknadFormData>();
     const { søknadenGjelderEtAnnetBarn } = values;
     const søkerdata = React.useContext(SøkerdataContext);

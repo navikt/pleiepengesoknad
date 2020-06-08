@@ -1,13 +1,13 @@
 import React from 'react';
-import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
 import Box from 'common/components/box/Box';
+import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
 
 interface Props {
     header: string;
-    children: React.ReactElement<any> | Array<React.ReactElement<any>> | React.ReactNode;
+    children: React.ReactNode;
 }
 
-const SummaryBlock: React.FunctionComponent<Props> = ({ header, children }) => (
+const SummaryBlock = ({ header, children }: Props) => (
     <Box margin="l">
         <ContentWithHeader header={header}>{children}</ContentWithHeader>
     </Box>

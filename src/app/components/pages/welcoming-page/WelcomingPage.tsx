@@ -18,7 +18,7 @@ const bem = bemHelper('welcomingPage');
 
 type Props = Omit<StepConfigProps, 'formValues'>;
 
-const WelcomingPage: React.StatelessComponent<Props> = ({ onValidSubmit }) => {
+const WelcomingPage: React.StatelessComponent<Props> = ({ onValidSubmit }: Props) => {
     const intl = useIntl();
     const [dinePlikterModalOpen, setDinePlikterModalOpen] = React.useState(false);
     const [behandlingAvPersonopplysningerModalOpen, setBehandlingAvPersonopplysningerModalOpen] = React.useState(false);
@@ -33,7 +33,7 @@ const WelcomingPage: React.StatelessComponent<Props> = ({ onValidSubmit }) => {
                         bannerSize="large"
                         counsellorWithSpeechBubbleProps={{
                             strongText: intlHelper(intl, 'welcomingPage.banner.tittel'),
-                            normalText: intlHelper(intl, 'welcomingPage.banner.tekst')
+                            normalText: intlHelper(intl, 'welcomingPage.banner.tekst'),
                         }}
                     />
                 )}>

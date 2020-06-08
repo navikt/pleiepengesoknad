@@ -25,16 +25,14 @@ export interface StepProps {
 
 interface OwnProps {
     stepConfig: StepConfigInterface;
+    children: React.ReactNode;
 }
+
+type Props = OwnProps & StepProps;
 
 const bem = bemHelper('step');
 
-const Step: React.FunctionComponent<StepProps & OwnProps> = ({
-    id,
-    useValidationErrorSummary,
-    stepConfig,
-    children
-}) => {
+const Step = ({ id, useValidationErrorSummary, stepConfig, children }: Props) => {
     const conf = stepConfig[id];
     const intl = useIntl();
     const stepTexts: StepConfigItemTexts = getStepTexts(intl, id, stepConfig);
@@ -58,14 +56,16 @@ const Step: React.FunctionComponent<StepProps & OwnProps> = ({
                     {useValidationErrorSummary !== false && <FormikValidationErrorSummary />}
                 </>
             )}>
-            <BackLink
-                href={conf.backLinkHref!}
-                className={bem.element('backLink')}
-                onClick={(nextHref: string, history: History, event: React.SyntheticEvent) => {
-                    event.preventDefault();
-                    history.push(nextHref);
-                }}
-            />
+            {conf.backLinkHref && (
+                <BackLink
+                    href={conf.backLinkHref}
+                    className={bem.element('backLink')}
+                    onClick={(nextHref: string, history: History, event: React.SyntheticEvent) => {
+                        event.preventDefault();
+                        history.push(nextHref);
+                    }}
+                />
+            )}
 
             <StepIndicator stepConfig={stepConfig} activeStep={conf.index} />
             <Box margin="xxl">

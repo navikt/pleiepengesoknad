@@ -4,12 +4,13 @@ import bemUtils from 'common/utils/bemUtils';
 import intlHelper from 'common/utils/intlUtils';
 
 interface Props {
+    children: React.ReactNode;
     labelKey: string;
 }
 
 const bem = bemUtils('summaryLabelValue');
 
-const IntlLabelValue: React.FunctionComponent<Props> = ({ labelKey: intlLabelKey, children }) => {
+const IntlLabelValue = ({ labelKey: intlLabelKey, children }: Props) => {
     const intl = useIntl();
     return (
         <div className={bem.block}>

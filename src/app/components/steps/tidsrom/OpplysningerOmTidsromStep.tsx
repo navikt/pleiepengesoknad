@@ -26,7 +26,7 @@ import {
     validateFerieuttakIPerioden,
     validateFradato,
     validateTildato,
-    validateUtenlandsoppholdIPerioden
+    validateUtenlandsoppholdIPerioden,
 } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
@@ -35,6 +35,7 @@ import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './h
 const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<PleiepengesøknadFormData>();
     const { showErrors } = React.useContext(TypedFormikFormContext) || { showErrors: false };
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const søkerdata = React.useContext(SøkerdataContext)!;
 
     const fraDato = values[AppFormField.periodeFra];
@@ -65,8 +66,8 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
             const error: IntlFieldValidationError = {
                 key: 'fieldvalidation.periodeErOver8UkerMenIkkeØnsket',
                 values: {
-                    varighet: getVarighetString(info8uker.antallDager, intl)
-                }
+                    varighet: getVarighetString(info8uker.antallDager, intl),
+                },
             };
             return error;
         }
@@ -88,16 +89,16 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                     name: AppFormField.periodeFra,
                     dateLimitations: {
                         minDato: date3YearsAgo,
-                        maksDato: validateTilDatoField(tilDato) === undefined ? tilDato : undefined
-                    }
+                        maksDato: validateTilDatoField(tilDato) === undefined ? tilDato : undefined,
+                    },
                 }}
                 toDatepickerProps={{
                     label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.tom'),
                     validate: validateTilDatoField,
                     name: AppFormField.periodeTil,
                     dateLimitations: {
-                        minDato: validateFraDatoField(fraDato) === undefined ? fraDato : date3YearsAgo
-                    }
+                        minDato: validateFraDatoField(fraDato) === undefined ? fraDato : date3YearsAgo,
+                    },
                 }}
             />
             {isFeatureEnabled(Feature.TOGGLE_8_UKER) && (
@@ -183,7 +184,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                                     modalTitle: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.modalTitle'),
                                     listTitle: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.listTitle'),
                                     addLabel: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.addLabel'),
-                                    emptyListText: 'Ingen utenlandsopphold er registrert'
+                                    emptyListText: 'Ingen utenlandsopphold er registrert',
                                 }}
                                 validate={
                                     periode
@@ -223,7 +224,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                                 labels={{
                                     modalTitle: intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.modalTitle'),
                                     listTitle: intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.listTitle'),
-                                    addLabel: intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.addLabel')
+                                    addLabel: intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.addLabel'),
                                 }}
                                 validate={
                                     periode

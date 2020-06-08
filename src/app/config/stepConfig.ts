@@ -12,7 +12,7 @@ export enum StepID {
     'TIDSROM' = 'tidsrom',
     'MEDLEMSKAP' = 'medlemskap',
     'LEGEERKLÆRING' = 'legeerklaering',
-    'SUMMARY' = 'oppsummering'
+    'SUMMARY' = 'oppsummering',
 }
 
 export interface StepConfigItemTexts {
@@ -38,7 +38,7 @@ const getStepConfigItemTextKeys = (stepId: StepID): StepConfigItemTexts => {
         stepTitle: `step.${stepId}.stepTitle`,
         stepIndicatorLabel: `step.${stepId}.stepIndicatorLabel`,
         nextButtonLabel: 'step.nextButtonLabel',
-        nextButtonAriaLabel: 'step.nextButtonAriaLabel'
+        nextButtonAriaLabel: 'step.nextButtonAriaLabel',
     };
 };
 
@@ -54,26 +54,26 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
             ...getStepConfigItemTextKeys(StepID.OPPLYSNINGER_OM_BARNET),
             index: idx++,
             nextStep: StepID.TIDSROM,
-            backLinkHref: routeConfig.WELCOMING_PAGE_ROUTE
+            backLinkHref: routeConfig.WELCOMING_PAGE_ROUTE,
         },
         [StepID.TIDSROM]: {
             ...getStepConfigItemTextKeys(StepID.TIDSROM),
             index: idx++,
             nextStep: StepID.ARBEIDSFORHOLD,
-            backLinkHref: getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET)
+            backLinkHref: getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET),
         },
         [StepID.ARBEIDSFORHOLD]: {
             ...getStepConfigItemTextKeys(StepID.ARBEIDSFORHOLD),
             index: idx++,
             nextStep: StepID.OMSORGSTILBUD,
-            backLinkHref: getSøknadRoute(StepID.TIDSROM)
+            backLinkHref: getSøknadRoute(StepID.TIDSROM),
         },
         [StepID.OMSORGSTILBUD]: {
             ...getStepConfigItemTextKeys(StepID.OMSORGSTILBUD),
             index: idx++,
             nextStep: includeNattevåkAndBeredskap ? StepID.NATTEVÅK : StepID.MEDLEMSKAP,
-            backLinkHref: getSøknadRoute(StepID.ARBEIDSFORHOLD)
-        }
+            backLinkHref: getSøknadRoute(StepID.ARBEIDSFORHOLD),
+        },
     };
 
     let backLinkStep: StepID = StepID.OMSORGSTILBUD;
@@ -82,13 +82,13 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
             ...getStepConfigItemTextKeys(StepID.NATTEVÅK),
             index: idx++,
             nextStep: StepID.BEREDSKAP,
-            backLinkHref: getSøknadRoute(StepID.OMSORGSTILBUD)
+            backLinkHref: getSøknadRoute(StepID.OMSORGSTILBUD),
         };
         config[StepID.BEREDSKAP] = {
             ...getStepConfigItemTextKeys(StepID.BEREDSKAP),
             index: idx++,
             nextStep: StepID.MEDLEMSKAP,
-            backLinkHref: getSøknadRoute(StepID.NATTEVÅK)
+            backLinkHref: getSøknadRoute(StepID.NATTEVÅK),
         };
         backLinkStep = StepID.BEREDSKAP;
     }
@@ -100,22 +100,22 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
                 ...getStepConfigItemTextKeys(StepID.MEDLEMSKAP),
                 index: idx++,
                 nextStep: StepID.LEGEERKLÆRING,
-                backLinkHref: getSøknadRoute(backLinkStep)
+                backLinkHref: getSøknadRoute(backLinkStep),
             },
             [StepID.LEGEERKLÆRING]: {
                 ...getStepConfigItemTextKeys(StepID.LEGEERKLÆRING),
                 index: idx++,
                 nextStep: StepID.SUMMARY,
-                backLinkHref: getSøknadRoute(StepID.MEDLEMSKAP)
+                backLinkHref: getSøknadRoute(StepID.MEDLEMSKAP),
             },
             [StepID.SUMMARY]: {
                 ...getStepConfigItemTextKeys(StepID.SUMMARY),
                 index: idx++,
                 backLinkHref: getSøknadRoute(StepID.LEGEERKLÆRING),
                 nextButtonLabel: 'step.sendButtonLabel',
-                nextButtonAriaLabel: 'step.sendButtonAriaLabel'
-            }
-        }
+                nextButtonAriaLabel: 'step.sendButtonAriaLabel',
+            },
+        },
     };
     return config;
 };

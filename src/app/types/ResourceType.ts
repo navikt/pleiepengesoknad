@@ -5,5 +5,5 @@ export enum ResourceType {
     SØKER = 'soker',
     VEDLEGG = 'vedlegg',
     MELLOMLAGRING = 'mellomlagring',
-    BEKREFT_OMSORG = 'skalBekrefteOmsorg'
+    BEKREFT_OMSORG = 'skalBekrefteOmsorg',
 }

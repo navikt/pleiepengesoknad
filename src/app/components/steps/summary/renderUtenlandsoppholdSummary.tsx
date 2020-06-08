@@ -1,15 +1,15 @@
 import React from 'react';
-import { prettifyDateExtended, apiStringDateToDate } from 'common/utils/dateUtils';
-import bemUtils from 'common/utils/bemUtils';
-import {
-    BostedUtlandApiData,
-    UtenlandsoppholdIPeriodenApiData,
-    isUtenlandsoppholdUtenforEØSApiData,
-    FerieuttakIPeriodeApiData
-} from 'app/types/PleiepengesøknadApiData';
-import './utenlandsoppholdSummaryItem.less';
 import { FormattedMessage } from 'react-intl';
 import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
+import bemUtils from 'common/utils/bemUtils';
+import { apiStringDateToDate, prettifyDateExtended } from 'common/utils/dateUtils';
+import {
+    BostedUtlandApiData,
+    FerieuttakIPeriodeApiData,
+    isUtenlandsoppholdUtenforEØSApiData,
+    UtenlandsoppholdIPeriodenApiData,
+} from 'app/types/PleiepengesøknadApiData';
+import './utenlandsoppholdSummaryItem.less';
 
 const bem = bemUtils('utenlandsoppholdSummaryItem');
 

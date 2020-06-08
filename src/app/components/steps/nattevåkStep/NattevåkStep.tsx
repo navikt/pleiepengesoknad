@@ -11,7 +11,7 @@ import { validateNattevåkTilleggsinfo } from '../../../validation/fieldValidati
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 
-const NattevåkStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) => {
+const NattevåkStep = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
     const { values } = useFormikContext<PleiepengesøknadFormData>();
     const { harNattevåk } = values;

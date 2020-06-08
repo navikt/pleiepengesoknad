@@ -5,9 +5,7 @@ import Box from 'common/components/box/Box';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { dateToday } from 'common/utils/dateUtils';
 import intlHelper from 'common/utils/intlUtils';
-import {
-    validateRequiredField, validateYesOrNoIsAnswered
-} from 'common/validation/fieldValidations';
+import { validateRequiredField, validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { AppFormField, PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
 import AppForm from '../../app-form/AppForm';
 import FrilansEksempeltHtml from './FrilansEksempelHtml';
@@ -16,7 +14,7 @@ interface Props {
     formValues: PleiepengesøknadFormData;
 }
 
-const FrilansFormPart: React.FunctionComponent<Props> = ({ formValues }) => {
+const FrilansFormPart = ({ formValues }: Props) => {
     const harHattInntektSomFrilanser = formValues[AppFormField.frilans_harHattInntektSomFrilanser] === YesOrNo.YES;
     const intl = useIntl();
     return (

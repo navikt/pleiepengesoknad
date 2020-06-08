@@ -4,12 +4,13 @@ import NavLogo from './navLogoSvg';
 import './navPrintPage.less';
 
 interface Props {
+    children: React.ReactNode;
     noTopBorder?: boolean;
 }
 
 const bem = bemUtils('navPrintPage');
 
-const NavPrintPage: React.FunctionComponent<Props> = ({ noTopBorder, children }) => (
+const NavPrintPage = ({ noTopBorder, children }: Props) => (
     <div className={bem.classNames(bem.block, bem.modifierConditional('noTopBorder', noTopBorder))}>
         <div className={bem.element('logo')}>
             <NavLogo />

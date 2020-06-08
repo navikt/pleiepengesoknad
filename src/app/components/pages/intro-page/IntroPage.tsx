@@ -85,12 +85,12 @@ const IntroPage: React.StatelessComponent = () => {
                     radios={[
                         {
                             label: 'Ja',
-                            value: YesOrNo.YES
+                            value: YesOrNo.YES,
                         },
                         {
                             label: 'Nei',
-                            value: YesOrNo.NO
-                        }
+                            value: YesOrNo.NO,
+                        },
                     ]}
                 />
             </Box>

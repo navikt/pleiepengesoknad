@@ -1,13 +1,13 @@
-import { StepID } from '../../config/stepConfig';
 import RouteConfig from '../../config/routeConfig';
+import { StepID } from '../../config/stepConfig';
+import { AppFormField } from '../../types/PleiepengesøknadFormData';
 import { getSøknadRoute, isAvailable } from '../routeUtils';
 import * as stepUtils from '../stepUtils';
-import { AppFormField } from '../../types/PleiepengesøknadFormData';
 
 jest.mock('../featureToggleUtils', () => {
     return {
         isFeatureEnabled: () => false,
-        Feature: {}
+        Feature: {},
     };
 });
 
@@ -18,7 +18,7 @@ jest.mock('./../stepUtils', () => {
         arbeidsforholdStepAvailable: jest.fn(() => 'arbeidsforhold step available'),
         legeerklæringStepAvailable: jest.fn(() => 'legeerklæring step available'),
         medlemskapStepAvailable: jest.fn(() => 'medlemskap step available'),
-        summaryStepAvailable: jest.fn(() => 'summary step available')
+        summaryStepAvailable: jest.fn(() => 'summary step available'),
     };
 });
 
@@ -72,18 +72,26 @@ describe('routeUtils', () => {
         });
 
         it('should return true if route=RouteConfig.SØKNAD_SENDT_ROUTE and harBekreftetOpplysninger is true', () => {
-            const result = isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, {
-                ...formValues,
-                [AppFormField.harBekreftetOpplysninger]: true
-            }, true);
+            const result = isAvailable(
+                RouteConfig.SØKNAD_SENDT_ROUTE,
+                {
+                    ...formValues,
+                    [AppFormField.harBekreftetOpplysninger]: true,
+                },
+                true
+            );
             expect(result).toBe(true);
         });
 
         it('should return false if route=RouteConfig.SØKNAD_SENDT_ROUTE and harBekreftetOpplysninger is false', () => {
-            const result = isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, {
-                ...formValues,
-                [AppFormField.harBekreftetOpplysninger]: false
-            }, false);
+            const result = isAvailable(
+                RouteConfig.SØKNAD_SENDT_ROUTE,
+                {
+                    ...formValues,
+                    [AppFormField.harBekreftetOpplysninger]: false,
+                },
+                false
+            );
             expect(result).toBe(false);
         });
 

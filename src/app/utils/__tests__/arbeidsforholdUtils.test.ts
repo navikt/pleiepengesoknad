@@ -5,27 +5,27 @@ import { syncArbeidsforholdWithArbeidsgivere } from '../arbeidsforholdUtils';
 
 const organisasjoner: Arbeidsgiver[] = [
     { navn: 'Org1', organisasjonsnummer: '1' },
-    { navn: 'Org2', organisasjonsnummer: '2' }
+    { navn: 'Org2', organisasjonsnummer: '2' },
 ];
 
 const organisasjonerPartiallyEqual: Arbeidsgiver[] = [
     { navn: 'Org3', organisasjonsnummer: '3' },
-    { navn: 'NewOrg', organisasjonsnummer: 'new' }
+    { navn: 'NewOrg', organisasjonsnummer: 'new' },
 ];
 
 const organisasjonerEqual: Arbeidsgiver[] = [
     { navn: 'Org3', organisasjonsnummer: '3' },
-    { navn: 'Org4', organisasjonsnummer: '4' }
+    { navn: 'Org4', organisasjonsnummer: '4' },
 ];
 
 const arbeidsforhold: Arbeidsforhold[] = [
     { navn: 'Org3', organisasjonsnummer: '3', erAnsattIPerioden: YesOrNo.YES, jobberNormaltTimer: 10 },
-    { navn: 'Org4', organisasjonsnummer: '4', erAnsattIPerioden: YesOrNo.UNANSWERED, jobberNormaltTimer: 20 }
+    { navn: 'Org4', organisasjonsnummer: '4', erAnsattIPerioden: YesOrNo.UNANSWERED, jobberNormaltTimer: 20 },
 ];
 
 jest.mock('./../envUtils', () => {
     return {
-        getEnvironmentVariable: () => 'someEnvVar'
+        getEnvironmentVariable: () => 'someEnvVar',
     };
 });
 

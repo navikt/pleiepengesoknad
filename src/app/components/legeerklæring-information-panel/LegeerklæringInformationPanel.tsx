@@ -1,13 +1,13 @@
 import * as React from 'react';
-import LegeerklæringIcon from '../legeerklæring-icon/LegeerklæringWithArmIcon';
 import Veilederpanel from 'nav-frontend-veilederpanel';
+import LegeerklæringIcon from '../legeerklæring-icon/LegeerklæringWithArmIcon';
 import './legeerklæringInformationPanel.less';
 
 interface LegeerklæringInformationPanelProps {
     children: React.ReactNode;
 }
 
-const LegeerklæringInformationPanel: React.FunctionComponent<LegeerklæringInformationPanelProps> = ({ children }) => (
+const LegeerklæringInformationPanel = ({ children }: LegeerklæringInformationPanelProps) => (
     <Veilederpanel svg={<LegeerklæringIcon />} kompakt={true}>
         {children}
     </Veilederpanel>

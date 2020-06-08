@@ -22,7 +22,7 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
     const formikProps = useFormikContext<PleiepengesøknadFormData>();
     const {
         values,
-        values: { arbeidsforhold }
+        values: { arbeidsforhold },
     } = formikProps;
     const [isLoading, setIsLoading] = useState(false);
     const søkerdata = useContext(SøkerdataContext);

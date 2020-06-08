@@ -7,7 +7,7 @@ import Page from 'common/components/page/Page';
 import intlHelper from 'common/utils/intlUtils';
 import VeilederLokal from './VeilederLokal';
 
-const GeneralErrorPage: React.FunctionComponent = () => {
+const GeneralErrorPage = () => {
     const intl = useIntl();
     return (
         <Page title={intlHelper(intl, 'page.generalErrorPage.sidetittel')}>

@@ -1,14 +1,14 @@
 import React from 'react';
-import { TilsynsordningApi, TilsynsordningApiJa } from '../../../types/PleiepengesøknadApiData';
+import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
 import Box from 'common/components/box/Box';
 import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
-import intlHelper from 'common/utils/intlUtils';
-import { useIntl, FormattedMessage, IntlShape } from 'react-intl';
-import { TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
-import { Time } from 'common/types/Time';
 import TextareaSummary from 'common/components/textarea-summary/TextareaSummary';
+import { Time } from 'common/types/Time';
+import intlHelper from 'common/utils/intlUtils';
 import { iso8601DurationToTime } from 'common/utils/timeUtils';
 import { hasValue } from 'common/validation/hasValue';
+import { TilsynsordningApi, TilsynsordningApiJa } from '../../../types/PleiepengesøknadApiData';
+import { TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
 
 interface Props {
     tilsynsordning: TilsynsordningApi;
@@ -28,7 +28,8 @@ const formatTime = (intl: IntlShape, time: Partial<Time>): string => {
 
 const summarizeDaysInWeek = (tilsynsordning: TilsynsordningApiJa, intl: IntlShape): string => {
     const {
-        ja: { tilleggsinformasjon, ...allDays }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        ja: { tilleggsinformasjon, ...allDays },
     } = tilsynsordning;
     const days = Object.keys(allDays).filter((day) => allDays[day] !== undefined);
     const daysSummary = days.map((day) => {
@@ -41,7 +42,7 @@ const summarizeDaysInWeek = (tilsynsordning: TilsynsordningApiJa, intl: IntlShap
     return intlHelper(intl, 'tilsynsordning.ingenDagerValgt');
 };
 
-const TilsynsordningSummary: React.FunctionComponent<Props> = ({ tilsynsordning }) => {
+const TilsynsordningSummary = ({ tilsynsordning }: Props) => {
     const intl = useIntl();
     const { svar } = tilsynsordning;
     return (
@@ -71,7 +72,7 @@ const TilsynsordningSummary: React.FunctionComponent<Props> = ({ tilsynsordning 
                                 )}>
                                 <div
                                     dangerouslySetInnerHTML={{
-                                        __html: tilsynsordning.ja.tilleggsinformasjon.replace(/\n/, '<br/>')
+                                        __html: tilsynsordning.ja.tilleggsinformasjon.replace(/\n/, '<br/>'),
                                     }}
                                 />
                             </ContentWithHeader>

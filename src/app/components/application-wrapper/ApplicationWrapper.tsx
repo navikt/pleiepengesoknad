@@ -1,17 +1,18 @@
 import * as React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import IntlProvider from '../intl-provider/IntlProvider';
-import { Søkerdata } from '../../types/Søkerdata';
-import { Locale } from 'common/types/Locale';
 import { Normaltekst } from 'nav-frontend-typografi';
 import LanguageToggle from 'common/components/language-toggle/LanguageToggle';
+import { Locale } from 'common/types/Locale';
+import { Søkerdata } from '../../types/Søkerdata';
+import IntlProvider from '../intl-provider/IntlProvider';
 
 interface ApplicationWrapperProps {
     søkerdata?: Søkerdata;
     locale: Locale;
+    children: React.ReactNode;
     onChangeLocale: (locale: Locale) => void;
 }
-const ApplicationWrapper: React.FunctionComponent<ApplicationWrapperProps> = ({ locale, onChangeLocale, children }) => {
+const ApplicationWrapper = ({ locale, onChangeLocale, children }: ApplicationWrapperProps) => {
     return (
         <IntlProvider locale={locale}>
             <Normaltekst tag="div">

@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import Lenke from 'nav-frontend-lenker';
 import { FormattedMessage, useIntl } from 'react-intl';
+import Lenke from 'nav-frontend-lenker';
+import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import getLenker from 'app/lenker';
 
 const getText = (part: string) => <FormattedMessage id={`modal.minePlikter.${part}`} />;
 
-const DinePlikterContent: React.FunctionComponent = () => {
+const DinePlikterContent = () => {
     const intl = useIntl();
     return (
         <>

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
+import { useFormikContext } from 'formik';
 import Lenke from 'nav-frontend-lenker';
 import Box from 'common/components/box/Box';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
@@ -17,7 +18,6 @@ import { validateLegeerklæring } from '../../../validation/fieldValidations';
 import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
-import { useFormikContext } from 'formik';
 
 const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
@@ -38,7 +38,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
                 const persistedFile = mapFileToPersistedFile(a.file);
                 return {
                     ...a,
-                    file: persistedFile
+                    file: persistedFile,
                 };
             });
             const valuesToPersist = { ...values, legeerklæring: newValues };
@@ -46,7 +46,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
             persist(valuesToPersist, StepID.LEGEERKLÆRING);
         }
         ref.current = {
-            attachments
+            attachments,
         };
     }, [attachments]);
 

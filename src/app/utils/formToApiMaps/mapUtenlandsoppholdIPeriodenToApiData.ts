@@ -5,7 +5,7 @@ import { countryIsMemberOfEøsOrEfta } from 'common/utils/countryUtils';
 import { formatDateToApiFormat } from 'common/utils/dateUtils';
 import {
     UtenlandsoppholdIPeriodenApiData,
-    UtenlandsoppholdUtenforEøsIPeriodenApiData
+    UtenlandsoppholdUtenforEøsIPeriodenApiData,
 } from '../../types/PleiepengesøknadApiData';
 
 export const mapUtenlandsoppholdIPeriodenToApiData = (
@@ -17,7 +17,7 @@ export const mapUtenlandsoppholdIPeriodenToApiData = (
         landnavn: getCountryName(opphold.landkode, locale),
         landkode: opphold.landkode,
         fraOgMed: formatDateToApiFormat(opphold.fom),
-        tilOgMed: formatDateToApiFormat(opphold.tom)
+        tilOgMed: formatDateToApiFormat(opphold.tom),
     };
 
     if (erUtenforEØS && opphold.årsak) {
@@ -25,7 +25,7 @@ export const mapUtenlandsoppholdIPeriodenToApiData = (
             ...apiData,
             erUtenforEøs: erUtenforEØS,
             erBarnetInnlagt: opphold.erBarnetInnlagt === YesOrNo.YES,
-            årsak: opphold.erBarnetInnlagt === YesOrNo.YES ? opphold.årsak : null
+            årsak: opphold.erBarnetInnlagt === YesOrNo.YES ? opphold.årsak : null,
         };
         return periodeopphold;
     } else {

@@ -13,15 +13,15 @@ export const mapTilsynsordningToApiData = (tilsynsordning: Tilsynsordning): Tils
                   tirsdag: tilsyn.tirsdag ? timeToIso8601Duration(tilsyn.tirsdag) : undefined,
                   onsdag: tilsyn.onsdag ? timeToIso8601Duration(tilsyn.onsdag) : undefined,
                   torsdag: tilsyn.torsdag ? timeToIso8601Duration(tilsyn.torsdag) : undefined,
-                  fredag: tilsyn.fredag ? timeToIso8601Duration(tilsyn.fredag) : undefined
+                  fredag: tilsyn.fredag ? timeToIso8601Duration(tilsyn.fredag) : undefined,
               }
             : undefined;
         return {
             svar: 'ja',
             ja: {
                 ...dager,
-                tilleggsinformasjon: ekstrainfo
-            }
+                tilleggsinformasjon: ekstrainfo,
+            },
         };
     }
     if (YesOrNo.DO_NOT_KNOW === skalBarnHaTilsyn && vetIkke) {
@@ -31,15 +31,15 @@ export const mapTilsynsordningToApiData = (tilsynsordning: Tilsynsordning): Tils
                 svar: vetIkke.hvorfor,
                 ...(vetIkke.hvorfor === TilsynVetIkkeHvorfor.annet
                     ? {
-                          annet: vetIkke.ekstrainfo
+                          annet: vetIkke.ekstrainfo,
                       }
-                    : undefined)
-            }
+                    : undefined),
+            },
         };
     }
     if (YesOrNo.NO === skalBarnHaTilsyn) {
         return {
-            svar: 'nei'
+            svar: 'nei',
         };
     }
     return undefined;

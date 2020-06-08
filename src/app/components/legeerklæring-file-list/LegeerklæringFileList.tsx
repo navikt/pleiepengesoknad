@@ -29,10 +29,7 @@ const InfoText = () => (
     </Panel>
 );
 
-const LegeerklæringAttachmentList: React.FunctionComponent<Props> = ({
-    wrapNoAttachmentsInBox,
-    includeDeletionFunctionality
-}) => {
+const LegeerklæringAttachmentList = ({ wrapNoAttachmentsInBox, includeDeletionFunctionality }: Props) => {
     const { values, setFieldValue } = useFormikContext<PleiepengesøknadFormData>();
     const legeerklæring: Attachment[] = values[AppFormField.legeerklæring].filter(({ file }: Attachment) =>
         fileExtensionIsValid(file.name)
@@ -58,20 +55,22 @@ const LegeerklæringAttachmentList: React.FunctionComponent<Props> = ({
                     onRemoveAttachmentClick={(attachment: Attachment) => {
                         attachment.pending = true;
                         setFieldValue(AppFormField.legeerklæring, legeerklæring);
-                        deleteFile(attachment.url!).then(
-                            () => {
-                                setFieldValue(
-                                    AppFormField.legeerklæring,
-                                    removeElementFromArray(attachment, legeerklæring)
-                                );
-                            },
-                            () => {
-                                setFieldValue(
-                                    AppFormField.legeerklæring,
-                                    removeElementFromArray(attachment, legeerklæring)
-                                );
-                            }
-                        );
+                        if (attachment.url) {
+                            deleteFile(attachment.url).then(
+                                () => {
+                                    setFieldValue(
+                                        AppFormField.legeerklæring,
+                                        removeElementFromArray(attachment, legeerklæring)
+                                    );
+                                },
+                                () => {
+                                    setFieldValue(
+                                        AppFormField.legeerklæring,
+                                        removeElementFromArray(attachment, legeerklæring)
+                                    );
+                                }
+                            );
+                        }
                     }}
                 />
                 <Box margin="m" padBottom="l">

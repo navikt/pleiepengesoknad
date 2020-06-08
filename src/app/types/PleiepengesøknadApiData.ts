@@ -41,8 +41,6 @@ export type ArbeidsforholdApiSomVanlig = Pick<
     'navn' | 'organisasjonsnummer' | 'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer'
 >;
 
-export interface ArbeidsforholdApiSkalJobbe {}
-
 export interface TilsynsukeApi {
     mandag?: string;
     tirsdag?: string;

@@ -29,6 +29,7 @@ import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiDat
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { Søkerdata } from '../../../types/Søkerdata';
 import * as apiUtils from '../../../utils/apiUtils';
+import appSentryLogger from '../../../utils/appSentryLogger';
 import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
 import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
 import { erPeriodeOver8Uker } from '../../../utils/søkerOver8UkerUtils';
@@ -43,7 +44,6 @@ import JaNeiSvar from './JaNeiSvar';
 import SelvstendigSummary from './SelvstendigSummary';
 import TilsynsordningSummary from './TilsynsordningSummary';
 import './summary.less';
-import appSentryLogger from '../../../utils/appSentryLogger';
 
 interface State {
     sendingInProgress: boolean;

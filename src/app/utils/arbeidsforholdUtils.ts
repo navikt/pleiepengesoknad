@@ -5,8 +5,8 @@ import { getArbeidsgiver } from 'app/api/api';
 import { AppFormField, Arbeidsforhold, PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
 import { Arbeidsgiver, Søkerdata } from 'app/types/Søkerdata';
 import { apiUtils } from './apiUtils';
-import { navigateToLoginPage } from './navigationUtils';
 import appSentryLogger from './appSentryLogger';
+import { navigateToLoginPage } from './navigationUtils';
 
 const roundWithTwoDecimals = (nbr: number): number => Math.round(nbr * 100) / 100;
 

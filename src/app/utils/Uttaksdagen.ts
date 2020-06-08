@@ -1,28 +1,6 @@
 import moment from 'moment';
 
 /**
- * Wrapper en dato med uttaksdager-funksjonalitet
- * @param dato
- */
-export const Uttaksdagen = (dato: Date) => ({
-    erUttaksdag: (): boolean => erUttaksdag(dato),
-    forrige: (): Date => getUttaksdagFørDato(dato),
-    neste: (): Date => getUttaksdagEtterDato(dato),
-    denneEllerNeste: (): Date => getUttaksdagFraOgMedDato(dato),
-    denneEllerForrige: (): Date => getUttaksdagTilOgMedDato(dato),
-    getUttaksdagerFremTilDato: (tildato: Date) => getUttaksdagerFremTilDato(dato, tildato),
-    leggTil: (uttaksdager: number): Date => {
-        if (uttaksdager < 0) {
-            return trekkUttaksdagerFraDato(dato, uttaksdager);
-        } else if (uttaksdager > 0) {
-            return leggUttaksdagerTilDato(dato, uttaksdager);
-        }
-        return dato;
-    },
-    trekkFra: (uttaksdager: number): Date => trekkUttaksdagerFraDato(dato, uttaksdager)
-});
-
-/**
  * Returnerer
  * @param dato
  */
@@ -39,31 +17,38 @@ export function erUttaksdag(dato: Date): boolean {
 }
 
 /**
- * Finner første uttaksdag før dato
- * @param dato
- */
-function getUttaksdagFørDato(dato: Date): Date {
-    return getUttaksdagTilOgMedDato(
-        moment(dato)
-            .subtract(24, 'hours')
-            .toDate()
-    );
-}
-
-/**
  * Sjekker om dato er en ukedag, dersom ikke finner den foregående fredag
  * @param dato
  */
 function getUttaksdagTilOgMedDato(dato: Date): Date {
     switch (getUkedag(dato)) {
         case 6:
-            return moment(dato)
-                .subtract(24, 'hours')
-                .toDate();
+            return moment(dato).subtract(24, 'hours').toDate();
         case 7:
-            return moment(dato)
-                .subtract(48, 'hours')
-                .toDate();
+            return moment(dato).subtract(48, 'hours').toDate();
+        default:
+            return dato;
+    }
+}
+
+/**
+ * Finner første uttaksdag før dato
+ * @param dato
+ */
+function getUttaksdagFørDato(dato: Date): Date {
+    return getUttaksdagTilOgMedDato(moment(dato).subtract(24, 'hours').toDate());
+}
+
+/**
+ * Sjekker om dato er en ukedag, dersom ikke finner den nærmeste påfølgende mandag
+ * @param dato
+ */
+function getUttaksdagFraOgMedDato(dato: Date): Date {
+    switch (getUkedag(dato)) {
+        case 6:
+            return moment(dato).add(48, 'hours').toDate();
+        case 7:
+            return moment(dato).add(24, 'hours').toDate();
         default:
             return dato;
     }
@@ -74,30 +59,7 @@ function getUttaksdagTilOgMedDato(dato: Date): Date {
  * @param termin
  */
 function getUttaksdagEtterDato(dato: Date): Date {
-    return getUttaksdagFraOgMedDato(
-        moment(dato)
-            .add(24, 'hours')
-            .toDate()
-    );
-}
-
-/**
- * Sjekker om dato er en ukedag, dersom ikke finner den nærmeste påfølgende mandag
- * @param dato
- */
-function getUttaksdagFraOgMedDato(dato: Date): Date {
-    switch (getUkedag(dato)) {
-        case 6:
-            return moment(dato)
-                .add(48, 'hours')
-                .toDate();
-        case 7:
-            return moment(dato)
-                .add(24, 'hours')
-                .toDate();
-        default:
-            return dato;
-    }
+    return getUttaksdagFraOgMedDato(moment(dato).add(24, 'hours').toDate());
 }
 
 /**
@@ -154,6 +116,29 @@ function trekkUttaksdagerFraDato(dato: Date, uttaksdager: number): Date {
  * @param fra
  * @param til
  */
+
+function getAntallUttaksdagerITidsperiode(tidsperiode: { fom: Date; tom: Date }): number {
+    const fom = moment(tidsperiode.fom);
+    const tom = moment(tidsperiode.tom);
+    if (fom.isAfter(tom, 'day')) {
+        return 0;
+    }
+    let antall = 0;
+    while (fom.isSameOrBefore(tom, 'day')) {
+        if (erUttaksdag(fom.toDate())) {
+            antall++;
+        }
+        fom.add(24, 'hours');
+    }
+    return antall;
+}
+
+/**
+ * Finner antall uttaksdager som er mellom to datoer. Dvs. fra og med startdato, og
+ * frem til sluttdato (ikke til og med)
+ * @param fra
+ * @param til
+ */
 function getUttaksdagerFremTilDato(fom: Date, tom: Date): number {
     if (moment(fom).isSame(tom, 'day')) {
         return 0;
@@ -165,24 +150,23 @@ function getUttaksdagerFremTilDato(fom: Date, tom: Date): number {
 }
 
 /**
- * Finner antall uttaksdager som er mellom to datoer. Dvs. fra og med startdato, og
- * frem til sluttdato (ikke til og med)
- * @param fra
- * @param til
+ * Wrapper en dato med uttaksdager-funksjonalitet
+ * @param dato
  */
-
-function getAntallUttaksdagerITidsperiode(tidsperiode: { fom: Date; tom: Date }): number {
-    const fom = moment(tidsperiode.fom);
-    const tom = moment(tidsperiode.tom);
-    if (fom.isAfter(tom, 'day')) {
-        return 0;
-    }
-    let antall = 0;
-    while (fom.isSameOrBefore(tom, 'day')) {
-        if (Uttaksdagen(fom.toDate()).erUttaksdag()) {
-            antall++;
+export const Uttaksdagen = (dato: Date) => ({
+    erUttaksdag: (): boolean => erUttaksdag(dato),
+    forrige: (): Date => getUttaksdagFørDato(dato),
+    neste: (): Date => getUttaksdagEtterDato(dato),
+    denneEllerNeste: (): Date => getUttaksdagFraOgMedDato(dato),
+    denneEllerForrige: (): Date => getUttaksdagTilOgMedDato(dato),
+    getUttaksdagerFremTilDato: (tildato: Date) => getUttaksdagerFremTilDato(dato, tildato),
+    leggTil: (uttaksdager: number): Date => {
+        if (uttaksdager < 0) {
+            return trekkUttaksdagerFraDato(dato, uttaksdager);
+        } else if (uttaksdager > 0) {
+            return leggUttaksdagerTilDato(dato, uttaksdager);
         }
-        fom.add(24, 'hours');
-    }
-    return antall;
-}
+        return dato;
+    },
+    trekkFra: (uttaksdager: number): Date => trekkUttaksdagerFraDato(dato, uttaksdager),
+});

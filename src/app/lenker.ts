@@ -18,7 +18,7 @@ const LenkerBokmål: Lenker = {
         'https://www.nav.no/no/NAV+og+samfunn/Om+NAV/personvern-i-arbeids-og-velferdsetaten/personvernerkl%C3%A6ring-for-arbeids-og-velferdsetaten',
     rettOgPlikt: 'https://nav.no/rettOgPlikt',
     saksbehandlingstider: 'https://www.nav.no/no/NAV+og+samfunn/Om+NAV/Saksbehandlingstider+i+NAV',
-    dittNAV: `https://www.nav.no/no/Ditt+NAV`
+    dittNAV: `https://www.nav.no/no/Ditt+NAV`,
 };
 
 const LenkerNynorsk: Partial<Lenker> = {
@@ -28,7 +28,7 @@ const LenkerNynorsk: Partial<Lenker> = {
     vilkårPleiepenger:
         'https://www.nav.no/no/Person/Familie/Sykdom+i+familien/Nynorsk/pleiepengar+for+pleie+av+sjukt+barn',
     rettOgPlikt:
-        'https://www.nav.no/no/NAV+og+samfunn/Om+NAV/Nynorsk/du-har-plikt-til-%C3%A5-gje-nav-riktige-opplysningar'
+        'https://www.nav.no/no/NAV+og+samfunn/Om+NAV/Nynorsk/du-har-plikt-til-%C3%A5-gje-nav-riktige-opplysningar',
 };
 
 const getLenker = (locale?: string): Lenker => {
@@ -36,7 +36,7 @@ const getLenker = (locale?: string): Lenker => {
         case 'nn':
             return {
                 ...LenkerBokmål,
-                ...LenkerNynorsk
+                ...LenkerNynorsk,
             };
         default:
             return LenkerBokmål;

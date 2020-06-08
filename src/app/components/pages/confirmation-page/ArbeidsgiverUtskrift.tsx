@@ -16,7 +16,7 @@ interface Props {
 
 const bem = bemUtils('arbeidsgiverUtskrift');
 
-const ArbeidsgiverUtskrift: React.FunctionComponent<Props> = ({ arbeidsgiver, søkernavn, fom, tom }) => (
+const ArbeidsgiverUtskrift = ({ arbeidsgiver, søkernavn, fom, tom }: Props) => (
     <div className={bem.block}>
         <Systemtittel style={{ marginBottom: '1.5rem' }}>Til {arbeidsgiver}</Systemtittel>
         <p>NAV har mottatt følgende opplysninger:</p>

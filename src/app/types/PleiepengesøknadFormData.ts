@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { Ferieuttak } from 'common/forms/ferieuttak/types';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 import { Virksomhet } from 'common/forms/virksomhet/types';
@@ -10,7 +11,7 @@ export enum ArbeidsforholdSkalJobbeSvar {
     'ja' = 'ja',
     'nei' = 'nei',
     'redusert' = 'redusert',
-    'vetIkke' = 'vetIkke'
+    'vetIkke' = 'vetIkke',
 }
 
 export interface Tilsynsuke {
@@ -74,7 +75,7 @@ export enum AppFormField {
     frilans_startdato = 'frilans_startdato',
     frilans_jobberFortsattSomFrilans = 'frilans_jobberFortsattSomFrilans',
     selvstendig_harHattInntektSomSN = 'selvstendig_harHattInntektSomSN',
-    selvstendig_virksomheter = 'selvstendig_virksomheter'
+    selvstendig_virksomheter = 'selvstendig_virksomheter',
 }
 
 export enum ArbeidsforholdField {
@@ -83,7 +84,7 @@ export enum ArbeidsforholdField {
     timerEllerProsent = 'timerEllerProsent',
     jobberNormaltTimer = 'jobberNormaltTimer',
     skalJobbeTimer = 'skalJobbeTimer',
-    skalJobbeProsent = 'skalJobbeProsent'
+    skalJobbeProsent = 'skalJobbeProsent',
 }
 
 export interface Arbeidsforhold extends Arbeidsgiver {
@@ -98,7 +99,7 @@ export interface Arbeidsforhold extends Arbeidsgiver {
 export enum TilsynVetIkkeHvorfor {
     'erSporadisk' = 'erSporadisk',
     'erIkkeLagetEnPlan' = 'erIkkeLagetEnPlan',
-    'annet' = 'annet'
+    'annet' = 'annet',
 }
 
 export interface PleiepengesøknadFormData {
@@ -168,5 +169,5 @@ export const initialValues: PleiepengesøknadFormData = {
     [AppFormField.harBeredskap]: YesOrNo.UNANSWERED,
     [AppFormField.frilans_harHattInntektSomFrilanser]: YesOrNo.UNANSWERED,
     [AppFormField.selvstendig_harHattInntektSomSN]: YesOrNo.UNANSWERED,
-    [AppFormField.selvstendig_virksomheter]: []
+    [AppFormField.selvstendig_virksomheter]: [],
 };

@@ -7,5 +7,5 @@ export const mapBostedUtlandToApiData = (opphold: BostedUtland, locale: string):
     landnavn: getCountryName(opphold.landkode, locale),
     landkode: opphold.landkode,
     fraOgMed: formatDateToApiFormat(opphold.fom),
-    tilOgMed: formatDateToApiFormat(opphold.tom)
+    tilOgMed: formatDateToApiFormat(opphold.tom),
 });

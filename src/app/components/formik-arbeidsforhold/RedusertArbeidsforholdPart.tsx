@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
+import { FormikInput, FormikRadioPanelGroup, SkjemagruppeQuestion } from '@navikt/sif-common-formik/lib';
 import Box from 'common/components/box/Box';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import intlHelper from 'common/utils/intlUtils';
@@ -8,10 +9,9 @@ import { validateRequiredField, validateRequiredNumber } from 'common/validation
 import { AppFormField, Arbeidsforhold, ArbeidsforholdField } from '../../types/PleiepengesøknadFormData';
 import {
     calcReduserteTimerFromRedusertProsent,
-    calcRedusertProsentFromRedusertTimer
+    calcRedusertProsentFromRedusertTimer,
 } from '../../utils/arbeidsforholdUtils';
 import './timerInput.less';
-import { SkjemagruppeQuestion, FormikRadioPanelGroup, FormikInput } from '@navikt/sif-common-formik/lib';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
@@ -25,7 +25,7 @@ const getLabelForProsentRedusert = (intl: IntlShape, timerNormalt: number, prose
         );
         return intlHelper(intl, 'arbeidsforhold.prosent.utledet.medTimer', {
             timer: timerNormalt,
-            timerRedusert: intlHelper(intl, 'timerOgMinutter', { timer, minutter })
+            timerRedusert: intlHelper(intl, 'timerOgMinutter', { timer, minutter }),
         });
     }
     return intlHelper(intl, 'arbeidsforhold.prosent.utledet', { timer: timerNormalt });
@@ -35,16 +35,16 @@ const getLabelForTimerRedusert = (intl: IntlShape, timerNormalt: number, timerRe
     if (timerRedusert && timerRedusert > 0) {
         return intlHelper(intl, 'arbeidsforhold.timer.utledet.medProsent', {
             timer: timerNormalt,
-            prosentRedusert: calcRedusertProsentFromRedusertTimer(timerNormalt, timerRedusert).toFixed(2)
+            prosentRedusert: calcRedusertProsentFromRedusertTimer(timerNormalt, timerRedusert).toFixed(2),
         });
     }
     return intlHelper(intl, 'arbeidsforhold.timer.utledet', { timer: timerNormalt });
 };
 
-const RedusertArbeidsforholdPart: React.FunctionComponent<Props> = ({
-    arbeidsforhold: { navn, timerEllerProsent, jobberNormaltTimer, skalJobbeTimer, skalJobbeProsent },
-    getFieldName
-}) => {
+const RedusertArbeidsforholdPart = ({
+    arbeidsforhold: { timerEllerProsent, jobberNormaltTimer, skalJobbeTimer, skalJobbeProsent },
+    getFieldName,
+}: Props) => {
     const intl = useIntl();
     return jobberNormaltTimer ? (
         <>
@@ -57,12 +57,12 @@ const RedusertArbeidsforholdPart: React.FunctionComponent<Props> = ({
                     radios={[
                         {
                             label: intlHelper(intl, 'arbeidsforhold.hvorMye.timer'),
-                            value: 'timer'
+                            value: 'timer',
                         },
                         {
                             label: intlHelper(intl, 'arbeidsforhold.hvorMye.prosent'),
-                            value: 'prosent'
-                        }
+                            value: 'prosent',
+                        },
                     ]}
                 />{' '}
             </Box>

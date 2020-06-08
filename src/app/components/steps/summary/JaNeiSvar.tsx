@@ -5,7 +5,7 @@ interface Props {
     harSvartJa?: boolean;
 }
 
-const JaNeiSvar: React.FunctionComponent<Props> = ({ harSvartJa }) => {
+const JaNeiSvar = ({ harSvartJa }: Props) => {
     return <FormattedMessage id={harSvartJa === true ? 'Ja' : 'Nei'} tagName="span" />;
 };
 

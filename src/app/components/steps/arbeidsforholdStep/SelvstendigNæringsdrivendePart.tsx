@@ -13,7 +13,7 @@ interface Props {
     formValues: PleiepengesøknadFormData;
 }
 
-const SelvstendigNæringsdrivendeFormPart: React.FunctionComponent<Props> = ({ formValues }: Props) => {
+const SelvstendigNæringsdrivendeFormPart = ({ formValues }: Props) => {
     const intl = useIntl();
     return (
         <>

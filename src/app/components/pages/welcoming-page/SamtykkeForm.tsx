@@ -18,7 +18,7 @@ const AppForm = getTypedFormComponents<AppFormField, PleiepengesøknadFormData>(
 
 const bem = bemHelper('welcomingPage');
 
-const SamtykkeForm: React.FunctionComponent<Props> = ({ onConfirm, onOpenDinePlikterModal }) => {
+const SamtykkeForm = ({ onConfirm, onOpenDinePlikterModal }: Props) => {
     const intl = useIntl();
     return (
         <AppForm.Form
@@ -44,7 +44,7 @@ const SamtykkeForm: React.FunctionComponent<Props> = ({ onConfirm, onOpenDinePli
                                 <Lenke href="#" onClick={onOpenDinePlikterModal}>
                                     {intlHelper(intl, 'welcomingPage.samtykke.harForståttLabel.lenketekst')}
                                 </Lenke>
-                            )
+                            ),
                         }}
                     />
                 </AppForm.ConfirmationCheckbox>

@@ -1,3 +1,3 @@
 export default {
-    withCredentials: true
+    withCredentials: true,
 };
