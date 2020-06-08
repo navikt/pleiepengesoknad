@@ -9,6 +9,7 @@ import { validateRequiredField, validateYesOrNoIsAnswered } from 'common/validat
 import { AppFormField, PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
 import AppForm from '../../app-form/AppForm';
 import FrilansEksempeltHtml from './FrilansEksempelHtml';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
@@ -24,7 +25,11 @@ const FrilansFormPart = ({ formValues }: Props) => {
                     name={AppFormField.frilans_harHattInntektSomFrilanser}
                     legend={intlHelper(intl, 'frilanser.harDuHattInntekt.spm')}
                     validate={validateYesOrNoIsAnswered}
-                    info={<FrilansEksempeltHtml />}
+                    description={
+                        <ExpandableInfo title="Hva er en frilanser?">
+                            <FrilansEksempeltHtml />
+                        </ExpandableInfo>
+                    }
                 />
             </Box>
             {harHattInntektSomFrilanser && (

@@ -31,6 +31,7 @@ import {
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
+import ExpandableInfo from 'common/components/expandable-content/ExpandableInfo';
 
 const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<PleiepengesøknadFormData>();
@@ -82,7 +83,11 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
         <FormikStep id={StepID.TIDSROM} onValidFormSubmit={onValidSubmit}>
             <AppForm.DateIntervalPicker
                 legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
-                info={intlHelper(intl, 'steg.tidsrom.hjelpetekst')}
+                description={
+                    <ExpandableInfo title="Kan jeg søke for flere perioder samtidig?">
+                        <FormattedMessage id="steg.tidsrom.hjelpetekst" />
+                    </ExpandableInfo>
+                }
                 fromDatepickerProps={{
                     label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.fom'),
                     validate: validateFraDatoField,
@@ -210,7 +215,11 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                     legend={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.spm')}
                     name={AppFormField.skalTaUtFerieIPerioden}
                     validate={validateYesOrNoIsAnswered}
-                    info={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.veileder')}
+                    description={
+                        <ExpandableInfo title="Hva er lovbestemt ferie?">
+                            <FormattedMessage id="steg.tidsrom.ferieuttakIPerioden.veileder" />
+                        </ExpandableInfo>
+                    }
                 />
             </Box>
             {values.skalTaUtFerieIPerioden === YesOrNo.YES && (
