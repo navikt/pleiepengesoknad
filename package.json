@@ -7,7 +7,6 @@
     "author": "NAV",
     "scripts": {
         "build": "node src/build/scripts/production-build.js",
-        "build-heroku": "node src/build/scripts/heroku-build.js",
         "dev-api": "node server/api-mock.js",
         "sam": "node server/api-mock.js",
         "start-api-mock": "node server/api-mock.js",
