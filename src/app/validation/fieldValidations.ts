@@ -1,20 +1,29 @@
-import { Ferieuttak, } from 'common/forms/ferieuttak/types';
-import { Utenlandsopphold, } from 'common/forms/utenlandsopphold/types';
-import { Attachment, } from 'common/types/Attachment';
-import { Time, } from 'common/types/Time';
-import { YesOrNo, } from 'common/types/YesOrNo';
-import { attachmentHasBeenUploaded, } from 'common/utils/attachmentUtils';
+import { Ferieuttak } from 'common/forms/ferieuttak/types';
+import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
+import { Attachment } from 'common/types/Attachment';
+import { Time } from 'common/types/Time';
+import { YesOrNo } from 'common/types/YesOrNo';
+import { attachmentHasBeenUploaded } from 'common/utils/attachmentUtils';
 import {
-    date1YearAgo, date1YearFromNow, DateRange,
-    dateRangesCollide, dateRangesExceedsRange, dateRangesHasFromDateEqualPreviousRangeToDate,
-    dateToday, isMoreThan3YearsAgo,
+    date1YearAgo,
+    date1YearFromNow,
+    DateRange,
+    dateRangesCollide,
+    dateRangesExceedsRange,
+    dateRangesHasFromDateEqualPreviousRangeToDate,
+    dateToday,
+    isMoreThan3YearsAgo,
 } from 'common/utils/dateUtils';
-import { timeToDecimalTime, } from 'common/utils/timeUtils';
-import { createFieldValidationError, fieldIsRequiredError, FieldValidationErrors, } from 'common/validation/fieldValidations';
-import { hasValue, } from 'common/validation/hasValue';
-import { FieldValidationResult, } from 'common/validation/types';
-import { Arbeidsforhold, Tilsynsordning, } from '../types/PleiepengesøknadFormData';
-import { sumTimerMedTilsyn, } from '../utils/tilsynUtils';
+import { timeToDecimalTime } from 'common/utils/timeUtils';
+import {
+    createFieldValidationError,
+    fieldIsRequiredError,
+    FieldValidationErrors,
+} from 'common/validation/fieldValidations';
+import { hasValue } from 'common/validation/hasValue';
+import { FieldValidationResult } from 'common/validation/types';
+import { Arbeidsforhold, Tilsynsordning } from '../types/PleiepengesøknadFormData';
+import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
 
 const moment = require('moment');
 
@@ -41,7 +50,7 @@ export enum AppFieldValidationErrors {
     'utenlandsopphold_utenfor_periode' = 'fieldvalidation.utenlandsopphold_utenfor_periode',
     'ferieuttak_ikke_registrert' = 'fieldvalidation.ferieuttak_ikke_registrert',
     'ferieuttak_overlapper' = 'fieldvalidation.ferieuttak_overlapper',
-    'ferieuttak_utenfor_periode' = 'fieldvalidation.ferieuttak_utenfor_periode'
+    'ferieuttak_utenfor_periode' = 'fieldvalidation.ferieuttak_utenfor_periode',
 }
 
 const MAX_ARBEIDSTIMER_PER_UKE = 150;
@@ -93,7 +102,7 @@ export const validateFradato = (fraDato?: Date, tilDato?: Date): FieldValidation
         return fieldIsRequiredError();
     }
 
-    if (isMoreThan3YearsAgo(fraDato!)) {
+    if (!fraDato || isMoreThan3YearsAgo(fraDato)) {
         return createAppFieldValidationError(AppFieldValidationErrors.fradato_merEnnTreÅr);
     }
 
@@ -111,7 +120,7 @@ export const validateTildato = (tilDato?: Date, fraDato?: Date): FieldValidation
         return fieldIsRequiredError();
     }
 
-    if (isMoreThan3YearsAgo(tilDato!)) {
+    if (!tilDato || isMoreThan3YearsAgo(tilDato)) {
         return createAppFieldValidationError(AppFieldValidationErrors.tildato_merEnnTreÅr);
     }
 
@@ -294,7 +303,7 @@ export const validateNormaleArbeidstimer = (time: Time | undefined, isRequired?:
     if (time && (time.hours < MIN_ARBEIDSTIMER_PER_UKE || time.hours > MAX_ARBEIDSTIMER_PER_UKE)) {
         return createAppFieldValidationError(AppFieldValidationErrors.arbeidsforhold_timerUgyldig, {
             min: MIN_ARBEIDSTIMER_PER_UKE,
-            max: MAX_ARBEIDSTIMER_PER_UKE
+            max: MAX_ARBEIDSTIMER_PER_UKE,
         });
     }
     return undefined;
@@ -317,7 +326,7 @@ export const validateReduserteArbeidTimer = (
     if (timer < MIN_ARBEIDSTIMER_PER_UKE || timer > MAX_ARBEIDSTIMER_PER_UKE) {
         return createAppFieldValidationError(AppFieldValidationErrors.arbeidsforhold_timerUgyldig, {
             min: MIN_ARBEIDSTIMER_PER_UKE,
-            max: Math.max(MAX_ARBEIDSTIMER_PER_UKE, timeToDecimalTime(normalTimer))
+            max: Math.max(MAX_ARBEIDSTIMER_PER_UKE, timeToDecimalTime(normalTimer)),
         });
     }
     if (timer > (timeToDecimalTime(normalTimer) || MAX_ARBEIDSTIMER_PER_UKE)) {

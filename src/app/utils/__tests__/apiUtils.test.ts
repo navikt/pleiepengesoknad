@@ -1,8 +1,11 @@
-import axios, { AxiosError, } from 'axios';
-import { ResourceType, } from '../../types/ResourceType';
+import axios, { AxiosError } from 'axios';
+import { ResourceType } from '../../types/ResourceType';
 import {
-    getApiUrlByResourceType, isForbidden, isUnauthorized,
-    multipartConfig, sendMultipartPostRequest,
+    getApiUrlByResourceType,
+    isForbidden,
+    isUnauthorized,
+    multipartConfig,
+    sendMultipartPostRequest,
 } from '../apiUtils';
 
 let axiosErrorMock: AxiosError;
@@ -20,7 +23,7 @@ describe('apiUtils', () => {
             name: '',
             message: '',
             toJSON: () => ({}),
-            response: { status: 200, data: {}, statusText: '', headers: [], config: {} }
+            response: { status: 200, data: {}, statusText: '', headers: [], config: {} },
         };
     });
 

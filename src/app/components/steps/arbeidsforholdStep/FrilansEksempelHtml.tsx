@@ -1,5 +1,5 @@
 import React from 'react';
-import { useIntl, } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 const FrilansEksempeltHtml = () => {
     const intl = useIntl();

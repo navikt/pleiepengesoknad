@@ -1,5 +1,5 @@
-import { timeToDecimalTime, } from 'common/utils/timeUtils';
-import { Tilsynsuke, } from '../types/PleiepengesøknadFormData';
+import { timeToDecimalTime } from 'common/utils/timeUtils';
+import { Tilsynsuke } from '../types/PleiepengesøknadFormData';
 
 export const sumTimerMedTilsyn = (uke: Tilsynsuke): number => {
     return Object.keys(uke).reduce((timer: number, key: string) => {
@@ -22,7 +22,7 @@ export const getMaxTimerMedTilsynOneDay = (
     return day !== undefined
         ? {
               maxHours,
-              day
+              day,
           }
         : undefined;
 };

@@ -1,6 +1,6 @@
-import { History, } from 'history';
+import { History } from 'history';
 import routeConfig from '../config/routeConfig';
-import { getEnvironmentVariable, } from './envUtils';
+import { getEnvironmentVariable } from './envUtils';
 
 const loginUrl = getEnvironmentVariable('LOGIN_URL');
 const navNoUrl = 'https://www.nav.no/';

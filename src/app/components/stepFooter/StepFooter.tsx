@@ -1,20 +1,20 @@
 import * as React from 'react';
-import { FormattedMessage, } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import ActionLink from 'common/components/action-link/ActionLink';
 import bemHelper from 'common/utils/bemUtils';
 import './stepFooter.less';
 
 interface Props {
     onAvbryt: () => void;
-    onFortsettSenere: () =>  void;
+    onFortsettSenere: () => void;
 }
 
-const StepFooter: React.StatelessComponent<Props> = ({ onAvbryt, onFortsettSenere }) => {
+const StepFooter: React.StatelessComponent<Props> = ({ onAvbryt, onFortsettSenere }: Props) => {
     const bem = bemHelper('stepFooter');
     return (
         <div className={bem.block}>
             <div className={bem.element('divider')} />
-            <div className={bem.element('links')} >
+            <div className={bem.element('links')}>
                 <ActionLink onClick={onFortsettSenere}>
                     <FormattedMessage id="steg.footer.fortsettSenere" />
                 </ActionLink>

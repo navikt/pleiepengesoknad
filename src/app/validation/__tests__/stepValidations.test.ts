@@ -1,10 +1,14 @@
-import { YesOrNo, } from 'common/types/YesOrNo';
-import { validateFødselsnummer, } from 'common/validation/fieldValidations';
-import { AppFormField, PleiepengesøknadFormData, } from '../../types/PleiepengesøknadFormData';
+import { YesOrNo } from 'common/types/YesOrNo';
+import { validateFødselsnummer } from 'common/validation/fieldValidations';
+import { AppFormField, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import * as fieldValidations from '../fieldValidations';
 import {
-    arbeidsforholdStepIsValid, legeerklæringStepIsValid, medlemskapStepIsValid,
-    opplysningerOmBarnetStepIsValid, opplysningerOmTidsromStepIsValid, welcomingPageIsValid,
+    arbeidsforholdStepIsValid,
+    legeerklæringStepIsValid,
+    medlemskapStepIsValid,
+    opplysningerOmBarnetStepIsValid,
+    opplysningerOmTidsromStepIsValid,
+    welcomingPageIsValid,
 } from '../stepValidations';
 
 import Mock = jest.Mock;
@@ -14,13 +18,13 @@ jest.mock('./../fieldValidations', () => {
     return {
         validateNavn: jest.fn(() => undefined),
         validateFødselsnummer: jest.fn(() => undefined),
-        validateValgtBarn: jest.fn(() => undefined)
+        validateValgtBarn: jest.fn(() => undefined),
     };
 });
 
 jest.mock('common/validation/fieldValidations', () => {
     return {
-        validateFødselsnummer: jest.fn(() => undefined)
+        validateFødselsnummer: jest.fn(() => undefined),
     };
 });
 

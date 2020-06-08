@@ -1,4 +1,4 @@
-import { Feature, isFeatureEnabled, } from '../featureToggleUtils';
+import { Feature, isFeatureEnabled } from '../featureToggleUtils';
 
 describe('featureToggleUtils', () => {
     describe('isFeatureEnabled', () => {

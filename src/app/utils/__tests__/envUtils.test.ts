@@ -1,4 +1,4 @@
-import { appIsRunningInDevEnvironment, getEnvironmentVariable, } from '../envUtils';
+import { appIsRunningInDevEnvironment, getEnvironmentVariable } from '../envUtils';
 
 describe('envUtils', () => {
     describe('getEnvironmentVariable', () => {

@@ -1,5 +1,5 @@
-import { IntlShape, } from 'react-intl';
-import { Uttaksdagen, } from './Uttaksdagen';
+import { IntlShape } from 'react-intl';
+import { Uttaksdagen } from './Uttaksdagen';
 
 const dagerI8uker = 5 * 8;
 
@@ -15,7 +15,7 @@ export const getUkerOgDagerFromDager = (dager: number): { uker: number; dager: n
     const uker = Math.floor(dager / 5);
     return {
         dager: dager - uker * 5,
-        uker
+        uker,
     };
 };
 
@@ -26,7 +26,7 @@ export const getVarighetString = (antallDager: number, intl: IntlShape, format: 
     const dagerStr = intl.formatMessage(
         { id: 'common.varighet.dager' },
         {
-            dager
+            dager,
         }
     );
     if (uker === 0) {
@@ -35,7 +35,7 @@ export const getVarighetString = (antallDager: number, intl: IntlShape, format: 
     const ukerStr = intl.formatMessage({ id: 'common.varighet.uker' }, { uker });
     if (dager > 0) {
         return `${ukerStr}${intl.formatMessage({
-            id: `common.varighet.separator--${format}`
+            id: `common.varighet.separator--${format}`,
         })}${dagerStr}`;
     }
     return ukerStr;

@@ -1,4 +1,4 @@
-import { PleiepengesøknadFormData, } from '../../types/PleiepengesøknadFormData';
+import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import * as stepValidations from '../../validation/stepValidations';
 import * as stepUtils from '../stepUtils';
 
@@ -9,7 +9,7 @@ jest.mock('./../../validation/stepValidations', () => {
         opplysningerOmTidsromStepIsValid: jest.fn(() => true),
         arbeidsforholdStepIsValid: jest.fn(() => true),
         medlemskapStepIsValid: jest.fn(() => true),
-        legeerklæringStepIsValid: jest.fn(() => true)
+        legeerklæringStepIsValid: jest.fn(() => true),
     };
 });
 

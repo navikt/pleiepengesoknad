@@ -1,10 +1,14 @@
-import { IntlShape, } from 'react-intl';
+import { IntlShape } from 'react-intl';
 import intlHelper from 'common/utils/intlUtils';
-import { StepConfigInterface, StepConfigItemTexts, StepID, } from 'app/config/stepConfig';
-import { PleiepengesøknadFormData, } from '../types/PleiepengesøknadFormData';
+import { StepConfigInterface, StepConfigItemTexts, StepID } from 'app/config/stepConfig';
+import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import {
-    arbeidsforholdStepIsValid, legeerklæringStepIsValid, medlemskapStepIsValid,
-    opplysningerOmBarnetStepIsValid, opplysningerOmTidsromStepIsValid, welcomingPageIsValid,
+    arbeidsforholdStepIsValid,
+    legeerklæringStepIsValid,
+    medlemskapStepIsValid,
+    opplysningerOmBarnetStepIsValid,
+    opplysningerOmTidsromStepIsValid,
+    welcomingPageIsValid,
 } from '../validation/stepValidations';
 
 export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
@@ -14,7 +18,7 @@ export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepCo
         stepTitle: intlHelper(intl, conf.stepTitle),
         stepIndicatorLabel: intlHelper(intl, conf.stepIndicatorLabel),
         nextButtonLabel: conf.nextButtonLabel ? intlHelper(intl, conf.nextButtonLabel) : undefined,
-        nextButtonAriaLabel: conf.nextButtonAriaLabel ? intlHelper(intl, conf.nextButtonAriaLabel) : undefined
+        nextButtonAriaLabel: conf.nextButtonAriaLabel ? intlHelper(intl, conf.nextButtonAriaLabel) : undefined,
     };
 };
 

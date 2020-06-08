@@ -1,4 +1,4 @@
-import { Locale, } from 'common/types/Locale';
+import { Locale } from 'common/types/Locale';
 
 const LocaleSessionKey = 'selectedLocale';
 

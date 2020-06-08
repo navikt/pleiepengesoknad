@@ -1,7 +1,7 @@
-import { IntlShape, } from 'react-intl';
-import { ValidationSummaryError, } from 'common/components/validation-error-summary-base/ValidationErrorSummaryBase';
+import { IntlShape } from 'react-intl';
+import { ValidationSummaryError } from 'common/components/validation-error-summary-base/ValidationErrorSummaryBase';
 import intlHelper from 'common/utils/intlUtils';
-import { PleiepengesøknadApiData, } from '../types/PleiepengesøknadApiData';
+import { PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
 
 export const apiVedleggIsInvalid = (vedlegg: string[]): boolean => {
     vedlegg.find((v) => {
@@ -19,7 +19,7 @@ export const validateApiValues = (
     if (apiVedleggIsInvalid(values.vedlegg)) {
         errors.push({
             name: 'vedlegg',
-            message: intlHelper(intl, 'steg.oppsummering.validering.manglerVedlegg')
+            message: intlHelper(intl, 'steg.oppsummering.validering.manglerVedlegg'),
         });
     }
     return errors.length > 0 ? errors : undefined;

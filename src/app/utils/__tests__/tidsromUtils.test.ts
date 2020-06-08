@@ -1,10 +1,10 @@
-import { BarnReceivedFromApi, } from '../../types/Søkerdata';
-import { isFeatureEnabled, } from '../featureToggleUtils';
-import { brukerSkalBekrefteOmsorgForBarnet, søkerHarValgtRegistrertBarn, } from '../tidsromUtils';
+import { BarnReceivedFromApi } from '../../types/Søkerdata';
+import { isFeatureEnabled } from '../featureToggleUtils';
+import { brukerSkalBekrefteOmsorgForBarnet, søkerHarValgtRegistrertBarn } from '../tidsromUtils';
 
 jest.mock('../featureToggleUtils.ts', () => ({
     isFeatureEnabled: jest.fn(),
-    Feature: {}
+    Feature: {},
 }));
 
 describe('søkerHarValgtRegistrertBarn', () => {
@@ -27,7 +27,7 @@ describe('omsorgForBarnet', () => {
         etternavn: 'etternavn',
         aktørId: barnAktørId,
         harSammeAdresse: true,
-        fødselsdato: new Date()
+        fødselsdato: new Date(),
     };
     describe('brukerSkalBekrefteOmsorgForBarnet', () => {
         it('should return false if user has chosen registrered child with same address', () => {
@@ -37,7 +37,7 @@ describe('omsorgForBarnet', () => {
         it('should return true if user has chosen registrered child without same address', () => {
             expect(
                 brukerSkalBekrefteOmsorgForBarnet({ barnetSøknadenGjelder: barnAktørId }, [
-                    { ...barn, harSammeAdresse: false }
+                    { ...barn, harSammeAdresse: false },
                 ])
             ).toBeTruthy();
         });

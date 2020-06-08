@@ -1,7 +1,7 @@
-import { hasValue, } from '@navikt/sif-common-core/lib/validation/hasValue';
-import { PleiepengesøknadFormData, } from '../types/PleiepengesøknadFormData';
-import { BarnReceivedFromApi, Søkerdata, } from '../types/Søkerdata';
-import { Feature, isFeatureEnabled, } from './featureToggleUtils';
+import { hasValue } from '@navikt/sif-common-core/lib/validation/hasValue';
+import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { BarnReceivedFromApi, Søkerdata } from '../types/Søkerdata';
+import { Feature, isFeatureEnabled } from './featureToggleUtils';
 
 export const søkerHarBarn = (søkerdata: Søkerdata) => {
     return søkerdata.barn && søkerdata.barn.length > 0;

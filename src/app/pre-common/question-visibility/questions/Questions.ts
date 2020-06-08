@@ -109,15 +109,15 @@ export const Questions = <Payload, QuestionKeys, ErrorFormat = undefined>(
             isQuestionVisible<Payload, QuestionKeys, ErrorFormat>(questions, key, payload),
         isAnswered: (key: QuestionKeys) =>
             isQuestionAnswered<Payload, QuestionKeys, ErrorFormat>(questions, key, payload),
-        areAllQuestionsAnswered: () => areAllQuestionsAnswered<Payload, QuestionKeys, ErrorFormat>(questions, payload)
+        areAllQuestionsAnswered: () => areAllQuestionsAnswered<Payload, QuestionKeys, ErrorFormat>(questions, payload),
     }),
     getQuestionVisbilityInfo: (key: QuestionKeys, payload: Payload): QuestionVisibilityInfo<ErrorFormat> => {
         const info: QuestionVisibilityInfo = {
             validate: (value: any) =>
                 validateQuestion<any, QuestionKeys, Payload, ErrorFormat>(value, questions, key, payload),
             isVisible: () => isQuestionVisible<Payload, QuestionKeys, ErrorFormat>(questions, key, payload),
-            isAnswered: () => isQuestionAnswered<Payload, QuestionKeys, ErrorFormat>(questions, key, payload)
+            isAnswered: () => isQuestionAnswered<Payload, QuestionKeys, ErrorFormat>(questions, key, payload),
         };
         return info;
-    }
+    },
 });

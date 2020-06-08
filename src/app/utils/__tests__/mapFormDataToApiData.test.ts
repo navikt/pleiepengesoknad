@@ -1,52 +1,56 @@
-import { UtenlandsoppholdÅrsak, } from 'common/forms/utenlandsopphold/types';
-import { Næringstype, } from 'common/forms/virksomhet/types';
-import { ApiStringDate, } from 'common/types/ApiStringDate';
-import { Attachment, } from 'common/types/Attachment';
-import { YesOrNo, } from 'common/types/YesOrNo';
+import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
+import { Næringstype } from 'common/forms/virksomhet/types';
+import { ApiStringDate } from 'common/types/ApiStringDate';
+import { Attachment } from 'common/types/Attachment';
+import { YesOrNo } from 'common/types/YesOrNo';
 import * as attachmentUtils from 'common/utils/attachmentUtils';
 import * as dateUtils from 'common/utils/dateUtils';
 import {
-    ArbeidsforholdApiNei, ArbeidsforholdApiRedusert, ArbeidsforholdApiVetIkke,
-    PleiepengesøknadApiData, UtenlandsoppholdIPeriodenApiData, UtenlandsoppholdUtenforEøsIPeriodenApiData,
+    ArbeidsforholdApiNei,
+    ArbeidsforholdApiRedusert,
+    ArbeidsforholdApiVetIkke,
+    PleiepengesøknadApiData,
+    UtenlandsoppholdIPeriodenApiData,
+    UtenlandsoppholdUtenforEøsIPeriodenApiData,
 } from '../../types/PleiepengesøknadApiData';
 import {
-    AppFormField, Arbeidsforhold, ArbeidsforholdSkalJobbeSvar,
+    AppFormField,
+    Arbeidsforhold,
+    ArbeidsforholdSkalJobbeSvar,
     PleiepengesøknadFormData,
 } from '../../types/PleiepengesøknadFormData';
-import { Arbeidsgiver, BarnReceivedFromApi, } from '../../types/Søkerdata';
-import { isFeatureEnabled, } from '../featureToggleUtils';
-import { jsonSort, } from '../jsonSort';
-import { getValidSpråk, mapFormDataToApiData, } from '../mapFormDataToApiData';
+import { Arbeidsgiver, BarnReceivedFromApi } from '../../types/Søkerdata';
+import { isFeatureEnabled } from '../featureToggleUtils';
+import { jsonSort } from '../jsonSort';
+import { getValidSpråk, mapFormDataToApiData } from '../mapFormDataToApiData';
 
 const moment = require('moment');
 
 jest.mock('./../envUtils', () => {
     return {
-        getEnvironmentVariable: () => 'someEnvVar'
+        getEnvironmentVariable: () => 'someEnvVar',
     };
 });
 
 jest.mock('./../featureToggleUtils.ts', () => ({
     isFeatureEnabled: jest.fn(),
-    Feature: {}
+    Feature: {},
 }));
 
-const todaysDate = moment()
-    .startOf('day')
-    .toDate();
+const todaysDate = moment().startOf('day').toDate();
 
 const barnsFødselsdato = new Date(2020, 0, 20);
 const barnMock: BarnReceivedFromApi[] = [
-    { fødselsdato: barnsFødselsdato, fornavn: 'Mock', etternavn: 'Mocknes', aktørId: '123', harSammeAdresse: true }
+    { fødselsdato: barnsFødselsdato, fornavn: 'Mock', etternavn: 'Mocknes', aktørId: '123', harSammeAdresse: true },
 ];
 
 const organisasjonTelenor: Arbeidsgiver = {
     navn: 'Telenor',
-    organisasjonsnummer: '973861778'
+    organisasjonsnummer: '973861778',
 };
 const organisasjonMaxbo: Arbeidsgiver = {
     navn: 'Maxbo',
-    organisasjonsnummer: '910831143'
+    organisasjonsnummer: '910831143',
 };
 
 const telenorRedusertJobbing: Arbeidsforhold = {
@@ -54,7 +58,7 @@ const telenorRedusertJobbing: Arbeidsforhold = {
     erAnsattIPerioden: YesOrNo.YES,
     skalJobbe: ArbeidsforholdSkalJobbeSvar.redusert,
     jobberNormaltTimer: 20,
-    skalJobbeProsent: 50
+    skalJobbeProsent: 50,
 };
 
 const maxboIngenJobbing = {
@@ -62,7 +66,7 @@ const maxboIngenJobbing = {
     erAnsattIPerioden: YesOrNo.YES,
     skalJobbe: ArbeidsforholdSkalJobbeSvar.nei,
     jobberNormaltTimer: 20,
-    skalJobbeProsent: 0
+    skalJobbeProsent: 0,
 };
 
 const maxboVetIkke = {
@@ -70,14 +74,14 @@ const maxboVetIkke = {
     erAnsattIPerioden: YesOrNo.YES,
     skalJobbe: ArbeidsforholdSkalJobbeSvar.vetIkke,
     jobberNormaltTimer: 20,
-    vetIkkeEkstrainfo: 'ekstrainfo'
+    vetIkkeEkstrainfo: 'ekstrainfo',
 };
 
 const maxboJobbeSomVanlig = {
     ...organisasjonMaxbo,
     erAnsattIPerioden: YesOrNo.YES,
     skalJobbe: ArbeidsforholdSkalJobbeSvar.ja,
-    jobberNormaltTimer: 20
+    jobberNormaltTimer: 20,
 };
 
 type AttachmentMock = Attachment & { failed: boolean };
@@ -90,7 +94,7 @@ const formDataMock: Partial<PleiepengesøknadFormData> = {
     [AppFormField.harForståttRettigheterOgPlikter]: true,
     [AppFormField.arbeidsforhold]: [
         { ...organisasjonTelenor, jobberNormaltTimer: 10 },
-        { ...organisasjonMaxbo, jobberNormaltTimer: 20 }
+        { ...organisasjonMaxbo, jobberNormaltTimer: 20 },
     ],
     [AppFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.YES,
     [AppFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.NO,
@@ -98,12 +102,10 @@ const formDataMock: Partial<PleiepengesøknadFormData> = {
     [AppFormField.utenlandsoppholdSiste12Mnd]: [],
     [AppFormField.periodeFra]: todaysDate,
     [AppFormField.utenlandsoppholdIPerioden]: [],
-    [AppFormField.periodeTil]: moment(todaysDate)
-        .add(1, 'day')
-        .toDate(),
+    [AppFormField.periodeTil]: moment(todaysDate).add(1, 'day').toDate(),
     [AppFormField.legeerklæring]: [attachmentMock1 as AttachmentMock, attachmentMock2 as AttachmentMock],
     [AppFormField.skalTaUtFerieIPerioden]: undefined,
-    [AppFormField.ferieuttakIPerioden]: []
+    [AppFormField.ferieuttakIPerioden]: [],
 };
 
 jest.mock('common/utils/dateUtils', () => {
@@ -115,13 +117,13 @@ jest.mock('common/utils/dateUtils', () => {
         apiStringDateToDate: jest.fn((date: ApiStringDate) => {
             const values = date.split('-');
             return new Date(parseInt(values[0], 10), parseInt(values[1], 10), parseInt(values[2], 10));
-        })
+        }),
     };
 });
 
 jest.mock('common/utils/attachmentUtils', () => {
     return {
-        attachmentUploadHasFailed: jest.fn((attachment: AttachmentMock) => attachment.failed)
+        attachmentUploadHasFailed: jest.fn((attachment: AttachmentMock) => attachment.failed),
     };
 });
 
@@ -130,7 +132,7 @@ const completedAttachmentMock = { uploaded: true, url: attachmentMock1.url, pend
 const frilansPartialFormData: Partial<PleiepengesøknadFormData> = {
     harHattInntektSomFrilanser: YesOrNo.YES,
     frilans_jobberFortsattSomFrilans: YesOrNo.YES,
-    frilans_startdato: new Date(2018, 1, 1)
+    frilans_startdato: new Date(2018, 1, 1),
 };
 const selvstendigPartialFormData: Partial<PleiepengesøknadFormData> = {
     selvstendig_harHattInntektSomSN: YesOrNo.YES,
@@ -144,9 +146,9 @@ const selvstendigPartialFormData: Partial<PleiepengesøknadFormData> = {
             registrertINorge: YesOrNo.YES,
             organisasjonsnummer: '123123123',
             harRegnskapsfører: YesOrNo.NO,
-            harRevisor: YesOrNo.NO
-        }
-    ]
+            harRevisor: YesOrNo.NO,
+        },
+    ],
 };
 
 const completeFormDataMock: PleiepengesøknadFormData = {
@@ -175,30 +177,30 @@ const completeFormDataMock: PleiepengesøknadFormData = {
             tilsyn: {
                 fredag: {
                     hours: 1,
-                    minutes: 0
-                }
-            }
-        }
+                    minutes: 0,
+                },
+            },
+        },
     },
     utenlandsoppholdSiste12Mnd: [
         {
             landkode: 'SE',
             fom: new Date(2020, 1, 1),
             tom: new Date(2020, 2, 1),
-            id: '345'
-        }
+            id: '345',
+        },
     ],
     utenlandsoppholdNeste12Mnd: [
         {
             landkode: 'NO',
             fom: new Date(2020, 3, 1),
             tom: new Date(2020, 4, 1),
-            id: '123'
-        }
+            id: '123',
+        },
     ],
     barnetsNavn: 'barnets-navn',
     barnetsFødselsdato: undefined,
-    barnetsFødselsnummer: 'barnets-fnr'
+    barnetsFødselsnummer: 'barnets-fnr',
 };
 
 describe('mapFormDataToApiData', () => {
@@ -247,7 +249,7 @@ describe('mapFormDataToApiData', () => {
         expect(resultingApiData.barn.fødselsnummer).toBeNull();
         const formDataWithFnr: Partial<PleiepengesøknadFormData> = {
             ...formDataMock,
-            [AppFormField.barnetsFødselsnummer]: fnr
+            [AppFormField.barnetsFødselsnummer]: fnr,
         };
         const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock, 'nb');
         expect(result).toBeDefined();
@@ -261,7 +263,7 @@ describe('mapFormDataToApiData', () => {
         const fdato = new Date();
         const formDataWithFnr: Partial<PleiepengesøknadFormData> = {
             ...formDataMock,
-            [AppFormField.barnetsFødselsdato]: fdato
+            [AppFormField.barnetsFødselsdato]: fdato,
         };
         const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock, 'nb');
         expect(result).toBeDefined();
@@ -285,7 +287,7 @@ describe('mapFormDataToApiData', () => {
     const formData: PleiepengesøknadFormData = {
         ...(formDataMock as PleiepengesøknadFormData),
         [AppFormField.harMedsøker]: YesOrNo.YES,
-        arbeidsforhold: [telenorRedusertJobbing, maxboIngenJobbing]
+        arbeidsforhold: [telenorRedusertJobbing, maxboIngenJobbing],
     };
 
     beforeAll(() => {
@@ -320,7 +322,7 @@ describe('mapFormDataToApiData', () => {
                 ...organisasjonTelenor,
                 jobberNormaltTimer: 20,
                 skalJobbe: 'redusert',
-                skalJobbeProsent: 50
+                skalJobbeProsent: 50,
             };
             expect(resultingApiData.arbeidsgivere.organisasjoner).toEqual([result]);
         }
@@ -358,7 +360,7 @@ describe('mapFormDataToApiData', () => {
             const resultingApiData = mapFormDataToApiData(
                 {
                     ...formData,
-                    arbeidsforhold: [maxboJobbeSomVanlig]
+                    arbeidsforhold: [maxboJobbeSomVanlig],
                 },
                 barnMock,
                 'nb'
@@ -377,13 +379,13 @@ describe('mapFormDataToApiData', () => {
         expect(resultingApiData).toBeDefined();
         if (resultingApiData) {
             const {
-                arbeidsgivere: { organisasjoner }
+                arbeidsgivere: { organisasjoner },
             } = resultingApiData;
             const result: ArbeidsforholdApiNei = {
                 ...organisasjonMaxbo,
                 skalJobbe: 'nei',
                 skalJobbeProsent: 0,
-                jobberNormaltTimer: 20
+                jobberNormaltTimer: 20,
             };
             expect(JSON.stringify(jsonSort(organisasjoner))).toEqual(JSON.stringify(jsonSort([result])));
         }
@@ -394,13 +396,13 @@ describe('mapFormDataToApiData', () => {
         expect(resultingApiData).toBeDefined();
         if (resultingApiData) {
             const {
-                arbeidsgivere: { organisasjoner }
+                arbeidsgivere: { organisasjoner },
             } = resultingApiData;
             const result: ArbeidsforholdApiVetIkke = {
                 ...organisasjonMaxbo,
                 jobberNormaltTimer: 20,
                 skalJobbe: 'vetIkke',
-                skalJobbeProsent: 0
+                skalJobbeProsent: 0,
             };
             expect(organisasjoner).toEqual([result]);
             expect(organisasjoner[0].skalJobbeTimer).toBeUndefined();
@@ -416,7 +418,7 @@ describe('mapFormDataToApiData', () => {
         expect(resultingApiData).toBeDefined();
         if (resultingApiData) {
             const {
-                arbeidsgivere: { organisasjoner }
+                arbeidsgivere: { organisasjoner },
             } = resultingApiData;
             expect(organisasjoner).toEqual([]);
         }
@@ -431,9 +433,9 @@ describe('mapFormDataToApiData', () => {
                     {
                         fom: new Date(),
                         tom: new Date(),
-                        landkode: 'SE'
-                    }
-                ]
+                        landkode: 'SE',
+                    },
+                ],
             },
             barnMock,
             'nb'
@@ -454,9 +456,9 @@ describe('mapFormDataToApiData', () => {
                     {
                         fom: new Date(),
                         tom: new Date(),
-                        landkode: 'SE'
-                    }
-                ]
+                        landkode: 'SE',
+                    },
+                ],
             },
             barnMock,
             'nb'
@@ -477,9 +479,9 @@ describe('mapFormDataToApiData', () => {
                 ferieuttakIPerioden: [
                     {
                         fom: new Date(),
-                        tom: new Date()
-                    }
-                ]
+                        tom: new Date(),
+                    },
+                ],
             },
             barnMock,
             'nb'
@@ -500,9 +502,9 @@ describe('mapFormDataToApiData', () => {
                 ferieuttakIPerioden: [
                     {
                         fom: new Date(),
-                        tom: new Date()
-                    }
-                ]
+                        tom: new Date(),
+                    },
+                ],
             },
             barnMock,
             'nb'
@@ -531,7 +533,7 @@ describe('mapFormDataToApiData', () => {
                 const formDataWithFrilansInfo = {
                     ...formData,
                     ...frilansPartialFormData,
-                    harHattInntektSomFrilanser: YesOrNo.NO
+                    harHattInntektSomFrilanser: YesOrNo.NO,
                 };
                 const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
                 expect(mappedData).toBeDefined();
@@ -546,7 +548,7 @@ describe('mapFormDataToApiData', () => {
                 const formDataWithFrilansInfo = {
                     ...formData,
                     ...frilansPartialFormData,
-                    harHattInntektSomFrilanser: YesOrNo.NO
+                    harHattInntektSomFrilanser: YesOrNo.NO,
                 };
                 const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
                 expect(mappedData).toBeDefined();
@@ -562,7 +564,7 @@ describe('mapFormDataToApiData', () => {
                 const formDataWithFrilansInfo = {
                     ...formData,
                     ...frilansPartialFormData,
-                    harHattInntektSomFrilanser: YesOrNo.NO
+                    harHattInntektSomFrilanser: YesOrNo.NO,
                 };
                 const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
                 expect(mappedData).toBeDefined();
@@ -577,7 +579,7 @@ describe('mapFormDataToApiData', () => {
                 const formDataWithSelvstendigInfo = {
                     ...formData,
                     ...selvstendigPartialFormData,
-                    harHattInntektSomFrilanser: YesOrNo.NO
+                    harHattInntektSomFrilanser: YesOrNo.NO,
                 };
                 const mappedData = mapFormDataToApiData(formDataWithSelvstendigInfo, barnMock, 'nb');
                 expect(mappedData).toBeDefined();
@@ -599,7 +601,7 @@ describe('Test complete applications', () => {
             fødselsnummer: null,
             aktørId: barnMock[0].aktørId,
             fødselsdato: '2020-00-20',
-            sammeAdresse: true
+            sammeAdresse: true,
         },
         arbeidsgivere: {
             organisasjoner: [
@@ -608,9 +610,9 @@ describe('Test complete applications', () => {
                     organisasjonsnummer: '910831143',
                     skalJobbe: 'ja',
                     skalJobbeProsent: 100,
-                    jobberNormaltTimer: 37.5
-                }
-            ]
+                    jobberNormaltTimer: 37.5,
+                },
+            ],
         },
         medlemskap: {
             harBoddIUtlandetSiste12Mnd: true,
@@ -620,17 +622,17 @@ describe('Test complete applications', () => {
                     landnavn: 'Sverige',
                     landkode: 'SE',
                     fraOgMed: '2020-01-01',
-                    tilOgMed: '2020-02-01'
-                }
+                    tilOgMed: '2020-02-01',
+                },
             ],
             utenlandsoppholdNeste12Mnd: [
                 {
                     landnavn: 'Norge',
                     landkode: 'NO',
                     fraOgMed: '2020-03-01',
-                    tilOgMed: '2020-04-01'
-                }
-            ]
+                    tilOgMed: '2020-04-01',
+                },
+            ],
         },
         fraOgMed: '2020-01-01',
         tilOgMed: '2020-02-01',
@@ -643,25 +645,25 @@ describe('Test complete applications', () => {
             svar: 'ja',
             ja: {
                 fredag: 'PT1H0M',
-                tilleggsinformasjon: 'tilsynsordning-ekstrainfo'
-            }
+                tilleggsinformasjon: 'tilsynsordning-ekstrainfo',
+            },
         },
         nattevåk: {
             harNattevåk: true,
-            tilleggsinformasjon: 'harNattevåk_ekstrainfo'
+            tilleggsinformasjon: 'harNattevåk_ekstrainfo',
         },
 
         beredskap: {
             beredskap: true,
-            tilleggsinformasjon: 'harBeredskap_ekstrainfo'
-        }
+            tilleggsinformasjon: 'harBeredskap_ekstrainfo',
+        },
     };
 
     const utenlandsoppholdISverigeApiData: UtenlandsoppholdIPeriodenApiData = {
         landnavn: 'Sverige',
         landkode: 'SE',
         fraOgMed: '2020-01-05',
-        tilOgMed: '2020-01-07'
+        tilOgMed: '2020-01-07',
     };
 
     const utenlandsoppholdIUSAApiData: UtenlandsoppholdUtenforEøsIPeriodenApiData = {
@@ -671,14 +673,14 @@ describe('Test complete applications', () => {
         tilOgMed: '2020-01-09',
         erUtenforEøs: true,
         erBarnetInnlagt: true,
-        årsak: UtenlandsoppholdÅrsak.ANNET
+        årsak: UtenlandsoppholdÅrsak.ANNET,
     };
 
     const featureUtenlandsoppholdIPeriodenApiData: Partial<PleiepengesøknadApiData> = {
         utenlandsoppholdIPerioden: {
             skalOppholdeSegIUtlandetIPerioden: true,
-            opphold: [utenlandsoppholdISverigeApiData, utenlandsoppholdIUSAApiData]
-        }
+            opphold: [utenlandsoppholdISverigeApiData, utenlandsoppholdIUSAApiData],
+        },
     };
     const featureFerieIPeriodenApiData: Partial<PleiepengesøknadApiData> = {
         ferieuttakIPerioden: {
@@ -686,23 +688,23 @@ describe('Test complete applications', () => {
             ferieuttak: [
                 {
                     fraOgMed: '2020-01-05',
-                    tilOgMed: '2020-01-07'
-                }
-            ]
-        }
+                    tilOgMed: '2020-01-07',
+                },
+            ],
+        },
     };
     const frilansDate = new Date(2020, 0, 1);
     const featureFrilansApiData: Partial<PleiepengesøknadApiData> = {
         harHattInntektSomFrilanser: true,
         frilans: {
             jobberFortsattSomFrilans: true,
-            startdato: dateUtils.formatDateToApiFormat(frilansDate)
-        }
+            startdato: dateUtils.formatDateToApiFormat(frilansDate),
+        },
     };
 
     const featureSelvstendigApiData: Partial<PleiepengesøknadApiData> = {
         harHattInntektSomSelvstendigNæringsdrivende: true,
-        selvstendigVirksomheter: []
+        selvstendigVirksomheter: [],
     };
 
     const baseDato = new Date(2020, 1, 1);
@@ -710,16 +712,12 @@ describe('Test complete applications', () => {
     const feature8UkerDatoer = {
         under8Uker: {
             periodeFra: moment(baseDato).toDate(),
-            periodeTil: moment(baseDato)
-                .add(3, 'weeks')
-                .toDate()
+            periodeTil: moment(baseDato).add(3, 'weeks').toDate(),
         },
         over8Uker: {
             periodeFra: moment(baseDato).toDate(),
-            periodeTil: moment(baseDato)
-                .add(9, 'weeks')
-                .toDate()
-        }
+            periodeTil: moment(baseDato).add(9, 'weeks').toDate(),
+        },
     };
 
     it('All features off', () => {
@@ -738,16 +736,16 @@ describe('Test complete applications', () => {
                     fom: dateUtils.apiStringDateToDate('2020-01-05'),
                     tom: dateUtils.apiStringDateToDate('2020-01-07'),
                     landkode: 'SE',
-                    erBarnetInnlagt: YesOrNo.YES
+                    erBarnetInnlagt: YesOrNo.YES,
                 },
                 {
                     fom: dateUtils.apiStringDateToDate('2020-01-08'),
                     tom: dateUtils.apiStringDateToDate('2020-01-09'),
                     landkode: 'US',
                     erBarnetInnlagt: YesOrNo.YES,
-                    årsak: UtenlandsoppholdÅrsak.ANNET
-                }
-            ]
+                    årsak: UtenlandsoppholdÅrsak.ANNET,
+                },
+            ],
         };
 
         const featureFerieIPeriodenFormData: Partial<PleiepengesøknadFormData> = {
@@ -755,25 +753,25 @@ describe('Test complete applications', () => {
             ferieuttakIPerioden: [
                 {
                     fom: dateUtils.apiStringDateToDate('2020-01-05'),
-                    tom: dateUtils.apiStringDateToDate('2020-01-07')
-                }
-            ]
+                    tom: dateUtils.apiStringDateToDate('2020-01-07'),
+                },
+            ],
         };
 
         const featureFrilanserFormData: Partial<PleiepengesøknadFormData> = {
             harHattInntektSomFrilanser: YesOrNo.YES,
             frilans_startdato: frilansDate,
-            frilans_jobberFortsattSomFrilans: YesOrNo.YES
+            frilans_jobberFortsattSomFrilans: YesOrNo.YES,
         };
 
         const featureSelvstendigFormData: Partial<PleiepengesøknadFormData> = {
             selvstendig_harHattInntektSomSN: YesOrNo.YES,
-            selvstendig_virksomheter: []
+            selvstendig_virksomheter: [],
         };
 
         const featureBekreftOmsorgFormData: Partial<PleiepengesøknadFormData> = {
             skalPassePåBarnetIHelePerioden: YesOrNo.NO,
-            beskrivelseOmsorgsrolleIPerioden: 'avhengighet'
+            beskrivelseOmsorgsrolleIPerioden: 'avhengighet',
         };
 
         const featuresOnFormData: PleiepengesøknadFormData = {
@@ -782,7 +780,7 @@ describe('Test complete applications', () => {
             ...featureFrilanserFormData,
             ...featureUtenlandsoppholdIPeriodenFormData,
             ...featureSelvstendigFormData,
-            ...featureBekreftOmsorgFormData
+            ...featureBekreftOmsorgFormData,
         };
 
         const mapFeaturesOnData = (data: PleiepengesøknadFormData): PleiepengesøknadApiData => {
@@ -794,7 +792,7 @@ describe('Test complete applications', () => {
             ...featureFrilansApiData,
             ...featureSelvstendigApiData,
             ...featureFerieIPeriodenApiData,
-            ...featureUtenlandsoppholdIPeriodenApiData
+            ...featureUtenlandsoppholdIPeriodenApiData,
         };
 
         expect(JSON.stringify(jsonSort(mapFeaturesOnData(featuresOnFormData)))).toEqual(
@@ -803,13 +801,13 @@ describe('Test complete applications', () => {
 
         const feature8UkerOver8ukerFormData: Partial<PleiepengesøknadFormData> = {
             ...feature8UkerDatoer.over8Uker,
-            bekrefterPeriodeOver8uker: YesOrNo.YES
+            bekrefterPeriodeOver8uker: YesOrNo.YES,
         };
 
         const feature8UkerOver8UkerApiData: Partial<PleiepengesøknadApiData> = {
             fraOgMed: dateUtils.formatDateToApiFormat(feature8UkerDatoer.over8Uker.periodeFra),
             tilOgMed: dateUtils.formatDateToApiFormat(feature8UkerDatoer.over8Uker.periodeTil),
-            bekrefterPeriodeOver8Uker: true
+            bekrefterPeriodeOver8Uker: true,
         };
 
         expect(
@@ -817,11 +815,11 @@ describe('Test complete applications', () => {
         ).toEqual(JSON.stringify(jsonSort({ ...resultApiDataWithFeatures, ...feature8UkerOver8UkerApiData })));
 
         const feature8UkerUnder8ukerFormData: Partial<PleiepengesøknadFormData> = {
-            ...feature8UkerDatoer.under8Uker
+            ...feature8UkerDatoer.under8Uker,
         };
         const feature8UkerUnder8UkerApiData: Partial<PleiepengesøknadApiData> = {
             fraOgMed: dateUtils.formatDateToApiFormat(feature8UkerDatoer.under8Uker.periodeFra),
-            tilOgMed: dateUtils.formatDateToApiFormat(feature8UkerDatoer.under8Uker.periodeTil)
+            tilOgMed: dateUtils.formatDateToApiFormat(feature8UkerDatoer.under8Uker.periodeTil),
         };
 
         expect(

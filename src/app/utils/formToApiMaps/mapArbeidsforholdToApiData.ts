@@ -1,9 +1,12 @@
 import {
-    ArbeidsforholdApi, ArbeidsforholdApiNei, ArbeidsforholdApiRedusert,
-    ArbeidsforholdApiSomVanlig, ArbeidsforholdApiVetIkke,
+    ArbeidsforholdApi,
+    ArbeidsforholdApiNei,
+    ArbeidsforholdApiRedusert,
+    ArbeidsforholdApiSomVanlig,
+    ArbeidsforholdApiVetIkke,
 } from '../../types/PleiepengesøknadApiData';
-import { Arbeidsforhold, ArbeidsforholdSkalJobbeSvar, } from '../../types/PleiepengesøknadFormData';
-import { calcRedusertProsentFromRedusertTimer, } from '../arbeidsforholdUtils';
+import { Arbeidsforhold, ArbeidsforholdSkalJobbeSvar } from '../../types/PleiepengesøknadFormData';
+import { calcRedusertProsentFromRedusertTimer } from '../arbeidsforholdUtils';
 
 export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): ArbeidsforholdApi => {
     const {
@@ -13,7 +16,7 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
         skalJobbeTimer,
         skalJobbeProsent,
         navn,
-        organisasjonsnummer
+        organisasjonsnummer,
     } = arbeidsforhold;
 
     const orgInfo = { navn, organisasjonsnummer };
@@ -23,7 +26,7 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
             ...orgInfo,
             skalJobbe: 'nei',
             skalJobbeProsent: 0,
-            jobberNormaltTimer
+            jobberNormaltTimer,
         };
         return forhold;
     }
@@ -38,11 +41,11 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
                       skalJobbeTimer,
                       skalJobbeProsent: jobberNormaltTimer
                           ? calcRedusertProsentFromRedusertTimer(jobberNormaltTimer, skalJobbeTimer)
-                          : 0
+                          : 0,
                   }
                 : {
-                      skalJobbeProsent
-                  })
+                      skalJobbeProsent,
+                  }),
         };
         return redusertForhold;
     }
@@ -51,7 +54,7 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
             ...orgInfo,
             skalJobbe: 'vetIkke',
             jobberNormaltTimer,
-            skalJobbeProsent: 0
+            skalJobbeProsent: 0,
         };
         return vetIkkeForhold;
     }
@@ -59,7 +62,7 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
         ...orgInfo,
         skalJobbe: 'ja',
         skalJobbeProsent: 100,
-        jobberNormaltTimer
+        jobberNormaltTimer,
     };
     return forholdSomVanlig;
 };

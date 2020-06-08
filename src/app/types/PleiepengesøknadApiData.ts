@@ -1,8 +1,8 @@
-import { UtenlandsoppholdÅrsak, } from 'common/forms/utenlandsopphold/types';
-import { VirksomhetApiData, } from 'common/forms/virksomhet/types';
-import { ApiStringDate, } from 'common/types/ApiStringDate';
-import { Locale, } from 'common/types/Locale';
-import { TilsynVetIkkeHvorfor, } from './PleiepengesøknadFormData';
+import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
+import { VirksomhetApiData } from 'common/forms/virksomhet/types';
+import { ApiStringDate } from 'common/types/ApiStringDate';
+import { Locale } from 'common/types/Locale';
+import { TilsynVetIkkeHvorfor } from './PleiepengesøknadFormData';
 
 export type ISO8601Duration = string;
 
@@ -40,8 +40,6 @@ export type ArbeidsforholdApiSomVanlig = Pick<
     ArbeidsforholdApi,
     'navn' | 'organisasjonsnummer' | 'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer'
 >;
-
-export interface ArbeidsforholdApiSkalJobbe {}
 
 export interface TilsynsukeApi {
     mandag?: string;
