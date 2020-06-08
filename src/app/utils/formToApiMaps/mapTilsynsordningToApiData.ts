@@ -1,7 +1,7 @@
-import { YesOrNo } from 'common/types/YesOrNo';
-import { timeToIso8601Duration } from 'common/utils/timeUtils';
-import { TilsynsordningApi } from '../../types/PleiepengesøknadApiData';
-import { Tilsynsordning, TilsynVetIkkeHvorfor } from '../../types/PleiepengesøknadFormData';
+import { YesOrNo, } from 'common/types/YesOrNo';
+import { timeToIso8601Duration, } from 'common/utils/timeUtils';
+import { TilsynsordningApi, } from '../../types/PleiepengesøknadApiData';
+import { Tilsynsordning, TilsynVetIkkeHvorfor, } from '../../types/PleiepengesøknadFormData';
 
 export const mapTilsynsordningToApiData = (tilsynsordning: Tilsynsordning): TilsynsordningApi | undefined => {
     const { ja, vetIkke, skalBarnHaTilsyn } = tilsynsordning;

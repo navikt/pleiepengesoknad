@@ -1,15 +1,11 @@
-import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import {
-    legeerklæringStepIsValid,
-    medlemskapStepIsValid,
-    arbeidsforholdStepIsValid,
-    opplysningerOmBarnetStepIsValid,
-    opplysningerOmTidsromStepIsValid,
-    welcomingPageIsValid
-} from '../validation/stepValidations';
-import { StepConfigItemTexts, StepID, StepConfigInterface } from 'app/config/stepConfig';
-import { IntlShape } from 'react-intl';
+import { IntlShape, } from 'react-intl';
 import intlHelper from 'common/utils/intlUtils';
+import { StepConfigInterface, StepConfigItemTexts, StepID, } from 'app/config/stepConfig';
+import { PleiepengesøknadFormData, } from '../types/PleiepengesøknadFormData';
+import {
+    arbeidsforholdStepIsValid, legeerklæringStepIsValid, medlemskapStepIsValid,
+    opplysningerOmBarnetStepIsValid, opplysningerOmTidsromStepIsValid, welcomingPageIsValid,
+} from '../validation/stepValidations';
 
 export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
     const conf = stepConfig[stepId];

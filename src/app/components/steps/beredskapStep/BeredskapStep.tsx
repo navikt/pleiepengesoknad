@@ -12,9 +12,9 @@ import { validateBeredskapTilleggsinfo } from '../../../validation/fieldValidati
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 
-const BeredskapStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) => {
+const BeredskapStep = ({ onValidSubmit }: StepConfigProps) => {
     const {
-        values: { harBeredskap }
+        values: { harBeredskap },
     } = useFormikContext<PleiepengesøknadFormData>();
     const intl = useIntl();
 

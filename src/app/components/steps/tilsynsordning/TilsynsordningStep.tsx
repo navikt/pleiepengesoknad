@@ -5,7 +5,7 @@ import Box from 'common/components/box/Box';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import { YesOrNo } from 'common/types/YesOrNo';
 import intlHelper from 'common/utils/intlUtils';
-import { validateYesOrNoIsAnswered, validateRequiredField } from 'common/validation/fieldValidations';
+import { validateRequiredField, validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField, PleiepengesøknadFormData, TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
 import { validateSkalHaTilsynsordning, validateTilsynsordningTilleggsinfo } from '../../../validation/fieldValidations';
@@ -13,7 +13,7 @@ import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
 
-const TilsynsordningStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) => {
+const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
     const { values } = useFormikContext<PleiepengesøknadFormData>();
     const { tilsynsordning } = values;
@@ -57,16 +57,16 @@ const TilsynsordningStep: React.FunctionComponent<StepConfigProps> = ({ onValidS
                         radios={[
                             {
                                 label: intlHelper(intl, 'steg.tilsyn.vetIkke.årsak.sporadisk'),
-                                value: TilsynVetIkkeHvorfor.erSporadisk
+                                value: TilsynVetIkkeHvorfor.erSporadisk,
                             },
                             {
                                 label: intlHelper(intl, 'steg.tilsyn.vetIkke.årsak.ikkeLagetPlan'),
-                                value: TilsynVetIkkeHvorfor.erIkkeLagetEnPlan
+                                value: TilsynVetIkkeHvorfor.erIkkeLagetEnPlan,
                             },
                             {
                                 label: intlHelper(intl, 'steg.tilsyn.vetIkke.årsak.annet'),
-                                value: TilsynVetIkkeHvorfor.annet
-                            }
+                                value: TilsynVetIkkeHvorfor.annet,
+                            },
                         ]}
                         validate={validateRequiredField}
                     />

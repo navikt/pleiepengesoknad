@@ -7,12 +7,13 @@ interface Props {
     title: string;
     titleTag?: string;
     titleIcon?: React.ReactNode;
+    children: React.ReactNode;
     indentContent?: boolean;
 }
 
 const bem = bemUtils('formSection');
 
-const FormSection: React.FunctionComponent<Props> = ({ title, titleTag, titleIcon, indentContent, children }) => (
+const FormSection = ({ title, titleTag, titleIcon, indentContent, children }: Props) => (
     <section className={bem.block}>
         <Undertittel tag={titleTag} className={bem.element('title')}>
             {titleIcon && <span className={bem.element('titleIcon')}>{titleIcon}</span>}

@@ -32,7 +32,7 @@ interface FormikFileUploader {
 
 type Props = FormikFileUploader;
 
-const FormikFileUploader: React.FunctionComponent<Props> = ({
+const FormikFileUploader = ({
     name,
     onFileInputClick,
     onFileUploadComplete,

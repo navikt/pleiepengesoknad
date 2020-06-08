@@ -1,7 +1,7 @@
-import { YesOrNo } from 'common/types/YesOrNo';
-import { formatDateToApiFormat } from 'common/utils/dateUtils';
-import { FrilansApiData } from '../../types/PleiepengesøknadApiData';
-import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { YesOrNo, } from 'common/types/YesOrNo';
+import { formatDateToApiFormat, } from 'common/utils/dateUtils';
+import { FrilansApiData, } from '../../types/PleiepengesøknadApiData';
+import { PleiepengesøknadFormData, } from '../../types/PleiepengesøknadFormData';
 
 export const mapFrilansToApiData = (formData: PleiepengesøknadFormData): FrilansApiData | undefined => {
     const { frilans_jobberFortsattSomFrilans, frilans_startdato } = formData;

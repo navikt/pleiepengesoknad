@@ -1,21 +1,21 @@
-import { mapVirksomhetToVirksomhetApiData } from 'common/forms/virksomhet/mapVirksomhetToApiData';
-import { Locale } from 'common/types/Locale';
-import { YesOrNo } from 'common/types/YesOrNo';
-import { attachmentUploadHasFailed } from 'common/utils/attachmentUtils';
-import { formatDateToApiFormat } from 'common/utils/dateUtils';
-import { BarnToSendToApi, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
-import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import { BarnReceivedFromApi } from '../types/Søkerdata';
-import { Feature, isFeatureEnabled } from './featureToggleUtils';
-import { mapArbeidsforholdToApiData } from './formToApiMaps/mapArbeidsforholdToApiData';
-import { mapBarnToApiData } from './formToApiMaps/mapBarnToApiData';
-import { mapBostedUtlandToApiData } from './formToApiMaps/mapBostedUtlandToApiData';
-import { mapFrilansToApiData } from './formToApiMaps/mapFrilansToApiData';
-import { mapTilsynsordningToApiData } from './formToApiMaps/mapTilsynsordningToApiData';
-import { mapUtenlandsoppholdIPeriodenToApiData } from './formToApiMaps/mapUtenlandsoppholdIPeriodenToApiData';
-import { erPeriodeOver8Uker } from './søkerOver8UkerUtils';
-import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet } from './tidsromUtils';
+import { mapVirksomhetToVirksomhetApiData, } from 'common/forms/virksomhet/mapVirksomhetToApiData';
+import { Locale, } from 'common/types/Locale';
+import { YesOrNo, } from 'common/types/YesOrNo';
+import { attachmentUploadHasFailed, } from 'common/utils/attachmentUtils';
+import { formatDateToApiFormat, } from 'common/utils/dateUtils';
+import { BarnToSendToApi, PleiepengesøknadApiData, } from '../types/PleiepengesøknadApiData';
+import { PleiepengesøknadFormData, } from '../types/PleiepengesøknadFormData';
+import { BarnReceivedFromApi, } from '../types/Søkerdata';
 import appSentryLogger from './appSentryLogger';
+import { Feature, isFeatureEnabled, } from './featureToggleUtils';
+import { mapArbeidsforholdToApiData, } from './formToApiMaps/mapArbeidsforholdToApiData';
+import { mapBarnToApiData, } from './formToApiMaps/mapBarnToApiData';
+import { mapBostedUtlandToApiData, } from './formToApiMaps/mapBostedUtlandToApiData';
+import { mapFrilansToApiData, } from './formToApiMaps/mapFrilansToApiData';
+import { mapTilsynsordningToApiData, } from './formToApiMaps/mapTilsynsordningToApiData';
+import { mapUtenlandsoppholdIPeriodenToApiData, } from './formToApiMaps/mapUtenlandsoppholdIPeriodenToApiData';
+import { erPeriodeOver8Uker, } from './søkerOver8UkerUtils';
+import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet, } from './tidsromUtils';
 
 export const getValidSpråk = (locale?: any): Locale => {
     const loc = typeof locale === 'string' ? locale : 'nb';

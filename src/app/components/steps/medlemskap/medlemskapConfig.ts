@@ -1,11 +1,9 @@
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { validateYesOrNoIsAnswered } from '@navikt/sif-common-core/lib/validation/fieldValidations';
-import { FieldValidationResult } from '@navikt/sif-common-core/lib/validation/types';
-import {
-    QuestionConfig, Questions
-} from '../../../pre-common/question-visibility/questions/Questions';
-import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
+import { YesOrNo, } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { validateYesOrNoIsAnswered, } from '@navikt/sif-common-core/lib/validation/fieldValidations';
+import { FieldValidationResult, } from '@navikt/sif-common-core/lib/validation/types';
+import { QuestionConfig, Questions, } from '../../../pre-common/question-visibility/questions/Questions';
+import { AppFormField, PleiepengesøknadFormData, } from '../../../types/PleiepengesøknadFormData';
+import { isYesOrNoAnswered, } from '../../../validation/fieldValidations';
 
 const medlemsskapQuestionConfig: QuestionConfig<PleiepengesøknadFormData, AppFormField, FieldValidationResult> = {
     [AppFormField.harBoddUtenforNorgeSiste12Mnd]: {

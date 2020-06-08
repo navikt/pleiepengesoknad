@@ -1,12 +1,9 @@
-import { getCountryName } from '@navikt/sif-common-formik/lib';
-import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
-import { YesOrNo } from 'common/types/YesOrNo';
-import { countryIsMemberOfEøsOrEfta } from 'common/utils/countryUtils';
-import { formatDateToApiFormat } from 'common/utils/dateUtils';
-import {
-    UtenlandsoppholdIPeriodenApiData,
-    UtenlandsoppholdUtenforEøsIPeriodenApiData
-} from '../../types/PleiepengesøknadApiData';
+import { getCountryName, } from '@navikt/sif-common-formik/lib';
+import { Utenlandsopphold, } from 'common/forms/utenlandsopphold/types';
+import { YesOrNo, } from 'common/types/YesOrNo';
+import { countryIsMemberOfEøsOrEfta, } from 'common/utils/countryUtils';
+import { formatDateToApiFormat, } from 'common/utils/dateUtils';
+import { UtenlandsoppholdIPeriodenApiData, UtenlandsoppholdUtenforEøsIPeriodenApiData, } from '../../types/PleiepengesøknadApiData';
 
 export const mapUtenlandsoppholdIPeriodenToApiData = (
     opphold: Utenlandsopphold,

@@ -1,5 +1,5 @@
-import { harRegistrerteBarn } from '../søkerdataUtils';
-import { BarnReceivedFromApi, Søkerdata } from '../../types/Søkerdata';
+import { BarnReceivedFromApi, Søkerdata, } from '../../types/Søkerdata';
+import { harRegistrerteBarn, } from '../søkerdataUtils';
 
 const barnMock: Partial<BarnReceivedFromApi> = {
     fornavn: 'Ola'

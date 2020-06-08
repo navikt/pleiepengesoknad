@@ -1,6 +1,6 @@
-import { YesOrNo } from 'common/types/YesOrNo';
-import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import { getSøknadRoute } from '../utils/routeUtils';
+import { YesOrNo, } from 'common/types/YesOrNo';
+import { PleiepengesøknadFormData, } from '../types/PleiepengesøknadFormData';
+import { getSøknadRoute, } from '../utils/routeUtils';
 import routeConfig from './routeConfig';
 
 export enum StepID {

@@ -1,7 +1,7 @@
-import { YesOrNo } from 'common/types/YesOrNo';
-import { Arbeidsforhold } from 'app/types/PleiepengesøknadFormData';
-import { Arbeidsgiver } from 'app/types/Søkerdata';
-import { syncArbeidsforholdWithArbeidsgivere } from '../arbeidsforholdUtils';
+import { YesOrNo, } from 'common/types/YesOrNo';
+import { Arbeidsforhold, } from 'app/types/PleiepengesøknadFormData';
+import { Arbeidsgiver, } from 'app/types/Søkerdata';
+import { syncArbeidsforholdWithArbeidsgivere, } from '../arbeidsforholdUtils';
 
 const organisasjoner: Arbeidsgiver[] = [
     { navn: 'Org1', organisasjonsnummer: '1' },

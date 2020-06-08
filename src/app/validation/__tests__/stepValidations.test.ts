@@ -1,16 +1,13 @@
+import { YesOrNo, } from 'common/types/YesOrNo';
+import { validateFødselsnummer, } from 'common/validation/fieldValidations';
+import { AppFormField, PleiepengesøknadFormData, } from '../../types/PleiepengesøknadFormData';
+import * as fieldValidations from '../fieldValidations';
 import {
-    legeerklæringStepIsValid,
-    medlemskapStepIsValid,
-    arbeidsforholdStepIsValid,
-    opplysningerOmBarnetStepIsValid,
-    opplysningerOmTidsromStepIsValid,
-    welcomingPageIsValid
+    arbeidsforholdStepIsValid, legeerklæringStepIsValid, medlemskapStepIsValid,
+    opplysningerOmBarnetStepIsValid, opplysningerOmTidsromStepIsValid, welcomingPageIsValid,
 } from '../stepValidations';
-import { AppFormField, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
-import * as fieldValidations from './../fieldValidations';
+
 import Mock = jest.Mock;
-import { YesOrNo } from 'common/types/YesOrNo';
-import { validateFødselsnummer } from 'common/validation/fieldValidations';
 const moment = require('moment');
 
 jest.mock('./../fieldValidations', () => {

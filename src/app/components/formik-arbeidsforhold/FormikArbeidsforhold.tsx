@@ -9,13 +9,13 @@ import intlHelper from 'common/utils/intlUtils';
 import {
     validateRequiredField,
     validateRequiredNumber,
-    validateYesOrNoIsAnswered
+    validateYesOrNoIsAnswered,
 } from 'common/validation/fieldValidations';
 import {
     AppFormField,
     Arbeidsforhold,
     ArbeidsforholdField,
-    ArbeidsforholdSkalJobbeSvar
+    ArbeidsforholdSkalJobbeSvar,
 } from 'app/types/PleiepengesøknadFormData';
 import AppForm from '../app-form/AppForm';
 import RedusertArbeidsforholdPart from './RedusertArbeidsforholdPart';
@@ -25,7 +25,7 @@ interface Props {
     index: number;
 }
 
-const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, index }) => {
+const FormikArbeidsforhold = ({ arbeidsforhold, index }: Props) => {
     const intl = useIntl();
     return (
         <FieldArray name={AppFormField.arbeidsforhold}>
@@ -47,20 +47,20 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                                     radios={[
                                         {
                                             label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.nei'),
-                                            value: ArbeidsforholdSkalJobbeSvar.nei
+                                            value: ArbeidsforholdSkalJobbeSvar.nei,
                                         },
                                         {
                                             label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.vetIkke'),
-                                            value: ArbeidsforholdSkalJobbeSvar.vetIkke
+                                            value: ArbeidsforholdSkalJobbeSvar.vetIkke,
                                         },
                                         {
                                             label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.ja'),
-                                            value: ArbeidsforholdSkalJobbeSvar.ja
+                                            value: ArbeidsforholdSkalJobbeSvar.ja,
                                         },
                                         {
                                             label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.redusert'),
-                                            value: ArbeidsforholdSkalJobbeSvar.redusert
-                                        }
+                                            value: ArbeidsforholdSkalJobbeSvar.redusert,
+                                        },
                                     ]}
                                 />
                                 {arbeidsforhold.skalJobbe && (
@@ -68,7 +68,7 @@ const FormikArbeidsforhold: React.FunctionComponent<Props> = ({ arbeidsforhold, 
                                         <Box margin="xl">
                                             <SkjemagruppeQuestion
                                                 legend={intlHelper(intl, 'arbeidsforhold.iDag.spm', {
-                                                    arbeidsforhold: arbeidsforhold.navn
+                                                    arbeidsforhold: arbeidsforhold.navn,
                                                 })}>
                                                 <AppForm.Input
                                                     name={getFieldName(ArbeidsforholdField.jobberNormaltTimer)}

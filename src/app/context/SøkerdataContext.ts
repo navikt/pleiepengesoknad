@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { StepID } from '../config/stepConfig';
-import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import { Søkerdata } from '../types/Søkerdata';
+import { StepID, } from '../config/stepConfig';
+import { PleiepengesøknadFormData, } from '../types/PleiepengesøknadFormData';
+import { Søkerdata, } from '../types/Søkerdata';
 
 export interface Appdata {
     lastStepID?: StepID;

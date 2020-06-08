@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl, } from 'react-intl';
 import ActionLink from '@navikt/sif-common-core/lib/components/action-link/ActionLink';
-import { Sidetittel } from 'nav-frontend-typografi';
+import { Sidetittel, } from 'nav-frontend-typografi';
 import Box from 'common/components/box/Box';
 import FrontPageBanner from 'common/components/front-page-banner/FrontPageBanner';
 import Page from 'common/components/page/Page';
 import bemHelper from 'common/utils/bemUtils';
 import intlHelper from 'common/utils/intlUtils';
-import { StepConfigProps } from '../../../config/stepConfig';
+import { StepConfigProps, } from '../../../config/stepConfig';
 import BehandlingAvPersonopplysningerModal from '../../behandling-av-personopplysninger-modal/BehandlingAvPersonopplysningerModal';
 import DinePlikterModal from '../../dine-plikter-modal/DinePlikterModal';
 import LegeerklæringInformationPanel from '../../legeerklæring-information-panel/LegeerklæringInformationPanel';

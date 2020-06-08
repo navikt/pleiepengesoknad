@@ -1,5 +1,5 @@
-import { IntlShape } from 'react-intl';
-import { Uttaksdagen } from './Uttaksdagen';
+import { IntlShape, } from 'react-intl';
+import { Uttaksdagen, } from './Uttaksdagen';
 
 const dagerI8uker = 5 * 8;
 

@@ -1,10 +1,10 @@
-import { Ferieuttak } from 'common/forms/ferieuttak/types';
-import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
-import { Virksomhet } from 'common/forms/virksomhet/types';
-import { Attachment } from 'common/types/Attachment';
-import { Time } from 'common/types/Time';
-import { YesOrNo } from 'common/types/YesOrNo';
-import { Arbeidsgiver } from './Søkerdata';
+import { Ferieuttak, } from 'common/forms/ferieuttak/types';
+import { Utenlandsopphold, } from 'common/forms/utenlandsopphold/types';
+import { Virksomhet, } from 'common/forms/virksomhet/types';
+import { Attachment, } from 'common/types/Attachment';
+import { Time, } from 'common/types/Time';
+import { YesOrNo, } from 'common/types/YesOrNo';
+import { Arbeidsgiver, } from './Søkerdata';
 
 export enum ArbeidsforholdSkalJobbeSvar {
     'ja' = 'ja',

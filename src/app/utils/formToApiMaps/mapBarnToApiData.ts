@@ -1,7 +1,7 @@
-import { formatDateToApiFormat } from 'common/utils/dateUtils';
-import { formatName } from 'common/utils/personUtils';
-import { BarnToSendToApi } from '../../types/PleiepengesøknadApiData';
-import { BarnReceivedFromApi } from '../../types/Søkerdata';
+import { formatDateToApiFormat, } from 'common/utils/dateUtils';
+import { formatName, } from 'common/utils/personUtils';
+import { BarnToSendToApi, } from '../../types/PleiepengesøknadApiData';
+import { BarnReceivedFromApi, } from '../../types/Søkerdata';
 
 export const mapBarnToApiData = (
     barn: BarnReceivedFromApi[],

@@ -1,8 +1,8 @@
-import { YesOrNo } from 'common/types/YesOrNo';
-import { validateFødselsnummer } from 'common/validation/fieldValidations';
-import { hasValue } from 'common/validation/hasValue';
-import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import { validateNavn, validateValgtBarn } from './fieldValidations';
+import { YesOrNo, } from 'common/types/YesOrNo';
+import { validateFødselsnummer, } from 'common/validation/fieldValidations';
+import { hasValue, } from 'common/validation/hasValue';
+import { PleiepengesøknadFormData, } from '../types/PleiepengesøknadFormData';
+import { validateNavn, validateValgtBarn, } from './fieldValidations';
 
 export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: PleiepengesøknadFormData) =>
     harForståttRettigheterOgPlikter === true;

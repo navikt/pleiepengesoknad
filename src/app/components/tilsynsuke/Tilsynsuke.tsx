@@ -13,7 +13,7 @@ interface Props {
 
 const AppForm = getTypedFormComponents<AppFormField, PleiepengesøknadFormData>();
 
-const Tilsynsuke: React.FunctionComponent<Props> = ({ name }) => {
+const Tilsynsuke = ({ name }: Props) => {
     const intl = useIntl();
     return (
         <>

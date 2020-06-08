@@ -17,6 +17,7 @@ module.exports = {
         '@typescript-eslint/explicit-function-return-type': 'off',
         '@typescript-eslint/no-var-requires': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
+        'react/display-name': 'off',
     },
     plugins: ['jsx-a11y'],
     settings: {

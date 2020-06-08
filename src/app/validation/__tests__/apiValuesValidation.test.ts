@@ -1,4 +1,4 @@
-import { apiVedleggIsInvalid } from '../apiValuesValidation';
+import { apiVedleggIsInvalid, } from '../apiValuesValidation';
 
 describe('apiVedleggIsInvalid', () => {
     it('should return error if vedlegg[] is empty', () => {

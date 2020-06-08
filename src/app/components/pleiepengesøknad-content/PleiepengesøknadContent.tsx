@@ -46,13 +46,13 @@ const getKvitteringInfoFromApiData = (
             arbeidsforhold: aktiveArbeidsforhold,
             fom: apiStringDateToDate(apiValues.fraOgMed),
             tom: apiStringDateToDate(apiValues.tilOgMed),
-            søkernavn: formatName(fornavn, etternavn, mellomnavn)
+            søkernavn: formatName(fornavn, etternavn, mellomnavn),
         };
     }
     return undefined;
 };
 
-const PleiepengesøknadContent: React.FunctionComponent<PleiepengesøknadContentProps> = ({ lastStepID }) => {
+const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps) => {
     const location = useLocation();
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
     const [kvitteringInfo, setKvitteringInfo] = React.useState<KvitteringInfo | undefined>(undefined);

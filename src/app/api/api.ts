@@ -17,7 +17,7 @@ export const persist = (formData: PleiepengesøknadFormData, lastStepID: StepID)
 export const rehydrate = () =>
     axios.get(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), {
         ...axiosConfig,
-        transformResponse: storageParser
+        transformResponse: storageParser,
     });
 export const purge = () =>
     axios.delete(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), { ...axiosConfig, data: {} });

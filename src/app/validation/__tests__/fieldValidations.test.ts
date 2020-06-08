@@ -1,19 +1,15 @@
-import {
-    validateFødselsdato,
-    validateFradato,
-    validateLegeerklæring,
-    validateNavn,
-    validateTildato,
-    validateNormaleArbeidstimer,
-    AppFieldValidationErrors
-} from '../fieldValidations';
-import * as dateUtils from 'common/utils/dateUtils';
-import Mock = jest.Mock;
-import { Attachment } from 'common/types/Attachment';
 import moment from 'moment';
-import { hasValue } from 'common/validation/hasValue';
-import { FieldValidationErrors, createFieldValidationError } from 'common/validation/fieldValidations';
+import { Attachment, } from 'common/types/Attachment';
+import * as dateUtils from 'common/utils/dateUtils';
+import { createFieldValidationError, FieldValidationErrors, } from 'common/validation/fieldValidations';
+import { hasValue, } from 'common/validation/hasValue';
+import {
+    AppFieldValidationErrors, validateFradato, validateFødselsdato,
+    validateLegeerklæring, validateNavn, validateNormaleArbeidstimer,
+    validateTildato,
+} from '../fieldValidations';
 
+import Mock = jest.Mock;
 jest.mock('common/validation/fødselsnummerValidator', () => {
     return {
         fødselsnummerIsValid: jest.fn(),

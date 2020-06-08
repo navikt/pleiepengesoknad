@@ -1,5 +1,8 @@
-import { FieldValidationResult } from '@navikt/sif-common-core/lib/validation/types';
-import { QuestionConfig, Questions, questionValueIsOk, QuestionVisibility } from './Questions';
+import { FieldValidationResult, } from '@navikt/sif-common-core/lib/validation/types';
+import {
+    QuestionConfig, Questions, questionValueIsOk,
+    QuestionVisibility,
+} from './Questions';
 
 enum TestKeys {
     parent = 'parent',

@@ -16,11 +16,11 @@ interface Props {
     søkersBarn: BarnReceivedFromApi[];
 }
 
-const RegistrertBarnPart: React.FunctionComponent<Props> = ({ søkersBarn }) => {
+const RegistrertBarnPart = ({ søkersBarn }: Props) => {
     const intl = useIntl();
     const {
         values: { søknadenGjelderEtAnnetBarn },
-        setFieldValue
+        setFieldValue,
     } = useFormikContext<PleiepengesøknadFormData>();
 
     return (
@@ -46,7 +46,7 @@ const RegistrertBarnPart: React.FunctionComponent<Props> = ({ søkersBarn }) => 
                                 </Normaltekst>
                             </>
                         ),
-                        disabled: søknadenGjelderEtAnnetBarn
+                        disabled: søknadenGjelderEtAnnetBarn,
                     };
                 })}
                 validate={(value) => {
@@ -69,7 +69,7 @@ const RegistrertBarnPart: React.FunctionComponent<Props> = ({ søkersBarn }) => 
                                     AppFormField.barnetsFødselsnummer,
                                     AppFormField.barnetHarIkkeFåttFødselsnummerEnda,
                                     AppFormField.barnetsFødselsdato,
-                                    AppFormField.barnetsNavn
+                                    AppFormField.barnetsNavn,
                                 ],
                                 setFieldValue,
                                 initialValues

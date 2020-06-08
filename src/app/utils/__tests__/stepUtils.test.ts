@@ -1,6 +1,6 @@
+import { PleiepengesøknadFormData, } from '../../types/PleiepengesøknadFormData';
 import * as stepValidations from '../../validation/stepValidations';
 import * as stepUtils from '../stepUtils';
-import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 
 jest.mock('./../../validation/stepValidations', () => {
     return {

@@ -1,28 +1,22 @@
-import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
-import { Næringstype } from 'common/forms/virksomhet/types';
-import { ApiStringDate } from 'common/types/ApiStringDate';
-import { Attachment } from 'common/types/Attachment';
-import { YesOrNo } from 'common/types/YesOrNo';
+import { UtenlandsoppholdÅrsak, } from 'common/forms/utenlandsopphold/types';
+import { Næringstype, } from 'common/forms/virksomhet/types';
+import { ApiStringDate, } from 'common/types/ApiStringDate';
+import { Attachment, } from 'common/types/Attachment';
+import { YesOrNo, } from 'common/types/YesOrNo';
 import * as attachmentUtils from 'common/utils/attachmentUtils';
 import * as dateUtils from 'common/utils/dateUtils';
 import {
-    ArbeidsforholdApiNei,
-    ArbeidsforholdApiRedusert,
-    ArbeidsforholdApiVetIkke,
-    PleiepengesøknadApiData,
-    UtenlandsoppholdIPeriodenApiData,
-    UtenlandsoppholdUtenforEøsIPeriodenApiData
+    ArbeidsforholdApiNei, ArbeidsforholdApiRedusert, ArbeidsforholdApiVetIkke,
+    PleiepengesøknadApiData, UtenlandsoppholdIPeriodenApiData, UtenlandsoppholdUtenforEøsIPeriodenApiData,
 } from '../../types/PleiepengesøknadApiData';
 import {
-    AppFormField,
-    Arbeidsforhold,
-    ArbeidsforholdSkalJobbeSvar,
-    PleiepengesøknadFormData
+    AppFormField, Arbeidsforhold, ArbeidsforholdSkalJobbeSvar,
+    PleiepengesøknadFormData,
 } from '../../types/PleiepengesøknadFormData';
-import { Arbeidsgiver, BarnReceivedFromApi } from '../../types/Søkerdata';
-import { isFeatureEnabled } from '../featureToggleUtils';
-import { jsonSort } from '../jsonSort';
-import { mapFormDataToApiData, getValidSpråk } from '../mapFormDataToApiData';
+import { Arbeidsgiver, BarnReceivedFromApi, } from '../../types/Søkerdata';
+import { isFeatureEnabled, } from '../featureToggleUtils';
+import { jsonSort, } from '../jsonSort';
+import { getValidSpråk, mapFormDataToApiData, } from '../mapFormDataToApiData';
 
 const moment = require('moment');
 

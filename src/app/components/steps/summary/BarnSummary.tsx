@@ -21,7 +21,7 @@ const apiBarnSummary = (apiBarn: BarnReceivedFromApi) => (
             <FormattedMessage
                 id="steg.oppsummering.barnet.navn"
                 values={{
-                    navn: formatName(apiBarn.fornavn, apiBarn.etternavn, apiBarn.mellomnavn)
+                    navn: formatName(apiBarn.fornavn, apiBarn.etternavn, apiBarn.mellomnavn),
                 }}
             />
         </Normaltekst>
@@ -29,7 +29,7 @@ const apiBarnSummary = (apiBarn: BarnReceivedFromApi) => (
             <FormattedMessage
                 id="steg.oppsummering.barnet.fødselsdato"
                 values={{
-                    dato: prettifyDate(apiBarn.fødselsdato)
+                    dato: prettifyDate(apiBarn.fødselsdato),
                 }}
             />
         </Normaltekst>
@@ -43,7 +43,7 @@ const annetBarnSummary = (apiValues: PleiepengesøknadApiData) => (
                 <FormattedMessage
                     id="steg.oppsummering.barnet.fødselsdato"
                     values={{
-                        dato: prettifyDate(apiStringDateToDate(apiValues.barn.fødselsdato))
+                        dato: prettifyDate(apiStringDateToDate(apiValues.barn.fødselsdato)),
                     }}
                 />
             </Normaltekst>
@@ -61,7 +61,7 @@ const annetBarnSummary = (apiValues: PleiepengesøknadApiData) => (
     </>
 );
 
-const BarnSummary: React.FunctionComponent<Props> = ({ formValues, apiValues, barn }) => {
+const BarnSummary = ({ formValues, apiValues, barn }: Props) => {
     const intl = useIntl();
     const apiBarn = barn.find(({ aktørId }) => aktørId === formValues.barnetSøknadenGjelder);
     const useApiBarn = !formValues.søknadenGjelderEtAnnetBarn && barn && barn.length > 0;

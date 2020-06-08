@@ -7,22 +7,22 @@ import { ArbeidsforholdApi } from 'app/types/PleiepengesøknadApiData';
 import { calcRedusertProsentFromRedusertTimer } from '../../utils/arbeidsforholdUtils';
 import './arbeidsforholdSummary.less';
 
-interface OwnProps {
+interface Props {
     arbeidsforhold: ArbeidsforholdApi;
 }
 
 const bem = bemUtils('arbeidsforholdSummary');
 
-const ArbeidsforholdSummary: React.FunctionComponent<OwnProps> = ({
+const ArbeidsforholdSummary = ({
     arbeidsforhold: {
         navn,
         organisasjonsnummer,
         skalJobbeProsent,
         skalJobbeTimer,
         jobberNormaltTimer,
-        skalJobbe: skalJobbe
-    }
-}) => {
+        skalJobbe: skalJobbe,
+    },
+}: Props) => {
     const orgInfo = { navn, organisasjonsnummer };
     const intl = useIntl();
     return (
@@ -30,7 +30,7 @@ const ArbeidsforholdSummary: React.FunctionComponent<OwnProps> = ({
             <div className={bem.element('org')}>
                 <FormattedMessage id="arbeidsforhold.oppsummering.orgInfo" values={orgInfo} />
             </div>
-            {skalJobbe === 'redusert' && (
+            {skalJobbe === 'redusert' && jobberNormaltTimer && (
                 <div className={bem.element('detaljer')}>
                     {skalJobbeTimer !== undefined ? (
                         <Normaltekst>
@@ -40,9 +40,9 @@ const ArbeidsforholdSummary: React.FunctionComponent<OwnProps> = ({
                                     timerRedusert: intlHelper(intl, 'timer', { timer: skalJobbeTimer }),
                                     timerNormalt: intlHelper(intl, 'timer', { timer: jobberNormaltTimer }),
                                     prosentRedusert: calcRedusertProsentFromRedusertTimer(
-                                        jobberNormaltTimer!,
+                                        jobberNormaltTimer,
                                         skalJobbeTimer
-                                    ).toFixed(2)
+                                    ).toFixed(2),
                                 }}
                             />
                         </Normaltekst>
@@ -52,7 +52,7 @@ const ArbeidsforholdSummary: React.FunctionComponent<OwnProps> = ({
                                 id={`arbeidsforhold.oppsummering.svar.redusert.prosent`}
                                 values={{
                                     timerNormalt: intlHelper(intl, 'timer', { timer: jobberNormaltTimer }),
-                                    prosentRedusert: skalJobbeProsent
+                                    prosentRedusert: skalJobbeProsent,
                                 }}
                             />{' '}
                             {jobberNormaltTimer && (

@@ -11,7 +11,7 @@ interface Props {
     apiValues: PleiepengesøknadApiData;
 }
 
-const FrilansSummary: React.FunctionComponent<Props> = ({ apiValues }) => {
+const FrilansSummary = ({ apiValues }: Props) => {
     const { harHattInntektSomFrilanser, frilans } = apiValues;
     const intl = useIntl();
     return (

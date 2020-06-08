@@ -1,6 +1,6 @@
-import { History } from 'history';
-import { navigateTo, navigateToErrorPage, userIsCurrentlyOnErrorPage } from '../navigationUtils';
+import { History, } from 'history';
 import routeConfig from '../../config/routeConfig';
+import { navigateTo, navigateToErrorPage, userIsCurrentlyOnErrorPage, } from '../navigationUtils';
 
 const historyMock: Partial<History> = {
     push: jest.fn()

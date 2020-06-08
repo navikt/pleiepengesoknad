@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import { BostedUtland } from '@navikt/sif-common-forms/lib/bosted-utland/types';
 import { useFormikContext } from 'formik';
+import moment from 'moment';
 import Lenke from 'nav-frontend-lenker';
 import Box from 'common/components/box/Box';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
@@ -15,22 +17,16 @@ import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import BostedsoppholdIUtlandetFormPart from './BostedsoppholdIUtlandetFormPart';
 import { medlemskapQuestions } from './medlemskapConfig';
-import moment from 'moment';
-import { BostedUtland } from '@navikt/sif-common-forms/lib/bosted-utland/types';
 
 const getFomForBostedNeste12 = (bosted: BostedUtland[]): Date => {
     const sisteBosted = bosted.length > 0 ? bosted[bosted.length - 1] : undefined;
     if (sisteBosted) {
-        return moment(sisteBosted.tom).isSame(dateToday, 'day')
-            ? moment(dateToday)
-                  .add(1, 'day')
-                  .toDate()
-            : dateToday;
+        return moment(sisteBosted.tom).isSame(dateToday, 'day') ? moment(dateToday).add(1, 'day').toDate() : dateToday;
     }
     return dateToday;
 };
 
-const MedlemsskapStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubmit }) => {
+const MedlemsskapStep = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<PleiepengesøknadFormData>();
     const intl = useIntl();
     const questions = medlemskapQuestions.getVisbility(values);
@@ -63,7 +59,7 @@ const MedlemsskapStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubm
                         labels={{
                             addLabel: 'Legg til nytt utenlandsopphold',
                             listTitle: intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.listeTittel'),
-                            modalTitle: 'Utenlandsopphold siste 12 måneder'
+                            modalTitle: 'Utenlandsopphold siste 12 måneder',
                         }}
                     />
                 </FormBlock>
@@ -84,7 +80,7 @@ const MedlemsskapStep: React.FunctionComponent<StepConfigProps> = ({ onValidSubm
                         labels={{
                             addLabel: 'Legg til nytt utenlandsopphold',
                             listTitle: intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.listeTittel'),
-                            modalTitle: 'Utenlandsopphold neste 12 måneder'
+                            modalTitle: 'Utenlandsopphold neste 12 måneder',
                         }}
                     />
                 </FormBlock>

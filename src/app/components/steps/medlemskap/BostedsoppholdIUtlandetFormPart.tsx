@@ -1,10 +1,10 @@
 import React from 'react';
-import { ModalFormAndListLabels } from '@navikt/sif-common-formik/lib';
+import { ModalFormAndListLabels, } from '@navikt/sif-common-formik/lib';
 import BostedUtlandListAndDialog from 'common/forms/bosted-utland/BostedUtlandListAndDialog';
-import { BostedUtland } from 'common/forms/bosted-utland/types';
-import { DateRange } from 'common/utils/dateUtils';
-import { validateUtenlandsoppholdIPerioden } from 'app/validation/fieldValidations';
-import { AppFormField } from '../../../types/PleiepengesøknadFormData';
+import { BostedUtland, } from 'common/forms/bosted-utland/types';
+import { DateRange, } from 'common/utils/dateUtils';
+import { validateUtenlandsoppholdIPerioden, } from 'app/validation/fieldValidations';
+import { AppFormField, } from '../../../types/PleiepengesøknadFormData';
 
 interface Props {
     periode: DateRange;

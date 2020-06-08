@@ -1,23 +1,23 @@
 import * as React from 'react';
-import { useIntl } from 'react-intl';
+import { useIntl, } from 'react-intl';
+import { useFormikContext, } from 'formik';
 import Lenke from 'nav-frontend-lenker';
 import Box from 'common/components/box/Box';
 import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import FileUploadErrors from 'common/components/file-upload-errors/FileUploadErrors';
 import HelperTextPanel from 'common/components/helper-text-panel/HelperTextPanel';
 import PictureScanningGuide from 'common/components/picture-scanning-guide/PictureScanningGuide';
-import { Attachment } from 'common/types/Attachment';
-import { mapFileToPersistedFile } from 'common/utils/attachmentUtils';
+import { Attachment, } from 'common/types/Attachment';
+import { mapFileToPersistedFile, } from 'common/utils/attachmentUtils';
 import intlHelper from 'common/utils/intlUtils';
-import { persist } from '../../../api/api';
-import { StepConfigProps, StepID } from '../../../config/stepConfig';
-import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { navigateToLoginPage } from '../../../utils/navigationUtils';
-import { validateLegeerklæring } from '../../../validation/fieldValidations';
+import { persist, } from '../../../api/api';
+import { StepConfigProps, StepID, } from '../../../config/stepConfig';
+import { AppFormField, PleiepengesøknadFormData, } from '../../../types/PleiepengesøknadFormData';
+import { navigateToLoginPage, } from '../../../utils/navigationUtils';
+import { validateLegeerklæring, } from '../../../validation/fieldValidations';
 import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
-import { useFormikContext } from 'formik';
 
 const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);

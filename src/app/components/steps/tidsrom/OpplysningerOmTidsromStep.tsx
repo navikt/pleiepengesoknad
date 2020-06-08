@@ -1,32 +1,32 @@
 import * as React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl, } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { date1YearAgo, date1YearFromNow, date3YearsAgo, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { validateYesOrNoIsAnswered } from '@navikt/sif-common-core/lib/validation/fieldValidations';
-import { IntlFieldValidationError } from '@navikt/sif-common-core/lib/validation/types';
-import { TypedFormikFormContext } from '@navikt/sif-common-formik/lib';
-import FerieuttakListAndDialog from '@navikt/sif-common-forms/lib/ferieuttak/FerieuttakListAndDialog';
-import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
-import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
-import UtenlandsoppholdListAndDialog from '@navikt/sif-common-forms/lib/utenlandsopphold/UtenlandsoppholdListAndDialog';
-import { useFormikContext } from 'formik';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import { StepConfigProps, StepID } from '../../../config/stepConfig';
-import { SøkerdataContext } from '../../../context/SøkerdataContext';
-import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
-import { erPeriodeOver8Uker } from '../../../utils/søkerOver8UkerUtils';
-import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet } from '../../../utils/tidsromUtils';
-import { getVarighetString } from '../../../utils/varighetUtils';
+import { YesOrNo, } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import {
-    validateBekreftOmsorgEkstrainfo,
-    validateFerieuttakIPerioden,
-    validateFradato,
-    validateTildato,
-    validateUtenlandsoppholdIPerioden
+    date1YearAgo, date1YearFromNow, date3YearsAgo,
+    DateRange,
+} from '@navikt/sif-common-core/lib/utils/dateUtils';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { validateYesOrNoIsAnswered, } from '@navikt/sif-common-core/lib/validation/fieldValidations';
+import { IntlFieldValidationError, } from '@navikt/sif-common-core/lib/validation/types';
+import { TypedFormikFormContext, } from '@navikt/sif-common-formik/lib';
+import FerieuttakListAndDialog from '@navikt/sif-common-forms/lib/ferieuttak/FerieuttakListAndDialog';
+import { Ferieuttak, } from '@navikt/sif-common-forms/lib/ferieuttak/types';
+import { Utenlandsopphold, } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
+import UtenlandsoppholdListAndDialog from '@navikt/sif-common-forms/lib/utenlandsopphold/UtenlandsoppholdListAndDialog';
+import { useFormikContext, } from 'formik';
+import { AlertStripeAdvarsel, } from 'nav-frontend-alertstriper';
+import { StepConfigProps, StepID, } from '../../../config/stepConfig';
+import { SøkerdataContext, } from '../../../context/SøkerdataContext';
+import { AppFormField, PleiepengesøknadFormData, } from '../../../types/PleiepengesøknadFormData';
+import { Feature, isFeatureEnabled, } from '../../../utils/featureToggleUtils';
+import { erPeriodeOver8Uker, } from '../../../utils/søkerOver8UkerUtils';
+import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet, } from '../../../utils/tidsromUtils';
+import { getVarighetString, } from '../../../utils/varighetUtils';
+import {
+    validateBekreftOmsorgEkstrainfo, validateFerieuttakIPerioden, validateFradato,
+    validateTildato, validateUtenlandsoppholdIPerioden,
 } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';

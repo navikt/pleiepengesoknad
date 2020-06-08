@@ -1,12 +1,9 @@
 import {
-    ArbeidsforholdApi,
-    ArbeidsforholdApiNei,
-    ArbeidsforholdApiRedusert,
-    ArbeidsforholdApiSomVanlig,
-    ArbeidsforholdApiVetIkke
+    ArbeidsforholdApi, ArbeidsforholdApiNei, ArbeidsforholdApiRedusert,
+    ArbeidsforholdApiSomVanlig, ArbeidsforholdApiVetIkke,
 } from '../../types/PleiepengesøknadApiData';
-import { Arbeidsforhold, ArbeidsforholdSkalJobbeSvar } from '../../types/PleiepengesøknadFormData';
-import { calcRedusertProsentFromRedusertTimer } from '../arbeidsforholdUtils';
+import { Arbeidsforhold, ArbeidsforholdSkalJobbeSvar, } from '../../types/PleiepengesøknadFormData';
+import { calcRedusertProsentFromRedusertTimer, } from '../arbeidsforholdUtils';
 
 export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): ArbeidsforholdApi => {
     const {

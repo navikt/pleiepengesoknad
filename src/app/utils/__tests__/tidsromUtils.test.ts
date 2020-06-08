@@ -1,6 +1,6 @@
-import { BarnReceivedFromApi } from '../../types/Søkerdata';
-import { isFeatureEnabled } from '../featureToggleUtils';
-import { brukerSkalBekrefteOmsorgForBarnet, søkerHarValgtRegistrertBarn } from '../tidsromUtils';
+import { BarnReceivedFromApi, } from '../../types/Søkerdata';
+import { isFeatureEnabled, } from '../featureToggleUtils';
+import { brukerSkalBekrefteOmsorgForBarnet, søkerHarValgtRegistrertBarn, } from '../tidsromUtils';
 
 jest.mock('../featureToggleUtils.ts', () => ({
     isFeatureEnabled: jest.fn(),

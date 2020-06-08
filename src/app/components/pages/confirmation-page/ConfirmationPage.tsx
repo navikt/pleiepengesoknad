@@ -2,6 +2,7 @@ import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { Knapp } from 'nav-frontend-knapper';
+import Lenke from 'nav-frontend-lenker';
 import Panel from 'nav-frontend-paneler';
 import { Ingress, Innholdstittel } from 'nav-frontend-typografi';
 import Box from 'common/components/box/Box';
@@ -14,7 +15,6 @@ import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import NavPrintPage from '../../nav-print-page/NavPrintPage';
 import { KvitteringInfo } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import ArbeidsgiverUtskrift from './ArbeidsgiverUtskrift';
-import Lenke from 'nav-frontend-lenker';
 import './confirmationPage.less';
 
 interface Props {
@@ -25,7 +25,7 @@ const bem = bemUtils('confirmationPage');
 
 export const pluralize = (count: number, single: string, other: string) => (count === 1 ? single : other);
 
-const ConfirmationPage: React.FunctionComponent<Props> = ({ kvitteringInfo }: Props) => {
+const ConfirmationPage = ({ kvitteringInfo }: Props) => {
     const intl = useIntl();
     const numberOfArbeidsforhold = kvitteringInfo ? kvitteringInfo.arbeidsforhold.length : 0;
 
