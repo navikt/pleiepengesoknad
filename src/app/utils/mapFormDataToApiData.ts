@@ -139,25 +139,21 @@ export const mapFormDataToApiData = (
                 };
             }
 
-            if (isFeatureEnabled(Feature.TOGGLE_FERIEUTTAK)) {
-                apiData.ferieuttakIPerioden = {
-                    skalTaUtFerieIPerioden: skalTaUtFerieIPerioden === YesOrNo.YES,
-                    ferieuttak:
-                        skalTaUtFerieIPerioden === YesOrNo.YES && ferieuttakIPerioden
-                            ? ferieuttakIPerioden.map((uttak) => ({
-                                  fraOgMed: formatDateToApiFormat(uttak.fom),
-                                  tilOgMed: formatDateToApiFormat(uttak.tom),
-                              }))
-                            : [],
-                };
-            }
+            apiData.ferieuttakIPerioden = {
+                skalTaUtFerieIPerioden: skalTaUtFerieIPerioden === YesOrNo.YES,
+                ferieuttak:
+                    skalTaUtFerieIPerioden === YesOrNo.YES && ferieuttakIPerioden
+                        ? ferieuttakIPerioden.map((uttak) => ({
+                              fraOgMed: formatDateToApiFormat(uttak.fom),
+                              tilOgMed: formatDateToApiFormat(uttak.tom),
+                          }))
+                        : [],
+            };
 
-            if (isFeatureEnabled(Feature.TOGGLE_FRILANS)) {
-                apiData.harHattInntektSomFrilanser = harHattInntektSomFrilanser === YesOrNo.YES;
-                apiData.frilans = mapFrilansToApiData(formData);
-            }
+            apiData.harHattInntektSomFrilanser = harHattInntektSomFrilanser === YesOrNo.YES;
+            apiData.frilans = mapFrilansToApiData(formData);
 
-            if (isFeatureEnabled(Feature.TOGGLE_SELVSTENDIG) && formData.selvstendig_virksomheter) {
+            if (formData.selvstendig_virksomheter) {
                 const harHattInntektSomSn = formData.selvstendig_harHattInntektSomSN === YesOrNo.YES;
                 apiData.harHattInntektSomSelvstendigNæringsdrivende = harHattInntektSomSn;
                 if (harHattInntektSomSn) {

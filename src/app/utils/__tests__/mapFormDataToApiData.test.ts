@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/camelcase */
 import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
 import { Næringstype } from 'common/forms/virksomhet/types';
 import { ApiStringDate } from 'common/types/ApiStringDate';
@@ -527,67 +529,33 @@ describe('mapFormDataToApiData', () => {
             }
         });
 
-        describe('Frilans toggle', () => {
-            it('should not include frilans info if TOGGLE_FRILANS === off', () => {
-                (isFeatureEnabled as any).mockImplementation(() => false);
-                const formDataWithFrilansInfo = {
-                    ...formData,
-                    ...frilansPartialFormData,
-                    harHattInntektSomFrilanser: YesOrNo.NO,
-                };
-                const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
-                expect(mappedData).toBeDefined();
-                if (mappedData) {
-                    expect(mappedData.frilans).toBeUndefined();
-                    expect(mappedData.harHattInntektSomFrilanser).toBeUndefined();
-                }
-            });
-
-            it('should include frilanserdata if TOGGLE_FRILANS === on', () => {
-                (isFeatureEnabled as any).mockImplementation(() => true);
-                const formDataWithFrilansInfo = {
-                    ...formData,
-                    ...frilansPartialFormData,
-                    harHattInntektSomFrilanser: YesOrNo.NO,
-                };
-                const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
-                expect(mappedData).toBeDefined();
-                if (mappedData) {
-                    expect(mappedData.harHattInntektSomFrilanser).toBeFalsy();
-                    expect(mappedData.frilans).toBeDefined();
-                }
-            });
+        it('should include frilanserdata', () => {
+            (isFeatureEnabled as any).mockImplementation(() => true);
+            const formDataWithFrilansInfo = {
+                ...formData,
+                ...frilansPartialFormData,
+                harHattInntektSomFrilanser: YesOrNo.NO,
+            };
+            const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
+            expect(mappedData).toBeDefined();
+            if (mappedData) {
+                expect(mappedData.harHattInntektSomFrilanser).toBeFalsy();
+                expect(mappedData.frilans).toBeDefined();
+            }
         });
-        describe('Selvstendig toggle', () => {
-            it('should not include selvstendig info if TOGGLE_SELVSTENDIG === off', () => {
-                (isFeatureEnabled as any).mockImplementation(() => false);
-                const formDataWithFrilansInfo = {
-                    ...formData,
-                    ...frilansPartialFormData,
-                    harHattInntektSomFrilanser: YesOrNo.NO,
-                };
-                const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
-                expect(mappedData).toBeDefined();
-                if (mappedData) {
-                    expect(mappedData.frilans).toBeUndefined();
-                    expect(mappedData.harHattInntektSomFrilanser).toBeUndefined();
-                }
-            });
-
-            it('should include selvstendig info TOGGLE_SELVSTENDIG === on', () => {
-                (isFeatureEnabled as any).mockImplementation(() => true);
-                const formDataWithSelvstendigInfo = {
-                    ...formData,
-                    ...selvstendigPartialFormData,
-                    harHattInntektSomFrilanser: YesOrNo.NO,
-                };
-                const mappedData = mapFormDataToApiData(formDataWithSelvstendigInfo, barnMock, 'nb');
-                expect(mappedData).toBeDefined();
-                if (mappedData) {
-                    expect(mappedData.harHattInntektSomSelvstendigNæringsdrivende).toBeTruthy();
-                    expect(mappedData.selvstendigVirksomheter).toBeDefined();
-                }
-            });
+        it('should include selvstendig info', () => {
+            (isFeatureEnabled as any).mockImplementation(() => true);
+            const formDataWithSelvstendigInfo = {
+                ...formData,
+                ...selvstendigPartialFormData,
+                harHattInntektSomFrilanser: YesOrNo.NO,
+            };
+            const mappedData = mapFormDataToApiData(formDataWithSelvstendigInfo, barnMock, 'nb');
+            expect(mappedData).toBeDefined();
+            if (mappedData) {
+                expect(mappedData.harHattInntektSomSelvstendigNæringsdrivende).toBeTruthy();
+                expect(mappedData.selvstendigVirksomheter).toBeDefined();
+            }
         });
     });
 });
@@ -719,12 +687,6 @@ describe('Test complete applications', () => {
             periodeTil: moment(baseDato).add(9, 'weeks').toDate(),
         },
     };
-
-    it('All features off', () => {
-        (isFeatureEnabled as any).mockImplementation(() => false);
-        const mappedData = mapFormDataToApiData(completeFormDataMock, barnMock, 'nb');
-        expect(JSON.stringify(jsonSort(mappedData))).toEqual(JSON.stringify(jsonSort(resultApiData)));
-    });
 
     it('All features on', () => {
         (isFeatureEnabled as any).mockImplementation(() => true);

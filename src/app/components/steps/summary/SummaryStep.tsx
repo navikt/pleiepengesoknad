@@ -261,7 +261,7 @@ class SummaryStep extends React.Component<Props, State> {
                                             </>
                                         )}
                                     {/* Ferieuttak i perioden */}
-                                    {isFeatureEnabled(Feature.TOGGLE_FERIEUTTAK) && ferieuttakIPerioden && (
+                                    {ferieuttakIPerioden && (
                                         <>
                                             <Box margin="l">
                                                 <ContentWithHeader
@@ -309,15 +309,9 @@ class SummaryStep extends React.Component<Props, State> {
                                         </ContentWithHeader>
                                     </Box>
 
-                                    {isFeatureEnabled(Feature.TOGGLE_FRILANS) && (
-                                        <FrilansSummary apiValues={apiValues} />
-                                    )}
+                                    <FrilansSummary apiValues={apiValues} />
 
-                                    {isFeatureEnabled(Feature.TOGGLE_SELVSTENDIG) && (
-                                        <SelvstendigSummary
-                                            selvstendigVirksomheter={apiValues.selvstendigVirksomheter}
-                                        />
-                                    )}
+                                    <SelvstendigSummary selvstendigVirksomheter={apiValues.selvstendigVirksomheter} />
 
                                     {tilsynsordning && <TilsynsordningSummary tilsynsordning={tilsynsordning} />}
                                     {nattevaak && (
