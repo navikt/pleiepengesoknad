@@ -205,36 +205,30 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                 </>
             )}
 
-            {isFeatureEnabled(Feature.TOGGLE_FERIEUTTAK) && (
-                <>
-                    <Box margin="xl">
-                        <AppForm.YesOrNoQuestion
-                            legend={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.spm')}
-                            name={AppFormField.skalTaUtFerieIPerioden}
-                            validate={validateYesOrNoIsAnswered}
-                            info={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.veileder')}
-                        />
-                    </Box>
-                    {values.skalTaUtFerieIPerioden === YesOrNo.YES && (
-                        <Box margin="m" padBottom="l">
-                            <FerieuttakListAndDialog<AppFormField>
-                                name={AppFormField.ferieuttakIPerioden}
-                                minDate={periode.from}
-                                maxDate={periode.to}
-                                labels={{
-                                    modalTitle: intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.modalTitle'),
-                                    listTitle: intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.listTitle'),
-                                    addLabel: intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.addLabel'),
-                                }}
-                                validate={
-                                    periode
-                                        ? (ferie: Ferieuttak[]) => validateFerieuttakIPerioden(periode, ferie)
-                                        : undefined
-                                }
-                            />
-                        </Box>
-                    )}
-                </>
+            <Box margin="xl">
+                <AppForm.YesOrNoQuestion
+                    legend={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.spm')}
+                    name={AppFormField.skalTaUtFerieIPerioden}
+                    validate={validateYesOrNoIsAnswered}
+                    info={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.veileder')}
+                />
+            </Box>
+            {values.skalTaUtFerieIPerioden === YesOrNo.YES && (
+                <Box margin="m" padBottom="l">
+                    <FerieuttakListAndDialog<AppFormField>
+                        name={AppFormField.ferieuttakIPerioden}
+                        minDate={periode.from}
+                        maxDate={periode.to}
+                        labels={{
+                            modalTitle: intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.modalTitle'),
+                            listTitle: intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.listTitle'),
+                            addLabel: intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.addLabel'),
+                        }}
+                        validate={
+                            periode ? (ferie: Ferieuttak[]) => validateFerieuttakIPerioden(periode, ferie) : undefined
+                        }
+                    />
+                </Box>
             )}
         </FormikStep>
     );

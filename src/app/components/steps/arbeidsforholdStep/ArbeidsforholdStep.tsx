@@ -10,7 +10,6 @@ import LoadingSpinner from 'common/components/loading-spinner/LoadingSpinner';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { AppFormField, PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
 import { getArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
-import { Feature, isFeatureEnabled } from 'app/utils/featureToggleUtils';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
 import FormikArbeidsforhold from '../../formik-arbeidsforhold/FormikArbeidsforhold';
@@ -76,31 +75,22 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
 
                     {arbeidsforhold.length === 0 && <FormattedMessage id="steg.arbeidsforhold.ingenOpplysninger" />}
 
-                    {isFeatureEnabled(Feature.TOGGLE_FRILANS) && isFeatureEnabled(Feature.TOGGLE_SELVSTENDIG) && (
-                        <>
-                            <Box margin="l">
-                                <AlertStripe type="info">
-                                    <FormattedMessage id="steg.arbeidsforhold.manglesOpplysninger" />
-                                </AlertStripe>
-                            </Box>
+                    <Box margin="l">
+                        <AlertStripe type="info">
+                            <FormattedMessage id="steg.arbeidsforhold.manglesOpplysninger" />
+                        </AlertStripe>
+                    </Box>
 
-                            <Box margin="xl">
-                                <FormSection title="Frilansere og selvstendig næringsdrivende">
-                                    {isFeatureEnabled(Feature.TOGGLE_FRILANS) && (
-                                        <FormBlock>
-                                            <FrilansFormPart formValues={values} />
-                                        </FormBlock>
-                                    )}
-
-                                    {isFeatureEnabled(Feature.TOGGLE_SELVSTENDIG) && (
-                                        <FormBlock>
-                                            <SelvstendigNæringsdrivendeFormPart formValues={values} />
-                                        </FormBlock>
-                                    )}
-                                </FormSection>
-                            </Box>
-                        </>
-                    )}
+                    <Box margin="xl">
+                        <FormSection title="Frilansere og selvstendig næringsdrivende">
+                            <FormBlock>
+                                <FrilansFormPart formValues={values} />
+                            </FormBlock>
+                            <FormBlock>
+                                <SelvstendigNæringsdrivendeFormPart formValues={values} />
+                            </FormBlock>
+                        </FormSection>
+                    </Box>
                 </>
             )}
         </FormikStep>
