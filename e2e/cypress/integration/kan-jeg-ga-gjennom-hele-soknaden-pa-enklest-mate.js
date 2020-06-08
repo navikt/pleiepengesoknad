@@ -18,21 +18,12 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
         before('gå til startsiden', () => {
             cy.visit('/');
         });
-
-        it('INTROSIDE', () => {
-            cy.get('[type="radio"]')
-                .last()
-                .check({ force: true }); // Må, bruke force her, pga cypress tror radio-knappen har størrelse (0,0)
-            cy.get('a[href*="/soknad/velkommen"]').click();
-        });
         it('VELKOMMEN SIDE', () => {
             cy.get('.bekreftCheckboksPanel label').click();
             cy.get('button[class="knapp welcomingPage__startApplicationButton knapp--hoved"]').click();
         });
         it('STEG 1: BARN', () => {
-            cy.get('[type="radio"')
-                .first()
-                .check({ force: true });
+            cy.get('[type="radio"').first().check({ force: true });
 
             clickFortsett(cy);
         });
@@ -42,22 +33,12 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
             // cy.get('[name="periodeFra"]').type("01.01.2021");
 
             // Velg periode, fom
-            cy.get('[class=nav-datovelger__kalenderknapp]')
-                .first()
-                .click();
-            cy.get('[class=DayPicker-Week]')
-                .contains(14)
-                .first()
-                .click();
+            cy.get('[class=nav-datovelger__kalenderknapp]').first().click();
+            cy.get('[class=DayPicker-Week]').contains(14).first().click();
 
             // Velg periode, tom
-            cy.get('[class=nav-datovelger__kalenderknapp]')
-                .last()
-                .click();
-            cy.get('[class=DayPicker-Week]')
-                .contains(15)
-                .first()
-                .click();
+            cy.get('[class=nav-datovelger__kalenderknapp]').last().click();
+            cy.get('[class=DayPicker-Week]').contains(15).first().click();
 
             clickNeiPaAlleSporsmal();
 
@@ -87,7 +68,7 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
                         fileContent,
                         fileName,
                         mimeType: 'image/png', //getMimeType(fileName),
-                        encoding: 'utf8'
+                        encoding: 'utf8',
                     })
                 );
             clickFortsett(cy);
