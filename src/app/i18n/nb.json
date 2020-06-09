@@ -319,6 +319,8 @@
     "fieldvalidation.legeerklæring.forMangeFiler": "Du kan maksimalt laste opp 3 bilder",
     "fieldvalidation.grad.ugyldig": "Graden må oppgis som et heltall mellom 20 og 100 prosent",
     "fieldvalidation.arbeidsforhold_timerUgyldig": "Vennligst fyll ut et tall mellom {min} og {max}",
+    "fieldvalidation.arbeidsforhold_timerUgyldig_under_1_prosent": "Du kan ikke jobbe mindre enn 1 prosent av hva du jobber normalt",
+    "fieldvalidation.arbeidsforhold_timerUgyldig_over_99_prosent": "Du kan ikke jobbe mer enn  99 prosent av hva du jobber normalt",
     "fieldvalidation.arbeidsforhold_redusertMerEnnNormalt": "Antall timer du skal jobbe er mer enn hva du har jobbet tidligere",
     "fieldvalidation.arbeidsforhold_prosentUgyldig": "Prosenten kan være fra 1 til 99",
     "fieldvalidation.tilsynsordning_ingenInfo": "Du har ikke oppgitt noen informasjon om hvor mye barnet skal ha tilsyn.",

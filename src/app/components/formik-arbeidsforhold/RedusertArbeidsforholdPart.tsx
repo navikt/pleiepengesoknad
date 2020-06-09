@@ -6,6 +6,7 @@ import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel'
 import intlHelper from 'common/utils/intlUtils';
 import { decimalTimeToTime } from 'common/utils/timeUtils';
 import { validateRequiredField, validateRequiredNumber } from 'common/validation/fieldValidations';
+import { validateReduserteArbeidTimer } from 'app/validation/fieldValidations';
 import { AppFormField, Arbeidsforhold, ArbeidsforholdField } from '../../types/PleiepengesøknadFormData';
 import {
     calcReduserteTimerFromRedusertProsent,
@@ -73,7 +74,7 @@ const RedusertArbeidsforholdPart = ({
                             name={getFieldName(ArbeidsforholdField.skalJobbeTimer)}
                             type="number"
                             label={getLabelForTimerRedusert(intl, jobberNormaltTimer, skalJobbeTimer)}
-                            validate={validateRequiredField}
+                            validate={(value) => validateReduserteArbeidTimer(value, jobberNormaltTimer, true)}
                             className="skjemaelement--timer-input"
                             value={skalJobbeTimer || ''}
                             min={0}
