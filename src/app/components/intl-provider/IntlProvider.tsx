@@ -4,6 +4,7 @@ import '@formatjs/intl-pluralrules/dist/locale-data/nb';
 import '@formatjs/intl-pluralrules/dist/locale-data/nn';
 import '@formatjs/intl-pluralrules/polyfill';
 import bostedMessages from '@navikt/sif-common-forms/lib/bosted-utland/bostedUtlandMessages';
+import utenlandsoppholdMessages from '@navikt/sif-common-forms/lib/utenlandsopphold/utenlandsoppholdMessages';
 import { allCommonMessages } from 'common/i18n/allCommonMessages';
 import { Locale } from 'common/types/Locale';
 
@@ -15,12 +16,14 @@ const appNynorsktekster = require('../../i18n/nn.json');
 
 const bokmålstekster = {
     ...allCommonMessages.nb,
+    ...utenlandsoppholdMessages.nb,
     ...appBokmålstekster,
     ...bostedMessages.nb,
     ...selvstendigMessagesNb,
 };
 const nynorsktekster = {
     ...allCommonMessages.nn,
+    ...utenlandsoppholdMessages.nn,
     ...appNynorsktekster,
     ...bostedMessages.nn,
     ...selvstendigMessagesNn,

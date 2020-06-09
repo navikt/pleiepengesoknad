@@ -2,7 +2,7 @@ import { getCountryName } from '@navikt/sif-common-formik/lib';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { countryIsMemberOfEøsOrEfta } from 'common/utils/countryUtils';
-import { formatDateToApiFormat } from 'common/utils/dateUtils';
+import { formatDateToApiFormat, sortDateRange } from 'common/utils/dateUtils';
 import {
     UtenlandsoppholdIPeriodenApiData,
     UtenlandsoppholdUtenforEøsIPeriodenApiData,
@@ -25,7 +25,7 @@ export const mapUtenlandsoppholdIPeriodenToApiData = (
             ...apiData,
             erUtenforEøs: erUtenforEØS,
             erBarnetInnlagt: opphold.erBarnetInnlagt === YesOrNo.YES,
-            perioderBarnetErInnlagt: opphold.barnInnlagtPerioder.map((periode) => ({
+            perioderBarnetErInnlagt: opphold.barnInnlagtPerioder.sort(sortDateRange).map((periode) => ({
                 fraOgMed: formatDateToApiFormat(periode.from),
                 tilOgMed: formatDateToApiFormat(periode.to),
             })),

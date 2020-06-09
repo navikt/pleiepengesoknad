@@ -189,7 +189,6 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                                     modalTitle: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.modalTitle'),
                                     listTitle: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.listTitle'),
                                     addLabel: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.addLabel'),
-                                    emptyListText: 'Ingen utenlandsopphold er registrert',
                                 }}
                                 validate={
                                     periode
