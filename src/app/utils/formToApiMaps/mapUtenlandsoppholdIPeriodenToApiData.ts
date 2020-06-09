@@ -20,11 +20,15 @@ export const mapUtenlandsoppholdIPeriodenToApiData = (
         tilOgMed: formatDateToApiFormat(opphold.tom),
     };
 
-    if (erUtenforEØS && opphold.årsak) {
+    if (erUtenforEØS && opphold.årsak && opphold.barnInnlagtPerioder) {
         const periodeopphold: UtenlandsoppholdUtenforEøsIPeriodenApiData = {
             ...apiData,
             erUtenforEøs: erUtenforEØS,
             erBarnetInnlagt: opphold.erBarnetInnlagt === YesOrNo.YES,
+            perioderBarnetErInnlagt: opphold.barnInnlagtPerioder.map((periode) => ({
+                fraOgMed: formatDateToApiFormat(periode.from),
+                tilOgMed: formatDateToApiFormat(periode.to),
+            })),
             årsak: opphold.erBarnetInnlagt === YesOrNo.YES ? opphold.årsak : null,
         };
         return periodeopphold;

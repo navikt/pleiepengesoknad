@@ -37,7 +37,7 @@
         "@formatjs/intl-relativetimeformat": "^4.5.16",
         "@navikt/sif-common-core": "^4.0.8",
         "@navikt/sif-common-formik": "^7.2.1",
-        "@navikt/sif-common-forms": "^7.0.0",
+        "@navikt/sif-common-forms": "^7.4.0",
         "@navikt/sif-common-sentry": "0.0.8",
         "@testing-library/react": "^9.5.0",
         "axios": "^0.19.2",

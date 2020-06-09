@@ -641,6 +641,7 @@ describe('Test complete applications', () => {
         tilOgMed: '2020-01-09',
         erUtenforEøs: true,
         erBarnetInnlagt: true,
+        perioderBarnetErInnlagt: [{ fraOgMed: '2020-01-08', tilOgMed: '2020-01-09' }],
         årsak: UtenlandsoppholdÅrsak.ANNET,
     };
 
@@ -705,6 +706,12 @@ describe('Test complete applications', () => {
                     tom: dateUtils.apiStringDateToDate('2020-01-09'),
                     landkode: 'US',
                     erBarnetInnlagt: YesOrNo.YES,
+                    barnInnlagtPerioder: [
+                        {
+                            from: dateUtils.apiStringDateToDate('2020-01-08'),
+                            to: dateUtils.apiStringDateToDate('2020-01-09'),
+                        },
+                    ],
                     årsak: UtenlandsoppholdÅrsak.ANNET,
                 },
             ],
