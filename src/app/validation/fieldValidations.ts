@@ -24,6 +24,7 @@ import { hasValue } from 'common/validation/hasValue';
 import { FieldValidationResult } from 'common/validation/types';
 import { Arbeidsforhold, Tilsynsordning } from '../types/PleiepengesøknadFormData';
 import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
+import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
 
 const moment = require('moment');
 
@@ -38,6 +39,8 @@ export enum AppFieldValidationErrors {
     'legeerklæring_mangler' = 'fieldvalidation.legeerklæring.mangler',
     'legeerklæring_forMangeFiler' = 'fieldvalidation.legeerklæring.forMangeFiler',
     'arbeidsforhold_timerUgyldig' = 'fieldvalidation.arbeidsforhold_timerUgyldig',
+    'arbeidsforhold_timerUgyldig_under_1_prosent' = 'fieldvalidation.arbeidsforhold_timerUgyldig_under_1_prosent',
+    'arbeidsforhold_timerUgyldig_over_99_prosent' = 'fieldvalidation.arbeidsforhold_timerUgyldig_over_99_prosent',
     'arbeidsforhold_prosentUgyldig' = 'fieldvalidation.arbeidsforhold_prosentUgyldig',
     'arbeidsforhold_redusertMerEnnNormalt' = 'fieldvalidation.arbeidsforhold_redusertMerEnnNormalt',
     'tilsynsordning_ingenInfo' = 'fieldvalidation.tilsynsordning_ingenInfo',
@@ -311,37 +314,19 @@ export const validateNormaleArbeidstimer = (time: Time | undefined, isRequired?:
 
 export const validateReduserteArbeidTimer = (
     value: number | string,
-    normalTimer: Time | undefined,
+    jobberNormaltTimer: number,
     isRequired?: boolean
 ): FieldValidationResult => {
     if (isRequired && !hasValue(value)) {
         return fieldIsRequiredError();
     }
-    const timer = typeof value === 'string' ? parseFloat(value) : value;
-
-    if (normalTimer === undefined) {
-        return validateNormaleArbeidstimer({ hours: timer, minutes: 0 });
+    const skalJobbeTimer = typeof value === 'string' ? parseFloat(value) : value;
+    const pst = calcRedusertProsentFromRedusertTimer(jobberNormaltTimer, skalJobbeTimer);
+    if (pst < 1) {
+        return createAppFieldValidationError(AppFieldValidationErrors.arbeidsforhold_timerUgyldig_under_1_prosent);
     }
-
-    if (timer < MIN_ARBEIDSTIMER_PER_UKE || timer > MAX_ARBEIDSTIMER_PER_UKE) {
-        return createAppFieldValidationError(AppFieldValidationErrors.arbeidsforhold_timerUgyldig, {
-            min: MIN_ARBEIDSTIMER_PER_UKE,
-            max: Math.max(MAX_ARBEIDSTIMER_PER_UKE, timeToDecimalTime(normalTimer)),
-        });
-    }
-    if (timer > (timeToDecimalTime(normalTimer) || MAX_ARBEIDSTIMER_PER_UKE)) {
-        return createAppFieldValidationError(AppFieldValidationErrors.arbeidsforhold_redusertMerEnnNormalt);
-    }
-    return undefined;
-};
-export const validateReduserteArbeidProsent = (value: number | string, isRequired?: boolean): FieldValidationResult => {
-    if (isRequired && !hasValue(value)) {
-        return fieldIsRequiredError();
-    }
-    const prosent = typeof value === 'string' ? parseFloat(value) : value;
-
-    if (prosent < 1 || prosent > 100) {
-        return createAppFieldValidationError(AppFieldValidationErrors.arbeidsforhold_prosentUgyldig);
+    if (pst > 99) {
+        return createAppFieldValidationError(AppFieldValidationErrors.arbeidsforhold_timerUgyldig_over_99_prosent);
     }
     return undefined;
 };

@@ -14,6 +14,13 @@ import {
 } from '../fieldValidations';
 
 import Mock = jest.Mock;
+
+jest.mock('../../utils/envUtils', () => {
+    return {
+        getEnvironmentVariable: () => 'someEnvVar',
+    };
+});
+
 jest.mock('common/validation/fødselsnummerValidator', () => {
     return {
         fødselsnummerIsValid: jest.fn(),
