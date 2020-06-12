@@ -708,8 +708,8 @@ describe('Test complete applications', () => {
                     erBarnetInnlagt: YesOrNo.YES,
                     barnInnlagtPerioder: [
                         {
-                            from: dateUtils.apiStringDateToDate('2020-01-08'),
-                            to: dateUtils.apiStringDateToDate('2020-01-09'),
+                            fom: dateUtils.apiStringDateToDate('2020-01-08'),
+                            tom: dateUtils.apiStringDateToDate('2020-01-09'),
                         },
                     ],
                     årsak: UtenlandsoppholdÅrsak.ANNET,
