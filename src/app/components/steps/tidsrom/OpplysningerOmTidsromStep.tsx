@@ -39,8 +39,6 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const søkerdata = React.useContext(SøkerdataContext)!;
 
-    const fraDato = values[AppFormField.periodeFra];
-    const tilDato = values[AppFormField.periodeTil];
     const harMedsøker = values[AppFormField.harMedsøker];
 
     const { periodeFra, periodeTil } = values;
@@ -81,25 +79,23 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
 
     return (
         <FormikStep id={StepID.TIDSROM} onValidFormSubmit={onValidSubmit}>
-            <AppForm.DateIntervalPicker
+            <AppForm.DateRangePicker
                 legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
+                minDate={date3YearsAgo}
                 description={
                     <ExpandableInfo title="Kan jeg søke for flere perioder samtidig?">
                         <FormattedMessage id="steg.tidsrom.hjelpetekst" />
                     </ExpandableInfo>
                 }
-                fromDatepickerProps={{
+                fromInputProps={{
                     label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.fom'),
                     validate: validateFraDatoField,
                     name: AppFormField.periodeFra,
-                    minDate: date3YearsAgo,
-                    maxDate: validateTilDatoField(tilDato) === undefined ? tilDato : undefined,
                 }}
-                toDatepickerProps={{
+                toInputProps={{
                     label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.tom'),
                     validate: validateTilDatoField,
                     name: AppFormField.periodeTil,
-                    minDate: validateFraDatoField(fraDato) === undefined ? fraDato : date3YearsAgo,
                 }}
             />
             {isFeatureEnabled(Feature.TOGGLE_8_UKER) && (
