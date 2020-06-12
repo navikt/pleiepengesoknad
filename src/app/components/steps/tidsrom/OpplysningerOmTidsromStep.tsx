@@ -14,6 +14,7 @@ import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/
 import UtenlandsoppholdListAndDialog from '@navikt/sif-common-forms/lib/utenlandsopphold/UtenlandsoppholdListAndDialog';
 import { useFormikContext } from 'formik';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import ExpandableInfo from 'common/components/expandable-content/ExpandableInfo';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
@@ -31,7 +32,6 @@ import {
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
-import ExpandableInfo from 'common/components/expandable-content/ExpandableInfo';
 
 const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<PleiepengesøknadFormData>();
@@ -92,18 +92,14 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                     label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.fom'),
                     validate: validateFraDatoField,
                     name: AppFormField.periodeFra,
-                    dateLimitations: {
-                        minDato: date3YearsAgo,
-                        maksDato: validateTilDatoField(tilDato) === undefined ? tilDato : undefined,
-                    },
+                    minDate: date3YearsAgo,
+                    maxDate: validateTilDatoField(tilDato) === undefined ? tilDato : undefined,
                 }}
                 toDatepickerProps={{
                     label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.tom'),
                     validate: validateTilDatoField,
                     name: AppFormField.periodeTil,
-                    dateLimitations: {
-                        minDato: validateFraDatoField(fraDato) === undefined ? fraDato : date3YearsAgo,
-                    },
+                    minDate: validateFraDatoField(fraDato) === undefined ? fraDato : date3YearsAgo,
                 }}
             />
             {isFeatureEnabled(Feature.TOGGLE_8_UKER) && (

@@ -40,7 +40,7 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                 name={AppFormField.frilans_startdato}
                                 label={intlHelper(intl, 'frilanser.nårStartet.spm')}
                                 showYearSelector={true}
-                                dateLimitations={{ maksDato: dateToday }}
+                                maxDate={dateToday}
                                 validate={validateRequiredField}
                             />
                         </Box>
