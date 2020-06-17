@@ -14,6 +14,7 @@ import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/
 import UtenlandsoppholdListAndDialog from '@navikt/sif-common-forms/lib/utenlandsopphold/UtenlandsoppholdListAndDialog';
 import { useFormikContext } from 'formik';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import ExpandableInfo from 'common/components/expandable-content/ExpandableInfo';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
@@ -38,8 +39,6 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const søkerdata = React.useContext(SøkerdataContext)!;
 
-    const fraDato = values[AppFormField.periodeFra];
-    const tilDato = values[AppFormField.periodeTil];
     const harMedsøker = values[AppFormField.harMedsøker];
 
     const { periodeFra, periodeTil } = values;
@@ -80,25 +79,23 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
 
     return (
         <FormikStep id={StepID.TIDSROM} onValidFormSubmit={onValidSubmit}>
-            <AppForm.DateIntervalPicker
+            <AppForm.DateRangePicker
                 legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
-                info={intlHelper(intl, 'steg.tidsrom.hjelpetekst')}
-                fromDatepickerProps={{
+                minDate={date3YearsAgo}
+                description={
+                    <ExpandableInfo title="Kan jeg søke for flere perioder samtidig?">
+                        <FormattedMessage id="steg.tidsrom.hjelpetekst" />
+                    </ExpandableInfo>
+                }
+                fromInputProps={{
                     label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.fom'),
                     validate: validateFraDatoField,
                     name: AppFormField.periodeFra,
-                    dateLimitations: {
-                        minDato: date3YearsAgo,
-                        maksDato: validateTilDatoField(tilDato) === undefined ? tilDato : undefined,
-                    },
                 }}
-                toDatepickerProps={{
+                toInputProps={{
                     label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.tom'),
                     validate: validateTilDatoField,
                     name: AppFormField.periodeTil,
-                    dateLimitations: {
-                        minDato: validateFraDatoField(fraDato) === undefined ? fraDato : date3YearsAgo,
-                    },
                 }}
             />
             {isFeatureEnabled(Feature.TOGGLE_8_UKER) && (
@@ -184,7 +181,6 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                                     modalTitle: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.modalTitle'),
                                     listTitle: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.listTitle'),
                                     addLabel: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.addLabel'),
-                                    emptyListText: 'Ingen utenlandsopphold er registrert',
                                 }}
                                 validate={
                                     periode
@@ -210,7 +206,11 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                     legend={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.spm')}
                     name={AppFormField.skalTaUtFerieIPerioden}
                     validate={validateYesOrNoIsAnswered}
-                    info={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.veileder')}
+                    description={
+                        <ExpandableInfo title="Hva er lovbestemt ferie?">
+                            <FormattedMessage id="steg.tidsrom.ferieuttakIPerioden.veileder" />
+                        </ExpandableInfo>
+                    }
                 />
             </Box>
             {values.skalTaUtFerieIPerioden === YesOrNo.YES && (

@@ -51,7 +51,7 @@ const AnnetBarnPart = ({ formValues }: Props) => {
                     <AppForm.DatePicker
                         showYearSelector={true}
                         name={AppFormField.barnetsFødselsdato}
-                        dateLimitations={{ maksDato: dateToday }}
+                        maxDate={dateToday}
                         label={intlHelper(intl, 'steg.omBarnet.fødselsdato')}
                         validate={(dato) => {
                             if (barnetHarIkkeFåttFødselsnummerEnda) {

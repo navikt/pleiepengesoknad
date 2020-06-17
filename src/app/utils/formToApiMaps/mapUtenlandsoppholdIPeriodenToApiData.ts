@@ -2,11 +2,22 @@ import { getCountryName } from '@navikt/sif-common-formik/lib';
 import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
 import { YesOrNo } from 'common/types/YesOrNo';
 import { countryIsMemberOfEøsOrEfta } from 'common/utils/countryUtils';
-import { formatDateToApiFormat } from 'common/utils/dateUtils';
+import { formatDateToApiFormat, sortItemsByFomTom } from 'common/utils/dateUtils';
 import {
     UtenlandsoppholdIPeriodenApiData,
     UtenlandsoppholdUtenforEøsIPeriodenApiData,
+    PeriodeBarnetErInnlagtApiFormat,
 } from '../../types/PleiepengesøknadApiData';
+import { DateTidsperiode } from '@navikt/sif-common-forms/lib/tidsperiode';
+
+const mapBarnInnlagtPeriodeToApiFormat = (periode: DateTidsperiode): PeriodeBarnetErInnlagtApiFormat => {
+    console.log(periode);
+
+    return {
+        fraOgMed: formatDateToApiFormat(periode.fom),
+        tilOgMed: formatDateToApiFormat(periode.tom),
+    };
+};
 
 export const mapUtenlandsoppholdIPeriodenToApiData = (
     opphold: Utenlandsopphold,
@@ -20,11 +31,16 @@ export const mapUtenlandsoppholdIPeriodenToApiData = (
         tilOgMed: formatDateToApiFormat(opphold.tom),
     };
 
-    if (erUtenforEØS && opphold.årsak) {
+    if (erUtenforEØS && opphold.årsak && opphold.barnInnlagtPerioder) {
+        console.log('hjey');
+
         const periodeopphold: UtenlandsoppholdUtenforEøsIPeriodenApiData = {
             ...apiData,
             erUtenforEøs: erUtenforEØS,
             erBarnetInnlagt: opphold.erBarnetInnlagt === YesOrNo.YES,
+            perioderBarnetErInnlagt: opphold.barnInnlagtPerioder
+                .sort(sortItemsByFomTom)
+                .map(mapBarnInnlagtPeriodeToApiFormat),
             årsak: opphold.erBarnetInnlagt === YesOrNo.YES ? opphold.årsak : null,
         };
         return periodeopphold;

@@ -1,6 +1,6 @@
 export enum HoursOrPercent {
     'hours' = 'hours',
-    'percent' = 'percent'
+    'percent' = 'percent',
 }
 
 export interface BarnReceivedFromApi {

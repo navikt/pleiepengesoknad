@@ -17,6 +17,7 @@ import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import BostedsoppholdIUtlandetFormPart from './BostedsoppholdIUtlandetFormPart';
 import { medlemskapQuestions } from './medlemskapConfig';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 const getFomForBostedNeste12 = (bosted: BostedUtland[]): Date => {
     const sisteBosted = bosted.length > 0 ? bosted[bosted.length - 1] : undefined;
@@ -49,7 +50,11 @@ const MedlemsskapStep = ({ onValidSubmit }: StepConfigProps) => {
                 legend={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.spm')}
                 name={AppFormField.harBoddUtenforNorgeSiste12Mnd}
                 validate={questions.validate(AppFormField.harBoddUtenforNorgeSiste12Mnd)}
-                info={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.hjelp')}
+                description={
+                    <ExpandableInfo title="Hva betyr dette?">
+                        {intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.hjelp')}
+                    </ExpandableInfo>
+                }
             />
             {questions.isVisible(AppFormField.utenlandsoppholdSiste12Mnd) && (
                 <FormBlock margin="l">
@@ -69,7 +74,11 @@ const MedlemsskapStep = ({ onValidSubmit }: StepConfigProps) => {
                     legend={intlHelper(intl, 'steg.medlemsskap.annetLandNeste12.spm')}
                     name={AppFormField.skalBoUtenforNorgeNeste12Mnd}
                     validate={validateYesOrNoIsAnswered}
-                    info={intlHelper(intl, 'steg.medlemsskap.annetLandNeste12.hjelp')}
+                    description={
+                        <ExpandableInfo title="Hva betyr dette?">
+                            {intlHelper(intl, 'steg.medlemsskap.annetLandNeste12.hjelp')}
+                        </ExpandableInfo>
+                    }
                 />
             </FormBlock>
             {questions.isVisible(AppFormField.utenlandsoppholdNeste12Mnd) && (

@@ -96,9 +96,14 @@ export interface UtenlandsoppholdIPeriodenApiData {
     landnavn: string;
 }
 
+export interface PeriodeBarnetErInnlagtApiFormat {
+    fraOgMed: ApiStringDate;
+    tilOgMed: ApiStringDate;
+}
 export interface UtenlandsoppholdUtenforEøsIPeriodenApiData extends UtenlandsoppholdIPeriodenApiData {
     erBarnetInnlagt: boolean;
     erUtenforEøs: boolean;
+    perioderBarnetErInnlagt: PeriodeBarnetErInnlagtApiFormat[];
     årsak: UtenlandsoppholdÅrsak | null;
 }
 
