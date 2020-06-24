@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { render } from 'react-dom';
+import AppStatusWrapper from '@navikt/sif-common-core/lib/components/app-status-wrapper/AppStatusWrapper';
 import moment from 'moment';
 import Modal from 'nav-frontend-modal';
 import { Locale } from 'common/types/Locale';
@@ -7,7 +8,6 @@ import ApplicationWrapper from './components/application-wrapper/ApplicationWrap
 import UnavailablePage from './components/pages/unavailable-page/UnavailablePage';
 import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad';
 import appSentryLogger from './utils/appSentryLogger';
-import { Feature, isFeatureEnabled } from './utils/featureToggleUtils';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
 import 'common/styles/globalStyles.less';
 import './app.less';
@@ -17,8 +17,11 @@ appSentryLogger.init();
 const localeFromSessionStorage = getLocaleFromSessionStorage();
 moment.locale(localeFromSessionStorage);
 
+const APPLICATION_KEY = 'pleiepengesoknad';
+
 const App = () => {
     const [locale, setLocale] = React.useState<Locale>(localeFromSessionStorage);
+
     return (
         <ApplicationWrapper
             locale={locale}
@@ -26,7 +29,11 @@ const App = () => {
                 setLocaleInSessionStorage(activeLocale);
                 setLocale(activeLocale);
             }}>
-            {isFeatureEnabled(Feature.UTILGJENGELIG) ? <UnavailablePage /> : <Pleiepengesøknad />}
+            <AppStatusWrapper
+                applicationKey={APPLICATION_KEY}
+                unavailableContentRenderer={() => <UnavailablePage />}
+                contentRenderer={() => <Pleiepengesøknad />}
+            />
         </ApplicationWrapper>
     );
 };
