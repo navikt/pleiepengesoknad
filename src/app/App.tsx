@@ -8,6 +8,7 @@ import ApplicationWrapper from './components/application-wrapper/ApplicationWrap
 import UnavailablePage from './components/pages/unavailable-page/UnavailablePage';
 import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad';
 import appSentryLogger from './utils/appSentryLogger';
+import { getEnvironmentVariable } from './utils/envUtils';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
 import 'common/styles/globalStyles.less';
 import './app.less';
@@ -19,8 +20,16 @@ moment.locale(localeFromSessionStorage);
 
 const APPLICATION_KEY = 'pleiepengesoknad';
 
+const getAppStatusSanityConfig = () => {
+    const projectId = getEnvironmentVariable('APPSTATUS_PROJECT_ID');
+    const dataset = getEnvironmentVariable('APPSTATUS_DATASET');
+    return !projectId || !dataset ? undefined : { projectId, dataset };
+};
+
 const App = () => {
     const [locale, setLocale] = React.useState<Locale>(localeFromSessionStorage);
+
+    const appStatusSanityConfig = getAppStatusSanityConfig();
 
     return (
         <ApplicationWrapper
@@ -29,11 +38,16 @@ const App = () => {
                 setLocaleInSessionStorage(activeLocale);
                 setLocale(activeLocale);
             }}>
-            <AppStatusWrapper
-                applicationKey={APPLICATION_KEY}
-                unavailableContentRenderer={() => <UnavailablePage />}
-                contentRenderer={() => <Pleiepengesøknad />}
-            />
+            {appStatusSanityConfig ? (
+                <AppStatusWrapper
+                    applicationKey={APPLICATION_KEY}
+                    unavailableContentRenderer={() => <UnavailablePage />}
+                    sanityConfig={appStatusSanityConfig}
+                    contentRenderer={() => <Pleiepengesøknad />}
+                />
+            ) : (
+                <Pleiepengesøknad />
+            )}
         </ApplicationWrapper>
     );
 };
