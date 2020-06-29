@@ -10,6 +10,8 @@ const createEnvSettingsFile = async (settingsFile) => {
     const UTILGJENGELIG = process.env.UTILGJENGELIG;
     const TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN = process.env.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN;
     const TOGGLE_8_UKER = process.env.TOGGLE_8_UKER;
+    const APPSTATUS_PROJECT_ID = process.env.APPSTATUS_PROJECT_ID;
+    const APPSTATUS_DATASET = process.env.APPSTATUS_DATASET;
 
     const appSettings = `
     window.appSettings = {
@@ -20,6 +22,8 @@ const createEnvSettingsFile = async (settingsFile) => {
         TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN: '${TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN}',
         TOGGLE_8_UKER: '${TOGGLE_8_UKER}',
         TOGGLE_BEKREFT_OMSORG: '${process.env.TOGGLE_BEKREFT_OMSORG}',
+        APPSTATUS_PROJECT_ID: '${APPSTATUS_PROJECT_ID}',
+        APPSTATUS_DATASET: '${APPSTATUS_DATASET}',
     };`
         .trim()
         .replace(/ /g, '');

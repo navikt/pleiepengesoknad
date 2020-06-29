@@ -3,11 +3,9 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Normaltekst } from 'nav-frontend-typografi';
 import LanguageToggle from 'common/components/language-toggle/LanguageToggle';
 import { Locale } from 'common/types/Locale';
-import { Søkerdata } from '../../types/Søkerdata';
 import IntlProvider from '../intl-provider/IntlProvider';
 
 interface ApplicationWrapperProps {
-    søkerdata?: Søkerdata;
     locale: Locale;
     children: React.ReactNode;
     onChangeLocale: (locale: Locale) => void;
