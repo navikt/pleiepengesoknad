@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Normaltekst } from 'nav-frontend-typografi';
 import LanguageToggle from 'common/components/language-toggle/LanguageToggle';
-import FullscreenContainer from 'common/dev-utils/fullscreenContainer/FullscreenContainer';
 import { Locale } from 'common/types/Locale';
 import IntlProvider, { appBokmålstekster, appNynorsktekster } from '../intl-provider/IntlProvider';
-import MessagesPreview from 'common/dev-utils/intl/messages-preview/MessagesPreview';
+import ApplicationMessages from 'common/dev-utils/intl/application-messages/ApplicationMessages';
 
 interface ApplicationWrapperProps {
     locale: Locale;
@@ -19,19 +18,13 @@ const ApplicationWrapper = ({ locale, onChangeLocale, children }: ApplicationWra
                 <LanguageToggle locale={locale} toggle={onChangeLocale} />
                 <Router>
                     {children}
-                    <Route path="*/dev/tekster">
-                        <FullscreenContainer>
-                            <MessagesPreview
-                                title="Søknad pleiepenger"
-                                showMissingTextSummary={false}
-                                showExplanation={false}
-                                messages={{
-                                    nb: appBokmålstekster,
-                                    nn: appNynorsktekster,
-                                }}
-                            />
-                        </FullscreenContainer>
-                    </Route>
+                    <ApplicationMessages
+                        messages={{
+                            nb: appBokmålstekster,
+                            nn: appNynorsktekster,
+                        }}
+                        title="Søknad pleiepenger"
+                    />
                 </Router>
             </Normaltekst>
         </IntlProvider>
