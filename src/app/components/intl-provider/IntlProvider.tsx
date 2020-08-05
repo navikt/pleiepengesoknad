@@ -6,6 +6,7 @@ import '@formatjs/intl-pluralrules/polyfill';
 import bostedMessages from '@navikt/sif-common-forms/lib/bosted-utland/bostedUtlandMessages';
 import utenlandsoppholdMessages from '@navikt/sif-common-forms/lib/utenlandsopphold/utenlandsoppholdMessages';
 import virksomhetMessages from '@navikt/sif-common-forms/lib/virksomhet/virksomhetMessages';
+import tidsperiodeMessages from '@navikt/sif-common-forms/lib/tidsperiode/tidsperiodeMessages';
 import { allCommonMessages } from 'common/i18n/allCommonMessages';
 import { Locale } from 'common/types/Locale';
 
@@ -17,6 +18,7 @@ const bokmålstekster = {
     ...utenlandsoppholdMessages.nb,
     ...bostedMessages.nb,
     ...virksomhetMessages.nb,
+    ...tidsperiodeMessages.nb,
     ...appBokmålstekster,
 };
 const nynorsktekster = {
@@ -24,6 +26,7 @@ const nynorsktekster = {
     ...utenlandsoppholdMessages.nn,
     ...bostedMessages.nn,
     ...virksomhetMessages.nn,
+    ...tidsperiodeMessages.nn,
     ...appNynorsktekster,
 };
 
