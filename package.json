@@ -105,7 +105,7 @@
         "postcss-loader": "^3.0.0",
         "prettier": "^2.0.5",
         "pretty-quick": "^2.0.1",
-        "react-intl": "^4.7.6",
+        "react-intl": "^5.4.5",
         "regenerator-runtime": "^0.13.7",
         "source-map-loader": "^0.2.4",
         "style-loader": "^1.2.1",
