@@ -7,6 +7,7 @@ import bostedMessages from '@navikt/sif-common-forms/lib/bosted-utland/bostedUtl
 import utenlandsoppholdMessages from '@navikt/sif-common-forms/lib/utenlandsopphold/utenlandsoppholdMessages';
 import virksomhetMessages from '@navikt/sif-common-forms/lib/virksomhet/virksomhetMessages';
 import tidsperiodeMessages from '@navikt/sif-common-forms/lib/tidsperiode/tidsperiodeMessages';
+import ferieuttakMessages from '@navikt/sif-common-forms/lib/ferieuttak/ferieuttakMessages';
 import { allCommonMessages } from 'common/i18n/allCommonMessages';
 import { Locale } from 'common/types/Locale';
 
@@ -19,6 +20,7 @@ const bokmålstekster = {
     ...bostedMessages.nb,
     ...virksomhetMessages.nb,
     ...tidsperiodeMessages.nb,
+    ...ferieuttakMessages.nb,
     ...appBokmålstekster,
 };
 const nynorsktekster = {
@@ -27,6 +29,7 @@ const nynorsktekster = {
     ...bostedMessages.nn,
     ...virksomhetMessages.nn,
     ...tidsperiodeMessages.nn,
+    ...ferieuttakMessages.nn,
     ...appNynorsktekster,
 };
 
