@@ -30,9 +30,6 @@ const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape)
         virksomhet.tilOgMed ? `, avsluttet ${prettifyApiDate(virksomhet.tilOgMed)}.` : ' (pågående).'
     }`;
 
-    console.log(virksomhet.næringsinntekt);
-    // debugger;
-
     return (
         <SummaryBlock header={virksomhet.navnPåVirksomheten}>
             <IntlLabelValue labelKey="summary.virksomhet.næringstype">{næringstyper}. </IntlLabelValue>
@@ -41,12 +38,12 @@ const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape)
                 Registrert i {land.landnavn}
                 {virksomhet.registrertINorge ? ` (organisasjonsnummer ${virksomhet.organisasjonsnummer})` : ``}. <br />
                 {tidsinfo}
-                {/* {virksomhet.næringsinntekt !== undefined && (
+                {virksomhet.næringsinntekt !== undefined && (
                     <>
                         <br />
                         Næringsinntekt: {virksomhet.næringsinntekt}
                     </>
-                )} */}
+                )}
             </p>
             {virksomhet.varigEndring?.dato && (
                 <Box padBottom="l">
