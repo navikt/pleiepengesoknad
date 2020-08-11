@@ -32,8 +32,6 @@ export const mapUtenlandsoppholdIPeriodenToApiData = (
     };
 
     if (erUtenforEØS && opphold.årsak && opphold.barnInnlagtPerioder) {
-        console.log('hjey');
-
         const periodeopphold: UtenlandsoppholdUtenforEøsIPeriodenApiData = {
             ...apiData,
             erUtenforEøs: erUtenforEØS,
