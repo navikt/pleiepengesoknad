@@ -45,7 +45,7 @@ const getValidAttachments = (attachments: Attachment[] = []): Attachment[] => {
     });
 };
 
-const AppEssentialsLoader = (props: Props): React.ReactElement => {
+const AppEssentialsLoader: React.FC<Props> = (props: Props): React.ReactElement => {
     const { contentLoadedRenderer } = props;
 
     const [state, setState] = useState(initialState);
@@ -128,11 +128,11 @@ const AppEssentialsLoader = (props: Props): React.ReactElement => {
         } else if (!userIsCurrentlyOnErrorPage()) {
             appSentryLogger.logApiError(error);
             window.location.assign(routeConfig.ERROR_PAGE_ROUTE);
+            // this timeout is set because if isLoading is updated in the state too soon,
+            // the contentLoadedRenderer() will be called while the user is still on the wrong route,
+            // because the redirect to routeConfig.ERROR_PAGE_ROUTE will not have happened yet.
+            setTimeout(stopLoading, 200);
         }
-        // this timeout is set because if isLoading is updated in the state too soon,
-        // the contentLoadedRenderer() will be called while the user is still on the wrong route,
-        // because the redirect to routeConfig.ERROR_PAGE_ROUTE will not have happened yet.
-        setTimeout(stopLoading, 200);
     }
 
     async function loadAppEssentials() {
