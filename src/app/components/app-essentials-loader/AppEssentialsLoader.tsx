@@ -55,6 +55,7 @@ const AppEssentialsLoader: React.FC<Props> = (props: Props): React.ReactElement 
         setState({
             ...state,
             isLoading: false,
+            initialRender: false
         });
     }
 
@@ -70,7 +71,7 @@ const AppEssentialsLoader: React.FC<Props> = (props: Props): React.ReactElement 
 
     function updateSøkerdata(formdata: PleiepengesøknadFormData, søkerdata: Søkerdata, lastStepID?: StepID) {
         setState({
-            ...state,
+            initialRender: false,
             isLoading: false,
             lastStepID: lastStepID || state.lastStepID,
             formdata: formdata || state.formdata,
