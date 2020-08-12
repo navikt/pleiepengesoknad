@@ -55,7 +55,7 @@ const AppEssentialsLoader: React.FC<Props> = (props: Props): React.ReactElement 
         setState({
             ...state,
             isLoading: false,
-            initialRender: false
+            initialRender: false,
         });
     }
 
