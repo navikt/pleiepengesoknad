@@ -1,16 +1,16 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import { SkjemagruppeQuestion } from '@navikt/sif-common-formik';
+import Box from '@sif-common/core/components/box/Box';
+import FormBlock from '@sif-common/core/components/form-block/FormBlock';
+import { SkjemagruppeQuestion } from '@sif-common/formik/';
 import { FieldArray } from 'formik';
-import { YesOrNo } from 'common/types/YesOrNo';
-import intlHelper from 'common/utils/intlUtils';
+import { YesOrNo } from '@sif-common/core/types/YesOrNo';
+import intlHelper from '@sif-common/core/utils/intlUtils';
 import {
     validateRequiredField,
     validateRequiredNumber,
     validateYesOrNoIsAnswered,
-} from 'common/validation/fieldValidations';
+} from '@sif-common/core/validation/fieldValidations';
 import {
     AppFormField,
     Arbeidsforhold,

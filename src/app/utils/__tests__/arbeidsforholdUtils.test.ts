@@ -1,4 +1,4 @@
-import { YesOrNo } from 'common/types/YesOrNo';
+import { YesOrNo } from '@sif-common/core/types/YesOrNo';
 import { Arbeidsforhold } from 'app/types/PleiepengesøknadFormData';
 import { Arbeidsgiver } from 'app/types/Søkerdata';
 import { syncArbeidsforholdWithArbeidsgivere } from '../arbeidsforholdUtils';

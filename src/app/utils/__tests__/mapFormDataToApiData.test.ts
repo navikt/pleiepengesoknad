@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/camelcase */
-import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
-import { Næringstype } from 'common/forms/virksomhet/types';
-import { ApiStringDate } from 'common/types/ApiStringDate';
-import { Attachment } from 'common/types/Attachment';
-import { YesOrNo } from 'common/types/YesOrNo';
-import * as attachmentUtils from 'common/utils/attachmentUtils';
-import * as dateUtils from 'common/utils/dateUtils';
+import { UtenlandsoppholdÅrsak } from '@sif-common/forms/utenlandsopphold/types';
+import { Næringstype } from '@sif-common/forms/virksomhet/types';
+import { ApiStringDate } from '@sif-common/core/types/ApiStringDate';
+import { Attachment } from '@sif-common/core/types/Attachment';
+import { YesOrNo } from '@sif-common/core/types/YesOrNo';
+import * as attachmentUtils from '@sif-common/core/utils/attachmentUtils';
+import * as dateUtils from '@sif-common/core/utils/dateUtils';
 import {
     ArbeidsforholdApiNei,
     ArbeidsforholdApiRedusert,

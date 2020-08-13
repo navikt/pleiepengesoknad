@@ -1,5 +1,5 @@
-import { formatDateToApiFormat } from 'common/utils/dateUtils';
-import { formatName } from 'common/utils/personUtils';
+import { formatDateToApiFormat } from '@sif-common/core/utils/dateUtils';
+import { formatName } from '@sif-common/core/utils/personUtils';
 import { BarnToSendToApi } from '../../types/PleiepengesøknadApiData';
 import { BarnReceivedFromApi } from '../../types/Søkerdata';
 

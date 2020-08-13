@@ -1,6 +1,6 @@
 import { IntlShape } from 'react-intl';
-import { ValidationSummaryError } from 'common/components/validation-error-summary-base/ValidationErrorSummaryBase';
-import intlHelper from 'common/utils/intlUtils';
+import { ValidationSummaryError } from '@sif-common/core/components/validation-error-summary-base/ValidationErrorSummaryBase';
+import intlHelper from '@sif-common/core/utils/intlUtils';
 import { PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
 
 export const apiVedleggIsInvalid = (vedlegg: string[]): boolean => {

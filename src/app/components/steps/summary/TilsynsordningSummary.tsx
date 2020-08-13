@@ -1,12 +1,12 @@
 import React from 'react';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
-import Box from 'common/components/box/Box';
-import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
-import TextareaSummary from 'common/components/textarea-summary/TextareaSummary';
-import { Time } from 'common/types/Time';
-import intlHelper from 'common/utils/intlUtils';
-import { iso8601DurationToTime } from 'common/utils/timeUtils';
-import { hasValue } from 'common/validation/hasValue';
+import Box from '@sif-common/core/components/box/Box';
+import ContentWithHeader from '@sif-common/core/components/content-with-header/ContentWithHeader';
+import TextareaSummary from '@sif-common/core/components/textarea-summary/TextareaSummary';
+import { Time } from '@sif-common/core/types/Time';
+import intlHelper from '@sif-common/core/utils/intlUtils';
+import { iso8601DurationToTime } from '@sif-common/core/utils/timeUtils';
+import { hasValue } from '@sif-common/core/validation/hasValue';
 import { TilsynsordningApi, TilsynsordningApiJa } from '../../../types/PleiepengesøknadApiData';
 import { TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
 

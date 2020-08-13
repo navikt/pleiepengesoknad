@@ -1,15 +1,15 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import Panel from 'nav-frontend-paneler';
-import Box from 'common/components/box/Box';
-import { YesOrNo } from 'common/types/YesOrNo';
-import { dateToday } from 'common/utils/dateUtils';
-import intlHelper from 'common/utils/intlUtils';
-import { validateRequiredField, validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
+import Box from '@sif-common/core/components/box/Box';
+import { YesOrNo } from '@sif-common/core/types/YesOrNo';
+import { dateToday } from '@sif-common/core/utils/dateUtils';
+import intlHelper from '@sif-common/core/utils/intlUtils';
+import { validateRequiredField, validateYesOrNoIsAnswered } from '@sif-common/core/validation/fieldValidations';
 import { AppFormField, PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
 import AppForm from '../../app-form/AppForm';
 import FrilansEksempeltHtml from './FrilansEksempelHtml';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import ExpandableInfo from '@sif-common/core/components/expandable-content/ExpandableInfo';
 
 interface Props {
     formValues: PleiepengesøknadFormData;

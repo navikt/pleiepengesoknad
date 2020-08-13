@@ -1,9 +1,9 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { validateFødselsnummer } from '@navikt/sif-common-core/lib/validation/fieldValidations';
+import FormBlock from '@sif-common/core/components/form-block/FormBlock';
+import { dateToday } from '@sif-common/core/utils/dateUtils';
+import intlHelper from '@sif-common/core/utils/intlUtils';
+import { validateFødselsnummer } from '@sif-common/core/validation/fieldValidations';
 import { useFormikContext } from 'formik';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { validateFødselsdato, validateNavn } from '../../../validation/fieldValidations';

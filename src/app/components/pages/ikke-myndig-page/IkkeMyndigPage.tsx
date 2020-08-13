@@ -2,10 +2,10 @@ import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Lenke from 'nav-frontend-lenker';
 import { Innholdstittel } from 'nav-frontend-typografi';
-import Box from 'common/components/box/Box';
-import FrontPageBanner from 'common/components/front-page-banner/FrontPageBanner';
-import Page from 'common/components/page/Page';
-import intlHelper from 'common/utils/intlUtils';
+import Box from '@sif-common/core/components/box/Box';
+import FrontPageBanner from '@sif-common/core/components/front-page-banner/FrontPageBanner';
+import Page from '@sif-common/core/components/page/Page';
+import intlHelper from '@sif-common/core/utils/intlUtils';
 import getLenker from 'app/lenker';
 import './ikkeMyndigPage.less';
 

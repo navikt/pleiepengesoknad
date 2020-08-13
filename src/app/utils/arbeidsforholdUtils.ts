@@ -1,6 +1,6 @@
 import { FormikProps } from 'formik';
-import { YesOrNo } from 'common/types/YesOrNo';
-import { formatDateToApiFormat } from 'common/utils/dateUtils';
+import { YesOrNo } from '@sif-common/core/types/YesOrNo';
+import { formatDateToApiFormat } from '@sif-common/core/utils/dateUtils';
 import { getArbeidsgiver } from 'app/api/api';
 import { AppFormField, Arbeidsforhold, PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
 import { Arbeidsgiver, Søkerdata } from 'app/types/Søkerdata';

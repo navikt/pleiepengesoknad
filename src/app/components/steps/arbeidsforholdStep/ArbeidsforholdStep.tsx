@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import FormBlock from '@sif-common/core/components/form-block/FormBlock';
 import { useFormikContext } from 'formik';
 import AlertStripe from 'nav-frontend-alertstriper';
-import Box from 'common/components/box/Box';
-import BuildingIcon from 'common/components/building-icon/BuildingIconSvg';
-import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import LoadingSpinner from 'common/components/loading-spinner/LoadingSpinner';
+import Box from '@sif-common/core/components/box/Box';
+import BuildingIcon from '@sif-common/core/components/building-icon/BuildingIconSvg';
+import CounsellorPanel from '@sif-common/core/components/counsellor-panel/CounsellorPanel';
+import LoadingSpinner from '@sif-common/core/components/loading-spinner/LoadingSpinner';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { AppFormField, PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
 import { getArbeidsgivere } from 'app/utils/arbeidsforholdUtils';

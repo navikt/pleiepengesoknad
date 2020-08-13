@@ -1,5 +1,5 @@
-import { YesOrNo } from 'common/types/YesOrNo';
-import { validateFødselsnummer } from 'common/validation/fieldValidations';
+import { YesOrNo } from '@sif-common/core/types/YesOrNo';
+import { validateFødselsnummer } from '@sif-common/core/validation/fieldValidations';
 import { AppFormField, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import * as fieldValidations from '../fieldValidations';
 import {

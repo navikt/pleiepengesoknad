@@ -1,8 +1,8 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Normaltekst } from 'nav-frontend-typografi';
-import bemUtils from 'common/utils/bemUtils';
-import intlHelper from 'common/utils/intlUtils';
+import bemUtils from '@sif-common/core/utils/bemUtils';
+import intlHelper from '@sif-common/core/utils/intlUtils';
 import { ArbeidsforholdApi } from 'app/types/PleiepengesøknadApiData';
 import { calcRedusertProsentFromRedusertTimer } from '../../utils/arbeidsforholdUtils';
 import './arbeidsforholdSummary.less';

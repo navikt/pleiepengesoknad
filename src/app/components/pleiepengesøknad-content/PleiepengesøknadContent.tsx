@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
-import { apiStringDateToDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
+import { apiStringDateToDate } from '@sif-common/core/utils/dateUtils';
+import { formatName } from '@sif-common/core/utils/personUtils';
 import { useFormikContext } from 'formik';
 import { persist } from '../../api/api';
 import RouteConfig from '../../config/routeConfig';

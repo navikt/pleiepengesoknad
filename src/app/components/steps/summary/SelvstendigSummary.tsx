@@ -1,11 +1,11 @@
 import React from 'react';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
-import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
-import { harFiskerNæringstype } from '@navikt/sif-common-forms/lib/virksomhet/virksomhetUtils';
-import Box from 'common/components/box/Box';
-import SummaryList from 'common/components/summary-list/SummaryList';
-import TextareaSummary from 'common/components/textarea-summary/TextareaSummary';
-import intlHelper from 'common/utils/intlUtils';
+import { VirksomhetApiData } from '@sif-common/forms/virksomhet/types';
+import { harFiskerNæringstype } from '@sif-common/forms/virksomhet/virksomhetUtils';
+import Box from '@sif-common/core/components/box/Box';
+import SummaryList from '@sif-common/core/components/summary-list/SummaryList';
+import TextareaSummary from '@sif-common/core/components/textarea-summary/TextareaSummary';
+import intlHelper from '@sif-common/core/utils/intlUtils';
 import DatoSvar, { prettifyApiDate } from './DatoSvar';
 import IntlLabelValue from './IntlLabelValue';
 import JaNeiSvar from './JaNeiSvar';

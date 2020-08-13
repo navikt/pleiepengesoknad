@@ -1,7 +1,7 @@
-import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
-import { VirksomhetApiData } from 'common/forms/virksomhet/types';
-import { ApiStringDate } from 'common/types/ApiStringDate';
-import { Locale } from 'common/types/Locale';
+import { UtenlandsoppholdÅrsak } from '@sif-common/forms/utenlandsopphold/types';
+import { VirksomhetApiData } from '@sif-common/forms/virksomhet/types';
+import { ApiStringDate } from '@sif-common/core/types/ApiStringDate';
+import { Locale } from '@sif-common/core/types/Locale';
 import { TilsynVetIkkeHvorfor } from './PleiepengesøknadFormData';
 
 export type ISO8601Duration = string;

@@ -1,8 +1,8 @@
 import moment from 'moment';
-import { Attachment } from 'common/types/Attachment';
-import * as dateUtils from 'common/utils/dateUtils';
-import { createFieldValidationError, FieldValidationErrors } from 'common/validation/fieldValidations';
-import { hasValue } from 'common/validation/hasValue';
+import { Attachment } from '@sif-common/core/types/Attachment';
+import * as dateUtils from '@sif-common/core/utils/dateUtils';
+import { createFieldValidationError, FieldValidationErrors } from '@sif-common/core/validation/fieldValidations';
+import { hasValue } from '@sif-common/core/validation/hasValue';
 import {
     AppFieldValidationErrors,
     validateFradato,

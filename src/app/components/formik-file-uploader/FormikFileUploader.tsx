@@ -1,8 +1,5 @@
 import * as React from 'react';
-import { FormikValidateFunction } from '@navikt/sif-common-formik/lib';
-import { ArrayHelpers, connect, useFormikContext } from 'formik';
-import FormikFileInput from 'common/formik/components/formik-file-input/FormikFileInput';
-import { Attachment, PersistedFile } from 'common/types/Attachment';
+import { Attachment, PersistedFile } from '@sif-common/core/types/Attachment';
 import {
     attachmentShouldBeProcessed,
     attachmentShouldBeUploaded,
@@ -10,7 +7,9 @@ import {
     getPendingAttachmentFromFile,
     isFileObject,
     VALID_EXTENSIONS,
-} from 'common/utils/attachmentUtils';
+} from '@sif-common/core/utils/attachmentUtils';
+import { FormikFileInput, FormikValidateFunction } from '@sif-common/formik/';
+import { ArrayHelpers, connect, useFormikContext } from 'formik';
 import { uploadFile } from '../../api/api';
 import { AppFormField, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import * as apiUtils from '../../utils/apiUtils';

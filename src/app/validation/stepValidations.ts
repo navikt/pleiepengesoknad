@@ -1,6 +1,6 @@
-import { YesOrNo } from 'common/types/YesOrNo';
-import { validateFødselsnummer } from 'common/validation/fieldValidations';
-import { hasValue } from 'common/validation/hasValue';
+import { YesOrNo } from '@sif-common/core/types/YesOrNo';
+import { validateFødselsnummer } from '@sif-common/core/validation/fieldValidations';
+import { hasValue } from '@sif-common/core/validation/hasValue';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { validateNavn, validateValgtBarn } from './fieldValidations';
 

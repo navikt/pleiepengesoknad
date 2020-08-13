@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { Ferieuttak } from 'common/forms/ferieuttak/types';
-import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
-import { Virksomhet } from 'common/forms/virksomhet/types';
-import { Attachment } from 'common/types/Attachment';
-import { Time } from 'common/types/Time';
-import { YesOrNo } from 'common/types/YesOrNo';
+import { Ferieuttak } from '@sif-common/forms/ferieuttak/types';
+import { Utenlandsopphold } from '@sif-common/forms/utenlandsopphold/types';
+import { Virksomhet } from '@sif-common/forms/virksomhet/types';
+import { Attachment } from '@sif-common/core/types/Attachment';
+import { Time } from '@sif-common/core/types/Time';
+import { YesOrNo } from '@sif-common/core/types/YesOrNo';
 import { Arbeidsgiver } from './Søkerdata';
 
 export enum ArbeidsforholdSkalJobbeSvar {

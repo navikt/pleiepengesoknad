@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Normaltekst } from 'nav-frontend-typografi';
-import LanguageToggle from 'common/components/language-toggle/LanguageToggle';
-import { Locale } from 'common/types/Locale';
+import LanguageToggle from '@sif-common/core/components/language-toggle/LanguageToggle';
+import { Locale } from '@sif-common/core/types/Locale';
 import IntlProvider, { appBokmålstekster, appNynorsktekster } from '../intl-provider/IntlProvider';
-import ApplicationMessages from 'common/dev-utils/intl/application-messages/ApplicationMessages';
+import ApplicationMessages from '@sif-common/core/dev-utils/intl/application-messages/ApplicationMessages';
 
 interface ApplicationWrapperProps {
     locale: Locale;

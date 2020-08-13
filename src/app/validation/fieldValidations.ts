@@ -1,9 +1,9 @@
-import { Ferieuttak } from 'common/forms/ferieuttak/types';
-import { Utenlandsopphold } from 'common/forms/utenlandsopphold/types';
-import { Attachment } from 'common/types/Attachment';
-import { Time } from 'common/types/Time';
-import { YesOrNo } from 'common/types/YesOrNo';
-import { attachmentHasBeenUploaded } from 'common/utils/attachmentUtils';
+import { Ferieuttak } from '@sif-common/forms/ferieuttak/types';
+import { Utenlandsopphold } from '@sif-common/forms/utenlandsopphold/types';
+import { Attachment } from '@sif-common/core/types/Attachment';
+import { Time } from '@sif-common/core/types/Time';
+import { YesOrNo } from '@sif-common/core/types/YesOrNo';
+import { attachmentHasBeenUploaded } from '@sif-common/core/utils/attachmentUtils';
 import {
     date1YearAgo,
     date1YearFromNow,
@@ -13,15 +13,15 @@ import {
     dateRangesHasFromDateEqualPreviousRangeToDate,
     dateToday,
     isMoreThan3YearsAgo,
-} from 'common/utils/dateUtils';
-import { timeToDecimalTime } from 'common/utils/timeUtils';
+} from '@sif-common/core/utils/dateUtils';
+import { timeToDecimalTime } from '@sif-common/core/utils/timeUtils';
 import {
     createFieldValidationError,
     fieldIsRequiredError,
     FieldValidationErrors,
-} from 'common/validation/fieldValidations';
-import { hasValue } from 'common/validation/hasValue';
-import { FieldValidationResult } from 'common/validation/types';
+} from '@sif-common/core/validation/fieldValidations';
+import { hasValue } from '@sif-common/core/validation/hasValue';
+import { FieldValidationResult } from '@sif-common/core/validation/types';
 import { Arbeidsforhold, Tilsynsordning } from '../types/PleiepengesøknadFormData';
 import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';

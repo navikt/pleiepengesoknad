@@ -1,11 +1,11 @@
 import React from 'react';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
-import { FormikInput, FormikRadioPanelGroup, SkjemagruppeQuestion } from '@navikt/sif-common-formik/lib';
-import Box from 'common/components/box/Box';
-import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import intlHelper from 'common/utils/intlUtils';
-import { decimalTimeToTime } from 'common/utils/timeUtils';
-import { validateRequiredField, validateRequiredNumber } from 'common/validation/fieldValidations';
+import { FormikInput, FormikRadioPanelGroup, SkjemagruppeQuestion } from '@sif-common/formik/';
+import Box from '@sif-common/core/components/box/Box';
+import CounsellorPanel from '@sif-common/core/components/counsellor-panel/CounsellorPanel';
+import intlHelper from '@sif-common/core/utils/intlUtils';
+import { decimalTimeToTime } from '@sif-common/core/utils/timeUtils';
+import { validateRequiredField, validateRequiredNumber } from '@sif-common/core/validation/fieldValidations';
 import { validateReduserteArbeidTimer } from 'app/validation/fieldValidations';
 import { AppFormField, Arbeidsforhold, ArbeidsforholdField } from '../../types/PleiepengesøknadFormData';
 import {

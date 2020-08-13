@@ -1,19 +1,19 @@
 import * as React from 'react';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
-import ValidationErrorSummaryBase from '@navikt/sif-common-core/lib/components/validation-error-summary-base/ValidationErrorSummaryBase';
-import { hasValue } from '@navikt/sif-common-core/lib/validation/hasValue';
+import ValidationErrorSummaryBase from '@sif-common/core/components/validation-error-summary-base/ValidationErrorSummaryBase';
+import { hasValue } from '@sif-common/core/validation/hasValue';
 import Panel from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
-import Box from 'common/components/box/Box';
-import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
-import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import SummaryList from 'common/components/summary-list/SummaryList';
-import TextareaSummary from 'common/components/textarea-summary/TextareaSummary';
-import { HistoryProps } from 'common/types/History';
-import { Locale } from 'common/types/Locale';
-import { apiStringDateToDate, prettifyDate } from 'common/utils/dateUtils';
-import intlHelper from 'common/utils/intlUtils';
-import { formatName } from 'common/utils/personUtils';
+import Box from '@sif-common/core/components/box/Box';
+import ContentWithHeader from '@sif-common/core/components/content-with-header/ContentWithHeader';
+import CounsellorPanel from '@sif-common/core/components/counsellor-panel/CounsellorPanel';
+import SummaryList from '@sif-common/core/components/summary-list/SummaryList';
+import TextareaSummary from '@sif-common/core/components/textarea-summary/TextareaSummary';
+import { HistoryProps } from '@sif-common/core/types/History';
+import { Locale } from '@sif-common/core/types/Locale';
+import { apiStringDateToDate, prettifyDate } from '@sif-common/core/utils/dateUtils';
+import intlHelper from '@sif-common/core/utils/intlUtils';
+import { formatName } from '@sif-common/core/utils/personUtils';
 import ArbeidsforholdSummary from 'app/components/arbeidsforhold-summary/ArbeidsforholdSummary';
 import {
     renderFerieuttakIPeriodenSummary,

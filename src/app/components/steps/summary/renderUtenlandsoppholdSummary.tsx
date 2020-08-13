@@ -1,9 +1,9 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import SummaryList from '@navikt/sif-common-core/lib/components/summary-list/SummaryList';
-import { UtenlandsoppholdÅrsak } from 'common/forms/utenlandsopphold/types';
-import bemUtils from 'common/utils/bemUtils';
-import { apiStringDateToDate, prettifyDateExtended } from 'common/utils/dateUtils';
+import SummaryList from '@sif-common/core/components/summary-list/SummaryList';
+import { UtenlandsoppholdÅrsak } from '@sif-common/forms/utenlandsopphold/types';
+import bemUtils from '@sif-common/core/utils/bemUtils';
+import { apiStringDateToDate, prettifyDateExtended } from '@sif-common/core/utils/dateUtils';
 import {
     BostedUtlandApiData,
     FerieuttakIPeriodeApiData,
