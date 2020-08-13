@@ -136,11 +136,11 @@ class AppEssentialsLoader extends React.Component<Props, State> {
         } else if (!userIsCurrentlyOnErrorPage()) {
             appSentryLogger.logApiError(error);
             window.location.assign(routeConfig.ERROR_PAGE_ROUTE);
+            // this timeout is set because if isLoading is updated in the state too soon,
+            // the contentLoadedRenderer() will be called while the user is still on the wrong route,
+            // because the redirect to routeConfig.ERROR_PAGE_ROUTE will not have happened yet.
+            setTimeout(this.stopLoading, 200);
         }
-        // this timeout is set because if isLoading is updated in the state too soon,
-        // the contentLoadedRenderer() will be called while the user is still on the wrong route,
-        // because the redirect to routeConfig.ERROR_PAGE_ROUTE will not have happened yet.
-        setTimeout(this.stopLoading, 200);
     }
 
     updateArbeidsgivere(arbeidsgivere: Arbeidsgiver[]) {
