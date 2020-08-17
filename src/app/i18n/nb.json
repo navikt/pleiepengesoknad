@@ -8,6 +8,8 @@
     "common.varighet.separator--full": " og ",
     "common.varighet.separator--normal": ", ",
 
+    "application.title": "Søknad om pleiepenger for sykt barn eller person over 18 år",
+
     "Ja": "Ja",
     "Nei": "Nei",
     "VetIkke": "Jeg er usikker",
@@ -118,6 +120,10 @@
     "step.oppsummering.pageTitle": "Pleiepengesøknad - oppsummering",
     "step.oppsummering.stepTitle": "Oppsummering",
     "step.oppsummering.stepIndicatorLabel": "Oppsummering",
+
+    "page.unavailable.1": "Den digitale pleiepengesøknaden er dessverre ikke tilgjengelig på grunn av teknisk feil. Vi jobber med å løse feilen slik at du kan søke digitalt. Frem til vi får fikset dette, kan du fylle ut vårt",
+    "page.unavailable.2": "papirskjema for pleiepenger sykt barn",
+    "page.unavailable.3": "Vi beklager.",
 
     "introPage.tittel": "Søknad om pleiepenger - kan jeg bruke den digitale søknaden",
     "introPage.stegTittel": "Kan jeg bruke den digitale pleiepengesøknaden?",
@@ -370,5 +376,49 @@
     "tilsynsordning.timerPerDag.timerOgMinutter": "{hours}t {minutes}m",
     "tilsynsordning.timerPerDag.timer": "{hours}t",
     "tilsynsordning.timerPerDag.minutter": "{minutes}m",
-    "tilsynsordning.ingenDagerValgt": "Ingen dager med tilsyn er registrert"
+    "tilsynsordning.ingenDagerValgt": "Ingen dager med tilsyn er registrert",
+
+    "næringstype.FISKE": "Fiske",
+    "næringstype.JORDBRUK_SKOGBRUK": "Jordbruk",
+    "næringstype.DAGMAMMA": "Dagmamma eller familiebarnehage i eget hjem",
+    "næringstype.ANNEN": "Annen virksomhet",
+
+    "fiskerinfo.LOTT": "Lott",
+    "fiskerinfo.HYRE": "Hyre",
+    "fiskerinfo.BLAD_A": "Blad A",
+    "fiskerinfo.BLAD_B": "Blad B",
+
+    "summary.virksomhet.næringstype": "Næringstype",
+    "summary.virksomhet.fiskerErPåBladB": "Fisker på blad B",
+    "summary.virksomhet.registrertILand": "Registrert i",
+    "summary.virksomhet.orgnr": "Organisasjonsnummer",
+    "summary.virksomhet.inntekt": "Næringsinntekt",
+    "summary.virksomhet.opprettet": "Startet",
+    "summary.virksomhet.avsluttet": "Avsluttet",
+    "summary.virksomhet.pågående": "pågående",
+    "summary.virksomhet.varigEndring": "Har hatt en varig endring i arbeidsforholdet ditt, virksomheten eller arbeidssituasjonen din de siste fire årene",
+    "summary.virksomhet.varigEndring.dato": "Dato for endring",
+    "summary.virksomhet.varigEndring.endretInntekt": "Næringsinntekt etter endring",
+    "summary.virksomhet.varigEndring.forklaring": "Endring",
+    "summary.virksomhet.yrkesaktivSisteTreÅr": "Har begynt å jobbe i løpet av de tre siste ferdigliknede",
+    "summary.virksomhet.yrkesaktivSisteTreÅr.dato": "Ble yrkesaktiv",
+    "summary.virksomhet.harRegnskapsfører": "Har regnskapsfører",
+    "summary.virksomhet.harRevisor": "Har revisor",
+    "summary.virksomhet.regnskapsfører": "Regnskapsfører",
+    "summary.virksomhet.revisor": "Revisor",
+    "summary.virksomhet.revisorEllerRegnskapsførerDetaljer": "{navn}, telefon: {telefon}.",
+    "summary.virksomhet.revisor.kanInnhenteOpplysninger": "Kan innhente opplysninger",
+
+    "selvstendig.harDuHattInntekt.spm": "Har du hatt inntekt som selvstendig næringsdrivende siste 4 uker?",
+    "selvstendig.list.tittel": "Dine registrerte næringsvirksomheter",
+    "selvstendig.list.leggTilLabel": "Legg til næringsvirksomhet",
+    "selvstendig.dialog.tittel": "Næringsvirksomhet",
+    "selvstendig.summary.harDuHattInntekt.header": "Har du hatt inntekt som selvstendig næringsdrivende siste 4 uker?",
+
+    "frilanser.harDuHattInntekt.spm": "Har du jobbet og hatt inntekt som frilanser de siste 4 ukene?",
+    "frilanser.nårStartet.spm": "Når startet du som frilanser?",
+    "frilanser.jobberFortsatt.spm": "Jobber du fortsatt som frilanser?",
+    "frilanser.summary.harDuHattInntekt.header": "Har du jobbet og hatt inntekt som frilanser de siste 4 ukene?",
+    "frilanser.summary.nårStartet.header": "Når startet du som frilanser?",
+    "frilanser.summary.jobberFortsatt.header": "Jobber du fortsatt som frilanser?"
 }

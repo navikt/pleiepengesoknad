@@ -10,12 +10,13 @@ import { MELLOMLAGRING_VERSION, MellomlagringData } from '../../types/storage';
 import { Arbeidsgiver, Søkerdata } from '../../types/Søkerdata';
 import * as apiUtils from '../../utils/apiUtils';
 import appSentryLogger from '../../utils/appSentryLogger';
-import { navigateToLoginPage, userIsCurrentlyOnErrorPage } from '../../utils/navigationUtils';
+import { navigateToLoginPage, userIsCurrentlyOnErrorPage, navigateToErrorPage } from '../../utils/navigationUtils';
 import LoadingPage from '../pages/loading-page/LoadingPage';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 export const VERIFY_MELLOMLAGRING_VERSION = true;
 
-interface Props {
+interface OwnProps {
     contentLoadedRenderer: (
         formdata: PleiepengesøknadFormData,
         lastStepID?: StepID,
@@ -29,6 +30,8 @@ interface State {
     formdata: PleiepengesøknadFormData;
     søkerdata?: Søkerdata;
 }
+
+type Props = OwnProps & RouteComponentProps;
 
 const getValidAttachments = (attachments: Attachment[] = []): Attachment[] => {
     return attachments.filter((a) => {
@@ -101,7 +104,8 @@ class AppEssentialsLoader extends React.Component<Props, State> {
             () => {
                 this.stopLoading();
                 if (userIsCurrentlyOnErrorPage()) {
-                    window.location.assign(routeConfig.WELCOMING_PAGE_ROUTE);
+                    navigateToErrorPage(this.props.history);
+                    // window.location.assign(routeConfig.WELCOMING_PAGE_ROUTE);
                 }
             }
         );
@@ -173,4 +177,4 @@ class AppEssentialsLoader extends React.Component<Props, State> {
     }
 }
 
-export default AppEssentialsLoader;
+export default withRouter(AppEssentialsLoader);

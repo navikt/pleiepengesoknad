@@ -5,28 +5,32 @@ import '@formatjs/intl-pluralrules/dist/locale-data/nn';
 import '@formatjs/intl-pluralrules/polyfill';
 import bostedMessages from '@navikt/sif-common-forms/lib/bosted-utland/bostedUtlandMessages';
 import utenlandsoppholdMessages from '@navikt/sif-common-forms/lib/utenlandsopphold/utenlandsoppholdMessages';
+import virksomhetMessages from '@navikt/sif-common-forms/lib/virksomhet/virksomhetMessages';
+import tidsperiodeMessages from '@navikt/sif-common-forms/lib/tidsperiode/tidsperiodeMessages';
+import ferieuttakMessages from '@navikt/sif-common-forms/lib/ferieuttak/ferieuttakMessages';
 import { allCommonMessages } from 'common/i18n/allCommonMessages';
 import { Locale } from 'common/types/Locale';
 
-const selvstendigMessagesNb = require('../../i18n/selvstendigOgFrilans.nb.json');
-const selvstendigMessagesNn = require('../../i18n/selvstendigOgFrilans.nn.json');
-
-const appBokmålstekster = require('../../i18n/nb.json');
-const appNynorsktekster = require('../../i18n/nn.json');
+export const appBokmålstekster = require('../../i18n/nb.json');
+export const appNynorsktekster = require('../../i18n/nn.json');
 
 const bokmålstekster = {
     ...allCommonMessages.nb,
     ...utenlandsoppholdMessages.nb,
-    ...appBokmålstekster,
     ...bostedMessages.nb,
-    ...selvstendigMessagesNb,
+    ...virksomhetMessages.nb,
+    ...tidsperiodeMessages.nb,
+    ...ferieuttakMessages.nb,
+    ...appBokmålstekster,
 };
 const nynorsktekster = {
     ...allCommonMessages.nn,
     ...utenlandsoppholdMessages.nn,
-    ...appNynorsktekster,
     ...bostedMessages.nn,
-    ...selvstendigMessagesNn,
+    ...virksomhetMessages.nn,
+    ...tidsperiodeMessages.nn,
+    ...ferieuttakMessages.nn,
+    ...appNynorsktekster,
 };
 
 export interface IntlProviderProps {

@@ -11,8 +11,6 @@ import {
 import { DateTidsperiode } from '@navikt/sif-common-forms/lib/tidsperiode';
 
 const mapBarnInnlagtPeriodeToApiFormat = (periode: DateTidsperiode): PeriodeBarnetErInnlagtApiFormat => {
-    console.log(periode);
-
     return {
         fraOgMed: formatDateToApiFormat(periode.fom),
         tilOgMed: formatDateToApiFormat(periode.tom),
@@ -32,8 +30,6 @@ export const mapUtenlandsoppholdIPeriodenToApiData = (
     };
 
     if (erUtenforEØS && opphold.årsak && opphold.barnInnlagtPerioder) {
-        console.log('hjey');
-
         const periodeopphold: UtenlandsoppholdUtenforEøsIPeriodenApiData = {
             ...apiData,
             erUtenforEøs: erUtenforEØS,
