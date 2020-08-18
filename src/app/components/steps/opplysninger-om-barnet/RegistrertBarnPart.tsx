@@ -8,12 +8,12 @@ import { resetFieldValue, resetFieldValues } from '@navikt/sif-common-formik/lib
 import { useFormikContext } from 'formik';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { AppFormField, initialValues, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { BarnReceivedFromApi } from '../../../types/Søkerdata';
 import { validateValgtBarn } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
+import { Barn } from '../../../types/ListeAvBarn';
 
 interface Props {
-    søkersBarn: BarnReceivedFromApi[];
+    søkersBarn: Barn[];
 }
 
 const RegistrertBarnPart = ({ søkersBarn }: Props) => {

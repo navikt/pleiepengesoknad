@@ -1,10 +1,10 @@
 import { formatDateToApiFormat } from 'common/utils/dateUtils';
 import { formatName } from 'common/utils/personUtils';
 import { BarnToSendToApi } from '../../types/PleiepengesøknadApiData';
-import { BarnReceivedFromApi } from '../../types/Søkerdata';
+import { Barn } from '../../types/ListeAvBarn';
 
 export const mapBarnToApiData = (
-    barn: BarnReceivedFromApi[],
+    barn: Barn[],
     barnetsNavn: string,
     barnetsFødselsnummer: string | undefined,
     barnetsFødselsdato: Date | undefined,
