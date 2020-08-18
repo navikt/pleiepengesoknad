@@ -7,15 +7,15 @@ import intlHelper from '@sif-common/core/utils/intlUtils';
 import { formatName } from '@sif-common/core/utils/personUtils';
 import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { BarnReceivedFromApi } from '../../../types/Søkerdata';
+import { Barn } from '../../../types/ListeAvBarn';
 
 interface Props {
-    barn: BarnReceivedFromApi[];
+    barn: Barn[];
     formValues: PleiepengesøknadFormData;
     apiValues: PleiepengesøknadApiData;
 }
 
-const apiBarnSummary = (apiBarn: BarnReceivedFromApi) => (
+const apiBarnSummary = (apiBarn: Barn) => (
     <>
         <Normaltekst>
             <FormattedMessage

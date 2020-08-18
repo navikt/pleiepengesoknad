@@ -21,10 +21,11 @@ import {
     ArbeidsforholdSkalJobbeSvar,
     PleiepengesøknadFormData,
 } from '../../types/PleiepengesøknadFormData';
-import { Arbeidsgiver, BarnReceivedFromApi } from '../../types/Søkerdata';
+import { Arbeidsgiver} from '../../types/Søkerdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
 import { jsonSort } from '../jsonSort';
 import { getValidSpråk, mapFormDataToApiData } from '../mapFormDataToApiData';
+import { Barn } from '../../types/ListeAvBarn';
 
 const moment = require('moment');
 
@@ -42,7 +43,7 @@ jest.mock('./../featureToggleUtils.ts', () => ({
 const todaysDate = moment().startOf('day').toDate();
 
 const barnsFødselsdato = new Date(2020, 0, 20);
-const barnMock: BarnReceivedFromApi[] = [
+const barnMock: Barn[] = [
     { fødselsdato: barnsFødselsdato, fornavn: 'Mock', etternavn: 'Mocknes', aktørId: '123', harSammeAdresse: true },
 ];
 

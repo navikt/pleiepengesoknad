@@ -1,15 +1,9 @@
+import { Barn } from './ListeAvBarn';
+import { PersonResponse } from './PersonResponse';
+
 export enum HoursOrPercent {
     'hours' = 'hours',
     'percent' = 'percent',
-}
-
-export interface BarnReceivedFromApi {
-    fornavn: string;
-    etternavn: string;
-    mellomnavn?: string;
-    aktørId: string;
-    fødselsdato: Date;
-    harSammeAdresse?: boolean;
 }
 
 export interface Arbeidsgiver {
@@ -17,18 +11,9 @@ export interface Arbeidsgiver {
     organisasjonsnummer: string;
 }
 
-export interface Person {
-    etternavn: string;
-    fornavn: string;
-    mellomnavn: string;
-    kjønn: string;
-    fødselsnummer: string;
-    myndig: boolean;
-}
-
 export interface Søkerdata {
-    person: Person;
-    barn: BarnReceivedFromApi[];
+    person: PersonResponse;
+    barn: Barn[];
     setArbeidsgivere: (arbeidsgivere: Arbeidsgiver[]) => void;
     arbeidsgivere?: Arbeidsgiver[];
 }

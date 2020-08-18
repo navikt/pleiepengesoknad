@@ -1,6 +1,6 @@
-import { BarnReceivedFromApi } from '../../types/Søkerdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
 import { brukerSkalBekrefteOmsorgForBarnet, søkerHarValgtRegistrertBarn } from '../tidsromUtils';
+import { Barn } from '../../types/ListeAvBarn';
 
 jest.mock('../featureToggleUtils.ts', () => ({
     isFeatureEnabled: jest.fn(),
@@ -22,7 +22,7 @@ describe('omsorgForBarnet', () => {
     });
 
     const barnAktørId = '123';
-    const barn: BarnReceivedFromApi = {
+    const barn: Barn = {
         fornavn: 'barn',
         etternavn: 'etternavn',
         aktørId: barnAktørId,
