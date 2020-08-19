@@ -57,22 +57,20 @@ export const AppEssentials = (props: Props) => {
               legeerklæring: getValidAttachments(mellomlagring.formData.legeerklæring),
           }
         : initialValues;
-
+    const søkerdata: Søkerdata = {
+        person: person,
+        barn: barn,
+        setArbeidsgivere: updateArbeidsgivere,
+        arbeidsgivere: state.arbeidsgivere,
+    };
     return (
         <>
-            <SøkerdataContextProvider
-                value={{
-                    person: person,
-                    barn: barn,
-                    setArbeidsgivere: updateArbeidsgivere,
-                    arbeidsgivere: state.arbeidsgivere,
-                }}>
-                {contentLoadedRenderer(formData || { ...initialValues }, mellomlagring?.metadata?.lastStepID, {
-                    person: person,
-                    barn: barn,
-                    setArbeidsgivere: updateArbeidsgivere,
-                    arbeidsgivere: state.arbeidsgivere,
-                })}
+            <SøkerdataContextProvider value={søkerdata}>
+                {contentLoadedRenderer(
+                    formData || { ...initialValues },
+                    mellomlagring?.metadata?.lastStepID,
+                    søkerdata
+                )}
             </SøkerdataContextProvider>
         </>
     );
