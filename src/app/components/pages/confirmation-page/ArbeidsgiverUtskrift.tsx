@@ -25,14 +25,14 @@ const ArbeidsgiverUtskrift = ({ arbeidsgiver, søkernavn, fom, tom }: Props) => 
                 {søkernavn} er ansatt hos {arbeidsgiver}
             </strong>
         </p>
-        <p>
+        <div>
             <strong>{søkernavn} søker om Pleiepenger for perioden:</strong>
             <ul>
                 <li>
                     <strong>{prettifyDate(fom)}</strong> til <strong>{prettifyDate(tom)}</strong>
                 </li>
             </ul>
-        </p>
+        </div>
         <Box margin="xl">
             <AlertStripeInfo className={bem.element('frist')}>
                 <p>

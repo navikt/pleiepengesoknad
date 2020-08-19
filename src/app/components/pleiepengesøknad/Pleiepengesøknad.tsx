@@ -2,7 +2,7 @@ import * as React from 'react';
 import { TypedFormikWrapper } from '@navikt/sif-common-formik/lib';
 import { StepID } from '../../config/stepConfig';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
-import AppEssentialsLoader from '../app-essentials-loader/AppEssentialsLoader';
+import AppEssentials from '../app-essentials-loader/AppEssentials';
 import IkkeMyndigPage from '../pages/ikke-myndig-page/IkkeMyndigPage';
 import PleiepengesøknadContent from '../pleiepengesøknad-content/PleiepengesøknadContent';
 import Fetcher3 from '../../utils/fetcher/Fetcher3';
@@ -13,6 +13,7 @@ import HandleUnauthorized from '../../utils/handleUnauthorized/HandleUnauthorize
 import LoadingPage from '../pages/loading-page/LoadingPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import { Søkerdata } from '../../types/Søkerdata';
+import { FormikProps } from 'formik';
 
 const Pleiepengesøknad = () => (
     <Fetcher3<PersonResponse, BarnResponse, MellomlagringData>
@@ -33,7 +34,7 @@ const Pleiepengesøknad = () => (
             MellomlagringData
         ]) => {
             return (
-                <AppEssentialsLoader
+                <AppEssentials
                     person={personResponse}
                     barn={barnResponse.barn}
                     mellomlagringData={mellomlagringData}
@@ -52,7 +53,9 @@ const Pleiepengesøknad = () => (
                             <TypedFormikWrapper<PleiepengesøknadFormData>
                                 initialValues={formdata}
                                 onSubmit={() => null}
-                                renderForm={() => <PleiepengesøknadContent lastStepID={lastStepID} />}
+                                renderForm={(formikProps: FormikProps<PleiepengesøknadFormData>) => (
+                                    <PleiepengesøknadContent lastStepID={lastStepID} formikProps={formikProps} />
+                                )}
                             />
                         );
                     }}
