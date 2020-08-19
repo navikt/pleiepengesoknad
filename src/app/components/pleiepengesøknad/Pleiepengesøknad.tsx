@@ -18,50 +18,46 @@ import { FormikProps } from 'formik';
 const Pleiepengesøknad = () => (
     <Fetcher3<PersonResponse, BarnResponse, MellomlagringData>
         recipies={[fetchPersonResponseRecipe, fetchBarnResponseRecipe, fetchMellomlagringDataRecipe]}
-        error={(error) => {
-            return (
-                <HandleUnauthorized
-                    error={error}
-                    onWillRedirect={() => <LoadingPage />}
-                    handleError={() => <GeneralErrorPage />}
-                />
-            );
-        }}
+        error={(error) => (
+            <HandleUnauthorized
+                error={error}
+                onWillRedirect={() => <LoadingPage />}
+                handleError={() => <GeneralErrorPage />}
+            />
+        )}
         loading={() => <LoadingPage />}
         success={([personResponse, barnResponse, mellomlagringData]: [
             PersonResponse,
             BarnResponse,
             MellomlagringData
-        ]) => {
-            return (
-                <AppEssentials
-                    person={personResponse}
-                    barn={barnResponse.barn}
-                    mellomlagringData={mellomlagringData}
-                    contentLoadedRenderer={(
-                        formdata: PleiepengesøknadFormData,
-                        lastStepID: StepID,
-                        søkerdata: Søkerdata | undefined
-                    ) => {
-                        if (søkerdata) {
-                            const { person } = søkerdata;
-                            if (!person.myndig) {
-                                return <IkkeMyndigPage />;
-                            }
+        ]) => (
+            <AppEssentials
+                person={personResponse}
+                barn={barnResponse.barn}
+                mellomlagringData={mellomlagringData}
+                contentLoadedRenderer={(
+                    formdata: PleiepengesøknadFormData,
+                    lastStepID: StepID,
+                    søkerdata: Søkerdata | undefined
+                ) => {
+                    if (søkerdata) {
+                        const { person } = søkerdata;
+                        if (!person.myndig) {
+                            return <IkkeMyndigPage />;
                         }
-                        return (
-                            <TypedFormikWrapper<PleiepengesøknadFormData>
-                                initialValues={formdata}
-                                onSubmit={() => null}
-                                renderForm={(formikProps: FormikProps<PleiepengesøknadFormData>) => (
-                                    <PleiepengesøknadContent lastStepID={lastStepID} formikProps={formikProps} />
-                                )}
-                            />
-                        );
-                    }}
-                />
-            );
-        }}
+                    }
+                    return (
+                        <TypedFormikWrapper<PleiepengesøknadFormData>
+                            initialValues={formdata}
+                            onSubmit={() => null}
+                            renderForm={(formikProps: FormikProps<PleiepengesøknadFormData>) => (
+                                <PleiepengesøknadContent lastStepID={lastStepID} formikProps={formikProps} />
+                            )}
+                        />
+                    );
+                }}
+            />
+        )}
     />
 );
 export default Pleiepengesøknad;
