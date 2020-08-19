@@ -42,8 +42,7 @@ const getValidMellomlagring = (data?: MellomlagringData): MellomlagringData | un
     return data;
 };
 
-// TODO: Rename
-export const AppEssentialsLoader = (props: Props) => {
+export const AppEssentials = (props: Props) => {
     const { person, barn, mellomlagringData, contentLoadedRenderer } = props;
     const [state, setState] = useState<State>({});
 
@@ -79,4 +78,4 @@ export const AppEssentialsLoader = (props: Props) => {
     );
 };
 
-export default AppEssentialsLoader;
+export default AppEssentials;

@@ -149,9 +149,7 @@ class SummaryStep extends React.Component<Props, State> {
                                 <Panel border={true}>
                                     <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.søker.header')}>
                                         <Normaltekst>{formatName(fornavn, etternavn, mellomnavn)}</Normaltekst>
-                                        <Normaltekst>
-                                            <Normaltekst>Fødselsnummer: {fødselsnummer}</Normaltekst>
-                                        </Normaltekst>
+                                        <Normaltekst>Fødselsnummer: {fødselsnummer}</Normaltekst>
                                     </ContentWithHeader>
                                     <Box margin="l">
                                         <ContentWithHeader

@@ -1,15 +1,16 @@
 import * as React from 'react';
-import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
-import { apiStringDateToDate } from '@sif-common/core/utils/dateUtils';
-import { formatName } from '@sif-common/core/utils/personUtils';
-import { useFormikContext } from 'formik';
-import { persist } from '../../api/api';
+import { useState } from 'react';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import { apiStringDateToDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
+import { FormikProps, useFormikContext } from 'formik';
+import { isForbiddenOrUnauthorizedAndWillRedirectToLogin, persist, purge } from '../../api/api';
 import RouteConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';
 import { ArbeidsforholdApi, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
-import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { initialValues, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { Søkerdata } from '../../types/Søkerdata';
-import { navigateTo, redirectTo } from '../../utils/navigationUtils';
+import { navigateTo, navigateToWelcomePage, redirectTo } from '../../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../../utils/routeUtils';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
@@ -23,9 +24,12 @@ import OpplysningerOmBarnetStep from '../steps/opplysninger-om-barnet/Opplysning
 import SummaryStep from '../steps/summary/SummaryStep';
 import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromStep';
 import TilsynsordningStep from '../steps/tilsynsordning/TilsynsordningStep';
+import FortsettSøknadModalView from '../fortsett-søknad-modal/FortsettSøknadModalView';
+import LoadingPage from '../pages/loading-page/LoadingPage';
 
 interface PleiepengesøknadContentProps {
     lastStepID: StepID;
+    formikProps: FormikProps<PleiepengesøknadFormData>;
 }
 
 export interface KvitteringInfo {
@@ -52,13 +56,26 @@ const getKvitteringInfoFromApiData = (
     return undefined;
 };
 
-const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps) => {
+const ifAvailable = (stepID: StepID, values: PleiepengesøknadFormData, component: JSX.Element): JSX.Element => {
+    if (isAvailable(stepID, values)) {
+        return component;
+    } else {
+        navigateToWelcomePage();
+        return <LoadingPage />;
+    }
+};
+
+const PleiepengesøknadContent = ({ lastStepID, formikProps }: PleiepengesøknadContentProps) => {
     const location = useLocation();
-    const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
-    const [kvitteringInfo, setKvitteringInfo] = React.useState<KvitteringInfo | undefined>(undefined);
+    const history = useHistory();
     const { values, resetForm } = useFormikContext<PleiepengesøknadFormData>();
 
-    const history = useHistory();
+    const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
+    const [kvitteringInfo, setKvitteringInfo] = React.useState<KvitteringInfo | undefined>(undefined);
+    const [hasBeenClosed, setHasBeenClosed] = useState<boolean>(false);
+    const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [buttonsAreDisabled, setButtonsAreDisabled] = useState<boolean>(false);
 
     if (location.pathname === RouteConfig.WELCOMING_PAGE_ROUTE) {
         const nextStepRoute = getNextStepRoute(lastStepID, values);
@@ -77,98 +94,175 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
         });
     };
 
+    const fortsettPåPåbegyntSøknad = async (): Promise<void> => {
+        setButtonsAreDisabled(true);
+        if (lastStepID) {
+            await navigateTo(lastStepID, history);
+        } else {
+            // TODO: Handle. Something went wrong.
+        }
+        setButtonsAreDisabled(false);
+    };
+
+    const startPåNySøknad = async (): Promise<void> => {
+        setButtonsAreDisabled(true);
+        try {
+            await purge();
+            setHasBeenClosed(true);
+            formikProps.setFormikState((prevState) => {
+                return {
+                    ...prevState,
+                    values: initialValues,
+                };
+            });
+        } catch (e) {
+            const willRedirect: boolean = await isForbiddenOrUnauthorizedAndWillRedirectToLogin(e);
+            if (willRedirect) {
+                setShowErrorMessage(true);
+            } else {
+                setIsLoading(true);
+            }
+        }
+        setButtonsAreDisabled(false);
+    };
+    if (isLoading) {
+        return <LoadingPage />;
+    }
+    if (showErrorMessage) {
+        return <GeneralErrorPage />;
+    }
     return (
         <Switch>
             <Route
                 path={RouteConfig.WELCOMING_PAGE_ROUTE}
                 render={() => (
-                    <WelcomingPage
-                        onValidSubmit={() =>
-                            setTimeout(() => {
-                                navigateTo(
-                                    `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.OPPLYSNINGER_OM_BARNET}`,
-                                    history
-                                );
-                            })
-                        }
-                    />
+                    <div>
+                        <WelcomingPage
+                            onValidSubmit={() =>
+                                setTimeout(() => {
+                                    navigateTo(
+                                        `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.OPPLYSNINGER_OM_BARNET}`,
+                                        history
+                                    );
+                                })
+                            }
+                        />
+                        <FortsettSøknadModalView
+                            isOpen={!!lastStepID && !hasBeenClosed}
+                            buttonsAreDisabled={buttonsAreDisabled}
+                            onRequestClose={startPåNySøknad}
+                            onFortsettPåSøknad={fortsettPåPåbegyntSøknad}
+                            onStartNySøknad={startPåNySøknad}
+                        />
+                    </div>
                 )}
             />
 
-            {isAvailable(StepID.OPPLYSNINGER_OM_BARNET, values) && (
-                <Route
-                    path={getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET)}
-                    render={() => (
+            <Route
+                path={getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET)}
+                exact={true}
+                render={() =>
+                    ifAvailable(
+                        StepID.OPPLYSNINGER_OM_BARNET,
+                        values,
                         <OpplysningerOmBarnetStep
                             onValidSubmit={() => navigateToNextStep(StepID.OPPLYSNINGER_OM_BARNET)}
                         />
-                    )}
-                />
-            )}
+                    )
+                }
+            />
 
-            {isAvailable(StepID.TIDSROM, values) && (
-                <Route
-                    path={getSøknadRoute(StepID.TIDSROM)}
-                    render={() => (
+            <Route
+                path={getSøknadRoute(StepID.TIDSROM)}
+                exact={true}
+                render={() =>
+                    ifAvailable(
+                        StepID.TIDSROM,
+                        values,
                         <OpplysningerOmTidsromStep onValidSubmit={() => navigateToNextStep(StepID.TIDSROM)} />
-                    )}
-                />
-            )}
+                    )
+                }
+            />
 
-            {isAvailable(StepID.ARBEIDSFORHOLD, values) && (
-                <Route
-                    path={getSøknadRoute(StepID.ARBEIDSFORHOLD)}
-                    render={() => (
+            <Route
+                path={getSøknadRoute(StepID.ARBEIDSFORHOLD)}
+                exact={true}
+                render={() =>
+                    ifAvailable(
+                        StepID.ARBEIDSFORHOLD,
+                        values,
                         <ArbeidsforholdStep onValidSubmit={() => navigateToNextStep(StepID.ARBEIDSFORHOLD)} />
-                    )}
-                />
-            )}
+                    )
+                }
+            />
 
-            {isAvailable(StepID.OMSORGSTILBUD, values) && (
-                <Route
-                    path={getSøknadRoute(StepID.OMSORGSTILBUD)}
-                    render={() => {
-                        return <TilsynsordningStep onValidSubmit={() => navigateToNextStep(StepID.OMSORGSTILBUD)} />;
-                    }}
-                />
-            )}
+            <Route
+                path={getSøknadRoute(StepID.OMSORGSTILBUD)}
+                exact={true}
+                render={() =>
+                    ifAvailable(
+                        StepID.OMSORGSTILBUD,
+                        values,
+                        <TilsynsordningStep onValidSubmit={() => navigateToNextStep(StepID.OMSORGSTILBUD)} />
+                    )
+                }
+            />
 
-            {isAvailable(StepID.NATTEVÅK, values) && (
-                <Route
-                    path={getSøknadRoute(StepID.NATTEVÅK)}
-                    render={() => {
-                        return <NattevåkStep onValidSubmit={() => navigateToNextStep(StepID.NATTEVÅK)} />;
-                    }}
-                />
-            )}
+            <Route
+                path={getSøknadRoute(StepID.NATTEVÅK)}
+                exact={true}
+                render={() => {
+                    return ifAvailable(
+                        StepID.NATTEVÅK,
+                        values,
+                        <NattevåkStep onValidSubmit={() => navigateToNextStep(StepID.NATTEVÅK)} />
+                    );
+                }}
+            />
 
-            {isAvailable(StepID.BEREDSKAP, values) && (
-                <Route
-                    path={getSøknadRoute(StepID.BEREDSKAP)}
-                    render={() => {
-                        return <BeredskapStep onValidSubmit={() => navigateToNextStep(StepID.BEREDSKAP)} />;
-                    }}
-                />
-            )}
+            <Route
+                path={getSøknadRoute(StepID.BEREDSKAP)}
+                exact={true}
+                render={() =>
+                    ifAvailable(
+                        StepID.BEREDSKAP,
+                        values,
+                        <BeredskapStep onValidSubmit={() => navigateToNextStep(StepID.BEREDSKAP)} />
+                    )
+                }
+            />
 
-            {isAvailable(StepID.MEDLEMSKAP, values) && (
-                <Route
-                    path={getSøknadRoute(StepID.MEDLEMSKAP)}
-                    render={() => <MedlemsskapStep onValidSubmit={() => navigateToNextStep(StepID.MEDLEMSKAP)} />}
-                />
-            )}
+            <Route
+                path={getSøknadRoute(StepID.MEDLEMSKAP)}
+                exact={true}
+                render={() =>
+                    ifAvailable(
+                        StepID.MEDLEMSKAP,
+                        values,
+                        <MedlemsskapStep onValidSubmit={() => navigateToNextStep(StepID.MEDLEMSKAP)} />
+                    )
+                }
+            />
 
-            {isAvailable(StepID.LEGEERKLÆRING, values) && (
-                <Route
-                    path={getSøknadRoute(StepID.LEGEERKLÆRING)}
-                    render={() => <LegeerklæringStep onValidSubmit={() => navigateToNextStep(StepID.LEGEERKLÆRING)} />}
-                />
-            )}
+            <Route
+                path={getSøknadRoute(StepID.LEGEERKLÆRING)}
+                exact={true}
+                render={() =>
+                    ifAvailable(
+                        StepID.LEGEERKLÆRING,
+                        values,
+                        <LegeerklæringStep onValidSubmit={() => navigateToNextStep(StepID.LEGEERKLÆRING)} />
+                    )
+                }
+            />
 
-            {isAvailable(StepID.SUMMARY, values) && (
-                <Route
-                    path={getSøknadRoute(StepID.SUMMARY)}
-                    render={() => (
+            <Route
+                path={getSøknadRoute(StepID.SUMMARY)}
+                exact={true}
+                render={() =>
+                    ifAvailable(
+                        StepID.SUMMARY,
+                        values,
                         <SummaryStep
                             history={history}
                             values={values}
@@ -180,19 +274,29 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
                                 navigateTo(RouteConfig.SØKNAD_SENDT_ROUTE, history);
                             }}
                         />
-                    )}
-                />
-            )}
+                    )
+                }
+            />
 
-            {isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, values, søknadHasBeenSent) && (
-                <Route
-                    path={RouteConfig.SØKNAD_SENDT_ROUTE}
-                    render={() => <ConfirmationPage kvitteringInfo={kvitteringInfo} />}
-                />
-            )}
+            <Route
+                path={RouteConfig.SØKNAD_SENDT_ROUTE}
+                render={() => {
+                    if (søknadHasBeenSent && kvitteringInfo) {
+                        return <ConfirmationPage kvitteringInfo={kvitteringInfo} />;
+                    } else {
+                        navigateToWelcomePage();
+                        return <LoadingPage />;
+                    }
+                }}
+            />
 
-            <Route path={RouteConfig.ERROR_PAGE_ROUTE} component={GeneralErrorPage} />
-            <Redirect to={RouteConfig.WELCOMING_PAGE_ROUTE} />
+            <Route
+                path={RouteConfig.SØKNAD_ROUTE_PREFIX}
+                component={(): JSX.Element => {
+                    navigateToWelcomePage();
+                    return <LoadingPage />;
+                }}
+            />
         </Switch>
     );
 };

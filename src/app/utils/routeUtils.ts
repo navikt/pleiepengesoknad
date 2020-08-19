@@ -14,12 +14,7 @@ import {
     tilsynsordningStepAvailable,
 } from './stepUtils';
 
-export const getSøknadRoute = (stepId: StepID | undefined) => {
-    if (stepId !== undefined) {
-        return `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${stepId}`;
-    }
-    return undefined;
-};
+export const getSøknadRoute = (stepId: StepID): string => `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${stepId}`;
 
 export const getNextStepRoute = (stepId: StepID, formData?: PleiepengesøknadFormData): string | undefined => {
     const stepConfig = getStepConfig(formData);

@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { Arbeidsgiver } from 'app/types/Søkerdata';
 import axiosConfig from '../config/axiosConfig';
 import { StepID } from '../config/stepConfig';
@@ -6,10 +6,11 @@ import { PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { ResourceType } from '../types/ResourceType';
 import { MELLOMLAGRING_VERSION, MellomlagringData } from '../types/storage';
-import { getApiUrlByResourceType, sendMultipartPostRequest } from '../utils/apiUtils';
+import { getApiUrlByResourceType, isForbidden, isUnauthorized, sendMultipartPostRequest } from '../utils/apiUtils';
 import { storageParser } from '../utils/parser';
+import { navigateToLoginPage } from '../utils/navigationUtils';
 
-export const persist = (formData: PleiepengesøknadFormData, lastStepID: StepID) => {
+export const persist = (formData: PleiepengesøknadFormData, lastStepID: StepID): void => {
     const body: MellomlagringData = { formData, metadata: { lastStepID, version: MELLOMLAGRING_VERSION } };
     const url = `${getApiUrlByResourceType(ResourceType.MELLOMLAGRING)}?lastStepID=${encodeURI(lastStepID)}`;
     axios.post(url, { ...body }, axiosConfig);
@@ -36,3 +37,12 @@ export const uploadFile = (file: File) => {
     return sendMultipartPostRequest(getApiUrlByResourceType(ResourceType.VEDLEGG), formData);
 };
 export const deleteFile = (url: string) => axios.delete(url, axiosConfig);
+
+export const isForbiddenOrUnauthorizedAndWillRedirectToLogin = (response: AxiosError): boolean => {
+    if (isForbidden(response) || isUnauthorized(response)) {
+        navigateToLoginPage();
+        return true;
+    } else {
+        return false;
+    }
+};
