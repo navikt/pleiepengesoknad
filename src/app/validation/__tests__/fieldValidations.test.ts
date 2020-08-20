@@ -21,7 +21,7 @@ jest.mock('../../utils/envUtils', () => {
     };
 });
 
-jest.mock('common/validation/fødselsnummerValidator', () => {
+jest.mock('@sif-common/core/validation/fødselsnummerValidator', () => {
     return {
         fødselsnummerIsValid: jest.fn(),
         FødselsnummerValidationErrorReason: {
@@ -30,7 +30,7 @@ jest.mock('common/validation/fødselsnummerValidator', () => {
     };
 });
 
-jest.mock('common/utils/dateUtils', () => {
+jest.mock('@sif-common/core/utils/dateUtils', () => {
     return {
         isMoreThan3YearsAgo: jest.fn(),
         dateToday: new Date(),

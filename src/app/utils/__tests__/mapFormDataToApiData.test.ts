@@ -110,7 +110,7 @@ const formDataMock: Partial<PleiepengesøknadFormData> = {
     [AppFormField.ferieuttakIPerioden]: [],
 };
 
-jest.mock('common/utils/dateUtils', () => {
+jest.mock('@sif-common/core/utils/dateUtils', () => {
     return {
         formatDateToApiFormat: jest.fn((date: Date) => {
             const lPadNumber = (nbr: number): string => (nbr < 10 ? `${nbr}`.padStart(2, '0') : `${nbr}`);
@@ -123,7 +123,7 @@ jest.mock('common/utils/dateUtils', () => {
     };
 });
 
-jest.mock('common/utils/attachmentUtils', () => {
+jest.mock('@sif-common/core/utils/attachmentUtils', () => {
     return {
         attachmentUploadHasFailed: jest.fn((attachment: AttachmentMock) => attachment.failed),
     };

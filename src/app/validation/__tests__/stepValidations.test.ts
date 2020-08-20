@@ -22,7 +22,7 @@ jest.mock('./../fieldValidations', () => {
     };
 });
 
-jest.mock('common/validation/fieldValidations', () => {
+jest.mock('@sif-common/core/validation/fieldValidations', () => {
     return {
         validateFødselsnummer: jest.fn(() => undefined),
     };
