@@ -1,8 +1,8 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
-import Box from 'common/components/box/Box';
-import intlHelper from 'common/utils/intlUtils';
+import { getTypedFormComponents } from '@sif-common/formik/';
+import Box from '@sif-common/core/components/box/Box';
+import intlHelper from '@sif-common/core/utils/intlUtils';
 import { AppFormField, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { validateTilsynstimerEnDag } from '../../validation/fieldValidations';
 import './tilsynsuke.less';

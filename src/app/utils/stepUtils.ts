@@ -1,5 +1,5 @@
 import { IntlShape } from 'react-intl';
-import intlHelper from 'common/utils/intlUtils';
+import intlHelper from '@sif-common/core/utils/intlUtils';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from 'app/config/stepConfig';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import {

@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { mapVirksomhetToVirksomhetApiData } from 'common/forms/virksomhet/mapVirksomhetToApiData';
-import { Locale } from 'common/types/Locale';
-import { YesOrNo } from 'common/types/YesOrNo';
-import { attachmentUploadHasFailed } from 'common/utils/attachmentUtils';
-import { formatDateToApiFormat } from 'common/utils/dateUtils';
+import { mapVirksomhetToVirksomhetApiData } from '@sif-common/forms/virksomhet/mapVirksomhetToApiData';
+import { Locale } from '@sif-common/core/types/Locale';
+import { YesOrNo } from '@sif-common/core/types/YesOrNo';
+import { attachmentUploadHasFailed } from '@sif-common/core/utils/attachmentUtils';
+import { formatDateToApiFormat } from '@sif-common/core/utils/dateUtils';
 import { BarnToSendToApi, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../types/Søkerdata';

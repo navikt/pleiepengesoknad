@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useFormikContext } from 'formik';
-import Box from 'common/components/box/Box';
-import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
-import { YesOrNo } from 'common/types/YesOrNo';
-import intlHelper from 'common/utils/intlUtils';
-import { validateRequiredField, validateYesOrNoIsAnswered } from 'common/validation/fieldValidations';
+import Box from '@sif-common/core/components/box/Box';
+import CounsellorPanel from '@sif-common/core/components/counsellor-panel/CounsellorPanel';
+import { YesOrNo } from '@sif-common/core/types/YesOrNo';
+import intlHelper from '@sif-common/core/utils/intlUtils';
+import { validateRequiredField, validateYesOrNoIsAnswered } from '@sif-common/core/validation/fieldValidations';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField, PleiepengesøknadFormData, TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
 import { validateSkalHaTilsynsordning, validateTilsynsordningTilleggsinfo } from '../../../validation/fieldValidations';

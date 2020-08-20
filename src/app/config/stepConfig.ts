@@ -1,4 +1,4 @@
-import { YesOrNo } from 'common/types/YesOrNo';
+import { YesOrNo } from '@sif-common/core/types/YesOrNo';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { getSøknadRoute } from '../utils/routeUtils';
 import routeConfig from './routeConfig';

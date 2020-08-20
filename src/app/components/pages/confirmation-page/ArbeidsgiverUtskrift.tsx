@@ -1,7 +1,7 @@
 import React from 'react';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
-import { prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import Box from '@sif-common/core/components/box/Box';
+import bemUtils from '@sif-common/core/utils/bemUtils';
+import { prettifyDate } from '@sif-common/core/utils/dateUtils';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
 import { Element, Systemtittel } from 'nav-frontend-typografi';

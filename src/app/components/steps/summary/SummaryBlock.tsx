@@ -1,6 +1,6 @@
 import React from 'react';
-import Box from 'common/components/box/Box';
-import ContentWithHeader from 'common/components/content-with-header/ContentWithHeader';
+import Box from '@sif-common/core/components/box/Box';
+import ContentWithHeader from '@sif-common/core/components/content-with-header/ContentWithHeader';
 
 interface Props {
     header: string;

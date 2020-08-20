@@ -1,8 +1,8 @@
 import moment from 'moment';
-import { Attachment } from 'common/types/Attachment';
-import * as dateUtils from 'common/utils/dateUtils';
-import { createFieldValidationError, FieldValidationErrors } from 'common/validation/fieldValidations';
-import { hasValue } from 'common/validation/hasValue';
+import { Attachment } from '@sif-common/core/types/Attachment';
+import * as dateUtils from '@sif-common/core/utils/dateUtils';
+import { createFieldValidationError, FieldValidationErrors } from '@sif-common/core/validation/fieldValidations';
+import { hasValue } from '@sif-common/core/validation/hasValue';
 import {
     AppFieldValidationErrors,
     validateFradato,
@@ -21,7 +21,7 @@ jest.mock('../../utils/envUtils', () => {
     };
 });
 
-jest.mock('common/validation/fødselsnummerValidator', () => {
+jest.mock('@sif-common/core/validation/fødselsnummerValidator', () => {
     return {
         fødselsnummerIsValid: jest.fn(),
         FødselsnummerValidationErrorReason: {
@@ -30,7 +30,7 @@ jest.mock('common/validation/fødselsnummerValidator', () => {
     };
 });
 
-jest.mock('common/utils/dateUtils', () => {
+jest.mock('@sif-common/core/utils/dateUtils', () => {
     return {
         isMoreThan3YearsAgo: jest.fn(),
         dateToday: new Date(),

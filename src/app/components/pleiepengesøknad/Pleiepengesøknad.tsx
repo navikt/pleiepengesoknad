@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TypedFormikWrapper } from '@navikt/sif-common-formik/lib';
+import { TypedFormikWrapper } from '@sif-common/formik/';
 import { StepID } from '../../config/stepConfig';
 import { initialValues, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import AppEssentialsLoader from '../app-essentials-loader/AppEssentialsLoader';

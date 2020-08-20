@@ -1,5 +1,5 @@
 import React from 'react';
-import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
+import bemUtils from '@sif-common/core/utils/bemUtils';
 import { Undertittel } from 'nav-frontend-typografi';
 import './formSection.less';
 

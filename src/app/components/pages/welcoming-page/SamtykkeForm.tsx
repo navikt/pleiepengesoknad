@@ -1,12 +1,12 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
+import { getTypedFormComponents } from '@sif-common/formik/';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import Lenke from 'nav-frontend-lenker';
-import FormBlock from 'common/components/form-block/FormBlock';
-import bemHelper from 'common/utils/bemUtils';
-import { commonFieldErrorRenderer } from 'common/utils/commonFieldErrorRenderer';
-import intlHelper from 'common/utils/intlUtils';
+import FormBlock from '@sif-common/core/components/form-block/FormBlock';
+import bemHelper from '@sif-common/core/utils/bemUtils';
+import { commonFieldErrorRenderer } from '@sif-common/core/utils/commonFieldErrorRenderer';
+import intlHelper from '@sif-common/core/utils/intlUtils';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 
 interface Props {

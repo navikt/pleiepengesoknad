@@ -1,4 +1,4 @@
-import { timeToDecimalTime } from 'common/utils/timeUtils';
+import { timeToDecimalTime } from '@sif-common/core/utils/timeUtils';
 import { Tilsynsuke } from '../types/PleiepengesøknadFormData';
 
 export const sumTimerMedTilsyn = (uke: Tilsynsuke): number => {

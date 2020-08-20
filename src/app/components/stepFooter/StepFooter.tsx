@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import ActionLink from 'common/components/action-link/ActionLink';
-import bemHelper from 'common/utils/bemUtils';
+import ActionLink from '@sif-common/core/components/action-link/ActionLink';
+import bemHelper from '@sif-common/core/utils/bemUtils';
 import './stepFooter.less';
 
 interface Props {

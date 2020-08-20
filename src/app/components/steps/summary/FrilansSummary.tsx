@@ -1,7 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import Box from 'common/components/box/Box';
-import intlHelper from 'common/utils/intlUtils';
+import Box from '@sif-common/core/components/box/Box';
+import intlHelper from '@sif-common/core/utils/intlUtils';
 import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
 import DatoSvar from './DatoSvar';
 import JaNeiSvar from './JaNeiSvar';
