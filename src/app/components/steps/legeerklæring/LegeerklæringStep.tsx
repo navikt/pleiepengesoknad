@@ -61,24 +61,6 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
             <Box padBottom="xl">
                 <CounsellorPanel>
                     <Box padBottom={'l'}>
-                        <FormattedMessage id={'steg.legeerklaering.counsellorpanel.1.1'} />
-                        <FormattedMessage id={'steg.legeerklaering.counsellorpanel.1.2'} />
-                        <FormattedMessage id={'steg.legeerklaering.counsellorpanel.1.3'} />
-                    </Box>
-
-                    <Box padBottom={'l'}>
-                        <FormattedMessage id={'steg.legeerklaering.counsellorpanel.2'} />
-                        <ul>
-                            <li>
-                                <FormattedMessage id={'steg.legeerklaering.counsellorpanel.2.1'} />
-                            </li>
-                            <li>
-                                <FormattedMessage id={'steg.legeerklaering.counsellorpanel.2.2'} />
-                            </li>
-                        </ul>
-                    </Box>
-
-                    <Box padBottom={'l'}>
                         <FormattedMessage id={'steg.legeerklaering.counsellorpanel.3.1'} />
                         <FormattedMessage id={'steg.legeerklaering.counsellorpanel.3.2'} />
                         <FormattedMessage id={'steg.legeerklaering.counsellorpanel.3.3'} />
