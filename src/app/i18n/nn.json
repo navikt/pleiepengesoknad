@@ -229,7 +229,7 @@
     "steg.medlemsskap.annetLandSiste12.listeTittel": "Utenlandsopphald siste 12 måneder",
     "steg.medlemsskap.annetLandNeste12.listeTittel": "Utenlandsopphald neste 12 måneder",
 
-    "steg.lege.vedlegg": "Last opp bilete av legeerklæringa (maks 3 bilete).",
+    "steg.lege.vedlegg": "Last opp bilete av legeerklæringa",
 
     "steg.oppsummering.info": "Les gjennom oppsummeringa før du sender inn søknaden. Dersom du vil gjere endringar, kan du gå tilbake.",
     "steg.oppsummering.søker.header": "Namn på søkjar",
@@ -322,7 +322,6 @@
     "fieldvalidation.periodeErOver8UkerMenIkkeØnsket": "For å kunne fortsette må du enten velge \"Ja\" for å bekrefte at du vil søkje for ein lengre periode enn 8 veker, eller du må legge inn ein kortare periode enn 8 veker dersom du har svart \"Nei\".",
     "fieldvalidation.bekreftOmsorg_ekstrainfoForMangeTegn": "For mange tegn. Maks antall tegn er 1000.",
     "fieldvalidation.legeerklæring.mangler": "Du må laste opp ei legeerklæring.",
-    "fieldvalidation.legeerklæring.forMangeFiler": "Du kan maksimalt laste opp 3 bilete.",
     "fieldvalidation.grad.ugyldig": "Du må gi opp graden som eit heiltal mellom 20 og 100 prosent.",
     "fieldvalidation.arbeidsforhold_timerUgyldig": "Ver vennleg og fyll ut eit tal mellom {min} og {max}.",
     "fieldvalidation.arbeidsforhold_timerUgyldig_under_1_prosent": "Du kan ikkje jobbe mindre enn 1 prosent av kva du jobbar normalt",

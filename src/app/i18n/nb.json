@@ -229,7 +229,7 @@
     "steg.medlemsskap.annetLandNeste12.hjelp": "Du svarer ja bare hvis du planlegger å oppholde deg fast i et annet land enn Norge. Korte utlandsturer i forbindelse med for eksempel ferie regnes ikke med.",
     "steg.medlemsskap.annetLandNeste12.listeTittel": "Utenlandsopphold neste 12 måneder",
 
-    "steg.lege.vedlegg": "Last opp bilde av legeerklæringen (maks 3 bilder)",
+    "steg.lege.vedlegg": "Last opp bilde av legeerklæringen",
     "steg.legeerklaering.counsellorpanel.3.1": "Her skal du laste opp legeerklæring ",
     "steg.legeerklaering.counsellorpanel.3.2": "eller ",
     "steg.legeerklaering.counsellorpanel.3.3": "en bekreftelse på at barnet har vært til behandling/utredning i sykehus eller annen spesialisthelsetjeneste. Det gjør du enten ved å ta bilde av dokumentasjonen, eller ved å scanne den.",
@@ -314,6 +314,7 @@
     "vedleggsliste.ingenLegeerklæringLastetOpp": "Ingen vedlegg er lastet opp",
     "vedleggsliste.legeerklæringLastetOppSjekkliste.1": "Før du fortsetter, klikk på hvert enkelt filnavn og sjekk at bildekvaliteten er god nok.",
     "vedleggsliste.legeerklæringLastetOppSjekkliste.2": "Bildet åpnes i en ny fane.",
+    "dokumenter.advarsel.totalstørrelse": "Du har totalt lastet opp mer enn grensen på 24 Mb. Det betyr at du må fjerne noe av det du har lastet opp. Hvis det betyr at du ikke får plass til alt du ønsker å sende nå, kan du sende inn en ny ettersendelse når du er ferdig med denne.",
 
     "fieldvalidation.påkrevd": "Feltet er påkrevd",
     "fieldvalidation.fødselsnummer.11siffer": "Fødselsnummeret / D-nummeret må bestå av 11 siffer",
@@ -327,7 +328,7 @@
     "fieldvalidation.bekreftOmsorg_ekstrainfoForMangeTegn": "For mange tegn. Maks antall tegn er 1000.",
     "fieldvalidation.tildato.erFørFradato": "Til-datoen kan ikke være tidligere enn fra-datoen",
     "fieldvalidation.legeerklæring.mangler": "Du må laste opp en legeerklæring",
-    "fieldvalidation.legeerklæring.forMangeFiler": "Du kan maksimalt laste opp 3 bilder",
+    "fieldvalidation.legeerklæring.forMangeFiler": "Du har lastet opp for mange vedlegg",
     "fieldvalidation.grad.ugyldig": "Graden må oppgis som et heltall mellom 20 og 100 prosent",
     "fieldvalidation.arbeidsforhold_timerUgyldig": "Vennligst fyll ut et tall mellom {min} og {max}",
     "fieldvalidation.arbeidsforhold_timerUgyldig_under_1_prosent": "Du kan ikke jobbe mindre enn 1 prosent av hva du jobber normalt",
@@ -345,6 +346,7 @@
     "fieldvalidation.ferieuttak_ikke_registrert": "Du har ikke registrert noen ferieuttak for perioden",
     "fieldvalidation.ferieuttak_utenfor_periode": "En ferie du har lagt inn overlapper ikke med perioden du søker for. Da kan denne fjernes.",
     "fieldvalidation.ferieuttak_overlapper": "En eller flere av feriene går over de samme datoene",
+    "fieldvalidation.samlet_storrelse_for_hoy": "Total samlet størrelse for dokumentene du har lastet opp overstiger grensen på 24Mb.",
 
     "arbeidsforhold.erAnsattIPerioden.spm": "Er du ansatt her i perioden du søker pleiepenger?",
 

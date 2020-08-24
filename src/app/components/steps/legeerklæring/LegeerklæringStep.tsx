@@ -7,7 +7,11 @@ import CounsellorPanel from '@sif-common/core/components/counsellor-panel/Counse
 import FileUploadErrors from '@sif-common/core/components/file-upload-errors/FileUploadErrors';
 import PictureScanningGuide from '@sif-common/core/components/picture-scanning-guide/PictureScanningGuide';
 import { Attachment } from '@sif-common/core/types/Attachment';
-import { mapFileToPersistedFile } from '@sif-common/core/utils/attachmentUtils';
+import {
+    getTotalSizeOfAttachments,
+    mapFileToPersistedFile,
+    MAX_TOTAL_ATTACHMENT_SIZE_BYTES,
+} from '@sif-common/core/utils/attachmentUtils';
 import intlHelper from '@sif-common/core/utils/intlUtils';
 import { persist } from '../../../api/api';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
@@ -17,6 +21,7 @@ import { validateLegeerklæring } from '../../../validation/fieldValidations';
 import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 
 const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
@@ -24,6 +29,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
     const attachments: Attachment[] = values ? values[AppFormField.legeerklæring] : [];
     const hasPendingUploads: boolean = attachments.find((a) => a.pending === true) !== undefined;
+    const totalSize = getTotalSizeOfAttachments(attachments);
 
     const ref = React.useRef({ attachments });
 
@@ -94,7 +100,16 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
                     onUnauthorizedOrForbiddenUpload={navigateToLoginPage}
                 />
             </Box>
-            <FileUploadErrors filesThatDidntGetUploaded={filesThatDidntGetUploaded} />
+            {totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES && (
+                <Box margin={'l'}>
+                    <AlertStripeAdvarsel>
+                        <FormattedMessage id={'dokumenter.advarsel.totalstørrelse'} />
+                    </AlertStripeAdvarsel>
+                </Box>
+            )}
+            <Box margin={'l'}>
+                <FileUploadErrors filesThatDidntGetUploaded={filesThatDidntGetUploaded} />
+            </Box>
             <LegeerklæringFileList wrapNoAttachmentsInBox={true} includeDeletionFunctionality={true} />
         </FormikStep>
     );
