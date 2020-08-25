@@ -314,7 +314,7 @@
     "vedleggsliste.ingenLegeerklæringLastetOpp": "Ingen vedlegg er lastet opp",
     "vedleggsliste.legeerklæringLastetOppSjekkliste.1": "Før du fortsetter, klikk på hvert enkelt filnavn og sjekk at bildekvaliteten er god nok.",
     "vedleggsliste.legeerklæringLastetOppSjekkliste.2": "Bildet åpnes i en ny fane.",
-    "dokumenter.advarsel.totalstørrelse": "Du har totalt lastet opp mer enn grensen på 24 Mb. Det betyr at du må fjerne noe av det du har lastet opp. Hvis det betyr at du ikke får plass til alt du ønsker å sende nå, kan du sende inn en ny ettersendelse når du er ferdig med denne.",
+    "dokumenter.advarsel.totalstørrelse": "Du har totalt lastet opp mer enn grensen på 24 Mb. Det betyr at du må fjerne noe av det du har lastet opp. Hvis det betyr at du ikke får plass til alt du ønsker å sende nå, kan du sende inn en ettersendelse når du er ferdig med denne.",
 
     "fieldvalidation.påkrevd": "Feltet er påkrevd",
     "fieldvalidation.fødselsnummer.11siffer": "Fødselsnummeret / D-nummeret må bestå av 11 siffer",
