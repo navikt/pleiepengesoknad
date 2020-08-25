@@ -103,7 +103,15 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
             {totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES && (
                 <Box margin={'l'}>
                     <AlertStripeAdvarsel>
-                        <FormattedMessage id={'dokumenter.advarsel.totalstørrelse'} />
+                        <FormattedMessage id={'dokumenter.advarsel.totalstørrelse.1'} />
+                        <Lenke
+                            target={'_blank'}
+                            rel={'noopener noreferrer'}
+                            href={
+                                'https://www.nav.no/soknader/nb/person/familie/pleiepenger-og-opplaringspenger/NAV%2009-11.05/ettersendelse'
+                            }>
+                            <FormattedMessage id={'dokumenter.advarsel.totalstørrelse.2'} />
+                        </Lenke>
                     </AlertStripeAdvarsel>
                 </Box>
             )}

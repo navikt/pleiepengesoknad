@@ -307,8 +307,6 @@
 
     "vedleggsliste.fjernKnapp": "Fjern vedlegg",
     "vedleggsliste.ingenLegeerklæringLastetOpp": "Ingen vedlegg er lasta opp.",
-    "vedleggsliste.legeerklæringLastetOppSjekkliste.1": "Før du fortsetter, klikk på hvert enkelt filnavn og sjekk at bildekvaliteten er god nok.",
-    "vedleggsliste.legeerklæringLastetOppSjekkliste.2": "Bildet åpner i en ny fane.",
 
     "fieldvalidation.påkrevd": "Feltet må fyllast ut.",
     "fieldvalidation.fødselsnummer.11siffer": "Fødselsnummeret må bestå av 11 siffer.",
