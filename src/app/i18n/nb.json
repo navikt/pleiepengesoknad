@@ -233,8 +233,8 @@
     "steg.legeerklaering.counsellorpanel.3.1": "Her skal du laste opp legeerklæring ",
     "steg.legeerklaering.counsellorpanel.3.2": "eller ",
     "steg.legeerklaering.counsellorpanel.3.3": "en bekreftelse på at barnet har vært til behandling/utredning i sykehus eller annen spesialisthelsetjeneste. Det gjør du enten ved å ta bilde av dokumentasjonen, eller ved å scanne den.",
-    "steg.legeerklaering.counsellorpanel.4": "Hvis du ikke har dokumentasjonen nå, kan du ettersende den. ",
-    "steg.legeerklaering.counsellorpanel.4.1": "Her får du veiledning til hvordan du ettersender dokumentasjon",
+    "steg.legeerklaering.counsellorpanel.4": "Hvis du ikke har dokumentasjonen nå, ",
+    "steg.legeerklaering.counsellorpanel.4.1": "kan du ettersende den.",
 
     "steg.oppsummering.info": "Les gjennom oppsummeringen før du sender inn søknaden. Hvis du vil gjøre endringer, kan du gå tilbake.",
     "steg.oppsummering.søker.header": "Navn på søker",
