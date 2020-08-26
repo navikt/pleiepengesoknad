@@ -178,11 +178,6 @@ describe('fieldValidations', () => {
             expect(validateLegeerklæring([uploadedAttachment, uploadedAttachment, uploadedAttachment])).toBeUndefined();
         });
 
-        it('should return error message saying no more than 3 files if list contains 4 files or more', () => {
-            expect(
-                validateLegeerklæring([uploadedAttachment, uploadedAttachment, uploadedAttachment, uploadedAttachment])
-            ).toEqual(createFieldValidationError(AppFieldValidationErrors.legeerklæring_forMangeFiler));
-        });
     });
 
     describe('validate arbeidsforhold', () => {
