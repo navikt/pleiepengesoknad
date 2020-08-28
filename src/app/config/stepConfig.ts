@@ -2,6 +2,7 @@ import { YesOrNo } from '@sif-common/core/types/YesOrNo';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { getSøknadRoute } from '../utils/routeUtils';
 import routeConfig from './routeConfig';
+import { isSomeEnum } from '../utils/typeguardUtils';
 
 export enum StepID {
     'OPPLYSNINGER_OM_BARNET' = 'opplysninger-om-barnet',
@@ -14,6 +15,10 @@ export enum StepID {
     'LEGEERKLÆRING' = 'legeerklaering',
     'SUMMARY' = 'oppsummering',
 }
+
+export const isStepID = (maybeStepID: any): maybeStepID is StepID => {
+    return isSomeEnum(StepID)(maybeStepID);
+};
 
 export interface StepConfigItemTexts {
     pageTitle: string;

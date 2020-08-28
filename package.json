@@ -33,6 +33,7 @@
         "testEnvironment": "node"
     },
     "dependencies": {
+        "@devexperts/remote-data-ts": "^2.0.4",
         "@formatjs/intl-pluralrules": "^1.5.9",
         "@formatjs/intl-relativetimeformat": "^4.5.16",
         "@navikt/sif-common-core": "^5.0.27",

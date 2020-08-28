@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Knapp } from 'nav-frontend-knapper';
 import Modal from '@navikt/sif-common-formik/lib/components/formik-modal-form-and-list/modal/Modal';
-import Box from 'common/components/box/Box';
-import CounsellorPanel from 'common/components/counsellor-panel/CounsellorPanel';
 import './fortsettSøknadModalView.less';
+import Box from '@sif-common/core/components/box/Box';
+import CounsellorPanel from '@sif-common/core/components/counsellor-panel/CounsellorPanel';
 
 interface Props {
     isOpen: boolean;

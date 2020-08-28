@@ -5,7 +5,8 @@ import { Virksomhet } from '@sif-common/forms/virksomhet/types';
 import { Attachment } from '@sif-common/core/types/Attachment';
 import { Time } from '@sif-common/core/types/Time';
 import { YesOrNo } from '@sif-common/core/types/YesOrNo';
-import { Arbeidsgiver } from './Søkerdata';
+import { MELLOMLAGRING_VERSION } from './storage';
+import { Arbeidsgiver } from './ArbeidsgiverResponse';
 
 export enum ArbeidsforholdSkalJobbeSvar {
     'ja' = 'ja',
@@ -170,4 +171,8 @@ export const initialValues: PleiepengesøknadFormData = {
     [AppFormField.frilans_harHattInntektSomFrilanser]: YesOrNo.UNANSWERED,
     [AppFormField.selvstendig_harHattInntektSomSN]: YesOrNo.UNANSWERED,
     [AppFormField.selvstendig_virksomheter]: [],
+};
+
+export const isPleiepengesøknadFormData = (value: any, version: string): value is PleiepengesøknadFormData => {
+    return version === MELLOMLAGRING_VERSION;
 };

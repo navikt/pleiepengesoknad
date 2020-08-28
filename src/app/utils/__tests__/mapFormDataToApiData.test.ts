@@ -21,11 +21,11 @@ import {
     ArbeidsforholdSkalJobbeSvar,
     PleiepengesøknadFormData,
 } from '../../types/PleiepengesøknadFormData';
-import { Arbeidsgiver} from '../../types/Søkerdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
 import { jsonSort } from '../jsonSort';
 import { getValidSpråk, mapFormDataToApiData } from '../mapFormDataToApiData';
 import { Barn } from '../../types/ListeAvBarn';
+import { Arbeidsgiver } from '../../types/ArbeidsgiverResponse';
 
 const moment = require('moment');
 

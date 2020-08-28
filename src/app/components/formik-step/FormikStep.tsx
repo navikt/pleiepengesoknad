@@ -24,9 +24,10 @@ type Props = FormikStepProps & StepProps;
 
 const FormikStep = (props: Props) => {
     const formik = useFormikContext<PleiepengesøknadFormData>();
+    const pleiepengesøknadFormData: PleiepengesøknadFormData = formik.values;
     const intl = useIntl();
     const { children, onValidFormSubmit, showButtonSpinner, buttonDisabled, id, customErrorSummary } = props;
-    const stepConfig = getStepConfig(formik.values);
+    const stepConfig = getStepConfig(pleiepengesøknadFormData);
     const texts = getStepTexts(intl, id, stepConfig);
     return (
         <Step stepConfig={stepConfig} {...props}>

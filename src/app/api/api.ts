@@ -1,5 +1,4 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { Arbeidsgiver } from 'app/types/Søkerdata';
 import axiosConfig from '../config/axiosConfig';
 import { StepID } from '../config/stepConfig';
 import { PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
@@ -9,6 +8,7 @@ import { MELLOMLAGRING_VERSION, MellomlagringData } from '../types/storage';
 import { getApiUrlByResourceType, isForbidden, isUnauthorized, sendMultipartPostRequest } from '../utils/apiUtils';
 import { storageParser } from '../utils/parser';
 import { navigateToLoginPage } from '../utils/navigationUtils';
+import { Arbeidsgiver } from '../types/ArbeidsgiverResponse';
 
 export const persist = (formData: PleiepengesøknadFormData, lastStepID: StepID): void => {
     const body: MellomlagringData = { formData, metadata: { lastStepID, version: MELLOMLAGRING_VERSION } };

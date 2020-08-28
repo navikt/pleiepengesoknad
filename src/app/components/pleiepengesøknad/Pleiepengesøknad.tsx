@@ -1,23 +1,16 @@
 import * as React from 'react';
-import { TypedFormikWrapper } from '@sif-common/formik/';
-import { StepID } from '../../config/stepConfig';
-import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
-import AppEssentials from '../app-essentials-loader/AppEssentials';
-import IkkeMyndigPage from '../pages/ikke-myndig-page/IkkeMyndigPage';
-import PleiepengesøknadContent from '../pleiepengesøknad-content/PleiepengesøknadContent';
 import Fetcher3 from '../../utils/fetcher/Fetcher3';
-import { fetchMellomlagringDataRecipe, MellomlagringData } from '../../types/storage';
+import { fetchMaybeMellomlagringDataRecipe, MaybeMellomlagringData } from '../../types/storage';
 import { fetchPersonResponseRecipe, PersonResponse } from '../../types/PersonResponse';
 import { BarnResponse, fetchBarnResponseRecipe } from '../../types/ListeAvBarn';
 import HandleUnauthorized from '../../utils/handleUnauthorized/HandleUnauthorized';
 import LoadingPage from '../pages/loading-page/LoadingPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
-import { Søkerdata } from '../../types/Søkerdata';
-import { FormikProps } from 'formik';
+import Something from './Something';
 
 const Pleiepengesøknad = () => (
-    <Fetcher3<PersonResponse, BarnResponse, MellomlagringData>
-        recipies={[fetchPersonResponseRecipe, fetchBarnResponseRecipe, fetchMellomlagringDataRecipe]}
+    <Fetcher3<PersonResponse, BarnResponse, MaybeMellomlagringData>
+        recipies={[fetchPersonResponseRecipe, fetchBarnResponseRecipe, fetchMaybeMellomlagringDataRecipe]}
         error={(error) => (
             <HandleUnauthorized
                 error={error}
@@ -26,36 +19,15 @@ const Pleiepengesøknad = () => (
             />
         )}
         loading={() => <LoadingPage />}
-        success={([personResponse, barnResponse, mellomlagringData]: [
+        success={([personResponse, barnResponse, maybeMellomlagringData]: [
             PersonResponse,
             BarnResponse,
-            MellomlagringData
+            MaybeMellomlagringData
         ]) => (
-            <AppEssentials
-                person={personResponse}
-                barn={barnResponse.barn}
-                mellomlagringData={mellomlagringData}
-                contentLoadedRenderer={(
-                    formdata: PleiepengesøknadFormData,
-                    lastStepID: StepID,
-                    søkerdata: Søkerdata | undefined
-                ) => {
-                    if (søkerdata) {
-                        const { person } = søkerdata;
-                        if (!person.myndig) {
-                            return <IkkeMyndigPage />;
-                        }
-                    }
-                    return (
-                        <TypedFormikWrapper<PleiepengesøknadFormData>
-                            initialValues={formdata}
-                            onSubmit={() => null}
-                            renderForm={(formikProps: FormikProps<PleiepengesøknadFormData>) => (
-                                <PleiepengesøknadContent lastStepID={lastStepID} formikProps={formikProps} />
-                            )}
-                        />
-                    );
-                }}
+            <Something
+                personResponse={personResponse}
+                barnResponse={barnResponse}
+                maybeMellomlagringData={maybeMellomlagringData}
             />
         )}
     />

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import { apiStringDateToDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { FormikProps, useFormikContext } from 'formik';
@@ -10,7 +10,7 @@ import { StepID } from '../../config/stepConfig';
 import { ArbeidsforholdApi, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import { initialValues, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { Søkerdata } from '../../types/Søkerdata';
-import { navigateTo, navigateToWelcomePage, redirectTo } from '../../utils/navigationUtils';
+import { navigateTo, navigateToWelcomePage } from '../../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../../utils/routeUtils';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
@@ -28,7 +28,7 @@ import FortsettSøknadModalView from '../fortsett-søknad-modal/FortsettSøknadM
 import LoadingPage from '../pages/loading-page/LoadingPage';
 
 interface PleiepengesøknadContentProps {
-    lastStepID: StepID;
+    lastStepID: StepID | undefined;
     formikProps: FormikProps<PleiepengesøknadFormData>;
 }
 
@@ -65,8 +65,7 @@ const ifAvailable = (stepID: StepID, values: PleiepengesøknadFormData, componen
     }
 };
 
-const PleiepengesøknadContent = ({ lastStepID, formikProps }: PleiepengesøknadContentProps) => {
-    const location = useLocation();
+const PleiepengesøknadContent = ({ formikProps, lastStepID }: PleiepengesøknadContentProps) => {
     const history = useHistory();
     const { values, resetForm } = useFormikContext<PleiepengesøknadFormData>();
 
@@ -76,13 +75,6 @@ const PleiepengesøknadContent = ({ lastStepID, formikProps }: Pleiepengesøknad
     const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [buttonsAreDisabled, setButtonsAreDisabled] = useState<boolean>(false);
-
-    if (location.pathname === RouteConfig.WELCOMING_PAGE_ROUTE) {
-        const nextStepRoute = getNextStepRoute(lastStepID, values);
-        if (nextStepRoute) {
-            redirectTo(nextStepRoute);
-        }
-    }
 
     const navigateToNextStep = (stepId: StepID) => {
         setTimeout(() => {
@@ -94,13 +86,9 @@ const PleiepengesøknadContent = ({ lastStepID, formikProps }: Pleiepengesøknad
         });
     };
 
-    const fortsettPåPåbegyntSøknad = async (): Promise<void> => {
+    const fortsettPåPåbegyntSøknad = async (lastStepID: StepID): Promise<void> => {
         setButtonsAreDisabled(true);
-        if (lastStepID) {
-            await navigateTo(lastStepID, history);
-        } else {
-            // TODO: Handle. Something went wrong.
-        }
+        await navigateTo(lastStepID, history);
         setButtonsAreDisabled(false);
     };
 
@@ -147,13 +135,15 @@ const PleiepengesøknadContent = ({ lastStepID, formikProps }: Pleiepengesøknad
                                 })
                             }
                         />
-                        <FortsettSøknadModalView
-                            isOpen={!!lastStepID && !hasBeenClosed}
-                            buttonsAreDisabled={buttonsAreDisabled}
-                            onRequestClose={startPåNySøknad}
-                            onFortsettPåSøknad={fortsettPåPåbegyntSøknad}
-                            onStartNySøknad={startPåNySøknad}
-                        />
+                        {lastStepID && (
+                            <FortsettSøknadModalView
+                                isOpen={!!lastStepID && !hasBeenClosed}
+                                buttonsAreDisabled={buttonsAreDisabled}
+                                onRequestClose={startPåNySøknad}
+                                onFortsettPåSøknad={() => fortsettPåPåbegyntSøknad(lastStepID)}
+                                onStartNySøknad={startPåNySøknad}
+                            />
+                        )}
                     </div>
                 )}
             />

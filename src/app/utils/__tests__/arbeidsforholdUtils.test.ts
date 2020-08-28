@@ -1,7 +1,7 @@
 import { YesOrNo } from '@sif-common/core/types/YesOrNo';
 import { Arbeidsforhold } from 'app/types/PleiepengesøknadFormData';
-import { Arbeidsgiver } from 'app/types/Søkerdata';
 import { syncArbeidsforholdWithArbeidsgivere } from '../arbeidsforholdUtils';
+import { Arbeidsgiver } from '../../types/ArbeidsgiverResponse';
 
 const organisasjoner: Arbeidsgiver[] = [
     { navn: 'Org1', organisasjonsnummer: '1' },

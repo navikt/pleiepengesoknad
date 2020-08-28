@@ -1,15 +1,6 @@
 import { Barn } from './ListeAvBarn';
 import { PersonResponse } from './PersonResponse';
-
-export enum HoursOrPercent {
-    'hours' = 'hours',
-    'percent' = 'percent',
-}
-
-export interface Arbeidsgiver {
-    navn: string;
-    organisasjonsnummer: string;
-}
+import { Arbeidsgiver } from './ArbeidsgiverResponse';
 
 export interface Søkerdata {
     person: PersonResponse;
