@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { BarnResponse } from '../../types/ListeAvBarn';
 import { PersonResponse } from '../../types/PersonResponse';
 import { isMellomlagringData, MaybeMellomlagringData } from '../../types/storage';
 import { initialValues, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
@@ -11,6 +10,7 @@ import { SøkerdataContextProvider } from '../../context/SøkerdataContext';
 import PleiepengesøknadContent from '../pleiepengesøknad-content/PleiepengesøknadContent';
 import { Arbeidsgiver } from '../../types/ArbeidsgiverResponse';
 import ApplicationFormComponents from '../../types/ApplicationFormComponents';
+import { BarnResponse } from '../../types/BarnResponse';
 
 interface Props {
     personResponse: PersonResponse;
@@ -32,6 +32,10 @@ const Something: React.FC<Props> = ({ personResponse, barnResponse, maybeMelloml
     if (!personResponse.myndig) {
         return <IkkeMyndigPage />;
     }
+
+    // if (isMellomlagringData(maybeMellomlagringData) &&  ) {
+    //
+    // }
 
     return (
         <ApplicationFormComponents.FormikWrapper

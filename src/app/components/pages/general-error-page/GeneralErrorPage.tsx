@@ -7,8 +7,13 @@ import Page from '@sif-common/core/components/page/Page';
 import intlHelper from '@sif-common/core/utils/intlUtils';
 import VeilederLokal from './VeilederLokal';
 
-const GeneralErrorPage = () => {
+export interface Props {
+    error?: Error | any;
+}
+
+const GeneralErrorPage = ({ error }: Props) => {
     const intl = useIntl();
+    console.info(JSON.stringify(error, null, 4));
     return (
         <Page title={intlHelper(intl, 'page.generalErrorPage.sidetittel')}>
             <div style={{ paddingTop: '1rem' }}>

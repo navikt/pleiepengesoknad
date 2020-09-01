@@ -5,6 +5,7 @@ import { getApiUrlByResourceType } from '../utils/apiUtils';
 import { ResourceType } from './ResourceType';
 import { isString } from '@sif-common/core/utils/typeGuardUtils';
 import { isPleiepengesøknadFormData, PleiepengesøknadFormData } from './PleiepengesøknadFormData';
+import * as fetcher2 from '../utils/fetcher2/types';
 
 export const MELLOMLAGRING_VERSION = '3';
 
@@ -52,4 +53,9 @@ export const isMaybeMellomlagringDataValidator: IoTs.Type<MaybeMellomlagringData
 export const fetchMaybeMellomlagringDataRecipe: FetchRecipe<MaybeMellomlagringData> = {
     url: getApiUrlByResourceType(ResourceType.MELLOMLAGRING),
     validator: isMaybeMellomlagringDataValidator,
+};
+
+export const fetcherMaybeMellomlagringDataRecipe: fetcher2.FetchRecipe<MaybeMellomlagringData> = {
+    url: getApiUrlByResourceType(ResourceType.MELLOMLAGRING),
+    typeguard: isMaybeMellomlagringData,
 };

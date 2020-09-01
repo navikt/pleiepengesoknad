@@ -1,6 +1,6 @@
 import { Søkerdata } from '../../types/Søkerdata';
 import { harRegistrerteBarn } from '../søkerdataUtils';
-import { Barn } from '../../types/ListeAvBarn';
+import { Barn } from '../../types/BarnResponse';
 
 const barnMock: Partial<Barn> = {
     fornavn: 'Ola',

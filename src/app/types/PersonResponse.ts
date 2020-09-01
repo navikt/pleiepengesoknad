@@ -2,6 +2,7 @@ import * as IoTs from 'io-ts';
 import { FetchRecipe } from '../utils/fetcher/types';
 import { getApiUrlByResourceType } from '../utils/apiUtils';
 import { ResourceType } from './ResourceType';
+import * as fetcher2 from '../utils/fetcher2/types';
 
 export interface PersonResponse {
     etternavn: string;
@@ -32,4 +33,9 @@ export const personResponseValidator: IoTs.Type<PersonResponse> = new IoTs.Type<
 export const fetchPersonResponseRecipe: FetchRecipe<PersonResponse> = {
     url: getApiUrlByResourceType(ResourceType.SØKER),
     validator: personResponseValidator,
+};
+
+export const fetcherPersonResponseRecipe: fetcher2.FetchRecipe<PersonResponse> = {
+    url: getApiUrlByResourceType(ResourceType.SØKER),
+    typeguard: isPersonResponse,
 };

@@ -10,7 +10,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { AppFormField, initialValues, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { validateValgtBarn } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
-import { Barn } from '../../../types/ListeAvBarn';
+import { Barn } from '../../../types/BarnResponse';
 
 interface Props {
     søkersBarn: Barn[];

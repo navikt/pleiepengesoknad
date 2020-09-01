@@ -1,7 +1,7 @@
 import { formatDateToApiFormat } from '@sif-common/core/utils/dateUtils';
 import { formatName } from '@sif-common/core/utils/personUtils';
 import { BarnToSendToApi } from '../../types/PleiepengesøknadApiData';
-import { Barn } from '../../types/ListeAvBarn';
+import { Barn } from '../../types/BarnResponse';
 
 export const mapBarnToApiData = (
     barn: Barn[],

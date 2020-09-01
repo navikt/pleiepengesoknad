@@ -2,7 +2,7 @@ import { hasValue } from '@sif-common/core/validation/hasValue';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { Søkerdata } from '../types/Søkerdata';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
-import { Barn } from '../types/ListeAvBarn';
+import { Barn } from '../types/BarnResponse';
 
 export const søkerHarBarn = (søkerdata: Søkerdata) => {
     return søkerdata.barn && søkerdata.barn.length > 0;

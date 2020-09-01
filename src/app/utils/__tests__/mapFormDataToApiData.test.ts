@@ -24,8 +24,8 @@ import {
 import { isFeatureEnabled } from '../featureToggleUtils';
 import { jsonSort } from '../jsonSort';
 import { getValidSpråk, mapFormDataToApiData } from '../mapFormDataToApiData';
-import { Barn } from '../../types/ListeAvBarn';
 import { Arbeidsgiver } from '../../types/ArbeidsgiverResponse';
+import { Barn } from '../../types/BarnResponse';
 
 const moment = require('moment');
 

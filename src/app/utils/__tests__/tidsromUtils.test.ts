@@ -1,6 +1,6 @@
 import { isFeatureEnabled } from '../featureToggleUtils';
 import { brukerSkalBekrefteOmsorgForBarnet, søkerHarValgtRegistrertBarn } from '../tidsromUtils';
-import { Barn } from '../../types/ListeAvBarn';
+import { Barn } from '../../types/BarnResponse';
 
 jest.mock('../featureToggleUtils.ts', () => ({
     isFeatureEnabled: jest.fn(),
