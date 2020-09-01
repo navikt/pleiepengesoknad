@@ -1,6 +1,6 @@
-import * as fetcher2 from '../utils/fetcher2/types';
 import { getApiUrlByResourceType } from '../utils/apiUtils';
 import { ResourceType } from './ResourceType';
+import { FetchRecipe } from '../utils/fetcher/types';
 
 export interface Arbeidsgiver {
     navn: string;
@@ -8,16 +8,15 @@ export interface Arbeidsgiver {
 }
 
 export interface ArbeidsgiverResponse {
-    organisasjoner: Arbeidsgiver[]
+    organisasjoner: Arbeidsgiver[];
 }
 
 export const isArbeidsgiverResponse = (value: any): value is ArbeidsgiverResponse => {
     // TODO: Implement
     return true;
-}
+};
 
-export const fetcherArbeidsgiverResponseRecipe: fetcher2.FetchRecipe<ArbeidsgiverResponse> = {
-    url: getApiUrlByResourceType(ResourceType.ARBEIDSGIVER),
+export const arbeidsgiverResponseRecipe = (fom: string, tom: string): FetchRecipe<ArbeidsgiverResponse> => ({
+    url: `${getApiUrlByResourceType(ResourceType.ARBEIDSGIVER)}?fra_og_med=${fom}&til_og_med=${tom}`,
     typeguard: isArbeidsgiverResponse,
-}
-
+});

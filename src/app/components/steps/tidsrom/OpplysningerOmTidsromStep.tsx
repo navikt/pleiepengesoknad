@@ -36,8 +36,8 @@ import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './h
 const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<PleiepengesøknadFormData>();
     const { showErrors } = React.useContext(TypedFormikFormContext) || { showErrors: false };
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const søkerdata = React.useContext(SøkerdataContext)!;
+
+    const søkerdata = React.useContext(SøkerdataContext);
 
     const harMedsøker = values[AppFormField.harMedsøker];
 
@@ -122,6 +122,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
             )}
 
             {isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG) &&
+                søkerdata &&
                 brukerSkalBekrefteOmsorgForBarnet(values, søkerdata.barn) && (
                     <>
                         <Box margin="xl">

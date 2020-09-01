@@ -1,11 +1,9 @@
 import { isStepID, StepID } from '../config/stepConfig';
-import * as IoTs from 'io-ts';
-import { FetchRecipe } from '../utils/fetcher/types';
 import { getApiUrlByResourceType } from '../utils/apiUtils';
 import { ResourceType } from './ResourceType';
 import { isString } from '@sif-common/core/utils/typeGuardUtils';
 import { isPleiepengesøknadFormData, PleiepengesøknadFormData } from './PleiepengesøknadFormData';
-import * as fetcher2 from '../utils/fetcher2/types';
+import { FetchRecipe } from '../utils/fetcher/types';
 
 export const MELLOMLAGRING_VERSION = '3';
 
@@ -38,24 +36,7 @@ export const isMaybeMellomlagringData = (value: any): value is MaybeMellomlagrin
     return value !== undefined;
 };
 
-export const isMaybeMellomlagringDataValidator: IoTs.Type<MaybeMellomlagringData> = new IoTs.Type<
-    MaybeMellomlagringData,
-    MaybeMellomlagringData,
-    unknown
->(
-    'isMellomlagringDataType',
-    isMaybeMellomlagringData,
-    (input: unknown, context: IoTs.Context) =>
-        isMaybeMellomlagringData(input) ? IoTs.success(input) : IoTs.failure(input, context),
-    IoTs.identity
-);
-
-export const fetchMaybeMellomlagringDataRecipe: FetchRecipe<MaybeMellomlagringData> = {
-    url: getApiUrlByResourceType(ResourceType.MELLOMLAGRING),
-    validator: isMaybeMellomlagringDataValidator,
-};
-
-export const fetcherMaybeMellomlagringDataRecipe: fetcher2.FetchRecipe<MaybeMellomlagringData> = {
+export const maybeMellomlagringDataRecipe: FetchRecipe<MaybeMellomlagringData> = {
     url: getApiUrlByResourceType(ResourceType.MELLOMLAGRING),
     typeguard: isMaybeMellomlagringData,
 };

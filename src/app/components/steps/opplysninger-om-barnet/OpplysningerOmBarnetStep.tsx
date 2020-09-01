@@ -14,6 +14,7 @@ const OpplysningerOmBarnetStep = ({ onValidSubmit }: StepConfigProps) => {
     const søkerdata = React.useContext(SøkerdataContext);
     return (
         <FormikStep id={StepID.OPPLYSNINGER_OM_BARNET} onValidFormSubmit={onValidSubmit}>
+            {/* TODO: gir ikke mening at søkerdata kan være undefined*/}
             {søkerdata && (
                 <>
                     {harRegistrerteBarn(søkerdata) && <RegistrertBarnPart søkersBarn={søkerdata.barn} />}

@@ -1,20 +1,20 @@
 import * as React from 'react';
-import { fetcherMaybeMellomlagringDataRecipe, MaybeMellomlagringData } from '../../types/storage';
-import { fetcherPersonResponseRecipe, PersonResponse } from '../../types/PersonResponse';
+import { maybeMellomlagringDataRecipe, MaybeMellomlagringData } from '../../types/storage';
+import { personResponseRecipe, PersonResponse } from '../../types/PersonResponse';
 import RedirectIfUnauthorized from '../../utils/handleUnauthorized/RedirectIfUnauthorized';
 import LoadingPage from '../pages/loading-page/LoadingPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import Something from './Something';
-import useFetcher from '../../utils/fetcher2/fetcher';
-import RemoteDataHandler from '../../utils/fetcher2/RemoteDataHandler';
+import useFetcher from '../../utils/fetcher/fetcher';
+import RemoteDataHandler from '../../utils/fetcher/RemoteDataHandler';
 import { RemoteData } from '@devexperts/remote-data-ts';
-import { fetch3 } from '../../utils/fetcher2/fetcherUtils';
-import { BarnResponse, fetcherBarnResponseRecipe } from '../../types/BarnResponse';
+import { fetch3 } from '../../utils/fetcher/fetcherUtils';
+import { BarnResponse, barnResponseRecipe } from '../../types/BarnResponse';
 import { AxiosError } from 'axios';
 
 const Pleiepengesøknad = () => {
     const remoteData: RemoteData<AxiosError, [PersonResponse, BarnResponse, MaybeMellomlagringData]> = useFetcher(() =>
-        fetch3([fetcherPersonResponseRecipe, fetcherBarnResponseRecipe, fetcherMaybeMellomlagringDataRecipe])
+        fetch3([personResponseRecipe, barnResponseRecipe, maybeMellomlagringDataRecipe])
     );
 
     return (
@@ -34,6 +34,7 @@ const Pleiepengesøknad = () => {
                 BarnResponse,
                 MaybeMellomlagringData
             ]) => (
+                // TODO: Rename Something
                 <Something
                     personResponse={personResponse}
                     barnResponse={barnResponse}

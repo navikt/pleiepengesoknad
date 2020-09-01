@@ -1,11 +1,9 @@
-import * as IoTs from 'io-ts';
-import { FetchRecipe } from '../utils/fetcher/types';
 import { getApiUrlByResourceType } from '../utils/apiUtils';
 import { ResourceType } from './ResourceType';
 import { isString } from '@sif-common/core/utils/typeGuardUtils';
 import { isDate } from 'moment';
 import { apiStringDateToDate } from '@sif-common/core/utils/dateUtils';
-import * as fetcher2 from '../utils/fetcher2/types';
+import { FetchRecipe } from '../utils/fetcher/types';
 
 export interface Barn {
     fornavn: string;
@@ -56,20 +54,7 @@ export const isBarnResponse = (input: any): input is BarnResponse =>
         .map((barn: any) => isBarn(barn))
         .reduce((prevValue: boolean, currentValue: boolean) => prevValue && currentValue, true);
 
-export const barnResponseValidator: IoTs.Type<BarnResponse> = new IoTs.Type<BarnResponse, BarnResponse, unknown>(
-    'barnResponseType',
-    isBarnResponse,
-    (input: unknown, context: IoTs.Context) =>
-        isBarnResponse(input) ? IoTs.success(input) : IoTs.failure(input, context),
-    IoTs.identity
-);
-
-export const fetchBarnResponseRecipe: FetchRecipe<BarnResponse> = {
-    url: getApiUrlByResourceType(ResourceType.BARN),
-    validator: barnResponseValidator,
-};
-
-export const fetcherBarnResponseRecipe: fetcher2.FetchRecipe<BarnResponse> = {
+export const barnResponseRecipe: FetchRecipe<BarnResponse> = {
     url: getApiUrlByResourceType(ResourceType.BARN),
     typeguard: isBarnResponse,
 };

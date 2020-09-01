@@ -22,7 +22,7 @@ export const calcReduserteTimerFromRedusertProsent = (timerNormalt: number, pros
 export const syncArbeidsforholdWithArbeidsgivere = (
     arbeidsgivere: Arbeidsgiver[],
     arbeidsforhold: Arbeidsforhold[]
-): Array<Partial<Arbeidsforhold>> => {
+): Arbeidsforhold[] => {
     return arbeidsgivere.map((organisasjon) => {
         const forhold: Arbeidsforhold | undefined = arbeidsforhold.find(
             (f) => f.organisasjonsnummer === organisasjon.organisasjonsnummer

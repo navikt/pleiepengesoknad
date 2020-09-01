@@ -13,7 +13,7 @@ export interface Props {
 
 const GeneralErrorPage = ({ error }: Props) => {
     const intl = useIntl();
-    console.info(JSON.stringify(error, null, 4));
+    // TODO: Legg på sentry logging av error
     return (
         <Page title={intlHelper(intl, 'page.generalErrorPage.sidetittel')}>
             <div style={{ paddingTop: '1rem' }}>

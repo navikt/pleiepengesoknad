@@ -15,7 +15,6 @@ import { getNextStepRoute, getSøknadRoute, isAvailable } from '../../utils/rout
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
-import ArbeidsforholdStep from '../steps/arbeidsforholdStep/ArbeidsforholdStep';
 import BeredskapStep from '../steps/beredskapStep/BeredskapStep';
 import LegeerklæringStep from '../steps/legeerklæring/LegeerklæringStep';
 import MedlemsskapStep from '../steps/medlemskap/MedlemsskapStep';
@@ -26,6 +25,8 @@ import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromSte
 import TilsynsordningStep from '../steps/tilsynsordning/TilsynsordningStep';
 import FortsettSøknadModalView from '../fortsett-søknad-modal/FortsettSøknadModalView';
 import LoadingPage from '../pages/loading-page/LoadingPage';
+import { isDate } from 'moment';
+import ArbeidsgiverLoader from '../steps/arbeidsforholdStep/ArbeidsgiverLoader';
 
 interface PleiepengesøknadContentProps {
     lastStepID: StepID | undefined;
@@ -177,13 +178,18 @@ const PleiepengesøknadContent = ({ formikProps, lastStepID }: Pleiepengesøknad
             <Route
                 path={getSøknadRoute(StepID.ARBEIDSFORHOLD)}
                 exact={true}
-                render={() =>
-                    ifAvailable(
-                        StepID.ARBEIDSFORHOLD,
-                        values,
-                        <ArbeidsforholdStep onValidSubmit={() => navigateToNextStep(StepID.ARBEIDSFORHOLD)} />
-                    )
-                }
+                render={() => {
+                    if (isAvailable(StepID.ARBEIDSFORHOLD, values) && values.periodeFra && isDate(values.periodeFra)) {
+                        return (
+                            <ArbeidsgiverLoader
+                                periodeFra={values.periodeFra}
+                                onValidSubmit={() => navigateToNextStep(StepID.ARBEIDSFORHOLD)}
+                            />
+                        );
+                    }
+                    navigateToWelcomePage();
+                    return <LoadingPage />;
+                }}
             />
 
             <Route
