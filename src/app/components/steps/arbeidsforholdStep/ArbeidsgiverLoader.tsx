@@ -37,7 +37,6 @@ const ArbeidsgiverLoader = ({ onValidSubmit, periodeFra }: Props) => {
                 () => {},
                 () => {},
                 ([{ organisasjoner }]: [ArbeidsgiverResponse]) => {
-                    søkerdata.setArbeidsgivere(organisasjoner);
                     updateArbeidsforhold(formikProps, organisasjoner);
                 }
             )(remoteData);

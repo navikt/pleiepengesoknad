@@ -33,14 +33,16 @@ const Pleiepengesøknad = () => {
                 PersonResponse,
                 BarnResponse,
                 MaybeMellomlagringData
-            ]) => (
-                // TODO: Rename Something
-                <Something
-                    personResponse={personResponse}
-                    barnResponse={barnResponse}
-                    maybeMellomlagringData={maybeMellomlagringData}
-                />
-            )}
+            ]) => {
+                return (
+                    // TODO: Rename Something
+                    <Something
+                        personResponse={personResponse}
+                        barnResponse={barnResponse}
+                        maybeMellomlagringData={maybeMellomlagringData}
+                    />
+                );
+            }}
         />
     );
 };

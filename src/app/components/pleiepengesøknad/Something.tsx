@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState } from 'react';
 import { PersonResponse } from '../../types/PersonResponse';
 import { isMellomlagringData, MaybeMellomlagringData } from '../../types/storage';
 import { initialValues, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
@@ -8,7 +7,6 @@ import IkkeMyndigPage from '../pages/ikke-myndig-page/IkkeMyndigPage';
 import { FormikProps } from 'formik';
 import { SøkerdataContextProvider } from '../../context/SøkerdataContext';
 import PleiepengesøknadContent from '../pleiepengesøknad-content/PleiepengesøknadContent';
-import { Arbeidsgiver } from '../../types/ArbeidsgiverResponse';
 import ApplicationFormComponents from '../../types/ApplicationFormComponents';
 import { BarnResponse } from '../../types/BarnResponse';
 
@@ -19,8 +17,6 @@ interface Props {
 }
 
 const Something: React.FC<Props> = ({ personResponse, barnResponse, maybeMellomlagringData }: Props) => {
-    const [arbeidsgivere, setArbeidsgivere] = useState<Arbeidsgiver[] | undefined>(undefined);
-
     const formdata: PleiepengesøknadFormData = isMellomlagringData(maybeMellomlagringData)
         ? maybeMellomlagringData.formData
         : initialValues;
@@ -44,8 +40,6 @@ const Something: React.FC<Props> = ({ personResponse, barnResponse, maybeMelloml
             renderForm={(formikProps: FormikProps<PleiepengesøknadFormData>) => (
                 <SøkerdataContextProvider
                     value={{
-                        arbeidsgivere: arbeidsgivere,
-                        setArbeidsgivere: setArbeidsgivere,
                         person: personResponse,
                         barn: barnResponse.barn,
                     }}>
