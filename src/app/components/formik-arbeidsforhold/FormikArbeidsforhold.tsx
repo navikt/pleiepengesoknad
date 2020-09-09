@@ -81,7 +81,6 @@ const FormikArbeidsforhold = ({ arbeidsforhold, index }: Props) => {
                                                     value={arbeidsforhold.jobberNormaltTimer || ''}
                                                     min={0}
                                                     max={100}
-                                                    maxLength={2}
                                                 />
                                             </SkjemagruppeQuestion>
                                         </Box>
