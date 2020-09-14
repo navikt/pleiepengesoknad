@@ -149,22 +149,18 @@ class SummaryStep extends React.Component<Props, State> {
                                 <Panel border={true}>
                                     <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.søker.header')}>
                                         <Normaltekst>{formatName(fornavn, etternavn, mellomnavn)}</Normaltekst>
-                                        <Normaltekst>
-                                            <Normaltekst>Fødselsnummer: {fødselsnummer}</Normaltekst>
-                                        </Normaltekst>
+                                        <Normaltekst>Fødselsnummer: {fødselsnummer}</Normaltekst>
                                     </ContentWithHeader>
                                     <Box margin="l">
                                         <ContentWithHeader
                                             header={intlHelper(intl, 'steg.oppsummering.tidsrom.header')}>
-                                            <Normaltekst>
-                                                <FormattedMessage
-                                                    id="steg.oppsummering.tidsrom.fomtom"
-                                                    values={{
-                                                        fom: prettifyDate(apiStringDateToDate(apiValues.fraOgMed)),
-                                                        tom: prettifyDate(apiStringDateToDate(apiValues.tilOgMed)),
-                                                    }}
-                                                />
-                                            </Normaltekst>
+                                            <FormattedMessage
+                                                id="steg.oppsummering.tidsrom.fomtom"
+                                                values={{
+                                                    fom: prettifyDate(apiStringDateToDate(apiValues.fraOgMed)),
+                                                    tom: prettifyDate(apiStringDateToDate(apiValues.tilOgMed)),
+                                                }}
+                                            />
                                         </ContentWithHeader>
                                     </Box>
                                     {isFeatureEnabled(Feature.TOGGLE_8_UKER) && info8uker?.erOver8Uker && (

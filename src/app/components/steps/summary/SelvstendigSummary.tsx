@@ -68,7 +68,7 @@ const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape)
                     Regnskapsfører er{' '}
                     <FormattedMessage
                         tagName="span"
-                        id="summary.virksomhet.revisorEllerRegnskapsførerDetaljer"
+                        id="summary.virksomhet.regnskapsførerDetaljer"
                         values={{ ...virksomhet.regnskapsfører }}
                     />
                 </p>

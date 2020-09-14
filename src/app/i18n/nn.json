@@ -401,6 +401,7 @@
     "summary.virksomhet.yrkesaktivSisteTreÅr.dato": "Ble yrkesaktiv",
     "summary.virksomhet.harRegnskapsfører": "Har regnskapsfører",
     "summary.virksomhet.regnskapsfører": "Regnskapsfører",
+    "summary.virksomhet.regnskapsførerDetaljer": "{navn}, telefon: {telefon}.",
 
     "selvstendig.harDuHattInntekt.spm": "Har du hatt inntekt som selvstendig næringsdrivende siste 4 uker?",
     "selvstendig.list.tittel": "Registrerte virksomheter",
