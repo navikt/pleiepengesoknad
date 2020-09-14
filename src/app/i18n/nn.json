@@ -400,11 +400,8 @@
     "summary.virksomhet.yrkesaktivSisteTreÅr": "Har begynt å jobbe i løpet av de tre siste ferdigliknede",
     "summary.virksomhet.yrkesaktivSisteTreÅr.dato": "Ble yrkesaktiv",
     "summary.virksomhet.harRegnskapsfører": "Har regnskapsfører",
-    "summary.virksomhet.harRevisor": "Har revisor",
     "summary.virksomhet.regnskapsfører": "Regnskapsfører",
-    "summary.virksomhet.revisor": "Revisor",
-    "summary.virksomhet.revisorEllerRegnskapsførerDetaljer": "{navn}, telefon: {telefon}.",
-    "summary.virksomhet.revisor.kanInnhenteOpplysninger": "Kan innhente opplysninger",
+    "summary.virksomhet.regnskapsførerDetaljer": "{navn}, telefon: {telefon}.",
 
     "selvstendig.harDuHattInntekt.spm": "Har du hatt inntekt som selvstendig næringsdrivende siste 4 uker?",
     "selvstendig.list.tittel": "Registrerte virksomheter",

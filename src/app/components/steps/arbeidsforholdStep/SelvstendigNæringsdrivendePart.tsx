@@ -2,10 +2,10 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import Panel from 'nav-frontend-paneler';
 import Box from '@sif-common/core/components/box/Box';
-import VirksomhetListAndDialog from '@sif-common/forms/virksomhet/VirksomhetListAndDialog';
 import { YesOrNo } from '@sif-common/core/types/YesOrNo';
 import intlHelper from '@sif-common/core/utils/intlUtils';
 import { validateRequiredList, validateYesOrNoIsAnswered } from '@sif-common/core/validation/fieldValidations';
+import VirksomhetListAndDialog from '@sif-common/forms/virksomhet/VirksomhetListAndDialog';
 import { AppFormField, PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
 import AppForm from '../../app-form/AppForm';
 
@@ -34,6 +34,7 @@ const SelvstendigNæringsdrivendeFormPart = ({ formValues }: Props) => {
                                 addLabel: intlHelper(intl, 'selvstendig.list.leggTilLabel'),
                                 modalTitle: intlHelper(intl, 'selvstendig.dialog.tittel'),
                             }}
+                            hideFormFields={{ harRevisor: true }}
                             validate={validateRequiredList}
                         />
                     </Panel>
