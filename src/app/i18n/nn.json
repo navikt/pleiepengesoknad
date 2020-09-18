@@ -229,7 +229,12 @@
     "steg.medlemsskap.annetLandSiste12.listeTittel": "Utenlandsopphald siste 12 måneder",
     "steg.medlemsskap.annetLandNeste12.listeTittel": "Utenlandsopphald neste 12 måneder",
 
-    "steg.lege.vedlegg": "Last opp bilete av legeerklæringa (maks 3 bilete).",
+    "steg.lege.vedlegg": "Last opp bilete av legeerklæringa",
+    "steg.legeerklaering.counsellorpanel.3.1": "Her skal du laste opp legeerklæringa",
+    "steg.legeerklaering.counsellorpanel.3.2": "eller ",
+    "steg.legeerklaering.counsellorpanel.3.3": "ein bekreftelse på at barnet/personen over 18 år har vore til behandling/utredning i sjukehus eller annan spesialisthelsetjeneste. Det gjør du enten ved å ta bilete av dokumentasjonen, eller ved å scanne den.",
+    "steg.legeerklaering.counsellorpanel.4": "Dersom du ikkje har dokumentasjonen nå, ",
+    "steg.legeerklaering.counsellorpanel.4.1": "kan du ettersende den.",
 
     "steg.oppsummering.info": "Les gjennom oppsummeringa før du sender inn søknaden. Dersom du vil gjere endringar, kan du gå tilbake.",
     "steg.oppsummering.søker.header": "Namn på søkjar",
@@ -273,7 +278,7 @@
     "steg.oppsummering.utlandetNeste12.liste.header": "Utenlandsopphald neste 12 måneder",
     "steg.oppsummering.legeerklæring.header": "Legeerklæring",
     "steg.oppsummering.bekrefterOpplysninger": "Eg stadfestar at opplysningane eg har gitt, er riktige, og at eg ikkje har halde tilbake opplysningar som er viktige for retten min til pleiepengar.",
-    "steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet": "Du må stadfeste  opplysningane.",
+    "steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet": "Du må stadfeste opplysningane.",
 
     "steg.oppsummering.arbeidsforhold.header": "Arbeidsforhold",
     "steg.oppsummering.arbeidsforhold.forhold": "{navn} (organisasjonsnummer: {organisasjonsnummer})",
@@ -307,8 +312,8 @@
 
     "vedleggsliste.fjernKnapp": "Fjern vedlegg",
     "vedleggsliste.ingenLegeerklæringLastetOpp": "Ingen vedlegg er lasta opp.",
-    "vedleggsliste.legeerklæringLastetOppSjekkliste.1": "Før du fortset: Klikk på kvart enkelt filnamn og sjekk at biletkvaliteten er god nok.",
-    "vedleggsliste.legeerklæringLastetOppSjekkliste.2": "Biletet blir opna i ei ny fane.",
+    "dokumenter.advarsel.totalstørrelse.1": "Du har totalt lasta opp meir enn grensa på 24 Mb. Det betyr at du må fjerne nokre av dei vedlegga du har lasta opp. Dersom det betyr at du ikkje får plass til alt du ønskjer å sende nå, kan du ",
+    "dokumenter.advarsel.totalstørrelse.2": "ettersende fleire dokumenter.",
 
     "fieldvalidation.påkrevd": "Du må fylle ut feltet.",
     "fieldvalidation.fødselsnummer.11siffer": "Fødselsnummeret må innehalde 11 siffer.",
@@ -322,7 +327,7 @@
     "fieldvalidation.periodeErOver8UkerMenIkkeØnsket": "For å kunne fortsetje må du anten velje  \"Ja\" for å bekrefte at du vil søkje for ein lengre periode enn 8 veker, eller du må leggje inn ein kortare periode enn 8 veker dersom du har svart \"Nei\".",
     "fieldvalidation.bekreftOmsorg_ekstrainfoForMangeTegn": "For mange teikn. Maks tal på teikn er 1000.",
     "fieldvalidation.legeerklæring.mangler": "Du må laste opp ei legeerklæring.",
-    "fieldvalidation.legeerklæring.forMangeFiler": "Du kan maksimalt laste opp 3 bilete.",
+    "fieldvalidation.legeerklæring.forMangeFiler": "Du har lasta opp for mange vedlegg",
     "fieldvalidation.grad.ugyldig": "Du må gi opp graden som eit heiltal mellom 20 og 100 prosent.",
     "fieldvalidation.arbeidsforhold_timerUgyldig": "Ver vennleg og fyll ut eit tal mellom {min} og {max}.",
     "fieldvalidation.arbeidsforhold_timerUgyldig_under_1_prosent": "Du kan ikkje jobbe mindre enn 1 prosent av kva du jobbar normalt",
@@ -340,6 +345,7 @@
     "fieldvalidation.ferieuttak_ikke_registrert": "Du har ikkje registrert nokon ferieuttak for perioden",
     "fieldvalidation.ferieuttak_utenfor_periode": "Ein ferie du har lagt inn overlappar ikkje med perioden du søkjer for. Då kan du ta bort denne ferien.",
     "fieldvalidation.ferieuttak_overlapper": "Ein eller fleire av feriane går over dei same datoane",
+    "fieldvalidation.samlet_storrelse_for_hoy": "Total samla størrelse for dokumenta du har lasta opp overstig grensa på 24Mb.",
 
     "arbeidsforhold.erAnsattIPerioden.spm": "Er du tilsett her i perioden du søkjer pleiepengar for?",
 
@@ -403,11 +409,8 @@
     "summary.virksomhet.yrkesaktivSisteTreÅr": "Har begynt å jobbe i løpet av de tre siste ferdiglikna",
     "summary.virksomhet.yrkesaktivSisteTreÅr.dato": "Blei yrkesaktiv",
     "summary.virksomhet.harRegnskapsfører": "Har rekneskapsførar",
-    "summary.virksomhet.harRevisor": "Har revisor",
     "summary.virksomhet.regnskapsfører": "Rekneskapsførar",
-    "summary.virksomhet.revisor": "Revisor",
-    "summary.virksomhet.revisorEllerRegnskapsførerDetaljer": "{navn}, telefon: {telefon}.",
-    "summary.virksomhet.revisor.kanInnhenteOpplysninger": "Kan hente inn opplysningar",
+    "summary.virksomhet.regnskapsførerDetaljer": "{navn}, telefon: {telefon}.",
 
     "selvstendig.harDuHattInntekt.spm": "Har du hatt inntekt som sjølvstendig næringsdrivande dei siste 4 vekene?",
     "selvstendig.list.tittel": "Registrerte verksemder",

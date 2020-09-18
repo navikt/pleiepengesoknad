@@ -3,7 +3,11 @@ import { Utenlandsopphold } from '@sif-common/forms/utenlandsopphold/types';
 import { Attachment } from '@sif-common/core/types/Attachment';
 import { Time } from '@sif-common/core/types/Time';
 import { YesOrNo } from '@sif-common/core/types/YesOrNo';
-import { attachmentHasBeenUploaded } from '@sif-common/core/utils/attachmentUtils';
+import {
+    attachmentHasBeenUploaded,
+    getTotalSizeOfAttachments,
+    MAX_TOTAL_ATTACHMENT_SIZE_BYTES,
+} from '@sif-common/core/utils/attachmentUtils';
 import {
     date1YearAgo,
     date1YearFromNow,
@@ -38,6 +42,7 @@ export enum AppFieldValidationErrors {
     'bekreftOmsorg_ekstrainfoForMangeTegn' = 'fieldvalidation.bekreftOmsorg_ekstrainfoForMangeTegn',
     'legeerklæring_mangler' = 'fieldvalidation.legeerklæring.mangler',
     'legeerklæring_forMangeFiler' = 'fieldvalidation.legeerklæring.forMangeFiler',
+    'samlet_storrelse_for_hoy' = 'fieldvalidation.samlet_storrelse_for_hoy',
     'arbeidsforhold_timerUgyldig' = 'fieldvalidation.arbeidsforhold_timerUgyldig',
     'arbeidsforhold_timerUgyldig_under_1_prosent' = 'fieldvalidation.arbeidsforhold_timerUgyldig_under_1_prosent',
     'arbeidsforhold_timerUgyldig_over_99_prosent' = 'fieldvalidation.arbeidsforhold_timerUgyldig_over_99_prosent',
@@ -249,10 +254,14 @@ export const validateFerieuttakIPerioden = (periode: DateRange, ferieuttak: Feri
 
 export const validateLegeerklæring = (attachments: Attachment[]): FieldValidationResult => {
     const uploadedAttachments = attachments.filter((attachment) => attachmentHasBeenUploaded(attachment));
+    const totalSizeInBytes: number = getTotalSizeOfAttachments(attachments);
+    if (totalSizeInBytes > MAX_TOTAL_ATTACHMENT_SIZE_BYTES) {
+        return createAppFieldValidationError(AppFieldValidationErrors.samlet_storrelse_for_hoy);
+    }
     // if (uploadedAttachments.length === 0) {
     //     return createAppFieldValidationError(AppFieldValidationErrors.legeerklæring_mangler);
     // }
-    if (uploadedAttachments.length > 3) {
+    if (uploadedAttachments.length > 100) {
         return createAppFieldValidationError(AppFieldValidationErrors.legeerklæring_forMangeFiler);
     }
     return undefined;

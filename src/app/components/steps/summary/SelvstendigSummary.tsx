@@ -68,30 +68,13 @@ const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape)
                     Regnskapsfører er{' '}
                     <FormattedMessage
                         tagName="span"
-                        id="summary.virksomhet.revisorEllerRegnskapsførerDetaljer"
+                        id="summary.virksomhet.regnskapsførerDetaljer"
                         values={{ ...virksomhet.regnskapsfører }}
                     />
                 </p>
             )}
-            {/* Revisor */}
-            {virksomhet.revisor && (
-                <p>
-                    Revisor er{' '}
-                    <FormattedMessage
-                        tagName="span"
-                        id="summary.virksomhet.revisorEllerRegnskapsførerDetaljer"
-                        values={{ ...virksomhet.revisor }}
-                    />
-                    {virksomhet.revisor.kanInnhenteOpplysninger === true && (
-                        <>
-                            <br />
-                            Nav har fullmakt til å innhente opplysninger direkte fra revisor.
-                        </>
-                    )}
-                </p>
-            )}
-            {/** Har hverken revisor eller regnskapsfører */}
-            {!virksomhet.regnskapsfører && !virksomhet.revisor && <p>Har ikke regnskapsfører eller revisor.</p>}
+            {/** Har ikke regnskapsfører */}
+            {!virksomhet.regnskapsfører && <p>Har ikke regnskapsfører.</p>}
         </SummaryBlock>
     );
 };

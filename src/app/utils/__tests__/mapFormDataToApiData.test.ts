@@ -148,7 +148,6 @@ const selvstendigPartialFormData: Partial<PleiepengesøknadFormData> = {
             registrertINorge: YesOrNo.YES,
             organisasjonsnummer: '123123123',
             harRegnskapsfører: YesOrNo.NO,
-            harRevisor: YesOrNo.NO,
         },
     ],
 };
