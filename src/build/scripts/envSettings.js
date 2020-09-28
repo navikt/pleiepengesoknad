@@ -8,6 +8,7 @@ const createEnvSettingsFile = async (settingsFile) => {
     const LOGIN_URL = process.env.LOGIN_URL;
     const PUBLIC_PATH = process.env.PUBLIC_PATH;
     const UTILGJENGELIG = process.env.UTILGJENGELIG;
+    const NYNORSK = process.env.NYNORSK;
     const TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN = process.env.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN;
     const TOGGLE_8_UKER = process.env.TOGGLE_8_UKER;
     const APPSTATUS_PROJECT_ID = process.env.APPSTATUS_PROJECT_ID;
@@ -19,6 +20,7 @@ const createEnvSettingsFile = async (settingsFile) => {
         LOGIN_URL: '${LOGIN_URL}',
         PUBLIC_PATH: '${PUBLIC_PATH}',
         UTILGJENGELIG: '${UTILGJENGELIG}',
+        NYNORSK: '${NYNORSK}',
         TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN: '${TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN}',
         TOGGLE_8_UKER: '${TOGGLE_8_UKER}',
         TOGGLE_BEKREFT_OMSORG: '${process.env.TOGGLE_BEKREFT_OMSORG}',
