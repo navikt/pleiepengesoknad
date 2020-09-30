@@ -210,7 +210,7 @@ const PleiepengesøknadContent = () => {
                                 const info = getKvitteringInfoFromApiData(apiData, søkerdata);
                                 setKvitteringInfo(info);
                                 setSøknadHasBeenSent(true);
-                                // resetForm(); // FIXME
+                                resetForm();
                                 navigateTo(RouteConfig.SØKNAD_SENDT_ROUTE, history);
                             }}
                         />
@@ -221,7 +221,7 @@ const PleiepengesøknadContent = () => {
             <Route
                 path={RouteConfig.SØKNAD_SENDT_ROUTE}
                 render={() => {
-                    if (søknadHasBeenSent && kvitteringInfo) {
+                    if (søknadHasBeenSent) {
                         return <ConfirmationPage kvitteringInfo={kvitteringInfo} />;
                     } else {
                         return <GeneralErrorPage />;

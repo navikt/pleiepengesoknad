@@ -8,4 +8,7 @@ export default () => {
     window.scrollTo = () => {
         return;
     };
+    (window as any).appSettings = {
+        API_URL: "localhost:8082"
+    }
 };
