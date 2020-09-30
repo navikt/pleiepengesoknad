@@ -11,11 +11,12 @@ import Page from '@sif-common/core/components/page/Page';
 import StepBanner from '@sif-common/core/components/step-banner/StepBanner';
 import bemHelper from '@sif-common/core/utils/bemUtils';
 import { purge } from 'app/api/api';
-import { navigateToNAVno, navigateToWelcomePage } from 'app/utils/navigationUtils';
+import { redirectToNAVno, redirectToWelcomePage } from 'app/utils/navigationUtils';
 import { getStepTexts } from 'app/utils/stepUtils';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from '../../config/stepConfig';
 import StepIndicator from '../step-indicator/StepIndicator';
 import StepFooter from '../stepFooter/StepFooter';
+import { useHistory } from 'react-router-dom';
 import './step.less';
 
 export interface StepProps {
@@ -35,15 +36,16 @@ const bem = bemHelper('step');
 const Step = ({ id, useValidationErrorSummary, stepConfig, children }: Props) => {
     const conf = stepConfig[id];
     const intl = useIntl();
+    const history = useHistory();
     const stepTexts: StepConfigItemTexts = getStepTexts(intl, id, stepConfig);
     const [visAvbrytDialog, setVisAvbrytDialog] = React.useState<boolean>(false);
     const [visFortsettSenereDialog, setVisFortsettSenereDialog] = React.useState<boolean>(false);
     const handleAvsluttOgFortsettSenere = () => {
-        navigateToNAVno();
+        redirectToNAVno();
     };
     const handleAvbrytSøknad = () => {
         purge().then(() => {
-            navigateToWelcomePage();
+            redirectToWelcomePage(history);
         });
     };
     return (

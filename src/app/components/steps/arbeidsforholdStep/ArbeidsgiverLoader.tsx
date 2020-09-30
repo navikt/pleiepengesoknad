@@ -9,7 +9,7 @@ import FormikStep from '../../formik-step/FormikStep';
 import { ArbeidsgiverResponse, arbeidsgiverResponseRecipe } from '../../../types/ArbeidsgiverResponse';
 import useFetcher from '../../../utils/fetcher/fetcher';
 import { fetch1 } from '../../../utils/fetcher/fetcherUtils';
-import { fold, isSuccess, RemoteData } from '@devexperts/remote-data-ts';
+import { isSuccess, RemoteData } from '@devexperts/remote-data-ts';
 import { AxiosError } from 'axios';
 import RemoteDataHandler from '../../../utils/fetcher/RemoteDataHandler';
 import RedirectIfUnauthorized from '../../../utils/handleUnauthorized/RedirectIfUnauthorized';
@@ -31,15 +31,9 @@ const ArbeidsgiverLoader = ({ onValidSubmit, periodeFra }: Props) => {
     );
 
     useEffect(() => {
-        if (søkerdata) {
-            fold(
-                () => {},
-                () => {},
-                () => {},
-                ([{ organisasjoner }]: [ArbeidsgiverResponse]) => {
-                    updateArbeidsforhold(formikProps, organisasjoner);
-                }
-            )(remoteData);
+        if (søkerdata && isSuccess(remoteData)) {
+            const [{ organisasjoner }] = remoteData.value;
+            updateArbeidsforhold(formikProps, organisasjoner);
         }
     }, [remoteData]);
 
@@ -62,7 +56,7 @@ const ArbeidsgiverLoader = ({ onValidSubmit, periodeFra }: Props) => {
                 initializing={loadingSpinner}
                 loading={loadingSpinner}
                 error={redirectIfUnauthorizedOrGeneralErrorPage}
-                success={([arbeidsgiverResponse]: [ArbeidsgiverResponse]) => <ArbeidsforholdStep />}
+                success={() => <ArbeidsforholdStep />}
             />
         </FormikStep>
     );

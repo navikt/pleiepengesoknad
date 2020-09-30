@@ -1,19 +1,17 @@
 import * as React from 'react';
-import { useState } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import { apiStringDateToDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
-import { FormikProps, useFormikContext } from 'formik';
-import { isForbiddenOrUnauthorizedAndWillRedirectToLogin, persist, purge } from '../../api/api';
+import { useFormikContext } from 'formik';
+import { persist } from '../../api/api';
 import RouteConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';
 import { ArbeidsforholdApi, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
-import { initialValues, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { Søkerdata } from '../../types/Søkerdata';
 import { navigateTo, navigateToWelcomePage } from '../../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../../utils/routeUtils';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
-import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
 import BeredskapStep from '../steps/beredskapStep/BeredskapStep';
 import LegeerklæringStep from '../steps/legeerklæring/LegeerklæringStep';
@@ -23,15 +21,9 @@ import OpplysningerOmBarnetStep from '../steps/opplysninger-om-barnet/Opplysning
 import SummaryStep from '../steps/summary/SummaryStep';
 import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromStep';
 import TilsynsordningStep from '../steps/tilsynsordning/TilsynsordningStep';
-import FortsettSøknadModalView from '../fortsett-søknad-modal/FortsettSøknadModalView';
 import LoadingPage from '../pages/loading-page/LoadingPage';
-import { isDate } from 'moment';
 import ArbeidsgiverLoader from '../steps/arbeidsforholdStep/ArbeidsgiverLoader';
-
-interface PleiepengesøknadContentProps {
-    lastStepID: StepID | undefined;
-    formikProps: FormikProps<PleiepengesøknadFormData>;
-}
+import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 
 export interface KvitteringInfo {
     fom: Date;
@@ -61,21 +53,16 @@ const ifAvailable = (stepID: StepID, values: PleiepengesøknadFormData, componen
     if (isAvailable(stepID, values)) {
         return component;
     } else {
-        navigateToWelcomePage();
-        return <LoadingPage />;
+        return <GeneralErrorPage />;
     }
 };
 
-const PleiepengesøknadContent = ({ formikProps, lastStepID }: PleiepengesøknadContentProps) => {
+const PleiepengesøknadContent = () => {
     const history = useHistory();
     const { values, resetForm } = useFormikContext<PleiepengesøknadFormData>();
 
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
     const [kvitteringInfo, setKvitteringInfo] = React.useState<KvitteringInfo | undefined>(undefined);
-    const [hasBeenClosed, setHasBeenClosed] = useState<boolean>(false);
-    const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [buttonsAreDisabled, setButtonsAreDisabled] = useState<boolean>(false);
 
     const navigateToNextStep = (stepId: StepID) => {
         setTimeout(() => {
@@ -87,39 +74,6 @@ const PleiepengesøknadContent = ({ formikProps, lastStepID }: Pleiepengesøknad
         });
     };
 
-    const fortsettPåPåbegyntSøknad = async (lastStepID: StepID): Promise<void> => {
-        setButtonsAreDisabled(true);
-        await navigateTo(lastStepID, history);
-        setButtonsAreDisabled(false);
-    };
-
-    const startPåNySøknad = async (): Promise<void> => {
-        setButtonsAreDisabled(true);
-        try {
-            await purge();
-            setHasBeenClosed(true);
-            formikProps.setFormikState((prevState) => {
-                return {
-                    ...prevState,
-                    values: initialValues,
-                };
-            });
-        } catch (e) {
-            const willRedirect: boolean = await isForbiddenOrUnauthorizedAndWillRedirectToLogin(e);
-            if (willRedirect) {
-                setShowErrorMessage(true);
-            } else {
-                setIsLoading(true);
-            }
-        }
-        setButtonsAreDisabled(false);
-    };
-    if (isLoading) {
-        return <LoadingPage />;
-    }
-    if (showErrorMessage) {
-        return <GeneralErrorPage />;
-    }
     return (
         <Switch>
             <Route
@@ -136,15 +90,6 @@ const PleiepengesøknadContent = ({ formikProps, lastStepID }: Pleiepengesøknad
                                 })
                             }
                         />
-                        {lastStepID && (
-                            <FortsettSøknadModalView
-                                isOpen={!!lastStepID && !hasBeenClosed}
-                                buttonsAreDisabled={buttonsAreDisabled}
-                                onRequestClose={startPåNySøknad}
-                                onFortsettPåSøknad={() => fortsettPåPåbegyntSøknad(lastStepID)}
-                                onStartNySøknad={startPåNySøknad}
-                            />
-                        )}
                     </div>
                 )}
             />
@@ -179,7 +124,7 @@ const PleiepengesøknadContent = ({ formikProps, lastStepID }: Pleiepengesøknad
                 path={getSøknadRoute(StepID.ARBEIDSFORHOLD)}
                 exact={true}
                 render={() => {
-                    if (isAvailable(StepID.ARBEIDSFORHOLD, values) && values.periodeFra && isDate(values.periodeFra)) {
+                    if (isAvailable(StepID.ARBEIDSFORHOLD, values) && values.periodeFra) {
                         return (
                             <ArbeidsgiverLoader
                                 periodeFra={values.periodeFra}
@@ -187,8 +132,7 @@ const PleiepengesøknadContent = ({ formikProps, lastStepID }: Pleiepengesøknad
                             />
                         );
                     }
-                    navigateToWelcomePage();
-                    return <LoadingPage />;
+                    return <GeneralErrorPage />;
                 }}
             />
 
@@ -266,7 +210,7 @@ const PleiepengesøknadContent = ({ formikProps, lastStepID }: Pleiepengesøknad
                                 const info = getKvitteringInfoFromApiData(apiData, søkerdata);
                                 setKvitteringInfo(info);
                                 setSøknadHasBeenSent(true);
-                                resetForm();
+                                // resetForm(); // FIXME
                                 navigateTo(RouteConfig.SØKNAD_SENDT_ROUTE, history);
                             }}
                         />
@@ -280,16 +224,18 @@ const PleiepengesøknadContent = ({ formikProps, lastStepID }: Pleiepengesøknad
                     if (søknadHasBeenSent && kvitteringInfo) {
                         return <ConfirmationPage kvitteringInfo={kvitteringInfo} />;
                     } else {
-                        navigateToWelcomePage();
-                        return <LoadingPage />;
+                        return <GeneralErrorPage />;
                     }
                 }}
             />
 
+            <Route path={RouteConfig.ERROR_PAGE_ROUTE} exact={true} render={() => <GeneralErrorPage />} />
+
             <Route
-                path={RouteConfig.SØKNAD_ROUTE_PREFIX}
+                path={'/'}
+                exact={false}
                 component={(): JSX.Element => {
-                    navigateToWelcomePage();
+                    navigateToWelcomePage(history);
                     return <LoadingPage />;
                 }}
             />

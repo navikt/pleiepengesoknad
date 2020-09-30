@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { AxiosError } from 'axios';
 import { isForbidden, isUnauthorized } from '../apiUtils';
-import { navigateToLoginPage } from '../navigationUtils';
+import { redirectToLoginPage } from '../navigationUtils';
 
 interface Props {
     error: Error;
@@ -14,7 +14,7 @@ export const hasResponseStatus = (value: any): value is AxiosError =>
 
 const RedirectIfUnauthorized: React.FC<Props> = ({ error, onWillRedirect, handleError }: Props): JSX.Element => {
     if (hasResponseStatus(error) && (isForbidden(error) || isUnauthorized(error))) {
-        navigateToLoginPage();
+        redirectToLoginPage();
         return onWillRedirect();
     } else {
         return handleError(error);

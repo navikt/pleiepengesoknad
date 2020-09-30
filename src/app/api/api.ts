@@ -7,7 +7,7 @@ import { ResourceType } from '../types/ResourceType';
 import { MELLOMLAGRING_VERSION, MellomlagringData } from '../types/storage';
 import { getApiUrlByResourceType, isForbidden, isUnauthorized, sendMultipartPostRequest } from '../utils/apiUtils';
 import { storageParser } from '../utils/parser';
-import { navigateToLoginPage } from '../utils/navigationUtils';
+import { redirectToLoginPage } from '../utils/navigationUtils';
 import { Arbeidsgiver } from '../types/ArbeidsgiverResponse';
 
 export const persist = (formData: PleiepengesøknadFormData, lastStepID: StepID): void => {
@@ -40,7 +40,7 @@ export const deleteFile = (url: string) => axios.delete(url, axiosConfig);
 
 export const isForbiddenOrUnauthorizedAndWillRedirectToLogin = (response: AxiosError): boolean => {
     if (isForbidden(response) || isUnauthorized(response)) {
-        navigateToLoginPage();
+        redirectToLoginPage();
         return true;
     } else {
         return false;

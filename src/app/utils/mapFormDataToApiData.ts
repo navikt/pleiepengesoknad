@@ -187,6 +187,7 @@ export const mapFormDataToApiData = (
             return undefined;
         }
     } else {
+        console.info('Dette skal aldri skje. mapFormDataToApiData gir undefined');
         appSentryLogger.logError(
             'mapFormDataToApiData failed - empty periode',
             JSON.stringify({ periodeFra, periodeTil })

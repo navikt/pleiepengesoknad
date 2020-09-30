@@ -2,8 +2,9 @@ import { isStepID, StepID } from '../config/stepConfig';
 import { getApiUrlByResourceType } from '../utils/apiUtils';
 import { ResourceType } from './ResourceType';
 import { isString } from '@sif-common/core/utils/typeGuardUtils';
-import { isPleiepengesøknadFormData, PleiepengesøknadFormData } from './PleiepengesøknadFormData';
+import { isValidFormdataVersion, PleiepengesøknadFormData } from './PleiepengesøknadFormData';
 import { FetchRecipe } from '../utils/fetcher/types';
+import { Either, left, right } from 'fp-ts/Either';
 
 export const MELLOMLAGRING_VERSION = '3';
 
@@ -23,12 +24,23 @@ export interface MellomlagringData {
     formData: PleiepengesøknadFormData;
 }
 
-export const isMellomlagringData = (maybeMellomlagringData: any): maybeMellomlagringData is MellomlagringData =>
+export const isValidMellomlagringsData = (maybeMellomlagringData: any): maybeMellomlagringData is MellomlagringData =>
     maybeMellomlagringData &&
     maybeMellomlagringData.metadata &&
     isStorageMetadata(maybeMellomlagringData.metadata) &&
     maybeMellomlagringData.formData &&
-    isPleiepengesøknadFormData(maybeMellomlagringData.formData, maybeMellomlagringData.metadata.version);
+    isValidFormdataVersion(maybeMellomlagringData.formData, maybeMellomlagringData.metadata.version);
+
+export const validateMellomlagringsData = (
+    maybeMellomlagringData: any,
+    initialPleiepengesøknadFormData: PleiepengesøknadFormData
+): Either<[PleiepengesøknadFormData, StepID], PleiepengesøknadFormData> => {
+    if (isValidMellomlagringsData(maybeMellomlagringData)) {
+        return left([maybeMellomlagringData.formData, maybeMellomlagringData.metadata.lastStepID]);
+    } else {
+        return right(initialPleiepengesøknadFormData);
+    }
+};
 
 export type MaybeMellomlagringData = any;
 

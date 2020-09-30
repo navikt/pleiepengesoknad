@@ -173,6 +173,6 @@ export const initialValues: PleiepengesøknadFormData = {
     [AppFormField.selvstendig_virksomheter]: [],
 };
 
-export const isPleiepengesøknadFormData = (value: any, version: string): value is PleiepengesøknadFormData => {
+export const isValidFormdataVersion = (value: any, version: string): value is PleiepengesøknadFormData => {
     return version === MELLOMLAGRING_VERSION;
 };

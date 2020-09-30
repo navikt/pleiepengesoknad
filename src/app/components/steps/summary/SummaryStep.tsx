@@ -31,7 +31,7 @@ import { Søkerdata } from '../../../types/Søkerdata';
 import * as apiUtils from '../../../utils/apiUtils';
 import appSentryLogger from '../../../utils/appSentryLogger';
 import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
-import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
+import { navigateTo, redirectToLoginPage } from '../../../utils/navigationUtils';
 import { erPeriodeOver8Uker } from '../../../utils/søkerOver8UkerUtils';
 import { getVarighetString } from '../../../utils/varighetUtils';
 import { validateApiValues } from '../../../validation/apiValuesValidation';
@@ -76,7 +76,7 @@ class SummaryStep extends React.Component<Props, State> {
             onApplicationSent(apiValues, søkerdata);
         } catch (error) {
             if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
-                navigateToLoginPage();
+                redirectToLoginPage();
             } else {
                 appSentryLogger.logApiError(error);
                 navigateTo(routeConfig.ERROR_PAGE_ROUTE, history);

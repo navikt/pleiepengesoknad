@@ -1,16 +1,16 @@
 import * as React from 'react';
-import { maybeMellomlagringDataRecipe, MaybeMellomlagringData } from '../../types/storage';
-import { personResponseRecipe, PersonResponse } from '../../types/PersonResponse';
+import { MaybeMellomlagringData, maybeMellomlagringDataRecipe } from '../../types/storage';
+import { PersonResponse, personResponseRecipe } from '../../types/PersonResponse';
 import RedirectIfUnauthorized from '../../utils/handleUnauthorized/RedirectIfUnauthorized';
 import LoadingPage from '../pages/loading-page/LoadingPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
-import Something from './Something';
 import useFetcher from '../../utils/fetcher/fetcher';
 import RemoteDataHandler from '../../utils/fetcher/RemoteDataHandler';
 import { RemoteData } from '@devexperts/remote-data-ts';
 import { fetch3 } from '../../utils/fetcher/fetcherUtils';
 import { BarnResponse, barnResponseRecipe } from '../../types/BarnResponse';
 import { AxiosError } from 'axios';
+import ContentHandler from './ContentHandler';
 
 const Pleiepengesøknad = () => {
     const remoteData: RemoteData<AxiosError, [PersonResponse, BarnResponse, MaybeMellomlagringData]> = useFetcher(() =>
@@ -29,20 +29,7 @@ const Pleiepengesøknad = () => {
                     handleError={(error: Error) => <GeneralErrorPage error={error} />}
                 />
             )}
-            success={([personResponse, barnResponse, maybeMellomlagringData]: [
-                PersonResponse,
-                BarnResponse,
-                MaybeMellomlagringData
-            ]) => {
-                return (
-                    // TODO: Rename Something
-                    <Something
-                        personResponse={personResponse}
-                        barnResponse={barnResponse}
-                        maybeMellomlagringData={maybeMellomlagringData}
-                    />
-                );
-            }}
+            success={ContentHandler}
         />
     );
 };

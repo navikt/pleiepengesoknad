@@ -15,8 +15,8 @@ export const calcReduserteTimerFromRedusertProsent = (timerNormalt: number, pros
 export const syncArbeidsforholdWithArbeidsgivere = (
     arbeidsgivere: Arbeidsgiver[],
     arbeidsforhold: Arbeidsforhold[]
-): Arbeidsforhold[] => {
-    return arbeidsgivere.map((organisasjon) => {
+): Arbeidsforhold[] =>
+    arbeidsgivere.map((organisasjon) => {
         const forhold: Arbeidsforhold | undefined = arbeidsforhold.find(
             (f) => f.organisasjonsnummer === organisasjon.organisasjonsnummer
         );
@@ -25,7 +25,6 @@ export const syncArbeidsforholdWithArbeidsgivere = (
             ...forhold,
         };
     });
-};
 
 export const updateArbeidsforhold = (
     formikProps: FormikProps<PleiepengesøknadFormData>,

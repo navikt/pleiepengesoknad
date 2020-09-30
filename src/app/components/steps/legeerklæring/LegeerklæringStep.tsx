@@ -16,7 +16,7 @@ import intlHelper from '@sif-common/core/utils/intlUtils';
 import { persist } from '../../../api/api';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { navigateToLoginPage } from '../../../utils/navigationUtils';
+import { redirectToLoginPage } from '../../../utils/navigationUtils';
 import { validateLegeerklæring } from '../../../validation/fieldValidations';
 import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
 import FormikStep from '../../formik-step/FormikStep';
@@ -97,7 +97,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
                         setFilesThatDidntGetUploaded([]);
                     }}
                     validate={validateLegeerklæring}
-                    onUnauthorizedOrForbiddenUpload={navigateToLoginPage}
+                    onUnauthorizedOrForbiddenUpload={redirectToLoginPage}
                 />
             </Box>
             {totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES && (
