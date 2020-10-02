@@ -180,7 +180,7 @@ class SummaryStep extends React.Component<Props, State> {
                                     <Box margin="l">
                                         <BarnSummary barn={barn} formValues={values} apiValues={apiValues} />
                                     </Box>
-                                    {isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG) && apiValues.skalBegrefteOmsorg && (
+                                    {isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG) && apiValues.skalBekrefteOmsorg && (
                                         <Box margin="l">
                                             <ContentWithHeader
                                                 header={intlHelper(

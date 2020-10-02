@@ -114,7 +114,7 @@ export const mapFormDataToApiData = (
                 const skalBekrefteOmsorgForBarnet = brukerSkalBekrefteOmsorgForBarnet(formData, barn);
                 const skalBeskriveOmsorgForBarnet = brukerSkalBeskriveOmsorgForBarnet(formData, barn);
                 if (skalBekrefteOmsorgForBarnet) {
-                    apiData.skalBegrefteOmsorg = true;
+                    apiData.skalBekrefteOmsorg = true;
                     apiData.skalPassePåBarnetIHelePerioden = formData.skalPassePåBarnetIHelePerioden === YesOrNo.YES;
                     if (skalBeskriveOmsorgForBarnet) {
                         apiData.beskrivelseOmsorgsrollen = formData.beskrivelseOmsorgsrolleIPerioden;
