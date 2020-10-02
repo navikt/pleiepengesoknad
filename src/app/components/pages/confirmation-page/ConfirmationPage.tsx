@@ -2,18 +2,20 @@ import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { Knapp } from 'nav-frontend-knapper';
-import Lenke from 'nav-frontend-lenker';
 import Panel from 'nav-frontend-paneler';
-import { Ingress, Innholdstittel } from 'nav-frontend-typografi';
+import { Innholdstittel } from 'nav-frontend-typografi';
 import Box from '@sif-common/core/components/box/Box';
 import CheckmarkIcon from '@sif-common/core/components/checkmark-icon/CheckmarkIcon';
+import FormattedHtmlMessage from '@sif-common/core/components/formatted-html-message/FormattedHtmlMessage';
 import Page from '@sif-common/core/components/page/Page';
 import bemUtils from '@sif-common/core/utils/bemUtils';
 import intlHelper from '@sif-common/core/utils/intlUtils';
-import getLenker from 'app/lenker';
+import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import NavPrintPage from '../../nav-print-page/NavPrintPage';
 import { KvitteringInfo } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
 import ArbeidsgiverUtskrift from './ArbeidsgiverUtskrift';
+import InfoMedInnsyn from './InfoMedInnsyn';
+import InfoUtenInnsyn from './InfoUtenInnsyn';
 import './confirmationPage.less';
 
 interface Props {
@@ -41,59 +43,32 @@ const ConfirmationPage = ({ kvitteringInfo }: Props) => {
             {numberOfArbeidsforhold > 0 && (
                 <Box margin="xl">
                     <AlertStripeInfo>
-                        <strong>Obs!</strong> Denne informasjonssiden forsvinner når du lukker den. Det er derfor viktig
-                        at du leser gjennom før du går videre.
-                        <p>
-                            Siden kan printes ut, slik at du kan gi utskrift til{' '}
-                            {pluralize(numberOfArbeidsforhold, 'arbeidsgiveren din', 'arbeidsgiverne dine')}.
-                        </p>
+                        <FormattedHtmlMessage
+                            id="page.confirmation.alertInfo.html"
+                            value={{ numberOfArbeidsforhold }}
+                        />
                     </AlertStripeInfo>
                 </Box>
             )}
             <Box margin="xl">
                 <Panel className={bem.element('steps')} border={true}>
-                    <Ingress>
-                        <FormattedMessage id="page.confirmation.undertittel" />
-                    </Ingress>
-                    <ul className="checklist">
-                        <li>
-                            Dette er en bekreftelse på at vi har mottatt søknaden din. På grunn av stor pågang er det
-                            vanskelig å si når søknaden blir synlig for deg på Ditt NAV.
-                            <p>
-                                Når søknaden din er ferdigbehandlet, får du et svar fra oss. Se{' '}
-                                <Lenke href={getLenker(intl.locale).saksbehandlingstider} target="_blank">
-                                    saksbehandlingstiden som gjelder for ditt fylke
-                                </Lenke>{' '}
-                                .
-                            </p>
-                        </li>
-                        {numberOfArbeidsforhold > 0 && (
-                            <>
-                                <li>
-                                    Du må be arbeidsgiver om å sende inntektsmelding til oss. Det er viktig at
-                                    arbeidsgiver krysser av for at inntektsmeldingen gjelder{' '}
-                                    <strong>pleiepenger</strong>.
-                                    <p>Vi kontakter deg hvis vi trenger flere opplysninger i saken din.</p>
-                                </li>
-                                <li>
-                                    Du kan skrive ut denne informasjonssiden og gi utskriften til{' '}
-                                    {pluralize(numberOfArbeidsforhold, 'arbeidsgiver din', 'arbeidsgiverne dine')}.
-                                </li>
-                            </>
-                        )}
-                    </ul>
+                    {isFeatureEnabled(Feature.INNSYN) === false && (
+                        <InfoUtenInnsyn numberOfArbeidsforhold={numberOfArbeidsforhold} />
+                    )}
+                    {isFeatureEnabled(Feature.INNSYN) && (
+                        <InfoMedInnsyn numberOfArbeidsforhold={numberOfArbeidsforhold} />
+                    )}
 
                     {kvitteringInfo?.arbeidsforhold && (
                         <Box margin="xxl">
                             <div style={{ textAlign: 'center', marginBottom: '2rem' }} className={'screenOnly'}>
                                 <Knapp htmlType="button" onClick={() => window.print()} type="hoved">
-                                    Skriv ut denne siden nå
+                                    <FormattedMessage id="page.confirmation.skrivUt" />
                                 </Knapp>
                             </div>
                             <div style={{ margin: '0 auto', maxWidth: '50rem', marginBottom: '1rem' }}>
                                 <strong>
-                                    Hvis du ikke kan skrive ut denne informasjonssiden, kan du ta bilde av den. Husk
-                                    også å ta bilde av informasjonen som kommer under, som du kan gi til arbeidsgiver.
+                                    <FormattedMessage id="page.confirmation.skrivUt.info" />
                                 </strong>
                             </div>
                         </Box>
