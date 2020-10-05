@@ -26,6 +26,7 @@ interface OwnProps {
 
 interface State {
     isLoading: boolean;
+    willRedirectToLoginPage: boolean;
     lastStepID?: StepID;
     formdata: PleiepengesøknadFormData;
     søkerdata?: Søkerdata;
@@ -44,6 +45,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
         super(props);
         this.state = {
             isLoading: true,
+            willRedirectToLoginPage: false,
             lastStepID: undefined,
             formdata: initialValues,
         };
@@ -136,6 +138,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
 
     handleSøkerdataFetchError(error: AxiosError) {
         if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+            this.setState({ ...this.state, willRedirectToLoginPage: true });
             navigateToLoginPage();
         } else if (!userIsCurrentlyOnErrorPage()) {
             appSentryLogger.logApiError(error);
@@ -163,8 +166,8 @@ class AppEssentialsLoader extends React.Component<Props, State> {
 
     render() {
         const { contentLoadedRenderer } = this.props;
-        const { isLoading, lastStepID, formdata, søkerdata } = this.state;
-        if (isLoading) {
+        const { isLoading, willRedirectToLoginPage, lastStepID, formdata, søkerdata } = this.state;
+        if (isLoading || willRedirectToLoginPage) {
             return <LoadingPage />;
         }
         return (
