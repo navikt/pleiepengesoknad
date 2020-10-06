@@ -1,7 +1,3 @@
-import * as React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { useFormikContext } from 'formik';
-import Lenke from 'nav-frontend-lenker';
 import Box from '@sif-common/core/components/box/Box';
 import CounsellorPanel from '@sif-common/core/components/counsellor-panel/CounsellorPanel';
 import FileUploadErrors from '@sif-common/core/components/file-upload-errors/FileUploadErrors';
@@ -13,6 +9,11 @@ import {
     MAX_TOTAL_ATTACHMENT_SIZE_BYTES,
 } from '@sif-common/core/utils/attachmentUtils';
 import intlHelper from '@sif-common/core/utils/intlUtils';
+import { useFormikContext } from 'formik';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import Lenke from 'nav-frontend-lenker';
+import * as React from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { persist } from '../../../api/api';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
@@ -21,7 +22,6 @@ import { validateLegeerklæring } from '../../../validation/fieldValidations';
 import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 
 const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
@@ -30,6 +30,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const attachments: Attachment[] = values ? values[AppFormField.legeerklæring] : [];
     const hasPendingUploads: boolean = attachments.find((a) => a.pending === true) !== undefined;
     const totalSize = getTotalSizeOfAttachments(attachments);
+    const attachmentsSizeOver24Mb = totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES;
 
     const ref = React.useRef({ attachments });
 
@@ -63,7 +64,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
             }}
             useValidationErrorSummary={false}
             skipValidation={true}
-            buttonDisabled={hasPendingUploads}>
+            buttonDisabled={hasPendingUploads || attachmentsSizeOver24Mb}>
             <Box padBottom="xl">
                 <CounsellorPanel>
                     <Box padBottom={'l'}>
@@ -87,19 +88,20 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
             <Box margin={'l'}>
                 <PictureScanningGuide />
             </Box>
-
-            <Box margin="l">
-                <FormikFileUploader
-                    name={AppFormField.legeerklæring}
-                    label={intlHelper(intl, 'steg.lege.vedlegg')}
-                    onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
-                    onFileInputClick={() => {
-                        setFilesThatDidntGetUploaded([]);
-                    }}
-                    validate={validateLegeerklæring}
-                    onUnauthorizedOrForbiddenUpload={navigateToLoginPage}
-                />
-            </Box>
+            {totalSize <= MAX_TOTAL_ATTACHMENT_SIZE_BYTES && (
+                <Box margin="l">
+                    <FormikFileUploader
+                        name={AppFormField.legeerklæring}
+                        label={intlHelper(intl, 'steg.lege.vedlegg')}
+                        onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
+                        onFileInputClick={() => {
+                            setFilesThatDidntGetUploaded([]);
+                        }}
+                        validate={validateLegeerklæring}
+                        onUnauthorizedOrForbiddenUpload={navigateToLoginPage}
+                    />
+                </Box>
+            )}
             {totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES && (
                 <Box margin={'l'}>
                     <AlertStripeAdvarsel>
