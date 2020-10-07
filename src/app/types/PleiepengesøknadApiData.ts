@@ -129,7 +129,7 @@ export interface PleiepengesøknadApiData {
     barn: BarnToSendToApi;
     fraOgMed: ApiStringDate;
     tilOgMed: ApiStringDate;
-    skalBegrefteOmsorg?: boolean;
+    skalBekrefteOmsorg?: boolean;
     skalPassePåBarnetIHelePerioden?: boolean;
     beskrivelseOmsorgsrollen?: string;
     bekrefterPeriodeOver8Uker?: boolean;
