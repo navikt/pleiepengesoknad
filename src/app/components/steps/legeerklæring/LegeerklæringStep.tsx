@@ -1,3 +1,7 @@
+import * as React from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useFormikContext } from 'formik';
+import Lenke from 'nav-frontend-lenker';
 import Box from '@sif-common/core/components/box/Box';
 import CounsellorPanel from '@sif-common/core/components/counsellor-panel/CounsellorPanel';
 import FileUploadErrors from '@sif-common/core/components/file-upload-errors/FileUploadErrors';
@@ -9,11 +13,6 @@ import {
     MAX_TOTAL_ATTACHMENT_SIZE_BYTES,
 } from '@sif-common/core/utils/attachmentUtils';
 import intlHelper from '@sif-common/core/utils/intlUtils';
-import { useFormikContext } from 'formik';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import Lenke from 'nav-frontend-lenker';
-import * as React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
 import { persist } from '../../../api/api';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
@@ -22,6 +21,7 @@ import { validateLegeerklæring } from '../../../validation/fieldValidations';
 import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 
 const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
