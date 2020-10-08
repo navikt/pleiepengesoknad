@@ -308,7 +308,6 @@
     "page.confirmation.info.4": "Vi kontakter deg hvis vi trenger flere opplysninger i saken din",
     "page.confirmation.info.5": "Du kan skrive ut / ta bilde av denne informasjonssiden og gi til {numberOfArbeidsforhold, plural, one {arbeidsgiveren din} other {arbeidsgiverne dine}}. Husk å gjøre det samme med informasjonen som kommer under.",
     "page.confirmation.skrivUt": "Skriv ut denne siden nå",
-    "page.confirmation.skrivUt.info": "Hvis du ikke kan skrive ut denne informasjonssiden, kan du ta bilde av den. Husk også å ta bilde av informasjonen som kommer under, som du kan gi til arbeidsgiver.",
 
     "page.arbeidsgiverutskrift.tittel": "Til {arbeidsgiver}",
     "page.arbeidsgiverutskrift.info.1": "NAV har mottatt følgende opplysninger:",

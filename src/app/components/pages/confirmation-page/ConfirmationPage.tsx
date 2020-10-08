@@ -66,11 +66,6 @@ const ConfirmationPage = ({ kvitteringInfo }: Props) => {
                                     <FormattedMessage id="page.confirmation.skrivUt" />
                                 </Knapp>
                             </div>
-                            <div style={{ margin: '0 auto', maxWidth: '50rem', marginBottom: '1rem' }}>
-                                <strong>
-                                    <FormattedMessage id="page.confirmation.skrivUt.info" />
-                                </strong>
-                            </div>
                         </Box>
                     )}
                 </Panel>
