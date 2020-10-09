@@ -30,6 +30,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const attachments: Attachment[] = values ? values[AppFormField.legeerklæring] : [];
     const hasPendingUploads: boolean = attachments.find((a) => a.pending === true) !== undefined;
     const totalSize = getTotalSizeOfAttachments(attachments);
+    const attachmentsSizeOver24Mb = totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES;
 
     const ref = React.useRef({ attachments });
 
@@ -63,7 +64,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
             }}
             useValidationErrorSummary={false}
             skipValidation={true}
-            buttonDisabled={hasPendingUploads}>
+            buttonDisabled={hasPendingUploads || attachmentsSizeOver24Mb}>
             <Box padBottom="xl">
                 <CounsellorPanel>
                     <Box padBottom={'l'}>
@@ -87,19 +88,20 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
             <Box margin={'l'}>
                 <PictureScanningGuide />
             </Box>
-
-            <Box margin="l">
-                <FormikFileUploader
-                    name={AppFormField.legeerklæring}
-                    label={intlHelper(intl, 'steg.lege.vedlegg')}
-                    onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
-                    onFileInputClick={() => {
-                        setFilesThatDidntGetUploaded([]);
-                    }}
-                    validate={validateLegeerklæring}
-                    onUnauthorizedOrForbiddenUpload={navigateToLoginPage}
-                />
-            </Box>
+            {totalSize <= MAX_TOTAL_ATTACHMENT_SIZE_BYTES && (
+                <Box margin="l">
+                    <FormikFileUploader
+                        name={AppFormField.legeerklæring}
+                        label={intlHelper(intl, 'steg.lege.vedlegg')}
+                        onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
+                        onFileInputClick={() => {
+                            setFilesThatDidntGetUploaded([]);
+                        }}
+                        validate={validateLegeerklæring}
+                        onUnauthorizedOrForbiddenUpload={navigateToLoginPage}
+                    />
+                </Box>
+            )}
             {totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES && (
                 <Box margin={'l'}>
                     <AlertStripeAdvarsel>
