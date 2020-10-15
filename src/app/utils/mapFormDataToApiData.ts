@@ -67,13 +67,13 @@ export const mapFormDataToApiData = (
         harHattInntektSomFrilanser,
     } = formData;
 
-    if (periodeFra && periodeTil) {
+    if (periodeFra.date && periodeTil.date) {
         try {
             const barnObject: BarnToSendToApi = mapBarnToApiData(
                 barn,
                 barnetsNavn,
                 barnetsFødselsnummer,
-                barnetsFødselsdato,
+                barnetsFødselsdato?.date,
                 barnetSøknadenGjelder
             );
 
@@ -99,8 +99,8 @@ export const mapFormDataToApiData = (
                             ? utenlandsoppholdNeste12Mnd.map((o) => mapBostedUtlandToApiData(o, sprak))
                             : [],
                 },
-                fraOgMed: formatDateToApiFormat(periodeFra),
-                tilOgMed: formatDateToApiFormat(periodeTil),
+                fraOgMed: formatDateToApiFormat(periodeFra.date),
+                tilOgMed: formatDateToApiFormat(periodeTil.date),
                 vedlegg: legeerklæring
                     .filter((attachment) => !attachmentUploadHasFailed(attachment))
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -123,7 +123,7 @@ export const mapFormDataToApiData = (
             }
 
             if (isFeatureEnabled(Feature.TOGGLE_8_UKER)) {
-                const info8uker = erPeriodeOver8Uker(periodeFra, periodeTil);
+                const info8uker = erPeriodeOver8Uker(periodeFra.date, periodeTil.date);
                 if (info8uker.erOver8Uker) {
                     apiData.bekrefterPeriodeOver8Uker = formData.bekrefterPeriodeOver8uker === YesOrNo.YES;
                 }

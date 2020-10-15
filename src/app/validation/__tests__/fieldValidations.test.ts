@@ -14,6 +14,7 @@ import {
 } from '../fieldValidations';
 
 import Mock = jest.Mock;
+import { createFormikDatepickerValue } from '@navikt/sif-common-formik/lib';
 
 jest.mock('../../utils/envUtils', () => {
     return {
@@ -60,12 +61,12 @@ describe('fieldValidations', () => {
     describe('validateFødselsdato', () => {
         it('should return error if date is after today', () => {
             const tomorrow: Date = moment().add(1, 'day').toDate();
-            expect(validateFødselsdato(tomorrow)).toBeDefined();
+            expect(validateFødselsdato(createFormikDatepickerValue(tomorrow))).toBeDefined();
         });
         it('should return undefined if date is same as today or earlier', () => {
             const yesterday: Date = moment().subtract(1, 'day').toDate();
-            expect(validateFødselsdato(yesterday)).toBeUndefined();
-            expect(validateFødselsdato(dateUtils.dateToday)).toBeUndefined();
+            expect(validateFødselsdato(createFormikDatepickerValue(yesterday))).toBeUndefined();
+            expect(validateFødselsdato(createFormikDatepickerValue(dateUtils.dateToday))).toBeUndefined();
         });
     });
 
@@ -100,7 +101,7 @@ describe('fieldValidations', () => {
 
         it('should return an error message saying date cannot be more than 3 years back in time, if date is more than 3 years back in time', () => {
             (dateUtils.isMoreThan3YearsAgo as Mock).mockReturnValue(true);
-            expect(validateFradato(new Date())).toEqual(
+            expect(validateFradato(createFormikDatepickerValue(new Date()))).toEqual(
                 createFieldValidationError(AppFieldValidationErrors.fradato_merEnnTreÅr)
             );
         });
@@ -108,16 +109,24 @@ describe('fieldValidations', () => {
         it('should return an error message saying that fraDato cannot be after tilDato, if fraDato is after tilDato', () => {
             const today = moment();
             const yesterday = today.clone().subtract(1, 'day');
-            const result = validateFradato(today.toDate(), yesterday.toDate());
+            const result = validateFradato(
+                createFormikDatepickerValue(today.toDate()),
+                createFormikDatepickerValue(yesterday.toDate())
+            );
             expect(result).toEqual(createFieldValidationError(AppFieldValidationErrors.fradato_erEtterTildato));
         });
 
         it('should return undefined if fraDato is inside the last 3 years and equal to or earlier than tilDato', () => {
             const fraDato = moment();
             const tilDato = fraDato.clone();
-            expect(validateFradato(fraDato.toDate(), tilDato.toDate())).toBeUndefined();
+            expect(
+                validateFradato(
+                    createFormikDatepickerValue(fraDato.toDate()),
+                    createFormikDatepickerValue(tilDato.toDate())
+                )
+            ).toBeUndefined();
             const date3YearsAgo = moment().subtract(3, 'years').toDate();
-            expect(validateFradato(date3YearsAgo)).toBeUndefined();
+            expect(validateFradato(createFormikDatepickerValue(date3YearsAgo))).toBeUndefined();
         });
     });
 
@@ -132,7 +141,7 @@ describe('fieldValidations', () => {
 
         it('should return an error message saying date cannot be more than 3 years back in time, if date is more than 3 years back in time', () => {
             (dateUtils.isMoreThan3YearsAgo as Mock).mockReturnValue(true);
-            expect(validateTildato(new Date())).toEqual(
+            expect(validateTildato(createFormikDatepickerValue(new Date()))).toEqual(
                 createFieldValidationError(AppFieldValidationErrors.tildato_merEnnTreÅr)
             );
         });
@@ -140,16 +149,21 @@ describe('fieldValidations', () => {
         it('should return an error message saying that tilDato cannot be before fraDato, if tilDato is before fraDato', () => {
             const today = moment();
             const yesterday = today.clone().subtract(1, 'day');
-            const result = validateTildato(yesterday.toDate(), today.toDate());
+            const result = validateTildato(
+                createFormikDatepickerValue(yesterday.toDate()),
+                createFormikDatepickerValue(today.toDate())
+            );
             expect(result).toEqual(createFieldValidationError(AppFieldValidationErrors.tildato_erFørFradato));
         });
 
         it('should return undefined if tilDato is inside the last 3 years and equal to or later than fraDato', () => {
             const tilDato = moment();
             const fraDato = tilDato.clone();
-            expect(validateTildato(tilDato.toDate(), fraDato.toDate())).toBeUndefined();
+            const til = createFormikDatepickerValue(tilDato.toDate());
+            const fra = createFormikDatepickerValue(fraDato.toDate());
+            expect(validateTildato(til, fra)).toBeUndefined();
             const date3YearsAgo = moment().subtract(3, 'years').toDate();
-            expect(validateTildato(date3YearsAgo)).toBeUndefined();
+            expect(validateTildato(createFormikDatepickerValue(date3YearsAgo))).toBeUndefined();
         });
     });
 
@@ -157,27 +171,11 @@ describe('fieldValidations', () => {
         const fileMock = new File([''], 'filename.png', { type: 'text/png' });
 
         const uploadedAttachment: Attachment = { file: fileMock, pending: false, uploaded: true };
-        // const failedAttachment1: Attachment = { file: fileMock, pending: true, uploaded: false };
-        // const failedAttachment2: Attachment = { file: fileMock, pending: false, uploaded: false };
-
-        // it('should return error message saying that files must be uploaded if list is empty', () => {
-        //     expect(validateLegeerklæring([])).toEqual(
-        //         createFieldValidationError(AppFieldValidationErrors.legeerklæring_mangler)
-        //     );
-        // });
-
-        // it('should return error message saying that files must be uploaded if list contains no successfully uploaded attachments', () => {
-        //     expect(validateLegeerklæring([failedAttachment1, failedAttachment2])).toEqual(
-        //         createFieldValidationError(AppFieldValidationErrors.legeerklæring_mangler)
-        //     );
-        // });
-
         it('should return undefined if list contains between 1-3 successfully uploaded attachments', () => {
             expect(validateLegeerklæring([uploadedAttachment])).toBeUndefined();
             expect(validateLegeerklæring([uploadedAttachment, uploadedAttachment])).toBeUndefined();
             expect(validateLegeerklæring([uploadedAttachment, uploadedAttachment, uploadedAttachment])).toBeUndefined();
         });
-
     });
 
     describe('validate arbeidsforhold', () => {

@@ -7,7 +7,7 @@ import { date1YearAgo, date1YearFromNow, date3YearsAgo, DateRange } from '@sif-c
 import intlHelper from '@sif-common/core/utils/intlUtils';
 import { validateYesOrNoIsAnswered } from '@sif-common/core/validation/fieldValidations';
 import { IntlFieldValidationError } from '@sif-common/core/validation/types';
-import { TypedFormikFormContext } from '@sif-common/formik/';
+import { FormikDatepickerValue, TypedFormikFormContext } from '@sif-common/formik/';
 import FerieuttakListAndDialog from '@sif-common/forms/ferieuttak/FerieuttakListAndDialog';
 import { Ferieuttak } from '@sif-common/forms/ferieuttak/types';
 import { Utenlandsopphold } from '@sif-common/forms/utenlandsopphold/types';
@@ -42,17 +42,18 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     const harMedsøker = values[AppFormField.harMedsøker];
 
     const { periodeFra, periodeTil } = values;
-    const periode: DateRange = { from: periodeFra || date1YearAgo, to: periodeTil || date1YearFromNow };
+    const periode: DateRange = { from: periodeFra?.date || date1YearAgo, to: periodeTil?.date || date1YearFromNow };
     const intl = useIntl();
 
-    const info8uker = periodeFra && periodeTil ? erPeriodeOver8Uker(periodeFra, periodeTil) : undefined;
+    const info8uker =
+        periodeFra?.date && periodeTil?.date ? erPeriodeOver8Uker(periodeFra.date, periodeTil.date) : undefined;
 
-    const validateFraDatoField = (date?: Date) => {
-        return validateFradato(date, periodeTil);
+    const validateFraDatoField = (value?: FormikDatepickerValue) => {
+        return validateFradato(value, periodeTil);
     };
 
-    const validateTilDatoField = (date?: Date) => {
-        return validateTildato(date, periodeFra);
+    const validateTilDatoField = (value?: FormikDatepickerValue) => {
+        return validateTildato(value, periodeFra);
     };
 
     const validateBekreft8uker = (value: YesOrNo): IntlFieldValidationError | undefined => {

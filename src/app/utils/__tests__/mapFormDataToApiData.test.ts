@@ -25,6 +25,7 @@ import { Arbeidsgiver, BarnReceivedFromApi } from '../../types/Søkerdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
 import { jsonSort } from '../jsonSort';
 import { getValidSpråk, mapFormDataToApiData } from '../mapFormDataToApiData';
+import { createFormikDatepickerValue } from '@navikt/sif-common-formik/lib';
 
 const moment = require('moment');
 
@@ -134,7 +135,7 @@ const completedAttachmentMock = { uploaded: true, url: attachmentMock1.url, pend
 const frilansPartialFormData: Partial<PleiepengesøknadFormData> = {
     harHattInntektSomFrilanser: YesOrNo.YES,
     frilans_jobberFortsattSomFrilans: YesOrNo.YES,
-    frilans_startdato: new Date(2018, 1, 1),
+    frilans_startdato: createFormikDatepickerValue(new Date(2018, 1, 1)),
 };
 const selvstendigPartialFormData: Partial<PleiepengesøknadFormData> = {
     selvstendig_harHattInntektSomSN: YesOrNo.YES,
@@ -168,8 +169,8 @@ const completeFormDataMock: PleiepengesøknadFormData = {
     harBoddUtenforNorgeSiste12Mnd: YesOrNo.YES,
     skalBoUtenforNorgeNeste12Mnd: YesOrNo.YES,
     søknadenGjelderEtAnnetBarn: false,
-    periodeFra: dateUtils.apiStringDateToDate('2020-01-01'),
-    periodeTil: dateUtils.apiStringDateToDate('2020-02-01'),
+    periodeFra: createFormikDatepickerValue(dateUtils.apiStringDateToDate('2020-01-01')),
+    periodeTil: createFormikDatepickerValue(dateUtils.apiStringDateToDate('2020-02-01')),
     tilsynsordning: {
         skalBarnHaTilsyn: YesOrNo.YES,
         ja: {
@@ -200,7 +201,7 @@ const completeFormDataMock: PleiepengesøknadFormData = {
         },
     ],
     barnetsNavn: 'barnets-navn',
-    barnetsFødselsdato: undefined,
+    barnetsFødselsdato: createFormikDatepickerValue(undefined),
     barnetsFødselsnummer: 'barnets-fnr',
 };
 
@@ -227,14 +228,14 @@ describe('mapFormDataToApiData', () => {
     it("should set 'fra_og_med' in api data correctly", () => {
         expect(dateUtils.formatDateToApiFormat).toHaveBeenCalledWith(formDataMock[AppFormField.periodeFra]);
         expect(resultingApiData.fraOgMed).toEqual(
-            dateUtils.formatDateToApiFormat(formDataMock[AppFormField.periodeFra]!)
+            dateUtils.formatDateToApiFormat(formDataMock[AppFormField.periodeFra]?.date!)
         );
     });
 
     it("should set 'til_og_med' in api data correctly", () => {
         expect(dateUtils.formatDateToApiFormat).toHaveBeenCalledWith(formDataMock[AppFormField.periodeTil]);
         expect(resultingApiData.tilOgMed).toEqual(
-            dateUtils.formatDateToApiFormat(formDataMock[AppFormField.periodeTil]!)
+            dateUtils.formatDateToApiFormat(formDataMock[AppFormField.periodeTil]?.date!)
         );
     });
 
@@ -264,7 +265,7 @@ describe('mapFormDataToApiData', () => {
         const fdato = new Date();
         const formDataWithFnr: Partial<PleiepengesøknadFormData> = {
             ...formDataMock,
-            [AppFormField.barnetsFødselsdato]: fdato,
+            [AppFormField.barnetsFødselsdato]: createFormikDatepickerValue(fdato),
         };
         const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock, 'nb');
         expect(result).toBeDefined();
@@ -728,7 +729,7 @@ describe('Test complete applications', () => {
 
         const featureFrilanserFormData: Partial<PleiepengesøknadFormData> = {
             harHattInntektSomFrilanser: YesOrNo.YES,
-            frilans_startdato: frilansDate,
+            frilans_startdato: createFormikDatepickerValue(frilansDate),
             frilans_jobberFortsattSomFrilans: YesOrNo.YES,
         };
 

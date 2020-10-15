@@ -90,8 +90,8 @@ class SummaryStep extends React.Component<Props, State> {
 
         const { periodeFra, periodeTil } = values;
         const info8uker =
-            isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) && periodeFra && periodeTil
-                ? erPeriodeOver8Uker(periodeFra, periodeTil)
+            isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) && periodeFra.date && periodeTil.date
+                ? erPeriodeOver8Uker(periodeFra.date, periodeTil.date)
                 : undefined;
 
         return (

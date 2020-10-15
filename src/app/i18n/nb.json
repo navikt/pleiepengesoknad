@@ -316,6 +316,7 @@
     "dokumenter.advarsel.totalstørrelse.2": "ettersende flere dokumenter.",
 
     "fieldvalidation.påkrevd": "Feltet er påkrevd",
+    "fieldvalidation.dato_ugyldig": "Ugyldig dato - bruk formatet dd.mm.åååå",
     "fieldvalidation.fødselsnummer.11siffer": "Fødselsnummeret / D-nummeret må bestå av 11 siffer",
     "fieldvalidation.fødselsnummer.ugyldig": "Fødselsnummeret / D-nummeret er ugyldig",
     "fieldvalidation.fødelsdato.ugyldig": "Fødselsdatoen er ugyldig",

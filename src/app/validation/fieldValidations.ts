@@ -1,5 +1,4 @@
-import { Ferieuttak } from '@sif-common/forms/ferieuttak/types';
-import { Utenlandsopphold } from '@sif-common/forms/utenlandsopphold/types';
+import { FormikDatepickerValue } from '@navikt/sif-common-formik/lib';
 import { Attachment } from '@sif-common/core/types/Attachment';
 import { Time } from '@sif-common/core/types/Time';
 import { YesOrNo } from '@sif-common/core/types/YesOrNo';
@@ -26,9 +25,11 @@ import {
 } from '@sif-common/core/validation/fieldValidations';
 import { hasValue } from '@sif-common/core/validation/hasValue';
 import { FieldValidationResult } from '@sif-common/core/validation/types';
+import { Ferieuttak } from '@sif-common/forms/ferieuttak/types';
+import { Utenlandsopphold } from '@sif-common/forms/utenlandsopphold/types';
 import { Arbeidsforhold, Tilsynsordning } from '../types/PleiepengesøknadFormData';
-import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
+import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
 
 const moment = require('moment');
 
@@ -59,6 +60,7 @@ export enum AppFieldValidationErrors {
     'ferieuttak_ikke_registrert' = 'fieldvalidation.ferieuttak_ikke_registrert',
     'ferieuttak_overlapper' = 'fieldvalidation.ferieuttak_overlapper',
     'ferieuttak_utenfor_periode' = 'fieldvalidation.ferieuttak_utenfor_periode',
+    'dato_ugyldig' = 'fieldvalidation.dato_ugyldig',
 }
 
 const MAX_ARBEIDSTIMER_PER_UKE = 150;
@@ -75,11 +77,26 @@ export const isYesOrNoAnswered = (answer: YesOrNo) => {
     return answer === YesOrNo.NO || answer === YesOrNo.YES || answer === YesOrNo.DO_NOT_KNOW;
 };
 
-export const validateFødselsdato = (date: Date): FieldValidationResult => {
-    if (!hasValue(date)) {
+export const validateFormikDatepickerValue = (dpValue: FormikDatepickerValue | undefined, isRequired?: boolean) => {
+    const { date, dateString, dateStringIsValid } = dpValue || {};
+    if (isRequired && dateString === '') {
         return fieldIsRequiredError();
     }
-    if (moment(date).isAfter(dateToday)) {
+    if (dateStringIsValid === false) {
+        return createAppFieldValidationError(AppFieldValidationErrors.dato_ugyldig, { dateString });
+    }
+    if (date === undefined) {
+        return fieldIsRequiredError(); // Should not happen
+    }
+    return undefined;
+};
+
+export const validateFødselsdato = (dpDate: FormikDatepickerValue): FieldValidationResult => {
+    const dpValidationError = validateFormikDatepickerValue(dpDate, true);
+    if (dpValidationError) {
+        return dpValidationError;
+    }
+    if (dpDate.date && moment(dpDate.date).isAfter(dateToday)) {
         return createAppFieldValidationError(AppFieldValidationErrors.fødselsdato_ugyldig);
     }
     return undefined;
@@ -105,39 +122,41 @@ export const validateNavn = (v: string, isRequired?: boolean): FieldValidationRe
         : createAppFieldValidationError(AppFieldValidationErrors.navn_maksAntallTegn, { maxNumOfLetters });
 };
 
-export const validateFradato = (fraDato?: Date, tilDato?: Date): FieldValidationResult => {
-    if (!hasValue(fraDato)) {
-        return fieldIsRequiredError();
+export const validateFradato = (
+    fraDatoValue?: FormikDatepickerValue,
+    tilDatoValue?: FormikDatepickerValue
+): FieldValidationResult => {
+    const dpValidationError = validateFormikDatepickerValue(fraDatoValue, true);
+    if (dpValidationError) {
+        return dpValidationError;
     }
-
-    if (!fraDato || isMoreThan3YearsAgo(fraDato)) {
+    const fraDato = fraDatoValue?.date;
+    const tilDato = tilDatoValue?.date;
+    if (fraDato && isMoreThan3YearsAgo(fraDato)) {
         return createAppFieldValidationError(AppFieldValidationErrors.fradato_merEnnTreÅr);
     }
-
-    if (hasValue(tilDato)) {
-        if (moment(fraDato).isAfter(tilDato)) {
-            return createAppFieldValidationError(AppFieldValidationErrors.fradato_erEtterTildato);
-        }
+    if (tilDato && moment(fraDatoValue).isAfter(tilDatoValue)) {
+        return createAppFieldValidationError(AppFieldValidationErrors.fradato_erEtterTildato);
     }
-
     return undefined;
 };
 
-export const validateTildato = (tilDato?: Date, fraDato?: Date): FieldValidationResult => {
-    if (!hasValue(tilDato)) {
-        return fieldIsRequiredError();
+export const validateTildato = (
+    tilDatoValue?: FormikDatepickerValue,
+    fraDatoValue?: FormikDatepickerValue
+): FieldValidationResult => {
+    const dpValidationError = validateFormikDatepickerValue(tilDatoValue, true);
+    if (dpValidationError) {
+        return dpValidationError;
     }
-
+    const tilDato = tilDatoValue?.date;
+    const fraDato = fraDatoValue?.date;
     if (!tilDato || isMoreThan3YearsAgo(tilDato)) {
         return createAppFieldValidationError(AppFieldValidationErrors.tildato_merEnnTreÅr);
     }
-
-    if (hasValue(fraDato)) {
-        if (moment(tilDato).isBefore(fraDato)) {
-            return createAppFieldValidationError(AppFieldValidationErrors.tildato_erFørFradato);
-        }
+    if (fraDato && moment(tilDato).isBefore(fraDato)) {
+        return createAppFieldValidationError(AppFieldValidationErrors.tildato_erFørFradato);
     }
-
     return undefined;
 };
 

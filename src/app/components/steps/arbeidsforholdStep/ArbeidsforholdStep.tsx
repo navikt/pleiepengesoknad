@@ -32,8 +32,8 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
 
         const fetchData = async () => {
             if (søkerdata) {
-                if (fraDato && tilDato) {
-                    await getArbeidsgivere(fraDato, tilDato, formikProps, søkerdata);
+                if (fraDato.date && tilDato.date) {
+                    await getArbeidsgivere(fraDato.date, tilDato.date, formikProps, søkerdata);
                     setIsLoading(false);
                 }
             }

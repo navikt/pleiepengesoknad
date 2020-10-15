@@ -2,14 +2,19 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import Panel from 'nav-frontend-paneler';
 import Box from '@sif-common/core/components/box/Box';
+import ExpandableInfo from '@sif-common/core/components/expandable-content/ExpandableInfo';
 import { YesOrNo } from '@sif-common/core/types/YesOrNo';
 import { dateToday } from '@sif-common/core/utils/dateUtils';
 import intlHelper from '@sif-common/core/utils/intlUtils';
-import { validateRequiredField, validateYesOrNoIsAnswered } from '@sif-common/core/validation/fieldValidations';
+import {
+    validateAll,
+    validateRequiredField,
+    validateYesOrNoIsAnswered,
+} from '@sif-common/core/validation/fieldValidations';
 import { AppFormField, PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
+import { validateFormikDatepickerValue } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
 import FrilansEksempeltHtml from './FrilansEksempelHtml';
-import ExpandableInfo from '@sif-common/core/components/expandable-content/ExpandableInfo';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
@@ -41,7 +46,7 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                 label={intlHelper(intl, 'frilanser.nårStartet.spm')}
                                 showYearSelector={true}
                                 maxDate={dateToday}
-                                validate={validateRequiredField}
+                                validate={validateAll([validateFormikDatepickerValue, validateRequiredField])}
                             />
                         </Box>
                         <Box margin="xl">

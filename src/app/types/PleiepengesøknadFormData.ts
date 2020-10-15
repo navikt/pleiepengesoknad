@@ -6,6 +6,7 @@ import { Attachment } from '@sif-common/core/types/Attachment';
 import { Time } from '@sif-common/core/types/Time';
 import { YesOrNo } from '@sif-common/core/types/YesOrNo';
 import { Arbeidsgiver } from './Søkerdata';
+import { createFormikDatepickerValue, FormikDatepickerValue } from '@navikt/sif-common-formik/lib';
 
 export enum ArbeidsforholdSkalJobbeSvar {
     'ja' = 'ja',
@@ -107,13 +108,13 @@ export interface PleiepengesøknadFormData {
     [AppFormField.harBekreftetOpplysninger]: boolean;
     [AppFormField.barnetsNavn]: string;
     [AppFormField.barnetsFødselsnummer]: string;
-    [AppFormField.barnetsFødselsdato]?: Date;
+    [AppFormField.barnetsFødselsdato]: FormikDatepickerValue;
     [AppFormField.søknadenGjelderEtAnnetBarn]: boolean;
     [AppFormField.barnetSøknadenGjelder]: string;
     [AppFormField.barnetHarIkkeFåttFødselsnummerEnda]: boolean;
     [AppFormField.arbeidsforhold]: Arbeidsforhold[];
-    [AppFormField.periodeFra]?: Date;
-    [AppFormField.periodeTil]?: Date;
+    [AppFormField.periodeFra]: FormikDatepickerValue;
+    [AppFormField.periodeTil]: FormikDatepickerValue;
     [AppFormField.bekrefterPeriodeOver8uker]?: YesOrNo;
     [AppFormField.skalPassePåBarnetIHelePerioden]?: YesOrNo;
     [AppFormField.beskrivelseOmsorgsrolleIPerioden]?: string;
@@ -134,15 +135,15 @@ export interface PleiepengesøknadFormData {
     [AppFormField.harBeredskap]: YesOrNo;
     [AppFormField.harBeredskap_ekstrainfo]?: string;
     [AppFormField.frilans_harHattInntektSomFrilanser]?: YesOrNo;
-    [AppFormField.frilans_startdato]?: Date;
+    [AppFormField.frilans_startdato]?: FormikDatepickerValue;
     [AppFormField.frilans_jobberFortsattSomFrilans]?: YesOrNo;
     [AppFormField.selvstendig_harHattInntektSomSN]?: YesOrNo;
     [AppFormField.selvstendig_virksomheter]?: Virksomhet[];
 }
 
 export const initialValues: PleiepengesøknadFormData = {
-    [AppFormField.periodeFra]: undefined,
-    [AppFormField.periodeTil]: undefined,
+    [AppFormField.periodeFra]: createFormikDatepickerValue(undefined),
+    [AppFormField.periodeTil]: createFormikDatepickerValue(undefined),
     [AppFormField.bekrefterPeriodeOver8uker]: undefined,
     [AppFormField.barnetsNavn]: '',
     [AppFormField.barnetsFødselsnummer]: '',
@@ -153,7 +154,7 @@ export const initialValues: PleiepengesøknadFormData = {
     [AppFormField.legeerklæring]: [],
     [AppFormField.arbeidsforhold]: [],
     [AppFormField.barnetHarIkkeFåttFødselsnummerEnda]: false,
-    [AppFormField.barnetsFødselsdato]: undefined,
+    [AppFormField.barnetsFødselsdato]: createFormikDatepickerValue(undefined),
     [AppFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,
     [AppFormField.utenlandsoppholdSiste12Mnd]: [],
     [AppFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.UNANSWERED,

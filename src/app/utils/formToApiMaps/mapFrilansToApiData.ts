@@ -7,9 +7,9 @@ import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData
 export const mapFrilansToApiData = (formData: PleiepengesøknadFormData): FrilansApiData | undefined => {
     const { frilans_jobberFortsattSomFrilans, frilans_startdato } = formData;
 
-    if (frilans_jobberFortsattSomFrilans && frilans_startdato) {
+    if (frilans_jobberFortsattSomFrilans && frilans_startdato?.date) {
         const data: FrilansApiData = {
-            startdato: formatDateToApiFormat(frilans_startdato),
+            startdato: formatDateToApiFormat(frilans_startdato.date),
             jobberFortsattSomFrilans: frilans_jobberFortsattSomFrilans === YesOrNo.YES,
         };
         return data;
