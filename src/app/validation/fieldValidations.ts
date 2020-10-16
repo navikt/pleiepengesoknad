@@ -132,10 +132,11 @@ export const validateFradato = (
     }
     const fraDato = fraDatoValue?.date;
     const tilDato = tilDatoValue?.date;
+
     if (fraDato && isMoreThan3YearsAgo(fraDato)) {
         return createAppFieldValidationError(AppFieldValidationErrors.fradato_merEnnTreÅr);
     }
-    if (tilDato && moment(fraDatoValue).isAfter(tilDatoValue)) {
+    if (tilDato && moment(fraDato).isAfter(tilDato)) {
         return createAppFieldValidationError(AppFieldValidationErrors.fradato_erEtterTildato);
     }
     return undefined;
