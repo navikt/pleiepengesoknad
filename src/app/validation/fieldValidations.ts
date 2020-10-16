@@ -27,6 +27,7 @@ import { hasValue } from '@sif-common/core/validation/hasValue';
 import { FieldValidationResult } from '@sif-common/core/validation/types';
 import { Ferieuttak } from '@sif-common/forms/ferieuttak/types';
 import { Utenlandsopphold } from '@sif-common/forms/utenlandsopphold/types';
+import { isISODateString } from 'nav-datovelger';
 import { Arbeidsforhold, Tilsynsordning } from '../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
 import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
@@ -78,11 +79,11 @@ export const isYesOrNoAnswered = (answer: YesOrNo) => {
 };
 
 export const validateFormikDatepickerValue = (dpValue: FormikDatepickerValue | undefined, isRequired?: boolean) => {
-    const { date, dateString, dateStringIsValid } = dpValue || {};
-    if (isRequired && dateString === '') {
+    if (isRequired && (dpValue === undefined || dpValue.dateString === '')) {
         return fieldIsRequiredError();
     }
-    if (dateStringIsValid === false) {
+    const { date, dateString } = dpValue || {};
+    if (isISODateString(dateString) === false) {
         return createAppFieldValidationError(AppFieldValidationErrors.dato_ugyldig, { dateString });
     }
     if (date === undefined) {
@@ -132,7 +133,6 @@ export const validateFradato = (
     }
     const fraDato = fraDatoValue?.date;
     const tilDato = tilDatoValue?.date;
-
     if (fraDato && isMoreThan3YearsAgo(fraDato)) {
         return createAppFieldValidationError(AppFieldValidationErrors.fradato_merEnnTreÅr);
     }
