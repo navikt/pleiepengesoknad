@@ -16,6 +16,7 @@
         "start-no-decorator": "node ./src/build/scripts/start-dev-no-decorator.js",
         "start-express": "node ./server.js",
         "test": "jest --maxWorkers=2 --config ./jest/jest.config.js",
+        "test-w": "jest --maxWorkers=2 --config ./jest/jest.config.js --watch",
         "snyk-protect": "snyk protect",
         "prepare": "npm run snyk-protect",
         "cypress:install": "npm add -D cypress cypress-file-upload",
