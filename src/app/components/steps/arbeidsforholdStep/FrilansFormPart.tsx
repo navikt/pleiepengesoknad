@@ -12,7 +12,7 @@ import {
     validateYesOrNoIsAnswered,
 } from '@sif-common/core/validation/fieldValidations';
 import { AppFormField, PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
-import { validateFormikDatepickerValue } from '../../../validation/fieldValidations';
+import { validateDateString } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
 import FrilansEksempeltHtml from './FrilansEksempelHtml';
 
@@ -46,7 +46,7 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                 label={intlHelper(intl, 'frilanser.nårStartet.spm')}
                                 showYearSelector={true}
                                 maxDate={dateToday}
-                                validate={validateAll([validateFormikDatepickerValue, validateRequiredField])}
+                                validate={validateAll([validateDateString, validateRequiredField])}
                             />
                         </Box>
                         <Box margin="xl">

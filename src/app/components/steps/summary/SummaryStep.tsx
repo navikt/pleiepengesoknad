@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
-import ValidationErrorSummaryBase from '@sif-common/core/components/validation-error-summary-base/ValidationErrorSummaryBase';
-import { hasValue } from '@sif-common/core/validation/hasValue';
+import { ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import Panel from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Box from '@sif-common/core/components/box/Box';
@@ -9,11 +8,13 @@ import ContentWithHeader from '@sif-common/core/components/content-with-header/C
 import CounsellorPanel from '@sif-common/core/components/counsellor-panel/CounsellorPanel';
 import SummaryList from '@sif-common/core/components/summary-list/SummaryList';
 import TextareaSummary from '@sif-common/core/components/textarea-summary/TextareaSummary';
+import ValidationErrorSummaryBase from '@sif-common/core/components/validation-error-summary-base/ValidationErrorSummaryBase';
 import { HistoryProps } from '@sif-common/core/types/History';
 import { Locale } from '@sif-common/core/types/Locale';
 import { apiStringDateToDate, prettifyDate } from '@sif-common/core/utils/dateUtils';
 import intlHelper from '@sif-common/core/utils/intlUtils';
 import { formatName } from '@sif-common/core/utils/personUtils';
+import { hasValue } from '@sif-common/core/validation/hasValue';
 import ArbeidsforholdSummary from 'app/components/arbeidsforhold-summary/ArbeidsforholdSummary';
 import {
     renderFerieuttakIPeriodenSummary,
@@ -88,10 +89,11 @@ class SummaryStep extends React.Component<Props, State> {
         const { values, intl } = this.props;
         const { sendingInProgress } = this.state;
 
-        const { periodeFra, periodeTil } = values;
+        const periodeFra = ISOStringToDate(values.periodeFra);
+        const periodeTil = ISOStringToDate(values.periodeFra);
         const info8uker =
-            isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) && periodeFra.date && periodeTil.date
-                ? erPeriodeOver8Uker(periodeFra.date, periodeTil.date)
+            isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) && periodeFra && periodeTil
+                ? erPeriodeOver8Uker(periodeFra, periodeTil)
                 : undefined;
 
         return (

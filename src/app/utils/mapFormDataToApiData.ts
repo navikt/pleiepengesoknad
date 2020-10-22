@@ -1,9 +1,10 @@
-/* eslint-disable @typescript-eslint/camelcase */
-import { mapVirksomhetToVirksomhetApiData } from '@sif-common/forms/virksomhet/mapVirksomhetToApiData';
+import { ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import { Locale } from '@sif-common/core/types/Locale';
 import { YesOrNo } from '@sif-common/core/types/YesOrNo';
 import { attachmentUploadHasFailed } from '@sif-common/core/utils/attachmentUtils';
 import { formatDateToApiFormat } from '@sif-common/core/utils/dateUtils';
+/* eslint-disable @typescript-eslint/camelcase */
+import { mapVirksomhetToVirksomhetApiData } from '@sif-common/forms/virksomhet/mapVirksomhetToApiData';
 import { BarnToSendToApi, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../types/Søkerdata';
@@ -41,13 +42,11 @@ export const mapFormDataToApiData = (
     const {
         barnetsNavn,
         barnetsFødselsnummer,
-        barnetsFødselsdato,
+        // barnetsFødselsdato,
         barnetSøknadenGjelder,
         harBekreftetOpplysninger,
         harForståttRettigheterOgPlikter,
         arbeidsforhold,
-        periodeFra,
-        periodeTil,
         legeerklæring,
         harBoddUtenforNorgeSiste12Mnd,
         skalBoUtenforNorgeNeste12Mnd,
@@ -65,15 +64,19 @@ export const mapFormDataToApiData = (
         ferieuttakIPerioden,
         skalTaUtFerieIPerioden,
         harHattInntektSomFrilanser,
+        ...rest
     } = formData;
 
-    if (periodeFra.date && periodeTil.date) {
+    const barnetsFødselsdato = ISOStringToDate(rest.barnetsFødselsdato);
+    const periodeFra = ISOStringToDate(rest.periodeFra);
+    const periodeTil = ISOStringToDate(rest.periodeTil);
+    if (periodeFra && periodeTil) {
         try {
             const barnObject: BarnToSendToApi = mapBarnToApiData(
                 barn,
                 barnetsNavn,
                 barnetsFødselsnummer,
-                barnetsFødselsdato?.date,
+                barnetsFødselsdato,
                 barnetSøknadenGjelder
             );
 
@@ -99,8 +102,8 @@ export const mapFormDataToApiData = (
                             ? utenlandsoppholdNeste12Mnd.map((o) => mapBostedUtlandToApiData(o, sprak))
                             : [],
                 },
-                fraOgMed: formatDateToApiFormat(periodeFra.date),
-                tilOgMed: formatDateToApiFormat(periodeTil.date),
+                fraOgMed: formatDateToApiFormat(periodeFra),
+                tilOgMed: formatDateToApiFormat(periodeTil),
                 vedlegg: legeerklæring
                     .filter((attachment) => !attachmentUploadHasFailed(attachment))
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -123,7 +126,7 @@ export const mapFormDataToApiData = (
             }
 
             if (isFeatureEnabled(Feature.TOGGLE_8_UKER)) {
-                const info8uker = erPeriodeOver8Uker(periodeFra.date, periodeTil.date);
+                const info8uker = erPeriodeOver8Uker(periodeFra, periodeTil);
                 if (info8uker.erOver8Uker) {
                     apiData.bekrefterPeriodeOver8Uker = formData.bekrefterPeriodeOver8uker === YesOrNo.YES;
                 }

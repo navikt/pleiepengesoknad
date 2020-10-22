@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import FormBlock from '@sif-common/core/components/form-block/FormBlock';
+import { ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import { useFormikContext } from 'formik';
 import AlertStripe from 'nav-frontend-alertstriper';
 import Box from '@sif-common/core/components/box/Box';
 import BuildingIcon from '@sif-common/core/components/building-icon/BuildingIconSvg';
 import CounsellorPanel from '@sif-common/core/components/counsellor-panel/CounsellorPanel';
+import FormBlock from '@sif-common/core/components/form-block/FormBlock';
 import LoadingSpinner from '@sif-common/core/components/loading-spinner/LoadingSpinner';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { AppFormField, PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
@@ -27,13 +28,13 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
     const søkerdata = useContext(SøkerdataContext);
 
     useEffect(() => {
-        const fraDato = values[AppFormField.periodeFra];
-        const tilDato = values[AppFormField.periodeFra];
+        const fraDato = ISOStringToDate(values[AppFormField.periodeFra]);
+        const tilDato = ISOStringToDate(values[AppFormField.periodeFra]);
 
         const fetchData = async () => {
             if (søkerdata) {
-                if (fraDato.date && tilDato.date) {
-                    await getArbeidsgivere(fraDato.date, tilDato.date, formikProps, søkerdata);
+                if (fraDato && tilDato) {
+                    await getArbeidsgivere(fraDato, tilDato, formikProps, søkerdata);
                     setIsLoading(false);
                 }
             }

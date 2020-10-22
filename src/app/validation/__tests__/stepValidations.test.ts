@@ -1,4 +1,4 @@
-import { createFormikDatepickerValue } from '@navikt/sif-common-formik/lib';
+import { dateToISOString } from '@navikt/sif-common-formik/lib';
 import { YesOrNo } from '@sif-common/core/types/YesOrNo';
 import { validateFødselsnummer } from '@sif-common/core/validation/fieldValidations';
 import { AppFormField, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
@@ -54,7 +54,7 @@ describe('stepValidation tests', () => {
         describe(`when ${AppFormField.barnetHarIkkeFåttFødselsnummerEnda} is true`, () => {
             beforeEach(() => {
                 formData[AppFormField.barnetHarIkkeFåttFødselsnummerEnda] = true;
-                formData[AppFormField.barnetsFødselsdato] = createFormikDatepickerValue(new Date());
+                formData[AppFormField.barnetsFødselsdato] = dateToISOString(new Date());
             });
             it(`should be valid`, () => {
                 expect(opplysningerOmBarnetStepIsValid(formData as PleiepengesøknadFormData)).toBe(true);

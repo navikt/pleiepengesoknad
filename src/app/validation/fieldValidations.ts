@@ -1,4 +1,5 @@
-import { FormikDatepickerValue } from '@navikt/sif-common-formik/lib';
+import { ISOStringToDate } from '@navikt/sif-common-formik/lib';
+import { isISODateString } from 'nav-datovelger';
 import { Attachment } from '@sif-common/core/types/Attachment';
 import { Time } from '@sif-common/core/types/Time';
 import { YesOrNo } from '@sif-common/core/types/YesOrNo';
@@ -27,7 +28,6 @@ import { hasValue } from '@sif-common/core/validation/hasValue';
 import { FieldValidationResult } from '@sif-common/core/validation/types';
 import { Ferieuttak } from '@sif-common/forms/ferieuttak/types';
 import { Utenlandsopphold } from '@sif-common/forms/utenlandsopphold/types';
-import { isISODateString } from 'nav-datovelger';
 import { Arbeidsforhold, Tilsynsordning } from '../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
 import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
@@ -78,26 +78,22 @@ export const isYesOrNoAnswered = (answer: YesOrNo) => {
     return answer === YesOrNo.NO || answer === YesOrNo.YES || answer === YesOrNo.DO_NOT_KNOW;
 };
 
-export const validateFormikDatepickerValue = (dpValue: FormikDatepickerValue | undefined, isRequired?: boolean) => {
-    if (isRequired && (dpValue === undefined || dpValue.dateString === '')) {
+export const validateDateString = (dateString: string | undefined, isRequired?: boolean) => {
+    if (isRequired && (dateString === undefined || dateString === '')) {
         return fieldIsRequiredError();
     }
-    const { date, dateString } = dpValue || {};
     if (isISODateString(dateString) === false) {
         return createAppFieldValidationError(AppFieldValidationErrors.dato_ugyldig, { dateString });
-    }
-    if (date === undefined) {
-        return fieldIsRequiredError(); // Should not happen
     }
     return undefined;
 };
 
-export const validateFødselsdato = (dpDate: FormikDatepickerValue): FieldValidationResult => {
-    const dpValidationError = validateFormikDatepickerValue(dpDate, true);
-    if (dpValidationError) {
-        return dpValidationError;
+export const validateFødselsdato = (dateString?: string): FieldValidationResult => {
+    const dateStringValidationError = validateDateString(dateString, true);
+    if (dateStringValidationError) {
+        return dateStringValidationError;
     }
-    if (dpDate.date && moment(dpDate.date).isAfter(dateToday)) {
+    if (dateString && moment(ISOStringToDate(dateString)).isAfter(dateToday)) {
         return createAppFieldValidationError(AppFieldValidationErrors.fødselsdato_ugyldig);
     }
     return undefined;
@@ -123,16 +119,13 @@ export const validateNavn = (v: string, isRequired?: boolean): FieldValidationRe
         : createAppFieldValidationError(AppFieldValidationErrors.navn_maksAntallTegn, { maxNumOfLetters });
 };
 
-export const validateFradato = (
-    fraDatoValue?: FormikDatepickerValue,
-    tilDatoValue?: FormikDatepickerValue
-): FieldValidationResult => {
-    const dpValidationError = validateFormikDatepickerValue(fraDatoValue, true);
-    if (dpValidationError) {
-        return dpValidationError;
+export const validateFradato = (fraDatoValue?: string, tilDatoValue?: string): FieldValidationResult => {
+    const dateStringValidationError = validateDateString(fraDatoValue, true);
+    if (dateStringValidationError) {
+        return dateStringValidationError;
     }
-    const fraDato = fraDatoValue?.date;
-    const tilDato = tilDatoValue?.date;
+    const fraDato = ISOStringToDate(fraDatoValue);
+    const tilDato = ISOStringToDate(tilDatoValue);
     if (fraDato && isMoreThan3YearsAgo(fraDato)) {
         return createAppFieldValidationError(AppFieldValidationErrors.fradato_merEnnTreÅr);
     }
@@ -142,16 +135,13 @@ export const validateFradato = (
     return undefined;
 };
 
-export const validateTildato = (
-    tilDatoValue?: FormikDatepickerValue,
-    fraDatoValue?: FormikDatepickerValue
-): FieldValidationResult => {
-    const dpValidationError = validateFormikDatepickerValue(tilDatoValue, true);
-    if (dpValidationError) {
-        return dpValidationError;
+export const validateTildato = (tilDatoValue?: string, fraDatoValue?: string): FieldValidationResult => {
+    const dateStringValidationError = validateDateString(tilDatoValue, true);
+    if (dateStringValidationError) {
+        return dateStringValidationError;
     }
-    const tilDato = tilDatoValue?.date;
-    const fraDato = fraDatoValue?.date;
+    const tilDato = ISOStringToDate(tilDatoValue);
+    const fraDato = ISOStringToDate(fraDatoValue);
     if (!tilDato || isMoreThan3YearsAgo(tilDato)) {
         return createAppFieldValidationError(AppFieldValidationErrors.tildato_merEnnTreÅr);
     }

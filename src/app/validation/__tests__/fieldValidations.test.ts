@@ -1,3 +1,4 @@
+import { dateToISOString } from '@navikt/sif-common-formik/lib';
 import moment from 'moment';
 import { Attachment } from '@sif-common/core/types/Attachment';
 import * as dateUtils from '@sif-common/core/utils/dateUtils';
@@ -14,8 +15,6 @@ import {
 } from '../fieldValidations';
 
 import Mock = jest.Mock;
-import { createFormikDatepickerValue } from '@navikt/sif-common-formik/lib';
-
 jest.mock('../../utils/envUtils', () => {
     return {
         getEnvironmentVariable: () => 'someEnvVar',
@@ -61,12 +60,12 @@ describe('fieldValidations', () => {
     describe('validateFødselsdato', () => {
         it('should return error if date is after today', () => {
             const tomorrow: Date = moment().add(1, 'day').toDate();
-            expect(validateFødselsdato(createFormikDatepickerValue(tomorrow))).toBeDefined();
+            expect(validateFødselsdato(dateToISOString(tomorrow))).toBeDefined();
         });
         it('should return undefined if date is same as today or earlier', () => {
             const yesterday: Date = moment().subtract(1, 'day').toDate();
-            expect(validateFødselsdato(createFormikDatepickerValue(yesterday))).toBeUndefined();
-            expect(validateFødselsdato(createFormikDatepickerValue(dateUtils.dateToday))).toBeUndefined();
+            expect(validateFødselsdato(dateToISOString(yesterday))).toBeUndefined();
+            expect(validateFødselsdato(dateToISOString(dateUtils.dateToday))).toBeUndefined();
         });
     });
 
@@ -101,7 +100,7 @@ describe('fieldValidations', () => {
 
         it('should return an error message saying date cannot be more than 3 years back in time, if date is more than 3 years back in time', () => {
             (dateUtils.isMoreThan3YearsAgo as Mock).mockReturnValue(true);
-            expect(validateFradato(createFormikDatepickerValue(new Date()))).toEqual(
+            expect(validateFradato(dateToISOString(new Date()))).toEqual(
                 createFieldValidationError(AppFieldValidationErrors.fradato_merEnnTreÅr)
             );
         });
@@ -109,10 +108,7 @@ describe('fieldValidations', () => {
         it('should return an error message saying that fraDato cannot be after tilDato, if fraDato is after tilDato', () => {
             const today = moment();
             const yesterday = today.clone().subtract(1, 'day');
-            const result = validateFradato(
-                createFormikDatepickerValue(today.toDate()),
-                createFormikDatepickerValue(yesterday.toDate())
-            );
+            const result = validateFradato(dateToISOString(today.toDate()), dateToISOString(yesterday.toDate()));
             expect(result).toEqual(createFieldValidationError(AppFieldValidationErrors.fradato_erEtterTildato));
         });
 
@@ -120,13 +116,10 @@ describe('fieldValidations', () => {
             const fraDato = moment();
             const tilDato = fraDato.clone();
             expect(
-                validateFradato(
-                    createFormikDatepickerValue(fraDato.toDate()),
-                    createFormikDatepickerValue(tilDato.toDate())
-                )
+                validateFradato(dateToISOString(fraDato.toDate()), dateToISOString(tilDato.toDate()))
             ).toBeUndefined();
             const date3YearsAgo = moment().subtract(3, 'years').toDate();
-            expect(validateFradato(createFormikDatepickerValue(date3YearsAgo))).toBeUndefined();
+            expect(validateFradato(dateToISOString(date3YearsAgo))).toBeUndefined();
         });
     });
 
@@ -141,7 +134,7 @@ describe('fieldValidations', () => {
 
         it('should return an error message saying date cannot be more than 3 years back in time, if date is more than 3 years back in time', () => {
             (dateUtils.isMoreThan3YearsAgo as Mock).mockReturnValue(true);
-            expect(validateTildato(createFormikDatepickerValue(new Date()))).toEqual(
+            expect(validateTildato(dateToISOString(new Date()))).toEqual(
                 createFieldValidationError(AppFieldValidationErrors.tildato_merEnnTreÅr)
             );
         });
@@ -149,21 +142,18 @@ describe('fieldValidations', () => {
         it('should return an error message saying that tilDato cannot be before fraDato, if tilDato is before fraDato', () => {
             const today = moment();
             const yesterday = today.clone().subtract(1, 'day');
-            const result = validateTildato(
-                createFormikDatepickerValue(yesterday.toDate()),
-                createFormikDatepickerValue(today.toDate())
-            );
+            const result = validateTildato(dateToISOString(yesterday.toDate()), dateToISOString(today.toDate()));
             expect(result).toEqual(createFieldValidationError(AppFieldValidationErrors.tildato_erFørFradato));
         });
 
         it('should return undefined if tilDato is inside the last 3 years and equal to or later than fraDato', () => {
             const tilDato = moment();
             const fraDato = tilDato.clone();
-            const til = createFormikDatepickerValue(tilDato.toDate());
-            const fra = createFormikDatepickerValue(fraDato.toDate());
+            const til = dateToISOString(tilDato.toDate());
+            const fra = dateToISOString(fraDato.toDate());
             expect(validateTildato(til, fra)).toBeUndefined();
             const date3YearsAgo = moment().subtract(3, 'years').toDate();
-            expect(validateTildato(createFormikDatepickerValue(date3YearsAgo))).toBeUndefined();
+            expect(validateTildato(dateToISOString(date3YearsAgo))).toBeUndefined();
         });
     });
 

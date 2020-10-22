@@ -1,20 +1,20 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useFormikContext } from 'formik';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Box from '@sif-common/core/components/box/Box';
 import CounsellorPanel from '@sif-common/core/components/counsellor-panel/CounsellorPanel';
+import ExpandableInfo from '@sif-common/core/components/expandable-content/ExpandableInfo';
 import { YesOrNo } from '@sif-common/core/types/YesOrNo';
 import { date1YearAgo, date1YearFromNow, date3YearsAgo, DateRange } from '@sif-common/core/utils/dateUtils';
 import intlHelper from '@sif-common/core/utils/intlUtils';
 import { validateYesOrNoIsAnswered } from '@sif-common/core/validation/fieldValidations';
 import { IntlFieldValidationError } from '@sif-common/core/validation/types';
-import { FormikDatepickerValue, TypedFormikFormContext } from '@sif-common/formik/';
+import { ISOStringToDate, TypedFormikFormContext } from '@sif-common/formik/';
 import FerieuttakListAndDialog from '@sif-common/forms/ferieuttak/FerieuttakListAndDialog';
 import { Ferieuttak } from '@sif-common/forms/ferieuttak/types';
 import { Utenlandsopphold } from '@sif-common/forms/utenlandsopphold/types';
 import UtenlandsoppholdListAndDialog from '@sif-common/forms/utenlandsopphold/UtenlandsoppholdListAndDialog';
-import { useFormikContext } from 'formik';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import ExpandableInfo from '@sif-common/core/components/expandable-content/ExpandableInfo';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
@@ -42,17 +42,21 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     const harMedsøker = values[AppFormField.harMedsøker];
 
     const { periodeFra, periodeTil } = values;
-    const periode: DateRange = { from: periodeFra?.date || date1YearAgo, to: periodeTil?.date || date1YearFromNow };
+    const periode: DateRange = {
+        from: ISOStringToDate(periodeFra) || date1YearAgo,
+        to: ISOStringToDate(periodeTil) || date1YearFromNow,
+    };
     const intl = useIntl();
 
-    const info8uker =
-        periodeFra?.date && periodeTil?.date ? erPeriodeOver8Uker(periodeFra.date, periodeTil.date) : undefined;
+    const infoPeriodeFra = ISOStringToDate(periodeFra);
+    const infoPeriodeTil = ISOStringToDate(periodeTil);
+    const info8uker = infoPeriodeFra && infoPeriodeTil ? erPeriodeOver8Uker(infoPeriodeFra, infoPeriodeTil) : undefined;
 
-    const validateFraDatoField = (value?: FormikDatepickerValue) => {
+    const validateFraDatoField = (value?: string) => {
         return validateFradato(value, periodeTil);
     };
 
-    const validateTilDatoField = (value?: FormikDatepickerValue) => {
+    const validateTilDatoField = (value?: string) => {
         return validateTildato(value, periodeFra);
     };
 
