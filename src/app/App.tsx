@@ -14,8 +14,8 @@ import '@sif-common/core/styles/globalStyles.less';
 import './app.less';
 
 appSentryLogger.init();
-
 const localeFromSessionStorage = getLocaleFromSessionStorage();
+
 moment.locale(localeFromSessionStorage);
 
 const APPLICATION_KEY = 'pleiepengesoknad';
