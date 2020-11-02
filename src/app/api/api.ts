@@ -7,7 +7,7 @@ import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { ResourceType } from '../types/ResourceType';
 import { MELLOMLAGRING_VERSION, MellomlagringData } from '../types/storage';
 import { getApiUrlByResourceType, sendMultipartPostRequest } from '../utils/apiUtils';
-import { storageParser } from '../utils/parser';
+import storageParser from '@navikt/sif-common-core/lib/utils/persistence/persistence';
 
 export const persist = (formData: PleiepengesøknadFormData, lastStepID: StepID) => {
     const body: MellomlagringData = { formData, metadata: { lastStepID, version: MELLOMLAGRING_VERSION } };

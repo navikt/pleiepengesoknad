@@ -120,7 +120,7 @@ const completedAttachmentMock = { uploaded: true, url: attachmentMock1.url, pend
 const frilansPartialFormData: Partial<PleiepengesøknadFormData> = {
     harHattInntektSomFrilanser: YesOrNo.YES,
     frilans_jobberFortsattSomFrilans: YesOrNo.YES,
-    frilans_startdato: '2018-01-01',
+    frilans_startdato: '2018-02-01',
 };
 const selvstendigPartialFormData: Partial<PleiepengesøknadFormData> = {
     selvstendig_harHattInntektSomSN: YesOrNo.YES,
