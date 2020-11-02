@@ -44,6 +44,7 @@ import JaNeiSvar from './JaNeiSvar';
 import SelvstendigSummary from './SelvstendigSummary';
 import TilsynsordningSummary from './TilsynsordningSummary';
 import './summary.less';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 
 interface State {
     sendingInProgress: boolean;
@@ -88,7 +89,8 @@ class SummaryStep extends React.Component<Props, State> {
         const { values, intl } = this.props;
         const { sendingInProgress } = this.state;
 
-        const { periodeFra, periodeTil } = values;
+        const periodeFra = datepickerUtils.getDateFromDateString(values.periodeFra);
+        const periodeTil = datepickerUtils.getDateFromDateString(values.periodeTil);
         const info8uker =
             isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) && periodeFra && periodeTil
                 ? erPeriodeOver8Uker(periodeFra, periodeTil)

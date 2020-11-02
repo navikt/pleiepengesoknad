@@ -32,6 +32,7 @@ import {
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 
 const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<PleiepengesøknadFormData>();
@@ -41,18 +42,23 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
 
     const harMedsøker = values[AppFormField.harMedsøker];
 
-    const { periodeFra, periodeTil } = values;
-    const periode: DateRange = { from: periodeFra || date1YearAgo, to: periodeTil || date1YearFromNow };
+    // const { periodeFra, periodeTil } = values;
+    const periodeFra = datepickerUtils.getDateFromDateString(values.periodeFra);
+    const periodeTil = datepickerUtils.getDateFromDateString(values.periodeTil);
+    const periode: DateRange = {
+        from: periodeFra || date1YearAgo,
+        to: periodeTil || date1YearFromNow,
+    };
     const intl = useIntl();
 
     const info8uker = periodeFra && periodeTil ? erPeriodeOver8Uker(periodeFra, periodeTil) : undefined;
 
-    const validateFraDatoField = (date?: Date) => {
-        return validateFradato(date, periodeTil);
+    const validateFraDatoField = (date?: string) => {
+        return validateFradato(date, values.periodeTil);
     };
 
-    const validateTilDatoField = (date?: Date) => {
-        return validateTildato(date, periodeFra);
+    const validateTilDatoField = (date?: string) => {
+        return validateTildato(date, values.periodeFra);
     };
 
     const validateBekreft8uker = (value: YesOrNo): IntlFieldValidationError | undefined => {

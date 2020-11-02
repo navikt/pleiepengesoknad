@@ -29,6 +29,7 @@ import { FieldValidationResult } from '@sif-common/core/validation/types';
 import { Arbeidsforhold, Tilsynsordning } from '../types/PleiepengesøknadFormData';
 import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 
 const moment = require('moment');
 
@@ -75,7 +76,8 @@ export const isYesOrNoAnswered = (answer: YesOrNo) => {
     return answer === YesOrNo.NO || answer === YesOrNo.YES || answer === YesOrNo.DO_NOT_KNOW;
 };
 
-export const validateFødselsdato = (date: Date): FieldValidationResult => {
+export const validateFødselsdato = (dateString?: string): FieldValidationResult => {
+    const date = datepickerUtils.getDateFromDateString(dateString);
     if (!hasValue(date)) {
         return fieldIsRequiredError();
     }
@@ -105,7 +107,9 @@ export const validateNavn = (v: string, isRequired?: boolean): FieldValidationRe
         : createAppFieldValidationError(AppFieldValidationErrors.navn_maksAntallTegn, { maxNumOfLetters });
 };
 
-export const validateFradato = (fraDato?: Date, tilDato?: Date): FieldValidationResult => {
+export const validateFradato = (fraDatoString?: string, tilDatoString?: string): FieldValidationResult => {
+    const fraDato = datepickerUtils.getDateFromDateString(fraDatoString);
+    const tilDato = datepickerUtils.getDateFromDateString(tilDatoString);
     if (!hasValue(fraDato)) {
         return fieldIsRequiredError();
     }
@@ -123,7 +127,10 @@ export const validateFradato = (fraDato?: Date, tilDato?: Date): FieldValidation
     return undefined;
 };
 
-export const validateTildato = (tilDato?: Date, fraDato?: Date): FieldValidationResult => {
+export const validateTildato = (tilDatoString?: string, fraDatoString?: string): FieldValidationResult => {
+    const tilDato = datepickerUtils.getDateFromDateString(tilDatoString);
+    const fraDato = datepickerUtils.getDateFromDateString(fraDatoString);
+
     if (!hasValue(tilDato)) {
         return fieldIsRequiredError();
     }
