@@ -39,6 +39,7 @@
         "@navikt/sif-common-formik": "^10.0.7",
         "@navikt/sif-common-forms": "^8.0.16",
         "@navikt/sif-common-sentry": "0.0.13",
+        "@navikt/sif-common-soknad": "^1.0.2",
         "@testing-library/react": "^9.5.0",
         "axios": "^0.19.2",
         "busboy": "^0.3.0",
