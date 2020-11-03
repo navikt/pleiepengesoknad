@@ -56,14 +56,13 @@ const ArbeidsgiverUtskrift = ({ arbeidsgiver, søkernavn, fom, tom }: Props) => 
         </p>
 
         <p>
-            Fyll inn startdato som samsvarer med arbeidstakers søknad.{' '}
+            Fyll inn periode som samsvarer med arbeidstakers søknad.{' '}
             <strong>
-                {søkernavn} har søkt pleiepenger fra {prettifyDate(fom)}
+                {søkernavn} har søkt pleiepenger for perioden {prettifyDate(fom)} til {prettifyDate(tom)}
             </strong>{' '}
-            . Hvis datoen ikke stemmer med hva dere har avtalt, må dere avklare dette dere imellom før du sender
+            . Hvis datoene ikke stemmer med hva dere har avtalt, må dere avklare dette dere imellom før du sender
             inntektsmeldingen.
         </p>
-
         <p>
             Du får mer informasjon om inntektsmeldingen på{' '}
             <Lenke href="https://nav.no/inntektsmelding" target="_blank">
