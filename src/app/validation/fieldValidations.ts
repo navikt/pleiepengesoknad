@@ -1,5 +1,5 @@
-import { Ferieuttak } from '@sif-common/forms/ferieuttak/types';
-import { Utenlandsopphold } from '@sif-common/forms/utenlandsopphold/types';
+import moment from 'moment';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { Attachment } from '@sif-common/core/types/Attachment';
 import { Time } from '@sif-common/core/types/Time';
 import { YesOrNo } from '@sif-common/core/types/YesOrNo';
@@ -26,12 +26,11 @@ import {
 } from '@sif-common/core/validation/fieldValidations';
 import { hasValue } from '@sif-common/core/validation/hasValue';
 import { FieldValidationResult } from '@sif-common/core/validation/types';
+import { Ferieuttak } from '@sif-common/forms/ferieuttak/types';
+import { Utenlandsopphold } from '@sif-common/forms/utenlandsopphold/types';
 import { Arbeidsforhold, Tilsynsordning } from '../types/PleiepengesøknadFormData';
-import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-
-const moment = require('moment');
+import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
 
 export enum AppFieldValidationErrors {
     'fødselsdato_ugyldig' = 'fieldvalidation.fødelsdato.ugyldig',
@@ -40,6 +39,7 @@ export enum AppFieldValidationErrors {
     'fradato_erEtterTildato' = 'fieldvalidation.fradato.erEtterTildato',
     'tildato_merEnnTreÅr' = 'fieldvalidation.tildato.merEnnTreÅr',
     'tildato_erFørFradato' = 'fieldvalidation.tildato.erFørFradato',
+    'frilanser_startdatoForSent' = 'fieldvalidation.tildato.frilanser_startdatoForSent',
     'bekreftOmsorg_ekstrainfoForMangeTegn' = 'fieldvalidation.bekreftOmsorg_ekstrainfoForMangeTegn',
     'legeerklæring_mangler' = 'fieldvalidation.legeerklæring.mangler',
     'legeerklæring_forMangeFiler' = 'fieldvalidation.legeerklæring.forMangeFiler',
@@ -152,6 +152,19 @@ export const validateTextarea1000 = (text: string): FieldValidationResult => {
     if (text && text.length > 1000) {
         return createAppFieldValidationError(AppFieldValidationErrors.tilsynsordning_forMangeTegn);
     }
+    return undefined;
+};
+
+export const validateFrilanserStartdato = (datoString?: string): FieldValidationResult => {
+    if (!hasValue(datoString)) {
+        return fieldIsRequiredError();
+    }
+    const dato = datepickerUtils.getDateFromDateString(datoString);
+
+    if (!dato || moment(dato).isAfter(dateToday, 'day')) {
+        return createAppFieldValidationError(AppFieldValidationErrors.frilanser_startdatoForSent);
+    }
+
     return undefined;
 };
 
