@@ -204,7 +204,7 @@
     "steg.tidsrom.skalPassePåBarnetIHelePerioden.spm": "Skal du passe på barnet i heile tidsrommet du skal ha pleiepengar?",
     "steg.tidsrom.bekreftOmsorgEkstrainfo.spm": "Beskriv omsorgsrolla du har for barnet i tidsrommet du skal ha pleiepengar:",
 
-    "steg.tilsyn.veileder.html": "<p>Eit omsorgstilbod kan vere barnehage, skule, SFO, omsorgsbustad, BPA (brukarstyrt personleg assistent) eller andre organiserte tilbod.</p><p>Du må gi opp alle timane barnet er i eit omsorgstilbod.</p>",
+    "steg.tilsyn.veileder.html": "<p>Eit omsorgstilbod kan vere barnehage, skule, SFO, omsorgsbustad, BPA (brukarstyrt personleg assistent) eller andre organiserte tilbod.</p><p>Du må gi opp alle timane/minutt barnet er i eit omsorgstilbod.</p>",
     "steg.tilsyn.skalBarnetHaTilsyn.spm": "Skal barnet vere i eit omsorgstilbod i perioden du søkjer om pleiepengar?",
     "steg.tilsyn.ja.hvorMyeTilsyn.spm": "Gi opp tida barnet er i eit omsorgstilbod.",
     "steg.tilsyn.ja.harEkstrainfo.spm": "Er det noko meir om omsorgstilbodet vi skal vite?",
