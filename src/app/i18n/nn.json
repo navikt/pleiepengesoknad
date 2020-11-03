@@ -112,7 +112,7 @@
     "step.medlemskap.pageTitle": "Pleiepengesøknad – medlemskap",
     "step.medlemskap.stepTitle": "Medlemskap",
     "step.medlemskap.stepIndicatorLabel": "Om medlemskap i folketrygda",
-    "medlemskap.summary.header": "Medlemskap i folketrygden",
+    "medlemskap.summary.header": "Medlemskap i folketrygda",
 
     "step.legeerklaering.pageTitle": "Pleiepengesøknad – legeerklæring",
     "step.legeerklaering.stepTitle": "Last opp legeerklæring",
@@ -240,7 +240,7 @@
     "steg.oppsummering.info": "Les gjennom oppsummeringa før du sender inn søknaden. Dersom du vil gjere endringar, kan du gå tilbake.",
     "steg.oppsummering.søker.header": "Om deg",
     "steg.oppsummering.søker.fnr": "Fødselsnummer: {fødselsnummer}",
-    "steg.oppsummering.tidsrom.header": "Perioden du søker pleiepenger for",
+    "steg.oppsummering.tidsrom.header": "Perioden du søkjer pleiepengar for",
     "steg.oppsummering.tidsrom.fomtom": "Frå {fom} til {tom}",
     "steg.oppsummering.over8uker.header": "Bekrefter at søknad er for ein periode lengre enn 8 veker ({varighet})?",
 
@@ -419,6 +419,7 @@
     "selvstendig.list.tittel": "Registrerte verksemder",
     "selvstendig.list.leggTilLabel": "Legg til verksemd",
     "selvstendig.dialog.tittel": "Verksemd",
+    "selvstendig.summary.header": "Næringsinntekt",
     "selvstendig.summary.harDuHattInntekt.header": "Har du hatt inntekt som sjølvstendig næringsdrivande dei siste 4 vekene?",
 
     "frilanser.harDuHattInntekt.spm": "Har du jobba og hatt inntekt som frilansar dei siste 4 vekene?",
