@@ -322,7 +322,7 @@
     "page.arbeidsgiverutskrift.info.7": "Dersom inntektsmeldinga allereie er send, kan du sjå bort frå denne meldinga.",
     "page.arbeidsgiverutskrift.sender.tittel": "Slik sender du inntektsmeldinga",
     "page.arbeidsgiverutskrift.sender.info.1": "Inntektsmeldinga blir send frå lønns- og personalsystemet hos arbeidsgivaren eller frå altinn.no. Meldinga inneheld inntektsopplysningar og annan informasjon NAV må ha for å behandle søknaden.",
-    "page.arbeidsgiverutskrift.sender.info.2.html": "Fyll inn startdato som samsvarer med søknaden  frå arbeidssøkjaren. <strong>{søkernavn} har søkt pleiepengar frå {fom}</strong>. Dersom datoen ikkje stemmer med det de har avtalt, må de avklare dette mellom dykk før du sender inntektsmeldinga.",
+    "page.arbeidsgiverutskrift.sender.info.2.html": "Fyll inn startdato som samsvarer med søknaden  frå arbeidssøkjaren. <strong>{søkernavn} har søkt pleiepengar for perioden {fom} til {tom}</strong>. Dersom datoene ikkje stemmer med det de har avtalt, må de avklare dette mellom dykk før du sender inntektsmeldinga.",
     "page.arbeidsgiverutskrift.merInfo.1": "Du får meir informasjon om inntektsmeldinga på",
     "page.arbeidsgiverutskrift.merInfo.2": "nav.no/inntektsmelding",
     "page.arbeidsgiverutskrift.merInfo.3": ".",

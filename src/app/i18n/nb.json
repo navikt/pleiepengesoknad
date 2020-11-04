@@ -322,7 +322,7 @@
     "page.arbeidsgiverutskrift.info.7": "Hvis inntektsmeldingen allerede er sendt, kan du se bort fra denne meldingen.",
     "page.arbeidsgiverutskrift.sender.tittel": "Slik sender du inntektsmeldingen",
     "page.arbeidsgiverutskrift.sender.info.1": "Inntektsmeldingen sendes fra arbeidsgivers eget lønns- og personalsystem, eller fra altinn.no. Meldingen inneholder inntektsopplysninger og annen informasjon NAV må ha for å behandle søknaden.",
-    "page.arbeidsgiverutskrift.sender.info.2.html": "Fyll inn startdato som samsvarer med arbeidstakers søknad. <strong>{søkernavn} har søkt pleiepenger fra {fom}</strong>. Hvis datoen ikke stemmer med hva dere har avtalt, må dere avklare dette dere imellom før du sender inntektsmeldingen.",
+    "page.arbeidsgiverutskrift.sender.info.2.html": "Fyll inn startdato som samsvarer med arbeidstakers søknad. <strong>{søkernavn} har søkt for perioden {fom} til {tom}</strong>. Hvis datoene ikke stemmer med hva dere har avtalt, må dere avklare dette dere imellom før du sender inntektsmeldingen.",
     "page.arbeidsgiverutskrift.merInfo.1": "Du får mer informasjon om inntektsmeldingen på",
     "page.arbeidsgiverutskrift.merInfo.2": "nav.no/inntektsmelding",
     "page.arbeidsgiverutskrift.merInfo.3": ".",
