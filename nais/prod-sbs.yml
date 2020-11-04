@@ -53,7 +53,7 @@ spec:
         - name: NYNORSK
           value: "off"
         - name: INNSYN
-          value: "off"
+          value: "on"
         - name: TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN
           value: "on"
         - name: TOGGLE_8_UKER
