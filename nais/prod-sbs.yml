@@ -50,6 +50,10 @@ spec:
           value: "on"
         - name: UTILGJENGELIG
           value: "off"
+        - name: NYNORSK
+          value: "off"
+        - name: INNSYN
+          value: "on"
         - name: TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN
           value: "on"
         - name: TOGGLE_8_UKER
