@@ -1,10 +1,12 @@
 import React from 'react';
-import Box from '@sif-common/core/components/box/Box';
-import bemUtils from '@sif-common/core/utils/bemUtils';
-import { prettifyDate } from '@sif-common/core/utils/dateUtils';
+import { FormattedMessage } from 'react-intl';
+import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatted-html-message/FormattedHtmlMessage';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
 import { Element, Systemtittel } from 'nav-frontend-typografi';
+import Box from '@sif-common/core/components/box/Box';
+import bemUtils from '@sif-common/core/utils/bemUtils';
+import { prettifyDate } from '@sif-common/core/utils/dateUtils';
 import './arbeidsgiverUtskrift.less';
 
 interface Props {
@@ -18,57 +20,62 @@ const bem = bemUtils('arbeidsgiverUtskrift');
 
 const ArbeidsgiverUtskrift = ({ arbeidsgiver, søkernavn, fom, tom }: Props) => (
     <div className={bem.block}>
-        <Systemtittel style={{ marginBottom: '1.5rem' }}>Til {arbeidsgiver}</Systemtittel>
-        <p>NAV har mottatt følgende opplysninger:</p>
+        <Systemtittel style={{ marginBottom: '1.5rem' }}>
+            <FormattedMessage id="page.arbeidsgiverutskrift.tittel" values={{ arbeidsgiver }} />
+        </Systemtittel>
+        <p>
+            <FormattedMessage id="page.arbeidsgiverutskrift.info.1" />
+        </p>
         <p>
             <strong>
-                {søkernavn} er ansatt hos {arbeidsgiver}
+                <FormattedMessage id="page.arbeidsgiverutskrift.info.2" values={{ søkernavn, arbeidsgiver }} />
             </strong>
         </p>
-        <p>
-            <strong>{søkernavn} søker om Pleiepenger for perioden:</strong>
+        <Box margin="l">
+            <strong>
+                <FormattedMessage id="page.arbeidsgiverutskrift.info.3" />
+            </strong>
             <ul>
                 <li>
-                    <strong>{prettifyDate(fom)}</strong> til <strong>{prettifyDate(tom)}</strong>
+                    <FormattedHtmlMessage
+                        id="page.arbeidsgiverutskrift.info.4.html"
+                        value={{ fom: prettifyDate(fom), tom: prettifyDate(tom) }}
+                    />
                 </li>
             </ul>
-        </p>
+        </Box>
         <Box margin="xl">
             <AlertStripeInfo className={bem.element('frist')}>
                 <p>
-                    For at arbeidstaker skal få raskt svar på søknaden sin, ber vi om at inntektsmeldingen blir sendt
-                    til oss så snart som mulig.{' '}
+                    <FormattedMessage id="page.arbeidsgiverutskrift.info.5" />
                 </p>
-
                 <p>
-                    <strong>Det er viktig at du krysser av for at inntektsmeldingen gjelder pleiepenger</strong>.
+                    <FormattedHtmlMessage id="page.arbeidsgiverutskrift.info.6.html" />
                 </p>
-
-                <p>Hvis inntektsmeldingen allerede er sendt, kan du se bort fra denne meldingen.</p>
+                <p>
+                    <FormattedMessage id="page.arbeidsgiverutskrift.info.7" />
+                </p>
             </AlertStripeInfo>
         </Box>
 
-        <Element style={{ marginTop: '2rem' }}>Slik sender du inntektsmeldingen</Element>
+        <Element style={{ marginTop: '2rem' }}>
+            <FormattedMessage id="page.arbeidsgiverutskrift.sender.tittel" />
+        </Element>
         <p>
-            Inntektsmeldingen sendes fra arbeidsgivers eget lønns- og personalsystem eller fra altinn.no. Meldingen
-            inneholder inntektsopplysninger og annen informasjon NAV må ha for å behandle søknaden arbeidstaker har
-            sendt. Husk å velge riktig inntektsmelding.
-        </p>
-
-        <p>
-            Fyll inn periode som samsvarer med arbeidstakers søknad.{' '}
-            <strong>
-                {søkernavn} har søkt pleiepenger for perioden {prettifyDate(fom)} til {prettifyDate(tom)}
-            </strong>{' '}
-            . Hvis datoene ikke stemmer med hva dere har avtalt, må dere avklare dette dere imellom før du sender
-            inntektsmeldingen.
+            <FormattedMessage id="page.arbeidsgiverutskrift.sender.info.1" />
         </p>
         <p>
-            Du får mer informasjon om inntektsmeldingen på{' '}
+            <FormattedHtmlMessage
+                id="page.arbeidsgiverutskrift.sender.info.2.html"
+                value={{ søkernavn, fom: prettifyDate(fom) }}
+            />
+        </p>
+        <p>
+            <FormattedMessage id="page.arbeidsgiverutskrift.merInfo.1" />{' '}
             <Lenke href="https://nav.no/inntektsmelding" target="_blank">
-                nav.no/inntektsmelding
-            </Lenke>
-            .
+                <FormattedMessage id="page.arbeidsgiverutskrift.merInfo.2" />
+            </Lenke>{' '}
+            <FormattedMessage id="page.arbeidsgiverutskrift.merInfo.3" />
         </p>
     </div>
 );
