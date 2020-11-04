@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import AppStatusWrapper from '@sif-common/core/components/app-status-wrapper/AppStatusWrapper';
 import moment from 'moment';
 import Modal from 'nav-frontend-modal';
+import AppStatusWrapper from '@sif-common/core/components/app-status-wrapper/AppStatusWrapper';
 import { Locale } from '@sif-common/core/types/Locale';
 import ApplicationWrapper from './components/application-wrapper/ApplicationWrapper';
 import UnavailablePage from './components/pages/unavailable-page/UnavailablePage';
@@ -14,6 +14,7 @@ import '@sif-common/core/styles/globalStyles.less';
 import './app.less';
 
 appSentryLogger.init();
+
 const localeFromSessionStorage = getLocaleFromSessionStorage();
 
 moment.locale(localeFromSessionStorage);
