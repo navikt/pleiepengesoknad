@@ -254,18 +254,19 @@
 
     "steg.oppsummering.utenlandsoppholdIPerioden.header": "Skal du vere i utlandet i perioden?",
     "steg.oppsummering.utenlandsoppholdIPerioden.listetittel": "Utanlandsopphald i perioden",
+    "steg.oppsummering.utenlandsoppholdIPerioden.innlagtBarn.spm": "Skal barnet være innlagt på sykehus i utlandet?",
     "steg.oppsummering.ferieuttakIPerioden.header": "Skal du ta ut ferie i perioden?",
     "steg.oppsummering.ferieuttakIPerioden.listetittel": "Ferieuttak i perioden",
 
     "steg.oppsummering.dagerPerUkeBorteFraJobb.header": "Talet på dagar i veka du skal vere borte frå jobb for å ta hand om barnet",
     "steg.oppsummering.samtidigHjemme.header": "Skal de vere heime / på sjukehus samtidig?",
     "steg.oppsummering.annenSøkerSammePeriode.header": "Er det ein annan person som søkjer om pleiepengar i same perioden?",
-    "steg.oppsummering.nattevåk.header": "Nattevaking",
+    "steg.oppsummering.nattevåk.header": "Gjør barnets sykdom at du må være våken på natta og derfor må være borte fra jobb dagen etter?",
     "steg.oppsummering.nattevåk.borteFraJobb.header": "Må vere borte frå jobb",
-    "steg.oppsummering.beredskap.header": "Beredskap",
+    "steg.oppsummering.beredskap.header": "Gjør barnets sykdom at du må være i beredskap eller være tilgjengelig selv om barnet er i et omsorgstilbud?",
 
     "steg.oppsummering.tilsynsordning.header": "Omsorgstilbod",
-    "steg.oppsummering.tilsynsordning.ja.header": "Dagar med omsorgstilbod",
+    "steg.oppsummering.tilsynsordning.spm": "Skal barnet være i omsorgstilbud i perioden?",
     "steg.oppsummering.tilsynsordning.ja.tilleggsinformasjon.header": "Tilleggsopplysningar",
     "steg.oppsummering.tilsynsordning.vetIkke.header": "Kvifor er du usikker?",
     "steg.oppsummering.tilsynsordning.vetIkke.årsak.erSporadisk": "Barnet er i omsorgstilbod, men tida varierer.",
@@ -275,8 +276,6 @@
 
     "steg.oppsummering.utlandetSiste12.header": "Har budd i utlandet dei siste 12 månadene",
     "steg.oppsummering.utlandetNeste12.header": "Skal bu i utlandet dei neste 12 månadene",
-    "steg.oppsummering.utlandetSiste12.liste.header": "Utenlandsopphald siste 12 måneder",
-    "steg.oppsummering.utlandetNeste12.liste.header": "Utenlandsopphald neste 12 måneder",
 
     "steg.oppsummering.bekrefterOpplysninger": "Eg stadfestar at opplysningane eg har gitt, er riktige, og at eg ikkje har halde tilbake opplysningar som er viktige for retten min til pleiepengar.",
     "steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet": "Du må stadfeste opplysningane.",

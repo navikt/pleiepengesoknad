@@ -18,6 +18,8 @@ import { formatName } from '@sif-common/core/utils/personUtils';
 import ArbeidsforholdSummary from 'app/components/arbeidsforhold-summary/ArbeidsforholdSummary';
 import {
     renderFerieuttakIPeriodenSummary,
+    // renderTEST2UtenlandsoppholdIPeriodenSummary,
+    // renderTESTUtenlandsoppholdIPeriodenSummary,
     renderUtenlandsoppholdIPeriodenSummary,
     renderUtenlandsoppholdSummary,
 } from 'app/components/steps/summary/renderUtenlandsoppholdSummary';
@@ -203,20 +205,13 @@ class SummaryStep extends React.Component<Props, State> {
                                                             />
                                                         </ContentWithHeader>
                                                     </Box>
+
                                                     {utenlandsoppholdIPerioden.opphold.length > 0 && (
                                                         <Box margin="l">
-                                                            <ContentWithHeader
-                                                                header={intlHelper(
-                                                                    intl,
-                                                                    'steg.oppsummering.utenlandsoppholdIPerioden.listetittel'
-                                                                )}>
-                                                                <SummaryList
-                                                                    items={utenlandsoppholdIPerioden.opphold}
-                                                                    itemRenderer={
-                                                                        renderUtenlandsoppholdIPeriodenSummary
-                                                                    }
-                                                                />
-                                                            </ContentWithHeader>
+                                                            <SummaryList
+                                                                items={utenlandsoppholdIPerioden.opphold}
+                                                                itemRenderer={renderUtenlandsoppholdIPeriodenSummary}
+                                                            />
                                                         </Box>
                                                     )}
                                                 </>
@@ -241,21 +236,20 @@ class SummaryStep extends React.Component<Props, State> {
                                                 </Box>
                                                 {ferieuttakIPerioden.ferieuttak.length > 0 && (
                                                     <Box margin="l">
-                                                        <ContentWithHeader
-                                                            header={intlHelper(
-                                                                intl,
-                                                                'steg.oppsummering.ferieuttakIPerioden.listetittel'
-                                                            )}>
-                                                            <SummaryList
-                                                                items={ferieuttakIPerioden.ferieuttak}
-                                                                itemRenderer={renderFerieuttakIPeriodenSummary}
-                                                            />
-                                                        </ContentWithHeader>
+                                                        <SummaryList
+                                                            items={ferieuttakIPerioden.ferieuttak}
+                                                            itemRenderer={renderFerieuttakIPeriodenSummary}
+                                                        />
                                                     </Box>
                                                 )}
                                             </>
                                         )}
+                                    </SummarySection>
+
+                                    <SummarySection
+                                        header={intlHelper(intl, 'steg.oppsummering.tilsynsordning.header')}>
                                         {tilsynsordning && <TilsynsordningSummary tilsynsordning={tilsynsordning} />}
+
                                         {nattevaak && (
                                             <>
                                                 <Box margin="l">
@@ -332,99 +326,75 @@ class SummaryStep extends React.Component<Props, State> {
                                             )}
                                     </SummarySection>
 
-                                    <Box margin="m">
-                                        <SummarySection
-                                            header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.header')}>
-                                            {apiValues.arbeidsgivere.organisasjoner.length > 0 ? (
-                                                <SummaryList
-                                                    items={apiValues.arbeidsgivere.organisasjoner}
-                                                    itemRenderer={(forhold) => (
-                                                        <ArbeidsforholdSummary
-                                                            key={forhold.organisasjonsnummer}
-                                                            arbeidsforhold={forhold}
-                                                        />
-                                                    )}
-                                                />
-                                            ) : (
-                                                <FormattedMessage id="steg.oppsummering.arbeidsforhold.ingenArbeidsforhold" />
-                                            )}
-                                        </SummarySection>
-                                    </Box>
-                                    <Box margin="xl">
-                                        <SummarySection header={intlHelper(intl, 'frilanser.summary.header')}>
-                                            <FrilansSummary apiValues={apiValues} />
-                                        </SummarySection>
-                                    </Box>
-                                    <Box margin="xl">
-                                        <SummarySection header={intlHelper(intl, 'selvstendig.summary.header')}>
-                                            <SelvstendigSummary
-                                                selvstendigVirksomheter={apiValues.selvstendigVirksomheter}
+                                    <SummarySection
+                                        header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.header')}>
+                                        {apiValues.arbeidsgivere.organisasjoner.length > 0 ? (
+                                            <SummaryList
+                                                items={apiValues.arbeidsgivere.organisasjoner}
+                                                itemRenderer={(forhold) => (
+                                                    <ArbeidsforholdSummary
+                                                        key={forhold.organisasjonsnummer}
+                                                        arbeidsforhold={forhold}
+                                                    />
+                                                )}
                                             />
-                                        </SummarySection>
-                                    </Box>
-                                    <Box margin="xl">
-                                        <SummarySection header={intlHelper(intl, 'medlemskap.summary.header')}>
-                                            <Box margin="l">
-                                                <ContentWithHeader
-                                                    header={intlHelper(
-                                                        intl,
-                                                        'steg.oppsummering.utlandetSiste12.header'
-                                                    )}>
-                                                    {apiValues.medlemskap.harBoddIUtlandetSiste12Mnd === true &&
-                                                        intlHelper(intl, 'Ja')}
-                                                    {apiValues.medlemskap.harBoddIUtlandetSiste12Mnd === false &&
-                                                        intlHelper(intl, 'Nei')}
-                                                </ContentWithHeader>
-                                            </Box>
-                                            {apiValues.medlemskap.harBoddIUtlandetSiste12Mnd === true &&
-                                                medlemskap.utenlandsoppholdSiste12Mnd.length > 0 && (
-                                                    <Box margin="l">
-                                                        <ContentWithHeader
-                                                            header={intlHelper(
-                                                                intl,
-                                                                'steg.oppsummering.utlandetSiste12.liste.header'
-                                                            )}>
-                                                            <SummaryList
-                                                                items={medlemskap.utenlandsoppholdSiste12Mnd}
-                                                                itemRenderer={renderUtenlandsoppholdSummary}
-                                                            />
-                                                        </ContentWithHeader>
-                                                    </Box>
-                                                )}
-                                            <Box margin="l">
-                                                <ContentWithHeader
-                                                    header={intlHelper(
-                                                        intl,
-                                                        'steg.oppsummering.utlandetNeste12.header'
-                                                    )}>
-                                                    {apiValues.medlemskap.skalBoIUtlandetNeste12Mnd === true &&
-                                                        intlHelper(intl, 'Ja')}
-                                                    {apiValues.medlemskap.skalBoIUtlandetNeste12Mnd === false &&
-                                                        intlHelper(intl, 'Nei')}
-                                                </ContentWithHeader>
-                                            </Box>
-                                            {apiValues.medlemskap.skalBoIUtlandetNeste12Mnd === true &&
-                                                medlemskap.utenlandsoppholdNeste12Mnd.length > 0 && (
-                                                    <Box margin="l">
-                                                        <ContentWithHeader
-                                                            header={intlHelper(
-                                                                intl,
-                                                                'steg.oppsummering.utlandetNeste12.liste.header'
-                                                            )}>
-                                                            <SummaryList
-                                                                items={medlemskap.utenlandsoppholdNeste12Mnd}
-                                                                itemRenderer={renderUtenlandsoppholdSummary}
-                                                            />
-                                                        </ContentWithHeader>
-                                                    </Box>
-                                                )}
-                                        </SummarySection>
-                                    </Box>
-                                    <Box margin="xl">
-                                        <SummarySection header={intlHelper(intl, 'steg.oppsummering.vedlegg.header')}>
-                                            <LegeerklæringAttachmentList includeDeletionFunctionality={false} />
-                                        </SummarySection>
-                                    </Box>
+                                        ) : (
+                                            <FormattedMessage id="steg.oppsummering.arbeidsforhold.ingenArbeidsforhold" />
+                                        )}
+                                    </SummarySection>
+
+                                    <SummarySection header={intlHelper(intl, 'frilanser.summary.header')}>
+                                        <FrilansSummary apiValues={apiValues} />
+                                    </SummarySection>
+
+                                    <SummarySection header={intlHelper(intl, 'selvstendig.summary.header')}>
+                                        <SelvstendigSummary
+                                            selvstendigVirksomheter={apiValues.selvstendigVirksomheter}
+                                        />
+                                    </SummarySection>
+
+                                    <SummarySection header={intlHelper(intl, 'medlemskap.summary.header')}>
+                                        <Box margin="l">
+                                            <ContentWithHeader
+                                                header={intlHelper(intl, 'steg.oppsummering.utlandetSiste12.header')}>
+                                                {apiValues.medlemskap.harBoddIUtlandetSiste12Mnd === true &&
+                                                    intlHelper(intl, 'Ja')}
+                                                {apiValues.medlemskap.harBoddIUtlandetSiste12Mnd === false &&
+                                                    intlHelper(intl, 'Nei')}
+                                            </ContentWithHeader>
+                                        </Box>
+                                        {apiValues.medlemskap.harBoddIUtlandetSiste12Mnd === true &&
+                                            medlemskap.utenlandsoppholdSiste12Mnd.length > 0 && (
+                                                <Box margin="l">
+                                                    <SummaryList
+                                                        items={medlemskap.utenlandsoppholdSiste12Mnd}
+                                                        itemRenderer={renderUtenlandsoppholdSummary}
+                                                    />
+                                                </Box>
+                                            )}
+                                        <Box margin="l">
+                                            <ContentWithHeader
+                                                header={intlHelper(intl, 'steg.oppsummering.utlandetNeste12.header')}>
+                                                {apiValues.medlemskap.skalBoIUtlandetNeste12Mnd === true &&
+                                                    intlHelper(intl, 'Ja')}
+                                                {apiValues.medlemskap.skalBoIUtlandetNeste12Mnd === false &&
+                                                    intlHelper(intl, 'Nei')}
+                                            </ContentWithHeader>
+                                        </Box>
+                                        {apiValues.medlemskap.skalBoIUtlandetNeste12Mnd === true &&
+                                            medlemskap.utenlandsoppholdNeste12Mnd.length > 0 && (
+                                                <Box margin="l">
+                                                    <SummaryList
+                                                        items={medlemskap.utenlandsoppholdNeste12Mnd}
+                                                        itemRenderer={renderUtenlandsoppholdSummary}
+                                                    />
+                                                </Box>
+                                            )}
+                                    </SummarySection>
+
+                                    <SummarySection header={intlHelper(intl, 'steg.oppsummering.vedlegg.header')}>
+                                        <LegeerklæringAttachmentList includeDeletionFunctionality={false} />
+                                    </SummarySection>
                                 </Panel>
                             </Box>
                             <Box margin="l">
