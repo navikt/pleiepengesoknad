@@ -22,16 +22,16 @@ const UnavailablePage: React.StatelessComponent<{}> = () => {
             <Box margin="xxxl">
                 <AlertStripeAdvarsel>
                     <p>
-                        <FormattedMessage id="page.unavailable.info.1" />{' '}
+                        <FormattedMessage id="page.unavailable.1" />{' '}
                         <strong>
                             <Lenke href={link}>
-                                <FormattedMessage id="page.unavailable.info.2" />
+                                <FormattedMessage id="page.unavailable.2" />
                             </Lenke>
                         </strong>
                         .
                     </p>
                     <p>
-                        <FormattedMessage id="page.unavailable.info.3" />
+                        <FormattedMessage id="page.unavailable.3" />
                     </p>
                 </AlertStripeAdvarsel>
             </Box>
