@@ -67,7 +67,7 @@ const ArbeidsgiverUtskrift = ({ arbeidsgiver, søkernavn, fom, tom }: Props) => 
         <p>
             <FormattedHtmlMessage
                 id="page.arbeidsgiverutskrift.sender.info.2.html"
-                value={{ søkernavn, fom: prettifyDate(fom) }}
+                value={{ søkernavn, fom: prettifyDate(fom), tom: prettifyDate(tom) }}
             />
         </p>
         <p>
