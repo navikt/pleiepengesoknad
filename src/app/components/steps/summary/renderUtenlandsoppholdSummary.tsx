@@ -60,7 +60,7 @@ export const renderUtenlandsoppholdIPeriodenSummary = (opphold: Utenlandsopphold
                                 )}></SummaryList>
                         </>
                     )}
-                    <FormattedMessage id={`utenlandsopphold.form.årsak.spm`} values={{ land: opphold.landnavn }} />{' '}
+
                     {opphold.årsak !== UtenlandsoppholdÅrsak.ANNET && (
                         <FormattedMessage
                             id={`utenlandsopphold.form.årsak.${opphold.årsak}`}
