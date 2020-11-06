@@ -18,8 +18,6 @@ import { formatName } from '@sif-common/core/utils/personUtils';
 import ArbeidsforholdSummary from 'app/components/arbeidsforhold-summary/ArbeidsforholdSummary';
 import {
     renderFerieuttakIPeriodenSummary,
-    // renderTEST2UtenlandsoppholdIPeriodenSummary,
-    // renderTESTUtenlandsoppholdIPeriodenSummary,
     renderUtenlandsoppholdIPeriodenSummary,
     renderUtenlandsoppholdSummary,
 } from 'app/components/steps/summary/renderUtenlandsoppholdSummary';
@@ -150,21 +148,28 @@ class SummaryStep extends React.Component<Props, State> {
                             </CounsellorPanel>
                             <Box margin="xl">
                                 <Panel border={true}>
+                                    {/* Om deg */}
                                     <SummarySection header={intlHelper(intl, 'steg.oppsummering.søker.header')}>
-                                        <Normaltekst>{formatName(fornavn, etternavn, mellomnavn)}</Normaltekst>
-                                        <Normaltekst>Fødselsnummer: {fødselsnummer}</Normaltekst>
+                                        <Box margin="m">
+                                            <Normaltekst>{formatName(fornavn, etternavn, mellomnavn)}</Normaltekst>
+                                            <Normaltekst>Fødselsnummer: {fødselsnummer}</Normaltekst>
+                                        </Box>
                                     </SummarySection>
 
+                                    {/* Om barnet */}
                                     <BarnSummary barn={barn} formValues={values} apiValues={apiValues} />
 
+                                    {/* Perioden du søker pleiepenger for */}
                                     <SummarySection header={intlHelper(intl, 'steg.oppsummering.tidsrom.header')}>
-                                        <FormattedMessage
-                                            id="steg.oppsummering.tidsrom.fomtom"
-                                            values={{
-                                                fom: prettifyDate(apiStringDateToDate(apiValues.fraOgMed)),
-                                                tom: prettifyDate(apiStringDateToDate(apiValues.tilOgMed)),
-                                            }}
-                                        />
+                                        <Box margin="m">
+                                            <FormattedMessage
+                                                id="steg.oppsummering.tidsrom.fomtom"
+                                                values={{
+                                                    fom: prettifyDate(apiStringDateToDate(apiValues.fraOgMed)),
+                                                    tom: prettifyDate(apiStringDateToDate(apiValues.tilOgMed)),
+                                                }}
+                                            />
+                                        </Box>
                                         <Box margin="m">
                                             <ContentWithHeader
                                                 header={intlHelper(
@@ -186,6 +191,7 @@ class SummaryStep extends React.Component<Props, State> {
                                                 </ContentWithHeader>
                                             </Box>
                                         )}
+
                                         {/* Utenlandsopphold i perioden */}
                                         {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) &&
                                             utenlandsoppholdIPerioden && (
@@ -216,6 +222,7 @@ class SummaryStep extends React.Component<Props, State> {
                                                     )}
                                                 </>
                                             )}
+
                                         {/* Ferieuttak i perioden */}
                                         {ferieuttakIPerioden && (
                                             <>
@@ -246,6 +253,7 @@ class SummaryStep extends React.Component<Props, State> {
                                         )}
                                     </SummarySection>
 
+                                    {/* Omsorgstilbud */}
                                     <SummarySection
                                         header={intlHelper(intl, 'steg.oppsummering.tilsynsordning.header')}>
                                         {tilsynsordning && <TilsynsordningSummary tilsynsordning={tilsynsordning} />}
@@ -326,6 +334,7 @@ class SummaryStep extends React.Component<Props, State> {
                                             )}
                                     </SummarySection>
 
+                                    {/* Arbeidsforhold */}
                                     <SummarySection
                                         header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.header')}>
                                         {apiValues.arbeidsgivere.organisasjoner.length > 0 ? (
@@ -343,16 +352,19 @@ class SummaryStep extends React.Component<Props, State> {
                                         )}
                                     </SummarySection>
 
+                                    {/* Frilansinntekt */}
                                     <SummarySection header={intlHelper(intl, 'frilanser.summary.header')}>
                                         <FrilansSummary apiValues={apiValues} />
                                     </SummarySection>
 
+                                    {/* Næringsinntekt */}
                                     <SummarySection header={intlHelper(intl, 'selvstendig.summary.header')}>
                                         <SelvstendigSummary
                                             selvstendigVirksomheter={apiValues.selvstendigVirksomheter}
                                         />
                                     </SummarySection>
 
+                                    {/* Medlemskap i folketrygden */}
                                     <SummarySection header={intlHelper(intl, 'medlemskap.summary.header')}>
                                         <Box margin="l">
                                             <ContentWithHeader
@@ -392,11 +404,15 @@ class SummaryStep extends React.Component<Props, State> {
                                             )}
                                     </SummarySection>
 
+                                    {/* Vedlegg */}
                                     <SummarySection header={intlHelper(intl, 'steg.oppsummering.vedlegg.header')}>
-                                        <LegeerklæringAttachmentList includeDeletionFunctionality={false} />
+                                        <Box margin="m">
+                                            <LegeerklæringAttachmentList includeDeletionFunctionality={false} />
+                                        </Box>
                                     </SummarySection>
                                 </Panel>
                             </Box>
+
                             <Box margin="l">
                                 <AppForm.ConfirmationCheckbox
                                     label={intlHelper(intl, 'steg.oppsummering.bekrefterOpplysninger')}

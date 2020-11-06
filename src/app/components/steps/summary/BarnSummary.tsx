@@ -8,6 +8,7 @@ import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiDat
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../../../types/Søkerdata';
 import SummarySection from '@navikt/sif-common-soknad/lib/soknad-summary/summary-section/SummarySection';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
 
 interface Props {
     barn: BarnReceivedFromApi[];
@@ -68,8 +69,10 @@ const BarnSummary = ({ formValues, apiValues, barn }: Props) => {
 
     return (
         <SummarySection header={intlHelper(intl, 'steg.oppsummering.barnet.header')}>
-            {useApiBarn && apiBarn && apiBarnSummary(apiBarn)}
-            {!useApiBarn && annetBarnSummary(apiValues)}
+            <Box margin="m">
+                {useApiBarn && apiBarn && apiBarnSummary(apiBarn)}
+                {!useApiBarn && annetBarnSummary(apiValues)}
+            </Box>
         </SummarySection>
     );
 };
