@@ -39,7 +39,6 @@ const App = () => {
                 setLocaleInSessionStorage(activeLocale);
                 setLocale(activeLocale);
             }}>
-            {console.log(appStatusSanityConfig)}
             {appStatusSanityConfig ? (
                 <AppStatusWrapper
                     applicationKey={APPLICATION_KEY}
