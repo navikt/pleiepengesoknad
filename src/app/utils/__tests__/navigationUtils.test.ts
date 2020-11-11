@@ -15,7 +15,7 @@ jest.mock('./../envUtils.ts', () => {
 // https://github.com/facebook/jest/issues/5124
 const setWindowLocationPathname = (pathname: string | undefined) => {
     const windowLocation = JSON.stringify(window.location);
-    delete window.location;
+    delete (window as any).location;
     Object.defineProperty(window, 'location', {
         value: { ...JSON.parse(windowLocation), pathname },
         configurable: true,

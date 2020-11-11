@@ -8,7 +8,11 @@ const createEnvSettingsFile = require('./src/build/scripts/envSettings');
 const getDecorator = require('./src/build/scripts/decorator');
 
 const server = express();
-server.use(helmet());
+server.use(
+    helmet({
+        contentSecurityPolicy: false,
+    })
+);
 server.use(compression());
 server.set('views', `${__dirname}/dist`);
 server.set('view engine', 'mustache');

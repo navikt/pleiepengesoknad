@@ -1,5 +1,5 @@
-import { Ferieuttak } from '@sif-common/forms/ferieuttak/types';
-import { Utenlandsopphold } from '@sif-common/forms/utenlandsopphold/types';
+import moment from 'moment';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { Attachment } from '@sif-common/core/types/Attachment';
 import { Time } from '@sif-common/core/types/Time';
 import { YesOrNo } from '@sif-common/core/types/YesOrNo';
@@ -26,11 +26,11 @@ import {
 } from '@sif-common/core/validation/fieldValidations';
 import { hasValue } from '@sif-common/core/validation/hasValue';
 import { FieldValidationResult } from '@sif-common/core/validation/types';
+import { Ferieuttak } from '@sif-common/forms/ferieuttak/types';
+import { Utenlandsopphold } from '@sif-common/forms/utenlandsopphold/types';
 import { Arbeidsforhold, Tilsynsordning } from '../types/PleiepengesøknadFormData';
-import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
-
-const moment = require('moment');
+import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
 
 export enum AppFieldValidationErrors {
     'fødselsdato_ugyldig' = 'fieldvalidation.fødelsdato.ugyldig',
@@ -39,6 +39,7 @@ export enum AppFieldValidationErrors {
     'fradato_erEtterTildato' = 'fieldvalidation.fradato.erEtterTildato',
     'tildato_merEnnTreÅr' = 'fieldvalidation.tildato.merEnnTreÅr',
     'tildato_erFørFradato' = 'fieldvalidation.tildato.erFørFradato',
+    'frilanser_startdatoForSent' = 'fieldvalidation.tildato.frilanser_startdatoForSent',
     'bekreftOmsorg_ekstrainfoForMangeTegn' = 'fieldvalidation.bekreftOmsorg_ekstrainfoForMangeTegn',
     'legeerklæring_mangler' = 'fieldvalidation.legeerklæring.mangler',
     'legeerklæring_forMangeFiler' = 'fieldvalidation.legeerklæring.forMangeFiler',
@@ -75,7 +76,8 @@ export const isYesOrNoAnswered = (answer: YesOrNo) => {
     return answer === YesOrNo.NO || answer === YesOrNo.YES || answer === YesOrNo.DO_NOT_KNOW;
 };
 
-export const validateFødselsdato = (date: Date): FieldValidationResult => {
+export const validateFødselsdato = (dateString?: string): FieldValidationResult => {
+    const date = datepickerUtils.getDateFromDateString(dateString);
     if (!hasValue(date)) {
         return fieldIsRequiredError();
     }
@@ -105,7 +107,9 @@ export const validateNavn = (v: string, isRequired?: boolean): FieldValidationRe
         : createAppFieldValidationError(AppFieldValidationErrors.navn_maksAntallTegn, { maxNumOfLetters });
 };
 
-export const validateFradato = (fraDato?: Date, tilDato?: Date): FieldValidationResult => {
+export const validateFradato = (fraDatoString?: string, tilDatoString?: string): FieldValidationResult => {
+    const fraDato = datepickerUtils.getDateFromDateString(fraDatoString);
+    const tilDato = datepickerUtils.getDateFromDateString(tilDatoString);
     if (!hasValue(fraDato)) {
         return fieldIsRequiredError();
     }
@@ -123,7 +127,10 @@ export const validateFradato = (fraDato?: Date, tilDato?: Date): FieldValidation
     return undefined;
 };
 
-export const validateTildato = (tilDato?: Date, fraDato?: Date): FieldValidationResult => {
+export const validateTildato = (tilDatoString?: string, fraDatoString?: string): FieldValidationResult => {
+    const tilDato = datepickerUtils.getDateFromDateString(tilDatoString);
+    const fraDato = datepickerUtils.getDateFromDateString(fraDatoString);
+
     if (!hasValue(tilDato)) {
         return fieldIsRequiredError();
     }
@@ -145,6 +152,19 @@ export const validateTextarea1000 = (text: string): FieldValidationResult => {
     if (text && text.length > 1000) {
         return createAppFieldValidationError(AppFieldValidationErrors.tilsynsordning_forMangeTegn);
     }
+    return undefined;
+};
+
+export const validateFrilanserStartdato = (datoString?: string): FieldValidationResult => {
+    if (!hasValue(datoString)) {
+        return fieldIsRequiredError();
+    }
+    const dato = datepickerUtils.getDateFromDateString(datoString);
+
+    if (!dato || moment(dato).isAfter(dateToday, 'day')) {
+        return createAppFieldValidationError(AppFieldValidationErrors.frilanser_startdatoForSent);
+    }
+
     return undefined;
 };
 

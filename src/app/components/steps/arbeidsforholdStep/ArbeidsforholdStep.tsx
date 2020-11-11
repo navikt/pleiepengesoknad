@@ -8,7 +8,7 @@ import BuildingIcon from '@sif-common/core/components/building-icon/BuildingIcon
 import CounsellorPanel from '@sif-common/core/components/counsellor-panel/CounsellorPanel';
 import LoadingSpinner from '@sif-common/core/components/loading-spinner/LoadingSpinner';
 import FormSection from '../../../pre-common/form-section/FormSection';
-import { AppFormField, PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
+import { PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
 import { getArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
@@ -16,6 +16,7 @@ import FormikArbeidsforhold from '../../formik-arbeidsforhold/FormikArbeidsforho
 import FormikStep from '../../formik-step/FormikStep';
 import FrilansFormPart from './FrilansFormPart';
 import SelvstendigNæringsdrivendeFormPart from './SelvstendigNæringsdrivendePart';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 
 const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
     const formikProps = useFormikContext<PleiepengesøknadFormData>();
@@ -27,8 +28,8 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
     const søkerdata = useContext(SøkerdataContext);
 
     useEffect(() => {
-        const fraDato = values[AppFormField.periodeFra];
-        const tilDato = values[AppFormField.periodeFra];
+        const fraDato = datepickerUtils.getDateFromDateString(values.periodeFra);
+        const tilDato = datepickerUtils.getDateFromDateString(values.periodeFra);
 
         const fetchData = async () => {
             if (søkerdata) {

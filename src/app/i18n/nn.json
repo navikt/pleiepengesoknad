@@ -370,6 +370,7 @@
     "fieldvalidation.ferieuttak_utenfor_periode": "Ein ferie du har lagt inn overlappar ikkje med perioden du søkjer for. Då kan du ta bort denne ferien.",
     "fieldvalidation.ferieuttak_overlapper": "Ein eller fleire av feriane går over dei same datoane",
     "fieldvalidation.samlet_storrelse_for_hoy": "Total samla størrelse for dokumenta du har lasta opp overstig grensa på 24Mb.",
+    "fieldvalidation.frilanser_startdatoForSent": "Startdato kan ikkje vera etter dagens dato",
 
     "arbeidsforhold.erAnsattIPerioden.spm": "Er du tilsett her i perioden du søkjer pleiepengar for?",
 

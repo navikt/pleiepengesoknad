@@ -17,6 +17,7 @@ import { mapTilsynsordningToApiData } from './formToApiMaps/mapTilsynsordningToA
 import { mapUtenlandsoppholdIPeriodenToApiData } from './formToApiMaps/mapUtenlandsoppholdIPeriodenToApiData';
 import { erPeriodeOver8Uker } from './søkerOver8UkerUtils';
 import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet } from './tidsromUtils';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 
 export const getValidSpråk = (locale?: any): Locale => {
     const loc = typeof locale === 'string' ? locale : 'nb';
@@ -41,13 +42,13 @@ export const mapFormDataToApiData = (
     const {
         barnetsNavn,
         barnetsFødselsnummer,
-        barnetsFødselsdato,
+        // barnetsFødselsdato,
         barnetSøknadenGjelder,
         harBekreftetOpplysninger,
         harForståttRettigheterOgPlikter,
         arbeidsforhold,
-        periodeFra,
-        periodeTil,
+        // periodeFra,
+        // periodeTil,
         legeerklæring,
         harBoddUtenforNorgeSiste12Mnd,
         skalBoUtenforNorgeNeste12Mnd,
@@ -66,6 +67,10 @@ export const mapFormDataToApiData = (
         skalTaUtFerieIPerioden,
         harHattInntektSomFrilanser,
     } = formData;
+
+    const periodeFra = datepickerUtils.getDateFromDateString(formData.periodeFra);
+    const periodeTil = datepickerUtils.getDateFromDateString(formData.periodeTil);
+    const barnetsFødselsdato = datepickerUtils.getDateFromDateString(formData.barnetsFødselsdato);
 
     if (periodeFra && periodeTil) {
         try {
