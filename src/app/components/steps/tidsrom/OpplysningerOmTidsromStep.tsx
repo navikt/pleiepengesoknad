@@ -89,7 +89,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                 legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
                 minDate={date3YearsAgo}
                 description={
-                    <ExpandableInfo title="Kan jeg søke for flere perioder samtidig?">
+                    <ExpandableInfo title={intlHelper(intl, 'steg.tidsrom.hjelpetekst.titel')}>
                         <FormattedMessage id="steg.tidsrom.hjelpetekst" />
                     </ExpandableInfo>
                 }
@@ -213,7 +213,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                     name={AppFormField.skalTaUtFerieIPerioden}
                     validate={validateYesOrNoIsAnswered}
                     description={
-                        <ExpandableInfo title="Hva er lovbestemt ferie?">
+                        <ExpandableInfo title={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.veileder.titel')}>
                             <FormattedMessage id="steg.tidsrom.ferieuttakIPerioden.veileder" />
                         </ExpandableInfo>
                     }

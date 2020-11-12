@@ -67,14 +67,14 @@ const ArbeidsgiverUtskrift = ({ arbeidsgiver, søkernavn, fom, tom }: Props) => 
         <p>
             <FormattedHtmlMessage
                 id="page.arbeidsgiverutskrift.sender.info.2.html"
-                value={{ søkernavn, fom: prettifyDate(fom) }}
+                value={{ søkernavn, fom: prettifyDate(fom), tom: prettifyDate(tom) }}
             />
         </p>
         <p>
             <FormattedMessage id="page.arbeidsgiverutskrift.merInfo.1" />{' '}
             <Lenke href="https://nav.no/inntektsmelding" target="_blank">
                 <FormattedMessage id="page.arbeidsgiverutskrift.merInfo.2" />
-            </Lenke>{' '}
+            </Lenke>
             <FormattedMessage id="page.arbeidsgiverutskrift.merInfo.3" />
         </p>
     </div>

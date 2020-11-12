@@ -1,11 +1,11 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import Box from '@sif-common/core/components/box/Box';
 import intlHelper from '@sif-common/core/utils/intlUtils';
 import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
 import DatoSvar from './DatoSvar';
 import JaNeiSvar from './JaNeiSvar';
 import SummaryBlock from './SummaryBlock';
+//import SummarySection from '@navikt/sif-common-soknad/lib/soknad-summary/summary-section/SummarySection';
 
 interface Props {
     apiValues: PleiepengesøknadApiData;
@@ -16,11 +16,10 @@ const FrilansSummary = ({ apiValues }: Props) => {
     const intl = useIntl();
     return (
         <>
-            <Box margin="l">
-                <SummaryBlock header={intlHelper(intl, 'frilanser.summary.harDuHattInntekt.header')}>
-                    <JaNeiSvar harSvartJa={harHattInntektSomFrilanser} />
-                </SummaryBlock>
-            </Box>
+            <SummaryBlock header={intlHelper(intl, 'frilanser.summary.harDuHattInntekt.header')}>
+                <JaNeiSvar harSvartJa={harHattInntektSomFrilanser} />
+            </SummaryBlock>
+
             {harHattInntektSomFrilanser && frilans !== undefined && (
                 <>
                     <SummaryBlock header={intlHelper(intl, 'frilanser.summary.nårStartet.header')}>

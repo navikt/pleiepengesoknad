@@ -8,11 +8,12 @@
     "common.varighet.separator--full": " og ",
     "common.varighet.separator--normal": ", ",
 
-    "application.title": "Søknad om pleiepenger for sykt barn eller person over 18 år",
+    "application.title": "Søknad om pleiepengar for sjukt barn eller person over 18 år",
 
     "Ja": "Ja",
     "Nei": "Nei",
     "VetIkke": "Eg er usikker",
+    "HvaBetyrDette": "Kva betyr dette?",
 
     "locale.nb": "Bokmål – norsk",
     "locale.nn": "Nynorsk – norsk",
@@ -91,6 +92,7 @@
     "steg.tidsrom.ferieuttakIPerioden.listTitle": "Ferie i perioden",
     "steg.tidsrom.ferieuttakIPerioden.modalTitle": "Ferie",
     "steg.tidsrom.ferieuttakIPerioden.addLabel": "Legg til ferie",
+    "steg.tidsrom.ferieuttakIPerioden.veileder.titel": "Kva er lovfesta ferie?",
     "steg.tidsrom.ferieuttakIPerioden.veileder": "Dersom du skal ha ferie og er usikker på om det er lovbestemt ferie, må du sjekke det med arbeidsgivaren din.",
 
     "step.arbeidsforhold.pageTitle": "Pleiepengesøknad – opplysningar om arbeidsforholdet ditt",
@@ -111,7 +113,13 @@
 
     "step.medlemskap.pageTitle": "Pleiepengesøknad – medlemskap",
     "step.medlemskap.stepTitle": "Medlemskap",
+    "step.medlemskap.banner": "Medlemskap i folketrygda er nøkkelen til rettar frå NAV. Viss du bur eller jobbar i Noreg er du vanlegvis medlem. Du kan lesa meir om medlemskap på",
     "step.medlemskap.stepIndicatorLabel": "Om medlemskap i folketrygda",
+    "step.medlemskap.leggTilKnapp": "Legg til nytt utenlandsopphald",
+    "step.medlemskap.utenlandsoppholdSiste12": "Utenlandsopphald siste 12 måneder",
+    "step.medlemskap.utenlandsoppholdNeste12": "Utenlandsopphold neste 12 måneder",
+
+    "medlemskap.summary.header": "Medlemskap i folketrygda",
 
     "step.legeerklaering.pageTitle": "Pleiepengesøknad – legeerklæring",
     "step.legeerklaering.stepTitle": "Last opp legeerklæring",
@@ -135,14 +143,14 @@
     "introPage.veileder.erSelvstendigEllerFrilanser.utenTilsyn": "Den digitale søknaden er under utvikling og kan førebels ikkje brukast av sjølvstendig næringsdrivande og frilansarar.<br/>",
     "introPage.veileder.skalIBarnehageEllerSkole": "Dersom barnet skal vere noko i barnehage, skule eller liknande, kan du førebels ikkje søkje digitalt.",
 
-    "welcomingPage.sidetittel": "Søknad om pleiepengar",
+    "welcomingPage.sidetittel": "Søknad om pleiepengar for sjukt barn eller person over 18 år",
     "welcomingPage.banner.tittel": "Hei,",
     "welcomingPage.banner.tekst": "eg vil hjelpe deg med å fylle ut søknaden.",
-    "welcomingPage.introtittel": "Søknad om pleiepengar",
+    "welcomingPage.introtittel": "Søknad om pleiepengar for sjukt barn eller person over 18 år",
     "welcomingPage.legeerklæring.html": "<p>For å søkje om pleiepengar må du ha ei legeerklæring, eller ein bekreftelse på at barnet/personen over 18 år har vore til behandling/utredning i sjukehus eller annan spesialisthelsetjeneste.</p><p>Dersom du ikkje har legeerklæring eller bekreftelse tilgjengeleg når du søkjer, kan det ettersendes.</p>",
-    "welcomingPage.samtykke.tekst": "Eg stadfestar at eg har lese og forstått.",
+    "welcomingPage.samtykke.tekst": "Eg stadfestar at eg har lese og forstått",
     "welcomingPage.samtykke.harIkkeGodkjentVilkår": "Du må godkjenne vilkåra.",
-    "welcomingPage.samtykke.harForståttLabel": "For å gå vidare med søknaden må du stadfeste at du har lese og forstått. {plikterLink}.",
+    "welcomingPage.samtykke.harForståttLabel": "For å gå vidare med søknaden må du stadfeste at du har lese og forstått {plikterLink}.",
     "welcomingPage.samtykke.harForståttLabel.lenketekst": "pliktene dine",
     "welcomingPage.personopplysninger.lenketekst": "Les om korleis NAV behandlar personopplysningane dine.",
     "welcomingPage.modal.omDinePlikter.tittel": "Om pliktene dine ",
@@ -189,6 +197,7 @@
     "steg.omBarnet.fødselsdato": "Fødselsdato",
     "steg.omBarnet.navn": "Namnet til barnet",
 
+    "steg.tidsrom.hjelpetekst.titel": "Kan eg søka for fleire periodar samtidig?",
     "steg.tidsrom.hjelpetekst": "Søknaden er under utvikling: Dersom du skal søkje for fleire periodar, må du sende éin søknad for kvar periode.",
     "steg.tidsrom.hvilketTidsrom.spm": "Kva periode søkjer du pleiepengar for?",
     "steg.tidsrom.hvilketTidsrom.fom": "Frå og med",
@@ -203,7 +212,7 @@
     "steg.tidsrom.skalPassePåBarnetIHelePerioden.spm": "Skal du passe på barnet i heile tidsrommet du skal ha pleiepengar?",
     "steg.tidsrom.bekreftOmsorgEkstrainfo.spm": "Beskriv omsorgsrolla du har for barnet i tidsrommet du skal ha pleiepengar:",
 
-    "steg.tilsyn.veileder.html": "<p>Eit omsorgstilbod kan vere barnehage, skule, SFO, omsorgsbustad, BPA (brukarstyrt personleg assistent) eller andre organiserte tilbod.</p><p>Du må gi opp alle timane barnet er i eit omsorgstilbod.</p>",
+    "steg.tilsyn.veileder.html": "<p>Eit omsorgstilbod kan vere barnehage, skule, SFO, omsorgsbustad, BPA (brukarstyrt personleg assistent) eller andre organiserte tilbod.</p><p>Du må gi opp alle timane/minutt barnet er i eit omsorgstilbod.</p>",
     "steg.tilsyn.skalBarnetHaTilsyn.spm": "Skal barnet vere i eit omsorgstilbod i perioden du søkjer om pleiepengar?",
     "steg.tilsyn.ja.hvorMyeTilsyn.spm": "Gi opp tida barnet er i eit omsorgstilbod.",
     "steg.tilsyn.ja.harEkstrainfo.spm": "Er det noko meir om omsorgstilbodet vi skal vite?",
@@ -237,9 +246,9 @@
     "steg.legeerklaering.counsellorpanel.4.1": "kan du ettersende den.",
 
     "steg.oppsummering.info": "Les gjennom oppsummeringa før du sender inn søknaden. Dersom du vil gjere endringar, kan du gå tilbake.",
-    "steg.oppsummering.søker.header": "Namn på søkjar",
+    "steg.oppsummering.søker.header": "Om deg",
     "steg.oppsummering.søker.fnr": "Fødselsnummer: {fødselsnummer}",
-    "steg.oppsummering.tidsrom.header": "Periode",
+    "steg.oppsummering.tidsrom.header": "Perioden du søkjer pleiepengar for",
     "steg.oppsummering.tidsrom.fomtom": "Frå {fom} til {tom}",
     "steg.oppsummering.over8uker.header": "Bekrefter at søknad er for ein periode lengre enn 8 veker ({varighet})?",
 
@@ -253,18 +262,19 @@
 
     "steg.oppsummering.utenlandsoppholdIPerioden.header": "Skal du vere i utlandet i perioden?",
     "steg.oppsummering.utenlandsoppholdIPerioden.listetittel": "Utanlandsopphald i perioden",
+    "steg.oppsummering.utenlandsoppholdIPerioden.innlagtBarn.spm": "Skal barnet være innlagt på sykehus i utlandet?",
     "steg.oppsummering.ferieuttakIPerioden.header": "Skal du ta ut ferie i perioden?",
     "steg.oppsummering.ferieuttakIPerioden.listetittel": "Ferieuttak i perioden",
 
     "steg.oppsummering.dagerPerUkeBorteFraJobb.header": "Talet på dagar i veka du skal vere borte frå jobb for å ta hand om barnet",
     "steg.oppsummering.samtidigHjemme.header": "Skal de vere heime / på sjukehus samtidig?",
     "steg.oppsummering.annenSøkerSammePeriode.header": "Er det ein annan person som søkjer om pleiepengar i same perioden?",
-    "steg.oppsummering.nattevåk.header": "Nattevaking",
+    "steg.oppsummering.nattevåk.header": "Gjør barnets sykdom at du må være våken på natta og derfor må være borte fra jobb dagen etter?",
     "steg.oppsummering.nattevåk.borteFraJobb.header": "Må vere borte frå jobb",
-    "steg.oppsummering.beredskap.header": "Beredskap",
+    "steg.oppsummering.beredskap.header": "Gjør barnets sykdom at du må være i beredskap eller være tilgjengelig selv om barnet er i et omsorgstilbud?",
 
     "steg.oppsummering.tilsynsordning.header": "Omsorgstilbod",
-    "steg.oppsummering.tilsynsordning.ja.header": "Dagar med omsorgstilbod",
+    "steg.oppsummering.tilsynsordning.spm": "Skal barnet være i omsorgstilbud i perioden?",
     "steg.oppsummering.tilsynsordning.ja.tilleggsinformasjon.header": "Tilleggsopplysningar",
     "steg.oppsummering.tilsynsordning.vetIkke.header": "Kvifor er du usikker?",
     "steg.oppsummering.tilsynsordning.vetIkke.årsak.erSporadisk": "Barnet er i omsorgstilbod, men tida varierer.",
@@ -274,15 +284,15 @@
 
     "steg.oppsummering.utlandetSiste12.header": "Har budd i utlandet dei siste 12 månadene",
     "steg.oppsummering.utlandetNeste12.header": "Skal bu i utlandet dei neste 12 månadene",
-    "steg.oppsummering.utlandetSiste12.liste.header": "Utenlandsopphald siste 12 måneder",
-    "steg.oppsummering.utlandetNeste12.liste.header": "Utenlandsopphald neste 12 måneder",
-    "steg.oppsummering.legeerklæring.header": "Legeerklæring",
+
     "steg.oppsummering.bekrefterOpplysninger": "Eg stadfestar at opplysningane eg har gitt, er riktige, og at eg ikkje har halde tilbake opplysningar som er viktige for retten min til pleiepengar.",
     "steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet": "Du må stadfeste opplysningane.",
 
     "steg.oppsummering.arbeidsforhold.header": "Arbeidsforhold",
     "steg.oppsummering.arbeidsforhold.forhold": "{navn} (organisasjonsnummer: {organisasjonsnummer})",
     "steg.oppsummering.arbeidsforhold.ingenArbeidsforhold": "Du har ikkje valt nokon arbeidsforhold.",
+
+    "steg.oppsummering.vedlegg.header": "Vedlegg",
 
     "steg.oppsummering.validering.manglerVedlegg": "Noko gjekk gale med legeerklæringa. Ver vennleg å gå tilbake og kontroller at ho er lasta opp rett.",
 
@@ -319,7 +329,7 @@
     "page.arbeidsgiverutskrift.info.7": "Dersom inntektsmeldinga allereie er send, kan du sjå bort frå denne meldinga.",
     "page.arbeidsgiverutskrift.sender.tittel": "Slik sender du inntektsmeldinga",
     "page.arbeidsgiverutskrift.sender.info.1": "Inntektsmeldinga blir send frå lønns- og personalsystemet hos arbeidsgivaren eller frå altinn.no. Meldinga inneheld inntektsopplysningar og annan informasjon NAV må ha for å behandle søknaden.",
-    "page.arbeidsgiverutskrift.sender.info.2.html": "Fyll inn startdato som samsvarer med søknaden  frå arbeidssøkjaren. <strong>{søkernavn} har søkt pleiepengar frå {fom}</strong>. Dersom datoen ikkje stemmer med det de har avtalt, må de avklare dette mellom dykk før du sender inntektsmeldinga.",
+    "page.arbeidsgiverutskrift.sender.info.2.html": "Fyll inn periode som samsvarer med arbeidstakers søknad. <strong>{søkernavn} har søkt pleiepenger for perioden {fom} til {tom}</strong>. Hvis datoene ikke stemmer med hva dere har avtalt, må dere avklare dette dere imellom før du sender inntektsmeldingen.",
     "page.arbeidsgiverutskrift.merInfo.1": "Du får meir informasjon om inntektsmeldinga på",
     "page.arbeidsgiverutskrift.merInfo.2": "nav.no/inntektsmelding",
     "page.arbeidsgiverutskrift.merInfo.3": ".",
@@ -441,11 +451,27 @@
     "selvstendig.list.tittel": "Registrerte verksemder",
     "selvstendig.list.leggTilLabel": "Legg til verksemd",
     "selvstendig.dialog.tittel": "Verksemd",
+    "selvstendig.summary.header": "Næringsinntekt",
     "selvstendig.summary.harDuHattInntekt.header": "Har du hatt inntekt som sjølvstendig næringsdrivande dei siste 4 vekene?",
 
     "frilanser.harDuHattInntekt.spm": "Har du jobba og hatt inntekt som frilansar dei siste 4 vekene?",
     "frilanser.nårStartet.spm": "Når starta du som frilansar?",
     "frilanser.jobberFortsatt.spm": "Jobbar du framleis som frilansar?",
+
+    "frilanser.hjelpetekst.spm": "Hva er en frilanser?",
+    "frilanser.hjelpetekst.titel": "Eksempel på hvem som kan være frilansere er:",
+    "frilanser.hjelpetekst.list.1": "Personer med omsorgsstønad",
+    "frilanser.hjelpetekst.list.2": "Fosterforeldre",
+    "frilanser.hjelpetekst.list.3": "Musikere",
+    "frilanser.hjelpetekst.list.4": "Tekstforfattere",
+    "frilanser.hjelpetekst.list.5": "Skuespillere",
+    "frilanser.hjelpetekst.list.6": "Journalister",
+    "frilanser.hjelpetekst.list.7": "Oversettere",
+    "frilanser.hjelpetekst.list.8": "Folkevalgt, politikere i kommuner, fylkeskommuner og på Stortinget som får godtgjørelse for politisk arbeid",
+    "frilanser.hjelpetekst.list.9": "Støttekontakt",
+    "frilanser.hjelpetekst": "Hvis du er usikker på om du er frilanser, kan du lese mer om hva det betyr å være frilanser på skatteetaten sin hjemmeside.",
+
+    "frilanser.summary.header": "Frilansinntekt",
     "frilanser.summary.harDuHattInntekt.header": "Har du jobba og hatt inntekt som frilansar dei siste 4 vekene?",
     "frilanser.summary.nårStartet.header": "Når starta du som frilansar?",
     "frilanser.summary.jobberFortsatt.header": "Jobbar du framleis som frilansar?"

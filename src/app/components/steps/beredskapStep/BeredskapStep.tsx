@@ -12,14 +12,22 @@ import { validateBeredskapTilleggsinfo } from '../../../validation/fieldValidati
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 
+const cleanupBeredskapStep = (values: PleiepengesøknadFormData): PleiepengesøknadFormData => {
+    const cleanedValues = { ...values };
+    if (values.harBeredskap === YesOrNo.NO) {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        cleanedValues.harBeredskap_ekstrainfo = undefined;
+    }
+    return cleanedValues;
+};
+
 const BeredskapStep = ({ onValidSubmit }: StepConfigProps) => {
-    const {
-        values: { harBeredskap },
-    } = useFormikContext<PleiepengesøknadFormData>();
     const intl = useIntl();
+    const { values } = useFormikContext<PleiepengesøknadFormData>();
+    const { harBeredskap } = values;
 
     return (
-        <FormikStep id={StepID.BEREDSKAP} onValidFormSubmit={onValidSubmit}>
+        <FormikStep id={StepID.BEREDSKAP} onValidFormSubmit={onValidSubmit} onStepCleanup={cleanupBeredskapStep}>
             <Box padBottom="xxl">
                 <CounsellorPanel>
                     <FormattedMessage id="steg.beredskap.veileder" />

@@ -12,6 +12,7 @@ import {
     UtenlandsoppholdIPeriodenApiData,
 } from 'app/types/PleiepengesøknadApiData';
 import './utenlandsoppholdSummaryItem.less';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
 
 const bem = bemUtils('utenlandsoppholdSummaryItem');
 
@@ -36,16 +37,18 @@ export const renderUtenlandsoppholdSummary = (opphold: BostedUtlandApiData): Rea
 
 export const renderUtenlandsoppholdIPeriodenSummary = (opphold: UtenlandsoppholdIPeriodenApiData): React.ReactNode => {
     return (
-        <div className={bem.block}>
-            <span className={bem.element('dates')}>
-                {prettifyDateExtended(apiStringDateToDate(opphold.fraOgMed))} -{' '}
-                {prettifyDateExtended(apiStringDateToDate(opphold.tilOgMed))}
-            </span>
-            <span className={bem.element('country')}>{opphold.landnavn}</span>
+        <>
+            <Box>
+                <span className={bem.element('dates')}>
+                    {prettifyDateExtended(apiStringDateToDate(opphold.fraOgMed))} -{' '}
+                    {prettifyDateExtended(apiStringDateToDate(opphold.tilOgMed))}
+                </span>
+                <span className={bem.element('country')}>{opphold.landnavn}</span>
+            </Box>
             {isUtenlandsoppholdUtenforEØSApiData(opphold) && opphold.erBarnetInnlagt === true && (
-                <>
+                <Box margin="l">
                     {opphold.perioderBarnetErInnlagt !== undefined && opphold.perioderBarnetErInnlagt.length > 0 && (
-                        <div className={bem.element('details')}>
+                        <>
                             <FormattedMessage id={`utenlandsopphold.form.perioderBarnetErInnlag.listTitle`} />:
                             <SummaryList
                                 items={opphold.perioderBarnetErInnlagt}
@@ -55,22 +58,20 @@ export const renderUtenlandsoppholdIPeriodenSummary = (opphold: Utenlandsopphold
                                         {prettifyDateExtended(apiStringDateToDate(periode.tilOgMed))}
                                     </>
                                 )}></SummaryList>
-                        </div>
+                        </>
                     )}
-                    <div className={bem.element('details')}>
-                        <FormattedMessage id={`utenlandsopphold.form.årsak.spm`} values={{ land: opphold.landnavn }} />{' '}
-                        {opphold.årsak !== UtenlandsoppholdÅrsak.ANNET && (
-                            <FormattedMessage
-                                id={`utenlandsopphold.form.årsak.${opphold.årsak}`}
-                                values={{ land: opphold.landnavn }}
-                            />
-                        )}
-                        {opphold.årsak === UtenlandsoppholdÅrsak.ANNET && (
-                            <FormattedMessage id={`utenlandsopphold.oppsummering.årsak.ANNET`} />
-                        )}
-                    </div>
-                </>
+
+                    {opphold.årsak !== UtenlandsoppholdÅrsak.ANNET && (
+                        <FormattedMessage
+                            id={`utenlandsopphold.form.årsak.${opphold.årsak}`}
+                            values={{ land: opphold.landnavn }}
+                        />
+                    )}
+                    {opphold.årsak === UtenlandsoppholdÅrsak.ANNET && (
+                        <FormattedMessage id={`utenlandsopphold.oppsummering.årsak.ANNET`} />
+                    )}
+                </Box>
             )}
-        </div>
+        </>
     );
 };
