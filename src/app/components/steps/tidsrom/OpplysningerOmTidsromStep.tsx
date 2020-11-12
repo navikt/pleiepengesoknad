@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import { useFormikContext } from 'formik';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Box from '@sif-common/core/components/box/Box';
 import CounsellorPanel from '@sif-common/core/components/counsellor-panel/CounsellorPanel';
+import ExpandableInfo from '@sif-common/core/components/expandable-content/ExpandableInfo';
 import { YesOrNo } from '@sif-common/core/types/YesOrNo';
 import { date1YearAgo, date1YearFromNow, date3YearsAgo, DateRange } from '@sif-common/core/utils/dateUtils';
 import intlHelper from '@sif-common/core/utils/intlUtils';
@@ -12,9 +16,6 @@ import FerieuttakListAndDialog from '@sif-common/forms/ferieuttak/FerieuttakList
 import { Ferieuttak } from '@sif-common/forms/ferieuttak/types';
 import { Utenlandsopphold } from '@sif-common/forms/utenlandsopphold/types';
 import UtenlandsoppholdListAndDialog from '@sif-common/forms/utenlandsopphold/UtenlandsoppholdListAndDialog';
-import { useFormikContext } from 'formik';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import ExpandableInfo from '@sif-common/core/components/expandable-content/ExpandableInfo';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
@@ -32,7 +33,6 @@ import {
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 
 const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<PleiepengesøknadFormData>();
@@ -42,7 +42,6 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
 
     const harMedsøker = values[AppFormField.harMedsøker];
 
-    // const { periodeFra, periodeTil } = values;
     const periodeFra = datepickerUtils.getDateFromDateString(values.periodeFra);
     const periodeTil = datepickerUtils.getDateFromDateString(values.periodeTil);
     const periode: DateRange = {

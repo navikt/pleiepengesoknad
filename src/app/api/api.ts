@@ -12,7 +12,7 @@ import { storageParser } from '@navikt/sif-common-core/lib/utils/persistence/per
 export const persist = (formData: PleiepengesøknadFormData, lastStepID: StepID) => {
     const body: MellomlagringData = { formData, metadata: { lastStepID, version: MELLOMLAGRING_VERSION } };
     const url = `${getApiUrlByResourceType(ResourceType.MELLOMLAGRING)}?lastStepID=${encodeURI(lastStepID)}`;
-    axios.post(url, { ...body }, axiosConfig);
+    return axios.post(url, { ...body }, axiosConfig);
 };
 export const rehydrate = () =>
     axios.get(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), {

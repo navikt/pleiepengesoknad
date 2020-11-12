@@ -5,7 +5,6 @@ import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiDat
 import DatoSvar from './DatoSvar';
 import JaNeiSvar from './JaNeiSvar';
 import SummaryBlock from './SummaryBlock';
-//import SummarySection from '@navikt/sif-common-soknad/lib/soknad-summary/summary-section/SummarySection';
 
 interface Props {
     apiValues: PleiepengesøknadApiData;
