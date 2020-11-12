@@ -17,6 +17,7 @@ import { StepConfigInterface, StepConfigItemTexts, StepID } from '../../config/s
 import StepIndicator from '../step-indicator/StepIndicator';
 import StepFooter from '../stepFooter/StepFooter';
 import './step.less';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 
 export interface StepProps {
     id: StepID;
@@ -52,7 +53,7 @@ const Step = ({ id, useValidationErrorSummary, stepConfig, children }: Props) =>
             title={stepTexts.pageTitle}
             topContentRenderer={() => (
                 <>
-                    <StepBanner text="Søknad om pleiepenger for sykt barn eller person over 18 år" />
+                    <StepBanner text={intlHelper(intl, 'application.title')} />
                     {useValidationErrorSummary !== false && <FormikValidationErrorSummary />}
                 </>
             )}>

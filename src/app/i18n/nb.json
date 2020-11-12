@@ -13,6 +13,7 @@
     "Ja": "Ja",
     "Nei": "Nei",
     "VetIkke": "Jeg er usikker",
+    "HvaBetyrDette": "Hva betyr dette?",
 
     "locale.nb": "Bokmål - norsk",
     "locale.nn": "Nynorsk - norsk",
@@ -91,6 +92,7 @@
     "steg.tidsrom.ferieuttakIPerioden.listTitle": "Ferie i perioden",
     "steg.tidsrom.ferieuttakIPerioden.modalTitle": "Ferie",
     "steg.tidsrom.ferieuttakIPerioden.addLabel": "Legg til ferie",
+    "steg.tidsrom.ferieuttakIPerioden.veileder.titel": "Hva er lovbestemt ferie?",
     "steg.tidsrom.ferieuttakIPerioden.veileder": "Hvis du skal ha ferie og er usikker på om det er lovbestemt ferie, må du sjekke det med arbeidsgiveren din.",
 
     "step.arbeidsforhold.pageTitle": "Pleiepengesøknad - opplysninger om ditt arbeidsforhold",
@@ -111,7 +113,12 @@
 
     "step.medlemskap.pageTitle": "Pleiepengesøknad - medlemskap",
     "step.medlemskap.stepTitle": "Medlemskap",
+    "step.medlemskap.banner": "Medlemskap i folketrygden er nøkkelen til rettigheter fra NAV. Hvis du bor eller jobber i Norge er du vanligvis medlem. Du kan lese mer om medlemskap på",
     "step.medlemskap.stepIndicatorLabel": "Om medlemskap i folketrygden",
+    "step.medlemskap.leggTilKnapp": "Legg til nytt utenlandsopphold",
+    "step.medlemskap.utenlandsoppholdSiste12": "Utenlandsopphold siste 12 måneder",
+    "step.medlemskap.utenlandsoppholdNeste12": "Utenlandsopphold neste 12 måneder",
+
     "medlemskap.summary.header": "Medlemskap i folketrygden",
 
     "step.legeerklaering.pageTitle": "Pleiepengesøknad - legeerklæring",
@@ -190,6 +197,7 @@
     "steg.omBarnet.fødselsdato": "Barnets fødselsdato",
     "steg.omBarnet.navn": "Barnets navn",
 
+    "steg.tidsrom.hjelpetekst.titel": "Kan jeg søke for flere perioder samtidig?",
     "steg.tidsrom.hjelpetekst": "Søknaden er under utvikling: Hvis du skal søke for flere perioder må du sende én søknad for hver periode.",
     "steg.tidsrom.hvilketTidsrom.spm": "Hvilken periode søker du for?",
     "steg.tidsrom.hvilketTidsrom.fom": "Fra og med",
@@ -448,6 +456,20 @@
     "frilanser.harDuHattInntekt.spm": "Har du jobbet og hatt inntekt som frilanser de siste 4 ukene?",
     "frilanser.nårStartet.spm": "Når startet du som frilanser?",
     "frilanser.jobberFortsatt.spm": "Jobber du fortsatt som frilanser?",
+
+    "frilanser.hjelpetekst.spm": "Hva er en frilanser?",
+    "frilanser.hjelpetekst.titel": "Eksempel på hvem som kan være frilansere er:",
+    "frilanser.hjelpetekst.list.1": "Personer med omsorgsstønad",
+    "frilanser.hjelpetekst.list.2": "Fosterforeldre",
+    "frilanser.hjelpetekst.list.3": "Musikere",
+    "frilanser.hjelpetekst.list.4": "Tekstforfattere",
+    "frilanser.hjelpetekst.list.5": "Skuespillere",
+    "frilanser.hjelpetekst.list.6": "Journalister",
+    "frilanser.hjelpetekst.list.7": "Oversettere",
+    "frilanser.hjelpetekst.list.8": "Folkevalgt, politikere i kommuner, fylkeskommuner og på Stortinget som får godtgjørelse for politisk arbeid",
+    "frilanser.hjelpetekst.list.9": "Støttekontakt",
+    "frilanser.hjelpetekst": "Hvis du er usikker på om du er frilanser, kan du lese mer om hva det betyr å være frilanser på skatteetaten sin hjemmeside.",
+
     "frilanser.summary.header": "Frilansinntekt",
     "frilanser.summary.harDuHattInntekt.header": "Har du jobbet og hatt inntekt som frilanser de siste 4 ukene?",
     "frilanser.summary.nårStartet.header": "Når startet du som frilanser?",

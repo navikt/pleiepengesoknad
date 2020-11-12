@@ -26,7 +26,7 @@ const FrilansFormPart = ({ formValues }: Props) => {
                     legend={intlHelper(intl, 'frilanser.harDuHattInntekt.spm')}
                     validate={validateYesOrNoIsAnswered}
                     description={
-                        <ExpandableInfo title="Hva er en frilanser?">
+                        <ExpandableInfo title={intlHelper(intl, 'frilanser.hjelpetekst.spm')}>
                             <FrilansEksempeltHtml />
                         </ExpandableInfo>
                     }

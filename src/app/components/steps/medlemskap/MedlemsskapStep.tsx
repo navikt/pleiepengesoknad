@@ -38,8 +38,7 @@ const MedlemsskapStep = ({ onValidSubmit }: StepConfigProps) => {
         <FormikStep id={StepID.MEDLEMSKAP} onValidFormSubmit={onValidSubmit}>
             <Box padBottom="xxl">
                 <CounsellorPanel>
-                    Medlemskap i folketrygden er nøkkelen til rettigheter fra NAV. Hvis du bor eller jobber i Norge er
-                    du vanligvis medlem. Du kan lese mer om medlemskap på{' '}
+                    {intlHelper(intl, 'step.medlemskap.banner')}{' '}
                     <Lenke href={getLenker().medlemskap} target="_blank">
                         nav.no
                     </Lenke>
@@ -51,7 +50,7 @@ const MedlemsskapStep = ({ onValidSubmit }: StepConfigProps) => {
                 name={AppFormField.harBoddUtenforNorgeSiste12Mnd}
                 validate={questions.validate(AppFormField.harBoddUtenforNorgeSiste12Mnd)}
                 description={
-                    <ExpandableInfo title="Hva betyr dette?">
+                    <ExpandableInfo title={intlHelper(intl, 'HvaBetyrDette')}>
                         {intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.hjelp')}
                     </ExpandableInfo>
                 }
@@ -62,9 +61,9 @@ const MedlemsskapStep = ({ onValidSubmit }: StepConfigProps) => {
                         periode={{ from: date1YearAgo, to: dateToday }}
                         name={AppFormField.utenlandsoppholdSiste12Mnd}
                         labels={{
-                            addLabel: 'Legg til nytt utenlandsopphold',
+                            addLabel: intlHelper(intl, 'step.medlemskap.leggTilKnapp'),
                             listTitle: intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.listeTittel'),
-                            modalTitle: 'Utenlandsopphold siste 12 måneder',
+                            modalTitle: intlHelper(intl, 'step.medlemskap.utenlandsoppholdSiste12'),
                         }}
                     />
                 </FormBlock>
@@ -75,7 +74,7 @@ const MedlemsskapStep = ({ onValidSubmit }: StepConfigProps) => {
                     name={AppFormField.skalBoUtenforNorgeNeste12Mnd}
                     validate={validateYesOrNoIsAnswered}
                     description={
-                        <ExpandableInfo title="Hva betyr dette?">
+                        <ExpandableInfo title={intlHelper(intl, 'HvaBetyrDette')}>
                             {intlHelper(intl, 'steg.medlemsskap.annetLandNeste12.hjelp')}
                         </ExpandableInfo>
                     }
@@ -87,9 +86,9 @@ const MedlemsskapStep = ({ onValidSubmit }: StepConfigProps) => {
                         periode={{ from: neste12FomDate, to: date1YearFromNow }}
                         name={AppFormField.utenlandsoppholdNeste12Mnd}
                         labels={{
-                            addLabel: 'Legg til nytt utenlandsopphold',
+                            addLabel: intlHelper(intl, 'step.medlemskap.leggTilKnapp'),
                             listTitle: intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.listeTittel'),
-                            modalTitle: 'Utenlandsopphold neste 12 måneder',
+                            modalTitle: intlHelper(intl, 'step.medlemskap.utenlandsoppholdNeste12'),
                         }}
                     />
                 </FormBlock>
