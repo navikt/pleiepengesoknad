@@ -1,24 +1,23 @@
 import React from 'react';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
-import { VirksomhetApiData } from '@sif-common/forms/virksomhet/types';
-import { harFiskerNæringstype } from '@sif-common/forms/virksomhet/virksomhetUtils';
-import Box from '@sif-common/core/components/box/Box';
-import SummaryList from '@sif-common/core/components/summary-list/SummaryList';
-import TextareaSummary from '@sif-common/core/components/textarea-summary/TextareaSummary';
-import intlHelper from '@sif-common/core/utils/intlUtils';
-import DatoSvar, { prettifyApiDate } from './DatoSvar';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import SummaryList from '@navikt/sif-common-core/lib/components/summary-list/SummaryList';
+import TextareaSummary from '@navikt/sif-common-core/lib/components/textarea-summary/TextareaSummary';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
+import { harFiskerNæringstype } from '@navikt/sif-common-forms/lib/virksomhet/virksomhetUtils';
+import { prettifyApiDate } from './DatoSvar';
 import IntlLabelValue from './IntlLabelValue';
 import JaNeiSvar from './JaNeiSvar';
 import Sitat from './Sitat';
 import SummaryBlock from './SummaryBlock';
-import TallSvar from './TallSvar';
 
 interface Props {
     selvstendigVirksomheter?: VirksomhetApiData[];
 }
 
 const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape) => {
-    const land = virksomhet.registrertIUtlandet || { landnavn: 'Norge' };
+    const land = virksomhet.registrertIUtlandet ? virksomhet.registrertIUtlandet.landnavn : 'Norge';
     const næringstyper = virksomhet.næringstyper.map((næring) => intlHelper(intl, `næringstype.${næring}`)).join(', ');
     const fiskerinfo =
         harFiskerNæringstype(virksomhet.næringstyper) && virksomhet.fiskerErPåBladB !== undefined
@@ -26,55 +25,83 @@ const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape)
                   erPåBladB: virksomhet.fiskerErPåBladB !== undefined && virksomhet.fiskerErPåBladB === true,
               }
             : undefined;
-    const tidsinfo = `Startet ${prettifyApiDate(virksomhet.fraOgMed)}${
-        virksomhet.tilOgMed ? `, avsluttet ${prettifyApiDate(virksomhet.tilOgMed)}.` : ' (pågående).'
-    }`;
+
+    const tidsinfo = virksomhet.tilOgMed
+        ? intlHelper(intl, 'summary.virksomhet.tidsinfo.avsluttet', {
+              fraOgMed: prettifyApiDate(virksomhet.fraOgMed),
+              tilOgMed: prettifyApiDate(virksomhet.tilOgMed),
+          })
+        : intlHelper(intl, 'summary.virksomhet.tidsinfo.pågående', {
+              fraOgMed: prettifyApiDate(virksomhet.fraOgMed),
+          });
 
     return (
         <SummaryBlock header={virksomhet.navnPåVirksomheten}>
             <IntlLabelValue labelKey="summary.virksomhet.næringstype">{næringstyper}. </IntlLabelValue>
-            {fiskerinfo && <>Fisker er {fiskerinfo.erPåBladB === false ? 'ikke' : ''} på Blad B.</>}
+            {fiskerinfo && (
+                <>
+                    {fiskerinfo.erPåBladB === false ? (
+                        <FormattedMessage id="summary.virksomhet.fisker.ikkePåBladB" />
+                    ) : (
+                        <FormattedMessage id="summary.virksomhet.fisker.påBladB" />
+                    )}
+                </>
+            )}
+
             <p>
-                Registrert i {land.landnavn}
-                {virksomhet.registrertINorge ? ` (organisasjonsnummer ${virksomhet.organisasjonsnummer})` : ``}. <br />
+                <FormattedMessage id="summary.virksomhet.registrertILand" values={{ land }} />
+                {virksomhet.registrertINorge && (
+                    <FormattedMessage
+                        id="summary.virksomhet.registrertILand.orgnr"
+                        values={{ orgnr: virksomhet.organisasjonsnummer }}
+                    />
+                )}
+                . <br />
                 {tidsinfo}
                 {virksomhet.næringsinntekt !== undefined && (
                     <>
                         <br />
-                        Næringsinntekt: {virksomhet.næringsinntekt}
+                        <FormattedMessage
+                            id="summary.virksomhet.næringsinntekt"
+                            values={{ næringsinntekt: virksomhet.næringsinntekt }}
+                        />
                     </>
                 )}
             </p>
             {virksomhet.varigEndring?.dato && (
-                <Box padBottom="l">
-                    Har hatt varig endring i arbeidsforholdet, virksomheten eller arbeidssituasjonen de siste fire
-                    årene. Dato for endring var <DatoSvar apiDato={virksomhet.varigEndring?.dato} />, og næringsinntekt
-                    etter endringen er {` `}
-                    <TallSvar verdi={virksomhet.varigEndring.inntektEtterEndring} />. Beskrivelse av endringen:{` `}
+                <Box>
+                    <FormattedMessage
+                        id="summary.virksomhet.varigEndring"
+                        values={{
+                            dato: prettifyApiDate(virksomhet.varigEndring.dato),
+                            inntekt: intl.formatNumber(virksomhet.varigEndring.inntektEtterEndring),
+                        }}
+                    />
                     <Sitat>
                         <TextareaSummary text={virksomhet.varigEndring.forklaring} />
                     </Sitat>
                 </Box>
             )}
             {virksomhet.yrkesaktivSisteTreFerdigliknedeÅrene?.oppstartsdato !== undefined && (
-                <p>
-                    Ble yrkesaktiv <DatoSvar apiDato={virksomhet.yrkesaktivSisteTreFerdigliknedeÅrene?.oppstartsdato} />
-                </p>
+                <FormattedMessage
+                    tagName="p"
+                    id="summary.virksomhet.yrkesaktivSisteTreFerdigliknedeÅrene"
+                    values={{
+                        dato: prettifyApiDate(virksomhet.yrkesaktivSisteTreFerdigliknedeÅrene.oppstartsdato),
+                    }}
+                />
             )}
 
             {/* Regnskapsfører */}
             {virksomhet.regnskapsfører && (
-                <p>
-                    Regnskapsfører er{' '}
-                    <FormattedMessage
-                        tagName="span"
-                        id="summary.virksomhet.regnskapsførerDetaljer"
-                        values={{ ...virksomhet.regnskapsfører }}
-                    />
-                </p>
+                <FormattedMessage
+                    tagName="p"
+                    id="summary.virksomhet.regnskapsfører"
+                    values={{ ...virksomhet.regnskapsfører }}
+                />
             )}
             {/** Har ikke regnskapsfører */}
-            {!virksomhet.regnskapsfører && <p>Har ikke regnskapsfører.</p>}
+            {!virksomhet.regnskapsfører && <FormattedMessage tagName="p" id="summary.virksomhet.ikkeRegnskapsfører" />}
         </SummaryBlock>
     );
 };
