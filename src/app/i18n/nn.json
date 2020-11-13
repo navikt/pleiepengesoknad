@@ -92,7 +92,7 @@
     "steg.tidsrom.ferieuttakIPerioden.listTitle": "Ferie i perioden",
     "steg.tidsrom.ferieuttakIPerioden.modalTitle": "Ferie",
     "steg.tidsrom.ferieuttakIPerioden.addLabel": "Legg til ferie",
-    "steg.tidsrom.ferieuttakIPerioden.veileder.titel": "Kva er lovfesta ferie?",
+    "steg.tidsrom.ferieuttakIPerioden.veileder.tittel": "Kva er lovfesta ferie?",
     "steg.tidsrom.ferieuttakIPerioden.veileder": "Dersom du skal ha ferie og er usikker på om det er lovbestemt ferie, må du sjekke det med arbeidsgivaren din.",
 
     "step.arbeidsforhold.pageTitle": "Pleiepengesøknad – opplysningar om arbeidsforholdet ditt",
@@ -113,7 +113,7 @@
 
     "step.medlemskap.pageTitle": "Pleiepengesøknad – medlemskap",
     "step.medlemskap.stepTitle": "Medlemskap",
-    "step.medlemskap.banner": "Medlemskap i folketrygda er nøkkelen til rettar frå NAV. Viss du bur eller jobbar i Noreg er du vanlegvis medlem. Du kan lesa meir om medlemskap på",
+    "step.medlemskap.veileder": "Medlemskap i folketrygda er nøkkelen til rettar frå NAV. Viss du bur eller jobbar i Noreg er du vanlegvis medlem. Du kan lesa meir om medlemskap på",
     "step.medlemskap.stepIndicatorLabel": "Om medlemskap i folketrygda",
     "step.medlemskap.leggTilKnapp": "Legg til nytt utenlandsopphald",
     "step.medlemskap.utenlandsoppholdSiste12": "Utenlandsopphald siste 12 måneder",
@@ -153,7 +153,7 @@
     "welcomingPage.banner.tittel": "Hei,",
     "welcomingPage.banner.tekst": "eg vil hjelpe deg med å fylle ut søknaden.",
     "welcomingPage.introtittel": "Søknad om pleiepengar for sjukt barn eller person over 18 år",
-    "welcomingPage.legeerklæring.html": "<p>For å søkje om pleiepengar må du ha ei legeerklæring, eller ein bekreftelse på at barnet/personen over 18 år har vore til behandling/utredning i sjukehus eller annan spesialisthelsetjeneste.</p><p>Dersom du ikkje har legeerklæring eller bekreftelse tilgjengeleg når du søkjer, kan det ettersendes.</p>",
+    "welcomingPage.legeerklæring.html": "<p>For å søkje om pleiepengar må du ha ei legeerklæring, eller ei stadfesting på at barnet/personen over 18 år har vore til behandling/utredning i sjukehus eller annan spesialisthelsetjeneste.</p><p>Dersom du ikkje har legeerklæring eller stadfesting tilgjengeleg når du søkjer, kan det ettersendes.</p>",
     "welcomingPage.samtykke.tekst": "Eg stadfestar at eg har lese og forstått",
     "welcomingPage.samtykke.harIkkeGodkjentVilkår": "Du må godkjenne vilkåra.",
     "welcomingPage.samtykke.harForståttLabel": "For å gå vidare med søknaden må du stadfeste at du har lese og forstått {plikterLink}.",
@@ -203,7 +203,7 @@
     "steg.omBarnet.fødselsdato": "Fødselsdato",
     "steg.omBarnet.navn": "Namnet til barnet",
 
-    "steg.tidsrom.hjelpetekst.titel": "Kan eg søka for fleire periodar samtidig?",
+    "steg.tidsrom.hjelpetekst.tittel": "Kan eg søke for fleire periodar samtidig?",
     "steg.tidsrom.hjelpetekst": "Søknaden er under utvikling: Dersom du skal søkje for fleire periodar, må du sende éin søknad for kvar periode.",
     "steg.tidsrom.hvilketTidsrom.spm": "Kva periode søkjer du pleiepengar for?",
     "steg.tidsrom.hvilketTidsrom.fom": "Frå og med",
@@ -245,9 +245,7 @@
     "steg.medlemsskap.annetLandNeste12.listeTittel": "Utenlandsopphald neste 12 måneder",
 
     "steg.lege.vedlegg": "Last opp bilete av legeerklæringa",
-    "steg.legeerklaering.counsellorpanel.3.1": "Her skal du laste opp legeerklæringa",
-    "steg.legeerklaering.counsellorpanel.3.2": "eller ",
-    "steg.legeerklaering.counsellorpanel.3.3": "ein bekreftelse på at barnet/personen over 18 år har vore til behandling/utredning i sjukehus eller annan spesialisthelsetjeneste. Det gjør du enten ved å ta bilete av dokumentasjonen, eller ved å scanne den.",
+    "steg.legeerklaering.counsellorpanel.3": "Her skal du laste opp legeerklæringa eller ei stadfesting på at barnet/personen over 18 år har vore til behandling/utredning i sjukehus eller annan spesialisthelsetjeneste. Det gjør du enten ved å ta bilete av dokumentasjonen, eller ved å scanne den.",
     "steg.legeerklaering.counsellorpanel.4": "Dersom du ikkje har dokumentasjonen nå, ",
     "steg.legeerklaering.counsellorpanel.4.1": "kan du ettersende den.",
 
@@ -256,7 +254,7 @@
     "steg.oppsummering.søker.fnr": "Fødselsnummer: {fødselsnummer}",
     "steg.oppsummering.tidsrom.header": "Perioden du søkjer pleiepengar for",
     "steg.oppsummering.tidsrom.fomtom": "Frå {fom} til {tom}",
-    "steg.oppsummering.over8uker.header": "Bekrefter at søknad er for ein periode lengre enn 8 veker ({varighet})?",
+    "steg.oppsummering.over8uker.header": "Stadfester at søknad er for ein periode lengre enn 8 veker ({varighet})?",
 
     "steg.oppsummering.skalPassePåBarnetIHelePerioden.header": "Skal du passe på barnet i heile tidsrommet du skal ha pleiepengar?",
     "steg.oppsummering.bekreftOmsorgEkstrainfo.header": "Beskriv omsorgsrollen du har for barnet i tidsrommet du skal ha pleiepengar:",
@@ -335,7 +333,7 @@
     "page.arbeidsgiverutskrift.info.7": "Dersom inntektsmeldinga allereie er send, kan du sjå bort frå denne meldinga.",
     "page.arbeidsgiverutskrift.sender.tittel": "Slik sender du inntektsmeldinga",
     "page.arbeidsgiverutskrift.sender.info.1": "Inntektsmeldinga blir send frå lønns- og personalsystemet hos arbeidsgivaren eller frå altinn.no. Meldinga inneheld inntektsopplysningar og annan informasjon NAV må ha for å behandle søknaden.",
-    "page.arbeidsgiverutskrift.sender.info.2.html": "Fyll inn periode som samsvarer med arbeidstakers søknad. <strong>{søkernavn} har søkt pleiepenger for perioden {fom} til {tom}</strong>. Hvis datoene ikke stemmer med hva dere har avtalt, må dere avklare dette dere imellom før du sender inntektsmeldingen.",
+    "page.arbeidsgiverutskrift.sender.info.2.html": "Fyll inn periode som samsvarar med arbeidstakars søknad. <strong>{søkernavn} har søkt pleiepengar for perioden {fom} til {tom}</strong>. Dersom datoane ikkje stemmer overeins med kva de har avtalt, må de klare opp i dette før du sender inntektsmeldingen.",
     "page.arbeidsgiverutskrift.merInfo.1": "Du får meir informasjon om inntektsmeldinga på",
     "page.arbeidsgiverutskrift.merInfo.2": "nav.no/inntektsmelding",
     "page.arbeidsgiverutskrift.merInfo.3": ".",
@@ -364,7 +362,7 @@
     "fieldvalidation.fradato.erEtterTildato": "Frå-datoen kan ikkje vere seinare enn til-datoen.",
     "fieldvalidation.tildato.merEnnTreÅr": "Du kan ikkje søkje om pleiepengar for ein periode som er meir enn tre år tilbake i tid.",
     "fieldvalidation.tildato.erFørFradato": "Til-datoen kan ikkje vere tidlegare enn frå-datoen.",
-    "fieldvalidation.periodeErOver8UkerMenIkkeØnsket": "For å kunne fortsetje må du anten velje  \"Ja\" for å bekrefte at du vil søkje for ein lengre periode enn 8 veker, eller du må leggje inn ein kortare periode enn 8 veker dersom du har svart \"Nei\".",
+    "fieldvalidation.periodeErOver8UkerMenIkkeØnsket": "For å kunne fortsetje må du anten velje  \"Ja\" for å stadfeste at du vil søkje for ein lengre periode enn 8 veker, eller du må leggje inn ein kortare periode enn 8 veker dersom du har svart \"Nei\".",
     "fieldvalidation.bekreftOmsorg_ekstrainfoForMangeTegn": "For mange teikn. Maks tal på teikn er 1000.",
     "fieldvalidation.legeerklæring.mangler": "Du må laste opp ei legeerklæring.",
     "fieldvalidation.legeerklæring.forMangeFiler": "Du har lasta opp for mange vedlegg",
@@ -464,7 +462,7 @@
     "frilanser.nårStartet.spm": "Når starta du som frilansar?",
     "frilanser.jobberFortsatt.spm": "Jobbar du framleis som frilansar?",
 
-    "frilanser.hjelpetekst.spm": "Hva er en frilanser?",
+    "frilanser.hjelpetekst.spm": "Kva er ein frilansar?",
     "frilanser.hjelpetekst.titel": "Eksempel på kven som kan vere frilansarar er:",
     "frilanser.hjelpetekst.list.1": "Personar med omsorgsstønad",
     "frilanser.hjelpetekst.list.2": "Fosterforeldre",

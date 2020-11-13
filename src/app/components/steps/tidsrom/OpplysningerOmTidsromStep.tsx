@@ -88,7 +88,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                 legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
                 minDate={date3YearsAgo}
                 description={
-                    <ExpandableInfo title={intlHelper(intl, 'steg.tidsrom.hjelpetekst.titel')}>
+                    <ExpandableInfo title={intlHelper(intl, 'steg.tidsrom.hjelpetekst.tittel')}>
                         <FormattedMessage id="steg.tidsrom.hjelpetekst" />
                     </ExpandableInfo>
                 }
@@ -212,7 +212,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                     name={AppFormField.skalTaUtFerieIPerioden}
                     validate={validateYesOrNoIsAnswered}
                     description={
-                        <ExpandableInfo title={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.veileder.titel')}>
+                        <ExpandableInfo title={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.veileder.tittel')}>
                             <FormattedMessage id="steg.tidsrom.ferieuttakIPerioden.veileder" />
                         </ExpandableInfo>
                     }

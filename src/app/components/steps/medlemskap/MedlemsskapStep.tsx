@@ -38,7 +38,7 @@ const MedlemsskapStep = ({ onValidSubmit }: StepConfigProps) => {
         <FormikStep id={StepID.MEDLEMSKAP} onValidFormSubmit={onValidSubmit}>
             <Box padBottom="xxl">
                 <CounsellorPanel>
-                    {intlHelper(intl, 'step.medlemskap.banner')}{' '}
+                    {intlHelper(intl, 'step.medlemskap.veileder')}{' '}
                     <Lenke href={getLenker().medlemskap} target="_blank">
                         nav.no
                     </Lenke>

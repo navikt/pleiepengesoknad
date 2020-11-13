@@ -92,7 +92,7 @@
     "steg.tidsrom.ferieuttakIPerioden.listTitle": "Ferie i perioden",
     "steg.tidsrom.ferieuttakIPerioden.modalTitle": "Ferie",
     "steg.tidsrom.ferieuttakIPerioden.addLabel": "Legg til ferie",
-    "steg.tidsrom.ferieuttakIPerioden.veileder.titel": "Hva er lovbestemt ferie?",
+    "steg.tidsrom.ferieuttakIPerioden.veileder.tittel": "Hva er lovbestemt ferie?",
     "steg.tidsrom.ferieuttakIPerioden.veileder": "Hvis du skal ha ferie og er usikker på om det er lovbestemt ferie, må du sjekke det med arbeidsgiveren din.",
 
     "step.arbeidsforhold.pageTitle": "Pleiepengesøknad - opplysninger om ditt arbeidsforhold",
@@ -113,7 +113,7 @@
 
     "step.medlemskap.pageTitle": "Pleiepengesøknad - medlemskap",
     "step.medlemskap.stepTitle": "Medlemskap",
-    "step.medlemskap.banner": "Medlemskap i folketrygden er nøkkelen til rettigheter fra NAV. Hvis du bor eller jobber i Norge er du vanligvis medlem. Du kan lese mer om medlemskap på",
+    "step.medlemskap.veileder": "Medlemskap i folketrygden er nøkkelen til rettigheter fra NAV. Hvis du bor eller jobber i Norge er du vanligvis medlem. Du kan lese mer om medlemskap på",
     "step.medlemskap.stepIndicatorLabel": "Om medlemskap i folketrygden",
     "step.medlemskap.leggTilKnapp": "Legg til nytt utenlandsopphold",
     "step.medlemskap.utenlandsoppholdSiste12": "Utenlandsopphold siste 12 måneder",
@@ -203,7 +203,7 @@
     "steg.omBarnet.fødselsdato": "Barnets fødselsdato",
     "steg.omBarnet.navn": "Barnets navn",
 
-    "steg.tidsrom.hjelpetekst.titel": "Kan jeg søke for flere perioder samtidig?",
+    "steg.tidsrom.hjelpetekst.tittel": "Kan jeg søke for flere perioder samtidig?",
     "steg.tidsrom.hjelpetekst": "Søknaden er under utvikling: Hvis du skal søke for flere perioder må du sende én søknad for hver periode.",
     "steg.tidsrom.hvilketTidsrom.spm": "Hvilken periode søker du for?",
     "steg.tidsrom.hvilketTidsrom.fom": "Fra og med",
@@ -245,9 +245,7 @@
     "steg.medlemsskap.annetLandNeste12.listeTittel": "Utenlandsopphold neste 12 måneder",
 
     "steg.lege.vedlegg": "Last opp dokumentasjonen",
-    "steg.legeerklaering.counsellorpanel.3.1": "Her skal du laste opp legeerklæring ",
-    "steg.legeerklaering.counsellorpanel.3.2": "eller ",
-    "steg.legeerklaering.counsellorpanel.3.3": "en bekreftelse på at barnet har vært til behandling/utredning i sykehus eller annen spesialisthelsetjeneste. Det gjør du enten ved å ta bilde av dokumentasjonen, eller ved å scanne den.",
+    "steg.legeerklaering.counsellorpanel.3": "Her skal du laste opp legeerklæring eller en bekreftelse på at barnet har vært til behandling/utredning i sykehus eller annen spesialisthelsetjeneste. Det gjør du enten ved å ta bilde av dokumentasjonen, eller ved å scanne den.",
     "steg.legeerklaering.counsellorpanel.4": "Hvis du ikke har dokumentasjonen nå, ",
     "steg.legeerklaering.counsellorpanel.4.1": "kan du ettersende den.",
 
