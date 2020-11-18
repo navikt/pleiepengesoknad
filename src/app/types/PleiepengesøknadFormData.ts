@@ -107,13 +107,13 @@ export interface PleiepengesøknadFormData {
     [AppFormField.harBekreftetOpplysninger]: boolean;
     [AppFormField.barnetsNavn]: string;
     [AppFormField.barnetsFødselsnummer]: string;
-    [AppFormField.barnetsFødselsdato]?: Date;
+    [AppFormField.barnetsFødselsdato]?: string;
     [AppFormField.søknadenGjelderEtAnnetBarn]: boolean;
     [AppFormField.barnetSøknadenGjelder]: string;
     [AppFormField.barnetHarIkkeFåttFødselsnummerEnda]: boolean;
     [AppFormField.arbeidsforhold]: Arbeidsforhold[];
-    [AppFormField.periodeFra]?: Date;
-    [AppFormField.periodeTil]?: Date;
+    [AppFormField.periodeFra]?: string;
+    [AppFormField.periodeTil]?: string;
     [AppFormField.bekrefterPeriodeOver8uker]?: YesOrNo;
     [AppFormField.skalPassePåBarnetIHelePerioden]?: YesOrNo;
     [AppFormField.beskrivelseOmsorgsrolleIPerioden]?: string;
@@ -134,7 +134,7 @@ export interface PleiepengesøknadFormData {
     [AppFormField.harBeredskap]: YesOrNo;
     [AppFormField.harBeredskap_ekstrainfo]?: string;
     [AppFormField.frilans_harHattInntektSomFrilanser]?: YesOrNo;
-    [AppFormField.frilans_startdato]?: Date;
+    [AppFormField.frilans_startdato]?: string;
     [AppFormField.frilans_jobberFortsattSomFrilans]?: YesOrNo;
     [AppFormField.selvstendig_harHattInntektSomSN]?: YesOrNo;
     [AppFormField.selvstendig_virksomheter]?: Virksomhet[];

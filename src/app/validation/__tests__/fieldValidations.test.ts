@@ -1,8 +1,8 @@
 import moment from 'moment';
 import { Attachment } from '@sif-common/core/types/Attachment';
-import * as dateUtils from '@sif-common/core/utils/dateUtils';
 import { createFieldValidationError, FieldValidationErrors } from '@sif-common/core/validation/fieldValidations';
 import { hasValue } from '@sif-common/core/validation/hasValue';
+import { dateToISOFormattedDateString, dateToday } from '@sif-common/core/utils/dateUtils';
 import {
     AppFieldValidationErrors,
     validateFradato,
@@ -12,8 +12,6 @@ import {
     validateNormaleArbeidstimer,
     validateTildato,
 } from '../fieldValidations';
-
-import Mock = jest.Mock;
 
 jest.mock('../../utils/envUtils', () => {
     return {
@@ -27,13 +25,6 @@ jest.mock('@sif-common/core/validation/fødselsnummerValidator', () => {
         FødselsnummerValidationErrorReason: {
             MustConsistOf11Digits: 'MustConsistOf11Digits',
         },
-    };
-});
-
-jest.mock('@sif-common/core/utils/dateUtils', () => {
-    return {
-        isMoreThan3YearsAgo: jest.fn(),
-        dateToday: new Date(),
     };
 });
 
@@ -59,13 +50,14 @@ describe('fieldValidations', () => {
 
     describe('validateFødselsdato', () => {
         it('should return error if date is after today', () => {
-            const tomorrow: Date = moment().add(1, 'day').toDate();
+            const tomorrow: string | undefined = dateToISOFormattedDateString(moment().add(1, 'day').toDate());
             expect(validateFødselsdato(tomorrow)).toBeDefined();
         });
         it('should return undefined if date is same as today or earlier', () => {
-            const yesterday: Date = moment().subtract(1, 'day').toDate();
+            const yesterday: string | undefined = dateToISOFormattedDateString(moment().subtract(1, 'day').toDate());
+            const today: string | undefined = dateToISOFormattedDateString(dateToday);
             expect(validateFødselsdato(yesterday)).toBeUndefined();
-            expect(validateFødselsdato(dateUtils.dateToday)).toBeUndefined();
+            expect(validateFødselsdato(today)).toBeUndefined();
         });
     });
 
@@ -99,24 +91,26 @@ describe('fieldValidations', () => {
         });
 
         it('should return an error message saying date cannot be more than 3 years back in time, if date is more than 3 years back in time', () => {
-            (dateUtils.isMoreThan3YearsAgo as Mock).mockReturnValue(true);
-            expect(validateFradato(new Date())).toEqual(
+            const threeYearsAgoDate = moment().subtract(3, 'years').subtract(1, 'day').toDate();
+            expect(validateFradato(dateToISOFormattedDateString(threeYearsAgoDate))).toEqual(
                 createFieldValidationError(AppFieldValidationErrors.fradato_merEnnTreÅr)
             );
         });
 
         it('should return an error message saying that fraDato cannot be after tilDato, if fraDato is after tilDato', () => {
-            const today = moment();
-            const yesterday = today.clone().subtract(1, 'day');
-            const result = validateFradato(today.toDate(), yesterday.toDate());
+            const todayMoment = moment();
+            const today = dateToISOFormattedDateString(todayMoment.toDate());
+            const yesterday = dateToISOFormattedDateString(todayMoment.clone().subtract(1, 'day').toDate());
+            const result = validateFradato(today, yesterday);
             expect(result).toEqual(createFieldValidationError(AppFieldValidationErrors.fradato_erEtterTildato));
         });
 
         it('should return undefined if fraDato is inside the last 3 years and equal to or earlier than tilDato', () => {
-            const fraDato = moment();
-            const tilDato = fraDato.clone();
-            expect(validateFradato(fraDato.toDate(), tilDato.toDate())).toBeUndefined();
-            const date3YearsAgo = moment().subtract(3, 'years').toDate();
+            const date = new Date();
+            const fraDato = dateToISOFormattedDateString(date);
+            const tilDato = dateToISOFormattedDateString(date);
+            expect(validateFradato(fraDato, tilDato)).toBeUndefined();
+            const date3YearsAgo = dateToISOFormattedDateString(moment().subtract(3, 'years').toDate());
             expect(validateFradato(date3YearsAgo)).toBeUndefined();
         });
     });
@@ -131,8 +125,8 @@ describe('fieldValidations', () => {
         });
 
         it('should return an error message saying date cannot be more than 3 years back in time, if date is more than 3 years back in time', () => {
-            (dateUtils.isMoreThan3YearsAgo as Mock).mockReturnValue(true);
-            expect(validateTildato(new Date())).toEqual(
+            const threeYearsAgoDate = moment().subtract(3, 'years').subtract(1, 'day').toDate();
+            expect(validateTildato(dateToISOFormattedDateString(threeYearsAgoDate))).toEqual(
                 createFieldValidationError(AppFieldValidationErrors.tildato_merEnnTreÅr)
             );
         });
@@ -140,16 +134,24 @@ describe('fieldValidations', () => {
         it('should return an error message saying that tilDato cannot be before fraDato, if tilDato is before fraDato', () => {
             const today = moment();
             const yesterday = today.clone().subtract(1, 'day');
-            const result = validateTildato(yesterday.toDate(), today.toDate());
+            const result = validateTildato(
+                dateToISOFormattedDateString(yesterday.toDate()),
+                dateToISOFormattedDateString(today.toDate())
+            );
             expect(result).toEqual(createFieldValidationError(AppFieldValidationErrors.tildato_erFørFradato));
         });
 
         it('should return undefined if tilDato is inside the last 3 years and equal to or later than fraDato', () => {
             const tilDato = moment();
             const fraDato = tilDato.clone();
-            expect(validateTildato(tilDato.toDate(), fraDato.toDate())).toBeUndefined();
+            expect(
+                validateTildato(
+                    dateToISOFormattedDateString(tilDato.toDate()),
+                    dateToISOFormattedDateString(fraDato.toDate())
+                )
+            ).toBeUndefined();
             const date3YearsAgo = moment().subtract(3, 'years').toDate();
-            expect(validateTildato(date3YearsAgo)).toBeUndefined();
+            expect(validateTildato(dateToISOFormattedDateString(date3YearsAgo))).toBeUndefined();
         });
     });
 
@@ -177,7 +179,6 @@ describe('fieldValidations', () => {
             expect(validateLegeerklæring([uploadedAttachment, uploadedAttachment])).toBeUndefined();
             expect(validateLegeerklæring([uploadedAttachment, uploadedAttachment, uploadedAttachment])).toBeUndefined();
         });
-
     });
 
     describe('validate arbeidsforhold', () => {

@@ -1,15 +1,16 @@
 import * as React from 'react';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import { useFormikContext } from 'formik';
 import { apiStringDateToDate } from '@sif-common/core/utils/dateUtils';
 import { formatName } from '@sif-common/core/utils/personUtils';
-import { useFormikContext } from 'formik';
 import { persist } from '../../api/api';
 import RouteConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';
 import { ArbeidsforholdApi, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { Søkerdata } from '../../types/Søkerdata';
-import { navigateTo, redirectTo } from '../../utils/navigationUtils';
+import { apiUtils } from '../../utils/apiUtils';
+import { navigateTo, navigateToErrorPage, navigateToLoginPage, redirectTo } from '../../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../../utils/routeUtils';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
@@ -67,12 +68,21 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
         }
     }
 
-    const navigateToNextStep = (stepId: StepID) => {
+    const navigateToNextStep = async (stepId: StepID) => {
         setTimeout(() => {
             const nextStepRoute = getNextStepRoute(stepId, values);
             if (nextStepRoute) {
-                persist(values, stepId);
-                navigateTo(nextStepRoute, history);
+                persist(values, stepId)
+                    .then(() => {
+                        navigateTo(nextStepRoute, history);
+                    })
+                    .catch((error) => {
+                        if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+                            navigateToLoginPage(getSøknadRoute(stepId));
+                        } else {
+                            return navigateToErrorPage(history);
+                        }
+                    });
             }
         });
     };

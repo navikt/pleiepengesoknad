@@ -5,11 +5,12 @@ import Box from '@sif-common/core/components/box/Box';
 import { YesOrNo } from '@sif-common/core/types/YesOrNo';
 import { dateToday } from '@sif-common/core/utils/dateUtils';
 import intlHelper from '@sif-common/core/utils/intlUtils';
-import { validateRequiredField, validateYesOrNoIsAnswered } from '@sif-common/core/validation/fieldValidations';
+import { validateYesOrNoIsAnswered } from '@sif-common/core/validation/fieldValidations';
 import { AppFormField, PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
 import AppForm from '../../app-form/AppForm';
 import FrilansEksempeltHtml from './FrilansEksempelHtml';
 import ExpandableInfo from '@sif-common/core/components/expandable-content/ExpandableInfo';
+import { validateFrilanserStartdato } from '../../../validation/fieldValidations';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
@@ -26,7 +27,7 @@ const FrilansFormPart = ({ formValues }: Props) => {
                     legend={intlHelper(intl, 'frilanser.harDuHattInntekt.spm')}
                     validate={validateYesOrNoIsAnswered}
                     description={
-                        <ExpandableInfo title="Hva er en frilanser?">
+                        <ExpandableInfo title={intlHelper(intl, 'frilanser.hjelpetekst.spm')}>
                             <FrilansEksempeltHtml />
                         </ExpandableInfo>
                     }
@@ -41,7 +42,7 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                 label={intlHelper(intl, 'frilanser.nårStartet.spm')}
                                 showYearSelector={true}
                                 maxDate={dateToday}
-                                validate={validateRequiredField}
+                                validate={validateFrilanserStartdato}
                             />
                         </Box>
                         <Box margin="xl">

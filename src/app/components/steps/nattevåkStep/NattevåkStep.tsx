@@ -11,12 +11,21 @@ import { validateNattevåkTilleggsinfo } from '../../../validation/fieldValidati
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 
+const cleanupNattevåkStep = (values: PleiepengesøknadFormData): PleiepengesøknadFormData => {
+    const cleanedValues = { ...values };
+    if (values.harNattevåk === YesOrNo.NO) {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        cleanedValues.harNattevåk_ekstrainfo = undefined;
+    }
+    return cleanedValues;
+};
+
 const NattevåkStep = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
     const { values } = useFormikContext<PleiepengesøknadFormData>();
     const { harNattevåk } = values;
     return (
-        <FormikStep id={StepID.NATTEVÅK} onValidFormSubmit={onValidSubmit}>
+        <FormikStep id={StepID.NATTEVÅK} onValidFormSubmit={onValidSubmit} onStepCleanup={cleanupNattevåkStep}>
             <AppForm.YesOrNoQuestion
                 legend={intlHelper(intl, 'steg.nattevåk.spm')}
                 name={AppFormField.harNattevåk}

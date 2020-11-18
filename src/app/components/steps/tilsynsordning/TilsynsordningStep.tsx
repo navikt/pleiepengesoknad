@@ -28,6 +28,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                     name={AppFormField.tilsynsordning__skalBarnHaTilsyn}
                     legend={intlHelper(intl, 'steg.tilsyn.skalBarnetHaTilsyn.spm')}
                     includeDoNotKnowOption={true}
+                    labels={{ doNotKnow: intlHelper(intl, 'VetIkke') }}
                     validate={validateYesOrNoIsAnswered}
                 />
             </Box>

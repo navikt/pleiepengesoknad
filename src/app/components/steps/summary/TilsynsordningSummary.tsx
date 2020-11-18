@@ -48,20 +48,18 @@ const TilsynsordningSummary = ({ tilsynsordning }: Props) => {
     return (
         <>
             <Box margin="l">
-                <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.tilsynsordning.header')}>
+                <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.tilsynsordning.spm')}>
                     <FormattedMessage id={`tilsynsordning.svar.${svar}`} />
                 </ContentWithHeader>
             </Box>
             {tilsynsordning.svar === 'ja' && (
                 <>
                     <Box margin="l">
-                        <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.tilsynsordning.ja.header')}>
-                            {tilsynsordning.ja ? (
-                                summarizeDaysInWeek(tilsynsordning, intl)
-                            ) : (
-                                <FormattedMessage id="tilsynsordning.ingenDagerValgt" />
-                            )}
-                        </ContentWithHeader>
+                        {tilsynsordning.ja ? (
+                            summarizeDaysInWeek(tilsynsordning, intl)
+                        ) : (
+                            <FormattedMessage id="tilsynsordning.ingenDagerValgt" />
+                        )}
                     </Box>
                     {tilsynsordning.ja.tilleggsinformasjon && hasValue(tilsynsordning.ja.tilleggsinformasjon) && (
                         <Box margin="l">

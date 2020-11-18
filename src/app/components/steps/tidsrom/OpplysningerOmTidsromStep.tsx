@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import { useFormikContext } from 'formik';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Box from '@sif-common/core/components/box/Box';
 import CounsellorPanel from '@sif-common/core/components/counsellor-panel/CounsellorPanel';
+import ExpandableInfo from '@sif-common/core/components/expandable-content/ExpandableInfo';
 import { YesOrNo } from '@sif-common/core/types/YesOrNo';
 import { date1YearAgo, date1YearFromNow, date3YearsAgo, DateRange } from '@sif-common/core/utils/dateUtils';
 import intlHelper from '@sif-common/core/utils/intlUtils';
@@ -12,9 +16,6 @@ import FerieuttakListAndDialog from '@sif-common/forms/ferieuttak/FerieuttakList
 import { Ferieuttak } from '@sif-common/forms/ferieuttak/types';
 import { Utenlandsopphold } from '@sif-common/forms/utenlandsopphold/types';
 import UtenlandsoppholdListAndDialog from '@sif-common/forms/utenlandsopphold/UtenlandsoppholdListAndDialog';
-import { useFormikContext } from 'formik';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import ExpandableInfo from '@sif-common/core/components/expandable-content/ExpandableInfo';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
@@ -41,18 +42,22 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
 
     const harMedsøker = values[AppFormField.harMedsøker];
 
-    const { periodeFra, periodeTil } = values;
-    const periode: DateRange = { from: periodeFra || date1YearAgo, to: periodeTil || date1YearFromNow };
+    const periodeFra = datepickerUtils.getDateFromDateString(values.periodeFra);
+    const periodeTil = datepickerUtils.getDateFromDateString(values.periodeTil);
+    const periode: DateRange = {
+        from: periodeFra || date1YearAgo,
+        to: periodeTil || date1YearFromNow,
+    };
     const intl = useIntl();
 
     const info8uker = periodeFra && periodeTil ? erPeriodeOver8Uker(periodeFra, periodeTil) : undefined;
 
-    const validateFraDatoField = (date?: Date) => {
-        return validateFradato(date, periodeTil);
+    const validateFraDatoField = (date?: string) => {
+        return validateFradato(date, values.periodeTil);
     };
 
-    const validateTilDatoField = (date?: Date) => {
-        return validateTildato(date, periodeFra);
+    const validateTilDatoField = (date?: string) => {
+        return validateTildato(date, values.periodeFra);
     };
 
     const validateBekreft8uker = (value: YesOrNo): IntlFieldValidationError | undefined => {
@@ -83,7 +88,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                 legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
                 minDate={date3YearsAgo}
                 description={
-                    <ExpandableInfo title="Kan jeg søke for flere perioder samtidig?">
+                    <ExpandableInfo title={intlHelper(intl, 'steg.tidsrom.hjelpetekst.tittel')}>
                         <FormattedMessage id="steg.tidsrom.hjelpetekst" />
                     </ExpandableInfo>
                 }
@@ -207,7 +212,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                     name={AppFormField.skalTaUtFerieIPerioden}
                     validate={validateYesOrNoIsAnswered}
                     description={
-                        <ExpandableInfo title="Hva er lovbestemt ferie?">
+                        <ExpandableInfo title={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.veileder.tittel')}>
                             <FormattedMessage id="steg.tidsrom.ferieuttakIPerioden.veileder" />
                         </ExpandableInfo>
                     }

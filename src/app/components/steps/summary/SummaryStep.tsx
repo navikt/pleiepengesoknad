@@ -8,6 +8,7 @@ import Box from '@sif-common/core/components/box/Box';
 import ContentWithHeader from '@sif-common/core/components/content-with-header/ContentWithHeader';
 import CounsellorPanel from '@sif-common/core/components/counsellor-panel/CounsellorPanel';
 import SummaryList from '@sif-common/core/components/summary-list/SummaryList';
+import SummarySection from '@navikt/sif-common-soknad/lib/soknad-summary/summary-section/SummarySection';
 import TextareaSummary from '@sif-common/core/components/textarea-summary/TextareaSummary';
 import { HistoryProps } from '@sif-common/core/types/History';
 import { Locale } from '@sif-common/core/types/Locale';
@@ -44,6 +45,7 @@ import JaNeiSvar from './JaNeiSvar';
 import SelvstendigSummary from './SelvstendigSummary';
 import TilsynsordningSummary from './TilsynsordningSummary';
 import './summary.less';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 
 interface State {
     sendingInProgress: boolean;
@@ -88,7 +90,8 @@ class SummaryStep extends React.Component<Props, State> {
         const { values, intl } = this.props;
         const { sendingInProgress } = this.state;
 
-        const { periodeFra, periodeTil } = values;
+        const periodeFra = datepickerUtils.getDateFromDateString(values.periodeFra);
+        const periodeTil = datepickerUtils.getDateFromDateString(values.periodeTil);
         const info8uker =
             isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) && periodeFra && periodeTil
                 ? erPeriodeOver8Uker(periodeFra, periodeTil)
@@ -147,13 +150,20 @@ class SummaryStep extends React.Component<Props, State> {
                             </CounsellorPanel>
                             <Box margin="xl">
                                 <Panel border={true}>
-                                    <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.søker.header')}>
-                                        <Normaltekst>{formatName(fornavn, etternavn, mellomnavn)}</Normaltekst>
-                                        <Normaltekst>Fødselsnummer: {fødselsnummer}</Normaltekst>
-                                    </ContentWithHeader>
-                                    <Box margin="l">
-                                        <ContentWithHeader
-                                            header={intlHelper(intl, 'steg.oppsummering.tidsrom.header')}>
+                                    {/* Om deg */}
+                                    <SummarySection header={intlHelper(intl, 'steg.oppsummering.søker.header')}>
+                                        <Box margin="m">
+                                            <Normaltekst>{formatName(fornavn, etternavn, mellomnavn)}</Normaltekst>
+                                            <Normaltekst>Fødselsnummer: {fødselsnummer}</Normaltekst>
+                                        </Box>
+                                    </SummarySection>
+
+                                    {/* Om barnet */}
+                                    <BarnSummary barn={barn} formValues={values} apiValues={apiValues} />
+
+                                    {/* Perioden du søker pleiepenger for */}
+                                    <SummarySection header={intlHelper(intl, 'steg.oppsummering.tidsrom.header')}>
+                                        <Box margin="m">
                                             <FormattedMessage
                                                 id="steg.oppsummering.tidsrom.fomtom"
                                                 values={{
@@ -161,238 +171,250 @@ class SummaryStep extends React.Component<Props, State> {
                                                     tom: prettifyDate(apiStringDateToDate(apiValues.tilOgMed)),
                                                 }}
                                             />
-                                        </ContentWithHeader>
-                                    </Box>
-                                    {isFeatureEnabled(Feature.TOGGLE_8_UKER) && info8uker?.erOver8Uker && (
-                                        <Box margin="l">
+                                        </Box>
+                                        <Box margin="m">
                                             <ContentWithHeader
                                                 header={intlHelper(
                                                     intl,
-                                                    'steg.oppsummering.over8uker.header',
-                                                    info8uker
-                                                        ? { varighet: getVarighetString(info8uker?.antallDager, intl) }
-                                                        : undefined
+                                                    'steg.oppsummering.annenSøkerSammePeriode.header'
                                                 )}>
-                                                <JaNeiSvar harSvartJa={apiValues.bekrefterPeriodeOver8Uker} />
+                                                {apiValues.harMedsøker === true && intlHelper(intl, 'Ja')}
+                                                {apiValues.harMedsøker === false && intlHelper(intl, 'Nei')}
                                             </ContentWithHeader>
                                         </Box>
-                                    )}
-                                    <Box margin="l">
-                                        <BarnSummary barn={barn} formValues={values} apiValues={apiValues} />
-                                    </Box>
-                                    {isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG) && apiValues.skalBekrefteOmsorg && (
-                                        <Box margin="l">
-                                            <ContentWithHeader
-                                                header={intlHelper(
-                                                    intl,
-                                                    'steg.oppsummering.skalPassePåBarnetIHelePerioden.header'
-                                                )}>
-                                                <JaNeiSvar harSvartJa={apiValues.skalPassePåBarnetIHelePerioden} />
-                                            </ContentWithHeader>
-                                            {hasValue(apiValues.beskrivelseOmsorgsrollen) && (
-                                                <Box margin="l">
-                                                    <ContentWithHeader
-                                                        header={intlHelper(
-                                                            intl,
-                                                            'steg.oppsummering.bekreftOmsorgEkstrainfo.header'
-                                                        )}>
-                                                        <TextareaSummary text={apiValues.beskrivelseOmsorgsrollen} />
-                                                    </ContentWithHeader>
-                                                </Box>
-                                            )}
-                                        </Box>
-                                    )}
-                                    <Box margin="l">
-                                        <ContentWithHeader
-                                            header={intlHelper(
-                                                intl,
-                                                'steg.oppsummering.annenSøkerSammePeriode.header'
-                                            )}>
-                                            {apiValues.harMedsøker === true && intlHelper(intl, 'Ja')}
-                                            {apiValues.harMedsøker === false && intlHelper(intl, 'Nei')}
-                                        </ContentWithHeader>
-                                    </Box>
+                                        {apiValues.harMedsøker && (
+                                            <Box margin="l">
+                                                <ContentWithHeader
+                                                    header={intlHelper(
+                                                        intl,
+                                                        'steg.oppsummering.samtidigHjemme.header'
+                                                    )}>
+                                                    <FormattedMessage id={apiValues.samtidigHjemme ? 'Ja' : 'Nei'} />
+                                                </ContentWithHeader>
+                                            </Box>
+                                        )}
 
-                                    {apiValues.harMedsøker && (
-                                        <Box margin="l">
-                                            <ContentWithHeader
-                                                header={intlHelper(intl, 'steg.oppsummering.samtidigHjemme.header')}>
-                                                <FormattedMessage id={apiValues.samtidigHjemme ? 'Ja' : 'Nei'} />
-                                            </ContentWithHeader>
-                                        </Box>
-                                    )}
-                                    {/* Utenlandsopphold i perioden */}
-                                    {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) &&
-                                        utenlandsoppholdIPerioden && (
+                                        {/* Utenlandsopphold i perioden */}
+                                        {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) &&
+                                            utenlandsoppholdIPerioden && (
+                                                <>
+                                                    <Box margin="l">
+                                                        <ContentWithHeader
+                                                            header={intlHelper(
+                                                                intl,
+                                                                'steg.oppsummering.utenlandsoppholdIPerioden.header'
+                                                            )}>
+                                                            <FormattedMessage
+                                                                id={
+                                                                    utenlandsoppholdIPerioden.skalOppholdeSegIUtlandetIPerioden
+                                                                        ? 'Ja'
+                                                                        : 'Nei'
+                                                                }
+                                                            />
+                                                        </ContentWithHeader>
+                                                    </Box>
+
+                                                    {utenlandsoppholdIPerioden.opphold.length > 0 && (
+                                                        <Box margin="l">
+                                                            <SummaryList
+                                                                items={utenlandsoppholdIPerioden.opphold}
+                                                                itemRenderer={renderUtenlandsoppholdIPeriodenSummary}
+                                                            />
+                                                        </Box>
+                                                    )}
+                                                </>
+                                            )}
+
+                                        {/* Ferieuttak i perioden */}
+                                        {ferieuttakIPerioden && (
                                             <>
                                                 <Box margin="l">
                                                     <ContentWithHeader
                                                         header={intlHelper(
                                                             intl,
-                                                            'steg.oppsummering.utenlandsoppholdIPerioden.header'
+                                                            'steg.oppsummering.ferieuttakIPerioden.header'
                                                         )}>
                                                         <FormattedMessage
                                                             id={
-                                                                utenlandsoppholdIPerioden.skalOppholdeSegIUtlandetIPerioden
+                                                                ferieuttakIPerioden.skalTaUtFerieIPerioden
                                                                     ? 'Ja'
                                                                     : 'Nei'
                                                             }
                                                         />
                                                     </ContentWithHeader>
                                                 </Box>
-                                                {utenlandsoppholdIPerioden.opphold.length > 0 && (
+                                                {ferieuttakIPerioden.ferieuttak.length > 0 && (
                                                     <Box margin="l">
-                                                        <ContentWithHeader
-                                                            header={intlHelper(
-                                                                intl,
-                                                                'steg.oppsummering.utenlandsoppholdIPerioden.listetittel'
-                                                            )}>
-                                                            <SummaryList
-                                                                items={utenlandsoppholdIPerioden.opphold}
-                                                                itemRenderer={renderUtenlandsoppholdIPeriodenSummary}
-                                                            />
-                                                        </ContentWithHeader>
-                                                    </Box>
-                                                )}
-                                            </>
-                                        )}
-                                    {/* Ferieuttak i perioden */}
-                                    {ferieuttakIPerioden && (
-                                        <>
-                                            <Box margin="l">
-                                                <ContentWithHeader
-                                                    header={intlHelper(
-                                                        intl,
-                                                        'steg.oppsummering.ferieuttakIPerioden.header'
-                                                    )}>
-                                                    <FormattedMessage
-                                                        id={ferieuttakIPerioden.skalTaUtFerieIPerioden ? 'Ja' : 'Nei'}
-                                                    />
-                                                </ContentWithHeader>
-                                            </Box>
-                                            {ferieuttakIPerioden.ferieuttak.length > 0 && (
-                                                <Box margin="l">
-                                                    <ContentWithHeader
-                                                        header={intlHelper(
-                                                            intl,
-                                                            'steg.oppsummering.ferieuttakIPerioden.listetittel'
-                                                        )}>
                                                         <SummaryList
                                                             items={ferieuttakIPerioden.ferieuttak}
                                                             itemRenderer={renderFerieuttakIPeriodenSummary}
                                                         />
+                                                    </Box>
+                                                )}
+                                            </>
+                                        )}
+                                    </SummarySection>
+
+                                    {/* Omsorgstilbud */}
+                                    <SummarySection
+                                        header={intlHelper(intl, 'steg.oppsummering.tilsynsordning.header')}>
+                                        {tilsynsordning && <TilsynsordningSummary tilsynsordning={tilsynsordning} />}
+
+                                        {nattevaak && (
+                                            <>
+                                                <Box margin="l">
+                                                    <ContentWithHeader
+                                                        header={intlHelper(intl, 'steg.oppsummering.nattevåk.header')}>
+                                                        {nattevaak.harNattevåk === true && intlHelper(intl, 'Ja')}
+                                                        {nattevaak.harNattevåk === false && intlHelper(intl, 'Nei')}
+                                                        {nattevaak.harNattevåk === true &&
+                                                            nattevaak.tilleggsinformasjon && (
+                                                                <TextareaSummary text={nattevaak.tilleggsinformasjon} />
+                                                            )}
                                                     </ContentWithHeader>
                                                 </Box>
-                                            )}
-                                        </>
-                                    )}
-                                    <Box margin="l">
-                                        <ContentWithHeader
-                                            header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.header')}>
-                                            {apiValues.arbeidsgivere.organisasjoner.length > 0 ? (
-                                                <SummaryList
-                                                    items={apiValues.arbeidsgivere.organisasjoner}
-                                                    itemRenderer={(forhold) => (
-                                                        <ArbeidsforholdSummary
-                                                            key={forhold.organisasjonsnummer}
-                                                            arbeidsforhold={forhold}
-                                                        />
-                                                    )}
-                                                />
-                                            ) : (
-                                                <FormattedMessage id="steg.oppsummering.arbeidsforhold.ingenArbeidsforhold" />
-                                            )}
-                                        </ContentWithHeader>
-                                    </Box>
-
-                                    <FrilansSummary apiValues={apiValues} />
-
-                                    <SelvstendigSummary selvstendigVirksomheter={apiValues.selvstendigVirksomheter} />
-
-                                    {tilsynsordning && <TilsynsordningSummary tilsynsordning={tilsynsordning} />}
-                                    {nattevaak && (
-                                        <>
+                                            </>
+                                        )}
+                                        {beredskap && (
                                             <Box margin="l">
                                                 <ContentWithHeader
-                                                    header={intlHelper(intl, 'steg.oppsummering.nattevåk.header')}>
-                                                    {nattevaak.harNattevåk === true && intlHelper(intl, 'Ja')}
-                                                    {nattevaak.harNattevåk === false && intlHelper(intl, 'Nei')}
-                                                    {nattevaak.harNattevåk === true &&
-                                                        nattevaak.tilleggsinformasjon && (
-                                                            <TextareaSummary text={nattevaak.tilleggsinformasjon} />
-                                                        )}
+                                                    header={intlHelper(intl, 'steg.oppsummering.beredskap.header')}>
+                                                    {beredskap.beredskap === true && intlHelper(intl, 'Ja')}
+                                                    {beredskap.beredskap === false && intlHelper(intl, 'Nei')}
+                                                    {beredskap.tilleggsinformasjon && (
+                                                        <TextareaSummary text={beredskap.tilleggsinformasjon} />
+                                                    )}
                                                 </ContentWithHeader>
                                             </Box>
-                                        </>
-                                    )}
-                                    {beredskap && (
-                                        <Box margin="l">
-                                            <ContentWithHeader
-                                                header={intlHelper(intl, 'steg.oppsummering.beredskap.header')}>
-                                                {beredskap.beredskap === true && intlHelper(intl, 'Ja')}
-                                                {beredskap.beredskap === false && intlHelper(intl, 'Nei')}
-                                                {beredskap.tilleggsinformasjon && (
-                                                    <TextareaSummary text={beredskap.tilleggsinformasjon} />
-                                                )}
-                                            </ContentWithHeader>
-                                        </Box>
-                                    )}
-                                    <Box margin="l">
-                                        <ContentWithHeader
-                                            header={intlHelper(intl, 'steg.oppsummering.utlandetSiste12.header')}>
-                                            {apiValues.medlemskap.harBoddIUtlandetSiste12Mnd === true &&
-                                                intlHelper(intl, 'Ja')}
-                                            {apiValues.medlemskap.harBoddIUtlandetSiste12Mnd === false &&
-                                                intlHelper(intl, 'Nei')}
-                                        </ContentWithHeader>
-                                    </Box>
-                                    {apiValues.medlemskap.harBoddIUtlandetSiste12Mnd === true &&
-                                        medlemskap.utenlandsoppholdSiste12Mnd.length > 0 && (
+                                        )}
+                                        {isFeatureEnabled(Feature.TOGGLE_8_UKER) && info8uker?.erOver8Uker && (
                                             <Box margin="l">
                                                 <ContentWithHeader
                                                     header={intlHelper(
                                                         intl,
-                                                        'steg.oppsummering.utlandetSiste12.liste.header'
+                                                        'steg.oppsummering.over8uker.header',
+                                                        info8uker
+                                                            ? {
+                                                                  varighet: getVarighetString(
+                                                                      info8uker?.antallDager,
+                                                                      intl
+                                                                  ),
+                                                              }
+                                                            : undefined
                                                     )}>
+                                                    <JaNeiSvar harSvartJa={apiValues.bekrefterPeriodeOver8Uker} />
+                                                </ContentWithHeader>
+                                            </Box>
+                                        )}
+
+                                        {isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG) &&
+                                            apiValues.skalBekrefteOmsorg && (
+                                                <Box margin="l">
+                                                    <ContentWithHeader
+                                                        header={intlHelper(
+                                                            intl,
+                                                            'steg.oppsummering.skalPassePåBarnetIHelePerioden.header'
+                                                        )}>
+                                                        <JaNeiSvar
+                                                            harSvartJa={apiValues.skalPassePåBarnetIHelePerioden}
+                                                        />
+                                                    </ContentWithHeader>
+                                                    {hasValue(apiValues.beskrivelseOmsorgsrollen) && (
+                                                        <Box margin="l">
+                                                            <ContentWithHeader
+                                                                header={intlHelper(
+                                                                    intl,
+                                                                    'steg.oppsummering.bekreftOmsorgEkstrainfo.header'
+                                                                )}>
+                                                                <TextareaSummary
+                                                                    text={apiValues.beskrivelseOmsorgsrollen}
+                                                                />
+                                                            </ContentWithHeader>
+                                                        </Box>
+                                                    )}
+                                                </Box>
+                                            )}
+                                    </SummarySection>
+
+                                    {/* Arbeidsforhold */}
+                                    <SummarySection
+                                        header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.header')}>
+                                        {apiValues.arbeidsgivere.organisasjoner.length > 0 ? (
+                                            <SummaryList
+                                                items={apiValues.arbeidsgivere.organisasjoner}
+                                                itemRenderer={(forhold) => (
+                                                    <ArbeidsforholdSummary
+                                                        key={forhold.organisasjonsnummer}
+                                                        arbeidsforhold={forhold}
+                                                    />
+                                                )}
+                                            />
+                                        ) : (
+                                            <FormattedMessage id="steg.oppsummering.arbeidsforhold.ingenArbeidsforhold" />
+                                        )}
+                                    </SummarySection>
+
+                                    {/* Frilansinntekt */}
+                                    <SummarySection header={intlHelper(intl, 'frilanser.summary.header')}>
+                                        <FrilansSummary apiValues={apiValues} />
+                                    </SummarySection>
+
+                                    {/* Næringsinntekt */}
+                                    <SummarySection header={intlHelper(intl, 'selvstendig.summary.header')}>
+                                        <SelvstendigSummary
+                                            selvstendigVirksomheter={apiValues.selvstendigVirksomheter}
+                                        />
+                                    </SummarySection>
+
+                                    {/* Medlemskap i folketrygden */}
+                                    <SummarySection header={intlHelper(intl, 'medlemskap.summary.header')}>
+                                        <Box margin="l">
+                                            <ContentWithHeader
+                                                header={intlHelper(intl, 'steg.oppsummering.utlandetSiste12.header')}>
+                                                {apiValues.medlemskap.harBoddIUtlandetSiste12Mnd === true &&
+                                                    intlHelper(intl, 'Ja')}
+                                                {apiValues.medlemskap.harBoddIUtlandetSiste12Mnd === false &&
+                                                    intlHelper(intl, 'Nei')}
+                                            </ContentWithHeader>
+                                        </Box>
+                                        {apiValues.medlemskap.harBoddIUtlandetSiste12Mnd === true &&
+                                            medlemskap.utenlandsoppholdSiste12Mnd.length > 0 && (
+                                                <Box margin="l">
                                                     <SummaryList
                                                         items={medlemskap.utenlandsoppholdSiste12Mnd}
                                                         itemRenderer={renderUtenlandsoppholdSummary}
                                                     />
-                                                </ContentWithHeader>
-                                            </Box>
-                                        )}
-                                    <Box margin="l">
-                                        <ContentWithHeader
-                                            header={intlHelper(intl, 'steg.oppsummering.utlandetNeste12.header')}>
-                                            {apiValues.medlemskap.skalBoIUtlandetNeste12Mnd === true &&
-                                                intlHelper(intl, 'Ja')}
-                                            {apiValues.medlemskap.skalBoIUtlandetNeste12Mnd === false &&
-                                                intlHelper(intl, 'Nei')}
-                                        </ContentWithHeader>
-                                    </Box>
-                                    {apiValues.medlemskap.skalBoIUtlandetNeste12Mnd === true &&
-                                        medlemskap.utenlandsoppholdNeste12Mnd.length > 0 && (
-                                            <Box margin="l">
-                                                <ContentWithHeader
-                                                    header={intlHelper(
-                                                        intl,
-                                                        'steg.oppsummering.utlandetNeste12.liste.header'
-                                                    )}>
+                                                </Box>
+                                            )}
+                                        <Box margin="l">
+                                            <ContentWithHeader
+                                                header={intlHelper(intl, 'steg.oppsummering.utlandetNeste12.header')}>
+                                                {apiValues.medlemskap.skalBoIUtlandetNeste12Mnd === true &&
+                                                    intlHelper(intl, 'Ja')}
+                                                {apiValues.medlemskap.skalBoIUtlandetNeste12Mnd === false &&
+                                                    intlHelper(intl, 'Nei')}
+                                            </ContentWithHeader>
+                                        </Box>
+                                        {apiValues.medlemskap.skalBoIUtlandetNeste12Mnd === true &&
+                                            medlemskap.utenlandsoppholdNeste12Mnd.length > 0 && (
+                                                <Box margin="l">
                                                     <SummaryList
                                                         items={medlemskap.utenlandsoppholdNeste12Mnd}
                                                         itemRenderer={renderUtenlandsoppholdSummary}
                                                     />
-                                                </ContentWithHeader>
-                                            </Box>
-                                        )}
-                                    <Box margin="l">
-                                        <ContentWithHeader
-                                            header={intlHelper(intl, 'steg.oppsummering.legeerklæring.header')}>
+                                                </Box>
+                                            )}
+                                    </SummarySection>
+
+                                    {/* Vedlegg */}
+                                    <SummarySection header={intlHelper(intl, 'steg.oppsummering.vedlegg.header')}>
+                                        <Box margin="m">
                                             <LegeerklæringAttachmentList includeDeletionFunctionality={false} />
-                                        </ContentWithHeader>
-                                    </Box>
+                                        </Box>
+                                    </SummarySection>
                                 </Panel>
                             </Box>
+
                             <Box margin="l">
                                 <AppForm.ConfirmationCheckbox
                                     label={intlHelper(intl, 'steg.oppsummering.bekrefterOpplysninger')}

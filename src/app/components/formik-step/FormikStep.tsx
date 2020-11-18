@@ -18,6 +18,7 @@ export interface FormikStepProps {
     skipValidation?: boolean;
     onValidFormSubmit?: () => void;
     customErrorSummary?: () => React.ReactNode;
+    onStepCleanup?: (values: PleiepengesøknadFormData) => PleiepengesøknadFormData;
 }
 
 type Props = FormikStepProps & StepProps;
@@ -35,9 +36,11 @@ const FormikStep = (props: Props) => {
                 includeButtons={false}
                 includeValidationSummary={true}
                 runDelayedFormValidation={true}
+                cleanup={props.onStepCleanup}
                 fieldErrorRenderer={(error) => commonFieldErrorRenderer(intl, error)}>
                 {children}
                 {customErrorSummary && <FormBlock>{customErrorSummary()}</FormBlock>}
+
                 <FormBlock>
                     <Knapp
                         type="hoved"
