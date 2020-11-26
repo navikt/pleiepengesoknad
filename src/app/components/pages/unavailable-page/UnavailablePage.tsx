@@ -11,8 +11,7 @@ import './unavailablePage.less';
 
 const bem = bemUtils('introPage');
 
-const link =
-    'https://www.nav.no/no/Person/Skjemaer-for-privatpersoner/skjemaveileder/vedlegg?key=333802&languagecode=53&veiledertype=privatperson';
+const link = 'https://www.nav.no/soknader/nb/person/familie/pleiepenger-og-opplaringspenger';
 
 const UnavailablePage: React.StatelessComponent<{}> = () => {
     const intl = useIntl();
