@@ -299,6 +299,7 @@
     "steg.oppsummering.vedlegg.header": "Vedlegg",
 
     "steg.oppsummering.validering.manglerVedlegg": "Noe gikk galt med legeerklæringen. Vennligst gå tilbake og kontroller at den er lastet opp riktig",
+    "steg.oppsummering.validering.ugyldigArbeidsforhold": "Noe stemmer ikke helt med arbeidsforholdet du har registrert. Vennligst se over informasjonen du har fylt ut på den siden.",
 
     "steg.arbeidsforhold.væreBorteFra.spm": "Hvilken jobb må du vært borte fra for å pleie barnet?",
     "steg.arbeidsforhold.aktivtArbeidsforhold.spm": "Velg arbeidsforholdene du har i perioden du søker pleiepenger for",
