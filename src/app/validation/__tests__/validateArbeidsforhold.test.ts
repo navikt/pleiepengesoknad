@@ -17,18 +17,21 @@ const arbeidsforholdNei: ArbeidsforholdApiNei = {
     ...arbeidsforhold,
     skalJobbe: 'nei',
     jobberNormaltTimer: 10,
+    skalJobbeProsent: 0,
 };
 
 const arbeidsforholdVetIkke: ArbeidsforholdApiVetIkke = {
     ...arbeidsforhold,
     skalJobbe: 'vetIkke',
     jobberNormaltTimer: 10,
+    skalJobbeProsent: 0,
 };
 
 const arbeidsforholdSomVanlig: ArbeidsforholdApiSomVanlig = {
     ...arbeidsforhold,
     skalJobbe: 'ja',
     jobberNormaltTimer: 10,
+    skalJobbeProsent: 100,
 };
 
 const arbeidsforholdRedusert: ArbeidsforholdApiRedusert = {
@@ -49,6 +52,12 @@ describe('isArbeidsforholdApiValuesValid', () => {
         it('has success when timer > 100', () => {
             expect(isArbeidsforholdApiValuesValid({ ...arbeidsforholdSomVanlig, jobberNormaltTimer: 101 })).toBeFalsy();
         });
+        it('has fails when skalJobbeProsent is not 100%', () => {
+            expect(isArbeidsforholdApiValuesValid({ ...arbeidsforholdSomVanlig, skalJobbeProsent: 99 })).toBeFalsy();
+        });
+        it('has success when skalJobbeProsent is 100%', () => {
+            expect(isArbeidsforholdApiValuesValid({ ...arbeidsforholdSomVanlig, skalJobbeProsent: 100 })).toBeTruthy();
+        });
     });
     it('validates skalJobbeRedusert', () => {
         expect(isArbeidsforholdApiValuesValid(arbeidsforholdRedusert)).toBeTruthy();
@@ -63,10 +72,14 @@ describe('isArbeidsforholdApiValuesValid', () => {
         expect(isArbeidsforholdApiValuesValid(arbeidsforholdVetIkke)).toBeTruthy();
         expect(isArbeidsforholdApiValuesValid({ ...arbeidsforholdNei, jobberNormaltTimer: -1 })).toBeFalsy();
         expect(isArbeidsforholdApiValuesValid({ ...arbeidsforholdNei, jobberNormaltTimer: 101 })).toBeFalsy();
+        expect(isArbeidsforholdApiValuesValid({ ...arbeidsforholdNei, skalJobbeProsent: 1 })).toBeFalsy();
+        expect(isArbeidsforholdApiValuesValid({ ...arbeidsforholdNei, skalJobbeProsent: 99 })).toBeFalsy();
     });
     it('validates skalIkkeJobbe', () => {
         expect(isArbeidsforholdApiValuesValid(arbeidsforholdNei)).toBeTruthy();
         expect(isArbeidsforholdApiValuesValid({ ...arbeidsforholdNei, jobberNormaltTimer: -1 })).toBeFalsy();
         expect(isArbeidsforholdApiValuesValid({ ...arbeidsforholdNei, jobberNormaltTimer: 101 })).toBeFalsy();
+        expect(isArbeidsforholdApiValuesValid({ ...arbeidsforholdNei, skalJobbeProsent: 1 })).toBeFalsy();
+        expect(isArbeidsforholdApiValuesValid({ ...arbeidsforholdNei, skalJobbeProsent: 99 })).toBeFalsy();
     });
 });

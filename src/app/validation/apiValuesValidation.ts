@@ -15,13 +15,13 @@ const isValidVanligeTimer = (timer: number | undefined): boolean => {
     return timer !== undefined && timer >= MIN_TIMER_NORMAL_ARBEIDSFORHOLD && timer <= MAX_TIMER_NORMAL_ARBEIDSFORHOLD;
 };
 
+const isValidRedusertProsent = (timer: number | undefined): boolean => {
+    return timer !== undefined && timer > 0 && timer < 100;
+};
+
 const skalJobbeSomVanligIsValid = (org: ArbeidsforholdApi) => {
     const { jobberNormaltTimer, skalJobbeProsent } = org;
     return isValidVanligeTimer(jobberNormaltTimer) && skalJobbeProsent === 100;
-};
-
-const isValidRedusertProsent = (timer: number | undefined): boolean => {
-    return timer !== undefined && timer > 0 && timer < 100;
 };
 
 const skalJobbeRedusertIsValid = (org: ArbeidsforholdApi) => {
