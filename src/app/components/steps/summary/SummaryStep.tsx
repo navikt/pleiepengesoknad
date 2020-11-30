@@ -1,20 +1,21 @@
 import * as React from 'react';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
-import ValidationErrorSummaryBase from '@sif-common/core/components/validation-error-summary-base/ValidationErrorSummaryBase';
-import { hasValue } from '@sif-common/core/validation/hasValue';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import SummarySection from '@navikt/sif-common-soknad/lib/soknad-summary/summary-section/SummarySection';
 import Panel from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Box from '@sif-common/core/components/box/Box';
 import ContentWithHeader from '@sif-common/core/components/content-with-header/ContentWithHeader';
 import CounsellorPanel from '@sif-common/core/components/counsellor-panel/CounsellorPanel';
 import SummaryList from '@sif-common/core/components/summary-list/SummaryList';
-import SummarySection from '@navikt/sif-common-soknad/lib/soknad-summary/summary-section/SummarySection';
 import TextareaSummary from '@sif-common/core/components/textarea-summary/TextareaSummary';
+import ValidationErrorSummaryBase from '@sif-common/core/components/validation-error-summary-base/ValidationErrorSummaryBase';
 import { HistoryProps } from '@sif-common/core/types/History';
 import { Locale } from '@sif-common/core/types/Locale';
 import { apiStringDateToDate, prettifyDate } from '@sif-common/core/utils/dateUtils';
 import intlHelper from '@sif-common/core/utils/intlUtils';
 import { formatName } from '@sif-common/core/utils/personUtils';
+import { hasValue } from '@sif-common/core/validation/hasValue';
 import ArbeidsforholdSummary from 'app/components/arbeidsforhold-summary/ArbeidsforholdSummary';
 import {
     renderFerieuttakIPeriodenSummary,
@@ -45,7 +46,6 @@ import JaNeiSvar from './JaNeiSvar';
 import SelvstendigSummary from './SelvstendigSummary';
 import TilsynsordningSummary from './TilsynsordningSummary';
 import './summary.less';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 
 interface State {
     sendingInProgress: boolean;

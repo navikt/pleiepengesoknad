@@ -62,9 +62,6 @@ export enum AppFieldValidationErrors {
     'ferieuttak_utenfor_periode' = 'fieldvalidation.ferieuttak_utenfor_periode',
 }
 
-const MAX_ARBEIDSTIMER_PER_UKE = 150;
-const MIN_ARBEIDSTIMER_PER_UKE = 1;
-
 export const createAppFieldValidationError = (
     error: AppFieldValidationErrors | FieldValidationErrors,
     values?: any
@@ -324,19 +321,6 @@ export const validateSkalHaTilsynsordning = (tilsynsordning: Tilsynsordning): Fi
 export const validateTilsynstimerEnDag = (time: Time): FieldValidationResult => {
     if (time && timeToDecimalTime(time) > 7.5) {
         return createAppFieldValidationError(AppFieldValidationErrors.tilsynsordning_forMangeTimerEnDag);
-    }
-    return undefined;
-};
-
-export const validateNormaleArbeidstimer = (time: Time | undefined, isRequired?: boolean): FieldValidationResult => {
-    if (isRequired && time === undefined) {
-        return fieldIsRequiredError();
-    }
-    if (time && (time.hours < MIN_ARBEIDSTIMER_PER_UKE || time.hours > MAX_ARBEIDSTIMER_PER_UKE)) {
-        return createAppFieldValidationError(AppFieldValidationErrors.arbeidsforhold_timerUgyldig, {
-            min: MIN_ARBEIDSTIMER_PER_UKE,
-            max: MAX_ARBEIDSTIMER_PER_UKE,
-        });
     }
     return undefined;
 };

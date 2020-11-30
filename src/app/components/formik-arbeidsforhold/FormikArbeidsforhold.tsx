@@ -19,6 +19,7 @@ import {
 } from 'app/types/PleiepengesøknadFormData';
 import AppForm from '../app-form/AppForm';
 import RedusertArbeidsforholdPart from './RedusertArbeidsforholdPart';
+import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../../config/minMaxValues';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
@@ -76,11 +77,14 @@ const FormikArbeidsforhold = ({ arbeidsforhold, index }: Props) => {
                                                     className={'skjemaelement--timer-input'}
                                                     label={intlHelper(intl, 'arbeidsforhold.iDag.utledet')}
                                                     validate={(value) =>
-                                                        validateRequiredNumber({ min: 0, max: 100 })(value)
+                                                        validateRequiredNumber({
+                                                            min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
+                                                            max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
+                                                        })(value)
                                                     }
                                                     value={arbeidsforhold.jobberNormaltTimer || ''}
-                                                    min={0}
-                                                    max={100}
+                                                    min={MIN_TIMER_NORMAL_ARBEIDSFORHOLD}
+                                                    max={MAX_TIMER_NORMAL_ARBEIDSFORHOLD}
                                                 />
                                             </SkjemagruppeQuestion>
                                         </Box>
