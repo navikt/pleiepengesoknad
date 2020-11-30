@@ -58,6 +58,24 @@ interface OwnProps {
 
 type Props = OwnProps & HistoryProps & WrappedComponentProps;
 
+const extractAnonymousArbeidsinfo = (values: PleiepengesøknadApiData): string => {
+    try {
+        const orgs = (values.arbeidsgivere?.organisasjoner || []).map((org) => {
+            const { jobberNormaltTimer, skalJobbe, skalJobbeProsent, skalJobbeTimer } = org;
+            const data = {
+                jobberNormaltTimer,
+                skalJobbe,
+                skalJobbeProsent,
+                skalJobbeTimer,
+            };
+            return JSON.stringify(data);
+        });
+        return orgs.join(';');
+    } catch (e) {
+        return 'undefined';
+    }
+};
+
 class SummaryStep extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
@@ -81,6 +99,7 @@ class SummaryStep extends React.Component<Props, State> {
                 navigateToLoginPage();
             } else {
                 appSentryLogger.logApiError(error);
+                appSentryLogger.logError('Innsending feilet', extractAnonymousArbeidsinfo(apiValues));
                 navigateTo(routeConfig.ERROR_PAGE_ROUTE, history);
             }
         }
