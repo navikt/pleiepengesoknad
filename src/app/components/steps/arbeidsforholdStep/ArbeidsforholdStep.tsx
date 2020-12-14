@@ -18,15 +18,21 @@ import FrilansFormPart from './FrilansFormPart';
 import SelvstendigNæringsdrivendeFormPart from './SelvstendigNæringsdrivendePart';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 
+interface LoadState {
+    isLoading: boolean;
+    isLoaded: boolean;
+}
+
 const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
     const formikProps = useFormikContext<PleiepengesøknadFormData>();
     const {
         values,
         values: { arbeidsforhold },
     } = formikProps;
-    const [isLoading, setIsLoading] = useState(false);
+    const [loadState, setLoadState] = useState<LoadState>({ isLoading: false, isLoaded: false });
     const søkerdata = useContext(SøkerdataContext);
 
+    const { isLoading, isLoaded } = loadState;
     const { periodeFra } = values;
 
     useEffect(() => {
@@ -37,15 +43,15 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
             if (søkerdata) {
                 if (fraDato && tilDato) {
                     await getArbeidsgivere(fraDato, tilDato, formikProps, søkerdata);
-                    setIsLoading(false);
+                    setLoadState({ isLoading: false, isLoaded: true });
                 }
             }
         };
-        if (fraDato && tilDato) {
-            setIsLoading(true);
+        if (fraDato && tilDato && !isLoaded && !isLoading) {
+            setLoadState({ isLoading: true, isLoaded: false });
             fetchData();
         }
-    }, [formikProps, søkerdata, periodeFra]);
+    }, [formikProps, søkerdata, isLoaded, isLoading, periodeFra]);
 
     return (
         <FormikStep id={StepID.ARBEIDSFORHOLD} onValidFormSubmit={onValidSubmit} buttonDisabled={isLoading}>
