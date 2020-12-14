@@ -27,9 +27,11 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const søkerdata = useContext(SøkerdataContext);
 
+    const { periodeFra } = values;
+
     useEffect(() => {
-        const fraDato = datepickerUtils.getDateFromDateString(values.periodeFra);
-        const tilDato = datepickerUtils.getDateFromDateString(values.periodeFra);
+        const fraDato = datepickerUtils.getDateFromDateString(periodeFra);
+        const tilDato = datepickerUtils.getDateFromDateString(periodeFra);
 
         const fetchData = async () => {
             if (søkerdata) {
@@ -43,7 +45,7 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
             setIsLoading(true);
             fetchData();
         }
-    }, []);
+    }, [formikProps, søkerdata, periodeFra]);
 
     return (
         <FormikStep id={StepID.ARBEIDSFORHOLD} onValidFormSubmit={onValidSubmit} buttonDisabled={isLoading}>
@@ -63,7 +65,7 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                             {arbeidsforhold.map((forhold, index) => (
                                 <FormBlock key={forhold.organisasjonsnummer}>
                                     <FormSection
-                                        titleTag="h4"
+                                        titleTag="h2"
                                         title={forhold.navn}
                                         titleIcon={<BuildingIcon />}
                                         indentContent={false}>

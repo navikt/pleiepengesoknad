@@ -1,11 +1,11 @@
 import * as React from 'react';
 
 export default () => (
-    <svg version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 92.1 64" className="legeerklæringIcon">
+    <svg version="1.1" x="0px" y="0px" viewBox="0 0 92.1 64" className="legeerklæringIcon" focusable="false">
         <rect x="3.3" y="34.4" width="24.3" height="14.9" fillRule="evenodd" clipRule="evenodd" fill="#c4e6f3" />
         <rect x="22.9" y="34.4" width="4.6" height="14.9" fillRule="evenodd" clipRule="evenodd" fill="#2582ab" />
         <path
-            d="M25.2,47.8c0.5,0,1-0.4,1-0.9c0-0.5-0.4-0.9-1-0.9c-0.5,0-1,0.4-1,0.9C24.3,47.3,24.7,47.8,25.2,47.8"
+            d="Ms25.2,47.8c0.5,0,1-0.4,1-0.9c0-0.5-0.4-0.9-1-0.9c-0.5,0-1,0.4-1,0.9C24.3,47.3,24.7,47.8,25.2,47.8"
             fillRule="evenodd"
             clipRule="evenodd"
             fill="#38373a"

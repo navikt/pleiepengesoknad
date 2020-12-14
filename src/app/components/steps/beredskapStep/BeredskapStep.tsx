@@ -15,7 +15,6 @@ import FormikStep from '../../formik-step/FormikStep';
 const cleanupBeredskapStep = (values: PleiepengesøknadFormData): PleiepengesøknadFormData => {
     const cleanedValues = { ...values };
     if (values.harBeredskap === YesOrNo.NO) {
-        // eslint-disable-next-line @typescript-eslint/camelcase
         cleanedValues.harBeredskap_ekstrainfo = undefined;
     }
     return cleanedValues;

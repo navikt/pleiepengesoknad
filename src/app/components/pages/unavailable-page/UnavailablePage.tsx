@@ -13,7 +13,7 @@ const bem = bemUtils('introPage');
 
 const link = 'https://www.nav.no/soknader/nb/person/familie/pleiepenger-og-opplaringspenger';
 
-const UnavailablePage: React.StatelessComponent<{}> = () => {
+const UnavailablePage = () => {
     const intl = useIntl();
     const title = intlHelper(intl, 'application.title');
     return (

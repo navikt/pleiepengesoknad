@@ -8,6 +8,9 @@ import { useFormikContext } from 'formik';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { validateFødselsdato, validateNavn } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
+import { SkjemagruppeQuestion } from '@navikt/sif-common-formik/lib';
+import { Undertittel } from 'nav-frontend-typografi';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
@@ -18,8 +21,13 @@ const AnnetBarnPart = ({ formValues }: Props) => {
     const { barnetHarIkkeFåttFødselsnummerEnda } = formValues;
     const { setFieldValue } = useFormikContext<PleiepengesøknadFormData>();
     return (
-        <>
-            <FormBlock>
+        <Box margin="l">
+            <SkjemagruppeQuestion
+                legend={
+                    <Undertittel tag="h2" style={{ display: 'inline-block', fontSize: '1.125rem' }}>
+                        {intlHelper(intl, 'steg.omBarnet.annetBarn.tittel')}
+                    </Undertittel>
+                }>
                 <AppForm.Input
                     label={intlHelper(intl, 'steg.omBarnet.fnr.spm')}
                     name={AppFormField.barnetsFødselsnummer}
@@ -34,45 +42,45 @@ const AnnetBarnPart = ({ formValues }: Props) => {
                     type="tel"
                     maxLength={11}
                 />
-            </FormBlock>
-            <FormBlock margin="m">
-                <AppForm.Checkbox
-                    label={intlHelper(intl, 'steg.omBarnet.fnr.ikkeFnrEnda')}
-                    name={AppFormField.barnetHarIkkeFåttFødselsnummerEnda}
-                    afterOnChange={(newValue) => {
-                        if (newValue) {
-                            setFieldValue(AppFormField.barnetsFødselsnummer, '');
-                        }
-                    }}
-                />
-            </FormBlock>
-            {barnetHarIkkeFåttFødselsnummerEnda && (
-                <FormBlock>
-                    <AppForm.DatePicker
-                        showYearSelector={true}
-                        name={AppFormField.barnetsFødselsdato}
-                        maxDate={dateToday}
-                        label={intlHelper(intl, 'steg.omBarnet.fødselsdato')}
-                        validate={(dato) => {
-                            if (barnetHarIkkeFåttFødselsnummerEnda) {
-                                return validateFødselsdato(dato);
+                <FormBlock margin="m">
+                    <AppForm.Checkbox
+                        label={intlHelper(intl, 'steg.omBarnet.fnr.ikkeFnrEnda')}
+                        name={AppFormField.barnetHarIkkeFåttFødselsnummerEnda}
+                        afterOnChange={(newValue) => {
+                            if (newValue) {
+                                setFieldValue(AppFormField.barnetsFødselsnummer, '');
                             }
-                            return undefined;
                         }}
                     />
                 </FormBlock>
-            )}
-            <FormBlock>
-                <AppForm.Input
-                    label={intlHelper(intl, 'steg.omBarnet.navn')}
-                    name={AppFormField.barnetsNavn}
-                    validate={(navn) => {
-                        return validateNavn(navn, false);
-                    }}
-                    bredde="XL"
-                />
-            </FormBlock>
-        </>
+                {barnetHarIkkeFåttFødselsnummerEnda && (
+                    <FormBlock>
+                        <AppForm.DatePicker
+                            showYearSelector={true}
+                            name={AppFormField.barnetsFødselsdato}
+                            maxDate={dateToday}
+                            label={intlHelper(intl, 'steg.omBarnet.fødselsdato')}
+                            validate={(dato) => {
+                                if (barnetHarIkkeFåttFødselsnummerEnda) {
+                                    return validateFødselsdato(dato);
+                                }
+                                return undefined;
+                            }}
+                        />
+                    </FormBlock>
+                )}
+                <FormBlock>
+                    <AppForm.Input
+                        label={intlHelper(intl, 'steg.omBarnet.navn')}
+                        name={AppFormField.barnetsNavn}
+                        validate={(navn) => {
+                            return validateNavn(navn, false);
+                        }}
+                        bredde="XL"
+                    />
+                </FormBlock>
+            </SkjemagruppeQuestion>
+        </Box>
     );
 };
 export default AnnetBarnPart;

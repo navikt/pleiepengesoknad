@@ -27,7 +27,9 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
     const { values, setFieldValue } = useFormikContext<PleiepengesøknadFormData>();
     const intl = useIntl();
-    const attachments: Attachment[] = values ? values[AppFormField.legeerklæring] : [];
+    const attachments: Attachment[] = React.useMemo(() => {
+        return values ? values[AppFormField.legeerklæring] : [];
+    }, [values]);
     const hasPendingUploads: boolean = attachments.find((a) => a.pending === true) !== undefined;
     const totalSize = getTotalSizeOfAttachments(attachments);
     const attachmentsSizeOver24Mb = totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES;
@@ -54,7 +56,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
         ref.current = {
             attachments,
         };
-    }, [attachments]);
+    }, [attachments, setFieldValue, values]);
 
     return (
         <FormikStep
@@ -67,11 +69,10 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
             buttonDisabled={hasPendingUploads || attachmentsSizeOver24Mb}>
             <Box padBottom="xl">
                 <CounsellorPanel>
-                    <Box padBottom={'l'}>
+                    <p>
                         <FormattedMessage id={'steg.legeerklaering.counsellorpanel.3'} />
-                    </Box>
-
-                    <Box padBottom={'l'}>
+                    </p>
+                    <p>
                         <FormattedMessage id={'steg.legeerklaering.counsellorpanel.4'} />
                         <Lenke
                             href="https://www.nav.no/soknader/nb/person/familie/pleiepenger-og-opplaringspenger/NAV%2009-11.05/ettersendelse"
@@ -79,7 +80,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
                             rel={'noopener'}>
                             <FormattedMessage id={'steg.legeerklaering.counsellorpanel.4.1'} />
                         </Lenke>
-                    </Box>
+                    </p>
                 </CounsellorPanel>
             </Box>
 
