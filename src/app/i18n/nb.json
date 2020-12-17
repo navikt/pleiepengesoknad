@@ -8,7 +8,7 @@
     "common.varighet.separator--full": " og ",
     "common.varighet.separator--normal": ", ",
 
-    "application.title": "Søknad om pleiepenger for sykt barn eller person over 18 år",
+    "application.title": "Søknad om pleiepenger for sykt barn",
 
     "Ja": "Ja",
     "Nei": "Nei",
@@ -133,10 +133,10 @@
     "page.unavailable.2": "papirskjema for pleiepenger sykt barn",
     "page.unavailable.3": "Vi beklager.",
 
-    "welcomingPage.sidetittel": "Søknad om pleiepenger for sykt barn eller person over 18 år",
+    "welcomingPage.sidetittel": "Søknad om pleiepenger for sykt barn",
     "welcomingPage.banner.tittel": "Hei,",
     "welcomingPage.banner.tekst": "jeg vil hjelpe deg med å fylle ut søknaden!",
-    "welcomingPage.introtittel": "Søknad om pleiepenger for sykt barn eller person over 18 år",
+    "welcomingPage.introtittel": "Søknad om pleiepenger for sykt barn",
     "welcomingPage.legeerklæring.html": "<p>For å søke om pleiepenger må du ha en legeerklæring, eller en bekreftelse på at barnet/personen over 18 år har vært til behandling/utredning i sykehus eller annen spesialisthelsetjeneste.</p><p>Hvis du ikke har legeerklæring eller bekreftelse tilgjengelig når du søker, kan det ettersendes.</p>",
     "welcomingPage.samtykke.tekst": "Jeg bekrefter at jeg har lest og forstått",
     "welcomingPage.samtykke.harIkkeGodkjentVilkår": "Du må godkjenne vilkårene",
