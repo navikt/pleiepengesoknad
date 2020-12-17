@@ -7,8 +7,8 @@ import { formatName } from '@sif-common/core/utils/personUtils';
 import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../../../types/Søkerdata';
-import SummarySection from '@navikt/sif-common-soknad/lib/soknad-summary/summary-section/SummarySection';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import SummarySection from '../../summary-section/SummarySection';
 
 interface Props {
     barn: BarnReceivedFromApi[];

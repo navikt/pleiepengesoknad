@@ -4,9 +4,9 @@ import FormBlock from '@sif-common/core/components/form-block/FormBlock';
 import { prettifyDate } from '@sif-common/core/utils/dateUtils';
 import intlHelper from '@sif-common/core/utils/intlUtils';
 import { formatName } from '@sif-common/core/utils/personUtils';
-import { resetFieldValue, resetFieldValues } from '@sif-common/formik/';
+import { resetFieldValue, resetFieldValues, SkjemagruppeQuestion } from '@sif-common/formik/';
 import { useFormikContext } from 'formik';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { AppFormField, initialValues, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../../../types/Søkerdata';
 import { validateValgtBarn } from '../../../validation/fieldValidations';
@@ -24,9 +24,14 @@ const RegistrertBarnPart = ({ søkersBarn }: Props) => {
     } = useFormikContext<PleiepengesøknadFormData>();
 
     return (
-        <>
+        <SkjemagruppeQuestion
+            legend={
+                <Undertittel tag="h2" style={{ display: 'inline-block', marginBottom: '.75rem', fontSize: '1.125rem' }}>
+                    {intlHelper(intl, 'steg.omBarnet.hvilketBarn.spm')}
+                </Undertittel>
+            }>
             <AppForm.RadioPanelGroup
-                legend={intlHelper(intl, 'steg.omBarnet.hvilketBarn.spm')}
+                legend={intlHelper(intl, 'steg.omBarnet.hvilketBarn.registrerteBarn')}
                 name={AppFormField.barnetSøknadenGjelder}
                 useTwoColumns={true}
                 radios={søkersBarn.map((barn) => {
@@ -78,7 +83,7 @@ const RegistrertBarnPart = ({ søkersBarn }: Props) => {
                     }}
                 />
             </FormBlock>
-        </>
+        </SkjemagruppeQuestion>
     );
 };
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { mapVirksomhetToVirksomhetApiData } from '@sif-common/forms/virksomhet/mapVirksomhetToApiData';
 import { Locale } from '@sif-common/core/types/Locale';
 import { YesOrNo } from '@sif-common/core/types/YesOrNo';

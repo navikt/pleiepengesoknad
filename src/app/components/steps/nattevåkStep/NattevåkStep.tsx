@@ -14,7 +14,6 @@ import FormikStep from '../../formik-step/FormikStep';
 const cleanupNattevåkStep = (values: PleiepengesøknadFormData): PleiepengesøknadFormData => {
     const cleanedValues = { ...values };
     if (values.harNattevåk === YesOrNo.NO) {
-        // eslint-disable-next-line @typescript-eslint/camelcase
         cleanedValues.harNattevåk_ekstrainfo = undefined;
     }
     return cleanedValues;

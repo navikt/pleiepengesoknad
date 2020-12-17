@@ -2,7 +2,7 @@ import * as React from 'react';
 
 function VeilederLokal({ mood }: { mood: 'happy' | 'uncertain' }) {
     return (
-        <svg width={49} height={85} viewBox="0 0 49 85">
+        <svg width={49} height={85} viewBox="0 0 49 85" focusable="false">
             <title>{'Group 2'}</title>
             <g fillRule="nonzero" fill="none">
                 <path

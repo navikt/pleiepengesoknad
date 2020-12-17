@@ -12,7 +12,7 @@ interface Props {
     labels: ModalFormAndListLabels;
 }
 
-function BostedsoppholdIUtlandetFormPart<T>({ periode, name, labels }: Props) {
+function BostedsoppholdIUtlandetFormPart({ periode, name, labels }: Props) {
     return (
         <BostedUtlandListAndDialog<AppFormField>
             name={name}

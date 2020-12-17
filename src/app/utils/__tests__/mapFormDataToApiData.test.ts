@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Attachment } from '@sif-common/core/types/Attachment';
 import { YesOrNo } from '@sif-common/core/types/YesOrNo';
 import * as attachmentUtils from '@sif-common/core/utils/attachmentUtils';

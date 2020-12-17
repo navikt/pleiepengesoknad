@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { YesOrNo } from '@sif-common/core/types/YesOrNo';
 import { FrilansApiData } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';

@@ -13,13 +13,13 @@ import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/
 import '@sif-common/core/styles/globalStyles.less';
 import './app.less';
 
+const APPLICATION_KEY = 'pleiepengesoknad';
+
 appSentryLogger.init();
 
 const localeFromSessionStorage = getLocaleFromSessionStorage();
 
 moment.locale(localeFromSessionStorage);
-
-const APPLICATION_KEY = 'pleiepengesoknad';
 
 const getAppStatusSanityConfig = () => {
     const projectId = getEnvironmentVariable('APPSTATUS_PROJECT_ID');
