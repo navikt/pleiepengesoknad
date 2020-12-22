@@ -45,10 +45,15 @@ const WelcomingPage: React.StatelessComponent<Props> = ({ onValidSubmit }: Props
 
                 <Box margin="xl">
                     <LegeerklæringInformationPanel>
-                        <FormattedMessage
-                            id="welcomingPage.legeerklæring.html"
-                            values={{ p: (msg: string) => <p>{msg}</p> }}
-                        />
+                        <p>
+                            <FormattedMessage id="welcomingPage.info.1" />
+                        </p>
+                        <p>
+                            <FormattedMessage id="welcomingPage.info.2" />
+                        </p>
+                        <p>
+                            <FormattedMessage id="welcomingPage.info.3" />
+                        </p>
                     </LegeerklæringInformationPanel>
                 </Box>
 

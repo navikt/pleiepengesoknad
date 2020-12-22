@@ -8,7 +8,7 @@
     "common.varighet.separator--full": " og ",
     "common.varighet.separator--normal": ", ",
 
-    "application.title": "Søknad om pleiepengar for sjukt barn eller person over 18 år",
+    "application.title": "Søknad om pleiepengar for sjukt barn",
 
     "Ja": "Ja",
     "Nei": "Nei",
@@ -133,11 +133,13 @@
     "page.unavailable.2": "papirskjemaet for pleiepengar til sjukt barn",
     "page.unavailable.3": "Vi beklagar.",
 
-    "welcomingPage.sidetittel": "Søknad om pleiepengar for sjukt barn eller person over 18 år",
+    "welcomingPage.sidetittel": "Søknad om pleiepengar for sjukt barn",
     "welcomingPage.banner.tittel": "Hei,",
     "welcomingPage.banner.tekst": "eg vil hjelpe deg med å fylle ut søknaden.",
-    "welcomingPage.introtittel": "Søknad om pleiepengar for sjukt barn eller person over 18 år",
-    "welcomingPage.legeerklæring.html": "<p>For å søkje om pleiepengar må du ha ei legeerklæring, eller ei stadfesting på at barnet/personen over 18 år har vore til behandling/utredning i sjukehus eller annan spesialisthelsetjeneste.</p><p>Dersom du ikkje har legeerklæring eller stadfesting tilgjengeleg når du søkjer, kan det ettersendes.</p>",
+    "welcomingPage.introtittel": "Søknad om pleiepengar for sjukt barn",
+    "welcomingPage.info.1": "Denne søknaden gjeld òg for deg som skal søka om pleiepengar for ein utviklingshemma person over 18 år.",
+    "welcomingPage.info.2": "For å søka om pleiepengar må du ha ei legeerklæring, eller ei stadfesting på at den som er sjuk har vore til behandling/utgreiing i sjukehus eller anna spesialisthelseteneste.",
+    "welcomingPage.info.3": "Viss du ikkje har legeerklæring eller stadfesting tilgjengeleg når du søker, kan det ettersendast.",
     "welcomingPage.samtykke.tekst": "Eg stadfestar at eg har lese og forstått",
     "welcomingPage.samtykke.harIkkeGodkjentVilkår": "Du må godkjenne vilkåra.",
     "welcomingPage.samtykke.harForståttLabel": "For å gå vidare med søknaden må du stadfeste at du har lese og forstått {plikterLink}.",
