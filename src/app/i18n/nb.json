@@ -143,6 +143,8 @@
     "welcomingPage.samtykke.tekst": "Jeg bekrefter at jeg har lest og forstått",
     "welcomingPage.samtykke.harIkkeGodkjentVilkår": "Du må godkjenne vilkårene",
     "welcomingPage.samtykke.harForståttLabel": "For å gå videre med søknaden må du bekrefte at du har lest og forstått {plikterLink}.",
+    "welcomingPage.samtykke.omMellomlagring": "Vi lagrer søknaden din for deg i 24 timer. Hvis du ikke fortsetter eller avbryter søknaden, blir opplysningene du har lagt inn slettet.",
+    "welcomingPage.samtykke.omSkjema": "Vi ønsker å gjøre det så enkelt som mulig for deg å fylle ut søknaden, derfor vises så få spørsmål som mulig av gangen. Når du svarer på noe, viser vi neste spørsmål. Husk å svare på alle spørsmål på hver side for å komme videre.",
     "welcomingPage.samtykke.harForståttLabel.lenketekst": "dine plikter",
     "welcomingPage.personopplysninger.lenketekst": "Les om hvordan NAV behandler personopplysningene dine",
     "welcomingPage.modal.omDinePlikter.tittel": "Om dine plikter",
