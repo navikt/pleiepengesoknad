@@ -67,7 +67,7 @@ const webpackConfig = {
         new SpriteLoaderPlugin({
             plainSprite: true,
         }),
-        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /nb|nn|en/),
+        new webpack.ContextReplacementPlugin(/dayjs[\/\\]locale$/, /nb|nn|en/),
     ],
 };
 
