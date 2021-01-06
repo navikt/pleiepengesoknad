@@ -39,7 +39,7 @@ spec:
         enabled: false
     env:
         - name: DEKORATOR_URL
-          value: https://www.nav.no/dekoratoren/?simple=true
+          value: https://www.nav.no/dekoratoren/?simple=true&chatbot=false
         - name: API_URL
           value: https://pleiepengesoknad-api.nav.no
         - name: PUBLIC_PATH

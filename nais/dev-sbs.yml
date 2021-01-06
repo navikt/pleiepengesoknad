@@ -25,6 +25,11 @@ spec:
         requests:
             cpu: 50m
             memory: 128Mi
+    accessPolicy:
+        outbound:
+            external:
+            - host: www.nav.no
+            - host: dekoratoren.dev.nav.no
     ingresses:
         - https://pleiepengesoknad-q.nav.no
         - https://pleiepengesoknad.nais.oera-q.local
@@ -39,7 +44,7 @@ spec:
         enabled: false
     env:
         - name: DEKORATOR_URL
-          value: https://www.nav.no/dekoratoren/?simple=true
+          value: https://www.nav.no/dekoratoren/?simple=true&chatbot=false
         - name: API_URL
           value: https://pleiepengesoknad-api-q.nav.no
         - name: PUBLIC_PATH
