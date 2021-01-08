@@ -195,6 +195,8 @@
 
     "steg.tidsrom.hjelpetekst.tittel": "Kan jeg søke for flere perioder samtidig?",
     "steg.tidsrom.hjelpetekst": "Søknaden er under utvikling: Hvis du skal søke for flere perioder må du sende én søknad for hver periode.",
+    "steg.tidsrom.hjelpetekst.tittel.1": "Hvorfor kan jeg ikke velge lørdag eller søndag?",
+    "steg.tidsrom.hjelpetekst.1": "Du kan kun få utbetalt pleiepenger for hverdager, selv om du jobber lørdag eller søndag. Derfor kan du ikke velge lørdag eller søndag som start- eller sluttdato i perioden du legger inn.",
     "steg.tidsrom.hvilketTidsrom.spm": "Hvilken periode søker du for?",
     "steg.tidsrom.hvilketTidsrom.fom": "Fra og med",
     "steg.tidsrom.hvilketTidsrom.tom": "Til og med",

@@ -195,6 +195,8 @@
 
     "steg.tidsrom.hjelpetekst.tittel": "Kan eg søke for fleire periodar samtidig?",
     "steg.tidsrom.hjelpetekst": "Søknaden er under utvikling: Dersom du skal søkje for fleire periodar, må du sende éin søknad for kvar periode.",
+    "steg.tidsrom.hjelpetekst.tittel.1": "Kvifor kan eg ikkje velja laurdag eller søndag?",
+    "steg.tidsrom.hjelpetekst.1": "Du kan berre få utbetalt pleiepengar for kvardagar, sjølv om du jobbar laurdag eller søndag. Derfor kan du ikkje velja laurdag eller søndag som start- eller sluttdato i perioden du legg inn.",
     "steg.tidsrom.hvilketTidsrom.spm": "Kva periode søkjer du pleiepengar for?",
     "steg.tidsrom.hvilketTidsrom.fom": "Frå og med",
     "steg.tidsrom.hvilketTidsrom.tom": "Til og med",

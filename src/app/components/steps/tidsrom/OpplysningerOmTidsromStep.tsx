@@ -88,9 +88,14 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                 legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
                 minDate={date3YearsAgo}
                 description={
-                    <ExpandableInfo title={intlHelper(intl, 'steg.tidsrom.hjelpetekst.tittel')}>
-                        <FormattedMessage id="steg.tidsrom.hjelpetekst" />
-                    </ExpandableInfo>
+                    <>
+                        <ExpandableInfo title={intlHelper(intl, 'steg.tidsrom.hjelpetekst.tittel')}>
+                            <FormattedMessage id="steg.tidsrom.hjelpetekst" />
+                        </ExpandableInfo>
+                        <ExpandableInfo title={intlHelper(intl, 'steg.tidsrom.hjelpetekst.tittel.1')}>
+                            <FormattedMessage id="steg.tidsrom.hjelpetekst.1" />
+                        </ExpandableInfo>
+                    </>
                 }
                 fromInputProps={{
                     label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.fom'),
@@ -102,6 +107,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                     validate: validateTilDatoField,
                     name: AppFormField.periodeTil,
                 }}
+                disableWeekend={true}
             />
             {isFeatureEnabled(Feature.TOGGLE_8_UKER) && (
                 <>
