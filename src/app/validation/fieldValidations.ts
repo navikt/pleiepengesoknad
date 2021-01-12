@@ -31,6 +31,7 @@ import { Utenlandsopphold } from '@sif-common/forms/utenlandsopphold/types';
 import { Arbeidsforhold, Tilsynsordning } from '../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
 import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
+import { ISOStringToDate } from '@navikt/sif-common-formik/lib';
 
 export enum AppFieldValidationErrors {
     'fødselsdato_ugyldig' = 'fieldvalidation.fødelsdato.ugyldig',
@@ -60,7 +61,39 @@ export enum AppFieldValidationErrors {
     'ferieuttak_ikke_registrert' = 'fieldvalidation.ferieuttak_ikke_registrert',
     'ferieuttak_overlapper' = 'fieldvalidation.ferieuttak_overlapper',
     'ferieuttak_utenfor_periode' = 'fieldvalidation.ferieuttak_utenfor_periode',
+    'er_helg' = 'fieldvalidation.er_helg',
 }
+
+export enum Weekday {
+    monday = 'monday',
+    tuesday = 'tuesday',
+    wednesday = 'wednesday',
+    thursday = 'thursday',
+    friday = 'friday',
+    saturday = 'saturday',
+    sunday = 'sunday',
+}
+
+export const getWeekdayName = (date: Date): Weekday | undefined => {
+    switch (date.getDay()) {
+        case 0:
+            return Weekday.sunday;
+        case 1:
+            return Weekday.monday;
+        case 2:
+            return Weekday.tuesday;
+        case 3:
+            return Weekday.wednesday;
+        case 4:
+            return Weekday.thursday;
+        case 5:
+            return Weekday.friday;
+        case 6:
+            return Weekday.saturday;
+        default:
+            return undefined;
+    }
+};
 
 export const createAppFieldValidationError = (
     error: AppFieldValidationErrors | FieldValidationErrors,
@@ -342,4 +375,12 @@ export const validateReduserteArbeidTimer = (
         return createAppFieldValidationError(AppFieldValidationErrors.arbeidsforhold_timerUgyldig_over_99_prosent);
     }
     return undefined;
+};
+
+export const dateErHelg = (date: Date) =>
+    getWeekdayName(date) === Weekday.saturday || getWeekdayName(date) === Weekday.sunday;
+
+export const validateNotHelgedag = (maybeDate: string | undefined): FieldValidationResult => {
+    const date = ISOStringToDate(maybeDate);
+    return date && dateErHelg(date) ? createFieldValidationError(AppFieldValidationErrors.er_helg) : undefined;
 };

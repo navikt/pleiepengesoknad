@@ -378,6 +378,7 @@
     "fieldvalidation.ferieuttak_overlapper": "En eller flere av feriene går over de samme datoene",
     "fieldvalidation.samlet_storrelse_for_hoy": "Total samlet størrelse for dokumentene du har lastet opp overstiger grensen på 24Mb.",
     "fieldvalidation.frilanser_startdatoForSent": "Startdato kan ikke være etter dagens dato",
+    "fieldvalidation.er_helg": "Lørdag og søndag er ikke gyldig.",
 
     "arbeidsforhold.erAnsattIPerioden.spm": "Er du ansatt her i perioden du søker pleiepenger?",
 
