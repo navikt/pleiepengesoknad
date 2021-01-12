@@ -4,8 +4,11 @@ import bemUtils from '@sif-common/core/utils/bemUtils';
 import BehandlingAvPersonopplysningerContent from '../behandling-av-personopplysninger-content/BehandlingAvPersonopplysningerContent';
 import './behandlingAvPersonopplysningerModal.less';
 
+type Props = Omit<ModalProps, 'children'>;
+
 const bem = bemUtils('behandlingAvPersonopplysningerModal');
-const BehandlingAvPersonopplysningerModal = (props: ModalProps) => (
+
+const BehandlingAvPersonopplysningerModal = (props: Props) => (
     <Modal className={bem.block} {...props}>
         <BehandlingAvPersonopplysningerContent />
     </Modal>

@@ -5,7 +5,10 @@ import DinePlikterContent from '../dine-plikter-content/DinePlikterContent';
 import './dinePlikterModal.less';
 
 const bem = bemUtils('dinePlikterModal');
-const DinePlikterModal = (props: ModalProps) => (
+
+type Props = Omit<ModalProps, 'children'>;
+
+const DinePlikterModal = (props: Props) => (
     <Modal className={bem.block} {...props}>
         <DinePlikterContent />
     </Modal>
