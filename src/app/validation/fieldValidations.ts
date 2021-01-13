@@ -31,6 +31,11 @@ import { Utenlandsopphold } from '@sif-common/forms/utenlandsopphold/types';
 import { Arbeidsforhold, Tilsynsordning } from '../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
 import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
+import { ISOStringToDate } from '@navikt/sif-common-formik/lib';
+import dayjs from 'dayjs';
+import isoWeek from 'dayjs/plugin/isoWeek';
+
+dayjs.extend(isoWeek);
 
 export enum AppFieldValidationErrors {
     'fødselsdato_ugyldig' = 'fieldvalidation.fødelsdato.ugyldig',
@@ -60,6 +65,7 @@ export enum AppFieldValidationErrors {
     'ferieuttak_ikke_registrert' = 'fieldvalidation.ferieuttak_ikke_registrert',
     'ferieuttak_overlapper' = 'fieldvalidation.ferieuttak_overlapper',
     'ferieuttak_utenfor_periode' = 'fieldvalidation.ferieuttak_utenfor_periode',
+    'er_helg' = 'fieldvalidation.er_helg',
 }
 
 export const createAppFieldValidationError = (
@@ -342,4 +348,11 @@ export const validateReduserteArbeidTimer = (
         return createAppFieldValidationError(AppFieldValidationErrors.arbeidsforhold_timerUgyldig_over_99_prosent);
     }
     return undefined;
+};
+
+export const dateErHelg = (date: Date) => dayjs(date).isoWeekday() === 6 || dayjs(date).isoWeekday() === 7;
+
+export const validateNotHelgedag = (maybeDate: string | undefined): FieldValidationResult => {
+    const date = ISOStringToDate(maybeDate);
+    return date && dateErHelg(date) ? createFieldValidationError(AppFieldValidationErrors.er_helg) : undefined;
 };
