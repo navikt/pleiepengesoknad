@@ -44,6 +44,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     const harMedsøker = values[AppFormField.harMedsøker];
 
     const periodeFra = datepickerUtils.getDateFromDateString(values.periodeFra);
+
     const periodeTil = datepickerUtils.getDateFromDateString(values.periodeTil);
     const periode: DateRange = {
         from: periodeFra || date1YearAgo,
