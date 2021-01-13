@@ -30,8 +30,8 @@ const createEnvSettingsFile = async (settingsFile) => {
         TOGGLE_BEKREFT_OMSORG: '${process.env.TOGGLE_BEKREFT_OMSORG}',
         APPSTATUS_PROJECT_ID: '${APPSTATUS_PROJECT_ID}',
         APPSTATUS_DATASET: '${APPSTATUS_DATASET}',
-        USE_AMPLITUDE:${USE_AMPLITUDE},
-        APP_VERSION:'${APP_VERSION}'
+        USE_AMPLITUDE: '${USE_AMPLITUDE}',
+        APP_VERSION: '${APP_VERSION}'
     };`
         .trim()
         .replace(/ /g, '');

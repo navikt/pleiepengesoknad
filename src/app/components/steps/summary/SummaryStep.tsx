@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useHistory } from 'react-router-dom';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import Panel from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -46,7 +47,6 @@ import JaNeiSvar from './JaNeiSvar';
 import SelvstendigSummary from './SelvstendigSummary';
 import TilsynsordningSummary from './TilsynsordningSummary';
 import './summary.less';
-import { useHistory } from 'react-router-dom';
 
 interface OwnProps {
     values: PleiepengesøknadFormData;
@@ -75,6 +75,7 @@ const extractAnonymousArbeidsinfo = (values: PleiepengesøknadApiData): string =
 
 const SummaryStep = ({ onApplicationSent, values }: Props) => {
     const [sendingInProgress, setSendingInProgress] = useState<boolean>(false);
+    const [soknadSent, setSoknadSent] = useState<boolean>(false);
     const intl = useIntl();
     const history = useHistory();
 
@@ -83,9 +84,10 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
     const sendSoknad = async (apiValues: PleiepengesøknadApiData, søkerdata: Søkerdata) => {
         setSendingInProgress(true);
         try {
-            await purge();
             await sendApplication(apiValues);
             await logSoknadSent();
+            await purge();
+            setSoknadSent(true);
             onApplicationSent(apiValues, søkerdata);
         } catch (error) {
             if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
@@ -106,6 +108,11 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
         isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) && periodeFra && periodeTil
             ? erPeriodeOver8Uker(periodeFra, periodeTil)
             : undefined;
+
+    if (soknadSent) {
+        // User is redirected to confirmation page
+        return null;
+    }
 
     return (
         <SøkerdataContextConsumer>
