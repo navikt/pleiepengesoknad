@@ -6,6 +6,7 @@ import { formatName } from '@sif-common/core/utils/personUtils';
 import { persist } from '../../api/api';
 import RouteConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';
+import { ApplikasjonHendelse, useAmplitudeInstance } from '../../sif-amplitude/amplitude';
 import { ArbeidsforholdApi, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { Søkerdata } from '../../types/Søkerdata';
@@ -68,6 +69,8 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
         }
     }
 
+    const { logHendelse } = useAmplitudeInstance();
+
     const navigateToNextStep = async (stepId: StepID) => {
         setTimeout(() => {
             const nextStepRoute = getNextStepRoute(stepId, values);
@@ -78,6 +81,7 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
                     })
                     .catch((error) => {
                         if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+                            logHendelse(ApplikasjonHendelse.brukerSendesTilLoggInn, 'Navigere til neste steg');
                             navigateToLoginPage(getSøknadRoute(stepId));
                         } else {
                             return navigateToErrorPage(history);
