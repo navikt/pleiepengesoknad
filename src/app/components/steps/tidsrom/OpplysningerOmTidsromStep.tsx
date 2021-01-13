@@ -9,7 +9,7 @@ import ExpandableInfo from '@sif-common/core/components/expandable-content/Expan
 import { YesOrNo } from '@sif-common/core/types/YesOrNo';
 import { date1YearAgo, date1YearFromNow, date3YearsAgo, DateRange } from '@sif-common/core/utils/dateUtils';
 import intlHelper from '@sif-common/core/utils/intlUtils';
-import { validateYesOrNoIsAnswered } from '@sif-common/core/validation/fieldValidations';
+import { validateAll, validateYesOrNoIsAnswered } from '@sif-common/core/validation/fieldValidations';
 import { IntlFieldValidationError } from '@sif-common/core/validation/types';
 import { TypedFormikFormContext } from '@sif-common/formik/';
 import FerieuttakListAndDialog from '@sif-common/forms/ferieuttak/FerieuttakListAndDialog';
@@ -27,6 +27,7 @@ import {
     validateBekreftOmsorgEkstrainfo,
     validateFerieuttakIPerioden,
     validateFradato,
+    validateNotHelgedag,
     validateTildato,
     validateUtenlandsoppholdIPerioden,
 } from '../../../validation/fieldValidations';
@@ -43,6 +44,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     const harMedsøker = values[AppFormField.harMedsøker];
 
     const periodeFra = datepickerUtils.getDateFromDateString(values.periodeFra);
+
     const periodeTil = datepickerUtils.getDateFromDateString(values.periodeTil);
     const periode: DateRange = {
         from: periodeFra || date1YearAgo,
@@ -94,15 +96,20 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                 }
                 fromInputProps={{
                     label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.fom'),
-                    validate: validateFraDatoField,
+                    validate: validateAll([validateFraDatoField, validateNotHelgedag]),
                     name: AppFormField.periodeFra,
                 }}
                 toInputProps={{
                     label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.tom'),
-                    validate: validateTilDatoField,
+                    validate: validateAll([validateTilDatoField, validateNotHelgedag]),
                     name: AppFormField.periodeTil,
                 }}
+                disableWeekend={true}
             />
+
+            <ExpandableInfo title={intlHelper(intl, 'steg.tidsrom.hjelpetekst.tittel.1')}>
+                <FormattedMessage id="steg.tidsrom.hjelpetekst.1" />
+            </ExpandableInfo>
             {isFeatureEnabled(Feature.TOGGLE_8_UKER) && (
                 <>
                     {info8uker?.erOver8Uker && (

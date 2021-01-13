@@ -161,8 +161,8 @@
     "modal.personalopplysninger.opplysninger.2": "ytingar du får frå NAV",
     "modal.personalopplysninger.opplysninger.3": "opplysningar om helsa til barnet",
     "modal.personalopplysninger.opplysninger.4": "tilknytinga di til Noreg",
-    "modal.personalopplysninger.opplysninger.5": "trygdeordningar du kan ha rett til i andre land",
-    "modal.personalopplysninger.opplysninger.part2": "Vi kan også sende opplysningar om deg til trygdeorgan i andre land.",
+    "modal.personalopplysninger.opplysninger.5": "trygdeordningar du kan ha rett til i andre land. Vi kan òg senda opplysningar om deg til trygdestyresmakter i andre land.",
+    "modal.personalopplysninger.opplysninger.part2": "Vi lagrar opplysningane vi får inn om barnet du søkar pleiepengar for. Dette gjer vi for å kunna gjenbruka opplysningane viss andre omsorgspersonar søker pleiepengar for same barn.",
 
     "modal.personalopplysninger.svar.tittel": "Svar på søknaden",
     "modal.personalopplysninger.svar.part1": "Du får eit brev frå NAV når søknaden din er behandla. Brevet inneheld",
@@ -195,6 +195,8 @@
 
     "steg.tidsrom.hjelpetekst.tittel": "Kan eg søke for fleire periodar samtidig?",
     "steg.tidsrom.hjelpetekst": "Søknaden er under utvikling: Dersom du skal søkje for fleire periodar, må du sende éin søknad for kvar periode.",
+    "steg.tidsrom.hjelpetekst.tittel.1": "Kvifor kan eg ikkje velja laurdag eller søndag?",
+    "steg.tidsrom.hjelpetekst.1": "Du kan berre få utbetalt pleiepengar for kvardagar, sjølv om du jobbar laurdag eller søndag. Derfor kan du ikkje velja laurdag eller søndag som start- eller sluttdato i perioden du legg inn.",
     "steg.tidsrom.hvilketTidsrom.spm": "Kva periode søkjer du pleiepengar for?",
     "steg.tidsrom.hvilketTidsrom.fom": "Frå og med",
     "steg.tidsrom.hvilketTidsrom.tom": "Til og med",
@@ -376,6 +378,7 @@
     "fieldvalidation.ferieuttak_overlapper": "Ein eller fleire av feriane går over dei same datoane",
     "fieldvalidation.samlet_storrelse_for_hoy": "Total samla størrelse for dokumenta du har lasta opp overstig grensa på 24Mb.",
     "fieldvalidation.frilanser_startdatoForSent": "Startdato kan ikkje vere etter dagens dato",
+    "fieldvalidation.er_helg": "Laurdag og søndag er ikkje gyldig.",
 
     "arbeidsforhold.erAnsattIPerioden.spm": "Er du tilsett her i perioden du søkjer pleiepengar for?",
 
