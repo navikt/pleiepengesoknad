@@ -42,13 +42,14 @@ export const [AmplitudeProvider, useAmplitudeInstance] = constate(() => {
         }
     }, [isActive]);
 
-    function logEvent(eventName: string, eventProperties?: any) {
+    async function logEvent(eventName: string, eventProperties?: any) {
         const eventProps = { ...eventProperties, app: APPLICATION_KEY, applikasjon: APPLICATION_KEY };
         if (getEnvironmentVariable('APP_VERSION') === 'dev') {
             console.log({ eventName, eventProperties: eventProps });
+            return Promise.resolve();
         }
         if (instance.current) {
-            instance.current.logEvent(eventName, eventProps);
+            return instance.current.logEvent(eventName, eventProps);
         }
     }
 
@@ -59,28 +60,28 @@ export const [AmplitudeProvider, useAmplitudeInstance] = constate(() => {
     }
 
     async function logSidevisning(pageKey: string) {
-        logEvent(AmplitudeEvents.sidevisning, {
+        return logEvent(AmplitudeEvents.sidevisning, {
             pageKey,
             team: 'sykdom-i-familien',
         });
     }
 
     async function logSoknadSent() {
-        logEvent(AmplitudeEvents.søknadSendt, {
+        return logEvent(AmplitudeEvents.søknadSendt, {
             skjemanavn: SKJEMANAVN,
             skjemaId: APPLICATION_KEY,
         });
     }
 
     async function logSoknadFailed() {
-        logEvent(AmplitudeEvents.søknadFeilet, {
+        return logEvent(AmplitudeEvents.søknadFeilet, {
             skjemanavn: SKJEMANAVN,
             skjemaId: APPLICATION_KEY,
         });
     }
 
     async function logHendelse(hendelse: ApplikasjonHendelse, details?: any) {
-        logEvent(AmplitudeEvents.applikasjonHendelse, {
+        return logEvent(AmplitudeEvents.applikasjonHendelse, {
             hendelse,
             details,
         });
