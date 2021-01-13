@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import ActionLink from '@sif-common/core/components/action-link/ActionLink';
 import { Sidetittel } from 'nav-frontend-typografi';
+import ActionLink from '@sif-common/core/components/action-link/ActionLink';
 import Box from '@sif-common/core/components/box/Box';
 import FrontPageBanner from '@sif-common/core/components/front-page-banner/FrontPageBanner';
 import Page from '@sif-common/core/components/page/Page';
 import bemHelper from '@sif-common/core/utils/bemUtils';
 import intlHelper from '@sif-common/core/utils/intlUtils';
 import { StepConfigProps } from '../../../config/stepConfig';
+import useLogSidevisning from '../../../sif-amplitude/hooks/useLogSidevisning';
 import BehandlingAvPersonopplysningerModal from '../../behandling-av-personopplysninger-modal/BehandlingAvPersonopplysningerModal';
 import DinePlikterModal from '../../dine-plikter-modal/DinePlikterModal';
 import LegeerklæringInformationPanel from '../../legeerklæring-information-panel/LegeerklæringInformationPanel';
@@ -18,10 +19,12 @@ const bem = bemHelper('welcomingPage');
 
 type Props = Omit<StepConfigProps, 'formValues'>;
 
-const WelcomingPage: React.StatelessComponent<Props> = ({ onValidSubmit }: Props) => {
+const WelcomingPage = ({ onValidSubmit }: Props) => {
     const intl = useIntl();
     const [dinePlikterModalOpen, setDinePlikterModalOpen] = React.useState(false);
     const [behandlingAvPersonopplysningerModalOpen, setBehandlingAvPersonopplysningerModalOpen] = React.useState(false);
+
+    useLogSidevisning('velkommen');
 
     return (
         <>

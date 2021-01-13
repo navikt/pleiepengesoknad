@@ -180,7 +180,6 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
                     path={getSøknadRoute(StepID.SUMMARY)}
                     render={() => (
                         <SummaryStep
-                            history={history}
                             values={values}
                             onApplicationSent={(apiData: PleiepengesøknadApiData, søkerdata: Søkerdata) => {
                                 const info = getKvitteringInfoFromApiData(apiData, søkerdata);

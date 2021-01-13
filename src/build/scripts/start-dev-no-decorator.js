@@ -23,8 +23,8 @@ const server = new WebpackDevServer(compiler, configureDevServer({}));
 const startupMessage = (port, hostname) => {
     console.log(`Started WebpackDevServer on http://${hostname}:${port}`);
 };
-server.listen(process.env.PORT || 8080, process.env.HOST || '127.0.0.1',
-    startupMessage(process.env.PORT || 8080, process.env.HOST || '127.0.0.1')
+server.listen(
+    process.env.PORT || 8080,
+    process.env.HOST || 'localhost',
+    startupMessage(process.env.PORT || 8080, process.env.HOST || 'localhost')
 );
-
-

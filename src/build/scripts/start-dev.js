@@ -15,7 +15,7 @@ getDecorator().then((decoratorData) => {
     const compiler = webpack(webpackConfig);
     const server = new WebpackDevServer(compiler, configureDevServer(decoratorData));
 
-    const host = process.env.HOST || '127.0.0.1';
+    const host = process.env.HOST || 'localhost';
     const port = process.env.PORT || 8080;
     server.listen(port, host, () => console.log(`Started WebpackDevServer on http://${host}:${port}`));
 });

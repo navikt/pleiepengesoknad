@@ -10,6 +10,7 @@ import FormattedHtmlMessage from '@sif-common/core/components/formatted-html-mes
 import Page from '@sif-common/core/components/page/Page';
 import bemUtils from '@sif-common/core/utils/bemUtils';
 import intlHelper from '@sif-common/core/utils/intlUtils';
+import useLogSidevisning from '../../../sif-amplitude/hooks/useLogSidevisning';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import NavPrintPage from '../../nav-print-page/NavPrintPage';
 import { KvitteringInfo } from '../../pleiepengesøknad-content/PleiepengesøknadContent';
@@ -29,6 +30,8 @@ export const pluralize = (count: number, single: string, other: string) => (coun
 const ConfirmationPage = ({ kvitteringInfo }: Props) => {
     const intl = useIntl();
     const numberOfArbeidsforhold = kvitteringInfo ? kvitteringInfo.arbeidsforhold.length : 0;
+
+    useLogSidevisning('søknad-sendt');
 
     return (
         <Page title={intlHelper(intl, 'page.confirmation.sidetittel')} className={bem.block}>
