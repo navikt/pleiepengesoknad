@@ -32,8 +32,10 @@ import { Arbeidsforhold, Tilsynsordning } from '../types/PleiepengesøknadFormDa
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
 import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
 import { ISOStringToDate } from '@navikt/sif-common-formik/lib';
-import * as dayjs from 'dayjs';
-import * as isoWeek from 'dayjs/plugin/isoWeek';
+import dayjs from 'dayjs';
+import isoWeek from 'dayjs/plugin/isoWeek';
+
+dayjs.extend(isoWeek);
 
 export enum AppFieldValidationErrors {
     'fødselsdato_ugyldig' = 'fieldvalidation.fødelsdato.ugyldig',
@@ -348,11 +350,7 @@ export const validateReduserteArbeidTimer = (
     return undefined;
 };
 
-export const dateErHelg = (date: Date) => {
-    dayjs().format();
-    dayjs.extend(isoWeek);
-    return dayjs(date).isoWeekday() === 6 || dayjs(date).isoWeekday() === 7;
-};
+export const dateErHelg = (date: Date) => dayjs(date).isoWeekday() === 6 || dayjs(date).isoWeekday() === 7;
 
 export const validateNotHelgedag = (maybeDate: string | undefined): FieldValidationResult => {
     const date = ISOStringToDate(maybeDate);
