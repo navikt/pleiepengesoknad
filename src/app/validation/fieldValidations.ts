@@ -32,6 +32,8 @@ import { Arbeidsforhold, Tilsynsordning } from '../types/PleiepengesøknadFormDa
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
 import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
 import { ISOStringToDate } from '@navikt/sif-common-formik/lib';
+import * as dayjs from 'dayjs';
+import * as isoWeek from 'dayjs/plugin/isoWeek';
 
 export enum AppFieldValidationErrors {
     'fødselsdato_ugyldig' = 'fieldvalidation.fødelsdato.ugyldig',
@@ -63,37 +65,6 @@ export enum AppFieldValidationErrors {
     'ferieuttak_utenfor_periode' = 'fieldvalidation.ferieuttak_utenfor_periode',
     'er_helg' = 'fieldvalidation.er_helg',
 }
-
-export enum Weekday {
-    monday = 'monday',
-    tuesday = 'tuesday',
-    wednesday = 'wednesday',
-    thursday = 'thursday',
-    friday = 'friday',
-    saturday = 'saturday',
-    sunday = 'sunday',
-}
-
-export const getWeekdayName = (date: Date): Weekday | undefined => {
-    switch (date.getDay()) {
-        case 0:
-            return Weekday.sunday;
-        case 1:
-            return Weekday.monday;
-        case 2:
-            return Weekday.tuesday;
-        case 3:
-            return Weekday.wednesday;
-        case 4:
-            return Weekday.thursday;
-        case 5:
-            return Weekday.friday;
-        case 6:
-            return Weekday.saturday;
-        default:
-            return undefined;
-    }
-};
 
 export const createAppFieldValidationError = (
     error: AppFieldValidationErrors | FieldValidationErrors,
@@ -377,8 +348,11 @@ export const validateReduserteArbeidTimer = (
     return undefined;
 };
 
-export const dateErHelg = (date: Date) =>
-    getWeekdayName(date) === Weekday.saturday || getWeekdayName(date) === Weekday.sunday;
+export const dateErHelg = (date: Date) => {
+    dayjs().format();
+    dayjs.extend(isoWeek);
+    return dayjs(date).isoWeekday() === 6 || dayjs(date).isoWeekday() === 7;
+};
 
 export const validateNotHelgedag = (maybeDate: string | undefined): FieldValidationResult => {
     const date = ISOStringToDate(maybeDate);
