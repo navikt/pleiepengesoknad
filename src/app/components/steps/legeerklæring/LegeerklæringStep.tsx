@@ -22,6 +22,7 @@ import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import { ApplikasjonHendelse, useAmplitudeInstance } from '../../../sif-amplitude/amplitude';
 
 const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
@@ -35,6 +36,31 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const attachmentsSizeOver24Mb = totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES;
 
     const ref = React.useRef({ attachments });
+
+    const { logHendelse } = useAmplitudeInstance();
+
+    const vedleggOpplastingFeilet = async (files?: File[]) => {
+        if (files) {
+            if (files.length > 0) {
+                await logHendelse(
+                    ApplikasjonHendelse.vedleggOpplastingFeilet,
+                    files.map((f) => {
+                        const { size, type } = f;
+                        return {
+                            type,
+                            size,
+                        };
+                    })
+                );
+            }
+            setFilesThatDidntGetUploaded(files);
+        }
+    };
+
+    const userNotLoggedIn = async () => {
+        await logHendelse(ApplikasjonHendelse.brukerSendesTilLoggInn, 'Opplasting av dokument');
+        navigateToLoginPage();
+    };
 
     React.useEffect(() => {
         const hasPendingAttachments = attachments.find((a) => a.pending === true);
@@ -92,12 +118,12 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
                     <FormikFileUploader
                         name={AppFormField.legeerklæring}
                         label={intlHelper(intl, 'steg.lege.vedlegg')}
-                        onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
+                        onErrorUploadingAttachments={vedleggOpplastingFeilet}
                         onFileInputClick={() => {
                             setFilesThatDidntGetUploaded([]);
                         }}
                         validate={validateLegeerklæring}
-                        onUnauthorizedOrForbiddenUpload={navigateToLoginPage}
+                        onUnauthorizedOrForbiddenUpload={userNotLoggedIn}
                     />
                 </Box>
             )}

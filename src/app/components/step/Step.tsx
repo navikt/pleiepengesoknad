@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { FormikValidationErrorSummary } from '@sif-common/formik/';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { History } from 'history';
 import { Systemtittel } from 'nav-frontend-typografi';
 import BackLink from '@sif-common/core/components/back-link/BackLink';
@@ -10,14 +10,15 @@ import FortsettSøknadSenereDialog from '@sif-common/core/components/dialogs/for
 import Page from '@sif-common/core/components/page/Page';
 import StepBanner from '@sif-common/core/components/step-banner/StepBanner';
 import bemHelper from '@sif-common/core/utils/bemUtils';
+import { FormikValidationErrorSummary } from '@sif-common/formik/';
 import { purge } from 'app/api/api';
 import { navigateToNAVno, navigateToWelcomePage } from 'app/utils/navigationUtils';
 import { getStepTexts } from 'app/utils/stepUtils';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from '../../config/stepConfig';
+import { ApplikasjonHendelse, useAmplitudeInstance } from '../../sif-amplitude/amplitude';
 import StepIndicator from '../step-indicator/StepIndicator';
 import StepFooter from '../stepFooter/StepFooter';
 import './step.less';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 
 export interface StepProps {
     id: StepID;
@@ -39,14 +40,20 @@ const Step = ({ id, useValidationErrorSummary, stepConfig, children }: Props) =>
     const stepTexts: StepConfigItemTexts = getStepTexts(intl, id, stepConfig);
     const [visAvbrytDialog, setVisAvbrytDialog] = React.useState<boolean>(false);
     const [visFortsettSenereDialog, setVisFortsettSenereDialog] = React.useState<boolean>(false);
-    const handleAvsluttOgFortsettSenere = () => {
+
+    const { logHendelse } = useAmplitudeInstance();
+
+    const handleAvbrytSøknad = async () => {
+        await purge();
+        await logHendelse(ApplikasjonHendelse.avbryt);
+        navigateToWelcomePage();
+    };
+
+    const handleAvsluttOgFortsettSenere = async () => {
+        await logHendelse(ApplikasjonHendelse.avbryt);
         navigateToNAVno();
     };
-    const handleAvbrytSøknad = () => {
-        purge().then(() => {
-            navigateToWelcomePage();
-        });
-    };
+
     return (
         <Page
             className={bem.block}

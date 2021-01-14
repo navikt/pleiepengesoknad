@@ -9,6 +9,7 @@ import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData
 import { getStepTexts } from '../../utils/stepUtils';
 import AppForm from '../app-form/AppForm';
 import Step, { StepProps } from '../step/Step';
+import useLogSidevisning from '../../sif-amplitude/hooks/useLogSidevisning';
 
 export interface FormikStepProps {
     children: React.ReactNode;
@@ -29,6 +30,8 @@ const FormikStep = (props: Props) => {
     const { children, onValidFormSubmit, showButtonSpinner, buttonDisabled, id, customErrorSummary } = props;
     const stepConfig = getStepConfig(formik.values);
     const texts = getStepTexts(intl, id, stepConfig);
+    useLogSidevisning(id);
+
     return (
         <Step stepConfig={stepConfig} {...props}>
             <AppForm.Form

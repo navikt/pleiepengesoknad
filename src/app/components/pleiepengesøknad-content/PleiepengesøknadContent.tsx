@@ -6,6 +6,7 @@ import { formatName } from '@sif-common/core/utils/personUtils';
 import { persist } from '../../api/api';
 import RouteConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';
+import { ApplikasjonHendelse, useAmplitudeInstance } from '../../sif-amplitude/amplitude';
 import { ArbeidsforholdApi, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { Søkerdata } from '../../types/Søkerdata';
@@ -60,13 +61,24 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
     const { values, resetForm } = useFormikContext<PleiepengesøknadFormData>();
 
     const history = useHistory();
+    const { logHendelse } = useAmplitudeInstance();
+
+    const sendUserToStep = async (route: string) => {
+        await logHendelse(ApplikasjonHendelse.starterMedMellomlagring, { step: route });
+        redirectTo(route);
+    };
 
     if (location.pathname === RouteConfig.WELCOMING_PAGE_ROUTE) {
         const nextStepRoute = getNextStepRoute(lastStepID, values);
         if (nextStepRoute) {
-            redirectTo(nextStepRoute);
+            sendUserToStep(nextStepRoute);
         }
     }
+
+    const userNotLoggedIn = async (stepId: StepID) => {
+        await logHendelse(ApplikasjonHendelse.brukerSendesTilLoggInn, 'Mellomlagring ved navigasjon');
+        navigateToLoginPage(getSøknadRoute(stepId));
+    };
 
     const navigateToNextStep = async (stepId: StepID) => {
         setTimeout(() => {
@@ -78,7 +90,7 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
                     })
                     .catch((error) => {
                         if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
-                            navigateToLoginPage(getSøknadRoute(stepId));
+                            userNotLoggedIn(stepId);
                         } else {
                             return navigateToErrorPage(history);
                         }
@@ -180,7 +192,6 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
                     path={getSøknadRoute(StepID.SUMMARY)}
                     render={() => (
                         <SummaryStep
-                            history={history}
                             values={values}
                             onApplicationSent={(apiData: PleiepengesøknadApiData, søkerdata: Søkerdata) => {
                                 const info = getKvitteringInfoFromApiData(apiData, søkerdata);

@@ -7,10 +7,12 @@ import FrontPageBanner from '@sif-common/core/components/front-page-banner/Front
 import Page from '@sif-common/core/components/page/Page';
 import intlHelper from '@sif-common/core/utils/intlUtils';
 import getLenker from 'app/lenker';
+import useLogSidevisning from '../../../sif-amplitude/hooks/useLogSidevisning';
 import './ikkeMyndigPage.less';
 
 const IkkeMyndigPage = () => {
     const intl = useIntl();
+    useLogSidevisning('ikkeMyndig');
     return (
         <Page
             className="ikkeMyndigPage"

@@ -32,7 +32,7 @@ server.use((req, res, next) => {
         'http://host.docker.internal:8080',
         'https://pleiepengesoknad-mock.nais.oera.no',
         'http://localhost:8080',
-        'http://web:8080'
+        'http://web:8080',
     ];
     const requestOrigin = req.headers.origin;
     if (allowedOrigins.indexOf(requestOrigin) >= 0) {
@@ -54,21 +54,21 @@ const søkerMock = {
     mellomnavn: undefined,
     etternavn: 'Testesen',
     fødselsnummer: '12345123456',
-    myndig: true
+    myndig: true,
 };
 
 const barnMock = {
     barn: [
         { fødselsdato: '1990-01-01', fornavn: 'Barn', mellomnavn: 'Barne', etternavn: 'Barnesen', aktørId: '1' },
-        { fødselsdato: '1990-01-02', fornavn: 'Mock', etternavn: 'Mocknes', aktørId: '2' }
-    ]
+        { fødselsdato: '1990-01-02', fornavn: 'Mock', etternavn: 'Mocknes', aktørId: '2' },
+    ],
 };
 
 const arbeidsgivereMock = {
     organisasjoner: [
         { navn: 'Arbeids- og velferdsetaten', organisasjonsnummer: '123451234' },
-        { navn: 'Arbeids- og sosialdepartementet', organisasjonsnummer: '123451235' }
-    ]
+        { navn: 'Arbeids- og sosialdepartementet', organisasjonsnummer: '123451235' },
+    ],
 };
 const MELLOMLAGRING_JSON = `${os.tmpdir()}/mellomlagring.json`;
 

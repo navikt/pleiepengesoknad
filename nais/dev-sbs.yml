@@ -67,7 +67,5 @@ spec:
           value: "ryujtq87"
         - name: APPSTATUS_DATASET
           value: "staging"
-
-
-
-
+        - name: USE_AMPLITUDE
+          value: "true"
