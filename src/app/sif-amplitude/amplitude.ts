@@ -21,10 +21,6 @@ export enum ApplikasjonHendelse {
     'fortsettSenere' = 'fortsettSenere',
 }
 
-interface InnsynUserProperties {
-    antallSaker: number;
-}
-
 export const [AmplitudeProvider, useAmplitudeInstance] = constate(() => {
     const instance = useRef<AmplitudeClient | undefined>();
     const isActive = getEnvironmentVariable('USE_AMPLITUDE') === 'true';
@@ -53,7 +49,7 @@ export const [AmplitudeProvider, useAmplitudeInstance] = constate(() => {
         }
     }
 
-    function setUserProperties(properties: InnsynUserProperties) {
+    function setUserProperties(properties: any) {
         if (isActive && instance.current) {
             instance.current.setUserProperties(properties);
         }
