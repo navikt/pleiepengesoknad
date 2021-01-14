@@ -22,6 +22,7 @@ import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import { ApplikasjonHendelse, useAmplitudeInstance } from '../../../sif-amplitude/amplitude';
 
 const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
@@ -35,6 +36,13 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const attachmentsSizeOver24Mb = totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES;
 
     const ref = React.useRef({ attachments });
+
+    const { logHendelse } = useAmplitudeInstance();
+
+    const userNotLoggedIn = async () => {
+        await logHendelse(ApplikasjonHendelse.brukerSendesTilLoggInn, 'Opplasting av dokument');
+        navigateToLoginPage();
+    };
 
     React.useEffect(() => {
         const hasPendingAttachments = attachments.find((a) => a.pending === true);
@@ -97,7 +105,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
                             setFilesThatDidntGetUploaded([]);
                         }}
                         validate={validateLegeerklæring}
-                        onUnauthorizedOrForbiddenUpload={navigateToLoginPage}
+                        onUnauthorizedOrForbiddenUpload={userNotLoggedIn}
                     />
                 </Box>
             )}

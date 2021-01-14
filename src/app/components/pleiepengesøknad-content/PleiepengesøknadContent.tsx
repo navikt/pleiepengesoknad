@@ -71,6 +71,11 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
 
     const { logHendelse } = useAmplitudeInstance();
 
+    const userNotLoggedIn = async (stepId: StepID) => {
+        await logHendelse(ApplikasjonHendelse.brukerSendesTilLoggInn, 'Mellomlagring ved navigasjon');
+        navigateToLoginPage(getSøknadRoute(stepId));
+    };
+
     const navigateToNextStep = async (stepId: StepID) => {
         setTimeout(() => {
             const nextStepRoute = getNextStepRoute(stepId, values);
@@ -81,8 +86,7 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
                     })
                     .catch((error) => {
                         if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
-                            logHendelse(ApplikasjonHendelse.brukerSendesTilLoggInn, 'Navigere til neste steg');
-                            navigateToLoginPage(getSøknadRoute(stepId));
+                            userNotLoggedIn(stepId);
                         } else {
                             return navigateToErrorPage(history);
                         }
