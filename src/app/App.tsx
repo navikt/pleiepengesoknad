@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { render } from 'react-dom';
+import { AmplitudeProvider } from '@navikt/sif-common-amplitude';
 import moment from 'moment';
 import Modal from 'nav-frontend-modal';
 import AppStatusWrapper from '@sif-common/core/components/app-status-wrapper/AppStatusWrapper';
@@ -7,7 +8,6 @@ import { Locale } from '@sif-common/core/types/Locale';
 import ApplicationWrapper from './components/application-wrapper/ApplicationWrapper';
 import UnavailablePage from './components/pages/unavailable-page/UnavailablePage';
 import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad';
-import { AmplitudeProvider } from './sif-amplitude/amplitude';
 import appSentryLogger from './utils/appSentryLogger';
 import { getEnvironmentVariable } from './utils/envUtils';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
@@ -34,7 +34,11 @@ const App = () => {
     const appStatusSanityConfig = getAppStatusSanityConfig();
 
     return (
-        <AmplitudeProvider>
+        <AmplitudeProvider
+            applicationKey={APPLICATION_KEY}
+            isActive={true}
+            logToConsoleOnly={true}
+            team="sykdom-i-familien">
             <ApplicationWrapper
                 locale={locale}
                 onChangeLocale={(activeLocale: Locale) => {

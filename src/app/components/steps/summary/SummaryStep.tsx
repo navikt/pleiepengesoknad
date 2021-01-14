@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
+import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import Panel from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -26,7 +27,6 @@ import { purge, sendApplication } from '../../../api/api';
 import routeConfig from '../../../config/routeConfig';
 import { StepID } from '../../../config/stepConfig';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
-import { ApplikasjonHendelse, useAmplitudeInstance } from '../../../sif-amplitude/amplitude';
 import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { Søkerdata } from '../../../types/Søkerdata';
