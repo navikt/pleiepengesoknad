@@ -39,6 +39,24 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
 
     const { logHendelse } = useAmplitudeInstance();
 
+    const vedleggOpplastingFeilet = async (files?: File[]) => {
+        if (files) {
+            if (files.length > 0) {
+                await logHendelse(
+                    ApplikasjonHendelse.vedleggOpplastingFeilet,
+                    files.map((f) => {
+                        const { size, type } = f;
+                        return {
+                            type,
+                            size,
+                        };
+                    })
+                );
+            }
+            setFilesThatDidntGetUploaded(files);
+        }
+    };
+
     const userNotLoggedIn = async () => {
         await logHendelse(ApplikasjonHendelse.brukerSendesTilLoggInn, 'Opplasting av dokument');
         navigateToLoginPage();
@@ -100,7 +118,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
                     <FormikFileUploader
                         name={AppFormField.legeerklæring}
                         label={intlHelper(intl, 'steg.lege.vedlegg')}
-                        onErrorUploadingAttachments={setFilesThatDidntGetUploaded}
+                        onErrorUploadingAttachments={vedleggOpplastingFeilet}
                         onFileInputClick={() => {
                             setFilesThatDidntGetUploaded([]);
                         }}
