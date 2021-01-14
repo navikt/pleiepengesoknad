@@ -61,15 +61,19 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
     const { values, resetForm } = useFormikContext<PleiepengesøknadFormData>();
 
     const history = useHistory();
+    const { logHendelse } = useAmplitudeInstance();
+
+    const sendUserToStep = async (route: string) => {
+        await logHendelse(ApplikasjonHendelse.starterMedMellomlagring, { step: route });
+        redirectTo(route);
+    };
 
     if (location.pathname === RouteConfig.WELCOMING_PAGE_ROUTE) {
         const nextStepRoute = getNextStepRoute(lastStepID, values);
         if (nextStepRoute) {
-            redirectTo(nextStepRoute);
+            sendUserToStep(nextStepRoute);
         }
     }
-
-    const { logHendelse } = useAmplitudeInstance();
 
     const userNotLoggedIn = async (stepId: StepID) => {
         await logHendelse(ApplikasjonHendelse.brukerSendesTilLoggInn, 'Mellomlagring ved navigasjon');

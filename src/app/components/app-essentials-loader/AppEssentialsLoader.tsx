@@ -107,7 +107,6 @@ class AppEssentialsLoader extends React.Component<Props, State> {
                 this.stopLoading();
                 if (userIsCurrentlyOnErrorPage()) {
                     navigateToErrorPage(this.props.history);
-                    // window.location.assign(routeConfig.WELCOMING_PAGE_ROUTE);
                 }
             }
         );

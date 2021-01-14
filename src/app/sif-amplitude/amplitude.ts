@@ -16,6 +16,7 @@ export enum AmplitudeEvents {
 export enum ApplikasjonHendelse {
     'brukerSendesTilLoggInn' = 'brukerSendesTilLoggInn',
     'vedleggOpplastingFeilet' = 'vedleggOpplastingFeilet',
+    'starterMedMellomlagring' = 'starterMedMellomlagring',
     'avbryt' = 'avbryt',
     'fortsettSenere' = 'fortsettSenere',
 }
