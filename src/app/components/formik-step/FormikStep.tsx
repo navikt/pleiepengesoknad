@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
+import { useLogSidevisning } from '@navikt/sif-common-amplitude';
 import { useFormikContext } from 'formik';
 import { Knapp } from 'nav-frontend-knapper';
 import FormBlock from '@sif-common/core/components/form-block/FormBlock';
@@ -9,7 +10,6 @@ import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData
 import { getStepTexts } from '../../utils/stepUtils';
 import AppForm from '../app-form/AppForm';
 import Step, { StepProps } from '../step/Step';
-import useLogSidevisning from '../../sif-amplitude/hooks/useLogSidevisning';
 
 export interface FormikStepProps {
     children: React.ReactNode;

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
 import { useFormikContext } from 'formik';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
 import Box from '@sif-common/core/components/box/Box';
 import CounsellorPanel from '@sif-common/core/components/counsellor-panel/CounsellorPanel';
@@ -21,8 +23,6 @@ import { validateLegeerklæring } from '../../../validation/fieldValidations';
 import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import { ApplikasjonHendelse, useAmplitudeInstance } from '../../../sif-amplitude/amplitude';
 
 const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);

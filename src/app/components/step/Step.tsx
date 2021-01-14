@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
+import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { History } from 'history';
 import { Systemtittel } from 'nav-frontend-typografi';
@@ -15,7 +16,6 @@ import { purge } from 'app/api/api';
 import { navigateToNAVno, navigateToWelcomePage } from 'app/utils/navigationUtils';
 import { getStepTexts } from 'app/utils/stepUtils';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from '../../config/stepConfig';
-import { ApplikasjonHendelse, useAmplitudeInstance } from '../../sif-amplitude/amplitude';
 import StepIndicator from '../step-indicator/StepIndicator';
 import StepFooter from '../stepFooter/StepFooter';
 import './step.less';

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useLogSidevisning } from '@navikt/sif-common-amplitude';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { Knapp } from 'nav-frontend-knapper';
 import Panel from 'nav-frontend-paneler';
@@ -10,7 +11,6 @@ import FormattedHtmlMessage from '@sif-common/core/components/formatted-html-mes
 import Page from '@sif-common/core/components/page/Page';
 import bemUtils from '@sif-common/core/utils/bemUtils';
 import intlHelper from '@sif-common/core/utils/intlUtils';
-import useLogSidevisning from '../../../sif-amplitude/hooks/useLogSidevisning';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import NavPrintPage from '../../nav-print-page/NavPrintPage';
 import { KvitteringInfo } from '../../pleiepengesøknad-content/PleiepengesøknadContent';

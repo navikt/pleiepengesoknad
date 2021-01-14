@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
 import { useFormikContext } from 'formik';
 import { apiStringDateToDate } from '@sif-common/core/utils/dateUtils';
 import { formatName } from '@sif-common/core/utils/personUtils';
 import { persist } from '../../api/api';
 import RouteConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';
-import { ApplikasjonHendelse, useAmplitudeInstance } from '../../sif-amplitude/amplitude';
 import { ArbeidsforholdApi, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { Søkerdata } from '../../types/Søkerdata';
