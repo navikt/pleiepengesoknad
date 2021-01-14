@@ -48,6 +48,7 @@ import SelvstendigSummary from './SelvstendigSummary';
 import TilsynsordningSummary from './TilsynsordningSummary';
 import './summary.less';
 
+const SKJEMANAVN = 'Søknad om pleiepenger';
 interface OwnProps {
     values: PleiepengesøknadFormData;
     onApplicationSent: (apiValues: PleiepengesøknadApiData, søkerdata: Søkerdata) => void;
@@ -85,7 +86,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
         setSendingInProgress(true);
         try {
             await sendApplication(apiValues);
-            await logSoknadSent();
+            await logSoknadSent(SKJEMANAVN);
             await purge();
             setSoknadSent(true);
             onApplicationSent(apiValues, søkerdata);
@@ -94,7 +95,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                 logHendelse(ApplikasjonHendelse.brukerSendesTilLoggInn, 'Ved innsending av søknad');
                 navigateToLoginPage();
             } else {
-                await logSoknadFailed();
+                await logSoknadFailed(SKJEMANAVN);
                 appSentryLogger.logApiError(error);
                 appSentryLogger.logError('Innsending feilet', extractAnonymousArbeidsinfo(apiValues));
                 navigateTo(routeConfig.ERROR_PAGE_ROUTE, history);

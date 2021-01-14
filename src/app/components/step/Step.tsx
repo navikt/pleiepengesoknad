@@ -15,10 +15,10 @@ import { purge } from 'app/api/api';
 import { navigateToNAVno, navigateToWelcomePage } from 'app/utils/navigationUtils';
 import { getStepTexts } from 'app/utils/stepUtils';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from '../../config/stepConfig';
+import { ApplikasjonHendelse, useAmplitudeInstance } from '../../sif-amplitude/amplitude';
 import StepIndicator from '../step-indicator/StepIndicator';
 import StepFooter from '../stepFooter/StepFooter';
 import './step.less';
-import { ApplikasjonHendelse, useAmplitudeInstance } from '../../sif-amplitude/amplitude';
 
 export interface StepProps {
     id: StepID;
