@@ -25,6 +25,7 @@ import OpplysningerOmBarnetStep from '../steps/opplysninger-om-barnet/Opplysning
 import SummaryStep from '../steps/summary/SummaryStep';
 import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromStep';
 import TilsynsordningStep from '../steps/tilsynsordning/TilsynsordningStep';
+import { SKJEMANAVN } from '../../App';
 
 interface PleiepengesøknadContentProps {
     lastStepID: StepID;
@@ -61,7 +62,7 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
     const { values, resetForm } = useFormikContext<PleiepengesøknadFormData>();
 
     const history = useHistory();
-    const { logHendelse } = useAmplitudeInstance();
+    const { logHendelse, logSoknadStartet } = useAmplitudeInstance();
 
     const sendUserToStep = async (route: string) => {
         await logHendelse(ApplikasjonHendelse.starterMedMellomlagring, { step: route });
@@ -99,22 +100,18 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
         });
     };
 
+    const startSoknad = async () => {
+        await logSoknadStartet(SKJEMANAVN);
+        setTimeout(() => {
+            navigateTo(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.OPPLYSNINGER_OM_BARNET}`, history);
+        });
+    };
+
     return (
         <Switch>
             <Route
                 path={RouteConfig.WELCOMING_PAGE_ROUTE}
-                render={() => (
-                    <WelcomingPage
-                        onValidSubmit={() =>
-                            setTimeout(() => {
-                                navigateTo(
-                                    `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.OPPLYSNINGER_OM_BARNET}`,
-                                    history
-                                );
-                            })
-                        }
-                    />
-                )}
+                render={() => <WelcomingPage onValidSubmit={startSoknad} />}
             />
 
             {isAvailable(StepID.OPPLYSNINGER_OM_BARNET, values) && (

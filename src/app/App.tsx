@@ -15,6 +15,7 @@ import '@sif-common/core/styles/globalStyles.less';
 import './app.less';
 
 export const APPLICATION_KEY = 'pleiepengesoknad';
+export const SKJEMANAVN = 'Søknad om pleiepenger';
 
 appSentryLogger.init();
 
