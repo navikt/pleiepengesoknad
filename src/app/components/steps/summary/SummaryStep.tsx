@@ -47,8 +47,8 @@ import JaNeiSvar from './JaNeiSvar';
 import SelvstendigSummary from './SelvstendigSummary';
 import TilsynsordningSummary from './TilsynsordningSummary';
 import './summary.less';
+import { SKJEMANAVN } from '../../../App';
 
-const SKJEMANAVN = 'Søknad om pleiepenger';
 interface OwnProps {
     values: PleiepengesøknadFormData;
     onApplicationSent: (apiValues: PleiepengesøknadApiData, søkerdata: Søkerdata) => void;
