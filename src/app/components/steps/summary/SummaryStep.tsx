@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
-import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
+import { useAmplitudeInstance } from '@navikt/sif-common-amplitude';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import Panel from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -80,7 +80,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
     const intl = useIntl();
     const history = useHistory();
 
-    const { logSoknadSent, logSoknadFailed, logHendelse } = useAmplitudeInstance();
+    const { logSoknadSent, logSoknadFailed, logUserLoggedOut } = useAmplitudeInstance();
 
     const sendSoknad = async (apiValues: PleiepengesøknadApiData, søkerdata: Søkerdata) => {
         setSendingInProgress(true);
@@ -92,7 +92,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
             onApplicationSent(apiValues, søkerdata);
         } catch (error) {
             if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
-                logHendelse(ApplikasjonHendelse.brukerSendesTilLoggInn, 'Ved innsending av søknad');
+                logUserLoggedOut('Ved innsending av søknad');
                 navigateToLoginPage();
             } else {
                 await logSoknadFailed(SKJEMANAVN);

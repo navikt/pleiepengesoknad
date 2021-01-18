@@ -62,7 +62,7 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
     const { values, resetForm } = useFormikContext<PleiepengesøknadFormData>();
 
     const history = useHistory();
-    const { logHendelse, logSoknadStartet } = useAmplitudeInstance();
+    const { logHendelse, logUserLoggedOut, logSoknadStartet } = useAmplitudeInstance();
 
     const sendUserToStep = async (route: string) => {
         await logHendelse(ApplikasjonHendelse.starterMedMellomlagring, { step: route });
@@ -77,7 +77,7 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
     }
 
     const userNotLoggedIn = async (stepId: StepID) => {
-        await logHendelse(ApplikasjonHendelse.brukerSendesTilLoggInn, 'Mellomlagring ved navigasjon');
+        await logUserLoggedOut('Mellomlagring ved navigasjon');
         navigateToLoginPage(getSøknadRoute(stepId));
     };
 
