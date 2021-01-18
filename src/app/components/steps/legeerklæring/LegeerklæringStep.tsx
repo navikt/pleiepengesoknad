@@ -37,7 +37,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
 
     const ref = React.useRef({ attachments });
 
-    const { logHendelse } = useAmplitudeInstance();
+    const { logHendelse, logUserLoggedOut } = useAmplitudeInstance();
 
     const vedleggOpplastingFeilet = async (files?: File[]) => {
         if (files) {
@@ -58,7 +58,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     };
 
     const userNotLoggedIn = async () => {
-        await logHendelse(ApplikasjonHendelse.brukerSendesTilLoggInn, 'Opplasting av dokument');
+        await logUserLoggedOut('Opplasting av dokument');
         navigateToLoginPage();
     };
 
