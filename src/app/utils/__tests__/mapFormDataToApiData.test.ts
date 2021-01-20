@@ -17,7 +17,6 @@ import {
     AppFormField,
     Arbeidsforhold,
     ArbeidsforholdSkalJobbeSvar,
-    BarnRelasjon,
     PleiepengesøknadFormData,
 } from '../../types/PleiepengesøknadFormData';
 import { Arbeidsgiver, BarnReceivedFromApi } from '../../types/Søkerdata';
@@ -97,7 +96,6 @@ const formDataMock: Partial<PleiepengesøknadFormData> = {
         { ...organisasjonTelenor, jobberNormaltTimer: 10 },
         { ...organisasjonMaxbo, jobberNormaltTimer: 20 },
     ],
-    [AppFormField.relasjonTilBarnet]: BarnRelasjon.FAR,
     [AppFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.YES,
     [AppFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.NO,
     [AppFormField.utenlandsoppholdNeste12Mnd]: [],
@@ -143,7 +141,6 @@ const completeFormDataMock: PleiepengesøknadFormData = {
     arbeidsforhold: [{ ...organisasjonMaxbo, erAnsattIPerioden: YesOrNo.YES, jobberNormaltTimer: 37.5 }],
     barnetHarIkkeFåttFødselsnummerEnda: false,
     barnetSøknadenGjelder: barnMock[0].aktørId,
-    relasjonTilBarnet: BarnRelasjon.FAR,
     harBekreftetOpplysninger: true,
     harMedsøker: YesOrNo.YES,
     harBeredskap: YesOrNo.YES,
@@ -552,7 +549,6 @@ describe('Test complete applications', () => {
             fødselsdato: '2020-01-20',
             sammeAdresse: true,
         },
-        barnRelasjon: BarnRelasjon.FAR,
         arbeidsgivere: {
             organisasjoner: [
                 {

@@ -73,7 +73,7 @@ export const mapFormDataToApiData = (
     const periodeTil = datepickerUtils.getDateFromDateString(formData.periodeTil);
     const barnetsFødselsdato = datepickerUtils.getDateFromDateString(formData.barnetsFødselsdato);
 
-    if (periodeFra && periodeTil && relasjonTilBarnet) {
+    if (periodeFra && periodeTil) {
         try {
             const barnObject: BarnToSendToApi = mapBarnToApiData(
                 barn,
