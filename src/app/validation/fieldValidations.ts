@@ -66,6 +66,8 @@ export enum AppFieldValidationErrors {
     'ferieuttak_overlapper' = 'fieldvalidation.ferieuttak_overlapper',
     'ferieuttak_utenfor_periode' = 'fieldvalidation.ferieuttak_utenfor_periode',
     'er_helg' = 'fieldvalidation.er_helg',
+    'relasjon_forMangeTegn' = 'fieldvalidation.relasjon_forMangeTegn',
+    'relasjon_forFåTegn' = 'fieldvalidation.relasjon_forFåTegn',
 }
 
 export const createAppFieldValidationError = (
@@ -184,6 +186,19 @@ export const validateBekreftOmsorgEkstrainfo = (text: string): FieldValidationRe
 export const validateTilsynsordningTilleggsinfo = (text: string): FieldValidationResult => {
     if (text !== undefined && text.length > 1000) {
         return createAppFieldValidationError(AppFieldValidationErrors.tilsynsordning_forMangeTegn);
+    }
+    return undefined;
+};
+
+export const validateRelasjonTilBarnetAnnet = (text: string): FieldValidationResult => {
+    if (!hasValue(text)) {
+        return fieldIsRequiredError();
+    }
+    if (text.length < 3) {
+        return createAppFieldValidationError(AppFieldValidationErrors.relasjon_forFåTegn);
+    }
+    if (text.length > 1000) {
+        return createAppFieldValidationError(AppFieldValidationErrors.relasjon_forMangeTegn);
     }
     return undefined;
 };

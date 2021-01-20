@@ -54,6 +54,13 @@
     "fileUploadErrors.part1": "Det har dessverre skjedd ein feil under opplastinga av dei følgjande vedlegga:",
     "formikValidationErrorSummary.tittel": "Du må rette opp i dei følgjande feila:",
 
+    "barnRelasjon.MOR": "Mor",
+    "barnRelasjon.MEDMOR": "Medmor",
+    "barnRelasjon.FAR": "Far",
+    "barnRelasjon.STEFORELDER": "Steforelder",
+    "barnRelasjon.FOSTERFORELDER": "Fosterforelder",
+    "barnRelasjon.ANNET": "Anna",
+
     "avbrytSøknadDialog.avbrytSøknadLabel": "Ja, avbryt søknaden",
     "avbrytSøknadDialog.fortsettSøknadLabel": "Nei",
     "avbrytSøknadDialog.intro": "Det du har fylt ut i søknaden, blir sletta, og du kjem tilbake til velkomstsida.",
@@ -192,6 +199,10 @@
     "steg.omBarnet.fnr.ikkeFnrEnda": "Barnet har ikkje fått fødselsnummer enno.",
     "steg.omBarnet.fødselsdato": "Fødselsdato",
     "steg.omBarnet.navn": "Namnet til barnet",
+    "steg.omBarnet.relasjon.spm": "Kva er din relasjon til barnet?",
+    "steg.omBarnet.relasjonAnnet.spm": "Beskriv relasjon og tilsynsoppgåve(r)",
+    "steg.omBarnet.relasjonAnnet.info.tittel": "Vis eksempler på relasjon og tilsynsoppgåver",
+    "steg.omBarnet.relasjonAnnet.info.hjelpetekst": "Tekst kommer",
 
     "steg.tidsrom.hjelpetekst.tittel": "Kan eg søke for fleire periodar samtidig?",
     "steg.tidsrom.hjelpetekst": "Søknaden er under utvikling: Dersom du skal søkje for fleire periodar, må du sende éin søknad for kvar periode.",
@@ -255,6 +266,9 @@
     "steg.oppsummering.barnet.navn": "Namn: {navn}",
     "steg.oppsummering.barnet.fødselsdato": "Fødselsdato: {dato}",
     "steg.oppsummering.barnet.fnr": "Fødselsnummer: {fnr}",
+    "steg.oppsummering.relasjonTilBarnet.header": "Relasjon til barnet",
+    "steg.oppsummering.relasjonTilBarnet": "Relasjon til barnet: {relasjon}",
+    "steg.oppsummering.relasjonTilBarnetAnnet": "Relasjon og tilsynsoppgåve(r):",
 
     "steg.oppsummering.utenlandsoppholdIPerioden.header": "Skal du vere i utlandet i perioden?",
     "steg.oppsummering.utenlandsoppholdIPerioden.listetittel": "Utanlandsopphald i perioden",
@@ -379,6 +393,8 @@
     "fieldvalidation.samlet_storrelse_for_hoy": "Total samla størrelse for dokumenta du har lasta opp overstig grensa på 24Mb.",
     "fieldvalidation.frilanser_startdatoForSent": "Startdato kan ikkje vere etter dagens dato",
     "fieldvalidation.er_helg": "Laurdag og søndag er ikkje gyldig.",
+    "fieldvalidation.relasjon_forMangeTegn": "For mange teikn. Maks antall teikn er 1000.",
+    "fieldvalidation.relasjon_forFåTegn": "For få teikn.",
 
     "arbeidsforhold.erAnsattIPerioden.spm": "Er du tilsett her i perioden du søkjer pleiepengar for?",
 

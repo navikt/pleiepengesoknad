@@ -2,7 +2,7 @@ import { ApiStringDate } from '@navikt/sif-common-core/lib/types/ApiStringDate';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
-import { TilsynVetIkkeHvorfor } from './PleiepengesøknadFormData';
+import { BarnRelasjon, TilsynVetIkkeHvorfor } from './PleiepengesøknadFormData';
 
 export type ISO8601Duration = string;
 
@@ -127,6 +127,8 @@ export interface PleiepengesøknadApiData {
     newVersion: boolean;
     språk: Locale;
     barn: BarnToSendToApi;
+    barnRelasjon: BarnRelasjon;
+    barnRelasjonAnnet?: string;
     fraOgMed: ApiStringDate;
     tilOgMed: ApiStringDate;
     skalBekrefteOmsorg?: boolean;

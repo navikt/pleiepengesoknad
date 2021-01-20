@@ -17,6 +17,7 @@ import {
     AppFormField,
     Arbeidsforhold,
     ArbeidsforholdSkalJobbeSvar,
+    BarnRelasjon,
     PleiepengesøknadFormData,
 } from '../../types/PleiepengesøknadFormData';
 import { Arbeidsgiver, BarnReceivedFromApi } from '../../types/Søkerdata';
@@ -549,6 +550,7 @@ describe('Test complete applications', () => {
             fødselsdato: '2020-01-20',
             sammeAdresse: true,
         },
+        barnRelasjon: BarnRelasjon.FAR,
         arbeidsgivere: {
             organisasjoner: [
                 {

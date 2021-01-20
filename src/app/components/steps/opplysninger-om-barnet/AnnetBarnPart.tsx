@@ -1,22 +1,27 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { validateFødselsnummer } from '@navikt/sif-common-core/lib/validation/fieldValidations';
+import { validateFødselsnummer, validateRequiredField } from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import { useFormikContext } from 'formik';
-import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { validateFødselsdato, validateNavn } from '../../../validation/fieldValidations';
+import { AppFormField, BarnRelasjon, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import {
+    validateFødselsdato,
+    validateRelasjonTilBarnetAnnet,
+    validateNavn,
+} from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
 import { SkjemagruppeQuestion } from '@navikt/sif-common-formik/lib';
 import { Undertittel } from 'nav-frontend-typografi';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
 }
 
-const AnnetBarnPart = ({ formValues }: Props) => {
+const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues }) => {
     const intl = useIntl();
     const { barnetHarIkkeFåttFødselsnummerEnda } = formValues;
     const { setFieldValue } = useFormikContext<PleiepengesøknadFormData>();
@@ -79,6 +84,32 @@ const AnnetBarnPart = ({ formValues }: Props) => {
                         bredde="XL"
                     />
                 </FormBlock>
+                <FormBlock>
+                    <AppForm.RadioGroup
+                        legend={intlHelper(intl, 'steg.omBarnet.relasjon.spm')}
+                        name={AppFormField.relasjonTilBarnet}
+                        radios={Object.keys(BarnRelasjon).map((relasjon) => ({
+                            label: intlHelper(intl, `barnRelasjon.${relasjon}`),
+                            value: relasjon,
+                        }))}
+                        validate={validateRequiredField}
+                        checked={formValues.relasjonTilBarnet}></AppForm.RadioGroup>
+                </FormBlock>
+                {formValues.relasjonTilBarnet === BarnRelasjon.ANNET && (
+                    <FormBlock>
+                        <AppForm.Textarea
+                            label={intlHelper(intl, 'steg.omBarnet.relasjonAnnet.spm')}
+                            description={
+                                <ExpandableInfo title={intlHelper(intl, 'steg.omBarnet.relasjonAnnet.info.tittel')}>
+                                    <FormattedMessage id="steg.omBarnet.relasjonAnnet.info.hjelpetekst" />
+                                </ExpandableInfo>
+                            }
+                            name={AppFormField.relasjonTilBarnetAnnet}
+                            validate={validateRelasjonTilBarnetAnnet}
+                            value={formValues.relasjonTilBarnet || ''}
+                        />
+                    </FormBlock>
+                )}
             </SkjemagruppeQuestion>
         </Box>
     );

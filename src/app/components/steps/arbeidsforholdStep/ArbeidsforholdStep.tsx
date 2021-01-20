@@ -9,10 +9,10 @@ import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-dat
 import { useFormikContext } from 'formik';
 import AlertStripe from 'nav-frontend-alertstriper';
 import FormSection from '../../../pre-common/form-section/FormSection';
-import { getArbeidsgivere } from '../../../utils/arbeidsforholdUtils';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { getArbeidsgivere } from '../../../utils/arbeidsforholdUtils';
 import FormikArbeidsforhold from '../../formik-arbeidsforhold/FormikArbeidsforhold';
 import FormikStep from '../../formik-step/FormikStep';
 import FrilansFormPart from './FrilansFormPart';

@@ -351,7 +351,9 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                             )}
                                         />
                                     ) : (
-                                        <FormattedMessage id="steg.oppsummering.arbeidsforhold.ingenArbeidsforhold" />
+                                        <Box margin="m">
+                                            <FormattedMessage id="steg.oppsummering.arbeidsforhold.ingenArbeidsforhold" />
+                                        </Box>
                                     )}
                                 </SummarySection>
 

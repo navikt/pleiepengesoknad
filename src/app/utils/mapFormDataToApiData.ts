@@ -4,7 +4,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { attachmentUploadHasFailed } from '@navikt/sif-common-core/lib/utils/attachmentUtils';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { BarnToSendToApi, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
-import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { BarnRelasjon, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../types/Søkerdata';
 import appSentryLogger from './appSentryLogger';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
@@ -65,13 +65,15 @@ export const mapFormDataToApiData = (
         ferieuttakIPerioden,
         skalTaUtFerieIPerioden,
         harHattInntektSomFrilanser,
+        relasjonTilBarnet,
+        relasjonTilBarnetAnnet,
     } = formData;
 
     const periodeFra = datepickerUtils.getDateFromDateString(formData.periodeFra);
     const periodeTil = datepickerUtils.getDateFromDateString(formData.periodeTil);
     const barnetsFødselsdato = datepickerUtils.getDateFromDateString(formData.barnetsFødselsdato);
 
-    if (periodeFra && periodeTil) {
+    if (periodeFra && periodeTil && relasjonTilBarnet) {
         try {
             const barnObject: BarnToSendToApi = mapBarnToApiData(
                 barn,
@@ -86,6 +88,8 @@ export const mapFormDataToApiData = (
                 newVersion: true,
                 språk: sprak,
                 barn: barnObject,
+                barnRelasjon: relasjonTilBarnet,
+                barnRelasjonAnnet: relasjonTilBarnet === BarnRelasjon.ANNET ? relasjonTilBarnetAnnet : undefined,
                 arbeidsgivere: {
                     organisasjoner: arbeidsforhold
                         .filter((a) => a.erAnsattIPerioden === YesOrNo.YES)
