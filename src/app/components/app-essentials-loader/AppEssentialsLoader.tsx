@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { AxiosError, AxiosResponse } from 'axios';
-import { Attachment } from '@sif-common/core/types/Attachment';
+import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import { getBarn, getSøker, rehydrate } from '../../api/api';
 import routeConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';

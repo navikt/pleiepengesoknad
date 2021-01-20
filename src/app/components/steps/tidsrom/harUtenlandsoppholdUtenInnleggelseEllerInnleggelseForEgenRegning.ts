@@ -1,5 +1,5 @@
-import { Utenlandsopphold, UtenlandsoppholdÅrsak } from '@sif-common/forms/utenlandsopphold/types';
-import { YesOrNo } from '@sif-common/core/types/YesOrNo';
+import { Utenlandsopphold, UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 
 const erOppholdMedInnlagtBarnForEgenRegning = (opphold: Utenlandsopphold): boolean =>
     opphold.erBarnetInnlagt === YesOrNo.YES && opphold.årsak === UtenlandsoppholdÅrsak.ANNET;

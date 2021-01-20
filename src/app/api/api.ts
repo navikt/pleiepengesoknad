@@ -1,13 +1,13 @@
+import { storageParser } from '@navikt/sif-common-core/lib/utils/persistence/persistence';
 import axios, { AxiosResponse } from 'axios';
-import { Arbeidsgiver } from 'app/types/Søkerdata';
 import axiosConfig from '../config/axiosConfig';
 import { StepID } from '../config/stepConfig';
 import { PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { ResourceType } from '../types/ResourceType';
 import { MELLOMLAGRING_VERSION, MellomlagringData } from '../types/storage';
+import { Arbeidsgiver } from '../types/Søkerdata';
 import { getApiUrlByResourceType, sendMultipartPostRequest } from '../utils/apiUtils';
-import { storageParser } from '@navikt/sif-common-core/lib/utils/persistence/persistence';
 
 export const persist = (formData: PleiepengesøknadFormData, lastStepID: StepID) => {
     const body: MellomlagringData = { formData, metadata: { lastStepID, version: MELLOMLAGRING_VERSION } };

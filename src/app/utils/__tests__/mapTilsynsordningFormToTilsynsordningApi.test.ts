@@ -1,4 +1,4 @@
-import { YesOrNo } from '@sif-common/core/types/YesOrNo';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { TilsynsordningApi } from '../../types/PleiepengesøknadApiData';
 import { Tilsynsordning } from '../../types/PleiepengesøknadFormData';
 import { mapTilsynsordningToApiData } from '../formToApiMaps/mapTilsynsordningToApiData';

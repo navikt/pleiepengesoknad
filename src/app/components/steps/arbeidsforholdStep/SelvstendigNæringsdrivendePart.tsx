@@ -1,12 +1,15 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import {
+    validateRequiredList,
+    validateYesOrNoIsAnswered,
+} from '@navikt/sif-common-core/lib/validation/fieldValidations';
+import VirksomhetListAndDialog from '@navikt/sif-common-forms/lib/virksomhet/VirksomhetListAndDialog';
 import Panel from 'nav-frontend-paneler';
-import Box from '@sif-common/core/components/box/Box';
-import { YesOrNo } from '@sif-common/core/types/YesOrNo';
-import intlHelper from '@sif-common/core/utils/intlUtils';
-import { validateRequiredList, validateYesOrNoIsAnswered } from '@sif-common/core/validation/fieldValidations';
-import VirksomhetListAndDialog from '@sif-common/forms/virksomhet/VirksomhetListAndDialog';
-import { AppFormField, PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
+import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import AppForm from '../../app-form/AppForm';
 
 interface Props {

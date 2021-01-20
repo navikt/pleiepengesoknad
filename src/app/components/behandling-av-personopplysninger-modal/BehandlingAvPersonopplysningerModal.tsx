@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Modal, { ModalProps } from '@sif-common/core/components/modal/Modal';
-import bemUtils from '@sif-common/core/utils/bemUtils';
+import Modal, { ModalProps } from '@navikt/sif-common-core/lib/components/modal/Modal';
+import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import BehandlingAvPersonopplysningerContent from '../behandling-av-personopplysninger-content/BehandlingAvPersonopplysningerContent';
 import './behandlingAvPersonopplysningerModal.less';
 

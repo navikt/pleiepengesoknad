@@ -1,10 +1,10 @@
-import { Attachment } from '@sif-common/core/types/Attachment';
-import { YesOrNo } from '@sif-common/core/types/YesOrNo';
-import * as attachmentUtils from '@sif-common/core/utils/attachmentUtils';
-import * as dateUtils from '@sif-common/core/utils/dateUtils';
+import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import * as attachmentUtils from '@navikt/sif-common-core/lib/utils/attachmentUtils';
+import * as dateUtils from '@navikt/sif-common-core/lib/utils/dateUtils';
 /* eslint-disable @typescript-eslint/camelcase */
-import { UtenlandsoppholdÅrsak } from '@sif-common/forms/utenlandsopphold/types';
-import { Næringstype } from '@sif-common/forms/virksomhet/types';
+import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
+import { Næringstype } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import {
     ArbeidsforholdApiNei,
     ArbeidsforholdApiRedusert,
@@ -108,7 +108,7 @@ const formDataMock: Partial<PleiepengesøknadFormData> = {
     [AppFormField.ferieuttakIPerioden]: [],
 };
 
-jest.mock('@sif-common/core/utils/attachmentUtils', () => {
+jest.mock('@navikt/sif-common-core/lib/utils/attachmentUtils', () => {
     return {
         attachmentUploadHasFailed: jest.fn((attachment: AttachmentMock) => attachment.failed),
     };

@@ -1,9 +1,9 @@
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { FormikProps } from 'formik';
-import { YesOrNo } from '@sif-common/core/types/YesOrNo';
-import { formatDateToApiFormat } from '@sif-common/core/utils/dateUtils';
-import { getArbeidsgiver } from 'app/api/api';
-import { AppFormField, Arbeidsforhold, PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
-import { Arbeidsgiver, Søkerdata } from 'app/types/Søkerdata';
+import { AppFormField, Arbeidsforhold, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { Arbeidsgiver, Søkerdata } from '../types/Søkerdata';
+import { getArbeidsgiver } from '../api/api';
 import { apiUtils } from './apiUtils';
 import appSentryLogger from './appSentryLogger';
 import { navigateToLoginPage } from './navigationUtils';

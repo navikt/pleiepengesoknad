@@ -1,25 +1,25 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import Box from '@sif-common/core/components/box/Box';
-import FormBlock from '@sif-common/core/components/form-block/FormBlock';
-import { SkjemagruppeQuestion } from '@sif-common/formik/';
-import { FieldArray } from 'formik';
-import { YesOrNo } from '@sif-common/core/types/YesOrNo';
-import intlHelper from '@sif-common/core/utils/intlUtils';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import {
     validateRequiredField,
     validateRequiredNumber,
     validateYesOrNoIsAnswered,
-} from '@sif-common/core/validation/fieldValidations';
+} from '@navikt/sif-common-core/lib/validation/fieldValidations';
+import { SkjemagruppeQuestion } from '@navikt/sif-common-formik';
+import { FieldArray } from 'formik';
+import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../../config/minMaxValues';
 import {
     AppFormField,
     Arbeidsforhold,
     ArbeidsforholdField,
     ArbeidsforholdSkalJobbeSvar,
-} from 'app/types/PleiepengesøknadFormData';
+} from '../../types/PleiepengesøknadFormData';
 import AppForm from '../app-form/AppForm';
 import RedusertArbeidsforholdPart from './RedusertArbeidsforholdPart';
-import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../../config/minMaxValues';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;

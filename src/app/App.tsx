@@ -3,15 +3,15 @@ import { render } from 'react-dom';
 import { AmplitudeProvider } from '@navikt/sif-common-amplitude';
 import moment from 'moment';
 import Modal from 'nav-frontend-modal';
-import AppStatusWrapper from '@sif-common/core/components/app-status-wrapper/AppStatusWrapper';
-import { Locale } from '@sif-common/core/types/Locale';
+import AppStatusWrapper from '@navikt/sif-common-core/lib/components/app-status-wrapper/AppStatusWrapper';
+import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import ApplicationWrapper from './components/application-wrapper/ApplicationWrapper';
 import UnavailablePage from './components/pages/unavailable-page/UnavailablePage';
 import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad';
 import appSentryLogger from './utils/appSentryLogger';
 import { getEnvironmentVariable } from './utils/envUtils';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
-import '@sif-common/core/styles/globalStyles.less';
+import '@navikt/sif-common-core/lib/styles/globalStyles.less';
 import './app.less';
 
 export const APPLICATION_KEY = 'pleiepengesoknad';
@@ -38,8 +38,7 @@ const App = () => {
         <AmplitudeProvider
             applicationKey={APPLICATION_KEY}
             isActive={getEnvironmentVariable('USE_AMPLITUDE') === 'true'}
-            logToConsoleOnly={getEnvironmentVariable('APP_VERSION') === 'dev'}
-            team="sykdom-i-familien">
+            logToConsoleOnly={getEnvironmentVariable('APP_VERSION') === 'dev'}>
             <ApplicationWrapper
                 locale={locale}
                 onChangeLocale={(activeLocale: Locale) => {

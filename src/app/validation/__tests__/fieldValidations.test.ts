@@ -1,8 +1,11 @@
 import moment from 'moment';
-import { Attachment } from '@sif-common/core/types/Attachment';
-import { createFieldValidationError, FieldValidationErrors } from '@sif-common/core/validation/fieldValidations';
-import { hasValue } from '@sif-common/core/validation/hasValue';
-import { dateToISOFormattedDateString, dateToday } from '@sif-common/core/utils/dateUtils';
+import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
+import {
+    createFieldValidationError,
+    FieldValidationErrors,
+} from '@navikt/sif-common-core/lib/validation/fieldValidations';
+import { hasValue } from '@navikt/sif-common-core/lib/validation/hasValue';
+import { dateToISOFormattedDateString, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import {
     AppFieldValidationErrors,
     validateFradato,
@@ -18,7 +21,7 @@ jest.mock('../../utils/envUtils', () => {
     };
 });
 
-jest.mock('@sif-common/core/validation/fødselsnummerValidator', () => {
+jest.mock('@navikt/sif-common-core/lib/validation/fødselsnummerValidator', () => {
     return {
         fødselsnummerIsValid: jest.fn(),
         FødselsnummerValidationErrorReason: {

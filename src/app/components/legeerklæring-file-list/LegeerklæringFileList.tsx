@@ -2,12 +2,15 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect, useFormikContext } from 'formik';
 import { Normaltekst } from 'nav-frontend-typografi';
-import AttachmentListWithDeletion from '@sif-common/core/components/attachment-list-with-deletion/AttachmentListWithDeletion';
-import AttachmentList from '@sif-common/core/components/attachment-list/AttachmentList';
-import Box from '@sif-common/core/components/box/Box';
-import { Attachment } from '@sif-common/core/types/Attachment';
-import { containsAnyUploadedAttachments, fileExtensionIsValid } from '@sif-common/core/utils/attachmentUtils';
-import { removeElementFromArray } from '@sif-common/core/utils/listUtils';
+import AttachmentListWithDeletion from '@navikt/sif-common-core/lib/components/attachment-list-with-deletion/AttachmentListWithDeletion';
+import AttachmentList from '@navikt/sif-common-core/lib/components/attachment-list/AttachmentList';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
+import {
+    containsAnyUploadedAttachments,
+    fileExtensionIsValid,
+} from '@navikt/sif-common-core/lib/utils/attachmentUtils';
+import { removeElementFromArray } from '@navikt/sif-common-core/lib/utils/listUtils';
 import { deleteFile } from '../../api/api';
 import { AppFormField, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 

@@ -1,6 +1,6 @@
-import { YesOrNo } from '@sif-common/core/types/YesOrNo';
-import { validateYesOrNoIsAnswered } from '@sif-common/core/validation/fieldValidations';
-import { FieldValidationResult } from '@sif-common/core/validation/types';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { validateYesOrNoIsAnswered } from '@navikt/sif-common-core/lib/validation/fieldValidations';
+import { FieldValidationResult } from '@navikt/sif-common-core/lib/validation/types';
 import { QuestionConfig, Questions } from '../../../pre-common/question-visibility/questions/Questions';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { isYesOrNoAnswered } from '../../../validation/fieldValidations';

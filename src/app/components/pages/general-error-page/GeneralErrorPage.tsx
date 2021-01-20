@@ -2,9 +2,9 @@ import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Ingress, Systemtittel } from 'nav-frontend-typografi';
 import Veilederpanel from 'nav-frontend-veilederpanel';
-import Box from '@sif-common/core/components/box/Box';
-import Page from '@sif-common/core/components/page/Page';
-import intlHelper from '@sif-common/core/utils/intlUtils';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import Page from '@navikt/sif-common-core/lib/components/page/Page';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import VeilederLokal from './VeilederLokal';
 
 const GeneralErrorPage = () => {

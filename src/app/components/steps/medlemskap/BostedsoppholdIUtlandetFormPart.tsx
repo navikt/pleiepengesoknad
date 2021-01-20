@@ -1,9 +1,9 @@
 import React from 'react';
-import { ModalFormAndListLabels } from '@sif-common/formik/';
-import BostedUtlandListAndDialog from '@sif-common/forms/bosted-utland/BostedUtlandListAndDialog';
-import { BostedUtland } from '@sif-common/forms/bosted-utland/types';
-import { DateRange } from '@sif-common/core/utils/dateUtils';
-import { validateUtenlandsoppholdIPerioden } from 'app/validation/fieldValidations';
+import { ModalFormAndListLabels } from '@navikt/sif-common-formik';
+import BostedUtlandListAndDialog from '@navikt/sif-common-forms/lib/bosted-utland/BostedUtlandListAndDialog';
+import { BostedUtland } from '@navikt/sif-common-forms/lib/bosted-utland/types';
+import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { validateUtenlandsoppholdIPerioden } from '../../../validation/fieldValidations';
 import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 
 interface Props {

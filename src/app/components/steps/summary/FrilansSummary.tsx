@@ -1,6 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import intlHelper from '@sif-common/core/utils/intlUtils';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
 import DatoSvar from './DatoSvar';
 import JaNeiSvar from './JaNeiSvar';
