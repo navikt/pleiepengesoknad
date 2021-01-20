@@ -38,8 +38,7 @@ const App = () => {
         <AmplitudeProvider
             applicationKey={APPLICATION_KEY}
             isActive={getEnvironmentVariable('USE_AMPLITUDE') === 'true'}
-            logToConsoleOnly={getEnvironmentVariable('APP_VERSION') === 'dev'}
-            team="sykdom-i-familien">
+            logToConsoleOnly={getEnvironmentVariable('APP_VERSION') === 'dev'}>
             <ApplicationWrapper
                 locale={locale}
                 onChangeLocale={(activeLocale: Locale) => {
