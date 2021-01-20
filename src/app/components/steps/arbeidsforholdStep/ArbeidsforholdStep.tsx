@@ -1,22 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import FormBlock from '@sif-common/core/components/form-block/FormBlock';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import BuildingIcon from '@navikt/sif-common-core/lib/components/building-icon/BuildingIconSvg';
+import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import LoadingSpinner from '@navikt/sif-common-core/lib/components/loading-spinner/LoadingSpinner';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { useFormikContext } from 'formik';
 import AlertStripe from 'nav-frontend-alertstriper';
-import Box from '@sif-common/core/components/box/Box';
-import BuildingIcon from '@sif-common/core/components/building-icon/BuildingIconSvg';
-import CounsellorPanel from '@sif-common/core/components/counsellor-panel/CounsellorPanel';
-import LoadingSpinner from '@sif-common/core/components/loading-spinner/LoadingSpinner';
 import FormSection from '../../../pre-common/form-section/FormSection';
-import { PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
-import { getArbeidsgivere } from 'app/utils/arbeidsforholdUtils';
+import { getArbeidsgivere } from '../../../utils/arbeidsforholdUtils';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
+import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import FormikArbeidsforhold from '../../formik-arbeidsforhold/FormikArbeidsforhold';
 import FormikStep from '../../formik-step/FormikStep';
 import FrilansFormPart from './FrilansFormPart';
 import SelvstendigNæringsdrivendeFormPart from './SelvstendigNæringsdrivendePart';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 
 interface LoadState {
     isLoading: boolean;

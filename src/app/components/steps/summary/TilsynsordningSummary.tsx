@@ -1,12 +1,12 @@
 import React from 'react';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
-import Box from '@sif-common/core/components/box/Box';
-import ContentWithHeader from '@sif-common/core/components/content-with-header/ContentWithHeader';
-import TextareaSummary from '@sif-common/core/components/textarea-summary/TextareaSummary';
-import { Time } from '@sif-common/core/types/Time';
-import intlHelper from '@sif-common/core/utils/intlUtils';
-import { iso8601DurationToTime } from '@sif-common/core/utils/timeUtils';
-import { hasValue } from '@sif-common/core/validation/hasValue';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-with-header/ContentWithHeader';
+import TextareaSummary from '@navikt/sif-common-core/lib/components/textarea-summary/TextareaSummary';
+import { Time } from '@navikt/sif-common-core/lib/types/Time';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { iso8601DurationToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
+import { hasValue } from '@navikt/sif-common-core/lib/validation/hasValue';
 import { TilsynsordningApi, TilsynsordningApiJa } from '../../../types/PleiepengesøknadApiData';
 import { TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
 

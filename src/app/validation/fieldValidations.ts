@@ -1,13 +1,13 @@
 import moment from 'moment';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import { Attachment } from '@sif-common/core/types/Attachment';
-import { Time } from '@sif-common/core/types/Time';
-import { YesOrNo } from '@sif-common/core/types/YesOrNo';
+import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
+import { Time } from '@navikt/sif-common-core/lib/types/Time';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import {
     attachmentHasBeenUploaded,
     getTotalSizeOfAttachments,
     MAX_TOTAL_ATTACHMENT_SIZE_BYTES,
-} from '@sif-common/core/utils/attachmentUtils';
+} from '@navikt/sif-common-core/lib/utils/attachmentUtils';
 import {
     date1YearAgo,
     date1YearFromNow,
@@ -17,17 +17,17 @@ import {
     dateRangesHasFromDateEqualPreviousRangeToDate,
     dateToday,
     isMoreThan3YearsAgo,
-} from '@sif-common/core/utils/dateUtils';
-import { timeToDecimalTime } from '@sif-common/core/utils/timeUtils';
+} from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { timeToDecimalTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import {
     createFieldValidationError,
     fieldIsRequiredError,
     FieldValidationErrors,
-} from '@sif-common/core/validation/fieldValidations';
-import { hasValue } from '@sif-common/core/validation/hasValue';
-import { FieldValidationResult } from '@sif-common/core/validation/types';
-import { Ferieuttak } from '@sif-common/forms/ferieuttak/types';
-import { Utenlandsopphold } from '@sif-common/forms/utenlandsopphold/types';
+} from '@navikt/sif-common-core/lib/validation/fieldValidations';
+import { hasValue } from '@navikt/sif-common-core/lib/validation/hasValue';
+import { FieldValidationResult } from '@navikt/sif-common-core/lib/validation/types';
+import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
+import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { Arbeidsforhold, Tilsynsordning } from '../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
 import { sumTimerMedTilsyn } from '../utils/tilsynUtils';

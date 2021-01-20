@@ -1,5 +1,5 @@
-import { YesOrNo } from '@sif-common/core/types/YesOrNo';
-import { validateFødselsnummer } from '@sif-common/core/validation/fieldValidations';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { validateFødselsnummer } from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import { AppFormField, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import * as fieldValidations from '../fieldValidations';
 import {
@@ -22,7 +22,7 @@ jest.mock('./../fieldValidations', () => {
     };
 });
 
-jest.mock('@sif-common/core/validation/fieldValidations', () => {
+jest.mock('@navikt/sif-common-core/lib/validation/fieldValidations', () => {
     return {
         validateFødselsnummer: jest.fn(() => undefined),
     };

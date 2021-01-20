@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import FormBlock from '@sif-common/core/components/form-block/FormBlock';
-import { BostedUtland } from '@sif-common/forms/bosted-utland/types';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import { BostedUtland } from '@navikt/sif-common-forms/lib/bosted-utland/types';
 import { useFormikContext } from 'formik';
 import moment from 'moment';
 import Lenke from 'nav-frontend-lenker';
-import Box from '@sif-common/core/components/box/Box';
-import CounsellorPanel from '@sif-common/core/components/counsellor-panel/CounsellorPanel';
-import { date1YearAgo, date1YearFromNow, dateToday } from '@sif-common/core/utils/dateUtils';
-import intlHelper from '@sif-common/core/utils/intlUtils';
-import { validateYesOrNoIsAnswered } from '@sif-common/core/validation/fieldValidations';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
+import { date1YearAgo, date1YearFromNow, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { validateYesOrNoIsAnswered } from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import getLenker from '../../../lenker';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
@@ -17,7 +17,7 @@ import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import BostedsoppholdIUtlandetFormPart from './BostedsoppholdIUtlandetFormPart';
 import { medlemskapQuestions } from './medlemskapConfig';
-import ExpandableInfo from '@sif-common/core/components/expandable-content/ExpandableInfo';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 const getFomForBostedNeste12 = (bosted: BostedUtland[]): Date => {
     const sisteBosted = bosted.length > 0 ? bosted[bosted.length - 1] : undefined;

@@ -4,9 +4,9 @@ import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatt
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
 import { Element, Systemtittel } from 'nav-frontend-typografi';
-import Box from '@sif-common/core/components/box/Box';
-import bemUtils from '@sif-common/core/utils/bemUtils';
-import { prettifyDate } from '@sif-common/core/utils/dateUtils';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
+import { prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import './arbeidsgiverUtskrift.less';
 
 interface Props {

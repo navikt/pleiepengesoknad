@@ -1,9 +1,9 @@
-import { Ferieuttak } from '@sif-common/forms/ferieuttak/types';
-import { Utenlandsopphold } from '@sif-common/forms/utenlandsopphold/types';
-import { Virksomhet } from '@sif-common/forms/virksomhet/types';
-import { Attachment } from '@sif-common/core/types/Attachment';
-import { Time } from '@sif-common/core/types/Time';
-import { YesOrNo } from '@sif-common/core/types/YesOrNo';
+import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
+import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
+import { Virksomhet } from '@navikt/sif-common-forms/lib/virksomhet/types';
+import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
+import { Time } from '@navikt/sif-common-core/lib/types/Time';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { Arbeidsgiver } from './Søkerdata';
 
 export enum ArbeidsforholdSkalJobbeSvar {

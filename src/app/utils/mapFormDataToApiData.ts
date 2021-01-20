@@ -1,8 +1,8 @@
-import { mapVirksomhetToVirksomhetApiData } from '@sif-common/forms/virksomhet/mapVirksomhetToApiData';
-import { Locale } from '@sif-common/core/types/Locale';
-import { YesOrNo } from '@sif-common/core/types/YesOrNo';
-import { attachmentUploadHasFailed } from '@sif-common/core/utils/attachmentUtils';
-import { formatDateToApiFormat } from '@sif-common/core/utils/dateUtils';
+import { mapVirksomhetToVirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/mapVirksomhetToApiData';
+import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { attachmentUploadHasFailed } from '@navikt/sif-common-core/lib/utils/attachmentUtils';
+import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { BarnToSendToApi, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../types/Søkerdata';

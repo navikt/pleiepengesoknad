@@ -19,11 +19,7 @@
         "noUnusedLocals": true,
         "baseUrl": "./src",
         "typeRoots": ["./node_modules/@types", "./src/@types"],
-        "paths": {
-            "@sif-common/forms*": ["../node_modules/@navikt/sif-common-forms/lib*"],
-            "@sif-common/formik*": ["../node_modules/@navikt/sif-common-formik/lib*"],
-            "@sif-common/core*": ["../node_modules/@navikt/sif-common-core/lib*"]
-        }
+        "paths": {}
     },
     "awesomeTypescriptLoaderOptions": {
         "useCache": false

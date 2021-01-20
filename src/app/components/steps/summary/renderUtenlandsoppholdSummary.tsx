@@ -1,18 +1,18 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import SummaryList from '@sif-common/core/components/summary-list/SummaryList';
-import { UtenlandsoppholdÅrsak } from '@sif-common/forms/utenlandsopphold/types';
-import bemUtils from '@sif-common/core/utils/bemUtils';
-import { apiStringDateToDate, prettifyDateExtended } from '@sif-common/core/utils/dateUtils';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import SummaryList from '@navikt/sif-common-core/lib/components/summary-list/SummaryList';
+import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
+import { apiStringDateToDate, prettifyDateExtended } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import {
     BostedUtlandApiData,
     FerieuttakIPeriodeApiData,
     isUtenlandsoppholdUtenforEØSApiData,
     PeriodeBarnetErInnlagtApiFormat,
     UtenlandsoppholdIPeriodenApiData,
-} from 'app/types/PleiepengesøknadApiData';
+} from '../../../types/PleiepengesøknadApiData';
 import './utenlandsoppholdSummaryItem.less';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
 
 const bem = bemUtils('utenlandsoppholdSummaryItem');
 

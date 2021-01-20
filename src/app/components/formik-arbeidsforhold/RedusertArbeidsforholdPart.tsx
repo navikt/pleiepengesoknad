@@ -1,12 +1,12 @@
 import React from 'react';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
-import { FormikInput, FormikRadioPanelGroup, SkjemagruppeQuestion } from '@sif-common/formik/';
-import Box from '@sif-common/core/components/box/Box';
-import CounsellorPanel from '@sif-common/core/components/counsellor-panel/CounsellorPanel';
-import intlHelper from '@sif-common/core/utils/intlUtils';
-import { decimalTimeToTime } from '@sif-common/core/utils/timeUtils';
-import { validateRequiredField, validateRequiredNumber } from '@sif-common/core/validation/fieldValidations';
-import { validateReduserteArbeidTimer } from 'app/validation/fieldValidations';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
+import { FormikInput, FormikRadioPanelGroup, SkjemagruppeQuestion } from '@navikt/sif-common-formik';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { decimalTimeToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
+import { validateRequiredField, validateRequiredNumber } from '@navikt/sif-common-core/lib/validation/fieldValidations';
+import { validateReduserteArbeidTimer } from '../../validation/fieldValidations';
 import { AppFormField, Arbeidsforhold, ArbeidsforholdField } from '../../types/PleiepengesøknadFormData';
 import {
     calcReduserteTimerFromRedusertProsent,

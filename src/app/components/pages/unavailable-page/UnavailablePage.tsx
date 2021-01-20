@@ -3,11 +3,11 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useLogSidevisning } from '@navikt/sif-common-amplitude';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
-import Box from '@sif-common/core/components/box/Box';
-import Page from '@sif-common/core/components/page/Page';
-import StepBanner from '@sif-common/core/components/step-banner/StepBanner';
-import bemUtils from '@sif-common/core/utils/bemUtils';
-import intlHelper from '@sif-common/core/utils/intlUtils';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import Page from '@navikt/sif-common-core/lib/components/page/Page';
+import StepBanner from '@navikt/sif-common-core/lib/components/step-banner/StepBanner';
+import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import './unavailablePage.less';
 
 const bem = bemUtils('introPage');

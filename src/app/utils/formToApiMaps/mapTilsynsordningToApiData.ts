@@ -1,5 +1,5 @@
-import { YesOrNo } from '@sif-common/core/types/YesOrNo';
-import { timeToIso8601Duration } from '@sif-common/core/utils/timeUtils';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { TilsynsordningApi } from '../../types/PleiepengesøknadApiData';
 import { Tilsynsordning, TilsynVetIkkeHvorfor } from '../../types/PleiepengesøknadFormData';
 

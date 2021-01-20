@@ -1,7 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import bemUtils from '@sif-common/core/utils/bemUtils';
-import intlHelper from '@sif-common/core/utils/intlUtils';
+import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 
 interface Props {
     children: React.ReactNode;

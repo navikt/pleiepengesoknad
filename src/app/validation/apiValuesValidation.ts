@@ -1,6 +1,6 @@
 import { IntlShape } from 'react-intl';
-import { ValidationSummaryError } from '@sif-common/core/components/validation-error-summary-base/ValidationErrorSummaryBase';
-import intlHelper from '@sif-common/core/utils/intlUtils';
+import { ValidationSummaryError } from '@navikt/sif-common-core/lib/components/validation-error-summary-base/ValidationErrorSummaryBase';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { ArbeidsforholdApi, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
 

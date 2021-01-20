@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Normaltekst } from 'nav-frontend-typografi';
-import LanguageToggle from '@sif-common/core/components/language-toggle/LanguageToggle';
-import ApplicationMessages from '@sif-common/core/dev-utils/intl/application-messages/ApplicationMessages';
-import { Locale } from '@sif-common/core/types/Locale';
+import LanguageToggle from '@navikt/sif-common-core/lib/components/language-toggle/LanguageToggle';
+import ApplicationMessages from '@navikt/sif-common-core/lib/dev-utils/intl/application-messages/ApplicationMessages';
+import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
 import IntlProvider, { appBokmålstekster, appNynorsktekster } from '../intl-provider/IntlProvider';
 

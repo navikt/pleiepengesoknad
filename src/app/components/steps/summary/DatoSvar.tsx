@@ -1,6 +1,6 @@
 import React from 'react';
-import { ApiStringDate } from '@sif-common/core/types/ApiStringDate';
-import { apiStringDateToDate, prettifyDate } from '@sif-common/core/utils/dateUtils';
+import { ApiStringDate } from '@navikt/sif-common-core/lib/types/ApiStringDate';
+import { apiStringDateToDate, prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 
 interface Props {
     apiDato: ApiStringDate;

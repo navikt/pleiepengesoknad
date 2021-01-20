@@ -4,17 +4,17 @@ import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-am
 import { useFormikContext } from 'formik';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
-import Box from '@sif-common/core/components/box/Box';
-import CounsellorPanel from '@sif-common/core/components/counsellor-panel/CounsellorPanel';
-import FileUploadErrors from '@sif-common/core/components/file-upload-errors/FileUploadErrors';
-import PictureScanningGuide from '@sif-common/core/components/picture-scanning-guide/PictureScanningGuide';
-import { Attachment } from '@sif-common/core/types/Attachment';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
+import FileUploadErrors from '@navikt/sif-common-core/lib/components/file-upload-errors/FileUploadErrors';
+import PictureScanningGuide from '@navikt/sif-common-core/lib/components/picture-scanning-guide/PictureScanningGuide';
+import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import {
     getTotalSizeOfAttachments,
     mapFileToPersistedFile,
     MAX_TOTAL_ATTACHMENT_SIZE_BYTES,
-} from '@sif-common/core/utils/attachmentUtils';
-import intlHelper from '@sif-common/core/utils/intlUtils';
+} from '@navikt/sif-common-core/lib/utils/attachmentUtils';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { persist } from '../../../api/api';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';

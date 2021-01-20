@@ -1,9 +1,9 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
-import bemUtils from '@sif-common/core/utils/bemUtils';
-import intlHelper from '@sif-common/core/utils/intlUtils';
-import { ArbeidsforholdApi } from 'app/types/PleiepengesøknadApiData';
+import { ArbeidsforholdApi } from '../../types/PleiepengesøknadApiData';
 import { calcRedusertProsentFromRedusertTimer } from '../../utils/arbeidsforholdUtils';
 import './arbeidsforholdSummary.less';
 

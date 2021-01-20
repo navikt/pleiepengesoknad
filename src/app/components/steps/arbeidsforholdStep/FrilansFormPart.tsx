@@ -1,16 +1,16 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { validateYesOrNoIsAnswered } from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import Panel from 'nav-frontend-paneler';
-import Box from '@sif-common/core/components/box/Box';
-import { YesOrNo } from '@sif-common/core/types/YesOrNo';
-import { dateToday } from '@sif-common/core/utils/dateUtils';
-import intlHelper from '@sif-common/core/utils/intlUtils';
-import { validateYesOrNoIsAnswered } from '@sif-common/core/validation/fieldValidations';
-import { AppFormField, PleiepengesøknadFormData } from 'app/types/PleiepengesøknadFormData';
+import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { validateFrilanserStartdato } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
 import FrilansEksempeltHtml from './FrilansEksempelHtml';
-import ExpandableInfo from '@sif-common/core/components/expandable-content/ExpandableInfo';
-import { validateFrilanserStartdato } from '../../../validation/fieldValidations';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
