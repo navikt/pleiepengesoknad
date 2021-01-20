@@ -71,7 +71,7 @@ const RelasjonTilBarnet = (intl: IntlShape, apiValues: PleiepengesøknadApiData)
                 <Normaltekst>
                     <FormattedMessage
                         id="steg.oppsummering.relasjonTilBarnet"
-                        values={{ relasjon: apiValues.barnRelasjon }}
+                        values={{ relasjon: intlHelper(intl, `barnRelasjon.${apiValues.barnRelasjon}`) }}
                     />
                 </Normaltekst>
             )}

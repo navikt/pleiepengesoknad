@@ -16,7 +16,6 @@ import { SkjemagruppeQuestion } from '@navikt/sif-common-formik/lib';
 import { Undertittel } from 'nav-frontend-typografi';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatted-html-message/FormattedHtmlMessage';
 
 interface Props {
     formValues: PleiepengesøknadFormData;

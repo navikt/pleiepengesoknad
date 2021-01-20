@@ -83,14 +83,17 @@ export const mapFormDataToApiData = (
                 barnetSøknadenGjelder
             );
 
+            const gjelderAnnetBarn = barnObject.aktørId === null;
             const sprak = getValidSpråk(locale);
             const apiData: PleiepengesøknadApiData = {
                 newVersion: true,
                 språk: sprak,
                 barn: barnObject,
-                barnRelasjon: relasjonTilBarnet,
+                barnRelasjon: gjelderAnnetBarn ? relasjonTilBarnet : undefined,
                 barnRelasjonBeskrivelse:
-                    relasjonTilBarnet === BarnRelasjon.ANNET ? relasjonTilBarnetBeskrivelse : undefined,
+                    gjelderAnnetBarn && relasjonTilBarnet === BarnRelasjon.ANNET
+                        ? relasjonTilBarnetBeskrivelse
+                        : undefined,
                 arbeidsgivere: {
                     organisasjoner: arbeidsforhold
                         .filter((a) => a.erAnsattIPerioden === YesOrNo.YES)
