@@ -16,6 +16,7 @@ import { SkjemagruppeQuestion } from '@navikt/sif-common-formik/lib';
 import { Undertittel } from 'nav-frontend-typografi';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatted-html-message/FormattedHtmlMessage';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
@@ -100,9 +101,12 @@ const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues }) => {
                         <AppForm.Textarea
                             label={intlHelper(intl, 'steg.omBarnet.relasjonAnnet.spm')}
                             description={
-                                <ExpandableInfo title={intlHelper(intl, 'steg.omBarnet.relasjonAnnet.info.tittel')}>
-                                    <FormattedMessage id="steg.omBarnet.relasjonAnnet.info.hjelpetekst" />
-                                </ExpandableInfo>
+                                <>
+                                    <FormattedMessage tagName="p" id="steg.omBarnet.relasjonAnnet.info.tekst" />
+                                    <ExpandableInfo title={intlHelper(intl, 'steg.omBarnet.relasjonAnnet.info.tittel')}>
+                                        <FormattedMessage id="steg.omBarnet.relasjonAnnet.info.hjelpetekst" />
+                                    </ExpandableInfo>
+                                </>
                             }
                             name={AppFormField.relasjonTilBarnetBeskrivelse}
                             validate={validateRelasjonTilBarnetBeskrivelse}

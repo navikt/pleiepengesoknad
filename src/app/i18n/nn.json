@@ -202,6 +202,7 @@
     "steg.omBarnet.relasjon.spm": "Kva er din relasjon til barnet?",
     "steg.omBarnet.relasjonAnnet.spm": "Beskriv relasjon og tilsynsoppgåve(r)",
     "steg.omBarnet.relasjonAnnet.info.tittel": "Vis eksempler på relasjon og tilsynsoppgåver",
+    "steg.omBarnet.relasjonAnnet.info.tekst": "Beskriv her kven du er i forhold til barnet og kva tilsynsrolle du har i perioden du søkjer",
     "steg.omBarnet.relasjonAnnet.info.hjelpetekst": "Tekst kommer",
 
     "steg.tidsrom.hjelpetekst.tittel": "Kan eg søke for fleire periodar samtidig?",
