@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { Arbeidsforhold } from '../types/PleiepengesøknadFormData';
-import { Arbeidsgiver } from '../types/Søkerdata';
+import { Arbeidsforhold } from '../../types/PleiepengesøknadFormData';
+import { Arbeidsgiver } from '../../types/Søkerdata';
 import { syncArbeidsforholdWithArbeidsgivere } from '../arbeidsforholdUtils';
 
 const organisasjoner: Arbeidsgiver[] = [
