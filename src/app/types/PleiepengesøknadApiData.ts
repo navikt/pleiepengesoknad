@@ -128,7 +128,7 @@ export interface PleiepengesøknadApiData {
     språk: Locale;
     barn: BarnToSendToApi;
     barnRelasjon: BarnRelasjon;
-    barnRelasjonAnnet?: string;
+    barnRelasjonBeskrivelse?: string;
     fraOgMed: ApiStringDate;
     tilOgMed: ApiStringDate;
     skalBekrefteOmsorg?: boolean;

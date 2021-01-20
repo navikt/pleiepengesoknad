@@ -43,7 +43,7 @@ export enum AppFormField {
     barnetsFødselsdato = 'barnetsFødselsdato',
     barnetSøknadenGjelder = 'barnetSøknadenGjelder',
     relasjonTilBarnet = 'relasjonTilBarnet',
-    relasjonTilBarnetAnnet = 'relasjonTilBarnetAnnet',
+    relasjonTilBarnetBeskrivelse = 'relasjonTilBarnetBeskrivelse',
     søknadenGjelderEtAnnetBarn = 'søknadenGjelderEtAnnetBarn',
     periodeFra = 'periodeFra',
     periodeTil = 'periodeTil',
@@ -122,7 +122,7 @@ export interface PleiepengesøknadFormData {
     [AppFormField.barnetSøknadenGjelder]: string;
     [AppFormField.barnetHarIkkeFåttFødselsnummerEnda]: boolean;
     [AppFormField.relasjonTilBarnet]?: BarnRelasjon;
-    [AppFormField.relasjonTilBarnetAnnet]?: string;
+    [AppFormField.relasjonTilBarnetBeskrivelse]?: string;
     [AppFormField.arbeidsforhold]: Arbeidsforhold[];
     [AppFormField.periodeFra]?: string;
     [AppFormField.periodeTil]?: string;

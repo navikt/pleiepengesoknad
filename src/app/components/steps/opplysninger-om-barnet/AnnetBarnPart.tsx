@@ -8,7 +8,7 @@ import { useFormikContext } from 'formik';
 import { AppFormField, BarnRelasjon, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import {
     validateFødselsdato,
-    validateRelasjonTilBarnetAnnet,
+    validateRelasjonTilBarnetBeskrivelse,
     validateNavn,
 } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
@@ -104,8 +104,8 @@ const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues }) => {
                                     <FormattedMessage id="steg.omBarnet.relasjonAnnet.info.hjelpetekst" />
                                 </ExpandableInfo>
                             }
-                            name={AppFormField.relasjonTilBarnetAnnet}
-                            validate={validateRelasjonTilBarnetAnnet}
+                            name={AppFormField.relasjonTilBarnetBeskrivelse}
+                            validate={validateRelasjonTilBarnetBeskrivelse}
                             value={formValues.relasjonTilBarnet || ''}
                         />
                     </FormBlock>

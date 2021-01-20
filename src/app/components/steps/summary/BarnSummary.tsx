@@ -77,9 +77,9 @@ const RelasjonTilBarnet = (intl: IntlShape, apiValues: PleiepengesøknadApiData)
             )}
             {apiValues.barnRelasjon === BarnRelasjon.ANNET && (
                 <Normaltekst tag="div">
-                    <FormattedMessage id="steg.oppsummering.relasjonTilBarnetAnnet" />
+                    <FormattedMessage id="steg.oppsummering.relasjonTilBarnetBeskrivelse" />
                     <Sitat>
-                        <TextareaSummary text={apiValues.barnRelasjonAnnet} />
+                        <TextareaSummary text={apiValues.barnRelasjonBeskrivelse} />
                     </Sitat>
                 </Normaltekst>
             )}

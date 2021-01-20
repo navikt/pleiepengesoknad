@@ -190,7 +190,7 @@ export const validateTilsynsordningTilleggsinfo = (text: string): FieldValidatio
     return undefined;
 };
 
-export const validateRelasjonTilBarnetAnnet = (text: string): FieldValidationResult => {
+export const validateRelasjonTilBarnetBeskrivelse = (text: string): FieldValidationResult => {
     if (!hasValue(text)) {
         return fieldIsRequiredError();
     }

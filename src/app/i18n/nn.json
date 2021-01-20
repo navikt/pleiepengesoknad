@@ -268,7 +268,7 @@
     "steg.oppsummering.barnet.fnr": "Fødselsnummer: {fnr}",
     "steg.oppsummering.relasjonTilBarnet.header": "Relasjon til barnet",
     "steg.oppsummering.relasjonTilBarnet": "Relasjon til barnet: {relasjon}",
-    "steg.oppsummering.relasjonTilBarnetAnnet": "Relasjon og tilsynsoppgåve(r):",
+    "steg.oppsummering.relasjonTilBarnetBeskrivelse": "Relasjon og tilsynsoppgåve(r):",
 
     "steg.oppsummering.utenlandsoppholdIPerioden.header": "Skal du vere i utlandet i perioden?",
     "steg.oppsummering.utenlandsoppholdIPerioden.listetittel": "Utanlandsopphald i perioden",

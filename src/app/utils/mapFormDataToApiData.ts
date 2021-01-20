@@ -66,7 +66,7 @@ export const mapFormDataToApiData = (
         skalTaUtFerieIPerioden,
         harHattInntektSomFrilanser,
         relasjonTilBarnet,
-        relasjonTilBarnetAnnet,
+        relasjonTilBarnetBeskrivelse,
     } = formData;
 
     const periodeFra = datepickerUtils.getDateFromDateString(formData.periodeFra);
@@ -89,7 +89,8 @@ export const mapFormDataToApiData = (
                 språk: sprak,
                 barn: barnObject,
                 barnRelasjon: relasjonTilBarnet,
-                barnRelasjonAnnet: relasjonTilBarnet === BarnRelasjon.ANNET ? relasjonTilBarnetAnnet : undefined,
+                barnRelasjonBeskrivelse:
+                    relasjonTilBarnet === BarnRelasjon.ANNET ? relasjonTilBarnetBeskrivelse : undefined,
                 arbeidsgivere: {
                     organisasjoner: arbeidsforhold
                         .filter((a) => a.erAnsattIPerioden === YesOrNo.YES)
