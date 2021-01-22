@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useLogSidevisning } from '@navikt/sif-common-amplitude';
+import { SIFCommonPageKey, useLogSidevisning } from '@navikt/sif-common-amplitude';
 import { Sidetittel } from 'nav-frontend-typografi';
 import ActionLink from '@navikt/sif-common-core/lib/components/action-link/ActionLink';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
@@ -24,7 +24,7 @@ const WelcomingPage = ({ onValidSubmit }: Props) => {
     const [dinePlikterModalOpen, setDinePlikterModalOpen] = React.useState(false);
     const [behandlingAvPersonopplysningerModalOpen, setBehandlingAvPersonopplysningerModalOpen] = React.useState(false);
 
-    useLogSidevisning('velkommen');
+    useLogSidevisning(SIFCommonPageKey.velkommen);
 
     return (
         <>
