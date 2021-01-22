@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useLogSidevisning } from '@navikt/sif-common-amplitude';
+import { SIFCommonPageKey, useLogSidevisning } from '@navikt/sif-common-amplitude';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
@@ -17,7 +17,7 @@ const link = 'https://www.nav.no/soknader/nb/person/familie/pleiepenger-og-oppla
 const UnavailablePage = () => {
     const intl = useIntl();
     const title = intlHelper(intl, 'application.title');
-    useLogSidevisning('ikkeTilgjengelig');
+    useLogSidevisning(SIFCommonPageKey.ikkeTilgjengelig);
     return (
         <Page className={bem.block} title={title} topContentRenderer={() => <StepBanner text={title} />}>
             <Box margin="xxxl">
