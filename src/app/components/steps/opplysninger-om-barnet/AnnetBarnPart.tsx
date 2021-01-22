@@ -101,9 +101,19 @@ const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues }) => {
                             label={intlHelper(intl, 'steg.omBarnet.relasjonAnnet.spm')}
                             description={
                                 <>
-                                    <FormattedMessage tagName="p" id="steg.omBarnet.relasjonAnnet.info.tekst" />
                                     <ExpandableInfo title={intlHelper(intl, 'steg.omBarnet.relasjonAnnet.info.tittel')}>
-                                        <FormattedMessage id="steg.omBarnet.relasjonAnnet.info.hjelpetekst" />
+                                        <FormattedMessage
+                                            tagName="div"
+                                            id="steg.omBarnet.relasjonAnnet.info.hjelpetekst.1"
+                                        />
+                                        <FormattedMessage
+                                            tagName="p"
+                                            id="steg.omBarnet.relasjonAnnet.info.hjelpetekst.2"
+                                        />
+                                        <FormattedMessage
+                                            tagName="p"
+                                            id="steg.omBarnet.relasjonAnnet.info.hjelpetekst.3"
+                                        />
                                     </ExpandableInfo>
                                 </>
                             }
