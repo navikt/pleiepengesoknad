@@ -84,6 +84,13 @@ export enum ArbeidsforholdField {
     jobberNormaltTimer = 'jobberNormaltTimer',
     skalJobbeTimer = 'skalJobbeTimer',
     skalJobbeProsent = 'skalJobbeProsent',
+    arbeidsform = 'arbeidsform',
+}
+
+export enum Arbeidsform {
+    fast = 'fast',
+    turnus = 'turnus',
+    varierende = 'variende',
 }
 
 export interface Arbeidsforhold extends Arbeidsgiver {
@@ -93,6 +100,7 @@ export interface Arbeidsforhold extends Arbeidsgiver {
     [ArbeidsforholdField.timerEllerProsent]?: 'timer' | 'prosent';
     [ArbeidsforholdField.skalJobbeTimer]?: number;
     [ArbeidsforholdField.skalJobbeProsent]?: number;
+    [ArbeidsforholdField.arbeidsform]?: Arbeidsform;
 }
 
 export enum TilsynVetIkkeHvorfor {
