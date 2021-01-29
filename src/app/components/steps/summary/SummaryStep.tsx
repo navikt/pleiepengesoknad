@@ -80,13 +80,17 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
     const intl = useIntl();
     const history = useHistory();
 
-    const { logSoknadSent, logSoknadFailed, logUserLoggedOut } = useAmplitudeInstance();
+    const { logInfo, logSoknadSent, logSoknadFailed, logUserLoggedOut } = useAmplitudeInstance();
 
     const sendSoknad = async (apiValues: PleiepengesøknadApiData, søkerdata: Søkerdata) => {
         setSendingInProgress(true);
         try {
             await sendApplication(apiValues);
             await logSoknadSent(SKJEMANAVN);
+            await logInfo({
+                antallArbeidsgivere: søkerdata.arbeidsgivere?.length,
+                antallAktiveArbeidsgivere: apiValues.arbeidsgivere.organisasjoner.length,
+            });
             await purge();
             setSoknadSent(true);
             onApplicationSent(apiValues, søkerdata);
