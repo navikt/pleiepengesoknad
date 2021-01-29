@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import BuildingIcon from '@navikt/sif-common-core/lib/components/building-icon/BuildingIconSvg';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
@@ -7,16 +7,22 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import LoadingSpinner from '@navikt/sif-common-core/lib/components/loading-spinner/LoadingSpinner';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { useFormikContext } from 'formik';
-import AlertStripe from 'nav-frontend-alertstriper';
+// import AlertStripe from 'nav-frontend-alertstriper';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { getArbeidsgivere } from '../../../utils/arbeidsforholdUtils';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
-import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import FormikArbeidsforhold from '../../formik-arbeidsforhold/FormikArbeidsforhold';
 import FormikStep from '../../formik-step/FormikStep';
-import FrilansFormPart from './FrilansFormPart';
-import SelvstendigNæringsdrivendeFormPart from './SelvstendigNæringsdrivendePart';
+// import FrilansFormPart from './FrilansFormPart';
+// import SelvstendigNæringsdrivendeFormPart from './SelvstendigNæringsdrivendePart';
+import { Undertittel } from 'nav-frontend-typografi';
+import AppForm from '../../app-form/AppForm';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { validateYesOrNoIsAnswered } from '@navikt/sif-common-core/lib/validation/fieldValidations';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import FrilansEksempeltHtml from './FrilansEksempelHtml';
 
 interface LoadState {
     isLoading: boolean;
@@ -34,6 +40,7 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
 
     const { isLoading, isLoaded } = loadState;
     const { periodeFra } = values;
+    const intl = useIntl();
 
     useEffect(() => {
         const fraDato = datepickerUtils.getDateFromDateString(periodeFra);
@@ -66,12 +73,20 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                             />
                         </CounsellorPanel>
                     </Box>
+                    <Box margin="xl">
+                        <Undertittel tag="h2">Arbeidsforhold</Undertittel>
+                        <p>
+                            Nedenfor ser du de arbeidsforholdene vi har registrert på deg. Dersom det mangler et
+                            arbeidsforhold her, må du be arbeidsgiveren din sende ny A-melding, enten via lønns- og
+                            personalsystemet eller gjennom Altinn.
+                        </p>
+                    </Box>
                     {arbeidsforhold.length > 0 && (
-                        <>
+                        <div className="arbeidsforhold">
                             {arbeidsforhold.map((forhold, index) => (
                                 <FormBlock key={forhold.organisasjonsnummer}>
                                     <FormSection
-                                        titleTag="h2"
+                                        titleTag="h3"
                                         title={forhold.navn}
                                         titleIcon={<BuildingIcon />}
                                         indentContent={false}>
@@ -79,24 +94,38 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                                     </FormSection>
                                 </FormBlock>
                             ))}
-                        </>
+                        </div>
                     )}
 
                     {arbeidsforhold.length === 0 && <FormattedMessage id="steg.arbeidsforhold.ingenOpplysninger" />}
 
-                    <Box margin="l">
+                    {/* <Box margin="l">
                         <AlertStripe type="info">
                             <FormattedMessage id="steg.arbeidsforhold.manglesOpplysninger" />
                         </AlertStripe>
-                    </Box>
+                    </Box> */}
 
                     <Box margin="xl">
                         <FormSection title="Frilansere og selvstendig næringsdrivende">
                             <FormBlock>
-                                <FrilansFormPart formValues={values} />
+                                <AppForm.YesOrNoQuestion
+                                    name={AppFormField.frilans_harHattInntektSomFrilanser}
+                                    legend={intlHelper(intl, 'frilanser.harDuHattInntekt.spm')}
+                                    validate={validateYesOrNoIsAnswered}
+                                    description={
+                                        <ExpandableInfo title={intlHelper(intl, 'frilanser.hjelpetekst.spm')}>
+                                            <FrilansEksempeltHtml />
+                                        </ExpandableInfo>
+                                    }
+                                />
+                                {/* <FrilansFormPart formValues={values} /> */}
                             </FormBlock>
                             <FormBlock>
-                                <SelvstendigNæringsdrivendeFormPart formValues={values} />
+                                <AppForm.YesOrNoQuestion
+                                    name={AppFormField.selvstendig_harHattInntektSomSN}
+                                    legend={intlHelper(intl, 'selvstendig.harDuHattInntekt.spm')}
+                                    validate={validateYesOrNoIsAnswered}
+                                />
                             </FormBlock>
                         </FormSection>
                     </Box>

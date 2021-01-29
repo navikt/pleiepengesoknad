@@ -15,6 +15,7 @@ import {
 import './timerInput.less';
 import AppForm from '../app-form/AppForm';
 import { Element } from 'nav-frontend-typografi';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
@@ -51,7 +52,7 @@ const RedusertArbeidsforholdPart = ({
     const intl = useIntl();
     return jobberNormaltTimer ? (
         <>
-            <Box margin="l">
+            <FormBlock>
                 <AppForm.RadioPanelGroup
                     legend="Hvordan jobber du?"
                     name={getFieldName(ArbeidsforholdField.arbeidsform)}
@@ -70,7 +71,7 @@ const RedusertArbeidsforholdPart = ({
                         },
                     ]}
                 />
-            </Box>
+            </FormBlock>
             {arbeidsform !== undefined && (
                 <>
                     <Box margin="xl">
