@@ -78,6 +78,7 @@ const RedusertArbeidsforholdDetaljerPart = ({
                                     validate={(value) => validateReduserteArbeidTimer(value, jobberNormaltTimer, true)}
                                     className="skjemaelement--timer-input"
                                     value={skalJobbeTimer || ''}
+                                    step=".01"
                                     min={0}
                                     max={100}
                                 />
