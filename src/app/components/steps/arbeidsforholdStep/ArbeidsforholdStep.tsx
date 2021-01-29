@@ -101,9 +101,9 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                         </AlertStripe>
                     </Box> */}
 
-                    <Box margin="xl">
+                    <Box margin="xxl">
                         <FormSection title="Frilansere og selvstendig næringsdrivende">
-                            <FormBlock>
+                            <FormBlock margin="l">
                                 <FrilansFormPart formValues={values} />
                             </FormBlock>
                             <FormBlock>
