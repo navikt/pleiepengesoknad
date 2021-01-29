@@ -6,6 +6,7 @@ import routeConfig from './routeConfig';
 export enum StepID {
     'OPPLYSNINGER_OM_BARNET' = 'opplysninger-om-barnet',
     'ARBEIDSFORHOLD' = 'arbeidsforhold',
+    'ARBEIDSFORHOLD_I_PERIODEN' = 'arbeidsforhold-i-perioden',
     'OMSORGSTILBUD' = 'omsorgstilbud',
     'NATTEVÅK' = 'nattevåk',
     'BEREDSKAP' = 'beredskap',
@@ -65,14 +66,20 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
         [StepID.ARBEIDSFORHOLD]: {
             ...getStepConfigItemTextKeys(StepID.ARBEIDSFORHOLD),
             index: idx++,
-            nextStep: StepID.OMSORGSTILBUD,
+            nextStep: StepID.ARBEIDSFORHOLD_I_PERIODEN,
             backLinkHref: getSøknadRoute(StepID.TIDSROM),
+        },
+        [StepID.ARBEIDSFORHOLD_I_PERIODEN]: {
+            ...getStepConfigItemTextKeys(StepID.ARBEIDSFORHOLD_I_PERIODEN),
+            index: idx++,
+            nextStep: StepID.OMSORGSTILBUD,
+            backLinkHref: getSøknadRoute(StepID.ARBEIDSFORHOLD),
         },
         [StepID.OMSORGSTILBUD]: {
             ...getStepConfigItemTextKeys(StepID.OMSORGSTILBUD),
             index: idx++,
             nextStep: includeNattevåkAndBeredskap ? StepID.NATTEVÅK : StepID.MEDLEMSKAP,
-            backLinkHref: getSøknadRoute(StepID.ARBEIDSFORHOLD),
+            backLinkHref: getSøknadRoute(StepID.ARBEIDSFORHOLD_I_PERIODEN),
         },
     };
 
