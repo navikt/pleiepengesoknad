@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import BuildingIcon from '@navikt/sif-common-core/lib/components/building-icon/BuildingIconSvg';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
@@ -7,22 +7,19 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import LoadingSpinner from '@navikt/sif-common-core/lib/components/loading-spinner/LoadingSpinner';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { useFormikContext } from 'formik';
-// import AlertStripe from 'nav-frontend-alertstriper';
-import FormSection from '../../../pre-common/form-section/FormSection';
-import { getArbeidsgivere } from '../../../utils/arbeidsforholdUtils';
-import { StepConfigProps, StepID } from '../../../config/stepConfig';
-import { SøkerdataContext } from '../../../context/SøkerdataContext';
-import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import FormikArbeidsforhold from '../../formik-arbeidsforhold/FormikArbeidsforhold';
-import FormikStep from '../../formik-step/FormikStep';
 // import FrilansFormPart from './FrilansFormPart';
 // import SelvstendigNæringsdrivendeFormPart from './SelvstendigNæringsdrivendePart';
 import { Undertittel } from 'nav-frontend-typografi';
-import AppForm from '../../app-form/AppForm';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { validateYesOrNoIsAnswered } from '@navikt/sif-common-core/lib/validation/fieldValidations';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import FrilansEksempeltHtml from './FrilansEksempelHtml';
+// import AlertStripe from 'nav-frontend-alertstriper';
+import FormSection from '../../../pre-common/form-section/FormSection';
+import { StepConfigProps, StepID } from '../../../config/stepConfig';
+import { SøkerdataContext } from '../../../context/SøkerdataContext';
+import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { getArbeidsgivere } from '../../../utils/arbeidsforholdUtils';
+import FormikArbeidsforhold from '../../formik-arbeidsforhold/FormikArbeidsforhold';
+import FormikStep from '../../formik-step/FormikStep';
+import FrilansFormPart from './FrilansFormPart';
+import SelvstendigNæringsdrivendeFormPart from './SelvstendigNæringsdrivendePart';
 
 interface LoadState {
     isLoading: boolean;
@@ -40,7 +37,6 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
 
     const { isLoading, isLoaded } = loadState;
     const { periodeFra } = values;
-    const intl = useIntl();
 
     useEffect(() => {
         const fraDato = datepickerUtils.getDateFromDateString(periodeFra);
@@ -108,24 +104,10 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                     <Box margin="xl">
                         <FormSection title="Frilansere og selvstendig næringsdrivende">
                             <FormBlock>
-                                <AppForm.YesOrNoQuestion
-                                    name={AppFormField.frilans_harHattInntektSomFrilanser}
-                                    legend={intlHelper(intl, 'frilanser.harDuHattInntekt.spm')}
-                                    validate={validateYesOrNoIsAnswered}
-                                    description={
-                                        <ExpandableInfo title={intlHelper(intl, 'frilanser.hjelpetekst.spm')}>
-                                            <FrilansEksempeltHtml />
-                                        </ExpandableInfo>
-                                    }
-                                />
-                                {/* <FrilansFormPart formValues={values} /> */}
+                                <FrilansFormPart formValues={values} />
                             </FormBlock>
                             <FormBlock>
-                                <AppForm.YesOrNoQuestion
-                                    name={AppFormField.selvstendig_harHattInntektSomSN}
-                                    legend={intlHelper(intl, 'selvstendig.harDuHattInntekt.spm')}
-                                    validate={validateYesOrNoIsAnswered}
-                                />
+                                <SelvstendigNæringsdrivendeFormPart formValues={values} />
                             </FormBlock>
                         </FormSection>
                     </Box>
