@@ -99,6 +99,10 @@
     "step.arbeidsforhold.stepTitle": "Arbeidssituasjon",
     "step.arbeidsforhold.stepIndicatorLabel": "Om ditt arbeidsforhold",
 
+    "step.arbeidsforholdIPerioden.pageTitle": "Pleiepengesøknad - opplysninger om ditt arbeidsforhold i perioden",
+    "step.arbeidsforholdIPerioden.stepTitle": "Arbeidssituasjon i perioden",
+    "step.arbeidsforholdIPerioden.stepIndicatorLabel": "Om ditt arbeidsforhold i perioden du søker for",
+
     "step.omsorgstilbud.pageTitle": "Pleiepengesøknad - omsorgstilbud",
     "step.omsorgstilbud.stepTitle": "Omsorgstilbud",
     "step.omsorgstilbud.stepIndicatorLabel": "Omsorgstilbud",

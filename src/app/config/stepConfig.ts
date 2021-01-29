@@ -6,7 +6,7 @@ import routeConfig from './routeConfig';
 export enum StepID {
     'OPPLYSNINGER_OM_BARNET' = 'opplysninger-om-barnet',
     'ARBEIDSFORHOLD' = 'arbeidsforhold',
-    'ARBEIDSFORHOLD_I_PERIODEN' = 'arbeidsforhold-i-perioden',
+    'ARBEIDSFORHOLD_I_PERIODEN' = 'arbeidsforholdIPerioden',
     'OMSORGSTILBUD' = 'omsorgstilbud',
     'NATTEVÅK' = 'nattevåk',
     'BEREDSKAP' = 'beredskap',
