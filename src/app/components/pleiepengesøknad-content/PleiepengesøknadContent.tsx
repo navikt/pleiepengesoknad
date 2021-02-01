@@ -26,7 +26,7 @@ import SummaryStep from '../steps/summary/SummaryStep';
 import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromStep';
 import TilsynsordningStep from '../steps/tilsynsordning/TilsynsordningStep';
 import { SKJEMANAVN } from '../../App';
-import ArbeidsforholdIPeriodenStep from '../steps/arbeidsforholdStep/ArbeidsforholdIPeriodenStep';
+import ArbeidsforholdIPeriodenStep from '../steps/arbeidsforhold-i-perioden/ArbeidsforholdIPeriodenStep';
 
 interface PleiepengesøknadContentProps {
     lastStepID: StepID;

@@ -29,6 +29,8 @@ const FormikArbeidsforhold = ({ arbeidsforhold, index }: Props) => {
         <FieldArray name={AppFormField.arbeidsforhold}>
             {({ name }) => {
                 const getFieldName = (field: ArbeidsforholdField) => `${name}.${index}.${field}` as AppFormField;
+                console.log(name);
+
                 return (
                     <Box padBottom="l">
                         <AppForm.YesOrNoQuestion
@@ -102,7 +104,8 @@ const FormikArbeidsforhold = ({ arbeidsforhold, index }: Props) => {
                                                             )}
                                                         </Box>
                                                     }
-                                                    type="number"
+                                                    type="text"
+                                                    inputMode="numeric"
                                                     className={'skjemaelement--timer-input'}
                                                     label={intlHelper(intl, 'arbeidsforhold.iDag.utledet')}
                                                     validate={(value) =>

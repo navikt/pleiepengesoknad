@@ -8,12 +8,21 @@ import FormikArbeidsforholdDetaljer from '../../formik-arbeidsforholdDetaljer/Fo
 import FormikStep from '../../formik-step/FormikStep';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
+import { YesOrNo } from '@navikt/sif-common-formik/lib';
 
 const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
     const formikProps = useFormikContext<PleiepengesøknadFormData>();
     const {
         values: { arbeidsforhold },
     } = formikProps;
+
+    // Index må være samme på tvers av alle arbeidsforhold, også dem som en ikke er ansatt i
+    const aktiveArbeidsforhold = arbeidsforhold
+        .map((arbeidsforhold, index) => ({
+            index,
+            arbeidsforhold,
+        }))
+        .filter((a) => a.arbeidsforhold.erAnsattIPerioden === YesOrNo.YES);
 
     return (
         <FormikStep id={StepID.ARBEIDSFORHOLD_I_PERIODEN} onValidFormSubmit={onValidSubmit}>
@@ -24,7 +33,7 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
                 </CounsellorPanel>
             </Box>
             <div className="arbeidsforhold">
-                {arbeidsforhold.map((arbeidsforhold, index) => (
+                {aktiveArbeidsforhold.map(({ arbeidsforhold, index }) => (
                     <FormSection
                         title={arbeidsforhold.navn}
                         key={arbeidsforhold.organisasjonsnummer}

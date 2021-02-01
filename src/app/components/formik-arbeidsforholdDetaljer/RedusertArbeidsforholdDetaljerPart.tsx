@@ -41,11 +41,11 @@ const getLabelForTimerRedusert = (intl: IntlShape, timerNormalt: number, timerRe
     return intlHelper(intl, 'arbeidsforhold.timer.utledet', { timer: timerNormalt });
 };
 
-const RedusertArbeidsforholdDetaljerPart = ({
-    arbeidsforhold: { timerEllerProsent, jobberNormaltTimer, skalJobbeTimer, skalJobbeProsent, arbeidsform },
-    getFieldName,
-}: Props) => {
+const RedusertArbeidsforholdDetaljerPart = ({ arbeidsforhold, getFieldName }: Props) => {
     const intl = useIntl();
+    const { timerEllerProsent, jobberNormaltTimer, skalJobbeTimer, skalJobbeProsent, arbeidsform } = arbeidsforhold;
+    console.log(arbeidsforhold);
+
     return jobberNormaltTimer ? (
         <>
             {arbeidsform !== undefined && (
@@ -78,7 +78,6 @@ const RedusertArbeidsforholdDetaljerPart = ({
                                     validate={(value) => validateReduserteArbeidTimer(value, jobberNormaltTimer, true)}
                                     className="skjemaelement--timer-input"
                                     value={skalJobbeTimer || ''}
-                                    step=".01"
                                     min={0}
                                     max={100}
                                 />

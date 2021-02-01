@@ -51,7 +51,6 @@ const FormikArbeidsforholdDetaljer = ({ arbeidsforhold, index }: Props) => {
                                     },
                                 ]}
                             />
-                            {arbeidsforhold.skalJobbe && <></>}
                             {arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.redusert && (
                                 <RedusertArbeidsforholdDetaljerPart
                                     arbeidsforhold={arbeidsforhold}
