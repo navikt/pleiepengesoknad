@@ -1,6 +1,5 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { validateRequiredField } from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import { FieldArray } from 'formik';
@@ -25,7 +24,7 @@ const FormikArbeidsforholdDetaljer = ({ arbeidsforhold, index }: Props) => {
             {({ name }) => {
                 const getFieldName = (field: ArbeidsforholdField) => `${name}.${index}.${field}` as AppFormField;
                 return (
-                    <FormBlock>
+                    <>
                         <AppForm.RadioPanelGroup
                             legend={intlHelper(intl, 'arbeidsforhold.arbeidsforhold.spm')}
                             name={getFieldName(ArbeidsforholdField.skalJobbe)}
@@ -55,7 +54,7 @@ const FormikArbeidsforholdDetaljer = ({ arbeidsforhold, index }: Props) => {
                                 getFieldName={getFieldName}
                             />
                         )}
-                    </FormBlock>
+                    </>
                 );
             }}
         </FieldArray>

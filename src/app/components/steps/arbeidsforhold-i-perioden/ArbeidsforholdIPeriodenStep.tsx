@@ -32,16 +32,18 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
                     mer info om disse.
                 </CounsellorPanel>
             </Box>
-            <div className="arbeidsforhold">
-                {aktiveArbeidsforhold.map(({ arbeidsforhold, index }) => (
-                    <FormSection
-                        title={arbeidsforhold.navn}
-                        key={arbeidsforhold.organisasjonsnummer}
-                        titleIcon={<BuildingIcon />}>
-                        <FormikArbeidsforholdDetaljer arbeidsforhold={arbeidsforhold} index={index} />
-                    </FormSection>
-                ))}
-            </div>
+            <Box margin="xl">
+                <div className="arbeidsforhold">
+                    {aktiveArbeidsforhold.map(({ arbeidsforhold, index }) => (
+                        <FormSection
+                            title={arbeidsforhold.navn}
+                            key={arbeidsforhold.organisasjonsnummer}
+                            titleIcon={<BuildingIcon />}>
+                            <FormikArbeidsforholdDetaljer arbeidsforhold={arbeidsforhold} index={index} />
+                        </FormSection>
+                    ))}
+                </div>
+            </Box>
         </FormikStep>
     );
 };
