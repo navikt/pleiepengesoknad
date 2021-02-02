@@ -11,6 +11,7 @@ import {
 } from '../../types/PleiepengesøknadFormData';
 import AppForm from '../app-form/AppForm';
 import RedusertArbeidsforholdDetaljerPart from './RedusertArbeidsforholdDetaljerPart';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
@@ -27,6 +28,13 @@ const FormikArbeidsforholdDetaljer = ({ arbeidsforhold, index }: Props) => {
                     <>
                         <AppForm.RadioPanelGroup
                             legend={intlHelper(intl, 'arbeidsforhold.arbeidsforhold.spm')}
+                            description={
+                                <ExpandableInfo title="Hva betyr dette?">
+                                    For å kunne fastsette hvor mye pleiepenger du kan få trenger vi å vite om du skal
+                                    jobbe i samme periode som du skal ha pleiepenger. Klikk på den situasjonen som
+                                    passer best i din situasjon.
+                                </ExpandableInfo>
+                            }
                             name={getFieldName(ArbeidsforholdField.skalJobbe)}
                             validate={validateRequiredField}
                             radios={[

@@ -96,12 +96,12 @@
     "steg.tidsrom.ferieuttakIPerioden.veileder": "Hvis du skal ha ferie og er usikker på om det er lovbestemt ferie, må du sjekke det med arbeidsgiveren din.",
 
     "step.arbeidsforhold.pageTitle": "Pleiepengesøknad - opplysninger om ditt arbeidsforhold",
-    "step.arbeidsforhold.stepTitle": "Arbeidssituasjon",
+    "step.arbeidsforhold.stepTitle": "Arbeidsforhold",
     "step.arbeidsforhold.stepIndicatorLabel": "Om ditt arbeidsforhold",
 
-    "step.arbeidsforholdIPerioden.pageTitle": "Pleiepengesøknad - opplysninger om ditt arbeidsforhold i perioden",
-    "step.arbeidsforholdIPerioden.stepTitle": "Arbeidssituasjon i perioden",
-    "step.arbeidsforholdIPerioden.stepIndicatorLabel": "Om ditt arbeidsforhold i perioden du søker for",
+    "step.arbeidsforholdIPerioden.pageTitle": "Pleiepengesøknad - opplysninger om jobb i perioden",
+    "step.arbeidsforholdIPerioden.stepTitle": "Jobb i perioden med pleiepenger",
+    "step.arbeidsforholdIPerioden.stepIndicatorLabel": "Jobb i perioden med pleiepenger",
 
     "step.omsorgstilbud.pageTitle": "Pleiepengesøknad - omsorgstilbud",
     "step.omsorgstilbud.stepTitle": "Omsorgstilbud",
@@ -386,7 +386,7 @@
 
     "arbeidsforhold.erAnsattIPerioden.spm": "Er du ansatt her i perioden du søker pleiepenger?",
 
-    "arbeidsforhold.arbeidsforhold.spm": "Skal du jobbe her mens du har pleiepenger?",
+    "arbeidsforhold.arbeidsforhold.spm": "Skal du være noe på jobb samtidig som du har pleiepenger?",
     "arbeidsforhold.arbeidsforhold.ja": "Ja, jeg skal jobbe som vanlig",
     "arbeidsforhold.arbeidsforhold.nei": "Nei, jeg skal ikke jobbe",
     "arbeidsforhold.arbeidsforhold.vetIkke": "Vet ikke, men jeg melder fra hvis jeg skal jobbe i perioden jeg søker for",
@@ -402,7 +402,7 @@
     "arbeidsforhold.prosent.spm": "Hvor mange prosent skal du jobbe?",
     "arbeidsforhold.prosent.utledet": "prosent av {timer, plural, one {# time} other {# timer}}",
     "arbeidsforhold.prosent.utledet.medTimer": "prosent av {timer, plural, one {# time} other {# timer}} ({timerRedusert} i uka)",
-    "arbeidsforhold.prosent.veileder": "Hvis du jobber deltid, skal du oppgi hvor mye du skal jobbe som andel av stillingen din. Hvis du til vanlig jobber 80 prosent, og skal jobbe halvparten av dette, skal du oppgi 50 prosent.",
+    "arbeidsforhold.prosent.veileder": "Når du jobber deltid skal du opplyse hvor mye du skal jobbe som en andel av stillingen din. Har du for eksempel en 80 prosent stilling, og skal jobbe halvparten av dette, skal du oppgi at du skal jobbe 50 prosent.",
     "arbeidsforhold.oppsummering.orgInfo": "{navn} (organisasjonsnummer {organisasjonsnummer}):",
     "arbeidsforhold.oppsummering.skalIkkeArbeide": "Skal ikke jobbe her i denne perioden (jobber normalt {timerNormalt} i uken).",
     "arbeidsforhold.oppsummering.skalArbeideDelvis": "Skal jobbe {timerRedusert} i uken i denne perioden (jobber normalt {timerNormalt} i uken).",

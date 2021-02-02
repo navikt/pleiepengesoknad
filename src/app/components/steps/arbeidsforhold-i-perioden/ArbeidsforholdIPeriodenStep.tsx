@@ -28,8 +28,9 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
         <FormikStep id={StepID.ARBEIDSFORHOLD_I_PERIODEN} onValidFormSubmit={onValidSubmit}>
             <Box padBottom="m">
                 <CounsellorPanel>
-                    Informasjon om at dette er arbeidsforhold som er har valgt på forrige side, og at vi trenger litt
-                    mer info om disse.
+                    Her skal du opplyse om du skal jobbe noe i samme periode som du skal ha pleiepenger. Det kan for
+                    eksempel være at kan jobbe fordi du skal dele pleiepengene med en annen omsorgsperson, eller at
+                    barnet skal være noe på skolen eller i barnehagen.
                 </CounsellorPanel>
             </Box>
             <Box margin="xl">

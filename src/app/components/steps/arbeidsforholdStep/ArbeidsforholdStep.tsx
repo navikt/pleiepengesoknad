@@ -63,10 +63,13 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                 <>
                     <Box padBottom="m">
                         <CounsellorPanel>
-                            <FormattedMessage
+                            Her skal du gi opplysninger om arbeidsforhold som du har. Vi trenger blant annet å vite om
+                            du jobber fast antall timer per uke, eller om det varierer. Du får veiledning underveis når
+                            du skriver inn opplysningene i søknaden.
+                            {/* <FormattedMessage
                                 id="steg.arbeidsforhold.aktivtArbeidsforhold.info.html"
                                 values={{ p: (msg: string) => <p>{msg}</p> }}
-                            />
+                            /> */}
                         </CounsellorPanel>
                     </Box>
                     <Box margin="xl">
