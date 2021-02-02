@@ -2,14 +2,8 @@ import * as React from 'react';
 
 export default () => (
     <svg version="1.1" x="0px" y="0px" viewBox="0 0 92.1 64" className="legeerklæringIcon" focusable="false">
-        <rect x="3.3" y="34.4" width="24.3" height="14.9" fillRule="evenodd" clipRule="evenodd" fill="#c4e6f3" />
-        <rect x="22.9" y="34.4" width="4.6" height="14.9" fillRule="evenodd" clipRule="evenodd" fill="#2582ab" />
-        <path
-            d="Ms25.2,47.8c0.5,0,1-0.4,1-0.9c0-0.5-0.4-0.9-1-0.9c-0.5,0-1,0.4-1,0.9C24.3,47.3,24.7,47.8,25.2,47.8"
-            fillRule="evenodd"
-            clipRule="evenodd"
-            fill="#38373a"
-        />
+        <path fill="#c4e6f3" d="M3.3 34.4h24.3v14.9H3.3z" />
+        <path fill="#2582ab" d="M22.9 34.4h4.6v14.9h-4.6z" />
         <path
             d="M58.3,47c0,0.9-0.8,1.7-1.7,1.7H32.1c-0.9,0-1.7-0.8-1.7-1.7c0-0.9,0.8-1.7,1.7-1.7h24.5
 	C57.5,45.3,58.3,46.1,58.3,47"
