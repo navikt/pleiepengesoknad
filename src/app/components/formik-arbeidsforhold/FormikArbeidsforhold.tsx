@@ -151,8 +151,7 @@ const FormikArbeidsforhold = ({ arbeidsforhold, index }: Props) => {
                                                         </Box>
                                                     </div>
                                                 }
-                                                type="text"
-                                                inputMode="numeric"
+                                                type="number"
                                                 bredde="XS"
                                                 label={intlHelper(
                                                     intl,
