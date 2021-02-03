@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import BuildingIcon from '@navikt/sif-common-core/lib/components/building-icon/BuildingIconSvg';
-import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import LoadingSpinner from '@navikt/sif-common-core/lib/components/loading-spinner/LoadingSpinner';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
@@ -61,19 +60,8 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
             {isLoading && <LoadingSpinner type="XS" blockTitle="Henter arbeidsforhold" />}
             {!isLoading && (
                 <>
-                    <Box padBottom="m">
-                        <CounsellorPanel>
-                            Her skal du gi opplysninger om arbeidsforhold som du har. Vi trenger blant annet å vite om
-                            du jobber fast antall timer per uke, eller om det varierer. Du får veiledning underveis når
-                            du skriver inn opplysningene i søknaden.
-                            {/* <FormattedMessage
-                                id="steg.arbeidsforhold.aktivtArbeidsforhold.info.html"
-                                values={{ p: (msg: string) => <p>{msg}</p> }}
-                            /> */}
-                        </CounsellorPanel>
-                    </Box>
                     <Box margin="xl">
-                        <Undertittel tag="h2">Arbeidsforhold</Undertittel>
+                        <Undertittel tag="h2">Dine arbeidsforhold</Undertittel>
                         <p>
                             Nedenfor ser du de arbeidsforholdene vi har registrert på deg. Dersom det mangler et
                             arbeidsforhold her, må du be arbeidsgiveren din sende ny A-melding, enten via lønns- og

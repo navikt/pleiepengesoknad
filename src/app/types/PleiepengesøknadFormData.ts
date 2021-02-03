@@ -90,7 +90,7 @@ export enum ArbeidsforholdField {
 export enum Arbeidsform {
     fast = 'fast',
     turnus = 'turnus',
-    varierende = 'variende',
+    varierende = 'varierende',
 }
 
 export interface Arbeidsforhold extends Arbeidsgiver {

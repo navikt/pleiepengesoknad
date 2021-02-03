@@ -95,9 +95,9 @@
     "steg.tidsrom.ferieuttakIPerioden.veileder.tittel": "Hva er lovbestemt ferie?",
     "steg.tidsrom.ferieuttakIPerioden.veileder": "Hvis du skal ha ferie og er usikker på om det er lovbestemt ferie, må du sjekke det med arbeidsgiveren din.",
 
-    "step.arbeidsforhold.pageTitle": "Pleiepengesøknad - opplysninger om ditt arbeidsforhold",
-    "step.arbeidsforhold.stepTitle": "Arbeidsforhold",
-    "step.arbeidsforhold.stepIndicatorLabel": "Om ditt arbeidsforhold",
+    "step.arbeidsforhold.pageTitle": "Pleiepengesøknad - opplysninger om din arbeidssituasjon",
+    "step.arbeidsforhold.stepTitle": "Arbeidssituasjonen din",
+    "step.arbeidsforhold.stepIndicatorLabel": "Om din arbeidssituasjon",
 
     "step.arbeidsforholdIPerioden.pageTitle": "Pleiepengesøknad - opplysninger om jobb i perioden",
     "step.arbeidsforholdIPerioden.stepTitle": "Jobb i perioden med pleiepenger",
@@ -288,7 +288,7 @@
     "steg.oppsummering.bekrefterOpplysninger": "Jeg bekrefter at opplysningene jeg har gitt er riktige, og at jeg ikke har holdt tilbake opplysninger som har betydning for min rett til pleiepenger.",
     "steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet": "Du må bekrefte opplysningene",
 
-    "steg.oppsummering.arbeidsforhold.header": "Arbeidsforhold",
+    "steg.oppsummering.arbeidsforhold.header": "Arbeidssituasjon",
     "steg.oppsummering.arbeidsforhold.forhold": "{navn} (organisasjonsnummer: {organisasjonsnummer})",
     "steg.oppsummering.arbeidsforhold.ingenArbeidsforhold": "Ingen arbeidsforhold er valgt",
 
@@ -386,12 +386,14 @@
 
     "arbeidsforhold.erAnsattIPerioden.spm": "Er du ansatt her i perioden du søker pleiepenger?",
 
-    "arbeidsforhold.arbeidsforhold.spm": "Skal du være noe på jobb samtidig som du har pleiepenger?",
+    "arbeidsforhold.arbeidsforhold.spm": "Skal du jobbe her i samme periode som du søker pleiepenger?",
     "arbeidsforhold.arbeidsforhold.ja": "Ja, jeg skal jobbe som vanlig",
     "arbeidsforhold.arbeidsforhold.nei": "Nei, jeg skal ikke jobbe",
     "arbeidsforhold.arbeidsforhold.vetIkke": "Vet ikke, men jeg melder fra hvis jeg skal jobbe i perioden jeg søker for",
     "arbeidsforhold.arbeidsforhold.redusert": "Ja, men jeg skal jobbe mindre enn vanlig",
-    "arbeidsforhold.iDag.spm": "Hvor mye jobber du vanligvis hos {arbeidsforhold}?",
+    "arbeidsforhold.iDag.fast.spm": "Hvor mange timer jobber du fast i uken hos {arbeidsforhold}?",
+    "arbeidsforhold.iDag.turnus.spm": "Hvor mange timer jobber du i snitt i uken hos {arbeidsforhold}?",
+    "arbeidsforhold.iDag.varierende.spm": "Hvor mange timer jobber du i snitt hos {arbeidsforhold}?",
     "arbeidsforhold.iDag.utledet": "timer i uka",
     "arbeidsforhold.hvorMye.spm": "Hvordan vil du oppgi hvor mye du skal jobbe?",
     "arbeidsforhold.hvorMye.timer": "I timer",

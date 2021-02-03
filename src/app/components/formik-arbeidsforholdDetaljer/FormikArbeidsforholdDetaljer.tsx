@@ -30,9 +30,9 @@ const FormikArbeidsforholdDetaljer = ({ arbeidsforhold, index }: Props) => {
                             legend={intlHelper(intl, 'arbeidsforhold.arbeidsforhold.spm')}
                             description={
                                 <ExpandableInfo title="Hva betyr dette?">
-                                    For å kunne fastsette hvor mye pleiepenger du kan få trenger vi å vite om du skal
-                                    jobbe i samme periode som du skal ha pleiepenger. Klikk på den situasjonen som
-                                    passer best i din situasjon.
+                                    For å kunne beregne hvor mye pleiepenger du kan få trenger vi å vite om du skal
+                                    jobbe i samme periode som du skal ha pleiepenger. Velg det som passer best i din
+                                    situasjon.
                                 </ExpandableInfo>
                             }
                             name={getFieldName(ArbeidsforholdField.skalJobbe)}
