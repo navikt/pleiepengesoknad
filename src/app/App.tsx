@@ -37,8 +37,7 @@ const App = () => {
     return (
         <AmplitudeProvider
             applicationKey={APPLICATION_KEY}
-            isActive={getEnvironmentVariable('USE_AMPLITUDE') === 'true'}
-            logToConsoleOnly={getEnvironmentVariable('APP_VERSION') === 'dev'}>
+            isActive={getEnvironmentVariable('USE_AMPLITUDE') === 'true'}>
             <ApplicationWrapper
                 locale={locale}
                 onChangeLocale={(activeLocale: Locale) => {
