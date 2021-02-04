@@ -128,6 +128,10 @@ export const validateFradato = (fraDatoString?: string, tilDatoString?: string):
         }
     }
 
+    if (dateErHelg(fraDato)) {
+        return createFieldValidationError(AppFieldValidationErrors.er_helg);
+    }
+
     return undefined;
 };
 
@@ -147,6 +151,10 @@ export const validateTildato = (tilDatoString?: string, fraDatoString?: string):
         if (moment(tilDato).isBefore(fraDato)) {
             return createAppFieldValidationError(AppFieldValidationErrors.tildato_erFørFradato);
         }
+    }
+
+    if (dateErHelg(tilDato)) {
+        return createFieldValidationError(AppFieldValidationErrors.er_helg);
     }
 
     return undefined;
@@ -352,17 +360,3 @@ export const validateReduserteArbeidTimer = (
 };
 
 export const dateErHelg = (date: Date) => dayjs(date).isoWeekday() === 6 || dayjs(date).isoWeekday() === 7;
-
-export const validateNotHelgedag = (maybeDate: string | undefined): FieldValidationResult => {
-    if (maybeDate) {
-        const date = datepickerUtils.getDateFromDateString(maybeDate);
-
-        if (date) {
-            return dateErHelg(date) ? createFieldValidationError(AppFieldValidationErrors.er_helg) : undefined;
-        } else {
-            return createFieldValidationError(AppFieldValidationErrors.convert_string_to_date_feil);
-        }
-    } else {
-        return createFieldValidationError(AppFieldValidationErrors.datovelger_feil);
-    }
-};

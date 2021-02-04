@@ -379,8 +379,6 @@
     "fieldvalidation.samlet_storrelse_for_hoy": "Total samlet størrelse for dokumentene du har lastet opp overstiger grensen på 24Mb.",
     "fieldvalidation.frilanser_startdatoForSent": "Startdato kan ikke være etter dagens dato",
     "fieldvalidation.er_helg": "Lørdag og søndag er ikke gyldig.",
-    "fieldvalidation.datovelger_feil": "Datovelger feil. Kontakt NAV.",
-    "fieldvalidation.convert_string_to_date_feil": "Feil med dato. Kontakt NAV.",
 
     "arbeidsforhold.erAnsattIPerioden.spm": "Er du ansatt her i perioden du søker pleiepenger?",
 
