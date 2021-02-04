@@ -40,7 +40,7 @@
         "@navikt/sif-common-formik": "^15.2.1",
         "@navikt/sif-common-forms": "^12.1.0",
         "@navikt/sif-common-sentry": "0.0.14",
-        "@navikt/sif-common-soknad": "^2.0.4",
+        "@navikt/sif-common-soknad": "^2.1.0",
         "@testing-library/react": "^11.2.5",
         "amplitude-js": "^7.4.1",
         "axios": "^0.21.1",
@@ -69,7 +69,7 @@
         "prop-types": "^15.7.2",
         "react": "^17.0.1",
         "react-day-picker": "^7.4.8",
-        "snyk": "^1.440.5"
+        "snyk": "^1.441.0"
     },
     "devDependencies": {
         "@babel/core": "^7.12.13",
@@ -117,7 +117,7 @@
         "jest": "^26.6.3",
         "jest-css-modules": "^2.1.0",
         "jsdom": "^16.4.0",
-        "less": "^4.1.1",
+        "less": "^3.13.1",
         "less-loader": "^8.0.0",
         "npm-run-all": "^4.1.5",
         "postcss-input-range": "^4.0.0",
