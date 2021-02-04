@@ -31,7 +31,6 @@ import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/
 import { Arbeidsforhold, Tilsynsordning } from '../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
 import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
-import { ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 
@@ -66,6 +65,8 @@ export enum AppFieldValidationErrors {
     'ferieuttak_overlapper' = 'fieldvalidation.ferieuttak_overlapper',
     'ferieuttak_utenfor_periode' = 'fieldvalidation.ferieuttak_utenfor_periode',
     'er_helg' = 'fieldvalidation.er_helg',
+    'datovelger_feil' = 'fieldvalidation.datovelger_feil',
+    'convert_string_to_date_feil' = 'fieldvalidation.convert_string_to_date_feil',
 }
 
 export const createAppFieldValidationError = (
@@ -353,6 +354,15 @@ export const validateReduserteArbeidTimer = (
 export const dateErHelg = (date: Date) => dayjs(date).isoWeekday() === 6 || dayjs(date).isoWeekday() === 7;
 
 export const validateNotHelgedag = (maybeDate: string | undefined): FieldValidationResult => {
-    const date = ISOStringToDate(maybeDate);
-    return date && dateErHelg(date) ? createFieldValidationError(AppFieldValidationErrors.er_helg) : undefined;
+    if (maybeDate) {
+        const date = datepickerUtils.getDateFromDateString(maybeDate);
+
+        if (date) {
+            return dateErHelg(date) ? createFieldValidationError(AppFieldValidationErrors.er_helg) : undefined;
+        } else {
+            return createFieldValidationError(AppFieldValidationErrors.convert_string_to_date_feil);
+        }
+    } else {
+        return createFieldValidationError(AppFieldValidationErrors.datovelger_feil);
+    }
 };
