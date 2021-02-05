@@ -42,6 +42,8 @@ export enum AppFormField {
     barnetsFødselsnummer = 'barnetsFødselsnummer',
     barnetsFødselsdato = 'barnetsFødselsdato',
     barnetSøknadenGjelder = 'barnetSøknadenGjelder',
+    relasjonTilBarnet = 'relasjonTilBarnet',
+    relasjonTilBarnetBeskrivelse = 'relasjonTilBarnetBeskrivelse',
     søknadenGjelderEtAnnetBarn = 'søknadenGjelderEtAnnetBarn',
     periodeFra = 'periodeFra',
     periodeTil = 'periodeTil',
@@ -121,6 +123,14 @@ export enum TilsynVetIkkeHvorfor {
     'annet' = 'annet',
 }
 
+export enum BarnRelasjon {
+    MOR = 'MOR',
+    MEDMOR = 'MEDMOR',
+    FAR = 'FAR',
+    FOSTERFORELDER = 'FOSTERFORELDER',
+    ANNET = 'ANNET',
+}
+
 export interface PleiepengesøknadFormData {
     [AppFormField.harForståttRettigheterOgPlikter]: boolean;
     [AppFormField.harBekreftetOpplysninger]: boolean;
@@ -130,6 +140,8 @@ export interface PleiepengesøknadFormData {
     [AppFormField.søknadenGjelderEtAnnetBarn]: boolean;
     [AppFormField.barnetSøknadenGjelder]: string;
     [AppFormField.barnetHarIkkeFåttFødselsnummerEnda]: boolean;
+    [AppFormField.relasjonTilBarnet]?: BarnRelasjon;
+    [AppFormField.relasjonTilBarnetBeskrivelse]?: string;
     [AppFormField.arbeidsforhold]: Arbeidsforhold[];
     [AppFormField.periodeFra]?: string;
     [AppFormField.periodeTil]?: string;

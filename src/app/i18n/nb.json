@@ -61,6 +61,12 @@
     "NAV_YTELSE.omsorgspenger": "Omsorgspenger",
     "NAV_YTELSE.opplæringspenger": "Opplæringspenger",
 
+    "barnRelasjon.MOR": "Mor",
+    "barnRelasjon.MEDMOR": "Medmor",
+    "barnRelasjon.FAR": "Far",
+    "barnRelasjon.FOSTERFORELDER": "Fosterforelder",
+    "barnRelasjon.ANNET": "Annet",
+
     "avbrytSøknadDialog.avbrytSøknadLabel": "Ja, avbryt søknad",
     "avbrytSøknadDialog.fortsettSøknadLabel": "Nei",
     "avbrytSøknadDialog.intro": "Det du har fylt ut i søknaden blir slettet, og du kommer tilbake til velkomstsiden.",
@@ -203,6 +209,12 @@
     "steg.omBarnet.fnr.ikkeFnrEnda": "Barnet har ikke fått fødselsnummer/D-nummer ennå",
     "steg.omBarnet.fødselsdato": "Barnets fødselsdato",
     "steg.omBarnet.navn": "Barnets navn",
+    "steg.omBarnet.relasjon.spm": "Hvilken relasjon har du til barnet?",
+    "steg.omBarnet.relasjonAnnet.spm": "Beskriv hvem du er i forhold til barnet, og hvilken tilsynsrolle du har i perioden du søker om",
+    "steg.omBarnet.relasjonAnnet.info.tittel": "Hva betyr dette?",
+    "steg.omBarnet.relasjonAnnet.info.hjelpetekst.1": "I noen tilfeller kan ikke den eller de som har den daglige omsorgen for barnet ha tilsyn med barn som trenger tilsyn og pleie hele tiden. Da kan andre personer hjelpe til med dette. Andre personer kan for eksempel være en besteforelder, venn, nabo, tante eller onkel.",
+    "steg.omBarnet.relasjonAnnet.info.hjelpetekst.2": "Eksempel 1: Mor/far kan ikke selv følge barnet til sykehuset for utredning eller behandling. Da kan andre personer følge barnet til sykehuset, og ha tilsyn med barnet så lenge oppholdet på sykehuset varer.",
+    "steg.omBarnet.relasjonAnnet.info.hjelpetekst.3": "Eksempel 2: Hverken mor eller far har mulighet til å pleie barnet hjemme, da kan andre personer gjøre dette og ha tilsyn med barnet i perioden det gjelder. ",
 
     "steg.tidsrom.hjelpetekst.tittel": "Kan jeg søke for flere perioder samtidig?",
     "steg.tidsrom.hjelpetekst": "Søknaden er under utvikling: Hvis du skal søke for flere perioder må du sende én søknad for hver periode.",
@@ -266,6 +278,9 @@
     "steg.oppsummering.barnet.navn": "Navn: {navn}",
     "steg.oppsummering.barnet.fødselsdato": "Fødselsdato: {dato}",
     "steg.oppsummering.barnet.fnr": "Fødselsnummer: {fnr}",
+    "steg.oppsummering.relasjonTilBarnet.header": "Relasjon til barnet",
+    "steg.oppsummering.relasjonTilBarnet": "Relasjon til barnet: {relasjon}",
+    "steg.oppsummering.relasjonTilBarnetBeskrivelse": "Relasjon og tilsynsoppgaver:",
 
     "steg.oppsummering.utenlandsoppholdIPerioden.header": "Skal du være i utlandet i perioden?",
     "steg.oppsummering.utenlandsoppholdIPerioden.listetittel": "Utenlandsopphold i perioden",
@@ -390,6 +405,8 @@
     "fieldvalidation.samlet_storrelse_for_hoy": "Total samlet størrelse for dokumentene du har lastet opp overstiger grensen på 24Mb.",
     "fieldvalidation.frilanser_startdatoForSent": "Startdato kan ikke være etter dagens dato",
     "fieldvalidation.er_helg": "Lørdag og søndag er ikke gyldig.",
+    "fieldvalidation.relasjon_forMangeTegn": "For mange tegn. Maks antall tegn er 1000.",
+    "fieldvalidation.relasjon_forFåTegn": "For få tegn.",
 
     "arbeidsforhold.erAnsattIPerioden.spm": "Er du ansatt her i perioden du søker pleiepenger?",
 
