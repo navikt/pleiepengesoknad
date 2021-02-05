@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useLogSidevisning } from '@navikt/sif-common-amplitude';
+import { SIFCommonPageKey, useLogSidevisning } from '@navikt/sif-common-amplitude';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { Knapp } from 'nav-frontend-knapper';
 import Panel from 'nav-frontend-paneler';
@@ -31,7 +31,7 @@ const ConfirmationPage = ({ kvitteringInfo }: Props) => {
     const intl = useIntl();
     const numberOfArbeidsforhold = kvitteringInfo ? kvitteringInfo.arbeidsforhold.length : 0;
 
-    useLogSidevisning('søknad-sendt');
+    useLogSidevisning(SIFCommonPageKey.kvittering);
 
     return (
         <Page title={intlHelper(intl, 'page.confirmation.sidetittel')} className={bem.block}>

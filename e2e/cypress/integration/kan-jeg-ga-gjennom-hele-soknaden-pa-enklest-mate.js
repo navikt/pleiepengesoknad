@@ -34,7 +34,7 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
 
             // Velg periode, fom
             cy.get('[class=nav-datovelger__kalenderknapp]').first().click();
-            cy.get('[class=DayPicker-Week]').contains(14).first().click();
+            cy.get('[class=DayPicker-Day]').not('.DayPicker-Day--disabled').first().click();
 
             // Velg periode, tom
             cy.get('[class=nav-datovelger__kalenderknapp]').last().click();
@@ -59,6 +59,7 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
             clickNeiPaAlleSporsmal();
             clickFortsett(cy);
         });
+
         it('STEG 6: LAST OPP LEGEERKLÆRING', () => {
             const fileName = 'navlogopng.png';
             cy.fixture(fileName, 'binary')

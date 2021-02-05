@@ -55,7 +55,7 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
 
     return (
         <FormikStep id={StepID.ARBEIDSFORHOLD} onValidFormSubmit={onValidSubmit} buttonDisabled={isLoading}>
-            {isLoading && <LoadingSpinner type="XS" style={'block'} blockTitle="Henter arbeidsforhold" />}
+            {isLoading && <LoadingSpinner type="XS" blockTitle="Henter arbeidsforhold" />}
             {!isLoading && (
                 <>
                     <Box padBottom="m">
