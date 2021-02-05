@@ -107,7 +107,6 @@ export enum BarnRelasjon {
     MOR = 'MOR',
     MEDMOR = 'MEDMOR',
     FAR = 'FAR',
-    STEFORELDER = 'STEFORELDER',
     FOSTERFORELDER = 'FOSTERFORELDER',
     ANNET = 'ANNET',
 }
