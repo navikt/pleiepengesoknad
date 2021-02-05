@@ -49,6 +49,10 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
         formValues.tilsynsordning &&
         (formValues.tilsynsordning.skalBarnHaTilsyn === YesOrNo.YES ||
             formValues.tilsynsordning.skalBarnHaTilsyn === YesOrNo.DO_NOT_KNOW);
+
+    const includeArbeidsforholdIPerioden =
+        formValues && formValues.arbeidsforhold.find((a) => a.erAnsattIPerioden === YesOrNo.YES) !== undefined;
+
     let idx = 0;
     let config = {
         [StepID.OPPLYSNINGER_OM_BARNET]: {
@@ -66,23 +70,26 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
         [StepID.ARBEIDSFORHOLD]: {
             ...getStepConfigItemTextKeys(StepID.ARBEIDSFORHOLD),
             index: idx++,
-            nextStep: StepID.ARBEIDSFORHOLD_I_PERIODEN,
+            nextStep: includeArbeidsforholdIPerioden ? StepID.ARBEIDSFORHOLD_I_PERIODEN : StepID.OMSORGSTILBUD,
             backLinkHref: getSøknadRoute(StepID.TIDSROM),
         },
-        [StepID.ARBEIDSFORHOLD_I_PERIODEN]: {
+    };
+    if (includeArbeidsforholdIPerioden) {
+        config[StepID.ARBEIDSFORHOLD_I_PERIODEN] = {
             ...getStepConfigItemTextKeys(StepID.ARBEIDSFORHOLD_I_PERIODEN),
             index: idx++,
             nextStep: StepID.OMSORGSTILBUD,
             backLinkHref: getSøknadRoute(StepID.ARBEIDSFORHOLD),
-        },
-        [StepID.OMSORGSTILBUD]: {
-            ...getStepConfigItemTextKeys(StepID.OMSORGSTILBUD),
-            index: idx++,
-            nextStep: includeNattevåkAndBeredskap ? StepID.NATTEVÅK : StepID.MEDLEMSKAP,
-            backLinkHref: getSøknadRoute(StepID.ARBEIDSFORHOLD_I_PERIODEN),
-        },
+        };
+    }
+    config[StepID.OMSORGSTILBUD] = {
+        ...getStepConfigItemTextKeys(StepID.OMSORGSTILBUD),
+        index: idx++,
+        nextStep: includeNattevåkAndBeredskap ? StepID.NATTEVÅK : StepID.MEDLEMSKAP,
+        backLinkHref: includeArbeidsforholdIPerioden
+            ? getSøknadRoute(StepID.ARBEIDSFORHOLD_I_PERIODEN)
+            : getSøknadRoute(StepID.ARBEIDSFORHOLD),
     };
-
     let backLinkStep: StepID = StepID.OMSORGSTILBUD;
     if (includeNattevåkAndBeredskap) {
         config[StepID.NATTEVÅK] = {
