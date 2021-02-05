@@ -65,8 +65,6 @@ export enum AppFieldValidationErrors {
     'ferieuttak_overlapper' = 'fieldvalidation.ferieuttak_overlapper',
     'ferieuttak_utenfor_periode' = 'fieldvalidation.ferieuttak_utenfor_periode',
     'er_helg' = 'fieldvalidation.er_helg',
-    'datovelger_feil' = 'fieldvalidation.datovelger_feil',
-    'convert_string_to_date_feil' = 'fieldvalidation.convert_string_to_date_feil',
 }
 
 export const createAppFieldValidationError = (
