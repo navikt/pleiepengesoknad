@@ -1,15 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import BuildingIcon from '@navikt/sif-common-core/lib/components/building-icon/BuildingIconSvg';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import LoadingSpinner from '@navikt/sif-common-core/lib/components/loading-spinner/LoadingSpinner';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { useFormikContext } from 'formik';
-// import FrilansFormPart from './FrilansFormPart';
-// import SelvstendigNæringsdrivendeFormPart from './SelvstendigNæringsdrivendePart';
 import { Undertittel } from 'nav-frontend-typografi';
-// import AlertStripe from 'nav-frontend-alertstriper';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
@@ -60,48 +56,33 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
             {isLoading && <LoadingSpinner type="XS" blockTitle="Henter arbeidsforhold" />}
             {!isLoading && (
                 <>
-                    <Box margin="xl">
-                        <Undertittel tag="h2">Dine arbeidsforhold</Undertittel>
-                        <p>
-                            Nedenfor ser du de arbeidsforholdene vi har registrert på deg. Dersom det mangler et
-                            arbeidsforhold her, må du be arbeidsgiveren din sende ny A-melding, enten via lønns- og
-                            personalsystemet eller gjennom Altinn.
-                        </p>
-                    </Box>
-                    {arbeidsforhold.length > 0 && (
-                        <div className="arbeidsforhold">
-                            {arbeidsforhold.map((forhold, index) => (
-                                <FormBlock key={forhold.organisasjonsnummer}>
-                                    <FormSection
-                                        titleTag="h3"
-                                        title={forhold.navn}
-                                        titleIcon={<BuildingIcon />}
-                                        indentContent={false}>
+                    <FormSection title={'Dine arbeidsforhold'}>
+                        {arbeidsforhold.length > 0 && (
+                            <>
+                                Nedenfor ser du de arbeidsforholdene vi har registrert på deg. Dersom det mangler et
+                                arbeidsforhold her, må du be arbeidsgiveren din sende ny A-melding, enten via lønns- og
+                                personalsystemet eller gjennom Altinn.
+                                {arbeidsforhold.map((forhold, index) => (
+                                    <FormBlock key={forhold.organisasjonsnummer} margin="xl">
+                                        <Box padBottom="m">
+                                            <Undertittel tag="h3">{forhold.navn}</Undertittel>
+                                        </Box>
                                         <FormikArbeidsforhold arbeidsforhold={forhold} index={index} />
-                                    </FormSection>
-                                </FormBlock>
-                            ))}
-                        </div>
-                    )}
+                                    </FormBlock>
+                                ))}
+                            </>
+                        )}
 
-                    {arbeidsforhold.length === 0 && <FormattedMessage id="steg.arbeidsforhold.ingenOpplysninger" />}
+                        {arbeidsforhold.length === 0 && <FormattedMessage id="steg.arbeidsforhold.ingenOpplysninger" />}
+                    </FormSection>
 
-                    {/* <Box margin="l">
-                        <AlertStripe type="info">
-                            <FormattedMessage id="steg.arbeidsforhold.manglesOpplysninger" />
-                        </AlertStripe>
-                    </Box> */}
+                    <FormSection title="Frilansere">
+                        <FrilansFormPart formValues={values} />
+                    </FormSection>
 
-                    <Box margin="xxl">
-                        <FormSection title="Frilansere og selvstendig næringsdrivende">
-                            <FormBlock margin="l">
-                                <FrilansFormPart formValues={values} />
-                            </FormBlock>
-                            <FormBlock>
-                                <SelvstendigNæringsdrivendeFormPart formValues={values} />
-                            </FormBlock>
-                        </FormSection>
-                    </Box>
+                    <FormSection title="Selvstendig næringsdrivende">
+                        <SelvstendigNæringsdrivendeFormPart formValues={values} />
+                    </FormSection>
                 </>
             )}
         </FormikStep>

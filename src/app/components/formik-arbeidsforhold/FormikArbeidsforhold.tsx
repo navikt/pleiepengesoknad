@@ -30,10 +30,8 @@ const FormikArbeidsforhold = ({ arbeidsforhold, index }: Props) => {
         <FieldArray name={AppFormField.arbeidsforhold}>
             {({ name }) => {
                 const getFieldName = (field: ArbeidsforholdField) => `${name}.${index}.${field}` as AppFormField;
-                console.log(name);
-
                 return (
-                    <Box padBottom="l">
+                    <Box>
                         <AppForm.YesOrNoQuestion
                             legend={intlHelper(intl, 'arbeidsforhold.erAnsattIPerioden.spm')}
                             name={getFieldName(ArbeidsforholdField.erAnsattIPerioden)}
