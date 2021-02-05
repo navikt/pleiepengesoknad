@@ -48,6 +48,7 @@ import JaNeiSvar from './JaNeiSvar';
 import SelvstendigSummary from './SelvstendigSummary';
 import TilsynsordningSummary from './TilsynsordningSummary';
 import './summary.less';
+import SummaryBlock from './SummaryBlock';
 
 interface OwnProps {
     values: PleiepengesøknadFormData;
@@ -143,6 +144,9 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                     utenlandsoppholdIPerioden,
                     ferieuttakIPerioden,
                 } = apiValues;
+
+                const mottarAndreYtelserFraNAV =
+                    apiValues.andreYtelserFraNAV && apiValues.andreYtelserFraNAV.length > 0;
 
                 return (
                     <FormikStep
@@ -367,6 +371,33 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                 {/* Næringsinntekt */}
                                 <SummarySection header={intlHelper(intl, 'selvstendig.summary.header')}>
                                     <SelvstendigSummary selvstendigVirksomheter={apiValues.selvstendigVirksomheter} />
+                                </SummarySection>
+
+                                {/* Vernepliktig */}
+                                <SummarySection header={intlHelper(intl, 'verneplikt.summary.header')}>
+                                    <SummaryBlock
+                                        header={intlHelper(
+                                            intl,
+                                            'verneplikt.summary.harVærtEllerErVernepliktig.header'
+                                        )}>
+                                        <JaNeiSvar harSvartJa={apiValues.harVærtEllerErVernepliktig} />
+                                    </SummaryBlock>
+                                </SummarySection>
+
+                                {/* Andre ytelser */}
+                                <SummarySection header={intlHelper(intl, 'andreYtelser.summary.header')}>
+                                    <SummaryBlock
+                                        header={intlHelper(intl, 'andreYtelser.summary.mottarAndreYtelser.header')}>
+                                        <JaNeiSvar harSvartJa={mottarAndreYtelserFraNAV} />
+                                    </SummaryBlock>
+                                    {mottarAndreYtelserFraNAV && apiValues.andreYtelserFraNAV && (
+                                        <SummaryBlock header={intlHelper(intl, 'andreYtelser.summary.ytelser.header')}>
+                                            <SummaryList
+                                                items={apiValues.andreYtelserFraNAV}
+                                                itemRenderer={(ytelse) => intlHelper(intl, `NAV_YTELSE.${ytelse}`)}
+                                            />
+                                        </SummaryBlock>
+                                    )}
                                 </SummarySection>
 
                                 {/* Medlemskap i folketrygden */}

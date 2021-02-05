@@ -54,6 +54,13 @@
     "fileUploadErrors.part1": "Det har dessverre skjedd en feil under opplasting av følgende vedlegg:",
     "formikValidationErrorSummary.tittel": "Du må rette opp i følgende feil:",
 
+    "NAV_YTELSE.dagpenger": "Dagpenger",
+    "NAV_YTELSE.foreldrepenger": "Foreldrepenger",
+    "NAV_YTELSE.svangerskapspenger": "Svangerskapspenger",
+    "NAV_YTELSE.sykepenger": "Sykepenger",
+    "NAV_YTELSE.omsorgspenger": "Omsorgspenger",
+    "NAV_YTELSE.opplæringspenger": "Opplæringspenger",
+
     "avbrytSøknadDialog.avbrytSøknadLabel": "Ja, avbryt søknad",
     "avbrytSøknadDialog.fortsettSøknadLabel": "Nei",
     "avbrytSøknadDialog.intro": "Det du har fylt ut i søknaden blir slettet, og du kommer tilbake til velkomstsiden.",
@@ -486,5 +493,12 @@
     "frilanser.summary.header": "Frilansinntekt",
     "frilanser.summary.harDuHattInntekt.header": "Har du jobbet og hatt inntekt som frilanser de siste 4 ukene?",
     "frilanser.summary.nårStartet.header": "Når startet du som frilanser?",
-    "frilanser.summary.jobberFortsatt.header": "Jobber du fortsatt som frilanser?"
+    "frilanser.summary.jobberFortsatt.header": "Jobber du fortsatt som frilanser?",
+
+    "verneplikt.summary.header": "Vernepliktig",
+    "verneplikt.summary.harVærtEllerErVernepliktig.header": "Har du hatt verneplikt de siste 28 dagene eller er du i en vernepliktig periode som varer i minst 28 dager?",
+
+    "andreYtelser.summary.header": "Andre ytelser",
+    "andreYtelser.summary.mottarAndreYtelser.header": "Mottar du andre ytelser fra NAV i perioden med pleiepenger?",
+    "andreYtelser.summary.ytelser.header": "Ytelser du mottar:"
 }

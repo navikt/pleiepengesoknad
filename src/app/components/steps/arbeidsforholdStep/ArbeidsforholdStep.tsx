@@ -15,11 +15,22 @@ import FormikArbeidsforhold from '../../formik-arbeidsforhold/FormikArbeidsforho
 import FormikStep from '../../formik-step/FormikStep';
 import FrilansFormPart from './FrilansFormPart';
 import SelvstendigNæringsdrivendeFormPart from './SelvstendigNæringsdrivendePart';
+import VernepliktigFormPart from './VernepliktigFormPart';
+import AndreYtelserFormPart from './AndreYtelserFormPart';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 
 interface LoadState {
     isLoading: boolean;
     isLoaded: boolean;
 }
+
+const cleanupArbeidsforhold = (formValues: PleiepengesøknadFormData): PleiepengesøknadFormData => {
+    const values: PleiepengesøknadFormData = { ...formValues };
+    if (values.mottarAndreYtelser === YesOrNo.NO) {
+        values.andreYtelser = [];
+    }
+    return values;
+};
 
 const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
     const formikProps = useFormikContext<PleiepengesøknadFormData>();
@@ -52,7 +63,11 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
     }, [formikProps, søkerdata, isLoaded, isLoading, periodeFra]);
 
     return (
-        <FormikStep id={StepID.ARBEIDSFORHOLD} onValidFormSubmit={onValidSubmit} buttonDisabled={isLoading}>
+        <FormikStep
+            id={StepID.ARBEIDSFORHOLD}
+            onValidFormSubmit={onValidSubmit}
+            buttonDisabled={isLoading}
+            onStepCleanup={cleanupArbeidsforhold}>
             {isLoading && <LoadingSpinner type="XS" blockTitle="Henter arbeidsforhold" />}
             {!isLoading && (
                 <>
@@ -82,6 +97,14 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
 
                     <FormSection title="Selvstendig næringsdrivende">
                         <SelvstendigNæringsdrivendeFormPart formValues={values} />
+                    </FormSection>
+
+                    <FormSection title="Vernepliktige">
+                        <VernepliktigFormPart />
+                    </FormSection>
+
+                    <FormSection title="Andre ytelser">
+                        <AndreYtelserFormPart formValues={values} />
                     </FormSection>
                 </>
             )}

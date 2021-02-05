@@ -2,7 +2,7 @@ import { ApiStringDate } from '@navikt/sif-common-core/lib/types/ApiStringDate';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
-import { TilsynVetIkkeHvorfor } from './PleiepengesøknadFormData';
+import { AndreYtelserFraNAV, TilsynVetIkkeHvorfor } from './PleiepengesøknadFormData';
 
 export type ISO8601Duration = string;
 
@@ -161,4 +161,6 @@ export interface PleiepengesøknadApiData {
     harHattInntektSomSelvstendigNæringsdrivende?: boolean;
     frilans?: FrilansApiData;
     selvstendigVirksomheter?: VirksomhetApiData[];
+    harVærtEllerErVernepliktig: boolean;
+    andreYtelserFraNAV?: AndreYtelserFraNAV[];
 }
