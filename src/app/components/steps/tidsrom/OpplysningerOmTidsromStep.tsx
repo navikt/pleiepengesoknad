@@ -9,7 +9,7 @@ import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-co
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { date1YearAgo, date1YearFromNow, date3YearsAgo, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { validateAll, validateYesOrNoIsAnswered } from '@navikt/sif-common-core/lib/validation/fieldValidations';
+import { validateYesOrNoIsAnswered } from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import { IntlFieldValidationError } from '@navikt/sif-common-core/lib/validation/types';
 import { TypedFormikFormContext } from '@navikt/sif-common-formik';
 import FerieuttakListAndDialog from '@navikt/sif-common-forms/lib/ferieuttak/FerieuttakListAndDialog';
@@ -27,7 +27,6 @@ import {
     validateBekreftOmsorgEkstrainfo,
     validateFerieuttakIPerioden,
     validateFradato,
-    validateNotHelgedag,
     validateTildato,
     validateUtenlandsoppholdIPerioden,
 } from '../../../validation/fieldValidations';
@@ -96,12 +95,12 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                 }
                 fromInputProps={{
                     label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.fom'),
-                    validate: validateAll([validateFraDatoField, validateNotHelgedag]),
+                    validate: validateFraDatoField,
                     name: AppFormField.periodeFra,
                 }}
                 toInputProps={{
                     label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.tom'),
-                    validate: validateAll([validateTilDatoField, validateNotHelgedag]),
+                    validate: validateTilDatoField,
                     name: AppFormField.periodeTil,
                 }}
                 disableWeekend={true}
