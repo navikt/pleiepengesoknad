@@ -1,5 +1,5 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
@@ -23,9 +23,13 @@ const AndreYtelserFormPart = ({ formValues: { mottarAndreYtelser } }: Props) => 
             <Box margin="l">
                 <AppForm.YesOrNoQuestion
                     name={AppFormField.mottarAndreYtelser}
-                    legend="Mottar du andre ytelser fra NAV i perioden med pleiepenger?"
+                    legend={intlHelper(intl, 'steg.arbeidsforhold.andreYtelser.spm')}
                     validate={validateYesOrNoIsAnswered}
-                    description={<ExpandableInfo title={'Hva betyr dette?'}>Skal det være tekst her?</ExpandableInfo>}
+                    description={
+                        <ExpandableInfo title={intlHelper(intl, 'steg.arbeidsforhold.andreYtelser.info.tittel')}>
+                            <FormattedMessage id="steg.arbeidsforhold.andreYtelser.info.tekst" />
+                        </ExpandableInfo>
+                    }
                 />
             </Box>
             {mottarAndreYtelser === YesOrNo.YES && (
@@ -33,7 +37,7 @@ const AndreYtelserFormPart = ({ formValues: { mottarAndreYtelser } }: Props) => 
                     <Panel>
                         <AppForm.CheckboxPanelGroup
                             name={AppFormField.andreYtelser}
-                            legend={'Hvilke ytelser mottar du fra NAV i perioden?'}
+                            legend={intlHelper(intl, 'steg.arbeidsforhold.andreYtelser.hvilke.spm')}
                             checkboxes={Object.keys(AndreYtelserFraNAV).map((ytelse) => ({
                                 label: intlHelper(intl, `NAV_YTELSE.${ytelse}`),
                                 value: ytelse,

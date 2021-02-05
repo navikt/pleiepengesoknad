@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import LoadingSpinner from '@navikt/sif-common-core/lib/components/loading-spinner/LoadingSpinner';
@@ -18,6 +18,8 @@ import SelvstendigNæringsdrivendeFormPart from './SelvstendigNæringsdrivendePa
 import VernepliktigFormPart from './VernepliktigFormPart';
 import AndreYtelserFormPart from './AndreYtelserFormPart';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { AlertStripeInfo } from 'nav-frontend-alertstriper';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 
 interface LoadState {
     isLoading: boolean;
@@ -34,6 +36,7 @@ const cleanupArbeidsforhold = (formValues: PleiepengesøknadFormData): Pleiepeng
 
 const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
     const formikProps = useFormikContext<PleiepengesøknadFormData>();
+    const intl = useIntl();
     const {
         values,
         values: { arbeidsforhold },
@@ -71,12 +74,10 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
             {isLoading && <LoadingSpinner type="XS" blockTitle="Henter arbeidsforhold" />}
             {!isLoading && (
                 <>
-                    <FormSection title={'Dine arbeidsforhold'}>
+                    <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.tittel')}>
+                        <FormattedMessage id="steg.arbeidsforhold.intro" />
                         {arbeidsforhold.length > 0 && (
                             <>
-                                Nedenfor ser du de arbeidsforholdene vi har registrert på deg. Dersom det mangler et
-                                arbeidsforhold her, må du be arbeidsgiveren din sende ny A-melding, enten via lønns- og
-                                personalsystemet eller gjennom Altinn.
                                 {arbeidsforhold.map((forhold, index) => (
                                     <FormBlock key={forhold.organisasjonsnummer} margin="xl">
                                         <Box padBottom="m">
@@ -87,8 +88,13 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                                 ))}
                             </>
                         )}
-
-                        {arbeidsforhold.length === 0 && <FormattedMessage id="steg.arbeidsforhold.ingenOpplysninger" />}
+                        {arbeidsforhold.length === 0 && (
+                            <Box>
+                                <AlertStripeInfo>
+                                    <FormattedMessage id="steg.arbeidsforhold.ingenOpplysninger" />
+                                </AlertStripeInfo>
+                            </Box>
+                        )}
                     </FormSection>
 
                     <FormSection title="Frilansere">
