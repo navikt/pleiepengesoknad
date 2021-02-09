@@ -41,7 +41,7 @@ const FormikArbeidsforhold = ({ arbeidsforhold, index }: Props) => {
                                     <FormBlock margin="none">
                                         <AppForm.RadioPanelGroup
                                             legend={intlHelper(intl, 'arbeidsforhold.arbeidsform.spm', {
-                                                arbeidsforhold: arbeidsforhold.jobberNormaltTimer,
+                                                arbeidsforhold: arbeidsforhold.navn,
                                             })}
                                             name={getFieldName(ArbeidsforholdField.arbeidsform)}
                                             radios={[
