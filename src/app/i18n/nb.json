@@ -301,11 +301,11 @@
 
     "page.confirmation.sidetittel": "Vi har mottatt søknaden din",
     "page.confirmation.tittel": "Vi har mottatt søknad fra deg om pleiepenger",
-    "page.confirmation.alertInfo.html": "<strong>Obs!</strong> Denne informasjonssiden forsvinner når du lukker den. Det er derfor viktig at du leser gjennom før du går videre. <p>Siden kan printes ut, slik at du kan gi utskrift til {numberOfArbeidsforhold, plural, one {arbeidsgiveren din} other {arbeidsgiverne dine}}</p>",
+    "page.confirmation.alertInfo.html": "<strong>Obs!</strong> Denne informasjonssiden forsvinner når du lukker den. Det er derfor viktig at du leser gjennom før du går videre. <p>Siden kan printes ut, slik at du kan gi utskrift til {numberOfArbeidsforhold, plural, one {arbeidsgiveren din} other {arbeidsgiverne dine}}.</p>",
     "page.confirmation.undertittel": "Hva skjer videre nå?",
     "page.confirmation.info.1a": "Dette er en bekreftelse på at vi har mottatt søknaden din.",
     "page.confirmation.info.1b": "Om noen minutter kan du også se at søknaden er mottatt på Ditt NAV under",
-    "page.confirmation.info.1c": "Din oversikt – Sykdom i familien",
+    "page.confirmation.info.1c": "Dine pleiepenger",
     "page.confirmation.info.1d": ".",
     "page.confirmation.info.2a": "Når søknaden din er ferdig behandlet, får du et svar fra oss.",
     "page.confirmation.info.2b": "Se saksbehandlingstiden som gjelder for ditt fylke",
