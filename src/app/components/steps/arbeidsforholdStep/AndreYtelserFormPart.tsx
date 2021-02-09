@@ -1,7 +1,6 @@
 import React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import {
@@ -25,11 +24,6 @@ const AndreYtelserFormPart = ({ formValues: { mottarAndreYtelser } }: Props) => 
                     name={AppFormField.mottarAndreYtelser}
                     legend={intlHelper(intl, 'steg.arbeidsforhold.andreYtelser.spm')}
                     validate={validateYesOrNoIsAnswered}
-                    description={
-                        <ExpandableInfo title={intlHelper(intl, 'steg.arbeidsforhold.andreYtelser.info.tittel')}>
-                            <FormattedMessage id="steg.arbeidsforhold.andreYtelser.info.tekst" />
-                        </ExpandableInfo>
-                    }
                 />
             </Box>
             {mottarAndreYtelser === YesOrNo.YES && (

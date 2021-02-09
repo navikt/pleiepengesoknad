@@ -21,6 +21,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 interface LoadState {
     isLoading: boolean;
@@ -77,6 +78,11 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                 <>
                     <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.tittel')}>
                         <FormattedMessage id="steg.arbeidsforhold.intro" />
+                        <Box margin="m">
+                            <ExpandableInfo title={intlHelper(intl, 'steg.arbeidsforhold.info.tittel')}>
+                                <FormattedMessage id="steg.arbeidsforhold.info.tekst" />
+                            </ExpandableInfo>
+                        </Box>
                         {arbeidsforhold.length > 0 && (
                             <>
                                 {arbeidsforhold.map((forhold, index) => (
@@ -100,20 +106,20 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                         )}
                     </FormSection>
 
-                    <FormSection title="Frilansere">
+                    <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.frilanser.tittel')}>
                         <FrilansFormPart formValues={values} />
                     </FormSection>
 
-                    <FormSection title="Selvstendig næringsdrivende">
+                    <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.sn.tittel')}>
                         <SelvstendigNæringsdrivendeFormPart formValues={values} />
                     </FormSection>
 
-                    <FormSection title="Vernepliktige">
+                    <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.verneplikt.tittel')}>
                         <VernepliktigFormPart />
                     </FormSection>
 
                     {isFeatureEnabled(Feature.ANDRE_YTELSER) && (
-                        <FormSection title="Andre ytelser">
+                        <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.andreYtelser.tittel')}>
                             <AndreYtelserFormPart formValues={values} />
                         </FormSection>
                     )}
