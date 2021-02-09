@@ -93,9 +93,9 @@ export enum ArbeidsforholdField {
 }
 
 export enum Arbeidsform {
-    fast = 'fast',
-    turnus = 'turnus',
-    varierende = 'varierende',
+    fast = 'FAST',
+    turnus = 'TURNUS',
+    varierende = 'VARIERENDE',
 }
 
 export enum AndreYtelserFraNAV {
