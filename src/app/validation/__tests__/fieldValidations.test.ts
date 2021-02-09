@@ -108,7 +108,7 @@ describe('fieldValidations', () => {
         });
 
         it('should return undefined if fraDato is inside the last 3 years and equal to or earlier than tilDato', () => {
-            const date = new Date('02.05.2021');
+            const date = new Date('2021-02-09T13:42:45.219Z');
             const fraDato = dateToISOFormattedDateString(date);
             const tilDato = dateToISOFormattedDateString(date);
             expect(validateFradato(fraDato, tilDato)).toBeUndefined();
@@ -158,7 +158,7 @@ describe('fieldValidations', () => {
         });
 
         it('should return undefined if tilDato is inside the last 3 years and equal to or later than fraDato', () => {
-            const tilDato = moment(new Date('02.05.2021'));
+            const tilDato = moment(new Date('2021-02-09T13:42:45.219Z'));
             const fraDato = tilDato.clone();
             expect(
                 validateTildato(
