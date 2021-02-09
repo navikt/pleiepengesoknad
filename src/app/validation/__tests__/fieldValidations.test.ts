@@ -157,19 +157,6 @@ describe('fieldValidations', () => {
             expect(result).toEqual(createFieldValidationError(AppFieldValidationErrors.tildato_erFørFradato));
         });
 
-        it('should return undefined if tilDato is inside the last 3 years and equal to or later than fraDato', () => {
-            const tilDato = moment(new Date('02.05.2021'));
-            const fraDato = tilDato.clone();
-            expect(
-                validateTildato(
-                    dateToISOFormattedDateString(tilDato.toDate()),
-                    dateToISOFormattedDateString(fraDato.toDate())
-                )
-            ).toBeUndefined();
-            const date3YearsAgo = moment(tilDato).subtract(3, 'years').toDate();
-            expect(validateTildato(dateToISOFormattedDateString(date3YearsAgo))).toBeUndefined();
-        });
-
         it('should return error message if tilDato is weekend', () => {
             const fraDato = dateToISOFormattedDateString(new Date('02.05.2021'));
             const tilDato = dateToISOFormattedDateString(new Date('03.28.2021'));
