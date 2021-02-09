@@ -20,6 +20,7 @@ import AndreYtelserFormPart from './AndreYtelserFormPart';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 
 interface LoadState {
     isLoading: boolean;
@@ -81,7 +82,9 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                                 {arbeidsforhold.map((forhold, index) => (
                                     <FormBlock key={forhold.organisasjonsnummer} margin="xl">
                                         <Box padBottom="m">
-                                            <Undertittel tag="h3">{forhold.navn}</Undertittel>
+                                            <Undertittel tag="h3" style={{ fontWeight: 'normal' }}>
+                                                {forhold.navn}
+                                            </Undertittel>
                                         </Box>
                                         <FormikArbeidsforhold arbeidsforhold={forhold} index={index} />
                                     </FormBlock>
@@ -109,9 +112,11 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                         <VernepliktigFormPart />
                     </FormSection>
 
-                    <FormSection title="Andre ytelser">
-                        <AndreYtelserFormPart formValues={values} />
-                    </FormSection>
+                    {isFeatureEnabled(Feature.ANDRE_YTELSER) && (
+                        <FormSection title="Andre ytelser">
+                            <AndreYtelserFormPart formValues={values} />
+                        </FormSection>
+                    )}
                 </>
             )}
         </FormikStep>

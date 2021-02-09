@@ -387,20 +387,23 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                 </SummarySection>
 
                                 {/* Andre ytelser */}
-                                <SummarySection header={intlHelper(intl, 'andreYtelser.summary.header')}>
-                                    <SummaryBlock
-                                        header={intlHelper(intl, 'andreYtelser.summary.mottarAndreYtelser.header')}>
-                                        <JaNeiSvar harSvartJa={mottarAndreYtelserFraNAV} />
-                                    </SummaryBlock>
-                                    {mottarAndreYtelserFraNAV && apiValues.andreYtelserFraNAV && (
-                                        <SummaryBlock header={intlHelper(intl, 'andreYtelser.summary.ytelser.header')}>
-                                            <SummaryList
-                                                items={apiValues.andreYtelserFraNAV}
-                                                itemRenderer={(ytelse) => intlHelper(intl, `NAV_YTELSE.${ytelse}`)}
-                                            />
+                                {isFeatureEnabled(Feature.ANDRE_YTELSER) && (
+                                    <SummarySection header={intlHelper(intl, 'andreYtelser.summary.header')}>
+                                        <SummaryBlock
+                                            header={intlHelper(intl, 'andreYtelser.summary.mottarAndreYtelser.header')}>
+                                            <JaNeiSvar harSvartJa={mottarAndreYtelserFraNAV} />
                                         </SummaryBlock>
-                                    )}
-                                </SummarySection>
+                                        {mottarAndreYtelserFraNAV && apiValues.andreYtelserFraNAV && (
+                                            <SummaryBlock
+                                                header={intlHelper(intl, 'andreYtelser.summary.ytelser.header')}>
+                                                <SummaryList
+                                                    items={apiValues.andreYtelserFraNAV}
+                                                    itemRenderer={(ytelse) => intlHelper(intl, `NAV_YTELSE.${ytelse}`)}
+                                                />
+                                            </SummaryBlock>
+                                        )}
+                                    </SummarySection>
+                                )}
 
                                 {/* Medlemskap i folketrygden */}
                                 <SummarySection header={intlHelper(intl, 'medlemskap.summary.header')}>

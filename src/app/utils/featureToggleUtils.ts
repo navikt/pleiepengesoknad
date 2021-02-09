@@ -5,6 +5,7 @@ export enum Feature {
     'TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN' = 'TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN',
     'TOGGLE_8_UKER' = 'TOGGLE_8_UKER',
     'TOGGLE_BEKREFT_OMSORG' = 'TOGGLE_BEKREFT_OMSORG',
+    'ANDRE_YTELSER' = 'ANDRE_YTELSER',
 }
 
 export const isFeatureEnabled = (feature: Feature) => {

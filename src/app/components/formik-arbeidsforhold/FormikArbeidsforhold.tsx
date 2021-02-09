@@ -1,7 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
@@ -12,13 +11,11 @@ import {
 } from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import { FieldArray } from 'formik';
 import Panel from 'nav-frontend-paneler';
-import { Element } from 'nav-frontend-typografi';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../../config/minMaxValues';
 import { AppFormField, Arbeidsforhold, ArbeidsforholdField, Arbeidsform } from '../../types/PleiepengesøknadFormData';
 import AppForm from '../app-form/AppForm';
+import ArbeidsformInfo from './arbeidsforholdInfo';
 import './timerInput.less';
-
-// import RedusertArbeidsforholdPart from './RedusertArbeidsforholdPart';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
@@ -43,19 +40,21 @@ const FormikArbeidsforhold = ({ arbeidsforhold, index }: Props) => {
                                 <Panel>
                                     <FormBlock margin="none">
                                         <AppForm.RadioPanelGroup
-                                            legend={`Hvordan jobber du hos ${arbeidsforhold.navn}?`}
+                                            legend={intlHelper(intl, 'arbeidsforhold.arbeidsform.spm', {
+                                                arbeidsforhold: arbeidsforhold.jobberNormaltTimer,
+                                            })}
                                             name={getFieldName(ArbeidsforholdField.arbeidsform)}
                                             radios={[
                                                 {
-                                                    label: 'Fast antall timer per uke',
+                                                    label: intlHelper(intl, 'arbeidsforhold.arbeidsform.fast'),
                                                     value: Arbeidsform.fast,
                                                 },
                                                 {
-                                                    label: 'Turnus',
+                                                    label: intlHelper(intl, 'arbeidsforhold.arbeidsform.turnus'),
                                                     value: Arbeidsform.turnus,
                                                 },
                                                 {
-                                                    label: 'Deltid/varierende/tilkalling',
+                                                    label: intlHelper(intl, 'arbeidsforhold.arbeidsform.varierende'),
                                                     value: Arbeidsform.varierende,
                                                 },
                                             ]}
@@ -70,80 +69,21 @@ const FormikArbeidsforhold = ({ arbeidsforhold, index }: Props) => {
                                                     <div style={{ width: '100%' }}>
                                                         <Box margin="none" padBottom="m">
                                                             {arbeidsforhold.arbeidsform === Arbeidsform.fast && (
-                                                                <>
-                                                                    <ExpandableInfo title="Hva betyr dette">
-                                                                        Her skal du legge inn antall timer du jobber per
-                                                                        uke. Hvis du er usikker på antallet må du høre
-                                                                        med arbeidsgiveren din, eller finne svaret i
-                                                                        arbeidskontrakten din.
-                                                                    </ExpandableInfo>
-                                                                </>
+                                                                <Box margin="m">
+                                                                    <ArbeidsformInfo arbeidsform={Arbeidsform.fast} />
+                                                                </Box>
                                                             )}
                                                             {arbeidsforhold.arbeidsform === Arbeidsform.turnus && (
-                                                                <>
-                                                                    {/* Her skal du legge inn et snitt av hva du jobber
-                                                                        per uke. */}
-                                                                    <Box margin="m">
-                                                                        <ExpandableInfo title="Hvordan regner jeg ut et snitt av turnusen min?">
-                                                                            Du regner ut snittet ved å legge sammen
-                                                                            antall timer du jobber totalt i hele
-                                                                            turnusperioden din, og deler det med antall
-                                                                            uker som turnusperioden din består av.
-                                                                            <Element tag="h3">Eksempel:</Element>
-                                                                            <p>
-                                                                                Du har en turnus som går over 3 uker.
-                                                                                Den første uka jobber du 20 timer, den
-                                                                                andre 40 timer og den tredje uka jobber
-                                                                                du 15 timer. Da legger du sammen antall
-                                                                                timer du har jobbet og deler med antall
-                                                                                uker i turnusperioden din.{' '}
-                                                                            </p>
-                                                                            <p>
-                                                                                Da blir regnestykket slik i dette
-                                                                                eksempelet:
-                                                                                <br />
-                                                                                20 timer + 40 timer + 15 timer = 75
-                                                                                timer <br />
-                                                                                Så deler du antall timer med antall uker
-                                                                                i turnusperioden din: 75:3 = 25 <br />
-                                                                            </p>
-                                                                            <p>
-                                                                                Du jobber altså i snitt 25 timer per
-                                                                                uke, og det er dette tallet du oppgir.
-                                                                            </p>
-                                                                        </ExpandableInfo>
-                                                                    </Box>
-                                                                </>
+                                                                <Box margin="m">
+                                                                    <ArbeidsformInfo arbeidsform={Arbeidsform.turnus} />
+                                                                </Box>
                                                             )}
                                                             {arbeidsforhold.arbeidsform === Arbeidsform.varierende && (
                                                                 <>
-                                                                    {/* Her skal du legge inn et snitt av hvor mange
-                                                                        timer du har jobbet per uke i de siste 12 ukene. */}
                                                                     <Box margin="m">
-                                                                        <ExpandableInfo title="Hvordan regner jeg ut et snitt i min situasjon?">
-                                                                            Du regner ut et snitt ved å legge sammen
-                                                                            antall timer du totalt har jobbet de siste
-                                                                            12 ukene og deler det med 12.
-                                                                            <Box margin="l">
-                                                                                <Box margin="m">
-                                                                                    <Element tag="h3">
-                                                                                        Eksempel:
-                                                                                    </Element>
-                                                                                </Box>
-                                                                                <p>
-                                                                                    De siste 12 ukene har du jobbet 250
-                                                                                    timer. Da deler du antall timer du
-                                                                                    har jobbet med 12:
-                                                                                    <br />
-                                                                                    250 timer: 12 uker = 20,8
-                                                                                </p>
-                                                                                <p>
-                                                                                    Du jobber altså i snitt 20,8 timer
-                                                                                    per uke, og det er dette tallet du
-                                                                                    oppgir.
-                                                                                </p>
-                                                                            </Box>
-                                                                        </ExpandableInfo>
+                                                                        <ArbeidsformInfo
+                                                                            arbeidsform={Arbeidsform.varierende}
+                                                                        />
                                                                     </Box>
                                                                 </>
                                                             )}

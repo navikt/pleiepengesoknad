@@ -121,7 +121,10 @@ export const mapFormDataToApiData = (
                 harBekreftetOpplysninger,
                 harForståttRettigheterOgPlikter,
                 harVærtEllerErVernepliktig: formData.harVærtEllerErVernepliktig === YesOrNo.YES,
-                andreYtelserFraNAV: formData.mottarAndreYtelser === YesOrNo.YES ? formData.andreYtelser : [],
+                andreYtelserFraNAV:
+                    isFeatureEnabled(Feature.ANDRE_YTELSER) && formData.mottarAndreYtelser === YesOrNo.YES
+                        ? formData.andreYtelser
+                        : [],
             };
 
             if (isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG)) {
