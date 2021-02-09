@@ -8,6 +8,7 @@ import { hasValue } from '@navikt/sif-common-core/lib/validation/hasValue';
 import { dateToISOFormattedDateString, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import {
     AppFieldValidationErrors,
+    dateErHelg,
     validateFradato,
     validateFødselsdato,
     validateLegeerklæring,
@@ -108,7 +109,7 @@ describe('fieldValidations', () => {
         });
 
         it('should return undefined if fraDato is inside the last 3 years and equal to or earlier than tilDato', () => {
-            const date = new Date('02.05.2021');
+            const date = dateErHelg(new Date()) ? moment(new Date()).add(2, 'days').toDate() : new Date();
             const fraDato = dateToISOFormattedDateString(date);
             const tilDato = dateToISOFormattedDateString(date);
             expect(validateFradato(fraDato, tilDato)).toBeUndefined();
@@ -158,7 +159,7 @@ describe('fieldValidations', () => {
         });
 
         it('should return undefined if tilDato is inside the last 3 years and equal to or later than fraDato', () => {
-            const tilDato = moment(new Date('02.05.2021'));
+            const tilDato = dateErHelg(moment().toDate()) ? moment().add(2, 'days') : moment();
             const fraDato = tilDato.clone();
             expect(
                 validateTildato(
