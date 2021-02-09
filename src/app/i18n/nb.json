@@ -469,9 +469,9 @@
     "arbeidsforhold.oppsummering.svar.redusert.timer": "Skal jobbe {timerRedusert} i uka ({prosentRedusert} prosent av vanlig). Jobber normalt {timerNormalt} i uken.",
     "arbeidsforhold.oppsummering.svar.redusert.prosent": "Skal jobbe {prosentRedusert} prosent av {timerNormalt} i uka.",
     "arbeidsforhold.oppsummering.jobberNormalt": "Jobber vanligvis {timer, plural, one {# time} other {# timer}} i uken.",
-    "arbeidsforhold.oppsummering.arbeidsform.fast": "Jobber fast antall timer per uke.",
-    "arbeidsforhold.oppsummering.arbeidsform.turnus": "Jobber turnus.",
-    "arbeidsforhold.oppsummering.arbeidsform.varierende": "Jobber deltid/varierende/tilkalling.",
+    "arbeidsforhold.oppsummering.arbeidsform.FAST": "Jobber fast antall timer per uke.",
+    "arbeidsforhold.oppsummering.arbeidsform.TURNUS": "Jobber turnus.",
+    "arbeidsforhold.oppsummering.arbeidsform.VARIERENDE": "Jobber deltid/varierende/tilkalling.",
 
     "tilsynsordning.svar.ja": "Ja",
     "tilsynsordning.svar.nei": "Nei",
