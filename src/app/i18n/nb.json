@@ -446,9 +446,9 @@
     "arbeidsforhold.arbeidsforhold.vetIkke": "Vet ikke, men jeg melder fra hvis jeg skal jobbe i perioden jeg søker for",
     "arbeidsforhold.arbeidsforhold.redusert": "Ja, men jeg skal jobbe mindre enn vanlig",
 
-    "arbeidsforhold.iDag.fast.spm": "Hvor mange timer jobber du fast per uke hos {arbeidsforhold}?",
-    "arbeidsforhold.iDag.turnus.spm": "Hvor mange timer jobber du i snitt per uke hos {arbeidsforhold}?",
-    "arbeidsforhold.iDag.varierende.spm": "Hvor mange timer jobber du i snitt per uke hos {arbeidsforhold}?",
+    "arbeidsforhold.iDag.FAST.spm": "Hvor mange timer jobber du fast per uke hos {arbeidsforhold}?",
+    "arbeidsforhold.iDag.TURNUS.spm": "Hvor mange timer jobber du i snitt per uke hos {arbeidsforhold}?",
+    "arbeidsforhold.iDag.VARIERENDE.spm": "Hvor mange timer jobber du i snitt per uke hos {arbeidsforhold}?",
     "arbeidsforhold.iDag.utledet": "timer i uka",
     "arbeidsforhold.hvorMye.spm": "Hvordan vil du oppgi hvor mye du skal jobbe?",
     "arbeidsforhold.hvorMye.timer": "I timer",
