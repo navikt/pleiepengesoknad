@@ -15,7 +15,6 @@ import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from
 import { AppFormField, Arbeidsforhold, ArbeidsforholdField, Arbeidsform } from '../../types/PleiepengesøknadFormData';
 import AppForm from '../app-form/AppForm';
 import ArbeidsformInfo from './arbeidsforholdInfo';
-import './timerInput.less';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
@@ -69,6 +68,7 @@ const FormikArbeidsforhold = ({ arbeidsforhold, index }: Props) => {
                                                     intl,
                                                     `arbeidsforhold.arbeidsform.${arbeidsforhold.arbeidsform}.timer.suffix`
                                                 )}
+                                                suffixStyle="text"
                                                 description={
                                                     <div style={{ width: '100%' }}>
                                                         <Box margin="none" padBottom="m">
