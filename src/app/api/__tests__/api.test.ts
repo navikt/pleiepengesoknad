@@ -81,9 +81,5 @@ describe('api', () => {
             persist(undefined, stepId);
             expect(axios.post).toHaveBeenCalledWith(persistApiUrl, {}, axiosConfig);
         });
-        // it('should call axios.put when formData is defined', () => {
-        //     persist({}, stepId);
-        //     expect(axios.put).toHaveBeenCalledWith(persistApiUrl, {}, axiosConfig);
-        // });
     });
 });
