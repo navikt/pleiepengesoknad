@@ -9,10 +9,20 @@ import { MELLOMLAGRING_VERSION, MellomlagringData } from '../types/storage';
 import { Arbeidsgiver } from '../types/Søkerdata';
 import { getApiUrlByResourceType, sendMultipartPostRequest } from '../utils/apiUtils';
 
-export const persist = (formData: PleiepengesøknadFormData, lastStepID: StepID) => {
-    const body: MellomlagringData = { formData, metadata: { lastStepID, version: MELLOMLAGRING_VERSION } };
-    const url = `${getApiUrlByResourceType(ResourceType.MELLOMLAGRING)}?lastStepID=${encodeURI(lastStepID)}`;
-    return axios.post(url, { ...body }, axiosConfig);
+export const getPersistUrl = (lastStepID: StepID) =>
+    `${getApiUrlByResourceType(ResourceType.MELLOMLAGRING)}?lastStepID=${encodeURI(lastStepID)}`;
+
+export const persist = (formData: Partial<PleiepengesøknadFormData> | undefined, lastStepID: StepID) => {
+    const url = getPersistUrl(lastStepID);
+    if (formData) {
+        const body: MellomlagringData = {
+            formData,
+            metadata: { lastStepID, version: MELLOMLAGRING_VERSION },
+        };
+        return axios.put(url, { ...body }, axiosConfig);
+    } else {
+        return axios.post(url, {}, axiosConfig);
+    }
 };
 export const rehydrate = () =>
     axios.get(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), {
