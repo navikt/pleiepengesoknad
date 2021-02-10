@@ -64,7 +64,6 @@
     "barnRelasjon.MOR": "Mor",
     "barnRelasjon.MEDMOR": "Medmor",
     "barnRelasjon.FAR": "Far",
-    "barnRelasjon.FOSTERFORELDER": "Fosterforelder",
     "barnRelasjon.ANNET": "Annet",
 
     "avbrytSøknadDialog.avbrytSøknadLabel": "Ja, avbryt søknad",
@@ -279,9 +278,10 @@
     "steg.oppsummering.barnet.fødselsdato": "Fødselsdato: {dato}",
     "steg.oppsummering.barnet.fnr": "Fødselsnummer: {fnr}",
     "steg.oppsummering.relasjonTilBarnet.header": "Relasjon til barnet",
-    "steg.oppsummering.relasjonTilBarnet": "Relasjon til barnet: {relasjon}",
-    "steg.oppsummering.relasjonTilBarnetBeskrivelse": "Relasjon og tilsynsoppgaver:",
-
+    "steg.oppsummering.relasjonTilBarnetBeskrivelse": "Din beskrivelse av relasjon og tilsynsrolle for barnet:",
+    "steg.oppsummering.barnRelasjon.MOR": "Du er mor til barnet",
+    "steg.oppsummering.barnRelasjon.MEDMOR": "Du er medmor til barnet",
+    "steg.oppsummering.barnRelasjon.FAR": "Du er far til barnet",
     "steg.oppsummering.utenlandsoppholdIPerioden.header": "Skal du være i utlandet i perioden?",
     "steg.oppsummering.utenlandsoppholdIPerioden.listetittel": "Utenlandsopphold i perioden",
     "steg.oppsummering.utenlandsoppholdIPerioden.innlagtBarn.spm": "Skal barnet være innlagt på sykehus i utlandet?",

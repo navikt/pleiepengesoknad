@@ -69,10 +69,7 @@ const RelasjonTilBarnet = (intl: IntlShape, apiValues: PleiepengesøknadApiData)
         <Box margin="m">
             {apiValues.barnRelasjon !== BarnRelasjon.ANNET && (
                 <Normaltekst>
-                    <FormattedMessage
-                        id="steg.oppsummering.relasjonTilBarnet"
-                        values={{ relasjon: intlHelper(intl, `barnRelasjon.${apiValues.barnRelasjon}`) }}
-                    />
+                    <FormattedMessage id={`steg.oppsummering.barnRelasjon.${apiValues.barnRelasjon}`} />
                 </Normaltekst>
             )}
             {apiValues.barnRelasjon === BarnRelasjon.ANNET && (
