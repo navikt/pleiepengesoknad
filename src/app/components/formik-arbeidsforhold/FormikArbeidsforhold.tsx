@@ -65,6 +65,10 @@ const FormikArbeidsforhold = ({ arbeidsforhold, index }: Props) => {
                                         <Box margin="xl">
                                             <AppForm.Input
                                                 name={getFieldName(ArbeidsforholdField.jobberNormaltTimer)}
+                                                suffix={intlHelper(
+                                                    intl,
+                                                    `arbeidsforhold.arbeidsform.${arbeidsforhold.arbeidsform}.timer.suffix`
+                                                )}
                                                 description={
                                                     <div style={{ width: '100%' }}>
                                                         <Box margin="none" padBottom="m">

@@ -423,6 +423,7 @@
     "arbeidsforhold.arbeidsform.fast": "Fast antall timer per uke",
     "arbeidsforhold.arbeidsform.fast.info.tittel": "Hva betyr dette?",
     "arbeidsforhold.arbeidsform.fast.info.tekst": "Her skal du legge inn antall timer du jobber per uke. Hvis du er usikker på antallet må du høre med arbeidsgiveren din, eller finne svaret i arbeidskontrakten din.",
+    "arbeidsforhold.arbeidsform.FAST.timer.suffix": "Timer fast per uke",
     "arbeidsforhold.arbeidsform.turnus": "Turnus",
     "arbeidsforhold.arbeidsform.turnus.info.tittel": "Hvordan regner jeg ut et snitt av turnusen min?",
     "arbeidsforhold.arbeidsform.turnus.info.tekst.1": "Du regner ut snittet ved å legge sammen antall timer du jobber totalt i hele turnusperioden din, og deler det med antall uker som turnusperioden din består av.",
@@ -432,6 +433,7 @@
     "arbeidsforhold.arbeidsform.turnus.info.tekst.5": "Så deler du antall timer med antall uker i turnusperioden din: 75:3 = 25",
     "arbeidsforhold.arbeidsform.turnus.info.tekst.6": "Du jobber altså i snitt 25 timer per uke, og det er dette tallet du oppgir.",
     "arbeidsforhold.arbeidsform.turnus.info.tekst.eksempel": "Eksempel:",
+    "arbeidsforhold.arbeidsform.TURNUS.timer.suffix": "Timer i snitt per uke",
     "arbeidsforhold.arbeidsform.varierende": "Deltid/varierende/tilkalling",
     "arbeidsforhold.arbeidsform.varierende.info.tittel": "Hvordan regner jeg ut et snitt i min situasjon?",
     "arbeidsforhold.arbeidsform.varierende.info.tekst.1": "Du regner ut et snitt ved å legge sammen antall timer du totalt har jobbet de siste 12 ukene og deler det med 12.",
@@ -439,6 +441,7 @@
     "arbeidsforhold.arbeidsform.varierende.info.tekst.2": "De siste 12 ukene har du jobbet 250 timer. Da deler du antall timer du har jobbet med 12:",
     "arbeidsforhold.arbeidsform.varierende.info.tekst.3": "250 timer: 12 uker = 20,8",
     "arbeidsforhold.arbeidsform.varierende.info.tekst.4": "Du jobber altså i snitt 20,8 timer per uke, og det er dette tallet du oppgir.",
+    "arbeidsforhold.arbeidsform.VARIERENDE.timer.suffix": "Timer i snitt per uke",
 
     "arbeidsforhold.arbeidsforhold.spm": "Skal du jobbe her i samme periode som du søker pleiepenger?",
     "arbeidsforhold.arbeidsforhold.ja": "Ja, jeg skal jobbe som vanlig",
