@@ -102,6 +102,7 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
 
     const startSoknad = async () => {
         await logSoknadStartet(SKJEMANAVN);
+        persist(undefined, StepID.OPPLYSNINGER_OM_BARNET);
         setTimeout(() => {
             navigateTo(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.OPPLYSNINGER_OM_BARNET}`, history);
         });

@@ -10,5 +10,5 @@ interface StorageMetadata {
 
 export interface MellomlagringData {
     metadata: StorageMetadata;
-    formData: PleiepengesøknadFormData;
+    formData: Partial<PleiepengesøknadFormData>;
 }

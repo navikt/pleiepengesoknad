@@ -12,7 +12,7 @@ module.exports = {
     transformIgnorePatterns: ['node_modules/(?!(nav-frontend-spinner-style)/)'],
     globals: {
         'ts-jest': {
-            tsConfig: './tsconfig.json',
+            tsconfig: './tsconfig.json',
             babelConfig: {
                 plugins: ['@babel/plugin-proposal-object-rest-spread'],
                 presets: ['@babel/preset-env', '@babel/preset-react'],

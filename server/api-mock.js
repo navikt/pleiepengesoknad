@@ -44,7 +44,7 @@ server.use((req, res, next) => {
     res.set('X-XSS-Protection', '1; mode=block');
     res.set('X-Content-Type-Options', 'nosniff');
     res.set('Access-Control-Allow-Headers', 'content-type');
-    res.set('Access-Control-Allow-Methods', ['GET', 'POST', 'DELETE']);
+    res.set('Access-Control-Allow-Methods', ['GET', 'POST', 'DELETE', 'PUT']);
     res.set('Access-Control-Allow-Credentials', true);
     next();
 });
@@ -135,6 +135,12 @@ const startExpressServer = () => {
         }
     });
     server.post('/mellomlagring', (req, res) => {
+        const body = req.body;
+        const jsBody = isJSON(body) ? JSON.parse(body) : body;
+        writeFileAsync(MELLOMLAGRING_JSON, JSON.stringify(jsBody, null, 2));
+        res.sendStatus(200);
+    });
+    server.put('/mellomlagring', (req, res) => {
         const body = req.body;
         const jsBody = isJSON(body) ? JSON.parse(body) : body;
         writeFileAsync(MELLOMLAGRING_JSON, JSON.stringify(jsBody, null, 2));
