@@ -303,11 +303,7 @@
     "steg.oppsummering.validering.manglerVedlegg": "Noko gjekk gale med legeerklæringa. Ver vennleg å gå tilbake og kontroller at ho er lasta opp rett.",
     "steg.oppsummering.validering.ugyldigArbeidsforhold": "Noko stemmer ikkje heilt med arbeidsforholdet du har registrert. Sjå over den informasjonen du har fylt ut på den sida.",
 
-    "steg.arbeidsforhold.væreBorteFra.spm": "Kva jobb må du vere borte frå for å pleie barnet?",
-    "steg.arbeidsforhold.aktivtArbeidsforhold.spm": "Vel arbeidsforholda du har i perioden du søkjer pleiepengar for.",
-    "steg.arbeidsforhold.aktivtArbeidsforhold.info.html": "<p>For å ha rett til pleiepengar må du ha minst 20 prosent inntektstap mens du pleier barnet ditt. Dagpengar, sjukepengar, foreldrepengar, pleiepengar og opplæringspengar blir også rekna som inntekt.</p><p>Vi har funne desse arbeidsforholda registrerte på deg.</p>",
     "steg.arbeidsforhold.ingenOpplysninger": "Vi har ikkje nokon opplysningar om arbeidsgivar.",
-    "steg.arbeidsforhold.manglesOpplysninger": "Manglar det ein arbeidsgivar her? Be arbeidsgivaren din sende ny A-melding, anten via lønns- og personalsystemet eller gjennom Altinn.",
 
     "page.confirmation.sidetittel": "Vi har fått søknaden din.",
     "page.confirmation.tittel": "Vi har mottatt søknad fra deg om pleiepengar",
@@ -399,7 +395,6 @@
     "arbeidsforhold.arbeidsforhold.nei": "Nei, eg skal ikkje jobbe.",
     "arbeidsforhold.arbeidsforhold.vetIkke": "Veit ikkje, men eg melder frå dersom eg skal jobbe i perioden eg søkjer for.",
     "arbeidsforhold.arbeidsforhold.redusert": "Ja, men eg skal jobbe mindre enn vanleg.",
-    "arbeidsforhold.iDag.spm": "Kor mykje jobbar du vanlegvis hos {arbeidsforhold}?",
     "arbeidsforhold.iDag.utledet": "timar i veka",
     "arbeidsforhold.hvorMye.spm": "Korleis vil du gi opp kor mykje du skal jobbe?",
     "arbeidsforhold.hvorMye.timer": "I timar",
