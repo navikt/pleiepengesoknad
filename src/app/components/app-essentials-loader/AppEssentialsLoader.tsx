@@ -18,7 +18,7 @@ export const VERIFY_MELLOMLAGRING_VERSION = true;
 
 interface OwnProps {
     contentLoadedRenderer: (
-        formdata: PleiepengesøknadFormData,
+        formdata: Partial<PleiepengesøknadFormData>,
         lastStepID?: StepID,
         søkerdata?: Søkerdata
     ) => React.ReactNode;
@@ -28,7 +28,7 @@ interface State {
     isLoading: boolean;
     willRedirectToLoginPage: boolean;
     lastStepID?: StepID;
-    formdata: PleiepengesøknadFormData;
+    formdata: Partial<PleiepengesøknadFormData>;
     søkerdata?: Søkerdata;
 }
 
@@ -113,7 +113,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
     }
 
     updateSøkerdata(
-        formdata: PleiepengesøknadFormData,
+        formdata: Partial<PleiepengesøknadFormData>,
         søkerdata: Søkerdata,
         lastStepID?: StepID,
         callback?: () => void

@@ -1,8 +1,18 @@
 import axios from 'axios';
 import axiosConfig from '../../config/axiosConfig';
+import { StepID } from '../../config/stepConfig';
 import { ResourceType } from '../../types/ResourceType';
 import { getApiUrlByResourceType, sendMultipartPostRequest } from '../../utils/apiUtils';
-import { deleteFile, getArbeidsgiver, getBarn, getSøker, sendApplication, uploadFile } from '../api';
+import {
+    deleteFile,
+    getArbeidsgiver,
+    getBarn,
+    getPersistUrl,
+    getSøker,
+    persist,
+    sendApplication,
+    uploadFile,
+} from '../api';
 
 const mockedApiUrl = 'nav.no/api';
 jest.mock('./../../utils/apiUtils', () => {
@@ -61,6 +71,15 @@ describe('api', () => {
         it('should call axios.delete on the specified url', () => {
             deleteFile(mockedApiUrl);
             expect(axios.delete).toHaveBeenCalledWith(mockedApiUrl, axiosConfig);
+        });
+    });
+
+    describe('mellomlagring', () => {
+        const stepId: StepID = 'fakeStepID' as any;
+        const persistApiUrl = getPersistUrl(stepId);
+        it('should call axios.post when no formData', () => {
+            persist(undefined, stepId);
+            expect(axios.post).toHaveBeenCalledWith(persistApiUrl, {}, axiosConfig);
         });
     });
 });
