@@ -109,9 +109,14 @@ describe('fieldValidations', () => {
         });
 
         it('should return undefined if fraDato is inside the last 3 years and equal to or earlier than tilDato', () => {
-            const date = dateErHelg(new Date()) ? moment(new Date()).add(2, 'days').toDate() : new Date();
+            const testDate = new Date();
+            const date = !dateErHelg(testDate)
+                ? !dateErHelg(moment(testDate).subtract(3, 'years').toDate())
+                    ? testDate
+                    : moment(testDate).add(2, 'days').toDate()
+                : moment(testDate).add(2, 'days').toDate();
             const fraDato = dateToISOFormattedDateString(date);
-            const tilDato = dateToISOFormattedDateString(date);
+            const tilDato = fraDato;
             expect(validateFradato(fraDato, tilDato)).toBeUndefined();
             const date3YearsAgo = dateToISOFormattedDateString(moment(date).subtract(3, 'years').toDate());
             expect(validateFradato(date3YearsAgo)).toBeUndefined();
@@ -159,7 +164,12 @@ describe('fieldValidations', () => {
         });
 
         it('should return undefined if tilDato is inside the last 3 years and equal to or later than fraDato', () => {
-            const tilDato = dateErHelg(moment().toDate()) ? moment().add(2, 'days') : moment();
+            const testDate = moment();
+            const tilDato = !dateErHelg(testDate.toDate())
+                ? !dateErHelg(testDate.clone().subtract(3, 'years').toDate())
+                    ? testDate
+                    : testDate.add(2, 'days')
+                : testDate.add(2, 'days');
             const fraDato = tilDato.clone();
             expect(
                 validateTildato(
@@ -167,7 +177,7 @@ describe('fieldValidations', () => {
                     dateToISOFormattedDateString(fraDato.toDate())
                 )
             ).toBeUndefined();
-            const date3YearsAgo = moment(tilDato).subtract(3, 'years').toDate();
+            const date3YearsAgo = tilDato.subtract(3, 'years').toDate();
             expect(validateTildato(dateToISOFormattedDateString(date3YearsAgo))).toBeUndefined();
         });
 
