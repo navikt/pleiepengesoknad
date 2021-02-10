@@ -165,7 +165,6 @@ describe('fieldValidations', () => {
 
         it('should return undefined if tilDato is inside the last 3 years and equal to or later than fraDato', () => {
             const testDate = moment();
-            console.log(testDate);
             const tilDato = !dateErHelg(testDate.toDate())
                 ? !dateErHelg(testDate.clone().subtract(3, 'years').toDate())
                     ? testDate
