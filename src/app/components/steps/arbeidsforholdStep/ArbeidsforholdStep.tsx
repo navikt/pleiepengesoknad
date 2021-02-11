@@ -77,30 +77,35 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
             {!isLoading && (
                 <>
                     <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.tittel')}>
-                        <FormattedMessage id="steg.arbeidsforhold.intro" />
-                        <Box margin="m">
-                            <ExpandableInfo title={intlHelper(intl, 'steg.arbeidsforhold.info.tittel')}>
-                                <FormattedMessage id="steg.arbeidsforhold.info.tekst" />
-                            </ExpandableInfo>
-                        </Box>
                         {arbeidsforhold.length > 0 && (
                             <>
-                                {arbeidsforhold.map((forhold, index) => (
-                                    <FormBlock key={forhold.organisasjonsnummer} margin="xl">
-                                        <Box padBottom="m">
-                                            <Undertittel tag="h3" style={{ fontWeight: 'normal' }}>
-                                                {forhold.navn}
-                                            </Undertittel>
-                                        </Box>
-                                        <FormikArbeidsforhold arbeidsforhold={forhold} index={index} />
-                                    </FormBlock>
-                                ))}
+                                <FormattedMessage id="steg.arbeidsforhold.intro" />
+                                <Box margin="m">
+                                    <ExpandableInfo title={intlHelper(intl, 'steg.arbeidsforhold.info.tittel')}>
+                                        <FormattedMessage id="steg.arbeidsforhold.info.tekst" />
+                                    </ExpandableInfo>
+                                </Box>
+                                <>
+                                    {arbeidsforhold.map((forhold, index) => (
+                                        <FormBlock key={forhold.organisasjonsnummer} margin="xl">
+                                            <Box padBottom="m">
+                                                <Undertittel tag="h3" style={{ fontWeight: 'normal' }}>
+                                                    {forhold.navn}
+                                                </Undertittel>
+                                            </Box>
+                                            <FormikArbeidsforhold arbeidsforhold={forhold} index={index} />
+                                        </FormBlock>
+                                    ))}
+                                </>
                             </>
                         )}
                         {arbeidsforhold.length === 0 && (
-                            <Box>
+                            <Box margin="l">
                                 <AlertStripeInfo>
                                     <FormattedMessage id="steg.arbeidsforhold.ingenOpplysninger" />
+                                    <p style={{ marginBottom: 0 }}>
+                                        <FormattedMessage id="steg.arbeidsforhold.info.tekst" />
+                                    </p>
                                 </AlertStripeInfo>
                             </Box>
                         )}
