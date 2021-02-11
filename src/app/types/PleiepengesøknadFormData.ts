@@ -126,6 +126,7 @@ export enum TilsynVetIkkeHvorfor {
 export enum BarnRelasjon {
     MOR = 'MOR',
     MEDMOR = 'MEDMOR',
+    FOSTERFORELDER = 'FOSTERFORELDER',
     FAR = 'FAR',
     ANNET = 'ANNET',
 }

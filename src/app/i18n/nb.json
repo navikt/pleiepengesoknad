@@ -63,6 +63,7 @@
 
     "barnRelasjon.MOR": "Mor",
     "barnRelasjon.MEDMOR": "Medmor",
+    "barnRelasjon.FOSTERFORELDER": "Fosterforelder",
     "barnRelasjon.FAR": "Far",
     "barnRelasjon.ANNET": "Annet",
 
@@ -281,6 +282,7 @@
     "steg.oppsummering.relasjonTilBarnetBeskrivelse": "Din beskrivelse av relasjon og tilsynsrolle for barnet:",
     "steg.oppsummering.barnRelasjon.MOR": "Du er mor til barnet",
     "steg.oppsummering.barnRelasjon.MEDMOR": "Du er medmor til barnet",
+    "steg.oppsummering.barnRelasjon.FOSTERFORELDER": "Du er fosterforelder til barnet",
     "steg.oppsummering.barnRelasjon.FAR": "Du er far til barnet",
     "steg.oppsummering.utenlandsoppholdIPerioden.header": "Skal du være i utlandet i perioden?",
     "steg.oppsummering.utenlandsoppholdIPerioden.listetittel": "Utenlandsopphold i perioden",
@@ -430,7 +432,7 @@
     "arbeidsforhold.arbeidsform.turnus.info.tekst.2": "Du har en turnus som går over 3 uker. Den første uka jobber du 20 timer, den andre 40 timer og den tredje uka jobber du 15 timer. Da legger du sammen antall timer du har jobbet og deler med antall uker i turnusperioden din.",
     "arbeidsforhold.arbeidsform.turnus.info.tekst.3": "Da blir regnestykket slik i dette eksempelet:",
     "arbeidsforhold.arbeidsform.turnus.info.tekst.4": "20 timer + 40 timer + 15 timer = 75 timer",
-    "arbeidsforhold.arbeidsform.turnus.info.tekst.5": "Så deler du antall timer med antall uker i turnusperioden din: 75:3 = 25",
+    "arbeidsforhold.arbeidsform.turnus.info.tekst.5": "Så deler du antall timer med antall uker i turnusperioden din: 75 / 3 = 25",
     "arbeidsforhold.arbeidsform.turnus.info.tekst.6": "Du jobber altså i snitt 25 timer per uke, og det er dette tallet du oppgir.",
     "arbeidsforhold.arbeidsform.turnus.info.tekst.eksempel": "Eksempel:",
     "arbeidsforhold.arbeidsform.TURNUS.timer.suffix": "timer i snitt per uke",
@@ -439,7 +441,7 @@
     "arbeidsforhold.arbeidsform.varierende.info.tekst.1": "Du regner ut et snitt ved å legge sammen antall timer du totalt har jobbet de siste 12 ukene og deler det med 12.",
     "arbeidsforhold.arbeidsform.varierende.info.tekst.eksempel": "Eksempel:",
     "arbeidsforhold.arbeidsform.varierende.info.tekst.2": "De siste 12 ukene har du jobbet 250 timer. Da deler du antall timer du har jobbet med 12:",
-    "arbeidsforhold.arbeidsform.varierende.info.tekst.3": "250 timer: 12 uker = 20,8",
+    "arbeidsforhold.arbeidsform.varierende.info.tekst.3": "250 timer / 12 uker = 20,8",
     "arbeidsforhold.arbeidsform.varierende.info.tekst.4": "Du jobber altså i snitt 20,8 timer per uke, og det er dette tallet du oppgir.",
     "arbeidsforhold.arbeidsform.VARIERENDE.timer.suffix": "timer i snitt per uke",
 
