@@ -26,6 +26,7 @@ import SummaryStep from '../steps/summary/SummaryStep';
 import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromStep';
 import TilsynsordningStep from '../steps/tilsynsordning/TilsynsordningStep';
 import { SKJEMANAVN } from '../../App';
+import ArbeidsforholdIPeriodenStep from '../steps/arbeidsforhold-i-perioden/ArbeidsforholdIPeriodenStep';
 
 interface PleiepengesøknadContentProps {
     lastStepID: StepID;
@@ -81,7 +82,7 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
         navigateToLoginPage(getSøknadRoute(stepId));
     };
 
-    const navigateToNextStep = async (stepId: StepID) => {
+    const navigateToNextStepFrom = async (stepId: StepID) => {
         setTimeout(() => {
             const nextStepRoute = getNextStepRoute(stepId, values);
             if (nextStepRoute) {
@@ -102,6 +103,7 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
 
     const startSoknad = async () => {
         await logSoknadStartet(SKJEMANAVN);
+        persist(undefined, StepID.OPPLYSNINGER_OM_BARNET);
         setTimeout(() => {
             navigateTo(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.OPPLYSNINGER_OM_BARNET}`, history);
         });
@@ -119,7 +121,7 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
                     path={getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET)}
                     render={() => (
                         <OpplysningerOmBarnetStep
-                            onValidSubmit={() => navigateToNextStep(StepID.OPPLYSNINGER_OM_BARNET)}
+                            onValidSubmit={() => navigateToNextStepFrom(StepID.OPPLYSNINGER_OM_BARNET)}
                         />
                     )}
                 />
@@ -129,7 +131,7 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
                 <Route
                     path={getSøknadRoute(StepID.TIDSROM)}
                     render={() => (
-                        <OpplysningerOmTidsromStep onValidSubmit={() => navigateToNextStep(StepID.TIDSROM)} />
+                        <OpplysningerOmTidsromStep onValidSubmit={() => navigateToNextStepFrom(StepID.TIDSROM)} />
                     )}
                 />
             )}
@@ -138,7 +140,18 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
                 <Route
                     path={getSøknadRoute(StepID.ARBEIDSFORHOLD)}
                     render={() => (
-                        <ArbeidsforholdStep onValidSubmit={() => navigateToNextStep(StepID.ARBEIDSFORHOLD)} />
+                        <ArbeidsforholdStep onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEIDSFORHOLD)} />
+                    )}
+                />
+            )}
+
+            {isAvailable(StepID.ARBEIDSFORHOLD_I_PERIODEN, values) && (
+                <Route
+                    path={getSøknadRoute(StepID.ARBEIDSFORHOLD_I_PERIODEN)}
+                    render={() => (
+                        <ArbeidsforholdIPeriodenStep
+                            onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEIDSFORHOLD_I_PERIODEN)}
+                        />
                     )}
                 />
             )}
@@ -147,7 +160,9 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
                 <Route
                     path={getSøknadRoute(StepID.OMSORGSTILBUD)}
                     render={() => {
-                        return <TilsynsordningStep onValidSubmit={() => navigateToNextStep(StepID.OMSORGSTILBUD)} />;
+                        return (
+                            <TilsynsordningStep onValidSubmit={() => navigateToNextStepFrom(StepID.OMSORGSTILBUD)} />
+                        );
                     }}
                 />
             )}
@@ -156,7 +171,7 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
                 <Route
                     path={getSøknadRoute(StepID.NATTEVÅK)}
                     render={() => {
-                        return <NattevåkStep onValidSubmit={() => navigateToNextStep(StepID.NATTEVÅK)} />;
+                        return <NattevåkStep onValidSubmit={() => navigateToNextStepFrom(StepID.NATTEVÅK)} />;
                     }}
                 />
             )}
@@ -165,7 +180,7 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
                 <Route
                     path={getSøknadRoute(StepID.BEREDSKAP)}
                     render={() => {
-                        return <BeredskapStep onValidSubmit={() => navigateToNextStep(StepID.BEREDSKAP)} />;
+                        return <BeredskapStep onValidSubmit={() => navigateToNextStepFrom(StepID.BEREDSKAP)} />;
                     }}
                 />
             )}
@@ -173,14 +188,16 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
             {isAvailable(StepID.MEDLEMSKAP, values) && (
                 <Route
                     path={getSøknadRoute(StepID.MEDLEMSKAP)}
-                    render={() => <MedlemsskapStep onValidSubmit={() => navigateToNextStep(StepID.MEDLEMSKAP)} />}
+                    render={() => <MedlemsskapStep onValidSubmit={() => navigateToNextStepFrom(StepID.MEDLEMSKAP)} />}
                 />
             )}
 
             {isAvailable(StepID.LEGEERKLÆRING, values) && (
                 <Route
                     path={getSøknadRoute(StepID.LEGEERKLÆRING)}
-                    render={() => <LegeerklæringStep onValidSubmit={() => navigateToNextStep(StepID.LEGEERKLÆRING)} />}
+                    render={() => (
+                        <LegeerklæringStep onValidSubmit={() => navigateToNextStepFrom(StepID.LEGEERKLÆRING)} />
+                    )}
                 />
             )}
 

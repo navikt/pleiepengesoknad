@@ -66,14 +66,14 @@ export const mapFormDataToApiData = (
         skalTaUtFerieIPerioden,
         harHattInntektSomFrilanser,
         relasjonTilBarnet,
-        relasjonTilBarnetAnnet,
+        relasjonTilBarnetBeskrivelse,
     } = formData;
 
     const periodeFra = datepickerUtils.getDateFromDateString(formData.periodeFra);
     const periodeTil = datepickerUtils.getDateFromDateString(formData.periodeTil);
     const barnetsFødselsdato = datepickerUtils.getDateFromDateString(formData.barnetsFødselsdato);
 
-    if (periodeFra && periodeTil && relasjonTilBarnet) {
+    if (periodeFra && periodeTil) {
         try {
             const barnObject: BarnToSendToApi = mapBarnToApiData(
                 barn,
@@ -83,13 +83,17 @@ export const mapFormDataToApiData = (
                 barnetSøknadenGjelder
             );
 
+            const gjelderAnnetBarn = barnObject.aktørId === null;
             const sprak = getValidSpråk(locale);
             const apiData: PleiepengesøknadApiData = {
                 newVersion: true,
                 språk: sprak,
                 barn: barnObject,
-                barnRelasjon: relasjonTilBarnet,
-                barnRelasjonAnnet: relasjonTilBarnet === BarnRelasjon.ANNET ? relasjonTilBarnetAnnet : undefined,
+                barnRelasjon: gjelderAnnetBarn ? relasjonTilBarnet : undefined,
+                barnRelasjonBeskrivelse:
+                    gjelderAnnetBarn && relasjonTilBarnet === BarnRelasjon.ANNET
+                        ? relasjonTilBarnetBeskrivelse
+                        : undefined,
                 arbeidsgivere: {
                     organisasjoner: arbeidsforhold
                         .filter((a) => a.erAnsattIPerioden === YesOrNo.YES)
@@ -116,6 +120,11 @@ export const mapFormDataToApiData = (
                 harMedsøker: harMedsøker === YesOrNo.YES,
                 harBekreftetOpplysninger,
                 harForståttRettigheterOgPlikter,
+                harVærtEllerErVernepliktig: formData.harVærtEllerErVernepliktig === YesOrNo.YES,
+                andreYtelserFraNAV:
+                    isFeatureEnabled(Feature.ANDRE_YTELSER) && formData.mottarAndreYtelser === YesOrNo.YES
+                        ? formData.andreYtelser
+                        : [],
             };
 
             if (isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG)) {

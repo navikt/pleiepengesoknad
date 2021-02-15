@@ -9,17 +9,12 @@ import {
     validateRequiredNumber,
     validateYesOrNoIsAnswered,
 } from '@navikt/sif-common-core/lib/validation/fieldValidations';
-import { SkjemagruppeQuestion } from '@navikt/sif-common-formik';
 import { FieldArray } from 'formik';
+import Panel from 'nav-frontend-paneler';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../../config/minMaxValues';
-import {
-    AppFormField,
-    Arbeidsforhold,
-    ArbeidsforholdField,
-    ArbeidsforholdSkalJobbeSvar,
-} from '../../types/PleiepengesøknadFormData';
+import { AppFormField, Arbeidsforhold, ArbeidsforholdField, Arbeidsform } from '../../types/PleiepengesøknadFormData';
 import AppForm from '../app-form/AppForm';
-import RedusertArbeidsforholdPart from './RedusertArbeidsforholdPart';
+import ArbeidsformInfo from './arbeidsforholdInfo';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
@@ -33,70 +28,95 @@ const FormikArbeidsforhold = ({ arbeidsforhold, index }: Props) => {
             {({ name }) => {
                 const getFieldName = (field: ArbeidsforholdField) => `${name}.${index}.${field}` as AppFormField;
                 return (
-                    <Box padBottom="l">
+                    <Box>
                         <AppForm.YesOrNoQuestion
                             legend={intlHelper(intl, 'arbeidsforhold.erAnsattIPerioden.spm')}
                             name={getFieldName(ArbeidsforholdField.erAnsattIPerioden)}
                             validate={validateYesOrNoIsAnswered}
                         />
                         {arbeidsforhold.erAnsattIPerioden === YesOrNo.YES && (
-                            <FormBlock>
-                                <AppForm.RadioPanelGroup
-                                    legend={intlHelper(intl, 'arbeidsforhold.arbeidsforhold.spm')}
-                                    name={getFieldName(ArbeidsforholdField.skalJobbe)}
-                                    validate={validateRequiredField}
-                                    radios={[
-                                        {
-                                            label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.nei'),
-                                            value: ArbeidsforholdSkalJobbeSvar.nei,
-                                        },
-                                        {
-                                            label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.vetIkke'),
-                                            value: ArbeidsforholdSkalJobbeSvar.vetIkke,
-                                        },
-                                        {
-                                            label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.ja'),
-                                            value: ArbeidsforholdSkalJobbeSvar.ja,
-                                        },
-                                        {
-                                            label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.redusert'),
-                                            value: ArbeidsforholdSkalJobbeSvar.redusert,
-                                        },
-                                    ]}
-                                />
-                                {arbeidsforhold.skalJobbe && (
-                                    <>
+                            <Box margin="l">
+                                <Panel>
+                                    <FormBlock margin="none">
+                                        <AppForm.RadioPanelGroup
+                                            legend={intlHelper(intl, 'arbeidsforhold.arbeidsform.spm', {
+                                                arbeidsforhold: arbeidsforhold.navn,
+                                            })}
+                                            name={getFieldName(ArbeidsforholdField.arbeidsform)}
+                                            radios={[
+                                                {
+                                                    label: intlHelper(intl, 'arbeidsforhold.arbeidsform.fast'),
+                                                    value: Arbeidsform.fast,
+                                                },
+                                                {
+                                                    label: intlHelper(intl, 'arbeidsforhold.arbeidsform.turnus'),
+                                                    value: Arbeidsform.turnus,
+                                                },
+                                                {
+                                                    label: intlHelper(intl, 'arbeidsforhold.arbeidsform.varierende'),
+                                                    value: Arbeidsform.varierende,
+                                                },
+                                            ]}
+                                            validate={validateRequiredField}
+                                        />
+                                    </FormBlock>
+                                    {arbeidsforhold.arbeidsform !== undefined && (
                                         <Box margin="xl">
-                                            <SkjemagruppeQuestion
-                                                legend={intlHelper(intl, 'arbeidsforhold.iDag.spm', {
-                                                    arbeidsforhold: arbeidsforhold.navn,
-                                                })}>
-                                                <AppForm.Input
-                                                    name={getFieldName(ArbeidsforholdField.jobberNormaltTimer)}
-                                                    type="number"
-                                                    className={'skjemaelement--timer-input'}
-                                                    label={intlHelper(intl, 'arbeidsforhold.iDag.utledet')}
-                                                    validate={(value) =>
-                                                        validateRequiredNumber({
-                                                            min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
-                                                            max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
-                                                        })(value)
+                                            <AppForm.Input
+                                                name={getFieldName(ArbeidsforholdField.jobberNormaltTimer)}
+                                                suffix={intlHelper(
+                                                    intl,
+                                                    `arbeidsforhold.arbeidsform.${arbeidsforhold.arbeidsform}.timer.suffix`
+                                                )}
+                                                suffixStyle="text"
+                                                description={
+                                                    <div style={{ width: '100%' }}>
+                                                        <Box margin="none" padBottom="m">
+                                                            {arbeidsforhold.arbeidsform === Arbeidsform.fast && (
+                                                                <Box margin="m">
+                                                                    <ArbeidsformInfo arbeidsform={Arbeidsform.fast} />
+                                                                </Box>
+                                                            )}
+                                                            {arbeidsforhold.arbeidsform === Arbeidsform.turnus && (
+                                                                <Box margin="m">
+                                                                    <ArbeidsformInfo arbeidsform={Arbeidsform.turnus} />
+                                                                </Box>
+                                                            )}
+                                                            {arbeidsforhold.arbeidsform === Arbeidsform.varierende && (
+                                                                <>
+                                                                    <Box margin="m">
+                                                                        <ArbeidsformInfo
+                                                                            arbeidsform={Arbeidsform.varierende}
+                                                                        />
+                                                                    </Box>
+                                                                </>
+                                                            )}
+                                                        </Box>
+                                                    </div>
+                                                }
+                                                type="number"
+                                                bredde="XS"
+                                                label={intlHelper(
+                                                    intl,
+                                                    `arbeidsforhold.iDag.${arbeidsforhold.arbeidsform}.spm`,
+                                                    {
+                                                        arbeidsforhold: arbeidsforhold.navn,
                                                     }
-                                                    value={arbeidsforhold.jobberNormaltTimer || ''}
-                                                    min={MIN_TIMER_NORMAL_ARBEIDSFORHOLD}
-                                                    max={MAX_TIMER_NORMAL_ARBEIDSFORHOLD}
-                                                />
-                                            </SkjemagruppeQuestion>
+                                                )}
+                                                validate={(value) =>
+                                                    validateRequiredNumber({
+                                                        min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
+                                                        max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
+                                                    })(value)
+                                                }
+                                                value={arbeidsforhold.jobberNormaltTimer || ''}
+                                                min={MIN_TIMER_NORMAL_ARBEIDSFORHOLD}
+                                                max={MAX_TIMER_NORMAL_ARBEIDSFORHOLD}
+                                            />
                                         </Box>
-                                    </>
-                                )}
-                                {arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.redusert && (
-                                    <RedusertArbeidsforholdPart
-                                        arbeidsforhold={arbeidsforhold}
-                                        getFieldName={getFieldName}
-                                    />
-                                )}
-                            </FormBlock>
+                                    )}
+                                </Panel>
+                            </Box>
                         )}
                     </Box>
                 );

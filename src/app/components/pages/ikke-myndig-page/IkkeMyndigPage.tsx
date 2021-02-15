@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useLogSidevisning } from '@navikt/sif-common-amplitude';
+import { SIFCommonPageKey, useLogSidevisning } from '@navikt/sif-common-amplitude';
 import Lenke from 'nav-frontend-lenker';
 import { Innholdstittel } from 'nav-frontend-typografi';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
@@ -12,7 +12,7 @@ import './ikkeMyndigPage.less';
 
 const IkkeMyndigPage = () => {
     const intl = useIntl();
-    useLogSidevisning('ikkeMyndig');
+    useLogSidevisning(SIFCommonPageKey.ikkeMyndig);
     return (
         <Page
             className="ikkeMyndigPage"

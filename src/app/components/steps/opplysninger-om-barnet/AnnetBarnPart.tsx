@@ -8,7 +8,7 @@ import { useFormikContext } from 'formik';
 import { AppFormField, BarnRelasjon, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import {
     validateFødselsdato,
-    validateRelasjonTilBarnetAnnet,
+    validateRelasjonTilBarnetBeskrivelse,
     validateNavn,
 } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
@@ -100,12 +100,25 @@ const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues }) => {
                         <AppForm.Textarea
                             label={intlHelper(intl, 'steg.omBarnet.relasjonAnnet.spm')}
                             description={
-                                <ExpandableInfo title={intlHelper(intl, 'steg.omBarnet.relasjonAnnet.info.tittel')}>
-                                    <FormattedMessage id="steg.omBarnet.relasjonAnnet.info.hjelpetekst" />
-                                </ExpandableInfo>
+                                <>
+                                    <ExpandableInfo title={intlHelper(intl, 'steg.omBarnet.relasjonAnnet.info.tittel')}>
+                                        <FormattedMessage
+                                            tagName="div"
+                                            id="steg.omBarnet.relasjonAnnet.info.hjelpetekst.1"
+                                        />
+                                        <FormattedMessage
+                                            tagName="p"
+                                            id="steg.omBarnet.relasjonAnnet.info.hjelpetekst.2"
+                                        />
+                                        <FormattedMessage
+                                            tagName="p"
+                                            id="steg.omBarnet.relasjonAnnet.info.hjelpetekst.3"
+                                        />
+                                    </ExpandableInfo>
+                                </>
                             }
-                            name={AppFormField.relasjonTilBarnetAnnet}
-                            validate={validateRelasjonTilBarnetAnnet}
+                            name={AppFormField.relasjonTilBarnetBeskrivelse}
+                            validate={validateRelasjonTilBarnetBeskrivelse}
                             value={formValues.relasjonTilBarnet || ''}
                         />
                     </FormBlock>

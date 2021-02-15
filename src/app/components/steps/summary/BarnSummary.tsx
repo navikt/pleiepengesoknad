@@ -69,17 +69,14 @@ const RelasjonTilBarnet = (intl: IntlShape, apiValues: PleiepengesøknadApiData)
         <Box margin="m">
             {apiValues.barnRelasjon !== BarnRelasjon.ANNET && (
                 <Normaltekst>
-                    <FormattedMessage
-                        id="steg.oppsummering.relasjonTilBarnet"
-                        values={{ relasjon: apiValues.barnRelasjon }}
-                    />
+                    <FormattedMessage id={`steg.oppsummering.barnRelasjon.${apiValues.barnRelasjon}`} />
                 </Normaltekst>
             )}
             {apiValues.barnRelasjon === BarnRelasjon.ANNET && (
                 <Normaltekst tag="div">
-                    <FormattedMessage id="steg.oppsummering.relasjonTilBarnetAnnet" />
+                    <FormattedMessage id="steg.oppsummering.relasjonTilBarnetBeskrivelse" />
                     <Sitat>
-                        <TextareaSummary text={apiValues.barnRelasjonAnnet} />
+                        <TextareaSummary text={apiValues.barnRelasjonBeskrivelse} />
                     </Sitat>
                 </Normaltekst>
             )}

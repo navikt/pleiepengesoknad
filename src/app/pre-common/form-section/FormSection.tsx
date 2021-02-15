@@ -1,7 +1,8 @@
 import React from 'react';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
-import { Undertittel } from 'nav-frontend-typografi';
+import { Systemtittel } from 'nav-frontend-typografi';
 import './formSection.less';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
 
 interface Props {
     title: string;
@@ -14,12 +15,14 @@ interface Props {
 const bem = bemUtils('formSection');
 
 const FormSection = ({ title, titleTag, titleIcon, indentContent, children }: Props) => (
-    <section className={bem.block}>
-        <Undertittel tag={titleTag} className={bem.element('title')}>
-            {titleIcon && <span className={bem.element('titleIcon')}>{titleIcon}</span>}
-            {title}
-        </Undertittel>
-        <div className={bem.element('content', indentContent ? 'indent' : undefined)}>{children}</div>
-    </section>
+    <Box margin="xxl">
+        <section className={bem.block}>
+            <Systemtittel tag={titleTag} className={bem.element('title')}>
+                {titleIcon && <span className={bem.element('titleIcon')}>{titleIcon}</span>}
+                {title}
+            </Systemtittel>
+            <div className={bem.element('content', indentContent ? 'indent' : undefined)}>{children}</div>
+        </section>
+    </Box>
 );
 export default FormSection;

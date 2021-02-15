@@ -11,7 +11,7 @@ import bemHelper from '@navikt/sif-common-core/lib/utils/bemUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { FormikValidationErrorSummary } from '@navikt/sif-common-formik';
 import { History } from 'history';
-import { Systemtittel } from 'nav-frontend-typografi';
+import { Innholdstittel } from 'nav-frontend-typografi';
 import { purge } from '../../api/api';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from '../../config/stepConfig';
 import { navigateToNAVno, navigateToWelcomePage } from '../../utils/navigationUtils';
@@ -77,9 +77,9 @@ const Step = ({ id, useValidationErrorSummary, stepConfig, children }: Props) =>
 
             <StepIndicator stepConfig={stepConfig} activeStep={conf.index} />
             <Box margin="xxl">
-                <Systemtittel tag="h1" className={bem.element('title')}>
+                <Innholdstittel tag="h1" className={bem.element('title')}>
                     {stepTexts.stepTitle}
-                </Systemtittel>
+                </Innholdstittel>
             </Box>
             <Box margin="xl">{children}</Box>
             <StepFooter

@@ -31,7 +31,6 @@ import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/
 import { Arbeidsforhold, Tilsynsordning } from '../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
 import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
-import { ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 
@@ -129,6 +128,10 @@ export const validateFradato = (fraDatoString?: string, tilDatoString?: string):
         }
     }
 
+    if (dateErHelg(fraDato)) {
+        return createFieldValidationError(AppFieldValidationErrors.er_helg);
+    }
+
     return undefined;
 };
 
@@ -148,6 +151,10 @@ export const validateTildato = (tilDatoString?: string, fraDatoString?: string):
         if (moment(tilDato).isBefore(fraDato)) {
             return createAppFieldValidationError(AppFieldValidationErrors.tildato_erFørFradato);
         }
+    }
+
+    if (dateErHelg(tilDato)) {
+        return createFieldValidationError(AppFieldValidationErrors.er_helg);
     }
 
     return undefined;
@@ -190,7 +197,7 @@ export const validateTilsynsordningTilleggsinfo = (text: string): FieldValidatio
     return undefined;
 };
 
-export const validateRelasjonTilBarnetAnnet = (text: string): FieldValidationResult => {
+export const validateRelasjonTilBarnetBeskrivelse = (text: string): FieldValidationResult => {
     if (!hasValue(text)) {
         return fieldIsRequiredError();
     }
@@ -366,8 +373,3 @@ export const validateReduserteArbeidTimer = (
 };
 
 export const dateErHelg = (date: Date) => dayjs(date).isoWeekday() === 6 || dayjs(date).isoWeekday() === 7;
-
-export const validateNotHelgedag = (maybeDate: string | undefined): FieldValidationResult => {
-    const date = ISOStringToDate(maybeDate);
-    return date && dateErHelg(date) ? createFieldValidationError(AppFieldValidationErrors.er_helg) : undefined;
-};

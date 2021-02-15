@@ -19,7 +19,7 @@ const configureDevServer = (decoratorFragments) => ({
     noInfo: false,
     stats: 'minimal',
     publicPath: '/dist',
-    disableHostCheck: true
+    disableHostCheck: true,
 });
 
 module.exports = configureDevServer;

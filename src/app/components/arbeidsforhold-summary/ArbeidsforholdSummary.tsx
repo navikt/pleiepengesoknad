@@ -20,7 +20,8 @@ const ArbeidsforholdSummary = ({
         skalJobbeProsent,
         skalJobbeTimer,
         jobberNormaltTimer,
-        skalJobbe: skalJobbe,
+        skalJobbe,
+        arbeidsform,
     },
 }: Props) => {
     const orgInfo = { navn, organisasjonsnummer };
@@ -87,6 +88,9 @@ const ArbeidsforholdSummary = ({
                     </Normaltekst>
                 </div>
             )}
+            <div>
+                <FormattedMessage id={`arbeidsforhold.oppsummering.arbeidsform.${arbeidsform}`} />
+            </div>
         </div>
     );
 };

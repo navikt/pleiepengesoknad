@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import * as attachmentUtils from '@navikt/sif-common-core/lib/utils/attachmentUtils';
@@ -17,7 +18,6 @@ import {
     AppFormField,
     Arbeidsforhold,
     ArbeidsforholdSkalJobbeSvar,
-    BarnRelasjon,
     PleiepengesøknadFormData,
 } from '../../types/PleiepengesøknadFormData';
 import { Arbeidsgiver, BarnReceivedFromApi } from '../../types/Søkerdata';
@@ -550,7 +550,6 @@ describe('Test complete applications', () => {
             fødselsdato: '2020-01-20',
             sammeAdresse: true,
         },
-        barnRelasjon: BarnRelasjon.FAR,
         arbeidsgivere: {
             organisasjoner: [
                 {
@@ -605,6 +604,8 @@ describe('Test complete applications', () => {
             beredskap: true,
             tilleggsinformasjon: 'harBeredskap_ekstrainfo',
         },
+        harVærtEllerErVernepliktig: false,
+        andreYtelserFraNAV: [],
     };
 
     const utenlandsoppholdISverigeApiData: UtenlandsoppholdIPeriodenApiData = {
