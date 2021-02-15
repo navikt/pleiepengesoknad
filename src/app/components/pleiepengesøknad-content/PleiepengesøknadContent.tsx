@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
 import { useFormikContext } from 'formik';
@@ -61,21 +61,24 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
     const [kvitteringInfo, setKvitteringInfo] = React.useState<KvitteringInfo | undefined>(undefined);
     const { values, resetForm } = useFormikContext<PleiepengesøknadFormData>();
-
     const history = useHistory();
     const { logHendelse, logUserLoggedOut, logSoknadStartet } = useAmplitudeInstance();
 
-    const sendUserToStep = async (route: string) => {
-        await logHendelse(ApplikasjonHendelse.starterMedMellomlagring, { step: route });
-        redirectTo(route);
-    };
+    const sendUserToStep = useCallback(
+        async (route: string) => {
+            await logHendelse(ApplikasjonHendelse.starterMedMellomlagring, { step: route });
+            redirectTo(route);
+        },
+        [logHendelse]
+    );
 
-    if (location.pathname === RouteConfig.WELCOMING_PAGE_ROUTE) {
-        const nextStepRoute = getNextStepRoute(lastStepID, values);
-        if (nextStepRoute) {
+    const isOnWelcomPage = location.pathname === RouteConfig.WELCOMING_PAGE_ROUTE;
+    const nextStepRoute = getNextStepRoute(lastStepID, values);
+    useEffect(() => {
+        if (isOnWelcomPage && nextStepRoute !== undefined) {
             sendUserToStep(nextStepRoute);
         }
-    }
+    }, [isOnWelcomPage, nextStepRoute, sendUserToStep]);
 
     const userNotLoggedIn = async (stepId: StepID) => {
         await logUserLoggedOut('Mellomlagring ved navigasjon');
