@@ -135,6 +135,20 @@ describe('fieldValidations', () => {
             const tilDato = dateToISOFormattedDateString(new Date('03.31.2021'));
             expect(validateFradato(fraDato, tilDato)).toBeUndefined();
         });
+
+        it('should return error message if fraDato is weekend', () => {
+            const fraDato = dateToISOFormattedDateString(new Date('02.06.2021'));
+            const tilDato = dateToISOFormattedDateString(new Date('03.31.2021'));
+            expect(validateFradato(fraDato, tilDato)).toEqual(
+                createFieldValidationError(AppFieldValidationErrors.er_helg)
+            );
+        });
+
+        it('should return undefined if fraDato is not weekend', () => {
+            const fraDato = dateToISOFormattedDateString(new Date('02.01.2021'));
+            const tilDato = dateToISOFormattedDateString(new Date('03.31.2021'));
+            expect(validateFradato(fraDato, tilDato)).toBeUndefined();
+        });
     });
 
     describe('validateTildato', () => {
@@ -180,6 +194,20 @@ describe('fieldValidations', () => {
         //     const date3YearsAgo = tilDato.subtract(3, 'years').toDate();
         //     expect(validateTildato(dateToISOFormattedDateString(date3YearsAgo))).toBeUndefined();
         // });
+
+        it('should return error message if tilDato is weekend', () => {
+            const fraDato = dateToISOFormattedDateString(new Date('02.05.2021'));
+            const tilDato = dateToISOFormattedDateString(new Date('03.28.2021'));
+            expect(validateTildato(tilDato, fraDato)).toEqual(
+                createFieldValidationError(AppFieldValidationErrors.er_helg)
+            );
+        });
+
+        it('should return undefined if tilDato is not weekend', () => {
+            const fraDato = dateToISOFormattedDateString(new Date('02.01.2021'));
+            const tilDato = dateToISOFormattedDateString(new Date('03.31.2021'));
+            expect(validateTildato(tilDato, fraDato)).toBeUndefined();
+        });
 
         it('should return error message if tilDato is weekend', () => {
             const fraDato = dateToISOFormattedDateString(new Date('02.05.2021'));
