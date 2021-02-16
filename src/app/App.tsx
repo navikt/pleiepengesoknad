@@ -33,11 +33,13 @@ const App = () => {
     const [locale, setLocale] = React.useState<Locale>(localeFromSessionStorage);
 
     const appStatusSanityConfig = getAppStatusSanityConfig();
+    const publicPath = getEnvironmentVariable('PUBLIC_PATH');
 
     return (
         <AmplitudeProvider applicationKey={APPLICATION_KEY}>
             <ApplicationWrapper
                 locale={locale}
+                publicPath={publicPath}
                 onChangeLocale={(activeLocale: Locale) => {
                     setLocaleInSessionStorage(activeLocale);
                     setLocale(activeLocale);

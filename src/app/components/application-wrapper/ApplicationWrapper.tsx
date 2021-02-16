@@ -10,15 +10,16 @@ import IntlProvider, { appBokmålstekster, appNynorsktekster } from '../intl-pro
 interface ApplicationWrapperProps {
     locale: Locale;
     children: React.ReactNode;
+    publicPath: any;
     onChangeLocale: (locale: Locale) => void;
 }
 
-const ApplicationWrapper = ({ locale, onChangeLocale, children }: ApplicationWrapperProps) => {
+const ApplicationWrapper = ({ locale, onChangeLocale, publicPath, children }: ApplicationWrapperProps) => {
     return (
         <IntlProvider locale={locale}>
             <Normaltekst tag="div">
                 {isFeatureEnabled(Feature.NYNORSK) && <LanguageToggle locale={locale} toggle={onChangeLocale} />}
-                <Router>
+                <Router basename={publicPath}>
                     {children}
                     <ApplicationMessages
                         messages={{

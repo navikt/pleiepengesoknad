@@ -10,6 +10,9 @@ const configureDevServer = (decoratorFragments) => ({
         app.get('/dist/js/settings.js', (req, res) => {
             res.sendFile(path.resolve(`${__dirname}/../../../dist/js/settings.js`));
         });
+        app.get(`${process.env.PUBLIC_PATH}/dist/js/settings.js`, (req, res) => {
+            res.sendFile(path.resolve(`${__dirname}/../../../dist/js/settings.js`));
+        });
         app.get(/^\/(?!.*dist).*$/, (req, res) => {
             res.render('index.html', Object.assign(decoratorFragments));
         });
@@ -18,7 +21,7 @@ const configureDevServer = (decoratorFragments) => ({
     quiet: false,
     noInfo: false,
     stats: 'minimal',
-    publicPath: '/dist',
+    publicPath: `${process.env.PUBLIC_PATH}/dist`,
     disableHostCheck: true,
 });
 
