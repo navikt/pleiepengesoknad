@@ -48,6 +48,7 @@ import JaNeiSvar from './JaNeiSvar';
 import SelvstendigSummary from './SelvstendigSummary';
 import TilsynsordningSummary from './TilsynsordningSummary';
 import './summary.less';
+import SummaryBlock from './SummaryBlock';
 
 interface OwnProps {
     values: PleiepengesøknadFormData;
@@ -80,13 +81,17 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
     const intl = useIntl();
     const history = useHistory();
 
-    const { logSoknadSent, logSoknadFailed, logUserLoggedOut } = useAmplitudeInstance();
+    const { logInfo, logSoknadSent, logSoknadFailed, logUserLoggedOut } = useAmplitudeInstance();
 
     const sendSoknad = async (apiValues: PleiepengesøknadApiData, søkerdata: Søkerdata) => {
         setSendingInProgress(true);
         try {
             await sendApplication(apiValues);
             await logSoknadSent(SKJEMANAVN);
+            await logInfo({
+                antallArbeidsgivere: søkerdata.arbeidsgivere?.length,
+                antallAktiveArbeidsgivere: apiValues.arbeidsgivere.organisasjoner.length,
+            });
             await purge();
             setSoknadSent(true);
             onApplicationSent(apiValues, søkerdata);
@@ -139,6 +144,9 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                     utenlandsoppholdIPerioden,
                     ferieuttakIPerioden,
                 } = apiValues;
+
+                const mottarAndreYtelserFraNAV =
+                    apiValues.andreYtelserFraNAV && apiValues.andreYtelserFraNAV.length > 0;
 
                 return (
                     <FormikStep
@@ -351,7 +359,9 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                             )}
                                         />
                                     ) : (
-                                        <FormattedMessage id="steg.oppsummering.arbeidsforhold.ingenArbeidsforhold" />
+                                        <Box margin="m">
+                                            <FormattedMessage id="steg.oppsummering.arbeidsforhold.ingenArbeidsforhold" />
+                                        </Box>
                                     )}
                                 </SummarySection>
 
@@ -364,6 +374,36 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                 <SummarySection header={intlHelper(intl, 'selvstendig.summary.header')}>
                                     <SelvstendigSummary selvstendigVirksomheter={apiValues.selvstendigVirksomheter} />
                                 </SummarySection>
+
+                                {/* Vernepliktig */}
+                                <SummarySection header={intlHelper(intl, 'verneplikt.summary.header')}>
+                                    <SummaryBlock
+                                        header={intlHelper(
+                                            intl,
+                                            'verneplikt.summary.harVærtEllerErVernepliktig.header'
+                                        )}>
+                                        <JaNeiSvar harSvartJa={apiValues.harVærtEllerErVernepliktig} />
+                                    </SummaryBlock>
+                                </SummarySection>
+
+                                {/* Andre ytelser */}
+                                {isFeatureEnabled(Feature.ANDRE_YTELSER) && (
+                                    <SummarySection header={intlHelper(intl, 'andreYtelser.summary.header')}>
+                                        <SummaryBlock
+                                            header={intlHelper(intl, 'andreYtelser.summary.mottarAndreYtelser.header')}>
+                                            <JaNeiSvar harSvartJa={mottarAndreYtelserFraNAV} />
+                                        </SummaryBlock>
+                                        {mottarAndreYtelserFraNAV && apiValues.andreYtelserFraNAV && (
+                                            <SummaryBlock
+                                                header={intlHelper(intl, 'andreYtelser.summary.ytelser.header')}>
+                                                <SummaryList
+                                                    items={apiValues.andreYtelserFraNAV}
+                                                    itemRenderer={(ytelse) => intlHelper(intl, `NAV_YTELSE.${ytelse}`)}
+                                                />
+                                            </SummaryBlock>
+                                        )}
+                                    </SummarySection>
+                                )}
 
                                 {/* Medlemskap i folketrygden */}
                                 <SummarySection header={intlHelper(intl, 'medlemskap.summary.header')}>

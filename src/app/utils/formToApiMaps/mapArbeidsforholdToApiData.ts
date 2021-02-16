@@ -17,13 +17,14 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
         skalJobbeProsent,
         navn,
         organisasjonsnummer,
+        arbeidsform,
     } = arbeidsforhold;
 
-    const orgInfo = { navn, organisasjonsnummer };
+    const commonOrgInfo = { navn, organisasjonsnummer, arbeidsform };
 
     if (skalJobbe === ArbeidsforholdSkalJobbeSvar.nei) {
         const forhold: ArbeidsforholdApiNei = {
-            ...orgInfo,
+            ...commonOrgInfo,
             skalJobbe: 'nei',
             skalJobbeProsent: 0,
             jobberNormaltTimer,
@@ -33,7 +34,7 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
 
     if (skalJobbe === ArbeidsforholdSkalJobbeSvar.redusert) {
         const redusertForhold: ArbeidsforholdApiRedusert = {
-            ...orgInfo,
+            ...commonOrgInfo,
             skalJobbe: 'redusert',
             jobberNormaltTimer,
             ...(timerEllerProsent === 'timer' && skalJobbeTimer
@@ -51,7 +52,7 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
     }
     if (skalJobbe === ArbeidsforholdSkalJobbeSvar.vetIkke) {
         const vetIkkeForhold: ArbeidsforholdApiVetIkke = {
-            ...orgInfo,
+            ...commonOrgInfo,
             skalJobbe: 'vetIkke',
             jobberNormaltTimer,
             skalJobbeProsent: 0,
@@ -59,7 +60,7 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
         return vetIkkeForhold;
     }
     const forholdSomVanlig: ArbeidsforholdApiSomVanlig = {
-        ...orgInfo,
+        ...commonOrgInfo,
         skalJobbe: 'ja',
         skalJobbeProsent: 100,
         jobberNormaltTimer,

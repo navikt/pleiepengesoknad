@@ -77,6 +77,9 @@ const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape)
                             inntekt: intl.formatNumber(virksomhet.varigEndring.inntektEtterEndring),
                         }}
                     />
+                    <p>
+                        <FormattedMessage id="summary.virksomhet.varigEndring.beskrivelse" />
+                    </p>
                     <Sitat>
                         <TextareaSummary text={virksomhet.varigEndring.forklaring} />
                     </Sitat>

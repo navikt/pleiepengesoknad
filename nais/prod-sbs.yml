@@ -51,7 +51,7 @@ spec:
         - name: UTILGJENGELIG
           value: "off"
         - name: NYNORSK
-          value: "on"
+          value: "off"
         - name: INNSYN
           value: "on"
         - name: TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN

@@ -2,7 +2,7 @@ import { ApiStringDate } from '@navikt/sif-common-core/lib/types/ApiStringDate';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
-import { TilsynVetIkkeHvorfor } from './PleiepengesøknadFormData';
+import { BarnRelasjon, AndreYtelserFraNAV, TilsynVetIkkeHvorfor, Arbeidsform } from './PleiepengesøknadFormData';
 
 export type ISO8601Duration = string;
 
@@ -18,6 +18,7 @@ export interface ArbeidsforholdApi {
     navn: string;
     organisasjonsnummer?: string;
     skalJobbe?: 'ja' | 'nei' | 'redusert' | 'vetIkke';
+    arbeidsform?: Arbeidsform;
     jobberNormaltTimer?: number;
     skalJobbeTimer?: number;
     skalJobbeProsent?: number;
@@ -127,6 +128,8 @@ export interface PleiepengesøknadApiData {
     newVersion: boolean;
     språk: Locale;
     barn: BarnToSendToApi;
+    barnRelasjon?: BarnRelasjon;
+    barnRelasjonBeskrivelse?: string;
     fraOgMed: ApiStringDate;
     tilOgMed: ApiStringDate;
     skalBekrefteOmsorg?: boolean;
@@ -161,4 +164,6 @@ export interface PleiepengesøknadApiData {
     harHattInntektSomSelvstendigNæringsdrivende?: boolean;
     frilans?: FrilansApiData;
     selvstendigVirksomheter?: VirksomhetApiData[];
+    harVærtEllerErVernepliktig: boolean;
+    andreYtelserFraNAV?: AndreYtelserFraNAV[];
 }

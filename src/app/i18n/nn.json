@@ -54,6 +54,12 @@
     "fileUploadErrors.part1": "Det har dessverre skjedd ein feil under opplastinga av dei følgjande vedlegga:",
     "formikValidationErrorSummary.tittel": "Du må rette opp i dei følgjande feila:",
 
+    "barnRelasjon.MOR": "Mor",
+    "barnRelasjon.MEDMOR": "Medmor",
+    "barnRelasjon.FOSTERFORELDER": "Fosterforelder",
+    "barnRelasjon.FAR": "Far",
+    "barnRelasjon.ANNET": "Anna",
+
     "avbrytSøknadDialog.avbrytSøknadLabel": "Ja, avbryt søknaden",
     "avbrytSøknadDialog.fortsettSøknadLabel": "Nei",
     "avbrytSøknadDialog.intro": "Det du har fylt ut i søknaden, blir sletta, og du kjem tilbake til velkomstsida.",
@@ -192,6 +198,11 @@
     "steg.omBarnet.fnr.ikkeFnrEnda": "Barnet har ikkje fått fødselsnummer enno.",
     "steg.omBarnet.fødselsdato": "Fødselsdato",
     "steg.omBarnet.navn": "Namnet til barnet",
+    "steg.omBarnet.relasjon.spm": "Kva er din relasjon til barnet?",
+    "steg.omBarnet.relasjonAnnet.info.tittel": "Hva betyr dette?",
+    "steg.omBarnet.relasjonAnnet.info.hjelpetekst.1": "I noen tilfeller kan ikke den eller de som har den daglige omsorgen for barnet ha tilsyn med barn som trenger tilsyn og pleie hele tiden. Da kan andre personer hjelpe til med dette. Andre personer kan for eksempel være en besteforelder, venn, nabo, tante eller onkel.",
+    "steg.omBarnet.relasjonAnnet.info.hjelpetekst.2": "Eksempel 1: Mor/far kan ikke selv følge barnet til sykehuset for utredning eller behandling. Da kan andre personer følge barnet til sykehuset, og ha tilsyn med barnet så lenge oppholdet på sykehuset varer.",
+    "steg.omBarnet.relasjonAnnet.info.hjelpetekst.3": "Eksempel 2: Hverken mor eller far har mulighet til å pleie barnet hjemme, da kan andre personer gjøre dette og ha tilsyn med barnet i perioden det gjelder. ",
 
     "steg.tidsrom.hjelpetekst.tittel": "Kan eg søke for fleire periodar samtidig?",
     "steg.tidsrom.hjelpetekst": "Søknaden er under utvikling: Dersom du skal søkje for fleire periodar, må du sende éin søknad for kvar periode.",
@@ -293,11 +304,7 @@
     "steg.oppsummering.validering.manglerVedlegg": "Noko gjekk gale med legeerklæringa. Ver vennleg å gå tilbake og kontroller at ho er lasta opp rett.",
     "steg.oppsummering.validering.ugyldigArbeidsforhold": "Noko stemmer ikkje heilt med arbeidsforholdet du har registrert. Sjå over den informasjonen du har fylt ut på den sida.",
 
-    "steg.arbeidsforhold.væreBorteFra.spm": "Kva jobb må du vere borte frå for å pleie barnet?",
-    "steg.arbeidsforhold.aktivtArbeidsforhold.spm": "Vel arbeidsforholda du har i perioden du søkjer pleiepengar for.",
-    "steg.arbeidsforhold.aktivtArbeidsforhold.info.html": "<p>For å ha rett til pleiepengar må du ha minst 20 prosent inntektstap mens du pleier barnet ditt. Dagpengar, sjukepengar, foreldrepengar, pleiepengar og opplæringspengar blir også rekna som inntekt.</p><p>Vi har funne desse arbeidsforholda registrerte på deg.</p>",
     "steg.arbeidsforhold.ingenOpplysninger": "Vi har ikkje nokon opplysningar om arbeidsgivar.",
-    "steg.arbeidsforhold.manglesOpplysninger": "Manglar det ein arbeidsgivar her? Be arbeidsgivaren din sende ny A-melding, anten via lønns- og personalsystemet eller gjennom Altinn.",
 
     "page.confirmation.sidetittel": "Vi har fått søknaden din.",
     "page.confirmation.tittel": "Vi har mottatt søknad fra deg om pleiepengar",
@@ -379,6 +386,8 @@
     "fieldvalidation.samlet_storrelse_for_hoy": "Total samla størrelse for dokumenta du har lasta opp overstig grensa på 24Mb.",
     "fieldvalidation.frilanser_startdatoForSent": "Startdato kan ikkje vere etter dagens dato",
     "fieldvalidation.er_helg": "Laurdag og søndag er ikkje gyldig.",
+    "fieldvalidation.relasjon_forMangeTegn": "For mange teikn. Maks antall teikn er 1000.",
+    "fieldvalidation.relasjon_forFåTegn": "For få teikn.",
 
     "arbeidsforhold.erAnsattIPerioden.spm": "Er du tilsett her i perioden du søkjer pleiepengar for?",
 
@@ -387,7 +396,6 @@
     "arbeidsforhold.arbeidsforhold.nei": "Nei, eg skal ikkje jobbe.",
     "arbeidsforhold.arbeidsforhold.vetIkke": "Veit ikkje, men eg melder frå dersom eg skal jobbe i perioden eg søkjer for.",
     "arbeidsforhold.arbeidsforhold.redusert": "Ja, men eg skal jobbe mindre enn vanleg.",
-    "arbeidsforhold.iDag.spm": "Kor mykje jobbar du vanlegvis hos {arbeidsforhold}?",
     "arbeidsforhold.iDag.utledet": "timar i veka",
     "arbeidsforhold.hvorMye.spm": "Korleis vil du gi opp kor mykje du skal jobbe?",
     "arbeidsforhold.hvorMye.timer": "I timar",

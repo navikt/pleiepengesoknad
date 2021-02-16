@@ -4,7 +4,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { attachmentUploadHasFailed } from '@navikt/sif-common-core/lib/utils/attachmentUtils';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { BarnToSendToApi, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
-import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { BarnRelasjon, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../types/Søkerdata';
 import appSentryLogger from './appSentryLogger';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
@@ -65,6 +65,8 @@ export const mapFormDataToApiData = (
         ferieuttakIPerioden,
         skalTaUtFerieIPerioden,
         harHattInntektSomFrilanser,
+        relasjonTilBarnet,
+        relasjonTilBarnetBeskrivelse,
     } = formData;
 
     const periodeFra = datepickerUtils.getDateFromDateString(formData.periodeFra);
@@ -81,11 +83,17 @@ export const mapFormDataToApiData = (
                 barnetSøknadenGjelder
             );
 
+            const gjelderAnnetBarn = barnObject.aktørId === null;
             const sprak = getValidSpråk(locale);
             const apiData: PleiepengesøknadApiData = {
                 newVersion: true,
                 språk: sprak,
                 barn: barnObject,
+                barnRelasjon: gjelderAnnetBarn ? relasjonTilBarnet : undefined,
+                barnRelasjonBeskrivelse:
+                    gjelderAnnetBarn && relasjonTilBarnet === BarnRelasjon.ANNET
+                        ? relasjonTilBarnetBeskrivelse
+                        : undefined,
                 arbeidsgivere: {
                     organisasjoner: arbeidsforhold
                         .filter((a) => a.erAnsattIPerioden === YesOrNo.YES)
@@ -112,6 +120,11 @@ export const mapFormDataToApiData = (
                 harMedsøker: harMedsøker === YesOrNo.YES,
                 harBekreftetOpplysninger,
                 harForståttRettigheterOgPlikter,
+                harVærtEllerErVernepliktig: formData.harVærtEllerErVernepliktig === YesOrNo.YES,
+                andreYtelserFraNAV:
+                    isFeatureEnabled(Feature.ANDRE_YTELSER) && formData.mottarAndreYtelser === YesOrNo.YES
+                        ? formData.andreYtelser
+                        : [],
             };
 
             if (isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG)) {
