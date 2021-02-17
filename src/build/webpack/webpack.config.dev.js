@@ -11,22 +11,22 @@ webpackConfig.plugins.push(
     new HtmlWebpackPlugin({
         template: './src/app/index.html',
         inject: 'body',
-        alwaysWriteToDisk: true
+        alwaysWriteToDisk: true,
     })
 );
 
 webpackConfig.plugins.push(
     new HtmlWebpackHarddiskPlugin({
-        outputPath: path.resolve(__dirname, '../../../dist/dev')
+        outputPath: path.resolve(__dirname, '../../../dist/dev'),
     })
 );
 
 webpackConfig.module.rules.push({
     test: /\.js$/,
     use: 'source-map-loader',
-    enforce: 'pre'
+    enforce: 'pre',
 });
 
 module.exports = Object.assign(webpackConfig, {
-    devtool: 'inline-source-map'
+    devtool: 'inline-source-map',
 });

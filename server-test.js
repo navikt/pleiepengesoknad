@@ -15,13 +15,15 @@ server.use(compression());
 server.set('views', `${__dirname}/dist`);
 server.set('view engine', 'mustache');
 server.engine('html', mustacheExpress());
-server.use('/dist/js', express.static(path.resolve(__dirname, 'dist/js')));
-server.use('/dist/css', express.static(path.resolve(__dirname, 'dist/css')));
+
+server.use(`/dist`, express.static(path.resolve(__dirname, 'dist')));
+server.use(`${process.env.PUBLIC_PATH}/dist/js`, express.static(path.resolve(__dirname, 'dist/js')));
+server.use(`${process.env.PUBLIC_PATH}/dist/css`, express.static(path.resolve(__dirname, 'dist/css')));
 
 const routerHealth = express.Router();
+server.use(`${process.env.PUBLIC_PATH}/health`, routerHealth);
 routerHealth.get('/isAlive', (req, res) => res.sendStatus(200));
 routerHealth.get('/isReady', (req, res) => res.sendStatus(200));
-server.use('/health', routerHealth);
 
 const renderApp = () =>
     new Promise((resolve, reject) => {
@@ -56,8 +58,7 @@ const startExpressWebServer = async () => {
     try {
         const html = await renderApp();
         startServer(html);
-    }
-    catch (e) {
+    } catch (e) {
         console.error(e);
     }
 };
