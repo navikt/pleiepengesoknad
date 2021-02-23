@@ -90,7 +90,7 @@ jobs:
     deploy-prod-sbs:
         name: deploy-prod-sbs
         if: startsWith(github.ref, 'refs/heads/master')
-        needs: build-code-and-push-docker
+        needs: build-code-and-push-docker-sbs
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
