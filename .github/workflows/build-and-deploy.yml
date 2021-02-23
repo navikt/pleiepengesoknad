@@ -45,8 +45,8 @@ jobs:
             - name: Run E2E with
               run: npm run e2e-docker-compose
 
-    build-code-and-push-docker:
-        name: Build code and push docker image
+    build-code-and-push-docker-sbs:
+        name: Build code and push docker image to sbs
         if: startsWith(github.ref, 'refs/heads/dev-') || startsWith(github.ref, 'refs/heads/master') || github.event.deployment.payload.triggered # Build and push docker if branch is either master or dev-*
         needs: test
         runs-on: ubuntu-latest
@@ -64,7 +64,7 @@ jobs:
               uses: actions/setup-node@v1
               with:
                   node-version: ${{ matrix.node-version }}
-            - name: build code
+            - name: build code sbs
               run: |
                   npm i
                   npm run build
@@ -77,7 +77,7 @@ jobs:
     deploy-dev-sbs:
         name: deploy-dev-sbs
         if: startsWith(github.ref, 'refs/heads/dev-') || startsWith(github.ref, 'refs/heads/master')
-        needs: build-code-and-push-docker
+        needs: build-code-and-push-docker-sbs
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
