@@ -1,7 +1,6 @@
 FROM node:alpine
 WORKDIR /usr/src/app
 ENV API_URL=http://api-mock:8082
-ENV PUBLIC_PATH=/familie/sykdom-i-familien/soknad/pleiepenger
 COPY . .
 RUN apk update && apk add bash && apk add curl
 RUN apk add --no-cache make gcc g++ python

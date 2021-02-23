@@ -3,8 +3,9 @@ const webpackConfig = require('../webpack/webpack.config.production');
 
 require('dotenv').config();
 
-webpackConfig.output.publicPath = `${process.env.PUBLIC_PATH}/dist`;
-console.log('production-build.js: publicPath', process.env.PUBLIC_PATH);
+const publicPath = process.env.PUBLIC_PATH || '';
+webpackConfig.output.publicPath = `${publicPath}/dist`;
+console.log('production-build.js: publicPath', publicPath);
 
 webpack(webpackConfig, (err, stats) => {
     if (err || (stats.compilation.errors && stats.compilation.errors.length > 0)) {
