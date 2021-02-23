@@ -104,16 +104,16 @@ jobs:
   
   # må slettes etter tester
 
-  deploy-prod-gcp-without-merge-master:
-        name: Deploy-prod-gcp-without-merge-master
-        if: startsWith(github.ref, 'refs/heads/dev-')
-        needs: build-code-and-push-docker # Depends on build-code-and-push-docker job
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v1
-            - uses: nais/deploy/actions/deploy@v1
-              env:
-                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-                  CLUSTER: prod-gcp
-                  RESOURCE: nais/naiserator.yml
-                  VARS: nais/prod-gcp.json
+  # deploy-prod-gcp-without-merge-master:
+  #      name: Deploy-prod-gcp-without-merge-master
+  #      if: startsWith(github.ref, 'refs/heads/dev-')
+  #      needs: build-code-and-push-docker # Depends on build-code-and-push-docker job
+  #      runs-on: ubuntu-latest
+  #      steps:
+  #          - uses: actions/checkout@v1
+  #          - uses: nais/deploy/actions/deploy@v1
+  #            env:
+  #                APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+  #                CLUSTER: prod-gcp
+  #                RESOURCE: nais/naiserator.yml
+  #                VARS: nais/prod-gcp.json
