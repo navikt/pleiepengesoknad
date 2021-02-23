@@ -146,7 +146,7 @@ jobs:
     deploy-prod-gcp:
         name: Deploy-prod-gcp
         if: startsWith(github.ref, 'refs/heads/master')
-        needs: build-code-and-push-docker # Depends on build-code-and-push-docker job
+        needs: build-gcp-code-and-push-docker # Depends on build-code-and-push-docker job
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
