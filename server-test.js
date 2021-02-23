@@ -7,21 +7,27 @@ const compression = require('compression');
 const helmet = require('helmet');
 const createEnvSettingsFile = require('./src/build/scripts/envSettings');
 
+require('dotenv').config();
+
 createEnvSettingsFile(path.resolve(`${__dirname}/dist/js/settings.js`));
 
 const server = express();
-server.use(helmet());
+server.use(
+    helmet({
+        contentSecurityPolicy: false,
+    })
+);
 server.use(compression());
 server.set('views', `${__dirname}/dist`);
 server.set('view engine', 'mustache');
 server.engine('html', mustacheExpress());
-server.use('/dist/js', express.static(path.resolve(__dirname, 'dist/js')));
-server.use('/dist/css', express.static(path.resolve(__dirname, 'dist/css')));
+server.use(`${process.env.PUBLIC_PATH}/dist/js`, express.static(path.resolve(__dirname, 'dist/js')));
+server.use(`${process.env.PUBLIC_PATH}/dist/css`, express.static(path.resolve(__dirname, 'dist/css')));
 
 const routerHealth = express.Router();
 routerHealth.get('/isAlive', (req, res) => res.sendStatus(200));
 routerHealth.get('/isReady', (req, res) => res.sendStatus(200));
-server.use('/health', routerHealth);
+server.use(`${process.env.PUBLIC_PATH}/health`, routerHealth);
 
 const renderApp = () =>
     new Promise((resolve, reject) => {
@@ -35,6 +41,7 @@ const renderApp = () =>
     });
 
 const startServer = (html) => {
+    console.log('server-test Using PUBLIC_PATH', process.env.PUBLIC_PATH);
     const routeSoknad = express.Router();
     routeSoknad.use((req, res) => {
         res.send(html);
@@ -56,8 +63,7 @@ const startExpressWebServer = async () => {
     try {
         const html = await renderApp();
         startServer(html);
-    }
-    catch (e) {
+    } catch (e) {
         console.error(e);
     }
 };

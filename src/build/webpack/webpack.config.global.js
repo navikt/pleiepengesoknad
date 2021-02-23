@@ -10,7 +10,7 @@ const webpackConfig = {
     output: {
         path: path.resolve(__dirname, './../../../dist'),
         filename: 'js/[name].js',
-        publicPath: '/dist',
+        publicPath: `/dist` /* Default - is then overwritten in different env build files, eg. production-build.js  */,
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.json', '.jsx'],

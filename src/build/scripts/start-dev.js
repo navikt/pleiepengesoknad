@@ -10,6 +10,7 @@ const createEnvSettingsFile = require('./envSettings');
 require('dotenv').config();
 
 createEnvSettingsFile(path.resolve(`${__dirname}/../../../dist/js/settings.js`));
+webpackConfig.output.publicPath = `${process.env.PUBLIC_PATH}/dist`;
 
 getDecorator().then((decoratorData) => {
     const compiler = webpack(webpackConfig);

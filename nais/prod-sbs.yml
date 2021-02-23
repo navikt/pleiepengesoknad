@@ -43,7 +43,7 @@ spec:
         - name: API_URL
           value: https://pleiepengesoknad-api.nav.no
         - name: PUBLIC_PATH
-          value: https://pleiepengesoknad.nav.no
+          value: ""
         - name: LOGIN_URL
           value: https://loginservice.nav.no/login?redirect=https://pleiepengesoknad.nav.no/soknad/velkommen
         - name: TOGGLE_LANGUAGE

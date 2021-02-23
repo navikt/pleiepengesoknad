@@ -48,7 +48,7 @@ spec:
         - name: API_URL
           value: https://pleiepengesoknad-api-q.nav.no
         - name: PUBLIC_PATH
-          value: https://pleiepengesoknad-q.nav.no
+          value: ""
         - name: LOGIN_URL
           value: https://loginservice-q.nav.no/login?redirect=https://pleiepengesoknad-q.nav.no/soknad
         - name: NYNORSK
