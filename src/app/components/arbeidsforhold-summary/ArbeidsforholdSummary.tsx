@@ -88,9 +88,8 @@ const ArbeidsforholdSummary = ({
                     </Normaltekst>
                 </div>
             )}
-            <div>
-                <FormattedMessage id={`arbeidsforhold.oppsummering.arbeidsform.${arbeidsform}`} />
-            </div>
+
+            <FormattedMessage id={`arbeidsforhold.oppsummering.arbeidsform.${arbeidsform}`} />
         </div>
     );
 };
