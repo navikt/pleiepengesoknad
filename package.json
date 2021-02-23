@@ -7,6 +7,7 @@
     "author": "NAV",
     "scripts": {
         "build": "node src/build/scripts/production-build.js",
+        "build-gcp": "node src/build/scripts/production-build-gcp.js",
         "dev-api": "node server/api-mock.js",
         "sam": "node server/api-mock.js",
         "start-api-mock": "node server/api-mock.js",
