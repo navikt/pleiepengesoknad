@@ -11,6 +11,7 @@ on:
 
 env:
     IMAGE: docker.pkg.github.com/${{ github.repository }}/pleiepengesoknad:${{ github.sha }}
+    IMAGE-GCP: docker.pkg.github.com/${{ github.repository }}/pleiepengesoknad-gpc:${{ github.sha }}
     GITHUB_USERNAME: x-access-token
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -45,7 +46,7 @@ jobs:
             - name: Run E2E with
               run: npm run e2e-docker-compose
 
-    build-code-and-push-docker:
+    build-sbs-code-and-push-docker:
         name: Build code and push docker image
         if: startsWith(github.ref, 'refs/heads/dev-') || startsWith(github.ref, 'refs/heads/master') || github.event.deployment.payload.triggered # Build and push docker if branch is either master or dev-*
         needs: test
@@ -76,8 +77,8 @@ jobs:
 
     deploy-dev-sbs:
         name: deploy-dev-sbs
-        if: startsWith(github.ref, 'refs/heads/dev-') || startsWith(github.ref, 'refs/heads/master') # Build and push docker if branch is either master or dev-*
-        needs: build-code-and-push-docker # Depends on build-code-and-push-docker job
+        if: startsWith(github.ref, 'refs/heads/dev-') || startsWith(github.ref, 'refs/heads/master')
+        needs: build-sbs-code-and-push-docker
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
@@ -89,8 +90,8 @@ jobs:
 
     deploy-prod-sbs:
         name: deploy-prod-sbs
-        if: startsWith(github.ref, 'refs/heads/master') # Build and push docker if branch is either master or dev-*
-        needs: build-code-and-push-docker # Depends on build-code-and-push-docker job
+        if: startsWith(github.ref, 'refs/heads/master')
+        needs: build-sbs-code-and-push-docker
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
@@ -125,14 +126,14 @@ jobs:
                   npm run build-gcp
             - name: Build and publish Docker image
               run: |
-                  docker build --tag ${IMAGE} .
+                  docker build --tag ${IMAGE-GCP} .
                   docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
-                  docker push ${IMAGE}
+                  docker push ${IMAGE-GCP}
 
     deploy-dev-gcp:
         name: Deploy to dev-gcp
-        if: startsWith(github.ref, 'refs/heads/dev-') || startsWith(github.ref, 'refs/heads/master') # Build and push docker if branch is either master or dev-*
-        needs: build-gcp-code-and-push-docker # Depends on build-code-and-push-docker job
+        if: startsWith(github.ref, 'refs/heads/dev-') || startsWith(github.ref, 'refs/heads/master')
+        needs: build-gcp-code-and-push-docker
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
@@ -146,7 +147,7 @@ jobs:
     deploy-prod-gcp:
         name: Deploy-prod-gcp
         if: startsWith(github.ref, 'refs/heads/master')
-        needs: build-gcp-code-and-push-docker # Depends on build-code-and-push-docker job
+        needs: build-gcp-code-and-push-docker
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
