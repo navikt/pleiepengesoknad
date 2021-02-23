@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const webpackConfig = require('../webpack/webpack.config.production');
+
 webpackConfig.output.publicPath = '/familie/sykdom-i-familien/soknad/pleiepenger/dist';
 
 return webpack(webpackConfig, (err, stats) => {
