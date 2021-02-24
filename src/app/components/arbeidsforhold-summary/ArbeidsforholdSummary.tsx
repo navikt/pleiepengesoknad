@@ -45,7 +45,8 @@ const ArbeidsforholdSummary = ({
                                         skalJobbeTimer
                                     ).toFixed(2),
                                 }}
-                            />
+                            />{' '}
+                            <FormattedMessage id={`arbeidsforhold.oppsummering.arbeidsform.${arbeidsform}`} />
                         </Normaltekst>
                     ) : (
                         <Normaltekst>
@@ -63,7 +64,8 @@ const ArbeidsforholdSummary = ({
                                         values={{ timer: jobberNormaltTimer }}
                                     />
                                 </>
-                            )}
+                            )}{' '}
+                            <FormattedMessage id={`arbeidsforhold.oppsummering.arbeidsform.${arbeidsform}`} />
                         </Normaltekst>
                     )}
                 </div>
@@ -74,7 +76,8 @@ const ArbeidsforholdSummary = ({
                         <FormattedMessage
                             id={`arbeidsforhold.oppsummering.svar.vetIkke`}
                             values={{ timer: intlHelper(intl, 'timer', { timer: jobberNormaltTimer }) }}
-                        />
+                        />{' '}
+                        <FormattedMessage id={`arbeidsforhold.oppsummering.arbeidsform.${arbeidsform}`} />
                     </Normaltekst>
                 </div>
             )}
@@ -84,13 +87,11 @@ const ArbeidsforholdSummary = ({
                         <FormattedMessage
                             id={`arbeidsforhold.oppsummering.svar.${skalJobbe}`}
                             values={{ timer: jobberNormaltTimer }}
-                        />
+                        />{' '}
+                        <FormattedMessage id={`arbeidsforhold.oppsummering.arbeidsform.${arbeidsform}`} />
                     </Normaltekst>
                 </div>
             )}
-            <div>
-                <FormattedMessage id={`arbeidsforhold.oppsummering.arbeidsform.${arbeidsform}`} />
-            </div>
         </div>
     );
 };
