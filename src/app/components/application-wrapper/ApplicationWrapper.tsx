@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { Normaltekst } from 'nav-frontend-typografi';
 import LanguageToggle from '@navikt/sif-common-core/lib/components/language-toggle/LanguageToggle';
 import ApplicationMessages from '@navikt/sif-common-core/lib/dev-utils/intl/application-messages/ApplicationMessages';
@@ -19,7 +19,7 @@ const ApplicationWrapper = ({ locale, onChangeLocale, publicPath, children }: Ap
         <IntlProvider locale={locale}>
             <Normaltekst tag="div">
                 {isFeatureEnabled(Feature.NYNORSK) && <LanguageToggle locale={locale} toggle={onChangeLocale} />}
-                <Router basename={publicPath}>
+                <BrowserRouter basename={publicPath}>
                     {children}
                     <ApplicationMessages
                         messages={{
@@ -28,7 +28,7 @@ const ApplicationWrapper = ({ locale, onChangeLocale, publicPath, children }: Ap
                         }}
                         title="Søknad pleiepenger"
                     />
-                </Router>
+                </BrowserRouter>
             </Normaltekst>
         </IntlProvider>
     );

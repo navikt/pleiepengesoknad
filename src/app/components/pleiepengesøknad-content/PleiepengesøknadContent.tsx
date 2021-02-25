@@ -1,21 +1,23 @@
 import React, { useCallback, useEffect } from 'react';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
-import { useFormikContext } from 'formik';
 import { apiStringDateToDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
+import { useFormikContext } from 'formik';
 import { persist } from '../../api/api';
+import { SKJEMANAVN } from '../../App';
 import RouteConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';
 import { ArbeidsforholdApi, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { Søkerdata } from '../../types/Søkerdata';
 import { apiUtils } from '../../utils/apiUtils';
-import { navigateTo, navigateToErrorPage, navigateToLoginPage, redirectTo } from '../../utils/navigationUtils';
+import { navigateTo, navigateToErrorPage, relocateToLoginPage } from '../../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../../utils/routeUtils';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
+import ArbeidsforholdIPeriodenStep from '../steps/arbeidsforhold-i-perioden/ArbeidsforholdIPeriodenStep';
 import ArbeidsforholdStep from '../steps/arbeidsforholdStep/ArbeidsforholdStep';
 import BeredskapStep from '../steps/beredskapStep/BeredskapStep';
 import LegeerklæringStep from '../steps/legeerklæring/LegeerklæringStep';
@@ -25,8 +27,6 @@ import OpplysningerOmBarnetStep from '../steps/opplysninger-om-barnet/Opplysning
 import SummaryStep from '../steps/summary/SummaryStep';
 import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromStep';
 import TilsynsordningStep from '../steps/tilsynsordning/TilsynsordningStep';
-import { SKJEMANAVN } from '../../App';
-import ArbeidsforholdIPeriodenStep from '../steps/arbeidsforhold-i-perioden/ArbeidsforholdIPeriodenStep';
 
 interface PleiepengesøknadContentProps {
     lastStepID: StepID;
@@ -67,9 +67,9 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
     const sendUserToStep = useCallback(
         async (route: string) => {
             await logHendelse(ApplikasjonHendelse.starterMedMellomlagring, { step: route });
-            redirectTo(route);
+            navigateTo(route, history);
         },
-        [logHendelse]
+        [logHendelse, history]
     );
 
     const isOnWelcomPage = location.pathname === RouteConfig.WELCOMING_PAGE_ROUTE;
@@ -82,7 +82,7 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
 
     const userNotLoggedIn = async (stepId: StepID) => {
         await logUserLoggedOut('Mellomlagring ved navigasjon');
-        navigateToLoginPage(getSøknadRoute(stepId));
+        relocateToLoginPage(getSøknadRoute(stepId));
     };
 
     const navigateToNextStepFrom = async (stepId: StepID) => {

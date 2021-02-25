@@ -9,6 +9,8 @@ const createEnvSettingsFile = require('./envSettings');
 
 createEnvSettingsFile(path.resolve(`${__dirname}/../../../dist/js/settings.js`));
 
+webpackConfig.output.publicPath = `${process.env.PUBLIC_PATH}/dist`;
+
 const compiler = webpack(webpackConfig);
 const server = new WebpackDevServer(compiler, configureDevServer({}));
 
