@@ -141,8 +141,6 @@ class AppEssentialsLoader extends React.Component<Props, State> {
             relocateToLoginPage();
         } else if (!userIsCurrentlyOnErrorPage()) {
             appSentryLogger.logApiError(error);
-            console.log('whooa error page');
-
             navigateToErrorPage(this.props.history);
         }
         // this timeout is set because if isLoading is updated in the state too soon,
