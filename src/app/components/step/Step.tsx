@@ -14,7 +14,7 @@ import { History } from 'history';
 import { Innholdstittel } from 'nav-frontend-typografi';
 import { purge } from '../../api/api';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from '../../config/stepConfig';
-import { navigateToNAVno, navigateToWelcomePage } from '../../utils/navigationUtils';
+import { relocateToNavFrontpage, relocateToSoknad } from '../../utils/navigationUtils';
 import { getStepTexts } from '../../utils/stepUtils';
 import StepIndicator from '../step-indicator/StepIndicator';
 import StepFooter from '../stepFooter/StepFooter';
@@ -46,12 +46,12 @@ const Step = ({ id, useValidationErrorSummary, stepConfig, children }: Props) =>
     const handleAvbrytSøknad = async () => {
         await purge();
         await logHendelse(ApplikasjonHendelse.avbryt);
-        navigateToWelcomePage();
+        relocateToSoknad();
     };
 
     const handleAvsluttOgFortsettSenere = async () => {
         await logHendelse(ApplikasjonHendelse.avbryt);
-        navigateToNAVno();
+        relocateToNavFrontpage();
     };
 
     return (

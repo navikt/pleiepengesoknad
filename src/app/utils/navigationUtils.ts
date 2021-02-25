@@ -1,19 +1,30 @@
 import { History } from 'history';
-import routeConfig from '../config/routeConfig';
+import RouteConfig from '../config/routeConfig';
+import routeConfig, { getRouteUrl } from '../config/routeConfig';
 import { getEnvironmentVariable } from './envUtils';
 
-const loginUrl = getEnvironmentVariable('LOGIN_URL');
-const navNoUrl = 'https://www.nav.no/';
-const welcomePageUrl = `${getEnvironmentVariable('PUBLIC_PATH')}/${routeConfig.WELCOMING_PAGE_ROUTE}`;
+export const userIsCurrentlyOnErrorPage = () => {
+    return window.location.pathname === getRouteUrl(routeConfig.ERROR_PAGE_ROUTE);
+};
+
+/** Hard redirect enforcing page reload */
+const relocateTo = (url: string): void => {
+    window.location.assign(url);
+};
+
+/** Simple route change, no page reload */
+export const navigateTo = (route: string, history: History): void => history.push(route);
 
 const getLoginUrl = (route?: string): string => {
+    const loginUrl = getEnvironmentVariable('LOGIN_URL');
     return route ? `${loginUrl}${route}` : loginUrl;
 };
 
-export const redirectTo = (route: string) => window.location.assign(route);
-export const navigateTo = (route: string, history: History) => history.push(route);
-export const navigateToErrorPage = (history: History) => history.push(routeConfig.ERROR_PAGE_ROUTE);
-export const navigateToLoginPage = (route?: string) => window.location.assign(getLoginUrl(route));
-export const userIsCurrentlyOnErrorPage = () => window.location.pathname === routeConfig.ERROR_PAGE_ROUTE;
-export const navigateToNAVno = () => window.location.assign(navNoUrl);
-export const navigateToWelcomePage = () => window.location.assign(welcomePageUrl);
+export const relocateToLoginPage = (route?: string): void => relocateTo(getLoginUrl(route));
+export const relocateToNavFrontpage = (): void => relocateTo('https://www.nav.no/');
+export const relocateToSoknad = (): void => relocateTo(getRouteUrl(RouteConfig.SØKNAD_ROUTE_PREFIX));
+
+export const navigateToSoknadFrontpage = (history: History): void =>
+    navigateTo(RouteConfig.SØKNAD_ROUTE_PREFIX, history);
+export const navigateToErrorPage = (history: History): void => navigateTo(RouteConfig.ERROR_PAGE_ROUTE, history);
+export const navigateToKvitteringPage = (history: History): void => navigateTo(RouteConfig.SØKNAD_SENDT_ROUTE, history);

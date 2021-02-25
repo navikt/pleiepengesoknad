@@ -34,7 +34,8 @@ import * as apiUtils from '../../../utils/apiUtils';
 import appSentryLogger from '../../../utils/appSentryLogger';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
-import { navigateTo, navigateToLoginPage } from '../../../utils/navigationUtils';
+import { navigateTo, relocateToLoginPage } from '../../../utils/navigationUtils';
+import { getSøknadRoute } from '../../../utils/routeUtils';
 import { erPeriodeOver8Uker } from '../../../utils/søkerOver8UkerUtils';
 import { getVarighetString } from '../../../utils/varighetUtils';
 import { validateApiValues } from '../../../validation/apiValuesValidation';
@@ -46,9 +47,9 @@ import BarnSummary from './BarnSummary';
 import FrilansSummary from './FrilansSummary';
 import JaNeiSvar from './JaNeiSvar';
 import SelvstendigSummary from './SelvstendigSummary';
+import SummaryBlock from './SummaryBlock';
 import TilsynsordningSummary from './TilsynsordningSummary';
 import './summary.less';
-import SummaryBlock from './SummaryBlock';
 
 interface OwnProps {
     values: PleiepengesøknadFormData;
@@ -98,7 +99,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
         } catch (error) {
             if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
                 logUserLoggedOut('Ved innsending av søknad');
-                navigateToLoginPage();
+                relocateToLoginPage(getSøknadRoute(StepID.SUMMARY));
             } else {
                 await logSoknadFailed(SKJEMANAVN);
                 appSentryLogger.logApiError(error);
