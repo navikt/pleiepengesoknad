@@ -2,13 +2,11 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { FormikProps } from 'formik';
 import { getArbeidsgiver } from '../api/api';
-import { StepID } from '../config/stepConfig';
 import { AppFormField, Arbeidsforhold, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { Arbeidsgiver, Søkerdata } from '../types/Søkerdata';
 import { apiUtils } from './apiUtils';
 import appSentryLogger from './appSentryLogger';
 import { relocateToLoginPage } from './navigationUtils';
-import { getSøknadRoute } from './routeUtils';
 
 const roundWithTwoDecimals = (nbr: number): number => Math.round(nbr * 100) / 100;
 
@@ -65,7 +63,7 @@ export async function getArbeidsgivere(
         updateArbeidsforhold(formikProps, organisasjoner);
     } catch (error) {
         if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
-            relocateToLoginPage(getSøknadRoute(StepID.ARBEIDSFORHOLD));
+            relocateToLoginPage();
         } else {
             appSentryLogger.logApiError(error);
         }

@@ -35,7 +35,6 @@ import appSentryLogger from '../../../utils/appSentryLogger';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
 import { navigateTo, relocateToLoginPage } from '../../../utils/navigationUtils';
-import { getSøknadRoute } from '../../../utils/routeUtils';
 import { erPeriodeOver8Uker } from '../../../utils/søkerOver8UkerUtils';
 import { getVarighetString } from '../../../utils/varighetUtils';
 import { validateApiValues } from '../../../validation/apiValuesValidation';
@@ -99,7 +98,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
         } catch (error) {
             if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
                 logUserLoggedOut('Ved innsending av søknad');
-                relocateToLoginPage(getSøknadRoute(StepID.SUMMARY));
+                relocateToLoginPage();
             } else {
                 await logSoknadFailed(SKJEMANAVN);
                 appSentryLogger.logApiError(error);
