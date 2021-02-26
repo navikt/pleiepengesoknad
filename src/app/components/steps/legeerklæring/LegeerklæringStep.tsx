@@ -1,9 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
-import { useFormikContext } from 'formik';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import Lenke from 'nav-frontend-lenker';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import FileUploadErrors from '@navikt/sif-common-core/lib/components/file-upload-errors/FileUploadErrors';
@@ -15,10 +12,14 @@ import {
     MAX_TOTAL_ATTACHMENT_SIZE_BYTES,
 } from '@navikt/sif-common-core/lib/utils/attachmentUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { useFormikContext } from 'formik';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import Lenke from 'nav-frontend-lenker';
 import { persist } from '../../../api/api';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { navigateToLoginPage } from '../../../utils/navigationUtils';
+import { relocateToLoginPage } from '../../../utils/navigationUtils';
+import { getSøknadRoute } from '../../../utils/routeUtils';
 import { validateLegeerklæring } from '../../../validation/fieldValidations';
 import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
 import FormikStep from '../../formik-step/FormikStep';
@@ -59,7 +60,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
 
     const userNotLoggedIn = async () => {
         await logUserLoggedOut('Opplasting av dokument');
-        navigateToLoginPage();
+        relocateToLoginPage(getSøknadRoute(StepID.LEGEERKLÆRING));
     };
 
     React.useEffect(() => {

@@ -7,6 +7,8 @@ const helmet = require('helmet');
 const createEnvSettingsFile = require('./src/build/scripts/envSettings');
 const getDecorator = require('./src/build/scripts/decorator');
 
+require('dotenv').config();
+
 const server = express();
 server.use(
     helmet({
@@ -14,7 +16,7 @@ server.use(
     })
 );
 server.use(compression());
-server.set('views', `${__dirname}/dist`);
+server.set('views', path.resolve(`${__dirname}/dist`));
 server.set('view engine', 'mustache');
 server.engine('html', mustacheExpress());
 
@@ -41,11 +43,11 @@ const renderApp = (decoratorFragments) =>
     });
 
 const startServer = (html) => {
-    server.use('/dist/js', express.static(path.resolve(__dirname, 'dist/js')));
-    server.use('/dist/css', express.static(path.resolve(__dirname, 'dist/css')));
-
-    server.get('/health/isAlive', (req, res) => res.sendStatus(200));
-    server.get('/health/isReady', (req, res) => res.sendStatus(200));
+    console.log('server.js: Using PUBLIC_PATH', process.env.PUBLIC_PATH);
+    server.use(`${process.env.PUBLIC_PATH}/dist/js`, express.static(path.resolve(__dirname, 'dist/js')));
+    server.use(`${process.env.PUBLIC_PATH}/dist/css`, express.static(path.resolve(__dirname, 'dist/css')));
+    server.get(`${process.env.PUBLIC_PATH}/health/isAlive`, (req, res) => res.sendStatus(200));
+    server.get(`${process.env.PUBLIC_PATH}/health/isReady`, (req, res) => res.sendStatus(200));
 
     server.get(/^\/(?!.*dist).*$/, (req, res) => {
         res.send(html);

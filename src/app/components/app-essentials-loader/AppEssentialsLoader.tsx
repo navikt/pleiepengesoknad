@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { AxiosError, AxiosResponse } from 'axios';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
+import { AxiosError, AxiosResponse } from 'axios';
 import { getBarn, getSøker, rehydrate } from '../../api/api';
-import routeConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';
 import { SøkerdataContextProvider } from '../../context/SøkerdataContext';
 import { AppFormField, initialValues, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
@@ -10,9 +10,8 @@ import { MELLOMLAGRING_VERSION, MellomlagringData } from '../../types/storage';
 import { Arbeidsgiver, Søkerdata } from '../../types/Søkerdata';
 import * as apiUtils from '../../utils/apiUtils';
 import appSentryLogger from '../../utils/appSentryLogger';
-import { navigateToLoginPage, userIsCurrentlyOnErrorPage, navigateToErrorPage } from '../../utils/navigationUtils';
+import { navigateToErrorPage, relocateToLoginPage, userIsCurrentlyOnErrorPage } from '../../utils/navigationUtils';
 import LoadingPage from '../pages/loading-page/LoadingPage';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 export const VERIFY_MELLOMLAGRING_VERSION = true;
 
@@ -136,12 +135,13 @@ class AppEssentialsLoader extends React.Component<Props, State> {
     }
 
     handleSøkerdataFetchError(error: AxiosError) {
+        console.log(error);
         if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
             this.setState({ ...this.state, willRedirectToLoginPage: true });
-            navigateToLoginPage();
+            relocateToLoginPage();
         } else if (!userIsCurrentlyOnErrorPage()) {
             appSentryLogger.logApiError(error);
-            window.location.assign(routeConfig.ERROR_PAGE_ROUTE);
+            navigateToErrorPage(this.props.history);
         }
         // this timeout is set because if isLoading is updated in the state too soon,
         // the contentLoadedRenderer() will be called while the user is still on the wrong route,

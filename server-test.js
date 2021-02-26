@@ -10,18 +10,22 @@ const createEnvSettingsFile = require('./src/build/scripts/envSettings');
 createEnvSettingsFile(path.resolve(`${__dirname}/dist/js/settings.js`));
 
 const server = express();
-server.use(helmet());
+server.use(
+    helmet({
+        contentSecurityPolicy: false,
+    })
+);
 server.use(compression());
 server.set('views', `${__dirname}/dist`);
 server.set('view engine', 'mustache');
 server.engine('html', mustacheExpress());
-server.use('/dist/js', express.static(path.resolve(__dirname, 'dist/js')));
-server.use('/dist/css', express.static(path.resolve(__dirname, 'dist/css')));
+server.use(`/dist/js`, express.static(path.resolve(__dirname, 'dist/js')));
+server.use(`/dist/css`, express.static(path.resolve(__dirname, 'dist/css')));
 
 const routerHealth = express.Router();
 routerHealth.get('/isAlive', (req, res) => res.sendStatus(200));
 routerHealth.get('/isReady', (req, res) => res.sendStatus(200));
-server.use('/health', routerHealth);
+server.use(`/health`, routerHealth);
 
 const renderApp = () =>
     new Promise((resolve, reject) => {
@@ -56,8 +60,7 @@ const startExpressWebServer = async () => {
     try {
         const html = await renderApp();
         startServer(html);
-    }
-    catch (e) {
+    } catch (e) {
         console.error(e);
     }
 };
