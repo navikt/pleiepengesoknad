@@ -15,12 +15,7 @@ const relocateTo = (url: string): void => {
 /** Simple route change, no page reload */
 export const navigateTo = (route: string, history: History): void => history.push(route);
 
-const getLoginUrl = (route?: string): string => {
-    const loginUrl = getEnvironmentVariable('LOGIN_URL');
-    return route ? `${loginUrl}${route}` : loginUrl;
-};
-
-export const relocateToLoginPage = (route?: string): void => relocateTo(getLoginUrl(route));
+export const relocateToLoginPage = (): void => relocateTo(getEnvironmentVariable('LOGIN_URL'));
 export const relocateToNavFrontpage = (): void => relocateTo('https://www.nav.no/');
 export const relocateToSoknad = (): void => relocateTo(getRouteUrl(RouteConfig.SØKNAD_ROUTE_PREFIX));
 

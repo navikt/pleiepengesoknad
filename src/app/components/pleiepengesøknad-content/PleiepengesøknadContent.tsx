@@ -80,9 +80,9 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
         }
     }, [isOnWelcomPage, nextStepRoute, sendUserToStep]);
 
-    const userNotLoggedIn = async (stepId: StepID) => {
+    const userNotLoggedIn = async () => {
         await logUserLoggedOut('Mellomlagring ved navigasjon');
-        relocateToLoginPage(getSøknadRoute(stepId));
+        relocateToLoginPage();
     };
 
     const navigateToNextStepFrom = async (stepId: StepID) => {
@@ -95,7 +95,7 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
                     })
                     .catch((error) => {
                         if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
-                            userNotLoggedIn(stepId);
+                            userNotLoggedIn();
                         } else {
                             return navigateToErrorPage(history);
                         }

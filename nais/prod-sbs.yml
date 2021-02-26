@@ -45,7 +45,7 @@ spec:
         - name: PUBLIC_PATH
           value: ""
         - name: LOGIN_URL
-          value: https://loginservice.nav.no/login?redirect=https://pleiepengesoknad.nav.no/soknad/velkommen
+          value: https://loginservice.nav.no/login?redirect=https://pleiepengesoknad.nav.no/soknad
         - name: UTILGJENGELIG
           value: "off"
         - name: NYNORSK

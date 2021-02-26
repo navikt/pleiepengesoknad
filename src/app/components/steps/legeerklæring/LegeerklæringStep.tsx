@@ -19,7 +19,6 @@ import { persist } from '../../../api/api';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { relocateToLoginPage } from '../../../utils/navigationUtils';
-import { getSøknadRoute } from '../../../utils/routeUtils';
 import { validateLegeerklæring } from '../../../validation/fieldValidations';
 import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
 import FormikStep from '../../formik-step/FormikStep';
@@ -60,7 +59,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
 
     const userNotLoggedIn = async () => {
         await logUserLoggedOut('Opplasting av dokument');
-        relocateToLoginPage(getSøknadRoute(StepID.LEGEERKLÆRING));
+        relocateToLoginPage();
     };
 
     React.useEffect(() => {
