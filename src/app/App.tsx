@@ -1,13 +1,16 @@
 import * as React from 'react';
 import { render } from 'react-dom';
+import { Route, Switch } from 'react-router-dom';
 import { AmplitudeProvider } from '@navikt/sif-common-amplitude';
-import moment from 'moment';
-import Modal from 'nav-frontend-modal';
 import AppStatusWrapper from '@navikt/sif-common-core/lib/components/app-status-wrapper/AppStatusWrapper';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
+import moment from 'moment';
+import Modal from 'nav-frontend-modal';
 import ApplicationWrapper from './components/application-wrapper/ApplicationWrapper';
+import IntroPage from './components/pages/intro-page/IntroPage';
 import UnavailablePage from './components/pages/unavailable-page/UnavailablePage';
 import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad';
+import RouteConfig from './config/routeConfig';
 import appSentryLogger from './utils/appSentryLogger';
 import { getEnvironmentVariable } from './utils/envUtils';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
@@ -35,6 +38,13 @@ const App = () => {
     const appStatusSanityConfig = getAppStatusSanityConfig();
     const publicPath = getEnvironmentVariable('PUBLIC_PATH');
 
+    const content = (
+        <Switch>
+            <Route path="/" component={IntroPage} />
+            <Route path={RouteConfig.SØKNAD_ROUTE_PREFIX} component={Pleiepengesøknad} />
+        </Switch>
+    );
+
     return (
         <AmplitudeProvider applicationKey={APPLICATION_KEY}>
             <ApplicationWrapper
@@ -49,10 +59,10 @@ const App = () => {
                         applicationKey={APPLICATION_KEY}
                         unavailableContentRenderer={() => <UnavailablePage />}
                         sanityConfig={appStatusSanityConfig}
-                        contentRenderer={() => <Pleiepengesøknad />}
+                        contentRenderer={() => content}
                     />
                 ) : (
-                    <Pleiepengesøknad />
+                    content
                 )}
             </ApplicationWrapper>
         </AmplitudeProvider>
