@@ -19,8 +19,8 @@ const organisasjonerEqual: Arbeidsgiver[] = [
 ];
 
 const arbeidsforhold: Arbeidsforhold[] = [
-    { navn: 'Org3', organisasjonsnummer: '3', erAnsattIPerioden: YesOrNo.YES, jobberNormaltTimer: 10 },
-    { navn: 'Org4', organisasjonsnummer: '4', erAnsattIPerioden: YesOrNo.UNANSWERED, jobberNormaltTimer: 20 },
+    { navn: 'Org3', organisasjonsnummer: '3', erAnsattIPerioden: YesOrNo.YES, jobberNormaltTimer: '10' },
+    { navn: 'Org4', organisasjonsnummer: '4', erAnsattIPerioden: YesOrNo.UNANSWERED, jobberNormaltTimer: '20' },
 ];
 
 jest.mock('./../envUtils', () => {

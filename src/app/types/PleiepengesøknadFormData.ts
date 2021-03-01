@@ -109,11 +109,11 @@ export enum AndreYtelserFraNAV {
 
 export interface Arbeidsforhold extends Arbeidsgiver {
     [ArbeidsforholdField.erAnsattIPerioden]?: YesOrNo;
-    [ArbeidsforholdField.jobberNormaltTimer]?: number;
+    [ArbeidsforholdField.jobberNormaltTimer]?: string;
     [ArbeidsforholdField.skalJobbe]?: ArbeidsforholdSkalJobbeSvar;
     [ArbeidsforholdField.timerEllerProsent]?: 'timer' | 'prosent';
-    [ArbeidsforholdField.skalJobbeTimer]?: number;
-    [ArbeidsforholdField.skalJobbeProsent]?: number;
+    [ArbeidsforholdField.skalJobbeTimer]?: string;
+    [ArbeidsforholdField.skalJobbeProsent]?: string;
     [ArbeidsforholdField.arbeidsform]?: Arbeidsform;
 }
 

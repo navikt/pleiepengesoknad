@@ -70,7 +70,7 @@ jobs:
                   npm run build-gcp
             - name: Build and publish Docker image
               run: |
-                  docker build --tag ${IMAGE} .
+                  docker build --tag ${IMAGE} . -f Dockerfile-gcp
                   docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
                   docker push ${IMAGE}
 

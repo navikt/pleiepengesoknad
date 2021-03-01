@@ -40,10 +40,12 @@ const ArbeidsforholdSummary = ({
                                 values={{
                                     timerRedusert: intlHelper(intl, 'timer', { timer: skalJobbeTimer }),
                                     timerNormalt: intlHelper(intl, 'timer', { timer: jobberNormaltTimer }),
-                                    prosentRedusert: calcRedusertProsentFromRedusertTimer(
-                                        jobberNormaltTimer,
-                                        skalJobbeTimer
-                                    ).toFixed(2),
+                                    prosentRedusert: intl.formatNumber(
+                                        calcRedusertProsentFromRedusertTimer(jobberNormaltTimer, skalJobbeTimer),
+                                        {
+                                            style: 'decimal',
+                                        }
+                                    ),
                                 }}
                             />{' '}
                             <FormattedMessage id={`arbeidsforhold.oppsummering.arbeidsform.${arbeidsform}`} />

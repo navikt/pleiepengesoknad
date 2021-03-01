@@ -1,10 +1,11 @@
-import { mapVirksomhetToVirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/mapVirksomhetToApiData';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { attachmentUploadHasFailed } from '@navikt/sif-common-core/lib/utils/attachmentUtils';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { BarnToSendToApi, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
-import { BarnRelasjon, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import { mapVirksomhetToVirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/mapVirksomhetToApiData';
+import { ArbeidsforholdApi, BarnToSendToApi, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
+import { Arbeidsforhold, BarnRelasjon, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../types/Søkerdata';
 import appSentryLogger from './appSentryLogger';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
@@ -16,7 +17,6 @@ import { mapTilsynsordningToApiData } from './formToApiMaps/mapTilsynsordningToA
 import { mapUtenlandsoppholdIPeriodenToApiData } from './formToApiMaps/mapUtenlandsoppholdIPeriodenToApiData';
 import { erPeriodeOver8Uker } from './søkerOver8UkerUtils';
 import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet } from './tidsromUtils';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 
 export const getValidSpråk = (locale?: any): Locale => {
     const loc = typeof locale === 'string' ? locale : 'nb';
@@ -33,6 +33,21 @@ export const getValidSpråk = (locale?: any): Locale => {
     }
 };
 
+export const getOrganisasjonerApiData = (arbeidsforhold: Arbeidsforhold[]): ArbeidsforholdApi[] => {
+    const organisasjoner: ArbeidsforholdApi[] = [];
+    arbeidsforhold
+        .filter((a) => a.erAnsattIPerioden === YesOrNo.YES)
+        .forEach((forhold) => {
+            const arbeidsforholdApiData = mapArbeidsforholdToApiData(forhold);
+            if (arbeidsforholdApiData) {
+                organisasjoner.push(arbeidsforholdApiData);
+            } else {
+                throw new Error('Invalid arbeidsforhold');
+            }
+        });
+    return organisasjoner;
+};
+
 export const mapFormDataToApiData = (
     formData: PleiepengesøknadFormData,
     barn: BarnReceivedFromApi[],
@@ -41,13 +56,10 @@ export const mapFormDataToApiData = (
     const {
         barnetsNavn,
         barnetsFødselsnummer,
-        // barnetsFødselsdato,
         barnetSøknadenGjelder,
         harBekreftetOpplysninger,
         harForståttRettigheterOgPlikter,
         arbeidsforhold,
-        // periodeFra,
-        // periodeTil,
         legeerklæring,
         harBoddUtenforNorgeSiste12Mnd,
         skalBoUtenforNorgeNeste12Mnd,
@@ -72,6 +84,7 @@ export const mapFormDataToApiData = (
     const periodeFra = datepickerUtils.getDateFromDateString(formData.periodeFra);
     const periodeTil = datepickerUtils.getDateFromDateString(formData.periodeTil);
     const barnetsFødselsdato = datepickerUtils.getDateFromDateString(formData.barnetsFødselsdato);
+    const organisasjoner = getOrganisasjonerApiData(arbeidsforhold);
 
     if (periodeFra && periodeTil) {
         try {
@@ -95,9 +108,7 @@ export const mapFormDataToApiData = (
                         ? relasjonTilBarnetBeskrivelse
                         : undefined,
                 arbeidsgivere: {
-                    organisasjoner: arbeidsforhold
-                        .filter((a) => a.erAnsattIPerioden === YesOrNo.YES)
-                        .map((forhold) => mapArbeidsforholdToApiData(forhold)),
+                    organisasjoner,
                 },
                 medlemskap: {
                     harBoddIUtlandetSiste12Mnd: harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES,

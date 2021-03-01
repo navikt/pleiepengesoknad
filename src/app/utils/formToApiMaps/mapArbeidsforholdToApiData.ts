@@ -1,3 +1,4 @@
+import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
 import {
     ArbeidsforholdApi,
     ArbeidsforholdApiNei,
@@ -8,7 +9,7 @@ import {
 import { Arbeidsforhold, ArbeidsforholdSkalJobbeSvar } from '../../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../arbeidsforholdUtils';
 
-export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): ArbeidsforholdApi => {
+export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): ArbeidsforholdApi | undefined => {
     const {
         skalJobbe,
         timerEllerProsent,
@@ -21,31 +22,43 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
     } = arbeidsforhold;
 
     const commonOrgInfo = { navn, organisasjonsnummer, arbeidsform };
+    const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
+
+    if (jobberNormaltTimerNumber === undefined) {
+        return undefined;
+    }
 
     if (skalJobbe === ArbeidsforholdSkalJobbeSvar.nei) {
         const forhold: ArbeidsforholdApiNei = {
             ...commonOrgInfo,
             skalJobbe: 'nei',
             skalJobbeProsent: 0,
-            jobberNormaltTimer,
+            jobberNormaltTimer: jobberNormaltTimerNumber,
         };
         return forhold;
     }
 
     if (skalJobbe === ArbeidsforholdSkalJobbeSvar.redusert) {
+        const skalJobbeTimerNumber = getNumberFromNumberInputValue(skalJobbeTimer);
+        const skalJobbeProsentNumber = getNumberFromNumberInputValue(skalJobbeProsent);
+
+        if (skalJobbeTimerNumber === undefined && skalJobbeProsent === undefined) {
+            return undefined;
+        }
         const redusertForhold: ArbeidsforholdApiRedusert = {
             ...commonOrgInfo,
             skalJobbe: 'redusert',
-            jobberNormaltTimer,
+            jobberNormaltTimer: jobberNormaltTimerNumber,
             ...(timerEllerProsent === 'timer' && skalJobbeTimer
                 ? {
-                      skalJobbeTimer,
-                      skalJobbeProsent: jobberNormaltTimer
-                          ? calcRedusertProsentFromRedusertTimer(jobberNormaltTimer, skalJobbeTimer)
-                          : 0,
+                      skalJobbeTimer: skalJobbeTimerNumber,
+                      skalJobbeProsent:
+                          jobberNormaltTimer !== undefined && skalJobbeTimerNumber !== undefined
+                              ? calcRedusertProsentFromRedusertTimer(jobberNormaltTimerNumber, skalJobbeTimerNumber)
+                              : 0,
                   }
                 : {
-                      skalJobbeProsent,
+                      skalJobbeProsent: skalJobbeProsentNumber,
                   }),
         };
         return redusertForhold;
@@ -54,7 +67,7 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
         const vetIkkeForhold: ArbeidsforholdApiVetIkke = {
             ...commonOrgInfo,
             skalJobbe: 'vetIkke',
-            jobberNormaltTimer,
+            jobberNormaltTimer: jobberNormaltTimerNumber,
             skalJobbeProsent: 0,
         };
         return vetIkkeForhold;
@@ -63,7 +76,7 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
         ...commonOrgInfo,
         skalJobbe: 'ja',
         skalJobbeProsent: 100,
-        jobberNormaltTimer,
+        jobberNormaltTimer: jobberNormaltTimerNumber,
     };
     return forholdSomVanlig;
 };
