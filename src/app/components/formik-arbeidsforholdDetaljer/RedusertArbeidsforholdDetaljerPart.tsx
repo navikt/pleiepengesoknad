@@ -51,7 +51,7 @@ const RedusertArbeidsforholdDetaljerPart = ({ arbeidsforhold, getFieldName }: Pr
     const skalJobbeTimerNumber = getNumberFromNumberInputValue(skalJobbeTimer);
     const skalJobbeProsentNum = getNumberFromNumberInputValue(skalJobbeProsent);
 
-    return jobberNormaltTimerNumber ? (
+    return jobberNormaltTimerNumber !== undefined ? (
         <>
             {arbeidsform !== undefined && (
                 <>

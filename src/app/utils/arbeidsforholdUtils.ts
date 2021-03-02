@@ -59,10 +59,10 @@ export async function getArbeidsgivere(
     try {
         const response = await getArbeidsgiver(formatDateToApiFormat(fromDate), formatDateToApiFormat(toDate));
         const { organisasjoner } = response.data;
-        if (JSON.stringify(organisasjoner) === JSON.stringify(søkerdata.arbeidsgivere)) {
-            // No changes in organisations
-            return;
-        }
+        // if (JSON.stringify(organisasjoner) === JSON.stringify(søkerdata.arbeidsgivere)) {
+        //     // No changes in organisations
+        //     return;
+        // }
         søkerdata.setArbeidsgivere(organisasjoner);
         updateArbeidsforhold(formikProps, organisasjoner);
     } catch (error) {
