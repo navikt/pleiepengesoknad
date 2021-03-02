@@ -40,7 +40,7 @@ const App = () => {
 
     const content = (
         <Switch>
-            <Route path="/" component={IntroPage} />
+            <Route path="/" component={IntroPage} exact={true} />
             <Route path={RouteConfig.SØKNAD_ROUTE_PREFIX} component={Pleiepengesøknad} />
         </Switch>
     );
