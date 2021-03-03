@@ -20,8 +20,9 @@ export const SKJEMANAVN = 'Søknad om pleiepenger';
 appSentryLogger.init();
 
 const localeFromSessionStorage = getLocaleFromSessionStorage();
-
 moment.locale(localeFromSessionStorage);
+
+// Trigger build
 
 const getAppStatusSanityConfig = () => {
     const projectId = getEnvironmentVariable('APPSTATUS_PROJECT_ID');

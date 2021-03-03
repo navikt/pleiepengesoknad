@@ -8,6 +8,8 @@
     "common.varighet.separator--full": " og ",
     "common.varighet.separator--normal": ", ",
 
+    "common.fieldvalidation.ugyldigTall": "Feltet må innehalde eit gyldig tal",
+
     "application.title": "Søknad om pleiepengar for sjukt barn",
 
     "Ja": "Ja",

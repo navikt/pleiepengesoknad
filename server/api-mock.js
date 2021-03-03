@@ -67,7 +67,7 @@ const barnMock = {
 const arbeidsgivereMock = {
     organisasjoner: [
         { navn: 'Arbeids- og velferdsetaten', organisasjonsnummer: '123451234' },
-        { navn: 'Arbeids- og sosialdepartementet', organisasjonsnummer: '123451235' },
+        // { navn: 'Arbeids- og sosialdepartementet', organisasjonsnummer: '123451235' },
     ],
 };
 const MELLOMLAGRING_JSON = `${os.tmpdir()}/mellomlagring.json`;
@@ -102,7 +102,9 @@ const startExpressServer = () => {
     server.get('/health/isReady', (req, res) => res.sendStatus(200));
 
     server.get('/arbeidsgiver', (req, res) => {
+        // setTimeout(() => {
         res.send(arbeidsgivereMock);
+        // }, 800);
     });
 
     server.get('/soker', (req, res) => {
