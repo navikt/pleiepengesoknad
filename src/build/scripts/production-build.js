@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const webpackConfig = require('../webpack/webpack.config.production');
 
-webpackConfig.output.publicPath = '/dist';
+webpackConfig.output.publicPath = '/dist/';
 
 return webpack(webpackConfig, (err, stats) => {
     if (err || (stats.compilation.errors && stats.compilation.errors.length > 0)) {

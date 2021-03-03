@@ -14,7 +14,7 @@
         "API_URL": "https://pleiepengesoknad-api.dev.nav.no",
         "PUBLIC_PATH": "/familie/sykdom-i-familien/soknad/pleiepenger",
         "LOGIN_URL": "https://loginservice.dev.nav.no/login?redirect=https://pleiepengesoknad.dev.nav.no/familie/sykdom-i-familien/soknad/pleiepenger/soknad",
-        "NYNORSK": "off",
+        "NYNORSK": "on",
         "INNSYN": "on",
         "UTILGJENGELIG": "off",
         "TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN": "on",

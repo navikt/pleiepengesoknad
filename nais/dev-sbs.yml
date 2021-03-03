@@ -52,7 +52,7 @@ spec:
         - name: LOGIN_URL
           value: https://loginservice-q.nav.no/login?redirect=https://pleiepengesoknad-q.nav.no/soknad
         - name: NYNORSK
-          value: "off"
+          value: "on"
         - name: INNSYN
           value: "on"
         - name: UTILGJENGELIG

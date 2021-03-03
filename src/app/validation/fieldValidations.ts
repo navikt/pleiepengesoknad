@@ -33,6 +33,7 @@ import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUti
 import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
+import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
 
 dayjs.extend(isoWeek);
 
@@ -263,6 +264,30 @@ export const validateUtenlandsoppholdNeste12Mnd = (utenlandsopphold: Utenlandsop
     return undefined;
 };
 
+export const validateNumberInputValue = ({ min, max }: { min?: number; max?: number }) => (
+    value: string
+): FieldValidationResult => {
+    const numValue = getNumberFromNumberInputValue(value);
+    if (numValue === undefined) {
+        return fieldIsRequiredError();
+    }
+    if (isNaN(numValue)) {
+        return createFieldValidationError(FieldValidationErrors.tall_ugyldig);
+    }
+    if (min !== undefined && max !== undefined) {
+        if (numValue < min || numValue > max) {
+            return createFieldValidationError(FieldValidationErrors.tall_ikke_innenfor_min_maks, { min, maks: max });
+        }
+    }
+    if (min !== undefined && numValue < min) {
+        return createFieldValidationError(FieldValidationErrors.tall_for_lavt, { min });
+    }
+    if (max !== undefined && numValue > max) {
+        return createFieldValidationError(FieldValidationErrors.tall_for_høyt, { maks: max });
+    }
+    return undefined;
+};
+
 export const validateUtenlandsoppholdIPerioden = (
     periode: DateRange,
     utenlandsopphold: Utenlandsopphold[]
@@ -354,14 +379,17 @@ export const validateTilsynstimerEnDag = (time: Time): FieldValidationResult => 
 };
 
 export const validateReduserteArbeidTimer = (
-    value: number | string,
+    value: string,
     jobberNormaltTimer: number,
     isRequired?: boolean
 ): FieldValidationResult => {
     if (isRequired && !hasValue(value)) {
         return fieldIsRequiredError();
     }
-    const skalJobbeTimer = typeof value === 'string' ? parseFloat(value) : value;
+    const skalJobbeTimer = getNumberFromNumberInputValue(value);
+    if (skalJobbeTimer === undefined) {
+        return fieldIsRequiredError();
+    }
     const pst = calcRedusertProsentFromRedusertTimer(jobberNormaltTimer, skalJobbeTimer);
     if (pst < 1) {
         return createAppFieldValidationError(AppFieldValidationErrors.arbeidsforhold_timerUgyldig_under_1_prosent);

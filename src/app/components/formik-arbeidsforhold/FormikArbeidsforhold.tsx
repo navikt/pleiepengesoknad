@@ -6,13 +6,13 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import {
     validateRequiredField,
-    validateRequiredNumber,
     validateYesOrNoIsAnswered,
 } from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import { FieldArray } from 'formik';
 import Panel from 'nav-frontend-paneler';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../../config/minMaxValues';
 import { AppFormField, Arbeidsforhold, ArbeidsforholdField, Arbeidsform } from '../../types/PleiepengesøknadFormData';
+import { validateNumberInputValue } from '../../validation/fieldValidations';
 import AppForm from '../app-form/AppForm';
 import ArbeidsformInfo from './arbeidsforholdInfo';
 
@@ -62,7 +62,7 @@ const FormikArbeidsforhold = ({ arbeidsforhold, index }: Props) => {
                                     </FormBlock>
                                     {arbeidsforhold.arbeidsform !== undefined && (
                                         <Box margin="xl">
-                                            <AppForm.Input
+                                            <AppForm.NumberInput
                                                 name={getFieldName(ArbeidsforholdField.jobberNormaltTimer)}
                                                 suffix={intlHelper(
                                                     intl,
@@ -94,7 +94,6 @@ const FormikArbeidsforhold = ({ arbeidsforhold, index }: Props) => {
                                                         </Box>
                                                     </div>
                                                 }
-                                                type="number"
                                                 bredde="XS"
                                                 label={intlHelper(
                                                     intl,
@@ -103,15 +102,13 @@ const FormikArbeidsforhold = ({ arbeidsforhold, index }: Props) => {
                                                         arbeidsforhold: arbeidsforhold.navn,
                                                     }
                                                 )}
-                                                validate={(value) =>
-                                                    validateRequiredNumber({
+                                                validate={(value: any) => {
+                                                    return validateNumberInputValue({
                                                         min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
                                                         max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
-                                                    })(value)
-                                                }
+                                                    })(value);
+                                                }}
                                                 value={arbeidsforhold.jobberNormaltTimer || ''}
-                                                min={MIN_TIMER_NORMAL_ARBEIDSFORHOLD}
-                                                max={MAX_TIMER_NORMAL_ARBEIDSFORHOLD}
                                             />
                                         </Box>
                                     )}

@@ -58,23 +58,23 @@ const telenorRedusertJobbing: Arbeidsforhold = {
     ...organisasjonTelenor,
     erAnsattIPerioden: YesOrNo.YES,
     skalJobbe: ArbeidsforholdSkalJobbeSvar.redusert,
-    jobberNormaltTimer: 20,
-    skalJobbeProsent: 50,
+    jobberNormaltTimer: '20',
+    skalJobbeProsent: '50',
 };
 
 const maxboIngenJobbing = {
     ...organisasjonMaxbo,
     erAnsattIPerioden: YesOrNo.YES,
     skalJobbe: ArbeidsforholdSkalJobbeSvar.nei,
-    jobberNormaltTimer: 20,
-    skalJobbeProsent: 0,
+    jobberNormaltTimer: '20',
+    skalJobbeProsent: '0',
 };
 
 const maxboVetIkke = {
     ...organisasjonMaxbo,
     erAnsattIPerioden: YesOrNo.YES,
     skalJobbe: ArbeidsforholdSkalJobbeSvar.vetIkke,
-    jobberNormaltTimer: 20,
+    jobberNormaltTimer: '20',
     vetIkkeEkstrainfo: 'ekstrainfo',
 };
 
@@ -82,7 +82,7 @@ const maxboJobbeSomVanlig = {
     ...organisasjonMaxbo,
     erAnsattIPerioden: YesOrNo.YES,
     skalJobbe: ArbeidsforholdSkalJobbeSvar.ja,
-    jobberNormaltTimer: 20,
+    jobberNormaltTimer: '20',
 };
 
 type AttachmentMock = Attachment & { failed: boolean };
@@ -94,8 +94,8 @@ const formDataMock: Partial<PleiepengesøknadFormData> = {
     [AppFormField.harBekreftetOpplysninger]: true,
     [AppFormField.harForståttRettigheterOgPlikter]: true,
     [AppFormField.arbeidsforhold]: [
-        { ...organisasjonTelenor, jobberNormaltTimer: 10 },
-        { ...organisasjonMaxbo, jobberNormaltTimer: 20 },
+        { ...organisasjonTelenor, jobberNormaltTimer: '10' },
+        { ...organisasjonMaxbo, jobberNormaltTimer: '20' },
     ],
     [AppFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.YES,
     [AppFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.NO,
@@ -139,7 +139,7 @@ const selvstendigPartialFormData: Partial<PleiepengesøknadFormData> = {
 };
 
 const completeFormDataMock: PleiepengesøknadFormData = {
-    arbeidsforhold: [{ ...organisasjonMaxbo, erAnsattIPerioden: YesOrNo.YES, jobberNormaltTimer: 37.5 }],
+    arbeidsforhold: [{ ...organisasjonMaxbo, erAnsattIPerioden: YesOrNo.YES, jobberNormaltTimer: '37.5' }],
     barnetHarIkkeFåttFødselsnummerEnda: false,
     barnetSøknadenGjelder: barnMock[0].aktørId,
     harBekreftetOpplysninger: true,
@@ -306,6 +306,7 @@ describe('mapFormDataToApiData', () => {
                 skalJobbeProsent: 50,
             };
             expect(resultingApiData.arbeidsgivere.organisasjoner).toEqual([result]);
+            expect(resultingApiData.arbeidsgivere.organisasjoner[0].skalJobbeProsent).not.toEqual(0);
         }
     });
 

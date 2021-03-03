@@ -5,7 +5,7 @@ import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-p
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { decimalTimeToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { validateRequiredField, validateRequiredNumber } from '@navikt/sif-common-core/lib/validation/fieldValidations';
-import { FormikInput, FormikRadioPanelGroup } from '@navikt/sif-common-formik';
+import { FormikNumberInput, FormikRadioPanelGroup, getNumberFromNumberInputValue } from '@navikt/sif-common-formik';
 import { AppFormField, Arbeidsforhold, ArbeidsforholdField } from '../../types/PleiepengesøknadFormData';
 import {
     calcReduserteTimerFromRedusertProsent,
@@ -35,7 +35,9 @@ const getLabelForTimerRedusert = (intl: IntlShape, timerNormalt: number, timerRe
     if (timerRedusert && timerRedusert > 0) {
         return intlHelper(intl, 'arbeidsforhold.timer.utledet.medProsent', {
             timer: timerNormalt,
-            prosentRedusert: calcRedusertProsentFromRedusertTimer(timerNormalt, timerRedusert).toFixed(2),
+            prosentRedusert: intl.formatNumber(calcRedusertProsentFromRedusertTimer(timerNormalt, timerRedusert), {
+                style: 'decimal',
+            }),
         });
     }
     return intlHelper(intl, 'arbeidsforhold.timer.utledet', { timer: timerNormalt });
@@ -44,9 +46,12 @@ const getLabelForTimerRedusert = (intl: IntlShape, timerNormalt: number, timerRe
 const RedusertArbeidsforholdDetaljerPart = ({ arbeidsforhold, getFieldName }: Props) => {
     const intl = useIntl();
     const { timerEllerProsent, jobberNormaltTimer, skalJobbeTimer, skalJobbeProsent, arbeidsform } = arbeidsforhold;
-    console.log(arbeidsforhold);
 
-    return jobberNormaltTimer ? (
+    const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
+    const skalJobbeTimerNumber = getNumberFromNumberInputValue(skalJobbeTimer);
+    const skalJobbeProsentNum = getNumberFromNumberInputValue(skalJobbeProsent);
+
+    return jobberNormaltTimerNumber !== undefined ? (
         <>
             {arbeidsform !== undefined && (
                 <>
@@ -70,16 +75,15 @@ const RedusertArbeidsforholdDetaljerPart = ({ arbeidsforhold, getFieldName }: Pr
                     </Box>
                     {timerEllerProsent === 'timer' && (
                         <Box margin="xl">
-                            <FormikInput<AppFormField>
+                            <FormikNumberInput<AppFormField>
                                 name={getFieldName(ArbeidsforholdField.skalJobbeTimer)}
-                                type="number"
                                 label={intlHelper(intl, 'arbeidsforhold.timer.spm')}
-                                suffix={getLabelForTimerRedusert(intl, jobberNormaltTimer, skalJobbeTimer)}
+                                suffix={getLabelForTimerRedusert(intl, jobberNormaltTimerNumber, skalJobbeTimerNumber)}
                                 suffixStyle="text"
-                                validate={(value) => validateReduserteArbeidTimer(value, jobberNormaltTimer, true)}
+                                validate={(value: any) =>
+                                    validateReduserteArbeidTimer(value, jobberNormaltTimerNumber, true)
+                                }
                                 value={skalJobbeTimer || ''}
-                                min={0}
-                                max={100}
                             />
                         </Box>
                     )}
@@ -87,15 +91,17 @@ const RedusertArbeidsforholdDetaljerPart = ({ arbeidsforhold, getFieldName }: Pr
                     {timerEllerProsent === 'prosent' && (
                         <>
                             <Box margin="xl">
-                                <FormikInput<AppFormField>
+                                <FormikNumberInput<AppFormField>
                                     name={getFieldName(ArbeidsforholdField.skalJobbeProsent)}
-                                    type="number"
                                     label={intlHelper(intl, 'arbeidsforhold.prosent.spm')}
-                                    suffix={getLabelForProsentRedusert(intl, jobberNormaltTimer, skalJobbeProsent)}
+                                    suffix={getLabelForProsentRedusert(
+                                        intl,
+                                        jobberNormaltTimerNumber,
+                                        skalJobbeProsentNum
+                                    )}
+                                    suffixStyle="text"
                                     validate={validateRequiredNumber({ min: 1, max: 99 })}
                                     value={skalJobbeProsent || ''}
-                                    min={1}
-                                    max={99}
                                 />
                             </Box>
                             <Box margin="xl">
