@@ -164,7 +164,12 @@
     "introForm.form.harLegeerklæring.ja.info": "I søknaden får du mulighet til å laste opp legeerklæringen. Du kan ta bilde av eller scanne legeerklæringen for å få lastet den opp",
     "introForm.form.harLegeerklæring.nei.info": "Vi anbefaler at du sender legeerklæringen samtidig som du sender inn søknaden. Hvis du ikke har den, kan du sende den på et senere tidspunkt.",
     "introForm.form.erArbeidstaker.spm": "Er du arbeidstaker?",
+    "introForm.form.erArbeidstaker.nei.tittel": "Trenger vi egentlig vise noe info når de ikke er arbeidstakere?",
     "introForm.form.erArbeidstaker.nei.info": "Hvis du er frilanser eller selvstendig næringsdrivende trenger du ikke å sende inntektsopplysninger til oss.",
+    "introForm.form.erArbeidstaker.ja.tittel": "Arbeidstaker og inntektsmelding",
+    "introForm.form.erArbeidstaker.ja.info": "Du må gi beskjed til alle arbeidsgiverne dine om at de må sende inntektsmelding til NAV.  Vi behandler søknaden din etter at vi har mottatt inntektsmelding. Etter at du har sendt søknaden får du veiledning om hvilken informasjon du skal gi/sende arbeidsgiver",
+    "introForm.form.inntektsmelding.spm": "Jeg har lest og forstått informasjonen om inntektsmelding",
+    "introForm.form.inntektsmelding.ikkeBesvart": "Du må bekrefte at du har lest og forstått informasjonen om inntektsmeldingen",
     "introForm.start": "Start søknad",
 
     "welcomingPage.sidetittel": "Søknad om pleiepenger for sykt barn",

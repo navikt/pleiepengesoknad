@@ -38,9 +38,9 @@
         "@navikt/sif-common-formik": "^15.3.7",
         "@navikt/sif-common-forms": "^12.2.2",
         "@navikt/sif-common-sentry": "0.0.14",
-        "@navikt/sif-common-soknad": "^3.0.0",
+        "@navikt/sif-common-soknad": "^3.0.1",
         "@testing-library/react": "^11.2.5",
-        "amplitude-js": "^7.4.3",
+        "amplitude-js": "^7.4.4",
         "axios": "^0.21.1",
         "busboy": "^0.3.1",
         "classnames": "^2.2.6",
@@ -66,7 +66,7 @@
         "promise": "^8.1.0",
         "react": "^17.0.1",
         "react-day-picker": "^7.4.8",
-        "snyk": "^1.464.0"
+        "snyk": "^1.467.0"
     },
     "devDependencies": {
         "@babel/core": "^7.13.8",
