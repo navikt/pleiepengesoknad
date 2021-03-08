@@ -10,6 +10,9 @@ import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { navigateToSoknadFrontpage } from '../../../utils/navigationUtils';
 import IntroForm from './IntroForm';
+import { Element } from 'nav-frontend-typografi';
+import Lenke from 'nav-frontend-lenker';
+import getLenker from '../../../lenker';
 
 const bem = bemUtils('introPage');
 
@@ -23,11 +26,37 @@ const IntroPage = () => {
             topContentRenderer={() => <StepBanner text={intlHelper(intl, 'page.intro.stegTittel')} />}>
             <Box margin="xxxl" padBottom="m">
                 <InformationPoster>
-                    <FormattedMessage id="page.intro.text.1" tagName="p" />
-                    <FormattedMessage id="page.intro.text.2" tagName="p" />
-                    <FormattedMessage id="page.intro.text.3" tagName="p" />
-                    <FormattedMessage id="page.intro.text.4" tagName="p" />
-                    <FormattedMessage id="page.intro.text.5" tagName="p" />
+                    <p>
+                        <FormattedMessage id="page.intro.text.1" />
+                    </p>
+                    <ul>
+                        <li>
+                            <FormattedMessage id="page.intro.text.2.a" />
+                            <br />
+                            <div style={{ margin: '.5rem 0' }}>
+                                <FormattedMessage id="page.intro.text.2.b" />
+                            </div>
+                        </li>
+                        <li>
+                            <FormattedMessage id="page.intro.text.2.c" />
+                        </li>
+                    </ul>
+                    <Element tag="h3">
+                        <FormattedMessage id="page.intro.text.3" />
+                    </Element>
+                    <p>
+                        <FormattedMessage id="page.intro.text.4" />
+                    </p>
+                    <p>
+                        <FormattedMessage id="page.intro.text.5" />
+                    </p>
+                    <p>
+                        <FormattedMessage id="page.intro.text.6.a" />{' '}
+                        <Lenke href={getLenker(intl.locale).papirskjemaPrivat}>
+                            <FormattedMessage id="page.intro.text.6.b" />
+                        </Lenke>
+                        <FormattedMessage id="page.intro.text.6.c" />
+                    </p>
                 </InformationPoster>
             </Box>
             <FormBlock>
