@@ -99,6 +99,13 @@ export const validateValgtBarn = (v: string): FieldValidationResult => {
     return undefined;
 };
 
+export const validateRequiredCheckbox = (value: boolean, errorMessage: string): FieldValidationResult => {
+    if (value !== true) {
+        return createAppFieldValidationError(errorMessage as any);
+    }
+    return undefined;
+};
+
 export const validateNavn = (v: string, isRequired?: boolean): FieldValidationResult => {
     if (isRequired === true && !hasValue(v)) {
         return fieldIsRequiredError();
