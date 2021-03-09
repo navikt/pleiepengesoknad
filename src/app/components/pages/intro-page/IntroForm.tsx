@@ -50,11 +50,13 @@ const IntroForm: React.FunctionComponent<Props> = ({ onValidSubmit }) => {
                                 validate={validateYesOrNoIsAnswered}
                                 showInfo={harLegeerklæring !== YesOrNo.UNANSWERED}
                                 infoMessage={
-                                    <p style={{ marginTop: '0' }}>
-                                        {harLegeerklæring === YesOrNo.YES
-                                            ? intlHelper(intl, 'introForm.form.harLegeerklæring.ja.info')
-                                            : intlHelper(intl, 'introForm.form.harLegeerklæring.nei.info')}
-                                    </p>
+                                    <div className="infoMessageContent">
+                                        <p>
+                                            {harLegeerklæring === YesOrNo.YES
+                                                ? intlHelper(intl, 'introForm.form.harLegeerklæring.ja.info')
+                                                : intlHelper(intl, 'introForm.form.harLegeerklæring.nei.info')}
+                                        </p>
+                                    </div>
                                 }
                             />
                             {legeerklæringBesvart && (
@@ -64,21 +66,17 @@ const IntroForm: React.FunctionComponent<Props> = ({ onValidSubmit }) => {
                                     validate={validateYesOrNoIsAnswered}
                                     showInfo={erArbeidstaker !== YesOrNo.UNANSWERED}
                                     infoMessage={
-                                        <>
+                                        <div className="infoMessageContent">
                                             {erArbeidstaker === YesOrNo.YES && (
                                                 <>
-                                                    <p style={{ marginTop: '0' }}>
-                                                        {intlHelper(intl, 'introForm.form.erArbeidstaker.ja.info.1')}
-                                                    </p>
+                                                    <p>{intlHelper(intl, 'introForm.form.erArbeidstaker.ja.info.1')}</p>
                                                     <p>{intlHelper(intl, 'introForm.form.erArbeidstaker.ja.info.2')}</p>
                                                 </>
                                             )}
                                             {erArbeidstaker === YesOrNo.NO && (
-                                                <p style={{ marginTop: '0' }}>
-                                                    {intlHelper(intl, 'introForm.form.erArbeidstaker.nei.info')}
-                                                </p>
+                                                <p>{intlHelper(intl, 'introForm.form.erArbeidstaker.nei.info')}</p>
                                             )}
-                                        </>
+                                        </div>
                                     }
                                 />
                             )}
