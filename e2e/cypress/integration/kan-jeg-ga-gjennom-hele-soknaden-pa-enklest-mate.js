@@ -16,7 +16,7 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
             cy.route('/mellomlagring', {}); // mellomlagring må slås av.
         });
         before('gå til startsiden', () => {
-            cy.visit('/');
+            cy.visit('/soknad');
         });
         it('VELKOMMEN SIDE', () => {
             cy.get('.bekreftCheckboksPanel label').click();

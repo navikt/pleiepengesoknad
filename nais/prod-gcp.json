@@ -15,7 +15,7 @@
         "PUBLIC_PATH": "/familie/sykdom-i-familien/soknad/pleiepenger",
         "LOGIN_URL": "https://loginservice.nav.no/login?redirect=https://www.nav.no/familie/sykdom-i-familien/soknad/pleiepenger/soknad",
         "UTILGJENGELIG": "off",
-        "NYNORSK": "on",
+        "NYNORSK": "off",
         "INNSYN": "on",
         "TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN": "on",
         "TOGGLE_8_UKER": "off",
