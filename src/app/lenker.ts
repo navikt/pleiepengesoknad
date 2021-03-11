@@ -7,6 +7,7 @@ interface Lenker {
     saksbehandlingstider: string;
     dittNAV: string;
     innsynSIF: string;
+    ettersend: string;
 }
 
 const LenkerBokmål: Lenker = {
@@ -21,6 +22,8 @@ const LenkerBokmål: Lenker = {
     saksbehandlingstider: 'https://www.nav.no/no/NAV+og+samfunn/Om+NAV/Saksbehandlingstider+i+NAV',
     dittNAV: `https://www.nav.no/no/Ditt+NAV`,
     innsynSIF: `https://www.nav.no/familie/sykdom-i-familien/soknad/innsyn`,
+    ettersend:
+        'https://www.nav.no/soknader/nb/person/familie/pleiepenger-og-opplaringspenger/NAV%2009-11.05/ettersendelse',
 };
 
 const LenkerNynorsk: Partial<Lenker> = {
@@ -30,6 +33,8 @@ const LenkerNynorsk: Partial<Lenker> = {
     vilkårPleiepenger: 'https://www.nav.no/familie/sykdom-i-familien/nn/pleiepenger-for-sykt-barn',
     rettOgPlikt:
         'https://www.nav.no/no/NAV+og+samfunn/Om+NAV/Nynorsk/du-har-plikt-til-%C3%A5-gje-nav-riktige-opplysningar',
+    ettersend:
+        'https://www.nav.no/soknader/nn/person/familie/pleiepenger-og-opplaringspenger/NAV%2009-11.05/ettersendelse',
 };
 
 const getLenker = (locale?: string): Lenker => {

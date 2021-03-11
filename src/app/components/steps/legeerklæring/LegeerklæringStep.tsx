@@ -23,6 +23,7 @@ import { validateLegeerklæring } from '../../../validation/fieldValidations';
 import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
+import getLenker from '../../../lenker';
 
 const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
@@ -96,15 +97,12 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
             <Box padBottom="xl">
                 <CounsellorPanel>
                     <p>
-                        <FormattedMessage id={'steg.legeerklaering.counsellorpanel.3'} />
+                        <FormattedMessage id={'steg.legeerklaering.counsellorpanel.1'} />
                     </p>
                     <p>
-                        <FormattedMessage id={'steg.legeerklaering.counsellorpanel.4'} />
-                        <Lenke
-                            href="https://www.nav.no/soknader/nb/person/familie/pleiepenger-og-opplaringspenger/NAV%2009-11.05/ettersendelse"
-                            target="_blank"
-                            rel={'noopener'}>
-                            <FormattedMessage id={'steg.legeerklaering.counsellorpanel.4.1'} />
+                        <FormattedMessage id={'steg.legeerklaering.counsellorpanel.2'} />{' '}
+                        <Lenke href={getLenker(intl.locale).ettersend} target="_blank" rel={'noopener'}>
+                            <FormattedMessage id={'steg.legeerklaering.counsellorpanel.ettersendLenke'} />
                         </Lenke>
                     </p>
                 </CounsellorPanel>
@@ -131,12 +129,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
                 <Box margin={'l'}>
                     <AlertStripeAdvarsel>
                         <FormattedMessage id={'dokumenter.advarsel.totalstørrelse.1'} />
-                        <Lenke
-                            target={'_blank'}
-                            rel={'noopener noreferrer'}
-                            href={
-                                'https://www.nav.no/soknader/nb/person/familie/pleiepenger-og-opplaringspenger/NAV%2009-11.05/ettersendelse'
-                            }>
+                        <Lenke target={'_blank'} rel={'noopener noreferrer'} href={getLenker(intl.locale).ettersend}>
                             <FormattedMessage id={'dokumenter.advarsel.totalstørrelse.2'} />
                         </Lenke>
                     </AlertStripeAdvarsel>
