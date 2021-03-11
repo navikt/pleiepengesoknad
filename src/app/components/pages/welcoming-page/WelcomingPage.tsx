@@ -1,17 +1,16 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { SIFCommonPageKey, useLogSidevisning } from '@navikt/sif-common-amplitude';
-import { Sidetittel } from 'nav-frontend-typografi';
 import ActionLink from '@navikt/sif-common-core/lib/components/action-link/ActionLink';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FrontPageBanner from '@navikt/sif-common-core/lib/components/front-page-banner/FrontPageBanner';
 import Page from '@navikt/sif-common-core/lib/components/page/Page';
 import bemHelper from '@navikt/sif-common-core/lib/utils/bemUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { Sidetittel } from 'nav-frontend-typografi';
 import { StepConfigProps } from '../../../config/stepConfig';
 import BehandlingAvPersonopplysningerModal from '../../behandling-av-personopplysninger-modal/BehandlingAvPersonopplysningerModal';
 import DinePlikterModal from '../../dine-plikter-modal/DinePlikterModal';
-import LegeerklæringInformationPanel from '../../legeerklæring-information-panel/LegeerklæringInformationPanel';
 import SamtykkeForm from './SamtykkeForm';
 import './welcomingPage.less';
 
@@ -44,20 +43,6 @@ const WelcomingPage = ({ onValidSubmit }: Props) => {
                     <Sidetittel className={bem.element('title')}>
                         <FormattedMessage id="welcomingPage.introtittel" />
                     </Sidetittel>
-                </Box>
-
-                <Box margin="xl">
-                    <LegeerklæringInformationPanel>
-                        <p>
-                            <FormattedMessage id="welcomingPage.info.1" />
-                        </p>
-                        <p>
-                            <FormattedMessage id="welcomingPage.info.2" />
-                        </p>
-                        <p>
-                            <FormattedMessage id="welcomingPage.info.3" />
-                        </p>
-                    </LegeerklæringInformationPanel>
                 </Box>
 
                 <SamtykkeForm onConfirm={onValidSubmit} onOpenDinePlikterModal={() => setDinePlikterModalOpen(true)} />
