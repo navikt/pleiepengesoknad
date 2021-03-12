@@ -47,8 +47,6 @@ const SamtykkeForm = ({ onConfirm, onOpenDinePlikterModal }: Props) => {
                             ),
                         }}
                     />
-                    <FormattedMessage id="welcomingPage.samtykke.omMellomlagring" tagName="p" />
-                    <FormattedMessage id="welcomingPage.samtykke.omSkjema" tagName="p" />
                 </AppForm.ConfirmationCheckbox>
             </FormBlock>
             <FormBlock>
