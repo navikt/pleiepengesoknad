@@ -281,10 +281,10 @@
     "steg.medlemsskap.annetLandSiste12.listeTittel": "Utenlandsopphald siste 12 måneder",
     "steg.medlemsskap.annetLandNeste12.listeTittel": "Utenlandsopphald neste 12 måneder",
 
-    "steg.lege.vedlegg": "Last opp bilete av legeerklæringa",
-    "steg.legeerklaering.counsellorpanel.1": "Her skal du lasta opp legeerklæringa. Det gjer du enten ved å ta bilde av leggerklæringa, eller ved å skanna ho. Vær nøye med at all tekst er med, inkludert signaturen til legen.",
-    "steg.legeerklaering.counsellorpanel.2": "Vi kan ikkje behandla søknaden din før vi får legeerklæringa. Viss du ikkje har legeerklæringa tilgjengeleg no, tilrår vi at du ventar med å søkje til du har den tilgjengeleg. Viss du ikkje kan venta med å senda søknaden, kan du halda fram utan legeerklæring, men då må du ettersenda han så snart som mogleg.",
-    "steg.legeerklaering.counsellorpanel.ettersendLenke": "Her får du rettleiing til korleis du ettersender dokumentasjon.",
+    "steg.lege.vedlegg": "Last opp dokumentasjon",
+    "steg.legeerklaering.counsellorpanel.1": "Her skal du laste opp legeerklæringa. Det gjer du anten ved å ta bilete av legeerklæringa eller ved å skanne henne. Ver nøye med at all tekst er med, inkludert signaturen til legen.",
+    "steg.legeerklaering.counsellorpanel.2": "Vi kan ikkje behandle søknaden din før vi får legeerklæringa. Dersom du ikkje har legeerklæringa tilgjengeleg no, rår vi deg til å vente med å søkje til du har erklæringa tilgjengeleg. Dersom du ikkje kan vente med å sende søknaden, kan du halde fram utan legeerklæring, men då må du ettersende henne så snart som mogleg.",
+    "steg.legeerklaering.counsellorpanel.ettersendLenke": "Her får du rettleiing om korleis du ettersender dokumentasjon.",
 
     "steg.oppsummering.info": "Les gjennom oppsummeringa før du sender inn søknaden. Dersom du vil gjere endringar, kan du gå tilbake.",
     "steg.oppsummering.søker.header": "Om deg",
