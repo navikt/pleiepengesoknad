@@ -281,10 +281,10 @@
     "steg.medlemsskap.annetLandSiste12.listeTittel": "Utenlandsopphald siste 12 måneder",
     "steg.medlemsskap.annetLandNeste12.listeTittel": "Utenlandsopphald neste 12 måneder",
 
-    "steg.lege.vedlegg": "Last opp bilete av legeerklæringa",
-    "steg.legeerklaering.counsellorpanel.3": "Her skal du laste opp legeerklæringa eller ei stadfesting på at barnet/personen over 18 år har vore til behandling/utredning i sjukehus eller annan spesialisthelsetjeneste. Det gjør du enten ved å ta bilete av dokumentasjonen, eller ved å scanne den.",
-    "steg.legeerklaering.counsellorpanel.4": "Dersom du ikkje har dokumentasjonen nå, ",
-    "steg.legeerklaering.counsellorpanel.4.1": "kan du ettersende den.",
+    "steg.lege.vedlegg": "Last opp dokumentasjon",
+    "steg.legeerklaering.counsellorpanel.1": "Her skal du laste opp legeerklæringa. Det gjer du anten ved å ta bilete av legeerklæringa eller ved å skanne henne. Ver nøye med at all tekst er med, inkludert signaturen til legen.",
+    "steg.legeerklaering.counsellorpanel.2": "Vi kan ikkje behandle søknaden din før vi får legeerklæringa. Dersom du ikkje har legeerklæringa tilgjengeleg no, rår vi deg til å vente med å søkje til du har erklæringa tilgjengeleg. Dersom du ikkje kan vente med å sende søknaden, kan du halde fram utan legeerklæring, men då må du ettersende henne så snart som mogleg.",
+    "steg.legeerklaering.counsellorpanel.ettersendLenke": "Her får du rettleiing om korleis du ettersender dokumentasjon.",
 
     "steg.oppsummering.info": "Les gjennom oppsummeringa før du sender inn søknaden. Dersom du vil gjere endringar, kan du gå tilbake.",
     "steg.oppsummering.søker.header": "Om deg",
