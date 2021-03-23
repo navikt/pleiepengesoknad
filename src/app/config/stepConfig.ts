@@ -51,7 +51,9 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
             formValues.tilsynsordning.skalBarnHaTilsyn === YesOrNo.DO_NOT_KNOW);
 
     const includeArbeidsforholdIPerioden =
-        formValues && formValues.arbeidsforhold.find((a) => a.erAnsattIPerioden === YesOrNo.YES) !== undefined;
+        formValues &&
+        (formValues.frilans_jobberFortsattSomFrilans === YesOrNo.YES ||
+            formValues.arbeidsforhold.find((a) => a.erAnsattIPerioden === YesOrNo.YES) !== undefined);
 
     let idx = 0;
     let config = {

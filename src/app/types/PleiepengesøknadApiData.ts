@@ -23,6 +23,34 @@ export interface ArbeidsforholdApi {
     skalJobbeTimer?: number;
     skalJobbeProsent?: number;
 }
+
+export interface ArbeidsforholdFrilanserApi {
+    skalJobbe?: 'ja' | 'nei' | 'redusert' | 'vetIkke';
+    arbeidsform?: Arbeidsform;
+    jobberNormaltTimer?: number;
+    skalJobbeTimer?: number;
+    skalJobbeProsent?: number;
+}
+
+export type ArbeidsforholdFrilanserApiNei = Pick<
+    ArbeidsforholdFrilanserApi,
+    'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer'
+>;
+export type ArbeidsforholdFrilanserApiRedusert = Pick<
+    ArbeidsforholdFrilanserApi,
+    'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | 'skalJobbeTimer'
+>;
+
+export type ArbeidsforholdFrilanserApiVetIkke = Pick<
+    ArbeidsforholdFrilanserApi,
+    'skalJobbe' | 'jobberNormaltTimer' | 'skalJobbeProsent'
+>;
+
+export type ArbeidsforholdFrilanserApiSomVanlig = Pick<
+    ArbeidsforholdFrilanserApi,
+    'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer'
+>;
+
 export type ArbeidsforholdApiNei = Pick<
     ArbeidsforholdApi,
     'navn' | 'organisasjonsnummer' | 'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer'
@@ -122,6 +150,7 @@ export interface FerieuttakIPeriodeApiData {
 export interface FrilansApiData {
     startdato: ApiStringDate;
     jobberFortsattSomFrilans: boolean;
+    arbeidsforhold?: ArbeidsforholdFrilanserApi;
 }
 
 export interface PleiepengesøknadApiData {

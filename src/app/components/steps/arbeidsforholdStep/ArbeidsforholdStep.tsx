@@ -33,6 +33,14 @@ const cleanupArbeidsforhold = (formValues: PleiepengesøknadFormData): Pleiepeng
     if (values.mottarAndreYtelser === YesOrNo.NO) {
         values.andreYtelser = [];
     }
+    if (values.harHattInntektSomFrilanser === YesOrNo.NO) {
+        values.frilans_jobberFortsattSomFrilans = undefined;
+        values.frilans_startdato = undefined;
+        values.frilans_arbeidsforhold = undefined;
+    }
+    if (values.harHattInntektSomFrilanser === YesOrNo.YES && values.frilans_jobberFortsattSomFrilans === YesOrNo.NO) {
+        values.frilans_arbeidsforhold = undefined;
+    }
     return values;
 };
 

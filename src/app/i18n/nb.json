@@ -556,6 +556,24 @@
     "frilanser.nårStartet.spm": "Når startet du som frilanser?",
     "frilanser.jobberFortsatt.spm": "Jobber du fortsatt som frilanser?",
 
+    "frilanser.HvorMangeTimerFast.spm": "Hvor mange timer jobber du vanligvis fast per uke?",
+    "frilanser.HvorMangeTimerISnitt.spm": "Hvor mange timer jobber du vanligvis i snitt per uke?",
+
+    "frilanser.arbeidsforhold.arbeidsform.spm": "Hvordan jobber du som frilanser?",
+    "frilanser.arbeidsforhold.arbeidsform.fast": "Fast antall timer per uke",
+    "frilanser.arbeidsforhold.arbeidsform.fast.info.tittel": "Hva betyr dette?",
+    "frilanser.arbeidsforhold.arbeidsform.fast.info.tekst": "Her skal du legge inn antall timer du jobber per uke.",
+    "frilanser.arbeidsforhold.arbeidsform.FAST.timer.suffix": "timer fast per uke",
+
+    "frilanser.arbeidsforhold.arbeidsform.varierende": "Deltid/varierende/tilkalling",
+    "frilanser.arbeidsforhold.arbeidsform.varierende.info.tittel": "Hvordan regner jeg ut et snitt i min situasjon?",
+    "frilanser.arbeidsforhold.arbeidsform.varierende.info.tekst.1": "Hvis du har flere frilansoppdrag skal du svare samlet for alle.",
+    "frilanser.arbeidsforhold.arbeidsform.VARIERENDE.timer.suffix": "timer i snitt per uke",
+
+    "frilanser.arbeidsforhold.iDag.FAST.spm": "Hvor mange timer jobber du vanligvis fast per uke?",
+    "frilanser.arbeidsforhold.iDag.VARIERENDE.spm": "Hvor mange timer jobber du vanligvis i snitt per uke?",
+    "frilanser.arbeidsforhold.iDag.utledet": "timer i uka",
+
     "frilanser.hjelpetekst.spm": "Hva er en frilanser?",
     "frilanser.hjelpetekst.titel": "Eksempel på hvem som kan være frilansere er:",
     "frilanser.hjelpetekst.list.1": "Personer med omsorgsstønad",
