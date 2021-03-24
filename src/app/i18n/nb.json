@@ -117,6 +117,9 @@
     "step.arbeidsforholdIPerioden.pageTitle": "Pleiepengesøknad - opplysninger om jobb i perioden",
     "step.arbeidsforholdIPerioden.stepTitle": "Jobb i perioden med pleiepenger",
     "step.arbeidsforholdIPerioden.stepIndicatorLabel": "Jobb i perioden med pleiepenger",
+    "step.arbeidsforholdIPerioden.StepInfo": "Her skal du opplyse om du skal jobbe noe i samme periode som du skal ha pleiepenger. Det kan for eksempel være at kan jobbe fordi du skal dele pleiepengene med en annen omsorgsperson, eller at barnet skal være noe på skolen eller i barnehagen.",
+    "step.arbeidsforholdIPerioden.FrilansLabel": "Frilans",
+    "step.arbeidsforholdIPerioden.SNLabel": "Selvstendig næringsdrivende",
 
     "step.omsorgstilbud.pageTitle": "Pleiepengesøknad - omsorgstilbud",
     "step.omsorgstilbud.stepTitle": "Omsorgstilbud",
@@ -549,8 +552,14 @@
     "selvstendig.list.tittel": "Dine registrerte næringsvirksomheter",
     "selvstendig.list.leggTilLabel": "Legg til næringsvirksomhet",
     "selvstendig.dialog.tittel": "Næringsvirksomhet",
+
+    "selvstendig.harLagtInnAlleSelskap.spm": "Har du lagt inn alle selskap som ble avsluttet i 2018 - 2020?",
+    "selvstendig.harLagtInnAlleSelskap.alertStripeAdvarsel": "Du må registrere alle selskapene før du kan fortsette",
+    "selvstendig.arbeidsforhold.spm": "Jobber du et fast antall timer per uke som selvstendig eller varierer det?",
+
     "selvstendig.summary.header": "Selvstendig næringsdrivende",
     "selvstendig.summary.harDuHattInntekt.header": "Har du hatt inntekt som selvstendig næringsdrivende i de siste 4 ukene?",
+    "selvstendig.summary.arbeidsforhold.header": "Jobber du et fast antall timer per uke som selvstendig eller varierer det?",
 
     "frilanser.harDuHattInntekt.spm": "Har du jobbet og hatt inntekt som frilanser i de siste 4 ukene?",
     "frilanser.nårStartet.spm": "Når startet du som frilanser?",
@@ -573,6 +582,12 @@
     "frilanser.arbeidsforhold.iDag.FAST.spm": "Hvor mange timer jobber du vanligvis fast per uke?",
     "frilanser.arbeidsforhold.iDag.VARIERENDE.spm": "Hvor mange timer jobber du vanligvis i snitt per uke?",
     "frilanser.arbeidsforhold.iDag.utledet": "timer i uka",
+
+    "frilanser.arbeidsforhold.summary.arbeidsform.spm": "Hvordan jobber du som frilanser?",
+
+    "snF.ArbeidsforholdDetaljer.hvaBetyr.spm": "Hva betyr dette?",
+    "snF.ArbeidsforholdDetaljer.hvaBetyr.frilanser.info": "Hvis du jobber som frilanser flere steder skal du her svare samlet for alle oppdragene. Hvis du f.eks. skal jobbe i en av to frilansforhold skal du her svare \"Ja, men jeg skal jobbe mindre enn vanlig\".",
+    "snF.ArbeidsforholdDetaljer.hvaBetyr.SN.info": "Hvis du jobber som selvstendig i flere virksomheter skal du her svare samlet for alle virksomhetene dine. Hvis du f.eks. skal jobbe i en av to virksomheter skal du her svare \"Ja, men jeg skal jobbe mindre enn vanlig\".",
 
     "frilanser.hjelpetekst.spm": "Hva er en frilanser?",
     "frilanser.hjelpetekst.titel": "Eksempel på hvem som kan være frilansere er:",

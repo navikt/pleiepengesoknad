@@ -4,35 +4,39 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { validateRequiredField } from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import {
     AppFormField,
-    ArbeidsforholdFrilanser,
-    ArbeidsforholdFrilanserField,
+    ArbeidsforholdSNF,
+    ArbeidsforholdSNFField,
     ArbeidsforholdSkalJobbeSvar,
 } from '../../types/PleiepengesøknadFormData';
 import AppForm from '../app-form/AppForm';
-import RedusertArbeidsforholdFrilansDetaljerPart from './RedusertArbeidsforholdFrilanserDetaljerPart';
+import RedusertArbeidsforholdSNFDetaljerPart from './RedusertArbeidsforholdSNFDetaljerPart';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 interface Props {
-    frilans_arbeidsforhold: ArbeidsforholdFrilanser;
+    snF_arbeidsforhold: ArbeidsforholdSNF;
+    appFormField: AppFormField;
 }
 
-const FormikArbeidsforholdFrilansDetaljer = ({ frilans_arbeidsforhold }: Props) => {
+const FormikArbeidsforholdSNFDetaljer = ({ snF_arbeidsforhold, appFormField }: Props) => {
     const intl = useIntl();
-    console.log(frilans_arbeidsforhold);
-    const getFieldName = (field: ArbeidsforholdFrilanserField) => {
-        return `${AppFormField.frilans_arbeidsforhold}.${field}` as AppFormField;
-    };
+
+    const getFieldName = (field: ArbeidsforholdSNFField) => `${appFormField}.${field}` as AppFormField;
+
+    const hvaBetyrDetteTekst =
+        appFormField === AppFormField.frilans_arbeidsforhold
+            ? intlHelper(intl, 'snF.ArbeidsforholdDetaljer.hvaBetyr.frilanser.info')
+            : intlHelper(intl, 'snF.ArbeidsforholdDetaljer.hvaBetyr.SN.info');
+
     return (
         <>
             <AppForm.RadioPanelGroup
                 legend={intlHelper(intl, 'arbeidsforhold.arbeidsforhold.spm')}
                 description={
-                    <ExpandableInfo title="Hva betyr dette?">
-                        For å kunne beregne hvor mye pleiepenger du kan få trenger vi å vite om du skal jobbe i samme
-                        periode som du skal ha pleiepenger. Velg det som passer best i din situasjon.
+                    <ExpandableInfo title={intlHelper(intl, 'snF.ArbeidsforholdDetaljer.hvaBetyr.spm')}>
+                        {hvaBetyrDetteTekst}
                     </ExpandableInfo>
                 }
-                name={getFieldName(ArbeidsforholdFrilanserField.skalJobbe)}
+                name={getFieldName(ArbeidsforholdSNFField.skalJobbe)}
                 validate={validateRequiredField}
                 radios={[
                     {
@@ -53,9 +57,9 @@ const FormikArbeidsforholdFrilansDetaljer = ({ frilans_arbeidsforhold }: Props) 
                     },
                 ]}
             />
-            {frilans_arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.redusert && (
-                <RedusertArbeidsforholdFrilansDetaljerPart
-                    frilans_arbeidsforhold={frilans_arbeidsforhold}
+            {snF_arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.redusert && (
+                <RedusertArbeidsforholdSNFDetaljerPart
+                    frilans_arbeidsforhold={snF_arbeidsforhold}
                     getFieldName={getFieldName}
                 />
             )}
@@ -63,4 +67,4 @@ const FormikArbeidsforholdFrilansDetaljer = ({ frilans_arbeidsforhold }: Props) 
     );
 };
 
-export default FormikArbeidsforholdFrilansDetaljer;
+export default FormikArbeidsforholdSNFDetaljer;

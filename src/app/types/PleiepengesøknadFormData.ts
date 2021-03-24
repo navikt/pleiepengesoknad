@@ -78,6 +78,8 @@ export enum AppFormField {
     frilans_arbeidsforhold = 'frilans_arbeidsforhold',
     selvstendig_harHattInntektSomSN = 'selvstendig_harHattInntektSomSN',
     selvstendig_virksomheter = 'selvstendig_virksomheter',
+    selvstendig_harLagtInnAlleSelskap = 'selvstendig_harLagtInnAlleSelskap',
+    selvstendig_arbeidsforhold = 'selvstendig_arbeidsforhold',
     harVærtEllerErVernepliktig = 'harVærtEllerErVernepliktig',
     mottarAndreYtelser = 'mottarAndreYtelser',
     andreYtelser = 'andreYtelser',
@@ -93,7 +95,7 @@ export enum ArbeidsforholdField {
     arbeidsform = 'arbeidsform',
 }
 
-export enum ArbeidsforholdFrilanserField {
+export enum ArbeidsforholdSNFField {
     skalJobbe = 'skalJobbe',
     timerEllerProsent = 'timerEllerProsent',
     jobberNormaltTimer = 'jobberNormaltTimer',
@@ -127,13 +129,13 @@ export interface Arbeidsforhold extends Arbeidsgiver {
     [ArbeidsforholdField.arbeidsform]?: Arbeidsform;
 }
 
-export interface ArbeidsforholdFrilanser {
-    [ArbeidsforholdFrilanserField.jobberNormaltTimer]?: string;
-    [ArbeidsforholdFrilanserField.skalJobbe]?: ArbeidsforholdSkalJobbeSvar;
-    [ArbeidsforholdFrilanserField.timerEllerProsent]?: 'timer' | 'prosent';
-    [ArbeidsforholdFrilanserField.skalJobbeTimer]?: string;
-    [ArbeidsforholdFrilanserField.skalJobbeProsent]?: string;
-    [ArbeidsforholdFrilanserField.arbeidsform]?: Arbeidsform;
+export interface ArbeidsforholdSNF {
+    [ArbeidsforholdSNFField.jobberNormaltTimer]?: string;
+    [ArbeidsforholdSNFField.skalJobbe]?: ArbeidsforholdSkalJobbeSvar;
+    [ArbeidsforholdSNFField.timerEllerProsent]?: 'timer' | 'prosent';
+    [ArbeidsforholdSNFField.skalJobbeTimer]?: string;
+    [ArbeidsforholdSNFField.skalJobbeProsent]?: string;
+    [ArbeidsforholdSNFField.arbeidsform]?: Arbeidsform;
 }
 
 export enum TilsynVetIkkeHvorfor {
@@ -186,9 +188,11 @@ export interface PleiepengesøknadFormData {
     [AppFormField.frilans_harHattInntektSomFrilanser]?: YesOrNo;
     [AppFormField.frilans_startdato]?: string;
     [AppFormField.frilans_jobberFortsattSomFrilans]?: YesOrNo;
-    [AppFormField.frilans_arbeidsforhold]?: ArbeidsforholdFrilanser;
+    [AppFormField.frilans_arbeidsforhold]?: ArbeidsforholdSNF;
     [AppFormField.selvstendig_harHattInntektSomSN]?: YesOrNo;
     [AppFormField.selvstendig_virksomheter]?: Virksomhet[];
+    [AppFormField.selvstendig_harLagtInnAlleSelskap]?: YesOrNo;
+    [AppFormField.selvstendig_arbeidsforhold]?: ArbeidsforholdSNF;
     [AppFormField.harVærtEllerErVernepliktig]?: YesOrNo;
     [AppFormField.mottarAndreYtelser]?: YesOrNo;
     [AppFormField.andreYtelser]?: AndreYtelserFraNAV[];

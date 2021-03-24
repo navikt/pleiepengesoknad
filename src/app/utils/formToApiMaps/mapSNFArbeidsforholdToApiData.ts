@@ -1,17 +1,17 @@
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
 import {
-    ArbeidsforholdFrilanserApi,
-    ArbeidsforholdFrilanserApiNei,
-    ArbeidsforholdFrilanserApiRedusert,
-    ArbeidsforholdFrilanserApiSomVanlig,
-    ArbeidsforholdFrilanserApiVetIkke,
+    ArbeidsforholdSNFApi,
+    ArbeidsforholdSNFApiNei,
+    ArbeidsforholdSNFApiRedusert,
+    ArbeidsforholdSNFApiSomVanlig,
+    ArbeidsforholdSNFApiVetIkke,
 } from '../../types/PleiepengesøknadApiData';
-import { ArbeidsforholdFrilanser, ArbeidsforholdSkalJobbeSvar } from '../../types/PleiepengesøknadFormData';
+import { ArbeidsforholdSNF, ArbeidsforholdSkalJobbeSvar } from '../../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../arbeidsforholdUtils';
 
-export const mapFrilansArbeidsforholdToApiData = (
-    frilansArbeidsforhold: ArbeidsforholdFrilanser
-): ArbeidsforholdFrilanserApi | undefined => {
+export const mapSNFArbeidsforholdToApiData = (
+    frilansArbeidsforhold: ArbeidsforholdSNF
+): ArbeidsforholdSNFApi | undefined => {
     const {
         skalJobbe,
         timerEllerProsent,
@@ -21,7 +21,6 @@ export const mapFrilansArbeidsforholdToApiData = (
         arbeidsform,
     } = frilansArbeidsforhold;
 
-    // const commonFrilansInfo = { arbeidsform };
     const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
 
     if (jobberNormaltTimerNumber === undefined) {
@@ -29,7 +28,8 @@ export const mapFrilansArbeidsforholdToApiData = (
     }
 
     if (skalJobbe === ArbeidsforholdSkalJobbeSvar.nei) {
-        const forhold: ArbeidsforholdFrilanserApiNei = {
+        const forhold: ArbeidsforholdSNFApiNei = {
+            ...{ arbeidsform },
             skalJobbe: 'nei',
             skalJobbeProsent: 0,
             jobberNormaltTimer: jobberNormaltTimerNumber,
@@ -44,7 +44,7 @@ export const mapFrilansArbeidsforholdToApiData = (
         if (skalJobbeTimerNumber === undefined && skalJobbeProsent === undefined) {
             return undefined;
         }
-        const redusertForhold: ArbeidsforholdFrilanserApiRedusert = {
+        const redusertForhold: ArbeidsforholdSNFApiRedusert = {
             ...{ arbeidsform },
             skalJobbe: 'redusert',
             jobberNormaltTimer: jobberNormaltTimerNumber,
@@ -63,7 +63,7 @@ export const mapFrilansArbeidsforholdToApiData = (
         return redusertForhold;
     }
     if (skalJobbe === ArbeidsforholdSkalJobbeSvar.vetIkke) {
-        const vetIkkeForhold: ArbeidsforholdFrilanserApiVetIkke = {
+        const vetIkkeForhold: ArbeidsforholdSNFApiVetIkke = {
             ...{ arbeidsform },
             skalJobbe: 'vetIkke',
             jobberNormaltTimer: jobberNormaltTimerNumber,
@@ -71,7 +71,7 @@ export const mapFrilansArbeidsforholdToApiData = (
         };
         return vetIkkeForhold;
     }
-    const forholdSomVanlig: ArbeidsforholdFrilanserApiSomVanlig = {
+    const forholdSomVanlig: ArbeidsforholdSNFApiSomVanlig = {
         ...{ arbeidsform },
         skalJobbe: 'ja',
         skalJobbeProsent: 100,

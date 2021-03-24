@@ -14,7 +14,7 @@ import { getArbeidsgivere } from '../../../utils/arbeidsforholdUtils';
 import FormikArbeidsforhold from '../../formik-arbeidsforhold/FormikArbeidsforhold';
 import FormikStep from '../../formik-step/FormikStep';
 import FrilansFormPart from './FrilansFormPart';
-import SelvstendigNæringsdrivendeFormPart from './SelvstendigNæringsdrivendePart';
+import SelvstendigNæringsdrivendeFormPart from './SelvstendigNæringsdrivendeFormPart';
 import VernepliktigFormPart from './VernepliktigFormPart';
 import AndreYtelserFormPart from './AndreYtelserFormPart';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
@@ -41,6 +41,12 @@ const cleanupArbeidsforhold = (formValues: PleiepengesøknadFormData): Pleiepeng
     if (values.harHattInntektSomFrilanser === YesOrNo.YES && values.frilans_jobberFortsattSomFrilans === YesOrNo.NO) {
         values.frilans_arbeidsforhold = undefined;
     }
+
+    if (values.selvstendig_harHattInntektSomSN === YesOrNo.NO) {
+        values.selvstendig_harLagtInnAlleSelskap = undefined;
+        values.selvstendig_virksomheter = [];
+        values.selvstendig_arbeidsforhold = undefined;
+    }
     return values;
 };
 
@@ -56,6 +62,11 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
 
     const { isLoading, isLoaded } = loadState;
     const { periodeFra } = values;
+    const kanIkkeFortsetteSN =
+        values.selvstendig_harHattInntektSomSN === YesOrNo.YES &&
+        values.selvstendig_harLagtInnAlleSelskap === YesOrNo.NO
+            ? true
+            : false;
 
     useEffect(() => {
         const fraDato = datepickerUtils.getDateFromDateString(periodeFra);
@@ -79,7 +90,7 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
         <FormikStep
             id={StepID.ARBEIDSFORHOLD}
             onValidFormSubmit={onValidSubmit}
-            buttonDisabled={isLoading}
+            buttonDisabled={isLoading || kanIkkeFortsetteSN}
             onStepCleanup={cleanupArbeidsforhold}>
             {isLoading && <LoadingSpinner type="XS" blockTitle="Henter arbeidsforhold" />}
             {!isLoading && (

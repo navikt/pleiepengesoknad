@@ -24,7 +24,7 @@ export interface ArbeidsforholdApi {
     skalJobbeProsent?: number;
 }
 
-export interface ArbeidsforholdFrilanserApi {
+export interface ArbeidsforholdSNFApi {
     skalJobbe?: 'ja' | 'nei' | 'redusert' | 'vetIkke';
     arbeidsform?: Arbeidsform;
     jobberNormaltTimer?: number;
@@ -32,22 +32,22 @@ export interface ArbeidsforholdFrilanserApi {
     skalJobbeProsent?: number;
 }
 
-export type ArbeidsforholdFrilanserApiNei = Pick<
-    ArbeidsforholdFrilanserApi,
+export type ArbeidsforholdSNFApiNei = Pick<
+    ArbeidsforholdSNFApi,
     'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer'
 >;
-export type ArbeidsforholdFrilanserApiRedusert = Pick<
-    ArbeidsforholdFrilanserApi,
+export type ArbeidsforholdSNFApiRedusert = Pick<
+    ArbeidsforholdSNFApi,
     'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | 'skalJobbeTimer'
 >;
 
-export type ArbeidsforholdFrilanserApiVetIkke = Pick<
-    ArbeidsforholdFrilanserApi,
+export type ArbeidsforholdSNFApiVetIkke = Pick<
+    ArbeidsforholdSNFApi,
     'skalJobbe' | 'jobberNormaltTimer' | 'skalJobbeProsent'
 >;
 
-export type ArbeidsforholdFrilanserApiSomVanlig = Pick<
-    ArbeidsforholdFrilanserApi,
+export type ArbeidsforholdSNFApiSomVanlig = Pick<
+    ArbeidsforholdSNFApi,
     'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer'
 >;
 
@@ -150,7 +150,7 @@ export interface FerieuttakIPeriodeApiData {
 export interface FrilansApiData {
     startdato: ApiStringDate;
     jobberFortsattSomFrilans: boolean;
-    arbeidsforhold?: ArbeidsforholdFrilanserApi;
+    arbeidsforhold?: ArbeidsforholdSNFApi;
 }
 
 export interface PleiepengesøknadApiData {
@@ -193,6 +193,7 @@ export interface PleiepengesøknadApiData {
     harHattInntektSomSelvstendigNæringsdrivende?: boolean;
     frilans?: FrilansApiData;
     selvstendigVirksomheter?: VirksomhetApiData[];
+    selvstendigArbeidsforhold?: ArbeidsforholdSNFApi;
     harVærtEllerErVernepliktig: boolean;
     andreYtelserFraNAV?: AndreYtelserFraNAV[];
 }

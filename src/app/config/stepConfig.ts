@@ -52,8 +52,9 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
 
     const includeArbeidsforholdIPerioden =
         formValues &&
-        (formValues.frilans_jobberFortsattSomFrilans === YesOrNo.YES ||
-            formValues.arbeidsforhold.find((a) => a.erAnsattIPerioden === YesOrNo.YES) !== undefined);
+        (formValues.arbeidsforhold.find((a) => a.erAnsattIPerioden === YesOrNo.YES) !== undefined ||
+            formValues.frilans_jobberFortsattSomFrilans === YesOrNo.YES ||
+            formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES);
 
     let idx = 0;
     let config = {

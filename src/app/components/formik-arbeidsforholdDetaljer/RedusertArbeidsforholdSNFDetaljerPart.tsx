@@ -6,11 +6,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { decimalTimeToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { validateRequiredField, validateRequiredNumber } from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import { FormikNumberInput, FormikRadioPanelGroup, getNumberFromNumberInputValue } from '@navikt/sif-common-formik';
-import {
-    AppFormField,
-    ArbeidsforholdFrilanser,
-    ArbeidsforholdFrilanserField,
-} from '../../types/PleiepengesøknadFormData';
+import { AppFormField, ArbeidsforholdSNF, ArbeidsforholdSNFField } from '../../types/PleiepengesøknadFormData';
 import {
     calcReduserteTimerFromRedusertProsent,
     calcRedusertProsentFromRedusertTimer,
@@ -18,8 +14,8 @@ import {
 import { validateReduserteArbeidTimer } from '../../validation/fieldValidations';
 
 interface Props {
-    frilans_arbeidsforhold: ArbeidsforholdFrilanser;
-    getFieldName: (name: ArbeidsforholdFrilanserField) => AppFormField;
+    frilans_arbeidsforhold: ArbeidsforholdSNF;
+    getFieldName: (name: ArbeidsforholdSNFField) => AppFormField;
 }
 
 const getLabelForProsentRedusert = (intl: IntlShape, timerNormalt: number, prosentRedusert: number | undefined) => {
@@ -47,7 +43,7 @@ const getLabelForTimerRedusert = (intl: IntlShape, timerNormalt: number, timerRe
     return intlHelper(intl, 'arbeidsforhold.timer.utledet', { timer: timerNormalt });
 };
 
-const RedusertArbeidsforholdFrilansDetaljerPart = ({ frilans_arbeidsforhold, getFieldName }: Props) => {
+const RedusertArbeidsforholdSNFDetaljerPart = ({ frilans_arbeidsforhold, getFieldName }: Props) => {
     const intl = useIntl();
     const {
         timerEllerProsent,
@@ -67,7 +63,7 @@ const RedusertArbeidsforholdFrilansDetaljerPart = ({ frilans_arbeidsforhold, get
                 <>
                     <Box margin="xl">
                         <FormikRadioPanelGroup<AppFormField>
-                            name={getFieldName(ArbeidsforholdFrilanserField.timerEllerProsent)}
+                            name={getFieldName(ArbeidsforholdSNFField.timerEllerProsent)}
                             legend={intlHelper(intl, 'arbeidsforhold.hvorMye.spm')}
                             validate={validateRequiredField}
                             useTwoColumns={true}
@@ -86,7 +82,7 @@ const RedusertArbeidsforholdFrilansDetaljerPart = ({ frilans_arbeidsforhold, get
                     {timerEllerProsent === 'timer' && (
                         <Box margin="xl">
                             <FormikNumberInput<AppFormField>
-                                name={getFieldName(ArbeidsforholdFrilanserField.skalJobbeTimer)}
+                                name={getFieldName(ArbeidsforholdSNFField.skalJobbeTimer)}
                                 label={intlHelper(intl, 'arbeidsforhold.timer.spm')}
                                 suffix={getLabelForTimerRedusert(intl, jobberNormaltTimerNumber, skalJobbeTimerNumber)}
                                 suffixStyle="text"
@@ -102,7 +98,7 @@ const RedusertArbeidsforholdFrilansDetaljerPart = ({ frilans_arbeidsforhold, get
                         <>
                             <Box margin="xl">
                                 <FormikNumberInput<AppFormField>
-                                    name={getFieldName(ArbeidsforholdFrilanserField.skalJobbeProsent)}
+                                    name={getFieldName(ArbeidsforholdSNFField.skalJobbeProsent)}
                                     label={intlHelper(intl, 'arbeidsforhold.prosent.spm')}
                                     suffix={getLabelForProsentRedusert(
                                         intl,
@@ -127,4 +123,4 @@ const RedusertArbeidsforholdFrilansDetaljerPart = ({ frilans_arbeidsforhold, get
     ) : null;
 };
 
-export default RedusertArbeidsforholdFrilansDetaljerPart;
+export default RedusertArbeidsforholdSNFDetaljerPart;

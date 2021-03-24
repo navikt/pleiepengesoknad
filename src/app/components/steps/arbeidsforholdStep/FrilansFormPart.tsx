@@ -12,7 +12,7 @@ import {
 import Panel from 'nav-frontend-paneler';
 import {
     AppFormField,
-    ArbeidsforholdFrilanserField,
+    ArbeidsforholdSNFField,
     Arbeidsform,
     PleiepengesøknadFormData,
 } from '../../../types/PleiepengesøknadFormData';
@@ -20,7 +20,7 @@ import { validateFrilanserStartdato, validateNumberInputValue } from '../../../v
 import AppForm from '../../app-form/AppForm';
 import FrilansEksempeltHtml from './FrilansEksempelHtml';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import ArbeidsformInfoFrilanser from '../../../components/formik-arbeidsforhold/arbeidsFormInfoFrilanser';
+import ArbeidsformInfoSNFrilanser from '../../formik-arbeidsforhold/ArbeidsformInfoSNFrilanser';
 import { MIN_TIMER_NORMAL_ARBEIDSFORHOLD, MAX_TIMER_NORMAL_ARBEIDSFORHOLD } from '../../../config/minMaxValues';
 
 interface Props {
@@ -33,7 +33,7 @@ const FrilansFormPart = ({ formValues }: Props) => {
     const { frilans_arbeidsforhold } = formValues;
 
     const intl = useIntl();
-    const getFieldName = (field: ArbeidsforholdFrilanserField) => {
+    const getFieldName = (field: ArbeidsforholdSNFField) => {
         return `${AppFormField.frilans_arbeidsforhold}.${field}` as AppFormField;
     };
     return (
@@ -78,7 +78,7 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                 <FormBlock margin="none">
                                     <AppForm.RadioPanelGroup
                                         legend={intlHelper(intl, 'frilanser.arbeidsforhold.arbeidsform.spm')}
-                                        name={getFieldName(ArbeidsforholdFrilanserField.arbeidsform)}
+                                        name={getFieldName(ArbeidsforholdSNFField.arbeidsform)}
                                         radios={[
                                             {
                                                 label: intlHelper(intl, 'frilanser.arbeidsforhold.arbeidsform.fast'),
@@ -98,7 +98,7 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                 {frilans_arbeidsforhold?.arbeidsform !== undefined && (
                                     <Box margin="xl">
                                         <AppForm.NumberInput
-                                            name={getFieldName(ArbeidsforholdFrilanserField.jobberNormaltTimer)}
+                                            name={getFieldName(ArbeidsforholdSNFField.jobberNormaltTimer)}
                                             suffix={intlHelper(
                                                 intl,
                                                 `frilanser.arbeidsforhold.arbeidsform.${frilans_arbeidsforhold.arbeidsform}.timer.suffix`
@@ -109,7 +109,7 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                                     <Box margin="none" padBottom="m">
                                                         {frilans_arbeidsforhold.arbeidsform === Arbeidsform.fast && (
                                                             <Box margin="m">
-                                                                <ArbeidsformInfoFrilanser
+                                                                <ArbeidsformInfoSNFrilanser
                                                                     arbeidsform={Arbeidsform.fast}
                                                                 />
                                                             </Box>
@@ -119,7 +119,7 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                                             Arbeidsform.varierende && (
                                                             <>
                                                                 <Box margin="m">
-                                                                    <ArbeidsformInfoFrilanser
+                                                                    <ArbeidsformInfoSNFrilanser
                                                                         arbeidsform={Arbeidsform.varierende}
                                                                     />
                                                                 </Box>

@@ -8,7 +8,7 @@ interface Props {
     arbeidsform: Arbeidsform;
 }
 
-const ArbeidsformInfoFrilanser: React.FunctionComponent<Props> = ({ arbeidsform }) => {
+const ArbeidsformInfoSNFrilanser: React.FunctionComponent<Props> = ({ arbeidsform }) => {
     const intl = useIntl();
     switch (arbeidsform) {
         case Arbeidsform.varierende:
@@ -26,4 +26,4 @@ const ArbeidsformInfoFrilanser: React.FunctionComponent<Props> = ({ arbeidsform 
     }
 };
 
-export default ArbeidsformInfoFrilanser;
+export default ArbeidsformInfoSNFrilanser;
