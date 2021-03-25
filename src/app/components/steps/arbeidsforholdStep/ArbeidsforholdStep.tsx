@@ -62,11 +62,6 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
 
     const { isLoading, isLoaded } = loadState;
     const { periodeFra } = values;
-    const kanIkkeFortsetteSN =
-        values.selvstendig_harHattInntektSomSN === YesOrNo.YES &&
-        values.selvstendig_harLagtInnAlleSelskap === YesOrNo.NO
-            ? true
-            : false;
 
     useEffect(() => {
         const fraDato = datepickerUtils.getDateFromDateString(periodeFra);
@@ -90,7 +85,7 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
         <FormikStep
             id={StepID.ARBEIDSFORHOLD}
             onValidFormSubmit={onValidSubmit}
-            buttonDisabled={isLoading || kanIkkeFortsetteSN}
+            buttonDisabled={isLoading}
             onStepCleanup={cleanupArbeidsforhold}>
             {isLoading && <LoadingSpinner type="XS" blockTitle="Henter arbeidsforhold" />}
             {!isLoading && (

@@ -443,6 +443,7 @@
     "fieldvalidation.er_helg": "Lørdag og søndag er ikke gyldig.",
     "fieldvalidation.relasjon_forMangeTegn": "For mange tegn. Maks antall tegn er 1000.",
     "fieldvalidation.relasjon_forFåTegn": "For få tegn.",
+    "fieldvalidation.selvstendig.må_registrere_alle_selskapene": "Du må registrere alle næringsvirksomheter og trykke \"Ja\" i spørsmål \"Har du lagt inn alle selskap som ble avsluttet i 2018 - 2020?\" før du kan fortsette",
 
     "arbeidsforhold.erAnsattIPerioden.spm": "Er du ansatt her i perioden du søker pleiepenger?",
 

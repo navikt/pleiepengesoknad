@@ -31,7 +31,7 @@ const FrilansSummary = ({ apiValues }: Props) => {
 
                     {frilans.arbeidsforhold && (
                         <SummaryBlock header={intlHelper(intl, 'frilanser.arbeidsforhold.summary.arbeidsform.spm')}>
-                            <ArbeidsforholdSNFSummary arbeidsforhold={frilans.arbeidsforhold} />{' '}
+                            <ArbeidsforholdSNFSummary arbeidsforhold={frilans.arbeidsforhold} />
                         </SummaryBlock>
                     )}
                 </>

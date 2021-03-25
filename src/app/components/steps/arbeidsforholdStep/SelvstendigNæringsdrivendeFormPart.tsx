@@ -20,7 +20,10 @@ import AppForm from '../../app-form/AppForm';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ArbeidsformInfoSNFrilanser from '../../formik-arbeidsforhold/ArbeidsformInfoSNFrilanser';
-import { validateNumberInputValue } from '../../../validation/fieldValidations';
+import {
+    validateNumberInputValue,
+    validateSelvstendigHarLagtInnAlleSelskap,
+} from '../../../validation/fieldValidations';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../../../config/minMaxValues';
 
 interface Props {
@@ -61,7 +64,7 @@ const SelvstendigNæringsdrivendeFormPart = ({ formValues }: Props) => {
                             <AppForm.YesOrNoQuestion
                                 name={AppFormField.selvstendig_harLagtInnAlleSelskap}
                                 legend={intlHelper(intl, 'selvstendig.harLagtInnAlleSelskap.spm')}
-                                validate={validateYesOrNoIsAnswered}
+                                validate={validateSelvstendigHarLagtInnAlleSelskap}
                             />
                             {formValues.selvstendig_harLagtInnAlleSelskap === YesOrNo.NO && (
                                 <Box margin="m">

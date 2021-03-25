@@ -68,6 +68,7 @@ export enum AppFieldValidationErrors {
     'er_helg' = 'fieldvalidation.er_helg',
     'relasjon_forMangeTegn' = 'fieldvalidation.relasjon_forMangeTegn',
     'relasjon_forFåTegn' = 'fieldvalidation.relasjon_forFåTegn',
+    'selvstendig_måRegistrereAlleSelskapene' = 'fieldvalidation.selvstendig.må_registrere_alle_selskapene',
 }
 
 export const createAppFieldValidationError = (
@@ -403,6 +404,16 @@ export const validateReduserteArbeidTimer = (
     }
     if (pst > 99) {
         return createAppFieldValidationError(AppFieldValidationErrors.arbeidsforhold_timerUgyldig_over_99_prosent);
+    }
+    return undefined;
+};
+
+export const validateSelvstendigHarLagtInnAlleSelskap = (answer: string): FieldValidationResult => {
+    if (answer === YesOrNo.UNANSWERED || answer === undefined) {
+        return fieldIsRequiredError();
+    }
+    if (answer === YesOrNo.NO) {
+        return createAppFieldValidationError(AppFieldValidationErrors.selvstendig_måRegistrereAlleSelskapene);
     }
     return undefined;
 };

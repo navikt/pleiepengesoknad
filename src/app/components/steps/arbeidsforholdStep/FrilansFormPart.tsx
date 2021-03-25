@@ -70,82 +70,85 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                     validate={validateYesOrNoIsAnswered}
                                 />
                             </Box>
-                        </Panel>
-                    </Box>
-                    {jobberFortsattSomFrilans && (
-                        <Box margin="l">
-                            <Panel>
-                                <FormBlock margin="none">
-                                    <AppForm.RadioPanelGroup
-                                        legend={intlHelper(intl, 'frilanser.arbeidsforhold.arbeidsform.spm')}
-                                        name={getFieldName(ArbeidsforholdSNFField.arbeidsform)}
-                                        radios={[
-                                            {
-                                                label: intlHelper(intl, 'frilanser.arbeidsforhold.arbeidsform.fast'),
-                                                value: Arbeidsform.fast,
-                                            },
-                                            {
-                                                label: intlHelper(
-                                                    intl,
-                                                    'frilanser.arbeidsforhold.arbeidsform.varierende'
-                                                ),
-                                                value: Arbeidsform.varierende,
-                                            },
-                                        ]}
-                                        validate={validateRequiredField}
-                                    />
-                                </FormBlock>
-                                {frilans_arbeidsforhold?.arbeidsform !== undefined && (
-                                    <Box margin="xl">
-                                        <AppForm.NumberInput
-                                            name={getFieldName(ArbeidsforholdSNFField.jobberNormaltTimer)}
-                                            suffix={intlHelper(
-                                                intl,
-                                                `frilanser.arbeidsforhold.arbeidsform.${frilans_arbeidsforhold.arbeidsform}.timer.suffix`
-                                            )}
-                                            suffixStyle="text"
-                                            description={
-                                                <div style={{ width: '100%' }}>
-                                                    <Box margin="none" padBottom="m">
-                                                        {frilans_arbeidsforhold.arbeidsform === Arbeidsform.fast && (
-                                                            <Box margin="m">
-                                                                <ArbeidsformInfoSNFrilanser
-                                                                    arbeidsform={Arbeidsform.fast}
-                                                                />
-                                                            </Box>
-                                                        )}
 
-                                                        {frilans_arbeidsforhold.arbeidsform ===
-                                                            Arbeidsform.varierende && (
-                                                            <>
+                            {jobberFortsattSomFrilans && (
+                                <Box margin="l">
+                                    <FormBlock margin="none">
+                                        <AppForm.RadioPanelGroup
+                                            legend={intlHelper(intl, 'frilanser.arbeidsforhold.arbeidsform.spm')}
+                                            name={getFieldName(ArbeidsforholdSNFField.arbeidsform)}
+                                            radios={[
+                                                {
+                                                    label: intlHelper(
+                                                        intl,
+                                                        'frilanser.arbeidsforhold.arbeidsform.fast'
+                                                    ),
+                                                    value: Arbeidsform.fast,
+                                                },
+                                                {
+                                                    label: intlHelper(
+                                                        intl,
+                                                        'frilanser.arbeidsforhold.arbeidsform.varierende'
+                                                    ),
+                                                    value: Arbeidsform.varierende,
+                                                },
+                                            ]}
+                                            validate={validateRequiredField}
+                                        />
+                                    </FormBlock>
+                                    {frilans_arbeidsforhold?.arbeidsform !== undefined && (
+                                        <Box margin="xl">
+                                            <AppForm.NumberInput
+                                                name={getFieldName(ArbeidsforholdSNFField.jobberNormaltTimer)}
+                                                suffix={intlHelper(
+                                                    intl,
+                                                    `frilanser.arbeidsforhold.arbeidsform.${frilans_arbeidsforhold.arbeidsform}.timer.suffix`
+                                                )}
+                                                suffixStyle="text"
+                                                description={
+                                                    <div style={{ width: '100%' }}>
+                                                        <Box margin="none" padBottom="m">
+                                                            {frilans_arbeidsforhold.arbeidsform ===
+                                                                Arbeidsform.fast && (
                                                                 <Box margin="m">
                                                                     <ArbeidsformInfoSNFrilanser
-                                                                        arbeidsform={Arbeidsform.varierende}
+                                                                        arbeidsform={Arbeidsform.fast}
                                                                     />
                                                                 </Box>
-                                                            </>
-                                                        )}
-                                                    </Box>
-                                                </div>
-                                            }
-                                            bredde="XS"
-                                            label={intlHelper(
-                                                intl,
-                                                `frilanser.arbeidsforhold.iDag.${frilans_arbeidsforhold.arbeidsform}.spm`
-                                            )}
-                                            validate={(value: any) => {
-                                                return validateNumberInputValue({
-                                                    min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
-                                                    max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
-                                                })(value);
-                                            }}
-                                            value={frilans_arbeidsforhold.arbeidsform || ''}
-                                        />
-                                    </Box>
-                                )}
-                            </Panel>
-                        </Box>
-                    )}
+                                                            )}
+
+                                                            {frilans_arbeidsforhold.arbeidsform ===
+                                                                Arbeidsform.varierende && (
+                                                                <>
+                                                                    <Box margin="m">
+                                                                        <ArbeidsformInfoSNFrilanser
+                                                                            arbeidsform={Arbeidsform.varierende}
+                                                                        />
+                                                                    </Box>
+                                                                </>
+                                                            )}
+                                                        </Box>
+                                                    </div>
+                                                }
+                                                bredde="XS"
+                                                label={intlHelper(
+                                                    intl,
+                                                    `frilanser.arbeidsforhold.iDag.${frilans_arbeidsforhold.arbeidsform}.spm`
+                                                )}
+                                                validate={(value: any) => {
+                                                    return validateNumberInputValue({
+                                                        min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
+                                                        max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
+                                                    })(value);
+                                                }}
+                                                value={frilans_arbeidsforhold.arbeidsform || ''}
+                                            />
+                                        </Box>
+                                    )}
+                                </Box>
+                            )}
+                        </Panel>
+                    </Box>
                 </>
             )}
         </>
