@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import BuildingIcon from '@navikt/sif-common-core/lib/components/building-icon/BuildingIconSvg';
 import { useFormikContext } from 'formik';
 import FormSection from '../../../pre-common/form-section/FormSection';
@@ -28,9 +29,7 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
         <FormikStep id={StepID.ARBEIDSFORHOLD_I_PERIODEN} onValidFormSubmit={onValidSubmit}>
             <Box padBottom="m">
                 <CounsellorPanel>
-                    Her skal du opplyse om du skal jobbe noe i samme periode som du skal ha pleiepenger. Det kan for
-                    eksempel være at kan jobbe fordi du skal dele pleiepengene med en annen omsorgsperson, eller at
-                    barnet skal være noe på skolen eller i barnehagen.
+                    <FormattedMessage id={'arbeidsforhold.arbeidsforhold.info'} />
                 </CounsellorPanel>
             </Box>
             <Box margin="xl">
