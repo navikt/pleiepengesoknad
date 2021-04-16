@@ -359,7 +359,23 @@
     "steg.arbeidsforhold.andreYtelser.hvilke.spm": "Får du andre utbetalingar frå NAV i perioden med pleiepengar?",
 
     "page.confirmation.sidetittel": "Vi har fått søknaden din.",
-    "page.confirmation.tittel": "Vi har mottatt søknad fra deg om pleiepengar",
+    "page.confirmation.tittel.1": "Takk!",
+    "page.confirmation.tittel.2": "Vi har mottatt din søknad",
+    "page.confirmation.tittel.3": "om pleiepenger",
+
+    "page.confirmation.tittel.advarsel.list.tittel": "Husk å be alle arbeidsgiverne dine sende oss inntektsmelding så fort som mulig hvis:",
+    "page.confirmation.tittel.advarsel.list.item.1": "du søker for første gang, eller",
+    "page.confirmation.tittel.advarsel.list.item.2": "det er mer enn 4 uker siden du hadde pleiepenger sist",
+
+    "page.confirmation.dinePP.info.tittel.html": "<strong>Dine pleiepenger</strong>",
+    "page.confirmation.dinePP.info.1": "Du kan få mer informasjon om din søknad på Dine Pleiepenger.",
+    "page.confirmation.dinePP.list.tittel": "Her kan du blant annet:",
+    "page.confirmation.dinePP.list.item.1": "laste ned bekreftelse til arbeidsgiver",
+    "page.confirmation.dinePP.list.item.2": "ettersende dokumentasjon",
+    "page.confirmation.dinePP.list.item.3": "gi beskjed om endringer",
+    "page.confirmation.dinePP.list.item.4": "se dine utbetalinger",
+    "page.confirmation.dinePP.lenke": "Gå til Dine pleiepenger",
+
     "page.confirmation.alertInfo.html": "<strong>Obs!</strong> Denne informasjonssida forsvinn når du lukkar henne. Det er derfor viktig at du les gjennom før du går vidare. <p> Sida kan printast ut, slik at du kan gi utskrift til {numberOfArbeidsforhold, plural, one {arbeidsgivaren din} other {arbeidsgivarane dine}}.</p>",
     "page.confirmation.undertittel": "Kva skjer vidare no?",
     "page.confirmation.info.1a": "Dette er ei stadfesting på at vi har fått søknaden din.",
