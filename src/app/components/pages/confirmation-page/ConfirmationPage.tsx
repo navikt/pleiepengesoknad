@@ -37,12 +37,14 @@ const ConfirmationPage = ({ kvitteringInfo }: Props) => {
                     <Innholdstittel>
                         <FormattedMessage id="page.confirmation.tittel.1" />
                     </Innholdstittel>
-                    <Innholdstittel tag="h2">
-                        <FormattedMessage id="page.confirmation.tittel.2" />
-                    </Innholdstittel>
-                    <Innholdstittel tag="h2">
-                        <FormattedMessage id="page.confirmation.tittel.3" />
-                    </Innholdstittel>
+                    <Box margin="m">
+                        <Innholdstittel tag="h2">
+                            <FormattedMessage id="page.confirmation.tittel.2" />
+                        </Innholdstittel>
+                        <Innholdstittel tag="h2">
+                            <FormattedMessage id="page.confirmation.tittel.3" />
+                        </Innholdstittel>
+                    </Box>
                 </Box>
             </div>
             {kvitteringInfo?.arbeidsforhold && (
@@ -69,33 +71,32 @@ const ConfirmationPage = ({ kvitteringInfo }: Props) => {
                 <Element>
                     <FormattedHtmlMessage id="page.confirmation.dinePP.info.tittel" />
                 </Element>
-                <Normaltekst>
-                    <FormattedMessage id="page.confirmation.dinePP.info.1" />
-                </Normaltekst>
-                <Normaltekst>
-                    <FormattedMessage id="page.confirmation.dinePP.list.tittel" />
-                </Normaltekst>
+                <Box margin="m">
+                    <Normaltekst>
+                        <FormattedMessage id="page.confirmation.dinePP.info.1" />
+                    </Normaltekst>
+                    <Normaltekst>
+                        <FormattedMessage id="page.confirmation.dinePP.list.tittel" />
+                    </Normaltekst>
 
-                <ul style={{ marginTop: '0rem' }}>
-                    {kvitteringInfo?.arbeidsforhold && (
+                    <ul>
+                        {kvitteringInfo?.arbeidsforhold && (
+                            <li>
+                                <FormattedMessage id="page.confirmation.dinePP.list.item.1" />
+                            </li>
+                        )}
                         <li>
-                            <FormattedMessage id="page.confirmation.dinePP.list.item.1" />
+                            <FormattedMessage id="page.confirmation.dinePP.list.item.2" />
                         </li>
-                    )}
-                    <li>
-                        <FormattedMessage id="page.confirmation.dinePP.list.item.2" />
-                    </li>
-                    <li>
-                        <FormattedMessage id="page.confirmation.dinePP.list.item.3" />
-                    </li>
-                    <li>
-                        <FormattedMessage id="page.confirmation.dinePP.list.item.4" />
-                    </li>
-                </ul>
-                <Box margin="xl">
-                    <Lenke href={lenker.innsynSIF} target="_blank">
-                        <FormattedMessage id="page.confirmation.dinePP.lenke" />
-                    </Lenke>
+                        <li>
+                            <FormattedMessage id="page.confirmation.dinePP.list.item.3" />
+                        </li>
+                    </ul>
+                    <Box margin="xl">
+                        <Lenke href={lenker.innsynSIF} target="_blank">
+                            <FormattedMessage id="page.confirmation.dinePP.lenke" />
+                        </Lenke>
+                    </Box>
                 </Box>
             </Box>
         </Page>
