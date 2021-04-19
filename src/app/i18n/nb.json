@@ -367,7 +367,7 @@
     "page.confirmation.tittel.advarsel.list.item.1": "du søker for første gang, eller",
     "page.confirmation.tittel.advarsel.list.item.2": "det er mer enn 4 uker siden du hadde pleiepenger sist",
 
-    "page.confirmation.dinePP.info.tittel.html": "<strong>Dine pleiepenger</strong>",
+    "page.confirmation.dinePP.info.tittel": "Dine pleiepenger",
     "page.confirmation.dinePP.info.1": "Du kan få mer informasjon om din søknad på Dine Pleiepenger.",
     "page.confirmation.dinePP.list.tittel": "Her kan du blant annet:",
     "page.confirmation.dinePP.list.item.1": "laste ned bekreftelse til arbeidsgiver",

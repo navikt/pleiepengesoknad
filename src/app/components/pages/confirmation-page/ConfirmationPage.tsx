@@ -4,7 +4,7 @@ import { SIFCommonPageKey, useLogSidevisning } from '@navikt/sif-common-amplitud
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 // import { Knapp } from 'nav-frontend-knapper';
 // import Panel from 'nav-frontend-paneler';
-import { Innholdstittel, Systemtittel } from 'nav-frontend-typografi';
+import { Innholdstittel, Normaltekst, Element } from 'nav-frontend-typografi';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CheckmarkIcon from '@navikt/sif-common-core/lib/components/checkmark-icon/CheckmarkIcon';
 import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatted-html-message/FormattedHtmlMessage';
@@ -33,7 +33,7 @@ const ConfirmationPage = ({ kvitteringInfo }: Props) => {
     const intl = useIntl();
     console.log(kvitteringInfo);
     // const numberOfArbeidsforhold = kvitteringInfo ? kvitteringInfo.arbeidsforhold.length : 0;
-    const isArbeidsForhold = kvitteringInfo ? kvitteringInfo.arbeidsforhold.length > 0 : false;
+    // const isArbeidsForhold = kvitteringInfo ? kvitteringInfo.arbeidsforhold.length > 0 : false;
     const lenker = getLenker(intl.locale);
 
     useLogSidevisning(SIFCommonPageKey.kvittering);
@@ -45,14 +45,16 @@ const ConfirmationPage = ({ kvitteringInfo }: Props) => {
                 <Box margin="xl">
                     <Innholdstittel>
                         <FormattedMessage id="page.confirmation.tittel.1" />
-                        <br />
+                    </Innholdstittel>
+                    <Innholdstittel tag="h2">
                         <FormattedMessage id="page.confirmation.tittel.2" />
-                        <br />
+                    </Innholdstittel>
+                    <Innholdstittel tag="h2">
                         <FormattedMessage id="page.confirmation.tittel.3" />
                     </Innholdstittel>
                 </Box>
             </div>
-            {isArbeidsForhold && (
+            {kvitteringInfo?.arbeidsforhold && (
                 <Box margin="xl">
                     <AlertStripeAdvarsel>
                         {intlHelper(intl, 'page.confirmation.tittel.advarsel.list.tittel')}
@@ -73,15 +75,22 @@ const ConfirmationPage = ({ kvitteringInfo }: Props) => {
             </Box>
 
             <Box margin="xxl">
-                <FormattedHtmlMessage id="page.confirmation.dinePP.info.tittel.html" />
-                <br />
-                <FormattedMessage id="page.confirmation.dinePP.info.1" />
-                <br />
-                <FormattedMessage id="page.confirmation.dinePP.list.tittel" />
+                <Element>
+                    <FormattedHtmlMessage id="page.confirmation.dinePP.info.tittel" />
+                </Element>
+                <Normaltekst>
+                    <FormattedMessage id="page.confirmation.dinePP.info.1" />
+                </Normaltekst>
+                <Normaltekst>
+                    <FormattedMessage id="page.confirmation.dinePP.list.tittel" />
+                </Normaltekst>
+
                 <ul style={{ marginTop: '0rem' }}>
-                    <li>
-                        <FormattedMessage id="page.confirmation.dinePP.list.item.1" />
-                    </li>
+                    {kvitteringInfo?.arbeidsforhold && (
+                        <li>
+                            <FormattedMessage id="page.confirmation.dinePP.list.item.1" />
+                        </li>
+                    )}
                     <li>
                         <FormattedMessage id="page.confirmation.dinePP.list.item.2" />
                     </li>
@@ -93,11 +102,9 @@ const ConfirmationPage = ({ kvitteringInfo }: Props) => {
                     </li>
                 </ul>
                 <Box margin="xl">
-                    <Systemtittel>
-                        <Lenke href={lenker.innsynSIF} target="_blank">
-                            <FormattedMessage id="page.confirmation.dinePP.lenke" />
-                        </Lenke>
-                    </Systemtittel>
+                    <Lenke href={lenker.innsynSIF} target="_blank">
+                        <FormattedMessage id="page.confirmation.dinePP.lenke" />
+                    </Lenke>
                 </Box>
             </Box>
             {/* 
