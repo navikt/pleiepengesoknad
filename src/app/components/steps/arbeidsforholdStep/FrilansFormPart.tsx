@@ -88,6 +88,13 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                                 {
                                                     label: intlHelper(
                                                         intl,
+                                                        'frilanser.arbeidsforhold.arbeidsform.turnus'
+                                                    ),
+                                                    value: Arbeidsform.turnus,
+                                                },
+                                                {
+                                                    label: intlHelper(
+                                                        intl,
                                                         'frilanser.arbeidsforhold.arbeidsform.varierende'
                                                     ),
                                                     value: Arbeidsform.varierende,
@@ -116,7 +123,16 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                                                     />
                                                                 </Box>
                                                             )}
-
+                                                            {frilans_arbeidsforhold.arbeidsform ===
+                                                                Arbeidsform.turnus && (
+                                                                <>
+                                                                    <Box margin="m">
+                                                                        <ArbeidsformInfoSNFrilanser
+                                                                            arbeidsform={Arbeidsform.turnus}
+                                                                        />
+                                                                    </Box>
+                                                                </>
+                                                            )}
                                                             {frilans_arbeidsforhold.arbeidsform ===
                                                                 Arbeidsform.varierende && (
                                                                 <>

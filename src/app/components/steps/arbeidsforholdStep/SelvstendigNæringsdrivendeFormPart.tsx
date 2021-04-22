@@ -93,6 +93,13 @@ const SelvstendigNæringsdrivendeFormPart = ({ formValues }: Props) => {
                                                     {
                                                         label: intlHelper(
                                                             intl,
+                                                            'frilanser.arbeidsforhold.arbeidsform.turnus'
+                                                        ),
+                                                        value: Arbeidsform.turnus,
+                                                    },
+                                                    {
+                                                        label: intlHelper(
+                                                            intl,
                                                             'frilanser.arbeidsforhold.arbeidsform.varierende'
                                                         ),
                                                         value: Arbeidsform.varierende,
@@ -121,7 +128,16 @@ const SelvstendigNæringsdrivendeFormPart = ({ formValues }: Props) => {
                                                                         />
                                                                     </Box>
                                                                 )}
-
+                                                                {selvstendig_arbeidsforhold.arbeidsform ===
+                                                                    Arbeidsform.turnus && (
+                                                                    <>
+                                                                        <Box margin="m">
+                                                                            <ArbeidsformInfoSNFrilanser
+                                                                                arbeidsform={Arbeidsform.turnus}
+                                                                            />
+                                                                        </Box>
+                                                                    </>
+                                                                )}
                                                                 {selvstendig_arbeidsforhold.arbeidsform ===
                                                                     Arbeidsform.varierende && (
                                                                     <>

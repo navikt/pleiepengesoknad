@@ -444,7 +444,7 @@
     "fieldvalidation.er_helg": "Lørdag og søndag er ikke gyldig.",
     "fieldvalidation.relasjon_forMangeTegn": "For mange tegn. Maks antall tegn er 1000.",
     "fieldvalidation.relasjon_forFåTegn": "For få tegn.",
-    "fieldvalidation.selvstendig.må_registrere_alle_selskapene": "Du må registrere alle næringsvirksomheter og trykke \"Ja\" i spørsmål \"Har du lagt inn alle selskap som ble avsluttet i 2018 - 2020?\" før du kan fortsette",
+    "fieldvalidation.selvstendig.må_registrere_alle_selskapene": "Du må registrere alle næringsvirksomheter og trykke \"Ja\" i spørsmål \"Har du lagt inn alle virksomhetene dine?\" før du kan fortsette",
 
     "arbeidsforhold.erAnsattIPerioden.spm": "Er du ansatt her i perioden du søker pleiepenger?",
 
@@ -473,6 +473,8 @@
     "arbeidsforhold.arbeidsform.VARIERENDE.timer.suffix": "timer i snitt per uke",
 
     "arbeidsforhold.arbeidsforhold.spm": "Skal du jobbe her i samme periode som du søker pleiepenger?",
+    "arbeidsforhold.arbeidsforhold.frilanser.spm": "Skal du jobbe som frilanser i samme periode som du søker pleiepenger?",
+    "arbeidsforhold.arbeidsforhold.sn.spm": "Skal du jobbe som selvstendig i samme periode som du søker pleiepenger?",
     "arbeidsforhold.arbeidsforhold.ja": "Ja, jeg skal jobbe som vanlig",
     "arbeidsforhold.arbeidsforhold.nei": "Nei, jeg skal ikke jobbe",
     "arbeidsforhold.arbeidsforhold.vetIkke": "Vet ikke, men jeg melder fra hvis jeg skal jobbe i perioden jeg søker for",
@@ -555,13 +557,13 @@
     "selvstendig.list.leggTilLabel": "Legg til næringsvirksomhet",
     "selvstendig.dialog.tittel": "Næringsvirksomhet",
 
-    "selvstendig.harLagtInnAlleSelskap.spm": "Har du lagt inn alle selskap som ble avsluttet i 2018 - 2020?",
+    "selvstendig.harLagtInnAlleSelskap.spm": "Har du lagt inn alle virksomhetene dine?",
     "selvstendig.harLagtInnAlleSelskap.alertStripeAdvarsel": "Du må registrere alle selskapene før du kan fortsette",
-    "selvstendig.arbeidsforhold.spm": "Jobber du et fast antall timer per uke som selvstendig eller varierer det?",
+    "selvstendig.arbeidsforhold.spm": "Hvordan jobber du som selvstendig?",
 
     "selvstendig.summary.header": "Selvstendig næringsdrivende",
     "selvstendig.summary.harDuHattInntekt.header": "Har du hatt inntekt som selvstendig næringsdrivende i de siste 4 ukene?",
-    "selvstendig.summary.arbeidsforhold.header": "Jobber du et fast antall timer per uke som selvstendig eller varierer det?",
+    "selvstendig.summary.arbeidsforhold.header": "Hvordan jobber du som selvstendig?",
 
     "frilanser.harDuHattInntekt.spm": "Har du jobbet og hatt inntekt som frilanser i de siste 4 ukene?",
     "frilanser.nårStartet.spm": "Når startet du som frilanser?",
@@ -575,6 +577,17 @@
     "frilanser.arbeidsforhold.arbeidsform.fast.info.tittel": "Hva betyr dette?",
     "frilanser.arbeidsforhold.arbeidsform.fast.info.tekst": "Her skal du legge inn antall timer du jobber per uke.",
     "frilanser.arbeidsforhold.arbeidsform.FAST.timer.suffix": "timer fast per uke",
+
+    "frilanser.arbeidsforhold.arbeidsform.turnus": "Turnus",
+    "frilanser.arbeidsforhold.arbeidsform.turnus.info.tittel": "Hvordan regner jeg ut et snitt av turnusen min?",
+    "frilanser.arbeidsforhold.arbeidsform.turnus.info.tekst.1": "Du regner ut snittet ved å legge sammen antall timer du jobber totalt i hele turnusperioden din, og deler det med antall uker som turnusperioden din består av.",
+    "frilanser.arbeidsforhold.arbeidsform.turnus.info.tekst.2": "Du har en turnus som går over 3 uker. Den første uka jobber du 20 timer, den andre 40 timer og den tredje uka jobber du 15 timer. Da legger du sammen antall timer du har jobbet og deler med antall uker i turnusperioden din.",
+    "frilanser.arbeidsforhold.arbeidsform.turnus.info.tekst.3": "Da blir regnestykket slik i dette eksempelet:",
+    "frilanser.arbeidsforhold.arbeidsform.turnus.info.tekst.4": "20 timer + 40 timer + 15 timer = 75 timer",
+    "frilanser.arbeidsforhold.arbeidsform.turnus.info.tekst.5": "Så deler du antall timer med antall uker i turnusperioden din: 75 / 3 = 25",
+    "frilanser.arbeidsforhold.arbeidsform.turnus.info.tekst.6": "Du jobber altså i snitt 25 timer per uke, og det er dette tallet du oppgir.",
+    "frilanser.arbeidsforhold.arbeidsform.turnus.info.tekst.eksempel": "Eksempel:",
+    "frilanser.arbeidsforhold.arbeidsform.TURNUS.timer.suffix": "timer i snitt per uke",
 
     "frilanser.arbeidsforhold.arbeidsform.varierende": "Deltid/varierende/tilkalling",
     "frilanser.arbeidsforhold.arbeidsform.varierende.info.tittel": "Hvordan regner jeg ut et snitt i min situasjon?",

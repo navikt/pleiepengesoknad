@@ -26,11 +26,14 @@ const FormikArbeidsforholdSNFDetaljer = ({ snF_arbeidsforhold, appFormField }: P
         appFormField === AppFormField.frilans_arbeidsforhold
             ? intlHelper(intl, 'snF.ArbeidsforholdDetaljer.hvaBetyr.frilanser.info')
             : intlHelper(intl, 'snF.ArbeidsforholdDetaljer.hvaBetyr.SN.info');
-
     return (
         <>
             <AppForm.RadioPanelGroup
-                legend={intlHelper(intl, 'arbeidsforhold.arbeidsforhold.spm')}
+                legend={
+                    appFormField === AppFormField.frilans_arbeidsforhold
+                        ? intlHelper(intl, 'arbeidsforhold.arbeidsforhold.frilanser.spm')
+                        : intlHelper(intl, 'arbeidsforhold.arbeidsforhold.sn.spm')
+                }
                 description={
                     <ExpandableInfo title={intlHelper(intl, 'snF.ArbeidsforholdDetaljer.hvaBetyr.spm')}>
                         {hvaBetyrDetteTekst}
