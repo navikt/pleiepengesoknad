@@ -15,7 +15,8 @@ const ArbeidsformInfoSNFrilanser: React.FunctionComponent<Props> = ({ arbeidsfor
     switch (arbeidsform) {
         case Arbeidsform.varierende:
             return (
-                <ExpandableInfo title={intlHelper(intl, 'frilanser.arbeidsforhold.arbeidsform.varierende.info.tittel')}>
+                <ExpandableInfo
+                    title={intlHelper(intl, 'snFrilanser.arbeidsforhold.arbeidsform.varierende.info.tittel')}>
                     <FormattedMessage id="arbeidsforhold.arbeidsform.varierende.info.tekst.1" />
                 </ExpandableInfo>
             );
@@ -46,8 +47,8 @@ const ArbeidsformInfoSNFrilanser: React.FunctionComponent<Props> = ({ arbeidsfor
             );
         default:
             return (
-                <ExpandableInfo title={intlHelper(intl, 'frilanser.arbeidsforhold.arbeidsform.fast.info.tittel')}>
-                    <FormattedMessage id="frilanser.arbeidsforhold.arbeidsform.fast.info.tekst" />
+                <ExpandableInfo title={intlHelper(intl, 'snFrilanser.arbeidsforhold.arbeidsform.fast.info.tittel')}>
+                    <FormattedMessage id="snFrilanser.arbeidsforhold.arbeidsform.fast.info.tekst" />
                 </ExpandableInfo>
             );
     }

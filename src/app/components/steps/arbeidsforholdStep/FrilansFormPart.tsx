@@ -81,21 +81,21 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                                 {
                                                     label: intlHelper(
                                                         intl,
-                                                        'frilanser.arbeidsforhold.arbeidsform.fast'
+                                                        'snFrilanser.arbeidsforhold.arbeidsform.fast'
                                                     ),
                                                     value: Arbeidsform.fast,
                                                 },
                                                 {
                                                     label: intlHelper(
                                                         intl,
-                                                        'frilanser.arbeidsforhold.arbeidsform.turnus'
+                                                        'snFrilanser.arbeidsforhold.arbeidsform.turnus'
                                                     ),
                                                     value: Arbeidsform.turnus,
                                                 },
                                                 {
                                                     label: intlHelper(
                                                         intl,
-                                                        'frilanser.arbeidsforhold.arbeidsform.varierende'
+                                                        'snFrilanser.arbeidsforhold.arbeidsform.varierende'
                                                     ),
                                                     value: Arbeidsform.varierende,
                                                 },
@@ -109,7 +109,7 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                                 name={getFieldName(ArbeidsforholdSNFField.jobberNormaltTimer)}
                                                 suffix={intlHelper(
                                                     intl,
-                                                    `frilanser.arbeidsforhold.arbeidsform.${frilans_arbeidsforhold.arbeidsform}.timer.suffix`
+                                                    `snFrilanser.arbeidsforhold.arbeidsform.${frilans_arbeidsforhold.arbeidsform}.timer.suffix`
                                                 )}
                                                 suffixStyle="text"
                                                 description={
@@ -149,7 +149,7 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                                 bredde="XS"
                                                 label={intlHelper(
                                                     intl,
-                                                    `frilanser.arbeidsforhold.iDag.${frilans_arbeidsforhold.arbeidsform}.spm`
+                                                    `snFrilanser.arbeidsforhold.iDag.${frilans_arbeidsforhold.arbeidsform}.spm`
                                                 )}
                                                 validate={(value: any) => {
                                                     return validateNumberInputValue({
