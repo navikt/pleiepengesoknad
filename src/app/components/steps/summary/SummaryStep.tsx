@@ -129,7 +129,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                 } = søkerdata;
 
                 const apiValues = mapFormDataToApiData(values, barn, intl.locale as Locale);
-
+                console.log(apiValues);
                 if (apiValues === undefined) {
                     return <div>Det oppstod en feil</div>;
                 }

@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { ArbeidsforholdSNFApi } from '../../types/PleiepengesøknadApiData';
+import { ArbeidsforholdSNFApi, SkalJobbe } from '../../types/PleiepengesøknadApiData';
 import { calcRedusertProsentFromRedusertTimer } from '../../utils/arbeidsforholdUtils';
 import './arbeidsforholdSNFSummary.less';
 
@@ -19,7 +19,7 @@ const ArbeidsforholdSNFSummary = ({
     const intl = useIntl();
     return (
         <div className={bem.block}>
-            {skalJobbe === 'redusert' && jobberNormaltTimer && (
+            {skalJobbe === SkalJobbe.REDUSERT && jobberNormaltTimer && (
                 <div className={bem.element('detaljer')}>
                     {skalJobbeTimer !== undefined ? (
                         <Normaltekst>
@@ -60,7 +60,7 @@ const ArbeidsforholdSNFSummary = ({
                     )}
                 </div>
             )}
-            {skalJobbe === 'vetIkke' && (
+            {skalJobbe === SkalJobbe.VET_IKKE && (
                 <div className={bem.element('detaljer')}>
                     <Normaltekst>
                         <FormattedMessage
@@ -71,7 +71,7 @@ const ArbeidsforholdSNFSummary = ({
                     </Normaltekst>
                 </div>
             )}
-            {skalJobbe !== 'vetIkke' && skalJobbe !== 'redusert' && (
+            {skalJobbe !== SkalJobbe.VET_IKKE && skalJobbe !== SkalJobbe.REDUSERT && (
                 <div className={bem.element('detaljer')}>
                     <Normaltekst>
                         <FormattedMessage

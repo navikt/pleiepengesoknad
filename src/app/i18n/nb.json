@@ -502,6 +502,13 @@
     "arbeidsforhold.oppsummering.svar.vetIkke": "Jeg vet ikke om jeg skal jobbe her i perioden jeg søker for, men jeg melder fra hvis jeg skal gjøre det. Jobber vanligvis {timer} i uka",
     "arbeidsforhold.oppsummering.svar.redusert.timer": "Skal jobbe {timerRedusert} i uka ({prosentRedusert} prosent av vanlig). Jobber normalt {timerNormalt} i uka",
     "arbeidsforhold.oppsummering.svar.redusert.prosent": "Skal jobbe {prosentRedusert} prosent av {timerNormalt} i uka.",
+
+    "arbeidsforhold.oppsummering.svar.JA": "Skal jobbe som vanlig. Jobber vanligvis {timer, plural, one {# time} other {# timer}} i uka",
+    "arbeidsforhold.oppsummering.svar.NEI": "Skal ikke jobbe. Jobber vanligvis {timer, plural, one {# time} other {# timer}} i uka",
+    "arbeidsforhold.oppsummering.svar.VET_IKKE": "Jeg vet ikke om jeg skal jobbe her i perioden jeg søker for, men jeg melder fra hvis jeg skal gjøre det. Jobber vanligvis {timer} i uka",
+    "arbeidsforhold.oppsummering.svar.REDUSERT.timer": "Skal jobbe {timerRedusert} i uka ({prosentRedusert} prosent av vanlig). Jobber normalt {timerNormalt} i uka",
+    "arbeidsforhold.oppsummering.svar.REDUSERT.prosent": "Skal jobbe {prosentRedusert} prosent av {timerNormalt} i uka.",
+
     "arbeidsforhold.oppsummering.jobberNormalt": "Jobber vanligvis {timer, plural, one {# time} other {# timer}} i uka",
     "arbeidsforhold.oppsummering.arbeidsform.FAST": "(fast antall timer per uke).",
     "arbeidsforhold.oppsummering.arbeidsform.TURNUS": "(turnus).",

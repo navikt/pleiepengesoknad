@@ -3,6 +3,7 @@ import {
     ArbeidsforholdSNFApi,
     ArbeidsforholdSNFApiNei,
     ArbeidsforholdSNFApiRedusert,
+    SkalJobbe,
     ArbeidsforholdSNFApiSomVanlig,
     ArbeidsforholdSNFApiVetIkke,
 } from '../../types/PleiepengesøknadApiData';
@@ -30,7 +31,7 @@ export const mapSNFArbeidsforholdToApiData = (
     if (skalJobbe === ArbeidsforholdSkalJobbeSvar.nei) {
         const forhold: ArbeidsforholdSNFApiNei = {
             ...{ arbeidsform },
-            skalJobbe: 'nei',
+            skalJobbe: SkalJobbe.NEI,
             skalJobbeProsent: 0,
             jobberNormaltTimer: jobberNormaltTimerNumber,
         };
@@ -46,7 +47,7 @@ export const mapSNFArbeidsforholdToApiData = (
         }
         const redusertForhold: ArbeidsforholdSNFApiRedusert = {
             ...{ arbeidsform },
-            skalJobbe: 'redusert',
+            skalJobbe: SkalJobbe.REDUSERT,
             jobberNormaltTimer: jobberNormaltTimerNumber,
             ...(timerEllerProsent === 'timer' && skalJobbeTimer
                 ? {
@@ -65,7 +66,7 @@ export const mapSNFArbeidsforholdToApiData = (
     if (skalJobbe === ArbeidsforholdSkalJobbeSvar.vetIkke) {
         const vetIkkeForhold: ArbeidsforholdSNFApiVetIkke = {
             ...{ arbeidsform },
-            skalJobbe: 'vetIkke',
+            skalJobbe: SkalJobbe.VET_IKKE,
             jobberNormaltTimer: jobberNormaltTimerNumber,
             skalJobbeProsent: 0,
         };
@@ -73,7 +74,7 @@ export const mapSNFArbeidsforholdToApiData = (
     }
     const forholdSomVanlig: ArbeidsforholdSNFApiSomVanlig = {
         ...{ arbeidsform },
-        skalJobbe: 'ja',
+        skalJobbe: SkalJobbe.JA,
         skalJobbeProsent: 100,
         jobberNormaltTimer: jobberNormaltTimerNumber,
     };

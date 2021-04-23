@@ -24,8 +24,15 @@ export interface ArbeidsforholdApi {
     skalJobbeProsent?: number;
 }
 
+export enum SkalJobbe {
+    JA = 'JA',
+    NEI = 'NEI',
+    REDUSERT = 'REDUSERT',
+    VET_IKKE = 'VET_IKKE',
+}
+
 export interface ArbeidsforholdSNFApi {
-    skalJobbe?: 'ja' | 'nei' | 'redusert' | 'vetIkke';
+    skalJobbe?: SkalJobbe;
     arbeidsform?: Arbeidsform;
     jobberNormaltTimer?: number;
     skalJobbeTimer?: number;
