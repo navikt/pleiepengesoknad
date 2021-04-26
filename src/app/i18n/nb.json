@@ -117,6 +117,9 @@
     "step.arbeidsforholdIPerioden.pageTitle": "Pleiepengesøknad - opplysninger om jobb i perioden",
     "step.arbeidsforholdIPerioden.stepTitle": "Jobb i perioden med pleiepenger",
     "step.arbeidsforholdIPerioden.stepIndicatorLabel": "Jobb i perioden med pleiepenger",
+    "step.arbeidsforholdIPerioden.StepInfo": "Her skal du opplyse om du skal jobbe noe i samme periode som du skal ha pleiepenger. Det kan for eksempel være at kan jobbe fordi du skal dele pleiepengene med en annen omsorgsperson, eller at barnet skal være noe på skolen eller i barnehagen.",
+    "step.arbeidsforholdIPerioden.FrilansLabel": "Frilans",
+    "step.arbeidsforholdIPerioden.SNLabel": "Selvstendig næringsdrivende",
 
     "step.omsorgstilbud.pageTitle": "Pleiepengesøknad - omsorgstilbud",
     "step.omsorgstilbud.stepTitle": "Omsorgstilbud",
@@ -376,6 +379,7 @@
     "page.confirmation.dinePP.lenke": "Gå til Dine pleiepenger",
 
     "page.generalErrorPage.sidetittel": "Feil",
+
     "page.generalErrorPage.tittel": "Noe gikk galt...",
     "page.generalErrorPage.tekst": "Beklager, her har det dessverre skjedd en feil.",
 
@@ -425,6 +429,7 @@
     "fieldvalidation.er_helg": "Lørdag og søndag er ikke gyldig.",
     "fieldvalidation.relasjon_forMangeTegn": "For mange tegn. Maks antall tegn er 1000.",
     "fieldvalidation.relasjon_forFåTegn": "For få tegn.",
+    "fieldvalidation.selvstendig.må_registrere_alle_selskapene": "Du må registrere alle næringsvirksomheter og trykke \"Ja\" i spørsmål \"Har du lagt inn alle virksomhetene dine?\" før du kan fortsette",
 
     "arbeidsforhold.erAnsattIPerioden.spm": "Er du ansatt her i perioden du søker pleiepenger?",
 
@@ -453,6 +458,8 @@
     "arbeidsforhold.arbeidsform.VARIERENDE.timer.suffix": "timer i snitt per uke",
 
     "arbeidsforhold.arbeidsforhold.spm": "Skal du jobbe her i samme periode som du søker pleiepenger?",
+    "arbeidsforhold.arbeidsforhold.frilanser.spm": "Skal du jobbe som frilanser i samme periode som du søker pleiepenger?",
+    "arbeidsforhold.arbeidsforhold.sn.spm": "Skal du jobbe som selvstendig i samme periode som du søker pleiepenger?",
     "arbeidsforhold.arbeidsforhold.ja": "Ja, jeg skal jobbe som vanlig",
     "arbeidsforhold.arbeidsforhold.nei": "Nei, jeg skal ikke jobbe",
     "arbeidsforhold.arbeidsforhold.vetIkke": "Vet ikke, men jeg melder fra hvis jeg skal jobbe i perioden jeg søker for",
@@ -480,6 +487,13 @@
     "arbeidsforhold.oppsummering.svar.vetIkke": "Jeg vet ikke om jeg skal jobbe her i perioden jeg søker for, men jeg melder fra hvis jeg skal gjøre det. Jobber vanligvis {timer} i uka",
     "arbeidsforhold.oppsummering.svar.redusert.timer": "Skal jobbe {timerRedusert} i uka ({prosentRedusert} prosent av vanlig). Jobber normalt {timerNormalt} i uka",
     "arbeidsforhold.oppsummering.svar.redusert.prosent": "Skal jobbe {prosentRedusert} prosent av {timerNormalt} i uka.",
+
+    "arbeidsforhold.oppsummering.svar.JA": "Skal jobbe som vanlig. Jobber vanligvis {timer, plural, one {# time} other {# timer}} i uka",
+    "arbeidsforhold.oppsummering.svar.NEI": "Skal ikke jobbe. Jobber vanligvis {timer, plural, one {# time} other {# timer}} i uka",
+    "arbeidsforhold.oppsummering.svar.VET_IKKE": "Jeg vet ikke om jeg skal jobbe her i perioden jeg søker for, men jeg melder fra hvis jeg skal gjøre det. Jobber vanligvis {timer} i uka",
+    "arbeidsforhold.oppsummering.svar.REDUSERT.timer": "Skal jobbe {timerRedusert} i uka ({prosentRedusert} prosent av vanlig). Jobber normalt {timerNormalt} i uka",
+    "arbeidsforhold.oppsummering.svar.REDUSERT.prosent": "Skal jobbe {prosentRedusert} prosent av {timerNormalt} i uka.",
+
     "arbeidsforhold.oppsummering.jobberNormalt": "Jobber vanligvis {timer, plural, one {# time} other {# timer}} i uka",
     "arbeidsforhold.oppsummering.arbeidsform.FAST": "(fast antall timer per uke).",
     "arbeidsforhold.oppsummering.arbeidsform.TURNUS": "(turnus).",
@@ -534,12 +548,54 @@
     "selvstendig.list.tittel": "Dine registrerte næringsvirksomheter",
     "selvstendig.list.leggTilLabel": "Legg til næringsvirksomhet",
     "selvstendig.dialog.tittel": "Næringsvirksomhet",
+
+    "selvstendig.harLagtInnAlleSelskap.spm": "Har du lagt inn alle virksomhetene dine?",
+    "selvstendig.harLagtInnAlleSelskap.alertStripeAdvarsel": "Du må registrere alle selskapene før du kan fortsette",
+    "selvstendig.arbeidsforhold.spm": "Hvordan jobber du som selvstendig?",
+
     "selvstendig.summary.header": "Selvstendig næringsdrivende",
     "selvstendig.summary.harDuHattInntekt.header": "Har du hatt inntekt som selvstendig næringsdrivende i de siste 4 ukene?",
+    "selvstendig.summary.arbeidsforhold.header": "Hvordan jobber du som selvstendig?",
 
     "frilanser.harDuHattInntekt.spm": "Har du jobbet og hatt inntekt som frilanser i de siste 4 ukene?",
     "frilanser.nårStartet.spm": "Når startet du som frilanser?",
     "frilanser.jobberFortsatt.spm": "Jobber du fortsatt som frilanser?",
+
+    "frilanser.HvorMangeTimerFast.spm": "Hvor mange timer jobber du vanligvis fast per uke?",
+    "frilanser.HvorMangeTimerISnitt.spm": "Hvor mange timer jobber du vanligvis i snitt per uke?",
+
+    "frilanser.arbeidsforhold.arbeidsform.spm": "Hvordan jobber du som frilanser?",
+    "snFrilanser.arbeidsforhold.arbeidsform.fast": "Fast antall timer per uke",
+    "snFrilanser.arbeidsforhold.arbeidsform.fast.info.tittel": "Hva betyr dette?",
+    "snFrilanser.arbeidsforhold.arbeidsform.fast.info.tekst": "Her skal du legge inn antall timer du jobber per uke.",
+    "snFrilanser.arbeidsforhold.arbeidsform.FAST.timer.suffix": "timer fast per uke",
+
+    "snFrilanser.arbeidsforhold.arbeidsform.turnus": "Turnus",
+    "snFrilanser.arbeidsforhold.arbeidsform.turnus.info.tittel": "Hvordan regner jeg ut et snitt av turnusen min?",
+    "snFrilanser.arbeidsforhold.arbeidsform.turnus.info.tekst.1": "Du regner ut snittet ved å legge sammen antall timer du jobber totalt i hele turnusperioden din, og deler det med antall uker som turnusperioden din består av.",
+    "snFrilanser.arbeidsforhold.arbeidsform.turnus.info.tekst.2": "Du har en turnus som går over 3 uker. Den første uka jobber du 20 timer, den andre 40 timer og den tredje uka jobber du 15 timer. Da legger du sammen antall timer du har jobbet og deler med antall uker i turnusperioden din.",
+    "snFrilanser.arbeidsforhold.arbeidsform.turnus.info.tekst.3": "Da blir regnestykket slik i dette eksempelet:",
+    "snFrilanser.arbeidsforhold.arbeidsform.turnus.info.tekst.4": "20 timer + 40 timer + 15 timer = 75 timer",
+    "snFrilanser.arbeidsforhold.arbeidsform.turnus.info.tekst.5": "Så deler du antall timer med antall uker i turnusperioden din: 75 / 3 = 25",
+    "snFrilanser.arbeidsforhold.arbeidsform.turnus.info.tekst.6": "Du jobber altså i snitt 25 timer per uke, og det er dette tallet du oppgir.",
+    "snFrilanser.arbeidsforhold.arbeidsform.turnus.info.tekst.eksempel": "Eksempel:",
+    "snFrilanser.arbeidsforhold.arbeidsform.TURNUS.timer.suffix": "timer i snitt per uke",
+
+    "snFrilanser.arbeidsforhold.arbeidsform.varierende": "Deltid/varierende/tilkalling",
+    "snFrilanser.arbeidsforhold.arbeidsform.varierende.info.tittel": "Hvordan regner jeg ut et snitt i min situasjon?",
+    "snFrilanser.arbeidsforhold.arbeidsform.varierende.info.tekst.1": "Hvis du har flere frilansoppdrag skal du svare samlet for alle.",
+    "snFrilanser.arbeidsforhold.arbeidsform.VARIERENDE.timer.suffix": "timer i snitt per uke",
+
+    "snFrilanser.arbeidsforhold.iDag.FAST.spm": "Hvor mange timer jobber du vanligvis fast per uke?",
+    "snFrilanser.arbeidsforhold.iDag.TURNUS.spm": "Hvor mange timer jobber du vanligvis i snitt per uke?",
+    "snFrilanser.arbeidsforhold.iDag.VARIERENDE.spm": "Hvor mange timer jobber du vanligvis i snitt per uke?",
+    "snFrilanser.arbeidsforhold.iDag.utledet": "timer i uka",
+
+    "frilanser.arbeidsforhold.summary.arbeidsform.spm": "Hvordan jobber du som frilanser?",
+
+    "snF.ArbeidsforholdDetaljer.hvaBetyr.spm": "Hva betyr dette?",
+    "snF.ArbeidsforholdDetaljer.hvaBetyr.frilanser.info": "Hvis du jobber som frilanser flere steder skal du her svare samlet for alle oppdragene. Hvis du f.eks. skal jobbe i en av to frilansforhold skal du her svare \"Ja, men jeg skal jobbe mindre enn vanlig\".",
+    "snF.ArbeidsforholdDetaljer.hvaBetyr.SN.info": "Hvis du jobber som selvstendig i flere virksomheter skal du her svare samlet for alle virksomhetene dine. Hvis du f.eks. skal jobbe i en av to virksomheter skal du her svare \"Ja, men jeg skal jobbe mindre enn vanlig\".",
 
     "frilanser.hjelpetekst.spm": "Hva er en frilanser?",
     "frilanser.hjelpetekst.titel": "Eksempel på hvem som kan være frilansere er:",
