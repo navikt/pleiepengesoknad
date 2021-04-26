@@ -12,6 +12,7 @@ import { Feature, isFeatureEnabled } from './featureToggleUtils';
 import { mapArbeidsforholdToApiData } from './formToApiMaps/mapArbeidsforholdToApiData';
 import { mapBarnToApiData } from './formToApiMaps/mapBarnToApiData';
 import { mapBostedUtlandToApiData } from './formToApiMaps/mapBostedUtlandToApiData';
+import { mapSNFArbeidsforholdToApiData } from './formToApiMaps/mapSNFArbeidsforholdToApiData';
 import { mapFrilansToApiData } from './formToApiMaps/mapFrilansToApiData';
 import { mapTilsynsordningToApiData } from './formToApiMaps/mapTilsynsordningToApiData';
 import { mapUtenlandsoppholdIPeriodenToApiData } from './formToApiMaps/mapUtenlandsoppholdIPeriodenToApiData';
@@ -183,11 +184,16 @@ export const mapFormDataToApiData = (
 
             if (formData.selvstendig_virksomheter) {
                 const harHattInntektSomSn = formData.selvstendig_harHattInntektSomSN === YesOrNo.YES;
+
                 apiData.harHattInntektSomSelvstendigNæringsdrivende = harHattInntektSomSn;
                 if (harHattInntektSomSn) {
                     apiData.selvstendigVirksomheter = formData.selvstendig_virksomheter.map((v) =>
                         mapVirksomhetToVirksomhetApiData(locale, v)
                     );
+
+                    apiData.selvstendigArbeidsforhold = formData.selvstendig_arbeidsforhold
+                        ? mapSNFArbeidsforholdToApiData(formData.selvstendig_arbeidsforhold)
+                        : undefined;
                 }
             }
 

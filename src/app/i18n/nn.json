@@ -117,6 +117,8 @@
     "step.arbeidsforholdIPerioden.pageTitle": "Pleiepengesøknad – opplysningar om jobb i perioden",
     "step.arbeidsforholdIPerioden.stepTitle": "Jobb i perioden med pleiepengar",
     "step.arbeidsforholdIPerioden.stepIndicatorLabel": "Jobb i perioden med pleiepengar",
+    "step.arbeidsforholdIPerioden.FrilansLabel": "Frilans",
+    "step.arbeidsforholdIPerioden.SNLabel": "Sjølvstendig næringsdrivande",
 
     "step.omsorgstilbud.pageTitle": "Pleiepengesøknad – omsorgstilbod",
     "step.omsorgstilbud.stepTitle": "Omsorgstilbod",
@@ -495,6 +497,13 @@
     "arbeidsforhold.oppsummering.svar.vetIkke": "Eg veit ikkje om eg skal jobbe her i perioden eg søkjer for, men eg melder frå dersom eg skal gjere det. Jobbar vanlegvis {timer} i veka.",
     "arbeidsforhold.oppsummering.svar.redusert.timer": "Skal jobbe {timerRedusert} i uka ({prosentRedusert} prosent av vanleg). Jobbar normalt {timerNormalt} i veka.",
     "arbeidsforhold.oppsummering.svar.redusert.prosent": "Skal jobbe {prosentRedusert} prosent av {timerNormalt} i veka.",
+
+    "arbeidsforhold.oppsummering.svar.JA": "Skal jobbe som vanleg. Jobbar normalt {timer, plural, one {# time} other {# timer}} i veka.",
+    "arbeidsforhold.oppsummering.svar.NEI": "Skal ikkje jobbe. Jobbar normalt {timer, plural, one {# time} other {# timer}} i veka.",
+    "arbeidsforhold.oppsummering.svar.VET_IKKE": "Eg veit ikkje om eg skal jobbe her i perioden eg søkjer for, men eg melder frå dersom eg skal gjere det. Jobbar vanlegvis {timer} i veka.",
+    "arbeidsforhold.oppsummering.svar.REDUSERT.timer": "Skal jobbe {timerRedusert} i uka ({prosentRedusert} prosent av vanleg). Jobbar normalt {timerNormalt} i veka.",
+    "arbeidsforhold.oppsummering.svar.REDUSERT.prosent": "Skal jobbe {prosentRedusert} prosent av {timerNormalt} i veka.",
+
     "arbeidsforhold.oppsummering.jobberNormalt": "Jobbar normalt {timer, plural, one {# time} other {# timer}} i veka.",
     "arbeidsforhold.oppsummering.arbeidsform.FAST": "(fast tal timar per veke).",
     "arbeidsforhold.oppsummering.arbeidsform.TURNUS": "(turnus).",
@@ -555,6 +564,37 @@
     "frilanser.harDuHattInntekt.spm": "Har du jobba og hatt inntekt som frilansar i dei siste 4 vekene?",
     "frilanser.nårStartet.spm": "Når starta du som frilansar?",
     "frilanser.jobberFortsatt.spm": "Jobbar du framleis som frilansar?",
+
+    "frilanser.HvorMangeTimerFast.spm": "Kor mange timar jobbar du fast per veke?",
+    "frilanser.HvorMangeTimerISnitt.spm": "Kor mange timar jobbar du i snitt per veke?",
+
+    "snFrilanser.arbeidsforhold.arbeidsform.fast": "Fast tal timar per veke",
+    "snFrilanser.arbeidsforhold.arbeidsform.fast.info.tittel": "Kva betyr dette?",
+    "snFrilanser.arbeidsforhold.arbeidsform.fast.info.tekst": "Her skal du leggje inn talet på timar som du jobbar kvar veke. Dersom du er usikker på talet, må du høyre med arbeidsgivaren din, eller finne svaret i arbeidskontrakten din.",
+    "snFrilanser.arbeidsforhold.arbeidsform.FAST.timer.suffix": "timar fast per veke",
+
+    "snFrilanser.arbeidsforhold.arbeidsform.turnus": "Turnus",
+    "snFrilanser.arbeidsforhold.arbeidsform.turnus.info.tittel": "Korleis reknar eg ut eit snitt av turnusen min?",
+    "snFrilanser.arbeidsforhold.arbeidsform.turnus.info.tekst.1": "Du reknar ut snittet ved å leggje saman talet på timar du jobbar totalt i heile turnusperioden din, og deler det med talet på veker i turnusperioden din.",
+    "snFrilanser.arbeidsforhold.arbeidsform.turnus.info.tekst.2": "Du har ein turnus som går over 3 veker. Den første veka jobbar du 20 timar, den andre 40 timar og den tredje veka jobbar du 15 timar. Då legg du saman talet på timar du har jobba, og deler med talet på veker i turnusperioden din.",
+    "snFrilanser.arbeidsforhold.arbeidsform.turnus.info.tekst.3": "Då blir reknestykket slik i dette eksempelet:",
+    "snFrilanser.arbeidsforhold.arbeidsform.turnus.info.tekst.4": "20 timar + 40 timar + 15 timar = 75 timar",
+    "snFrilanser.arbeidsforhold.arbeidsform.turnus.info.tekst.5": "Så deler du talet på timar med talet på veker i turnusperioden din: 75 / 3 = 25",
+    "snFrilanser.arbeidsforhold.arbeidsform.turnus.info.tekst.6": "Du jobbar altså i snitt 25 timar per veke, og det er dette talet du gir opp.",
+    "snFrilanser.arbeidsforhold.arbeidsform.turnus.info.tekst.eksempel": "Eksempel:",
+    "snFrilanser.arbeidsforhold.arbeidsform.TURNUS.timer.suffix": "timar snitt per veke",
+
+    "snFrilanser.arbeidsforhold.arbeidsform.varierende": "Deltid/vikarierande/tilkalling",
+    "snFrilanser.arbeidsforhold.arbeidsform.varierende.info.tittel": "Korleis reknar eg ut eit snitt i min situasjon?",
+    "snFrilanser.arbeidsforhold.arbeidsform.varierende.info.tekst.1": "Du reknar ut eit snitt ved å leggje saman talet på timar du totalt har jobba dei siste vekene, og deler det med 12.",
+    "snFrilanser.arbeidsforhold.arbeidsform.VARIERENDE.timer.suffix": "timar i snitt per veke",
+
+    "snFrilanser.arbeidsforhold.iDag.FAST.spm": "Kor mange timar jobbar du fast per veke?",
+    "snFrilanser.arbeidsforhold.iDag.TURNUS.spm": "Kor mange timar jobbar du i snitt per veke?",
+    "snFrilanser.arbeidsforhold.iDag.VARIERENDE.spm": "Kor mange timar jobbar du i snitt per veke hos?",
+    "snFrilanser.arbeidsforhold.iDag.utledet": "timar i veka",
+
+    "snF.ArbeidsforholdDetaljer.hvaBetyr.spm": "Kva betyr dette?",
 
     "frilanser.hjelpetekst.spm": "Kva er ein frilansar?",
     "frilanser.hjelpetekst.titel": "Eksempel på kven som kan vere frilansarar er:",

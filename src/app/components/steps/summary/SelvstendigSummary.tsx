@@ -11,9 +11,12 @@ import IntlLabelValue from './IntlLabelValue';
 import JaNeiSvar from './JaNeiSvar';
 import Sitat from './Sitat';
 import SummaryBlock from './SummaryBlock';
+import { ArbeidsforholdSNFApi } from '../../../types/PleiepengesøknadApiData';
+import ArbeidsforholdSNFSummary from '../../../components/arbeidsforholdSNF-summary/ArbeidsforholdSNFSummary';
 
 interface Props {
     selvstendigVirksomheter?: VirksomhetApiData[];
+    arbeidsforholdSN?: ArbeidsforholdSNFApi;
 }
 
 const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape) => {
@@ -109,7 +112,7 @@ const renderVirksomhetSummary = (virksomhet: VirksomhetApiData, intl: IntlShape)
     );
 };
 
-function SelvstendigSummary({ selvstendigVirksomheter = [] }: Props) {
+function SelvstendigSummary({ selvstendigVirksomheter = [], arbeidsforholdSN }: Props) {
     const intl = useIntl();
     const harSelvstendigVirksomheter = selvstendigVirksomheter.length > 0;
     return (
@@ -117,12 +120,18 @@ function SelvstendigSummary({ selvstendigVirksomheter = [] }: Props) {
             <SummaryBlock header={intlHelper(intl, 'selvstendig.summary.harDuHattInntekt.header')}>
                 <JaNeiSvar harSvartJa={harSelvstendigVirksomheter} />
             </SummaryBlock>
+
             {harSelvstendigVirksomheter && (
                 <SummaryBlock header="Virksomheter:">
                     <SummaryList
                         items={selvstendigVirksomheter}
                         itemRenderer={(virksomhet) => renderVirksomhetSummary(virksomhet, intl)}
                     />
+                </SummaryBlock>
+            )}
+            {arbeidsforholdSN && (
+                <SummaryBlock header={intlHelper(intl, 'selvstendig.summary.arbeidsforhold.header')}>
+                    <ArbeidsforholdSNFSummary arbeidsforhold={arbeidsforholdSN} />
                 </SummaryBlock>
             )}
         </>
