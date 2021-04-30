@@ -1,5 +1,4 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { validateFødselsnummer } from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import { AppFormField, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import * as fieldValidations from '../fieldValidations';
 import {
@@ -19,12 +18,6 @@ jest.mock('./../fieldValidations', () => {
         validateNavn: jest.fn(() => undefined),
         validateFødselsnummer: jest.fn(() => undefined),
         validateValgtBarn: jest.fn(() => undefined),
-    };
-});
-
-jest.mock('@navikt/sif-common-core/lib/validation/fieldValidations', () => {
-    return {
-        validateFødselsnummer: jest.fn(() => undefined),
     };
 });
 
@@ -76,7 +69,7 @@ describe('stepValidation tests', () => {
             });
 
             it(`should be invalid if ${AppFormField.barnetsFødselsnummer} is invalid`, () => {
-                (validateFødselsnummer as Mock).mockReturnValue('some error message');
+                (fieldValidations.validateFødselsnummer as Mock).mockReturnValue('some error message');
                 expect(opplysningerOmBarnetStepIsValid(formData as PleiepengesøknadFormData)).toBe(false);
             });
         });

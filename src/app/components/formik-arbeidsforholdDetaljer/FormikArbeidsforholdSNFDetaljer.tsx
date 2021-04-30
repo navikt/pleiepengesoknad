@@ -1,16 +1,16 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { validateRequiredField } from '@navikt/sif-common-core/lib/validation/fieldValidations';
+import { getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
 import {
     AppFormField,
+    ArbeidsforholdSkalJobbeSvar,
     ArbeidsforholdSNF,
     ArbeidsforholdSNFField,
-    ArbeidsforholdSkalJobbeSvar,
 } from '../../types/PleiepengesøknadFormData';
 import AppForm from '../app-form/AppForm';
 import RedusertArbeidsforholdSNFDetaljerPart from './RedusertArbeidsforholdSNFDetaljerPart';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 interface Props {
     snF_arbeidsforhold: ArbeidsforholdSNF;
@@ -40,7 +40,7 @@ const FormikArbeidsforholdSNFDetaljer = ({ snF_arbeidsforhold, appFormField }: P
                     </ExpandableInfo>
                 }
                 name={getFieldName(ArbeidsforholdSNFField.skalJobbe)}
-                validate={validateRequiredField}
+                validate={getRequiredFieldValidator()}
                 radios={[
                     {
                         label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.nei'),

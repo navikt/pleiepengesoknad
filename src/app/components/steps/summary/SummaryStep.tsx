@@ -12,8 +12,9 @@ import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { apiStringDateToDate, prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
-import { hasValue } from '@navikt/sif-common-core/lib/validation/hasValue';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import { getCheckedValidator } from '@navikt/sif-common-formik/lib/validation';
+import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
 import Panel from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { purge, sendApplication } from '../../../api/api';
@@ -373,7 +374,8 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                 {/* Næringsinntekt */}
                                 <SummarySection header={intlHelper(intl, 'selvstendig.summary.header')}>
                                     <SelvstendigSummary
-                                        selvstendigVirksomheter={apiValues.selvstendigVirksomheter}
+                                        virksomhet={apiValues.selvstendigVirksomhet}
+                                        harFlereVirksomheter={apiValues.harFlereVirksomheter}
                                         arbeidsforholdSN={apiValues.selvstendigArbeidsforhold}
                                     />
                                 </SummarySection>
@@ -461,16 +463,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                             <AppForm.ConfirmationCheckbox
                                 label={intlHelper(intl, 'steg.oppsummering.bekrefterOpplysninger')}
                                 name={AppFormField.harBekreftetOpplysninger}
-                                validate={(value) => {
-                                    let result;
-                                    if (value !== true) {
-                                        result = intlHelper(
-                                            intl,
-                                            'steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet'
-                                        );
-                                    }
-                                    return result;
-                                }}
+                                validate={getCheckedValidator()}
                             />
                         </Box>
                     </FormikStep>

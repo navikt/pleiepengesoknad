@@ -4,14 +4,15 @@ import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { decimalTimeToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { validateRequiredField, validateRequiredNumber } from '@navikt/sif-common-core/lib/validation/fieldValidations';
-import { FormikNumberInput, FormikRadioPanelGroup, getNumberFromNumberInputValue } from '@navikt/sif-common-formik';
+import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik';
+import { getNumberValidator, getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
 import { AppFormField, ArbeidsforholdSNF, ArbeidsforholdSNFField } from '../../types/PleiepengesøknadFormData';
 import {
     calcReduserteTimerFromRedusertProsent,
     calcRedusertProsentFromRedusertTimer,
 } from '../../utils/arbeidsforholdUtils';
 import { validateReduserteArbeidTimer } from '../../validation/fieldValidations';
+import AppForm from '../app-form/AppForm';
 
 interface Props {
     frilans_arbeidsforhold: ArbeidsforholdSNF;
@@ -62,10 +63,10 @@ const RedusertArbeidsforholdSNFDetaljerPart = ({ frilans_arbeidsforhold, getFiel
             {arbeidsform !== undefined && (
                 <>
                     <Box margin="xl">
-                        <FormikRadioPanelGroup<AppFormField>
+                        <AppForm.RadioPanelGroup
                             name={getFieldName(ArbeidsforholdSNFField.timerEllerProsent)}
                             legend={intlHelper(intl, 'arbeidsforhold.hvorMye.spm')}
-                            validate={validateRequiredField}
+                            validate={getRequiredFieldValidator()}
                             useTwoColumns={true}
                             radios={[
                                 {
@@ -81,14 +82,12 @@ const RedusertArbeidsforholdSNFDetaljerPart = ({ frilans_arbeidsforhold, getFiel
                     </Box>
                     {timerEllerProsent === 'timer' && (
                         <Box margin="xl">
-                            <FormikNumberInput<AppFormField>
+                            <AppForm.NumberInput
                                 name={getFieldName(ArbeidsforholdSNFField.skalJobbeTimer)}
                                 label={intlHelper(intl, 'arbeidsforhold.timer.spm')}
                                 suffix={getLabelForTimerRedusert(intl, jobberNormaltTimerNumber, skalJobbeTimerNumber)}
                                 suffixStyle="text"
-                                validate={(value: any) =>
-                                    validateReduserteArbeidTimer(value, jobberNormaltTimerNumber, true)
-                                }
+                                validate={(value: any) => validateReduserteArbeidTimer(value, jobberNormaltTimerNumber)}
                                 value={skalJobbeTimer || ''}
                             />
                         </Box>
@@ -97,7 +96,7 @@ const RedusertArbeidsforholdSNFDetaljerPart = ({ frilans_arbeidsforhold, getFiel
                     {timerEllerProsent === 'prosent' && (
                         <>
                             <Box margin="xl">
-                                <FormikNumberInput<AppFormField>
+                                <AppForm.NumberInput
                                     name={getFieldName(ArbeidsforholdSNFField.skalJobbeProsent)}
                                     label={intlHelper(intl, 'arbeidsforhold.prosent.spm')}
                                     suffix={getLabelForProsentRedusert(
@@ -106,7 +105,7 @@ const RedusertArbeidsforholdSNFDetaljerPart = ({ frilans_arbeidsforhold, getFiel
                                         skalJobbeProsentNum
                                     )}
                                     suffixStyle="text"
-                                    validate={validateRequiredNumber({ min: 1, max: 99 })}
+                                    validate={getNumberValidator({ required: true, min: 1, max: 99 })}
                                     value={skalJobbeProsent || ''}
                                 />
                             </Box>

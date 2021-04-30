@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { useLogSidevisning } from '@navikt/sif-common-amplitude';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import getIntlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
 import { useFormikContext } from 'formik';
 import { Knapp } from 'nav-frontend-knapper';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import { commonFieldErrorRenderer } from '@navikt/sif-common-core/lib/utils/commonFieldErrorRenderer';
 import { getStepConfig } from '../../config/stepConfig';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { getStepTexts } from '../../utils/stepUtils';
@@ -40,10 +40,9 @@ const FormikStep = (props: Props) => {
                 includeValidationSummary={true}
                 runDelayedFormValidation={true}
                 cleanup={props.onStepCleanup}
-                fieldErrorRenderer={(error) => commonFieldErrorRenderer(intl, error)}>
+                formErrorHandler={getIntlFormErrorHandler(intl, 'validation')}>
                 {children}
                 {customErrorSummary && <FormBlock>{customErrorSummary()}</FormBlock>}
-
                 <FormBlock>
                     <Knapp
                         type="hoved"

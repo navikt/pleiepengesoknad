@@ -1,21 +1,21 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import { useFormikContext } from 'formik';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { date1YearAgo, date1YearFromNow, date3YearsAgo, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { validateYesOrNoIsAnswered } from '@navikt/sif-common-core/lib/validation/fieldValidations';
-import { IntlFieldValidationError } from '@navikt/sif-common-core/lib/validation/types';
 import { TypedFormikFormContext } from '@navikt/sif-common-formik';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import { getStringValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import FerieuttakListAndDialog from '@navikt/sif-common-forms/lib/ferieuttak/FerieuttakListAndDialog';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import UtenlandsoppholdListAndDialog from '@navikt/sif-common-forms/lib/utenlandsopphold/UtenlandsoppholdListAndDialog';
+import { useFormikContext } from 'formik';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
@@ -24,7 +24,6 @@ import { erPeriodeOver8Uker } from '../../../utils/søkerOver8UkerUtils';
 import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet } from '../../../utils/tidsromUtils';
 import { getVarighetString } from '../../../utils/varighetUtils';
 import {
-    validateBekreftOmsorgEkstrainfo,
     validateFerieuttakIPerioden,
     validateFradato,
     validateTildato,
@@ -61,14 +60,14 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
         return validateTildato(date, values.periodeFra);
     };
 
-    const validateBekreft8uker = (value: YesOrNo): IntlFieldValidationError | undefined => {
-        const err = validateYesOrNoIsAnswered(value);
+    const validateBekreft8uker = (value: YesOrNo): ValidationError | undefined => {
+        const err = getYesOrNoValidator()(value);
         if (err) {
             return err;
         }
 
         if (value === YesOrNo.NO && info8uker && info8uker?.erOver8Uker) {
-            const error: IntlFieldValidationError = {
+            const error: ValidationError = {
                 key: 'fieldvalidation.periodeErOver8UkerMenIkkeØnsket',
                 values: {
                     varighet: getVarighetString(info8uker.antallDager, intl),
@@ -139,7 +138,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                             <AppForm.YesOrNoQuestion
                                 legend={intlHelper(intl, 'steg.tidsrom.skalPassePåBarnetIHelePerioden.spm')}
                                 name={AppFormField.skalPassePåBarnetIHelePerioden}
-                                validate={validateYesOrNoIsAnswered}
+                                validate={getYesOrNoValidator()}
                             />
                         </Box>
                         {brukerSkalBeskriveOmsorgForBarnet(values, søkerdata.barn) && (
@@ -147,7 +146,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                                 <AppForm.Textarea
                                     label={intlHelper(intl, 'steg.tidsrom.bekreftOmsorgEkstrainfo.spm')}
                                     name={AppFormField.beskrivelseOmsorgsrolleIPerioden}
-                                    validate={validateBekreftOmsorgEkstrainfo}
+                                    validate={getStringValidator({ maxLength: 1000, required: true })}
                                     maxLength={1000}
                                 />
                             </Box>
@@ -159,7 +158,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                 <AppForm.YesOrNoQuestion
                     legend={intlHelper(intl, 'steg.tidsrom.annenSamtidig.spm')}
                     name={AppFormField.harMedsøker}
-                    validate={validateYesOrNoIsAnswered}
+                    validate={getYesOrNoValidator()}
                 />
             </Box>
 
@@ -168,7 +167,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                     <AppForm.YesOrNoQuestion
                         legend={intlHelper(intl, 'steg.tidsrom.samtidigHjemme.spm')}
                         name={AppFormField.samtidigHjemme}
-                        validate={validateYesOrNoIsAnswered}
+                        validate={getYesOrNoValidator()}
                     />
                 </Box>
             )}
@@ -179,7 +178,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                         <AppForm.YesOrNoQuestion
                             legend={intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.spm')}
                             name={AppFormField.skalOppholdeSegIUtlandetIPerioden}
-                            validate={validateYesOrNoIsAnswered}
+                            validate={getYesOrNoValidator()}
                         />
                     </Box>
                     {values.skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES && (
@@ -216,7 +215,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                 <AppForm.YesOrNoQuestion
                     legend={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.spm')}
                     name={AppFormField.skalTaUtFerieIPerioden}
-                    validate={validateYesOrNoIsAnswered}
+                    validate={getYesOrNoValidator()}
                     description={
                         <ExpandableInfo title={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.veileder.tittel')}>
                             <FormattedMessage id="steg.tidsrom.ferieuttakIPerioden.veileder" />

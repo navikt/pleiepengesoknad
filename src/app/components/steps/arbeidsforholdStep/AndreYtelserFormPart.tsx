@@ -3,10 +3,7 @@ import { useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import {
-    validateRequiredList,
-    validateYesOrNoIsAnswered,
-} from '@navikt/sif-common-core/lib/validation/fieldValidations';
+import { getListValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import Panel from 'nav-frontend-paneler';
 import { AndreYtelserFraNAV, AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import AppForm from '../../app-form/AppForm';
@@ -23,7 +20,7 @@ const AndreYtelserFormPart = ({ formValues: { mottarAndreYtelser } }: Props) => 
                 <AppForm.YesOrNoQuestion
                     name={AppFormField.mottarAndreYtelser}
                     legend={intlHelper(intl, 'steg.arbeidsforhold.andreYtelser.spm')}
-                    validate={validateYesOrNoIsAnswered}
+                    validate={getYesOrNoValidator()}
                 />
             </Box>
             {mottarAndreYtelser === YesOrNo.YES && (
@@ -36,7 +33,7 @@ const AndreYtelserFormPart = ({ formValues: { mottarAndreYtelser } }: Props) => 
                                 label: intlHelper(intl, `NAV_YTELSE.${ytelse}`),
                                 value: ytelse,
                             }))}
-                            validate={validateRequiredList}
+                            validate={getListValidator({ required: true })}
                         />
                     </Panel>
                 </Box>

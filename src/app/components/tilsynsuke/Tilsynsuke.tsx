@@ -1,17 +1,15 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { getTypedFormComponents } from '@navikt/sif-common-formik';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { AppFormField, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { AppFormField } from '../../types/PleiepengesøknadFormData';
 import { validateTilsynstimerEnDag } from '../../validation/fieldValidations';
+import AppForm from '../app-form/AppForm';
 import './tilsynsuke.less';
 
 interface Props {
     name: AppFormField;
 }
-
-const AppForm = getTypedFormComponents<AppFormField, PleiepengesøknadFormData>();
 
 const Tilsynsuke = ({ name }: Props) => {
     const intl = useIntl();

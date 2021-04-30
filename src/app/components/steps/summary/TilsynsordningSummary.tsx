@@ -6,7 +6,7 @@ import TextareaSummary from '@navikt/sif-common-core/lib/components/textarea-sum
 import { Time } from '@navikt/sif-common-core/lib/types/Time';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { iso8601DurationToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { hasValue } from '@navikt/sif-common-core/lib/validation/hasValue';
+import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
 import { TilsynsordningApi, TilsynsordningApiJa } from '../../../types/PleiepengesøknadApiData';
 import { TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
 

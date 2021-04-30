@@ -124,18 +124,16 @@ const frilansPartialFormData: Partial<PleiepengesøknadFormData> = {
 };
 const selvstendigPartialFormData: Partial<PleiepengesøknadFormData> = {
     selvstendig_harHattInntektSomSN: YesOrNo.YES,
-    selvstendig_virksomheter: [
-        {
-            fom: new Date(),
-            erPågående: true,
-            navnPåVirksomheten: 'abc',
-            næringsinntekt: 200,
-            næringstyper: [Næringstype.ANNEN],
-            registrertINorge: YesOrNo.YES,
-            organisasjonsnummer: '123123123',
-            harRegnskapsfører: YesOrNo.NO,
-        },
-    ],
+    selvstendig_virksomhet: {
+        fom: new Date(),
+        erPågående: true,
+        navnPåVirksomheten: 'abc',
+        næringsinntekt: 200,
+        næringstyper: [Næringstype.ANNEN],
+        registrertINorge: YesOrNo.YES,
+        organisasjonsnummer: '123123123',
+        harRegnskapsfører: YesOrNo.NO,
+    },
 };
 
 const completeFormDataMock: PleiepengesøknadFormData = {
@@ -534,7 +532,7 @@ describe('mapFormDataToApiData', () => {
             expect(mappedData).toBeDefined();
             if (mappedData) {
                 expect(mappedData.harHattInntektSomSelvstendigNæringsdrivende).toBeTruthy();
-                expect(mappedData.selvstendigVirksomheter).toBeDefined();
+                expect(mappedData.selvstendigVirksomhet).toBeDefined();
             }
         });
     });
@@ -655,7 +653,7 @@ describe('Test complete applications', () => {
 
     const featureSelvstendigApiData: Partial<PleiepengesøknadApiData> = {
         harHattInntektSomSelvstendigNæringsdrivende: true,
-        selvstendigVirksomheter: [],
+        selvstendigVirksomhet: undefined,
     };
 
     const baseDato = new Date(2020, 0, 1);
@@ -726,7 +724,7 @@ describe('Test complete applications', () => {
 
         const featureSelvstendigFormData: Partial<PleiepengesøknadFormData> = {
             selvstendig_harHattInntektSomSN: YesOrNo.YES,
-            selvstendig_virksomheter: [],
+            selvstendig_virksomhet: undefined,
         };
 
         const featureBekreftOmsorgFormData: Partial<PleiepengesøknadFormData> = {

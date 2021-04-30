@@ -8,21 +8,21 @@ import {
     isFileObject,
     VALID_EXTENSIONS,
 } from '@navikt/sif-common-core/lib/utils/attachmentUtils';
-import { FormikFileInput, FormikValidateFunction } from '@navikt/sif-common-formik';
+import { FormikFileInput, TypedFormInputValidationProps } from '@navikt/sif-common-formik';
 import { ArrayHelpers, connect, useFormikContext } from 'formik';
 import { uploadFile } from '../../api/api';
 import { AppFormField, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import * as apiUtils from '../../utils/apiUtils';
 import appSentryLogger from '../../utils/appSentryLogger';
+import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 
 export type FieldArrayReplaceFn = (index: number, value: any) => void;
 export type FieldArrayPushFn = (obj: any) => void;
 export type FieldArrayRemoveFn = (index: number) => undefined;
 
-interface FormikFileUploader {
+interface FormikFileUploader extends TypedFormInputValidationProps<AppFormField, ValidationError> {
     name: AppFormField;
     label: string;
-    validate?: FormikValidateFunction;
     onFileUploadComplete?: () => void;
     onFileInputClick?: () => void;
     onErrorUploadingAttachments: (files: File[]) => void;
@@ -119,7 +119,7 @@ const FormikFileUploader = ({
         }
     }
     return (
-        <FormikFileInput<AppFormField>
+        <FormikFileInput<AppFormField, ValidationError>
             name={name}
             acceptedExtensions={VALID_EXTENSIONS.join(', ')}
             onFilesSelect={async (files: File[], { push, replace }: ArrayHelpers) => {

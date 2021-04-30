@@ -67,7 +67,7 @@ const barnMock = {
 const arbeidsgivereMock = {
     organisasjoner: [
         { navn: 'Arbeids- og velferdsetaten', organisasjonsnummer: '123451234' },
-        // { navn: 'Arbeids- og sosialdepartementet', organisasjonsnummer: '123451235' },
+        { navn: 'Arbeids- og sosialdepartementet', organisasjonsnummer: '123451235' },
     ],
 };
 const MELLOMLAGRING_JSON = `${os.tmpdir()}/mellomlagring.json`;

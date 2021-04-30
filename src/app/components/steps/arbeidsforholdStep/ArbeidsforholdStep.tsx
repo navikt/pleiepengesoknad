@@ -1,27 +1,27 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import LoadingSpinner from '@navikt/sif-common-core/lib/components/loading-spinner/LoadingSpinner';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { useFormikContext } from 'formik';
+import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { Undertittel } from 'nav-frontend-typografi';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { getArbeidsgivere } from '../../../utils/arbeidsforholdUtils';
+import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import FormikArbeidsforhold from '../../formik-arbeidsforhold/FormikArbeidsforhold';
 import FormikStep from '../../formik-step/FormikStep';
+import AndreYtelserFormPart from './AndreYtelserFormPart';
 import FrilansFormPart from './FrilansFormPart';
 import SelvstendigNæringsdrivendeFormPart from './SelvstendigNæringsdrivendeFormPart';
 import VernepliktigFormPart from './VernepliktigFormPart';
-import AndreYtelserFormPart from './AndreYtelserFormPart';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { AlertStripeInfo } from 'nav-frontend-alertstriper';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 interface LoadState {
     isLoading: boolean;
@@ -43,8 +43,7 @@ const cleanupArbeidsforhold = (formValues: PleiepengesøknadFormData): Pleiepeng
     }
 
     if (values.selvstendig_harHattInntektSomSN === YesOrNo.NO) {
-        values.selvstendig_harLagtInnAlleSelskap = undefined;
-        values.selvstendig_virksomheter = [];
+        values.selvstendig_virksomhet = undefined;
         values.selvstendig_arbeidsforhold = undefined;
     }
     return values;

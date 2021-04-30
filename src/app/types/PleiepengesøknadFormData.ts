@@ -77,8 +77,8 @@ export enum AppFormField {
     frilans_jobberFortsattSomFrilans = 'frilans_jobberFortsattSomFrilans',
     frilans_arbeidsforhold = 'frilans_arbeidsforhold',
     selvstendig_harHattInntektSomSN = 'selvstendig_harHattInntektSomSN',
-    selvstendig_virksomheter = 'selvstendig_virksomheter',
-    selvstendig_harLagtInnAlleSelskap = 'selvstendig_harLagtInnAlleSelskap',
+    selvstendig_harFlereVirksomheter = 'selvstendig_harFlereVirksomheter',
+    selvstendig_virksomhet = 'selvstendig_virksomhet',
     selvstendig_arbeidsforhold = 'selvstendig_arbeidsforhold',
     harVærtEllerErVernepliktig = 'harVærtEllerErVernepliktig',
     mottarAndreYtelser = 'mottarAndreYtelser',
@@ -190,8 +190,8 @@ export interface PleiepengesøknadFormData {
     [AppFormField.frilans_jobberFortsattSomFrilans]?: YesOrNo;
     [AppFormField.frilans_arbeidsforhold]?: ArbeidsforholdSNF;
     [AppFormField.selvstendig_harHattInntektSomSN]?: YesOrNo;
-    [AppFormField.selvstendig_virksomheter]?: Virksomhet[];
-    [AppFormField.selvstendig_harLagtInnAlleSelskap]?: YesOrNo;
+    [AppFormField.selvstendig_harFlereVirksomheter]?: YesOrNo;
+    [AppFormField.selvstendig_virksomhet]?: Virksomhet;
     [AppFormField.selvstendig_arbeidsforhold]?: ArbeidsforholdSNF;
     [AppFormField.harVærtEllerErVernepliktig]?: YesOrNo;
     [AppFormField.mottarAndreYtelser]?: YesOrNo;
@@ -227,6 +227,6 @@ export const initialValues: PleiepengesøknadFormData = {
     [AppFormField.harBeredskap]: YesOrNo.UNANSWERED,
     [AppFormField.frilans_harHattInntektSomFrilanser]: YesOrNo.UNANSWERED,
     [AppFormField.selvstendig_harHattInntektSomSN]: YesOrNo.UNANSWERED,
-    [AppFormField.selvstendig_virksomheter]: [],
+    [AppFormField.selvstendig_virksomhet]: undefined,
     [AppFormField.andreYtelser]: [],
 };

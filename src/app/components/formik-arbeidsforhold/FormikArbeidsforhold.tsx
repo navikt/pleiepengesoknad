@@ -5,14 +5,14 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import {
-    validateRequiredField,
-    validateYesOrNoIsAnswered,
-} from '@navikt/sif-common-core/lib/validation/fieldValidations';
+    getNumberValidator,
+    getRequiredFieldValidator,
+    getYesOrNoValidator,
+} from '@navikt/sif-common-formik/lib/validation';
 import { FieldArray } from 'formik';
 import Panel from 'nav-frontend-paneler';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../../config/minMaxValues';
 import { AppFormField, Arbeidsforhold, ArbeidsforholdField, Arbeidsform } from '../../types/PleiepengesøknadFormData';
-import { validateNumberInputValue } from '../../validation/fieldValidations';
 import AppForm from '../app-form/AppForm';
 import ArbeidsformInfo from './arbeidsforholdInfo';
 
@@ -32,7 +32,15 @@ const FormikArbeidsforhold = ({ arbeidsforhold, index }: Props) => {
                         <AppForm.YesOrNoQuestion
                             legend={intlHelper(intl, 'arbeidsforhold.erAnsattIPerioden.spm')}
                             name={getFieldName(ArbeidsforholdField.erAnsattIPerioden)}
-                            validate={validateYesOrNoIsAnswered}
+                            validate={(value) => {
+                                return getYesOrNoValidator()(value)
+                                    ? {
+                                          key: 'validation.arbeidsforhold.erAnsattIPerioden.yesOrNoIsUnanswered',
+                                          values: { navn: arbeidsforhold.navn },
+                                          keepKeyUnaltered: true,
+                                      }
+                                    : undefined;
+                            }}
                         />
                         {arbeidsforhold.erAnsattIPerioden === YesOrNo.YES && (
                             <Box margin="l">
@@ -57,7 +65,16 @@ const FormikArbeidsforhold = ({ arbeidsforhold, index }: Props) => {
                                                     value: Arbeidsform.varierende,
                                                 },
                                             ]}
-                                            validate={validateRequiredField}
+                                            validate={(value) => {
+                                                return getRequiredFieldValidator()(value)
+                                                    ? {
+                                                          key:
+                                                              'validation.arbeidsforhold.arbeidsform.yesOrNoIsUnanswered',
+                                                          values: { navn: arbeidsforhold.navn },
+                                                          keepKeyUnaltered: true,
+                                                      }
+                                                    : undefined;
+                                            }}
                                         />
                                     </FormBlock>
                                     {arbeidsforhold.arbeidsform !== undefined && (
@@ -102,11 +119,24 @@ const FormikArbeidsforhold = ({ arbeidsforhold, index }: Props) => {
                                                         arbeidsforhold: arbeidsforhold.navn,
                                                     }
                                                 )}
-                                                validate={(value: any) => {
-                                                    return validateNumberInputValue({
+                                                validate={(value) => {
+                                                    const error = getNumberValidator({
+                                                        required: true,
                                                         min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
                                                         max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
                                                     })(value);
+                                                    if (error) {
+                                                        return {
+                                                            key: `validation.arbeidsforhold.jobberNormaltTimer.${arbeidsforhold.arbeidsform}.${error}`,
+                                                            values: {
+                                                                navn: arbeidsforhold.navn,
+                                                                min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
+                                                                max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
+                                                            },
+                                                            keepKeyUnaltered: true,
+                                                        };
+                                                    }
+                                                    return error;
                                                 }}
                                                 value={arbeidsforhold.jobberNormaltTimer || ''}
                                             />
