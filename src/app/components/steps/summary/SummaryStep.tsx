@@ -372,13 +372,11 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                 </SummarySection>
 
                                 {/* Næringsinntekt */}
-                                <SummarySection header={intlHelper(intl, 'selvstendig.summary.header')}>
-                                    <SelvstendigSummary
-                                        virksomhet={apiValues.selvstendigVirksomhet}
-                                        harFlereVirksomheter={apiValues.harFlereVirksomheter}
-                                        arbeidsforholdSN={apiValues.selvstendigArbeidsforhold}
-                                    />
-                                </SummarySection>
+                                <SelvstendigSummary
+                                    virksomhet={apiValues.selvstendigVirksomhet}
+                                    harFlereVirksomheter={apiValues.harFlereVirksomheter}
+                                    arbeidsforholdSN={apiValues.selvstendigArbeidsforhold}
+                                />
 
                                 {/* Vernepliktig */}
                                 <SummarySection header={intlHelper(intl, 'verneplikt.summary.header')}>

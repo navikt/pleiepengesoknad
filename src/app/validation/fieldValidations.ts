@@ -21,6 +21,7 @@ import {
     getDateRangeValidator,
     getDateValidator,
     getFødselsnummerValidator,
+    getNumberValidator,
     getRequiredFieldValidator,
     getStringValidator,
     ValidateRequiredFieldError,
@@ -49,18 +50,20 @@ export enum AppFieldValidationErrors {
     'legeerklæring_forMangeFiler' = 'fieldvalidation.legeerklæring.forMangeFiler',
     'samlet_storrelse_for_hoy' = 'fieldvalidation.samlet_storrelse_for_hoy',
     'arbeidsforhold_timerUgyldig' = 'fieldvalidation.arbeidsforhold_timerUgyldig',
-    'arbeidsforhold_timerUgyldig_under_1_prosent' = 'fieldvalidation.arbeidsforhold_timerUgyldig_under_1_prosent',
-    'arbeidsforhold_timerUgyldig_over_99_prosent' = 'fieldvalidation.arbeidsforhold_timerUgyldig_over_99_prosent',
     'arbeidsforhold_prosentUgyldig' = 'fieldvalidation.arbeidsforhold_prosentUgyldig',
     'arbeidsforhold_redusertMerEnnNormalt' = 'fieldvalidation.arbeidsforhold_redusertMerEnnNormalt',
-    'tilsynsordning_ingenInfo' = 'fieldvalidation.tilsynsordning_ingenInfo',
-    'tilsynsordning_forMangeTimerTotalt' = 'fieldvalidation.tilsynsordning_forMangeTimerTotalt',
-    'tilsynsordning_forMangeTimerEnDag' = 'fieldvalidation.tilsynsordning_forMangeTimerEnDag',
-    'tilsynsordning_forMangeTegn' = 'fieldvalidation.tilsynsordning_forMangeTegn',
     'er_helg' = 'fieldvalidation.er_helg',
     'relasjon_forMangeTegn' = 'fieldvalidation.relasjon_forMangeTegn',
     'relasjon_forFåTegn' = 'fieldvalidation.relasjon_forFåTegn',
     'selvstendig_måRegistrereAlleSelskapene' = 'fieldvalidation.selvstendig.må_registrere_alle_selskapene',
+
+    'arbeidsforhold_timerUgyldig_under_1_prosent' = 'timerUgyldig_under_1_prosent',
+    'arbeidsforhold_timerUgyldig_over_99_prosent' = 'timerUgyldig_over_99_prosent',
+
+    'tilsynsordning_ingenInfo' = 'tilsynsordning_ingenInfo',
+    'tilsynsordning_forMangeTimerTotalt' = 'tilsynsordning_forMangeTimerTotalt',
+    'tilsynsordning_forMangeTimerEnDag' = 'tilsynsordning_forMangeTimerEnDag',
+    'tilsynsordning_forMangeTegn' = 'tilsynsordning_forMangeTegn',
 
     'utenlandsopphold_ikke_registrert' = 'utenlandsopphold_ikke_registrert',
     'utenlandsopphold_overlapper' = 'utenlandsopphold_overlapper',
@@ -375,22 +378,27 @@ export const validateSkalHaTilsynsordning = (tilsynsordning: Tilsynsordning): Va
     return undefined;
 };
 
-export const validateTilsynstimerEnDag = (time: Time): ValidationResult<ValidationError> => {
+export const getTilsynstimerValidatorEnDag = (dag: string) => (time: Time): ValidationResult<ValidationError> => {
     if (time && timeToDecimalTime(time) > 7.5) {
-        return AppFieldValidationErrors.tilsynsordning_forMangeTimerEnDag;
+        return {
+            key: `validation.tilsynsordning.tilsynsordning_forMangeTimerEnDag`,
+            values: { dag },
+            keepKeyUnaltered: true,
+        };
     }
     return undefined;
 };
 
-export const validateReduserteArbeidTimer = (
-    value: string,
-    jobberNormaltTimer: number
-): ValidationResult<ValidationError> => {
+export const validateReduserteArbeidTimer = (value: string, jobberNormaltTimer: number): string | undefined => {
     const requiredError = getRequiredFieldValidator()(value);
     if (requiredError) {
         return requiredError;
     }
+    const numberError = getNumberValidator({ required: true })(value);
     const skalJobbeTimer = getNumberFromNumberInputValue(value);
+    if (numberError) {
+        return numberError;
+    }
     if (skalJobbeTimer === undefined) {
         return ValidateRequiredFieldError.noValue;
     }

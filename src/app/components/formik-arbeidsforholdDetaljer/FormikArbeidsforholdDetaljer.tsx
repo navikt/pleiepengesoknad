@@ -54,7 +54,15 @@ const FormikArbeidsforholdDetaljer = ({ arbeidsforhold, index }: Props) => {
                                     value: ArbeidsforholdSkalJobbeSvar.redusert,
                                 },
                             ]}
-                            validate={getRequiredFieldValidator()}
+                            validate={(values) =>
+                                getRequiredFieldValidator()(values)
+                                    ? {
+                                          key: 'validation.arbeidsforhold.skalJobbe',
+                                          values: { navn: arbeidsforhold.navn },
+                                          keepKeyUnaltered: true,
+                                      }
+                                    : undefined
+                            }
                         />
                         {arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.redusert && (
                             <RedusertArbeidsforholdDetaljerPart

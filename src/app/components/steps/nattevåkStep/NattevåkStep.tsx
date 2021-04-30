@@ -34,7 +34,7 @@ const NattevåkStep = ({ onValidSubmit }: StepConfigProps) => {
                     <AppForm.Textarea
                         name={AppFormField.harNattevåk_ekstrainfo}
                         label={intlHelper(intl, 'steg.nattevåk.tilleggsinfo.spm')}
-                        validate={getStringValidator({ required: true, minLength: 3, maxLength: 1000 })}
+                        validate={getStringValidator({ required: true, maxLength: 1000 })}
                         maxLength={1000}
                     />
                 </Box>

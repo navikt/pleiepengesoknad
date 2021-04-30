@@ -124,6 +124,7 @@ const frilansPartialFormData: Partial<PleiepengesøknadFormData> = {
 };
 const selvstendigPartialFormData: Partial<PleiepengesøknadFormData> = {
     selvstendig_harHattInntektSomSN: YesOrNo.YES,
+    selvstendig_harFlereVirksomheter: YesOrNo.NO,
     selvstendig_virksomhet: {
         fom: new Date(),
         erPågående: true,
@@ -652,8 +653,7 @@ describe('Test complete applications', () => {
     };
 
     const featureSelvstendigApiData: Partial<PleiepengesøknadApiData> = {
-        harHattInntektSomSelvstendigNæringsdrivende: true,
-        selvstendigVirksomhet: undefined,
+        harHattInntektSomSelvstendigNæringsdrivende: false,
     };
 
     const baseDato = new Date(2020, 0, 1);
@@ -723,8 +723,7 @@ describe('Test complete applications', () => {
         };
 
         const featureSelvstendigFormData: Partial<PleiepengesøknadFormData> = {
-            selvstendig_harHattInntektSomSN: YesOrNo.YES,
-            selvstendig_virksomhet: undefined,
+            selvstendig_harHattInntektSomSN: YesOrNo.NO,
         };
 
         const featureBekreftOmsorgFormData: Partial<PleiepengesøknadFormData> = {

@@ -60,7 +60,15 @@ const RedusertArbeidsforholdDetaljerPart = ({ arbeidsforhold, getFieldName }: Pr
                         <AppForm.RadioPanelGroup
                             name={getFieldName(ArbeidsforholdField.timerEllerProsent)}
                             legend={intlHelper(intl, 'arbeidsforhold.hvorMye.spm')}
-                            validate={getRequiredFieldValidator()}
+                            validate={(values) =>
+                                getRequiredFieldValidator()(values)
+                                    ? {
+                                          key: 'validation.arbeidsforhold.timerEllerProsent',
+                                          values: { navn: arbeidsforhold.navn },
+                                          keepKeyUnaltered: true,
+                                      }
+                                    : undefined
+                            }
                             useTwoColumns={true}
                             radios={[
                                 {
@@ -72,7 +80,7 @@ const RedusertArbeidsforholdDetaljerPart = ({ arbeidsforhold, getFieldName }: Pr
                                     value: 'prosent',
                                 },
                             ]}
-                        />{' '}
+                        />
                     </Box>
                     {timerEllerProsent === 'timer' && (
                         <Box margin="xl">
@@ -81,8 +89,17 @@ const RedusertArbeidsforholdDetaljerPart = ({ arbeidsforhold, getFieldName }: Pr
                                 label={intlHelper(intl, 'arbeidsforhold.timer.spm')}
                                 suffix={getLabelForTimerRedusert(intl, jobberNormaltTimerNumber, skalJobbeTimerNumber)}
                                 suffixStyle="text"
-                                validate={(value: any) => validateReduserteArbeidTimer(value, jobberNormaltTimerNumber)}
                                 value={skalJobbeTimer || ''}
+                                validate={(value: any) => {
+                                    const error = validateReduserteArbeidTimer(value, jobberNormaltTimerNumber);
+                                    return error
+                                        ? {
+                                              key: `validation.arbeidsforhold.skalJobbeTimer.${error}`,
+                                              values: { navn: arbeidsforhold.navn },
+                                              keepKeyUnaltered: true,
+                                          }
+                                        : undefined;
+                                }}
                             />
                         </Box>
                     )}
@@ -99,8 +116,17 @@ const RedusertArbeidsforholdDetaljerPart = ({ arbeidsforhold, getFieldName }: Pr
                                         skalJobbeProsentNum
                                     )}
                                     suffixStyle="text"
-                                    validate={getNumberValidator({ required: true, min: 1, max: 99 })}
                                     value={skalJobbeProsent || ''}
+                                    validate={(values) => {
+                                        const error = getNumberValidator({ required: true, min: 1, max: 99 })(values);
+                                        return error
+                                            ? {
+                                                  key: `validation.arbeidsforhold.skalJobbeProsent.${error}`,
+                                                  values: { navn: arbeidsforhold.navn },
+                                                  keepKeyUnaltered: true,
+                                              }
+                                            : undefined;
+                                    }}
                                 />
                             </Box>
                             <Box margin="xl">

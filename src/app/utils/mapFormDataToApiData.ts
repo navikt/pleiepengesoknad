@@ -182,22 +182,21 @@ export const mapFormDataToApiData = (
             apiData.harHattInntektSomFrilanser = harHattInntektSomFrilanser === YesOrNo.YES;
             apiData.frilans = mapFrilansToApiData(formData);
 
-            if (formData.selvstendig_virksomhet) {
-                const harHattInntektSomSn = formData.selvstendig_harHattInntektSomSN === YesOrNo.YES;
-                apiData.harHattInntektSomSelvstendigNæringsdrivende = harHattInntektSomSn;
-                if (harHattInntektSomSn) {
-                    const virksomhet =
-                        formData.selvstendig_harHattInntektSomSN === YesOrNo.YES &&
-                        formData.selvstendig_virksomhet !== undefined
-                            ? mapVirksomhetToVirksomhetApiData(locale, formData.selvstendig_virksomhet)
-                            : undefined;
-
-                    apiData.selvstendigVirksomhet = virksomhet;
-
-                    apiData.selvstendigArbeidsforhold = formData.selvstendig_arbeidsforhold
-                        ? mapSNFArbeidsforholdToApiData(formData.selvstendig_arbeidsforhold)
+            apiData.harHattInntektSomSelvstendigNæringsdrivende =
+                formData.selvstendig_harHattInntektSomSN === YesOrNo.YES;
+            if (apiData.harHattInntektSomSelvstendigNæringsdrivende && formData.selvstendig_virksomhet) {
+                apiData.harFlereVirksomheter = formData.selvstendig_harFlereVirksomheter === YesOrNo.YES;
+                const virksomhet =
+                    formData.selvstendig_harHattInntektSomSN === YesOrNo.YES &&
+                    formData.selvstendig_virksomhet !== undefined
+                        ? mapVirksomhetToVirksomhetApiData(locale, formData.selvstendig_virksomhet)
                         : undefined;
-                }
+
+                apiData.selvstendigVirksomhet = virksomhet;
+
+                apiData.selvstendigArbeidsforhold = formData.selvstendig_arbeidsforhold
+                    ? mapSNFArbeidsforholdToApiData(formData.selvstendig_arbeidsforhold)
+                    : undefined;
             }
 
             apiData.samtidigHjemme = harMedsøker === YesOrNo.YES ? samtidigHjemme === YesOrNo.YES : undefined;

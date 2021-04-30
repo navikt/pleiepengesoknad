@@ -42,7 +42,7 @@ const BeredskapStep = ({ onValidSubmit }: StepConfigProps) => {
                         name={AppFormField.harBeredskap_ekstrainfo}
                         label={intlHelper(intl, 'steg.beredskap.tilleggsinfo.spm')}
                         maxLength={1000}
-                        validate={getStringValidator({ required: true, minLength: 3, maxLength: 1000 })}
+                        validate={getStringValidator({ required: true, maxLength: 1000 })}
                     />
                 </Box>
             )}

@@ -107,7 +107,7 @@ const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues }) => {
                                 </>
                             }
                             name={AppFormField.relasjonTilBarnetBeskrivelse}
-                            validate={getStringValidator({ required: true, minLength: 3, maxLength: 1000 })}
+                            validate={getStringValidator({ required: true, maxLength: 1000 })}
                             value={formValues.relasjonTilBarnet || ''}
                         />
                     </FormBlock>

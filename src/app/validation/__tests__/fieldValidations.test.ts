@@ -6,15 +6,6 @@ jest.mock('../../utils/envUtils', () => {
     };
 });
 
-jest.mock('@navikt/sif-common-core/lib/validation/fødselsnummerValidator', () => {
-    return {
-        fødselsnummerIsValid: jest.fn(),
-        FødselsnummerValidationErrorReason: {
-            MustConsistOf11Digits: 'MustConsistOf11Digits',
-        },
-    };
-});
-
 describe('fieldValidations', () => {
     describe('hasValue', () => {
         it('should return true if provided value is not undefined, null or empty string', () => {
@@ -28,6 +19,7 @@ describe('fieldValidations', () => {
 
         it('should return false if the provided value is undefined, null or empty string', () => {
             expect(hasValue('')).toBe(false);
+
             expect(hasValue(null)).toBe(false);
             expect(hasValue(undefined)).toBe(false);
         });

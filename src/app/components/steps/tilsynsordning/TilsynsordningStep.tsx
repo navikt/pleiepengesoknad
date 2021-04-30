@@ -40,8 +40,8 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                 <Box margin="xxl">
                     <AppForm.InputGroup
                         legend={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.spm')}
-                        validate={validateSkalHaTilsynsordning}
-                        name={AppFormField.tilsynsordning}>
+                        validate={() => validateSkalHaTilsynsordning(tilsynsordning)}
+                        name={'tilsynsordning_gruppe' as any}>
                         <Tilsynsuke name={AppFormField.tilsynsordning__ja__tilsyn} />
                     </AppForm.InputGroup>
                     <Box margin="xl">
@@ -81,7 +81,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                 name={AppFormField.tilsynsordning__vetIkke__ekstrainfo}
                                 label={intlHelper(intl, 'steg.tilsyn.vetIkke.årsak.annet.tilleggsopplysninger')}
                                 maxLength={1000}
-                                validate={getStringValidator({ maxLength: 1000 })}
+                                validate={getStringValidator({ required: true, maxLength: 1000 })}
                             />
                         </Box>
                     )}
