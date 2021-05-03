@@ -68,7 +68,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
 
         if (value === YesOrNo.NO && info8uker && info8uker?.erOver8Uker) {
             const error: ValidationError = {
-                key: 'fieldvalidation.periodeErOver8UkerMenIkkeØnsket',
+                key: 'validation.periodeErOver8UkerMenIkkeØnsket',
                 values: {
                     varighet: getVarighetString(info8uker.antallDager, intl),
                 },
