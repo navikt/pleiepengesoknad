@@ -59,6 +59,7 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
                             title={intlHelper(intl, 'step.arbeidsforholdIPerioden.FrilansLabel')}
                             titleIcon={<BuildingIcon />}>
                             <FormikArbeidsforholdSNFDetaljer
+                                frilansEllerSelvstendig="frilans"
                                 snF_arbeidsforhold={frilans_arbeidsforhold}
                                 appFormField={AppFormField.frilans_arbeidsforhold}
                             />
@@ -73,6 +74,7 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
                             title={intlHelper(intl, 'step.arbeidsforholdIPerioden.SNLabel')}
                             titleIcon={<BuildingIcon />}>
                             <FormikArbeidsforholdSNFDetaljer
+                                frilansEllerSelvstendig="selvstendig"
                                 snF_arbeidsforhold={selvstendig_arbeidsforhold}
                                 appFormField={AppFormField.selvstendig_arbeidsforhold}
                             />

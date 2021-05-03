@@ -59,7 +59,7 @@ const RedusertArbeidsforholdDetaljerPart = ({ arbeidsforhold, getFieldName }: Pr
                     <Box margin="xl">
                         <AppForm.RadioPanelGroup
                             name={getFieldName(ArbeidsforholdField.timerEllerProsent)}
-                            legend={intlHelper(intl, 'arbeidsforhold.hvorMye.spm')}
+                            legend={intlHelper(intl, 'arbeidsforhold.hvorMye.spm', { navn: arbeidsforhold.navn })}
                             validate={(values) =>
                                 getRequiredFieldValidator()(values)
                                     ? {

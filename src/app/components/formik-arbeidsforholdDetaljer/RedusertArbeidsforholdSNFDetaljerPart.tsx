@@ -14,7 +14,9 @@ import {
 import { validateReduserteArbeidTimer } from '../../validation/fieldValidations';
 import AppForm from '../app-form/AppForm';
 
+export type FrilansEllerSelvstendig = 'frilans' | 'selvstendig';
 interface Props {
+    frilansEllerSelvstendig: FrilansEllerSelvstendig;
     frilans_arbeidsforhold: ArbeidsforholdSNF;
     getFieldName: (name: ArbeidsforholdSNFField) => AppFormField;
 }
@@ -44,7 +46,11 @@ const getLabelForTimerRedusert = (intl: IntlShape, timerNormalt: number, timerRe
     return intlHelper(intl, 'arbeidsforhold.timer.utledet', { timer: timerNormalt });
 };
 
-const RedusertArbeidsforholdSNFDetaljerPart = ({ frilans_arbeidsforhold, getFieldName }: Props) => {
+const RedusertArbeidsforholdSNFDetaljerPart = ({
+    frilans_arbeidsforhold,
+    getFieldName,
+    frilansEllerSelvstendig,
+}: Props) => {
     const intl = useIntl();
     const {
         timerEllerProsent,
@@ -65,7 +71,12 @@ const RedusertArbeidsforholdSNFDetaljerPart = ({ frilans_arbeidsforhold, getFiel
                     <Box margin="xl">
                         <AppForm.RadioPanelGroup
                             name={getFieldName(ArbeidsforholdSNFField.timerEllerProsent)}
-                            legend={intlHelper(intl, 'arbeidsforhold.hvorMye.spm')}
+                            legend={intlHelper(
+                                intl,
+                                frilansEllerSelvstendig === 'frilans'
+                                    ? 'arbeidsforhold.hvorMyeFrilans.spm'
+                                    : 'arbeidsforhold.hvorMyeSelvstendig.spm'
+                            )}
                             validate={getRequiredFieldValidator()}
                             useTwoColumns={true}
                             radios={[

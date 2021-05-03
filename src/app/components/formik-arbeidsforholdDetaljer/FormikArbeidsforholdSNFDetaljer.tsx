@@ -10,14 +10,17 @@ import {
     ArbeidsforholdSNFField,
 } from '../../types/PleiepengesøknadFormData';
 import AppForm from '../app-form/AppForm';
-import RedusertArbeidsforholdSNFDetaljerPart from './RedusertArbeidsforholdSNFDetaljerPart';
+import RedusertArbeidsforholdSNFDetaljerPart, {
+    FrilansEllerSelvstendig,
+} from './RedusertArbeidsforholdSNFDetaljerPart';
 
 interface Props {
     snF_arbeidsforhold: ArbeidsforholdSNF;
     appFormField: AppFormField;
+    frilansEllerSelvstendig: FrilansEllerSelvstendig;
 }
 
-const FormikArbeidsforholdSNFDetaljer = ({ snF_arbeidsforhold, appFormField }: Props) => {
+const FormikArbeidsforholdSNFDetaljer = ({ snF_arbeidsforhold, appFormField, frilansEllerSelvstendig }: Props) => {
     const intl = useIntl();
 
     const getFieldName = (field: ArbeidsforholdSNFField) => `${appFormField}.${field}` as AppFormField;
@@ -62,6 +65,7 @@ const FormikArbeidsforholdSNFDetaljer = ({ snF_arbeidsforhold, appFormField }: P
             />
             {snF_arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.redusert && (
                 <RedusertArbeidsforholdSNFDetaljerPart
+                    frilansEllerSelvstendig={frilansEllerSelvstendig}
                     frilans_arbeidsforhold={snF_arbeidsforhold}
                     getFieldName={getFieldName}
                 />
