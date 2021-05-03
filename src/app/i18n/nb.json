@@ -577,7 +577,7 @@
     "validation.legeerklæring.forMangeFiler": "Du har lastet opp for mange vedlegg",
     "validation.periodeErOver8UkerMenIkkeØnsket": "For å kunne fortsette må du enten velge \"Ja\" for å bekrefte at du vil søke for en lenger periode enn 8 uker, eller du må legge inn en kortere periode enn 8 uker hvis du har svart \"Nei\".",
 
-    "validation.harForståttRettigheterOgPlikter.notChecked": "Du må godkjenne vilkårene",
+    "validation.harForståttRettigheterOgPlikter.notChecked": "Du må bekrefte at du har lest og forstått dine plikter",
     "validation.barnetSøknadenGjelder.noValue": "Du må velge hvilket barn søknaden gjelder",
     "validation.barnetsNavn.stringHasNoValue": "Skriv inn navn på barnet",
     "validation.barnetsNavn.stringIsTooLong": "Navnet på barnet kan ikke inneholde flere enn {maks} tegn.",
