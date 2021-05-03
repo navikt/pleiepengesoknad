@@ -373,7 +373,11 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
 
                                 {/* Næringsinntekt */}
                                 <SelvstendigSummary
-                                    virksomhet={apiValues.selvstendigVirksomhet}
+                                    virksomhet={
+                                        apiValues.selvstendigVirksomhet && apiValues.selvstendigVirksomhet.length === 1
+                                            ? apiValues.selvstendigVirksomhet[0]
+                                            : undefined
+                                    }
                                     harFlereVirksomheter={apiValues.harFlereVirksomheter}
                                     arbeidsforholdSN={apiValues.selvstendigArbeidsforhold}
                                 />

@@ -599,13 +599,15 @@ describe('Test complete applications', () => {
             harNattevåk: true,
             tilleggsinformasjon: 'harNattevåk_ekstrainfo',
         },
-
         beredskap: {
             beredskap: true,
             tilleggsinformasjon: 'harBeredskap_ekstrainfo',
         },
         harVærtEllerErVernepliktig: false,
         andreYtelserFraNAV: [],
+        harHattInntektSomFrilanser: false,
+        harHattInntektSomSelvstendigNæringsdrivende: false,
+        selvstendigVirksomhet: [],
     };
 
     const utenlandsoppholdISverigeApiData: UtenlandsoppholdIPeriodenApiData = {
@@ -649,6 +651,7 @@ describe('Test complete applications', () => {
         frilans: {
             jobberFortsattSomFrilans: true,
             startdato: frilansDate,
+            sluttdato: undefined,
         },
     };
 

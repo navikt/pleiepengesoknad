@@ -484,7 +484,6 @@
     "summary.virksomhet.harFlereVirksomheter.header": "Har du flere enn én næringsvirksomhet som er aktiv?",
     "summary.virksomhet.virksomhetInfo.tittel": "Næringsvirksomhet som du har lagt inn:",
 
-
     "selvstendig.harDuHattInntekt.spm": "Har du hatt inntekt som selvstendig næringsdrivende i de siste 4 ukene?",
     "selvstendig.harFlereVirksomheter.spm": "Har du flere enn én næringsvirksomhet som er aktiv?",
     "selvstendig.veileder.flereAktiveVirksomheter": "Når du har flere aktive næringsvirksomheter skal du kun legge inn den virksomheten som er eldst av dem. Har du for eksempel en virksomhet du startet i 2012 og en annen som du startet i 2020, skal du kun legge inn virksomheten du startet i 2012.",
@@ -564,14 +563,14 @@
     "andreYtelser.summary.header": "Andre utbetalinger",
     "andreYtelser.summary.mottarAndreYtelser.header": "Mottar du andre utbetalinger fra NAV i perioden med pleiepenger?",
     "andreYtelser.summary.ytelser.header": "Utbetalinger du mottar:",
-    
+
     "selvstendig.infoDialog.infoTittel": "Næringsvirksomhet som du har lagt inn:",
     "selvstendig.infoDialog.registrerKnapp": "Registrer virksomhet",
     "selvstendig.infoDialog.endreKnapp": "Endre opplysninger",
     "selvstendig.infoDialog.fjernKnapp": "Fjern virksomhet",
     "selvstendig.infoDialog.tittel.en": "Opplysninger om virksomheten din",
     "selvstendig.infoDialog.tittel.flere": "Opplysninger om den eldste virksomheten din",
-    
+
     "validation.samlet_storrelse_for_hoy": "Total samlet størrelse for dokumentene du har lastet opp overstiger grensen på 24Mb.",
     "validation.legeerklæring.mangler": "Du må laste opp en legeerklæring",
     "validation.legeerklæring.forMangeFiler": "Du har lastet opp for mange vedlegg",
@@ -579,11 +578,22 @@
 
     "validation.harForståttRettigheterOgPlikter.notChecked": "Du må godkjenne vilkårene",
     "validation.barnetSøknadenGjelder.noValue": "Du må velge hvilket barn søknaden gjelder",
-    "validation.barnetsNavn.stringHasNoValue": "Du må fylle ut barnets navn",
+    "validation.barnetsNavn.stringHasNoValue": "Skriv inn navn på barnet",
+    "validation.barnetsNavn.stringIsTooLong": "Navnet på barnet kan ikke inneholde flere enn {maks} tegn.",
+    "validation.barnetsNavn.stringIsTooShort": "Navnet på barnet må inneholde minst {min} tegn.",
+
+    "validation.barnetsFødselsdato.dateHasNoValue": "Du må oppgi barnets fødselsdato. Skriv inn eller velg dato fra datovelgeren.",
+    "validation.barnetsFødselsdato.dateIsAfterMax": "Barnets fødselsdato kan ikke være etter dagens dato",
+    "validation.barnetsFødselsdato.dateHasInvalidFormat": "Du må oppgi barnets fødselsdato i et gyldig format. Gyldig format er dd.mm.ååå.",
+
     "validation.relasjonTilBarnet.noValue": "Du må svare på hvilken relasjon du har til barnet",
-    "validation.barnetsFødselsnummer.fødselsnummerHasNoValue": "Du må fylle ut barnets fødselsnummer / D-nummer, eller dersom barnet ikke har dette, kan du krysse av for det.",
+    "validation.barnetsFødselsnummer.fødselsnummerHasNoValue": "Du må fylle ut barnets fødselsnummer/D-nummer. Hvis barnet ikke har fødselsnummer/D-nummer kan du huke av for det",
     "validation.barnetsFødselsnummer.fødselsnummerNot11Chars": "Fødselsnummeret / D-nummeret må bestå av 11 siffer",
-    "validation.barnetsFødselsnummer.fødselsnummerIsInvalid": "Fødselsnummeret / D-nummeret du har tastet inn inneholder 11 siffer, men det er ikke et gyldig norsk fødselsnummer. Kontroller at du har tastet inn riktig.",
+    "validation.barnetsFødselsnummer.fødselsnummerIsNot11Chars": "Fødselsnummeret / D-nummeret du har tastet inn inneholder 11 siffer, men det er ikke et gyldig norsk fødselsnummer. Kontroller at du har tastet inn riktig.",
+
+    "validation.relasjonTilBarnetBeskrivelse.stringHasNoValue": "Skriv inn navn på barnet",
+    "validation.relasjonTilBarnetBeskrivelse.stringIsTooLong": "Navnet på barnet kan ikke inneholde flere enn {maks} tegn.",
+
     "validation.periodeFra.dateHasNoValue": "Du må fylle ut periodens fra-dato",
     "validation.periodeFra.dateHasInvalidFormat": "Periodens fra-dato har ugyldig datoformat. Formatet må være dd.mm.åååå",
     "validation.periodeFra.fromDateIsAfterToDate": "Fra-datoen kan ikke være senere enn til-datoen",
@@ -599,11 +609,11 @@
     "validation.skalOppholdeSegIUtlandetIPerioden.yesOrNoIsUnanswered": "Du må svare på om du skal reise til utlandet i perioden du søker for",
     "validation.utenlandsoppholdIPerioden.utenlandsopphold_ikke_registrert": "Du har ikke registrert noen utenlandsopphold for perioden",
     "validation.utenlandsoppholdIPerioden.utenlandsopphold_overlapper": "Ett eller flere av utenlandsoppholdene har datoer som overlapper",
-    "validation.utenlandsoppholdIPerioden.utenlandsopphold_utenfor_periode": "Ett eller flere av utenlandsoppholdene er utenfor tillatt tidsrom",
+    "validation.utenlandsoppholdIPerioden.utenlandsopphold_utenfor_periode": "Du har lagt inn utenlandsopphold som er utenfor søknadsperiode",
     "validation.utenlandsoppholdIPerioden.utenlandsopphold_overlapper_samme_start_slutt": "Ett utenlandsopphold kan ikke starte samme dag som et annet avsluttes",
     "validation.ferieuttakIPerioden.ferieuttak_ikke_registrert": "Du har ikke registrert noen ferieuttak for perioden",
     "validation.ferieuttakIPerioden.ferieuttak_utenfor_periode": "En ferie du har lagt inn overlapper ikke med perioden du søker for. Da kan denne fjernes.",
-    "validation.ferieuttakIPerioden.ferieuttak_overlapper": "En eller flere av feriene går over de samme datoene",
+    "validation.ferieuttakIPerioden.ferieuttak_overlapper": "Du har lagt inn ferie som er utenfor søknadsperiode",
     "validation.skalTaUtFerieIPerioden.yesOrNoIsUnanswered": "Du må svare på om du skal ha lovbestemt ferie i perioden du søker for",
     "validation.arbeidsforhold.erAnsattIPerioden.yesOrNoIsUnanswered": "Du må svare på om du er ansatt hos {navn} i perioden du søker pleiepenger",
     "validation.arbeidsforhold.arbeidsform.yesOrNoIsUnanswered": "Du må svare på hvordan du jobber hos {navn}",
@@ -677,7 +687,7 @@
     "validation.frilans_arbeidsforhold.skalJobbeTimer.numberHasInvalidFormat": "Antall timer du skal jobbe som frilanser er ikke et gyldig tall",
     "validation.frilans_arbeidsforhold.skalJobbeTimer.timerUgyldig_under_1_prosent": "Du kan ikke jobbe mindre enn 1 prosent av hva du jobber normalt som frilanser",
     "validation.frilans_arbeidsforhold.skalJobbeTimer.timerUgyldig_over_99_prosent": "Du kan ikke jobbe mer enn  99 prosent av hva du jobber normalt som frilanser",
-    
+
     "validation.selvstendig_arbeidsforhold.skalJobbe.noValue": "Du må svare på om du skal jobbe som selvstendig i samme periode som du søker pleiepenger",
     "validation.selvstendig_arbeidsforhold.timerEllerProsent.noValue": "Du må velge hvordan du ønsker å oppgi hvor mye du skal jobbe som selvstendig",
     "validation.selvstendig_arbeidsforhold.skalJobbeProsent.numberHasNoValue": "Du må oppgi hvor mange prosent du skal jobbe som selvstendig",
@@ -696,27 +706,24 @@
 
     "validation.tilsynsordning.tilsynsordning_ingenInfo": "Du må oppgi når barnet er i omsorgstilbud",
     "validation.tilsynsordning.ja.ekstrainfo.stringIsTooLong": "Tilleggsopplysninger om omsorgstilbudet kan være på maks 1000 tegn",
-    "validation.tilsynsordning_gruppe.tilsynsordning_ingenInfo": "Du har ikke oppgitt noen informasjon om hvor mye barnet skal ha tilsyn.",
+    "validation.tilsynsordning_gruppe.tilsynsordning_ingenInfo": "Du har ikke oppgitt hvor mye barnet skal være i et omsorgstilbud",
     "validation.tilsynsordning.tilsynsordning_forMangeTimerEnDag": "Antall timer på {dag} er ugyldig. 7 timer og 30 minutter er maks per dag",
     "validation.tilsynsordning.tilsynsordning_forMangeTegn": "For mange tegn. Maks antall tegn er 1000.",
     "validation.tilsynsordning.tilsynsordning_forMangeTimerTotalt": "Du kan registrere maks 7 timer og 30 minutter hver ukedag",
 
-
-    "validation.harNattevåk.yesOrNoIsUnanswered": "Du må svare på om du må være våken om natta",
+    "validation.harNattevåk.yesOrNoIsUnanswered": "Du må svare på om barnets sykdom gjør at du må være våken på natta",
     "validation.harNattevåk_ekstrainfo.stringHasNoValue": "Du må beskrive hva som gjør at du må være våken om natta",
     "validation.harNattevåk_ekstrainfo.stringIsTooLong": "Beskrivelsen kan være på maks 1000 tegn",
     "validation.harBeredskap.yesOrNoIsUnanswered": "Du må svare på om du må være i beredskap",
-    "validation.harBeredskap_ekstrainfo.stringHasNoValue": "Du må beskrive hva som gjør at du må være være i beredskap",
+    "validation.harBeredskap_ekstrainfo.stringHasNoValue": "Du må beskrive hva som gjør at du må være i beredskap",
     "validation.harBeredskap_ekstrainfo.stringIsTooLong": "Beskrivelsen kan være på maks 1000 tegn",
     "validation.harBoddUtenforNorgeSiste12Mnd.yesOrNoIsUnanswered": "Du må svare på om du har bodd i utlandet i hele eller deler av de siste 12 månedene",
     "validation.utenlandsoppholdSiste12Mnd.utenlandsopphold_ikke_registrert": "Du har ikke registrert noen utenlandsopphold for de siste 12 månedene",
     "validation.utenlandsoppholdSiste12Mnd.utenlandsopphold_overlapper": "Ett eller flere av utenlandsoppholdene de siste 12 månedene har datoer som overlapper",
     "validation.utenlandsoppholdSiste12Mnd.utenlandsopphold_utenfor_periode": "Ett eller flere av utenlandsoppholdene de siste 12 månedene er utenfor tillatt tidsrom",
-    "validation.skalBoUtenforNorgeNeste12Mnd.yesOrNoIsUnanswered": "Du må svare på om du planlegger å bo i utlandet i hele eller deler av de neste 12 månedene?",
+    "validation.skalBoUtenforNorgeNeste12Mnd.yesOrNoIsUnanswered": "Du må svare på om du planlegger å bo i utlandet i hele eller deler av de neste 12 månedene",
     "validation.utenlandsoppholdNeste12Mnd.utenlandsopphold_ikke_registrert": "Du har ikke registrert noen utenlandsopphold for de neste 12 månedene",
     "validation.utenlandsoppholdNeste12Mnd.utenlandsopphold_overlapper": "Ett eller flere av utenlandsoppholdene de neste 12 månedene har datoer som overlapper",
     "validation.utenlandsoppholdNeste12Mnd.utenlandsopphold_utenfor_periode": "Ett eller flere av utenlandsoppholdene de neste 12 månedene er utenfor tillatt tidsrom",
     "validation.harBekreftetOpplysninger.notChecked": "Du må bekrefte at opplysningene er riktige"
-
 }
-

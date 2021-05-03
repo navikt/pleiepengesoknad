@@ -74,6 +74,7 @@ export enum AppFormField {
     tilsynsordning__vetIkke__ekstrainfo = 'tilsynsordning.vetIkke.ekstrainfo',
     frilans_harHattInntektSomFrilanser = 'harHattInntektSomFrilanser',
     frilans_startdato = 'frilans_startdato',
+    frilans_sluttdato = 'frilans_sluttdato',
     frilans_jobberFortsattSomFrilans = 'frilans_jobberFortsattSomFrilans',
     frilans_arbeidsforhold = 'frilans_arbeidsforhold',
     selvstendig_harHattInntektSomSN = 'selvstendig_harHattInntektSomSN',
@@ -187,6 +188,7 @@ export interface PleiepengesøknadFormData {
     [AppFormField.harBeredskap_ekstrainfo]?: string;
     [AppFormField.frilans_harHattInntektSomFrilanser]?: YesOrNo;
     [AppFormField.frilans_startdato]?: string;
+    [AppFormField.frilans_sluttdato]?: string;
     [AppFormField.frilans_jobberFortsattSomFrilans]?: YesOrNo;
     [AppFormField.frilans_arbeidsforhold]?: ArbeidsforholdSNF;
     [AppFormField.selvstendig_harHattInntektSomSN]?: YesOrNo;

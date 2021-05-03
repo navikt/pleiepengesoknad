@@ -67,7 +67,13 @@ export const validateFødselsdato = (dateString?: string): ValidationResult<Vali
 };
 
 export const validateNavn = (value: string): ValidationResult<ValidationError> => {
-    return getStringValidator({ required: true, maxLength: 50 })(value);
+    const error = getStringValidator({ required: true, maxLength: 50 })(value);
+    return error
+        ? {
+              key: error,
+              values: { maks: 50 },
+          }
+        : undefined;
 };
 
 export const validateFødselsnummer = (value: string): ValidationResult<ValidationError> => {

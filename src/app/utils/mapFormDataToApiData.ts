@@ -78,6 +78,9 @@ export const mapFormDataToApiData = (
         ferieuttakIPerioden,
         skalTaUtFerieIPerioden,
         harHattInntektSomFrilanser,
+        selvstendig_harHattInntektSomSN,
+        selvstendig_harFlereVirksomheter,
+        selvstendig_virksomhet,
         relasjonTilBarnet,
         relasjonTilBarnetBeskrivelse,
     } = formData;
@@ -99,6 +102,7 @@ export const mapFormDataToApiData = (
 
             const gjelderAnnetBarn = barnObject.aktørId === null;
             const sprak = getValidSpråk(locale);
+
             const apiData: PleiepengesøknadApiData = {
                 newVersion: true,
                 språk: sprak,
@@ -136,6 +140,17 @@ export const mapFormDataToApiData = (
                 andreYtelserFraNAV:
                     isFeatureEnabled(Feature.ANDRE_YTELSER) && formData.mottarAndreYtelser === YesOrNo.YES
                         ? formData.andreYtelser
+                        : [],
+                harHattInntektSomFrilanser: harHattInntektSomFrilanser === YesOrNo.YES,
+                frilans: mapFrilansToApiData(formData),
+                harHattInntektSomSelvstendigNæringsdrivende: selvstendig_harHattInntektSomSN === YesOrNo.YES,
+                harFlereVirksomheter:
+                    selvstendig_harHattInntektSomSN === YesOrNo.YES
+                        ? selvstendig_harFlereVirksomheter === YesOrNo.YES
+                        : undefined,
+                selvstendigVirksomhet:
+                    selvstendig_harHattInntektSomSN === YesOrNo.YES && selvstendig_virksomhet !== undefined
+                        ? [mapVirksomhetToVirksomhetApiData(locale, selvstendig_virksomhet)]
                         : [],
             };
 
@@ -179,25 +194,15 @@ export const mapFormDataToApiData = (
                         : [],
             };
 
-            apiData.harHattInntektSomFrilanser = harHattInntektSomFrilanser === YesOrNo.YES;
-            apiData.frilans = mapFrilansToApiData(formData);
-
             apiData.harHattInntektSomSelvstendigNæringsdrivende =
                 formData.selvstendig_harHattInntektSomSN === YesOrNo.YES;
-            if (apiData.harHattInntektSomSelvstendigNæringsdrivende && formData.selvstendig_virksomhet) {
+            if (apiData.harHattInntektSomSelvstendigNæringsdrivende) {
                 apiData.harFlereVirksomheter = formData.selvstendig_harFlereVirksomheter === YesOrNo.YES;
-                const virksomhet =
-                    formData.selvstendig_harHattInntektSomSN === YesOrNo.YES &&
-                    formData.selvstendig_virksomhet !== undefined
-                        ? mapVirksomhetToVirksomhetApiData(locale, formData.selvstendig_virksomhet)
-                        : undefined;
-
-                apiData.selvstendigVirksomhet = virksomhet;
-
-                apiData.selvstendigArbeidsforhold = formData.selvstendig_arbeidsforhold
-                    ? mapSNFArbeidsforholdToApiData(formData.selvstendig_arbeidsforhold)
-                    : undefined;
             }
+
+            apiData.selvstendigArbeidsforhold = formData.selvstendig_arbeidsforhold
+                ? mapSNFArbeidsforholdToApiData(formData.selvstendig_arbeidsforhold)
+                : undefined;
 
             apiData.samtidigHjemme = harMedsøker === YesOrNo.YES ? samtidigHjemme === YesOrNo.YES : undefined;
 
