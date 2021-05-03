@@ -7,6 +7,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import {
+    getDateValidator,
     getNumberValidator,
     getRequiredFieldValidator,
     getYesOrNoValidator,
@@ -23,15 +24,19 @@ import { validateFrilanserStartdato } from '../../../validation/fieldValidations
 import AppForm from '../../app-form/AppForm';
 import ArbeidsformInfoSNFrilanser from '../../formik-arbeidsforhold/ArbeidsformInfoSNFrilanser';
 import FrilansEksempeltHtml from './FrilansEksempelHtml';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
 }
 
 const FrilansFormPart = ({ formValues }: Props) => {
-    const harHattInntektSomFrilanser = formValues[AppFormField.frilans_harHattInntektSomFrilanser] === YesOrNo.YES;
-    const jobberFortsattSomFrilans = formValues[AppFormField.frilans_jobberFortsattSomFrilans] === YesOrNo.YES;
-    const { frilans_arbeidsforhold } = formValues;
+    const {
+        frilans_jobberFortsattSomFrilans,
+        harHattInntektSomFrilanser,
+        frilans_arbeidsforhold,
+        frilans_startdato,
+    } = formValues;
 
     const intl = useIntl();
     const getFieldName = (field: ArbeidsforholdSNFField) => {
@@ -51,7 +56,7 @@ const FrilansFormPart = ({ formValues }: Props) => {
                     }
                 />
             </Box>
-            {harHattInntektSomFrilanser && (
+            {harHattInntektSomFrilanser === YesOrNo.YES && (
                 <>
                     <Box margin="l">
                         <Panel>
@@ -71,8 +76,23 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                     validate={getYesOrNoValidator()}
                                 />
                             </Box>
-
-                            {jobberFortsattSomFrilans && (
+                            {frilans_jobberFortsattSomFrilans === YesOrNo.NO && (
+                                <Box margin="xl">
+                                    <AppForm.DatePicker
+                                        name={AppFormField.frilans_sluttdato}
+                                        label={intlHelper(intl, 'frilanser.nårSluttet.spm')}
+                                        showYearSelector={true}
+                                        minDate={datepickerUtils.getDateFromDateString(frilans_startdato)}
+                                        maxDate={dateToday}
+                                        validate={getDateValidator({
+                                            required: true,
+                                            min: datepickerUtils.getDateFromDateString(frilans_startdato),
+                                            max: dateToday,
+                                        })}
+                                    />
+                                </Box>
+                            )}
+                            {frilans_jobberFortsattSomFrilans === YesOrNo.YES && (
                                 <Box margin="xl">
                                     <FormBlock margin="none">
                                         <AppForm.RadioPanelGroup
