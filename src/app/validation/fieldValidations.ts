@@ -22,7 +22,6 @@ import {
     getDateValidator,
     getFødselsnummerValidator,
     getNumberValidator,
-    getRequiredFieldValidator,
     getStringValidator,
     ValidateRequiredFieldError,
 } from '@navikt/sif-common-formik/lib/validation';
@@ -390,10 +389,6 @@ export const getTilsynstimerValidatorEnDag = (dag: string) => (time: Time): Vali
 };
 
 export const validateReduserteArbeidTimer = (value: string, jobberNormaltTimer: number): string | undefined => {
-    const requiredError = getRequiredFieldValidator()(value);
-    if (requiredError) {
-        return requiredError;
-    }
     const numberError = getNumberValidator({ required: true })(value);
     const skalJobbeTimer = getNumberFromNumberInputValue(value);
     if (numberError) {
