@@ -148,7 +148,7 @@ export const mapFormDataToApiData = (
                     selvstendig_harHattInntektSomSN === YesOrNo.YES
                         ? selvstendig_harFlereVirksomheter === YesOrNo.YES
                         : undefined,
-                selvstendigVirksomhet:
+                selvstendigVirksomheter:
                     selvstendig_harHattInntektSomSN === YesOrNo.YES && selvstendig_virksomhet !== undefined
                         ? [mapVirksomhetToVirksomhetApiData(locale, selvstendig_virksomhet)]
                         : [],

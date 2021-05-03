@@ -533,7 +533,7 @@ describe('mapFormDataToApiData', () => {
             expect(mappedData).toBeDefined();
             if (mappedData) {
                 expect(mappedData.harHattInntektSomSelvstendigNæringsdrivende).toBeTruthy();
-                expect(mappedData.selvstendigVirksomhet).toBeDefined();
+                expect(mappedData.selvstendigVirksomheter).toBeDefined();
             }
         });
     });
@@ -607,7 +607,7 @@ describe('Test complete applications', () => {
         andreYtelserFraNAV: [],
         harHattInntektSomFrilanser: false,
         harHattInntektSomSelvstendigNæringsdrivende: false,
-        selvstendigVirksomhet: [],
+        selvstendigVirksomheter: [],
     };
 
     const utenlandsoppholdISverigeApiData: UtenlandsoppholdIPeriodenApiData = {
