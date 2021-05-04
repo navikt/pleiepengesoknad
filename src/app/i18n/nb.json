@@ -117,7 +117,7 @@
     "step.arbeidsforholdIPerioden.pageTitle": "Pleiepengesøknad - opplysninger om jobb i perioden",
     "step.arbeidsforholdIPerioden.stepTitle": "Jobb i perioden med pleiepenger",
     "step.arbeidsforholdIPerioden.stepIndicatorLabel": "Jobb i perioden med pleiepenger",
-    "step.arbeidsforholdIPerioden.StepInfo": "Her skal du opplyse om du skal jobbe noe i samme periode som du skal ha pleiepenger. Det kan for eksempel være at kan jobbe fordi du skal dele pleiepengene med en annen omsorgsperson, eller at barnet skal være noe på skolen eller i barnehagen.",
+    "step.arbeidsforholdIPerioden.StepInfo": "Her skal du opplyse om du skal jobbe noe i samme periode som du skal ha pleiepenger. Det kan for eksempel være at du kan jobbe fordi du skal dele pleiepengene med en annen omsorgsperson, eller at barnet skal være noe på skolen eller i barnehagen.",
     "step.arbeidsforholdIPerioden.FrilansLabel": "Frilans",
     "step.arbeidsforholdIPerioden.SNLabel": "Selvstendig næringsdrivende",
 
@@ -174,7 +174,7 @@
     "introForm.form.harLegeerklæring.nei.info": "For at du skal få svar på søknaden din så raskt som mulig anbefaler vi at du sender legeerklæringen samtidig som du sender inn søknaden. Hvis du ikke har legeerklæringen tilgjengelig nå ettersender du den så snart du kan. Vi trenger den for å kunne behandle søknaden din.",
     "introForm.form.erArbeidstaker.spm": "Er du arbeidstaker?",
     "introForm.form.erArbeidstaker.nei.info": "Hvis du er selvstendig næringsdrivende, frilanser eller mottar utbetaling fra NAV trenger du ikke sende med dokumentasjon om inntekten din. Vi innhenter opplysninger om inntekten din fra offentlige registre, og kontakter deg hvis vi trenger flere opplysninger fra deg.",
-    "introForm.form.erArbeidstaker.ja.info.1": "Det er viktig at du gir beskjed til arbeidsgiveren(e) dine om at de må sende inntektsmelding til oss så snart som mulig etter at du har sendt inn søknaden. Vi trenger den for å kunne utbetale pleiepenger.",
+    "introForm.form.erArbeidstaker.ja.info.1": "Det er viktig at du gir beskjed til arbeidsgiveren(e) dine om at de må sende inntektsmelding til oss så snart som mulig etter at du har sendt inn søknaden. Vi trenger den for å kunne behandle søknaden din.",
     "introForm.form.erArbeidstaker.ja.info.2": "Når du har sendt inn søknaden kommer du til en side hvor du får veiledning om hvilken informasjon du skal gi til arbeidsgiver.",
     "introForm.form.inntektsmelding.spm": "Jeg har lest og forstått informasjonen om inntektsmelding",
     "introForm.form.inntektsmelding.ikkeBesvart": "Du må bekrefte at du har lest og forstått informasjonen om inntektsmeldingen",
