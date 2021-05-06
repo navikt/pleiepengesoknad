@@ -589,7 +589,7 @@
     "validation.barnetsFødselsnummer.fødselsnummerNot11Chars": "Fødselsnummeret / D-nummeret må bestå av 11 siffer.",
     "validation.barnetsFødselsnummer.fødselsnummerIsNot11Chars": "Fødselsnummeret / D-nummeret du har tastet inn inneholder 11 siffer, men det er ikke et gyldig norsk fødselsnummer. Kontroller at du har tastet inn riktig.",
 
-    "validation.relasjonTilBarnetBeskrivelse.stringHasNoValue": "Du må beskrive hvem du er i forhold til barnet, og hvilke tilsynsrolle du har i perioden du søker om.",
+    "validation.relasjonTilBarnetBeskrivelse.stringHasNoValue": "Du må beskrive hvem du er i forhold til barnet, og hvilken tilsynsrolle du har i perioden du søker om.",
     "validation.relasjonTilBarnetBeskrivelse.stringIsTooLong": "Beskrivelsen av hvem du er i forhold til barnet kan ikke inneholde flere enn {maks} tegn.",
 
     "validation.periodeFra.dateHasNoValue": "Du må fylle ut periodens fra-dato.",
