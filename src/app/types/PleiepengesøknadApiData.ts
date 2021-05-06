@@ -2,7 +2,7 @@ import { ApiStringDate } from '@navikt/sif-common-core/lib/types/ApiStringDate';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
-import { BarnRelasjon, AndreYtelserFraNAV, TilsynVetIkkeHvorfor, Arbeidsform } from './PleiepengesøknadFormData';
+import { BarnRelasjon, AndreYtelserFraNAV, Arbeidsform } from './PleiepengesøknadFormData';
 
 export type ISO8601Duration = string;
 
@@ -84,30 +84,33 @@ export interface TilsynsukeApi {
     torsdag?: string;
     fredag?: string;
 }
-export type TilsynsordningApi = TilsynsordningApiVetIkke | TilsynsordningApiNei | TilsynsordningApiJa;
+export type TilsynsordningApi = TilsynsordningApiNei | TilsynsordningApiJa;
 
 interface TilsynsordningApiBase {
-    svar: 'ja' | 'nei' | 'vetIkke';
+    svar: 'ja' | 'nei';
 }
 export interface TilsynsordningApiNei extends TilsynsordningApiBase {
     svar: 'nei';
 }
+
+export interface TilsynsordningUkeApi {
+    mandag?: string;
+    tirsdag?: string;
+    onsdag?: string;
+    torsdag?: string;
+    fredag?: string;
+}
+export enum TilsynVetPeriodeApi {
+    'VET_HELE_PERIODEN' = 'vetHelePerioden',
+    'USIKKER' = 'usikker',
+    'NEI' = 'nei',
+}
 export interface TilsynsordningApiJa extends TilsynsordningApiBase {
     svar: 'ja';
     ja: {
-        mandag?: string;
-        tirsdag?: string;
-        onsdag?: string;
-        torsdag?: string;
-        fredag?: string;
-        tilleggsinformasjon?: string;
-    };
-}
-export interface TilsynsordningApiVetIkke extends TilsynsordningApiBase {
-    svar: 'vetIkke';
-    vetIkke: {
-        svar: TilsynVetIkkeHvorfor;
-        annet?: string;
+        hvorMyeTid: TilsynVetPeriodeApi;
+        tilsyn?: TilsynsukeApi;
+        vetMinAntalTimer?: boolean;
     };
 }
 

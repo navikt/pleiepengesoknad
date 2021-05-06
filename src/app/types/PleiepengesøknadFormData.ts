@@ -24,13 +24,9 @@ export interface Tilsynsuke {
 export interface Tilsynsordning {
     skalBarnHaTilsyn: YesOrNo;
     ja?: {
+        hvorMyeTid?: TilsynVetPeriode;
+        vetMinAntallTimer?: YesOrNo;
         tilsyn?: Tilsynsuke;
-        harEkstrainfo?: YesOrNo;
-        ekstrainfo: string;
-    };
-    vetIkke?: {
-        hvorfor: TilsynVetIkkeHvorfor;
-        ekstrainfo: string;
     };
 }
 
@@ -68,10 +64,9 @@ export enum AppFormField {
     harBeredskap_ekstrainfo = 'harBeredskap_ekstrainfo',
     tilsynsordning = 'tilsynsordning',
     tilsynsordning__skalBarnHaTilsyn = 'tilsynsordning.skalBarnHaTilsyn',
+    tilsynsordning__ja__hvorMyeTid = 'tilsynsordning.ja.hvorMyeTid',
     tilsynsordning__ja__tilsyn = 'tilsynsordning.ja.tilsyn',
-    tilsynsordning__ja__ekstrainfo = 'tilsynsordning.ja.ekstrainfo',
-    tilsynsordning__vetIkke__hvorfor = 'tilsynsordning.vetIkke.hvorfor',
-    tilsynsordning__vetIkke__ekstrainfo = 'tilsynsordning.vetIkke.ekstrainfo',
+    tilsynsordning__ja__vetMinAntalTimer = 'tilsynsordning.ja.vetMinAntalTimer',
     frilans_harHattInntektSomFrilanser = 'harHattInntektSomFrilanser',
     frilans_startdato = 'frilans_startdato',
     frilans_sluttdato = 'frilans_sluttdato',
@@ -139,10 +134,10 @@ export interface ArbeidsforholdSNF {
     [ArbeidsforholdSNFField.arbeidsform]?: Arbeidsform;
 }
 
-export enum TilsynVetIkkeHvorfor {
-    'erSporadisk' = 'erSporadisk',
-    'erIkkeLagetEnPlan' = 'erIkkeLagetEnPlan',
-    'annet' = 'annet',
+export enum TilsynVetPeriode {
+    'vetHelePerioden' = 'vetHelePerioden',
+    'usikker' = 'usikker',
+    'nei' = 'nei',
 }
 
 export enum BarnRelasjon {

@@ -3,7 +3,6 @@ import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import * as attachmentUtils from '@navikt/sif-common-core/lib/utils/attachmentUtils';
 import * as dateUtils from '@navikt/sif-common-core/lib/utils/dateUtils';
-/* eslint-disable @typescript-eslint/camelcase */
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { Næringstype } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import {
@@ -11,6 +10,7 @@ import {
     ArbeidsforholdApiRedusert,
     ArbeidsforholdApiVetIkke,
     PleiepengesøknadApiData,
+    TilsynVetPeriodeApi,
     UtenlandsoppholdIPeriodenApiData,
     UtenlandsoppholdUtenforEøsIPeriodenApiData,
 } from '../../types/PleiepengesøknadApiData';
@@ -19,6 +19,7 @@ import {
     Arbeidsforhold,
     ArbeidsforholdSkalJobbeSvar,
     PleiepengesøknadFormData,
+    TilsynVetPeriode,
 } from '../../types/PleiepengesøknadFormData';
 import { Arbeidsgiver, BarnReceivedFromApi } from '../../types/Søkerdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
@@ -155,11 +156,11 @@ const completeFormDataMock: PleiepengesøknadFormData = {
     søknadenGjelderEtAnnetBarn: false,
     periodeFra: '2020-01-01',
     periodeTil: '2020-02-01',
+
     tilsynsordning: {
         skalBarnHaTilsyn: YesOrNo.YES,
         ja: {
-            ekstrainfo: 'tilsynsordning-ekstrainfo',
-            harEkstrainfo: YesOrNo.YES,
+            hvorMyeTid: TilsynVetPeriode.vetHelePerioden,
             tilsyn: {
                 fredag: {
                     hours: 1,
@@ -590,10 +591,7 @@ describe('Test complete applications', () => {
         samtidigHjemme: true,
         tilsynsordning: {
             svar: 'ja',
-            ja: {
-                fredag: 'PT1H0M',
-                tilleggsinformasjon: 'tilsynsordning-ekstrainfo',
-            },
+            ja: { hvorMyeTid: TilsynVetPeriodeApi.VET_HELE_PERIODEN, tilsyn: { fredag: 'PT1H0M' } },
         },
         nattevåk: {
             harNattevåk: true,
