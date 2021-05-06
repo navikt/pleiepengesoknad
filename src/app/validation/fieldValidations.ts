@@ -157,10 +157,10 @@ export const validateSkalHaTilsynsordning = (tilsynsordning: Tilsynsordning): Va
         if (tilsynsordning.ja === undefined) {
             return AppFieldValidationErrors.tilsynsordning_ingenInfo;
         }
-        const { ekstrainfo, tilsyn } = tilsynsordning.ja;
-        const hasEkstrainformasjon: boolean = (ekstrainfo || '').trim().length > 5;
+        const tilsyn = tilsynsordning.ja.tilsyn;
+
         const hoursInTotal = tilsyn ? sumTimerMedTilsyn(tilsyn) : 0;
-        if (hoursInTotal === 0 && hasEkstrainformasjon === false) {
+        if (hoursInTotal === 0) {
             return AppFieldValidationErrors.tilsynsordning_ingenInfo;
         }
         if (hoursInTotal > 37.5) {

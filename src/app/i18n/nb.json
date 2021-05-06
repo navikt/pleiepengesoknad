@@ -270,6 +270,11 @@
     "steg.tilsyn.vetIkke.årsak.annet": "Annet",
     "steg.tilsyn.vetIkke.årsak.annet.tilleggsopplysninger": "Forklar situasjonen",
 
+    "steg.tilsyn.ja.årsak.spm": "Vet du hvor mye tid barnet skal være i omsorgstibudet?",
+    "steg.tilsyn.ja.årsak.vetHelePerioden": "Ja, jeg vet hele perioden",
+    "steg.tilsyn.ja.årsak.usikkerPerioden": "Barnet skal i omsorgstilbud, men jeg er usikker på hvor mye",
+    "steg.tilsyn.ja.årsak.nei": "Nei",
+
     "steg.nattevåk.spm": "Gjør barnets sykdom at du må være våken på natta og derfor må være borte fra jobb dagen etter?",
     "steg.nattevåk.tilleggsinfo.spm": "Beskriv hva som gjør at du må være våken",
     "steg.beredskap.spm": "Gjør barnets sykdom at du må være i beredskap eller være tilgjengelig selv om barnet er i et omsorgstilbud?",
@@ -329,6 +334,13 @@
     "steg.oppsummering.tilsynsordning.vetIkke.årsak.erIkkeLagetEnPlan": "Det er ikke laget en plan for dette enda",
     "steg.oppsummering.tilsynsordning.vetIkke.årsak.annet": "Annet",
     "steg.oppsummering.tilsynsordning.vetIkke.annet.header": "Beskriv årsak",
+    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.spm": "Vet du hvor mye tid barnet skal være i omsorgstibudet?",
+    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.vetHelePerioden": "Ja, jeg vet hele perioden",
+    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.usikker": "Barnet skal i omsorgstilbud, men jeg er usikker på hvor mye",
+    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.nei": "Nei",
+    "steg.oppsummering.tilsynsordning.vetMinimumAntalTimer.spm": "Vet du et minimum antall timer barnet skal være i et omsorgstilbud per uke?",
+    "steg.oppsummering.tilsynsordning.vetMinimumAntalTimer.ja": "Ja",
+    "steg.oppsummering.tilsynsordning.vetMinimumAntalTimer.nei": "Nei",
 
     "steg.oppsummering.utlandetSiste12.header": "Har bodd i utlandet siste 12 måneder",
     "steg.oppsummering.utlandetNeste12.header": "Skal bo i utlandet neste 12 måneder",
@@ -710,9 +722,12 @@
     "validation.tilsynsordning.tilsynsordning_ingenInfo": "Du må oppgi når barnet er i omsorgstilbud.",
     "validation.tilsynsordning.ja.ekstrainfo.stringIsTooLong": "Tilleggsopplysninger om omsorgstilbudet kan være på maks 1000 tegn.",
     "validation.tilsynsordning_gruppe.tilsynsordning_ingenInfo": "Du har ikke oppgitt hvor mye barnet skal være i et omsorgstilbud.",
+    "validation.tilsynsordning_gruppe.tilsynsordning_forMangeTimerTotalt": "Du kan registrere maks 37 timer og 30 minuter totalt.",
     "validation.tilsynsordning.tilsynsordning_forMangeTimerEnDag": "Antall timer på {dag} er ugyldig. 7 timer og 30 minutter er maks per dag.",
     "validation.tilsynsordning.tilsynsordning_forMangeTegn": "For mange tegn. Maks antall tegn er 1000.",
     "validation.tilsynsordning.tilsynsordning_forMangeTimerTotalt": "Du kan registrere maks 7 timer og 30 minutter hver ukedag.",
+    "validation.tilsynsordning.ja.hvorMyeTid.noValue": "Du må svare om vet du hvor mye tid barnet skal være i omsorgstibudet.",
+    "validation.tilsynsordning.ja.vetMinAntalTimer.yesOrNoIsUnanswered": "Du må svare om vet du et minimum antall timer barnet skal være i et omsorgstilbud per uke.",
 
     "validation.harNattevåk.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnets sykdom gjør at du må være våken på natta.",
     "validation.harNattevåk_ekstrainfo.stringHasNoValue": "Du må beskrive hva som gjør at du må være våken om natta.",

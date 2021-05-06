@@ -23,7 +23,6 @@ describe('mapTilsynsordningToApiData', () => {
             skalBarnHaTilsyn: YesOrNo.NO,
             ja: {
                 tilsyn: undefined,
-                ekstrainfo: 'sdf',
             },
         };
         expect(JSON.stringify(result)).toEqual(JSON.stringify(mapTilsynsordningToApiData(tilsyn)));

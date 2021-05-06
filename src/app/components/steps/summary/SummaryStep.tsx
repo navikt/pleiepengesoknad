@@ -277,6 +277,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
 
                                 {/* Omsorgstilbud */}
                                 <SummarySection header={intlHelper(intl, 'steg.oppsummering.tilsynsordning.header')}>
+                                    {console.log(tilsynsordning)}
                                     {tilsynsordning && <TilsynsordningSummary tilsynsordning={tilsynsordning} />}
 
                                     {nattevaak && (
