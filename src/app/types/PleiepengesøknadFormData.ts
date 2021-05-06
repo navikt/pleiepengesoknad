@@ -66,7 +66,7 @@ export enum AppFormField {
     tilsynsordning__skalBarnHaTilsyn = 'tilsynsordning.skalBarnHaTilsyn',
     tilsynsordning__ja__hvorMyeTid = 'tilsynsordning.ja.hvorMyeTid',
     tilsynsordning__ja__tilsyn = 'tilsynsordning.ja.tilsyn',
-    tilsynsordning__ja__vetMinAntalTimer = 'tilsynsordning.ja.vetMinAntalTimer',
+    tilsynsordning__ja__vetMinAntallTimer = 'tilsynsordning.ja.vetMinAntallTimer',
     frilans_harHattInntektSomFrilanser = 'harHattInntektSomFrilanser',
     frilans_startdato = 'frilans_startdato',
     frilans_sluttdato = 'frilans_sluttdato',

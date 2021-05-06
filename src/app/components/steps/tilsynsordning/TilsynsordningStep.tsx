@@ -104,7 +104,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                             <>
                                 <Box margin="xl">
                                     <AppForm.YesOrNoQuestion
-                                        name={AppFormField.tilsynsordning__ja__vetMinAntalTimer}
+                                        name={AppFormField.tilsynsordning__ja__vetMinAntallTimer}
                                         legend="Vet du et minimum antall timer barnet skal være i et omsorgstilbud per uke?"
                                         validate={getYesOrNoValidator()}
                                     />
