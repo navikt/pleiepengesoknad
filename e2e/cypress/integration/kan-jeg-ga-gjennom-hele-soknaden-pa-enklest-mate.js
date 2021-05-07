@@ -38,7 +38,7 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
 
             // Velg periode, tom
             cy.get('[class=nav-datovelger__kalenderknapp]').last().click();
-            cy.get('[class=DayPicker-Week]').contains(15).first().click();
+            cy.get('[class=DayPicker-Day]').not('.DayPicker-Day--disabled').first().click();
 
             clickNeiPaAlleSporsmal();
 

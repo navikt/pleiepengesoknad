@@ -1,10 +1,11 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { commonFieldErrorRenderer } from '@navikt/sif-common-core/lib/utils/commonFieldErrorRenderer';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { validateYesOrNoIsAnswered } from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import { getTypedFormComponents, UnansweredQuestionsInfo } from '@navikt/sif-common-formik';
+import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import getIntlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
+import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import FormQuestion from '@navikt/sif-common-soknad/lib/form-question/FormQuestion';
 import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
 import { IntroFormData, IntroFormField, introFormInitialValues } from './introFormConfig';
@@ -13,7 +14,7 @@ interface Props {
     onValidSubmit: () => void;
 }
 
-const IntroFormComponents = getTypedFormComponents<IntroFormField, IntroFormData>();
+const IntroFormComponents = getTypedFormComponents<IntroFormField, IntroFormData, ValidationError>();
 
 const IntroForm: React.FunctionComponent<Props> = ({ onValidSubmit }) => {
     const intl = useIntl();
@@ -42,12 +43,12 @@ const IntroForm: React.FunctionComponent<Props> = ({ onValidSubmit }) => {
                                           </UnansweredQuestionsInfo>
                                       )
                             }
-                            fieldErrorRenderer={(error) => commonFieldErrorRenderer(intl, error)}
+                            formErrorHandler={getIntlFormErrorHandler(intl)}
                             submitButtonLabel={intlHelper(intl, 'introForm.start')}>
                             <FormQuestion
                                 legend={intlHelper(intl, `introForm.form.${IntroFormField.harLegeerklæring}.spm`)}
                                 name={IntroFormField.harLegeerklæring}
-                                validate={validateYesOrNoIsAnswered}
+                                validate={getYesOrNoValidator()}
                                 showInfo={harLegeerklæring !== YesOrNo.UNANSWERED}
                                 infoMessage={
                                     <div className="infoMessageContent">
@@ -63,7 +64,7 @@ const IntroForm: React.FunctionComponent<Props> = ({ onValidSubmit }) => {
                                 <FormQuestion
                                     legend={intlHelper(intl, `introForm.form.${IntroFormField.erArbeidstaker}.spm`)}
                                     name={IntroFormField.erArbeidstaker}
-                                    validate={validateYesOrNoIsAnswered}
+                                    validate={getYesOrNoValidator()}
                                     showInfo={erArbeidstaker !== YesOrNo.UNANSWERED}
                                     infoMessage={
                                         <div className="infoMessageContent">

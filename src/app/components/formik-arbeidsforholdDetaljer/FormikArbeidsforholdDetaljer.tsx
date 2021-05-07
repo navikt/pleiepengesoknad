@@ -1,7 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { validateRequiredField } from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import { FieldArray } from 'formik';
 import {
     AppFormField,
@@ -12,6 +11,7 @@ import {
 import AppForm from '../app-form/AppForm';
 import RedusertArbeidsforholdDetaljerPart from './RedusertArbeidsforholdDetaljerPart';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import { getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
@@ -36,7 +36,6 @@ const FormikArbeidsforholdDetaljer = ({ arbeidsforhold, index }: Props) => {
                                 </ExpandableInfo>
                             }
                             name={getFieldName(ArbeidsforholdField.skalJobbe)}
-                            validate={validateRequiredField}
                             radios={[
                                 {
                                     label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.nei'),
@@ -55,6 +54,15 @@ const FormikArbeidsforholdDetaljer = ({ arbeidsforhold, index }: Props) => {
                                     value: ArbeidsforholdSkalJobbeSvar.redusert,
                                 },
                             ]}
+                            validate={(values) =>
+                                getRequiredFieldValidator()(values)
+                                    ? {
+                                          key: 'validation.arbeidsforhold.skalJobbe',
+                                          values: { navn: arbeidsforhold.navn },
+                                          keepKeyUnaltered: true,
+                                      }
+                                    : undefined
+                            }
                         />
                         {arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.redusert && (
                             <RedusertArbeidsforholdDetaljerPart

@@ -5,16 +5,17 @@ import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import {
-    validateRequiredField,
-    validateYesOrNoIsAnswered,
-} from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField, PleiepengesøknadFormData, TilsynVetIkkeHvorfor } from '../../../types/PleiepengesøknadFormData';
-import { validateSkalHaTilsynsordning, validateTilsynsordningTilleggsinfo } from '../../../validation/fieldValidations';
+import { validateSkalHaTilsynsordning } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
+import {
+    getRequiredFieldValidator,
+    getStringValidator,
+    getYesOrNoValidator,
+} from '@navikt/sif-common-formik/lib/validation';
 
 const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
@@ -32,22 +33,22 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                     legend={intlHelper(intl, 'steg.tilsyn.skalBarnetHaTilsyn.spm')}
                     includeDoNotKnowOption={true}
                     labels={{ doNotKnow: intlHelper(intl, 'VetIkke') }}
-                    validate={validateYesOrNoIsAnswered}
+                    validate={getYesOrNoValidator()}
                 />
             </Box>
             {YesOrNo.YES === skalBarnHaTilsyn && tilsynsordning && (
                 <Box margin="xxl">
                     <AppForm.InputGroup
                         legend={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.spm')}
-                        validate={validateSkalHaTilsynsordning}
-                        name={AppFormField.tilsynsordning}>
+                        validate={() => validateSkalHaTilsynsordning(tilsynsordning)}
+                        name={'tilsynsordning_gruppe' as any}>
                         <Tilsynsuke name={AppFormField.tilsynsordning__ja__tilsyn} />
                     </AppForm.InputGroup>
                     <Box margin="xl">
                         <AppForm.Textarea
                             name={AppFormField.tilsynsordning__ja__ekstrainfo}
                             label={intlHelper(intl, 'steg.tilsyn.ja.tilleggsopplysninger.spm')}
-                            validate={validateTilsynsordningTilleggsinfo}
+                            validate={getStringValidator({ maxLength: 1000 })}
                             maxLength={1000}
                         />
                     </Box>
@@ -72,7 +73,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                 value: TilsynVetIkkeHvorfor.annet,
                             },
                         ]}
-                        validate={validateRequiredField}
+                        validate={getRequiredFieldValidator()}
                     />
                     {vetIkke && vetIkke.hvorfor === TilsynVetIkkeHvorfor.annet && (
                         <Box margin="xl">
@@ -80,7 +81,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                 name={AppFormField.tilsynsordning__vetIkke__ekstrainfo}
                                 label={intlHelper(intl, 'steg.tilsyn.vetIkke.årsak.annet.tilleggsopplysninger')}
                                 maxLength={1000}
-                                validate={validateTilsynsordningTilleggsinfo}
+                                validate={getStringValidator({ required: true, maxLength: 1000 })}
                             />
                         </Box>
                     )}

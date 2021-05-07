@@ -9,8 +9,8 @@ import { useFormikContext } from 'formik';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { AppFormField, initialValues, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../../../types/Søkerdata';
-import { validateValgtBarn } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
+import { getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
 
 interface Props {
     søkersBarn: BarnReceivedFromApi[];
@@ -54,12 +54,7 @@ const RegistrertBarnPart = ({ søkersBarn }: Props) => {
                         disabled: søknadenGjelderEtAnnetBarn,
                     };
                 })}
-                validate={(value) => {
-                    if (søknadenGjelderEtAnnetBarn) {
-                        return undefined;
-                    }
-                    return validateValgtBarn(value);
-                }}
+                validate={søknadenGjelderEtAnnetBarn ? undefined : getRequiredFieldValidator()}
             />
             <FormBlock margin="l">
                 <AppForm.Checkbox

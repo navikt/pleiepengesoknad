@@ -2,35 +2,41 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import {
-    validateRequiredField,
-    validateYesOrNoIsAnswered,
-} from '@navikt/sif-common-core/lib/validation/fieldValidations';
+    getDateValidator,
+    getNumberValidator,
+    getRequiredFieldValidator,
+    getYesOrNoValidator,
+} from '@navikt/sif-common-formik/lib/validation';
 import Panel from 'nav-frontend-paneler';
+import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../../../config/minMaxValues';
 import {
     AppFormField,
     ArbeidsforholdSNFField,
     Arbeidsform,
     PleiepengesøknadFormData,
 } from '../../../types/PleiepengesøknadFormData';
-import { validateFrilanserStartdato, validateNumberInputValue } from '../../../validation/fieldValidations';
+import { validateFrilanserStartdato } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
-import FrilansEksempeltHtml from './FrilansEksempelHtml';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ArbeidsformInfoSNFrilanser from '../../formik-arbeidsforhold/ArbeidsformInfoSNFrilanser';
-import { MIN_TIMER_NORMAL_ARBEIDSFORHOLD, MAX_TIMER_NORMAL_ARBEIDSFORHOLD } from '../../../config/minMaxValues';
+import FrilansEksempeltHtml from './FrilansEksempelHtml';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
 }
 
 const FrilansFormPart = ({ formValues }: Props) => {
-    const harHattInntektSomFrilanser = formValues[AppFormField.frilans_harHattInntektSomFrilanser] === YesOrNo.YES;
-    const jobberFortsattSomFrilans = formValues[AppFormField.frilans_jobberFortsattSomFrilans] === YesOrNo.YES;
-    const { frilans_arbeidsforhold } = formValues;
+    const {
+        frilans_jobberFortsattSomFrilans,
+        harHattInntektSomFrilanser,
+        frilans_arbeidsforhold,
+        frilans_startdato,
+    } = formValues;
 
     const intl = useIntl();
     const getFieldName = (field: ArbeidsforholdSNFField) => {
@@ -42,7 +48,7 @@ const FrilansFormPart = ({ formValues }: Props) => {
                 <AppForm.YesOrNoQuestion
                     name={AppFormField.frilans_harHattInntektSomFrilanser}
                     legend={intlHelper(intl, 'frilanser.harDuHattInntekt.spm')}
-                    validate={validateYesOrNoIsAnswered}
+                    validate={getYesOrNoValidator()}
                     description={
                         <ExpandableInfo title={intlHelper(intl, 'frilanser.hjelpetekst.spm')}>
                             <FrilansEksempeltHtml />
@@ -50,7 +56,7 @@ const FrilansFormPart = ({ formValues }: Props) => {
                     }
                 />
             </Box>
-            {harHattInntektSomFrilanser && (
+            {harHattInntektSomFrilanser === YesOrNo.YES && (
                 <>
                     <Box margin="l">
                         <Panel>
@@ -67,12 +73,27 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                 <AppForm.YesOrNoQuestion
                                     name={AppFormField.frilans_jobberFortsattSomFrilans}
                                     legend={intlHelper(intl, 'frilanser.jobberFortsatt.spm')}
-                                    validate={validateYesOrNoIsAnswered}
+                                    validate={getYesOrNoValidator()}
                                 />
                             </Box>
-
-                            {jobberFortsattSomFrilans && (
-                                <Box margin="l">
+                            {frilans_jobberFortsattSomFrilans === YesOrNo.NO && (
+                                <Box margin="xl">
+                                    <AppForm.DatePicker
+                                        name={AppFormField.frilans_sluttdato}
+                                        label={intlHelper(intl, 'frilanser.nårSluttet.spm')}
+                                        showYearSelector={true}
+                                        minDate={datepickerUtils.getDateFromDateString(frilans_startdato)}
+                                        maxDate={dateToday}
+                                        validate={getDateValidator({
+                                            required: true,
+                                            min: datepickerUtils.getDateFromDateString(frilans_startdato),
+                                            max: dateToday,
+                                        })}
+                                    />
+                                </Box>
+                            )}
+                            {frilans_jobberFortsattSomFrilans === YesOrNo.YES && (
+                                <Box margin="xl">
                                     <FormBlock margin="none">
                                         <AppForm.RadioPanelGroup
                                             legend={intlHelper(intl, 'frilanser.arbeidsforhold.arbeidsform.spm')}
@@ -100,7 +121,7 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                                     value: Arbeidsform.varierende,
                                                 },
                                             ]}
-                                            validate={validateRequiredField}
+                                            validate={getRequiredFieldValidator()}
                                         />
                                     </FormBlock>
                                     {frilans_arbeidsforhold?.arbeidsform !== undefined && (
@@ -151,11 +172,23 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                                     intl,
                                                     `snFrilanser.arbeidsforhold.iDag.${frilans_arbeidsforhold.arbeidsform}.spm`
                                                 )}
-                                                validate={(value: any) => {
-                                                    return validateNumberInputValue({
+                                                validate={(value) => {
+                                                    const error = getNumberValidator({
+                                                        required: true,
                                                         min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
                                                         max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
                                                     })(value);
+                                                    if (error) {
+                                                        return {
+                                                            key: `validation.frilans_arbeidsforhold.jobberNormaltTimer.${frilans_arbeidsforhold.arbeidsform}.${error}`,
+                                                            values: {
+                                                                min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
+                                                                max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
+                                                            },
+                                                            keepKeyUnaltered: true,
+                                                        };
+                                                    }
+                                                    return error;
                                                 }}
                                                 value={frilans_arbeidsforhold.arbeidsform || ''}
                                             />

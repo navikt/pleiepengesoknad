@@ -157,6 +157,7 @@ export interface FerieuttakIPeriodeApiData {
 export interface FrilansApiData {
     startdato: ApiStringDate;
     jobberFortsattSomFrilans: boolean;
+    sluttdato?: ApiStringDate;
     arbeidsforhold?: ArbeidsforholdSNFApi;
 }
 
@@ -196,10 +197,11 @@ export interface PleiepengesøknadApiData {
         beredskap: boolean;
         tilleggsinformasjon?: string;
     };
-    harHattInntektSomFrilanser?: boolean;
-    harHattInntektSomSelvstendigNæringsdrivende?: boolean;
+    harHattInntektSomFrilanser: boolean;
     frilans?: FrilansApiData;
-    selvstendigVirksomheter?: VirksomhetApiData[];
+    harHattInntektSomSelvstendigNæringsdrivende: boolean;
+    harFlereVirksomheter?: boolean;
+    selvstendigVirksomheter: VirksomhetApiData[];
     selvstendigArbeidsforhold?: ArbeidsforholdSNFApi;
     harVærtEllerErVernepliktig: boolean;
     andreYtelserFraNAV?: AndreYtelserFraNAV[];

@@ -1,21 +1,17 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { validateFødselsnummer, validateRequiredField } from '@navikt/sif-common-core/lib/validation/fieldValidations';
-import { useFormikContext } from 'formik';
-import { AppFormField, BarnRelasjon, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import {
-    validateFødselsdato,
-    validateRelasjonTilBarnetBeskrivelse,
-    validateNavn,
-} from '../../../validation/fieldValidations';
-import AppForm from '../../app-form/AppForm';
 import { SkjemagruppeQuestion } from '@navikt/sif-common-formik/lib';
+import { getRequiredFieldValidator, getStringValidator } from '@navikt/sif-common-formik/lib/validation';
+import { useFormikContext } from 'formik';
 import { Undertittel } from 'nav-frontend-typografi';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import { AppFormField, BarnRelasjon, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { validateFødselsdato, validateFødselsnummer, validateNavn } from '../../../validation/fieldValidations';
+import AppForm from '../../app-form/AppForm';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
@@ -36,12 +32,7 @@ const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues }) => {
                 <AppForm.Input
                     label={intlHelper(intl, 'steg.omBarnet.fnr.spm')}
                     name={AppFormField.barnetsFødselsnummer}
-                    validate={(fnr) => {
-                        if (!barnetHarIkkeFåttFødselsnummerEnda) {
-                            return validateFødselsnummer(fnr);
-                        }
-                        return undefined;
-                    }}
+                    validate={barnetHarIkkeFåttFødselsnummerEnda ? undefined : validateFødselsnummer}
                     disabled={barnetHarIkkeFåttFødselsnummerEnda}
                     bredde="XL"
                     type="tel"
@@ -78,9 +69,7 @@ const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues }) => {
                     <AppForm.Input
                         label={intlHelper(intl, 'steg.omBarnet.navn')}
                         name={AppFormField.barnetsNavn}
-                        validate={(navn) => {
-                            return validateNavn(navn, false);
-                        }}
+                        validate={validateNavn}
                         bredde="XL"
                     />
                 </FormBlock>
@@ -92,7 +81,7 @@ const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues }) => {
                             label: intlHelper(intl, `barnRelasjon.${relasjon}`),
                             value: relasjon,
                         }))}
-                        validate={validateRequiredField}
+                        validate={getRequiredFieldValidator()}
                         checked={formValues.relasjonTilBarnet}></AppForm.RadioGroup>
                 </FormBlock>
                 {formValues.relasjonTilBarnet === BarnRelasjon.ANNET && (
@@ -118,7 +107,15 @@ const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues }) => {
                                 </>
                             }
                             name={AppFormField.relasjonTilBarnetBeskrivelse}
-                            validate={validateRelasjonTilBarnetBeskrivelse}
+                            validate={(value) => {
+                                const error = getStringValidator({ required: true, maxLength: 1000 })(value);
+                                return error
+                                    ? {
+                                          key: error,
+                                          values: { min: 0, max: 1000 },
+                                      }
+                                    : undefined;
+                            }}
                             value={formValues.relasjonTilBarnet || ''}
                         />
                     </FormBlock>

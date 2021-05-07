@@ -1,17 +1,15 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { getTypedFormComponents } from '@navikt/sif-common-formik';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { AppFormField, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
-import { validateTilsynstimerEnDag } from '../../validation/fieldValidations';
+import { AppFormField } from '../../types/PleiepengesøknadFormData';
+import { getTilsynstimerValidatorEnDag } from '../../validation/fieldValidations';
+import AppForm from '../app-form/AppForm';
 import './tilsynsuke.less';
 
 interface Props {
     name: AppFormField;
 }
-
-const AppForm = getTypedFormComponents<AppFormField, PleiepengesøknadFormData>();
 
 const Tilsynsuke = ({ name }: Props) => {
     const intl = useIntl();
@@ -22,27 +20,27 @@ const Tilsynsuke = ({ name }: Props) => {
                     <AppForm.TimeInput
                         label={intlHelper(intl, 'Mandag')}
                         name={`${name}.mandag` as AppFormField}
-                        validate={validateTilsynstimerEnDag}
+                        validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'mandag'))}
                     />
                     <AppForm.TimeInput
                         label={intlHelper(intl, 'Tirsdag')}
                         name={`${name}.tirsdag` as AppFormField}
-                        validate={validateTilsynstimerEnDag}
+                        validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'tirsdag'))}
                     />
                     <AppForm.TimeInput
                         label={intlHelper(intl, 'Onsdag')}
                         name={`${name}.onsdag` as AppFormField}
-                        validate={validateTilsynstimerEnDag}
+                        validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'onsdag'))}
                     />
                     <AppForm.TimeInput
                         label={intlHelper(intl, 'Torsdag')}
                         name={`${name}.torsdag` as AppFormField}
-                        validate={validateTilsynstimerEnDag}
+                        validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'torsdag'))}
                     />
                     <AppForm.TimeInput
                         label={intlHelper(intl, 'Fredag')}
                         name={`${name}.fredag` as AppFormField}
-                        validate={validateTilsynstimerEnDag}
+                        validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'fredag'))}
                     />
                 </div>
             </Box>

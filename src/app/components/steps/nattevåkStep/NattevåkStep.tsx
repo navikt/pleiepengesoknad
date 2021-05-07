@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { useFormikContext } from 'formik';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { validateYesOrNoIsAnswered } from '@navikt/sif-common-core/lib/validation/fieldValidations';
+import { getStringValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import { useFormikContext } from 'formik';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { validateNattevåkTilleggsinfo } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 
@@ -28,14 +27,14 @@ const NattevåkStep = ({ onValidSubmit }: StepConfigProps) => {
             <AppForm.YesOrNoQuestion
                 legend={intlHelper(intl, 'steg.nattevåk.spm')}
                 name={AppFormField.harNattevåk}
-                validate={validateYesOrNoIsAnswered}
+                validate={getYesOrNoValidator()}
             />
             {harNattevåk === YesOrNo.YES && (
                 <Box margin="xl">
                     <AppForm.Textarea
                         name={AppFormField.harNattevåk_ekstrainfo}
                         label={intlHelper(intl, 'steg.nattevåk.tilleggsinfo.spm')}
-                        validate={validateNattevåkTilleggsinfo}
+                        validate={getStringValidator({ required: true, maxLength: 1000 })}
                         maxLength={1000}
                     />
                 </Box>

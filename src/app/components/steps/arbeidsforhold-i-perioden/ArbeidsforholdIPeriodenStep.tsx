@@ -1,17 +1,17 @@
 import React from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import BuildingIcon from '@navikt/sif-common-core/lib/components/building-icon/BuildingIconSvg';
+import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { useFormikContext } from 'formik';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import FormikArbeidsforholdSNFDetaljer from '../../formik-arbeidsforholdDetaljer/FormikArbeidsforholdSNFDetaljer';
 import FormikArbeidsforholdDetaljer from '../../formik-arbeidsforholdDetaljer/FormikArbeidsforholdDetaljer';
+import FormikArbeidsforholdSNFDetaljer from '../../formik-arbeidsforholdDetaljer/FormikArbeidsforholdSNFDetaljer';
 import FormikStep from '../../formik-step/FormikStep';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
-import { FormattedMessage, useIntl } from 'react-intl';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 
 const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
@@ -59,6 +59,7 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
                             title={intlHelper(intl, 'step.arbeidsforholdIPerioden.FrilansLabel')}
                             titleIcon={<BuildingIcon />}>
                             <FormikArbeidsforholdSNFDetaljer
+                                frilansEllerSelvstendig="frilans"
                                 snF_arbeidsforhold={frilans_arbeidsforhold}
                                 appFormField={AppFormField.frilans_arbeidsforhold}
                             />
@@ -73,6 +74,7 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
                             title={intlHelper(intl, 'step.arbeidsforholdIPerioden.SNLabel')}
                             titleIcon={<BuildingIcon />}>
                             <FormikArbeidsforholdSNFDetaljer
+                                frilansEllerSelvstendig="selvstendig"
                                 snF_arbeidsforhold={selvstendig_arbeidsforhold}
                                 appFormField={AppFormField.selvstendig_arbeidsforhold}
                             />

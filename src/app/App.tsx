@@ -16,6 +16,7 @@ import { getEnvironmentVariable } from './utils/envUtils';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
 import '@navikt/sif-common-core/lib/styles/globalStyles.less';
 import './app.less';
+import dayjs from 'dayjs';
 
 export const APPLICATION_KEY = 'pleiepengesoknad';
 export const SKJEMANAVN = 'Søknad om pleiepenger';
@@ -24,6 +25,7 @@ appSentryLogger.init();
 
 const localeFromSessionStorage = getLocaleFromSessionStorage();
 moment.locale(localeFromSessionStorage);
+dayjs.locale(localeFromSessionStorage);
 
 // Trigger build
 

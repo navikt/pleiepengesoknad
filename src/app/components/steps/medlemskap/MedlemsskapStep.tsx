@@ -1,23 +1,24 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { date1YearAgo, date1YearFromNow, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import BostedUtlandListAndDialog from '@navikt/sif-common-forms/lib/bosted-utland/BostedUtlandListAndDialog';
 import { BostedUtland } from '@navikt/sif-common-forms/lib/bosted-utland/types';
 import { useFormikContext } from 'formik';
 import moment from 'moment';
 import Lenke from 'nav-frontend-lenker';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
-import { date1YearAgo, date1YearFromNow, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { validateYesOrNoIsAnswered } from '@navikt/sif-common-core/lib/validation/fieldValidations';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import getLenker from '../../../lenker';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
-import BostedsoppholdIUtlandetFormPart from './BostedsoppholdIUtlandetFormPart';
-import { medlemskapQuestions } from './medlemskapConfig';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import { validateUtenlandsoppholdNeste12Mnd, validateUtenlandsoppholdSiste12Mnd } from './medlemskapFieldValidations';
 
 const getFomForBostedNeste12 = (bosted: BostedUtland[]): Date => {
     const sisteBosted = bosted.length > 0 ? bosted[bosted.length - 1] : undefined;
@@ -30,10 +31,7 @@ const getFomForBostedNeste12 = (bosted: BostedUtland[]): Date => {
 const MedlemsskapStep = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<PleiepengesøknadFormData>();
     const intl = useIntl();
-    const questions = medlemskapQuestions.getVisbility(values);
-
     const neste12FomDate = getFomForBostedNeste12(values.utenlandsoppholdSiste12Mnd);
-
     return (
         <FormikStep id={StepID.MEDLEMSKAP} onValidFormSubmit={onValidSubmit}>
             <Box padBottom="xxl">
@@ -48,23 +46,25 @@ const MedlemsskapStep = ({ onValidSubmit }: StepConfigProps) => {
             <AppForm.YesOrNoQuestion
                 legend={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.spm')}
                 name={AppFormField.harBoddUtenforNorgeSiste12Mnd}
-                validate={questions.validate(AppFormField.harBoddUtenforNorgeSiste12Mnd)}
+                validate={getYesOrNoValidator()}
                 description={
                     <ExpandableInfo title={intlHelper(intl, 'HvaBetyrDette')}>
                         {intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.hjelp')}
                     </ExpandableInfo>
                 }
             />
-            {questions.isVisible(AppFormField.utenlandsoppholdSiste12Mnd) && (
+            {values.harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && (
                 <FormBlock margin="l">
-                    <BostedsoppholdIUtlandetFormPart
-                        periode={{ from: date1YearAgo, to: dateToday }}
+                    <BostedUtlandListAndDialog<AppFormField>
                         name={AppFormField.utenlandsoppholdSiste12Mnd}
+                        minDate={date1YearAgo}
+                        maxDate={dateToday}
                         labels={{
                             addLabel: intlHelper(intl, 'step.medlemskap.leggTilKnapp'),
                             listTitle: intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.listeTittel'),
                             modalTitle: intlHelper(intl, 'step.medlemskap.utenlandsoppholdSiste12'),
                         }}
+                        validate={validateUtenlandsoppholdSiste12Mnd}
                     />
                 </FormBlock>
             )}
@@ -72,7 +72,7 @@ const MedlemsskapStep = ({ onValidSubmit }: StepConfigProps) => {
                 <AppForm.YesOrNoQuestion
                     legend={intlHelper(intl, 'steg.medlemsskap.annetLandNeste12.spm')}
                     name={AppFormField.skalBoUtenforNorgeNeste12Mnd}
-                    validate={validateYesOrNoIsAnswered}
+                    validate={getYesOrNoValidator()}
                     description={
                         <ExpandableInfo title={intlHelper(intl, 'HvaBetyrDette')}>
                             {intlHelper(intl, 'steg.medlemsskap.annetLandNeste12.hjelp')}
@@ -80,16 +80,18 @@ const MedlemsskapStep = ({ onValidSubmit }: StepConfigProps) => {
                     }
                 />
             </FormBlock>
-            {questions.isVisible(AppFormField.utenlandsoppholdNeste12Mnd) && (
+            {values.skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES && (
                 <FormBlock margin="l">
-                    <BostedsoppholdIUtlandetFormPart
-                        periode={{ from: neste12FomDate, to: date1YearFromNow }}
+                    <BostedUtlandListAndDialog<AppFormField>
                         name={AppFormField.utenlandsoppholdNeste12Mnd}
+                        minDate={neste12FomDate}
+                        maxDate={date1YearFromNow}
                         labels={{
                             addLabel: intlHelper(intl, 'step.medlemskap.leggTilKnapp'),
                             listTitle: intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.listeTittel'),
                             modalTitle: intlHelper(intl, 'step.medlemskap.utenlandsoppholdNeste12'),
                         }}
+                        validate={validateUtenlandsoppholdNeste12Mnd}
                     />
                 </FormBlock>
             )}
