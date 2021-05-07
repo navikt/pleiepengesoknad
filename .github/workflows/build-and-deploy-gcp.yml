@@ -76,7 +76,7 @@ jobs:
 
     deploy-dev-gcp:
         name: Deploy to dev-gcp
-        if: startsWith(github.ref, 'refs/heads/dev-') || startsWith(github.ref, 'refs/heads/master')
+        if: startsWith(github.ref, 'refs/heads/dev-')
         needs: build-code-and-push-docker-gcp
         runs-on: ubuntu-latest
         steps:

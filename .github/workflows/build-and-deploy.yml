@@ -76,7 +76,7 @@ jobs:
 
     deploy-dev-sbs:
         name: deploy-dev-sbs
-        if: startsWith(github.ref, 'refs/heads/dev-') || startsWith(github.ref, 'refs/heads/master')
+        if: startsWith(github.ref, 'refs/heads/dev-')
         needs: build-code-and-push-docker-sbs
         runs-on: ubuntu-latest
         steps:
