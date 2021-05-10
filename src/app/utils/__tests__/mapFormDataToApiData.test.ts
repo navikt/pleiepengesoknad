@@ -236,20 +236,6 @@ describe('mapFormDataToApiData', () => {
         }
     });
 
-    it("should set 'fødselsdato' in api data to null if it doesnt exist, and otherwise it should assign value to 'fødselsdato' in api data", () => {
-        expect(resultingApiData.barn.fødselsdato).toBeNull();
-        const fdato = '2020-10-10';
-        const formDataWithFnr: Partial<PleiepengesøknadFormData> = {
-            ...formDataMock,
-            [AppFormField.barnetsFødselsdato]: fdato,
-        };
-        const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock, 'nb');
-        expect(result).toBeDefined();
-        if (result) {
-            expect(result.barn.fødselsdato).toEqual(fdato);
-        }
-    });
-
     it('should set har_bekreftet_opplysninger to value of harBekreftetOpplysninger in form data', () => {
         expect(resultingApiData.harBekreftetOpplysninger).toBe(formDataMock[AppFormField.harBekreftetOpplysninger]);
     });
