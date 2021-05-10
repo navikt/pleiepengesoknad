@@ -3,7 +3,6 @@ import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import * as attachmentUtils from '@navikt/sif-common-core/lib/utils/attachmentUtils';
 import * as dateUtils from '@navikt/sif-common-core/lib/utils/dateUtils';
-/* eslint-disable @typescript-eslint/camelcase */
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { Næringstype } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import {
@@ -139,7 +138,6 @@ const selvstendigPartialFormData: Partial<PleiepengesøknadFormData> = {
 
 const completeFormDataMock: PleiepengesøknadFormData = {
     arbeidsforhold: [{ ...organisasjonMaxbo, erAnsattIPerioden: YesOrNo.YES, jobberNormaltTimer: '37.5' }],
-    barnetHarIkkeFåttFødselsnummerEnda: false,
     barnetSøknadenGjelder: barnMock[0].aktørId,
     harBekreftetOpplysninger: true,
     harMedsøker: YesOrNo.YES,

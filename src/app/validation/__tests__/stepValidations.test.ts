@@ -49,19 +49,8 @@ describe('stepValidation tests', () => {
     });
 
     describe('opplysningerOmBarnetStepIsValid', () => {
-        describe(`when ${AppFormField.barnetHarIkkeFåttFødselsnummerEnda} is true`, () => {
+        describe(`opplysningerOmBarnetStep test`, () => {
             beforeEach(() => {
-                formData[AppFormField.barnetHarIkkeFåttFødselsnummerEnda] = true;
-                formData[AppFormField.barnetsFødselsdato] = '2020-10-10';
-            });
-            it(`should be valid`, () => {
-                expect(opplysningerOmBarnetStepIsValid(formData as PleiepengesøknadFormData)).toBe(true);
-            });
-        });
-
-        describe(`when ${AppFormField.barnetHarIkkeFåttFødselsnummerEnda} is false`, () => {
-            beforeEach(() => {
-                formData[AppFormField.barnetHarIkkeFåttFødselsnummerEnda] = false;
                 jest.resetAllMocks();
             });
 

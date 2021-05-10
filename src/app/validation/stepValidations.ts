@@ -1,5 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { getDateValidator, getStringValidator } from '@navikt/sif-common-formik/lib/validation';
+import { getStringValidator } from '@navikt/sif-common-formik/lib/validation';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { validateFødselsnummer, validateNavn } from './fieldValidations';
 
@@ -9,13 +9,9 @@ export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: Pleie
 export const opplysningerOmBarnetStepIsValid = ({
     barnetsNavn,
     barnetsFødselsnummer,
-    barnetsFødselsdato,
-    barnetHarIkkeFåttFødselsnummerEnda,
+
     barnetSøknadenGjelder,
 }: PleiepengesøknadFormData) => {
-    if (barnetHarIkkeFåttFødselsnummerEnda) {
-        return getDateValidator({ required: true })(barnetsFødselsdato) ? false : true;
-    }
     const formIsValid =
         validateNavn(barnetsNavn) === undefined && validateFødselsnummer(barnetsFødselsnummer) === undefined;
 
