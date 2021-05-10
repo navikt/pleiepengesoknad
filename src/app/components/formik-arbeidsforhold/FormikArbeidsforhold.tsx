@@ -68,8 +68,7 @@ const FormikArbeidsforhold = ({ arbeidsforhold, index }: Props) => {
                                             validate={(value) => {
                                                 return getRequiredFieldValidator()(value)
                                                     ? {
-                                                          key:
-                                                              'validation.arbeidsforhold.arbeidsform.yesOrNoIsUnanswered',
+                                                          key: 'validation.arbeidsforhold.arbeidsform.yesOrNoIsUnanswered',
                                                           values: { navn: arbeidsforhold.navn },
                                                           keepKeyUnaltered: true,
                                                       }

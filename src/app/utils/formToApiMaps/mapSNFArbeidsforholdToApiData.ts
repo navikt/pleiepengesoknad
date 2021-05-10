@@ -13,14 +13,8 @@ import { calcRedusertProsentFromRedusertTimer } from '../arbeidsforholdUtils';
 export const mapSNFArbeidsforholdToApiData = (
     frilansArbeidsforhold: ArbeidsforholdSNF
 ): ArbeidsforholdSNFApi | undefined => {
-    const {
-        skalJobbe,
-        timerEllerProsent,
-        jobberNormaltTimer,
-        skalJobbeTimer,
-        skalJobbeProsent,
-        arbeidsform,
-    } = frilansArbeidsforhold;
+    const { skalJobbe, timerEllerProsent, jobberNormaltTimer, skalJobbeTimer, skalJobbeProsent, arbeidsform } =
+        frilansArbeidsforhold;
 
     const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
 
