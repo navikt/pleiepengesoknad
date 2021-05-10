@@ -5,10 +5,10 @@ import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-wi
 import { Time } from '@navikt/sif-common-core/lib/types/Time';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { iso8601DurationToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { TilsynsordningApi, TilsynsordningApiJa, TilsynVetPeriodeApi } from '../../../types/PleiepengesøknadApiData';
+import { OmsorgstilbudApi, OmsorgstilbudVetPeriodeApi } from '../../../types/PleiepengesøknadApiData';
 
 interface Props {
-    tilsynsordning: TilsynsordningApi;
+    omsorgstilbud?: OmsorgstilbudApi;
 }
 
 const formatTime = (intl: IntlShape, time: Partial<Time>): string => {
@@ -23,8 +23,8 @@ const formatTime = (intl: IntlShape, time: Partial<Time>): string => {
     return '';
 };
 
-const summarizeDaysInWeek = (tilsynsordning: TilsynsordningApiJa, intl: IntlShape): string => {
-    const { tilsyn } = tilsynsordning.ja;
+const summarizeDaysInWeek = (omsorgstilbud: OmsorgstilbudApi, intl: IntlShape): string => {
+    const { tilsyn } = omsorgstilbud;
 
     if (tilsyn) {
         const days = Object.keys(tilsyn).filter((day) => tilsyn[day] !== undefined);
@@ -41,10 +41,10 @@ const summarizeDaysInWeek = (tilsynsordning: TilsynsordningApiJa, intl: IntlShap
     return intlHelper(intl, 'tilsynsordning.ingenDagerValgt');
 };
 
-const TilsynsordningSummary = ({ tilsynsordning }: Props) => {
+const TilsynsordningSummary = ({ omsorgstilbud }: Props) => {
     const intl = useIntl();
-    const { svar } = tilsynsordning;
-    console.log(tilsynsordning);
+    const svar = omsorgstilbud ? 'ja' : 'nei';
+    console.log(omsorgstilbud);
     return (
         <>
             <Box margin="l">
@@ -52,49 +52,42 @@ const TilsynsordningSummary = ({ tilsynsordning }: Props) => {
                     <FormattedMessage id={`tilsynsordning.svar.${svar}`} />
                 </ContentWithHeader>
             </Box>
-            {tilsynsordning.svar === 'ja' && (
+            {omsorgstilbud && (
                 <>
                     <Box margin="l">
-                        {tilsynsordning.ja && (
-                            <ContentWithHeader
-                                header={intlHelper(intl, 'steg.oppsummering.tilsynsordning.hvorMyeTidOms.spm')}>
-                                {tilsynsordning.ja.hvorMyeTid === TilsynVetPeriodeApi.VET_HELE_PERIODEN && (
-                                    <>
-                                        <FormattedMessage id="steg.oppsummering.tilsynsordning.hvorMyeTidOms.vetHelePerioden" />
-                                        <Box margin="m">{summarizeDaysInWeek(tilsynsordning, intl)}</Box>
-                                    </>
-                                )}
-                                {tilsynsordning.ja.hvorMyeTid === TilsynVetPeriodeApi.USIKKER && (
-                                    <>
-                                        <FormattedMessage id="steg.oppsummering.tilsynsordning.hvorMyeTidOms.usikker" />
-                                        <Box margin="l">
-                                            <ContentWithHeader
-                                                header={intlHelper(
-                                                    intl,
-                                                    'steg.oppsummering.tilsynsordning.vetMinimumAntalTimer.spm'
-                                                )}>
-                                                {tilsynsordning.ja.vetMinAntalTimer && (
-                                                    <>
-                                                        <FormattedMessage id="steg.oppsummering.tilsynsordning.vetMinimumAntalTimer.ja" />
-                                                        <Box margin="m">
-                                                            {summarizeDaysInWeek(tilsynsordning, intl)}
-                                                        </Box>
-                                                    </>
-                                                )}
-                                                {!tilsynsordning.ja.vetMinAntalTimer && (
-                                                    <>
-                                                        <FormattedMessage id="steg.oppsummering.tilsynsordning.vetMinimumAntalTimer.nei" />
-                                                    </>
-                                                )}
-                                            </ContentWithHeader>
-                                        </Box>
-                                    </>
-                                )}
-                                {tilsynsordning.ja.hvorMyeTid === TilsynVetPeriodeApi.NEI && (
-                                    <FormattedMessage id="steg.oppsummering.tilsynsordning.hvorMyeTidOms.nei" />
-                                )}
-                            </ContentWithHeader>
-                        )}
+                        <ContentWithHeader
+                            header={intlHelper(intl, 'steg.oppsummering.tilsynsordning.hvorMyeTidOms.spm')}>
+                            {omsorgstilbud.vetPeriode === OmsorgstilbudVetPeriodeApi.VET_HELE_PERIODEN && (
+                                <>
+                                    <FormattedMessage id="steg.oppsummering.tilsynsordning.hvorMyeTidOms.vetHelePerioden" />
+                                    <Box margin="m">{summarizeDaysInWeek(omsorgstilbud, intl)}</Box>
+                                </>
+                            )}
+                            {omsorgstilbud.vetPeriode === OmsorgstilbudVetPeriodeApi.USIKKER && (
+                                <>
+                                    <FormattedMessage id="steg.oppsummering.tilsynsordning.hvorMyeTidOms.usikker" />
+                                    <Box margin="l">
+                                        <ContentWithHeader
+                                            header={intlHelper(
+                                                intl,
+                                                'steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.spm'
+                                            )}>
+                                            {omsorgstilbud.vetMinAntalTimer && (
+                                                <>
+                                                    <FormattedMessage id="steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.ja" />
+                                                    <Box margin="m">{summarizeDaysInWeek(omsorgstilbud, intl)}</Box>
+                                                </>
+                                            )}
+                                            {!omsorgstilbud.vetMinAntalTimer && (
+                                                <>
+                                                    <FormattedMessage id="steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.nei" />
+                                                </>
+                                            )}
+                                        </ContentWithHeader>
+                                    </Box>
+                                </>
+                            )}
+                        </ContentWithHeader>
                     </Box>
                 </>
             )}

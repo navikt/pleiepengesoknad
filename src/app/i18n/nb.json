@@ -337,10 +337,9 @@
     "steg.oppsummering.tilsynsordning.hvorMyeTidOms.spm": "Vet du hvor mye tid barnet skal være i omsorgstibudet?",
     "steg.oppsummering.tilsynsordning.hvorMyeTidOms.vetHelePerioden": "Ja, jeg vet hele perioden",
     "steg.oppsummering.tilsynsordning.hvorMyeTidOms.usikker": "Barnet skal i omsorgstilbud, men jeg er usikker på hvor mye",
-    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.nei": "Nei",
-    "steg.oppsummering.tilsynsordning.vetMinimumAntalTimer.spm": "Vet du et minimum antall timer barnet skal være i et omsorgstilbud per uke?",
-    "steg.oppsummering.tilsynsordning.vetMinimumAntalTimer.ja": "Ja",
-    "steg.oppsummering.tilsynsordning.vetMinimumAntalTimer.nei": "Nei",
+    "steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.spm": "Vet du et minimum antall timer barnet skal være i et omsorgstilbud per uke?",
+    "steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.ja": "Ja",
+    "steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.nei": "Nei",
 
     "steg.oppsummering.utlandetSiste12.header": "Har bodd i utlandet siste 12 måneder",
     "steg.oppsummering.utlandetNeste12.header": "Skal bo i utlandet neste 12 måneder",
@@ -477,7 +476,7 @@
 
     "tilsynsordning.svar.ja": "Ja",
     "tilsynsordning.svar.nei": "Nei",
-    "tilsynsordning.svar.vetIkke": "Jeg er usikker",
+
     "tilsynsordning.timerPerDag.timerOgMinutter": "{hours}t {minutes}m",
     "tilsynsordning.timerPerDag.timer": "{hours}t",
     "tilsynsordning.timerPerDag.minutter": "{minutes}m",
@@ -727,6 +726,8 @@
     "validation.tilsynsordning.tilsynsordning_forMangeTegn": "For mange tegn. Maks antall tegn er 1000.",
     "validation.tilsynsordning.tilsynsordning_forMangeTimerTotalt": "Du kan registrere maks 7 timer og 30 minutter hver ukedag.",
     "validation.tilsynsordning.ja.hvorMyeTid.noValue": "Du må svare om vet du hvor mye tid barnet skal være i omsorgstibudet.",
+    "validation.tilsynsordning.ja.vetMinAntallTimer.yesOrNoIsUnanswered": "Du må svare ja eller nei om minimum antall timer barnet skal være i et omsorgstilbud per uke.",
+
     "validation.tilsynsordning.ja.vetMinAntalTimer.yesOrNoIsUnanswered": "Du må svare om vet du et minimum antall timer barnet skal være i et omsorgstilbud per uke.",
 
     "validation.harNattevåk.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnets sykdom gjør at du må være våken på natta.",

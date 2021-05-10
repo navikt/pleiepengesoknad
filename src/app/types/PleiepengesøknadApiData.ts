@@ -84,14 +84,6 @@ export interface TilsynsukeApi {
     torsdag?: string;
     fredag?: string;
 }
-export type TilsynsordningApi = TilsynsordningApiNei | TilsynsordningApiJa;
-
-interface TilsynsordningApiBase {
-    svar: 'ja' | 'nei';
-}
-export interface TilsynsordningApiNei extends TilsynsordningApiBase {
-    svar: 'nei';
-}
 
 export interface TilsynsordningUkeApi {
     mandag?: string;
@@ -100,18 +92,15 @@ export interface TilsynsordningUkeApi {
     torsdag?: string;
     fredag?: string;
 }
-export enum TilsynVetPeriodeApi {
-    'VET_HELE_PERIODEN' = 'vetHelePerioden',
-    'USIKKER' = 'usikker',
-    'NEI' = 'nei',
+export enum OmsorgstilbudVetPeriodeApi {
+    'VET_HELE_PERIODEN' = 'VET_HELE_PERIODEN',
+    'USIKKER' = 'USIKKER',
 }
-export interface TilsynsordningApiJa extends TilsynsordningApiBase {
-    svar: 'ja';
-    ja: {
-        hvorMyeTid: TilsynVetPeriodeApi;
-        tilsyn?: TilsynsukeApi;
-        vetMinAntalTimer?: boolean;
-    };
+
+export interface OmsorgstilbudApi {
+    tilsyn?: TilsynsukeApi;
+    vetPeriode: OmsorgstilbudVetPeriodeApi;
+    vetMinAntalTimer?: boolean;
 }
 
 interface Medlemskap {
@@ -191,7 +180,7 @@ export interface PleiepengesøknadApiData {
     samtidigHjemme?: boolean;
     harForståttRettigheterOgPlikter: boolean;
     harBekreftetOpplysninger: boolean;
-    tilsynsordning?: TilsynsordningApi;
+    omsorgstilbud?: OmsorgstilbudApi;
     nattevåk?: {
         harNattevåk: boolean;
         tilleggsinformasjon?: string;
