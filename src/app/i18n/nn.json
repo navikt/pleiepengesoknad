@@ -257,12 +257,6 @@
     "steg.tidsrom.skalPassePåBarnetIHelePerioden.spm": "Skal du passe på barnet i heile tidsrommet du skal ha pleiepengar?",
     "steg.tidsrom.bekreftOmsorgEkstrainfo.spm": "Beskriv omsorgsrolla du har for barnet i tidsrommet du skal ha pleiepengar:",
 
-    "steg.tilsyn.veileder.html": "<p>Eit omsorgstilbod kan vere barnehage, skule, SFO, omsorgsbustad, BPA (brukarstyrt personleg assistent) eller andre organiserte tilbod.</p><p>Du må gi opp alle timane/minutt barnet er i eit omsorgstilbod.</p>",
-    "steg.tilsyn.skalBarnetHaTilsyn.spm": "Skal barnet vere i eit omsorgstilbod i perioden du søkjer om pleiepengar?",
-    "steg.tilsyn.ja.hvorMyeTilsyn.spm": "Gi opp tida barnet er i eit omsorgstilbod.",
-    "steg.tilsyn.ja.harEkstrainfo.spm": "Er det noko meir om omsorgstilbodet vi skal vite?",
-    "steg.tilsyn.ja.tilleggsopplysninger.spm": "Her kan du skrive eventuelle tilleggsopplysningar om omsorgstilbodet (valfritt).",
-    "steg.tilsyn.ja.ekstrainfo.spm": "Gi opp meir om omsorgstilbodet.",
     "steg.tilsyn.tilsynsuke.veileder": "Dersom du veit kor mykje barnet skal være i et omsorgstilbod, må du fylle ut kor mange timar og minutt per dag andre skal passe barnet.",
     "steg.tilsyn.vetIkke.årsak.spm": "Kvifor er du usikker?",
     "steg.tilsyn.vetIkke.årsak.sporadisk": "Barnet er i omsorgstilbod, men tida varierer.",
@@ -392,7 +386,6 @@
     "dokumenter.advarsel.totalstørrelse.1": "Du har totalt lasta opp meir enn grensa på 24 Mb. Det betyr at du må fjerne nokre av dei vedlegga du har lasta opp. Dersom det betyr at du ikkje får plass til alt du ønskjer å sende nå, kan du ",
     "dokumenter.advarsel.totalstørrelse.2": "ettersende fleire dokumenter.",
 
-    
     "arbeidsforhold.erAnsattIPerioden.spm": "Er du tilsett her i perioden du søkjer pleiepengar for?",
 
     "arbeidsforhold.arbeidsform.spm": "Korleis jobbar du hos {arbeidsforhold}?",
