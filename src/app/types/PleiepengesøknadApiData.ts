@@ -100,7 +100,7 @@ export enum OmsorgstilbudVetPeriodeApi {
 export interface OmsorgstilbudApi {
     tilsyn?: TilsynsukeApi;
     vetPeriode: OmsorgstilbudVetPeriodeApi;
-    vetMinAntalTimer?: boolean;
+    vetMinAntallTimer?: boolean;
 }
 
 interface Medlemskap {
