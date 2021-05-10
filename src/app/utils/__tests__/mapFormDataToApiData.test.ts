@@ -10,7 +10,7 @@ import {
     ArbeidsforholdApiRedusert,
     ArbeidsforholdApiVetIkke,
     PleiepengesøknadApiData,
-    TilsynVetPeriodeApi,
+    OmsorgstilbudVetPeriodeApi,
     UtenlandsoppholdIPeriodenApiData,
     UtenlandsoppholdUtenforEøsIPeriodenApiData,
 } from '../../types/PleiepengesøknadApiData';
@@ -589,10 +589,11 @@ describe('Test complete applications', () => {
         harBekreftetOpplysninger: true,
         harForståttRettigheterOgPlikter: true,
         samtidigHjemme: true,
-        tilsynsordning: {
-            svar: 'ja',
-            ja: { hvorMyeTid: TilsynVetPeriodeApi.VET_HELE_PERIODEN, tilsyn: { fredag: 'PT1H0M' } },
+        omsorgstilbud: {
+            vetPeriode: OmsorgstilbudVetPeriodeApi.VET_HELE_PERIODEN,
+            tilsyn: { fredag: 'PT1H0M' },
         },
+
         nattevåk: {
             harNattevåk: true,
             tilleggsinformasjon: 'harNattevåk_ekstrainfo',

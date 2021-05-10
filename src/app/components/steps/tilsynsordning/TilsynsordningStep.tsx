@@ -21,10 +21,6 @@ export const cleanupTilsynsordningStep = (values: PleiepengesøknadFormData): Pl
         if (cleanedValues.tilsynsordning.ja?.hvorMyeTid === TilsynVetPeriode.vetHelePerioden) {
             cleanedValues.tilsynsordning.ja.vetMinAntallTimer = undefined;
         }
-        if (cleanedValues.tilsynsordning.ja?.hvorMyeTid === TilsynVetPeriode.nei) {
-            cleanedValues.tilsynsordning.ja.vetMinAntallTimer = undefined;
-            cleanedValues.tilsynsordning.ja.tilsyn = undefined;
-        }
         if (cleanedValues.tilsynsordning.ja?.hvorMyeTid === TilsynVetPeriode.usikker) {
             if (cleanedValues.tilsynsordning.ja?.vetMinAntallTimer === YesOrNo.NO) {
                 cleanedValues.tilsynsordning.ja.tilsyn = undefined;
@@ -59,15 +55,6 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                     validate={getYesOrNoValidator()}
                 />
             </Box>
-            {YesOrNo.NO === skalBarnHaTilsyn && tilsynsordning && (
-                <Box margin="l">
-                    <AlertStripe type={'info'}>
-                        <p>
-                            Husk å gi beskjed til oss om barnet er i omsorgstilbud likevel dager du ikke har fylt ut..
-                        </p>
-                    </AlertStripe>
-                </Box>
-            )}
             {YesOrNo.YES === skalBarnHaTilsyn && tilsynsordning && (
                 <Box margin="xxl">
                     <AppForm.RadioPanelGroup
@@ -81,10 +68,6 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                             {
                                 label: intlHelper(intl, 'steg.tilsyn.ja.årsak.usikkerPerioden'),
                                 value: TilsynVetPeriode.usikker,
-                            },
-                            {
-                                label: intlHelper(intl, 'steg.tilsyn.ja.årsak.nei'),
-                                value: TilsynVetPeriode.nei,
                             },
                         ]}
                         validate={getRequiredFieldValidator()}
@@ -144,16 +127,6 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                     </>
                                 )}
                             </>
-                        )}
-                        {ja?.hvorMyeTid === TilsynVetPeriode.nei && (
-                            <Box margin="l">
-                                <AlertStripe type={'info'}>
-                                    <p>
-                                        Husk å gi beskjed til oss om barnet er i omsorgstilbud likevel dager du ikke har
-                                        fylt ut..
-                                    </p>
-                                </AlertStripe>
-                            </Box>
                         )}
                     </Box>
                 </Box>

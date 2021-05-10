@@ -207,11 +207,8 @@ export const mapFormDataToApiData = (
             apiData.samtidigHjemme = harMedsøker === YesOrNo.YES ? samtidigHjemme === YesOrNo.YES : undefined;
 
             if (tilsynsordning !== undefined) {
-                apiData.tilsynsordning = mapTilsynsordningToApiData(tilsynsordning);
-                if (
-                    tilsynsordning.skalBarnHaTilsyn === YesOrNo.YES ||
-                    tilsynsordning.skalBarnHaTilsyn === YesOrNo.DO_NOT_KNOW
-                ) {
+                apiData.omsorgstilbud = mapTilsynsordningToApiData(tilsynsordning);
+                if (tilsynsordning.skalBarnHaTilsyn === YesOrNo.YES) {
                     apiData.nattevåk = {
                         harNattevåk: harNattevåk === YesOrNo.YES,
                         tilleggsinformasjon: harNattevåk_ekstrainfo,

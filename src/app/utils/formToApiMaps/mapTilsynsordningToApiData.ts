@@ -1,9 +1,9 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { TilsynsordningApi, TilsynVetPeriodeApi } from '../../types/PleiepengesøknadApiData';
+import { OmsorgstilbudApi, OmsorgstilbudVetPeriodeApi } from '../../types/PleiepengesøknadApiData';
 import { Tilsynsordning, TilsynVetPeriode } from '../../types/PleiepengesøknadFormData';
 
-export const mapTilsynsordningToApiData = (tilsynsordning: Tilsynsordning): TilsynsordningApi | undefined => {
+export const mapTilsynsordningToApiData = (tilsynsordning: Tilsynsordning): OmsorgstilbudApi | undefined => {
     const { ja, skalBarnHaTilsyn } = tilsynsordning;
 
     if (skalBarnHaTilsyn === YesOrNo.YES && ja) {
@@ -19,11 +19,8 @@ export const mapTilsynsordningToApiData = (tilsynsordning: Tilsynsordning): Tils
                   }
                 : undefined;
             return {
-                svar: 'ja',
-                ja: {
-                    hvorMyeTid: TilsynVetPeriodeApi.VET_HELE_PERIODEN,
-                    tilsyn: dager,
-                },
+                vetPeriode: OmsorgstilbudVetPeriodeApi.VET_HELE_PERIODEN,
+                tilsyn: dager,
             };
         }
         if (ja.hvorMyeTid === TilsynVetPeriode.usikker) {
@@ -39,38 +36,19 @@ export const mapTilsynsordningToApiData = (tilsynsordning: Tilsynsordning): Tils
                       }
                     : undefined;
                 return {
-                    svar: 'ja',
-                    ja: {
-                        hvorMyeTid: TilsynVetPeriodeApi.USIKKER,
-                        tilsyn: dager,
-                        vetMinAntalTimer: true,
-                    },
+                    vetPeriode: OmsorgstilbudVetPeriodeApi.USIKKER,
+                    tilsyn: dager,
+                    vetMinAntalTimer: true,
                 };
             }
             if (ja.vetMinAntallTimer === YesOrNo.NO) {
                 return {
-                    svar: 'ja',
-                    ja: {
-                        hvorMyeTid: TilsynVetPeriodeApi.USIKKER,
-                        vetMinAntalTimer: false,
-                    },
+                    vetPeriode: OmsorgstilbudVetPeriodeApi.USIKKER,
+                    vetMinAntalTimer: false,
                 };
             }
         }
-        if (ja.hvorMyeTid === TilsynVetPeriode.nei) {
-            return {
-                svar: 'ja',
-                ja: {
-                    hvorMyeTid: TilsynVetPeriodeApi.NEI,
-                },
-            };
-        }
     }
 
-    if (skalBarnHaTilsyn === YesOrNo.NO) {
-        return {
-            svar: 'nei',
-        };
-    }
     return undefined;
 };

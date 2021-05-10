@@ -137,7 +137,6 @@ export interface ArbeidsforholdSNF {
 export enum TilsynVetPeriode {
     'vetHelePerioden' = 'vetHelePerioden',
     'usikker' = 'usikker',
-    'nei' = 'nei',
 }
 
 export enum BarnRelasjon {
