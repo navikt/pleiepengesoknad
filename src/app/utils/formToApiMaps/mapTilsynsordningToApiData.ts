@@ -38,13 +38,13 @@ export const mapTilsynsordningToApiData = (tilsynsordning: Tilsynsordning): Omso
                 return {
                     vetPeriode: OmsorgstilbudVetPeriodeApi.USIKKER,
                     tilsyn: dager,
-                    vetMinAntalTimer: true,
+                    vetMinAntallTimer: true,
                 };
             }
             if (ja.vetMinAntallTimer === YesOrNo.NO) {
                 return {
                     vetPeriode: OmsorgstilbudVetPeriodeApi.USIKKER,
-                    vetMinAntalTimer: false,
+                    vetMinAntallTimer: false,
                 };
             }
         }

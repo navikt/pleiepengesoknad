@@ -72,13 +72,13 @@ const TilsynsordningSummary = ({ omsorgstilbud }: Props) => {
                                                 intl,
                                                 'steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.spm'
                                             )}>
-                                            {omsorgstilbud.vetMinAntalTimer && (
+                                            {omsorgstilbud.vetMinAntallTimer && (
                                                 <>
                                                     <FormattedMessage id="steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.ja" />
                                                     <Box margin="m">{summarizeDaysInWeek(omsorgstilbud, intl)}</Box>
                                                 </>
                                             )}
-                                            {!omsorgstilbud.vetMinAntalTimer && (
+                                            {!omsorgstilbud.vetMinAntallTimer && (
                                                 <>
                                                     <FormattedMessage id="steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.nei" />
                                                 </>
