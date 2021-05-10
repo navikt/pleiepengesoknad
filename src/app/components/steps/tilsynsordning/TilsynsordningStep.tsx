@@ -13,6 +13,7 @@ import FormikStep from '../../formik-step/FormikStep';
 import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
 import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import AlertStripe from 'nav-frontend-alertstriper';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 export const cleanupTilsynsordningStep = (values: PleiepengesøknadFormData): PleiepengesøknadFormData => {
     const cleanedValues = { ...values };
@@ -51,6 +52,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
             <Box margin="xl">
                 <AppForm.YesOrNoQuestion
                     name={AppFormField.tilsynsordning__skalBarnHaTilsyn}
+                    description={intlHelper(intl, 'steg.tilsyn.skalBarnetHaTilsyn.description')}
                     legend={intlHelper(intl, 'steg.tilsyn.skalBarnetHaTilsyn.spm')}
                     validate={getYesOrNoValidator()}
                 />
@@ -76,8 +78,14 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                         {ja?.hvorMyeTid === TilsynVetPeriode.vetHelePerioden && (
                             <Box margin="xl">
                                 <AppForm.InputGroup
-                                    legend={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.spm')}
+                                    legend={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn')}
                                     validate={() => validateSkalHaTilsynsordning(tilsynsordning)}
+                                    description={
+                                        <ExpandableInfo
+                                            title={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.description.tittel')}>
+                                            {intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.description')}
+                                        </ExpandableInfo>
+                                    }
                                     name={'tilsynsordning_gruppe' as any}>
                                     <Tilsynsuke name={AppFormField.tilsynsordning__ja__tilsyn} />
                                 </AppForm.InputGroup>
@@ -88,7 +96,16 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                 <Box margin="xl">
                                     <AppForm.YesOrNoQuestion
                                         name={AppFormField.tilsynsordning__ja__vetMinAntallTimer}
-                                        legend="Vet du et minimum antall timer barnet skal være i et omsorgstilbud per uke?"
+                                        legend={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.spm')}
+                                        description={
+                                            <ExpandableInfo
+                                                title={intlHelper(
+                                                    intl,
+                                                    'steg.tilsyn.ja.hvorMyeTilsyn.spm.description.tittel'
+                                                )}>
+                                                {intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.spm.description')}
+                                            </ExpandableInfo>
+                                        }
                                         validate={getYesOrNoValidator()}
                                     />
                                 </Box>
@@ -97,16 +114,21 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                     <>
                                         <Box margin="xl">
                                             <AlertStripe type={'info'}>
-                                                <p>
-                                                    Skriv alt du vet med sikkerhet/normaltid. Husk å gi beskjed til oss
-                                                    om barnet endrer normaltid.... vi trenger ikke timer som hender mer
-                                                    sporadisk. Skal vi legge inn noen eksempler her?
-                                                </p>
+                                                <FormattedMessage id="steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.ja" />
                                             </AlertStripe>
                                         </Box>
                                         <Box margin="xl">
                                             <AppForm.InputGroup
-                                                legend={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.spm')}
+                                                legend={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn')}
+                                                description={
+                                                    <ExpandableInfo
+                                                        title={intlHelper(
+                                                            intl,
+                                                            'steg.tilsyn.ja.hvorMyeTilsyn.description.tittel'
+                                                        )}>
+                                                        {intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.description')}
+                                                    </ExpandableInfo>
+                                                }
                                                 validate={() => validateSkalHaTilsynsordning(tilsynsordning)}
                                                 name={'tilsynsordning_gruppe' as any}>
                                                 <Tilsynsuke name={AppFormField.tilsynsordning__ja__tilsyn} />
@@ -118,10 +140,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                     <>
                                         <Box margin="l">
                                             <AlertStripe type={'info'}>
-                                                <p>
-                                                    Husk å gi beskjed til oss om barnet er i omsorgstilbud likevel dager
-                                                    du ikke har fylt ut..
-                                                </p>
+                                                <FormattedMessage id="steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.nei" />
                                             </AlertStripe>
                                         </Box>
                                     </>
