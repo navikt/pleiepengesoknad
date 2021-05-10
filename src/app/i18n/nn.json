@@ -316,13 +316,9 @@
     "steg.oppsummering.beredskap.header": "Gjør barnets sykdom at du må være i beredskap eller være tilgjengelig selv om barnet er i et omsorgstilbud?",
 
     "steg.oppsummering.tilsynsordning.header": "Omsorgstilbod",
-    "steg.oppsummering.tilsynsordning.spm": "Skal barnet være i omsorgstilbud i perioden?",
+
     "steg.oppsummering.tilsynsordning.ja.tilleggsinformasjon.header": "Tilleggsopplysningar",
     "steg.oppsummering.tilsynsordning.vetIkke.header": "Kvifor er du usikker?",
-    "steg.oppsummering.tilsynsordning.vetIkke.årsak.erSporadisk": "Barnet er i omsorgstilbod, men tida varierer.",
-    "steg.oppsummering.tilsynsordning.vetIkke.årsak.erIkkeLagetEnPlan": "Det er ikkje laga ein plan for dette enno.",
-    "steg.oppsummering.tilsynsordning.vetIkke.årsak.annet": "Anna",
-    "steg.oppsummering.tilsynsordning.vetIkke.annet.header": "Beskriv årsak",
 
     "steg.oppsummering.utlandetSiste12.header": "Har budd i utlandet dei siste 12 månadene",
     "steg.oppsummering.utlandetNeste12.header": "Skal bu i utlandet dei neste 12 månadene",
