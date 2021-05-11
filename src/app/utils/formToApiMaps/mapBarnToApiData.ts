@@ -7,14 +7,13 @@ export const mapBarnToApiData = (
     barn: BarnReceivedFromApi[],
     barnetsNavn: string,
     barnetsFødselsnummer: string | undefined,
-    barnetsFødselsdato: Date | undefined,
     barnetSøknadenGjelder: string | undefined
 ): BarnToSendToApi => {
     const emptyBarn = {
         navn: barnetsNavn && barnetsNavn !== '' ? barnetsNavn : null,
         fødselsnummer: barnetsFødselsnummer || null,
         aktørId: null,
-        fødselsdato: barnetsFødselsdato !== undefined ? formatDateToApiFormat(barnetsFødselsdato) : null,
+        fødselsdato: null,
         sammeAdresse: null,
     };
 

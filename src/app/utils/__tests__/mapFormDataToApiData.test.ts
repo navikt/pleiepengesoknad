@@ -3,7 +3,6 @@ import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import * as attachmentUtils from '@navikt/sif-common-core/lib/utils/attachmentUtils';
 import * as dateUtils from '@navikt/sif-common-core/lib/utils/dateUtils';
-/* eslint-disable @typescript-eslint/camelcase */
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { Næringstype } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import {
@@ -139,7 +138,6 @@ const selvstendigPartialFormData: Partial<PleiepengesøknadFormData> = {
 
 const completeFormDataMock: PleiepengesøknadFormData = {
     arbeidsforhold: [{ ...organisasjonMaxbo, erAnsattIPerioden: YesOrNo.YES, jobberNormaltTimer: '37.5' }],
-    barnetHarIkkeFåttFødselsnummerEnda: false,
     barnetSøknadenGjelder: barnMock[0].aktørId,
     harBekreftetOpplysninger: true,
     harMedsøker: YesOrNo.YES,
@@ -235,20 +233,6 @@ describe('mapFormDataToApiData', () => {
         expect(result).toBeDefined();
         if (result) {
             expect(result.barn.fødselsnummer).toEqual(fnr);
-        }
-    });
-
-    it("should set 'fødselsdato' in api data to null if it doesnt exist, and otherwise it should assign value to 'fødselsdato' in api data", () => {
-        expect(resultingApiData.barn.fødselsdato).toBeNull();
-        const fdato = '2020-10-10';
-        const formDataWithFnr: Partial<PleiepengesøknadFormData> = {
-            ...formDataMock,
-            [AppFormField.barnetsFødselsdato]: fdato,
-        };
-        const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock, 'nb');
-        expect(result).toBeDefined();
-        if (result) {
-            expect(result.barn.fødselsdato).toEqual(fdato);
         }
     });
 

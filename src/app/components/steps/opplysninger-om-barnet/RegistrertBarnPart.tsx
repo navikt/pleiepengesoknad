@@ -67,7 +67,6 @@ const RegistrertBarnPart = ({ søkersBarn }: Props) => {
                             resetFieldValues(
                                 [
                                     AppFormField.barnetsFødselsnummer,
-                                    AppFormField.barnetHarIkkeFåttFødselsnummerEnda,
                                     AppFormField.barnetsFødselsdato,
                                     AppFormField.barnetsNavn,
                                 ],
