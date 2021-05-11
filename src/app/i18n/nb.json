@@ -258,8 +258,8 @@
     "steg.tidsrom.bekreftOmsorgEkstrainfo.spm": "Beskriv omsorgsrollen du har for barnet i tidsrommet du skal ha pleiepenger:",
 
     "steg.tilsyn.veileder.html": "<p>Hvis barnet er i et etablert omsorgstilbud i perioden du søker for, skal pleiepengene graderes tilsvarende den tiden barnet er i omsorgstilbudet. Det kan gjøres unntak ved nattevåk eller hvis du må være i beredskap, noe du får spørsmål om litt senere i søknaden.</p><p>Et omsorgstilbud kan være barnehage, skole, SFO, omsorgsbolig, BPA (brukerstyrt personlig assistent), eller andre organiserte tilbud.</p><p>Et etablert omsorgstilbud betyr at den tiden som barnet er i omsorgstilbudet er fast og regelmessig. Hvis bruken av omsorgstilbudet varierer og er uregelmessig, anses ikke omsorgstilbudet som etablert og pleiepengene graderes ikke.</p>",
-    "steg.tilsyn.skalBarnetHaTilsyn.spm": "Skal barnet være i et omsorgstilbud i hele eller deler av perioden du søker om?",
-    "steg.tilsyn.skalBarnetHaTilsyn.description": "(Her svarer du ja hvis barnet skal være i et omsorgstilbud, uansett om det er etablert eller ikke.)",
+    "steg.tilsyn.skalBarnetHaTilsyn.spm": "Skal barnet være i et omsorgstilbud i hele eller deler av perioden du søker om? Her svarer du ja hvis barnet skal være i et omsorgstilbud, uansett om det er etablert eller ikke.",
+
     "steg.tilsyn.ja.hvorMyeTilsyn.spm": "Vet du hvor mye barnet vanligvis klarer å være i omsorgstilbudet?",
     "steg.tilsyn.ja.hvorMyeTilsyn.spm.description.tittel": "Hva betyr dette?",
     "steg.tilsyn.ja.hvorMyeTilsyn.spm.description": "Du skal svare ja hvis du vet hvor mye barnet vanligvis klarer å være i omsorgstilbudet. Du skal svare nei hvis tiden barnet er i omsorgstilbudet varierer og er uregelmessig.",
@@ -279,7 +279,7 @@
 
     "steg.tilsyn.ja.årsak.spm": "Vet du hvor mye barnet skal være i omsorgstilbudet?",
     "steg.tilsyn.ja.årsak.vetHelePerioden": "Ja",
-    "steg.tilsyn.ja.årsak.usikkerPerioden": "Jeg er usikker på hvor mye",
+    "steg.tilsyn.ja.årsak.usikkerPerioden": "Nei, jeg er usikker på hvor mye",
     "steg.tilsyn.ja.årsak.nei": "Nei",
 
     "steg.nattevåk.spm": "Gjør barnets sykdom at du må være våken på natta og derfor må være borte fra jobb dagen etter?",
@@ -338,7 +338,7 @@
     "steg.oppsummering.tilsynsordning.ja.tilleggsinformasjon.header": "Tilleggsopplysninger",
     "steg.oppsummering.tilsynsordning.hvorMyeTidOms.spm": "Vet du hvor mye barnet skal være i omsorgstilbudet?",
     "steg.oppsummering.tilsynsordning.hvorMyeTidOms.vetHelePerioden": "Ja",
-    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.usikker": "Jeg er usikker på hvor mye",
+    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.usikker": "Nei, jeg er usikker på hvor mye",
     "steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.spm": "Vet du hvor mye barnet vanligvis klarer å være i omsorgstilbudet?",
     "steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.ja": "Ja",
     "steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.nei": "Nei",
