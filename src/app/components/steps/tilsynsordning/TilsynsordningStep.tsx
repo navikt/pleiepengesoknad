@@ -52,6 +52,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
             <Box margin="xl">
                 <AppForm.YesOrNoQuestion
                     name={AppFormField.tilsynsordning__skalBarnHaTilsyn}
+                    description={intlHelper(intl, 'steg.tilsyn.skalBarnetHaTilsyn.description')}
                     legend={intlHelper(intl, 'steg.tilsyn.skalBarnetHaTilsyn.spm')}
                     validate={getYesOrNoValidator()}
                 />
