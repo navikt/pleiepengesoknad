@@ -2,6 +2,7 @@ import { ApiStringDate } from '@navikt/sif-common-core/lib/types/ApiStringDate';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
+import { ISODateString } from 'nav-datovelger/lib/types';
 import { BarnRelasjon, AndreYtelserFraNAV, Arbeidsform } from './PleiepengesøknadFormData';
 
 export type ISO8601Duration = string;
@@ -85,22 +86,22 @@ export interface TilsynsukeApi {
     fredag?: string;
 }
 
-export interface TilsynsordningUkeApi {
-    mandag?: string;
-    tirsdag?: string;
-    onsdag?: string;
-    torsdag?: string;
-    fredag?: string;
+export interface OmsorgstilbudFasteDagerApi {
+    mandag?: ISO8601Duration;
+    tirsdag?: ISO8601Duration;
+    onsdag?: ISO8601Duration;
+    torsdag?: ISO8601Duration;
+    fredag?: ISO8601Duration;
 }
-export enum OmsorgstilbudVetPeriodeApi {
-    'VET_HELE_PERIODEN' = 'VET_HELE_PERIODEN',
-    'USIKKER' = 'USIKKER',
+export interface OmsorgstilbudDagApi {
+    dato: ISODateString;
+    tid: ISO8601Duration;
 }
-
 export interface OmsorgstilbudApi {
-    tilsyn?: TilsynsukeApi;
-    vetPeriode: OmsorgstilbudVetPeriodeApi;
-    vetMinAntallTimer?: boolean;
+    vetAlleTimer: boolean;
+    vetNoenTimer?: boolean;
+    fasteDager?: OmsorgstilbudFasteDagerApi;
+    enkeltdager?: OmsorgstilbudDagApi[];
 }
 
 interface Medlemskap {

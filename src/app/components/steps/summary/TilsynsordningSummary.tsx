@@ -5,7 +5,7 @@ import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-wi
 import { Time } from '@navikt/sif-common-core/lib/types/Time';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { iso8601DurationToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { OmsorgstilbudApi, OmsorgstilbudVetPeriodeApi } from '../../../types/PleiepengesøknadApiData';
+import { OmsorgstilbudApi } from '../../../types/PleiepengesøknadApiData';
 
 interface Props {
     omsorgstilbud?: OmsorgstilbudApi;
@@ -24,13 +24,13 @@ const formatTime = (intl: IntlShape, time: Partial<Time>): string => {
 };
 
 const summarizeDaysInWeek = (omsorgstilbud: OmsorgstilbudApi, intl: IntlShape): string => {
-    const { tilsyn } = omsorgstilbud;
+    const { fasteDager } = omsorgstilbud;
 
-    if (tilsyn) {
-        const days = Object.keys(tilsyn).filter((day) => tilsyn[day] !== undefined);
+    if (fasteDager) {
+        const days = Object.keys(fasteDager).filter((day) => fasteDager[day] !== undefined);
 
         const daysSummary = days.map((day) => {
-            const time = iso8601DurationToTime(tilsyn[day]);
+            const time = iso8601DurationToTime(fasteDager[day]);
             return `${intlHelper(intl, `${day}.caps`)}: ${time ? formatTime(intl, time) : 0}`;
         });
         if (daysSummary.length > 0) {
@@ -57,13 +57,13 @@ const TilsynsordningSummary = ({ omsorgstilbud }: Props) => {
                     <Box margin="l">
                         <ContentWithHeader
                             header={intlHelper(intl, 'steg.oppsummering.tilsynsordning.hvorMyeTidOms.spm')}>
-                            {omsorgstilbud.vetPeriode === OmsorgstilbudVetPeriodeApi.VET_HELE_PERIODEN && (
+                            {omsorgstilbud.vetAlleTimer && (
                                 <>
                                     <FormattedMessage id="steg.oppsummering.tilsynsordning.hvorMyeTidOms.vetHelePerioden" />
                                     <Box margin="m">{summarizeDaysInWeek(omsorgstilbud, intl)}</Box>
                                 </>
                             )}
-                            {omsorgstilbud.vetPeriode === OmsorgstilbudVetPeriodeApi.USIKKER && (
+                            {!omsorgstilbud.vetAlleTimer && (
                                 <>
                                     <FormattedMessage id="steg.oppsummering.tilsynsordning.hvorMyeTidOms.usikker" />
                                     <Box margin="l">
@@ -72,13 +72,13 @@ const TilsynsordningSummary = ({ omsorgstilbud }: Props) => {
                                                 intl,
                                                 'steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.spm'
                                             )}>
-                                            {omsorgstilbud.vetMinAntallTimer && (
+                                            {omsorgstilbud.vetNoenTimer && (
                                                 <>
                                                     <FormattedMessage id="steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.ja" />
                                                     <Box margin="m">{summarizeDaysInWeek(omsorgstilbud, intl)}</Box>
                                                 </>
                                             )}
-                                            {!omsorgstilbud.vetMinAntallTimer && (
+                                            {!omsorgstilbud.vetNoenTimer && (
                                                 <>
                                                     <FormattedMessage id="steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.nei" />
                                                 </>

@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { OmsorgstilbudApi, OmsorgstilbudVetPeriodeApi } from '../../types/PleiepengesøknadApiData';
+import { OmsorgstilbudApi } from '../../types/PleiepengesøknadApiData';
 import { Tilsynsordning, TilsynVetPeriode } from '../../types/PleiepengesøknadFormData';
 
 export const mapTilsynsordningToApiData = (tilsynsordning: Tilsynsordning): OmsorgstilbudApi | undefined => {
@@ -19,8 +19,8 @@ export const mapTilsynsordningToApiData = (tilsynsordning: Tilsynsordning): Omso
                   }
                 : undefined;
             return {
-                vetPeriode: OmsorgstilbudVetPeriodeApi.VET_HELE_PERIODEN,
-                tilsyn: dager,
+                vetAlleTimer: true,
+                fasteDager: dager,
             };
         }
         if (ja.hvorMyeTid === TilsynVetPeriode.usikker) {
@@ -36,15 +36,15 @@ export const mapTilsynsordningToApiData = (tilsynsordning: Tilsynsordning): Omso
                       }
                     : undefined;
                 return {
-                    vetPeriode: OmsorgstilbudVetPeriodeApi.USIKKER,
-                    tilsyn: dager,
-                    vetMinAntallTimer: true,
+                    vetAlleTimer: false,
+                    fasteDager: dager,
+                    vetNoenTimer: true,
                 };
             }
             if (ja.vetMinAntallTimer === YesOrNo.NO) {
                 return {
-                    vetPeriode: OmsorgstilbudVetPeriodeApi.USIKKER,
-                    vetMinAntallTimer: false,
+                    vetAlleTimer: false,
+                    vetNoenTimer: false,
                 };
             }
         }
