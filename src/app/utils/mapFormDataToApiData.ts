@@ -87,7 +87,6 @@ export const mapFormDataToApiData = (
 
     const periodeFra = datepickerUtils.getDateFromDateString(formData.periodeFra);
     const periodeTil = datepickerUtils.getDateFromDateString(formData.periodeTil);
-    const barnetsFødselsdato = datepickerUtils.getDateFromDateString(formData.barnetsFødselsdato);
     const organisasjoner = getOrganisasjonerApiData(arbeidsforhold);
 
     if (periodeFra && periodeTil) {
@@ -96,7 +95,6 @@ export const mapFormDataToApiData = (
                 barn,
                 barnetsNavn,
                 barnetsFødselsnummer,
-                barnetsFødselsdato,
                 barnetSøknadenGjelder
             );
 
