@@ -33,7 +33,6 @@ export interface Tilsynsordning {
 export enum AppFormField {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
     harBekreftetOpplysninger = 'harBekreftetOpplysninger',
-    barnetHarIkkeFåttFødselsnummerEnda = 'barnetHarIkkeFåttFødselsnummerEnda',
     barnetsNavn = 'barnetsNavn',
     barnetsFødselsnummer = 'barnetsFødselsnummer',
     barnetsFødselsdato = 'barnetsFødselsdato',
@@ -155,7 +154,6 @@ export interface PleiepengesøknadFormData {
     [AppFormField.barnetsFødselsdato]?: string;
     [AppFormField.søknadenGjelderEtAnnetBarn]: boolean;
     [AppFormField.barnetSøknadenGjelder]: string;
-    [AppFormField.barnetHarIkkeFåttFødselsnummerEnda]: boolean;
     [AppFormField.relasjonTilBarnet]?: BarnRelasjon;
     [AppFormField.relasjonTilBarnetBeskrivelse]?: string;
     [AppFormField.arbeidsforhold]: Arbeidsforhold[];
@@ -206,7 +204,6 @@ export const initialValues: PleiepengesøknadFormData = {
     [AppFormField.søknadenGjelderEtAnnetBarn]: false,
     [AppFormField.legeerklæring]: [],
     [AppFormField.arbeidsforhold]: [],
-    [AppFormField.barnetHarIkkeFåttFødselsnummerEnda]: false,
     [AppFormField.barnetsFødselsdato]: undefined,
     [AppFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,
     [AppFormField.utenlandsoppholdSiste12Mnd]: [],
