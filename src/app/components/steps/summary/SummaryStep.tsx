@@ -148,7 +148,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
 
                 const mottarAndreYtelserFraNAV =
                     apiValues.andreYtelserFraNAV && apiValues.andreYtelserFraNAV.length > 0;
-                console.log(apiValues);
+
                 return (
                     <FormikStep
                         id={StepID.SUMMARY}
