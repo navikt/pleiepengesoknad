@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cypress-file-upload": "^3.5.3"
+    "cypress-file-upload": "^5.0.7"
   }
 }
