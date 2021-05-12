@@ -68,7 +68,7 @@ export const mapFormDataToApiData = (
         utenlandsoppholdSiste12Mnd,
         harMedsøker,
         samtidigHjemme,
-        tilsynsordning,
+        omsorgstilbud,
         harBeredskap,
         harBeredskap_ekstrainfo,
         harNattevåk,
@@ -204,9 +204,9 @@ export const mapFormDataToApiData = (
 
             apiData.samtidigHjemme = harMedsøker === YesOrNo.YES ? samtidigHjemme === YesOrNo.YES : undefined;
 
-            if (tilsynsordning !== undefined) {
-                apiData.omsorgstilbud = mapTilsynsordningToApiData(tilsynsordning);
-                if (tilsynsordning.skalBarnHaTilsyn === YesOrNo.YES) {
+            if (omsorgstilbud !== undefined) {
+                apiData.omsorgstilbud = mapTilsynsordningToApiData(omsorgstilbud);
+                if (omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES) {
                     apiData.nattevåk = {
                         harNattevåk: harNattevåk === YesOrNo.YES,
                         tilleggsinformasjon: harNattevåk_ekstrainfo,

@@ -12,13 +12,14 @@ import {
     PleiepengesøknadApiData,
     UtenlandsoppholdIPeriodenApiData,
     UtenlandsoppholdUtenforEøsIPeriodenApiData,
+    VetOmsorgstilbud,
 } from '../../types/PleiepengesøknadApiData';
 import {
     AppFormField,
     Arbeidsforhold,
     ArbeidsforholdSkalJobbeSvar,
     PleiepengesøknadFormData,
-    TilsynVetPeriode,
+    OmsorgstilbudVetPeriode,
 } from '../../types/PleiepengesøknadFormData';
 import { Arbeidsgiver, BarnReceivedFromApi } from '../../types/Søkerdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
@@ -155,11 +156,11 @@ const completeFormDataMock: PleiepengesøknadFormData = {
     periodeFra: '2020-01-01',
     periodeTil: '2020-02-01',
 
-    tilsynsordning: {
-        skalBarnHaTilsyn: YesOrNo.YES,
+    omsorgstilbud: {
+        skalBarnIOmsorgstilbud: YesOrNo.YES,
         ja: {
-            hvorMyeTid: TilsynVetPeriode.vetHelePerioden,
-            tilsyn: {
+            hvorMyeTid: OmsorgstilbudVetPeriode.vetHelePerioden,
+            fasteDager: {
                 fredag: {
                     hours: 1,
                     minutes: 0,
@@ -574,7 +575,7 @@ describe('Test complete applications', () => {
         harForståttRettigheterOgPlikter: true,
         samtidigHjemme: true,
         omsorgstilbud: {
-            vetAlleTimer: true,
+            vetOmsorgstilbud: VetOmsorgstilbud.VET_ALLE_TIMER,
             fasteDager: { fredag: 'PT1H0M' },
         },
 

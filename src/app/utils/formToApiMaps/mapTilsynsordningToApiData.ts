@@ -1,14 +1,14 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { OmsorgstilbudApi } from '../../types/PleiepengesøknadApiData';
-import { Tilsynsordning, TilsynVetPeriode } from '../../types/PleiepengesøknadFormData';
+import { OmsorgstilbudApi, VetOmsorgstilbud } from '../../types/PleiepengesøknadApiData';
+import { Omsorgstilbud, OmsorgstilbudVetPeriode } from '../../types/PleiepengesøknadFormData';
 
-export const mapTilsynsordningToApiData = (tilsynsordning: Tilsynsordning): OmsorgstilbudApi | undefined => {
-    const { ja, skalBarnHaTilsyn } = tilsynsordning;
+export const mapTilsynsordningToApiData = (tilsynsordning: Omsorgstilbud): OmsorgstilbudApi | undefined => {
+    const { ja, skalBarnIOmsorgstilbud: skalBarnHaTilsyn } = tilsynsordning;
 
     if (skalBarnHaTilsyn === YesOrNo.YES && ja) {
-        if (ja.hvorMyeTid === TilsynVetPeriode.vetHelePerioden && ja.tilsyn) {
-            const { tilsyn } = ja;
+        if (ja.hvorMyeTid === OmsorgstilbudVetPeriode.vetHelePerioden && ja.fasteDager) {
+            const { fasteDager: tilsyn } = ja;
             const dager = tilsyn
                 ? {
                       mandag: tilsyn.mandag ? timeToIso8601Duration(tilsyn.mandag) : undefined,
@@ -19,13 +19,13 @@ export const mapTilsynsordningToApiData = (tilsynsordning: Tilsynsordning): Omso
                   }
                 : undefined;
             return {
-                vetAlleTimer: true,
+                vetOmsorgstilbud: VetOmsorgstilbud.VET_ALLE_TIMER,
                 fasteDager: dager,
             };
         }
-        if (ja.hvorMyeTid === TilsynVetPeriode.usikker) {
-            if (ja.vetMinAntallTimer === YesOrNo.YES && ja.tilsyn) {
-                const { tilsyn } = ja;
+        if (ja.hvorMyeTid === OmsorgstilbudVetPeriode.usikker) {
+            if (ja.vetMinAntallTimer === YesOrNo.YES && ja.fasteDager) {
+                const { fasteDager: tilsyn } = ja;
                 const dager = tilsyn
                     ? {
                           mandag: tilsyn.mandag ? timeToIso8601Duration(tilsyn.mandag) : undefined,
@@ -36,15 +36,13 @@ export const mapTilsynsordningToApiData = (tilsynsordning: Tilsynsordning): Omso
                       }
                     : undefined;
                 return {
-                    vetAlleTimer: false,
+                    vetOmsorgstilbud: VetOmsorgstilbud.VET_NOEN_TIMER,
                     fasteDager: dager,
-                    vetNoenTimer: true,
                 };
             }
             if (ja.vetMinAntallTimer === YesOrNo.NO) {
                 return {
-                    vetAlleTimer: false,
-                    vetNoenTimer: false,
+                    vetOmsorgstilbud: VetOmsorgstilbud.VET_IKKE,
                 };
             }
         }

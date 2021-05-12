@@ -13,7 +13,7 @@ export enum ArbeidsforholdSkalJobbeSvar {
     'vetIkke' = 'vetIkke',
 }
 
-export interface Tilsynsuke {
+export interface OmsorgstilbudFasteDager {
     mandag?: Time;
     tirsdag?: Time;
     onsdag?: Time;
@@ -21,12 +21,12 @@ export interface Tilsynsuke {
     fredag?: Time;
 }
 
-export interface Tilsynsordning {
-    skalBarnHaTilsyn: YesOrNo;
+export interface Omsorgstilbud {
+    skalBarnIOmsorgstilbud: YesOrNo;
     ja?: {
-        hvorMyeTid?: TilsynVetPeriode;
+        hvorMyeTid?: OmsorgstilbudVetPeriode;
         vetMinAntallTimer?: YesOrNo;
-        tilsyn?: Tilsynsuke;
+        fasteDager?: OmsorgstilbudFasteDager;
     };
 }
 
@@ -61,11 +61,11 @@ export enum AppFormField {
     harNattevåk_ekstrainfo = 'harNattevåk_ekstrainfo',
     harBeredskap = 'harBeredskap',
     harBeredskap_ekstrainfo = 'harBeredskap_ekstrainfo',
-    tilsynsordning = 'tilsynsordning',
-    tilsynsordning__skalBarnHaTilsyn = 'tilsynsordning.skalBarnHaTilsyn',
-    tilsynsordning__ja__hvorMyeTid = 'tilsynsordning.ja.hvorMyeTid',
-    tilsynsordning__ja__tilsyn = 'tilsynsordning.ja.tilsyn',
-    tilsynsordning__ja__vetMinAntallTimer = 'tilsynsordning.ja.vetMinAntallTimer',
+    omsorgstilbud = 'omsorgstilbud',
+    omsorgstilbud__skalBarnIOmsorgstilbud = 'omsorgstilbud.skalBarnIOmsorgstilbud',
+    omsorgstilbud__ja__hvorMyeTid = 'omsorgstilbud.ja.hvorMyeTid',
+    omsorgstilbud__ja__fasteDager = 'omsorgstilbud.ja.fasteDager',
+    omsorgstilbud__ja__vetMinAntallTimer = 'omsorgstilbud.ja.vetMinAntallTimer',
     frilans_harHattInntektSomFrilanser = 'harHattInntektSomFrilanser',
     frilans_startdato = 'frilans_startdato',
     frilans_sluttdato = 'frilans_sluttdato',
@@ -133,7 +133,7 @@ export interface ArbeidsforholdSNF {
     [ArbeidsforholdSNFField.arbeidsform]?: Arbeidsform;
 }
 
-export enum TilsynVetPeriode {
+export enum OmsorgstilbudVetPeriode {
     'vetHelePerioden' = 'vetHelePerioden',
     'usikker' = 'usikker',
 }
@@ -173,7 +173,7 @@ export interface PleiepengesøknadFormData {
     [AppFormField.ferieuttakIPerioden]?: Ferieuttak[];
     [AppFormField.harMedsøker]: YesOrNo;
     [AppFormField.samtidigHjemme]: YesOrNo;
-    [AppFormField.tilsynsordning]?: Tilsynsordning;
+    [AppFormField.omsorgstilbud]?: Omsorgstilbud;
     [AppFormField.harNattevåk]: YesOrNo;
     [AppFormField.harNattevåk_ekstrainfo]?: string;
     [AppFormField.harBeredskap]: YesOrNo;
@@ -215,7 +215,7 @@ export const initialValues: PleiepengesøknadFormData = {
     [AppFormField.ferieuttakIPerioden]: [],
     [AppFormField.harMedsøker]: YesOrNo.UNANSWERED,
     [AppFormField.samtidigHjemme]: YesOrNo.UNANSWERED,
-    [AppFormField.tilsynsordning]: undefined,
+    [AppFormField.omsorgstilbud]: undefined,
     [AppFormField.harNattevåk]: YesOrNo.UNANSWERED,
     [AppFormField.harBeredskap]: YesOrNo.UNANSWERED,
     [AppFormField.frilans_harHattInntektSomFrilanser]: YesOrNo.UNANSWERED,

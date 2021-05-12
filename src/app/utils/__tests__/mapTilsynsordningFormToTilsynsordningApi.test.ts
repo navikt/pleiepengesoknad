@@ -1,5 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { Tilsynsordning } from '../../types/PleiepengesøknadFormData';
+import { Omsorgstilbud } from '../../types/PleiepengesøknadFormData';
 import { mapTilsynsordningToApiData } from '../formToApiMaps/mapTilsynsordningToApiData';
 
 jest.mock('./../envUtils', () => {
@@ -15,10 +15,10 @@ jest.mock('./../featureToggleUtils.ts', () => ({
 
 describe('mapTilsynsordningToApiData', () => {
     it('should return correct values when NO is selected', () => {
-        const tilsyn: Tilsynsordning = {
-            skalBarnHaTilsyn: YesOrNo.NO,
+        const tilsyn: Omsorgstilbud = {
+            skalBarnIOmsorgstilbud: YesOrNo.NO,
             ja: {
-                tilsyn: undefined,
+                fasteDager: undefined,
             },
         };
         expect(JSON.stringify(undefined)).toEqual(JSON.stringify(mapTilsynsordningToApiData(tilsyn)));

@@ -6,7 +6,11 @@ import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-p
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
-import { AppFormField, PleiepengesøknadFormData, TilsynVetPeriode } from '../../../types/PleiepengesøknadFormData';
+import {
+    AppFormField,
+    PleiepengesøknadFormData,
+    OmsorgstilbudVetPeriode,
+} from '../../../types/PleiepengesøknadFormData';
 import { validateSkalHaTilsynsordning } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
@@ -18,18 +22,18 @@ import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-co
 export const cleanupTilsynsordningStep = (values: PleiepengesøknadFormData): PleiepengesøknadFormData => {
     const cleanedValues = { ...values };
 
-    if (cleanedValues.tilsynsordning?.skalBarnHaTilsyn === YesOrNo.YES) {
-        if (cleanedValues.tilsynsordning.ja?.hvorMyeTid === TilsynVetPeriode.vetHelePerioden) {
-            cleanedValues.tilsynsordning.ja.vetMinAntallTimer = undefined;
+    if (cleanedValues.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.YES) {
+        if (cleanedValues.omsorgstilbud.ja?.hvorMyeTid === OmsorgstilbudVetPeriode.vetHelePerioden) {
+            cleanedValues.omsorgstilbud.ja.vetMinAntallTimer = undefined;
         }
-        if (cleanedValues.tilsynsordning.ja?.hvorMyeTid === TilsynVetPeriode.usikker) {
-            if (cleanedValues.tilsynsordning.ja?.vetMinAntallTimer === YesOrNo.NO) {
-                cleanedValues.tilsynsordning.ja.tilsyn = undefined;
+        if (cleanedValues.omsorgstilbud.ja?.hvorMyeTid === OmsorgstilbudVetPeriode.usikker) {
+            if (cleanedValues.omsorgstilbud.ja?.vetMinAntallTimer === YesOrNo.NO) {
+                cleanedValues.omsorgstilbud.ja.fasteDager = undefined;
             }
         }
     }
-    if (cleanedValues.tilsynsordning?.skalBarnHaTilsyn === YesOrNo.NO) {
-        cleanedValues.tilsynsordning.ja = undefined;
+    if (cleanedValues.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.NO) {
+        cleanedValues.omsorgstilbud.ja = undefined;
     }
 
     return cleanedValues;
@@ -38,8 +42,8 @@ export const cleanupTilsynsordningStep = (values: PleiepengesøknadFormData): Pl
 const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
     const { values } = useFormikContext<PleiepengesøknadFormData>();
-    const { tilsynsordning } = values;
-    const { skalBarnHaTilsyn, ja } = tilsynsordning || {};
+    const { omsorgstilbud } = values;
+    const { skalBarnIOmsorgstilbud: skalBarnHaTilsyn, ja } = omsorgstilbud || {};
 
     return (
         <FormikStep
@@ -51,34 +55,34 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
             </CounsellorPanel>
             <Box margin="xl">
                 <AppForm.YesOrNoQuestion
-                    name={AppFormField.tilsynsordning__skalBarnHaTilsyn}
+                    name={AppFormField.omsorgstilbud__skalBarnIOmsorgstilbud}
                     legend={intlHelper(intl, 'steg.tilsyn.skalBarnetHaTilsyn.spm')}
                     validate={getYesOrNoValidator()}
                 />
             </Box>
-            {YesOrNo.YES === skalBarnHaTilsyn && tilsynsordning && (
+            {YesOrNo.YES === skalBarnHaTilsyn && omsorgstilbud && (
                 <Box margin="xxl">
                     <AppForm.RadioPanelGroup
                         legend={intlHelper(intl, 'steg.tilsyn.ja.årsak.spm')}
-                        name={AppFormField.tilsynsordning__ja__hvorMyeTid}
+                        name={AppFormField.omsorgstilbud__ja__hvorMyeTid}
                         radios={[
                             {
                                 label: intlHelper(intl, 'steg.tilsyn.ja.årsak.vetHelePerioden'),
-                                value: TilsynVetPeriode.vetHelePerioden,
+                                value: OmsorgstilbudVetPeriode.vetHelePerioden,
                             },
                             {
                                 label: intlHelper(intl, 'steg.tilsyn.ja.årsak.usikkerPerioden'),
-                                value: TilsynVetPeriode.usikker,
+                                value: OmsorgstilbudVetPeriode.usikker,
                             },
                         ]}
                         validate={getRequiredFieldValidator()}
                     />
                     <Box>
-                        {ja?.hvorMyeTid === TilsynVetPeriode.vetHelePerioden && (
+                        {ja?.hvorMyeTid === OmsorgstilbudVetPeriode.vetHelePerioden && (
                             <Box margin="xl">
                                 <AppForm.InputGroup
                                     legend={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn')}
-                                    validate={() => validateSkalHaTilsynsordning(tilsynsordning)}
+                                    validate={() => validateSkalHaTilsynsordning(omsorgstilbud)}
                                     description={
                                         <ExpandableInfo
                                             title={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.description.tittel')}>
@@ -86,15 +90,15 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                         </ExpandableInfo>
                                     }
                                     name={'tilsynsordning_gruppe' as any}>
-                                    <Tilsynsuke name={AppFormField.tilsynsordning__ja__tilsyn} />
+                                    <Tilsynsuke name={AppFormField.omsorgstilbud__ja__fasteDager} />
                                 </AppForm.InputGroup>
                             </Box>
                         )}
-                        {ja?.hvorMyeTid === TilsynVetPeriode.usikker && (
+                        {ja?.hvorMyeTid === OmsorgstilbudVetPeriode.usikker && (
                             <>
                                 <Box margin="xl">
                                     <AppForm.YesOrNoQuestion
-                                        name={AppFormField.tilsynsordning__ja__vetMinAntallTimer}
+                                        name={AppFormField.omsorgstilbud__ja__vetMinAntallTimer}
                                         legend={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.spm')}
                                         description={
                                             <ExpandableInfo
@@ -128,9 +132,9 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                                         {intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.description')}
                                                     </ExpandableInfo>
                                                 }
-                                                validate={() => validateSkalHaTilsynsordning(tilsynsordning)}
+                                                validate={() => validateSkalHaTilsynsordning(omsorgstilbud)}
                                                 name={'tilsynsordning_gruppe' as any}>
-                                                <Tilsynsuke name={AppFormField.tilsynsordning__ja__tilsyn} />
+                                                <Tilsynsuke name={AppFormField.omsorgstilbud__ja__fasteDager} />
                                             </AppForm.InputGroup>
                                         </Box>
                                     </>

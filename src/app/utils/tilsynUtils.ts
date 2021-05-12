@@ -1,14 +1,14 @@
 import { timeToDecimalTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { Tilsynsuke } from '../types/PleiepengesøknadFormData';
+import { OmsorgstilbudFasteDager } from '../types/PleiepengesøknadFormData';
 
-export const sumTimerMedTilsyn = (uke: Tilsynsuke): number => {
+export const sumTimerMedTilsyn = (uke: OmsorgstilbudFasteDager): number => {
     return Object.keys(uke).reduce((timer: number, key: string) => {
         return timer + timeToDecimalTime(uke[key]);
     }, 0);
 };
 
 export const getMaxTimerMedTilsynOneDay = (
-    uke: Tilsynsuke
+    uke: OmsorgstilbudFasteDager
 ): { maxHours: number; day: string | undefined } | undefined => {
     let maxHours = 0;
     let day;
