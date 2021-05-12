@@ -31,12 +31,8 @@ interface Props {
 }
 
 const FrilansFormPart = ({ formValues }: Props) => {
-    const {
-        frilans_jobberFortsattSomFrilans,
-        harHattInntektSomFrilanser,
-        frilans_arbeidsforhold,
-        frilans_startdato,
-    } = formValues;
+    const { frilans_jobberFortsattSomFrilans, harHattInntektSomFrilanser, frilans_arbeidsforhold, frilans_startdato } =
+        formValues;
 
     const intl = useIntl();
     const getFieldName = (field: ArbeidsforholdSNFField) => {

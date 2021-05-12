@@ -52,13 +52,8 @@ const RedusertArbeidsforholdSNFDetaljerPart = ({
     frilansEllerSelvstendig,
 }: Props) => {
     const intl = useIntl();
-    const {
-        timerEllerProsent,
-        jobberNormaltTimer,
-        skalJobbeTimer,
-        skalJobbeProsent,
-        arbeidsform,
-    } = frilans_arbeidsforhold;
+    const { timerEllerProsent, jobberNormaltTimer, skalJobbeTimer, skalJobbeProsent, arbeidsform } =
+        frilans_arbeidsforhold;
 
     const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
     const skalJobbeTimerNumber = getNumberFromNumberInputValue(skalJobbeTimer);

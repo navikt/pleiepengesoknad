@@ -170,16 +170,18 @@ export const validateSkalHaTilsynsordning = (tilsynsordning: Omsorgstilbud): Val
     return undefined;
 };
 
-export const getTilsynstimerValidatorEnDag = (dag: string) => (time: Time): ValidationResult<ValidationError> => {
-    if (time && timeToDecimalTime(time) > 7.5) {
-        return {
-            key: `validation.tilsynsordning.tilsynsordning_forMangeTimerEnDag`,
-            values: { dag },
-            keepKeyUnaltered: true,
-        };
-    }
-    return undefined;
-};
+export const getTilsynstimerValidatorEnDag =
+    (dag: string) =>
+    (time: Time): ValidationResult<ValidationError> => {
+        if (time && timeToDecimalTime(time) > 7.5) {
+            return {
+                key: `validation.tilsynsordning.tilsynsordning_forMangeTimerEnDag`,
+                values: { dag },
+                keepKeyUnaltered: true,
+            };
+        }
+        return undefined;
+    };
 
 export const validateReduserteArbeidTimer = (value: string, jobberNormaltTimer: number): string | undefined => {
     const numberError = getNumberValidator({ required: true })(value);

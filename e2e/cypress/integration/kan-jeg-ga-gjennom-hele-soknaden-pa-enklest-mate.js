@@ -65,7 +65,7 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
             cy.fixture(fileName, 'binary')
                 .then(Cypress.Blob.binaryStringToBlob)
                 .then((fileContent) =>
-                    cy.get('input[type=file]').upload({
+                    cy.get('input[type=file]').attachFile({
                         fileContent,
                         fileName,
                         mimeType: 'image/png', //getMimeType(fileName),
