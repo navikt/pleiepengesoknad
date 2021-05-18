@@ -46,8 +46,8 @@ spec:
           value: ""
         - name: LOGIN_URL
           value: https://loginservice.nav.no/login?redirect=https://pleiepengesoknad.nav.no/soknad
-        - name: REDIRECT_TO_SIF
-          value: "on"
+        - name: REDIRECT_TO
+          value: "https://www.nav.no/familie/sykdom-i-familien/soknad/pleiepenger"
         - name: UTILGJENGELIG
           value: "off"
         - name: NYNORSK
