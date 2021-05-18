@@ -4,33 +4,33 @@ import { BarnToSendToApi } from '../../types/PleiepengesøknadApiData';
 import { BarnReceivedFromApi } from '../../types/Søkerdata';
 
 export const mapBarnToApiData = (
-    barn: BarnReceivedFromApi[],
+    alleBarnFraApi: BarnReceivedFromApi[],
     barnetsNavn: string,
     barnetsFødselsnummer: string | undefined,
-    barnetSøknadenGjelder: string | undefined
-): BarnToSendToApi => {
-    const emptyBarn = {
-        navn: barnetsNavn && barnetsNavn !== '' ? barnetsNavn : null,
-        fødselsnummer: barnetsFødselsnummer || null,
-        aktørId: null,
-        fødselsdato: null,
-        sammeAdresse: null,
-    };
-
-    if (barnetSøknadenGjelder) {
-        const barnChosenFromList = barn.find((currentBarn) => currentBarn.aktørId === barnetSøknadenGjelder);
-        if (barnChosenFromList) {
-            const { fornavn, etternavn, mellomnavn, aktørId, harSammeAdresse: sammeAdresse } = barnChosenFromList;
-            return {
-                navn: formatName(fornavn, etternavn, mellomnavn),
-                fødselsnummer: null,
-                aktørId,
-                fødselsdato: formatDateToApiFormat(barnChosenFromList.fødselsdato),
-                sammeAdresse: sammeAdresse || null,
-            };
+    valgtBarn: string | undefined
+): BarnToSendToApi | undefined => {
+    if (valgtBarn) {
+        const barnChosenFromList = alleBarnFraApi.find((currentBarn) => currentBarn.aktørId === valgtBarn);
+        if (!barnChosenFromList) {
+            return undefined;
         }
-        return emptyBarn;
-    } else {
-        return emptyBarn;
+        const { fornavn, etternavn, mellomnavn, aktørId, harSammeAdresse: sammeAdresse } = barnChosenFromList;
+        return {
+            aktørId,
+            navn: formatName(fornavn, etternavn, mellomnavn),
+            fødselsnummer: null,
+            fødselsdato: formatDateToApiFormat(barnChosenFromList.fødselsdato),
+            sammeAdresse: sammeAdresse || null,
+        };
     }
+    if (barnetsFødselsnummer && barnetsNavn) {
+        return {
+            navn: barnetsNavn,
+            fødselsnummer: barnetsFødselsnummer,
+            aktørId: null,
+            fødselsdato: null,
+            sammeAdresse: null,
+        };
+    }
+    return undefined;
 };

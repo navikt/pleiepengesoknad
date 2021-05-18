@@ -88,16 +88,15 @@ export const mapFormDataToApiData = (
     const periodeFra = datepickerUtils.getDateFromDateString(formData.periodeFra);
     const periodeTil = datepickerUtils.getDateFromDateString(formData.periodeTil);
     const organisasjoner = getOrganisasjonerApiData(arbeidsforhold);
+    const barnObject: BarnToSendToApi | undefined = mapBarnToApiData(
+        barn,
+        barnetsNavn,
+        barnetsFødselsnummer,
+        barnetSøknadenGjelder
+    );
 
-    if (periodeFra && periodeTil) {
+    if (periodeFra && periodeTil && barnObject) {
         try {
-            const barnObject: BarnToSendToApi = mapBarnToApiData(
-                barn,
-                barnetsNavn,
-                barnetsFødselsnummer,
-                barnetSøknadenGjelder
-            );
-
             const gjelderAnnetBarn = barnObject.aktørId === null;
             const sprak = getValidSpråk(locale);
 

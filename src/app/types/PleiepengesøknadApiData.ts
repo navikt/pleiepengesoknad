@@ -7,7 +7,7 @@ import { BarnRelasjon, AndreYtelserFraNAV, TilsynVetIkkeHvorfor, Arbeidsform } f
 export type ISO8601Duration = string;
 
 export interface BarnToSendToApi {
-    navn: string | null;
+    navn: string;
     fødselsnummer: string | null;
     fødselsdato: string | null;
     aktørId: string | null;

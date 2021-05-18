@@ -90,6 +90,7 @@ const attachmentMock2: Partial<AttachmentMock> = { url: 'nav.no/2', failed: fals
 
 const formDataMock: Partial<PleiepengesøknadFormData> = {
     [AppFormField.barnetsNavn]: 'Ola Foobar',
+    [AppFormField.barnetsFødselsnummer]: '12345678901',
     [AppFormField.harBekreftetOpplysninger]: true,
     [AppFormField.harForståttRettigheterOgPlikter]: true,
     [AppFormField.arbeidsforhold]: [
@@ -222,9 +223,8 @@ describe('mapFormDataToApiData', () => {
         expect(resultingApiData.vedlegg[0]).toEqual(attachmentMock2.url);
     });
 
-    it("should set 'fodselsnummer' in api data to undefined if it doesnt exist, and otherwise it should assign value to 'fodselsnummer' in api data", () => {
+    it("should set 'fodselsnummer' in api data to given fødselsnummer", () => {
         const fnr = '12345123456';
-        expect(resultingApiData.barn.fødselsnummer).toBeNull();
         const formDataWithFnr: Partial<PleiepengesøknadFormData> = {
             ...formDataMock,
             [AppFormField.barnetsFødselsnummer]: fnr,
@@ -234,6 +234,19 @@ describe('mapFormDataToApiData', () => {
         if (result) {
             expect(result.barn.fødselsnummer).toEqual(fnr);
         }
+    });
+    it("should set 'fodselsnummer' in api data to null if api barn is selected", () => {
+        const fnr = '12345123456';
+        const result = mapFormDataToApiData(
+            {
+                ...formDataMock,
+                barnetSøknadenGjelder: barnMock[0].aktørId,
+                [AppFormField.barnetsFødselsnummer]: fnr,
+            } as PleiepengesøknadFormData,
+            barnMock,
+            'nb'
+        );
+        expect(result?.barn.fødselsnummer).toBeNull();
     });
 
     it('should set har_bekreftet_opplysninger to value of harBekreftetOpplysninger in form data', () => {

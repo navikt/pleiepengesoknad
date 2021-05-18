@@ -9,7 +9,6 @@ export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: Pleie
 export const opplysningerOmBarnetStepIsValid = ({
     barnetsNavn,
     barnetsFødselsnummer,
-
     barnetSøknadenGjelder,
 }: PleiepengesøknadFormData) => {
     const formIsValid =
