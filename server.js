@@ -50,7 +50,12 @@ const startServer = (html) => {
     server.get(`${process.env.PUBLIC_PATH}/health/isReady`, (req, res) => res.sendStatus(200));
 
     server.get(/^\/(?!.*dist).*$/, (req, res) => {
-        res.send(html);
+        if (process.env.REDIRECT_TO_SIF === 'on') {
+            res.set('location', 'https://www.nav.no/familie/sykdom-i-familien/soknad/pleiepenger');
+            res.status(301).send();
+        } else {
+            res.send(html);
+        }
     });
 
     const port = process.env.PORT || 8080;

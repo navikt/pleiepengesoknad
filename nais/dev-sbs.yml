@@ -51,6 +51,8 @@ spec:
           value: ""
         - name: LOGIN_URL
           value: https://loginservice-q.nav.no/login?redirect=https://pleiepengesoknad-q.nav.no/soknad
+        - name: REDIRECT_TO_SIF
+          value: "on"
         - name: NYNORSK
           value: "on"
         - name: INNSYN
