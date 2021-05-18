@@ -583,7 +583,7 @@
     "validation.barnetsFødselsdato.dateHasInvalidFormat": "Du må oppgi barnets fødselsdato i et gyldig format. Gyldig format er dd.mm.ååå.",
 
     "validation.relasjonTilBarnet.noValue": "Du må svare på hvilken relasjon du har til barnet.",
-    "validation.barnetsFødselsnummer.fødselsnummerHasNoValue": "Du må fylle ut barnets fødselsnummer/D-nummer. Hvis barnet ikke har fødselsnummer/D-nummer kan du huke av for det.",
+    "validation.barnetsFødselsnummer.fødselsnummerHasNoValue": "Du må fylle ut barnets fødselsnummer/D-nummer.",
     "validation.barnetsFødselsnummer.fødselsnummerNot11Chars": "Fødselsnummeret / D-nummeret må bestå av 11 siffer.",
     "validation.barnetsFødselsnummer.fødselsnummerIsNot11Chars": "Fødselsnummeret / D-nummeret du har tastet inn inneholder 11 siffer, men det er ikke et gyldig norsk fødselsnummer. Kontroller at du har tastet inn riktig.",
 
