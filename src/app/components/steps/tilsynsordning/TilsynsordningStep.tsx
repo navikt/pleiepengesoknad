@@ -18,6 +18,7 @@ import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
 import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import AlertStripe from 'nav-frontend-alertstriper';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatted-html-message/FormattedHtmlMessage';
 
 export const cleanupTilsynsordningStep = (values: PleiepengesøknadFormData): PleiepengesøknadFormData => {
     const cleanedValues = { ...values };
@@ -106,7 +107,9 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                                     intl,
                                                     'steg.tilsyn.ja.hvorMyeTilsyn.spm.description.tittel'
                                                 )}>
-                                                {intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.spm.description')}
+                                                {
+                                                    <FormattedHtmlMessage id="steg.tilsyn.ja.hvorMyeTilsyn.spm.description.html" />
+                                                }
                                             </ExpandableInfo>
                                         }
                                         validate={getYesOrNoValidator()}
