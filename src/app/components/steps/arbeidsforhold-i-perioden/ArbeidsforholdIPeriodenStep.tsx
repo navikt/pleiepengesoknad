@@ -52,7 +52,7 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
                     ))}
                 </div>
             </Box>
-            {frilans_jobberFortsattSomFrilans === YesOrNo.YES && frilans_arbeidsforhold && (
+            {frilans_jobberFortsattSomFrilans && frilans_arbeidsforhold && (
                 <Box margin="xl">
                     <div className="arbeidsforhold">
                         <FormSection
