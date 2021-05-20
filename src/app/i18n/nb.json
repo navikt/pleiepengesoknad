@@ -337,7 +337,7 @@
     "steg.oppsummering.tilsynsordning.hvorMyeTidOms.spm": "Vet du hvor mye barnet skal være i omsorgstilbudet?",
     "steg.oppsummering.tilsynsordning.hvorMyeTidOms.vetHelePerioden": "Ja",
     "steg.oppsummering.tilsynsordning.hvorMyeTidOms.usikker": "Nei, jeg er usikker på hvor mye",
-    "steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.spm": "Vet du hvor mye barnet vanligvis klarer å være i omsorgstilbudet?",
+    "steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.spm": "Er du sikker på noe av tiden barnet skal være i omsorgstilbudet?",
     "steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.ja": "Ja",
     "steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.nei": "Nei",
 
