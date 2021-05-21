@@ -625,7 +625,7 @@
     "validation.ferieuttakIPerioden.ferieuttak_overlapper": "Du har lagt inn ferie som er utenfor søknadsperiode.",
     "validation.skalTaUtFerieIPerioden.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du skal ha lovbestemt ferie i perioden du søker for.",
     "validation.arbeidsforhold.erAnsattIPerioden.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du er ansatt hos {navn} i perioden du søker pleiepenger.",
-    "validation.arbeidsforhold.arbeidsform.yesOrNoIsUnanswered": "Du må svare ja eller nei på hvordan du jobber hos {navn}.",
+    "validation.arbeidsforhold.arbeidsform.yesOrNoIsUnanswered": "Du må svare på hvordan du jobber hos {navn}.",
     "validation.arbeidsforhold.jobberNormaltTimer.FAST.numberHasNoValue": "Skriv inn hvor mange timer du jobber fast per uke hos {navn}.",
     "validation.arbeidsforhold.jobberNormaltTimer.FAST.numberHasInvalidFormat": "Antall timer du jobber fast per uke hos {navn} er ikke et gyldig tall.",
     "validation.arbeidsforhold.jobberNormaltTimer.FAST.numberIsTooSmall": "Antall timer du jobber fast per uke hos {navn} er for lavt.",
