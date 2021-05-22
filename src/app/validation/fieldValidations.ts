@@ -174,6 +174,8 @@ export const getTilsynstimerValidatorEnDag =
     (dag: string) =>
     (time: Time): ValidationResult<ValidationError> => {
         if (time && timeToDecimalTime(time) > 7.5) {
+            console.log(timeToDecimalTime(time));
+
             return {
                 key: `validation.tilsynsordning.tilsynsordning_forMangeTimerEnDag`,
                 values: { dag },

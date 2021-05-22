@@ -34,9 +34,9 @@
     "dependencies": {
         "@formatjs/intl-pluralrules": "^4.0.18",
         "@navikt/sif-common-amplitude": "^2.0.0",
-        "@navikt/sif-common-core": "^9.1.4",
-        "@navikt/sif-common-formik": "^19.0.3",
-        "@navikt/sif-common-forms": "^14.0.10",
+        "@navikt/sif-common-core": "^9.2.0",
+        "@navikt/sif-common-formik": "^19.1.6",
+        "@navikt/sif-common-forms": "^14.1.0",
         "@navikt/sif-common-sentry": "0.1.2",
         "@navikt/sif-common-soknad": "^4.0.3",
         "@testing-library/react": "^11.2.6",
@@ -124,7 +124,7 @@
         "style-loader": "^2.0.0",
         "svg-sprite-loader": "^6.0.6",
         "ts-jest": "^26.5.6",
-        "ts-loader": "^9.1.2",
+        "ts-loader": "^9.2.1",
         "typescript": "4.2.4",
         "webpack": "^5.37.0",
         "webpack-dev-server": "^3.11.2"
