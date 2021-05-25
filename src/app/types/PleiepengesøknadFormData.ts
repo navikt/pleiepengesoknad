@@ -2,7 +2,7 @@ import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { Virksomhet } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
-import { Time } from '@navikt/sif-common-core/lib/types/Time';
+import { Time } from '@navikt/sif-common-formik/lib/types';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { Arbeidsgiver } from './Søkerdata';
 

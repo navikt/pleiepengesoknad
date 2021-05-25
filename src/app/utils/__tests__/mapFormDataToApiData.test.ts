@@ -162,8 +162,8 @@ const completeFormDataMock: PleiepengesøknadFormData = {
             hvorMyeTid: OmsorgstilbudVetPeriode.vetHelePerioden,
             fasteDager: {
                 fredag: {
-                    hours: 1,
-                    minutes: 0,
+                    hours: '1',
+                    minutes: '0',
                 },
             },
         },
