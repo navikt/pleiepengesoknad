@@ -25,7 +25,15 @@ const webpackConfig = {
             {
                 test: /\.(ts|tsx)$/,
                 include: [path.resolve(__dirname, './../../app')],
-                loader: require.resolve('awesome-typescript-loader'),
+                use: [
+                    {
+                        loader: 'ts-loader',
+                        options: {
+                            transpileOnly: true,
+                            experimentalFileCaching: false,
+                        },
+                    },
+                ],
             },
             {
                 test: /\.less$/,
