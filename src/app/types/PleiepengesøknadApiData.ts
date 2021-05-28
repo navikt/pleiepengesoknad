@@ -2,7 +2,8 @@ import { ApiStringDate } from '@navikt/sif-common-core/lib/types/ApiStringDate';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
-import { BarnRelasjon, AndreYtelserFraNAV, TilsynVetIkkeHvorfor, Arbeidsform } from './PleiepengesøknadFormData';
+import { ISODateString } from 'nav-datovelger/lib/types';
+import { BarnRelasjon, AndreYtelserFraNAV, Arbeidsform } from './PleiepengesøknadFormData';
 
 export type ISO8601Duration = string;
 
@@ -84,31 +85,28 @@ export interface TilsynsukeApi {
     torsdag?: string;
     fredag?: string;
 }
-export type TilsynsordningApi = TilsynsordningApiVetIkke | TilsynsordningApiNei | TilsynsordningApiJa;
 
-interface TilsynsordningApiBase {
-    svar: 'ja' | 'nei' | 'vetIkke';
+export interface OmsorgstilbudFasteDagerApi {
+    mandag?: ISO8601Duration;
+    tirsdag?: ISO8601Duration;
+    onsdag?: ISO8601Duration;
+    torsdag?: ISO8601Duration;
+    fredag?: ISO8601Duration;
 }
-export interface TilsynsordningApiNei extends TilsynsordningApiBase {
-    svar: 'nei';
+export interface OmsorgstilbudDagApi {
+    dato: ISODateString;
+    tid: ISO8601Duration;
 }
-export interface TilsynsordningApiJa extends TilsynsordningApiBase {
-    svar: 'ja';
-    ja: {
-        mandag?: string;
-        tirsdag?: string;
-        onsdag?: string;
-        torsdag?: string;
-        fredag?: string;
-        tilleggsinformasjon?: string;
-    };
+
+export enum VetOmsorgstilbud {
+    'VET_ALLE_TIMER' = 'VET_ALLE_TIMER',
+    'VET_NOEN_TIMER' = 'VET_NOEN_TIMER',
+    'VET_IKKE' = 'VET_IKKE',
 }
-export interface TilsynsordningApiVetIkke extends TilsynsordningApiBase {
-    svar: 'vetIkke';
-    vetIkke: {
-        svar: TilsynVetIkkeHvorfor;
-        annet?: string;
-    };
+export interface OmsorgstilbudApi {
+    vetOmsorgstilbud: VetOmsorgstilbud;
+    fasteDager?: OmsorgstilbudFasteDagerApi;
+    enkeltdager?: OmsorgstilbudDagApi[];
 }
 
 interface Medlemskap {
@@ -188,7 +186,7 @@ export interface PleiepengesøknadApiData {
     samtidigHjemme?: boolean;
     harForståttRettigheterOgPlikter: boolean;
     harBekreftetOpplysninger: boolean;
-    tilsynsordning?: TilsynsordningApi;
+    omsorgstilbud?: OmsorgstilbudApi;
     nattevåk?: {
         harNattevåk: boolean;
         tilleggsinformasjon?: string;

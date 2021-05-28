@@ -1,46 +1,52 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { TilsynsordningApi } from '../../types/PleiepengesøknadApiData';
-import { Tilsynsordning, TilsynVetIkkeHvorfor } from '../../types/PleiepengesøknadFormData';
+import { OmsorgstilbudApi, VetOmsorgstilbud } from '../../types/PleiepengesøknadApiData';
+import { Omsorgstilbud, OmsorgstilbudVetPeriode } from '../../types/PleiepengesøknadFormData';
 
-export const mapTilsynsordningToApiData = (tilsynsordning: Tilsynsordning): TilsynsordningApi | undefined => {
-    const { ja, vetIkke, skalBarnHaTilsyn } = tilsynsordning;
-    if (YesOrNo.YES === skalBarnHaTilsyn && ja) {
-        const { ekstrainfo, tilsyn } = ja;
-        const dager = tilsyn
-            ? {
-                  mandag: tilsyn.mandag ? timeToIso8601Duration(tilsyn.mandag) : undefined,
-                  tirsdag: tilsyn.tirsdag ? timeToIso8601Duration(tilsyn.tirsdag) : undefined,
-                  onsdag: tilsyn.onsdag ? timeToIso8601Duration(tilsyn.onsdag) : undefined,
-                  torsdag: tilsyn.torsdag ? timeToIso8601Duration(tilsyn.torsdag) : undefined,
-                  fredag: tilsyn.fredag ? timeToIso8601Duration(tilsyn.fredag) : undefined,
-              }
-            : undefined;
-        return {
-            svar: 'ja',
-            ja: {
-                ...dager,
-                tilleggsinformasjon: ekstrainfo,
-            },
-        };
-    }
-    if (YesOrNo.DO_NOT_KNOW === skalBarnHaTilsyn && vetIkke) {
-        return {
-            svar: 'vetIkke',
-            vetIkke: {
-                svar: vetIkke.hvorfor,
-                ...(vetIkke.hvorfor === TilsynVetIkkeHvorfor.annet
+export const mapTilsynsordningToApiData = (tilsynsordning: Omsorgstilbud): OmsorgstilbudApi | undefined => {
+    const { ja, skalBarnIOmsorgstilbud: skalBarnHaTilsyn } = tilsynsordning;
+
+    if (skalBarnHaTilsyn === YesOrNo.YES && ja) {
+        if (ja.hvorMyeTid === OmsorgstilbudVetPeriode.vetHelePerioden && ja.fasteDager) {
+            const { fasteDager: tilsyn } = ja;
+            const dager = tilsyn
+                ? {
+                      mandag: tilsyn.mandag ? timeToIso8601Duration(tilsyn.mandag) : undefined,
+                      tirsdag: tilsyn.tirsdag ? timeToIso8601Duration(tilsyn.tirsdag) : undefined,
+                      onsdag: tilsyn.onsdag ? timeToIso8601Duration(tilsyn.onsdag) : undefined,
+                      torsdag: tilsyn.torsdag ? timeToIso8601Duration(tilsyn.torsdag) : undefined,
+                      fredag: tilsyn.fredag ? timeToIso8601Duration(tilsyn.fredag) : undefined,
+                  }
+                : undefined;
+            return {
+                vetOmsorgstilbud: VetOmsorgstilbud.VET_ALLE_TIMER,
+                fasteDager: dager,
+            };
+        }
+        if (ja.hvorMyeTid === OmsorgstilbudVetPeriode.usikker) {
+            if (ja.vetMinAntallTimer === YesOrNo.YES && ja.fasteDager) {
+                const { fasteDager: tilsyn } = ja;
+                const dager = tilsyn
                     ? {
-                          annet: vetIkke.ekstrainfo,
+                          mandag: tilsyn.mandag ? timeToIso8601Duration(tilsyn.mandag) : undefined,
+                          tirsdag: tilsyn.tirsdag ? timeToIso8601Duration(tilsyn.tirsdag) : undefined,
+                          onsdag: tilsyn.onsdag ? timeToIso8601Duration(tilsyn.onsdag) : undefined,
+                          torsdag: tilsyn.torsdag ? timeToIso8601Duration(tilsyn.torsdag) : undefined,
+                          fredag: tilsyn.fredag ? timeToIso8601Duration(tilsyn.fredag) : undefined,
                       }
-                    : undefined),
-            },
-        };
+                    : undefined;
+                return {
+                    vetOmsorgstilbud: VetOmsorgstilbud.VET_NOEN_TIMER,
+                    fasteDager: dager,
+                };
+            }
+            if (ja.vetMinAntallTimer === YesOrNo.NO) {
+                return {
+                    vetOmsorgstilbud: VetOmsorgstilbud.VET_IKKE,
+                };
+            }
+        }
     }
-    if (YesOrNo.NO === skalBarnHaTilsyn) {
-        return {
-            svar: 'nei',
-        };
-    }
+
     return undefined;
 };

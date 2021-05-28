@@ -47,9 +47,9 @@ const getStepConfigItemTextKeys = (stepId: StepID): StepConfigItemTexts => {
 export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
     const includeNattevåkAndBeredskap =
         formValues &&
-        formValues.tilsynsordning &&
-        (formValues.tilsynsordning.skalBarnHaTilsyn === YesOrNo.YES ||
-            formValues.tilsynsordning.skalBarnHaTilsyn === YesOrNo.DO_NOT_KNOW);
+        formValues.omsorgstilbud &&
+        (formValues.omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES ||
+            formValues.omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.DO_NOT_KNOW);
 
     const includeArbeidsforholdIPerioden =
         formValues &&
