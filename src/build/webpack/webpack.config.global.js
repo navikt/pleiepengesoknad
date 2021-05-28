@@ -18,11 +18,6 @@ const webpackConfig = {
     },
     module: {
         rules: [
-            // {
-            //     test: /\.(ts|tsx)$/,
-            //     loader: require.resolve('eslint-loader'),
-            //     enforce: 'pre',
-            // },
             {
                 test: /\.(ts|tsx)$/,
                 include: [path.resolve(__dirname, './../../app')],
