@@ -20,26 +20,41 @@ const Tilsynsuke = ({ name }: Props) => {
                     <AppForm.TimeInput
                         label={intlHelper(intl, 'Mandag')}
                         name={`${name}.mandag` as AppFormField}
+                        timeInputLayout={{
+                            layout: 'compact',
+                        }}
                         validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'mandag'))}
                     />
                     <AppForm.TimeInput
                         label={intlHelper(intl, 'Tirsdag')}
                         name={`${name}.tirsdag` as AppFormField}
+                        timeInputLayout={{
+                            layout: 'compact',
+                        }}
                         validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'tirsdag'))}
                     />
                     <AppForm.TimeInput
                         label={intlHelper(intl, 'Onsdag')}
                         name={`${name}.onsdag` as AppFormField}
+                        timeInputLayout={{
+                            layout: 'compact',
+                        }}
                         validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'onsdag'))}
                     />
                     <AppForm.TimeInput
                         label={intlHelper(intl, 'Torsdag')}
                         name={`${name}.torsdag` as AppFormField}
+                        timeInputLayout={{
+                            layout: 'compact',
+                        }}
                         validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'torsdag'))}
                     />
                     <AppForm.TimeInput
                         label={intlHelper(intl, 'Fredag')}
                         name={`${name}.fredag` as AppFormField}
+                        timeInputLayout={{
+                            layout: 'compact',
+                        }}
                         validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'fredag'))}
                     />
                 </div>
