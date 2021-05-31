@@ -5,6 +5,7 @@ import * as attachmentUtils from '@navikt/sif-common-core/lib/utils/attachmentUt
 import * as dateUtils from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { Næringstype } from '@navikt/sif-common-forms/lib/virksomhet/types';
+import dayjs from 'dayjs';
 import {
     ArbeidsforholdApiNei,
     ArbeidsforholdApiRedusert,
@@ -18,15 +19,13 @@ import {
     AppFormField,
     Arbeidsforhold,
     ArbeidsforholdSkalJobbeSvar,
-    PleiepengesøknadFormData,
     OmsorgstilbudVetPeriode,
+    PleiepengesøknadFormData,
 } from '../../types/PleiepengesøknadFormData';
 import { Arbeidsgiver, BarnReceivedFromApi } from '../../types/Søkerdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
 import { jsonSort } from '../jsonSort';
 import { getValidSpråk, mapFormDataToApiData } from '../mapFormDataToApiData';
-
-const moment = require('moment');
 
 jest.mock('./../envUtils', () => {
     return {
@@ -39,7 +38,7 @@ jest.mock('./../featureToggleUtils.ts', () => ({
     Feature: {},
 }));
 
-const todaysDate: Date = moment().startOf('day').toDate();
+const todaysDate: Date = dayjs().startOf('day').toDate();
 
 const barnsFødselsdato = new Date(2020, 0, 20);
 const barnMock: BarnReceivedFromApi[] = [
@@ -103,7 +102,7 @@ const formDataMock: Partial<PleiepengesøknadFormData> = {
     [AppFormField.utenlandsoppholdNeste12Mnd]: [],
     [AppFormField.utenlandsoppholdSiste12Mnd]: [],
     [AppFormField.periodeFra]: dateUtils.dateToISOFormattedDateString(todaysDate),
-    [AppFormField.periodeTil]: dateUtils.dateToISOFormattedDateString(moment(todaysDate).add(1, 'day').toDate()),
+    [AppFormField.periodeTil]: dateUtils.dateToISOFormattedDateString(dayjs(todaysDate).add(1, 'day').toDate()),
     [AppFormField.utenlandsoppholdIPerioden]: [],
     [AppFormField.legeerklæring]: [attachmentMock1 as AttachmentMock, attachmentMock2 as AttachmentMock],
     [AppFormField.skalTaUtFerieIPerioden]: undefined,
@@ -656,12 +655,12 @@ describe('Test complete applications', () => {
         };
     } = {
         under8Uker: {
-            periodeFra: dateUtils.formatDateToApiFormat(moment(baseDato).toDate()),
-            periodeTil: dateUtils.formatDateToApiFormat(moment(baseDato).add(3, 'weeks').toDate()),
+            periodeFra: dateUtils.formatDateToApiFormat(dayjs(baseDato).toDate()),
+            periodeTil: dateUtils.formatDateToApiFormat(dayjs(baseDato).add(3, 'weeks').toDate()),
         },
         over8Uker: {
-            periodeFra: dateUtils.formatDateToApiFormat(moment(baseDato).toDate()),
-            periodeTil: dateUtils.formatDateToApiFormat(moment(baseDato).add(9, 'weeks').toDate()),
+            periodeFra: dateUtils.formatDateToApiFormat(dayjs(baseDato).toDate()),
+            periodeTil: dateUtils.formatDateToApiFormat(dayjs(baseDato).add(9, 'weeks').toDate()),
         },
     };
 

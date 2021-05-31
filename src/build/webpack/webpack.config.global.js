@@ -2,6 +2,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 const webpackConfig = {
     entry: {
@@ -17,11 +18,6 @@ const webpackConfig = {
     },
     module: {
         rules: [
-            {
-                test: /\.(ts|tsx)$/,
-                loader: require.resolve('eslint-loader'),
-                enforce: 'pre',
-            },
             {
                 test: /\.(ts|tsx)$/,
                 include: [path.resolve(__dirname, './../../app')],
@@ -65,6 +61,9 @@ const webpackConfig = {
         }),
         new SpriteLoaderPlugin({
             plainSprite: true,
+        }),
+        new ESLintPlugin({
+            extensions: ['ts', 'tsx'],
         }),
     ],
 };
