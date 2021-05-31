@@ -565,6 +565,7 @@
     "frilanser.summary.harDuHattInntekt.header": "Er du frilanser i perioden du søker for?",
     "frilanser.summary.nårStartet.header": "Når startet du som frilanser?",
     "frilanser.summary.jobberFortsatt.header": "Jobber du fortsatt som frilanser?",
+    "frilanser.summary.nårSluttet.header": "Når sluttet du som frilanser?",
 
     "verneplikt.summary.header": "Verneplikt",
     "verneplikt.summary.harVærtEllerErVernepliktig.header": "Utøvde du verneplikt på tidspunktet du søker pleiepenger fra?",

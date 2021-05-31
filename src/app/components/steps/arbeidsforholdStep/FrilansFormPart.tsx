@@ -25,14 +25,21 @@ import AppForm from '../../app-form/AppForm';
 import ArbeidsformInfoSNFrilanser from '../../formik-arbeidsforhold/ArbeidsformInfoSNFrilanser';
 import FrilansEksempeltHtml from './FrilansEksempelHtml';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import { isEndDateInPeriod } from '../../../utils/frilanserUtils';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
 }
 
 const FrilansFormPart = ({ formValues }: Props) => {
-    const { frilans_jobberFortsattSomFrilans, harHattInntektSomFrilanser, frilans_arbeidsforhold, frilans_startdato } =
-        formValues;
+    const {
+        frilans_jobberFortsattSomFrilans,
+        harHattInntektSomFrilanser,
+        frilans_arbeidsforhold,
+        frilans_startdato,
+        periodeFra,
+        frilans_sluttdato,
+    } = formValues;
 
     const intl = useIntl();
     const getFieldName = (field: ArbeidsforholdSNFField) => {
@@ -88,7 +95,8 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                     />
                                 </Box>
                             )}
-                            {frilans_jobberFortsattSomFrilans === YesOrNo.YES && (
+                            {(frilans_jobberFortsattSomFrilans === YesOrNo.YES ||
+                                isEndDateInPeriod(periodeFra, frilans_sluttdato)) && (
                                 <Box margin="xl">
                                     <FormBlock margin="none">
                                         <AppForm.RadioPanelGroup

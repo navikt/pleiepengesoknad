@@ -29,6 +29,11 @@ const FrilansSummary = ({ apiValues }: Props) => {
                         <JaNeiSvar harSvartJa={frilans.jobberFortsattSomFrilans} />
                     </SummaryBlock>
 
+                    {frilans.jobberFortsattSomFrilans === false && frilans.sluttdato && (
+                        <SummaryBlock header={intlHelper(intl, 'frilanser.summary.nårSluttet.header')}>
+                            <DatoSvar apiDato={frilans.sluttdato} />
+                        </SummaryBlock>
+                    )}
                     {frilans.arbeidsforhold && (
                         <SummaryBlock header={intlHelper(intl, 'frilanser.arbeidsforhold.summary.arbeidsform.spm')}>
                             <ArbeidsforholdSNFSummary arbeidsforhold={frilans.arbeidsforhold} />

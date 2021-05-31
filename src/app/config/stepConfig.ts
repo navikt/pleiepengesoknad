@@ -1,4 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { isEndDateInPeriod } from '../utils/frilanserUtils';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { getSøknadRoute } from '../utils/routeUtils';
 import routeConfig from './routeConfig';
@@ -54,6 +55,8 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
         formValues &&
         (formValues.arbeidsforhold.find((a) => a.erAnsattIPerioden === YesOrNo.YES) !== undefined ||
             formValues.frilans_jobberFortsattSomFrilans === YesOrNo.YES ||
+            (formValues.frilans_jobberFortsattSomFrilans === YesOrNo.NO &&
+                isEndDateInPeriod(formValues.periodeFra, formValues.frilans_sluttdato)) ||
             formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES);
 
     let idx = 0;

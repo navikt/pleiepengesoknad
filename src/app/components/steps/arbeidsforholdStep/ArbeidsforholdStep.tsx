@@ -22,6 +22,7 @@ import AndreYtelserFormPart from './AndreYtelserFormPart';
 import FrilansFormPart from './FrilansFormPart';
 import SelvstendigNæringsdrivendeFormPart from './SelvstendigNæringsdrivendeFormPart';
 import VernepliktigFormPart from './VernepliktigFormPart';
+import { isEndDateInPeriod } from '../../../utils/frilanserUtils';
 
 interface LoadState {
     isLoading: boolean;
@@ -38,7 +39,11 @@ const cleanupArbeidsforhold = (formValues: PleiepengesøknadFormData): Pleiepeng
         values.frilans_startdato = undefined;
         values.frilans_arbeidsforhold = undefined;
     }
-    if (values.harHattInntektSomFrilanser === YesOrNo.YES && values.frilans_jobberFortsattSomFrilans === YesOrNo.NO) {
+    if (
+        values.harHattInntektSomFrilanser === YesOrNo.YES &&
+        values.frilans_jobberFortsattSomFrilans === YesOrNo.NO &&
+        !isEndDateInPeriod(values.periodeFra, values.frilans_sluttdato)
+    ) {
         values.frilans_arbeidsforhold = undefined;
     }
 
