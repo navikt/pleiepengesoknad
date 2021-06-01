@@ -22,13 +22,16 @@ function SelvstendigSummary({ virksomhet, harFlereVirksomheter, arbeidsforholdSN
             <SummaryBlock header={intlHelper(intl, 'summary.virksomhet.harDuHattInntekt.header')}>
                 <JaNeiSvar harSvartJa={virksomhet !== undefined} />
             </SummaryBlock>
-            <SummaryBlock header={intlHelper(intl, 'summary.virksomhet.harFlereVirksomheter.header')}>
-                <JaNeiSvar harSvartJa={harFlereVirksomheter} />
-            </SummaryBlock>
+
             {virksomhet && (
-                <SummaryBlock header={intlHelper(intl, 'summary.virksomhet.virksomhetInfo.tittel')}>
-                    <VirksomhetSummary virksomhet={virksomhet} />
-                </SummaryBlock>
+                <>
+                    <SummaryBlock header={intlHelper(intl, 'summary.virksomhet.harFlereVirksomheter.header')}>
+                        <JaNeiSvar harSvartJa={harFlereVirksomheter} />
+                    </SummaryBlock>
+                    <SummaryBlock header={intlHelper(intl, 'summary.virksomhet.virksomhetInfo.tittel')}>
+                        <VirksomhetSummary virksomhet={virksomhet} />
+                    </SummaryBlock>
+                </>
             )}
             {arbeidsforholdSN && (
                 <SummaryBlock header={intlHelper(intl, 'selvstendig.summary.arbeidsforhold.header')}>

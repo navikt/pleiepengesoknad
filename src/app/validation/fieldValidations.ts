@@ -30,7 +30,7 @@ import { Utenlandsopphold } from '@navikt/sif-common-forms/lib';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
-import { Tilsynsordning } from '../types/PleiepengesøknadFormData';
+import { Omsorgstilbud } from '../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
 import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
 
@@ -152,15 +152,15 @@ export const validateLegeerklæring = (attachments: Attachment[]): ValidationRes
     return undefined;
 };
 
-export const validateSkalHaTilsynsordning = (tilsynsordning: Tilsynsordning): ValidationResult<ValidationError> => {
-    if (tilsynsordning.skalBarnHaTilsyn === YesOrNo.YES) {
+export const validateSkalHaTilsynsordning = (tilsynsordning: Omsorgstilbud): ValidationResult<ValidationError> => {
+    if (tilsynsordning.skalBarnIOmsorgstilbud === YesOrNo.YES) {
         if (tilsynsordning.ja === undefined) {
             return AppFieldValidationErrors.tilsynsordning_ingenInfo;
         }
-        const { ekstrainfo, tilsyn } = tilsynsordning.ja;
-        const hasEkstrainformasjon: boolean = (ekstrainfo || '').trim().length > 5;
+        const tilsyn = tilsynsordning.ja.fasteDager;
+
         const hoursInTotal = tilsyn ? sumTimerMedTilsyn(tilsyn) : 0;
-        if (hoursInTotal === 0 && hasEkstrainformasjon === false) {
+        if (hoursInTotal === 0) {
             return AppFieldValidationErrors.tilsynsordning_ingenInfo;
         }
         if (hoursInTotal > 37.5) {
@@ -174,6 +174,8 @@ export const getTilsynstimerValidatorEnDag =
     (dag: string) =>
     (time: Time): ValidationResult<ValidationError> => {
         if (time && timeToDecimalTime(time) > 7.5) {
+            console.log(timeToDecimalTime(time));
+
             return {
                 key: `validation.tilsynsordning.tilsynsordning_forMangeTimerEnDag`,
                 values: { dag },

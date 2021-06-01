@@ -139,7 +139,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
 
                 const {
                     medlemskap,
-                    tilsynsordning,
+                    omsorgstilbud,
                     nattevåk: nattevaak,
                     beredskap,
                     utenlandsoppholdIPerioden,
@@ -277,7 +277,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
 
                                 {/* Omsorgstilbud */}
                                 <SummarySection header={intlHelper(intl, 'steg.oppsummering.tilsynsordning.header')}>
-                                    {tilsynsordning && <TilsynsordningSummary tilsynsordning={tilsynsordning} />}
+                                    <TilsynsordningSummary omsorgstilbud={omsorgstilbud} />
 
                                     {nattevaak && (
                                         <>
