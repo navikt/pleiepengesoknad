@@ -1,17 +1,20 @@
-import React from 'react';
-import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-with-header/ContentWithHeader';
 import { Time } from '@navikt/sif-common-core/lib/types/Time';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { iso8601DurationToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
+import { Element } from 'nav-frontend-typografi';
+import React from 'react';
+import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
 import { OmsorgstilbudApi, VetOmsorgstilbud } from '../../../types/PleiepengesøknadApiData';
+import OmsorgstilbudEnkeltdagerSummary from './OmsorgstilbudEnkeltdagerSummary';
+import SummaryBlock from './SummaryBlock';
 
 interface Props {
     omsorgstilbud?: OmsorgstilbudApi;
 }
 
-const formatTime = (intl: IntlShape, time: Partial<Time>): string => {
+export const formatTime = (intl: IntlShape, time: Partial<Time>): string => {
     const { hours, minutes } = time;
     if (hours && minutes) {
         return intl.formatMessage({ id: 'tilsynsordning.timerPerDag.timerOgMinutter' }, time);
@@ -37,7 +40,6 @@ const summarizeDaysInWeek = (omsorgstilbud: OmsorgstilbudApi, intl: IntlShape): 
             return daysSummary.join('. ');
         }
     }
-
     return intlHelper(intl, 'tilsynsordning.ingenDagerValgt');
 };
 
@@ -60,7 +62,17 @@ const TilsynsordningSummary = ({ omsorgstilbud }: Props) => {
                             {omsorgstilbud.vetOmsorgstilbud === VetOmsorgstilbud.VET_ALLE_TIMER && (
                                 <>
                                     <FormattedMessage id="steg.oppsummering.tilsynsordning.hvorMyeTidOms.vetHelePerioden" />
-                                    <Box margin="m">{summarizeDaysInWeek(omsorgstilbud, intl)}</Box>
+                                    {omsorgstilbud.fasteDager && (
+                                        <Box margin="l">
+                                            <Element tag="h4">Fast plan</Element>
+                                            <Box margin="m">{summarizeDaysInWeek(omsorgstilbud, intl)}</Box>
+                                        </Box>
+                                    )}
+                                    {omsorgstilbud.enkeltdager && (
+                                        <SummaryBlock header="Enkeltdager">
+                                            <OmsorgstilbudEnkeltdagerSummary dager={omsorgstilbud.enkeltdager} />
+                                        </SummaryBlock>
+                                    )}
                                 </>
                             )}
                             {omsorgstilbud.vetOmsorgstilbud !== VetOmsorgstilbud.VET_ALLE_TIMER && (
@@ -75,7 +87,18 @@ const TilsynsordningSummary = ({ omsorgstilbud }: Props) => {
                                             {omsorgstilbud.vetOmsorgstilbud === VetOmsorgstilbud.VET_NOEN_TIMER && (
                                                 <>
                                                     <FormattedMessage id="steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.ja" />
-                                                    <Box margin="m">{summarizeDaysInWeek(omsorgstilbud, intl)}</Box>
+                                                    {omsorgstilbud.fasteDager && (
+                                                        <SummaryBlock header="Fast plan">
+                                                            {summarizeDaysInWeek(omsorgstilbud, intl)}
+                                                        </SummaryBlock>
+                                                    )}
+                                                    {omsorgstilbud.enkeltdager && (
+                                                        <SummaryBlock header="Dager med omsorgstilbud">
+                                                            <OmsorgstilbudEnkeltdagerSummary
+                                                                dager={omsorgstilbud.enkeltdager}
+                                                            />
+                                                        </SummaryBlock>
+                                                    )}
                                                 </>
                                             )}
                                             {omsorgstilbud.vetOmsorgstilbud === VetOmsorgstilbud.VET_IKKE && (
