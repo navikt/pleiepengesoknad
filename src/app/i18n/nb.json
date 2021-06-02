@@ -728,8 +728,8 @@
     "validation.tilsynsordning.tilsynsordning_forMangeTimerTotalt": "Du kan registrere maks 7 timer og 30 minutter hver ukedag.",
     "validation.tilsynsordning.ja.hvorMyeTid.noValue": "Du må svare på spørsmålet om du vet hvor mye barnet skal være i omsorgstilbudet.",
     "validation.tilsynsordning.ja.vetMinAntallTimer.yesOrNoIsUnanswered": "Du må svare ja eller nei på spørsmålet om du vet hvor mye barnet vanligvis klarer å være i omsorgstilbudet.",
-
     "validation.tilsynsordning.ja.vetMinAntalTimer.yesOrNoIsUnanswered": "Du må svare om vet du et minimum antall timer barnet skal være i et omsorgstilbud per uke.",
+    "validation.tilsynsordning.skalHaOmsorgstilbud.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnet skal i omsorgstilbud {måned}.",
 
     "validation.harNattevåk.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnets sykdom gjør at du må være våken på natta.",
     "validation.harNattevåk_ekstrainfo.stringHasNoValue": "Du må beskrive hva som gjør at du må være våken om natta.",

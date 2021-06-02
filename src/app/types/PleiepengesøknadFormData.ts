@@ -1,9 +1,10 @@
+import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { Time } from '@navikt/sif-common-formik/lib/types';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
+import { OmsorgstilbudPeriodeFormValue } from '@navikt/sif-common-forms/lib/omsorgstilbud/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { Virksomhet } from '@navikt/sif-common-forms/lib/virksomhet/types';
-import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
-import { Time } from '@navikt/sif-common-formik/lib/types';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { Arbeidsgiver } from './Søkerdata';
 
 export enum ArbeidsforholdSkalJobbeSvar {
@@ -27,6 +28,8 @@ export interface Omsorgstilbud {
         hvorMyeTid?: OmsorgstilbudVetPeriode;
         vetMinAntallTimer?: YesOrNo;
         fasteDager?: OmsorgstilbudFasteDager;
+        perioder?: OmsorgstilbudPeriodeFormValue[];
+        erLiktHverDag?: YesOrNo;
     };
 }
 
@@ -66,6 +69,8 @@ export enum AppFormField {
     omsorgstilbud__ja__hvorMyeTid = 'omsorgstilbud.ja.hvorMyeTid',
     omsorgstilbud__ja__fasteDager = 'omsorgstilbud.ja.fasteDager',
     omsorgstilbud__ja__vetMinAntallTimer = 'omsorgstilbud.ja.vetMinAntallTimer',
+    omsorgstilbud__ja_erLiktHverDag = 'omsorgstilbud.ja.erLiktHverDag',
+    omsorgstilbud__ja__perioder = 'omsorgstilbud.ja.perioder',
     frilans_harHattInntektSomFrilanser = 'harHattInntektSomFrilanser',
     frilans_startdato = 'frilans_startdato',
     frilans_sluttdato = 'frilans_sluttdato',
@@ -174,6 +179,7 @@ export interface PleiepengesøknadFormData {
     [AppFormField.harMedsøker]: YesOrNo;
     [AppFormField.samtidigHjemme]: YesOrNo;
     [AppFormField.omsorgstilbud]?: Omsorgstilbud;
+    [AppFormField.omsorgstilbud__ja_erLiktHverDag]?: YesOrNo;
     [AppFormField.harNattevåk]: YesOrNo;
     [AppFormField.harNattevåk_ekstrainfo]?: string;
     [AppFormField.harBeredskap]: YesOrNo;
