@@ -33,7 +33,7 @@
         "@navikt/sif-common-amplitude": "^2.0.0",
         "@navikt/sif-common-core": "^9.4.1",
         "@navikt/sif-common-formik": "^19.2.2",
-        "@navikt/sif-common-forms": "^14.2.0-beta.13",
+        "@navikt/sif-common-forms": "^14.2.0-beta.14",
         "@navikt/sif-common-sentry": "0.2.0",
         "@navikt/sif-common-soknad": "^4.1.2",
         "@testing-library/react": "^11.2.7",
