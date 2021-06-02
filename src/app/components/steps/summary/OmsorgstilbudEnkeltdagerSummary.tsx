@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import { iso8601DurationToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { DateRange, ISOStringToDate, Time } from '@navikt/sif-common-formik/lib';
+import { DateRange, ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import OmsorgstilbudCalendar from '@navikt/sif-common-forms/lib/omsorgstilbud/OmsorgstilbudCalendar';
 import { OmsorgstilbudDag } from '@navikt/sif-common-forms/lib/omsorgstilbud/types';
 import dayjs from 'dayjs';
@@ -35,7 +35,7 @@ const OmsorgstilbudEnkeltdagerSummary: React.FunctionComponent<Props> = ({ dager
                             className={'ekspanderbartPanel--omsorgstilbud'}
                             tittel={
                                 <span style={{ textTransform: 'capitalize', fontSize: '1rem' }}>
-                                    {dayjs(days[0].date).format('MMMM YYYY')}
+                                    {dayjs(days[0].dato).format('MMMM YYYY')}
                                 </span>
                             }>
                             <OmsorgstilbudCalendar
