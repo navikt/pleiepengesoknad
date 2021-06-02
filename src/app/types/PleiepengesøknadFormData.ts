@@ -22,15 +22,16 @@ export interface OmsorgstilbudFasteDager {
     fredag?: Time;
 }
 
+export interface OmsorgstilbudInfo {
+    vetHvorMyeTid?: YesOrNo;
+    vetNoeTid?: YesOrNo;
+    fasteDager?: OmsorgstilbudFasteDager;
+    perioder?: OmsorgstilbudPeriodeFormValue[];
+    erLiktHverDag?: YesOrNo;
+}
 export interface Omsorgstilbud {
     skalBarnIOmsorgstilbud: YesOrNo;
-    ja?: {
-        hvorMyeTid?: OmsorgstilbudVetPeriode;
-        vetMinAntallTimer?: YesOrNo;
-        fasteDager?: OmsorgstilbudFasteDager;
-        perioder?: OmsorgstilbudPeriodeFormValue[];
-        erLiktHverDag?: YesOrNo;
-    };
+    ja?: OmsorgstilbudInfo;
 }
 
 export enum AppFormField {
@@ -66,9 +67,9 @@ export enum AppFormField {
     harBeredskap_ekstrainfo = 'harBeredskap_ekstrainfo',
     omsorgstilbud = 'omsorgstilbud',
     omsorgstilbud__skalBarnIOmsorgstilbud = 'omsorgstilbud.skalBarnIOmsorgstilbud',
-    omsorgstilbud__ja__hvorMyeTid = 'omsorgstilbud.ja.hvorMyeTid',
+    omsorgstilbud__ja__vetHvorMyeTid = 'omsorgstilbud.ja.vetHvorMyeTid',
+    omsorgstilbud__ja__vetNoeTid = 'omsorgstilbud.ja.vetNoeTid',
     omsorgstilbud__ja__fasteDager = 'omsorgstilbud.ja.fasteDager',
-    omsorgstilbud__ja__vetMinAntallTimer = 'omsorgstilbud.ja.vetMinAntallTimer',
     omsorgstilbud__ja_erLiktHverDag = 'omsorgstilbud.ja.erLiktHverDag',
     omsorgstilbud__ja__perioder = 'omsorgstilbud.ja.perioder',
     frilans_harHattInntektSomFrilanser = 'harHattInntektSomFrilanser',
@@ -136,11 +137,6 @@ export interface ArbeidsforholdSNF {
     [ArbeidsforholdSNFField.skalJobbeTimer]?: string;
     [ArbeidsforholdSNFField.skalJobbeProsent]?: string;
     [ArbeidsforholdSNFField.arbeidsform]?: Arbeidsform;
-}
-
-export enum OmsorgstilbudVetPeriode {
-    'vetHelePerioden' = 'vetHelePerioden',
-    'usikker' = 'usikker',
 }
 
 export enum BarnRelasjon {

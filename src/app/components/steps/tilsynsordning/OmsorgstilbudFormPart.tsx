@@ -11,10 +11,10 @@ import {
     OmsorgstilbudPeriodeFormValue,
 } from '@navikt/sif-common-forms/lib/omsorgstilbud/types';
 import dayjs from 'dayjs';
+import { FormikValues, useFormikContext } from 'formik';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import AppForm from '../../app-form/AppForm';
-import { FormikValues, useFormikContext } from 'formik';
-
+import './omsorgstilbud.less';
 interface Props {
     periodeFra: Date;
     periodeTil: Date;
@@ -110,7 +110,8 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
                                         labels={{
                                             addLabel: `Legg til timer`,
                                             deleteLabel: `Fjern alle timer`,
-                                            editLabel: periode.omsorgsdager.length === 0 ? `Registrer dager` : 'Endre',
+                                            editLabel:
+                                                periode.omsorgsdager.length === 0 ? `Registrer dager` : 'Endre dager',
                                             modalTitle: `Omsorgstilbud - ${mndOgÅr}`,
                                         }}
                                     />

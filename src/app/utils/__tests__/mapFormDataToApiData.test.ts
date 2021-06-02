@@ -19,7 +19,6 @@ import {
     AppFormField,
     Arbeidsforhold,
     ArbeidsforholdSkalJobbeSvar,
-    OmsorgstilbudVetPeriode,
     PleiepengesøknadFormData,
 } from '../../types/PleiepengesøknadFormData';
 import { Arbeidsgiver, BarnReceivedFromApi } from '../../types/Søkerdata';
@@ -158,7 +157,8 @@ const completeFormDataMock: PleiepengesøknadFormData = {
     omsorgstilbud: {
         skalBarnIOmsorgstilbud: YesOrNo.YES,
         ja: {
-            hvorMyeTid: OmsorgstilbudVetPeriode.vetHelePerioden,
+            vetHvorMyeTid: YesOrNo.YES,
+            erLiktHverDag: YesOrNo.YES,
             fasteDager: {
                 fredag: {
                     hours: '1',
