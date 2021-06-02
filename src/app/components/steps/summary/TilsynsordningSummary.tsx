@@ -68,9 +68,9 @@ const TilsynsordningSummary = ({ omsorgstilbud }: Props) => {
                                             <Box margin="m">{summarizeDaysInWeek(omsorgstilbud, intl)}</Box>
                                         </Box>
                                     )}
-                                    {omsorgstilbud.enkeltdager && (
+                                    {omsorgstilbud.enkeltDager && (
                                         <SummaryBlock header="Enkeltdager">
-                                            <OmsorgstilbudEnkeltdagerSummary dager={omsorgstilbud.enkeltdager} />
+                                            <OmsorgstilbudEnkeltdagerSummary dager={omsorgstilbud.enkeltDager} />
                                         </SummaryBlock>
                                     )}
                                 </>
@@ -92,10 +92,10 @@ const TilsynsordningSummary = ({ omsorgstilbud }: Props) => {
                                                             {summarizeDaysInWeek(omsorgstilbud, intl)}
                                                         </SummaryBlock>
                                                     )}
-                                                    {omsorgstilbud.enkeltdager && (
+                                                    {omsorgstilbud.enkeltDager && (
                                                         <SummaryBlock header="Dager med omsorgstilbud">
                                                             <OmsorgstilbudEnkeltdagerSummary
-                                                                dager={omsorgstilbud.enkeltdager}
+                                                                dager={omsorgstilbud.enkeltDager}
                                                             />
                                                         </SummaryBlock>
                                                     )}

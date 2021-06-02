@@ -54,7 +54,7 @@ export const mapTilsynsordningToApiData = (tilsynsordning: Omsorgstilbud): Omsor
     if (erLiktHverDag === YesOrNo.NO && perioder) {
         return {
             vetOmsorgstilbud,
-            enkeltdager: getEnkeltdagerFromOmsorgsperiodeFormValue(perioder),
+            enkeltDager: getEnkeltdagerFromOmsorgsperiodeFormValue(perioder),
         };
     }
 

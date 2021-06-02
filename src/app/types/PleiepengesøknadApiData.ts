@@ -106,7 +106,7 @@ export enum VetOmsorgstilbud {
 export interface OmsorgstilbudApi {
     vetOmsorgstilbud: VetOmsorgstilbud;
     fasteDager?: OmsorgstilbudFasteDagerApi;
-    enkeltdager?: OmsorgstilbudDagApi[];
+    enkeltDager?: OmsorgstilbudDagApi[];
 }
 
 interface Medlemskap {
