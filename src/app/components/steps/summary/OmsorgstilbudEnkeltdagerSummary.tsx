@@ -43,6 +43,7 @@ const OmsorgstilbudEnkeltdagerSummary: React.FunctionComponent<Props> = ({ dager
                                 fraDato={dateRange.from}
                                 tilDato={dateRange.to}
                                 omsorgsdager={days}
+                                skjulTommeDagerIListe={true}
                             />
                         </EkspanderbartPanel>
                     </Box>
