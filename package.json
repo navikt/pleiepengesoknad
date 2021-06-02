@@ -112,6 +112,7 @@
         "jsdom": "^16.6.0",
         "less": "^4.1.1",
         "less-loader": "^9.0.0",
+        "nav-frontend-ekspanderbartpanel-style": "^2.0.1",
         "npm-run-all": "^4.1.5",
         "postcss-input-range": "^4.0.0",
         "postcss-loader": "^5.3.0",
