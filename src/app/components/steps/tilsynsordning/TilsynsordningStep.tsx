@@ -21,23 +21,31 @@ import OmsorgstilbudFormPart from './OmsorgstilbudFormPart';
 import { Undertittel } from 'nav-frontend-typografi';
 
 export const cleanupTilsynsordningStep = (values: PleiepengesøknadFormData): PleiepengesøknadFormData => {
-    const cleanedValues = { ...values };
+    const v = { ...values };
 
-    if (cleanedValues.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.YES) {
-        if (cleanedValues.omsorgstilbud.ja?.vetHvorMyeTid === YesOrNo.YES) {
-            cleanedValues.omsorgstilbud.ja.vetNoeTid = undefined;
+    if (v.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.YES) {
+        if (v.omsorgstilbud.ja?.vetHvorMyeTid === YesOrNo.YES) {
+            v.omsorgstilbud.ja.vetNoeTid = YesOrNo.UNANSWERED;
         }
-        if (cleanedValues.omsorgstilbud.ja?.vetHvorMyeTid === YesOrNo.NO) {
-            if (cleanedValues.omsorgstilbud.ja?.vetNoeTid === YesOrNo.NO) {
-                cleanedValues.omsorgstilbud.ja.fasteDager = undefined;
+        if (v.omsorgstilbud.ja?.vetHvorMyeTid === YesOrNo.NO) {
+            if (v.omsorgstilbud.ja?.vetNoeTid === YesOrNo.NO) {
+                v.omsorgstilbud.ja.erLiktHverDag = YesOrNo.UNANSWERED;
+                v.omsorgstilbud.ja.fasteDager = undefined;
+                v.omsorgstilbud.ja.perioder = undefined;
             }
         }
+        if (v.omsorgstilbud.ja?.erLiktHverDag === YesOrNo.YES) {
+            v.omsorgstilbud.ja.perioder = undefined;
+        }
+        if (v.omsorgstilbud.ja?.erLiktHverDag === YesOrNo.NO) {
+            v.omsorgstilbud.ja.fasteDager = undefined;
+        }
     }
-    if (cleanedValues.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.NO) {
-        cleanedValues.omsorgstilbud.ja = undefined;
+    if (v.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.NO) {
+        v.omsorgstilbud.ja = undefined;
     }
 
-    return cleanedValues;
+    return v;
 };
 
 const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
