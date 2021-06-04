@@ -8,6 +8,7 @@
         "allowJs": true,
         "allowSyntheticDefaultImports": true,
         "jsx": "react",
+        "esModuleInterop": true,
         "moduleResolution": "node",
         "forceConsistentCasingInFileNames": true,
         "noImplicitReturns": true,
@@ -17,9 +18,7 @@
         "skipLibCheck": true,
         "suppressImplicitAnyIndexErrors": true,
         "noUnusedLocals": true,
-        "baseUrl": "./src",
-        "esModuleInterop": true
+        "baseUrl": "./src"
     },
-    "include": ["src"],
-    "exclude": ["node_modules", "src/build", "**.js", "dist", "e2e/cypress"]
+    "exclude": ["node_modules", "src/build", "**.js", "dist"]
 }

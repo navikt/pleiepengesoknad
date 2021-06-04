@@ -2,7 +2,7 @@ import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { Time } from '@navikt/sif-common-formik/lib/types';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
-import { OmsorgstilbudPeriodeFormValue } from '@navikt/sif-common-forms/lib/omsorgstilbud/types';
+import { OmsorgstilbudMåned, TidIOmsorgstilbud } from '@navikt/sif-common-forms/lib/omsorgstilbud/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { Virksomhet } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { Arbeidsgiver } from './Søkerdata';
@@ -26,7 +26,8 @@ export interface OmsorgstilbudInfo {
     vetHvorMyeTid?: YesOrNo;
     vetNoeTid?: YesOrNo;
     fasteDager?: OmsorgstilbudFasteDager;
-    perioder?: OmsorgstilbudPeriodeFormValue[];
+    måneder?: OmsorgstilbudMåned[];
+    enkeltdager?: TidIOmsorgstilbud;
     erLiktHverDag?: YesOrNo;
 }
 export interface Omsorgstilbud {
@@ -71,7 +72,8 @@ export enum AppFormField {
     omsorgstilbud__ja__vetNoeTid = 'omsorgstilbud.ja.vetNoeTid',
     omsorgstilbud__ja__fasteDager = 'omsorgstilbud.ja.fasteDager',
     omsorgstilbud__ja_erLiktHverDag = 'omsorgstilbud.ja.erLiktHverDag',
-    omsorgstilbud__ja__perioder = 'omsorgstilbud.ja.perioder',
+    omsorgstilbud__ja__måneder = 'omsorgstilbud.ja.måneder',
+    omsorgstilbud__ja__enkeltdager = 'omsorgstilbud.ja.enkeltdager',
     frilans_harHattInntektSomFrilanser = 'harHattInntektSomFrilanser',
     frilans_startdato = 'frilans_startdato',
     frilans_sluttdato = 'frilans_sluttdato',

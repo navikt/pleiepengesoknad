@@ -7,7 +7,9 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatted-html-message/FormattedHtmlMessage';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import datepickerUtils, {
+    ISOStringToDate,
+} from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { useFormikContext } from 'formik';
 import AlertStripe from 'nav-frontend-alertstriper';
@@ -18,9 +20,12 @@ import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
 import OmsorgstilbudFormPart from './OmsorgstilbudFormPart';
-import { Undertittel } from 'nav-frontend-typografi';
+import { skalSpørreOmOmsorgstilbudPerMåned } from '../../../utils/omsorgstilbudUtils';
 
-export const cleanupTilsynsordningStep = (values: PleiepengesøknadFormData): PleiepengesøknadFormData => {
+export const cleanupTilsynsordningStep = (
+    values: PleiepengesøknadFormData,
+    spørOmMånedForOmsorgstilbud: boolean
+): PleiepengesøknadFormData => {
     const v = { ...values };
 
     if (v.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.YES) {
@@ -31,14 +36,24 @@ export const cleanupTilsynsordningStep = (values: PleiepengesøknadFormData): Pl
             if (v.omsorgstilbud.ja?.vetNoeTid === YesOrNo.NO) {
                 v.omsorgstilbud.ja.erLiktHverDag = YesOrNo.UNANSWERED;
                 v.omsorgstilbud.ja.fasteDager = undefined;
-                v.omsorgstilbud.ja.perioder = undefined;
+                v.omsorgstilbud.ja.måneder = undefined;
             }
         }
         if (v.omsorgstilbud.ja?.erLiktHverDag === YesOrNo.YES) {
-            v.omsorgstilbud.ja.perioder = undefined;
+            v.omsorgstilbud.ja.måneder = undefined;
+            v.omsorgstilbud.ja.enkeltdager = undefined;
         }
         if (v.omsorgstilbud.ja?.erLiktHverDag === YesOrNo.NO) {
             v.omsorgstilbud.ja.fasteDager = undefined;
+        }
+        const { enkeltdager } = v.omsorgstilbud.ja || {};
+
+        if (enkeltdager && spørOmMånedForOmsorgstilbud) {
+            Object.keys(enkeltdager).map((key) => {
+                const dato = ISOStringToDate(key);
+                console.log(dato);
+                return enkeltdager[key];
+            });
         }
     }
     if (v.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.NO) {
@@ -61,10 +76,13 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
         return <div>Perioden mangler, gå tilbake og endre datoer</div>;
     }
 
+    const spørOmMånedForOmsorgstilbud =
+        skalSpørreOmOmsorgstilbudPerMåned({ from: periodeFra, to: periodeTil }) === false;
+
     return (
         <FormikStep
             id={StepID.OMSORGSTILBUD}
-            onStepCleanup={cleanupTilsynsordningStep}
+            onStepCleanup={(values) => cleanupTilsynsordningStep(values, spørOmMånedForOmsorgstilbud)}
             onValidFormSubmit={onValidSubmit}>
             <CounsellorPanel>
                 <FormattedMessage id="steg.tilsyn.veileder.html" values={{ p: (msg: string) => <p>{msg}</p> }} />
@@ -159,13 +177,10 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                 )}
                                 {ja.erLiktHverDag === YesOrNo.NO && (
                                     <FormBlock margin="xxl">
-                                        <Undertittel>Omsorgstilbud i perioden du søker for - detaljert</Undertittel>
-                                        <p>Oppgi hver enkeltdag barnet skal i et omsorgstilbud.</p>
                                         <OmsorgstilbudFormPart
-                                            periodeFra={periodeFra}
-                                            periodeTil={periodeTil}
-                                            fieldName={AppFormField.omsorgstilbud__ja__perioder}
-                                            omsorgstilbud={values.omsorgstilbud?.ja?.perioder || []}
+                                            info={ja}
+                                            spørOmMånedForOmsorgstilbud={spørOmMånedForOmsorgstilbud}
+                                            søknadsperiode={{ from: periodeFra, to: periodeTil }}
                                         />
                                     </FormBlock>
                                 )}

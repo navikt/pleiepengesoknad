@@ -1,9 +1,10 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { dateToISOString } from '@navikt/sif-common-formik/lib';
-import { OmsorgstilbudPeriodeFormValue } from '@navikt/sif-common-forms/lib/omsorgstilbud/types';
+import { DateRange } from '@navikt/sif-common-formik/lib';
+import { OmsorgstilbudMåned } from '@navikt/sif-common-forms/lib/omsorgstilbud/types';
 import { OmsorgstilbudApi, VetOmsorgstilbud, OmsorgstilbudDagApi } from '../../types/PleiepengesøknadApiData';
 import { Omsorgstilbud, OmsorgstilbudFasteDager } from '../../types/PleiepengesøknadFormData';
+import { skalSpørreOmOmsorgstilbudPerMåned } from '../omsorgstilbudUtils';
 
 export const getFasteDager = ({ mandag, tirsdag, onsdag, torsdag, fredag }: OmsorgstilbudFasteDager) => ({
     mandag: mandag ? timeToIso8601Duration(mandag) : undefined,
@@ -13,28 +14,40 @@ export const getFasteDager = ({ mandag, tirsdag, onsdag, torsdag, fredag }: Omso
     fredag: fredag ? timeToIso8601Duration(fredag) : undefined,
 });
 
-export const getEnkeltdagerFromOmsorgsperiodeFormValue = (
-    perioder: OmsorgstilbudPeriodeFormValue[]
-): OmsorgstilbudDagApi[] => {
+export const getEnkeltdager = (måneder: OmsorgstilbudMåned[], søknadsperiode: DateRange): OmsorgstilbudDagApi[] => {
     const dager: OmsorgstilbudDagApi[] = [];
-    perioder
-        .filter((periode) => periode.skalHaOmsorgstilbud === YesOrNo.YES)
-        .forEach((periode) => {
-            periode.omsorgsdager.forEach((dag) => {
-                dager.push({ dato: dateToISOString(dag.dato), tid: timeToIso8601Duration(dag.tid) });
-            });
-        });
+    if (skalSpørreOmOmsorgstilbudPerMåned(søknadsperiode)) {
+    } else {
+    }
+    // getMonthsInDateRange(søknadsperiode).forEach((måned, index) => {
+    //     skalSpørreOmOmsorgstilbudPerMåned
+    // });
+    // const månederISøknadsperiode = getMån;
+    // const datoer = getDatoerForOmsorgstilbudPeriode(søknadsperiode.from, søknadsperiode.to);
+
+    // måneder
+    //     .filter((måned) => måned.skalHaOmsorgstilbud === YesOrNo.YES)
+    //     .forEach((måned) => {
+    //         const datoerIMåned = getDatoerForOmsorgstilbudPeriode(måned);
+    //         // periode.omsorgsdager.forEach((dag) => {
+    //         //     dager.push({ dato: dateToISOString(dag.dato), tid: timeToIso8601Duration(dag.tid) });
+    //         // });
+    //     });
     return dager;
 };
 
-export const mapTilsynsordningToApiData = (tilsynsordning: Omsorgstilbud): OmsorgstilbudApi | undefined => {
+export const mapTilsynsordningToApiData = (
+    tilsynsordning: Omsorgstilbud,
+    søknadsperiode: DateRange,
+    key: string
+): OmsorgstilbudApi | undefined => {
     const { ja, skalBarnIOmsorgstilbud: skalBarnHaTilsyn } = tilsynsordning;
 
     if (skalBarnHaTilsyn === YesOrNo.NO || !ja) {
         return undefined; // !ja: bør denne logges som feil?
     }
 
-    const { vetHvorMyeTid, vetNoeTid, erLiktHverDag, fasteDager, perioder } = ja;
+    const { vetHvorMyeTid, vetNoeTid, erLiktHverDag, fasteDager, måneder } = ja;
 
     if (vetHvorMyeTid === YesOrNo.NO && vetNoeTid === YesOrNo.NO) {
         return {
@@ -51,10 +64,10 @@ export const mapTilsynsordningToApiData = (tilsynsordning: Omsorgstilbud): Omsor
             fasteDager: getFasteDager(fasteDager),
         };
     }
-    if (erLiktHverDag === YesOrNo.NO && perioder) {
+    if (erLiktHverDag === YesOrNo.NO && måneder) {
         return {
             vetOmsorgstilbud,
-            enkeltDager: getEnkeltdagerFromOmsorgsperiodeFormValue(perioder),
+            enkeltDager: getEnkeltdager(måneder, søknadsperiode),
         };
     }
 

@@ -731,6 +731,8 @@
     "validation.tilsynsordning.ja.vetMinAntalTimer.yesOrNoIsUnanswered": "Du må svare om vet du et minimum antall timer barnet skal være i et omsorgstilbud per uke.",
     "validation.tilsynsordning.skalHaOmsorgstilbud.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnet skal i omsorgstilbud {måned}.",
 
+    "omsorgstilbud.validation.tooManyMinutes": "For mange minutter er lagt inn på {dag}. Maks er 59 minutter.",
+
     "validation.harNattevåk.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnets sykdom gjør at du må være våken på natta.",
     "validation.harNattevåk_ekstrainfo.stringHasNoValue": "Du må beskrive hva som gjør at du må være våken om natta.",
     "validation.harNattevåk_ekstrainfo.stringIsTooLong": "Beskrivelsen kan være på maks 1000 tegn.",

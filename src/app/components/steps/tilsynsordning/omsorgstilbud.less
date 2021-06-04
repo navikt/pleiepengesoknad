@@ -1,8 +1,11 @@
 /** Temp overrides */
 .calendarGrid {
     &__day {
-        background-color: rgba(255, 255, 255, 0.5);
+        background-color: rgba(255, 255, 255, 0.75);
         margin: 0.125rem;
+        &--outsideMonth {
+            background-color: transparent;
+        }
     }
 }
 
@@ -28,5 +31,16 @@
         flex: 2 1 100%;
         margin-top: -0.125rem;
         margin-bottom: 0.125rem;
+    }
+}
+.omsorgstilbudForm {
+    .timeInput__inputWrapper {
+        max-width: 3rem;
+    }
+    .omsorgstilbud__uketittel {
+        font-size: 1.125rem;
+    }
+    .timeInput .timeInput__contentWrapper {
+        padding-bottom: 1.5rem;
     }
 }

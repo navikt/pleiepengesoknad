@@ -1,117 +1,68 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
+import { OmsorgstilbudInlineForm } from '@navikt/sif-common-forms/lib/omsorgstilbud/OmsorgstilbudForm';
 import OmsorgstilbudInfoAndDialog from '@navikt/sif-common-forms/lib/omsorgstilbud/OmsorgstilbudInfoAndDialog';
 import { getMonthsInDateRange } from '@navikt/sif-common-forms/lib/omsorgstilbud/omsorgstilbudUtils';
-import {
-    OmsorgstilbudFormField,
-    OmsorgstilbudPeriodeFormValue,
-} from '@navikt/sif-common-forms/lib/omsorgstilbud/types';
+import { SkalHaOmsorgstilbudFormField } from '@navikt/sif-common-forms/lib/omsorgstilbud/types';
 import dayjs from 'dayjs';
-import { FormikValues, useFormikContext } from 'formik';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import AppForm from '../../app-form/AppForm';
+import { Element } from 'nav-frontend-typografi';
+import { AppFormField, OmsorgstilbudInfo } from '../../../types/PleiepengesøknadFormData';
 import './omsorgstilbud.less';
+
 interface Props {
-    periodeFra: Date;
-    periodeTil: Date;
-    omsorgstilbud: OmsorgstilbudPeriodeFormValue[];
-    fieldName: string;
+    info: OmsorgstilbudInfo;
+    søknadsperiode: DateRange;
+    spørOmMånedForOmsorgstilbud: boolean;
 }
 
-const getPerioderFromOmsorgstilbud = (
-    periodeFra: Date,
-    periodeTil: Date,
-    omsorgstilbud: OmsorgstilbudPeriodeFormValue[]
-): OmsorgstilbudPeriodeFormValue[] => {
-    const perioder: OmsorgstilbudPeriodeFormValue[] = [];
-    const måneder = getMonthsInDateRange({ from: periodeFra, to: periodeTil });
-    måneder.forEach((måned) => {
-        const omsorgstilbudForMåned = omsorgstilbud.find((oms) => {
-            return dayjs(oms.periode?.from).isSame(måned.from, 'month');
-        });
-        perioder.push({
-            periode: måned,
-            skalHaOmsorgstilbud: omsorgstilbudForMåned?.skalHaOmsorgstilbud || YesOrNo.UNANSWERED,
-            omsorgsdager: omsorgstilbudForMåned?.omsorgsdager || [],
-        });
-    });
-    return perioder;
-};
-
-const useEffectOnce = (callback: any) => {
-    const [hasRun, setHasRun] = useState(false);
-
-    useEffect(() => {
-        if (callback) {
-            if (!hasRun) {
-                callback();
-                setHasRun(true);
-            }
-        }
-    }, [hasRun, callback]);
-};
-
 const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
-    omsorgstilbud = [],
-    fieldName,
-    periodeFra,
-    periodeTil,
+    info,
+    spørOmMånedForOmsorgstilbud,
+    søknadsperiode,
 }) => {
-    const getFieldName = (field: OmsorgstilbudFormField, index: number): string => `${fieldName}.${index}.${field}`;
-    const { setFieldValue } = useFormikContext<FormikValues>();
-
-    useEffectOnce(() => {
-        /** Sync omsorgstilbud-perioder med potensielt endrede fradato og tildato for søknaden */
-        const perioder = getPerioderFromOmsorgstilbud(periodeFra, periodeTil, omsorgstilbud);
-        setFieldValue(fieldName, perioder);
-    });
-
-    if (omsorgstilbud.length === 0) {
+    const måneder = info.måneder || [];
+    if (spørOmMånedForOmsorgstilbud === false) {
         return (
-            <AlertStripeAdvarsel>
-                Perioder for å legge til omsorgstilbud er ikke opprettet - gå tilbake til siden for periode
-            </AlertStripeAdvarsel>
+            <OmsorgstilbudInlineForm
+                fieldName={AppFormField.omsorgstilbud__ja__enkeltdager}
+                søknadsperiode={søknadsperiode}
+                ukeTittelRenderer={(info) => (
+                    <Element className="omsorgstilbud__uketittel" tag="h3">
+                        Uke {info.ukenummer}, {info.år}
+                    </Element>
+                )}
+            />
         );
     }
-
     return (
         <>
-            {omsorgstilbud.map((periode, index) => {
-                const { from, to } = periode.periode;
+            {getMonthsInDateRange(søknadsperiode).map((periode, index) => {
+                const { from, to } = periode;
                 const mndOgÅr = dayjs(from).format('MMMM YYYY');
-                const skalIOmsorgstilbud = periode.skalHaOmsorgstilbud === YesOrNo.YES;
+                const skalIOmsorgstilbud = måneder[index]?.skalHaOmsorgstilbud === YesOrNo.YES;
                 return (
                     <Box key={dayjs(from).format('MM.YYYY')} margin="xl">
-                        <AppForm.YesOrNoQuestion
-                            name={getFieldName(OmsorgstilbudFormField.skalHaOmsorgstilbud, index) as any}
+                        <FormikYesOrNoQuestion
+                            name={`${AppFormField.omsorgstilbud__ja__måneder}.${index}.${SkalHaOmsorgstilbudFormField.skalHaOmsorgstilbud}`}
                             legend={`Skal barnet i omsorgstilbud ${mndOgÅr}?`}
-                            validate={(value) => {
-                                const error = getYesOrNoValidator()(value);
-                                return error
-                                    ? {
-                                          key: 'validation.tilsynsordning.skalHaOmsorgstilbud.yesOrNoIsUnanswered',
-                                          keepKeyUnaltered: true,
-                                          values: { måned: mndOgÅr },
-                                      }
-                                    : undefined;
-                            }}
                         />
                         {skalIOmsorgstilbud && (
                             <FormBlock margin="l">
                                 <ResponsivePanel className={'omsorgstilbudInfoDialogWrapper'}>
                                     <OmsorgstilbudInfoAndDialog
-                                        name={getFieldName(OmsorgstilbudFormField.omsorgsdager, index)}
+                                        name={AppFormField.omsorgstilbud__ja__enkeltdager}
                                         fraDato={from}
                                         tilDato={to}
+                                        skjulTommeDagerIListe={true}
                                         labels={{
                                             addLabel: `Legg til timer`,
                                             deleteLabel: `Fjern alle timer`,
-                                            editLabel:
-                                                periode.omsorgsdager.length === 0 ? `Registrer dager` : 'Endre dager',
+                                            editLabel: `Endre`,
                                             modalTitle: `Omsorgstilbud - ${mndOgÅr}`,
                                         }}
                                     />
