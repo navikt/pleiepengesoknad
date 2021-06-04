@@ -38,8 +38,7 @@ export const getEnkeltdager = (måneder: OmsorgstilbudMåned[], søknadsperiode:
 
 export const mapTilsynsordningToApiData = (
     tilsynsordning: Omsorgstilbud,
-    søknadsperiode: DateRange,
-    key: string
+    søknadsperiode: DateRange
 ): OmsorgstilbudApi | undefined => {
     const { ja, skalBarnIOmsorgstilbud: skalBarnHaTilsyn } = tilsynsordning;
 

@@ -18,7 +18,9 @@
         "skipLibCheck": true,
         "suppressImplicitAnyIndexErrors": true,
         "noUnusedLocals": true,
-        "baseUrl": "./src"
+        "baseUrl": "./src",
+        "noEmit": false,
+        "noFallthroughCasesInSwitch": true
     },
-    "exclude": ["node_modules", "src/build", "**.js", "dist"]
+    "exclude": ["node_modules", "src/build", "**.js", "dist", "e2e/cypress"]
 }

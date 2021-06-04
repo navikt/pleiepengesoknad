@@ -25,7 +25,6 @@ const webpackConfig = {
                     {
                         loader: 'ts-loader',
                         options: {
-                            transpileOnly: true,
                             experimentalFileCaching: false,
                         },
                     },

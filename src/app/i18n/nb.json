@@ -499,6 +499,9 @@
     "selvstendig.summary.arbeidsforhold.header": "Hvordan jobber du som selvstendig?",
 
     "selvstendig.harDuHattInntekt.spm": "Er du selvstendig næringsdrivende i perioden du søker for?",
+    "selvstendig.harDuHattInntekt.hjelpetekst.tittel": "Hva betyr det å være selvstendig næringsdrivende?",
+    "selvstendig.harDuHattInntekt.hjelpetekst": "Du er selvstendig næringsdrivende når du enten har et enkeltpersonforetak (ENK), et ansvarlig selskap (ANS), eller et ansvarlig selskap med delt ansvar (DA).",
+    "selvstendig.harDuHattInntekt.hjelpetekst.snSkatteetatenLenke": "I tillegg kan du lese på skatteetatens side om andre situasjoner hvor du kan regnes som selvstendig næringsdrivende.",
     "selvstendig.harFlereVirksomheter.spm": "Har du flere enn én næringsvirksomhet som er aktiv?",
     "selvstendig.veileder.flereAktiveVirksomheter": "Når du har flere aktive næringsvirksomheter skal du kun legge inn den virksomheten som er eldst av dem. Har du for eksempel en virksomhet du startet i 2012 og en annen som du startet i 2020, skal du kun legge inn virksomheten du startet i 2012.",
     "selvstendig.list.tittel": "Dine registrerte næringsvirksomheter",
@@ -507,7 +510,7 @@
 
     "selvstendig.arbeidsforhold.spm": "Hvordan jobber du som selvstendig?",
 
-    "frilanser.harDuHattInntekt.spm": "Er du frilanser i perioden du søker om?",
+    "frilanser.harDuHattInntekt.spm": "Er du frilanser i perioden du søker for?",
     "frilanser.nårStartet.spm": "Når startet du som frilanser?",
     "frilanser.jobberFortsatt.spm": "Jobber du fortsatt som frilanser?",
     "frilanser.nårSluttet.spm": "Når sluttet du som frilanser?",
@@ -548,18 +551,9 @@
     "snF.ArbeidsforholdDetaljer.hvaBetyr.frilanser.info": "Hvis du jobber som frilanser flere steder skal du her svare samlet for alle oppdragene. Hvis du f.eks. skal jobbe i en av to frilansforhold skal du her svare \"Ja, men jeg skal jobbe mindre enn vanlig\".",
     "snF.ArbeidsforholdDetaljer.hvaBetyr.SN.info": "Hvis du jobber som selvstendig i flere virksomheter skal du her svare samlet for alle virksomhetene dine. Hvis du f.eks. skal jobbe i en av to virksomheter skal du her svare \"Ja, men jeg skal jobbe mindre enn vanlig\".",
 
-    "frilanser.hjelpetekst.spm": "Hva er en frilanser?",
-    "frilanser.hjelpetekst.titel": "Eksempel på hvem som kan være frilansere er:",
-    "frilanser.hjelpetekst.list.1": "Personer med omsorgsstønad",
-    "frilanser.hjelpetekst.list.2": "Fosterforeldre",
-    "frilanser.hjelpetekst.list.3": "Musikere",
-    "frilanser.hjelpetekst.list.4": "Tekstforfattere",
-    "frilanser.hjelpetekst.list.5": "Skuespillere",
-    "frilanser.hjelpetekst.list.6": "Journalister",
-    "frilanser.hjelpetekst.list.7": "Oversettere",
-    "frilanser.hjelpetekst.list.8": "Folkevalgt, politikere i kommuner, fylkeskommuner og på Stortinget som får godtgjørelse for politisk arbeid",
-    "frilanser.hjelpetekst.list.9": "Støttekontakt",
-    "frilanser.hjelpetekst": "Hvis du er usikker på om du er frilanser, kan du lese mer om hva det betyr å være frilanser på skatteetaten sin hjemmeside.",
+    "frilanser.hjelpetekst.spm": "Hva betyr det å være frilanser?",
+    "frilanser.hjelpetekst": "Du er frilanser når du mottar lønn for enkeltstående oppdrag uten å være fast eller midlertidig ansatt hos den du utfører oppdraget for. Hvis du er usikker på om du er frilanser må du sjekke om oppdragene dine er registrert som frilansoppdrag på",
+    "frilanser.hjelpetekst.skatteetatenLenke": "skatteetaten sine nettsider.",
 
     "frilanser.summary.header": "Frilans",
     "frilanser.summary.harDuHattInntekt.header": "Er du frilanser i perioden du søker for?",

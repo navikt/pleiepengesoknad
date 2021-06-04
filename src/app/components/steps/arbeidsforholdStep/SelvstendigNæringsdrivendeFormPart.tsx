@@ -22,6 +22,9 @@ import AppForm from '../../app-form/AppForm';
 import ArbeidsformInfoSNFrilanser from '../../formik-arbeidsforhold/ArbeidsformInfoSNFrilanser';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import Lenke from 'nav-frontend-lenker';
+import getLenker from '../../../lenker';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
@@ -41,6 +44,16 @@ const SelvstendigNæringsdrivendeFormPart = ({ formValues }: Props) => {
                     name={AppFormField.selvstendig_harHattInntektSomSN}
                     legend={intlHelper(intl, 'selvstendig.harDuHattInntekt.spm')}
                     validate={getYesOrNoValidator()}
+                    description={
+                        <ExpandableInfo title={intlHelper(intl, 'selvstendig.harDuHattInntekt.hjelpetekst.tittel')}>
+                            <>
+                                {intlHelper(intl, 'selvstendig.harDuHattInntekt.hjelpetekst')}{' '}
+                                <Lenke href={getLenker(intl.locale).skatteetatenSN} target="_blank">
+                                    <FormattedMessage id="selvstendig.harDuHattInntekt.hjelpetekst.snSkatteetatenLenke" />
+                                </Lenke>
+                            </>
+                        </ExpandableInfo>
+                    }
                 />
             </Box>
             {formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES && (
