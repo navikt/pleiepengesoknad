@@ -11,11 +11,10 @@ import SummaryBlock from './SummaryBlock';
 
 interface Props {
     virksomhet?: VirksomhetApiData;
-    harFlereVirksomheter: boolean | undefined;
     arbeidsforholdSN?: ArbeidsforholdSNFApi;
 }
 
-function SelvstendigSummary({ virksomhet, harFlereVirksomheter, arbeidsforholdSN }: Props) {
+function SelvstendigSummary({ virksomhet, arbeidsforholdSN }: Props) {
     const intl = useIntl();
     return (
         <SummarySection header={intlHelper(intl, 'summary.virksomhet.header')}>
@@ -26,7 +25,7 @@ function SelvstendigSummary({ virksomhet, harFlereVirksomheter, arbeidsforholdSN
             {virksomhet && (
                 <>
                     <SummaryBlock header={intlHelper(intl, 'summary.virksomhet.harFlereVirksomheter.header')}>
-                        <JaNeiSvar harSvartJa={harFlereVirksomheter} />
+                        <JaNeiSvar harSvartJa={virksomhet.harFlereAktiveVirksomheter} />
                     </SummaryBlock>
                     <SummaryBlock header={intlHelper(intl, 'summary.virksomhet.virksomhetInfo.tittel')}>
                         <VirksomhetSummary virksomhet={virksomhet} />

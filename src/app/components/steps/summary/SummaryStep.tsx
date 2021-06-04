@@ -379,7 +379,6 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                             ? apiValues.selvstendigVirksomheter[0]
                                             : undefined
                                     }
-                                    harFlereVirksomheter={apiValues.harFlereVirksomheter}
                                     arbeidsforholdSN={apiValues.selvstendigArbeidsforhold}
                                 />
 
