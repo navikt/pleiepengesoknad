@@ -26,6 +26,7 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
     søknadsperiode,
 }) => {
     const måneder = info.måneder || [];
+
     if (spørOmMånedForOmsorgstilbud === false) {
         return (
             <OmsorgstilbudInlineForm
@@ -62,7 +63,7 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
                                         labels={{
                                             addLabel: `Legg til timer`,
                                             deleteLabel: `Fjern alle timer`,
-                                            editLabel: `Endre`,
+                                            editLabel: `Registrer tid i omsorgstilbud`,
                                             modalTitle: `Omsorgstilbud - ${mndOgÅr}`,
                                         }}
                                     />

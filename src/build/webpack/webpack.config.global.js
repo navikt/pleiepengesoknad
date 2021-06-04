@@ -63,6 +63,7 @@ const webpackConfig = {
         }),
         new ESLintPlugin({
             extensions: ['ts', 'tsx'],
+            failOnWarning: false,
         }),
     ],
 };

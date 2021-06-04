@@ -7,24 +7,28 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatted-html-message/FormattedHtmlMessage';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { DateRange } from '@navikt/sif-common-formik/lib';
 import datepickerUtils, {
     ISOStringToDate,
 } from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import { getMonthsInDateRange } from '@navikt/sif-common-forms/lib/omsorgstilbud/omsorgstilbudUtils';
+import dayjs from 'dayjs';
 import { useFormikContext } from 'formik';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { skalSpørreOmOmsorgstilbudPerMåned } from '../../../utils/omsorgstilbudUtils';
 import { validateSkalHaTilsynsordning } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
 import OmsorgstilbudFormPart from './OmsorgstilbudFormPart';
-import { skalSpørreOmOmsorgstilbudPerMåned } from '../../../utils/omsorgstilbudUtils';
 
 export const cleanupTilsynsordningStep = (
     values: PleiepengesøknadFormData,
-    spørOmMånedForOmsorgstilbud: boolean
+    spørOmMånedForOmsorgstilbud: boolean,
+    søknadsperiode: DateRange
 ): PleiepengesøknadFormData => {
     const v = { ...values };
 
@@ -46,13 +50,19 @@ export const cleanupTilsynsordningStep = (
         if (v.omsorgstilbud.ja?.erLiktHverDag === YesOrNo.NO) {
             v.omsorgstilbud.ja.fasteDager = undefined;
         }
-        const { enkeltdager } = v.omsorgstilbud.ja || {};
-
-        if (enkeltdager && spørOmMånedForOmsorgstilbud) {
-            Object.keys(enkeltdager).map((key) => {
-                const dato = ISOStringToDate(key);
-                console.log(dato);
-                return enkeltdager[key];
+        const { enkeltdager, måneder } = v.omsorgstilbud.ja || {};
+        if (enkeltdager && spørOmMånedForOmsorgstilbud && måneder) {
+            /** Fjern enkeltdager hvor bruker har sagt nei, men allikevel har fylt ut omsorgstilbud */
+            getMonthsInDateRange(søknadsperiode).forEach((month, index) => {
+                const { skalHaOmsorgstilbud } = måneder[index] || {};
+                if (!skalHaOmsorgstilbud || skalHaOmsorgstilbud === YesOrNo.NO) {
+                    Object.keys(enkeltdager).forEach((dag) => {
+                        const dato = ISOStringToDate(dag);
+                        if (dayjs(dato).isSame(month.from, 'month')) {
+                            delete enkeltdager[dag];
+                        }
+                    });
+                }
             });
         }
     }
@@ -75,14 +85,13 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
     if (!periodeFra || !periodeTil) {
         return <div>Perioden mangler, gå tilbake og endre datoer</div>;
     }
-
-    const spørOmMånedForOmsorgstilbud =
-        skalSpørreOmOmsorgstilbudPerMåned({ from: periodeFra, to: periodeTil }) === false;
+    const søknadsperiode: DateRange = { from: periodeFra, to: periodeTil };
+    const spørOmMånedForOmsorgstilbud = skalSpørreOmOmsorgstilbudPerMåned(søknadsperiode);
 
     return (
         <FormikStep
             id={StepID.OMSORGSTILBUD}
-            onStepCleanup={(values) => cleanupTilsynsordningStep(values, spørOmMånedForOmsorgstilbud)}
+            onStepCleanup={(values) => cleanupTilsynsordningStep(values, spørOmMånedForOmsorgstilbud, søknadsperiode)}
             onValidFormSubmit={onValidSubmit}>
             <CounsellorPanel>
                 <FormattedMessage id="steg.tilsyn.veileder.html" values={{ p: (msg: string) => <p>{msg}</p> }} />

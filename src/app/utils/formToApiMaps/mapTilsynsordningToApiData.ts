@@ -1,7 +1,10 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { DateRange } from '@navikt/sif-common-formik/lib';
-import { OmsorgstilbudMåned } from '@navikt/sif-common-forms/lib/omsorgstilbud/types';
+import { DateRange, dateToISOString, ISOStringToDate } from '@navikt/sif-common-formik/lib';
+import { getMonthsInDateRange } from '@navikt/sif-common-forms/lib/omsorgstilbud/omsorgstilbudUtils';
+import { OmsorgstilbudMåned, TidIOmsorgstilbud } from '@navikt/sif-common-forms/lib/omsorgstilbud/types';
+import dayjs from 'dayjs';
 import { OmsorgstilbudApi, VetOmsorgstilbud, OmsorgstilbudDagApi } from '../../types/PleiepengesøknadApiData';
 import { Omsorgstilbud, OmsorgstilbudFasteDager } from '../../types/PleiepengesøknadFormData';
 import { skalSpørreOmOmsorgstilbudPerMåned } from '../omsorgstilbudUtils';
@@ -14,39 +17,52 @@ export const getFasteDager = ({ mandag, tirsdag, onsdag, torsdag, fredag }: Omso
     fredag: fredag ? timeToIso8601Duration(fredag) : undefined,
 });
 
-export const getEnkeltdager = (måneder: OmsorgstilbudMåned[], søknadsperiode: DateRange): OmsorgstilbudDagApi[] => {
+export const getEnkeltdager = (
+    måneder: OmsorgstilbudMåned[],
+    enkeltdager: TidIOmsorgstilbud,
+    søknadsperiode: DateRange
+): OmsorgstilbudDagApi[] => {
     const dager: OmsorgstilbudDagApi[] = [];
     if (skalSpørreOmOmsorgstilbudPerMåned(søknadsperiode)) {
+        getMonthsInDateRange(søknadsperiode).forEach((month, index) => {
+            const { skalHaOmsorgstilbud } = måneder[index] || {};
+            if (!skalHaOmsorgstilbud || skalHaOmsorgstilbud === YesOrNo.YES) {
+                Object.keys(enkeltdager).forEach((dag) => {
+                    const dato = ISOStringToDate(dag);
+                    if (dato !== undefined && dayjs(dato).isSame(month.from, 'month')) {
+                        dager.push({
+                            dato: dateToISOString(dato),
+                            tid: timeToIso8601Duration(enkeltdager[dag]),
+                        });
+                    }
+                });
+            }
+        });
     } else {
+        Object.keys(enkeltdager).forEach((dag) => {
+            const dato = ISOStringToDate(dag);
+            if (dato && datoErInnenforTidsrom(dato, søknadsperiode)) {
+                dager.push({
+                    dato: dateToISOString(dato),
+                    tid: timeToIso8601Duration(enkeltdager[dag]),
+                });
+            }
+        });
     }
-    // getMonthsInDateRange(søknadsperiode).forEach((måned, index) => {
-    //     skalSpørreOmOmsorgstilbudPerMåned
-    // });
-    // const månederISøknadsperiode = getMån;
-    // const datoer = getDatoerForOmsorgstilbudPeriode(søknadsperiode.from, søknadsperiode.to);
-
-    // måneder
-    //     .filter((måned) => måned.skalHaOmsorgstilbud === YesOrNo.YES)
-    //     .forEach((måned) => {
-    //         const datoerIMåned = getDatoerForOmsorgstilbudPeriode(måned);
-    //         // periode.omsorgsdager.forEach((dag) => {
-    //         //     dager.push({ dato: dateToISOString(dag.dato), tid: timeToIso8601Duration(dag.tid) });
-    //         // });
-    //     });
     return dager;
 };
 
 export const mapTilsynsordningToApiData = (
-    tilsynsordning: Omsorgstilbud,
+    omsorgstilbud: Omsorgstilbud,
     søknadsperiode: DateRange
 ): OmsorgstilbudApi | undefined => {
-    const { ja, skalBarnIOmsorgstilbud: skalBarnHaTilsyn } = tilsynsordning;
+    const { ja, skalBarnIOmsorgstilbud } = omsorgstilbud;
 
-    if (skalBarnHaTilsyn === YesOrNo.NO || !ja) {
+    if (skalBarnIOmsorgstilbud === YesOrNo.NO || !ja) {
         return undefined; // !ja: bør denne logges som feil?
     }
 
-    const { vetHvorMyeTid, vetNoeTid, erLiktHverDag, fasteDager, måneder } = ja;
+    const { vetHvorMyeTid, vetNoeTid, erLiktHverDag, fasteDager, måneder, enkeltdager } = ja;
 
     if (vetHvorMyeTid === YesOrNo.NO && vetNoeTid === YesOrNo.NO) {
         return {
@@ -63,10 +79,10 @@ export const mapTilsynsordningToApiData = (
             fasteDager: getFasteDager(fasteDager),
         };
     }
-    if (erLiktHverDag === YesOrNo.NO && måneder) {
+    if (erLiktHverDag === YesOrNo.NO && måneder && enkeltdager) {
         return {
             vetOmsorgstilbud,
-            enkeltDager: getEnkeltdager(måneder, søknadsperiode),
+            enkeltDager: getEnkeltdager(måneder, enkeltdager, søknadsperiode),
         };
     }
 
