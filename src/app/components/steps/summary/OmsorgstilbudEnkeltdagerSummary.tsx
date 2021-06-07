@@ -23,12 +23,13 @@ const OmsorgstilbudEnkeltdagerSummary: React.FunctionComponent<Props> = ({ dager
         }
     });
     const months = groupBy(days, ({ dato }) => `${dato.getFullYear()}.${dato.getMonth()}`);
+    console.log(months);
+
     return (
         <div>
             {Object.keys(months).map((key) => {
                 const days = months[key];
                 const dateRange: DateRange = { from: days[0].dato, to: days[days.length - 1].dato };
-
                 return (
                     <Box margin="m" key={key}>
                         <EkspanderbartPanel

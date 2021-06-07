@@ -2,6 +2,10 @@ import { DateRange } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import { skalSpørreOmOmsorgstilbudPerMåned, MAKS_ANTALL_DAGER_FOR_INLINE_SKJEMA } from '../omsorgstilbudUtils';
 
+const sameMonthDateRangeShort: DateRange = {
+    from: new Date(2021, 5, 1),
+    to: new Date(2021, 5, 6),
+};
 const sameMonthDateRange: DateRange = {
     from: new Date(2021, 5, 1),
     to: new Date(2021, 5, 15),
@@ -13,8 +17,8 @@ const twoMonthsDateRange: DateRange = {
 
 describe('omsorgstilbudUtils', () => {
     describe('skalSpørreOmOmsorgstilbudPerMåned', () => {
-        it('returns false when all days are within same month', () => {
-            expect(skalSpørreOmOmsorgstilbudPerMåned(sameMonthDateRange)).toBeFalsy();
+        it('returns false when all days are within same month and less than 6 days', () => {
+            expect(skalSpørreOmOmsorgstilbudPerMåned(sameMonthDateRangeShort)).toBeFalsy();
         });
         it(`returns false when all days are below ${MAKS_ANTALL_DAGER_FOR_INLINE_SKJEMA}`, () => {
             expect(

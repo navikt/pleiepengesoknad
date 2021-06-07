@@ -17,6 +17,9 @@ export const getFasteDager = ({ mandag, tirsdag, onsdag, torsdag, fredag }: Omso
     fredag: fredag ? timeToIso8601Duration(fredag) : undefined,
 });
 
+const sortEnkeltdager = (d1: OmsorgstilbudDagApi, d2: OmsorgstilbudDagApi): number =>
+    dayjs(d1.dato).isBefore(d2.dato, 'day') ? -1 : 1;
+
 export const getEnkeltdager = (
     måneder: OmsorgstilbudMåned[],
     enkeltdager: TidIOmsorgstilbud,
@@ -49,7 +52,7 @@ export const getEnkeltdager = (
             }
         });
     }
-    return dager;
+    return dager.sort(sortEnkeltdager);
 };
 
 export const mapTilsynsordningToApiData = (
