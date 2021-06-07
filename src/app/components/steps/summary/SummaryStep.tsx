@@ -148,7 +148,10 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
 
                 const mottarAndreYtelserFraNAV =
                     apiValues.andreYtelserFraNAV && apiValues.andreYtelserFraNAV.length > 0;
-
+                const visVerneplikt =
+                    apiValues.arbeidsgivere.organisasjoner.length === 0 &&
+                    !apiValues.harHattInntektSomFrilanser &&
+                    !apiValues.harHattInntektSomSelvstendigNæringsdrivende;
                 return (
                     <FormikStep
                         id={StepID.SUMMARY}
@@ -384,15 +387,17 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                 />
 
                                 {/* Vernepliktig */}
-                                <SummarySection header={intlHelper(intl, 'verneplikt.summary.header')}>
-                                    <SummaryBlock
-                                        header={intlHelper(
-                                            intl,
-                                            'verneplikt.summary.harVærtEllerErVernepliktig.header'
-                                        )}>
-                                        <JaNeiSvar harSvartJa={apiValues.harVærtEllerErVernepliktig} />
-                                    </SummaryBlock>
-                                </SummarySection>
+                                {visVerneplikt && (
+                                    <SummarySection header={intlHelper(intl, 'verneplikt.summary.header')}>
+                                        <SummaryBlock
+                                            header={intlHelper(
+                                                intl,
+                                                'verneplikt.summary.harVærtEllerErVernepliktig.header'
+                                            )}>
+                                            <JaNeiSvar harSvartJa={apiValues.harVærtEllerErVernepliktig} />
+                                        </SummaryBlock>
+                                    </SummarySection>
+                                )}
 
                                 {/* Andre ytelser */}
                                 {isFeatureEnabled(Feature.ANDRE_YTELSER) && (

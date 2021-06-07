@@ -29,6 +29,20 @@ interface LoadState {
     isLoaded: boolean;
 }
 
+const erIkkeAnsattEllerFSN = (values: PleiepengesøknadFormData): boolean => {
+    const ikkeFrilanserEllerSn =
+        values.harHattInntektSomFrilanser === YesOrNo.NO && values.selvstendig_harHattInntektSomSN === YesOrNo.NO;
+
+    if (ikkeFrilanserEllerSn && values.arbeidsforhold && values.arbeidsforhold.length > 0) {
+        const erIkkeAnsatt = values.arbeidsforhold.filter((arbeidsgiver) => {
+            if (arbeidsgiver.erAnsattIPerioden === undefined || arbeidsgiver.erAnsattIPerioden !== YesOrNo.NO)
+                return arbeidsgiver;
+        });
+        return erIkkeAnsatt.length === 0;
+    }
+    return ikkeFrilanserEllerSn;
+};
+
 const cleanupArbeidsforhold = (formValues: PleiepengesøknadFormData): PleiepengesøknadFormData => {
     const values: PleiepengesøknadFormData = { ...formValues };
     if (values.mottarAndreYtelser === YesOrNo.NO) {
@@ -51,6 +65,8 @@ const cleanupArbeidsforhold = (formValues: PleiepengesøknadFormData): Pleiepeng
         values.selvstendig_virksomhet = undefined;
         values.selvstendig_arbeidsforhold = undefined;
     }
+    if (!erIkkeAnsattEllerFSN(values)) values.harVærtEllerErVernepliktig = undefined;
+
     return values;
 };
 
@@ -137,9 +153,11 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                         <SelvstendigNæringsdrivendeFormPart formValues={values} />
                     </FormSection>
 
-                    <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.verneplikt.tittel')}>
-                        <VernepliktigFormPart />
-                    </FormSection>
+                    {erIkkeAnsattEllerFSN(values) && (
+                        <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.verneplikt.tittel')}>
+                            <VernepliktigFormPart />
+                        </FormSection>
+                    )}
 
                     {isFeatureEnabled(Feature.ANDRE_YTELSER) && (
                         <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.andreYtelser.tittel')}>
