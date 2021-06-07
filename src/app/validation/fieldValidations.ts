@@ -17,6 +17,7 @@ import {
 import { timeToDecimalTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import { isValidTime } from '@navikt/sif-common-formik/lib/components/formik-time-input/TimeInput';
 import {
     getDateRangeValidator,
     getDateValidator,
@@ -25,6 +26,7 @@ import {
     getStringValidator,
     ValidateRequiredFieldError,
 } from '@navikt/sif-common-formik/lib/validation';
+import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeValidator';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
@@ -173,11 +175,12 @@ export const validateSkalHaTilsynsordning = (tilsynsordning: Omsorgstilbud): Val
 export const getTilsynstimerValidatorEnDag =
     (dag: string) =>
     (time: Time): ValidationResult<ValidationError> => {
-        if (time && timeToDecimalTime(time) > 7.5) {
-            console.log(timeToDecimalTime(time));
-
+        const error = time
+            ? getTimeValidator({ max: { hours: 7, minutes: 30 }, min: { hours: 0, minutes: 0 } })(time)
+            : undefined;
+        if (error) {
             return {
-                key: `validation.tilsynsordning.tilsynsordning_forMangeTimerEnDag`,
+                key: `validation.omsorgstilbud.ja.fastDag.tid.${error}`,
                 values: { dag },
                 keepKeyUnaltered: true,
             };
