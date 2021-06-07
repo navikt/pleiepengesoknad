@@ -14,10 +14,8 @@ import {
     dateRangesHasFromDateEqualPreviousRangeToDate,
     dateToday,
 } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { timeToDecimalTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import { isValidTime } from '@navikt/sif-common-formik/lib/components/formik-time-input/TimeInput';
 import {
     getDateRangeValidator,
     getDateValidator,
