@@ -8,12 +8,10 @@ import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatt
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import datepickerUtils, {
-    ISOStringToDate,
-} from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
-import { getMonthsInDateRange } from '@navikt/sif-common-forms/lib/omsorgstilbud/omsorgstilbudUtils';
 import dayjs from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween';
 import { useFormikContext } from 'formik';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
@@ -24,54 +22,9 @@ import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
 import OmsorgstilbudFormPart from './OmsorgstilbudFormPart';
+import { cleanupTilsynsordningStep } from './tilsynsordningStepUtils';
 
-export const cleanupTilsynsordningStep = (
-    values: PleiepengesøknadFormData,
-    spørOmMånedForOmsorgstilbud: boolean,
-    søknadsperiode: DateRange
-): PleiepengesøknadFormData => {
-    const v = { ...values };
-
-    if (v.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.YES) {
-        if (v.omsorgstilbud.ja?.vetHvorMyeTid === YesOrNo.YES) {
-            v.omsorgstilbud.ja.vetNoeTid = YesOrNo.UNANSWERED;
-        }
-        if (v.omsorgstilbud.ja?.vetHvorMyeTid === YesOrNo.NO) {
-            if (v.omsorgstilbud.ja?.vetNoeTid === YesOrNo.NO) {
-                v.omsorgstilbud.ja.erLiktHverDag = YesOrNo.UNANSWERED;
-                v.omsorgstilbud.ja.fasteDager = undefined;
-                v.omsorgstilbud.ja.måneder = undefined;
-            }
-        }
-        if (v.omsorgstilbud.ja?.erLiktHverDag === YesOrNo.YES) {
-            v.omsorgstilbud.ja.måneder = undefined;
-            v.omsorgstilbud.ja.enkeltdager = undefined;
-        }
-        if (v.omsorgstilbud.ja?.erLiktHverDag === YesOrNo.NO) {
-            v.omsorgstilbud.ja.fasteDager = undefined;
-        }
-        const { enkeltdager, måneder } = v.omsorgstilbud.ja || {};
-        if (enkeltdager && spørOmMånedForOmsorgstilbud && måneder) {
-            /** Fjern enkeltdager hvor bruker har sagt nei, men allikevel har fylt ut omsorgstilbud */
-            getMonthsInDateRange(søknadsperiode).forEach((month, index) => {
-                const { skalHaOmsorgstilbud } = måneder[index] || {};
-                if (!skalHaOmsorgstilbud || skalHaOmsorgstilbud === YesOrNo.NO) {
-                    Object.keys(enkeltdager).forEach((dag) => {
-                        const dato = ISOStringToDate(dag);
-                        if (dayjs(dato).isSame(month.from, 'month')) {
-                            delete enkeltdager[dag];
-                        }
-                    });
-                }
-            });
-        }
-    }
-    if (v.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.NO) {
-        v.omsorgstilbud.ja = undefined;
-    }
-
-    return v;
-};
+dayjs.extend(isBetween);
 
 const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();

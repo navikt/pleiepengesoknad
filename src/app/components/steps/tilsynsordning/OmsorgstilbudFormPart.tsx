@@ -10,7 +10,7 @@ import OmsorgstilbudInfoAndDialog from '@navikt/sif-common-forms/lib/omsorgstilb
 import { getMonthsInDateRange } from '@navikt/sif-common-forms/lib/omsorgstilbud/omsorgstilbudUtils';
 import { SkalHaOmsorgstilbudFormField } from '@navikt/sif-common-forms/lib/omsorgstilbud/types';
 import dayjs from 'dayjs';
-import { Element } from 'nav-frontend-typografi';
+import { Element, Undertittel } from 'nav-frontend-typografi';
 import { AppFormField, OmsorgstilbudInfo } from '../../../types/PleiepengesøknadFormData';
 import './omsorgstilbud.less';
 
@@ -29,15 +29,18 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
 
     if (spørOmMånedForOmsorgstilbud === false) {
         return (
-            <OmsorgstilbudInlineForm
-                fieldName={AppFormField.omsorgstilbud__ja__enkeltdager}
-                søknadsperiode={søknadsperiode}
-                ukeTittelRenderer={(info) => (
-                    <Element className="omsorgstilbud__uketittel" tag="h3">
-                        Uke {info.ukenummer}, {info.år}
-                    </Element>
-                )}
-            />
+            <>
+                <Undertittel tag="h3">Omsorgstilbud i perioden</Undertittel>
+                <OmsorgstilbudInlineForm
+                    fieldName={AppFormField.omsorgstilbud__ja__enkeltdager}
+                    søknadsperiode={søknadsperiode}
+                    ukeTittelRenderer={(info) => (
+                        <Element className="omsorgstilbud__uketittel" tag="h4">
+                            Uke {info.ukenummer}, {info.år}
+                        </Element>
+                    )}
+                />
+            </>
         );
     }
     return (
