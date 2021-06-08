@@ -65,11 +65,11 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
     const søkerdata = useContext(SøkerdataContext);
 
     const { isLoading, isLoaded } = loadState;
-    const { periodeFra } = values;
+    const { periodeFra, periodeTil } = values;
 
     useEffect(() => {
         const fraDato = datepickerUtils.getDateFromDateString(periodeFra);
-        const tilDato = datepickerUtils.getDateFromDateString(periodeFra);
+        const tilDato = datepickerUtils.getDateFromDateString(periodeTil);
 
         const fetchData = async () => {
             if (søkerdata) {
@@ -83,7 +83,7 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
             setLoadState({ isLoading: true, isLoaded: false });
             fetchData();
         }
-    }, [formikProps, søkerdata, isLoaded, isLoading, periodeFra]);
+    }, [formikProps, søkerdata, isLoaded, isLoading, periodeFra, periodeTil]);
 
     return (
         <FormikStep
