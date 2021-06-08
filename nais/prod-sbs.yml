@@ -54,8 +54,6 @@ spec:
           value: "on"
         - name: TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN
           value: "on"
-        - name: TOGGLE_8_UKER
-          value: "off"
         - name: TOGGLE_BEKREFT_OMSORG
           value: "off"
         - name: APPSTATUS_PROJECT_ID

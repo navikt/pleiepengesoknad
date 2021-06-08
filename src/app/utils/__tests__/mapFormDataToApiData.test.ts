@@ -642,28 +642,6 @@ describe('Test complete applications', () => {
         harHattInntektSomSelvstendigNæringsdrivende: false,
     };
 
-    const baseDato = new Date(2020, 0, 1);
-
-    const feature8UkerDatoerFormOverrideData: {
-        under8Uker: {
-            periodeFra: string;
-            periodeTil: string;
-        };
-        over8Uker: {
-            periodeFra: string;
-            periodeTil: string;
-        };
-    } = {
-        under8Uker: {
-            periodeFra: dateUtils.formatDateToApiFormat(dayjs(baseDato).toDate()),
-            periodeTil: dateUtils.formatDateToApiFormat(dayjs(baseDato).add(3, 'weeks').toDate()),
-        },
-        over8Uker: {
-            periodeFra: dateUtils.formatDateToApiFormat(dayjs(baseDato).toDate()),
-            periodeTil: dateUtils.formatDateToApiFormat(dayjs(baseDato).add(9, 'weeks').toDate()),
-        },
-    };
-
     it('All features on', () => {
         (isFeatureEnabled as any).mockImplementation(() => true);
 
@@ -741,33 +719,6 @@ describe('Test complete applications', () => {
         expect(JSON.stringify(jsonSort(mapFeaturesOnData(featuresOnFormData)))).toEqual(
             JSON.stringify(jsonSort(resultApiDataWithFeatures))
         );
-
-        const feature8UkerOver8ukerFormData: Partial<PleiepengesøknadFormData> = {
-            ...feature8UkerDatoerFormOverrideData.over8Uker,
-            bekrefterPeriodeOver8uker: YesOrNo.YES,
-        };
-
-        const feature8UkerOver8UkerApiData: Partial<PleiepengesøknadApiData> = {
-            fraOgMed: feature8UkerDatoerFormOverrideData.over8Uker.periodeFra,
-            tilOgMed: feature8UkerDatoerFormOverrideData.over8Uker.periodeTil,
-            bekrefterPeriodeOver8Uker: true,
-        };
-
-        expect(
-            JSON.stringify(jsonSort(mapFeaturesOnData({ ...featuresOnFormData, ...feature8UkerOver8ukerFormData })))
-        ).toEqual(JSON.stringify(jsonSort({ ...resultApiDataWithFeatures, ...feature8UkerOver8UkerApiData })));
-
-        const feature8UkerUnder8ukerFormData: Partial<PleiepengesøknadFormData> = {
-            ...feature8UkerDatoerFormOverrideData.under8Uker,
-        };
-        const feature8UkerUnder8UkerApiData: Partial<PleiepengesøknadApiData> = {
-            fraOgMed: feature8UkerDatoerFormOverrideData.under8Uker.periodeFra,
-            tilOgMed: feature8UkerDatoerFormOverrideData.under8Uker.periodeTil,
-        };
-
-        expect(
-            JSON.stringify(jsonSort(mapFeaturesOnData({ ...featuresOnFormData, ...feature8UkerUnder8ukerFormData })))
-        ).toEqual(JSON.stringify(jsonSort({ ...resultApiDataWithFeatures, ...feature8UkerUnder8UkerApiData })));
     });
 });
 
