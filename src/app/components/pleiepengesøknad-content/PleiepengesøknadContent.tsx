@@ -29,7 +29,7 @@ import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromSte
 import TilsynsordningStep from '../steps/tilsynsordning/TilsynsordningStep';
 
 interface PleiepengesøknadContentProps {
-    lastStepID: StepID;
+    lastStepID?: StepID;
 }
 
 export interface KvitteringInfo {
@@ -73,7 +73,7 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
     );
 
     const isOnWelcomPage = location.pathname === RouteConfig.WELCOMING_PAGE_ROUTE;
-    const nextStepRoute = getNextStepRoute(lastStepID, values);
+    const nextStepRoute = lastStepID ? getNextStepRoute(lastStepID, values) : undefined;
     useEffect(() => {
         if (isOnWelcomPage && nextStepRoute !== undefined) {
             sendUserToStep(nextStepRoute);

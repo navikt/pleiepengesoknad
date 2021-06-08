@@ -8,7 +8,11 @@ import PleiepengesøknadContent from '../pleiepengesøknad-content/Pleiepengesø
 
 const Pleiepengesøknad = () => (
     <AppEssentialsLoader
-        contentLoadedRenderer={(formdata: PleiepengesøknadFormData, lastStepID: StepID, søkerdata) => {
+        contentLoadedRenderer={(
+            formdata: Partial<PleiepengesøknadFormData>,
+            lastStepID: StepID | undefined,
+            søkerdata
+        ) => {
             if (søkerdata) {
                 const { person } = søkerdata;
                 if (!person.myndig) {
