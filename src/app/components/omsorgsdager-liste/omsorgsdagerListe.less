@@ -7,11 +7,14 @@
         }
     }
     &__dag {
-        margin-bottom: 0.5rem;
+        // margin-bottom: 0.5rem;
         display: flex;
         flex-wrap: wrap;
-        padding: 0.25rem 0;
-        border-bottom: 1px dashed #c6c2bf;
+        padding: 0.5rem 0;
+        li:first-child & {
+            border-top: 1px solid rgba(0, 0, 0, 0.15);
+        }
+        border-bottom: 1px solid rgba(0, 0, 0, 0.15);
         &__dato {
             margin-right: 1rem;
             flex: 1 1 8rem;
@@ -32,6 +35,6 @@
         }
     }
     &__tidTotalt {
-        margin-top: 2rem;
+        margin-bottom: 2rem;
     }
 }

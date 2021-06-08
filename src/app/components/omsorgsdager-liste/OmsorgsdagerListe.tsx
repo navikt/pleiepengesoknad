@@ -51,6 +51,19 @@ export const OmsorgsdagerListe = ({ omsorgsdager, viseUke, visMåned }: Props) =
     return (
         <div className={bem.block}>
             {visMåned && <Undertittel className="m-caps">{dayjs(omsorgsdager[0].dato).format('MMM YYYY')}</Undertittel>}
+            {omsorgsdager.length > 1 && (
+                <p className={bem.element('tidTotalt')}>
+                    Tid totalt:{' '}
+                    <FormattedTimeText
+                        time={{ hours: tidTotalt.hours, minutes: tidTotalt.minutes }}
+                        fullText={true}
+                        hideEmptyValues={true}
+                    />
+                    {` `}
+                    fordelt på {omsorgsdager.length} dager.
+                </p>
+            )}
+
             <div className={bem.element('uker')}>
                 {Object.keys(weeksWithDays).map((key) => {
                     const days = weeksWithDays[key];
@@ -86,18 +99,6 @@ export const OmsorgsdagerListe = ({ omsorgsdager, viseUke, visMåned }: Props) =
                         </div>
                     );
                 })}
-                {omsorgsdager.length > 1 && (
-                    <p className={bem.element('tidTotalt')}>
-                        Tid totalt:{' '}
-                        <FormattedTimeText
-                            time={{ hours: tidTotalt.hours, minutes: tidTotalt.minutes }}
-                            fullText={true}
-                            hideEmptyValues={true}
-                        />
-                        {` `}
-                        fordelt på {omsorgsdager.length} dager.
-                    </p>
-                )}
             </div>
         </div>
     );
