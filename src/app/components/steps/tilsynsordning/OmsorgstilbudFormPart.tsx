@@ -5,10 +5,10 @@ import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-p
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
-import { OmsorgstilbudInlineForm } from '@navikt/sif-common-forms/lib/omsorgstilbud/OmsorgstilbudForm';
-import OmsorgstilbudInfoAndDialog from '@navikt/sif-common-forms/lib/omsorgstilbud/OmsorgstilbudInfoAndDialog';
-import { getMonthsInDateRange } from '@navikt/sif-common-forms/lib/omsorgstilbud/omsorgstilbudUtils';
-import { SkalHaOmsorgstilbudFormField } from '@navikt/sif-common-forms/lib/omsorgstilbud/types';
+import { OmsorgstilbudInlineForm } from '../../omsorgstilbud/OmsorgstilbudForm';
+import OmsorgstilbudInfoAndDialog from '../../omsorgstilbud/OmsorgstilbudInfoAndDialog';
+import { getMonthsInDateRange } from '../../omsorgstilbud/omsorgstilbudUtils';
+import { SkalHaOmsorgstilbudFormField } from '../../omsorgstilbud/types';
 import dayjs from 'dayjs';
 import { Element, Undertittel } from 'nav-frontend-typografi';
 import { AppFormField, OmsorgstilbudInfo } from '../../../types/PleiepengesøknadFormData';

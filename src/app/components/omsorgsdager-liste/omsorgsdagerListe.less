@@ -1,0 +1,37 @@
+.omsorgsdagerListe {
+    &__dager {
+        margin: 0;
+        li > {
+            margin: 0;
+            padding: 0;
+        }
+    }
+    &__dag {
+        margin-bottom: 0.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0.25rem 0;
+        border-bottom: 1px dashed #c6c2bf;
+        &__dato {
+            margin-right: 1rem;
+            flex: 1 1 8rem;
+            white-space: nowrap;
+            text-transform: capitalize;
+        }
+        &__tid {
+            flex: 2 1 10rem;
+        }
+    }
+    &__uketittel {
+        margin-bottom: 0.5rem;
+        margin-top: 1rem;
+    }
+    &__uke + &__uke {
+        .omsorgsdagerListe__uketittel {
+            margin-top: 1.5rem;
+        }
+    }
+    &__tidTotalt {
+        margin-top: 2rem;
+    }
+}

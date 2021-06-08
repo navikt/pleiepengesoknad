@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { OmsorgstilbudMåned, TidIOmsorgstilbud } from '@navikt/sif-common-forms/lib/omsorgstilbud/types';
+import { OmsorgstilbudMåned, TidIOmsorgstilbud } from '../../types';
 import { PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
 import { cleanupTilsynsordningStep, fjernTidIOmsorgstilbudUtenforPeriode } from '../tilsynsordningStepUtils';
 

@@ -2,9 +2,9 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { DateRange, dateToISOString, ISOStringToDate } from '@navikt/sif-common-formik/lib';
-import { getMonthsInDateRange } from '@navikt/sif-common-forms/lib/omsorgstilbud/omsorgstilbudUtils';
-import { OmsorgstilbudMåned, TidIOmsorgstilbud } from '@navikt/sif-common-forms/lib/omsorgstilbud/types';
 import dayjs from 'dayjs';
+import { getMonthsInDateRange } from '../../components/omsorgstilbud/omsorgstilbudUtils';
+import { OmsorgstilbudMåned, TidIOmsorgstilbud } from '../../components/omsorgstilbud/types';
 import { OmsorgstilbudApi, VetOmsorgstilbud, OmsorgstilbudDagApi } from '../../types/PleiepengesøknadApiData';
 import { Omsorgstilbud, OmsorgstilbudFasteDager } from '../../types/PleiepengesøknadFormData';
 import { skalSpørreOmOmsorgstilbudPerMåned } from '../omsorgstilbudUtils';
@@ -21,12 +21,12 @@ const sortEnkeltdager = (d1: OmsorgstilbudDagApi, d2: OmsorgstilbudDagApi): numb
     dayjs(d1.dato).isBefore(d2.dato, 'day') ? -1 : 1;
 
 export const getEnkeltdager = (
-    måneder: OmsorgstilbudMåned[],
+    måneder: OmsorgstilbudMåned[] | undefined,
     enkeltdager: TidIOmsorgstilbud,
     søknadsperiode: DateRange
 ): OmsorgstilbudDagApi[] => {
     const dager: OmsorgstilbudDagApi[] = [];
-    if (skalSpørreOmOmsorgstilbudPerMåned(søknadsperiode)) {
+    if (skalSpørreOmOmsorgstilbudPerMåned(søknadsperiode) && måneder) {
         getMonthsInDateRange(søknadsperiode).forEach((month, index) => {
             const { skalHaOmsorgstilbud } = måneder[index] || {};
             if (!skalHaOmsorgstilbud || skalHaOmsorgstilbud === YesOrNo.YES) {
@@ -82,7 +82,7 @@ export const mapTilsynsordningToApiData = (
             fasteDager: getFasteDager(fasteDager),
         };
     }
-    if (erLiktHverDag === YesOrNo.NO && måneder && enkeltdager) {
+    if (erLiktHverDag === YesOrNo.NO && enkeltdager) {
         return {
             vetOmsorgstilbud,
             enkeltDager: getEnkeltdager(måneder, enkeltdager, søknadsperiode),

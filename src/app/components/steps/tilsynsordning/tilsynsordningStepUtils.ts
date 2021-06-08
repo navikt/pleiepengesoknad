@@ -1,7 +1,7 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange, ISOStringToDate } from '@navikt/sif-common-formik/lib';
-import { getMonthsInDateRange } from '@navikt/sif-common-forms/lib/omsorgstilbud/omsorgstilbudUtils';
-import { TidIOmsorgstilbud } from '@navikt/sif-common-forms/lib/omsorgstilbud/types';
+import { getMonthsInDateRange } from '../../omsorgstilbud/omsorgstilbudUtils';
+import { TidIOmsorgstilbud } from '../../omsorgstilbud/types';
 import dayjs from 'dayjs';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 

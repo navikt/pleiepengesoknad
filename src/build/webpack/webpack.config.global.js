@@ -19,6 +19,12 @@ const webpackConfig = {
     module: {
         rules: [
             {
+                test: /\.m?jsx?$/,
+                resolve: {
+                    fullySpecified: false,
+                },
+            },
+            {
                 test: /\.(ts|tsx)$/,
                 include: [path.resolve(__dirname, './../../app')],
                 use: [

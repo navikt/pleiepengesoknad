@@ -1,0 +1,121 @@
+.tidIOmsorgstilbud {
+    display: flex;
+    align-items: center;
+    &__tid {
+        display: inline-block;
+        position: relative;
+    }
+}
+
+.m-caps {
+    text-transform: capitalize;
+}
+
+.omsorgstilbudDialog {
+    width: 100%;
+    max-width: 45rem;
+    .dialogFormWrapper {
+        width: 100%;
+    }
+}
+
+.omsorgstilbud__ukegrid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.omsorgstilbudListe {
+    &__dag {
+        display: inline-block;
+    }
+    .omsorgstilbudListe__dato {
+        text-transform: capitalize;
+    }
+}
+
+.omsorgstilbudInfoDialogWrapper {
+    .panel {
+        border: none;
+        padding: 0;
+    }
+}
+
+.ingenTidRegistrert {
+    padding-right: 0.5rem;
+}
+
+.omsorgstilbudForm {
+    legend {
+        .typo-element {
+            font-weight: normal;
+        }
+    }
+    &__uke {
+        &__ukedager--grid {
+            display: grid;
+            margin-top: 1rem;
+            grid-template-columns: repeat(5, 1fr);
+        }
+        &__ukedager--liste {
+            border-top: 1px solid rgba(0, 0, 0, 0.15);
+            padding-top: 0.5rem;
+            margin-top: 1rem;
+            .timeinput > div {
+                width: 100%;
+            }
+        }
+        &--wide {
+            .skjemagruppe__legend {
+                min-width: 10rem;
+                text-align: left;
+                display: block;
+            }
+        }
+    }
+    .formikTimeInput--horizontal {
+        flex-wrap: wrap;
+    }
+    &__dag {
+        @media (max-width: 1050px) {
+            padding: 0.5rem 0;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+        }
+        @media (min-width: 1051px) {
+            &__label {
+                &__dagnavn {
+                    display: block;
+                    font-size: 0.8rem;
+                }
+            }
+        }
+        &__label {
+            text-transform: capitalize;
+            font-weight: normal;
+            &__dagnavn:after {
+                content: ', ';
+            }
+        }
+        &__utenforPeriodeTekst {
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+        }
+        &__utenforPeriodeIkon {
+            text-align: center;
+            padding-top: 1rem;
+            width: 4rem;
+            > svg {
+                width: 1.125rem;
+                height: 1.125rem;
+                opacity: 1;
+            }
+        }
+        .omsorgstilbudForm__uke__ukedager--liste &--utenforPeriode {
+            display: none;
+        }
+    }
+
+    .skjemaelement__feilmelding {
+        margin-bottom: 1rem;
+    }
+}

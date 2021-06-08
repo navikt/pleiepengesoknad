@@ -1,0 +1,166 @@
+.calendarGridLayout() {
+    display: grid;
+    grid-template-columns: 2.5rem repeat(5, 1fr);
+    width: 100%;
+    > * {
+        align-items: flex-start;
+        display: flex;
+        justify-content: center;
+        padding: 0.5rem 0.5rem;
+    }
+    > *::before:not(:first-child) {
+        content: '';
+        display: inline-block;
+        height: 0;
+        padding-bottom: 100%;
+    }
+    > *.today {
+        color: white;
+        border: 0.1em solid white;
+        border-radius: 100%;
+    }
+
+    .calendarGrid {
+        &__day {
+            padding-top: 2rem;
+        }
+        &__weekNum_label {
+            display: none;
+            padding-right: 0.25rem;
+        }
+        &__week {
+            padding: 0.5rem 0.5rem;
+            margin-right: 1px;
+            margin-top: 1rem;
+        }
+        &__weekNum {
+            padding-left: 0.125rem;
+            font-weight: bold;
+            justify-self: flex-start;
+        }
+        &__dayHeader {
+            padding: 0.5rem 0.5rem;
+            margin-right: 1px;
+            margin-top: 1rem;
+            font-weight: bold;
+            &--week {
+                padding-left: 0;
+            }
+        }
+        &__date_label {
+            display: none;
+        }
+        &__date__full {
+            display: none;
+        }
+    }
+}
+
+.calendarListLayout() {
+    grid-template-columns: repeat(1, 1fr);
+    .calendarGrid {
+        &__dayHeader {
+            display: none;
+        }
+        &__day {
+            padding: 0.25rem 0.5rem;
+            min-height: 0;
+            display: flex;
+            align-items: center;
+        }
+        &__day + &__weekNum {
+            margin-top: 1rem;
+        }
+        &__weekNum_label {
+            display: inline;
+        }
+        &__weekNum {
+            display: block;
+            margin-top: 1rem;
+            padding-left: 0;
+        }
+        &__date {
+            left: initial;
+            top: initial;
+            font-size: 1rem;
+            position: relative;
+            flex: 1 1 50%;
+            padding: 0.5rem 0;
+        }
+        &__date__full {
+            display: block;
+            &::first-letter {
+                text-transform: uppercase;
+            }
+        }
+        &__date__short {
+            display: none;
+        }
+        &__day--outsideMonth {
+            display: none;
+        }
+        &--hideEmptyContentInListMode {
+            .calendarGrid--empty {
+                display: none;
+            }
+            .calendarGrid__weekNum--empty {
+                display: none;
+            }
+        }
+    }
+}
+
+.calendarGrid {
+    &__day {
+        display: block;
+        min-height: 4.5rem;
+        position: relative;
+        padding-top: 2rem;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        margin: 1px;
+        border-radius: 0.125rem;
+        &--outsideMonth {
+            border: none; // 1px dashed rgba(0, 0, 0, 0.3);
+            background-color: transparent;
+        }
+    }
+    &--empty {
+        background-color: white;
+        background-color: transparent;
+        background-size: 10px 10px;
+    }
+    &__date {
+        font-size: 0.8rem;
+        opacity: 1;
+        position: absolute;
+        top: 0.25rem;
+        left: 0.5rem;
+    }
+    &__week {
+        padding: 0.5rem 0.5rem;
+        margin-top: 1rem;
+    }
+    &__weekNum {
+        font-weight: bold;
+    }
+    &__dayHeader {
+        padding: 0.5rem 0.5rem;
+        margin-right: 1px;
+        margin-top: 1rem;
+        font-weight: bold;
+        &--week {
+            padding-left: 0;
+        }
+    }
+
+    &--grid {
+        .calendarGridLayout();
+    }
+    &--list {
+        .calendarListLayout();
+    }
+
+    @media screen and (max-width: 700px) {
+        .calendarListLayout();
+    }
+}
