@@ -21,7 +21,8 @@ const Tilsynsuke = ({ name }: Props) => {
                         label={intlHelper(intl, 'Mandag')}
                         name={`${name}.mandag` as AppFormField}
                         timeInputLayout={{
-                            layout: 'compact',
+                            direction: 'vertical',
+                            compact: true,
                         }}
                         validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'mandag'))}
                     />
@@ -29,7 +30,8 @@ const Tilsynsuke = ({ name }: Props) => {
                         label={intlHelper(intl, 'Tirsdag')}
                         name={`${name}.tirsdag` as AppFormField}
                         timeInputLayout={{
-                            layout: 'compact',
+                            direction: 'vertical',
+                            compact: true,
                         }}
                         validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'tirsdag'))}
                     />
@@ -37,7 +39,8 @@ const Tilsynsuke = ({ name }: Props) => {
                         label={intlHelper(intl, 'Onsdag')}
                         name={`${name}.onsdag` as AppFormField}
                         timeInputLayout={{
-                            layout: 'compact',
+                            direction: 'vertical',
+                            compact: true,
                         }}
                         validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'onsdag'))}
                     />
@@ -45,7 +48,8 @@ const Tilsynsuke = ({ name }: Props) => {
                         label={intlHelper(intl, 'Torsdag')}
                         name={`${name}.torsdag` as AppFormField}
                         timeInputLayout={{
-                            layout: 'compact',
+                            direction: 'vertical',
+                            compact: true,
                         }}
                         validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'torsdag'))}
                     />
@@ -53,7 +57,8 @@ const Tilsynsuke = ({ name }: Props) => {
                         label={intlHelper(intl, 'Fredag')}
                         name={`${name}.fredag` as AppFormField}
                         timeInputLayout={{
-                            layout: 'compact',
+                            direction: 'vertical',
+                            compact: true,
                         }}
                         validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'fredag'))}
                     />
