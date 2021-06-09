@@ -19,7 +19,7 @@
         "noImplicitAny": false,
         "declaration": true,
         "moduleResolution": "node",
-        "noEmit": true,
+        "noEmit": false,
         "noFallthroughCasesInSwitch": true
     },
     "include": ["src"],

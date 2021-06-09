@@ -123,7 +123,10 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
 
     return (
         <SøkerdataContextConsumer>
-            {(søkerdata: Søkerdata) => {
+            {(søkerdata: Søkerdata | undefined) => {
+                if (søkerdata === undefined) {
+                    return <div>Det oppstod en feil</div>;
+                }
                 const {
                     person: { fornavn, mellomnavn, etternavn, fødselsnummer },
                     barn,

@@ -192,7 +192,6 @@
     "welcomingPage.modal.behandlingAvPersonalia.tittel": "Om behandling av personopplysningar",
     "welcomingPage.begynnsøknad": "Gå til søknaden",
 
-
     "modal.minePlikter.tittel": "Pliktene mine",
     "modal.minePlikter.part1": "Eg forstår at det kan få konsekvensar for retten min til pleiepengar dersom eg",
     "modal.minePlikter.part1a": "gir uriktig informasjon eller",
@@ -514,19 +513,6 @@
     "snFrilanser.arbeidsforhold.iDag.utledet": "timar i veka",
 
     "snF.ArbeidsforholdDetaljer.hvaBetyr.spm": "Kva betyr dette?",
-
-    "frilanser.hjelpetekst.spm": "Kva er ein frilansar?",
-    "frilanser.hjelpetekst.titel": "Eksempel på kven som kan vere frilansarar er:",
-    "frilanser.hjelpetekst.list.1": "Personar med omsorgsstønad",
-    "frilanser.hjelpetekst.list.2": "Fosterforeldre",
-    "frilanser.hjelpetekst.list.3": "Musikarar",
-    "frilanser.hjelpetekst.list.4": "Tekstforfattarar",
-    "frilanser.hjelpetekst.list.5": "Skodespelarar",
-    "frilanser.hjelpetekst.list.6": "Journalister",
-    "frilanser.hjelpetekst.list.7": "Omsetjarar",
-    "frilanser.hjelpetekst.list.8": "Folkevalde, politikarar i kommunar, fylkeskommunar og på Stortinget som får godtgjering for politisk arbeid.",
-    "frilanser.hjelpetekst.list.9": "Støttekontakt",
-    "frilanser.hjelpetekst": "Dersom du er usikker på om du er frilansar, kan du lese meir om kva det betyr å vere frilansar på skatteetaten si heimeside.",
 
     "frilanser.summary.header": "Frilansinntekt",
     "frilanser.summary.harDuHattInntekt.header": "Har du jobba og hatt inntekt som frilansar dei siste 4 vekene?",
