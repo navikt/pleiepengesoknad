@@ -18,12 +18,14 @@ interface Props {
     info: OmsorgstilbudInfo;
     søknadsperiode: DateRange;
     spørOmMånedForOmsorgstilbud: boolean;
+    onOmsorgstilbudChanged?: () => void;
 }
 
 const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
     info,
     spørOmMånedForOmsorgstilbud,
     søknadsperiode,
+    onOmsorgstilbudChanged,
 }) => {
     const måneder = info.måneder || [];
 
@@ -63,6 +65,7 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
                                         fraDato={from}
                                         tilDato={to}
                                         skjulTommeDagerIListe={true}
+                                        onAfterChange={onOmsorgstilbudChanged}
                                         labels={{
                                             addLabel: `Legg til timer`,
                                             deleteLabel: `Fjern alle timer`,

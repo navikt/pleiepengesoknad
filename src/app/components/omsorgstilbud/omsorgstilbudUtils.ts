@@ -1,8 +1,7 @@
-import { DateRange, datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { ISOStringToDate } from '@navikt/sif-common-formik/lib';
+import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
-import { OmsorgstilbudDag, TidIOmsorgstilbud } from './types';
+import { OmsorgstilbudDag } from './types';
 
 dayjs.extend(isBetween);
 
@@ -21,28 +20,4 @@ export const getMonthsInDateRange = (range: DateRange): DateRange[] => {
         current = current.add(1, 'month').startOf('month');
     } while (current.isBefore(range.to));
     return months;
-};
-
-export const getOmsorgstilbudDagFromTidIOmsorgstilbud = (
-    tidIOmsorgstilbud: TidIOmsorgstilbud,
-    tidsrom?: DateRange
-): OmsorgstilbudDag[] => {
-    const omsorgsdager: OmsorgstilbudDag[] = [];
-    Object.keys(tidIOmsorgstilbud).forEach((isoDateString) => {
-        const dato = ISOStringToDate(isoDateString);
-        if (dato) {
-            if (tidsrom && datoErInnenforTidsrom(dato, tidsrom) === false) {
-                return false;
-            }
-            const tid = tidIOmsorgstilbud[isoDateString];
-            if (tid) {
-                omsorgsdager.push({
-                    dato,
-                    tid,
-                });
-            }
-        }
-        return false;
-    });
-    return omsorgsdager;
 };

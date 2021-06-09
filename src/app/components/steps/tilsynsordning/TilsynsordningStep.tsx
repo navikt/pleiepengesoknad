@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
@@ -23,14 +23,27 @@ import FormikStep from '../../formik-step/FormikStep';
 import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
 import OmsorgstilbudFormPart from './OmsorgstilbudFormPart';
 import { cleanupTilsynsordningStep } from './tilsynsordningStepUtils';
+import usePersistSoknad from '../../../hooks/usePersistSoknad';
+import { useHistory } from 'react-router';
 
 dayjs.extend(isBetween);
 
 const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
+    const history = useHistory();
     const { values } = useFormikContext<PleiepengesøknadFormData>();
     const { omsorgstilbud } = values;
     const { skalBarnIOmsorgstilbud: skalBarnHaTilsyn, ja } = omsorgstilbud || {};
+    const { persist } = usePersistSoknad(history);
+
+    const [omsorgstilbudChanged, setOmsorgstilbudChanged] = useState(false);
+
+    useEffect(() => {
+        if (omsorgstilbudChanged === true) {
+            setOmsorgstilbudChanged(false);
+            persist(StepID.OMSORGSTILBUD);
+        }
+    }, [omsorgstilbudChanged, persist]);
 
     const periodeFra = datepickerUtils.getDateFromDateString(values.periodeFra);
     const periodeTil = datepickerUtils.getDateFromDateString(values.periodeTil);
@@ -143,6 +156,9 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                             info={ja}
                                             spørOmMånedForOmsorgstilbud={spørOmMånedForOmsorgstilbud}
                                             søknadsperiode={{ from: periodeFra, to: periodeTil }}
+                                            onOmsorgstilbudChanged={() => {
+                                                setOmsorgstilbudChanged(true);
+                                            }}
                                         />
                                     </FormBlock>
                                 )}
