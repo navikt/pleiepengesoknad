@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { OmsorgstilbudMåned, TidIOmsorgstilbud } from '../../omsorgstilbud/types';
+import { OmsorgstilbudMåned, TidIOmsorgstilbud } from '../../components/omsorgstilbud/types';
 import { VetOmsorgstilbud } from '../../types/PleiepengesøknadApiData';
 import { AppFormField, Omsorgstilbud } from '../../types/PleiepengesøknadFormData';
 import { getEnkeltdager, mapTilsynsordningToApiData } from '../formToApiMaps/mapTilsynsordningToApiData';

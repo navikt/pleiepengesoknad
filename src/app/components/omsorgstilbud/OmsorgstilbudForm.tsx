@@ -22,7 +22,6 @@ import groupby from 'lodash.groupby';
 import { ISODateString } from 'nav-datovelger/lib/types';
 import { Normaltekst, Systemtittel, Undertittel } from 'nav-frontend-typografi';
 import { TidIOmsorgstilbud } from './types';
-
 import './omsorgstilbudForm.less';
 
 dayjs.extend(isoWeek);
