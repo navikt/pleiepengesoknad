@@ -73,7 +73,7 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
     );
 
     const isOnWelcomPage = location.pathname === RouteConfig.WELCOMING_PAGE_ROUTE;
-    const nextStepRoute = lastStepID ? getNextStepRoute(lastStepID, values) : undefined;
+    const nextStepRoute = søknadHasBeenSent ? undefined : lastStepID ? getNextStepRoute(lastStepID, values) : undefined;
     useEffect(() => {
         if (isOnWelcomPage && nextStepRoute !== undefined) {
             sendUserToStep(nextStepRoute);
