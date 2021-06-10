@@ -3,7 +3,7 @@ import AriaAlternative from '@navikt/sif-common-core/lib/components/aria/AriaAlt
 import { Time } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import { EtikettInfo } from 'nav-frontend-etiketter';
-import { Undertekst } from 'nav-frontend-typografi';
+// import { Undertekst } from 'nav-frontend-typografi';
 import CalendarGrid from '../calendar-grid/CalendarGrid';
 import FormattedTimeText from './FormattedTimeText';
 import { OmsorgstilbudDag } from './types';
@@ -28,12 +28,23 @@ const formatTimeFull = (time: Partial<Time>): string => {
 const pluralize = (tall: number | string, singular: string, plural: string): string =>
     typeof tall === 'number' ? (tall === 1 ? singular : plural) : tall === '1' ? singular : plural;
 
-const DagContent = ({ tid, brukEtikettForInnhold = true }: { tid: Partial<Time>; brukEtikettForInnhold?: boolean }) => {
+const DagContent = ({
+    tid,
+    brukEtikettForInnhold = true,
+    desimalTid,
+}: {
+    tid: Partial<Time>;
+    brukEtikettForInnhold?: boolean;
+    desimalTid?: boolean;
+}) => {
     const bem = bemUtils('tidIOmsorgstilbud');
     const content = (
         <div className={bem.element('info')}>
             <span className={bem.element('info__tid')}>
-                <AriaAlternative visibleText={<FormattedTimeText time={tid} />} ariaText={formatTimeFull(tid)} />
+                <AriaAlternative
+                    visibleText={<FormattedTimeText time={tid} decimal={desimalTid} />}
+                    ariaText={formatTimeFull(tid)}
+                />
             </span>
         </div>
     );
@@ -65,11 +76,11 @@ const OmsorgstilbudCalendar: React.FunctionComponent<Props> = ({
                 />
             )}
             noContentRenderer={() => {
-                return <Undertekst className={'ingenTidRegistrert'}>Ingen tid registrert</Undertekst>;
+                return <span />; //Undertekst className={'ingenTidRegistrert'}>Ingen tid registrert</span>;
             }}
             content={omsorgsdager.map((dag) => ({
                 date: dag.dato,
-                content: <DagContent tid={dag.tid} brukEtikettForInnhold={brukEtikettForInnhold} />,
+                content: <DagContent tid={dag.tid} brukEtikettForInnhold={brukEtikettForInnhold} desimalTid={true} />,
             }))}
             hideEmptyContentInListMode={skjulTommeDagerIListe}
         />

@@ -53,7 +53,7 @@ export const OmsorgsdagerListe = ({ omsorgsdager, viseUke, visMåned }: Props) =
             {visMåned && <Undertittel className="m-caps">{dayjs(omsorgsdager[0].dato).format('MMM YYYY')}</Undertittel>}
             {omsorgsdager.length > 1 && (
                 <p className={bem.element('tidTotalt')}>
-                    Tid totalt:{' '}
+                    Tid totalt i {dayjs(omsorgsdager[0].dato).format('MMMM')}:{' '}
                     <FormattedTimeText
                         time={{ hours: tidTotalt.hours, minutes: tidTotalt.minutes }}
                         fullText={true}
