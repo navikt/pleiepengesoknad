@@ -1,11 +1,25 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange, ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import { getMonthsInDateRange } from '../../omsorgstilbud/omsorgstilbudUtils';
-import { TidIOmsorgstilbud } from '../../omsorgstilbud/types';
+import { OmsorgstilbudDag, TidIOmsorgstilbud } from '../../omsorgstilbud/types';
 import dayjs from 'dayjs';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 
-export const fjernTidIOmsorgstilbudUtenforPeriode = (
+export const mapTidIOmsorgToOmsorgstilbudDag = (tidIOmsorgstilbud: TidIOmsorgstilbud): OmsorgstilbudDag[] => {
+    const dager: OmsorgstilbudDag[] = [];
+    Object.keys(tidIOmsorgstilbud).forEach((key) => {
+        const dato = ISOStringToDate(key);
+        if (dato) {
+            dager.push({
+                dato,
+                tid: tidIOmsorgstilbud[key],
+            });
+        }
+    });
+    return dager;
+};
+
+export const getTidIOmsorgstilbudInnenforPeriode = (
     dager: TidIOmsorgstilbud,
     periode: DateRange
 ): TidIOmsorgstilbud => {
@@ -46,7 +60,7 @@ export const cleanupTilsynsordningStep = (
         }
 
         const { måneder } = v.omsorgstilbud.ja || {};
-        const enkeltdager = fjernTidIOmsorgstilbudUtenforPeriode(v.omsorgstilbud.ja?.enkeltdager || {}, søknadsperiode);
+        const enkeltdager = getTidIOmsorgstilbudInnenforPeriode(v.omsorgstilbud.ja?.enkeltdager || {}, søknadsperiode);
         if (enkeltdager && spørOmMånedForOmsorgstilbud && måneder) {
             /** Fjern enkeltdager hvor bruker har sagt nei, men allikevel har fylt ut omsorgstilbud */
             getMonthsInDateRange(søknadsperiode).forEach((month, index) => {

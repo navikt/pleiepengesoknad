@@ -737,6 +737,8 @@
     "validation.omsorgstilbud.ja.fastDag.tid.tooManyMinutes": "Antall minutter på {dag} kan ikke overstige 59",
     "validation.omsorgstilbud.ja.fastDag.tid.durationIsTooLong": "Ugyldig tid registrert {dag}. Du kan registrere maks 7 timer og 30 minutter hver ukedag.",
     "validation.omsorgstilbud.ja.fastDag.tid.durationIsTooShort": "0 timer og 0 minutter er oppgitt for {dag}. Dersom barnet skal være i et omsorgstilbud på {dag}, må du oppgi en gyldig tid.",
+    "validation.omsorgstilbud.ja.enkeltdager.ingenTidRegistrertIMåned": "Du har valgt at barnet skal i et omsorgstilbud i {måned}, men ingen tid er registrert.",
+    "validation.omsorgstilbud.ja.enkeltdager.ingenTidRegistrert": "Du må registrere tiden barnet skal være i et omsorgstilbud.",
 
     "validation.harNattevåk.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnets sykdom gjør at du må være våken på natta.",
     "validation.harNattevåk_ekstrainfo.stringHasNoValue": "Du må beskrive hva som gjør at du må være våken om natta.",

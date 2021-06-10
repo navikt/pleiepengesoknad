@@ -156,6 +156,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                             info={ja}
                                             spørOmMånedForOmsorgstilbud={spørOmMånedForOmsorgstilbud}
                                             søknadsperiode={{ from: periodeFra, to: periodeTil }}
+                                            tidIOmsorgstilbud={ja.enkeltdager || {}}
                                             onOmsorgstilbudChanged={() => {
                                                 setOmsorgstilbudChanged(true);
                                             }}

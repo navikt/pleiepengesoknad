@@ -11,10 +11,7 @@ import {
     getTypedFormComponents,
     Time,
 } from '@navikt/sif-common-formik/lib';
-import {
-    isValidTime,
-    TimeInputLayoutProps,
-} from '@navikt/sif-common-formik/lib/components/formik-time-input/TimeInput';
+import { TimeInputLayoutProps } from '@navikt/sif-common-formik/lib/components/formik-time-input/TimeInput';
 import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeValidator';
 import getFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
@@ -24,9 +21,9 @@ import weekOfYear from 'dayjs/plugin/weekOfYear';
 import groupby from 'lodash.groupby';
 import { ISODateString } from 'nav-datovelger/lib/types';
 import { Normaltekst, Systemtittel, Undertittel } from 'nav-frontend-typografi';
+import { getCleanedTidIOmsorgstilbud } from '../../utils/omsorgstilbudUtils';
 import { TidIOmsorgstilbud } from './types';
 import './omsorgstilbudForm.less';
-import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
 
 dayjs.extend(isoWeek);
 dayjs.extend(weekOfYear);
@@ -143,9 +140,6 @@ const Form = getTypedFormComponents<FormField, FormValues, ValidationError>();
 
 const bem = bemUtils('omsorgstilbudForm');
 
-const isValidNumberString = (value: any): boolean =>
-    hasValue(value) && typeof value === 'string' && value.trim().length > 0;
-
 const OmsorgstilbudForm = ({ fraDato, tilDato, tidIOmsorgstilbud, onSubmit, onCancel }: Props) => {
     const intl = useIntl();
     const isNarrow = useMediaQuery({ maxWidth: 450 });
@@ -159,13 +153,7 @@ const OmsorgstilbudForm = ({ fraDato, tilDato, tidIOmsorgstilbud, onSubmit, onCa
     }
 
     const onFormikSubmit = ({ tidIOmsorg = {} }: Partial<FormValues>) => {
-        const cleanedTidIOmsorg: Partial<FormValues> = {};
-        Object.keys(tidIOmsorg).forEach((key) => {
-            const tid = tidIOmsorg[key];
-            if (isValidTime(tid) && (isValidNumberString(tid.hours) || isValidNumberString(tid.minutes))) {
-                cleanedTidIOmsorg[key] = tid;
-            }
-        });
+        const cleanedTidIOmsorg = getCleanedTidIOmsorgstilbud(tidIOmsorg);
         onSubmit(cleanedTidIOmsorg);
     };
 

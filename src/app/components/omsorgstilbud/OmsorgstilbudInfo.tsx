@@ -23,7 +23,7 @@ const OmsorgstilbudInfo: React.FunctionComponent<Props> = ({
     skjulTommeDagerIListe,
 }) => {
     if (omsorgsdager.length === 0) {
-        return <>Ingen dager registrert</>;
+        return <>Ingen tid registrert.</>;
     }
     const måned = omsorgsdager[0].dato;
     return (

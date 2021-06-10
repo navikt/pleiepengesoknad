@@ -1,5 +1,8 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
+import { isValidTime } from '@navikt/sif-common-formik/lib/components/formik-time-input/TimeInput';
+import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
 import dayjs from 'dayjs';
+import { TidIOmsorgstilbud } from '../components/omsorgstilbud/types';
 
 export const MAKS_ANTALL_DAGER_FOR_INLINE_SKJEMA = 5;
 
@@ -10,4 +13,18 @@ export const skalSpørreOmOmsorgstilbudPerMåned = (søknadsperiode: DateRange):
         return false;
     }
     return true;
+};
+
+const isValidNumberString = (value: any): boolean =>
+    hasValue(value) && typeof value === 'string' && value.trim().length > 0;
+
+export const getCleanedTidIOmsorgstilbud = (tidIOmsorg: TidIOmsorgstilbud): TidIOmsorgstilbud => {
+    const cleanedTidIOmsorg: TidIOmsorgstilbud = {};
+    Object.keys(tidIOmsorg).forEach((key) => {
+        const tid = tidIOmsorg[key];
+        if (isValidTime(tid) && (isValidNumberString(tid.hours) || isValidNumberString(tid.minutes))) {
+            cleanedTidIOmsorg[key] = tid;
+        }
+    });
+    return cleanedTidIOmsorg;
 };

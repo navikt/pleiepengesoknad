@@ -2,7 +2,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
 import { OmsorgstilbudMåned, TidIOmsorgstilbud } from '../../../omsorgstilbud/types';
-import { cleanupTilsynsordningStep, fjernTidIOmsorgstilbudUtenforPeriode } from '../tilsynsordningStepUtils';
+import { cleanupTilsynsordningStep, getTidIOmsorgstilbudInnenforPeriode } from '../tilsynsordningStepUtils';
 
 const søknadsperiode: DateRange = {
     from: new Date(2021, 5, 1),
@@ -37,9 +37,9 @@ const formValuesTemplate: Partial<PleiepengesøknadFormData> = {
     },
 };
 
-describe('fjernTidIOmsorgstilbudUtenforPeriode', () => {
-    it('removes days outside periode', () => {
-        const result = fjernTidIOmsorgstilbudUtenforPeriode(enkeltdagerData, søknadsperiode);
+describe('getTidIOmsorgstilbudInnenforPeriode', () => {
+    it('extract days within periode', () => {
+        const result = getTidIOmsorgstilbudInnenforPeriode(enkeltdagerData, søknadsperiode);
         expect(Object.keys(result).length).toBe(3);
         expect(result['2021-05-01']).toBeUndefined();
         expect(result['2021-06-01']).toBeDefined();
