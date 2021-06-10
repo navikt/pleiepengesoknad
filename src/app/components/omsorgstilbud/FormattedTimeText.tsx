@@ -35,13 +35,13 @@ const FormattedTimeText = ({
         <>
             {hideEmptyValues && timer === '0' && minutter !== '0' ? null : (
                 <span style={{ whiteSpace: 'nowrap' }}>
-                    {timer} {fullText ? 'timer' : 'tim.'}
+                    {timer} {fullText ? 'timer' : 't.'}
                 </span>
             )}
             {` `}
             {hideEmptyValues && minutter === '0' && timer !== '0' ? null : (
                 <span style={{ whiteSpace: 'nowrap' }}>
-                    {minutter} {fullText ? 'minutter' : 'min.'}
+                    {minutter} {fullText ? 'minutter' : 'm.'}
                 </span>
             )}
         </>

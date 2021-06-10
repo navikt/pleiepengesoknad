@@ -80,7 +80,7 @@ const OmsorgstilbudCalendar: React.FunctionComponent<Props> = ({
             }}
             content={omsorgsdager.map((dag) => ({
                 date: dag.dato,
-                content: <DagContent tid={dag.tid} brukEtikettForInnhold={brukEtikettForInnhold} desimalTid={true} />,
+                content: <DagContent tid={dag.tid} brukEtikettForInnhold={brukEtikettForInnhold} desimalTid={false} />,
             }))}
             hideEmptyContentInListMode={skjulTommeDagerIListe}
         />
