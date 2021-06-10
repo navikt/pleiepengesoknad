@@ -52,7 +52,7 @@ const startServer = (html) => {
     server.get(/^\/(?!.*dist).*$/, (req, res) => {
         if (process.env.REDIRECT_TO !== undefined) {
             res.set('location', process.env.REDIRECT_TO);
-            res.set('Cache-control', 'public, max-age=3600');
+            res.set('Cache-control', 'public, max-age=300');
             res.status(301).send();
         } else {
             res.send(html);
