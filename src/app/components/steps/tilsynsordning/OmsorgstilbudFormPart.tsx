@@ -40,7 +40,7 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
             <>
                 <Undertittel tag="h3">Omsorgstilbud i perioden</Undertittel>
                 <AppForm.InputGroup
-                    name={`${AppFormField.omsorgstilbud__ja__enkeltdager}_wrapper` as any}
+                    name={`${AppFormField.omsorgstilbud__ja__enkeltdager}_periode` as any}
                     tag="div"
                     validate={() => {
                         const omsorgstilbudIPerioden = getTidIOmsorgstilbudInnenforPeriode(
