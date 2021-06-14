@@ -3,11 +3,9 @@ import { datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/utils/dateUti
 import { timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { DateRange, dateToISOString, ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
-import { getMonthsInDateRange } from '../../components/omsorgstilbud/omsorgstilbudUtils';
 import { TidIOmsorgstilbud } from '../../components/omsorgstilbud/types';
 import { OmsorgstilbudApi, OmsorgstilbudDagApi } from '../../types/PleiepengesøknadApiData';
 import { Omsorgstilbud, OmsorgstilbudFasteDager } from '../../types/PleiepengesøknadFormData';
-import { visKunEnkeltdagerForOmsorgstilbud } from '../omsorgstilbudUtils';
 
 export const getFasteDager = ({ mandag, tirsdag, onsdag, torsdag, fredag }: OmsorgstilbudFasteDager) => ({
     mandag: mandag ? timeToIso8601Duration(mandag) : undefined,
@@ -22,29 +20,17 @@ const sortEnkeltdager = (d1: OmsorgstilbudDagApi, d2: OmsorgstilbudDagApi): numb
 
 export const getEnkeltdager = (enkeltdager: TidIOmsorgstilbud, søknadsperiode: DateRange): OmsorgstilbudDagApi[] => {
     const dager: OmsorgstilbudDagApi[] = [];
-    if (visKunEnkeltdagerForOmsorgstilbud(søknadsperiode)) {
-        getMonthsInDateRange(søknadsperiode).forEach((month) => {
-            Object.keys(enkeltdager).forEach((dag) => {
-                const dato = ISOStringToDate(dag);
-                if (dato !== undefined && dayjs(dato).isSame(month.from, 'month')) {
-                    dager.push({
-                        dato: dateToISOString(dato),
-                        tid: timeToIso8601Duration(enkeltdager[dag]),
-                    });
-                }
+
+    Object.keys(enkeltdager).forEach((dag) => {
+        const dato = ISOStringToDate(dag);
+        if (dato && datoErInnenforTidsrom(dato, søknadsperiode)) {
+            dager.push({
+                dato: dateToISOString(dato),
+                tid: timeToIso8601Duration(enkeltdager[dag]),
             });
-        });
-    } else {
-        Object.keys(enkeltdager).forEach((dag) => {
-            const dato = ISOStringToDate(dag);
-            if (dato && datoErInnenforTidsrom(dato, søknadsperiode)) {
-                dager.push({
-                    dato: dateToISOString(dato),
-                    tid: timeToIso8601Duration(enkeltdager[dag]),
-                });
-            }
-        });
-    }
+        }
+    });
+
     return dager.sort(sortEnkeltdager);
 };
 

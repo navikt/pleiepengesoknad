@@ -1,8 +1,11 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange, ISOStringToDate } from '@navikt/sif-common-formik/lib';
-import { OmsorgstilbudDag, TidIOmsorgstilbud } from '../../omsorgstilbud/types';
 import dayjs from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { OmsorgstilbudDag, TidIOmsorgstilbud } from '../../omsorgstilbud/types';
+
+dayjs.extend(isBetween);
 
 export const mapTidIOmsorgToOmsorgstilbudDag = (tidIOmsorgstilbud: TidIOmsorgstilbud): OmsorgstilbudDag[] => {
     const dager: OmsorgstilbudDag[] = [];

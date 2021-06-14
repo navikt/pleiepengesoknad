@@ -58,50 +58,45 @@ describe('mapTilsynsordningToApiData', () => {
         });
     });
     describe('getEnkeltdager', () => {
-        const søknadsperiodeToMåneder: DateRange = {
-            from: new Date(2021, 5, 1),
-            to: new Date(2021, 6, 6),
-        };
-        const søknadsperiodeKort: DateRange = {
-            from: new Date(2021, 5, 1),
-            to: new Date(2021, 5, 10),
-        };
         const enkeltdager: TidIOmsorgstilbud = {
             '2021-06-01': { hours: '2', minutes: '30' },
-            '2021-06-02': { hours: '2', minutes: '30' },
-            '2021-07-01': { hours: '2', minutes: '30' },
+            '2021-06-02': { hours: '2', minutes: '31' },
+            '2021-07-01': { hours: '2', minutes: '32' },
         };
 
-        describe('monthly questions (dialog)', () => {
-            it(`returns only days in months where user says skalHaOmsorgstilbud === ${YesOrNo.YES}`, () => {
-                const result = getEnkeltdager(enkeltdager, søknadsperiodeToMåneder);
-                expect(result.length).toEqual(1);
-                expect(result[0].dato).toEqual('2021-07-01');
-                expect(result[0].tid).toEqual('PT2H30M');
-            });
-            it(`returns only days within søknadsperiode`, () => {
-                const result = getEnkeltdager(
-                    {
-                        ...enkeltdager,
-                        '2021-5-30': { hours: '2', minutes: '30' },
-                        '2021-7-02': { hours: '2', minutes: '30' },
-                    },
-                    søknadsperiodeToMåneder
-                );
-                expect(result.length).toEqual(1);
-                expect(result[0].dato).toEqual('2021-07-01');
-                expect(result[0].tid).toEqual('PT2H30M');
-            });
+        it(`returns only days within søknadsperiode - 1`, () => {
+            const result = getEnkeltdager(
+                {
+                    ...enkeltdager,
+                    '2021-05-30': { hours: '2', minutes: '30' }, // To early
+                    '2021-07-02': { hours: '2', minutes: '30' }, // To late
+                },
+                {
+                    from: new Date(2021, 5, 1),
+                    to: new Date(2021, 6, 1),
+                }
+            );
+            expect(result.length).toEqual(3);
+            expect(result[0].dato).toEqual('2021-06-01');
+            expect(result[1].dato).toEqual('2021-06-02');
+            expect(result[2].dato).toEqual('2021-07-01');
+            expect(result[0].tid).toEqual('PT2H30M');
         });
-        describe('enkeltdager - inline form', () => {
-            it(`returns all days when user is asked without month sectioning`, () => {
-                const result = getEnkeltdager(enkeltdager, søknadsperiodeKort);
-                expect(result.length).toEqual(2);
-                expect(result[0].dato).toEqual('2021-06-01');
-                expect(result[0].tid).toEqual('PT2H30M');
-                expect(result[1].dato).toEqual('2021-06-02');
-                expect(result[1].tid).toEqual('PT2H30M');
-            });
+        it(`returns only days within søknadsperiode - 2`, () => {
+            const result = getEnkeltdager(
+                {
+                    ...enkeltdager,
+                    '2021-05-30': { hours: '2', minutes: '30' },
+                    '2021-07-02': { hours: '4', minutes: '40' },
+                },
+                {
+                    from: new Date(2021, 6, 2),
+                    to: new Date(2021, 7, 1),
+                }
+            );
+            expect(result.length).toEqual(1);
+            expect(result[0].dato).toEqual('2021-07-02');
+            expect(result[0].tid).toEqual('PT4H40M');
         });
     });
 });
