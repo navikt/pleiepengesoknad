@@ -98,13 +98,8 @@ export interface OmsorgstilbudDagApi {
     tid: ISO8601Duration;
 }
 
-export enum VetOmsorgstilbud {
-    'VET_ALLE_TIMER' = 'VET_ALLE_TIMER',
-    'VET_NOEN_TIMER' = 'VET_NOEN_TIMER',
-    'VET_IKKE' = 'VET_IKKE',
-}
 export interface OmsorgstilbudApi {
-    vetOmsorgstilbud: VetOmsorgstilbud;
+    vetOmsorgstilbud: boolean;
     fasteDager?: OmsorgstilbudFasteDagerApi;
     enkeltDager?: OmsorgstilbudDagApi[];
 }

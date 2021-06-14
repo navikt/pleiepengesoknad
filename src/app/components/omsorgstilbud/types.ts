@@ -1,4 +1,3 @@
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { Time } from '@navikt/sif-common-formik/lib';
 
 export interface OmsorgstilbudDag {
@@ -7,10 +6,6 @@ export interface OmsorgstilbudDag {
 }
 
 export type TidIOmsorgstilbud = { [isoDateString: string]: Partial<Time> };
-
-export interface OmsorgstilbudMåned {
-    skalHaOmsorgstilbud: YesOrNo;
-}
 
 export enum SkalHaOmsorgstilbudFormField {
     skalHaOmsorgstilbud = 'skalHaOmsorgstilbud',

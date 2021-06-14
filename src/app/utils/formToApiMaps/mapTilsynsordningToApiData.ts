@@ -4,10 +4,10 @@ import { timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUti
 import { DateRange, dateToISOString, ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import { getMonthsInDateRange } from '../../components/omsorgstilbud/omsorgstilbudUtils';
-import { OmsorgstilbudMåned, TidIOmsorgstilbud } from '../../components/omsorgstilbud/types';
-import { OmsorgstilbudApi, VetOmsorgstilbud, OmsorgstilbudDagApi } from '../../types/PleiepengesøknadApiData';
+import { TidIOmsorgstilbud } from '../../components/omsorgstilbud/types';
+import { OmsorgstilbudApi, OmsorgstilbudDagApi } from '../../types/PleiepengesøknadApiData';
 import { Omsorgstilbud, OmsorgstilbudFasteDager } from '../../types/PleiepengesøknadFormData';
-import { skalSpørreOmOmsorgstilbudPerMåned } from '../omsorgstilbudUtils';
+import { visKunEnkeltdagerForOmsorgstilbud } from '../omsorgstilbudUtils';
 
 export const getFasteDager = ({ mandag, tirsdag, onsdag, torsdag, fredag }: OmsorgstilbudFasteDager) => ({
     mandag: mandag ? timeToIso8601Duration(mandag) : undefined,
@@ -20,26 +20,19 @@ export const getFasteDager = ({ mandag, tirsdag, onsdag, torsdag, fredag }: Omso
 const sortEnkeltdager = (d1: OmsorgstilbudDagApi, d2: OmsorgstilbudDagApi): number =>
     dayjs(d1.dato).isBefore(d2.dato, 'day') ? -1 : 1;
 
-export const getEnkeltdager = (
-    måneder: OmsorgstilbudMåned[] | undefined,
-    enkeltdager: TidIOmsorgstilbud,
-    søknadsperiode: DateRange
-): OmsorgstilbudDagApi[] => {
+export const getEnkeltdager = (enkeltdager: TidIOmsorgstilbud, søknadsperiode: DateRange): OmsorgstilbudDagApi[] => {
     const dager: OmsorgstilbudDagApi[] = [];
-    if (skalSpørreOmOmsorgstilbudPerMåned(søknadsperiode) && måneder) {
-        getMonthsInDateRange(søknadsperiode).forEach((month, index) => {
-            const { skalHaOmsorgstilbud } = måneder[index] || {};
-            if (!skalHaOmsorgstilbud || skalHaOmsorgstilbud === YesOrNo.YES) {
-                Object.keys(enkeltdager).forEach((dag) => {
-                    const dato = ISOStringToDate(dag);
-                    if (dato !== undefined && dayjs(dato).isSame(month.from, 'month')) {
-                        dager.push({
-                            dato: dateToISOString(dato),
-                            tid: timeToIso8601Duration(enkeltdager[dag]),
-                        });
-                    }
-                });
-            }
+    if (visKunEnkeltdagerForOmsorgstilbud(søknadsperiode)) {
+        getMonthsInDateRange(søknadsperiode).forEach((month) => {
+            Object.keys(enkeltdager).forEach((dag) => {
+                const dato = ISOStringToDate(dag);
+                if (dato !== undefined && dayjs(dato).isSame(month.from, 'month')) {
+                    dager.push({
+                        dato: dateToISOString(dato),
+                        tid: timeToIso8601Duration(enkeltdager[dag]),
+                    });
+                }
+            });
         });
     } else {
         Object.keys(enkeltdager).forEach((dag) => {
@@ -65,27 +58,18 @@ export const mapTilsynsordningToApiData = (
         return undefined; // !ja: bør denne logges som feil?
     }
 
-    const { vetHvorMyeTid, vetNoeTid, erLiktHverDag, fasteDager, måneder, enkeltdager } = ja;
-
-    if (vetHvorMyeTid === YesOrNo.NO && vetNoeTid === YesOrNo.NO) {
-        return {
-            vetOmsorgstilbud: VetOmsorgstilbud.VET_IKKE,
-        };
-    }
-
-    const vetOmsorgstilbud =
-        vetHvorMyeTid === YesOrNo.YES ? VetOmsorgstilbud.VET_ALLE_TIMER : VetOmsorgstilbud.VET_NOEN_TIMER;
+    const { erLiktHverDag, fasteDager, enkeltdager } = ja;
 
     if (erLiktHverDag === YesOrNo.YES && fasteDager) {
         return {
-            vetOmsorgstilbud,
+            vetOmsorgstilbud: true,
             fasteDager: getFasteDager(fasteDager),
         };
     }
     if (erLiktHverDag === YesOrNo.NO && enkeltdager) {
         return {
-            vetOmsorgstilbud,
-            enkeltDager: getEnkeltdager(måneder, enkeltdager, søknadsperiode),
+            vetOmsorgstilbud: true,
+            enkeltDager: getEnkeltdager(enkeltdager, søknadsperiode),
         };
     }
 

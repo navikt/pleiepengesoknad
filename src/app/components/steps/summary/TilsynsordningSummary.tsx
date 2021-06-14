@@ -5,7 +5,7 @@ import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-wi
 import { Time } from '@navikt/sif-common-core/lib/types/Time';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { iso8601DurationToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { OmsorgstilbudApi, VetOmsorgstilbud } from '../../../types/PleiepengesøknadApiData';
+import { OmsorgstilbudApi } from '../../../types/PleiepengesøknadApiData';
 import OmsorgstilbudEnkeltdagerSummary from './OmsorgstilbudEnkeltdagerSummary';
 import SummaryBlock from './SummaryBlock';
 
@@ -58,9 +58,9 @@ const TilsynsordningSummary = ({ omsorgstilbud }: Props) => {
                     <Box margin="l">
                         <ContentWithHeader
                             header={intlHelper(intl, 'steg.oppsummering.tilsynsordning.hvorMyeTidOms.spm')}>
-                            {omsorgstilbud.vetOmsorgstilbud === VetOmsorgstilbud.VET_ALLE_TIMER && (
+                            {omsorgstilbud.vetOmsorgstilbud === true && (
                                 <>
-                                    <FormattedMessage id="steg.oppsummering.tilsynsordning.hvorMyeTidOms.vetHelePerioden" />
+                                    <FormattedMessage id="steg.oppsummering.tilsynsordning.hvorMyeTidOms.ja" />
                                     {omsorgstilbud.fasteDager && (
                                         <SummaryBlock header="Fast plan">
                                             {summarizeDaysInWeek(omsorgstilbud, intl)}
@@ -73,37 +73,10 @@ const TilsynsordningSummary = ({ omsorgstilbud }: Props) => {
                                     )}
                                 </>
                             )}
-                            {omsorgstilbud.vetOmsorgstilbud !== VetOmsorgstilbud.VET_ALLE_TIMER && (
+
+                            {omsorgstilbud.vetOmsorgstilbud === false && (
                                 <>
-                                    <FormattedMessage id="steg.oppsummering.tilsynsordning.hvorMyeTidOms.usikker" />
-                                    <SummaryBlock
-                                        header={intlHelper(
-                                            intl,
-                                            'steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.spm'
-                                        )}>
-                                        {omsorgstilbud.vetOmsorgstilbud === VetOmsorgstilbud.VET_NOEN_TIMER && (
-                                            <>
-                                                <FormattedMessage id="steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.ja" />
-                                                {omsorgstilbud.fasteDager && (
-                                                    <SummaryBlock header="Fast plan">
-                                                        {summarizeDaysInWeek(omsorgstilbud, intl)}
-                                                    </SummaryBlock>
-                                                )}
-                                                {omsorgstilbud.enkeltDager && (
-                                                    <SummaryBlock header="Tid i omsorgstilbud" headerTag="h3">
-                                                        <OmsorgstilbudEnkeltdagerSummary
-                                                            dager={omsorgstilbud.enkeltDager}
-                                                        />
-                                                    </SummaryBlock>
-                                                )}
-                                            </>
-                                        )}
-                                        {omsorgstilbud.vetOmsorgstilbud === VetOmsorgstilbud.VET_IKKE && (
-                                            <>
-                                                <FormattedMessage id="steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.nei" />
-                                            </>
-                                        )}
-                                    </SummaryBlock>
+                                    <FormattedMessage id="steg.oppsummering.tilsynsordning.hvorMyeTidOms.nei" />
                                 </>
                             )}
                         </ContentWithHeader>

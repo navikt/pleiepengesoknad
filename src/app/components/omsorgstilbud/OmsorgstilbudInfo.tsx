@@ -22,28 +22,30 @@ const OmsorgstilbudInfo: React.FunctionComponent<Props> = ({
     tittelRenderer,
     skjulTommeDagerIListe,
 }) => {
-    if (omsorgsdager.length === 0) {
-        return <>Ingen tid registrert.</>;
-    }
-    const måned = omsorgsdager[0].dato;
+    const måned = omsorgsdager.length > 0 ? omsorgsdager[0].dato : fraDato;
+
     return (
         <>
             {tittelRenderer ? (
                 tittelRenderer(fraDato, tilDato, omsorgsdager)
             ) : (
-                <Undertittel tag="h3">Omsorgstilbud {dayjs(måned).format('MMM YYYY')}</Undertittel>
+                <Undertittel tag="h3">Tid i omsorgstilbud {dayjs(måned).format('MMMM YYYY')}</Undertittel>
             )}
 
             <Box margin="s">
-                <OmsorgstilbudCalendar
-                    måned={måned}
-                    fraDato={fraDato}
-                    tilDato={tilDato}
-                    omsorgsdager={omsorgsdager}
-                    brukEtikettForInnhold={brukEtikettForTid}
-                    visSomListe={false}
-                    skjulTommeDagerIListe={skjulTommeDagerIListe}
-                />
+                {omsorgsdager.length === 0 ? (
+                    <p>Ingen tid registrert.</p>
+                ) : (
+                    <OmsorgstilbudCalendar
+                        måned={måned}
+                        fraDato={fraDato}
+                        tilDato={tilDato}
+                        omsorgsdager={omsorgsdager}
+                        brukEtikettForInnhold={brukEtikettForTid}
+                        visSomListe={false}
+                        skjulTommeDagerIListe={skjulTommeDagerIListe}
+                    />
+                )}
             </Box>
         </>
     );

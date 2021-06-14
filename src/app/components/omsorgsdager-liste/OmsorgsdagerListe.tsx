@@ -12,6 +12,7 @@ interface Props {
     omsorgsdager: OmsorgstilbudDag[];
     visMåned?: boolean;
     viseUke?: boolean;
+    visOppsummering?: boolean;
 }
 
 const sortDays = (d1: OmsorgstilbudDag, d2: OmsorgstilbudDag): number =>
@@ -41,7 +42,7 @@ const summerTid = (omsorgsdager: OmsorgstilbudDag[]): Time => {
     };
 };
 
-export const OmsorgsdagerListe = ({ omsorgsdager, viseUke, visMåned }: Props) => {
+export const OmsorgsdagerListe = ({ omsorgsdager, viseUke, visMåned, visOppsummering }: Props) => {
     if (omsorgsdager.length === 0) {
         return <>Ingen omsorgsdager registrert</>;
     }
@@ -51,7 +52,7 @@ export const OmsorgsdagerListe = ({ omsorgsdager, viseUke, visMåned }: Props) =
     return (
         <div className={bem.block}>
             {visMåned && <Undertittel className="m-caps">{dayjs(omsorgsdager[0].dato).format('MMM YYYY')}</Undertittel>}
-            {omsorgsdager.length > 1 && (
+            {visOppsummering && omsorgsdager.length > 1 && (
                 <p className={bem.element('tidTotalt')}>
                     Tid totalt i {dayjs(omsorgsdager[0].dato).format('MMMM')}:{' '}
                     <FormattedTimeText

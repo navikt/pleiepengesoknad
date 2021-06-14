@@ -4,15 +4,14 @@ import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUti
 import dayjs from 'dayjs';
 import { TidIOmsorgstilbud } from '../components/omsorgstilbud/types';
 
-export const MAKS_ANTALL_DAGER_FOR_INLINE_SKJEMA = 5;
+export const MAKS_ANTALL_DAGER_FOR_INLINE_SKJEMA = 20;
 
-export const skalSpørreOmOmsorgstilbudPerMåned = (søknadsperiode: DateRange): boolean => {
-    const erSammeMåned = dayjs(søknadsperiode.from).isSame(søknadsperiode.to, 'month');
+export const visKunEnkeltdagerForOmsorgstilbud = (søknadsperiode: DateRange): boolean => {
     const antallDager = dayjs(søknadsperiode.to).diff(søknadsperiode.from, 'days');
-    if (erSammeMåned && antallDager <= MAKS_ANTALL_DAGER_FOR_INLINE_SKJEMA) {
-        return false;
+    if (antallDager <= MAKS_ANTALL_DAGER_FOR_INLINE_SKJEMA) {
+        return true;
     }
-    return true;
+    return false;
 };
 
 const isValidNumberString = (value: any): boolean =>

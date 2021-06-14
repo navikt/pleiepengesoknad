@@ -2,6 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { useMediaQuery } from 'react-responsive';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import {
@@ -20,9 +21,12 @@ import isoWeek from 'dayjs/plugin/isoWeek';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import groupby from 'lodash.groupby';
 import { ISODateString } from 'nav-datovelger/lib/types';
+import Knapp from 'nav-frontend-knapper';
 import { Normaltekst, Systemtittel, Undertittel } from 'nav-frontend-typografi';
 import { getCleanedTidIOmsorgstilbud } from '../../utils/omsorgstilbudUtils';
 import { TidIOmsorgstilbud } from './types';
+import Knapperad from '@navikt/sif-common-core/lib/components/knapperad/Knapperad';
+
 import './omsorgstilbudForm.less';
 
 dayjs.extend(isoWeek);
@@ -167,7 +171,7 @@ const OmsorgstilbudForm = ({ fraDato, tilDato, tidIOmsorgstilbud, onSubmit, onCa
                         <Form.Form
                             onCancel={onCancel}
                             formErrorHandler={getFormErrorHandler(intl, 'tidsperiodeForm')}
-                            includeButtons={true}>
+                            includeButtons={false}>
                             <Systemtittel tag="h1">Omsorgstilbud - {dayjs(fraDato).format('MMMM YYYY')}</Systemtittel>
                             <Box margin="l">
                                 <p>
@@ -194,6 +198,16 @@ const OmsorgstilbudForm = ({ fraDato, tilDato, tidIOmsorgstilbud, onSubmit, onCa
                                     );
                                 })}
                             </div>
+                            <FormBlock margin="l">
+                                <Knapperad align="left">
+                                    <Knapp htmlType="submit" type="hoved">
+                                        Ok
+                                    </Knapp>
+                                    <Knapp htmlType="button" type="standard" onClick={onCancel}>
+                                        Avbryt
+                                    </Knapp>
+                                </Knapperad>
+                            </FormBlock>
                         </Form.Form>
                     );
                 }}

@@ -13,7 +13,6 @@ import {
     PleiepengesøknadApiData,
     UtenlandsoppholdIPeriodenApiData,
     UtenlandsoppholdUtenforEøsIPeriodenApiData,
-    VetOmsorgstilbud,
 } from '../../types/PleiepengesøknadApiData';
 import {
     AppFormField,
@@ -157,7 +156,7 @@ const completeFormDataMock: PleiepengesøknadFormData = {
     omsorgstilbud: {
         skalBarnIOmsorgstilbud: YesOrNo.YES,
         ja: {
-            vetHvorMyeTid: YesOrNo.YES,
+            vetTidIOmsorgstilbud: YesOrNo.YES,
             erLiktHverDag: YesOrNo.YES,
             fasteDager: {
                 fredag: {
@@ -574,7 +573,7 @@ describe('Test complete applications', () => {
         harForståttRettigheterOgPlikter: true,
         samtidigHjemme: true,
         omsorgstilbud: {
-            vetOmsorgstilbud: VetOmsorgstilbud.VET_ALLE_TIMER,
+            vetOmsorgstilbud: true,
             fasteDager: { fredag: 'PT1H0M' },
         },
 

@@ -10,6 +10,8 @@ import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types'
 import OmsorgstilbudForm from './OmsorgstilbudForm';
 import OmsorgstilbudInfo from './OmsorgstilbudInfo';
 import { OmsorgstilbudDag, TidIOmsorgstilbud } from './types';
+import Knapp from 'nav-frontend-knapper';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 
 interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, ValidationError> {
     name: FieldNames;
@@ -34,7 +36,7 @@ function OmsorgstilbudInfoAndDialog<FieldNames>({
             name={name}
             validate={validate}
             labels={labels}
-            renderEditButtons={true}
+            renderEditButtons={false}
             renderDeleteButton={false}
             dialogClassName={'omsorgstilbudDialog'}
             wrapInfoInPanel={false}
@@ -49,7 +51,7 @@ function OmsorgstilbudInfoAndDialog<FieldNames>({
                     />
                 );
             }}
-            infoRenderer={({ data }) => {
+            infoRenderer={({ data, onEdit }) => {
                 const omsorgsdager: OmsorgstilbudDag[] = [];
                 Object.keys(data).forEach((isoDateString) => {
                     const dato = ISOStringToDate(isoDateString);
@@ -65,12 +67,19 @@ function OmsorgstilbudInfoAndDialog<FieldNames>({
                     return false;
                 });
                 return (
-                    <OmsorgstilbudInfo
-                        omsorgsdager={omsorgsdager}
-                        fraDato={fraDato}
-                        tilDato={tilDato}
-                        skjulTommeDagerIListe={skjulTommeDagerIListe}
-                    />
+                    <>
+                        <OmsorgstilbudInfo
+                            omsorgsdager={omsorgsdager}
+                            fraDato={fraDato}
+                            tilDato={tilDato}
+                            skjulTommeDagerIListe={skjulTommeDagerIListe}
+                        />
+                        <FormBlock margin="l">
+                            <Knapp htmlType="button" mini={true} onClick={() => onEdit(data)}>
+                                {omsorgsdager.length === 0 ? 'Registrer tid' : 'Endre'}
+                            </Knapp>
+                        </FormBlock>
+                    </>
                 );
             }}
             onAfterChange={onAfterChange}
