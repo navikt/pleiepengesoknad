@@ -50,7 +50,13 @@ const startServer = (html) => {
     server.get(`${process.env.PUBLIC_PATH}/health/isReady`, (req, res) => res.sendStatus(200));
 
     server.get(/^\/(?!.*dist).*$/, (req, res) => {
-        res.send(html);
+        if (process.env.REDIRECT_TO !== undefined) {
+            res.set('location', process.env.REDIRECT_TO);
+            res.set('Cache-control', 'public, max-age=300');
+            res.status(301).send();
+        } else {
+            res.send(html);
+        }
     });
 
     const port = process.env.PORT || 8080;
