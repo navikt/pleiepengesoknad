@@ -52,7 +52,7 @@ export const mapTilsynsordningToApiData = (
             fasteDager: getFasteDager(fasteDager),
         };
     }
-    if (erLiktHverDag === YesOrNo.NO && enkeltdager) {
+    if (erLiktHverDag !== YesOrNo.YES && enkeltdager) {
         return {
             vetOmsorgstilbud: true,
             enkeltDager: getEnkeltdager(enkeltdager, søknadsperiode),
