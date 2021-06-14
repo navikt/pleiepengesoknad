@@ -68,25 +68,25 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                     validate={getYesOrNoValidator()}
                 />
             </FormBlock>
-            <FormBlock>
-                <AppForm.YesOrNoQuestion
-                    legend={intlHelper(intl, 'steg.tilsyn.ja.årsak.spm')}
-                    name={AppFormField.omsorgstilbud__ja__vetTidIOmsorgstilbud}
-                    labels={{
-                        yes: intlHelper(intl, 'steg.tilsyn.ja.årsak.vetHelePerioden'),
-                        no: intlHelper(intl, 'steg.tilsyn.ja.årsak.usikkerPerioden'),
-                    }}
-                    description={
-                        <ExpandableInfo title={'Jeg er usikker på hvor mye'}>
-                            Informasjon dersom en er usikker
-                        </ExpandableInfo>
-                    }
-                    validate={getYesOrNoValidator()}
-                />
-            </FormBlock>
-
-            {YesOrNo.YES === skalBarnIOmsorgstilbud && omsorgstilbud && (
+            {skalBarnIOmsorgstilbud === YesOrNo.YES && omsorgstilbud && (
                 <>
+                    <FormBlock>
+                        <AppForm.YesOrNoQuestion
+                            legend={intlHelper(intl, 'steg.tilsyn.ja.årsak.spm')}
+                            name={AppFormField.omsorgstilbud__ja__vetTidIOmsorgstilbud}
+                            labels={{
+                                yes: intlHelper(intl, 'steg.tilsyn.ja.årsak.vetHelePerioden'),
+                                no: intlHelper(intl, 'steg.tilsyn.ja.årsak.usikkerPerioden'),
+                            }}
+                            description={
+                                <ExpandableInfo title={'Jeg er usikker på hvor mye'}>
+                                    Informasjon dersom en er usikker
+                                </ExpandableInfo>
+                            }
+                            validate={getYesOrNoValidator()}
+                        />
+                    </FormBlock>
+
                     {omsorgstilbud.ja?.vetTidIOmsorgstilbud === YesOrNo.NO && (
                         <FormBlock>
                             <AlertStripe type={'info'}>
