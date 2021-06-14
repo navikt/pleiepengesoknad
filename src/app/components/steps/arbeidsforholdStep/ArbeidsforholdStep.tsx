@@ -65,7 +65,9 @@ const cleanupArbeidsforhold = (formValues: PleiepengesøknadFormData): Pleiepeng
         values.selvstendig_virksomhet = undefined;
         values.selvstendig_arbeidsforhold = undefined;
     }
-    if (!erIkkeAnsattEllerFSN(values)) values.harVærtEllerErVernepliktig = undefined;
+    if (!erIkkeAnsattEllerFSN(values)) {
+        values.harVærtEllerErVernepliktig = undefined;
+    }
 
     return values;
 };
