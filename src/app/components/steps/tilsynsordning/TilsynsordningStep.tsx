@@ -94,6 +94,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                             </AlertStripe>
                         </FormBlock>
                     )}
+
                     {omsorgstilbud.ja?.vetTidIOmsorgstilbud === YesOrNo.YES && (
                         <>
                             {visKunEnkeltdager === false && (
@@ -101,6 +102,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                     <AppForm.YesOrNoQuestion
                                         legend="Skal barnet være i et omsorgstilbud i like mange timer per dag hver uke gjennom hele søknadsperioden?"
                                         name={AppFormField.omsorgstilbud__ja_erLiktHverDag}
+                                        validate={getYesOrNoValidator()}
                                         description={
                                             <ExpandableInfo title={'Hva betyr dette?'}>
                                                 Informasjon om forskjellen
@@ -128,7 +130,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                     </AppForm.InputGroup>
                                 </FormBlock>
                             )}
-                            {omsorgstilbud.ja?.erLiktHverDag === YesOrNo.NO && (
+                            {(visKunEnkeltdager === true || omsorgstilbud.ja?.erLiktHverDag === YesOrNo.NO) && (
                                 <FormBlock>
                                     <OmsorgstilbudFormPart
                                         info={omsorgstilbud.ja}
