@@ -23,13 +23,13 @@ const OmsorgstilbudEnkeltdagerSummary: React.FunctionComponent<Props> = ({ dager
         }
     });
 
-    if (dager.length < 6) {
-        return (
-            <Box padBottom="m">
-                <OmsorgsdagerListe omsorgsdager={days} viseUke={true} />
-            </Box>
-        );
-    }
+    // if (dager.length < 6) {
+    //     return (
+    //         <Box padBottom="m">
+    //             <OmsorgsdagerListe omsorgsdager={days} viseUke={true} />
+    //         </Box>
+    //     );
+    // }
     const months = groupBy(days, ({ dato }) => `${dato.getFullYear()}.${dato.getMonth()}`);
     return (
         <div>
