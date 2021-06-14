@@ -50,7 +50,9 @@ spec:
         - name: PUBLIC_PATH
           value: ""
         - name: LOGIN_URL
-          value: https://loginservice-q.nav.no/login?redirect=https://pleiepengesoknad-q.nav.no/soknad
+          value: https://loginservice-q.nav.no/login?redirect=https://pleiepengesoknad.dev.nav.no/soknad
+        - name: REDIRECT_TO
+          value: https://pleiepengesoknad.dev.nav.no
         - name: NYNORSK
           value: "on"
         - name: INNSYN
