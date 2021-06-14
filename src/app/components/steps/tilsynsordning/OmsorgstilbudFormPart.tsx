@@ -3,7 +3,7 @@ import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { FormikYesOrNoQuestion } from '@navikt/sif-common-formik/lib';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import dayjs from 'dayjs';
@@ -74,11 +74,16 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
                 const { from, to } = periode;
                 const mndOgÅr = dayjs(from).format('MMMM YYYY');
                 const skalIOmsorgstilbud = måneder[index]?.skalHaOmsorgstilbud === YesOrNo.YES;
+                const spørOmFortid = dayjs(dateToday).startOf('month').isAfter(from);
                 return (
                     <Box key={dayjs(from).format('MM.YYYY')} margin="xl">
                         <FormikYesOrNoQuestion
                             name={`${AppFormField.omsorgstilbud__ja__måneder}.${index}.${SkalHaOmsorgstilbudFormField.skalHaOmsorgstilbud}`}
-                            legend={`Skal barnet i omsorgstilbud ${mndOgÅr}?`}
+                            legend={
+                                spørOmFortid
+                                    ? `Var barnet i omsorgstilbud ${mndOgÅr}?`
+                                    : `Skal barnet i omsorgstilbud ${mndOgÅr}?`
+                            }
                             validate={getYesOrNoValidator()}
                         />
                         {skalIOmsorgstilbud && (
