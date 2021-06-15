@@ -115,7 +115,9 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                             {visKunEnkeltdager === false && omsorgstilbud.ja?.erLiktHverDag === YesOrNo.YES && (
                                 <>
                                     <FormBlock>
-                                        <Undertittel tag="h3">Omsorgstilbud i perioden</Undertittel>
+                                        <Undertittel tag="h3">
+                                            Legg inn tiden barnet skal være i et omsorgstilbud
+                                        </Undertittel>
                                         <p style={{ marginTop: '.5rem' }}>
                                             <FormattedMessage id="steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.ja" />
                                         </p>

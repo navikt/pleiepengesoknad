@@ -23,6 +23,15 @@ interface Props {
     onOmsorgstilbudChanged?: () => void;
 }
 
+const Info = () => (
+    <>
+        <Undertittel tag="h3">Legg inn tiden barnet skal være i et omsorgstilbud</Undertittel>
+        <p style={{ marginTop: '.5rem' }}>
+            <FormattedMessage id="steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.ja" />
+        </p>
+    </>
+);
+
 const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
     spørOmMånedForOmsorgstilbud,
     søknadsperiode,
@@ -32,10 +41,7 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
     if (spørOmMånedForOmsorgstilbud === false) {
         return (
             <>
-                <Undertittel tag="h3">Omsorgstilbud i perioden</Undertittel>
-                <p style={{ marginTop: '.5rem' }}>
-                    <FormattedMessage id="steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.ja" />
-                </p>
+                <Info />
                 <AppForm.InputGroup
                     name={`${AppFormField.omsorgstilbud__ja__enkeltdager}_periode` as any}
                     tag="div"
@@ -67,37 +73,54 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
     }
     return (
         <>
-            <Undertittel tag="h3">Omsorgstilbud i perioden</Undertittel>
-            <p style={{ marginTop: '.5rem' }}>
-                <FormattedMessage id="steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.ja" />
-            </p>
-            {getMonthsInDateRange(søknadsperiode).map((periode, index) => {
-                const { from, to } = periode;
-                const mndOgÅr = dayjs(from).format('MMMM YYYY');
-                return (
-                    <Box key={dayjs(from).format('MM.YYYY')} margin="l">
-                        <ResponsivePanel className={'omsorgstilbudInfoDialogWrapper'}>
-                            <AppForm.InputGroup
-                                name={`${AppFormField.omsorgstilbud__ja__enkeltdager}_${index}` as any}
-                                tag="div">
-                                <OmsorgstilbudInfoAndDialog
-                                    name={AppFormField.omsorgstilbud__ja__enkeltdager}
-                                    fraDato={from}
-                                    tilDato={to}
-                                    skjulTommeDagerIListe={true}
-                                    onAfterChange={onOmsorgstilbudChanged}
-                                    labels={{
-                                        addLabel: `Registrer tid`,
-                                        deleteLabel: `Fjern alle timer`,
-                                        editLabel: `Endre`,
-                                        modalTitle: `Omsorgstilbud - ${mndOgÅr}`,
-                                    }}
-                                />
-                            </AppForm.InputGroup>
-                        </ResponsivePanel>
-                    </Box>
-                );
-            })}
+            <Info />
+            <AppForm.InputGroup
+                /** På grunn av at dialogen jobber mot ett felt i formik, kan ikke
+                 * validate på dialogen brukes. Da vil siste periode alltid bli brukt ved validering.
+                 * Derfor wrappes dialogen med denne komponenten, og et unikt name brukes - da blir riktig periode
+                 * brukt.
+                 * Ikke optimalt, men det virker.
+                 */
+                name={`${AppFormField.omsorgstilbud__ja__enkeltdager}_dager` as any}
+                tag="div"
+                validate={() => {
+                    const hasElements = Object.keys(tidIOmsorgstilbud).length > 0;
+                    if (!hasElements) {
+                        return {
+                            key: `validation.${AppFormField.omsorgstilbud__ja__enkeltdager}.ingenTidRegistrert`,
+                            keepKeyUnaltered: true,
+                        };
+                    }
+                    return undefined;
+                }}>
+                {getMonthsInDateRange(søknadsperiode).map((periode, index) => {
+                    const { from, to } = periode;
+                    const mndOgÅr = dayjs(from).format('MMMM YYYY');
+                    return (
+                        <Box key={dayjs(from).format('MM.YYYY')} margin="l">
+                            <ResponsivePanel className={'omsorgstilbudInfoDialogWrapper'}>
+                                <AppForm.InputGroup
+                                    name={`${AppFormField.omsorgstilbud__ja__enkeltdager}_${index}` as any}
+                                    tag="div">
+                                    <OmsorgstilbudInfoAndDialog
+                                        name={AppFormField.omsorgstilbud__ja__enkeltdager}
+                                        fraDato={from}
+                                        tilDato={to}
+                                        skjulTommeDagerIListe={true}
+                                        onAfterChange={onOmsorgstilbudChanged}
+                                        labels={{
+                                            addLabel: `Registrer tid`,
+                                            deleteLabel: `Fjern alle timer`,
+                                            editLabel: `Endre`,
+                                            modalTitle: `Omsorgstilbud - ${mndOgÅr}`,
+                                        }}
+                                    />
+                                </AppForm.InputGroup>
+                            </ResponsivePanel>
+                        </Box>
+                    );
+                })}
+            </AppForm.InputGroup>
         </>
     );
 };

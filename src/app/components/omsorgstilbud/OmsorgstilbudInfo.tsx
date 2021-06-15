@@ -29,7 +29,7 @@ const OmsorgstilbudInfo: React.FunctionComponent<Props> = ({
             {tittelRenderer ? (
                 tittelRenderer(fraDato, tilDato, omsorgsdager)
             ) : (
-                <Undertittel tag="h3">Tid i omsorgstilbud {dayjs(måned).format('MMMM YYYY')}</Undertittel>
+                <Undertittel tag="h3">Omsorgstilbud {dayjs(måned).format('MMMM YYYY')}</Undertittel>
             )}
 
             <Box margin="s">

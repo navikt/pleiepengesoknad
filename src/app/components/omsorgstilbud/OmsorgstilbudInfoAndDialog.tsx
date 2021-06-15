@@ -76,7 +76,7 @@ function OmsorgstilbudInfoAndDialog<FieldNames>({
                         />
                         <FormBlock margin="l">
                             <Knapp htmlType="button" mini={true} onClick={() => onEdit(data)}>
-                                {omsorgsdager.length === 0 ? 'Registrer tid' : 'Endre'}
+                                {omsorgsdager.length === 0 ? 'Registrer tid' : 'Endre tid'}
                             </Knapp>
                         </FormBlock>
                     </>
