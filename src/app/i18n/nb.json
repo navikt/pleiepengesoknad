@@ -721,7 +721,7 @@
     "validation.tilsynsordning.skalHaOmsorgstilbud.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnet skal i omsorgstilbud {måned}.",
 
     "validation.omsorgstilbud.ja.ekstrainfo.stringIsTooLong": "Tilleggsopplysninger om omsorgstilbudet kan være på maks 1000 tegn.",
-    "validation.omsorgstilbud.ja.vetTidIOmsorgstilbud.yesOrNoIsUnanswered": "Du må svare på spørsmålet om du vet hvor mye barnet skal være i omsorgstilbudet.",
+    "validation.omsorgstilbud.ja.vetHvorMyeTid.yesOrNoIsUnanswered": "Du må svare på spørsmålet om du vet hvor mye barnet skal være i omsorgstilbudet.",
     "validation.omsorgstilbud.skalBarnIOmsorgstilbud.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnet skal være i et omsorgstilbud i perioden du søker om pleiepenger.",
 
     "validation.omsorgstilbud.ja.fastDag.tid.timeHasNoValue": "Du må fylle ut timer og minutter for {dag}",

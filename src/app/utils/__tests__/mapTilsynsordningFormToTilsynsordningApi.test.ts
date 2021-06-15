@@ -47,7 +47,7 @@ describe('mapTilsynsordningToApiData', () => {
                 {
                     ...tilsyn,
                     ja: {
-                        vetTidIOmsorgstilbud: YesOrNo.YES,
+                        vetHvorMyeTid: YesOrNo.YES,
                         erLiktHverDag: YesOrNo.YES,
                         fasteDager: { fredag: { hours: '2', minutes: '30' } },
                     },

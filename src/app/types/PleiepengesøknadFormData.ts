@@ -23,7 +23,7 @@ export interface OmsorgstilbudFasteDager {
 }
 
 export interface OmsorgstilbudInfo {
-    vetTidIOmsorgstilbud: YesOrNo;
+    vetHvorMyeTid: YesOrNo;
     erLiktHverDag?: YesOrNo;
     fasteDager?: OmsorgstilbudFasteDager;
     enkeltdager?: TidIOmsorgstilbud;
@@ -66,7 +66,7 @@ export enum AppFormField {
     harBeredskap_ekstrainfo = 'harBeredskap_ekstrainfo',
     omsorgstilbud = 'omsorgstilbud',
     omsorgstilbud__skalBarnIOmsorgstilbud = 'omsorgstilbud.skalBarnIOmsorgstilbud',
-    omsorgstilbud__ja__vetTidIOmsorgstilbud = 'omsorgstilbud.ja.vetTidIOmsorgstilbud',
+    omsorgstilbud__ja__vetHvorMyeTid = 'omsorgstilbud.ja.vetHvorMyeTid',
     // omsorgstilbud__ja__vetNoeTid = 'omsorgstilbud.ja.vetNoeTid',
     // omsorgstilbud__ja__måneder = 'omsorgstilbud.ja.måneder',
     omsorgstilbud__ja_erLiktHverDag = 'omsorgstilbud.ja.erLiktHverDag',

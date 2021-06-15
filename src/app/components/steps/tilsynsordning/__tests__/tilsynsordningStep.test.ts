@@ -21,7 +21,7 @@ const formValuesTemplate: Partial<PleiepengesøknadFormData> = {
     omsorgstilbud: {
         skalBarnIOmsorgstilbud: YesOrNo.YES,
         ja: {
-            vetTidIOmsorgstilbud: YesOrNo.YES,
+            vetHvorMyeTid: YesOrNo.YES,
             erLiktHverDag: YesOrNo.NO,
             enkeltdager: enkeltdagerData,
         },

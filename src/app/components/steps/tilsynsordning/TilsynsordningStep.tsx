@@ -73,7 +73,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                     <FormBlock>
                         <AppForm.YesOrNoQuestion
                             legend={intlHelper(intl, 'steg.tilsyn.ja.årsak.spm')}
-                            name={AppFormField.omsorgstilbud__ja__vetTidIOmsorgstilbud}
+                            name={AppFormField.omsorgstilbud__ja__vetHvorMyeTid}
                             labels={{
                                 yes: intlHelper(intl, 'steg.tilsyn.ja.årsak.vetHelePerioden'),
                                 no: intlHelper(intl, 'steg.tilsyn.ja.årsak.usikkerPerioden'),
@@ -87,7 +87,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                         />
                     </FormBlock>
 
-                    {omsorgstilbud.ja?.vetTidIOmsorgstilbud === YesOrNo.NO && (
+                    {omsorgstilbud.ja?.vetHvorMyeTid === YesOrNo.NO && (
                         <FormBlock>
                             <AlertStripe type={'info'}>
                                 <FormattedMessage id="steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.nei" />
@@ -95,7 +95,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                         </FormBlock>
                     )}
 
-                    {omsorgstilbud.ja?.vetTidIOmsorgstilbud === YesOrNo.YES && (
+                    {omsorgstilbud.ja?.vetHvorMyeTid === YesOrNo.YES && (
                         <>
                             {visKunEnkeltdager === false && (
                                 <FormBlock>
