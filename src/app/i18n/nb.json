@@ -275,10 +275,10 @@
     "steg.tilsyn.vetIkke.årsak.annet": "Annet",
     "steg.tilsyn.vetIkke.årsak.annet.tilleggsopplysninger": "Forklar situasjonen",
 
-    "steg.tilsyn.ja.årsak.spm": "Vet du hvor mye barnet skal være i omsorgstilbudet?",
-    "steg.tilsyn.ja.årsak.vetHelePerioden": "Ja",
-    "steg.tilsyn.ja.årsak.usikkerPerioden": "Nei",
-    "steg.tilsyn.ja.årsak.nei": "Nei",
+    "steg.tilsyn.ja.vetHvorMye.spm": "Vet du hvor mye barnet skal være i omsorgstilbudet?",
+    "steg.tilsyn.ja.vetHvorMye.ja": "Ja",
+    "steg.tilsyn.ja.vetHvorMye.noe": "Ja, jeg vet noe",
+    "steg.tilsyn.ja.vetHvorMye.nei": "Nei",
 
     "steg.nattevåk.spm": "Gjør barnets sykdom at du må være våken på natta og derfor må være borte fra jobb dagen etter?",
     "steg.nattevåk.tilleggsinfo.spm": "Beskriv hva som gjør at du må være våken",
@@ -335,8 +335,9 @@
     "steg.oppsummering.tilsynsordning.spm": "Skal barnet være i et omsorgstilbud i hele eller deler av perioden du søker om?",
     "steg.oppsummering.tilsynsordning.ja.tilleggsinformasjon.header": "Tilleggsopplysninger",
     "steg.oppsummering.tilsynsordning.hvorMyeTidOms.spm": "Vet du hvor mye barnet skal være i omsorgstilbudet?",
-    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.ja": "Ja",
-    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.nei": "Nei",
+    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.VET_ALLE_TIMER": "Ja",
+    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.VET_NOEN_TIMER": "Ja, vet noe",
+    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.VET_IKKE": "Nei",
 
     "steg.oppsummering.utlandetSiste12.header": "Har bodd i utlandet siste 12 måneder",
     "steg.oppsummering.utlandetNeste12.header": "Skal bo i utlandet neste 12 måneder",
@@ -721,7 +722,7 @@
     "validation.tilsynsordning.skalHaOmsorgstilbud.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnet skal i omsorgstilbud {måned}.",
 
     "validation.omsorgstilbud.ja.ekstrainfo.stringIsTooLong": "Tilleggsopplysninger om omsorgstilbudet kan være på maks 1000 tegn.",
-    "validation.omsorgstilbud.ja.vetHvorMyeTid.yesOrNoIsUnanswered": "Du må svare på spørsmålet om du vet hvor mye barnet skal være i omsorgstilbudet.",
+    "validation.omsorgstilbud.ja.vetHvorMyeTid.noValue": "Du må svare på spørsmålet om du vet hvor mye barnet skal være i omsorgstilbudet.",
     "validation.omsorgstilbud.skalBarnIOmsorgstilbud.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnet skal være i et omsorgstilbud i perioden du søker om pleiepenger.",
 
     "validation.omsorgstilbud.ja.fastDag.tid.timeHasNoValue": "Du må fylle ut timer og minutter for {dag}",
@@ -732,6 +733,7 @@
     "validation.omsorgstilbud.ja.fastDag.tid.durationIsTooLong": "Ugyldig tid registrert {dag}. Du kan registrere maks 7 timer og 30 minutter hver ukedag.",
     "validation.omsorgstilbud.ja.fastDag.tid.durationIsTooShort": "0 timer og 0 minutter er oppgitt for {dag}. Dersom barnet skal være i et omsorgstilbud på {dag}, må du oppgi en gyldig tid.",
     "validation.omsorgstilbud.ja.enkeltdager.ingenTidRegistrert": "Du må registrere den tiden du vet barnet skal være i et omsorgstilbud.",
+    "validation.omsorgstilbud.ja.enkeltdager_periode.ingenTidRegistrert": "Du må registrere den tiden du vet barnet skal være i et omsorgstilbud.",
     "validation.omsorgstilbud.ja.erLiktHverDag.yesOrNoIsUnanswered": "Du må svare på om barnet være i et omsorgstilbud i like mange timer per dag hver uke.",
 
     "validation.harNattevåk.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnets sykdom gjør at du må være våken på natta.",

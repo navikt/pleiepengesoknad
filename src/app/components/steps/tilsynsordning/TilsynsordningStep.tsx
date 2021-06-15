@@ -8,7 +8,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { useFormikContext } from 'formik';
@@ -24,6 +24,7 @@ import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
 import OmsorgstilbudFormPart from './OmsorgstilbudFormPart';
 import { cleanupTilsynsordningStep } from './tilsynsordningStepUtils';
 import { Undertittel } from 'nav-frontend-typografi';
+import { VetOmsorgstilbud } from '../../../types/PleiepengesøknadApiData';
 
 dayjs.extend(isBetween);
 
@@ -72,23 +73,28 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
             {skalBarnIOmsorgstilbud === YesOrNo.YES && omsorgstilbud && (
                 <>
                     <FormBlock>
-                        <AppForm.YesOrNoQuestion
-                            legend={intlHelper(intl, 'steg.tilsyn.ja.årsak.spm')}
+                        <AppForm.RadioPanelGroup
+                            legend={intlHelper(intl, 'steg.tilsyn.ja.vetHvorMye.spm')}
                             name={AppFormField.omsorgstilbud__ja__vetHvorMyeTid}
-                            labels={{
-                                yes: intlHelper(intl, 'steg.tilsyn.ja.årsak.vetHelePerioden'),
-                                no: intlHelper(intl, 'steg.tilsyn.ja.årsak.usikkerPerioden'),
-                            }}
-                            description={
-                                <ExpandableInfo title={'Jeg er usikker på hvor mye'}>
-                                    Informasjon dersom en er usikker
-                                </ExpandableInfo>
-                            }
-                            validate={getYesOrNoValidator()}
+                            radios={[
+                                {
+                                    label: intlHelper(intl, 'steg.tilsyn.ja.vetHvorMye.ja'),
+                                    value: VetOmsorgstilbud.VET_ALLE_TIMER,
+                                },
+                                {
+                                    label: intlHelper(intl, 'steg.tilsyn.ja.vetHvorMye.noe'),
+                                    value: VetOmsorgstilbud.VET_NOEN_TIMER,
+                                },
+                                {
+                                    label: intlHelper(intl, 'steg.tilsyn.ja.vetHvorMye.nei'),
+                                    value: VetOmsorgstilbud.VET_IKKE,
+                                },
+                            ]}
+                            validate={getRequiredFieldValidator()}
                         />
                     </FormBlock>
 
-                    {omsorgstilbud.ja?.vetHvorMyeTid === YesOrNo.NO && (
+                    {omsorgstilbud.ja?.vetHvorMyeTid === VetOmsorgstilbud.VET_IKKE && (
                         <FormBlock>
                             <AlertStripe type={'info'}>
                                 <FormattedMessage id="steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.nei" />
@@ -96,8 +102,38 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                         </FormBlock>
                     )}
 
-                    {omsorgstilbud.ja?.vetHvorMyeTid === YesOrNo.YES && (
+                    {(omsorgstilbud.ja?.vetHvorMyeTid === VetOmsorgstilbud.VET_ALLE_TIMER ||
+                        omsorgstilbud.ja?.vetHvorMyeTid === VetOmsorgstilbud.VET_NOEN_TIMER) && (
                         <>
+                            <FormBlock>
+                                {omsorgstilbud.ja?.vetHvorMyeTid === VetOmsorgstilbud.VET_ALLE_TIMER && (
+                                    <>
+                                        <Undertittel tag="h3">
+                                            Legg inn tiden barnet skal være i et omsorgstilbud
+                                        </Undertittel>
+                                        <p style={{ marginTop: '.5rem' }}>
+                                            Nå skal du legge inn antall timer og minutter for hvor mye barnet er i
+                                            omsorgstilbudet. Hvis denne tiden endrer seg slik at den blir en ny fast og
+                                            regelmessig ordning, må du gi oss beskjed. Du trenger ikke gi beskjed hvis
+                                            oppholdet i omsorgstilbudet varierer litt fra dag til dag.
+                                        </p>
+                                    </>
+                                )}
+                                {omsorgstilbud.ja?.vetHvorMyeTid === VetOmsorgstilbud.VET_NOEN_TIMER && (
+                                    <>
+                                        <Undertittel tag="h3">
+                                            Når du vet noe, legger du inn kun den tiden du vet.
+                                        </Undertittel>
+                                        <p style={{ marginTop: '.5rem' }}>
+                                            Legg inn den tiden du vet med sikkerhet. Hvis denne tiden endrer seg slik at
+                                            den blir en ny fast og regelmessig ordning, må du gi oss beskjed. Du trenger
+                                            ikke gi beskjed hvis oppholdet i omsorgstilbudet varierer litt fra dag til
+                                            dag.
+                                        </p>
+                                    </>
+                                )}
+                                {/* <FormattedMessage id="steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.ja" /> */}
+                            </FormBlock>
                             {visKunEnkeltdager === false && (
                                 <FormBlock>
                                     <AppForm.YesOrNoQuestion
@@ -114,14 +150,14 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                             )}
                             {visKunEnkeltdager === false && omsorgstilbud.ja?.erLiktHverDag === YesOrNo.YES && (
                                 <>
-                                    <FormBlock>
+                                    {/* <FormBlock>
                                         <Undertittel tag="h3">
                                             Legg inn tiden barnet skal være i et omsorgstilbud
                                         </Undertittel>
                                         <p style={{ marginTop: '.5rem' }}>
                                             <FormattedMessage id="steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.ja" />
                                         </p>
-                                    </FormBlock>
+                                    </FormBlock> */}
                                     <FormBlock>
                                         <AppForm.InputGroup
                                             legend={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn')}

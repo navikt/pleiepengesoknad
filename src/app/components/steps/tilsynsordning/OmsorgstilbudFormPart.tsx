@@ -1,10 +1,9 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import dayjs from 'dayjs';
-import { Element, Undertittel } from 'nav-frontend-typografi';
+import { Element } from 'nav-frontend-typografi';
 import { AppFormField, OmsorgstilbudInfo } from '../../../types/PleiepengesøknadFormData';
 import { getCleanedTidIOmsorgstilbud } from '../../../utils/omsorgstilbudUtils';
 import AppForm from '../../app-form/AppForm';
@@ -23,14 +22,14 @@ interface Props {
     onOmsorgstilbudChanged?: () => void;
 }
 
-const Info = () => (
-    <>
-        <Undertittel tag="h3">Legg inn tiden barnet skal være i et omsorgstilbud</Undertittel>
-        <p style={{ marginTop: '.5rem' }}>
-            <FormattedMessage id="steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.ja" />
-        </p>
-    </>
-);
+// const Info = () => (
+//     <>
+//         <Undertittel tag="h3">Legg inn tiden barnet skal være i et omsorgstilbud</Undertittel>
+//         <p style={{ marginTop: '.5rem' }}>
+//             <FormattedMessage id="steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.ja" />
+//         </p>
+//     </>
+// );
 
 const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
     spørOmMånedForOmsorgstilbud,
@@ -41,7 +40,7 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
     if (spørOmMånedForOmsorgstilbud === false) {
         return (
             <>
-                <Info />
+                {/* <Info /> */}
                 <AppForm.InputGroup
                     name={`${AppFormField.omsorgstilbud__ja__enkeltdager}_periode` as any}
                     tag="div"
@@ -73,7 +72,7 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
     }
     return (
         <>
-            <Info />
+            {/* <Info /> */}
             <AppForm.InputGroup
                 /** På grunn av at dialogen jobber mot ett felt i formik, kan ikke
                  * validate på dialogen brukes. Da vil siste periode alltid bli brukt ved validering.

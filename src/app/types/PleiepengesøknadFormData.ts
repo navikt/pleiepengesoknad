@@ -5,6 +5,7 @@ import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { Virksomhet } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { TidIOmsorgstilbud } from '../components/omsorgstilbud/types';
+import { VetOmsorgstilbud } from './PleiepengesøknadApiData';
 import { Arbeidsgiver } from './Søkerdata';
 
 export enum ArbeidsforholdSkalJobbeSvar {
@@ -23,7 +24,7 @@ export interface OmsorgstilbudFasteDager {
 }
 
 export interface OmsorgstilbudInfo {
-    vetHvorMyeTid: YesOrNo;
+    vetHvorMyeTid: VetOmsorgstilbud;
     erLiktHverDag?: YesOrNo;
     fasteDager?: OmsorgstilbudFasteDager;
     enkeltdager?: TidIOmsorgstilbud;

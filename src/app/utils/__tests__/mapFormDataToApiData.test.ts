@@ -157,7 +157,7 @@ const completeFormDataMock: PleiepengesøknadFormData = {
     omsorgstilbud: {
         skalBarnIOmsorgstilbud: YesOrNo.YES,
         ja: {
-            vetHvorMyeTid: YesOrNo.YES,
+            vetHvorMyeTid: VetOmsorgstilbud.VET_ALLE_TIMER,
             erLiktHverDag: YesOrNo.YES,
             fasteDager: {
                 fredag: {

@@ -46,7 +46,7 @@ export const mapTilsynsordningToApiData = (
 
     const { erLiktHverDag, fasteDager, enkeltdager, vetHvorMyeTid } = ja;
 
-    if (vetHvorMyeTid === YesOrNo.NO) {
+    if (vetHvorMyeTid === VetOmsorgstilbud.VET_IKKE) {
         return {
             vetOmsorgstilbud: VetOmsorgstilbud.VET_IKKE,
         };
@@ -54,13 +54,13 @@ export const mapTilsynsordningToApiData = (
 
     if (erLiktHverDag === YesOrNo.YES && fasteDager) {
         return {
-            vetOmsorgstilbud: VetOmsorgstilbud.VET_ALLE_TIMER,
+            vetOmsorgstilbud: vetHvorMyeTid,
             fasteDager: getFasteDager(fasteDager),
         };
     }
     if (erLiktHverDag !== YesOrNo.YES && enkeltdager) {
         return {
-            vetOmsorgstilbud: VetOmsorgstilbud.VET_ALLE_TIMER,
+            vetOmsorgstilbud: vetHvorMyeTid,
             enkeltDager: getEnkeltdager(enkeltdager, søknadsperiode),
         };
     }

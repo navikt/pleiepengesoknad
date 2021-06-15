@@ -47,7 +47,7 @@ describe('mapTilsynsordningToApiData', () => {
             {
                 ...tilsyn,
                 ja: {
-                    vetHvorMyeTid: YesOrNo.NO,
+                    vetHvorMyeTid: VetOmsorgstilbud.VET_ALLE_TIMER,
                 },
             },
             søknadsperiode
@@ -62,7 +62,7 @@ describe('mapTilsynsordningToApiData', () => {
                 {
                     ...tilsyn,
                     ja: {
-                        vetHvorMyeTid: YesOrNo.YES,
+                        vetHvorMyeTid: VetOmsorgstilbud.VET_ALLE_TIMER,
                         erLiktHverDag: YesOrNo.YES,
                         fasteDager: { fredag: { hours: '2', minutes: '30' } },
                     },

@@ -58,9 +58,12 @@ const TilsynsordningSummary = ({ omsorgstilbud }: Props) => {
                     <Box margin="l">
                         <ContentWithHeader
                             header={intlHelper(intl, 'steg.oppsummering.tilsynsordning.hvorMyeTidOms.spm')}>
-                            {omsorgstilbud.vetOmsorgstilbud === VetOmsorgstilbud.VET_ALLE_TIMER && (
+                            {(omsorgstilbud.vetOmsorgstilbud === VetOmsorgstilbud.VET_ALLE_TIMER ||
+                                omsorgstilbud.vetOmsorgstilbud === VetOmsorgstilbud.VET_NOEN_TIMER) && (
                                 <>
-                                    <FormattedMessage id="steg.oppsummering.tilsynsordning.hvorMyeTidOms.ja" />
+                                    <FormattedMessage
+                                        id={`steg.oppsummering.tilsynsordning.hvorMyeTidOms.${omsorgstilbud.vetOmsorgstilbud}`}
+                                    />
                                     {omsorgstilbud.fasteDager && (
                                         <SummaryBlock header="Fast plan">
                                             {summarizeDaysInWeek(omsorgstilbud, intl)}
