@@ -47,7 +47,7 @@ describe('mapTilsynsordningToApiData', () => {
             {
                 ...tilsyn,
                 ja: {
-                    vetHvorMyeTid: VetOmsorgstilbud.VET_ALLE_TIMER,
+                    vetHvorMyeTid: VetOmsorgstilbud.VET_IKKE,
                 },
             },
             søknadsperiode
