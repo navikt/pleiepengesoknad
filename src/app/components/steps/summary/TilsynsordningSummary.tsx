@@ -5,7 +5,7 @@ import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-wi
 import { Time } from '@navikt/sif-common-core/lib/types/Time';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { iso8601DurationToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { OmsorgstilbudApi } from '../../../types/PleiepengesøknadApiData';
+import { OmsorgstilbudApi, VetOmsorgstilbud } from '../../../types/PleiepengesøknadApiData';
 import OmsorgstilbudEnkeltdagerSummary from './OmsorgstilbudEnkeltdagerSummary';
 import SummaryBlock from './SummaryBlock';
 
@@ -58,7 +58,7 @@ const TilsynsordningSummary = ({ omsorgstilbud }: Props) => {
                     <Box margin="l">
                         <ContentWithHeader
                             header={intlHelper(intl, 'steg.oppsummering.tilsynsordning.hvorMyeTidOms.spm')}>
-                            {omsorgstilbud.vetOmsorgstilbud === true && (
+                            {omsorgstilbud.vetOmsorgstilbud === VetOmsorgstilbud.VET_ALLE_TIMER && (
                                 <>
                                     <FormattedMessage id="steg.oppsummering.tilsynsordning.hvorMyeTidOms.ja" />
                                     {omsorgstilbud.fasteDager && (
@@ -74,7 +74,7 @@ const TilsynsordningSummary = ({ omsorgstilbud }: Props) => {
                                 </>
                             )}
 
-                            {omsorgstilbud.vetOmsorgstilbud === false && (
+                            {omsorgstilbud.vetOmsorgstilbud === VetOmsorgstilbud.VET_IKKE && (
                                 <>
                                     <FormattedMessage id="steg.oppsummering.tilsynsordning.hvorMyeTidOms.nei" />
                                 </>

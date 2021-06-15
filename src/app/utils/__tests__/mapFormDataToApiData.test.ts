@@ -13,6 +13,7 @@ import {
     PleiepengesøknadApiData,
     UtenlandsoppholdIPeriodenApiData,
     UtenlandsoppholdUtenforEøsIPeriodenApiData,
+    VetOmsorgstilbud,
 } from '../../types/PleiepengesøknadApiData';
 import {
     AppFormField,
@@ -573,7 +574,7 @@ describe('Test complete applications', () => {
         harForståttRettigheterOgPlikter: true,
         samtidigHjemme: true,
         omsorgstilbud: {
-            vetOmsorgstilbud: true,
+            vetOmsorgstilbud: VetOmsorgstilbud.VET_ALLE_TIMER,
             fasteDager: { fredag: 'PT1H0M' },
         },
 

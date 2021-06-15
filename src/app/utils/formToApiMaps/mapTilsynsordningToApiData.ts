@@ -4,7 +4,7 @@ import { timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUti
 import { DateRange, dateToISOString, ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import { TidIOmsorgstilbud } from '../../components/omsorgstilbud/types';
-import { OmsorgstilbudApi, OmsorgstilbudDagApi } from '../../types/PleiepengesøknadApiData';
+import { OmsorgstilbudApi, OmsorgstilbudDagApi, VetOmsorgstilbud } from '../../types/PleiepengesøknadApiData';
 import { Omsorgstilbud, OmsorgstilbudFasteDager } from '../../types/PleiepengesøknadFormData';
 
 export const getFasteDager = ({ mandag, tirsdag, onsdag, torsdag, fredag }: OmsorgstilbudFasteDager) => ({
@@ -44,17 +44,23 @@ export const mapTilsynsordningToApiData = (
         return undefined; // !ja: bør denne logges som feil?
     }
 
-    const { erLiktHverDag, fasteDager, enkeltdager } = ja;
+    const { erLiktHverDag, fasteDager, enkeltdager, vetHvorMyeTid } = ja;
+
+    if (vetHvorMyeTid === YesOrNo.NO) {
+        return {
+            vetOmsorgstilbud: VetOmsorgstilbud.VET_IKKE,
+        };
+    }
 
     if (erLiktHverDag === YesOrNo.YES && fasteDager) {
         return {
-            vetOmsorgstilbud: true,
+            vetOmsorgstilbud: VetOmsorgstilbud.VET_ALLE_TIMER,
             fasteDager: getFasteDager(fasteDager),
         };
     }
     if (erLiktHverDag !== YesOrNo.YES && enkeltdager) {
         return {
-            vetOmsorgstilbud: true,
+            vetOmsorgstilbud: VetOmsorgstilbud.VET_ALLE_TIMER,
             enkeltDager: getEnkeltdager(enkeltdager, søknadsperiode),
         };
     }

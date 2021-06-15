@@ -1,7 +1,8 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { TidIOmsorgstilbud } from '../../components/omsorgstilbud/types';
-import { Omsorgstilbud } from '../../types/PleiepengesøknadFormData';
+import { VetOmsorgstilbud } from '../../types/PleiepengesøknadApiData';
+import { AppFormField, Omsorgstilbud } from '../../types/PleiepengesøknadFormData';
 import { getEnkeltdager, mapTilsynsordningToApiData } from '../formToApiMaps/mapTilsynsordningToApiData';
 
 jest.mock('./../envUtils', () => {
@@ -40,6 +41,20 @@ describe('mapTilsynsordningToApiData', () => {
         expect(JSON.stringify(undefined)).toEqual(
             JSON.stringify(mapTilsynsordningToApiData({ skalBarnIOmsorgstilbud: YesOrNo.NO }, søknadsperiode))
         );
+    });
+    it(`should return ${VetOmsorgstilbud.VET_IKKE} when ${AppFormField.omsorgstilbud__skalBarnIOmsorgstilbud} === ${YesOrNo.YES} and ${AppFormField.omsorgstilbud__ja__vetHvorMyeTid} === ${VetOmsorgstilbud.VET_IKKE}`, () => {
+        const result = mapTilsynsordningToApiData(
+            {
+                ...tilsyn,
+                ja: {
+                    vetHvorMyeTid: YesOrNo.NO,
+                },
+            },
+            søknadsperiode
+        );
+        expect(result?.enkeltDager).toBeUndefined();
+        expect(result?.fasteDager).toBeUndefined();
+        expect(result?.vetOmsorgstilbud).toBe(VetOmsorgstilbud.VET_IKKE);
     });
     describe('getFasteDager', () => {
         it('returns fasteDager correctly', () => {
