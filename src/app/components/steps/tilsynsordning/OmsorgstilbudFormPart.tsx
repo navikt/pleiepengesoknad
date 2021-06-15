@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
@@ -32,6 +33,9 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
         return (
             <>
                 <Undertittel tag="h3">Omsorgstilbud i perioden</Undertittel>
+                <p style={{ marginTop: '.5rem' }}>
+                    <FormattedMessage id="steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.ja" />
+                </p>
                 <AppForm.InputGroup
                     name={`${AppFormField.omsorgstilbud__ja__enkeltdager}_periode` as any}
                     tag="div"
@@ -63,6 +67,10 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
     }
     return (
         <>
+            <Undertittel tag="h3">Omsorgstilbud i perioden</Undertittel>
+            <p style={{ marginTop: '.5rem' }}>
+                <FormattedMessage id="steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.ja" />
+            </p>
             {getMonthsInDateRange(søknadsperiode).map((periode, index) => {
                 const { from, to } = periode;
                 const mndOgÅr = dayjs(from).format('MMMM YYYY');
