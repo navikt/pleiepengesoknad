@@ -134,7 +134,9 @@ export const mapFormDataToApiData = (
                 harMedsøker: harMedsøker === YesOrNo.YES,
                 harBekreftetOpplysninger,
                 harForståttRettigheterOgPlikter,
-                harVærtEllerErVernepliktig: formData.harVærtEllerErVernepliktig === YesOrNo.YES,
+                harVærtEllerErVernepliktig: formData.harVærtEllerErVernepliktig
+                    ? formData.harVærtEllerErVernepliktig === YesOrNo.YES
+                    : undefined,
                 andreYtelserFraNAV:
                     isFeatureEnabled(Feature.ANDRE_YTELSER) && formData.mottarAndreYtelser === YesOrNo.YES
                         ? formData.andreYtelser

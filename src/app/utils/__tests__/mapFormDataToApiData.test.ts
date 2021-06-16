@@ -586,7 +586,7 @@ describe('Test complete applications', () => {
             beredskap: true,
             tilleggsinformasjon: 'harBeredskap_ekstrainfo',
         },
-        harVærtEllerErVernepliktig: false,
+        harVærtEllerErVernepliktig: undefined,
         andreYtelserFraNAV: [],
         harHattInntektSomFrilanser: false,
         harHattInntektSomSelvstendigNæringsdrivende: false,

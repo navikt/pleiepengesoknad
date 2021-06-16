@@ -47,6 +47,7 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
 
         it('STEG 3: Arbeidsforhold', () => {
             clickNeiPaAlleSporsmal();
+            clickNeiPaAlleSporsmal();
             clickFortsett(cy);
         });
 

@@ -199,6 +199,6 @@ export interface PleiepengesøknadApiData {
     harHattInntektSomSelvstendigNæringsdrivende: boolean;
     selvstendigVirksomheter: VirksomhetApiData[];
     selvstendigArbeidsforhold?: ArbeidsforholdSNFApi;
-    harVærtEllerErVernepliktig: boolean;
+    harVærtEllerErVernepliktig?: boolean;
     andreYtelserFraNAV?: AndreYtelserFraNAV[];
 }
