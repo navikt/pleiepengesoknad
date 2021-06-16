@@ -1,7 +1,10 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import dayjs from 'dayjs';
 import { Element } from 'nav-frontend-typografi';
 import { AppFormField, OmsorgstilbudInfo } from '../../../types/PleiepengesøknadFormData';
@@ -22,21 +25,13 @@ interface Props {
     onOmsorgstilbudChanged?: () => void;
 }
 
-// const Info = () => (
-//     <>
-//         <Undertittel tag="h3">Legg inn tiden barnet skal være i et omsorgstilbud</Undertittel>
-//         <p style={{ marginTop: '.5rem' }}>
-//             <FormattedMessage id="steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.ja" />
-//         </p>
-//     </>
-// );
-
 const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
     spørOmMånedForOmsorgstilbud,
     søknadsperiode,
     tidIOmsorgstilbud,
     onOmsorgstilbudChanged,
 }) => {
+    const intl = useIntl();
     if (spørOmMånedForOmsorgstilbud === false) {
         return (
             <>
@@ -44,6 +39,12 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
                 <AppForm.InputGroup
                     name={`${AppFormField.omsorgstilbud__ja__enkeltdager}_periode` as any}
                     tag="div"
+                    legend={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn')}
+                    description={
+                        <ExpandableInfo title={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.description.tittel')}>
+                            {intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.description')}
+                        </ExpandableInfo>
+                    }
                     validate={() => {
                         const omsorgstilbudIPerioden = getTidIOmsorgstilbudInnenforPeriode(
                             tidIOmsorgstilbud,
@@ -70,6 +71,7 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
             </>
         );
     }
+
     return (
         <>
             {/* <Info /> */}
@@ -80,6 +82,12 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
                  * brukt.
                  * Ikke optimalt, men det virker.
                  */
+                legend={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn')}
+                description={
+                    <ExpandableInfo title={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.description.tittel')}>
+                        {intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.description')}
+                    </ExpandableInfo>
+                }
                 name={`${AppFormField.omsorgstilbud__ja__enkeltdager}_dager` as any}
                 tag="div"
                 validate={() => {

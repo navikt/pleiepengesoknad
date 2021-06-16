@@ -99,7 +99,6 @@ export interface OmsorgstilbudDagApi {
 }
 export enum VetOmsorgstilbud {
     'VET_ALLE_TIMER' = 'VET_ALLE_TIMER',
-    'VET_NOEN_TIMER' = 'VET_NOEN_TIMER',
     'VET_IKKE' = 'VET_IKKE',
 }
 

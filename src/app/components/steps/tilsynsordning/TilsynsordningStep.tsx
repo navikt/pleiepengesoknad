@@ -15,6 +15,7 @@ import { useFormikContext } from 'formik';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import usePersistSoknad from '../../../hooks/usePersistSoknad';
+import { VetOmsorgstilbud } from '../../../types/PleiepengesøknadApiData';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { visKunEnkeltdagerForOmsorgstilbud } from '../../../utils/omsorgstilbudUtils';
 import { validateSkalHaTilsynsordning } from '../../../validation/fieldValidations';
@@ -23,8 +24,6 @@ import FormikStep from '../../formik-step/FormikStep';
 import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
 import OmsorgstilbudFormPart from './OmsorgstilbudFormPart';
 import { cleanupTilsynsordningStep } from './tilsynsordningStepUtils';
-import { Undertittel } from 'nav-frontend-typografi';
-import { VetOmsorgstilbud } from '../../../types/PleiepengesøknadApiData';
 
 dayjs.extend(isBetween);
 
@@ -74,7 +73,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                 <>
                     <FormBlock>
                         <AppForm.RadioPanelGroup
-                            legend={intlHelper(intl, 'steg.tilsyn.ja.vetHvorMye.spm')}
+                            legend="Kan du oppgi noe av tiden barnet skal være i omsorgstilbudet?"
                             name={AppFormField.omsorgstilbud__ja__vetHvorMyeTid}
                             radios={[
                                 {
@@ -82,15 +81,19 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                     value: VetOmsorgstilbud.VET_ALLE_TIMER,
                                 },
                                 {
-                                    label: intlHelper(intl, 'steg.tilsyn.ja.vetHvorMye.noe'),
-                                    value: VetOmsorgstilbud.VET_NOEN_TIMER,
-                                },
-                                {
                                     label: intlHelper(intl, 'steg.tilsyn.ja.vetHvorMye.nei'),
                                     value: VetOmsorgstilbud.VET_IKKE,
                                 },
                             ]}
                             validate={getRequiredFieldValidator()}
+                            useTwoColumns={true}
+                            description={
+                                <div style={{ marginTop: '-.5rem' }}>
+                                    Du skal bare oppgi den tiden du vet med sikkerhet. Dersom du vet noe av tiden barnet
+                                    kan være i omsorgstilbudet svarer du ja. Dersom du ikke vet eller omsorgstilbudet
+                                    ikke er etablert, svarer du nei.
+                                </div>
+                            }
                         />
                     </FormBlock>
 
@@ -102,62 +105,28 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                         </FormBlock>
                     )}
 
-                    {(omsorgstilbud.ja?.vetHvorMyeTid === VetOmsorgstilbud.VET_ALLE_TIMER ||
-                        omsorgstilbud.ja?.vetHvorMyeTid === VetOmsorgstilbud.VET_NOEN_TIMER) && (
+                    {omsorgstilbud.ja?.vetHvorMyeTid === VetOmsorgstilbud.VET_ALLE_TIMER && (
                         <>
-                            <FormBlock>
-                                {omsorgstilbud.ja?.vetHvorMyeTid === VetOmsorgstilbud.VET_ALLE_TIMER && (
-                                    <>
-                                        <Undertittel tag="h3">
-                                            Legg inn tiden barnet skal være i et omsorgstilbud
-                                        </Undertittel>
-                                        <p style={{ marginTop: '.5rem' }}>
-                                            Nå skal du legge inn antall timer og minutter for hvor mye barnet er i
-                                            omsorgstilbudet. Hvis denne tiden endrer seg slik at den blir en ny fast og
-                                            regelmessig ordning, må du gi oss beskjed. Du trenger ikke gi beskjed hvis
-                                            oppholdet i omsorgstilbudet varierer litt fra dag til dag.
-                                        </p>
-                                    </>
-                                )}
-                                {omsorgstilbud.ja?.vetHvorMyeTid === VetOmsorgstilbud.VET_NOEN_TIMER && (
-                                    <>
-                                        <Undertittel tag="h3">
-                                            Når du vet noe, legger du inn kun den tiden du vet.
-                                        </Undertittel>
-                                        <p style={{ marginTop: '.5rem' }}>
-                                            Legg inn den tiden du vet med sikkerhet. Hvis denne tiden endrer seg slik at
-                                            den blir en ny fast og regelmessig ordning, må du gi oss beskjed. Du trenger
-                                            ikke gi beskjed hvis oppholdet i omsorgstilbudet varierer litt fra dag til
-                                            dag.
-                                        </p>
-                                    </>
-                                )}
-                                {/* <FormattedMessage id="steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.ja" /> */}
-                            </FormBlock>
                             {visKunEnkeltdager === false && (
                                 <FormBlock>
                                     <AppForm.YesOrNoQuestion
-                                        legend="Skal barnet være i et omsorgstilbud i like mange timer per dag hver uke gjennom hele søknadsperioden?"
+                                        legend="Er tiden barnet skal være i omsorgstilbudet lik for hver dag i perioden du søker om? Det vil si at alle mandager er like, alle tirsdager er like og så videre."
                                         name={AppFormField.omsorgstilbud__ja_erLiktHverDag}
-                                        validate={getYesOrNoValidator()}
                                         description={
-                                            <ExpandableInfo title={'Hva betyr dette?'}>
-                                                Informasjon om forskjellen
+                                            <ExpandableInfo title="Hva betyr dette?">
+                                                Eksempel:
+                                                <br />
+                                                Anna går fast hver uke i barnehagen 2 timer på mandag og 3 timer på
+                                                torsdag. Hun bytter ikke på dager eller antall timer hun er i barnehagen
+                                                i løpet av en uke.
                                             </ExpandableInfo>
                                         }
+                                        validate={getYesOrNoValidator()}
                                     />
                                 </FormBlock>
                             )}
                             {visKunEnkeltdager === false && omsorgstilbud.ja?.erLiktHverDag === YesOrNo.YES && (
                                 <>
-                                    {/* <FormBlock>
-                                        <Undertittel tag="h3">
-                                            Legg inn tiden barnet skal være i et omsorgstilbud
-                                        </Undertittel>
-                                        <p style={{ marginTop: '.5rem' }}>
-                                            <FormattedMessage id="steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.ja" />
-                                        </p>
-                                    </FormBlock> */}
                                     <FormBlock>
                                         <AppForm.InputGroup
                                             legend={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn')}
@@ -178,17 +147,19 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                 </>
                             )}
                             {(visKunEnkeltdager === true || omsorgstilbud.ja?.erLiktHverDag === YesOrNo.NO) && (
-                                <FormBlock>
-                                    <OmsorgstilbudFormPart
-                                        info={omsorgstilbud.ja}
-                                        spørOmMånedForOmsorgstilbud={visKunEnkeltdager === false}
-                                        søknadsperiode={{ from: periodeFra, to: periodeTil }}
-                                        tidIOmsorgstilbud={omsorgstilbud.ja.enkeltdager || {}}
-                                        onOmsorgstilbudChanged={() => {
-                                            setOmsorgstilbudChanged(true);
-                                        }}
-                                    />
-                                </FormBlock>
+                                <>
+                                    <FormBlock>
+                                        <OmsorgstilbudFormPart
+                                            info={omsorgstilbud.ja}
+                                            spørOmMånedForOmsorgstilbud={visKunEnkeltdager === false}
+                                            søknadsperiode={{ from: periodeFra, to: periodeTil }}
+                                            tidIOmsorgstilbud={omsorgstilbud.ja.enkeltdager || {}}
+                                            onOmsorgstilbudChanged={() => {
+                                                setOmsorgstilbudChanged(true);
+                                            }}
+                                        />
+                                    </FormBlock>
+                                </>
                             )}
                         </>
                     )}

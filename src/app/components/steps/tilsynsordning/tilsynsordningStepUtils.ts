@@ -2,7 +2,9 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange, ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
+import { VetOmsorgstilbud } from '../../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { visKunEnkeltdagerForOmsorgstilbud } from '../../../utils/omsorgstilbudUtils';
 import { OmsorgstilbudDag, TidIOmsorgstilbud } from '../../omsorgstilbud/types';
 
 dayjs.extend(isBetween);
@@ -41,16 +43,22 @@ export const cleanupTilsynsordningStep = (
 ): PleiepengesøknadFormData => {
     const v = { ...values };
 
-    if (v.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.YES) {
-        if (v.omsorgstilbud.ja?.erLiktHverDag === YesOrNo.YES) {
+    if (v.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.YES && v.omsorgstilbud.ja) {
+        if (v.omsorgstilbud.ja.vetHvorMyeTid === VetOmsorgstilbud.VET_IKKE) {
+            v.omsorgstilbud.ja.enkeltdager = undefined;
+            v.omsorgstilbud.ja.fasteDager = undefined;
+            v.omsorgstilbud.ja.erLiktHverDag = undefined;
+        }
+        if (visKunEnkeltdagerForOmsorgstilbud(søknadsperiode)) {
+            v.omsorgstilbud.ja.erLiktHverDag = undefined;
+        }
+        if (v.omsorgstilbud.ja.erLiktHverDag === YesOrNo.YES) {
             v.omsorgstilbud.ja.enkeltdager = undefined;
         }
-        if (v.omsorgstilbud.ja?.erLiktHverDag === YesOrNo.NO) {
+        if (v.omsorgstilbud.ja.erLiktHverDag === YesOrNo.NO) {
             v.omsorgstilbud.ja.fasteDager = undefined;
-        }
-        if (v.omsorgstilbud.ja) {
             v.omsorgstilbud.ja.enkeltdager = getTidIOmsorgstilbudInnenforPeriode(
-                v.omsorgstilbud.ja?.enkeltdager || {},
+                v.omsorgstilbud.ja.enkeltdager || {},
                 søknadsperiode
             );
         }
