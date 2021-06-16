@@ -1,5 +1,5 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
@@ -63,7 +63,10 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
                         søknadsperiode={søknadsperiode}
                         ukeTittelRenderer={(info) => (
                             <Element className="omsorgstilbud__uketittel" tag="h4">
-                                Uke {info.ukenummer}, {info.år}
+                                <FormattedMessage
+                                    id="steg.tilsyn.omsorgstilbud.uketittel"
+                                    values={{ uke: info.ukenummer, år: info.år }}
+                                />
                             </Element>
                         )}
                     />

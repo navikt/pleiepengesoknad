@@ -1,13 +1,14 @@
 import React from 'react';
+import { IntlShape, useIntl } from 'react-intl';
 import AriaAlternative from '@navikt/sif-common-core/lib/components/aria/AriaAlternative';
+import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { Time } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import { EtikettInfo } from 'nav-frontend-etiketter';
-// import { Undertekst } from 'nav-frontend-typografi';
 import CalendarGrid from '../calendar-grid/CalendarGrid';
 import FormattedTimeText from './FormattedTimeText';
 import { OmsorgstilbudDag } from './types';
-import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 
 interface Props {
     måned: Date;
@@ -19,14 +20,11 @@ interface Props {
     skjulTommeDagerIListe?: boolean;
 }
 
-const formatTimeFull = (time: Partial<Time>): string => {
+export const formatTime = (intl: IntlShape, time: Partial<Time>): string => {
     const timer = time.hours || '0';
     const minutter = time.minutes || '0';
-    return `${timer} ${pluralize(timer, 'time', 'timer')}, ${minutter} ${pluralize(minutter, 'minutt', 'minutter')}`;
+    return intlHelper(intl, 'timerOgMinutter', { timer, minutter });
 };
-
-const pluralize = (tall: number | string, singular: string, plural: string): string =>
-    typeof tall === 'number' ? (tall === 1 ? singular : plural) : tall === '1' ? singular : plural;
 
 const DagContent = ({
     tid,
@@ -38,12 +36,13 @@ const DagContent = ({
     desimalTid?: boolean;
 }) => {
     const bem = bemUtils('tidIOmsorgstilbud');
+    const intl = useIntl();
     const content = (
         <div className={bem.element('info')}>
             <span className={bem.element('info__tid')}>
                 <AriaAlternative
                     visibleText={<FormattedTimeText time={tid} decimal={desimalTid} />}
-                    ariaText={formatTimeFull(tid)}
+                    ariaText={formatTime(intl, tid)}
                 />
             </span>
         </div>

@@ -73,7 +73,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                 <>
                     <FormBlock>
                         <AppForm.RadioPanelGroup
-                            legend="Kan du oppgi noe av tiden barnet skal være i omsorgstilbudet?"
+                            legend={intlHelper(intl, 'steg.tilsyn.ja.vetHvorMye.spm')}
                             name={AppFormField.omsorgstilbud__ja__vetHvorMyeTid}
                             radios={[
                                 {
@@ -89,9 +89,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                             useTwoColumns={true}
                             description={
                                 <div style={{ marginTop: '-.5rem' }}>
-                                    Du skal bare oppgi den tiden du vet med sikkerhet. Dersom du vet noe av tiden barnet
-                                    kan være i omsorgstilbudet svarer du ja. Dersom du ikke vet eller omsorgstilbudet
-                                    ikke er etablert, svarer du nei.
+                                    <FormattedMessage id="steg.tilsyn.ja.vetHvorMye.info" />
                                 </div>
                             }
                         />
@@ -110,15 +108,14 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                             {visKunEnkeltdager === false && (
                                 <FormBlock>
                                     <AppForm.YesOrNoQuestion
-                                        legend="Er tiden barnet skal være i omsorgstilbudet lik for hver dag i perioden du søker om? Det vil si at alle mandager er like, alle tirsdager er like og så videre."
+                                        legend={intlHelper(intl, 'steg.tilsyn.ja.erLiktHverDag.spm')}
                                         name={AppFormField.omsorgstilbud__ja_erLiktHverDag}
                                         description={
-                                            <ExpandableInfo title="Hva betyr dette?">
-                                                Eksempel:
+                                            <ExpandableInfo
+                                                title={intlHelper(intl, 'steg.tilsyn.ja.erLiktHverDag.info.tittel')}>
+                                                <FormattedMessage id="steg.tilsyn.ja.erLiktHverDag.info.1" />
                                                 <br />
-                                                Anna går fast hver uke i barnehagen 2 timer på mandag og 3 timer på
-                                                torsdag. Hun bytter ikke på dager eller antall timer hun er i barnehagen
-                                                i løpet av en uke.
+                                                <FormattedMessage id="steg.tilsyn.ja.erLiktHverDag.info.2" />
                                             </ExpandableInfo>
                                         }
                                         validate={getYesOrNoValidator()}

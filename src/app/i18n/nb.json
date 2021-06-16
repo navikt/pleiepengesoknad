@@ -32,6 +32,12 @@
     "torsdag.caps": "Torsdag",
     "fredag.caps": "Fredag",
 
+    "mandager.caps": "Mandager",
+    "tirsdager.caps": "Tirsdager",
+    "onsdager.caps": "Onsdager",
+    "torsdager.caps": "Torsdager",
+    "fredager.caps": "Fredager",
+
     "Mandag": "Mandag",
     "Tirsdag": "Tirsdag",
     "Onsdag": "Onsdag",
@@ -264,9 +270,15 @@
     "steg.tilsyn.veileder.html": "<p>Hvis barnet er i et etablert omsorgstilbud i perioden du søker for, skal pleiepengene graderes tilsvarende den tiden barnet er i omsorgstilbudet. Det kan gjøres unntak ved nattevåk eller hvis du må være i beredskap, noe du får spørsmål om litt senere i søknaden.</p><p>Et omsorgstilbud kan være barnehage, skole, SFO, omsorgsbolig, BPA (brukerstyrt personlig assistent), eller andre organiserte tilbud.</p><p>Et etablert omsorgstilbud betyr at den tiden som barnet er i omsorgstilbudet er fast og regelmessig. Hvis bruken av omsorgstilbudet er så uforutsigbar og uregelmessig at du ikke kan anslå et minimum antall timer per uke, anses ikke omsorgstilbudet som etablert. Pleiepengene graderes ikke når omsorgstilbudet ikke er etablert.</p><p>På spørsmålet under svarer du ja hvis barnet skal være i et omsorgstilbud, uansett om det er etablert eller ikke.</p>",
     "steg.tilsyn.skalBarnetHaTilsyn.spm": "Skal barnet være i et omsorgstilbud i hele eller deler av perioden du søker om?",
 
-    "steg.tilsyn.ja.hvorMyeTilsyn.spm": "Er du sikker på noe av tiden barnet skal være i omsorgstilbudet?",
-    "steg.tilsyn.ja.hvorMyeTilsyn.spm.description.tittel": "Hva betyr dette?",
-    "steg.tilsyn.ja.hvorMyeTilsyn.spm.description.html": "Du skal svare ja hvis du er sikker på et minimum av tiden barnet er i omsorgstilbudet. Du skal svare nei hvis tiden barnet er i omsorgstilbudet er så uregelmessig at du ikke kan anslå et minimum antall timer per uke.<p><strong>Eksempel:</strong></p><p>I perioden med pleiepenger klarer Anna å være i barnehagen mellom 5 og 15 timer per uke. Da svarer du ja på spørsmålet, og oppgir at Anna er i omsorgstilbudet 5 timer per uke.</p><p>Peder er bare av og til på skolen, når han er i form til det. Noen uker klarer han å være der noen timer, andre uker er han ikke på skolen i det hele tatt. I dette tilfellet svarer du nei på spørsmålet om Peder skal være i et omsorgstilbud.</p>",
+    "steg.tilsyn.ja.vetHvorMye.spm": "Kan du oppgi noe av tiden barnet skal være i omsorgstilbudet?",
+    "steg.tilsyn.ja.vetHvorMye.ja": "Ja",
+    "steg.tilsyn.ja.vetHvorMye.nei": "Nei",
+    "steg.tilsyn.ja.vetHvorMye.info": "Du skal bare oppgi den tiden du vet med sikkerhet. Dersom du vet noe av tiden barnet kan være i omsorgstilbudet svarer du ja. Dersom du ikke vet eller omsorgstilbudet ikke er etablert, svarer du nei.",
+
+    "steg.tilsyn.ja.erLiktHverDag.spm": "Er tiden barnet skal være i omsorgstilbudet lik for hver dag i perioden du søker om? Det vil si at alle mandager er like, alle tirsdager er like og så videre.",
+    "steg.tilsyn.ja.erLiktHverDag.info.tittel": "Hva betyr dette?",
+    "steg.tilsyn.ja.erLiktHverDag.info.1": "Eksempel:",
+    "steg.tilsyn.ja.erLiktHverDag.info.2": "Anna går fast hver uke i barnehagen 2 timer på mandag og 3 timer på torsdag. Hun bytter ikke på dager eller antall timer hun er i barnehagen i løpet av en uke.",
 
     "steg.tilsyn.ja.hvorMyeTilsyn": "Oppgi timene og minuttene som barnet er i omsorgstilbudet:",
     "steg.tilsyn.ja.hvorMyeTilsyn.description.tittel": "Hvor mange timer kan jeg oppgi per dag?",
@@ -274,17 +286,9 @@
     "steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.ja": "Når du i neste steg skal legge inn antall timer og minutter for hvor mye barnet er i omsorgstilbudet, skal du bare skrive inn den tiden du vet med sikkerhet. Hvis denne tiden endrer seg slik at den blir en ny fast og regelmessig ordning, må du gi oss beskjed. Du trenger ikke gi beskjed hvis oppholdet i omsorgstilbudet varierer litt fra dag til dag.",
     "steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.nei": "Når du ikke vet hvor mye barnet klarer å være i omsorgstilbudet, blir ikke pleiepengene gradert. Du må gi oss beskjed hvis tiden barnet er i omsorgstilbudet blir fast og regelmessig. Dette er viktig ettersom pleiepengene skal graderes når tiden barnet er i omsorgstilbudet er fast og regelmessig.",
 
-    "steg.tilsyn.tilsynsuke.veileder": "Hvis du vet hvor mye barnet skal være i et omsorgstilbud, må du fylle ut hvor mange timer og minutter per dag andre skal passe barnet.",
-    "steg.tilsyn.vetIkke.årsak.spm": "Hvorfor er du usikker?",
-    "steg.tilsyn.vetIkke.årsak.sporadisk": "Barnet er i omsorgstilbud, men tiden varierer",
-    "steg.tilsyn.vetIkke.årsak.ikkeLagetPlan": "Det er ikke laget en plan for dette enda",
-    "steg.tilsyn.vetIkke.årsak.annet": "Annet",
-    "steg.tilsyn.vetIkke.årsak.annet.tilleggsopplysninger": "Forklar situasjonen",
+    "steg.tilsyn.omsorgstilbud.uketittel": "Uke {ukenummer}, {år}",
 
-    "steg.tilsyn.ja.vetHvorMye.spm": "Vet du hvor mye barnet skal være i omsorgstilbudet?",
-    "steg.tilsyn.ja.vetHvorMye.ja": "Ja",
-    "steg.tilsyn.ja.vetHvorMye.noe": "Ja, jeg vet noe",
-    "steg.tilsyn.ja.vetHvorMye.nei": "Nei",
+    "steg.tilsyn.tilsynsuke.veileder": "Hvis du vet hvor mye barnet skal være i et omsorgstilbud, må du fylle ut hvor mange timer og minutter per dag andre skal passe barnet.",
 
     "steg.nattevåk.spm": "Gjør barnets sykdom at du må være våken på natta og derfor må være borte fra jobb dagen etter?",
     "steg.nattevåk.tilleggsinfo.spm": "Beskriv hva som gjør at du må være våken",
@@ -339,11 +343,11 @@
 
     "steg.oppsummering.tilsynsordning.header": "Omsorgstilbud",
     "steg.oppsummering.tilsynsordning.spm": "Skal barnet være i et omsorgstilbud i hele eller deler av perioden du søker om?",
-    "steg.oppsummering.tilsynsordning.ja.tilleggsinformasjon.header": "Tilleggsopplysninger",
-    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.spm": "Vet du hvor mye barnet skal være i omsorgstilbudet?",
+    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.spm": "Kan du oppgi noe av tiden barnet skal være i omsorgstilbudet?",
     "steg.oppsummering.tilsynsordning.hvorMyeTidOms.VET_ALLE_TIMER": "Ja",
-    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.VET_NOEN_TIMER": "Ja, vet noe",
     "steg.oppsummering.tilsynsordning.hvorMyeTidOms.VET_IKKE": "Nei",
+
+    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.fasteDager.header": "Tid i omsorgstilbud",
 
     "steg.oppsummering.utlandetSiste12.header": "Har bodd i utlandet siste 12 måneder",
     "steg.oppsummering.utlandetNeste12.header": "Skal bo i utlandet neste 12 måneder",
