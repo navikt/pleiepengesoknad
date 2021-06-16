@@ -356,20 +356,21 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                             ? apiValues.selvstendigVirksomheter[0]
                                             : undefined
                                     }
-                                    harFlereVirksomheter={apiValues.harFlereVirksomheter}
                                     arbeidsforholdSN={apiValues.selvstendigArbeidsforhold}
                                 />
 
                                 {/* Vernepliktig */}
-                                <SummarySection header={intlHelper(intl, 'verneplikt.summary.header')}>
-                                    <SummaryBlock
-                                        header={intlHelper(
-                                            intl,
-                                            'verneplikt.summary.harVærtEllerErVernepliktig.header'
-                                        )}>
-                                        <JaNeiSvar harSvartJa={apiValues.harVærtEllerErVernepliktig} />
-                                    </SummaryBlock>
-                                </SummarySection>
+                                {apiValues.harVærtEllerErVernepliktig !== undefined && (
+                                    <SummarySection header={intlHelper(intl, 'verneplikt.summary.header')}>
+                                        <SummaryBlock
+                                            header={intlHelper(
+                                                intl,
+                                                'verneplikt.summary.harVærtEllerErVernepliktig.header'
+                                            )}>
+                                            <JaNeiSvar harSvartJa={apiValues.harVærtEllerErVernepliktig} />
+                                        </SummaryBlock>
+                                    </SummarySection>
+                                )}
 
                                 {/* Andre ytelser */}
                                 {isFeatureEnabled(Feature.ANDRE_YTELSER) && (
