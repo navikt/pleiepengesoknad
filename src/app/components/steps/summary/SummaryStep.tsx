@@ -151,10 +151,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
 
                 const mottarAndreYtelserFraNAV =
                     apiValues.andreYtelserFraNAV && apiValues.andreYtelserFraNAV.length > 0;
-                const visVerneplikt =
-                    apiValues.arbeidsgivere.organisasjoner.length === 0 &&
-                    !apiValues.harHattInntektSomFrilanser &&
-                    !apiValues.harHattInntektSomSelvstendigNæringsdrivende;
+
                 return (
                     <FormikStep
                         id={StepID.SUMMARY}
@@ -389,7 +386,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                 />
 
                                 {/* Vernepliktig */}
-                                {visVerneplikt && (
+                                {apiValues.harVærtEllerErVernepliktig !== undefined && (
                                     <SummarySection header={intlHelper(intl, 'verneplikt.summary.header')}>
                                         <SummaryBlock
                                             header={intlHelper(
