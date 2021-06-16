@@ -142,13 +142,15 @@ export const mapFormDataToApiData = (
                 harHattInntektSomFrilanser: harHattInntektSomFrilanser === YesOrNo.YES,
                 frilans: mapFrilansToApiData(formData),
                 harHattInntektSomSelvstendigNæringsdrivende: selvstendig_harHattInntektSomSN === YesOrNo.YES,
-                harFlereVirksomheter:
-                    selvstendig_harHattInntektSomSN === YesOrNo.YES
-                        ? selvstendig_harFlereVirksomheter === YesOrNo.YES
-                        : undefined,
                 selvstendigVirksomheter:
                     selvstendig_harHattInntektSomSN === YesOrNo.YES && selvstendig_virksomhet !== undefined
-                        ? [mapVirksomhetToVirksomhetApiData(locale, selvstendig_virksomhet)]
+                        ? [
+                              mapVirksomhetToVirksomhetApiData(
+                                  locale,
+                                  selvstendig_virksomhet,
+                                  selvstendig_harFlereVirksomheter === YesOrNo.YES
+                              ),
+                          ]
                         : [],
             };
 
@@ -194,9 +196,6 @@ export const mapFormDataToApiData = (
 
             apiData.harHattInntektSomSelvstendigNæringsdrivende =
                 formData.selvstendig_harHattInntektSomSN === YesOrNo.YES;
-            if (apiData.harHattInntektSomSelvstendigNæringsdrivende) {
-                apiData.harFlereVirksomheter = formData.selvstendig_harFlereVirksomheter === YesOrNo.YES;
-            }
 
             apiData.selvstendigArbeidsforhold = formData.selvstendig_arbeidsforhold
                 ? mapSNFArbeidsforholdToApiData(formData.selvstendig_arbeidsforhold)
