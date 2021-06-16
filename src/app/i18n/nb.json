@@ -273,7 +273,7 @@
     "steg.tilsyn.ja.vetHvorMye.spm": "Kan du oppgi noe av tiden barnet skal være i omsorgstilbudet?",
     "steg.tilsyn.ja.vetHvorMye.ja": "Ja",
     "steg.tilsyn.ja.vetHvorMye.nei": "Nei",
-    "steg.tilsyn.ja.vetHvorMye.info": "Du skal bare oppgi den tiden du vet med sikkerhet. Dersom du vet noe av tiden barnet kan være i omsorgstilbudet svarer du ja. Dersom du ikke vet eller omsorgstilbudet ikke er etablert, svarer du nei.",
+    "steg.tilsyn.ja.vetHvorMye.info": "Du skal bare oppgi den tiden du vet med sikkerhet. Dersom du vet noe av tiden barnet kan være i omsorgstilbudet svarer du ja. Dersom du ikke vet noe tid med sikkerhet sier du nei.",
 
     "steg.tilsyn.ja.erLiktHverDag.spm": "Er tiden barnet skal være i omsorgstilbudet lik for hver dag i perioden du søker om? Det vil si at alle mandager er like, alle tirsdager er like og så videre.",
     "steg.tilsyn.ja.erLiktHverDag.info.tittel": "Hva betyr dette?",
@@ -343,7 +343,7 @@
 
     "steg.oppsummering.tilsynsordning.header": "Omsorgstilbud",
     "steg.oppsummering.tilsynsordning.spm": "Skal barnet være i et omsorgstilbud i hele eller deler av perioden du søker om?",
-    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.spm": "Kan du oppgi noe av tiden barnet skal være i omsorgstilbudet?",
+    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.spm": "Kan du oppgi tiden barnet skal være i omsorgstilbudet?",
     "steg.oppsummering.tilsynsordning.hvorMyeTidOms.VET_ALLE_TIMER": "Ja",
     "steg.oppsummering.tilsynsordning.hvorMyeTidOms.VET_IKKE": "Nei",
 

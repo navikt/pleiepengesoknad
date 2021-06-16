@@ -68,8 +68,6 @@ export enum AppFormField {
     omsorgstilbud = 'omsorgstilbud',
     omsorgstilbud__skalBarnIOmsorgstilbud = 'omsorgstilbud.skalBarnIOmsorgstilbud',
     omsorgstilbud__ja__vetHvorMyeTid = 'omsorgstilbud.ja.vetHvorMyeTid',
-    // omsorgstilbud__ja__vetNoeTid = 'omsorgstilbud.ja.vetNoeTid',
-    // omsorgstilbud__ja__måneder = 'omsorgstilbud.ja.måneder',
     omsorgstilbud__ja_erLiktHverDag = 'omsorgstilbud.ja.erLiktHverDag',
     omsorgstilbud__ja__fasteDager = 'omsorgstilbud.ja.fasteDager',
     omsorgstilbud__ja__enkeltdager = 'omsorgstilbud.ja.enkeltdager',
