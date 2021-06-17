@@ -32,7 +32,6 @@ server.use((req, res, next) => {
         'http://host.docker.internal:8080',
         'https://pleiepengesoknad-mock.nais.oera.no',
         'http://localhost:8080',
-        'http://localhost:8082',
         'http://127.0.0.1:8080',
         'http://web:8080',
     ];
@@ -75,24 +74,24 @@ const arbeidsgivereMock = {
 
 const MELLOMLAGRING_JSON = `${os.tmpdir()}/mellomlagring.json`;
 
-const validerSoknadFeilVedVedlegg = {
-    detail: 'Requesten inneholder ugyldige paramtere.',
-    instance: 'about:blank',
-    type: '/problem-details/invalid-request-parameters',
-    title: 'invalid-request-parameters',
-    invalid_parameters: [
-        {
-            name: 'vedlegg',
-            reason: 'Mottok referanse til 2 vedlegg, men fant kun 0 vedlegg.',
-            invalid_value: [
-                'https://pleiepengesoknad-api.nav.no/vedlegg/eyJraWQiOiIxIiwidHlwIjoiSldUIiwiYWxnIjoibm9uZSJ9.eyJqdGkiOiI3NDg0MmNmZS1kYWRmLTQ1MDEtYmI1YS0yMGI1YzUxZmM3NDIifQ',
-                'https://pleiepengesoknad-api.nav.no/vedlegg/eyJraWQiOiIxIiwidHlwIjoiSldUIiwiYWxnIjoibm9uZSJ9.eyJqdGkiOiJkMzNlZjZmNi1lYzFiLTRiNTMtODdmOC0xNGY4NWQ3MWEzYzEifQ',
-            ],
-            type: 'entity',
-        },
-    ],
-    status: 400,
-};
+// const validerSoknadFeilVedVedlegg = {
+//     detail: 'Requesten inneholder ugyldige paramtere.',
+//     instance: 'about:blank',
+//     type: '/problem-details/invalid-request-parameters',
+//     title: 'invalid-request-parameters',
+//     invalid_parameters: [
+//         {
+//             name: 'vedlegg',
+//             reason: 'Mottok referanse til 2 vedlegg, men fant kun 0 vedlegg.',
+//             invalid_value: [
+//                 'https://pleiepengesoknad-api.nav.no/vedlegg/eyJraWQiOiIxIiwidHlwIjoiSldUIiwiYWxnIjoibm9uZSJ9.eyJqdGkiOiI3NDg0MmNmZS1kYWRmLTQ1MDEtYmI1YS0yMGI1YzUxZmM3NDIifQ',
+//                 'https://pleiepengesoknad-api.nav.no/vedlegg/eyJraWQiOiIxIiwidHlwIjoiSldUIiwiYWxnIjoibm9uZSJ9.eyJqdGkiOiJkMzNlZjZmNi1lYzFiLTRiNTMtODdmOC0xNGY4NWQ3MWEzYzEifQ',
+//             ],
+//             type: 'entity',
+//         },
+//     ],
+//     status: 400,
+// };
 
 const missingAttachment1 = 'http://localhost:8082/vedlegg/a1';
 
@@ -107,9 +106,7 @@ const isJSON = (str) => {
         return false;
     }
 };
-/*const writeFileSync = (path, text) => {
-    return fs.writeFileSync(path, text);
-};*/
+
 const writeFileAsync = async (path, text) => {
     return new Promise((resolve, reject) => {
         fs.writeFile(path, text, 'utf8', (err) => {
@@ -130,16 +127,14 @@ const startExpressServer = () => {
     server.get('/health/isReady', (req, res) => res.sendStatus(200));
 
     server.get('/arbeidsgiver', (req, res) => {
-        // setTimeout(() => {
         res.send(arbeidsgivereMock);
-        // }, 800);
     });
 
     server.get('/soker', (req, res) => {
         res.send(søkerMock);
     });
 
-    server.post('/soknad-valider-verdlegg', (req, res) => {
+    server.post('/soknad/valider/vedlegg', (req, res) => {
         res.status(200).send(missingAttachmentsResponse);
     });
 

@@ -14,6 +14,7 @@ import {
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { useFormikContext } from 'formik';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import Knapp from 'nav-frontend-knapper';
 import Lenke from 'nav-frontend-lenker';
 import { persist, verifyAttachmentsOnServer } from '../../../api/api';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
@@ -25,6 +26,7 @@ import { validateLegeerklæring } from '../../../validation/fieldValidations';
 import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
+import { pluralize } from '../../pages/confirmation-page/ConfirmationPage';
 
 const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<Array<File>>([]);
@@ -66,25 +68,37 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     };
 
     const verifyAttachmentsThenSubmit = async () => {
-        verifyAttachmentsOnServer(values.legeerklæring).then(
-            (respons) => {
-                const missingIds = respons.data.missing_attachments;
-                if (missingIds.length > 0) {
-                    const missingFiles = values.legeerklæring.filter((a) => {
-                        return missingIds.some((id) => id === a.url);
-                    });
-                    setMissingFiles(missingFiles);
-                } else {
+        if (values.legeerklæring.length > 0) {
+            verifyAttachmentsOnServer(values.legeerklæring).then(
+                (respons) => {
+                    const missingIds = respons.data.missing_attachments;
+                    if (missingIds.length > 0) {
+                        const missingFiles = values.legeerklæring.filter((a) => {
+                            return missingIds.some((id) => id === a.url);
+                        });
+                        if (missingFiles.length > 0) {
+                            setMissingFiles(missingFiles);
+                            setFieldValue(
+                                AppFormField.legeerklæring,
+                                values.legeerklæring.filter((a) => {
+                                    return missingIds.some((id) => id !== a.url);
+                                })
+                            );
+                            return;
+                        }
+                    }
                     setMissingFiles([]);
                     onValidSubmit();
+                },
+                (error) => {
+                    if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+                        userNotLoggedIn();
+                    }
                 }
-            },
-            (error) => {
-                if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
-                    userNotLoggedIn();
-                }
-            }
-        );
+            );
+        } else {
+            onValidSubmit();
+        }
     };
 
     React.useEffect(() => {
@@ -162,8 +176,28 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
             <Box margin={'l'}>
                 <FileUploadErrors filesThatDidntGetUploaded={filesThatDidntGetUploaded} />
             </Box>
-            {missingFiles.length > 0 && <Box margin={'l'}>Filer mangler</Box>}
             <LegeerklæringFileList wrapNoAttachmentsInBox={true} includeDeletionFunctionality={true} />
+            {missingFiles.length > 0 && (
+                <Box margin="l">
+                    <AlertStripeAdvarsel>
+                        <p style={{ marginTop: 0 }}>
+                            Det har oppstått en feil med{' '}
+                            {pluralize(missingFiles.length, 'ett dokument', `${missingFiles.length} dokumenter`)}. Du må
+                            kontrollere listen ovenfor, og sjekke at alle dokumentene du ønsker å sende med søknaden er
+                            i listen. Når du har kontrollert listen, kan du fortsette.
+                        </p>
+                        <p>{pluralize(missingFiles.length, 'Dokumentet', `Dokumentene`)} som hadde feil var:</p>
+                        <ul>
+                            {missingFiles.map((file) => (
+                                <li key={file.url}>{file.file.name}</li>
+                            ))}
+                        </ul>
+                        <Knapp mini={true} htmlType="button" type="standard" onClick={() => setMissingFiles([])}>
+                            Ok, skjul denne meldingen
+                        </Knapp>
+                    </AlertStripeAdvarsel>
+                </Box>
+            )}
         </FormikStep>
     );
 };
