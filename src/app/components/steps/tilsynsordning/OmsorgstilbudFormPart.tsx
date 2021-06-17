@@ -65,7 +65,7 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
                             <Element className="omsorgstilbud__uketittel" tag="h4">
                                 <FormattedMessage
                                     id="steg.tilsyn.omsorgstilbud.uketittel"
-                                    values={{ uke: info.ukenummer, år: info.år }}
+                                    values={{ ukenummer: info.ukenummer, år: info.år }}
                                 />
                             </Element>
                         )}
