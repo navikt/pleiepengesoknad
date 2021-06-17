@@ -58,7 +58,7 @@ interface ValidateAttachmentsResponse {
 
 export const verifyAttachmentsOnServer = (attachments: Attachment[]) => {
     const data = {
-        vedlegg: filterAndMapAttachmentsToApiFormat(attachments),
+        vedleggId: filterAndMapAttachmentsToApiFormat(attachments),
     };
     return axios.post<ValidateAttachmentsResponse>(
         getApiUrlByResourceType(ResourceType.VALIDER_VEDLEGG),
