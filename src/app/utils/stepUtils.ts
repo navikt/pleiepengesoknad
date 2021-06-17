@@ -1,7 +1,7 @@
 import { IntlShape } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from '../config/stepConfig';
-import { OmsorgstilbudVetPeriode, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import {
     arbeidsforholdStepIsValid,
     legeerklæringStepIsValid,
@@ -11,6 +11,7 @@ import {
     welcomingPageIsValid,
 } from '../validation/stepValidations';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { VetOmsorgstilbud } from '../types/PleiepengesøknadApiData';
 
 export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
     const conf = stepConfig[stepId];
@@ -81,8 +82,6 @@ export const skalBrukerSvarePåBeredskapOgNattevåk = (formValues?: Pleiepenges�
         formValues.omsorgstilbud !== undefined &&
         formValues.omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES &&
         formValues.omsorgstilbud.ja !== undefined &&
-        (formValues.omsorgstilbud.ja.hvorMyeTid === OmsorgstilbudVetPeriode.vetHelePerioden ||
-            (formValues.omsorgstilbud.ja.hvorMyeTid === OmsorgstilbudVetPeriode.usikker &&
-                formValues.omsorgstilbud.ja.vetMinAntallTimer === YesOrNo.YES))
+        formValues.omsorgstilbud.ja.vetHvorMyeTid === VetOmsorgstilbud.VET_ALLE_TIMER
     );
 };
