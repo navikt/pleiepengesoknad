@@ -17,11 +17,16 @@ import { AppFormField, PleiepengesøknadFormData } from '../../types/Pleiepenges
 interface LegeerklæringAttachmentListProps {
     includeDeletionFunctionality: boolean;
     wrapNoAttachmentsInBox?: boolean;
+    onAttachmentDeleted?: () => void;
 }
 
 type Props = LegeerklæringAttachmentListProps;
 
-const LegeerklæringAttachmentList = ({ wrapNoAttachmentsInBox, includeDeletionFunctionality }: Props) => {
+const LegeerklæringAttachmentList = ({
+    wrapNoAttachmentsInBox,
+    includeDeletionFunctionality,
+    onAttachmentDeleted,
+}: Props) => {
     const { values, setFieldValue } = useFormikContext<PleiepengesøknadFormData>();
     const legeerklæring: Attachment[] = values[AppFormField.legeerklæring].filter(({ file }: Attachment) =>
         fileExtensionIsValid(file.name)
@@ -53,12 +58,14 @@ const LegeerklæringAttachmentList = ({ wrapNoAttachmentsInBox, includeDeletionF
                                     AppFormField.legeerklæring,
                                     removeElementFromArray(attachment, legeerklæring)
                                 );
+                                onAttachmentDeleted && onAttachmentDeleted();
                             },
                             () => {
                                 setFieldValue(
                                     AppFormField.legeerklæring,
                                     removeElementFromArray(attachment, legeerklæring)
                                 );
+                                onAttachmentDeleted && onAttachmentDeleted();
                             }
                         );
                     }

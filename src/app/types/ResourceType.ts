@@ -6,4 +6,6 @@ export enum ResourceType {
     VEDLEGG = 'vedlegg',
     MELLOMLAGRING = 'mellomlagring',
     BEKREFT_OMSORG = 'skalBekrefteOmsorg',
+    VALIDER_SOKNAD = 'soknad/valider',
+    VALIDER_VEDLEGG = 'soknad-valider-verdlegg',
 }

@@ -32,6 +32,8 @@ server.use((req, res, next) => {
         'http://host.docker.internal:8080',
         'https://pleiepengesoknad-mock.nais.oera.no',
         'http://localhost:8080',
+        'http://localhost:8082',
+        'http://127.0.0.1:8080',
         'http://web:8080',
     ];
     const requestOrigin = req.headers.origin;
@@ -70,7 +72,33 @@ const arbeidsgivereMock = {
         { navn: 'Arbeids- og sosialdepartementet', organisasjonsnummer: '123451235' },
     ],
 };
+
 const MELLOMLAGRING_JSON = `${os.tmpdir()}/mellomlagring.json`;
+
+const validerSoknadFeilVedVedlegg = {
+    detail: 'Requesten inneholder ugyldige paramtere.',
+    instance: 'about:blank',
+    type: '/problem-details/invalid-request-parameters',
+    title: 'invalid-request-parameters',
+    invalid_parameters: [
+        {
+            name: 'vedlegg',
+            reason: 'Mottok referanse til 2 vedlegg, men fant kun 0 vedlegg.',
+            invalid_value: [
+                'https://pleiepengesoknad-api.nav.no/vedlegg/eyJraWQiOiIxIiwidHlwIjoiSldUIiwiYWxnIjoibm9uZSJ9.eyJqdGkiOiI3NDg0MmNmZS1kYWRmLTQ1MDEtYmI1YS0yMGI1YzUxZmM3NDIifQ',
+                'https://pleiepengesoknad-api.nav.no/vedlegg/eyJraWQiOiIxIiwidHlwIjoiSldUIiwiYWxnIjoibm9uZSJ9.eyJqdGkiOiJkMzNlZjZmNi1lYzFiLTRiNTMtODdmOC0xNGY4NWQ3MWEzYzEifQ',
+            ],
+            type: 'entity',
+        },
+    ],
+    status: 400,
+};
+
+const missingAttachment1 = 'http://localhost:8082/vedlegg/a1';
+
+const missingAttachmentsResponse = {
+    missing_attachments: [missingAttachment1],
+};
 
 const isJSON = (str) => {
     try {
@@ -111,15 +139,25 @@ const startExpressServer = () => {
         res.send(søkerMock);
     });
 
+    server.post('/soknad-valider-verdlegg', (req, res) => {
+        res.status(200).send(missingAttachmentsResponse);
+    });
+
     server.post('/vedlegg', (req, res) => {
         res.set('Access-Control-Expose-Headers', 'Location');
         res.set('Location', 'nav.no');
         const busboy = new Busboy({ headers: req.headers });
         busboy.on('finish', () => {
-            res.writeHead(200, { Location: '/vedlegg' });
+            res.writeHead(200, { Location: missingAttachment1 });
             res.end();
         });
         req.pipe(busboy);
+    });
+
+    server.delete('/vedlegg', (req, res) => {
+        setTimeout(() => {
+            res.sendStatus(200);
+        }, 500);
     });
 
     server.get('/barn', (req, res) => res.send(barnMock));

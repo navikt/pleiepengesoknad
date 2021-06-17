@@ -15,18 +15,20 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { useFormikContext } from 'formik';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
-import { persist } from '../../../api/api';
+import { persist, verifyAttachmentsOnServer } from '../../../api/api';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
+import getLenker from '../../../lenker';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { apiUtils } from '../../../utils/apiUtils';
 import { relocateToLoginPage } from '../../../utils/navigationUtils';
 import { validateLegeerklæring } from '../../../validation/fieldValidations';
 import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
-import getLenker from '../../../lenker';
 
 const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
-    const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
+    const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<Array<File>>([]);
+    const [missingFiles, setMissingFiles] = React.useState<Attachment[]>([]);
     const { values, setFieldValue } = useFormikContext<PleiepengesøknadFormData>();
     const intl = useIntl();
     const attachments: Attachment[] = React.useMemo(() => {
@@ -63,6 +65,28 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
         relocateToLoginPage();
     };
 
+    const verifyAttachmentsThenSubmit = async () => {
+        verifyAttachmentsOnServer(values.legeerklæring).then(
+            (respons) => {
+                const missingIds = respons.data.missing_attachments;
+                if (missingIds.length > 0) {
+                    const missingFiles = values.legeerklæring.filter((a) => {
+                        return missingIds.some((id) => id === a.url);
+                    });
+                    setMissingFiles(missingFiles);
+                } else {
+                    setMissingFiles([]);
+                    onValidSubmit();
+                }
+            },
+            (error) => {
+                if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+                    userNotLoggedIn();
+                }
+            }
+        );
+    };
+
     React.useEffect(() => {
         const hasPendingAttachments = attachments.find((a) => a.pending === true);
         if (hasPendingAttachments) {
@@ -89,7 +113,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
         <FormikStep
             id={StepID.LEGEERKLÆRING}
             onValidFormSubmit={() => {
-                onValidSubmit();
+                verifyAttachmentsThenSubmit();
             }}
             useValidationErrorSummary={false}
             skipValidation={true}
@@ -138,6 +162,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
             <Box margin={'l'}>
                 <FileUploadErrors filesThatDidntGetUploaded={filesThatDidntGetUploaded} />
             </Box>
+            {missingFiles.length > 0 && <Box margin={'l'}>Filer mangler</Box>}
             <LegeerklæringFileList wrapNoAttachmentsInBox={true} includeDeletionFunctionality={true} />
         </FormikStep>
     );
