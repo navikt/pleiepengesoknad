@@ -18,6 +18,7 @@ import { mapTilsynsordningToApiData } from './formToApiMaps/mapTilsynsordningToA
 import { mapUtenlandsoppholdIPeriodenToApiData } from './formToApiMaps/mapUtenlandsoppholdIPeriodenToApiData';
 import { erPeriodeOver8Uker } from './søkerOver8UkerUtils';
 import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet } from './tidsromUtils';
+import { skalBrukerSvarePåBeredskapOgNattevåk } from './stepUtils';
 
 export const getValidSpråk = (locale?: any): Locale => {
     const loc = typeof locale === 'string' ? locale : 'nb';
@@ -207,7 +208,8 @@ export const mapFormDataToApiData = (
 
             if (omsorgstilbud !== undefined) {
                 apiData.omsorgstilbud = mapTilsynsordningToApiData(omsorgstilbud);
-                if (omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES) {
+                const inkluderNattevåkOgBeredskap = skalBrukerSvarePåBeredskapOgNattevåk(formData);
+                if (inkluderNattevåkOgBeredskap && omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES) {
                     apiData.nattevåk = {
                         harNattevåk: harNattevåk === YesOrNo.YES,
                         tilleggsinformasjon: harNattevåk_ekstrainfo,
