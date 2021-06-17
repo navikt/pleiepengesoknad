@@ -62,17 +62,6 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
         });
 
         it('STEG 6: LAST OPP LEGEERKLÆRING', () => {
-            const fileName = 'navlogopng.png';
-            cy.fixture(fileName, 'binary')
-                .then(Cypress.Blob.binaryStringToBlob)
-                .then((fileContent) =>
-                    cy.get('input[type=file]').attachFile({
-                        fileContent,
-                        fileName,
-                        mimeType: 'image/png', //getMimeType(fileName),
-                        encoding: 'utf8',
-                    })
-                );
             clickFortsett(cy);
         });
 
