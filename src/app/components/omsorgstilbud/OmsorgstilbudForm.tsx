@@ -175,11 +175,11 @@ const OmsorgstilbudForm = ({ fraDato, tilDato, tidIOmsorgstilbud, onSubmit, onCa
                             <Systemtittel tag="h1">Omsorgstilbud - {dayjs(fraDato).format('MMMM YYYY')}</Systemtittel>
                             <Box margin="l">
                                 <p>
-                                    Fyll ut antall timer og minutter de dagene barnet skal være i omsorgstilbud. Dager
-                                    hvor barnet ikke skal være i omsorgstilbud, trenger du ikke fylle ut noe.
+                                    Fyll ut antall timer og minutter de dagene barnet skal være i omsorgstilbudet. Du
+                                    trenger ikke fylle ut noe de dagene barnet ikke skal være i omsorgstilbud.
                                 </p>
                                 <p>
-                                    <strong>Du kan registrere opp til 7 timer og 30 minutter på én dag.</strong>
+                                    <strong>Du kan registrere opp til 7 timer og 30 minutter per dag.</strong>
                                 </p>
                             </Box>
                             <div>
