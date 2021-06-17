@@ -19,6 +19,7 @@ jest.mock('./../stepUtils', () => {
         legeerklæringStepAvailable: jest.fn(() => 'legeerklæring step available'),
         medlemskapStepAvailable: jest.fn(() => 'medlemskap step available'),
         summaryStepAvailable: jest.fn(() => 'summary step available'),
+        skalBrukerSvarePåBeredskapOgNattevåk: jest.fn(() => false),
     };
 });
 

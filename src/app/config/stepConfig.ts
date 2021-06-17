@@ -1,7 +1,8 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { isEndDateInPeriod } from '../utils/frilanserUtils';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { isEndDateInPeriod } from '../utils/frilanserUtils';
 import { getSøknadRoute } from '../utils/routeUtils';
+import { skalBrukerSvarePåBeredskapOgNattevåk } from '../utils/stepUtils';
 import routeConfig from './routeConfig';
 
 export enum StepID {
@@ -45,12 +46,7 @@ const getStepConfigItemTextKeys = (stepId: StepID): StepConfigItemTexts => {
 };
 
 export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
-    const includeNattevåkAndBeredskap =
-        formValues &&
-        formValues.omsorgstilbud &&
-        (formValues.omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES ||
-            formValues.omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.DO_NOT_KNOW);
-
+    const includeNattevåkAndBeredskap = skalBrukerSvarePåBeredskapOgNattevåk(formValues);
     const includeArbeidsforholdIPerioden =
         formValues &&
         (formValues.arbeidsforhold.find((a) => a.erAnsattIPerioden === YesOrNo.YES) !== undefined ||
