@@ -41,7 +41,8 @@ export const erAnsattEllerFSN = ({
         return arbeidsforhold.some(
             ({ erAnsattIPerioden }) => erAnsattIPerioden === undefined || erAnsattIPerioden === YesOrNo.YES
         );
-    } else return false;
+    }
+    return false;
 };
 
 const cleanupArbeidsforhold = (formValues: PleiepengesøknadFormData): PleiepengesøknadFormData => {
