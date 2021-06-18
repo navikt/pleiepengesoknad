@@ -29,25 +29,19 @@ interface LoadState {
     isLoaded: boolean;
 }
 
-export const erIkkeAnsattEllerFSN = ({
-    arbeidsforhold,
+export const erAnsattEllerFSN = ({
+    arbeidsforhold = [],
     harHattInntektSomFrilanser,
     selvstendig_harHattInntektSomSN,
 }: PleiepengesøknadFormData): boolean => {
-    const ikkeFrilanserEllerSn =
-        harHattInntektSomFrilanser === YesOrNo.NO && selvstendig_harHattInntektSomSN === YesOrNo.NO;
-
-    if (ikkeFrilanserEllerSn && arbeidsforhold && arbeidsforhold.length > 0) {
-        const erIkkeAnsatt = arbeidsforhold.filter((arbeidsgiver) => {
-            if (!arbeidsgiver.erAnsattIPerioden || arbeidsgiver.erAnsattIPerioden !== YesOrNo.NO) {
-                return true;
-            }
-            return false;
-        });
-
-        return erIkkeAnsatt.length === 0;
+    if (harHattInntektSomFrilanser !== YesOrNo.NO || selvstendig_harHattInntektSomSN !== YesOrNo.NO) {
+        return true;
     }
-    return ikkeFrilanserEllerSn;
+    if (arbeidsforhold.length > 0) {
+        return arbeidsforhold.some(
+            ({ erAnsattIPerioden }) => erAnsattIPerioden === undefined || erAnsattIPerioden === YesOrNo.YES
+        );
+    } else return false;
 };
 
 const cleanupArbeidsforhold = (formValues: PleiepengesøknadFormData): PleiepengesøknadFormData => {
@@ -72,7 +66,7 @@ const cleanupArbeidsforhold = (formValues: PleiepengesøknadFormData): Pleiepeng
         values.selvstendig_virksomhet = undefined;
         values.selvstendig_arbeidsforhold = undefined;
     }
-    if (!erIkkeAnsattEllerFSN(values)) {
+    if (erAnsattEllerFSN(values)) {
         values.harVærtEllerErVernepliktig = undefined;
     }
 
@@ -162,7 +156,7 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                         <SelvstendigNæringsdrivendeFormPart formValues={values} />
                     </FormSection>
 
-                    {erIkkeAnsattEllerFSN(values) && (
+                    {!erAnsattEllerFSN(values) && (
                         <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.verneplikt.tittel')}>
                             <VernepliktigFormPart />
                         </FormSection>
