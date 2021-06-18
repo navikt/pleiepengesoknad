@@ -96,7 +96,7 @@ const MELLOMLAGRING_JSON = `${os.tmpdir()}/mellomlagring.json`;
 const missingAttachment1 = 'http://localhost:8082/vedlegg/a1';
 
 const validerVedleggResponse = {
-    vedleggId: [missingAttachment1],
+    vedleggUrl: [missingAttachment1],
 };
 
 const isJSON = (str) => {
@@ -134,7 +134,7 @@ const startExpressServer = () => {
         res.send(søkerMock);
     });
 
-    server.post('/soknad/valider/vedlegg', (req, res) => {
+    server.post('/vedlegg/valider', (req, res) => {
         res.status(200).send(validerVedleggResponse);
     });
 

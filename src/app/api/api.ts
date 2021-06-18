@@ -53,12 +53,12 @@ export const validateApplication = (data: PleiepengesøknadApiData) => {
 };
 
 interface ValidateAttachmentsResponse {
-    vedleggId: string[];
+    vedleggUrl: string[];
 }
 
 export const verifyAttachmentsOnServer = (attachments: Attachment[]) => {
     const data = {
-        vedleggId: filterAndMapAttachmentsToApiFormat(attachments),
+        vedleggUrl: filterAndMapAttachmentsToApiFormat(attachments),
     };
     return axios.post<ValidateAttachmentsResponse>(
         getApiUrlByResourceType(ResourceType.VALIDER_VEDLEGG),

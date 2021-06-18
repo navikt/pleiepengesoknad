@@ -71,7 +71,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
         if (values.legeerklæring.length > 0) {
             verifyAttachmentsOnServer(values.legeerklæring).then(
                 (respons) => {
-                    const missingIds = respons.data.vedleggId;
+                    const missingIds = respons.data.vedleggUrl;
                     if (missingIds && missingIds.length > 0) {
                         const missingFiles = values.legeerklæring.filter((a) => {
                             return missingIds.some((id) => id === a.url);
