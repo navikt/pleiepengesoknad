@@ -53,7 +53,7 @@ export const validateApplication = (data: PleiepengesøknadApiData) => {
 };
 
 interface ValidateAttachmentsResponse {
-    missing_attachments: string[];
+    vedleggId: string[];
 }
 
 export const verifyAttachmentsOnServer = (attachments: Attachment[]) => {
