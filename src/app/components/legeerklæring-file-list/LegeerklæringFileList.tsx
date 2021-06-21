@@ -44,23 +44,9 @@ const LegeerklæringAttachmentList = ({ wrapNoAttachmentsInBox, includeDeletionF
             <AttachmentListWithDeletion
                 attachments={legeerklæring}
                 onRemoveAttachmentClick={(attachment: Attachment) => {
-                    attachment.pending = true;
-                    setFieldValue(AppFormField.legeerklæring, legeerklæring);
+                    setFieldValue(AppFormField.legeerklæring, removeElementFromArray(attachment, legeerklæring));
                     if (attachment.url) {
-                        deleteFile(attachment.url).then(
-                            () => {
-                                setFieldValue(
-                                    AppFormField.legeerklæring,
-                                    removeElementFromArray(attachment, legeerklæring)
-                                );
-                            },
-                            () => {
-                                setFieldValue(
-                                    AppFormField.legeerklæring,
-                                    removeElementFromArray(attachment, legeerklæring)
-                                );
-                            }
-                        );
+                        deleteFile(attachment.url);
                     }
                 }}
             />
