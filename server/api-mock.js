@@ -149,10 +149,10 @@ const startExpressServer = () => {
         req.pipe(busboy);
     });
 
-    server.delete('/vedlegg', (req, res) => {
+    server.delete('/vedlegg/:fileId', (req, res) => {
         setTimeout(() => {
             res.sendStatus(200);
-        }, 500);
+        }, 2500);
     });
 
     server.get('/barn', (req, res) => res.send(barnMock));
