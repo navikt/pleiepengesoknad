@@ -1,3 +1,4 @@
+import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import { storageParser } from '@navikt/sif-common-core/lib/utils/persistence/persistence';
 import axios, { AxiosResponse } from 'axios';
 import axiosConfig from '../config/axiosConfig';
@@ -8,6 +9,11 @@ import { ResourceType } from '../types/ResourceType';
 import { MELLOMLAGRING_VERSION, MellomlagringData } from '../types/storage';
 import { Arbeidsgiver } from '../types/Søkerdata';
 import { getApiUrlByResourceType, sendMultipartPostRequest } from '../utils/apiUtils';
+import { filterAndMapAttachmentsToApiFormat } from '../utils/formToApiMaps/attachmentsToApiData';
+
+interface ValidateAttachmentsResponse {
+    vedleggUrl: string[];
+}
 
 export const getPersistUrl = (lastStepID: StepID) =>
     `${getApiUrlByResourceType(ResourceType.MELLOMLAGRING)}?lastStepID=${encodeURI(lastStepID)}`;
@@ -45,4 +51,16 @@ export const uploadFile = (file: File) => {
     formData.append('vedlegg', file);
     return sendMultipartPostRequest(getApiUrlByResourceType(ResourceType.VEDLEGG), formData);
 };
+
+export const verifyAttachmentsOnServer = (attachments: Attachment[]) => {
+    const data = {
+        vedleggUrl: filterAndMapAttachmentsToApiFormat(attachments),
+    };
+    return axios.post<ValidateAttachmentsResponse>(
+        getApiUrlByResourceType(ResourceType.VALIDER_VEDLEGG),
+        data,
+        axiosConfig
+    );
+};
+
 export const deleteFile = (url: string) => axios.delete(url, axiosConfig);

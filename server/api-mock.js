@@ -72,6 +72,12 @@ const arbeidsgivereMock = {
 };
 const MELLOMLAGRING_JSON = `${os.tmpdir()}/mellomlagring.json`;
 
+const missingAttachment1 = 'http://localhost:8082/vedlegg/a1';
+
+const validerVedleggResponse = {
+    vedleggUrl: [missingAttachment1],
+};
+
 const isJSON = (str) => {
     try {
         return JSON.parse(str) && !!str;
@@ -79,9 +85,7 @@ const isJSON = (str) => {
         return false;
     }
 };
-/*const writeFileSync = (path, text) => {
-    return fs.writeFileSync(path, text);
-};*/
+
 const writeFileAsync = async (path, text) => {
     return new Promise((resolve, reject) => {
         fs.writeFile(path, text, 'utf8', (err) => {
@@ -102,13 +106,15 @@ const startExpressServer = () => {
     server.get('/health/isReady', (req, res) => res.sendStatus(200));
 
     server.get('/arbeidsgiver', (req, res) => {
-        // setTimeout(() => {
         res.send(arbeidsgivereMock);
-        // }, 800);
     });
 
     server.get('/soker', (req, res) => {
         res.send(søkerMock);
+    });
+
+    server.post('/vedlegg/valider', (req, res) => {
+        res.status(200).send(validerVedleggResponse);
     });
 
     server.post('/vedlegg', (req, res) => {
@@ -116,10 +122,16 @@ const startExpressServer = () => {
         res.set('Location', 'nav.no');
         const busboy = new Busboy({ headers: req.headers });
         busboy.on('finish', () => {
-            res.writeHead(200, { Location: '/vedlegg' });
+            res.writeHead(200, { Location: missingAttachment1 });
             res.end();
         });
         req.pipe(busboy);
+    });
+
+    server.delete('/vedlegg/:fileId', (req, res) => {
+        setTimeout(() => {
+            res.sendStatus(200);
+        }, 2500);
     });
 
     server.get('/barn', (req, res) => res.send(barnMock));
