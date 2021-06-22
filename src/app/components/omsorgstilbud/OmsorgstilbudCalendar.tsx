@@ -75,7 +75,7 @@ const OmsorgstilbudCalendar: React.FunctionComponent<Props> = ({
                 />
             )}
             noContentRenderer={() => {
-                return <span />; //Undertekst className={'ingenTidRegistrert'}>Ingen tid registrert</span>;
+                return <span />;
             }}
             content={omsorgsdager.map((dag) => ({
                 date: dag.dato,

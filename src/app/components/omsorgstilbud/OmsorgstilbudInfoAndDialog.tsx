@@ -1,5 +1,8 @@
 import React from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import {
     FormikModalFormAndInfo,
     ISOStringToDate,
@@ -7,13 +10,13 @@ import {
     TypedFormInputValidationProps,
 } from '@navikt/sif-common-formik';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
-import OmsorgstilbudForm from './OmsorgstilbudForm';
-import OmsorgstilbudInfo from './OmsorgstilbudInfo';
-import { OmsorgstilbudDag, TidIOmsorgstilbud } from './types';
-import Knapp from 'nav-frontend-knapper';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import { Undertittel } from 'nav-frontend-typografi';
 import dayjs from 'dayjs';
+import Knapp from 'nav-frontend-knapper';
+import { Undertittel } from 'nav-frontend-typografi';
+import OmsorgstilbudInfo from './OmsorgstilbudInfo';
+import OmsorgstilbudForm from './omsorgtilbudForm/OmsorgstilbudForm';
+import { OmsorgstilbudDag, TidIOmsorgstilbud } from './types';
+import './omsorgstilbud.less';
 
 interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, ValidationError> {
     name: FieldNames;
@@ -33,6 +36,7 @@ function OmsorgstilbudInfoAndDialog<FieldNames>({
     validate,
     onAfterChange,
 }: Props<FieldNames>) {
+    const intl = useIntl();
     return (
         <FormikModalFormAndInfo<FieldNames, TidIOmsorgstilbud, ValidationError>
             name={name}
@@ -79,7 +83,10 @@ function OmsorgstilbudInfoAndDialog<FieldNames>({
                             skjulTommeDagerIListe={skjulTommeDagerIListe}
                             tittelRenderer={(fraDato) => (
                                 <Undertittel tag="h3" id={tittelId}>
-                                    Omsorgstilbud {dayjs(fraDato).format('MMMM YYYY')}
+                                    <FormattedMessage
+                                        id="omsorgstilbud.ukeOgÅr"
+                                        values={{ ukeOgÅr: dayjs(fraDato).format('MMMM YYYY') }}
+                                    />
                                 </Undertittel>
                             )}
                         />
@@ -89,7 +96,9 @@ function OmsorgstilbudInfoAndDialog<FieldNames>({
                                 mini={true}
                                 onClick={() => onEdit(data)}
                                 aria-describedby={tittelId}>
-                                {omsorgsdager.length === 0 ? 'Registrer tid' : 'Endre tid'}
+                                {omsorgsdager.length === 0
+                                    ? intlHelper(intl, 'omsorgstilbud.registrerTid')
+                                    : intlHelper(intl, 'omsorgstilbud.endreTid')}
                             </Knapp>
                         </FormBlock>
                     </>

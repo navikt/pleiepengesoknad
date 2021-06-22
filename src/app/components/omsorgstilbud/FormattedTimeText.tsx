@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedNumber } from 'react-intl';
 import { timeToDecimalTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { Time } from '@navikt/sif-common-formik/lib';
+import { Time } from '@navikt/sif-common-formik';
 
 const ensureTime = (time: Partial<Time>): Time => {
     return {

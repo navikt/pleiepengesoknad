@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import groupBy from 'lodash.groupby';
 import EkspanderbartPanel from 'nav-frontend-ekspanderbartpanel';
 import { OmsorgstilbudDagApi } from '../../../types/PleiepengesøknadApiData';
-import OmsorgsdagerListe from '../../omsorgsdager-liste/OmsorgsdagerListe';
+import OmsorgsdagerListe from '../../omsorgstilbud/omsorgsdagerListe/OmsorgsdagerListe';
 import { OmsorgstilbudDag } from '../../omsorgstilbud/types';
 
 interface Props {

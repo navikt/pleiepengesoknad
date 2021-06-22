@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import { DateRange, prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import dayjs from 'dayjs';
@@ -94,22 +95,22 @@ const CalendarGrid: React.FunctionComponent<Props> = ({
                 bem.modifier(renderAsList ? 'list' : 'grid')
             )}>
             <span role="presentation" aria-hidden={true} className={bem.element('dayHeader', 'week')}>
-                Uke
+                <FormattedMessage id="Uke" />
             </span>
             <span role="presentation" aria-hidden={true} className={bem.element('dayHeader')}>
-                Mandag
+                <FormattedMessage id="Mandag" />
             </span>
             <span role="presentation" aria-hidden={true} className={bem.element('dayHeader')}>
-                Tirsdag
+                <FormattedMessage id="Tirsdag" />
             </span>
             <span role="presentation" aria-hidden={true} className={bem.element('dayHeader')}>
-                Onsdag
+                <FormattedMessage id="Onsdag" />
             </span>
             <span role="presentation" aria-hidden={true} className={bem.element('dayHeader')}>
-                Torsdag
+                <FormattedMessage id="Torsdag" />
             </span>
             <span role="presentation" aria-hidden={true} className={bem.element('dayHeader')}>
-                Fredag
+                <FormattedMessage id="Fredag" />
             </span>
             {weeks.map((week) => {
                 const daysInWeek = week.days;
@@ -121,7 +122,9 @@ const CalendarGrid: React.FunctionComponent<Props> = ({
                         aria-hidden={true}
                         className={bem.element('weekNum', hasDaysWithContent === false ? 'empty' : undefined)}
                         key={guid()}>
-                        <span className={bem.element('weekNum_label')}>Uke {` `}</span>
+                        <span className={bem.element('weekNum_label')}>
+                            <FormattedMessage id="Uke" /> {` `}
+                        </span>
                         <span>{weekNum}</span>
                     </span>,
                     daysInWeek.map((d) => {

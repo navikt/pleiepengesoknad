@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { Undertittel } from 'nav-frontend-typografi';
 import OmsorgstilbudCalendar from './OmsorgstilbudCalendar';
 import { OmsorgstilbudDag } from './types';
+import { FormattedMessage } from 'react-intl';
 
 interface Props {
     omsorgsdager: OmsorgstilbudDag[];
@@ -29,12 +30,19 @@ const OmsorgstilbudInfo: React.FunctionComponent<Props> = ({
             {tittelRenderer ? (
                 tittelRenderer(fraDato, tilDato, omsorgsdager)
             ) : (
-                <Undertittel tag="h3">Omsorgstilbud {dayjs(måned).format('MMMM YYYY')}</Undertittel>
+                <Undertittel tag="h3">
+                    <FormattedMessage
+                        id="omsorgstilbud.ukeOgÅr"
+                        values={{ ukeOgÅr: dayjs(måned).format('MMMM YYYY') }}
+                    />
+                </Undertittel>
             )}
 
             <Box margin="s">
                 {omsorgsdager.length === 0 ? (
-                    <p>Ingen tid registrert.</p>
+                    <p>
+                        <FormattedMessage id="omsorgstilbud.ingenDagerRegistrert" />
+                    </p>
                 ) : (
                     <OmsorgstilbudCalendar
                         måned={måned}
