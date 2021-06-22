@@ -68,7 +68,20 @@ const OmsorgstilbudForm = ({ fraDato, tilDato, tidIOmsorgstilbud, onSubmit, onCa
                         <Form.Form
                             onCancel={onCancel}
                             formErrorHandler={getFormErrorHandler(intl, 'tidsperiodeForm')}
-                            includeButtons={false}>
+                            includeValidationSummary={true}
+                            includeButtons={false}
+                            formFooter={
+                                <FormBlock margin="l">
+                                    <Knapperad align="left">
+                                        <Knapp htmlType="submit" type="hoved">
+                                            <FormattedMessage id="omsorgstilbud.form.knapp.ok" />
+                                        </Knapp>
+                                        <Knapp htmlType="button" type="standard" onClick={onCancel}>
+                                            <FormattedMessage id="omsorgstilbud.form.knapp.avbryt" />
+                                        </Knapp>
+                                    </Knapperad>
+                                </FormBlock>
+                            }>
                             <Systemtittel tag="h1">
                                 <FormattedMessage
                                     id="omsorgstilbud.form.tittel"
@@ -101,16 +114,6 @@ const OmsorgstilbudForm = ({ fraDato, tilDato, tidIOmsorgstilbud, onSubmit, onCa
                                     );
                                 })}
                             </div>
-                            <FormBlock margin="l">
-                                <Knapperad align="left">
-                                    <Knapp htmlType="submit" type="hoved">
-                                        <FormattedMessage id="omsorgstilbud.form.knapp.ok" />
-                                    </Knapp>
-                                    <Knapp htmlType="button" type="standard" onClick={onCancel}>
-                                        <FormattedMessage id="omsorgstilbud.form.knapp.avbryt" />
-                                    </Knapp>
-                                </Knapperad>
-                            </FormBlock>
                         </Form.Form>
                     );
                 }}
