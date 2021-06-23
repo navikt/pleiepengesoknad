@@ -7,22 +7,23 @@ import LoadingSpinner from '@navikt/sif-common-core/lib/components/loading-spinn
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { useFormikContext } from 'formik';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { Undertittel } from 'nav-frontend-typografi';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
-import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { AppFormField, ArbeidsforholdField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { getArbeidsgivere } from '../../../utils/arbeidsforholdUtils';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
-import FormikArbeidsforhold from '../../formik-arbeidsforhold/FormikArbeidsforhold';
+import { isEndDateInPeriod } from '../../../utils/frilanserUtils';
+import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import AndreYtelserFormPart from './AndreYtelserFormPart';
 import FrilansFormPart from './FrilansFormPart';
 import SelvstendigNæringsdrivendeFormPart from './SelvstendigNæringsdrivendeFormPart';
 import VernepliktigFormPart from './VernepliktigFormPart';
-import { isEndDateInPeriod } from '../../../utils/frilanserUtils';
 
 interface LoadState {
     isLoading: boolean;
@@ -129,7 +130,23 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                                                     {forhold.navn}
                                                 </Undertittel>
                                             </Box>
-                                            <FormikArbeidsforhold arbeidsforhold={forhold} index={index} />
+                                            <Box>
+                                                <AppForm.YesOrNoQuestion
+                                                    legend={intlHelper(intl, 'arbeidsforhold.erAnsattIPerioden.spm')}
+                                                    name={
+                                                        `${AppFormField.arbeidsforhold}.${index}.${ArbeidsforholdField.erAnsattIPerioden}` as any
+                                                    }
+                                                    validate={(value) => {
+                                                        return getYesOrNoValidator()(value)
+                                                            ? {
+                                                                  key: 'validation.arbeidsforhold.erAnsattIPerioden.yesOrNoIsUnanswered',
+                                                                  values: { navn: forhold.navn },
+                                                                  keepKeyUnaltered: true,
+                                                              }
+                                                            : undefined;
+                                                    }}
+                                                />
+                                            </Box>
                                         </FormBlock>
                                     ))}
                                 </>

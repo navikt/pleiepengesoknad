@@ -9,7 +9,6 @@ import { Arbeidsgiver } from './Søkerdata';
 export enum ArbeidsforholdSkalJobbeSvar {
     'ja' = 'ja',
     'nei' = 'nei',
-    'redusert' = 'redusert',
     'vetIkke' = 'vetIkke',
 }
 
@@ -88,6 +87,11 @@ export enum ArbeidsforholdField {
     skalJobbeTimer = 'skalJobbeTimer',
     skalJobbeProsent = 'skalJobbeProsent',
     arbeidsform = 'arbeidsform',
+    skalJobbeHvorMye = 'skalJobbeHvorMye',
+}
+export enum ArbeidsforholdSkalJobbeHvorMyeSvar {
+    redusert = 'redusert',
+    somVanlig = 'somVanlig',
 }
 
 export enum ArbeidsforholdSNFField {
@@ -97,6 +101,7 @@ export enum ArbeidsforholdSNFField {
     skalJobbeTimer = 'skalJobbeTimer',
     skalJobbeProsent = 'skalJobbeProsent',
     arbeidsform = 'arbeidsform',
+    skalJobbeHvorMye = 'skalJobbeHvorMye',
 }
 
 export enum Arbeidsform {
@@ -121,6 +126,7 @@ export interface Arbeidsforhold extends Arbeidsgiver {
     [ArbeidsforholdField.timerEllerProsent]?: 'timer' | 'prosent';
     [ArbeidsforholdField.skalJobbeTimer]?: string;
     [ArbeidsforholdField.skalJobbeProsent]?: string;
+    [ArbeidsforholdField.skalJobbeHvorMye]?: ArbeidsforholdSkalJobbeHvorMyeSvar;
     [ArbeidsforholdField.arbeidsform]?: Arbeidsform;
 }
 
@@ -131,6 +137,8 @@ export interface ArbeidsforholdSNF {
     [ArbeidsforholdSNFField.skalJobbeTimer]?: string;
     [ArbeidsforholdSNFField.skalJobbeProsent]?: string;
     [ArbeidsforholdSNFField.arbeidsform]?: Arbeidsform;
+    [ArbeidsforholdSNFField.arbeidsform]?: Arbeidsform;
+    [ArbeidsforholdSNFField.skalJobbeHvorMye]?: ArbeidsforholdSkalJobbeHvorMyeSvar;
 }
 
 export enum OmsorgstilbudVetPeriode {

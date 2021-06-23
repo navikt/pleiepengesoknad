@@ -6,7 +6,11 @@ import {
     ArbeidsforholdApiSomVanlig,
     ArbeidsforholdApiVetIkke,
 } from '../../types/PleiepengesøknadApiData';
-import { Arbeidsforhold, ArbeidsforholdSkalJobbeSvar } from '../../types/PleiepengesøknadFormData';
+import {
+    Arbeidsforhold,
+    ArbeidsforholdSkalJobbeHvorMyeSvar,
+    ArbeidsforholdSkalJobbeSvar,
+} from '../../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../arbeidsforholdUtils';
 
 export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): ArbeidsforholdApi | undefined => {
@@ -19,6 +23,7 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
         navn,
         organisasjonsnummer,
         arbeidsform,
+        skalJobbeHvorMye,
     } = arbeidsforhold;
 
     const commonOrgInfo = { navn, organisasjonsnummer, arbeidsform };
@@ -38,7 +43,10 @@ export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): Arbe
         return forhold;
     }
 
-    if (skalJobbe === ArbeidsforholdSkalJobbeSvar.redusert) {
+    if (
+        skalJobbe === ArbeidsforholdSkalJobbeSvar.ja &&
+        skalJobbeHvorMye === ArbeidsforholdSkalJobbeHvorMyeSvar.redusert
+    ) {
         const skalJobbeTimerNumber = getNumberFromNumberInputValue(skalJobbeTimer);
         const skalJobbeProsentNumber = getNumberFromNumberInputValue(skalJobbeProsent);
 

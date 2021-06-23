@@ -18,6 +18,7 @@ import {
 import {
     AppFormField,
     Arbeidsforhold,
+    ArbeidsforholdSkalJobbeHvorMyeSvar,
     ArbeidsforholdSkalJobbeSvar,
     OmsorgstilbudVetPeriode,
     PleiepengesøknadFormData,
@@ -57,7 +58,8 @@ const organisasjonMaxbo: Arbeidsgiver = {
 const telenorRedusertJobbing: Arbeidsforhold = {
     ...organisasjonTelenor,
     erAnsattIPerioden: YesOrNo.YES,
-    skalJobbe: ArbeidsforholdSkalJobbeSvar.redusert,
+    skalJobbe: ArbeidsforholdSkalJobbeSvar.ja,
+    skalJobbeHvorMye: ArbeidsforholdSkalJobbeHvorMyeSvar.redusert,
     jobberNormaltTimer: '20',
     skalJobbeProsent: '50',
 };

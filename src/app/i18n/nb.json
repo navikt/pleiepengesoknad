@@ -433,10 +433,9 @@
     "arbeidsforhold.arbeidsforhold.spm": "Skal du jobbe her i samme periode som du søker pleiepenger?",
     "arbeidsforhold.arbeidsforhold.frilanser.spm": "Skal du jobbe som frilanser i samme periode som du søker pleiepenger?",
     "arbeidsforhold.arbeidsforhold.sn.spm": "Skal du jobbe som selvstendig i samme periode som du søker pleiepenger?",
-    "arbeidsforhold.arbeidsforhold.ja": "Ja, jeg skal jobbe som vanlig",
-    "arbeidsforhold.arbeidsforhold.nei": "Nei, jeg skal ikke jobbe",
-    "arbeidsforhold.arbeidsforhold.vetIkke": "Vet ikke, men jeg melder fra hvis jeg skal jobbe i perioden jeg søker for",
-    "arbeidsforhold.arbeidsforhold.redusert": "Ja, men jeg skal jobbe mindre enn vanlig",
+    "arbeidsforhold.arbeidsforhold.ja": "Ja",
+    "arbeidsforhold.arbeidsforhold.nei": "Nei",
+    "arbeidsforhold.arbeidsforhold.vetIkke": "Jeg vet ikke om jeg skal jobbe",
 
     "arbeidsforhold.iDag.FAST.spm": "Hvor mange timer jobber du vanligvis fast per uke hos {arbeidsforhold}?",
     "arbeidsforhold.iDag.TURNUS.spm": "Hvor mange timer jobber du vanligvis i snitt per uke hos {arbeidsforhold}?",
@@ -508,7 +507,8 @@
     "selvstendig.list.leggTilLabel": "Legg til næringsvirksomhet",
     "selvstendig.dialog.tittel": "Næringsvirksomhet",
 
-    "selvstendig.arbeidsforhold.spm": "Hvordan jobber du som selvstendig?",
+    "selvstendig.arbeidsforhold.arbeidsform.spm": "Hvordan jobber du som selvstendig?",
+    "frilans.arbeidsforhold.arbeidsform.spm": "Hvordan jobber du som frilanser?",
 
     "frilanser.harDuHattInntekt.spm": "Er du frilanser i perioden du søker for?",
     "frilanser.nårStartet.spm": "Når startet du som frilanser?",
@@ -518,7 +518,6 @@
     "frilanser.HvorMangeTimerFast.spm": "Hvor mange timer jobber du vanligvis fast per uke?",
     "frilanser.HvorMangeTimerISnitt.spm": "Hvor mange timer jobber du vanligvis i snitt per uke?",
 
-    "frilanser.arbeidsforhold.arbeidsform.spm": "Hvordan jobber du som frilanser?",
     "snFrilanser.arbeidsforhold.arbeidsform.fast": "Fast antall timer per uke",
     "snFrilanser.arbeidsforhold.arbeidsform.fast.info.tittel": "Hva betyr dette?",
     "snFrilanser.arbeidsforhold.arbeidsform.fast.info.tekst": "Her skal du legge inn antall timer du jobber per uke.",

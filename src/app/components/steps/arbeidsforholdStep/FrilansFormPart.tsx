@@ -2,50 +2,25 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import {
-    getDateValidator,
-    getNumberValidator,
-    getRequiredFieldValidator,
-    getYesOrNoValidator,
-} from '@navikt/sif-common-formik/lib/validation';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import { getDateValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import Lenke from 'nav-frontend-lenker';
 import Panel from 'nav-frontend-paneler';
-import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../../../config/minMaxValues';
-import {
-    AppFormField,
-    ArbeidsforholdSNFField,
-    Arbeidsform,
-    PleiepengesøknadFormData,
-} from '../../../types/PleiepengesøknadFormData';
+import getLenker from '../../../lenker';
+import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { validateFrilanserStartdato } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
-import ArbeidsformInfoSNFrilanser from '../../formik-arbeidsforhold/ArbeidsformInfoSNFrilanser';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import { isEndDateInPeriod } from '../../../utils/frilanserUtils';
-import Lenke from 'nav-frontend-lenker';
-import getLenker from '../../../lenker';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
 }
 
 const FrilansFormPart = ({ formValues }: Props) => {
-    const {
-        frilans_jobberFortsattSomFrilans,
-        harHattInntektSomFrilanser,
-        frilans_arbeidsforhold,
-        frilans_startdato,
-        periodeFra,
-        frilans_sluttdato,
-    } = formValues;
-
+    const { frilans_jobberFortsattSomFrilans, harHattInntektSomFrilanser, frilans_startdato } = formValues;
     const intl = useIntl();
-    const getFieldName = (field: ArbeidsforholdSNFField) => {
-        return `${AppFormField.frilans_arbeidsforhold}.${field}` as AppFormField;
-    };
     return (
         <>
             <Box margin="l">
@@ -99,111 +74,6 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                             max: dateToday,
                                         })}
                                     />
-                                </Box>
-                            )}
-                            {(frilans_jobberFortsattSomFrilans === YesOrNo.YES ||
-                                isEndDateInPeriod(periodeFra, frilans_sluttdato)) && (
-                                <Box margin="xl">
-                                    <FormBlock margin="none">
-                                        <AppForm.RadioPanelGroup
-                                            legend={intlHelper(intl, 'frilanser.arbeidsforhold.arbeidsform.spm')}
-                                            name={getFieldName(ArbeidsforholdSNFField.arbeidsform)}
-                                            radios={[
-                                                {
-                                                    label: intlHelper(
-                                                        intl,
-                                                        'snFrilanser.arbeidsforhold.arbeidsform.fast'
-                                                    ),
-                                                    value: Arbeidsform.fast,
-                                                },
-                                                {
-                                                    label: intlHelper(
-                                                        intl,
-                                                        'snFrilanser.arbeidsforhold.arbeidsform.turnus'
-                                                    ),
-                                                    value: Arbeidsform.turnus,
-                                                },
-                                                {
-                                                    label: intlHelper(
-                                                        intl,
-                                                        'snFrilanser.arbeidsforhold.arbeidsform.varierende'
-                                                    ),
-                                                    value: Arbeidsform.varierende,
-                                                },
-                                            ]}
-                                            validate={getRequiredFieldValidator()}
-                                        />
-                                    </FormBlock>
-                                    {frilans_arbeidsforhold?.arbeidsform !== undefined && (
-                                        <Box margin="xl">
-                                            <AppForm.NumberInput
-                                                name={getFieldName(ArbeidsforholdSNFField.jobberNormaltTimer)}
-                                                suffix={intlHelper(
-                                                    intl,
-                                                    `snFrilanser.arbeidsforhold.arbeidsform.${frilans_arbeidsforhold.arbeidsform}.timer.suffix`
-                                                )}
-                                                suffixStyle="text"
-                                                description={
-                                                    <div style={{ width: '100%' }}>
-                                                        <Box margin="none" padBottom="m">
-                                                            {frilans_arbeidsforhold.arbeidsform ===
-                                                                Arbeidsform.fast && (
-                                                                <Box margin="m">
-                                                                    <ArbeidsformInfoSNFrilanser
-                                                                        arbeidsform={Arbeidsform.fast}
-                                                                    />
-                                                                </Box>
-                                                            )}
-                                                            {frilans_arbeidsforhold.arbeidsform ===
-                                                                Arbeidsform.turnus && (
-                                                                <>
-                                                                    <Box margin="m">
-                                                                        <ArbeidsformInfoSNFrilanser
-                                                                            arbeidsform={Arbeidsform.turnus}
-                                                                        />
-                                                                    </Box>
-                                                                </>
-                                                            )}
-                                                            {frilans_arbeidsforhold.arbeidsform ===
-                                                                Arbeidsform.varierende && (
-                                                                <>
-                                                                    <Box margin="m">
-                                                                        <ArbeidsformInfoSNFrilanser
-                                                                            arbeidsform={Arbeidsform.varierende}
-                                                                        />
-                                                                    </Box>
-                                                                </>
-                                                            )}
-                                                        </Box>
-                                                    </div>
-                                                }
-                                                bredde="XS"
-                                                label={intlHelper(
-                                                    intl,
-                                                    `snFrilanser.arbeidsforhold.iDag.${frilans_arbeidsforhold.arbeidsform}.spm`
-                                                )}
-                                                validate={(value) => {
-                                                    const error = getNumberValidator({
-                                                        required: true,
-                                                        min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
-                                                        max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
-                                                    })(value);
-                                                    if (error) {
-                                                        return {
-                                                            key: `validation.frilans_arbeidsforhold.jobberNormaltTimer.${frilans_arbeidsforhold.arbeidsform}.${error}`,
-                                                            values: {
-                                                                min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
-                                                                max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
-                                                            },
-                                                            keepKeyUnaltered: true,
-                                                        };
-                                                    }
-                                                    return error;
-                                                }}
-                                                value={frilans_arbeidsforhold.arbeidsform || ''}
-                                            />
-                                        </Box>
-                                    )}
                                 </Box>
                             )}
                         </Panel>

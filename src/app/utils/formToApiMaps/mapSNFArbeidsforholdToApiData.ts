@@ -3,18 +3,29 @@ import {
     ArbeidsforholdSNFApi,
     ArbeidsforholdSNFApiNei,
     ArbeidsforholdSNFApiRedusert,
-    SkalJobbe,
     ArbeidsforholdSNFApiSomVanlig,
     ArbeidsforholdSNFApiVetIkke,
+    SkalJobbe,
 } from '../../types/PleiepengesøknadApiData';
-import { ArbeidsforholdSNF, ArbeidsforholdSkalJobbeSvar } from '../../types/PleiepengesøknadFormData';
+import {
+    ArbeidsforholdSkalJobbeHvorMyeSvar,
+    ArbeidsforholdSkalJobbeSvar,
+    ArbeidsforholdSNF,
+} from '../../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../arbeidsforholdUtils';
 
 export const mapSNFArbeidsforholdToApiData = (
     frilansArbeidsforhold: ArbeidsforholdSNF
 ): ArbeidsforholdSNFApi | undefined => {
-    const { skalJobbe, timerEllerProsent, jobberNormaltTimer, skalJobbeTimer, skalJobbeProsent, arbeidsform } =
-        frilansArbeidsforhold;
+    const {
+        skalJobbe,
+        timerEllerProsent,
+        jobberNormaltTimer,
+        skalJobbeTimer,
+        skalJobbeProsent,
+        arbeidsform,
+        skalJobbeHvorMye,
+    } = frilansArbeidsforhold;
 
     const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
 
@@ -32,7 +43,10 @@ export const mapSNFArbeidsforholdToApiData = (
         return forhold;
     }
 
-    if (skalJobbe === ArbeidsforholdSkalJobbeSvar.redusert) {
+    if (
+        skalJobbe === ArbeidsforholdSkalJobbeSvar.ja &&
+        skalJobbeHvorMye === ArbeidsforholdSkalJobbeHvorMyeSvar.redusert
+    ) {
         const skalJobbeTimerNumber = getNumberFromNumberInputValue(skalJobbeTimer);
         const skalJobbeProsentNumber = getNumberFromNumberInputValue(skalJobbeProsent);
 
