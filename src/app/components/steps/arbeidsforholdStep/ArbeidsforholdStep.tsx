@@ -29,6 +29,17 @@ interface LoadState {
     isLoaded: boolean;
 }
 
+const erIkkeAnsattEllerFSN = ({
+    arbeidsforhold,
+    harHattInntektSomFrilanser,
+    selvstendig_harHattInntektSomSN,
+}: PleiepengesøknadFormData): boolean => {
+    const erAnsatt = arbeidsforhold.some((a) => a.erAnsattIPerioden === YesOrNo.YES);
+    const erFrilanserEllerSN =
+        harHattInntektSomFrilanser === YesOrNo.YES || selvstendig_harHattInntektSomSN === YesOrNo.YES;
+    return erFrilanserEllerSN === false && erAnsatt === false;
+};
+
 const cleanupArbeidsforhold = (formValues: PleiepengesøknadFormData): PleiepengesøknadFormData => {
     const values: PleiepengesøknadFormData = { ...formValues };
     if (values.mottarAndreYtelser === YesOrNo.NO) {
@@ -51,6 +62,10 @@ const cleanupArbeidsforhold = (formValues: PleiepengesøknadFormData): Pleiepeng
         values.selvstendig_virksomhet = undefined;
         values.selvstendig_arbeidsforhold = undefined;
     }
+    if (!erIkkeAnsattEllerFSN(values)) {
+        values.harVærtEllerErVernepliktig = undefined;
+    }
+
     return values;
 };
 
@@ -65,11 +80,11 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
     const søkerdata = useContext(SøkerdataContext);
 
     const { isLoading, isLoaded } = loadState;
-    const { periodeFra } = values;
+    const { periodeFra, periodeTil } = values;
 
     useEffect(() => {
         const fraDato = datepickerUtils.getDateFromDateString(periodeFra);
-        const tilDato = datepickerUtils.getDateFromDateString(periodeFra);
+        const tilDato = datepickerUtils.getDateFromDateString(periodeTil);
 
         const fetchData = async () => {
             if (søkerdata) {
@@ -83,7 +98,7 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
             setLoadState({ isLoading: true, isLoaded: false });
             fetchData();
         }
-    }, [formikProps, søkerdata, isLoaded, isLoading, periodeFra]);
+    }, [formikProps, søkerdata, isLoaded, isLoading, periodeFra, periodeTil]);
 
     return (
         <FormikStep
@@ -137,9 +152,11 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                         <SelvstendigNæringsdrivendeFormPart formValues={values} />
                     </FormSection>
 
-                    <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.verneplikt.tittel')}>
-                        <VernepliktigFormPart />
-                    </FormSection>
+                    {erIkkeAnsattEllerFSN(values) && (
+                        <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.verneplikt.tittel')}>
+                            <VernepliktigFormPart />
+                        </FormSection>
+                    )}
 
                     {isFeatureEnabled(Feature.ANDRE_YTELSER) && (
                         <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.andreYtelser.tittel')}>

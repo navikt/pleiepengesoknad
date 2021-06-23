@@ -20,6 +20,11 @@
     "locale.nb": "Bokmål - norsk",
     "locale.nn": "Nynorsk - norsk",
 
+    "uke": "uke",
+    "Uke": "Uke",
+    "måned": "måned",
+    "Måned": "Måned",
+
     "mandag": "mandag",
     "tirsdag": "tirsdag",
     "onsdag": "onsdag",
@@ -32,11 +37,23 @@
     "torsdag.caps": "Torsdag",
     "fredag.caps": "Fredag",
 
+    "mandager.caps": "Mandager",
+    "tirsdager.caps": "Tirsdager",
+    "onsdager.caps": "Onsdager",
+    "torsdager.caps": "Torsdager",
+    "fredager.caps": "Fredager",
+
     "Mandag": "Mandag",
     "Tirsdag": "Tirsdag",
     "Onsdag": "Onsdag",
     "Torsdag": "Torsdag",
     "Fredag": "Fredag",
+
+    "Mandager": "Mandager",
+    "Tirsdager": "Tirsdager",
+    "Onsdager": "Onsdager",
+    "Torsdager": "Torsdager",
+    "Fredager": "Fredager",
 
     "page.loadingPage.tekst": "Laster ...",
     "gotoApplicationLink.lenketekst": "Gå til den digitale søknaden",
@@ -258,27 +275,25 @@
     "steg.tilsyn.veileder.html": "<p>Hvis barnet er i et etablert omsorgstilbud i perioden du søker for, skal pleiepengene graderes tilsvarende den tiden barnet er i omsorgstilbudet. Det kan gjøres unntak ved nattevåk eller hvis du må være i beredskap, noe du får spørsmål om litt senere i søknaden.</p><p>Et omsorgstilbud kan være barnehage, skole, SFO, omsorgsbolig, BPA (brukerstyrt personlig assistent), eller andre organiserte tilbud.</p><p>Et etablert omsorgstilbud betyr at den tiden som barnet er i omsorgstilbudet er fast og regelmessig. Hvis bruken av omsorgstilbudet er så uforutsigbar og uregelmessig at du ikke kan anslå et minimum antall timer per uke, anses ikke omsorgstilbudet som etablert. Pleiepengene graderes ikke når omsorgstilbudet ikke er etablert.</p><p>På spørsmålet under svarer du ja hvis barnet skal være i et omsorgstilbud, uansett om det er etablert eller ikke.</p>",
     "steg.tilsyn.skalBarnetHaTilsyn.spm": "Skal barnet være i et omsorgstilbud i hele eller deler av perioden du søker om?",
 
-    "steg.tilsyn.ja.hvorMyeTilsyn.spm": "Er du sikker på noe av tiden barnet skal være i omsorgstilbudet?",
-    "steg.tilsyn.ja.hvorMyeTilsyn.spm.description.tittel": "Hva betyr dette?",
-    "steg.tilsyn.ja.hvorMyeTilsyn.spm.description.html": "Du skal svare ja hvis du er sikker på et minimum av tiden barnet er i omsorgstilbudet. Du skal svare nei hvis tiden barnet er i omsorgstilbudet er så uregelmessig at du ikke kan anslå et minimum antall timer per uke.<p><strong>Eksempel:</strong></p><p>I perioden med pleiepenger klarer Anna å være i barnehagen mellom 5 og 15 timer per uke. Da svarer du ja på spørsmålet, og oppgir at Anna er i omsorgstilbudet 5 timer per uke.</p><p>Peder er bare av og til på skolen, når han er i form til det. Noen uker klarer han å være der noen timer, andre uker er han ikke på skolen i det hele tatt. I dette tilfellet svarer du nei på spørsmålet om Peder skal være i et omsorgstilbud.</p>",
+    "steg.tilsyn.ja.vetHvorMye.spm": "Kan du oppgi tiden barnet skal være i omsorgstilbudet?",
+    "steg.tilsyn.ja.vetHvorMye.ja": "Ja",
+    "steg.tilsyn.ja.vetHvorMye.nei": "Nei",
+    "steg.tilsyn.ja.vetHvorMye.info": "Du skal bare oppgi den tiden du vet med sikkerhet. Dersom du vet noe av tiden barnet kan være i omsorgstilbudet svarer du ja. Hvis du ikke vet noe tid med sikkerhet, svarer du nei.",
 
-    "steg.tilsyn.ja.hvorMyeTilsyn": "Oppgi timene og minuttene som barnet er i et omsorgstilbud per dag:",
+    "steg.tilsyn.ja.erLiktHverDag.spm": "Er tiden barnet skal være i omsorgstilbudet lik for hver dag i perioden du søker om? Det vil si at alle mandager er like, alle tirsdager er like og så videre.",
+    "steg.tilsyn.ja.erLiktHverDag.info.tittel": "Hva betyr dette?",
+    "steg.tilsyn.ja.erLiktHverDag.info.1": "Eksempel:",
+    "steg.tilsyn.ja.erLiktHverDag.info.2": "Anna går fast hver uke i barnehagen 2 timer på mandag og 3 timer på torsdag. Hun bytter ikke på dager eller antall timer hun er i barnehagen i løpet av en uke.",
+
+    "steg.tilsyn.ja.hvorMyeTilsyn": "Oppgi timene og minuttene som barnet er i omsorgstilbudet:",
     "steg.tilsyn.ja.hvorMyeTilsyn.description.tittel": "Hvor mange timer kan jeg oppgi per dag?",
-    "steg.tilsyn.ja.hvorMyeTilsyn.description": "Du kan oppgi opptil 7,5 timer per dag. Det betyr at selv om barnet er i et omsorgstilbud i for eksempel 10 timer per dag, kan du ikke oppgi mer enn maksimalt 7,5 timer. Den tiden som overstiger 7,5 timer blir ikke tatt med når pleiepengene graderes.",
+    "steg.tilsyn.ja.hvorMyeTilsyn.description": "Du kan oppgi opptil 7 timer og 30 minutter per dag. Det betyr at selv om barnet er i omsorgstilbudet i for eksempel 8 timer per dag, kan du ikke oppgi mer enn maksimalt 7 timer og 30 minutter. Tid som overstiger dette blir ikke tatt med når pleiepengene graderes.",
     "steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.ja": "Når du i neste steg skal legge inn antall timer og minutter for hvor mye barnet er i omsorgstilbudet, skal du bare skrive inn den tiden du vet med sikkerhet. Hvis denne tiden endrer seg slik at den blir en ny fast og regelmessig ordning, må du gi oss beskjed. Du trenger ikke gi beskjed hvis oppholdet i omsorgstilbudet varierer litt fra dag til dag.",
     "steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.nei": "Når du ikke vet hvor mye barnet klarer å være i omsorgstilbudet, blir ikke pleiepengene gradert. Du må gi oss beskjed hvis tiden barnet er i omsorgstilbudet blir fast og regelmessig. Dette er viktig ettersom pleiepengene skal graderes når tiden barnet er i omsorgstilbudet er fast og regelmessig.",
 
-    "steg.tilsyn.tilsynsuke.veileder": "Hvis du vet hvor mye barnet skal være i et omsorgstilbud, må du fylle ut hvor mange timer og minutter per dag andre skal passe barnet.",
-    "steg.tilsyn.vetIkke.årsak.spm": "Hvorfor er du usikker?",
-    "steg.tilsyn.vetIkke.årsak.sporadisk": "Barnet er i omsorgstilbud, men tiden varierer",
-    "steg.tilsyn.vetIkke.årsak.ikkeLagetPlan": "Det er ikke laget en plan for dette enda",
-    "steg.tilsyn.vetIkke.årsak.annet": "Annet",
-    "steg.tilsyn.vetIkke.årsak.annet.tilleggsopplysninger": "Forklar situasjonen",
+    "steg.tilsyn.omsorgstilbud.uketittel": "Uke {ukenummer}, {år}",
 
-    "steg.tilsyn.ja.årsak.spm": "Vet du hvor mye barnet skal være i omsorgstilbudet?",
-    "steg.tilsyn.ja.årsak.vetHelePerioden": "Ja",
-    "steg.tilsyn.ja.årsak.usikkerPerioden": "Nei, jeg er usikker på hvor mye",
-    "steg.tilsyn.ja.årsak.nei": "Nei",
+    "steg.tilsyn.tilsynsuke.veileder": "Hvis du vet hvor mye barnet skal være i et omsorgstilbud, må du fylle ut hvor mange timer og minutter per dag andre skal passe barnet.",
 
     "steg.nattevåk.spm": "Gjør barnets sykdom at du må være våken på natta og derfor må være borte fra jobb dagen etter?",
     "steg.nattevåk.tilleggsinfo.spm": "Beskriv hva som gjør at du må være våken",
@@ -333,13 +348,11 @@
 
     "steg.oppsummering.tilsynsordning.header": "Omsorgstilbud",
     "steg.oppsummering.tilsynsordning.spm": "Skal barnet være i et omsorgstilbud i hele eller deler av perioden du søker om?",
-    "steg.oppsummering.tilsynsordning.ja.tilleggsinformasjon.header": "Tilleggsopplysninger",
-    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.spm": "Vet du hvor mye barnet skal være i omsorgstilbudet?",
-    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.vetHelePerioden": "Ja",
-    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.usikker": "Nei, jeg er usikker på hvor mye",
-    "steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.spm": "Er du sikker på noe av tiden barnet skal være i omsorgstilbudet?",
-    "steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.ja": "Ja",
-    "steg.oppsummering.tilsynsordning.vetMinimumAntallTimer.nei": "Nei",
+    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.spm": "Kan du oppgi tiden barnet skal være i omsorgstilbudet?",
+    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.VET_ALLE_TIMER": "Ja",
+    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.VET_IKKE": "Nei",
+
+    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.fasteDager.header": "Tid i omsorgstilbud",
 
     "steg.oppsummering.utlandetSiste12.header": "Har bodd i utlandet siste 12 måneder",
     "steg.oppsummering.utlandetNeste12.header": "Skal bo i utlandet neste 12 måneder",
@@ -499,6 +512,9 @@
     "selvstendig.summary.arbeidsforhold.header": "Hvordan jobber du som selvstendig?",
 
     "selvstendig.harDuHattInntekt.spm": "Er du selvstendig næringsdrivende i perioden du søker for?",
+    "selvstendig.harDuHattInntekt.hjelpetekst.tittel": "Hva betyr det å være selvstendig næringsdrivende?",
+    "selvstendig.harDuHattInntekt.hjelpetekst": "Du er selvstendig næringsdrivende når du enten har et enkeltpersonforetak (ENK), et ansvarlig selskap (ANS), eller et ansvarlig selskap med delt ansvar (DA).",
+    "selvstendig.harDuHattInntekt.hjelpetekst.snSkatteetatenLenke": "I tillegg kan du lese på skatteetatens side om andre situasjoner hvor du kan regnes som selvstendig næringsdrivende.",
     "selvstendig.harFlereVirksomheter.spm": "Har du flere enn én næringsvirksomhet som er aktiv?",
     "selvstendig.veileder.flereAktiveVirksomheter": "Når du har flere aktive næringsvirksomheter skal du kun legge inn den virksomheten som er eldst av dem. Har du for eksempel en virksomhet du startet i 2012 og en annen som du startet i 2020, skal du kun legge inn virksomheten du startet i 2012.",
     "selvstendig.list.tittel": "Dine registrerte næringsvirksomheter",
@@ -507,7 +523,7 @@
 
     "selvstendig.arbeidsforhold.spm": "Hvordan jobber du som selvstendig?",
 
-    "frilanser.harDuHattInntekt.spm": "Er du frilanser i perioden du søker om?",
+    "frilanser.harDuHattInntekt.spm": "Er du frilanser i perioden du søker for?",
     "frilanser.nårStartet.spm": "Når startet du som frilanser?",
     "frilanser.jobberFortsatt.spm": "Jobber du fortsatt som frilanser?",
     "frilanser.nårSluttet.spm": "Når sluttet du som frilanser?",
@@ -548,18 +564,9 @@
     "snF.ArbeidsforholdDetaljer.hvaBetyr.frilanser.info": "Hvis du jobber som frilanser flere steder skal du her svare samlet for alle oppdragene. Hvis du f.eks. skal jobbe i en av to frilansforhold skal du her svare \"Ja, men jeg skal jobbe mindre enn vanlig\".",
     "snF.ArbeidsforholdDetaljer.hvaBetyr.SN.info": "Hvis du jobber som selvstendig i flere virksomheter skal du her svare samlet for alle virksomhetene dine. Hvis du f.eks. skal jobbe i en av to virksomheter skal du her svare \"Ja, men jeg skal jobbe mindre enn vanlig\".",
 
-    "frilanser.hjelpetekst.spm": "Hva er en frilanser?",
-    "frilanser.hjelpetekst.titel": "Eksempel på hvem som kan være frilansere er:",
-    "frilanser.hjelpetekst.list.1": "Personer med omsorgsstønad",
-    "frilanser.hjelpetekst.list.2": "Fosterforeldre",
-    "frilanser.hjelpetekst.list.3": "Musikere",
-    "frilanser.hjelpetekst.list.4": "Tekstforfattere",
-    "frilanser.hjelpetekst.list.5": "Skuespillere",
-    "frilanser.hjelpetekst.list.6": "Journalister",
-    "frilanser.hjelpetekst.list.7": "Oversettere",
-    "frilanser.hjelpetekst.list.8": "Folkevalgt, politikere i kommuner, fylkeskommuner og på Stortinget som får godtgjørelse for politisk arbeid",
-    "frilanser.hjelpetekst.list.9": "Støttekontakt",
-    "frilanser.hjelpetekst": "Hvis du er usikker på om du er frilanser, kan du lese mer om hva det betyr å være frilanser på skatteetaten sin hjemmeside.",
+    "frilanser.hjelpetekst.spm": "Hva betyr det å være frilanser?",
+    "frilanser.hjelpetekst": "Du er frilanser når du mottar lønn for enkeltstående oppdrag uten å være fast eller midlertidig ansatt hos den du utfører oppdraget for. Hvis du er usikker på om du er frilanser må du sjekke om oppdragene dine er registrert som frilansoppdrag på",
+    "frilanser.hjelpetekst.skatteetatenLenke": "skatteetaten sine nettsider.",
 
     "frilanser.summary.header": "Frilans",
     "frilanser.summary.harDuHattInntekt.header": "Er du frilanser i perioden du søker for?",
@@ -714,13 +721,11 @@
     "validation.selvstendig_arbeidsforhold.skalJobbeTimer.timerUgyldig_under_1_prosent": "Du kan ikke jobbe mindre enn 1 prosent av hva du jobber normalt som selvstendig.",
     "validation.selvstendig_arbeidsforhold.skalJobbeTimer.timerUgyldig_over_99_prosent": "Du kan ikke jobbe mer enn  99 prosent av hva du jobber normalt som selvstendig.",
 
-    "validation.tilsynsordning.skalBarnHaTilsyn.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnet skal være i et omsorgstilbud i perioden du søker om pleiepenger.",
     "validation.tilsynsordning.vetIkke.hvorfor.noValue": "Du må oppgi hvorfor du er usikker.",
     "validation.tilsynsordning.vetIkke.ekstrainfo.stringHasNoValue": "Du må skrive en kort forklaring på hvorfor du er usikker.",
     "validation.tilsynsordning.vetIkke.ekstrainfo.stringIsTooLong": "Forklaringen kan være på maks 1000 tegn.",
 
     "validation.tilsynsordning.tilsynsordning_ingenInfo": "Du må oppgi når barnet er i omsorgstilbud.",
-    "validation.tilsynsordning.ja.ekstrainfo.stringIsTooLong": "Tilleggsopplysninger om omsorgstilbudet kan være på maks 1000 tegn.",
     "validation.tilsynsordning_gruppe.tilsynsordning_ingenInfo": "Du har ikke oppgitt hvor mye barnet skal være i et omsorgstilbud.",
     "validation.tilsynsordning_gruppe.tilsynsordning_forMangeTimerTotalt": "Du kan registrere maks 37 timer og 30 minuter totalt.",
     "validation.tilsynsordning.tilsynsordning_forMangeTimerEnDag": "Antall timer på {dag} er ugyldig. 7 timer og 30 minutter er maks per dag.",
@@ -730,6 +735,21 @@
     "validation.tilsynsordning.ja.vetMinAntallTimer.yesOrNoIsUnanswered": "Du må svare ja eller nei på spørsmålet om du vet hvor mye barnet vanligvis klarer å være i omsorgstilbudet.",
     "validation.tilsynsordning.ja.vetMinAntalTimer.yesOrNoIsUnanswered": "Du må svare om vet du et minimum antall timer barnet skal være i et omsorgstilbud per uke.",
     "validation.tilsynsordning.skalHaOmsorgstilbud.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnet skal i omsorgstilbud {måned}.",
+
+    "validation.omsorgstilbud.ja.ekstrainfo.stringIsTooLong": "Tilleggsopplysninger om omsorgstilbudet kan være på maks 1000 tegn.",
+    "validation.omsorgstilbud.ja.vetHvorMyeTid.noValue": "Du må svare på spørsmålet om du vet hvor mye barnet skal være i omsorgstilbudet.",
+    "validation.omsorgstilbud.skalBarnIOmsorgstilbud.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnet skal være i et omsorgstilbud i perioden du søker om pleiepenger.",
+
+    "validation.omsorgstilbud.ja.fastDag.tid.timeHasNoValue": "Du må fylle ut timer og minutter for {dag}",
+    "validation.omsorgstilbud.ja.fastDag.tid.hoursAreInvalid": "Antall timer på {dag} er ikke et gyldig tall",
+    "validation.omsorgstilbud.ja.fastDag.tid.minutesAreInvalid": "Antall minutter på {dag} er ikke et gyldig tall",
+    "validation.omsorgstilbud.ja.fastDag.tid.tooManyHours": "Antall timer på {dag} kan ikke overstige 23",
+    "validation.omsorgstilbud.ja.fastDag.tid.tooManyMinutes": "Antall minutter på {dag} kan ikke overstige 59",
+    "validation.omsorgstilbud.ja.fastDag.tid.durationIsTooLong": "Ugyldig tid registrert {dag}. Du kan registrere maks 7 timer og 30 minutter hver ukedag.",
+    "validation.omsorgstilbud.ja.fastDag.tid.durationIsTooShort": "0 timer og 0 minutter er oppgitt for {dag}. Dersom barnet skal være i et omsorgstilbud på {dag}, må du oppgi en gyldig tid.",
+    "validation.omsorgstilbud.ja.enkeltdager.ingenTidRegistrert": "Du må registrere den tiden du vet barnet skal være i et omsorgstilbud.",
+    "validation.omsorgstilbud.ja.enkeltdager_periode.ingenTidRegistrert": "Du må registrere den tiden du vet barnet skal være i et omsorgstilbud.",
+    "validation.omsorgstilbud.ja.erLiktHverDag.yesOrNoIsUnanswered": "Du må svare på om tiden barnet skal være i omsorgstilbudet er lik for hver dag i perioden du søker om.",
 
     "validation.harNattevåk.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnets sykdom gjør at du må være våken på natta.",
     "validation.harNattevåk_ekstrainfo.stringHasNoValue": "Du må beskrive hva som gjør at du må være våken om natta.",

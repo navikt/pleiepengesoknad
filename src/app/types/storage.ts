@@ -1,8 +1,8 @@
 import { StepID } from '../config/stepConfig';
 import { PleiepengesøknadFormData } from './PleiepengesøknadFormData';
 
-export const MELLOMLAGRING_VERSION = '5';
-
+/** Persistence */
+export const MELLOMLAGRING_VERSION = '6.1';
 interface StorageMetadata {
     version: string;
     lastStepID: StepID;

@@ -1,54 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import { useHistory } from 'react-router';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatted-html-message/FormattedHtmlMessage';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { DateRange } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import dayjs from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween';
 import { useFormikContext } from 'formik';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
-import {
-    AppFormField,
-    OmsorgstilbudVetPeriode,
-    PleiepengesøknadFormData,
-} from '../../../types/PleiepengesøknadFormData';
+import usePersistSoknad from '../../../hooks/usePersistSoknad';
+import { VetOmsorgstilbud } from '../../../types/PleiepengesøknadApiData';
+import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { visKunEnkeltdagerForOmsorgstilbud } from '../../../utils/omsorgstilbudUtils';
 import { validateSkalHaTilsynsordning } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
 import OmsorgstilbudFormPart from './OmsorgstilbudFormPart';
-import { Undertittel } from 'nav-frontend-typografi';
+import { cleanupTilsynsordningStep } from './tilsynsordningStepUtils';
 
-export const cleanupTilsynsordningStep = (values: PleiepengesøknadFormData): PleiepengesøknadFormData => {
-    const cleanedValues = { ...values };
-
-    if (cleanedValues.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.YES) {
-        if (cleanedValues.omsorgstilbud.ja?.hvorMyeTid === OmsorgstilbudVetPeriode.vetHelePerioden) {
-            cleanedValues.omsorgstilbud.ja.vetMinAntallTimer = undefined;
-        }
-        if (cleanedValues.omsorgstilbud.ja?.hvorMyeTid === OmsorgstilbudVetPeriode.usikker) {
-            if (cleanedValues.omsorgstilbud.ja?.vetMinAntallTimer === YesOrNo.NO) {
-                cleanedValues.omsorgstilbud.ja.fasteDager = undefined;
-            }
-        }
-    }
-    if (cleanedValues.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.NO) {
-        cleanedValues.omsorgstilbud.ja = undefined;
-    }
-
-    return cleanedValues;
-};
+dayjs.extend(isBetween);
 
 const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
+    const history = useHistory();
     const { values } = useFormikContext<PleiepengesøknadFormData>();
     const { omsorgstilbud } = values;
-    const { skalBarnIOmsorgstilbud: skalBarnHaTilsyn, ja } = omsorgstilbud || {};
+    const { skalBarnIOmsorgstilbud } = omsorgstilbud || {};
+    const { persist } = usePersistSoknad(history);
+
+    const [omsorgstilbudChanged, setOmsorgstilbudChanged] = useState(false);
+
+    useEffect(() => {
+        if (omsorgstilbudChanged === true) {
+            setOmsorgstilbudChanged(false);
+            persist(StepID.OMSORGSTILBUD);
+        }
+    }, [omsorgstilbudChanged, persist]);
 
     const periodeFra = datepickerUtils.getDateFromDateString(values.periodeFra);
     const periodeTil = datepickerUtils.getDateFromDateString(values.periodeTil);
@@ -57,92 +51,80 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
         return <div>Perioden mangler, gå tilbake og endre datoer</div>;
     }
 
+    const søknadsperiode: DateRange = { from: periodeFra, to: periodeTil };
+    const visKunEnkeltdager = visKunEnkeltdagerForOmsorgstilbud(søknadsperiode);
+
     return (
         <FormikStep
             id={StepID.OMSORGSTILBUD}
-            onStepCleanup={cleanupTilsynsordningStep}
+            onStepCleanup={(values) => cleanupTilsynsordningStep(values, søknadsperiode)}
             onValidFormSubmit={onValidSubmit}>
             <CounsellorPanel>
                 <FormattedMessage id="steg.tilsyn.veileder.html" values={{ p: (msg: string) => <p>{msg}</p> }} />
             </CounsellorPanel>
-            <Box margin="xl">
+            <FormBlock>
                 <AppForm.YesOrNoQuestion
                     name={AppFormField.omsorgstilbud__skalBarnIOmsorgstilbud}
                     legend={intlHelper(intl, 'steg.tilsyn.skalBarnetHaTilsyn.spm')}
                     validate={getYesOrNoValidator()}
                 />
-            </Box>
-            {YesOrNo.YES === skalBarnHaTilsyn && omsorgstilbud && (
-                <Box margin="xxl">
-                    <AppForm.RadioPanelGroup
-                        legend={intlHelper(intl, 'steg.tilsyn.ja.årsak.spm')}
-                        name={AppFormField.omsorgstilbud__ja__hvorMyeTid}
-                        radios={[
-                            {
-                                label: intlHelper(intl, 'steg.tilsyn.ja.årsak.vetHelePerioden'),
-                                value: OmsorgstilbudVetPeriode.vetHelePerioden,
-                            },
-                            {
-                                label: intlHelper(intl, 'steg.tilsyn.ja.årsak.usikkerPerioden'),
-                                value: OmsorgstilbudVetPeriode.usikker,
-                            },
-                        ]}
-                        validate={getRequiredFieldValidator()}
-                    />
-                    <Box>
-                        {ja?.hvorMyeTid === OmsorgstilbudVetPeriode.usikker && (
-                            <>
-                                <Box margin="xl">
+            </FormBlock>
+            {skalBarnIOmsorgstilbud === YesOrNo.YES && omsorgstilbud && (
+                <>
+                    <FormBlock>
+                        <AppForm.RadioPanelGroup
+                            legend={intlHelper(intl, 'steg.tilsyn.ja.vetHvorMye.spm')}
+                            name={AppFormField.omsorgstilbud__ja__vetHvorMyeTid}
+                            radios={[
+                                {
+                                    label: intlHelper(intl, 'steg.tilsyn.ja.vetHvorMye.ja'),
+                                    value: VetOmsorgstilbud.VET_ALLE_TIMER,
+                                },
+                                {
+                                    label: intlHelper(intl, 'steg.tilsyn.ja.vetHvorMye.nei'),
+                                    value: VetOmsorgstilbud.VET_IKKE,
+                                },
+                            ]}
+                            validate={getRequiredFieldValidator()}
+                            useTwoColumns={true}
+                            description={
+                                <div style={{ marginTop: '-.5rem' }}>
+                                    <FormattedMessage id="steg.tilsyn.ja.vetHvorMye.info" />
+                                </div>
+                            }
+                        />
+                    </FormBlock>
+
+                    {omsorgstilbud.ja?.vetHvorMyeTid === VetOmsorgstilbud.VET_IKKE && (
+                        <FormBlock>
+                            <AlertStripe type={'info'}>
+                                <FormattedMessage id="steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.nei" />
+                            </AlertStripe>
+                        </FormBlock>
+                    )}
+
+                    {omsorgstilbud.ja?.vetHvorMyeTid === VetOmsorgstilbud.VET_ALLE_TIMER && (
+                        <>
+                            {visKunEnkeltdager === false && (
+                                <FormBlock>
                                     <AppForm.YesOrNoQuestion
-                                        name={AppFormField.omsorgstilbud__ja__vetMinAntallTimer}
-                                        legend={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.spm')}
+                                        legend={intlHelper(intl, 'steg.tilsyn.ja.erLiktHverDag.spm')}
+                                        name={AppFormField.omsorgstilbud__ja_erLiktHverDag}
                                         description={
                                             <ExpandableInfo
-                                                title={intlHelper(
-                                                    intl,
-                                                    'steg.tilsyn.ja.hvorMyeTilsyn.spm.description.tittel'
-                                                )}>
-                                                {
-                                                    <FormattedHtmlMessage id="steg.tilsyn.ja.hvorMyeTilsyn.spm.description.html" />
-                                                }
+                                                title={intlHelper(intl, 'steg.tilsyn.ja.erLiktHverDag.info.tittel')}>
+                                                <FormattedMessage id="steg.tilsyn.ja.erLiktHverDag.info.1" />
+                                                <br />
+                                                <FormattedMessage id="steg.tilsyn.ja.erLiktHverDag.info.2" />
                                             </ExpandableInfo>
                                         }
                                         validate={getYesOrNoValidator()}
                                     />
-                                </Box>
-
-                                {ja.vetMinAntallTimer === YesOrNo.YES && (
-                                    <>
-                                        <Box margin="xl">
-                                            <AlertStripe type={'info'}>
-                                                <FormattedMessage id="steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.ja" />
-                                            </AlertStripe>
-                                        </Box>
-                                    </>
-                                )}
-                                {ja.vetMinAntallTimer === YesOrNo.NO && (
-                                    <>
-                                        <Box margin="l">
-                                            <AlertStripe type={'info'}>
-                                                <FormattedMessage id="steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.nei" />
-                                            </AlertStripe>
-                                        </Box>
-                                    </>
-                                )}
-                            </>
-                        )}
-                        {(ja?.hvorMyeTid === OmsorgstilbudVetPeriode.vetHelePerioden ||
-                            (ja?.hvorMyeTid === OmsorgstilbudVetPeriode.usikker &&
-                                ja?.vetMinAntallTimer === YesOrNo.YES)) && (
-                            <>
-                                <FormBlock>
-                                    <AppForm.YesOrNoQuestion
-                                        legend="Skal barnet være i et omsorgstilbud i like mange timer per dag hver uke gjennom hele søknadsperioden?"
-                                        name={AppFormField.omsorgstilbud__ja_erLiktHverDag}
-                                    />
                                 </FormBlock>
-                                {ja.erLiktHverDag === YesOrNo.YES && (
-                                    <Box margin="xl">
+                            )}
+                            {visKunEnkeltdager === false && omsorgstilbud.ja?.erLiktHverDag === YesOrNo.YES && (
+                                <>
+                                    <FormBlock>
                                         <AppForm.InputGroup
                                             legend={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn')}
                                             description={
@@ -158,24 +140,27 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                             name={'tilsynsordning_gruppe' as any}>
                                             <Tilsynsuke name={AppFormField.omsorgstilbud__ja__fasteDager} />
                                         </AppForm.InputGroup>
-                                    </Box>
-                                )}
-                                {ja.erLiktHverDag === YesOrNo.NO && (
-                                    <FormBlock margin="xxl">
-                                        <Undertittel>Omsorgstilbud i perioden du søker for - detaljert</Undertittel>
-                                        <p>Oppgi hver enkeltdag barnet skal i et omsorgstilbud.</p>
+                                    </FormBlock>
+                                </>
+                            )}
+                            {(visKunEnkeltdager === true || omsorgstilbud.ja?.erLiktHverDag === YesOrNo.NO) && (
+                                <>
+                                    <FormBlock>
                                         <OmsorgstilbudFormPart
-                                            periodeFra={periodeFra}
-                                            periodeTil={periodeTil}
-                                            fieldName={AppFormField.omsorgstilbud__ja__perioder}
-                                            omsorgstilbud={values.omsorgstilbud?.ja?.perioder || []}
+                                            info={omsorgstilbud.ja}
+                                            spørOmMånedForOmsorgstilbud={visKunEnkeltdager === false}
+                                            søknadsperiode={{ from: periodeFra, to: periodeTil }}
+                                            tidIOmsorgstilbud={omsorgstilbud.ja.enkeltdager || {}}
+                                            onOmsorgstilbudChanged={() => {
+                                                setOmsorgstilbudChanged(true);
+                                            }}
                                         />
                                     </FormBlock>
-                                )}
-                            </>
-                        )}
-                    </Box>
-                </Box>
+                                </>
+                            )}
+                        </>
+                    )}
+                </>
             )}
         </FormikStep>
     );

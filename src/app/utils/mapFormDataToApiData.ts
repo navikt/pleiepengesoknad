@@ -1,6 +1,5 @@
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { attachmentUploadHasFailed } from '@navikt/sif-common-core/lib/utils/attachmentUtils';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { mapVirksomhetToVirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/mapVirksomhetToApiData';
@@ -9,13 +8,15 @@ import { Arbeidsforhold, BarnRelasjon, PleiepengesøknadFormData } from '../type
 import { BarnReceivedFromApi } from '../types/Søkerdata';
 import appSentryLogger from './appSentryLogger';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
+import { filterAndMapAttachmentsToApiFormat } from './formToApiMaps/attachmentsToApiData';
 import { mapArbeidsforholdToApiData } from './formToApiMaps/mapArbeidsforholdToApiData';
 import { mapBarnToApiData } from './formToApiMaps/mapBarnToApiData';
 import { mapBostedUtlandToApiData } from './formToApiMaps/mapBostedUtlandToApiData';
-import { mapSNFArbeidsforholdToApiData } from './formToApiMaps/mapSNFArbeidsforholdToApiData';
 import { mapFrilansToApiData } from './formToApiMaps/mapFrilansToApiData';
+import { mapSNFArbeidsforholdToApiData } from './formToApiMaps/mapSNFArbeidsforholdToApiData';
 import { mapTilsynsordningToApiData } from './formToApiMaps/mapTilsynsordningToApiData';
 import { mapUtenlandsoppholdIPeriodenToApiData } from './formToApiMaps/mapUtenlandsoppholdIPeriodenToApiData';
+import { skalBrukerSvarePåBeredskapOgNattevåk } from './stepUtils';
 import { erPeriodeOver8Uker } from './søkerOver8UkerUtils';
 import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet } from './tidsromUtils';
 
@@ -127,14 +128,13 @@ export const mapFormDataToApiData = (
                 },
                 fraOgMed: formatDateToApiFormat(periodeFra),
                 tilOgMed: formatDateToApiFormat(periodeTil),
-                vedlegg: legeerklæring
-                    .filter((attachment) => !attachmentUploadHasFailed(attachment))
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    .map(({ url }) => url!),
+                vedlegg: filterAndMapAttachmentsToApiFormat(legeerklæring),
                 harMedsøker: harMedsøker === YesOrNo.YES,
                 harBekreftetOpplysninger,
                 harForståttRettigheterOgPlikter,
-                harVærtEllerErVernepliktig: formData.harVærtEllerErVernepliktig === YesOrNo.YES,
+                harVærtEllerErVernepliktig: formData.harVærtEllerErVernepliktig
+                    ? formData.harVærtEllerErVernepliktig === YesOrNo.YES
+                    : undefined,
                 andreYtelserFraNAV:
                     isFeatureEnabled(Feature.ANDRE_YTELSER) && formData.mottarAndreYtelser === YesOrNo.YES
                         ? formData.andreYtelser
@@ -142,13 +142,15 @@ export const mapFormDataToApiData = (
                 harHattInntektSomFrilanser: harHattInntektSomFrilanser === YesOrNo.YES,
                 frilans: mapFrilansToApiData(formData),
                 harHattInntektSomSelvstendigNæringsdrivende: selvstendig_harHattInntektSomSN === YesOrNo.YES,
-                harFlereVirksomheter:
-                    selvstendig_harHattInntektSomSN === YesOrNo.YES
-                        ? selvstendig_harFlereVirksomheter === YesOrNo.YES
-                        : undefined,
                 selvstendigVirksomheter:
                     selvstendig_harHattInntektSomSN === YesOrNo.YES && selvstendig_virksomhet !== undefined
-                        ? [mapVirksomhetToVirksomhetApiData(locale, selvstendig_virksomhet)]
+                        ? [
+                              mapVirksomhetToVirksomhetApiData(
+                                  locale,
+                                  selvstendig_virksomhet,
+                                  selvstendig_harFlereVirksomheter === YesOrNo.YES
+                              ),
+                          ]
                         : [],
             };
 
@@ -194,9 +196,6 @@ export const mapFormDataToApiData = (
 
             apiData.harHattInntektSomSelvstendigNæringsdrivende =
                 formData.selvstendig_harHattInntektSomSN === YesOrNo.YES;
-            if (apiData.harHattInntektSomSelvstendigNæringsdrivende) {
-                apiData.harFlereVirksomheter = formData.selvstendig_harFlereVirksomheter === YesOrNo.YES;
-            }
 
             apiData.selvstendigArbeidsforhold = formData.selvstendig_arbeidsforhold
                 ? mapSNFArbeidsforholdToApiData(formData.selvstendig_arbeidsforhold)
@@ -205,8 +204,9 @@ export const mapFormDataToApiData = (
             apiData.samtidigHjemme = harMedsøker === YesOrNo.YES ? samtidigHjemme === YesOrNo.YES : undefined;
 
             if (omsorgstilbud !== undefined) {
-                apiData.omsorgstilbud = mapTilsynsordningToApiData(omsorgstilbud);
-                if (omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES) {
+                apiData.omsorgstilbud = mapTilsynsordningToApiData(omsorgstilbud, { from: periodeFra, to: periodeTil });
+                const inkluderNattevåkOgBeredskap = skalBrukerSvarePåBeredskapOgNattevåk(formData);
+                if (inkluderNattevåkOgBeredskap && omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES) {
                     apiData.nattevåk = {
                         harNattevåk: harNattevåk === YesOrNo.YES,
                         tilleggsinformasjon: harNattevåk_ekstrainfo,

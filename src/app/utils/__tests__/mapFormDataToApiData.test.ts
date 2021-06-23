@@ -19,7 +19,6 @@ import {
     AppFormField,
     Arbeidsforhold,
     ArbeidsforholdSkalJobbeSvar,
-    OmsorgstilbudVetPeriode,
     PleiepengesøknadFormData,
 } from '../../types/PleiepengesøknadFormData';
 import { Arbeidsgiver, BarnReceivedFromApi } from '../../types/Søkerdata';
@@ -130,7 +129,7 @@ const selvstendigPartialFormData: Partial<PleiepengesøknadFormData> = {
         erPågående: true,
         navnPåVirksomheten: 'abc',
         næringsinntekt: 200,
-        næringstyper: [Næringstype.ANNEN],
+        næringstype: Næringstype.ANNEN,
         registrertINorge: YesOrNo.YES,
         organisasjonsnummer: '123123123',
         harRegnskapsfører: YesOrNo.NO,
@@ -158,7 +157,8 @@ const completeFormDataMock: PleiepengesøknadFormData = {
     omsorgstilbud: {
         skalBarnIOmsorgstilbud: YesOrNo.YES,
         ja: {
-            hvorMyeTid: OmsorgstilbudVetPeriode.vetHelePerioden,
+            vetHvorMyeTid: VetOmsorgstilbud.VET_ALLE_TIMER,
+            erLiktHverDag: YesOrNo.YES,
             fasteDager: {
                 fredag: {
                     hours: '1',
@@ -586,7 +586,7 @@ describe('Test complete applications', () => {
             beredskap: true,
             tilleggsinformasjon: 'harBeredskap_ekstrainfo',
         },
-        harVærtEllerErVernepliktig: false,
+        harVærtEllerErVernepliktig: undefined,
         andreYtelserFraNAV: [],
         harHattInntektSomFrilanser: false,
         harHattInntektSomSelvstendigNæringsdrivende: false,

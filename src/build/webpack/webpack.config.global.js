@@ -19,13 +19,18 @@ const webpackConfig = {
     module: {
         rules: [
             {
+                test: /\.m?jsx?$/,
+                resolve: {
+                    fullySpecified: false,
+                },
+            },
+            {
                 test: /\.(ts|tsx)$/,
                 include: [path.resolve(__dirname, './../../app')],
                 use: [
                     {
                         loader: 'ts-loader',
                         options: {
-                            transpileOnly: true,
                             experimentalFileCaching: false,
                         },
                     },
@@ -64,6 +69,7 @@ const webpackConfig = {
         }),
         new ESLintPlugin({
             extensions: ['ts', 'tsx'],
+            failOnWarning: false,
         }),
     ],
 };
