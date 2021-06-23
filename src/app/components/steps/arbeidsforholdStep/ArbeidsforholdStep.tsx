@@ -29,15 +29,18 @@ interface LoadState {
     isLoaded: boolean;
 }
 
-const erIkkeAnsattEllerFSN = ({
-    arbeidsforhold,
-    harHattInntektSomFrilanser,
-    selvstendig_harHattInntektSomSN,
-}: PleiepengesøknadFormData): boolean => {
-    const erAnsatt = arbeidsforhold.some((a) => a.erAnsattIPerioden === YesOrNo.YES);
-    const erFrilanserEllerSN =
-        harHattInntektSomFrilanser === YesOrNo.YES || selvstendig_harHattInntektSomSN === YesOrNo.YES;
-    return erFrilanserEllerSN === false && erAnsatt === false;
+const erIkkeAnsattEllerFSN = (values: PleiepengesøknadFormData): boolean => {
+    const ikkeFrilanserEllerSn =
+        values.harHattInntektSomFrilanser === YesOrNo.NO && values.selvstendig_harHattInntektSomSN === YesOrNo.NO;
+
+    if (ikkeFrilanserEllerSn && values.arbeidsforhold && values.arbeidsforhold.length > 0) {
+        const erIkkeAnsatt = values.arbeidsforhold.filter((arbeidsgiver) => {
+            if (arbeidsgiver.erAnsattIPerioden === undefined || arbeidsgiver.erAnsattIPerioden !== YesOrNo.NO)
+                return arbeidsgiver;
+        });
+        return erIkkeAnsatt.length === 0;
+    }
+    return ikkeFrilanserEllerSn;
 };
 
 const cleanupArbeidsforhold = (formValues: PleiepengesøknadFormData): PleiepengesøknadFormData => {

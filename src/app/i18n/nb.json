@@ -736,9 +736,13 @@
     "validation.tilsynsordning.ja.vetMinAntalTimer.yesOrNoIsUnanswered": "Du må svare om vet du et minimum antall timer barnet skal være i et omsorgstilbud per uke.",
     "validation.tilsynsordning.skalHaOmsorgstilbud.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnet skal i omsorgstilbud {måned}.",
 
-    "validation.omsorgstilbud.ja.ekstrainfo.stringIsTooLong": "Tilleggsopplysninger om omsorgstilbudet kan være på maks 1000 tegn.",
     "validation.omsorgstilbud.ja.vetHvorMyeTid.noValue": "Du må svare på spørsmålet om du vet hvor mye barnet skal være i omsorgstilbudet.",
+    "validation.omsorgstilbud.ja.ekstrainfo.stringIsTooLong": "Tilleggsopplysninger om omsorgstilbudet kan være på maks 1000 tegn.",
+    "validation.omsorgstilbud.ja.hvorMyeTid.noValue": "Du må svare på spørsmålet om du vet hvor mye barnet skal være i omsorgstilbudet.",
+    "validation.omsorgstilbud.ja.vetMinAntallTimer.yesOrNoIsUnanswered": "Du må svare ja eller nei på spørsmålet om du vet hvor mye barnet vanligvis klarer å være i omsorgstilbudet.",
+    "validation.omsorgstilbud.ja.vetMinAntalTimer.yesOrNoIsUnanswered": "Du må svare om vet du et minimum antall timer barnet skal være i et omsorgstilbud per uke.",
     "validation.omsorgstilbud.skalBarnIOmsorgstilbud.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnet skal være i et omsorgstilbud i perioden du søker om pleiepenger.",
+    "validation.omsorgstilbud.ja.fastDag.tid.": "",
 
     "validation.omsorgstilbud.ja.fastDag.tid.timeHasNoValue": "Du må fylle ut timer og minutter for {dag}",
     "validation.omsorgstilbud.ja.fastDag.tid.hoursAreInvalid": "Antall timer på {dag} er ikke et gyldig tall",
