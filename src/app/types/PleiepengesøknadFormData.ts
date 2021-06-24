@@ -118,28 +118,24 @@ export enum AndreYtelserFraNAV {
     'omsorgspenger' = 'omsorgspenger',
     'opplæringspenger' = 'opplæringspenger',
 }
-
-export interface Arbeidsforhold extends Arbeidsgiver {
-    [ArbeidsforholdField.erAnsattIPerioden]?: YesOrNo;
-    [ArbeidsforholdField.jobberNormaltTimer]?: string;
+export interface Arbeidsforhold {
     [ArbeidsforholdField.skalJobbe]?: ArbeidsforholdSkalJobbeSvar;
+    [ArbeidsforholdField.arbeidsform]?: Arbeidsform;
+    [ArbeidsforholdField.jobberNormaltTimer]?: string;
     [ArbeidsforholdField.timerEllerProsent]?: 'timer' | 'prosent';
     [ArbeidsforholdField.skalJobbeTimer]?: string;
     [ArbeidsforholdField.skalJobbeProsent]?: string;
     [ArbeidsforholdField.skalJobbeHvorMye]?: ArbeidsforholdSkalJobbeHvorMyeSvar;
-    [ArbeidsforholdField.arbeidsform]?: Arbeidsform;
+}
+export interface ArbeidsforholdAnsatt extends Arbeidsgiver, Arbeidsforhold {
+    [ArbeidsforholdField.erAnsattIPerioden]?: YesOrNo;
 }
 
-export interface ArbeidsforholdSNF {
-    [ArbeidsforholdSNFField.jobberNormaltTimer]?: string;
-    [ArbeidsforholdSNFField.skalJobbe]?: ArbeidsforholdSkalJobbeSvar;
-    [ArbeidsforholdSNFField.timerEllerProsent]?: 'timer' | 'prosent';
-    [ArbeidsforholdSNFField.skalJobbeTimer]?: string;
-    [ArbeidsforholdSNFField.skalJobbeProsent]?: string;
-    [ArbeidsforholdSNFField.arbeidsform]?: Arbeidsform;
-    [ArbeidsforholdSNFField.arbeidsform]?: Arbeidsform;
-    [ArbeidsforholdSNFField.skalJobbeHvorMye]?: ArbeidsforholdSkalJobbeHvorMyeSvar;
-}
+export const isArbeidsforholdAnsatt = (arbeidsforhold: any): arbeidsforhold is ArbeidsforholdAnsatt => {
+    return arbeidsforhold?.navn !== undefined;
+};
+
+export type ArbeidsforholdSNF = Arbeidsforhold;
 
 export enum OmsorgstilbudVetPeriode {
     'vetHelePerioden' = 'vetHelePerioden',
@@ -164,7 +160,7 @@ export interface PleiepengesøknadFormData {
     [AppFormField.barnetSøknadenGjelder]: string;
     [AppFormField.relasjonTilBarnet]?: BarnRelasjon;
     [AppFormField.relasjonTilBarnetBeskrivelse]?: string;
-    [AppFormField.arbeidsforhold]: Arbeidsforhold[];
+    [AppFormField.arbeidsforhold]: ArbeidsforholdAnsatt[];
     [AppFormField.periodeFra]?: string;
     [AppFormField.periodeTil]?: string;
     [AppFormField.bekrefterPeriodeOver8uker]?: YesOrNo;

@@ -10,10 +10,15 @@ import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-comm
 import VirksomhetInfoAndDialog from '@navikt/sif-common-forms/lib/virksomhet/VirksomhetInfoAndDialog';
 import Lenke from 'nav-frontend-lenker';
 import Panel from 'nav-frontend-paneler';
-import getLenker from '../../../lenker';
-import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
-import AppForm from '../../app-form/AppForm';
+import getLenker from '../../../../lenker';
+import { AppFormField, Arbeidsform, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
+import {
+    getArbeidsformAnsattValidator,
+    getJobberNormaltTimerValidator,
+    isYesOrNoAnswered,
+} from '../../../../validation/fieldValidations';
+import AppForm from '../../../app-form/AppForm';
+import ArbeidsformOgTimer from './ArbeidsformOgTimer';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
@@ -21,7 +26,7 @@ interface Props {
 
 const SelvstendigNæringsdrivendeFormPart = ({ formValues }: Props) => {
     const intl = useIntl();
-    const { selvstendig_virksomhet, selvstendig_harFlereVirksomheter } = formValues;
+    const { selvstendig_virksomhet, selvstendig_harFlereVirksomheter, selvstendig_arbeidsforhold } = formValues;
     const harFlereVirksomheter = selvstendig_harFlereVirksomheter === YesOrNo.YES;
     return (
         <>
@@ -84,6 +89,26 @@ const SelvstendigNæringsdrivendeFormPart = ({ formValues }: Props) => {
                                 </Panel>
                             </Box>
                         )}
+                    {formValues.selvstendig_virksomhet !== undefined && (
+                        <FormBlock>
+                            <ArbeidsformOgTimer
+                                spørsmål={{
+                                    arbeidsform: intlHelper(intl, `selvstendig.arbeidsforhold.arbeidsform.spm`),
+                                    jobberNormaltTimer: (arbeidsform: Arbeidsform) =>
+                                        intlHelper(intl, `snFrilanser.arbeidsforhold.iDag.${arbeidsform}.spm`),
+                                }}
+                                validator={{
+                                    arbeidsform: getArbeidsformAnsattValidator(selvstendig_arbeidsforhold),
+                                    jobberNormaltTimer: getJobberNormaltTimerValidator(
+                                        selvstendig_arbeidsforhold,
+                                        'selvstendig'
+                                    ),
+                                }}
+                                arbeidsforhold={selvstendig_arbeidsforhold}
+                                parentFieldName={`${AppFormField.selvstendig_arbeidsforhold}`}
+                            />
+                        </FormBlock>
+                    )}
                 </>
             )}
         </>

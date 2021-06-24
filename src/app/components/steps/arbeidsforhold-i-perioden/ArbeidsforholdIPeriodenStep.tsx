@@ -38,6 +38,7 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
             <Box padBottom="m">
                 <CounsellorPanel>
                     <p style={{ marginTop: 0 }}>
+                        {/* Todo: lage tekst dynamisk i forhold til hva bruker har valgt */}
                         <FormattedMessage id="step.arbeidsforholdIPerioden.StepInfo.1" />
                     </p>
                     <p>

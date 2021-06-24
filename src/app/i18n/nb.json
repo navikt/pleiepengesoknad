@@ -438,10 +438,7 @@
     "arbeidsforhold.arbeidsforhold.sn.spm": "Skal du jobbe som selvstendig i samme periode som du søker pleiepenger?",
     "arbeidsforhold.arbeidsforhold.ja": "Ja",
     "arbeidsforhold.arbeidsforhold.nei": "Nei",
-    "arbeidsforhold.arbeidsforhold.vetIkke": "Vet ikke",
-
-    "arbeidsforhold.vetIkke.info.1": "Hvis du vet at du skal jobbe, men er usikker på hvor mye, oppgir du bare den tiden du vet med sikkerhet at du skal jobbe. Hvis denne tiden endrer seg, gir du oss beskjed om det slik at vi kan endre graderingen din.",
-    "arbeidsforhold.vetIkke.info.2": "Om du ikke vet noe med sikkerhet, velger du heller å svare nei på dette spørsmålet.",
+    "arbeidsforhold.arbeidsforhold.vetIkke": "Vet ikke, men jeg melder fra hvis jeg skal jobbe i perioden jeg søker for",
 
     "arbeidsforhold.jobbeHvorMye.spm": "Du har opplyst at du vanligvis jobber {timer} per uke hos {navn}. Hvor mye skal du jobbe der i pleiepengeperioden?",
     "arbeidsforhold.jobbeHvorMye.somVanlig": "Som vanlig, {timer} per uke",

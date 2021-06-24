@@ -4,7 +4,7 @@ import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUti
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { mapVirksomhetToVirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/mapVirksomhetToApiData';
 import { ArbeidsforholdApi, BarnToSendToApi, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
-import { Arbeidsforhold, BarnRelasjon, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { ArbeidsforholdAnsatt, BarnRelasjon, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../types/Søkerdata';
 import appSentryLogger from './appSentryLogger';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
@@ -35,7 +35,7 @@ export const getValidSpråk = (locale?: any): Locale => {
     }
 };
 
-export const getOrganisasjonerApiData = (arbeidsforhold: Arbeidsforhold[]): ArbeidsforholdApi[] => {
+export const getOrganisasjonerApiData = (arbeidsforhold: ArbeidsforholdAnsatt[]): ArbeidsforholdApi[] => {
     const organisasjoner: ArbeidsforholdApi[] = [];
     arbeidsforhold
         .filter((a) => a.erAnsattIPerioden === YesOrNo.YES)

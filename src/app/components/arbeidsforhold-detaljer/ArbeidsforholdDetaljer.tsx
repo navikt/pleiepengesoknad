@@ -1,28 +1,23 @@
 import React from 'react';
-import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
+import { IntlShape, useIntl } from 'react-intl';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
+import { getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
+import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
 import {
     AppFormField,
-    ArbeidsforholdSkalJobbeHvorMyeSvar,
-    Arbeidsforhold,
+    ArbeidsforholdAnsatt,
     ArbeidsforholdField,
+    ArbeidsforholdSkalJobbeHvorMyeSvar,
     ArbeidsforholdSkalJobbeSvar,
-    Arbeidsform,
 } from '../../types/PleiepengesøknadFormData';
 import AppForm from '../app-form/AppForm';
 import RedusertArbeidsforholdDetaljerPart from './RedusertArbeidsforholdDetaljerPart';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import { getNumberValidator, getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../../config/minMaxValues';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import ArbeidsformInfo from './info/arbeidsforholdInfo';
-import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
-import AlertStripe from 'nav-frontend-alertstriper';
-import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
 
 interface Props {
-    arbeidsforhold: Arbeidsforhold;
+    arbeidsforhold: ArbeidsforholdAnsatt;
     index: number;
 }
 
@@ -44,148 +39,43 @@ const ArbeidsforholdDetaljer = ({ arbeidsforhold, index }: Props) => {
         `${AppFormField.arbeidsforhold}.${index}.${field}` as AppFormField;
     return (
         <>
-            <FormBlock margin="none">
+            <FormBlock>
                 <AppForm.RadioPanelGroup
-                    legend={intlHelper(intl, 'arbeidsforhold.arbeidsform.spm', {
-                        arbeidsforhold: arbeidsforhold.navn,
+                    legend={intlHelper(intl, 'arbeidsforhold.arbeidsforhold.spm', {
+                        navn: arbeidsforhold.navn,
                     })}
-                    name={getFieldName(ArbeidsforholdField.arbeidsform)}
+                    description={
+                        <ExpandableInfo title="Hva betyr dette?">
+                            For å kunne beregne hvor mye pleiepenger du kan få trenger vi å vite om du skal jobbe i
+                            samme periode som du skal ha pleiepenger. Velg det som passer best i din situasjon.
+                        </ExpandableInfo>
+                    }
+                    name={getFieldName(ArbeidsforholdField.skalJobbe)}
                     radios={[
                         {
-                            label: intlHelper(intl, 'arbeidsforhold.arbeidsform.fast'),
-                            value: Arbeidsform.fast,
+                            label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.ja'),
+                            value: ArbeidsforholdSkalJobbeSvar.ja,
                         },
                         {
-                            label: intlHelper(intl, 'arbeidsforhold.arbeidsform.turnus'),
-                            value: Arbeidsform.turnus,
+                            label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.nei'),
+                            value: ArbeidsforholdSkalJobbeSvar.nei,
                         },
                         {
-                            label: intlHelper(intl, 'arbeidsforhold.arbeidsform.varierende'),
-                            value: Arbeidsform.varierende,
+                            label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.vetIkke'),
+                            value: ArbeidsforholdSkalJobbeSvar.vetIkke,
                         },
                     ]}
-                    validate={(value) => {
-                        return getRequiredFieldValidator()(value)
+                    validate={(values) =>
+                        getRequiredFieldValidator()(values)
                             ? {
-                                  key: 'validation.arbeidsforhold.arbeidsform.yesOrNoIsUnanswered',
+                                  key: 'validation.arbeidsforhold.skalJobbe',
                                   values: { navn: arbeidsforhold.navn },
                                   keepKeyUnaltered: true,
                               }
-                            : undefined;
-                    }}
+                            : undefined
+                    }
                 />
             </FormBlock>
-            {arbeidsforhold.arbeidsform !== undefined && (
-                <>
-                    <FormBlock>
-                        <AppForm.NumberInput
-                            name={getFieldName(ArbeidsforholdField.jobberNormaltTimer)}
-                            suffix={intlHelper(
-                                intl,
-                                `arbeidsforhold.arbeidsform.${arbeidsforhold.arbeidsform}.timer.suffix`
-                            )}
-                            suffixStyle="text"
-                            description={
-                                <div style={{ width: '100%' }}>
-                                    {arbeidsforhold.arbeidsform === Arbeidsform.fast && (
-                                        <Box margin="m">
-                                            <ArbeidsformInfo arbeidsform={Arbeidsform.fast} />
-                                        </Box>
-                                    )}
-                                    {arbeidsforhold.arbeidsform === Arbeidsform.turnus && (
-                                        <Box margin="m">
-                                            <ArbeidsformInfo arbeidsform={Arbeidsform.turnus} />
-                                        </Box>
-                                    )}
-                                    {arbeidsforhold.arbeidsform === Arbeidsform.varierende && (
-                                        <>
-                                            <Box margin="m">
-                                                <ArbeidsformInfo arbeidsform={Arbeidsform.varierende} />
-                                            </Box>
-                                        </>
-                                    )}
-                                </div>
-                            }
-                            bredde="XS"
-                            label={intlHelper(intl, `arbeidsforhold.iDag.${arbeidsforhold.arbeidsform}.spm`, {
-                                arbeidsforhold: arbeidsforhold.navn,
-                            })}
-                            validate={(value) => {
-                                const error = getNumberValidator({
-                                    required: true,
-                                    min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
-                                    max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
-                                })(value);
-                                if (error) {
-                                    return {
-                                        key: `validation.arbeidsforhold.jobberNormaltTimer.${arbeidsforhold.arbeidsform}.${error}`,
-                                        values: {
-                                            navn: arbeidsforhold.navn,
-                                            min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
-                                            max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
-                                        },
-                                        keepKeyUnaltered: true,
-                                    };
-                                }
-                                return error;
-                            }}
-                            value={arbeidsforhold.jobberNormaltTimer || ''}
-                        />
-                    </FormBlock>
-                    {hasValue(arbeidsforhold.jobberNormaltTimer) && (
-                        <FormBlock>
-                            <AppForm.RadioPanelGroup
-                                legend={intlHelper(intl, 'arbeidsforhold.arbeidsforhold.spm', {
-                                    navn: arbeidsforhold.navn,
-                                })}
-                                description={
-                                    <ExpandableInfo title="Hva betyr dette?">
-                                        For å kunne beregne hvor mye pleiepenger du kan få trenger vi å vite om du skal
-                                        jobbe i samme periode som du skal ha pleiepenger. Velg det som passer best i din
-                                        situasjon.
-                                    </ExpandableInfo>
-                                }
-                                name={getFieldName(ArbeidsforholdField.skalJobbe)}
-                                radios={[
-                                    {
-                                        label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.ja'),
-                                        value: ArbeidsforholdSkalJobbeSvar.ja,
-                                    },
-                                    {
-                                        label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.nei'),
-                                        value: ArbeidsforholdSkalJobbeSvar.nei,
-                                    },
-                                    {
-                                        label: intlHelper(intl, 'arbeidsforhold.arbeidsforhold.vetIkke'),
-                                        value: ArbeidsforholdSkalJobbeSvar.vetIkke,
-                                    },
-                                ]}
-                                validate={(values) =>
-                                    getRequiredFieldValidator()(values)
-                                        ? {
-                                              key: 'validation.arbeidsforhold.skalJobbe',
-                                              values: { navn: arbeidsforhold.navn },
-                                              keepKeyUnaltered: true,
-                                          }
-                                        : undefined
-                                }
-                            />
-                            {arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.vetIkke && (
-                                <Box margin="l">
-                                    <AlertStripe type="info">
-                                        <p>
-                                            <FormattedMessage id="arbeidsforhold.vetIkke.info.1" />
-                                        </p>
-                                        <p>
-                                            <FormattedMessage id="arbeidsforhold.vetIkke.info.2" />
-                                        </p>
-                                    </AlertStripe>
-                                </Box>
-                            )}
-                        </FormBlock>
-                    )}
-                </>
-            )}
             {arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.ja &&
                 arbeidsforhold.jobberNormaltTimer &&
                 hasValue(arbeidsforhold.jobberNormaltTimer) && (

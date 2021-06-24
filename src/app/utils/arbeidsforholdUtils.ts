@@ -2,7 +2,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { FormikProps } from 'formik';
 import { getArbeidsgiver } from '../api/api';
-import { AppFormField, Arbeidsforhold, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { AppFormField, ArbeidsforholdAnsatt, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { Arbeidsgiver, Søkerdata } from '../types/Søkerdata';
 import { apiUtils } from './apiUtils';
 import appSentryLogger from './appSentryLogger';
@@ -20,10 +20,10 @@ export const calcReduserteTimerFromRedusertProsent = (timerNormalt: number, pros
 
 export const syncArbeidsforholdWithArbeidsgivere = (
     arbeidsgivere: Arbeidsgiver[],
-    arbeidsforhold: Arbeidsforhold[]
-): Array<Partial<Arbeidsforhold>> => {
+    arbeidsforhold: ArbeidsforholdAnsatt[]
+): Array<Partial<ArbeidsforholdAnsatt>> => {
     return arbeidsgivere.map((organisasjon) => {
-        const forhold: Arbeidsforhold | undefined = arbeidsforhold.find(
+        const forhold: ArbeidsforholdAnsatt | undefined = arbeidsforhold.find(
             (f) => f.organisasjonsnummer === organisasjon.organisasjonsnummer
         );
         return {
@@ -33,7 +33,7 @@ export const syncArbeidsforholdWithArbeidsgivere = (
     });
 };
 
-export const getAktiveArbeidsforholdIPerioden = (arbeidsforhold: Arbeidsforhold[]) => {
+export const getAktiveArbeidsforholdIPerioden = (arbeidsforhold: ArbeidsforholdAnsatt[]) => {
     return arbeidsforhold.filter((a) => a.erAnsattIPerioden === YesOrNo.YES);
 };
 

@@ -1,5 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { Arbeidsforhold } from '../../types/PleiepengesøknadFormData';
+import { ArbeidsforholdAnsatt } from '../../types/PleiepengesøknadFormData';
 import { Arbeidsgiver } from '../../types/Søkerdata';
 import { syncArbeidsforholdWithArbeidsgivere } from '../arbeidsforholdUtils';
 
@@ -18,7 +18,7 @@ const organisasjonerEqual: Arbeidsgiver[] = [
     { navn: 'Org4', organisasjonsnummer: '4' },
 ];
 
-const arbeidsforhold: Arbeidsforhold[] = [
+const arbeidsforhold: ArbeidsforholdAnsatt[] = [
     { navn: 'Org3', organisasjonsnummer: '3', erAnsattIPerioden: YesOrNo.YES, jobberNormaltTimer: '10' },
     { navn: 'Org4', organisasjonsnummer: '4', erAnsattIPerioden: YesOrNo.UNANSWERED, jobberNormaltTimer: '20' },
 ];

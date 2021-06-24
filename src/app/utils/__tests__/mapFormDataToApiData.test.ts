@@ -17,7 +17,7 @@ import {
 } from '../../types/PleiepengesøknadApiData';
 import {
     AppFormField,
-    Arbeidsforhold,
+    ArbeidsforholdAnsatt,
     ArbeidsforholdSkalJobbeHvorMyeSvar,
     ArbeidsforholdSkalJobbeSvar,
     OmsorgstilbudVetPeriode,
@@ -55,7 +55,7 @@ const organisasjonMaxbo: Arbeidsgiver = {
     organisasjonsnummer: '910831143',
 };
 
-const telenorRedusertJobbing: Arbeidsforhold = {
+const telenorRedusertJobbing: ArbeidsforholdAnsatt = {
     ...organisasjonTelenor,
     erAnsattIPerioden: YesOrNo.YES,
     skalJobbe: ArbeidsforholdSkalJobbeSvar.ja,

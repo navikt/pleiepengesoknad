@@ -7,13 +7,13 @@ import {
     ArbeidsforholdApiVetIkke,
 } from '../../types/PleiepengesøknadApiData';
 import {
-    Arbeidsforhold,
+    ArbeidsforholdAnsatt,
     ArbeidsforholdSkalJobbeHvorMyeSvar,
     ArbeidsforholdSkalJobbeSvar,
 } from '../../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../arbeidsforholdUtils';
 
-export const mapArbeidsforholdToApiData = (arbeidsforhold: Arbeidsforhold): ArbeidsforholdApi | undefined => {
+export const mapArbeidsforholdToApiData = (arbeidsforhold: ArbeidsforholdAnsatt): ArbeidsforholdApi | undefined => {
     const {
         skalJobbe,
         timerEllerProsent,

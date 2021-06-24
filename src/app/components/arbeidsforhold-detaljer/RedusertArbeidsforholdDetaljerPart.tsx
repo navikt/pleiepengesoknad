@@ -6,7 +6,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { decimalTimeToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik';
 import { getNumberValidator, getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
-import { AppFormField, Arbeidsforhold, ArbeidsforholdField } from '../../types/PleiepengesøknadFormData';
+import { AppFormField, ArbeidsforholdAnsatt, ArbeidsforholdField } from '../../types/PleiepengesøknadFormData';
 import {
     calcReduserteTimerFromRedusertProsent,
     calcRedusertProsentFromRedusertTimer,
@@ -15,7 +15,7 @@ import { validateReduserteArbeidTimer } from '../../validation/fieldValidations'
 import AppForm from '../app-form/AppForm';
 
 interface Props {
-    arbeidsforhold: Arbeidsforhold;
+    arbeidsforhold: ArbeidsforholdAnsatt;
     getFieldName: (name: ArbeidsforholdField) => AppFormField;
 }
 

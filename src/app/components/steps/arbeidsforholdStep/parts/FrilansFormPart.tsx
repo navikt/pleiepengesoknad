@@ -9,17 +9,31 @@ import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-dat
 import { getDateValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import Lenke from 'nav-frontend-lenker';
 import Panel from 'nav-frontend-paneler';
-import getLenker from '../../../lenker';
-import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { validateFrilanserStartdato } from '../../../validation/fieldValidations';
-import AppForm from '../../app-form/AppForm';
+import getLenker from '../../../../lenker';
+import { AppFormField, Arbeidsform, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
+import {
+    getArbeidsformAnsattValidator,
+    getJobberNormaltTimerValidator,
+    validateFrilanserStartdato,
+} from '../../../../validation/fieldValidations';
+import AppForm from '../../../app-form/AppForm';
+import ArbeidsformOgTimer from './ArbeidsformOgTimer';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import { erFrilanserISøknadsperiode } from '../../../../utils/frilanserUtils';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
 }
 
 const FrilansFormPart = ({ formValues }: Props) => {
-    const { frilans_jobberFortsattSomFrilans, harHattInntektSomFrilanser, frilans_startdato } = formValues;
+    const {
+        frilans_jobberFortsattSomFrilans,
+        harHattInntektSomFrilanser,
+        frilans_startdato,
+        frilans_arbeidsforhold,
+        periodeFra,
+        frilans_sluttdato,
+    } = formValues;
     const intl = useIntl();
     return (
         <>
@@ -53,15 +67,15 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                     validate={validateFrilanserStartdato}
                                 />
                             </Box>
-                            <Box margin="xl">
+                            <FormBlock>
                                 <AppForm.YesOrNoQuestion
                                     name={AppFormField.frilans_jobberFortsattSomFrilans}
                                     legend={intlHelper(intl, 'frilanser.jobberFortsatt.spm')}
                                     validate={getYesOrNoValidator()}
                                 />
-                            </Box>
+                            </FormBlock>
                             {frilans_jobberFortsattSomFrilans === YesOrNo.NO && (
-                                <Box margin="xl">
+                                <FormBlock>
                                     <AppForm.DatePicker
                                         name={AppFormField.frilans_sluttdato}
                                         label={intlHelper(intl, 'frilanser.nårSluttet.spm')}
@@ -74,7 +88,28 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                             max: dateToday,
                                         })}
                                     />
-                                </Box>
+                                </FormBlock>
+                            )}
+                            {(frilans_jobberFortsattSomFrilans === YesOrNo.YES ||
+                                erFrilanserISøknadsperiode(periodeFra, frilans_sluttdato)) && (
+                                <FormBlock>
+                                    <ArbeidsformOgTimer
+                                        spørsmål={{
+                                            arbeidsform: intlHelper(intl, `frilans.arbeidsforhold.arbeidsform.spm`),
+                                            jobberNormaltTimer: (arbeidsform: Arbeidsform) =>
+                                                intlHelper(intl, `snFrilanser.arbeidsforhold.iDag.${arbeidsform}.spm`),
+                                        }}
+                                        validator={{
+                                            arbeidsform: getArbeidsformAnsattValidator(frilans_arbeidsforhold),
+                                            jobberNormaltTimer: getJobberNormaltTimerValidator(
+                                                frilans_arbeidsforhold,
+                                                'frilans'
+                                            ),
+                                        }}
+                                        arbeidsforhold={frilans_arbeidsforhold}
+                                        parentFieldName={`${AppFormField.frilans_arbeidsforhold}`}
+                                    />
+                                </FormBlock>
                             )}
                         </Panel>
                     </Box>

@@ -7,23 +7,21 @@ import LoadingSpinner from '@navikt/sif-common-core/lib/components/loading-spinn
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { useFormikContext } from 'formik';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
-import { Undertittel } from 'nav-frontend-typografi';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
-import { AppFormField, ArbeidsforholdField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { getArbeidsgivere } from '../../../utils/arbeidsforholdUtils';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
-import { isEndDateInPeriod } from '../../../utils/frilanserUtils';
-import AppForm from '../../app-form/AppForm';
+import { erFrilanserISøknadsperiode } from '../../../utils/frilanserUtils';
 import FormikStep from '../../formik-step/FormikStep';
-import AndreYtelserFormPart from './AndreYtelserFormPart';
-import FrilansFormPart from './FrilansFormPart';
-import SelvstendigNæringsdrivendeFormPart from './SelvstendigNæringsdrivendeFormPart';
-import VernepliktigFormPart from './VernepliktigFormPart';
+import AndreYtelserFormPart from './parts/AndreYtelserFormPart';
+import ArbeidsforholdFormPart from './parts/ArbeidsforholdFormPart';
+import FrilansFormPart from './parts/FrilansFormPart';
+import SelvstendigNæringsdrivendeFormPart from './parts/SelvstendigNæringsdrivendeFormPart';
+import VernepliktigFormPart from './parts/VernepliktigFormPart';
 
 interface LoadState {
     isLoading: boolean;
@@ -57,7 +55,7 @@ const cleanupArbeidsforhold = (formValues: PleiepengesøknadFormData): Pleiepeng
     if (
         values.harHattInntektSomFrilanser === YesOrNo.YES &&
         values.frilans_jobberFortsattSomFrilans === YesOrNo.NO &&
-        !isEndDateInPeriod(values.periodeFra, values.frilans_sluttdato)
+        !erFrilanserISøknadsperiode(values.periodeFra, values.frilans_sluttdato)
     ) {
         values.frilans_arbeidsforhold = undefined;
     }
@@ -122,34 +120,11 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                                         <FormattedMessage id="steg.arbeidsforhold.info.tekst" />
                                     </ExpandableInfo>
                                 </Box>
-                                <>
-                                    {arbeidsforhold.map((forhold, index) => (
-                                        <FormBlock key={forhold.organisasjonsnummer} margin="xl">
-                                            <Box padBottom="m">
-                                                <Undertittel tag="h3" style={{ fontWeight: 'normal' }}>
-                                                    {forhold.navn}
-                                                </Undertittel>
-                                            </Box>
-                                            <Box>
-                                                <AppForm.YesOrNoQuestion
-                                                    legend={intlHelper(intl, 'arbeidsforhold.erAnsattIPerioden.spm')}
-                                                    name={
-                                                        `${AppFormField.arbeidsforhold}.${index}.${ArbeidsforholdField.erAnsattIPerioden}` as any
-                                                    }
-                                                    validate={(value) => {
-                                                        return getYesOrNoValidator()(value)
-                                                            ? {
-                                                                  key: 'validation.arbeidsforhold.erAnsattIPerioden.yesOrNoIsUnanswered',
-                                                                  values: { navn: forhold.navn },
-                                                                  keepKeyUnaltered: true,
-                                                              }
-                                                            : undefined;
-                                                    }}
-                                                />
-                                            </Box>
-                                        </FormBlock>
-                                    ))}
-                                </>
+                                {arbeidsforhold.map((forhold, index) => (
+                                    <FormBlock key={forhold.organisasjonsnummer}>
+                                        <ArbeidsforholdFormPart arbeidsforhold={forhold} index={index} />
+                                    </FormBlock>
+                                ))}
                             </>
                         )}
                         {arbeidsforhold.length === 0 && (
