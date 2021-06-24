@@ -18,7 +18,7 @@ const Tilsynsuke = ({ name }: Props) => {
             <Box margin="l">
                 <div className="tilsynsuke">
                     <AppForm.TimeInput
-                        label={intlHelper(intl, 'Mandag')}
+                        label={intlHelper(intl, 'Mandager')}
                         name={`${name}.mandag` as AppFormField}
                         timeInputLayout={{
                             direction: 'vertical',
@@ -27,7 +27,7 @@ const Tilsynsuke = ({ name }: Props) => {
                         validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'mandag'))}
                     />
                     <AppForm.TimeInput
-                        label={intlHelper(intl, 'Tirsdag')}
+                        label={intlHelper(intl, 'Tirsdager')}
                         name={`${name}.tirsdag` as AppFormField}
                         timeInputLayout={{
                             direction: 'vertical',
@@ -36,7 +36,7 @@ const Tilsynsuke = ({ name }: Props) => {
                         validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'tirsdag'))}
                     />
                     <AppForm.TimeInput
-                        label={intlHelper(intl, 'Onsdag')}
+                        label={intlHelper(intl, 'Onsdager')}
                         name={`${name}.onsdag` as AppFormField}
                         timeInputLayout={{
                             direction: 'vertical',
@@ -45,7 +45,7 @@ const Tilsynsuke = ({ name }: Props) => {
                         validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'onsdag'))}
                     />
                     <AppForm.TimeInput
-                        label={intlHelper(intl, 'Torsdag')}
+                        label={intlHelper(intl, 'Torsdager')}
                         name={`${name}.torsdag` as AppFormField}
                         timeInputLayout={{
                             direction: 'vertical',
@@ -54,7 +54,7 @@ const Tilsynsuke = ({ name }: Props) => {
                         validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'torsdag'))}
                     />
                     <AppForm.TimeInput
-                        label={intlHelper(intl, 'Fredag')}
+                        label={intlHelper(intl, 'Fredager')}
                         name={`${name}.fredag` as AppFormField}
                         timeInputLayout={{
                             direction: 'vertical',

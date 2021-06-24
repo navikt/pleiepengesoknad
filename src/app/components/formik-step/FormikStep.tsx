@@ -40,20 +40,22 @@ const FormikStep = (props: Props) => {
                 includeValidationSummary={true}
                 runDelayedFormValidation={true}
                 cleanup={props.onStepCleanup}
-                formErrorHandler={getIntlFormErrorHandler(intl, 'validation')}>
+                formErrorHandler={getIntlFormErrorHandler(intl, 'validation')}
+                formFooter={
+                    <FormBlock>
+                        <Knapp
+                            type="hoved"
+                            htmlType="submit"
+                            className={'step__button'}
+                            spinner={showButtonSpinner || false}
+                            disabled={buttonDisabled || false}
+                            aria-label={texts.nextButtonAriaLabel}>
+                            {texts.nextButtonLabel}
+                        </Knapp>
+                    </FormBlock>
+                }>
                 {children}
                 {customErrorSummary && <FormBlock>{customErrorSummary()}</FormBlock>}
-                <FormBlock>
-                    <Knapp
-                        type="hoved"
-                        htmlType="submit"
-                        className={'step__button'}
-                        spinner={showButtonSpinner || false}
-                        disabled={buttonDisabled || false}
-                        aria-label={texts.nextButtonAriaLabel}>
-                        {texts.nextButtonLabel}
-                    </Knapp>
-                </FormBlock>
             </AppForm.Form>
         </Step>
     );

@@ -1,9 +1,11 @@
+import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { Time } from '@navikt/sif-common-formik/lib/types';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { Virksomhet } from '@navikt/sif-common-forms/lib/virksomhet/types';
-import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
-import { Time } from '@navikt/sif-common-formik/lib/types';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { TidIOmsorgstilbud } from '../components/omsorgstilbud/types';
+import { VetOmsorgstilbud } from './PleiepengesøknadApiData';
 import { Arbeidsgiver } from './Søkerdata';
 
 export enum ArbeidsforholdSkalJobbeSvar {
@@ -21,13 +23,15 @@ export interface OmsorgstilbudFasteDager {
     fredag?: Time;
 }
 
+export interface OmsorgstilbudInfo {
+    vetHvorMyeTid: VetOmsorgstilbud;
+    erLiktHverDag?: YesOrNo;
+    fasteDager?: OmsorgstilbudFasteDager;
+    enkeltdager?: TidIOmsorgstilbud;
+}
 export interface Omsorgstilbud {
     skalBarnIOmsorgstilbud: YesOrNo;
-    ja?: {
-        hvorMyeTid?: OmsorgstilbudVetPeriode;
-        vetMinAntallTimer?: YesOrNo;
-        fasteDager?: OmsorgstilbudFasteDager;
-    };
+    ja?: OmsorgstilbudInfo;
 }
 
 export enum AppFormField {
@@ -62,9 +66,10 @@ export enum AppFormField {
     harBeredskap_ekstrainfo = 'harBeredskap_ekstrainfo',
     omsorgstilbud = 'omsorgstilbud',
     omsorgstilbud__skalBarnIOmsorgstilbud = 'omsorgstilbud.skalBarnIOmsorgstilbud',
-    omsorgstilbud__ja__hvorMyeTid = 'omsorgstilbud.ja.hvorMyeTid',
+    omsorgstilbud__ja__vetHvorMyeTid = 'omsorgstilbud.ja.vetHvorMyeTid',
+    omsorgstilbud__ja_erLiktHverDag = 'omsorgstilbud.ja.erLiktHverDag',
     omsorgstilbud__ja__fasteDager = 'omsorgstilbud.ja.fasteDager',
-    omsorgstilbud__ja__vetMinAntallTimer = 'omsorgstilbud.ja.vetMinAntallTimer',
+    omsorgstilbud__ja__enkeltdager = 'omsorgstilbud.ja.enkeltdager',
     frilans_harHattInntektSomFrilanser = 'harHattInntektSomFrilanser',
     frilans_startdato = 'frilans_startdato',
     frilans_sluttdato = 'frilans_sluttdato',
@@ -132,11 +137,6 @@ export interface ArbeidsforholdSNF {
     [ArbeidsforholdSNFField.arbeidsform]?: Arbeidsform;
 }
 
-export enum OmsorgstilbudVetPeriode {
-    'vetHelePerioden' = 'vetHelePerioden',
-    'usikker' = 'usikker',
-}
-
 export enum BarnRelasjon {
     MOR = 'MOR',
     FAR = 'FAR',
@@ -172,6 +172,7 @@ export interface PleiepengesøknadFormData {
     [AppFormField.harMedsøker]: YesOrNo;
     [AppFormField.samtidigHjemme]: YesOrNo;
     [AppFormField.omsorgstilbud]?: Omsorgstilbud;
+    [AppFormField.omsorgstilbud__ja_erLiktHverDag]?: YesOrNo;
     [AppFormField.harNattevåk]: YesOrNo;
     [AppFormField.harNattevåk_ekstrainfo]?: string;
     [AppFormField.harBeredskap]: YesOrNo;

@@ -196,7 +196,7 @@ export const mapFormDataToApiData = (
             apiData.samtidigHjemme = harMedsøker === YesOrNo.YES ? samtidigHjemme === YesOrNo.YES : undefined;
 
             if (omsorgstilbud !== undefined) {
-                apiData.omsorgstilbud = mapTilsynsordningToApiData(omsorgstilbud);
+                apiData.omsorgstilbud = mapTilsynsordningToApiData(omsorgstilbud, { from: periodeFra, to: periodeTil });
                 const inkluderNattevåkOgBeredskap = skalBrukerSvarePåBeredskapOgNattevåk(formData);
                 if (inkluderNattevåkOgBeredskap && omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES) {
                     apiData.nattevåk = {
