@@ -36,7 +36,7 @@ export const visVernepliktSpørsmål = ({
 }: PleiepengesøknadFormData): boolean => {
     if (harHattInntektSomFrilanser === YesOrNo.NO && selvstendig_harHattInntektSomSN === YesOrNo.NO) {
         if (arbeidsforhold.length > 0) {
-            return arbeidsforhold.some(
+            return !arbeidsforhold.some(
                 ({ erAnsattIPerioden }) => erAnsattIPerioden === undefined || erAnsattIPerioden === YesOrNo.YES
             );
         }
@@ -67,7 +67,7 @@ const cleanupArbeidsforhold = (formValues: PleiepengesøknadFormData): Pleiepeng
         values.selvstendig_virksomhet = undefined;
         values.selvstendig_arbeidsforhold = undefined;
     }
-    if (visVernepliktSpørsmål(values)) {
+    if (!visVernepliktSpørsmål(values)) {
         values.harVærtEllerErVernepliktig = undefined;
     }
 
@@ -157,7 +157,7 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                         <SelvstendigNæringsdrivendeFormPart formValues={values} />
                     </FormSection>
 
-                    {!visVernepliktSpørsmål(values) && (
+                    {visVernepliktSpørsmål(values) && (
                         <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.verneplikt.tittel')}>
                             <VernepliktigFormPart />
                         </FormSection>
