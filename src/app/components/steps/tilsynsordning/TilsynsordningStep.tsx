@@ -19,6 +19,7 @@ import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-comm
 import AlertStripe from 'nav-frontend-alertstriper';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatted-html-message/FormattedHtmlMessage';
+import { skalBrukerSvarePåBeredskapOgNattevåk } from '../../../utils/stepUtils';
 
 export const cleanupTilsynsordningStep = (values: PleiepengesøknadFormData): PleiepengesøknadFormData => {
     const cleanedValues = { ...values };
@@ -35,6 +36,13 @@ export const cleanupTilsynsordningStep = (values: PleiepengesøknadFormData): Pl
     }
     if (cleanedValues.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.NO) {
         cleanedValues.omsorgstilbud.ja = undefined;
+    }
+
+    if (skalBrukerSvarePåBeredskapOgNattevåk(values) === false) {
+        cleanedValues.harNattevåk = YesOrNo.UNANSWERED;
+        cleanedValues.harNattevåk_ekstrainfo = undefined;
+        cleanedValues.harBeredskap = YesOrNo.UNANSWERED;
+        cleanedValues.harBeredskap_ekstrainfo = undefined;
     }
 
     return cleanedValues;
