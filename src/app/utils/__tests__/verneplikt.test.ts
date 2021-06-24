@@ -178,7 +178,6 @@ describe('Check visVernepliktSpørsmål function', () => {
     });
 
     it("Do not show verneplikt question (return false) if frilanser and selvstendig - 'NO' and arbeidsgiver.erAnsattIPerioden 'UNANSWERED' ", () => {
-        console.log(data_FrilanserOgSelvstendigNO);
         const result = visVernepliktSpørsmål(data_FrilanserOgSelvstendigNO as PleiepengesøknadFormData);
         expect(result).toBeFalsy();
     });
