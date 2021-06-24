@@ -277,11 +277,16 @@
     "steg.tilsyn.ja.årsak.usikkerPerioden": "Nei, jeg er usikker på hvor mye",
     "steg.tilsyn.ja.årsak.nei": "Nei",
 
+    "steg.nattevåk.veileder": "I noen tilfeller kan barnets sykdom gjøre at du må være våken om natten for å pleie eller ha tilsyn med barnet. Hvis du ikke kan gå på jobb dagen etter fordi du selv må hvile ut, skal ikke pleiepengene graderes selv om barnet er i et omsorgstilbud på dagtid. Det må være en sammenheng mellom pleien og tilsynet du gir på natten og barnets sykdom. I disse tilfellene skal pleiepengene som hovedregel ikke graderes.",
     "steg.nattevåk.spm": "Gjør barnets sykdom at du må være våken på natta og derfor må være borte fra jobb dagen etter?",
     "steg.nattevåk.tilleggsinfo.spm": "Beskriv hva som gjør at du må være våken",
-    "steg.beredskap.spm": "Gjør barnets sykdom at du må være i beredskap eller være tilgjengelig selv om barnet er i et omsorgstilbud?",
+    "steg.nattevåk.tilleggsinfo.veiledning.tittel": "Veiledning ",
+    "steg.nattevåk.tilleggsinfo.veiledning.html": "Her skal du beskrive på hvilken måte barnets sykdom gjør at du må være våken om natta. Beskriv så utfyllende og detaljert du kan.<p>Hvis du har våkenetter i kun deler av perioden du søker pleiepenger for, må du presisere hvilke perioder eller netter du må være våken.</p>",
+    "steg.beredskap.spm": "Gjør barnets sykdom at du må være i beredskap når barnet er i et omsorgstilbud slik at du må være borte fra jobb?",
     "steg.beredskap.tilleggsinfo.spm": "Beskriv hva som gjør at du må være i beredskap eller være tilgjengelig",
-    "steg.beredskap.veileder": "I noen tilfeller kan barnets sykdom gjøre at du må være i beredskap eller være tilgjengelig, selv om barnet er i et omsorgstilbud. Det kan for eksempel være at du må være tilstede i klasserommet, eller at du må reise fra jobb på kort varsel for å være tilgjengelig for barnet ditt.",
+    "steg.beredskap.veileder": "I noen tilfeller kan barnets sykdom gjøre at du må være i beredskap eller være tilgjengelig, selv om barnet er i et omsorgstilbud. Det kan for eksempel være at du må være til stede i klasserommet, eller på annen måte være tilgjengelig for barnet når barnet er i omsorgstilbudet. Hvis dette gjør at du ikke kan være på jobb selv om barnet er i omsorgstilbud, vil pleiepengene som hovedregel ikke graderes.",
+    "steg.beredskap.tilleggsinfo.veiledning.tittel": "Veiledning ",
+    "steg.beredskap.tilleggsinfo.veiledning.html": "Her skal du beskrive på hvilken måte barnets sykdom gjør at du må være i beredskap når barnet er i et omsorgstilbud. Beskriv så utfyllende og detaljert du kan.<p>Hvis du må være i beredskap i kun deler av perioden du søker pleiepenger for, må du presisere hvilke perioder eller dager du må være i beredskap.</p>",
 
     "steg.medlemsskap.annetLandSiste12.spm": "Har du bodd i utlandet i hele eller deler av de siste 12 månedene?",
     "steg.medlemsskap.annetLandNeste12.spm": "Planlegger du å bo i utlandet i hele eller deler av de neste 12 månedene?",

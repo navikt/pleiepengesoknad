@@ -10,6 +10,7 @@ import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 const cleanupBeredskapStep = (values: PleiepengesøknadFormData): PleiepengesøknadFormData => {
     const cleanedValues = { ...values };
@@ -43,6 +44,14 @@ const BeredskapStep = ({ onValidSubmit }: StepConfigProps) => {
                         label={intlHelper(intl, 'steg.beredskap.tilleggsinfo.spm')}
                         maxLength={1000}
                         validate={getStringValidator({ required: true, maxLength: 1000 })}
+                        description={
+                            <ExpandableInfo title={intlHelper(intl, 'steg.beredskap.tilleggsinfo.veiledning.tittel')}>
+                                <FormattedMessage
+                                    id="steg.beredskap.tilleggsinfo.veiledning.html"
+                                    values={{ p: (msg: string) => <p>{msg}</p> }}
+                                />
+                            </ExpandableInfo>
+                        }
                     />
                 </Box>
             )}
