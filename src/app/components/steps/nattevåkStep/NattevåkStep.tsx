@@ -40,15 +40,12 @@ const NattevåkStep = ({ onValidSubmit }: StepConfigProps) => {
                 <Box margin="xl">
                     <AppForm.Textarea
                         name={AppFormField.harNattevåk_ekstrainfo}
-                        label={intlHelper(intl, 'steg.nattevåk.tilleggsinfo.spm')}
+                        label={<FormattedMessage id="steg.nattevåk.tilleggsinfo.spm" />}
                         validate={getStringValidator({ required: true, maxLength: 1000 })}
                         maxLength={1000}
                         description={
                             <ExpandableInfo title={intlHelper(intl, 'steg.nattevåk.tilleggsinfo.veiledning.tittel')}>
-                                <FormattedMessage
-                                    id="steg.nattevåk.tilleggsinfo.veiledning.html"
-                                    values={{ p: (msg: string) => <p>{msg}</p> }}
-                                />
+                                <FormattedMessage id="steg.nattevåk.tilleggsinfo.veiledning" />
                             </ExpandableInfo>
                         }
                     />

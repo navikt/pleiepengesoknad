@@ -41,15 +41,12 @@ const BeredskapStep = ({ onValidSubmit }: StepConfigProps) => {
                 <Box margin="xl">
                     <AppForm.Textarea
                         name={AppFormField.harBeredskap_ekstrainfo}
-                        label={intlHelper(intl, 'steg.beredskap.tilleggsinfo.spm')}
+                        label={<FormattedMessage id="steg.beredskap.tilleggsinfo.spm" />}
                         maxLength={1000}
                         validate={getStringValidator({ required: true, maxLength: 1000 })}
                         description={
                             <ExpandableInfo title={intlHelper(intl, 'steg.beredskap.tilleggsinfo.veiledning.tittel')}>
-                                <FormattedMessage
-                                    id="steg.beredskap.tilleggsinfo.veiledning.html"
-                                    values={{ p: (msg: string) => <p>{msg}</p> }}
-                                />
+                                <FormattedMessage id="steg.beredskap.tilleggsinfo.veiledning" />
                             </ExpandableInfo>
                         }
                     />
