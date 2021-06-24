@@ -130,7 +130,7 @@ const selvstendigPartialFormData: Partial<PleiepengesøknadFormData> = {
         erPågående: true,
         navnPåVirksomheten: 'abc',
         næringsinntekt: 200,
-        næringstyper: [Næringstype.ANNEN],
+        næringstype: Næringstype.ANNEN,
         registrertINorge: YesOrNo.YES,
         organisasjonsnummer: '123123123',
         harRegnskapsfører: YesOrNo.NO,
