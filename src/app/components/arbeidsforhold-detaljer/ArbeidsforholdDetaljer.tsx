@@ -1,5 +1,5 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import {
     AppFormField,
@@ -18,11 +18,25 @@ import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ArbeidsformInfo from './info/arbeidsforholdInfo';
 import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
+import AlertStripe from 'nav-frontend-alertstriper';
+import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
     index: number;
 }
+
+const getTimerTekst = (value: string, intl: IntlShape): string => {
+    const timer = getNumberFromNumberInputValue(value);
+    if (timer) {
+        return intlHelper(intl, 'timer', {
+            timer,
+        });
+    }
+    return intlHelper(intl, 'timer.ikkeTall', {
+        timer: value,
+    });
+};
 
 const ArbeidsforholdDetaljer = ({ arbeidsforhold, index }: Props) => {
     const intl = useIntl();
@@ -121,7 +135,9 @@ const ArbeidsforholdDetaljer = ({ arbeidsforhold, index }: Props) => {
                     {hasValue(arbeidsforhold.jobberNormaltTimer) && (
                         <FormBlock>
                             <AppForm.RadioPanelGroup
-                                legend={intlHelper(intl, 'arbeidsforhold.arbeidsforhold.spm')}
+                                legend={intlHelper(intl, 'arbeidsforhold.arbeidsforhold.spm', {
+                                    navn: arbeidsforhold.navn,
+                                })}
                                 description={
                                     <ExpandableInfo title="Hva betyr dette?">
                                         For å kunne beregne hvor mye pleiepenger du kan få trenger vi å vite om du skal
@@ -154,27 +170,56 @@ const ArbeidsforholdDetaljer = ({ arbeidsforhold, index }: Props) => {
                                         : undefined
                                 }
                             />
+                            {arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.vetIkke && (
+                                <Box margin="l">
+                                    <AlertStripe type="info">
+                                        <p>
+                                            <FormattedMessage id="arbeidsforhold.vetIkke.info.1" />
+                                        </p>
+                                        <p>
+                                            <FormattedMessage id="arbeidsforhold.vetIkke.info.2" />
+                                        </p>
+                                    </AlertStripe>
+                                </Box>
+                            )}
                         </FormBlock>
                     )}
                 </>
             )}
             {arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.ja &&
+                arbeidsforhold.jobberNormaltTimer &&
                 hasValue(arbeidsforhold.jobberNormaltTimer) && (
                     <>
                         <FormBlock>
                             <AppForm.RadioPanelGroup
                                 name={getFieldName(ArbeidsforholdField.skalJobbeHvorMye)}
-                                legend={`Hvor mye skal du jobbe hos ${arbeidsforhold.navn}`}
+                                legend={intlHelper(intl, 'arbeidsforhold.jobbeHvorMye.spm', {
+                                    navn: arbeidsforhold.navn,
+                                    timer: getTimerTekst(arbeidsforhold.jobberNormaltTimer, intl),
+                                })}
                                 radios={[
                                     {
                                         value: ArbeidsforholdSkalJobbeHvorMyeSvar.somVanlig,
-                                        label: `Som normalt (${arbeidsforhold.jobberNormaltTimer} timer)`,
+                                        label: intlHelper(intl, 'arbeidsforhold.jobbeHvorMye.somVanlig', {
+                                            timer: getTimerTekst(arbeidsforhold.jobberNormaltTimer, intl),
+                                        }),
                                     },
                                     {
                                         value: ArbeidsforholdSkalJobbeHvorMyeSvar.redusert,
-                                        label: `Mindre enn ${arbeidsforhold.jobberNormaltTimer} timer`,
+                                        label: intlHelper(intl, 'arbeidsforhold.jobbeHvorMye.redusert', {
+                                            timer: getTimerTekst(arbeidsforhold.jobberNormaltTimer, intl),
+                                        }),
                                     },
                                 ]}
+                                validate={(values) =>
+                                    getRequiredFieldValidator()(values)
+                                        ? {
+                                              key: 'validation.arbeidsforhold.jobbeHvorMye',
+                                              values: { navn: arbeidsforhold.navn },
+                                              keepKeyUnaltered: true,
+                                          }
+                                        : undefined
+                                }
                             />
                         </FormBlock>
                         {arbeidsforhold.skalJobbeHvorMye === ArbeidsforholdSkalJobbeHvorMyeSvar.redusert && (

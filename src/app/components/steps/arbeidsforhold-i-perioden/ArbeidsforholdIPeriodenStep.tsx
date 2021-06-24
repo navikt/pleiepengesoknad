@@ -37,7 +37,12 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
         <FormikStep id={StepID.ARBEIDSFORHOLD_I_PERIODEN} onValidFormSubmit={onValidSubmit}>
             <Box padBottom="m">
                 <CounsellorPanel>
-                    <FormattedMessage id="step.arbeidsforholdIPerioden.StepInfo" />
+                    <p style={{ marginTop: 0 }}>
+                        <FormattedMessage id="step.arbeidsforholdIPerioden.StepInfo.1" />
+                    </p>
+                    <p>
+                        <FormattedMessage id="step.arbeidsforholdIPerioden.StepInfo.2" />
+                    </p>
                 </CounsellorPanel>
             </Box>
             <Box margin="xl">
