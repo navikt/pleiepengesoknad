@@ -29,6 +29,8 @@ export interface Omsorgstilbud {
     };
 }
 
+export type FrilansEllerSelvstendig = 'frilans' | 'selvstendig';
+
 export enum AppFormField {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
     harBekreftetOpplysninger = 'harBekreftetOpplysninger',

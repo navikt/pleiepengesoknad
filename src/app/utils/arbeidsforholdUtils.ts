@@ -1,6 +1,9 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
 import { FormikProps } from 'formik';
+import { IntlShape } from 'react-intl';
 import { getArbeidsgiver } from '../api/api';
 import { AppFormField, ArbeidsforholdAnsatt, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { Arbeidsgiver, Søkerdata } from '../types/Søkerdata';
@@ -73,3 +76,15 @@ export async function getArbeidsgivere(
         }
     }
 }
+
+export const getTimerTekst = (value: string | undefined, intl: IntlShape): string => {
+    const timer = getNumberFromNumberInputValue(value);
+    if (timer) {
+        return intlHelper(intl, 'timer', {
+            timer,
+        });
+    }
+    return intlHelper(intl, 'timer.ikkeTall', {
+        timer: value,
+    });
+};

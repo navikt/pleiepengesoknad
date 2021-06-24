@@ -10,9 +10,10 @@ import {
     ArbeidsforholdField,
     ArbeidsforholdSNF,
     Arbeidsform,
+    isArbeidsforholdAnsatt,
 } from '../../../../types/PleiepengesøknadFormData';
 import AppForm from '../../../app-form/AppForm';
-import ArbeidsformInfo from '../info/arbeidsforholdInfo';
+import ArbeidsformInfo from '../info/ArbeidsformInfo';
 
 interface Props {
     arbeidsforhold?: ArbeidsforholdAnsatt | ArbeidsforholdSNF;
@@ -31,10 +32,11 @@ const ArbeidsforholdFormPart: React.FunctionComponent<Props> = ({
     arbeidsforhold,
     spørsmål,
     parentFieldName,
-    validator: validate,
+    validator,
 }) => {
     const intl = useIntl();
     const getFieldName = (field: ArbeidsforholdField) => `${parentFieldName}.${field}` as AppFormField;
+    const erAnsattArbeidsforhold = isArbeidsforholdAnsatt(arbeidsforhold);
     return (
         <>
             <FormBlock margin="none">
@@ -55,7 +57,7 @@ const ArbeidsforholdFormPart: React.FunctionComponent<Props> = ({
                             value: Arbeidsform.varierende,
                         },
                     ]}
-                    validate={validate.arbeidsform}
+                    validate={validator.arbeidsform}
                 />
             </FormBlock>
             {arbeidsforhold?.arbeidsform !== undefined && (
@@ -72,25 +74,34 @@ const ArbeidsforholdFormPart: React.FunctionComponent<Props> = ({
                             <div style={{ width: '100%' }}>
                                 {arbeidsforhold.arbeidsform === Arbeidsform.fast && (
                                     <Box margin="m">
-                                        <ArbeidsformInfo arbeidsform={Arbeidsform.fast} />
+                                        <ArbeidsformInfo
+                                            arbeidsform={Arbeidsform.fast}
+                                            gjelderSnFri={erAnsattArbeidsforhold === false}
+                                        />
                                     </Box>
                                 )}
                                 {arbeidsforhold.arbeidsform === Arbeidsform.turnus && (
                                     <Box margin="m">
-                                        <ArbeidsformInfo arbeidsform={Arbeidsform.turnus} />
+                                        <ArbeidsformInfo
+                                            arbeidsform={Arbeidsform.turnus}
+                                            gjelderSnFri={erAnsattArbeidsforhold === false}
+                                        />
                                     </Box>
                                 )}
                                 {arbeidsforhold.arbeidsform === Arbeidsform.varierende && (
                                     <>
                                         <Box margin="m">
-                                            <ArbeidsformInfo arbeidsform={Arbeidsform.varierende} />
+                                            <ArbeidsformInfo
+                                                arbeidsform={Arbeidsform.varierende}
+                                                gjelderSnFri={erAnsattArbeidsforhold === false}
+                                            />
                                         </Box>
                                     </>
                                 )}
                             </div>
                         }
                         bredde="XS"
-                        validate={validate.jobberNormaltTimer}
+                        validate={validator.jobberNormaltTimer}
                         value={arbeidsforhold.jobberNormaltTimer || ''}
                     />
                 </FormBlock>
