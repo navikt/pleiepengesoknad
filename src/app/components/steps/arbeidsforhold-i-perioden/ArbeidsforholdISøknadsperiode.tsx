@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
-import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
@@ -15,7 +14,6 @@ import {
     ArbeidsforholdSkalJobbeHvorMyeSvar,
     ArbeidsforholdSkalJobbeSvar,
     ArbeidsforholdSNF,
-    Arbeidsform,
     FrilansEllerSelvstendig,
 } from '../../../types/PleiepengesøknadFormData';
 import {
