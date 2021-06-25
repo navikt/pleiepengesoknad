@@ -1,7 +1,7 @@
 import { Arbeidsgiver } from '../../types/Søkerdata';
 import { AppFormField, Arbeidsforhold, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { erAnsattEllerFSN } from '../../components/steps/arbeidsforholdStep/ArbeidsforholdStep';
+import { visVernepliktSpørsmål } from '../../components/steps/arbeidsforholdStep/ArbeidsforholdStep';
 
 const organisasjonTelenor: Arbeidsgiver = {
     navn: 'Telenor',
@@ -41,12 +41,7 @@ export const formDataMock: Partial<PleiepengesøknadFormData> = {
     [AppFormField.selvstendig_harHattInntektSomSN]: YesOrNo.UNANSWERED,
 };
 
-describe('Check erIkkeAnsattEllerFSN function', () => {
-    it("return true if every questions 'UNANSWERED' ", () => {
-        const resultingApiData = erAnsattEllerFSN(formDataMock as PleiepengesøknadFormData);
-        expect(resultingApiData).toBeTruthy();
-    });
-
+describe('Check visVernepliktSpørsmål function', () => {
     const data_frilans_harHattInntektSomFrilanserNo = {
         ...formDataMock,
         harHattInntektSomFrilanser: YesOrNo.NO,
@@ -167,119 +162,134 @@ describe('Check erIkkeAnsattEllerFSN function', () => {
         arbeidsforhold: [organisasjonTelenorNO, organisasjonMaxboNO],
     };
 
-    it("return true if harHattInntektSomFrilanserNo and every another questions 'UNANSWERED' ", () => {
-        const result = erAnsattEllerFSN(data_frilans_harHattInntektSomFrilanserNo as PleiepengesøknadFormData);
-        expect(result).toBeTruthy();
+    it("Do not show verneplikt question (return false) if every questions 'UNANSWERED' ", () => {
+        const resultingApiData = visVernepliktSpørsmål(formDataMock as PleiepengesøknadFormData);
+        expect(resultingApiData).toBeFalsy();
     });
 
-    it("return true if selvstendig_harHattInntektSomSN and every another questions 'UNANSWERED' ", () => {
-        const result = erAnsattEllerFSN(data_selvstendig_harHattInntektSomSNNO as PleiepengesøknadFormData);
-        expect(result).toBeTruthy();
+    it("Do not show verneplikt question (return false) if harHattInntektSomFrilanserNo and every another questions 'UNANSWERED' ", () => {
+        const result = visVernepliktSpørsmål(data_frilans_harHattInntektSomFrilanserNo as PleiepengesøknadFormData);
+        expect(result).toBeFalsy();
     });
 
-    it("return true if frilanser and selvstendig - 'NO' and arbeidsgiver.erAnsattIPerioden 'UNANSWERED' ", () => {
-        const result = erAnsattEllerFSN(data_FrilanserOgSelvstendigNO as PleiepengesøknadFormData);
-        expect(result).toBeTruthy();
+    it("Do not show verneplikt question (return false) if selvstendig_harHattInntektSomSN and every another questions 'UNANSWERED' ", () => {
+        const result = visVernepliktSpørsmål(data_selvstendig_harHattInntektSomSNNO as PleiepengesøknadFormData);
+        expect(result).toBeFalsy();
     });
 
-    it("return true if frilanser and selvstendig - 'UNANSWERED' and user has no arbeidsgiver ", () => {
-        const result = erAnsattEllerFSN(data_no_organizations as PleiepengesøknadFormData);
-        expect(result).toBeTruthy();
+    it("Do not show verneplikt question (return false) if frilanser and selvstendig - 'NO' and arbeidsgiver.erAnsattIPerioden 'UNANSWERED' ", () => {
+        const result = visVernepliktSpørsmål(data_FrilanserOgSelvstendigNO as PleiepengesøknadFormData);
+        expect(result).toBeFalsy();
     });
 
-    it("return true if frilanser - 'NO' and selvstendig - 'UNANSWERED' and user has no arbeidsgiver ", () => {
-        const result = erAnsattEllerFSN(data_no_organizations_Frilanser_NO as PleiepengesøknadFormData);
-        expect(result).toBeTruthy();
+    it("Do not show verneplikt question (return false) if frilanser and selvstendig - 'UNANSWERED' and user has no arbeidsgiver ", () => {
+        const result = visVernepliktSpørsmål(data_no_organizations as PleiepengesøknadFormData);
+        expect(result).toBeFalsy();
     });
 
-    it("return true if frilanser - 'UNANSWERED' and selvstendig - 'NO' and user has no arbeidsgiver ", () => {
-        const result = erAnsattEllerFSN(data_no_organizations_SelvstendigNO as PleiepengesøknadFormData);
-        expect(result).toBeTruthy();
+    it("Do not show verneplikt question (return false) if frilanser - 'NO' and selvstendig - 'UNANSWERED' and user has no arbeidsgiver ", () => {
+        const result = visVernepliktSpørsmål(data_no_organizations_Frilanser_NO as PleiepengesøknadFormData);
+        expect(result).toBeFalsy();
     });
 
-    it("return true if frilanser and selvstendig - 'UNANSWERED' and user has arbeidsgiver but one of two org NO", () => {
-        const result = erAnsattEllerFSN(
+    it("Do not show verneplikt question (return false) if frilanser - 'UNANSWERED' and selvstendig - 'NO' and user has no arbeidsgiver ", () => {
+        const result = visVernepliktSpørsmål(data_no_organizations_SelvstendigNO as PleiepengesøknadFormData);
+        expect(result).toBeFalsy();
+    });
+
+    it("Do not show verneplikt question (return false) if frilanser and selvstendig - 'UNANSWERED' and user has arbeidsgiver but one of two org NO", () => {
+        const result = visVernepliktSpørsmål(
             data_FrilanserOgSelvstendigUNANSWERED_one_of_two_org_NO as PleiepengesøknadFormData
         );
-        expect(result).toBeTruthy();
+        expect(result).toBeFalsy();
     });
 
-    it("return true if frilanser and selvstendig - 'NO' and user has arbeidsgiver but one of two org NO", () => {
-        const result = erAnsattEllerFSN(data_FrilanserOgSelvstendigNO_one_of_two_org_NO as PleiepengesøknadFormData);
-        expect(result).toBeTruthy();
+    it("Do not show verneplikt question (return false) if frilanser and selvstendig - 'NO' and user has arbeidsgiver but one of two org NO", () => {
+        const result = visVernepliktSpørsmål(
+            data_FrilanserOgSelvstendigNO_one_of_two_org_NO as PleiepengesøknadFormData
+        );
+        expect(result).toBeFalsy();
     });
 
-    it("return true if frilanser -'NO' and selvstendig - 'UNANSWERED' and user has arbeidsgiver but one of two org NO", () => {
-        const result = erAnsattEllerFSN(
+    it("Do not show verneplikt question (return false) if frilanser -'NO' and selvstendig - 'UNANSWERED' and user has arbeidsgiver but one of two org NO", () => {
+        const result = visVernepliktSpørsmål(
             data_FrilanserNO_SelvstendigUNANSWERED_one_of_two_org_NO as PleiepengesøknadFormData
         );
-        expect(result).toBeTruthy();
+        expect(result).toBeFalsy();
     });
 
-    it("return true if frilanser -'UNANSWERED' and selvstendig - 'NO' and user has arbeidsgiver but one of two org NO", () => {
-        const result = erAnsattEllerFSN(
+    it("Do not show verneplikt question (return false) if frilanser -'UNANSWERED' and selvstendig - 'NO' and user has arbeidsgiver but one of two org NO", () => {
+        const result = visVernepliktSpørsmål(
             data_FrilanserUNANSWERED_SelvstendigNO_one_of_two_org_NO as PleiepengesøknadFormData
         );
-        expect(result).toBeTruthy();
+        expect(result).toBeFalsy();
     });
 
-    it("return true if frilanser -'UNANSWERED' and selvstendig - 'NO' and user has arbeidsgiver but one of two org YES", () => {
-        const result = erAnsattEllerFSN(
+    it("Do not show verneplikt question (return false) if frilanser -'UNANSWERED' and selvstendig - 'NO' and user has arbeidsgiver but one of two org YES", () => {
+        const result = visVernepliktSpørsmål(
             data_FrilanserUNANSWERED_SelvstendigNO_one_of_two_org_YES as PleiepengesøknadFormData
         );
-        expect(result).toBeTruthy();
+        expect(result).toBeFalsy();
     });
 
-    it("return true if frilanser -'UNANSWERED' and selvstendig - 'NO' and user has arbeidsgiver and two org YES", () => {
-        const result = erAnsattEllerFSN(
+    it("Do not show verneplikt question (return false) if frilanser -'UNANSWERED' and selvstendig - 'NO' and user has arbeidsgiver and two org YES", () => {
+        const result = visVernepliktSpørsmål(
             data_FrilanserUNANSWERED_SelvstendigNO_and_two_org_YES as PleiepengesøknadFormData
         );
-        expect(result).toBeTruthy();
+        expect(result).toBeFalsy();
     });
 
-    it("return true if frilanser -'NO' and selvstendig - 'UNANSWERED' and user has arbeidsgiver and two org YES", () => {
-        const result = erAnsattEllerFSN(
+    it("Do not show verneplikt question (return false) if frilanser -'NO' and selvstendig - 'UNANSWERED' and user has arbeidsgiver and two org YES", () => {
+        const result = visVernepliktSpørsmål(
             data_FrilanserNO_SelvstendigUNANSWERED_and_two_org_YES as PleiepengesøknadFormData
         );
-        expect(result).toBeTruthy();
-    });
-
-    it("return true if frilanser and selvstendig - 'NO' and user has arbeidsgiver and two org YES", () => {
-        const result = erAnsattEllerFSN(data_FrilanserSelvstendigNO_and_two_org_YES as PleiepengesøknadFormData);
-        expect(result).toBeTruthy();
-    });
-
-    it('return true if every questions YES', () => {
-        const result = erAnsattEllerFSN(data_FrilanserSelvstendigYES_and_two_org_YES as PleiepengesøknadFormData);
-        expect(result).toBeTruthy();
-    });
-
-    it("return true if frilanser 'YES' and selvstendig - 'NO' and user has arbeidsgiver and two org YES", () => {
-        const result = erAnsattEllerFSN(data_FrilanserYES_SelvstendigNO_and_two_org_YES as PleiepengesøknadFormData);
-        expect(result).toBeTruthy();
-    });
-    it("return true if frilanser 'NO' and selvstendig - 'YES' and user has arbeidsgiver and two org YES", () => {
-        const result = erAnsattEllerFSN(data_FrilanserNO_SelvstendigYES_and_two_org_YES as PleiepengesøknadFormData);
-        expect(result).toBeTruthy();
-    });
-
-    it("return true if frilanser and selvstendig - 'YES' and user has arbeidsgiver and two org NO", () => {
-        const result = erAnsattEllerFSN(data_FrilanserSelvstendigYES_and_two_org_NO as PleiepengesøknadFormData);
-        expect(result).toBeTruthy();
-    });
-
-    it("return true if frilanser and selvstendig - 'YES' and user has no arbeidsgiver", () => {
-        const result = erAnsattEllerFSN(data_FrilanserSelvstendigYES_and_no_organizations as PleiepengesøknadFormData);
-        expect(result).toBeTruthy();
-    });
-
-    it("return false every questions - 'NO'", () => {
-        const result = erAnsattEllerFSN(data_every_questions_NO as PleiepengesøknadFormData);
         expect(result).toBeFalsy();
     });
 
-    it("return false if frilanser and selvstendig - 'NO' and user has no arbeidsgiver ", () => {
-        const result = erAnsattEllerFSN(data_no_organizations_FrilanserOgSelvstendigNO as PleiepengesøknadFormData);
+    it("Do not show verneplikt question (return false) if frilanser and selvstendig - 'NO' and user has arbeidsgiver and two org YES", () => {
+        const result = visVernepliktSpørsmål(data_FrilanserSelvstendigNO_and_two_org_YES as PleiepengesøknadFormData);
         expect(result).toBeFalsy();
+    });
+
+    it('Do not show verneplikt question (return false) if every questions YES', () => {
+        const result = visVernepliktSpørsmål(data_FrilanserSelvstendigYES_and_two_org_YES as PleiepengesøknadFormData);
+        expect(result).toBeFalsy();
+    });
+
+    it("Do not show verneplikt question (return false) if frilanser 'YES' and selvstendig - 'NO' and user has arbeidsgiver and two org YES", () => {
+        const result = visVernepliktSpørsmål(
+            data_FrilanserYES_SelvstendigNO_and_two_org_YES as PleiepengesøknadFormData
+        );
+        expect(result).toBeFalsy();
+    });
+    it("Do not show verneplikt question (return false) if frilanser 'NO' and selvstendig - 'YES' and user has arbeidsgiver and two org YES", () => {
+        const result = visVernepliktSpørsmål(
+            data_FrilanserNO_SelvstendigYES_and_two_org_YES as PleiepengesøknadFormData
+        );
+        expect(result).toBeFalsy();
+    });
+
+    it("Do not show verneplikt question (return false) if frilanser and selvstendig - 'YES' and user has arbeidsgiver and two org NO", () => {
+        const result = visVernepliktSpørsmål(data_FrilanserSelvstendigYES_and_two_org_NO as PleiepengesøknadFormData);
+        expect(result).toBeFalsy();
+    });
+
+    it("Do not show verneplikt question (return false) if frilanser and selvstendig - 'YES' and user has no arbeidsgiver", () => {
+        const result = visVernepliktSpørsmål(
+            data_FrilanserSelvstendigYES_and_no_organizations as PleiepengesøknadFormData
+        );
+        expect(result).toBeFalsy();
+    });
+
+    it("Show 'verneplikt' question (return true) when every questions - 'NO'", () => {
+        const result = visVernepliktSpørsmål(data_every_questions_NO as PleiepengesøknadFormData);
+        expect(result).toBeTruthy();
+    });
+
+    it("Show 'verneplikt' question (return true) if frilanser and selvstendig - 'NO' and user has no arbeidsgiver ", () => {
+        const result = visVernepliktSpørsmål(
+            data_no_organizations_FrilanserOgSelvstendigNO as PleiepengesøknadFormData
+        );
+        expect(result).toBeTruthy();
     });
 });
