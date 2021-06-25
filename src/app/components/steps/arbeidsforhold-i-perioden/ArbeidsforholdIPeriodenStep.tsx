@@ -40,56 +40,90 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
             arbeidsforhold,
         }))
         .filter((a) => a.arbeidsforhold.erAnsattIPerioden === YesOrNo.YES);
+
+    const skalBesvareAnsettelsesforhold = aktiveArbeidsforhold.length > 0;
+    const skalBesvareFrilans = frilans_jobberFortsattSomFrilans && frilans_arbeidsforhold;
+    const skalBesvareSelvstendig = selvstendig_harHattInntektSomSN === YesOrNo.YES && selvstendig_arbeidsforhold;
+
+    const arbeidsinfo: string[] = [];
+    if (skalBesvareAnsettelsesforhold) {
+        arbeidsinfo.push('ansatt');
+    }
+    if (skalBesvareFrilans) {
+        arbeidsinfo.push('frilans');
+    }
+    if (skalBesvareSelvstendig) {
+        arbeidsinfo.push('selvstendig');
+    }
+
     return (
         <FormikStep id={StepID.ARBEIDSFORHOLD_I_PERIODEN} onValidFormSubmit={onValidSubmit}>
             <Box padBottom="m">
                 <CounsellorPanel>
                     <p style={{ marginTop: 0 }}>
                         {/* Todo: lage tekst dynamisk i forhold til hva bruker har valgt */}
-                        <FormattedMessage id="step.arbeidsforholdIPerioden.StepInfo.1" />
+                        <FormattedMessage
+                            id="step.arbeidsforholdIPerioden.StepInfo.1"
+                            values={{
+                                info: intlHelper(
+                                    intl,
+                                    `step.arbeidsforholdIPerioden.StepInfo.1.info.${arbeidsinfo.join('_')}`,
+                                    { antall: aktiveArbeidsforhold.length }
+                                ),
+                            }}
+                        />
                     </p>
                     <p>
                         <FormattedMessage id="step.arbeidsforholdIPerioden.StepInfo.2" />
                     </p>
                 </CounsellorPanel>
             </Box>
-            <Box margin="xl">
-                <div className="arbeidsforhold">
-                    {aktiveArbeidsforhold.map(({ arbeidsforhold, index }) => (
-                        <FormSection
-                            title={arbeidsforhold.navn}
-                            key={arbeidsforhold.organisasjonsnummer}
-                            titleIcon={<BuildingIcon />}>
-                            <ArbeidsforholdISøknadsperiode
-                                arbeidsforhold={arbeidsforhold}
-                                spørsmål={{
-                                    skalJobbe: intlHelper(intl, 'arbeidsforhold.ansatt.skalJobbe.spm', {
-                                        navn: arbeidsforhold.navn,
-                                    }),
-                                    jobbeHvorMye: intlHelper(intl, 'arbeidsforhold.ansatt.jobbeHvorMye.spm', {
-                                        navn: arbeidsforhold.navn,
-                                        timer: getTimerTekst(arbeidsforhold.jobberNormaltTimer, intl),
-                                    }),
-                                    timerEllerProsent: intlHelper(intl, 'arbeidsforhold.ansatt.timerEllerProsent.spm', {
-                                        navn: arbeidsforhold.navn,
-                                    }),
-                                    skalJobbeTimer: intlHelper(intl, 'arbeidsforhold.ansatt.skalJobbeTimer.spm'),
-                                    skalJobbeProsent: intlHelper(intl, 'arbeidsforhold.ansatt.skalJobbeProsent.spm'),
-                                }}
-                                validatorer={{
-                                    skalJobbe: getArbeidsforholdSkalJobbeValidator(arbeidsforhold),
-                                    jobbeHvorMye: getArbeidsforholdSkalJobbeHvorMyeValidator(arbeidsforhold),
-                                    timerEllerProsent: getArbeidsforholdTimerEllerProsentValidator(arbeidsforhold),
-                                    skalJobbeTimer: getArbeidsforholdSkalJobbeTimerValidator(arbeidsforhold),
-                                    skalJobbeProsent: getArbeidsforholdSkalJobbeProsentValidator(arbeidsforhold),
-                                }}
-                                parentFieldName={`${AppFormField.arbeidsforhold}.${index}`}
-                            />
-                        </FormSection>
-                    ))}
-                </div>
-            </Box>
-            {frilans_jobberFortsattSomFrilans && frilans_arbeidsforhold && (
+            {skalBesvareAnsettelsesforhold && (
+                <Box margin="xl">
+                    <div className="arbeidsforhold">
+                        {aktiveArbeidsforhold.map(({ arbeidsforhold, index }) => (
+                            <FormSection
+                                title={arbeidsforhold.navn}
+                                key={arbeidsforhold.organisasjonsnummer}
+                                titleIcon={<BuildingIcon />}>
+                                <ArbeidsforholdISøknadsperiode
+                                    arbeidsforhold={arbeidsforhold}
+                                    spørsmål={{
+                                        skalJobbe: intlHelper(intl, 'arbeidsforhold.ansatt.skalJobbe.spm', {
+                                            navn: arbeidsforhold.navn,
+                                        }),
+                                        jobbeHvorMye: intlHelper(intl, 'arbeidsforhold.ansatt.jobbeHvorMye.spm', {
+                                            navn: arbeidsforhold.navn,
+                                            timer: getTimerTekst(arbeidsforhold.jobberNormaltTimer, intl),
+                                        }),
+                                        timerEllerProsent: intlHelper(
+                                            intl,
+                                            'arbeidsforhold.ansatt.timerEllerProsent.spm',
+                                            {
+                                                navn: arbeidsforhold.navn,
+                                            }
+                                        ),
+                                        skalJobbeTimer: intlHelper(intl, 'arbeidsforhold.ansatt.skalJobbeTimer.spm'),
+                                        skalJobbeProsent: intlHelper(
+                                            intl,
+                                            'arbeidsforhold.ansatt.skalJobbeProsent.spm'
+                                        ),
+                                    }}
+                                    validatorer={{
+                                        skalJobbe: getArbeidsforholdSkalJobbeValidator(arbeidsforhold),
+                                        jobbeHvorMye: getArbeidsforholdSkalJobbeHvorMyeValidator(arbeidsforhold),
+                                        timerEllerProsent: getArbeidsforholdTimerEllerProsentValidator(arbeidsforhold),
+                                        skalJobbeTimer: getArbeidsforholdSkalJobbeTimerValidator(arbeidsforhold),
+                                        skalJobbeProsent: getArbeidsforholdSkalJobbeProsentValidator(arbeidsforhold),
+                                    }}
+                                    parentFieldName={`${AppFormField.arbeidsforhold}.${index}`}
+                                />
+                            </FormSection>
+                        ))}
+                    </div>
+                </Box>
+            )}
+            {skalBesvareFrilans && frilans_arbeidsforhold && (
                 <Box margin="xl">
                     <div className="arbeidsforhold">
                         <FormSection
@@ -125,7 +159,7 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
                     </div>
                 </Box>
             )}
-            {selvstendig_harHattInntektSomSN === YesOrNo.YES && selvstendig_arbeidsforhold && (
+            {skalBesvareSelvstendig && selvstendig_arbeidsforhold && (
                 <Box margin="xl">
                     <div className="arbeidsforhold">
                         <FormSection
