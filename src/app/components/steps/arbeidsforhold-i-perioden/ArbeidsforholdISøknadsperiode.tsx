@@ -189,13 +189,6 @@ const ArbeidsforholdISøknadsperiode = ({ arbeidsforhold, parentFieldName, spør
                                                     validate={validatorer.skalJobbeProsent}
                                                 />
                                             </FormBlock>
-                                            {arbeidsform === Arbeidsform.varierende && (
-                                                <FormBlock>
-                                                    <CounsellorPanel>
-                                                        <FormattedMessage id="arbeidsforhold.prosent.veileder" />
-                                                    </CounsellorPanel>
-                                                </FormBlock>
-                                            )}
                                         </>
                                     )}
                                 </>
