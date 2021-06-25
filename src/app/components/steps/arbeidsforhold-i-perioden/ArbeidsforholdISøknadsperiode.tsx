@@ -15,6 +15,7 @@ import {
     ArbeidsforholdSkalJobbeHvorMyeSvar,
     ArbeidsforholdSkalJobbeSvar,
     ArbeidsforholdSNF,
+    Arbeidsform,
     FrilansEllerSelvstendig,
 } from '../../../types/PleiepengesøknadFormData';
 import {
@@ -188,11 +189,13 @@ const ArbeidsforholdISøknadsperiode = ({ arbeidsforhold, parentFieldName, spør
                                                     validate={validatorer.skalJobbeProsent}
                                                 />
                                             </FormBlock>
-                                            <FormBlock>
-                                                <CounsellorPanel>
-                                                    <FormattedMessage id="arbeidsforhold.prosent.veileder" />
-                                                </CounsellorPanel>
-                                            </FormBlock>
+                                            {arbeidsform === Arbeidsform.varierende && (
+                                                <FormBlock>
+                                                    <CounsellorPanel>
+                                                        <FormattedMessage id="arbeidsforhold.prosent.veileder" />
+                                                    </CounsellorPanel>
+                                                </FormBlock>
+                                            )}
                                         </>
                                     )}
                                 </>
