@@ -85,9 +85,8 @@ const ArbeidsforholdISøknadsperiode = ({ arbeidsforhold, parentFieldName, spør
                 <AppForm.RadioPanelGroup
                     legend={spørsmål.skalJobbe}
                     description={
-                        <ExpandableInfo title="Hva betyr dette?">
-                            For å kunne beregne hvor mye pleiepenger du kan få trenger vi å vite om du skal jobbe i
-                            samme periode som du skal ha pleiepenger. Velg det som passer best i din situasjon.
+                        <ExpandableInfo title={intlHelper(intl, 'validation.arbeidsforhold.skalJobbe.info.tittel')}>
+                            <FormattedMessage id="validation.arbeidsforhold.skalJobbe.info.tekst" />
                         </ExpandableInfo>
                     }
                     name={getFieldName(ArbeidsforholdField.skalJobbe)}

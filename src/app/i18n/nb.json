@@ -120,7 +120,7 @@
     "step.arbeidsforholdIPerioden.stepTitle": "Jobb i perioden med pleiepenger",
     "step.arbeidsforholdIPerioden.stepIndicatorLabel": "Jobb i perioden med pleiepenger",
     "step.arbeidsforholdIPerioden.StepInfo.1": "I forrige steg bekreftet du at du {info}. Nå trenger vi å vite om du skal være på jobb i samme periode som du skal ha pleiepenger. Vi trenger å vite dette fordi pleiepengene skal, som hovedregel, graderes tilsvarende det du jobber.",
-    "step.arbeidsforholdIPerioden.StepInfo.2": "Nå får du noen spørsmål rundt arbeidsforholdene dine, og om du skal jobbe i samme periode som du mottar pleiepenger.",
+    "step.arbeidsforholdIPerioden.StepInfo.2": "Nå får du noen spørsmål om du skal være på jobb i samme periode som du mottar pleiepenger.",
     "step.arbeidsforholdIPerioden.StepInfo.1.info.ansatt": "har {antall} arbeidsforhold",
     "step.arbeidsforholdIPerioden.StepInfo.1.info.ansatt_frilans": "har {antall} arbeidsforhold og er frilanser",
     "step.arbeidsforholdIPerioden.StepInfo.1.info.ansatt_selvstendig": "har {antall} arbeidsforhold og er selvstendig næringsdrivende",
@@ -460,7 +460,7 @@
 
     "arbeidsforhold.skalJobbe.ja": "Ja",
     "arbeidsforhold.skalJobbe.nei": "Nei",
-    "arbeidsforhold.skalJobbe.vetIkke": "Vet ikke, men jeg melder fra hvis jeg skal jobbe i perioden jeg søker for",
+    "arbeidsforhold.skalJobbe.vetIkke": "Usikker, men jeg melder fra hvis jeg skal jobbe i pleiepengeperioden",
 
     "arbeidsforhold.jobbeHvorMye.spm": "Du har opplyst at du vanligvis jobber {timer} per uke hos {navn}. Hvor mye skal du jobbe der i pleiepengeperioden?",
     "arbeidsforhold.jobbeHvorMye.somVanlig": "Som vanlig, {timer} per uke",
@@ -698,6 +698,8 @@
     "validation.harVærtEllerErVernepliktig.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du utøvde verneplikt på tidspunktet du søker pleiepenger fra.",
 
     "validation.arbeidsforhold.skalJobbe": "Du må svare på om du skal jobbe hos {navn} i samme periode som du søker pleiepenger.",
+    "validation.arbeidsforhold.skalJobbe.info.tittel": "Hvorfor spør vi om dette?",
+    "validation.arbeidsforhold.skalJobbe.info.tekst": "Vi spør om dette fordi pleiepengene skal graderes tilsvarende dentiden du jobber. Velg det som passer best i din situasjon.",
     "validation.arbeidsforhold.jobbeHvorMye": "Du må svare på hvor mye du skal jobbe hos {navn} i pleiepengeperioden.",
     "validation.arbeidsforhold.timerEllerProsent": "Du må velge hvordan du ønsker å oppgi hvor mye du skal jobbe hos {navn}.",
     "validation.arbeidsforhold.skalJobbeProsent.numberHasNoValue": "Skriv inn hvor mange prosent du skal jobbe hos {navn}.",
