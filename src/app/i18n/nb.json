@@ -483,9 +483,9 @@
     "arbeidsforhold.oppsummering.duHarOppgitt": "Du har oppgitt at du",
     "arbeidsforhold.oppsummering.jobberVanligvis": "vanligvis jobber {timerNormalt, plural, one {# time} other {# timer}} per uke ({arbeidsform}).",
     "arbeidsforhold.oppsummering.skalJobbeSomVanlig": "skal jobbe som vanlig i pleiepengeperioden, {timerNormalt, plural, one {# time} other {# timer}} per uke.",
-    "arbeidsforhold.oppsummering.skalJobbeRedusert.timer": "skal jobbe {timerRedusert, plural, one {# time} other {# timer}} av {timerNormalt, plural, one {# time} other {# timer}} i pleiepengeperioden.",
-    "arbeidsforhold.oppsummering.skalJobbeRedusert.prosent": "skal jobbe {prosentRedusert} av {timerNormalt, plural, one {# time} other {# timer}} i pleiepengeperioden.",
-    "arbeidsforhold.oppsummering.vetIkke": "Du har oppgitt at du jobber {timerNormalt, plural, one {# time} other {# timer}} per uke hos {navn}. I pleiepengeperioden har du oppgitt at du er usikker på om du skal jobbe her, og at du vil melde fra om du starter å jobbe i pleiepengeperioden.",
+    "arbeidsforhold.oppsummering.skalJobbeRedusert.timer": "skal jobbe {timerRedusert, plural, one {# time} other {# timer}} av {timerNormalt, plural, one {# time} other {# timer}} per uke i pleiepengeperioden.",
+    "arbeidsforhold.oppsummering.skalJobbeRedusert.prosent": "skal jobbe {prosentRedusert} prosent av {timerNormalt, plural, one {# time} other {# timer}} per uke i pleiepengeperioden.",
+    "arbeidsforhold.oppsummering.vetIkke": "er usikker på om du skal jobbe i pleiepengeperioden, men at du melder fra hvis du starter å jobbe",
     "arbeidsforhold.oppsummering.skalIkkeJobbe": "ikke skal jobbe i pleiepengeperioden.",
 
     "arbeidsforhold.oppsummering.arbeidsform.FAST": "fast antall timer per uke",
