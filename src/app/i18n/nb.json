@@ -478,7 +478,7 @@
     "arbeidsforhold.prosent.utledet.medTimer": "prosent av {timer, plural, one {# time} other {# timer}} ({timerRedusert} i uka)",
 
     "arbeidsforhold.oppsummering.ansatt": "{navn} (organisasjonsnummer {organisasjonsnummer}):",
-    "arbeidsforhold.oppsummering.frilanser": "Frilanser",
+    "arbeidsforhold.oppsummering.frilanser": "Frilans",
     "arbeidsforhold.oppsummering.selvstendig": "Selvstendig næringsdrivende",
     "arbeidsforhold.oppsummering.duHarOppgitt": "Du har oppgitt at du",
     "arbeidsforhold.oppsummering.jobberVanligvis": "vanligvis jobber {timerNormalt, plural, one {# time} other {# timer}} per uke ({arbeidsform}).",
