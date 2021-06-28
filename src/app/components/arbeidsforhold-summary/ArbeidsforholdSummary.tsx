@@ -40,7 +40,7 @@ const ArbeidsforholdSummary = ({ arbeidsforhold }: Props) => {
         <div className={bem.block}>
             <div className={bem.element('tittel')}>{tittel}</div>
             <p>
-                <FormattedMessage id="arbeidsforhold.oppsummering.duHarOppgitt" />
+                <FormattedMessage id={`arbeidsforhold.oppsummering.duHarOppgitt.${_type}`} />
             </p>
             <ul>
                 <li>
