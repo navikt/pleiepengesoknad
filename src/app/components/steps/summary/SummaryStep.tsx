@@ -28,7 +28,7 @@ import {
 import routeConfig from '../../../config/routeConfig';
 import { StepID } from '../../../config/stepConfig';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
-import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
+import { ArbeidsforholdApi, PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { Søkerdata } from '../../../types/Søkerdata';
 import * as apiUtils from '../../../utils/apiUtils';
@@ -354,12 +354,17 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                 <SummarySection header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.header')}>
                                     {apiValues.arbeidsgivere.organisasjoner.length > 0 ? (
                                         <SummaryList
-                                            items={apiValues.arbeidsgivere.organisasjoner}
-                                            itemRenderer={(forhold) => (
-                                                <ArbeidsforholdSummary
-                                                    key={forhold.organisasjonsnummer}
-                                                    arbeidsforhold={forhold}
-                                                />
+                                            items={[
+                                                ...apiValues.arbeidsgivere.organisasjoner,
+                                                ...(apiValues.frilans?.arbeidsforhold
+                                                    ? [apiValues.frilans?.arbeidsforhold]
+                                                    : []),
+                                                ...(apiValues.selvstendigArbeidsforhold
+                                                    ? [apiValues.selvstendigArbeidsforhold]
+                                                    : []),
+                                            ]}
+                                            itemRenderer={(forhold: ArbeidsforholdApi) => (
+                                                <ArbeidsforholdSummary arbeidsforhold={forhold} />
                                             )}
                                         />
                                     ) : (
@@ -382,7 +387,6 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                             ? apiValues.selvstendigVirksomheter[0]
                                             : undefined
                                     }
-                                    arbeidsforholdSN={apiValues.selvstendigArbeidsforhold}
                                 />
 
                                 {/* Vernepliktig */}

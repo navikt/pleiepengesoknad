@@ -5,7 +5,6 @@ import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiDat
 import DatoSvar from './DatoSvar';
 import JaNeiSvar from './JaNeiSvar';
 import SummaryBlock from './SummaryBlock';
-import ArbeidsforholdSNFSummary from '../../../components/arbeidsforholdSNF-summary/ArbeidsforholdSNFSummary';
 
 interface Props {
     apiValues: PleiepengesøknadApiData;
@@ -32,11 +31,6 @@ const FrilansSummary = ({ apiValues }: Props) => {
                     {frilans.jobberFortsattSomFrilans === false && frilans.sluttdato && (
                         <SummaryBlock header={intlHelper(intl, 'frilanser.summary.nårSluttet.header')}>
                             <DatoSvar apiDato={frilans.sluttdato} />
-                        </SummaryBlock>
-                    )}
-                    {frilans.arbeidsforhold && (
-                        <SummaryBlock header={intlHelper(intl, 'frilanser.summary.arbeidsforhold.header')}>
-                            <ArbeidsforholdSNFSummary arbeidsforhold={frilans.arbeidsforhold} />
                         </SummaryBlock>
                     )}
                 </>

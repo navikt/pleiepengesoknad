@@ -3,7 +3,12 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { mapVirksomhetToVirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/mapVirksomhetToApiData';
-import { ArbeidsforholdApi, BarnToSendToApi, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
+import {
+    ArbeidsforholdAnsattApi,
+    ArbeidsforholdType,
+    BarnToSendToApi,
+    PleiepengesøknadApiData,
+} from '../types/PleiepengesøknadApiData';
 import { ArbeidsforholdAnsatt, BarnRelasjon, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../types/Søkerdata';
 import appSentryLogger from './appSentryLogger';
@@ -13,7 +18,6 @@ import { mapArbeidsforholdToApiData } from './formToApiMaps/mapArbeidsforholdToA
 import { mapBarnToApiData } from './formToApiMaps/mapBarnToApiData';
 import { mapBostedUtlandToApiData } from './formToApiMaps/mapBostedUtlandToApiData';
 import { mapFrilansToApiData } from './formToApiMaps/mapFrilansToApiData';
-import { mapSNFArbeidsforholdToApiData } from './formToApiMaps/mapSNFArbeidsforholdToApiData';
 import { mapTilsynsordningToApiData } from './formToApiMaps/mapTilsynsordningToApiData';
 import { mapUtenlandsoppholdIPeriodenToApiData } from './formToApiMaps/mapUtenlandsoppholdIPeriodenToApiData';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from './stepUtils';
@@ -35,14 +39,18 @@ export const getValidSpråk = (locale?: any): Locale => {
     }
 };
 
-export const getOrganisasjonerApiData = (arbeidsforhold: ArbeidsforholdAnsatt[]): ArbeidsforholdApi[] => {
-    const organisasjoner: ArbeidsforholdApi[] = [];
+export const getOrganisasjonerApiData = (arbeidsforhold: ArbeidsforholdAnsatt[]): ArbeidsforholdAnsattApi[] => {
+    const organisasjoner: ArbeidsforholdAnsattApi[] = [];
     arbeidsforhold
         .filter((a) => a.erAnsattIPerioden === YesOrNo.YES)
         .forEach((forhold) => {
-            const arbeidsforholdApiData = mapArbeidsforholdToApiData(forhold);
+            const arbeidsforholdApiData = mapArbeidsforholdToApiData(forhold, ArbeidsforholdType.ANSATT);
             if (arbeidsforholdApiData) {
-                organisasjoner.push(arbeidsforholdApiData);
+                organisasjoner.push({
+                    ...arbeidsforholdApiData,
+                    navn: forhold.navn,
+                    organisasjonsnummer: forhold.organisasjonsnummer,
+                });
             } else {
                 throw new Error('Invalid arbeidsforhold');
             }
@@ -198,7 +206,7 @@ export const mapFormDataToApiData = (
                 formData.selvstendig_harHattInntektSomSN === YesOrNo.YES;
 
             apiData.selvstendigArbeidsforhold = formData.selvstendig_arbeidsforhold
-                ? mapSNFArbeidsforholdToApiData(formData.selvstendig_arbeidsforhold)
+                ? mapArbeidsforholdToApiData(formData.selvstendig_arbeidsforhold, ArbeidsforholdType.SELVSTENDIG)
                 : undefined;
 
             apiData.samtidigHjemme = harMedsøker === YesOrNo.YES ? samtidigHjemme === YesOrNo.YES : undefined;
