@@ -162,7 +162,7 @@ export interface PleiepengesøknadApiData {
     skalBekrefteOmsorg?: boolean;
     skalPassePåBarnetIHelePerioden?: boolean;
     beskrivelseOmsorgsrollen?: string;
-    arbeidsgivere: { organisasjoner: ArbeidsforholdApi[] };
+    arbeidsgivere: { organisasjoner: ArbeidsforholdAnsattApi[] };
     vedlegg: string[];
     medlemskap: Medlemskap;
     utenlandsoppholdIPerioden?: {
