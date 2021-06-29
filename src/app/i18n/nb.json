@@ -117,7 +117,7 @@
     "step.arbeidsforholdIPerioden.stepTitle": "Jobb i perioden med pleiepenger",
     "step.arbeidsforholdIPerioden.stepIndicatorLabel": "Jobb i perioden med pleiepenger",
     "step.arbeidsforholdIPerioden.StepInfo.1": "I forrige steg bekreftet du at du {info}. Nå trenger vi å vite om du skal være på jobb i samme periode som du skal ha pleiepenger. Vi trenger å vite dette fordi som hovedregel skal pleiepengene graderes tilsvarende den tiden du jobber.",
-    "step.arbeidsforholdIPerioden.StepInfo.2": "Nå får du noen spørsmål om du skal være på jobb i samme periode som du mottar pleiepenger.",
+    "step.arbeidsforholdIPerioden.StepInfo.2": "Nå får du noen spørsmål om du skal være på jobb i samme periode som du søker pleiepenger.",
     "step.arbeidsforholdIPerioden.StepInfo.1.info.ansatt": "har {antall} arbeidsforhold",
     "step.arbeidsforholdIPerioden.StepInfo.1.info.ansatt_frilans": "har {antall} arbeidsforhold og er frilanser",
     "step.arbeidsforholdIPerioden.StepInfo.1.info.ansatt_selvstendig": "har {antall} arbeidsforhold og er selvstendig næringsdrivende",
