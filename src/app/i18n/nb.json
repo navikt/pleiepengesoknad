@@ -97,9 +97,6 @@
     "step.tidsrom.infotekst": "For å ha rett til pleiepenger må du ha omsorgen for barnet i hele perioden du søker for.",
     "steg.tidsrom.veileder.utenlandsopphold": "Når du oppholder deg i et land utenfor EØS, kan du beholde pleiepengene i en begrenset periode på opptil 8 uker av en 12 måneder lang periode.",
 
-    "steg.tidsrom.over8uker": "Du har lagt inn en periode som er lenger enn 8 uker. Ønsker du dette?",
-    "steg.tidsrom.over8uker.veileder": "Hvis du ikke vil søke for en periode som er lenger enn 8 uker, må du legge inn en kortere periode i kalenderen.",
-
     "steg.tidsrom.iUtlandetIPerioden.spm": "Skal du reise til utlandet i perioden du søker for?",
     "steg.tidsrom.iUtlandetIPerioden.listTitle": "Utenlandsopphold i perioden",
     "steg.tidsrom.iUtlandetIPerioden.modalTitle": "Utenlandsopphold",
@@ -290,11 +287,17 @@
     "steg.tilsyn.ja.årsak.usikkerPerioden": "Nei, jeg er usikker på hvor mye",
     "steg.tilsyn.ja.årsak.nei": "Nei",
 
+    "steg.nattevåk.veileder": "I noen tilfeller kan barnets sykdom gjøre at du må være våken om natten for å pleie eller ha tilsyn med barnet. Hvis du ikke kan gå på jobb dagen etter fordi du selv må hvile ut, skal ikke pleiepengene graderes selv om barnet er i et omsorgstilbud på dagtid. Det må være en sammenheng mellom pleien og tilsynet du gir på natten og barnets sykdom. I disse tilfellene skal pleiepengene som hovedregel ikke graderes.",
     "steg.nattevåk.spm": "Gjør barnets sykdom at du må være våken på natta og derfor må være borte fra jobb dagen etter?",
-    "steg.nattevåk.tilleggsinfo.spm": "Beskriv hva som gjør at du må være våken",
-    "steg.beredskap.spm": "Gjør barnets sykdom at du må være i beredskap eller være tilgjengelig selv om barnet er i et omsorgstilbud?",
-    "steg.beredskap.tilleggsinfo.spm": "Beskriv hva som gjør at du må være i beredskap eller være tilgjengelig",
-    "steg.beredskap.veileder": "I noen tilfeller kan barnets sykdom gjøre at du må være i beredskap eller være tilgjengelig, selv om barnet er i et omsorgstilbud. Det kan for eksempel være at du må være tilstede i klasserommet, eller at du må reise fra jobb på kort varsel for å være tilgjengelig for barnet ditt.",
+    "steg.nattevåk.tilleggsinfo.spm": "Her skal du beskrive på hvilken måte barnets sykdom gjør at du må være våken om natta. Beskriv så utfyllende og detaljert du kan.",
+    "steg.nattevåk.tilleggsinfo.veiledning.tittel": "Hva om jeg har våkenetter kun deler av perioden?",
+    "steg.nattevåk.tilleggsinfo.veiledning": "Hvis du har våkenetter i kun deler av perioden du søker pleiepenger for, må du presisere hvilke perioder eller netter du må være våken.",
+
+    "steg.beredskap.veileder": "I noen tilfeller kan barnets sykdom gjøre at du må være i beredskap eller være tilgjengelig, selv om barnet er i et omsorgstilbud. Det kan for eksempel være at du må være til stede i klasserommet, eller på annen måte være tilgjengelig for barnet når barnet er i omsorgstilbudet. Hvis dette gjør at du ikke kan være på jobb selv om barnet er i omsorgstilbud, vil pleiepengene som hovedregel ikke graderes.",
+    "steg.beredskap.spm": "Gjør barnets sykdom at du må være i beredskap når barnet er i et omsorgstilbud slik at du må være borte fra jobb?",
+    "steg.beredskap.tilleggsinfo.spm": "Her skal du beskrive på hvilken måte barnets sykdom gjør at du må være i beredskap når barnet er i et omsorgstilbud. Beskriv så utfyllende og detaljert du kan.",
+    "steg.beredskap.tilleggsinfo.veiledning.tittel": "Hva om jeg må være i beredskap kun deler av perioden?",
+    "steg.beredskap.tilleggsinfo.veiledning": "Hvis du må være i beredskap i kun deler av perioden du søker pleiepenger for, må du presisere hvilke perioder eller dager du må være i beredskap.",
 
     "steg.medlemsskap.annetLandSiste12.spm": "Har du bodd i utlandet i hele eller deler av de siste 12 månedene?",
     "steg.medlemsskap.annetLandNeste12.spm": "Planlegger du å bo i utlandet i hele eller deler av de neste 12 månedene?",
@@ -313,7 +316,6 @@
     "steg.oppsummering.søker.fnr": "Fødselsnummer: {fødselsnummer}",
     "steg.oppsummering.tidsrom.header": "Perioden du søker pleiepenger for",
     "steg.oppsummering.tidsrom.fomtom": "Fra {fom} til {tom}",
-    "steg.oppsummering.over8uker.header": "Bekrefter at søknaden gjelder for en periode på mer enn 8 uker",
 
     "steg.oppsummering.skalPassePåBarnetIHelePerioden.header": "Skal du passe på barnet i hele tidsrommet du skal ha pleiepenger?",
     "steg.oppsummering.bekreftOmsorgEkstrainfo.header": "Beskriv omsorgsrollen du har for barnet i tidsrommet du skal ha pleiepenger:",
@@ -598,7 +600,6 @@
     "validation.samlet_storrelse_for_hoy": "Total samlet størrelse for dokumentene du har lastet opp overstiger grensen på 24Mb.",
     "validation.legeerklæring.mangler": "Du må laste opp en legeerklæring.",
     "validation.legeerklæring.forMangeFiler": "Du har lastet opp for mange vedlegg.",
-    "validation.periodeErOver8UkerMenIkkeØnsket": "For å kunne fortsette må du enten velge \"Ja\" for å bekrefte at du vil søke for en lenger periode enn 8 uker, eller du må legge inn en kortere periode enn 8 uker hvis du har svart \"Nei\".",
 
     "validation.harForståttRettigheterOgPlikter.notChecked": "Du må bekrefte at du har lest og forstått dine plikter.",
     "validation.barnetSøknadenGjelder.noValue": "Du må velge hvilket barn søknaden gjelder.",

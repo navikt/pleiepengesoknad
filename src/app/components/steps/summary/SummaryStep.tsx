@@ -12,7 +12,6 @@ import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { apiStringDateToDate, prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { getCheckedValidator } from '@navikt/sif-common-formik/lib/validation';
 import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
 import Panel from 'nav-frontend-paneler';
@@ -36,8 +35,6 @@ import appSentryLogger from '../../../utils/appSentryLogger';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
 import { navigateTo, relocateToLoginPage } from '../../../utils/navigationUtils';
-import { erPeriodeOver8Uker } from '../../../utils/søkerOver8UkerUtils';
-import { getVarighetString } from '../../../utils/varighetUtils';
 import { validateApiValues } from '../../../validation/apiValuesValidation';
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
@@ -108,13 +105,6 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
             }
         }
     };
-
-    const periodeFra = datepickerUtils.getDateFromDateString(values.periodeFra);
-    const periodeTil = datepickerUtils.getDateFromDateString(values.periodeTil);
-    const info8uker =
-        isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) && periodeFra && periodeTil
-            ? erPeriodeOver8Uker(periodeFra, periodeTil)
-            : undefined;
 
     if (soknadSent) {
         // User is redirected to confirmation page
@@ -306,22 +296,6 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                                 {beredskap.tilleggsinformasjon && (
                                                     <TextareaSummary text={beredskap.tilleggsinformasjon} />
                                                 )}
-                                            </ContentWithHeader>
-                                        </Box>
-                                    )}
-                                    {isFeatureEnabled(Feature.TOGGLE_8_UKER) && info8uker?.erOver8Uker && (
-                                        <Box margin="l">
-                                            <ContentWithHeader
-                                                header={intlHelper(
-                                                    intl,
-                                                    'steg.oppsummering.over8uker.header',
-                                                    info8uker
-                                                        ? {
-                                                              varighet: getVarighetString(info8uker?.antallDager, intl),
-                                                          }
-                                                        : undefined
-                                                )}>
-                                                <JaNeiSvar harSvartJa={apiValues.bekrefterPeriodeOver8Uker} />
                                             </ContentWithHeader>
                                         </Box>
                                     )}

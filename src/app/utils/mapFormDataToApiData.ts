@@ -21,7 +21,6 @@ import { mapFrilansToApiData } from './formToApiMaps/mapFrilansToApiData';
 import { mapTilsynsordningToApiData } from './formToApiMaps/mapTilsynsordningToApiData';
 import { mapUtenlandsoppholdIPeriodenToApiData } from './formToApiMaps/mapUtenlandsoppholdIPeriodenToApiData';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from './stepUtils';
-import { erPeriodeOver8Uker } from './søkerOver8UkerUtils';
 import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet } from './tidsromUtils';
 
 export const getValidSpråk = (locale?: any): Locale => {
@@ -171,13 +170,6 @@ export const mapFormDataToApiData = (
                     if (skalBeskriveOmsorgForBarnet) {
                         apiData.beskrivelseOmsorgsrollen = formData.beskrivelseOmsorgsrolleIPerioden;
                     }
-                }
-            }
-
-            if (isFeatureEnabled(Feature.TOGGLE_8_UKER)) {
-                const info8uker = erPeriodeOver8Uker(periodeFra, periodeTil);
-                if (info8uker.erOver8Uker) {
-                    apiData.bekrefterPeriodeOver8Uker = formData.bekrefterPeriodeOver8uker === YesOrNo.YES;
                 }
             }
 

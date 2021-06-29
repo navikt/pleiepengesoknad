@@ -28,18 +28,20 @@ interface LoadState {
     isLoaded: boolean;
 }
 
-const erIkkeAnsattEllerFSN = (values: PleiepengesøknadFormData): boolean => {
-    const ikkeFrilanserEllerSn =
-        values.harHattInntektSomFrilanser === YesOrNo.NO && values.selvstendig_harHattInntektSomSN === YesOrNo.NO;
-
-    if (ikkeFrilanserEllerSn && values.arbeidsforhold && values.arbeidsforhold.length > 0) {
-        const erIkkeAnsatt = values.arbeidsforhold.filter((arbeidsgiver) => {
-            if (arbeidsgiver.erAnsattIPerioden === undefined || arbeidsgiver.erAnsattIPerioden !== YesOrNo.NO)
-                return arbeidsgiver;
-        });
-        return erIkkeAnsatt.length === 0;
+export const visVernepliktSpørsmål = ({
+    arbeidsforhold = [],
+    harHattInntektSomFrilanser,
+    selvstendig_harHattInntektSomSN,
+}: PleiepengesøknadFormData): boolean => {
+    if (harHattInntektSomFrilanser === YesOrNo.NO && selvstendig_harHattInntektSomSN === YesOrNo.NO) {
+        if (arbeidsforhold.length > 0) {
+            return !arbeidsforhold.some(
+                ({ erAnsattIPerioden }) => erAnsattIPerioden === undefined || erAnsattIPerioden === YesOrNo.YES
+            );
+        }
+        return true;
     }
-    return ikkeFrilanserEllerSn;
+    return false;
 };
 
 const cleanupArbeidsforhold = (formValues: PleiepengesøknadFormData): PleiepengesøknadFormData => {
@@ -64,7 +66,7 @@ const cleanupArbeidsforhold = (formValues: PleiepengesøknadFormData): Pleiepeng
         values.selvstendig_virksomhet = undefined;
         values.selvstendig_arbeidsforhold = undefined;
     }
-    if (!erIkkeAnsattEllerFSN(values)) {
+    if (!visVernepliktSpørsmål(values)) {
         values.harVærtEllerErVernepliktig = undefined;
     }
 
@@ -147,7 +149,7 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                         <SelvstendigNæringsdrivendeFormPart formValues={values} />
                     </FormSection>
 
-                    {erIkkeAnsattEllerFSN(values) && (
+                    {visVernepliktSpørsmål(values) && (
                         <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.verneplikt.tittel')}>
                             <VernepliktigFormPart />
                         </FormSection>
