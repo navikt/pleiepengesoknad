@@ -9,7 +9,6 @@ import { Arbeidsgiver } from './Søkerdata';
 export enum ArbeidsforholdSkalJobbeSvar {
     'ja' = 'ja',
     'nei' = 'nei',
-    'redusert' = 'redusert',
     'vetIkke' = 'vetIkke',
 }
 
@@ -29,6 +28,8 @@ export interface Omsorgstilbud {
         fasteDager?: OmsorgstilbudFasteDager;
     };
 }
+
+export type FrilansEllerSelvstendig = 'frilans' | 'selvstendig';
 
 export enum AppFormField {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
@@ -87,6 +88,11 @@ export enum ArbeidsforholdField {
     skalJobbeTimer = 'skalJobbeTimer',
     skalJobbeProsent = 'skalJobbeProsent',
     arbeidsform = 'arbeidsform',
+    skalJobbeHvorMye = 'skalJobbeHvorMye',
+}
+export enum ArbeidsforholdSkalJobbeHvorMyeSvar {
+    redusert = 'redusert',
+    somVanlig = 'somVanlig',
 }
 
 export enum ArbeidsforholdSNFField {
@@ -96,6 +102,7 @@ export enum ArbeidsforholdSNFField {
     skalJobbeTimer = 'skalJobbeTimer',
     skalJobbeProsent = 'skalJobbeProsent',
     arbeidsform = 'arbeidsform',
+    skalJobbeHvorMye = 'skalJobbeHvorMye',
 }
 
 export enum Arbeidsform {
@@ -112,25 +119,24 @@ export enum AndreYtelserFraNAV {
     'omsorgspenger' = 'omsorgspenger',
     'opplæringspenger' = 'opplæringspenger',
 }
-
-export interface Arbeidsforhold extends Arbeidsgiver {
-    [ArbeidsforholdField.erAnsattIPerioden]?: YesOrNo;
-    [ArbeidsforholdField.jobberNormaltTimer]?: string;
+export interface Arbeidsforhold {
     [ArbeidsforholdField.skalJobbe]?: ArbeidsforholdSkalJobbeSvar;
+    [ArbeidsforholdField.arbeidsform]?: Arbeidsform;
+    [ArbeidsforholdField.jobberNormaltTimer]?: string;
     [ArbeidsforholdField.timerEllerProsent]?: 'timer' | 'prosent';
     [ArbeidsforholdField.skalJobbeTimer]?: string;
     [ArbeidsforholdField.skalJobbeProsent]?: string;
-    [ArbeidsforholdField.arbeidsform]?: Arbeidsform;
+    [ArbeidsforholdField.skalJobbeHvorMye]?: ArbeidsforholdSkalJobbeHvorMyeSvar;
+}
+export interface ArbeidsforholdAnsatt extends Arbeidsgiver, Arbeidsforhold {
+    [ArbeidsforholdField.erAnsattIPerioden]?: YesOrNo;
 }
 
-export interface ArbeidsforholdSNF {
-    [ArbeidsforholdSNFField.jobberNormaltTimer]?: string;
-    [ArbeidsforholdSNFField.skalJobbe]?: ArbeidsforholdSkalJobbeSvar;
-    [ArbeidsforholdSNFField.timerEllerProsent]?: 'timer' | 'prosent';
-    [ArbeidsforholdSNFField.skalJobbeTimer]?: string;
-    [ArbeidsforholdSNFField.skalJobbeProsent]?: string;
-    [ArbeidsforholdSNFField.arbeidsform]?: Arbeidsform;
-}
+export const isArbeidsforholdAnsatt = (arbeidsforhold: any): arbeidsforhold is ArbeidsforholdAnsatt => {
+    return arbeidsforhold?.navn !== undefined;
+};
+
+export type ArbeidsforholdSNF = Arbeidsforhold;
 
 export enum OmsorgstilbudVetPeriode {
     'vetHelePerioden' = 'vetHelePerioden',
@@ -155,7 +161,7 @@ export interface PleiepengesøknadFormData {
     [AppFormField.barnetSøknadenGjelder]: string;
     [AppFormField.relasjonTilBarnet]?: BarnRelasjon;
     [AppFormField.relasjonTilBarnetBeskrivelse]?: string;
-    [AppFormField.arbeidsforhold]: Arbeidsforhold[];
+    [AppFormField.arbeidsforhold]: ArbeidsforholdAnsatt[];
     [AppFormField.periodeFra]?: string;
     [AppFormField.periodeTil]?: string;
     [AppFormField.skalPassePåBarnetIHelePerioden]?: YesOrNo;

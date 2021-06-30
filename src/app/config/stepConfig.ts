@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import { isEndDateInPeriod } from '../utils/frilanserUtils';
+import { erFrilanserISøknadsperiode } from '../utils/frilanserUtils';
 import { getSøknadRoute } from '../utils/routeUtils';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from '../utils/stepUtils';
 import routeConfig from './routeConfig';
@@ -52,7 +52,7 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
         (formValues.arbeidsforhold.find((a) => a.erAnsattIPerioden === YesOrNo.YES) !== undefined ||
             formValues.frilans_jobberFortsattSomFrilans === YesOrNo.YES ||
             (formValues.frilans_jobberFortsattSomFrilans === YesOrNo.NO &&
-                isEndDateInPeriod(formValues.periodeFra, formValues.frilans_sluttdato)) ||
+                erFrilanserISøknadsperiode(formValues.periodeFra, formValues.frilans_sluttdato)) ||
             formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES);
 
     let idx = 0;

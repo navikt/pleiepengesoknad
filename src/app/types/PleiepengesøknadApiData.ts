@@ -3,7 +3,7 @@ import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { ISODateString } from 'nav-datovelger/lib/types';
-import { BarnRelasjon, AndreYtelserFraNAV, Arbeidsform } from './PleiepengesøknadFormData';
+import { BarnRelasjon, AndreYtelserFraNAV, Arbeidsform, ArbeidsforholdAnsatt } from './PleiepengesøknadFormData';
 
 export type ISO8601Duration = string;
 
@@ -15,16 +15,6 @@ export interface BarnToSendToApi {
     sammeAdresse: boolean | null;
 }
 
-export interface ArbeidsforholdApi {
-    navn: string;
-    organisasjonsnummer?: string;
-    skalJobbe?: 'ja' | 'nei' | 'redusert' | 'vetIkke';
-    arbeidsform?: Arbeidsform;
-    jobberNormaltTimer?: number;
-    skalJobbeTimer?: number;
-    skalJobbeProsent?: number;
-}
-
 export enum SkalJobbe {
     JA = 'JA',
     NEI = 'NEI',
@@ -32,50 +22,52 @@ export enum SkalJobbe {
     VET_IKKE = 'VET_IKKE',
 }
 
-export interface ArbeidsforholdSNFApi {
+/** Brukes kun i klient, ikke backend */
+export enum ArbeidsforholdType {
+    ANSATT = 'ANSATT',
+    FRILANSER = 'FRILANSER',
+    SELVSTENDIG = 'SELVSTENDIG',
+}
+export interface ArbeidsforholdApi {
     skalJobbe?: SkalJobbe;
     arbeidsform?: Arbeidsform;
     jobberNormaltTimer?: number;
     skalJobbeTimer?: number;
     skalJobbeProsent?: number;
+    _type: ArbeidsforholdType;
 }
 
-export type ArbeidsforholdSNFApiNei = Pick<
-    ArbeidsforholdSNFApi,
-    'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer'
->;
-export type ArbeidsforholdSNFApiRedusert = Pick<
-    ArbeidsforholdSNFApi,
-    'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | 'skalJobbeTimer'
->;
+export interface ArbeidsforholdAnsattApi extends ArbeidsforholdApi {
+    navn: string;
+    organisasjonsnummer?: string;
+}
 
-export type ArbeidsforholdSNFApiVetIkke = Pick<
-    ArbeidsforholdSNFApi,
-    'skalJobbe' | 'jobberNormaltTimer' | 'skalJobbeProsent'
->;
-
-export type ArbeidsforholdSNFApiSomVanlig = Pick<
-    ArbeidsforholdSNFApi,
-    'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer'
->;
+export const isArbeidsforholdAnsattApi = (forhold: any): forhold is ArbeidsforholdAnsatt => {
+    return (
+        forhold &&
+        forhold._type === ArbeidsforholdType.ANSATT &&
+        forhold.navn !== undefined &&
+        forhold.organisasjonsnummer !== undefined
+    );
+};
 
 export type ArbeidsforholdApiNei = Pick<
     ArbeidsforholdApi,
-    'navn' | 'organisasjonsnummer' | 'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer'
+    'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | '_type'
 >;
 export type ArbeidsforholdApiRedusert = Pick<
     ArbeidsforholdApi,
-    'navn' | 'organisasjonsnummer' | 'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | 'skalJobbeTimer'
+    'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | 'skalJobbeTimer' | '_type'
 >;
 
 export type ArbeidsforholdApiVetIkke = Pick<
     ArbeidsforholdApi,
-    'navn' | 'organisasjonsnummer' | 'skalJobbe' | 'jobberNormaltTimer' | 'skalJobbeProsent'
+    'skalJobbe' | 'jobberNormaltTimer' | 'skalJobbeProsent' | '_type'
 >;
 
 export type ArbeidsforholdApiSomVanlig = Pick<
     ArbeidsforholdApi,
-    'navn' | 'organisasjonsnummer' | 'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer'
+    'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | '_type'
 >;
 
 export interface TilsynsukeApi {
@@ -156,7 +148,7 @@ export interface FrilansApiData {
     startdato: ApiStringDate;
     jobberFortsattSomFrilans: boolean;
     sluttdato?: ApiStringDate;
-    arbeidsforhold?: ArbeidsforholdSNFApi;
+    arbeidsforhold?: ArbeidsforholdApi;
 }
 
 export interface PleiepengesøknadApiData {
@@ -170,7 +162,7 @@ export interface PleiepengesøknadApiData {
     skalBekrefteOmsorg?: boolean;
     skalPassePåBarnetIHelePerioden?: boolean;
     beskrivelseOmsorgsrollen?: string;
-    arbeidsgivere: { organisasjoner: ArbeidsforholdApi[] };
+    arbeidsgivere: { organisasjoner: ArbeidsforholdAnsattApi[] };
     vedlegg: string[];
     medlemskap: Medlemskap;
     utenlandsoppholdIPerioden?: {
@@ -198,7 +190,7 @@ export interface PleiepengesøknadApiData {
     frilans?: FrilansApiData;
     harHattInntektSomSelvstendigNæringsdrivende: boolean;
     selvstendigVirksomheter: VirksomhetApiData[];
-    selvstendigArbeidsforhold?: ArbeidsforholdSNFApi;
+    selvstendigArbeidsforhold?: ArbeidsforholdApi;
     harVærtEllerErVernepliktig?: boolean;
     andreYtelserFraNAV?: AndreYtelserFraNAV[];
 }

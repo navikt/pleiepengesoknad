@@ -4,8 +4,8 @@ import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
-import { AppFormField } from '../../../types/PleiepengesøknadFormData';
-import AppForm from '../../app-form/AppForm';
+import { AppFormField } from '../../../../types/PleiepengesøknadFormData';
+import AppForm from '../../../app-form/AppForm';
 
 const VernepliktigFormPart = () => {
     const intl = useIntl();

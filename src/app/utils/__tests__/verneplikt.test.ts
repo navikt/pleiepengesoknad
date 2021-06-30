@@ -1,5 +1,5 @@
 import { Arbeidsgiver } from '../../types/Søkerdata';
-import { AppFormField, Arbeidsforhold, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { AppFormField, ArbeidsforholdAnsatt, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { visVernepliktSpørsmål } from '../../components/steps/arbeidsforholdStep/ArbeidsforholdStep';
 
@@ -8,28 +8,28 @@ const organisasjonTelenor: Arbeidsgiver = {
     organisasjonsnummer: '973861778',
 };
 
-const organisasjonTelenorNO: Arbeidsforhold = {
+const organisasjonTelenorNO: ArbeidsforholdAnsatt = {
     navn: 'Telenor',
     organisasjonsnummer: '973861778',
     erAnsattIPerioden: YesOrNo.NO,
 };
 
-export const organisasjonTelenorYES: Arbeidsforhold = {
+export const organisasjonTelenorYES: ArbeidsforholdAnsatt = {
     navn: 'Telenor',
     organisasjonsnummer: '973861778',
     erAnsattIPerioden: YesOrNo.YES,
 };
-const organisasjonMaxbo: Arbeidsforhold = {
+const organisasjonMaxbo: ArbeidsforholdAnsatt = {
     navn: 'Maxbo',
     organisasjonsnummer: '910831143',
 };
-export const organisasjonMaxboNO: Arbeidsforhold = {
+export const organisasjonMaxboNO: ArbeidsforholdAnsatt = {
     navn: 'Maxbo',
     organisasjonsnummer: '910831143',
     erAnsattIPerioden: YesOrNo.NO,
 };
 
-export const organisasjonMaxboYES: Arbeidsforhold = {
+export const organisasjonMaxboYES: ArbeidsforholdAnsatt = {
     navn: 'Maxbo',
     organisasjonsnummer: '910831143',
     erAnsattIPerioden: YesOrNo.YES,

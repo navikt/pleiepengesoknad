@@ -21,6 +21,7 @@ import {
     getDateValidator,
     getFødselsnummerValidator,
     getNumberValidator,
+    getRequiredFieldValidator,
     getStringValidator,
     ValidateRequiredFieldError,
 } from '@navikt/sif-common-formik/lib/validation';
@@ -30,7 +31,14 @@ import { Utenlandsopphold } from '@navikt/sif-common-forms/lib';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
-import { Omsorgstilbud } from '../types/PleiepengesøknadFormData';
+import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
+import {
+    ArbeidsforholdAnsatt,
+    ArbeidsforholdSNF,
+    FrilansEllerSelvstendig,
+    isArbeidsforholdAnsatt,
+    Omsorgstilbud,
+} from '../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
 import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
 
@@ -184,6 +192,138 @@ export const getTilsynstimerValidatorEnDag =
             };
         }
         return undefined;
+    };
+
+export const getArbeidsformAnsattValidator =
+    (arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF | undefined) => (value: any) => {
+        if (arbeidsforhold === undefined) {
+            return undefined;
+        }
+        const error = getRequiredFieldValidator()(value);
+        if (error) {
+            return isArbeidsforholdAnsatt(arbeidsforhold)
+                ? {
+                      key: 'validation.arbeidsforhold.arbeidsform.yesOrNoIsUnanswered',
+                      values: { navn: arbeidsforhold.navn },
+                      keepKeyUnaltered: true,
+                  }
+                : error;
+        }
+    };
+
+export const getJobberNormaltTimerValidator =
+    (
+        arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF | undefined,
+        frilansEllerSelvstendig?: FrilansEllerSelvstendig
+    ) =>
+    (value: any) => {
+        if (arbeidsforhold === undefined) {
+            return undefined;
+        }
+        const error = getNumberValidator({
+            required: true,
+            min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
+            max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
+        })(value);
+        if (error) {
+            return isArbeidsforholdAnsatt(arbeidsforhold)
+                ? {
+                      key: `validation.arbeidsforhold.jobberNormaltTimer.${arbeidsforhold.arbeidsform}.${error}`,
+                      values: {
+                          navn: arbeidsforhold.navn,
+                          min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
+                          max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
+                      },
+                      keepKeyUnaltered: true,
+                  }
+                : {
+                      key: `validation.${frilansEllerSelvstendig}_arbeidsforhold.jobberNormaltTimer.${arbeidsforhold.arbeidsform}.${error}`,
+                      values: {
+                          min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
+                          max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
+                      },
+                      keepKeyUnaltered: true,
+                  };
+        }
+        return undefined;
+    };
+
+export const getArbeidsforholdSkalJobbeValidator =
+    (arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF) => (value: any) => {
+        const error = getRequiredFieldValidator()(value);
+        if (error) {
+            return isArbeidsforholdAnsatt(arbeidsforhold)
+                ? {
+                      key: 'validation.arbeidsforhold.skalJobbe',
+                      values: { navn: arbeidsforhold.navn },
+                      keepKeyUnaltered: true,
+                  }
+                : error;
+        }
+    };
+
+export const getArbeidsforholdSkalJobbeHvorMyeValidator =
+    (arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF) => (value: any) => {
+        const error = getRequiredFieldValidator()(value);
+        if (error) {
+            return isArbeidsforholdAnsatt(arbeidsforhold)
+                ? {
+                      key: 'validation.arbeidsforhold.jobbeHvorMye',
+                      values: { navn: arbeidsforhold.navn },
+                      keepKeyUnaltered: true,
+                  }
+                : error;
+        }
+    };
+
+export const getArbeidsforholdTimerEllerProsentValidator =
+    (arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF) => (value: any) => {
+        const error = getRequiredFieldValidator()(value);
+        if (error) {
+            return isArbeidsforholdAnsatt(arbeidsforhold)
+                ? {
+                      key: 'validation.arbeidsforhold.timerEllerProsent',
+                      values: { navn: arbeidsforhold.navn },
+                      keepKeyUnaltered: true,
+                  }
+                : error;
+        }
+    };
+
+export const getArbeidsforholdSkalJobbeTimerValidator =
+    (arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF) => (value: any) => {
+        const jobberNormaltTimerNumber = getNumberFromNumberInputValue(arbeidsforhold.jobberNormaltTimer);
+        if (!jobberNormaltTimerNumber) {
+            return undefined;
+        }
+        const error = validateReduserteArbeidTimer(value, jobberNormaltTimerNumber);
+        if (error) {
+            return isArbeidsforholdAnsatt(arbeidsforhold)
+                ? {
+                      key: `validation.arbeidsforhold.skalJobbeTimer.${error}`,
+                      values: { navn: arbeidsforhold.navn },
+                      keepKeyUnaltered: true,
+                  }
+                : error;
+        }
+    };
+
+export const getArbeidsforholdSkalJobbeProsentValidator =
+    (arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF) => (value) => {
+        const error = getNumberValidator({
+            required: true,
+            min: 1,
+            max: 99,
+        })(value);
+        if (error) {
+            return isArbeidsforholdAnsatt(arbeidsforhold)
+                ? {
+                      key: `validation.arbeidsforhold.skalJobbeProsent.${error}`,
+                      values: { navn: arbeidsforhold.navn },
+                      keepKeyUnaltered: true,
+                  }
+                : error;
+        }
     };
 
 export const validateReduserteArbeidTimer = (value: string, jobberNormaltTimer: number): string | undefined => {

@@ -1,6 +1,14 @@
 .arbeidsforholdSummary {
-    margin-top: 0.75rem;
-    &__org {
+    .summaryList__item:not(:first-child) & {
+        margin-top: 2rem;
+    }
+    p {
+        margin: 0.5rem 0;
+    }
+    li {
+        margin-top: 0.25rem;
+    }
+    &__tittel {
         font-weight: bold;
     }
 }

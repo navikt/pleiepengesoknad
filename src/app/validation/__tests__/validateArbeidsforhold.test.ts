@@ -1,42 +1,45 @@
 import {
-    ArbeidsforholdApi,
+    ArbeidsforholdAnsattApi,
     ArbeidsforholdApiNei,
     ArbeidsforholdApiRedusert,
     ArbeidsforholdApiSomVanlig,
     ArbeidsforholdApiVetIkke,
+    ArbeidsforholdType,
+    SkalJobbe,
 } from '../../types/PleiepengesøknadApiData';
 
 import { isArbeidsforholdApiValuesValid } from '../apiValuesValidation';
 
-const arbeidsforhold: ArbeidsforholdApi = {
+const arbeidsforhold: ArbeidsforholdAnsattApi = {
     organisasjonsnummer: '123',
     navn: 'mock',
+    _type: ArbeidsforholdType.ANSATT,
 };
 
-const arbeidsforholdNei: ArbeidsforholdApiNei = {
+const arbeidsforholdNei: ArbeidsforholdApiNei & ArbeidsforholdAnsattApi = {
     ...arbeidsforhold,
-    skalJobbe: 'nei',
+    skalJobbe: SkalJobbe.NEI,
     jobberNormaltTimer: 10,
     skalJobbeProsent: 0,
 };
 
-const arbeidsforholdVetIkke: ArbeidsforholdApiVetIkke = {
+const arbeidsforholdVetIkke: ArbeidsforholdApiVetIkke & ArbeidsforholdAnsattApi = {
     ...arbeidsforhold,
-    skalJobbe: 'vetIkke',
+    skalJobbe: SkalJobbe.VET_IKKE,
     jobberNormaltTimer: 10,
     skalJobbeProsent: 0,
 };
 
-const arbeidsforholdSomVanlig: ArbeidsforholdApiSomVanlig = {
+const arbeidsforholdSomVanlig: ArbeidsforholdApiSomVanlig & ArbeidsforholdAnsattApi = {
     ...arbeidsforhold,
-    skalJobbe: 'ja',
+    skalJobbe: SkalJobbe.JA,
     jobberNormaltTimer: 10,
     skalJobbeProsent: 100,
 };
 
-const arbeidsforholdRedusert: ArbeidsforholdApiRedusert = {
+const arbeidsforholdRedusert: ArbeidsforholdApiRedusert & ArbeidsforholdAnsattApi = {
     ...arbeidsforhold,
-    skalJobbe: 'redusert',
+    skalJobbe: SkalJobbe.REDUSERT,
     jobberNormaltTimer: 10,
     skalJobbeProsent: 50,
 };

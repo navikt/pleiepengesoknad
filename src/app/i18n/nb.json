@@ -50,6 +50,8 @@
     "timerOgMinutter": "{timer, plural, one {# time} other {# timer}} og {minutter, plural, one {# minutt} other {# minutter}}",
     "dager": "{dager, plural, one {# dag} other {# dager}}",
 
+    "timer.ikkeTall": "{timer} timer",
+
     "timeInput.hours": "Timer",
     "timeInput.minutes": "Minutter",
 
@@ -114,7 +116,15 @@
     "step.arbeidsforholdIPerioden.pageTitle": "Pleiepengesøknad - opplysninger om jobb i perioden",
     "step.arbeidsforholdIPerioden.stepTitle": "Jobb i perioden med pleiepenger",
     "step.arbeidsforholdIPerioden.stepIndicatorLabel": "Jobb i perioden med pleiepenger",
-    "step.arbeidsforholdIPerioden.StepInfo": "Her skal du opplyse om du skal jobbe noe i samme periode som du skal ha pleiepenger. Det kan for eksempel være at du kan jobbe fordi du skal dele pleiepengene med en annen omsorgsperson, eller at barnet skal være noe på skolen eller i barnehagen.",
+    "step.arbeidsforholdIPerioden.StepInfo.1": "I forrige steg bekreftet du at du {info}. Nå trenger vi å vite om du skal være på jobb i samme periode som du skal ha pleiepenger. Vi trenger å vite dette fordi som hovedregel skal pleiepengene graderes tilsvarende den tiden du jobber.",
+    "step.arbeidsforholdIPerioden.StepInfo.2": "Nå får du noen spørsmål om du skal være på jobb i samme periode som du søker pleiepenger.",
+    "step.arbeidsforholdIPerioden.StepInfo.1.info.ansatt": "har {antall} arbeidsforhold",
+    "step.arbeidsforholdIPerioden.StepInfo.1.info.ansatt_frilans": "har {antall} arbeidsforhold og er frilanser",
+    "step.arbeidsforholdIPerioden.StepInfo.1.info.ansatt_selvstendig": "har {antall} arbeidsforhold og er selvstendig næringsdrivende",
+    "step.arbeidsforholdIPerioden.StepInfo.1.info.ansatt_frilans_selvstendig": "har {antall} arbeidsforhold, og er frilanser og selvstendig næringsdrivende",
+    "step.arbeidsforholdIPerioden.StepInfo.1.info.frilans_selvstendig": "er frilanser og selvstendig næringsdrivende",
+    "step.arbeidsforholdIPerioden.StepInfo.1.info.frilans": "er frilanser",
+    "step.arbeidsforholdIPerioden.StepInfo.1.info.selvstendig": "er selvstendig næringsdrivende",
     "step.arbeidsforholdIPerioden.FrilansLabel": "Frilans",
     "step.arbeidsforholdIPerioden.SNLabel": "Selvstendig næringsdrivende",
 
@@ -301,7 +311,7 @@
     "steg.legeerklaering.counsellorpanel.2": "Vi kan ikke behandle søknaden din før vi mottar legeerklæringen. Hvis du ikke har legeerklæringen tilgjengelig nå, anbefaler vi at du venter med å søke til du har den tilgjengelig. Hvis du ikke kan vente med å sende søknaden, kan du fortsette uten legeerklæring, men da må du ettersende den så snart som mulig.",
     "steg.legeerklaering.counsellorpanel.ettersendLenke": "Her får du veiledning til hvordan du ettersender dokumentasjon.",
 
-    "steg.oppsummering.info": "Les gjennom oppsummeringen før du sender inn søknaden. Hvis du vil gjøre endringer, kan du gå tilbake.",
+    "steg.oppsummering.info": "Les gjennom oppsummeringen før du sender inn søknaden. Du kan gå tilbake hvis du vil gjøre endringer.",
     "steg.oppsummering.søker.header": "Om deg",
     "steg.oppsummering.søker.fnr": "Fødselsnummer: {fødselsnummer}",
     "steg.oppsummering.tidsrom.header": "Perioden du søker pleiepenger for",
@@ -349,7 +359,7 @@
     "steg.oppsummering.bekrefterOpplysninger": "Jeg bekrefter at opplysningene jeg har gitt er riktige, og at jeg ikke har holdt tilbake opplysninger som har betydning for min rett til pleiepenger.",
     "steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet": "Du må bekrefte opplysningene",
 
-    "steg.oppsummering.arbeidsforhold.header": "Arbeidssituasjonen din",
+    "steg.oppsummering.arbeidsforhold.header": "Din arbeidssituasjon",
     "steg.oppsummering.arbeidsforhold.forhold": "{navn} (organisasjonsnummer: {organisasjonsnummer})",
     "steg.oppsummering.arbeidsforhold.ingenArbeidsforhold": "Ingen arbeidsforhold er valgt",
 
@@ -408,7 +418,7 @@
 
     "arbeidsforhold.erAnsattIPerioden.spm": "Er du ansatt her i perioden du søker pleiepenger?",
 
-    "arbeidsforhold.arbeidsform.spm": "Hvordan jobber du hos {arbeidsforhold}?",
+    "arbeidsforhold.arbeidsform.spm": "Hvordan jobber du vanligvis hos {arbeidsforhold}?",
     "arbeidsforhold.arbeidsform.fast": "Fast antall timer per uke",
     "arbeidsforhold.arbeidsform.fast.info.tittel": "Hva betyr dette?",
     "arbeidsforhold.arbeidsform.fast.info.tekst": "Her skal du legge inn antall timer du jobber per uke. Hvis du er usikker på antallet må du høre med arbeidsgiveren din, eller finne svaret i arbeidskontrakten din.",
@@ -432,49 +442,59 @@
     "arbeidsforhold.arbeidsform.varierende.info.tekst.4": "Du jobber altså i snitt 20,8 timer per uke, og det er dette tallet du oppgir.",
     "arbeidsforhold.arbeidsform.VARIERENDE.timer.suffix": "timer i snitt per uke",
 
-    "arbeidsforhold.arbeidsforhold.spm": "Skal du jobbe her i samme periode som du søker pleiepenger?",
-    "arbeidsforhold.arbeidsforhold.frilanser.spm": "Skal du jobbe som frilanser i samme periode som du søker pleiepenger?",
-    "arbeidsforhold.arbeidsforhold.sn.spm": "Skal du jobbe som selvstendig i samme periode som du søker pleiepenger?",
-    "arbeidsforhold.arbeidsforhold.ja": "Ja, jeg skal jobbe som vanlig",
-    "arbeidsforhold.arbeidsforhold.nei": "Nei, jeg skal ikke jobbe",
-    "arbeidsforhold.arbeidsforhold.vetIkke": "Vet ikke, men jeg melder fra hvis jeg skal jobbe i perioden jeg søker for",
-    "arbeidsforhold.arbeidsforhold.redusert": "Ja, men jeg skal jobbe mindre enn vanlig",
+    "arbeidsforhold.ansatt.skalJobbe.spm": "Skal du være på jobb hos {navn} i samme periode som du skal ha pleiepenger?",
+    "arbeidsforhold.ansatt.jobbeHvorMye.spm": "Du har opplyst at du vanligvis jobber {timer} per uke hos {navn}. Hvor mye skal du jobbe der i pleiepengeperioden?",
+    "arbeidsforhold.ansatt.timerEllerProsent.spm": "Hvordan vil du oppgi hvor mye du skal jobbe hos {navn}?",
+    "arbeidsforhold.ansatt.skalJobbeTimer.spm": "Hvor mange timer i uka skal du jobbe?",
+    "arbeidsforhold.ansatt.skalJobbeProsent.spm": "Hvor mange prosent av din vanlige arbeidstid skal du jobbe?",
+
+    "arbeidsforhold.frilanser.skalJobbe.spm": "Skal du jobbe som frilanser i samme periode som du søker pleiepenger?",
+    "arbeidsforhold.frilanser.jobbeHvorMye.spm": "Du har opplyst at du vanligvis jobber {timer} som frilanser. Hvor mye skal du jobbe som frilanser i pleiepengeperioden?",
+    "arbeidsforhold.frilanser.timerEllerProsent.spm": "Hvordan vil du oppgi hvor mye du skal jobbe som frilanser?",
+    "arbeidsforhold.frilanser.skalJobbeTimer.spm": "Hvor mange timer i uka skal du jobbe?",
+    "arbeidsforhold.frilanser.skalJobbeProsent.spm": "Hvor mange prosent av din vanlige arbeidstid skal du jobbe?",
+
+    "arbeidsforhold.selvstendig.skalJobbe.spm": "Skal du jobbe som selvstendig i samme periode som du søker pleiepenger?",
+    "arbeidsforhold.selvstendig.jobbeHvorMye.spm": "Du har opplyst at du vanligvis jobber {timer} som selvstendig. Hvor mye skal du jobbe som selvstendig i pleiepengeperioden?",
+    "arbeidsforhold.selvstendig.timerEllerProsent.spm": "Hvordan vil du oppgi hvor mye du skal jobbe som selvstendig?",
+    "arbeidsforhold.selvstendig.skalJobbeTimer.spm": "Hvor mange timer i uka skal du jobbe?",
+    "arbeidsforhold.selvstendig.skalJobbeProsent.spm": "Hvor mange prosent av din vanlige arbeidstid skal du jobbe?",
+
+    "arbeidsforhold.skalJobbe.ja": "Ja",
+    "arbeidsforhold.skalJobbe.nei": "Nei",
+    "arbeidsforhold.skalJobbe.vetIkke": "Usikker, men jeg melder fra hvis jeg skal jobbe i pleiepengeperioden",
+
+    "arbeidsforhold.jobbeHvorMye.spm": "Du har opplyst at du vanligvis jobber {timer} per uke hos {navn}. Hvor mye skal du jobbe der i pleiepengeperioden?",
+    "arbeidsforhold.jobbeHvorMye.somVanlig": "Som vanlig, {timer} per uke",
+    "arbeidsforhold.jobbeHvorMye.redusert": "Mindre enn {timer} per uke",
 
     "arbeidsforhold.iDag.FAST.spm": "Hvor mange timer jobber du vanligvis fast per uke hos {arbeidsforhold}?",
     "arbeidsforhold.iDag.TURNUS.spm": "Hvor mange timer jobber du vanligvis i snitt per uke hos {arbeidsforhold}?",
     "arbeidsforhold.iDag.VARIERENDE.spm": "Hvor mange timer jobber du vanligvis i snitt per uke hos {arbeidsforhold}?",
     "arbeidsforhold.iDag.utledet": "timer i uka",
-    "arbeidsforhold.hvorMye.spm": "Du må velge hvordan du ønsker å oppgi hvor mye du skal jobbe hos {navn}",
-    "arbeidsforhold.hvorMyeFrilans.spm": "Du må velge hvordan du ønsker å oppgi hvor mye du skal jobbe som frilanser",
-    "arbeidsforhold.hvorMyeSelvstendig.spm": "Du må velge hvordan du ønsker å oppgi hvor mye du skal jobbe som selvstendig",
-    "arbeidsforhold.hvorMye.timer": "I timer",
-    "arbeidsforhold.hvorMye.prosent": "Som prosent av min vanlige stilling",
-    "arbeidsforhold.timer.spm": "Hvor mange timer i uka skal du jobbe?",
+    "arbeidsforhold.timerEllerProsent.timer": "I timer",
+    "arbeidsforhold.timerEllerProsent.prosent": "Som prosent",
     "arbeidsforhold.timer.utledet": "timer i uka",
     "arbeidsforhold.timer.utledet.medProsent": "timer i uka ({prosentRedusert} prosent av vanlig)",
-    "arbeidsforhold.prosent.spm": "Hvor mange prosent skal du jobbe?",
     "arbeidsforhold.prosent.utledet": "prosent av {timer, plural, one {# time} other {# timer}}",
     "arbeidsforhold.prosent.utledet.medTimer": "prosent av {timer, plural, one {# time} other {# timer}} ({timerRedusert} i uka)",
-    "arbeidsforhold.prosent.veileder": "Når du jobber deltid skal du opplyse hvor mye du skal jobbe som en andel av stillingen din. Har du for eksempel en 80 prosent stilling, og skal jobbe halvparten av dette, skal du oppgi at du skal jobbe 50 prosent.",
-    "arbeidsforhold.oppsummering.orgInfo": "{navn} (organisasjonsnummer {organisasjonsnummer}):",
-    "arbeidsforhold.oppsummering.skalIkkeArbeide": "Skal ikke jobbe her i denne perioden (jobber normalt {timerNormalt} i uken).",
-    "arbeidsforhold.oppsummering.skalArbeideDelvis": "Skal jobbe {timerRedusert} i uken i denne perioden (jobber normalt {timerNormalt} i uken).",
-    "arbeidsforhold.oppsummering.svar.ja": "Skal jobbe som vanlig. Jobber vanligvis {timer, plural, one {# time} other {# timer}} i uka",
-    "arbeidsforhold.oppsummering.svar.nei": "Skal ikke jobbe. Jobber vanligvis {timer, plural, one {# time} other {# timer}} i uka",
-    "arbeidsforhold.oppsummering.svar.vetIkke": "Jeg vet ikke om jeg skal jobbe her i perioden jeg søker for, men jeg melder fra hvis jeg skal gjøre det. Jobber vanligvis {timer} i uka",
-    "arbeidsforhold.oppsummering.svar.redusert.timer": "Skal jobbe {timerRedusert} i uka ({prosentRedusert} prosent av vanlig). Jobber normalt {timerNormalt} i uka",
-    "arbeidsforhold.oppsummering.svar.redusert.prosent": "Skal jobbe {prosentRedusert} prosent av {timerNormalt} i uka.",
 
-    "arbeidsforhold.oppsummering.svar.JA": "Skal jobbe som vanlig. Jobber vanligvis {timer, plural, one {# time} other {# timer}} i uka",
-    "arbeidsforhold.oppsummering.svar.NEI": "Skal ikke jobbe. Jobber vanligvis {timer, plural, one {# time} other {# timer}} i uka",
-    "arbeidsforhold.oppsummering.svar.VET_IKKE": "Jeg vet ikke om jeg skal jobbe her i perioden jeg søker for, men jeg melder fra hvis jeg skal gjøre det. Jobber vanligvis {timer} i uka",
-    "arbeidsforhold.oppsummering.svar.REDUSERT.timer": "Skal jobbe {timerRedusert} i uka ({prosentRedusert} prosent av vanlig). Jobber normalt {timerNormalt} i uka",
-    "arbeidsforhold.oppsummering.svar.REDUSERT.prosent": "Skal jobbe {prosentRedusert} prosent av {timerNormalt} i uka.",
+    "arbeidsforhold.oppsummering.ansatt": "{navn} (organisasjonsnummer {organisasjonsnummer}):",
+    "arbeidsforhold.oppsummering.frilanser": "Frilans",
+    "arbeidsforhold.oppsummering.selvstendig": "Selvstendig næringsdrivende",
+    "arbeidsforhold.oppsummering.duHarOppgitt.ANSATT": "Du har oppgitt at du",
+    "arbeidsforhold.oppsummering.duHarOppgitt.FRILANSER": "Du har oppgitt at du som frilanser",
+    "arbeidsforhold.oppsummering.duHarOppgitt.SELVSTENDIG": "Du har oppgitt at du som selvstendig næringsdrivende",
+    "arbeidsforhold.oppsummering.jobberVanligvis": "vanligvis jobber {timerNormalt, plural, one {# time} other {# timer}} per uke ({arbeidsform}).",
+    "arbeidsforhold.oppsummering.skalJobbeSomVanlig": "skal jobbe som vanlig i pleiepengeperioden, {timerNormalt, plural, one {# time} other {# timer}} per uke.",
+    "arbeidsforhold.oppsummering.skalJobbeRedusert.timer": "skal jobbe {timerRedusert, plural, one {# time} other {# timer}} av {timerNormalt, plural, one {# time} other {# timer}} per uke i pleiepengeperioden.",
+    "arbeidsforhold.oppsummering.skalJobbeRedusert.prosent": "skal jobbe {prosentRedusert} prosent av {timerNormalt, plural, one {# time} other {# timer}} per uke i pleiepengeperioden.",
+    "arbeidsforhold.oppsummering.vetIkke": "er usikker på om du skal jobbe i pleiepengeperioden, men at du melder fra hvis du starter å jobbe.",
+    "arbeidsforhold.oppsummering.skalIkkeJobbe": "ikke skal jobbe i pleiepengeperioden.",
 
-    "arbeidsforhold.oppsummering.jobberNormalt": "Jobber vanligvis {timer, plural, one {# time} other {# timer}} i uka",
-    "arbeidsforhold.oppsummering.arbeidsform.FAST": "(fast antall timer per uke).",
-    "arbeidsforhold.oppsummering.arbeidsform.TURNUS": "(turnus).",
-    "arbeidsforhold.oppsummering.arbeidsform.VARIERENDE": "(deltid/varierende/tilkalling).",
+    "arbeidsforhold.oppsummering.arbeidsform.FAST": "fast antall timer per uke",
+    "arbeidsforhold.oppsummering.arbeidsform.TURNUS": "turnus",
+    "arbeidsforhold.oppsummering.arbeidsform.VARIERENDE": "deltid/varierende/tilkalling",
 
     "tilsynsordning.svar.ja": "Ja",
     "tilsynsordning.svar.nei": "Nei",
@@ -498,7 +518,9 @@
     "summary.virksomhet.harDuHattInntekt.header": "Er du selvstendig næringsdrivende i perioden du søker for?",
     "summary.virksomhet.harFlereVirksomheter.header": "Har du flere enn én næringsvirksomhet som er aktiv?",
     "summary.virksomhet.virksomhetInfo.tittel": "Næringsvirksomhet som du har lagt inn:",
-    "selvstendig.summary.arbeidsforhold.header": "Hvordan jobber du som selvstendig?",
+
+    "selvstendig.summary.arbeidsforhold.header": "Hvordan skal du jobbe som selvstendig i søknadsperioden?",
+    "frilanser.summary.arbeidsforhold.header": "Hvordan skal du jobbe som frilanser i søknadsperioden?",
 
     "selvstendig.harDuHattInntekt.spm": "Er du selvstendig næringsdrivende i perioden du søker for?",
     "selvstendig.harDuHattInntekt.hjelpetekst.tittel": "Hva betyr det å være selvstendig næringsdrivende?",
@@ -510,7 +532,8 @@
     "selvstendig.list.leggTilLabel": "Legg til næringsvirksomhet",
     "selvstendig.dialog.tittel": "Næringsvirksomhet",
 
-    "selvstendig.arbeidsforhold.spm": "Hvordan jobber du som selvstendig?",
+    "selvstendig.arbeidsforhold.arbeidsform.spm": "Hvordan jobber du vanligvis som selvstendig?",
+    "frilans.arbeidsforhold.arbeidsform.spm": "Hvordan jobber du vanligvis som frilanser?",
 
     "frilanser.harDuHattInntekt.spm": "Er du frilanser i perioden du søker for?",
     "frilanser.nårStartet.spm": "Når startet du som frilanser?",
@@ -520,7 +543,6 @@
     "frilanser.HvorMangeTimerFast.spm": "Hvor mange timer jobber du vanligvis fast per uke?",
     "frilanser.HvorMangeTimerISnitt.spm": "Hvor mange timer jobber du vanligvis i snitt per uke?",
 
-    "frilanser.arbeidsforhold.arbeidsform.spm": "Hvordan jobber du som frilanser?",
     "snFrilanser.arbeidsforhold.arbeidsform.fast": "Fast antall timer per uke",
     "snFrilanser.arbeidsforhold.arbeidsform.fast.info.tittel": "Hva betyr dette?",
     "snFrilanser.arbeidsforhold.arbeidsform.fast.info.tekst": "Her skal du legge inn antall timer du jobber per uke.",
@@ -546,8 +568,6 @@
     "snFrilanser.arbeidsforhold.iDag.TURNUS.spm": "Hvor mange timer jobber du vanligvis i snitt per uke?",
     "snFrilanser.arbeidsforhold.iDag.VARIERENDE.spm": "Hvor mange timer jobber du vanligvis i snitt per uke?",
     "snFrilanser.arbeidsforhold.iDag.utledet": "timer i uka",
-
-    "frilanser.arbeidsforhold.summary.arbeidsform.spm": "Hvordan jobber du som frilanser?",
 
     "snF.ArbeidsforholdDetaljer.hvaBetyr.spm": "Hva betyr dette?",
     "snF.ArbeidsforholdDetaljer.hvaBetyr.frilanser.info": "Hvis du jobber som frilanser flere steder skal du her svare samlet for alle oppdragene. Hvis du f.eks. skal jobbe i en av to frilansforhold skal du her svare \"Ja, men jeg skal jobbe mindre enn vanlig\".",
@@ -675,6 +695,9 @@
     "validation.harVærtEllerErVernepliktig.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du utøvde verneplikt på tidspunktet du søker pleiepenger fra.",
 
     "validation.arbeidsforhold.skalJobbe": "Du må svare på om du skal jobbe hos {navn} i samme periode som du søker pleiepenger.",
+    "validation.arbeidsforhold.skalJobbe.info.tittel": "Hvorfor spør vi om dette?",
+    "validation.arbeidsforhold.skalJobbe.info.tekst": "Vi spør om dette fordi pleiepengene skal graderes tilsvarende den tiden du jobber i pleiepengeperioden. Velg det som passer best i din situasjon.",
+    "validation.arbeidsforhold.jobbeHvorMye": "Du må svare på hvor mye du skal jobbe hos {navn} i pleiepengeperioden.",
     "validation.arbeidsforhold.timerEllerProsent": "Du må velge hvordan du ønsker å oppgi hvor mye du skal jobbe hos {navn}.",
     "validation.arbeidsforhold.skalJobbeProsent.numberHasNoValue": "Skriv inn hvor mange prosent du skal jobbe hos {navn}.",
     "validation.arbeidsforhold.skalJobbeProsent.numberHasInvalidFormat": "Antall prosent du skal jobbe hos {navn} er ikke et gyldig tall.",
@@ -688,6 +711,7 @@
     "validation.arbeidsforhold_prosentUgyldig": "Prosenten kan være fra 1 til 99.",
 
     "validation.frilans_arbeidsforhold.skalJobbe.noValue": "Du må svare på om du skal jobbe som frilanser i samme periode som du søker pleiepenger.",
+    "validation.frilans_arbeidsforhold.skalJobbeHvorMye.noValue": "Du må svare på hvor mye du skal jobbe som frilanser i pleiepengeperioden.",
     "validation.frilans_arbeidsforhold.timerEllerProsent.noValue": "Du må velge hvordan du ønsker å oppgi hvor mye du skal jobbe som frilanser.",
     "validation.frilans_arbeidsforhold.skalJobbeProsent.numberHasNoValue": "Skriv inn hvor mange prosent du skal jobbe som frilanser.",
     "validation.frilans_arbeidsforhold.skalJobbeProsent.numberHasInvalidFormat": "Antall prosent du skal jobbe som frilanser er ikke et gyldig tall.",
@@ -699,6 +723,7 @@
     "validation.frilans_arbeidsforhold.skalJobbeTimer.timerUgyldig_over_99_prosent": "Du kan ikke jobbe mer enn  99 prosent av hva du jobber normalt som frilanser.",
 
     "validation.selvstendig_arbeidsforhold.skalJobbe.noValue": "Du må svare på om du skal jobbe som selvstendig i samme periode som du søker pleiepenger.",
+    "validation.selvstendig_arbeidsforhold.skalJobbeHvorMye.noValue": "Du må svare på hvor mye du skal jobbe som selvstendig i pleiepengeperioden.",
     "validation.selvstendig_arbeidsforhold.timerEllerProsent.noValue": "Du må velge hvordan du ønsker å oppgi hvor mye du skal jobbe som selvstendig.",
     "validation.selvstendig_arbeidsforhold.skalJobbeProsent.numberHasNoValue": "Skriv inn hvor mange prosent du skal jobbe som selvstendig.",
     "validation.selvstendig_arbeidsforhold.skalJobbeProsent.numberHasInvalidFormat": "Antall prosent du skal jobbe som selvstendig er ikke et gyldig tall.",
