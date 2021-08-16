@@ -271,6 +271,7 @@
 
     "steg.tilsyn.veileder.html": "<p>Hvis barnet er i et etablert omsorgstilbud i perioden du søker for, skal pleiepengene graderes tilsvarende den tiden barnet er i omsorgstilbudet. Det kan gjøres unntak ved nattevåk eller hvis du må være i beredskap, noe du får spørsmål om litt senere i søknaden.</p><p>Et omsorgstilbud kan være barnehage, skole, SFO, omsorgsbolig, BPA (brukerstyrt personlig assistent), eller andre organiserte tilbud.</p><p>Et etablert omsorgstilbud betyr at den tiden som barnet er i omsorgstilbudet er fast og regelmessig. Hvis bruken av omsorgstilbudet er så uforutsigbar og uregelmessig at du ikke kan anslå et minimum antall timer per uke, anses ikke omsorgstilbudet som etablert. Pleiepengene graderes ikke når omsorgstilbudet ikke er etablert.</p><p>På spørsmålet under svarer du ja hvis barnet skal være i et omsorgstilbud, uansett om det er etablert eller ikke.</p>",
     "steg.tilsyn.skalBarnetHaTilsyn.spm": "Skal barnet være i et omsorgstilbud i hele eller deler av perioden du søker om?",
+    "steg.tilsyn.harBarnetHattTilsyn.spm": "Har barnet vært i et omsorgstilbud i perioden {fra} til og med {til}",
 
     "steg.tilsyn.ja.vetHvorMye.spm": "Kan du oppgi tiden barnet skal være i omsorgstilbudet?",
     "steg.tilsyn.ja.vetHvorMye.ja": "Ja",
@@ -283,14 +284,11 @@
     "steg.tilsyn.ja.erLiktHverDag.info.2": "Anna går fast hver uke i barnehagen 2 timer på mandag og 3 timer på torsdag. Hun bytter ikke på dager eller antall timer hun er i barnehagen i løpet av en uke.",
 
     "steg.tilsyn.ja.hvorMyeTilsyn": "Oppgi timene og minuttene som barnet er i omsorgstilbudet:",
+    "steg.tilsyn.ja.hvorMyeTilsyn_fortid": "Oppgi timene og minuttene som barnet var i omsorgstilbudet:",
+    "steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.nei": "Når du ikke vet hvor mye barnet klarer å være i omsorgstilbudet, blir ikke pleiepengene gradert. Du må gi oss beskjed hvis tiden barnet er i omsorgstilbudet blir fast og regelmessig. Dette er viktig ettersom pleiepengene skal graderes når tiden barnet er i omsorgstilbudet er fast og regelmessig.",
     "steg.tilsyn.ja.hvorMyeTilsyn.description.tittel": "Hvor mange timer kan jeg oppgi per dag?",
     "steg.tilsyn.ja.hvorMyeTilsyn.description": "Du kan oppgi opptil 7 timer og 30 minutter per dag. Det betyr at selv om barnet er i omsorgstilbudet i for eksempel 8 timer per dag, kan du ikke oppgi mer enn maksimalt 7 timer og 30 minutter. Tid som overstiger dette blir ikke tatt med når pleiepengene graderes.",
-    "steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.ja": "Når du i neste steg skal legge inn antall timer og minutter for hvor mye barnet er i omsorgstilbudet, skal du bare skrive inn den tiden du vet med sikkerhet. Hvis denne tiden endrer seg slik at den blir en ny fast og regelmessig ordning, må du gi oss beskjed. Du trenger ikke gi beskjed hvis oppholdet i omsorgstilbudet varierer litt fra dag til dag.",
-    "steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.nei": "Når du ikke vet hvor mye barnet klarer å være i omsorgstilbudet, blir ikke pleiepengene gradert. Du må gi oss beskjed hvis tiden barnet er i omsorgstilbudet blir fast og regelmessig. Dette er viktig ettersom pleiepengene skal graderes når tiden barnet er i omsorgstilbudet er fast og regelmessig.",
-
     "steg.tilsyn.omsorgstilbud.uketittel": "Uke {ukenummer}, {år}",
-
-    "steg.tilsyn.tilsynsuke.veileder": "Hvis du vet hvor mye barnet skal være i et omsorgstilbud, må du fylle ut hvor mange timer og minutter per dag andre skal passe barnet.",
 
     "steg.nattevåk.veileder": "I noen tilfeller kan barnets sykdom gjøre at du må være våken om natten for å pleie eller ha tilsyn med barnet. Hvis du ikke kan gå på jobb dagen etter fordi du selv må hvile ut, skal ikke pleiepengene graderes selv om barnet er i et omsorgstilbud på dagtid. Det må være en sammenheng mellom pleien og tilsynet du gir på natten og barnets sykdom. I disse tilfellene skal pleiepengene som hovedregel ikke graderes.",
     "steg.nattevåk.spm": "Gjør barnets sykdom at du må være våken på natta og derfor må være borte fra jobb dagen etter?",
@@ -753,7 +751,7 @@
     "validation.omsorgstilbud.ja.fastDag.tid.durationIsTooLong": "Ugyldig tid registrert {dag}. Du kan registrere maks 7 timer og 30 minutter hver ukedag.",
     "validation.omsorgstilbud.ja.fastDag.tid.durationIsTooShort": "0 timer og 0 minutter er oppgitt for {dag}. Dersom barnet skal være i et omsorgstilbud på {dag}, må du oppgi en gyldig tid.",
     "validation.omsorgstilbud.ja.enkeltdager.ingenTidRegistrert": "Du må registrere den tiden du vet barnet skal være i et omsorgstilbud.",
-    "validation.omsorgstilbud.ja.enkeltdager_periode.ingenTidRegistrert": "Du må registrere den tiden du vet barnet skal være i et omsorgstilbud.",
+    "validation.omsorgstilbud.ja.enkeltdager.ingenTidRegistrert_fortid": "Du må registrere den tiden barnet var i et omsorgstilbud.",
     "validation.omsorgstilbud.ja.erLiktHverDag.yesOrNoIsUnanswered": "Du må svare på om tiden barnet skal være i omsorgstilbudet er lik for hver dag i perioden du søker om.",
 
     "validation.harNattevåk.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnets sykdom gjør at du må være våken på natta.",

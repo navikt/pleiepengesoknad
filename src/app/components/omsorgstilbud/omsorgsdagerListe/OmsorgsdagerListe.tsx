@@ -15,7 +15,7 @@ interface Props {
 }
 
 const sortDays = (d1: OmsorgstilbudDag, d2: OmsorgstilbudDag): number =>
-    dayjs(d1.dato).isSameOrBefore(d2.dato) ? -1 : 1;
+    dayjs(d1.dato).isSameOrBefore(d2.dato, 'day') ? -1 : 1;
 
 const bem = bemUtils('omsorgsdagerListe');
 

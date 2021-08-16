@@ -16,6 +16,8 @@ const omsorgstilbudMessages = {
         'omsorgstilbud.form.tittel': 'Omsorgstilbud - {måned}',
         'omsorgstilbud.form.intro.1':
             'Fyll ut antall timer og minutter de dagene barnet skal være i omsorgstilbudet. Du trenger ikke fylle ut noe de dagene barnet ikke skal være i omsorgstilbud.',
+        'omsorgstilbud.form.intro_fortid.1':
+            'Fyll ut antall timer og minutter de dagene barnet var i omsorgstilbudet. Du trenger ikke fylle ut noe de dagene barnet ikke var i omsorgstilbud.',
         'omsorgstilbud.form.intro.2': 'Du kan registrere opp til 7 timer og 30 minutter per dag.',
         'omsorgstilbud.form.knapp.ok': 'Ok',
         'omsorgstilbud.form.knapp.avbryt': 'Avbryt',

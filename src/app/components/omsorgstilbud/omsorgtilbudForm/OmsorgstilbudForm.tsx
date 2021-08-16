@@ -17,6 +17,7 @@ import { getCleanedTidIOmsorgstilbud } from '../../../utils/omsorgstilbudUtils';
 import { Daginfo, TidIOmsorgstilbud } from '../types';
 import formUtils from './omsorgstilbudFormUtils';
 import OmsorgstilbudUkeForm from './OmsorgstilbudUkeForm';
+import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import './omsorgstilbudForm.less';
 
 dayjs.extend(isoWeek);
@@ -46,10 +47,11 @@ const OmsorgstilbudForm = ({ fraDato, tilDato, tidIOmsorgstilbud, onSubmit, onCa
     const isNarrow = useMediaQuery({ maxWidth: 450 });
     const isWide = useMediaQuery({ minWidth: 1050 });
     const datoerIForm = formUtils.getDatoerForOmsorgstilbudPeriode(fraDato, tilDato);
+    const gjelderFortid = dayjs(tilDato).isBefore(dateToday, 'day');
 
     const uker = formUtils.getUker(datoerIForm);
 
-    if (dayjs(fraDato).isAfter(tilDato)) {
+    if (dayjs(fraDato).isAfter(tilDato, 'day')) {
         return <div>Fra dato er før til-dato</div>;
     }
 
@@ -90,7 +92,13 @@ const OmsorgstilbudForm = ({ fraDato, tilDato, tidIOmsorgstilbud, onSubmit, onCa
                             </Systemtittel>
                             <Box margin="l">
                                 <p>
-                                    <FormattedMessage id="omsorgstilbud.form.intro.1" />
+                                    <FormattedMessage
+                                        id={
+                                            gjelderFortid
+                                                ? 'omsorgstilbud.form.intro_fortid.1'
+                                                : 'omsorgstilbud.form.intro.1'
+                                        }
+                                    />
                                 </p>
                                 <p>
                                     <strong>

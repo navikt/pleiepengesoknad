@@ -64,10 +64,12 @@ export enum AppFormField {
     harNattevåk_ekstrainfo = 'harNattevåk_ekstrainfo',
     harBeredskap = 'harBeredskap',
     harBeredskap_ekstrainfo = 'harBeredskap_ekstrainfo',
+    omsorgstilbud_harVært = 'omsorgstilbud_harVært',
+    omsorgstilbud_dagerVært = 'omsorgstilbud_dagerVært',
     omsorgstilbud = 'omsorgstilbud',
     omsorgstilbud__skalBarnIOmsorgstilbud = 'omsorgstilbud.skalBarnIOmsorgstilbud',
     omsorgstilbud__ja__vetHvorMyeTid = 'omsorgstilbud.ja.vetHvorMyeTid',
-    omsorgstilbud__ja_erLiktHverDag = 'omsorgstilbud.ja.erLiktHverDag',
+    omsorgstilbud__ja__erLiktHverDag = 'omsorgstilbud.ja.erLiktHverDag',
     omsorgstilbud__ja__fasteDager = 'omsorgstilbud.ja.fasteDager',
     omsorgstilbud__ja__enkeltdager = 'omsorgstilbud.ja.enkeltdager',
     frilans_harHattInntektSomFrilanser = 'harHattInntektSomFrilanser',
@@ -171,8 +173,9 @@ export interface PleiepengesøknadFormData {
     [AppFormField.ferieuttakIPerioden]?: Ferieuttak[];
     [AppFormField.harMedsøker]: YesOrNo;
     [AppFormField.samtidigHjemme]: YesOrNo;
+    [AppFormField.omsorgstilbud_harVært]?: YesOrNo;
+    [AppFormField.omsorgstilbud_dagerVært]?: TidIOmsorgstilbud;
     [AppFormField.omsorgstilbud]?: Omsorgstilbud;
-    [AppFormField.omsorgstilbud__ja_erLiktHverDag]?: YesOrNo;
     [AppFormField.harNattevåk]: YesOrNo;
     [AppFormField.harNattevåk_ekstrainfo]?: string;
     [AppFormField.harBeredskap]: YesOrNo;

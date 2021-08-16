@@ -17,13 +17,18 @@ import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import usePersistSoknad from '../../../hooks/usePersistSoknad';
 import { VetOmsorgstilbud } from '../../../types/PleiepengesøknadApiData';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { visKunEnkeltdagerForOmsorgstilbud } from '../../../utils/omsorgstilbudUtils';
+import {
+    getPeriodeFraOgMedSøknadsdato,
+    getPeriodeFørSøknadsdato,
+    visKunEnkeltdagerForOmsorgstilbud,
+} from '../../../utils/omsorgstilbudUtils';
 import { validateSkalHaTilsynsordning } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
 import OmsorgstilbudFormPart from './OmsorgstilbudFormPart';
 import { cleanupTilsynsordningStep } from './tilsynsordningStepUtils';
+import { prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 
 dayjs.extend(isBetween);
 
@@ -31,7 +36,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
     const history = useHistory();
     const { values } = useFormikContext<PleiepengesøknadFormData>();
-    const { omsorgstilbud } = values;
+    const { omsorgstilbud, omsorgstilbud_harVært, omsorgstilbud_dagerVært } = values;
     const { skalBarnIOmsorgstilbud } = omsorgstilbud || {};
     const { persist } = usePersistSoknad(history);
 
@@ -52,7 +57,10 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
     }
 
     const søknadsperiode: DateRange = { from: periodeFra, to: periodeTil };
-    const visKunEnkeltdager = visKunEnkeltdagerForOmsorgstilbud(søknadsperiode);
+    // const visKunEnkeltdager = visKunEnkeltdagerForOmsorgstilbud(søknadsperiode);
+
+    const periodeFørSøknadsdato = getPeriodeFørSøknadsdato(søknadsperiode);
+    const periodeFraOgMedSøknadsdato = getPeriodeFraOgMedSøknadsdato(søknadsperiode);
 
     return (
         <FormikStep
@@ -62,100 +70,139 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
             <CounsellorPanel>
                 <FormattedMessage id="steg.tilsyn.veileder.html" values={{ p: (msg: string) => <p>{msg}</p> }} />
             </CounsellorPanel>
-            <FormBlock>
-                <AppForm.YesOrNoQuestion
-                    name={AppFormField.omsorgstilbud__skalBarnIOmsorgstilbud}
-                    legend={intlHelper(intl, 'steg.tilsyn.skalBarnetHaTilsyn.spm')}
-                    validate={getYesOrNoValidator()}
-                />
-            </FormBlock>
-            {skalBarnIOmsorgstilbud === YesOrNo.YES && omsorgstilbud && (
+            {periodeFørSøknadsdato && (
                 <>
                     <FormBlock>
-                        <AppForm.RadioPanelGroup
-                            legend={intlHelper(intl, 'steg.tilsyn.ja.vetHvorMye.spm')}
-                            name={AppFormField.omsorgstilbud__ja__vetHvorMyeTid}
-                            radios={[
-                                {
-                                    label: intlHelper(intl, 'steg.tilsyn.ja.vetHvorMye.ja'),
-                                    value: VetOmsorgstilbud.VET_ALLE_TIMER,
-                                },
-                                {
-                                    label: intlHelper(intl, 'steg.tilsyn.ja.vetHvorMye.nei'),
-                                    value: VetOmsorgstilbud.VET_IKKE,
-                                },
-                            ]}
-                            validate={getRequiredFieldValidator()}
-                            useTwoColumns={true}
-                            description={
-                                <div style={{ marginTop: '-.5rem' }}>
-                                    <FormattedMessage id="steg.tilsyn.ja.vetHvorMye.info" />
-                                </div>
-                            }
+                        <AppForm.YesOrNoQuestion
+                            name={AppFormField.omsorgstilbud_harVært}
+                            legend={intlHelper(intl, 'steg.tilsyn.harBarnetHattTilsyn.spm', {
+                                fra: prettifyDateFull(periodeFørSøknadsdato.from),
+                                til: prettifyDateFull(periodeFørSøknadsdato.to),
+                            })}
+                            validate={getYesOrNoValidator()}
                         />
                     </FormBlock>
-
-                    {omsorgstilbud.ja?.vetHvorMyeTid === VetOmsorgstilbud.VET_IKKE && (
+                    {omsorgstilbud_harVært === YesOrNo.YES && (
                         <FormBlock>
-                            <AlertStripe type={'info'}>
-                                <FormattedMessage id="steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.nei" />
-                            </AlertStripe>
+                            <OmsorgstilbudFormPart
+                                visKunEnkeltdager={visKunEnkeltdagerForOmsorgstilbud(periodeFørSøknadsdato)}
+                                periode={periodeFørSøknadsdato}
+                                tidIOmsorgstilbud={omsorgstilbud_dagerVært || {}}
+                                onOmsorgstilbudChanged={() => {
+                                    setOmsorgstilbudChanged(true);
+                                }}
+                            />
                         </FormBlock>
                     )}
-
-                    {omsorgstilbud.ja?.vetHvorMyeTid === VetOmsorgstilbud.VET_ALLE_TIMER && (
+                </>
+            )}
+            {periodeFraOgMedSøknadsdato && (
+                <>
+                    <FormBlock>
+                        <AppForm.YesOrNoQuestion
+                            name={AppFormField.omsorgstilbud__skalBarnIOmsorgstilbud}
+                            legend={intlHelper(intl, 'steg.tilsyn.skalBarnetHaTilsyn.spm')}
+                            validate={getYesOrNoValidator()}
+                        />
+                    </FormBlock>
+                    {skalBarnIOmsorgstilbud === YesOrNo.YES && omsorgstilbud && (
                         <>
-                            {visKunEnkeltdager === false && (
+                            <FormBlock>
+                                <AppForm.RadioPanelGroup
+                                    legend={intlHelper(intl, 'steg.tilsyn.ja.vetHvorMye.spm')}
+                                    name={AppFormField.omsorgstilbud__ja__vetHvorMyeTid}
+                                    radios={[
+                                        {
+                                            label: intlHelper(intl, 'steg.tilsyn.ja.vetHvorMye.ja'),
+                                            value: VetOmsorgstilbud.VET_ALLE_TIMER,
+                                        },
+                                        {
+                                            label: intlHelper(intl, 'steg.tilsyn.ja.vetHvorMye.nei'),
+                                            value: VetOmsorgstilbud.VET_IKKE,
+                                        },
+                                    ]}
+                                    validate={getRequiredFieldValidator()}
+                                    useTwoColumns={true}
+                                    description={
+                                        <div style={{ marginTop: '-.5rem' }}>
+                                            <FormattedMessage id="steg.tilsyn.ja.vetHvorMye.info" />
+                                        </div>
+                                    }
+                                />
+                            </FormBlock>
+
+                            {omsorgstilbud.ja?.vetHvorMyeTid === VetOmsorgstilbud.VET_IKKE && (
                                 <FormBlock>
-                                    <AppForm.YesOrNoQuestion
-                                        legend={intlHelper(intl, 'steg.tilsyn.ja.erLiktHverDag.spm')}
-                                        name={AppFormField.omsorgstilbud__ja_erLiktHverDag}
-                                        description={
-                                            <ExpandableInfo
-                                                title={intlHelper(intl, 'steg.tilsyn.ja.erLiktHverDag.info.tittel')}>
-                                                <FormattedMessage id="steg.tilsyn.ja.erLiktHverDag.info.1" />
-                                                <br />
-                                                <FormattedMessage id="steg.tilsyn.ja.erLiktHverDag.info.2" />
-                                            </ExpandableInfo>
-                                        }
-                                        validate={getYesOrNoValidator()}
-                                    />
+                                    <AlertStripe type={'info'}>
+                                        <FormattedMessage id="steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.nei" />
+                                    </AlertStripe>
                                 </FormBlock>
                             )}
-                            {visKunEnkeltdager === false && omsorgstilbud.ja?.erLiktHverDag === YesOrNo.YES && (
+
+                            {omsorgstilbud.ja?.vetHvorMyeTid === VetOmsorgstilbud.VET_ALLE_TIMER && (
                                 <>
-                                    <FormBlock>
-                                        <AppForm.InputGroup
-                                            legend={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn')}
-                                            description={
-                                                <ExpandableInfo
-                                                    title={intlHelper(
-                                                        intl,
-                                                        'steg.tilsyn.ja.hvorMyeTilsyn.description.tittel'
-                                                    )}>
-                                                    {intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.description')}
-                                                </ExpandableInfo>
-                                            }
-                                            validate={() => validateSkalHaTilsynsordning(omsorgstilbud)}
-                                            name={'tilsynsordning_gruppe' as any}>
-                                            <Tilsynsuke name={AppFormField.omsorgstilbud__ja__fasteDager} />
-                                        </AppForm.InputGroup>
-                                    </FormBlock>
-                                </>
-                            )}
-                            {(visKunEnkeltdager === true || omsorgstilbud.ja?.erLiktHverDag === YesOrNo.NO) && (
-                                <>
-                                    <FormBlock>
-                                        <OmsorgstilbudFormPart
-                                            info={omsorgstilbud.ja}
-                                            spørOmMånedForOmsorgstilbud={visKunEnkeltdager === false}
-                                            søknadsperiode={{ from: periodeFra, to: periodeTil }}
-                                            tidIOmsorgstilbud={omsorgstilbud.ja.enkeltdager || {}}
-                                            onOmsorgstilbudChanged={() => {
-                                                setOmsorgstilbudChanged(true);
-                                            }}
-                                        />
-                                    </FormBlock>
+                                    {visKunEnkeltdagerForOmsorgstilbud(periodeFraOgMedSøknadsdato) === false && (
+                                        <FormBlock>
+                                            <AppForm.YesOrNoQuestion
+                                                legend={intlHelper(intl, 'steg.tilsyn.ja.erLiktHverDag.spm')}
+                                                name={AppFormField.omsorgstilbud__ja__erLiktHverDag}
+                                                description={
+                                                    <ExpandableInfo
+                                                        title={intlHelper(
+                                                            intl,
+                                                            'steg.tilsyn.ja.erLiktHverDag.info.tittel'
+                                                        )}>
+                                                        <FormattedMessage id="steg.tilsyn.ja.erLiktHverDag.info.1" />
+                                                        <br />
+                                                        <FormattedMessage id="steg.tilsyn.ja.erLiktHverDag.info.2" />
+                                                    </ExpandableInfo>
+                                                }
+                                                validate={getYesOrNoValidator()}
+                                            />
+                                        </FormBlock>
+                                    )}
+                                    {visKunEnkeltdagerForOmsorgstilbud(periodeFraOgMedSøknadsdato) === false &&
+                                        omsorgstilbud.ja?.erLiktHverDag === YesOrNo.YES && (
+                                            <>
+                                                <FormBlock>
+                                                    <AppForm.InputGroup
+                                                        legend={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn')}
+                                                        description={
+                                                            <ExpandableInfo
+                                                                title={intlHelper(
+                                                                    intl,
+                                                                    'steg.tilsyn.ja.hvorMyeTilsyn.description.tittel'
+                                                                )}>
+                                                                {intlHelper(
+                                                                    intl,
+                                                                    'steg.tilsyn.ja.hvorMyeTilsyn.description'
+                                                                )}
+                                                            </ExpandableInfo>
+                                                        }
+                                                        validate={() => validateSkalHaTilsynsordning(omsorgstilbud)}
+                                                        name={'tilsynsordning_gruppe' as any}>
+                                                        <Tilsynsuke name={AppFormField.omsorgstilbud__ja__fasteDager} />
+                                                    </AppForm.InputGroup>
+                                                </FormBlock>
+                                            </>
+                                        )}
+                                    {(visKunEnkeltdagerForOmsorgstilbud(periodeFraOgMedSøknadsdato) === true ||
+                                        omsorgstilbud.ja?.erLiktHverDag === YesOrNo.NO) && (
+                                        <>
+                                            <FormBlock>
+                                                <OmsorgstilbudFormPart
+                                                    visKunEnkeltdager={visKunEnkeltdagerForOmsorgstilbud(
+                                                        periodeFraOgMedSøknadsdato
+                                                    )}
+                                                    periode={periodeFraOgMedSøknadsdato}
+                                                    tidIOmsorgstilbud={omsorgstilbud.ja.enkeltdager || {}}
+                                                    onOmsorgstilbudChanged={() => {
+                                                        setOmsorgstilbudChanged(true);
+                                                    }}
+                                                />
+                                            </FormBlock>
+                                        </>
+                                    )}
                                 </>
                             )}
                         </>

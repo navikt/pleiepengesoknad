@@ -16,10 +16,10 @@ export const getMonthsInDateRange = (range: DateRange): DateRange[] => {
         const monthRange: DateRange = { from: current.toDate(), to: current.endOf('month').toDate() };
         months.push({
             from: monthRange.from,
-            to: dayjs(monthRange.to).isAfter(range.to) ? range.to : monthRange.to,
+            to: dayjs(monthRange.to).isAfter(range.to, 'day') ? range.to : monthRange.to,
         });
         current = current.add(1, 'month').startOf('month');
-    } while (current.isBefore(range.to));
+    } while (current.isBefore(range.to, 'day'));
     return months;
 };
 

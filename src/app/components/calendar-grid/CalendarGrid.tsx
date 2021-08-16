@@ -57,7 +57,7 @@ const getDays = (month: Date, calendarDayContent: Day[], range?: Partial<DateRan
             days.push({ date, content: dayContent !== undefined ? dayContent.content : undefined });
         }
         current = current.add(1, 'day');
-    } while (current.isSameOrBefore(to));
+    } while (current.isSameOrBefore(to, 'day'));
     return days;
 };
 
@@ -129,7 +129,7 @@ const CalendarGrid: React.FunctionComponent<Props> = ({
                     </span>,
                     daysInWeek.map((d) => {
                         return dayjs(d.date).isSame(month, 'month') === false ||
-                            (min && dayjs(d.date).isBefore(min)) ? (
+                            (min && dayjs(d.date).isBefore(min, 'day')) ? (
                             <div
                                 key={guid()}
                                 aria-hidden={true}

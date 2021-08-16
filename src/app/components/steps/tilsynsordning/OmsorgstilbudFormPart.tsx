@@ -3,11 +3,11 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
-import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import dayjs from 'dayjs';
 import { Element } from 'nav-frontend-typografi';
-import { AppFormField, OmsorgstilbudInfo } from '../../../types/PleiepengesøknadFormData';
+import { AppFormField } from '../../../types/PleiepengesøknadFormData';
 import { getCleanedTidIOmsorgstilbud } from '../../../utils/omsorgstilbudUtils';
 import AppForm from '../../app-form/AppForm';
 import OmsorgstilbudInfoAndDialog from '../../omsorgstilbud/OmsorgstilbudInfoAndDialog';
@@ -18,54 +18,55 @@ import { getTidIOmsorgstilbudInnenforPeriode } from './tilsynsordningStepUtils';
 import './omsorgstilbud.less';
 
 interface Props {
-    info: OmsorgstilbudInfo;
-    søknadsperiode: DateRange;
-    spørOmMånedForOmsorgstilbud: boolean;
+    periode: DateRange;
+    visKunEnkeltdager: boolean;
     tidIOmsorgstilbud: TidIOmsorgstilbud;
     onOmsorgstilbudChanged?: () => void;
 }
 
 const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
-    spørOmMånedForOmsorgstilbud,
-    søknadsperiode,
+    visKunEnkeltdager: spørOmMånedForOmsorgstilbud,
+    periode,
     tidIOmsorgstilbud,
     onOmsorgstilbudChanged,
 }) => {
     const intl = useIntl();
-    if (spørOmMånedForOmsorgstilbud === false) {
+    const gjelderFortid = dayjs(periode.to).isBefore(dateToday, 'day');
+
+    if (spørOmMånedForOmsorgstilbud) {
         return (
             <>
                 {/* <Info /> */}
                 <AppForm.InputGroup
                     name={`${AppFormField.omsorgstilbud__ja__enkeltdager}_periode` as any}
                     tag="div"
-                    legend={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn')}
+                    legend={intlHelper(
+                        intl,
+                        gjelderFortid ? 'steg.tilsyn.ja.hvorMyeTilsyn_fortid' : 'steg.tilsyn.ja.hvorMyeTilsyn'
+                    )}
                     description={
                         <ExpandableInfo title={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.description.tittel')}>
                             {intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.description')}
                         </ExpandableInfo>
                     }
                     validate={() => {
-                        const omsorgstilbudIPerioden = getTidIOmsorgstilbudInnenforPeriode(
-                            tidIOmsorgstilbud,
-                            søknadsperiode
-                        );
+                        const omsorgstilbudIPerioden = getTidIOmsorgstilbudInnenforPeriode(tidIOmsorgstilbud, periode);
                         const hasElements = Object.keys(getCleanedTidIOmsorgstilbud(omsorgstilbudIPerioden)).length > 0;
                         if (!hasElements) {
                             return {
-                                key: `ingenTidRegistrert`,
+                                key: gjelderFortid ? `ingenTidRegistrert_fortid` : 'ingenTidRegistrert',
                             };
                         }
                         return undefined;
                     }}>
                     <OmsorgstilbudInlineForm
                         fieldName={AppFormField.omsorgstilbud__ja__enkeltdager}
-                        søknadsperiode={søknadsperiode}
-                        ukeTittelRenderer={(info) => (
+                        søknadsperiode={periode}
+                        ukeTittelRenderer={(ukeinfo) => (
                             <Element className="omsorgstilbud__uketittel" tag="h4">
                                 <FormattedMessage
                                     id="steg.tilsyn.omsorgstilbud.uketittel"
-                                    values={{ ukenummer: info.ukenummer, år: info.år }}
+                                    values={{ ukenummer: ukeinfo.ukenummer, år: ukeinfo.år }}
                                 />
                             </Element>
                         )}
@@ -85,7 +86,10 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
                  * brukt.
                  * Ikke optimalt, men det virker.
                  */
-                legend={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn')}
+                legend={intlHelper(
+                    intl,
+                    gjelderFortid ? 'steg.tilsyn.ja.hvorMyeTilsyn_fortid' : 'steg.tilsyn.ja.hvorMyeTilsyn'
+                )}
                 description={
                     <ExpandableInfo title={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.description.tittel')}>
                         {intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn.description')}
@@ -97,13 +101,15 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
                     const hasElements = Object.keys(tidIOmsorgstilbud).length > 0;
                     if (!hasElements) {
                         return {
-                            key: `validation.${AppFormField.omsorgstilbud__ja__enkeltdager}.ingenTidRegistrert`,
+                            key: gjelderFortid
+                                ? `validation.${AppFormField.omsorgstilbud__ja__enkeltdager}.ingenTidRegistrert_fortid`
+                                : `validation.${AppFormField.omsorgstilbud__ja__enkeltdager}.ingenTidRegistrert`,
                             keepKeyUnaltered: true,
                         };
                     }
                     return undefined;
                 }}>
-                {getMonthsInDateRange(søknadsperiode).map((periode, index) => {
+                {getMonthsInDateRange(periode).map((periode, index) => {
                     const { from, to } = periode;
                     const mndOgÅr = dayjs(from).format('MMMM YYYY');
                     return (

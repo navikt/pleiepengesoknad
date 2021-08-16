@@ -1,3 +1,4 @@
+import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { isValidTime } from '@navikt/sif-common-formik/lib/components/formik-time-input/TimeInput';
 import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
@@ -13,6 +14,32 @@ export const visKunEnkeltdagerForOmsorgstilbud = (søknadsperiode: DateRange): b
     }
     return false;
 };
+
+export const getPeriodeFørSøknadsdato = (søknadsperiode: DateRange): DateRange | undefined => {
+    if (starterSøknadsperiodeFørDagensDato(søknadsperiode)) {
+        return {
+            from: søknadsperiode.from,
+            to: dayjs(dateToday).subtract(1, 'day').toDate(),
+        };
+    }
+    return undefined;
+};
+
+export const getPeriodeFraOgMedSøknadsdato = (søknadsperiode: DateRange): DateRange | undefined => {
+    if (fortsetterSøknadsperiodeEtterDagensDato(søknadsperiode)) {
+        return {
+            from: dateToday,
+            to: søknadsperiode.to,
+        };
+    }
+    return undefined;
+};
+
+export const starterSøknadsperiodeFørDagensDato = (søknadsperiode: DateRange): boolean =>
+    dayjs(søknadsperiode.from).isBefore(dateToday, 'day');
+
+export const fortsetterSøknadsperiodeEtterDagensDato = (søknadsperiode: DateRange): boolean =>
+    dayjs(søknadsperiode.to).isSameOrAfter(dateToday, 'day');
 
 const isValidNumberString = (value: any): boolean =>
     hasValue(value) && typeof value === 'string' && value.trim().length > 0;
