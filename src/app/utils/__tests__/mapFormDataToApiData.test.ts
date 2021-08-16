@@ -10,14 +10,17 @@ import {
     ArbeidsforholdApiNei,
     ArbeidsforholdApiRedusert,
     ArbeidsforholdApiVetIkke,
+    ArbeidsforholdType,
     PleiepengesøknadApiData,
+    SkalJobbe,
     UtenlandsoppholdIPeriodenApiData,
     UtenlandsoppholdUtenforEøsIPeriodenApiData,
     VetOmsorgstilbud,
 } from '../../types/PleiepengesøknadApiData';
 import {
     AppFormField,
-    Arbeidsforhold,
+    ArbeidsforholdAnsatt,
+    ArbeidsforholdSkalJobbeHvorMyeSvar,
     ArbeidsforholdSkalJobbeSvar,
     PleiepengesøknadFormData,
 } from '../../types/PleiepengesøknadFormData';
@@ -53,10 +56,11 @@ const organisasjonMaxbo: Arbeidsgiver = {
     organisasjonsnummer: '910831143',
 };
 
-const telenorRedusertJobbing: Arbeidsforhold = {
+const telenorRedusertJobbing: ArbeidsforholdAnsatt = {
     ...organisasjonTelenor,
     erAnsattIPerioden: YesOrNo.YES,
-    skalJobbe: ArbeidsforholdSkalJobbeSvar.redusert,
+    skalJobbe: ArbeidsforholdSkalJobbeSvar.ja,
+    skalJobbeHvorMye: ArbeidsforholdSkalJobbeHvorMyeSvar.redusert,
     jobberNormaltTimer: '20',
     skalJobbeProsent: '50',
 };
@@ -286,8 +290,9 @@ describe('mapFormDataToApiData', () => {
             const result: ArbeidsforholdApiRedusert = {
                 ...organisasjonTelenor,
                 jobberNormaltTimer: 20,
-                skalJobbe: 'redusert',
+                skalJobbe: SkalJobbe.REDUSERT,
                 skalJobbeProsent: 50,
+                _type: ArbeidsforholdType.ANSATT,
             };
             expect(resultingApiData.arbeidsgivere.organisasjoner).toEqual([result]);
             expect(resultingApiData.arbeidsgivere.organisasjoner[0].skalJobbeProsent).not.toEqual(0);
@@ -349,9 +354,10 @@ describe('mapFormDataToApiData', () => {
             } = resultingApiData;
             const result: ArbeidsforholdApiNei = {
                 ...organisasjonMaxbo,
-                skalJobbe: 'nei',
+                skalJobbe: SkalJobbe.NEI,
                 skalJobbeProsent: 0,
                 jobberNormaltTimer: 20,
+                _type: ArbeidsforholdType.ANSATT,
             };
             expect(JSON.stringify(jsonSort(organisasjoner))).toEqual(JSON.stringify(jsonSort([result])));
         }
@@ -367,8 +373,9 @@ describe('mapFormDataToApiData', () => {
             const result: ArbeidsforholdApiVetIkke = {
                 ...organisasjonMaxbo,
                 jobberNormaltTimer: 20,
-                skalJobbe: 'vetIkke',
+                skalJobbe: SkalJobbe.VET_IKKE,
                 skalJobbeProsent: 0,
+                _type: ArbeidsforholdType.ANSATT,
             };
             expect(organisasjoner).toEqual([result]);
             expect(organisasjoner[0].skalJobbeTimer).toBeUndefined();
@@ -540,9 +547,10 @@ describe('Test complete applications', () => {
                 {
                     navn: 'Maxbo',
                     organisasjonsnummer: '910831143',
-                    skalJobbe: 'ja',
+                    skalJobbe: SkalJobbe.JA,
                     skalJobbeProsent: 100,
                     jobberNormaltTimer: 37.5,
+                    _type: ArbeidsforholdType.ANSATT,
                 },
             ],
         },

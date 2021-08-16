@@ -5,8 +5,8 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getListValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import Panel from 'nav-frontend-paneler';
-import { AndreYtelserFraNAV, AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import AppForm from '../../app-form/AppForm';
+import { AndreYtelserFraNAV, AppFormField, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
+import AppForm from '../../../app-form/AppForm';
 
 interface Props {
     formValues: PleiepengesøknadFormData;

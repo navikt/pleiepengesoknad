@@ -6,9 +6,9 @@ import { getTypedFormComponents, UnansweredQuestionsInfo } from '@navikt/sif-com
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import getIntlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
-import FormQuestion from '@navikt/sif-common-soknad/lib/form-question/FormQuestion';
 import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
 import { IntroFormData, IntroFormField, introFormInitialValues } from './introFormConfig';
+import FormQuestion from '../../form-question/FormQuestion';
 
 interface Props {
     onValidSubmit: () => void;

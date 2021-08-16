@@ -2,98 +2,77 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { ArbeidsforholdApi } from '../../types/PleiepengesøknadApiData';
-import { calcRedusertProsentFromRedusertTimer } from '../../utils/arbeidsforholdUtils';
+import {
+    ArbeidsforholdAnsattApi,
+    ArbeidsforholdApi,
+    ArbeidsforholdType,
+    isArbeidsforholdAnsattApi,
+    SkalJobbe,
+} from '../../types/PleiepengesøknadApiData';
 import './arbeidsforholdSummary.less';
 
 interface Props {
-    arbeidsforhold: ArbeidsforholdApi;
+    arbeidsforhold: ArbeidsforholdApi | ArbeidsforholdAnsattApi;
 }
 
 const bem = bemUtils('arbeidsforholdSummary');
 
-const ArbeidsforholdSummary = ({
-    arbeidsforhold: {
-        navn,
-        organisasjonsnummer,
-        skalJobbeProsent,
-        skalJobbeTimer,
-        jobberNormaltTimer,
-        skalJobbe,
-        arbeidsform,
-    },
-}: Props) => {
-    const orgInfo = { navn, organisasjonsnummer };
+const ArbeidsforholdSummary = ({ arbeidsforhold }: Props) => {
     const intl = useIntl();
+    const { skalJobbeProsent, skalJobbeTimer, jobberNormaltTimer, skalJobbe, arbeidsform, _type } = arbeidsforhold;
+    const intlValues = {
+        timerNormalt: jobberNormaltTimer,
+        timerRedusert: skalJobbeTimer,
+        prosentRedusert: skalJobbeProsent,
+        arbeidsform: intlHelper(intl, `arbeidsforhold.oppsummering.arbeidsform.${arbeidsform}`),
+    };
+
+    const tittel = isArbeidsforholdAnsattApi(arbeidsforhold)
+        ? intlHelper(intl, 'arbeidsforhold.oppsummering.ansatt', {
+              navn: arbeidsforhold.navn,
+              organisasjonsnummer: arbeidsforhold.organisasjonsnummer,
+          })
+        : _type === ArbeidsforholdType.FRILANSER
+        ? intlHelper(intl, 'arbeidsforhold.oppsummering.frilanser')
+        : intlHelper(intl, 'arbeidsforhold.oppsummering.selvstendig');
+
     return (
         <div className={bem.block}>
-            <div className={bem.element('org')}>
-                <FormattedMessage id="arbeidsforhold.oppsummering.orgInfo" values={orgInfo} />
-            </div>
-            {skalJobbe === 'redusert' && jobberNormaltTimer && (
-                <div className={bem.element('detaljer')}>
-                    {skalJobbeTimer !== undefined ? (
-                        <Normaltekst>
-                            <FormattedMessage
-                                id={`arbeidsforhold.oppsummering.svar.redusert.timer`}
-                                values={{
-                                    timerRedusert: intlHelper(intl, 'timer', { timer: skalJobbeTimer }),
-                                    timerNormalt: intlHelper(intl, 'timer', { timer: jobberNormaltTimer }),
-                                    prosentRedusert: intl.formatNumber(
-                                        calcRedusertProsentFromRedusertTimer(jobberNormaltTimer, skalJobbeTimer),
-                                        {
-                                            style: 'decimal',
-                                        }
-                                    ),
-                                }}
-                            />{' '}
-                            <FormattedMessage id={`arbeidsforhold.oppsummering.arbeidsform.${arbeidsform}`} />
-                        </Normaltekst>
-                    ) : (
-                        <Normaltekst>
-                            <FormattedMessage
-                                id={`arbeidsforhold.oppsummering.svar.redusert.prosent`}
-                                values={{
-                                    timerNormalt: intlHelper(intl, 'timer', { timer: jobberNormaltTimer }),
-                                    prosentRedusert: skalJobbeProsent,
-                                }}
-                            />{' '}
-                            {jobberNormaltTimer && (
-                                <>
-                                    <FormattedMessage
-                                        id={'arbeidsforhold.oppsummering.jobberNormalt'}
-                                        values={{ timer: jobberNormaltTimer }}
-                                    />
-                                </>
-                            )}{' '}
-                            <FormattedMessage id={`arbeidsforhold.oppsummering.arbeidsform.${arbeidsform}`} />
-                        </Normaltekst>
+            <div className={bem.element('tittel')}>{tittel}</div>
+            <p>
+                <FormattedMessage id={`arbeidsforhold.oppsummering.duHarOppgitt.${_type}`} />
+            </p>
+            <ul>
+                <li>
+                    <FormattedMessage id="arbeidsforhold.oppsummering.jobberVanligvis" values={intlValues} />
+                </li>
+                <li>
+                    {skalJobbe === SkalJobbe.JA && (
+                        <FormattedMessage id={`arbeidsforhold.oppsummering.skalJobbeSomVanlig`} values={intlValues} />
                     )}
-                </div>
-            )}
-            {skalJobbe === 'vetIkke' && (
-                <div className={bem.element('detaljer')}>
-                    <Normaltekst>
-                        <FormattedMessage
-                            id={`arbeidsforhold.oppsummering.svar.vetIkke`}
-                            values={{ timer: intlHelper(intl, 'timer', { timer: jobberNormaltTimer }) }}
-                        />{' '}
-                        <FormattedMessage id={`arbeidsforhold.oppsummering.arbeidsform.${arbeidsform}`} />
-                    </Normaltekst>
-                </div>
-            )}
-            {skalJobbe !== 'vetIkke' && skalJobbe !== 'redusert' && (
-                <div className={bem.element('detaljer')}>
-                    <Normaltekst>
-                        <FormattedMessage
-                            id={`arbeidsforhold.oppsummering.svar.${skalJobbe}`}
-                            values={{ timer: jobberNormaltTimer }}
-                        />{' '}
-                        <FormattedMessage id={`arbeidsforhold.oppsummering.arbeidsform.${arbeidsform}`} />
-                    </Normaltekst>
-                </div>
-            )}
+                    {skalJobbe === SkalJobbe.NEI && (
+                        <FormattedMessage id={`arbeidsforhold.oppsummering.skalIkkeJobbe`} />
+                    )}
+                    {skalJobbe === SkalJobbe.VET_IKKE && (
+                        <FormattedMessage id={`arbeidsforhold.oppsummering.vetIkke`} values={intlValues} />
+                    )}
+                    {skalJobbe === SkalJobbe.REDUSERT && jobberNormaltTimer && (
+                        <>
+                            {skalJobbeTimer !== undefined ? (
+                                <FormattedMessage
+                                    id="arbeidsforhold.oppsummering.skalJobbeRedusert.timer"
+                                    values={intlValues}
+                                />
+                            ) : (
+                                <FormattedMessage
+                                    id="arbeidsforhold.oppsummering.skalJobbeRedusert.prosent"
+                                    values={intlValues}
+                                />
+                            )}
+                        </>
+                    )}
+                </li>
+            </ul>
         </div>
     );
 };

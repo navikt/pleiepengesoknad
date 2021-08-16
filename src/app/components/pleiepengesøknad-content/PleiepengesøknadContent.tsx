@@ -8,7 +8,7 @@ import { persist } from '../../api/api';
 import { SKJEMANAVN } from '../../App';
 import RouteConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';
-import { ArbeidsforholdApi, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
+import { ArbeidsforholdAnsattApi, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { Søkerdata } from '../../types/Søkerdata';
 import { apiUtils } from '../../utils/apiUtils';
@@ -36,7 +36,7 @@ export interface KvitteringInfo {
     fom: Date;
     tom: Date;
     søkernavn: string;
-    arbeidsforhold: ArbeidsforholdApi[];
+    arbeidsforhold: ArbeidsforholdAnsattApi[];
 }
 
 const getKvitteringInfoFromApiData = (
