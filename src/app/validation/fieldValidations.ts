@@ -209,6 +209,7 @@ export const getArbeidsformAnsattValidator =
                   }
                 : error;
         }
+        return undefined;
     };
 
 export const getJobberNormaltTimerValidator =
@@ -260,6 +261,7 @@ export const getArbeidsforholdSkalJobbeValidator =
                   }
                 : error;
         }
+        return undefined;
     };
 
 export const getArbeidsforholdSkalJobbeHvorMyeValidator =
@@ -274,6 +276,7 @@ export const getArbeidsforholdSkalJobbeHvorMyeValidator =
                   }
                 : error;
         }
+        return undefined;
     };
 
 export const getArbeidsforholdTimerEllerProsentValidator =
@@ -288,6 +291,7 @@ export const getArbeidsforholdTimerEllerProsentValidator =
                   }
                 : error;
         }
+        return undefined;
     };
 
 export const getArbeidsforholdSkalJobbeTimerValidator =
@@ -306,10 +310,11 @@ export const getArbeidsforholdSkalJobbeTimerValidator =
                   }
                 : error;
         }
+        return undefined;
     };
 
 export const getArbeidsforholdSkalJobbeProsentValidator =
-    (arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF) => (value) => {
+    (arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF) => (value: any) => {
         const error = getNumberValidator({
             required: true,
             min: 1,
@@ -324,6 +329,7 @@ export const getArbeidsforholdSkalJobbeProsentValidator =
                   }
                 : error;
         }
+        return undefined;
     };
 
 export const validateReduserteArbeidTimer = (value: string, jobberNormaltTimer: number): string | undefined => {
