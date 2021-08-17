@@ -21,7 +21,8 @@ const enkeltdagerData: TidIOmsorgstilbud = {
 const formValuesTemplate: Partial<PleiepengesøknadFormData> = {
     omsorgstilbud: {
         skalBarnIOmsorgstilbud: YesOrNo.YES,
-        ja: {
+        harBarnVærtIOmsorgstilbud: YesOrNo.NO,
+        planlagt: {
             vetHvorMyeTid: VetOmsorgstilbud.VET_ALLE_TIMER,
             erLiktHverDag: YesOrNo.NO,
             enkeltdager: enkeltdagerData,
@@ -44,7 +45,7 @@ describe('getTidIOmsorgstilbudInnenforPeriode', () => {
 describe('cleanupTilsynsordningStep', () => {
     it('removes days outside søknadsperiode', () => {
         const result = cleanupTilsynsordningStep(formValuesTemplate as PleiepengesøknadFormData, søknadsperiode);
-        const enkeltdager = result.omsorgstilbud?.ja?.enkeltdager;
+        const enkeltdager = result.omsorgstilbud?.planlagt?.enkeltdager;
         expect(enkeltdager).toBeDefined();
         if (enkeltdager) {
             expect(enkeltdager['2021-05-01']).toBeUndefined();

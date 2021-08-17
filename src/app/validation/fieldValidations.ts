@@ -162,10 +162,10 @@ export const validateLegeerklæring = (attachments: Attachment[]): ValidationRes
 
 export const validateSkalHaTilsynsordning = (tilsynsordning: Omsorgstilbud): ValidationResult<ValidationError> => {
     if (tilsynsordning.skalBarnIOmsorgstilbud === YesOrNo.YES) {
-        if (tilsynsordning.ja === undefined) {
+        if (tilsynsordning.planlagt === undefined) {
             return AppFieldValidationErrors.tilsynsordning_ingenInfo;
         }
-        const tilsyn = tilsynsordning.ja.fasteDager;
+        const tilsyn = tilsynsordning.planlagt.fasteDager;
 
         const hoursInTotal = tilsyn ? sumTimerMedTilsyn(tilsyn) : 0;
         if (hoursInTotal === 0) {

@@ -38,7 +38,7 @@ export const mapTilsynsordningToApiData = (
     omsorgstilbud: Omsorgstilbud,
     søknadsperiode: DateRange
 ): OmsorgstilbudApi | undefined => {
-    const { ja, skalBarnIOmsorgstilbud } = omsorgstilbud;
+    const { planlagt: ja, skalBarnIOmsorgstilbud } = omsorgstilbud;
 
     if (skalBarnIOmsorgstilbud === YesOrNo.NO || !ja) {
         return undefined; // !ja: bør denne logges som feil?

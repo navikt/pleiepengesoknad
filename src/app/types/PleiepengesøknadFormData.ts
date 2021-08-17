@@ -22,15 +22,20 @@ export interface OmsorgstilbudFasteDager {
     fredag?: Time;
 }
 
-export interface OmsorgstilbudInfo {
+export interface OmsorgstilbudPlanlagt {
     vetHvorMyeTid: VetOmsorgstilbud;
     erLiktHverDag?: YesOrNo;
     fasteDager?: OmsorgstilbudFasteDager;
     enkeltdager?: TidIOmsorgstilbud;
 }
+export interface OmsorgstilbudHistorisk {
+    enkeltdager: TidIOmsorgstilbud;
+}
 export interface Omsorgstilbud {
-    skalBarnIOmsorgstilbud: YesOrNo;
-    ja?: OmsorgstilbudInfo;
+    skalBarnIOmsorgstilbud?: YesOrNo;
+    harBarnVærtIOmsorgstilbud?: YesOrNo;
+    planlagt?: OmsorgstilbudPlanlagt;
+    historisk?: OmsorgstilbudHistorisk;
 }
 
 export type FrilansEllerSelvstendig = 'frilans' | 'selvstendig';
@@ -65,14 +70,14 @@ export enum AppFormField {
     harNattevåk_ekstrainfo = 'harNattevåk_ekstrainfo',
     harBeredskap = 'harBeredskap',
     harBeredskap_ekstrainfo = 'harBeredskap_ekstrainfo',
-    omsorgstilbud_harVært = 'omsorgstilbud_harVært',
-    omsorgstilbud_dagerVært = 'omsorgstilbud_dagerVært',
     omsorgstilbud = 'omsorgstilbud',
     omsorgstilbud__skalBarnIOmsorgstilbud = 'omsorgstilbud.skalBarnIOmsorgstilbud',
-    omsorgstilbud__ja__vetHvorMyeTid = 'omsorgstilbud.ja.vetHvorMyeTid',
-    omsorgstilbud__ja__erLiktHverDag = 'omsorgstilbud.ja.erLiktHverDag',
-    omsorgstilbud__ja__fasteDager = 'omsorgstilbud.ja.fasteDager',
-    omsorgstilbud__ja__enkeltdager = 'omsorgstilbud.ja.enkeltdager',
+    omsorgstilbud__harBarnVærtIOmsorgstilbud = 'omsorgstilbud.harBarnVærtIOmsorgstilbud',
+    omsorgstilbud__planlagt__vetHvorMyeTid = 'omsorgstilbud.planlagt.vetHvorMyeTid',
+    omsorgstilbud__planlagt__erLiktHverDag = 'omsorgstilbud.planlagt.erLiktHverDag',
+    omsorgstilbud__planlagt__fasteDager = 'omsorgstilbud.planlagt.fasteDager',
+    omsorgstilbud__planlagt__enkeltdager = 'omsorgstilbud.planlagt.enkeltdager',
+    omsorgstilbud__historisk__enkeltdager = 'omsorgstilbud.historisk.enkeltdager',
     frilans_harHattInntektSomFrilanser = 'harHattInntektSomFrilanser',
     frilans_startdato = 'frilans_startdato',
     frilans_sluttdato = 'frilans_sluttdato',
@@ -184,8 +189,6 @@ export interface PleiepengesøknadFormData {
     [AppFormField.ferieuttakIPerioden]?: Ferieuttak[];
     [AppFormField.harMedsøker]: YesOrNo;
     [AppFormField.samtidigHjemme]: YesOrNo;
-    [AppFormField.omsorgstilbud_harVært]?: YesOrNo;
-    [AppFormField.omsorgstilbud_dagerVært]?: TidIOmsorgstilbud;
     [AppFormField.omsorgstilbud]?: Omsorgstilbud;
     [AppFormField.harNattevåk]: YesOrNo;
     [AppFormField.harNattevåk_ekstrainfo]?: string;

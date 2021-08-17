@@ -36,7 +36,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
     const history = useHistory();
     const { values } = useFormikContext<PleiepengesøknadFormData>();
-    const { omsorgstilbud, omsorgstilbud_harVært, omsorgstilbud_dagerVært } = values;
+    const { omsorgstilbud } = values;
     const { skalBarnIOmsorgstilbud } = omsorgstilbud || {};
     const { persist } = usePersistSoknad(history);
 
@@ -57,8 +57,6 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
     }
 
     const søknadsperiode: DateRange = { from: periodeFra, to: periodeTil };
-    // const visKunEnkeltdager = visKunEnkeltdagerForOmsorgstilbud(søknadsperiode);
-
     const periodeFørSøknadsdato = getPeriodeFørSøknadsdato(søknadsperiode);
     const periodeFraOgMedSøknadsdato = getPeriodeFraOgMedSøknadsdato(søknadsperiode);
 
@@ -74,7 +72,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                 <>
                     <FormBlock>
                         <AppForm.YesOrNoQuestion
-                            name={AppFormField.omsorgstilbud_harVært}
+                            name={AppFormField.omsorgstilbud__harBarnVærtIOmsorgstilbud}
                             legend={intlHelper(intl, 'steg.tilsyn.harBarnetHattTilsyn.spm', {
                                 fra: prettifyDateFull(periodeFørSøknadsdato.from),
                                 til: prettifyDateFull(periodeFørSøknadsdato.to),
@@ -82,12 +80,12 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                             validate={getYesOrNoValidator()}
                         />
                     </FormBlock>
-                    {omsorgstilbud_harVært === YesOrNo.YES && (
+                    {omsorgstilbud?.harBarnVærtIOmsorgstilbud === YesOrNo.YES && (
                         <FormBlock>
                             <OmsorgstilbudFormPart
                                 visKunEnkeltdager={visKunEnkeltdagerForOmsorgstilbud(periodeFørSøknadsdato)}
                                 periode={periodeFørSøknadsdato}
-                                tidIOmsorgstilbud={omsorgstilbud_dagerVært || {}}
+                                tidIOmsorgstilbud={omsorgstilbud.historisk?.enkeltdager || {}}
                                 onOmsorgstilbudChanged={() => {
                                     setOmsorgstilbudChanged(true);
                                 }}
@@ -116,15 +114,15 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                         <>
                             <FormBlock>
                                 <AppForm.RadioPanelGroup
-                                    legend={intlHelper(intl, 'steg.tilsyn.ja.vetHvorMye.spm')}
-                                    name={AppFormField.omsorgstilbud__ja__vetHvorMyeTid}
+                                    legend={intlHelper(intl, 'steg.tilsyn.planlagt.vetHvorMye.spm')}
+                                    name={AppFormField.omsorgstilbud__planlagt__vetHvorMyeTid}
                                     radios={[
                                         {
-                                            label: intlHelper(intl, 'steg.tilsyn.ja.vetHvorMye.ja'),
+                                            label: intlHelper(intl, 'steg.tilsyn.planlagt.vetHvorMye.ja'),
                                             value: VetOmsorgstilbud.VET_ALLE_TIMER,
                                         },
                                         {
-                                            label: intlHelper(intl, 'steg.tilsyn.ja.vetHvorMye.nei'),
+                                            label: intlHelper(intl, 'steg.tilsyn.planlagt.vetHvorMye.nei'),
                                             value: VetOmsorgstilbud.VET_IKKE,
                                         },
                                     ]}
@@ -132,36 +130,36 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                     useTwoColumns={true}
                                     description={
                                         <div style={{ marginTop: '-.5rem' }}>
-                                            <FormattedMessage id="steg.tilsyn.ja.vetHvorMye.info" />
+                                            <FormattedMessage id="steg.tilsyn.planlagt.vetHvorMye.info" />
                                         </div>
                                     }
                                 />
                             </FormBlock>
 
-                            {omsorgstilbud.ja?.vetHvorMyeTid === VetOmsorgstilbud.VET_IKKE && (
+                            {omsorgstilbud.planlagt?.vetHvorMyeTid === VetOmsorgstilbud.VET_IKKE && (
                                 <FormBlock>
                                     <AlertStripe type={'info'}>
-                                        <FormattedMessage id="steg.tilsyn.ja.hvorMyeTilsyn.alertInfo.nei" />
+                                        <FormattedMessage id="steg.tilsyn.planlagt.hvorMyeTilsyn.alertInfo.nei" />
                                     </AlertStripe>
                                 </FormBlock>
                             )}
 
-                            {omsorgstilbud.ja?.vetHvorMyeTid === VetOmsorgstilbud.VET_ALLE_TIMER && (
+                            {omsorgstilbud.planlagt?.vetHvorMyeTid === VetOmsorgstilbud.VET_ALLE_TIMER && (
                                 <>
                                     {visKunEnkeltdagerForOmsorgstilbud(periodeFraOgMedSøknadsdato) === false && (
                                         <FormBlock>
                                             <AppForm.YesOrNoQuestion
-                                                legend={intlHelper(intl, 'steg.tilsyn.ja.erLiktHverDag.spm')}
-                                                name={AppFormField.omsorgstilbud__ja__erLiktHverDag}
+                                                legend={intlHelper(intl, 'steg.tilsyn.planlagt.erLiktHverDag.spm')}
+                                                name={AppFormField.omsorgstilbud__planlagt__erLiktHverDag}
                                                 description={
                                                     <ExpandableInfo
                                                         title={intlHelper(
                                                             intl,
-                                                            'steg.tilsyn.ja.erLiktHverDag.info.tittel'
+                                                            'steg.tilsyn.planlagt.erLiktHverDag.info.tittel'
                                                         )}>
-                                                        <FormattedMessage id="steg.tilsyn.ja.erLiktHverDag.info.1" />
+                                                        <FormattedMessage id="steg.tilsyn.planlagt.erLiktHverDag.info.1" />
                                                         <br />
-                                                        <FormattedMessage id="steg.tilsyn.ja.erLiktHverDag.info.2" />
+                                                        <FormattedMessage id="steg.tilsyn.planlagt.erLiktHverDag.info.2" />
                                                     </ExpandableInfo>
                                                 }
                                                 validate={getYesOrNoValidator()}
@@ -169,32 +167,34 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                         </FormBlock>
                                     )}
                                     {visKunEnkeltdagerForOmsorgstilbud(periodeFraOgMedSøknadsdato) === false &&
-                                        omsorgstilbud.ja?.erLiktHverDag === YesOrNo.YES && (
+                                        omsorgstilbud.planlagt?.erLiktHverDag === YesOrNo.YES && (
                                             <>
                                                 <FormBlock>
                                                     <AppForm.InputGroup
-                                                        legend={intlHelper(intl, 'steg.tilsyn.ja.hvorMyeTilsyn')}
+                                                        legend={intlHelper(intl, 'steg.tilsyn.planlagt.hvorMyeTilsyn')}
                                                         description={
                                                             <ExpandableInfo
                                                                 title={intlHelper(
                                                                     intl,
-                                                                    'steg.tilsyn.ja.hvorMyeTilsyn.description.tittel'
+                                                                    'steg.tilsyn.planlagt.hvorMyeTilsyn.description.tittel'
                                                                 )}>
                                                                 {intlHelper(
                                                                     intl,
-                                                                    'steg.tilsyn.ja.hvorMyeTilsyn.description'
+                                                                    'steg.tilsyn.planlagt.hvorMyeTilsyn.description'
                                                                 )}
                                                             </ExpandableInfo>
                                                         }
                                                         validate={() => validateSkalHaTilsynsordning(omsorgstilbud)}
                                                         name={'tilsynsordning_gruppe' as any}>
-                                                        <Tilsynsuke name={AppFormField.omsorgstilbud__ja__fasteDager} />
+                                                        <Tilsynsuke
+                                                            name={AppFormField.omsorgstilbud__planlagt__fasteDager}
+                                                        />
                                                     </AppForm.InputGroup>
                                                 </FormBlock>
                                             </>
                                         )}
                                     {(visKunEnkeltdagerForOmsorgstilbud(periodeFraOgMedSøknadsdato) === true ||
-                                        omsorgstilbud.ja?.erLiktHverDag === YesOrNo.NO) && (
+                                        omsorgstilbud.planlagt?.erLiktHverDag === YesOrNo.NO) && (
                                         <>
                                             <FormBlock>
                                                 <OmsorgstilbudFormPart
@@ -202,7 +202,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                                         periodeFraOgMedSøknadsdato
                                                     )}
                                                     periode={periodeFraOgMedSøknadsdato}
-                                                    tidIOmsorgstilbud={omsorgstilbud.ja.enkeltdager || {}}
+                                                    tidIOmsorgstilbud={omsorgstilbud.planlagt.enkeltdager || {}}
                                                     onOmsorgstilbudChanged={() => {
                                                         setOmsorgstilbudChanged(true);
                                                     }}

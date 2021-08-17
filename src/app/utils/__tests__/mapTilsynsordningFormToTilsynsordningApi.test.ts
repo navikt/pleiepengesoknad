@@ -42,11 +42,11 @@ describe('mapTilsynsordningToApiData', () => {
             JSON.stringify(mapTilsynsordningToApiData({ skalBarnIOmsorgstilbud: YesOrNo.NO }, søknadsperiode))
         );
     });
-    it(`should return ${VetOmsorgstilbud.VET_IKKE} when ${AppFormField.omsorgstilbud__skalBarnIOmsorgstilbud} === ${YesOrNo.YES} and ${AppFormField.omsorgstilbud__ja__vetHvorMyeTid} === ${VetOmsorgstilbud.VET_IKKE}`, () => {
+    it(`should return ${VetOmsorgstilbud.VET_IKKE} when ${AppFormField.omsorgstilbud__skalBarnIOmsorgstilbud} === ${YesOrNo.YES} and ${AppFormField.omsorgstilbud__planlagt__vetHvorMyeTid} === ${VetOmsorgstilbud.VET_IKKE}`, () => {
         const result = mapTilsynsordningToApiData(
             {
                 ...tilsyn,
-                ja: {
+                planlagt: {
                     vetHvorMyeTid: VetOmsorgstilbud.VET_IKKE,
                 },
             },
@@ -61,7 +61,7 @@ describe('mapTilsynsordningToApiData', () => {
             const result = mapTilsynsordningToApiData(
                 {
                     ...tilsyn,
-                    ja: {
+                    planlagt: {
                         vetHvorMyeTid: VetOmsorgstilbud.VET_ALLE_TIMER,
                         erLiktHverDag: YesOrNo.YES,
                         fasteDager: { fredag: { hours: '2', minutes: '30' } },

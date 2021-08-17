@@ -44,22 +44,22 @@ export const cleanupTilsynsordningStep = (
 ): PleiepengesøknadFormData => {
     const cleanedValues = { ...values };
 
-    if (cleanedValues.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.YES && cleanedValues.omsorgstilbud.ja) {
-        if (cleanedValues.omsorgstilbud.ja.vetHvorMyeTid === VetOmsorgstilbud.VET_IKKE) {
-            cleanedValues.omsorgstilbud.ja.enkeltdager = undefined;
-            cleanedValues.omsorgstilbud.ja.fasteDager = undefined;
-            cleanedValues.omsorgstilbud.ja.erLiktHverDag = undefined;
+    if (cleanedValues.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.YES && cleanedValues.omsorgstilbud.planlagt) {
+        if (cleanedValues.omsorgstilbud.planlagt.vetHvorMyeTid === VetOmsorgstilbud.VET_IKKE) {
+            cleanedValues.omsorgstilbud.planlagt.enkeltdager = undefined;
+            cleanedValues.omsorgstilbud.planlagt.fasteDager = undefined;
+            cleanedValues.omsorgstilbud.planlagt.erLiktHverDag = undefined;
         }
         if (visKunEnkeltdagerForOmsorgstilbud(søknadsperiode)) {
-            cleanedValues.omsorgstilbud.ja.erLiktHverDag = undefined;
+            cleanedValues.omsorgstilbud.planlagt.erLiktHverDag = undefined;
         }
-        if (cleanedValues.omsorgstilbud.ja.erLiktHverDag === YesOrNo.YES) {
-            cleanedValues.omsorgstilbud.ja.enkeltdager = undefined;
+        if (cleanedValues.omsorgstilbud.planlagt.erLiktHverDag === YesOrNo.YES) {
+            cleanedValues.omsorgstilbud.planlagt.enkeltdager = undefined;
         }
-        if (cleanedValues.omsorgstilbud.ja.erLiktHverDag === YesOrNo.NO) {
-            cleanedValues.omsorgstilbud.ja.fasteDager = undefined;
-            cleanedValues.omsorgstilbud.ja.enkeltdager = getTidIOmsorgstilbudInnenforPeriode(
-                cleanedValues.omsorgstilbud.ja.enkeltdager || {},
+        if (cleanedValues.omsorgstilbud.planlagt.erLiktHverDag === YesOrNo.NO) {
+            cleanedValues.omsorgstilbud.planlagt.fasteDager = undefined;
+            cleanedValues.omsorgstilbud.planlagt.enkeltdager = getTidIOmsorgstilbudInnenforPeriode(
+                cleanedValues.omsorgstilbud.planlagt.enkeltdager || {},
                 søknadsperiode
             );
         }
@@ -72,7 +72,7 @@ export const cleanupTilsynsordningStep = (
     }
 
     if (cleanedValues.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.NO) {
-        cleanedValues.omsorgstilbud.ja = undefined;
+        cleanedValues.omsorgstilbud.planlagt = undefined;
     }
 
     return cleanedValues;

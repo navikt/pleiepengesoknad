@@ -81,7 +81,7 @@ export const skalBrukerSvarePåBeredskapOgNattevåk = (formValues?: Pleiepenges�
         formValues !== undefined &&
         formValues.omsorgstilbud !== undefined &&
         formValues.omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES &&
-        formValues.omsorgstilbud.ja !== undefined &&
-        formValues.omsorgstilbud.ja.vetHvorMyeTid === VetOmsorgstilbud.VET_ALLE_TIMER
+        formValues.omsorgstilbud.planlagt !== undefined &&
+        formValues.omsorgstilbud.planlagt.vetHvorMyeTid === VetOmsorgstilbud.VET_ALLE_TIMER
     );
 };
