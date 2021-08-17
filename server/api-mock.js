@@ -128,6 +128,14 @@ const startExpressServer = () => {
         res.sendStatus(200);
     });
 
+    server.post('/soknad/valider', (req, res) => {
+        res.sendStatus(202);
+
+        // test feil
+        // res.sendStatus(400);
+        // res.sendStatus(401);
+    });
+
     server.get('/mellomlagring', (req, res) => {
         if (existsSync(MELLOMLAGRING_JSON)) {
             const body = readFileSync(MELLOMLAGRING_JSON);

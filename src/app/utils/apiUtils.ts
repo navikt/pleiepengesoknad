@@ -16,6 +16,9 @@ export const isForbidden = ({ response }: AxiosError) =>
 export const isUnauthorized = ({ response }: AxiosError) =>
     response !== undefined && response.status === HttpStatus.UNAUTHORIZED;
 
+export const isBadRequest = ({ response }: AxiosError) =>
+    response !== undefined && response.status === HttpStatus.BAD_REQUEST;
+
 export const getApiUrlByResourceType = (resourceType: ResourceType) => {
     return `${getEnvironmentVariable('API_URL')}/${resourceType}`;
 };
@@ -23,6 +26,7 @@ export const getApiUrlByResourceType = (resourceType: ResourceType) => {
 export const apiUtils = {
     isForbidden,
     isUnauthorized,
+    isBadRequest,
     getApiUrlByResourceType,
     sendMultipartPostRequest,
 };

@@ -40,6 +40,9 @@ export const getArbeidsgiver = (fom: string, tom: string): Promise<AxiosResponse
 export const sendApplication = (data: PleiepengesøknadApiData) =>
     axios.post(getApiUrlByResourceType(ResourceType.SEND_SØKNAD), data, axiosConfig);
 
+export const validerApplication = (data: PleiepengesøknadApiData) =>
+    axios.post(getApiUrlByResourceType(ResourceType.VALIDER), data, axiosConfig);
+
 export const uploadFile = (file: File) => {
     const formData = new FormData();
     formData.append('vedlegg', file);

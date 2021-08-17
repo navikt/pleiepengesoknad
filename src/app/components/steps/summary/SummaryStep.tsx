@@ -16,7 +16,7 @@ import { getCheckedValidator } from '@navikt/sif-common-formik/lib/validation';
 import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
 import Panel from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { purge, sendApplication } from '../../../api/api';
+import { purge, sendApplication, validerApplication } from '../../../api/api';
 import { SKJEMANAVN } from '../../../App';
 import ArbeidsforholdSummary from '../../../components/arbeidsforhold-summary/ArbeidsforholdSummary';
 import {
@@ -76,6 +76,9 @@ const extractAnonymousArbeidsinfo = (values: PleiepengesøknadApiData): string =
 const SummaryStep = ({ onApplicationSent, values }: Props) => {
     const [sendingInProgress, setSendingInProgress] = useState<boolean>(false);
     const [soknadSent, setSoknadSent] = useState<boolean>(false);
+    const [validationInProgress, setValidationInProgress] = useState<boolean>(false);
+    const [validated, setValidated] = useState<boolean>(false);
+
     const intl = useIntl();
     const history = useHistory();
 
@@ -111,6 +114,20 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
         return null;
     }
 
+    const validerSoknad = async (apiValues: PleiepengesøknadApiData) => {
+        setValidationInProgress(true);
+        try {
+            await validerApplication(apiValues);
+        } catch (error) {
+            if (apiUtils.isBadRequest(error)) {
+                appSentryLogger.logError('Api validation feilet', error);
+            }
+        } finally {
+            setValidated(true);
+            setValidationInProgress(false);
+        }
+    };
+
     return (
         <SøkerdataContextConsumer>
             {(søkerdata: Søkerdata | undefined) => {
@@ -129,6 +146,9 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                 }
 
                 const apiValuesValidationErrors = validateApiValues(apiValues, intl);
+                if (!validated) {
+                    validerSoknad(apiValues);
+                }
 
                 const {
                     medlemskap,
@@ -153,8 +173,13 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                         }}
                         useValidationErrorSummary={false}
                         showSubmitButton={apiValuesValidationErrors === undefined}
-                        buttonDisabled={sendingInProgress || apiValuesValidationErrors !== undefined}
-                        showButtonSpinner={sendingInProgress}
+                        buttonDisabled={
+                            sendingInProgress ||
+                            apiValuesValidationErrors !== undefined ||
+                            !validated ||
+                            validationInProgress
+                        }
+                        showButtonSpinner={sendingInProgress || validationInProgress}
                         customErrorSummary={
                             apiValuesValidationErrors
                                 ? () => (
