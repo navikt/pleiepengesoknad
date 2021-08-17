@@ -3,7 +3,7 @@ import { DateRange } from '@navikt/sif-common-formik/lib';
 import { TidIOmsorgstilbud } from '../../components/omsorgstilbud/types';
 import { VetOmsorgstilbud } from '../../types/PleiepengesøknadApiData';
 import { AppFormField, Omsorgstilbud } from '../../types/PleiepengesøknadFormData';
-import { getEnkeltdager, mapTilsynsordningToApiData } from '../formToApiMaps/mapTilsynsordningToApiData';
+import { getEnkeltdagerIPeriode, mapPlanlagtOmsorgstilbudToApiData } from '../formToApiMaps/mapTilsynsordningToApiData';
 
 jest.mock('./../envUtils', () => {
     return {
@@ -39,11 +39,11 @@ describe('mapTilsynsordningToApiData', () => {
     });
     it('should return correct values when NO is selected', () => {
         expect(JSON.stringify(undefined)).toEqual(
-            JSON.stringify(mapTilsynsordningToApiData({ skalBarnIOmsorgstilbud: YesOrNo.NO }, søknadsperiode))
+            JSON.stringify(mapPlanlagtOmsorgstilbudToApiData({ skalBarnIOmsorgstilbud: YesOrNo.NO }, søknadsperiode))
         );
     });
     it(`should return ${VetOmsorgstilbud.VET_IKKE} when ${AppFormField.omsorgstilbud__skalBarnIOmsorgstilbud} === ${YesOrNo.YES} and ${AppFormField.omsorgstilbud__planlagt__vetHvorMyeTid} === ${VetOmsorgstilbud.VET_IKKE}`, () => {
-        const result = mapTilsynsordningToApiData(
+        const result = mapPlanlagtOmsorgstilbudToApiData(
             {
                 ...tilsyn,
                 planlagt: {
@@ -58,7 +58,7 @@ describe('mapTilsynsordningToApiData', () => {
     });
     describe('getFasteDager', () => {
         it('returns fasteDager correctly', () => {
-            const result = mapTilsynsordningToApiData(
+            const result = mapPlanlagtOmsorgstilbudToApiData(
                 {
                     ...tilsyn,
                     planlagt: {
@@ -80,7 +80,7 @@ describe('mapTilsynsordningToApiData', () => {
         };
 
         it(`returns only days within søknadsperiode - 1`, () => {
-            const result = getEnkeltdager(
+            const result = getEnkeltdagerIPeriode(
                 {
                     ...enkeltdager,
                     '2021-05-30': { hours: '2', minutes: '30' }, // To early
@@ -98,7 +98,7 @@ describe('mapTilsynsordningToApiData', () => {
             expect(result[0].tid).toEqual('PT2H30M');
         });
         it(`returns only days within søknadsperiode - 2`, () => {
-            const result = getEnkeltdager(
+            const result = getEnkeltdagerIPeriode(
                 {
                     ...enkeltdager,
                     '2021-05-30': { hours: '2', minutes: '30' },

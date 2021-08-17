@@ -45,8 +45,10 @@ import FrilansSummary from './FrilansSummary';
 import JaNeiSvar from './JaNeiSvar';
 import SelvstendigSummary from './SelvstendigSummary';
 import SummaryBlock from './SummaryBlock';
-import TilsynsordningSummary from './TilsynsordningSummary';
 import './summary.less';
+import PlanlagtOmsorgstilbudSummary from './PlanlagtOmsorgstilbudSummary';
+import HistoriskOmsorgstilbudSummary from './HistoriskOmsorgstilbudSummary';
+import { DateRange } from '@navikt/sif-common-formik/lib';
 
 interface OwnProps {
     values: PleiepengesøknadFormData;
@@ -127,13 +129,18 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                 if (apiValues === undefined) {
                     return <div>Det oppstod en feil</div>;
                 }
+                const søknadsperiode: DateRange = {
+                    from: apiStringDateToDate(apiValues.fraOgMed),
+                    to: apiStringDateToDate(apiValues.tilOgMed),
+                };
 
                 const apiValuesValidationErrors = validateApiValues(apiValues, intl);
 
                 const {
                     medlemskap,
-                    omsorgstilbud,
-                    nattevåk: nattevaak,
+                    planlagtOmsorgstilbud,
+                    historiskOmsorgstilbud,
+                    nattevåk,
                     beredskap,
                     utenlandsoppholdIPerioden,
                     ferieuttakIPerioden,
@@ -270,19 +277,25 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
 
                                 {/* Omsorgstilbud */}
                                 <SummarySection header={intlHelper(intl, 'steg.oppsummering.tilsynsordning.header')}>
-                                    <TilsynsordningSummary omsorgstilbud={omsorgstilbud} />
+                                    <HistoriskOmsorgstilbudSummary
+                                        historiskOmsorgstilbud={historiskOmsorgstilbud}
+                                        søknadsperiode={søknadsperiode}
+                                    />
+                                    <PlanlagtOmsorgstilbudSummary
+                                        omsorgstilbud={planlagtOmsorgstilbud}
+                                        søknadsperiode={søknadsperiode}
+                                    />
 
-                                    {nattevaak && (
+                                    {nattevåk && (
                                         <>
                                             <Box margin="l">
                                                 <ContentWithHeader
                                                     header={intlHelper(intl, 'steg.oppsummering.nattevåk.header')}>
-                                                    {nattevaak.harNattevåk === true && intlHelper(intl, 'Ja')}
-                                                    {nattevaak.harNattevåk === false && intlHelper(intl, 'Nei')}
-                                                    {nattevaak.harNattevåk === true &&
-                                                        nattevaak.tilleggsinformasjon && (
-                                                            <TextareaSummary text={nattevaak.tilleggsinformasjon} />
-                                                        )}
+                                                    {nattevåk.harNattevåk === true && intlHelper(intl, 'Ja')}
+                                                    {nattevåk.harNattevåk === false && intlHelper(intl, 'Nei')}
+                                                    {nattevåk.harNattevåk === true && nattevåk.tilleggsinformasjon && (
+                                                        <TextareaSummary text={nattevåk.tilleggsinformasjon} />
+                                                    )}
                                                 </ContentWithHeader>
                                             </Box>
                                         </>

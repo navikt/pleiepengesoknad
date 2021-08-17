@@ -4,8 +4,14 @@ import { timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUti
 import { DateRange, dateToISOString, ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import { TidIOmsorgstilbud } from '../../components/omsorgstilbud/types';
-import { OmsorgstilbudApi, OmsorgstilbudDagApi, VetOmsorgstilbud } from '../../types/PleiepengesøknadApiData';
+import {
+    HistoriskOmsorgstilbudApi,
+    OmsorgstilbudDagApi,
+    PlanlagtOmsorgstilbudApi,
+    VetOmsorgstilbud,
+} from '../../types/PleiepengesøknadApiData';
 import { Omsorgstilbud, OmsorgstilbudFasteDager } from '../../types/PleiepengesøknadFormData';
+import { getPeriodeFraOgMedSøknadsdato, getPeriodeFørSøknadsdato } from '../omsorgstilbudUtils';
 
 export const getFasteDager = ({ mandag, tirsdag, onsdag, torsdag, fredag }: OmsorgstilbudFasteDager) => ({
     mandag: mandag ? timeToIso8601Duration(mandag) : undefined,
@@ -18,12 +24,12 @@ export const getFasteDager = ({ mandag, tirsdag, onsdag, torsdag, fredag }: Omso
 const sortEnkeltdager = (d1: OmsorgstilbudDagApi, d2: OmsorgstilbudDagApi): number =>
     dayjs(d1.dato).isBefore(d2.dato, 'day') ? -1 : 1;
 
-export const getEnkeltdager = (enkeltdager: TidIOmsorgstilbud, søknadsperiode: DateRange): OmsorgstilbudDagApi[] => {
+export const getEnkeltdagerIPeriode = (enkeltdager: TidIOmsorgstilbud, periode: DateRange): OmsorgstilbudDagApi[] => {
     const dager: OmsorgstilbudDagApi[] = [];
 
     Object.keys(enkeltdager).forEach((dag) => {
         const dato = ISOStringToDate(dag);
-        if (dato && datoErInnenforTidsrom(dato, søknadsperiode)) {
+        if (dato && datoErInnenforTidsrom(dato, periode)) {
             dager.push({
                 dato: dateToISOString(dato),
                 tid: timeToIso8601Duration(enkeltdager[dag]),
@@ -34,18 +40,17 @@ export const getEnkeltdager = (enkeltdager: TidIOmsorgstilbud, søknadsperiode: 
     return dager.sort(sortEnkeltdager);
 };
 
-export const mapTilsynsordningToApiData = (
+export const mapPlanlagtOmsorgstilbudToApiData = (
     omsorgstilbud: Omsorgstilbud,
     søknadsperiode: DateRange
-): OmsorgstilbudApi | undefined => {
-    const { planlagt: ja, skalBarnIOmsorgstilbud } = omsorgstilbud;
+): PlanlagtOmsorgstilbudApi | undefined => {
+    const { planlagt, skalBarnIOmsorgstilbud } = omsorgstilbud;
 
-    if (skalBarnIOmsorgstilbud === YesOrNo.NO || !ja) {
-        return undefined; // !ja: bør denne logges som feil?
+    if (skalBarnIOmsorgstilbud === YesOrNo.NO || !planlagt) {
+        return undefined;
     }
 
-    const { erLiktHverDag, fasteDager, enkeltdager, vetHvorMyeTid } = ja;
-
+    const { erLiktHverDag, fasteDager, enkeltdager, vetHvorMyeTid } = planlagt;
     if (vetHvorMyeTid === VetOmsorgstilbud.VET_IKKE) {
         return {
             vetOmsorgstilbud: VetOmsorgstilbud.VET_IKKE,
@@ -58,12 +63,26 @@ export const mapTilsynsordningToApiData = (
             fasteDager: getFasteDager(fasteDager),
         };
     }
-    if (erLiktHverDag !== YesOrNo.YES && enkeltdager) {
+    const periodeFraOgMedSøknadsdato = getPeriodeFraOgMedSøknadsdato(søknadsperiode);
+    if (erLiktHverDag !== YesOrNo.YES && enkeltdager && periodeFraOgMedSøknadsdato) {
         return {
             vetOmsorgstilbud: vetHvorMyeTid,
-            enkeltDager: getEnkeltdager(enkeltdager, søknadsperiode),
+            enkeltDager: getEnkeltdagerIPeriode(enkeltdager, periodeFraOgMedSøknadsdato),
         };
     }
+    return undefined;
+};
 
-    return undefined; // Skal ikke komme hit - logges?
+export const mapHistoriskOmsorgstilbudToApiData = (
+    omsorgstilbud: Omsorgstilbud,
+    søknadsperiode: DateRange
+): HistoriskOmsorgstilbudApi | undefined => {
+    const { harBarnVærtIOmsorgstilbud, historisk } = omsorgstilbud;
+    const periodeFørSøknadsdato = getPeriodeFørSøknadsdato(søknadsperiode);
+    if (harBarnVærtIOmsorgstilbud === YesOrNo.YES && historisk?.enkeltdager && periodeFørSøknadsdato) {
+        return {
+            enkeltDager: getEnkeltdagerIPeriode(historisk.enkeltdager, periodeFørSøknadsdato),
+        };
+    }
+    return undefined;
 };

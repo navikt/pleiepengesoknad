@@ -18,7 +18,10 @@ import { mapArbeidsforholdToApiData } from './formToApiMaps/mapArbeidsforholdToA
 import { mapBarnToApiData } from './formToApiMaps/mapBarnToApiData';
 import { mapBostedUtlandToApiData } from './formToApiMaps/mapBostedUtlandToApiData';
 import { mapFrilansToApiData } from './formToApiMaps/mapFrilansToApiData';
-import { mapTilsynsordningToApiData } from './formToApiMaps/mapTilsynsordningToApiData';
+import {
+    mapHistoriskOmsorgstilbudToApiData,
+    mapPlanlagtOmsorgstilbudToApiData,
+} from './formToApiMaps/mapTilsynsordningToApiData';
 import { mapUtenlandsoppholdIPeriodenToApiData } from './formToApiMaps/mapUtenlandsoppholdIPeriodenToApiData';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from './stepUtils';
 import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet } from './tidsromUtils';
@@ -204,7 +207,14 @@ export const mapFormDataToApiData = (
             apiData.samtidigHjemme = harMedsøker === YesOrNo.YES ? samtidigHjemme === YesOrNo.YES : undefined;
 
             if (omsorgstilbud !== undefined) {
-                apiData.omsorgstilbud = mapTilsynsordningToApiData(omsorgstilbud, { from: periodeFra, to: periodeTil });
+                apiData.planlagtOmsorgstilbud = mapPlanlagtOmsorgstilbudToApiData(omsorgstilbud, {
+                    from: periodeFra,
+                    to: periodeTil,
+                });
+                apiData.historiskOmsorgstilbud = mapHistoriskOmsorgstilbudToApiData(omsorgstilbud, {
+                    from: periodeFra,
+                    to: periodeTil,
+                });
                 const inkluderNattevåkOgBeredskap = skalBrukerSvarePåBeredskapOgNattevåk(formData);
                 if (inkluderNattevåkOgBeredskap && omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES) {
                     apiData.nattevåk = {

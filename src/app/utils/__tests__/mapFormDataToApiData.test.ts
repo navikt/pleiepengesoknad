@@ -581,7 +581,7 @@ describe('Test complete applications', () => {
         harBekreftetOpplysninger: true,
         harForståttRettigheterOgPlikter: true,
         samtidigHjemme: true,
-        omsorgstilbud: {
+        planlagtOmsorgstilbud: {
             vetOmsorgstilbud: VetOmsorgstilbud.VET_ALLE_TIMER,
             fasteDager: { fredag: 'PT1H0M' },
         },

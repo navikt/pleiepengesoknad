@@ -3,23 +3,36 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-with-header/ContentWithHeader';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { OmsorgstilbudApi, VetOmsorgstilbud } from '../../../types/PleiepengesøknadApiData';
+import { PlanlagtOmsorgstilbudApi, VetOmsorgstilbud } from '../../../types/PleiepengesøknadApiData';
 import OmsorgstilbudEnkeltdagerSummary from './OmsorgstilbudEnkeltdagerSummary';
 import OmsorgstilbudFasteDagerSummary from './OmsorgstilbudFasteDagerSummary';
 import SummaryBlock from './SummaryBlock';
+import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { getPeriodeFraOgMedSøknadsdato } from '../../../utils/omsorgstilbudUtils';
 
 interface Props {
-    omsorgstilbud?: OmsorgstilbudApi;
+    omsorgstilbud?: PlanlagtOmsorgstilbudApi;
+    søknadsperiode: DateRange;
 }
 
-const TilsynsordningSummary = ({ omsorgstilbud }: Props) => {
+const PlanlagtOmsorgstilbudSummary = ({ omsorgstilbud, søknadsperiode }: Props) => {
     const intl = useIntl();
+
+    const periodeFraOgMedSøknadsdato = getPeriodeFraOgMedSøknadsdato(søknadsperiode);
+    if (!periodeFraOgMedSøknadsdato) {
+        return null;
+    }
+
     const svar = omsorgstilbud ? 'ja' : 'nei';
 
     return (
         <>
             <Box margin="l">
-                <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.tilsynsordning.spm')}>
+                <ContentWithHeader
+                    header={intlHelper(intl, 'steg.tilsyn.skalBarnetHaTilsynKommendePeriode.spm', {
+                        fra: prettifyDateFull(periodeFraOgMedSøknadsdato.from),
+                        til: prettifyDateFull(periodeFraOgMedSøknadsdato.to),
+                    })}>
                     <FormattedMessage id={`tilsynsordning.svar.${svar}`} />
                 </ContentWithHeader>
             </Box>
@@ -34,10 +47,7 @@ const TilsynsordningSummary = ({ omsorgstilbud }: Props) => {
                                         id={`steg.oppsummering.tilsynsordning.hvorMyeTidOms.${omsorgstilbud.vetOmsorgstilbud}`}
                                     />
                                     <SummaryBlock
-                                        header={intlHelper(
-                                            intl,
-                                            'steg.oppsummering.tilsynsordning.hvorMyeTidOms.fasteDager.header'
-                                        )}
+                                        header={intlHelper(intl, 'steg.oppsummering.tilsynsordning.planlagt.header')}
                                         headerTag="h3">
                                         {omsorgstilbud.fasteDager && (
                                             <OmsorgstilbudFasteDagerSummary fasteDager={omsorgstilbud.fasteDager} />
@@ -61,5 +71,4 @@ const TilsynsordningSummary = ({ omsorgstilbud }: Props) => {
         </>
     );
 };
-
-export default TilsynsordningSummary;
+export default PlanlagtOmsorgstilbudSummary;

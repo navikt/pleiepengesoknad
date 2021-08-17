@@ -363,7 +363,8 @@
     "steg.oppsummering.tilsynsordning.hvorMyeTidOms.VET_ALLE_TIMER": "Ja",
     "steg.oppsummering.tilsynsordning.hvorMyeTidOms.VET_IKKE": "Nei",
 
-    "steg.oppsummering.tilsynsordning.hvorMyeTidOms.fasteDager.header": "Tid i omsorgstilbud",
+    "steg.oppsummering.tilsynsordning.historisk.header": "Tid barnet har vært i omsorgstilbud",
+    "steg.oppsummering.tilsynsordning.planlagt.header": "Tid barnet skal være i omsorgstilbud",
 
     "steg.oppsummering.utlandetSiste12.header": "Har bodd i utlandet siste 12 måneder",
     "steg.oppsummering.utlandetNeste12.header": "Skal bo i utlandet neste 12 måneder",

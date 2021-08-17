@@ -94,10 +94,14 @@ export enum VetOmsorgstilbud {
     'VET_IKKE' = 'VET_IKKE',
 }
 
-export interface OmsorgstilbudApi {
+export interface PlanlagtOmsorgstilbudApi {
     vetOmsorgstilbud: VetOmsorgstilbud;
     fasteDager?: OmsorgstilbudFasteDagerApi;
     enkeltDager?: OmsorgstilbudDagApi[];
+}
+
+export interface HistoriskOmsorgstilbudApi {
+    enkeltDager: OmsorgstilbudDagApi[];
 }
 
 interface Medlemskap {
@@ -176,7 +180,8 @@ export interface PleiepengesøknadApiData {
     samtidigHjemme?: boolean;
     harForståttRettigheterOgPlikter: boolean;
     harBekreftetOpplysninger: boolean;
-    omsorgstilbud?: OmsorgstilbudApi;
+    planlagtOmsorgstilbud?: PlanlagtOmsorgstilbudApi;
+    historiskOmsorgstilbud?: HistoriskOmsorgstilbudApi;
     nattevåk?: {
         harNattevåk: boolean;
         tilleggsinformasjon?: string;
