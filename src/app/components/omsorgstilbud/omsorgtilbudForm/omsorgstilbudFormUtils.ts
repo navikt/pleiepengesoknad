@@ -56,7 +56,7 @@ const getDagInfo = (date: Date): Daginfo => {
         årOgUke: `${dayjsDato.year()}.${dayjsDato.isoWeek()}`,
         labelDag: `${dayjsDato.format('dddd')}`,
         labelDato: `${dayjsDato.format('DD.MM.YYYY')}`,
-        labelFull: `${dayjsDato.format('dddd')} ${dayjsDato.format('DD. MMM')}`,
+        labelFull: `${dayjsDato.format('dddd')} ${dayjsDato.format('D. MMMM')}`,
     };
 };
 

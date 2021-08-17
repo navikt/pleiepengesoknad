@@ -25,7 +25,7 @@ interface Props {
 }
 
 const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
-    visKunEnkeltdager: spørOmMånedForOmsorgstilbud,
+    visKunEnkeltdager,
     periode,
     tidIOmsorgstilbud,
     onOmsorgstilbudChanged,
@@ -33,7 +33,7 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
     const intl = useIntl();
     const gjelderFortid = dayjs(periode.to).isBefore(dateToday, 'day');
 
-    if (spørOmMånedForOmsorgstilbud) {
+    if (visKunEnkeltdager || gjelderFortid) {
         return (
             <>
                 {/* <Info /> */}
@@ -60,7 +60,11 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
                         return undefined;
                     }}>
                     <OmsorgstilbudInlineForm
-                        fieldName={AppFormField.omsorgstilbud__ja__enkeltdager}
+                        fieldName={
+                            gjelderFortid
+                                ? AppFormField.omsorgstilbud_dagerVært
+                                : AppFormField.omsorgstilbud__ja__enkeltdager
+                        }
                         søknadsperiode={periode}
                         ukeTittelRenderer={(ukeinfo) => (
                             <Element className="omsorgstilbud__uketittel" tag="h4">

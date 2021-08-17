@@ -101,7 +101,14 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                     <FormBlock>
                         <AppForm.YesOrNoQuestion
                             name={AppFormField.omsorgstilbud__skalBarnIOmsorgstilbud}
-                            legend={intlHelper(intl, 'steg.tilsyn.skalBarnetHaTilsyn.spm')}
+                            legend={
+                                periodeFørSøknadsdato
+                                    ? intlHelper(intl, 'steg.tilsyn.skalBarnetHaTilsynKommendePeriode.spm', {
+                                          fra: prettifyDateFull(periodeFraOgMedSøknadsdato.from),
+                                          til: prettifyDateFull(periodeFraOgMedSøknadsdato.to),
+                                      })
+                                    : intlHelper(intl, 'steg.tilsyn.skalBarnetHaTilsyn.spm')
+                            }
                             validate={getYesOrNoValidator()}
                         />
                     </FormBlock>
