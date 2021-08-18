@@ -129,9 +129,11 @@ const startExpressServer = () => {
     });
 
     server.post('/soknad/valider', (req, res) => {
+        console.log('Sending til validering');
         res.sendStatus(202);
 
         // test feil
+
         // res.sendStatus(400);
         // res.sendStatus(401);
     });

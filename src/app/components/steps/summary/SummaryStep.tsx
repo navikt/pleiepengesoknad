@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
 import { useAmplitudeInstance } from '@navikt/sif-common-amplitude';
@@ -82,7 +82,40 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
     const intl = useIntl();
     const history = useHistory();
 
+    let apiValuesTilValidering: PleiepengesøknadApiData | undefined = undefined;
+
     const { logInfo, logSoknadSent, logSoknadFailed, logUserLoggedOut } = useAmplitudeInstance();
+
+    useEffect(() => {
+        const validerSoknad = async () => {
+            if (apiValuesTilValidering) {
+                // console.log til test
+                console.log('Start validation');
+                setValidationInProgress(true);
+                try {
+                    await validerApplication(apiValuesTilValidering);
+                    // console.log til test
+                    console.log('Validation ok');
+                } catch (error) {
+                    if (apiUtils.isBadRequest(error)) {
+                        // console.log til test
+                        console.log('Validation failed 400');
+                        appSentryLogger.logError('Api validation feilet', error);
+                    } else {
+                        // console.log til test
+                        console.log('Validation failed');
+                    }
+                } finally {
+                    setValidated(true);
+                    setValidationInProgress(false);
+                }
+            }
+        };
+
+        if (apiValuesTilValidering && !validationInProgress && !validated) {
+            validerSoknad();
+        }
+    }, [apiValuesTilValidering, validated, validationInProgress]);
 
     const sendSoknad = async (apiValues: PleiepengesøknadApiData, søkerdata: Søkerdata) => {
         setSendingInProgress(true);
@@ -114,20 +147,6 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
         return null;
     }
 
-    const validerSoknad = async (apiValues: PleiepengesøknadApiData) => {
-        setValidationInProgress(true);
-        try {
-            await validerApplication(apiValues);
-        } catch (error) {
-            if (apiUtils.isBadRequest(error)) {
-                appSentryLogger.logError('Api validation feilet', error);
-            }
-        } finally {
-            setValidated(true);
-            setValidationInProgress(false);
-        }
-    };
-
     return (
         <SøkerdataContextConsumer>
             {(søkerdata: Søkerdata | undefined) => {
@@ -146,9 +165,8 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                 }
 
                 const apiValuesValidationErrors = validateApiValues(apiValues, intl);
-                if (!validated) {
-                    validerSoknad(apiValues);
-                }
+
+                apiValuesTilValidering = apiValues;
 
                 const {
                     medlemskap,
