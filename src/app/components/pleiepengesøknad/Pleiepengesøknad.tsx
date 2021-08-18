@@ -25,7 +25,7 @@ const Pleiepengesøknad = () => (
                     onSubmit={() => {
                         null;
                     }}
-                    renderForm={() => <PleiepengesøknadContent lastStepID={lastStepID} />}
+                    renderForm={() => <PleiepengesøknadContent søkerdata={søkerdata} lastStepID={lastStepID} />}
                 />
             );
         }}

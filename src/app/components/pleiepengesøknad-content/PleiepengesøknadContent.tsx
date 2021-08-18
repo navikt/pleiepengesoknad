@@ -30,6 +30,7 @@ import TilsynsordningStep from '../steps/tilsynsordning/TilsynsordningStep';
 
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
+    søkerdata: Søkerdata | undefined;
 }
 
 export interface KvitteringInfo {
@@ -56,7 +57,7 @@ const getKvitteringInfoFromApiData = (
     return undefined;
 };
 
-const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps) => {
+const PleiepengesøknadContent = ({ lastStepID, søkerdata }: PleiepengesøknadContentProps) => {
     const location = useLocation();
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
     const [kvitteringInfo, setKvitteringInfo] = React.useState<KvitteringInfo | undefined>(undefined);
@@ -210,6 +211,7 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
                     render={() => (
                         <SummaryStep
                             values={values}
+                            søkerdata={søkerdata}
                             onApplicationSent={(apiData: PleiepengesøknadApiData, søkerdata: Søkerdata) => {
                                 const info = getKvitteringInfoFromApiData(apiData, søkerdata);
                                 setKvitteringInfo(info);
