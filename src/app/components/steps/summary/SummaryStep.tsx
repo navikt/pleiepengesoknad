@@ -82,26 +82,25 @@ const SummaryStep = ({ onApplicationSent, values, søkerdata }: Props) => {
     const [apiValues, setApiValues] = useState<PleiepengesøknadApiData | undefined>(undefined);
 
     const intl = useIntl();
+    const locale = intl.locale as Locale;
+
     const history = useHistory();
 
     const { logInfo, logSoknadSent, logSoknadFailed, logUserLoggedOut } = useAmplitudeInstance();
 
     useEffect(() => {
-        console.log('useEffect');
         const validerSoknad = async () => {
             if (apiValues) {
                 setValidationInProgress(true);
                 try {
                     await validerApplication(apiValues);
-                    console.log('Validering ok');
                 } catch (error) {
                     if (apiUtils.isBadRequest(error)) {
-                        appSentryLogger.logError('Api validation failed', error);
+                        appSentryLogger.logError('Api validation feilet', error);
                     }
                 } finally {
                     setValidated(true);
                     setValidationInProgress(false);
-                    console.log('Validation finished');
                 }
             }
         };
@@ -110,9 +109,14 @@ const SummaryStep = ({ onApplicationSent, values, søkerdata }: Props) => {
         }
     }, [apiValues, validated, validationInProgress]);
 
+    useEffect(() => {
+        if (søkerdata) {
+            setApiValues(mapFormDataToApiData(values, søkerdata.barn, locale));
+        }
+    }, [values, søkerdata, locale]);
+
     const sendSoknad = async (apiValues: PleiepengesøknadApiData, søkerdata: Søkerdata) => {
         setSendingInProgress(true);
-        apiValues.harBekreftetOpplysninger = values.harBekreftetOpplysninger;
         try {
             await sendApplication(apiValues);
             await logSoknadSent(SKJEMANAVN);
@@ -150,10 +154,6 @@ const SummaryStep = ({ onApplicationSent, values, søkerdata }: Props) => {
         barn,
     } = søkerdata;
 
-    if (!apiValues) {
-        setApiValues(mapFormDataToApiData(values, barn, intl.locale as Locale));
-    }
-
     if (apiValues === undefined) {
         return <GeneralErrorPage />;
     }
@@ -177,6 +177,7 @@ const SummaryStep = ({ onApplicationSent, values, søkerdata }: Props) => {
             onValidFormSubmit={() => {
                 setTimeout(() => {
                     // La view oppdatere seg først
+                    apiValues.harBekreftetOpplysninger = true;
                     sendSoknad(apiValues, søkerdata);
                 });
             }}
