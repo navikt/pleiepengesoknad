@@ -112,6 +112,7 @@ const SummaryStep = ({ onApplicationSent, values, søkerdata }: Props) => {
 
     const sendSoknad = async (apiValues: PleiepengesøknadApiData, søkerdata: Søkerdata) => {
         setSendingInProgress(true);
+        apiValues.harBekreftetOpplysninger = values.harBekreftetOpplysninger;
         try {
             await sendApplication(apiValues);
             await logSoknadSent(SKJEMANAVN);
