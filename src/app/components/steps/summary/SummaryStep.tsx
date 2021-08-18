@@ -82,6 +82,8 @@ const SummaryStep = ({ onApplicationSent, values, søkerdata }: Props) => {
     const [apiValues, setApiValues] = useState<PleiepengesøknadApiData | undefined>(undefined);
 
     const intl = useIntl();
+    const locale = intl.locale as Locale;
+
     const history = useHistory();
 
     const { logInfo, logSoknadSent, logSoknadFailed, logUserLoggedOut } = useAmplitudeInstance();
@@ -106,6 +108,12 @@ const SummaryStep = ({ onApplicationSent, values, søkerdata }: Props) => {
             validerSoknad();
         }
     }, [apiValues, validated, validationInProgress]);
+
+    useEffect(() => {
+        if (søkerdata) {
+            setApiValues(mapFormDataToApiData(values, søkerdata.barn, locale));
+        }
+    }, [values, søkerdata, locale]);
 
     const sendSoknad = async (apiValues: PleiepengesøknadApiData, søkerdata: Søkerdata) => {
         setSendingInProgress(true);
@@ -146,10 +154,6 @@ const SummaryStep = ({ onApplicationSent, values, søkerdata }: Props) => {
         barn,
     } = søkerdata;
 
-    if (!apiValues) {
-        setApiValues(mapFormDataToApiData(values, barn, intl.locale as Locale));
-    }
-
     if (apiValues === undefined) {
         return <GeneralErrorPage />;
     }
@@ -173,6 +177,7 @@ const SummaryStep = ({ onApplicationSent, values, søkerdata }: Props) => {
             onValidFormSubmit={() => {
                 setTimeout(() => {
                     // La view oppdatere seg først
+                    apiValues.harBekreftetOpplysninger = true;
                     sendSoknad(apiValues, søkerdata);
                 });
             }}
