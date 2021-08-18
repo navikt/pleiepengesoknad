@@ -87,18 +87,21 @@ const SummaryStep = ({ onApplicationSent, values, søkerdata }: Props) => {
     const { logInfo, logSoknadSent, logSoknadFailed, logUserLoggedOut } = useAmplitudeInstance();
 
     useEffect(() => {
+        console.log('useEffect');
         const validerSoknad = async () => {
             if (apiValues) {
                 setValidationInProgress(true);
                 try {
                     await validerApplication(apiValues);
+                    console.log('Validering ok');
                 } catch (error) {
                     if (apiUtils.isBadRequest(error)) {
-                        appSentryLogger.logError('Api validation feilet', error);
+                        appSentryLogger.logError('Api validation failed', error);
                     }
                 } finally {
                     setValidated(true);
                     setValidationInProgress(false);
+                    console.log('Validation finished');
                 }
             }
         };
