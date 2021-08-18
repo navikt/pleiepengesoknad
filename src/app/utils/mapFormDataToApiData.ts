@@ -20,6 +20,7 @@ import { mapBostedUtlandToApiData } from './formToApiMaps/mapBostedUtlandToApiDa
 import { mapFrilansToApiData } from './formToApiMaps/mapFrilansToApiData';
 import {
     mapHistoriskOmsorgstilbudToApiData,
+    mapOmsorgstilbudToApiData,
     mapPlanlagtOmsorgstilbudToApiData,
 } from './formToApiMaps/mapTilsynsordningToApiData';
 import { mapUtenlandsoppholdIPeriodenToApiData } from './formToApiMaps/mapUtenlandsoppholdIPeriodenToApiData';
@@ -207,6 +208,10 @@ export const mapFormDataToApiData = (
             apiData.samtidigHjemme = harMedsøker === YesOrNo.YES ? samtidigHjemme === YesOrNo.YES : undefined;
 
             if (omsorgstilbud !== undefined) {
+                apiData.omsorgstilbudV2 = mapOmsorgstilbudToApiData(omsorgstilbud, {
+                    from: periodeFra,
+                    to: periodeTil,
+                });
                 apiData.planlagtOmsorgstilbud = mapPlanlagtOmsorgstilbudToApiData(omsorgstilbud, {
                     from: periodeFra,
                     to: periodeTil,

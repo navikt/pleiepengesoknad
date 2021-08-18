@@ -7,6 +7,7 @@ import { TidIOmsorgstilbud } from '../../components/omsorgstilbud/types';
 import {
     HistoriskOmsorgstilbudApi,
     OmsorgstilbudDagApi,
+    OmsorgstilbudV2,
     PlanlagtOmsorgstilbudApi,
     VetOmsorgstilbud,
 } from '../../types/PleiepengesøknadApiData';
@@ -40,6 +41,19 @@ export const getEnkeltdagerIPeriode = (enkeltdager: TidIOmsorgstilbud, periode: 
     return dager.sort(sortEnkeltdager);
 };
 
+export const mapOmsorgstilbudToApiData = (
+    omsorgstilbud: Omsorgstilbud,
+    søknadsperiode: DateRange
+): OmsorgstilbudV2 | undefined => {
+    if (omsorgstilbud.historisk || omsorgstilbud.planlagt) {
+        return {
+            historisk: mapHistoriskOmsorgstilbudToApiData(omsorgstilbud, søknadsperiode),
+            planlagt: mapPlanlagtOmsorgstilbudToApiData(omsorgstilbud, søknadsperiode),
+        };
+    }
+    return undefined;
+};
+
 export const mapPlanlagtOmsorgstilbudToApiData = (
     omsorgstilbud: Omsorgstilbud,
     søknadsperiode: DateRange
@@ -60,14 +74,14 @@ export const mapPlanlagtOmsorgstilbudToApiData = (
     if (erLiktHverDag === YesOrNo.YES && fasteDager) {
         return {
             vetOmsorgstilbud: vetHvorMyeTid,
-            fasteDager: getFasteDager(fasteDager),
+            ukedager: getFasteDager(fasteDager),
         };
     }
     const periodeFraOgMedSøknadsdato = getPeriodeFraOgMedSøknadsdato(søknadsperiode);
     if (erLiktHverDag !== YesOrNo.YES && enkeltdager && periodeFraOgMedSøknadsdato) {
         return {
             vetOmsorgstilbud: vetHvorMyeTid,
-            enkeltDager: getEnkeltdagerIPeriode(enkeltdager, periodeFraOgMedSøknadsdato),
+            enkeltdager: getEnkeltdagerIPeriode(enkeltdager, periodeFraOgMedSøknadsdato),
         };
     }
     return undefined;

@@ -96,12 +96,17 @@ export enum VetOmsorgstilbud {
 
 export interface PlanlagtOmsorgstilbudApi {
     vetOmsorgstilbud: VetOmsorgstilbud;
-    fasteDager?: OmsorgstilbudFasteDagerApi;
-    enkeltDager?: OmsorgstilbudDagApi[];
+    enkeltdager?: OmsorgstilbudDagApi[];
+    ukedager?: OmsorgstilbudFasteDagerApi;
 }
 
 export interface HistoriskOmsorgstilbudApi {
     enkeltDager: OmsorgstilbudDagApi[];
+}
+
+export interface OmsorgstilbudV2 {
+    historisk?: HistoriskOmsorgstilbudApi;
+    planlagt?: PlanlagtOmsorgstilbudApi;
 }
 
 interface Medlemskap {
@@ -180,6 +185,7 @@ export interface PleiepengesøknadApiData {
     samtidigHjemme?: boolean;
     harForståttRettigheterOgPlikter: boolean;
     harBekreftetOpplysninger: boolean;
+    omsorgstilbudV2?: OmsorgstilbudV2;
     planlagtOmsorgstilbud?: PlanlagtOmsorgstilbudApi;
     historiskOmsorgstilbud?: HistoriskOmsorgstilbudApi;
     nattevåk?: {

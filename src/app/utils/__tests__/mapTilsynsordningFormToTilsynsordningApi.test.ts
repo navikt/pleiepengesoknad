@@ -52,8 +52,8 @@ describe('mapTilsynsordningToApiData', () => {
             },
             søknadsperiode
         );
-        expect(result?.enkeltDager).toBeUndefined();
-        expect(result?.fasteDager).toBeUndefined();
+        expect(result?.enkeltdager).toBeUndefined();
+        expect(result?.ukedager).toBeUndefined();
         expect(result?.vetOmsorgstilbud).toBe(VetOmsorgstilbud.VET_IKKE);
     });
     describe('getFasteDager', () => {
@@ -69,7 +69,7 @@ describe('mapTilsynsordningToApiData', () => {
                 },
                 søknadsperiode
             );
-            expect(JSON.stringify(result?.fasteDager)).toEqual(JSON.stringify(fasteDagerResult));
+            expect(JSON.stringify(result?.ukedager)).toEqual(JSON.stringify(fasteDagerResult));
         });
     });
     describe('getEnkeltdager', () => {

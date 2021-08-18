@@ -49,11 +49,11 @@ const PlanlagtOmsorgstilbudSummary = ({ omsorgstilbud, søknadsperiode }: Props)
                                     <SummaryBlock
                                         header={intlHelper(intl, 'steg.oppsummering.tilsynsordning.planlagt.header')}
                                         headerTag="h3">
-                                        {omsorgstilbud.fasteDager && (
-                                            <OmsorgstilbudFasteDagerSummary fasteDager={omsorgstilbud.fasteDager} />
+                                        {omsorgstilbud.ukedager && (
+                                            <OmsorgstilbudFasteDagerSummary fasteDager={omsorgstilbud.ukedager} />
                                         )}
-                                        {omsorgstilbud.enkeltDager && (
-                                            <OmsorgstilbudEnkeltdagerSummary dager={omsorgstilbud.enkeltDager} />
+                                        {omsorgstilbud.enkeltdager && (
+                                            <OmsorgstilbudEnkeltdagerSummary dager={omsorgstilbud.enkeltdager} />
                                         )}
                                     </SummaryBlock>
                                 </>

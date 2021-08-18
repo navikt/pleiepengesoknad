@@ -583,7 +583,7 @@ describe('Test complete applications', () => {
         samtidigHjemme: true,
         planlagtOmsorgstilbud: {
             vetOmsorgstilbud: VetOmsorgstilbud.VET_ALLE_TIMER,
-            fasteDager: { fredag: 'PT1H0M' },
+            ukedager: { fredag: 'PT1H0M' },
         },
 
         nattevåk: {
