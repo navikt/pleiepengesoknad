@@ -301,8 +301,8 @@
     "steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description": "Du kan oppgi opptil 7 timer og 30 minutter per dag. Det betyr at selv om barnet er i omsorgstilbudet i for eksempel 8 timer per dag, kan du ikke oppgi mer enn maksimalt 7 timer og 30 minutter. Tid som overstiger dette blir ikke tatt med når pleiepengene graderes.",
     "steg.omsorgstilbud.omsorgstilbud.uketittel": "Uke {ukenummer}, {år}",
 
-    "steg.nattevåk.veileder": "I noen tilfeller kan barnets sykdom gjøre at du må være våken om natten for å pleie eller ha tilsyn med barnet. Hvis du ikke kan gå på jobb dagen etter fordi du selv må hvile ut, skal ikke pleiepengene graderes selv om barnet er i et omsorgstilbud på dagtid. Det må være en sammenheng mellom pleien og tilsynet du gir på natten og barnets sykdom. I disse tilfellene skal pleiepengene som hovedregel ikke graderes.",
-    "steg.nattevåk.spm": "Gjør barnets sykdom at du må være våken på natten og derfor må være borte fra jobb dagen etter?",
+    "steg.nattevåk.veileder": "I noen tilfeller kan barnets sykdom gjøre at du må være våken om natten for å pleie eller ha tilsyn med barnet. Hvis du ikke kan gå på jobb dagen etter fordi du selv må hvile ut, skal ikke pleiepengene graderes selv om barnet er i et omsorgstilbud på dagtid. Det må være en sammenheng mellom pleien og tilsynet du gir om natten og barnets sykdom. I disse tilfellene skal pleiepengene som hovedregel ikke graderes.",
+    "steg.nattevåk.spm": "Gjør barnets sykdom at du må være våken om natten og derfor må være borte fra jobb dagen etter?",
     "steg.nattevåk.tilleggsinfo.spm": "Her skal du beskrive på hvilken måte barnets sykdom gjør at du må være våken om natta. Beskriv så utfyllende og detaljert du kan.",
     "steg.nattevåk.tilleggsinfo.veiledning.tittel": "Hva om jeg har våkenetter kun deler av perioden?",
     "steg.nattevåk.tilleggsinfo.veiledning": "Hvis du har våkenetter i kun deler av perioden du søker pleiepenger for, må du presisere hvilke perioder eller netter du må være våken.",
@@ -353,7 +353,7 @@
     "steg.oppsummering.dagerPerUkeBorteFraJobb.header": "Antall dager i uken du skal være borte fra jobb for å ta hånd om barnet",
     "steg.oppsummering.samtidigHjemme.header": "Skal dere være hjemme/på sykehus samtidig?",
     "steg.oppsummering.annenSøkerSammePeriode.header": "Er det en annen person som søker om pleiepenger i samme periode?",
-    "steg.oppsummering.nattevåk.header": "Gjør barnets sykdom at du må være våken på natten og derfor må være borte fra jobb dagen etter?",
+    "steg.oppsummering.nattevåk.header": "Gjør barnets sykdom at du må være våken om natten og derfor må være borte fra jobb dagen etter?",
     "steg.oppsummering.nattevåk.borteFraJobb.header": "Må være borte fra jobb",
     "steg.oppsummering.beredskap.header": "Gjør barnets sykdom at du må være i beredskap eller være tilgjengelig selv om barnet er i et omsorgstilbud?",
 
@@ -779,7 +779,7 @@
     "validation.omsorgstilbud.planlagt.enkeltdager_gruppe.ingenTidRegistrert_fortid": "Du må registrere den tiden barnet har vært i et omsorgstilbud.",
     "validation.omsorgstilbud.planlagt.erLiktHverDag.yesOrNoIsUnanswered": "Du må svare på om tiden barnet skal være i omsorgstilbudet er lik for hver dag i perioden du søker om.",
 
-    "validation.harNattevåk.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnets sykdom gjør at du må være våken på natten.",
+    "validation.harNattevåk.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnets sykdom gjør at du må være våken om natten.",
     "validation.harNattevåk_ekstrainfo.stringHasNoValue": "Du må beskrive hva som gjør at du må være våken om natta.",
     "validation.harNattevåk_ekstrainfo.stringIsTooLong": "Beskrivelsen kan være på maks 1000 tegn.",
     "validation.harBeredskap.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du må være i beredskap.",
