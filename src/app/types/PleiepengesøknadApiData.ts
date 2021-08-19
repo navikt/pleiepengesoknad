@@ -186,8 +186,6 @@ export interface PleiepengesøknadApiData {
     harForståttRettigheterOgPlikter: boolean;
     harBekreftetOpplysninger: boolean;
     omsorgstilbudV2?: OmsorgstilbudV2;
-    planlagtOmsorgstilbud?: PlanlagtOmsorgstilbudApi;
-    historiskOmsorgstilbud?: HistoriskOmsorgstilbudApi;
     nattevåk?: {
         harNattevåk: boolean;
         tilleggsinformasjon?: string;

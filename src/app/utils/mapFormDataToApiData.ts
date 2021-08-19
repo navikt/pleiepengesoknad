@@ -18,11 +18,7 @@ import { mapArbeidsforholdToApiData } from './formToApiMaps/mapArbeidsforholdToA
 import { mapBarnToApiData } from './formToApiMaps/mapBarnToApiData';
 import { mapBostedUtlandToApiData } from './formToApiMaps/mapBostedUtlandToApiData';
 import { mapFrilansToApiData } from './formToApiMaps/mapFrilansToApiData';
-import {
-    mapHistoriskOmsorgstilbudToApiData,
-    mapOmsorgstilbudToApiData,
-    mapPlanlagtOmsorgstilbudToApiData,
-} from './formToApiMaps/mapOmsorgstilbudToApiData';
+import { mapOmsorgstilbudToApiData } from './formToApiMaps/mapOmsorgstilbudToApiData';
 import { mapUtenlandsoppholdIPeriodenToApiData } from './formToApiMaps/mapUtenlandsoppholdIPeriodenToApiData';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from './stepUtils';
 import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet } from './tidsromUtils';
@@ -209,14 +205,6 @@ export const mapFormDataToApiData = (
 
             if (omsorgstilbud !== undefined) {
                 apiData.omsorgstilbudV2 = mapOmsorgstilbudToApiData(omsorgstilbud, {
-                    from: periodeFra,
-                    to: periodeTil,
-                });
-                apiData.planlagtOmsorgstilbud = mapPlanlagtOmsorgstilbudToApiData(omsorgstilbud, {
-                    from: periodeFra,
-                    to: periodeTil,
-                });
-                apiData.historiskOmsorgstilbud = mapHistoriskOmsorgstilbudToApiData(omsorgstilbud, {
                     from: periodeFra,
                     to: periodeTil,
                 });

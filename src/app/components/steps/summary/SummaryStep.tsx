@@ -138,8 +138,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
 
                 const {
                     medlemskap,
-                    planlagtOmsorgstilbud,
-                    historiskOmsorgstilbud,
+                    omsorgstilbudV2,
                     nattevåk,
                     beredskap,
                     utenlandsoppholdIPerioden,
@@ -278,11 +277,11 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                 {/* Omsorgstilbud */}
                                 <SummarySection header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.header')}>
                                     <HistoriskOmsorgstilbudSummary
-                                        historiskOmsorgstilbud={historiskOmsorgstilbud}
+                                        historiskOmsorgstilbud={omsorgstilbudV2?.historisk}
                                         søknadsperiode={søknadsperiode}
                                     />
                                     <PlanlagtOmsorgstilbudSummary
-                                        omsorgstilbud={planlagtOmsorgstilbud}
+                                        omsorgstilbud={omsorgstilbudV2?.planlagt}
                                         søknadsperiode={søknadsperiode}
                                     />
 
