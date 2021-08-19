@@ -23,6 +23,10 @@ const OmsorgstilbudEnkeltdagerSummary: React.FunctionComponent<Props> = ({ dager
         }
     });
 
+    if (dager.length < 10) {
+        return <OmsorgsdagerListe omsorgsdager={days} viseUke={false} />;
+    }
+
     const months = groupBy(days, ({ dato }) => `${dato.getFullYear()}.${dato.getMonth()}`);
     return (
         <div>
