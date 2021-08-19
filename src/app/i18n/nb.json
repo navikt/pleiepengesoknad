@@ -281,8 +281,8 @@
 
     "steg.omsorgstilbud.veileder.html": "<p>Hvis barnet er i et etablert omsorgstilbud i perioden du søker for, skal pleiepengene graderes tilsvarende den tiden barnet er i omsorgstilbudet. Det kan gjøres unntak ved nattevåk eller hvis du må være i beredskap, noe du får spørsmål om litt senere i søknaden.</p><p>Et omsorgstilbud kan være barnehage, skole, SFO, omsorgsbolig, BPA (brukerstyrt personlig assistent), eller andre organiserte tilbud.</p><p>Et etablert omsorgstilbud betyr at den tiden som barnet er i omsorgstilbudet er fast og regelmessig. Hvis bruken av omsorgstilbudet er så uforutsigbar og uregelmessig at du ikke kan anslå et minimum antall timer per uke, anses ikke omsorgstilbudet som etablert. Pleiepengene graderes ikke når omsorgstilbudet ikke er etablert.</p><p>På spørsmålet under svarer du ja hvis barnet skal være i et omsorgstilbud, uansett om det er etablert eller ikke.</p>",
     "steg.omsorgstilbud.skalBarnetVæreIOmsorgstilbud.spm": "Skal barnet være i et omsorgstilbud i hele eller deler av perioden du søker om?",
-    "steg.omsorgstilbud.harBarnetVærtIOmsorgstilbud.spm": "Har barnet vært i et omsorgstilbud i hele eller deler av perioden {fra} til {til}",
-    "steg.omsorgstilbud.skalBarnetIOmsorgstilbud.spm": "Skal barnet være i et omsorgstilbud i hele eller deler av perioden {fra} til {til}",
+    "steg.omsorgstilbud.harBarnetVærtIOmsorgstilbud.spm": "Har barnet vært i et omsorgstilbud i hele eller deler av perioden {fra} til {til}?",
+    "steg.omsorgstilbud.skalBarnetIOmsorgstilbud.spm": "Skal barnet være i et omsorgstilbud i hele eller deler av perioden {fra} til {til}?",
 
     "steg.omsorgstilbud.planlagt.vetHvorMye.spm": "Kan du oppgi tiden barnet skal være i omsorgstilbudet?",
     "steg.omsorgstilbud.planlagt.vetHvorMye.ja": "Ja",
@@ -302,7 +302,7 @@
     "steg.omsorgstilbud.omsorgstilbud.uketittel": "Uke {ukenummer}, {år}",
 
     "steg.nattevåk.veileder": "I noen tilfeller kan barnets sykdom gjøre at du må være våken om natten for å pleie eller ha tilsyn med barnet. Hvis du ikke kan gå på jobb dagen etter fordi du selv må hvile ut, skal ikke pleiepengene graderes selv om barnet er i et omsorgstilbud på dagtid. Det må være en sammenheng mellom pleien og tilsynet du gir på natten og barnets sykdom. I disse tilfellene skal pleiepengene som hovedregel ikke graderes.",
-    "steg.nattevåk.spm": "Gjør barnets sykdom at du må være våken på natta og derfor må være borte fra jobb dagen etter?",
+    "steg.nattevåk.spm": "Gjør barnets sykdom at du må være våken på natten og derfor må være borte fra jobb dagen etter?",
     "steg.nattevåk.tilleggsinfo.spm": "Her skal du beskrive på hvilken måte barnets sykdom gjør at du må være våken om natta. Beskriv så utfyllende og detaljert du kan.",
     "steg.nattevåk.tilleggsinfo.veiledning.tittel": "Hva om jeg har våkenetter kun deler av perioden?",
     "steg.nattevåk.tilleggsinfo.veiledning": "Hvis du har våkenetter i kun deler av perioden du søker pleiepenger for, må du presisere hvilke perioder eller netter du må være våken.",
@@ -353,7 +353,7 @@
     "steg.oppsummering.dagerPerUkeBorteFraJobb.header": "Antall dager i uken du skal være borte fra jobb for å ta hånd om barnet",
     "steg.oppsummering.samtidigHjemme.header": "Skal dere være hjemme/på sykehus samtidig?",
     "steg.oppsummering.annenSøkerSammePeriode.header": "Er det en annen person som søker om pleiepenger i samme periode?",
-    "steg.oppsummering.nattevåk.header": "Gjør barnets sykdom at du må være våken på natta og derfor må være borte fra jobb dagen etter?",
+    "steg.oppsummering.nattevåk.header": "Gjør barnets sykdom at du må være våken på natten og derfor må være borte fra jobb dagen etter?",
     "steg.oppsummering.nattevåk.borteFraJobb.header": "Må være borte fra jobb",
     "steg.oppsummering.beredskap.header": "Gjør barnets sykdom at du må være i beredskap eller være tilgjengelig selv om barnet er i et omsorgstilbud?",
 
@@ -363,8 +363,8 @@
     "steg.oppsummering.omsorgstilbud.hvorMyeTidOms.VET_ALLE_TIMER": "Ja",
     "steg.oppsummering.omsorgstilbud.hvorMyeTidOms.VET_IKKE": "Nei",
 
-    "steg.oppsummering.omsorgstilbud.historisk.header": "Tid barnet har vært i omsorgstilbud",
-    "steg.oppsummering.omsorgstilbud.planlagt.header": "Tid barnet skal være i omsorgstilbud",
+    "steg.oppsummering.omsorgstilbud.historisk.header": "Tid barnet har vært i omsorgstilbud:",
+    "steg.oppsummering.omsorgstilbud.planlagt.header": "Tid barnet skal være i omsorgstilbud:",
 
     "steg.oppsummering.utlandetSiste12.header": "Har bodd i utlandet siste 12 måneder",
     "steg.oppsummering.utlandetNeste12.header": "Skal bo i utlandet neste 12 måneder",
@@ -779,7 +779,7 @@
     "validation.omsorgstilbud.planlagt.enkeltdager_gruppe.ingenTidRegistrert_fortid": "Du må registrere den tiden barnet har vært i et omsorgstilbud.",
     "validation.omsorgstilbud.planlagt.erLiktHverDag.yesOrNoIsUnanswered": "Du må svare på om tiden barnet skal være i omsorgstilbudet er lik for hver dag i perioden du søker om.",
 
-    "validation.harNattevåk.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnets sykdom gjør at du må være våken på natta.",
+    "validation.harNattevåk.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnets sykdom gjør at du må være våken på natten.",
     "validation.harNattevåk_ekstrainfo.stringHasNoValue": "Du må beskrive hva som gjør at du må være våken om natta.",
     "validation.harNattevåk_ekstrainfo.stringIsTooLong": "Beskrivelsen kan være på maks 1000 tegn.",
     "validation.harBeredskap.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du må være i beredskap.",
