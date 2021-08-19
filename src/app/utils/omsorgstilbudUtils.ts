@@ -1,9 +1,11 @@
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { timeToDecimalTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { isValidTime } from '@navikt/sif-common-formik/lib/components/formik-time-input/TimeInput';
 import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
 import dayjs from 'dayjs';
 import { TidIOmsorgstilbud } from '../components/omsorgstilbud/types';
+import { OmsorgstilbudFasteDager } from '../types/PleiepengesøknadFormData';
 
 export const MAKS_ANTALL_DAGER_FOR_INLINE_SKJEMA = 20;
 
@@ -53,4 +55,30 @@ export const getCleanedTidIOmsorgstilbud = (tidIOmsorg: TidIOmsorgstilbud): TidI
         }
     });
     return cleanedTidIOmsorg;
+};
+
+export const sumTimerMedOmsorgstilbud = (uke: OmsorgstilbudFasteDager): number => {
+    return Object.keys(uke).reduce((timer: number, key: string) => {
+        return timer + timeToDecimalTime(uke[key]);
+    }, 0);
+};
+
+export const getMaxTimerMedOmsorgstilbudOneDay = (
+    uke: OmsorgstilbudFasteDager
+): { maxHours: number; day: string | undefined } | undefined => {
+    let maxHours = 0;
+    let day;
+    Object.keys(uke).forEach((key) => {
+        const hours = timeToDecimalTime(uke[key]);
+        if (hours > maxHours) {
+            maxHours = hours;
+            day = key;
+        }
+    });
+    return day !== undefined
+        ? {
+              maxHours,
+              day,
+          }
+        : undefined;
 };

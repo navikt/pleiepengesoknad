@@ -22,17 +22,17 @@ import {
     getPeriodeFørSøknadsdato,
     visKunEnkeltdagerForOmsorgstilbud,
 } from '../../../utils/omsorgstilbudUtils';
-import { validateSkalHaTilsynsordning } from '../../../validation/fieldValidations';
+import { validateSkalIOmsorgstilbud } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
-import Tilsynsuke from '../../tilsynsuke/Tilsynsuke';
+import OmsorgstilbudUke from '../../omsorgstilbud-uke/OmsorgstilbudUke';
 import OmsorgstilbudFormPart from './OmsorgstilbudFormPart';
-import { cleanupTilsynsordningStep } from './tilsynsordningStepUtils';
+import { cleanupOmsorgstilbudStep } from './omsorgstilbudStepUtils';
 import { prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 
 dayjs.extend(isBetween);
 
-const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
+const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
     const history = useHistory();
     const { values } = useFormikContext<PleiepengesøknadFormData>();
@@ -63,21 +63,33 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
     return (
         <FormikStep
             id={StepID.OMSORGSTILBUD}
-            onStepCleanup={(values) => cleanupTilsynsordningStep(values, søknadsperiode)}
+            onStepCleanup={(values) => cleanupOmsorgstilbudStep(values, søknadsperiode)}
             onValidFormSubmit={onValidSubmit}>
             <CounsellorPanel>
-                <FormattedMessage id="steg.tilsyn.veileder.html" values={{ p: (msg: string) => <p>{msg}</p> }} />
+                <FormattedMessage id="steg.omsorgstilbud.veileder.html" values={{ p: (msg: string) => <p>{msg}</p> }} />
             </CounsellorPanel>
             {periodeFørSøknadsdato && (
                 <>
                     <FormBlock>
                         <AppForm.YesOrNoQuestion
                             name={AppFormField.omsorgstilbud__harBarnVærtIOmsorgstilbud}
-                            legend={intlHelper(intl, 'steg.tilsyn.harBarnetHattTilsyn.spm', {
+                            legend={intlHelper(intl, 'steg.omsorgstilbud.harBarnetVærtIOmsorgstilbud.spm', {
                                 fra: prettifyDateFull(periodeFørSøknadsdato.from),
                                 til: prettifyDateFull(periodeFørSøknadsdato.to),
                             })}
-                            validate={getYesOrNoValidator()}
+                            validate={(value) => {
+                                const error = getYesOrNoValidator()(value);
+                                if (error) {
+                                    return {
+                                        key: error,
+                                        values: {
+                                            fra: prettifyDateFull(periodeFørSøknadsdato.from),
+                                            til: prettifyDateFull(periodeFørSøknadsdato.to),
+                                        },
+                                    };
+                                }
+                                return undefined;
+                            }}
                         />
                     </FormBlock>
                     {omsorgstilbud?.harBarnVærtIOmsorgstilbud === YesOrNo.YES && (
@@ -101,11 +113,11 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                             name={AppFormField.omsorgstilbud__skalBarnIOmsorgstilbud}
                             legend={
                                 periodeFørSøknadsdato
-                                    ? intlHelper(intl, 'steg.tilsyn.skalBarnetHaTilsynKommendePeriode.spm', {
+                                    ? intlHelper(intl, 'steg.omsorgstilbud.skalBarnetIOmsorgstilbud.spm', {
                                           fra: prettifyDateFull(periodeFraOgMedSøknadsdato.from),
                                           til: prettifyDateFull(periodeFraOgMedSøknadsdato.to),
                                       })
-                                    : intlHelper(intl, 'steg.tilsyn.skalBarnetHaTilsyn.spm')
+                                    : intlHelper(intl, 'steg.omsorgstilbud.skalBarnetVæreIOmsorgstilbud.spm')
                             }
                             validate={getYesOrNoValidator()}
                         />
@@ -114,15 +126,15 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                         <>
                             <FormBlock>
                                 <AppForm.RadioPanelGroup
-                                    legend={intlHelper(intl, 'steg.tilsyn.planlagt.vetHvorMye.spm')}
+                                    legend={intlHelper(intl, 'steg.omsorgstilbud.planlagt.vetHvorMye.spm')}
                                     name={AppFormField.omsorgstilbud__planlagt__vetHvorMyeTid}
                                     radios={[
                                         {
-                                            label: intlHelper(intl, 'steg.tilsyn.planlagt.vetHvorMye.ja'),
+                                            label: intlHelper(intl, 'steg.omsorgstilbud.planlagt.vetHvorMye.ja'),
                                             value: VetOmsorgstilbud.VET_ALLE_TIMER,
                                         },
                                         {
-                                            label: intlHelper(intl, 'steg.tilsyn.planlagt.vetHvorMye.nei'),
+                                            label: intlHelper(intl, 'steg.omsorgstilbud.planlagt.vetHvorMye.nei'),
                                             value: VetOmsorgstilbud.VET_IKKE,
                                         },
                                     ]}
@@ -130,7 +142,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                     useTwoColumns={true}
                                     description={
                                         <div style={{ marginTop: '-.5rem' }}>
-                                            <FormattedMessage id="steg.tilsyn.planlagt.vetHvorMye.info" />
+                                            <FormattedMessage id="steg.omsorgstilbud.planlagt.vetHvorMye.info" />
                                         </div>
                                     }
                                 />
@@ -139,7 +151,7 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                             {omsorgstilbud.planlagt?.vetHvorMyeTid === VetOmsorgstilbud.VET_IKKE && (
                                 <FormBlock>
                                     <AlertStripe type={'info'}>
-                                        <FormattedMessage id="steg.tilsyn.planlagt.hvorMyeTilsyn.alertInfo.nei" />
+                                        <FormattedMessage id="steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.alertInfo.nei" />
                                     </AlertStripe>
                                 </FormBlock>
                             )}
@@ -149,17 +161,20 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                     {visKunEnkeltdagerForOmsorgstilbud(periodeFraOgMedSøknadsdato) === false && (
                                         <FormBlock>
                                             <AppForm.YesOrNoQuestion
-                                                legend={intlHelper(intl, 'steg.tilsyn.planlagt.erLiktHverDag.spm')}
+                                                legend={intlHelper(
+                                                    intl,
+                                                    'steg.omsorgstilbud.planlagt.erLiktHverDag.spm'
+                                                )}
                                                 name={AppFormField.omsorgstilbud__planlagt__erLiktHverDag}
                                                 description={
                                                     <ExpandableInfo
                                                         title={intlHelper(
                                                             intl,
-                                                            'steg.tilsyn.planlagt.erLiktHverDag.info.tittel'
+                                                            'steg.omsorgstilbud.planlagt.erLiktHverDag.info.tittel'
                                                         )}>
-                                                        <FormattedMessage id="steg.tilsyn.planlagt.erLiktHverDag.info.1" />
+                                                        <FormattedMessage id="steg.omsorgstilbud.planlagt.erLiktHverDag.info.1" />
                                                         <br />
-                                                        <FormattedMessage id="steg.tilsyn.planlagt.erLiktHverDag.info.2" />
+                                                        <FormattedMessage id="steg.omsorgstilbud.planlagt.erLiktHverDag.info.2" />
                                                     </ExpandableInfo>
                                                 }
                                                 validate={getYesOrNoValidator()}
@@ -171,22 +186,25 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
                                             <>
                                                 <FormBlock>
                                                     <AppForm.InputGroup
-                                                        legend={intlHelper(intl, 'steg.tilsyn.planlagt.hvorMyeTilsyn')}
+                                                        legend={intlHelper(
+                                                            intl,
+                                                            'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud'
+                                                        )}
                                                         description={
                                                             <ExpandableInfo
                                                                 title={intlHelper(
                                                                     intl,
-                                                                    'steg.tilsyn.planlagt.hvorMyeTilsyn.description.tittel'
+                                                                    'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.tittel'
                                                                 )}>
                                                                 {intlHelper(
                                                                     intl,
-                                                                    'steg.tilsyn.planlagt.hvorMyeTilsyn.description'
+                                                                    'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description'
                                                                 )}
                                                             </ExpandableInfo>
                                                         }
-                                                        validate={() => validateSkalHaTilsynsordning(omsorgstilbud)}
-                                                        name={'tilsynsordning_gruppe' as any}>
-                                                        <Tilsynsuke
+                                                        validate={() => validateSkalIOmsorgstilbud(omsorgstilbud)}
+                                                        name={'omsorgstilbud_gruppe' as any}>
+                                                        <OmsorgstilbudUke
                                                             name={AppFormField.omsorgstilbud__planlagt__fasteDager}
                                                         />
                                                     </AppForm.InputGroup>
@@ -220,4 +238,4 @@ const TilsynsordningStep = ({ onValidSubmit }: StepConfigProps) => {
     );
 };
 
-export default TilsynsordningStep;
+export default OmsorgstilbudStep;

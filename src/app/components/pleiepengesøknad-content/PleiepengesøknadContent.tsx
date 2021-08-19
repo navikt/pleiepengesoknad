@@ -26,7 +26,7 @@ import NattevåkStep from '../steps/nattevåkStep/NattevåkStep';
 import OpplysningerOmBarnetStep from '../steps/opplysninger-om-barnet/OpplysningerOmBarnetStep';
 import SummaryStep from '../steps/summary/SummaryStep';
 import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromStep';
-import TilsynsordningStep from '../steps/tilsynsordning/TilsynsordningStep';
+import OmsorgstilbudStep from '../steps/omsorgstilbud/OmsorgstilbudStep';
 
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
@@ -163,9 +163,7 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
                 <Route
                     path={getSøknadRoute(StepID.OMSORGSTILBUD)}
                     render={() => {
-                        return (
-                            <TilsynsordningStep onValidSubmit={() => navigateToNextStepFrom(StepID.OMSORGSTILBUD)} />
-                        );
+                        return <OmsorgstilbudStep onValidSubmit={() => navigateToNextStepFrom(StepID.OMSORGSTILBUD)} />;
                     }}
                 />
             )}

@@ -26,18 +26,18 @@ const HistoriskOmsorgstilbudSummary = ({ historiskOmsorgstilbud, søknadsperiode
         <>
             <Box margin="l">
                 <ContentWithHeader
-                    header={intlHelper(intl, 'steg.tilsyn.harBarnetHattTilsyn.spm', {
+                    header={intlHelper(intl, 'steg.omsorgstilbud.harBarnetVærtIOmsorgstilbud.spm', {
                         fra: prettifyDateFull(periodeFørSøknadsdato.from),
                         til: prettifyDateFull(periodeFørSøknadsdato.to),
                     })}>
-                    <FormattedMessage id={`tilsynsordning.svar.${svar}`} />
+                    <FormattedMessage id={`omsorgstilbud.svar.${svar}`} />
                 </ContentWithHeader>
             </Box>
             {historiskOmsorgstilbud && (
                 <SummaryBlock
-                    header={intlHelper(intl, 'steg.oppsummering.tilsynsordning.historisk.header')}
+                    header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.historisk.header')}
                     headerTag="h3">
-                    <OmsorgstilbudEnkeltdagerSummary dager={historiskOmsorgstilbud.enkeltDager} />
+                    <OmsorgstilbudEnkeltdagerSummary dager={historiskOmsorgstilbud.enkeltdager} />
                 </SummaryBlock>
             )}
         </>

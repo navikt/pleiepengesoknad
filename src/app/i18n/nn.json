@@ -233,12 +233,12 @@
     "steg.tidsrom.skalPassePåBarnetIHelePerioden.spm": "Skal du passe på barnet i heile tidsrommet du skal ha pleiepengar?",
     "steg.tidsrom.bekreftOmsorgEkstrainfo.spm": "Beskriv omsorgsrolla du har for barnet i tidsrommet du skal ha pleiepengar:",
 
-    "steg.tilsyn.tilsynsuke.veileder": "Dersom du veit kor mykje barnet skal være i et omsorgstilbod, må du fylle ut kor mange timar og minutt per dag andre skal passe barnet.",
-    "steg.tilsyn.vetIkke.årsak.spm": "Kvifor er du usikker?",
-    "steg.tilsyn.vetIkke.årsak.sporadisk": "Barnet er i omsorgstilbod, men tida varierer.",
-    "steg.tilsyn.vetIkke.årsak.ikkeLagetPlan": "Det er ikkje laga ein plan for dette enno.",
-    "steg.tilsyn.vetIkke.årsak.annet": "Anna",
-    "steg.tilsyn.vetIkke.årsak.annet.tilleggsopplysninger": "Forklar situasjonen",
+    "steg.omsorgstilbud.tilsynsuke.veileder": "Dersom du veit kor mykje barnet skal være i et omsorgstilbod, må du fylle ut kor mange timar og minutt per dag andre skal passe barnet.",
+    "steg.omsorgstilbud.vetIkke.årsak.spm": "Kvifor er du usikker?",
+    "steg.omsorgstilbud.vetIkke.årsak.sporadisk": "Barnet er i omsorgstilbod, men tida varierer.",
+    "steg.omsorgstilbud.vetIkke.årsak.ikkeLagetPlan": "Det er ikkje laga ein plan for dette enno.",
+    "steg.omsorgstilbud.vetIkke.årsak.annet": "Anna",
+    "steg.omsorgstilbud.vetIkke.årsak.annet.tilleggsopplysninger": "Forklar situasjonen",
 
     "steg.nattevåk.spm": "Gjer sjukdommen barnet har, at du må vere vaken om natta og derfor må vere borte frå jobb dagen etter?",
     "steg.nattevåk.tilleggsinfo.spm": "Beskriv kva som gjer at du må vere vaken.",
@@ -289,10 +289,10 @@
     "steg.oppsummering.nattevåk.borteFraJobb.header": "Må vere borte frå jobb",
     "steg.oppsummering.beredskap.header": "Gjør barnets sykdom at du må være i beredskap eller være tilgjengelig selv om barnet er i et omsorgstilbud?",
 
-    "steg.oppsummering.tilsynsordning.header": "Omsorgstilbod",
+    "steg.oppsummering.omsorgstilbud.header": "Omsorgstilbod",
 
-    "steg.oppsummering.tilsynsordning.ja.tilleggsinformasjon.header": "Tilleggsopplysningar",
-    "steg.oppsummering.tilsynsordning.vetIkke.header": "Kvifor er du usikker?",
+    "steg.oppsummering.omsorgstilbud.ja.tilleggsinformasjon.header": "Tilleggsopplysningar",
+    "steg.oppsummering.omsorgstilbud.vetIkke.header": "Kvifor er du usikker?",
 
     "steg.oppsummering.utlandetSiste12.header": "Har budd i utlandet dei siste 12 månadene",
     "steg.oppsummering.utlandetNeste12.header": "Skal bu i utlandet dei neste 12 månadene",
@@ -422,13 +422,13 @@
     "arbeidsforhold.oppsummering.arbeidsform.TURNUS": "(turnus).",
     "arbeidsforhold.oppsummering.arbeidsform.VARIERENDE": "(deltid/varierande/tilkalling).",
 
-    "tilsynsordning.svar.ja": "Ja",
-    "tilsynsordning.svar.nei": "Nei",
-    "tilsynsordning.svar.vetIkke": "Eg er usikker",
-    "tilsynsordning.timerPerDag.timerOgMinutter": "{hours}t {minutes}m",
-    "tilsynsordning.timerPerDag.timer": "{hours}t",
-    "tilsynsordning.timerPerDag.minutter": "{minutes}m",
-    "tilsynsordning.ingenDagerValgt": "Ingen dagar med tilsyn er registrerte",
+    "omsorgstilbud.svar.ja": "Ja",
+    "omsorgstilbud.svar.nei": "Nei",
+    "omsorgstilbud.svar.vetIkke": "Eg er usikker",
+    "omsorgstilbud.timerPerDag.timerOgMinutter": "{hours}t {minutes}m",
+    "omsorgstilbud.timerPerDag.timer": "{hours}t",
+    "omsorgstilbud.timerPerDag.minutter": "{minutes}m",
+    "omsorgstilbud.ingenDagerValgt": "Ingen dagar med tilsyn er registrerte",
 
     "næringstype.FISKE": "Fiske",
     "næringstype.JORDBRUK_SKOGBRUK": "Jordbruk",

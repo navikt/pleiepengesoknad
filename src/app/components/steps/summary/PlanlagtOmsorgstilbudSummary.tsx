@@ -29,25 +29,25 @@ const PlanlagtOmsorgstilbudSummary = ({ omsorgstilbud, søknadsperiode }: Props)
         <>
             <Box margin="l">
                 <ContentWithHeader
-                    header={intlHelper(intl, 'steg.tilsyn.skalBarnetHaTilsynKommendePeriode.spm', {
+                    header={intlHelper(intl, 'steg.omsorgstilbud.skalBarnetIOmsorgstilbud.spm', {
                         fra: prettifyDateFull(periodeFraOgMedSøknadsdato.from),
                         til: prettifyDateFull(periodeFraOgMedSøknadsdato.to),
                     })}>
-                    <FormattedMessage id={`tilsynsordning.svar.${svar}`} />
+                    <FormattedMessage id={`omsorgstilbud.svar.${svar}`} />
                 </ContentWithHeader>
             </Box>
             {omsorgstilbud && (
                 <>
                     <Box margin="l">
                         <ContentWithHeader
-                            header={intlHelper(intl, 'steg.oppsummering.tilsynsordning.hvorMyeTidOms.spm')}>
+                            header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.hvorMyeTidOms.spm')}>
                             {omsorgstilbud.vetOmsorgstilbud === VetOmsorgstilbud.VET_ALLE_TIMER && (
                                 <>
                                     <FormattedMessage
-                                        id={`steg.oppsummering.tilsynsordning.hvorMyeTidOms.${omsorgstilbud.vetOmsorgstilbud}`}
+                                        id={`steg.oppsummering.omsorgstilbud.hvorMyeTidOms.${omsorgstilbud.vetOmsorgstilbud}`}
                                     />
                                     <SummaryBlock
-                                        header={intlHelper(intl, 'steg.oppsummering.tilsynsordning.planlagt.header')}
+                                        header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.planlagt.header')}
                                         headerTag="h3">
                                         {omsorgstilbud.ukedager && (
                                             <OmsorgstilbudFasteDagerSummary fasteDager={omsorgstilbud.ukedager} />
@@ -61,7 +61,7 @@ const PlanlagtOmsorgstilbudSummary = ({ omsorgstilbud, søknadsperiode }: Props)
 
                             {omsorgstilbud.vetOmsorgstilbud === VetOmsorgstilbud.VET_IKKE && (
                                 <>
-                                    <FormattedMessage id="steg.oppsummering.tilsynsordning.hvorMyeTidOms.nei" />
+                                    <FormattedMessage id="steg.oppsummering.omsorgstilbud.hvorMyeTidOms.nei" />
                                 </>
                             )}
                         </ContentWithHeader>

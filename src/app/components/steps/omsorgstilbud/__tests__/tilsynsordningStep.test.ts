@@ -3,7 +3,7 @@ import { DateRange } from '@navikt/sif-common-formik/lib';
 import { VetOmsorgstilbud } from '../../../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
 import { TidIOmsorgstilbud } from '../../../omsorgstilbud/types';
-import { cleanupTilsynsordningStep, getTidIOmsorgstilbudInnenforPeriode } from '../tilsynsordningStepUtils';
+import { cleanupOmsorgstilbudStep, getTidIOmsorgstilbudInnenforPeriode } from '../omsorgstilbudStepUtils';
 
 const søknadsperiode: DateRange = {
     from: new Date(2021, 5, 1),
@@ -42,9 +42,9 @@ describe('getTidIOmsorgstilbudInnenforPeriode', () => {
     });
 });
 
-describe('cleanupTilsynsordningStep', () => {
+describe('cleanupOmsorgstilbudStep', () => {
     it('removes days outside søknadsperiode', () => {
-        const result = cleanupTilsynsordningStep(formValuesTemplate as PleiepengesøknadFormData, søknadsperiode);
+        const result = cleanupOmsorgstilbudStep(formValuesTemplate as PleiepengesøknadFormData, søknadsperiode);
         const enkeltdager = result.omsorgstilbud?.planlagt?.enkeltdager;
         expect(enkeltdager).toBeDefined();
         if (enkeltdager) {

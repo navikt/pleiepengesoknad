@@ -95,7 +95,7 @@ export const mapHistoriskOmsorgstilbudToApiData = (
     const periodeFørSøknadsdato = getPeriodeFørSøknadsdato(søknadsperiode);
     if (harBarnVærtIOmsorgstilbud === YesOrNo.YES && historisk?.enkeltdager && periodeFørSøknadsdato) {
         return {
-            enkeltDager: getEnkeltdagerIPeriode(historisk.enkeltdager, periodeFørSøknadsdato),
+            enkeltdager: getEnkeltdagerIPeriode(historisk.enkeltdager, periodeFørSøknadsdato),
         };
     }
     return undefined;

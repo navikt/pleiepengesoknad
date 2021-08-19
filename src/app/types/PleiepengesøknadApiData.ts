@@ -70,7 +70,7 @@ export type ArbeidsforholdApiSomVanlig = Pick<
     'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | '_type'
 >;
 
-export interface TilsynsukeApi {
+export interface OmsorgstilbudUkeApi {
     mandag?: string;
     tirsdag?: string;
     onsdag?: string;
@@ -101,7 +101,7 @@ export interface PlanlagtOmsorgstilbudApi {
 }
 
 export interface HistoriskOmsorgstilbudApi {
-    enkeltDager: OmsorgstilbudDagApi[];
+    enkeltdager: OmsorgstilbudDagApi[];
 }
 
 export interface OmsorgstilbudV2 {

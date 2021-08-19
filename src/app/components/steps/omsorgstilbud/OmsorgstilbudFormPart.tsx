@@ -14,7 +14,7 @@ import OmsorgstilbudInfoAndDialog from '../../omsorgstilbud/OmsorgstilbudInfoAnd
 import { getMonthsInDateRange } from '../../omsorgstilbud/omsorgstilbudUtils';
 import OmsorgstilbudInlineForm from '../../omsorgstilbud/omsorgtilbudForm/OmsorgstilbudInlineForm';
 import { TidIOmsorgstilbud } from '../../omsorgstilbud/types';
-import { getTidIOmsorgstilbudInnenforPeriode } from './tilsynsordningStepUtils';
+import { getTidIOmsorgstilbudInnenforPeriode } from './omsorgstilbudStepUtils';
 import './omsorgstilbud.less';
 
 interface Props {
@@ -38,18 +38,21 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
             <>
                 {/* <Info /> */}
                 <AppForm.InputGroup
-                    name={`${AppFormField.omsorgstilbud__planlagt__enkeltdager}_periode` as any}
+                    name={`${AppFormField.omsorgstilbud__planlagt__enkeltdager}_gruppe` as any}
                     tag="div"
                     legend={intlHelper(
                         intl,
                         gjelderFortid
-                            ? 'steg.tilsyn.planlagt.hvorMyeTilsyn_fortid'
-                            : 'steg.tilsyn.planlagt.hvorMyeTilsyn'
+                            ? 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud_fortid'
+                            : 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud'
                     )}
                     description={
                         <ExpandableInfo
-                            title={intlHelper(intl, 'steg.tilsyn.planlagt.hvorMyeTilsyn.description.tittel')}>
-                            {intlHelper(intl, 'steg.tilsyn.planlagt.hvorMyeTilsyn.description')}
+                            title={intlHelper(
+                                intl,
+                                'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.tittel'
+                            )}>
+                            {intlHelper(intl, 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description')}
                         </ExpandableInfo>
                     }
                     validate={() => {
@@ -72,7 +75,7 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
                         ukeTittelRenderer={(ukeinfo) => (
                             <Element className="omsorgstilbud__uketittel" tag="h4">
                                 <FormattedMessage
-                                    id="steg.tilsyn.omsorgstilbud.uketittel"
+                                    id="steg.omsorgstilbud.omsorgstilbud.uketittel"
                                     values={{ ukenummer: ukeinfo.ukenummer, år: ukeinfo.år }}
                                 />
                             </Element>
@@ -95,11 +98,17 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
                  */
                 legend={intlHelper(
                     intl,
-                    gjelderFortid ? 'steg.tilsyn.planlagt.hvorMyeTilsyn_fortid' : 'steg.tilsyn.planlagt.hvorMyeTilsyn'
+                    gjelderFortid
+                        ? 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud_fortid'
+                        : 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud'
                 )}
                 description={
-                    <ExpandableInfo title={intlHelper(intl, 'steg.tilsyn.planlagt.hvorMyeTilsyn.description.tittel')}>
-                        {intlHelper(intl, 'steg.tilsyn.planlagt.hvorMyeTilsyn.description')}
+                    <ExpandableInfo
+                        title={intlHelper(
+                            intl,
+                            'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.tittel'
+                        )}>
+                        {intlHelper(intl, 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description')}
                     </ExpandableInfo>
                 }
                 name={`${AppFormField.omsorgstilbud__planlagt__enkeltdager}_dager` as any}

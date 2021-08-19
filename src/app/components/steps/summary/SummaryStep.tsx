@@ -276,7 +276,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                 </SummarySection>
 
                                 {/* Omsorgstilbud */}
-                                <SummarySection header={intlHelper(intl, 'steg.oppsummering.tilsynsordning.header')}>
+                                <SummarySection header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.header')}>
                                     <HistoriskOmsorgstilbudSummary
                                         historiskOmsorgstilbud={historiskOmsorgstilbud}
                                         søknadsperiode={søknadsperiode}

@@ -3,20 +3,20 @@ import { useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { AppFormField } from '../../types/PleiepengesøknadFormData';
-import { getTilsynstimerValidatorEnDag } from '../../validation/fieldValidations';
+import { getOmsorgstilbudtimerValidatorEnDag } from '../../validation/fieldValidations';
 import AppForm from '../app-form/AppForm';
-import './tilsynsuke.less';
+import './omsorgstilbudUke.less';
 
 interface Props {
     name: AppFormField;
 }
 
-const Tilsynsuke = ({ name }: Props) => {
+const OmsorgstilbudUke = ({ name }: Props) => {
     const intl = useIntl();
     return (
         <>
             <Box margin="l">
-                <div className="tilsynsuke">
+                <div className="omsorgstilbud">
                     <AppForm.TimeInput
                         label={intlHelper(intl, 'Mandager')}
                         name={`${name}.mandag` as AppFormField}
@@ -24,7 +24,7 @@ const Tilsynsuke = ({ name }: Props) => {
                             direction: 'vertical',
                             compact: true,
                         }}
-                        validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'mandag'))}
+                        validate={getOmsorgstilbudtimerValidatorEnDag(intlHelper(intl, 'mandag'))}
                     />
                     <AppForm.TimeInput
                         label={intlHelper(intl, 'Tirsdager')}
@@ -33,7 +33,7 @@ const Tilsynsuke = ({ name }: Props) => {
                             direction: 'vertical',
                             compact: true,
                         }}
-                        validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'tirsdag'))}
+                        validate={getOmsorgstilbudtimerValidatorEnDag(intlHelper(intl, 'tirsdag'))}
                     />
                     <AppForm.TimeInput
                         label={intlHelper(intl, 'Onsdager')}
@@ -42,7 +42,7 @@ const Tilsynsuke = ({ name }: Props) => {
                             direction: 'vertical',
                             compact: true,
                         }}
-                        validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'onsdag'))}
+                        validate={getOmsorgstilbudtimerValidatorEnDag(intlHelper(intl, 'onsdag'))}
                     />
                     <AppForm.TimeInput
                         label={intlHelper(intl, 'Torsdager')}
@@ -51,7 +51,7 @@ const Tilsynsuke = ({ name }: Props) => {
                             direction: 'vertical',
                             compact: true,
                         }}
-                        validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'torsdag'))}
+                        validate={getOmsorgstilbudtimerValidatorEnDag(intlHelper(intl, 'torsdag'))}
                     />
                     <AppForm.TimeInput
                         label={intlHelper(intl, 'Fredager')}
@@ -60,7 +60,7 @@ const Tilsynsuke = ({ name }: Props) => {
                             direction: 'vertical',
                             compact: true,
                         }}
-                        validate={getTilsynstimerValidatorEnDag(intlHelper(intl, 'fredag'))}
+                        validate={getOmsorgstilbudtimerValidatorEnDag(intlHelper(intl, 'fredag'))}
                     />
                 </div>
             </Box>
@@ -68,4 +68,4 @@ const Tilsynsuke = ({ name }: Props) => {
     );
 };
 
-export default Tilsynsuke;
+export default OmsorgstilbudUke;

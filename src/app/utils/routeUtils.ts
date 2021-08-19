@@ -11,7 +11,7 @@ import {
     opplysningerOmBarnetStepAvailable,
     opplysningerOmTidsromStepAvailable,
     summaryStepAvailable,
-    tilsynsordningStepAvailable,
+    omsorgstilbudStepAvailable,
 } from './stepUtils';
 
 export const getSøknadRoute = (stepId: StepID | undefined) => {
@@ -42,7 +42,7 @@ export const isAvailable = (
             case StepID.ARBEIDSFORHOLD_I_PERIODEN:
                 return true; //arbeidsforholdStepAvailable(values);
             case StepID.OMSORGSTILBUD:
-                return tilsynsordningStepAvailable(values);
+                return omsorgstilbudStepAvailable(values);
             case StepID.NATTEVÅK:
                 return nattevåkStepAvailable(values);
             case StepID.BEREDSKAP:

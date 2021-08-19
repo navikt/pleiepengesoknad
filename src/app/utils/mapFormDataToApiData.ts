@@ -22,7 +22,7 @@ import {
     mapHistoriskOmsorgstilbudToApiData,
     mapOmsorgstilbudToApiData,
     mapPlanlagtOmsorgstilbudToApiData,
-} from './formToApiMaps/mapTilsynsordningToApiData';
+} from './formToApiMaps/mapOmsorgstilbudToApiData';
 import { mapUtenlandsoppholdIPeriodenToApiData } from './formToApiMaps/mapUtenlandsoppholdIPeriodenToApiData';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from './stepUtils';
 import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet } from './tidsromUtils';

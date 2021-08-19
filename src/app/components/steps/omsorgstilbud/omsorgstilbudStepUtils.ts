@@ -38,7 +38,7 @@ export const getTidIOmsorgstilbudInnenforPeriode = (
     return dagerIPerioden;
 };
 
-export const cleanupTilsynsordningStep = (
+export const cleanupOmsorgstilbudStep = (
     values: PleiepengesøknadFormData,
     søknadsperiode: DateRange
 ): PleiepengesøknadFormData => {

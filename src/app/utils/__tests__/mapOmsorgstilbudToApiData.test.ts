@@ -3,7 +3,7 @@ import { DateRange } from '@navikt/sif-common-formik/lib';
 import { TidIOmsorgstilbud } from '../../components/omsorgstilbud/types';
 import { VetOmsorgstilbud } from '../../types/PleiepengesøknadApiData';
 import { AppFormField, Omsorgstilbud } from '../../types/PleiepengesøknadFormData';
-import { getEnkeltdagerIPeriode, mapPlanlagtOmsorgstilbudToApiData } from '../formToApiMaps/mapTilsynsordningToApiData';
+import { getEnkeltdagerIPeriode, mapPlanlagtOmsorgstilbudToApiData } from '../formToApiMaps/mapOmsorgstilbudToApiData';
 
 jest.mock('./../envUtils', () => {
     return {
@@ -24,7 +24,7 @@ jest.mock('./../featureToggleUtils.ts', () => ({
     Feature: {},
 }));
 
-const tilsyn: Omsorgstilbud = {
+const omsorgstilbud: Omsorgstilbud = {
     skalBarnIOmsorgstilbud: YesOrNo.YES,
 };
 
@@ -33,7 +33,7 @@ const søknadsperiode: DateRange = {
     to: new Date(2021, 5, 15),
 };
 
-describe('mapTilsynsordningToApiData', () => {
+describe('mapOmsorgstilbudToApiData test', () => {
     it('runs', () => {
         expect(1).toBe(1);
     });
@@ -45,7 +45,7 @@ describe('mapTilsynsordningToApiData', () => {
     it(`should return ${VetOmsorgstilbud.VET_IKKE} when ${AppFormField.omsorgstilbud__skalBarnIOmsorgstilbud} === ${YesOrNo.YES} and ${AppFormField.omsorgstilbud__planlagt__vetHvorMyeTid} === ${VetOmsorgstilbud.VET_IKKE}`, () => {
         const result = mapPlanlagtOmsorgstilbudToApiData(
             {
-                ...tilsyn,
+                ...omsorgstilbud,
                 planlagt: {
                     vetHvorMyeTid: VetOmsorgstilbud.VET_IKKE,
                 },
@@ -60,7 +60,7 @@ describe('mapTilsynsordningToApiData', () => {
         it('returns fasteDager correctly', () => {
             const result = mapPlanlagtOmsorgstilbudToApiData(
                 {
-                    ...tilsyn,
+                    ...omsorgstilbud,
                     planlagt: {
                         vetHvorMyeTid: VetOmsorgstilbud.VET_ALLE_TIMER,
                         erLiktHverDag: YesOrNo.YES,

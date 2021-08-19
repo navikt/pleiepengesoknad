@@ -35,7 +35,7 @@ const OmsorgstilbudFasteDagerSummary: React.FunctionComponent<Props> = ({ fasteD
             );
         }
     }
-    return <>{intlHelper(intl, 'tilsynsordning.ingenDagerValgt')}</>;
+    return <>{intlHelper(intl, 'omsorgstilbud.ingenDagerValgt')}</>;
 };
 
 export default OmsorgstilbudFasteDagerSummary;

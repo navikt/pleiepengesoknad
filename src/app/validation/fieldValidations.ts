@@ -40,7 +40,7 @@ import {
     Omsorgstilbud,
 } from '../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
-import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
+import { sumTimerMedOmsorgstilbud } from '../utils/omsorgstilbudUtils';
 
 dayjs.extend(isoWeek);
 
@@ -52,10 +52,10 @@ export enum AppFieldValidationErrors {
     'arbeidsforhold_timerUgyldig_under_1_prosent' = 'timerUgyldig_under_1_prosent',
     'arbeidsforhold_timerUgyldig_over_99_prosent' = 'timerUgyldig_over_99_prosent',
 
-    'tilsynsordning_ingenInfo' = 'tilsynsordning_ingenInfo',
-    'tilsynsordning_forMangeTimerTotalt' = 'tilsynsordning_forMangeTimerTotalt',
-    'tilsynsordning_forMangeTimerEnDag' = 'tilsynsordning_forMangeTimerEnDag',
-    'tilsynsordning_forMangeTegn' = 'tilsynsordning_forMangeTegn',
+    'omsorgstilbud_ingenInfo' = 'omsorgstilbud_ingenInfo',
+    'omsorgstilbud_forMangeTimerTotalt' = 'omsorgstilbud_forMangeTimerTotalt',
+    'omsorgstilbud_forMangeTimerEnDag' = 'omsorgstilbud_forMangeTimerEnDag',
+    'omsorgstilbud_forMangeTegn' = 'omsorgstilbud_forMangeTegn',
 
     'utenlandsopphold_ikke_registrert' = 'utenlandsopphold_ikke_registrert',
     'utenlandsopphold_overlapper' = 'utenlandsopphold_overlapper',
@@ -160,25 +160,25 @@ export const validateLegeerklæring = (attachments: Attachment[]): ValidationRes
     return undefined;
 };
 
-export const validateSkalHaTilsynsordning = (tilsynsordning: Omsorgstilbud): ValidationResult<ValidationError> => {
-    if (tilsynsordning.skalBarnIOmsorgstilbud === YesOrNo.YES) {
-        if (tilsynsordning.planlagt === undefined) {
-            return AppFieldValidationErrors.tilsynsordning_ingenInfo;
+export const validateSkalIOmsorgstilbud = (omsorgstilbud: Omsorgstilbud): ValidationResult<ValidationError> => {
+    if (omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES) {
+        if (omsorgstilbud.planlagt === undefined) {
+            return AppFieldValidationErrors.omsorgstilbud_ingenInfo;
         }
-        const tilsyn = tilsynsordning.planlagt.fasteDager;
+        const fasteDager = omsorgstilbud.planlagt.fasteDager;
 
-        const hoursInTotal = tilsyn ? sumTimerMedTilsyn(tilsyn) : 0;
+        const hoursInTotal = fasteDager ? sumTimerMedOmsorgstilbud(fasteDager) : 0;
         if (hoursInTotal === 0) {
-            return AppFieldValidationErrors.tilsynsordning_ingenInfo;
+            return AppFieldValidationErrors.omsorgstilbud_ingenInfo;
         }
         if (hoursInTotal > 37.5) {
-            return AppFieldValidationErrors.tilsynsordning_forMangeTimerTotalt;
+            return AppFieldValidationErrors.omsorgstilbud_forMangeTimerTotalt;
         }
     }
     return undefined;
 };
 
-export const getTilsynstimerValidatorEnDag =
+export const getOmsorgstilbudtimerValidatorEnDag =
     (dag: string) =>
     (time: Time): ValidationResult<ValidationError> => {
         const error = time
