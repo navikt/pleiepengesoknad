@@ -532,7 +532,7 @@
     "summary.virksomhet.harFlereVirksomheter.header": "Har du flere enn én næringsvirksomhet som er aktiv?",
     "summary.virksomhet.virksomhetInfo.tittel": "Næringsvirksomhet som du har lagt inn:",
 
-    "selvstendig.summary.arbeidsforhold.header": "Hvordan skal du jobbe som selvstendig i søknadsperioden?",
+    "selvstendig.summary.arbeidsforhold.header": "Hvordan skal du jobbe som selvstendig næringsdrivende i søknadsperioden?",
     "frilanser.summary.arbeidsforhold.header": "Hvordan skal du jobbe som frilanser i søknadsperioden?",
 
     "selvstendig.harDuHattInntekt.spm": "Er du selvstendig næringsdrivende i perioden du søker for?",
@@ -545,7 +545,7 @@
     "selvstendig.list.leggTilLabel": "Legg til næringsvirksomhet",
     "selvstendig.dialog.tittel": "Næringsvirksomhet",
 
-    "selvstendig.arbeidsforhold.arbeidsform.spm": "Hvordan jobber du vanligvis som selvstendig?",
+    "selvstendig.arbeidsforhold.arbeidsform.spm": "Hvordan jobber du vanligvis som selvstendig næringsdrivende?",
     "frilans.arbeidsforhold.arbeidsform.spm": "Hvordan jobber du vanligvis som frilanser?",
 
     "frilanser.harDuHattInntekt.spm": "Er du frilanser i perioden du søker for?",
