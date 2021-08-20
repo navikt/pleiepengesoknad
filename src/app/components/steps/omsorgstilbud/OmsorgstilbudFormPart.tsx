@@ -33,17 +33,22 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
     const intl = useIntl();
     const gjelderFortid = dayjs(periode.to).isBefore(dateToday, 'day');
 
-    if (visKunEnkeltdager || gjelderFortid) {
+    const enkeltdagerFieldName = gjelderFortid
+        ? AppFormField.omsorgstilbud__historisk__enkeltdager
+        : AppFormField.omsorgstilbud__planlagt__enkeltdager;
+
+    if (visKunEnkeltdager) {
         return (
             <>
+                {enkeltdagerFieldName}
                 {/* <Info /> */}
                 <AppForm.InputGroup
-                    name={`${AppFormField.omsorgstilbud__planlagt__enkeltdager}_gruppe` as any}
+                    name={`${enkeltdagerFieldName}_gruppe` as any}
                     tag="div"
                     legend={intlHelper(
                         intl,
                         gjelderFortid
-                            ? 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud_fortid'
+                            ? 'steg.omsorgstilbud.historisk.hvorMyeTidIOmsorgstilbud'
                             : 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud'
                     )}
                     description={
@@ -60,17 +65,13 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
                         const hasElements = Object.keys(getCleanedTidIOmsorgstilbud(omsorgstilbudIPerioden)).length > 0;
                         if (!hasElements) {
                             return {
-                                key: gjelderFortid ? `ingenTidRegistrert_fortid` : 'ingenTidRegistrert',
+                                key: gjelderFortid ? `ingenTidRegistrert` : 'ingenTidRegistrert',
                             };
                         }
                         return undefined;
                     }}>
                     <OmsorgstilbudInlineForm
-                        fieldName={
-                            gjelderFortid
-                                ? AppFormField.omsorgstilbud__historisk__enkeltdager
-                                : AppFormField.omsorgstilbud__planlagt__enkeltdager
-                        }
+                        fieldName={enkeltdagerFieldName}
                         søknadsperiode={periode}
                         ukeTittelRenderer={(ukeinfo) => (
                             <Element className="omsorgstilbud__uketittel" tag="h4">
@@ -88,6 +89,7 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
 
     return (
         <>
+            {enkeltdagerFieldName}
             {/* <Info /> */}
             <AppForm.InputGroup
                 /** På grunn av at dialogen jobber mot ett felt i formik, kan ikke
@@ -99,7 +101,7 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
                 legend={intlHelper(
                     intl,
                     gjelderFortid
-                        ? 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud_fortid'
+                        ? 'steg.omsorgstilbud.historisk.hvorMyeTidIOmsorgstilbud'
                         : 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud'
                 )}
                 description={
@@ -111,14 +113,15 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
                         {intlHelper(intl, 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description')}
                     </ExpandableInfo>
                 }
-                name={`${AppFormField.omsorgstilbud__planlagt__enkeltdager}_dager` as any}
+                name={`${enkeltdagerFieldName}_dager` as any}
                 tag="div"
                 validate={() => {
-                    const hasElements = Object.keys(tidIOmsorgstilbud).length > 0;
+                    const omsorgstilbudIPerioden = getTidIOmsorgstilbudInnenforPeriode(tidIOmsorgstilbud, periode);
+                    const hasElements = Object.keys(getCleanedTidIOmsorgstilbud(omsorgstilbudIPerioden)).length > 0;
                     if (!hasElements) {
                         return {
                             key: gjelderFortid
-                                ? `validation.${AppFormField.omsorgstilbud__planlagt__enkeltdager}.ingenTidRegistrert_fortid`
+                                ? `validation.${AppFormField.omsorgstilbud__historisk__enkeltdager}.ingenTidRegistrert`
                                 : `validation.${AppFormField.omsorgstilbud__planlagt__enkeltdager}.ingenTidRegistrert`,
                             keepKeyUnaltered: true,
                         };
@@ -131,11 +134,9 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
                     return (
                         <Box key={dayjs(from).format('MM.YYYY')} margin="l">
                             <ResponsivePanel className={'omsorgstilbudInfoDialogWrapper'}>
-                                <AppForm.InputGroup
-                                    name={`${AppFormField.omsorgstilbud__planlagt__enkeltdager}_${index}` as any}
-                                    tag="div">
+                                <AppForm.InputGroup name={`${enkeltdagerFieldName}_${index}` as any} tag="div">
                                     <OmsorgstilbudInfoAndDialog
-                                        name={AppFormField.omsorgstilbud__planlagt__enkeltdager}
+                                        name={enkeltdagerFieldName}
                                         fraDato={from}
                                         tilDato={to}
                                         skjulTommeDagerIListe={true}

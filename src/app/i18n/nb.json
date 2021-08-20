@@ -294,8 +294,8 @@
     "steg.omsorgstilbud.planlagt.erLiktHverDag.info.1": "Eksempel:",
     "steg.omsorgstilbud.planlagt.erLiktHverDag.info.2": "Anna går fast hver uke i barnehagen 2 timer på mandag og 3 timer på torsdag. Hun bytter ikke på dager eller antall timer hun er i barnehagen i løpet av en uke.",
 
+    "steg.omsorgstilbud.historisk.hvorMyeTidIOmsorgstilbud": "Oppgi timene og minuttene som barnet var i omsorgstilbudet:",
     "steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud": "Oppgi timene og minuttene som barnet er i omsorgstilbudet:",
-    "steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud_fortid": "Oppgi timene og minuttene som barnet var i omsorgstilbudet:",
     "steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.alertInfo.nei": "Når du ikke vet hvor mye barnet klarer å være i omsorgstilbudet, blir ikke pleiepengene gradert. Du må gi oss beskjed hvis tiden barnet er i omsorgstilbudet blir fast og regelmessig. Dette er viktig ettersom pleiepengene skal graderes når tiden barnet er i omsorgstilbudet er fast og regelmessig.",
     "steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.tittel": "Hvor mange timer kan jeg oppgi per dag?",
     "steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description": "Du kan oppgi opptil 7 timer og 30 minutter per dag. Det betyr at selv om barnet er i omsorgstilbudet i for eksempel 8 timer per dag, kan du ikke oppgi mer enn maksimalt 7 timer og 30 minutter. Tid som overstiger dette blir ikke tatt med når pleiepengene graderes.",
@@ -775,8 +775,8 @@
     "validation.omsorgstilbud.planlagt.fastDag.tid.durationIsTooShort": "0 timer og 0 minutter er oppgitt for {dag}. Dersom barnet skal være i et omsorgstilbud på {dag}, må du oppgi en gyldig tid.",
     "validation.omsorgstilbud.planlagt.enkeltdager.ingenTidRegistrert": "Du må registrere den tiden du vet barnet skal være i et omsorgstilbud.",
     "validation.omsorgstilbud.planlagt.enkeltdager_gruppe.ingenTidRegistrert": "Du må registrere den tiden du vet barnet skal være i et omsorgstilbud.",
-    "validation.omsorgstilbud.planlagt.enkeltdager.ingenTidRegistrert_fortid": "Du må registrere den tiden barnet var i et omsorgstilbud.",
-    "validation.omsorgstilbud.planlagt.enkeltdager_gruppe.ingenTidRegistrert_fortid": "Du må registrere den tiden barnet har vært i et omsorgstilbud.",
+    "validation.omsorgstilbud.historisk.enkeltdager.ingenTidRegistrert": "Du må registrere den tiden barnet var i et omsorgstilbud - .",
+    "validation.omsorgstilbud.historisk.enkeltdager_gruppe.ingenTidRegistrert": "Du må registrere den tiden barnet har vært i et omsorgstilbud.",
     "validation.omsorgstilbud.planlagt.erLiktHverDag.yesOrNoIsUnanswered": "Du må svare på om tiden barnet skal være i omsorgstilbudet er lik for hver dag i perioden du søker om.",
 
     "validation.harNattevåk.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnets sykdom gjør at du må være våken om natten.",

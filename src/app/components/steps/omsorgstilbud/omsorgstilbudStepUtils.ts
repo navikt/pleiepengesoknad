@@ -4,7 +4,11 @@ import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { VetOmsorgstilbud } from '../../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { visKunEnkeltdagerForOmsorgstilbud } from '../../../utils/omsorgstilbudUtils';
+import {
+    getPeriodeFraOgMedSøknadsdato,
+    getPeriodeFørSøknadsdato,
+    visKunEnkeltdagerForOmsorgstilbud,
+} from '../../../utils/omsorgstilbudUtils';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from '../../../utils/stepUtils';
 import { OmsorgstilbudDag, TidIOmsorgstilbud } from '../../omsorgstilbud/types';
 
@@ -44,24 +48,43 @@ export const cleanupOmsorgstilbudStep = (
 ): PleiepengesøknadFormData => {
     const cleanedValues = { ...values };
 
-    if (cleanedValues.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.YES && cleanedValues.omsorgstilbud.planlagt) {
-        if (cleanedValues.omsorgstilbud.planlagt.vetHvorMyeTid === VetOmsorgstilbud.VET_IKKE) {
-            cleanedValues.omsorgstilbud.planlagt.enkeltdager = undefined;
-            cleanedValues.omsorgstilbud.planlagt.fasteDager = undefined;
-            cleanedValues.omsorgstilbud.planlagt.erLiktHverDag = undefined;
+    if (cleanedValues.omsorgstilbud) {
+        const periodeFørSøknadsdato = getPeriodeFørSøknadsdato(søknadsperiode);
+        const periodeFraOgMedSøknadsdato = getPeriodeFraOgMedSøknadsdato(søknadsperiode);
+
+        if (periodeFørSøknadsdato === undefined) {
+            cleanedValues.omsorgstilbud.historisk = undefined;
+            cleanedValues.omsorgstilbud.harBarnVærtIOmsorgstilbud = YesOrNo.UNANSWERED;
         }
-        if (visKunEnkeltdagerForOmsorgstilbud(søknadsperiode)) {
-            cleanedValues.omsorgstilbud.planlagt.erLiktHverDag = undefined;
+        if (periodeFraOgMedSøknadsdato === undefined) {
+            cleanedValues.omsorgstilbud.planlagt = undefined;
+            cleanedValues.omsorgstilbud.skalBarnIOmsorgstilbud = YesOrNo.UNANSWERED;
         }
-        if (cleanedValues.omsorgstilbud.planlagt.erLiktHverDag === YesOrNo.YES) {
-            cleanedValues.omsorgstilbud.planlagt.enkeltdager = undefined;
+        if (
+            cleanedValues.omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES &&
+            cleanedValues.omsorgstilbud.planlagt
+        ) {
+            if (cleanedValues.omsorgstilbud.planlagt.vetHvorMyeTid === VetOmsorgstilbud.VET_IKKE) {
+                cleanedValues.omsorgstilbud.planlagt.enkeltdager = undefined;
+                cleanedValues.omsorgstilbud.planlagt.fasteDager = undefined;
+                cleanedValues.omsorgstilbud.planlagt.erLiktHverDag = undefined;
+            }
+            if (visKunEnkeltdagerForOmsorgstilbud(søknadsperiode)) {
+                cleanedValues.omsorgstilbud.planlagt.erLiktHverDag = undefined;
+            }
+            if (cleanedValues.omsorgstilbud.planlagt.erLiktHverDag === YesOrNo.YES) {
+                cleanedValues.omsorgstilbud.planlagt.enkeltdager = undefined;
+            }
+            if (cleanedValues.omsorgstilbud.planlagt.erLiktHverDag === YesOrNo.NO) {
+                cleanedValues.omsorgstilbud.planlagt.fasteDager = undefined;
+                cleanedValues.omsorgstilbud.planlagt.enkeltdager = getTidIOmsorgstilbudInnenforPeriode(
+                    cleanedValues.omsorgstilbud.planlagt.enkeltdager || {},
+                    søknadsperiode
+                );
+            }
         }
-        if (cleanedValues.omsorgstilbud.planlagt.erLiktHverDag === YesOrNo.NO) {
-            cleanedValues.omsorgstilbud.planlagt.fasteDager = undefined;
-            cleanedValues.omsorgstilbud.planlagt.enkeltdager = getTidIOmsorgstilbudInnenforPeriode(
-                cleanedValues.omsorgstilbud.planlagt.enkeltdager || {},
-                søknadsperiode
-            );
+        if (cleanedValues.omsorgstilbud.harBarnVærtIOmsorgstilbud !== YesOrNo.YES) {
+            cleanedValues.omsorgstilbud.historisk = undefined;
         }
     }
     if (skalBrukerSvarePåBeredskapOgNattevåk(values) === false) {
