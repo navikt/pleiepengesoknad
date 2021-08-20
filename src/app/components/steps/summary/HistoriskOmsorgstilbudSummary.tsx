@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-with-header/ContentWithHeader';
-import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange, dateToday, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { HistoriskOmsorgstilbudApi } from '../../../types/PleiepengesøknadApiData';
 import { getPeriodeFørSøknadsdato } from '../../../utils/omsorgstilbudUtils';
@@ -16,7 +16,7 @@ interface Props {
 
 const HistoriskOmsorgstilbudSummary = ({ historiskOmsorgstilbud, søknadsperiode }: Props) => {
     const intl = useIntl();
-    const periodeFørSøknadsdato = getPeriodeFørSøknadsdato(søknadsperiode);
+    const periodeFørSøknadsdato = getPeriodeFørSøknadsdato(søknadsperiode, dateToday);
     if (!periodeFørSøknadsdato) {
         return null;
     }

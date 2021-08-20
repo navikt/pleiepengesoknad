@@ -44,21 +44,21 @@ export const getTidIOmsorgstilbudInnenforPeriode = (
 
 export const cleanupOmsorgstilbudStep = (
     values: PleiepengesøknadFormData,
-    søknadsperiode: DateRange
+    søknadsperiode: DateRange,
+    søknadsdato: Date
 ): PleiepengesøknadFormData => {
     const cleanedValues = { ...values };
 
     if (cleanedValues.omsorgstilbud) {
-        const periodeFørSøknadsdato = getPeriodeFørSøknadsdato(søknadsperiode);
-        const periodeFraOgMedSøknadsdato = getPeriodeFraOgMedSøknadsdato(søknadsperiode);
-
+        const periodeFørSøknadsdato = getPeriodeFørSøknadsdato(søknadsperiode, søknadsdato);
+        const periodeFraOgMedSøknadsdato = getPeriodeFraOgMedSøknadsdato(søknadsperiode, søknadsdato);
         if (periodeFørSøknadsdato === undefined) {
             cleanedValues.omsorgstilbud.historisk = undefined;
             cleanedValues.omsorgstilbud.harBarnVærtIOmsorgstilbud = YesOrNo.UNANSWERED;
         }
         if (periodeFraOgMedSøknadsdato === undefined) {
             cleanedValues.omsorgstilbud.planlagt = undefined;
-            cleanedValues.omsorgstilbud.skalBarnIOmsorgstilbud = YesOrNo.UNANSWERED;
+            cleanedValues.omsorgstilbud.harBarnVærtIOmsorgstilbud = YesOrNo.UNANSWERED;
         }
         if (
             cleanedValues.omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES &&
@@ -85,6 +85,26 @@ export const cleanupOmsorgstilbudStep = (
         }
         if (cleanedValues.omsorgstilbud.harBarnVærtIOmsorgstilbud !== YesOrNo.YES) {
             cleanedValues.omsorgstilbud.historisk = undefined;
+        }
+        if (
+            periodeFørSøknadsdato &&
+            cleanedValues.omsorgstilbud.harBarnVærtIOmsorgstilbud === YesOrNo.YES &&
+            cleanedValues.omsorgstilbud.historisk
+        ) {
+            cleanedValues.omsorgstilbud.historisk.enkeltdager = getTidIOmsorgstilbudInnenforPeriode(
+                cleanedValues.omsorgstilbud.historisk.enkeltdager || {},
+                periodeFørSøknadsdato
+            );
+        }
+        if (
+            periodeFraOgMedSøknadsdato &&
+            cleanedValues.omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES &&
+            cleanedValues.omsorgstilbud.planlagt
+        ) {
+            cleanedValues.omsorgstilbud.planlagt.enkeltdager = getTidIOmsorgstilbudInnenforPeriode(
+                cleanedValues.omsorgstilbud.planlagt.enkeltdager || {},
+                periodeFraOgMedSøknadsdato
+            );
         }
     }
     if (skalBrukerSvarePåBeredskapOgNattevåk(values) === false) {

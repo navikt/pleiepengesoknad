@@ -28,7 +28,7 @@ import FormikStep from '../../formik-step/FormikStep';
 import OmsorgstilbudUke from '../../omsorgstilbud-uke/OmsorgstilbudUke';
 import OmsorgstilbudFormPart from './OmsorgstilbudFormPart';
 import { cleanupOmsorgstilbudStep } from './omsorgstilbudStepUtils';
-import { prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { dateToday, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 
 dayjs.extend(isBetween);
 
@@ -57,13 +57,13 @@ const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
     }
 
     const søknadsperiode: DateRange = { from: periodeFra, to: periodeTil };
-    const periodeFørSøknadsdato = getPeriodeFørSøknadsdato(søknadsperiode);
-    const periodeFraOgMedSøknadsdato = getPeriodeFraOgMedSøknadsdato(søknadsperiode);
+    const periodeFørSøknadsdato = getPeriodeFørSøknadsdato(søknadsperiode, dateToday);
+    const periodeFraOgMedSøknadsdato = getPeriodeFraOgMedSøknadsdato(søknadsperiode, dateToday);
 
     return (
         <FormikStep
             id={StepID.OMSORGSTILBUD}
-            onStepCleanup={(values) => cleanupOmsorgstilbudStep(values, søknadsperiode)}
+            onStepCleanup={(values) => cleanupOmsorgstilbudStep(values, søknadsperiode, dateToday)}
             onValidFormSubmit={onValidSubmit}>
             <CounsellorPanel>
                 <FormattedMessage id="steg.omsorgstilbud.veileder.html" values={{ p: (msg: string) => <p>{msg}</p> }} />

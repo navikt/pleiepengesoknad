@@ -741,8 +741,6 @@ describe('Test complete applications', () => {
         };
 
         const mappedData = mapFeaturesOnData(featuresOnFormData);
-        console.log(mappedData.omsorgstilbudV2);
-
         expect(JSON.stringify(jsonSort(mappedData))).toEqual(JSON.stringify(jsonSort(resultApiDataWithFeatures)));
     });
 });

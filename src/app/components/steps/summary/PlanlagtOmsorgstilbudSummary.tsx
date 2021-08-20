@@ -7,7 +7,7 @@ import { PlanlagtOmsorgstilbudApi, VetOmsorgstilbud } from '../../../types/Pleie
 import OmsorgstilbudEnkeltdagerSummary from './OmsorgstilbudEnkeltdagerSummary';
 import OmsorgstilbudFasteDagerSummary from './OmsorgstilbudFasteDagerSummary';
 import SummaryBlock from './SummaryBlock';
-import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange, dateToday, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getPeriodeFraOgMedSøknadsdato } from '../../../utils/omsorgstilbudUtils';
 
 interface Props {
@@ -18,7 +18,7 @@ interface Props {
 const PlanlagtOmsorgstilbudSummary = ({ omsorgstilbud, søknadsperiode }: Props) => {
     const intl = useIntl();
 
-    const periodeFraOgMedSøknadsdato = getPeriodeFraOgMedSøknadsdato(søknadsperiode);
+    const periodeFraOgMedSøknadsdato = getPeriodeFraOgMedSøknadsdato(søknadsperiode, dateToday);
     if (!periodeFraOgMedSøknadsdato) {
         return null;
     }

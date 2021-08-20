@@ -1,5 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { dateToday, datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { DateRange, dateToISOString, ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
@@ -77,7 +77,7 @@ export const mapPlanlagtOmsorgstilbudToApiData = (
             ukedager: getFasteDager(fasteDager),
         };
     }
-    const periodeFraOgMedSøknadsdato = getPeriodeFraOgMedSøknadsdato(søknadsperiode);
+    const periodeFraOgMedSøknadsdato = getPeriodeFraOgMedSøknadsdato(søknadsperiode, dateToday);
     if (erLiktHverDag !== YesOrNo.YES && enkeltdager && periodeFraOgMedSøknadsdato) {
         return {
             vetOmsorgstilbud: vetHvorMyeTid,
@@ -92,7 +92,7 @@ export const mapHistoriskOmsorgstilbudToApiData = (
     søknadsperiode: DateRange
 ): HistoriskOmsorgstilbudApi | undefined => {
     const { harBarnVærtIOmsorgstilbud, historisk } = omsorgstilbud;
-    const periodeFørSøknadsdato = getPeriodeFørSøknadsdato(søknadsperiode);
+    const periodeFørSøknadsdato = getPeriodeFørSøknadsdato(søknadsperiode, dateToday);
     if (harBarnVærtIOmsorgstilbud === YesOrNo.YES && historisk?.enkeltdager && periodeFørSøknadsdato) {
         return {
             enkeltdager: getEnkeltdagerIPeriode(historisk.enkeltdager, periodeFørSøknadsdato),

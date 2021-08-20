@@ -1,4 +1,3 @@
-import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { timeToDecimalTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { isValidTime } from '@navikt/sif-common-formik/lib/components/formik-time-input/TimeInput';
@@ -17,31 +16,31 @@ export const visKunEnkeltdagerForOmsorgstilbud = (søknadsperiode: DateRange): b
     return false;
 };
 
-export const getPeriodeFørSøknadsdato = (søknadsperiode: DateRange): DateRange | undefined => {
-    if (starterSøknadsperiodeFørDagensDato(søknadsperiode)) {
+export const getPeriodeFørSøknadsdato = (søknadsperiode: DateRange, søknadsdato: Date): DateRange | undefined => {
+    if (søknadsperiodeInkludererFortid(søknadsperiode, søknadsdato)) {
         return {
             from: søknadsperiode.from,
-            to: dayjs(dateToday).subtract(1, 'day').toDate(),
+            to: dayjs(søknadsdato).subtract(1, 'day').toDate(),
         };
     }
     return undefined;
 };
 
-export const getPeriodeFraOgMedSøknadsdato = (søknadsperiode: DateRange): DateRange | undefined => {
-    if (fortsetterSøknadsperiodeEtterDagensDato(søknadsperiode)) {
+export const getPeriodeFraOgMedSøknadsdato = (søknadsperiode: DateRange, søknadsdato: Date): DateRange | undefined => {
+    if (søknadsperiodeInkludererDagensDatoEllerFremtid(søknadsperiode, søknadsdato)) {
         return {
-            from: dateToday,
+            from: søknadsdato,
             to: søknadsperiode.to,
         };
     }
     return undefined;
 };
 
-export const starterSøknadsperiodeFørDagensDato = (søknadsperiode: DateRange): boolean =>
-    dayjs(søknadsperiode.from).isBefore(dateToday, 'day');
+export const søknadsperiodeInkludererFortid = (søknadsperiode: DateRange, søknadsdato: Date): boolean =>
+    dayjs(søknadsperiode.from).isBefore(søknadsdato, 'day');
 
-export const fortsetterSøknadsperiodeEtterDagensDato = (søknadsperiode: DateRange): boolean =>
-    dayjs(søknadsperiode.to).isSameOrAfter(dateToday, 'day');
+export const søknadsperiodeInkludererDagensDatoEllerFremtid = (søknadsperiode: DateRange, søknadsdato: Date): boolean =>
+    dayjs(søknadsperiode.to).isSameOrAfter(søknadsdato, 'day');
 
 const isValidNumberString = (value: any): boolean =>
     hasValue(value) && typeof value === 'string' && value.trim().length > 0;
