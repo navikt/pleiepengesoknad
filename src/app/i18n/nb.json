@@ -303,7 +303,7 @@
 
     "steg.nattevåk.veileder": "I noen tilfeller kan barnets sykdom gjøre at du må være våken om natten for å pleie eller ha tilsyn med barnet. Hvis du ikke kan gå på jobb dagen etter fordi du selv må hvile ut, skal ikke pleiepengene graderes selv om barnet er i et omsorgstilbud på dagtid. Det må være en sammenheng mellom pleien og tilsynet du gir om natten og barnets sykdom. I disse tilfellene skal pleiepengene som hovedregel ikke graderes.",
     "steg.nattevåk.spm": "Gjør barnets sykdom at du må være våken om natten og derfor må være borte fra jobb dagen etter?",
-    "steg.nattevåk.tilleggsinfo.spm": "Her skal du beskrive på hvilken måte barnets sykdom gjør at du må være våken om natta. Beskriv så utfyllende og detaljert du kan.",
+    "steg.nattevåk.tilleggsinfo.spm": "Her skal du beskrive på hvilken måte barnets sykdom gjør at du må være våken om natten. Beskriv så utfyllende og detaljert du kan.",
     "steg.nattevåk.tilleggsinfo.veiledning.tittel": "Hva om jeg har våkenetter kun deler av perioden?",
     "steg.nattevåk.tilleggsinfo.veiledning": "Hvis du har våkenetter i kun deler av perioden du søker pleiepenger for, må du presisere hvilke perioder eller netter du må være våken.",
 
@@ -780,7 +780,7 @@
     "validation.omsorgstilbud.planlagt.erLiktHverDag.yesOrNoIsUnanswered": "Du må svare på om tiden barnet skal være i omsorgstilbudet er lik for hver dag i perioden du søker om.",
 
     "validation.harNattevåk.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnets sykdom gjør at du må være våken om natten.",
-    "validation.harNattevåk_ekstrainfo.stringHasNoValue": "Du må beskrive hva som gjør at du må være våken om natta.",
+    "validation.harNattevåk_ekstrainfo.stringHasNoValue": "Du må beskrive hva som gjør at du må være våken om natten.",
     "validation.harNattevåk_ekstrainfo.stringIsTooLong": "Beskrivelsen kan være på maks 1000 tegn.",
     "validation.harBeredskap.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du må være i beredskap.",
     "validation.harBeredskap_ekstrainfo.stringHasNoValue": "Du må beskrive hva som gjør at du må være i beredskap.",
