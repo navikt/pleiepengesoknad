@@ -58,7 +58,7 @@ export const cleanupOmsorgstilbudStep = (
         }
         if (periodeFraOgMedSøknadsdato === undefined) {
             cleanedValues.omsorgstilbud.planlagt = undefined;
-            cleanedValues.omsorgstilbud.harBarnVærtIOmsorgstilbud = YesOrNo.UNANSWERED;
+            cleanedValues.omsorgstilbud.skalBarnIOmsorgstilbud = YesOrNo.UNANSWERED;
         }
         if (
             cleanedValues.omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES &&
