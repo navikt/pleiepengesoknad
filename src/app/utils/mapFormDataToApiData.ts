@@ -209,7 +209,7 @@ export const mapFormDataToApiData = (
                     to: periodeTil,
                 });
                 const inkluderNattevåkOgBeredskap = skalBrukerSvarePåBeredskapOgNattevåk(formData);
-                if (inkluderNattevåkOgBeredskap && omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES) {
+                if (inkluderNattevåkOgBeredskap) {
                     apiData.nattevåk = {
                         harNattevåk: harNattevåk === YesOrNo.YES,
                         tilleggsinformasjon: harNattevåk_ekstrainfo,
