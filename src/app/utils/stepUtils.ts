@@ -1,6 +1,8 @@
 import { IntlShape } from 'react-intl';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from '../config/stepConfig';
+import { VetOmsorgstilbud } from '../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import {
     arbeidsforholdStepIsValid,
@@ -10,8 +12,6 @@ import {
     opplysningerOmTidsromStepIsValid,
     welcomingPageIsValid,
 } from '../validation/stepValidations';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { VetOmsorgstilbud } from '../types/PleiepengesøknadApiData';
 
 export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
     const conf = stepConfig[stepId];
@@ -77,11 +77,19 @@ export const summaryStepAvailable = (formData: PleiepengesøknadFormData) =>
     legeerklæringStepIsValid();
 
 export const skalBrukerSvarePåBeredskapOgNattevåk = (formValues?: PleiepengesøknadFormData): boolean => {
+    const historiskOmsorgstilbud =
+        formValues?.omsorgstilbud?.harBarnVærtIOmsorgstilbud === YesOrNo.YES &&
+        formValues.omsorgstilbud.historisk !== undefined &&
+        formValues.omsorgstilbud.historisk.enkeltdager !== undefined;
+
+    const planlagtOmsorgstilbud =
+        formValues?.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.YES &&
+        formValues.omsorgstilbud.planlagt !== undefined &&
+        formValues.omsorgstilbud.planlagt.vetHvorMyeTid === VetOmsorgstilbud.VET_ALLE_TIMER;
+
     return (
         formValues !== undefined &&
         formValues.omsorgstilbud !== undefined &&
-        formValues.omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES &&
-        formValues.omsorgstilbud.planlagt !== undefined &&
-        formValues.omsorgstilbud.planlagt.vetHvorMyeTid === VetOmsorgstilbud.VET_ALLE_TIMER
+        (historiskOmsorgstilbud || planlagtOmsorgstilbud)
     );
 };
