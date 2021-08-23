@@ -1,3 +1,5 @@
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { VetOmsorgstilbud } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import * as stepValidations from '../../validation/stepValidations';
 import * as stepUtils from '../stepUtils';
@@ -105,8 +107,62 @@ describe('stepUtils', () => {
     });
 
     describe('skalBrukerSvarePåBeredskapOgNattevåk', () => {
-        it('inkluderer ikke nattevåk og beredskap dersom barnet ikke har vært/skal i tilsyn', () => {
+        it('inkluderer ikke nattevåk/beredskap dersom barnet ikke har vært/skal i tilsyn - 1', () => {
             formData.omsorgstilbud = undefined;
+            const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as PleiepengesøknadFormData);
+            expect(returnValue).toBeFalsy();
+        });
+        it('inkluderer ikke nattevåk/beredskap dersom barnet ikke skal i tilsyn - søker ikke historisk', () => {
+            formData.omsorgstilbud = {
+                skalBarnIOmsorgstilbud: YesOrNo.NO,
+            };
+            const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as PleiepengesøknadFormData);
+            expect(returnValue).toBeFalsy();
+        });
+        it('inkluderer ikke nattevåk/beredskap dersom barnet ikke har vært i tilsyn - søker ikke fremtid', () => {
+            formData.omsorgstilbud = {
+                harBarnVærtIOmsorgstilbud: YesOrNo.NO,
+            };
+            const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as PleiepengesøknadFormData);
+            expect(returnValue).toBeFalsy();
+        });
+        it('inkluderer ikke nattevåk/beredskap dersom barnet ikke har vært i tilsyn - søker både historisk og fremtid', () => {
+            formData.omsorgstilbud = {
+                harBarnVærtIOmsorgstilbud: YesOrNo.NO,
+                skalBarnIOmsorgstilbud: YesOrNo.NO,
+            };
+            const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as PleiepengesøknadFormData);
+            expect(returnValue).toBeFalsy();
+        });
+        it('inkluderer nattevåk/beredskap dersom søker historisk', () => {
+            formData.omsorgstilbud = {
+                harBarnVærtIOmsorgstilbud: YesOrNo.YES,
+                historisk: {
+                    enkeltdager: {
+                        '': { hours: '1' },
+                    },
+                },
+            };
+            const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as PleiepengesøknadFormData);
+            expect(returnValue).toBeTruthy();
+        });
+        it('inkluderer nattevåk/beredskap dersom søker fremtidig og vetHvorMyeTid === VET_ALLE_TIMER', () => {
+            formData.omsorgstilbud = {
+                skalBarnIOmsorgstilbud: YesOrNo.YES,
+                planlagt: {
+                    vetHvorMyeTid: VetOmsorgstilbud.VET_ALLE_TIMER,
+                },
+            };
+            const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as PleiepengesøknadFormData);
+            expect(returnValue).toBeTruthy();
+        });
+        it('inkluderer ikke nattevåk/beredskap dersom søker fremtidig og vetHvorMyeTid === VET_ALLE_TIMER', () => {
+            formData.omsorgstilbud = {
+                skalBarnIOmsorgstilbud: YesOrNo.YES,
+                planlagt: {
+                    vetHvorMyeTid: VetOmsorgstilbud.VET_IKKE,
+                },
+            };
             const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as PleiepengesøknadFormData);
             expect(returnValue).toBeFalsy();
         });
