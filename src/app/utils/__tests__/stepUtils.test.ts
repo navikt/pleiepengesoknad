@@ -103,4 +103,12 @@ describe('stepUtils', () => {
             );
         });
     });
+
+    describe('skalBrukerSvarePåBeredskapOgNattevåk', () => {
+        it('inkluderer ikke nattevåk og beredskap dersom barnet ikke har vært/skal i tilsyn', () => {
+            formData.omsorgstilbud = undefined;
+            const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as PleiepengesøknadFormData);
+            expect(returnValue).toBeFalsy();
+        });
+    });
 });

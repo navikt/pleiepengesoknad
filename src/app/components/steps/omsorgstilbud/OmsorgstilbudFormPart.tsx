@@ -89,7 +89,6 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
 
     return (
         <>
-            {enkeltdagerFieldName}
             {/* <Info /> */}
             <AppForm.InputGroup
                 /** På grunn av at dialogen jobber mot ett felt i formik, kan ikke
