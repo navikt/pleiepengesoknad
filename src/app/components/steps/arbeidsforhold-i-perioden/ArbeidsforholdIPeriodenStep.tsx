@@ -72,9 +72,6 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
                             }}
                         />
                     </p>
-                    <p>
-                        <FormattedMessage id="step.arbeidsforholdIPerioden.StepInfo.2" />
-                    </p>
                 </CounsellorPanel>
             </Box>
             {skalBesvareAnsettelsesforhold && (

@@ -29,6 +29,7 @@ import OmsorgstilbudUke from '../../omsorgstilbud-uke/OmsorgstilbudUke';
 import OmsorgstilbudFormPart from './OmsorgstilbudFormPart';
 import { cleanupOmsorgstilbudStep } from './omsorgstilbudStepUtils';
 import { dateToday, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import FormSection from '../../../pre-common/form-section/FormSection';
 
 dayjs.extend(isBetween);
 
@@ -60,6 +61,8 @@ const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
     const periodeFørSøknadsdato = getPeriodeFørSøknadsdato(søknadsperiode, dateToday);
     const periodeFraOgMedSøknadsdato = getPeriodeFraOgMedSøknadsdato(søknadsperiode, dateToday);
 
+    const harBådeHistoriskOgPlanlagt = periodeFørSøknadsdato !== undefined && periodeFraOgMedSøknadsdato;
+
     return (
         <FormikStep
             id={StepID.OMSORGSTILBUD}
@@ -69,29 +72,33 @@ const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
                 <FormattedMessage id="steg.omsorgstilbud.veileder.html" values={{ p: (msg: string) => <p>{msg}</p> }} />
             </CounsellorPanel>
             {periodeFørSøknadsdato && (
-                <>
-                    <FormBlock>
-                        <AppForm.YesOrNoQuestion
-                            name={AppFormField.omsorgstilbud__harBarnVærtIOmsorgstilbud}
-                            legend={intlHelper(intl, 'steg.omsorgstilbud.harBarnetVærtIOmsorgstilbud.spm', {
-                                fra: prettifyDateFull(periodeFørSøknadsdato.from),
-                                til: prettifyDateFull(periodeFørSøknadsdato.to),
-                            })}
-                            validate={(value) => {
-                                const error = getYesOrNoValidator()(value);
-                                if (error) {
-                                    return {
-                                        key: error,
-                                        values: {
-                                            fra: prettifyDateFull(periodeFørSøknadsdato.from),
-                                            til: prettifyDateFull(periodeFørSøknadsdato.to),
-                                        },
-                                    };
-                                }
-                                return undefined;
-                            }}
-                        />
-                    </FormBlock>
+                <FormSection
+                    title={intlHelper(
+                        intl,
+                        harBådeHistoriskOgPlanlagt
+                            ? 'steg.omsorgstilbud.historisk.tittel'
+                            : 'steg.omsorgstilbud.generelt.tittel'
+                    )}>
+                    <AppForm.YesOrNoQuestion
+                        name={AppFormField.omsorgstilbud__harBarnVærtIOmsorgstilbud}
+                        legend={intlHelper(intl, 'steg.omsorgstilbud.harBarnetVærtIOmsorgstilbud.spm', {
+                            fra: prettifyDateFull(periodeFørSøknadsdato.from),
+                            til: prettifyDateFull(periodeFørSøknadsdato.to),
+                        })}
+                        validate={(value) => {
+                            const error = getYesOrNoValidator()(value);
+                            if (error) {
+                                return {
+                                    key: error,
+                                    values: {
+                                        fra: prettifyDateFull(periodeFørSøknadsdato.from),
+                                        til: prettifyDateFull(periodeFørSøknadsdato.to),
+                                    },
+                                };
+                            }
+                            return undefined;
+                        }}
+                    />
                     {omsorgstilbud?.harBarnVærtIOmsorgstilbud === YesOrNo.YES && (
                         <FormBlock>
                             <OmsorgstilbudFormPart
@@ -104,24 +111,29 @@ const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
                             />
                         </FormBlock>
                     )}
-                </>
+                </FormSection>
             )}
             {periodeFraOgMedSøknadsdato && (
-                <>
-                    <FormBlock>
-                        <AppForm.YesOrNoQuestion
-                            name={AppFormField.omsorgstilbud__skalBarnIOmsorgstilbud}
-                            legend={
-                                periodeFørSøknadsdato
-                                    ? intlHelper(intl, 'steg.omsorgstilbud.skalBarnetIOmsorgstilbud.spm', {
-                                          fra: prettifyDateFull(periodeFraOgMedSøknadsdato.from),
-                                          til: prettifyDateFull(periodeFraOgMedSøknadsdato.to),
-                                      })
-                                    : intlHelper(intl, 'steg.omsorgstilbud.skalBarnetVæreIOmsorgstilbud.spm')
-                            }
-                            validate={getYesOrNoValidator()}
-                        />
-                    </FormBlock>
+                <FormSection
+                    title={intlHelper(
+                        intl,
+                        harBådeHistoriskOgPlanlagt
+                            ? 'steg.omsorgstilbud.planlagt.tittel'
+                            : 'steg.omsorgstilbud.generelt.tittel'
+                    )}>
+                    <AppForm.YesOrNoQuestion
+                        name={AppFormField.omsorgstilbud__skalBarnIOmsorgstilbud}
+                        legend={
+                            periodeFørSøknadsdato
+                                ? intlHelper(intl, 'steg.omsorgstilbud.skalBarnetIOmsorgstilbud.spm', {
+                                      fra: prettifyDateFull(periodeFraOgMedSøknadsdato.from),
+                                      til: prettifyDateFull(periodeFraOgMedSøknadsdato.to),
+                                  })
+                                : intlHelper(intl, 'steg.omsorgstilbud.skalBarnetVæreIOmsorgstilbud.spm')
+                        }
+                        validate={getYesOrNoValidator()}
+                    />
+
                     {skalBarnIOmsorgstilbud === YesOrNo.YES && omsorgstilbud && (
                         <>
                             <FormBlock>
@@ -232,7 +244,7 @@ const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
                             )}
                         </>
                     )}
-                </>
+                </FormSection>
             )}
         </FormikStep>
     );
