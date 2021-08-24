@@ -82,7 +82,7 @@ export const mapPlanlagtOmsorgstilbudToApiData = (
     if (erLiktHverDag !== YesOrNo.YES && enkeltdager && periodeFraOgMedSøknadsdato) {
         return {
             vetOmsorgstilbud: vetHvorMyeTid,
-            erLiktHverDag: false,
+            erLiktHverDag: erLiktHverDag === YesOrNo.NO ? false : undefined,
             enkeltdager: getEnkeltdagerIPeriode(enkeltdager, periodeFraOgMedSøknadsdato),
         };
     }

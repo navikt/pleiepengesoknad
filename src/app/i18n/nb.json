@@ -772,7 +772,7 @@
     "validation.omsorgstilbud.planlagt.fastDag.tid.minutesAreInvalid": "Antall minutter på {dag} er ikke et gyldig tall",
     "validation.omsorgstilbud.planlagt.fastDag.tid.tooManyHours": "Antall timer på {dag} kan ikke overstige 23",
     "validation.omsorgstilbud.planlagt.fastDag.tid.tooManyMinutes": "Antall minutter på {dag} kan ikke overstige 59",
-    "validation.omsorgstilbud.planlagt.fastDag.tid.durationIsTooLong": "Ugyldig tid registrert {dag}. Du kan registrere maks 7 timer og 30 minutter hver ukedag.",
+    "validation.omsorgstilbud.planlagt.fastDag.tid.durationIsTooLong": "Antall timer og minutter registrert {dag} er for høyt. Tiden kan ikke være mer enn 7 timer og 30 minutter hver ukedag.",
     "validation.omsorgstilbud.planlagt.fastDag.tid.durationIsTooShort": "0 timer og 0 minutter er oppgitt for {dag}. Dersom barnet skal være i et omsorgstilbud på {dag}, må du oppgi en gyldig tid.",
     "validation.omsorgstilbud.planlagt.enkeltdager.ingenTidRegistrert": "Du må registrere den tiden du vet barnet skal være i et omsorgstilbud.",
     "validation.omsorgstilbud.planlagt.enkeltdager_gruppe.ingenTidRegistrert": "Du må registrere den tiden du vet barnet skal være i et omsorgstilbud.",
