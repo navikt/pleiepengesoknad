@@ -19,6 +19,7 @@ import { AppFormField, PleiepengesøknadFormData } from '../../../types/Pleiepen
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet } from '../../../utils/tidsromUtils';
 import {
+    getMinDate,
     validateFerieuttakIPerioden,
     validateFradato,
     validateTildato,
@@ -30,9 +31,12 @@ import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './h
 
 const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<PleiepengesøknadFormData>();
-
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const søkerdata = React.useContext(SøkerdataContext)!;
+
+    const barnetsFodselsdato = values.barnetSøknadenGjelder
+        ? søkerdata.barn.find((barn) => barn.aktørId === values.barnetSøknadenGjelder)
+        : undefined;
 
     const harMedsøker = values[AppFormField.harMedsøker];
 
@@ -46,7 +50,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
 
     const validateFraDatoField = (date?: string) => {
-        return validateFradato(date, values.periodeTil);
+        return validateFradato(date, values.periodeTil, barnetsFodselsdato?.fødselsdato);
     };
 
     const validateTilDatoField = (date?: string) => {
@@ -61,7 +65,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
         <FormikStep id={StepID.TIDSROM} onValidFormSubmit={onValidSubmit}>
             <AppForm.DateRangePicker
                 legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
-                minDate={date3YearsAgo}
+                minDate={getMinDate(date3YearsAgo, barnetsFodselsdato?.fødselsdato)}
                 description={
                     <ExpandableInfo title={intlHelper(intl, 'steg.tidsrom.hjelpetekst.tittel')}>
                         <FormattedMessage id="steg.tidsrom.hjelpetekst" />
@@ -76,6 +80,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                     label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.tom'),
                     validate: validateTilDatoField,
                     name: AppFormField.periodeTil,
+                    dayPickerProps: { initialMonth: periodeFra ? new Date(periodeFra) : undefined },
                 }}
                 disableWeekend={true}
             />

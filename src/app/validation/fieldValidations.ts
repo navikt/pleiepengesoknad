@@ -88,20 +88,43 @@ export const validateFødselsnummer = (value: string): ValidationResult<Validati
     return getFødselsnummerValidator({ required: true })(value);
 };
 
-export const validateFradato = (fraDatoString?: string, tilDatoString?: string): ValidationResult<ValidationError> => {
+export const getMinDate = (date1: Date, date2?: Date) => {
+    if (!date2) return date1;
+    if (dayjs(date1).isSame(date2)) return date1;
+    return dayjs(date1).isBefore(dayjs(date2)) ? date2 : date1;
+};
+export const date1YearFromDateStrting = (dateString: string): Date =>
+    dayjs(dateString).add(1, 'year').endOf('day').toDate();
+
+export const validateFradato = (
+    fraDatoString?: string,
+    tilDatoString?: string,
+    eldsteBarnFodselsdato?: Date
+): ValidationResult<ValidationError> => {
     const tilDato = datepickerUtils.getDateFromDateString(tilDatoString);
-    return getDateRangeValidator({
+    const minDate = getMinDate(date3YearsAgo, eldsteBarnFodselsdato);
+
+    const error = getDateRangeValidator({
         required: true,
-        min: date3YearsAgo,
+        min: minDate,
         toDate: tilDato,
         onlyWeekdays: true,
     }).validateFromDate(fraDatoString);
+    return error
+        ? {
+              key:
+                  error === 'dateIsBeforeMin' && !dayjs(date3YearsAgo).isSame(minDate)
+                      ? `${error}.${'fødselsdato'}`
+                      : error,
+          }
+        : undefined;
 };
 
 export const validateTildato = (tilDatoString?: string, fraDatoString?: string): ValidationResult<ValidationError> => {
     return getDateRangeValidator({
         required: true,
         min: date3YearsAgo,
+        max: fraDatoString ? date1YearFromDateStrting(fraDatoString) : undefined,
         fromDate: datepickerUtils.getDateFromDateString(fraDatoString),
         onlyWeekdays: true,
     }).validateToDate(tilDatoString);
