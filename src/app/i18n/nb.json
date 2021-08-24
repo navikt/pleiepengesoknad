@@ -613,6 +613,7 @@
     "validation.barnetsFødselsnummer.fødselsnummerHasNoValue": "Du må oppgi barnets fødselsnummer/D-nummer.",
     "validation.barnetsFødselsnummer.fødselsnummerNot11Chars": "Fødselsnummeret/D-nummeret må bestå av 11 siffer.",
     "validation.barnetsFødselsnummer.fødselsnummerIsNot11Chars": "Fødselsnummeret/D-nummeret du har tastet inn er ikke et gyldig norsk fødselsnummer. Kontroller at du har tastet inn riktig.",
+    "validation.barnetsFødselsnummer.fødselsnummerIsInvalid": "Fødselsnummeret/D-nummeret du har tastet inn er ikke et gyldig norsk fødselsnummer. Kontroller at du har tastet inn riktig.",
 
     "validation.relasjonTilBarnetBeskrivelse.stringHasNoValue": "Du må beskrive hvem du er i forhold til barnet, og hvilken tilsynsrolle du har i perioden du søker om.",
     "validation.relasjonTilBarnetBeskrivelse.stringIsTooLong": "Du har brukt for mange tegn i beskrivelsen din. Teksten kan ikke inneholde flere enn {maks} tegn.",
