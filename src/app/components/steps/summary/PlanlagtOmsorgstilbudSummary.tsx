@@ -8,7 +8,8 @@ import OmsorgstilbudEnkeltdagerSummary from './OmsorgstilbudEnkeltdagerSummary';
 import OmsorgstilbudFasteDagerSummary from './OmsorgstilbudFasteDagerSummary';
 import SummaryBlock from './SummaryBlock';
 import { DateRange, dateToday, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { getPeriodeFraOgMedSøknadsdato } from '../../../utils/omsorgstilbudUtils';
+import { getPlanlagtPeriode } from '../../../utils/omsorgstilbudUtils';
+import JaNeiSvar from './JaNeiSvar';
 
 interface Props {
     omsorgstilbud?: PlanlagtOmsorgstilbudApi;
@@ -18,7 +19,7 @@ interface Props {
 const PlanlagtOmsorgstilbudSummary = ({ omsorgstilbud, søknadsperiode }: Props) => {
     const intl = useIntl();
 
-    const periodeFraOgMedSøknadsdato = getPeriodeFraOgMedSøknadsdato(søknadsperiode, dateToday);
+    const periodeFraOgMedSøknadsdato = getPlanlagtPeriode(søknadsperiode, dateToday);
     if (!periodeFraOgMedSøknadsdato) {
         return null;
     }
@@ -27,7 +28,7 @@ const PlanlagtOmsorgstilbudSummary = ({ omsorgstilbud, søknadsperiode }: Props)
 
     return (
         <>
-            <Box margin="l">
+            <Box margin="xl">
                 <ContentWithHeader
                     header={intlHelper(intl, 'steg.omsorgstilbud.skalBarnetIOmsorgstilbud.spm', {
                         fra: prettifyDateFull(periodeFraOgMedSøknadsdato.from),
@@ -38,33 +39,42 @@ const PlanlagtOmsorgstilbudSummary = ({ omsorgstilbud, søknadsperiode }: Props)
             </Box>
             {omsorgstilbud && (
                 <>
-                    <Box margin="l">
-                        <ContentWithHeader
-                            header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.hvorMyeTidOms.spm')}>
+                    <Box margin="xl">
+                        <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.hvorMyeTidOms.spm')}>
                             {omsorgstilbud.vetOmsorgstilbud === VetOmsorgstilbud.VET_ALLE_TIMER && (
                                 <>
                                     <FormattedMessage
                                         id={`steg.oppsummering.omsorgstilbud.hvorMyeTidOms.${omsorgstilbud.vetOmsorgstilbud}`}
                                     />
-                                    <SummaryBlock
-                                        header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.planlagt.header')}
-                                        headerTag="h3">
-                                        {omsorgstilbud.ukedager && (
-                                            <OmsorgstilbudFasteDagerSummary fasteDager={omsorgstilbud.ukedager} />
-                                        )}
-                                        {omsorgstilbud.enkeltdager && (
-                                            <OmsorgstilbudEnkeltdagerSummary dager={omsorgstilbud.enkeltdager} />
-                                        )}
-                                    </SummaryBlock>
                                 </>
                             )}
 
                             {omsorgstilbud.vetOmsorgstilbud === VetOmsorgstilbud.VET_IKKE && (
                                 <>
-                                    <FormattedMessage id="steg.oppsummering.omsorgstilbud.hvorMyeTidOms.nei" />
+                                    <FormattedMessage
+                                        id={`steg.oppsummering.omsorgstilbud.hvorMyeTidOms.${omsorgstilbud.vetOmsorgstilbud}`}
+                                    />
                                 </>
                             )}
-                        </ContentWithHeader>
+                        </SummaryBlock>
+                        {omsorgstilbud.vetOmsorgstilbud === VetOmsorgstilbud.VET_ALLE_TIMER && (
+                            <>
+                                <SummaryBlock
+                                    header={intlHelper(intl, 'steg.omsorgstilbud.planlagt.erLiktHverDag.spm')}>
+                                    <JaNeiSvar harSvartJa={omsorgstilbud.erLiktHverDag} />
+                                </SummaryBlock>
+                                <SummaryBlock
+                                    header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.planlagt.header')}
+                                    headerTag="h3">
+                                    {omsorgstilbud.ukedager && (
+                                        <OmsorgstilbudFasteDagerSummary fasteDager={omsorgstilbud.ukedager} />
+                                    )}
+                                    {omsorgstilbud.enkeltdager && (
+                                        <OmsorgstilbudEnkeltdagerSummary dager={omsorgstilbud.enkeltdager} />
+                                    )}
+                                </SummaryBlock>
+                            </>
+                        )}
                     </Box>
                 </>
             )}

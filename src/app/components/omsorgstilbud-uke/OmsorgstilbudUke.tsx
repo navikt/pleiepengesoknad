@@ -16,7 +16,7 @@ const OmsorgstilbudUke = ({ name }: Props) => {
     return (
         <>
             <Box margin="l">
-                <div className="omsorgstilbud">
+                <div className="omsorgstilbudUke">
                     <AppForm.TimeInput
                         label={intlHelper(intl, 'Mandager')}
                         name={`${name}.mandag` as AppFormField}

@@ -36,7 +36,7 @@ const getTidIOmsorgValidator = (dag: Daginfo) => (tid: Time) => {
               key: `omsorgstilbud.validation.${error}`,
               values: {
                   dag: dag.labelFull,
-                  maksTimer: 7,
+                  maksTimer: '7 timer og 30 minutter',
               },
               keepKeyUnaltered: true,
           }

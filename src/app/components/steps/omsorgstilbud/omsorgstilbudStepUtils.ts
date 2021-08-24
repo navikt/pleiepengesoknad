@@ -5,8 +5,8 @@ import isBetween from 'dayjs/plugin/isBetween';
 import { VetOmsorgstilbud } from '../../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import {
-    getPeriodeFraOgMedSøknadsdato,
-    getPeriodeFørSøknadsdato,
+    getPlanlagtPeriode,
+    getHistoriskPeriode,
     visKunEnkeltdagerForOmsorgstilbud,
 } from '../../../utils/omsorgstilbudUtils';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from '../../../utils/stepUtils';
@@ -50,8 +50,8 @@ export const cleanupOmsorgstilbudStep = (
     const cleanedValues = { ...values };
 
     if (cleanedValues.omsorgstilbud) {
-        const periodeFørSøknadsdato = getPeriodeFørSøknadsdato(søknadsperiode, søknadsdato);
-        const periodeFraOgMedSøknadsdato = getPeriodeFraOgMedSøknadsdato(søknadsperiode, søknadsdato);
+        const periodeFørSøknadsdato = getHistoriskPeriode(søknadsperiode, søknadsdato);
+        const periodeFraOgMedSøknadsdato = getPlanlagtPeriode(søknadsperiode, søknadsdato);
         if (periodeFørSøknadsdato === undefined) {
             cleanedValues.omsorgstilbud.historisk = undefined;
             cleanedValues.omsorgstilbud.harBarnVærtIOmsorgstilbud = YesOrNo.UNANSWERED;

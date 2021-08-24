@@ -1,7 +1,8 @@
 import React from 'react';
-import { FormattedNumber } from 'react-intl';
+import { FormattedNumber, useIntl } from 'react-intl';
 import { timeToDecimalTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { Time } from '@navikt/sif-common-formik';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 
 const ensureTime = (time: Partial<Time>): Time => {
     return {
@@ -23,6 +24,8 @@ const FormattedTimeText = ({
 }): JSX.Element => {
     const timer = time.hours || '0';
     const minutter = time.minutes || '0';
+    const intl = useIntl();
+
     if (decimal) {
         return (
             <>
@@ -35,13 +38,13 @@ const FormattedTimeText = ({
         <>
             {hideEmptyValues && timer === '0' && minutter !== '0' ? null : (
                 <span style={{ whiteSpace: 'nowrap' }}>
-                    {timer} {fullText ? 'timer' : 't.'}
+                    {fullText ? intlHelper(intl, 'timer', { timer }) : <>{timer} t.</>}
                 </span>
             )}
             {` `}
             {hideEmptyValues && minutter === '0' && timer !== '0' ? null : (
                 <span style={{ whiteSpace: 'nowrap' }}>
-                    {minutter} {fullText ? 'minutter' : 'm.'}
+                    {fullText ? intlHelper(intl, 'minutter', { minutter }) : <>{minutter} m.</>}
                 </span>
             )}
         </>

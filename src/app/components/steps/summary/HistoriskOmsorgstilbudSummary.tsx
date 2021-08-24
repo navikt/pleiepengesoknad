@@ -5,7 +5,7 @@ import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-wi
 import { DateRange, dateToday, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { HistoriskOmsorgstilbudApi } from '../../../types/PleiepengesøknadApiData';
-import { getPeriodeFørSøknadsdato } from '../../../utils/omsorgstilbudUtils';
+import { getHistoriskPeriode } from '../../../utils/omsorgstilbudUtils';
 import OmsorgstilbudEnkeltdagerSummary from './OmsorgstilbudEnkeltdagerSummary';
 import SummaryBlock from './SummaryBlock';
 
@@ -16,7 +16,7 @@ interface Props {
 
 const HistoriskOmsorgstilbudSummary = ({ historiskOmsorgstilbud, søknadsperiode }: Props) => {
     const intl = useIntl();
-    const periodeFørSøknadsdato = getPeriodeFørSøknadsdato(søknadsperiode, dateToday);
+    const periodeFørSøknadsdato = getHistoriskPeriode(søknadsperiode, dateToday);
     if (!periodeFørSøknadsdato) {
         return null;
     }
@@ -24,7 +24,7 @@ const HistoriskOmsorgstilbudSummary = ({ historiskOmsorgstilbud, søknadsperiode
     const svar = historiskOmsorgstilbud ? 'ja' : 'nei';
     return (
         <>
-            <Box margin="l">
+            <Box margin="xl">
                 <ContentWithHeader
                     header={intlHelper(intl, 'steg.omsorgstilbud.harBarnetVærtIOmsorgstilbud.spm', {
                         fra: prettifyDateFull(periodeFørSøknadsdato.from),

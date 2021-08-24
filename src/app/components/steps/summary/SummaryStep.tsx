@@ -287,7 +287,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
 
                                     {nattevåk && (
                                         <>
-                                            <Box margin="l">
+                                            <Box margin="xl">
                                                 <ContentWithHeader
                                                     header={intlHelper(intl, 'steg.oppsummering.nattevåk.header')}>
                                                     {nattevåk.harNattevåk === true && intlHelper(intl, 'Ja')}
@@ -300,7 +300,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                         </>
                                     )}
                                     {beredskap && (
-                                        <Box margin="l">
+                                        <Box margin="xl">
                                             <ContentWithHeader
                                                 header={intlHelper(intl, 'steg.oppsummering.beredskap.header')}>
                                                 {beredskap.beredskap === true && intlHelper(intl, 'Ja')}
@@ -313,7 +313,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                     )}
 
                                     {isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG) && apiValues.skalBekrefteOmsorg && (
-                                        <Box margin="l">
+                                        <Box margin="xl">
                                             <ContentWithHeader
                                                 header={intlHelper(
                                                     intl,

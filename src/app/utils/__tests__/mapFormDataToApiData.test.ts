@@ -598,6 +598,7 @@ describe('Test complete applications', () => {
             },
             planlagt: {
                 vetOmsorgstilbud: VetOmsorgstilbud.VET_ALLE_TIMER,
+                erLiktHverDag: true,
                 ukedager: { fredag: 'PT1H0M' },
             },
         },

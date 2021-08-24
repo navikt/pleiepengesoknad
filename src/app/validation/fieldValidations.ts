@@ -186,7 +186,7 @@ export const getOmsorgstilbudtimerValidatorEnDag =
             : undefined;
         if (error) {
             return {
-                key: `validation.omsorgstilbud.ja.fastDag.tid.${error}`,
+                key: `validation.omsorgstilbud.planlagt.fastDag.tid.${error}`,
                 values: { dag },
                 keepKeyUnaltered: true,
             };

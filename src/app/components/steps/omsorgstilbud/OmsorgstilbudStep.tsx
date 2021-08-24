@@ -18,8 +18,8 @@ import usePersistSoknad from '../../../hooks/usePersistSoknad';
 import { VetOmsorgstilbud } from '../../../types/PleiepengesøknadApiData';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import {
-    getPeriodeFraOgMedSøknadsdato,
-    getPeriodeFørSøknadsdato,
+    getPlanlagtPeriode,
+    getHistoriskPeriode,
     visKunEnkeltdagerForOmsorgstilbud,
 } from '../../../utils/omsorgstilbudUtils';
 import { validateSkalIOmsorgstilbud } from '../../../validation/fieldValidations';
@@ -58,8 +58,9 @@ const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
     }
 
     const søknadsperiode: DateRange = { from: periodeFra, to: periodeTil };
-    const periodeFørSøknadsdato = getPeriodeFørSøknadsdato(søknadsperiode, dateToday);
-    const periodeFraOgMedSøknadsdato = getPeriodeFraOgMedSøknadsdato(søknadsperiode, dateToday);
+
+    const periodeFørSøknadsdato = getHistoriskPeriode(søknadsperiode, dateToday);
+    const periodeFraOgMedSøknadsdato = getPlanlagtPeriode(søknadsperiode, dateToday);
 
     const harBådeHistoriskOgPlanlagt = periodeFørSøknadsdato !== undefined && periodeFraOgMedSøknadsdato;
 

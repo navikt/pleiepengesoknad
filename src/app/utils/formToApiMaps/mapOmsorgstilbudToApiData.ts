@@ -12,7 +12,7 @@ import {
     VetOmsorgstilbud,
 } from '../../types/PleiepengesøknadApiData';
 import { Omsorgstilbud, OmsorgstilbudFasteDager } from '../../types/PleiepengesøknadFormData';
-import { getPeriodeFraOgMedSøknadsdato, getPeriodeFørSøknadsdato } from '../omsorgstilbudUtils';
+import { getPlanlagtPeriode, getHistoriskPeriode } from '../omsorgstilbudUtils';
 
 export const getFasteDager = ({ mandag, tirsdag, onsdag, torsdag, fredag }: OmsorgstilbudFasteDager) => ({
     mandag: mandag ? timeToIso8601Duration(mandag) : undefined,
@@ -74,13 +74,15 @@ export const mapPlanlagtOmsorgstilbudToApiData = (
     if (erLiktHverDag === YesOrNo.YES && fasteDager) {
         return {
             vetOmsorgstilbud: vetHvorMyeTid,
+            erLiktHverDag: true,
             ukedager: getFasteDager(fasteDager),
         };
     }
-    const periodeFraOgMedSøknadsdato = getPeriodeFraOgMedSøknadsdato(søknadsperiode, dateToday);
+    const periodeFraOgMedSøknadsdato = getPlanlagtPeriode(søknadsperiode, dateToday);
     if (erLiktHverDag !== YesOrNo.YES && enkeltdager && periodeFraOgMedSøknadsdato) {
         return {
             vetOmsorgstilbud: vetHvorMyeTid,
+            erLiktHverDag: false,
             enkeltdager: getEnkeltdagerIPeriode(enkeltdager, periodeFraOgMedSøknadsdato),
         };
     }
@@ -92,7 +94,7 @@ export const mapHistoriskOmsorgstilbudToApiData = (
     søknadsperiode: DateRange
 ): HistoriskOmsorgstilbudApi | undefined => {
     const { harBarnVærtIOmsorgstilbud, historisk } = omsorgstilbud;
-    const periodeFørSøknadsdato = getPeriodeFørSøknadsdato(søknadsperiode, dateToday);
+    const periodeFørSøknadsdato = getHistoriskPeriode(søknadsperiode, dateToday);
     if (harBarnVærtIOmsorgstilbud === YesOrNo.YES && historisk?.enkeltdager && periodeFørSøknadsdato) {
         return {
             enkeltdager: getEnkeltdagerIPeriode(historisk.enkeltdager, periodeFørSøknadsdato),

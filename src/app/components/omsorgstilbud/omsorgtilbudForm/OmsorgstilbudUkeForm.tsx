@@ -42,7 +42,6 @@ const OmsorgstilbudUkeForm: React.FunctionComponent<OmsorgstilbudUkeFormProps> =
     getFieldName,
     tittelRenderer,
     dagLabelRenderer,
-    isNarrow,
     isWide,
 }) => {
     const { dager, ukenummer, år } = ukeinfo;
@@ -77,7 +76,9 @@ const OmsorgstilbudUkeForm: React.FunctionComponent<OmsorgstilbudUkeFormProps> =
                         <FormikTimeInput
                             name={getFieldName(dag)}
                             label={renderDagLabel(dag, dagLabelRenderer)}
-                            timeInputLayout={formUtils.getTimeInputLayout(isNarrow, isWide)}
+                            timeInputLayout={
+                                { direction: 'horizontal' } /*formUtils.getTimeInputLayout(isNarrow, isWide)*/
+                            }
                             validate={formUtils.getTidIOmsorgValidator(dag)}
                         />
                     </div>

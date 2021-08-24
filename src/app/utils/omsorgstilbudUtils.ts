@@ -3,8 +3,13 @@ import { DateRange } from '@navikt/sif-common-formik/lib';
 import { isValidTime } from '@navikt/sif-common-formik/lib/components/formik-time-input/TimeInput';
 import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
 import dayjs from 'dayjs';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import minMax from 'dayjs/plugin/minMax';
 import { TidIOmsorgstilbud } from '../components/omsorgstilbud/types';
 import { OmsorgstilbudFasteDager } from '../types/PleiepengesøknadFormData';
+
+dayjs.extend(isSameOrAfter);
+dayjs.extend(minMax);
 
 export const MAKS_ANTALL_DAGER_FOR_INLINE_SKJEMA = 20;
 
@@ -16,31 +21,27 @@ export const visKunEnkeltdagerForOmsorgstilbud = (søknadsperiode: DateRange): b
     return false;
 };
 
-export const getPeriodeFørSøknadsdato = (søknadsperiode: DateRange, søknadsdato: Date): DateRange | undefined => {
-    if (søknadsperiodeInkludererFortid(søknadsperiode, søknadsdato)) {
+export const getHistoriskPeriode = (søknadsperiode: DateRange, søknadsdato: Date): DateRange | undefined => {
+    const yesterday = dayjs(søknadsdato).subtract(1, 'day').toDate();
+    if (dayjs(søknadsperiode.from).isBefore(søknadsdato, 'day')) {
         return {
             from: søknadsperiode.from,
-            to: dayjs(søknadsdato).subtract(1, 'day').toDate(),
+            to: dayjs.min([dayjs(søknadsperiode.to), dayjs(yesterday)]).toDate(),
         };
     }
     return undefined;
 };
 
-export const getPeriodeFraOgMedSøknadsdato = (søknadsperiode: DateRange, søknadsdato: Date): DateRange | undefined => {
-    if (søknadsperiodeInkludererDagensDatoEllerFremtid(søknadsperiode, søknadsdato)) {
+export const getPlanlagtPeriode = (søknadsperiode: DateRange, søknadsdato: Date): DateRange | undefined => {
+    const from: Date = dayjs.max([dayjs(søknadsdato), dayjs(søknadsperiode.from)]).toDate();
+    if (dayjs(søknadsperiode.to).isSameOrAfter(søknadsdato, 'day')) {
         return {
-            from: søknadsdato,
+            from,
             to: søknadsperiode.to,
         };
     }
     return undefined;
 };
-
-export const søknadsperiodeInkludererFortid = (søknadsperiode: DateRange, søknadsdato: Date): boolean =>
-    dayjs(søknadsperiode.from).isBefore(søknadsdato, 'day');
-
-export const søknadsperiodeInkludererDagensDatoEllerFremtid = (søknadsperiode: DateRange, søknadsdato: Date): boolean =>
-    dayjs(søknadsperiode.to).isSameOrAfter(søknadsdato, 'day');
 
 const isValidNumberString = (value: any): boolean =>
     hasValue(value) && typeof value === 'string' && value.trim().length > 0;

@@ -40,7 +40,6 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
     if (visKunEnkeltdager) {
         return (
             <>
-                {enkeltdagerFieldName}
                 {/* <Info /> */}
                 <AppForm.InputGroup
                     name={`${enkeltdagerFieldName}_gruppe` as any}
@@ -103,15 +102,15 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
                         ? 'steg.omsorgstilbud.historisk.hvorMyeTidIOmsorgstilbud'
                         : 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud'
                 )}
-                description={
-                    <ExpandableInfo
-                        title={intlHelper(
-                            intl,
-                            'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.tittel'
-                        )}>
-                        {intlHelper(intl, 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description')}
-                    </ExpandableInfo>
-                }
+                // description={
+                //     <ExpandableInfo
+                //         title={intlHelper(
+                //             intl,
+                //             'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.tittel'
+                //         )}>
+                //         {intlHelper(intl, 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description')}
+                //     </ExpandableInfo>
+                // }
                 name={`${enkeltdagerFieldName}_dager` as any}
                 tag="div"
                 validate={() => {

@@ -297,7 +297,7 @@
     "steg.omsorgstilbud.planlagt.erLiktHverDag.info.2": "Anna går fast hver uke i barnehagen 2 timer på mandag og 3 timer på torsdag. Hun bytter ikke på dager eller antall timer hun er i barnehagen i løpet av en uke.",
 
     "steg.omsorgstilbud.historisk.hvorMyeTidIOmsorgstilbud": "Oppgi timene og minuttene som barnet var i omsorgstilbudet:",
-    "steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud": "Oppgi timene og minuttene som barnet er i omsorgstilbudet:",
+    "steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud": "Oppgi timene og minuttene som barnet skal være i omsorgstilbudet:",
     "steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.alertInfo.nei": "Når du ikke vet hvor mye barnet klarer å være i omsorgstilbudet, blir ikke pleiepengene gradert. Du må gi oss beskjed hvis tiden barnet er i omsorgstilbudet blir fast og regelmessig. Dette er viktig ettersom pleiepengene skal graderes når tiden barnet er i omsorgstilbudet er fast og regelmessig.",
     "steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.tittel": "Hvor mange timer kan jeg oppgi per dag?",
     "steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description": "Du kan oppgi opptil 7 timer og 30 minutter per dag. Det betyr at selv om barnet er i omsorgstilbudet i for eksempel 8 timer per dag, kan du ikke oppgi mer enn maksimalt 7 timer og 30 minutter. Tid som overstiger dette blir ikke tatt med når pleiepengene graderes.",
