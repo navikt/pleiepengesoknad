@@ -41,7 +41,9 @@ import {
 } from '../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
 import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
+import minMax from 'dayjs/plugin/minMax';
 
+dayjs.extend(minMax);
 dayjs.extend(isoWeek);
 
 export enum AppFieldValidationErrors {
@@ -88,13 +90,12 @@ export const validateFødselsnummer = (value: string): ValidationResult<Validati
     return getFødselsnummerValidator({ required: true })(value);
 };
 
-export const getMinDate = (date1: Date, date2?: Date) => {
-    if (!date2) return date1;
-    if (dayjs(date1).isSame(date2)) return date1;
-    return dayjs(date1).isBefore(dayjs(date2)) ? date2 : date1;
+export const getMinDate = (date1: Date, date2?: Date) =>
+    !date2 ? date1 : dayjs.max(dayjs(date1).endOf('day'), dayjs(date2).endOf('day')).toDate();
+
+export const date1YearFromDateStrting = (dateString: string): Date => {
+    return dayjs(dateString).endOf('day').add(1, 'year').toDate();
 };
-export const date1YearFromDateStrting = (dateString: string): Date =>
-    dayjs(dateString).add(1, 'year').endOf('day').toDate();
 
 export const validateFradato = (
     fraDatoString?: string,
@@ -103,7 +104,6 @@ export const validateFradato = (
 ): ValidationResult<ValidationError> => {
     const tilDato = datepickerUtils.getDateFromDateString(tilDatoString);
     const minDate = getMinDate(date3YearsAgo, eldsteBarnFodselsdato);
-
     const error = getDateRangeValidator({
         required: true,
         min: minDate,
@@ -113,7 +113,7 @@ export const validateFradato = (
     return error
         ? {
               key:
-                  error === 'dateIsBeforeMin' && !dayjs(date3YearsAgo).isSame(minDate)
+                  error === 'dateIsBeforeMin' && !dayjs(date3YearsAgo).endOf('day').isSame(minDate, 'day')
                       ? `${error}.${'fødselsdato'}`
                       : error,
           }

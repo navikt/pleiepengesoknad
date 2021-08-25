@@ -34,7 +34,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const søkerdata = React.useContext(SøkerdataContext)!;
 
-    const barnetsFodselsdato = values.barnetSøknadenGjelder
+    const barnetSøknadenGjelder = values.barnetSøknadenGjelder
         ? søkerdata.barn.find((barn) => barn.aktørId === values.barnetSøknadenGjelder)
         : undefined;
 
@@ -50,7 +50,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
 
     const validateFraDatoField = (date?: string) => {
-        return validateFradato(date, values.periodeTil, barnetsFodselsdato?.fødselsdato);
+        return validateFradato(date, values.periodeTil, barnetSøknadenGjelder?.fødselsdato);
     };
 
     const validateTilDatoField = (date?: string) => {
@@ -65,7 +65,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
         <FormikStep id={StepID.TIDSROM} onValidFormSubmit={onValidSubmit}>
             <AppForm.DateRangePicker
                 legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
-                minDate={getMinDate(date3YearsAgo, barnetsFodselsdato?.fødselsdato)}
+                minDate={getMinDate(date3YearsAgo, barnetSøknadenGjelder?.fødselsdato)}
                 description={
                     <ExpandableInfo title={intlHelper(intl, 'steg.tidsrom.hjelpetekst.tittel')}>
                         <FormattedMessage id="steg.tidsrom.hjelpetekst" />
