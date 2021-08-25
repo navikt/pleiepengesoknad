@@ -100,7 +100,6 @@ export const validateFradato = (
     eldsteBarnFodselsdato?: Date
 ): ValidationResult<ValidationError> => {
     const tilDato = datepickerUtils.getDateFromDateString(tilDatoString);
-
     const minDate = eldsteBarnFodselsdato
         ? dayjs.max(dayjs(date3YearsAgo).endOf('day'), dayjs(eldsteBarnFodselsdato).endOf('day')).toDate()
         : date3YearsAgo;
