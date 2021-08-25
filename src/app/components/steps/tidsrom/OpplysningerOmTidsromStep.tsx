@@ -19,7 +19,6 @@ import { AppFormField, PleiepengesøknadFormData } from '../../../types/Pleiepen
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet } from '../../../utils/tidsromUtils';
 import {
-    getMinDate,
     validateFerieuttakIPerioden,
     validateFradato,
     validateTildato,
@@ -28,6 +27,10 @@ import {
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
+import dayjs from 'dayjs';
+import minMax from 'dayjs/plugin/minMax';
+
+dayjs.extend(minMax);
 
 const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<PleiepengesøknadFormData>();
@@ -65,7 +68,16 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
         <FormikStep id={StepID.TIDSROM} onValidFormSubmit={onValidSubmit}>
             <AppForm.DateRangePicker
                 legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
-                minDate={getMinDate(date3YearsAgo, barnetSøknadenGjelder?.fødselsdato)}
+                minDate={
+                    barnetSøknadenGjelder?.fødselsdato
+                        ? dayjs
+                              .max(
+                                  dayjs(date3YearsAgo).endOf('day'),
+                                  dayjs(barnetSøknadenGjelder?.fødselsdato).endOf('day')
+                              )
+                              .toDate()
+                        : date3YearsAgo
+                }
                 description={
                     <ExpandableInfo title={intlHelper(intl, 'steg.tidsrom.hjelpetekst.tittel')}>
                         <FormattedMessage id="steg.tidsrom.hjelpetekst" />

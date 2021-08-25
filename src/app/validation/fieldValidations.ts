@@ -90,9 +90,6 @@ export const validateFødselsnummer = (value: string): ValidationResult<Validati
     return getFødselsnummerValidator({ required: true })(value);
 };
 
-export const getMinDate = (date1: Date, date2?: Date) =>
-    !date2 ? date1 : dayjs.max(dayjs(date1).endOf('day'), dayjs(date2).endOf('day')).toDate();
-
 export const date1YearFromDateStrting = (dateString: string): Date => {
     return dayjs(dateString).endOf('day').add(1, 'year').toDate();
 };
@@ -103,7 +100,11 @@ export const validateFradato = (
     eldsteBarnFodselsdato?: Date
 ): ValidationResult<ValidationError> => {
     const tilDato = datepickerUtils.getDateFromDateString(tilDatoString);
-    const minDate = getMinDate(date3YearsAgo, eldsteBarnFodselsdato);
+
+    const minDate = eldsteBarnFodselsdato
+        ? dayjs.max(dayjs(date3YearsAgo).endOf('day'), dayjs(eldsteBarnFodselsdato).endOf('day')).toDate()
+        : date3YearsAgo;
+
     const error = getDateRangeValidator({
         required: true,
         min: minDate,
