@@ -113,7 +113,7 @@ export const validateFradato = (
     return error
         ? {
               key:
-                  error === 'dateIsBeforeMin' && !dayjs(date3YearsAgo).endOf('day').isSame(minDate, 'day')
+                  error === 'dateIsBeforeMin' && !dayjs(date3YearsAgo).isSame(minDate, 'day')
                       ? `${error}.${'fødselsdato'}`
                       : error,
           }
