@@ -18,7 +18,7 @@ const OpplysningerOmBarnetStep = ({ onValidSubmit }: StepConfigProps) => {
                 <>
                     {harRegistrerteBarn(søkerdata) && <RegistrertBarnPart søkersBarn={søkerdata.barn} />}
                     {(søknadenGjelderEtAnnetBarn || !harRegistrerteBarn(søkerdata)) && (
-                        <AnnetBarnPart formValues={values} />
+                        <AnnetBarnPart formValues={values} søkersFødselsnummer={søkerdata.person.fødselsnummer} />
                     )}
                 </>
             )}

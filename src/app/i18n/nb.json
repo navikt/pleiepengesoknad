@@ -615,7 +615,7 @@
     "validation.barnetsFødselsnummer.fødselsnummerHasNoValue": "Du må fylle ut barnets fødselsnummer/D-nummer. Hvis barnet ikke har fødselsnummer/D-nummer kan du huke av for det.",
     "validation.barnetsFødselsnummer.fødselsnummerNot11Chars": "Fødselsnummeret / D-nummeret må bestå av 11 siffer.",
     "validation.barnetsFødselsnummer.fødselsnummerIsNot11Chars": "Fødselsnummeret / D-nummeret du har tastet inn inneholder 11 siffer, men det er ikke et gyldig norsk fødselsnummer. Kontroller at du har tastet inn riktig.",
-
+    "validation.barnetsFødselsnummer.fødselsnummerIsNotAllowed": "Du har oppgitt fødselsnummeret ditt. Kontroller at du har tastet inn barnets fødselsnummer.",
     "validation.relasjonTilBarnetBeskrivelse.stringHasNoValue": "Du må beskrive hvem du er i forhold til barnet, og hvilken tilsynsrolle du har i perioden du søker om.",
     "validation.relasjonTilBarnetBeskrivelse.stringIsTooLong": "Beskrivelsen av hvem du er i forhold til barnet kan ikke inneholde flere enn {maks} tegn.",
 
