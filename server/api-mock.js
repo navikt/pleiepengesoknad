@@ -53,14 +53,14 @@ const søkerMock = {
     fornavn: 'Test',
     mellomnavn: undefined,
     etternavn: 'Testesen',
-    fødselsnummer: '12345123456',
+    fødselsnummer: '23058916765',
     myndig: true,
 };
 
 const barnMock = {
     barn: [
-        { fødselsdato: '1990-01-01', fornavn: 'Barn', mellomnavn: 'Barne', etternavn: 'Barnesen', aktørId: '1' },
-        { fødselsdato: '1990-01-02', fornavn: 'Mock', etternavn: 'Mocknes', aktørId: '2' },
+        { fødselsdato: '2021-01-01', fornavn: 'Barn', mellomnavn: 'Barne', etternavn: 'Barnesen', aktørId: '1' },
+        { fødselsdato: '2015-01-02', fornavn: 'Mock', etternavn: 'Mocknes', aktørId: '2' },
     ],
 };
 
