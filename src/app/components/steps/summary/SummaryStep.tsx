@@ -5,6 +5,7 @@ import { useAmplitudeInstance } from '@navikt/sif-common-amplitude';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-with-header/ContentWithHeader';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
+import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import SummaryList from '@navikt/sif-common-core/lib/components/summary-list/SummaryList';
 import TextareaSummary from '@navikt/sif-common-core/lib/components/textarea-summary/TextareaSummary';
 import ValidationErrorSummaryBase from '@navikt/sif-common-core/lib/components/validation-error-summary-base/ValidationErrorSummaryBase';
@@ -12,9 +13,9 @@ import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { apiStringDateToDate, prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
+import { DateRange } from '@navikt/sif-common-formik/lib';
 import { getCheckedValidator } from '@navikt/sif-common-formik/lib/validation';
 import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
-import Panel from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { purge, sendApplication } from '../../../api/api';
 import { SKJEMANAVN } from '../../../App';
@@ -42,13 +43,12 @@ import LegeerklæringAttachmentList from '../../legeerklæring-file-list/Legeerk
 import SummarySection from '../../summary-section/SummarySection';
 import BarnSummary from './BarnSummary';
 import FrilansSummary from './FrilansSummary';
+import HistoriskOmsorgstilbudSummary from './HistoriskOmsorgstilbudSummary';
 import JaNeiSvar from './JaNeiSvar';
+import PlanlagtOmsorgstilbudSummary from './PlanlagtOmsorgstilbudSummary';
 import SelvstendigSummary from './SelvstendigSummary';
 import SummaryBlock from './SummaryBlock';
 import './summary.less';
-import PlanlagtOmsorgstilbudSummary from './PlanlagtOmsorgstilbudSummary';
-import HistoriskOmsorgstilbudSummary from './HistoriskOmsorgstilbudSummary';
-import { DateRange } from '@navikt/sif-common-formik/lib';
 
 interface OwnProps {
     values: PleiepengesøknadFormData;
@@ -171,11 +171,11 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                   )
                                 : undefined
                         }>
-                        <CounsellorPanel>
+                        <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                             <FormattedMessage id="steg.oppsummering.info" />
                         </CounsellorPanel>
                         <Box margin="xl">
-                            <Panel border={true}>
+                            <ResponsivePanel border={true}>
                                 {/* Om deg */}
                                 <SummarySection header={intlHelper(intl, 'steg.oppsummering.søker.header')}>
                                     <Box margin="m">
@@ -453,7 +453,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                         <LegeerklæringAttachmentList includeDeletionFunctionality={false} />
                                     </Box>
                                 </SummarySection>
-                            </Panel>
+                            </ResponsivePanel>
                         </Box>
 
                         <Box margin="l">

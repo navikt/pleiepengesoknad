@@ -69,7 +69,7 @@ const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
             id={StepID.OMSORGSTILBUD}
             onStepCleanup={(values) => cleanupOmsorgstilbudStep(values, søknadsperiode, dateToday)}
             onValidFormSubmit={onValidSubmit}>
-            <CounsellorPanel>
+            <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                 <FormattedMessage id="steg.omsorgstilbud.veileder.html" values={{ p: (msg: string) => <p>{msg}</p> }} />
             </CounsellorPanel>
             {periodeFørSøknadsdato && (

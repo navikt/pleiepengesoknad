@@ -27,7 +27,7 @@ const NattevåkStep = ({ onValidSubmit }: StepConfigProps) => {
     return (
         <FormikStep id={StepID.NATTEVÅK} onValidFormSubmit={onValidSubmit} onStepCleanup={cleanupNattevåkStep}>
             <Box padBottom="xxl">
-                <CounsellorPanel>
+                <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                     <FormattedMessage id="steg.nattevåk.veileder" />
                 </CounsellorPanel>
             </Box>
