@@ -86,11 +86,11 @@ const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues, søkersFød
                             }
                             name={AppFormField.relasjonTilBarnetBeskrivelse}
                             validate={(value) => {
-                                const error = getStringValidator({ required: true, maxLength: 1000 })(value);
+                                const error = getStringValidator({ required: true, maxLength: 2000 })(value);
                                 return error
                                     ? {
                                           key: error,
-                                          values: { min: 0, max: 1000 },
+                                          values: { min: 0, maks: 2000 },
                                       }
                                     : undefined;
                             }}
