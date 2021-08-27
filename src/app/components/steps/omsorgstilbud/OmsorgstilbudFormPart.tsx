@@ -102,15 +102,6 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
                         ? 'steg.omsorgstilbud.historisk.hvorMyeTidIOmsorgstilbud'
                         : 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud'
                 )}
-                // description={
-                //     <ExpandableInfo
-                //         title={intlHelper(
-                //             intl,
-                //             'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.tittel'
-                //         )}>
-                //         {intlHelper(intl, 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description')}
-                //     </ExpandableInfo>
-                // }
                 name={`${enkeltdagerFieldName}_dager` as any}
                 tag="div"
                 validate={() => {

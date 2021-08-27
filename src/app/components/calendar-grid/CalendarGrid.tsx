@@ -62,7 +62,7 @@ const getDays = (month: Date, calendarDayContent: Day[], range?: Partial<DateRan
 };
 
 const getWeeks = (days: Day[]): Week[] => {
-    const weeksAndDays = groupBy(days, (day) => `${day.date.getFullYear()}_${dayjs(day.date).isoWeek()}`);
+    const weeksAndDays = groupBy(days, (day) => `week_${dayjs(day.date).isoWeek()}`);
     const weeks = Object.keys(weeksAndDays).map((key): Week => {
         const days = weeksAndDays[key];
         const weekNumber = dayjs(days[0].date).isoWeek();
