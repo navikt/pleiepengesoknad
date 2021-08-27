@@ -286,7 +286,7 @@
     "steg.omsorgstilbud.harBarnetVærtIOmsorgstilbud.spm": "Har barnet vært noe i et omsorgstilbud i perioden {fra} til {til}?",
     "steg.omsorgstilbud.skalBarnetIOmsorgstilbud.spm": "Skal barnet være noe i et omsorgstilbud i perioden {fra} til {til}?",
 
-    "steg.omsorgstilbud.planlagt.vetHvorMye.spm": "Kan du oppgi tiden barnet skal være i omsorgstilbudet?",
+    "steg.omsorgstilbud.planlagt.vetHvorMye.spm": "Vet du noe av tiden barnet skal være i omsorgstilbudet?",
     "steg.omsorgstilbud.planlagt.vetHvorMye.ja": "Ja",
     "steg.omsorgstilbud.planlagt.vetHvorMye.nei": "Nei",
     "steg.omsorgstilbud.planlagt.vetHvorMye.info": "Du skal bare oppgi den tiden du vet med sikkerhet. Dersom du vet noe av tiden barnet kan være i omsorgstilbudet svarer du ja. Hvis du ikke vet noe tid med sikkerhet, svarer du nei.",
@@ -360,7 +360,7 @@
     "steg.oppsummering.beredskap.header": "Gjør barnets sykdom at du må være i beredskap eller være tilgjengelig selv om barnet er i et omsorgstilbud?",
 
     "steg.oppsummering.omsorgstilbud.header": "Omsorgstilbud",
-    "steg.oppsummering.omsorgstilbud.hvorMyeTidOms.spm": "Kan du oppgi tiden barnet skal være i omsorgstilbudet?",
+    "steg.oppsummering.omsorgstilbud.hvorMyeTidOms.spm": "Vet du noe av tiden barnet skal være i omsorgstilbudet?",
     "steg.oppsummering.omsorgstilbud.hvorMyeTidOms.VET_ALLE_TIMER": "Ja",
     "steg.oppsummering.omsorgstilbud.hvorMyeTidOms.VET_IKKE": "Nei",
 
