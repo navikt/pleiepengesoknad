@@ -53,7 +53,7 @@ const søkerMock = {
     fornavn: 'Test',
     mellomnavn: undefined,
     etternavn: 'Testesen',
-    fødselsnummer: '12345123456',
+    fødselsnummer: '23058916765',
     myndig: true,
 };
 

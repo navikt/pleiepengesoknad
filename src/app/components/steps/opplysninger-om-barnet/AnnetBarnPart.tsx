@@ -5,17 +5,22 @@ import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-co
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { SkjemagruppeQuestion } from '@navikt/sif-common-formik/lib';
-import { getRequiredFieldValidator, getStringValidator } from '@navikt/sif-common-formik/lib/validation';
+import {
+    getFødselsnummerValidator,
+    getRequiredFieldValidator,
+    getStringValidator,
+} from '@navikt/sif-common-formik/lib/validation';
 import { Undertittel } from 'nav-frontend-typografi';
 import { AppFormField, BarnRelasjon, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { validateFødselsnummer, validateNavn } from '../../../validation/fieldValidations';
+import { validateNavn } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
+    søkersFødselsnummer: string;
 }
 
-const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues }) => {
+const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues, søkersFødselsnummer }) => {
     const intl = useIntl();
 
     return (
@@ -29,7 +34,10 @@ const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues }) => {
                 <AppForm.Input
                     label={intlHelper(intl, 'steg.omBarnet.fnr.spm')}
                     name={AppFormField.barnetsFødselsnummer}
-                    validate={validateFødselsnummer}
+                    validate={getFødselsnummerValidator({
+                        required: true,
+                        disallowedValues: [søkersFødselsnummer],
+                    })}
                     bredde="XL"
                     type="tel"
                     maxLength={11}
@@ -78,11 +86,11 @@ const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues }) => {
                             }
                             name={AppFormField.relasjonTilBarnetBeskrivelse}
                             validate={(value) => {
-                                const error = getStringValidator({ required: true, maxLength: 1000 })(value);
+                                const error = getStringValidator({ required: true, maxLength: 2000 })(value);
                                 return error
                                     ? {
                                           key: error,
-                                          values: { min: 0, max: 1000 },
+                                          values: { min: 0, maks: 2000 },
                                       }
                                     : undefined;
                             }}
