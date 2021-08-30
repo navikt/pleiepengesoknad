@@ -17,78 +17,23 @@ html {
     }
 }
 
-.alertstripe__tekst > p:first-child {
-    margin-top: 0;
-}
-
-.alertstripe__tekst > p:last-child {
-    margin-bottom: 0;
+/** nav-frontend overrides */
+.checkboks + .skjemaelement__label,
+.radioknapp + .skjemaelement__label {
+    line-height: 1.5rem;
+    padding-left: 1.5rem;
+    &:before {
+        height: 1rem;
+        width: 1rem;
+        top: 0.25rem;
+    }
 }
 
 @media screen and (max-width: 590px) {
-    .twoColumnPanelGruppe {
-        .inputPanelGruppe__inner {
-            flex-direction: column !important;
-            .inputPanel {
-                max-width: initial !important;
-                margin: 0 0 0.5rem 0 !important;
-            }
-        }
-    }
-    .formikInput__suffix {
-        white-space: initial;
-    }
-    .responsivePanel.panel {
-        padding: 0.5rem;
-    }
-    .knapp,
-    .knapp--mini {
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
-        white-space: initial;
-    }
-    .modal {
-        padding: 0;
-    }
-    .modal__overlay {
-        padding: 0.125rem;
-    }
-    .modal__content {
-        padding: 0.25rem;
-    }
-    .nav-datovelger__inputContainer {
-        max-width: 8rem;
-        .nav-datovelger__input {
-            padding-right: 2rem;
-        }
-    }
-    .buttonRow {
-        flex-direction: column;
-    }
-    .languageToggle__wrapper {
-        min-width: initial;
-    }
-    .languageToggle__button {
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
-        line-height: 1rem;
-    }
-    .languageToggle__button__flag {
-        line-height: 0;
-    }
     .step__backLink {
         margin-bottom: 0;
     }
     .stegindikator {
         display: none;
-    }
-    .feiloppsummering {
-        padding: 0.5rem;
-        &__liste {
-            padding-left: 0.5rem;
-            li {
-                margin-bottom: 0.5rem;
-            }
-        }
     }
 }
