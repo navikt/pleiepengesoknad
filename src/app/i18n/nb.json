@@ -278,7 +278,7 @@
     "steg.tidsrom.skalPassePåBarnetIHelePerioden.spm": "Skal du passe på barnet i hele tidsrommet du skal ha pleiepenger?",
     "steg.tidsrom.bekreftOmsorgEkstrainfo.spm": "Beskriv omsorgsrollen du har for barnet i tidsrommet du skal ha pleiepenger:",
 
-    "steg.omsorgstilbud.veileder.html": "<p>Hvis barnet er i et etablert omsorgstilbud i perioden du søker for, skal pleiepengene graderes tilsvarende den tiden barnet er i omsorgstilbudet.</p><p>Et omsorgstilbud kan være barnehage, skole, SFO, omsorgsbolig, BPA (brukerstyrt personlig assistent), eller andre organiserte tilbud. Sykehusinnleggelse regnes ikke som et omsorgstilbud.</p><p>At omsorgstilbudet er etablert betyr at den tiden som barnet er i omsorgstilbudet er fast og regelmessig. Hvis bruken av omsorgstilbudet er så uforutsigbar og uregelmessig at du ikke kan anslå et minimum antall timer per uke, anses ikke omsorgstilbudet som etablert. Pleiepengene graderes ikke når omsorgstilbudet ikke er etablert.</p><p>På spørsmålet under svarer du ja hvis barnet skal være i et omsorgstilbud, uansett om det er etablert eller ikke.</p>",
+    "steg.omsorgstilbud.veileder.html": "<p>Hvis barnet er i barnehage, skole eller i andre etablerte omsorgstilbud i perioden du søker for, skal pleiepengene graderes tilsvarende den tiden barnet er i omsorgstilbudet. At omsorgstilbudet er etablert betyr at den tiden som barnet er i omsorgstilbudet er fast og regelmessig.</p><p>Hvis bruken av omsorgstilbudet er så uforutsigbar og uregelmessig at du ikke vet noe av tiden med sikkerhet anses ikke omsorgstilbudet for etablert. Da skal ikke pleiepenger graderes.</p><p>I tillegg til barnehage og skole kan omsorgstilbud være SFO, omsorgsbolig, BPA (brukerstyrt personlig assistent), eller andre organiserte tilbud. Sykehus regnes ikke som et omsorgstilbud.</p>",
     "steg.omsorgstilbud.generelt.tittel": "Omsorgstilbud i perioden",
     "steg.omsorgstilbud.historisk.tittel": "Omsorgstilbud til nå",
     "steg.omsorgstilbud.planlagt.tittel": "Omsorgstilbud frem i tid",
@@ -297,7 +297,7 @@
     "steg.omsorgstilbud.planlagt.erLiktHverDag.info.2": "Anna går fast hver uke i barnehagen 2 timer på mandag og 3 timer på torsdag. Hun bytter ikke på dager eller antall timer hun er i barnehagen i løpet av en uke.",
 
     "steg.omsorgstilbud.historisk.hvorMyeTidIOmsorgstilbud": "Oppgi timene og minuttene som barnet var i omsorgstilbudet:",
-    "steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud": "Oppgi timene og minuttene som barnet skal være i omsorgstilbudet:",
+    "steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud": "Oppgi de timene og minuttene som du vet med sikkerhet at barnet skal være i omsorgstilbudet:",
     "steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.alertInfo.nei": "Når du ikke vet hvor mye barnet klarer å være i omsorgstilbudet, blir ikke pleiepengene gradert. Du må gi oss beskjed hvis tiden barnet er i omsorgstilbudet blir fast og regelmessig. Dette er viktig ettersom pleiepengene skal graderes når tiden barnet er i omsorgstilbudet er fast og regelmessig.",
     "steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.tittel": "Hvor mange timer kan jeg oppgi per dag?",
     "steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description": "Du kan oppgi opptil 7 timer og 30 minutter per dag. Det betyr at selv om barnet er i omsorgstilbudet i for eksempel 8 timer per dag, kan du ikke oppgi mer enn maksimalt 7 timer og 30 minutter. Tid som overstiger dette blir ikke tatt med når pleiepengene graderes.",
