@@ -22,7 +22,6 @@ import {
     ArbeidsforholdAnsatt,
     ArbeidsforholdSkalJobbeHvorMyeSvar,
     ArbeidsforholdSkalJobbeSvar,
-    OmsorgstilbudVetPeriode,
     PleiepengesøknadFormData,
 } from '../../types/PleiepengesøknadFormData';
 import { Arbeidsgiver, BarnReceivedFromApi } from '../../types/Søkerdata';
@@ -161,8 +160,15 @@ const completeFormDataMock: PleiepengesøknadFormData = {
 
     omsorgstilbud: {
         skalBarnIOmsorgstilbud: YesOrNo.YES,
-        ja: {
-            hvorMyeTid: OmsorgstilbudVetPeriode.vetHelePerioden,
+        harBarnVærtIOmsorgstilbud: YesOrNo.YES,
+        historisk: {
+            enkeltdager: {
+                '2020-01-01': { hours: '1', minutes: '' },
+            },
+        },
+        planlagt: {
+            vetHvorMyeTid: VetOmsorgstilbud.VET_ALLE_TIMER,
+            erLiktHverDag: YesOrNo.YES,
             fasteDager: {
                 fredag: {
                     hours: '1',
@@ -581,9 +587,20 @@ describe('Test complete applications', () => {
         harBekreftetOpplysninger: true,
         harForståttRettigheterOgPlikter: true,
         samtidigHjemme: true,
-        omsorgstilbud: {
-            vetOmsorgstilbud: VetOmsorgstilbud.VET_ALLE_TIMER,
-            fasteDager: { fredag: 'PT1H0M' },
+        omsorgstilbudV2: {
+            historisk: {
+                enkeltdager: [
+                    {
+                        dato: '2020-01-01',
+                        tid: 'PT1H0M',
+                    },
+                ],
+            },
+            planlagt: {
+                vetOmsorgstilbud: VetOmsorgstilbud.VET_ALLE_TIMER,
+                erLiktHverDag: true,
+                ukedager: { fredag: 'PT1H0M' },
+            },
         },
 
         nattevåk: {
@@ -724,9 +741,8 @@ describe('Test complete applications', () => {
             ...featureUtenlandsoppholdIPeriodenApiData,
         };
 
-        expect(JSON.stringify(jsonSort(mapFeaturesOnData(featuresOnFormData)))).toEqual(
-            JSON.stringify(jsonSort(resultApiDataWithFeatures))
-        );
+        const mappedData = mapFeaturesOnData(featuresOnFormData);
+        expect(JSON.stringify(jsonSort(mappedData))).toEqual(JSON.stringify(jsonSort(resultApiDataWithFeatures)));
     });
 });
 

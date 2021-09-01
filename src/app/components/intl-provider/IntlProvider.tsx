@@ -10,6 +10,7 @@ import tidsperiodeMessages from '@navikt/sif-common-forms/lib/tidsperiode/tidspe
 import ferieuttakMessages from '@navikt/sif-common-forms/lib/ferieuttak/ferieuttakMessages';
 import { allCommonMessages } from '@navikt/sif-common-core/lib/i18n/allCommonMessages';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
+import omsorgstilbudMessages from '../omsorgstilbud/omsorgstilbudMessages';
 
 export const appBokmålstekster = require('../../i18n/nb.json');
 export const appNynorsktekster = require('../../i18n/nn.json');
@@ -21,6 +22,7 @@ const bokmålstekster = {
     ...virksomhetMessages.nb,
     ...tidsperiodeMessages.nb,
     ...ferieuttakMessages.nb,
+    ...omsorgstilbudMessages.nb,
     ...appBokmålstekster,
 };
 const nynorsktekster = {

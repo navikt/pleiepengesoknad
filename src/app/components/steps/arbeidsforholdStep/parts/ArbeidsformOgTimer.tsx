@@ -1,5 +1,5 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
@@ -53,7 +53,16 @@ const ArbeidsforholdFormPart: React.FunctionComponent<Props> = ({
                             value: Arbeidsform.turnus,
                         },
                         {
-                            label: intlHelper(intl, 'arbeidsforhold.arbeidsform.varierende'),
+                            label: (
+                                <>
+                                    <FormattedMessage id="arbeidsforhold.arbeidsform.varierende.1" />
+                                    /&shy;
+                                    <FormattedMessage id="arbeidsforhold.arbeidsform.varierende.2" />
+                                    /&shy;
+                                    <FormattedMessage id="arbeidsforhold.arbeidsform.varierende.3" />
+                                    /&shy;
+                                </>
+                            ),
                             value: Arbeidsform.varierende,
                         },
                     ]}

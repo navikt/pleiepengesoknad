@@ -2,15 +2,17 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { getDateValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import Lenke from 'nav-frontend-lenker';
-import Panel from 'nav-frontend-paneler';
 import getLenker from '../../../../lenker';
 import { AppFormField, Arbeidsform, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
+import { erFrilanserISøknadsperiode } from '../../../../utils/frilanserUtils';
 import {
     getArbeidsformAnsattValidator,
     getJobberNormaltTimerValidator,
@@ -18,8 +20,6 @@ import {
 } from '../../../../validation/fieldValidations';
 import AppForm from '../../../app-form/AppForm';
 import ArbeidsformOgTimer from './ArbeidsformOgTimer';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import { erFrilanserISøknadsperiode } from '../../../../utils/frilanserUtils';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
@@ -57,7 +57,7 @@ const FrilansFormPart = ({ formValues }: Props) => {
             {harHattInntektSomFrilanser === YesOrNo.YES && (
                 <>
                     <Box margin="l">
-                        <Panel>
+                        <ResponsivePanel>
                             <Box>
                                 <AppForm.DatePicker
                                     name={AppFormField.frilans_startdato}
@@ -111,7 +111,7 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                     />
                                 </FormBlock>
                             )}
-                        </Panel>
+                        </ResponsivePanel>
                     </Box>
                 </>
             )}

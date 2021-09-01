@@ -1,9 +1,11 @@
+import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { Time } from '@navikt/sif-common-formik/lib/types';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { Virksomhet } from '@navikt/sif-common-forms/lib/virksomhet/types';
-import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
-import { Time } from '@navikt/sif-common-formik/lib/types';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { TidIOmsorgstilbud } from '../components/omsorgstilbud/types';
+import { VetOmsorgstilbud } from './PleiepengesøknadApiData';
 import { Arbeidsgiver } from './Søkerdata';
 
 export enum ArbeidsforholdSkalJobbeSvar {
@@ -20,13 +22,20 @@ export interface OmsorgstilbudFasteDager {
     fredag?: Time;
 }
 
+export interface OmsorgstilbudPlanlagt {
+    vetHvorMyeTid: VetOmsorgstilbud;
+    erLiktHverDag?: YesOrNo;
+    fasteDager?: OmsorgstilbudFasteDager;
+    enkeltdager?: TidIOmsorgstilbud;
+}
+export interface OmsorgstilbudHistorisk {
+    enkeltdager: TidIOmsorgstilbud;
+}
 export interface Omsorgstilbud {
-    skalBarnIOmsorgstilbud: YesOrNo;
-    ja?: {
-        hvorMyeTid?: OmsorgstilbudVetPeriode;
-        vetMinAntallTimer?: YesOrNo;
-        fasteDager?: OmsorgstilbudFasteDager;
-    };
+    skalBarnIOmsorgstilbud?: YesOrNo;
+    harBarnVærtIOmsorgstilbud?: YesOrNo;
+    planlagt?: OmsorgstilbudPlanlagt;
+    historisk?: OmsorgstilbudHistorisk;
 }
 
 export type FrilansEllerSelvstendig = 'frilans' | 'selvstendig';
@@ -63,9 +72,12 @@ export enum AppFormField {
     harBeredskap_ekstrainfo = 'harBeredskap_ekstrainfo',
     omsorgstilbud = 'omsorgstilbud',
     omsorgstilbud__skalBarnIOmsorgstilbud = 'omsorgstilbud.skalBarnIOmsorgstilbud',
-    omsorgstilbud__ja__hvorMyeTid = 'omsorgstilbud.ja.hvorMyeTid',
-    omsorgstilbud__ja__fasteDager = 'omsorgstilbud.ja.fasteDager',
-    omsorgstilbud__ja__vetMinAntallTimer = 'omsorgstilbud.ja.vetMinAntallTimer',
+    omsorgstilbud__harBarnVærtIOmsorgstilbud = 'omsorgstilbud.harBarnVærtIOmsorgstilbud',
+    omsorgstilbud__planlagt__vetHvorMyeTid = 'omsorgstilbud.planlagt.vetHvorMyeTid',
+    omsorgstilbud__planlagt__erLiktHverDag = 'omsorgstilbud.planlagt.erLiktHverDag',
+    omsorgstilbud__planlagt__fasteDager = 'omsorgstilbud.planlagt.fasteDager',
+    omsorgstilbud__planlagt__enkeltdager = 'omsorgstilbud.planlagt.enkeltdager',
+    omsorgstilbud__historisk__enkeltdager = 'omsorgstilbud.historisk.enkeltdager',
     frilans_harHattInntektSomFrilanser = 'harHattInntektSomFrilanser',
     frilans_startdato = 'frilans_startdato',
     frilans_sluttdato = 'frilans_sluttdato',

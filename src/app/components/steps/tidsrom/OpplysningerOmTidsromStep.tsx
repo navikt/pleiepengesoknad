@@ -173,7 +173,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                     )}
                     {visInfoOmUtenlandsopphold && (
                         <Box margin="l" padBottom="l">
-                            <CounsellorPanel>
+                            <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                                 <FormattedMessage id="steg.tidsrom.veileder.utenlandsopphold" />
                             </CounsellorPanel>
                         </Box>

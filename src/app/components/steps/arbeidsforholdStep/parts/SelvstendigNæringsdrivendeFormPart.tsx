@@ -4,12 +4,12 @@ import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import VirksomhetInfoAndDialog from '@navikt/sif-common-forms/lib/virksomhet/VirksomhetInfoAndDialog';
 import Lenke from 'nav-frontend-lenker';
-import Panel from 'nav-frontend-paneler';
 import getLenker from '../../../../lenker';
 import { AppFormField, Arbeidsform, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
 import {
@@ -59,7 +59,7 @@ const SelvstendigNæringsdrivendeFormPart = ({ formValues }: Props) => {
 
                     {harFlereVirksomheter && (
                         <FormBlock>
-                            <CounsellorPanel>
+                            <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                                 <FormattedMessage id="selvstendig.veileder.flereAktiveVirksomheter" />
                             </CounsellorPanel>
                         </FormBlock>
@@ -69,7 +69,7 @@ const SelvstendigNæringsdrivendeFormPart = ({ formValues }: Props) => {
                         selvstendig_harFlereVirksomheter &&
                         isYesOrNoAnswered(selvstendig_harFlereVirksomheter) && (
                             <Box margin="l">
-                                <Panel>
+                                <ResponsivePanel>
                                     <VirksomhetInfoAndDialog
                                         name={AppFormField.selvstendig_virksomhet}
                                         harFlereVirksomheter={harFlereVirksomheter}
@@ -86,7 +86,7 @@ const SelvstendigNæringsdrivendeFormPart = ({ formValues }: Props) => {
                                         }}
                                         validate={getRequiredFieldValidator()}
                                     />
-                                </Panel>
+                                </ResponsivePanel>
                             </Box>
                         )}
                     {formValues.selvstendig_virksomhet !== undefined && (

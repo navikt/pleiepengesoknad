@@ -18,7 +18,7 @@ import { mapArbeidsforholdToApiData } from './formToApiMaps/mapArbeidsforholdToA
 import { mapBarnToApiData } from './formToApiMaps/mapBarnToApiData';
 import { mapBostedUtlandToApiData } from './formToApiMaps/mapBostedUtlandToApiData';
 import { mapFrilansToApiData } from './formToApiMaps/mapFrilansToApiData';
-import { mapTilsynsordningToApiData } from './formToApiMaps/mapTilsynsordningToApiData';
+import { mapOmsorgstilbudToApiData } from './formToApiMaps/mapOmsorgstilbudToApiData';
 import { mapUtenlandsoppholdIPeriodenToApiData } from './formToApiMaps/mapUtenlandsoppholdIPeriodenToApiData';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from './stepUtils';
 import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet } from './tidsromUtils';
@@ -204,9 +204,12 @@ export const mapFormDataToApiData = (
             apiData.samtidigHjemme = harMedsøker === YesOrNo.YES ? samtidigHjemme === YesOrNo.YES : undefined;
 
             if (omsorgstilbud !== undefined) {
-                apiData.omsorgstilbud = mapTilsynsordningToApiData(omsorgstilbud);
+                apiData.omsorgstilbudV2 = mapOmsorgstilbudToApiData(omsorgstilbud, {
+                    from: periodeFra,
+                    to: periodeTil,
+                });
                 const inkluderNattevåkOgBeredskap = skalBrukerSvarePåBeredskapOgNattevåk(formData);
-                if (inkluderNattevåkOgBeredskap && omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES) {
+                if (inkluderNattevåkOgBeredskap) {
                     apiData.nattevåk = {
                         harNattevåk: harNattevåk === YesOrNo.YES,
                         tilleggsinformasjon: harNattevåk_ekstrainfo,

@@ -31,6 +31,7 @@ import { Utenlandsopphold } from '@navikt/sif-common-forms/lib';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
+import minMax from 'dayjs/plugin/minMax';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
 import {
     ArbeidsforholdAnsatt,
@@ -40,8 +41,7 @@ import {
     Omsorgstilbud,
 } from '../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
-import { sumTimerMedTilsyn } from '../utils/tilsynUtils';
-import minMax from 'dayjs/plugin/minMax';
+import { sumTimerMedOmsorgstilbud } from '../utils/omsorgstilbudUtils';
 
 dayjs.extend(minMax);
 dayjs.extend(isoWeek);
@@ -54,10 +54,10 @@ export enum AppFieldValidationErrors {
     'arbeidsforhold_timerUgyldig_under_1_prosent' = 'timerUgyldig_under_1_prosent',
     'arbeidsforhold_timerUgyldig_over_99_prosent' = 'timerUgyldig_over_99_prosent',
 
-    'tilsynsordning_ingenInfo' = 'tilsynsordning_ingenInfo',
-    'tilsynsordning_forMangeTimerTotalt' = 'tilsynsordning_forMangeTimerTotalt',
-    'tilsynsordning_forMangeTimerEnDag' = 'tilsynsordning_forMangeTimerEnDag',
-    'tilsynsordning_forMangeTegn' = 'tilsynsordning_forMangeTegn',
+    'omsorgstilbud_ingenInfo' = 'omsorgstilbud_ingenInfo',
+    'omsorgstilbud_forMangeTimerTotalt' = 'omsorgstilbud_forMangeTimerTotalt',
+    'omsorgstilbud_forMangeTimerEnDag' = 'omsorgstilbud_forMangeTimerEnDag',
+    'omsorgstilbud_forMangeTegn' = 'omsorgstilbud_forMangeTegn',
 
     'utenlandsopphold_ikke_registrert' = 'utenlandsopphold_ikke_registrert',
     'utenlandsopphold_overlapper' = 'utenlandsopphold_overlapper',
@@ -183,25 +183,25 @@ export const validateLegeerklæring = (attachments: Attachment[]): ValidationRes
     return undefined;
 };
 
-export const validateSkalHaTilsynsordning = (tilsynsordning: Omsorgstilbud): ValidationResult<ValidationError> => {
-    if (tilsynsordning.skalBarnIOmsorgstilbud === YesOrNo.YES) {
-        if (tilsynsordning.ja === undefined) {
-            return AppFieldValidationErrors.tilsynsordning_ingenInfo;
+export const validateSkalIOmsorgstilbud = (omsorgstilbud: Omsorgstilbud): ValidationResult<ValidationError> => {
+    if (omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES) {
+        if (omsorgstilbud.planlagt === undefined) {
+            return AppFieldValidationErrors.omsorgstilbud_ingenInfo;
         }
-        const tilsyn = tilsynsordning.ja.fasteDager;
+        const fasteDager = omsorgstilbud.planlagt.fasteDager;
 
-        const hoursInTotal = tilsyn ? sumTimerMedTilsyn(tilsyn) : 0;
+        const hoursInTotal = fasteDager ? sumTimerMedOmsorgstilbud(fasteDager) : 0;
         if (hoursInTotal === 0) {
-            return AppFieldValidationErrors.tilsynsordning_ingenInfo;
+            return AppFieldValidationErrors.omsorgstilbud_ingenInfo;
         }
         if (hoursInTotal > 37.5) {
-            return AppFieldValidationErrors.tilsynsordning_forMangeTimerTotalt;
+            return AppFieldValidationErrors.omsorgstilbud_forMangeTimerTotalt;
         }
     }
     return undefined;
 };
 
-export const getTilsynstimerValidatorEnDag =
+export const getOmsorgstilbudtimerValidatorEnDag =
     (dag: string) =>
     (time: Time): ValidationResult<ValidationError> => {
         const error = time
@@ -209,7 +209,7 @@ export const getTilsynstimerValidatorEnDag =
             : undefined;
         if (error) {
             return {
-                key: `validation.omsorgstilbud.ja.fastDag.tid.${error}`,
+                key: `validation.omsorgstilbud.planlagt.fastDag.tid.${error}`,
                 values: { dag },
                 keepKeyUnaltered: true,
             };
@@ -232,6 +232,7 @@ export const getArbeidsformAnsattValidator =
                   }
                 : error;
         }
+        return undefined;
     };
 
 export const getJobberNormaltTimerValidator =
@@ -283,6 +284,7 @@ export const getArbeidsforholdSkalJobbeValidator =
                   }
                 : error;
         }
+        return undefined;
     };
 
 export const getArbeidsforholdSkalJobbeHvorMyeValidator =
@@ -297,6 +299,7 @@ export const getArbeidsforholdSkalJobbeHvorMyeValidator =
                   }
                 : error;
         }
+        return undefined;
     };
 
 export const getArbeidsforholdTimerEllerProsentValidator =
@@ -311,6 +314,7 @@ export const getArbeidsforholdTimerEllerProsentValidator =
                   }
                 : error;
         }
+        return undefined;
     };
 
 export const getArbeidsforholdSkalJobbeTimerValidator =
@@ -329,10 +333,11 @@ export const getArbeidsforholdSkalJobbeTimerValidator =
                   }
                 : error;
         }
+        return undefined;
     };
 
 export const getArbeidsforholdSkalJobbeProsentValidator =
-    (arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF) => (value) => {
+    (arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF) => (value: any) => {
         const error = getNumberValidator({
             required: true,
             min: 1,
@@ -347,6 +352,7 @@ export const getArbeidsforholdSkalJobbeProsentValidator =
                   }
                 : error;
         }
+        return undefined;
     };
 
 export const validateReduserteArbeidTimer = (value: string, jobberNormaltTimer: number): string | undefined => {

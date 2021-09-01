@@ -5,11 +5,14 @@ import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-wi
 interface Props {
     header: string;
     children: React.ReactNode;
+    headerTag?: 'h1' | 'h2' | 'h3' | 'h4' | string;
 }
 
-const SummaryBlock = ({ header, children }: Props) => (
-    <Box margin="l">
-        <ContentWithHeader header={header}>{children}</ContentWithHeader>
+const SummaryBlock = ({ header, headerTag, children }: Props) => (
+    <Box margin="xl">
+        <ContentWithHeader header={header} headerTag={headerTag}>
+            {children}
+        </ContentWithHeader>
     </Box>
 );
 

@@ -28,7 +28,7 @@ const BeredskapStep = ({ onValidSubmit }: StepConfigProps) => {
     return (
         <FormikStep id={StepID.BEREDSKAP} onValidFormSubmit={onValidSubmit} onStepCleanup={cleanupBeredskapStep}>
             <Box padBottom="xxl">
-                <CounsellorPanel>
+                <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                     <FormattedMessage id="steg.beredskap.veileder" />
                 </CounsellorPanel>
             </Box>

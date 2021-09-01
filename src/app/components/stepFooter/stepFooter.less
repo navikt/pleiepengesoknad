@@ -33,4 +33,17 @@
         color: #c6c2bf;
         margin: 0.2rem 0.5rem 0;
     }
+
+    @media screen and (max-width: 600px) {
+        &__links {
+            flex-direction: column;
+        }
+        &__divider,
+        &__dot {
+            display: none;
+        }
+        .lenke {
+            margin-bottom: 0.5rem;
+        }
+    }
 }

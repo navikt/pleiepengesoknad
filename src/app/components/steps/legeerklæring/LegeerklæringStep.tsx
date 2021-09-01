@@ -95,7 +95,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
             skipValidation={true}
             buttonDisabled={hasPendingUploads || attachmentsSizeOver24Mb}>
             <Box padBottom="xl">
-                <CounsellorPanel>
+                <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                     <p>
                         <FormattedMessage id={'steg.legeerklaering.counsellorpanel.1'} />
                     </p>

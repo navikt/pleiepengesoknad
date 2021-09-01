@@ -70,7 +70,7 @@ export type ArbeidsforholdApiSomVanlig = Pick<
     'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | '_type'
 >;
 
-export interface TilsynsukeApi {
+export interface OmsorgstilbudUkeApi {
     mandag?: string;
     tirsdag?: string;
     onsdag?: string;
@@ -89,16 +89,25 @@ export interface OmsorgstilbudDagApi {
     dato: ISODateString;
     tid: ISO8601Duration;
 }
-
 export enum VetOmsorgstilbud {
     'VET_ALLE_TIMER' = 'VET_ALLE_TIMER',
-    'VET_NOEN_TIMER' = 'VET_NOEN_TIMER',
     'VET_IKKE' = 'VET_IKKE',
 }
-export interface OmsorgstilbudApi {
+
+export interface PlanlagtOmsorgstilbudApi {
     vetOmsorgstilbud: VetOmsorgstilbud;
-    fasteDager?: OmsorgstilbudFasteDagerApi;
+    erLiktHverDag?: boolean;
     enkeltdager?: OmsorgstilbudDagApi[];
+    ukedager?: OmsorgstilbudFasteDagerApi;
+}
+
+export interface HistoriskOmsorgstilbudApi {
+    enkeltdager: OmsorgstilbudDagApi[];
+}
+
+export interface OmsorgstilbudV2 {
+    historisk?: HistoriskOmsorgstilbudApi;
+    planlagt?: PlanlagtOmsorgstilbudApi;
 }
 
 interface Medlemskap {
@@ -177,7 +186,7 @@ export interface PleiepengesøknadApiData {
     samtidigHjemme?: boolean;
     harForståttRettigheterOgPlikter: boolean;
     harBekreftetOpplysninger: boolean;
-    omsorgstilbud?: OmsorgstilbudApi;
+    omsorgstilbudV2?: OmsorgstilbudV2;
     nattevåk?: {
         harNattevåk: boolean;
         tilleggsinformasjon?: string;
