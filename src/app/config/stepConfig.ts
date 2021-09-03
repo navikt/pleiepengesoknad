@@ -74,7 +74,7 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData): StepConfi
     };
     config[StepID.ARBEIDSFORHOLD_I_PERIODEN] = {
         ...getStepConfigItemTextKeys(StepID.ARBEIDSFORHOLD_I_PERIODEN),
-        index: idx++,
+        index: includeArbeidsforholdIPerioden ? idx++ : idx,
         nextStep: StepID.OMSORGSTILBUD,
         backLinkHref: getSøknadRoute(StepID.ARBEIDSFORHOLD),
         included: includeArbeidsforholdIPerioden,
@@ -90,14 +90,14 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData): StepConfi
     };
     config[StepID.NATTEVÅK] = {
         ...getStepConfigItemTextKeys(StepID.NATTEVÅK),
-        index: idx++,
+        index: includeNattevåkAndBeredskap ? idx++ : idx,
         nextStep: StepID.BEREDSKAP,
         backLinkHref: getSøknadRoute(StepID.OMSORGSTILBUD),
         included: includeNattevåkAndBeredskap,
     };
     config[StepID.BEREDSKAP] = {
         ...getStepConfigItemTextKeys(StepID.BEREDSKAP),
-        index: idx++,
+        index: includeNattevåkAndBeredskap ? idx++ : idx,
         nextStep: StepID.MEDLEMSKAP,
         backLinkHref: getSøknadRoute(StepID.NATTEVÅK),
         included: includeNattevåkAndBeredskap,
