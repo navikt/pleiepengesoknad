@@ -23,7 +23,9 @@ export const getSøknadRoute = (stepId: StepID | undefined) => {
 
 export const getNextStepRoute = (stepId: StepID, formData?: PleiepengesøknadFormData): string | undefined => {
     const stepConfig = getStepConfig(formData);
-    return stepConfig[stepId] ? getSøknadRoute(stepConfig[stepId].nextStep) : undefined;
+    return stepConfig[stepId] && stepConfig[stepId].included === true
+        ? getSøknadRoute(stepConfig[stepId].nextStep)
+        : undefined;
 };
 
 export const isAvailable = (

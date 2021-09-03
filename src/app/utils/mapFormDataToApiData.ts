@@ -2,7 +2,6 @@ import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import { mapVirksomhetToVirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/mapVirksomhetToApiData';
 import {
     ArbeidsforholdAnsattApi,
     ArbeidsforholdType,
@@ -19,6 +18,7 @@ import { mapBarnToApiData } from './formToApiMaps/mapBarnToApiData';
 import { mapBostedUtlandToApiData } from './formToApiMaps/mapBostedUtlandToApiData';
 import { mapFrilansToApiData } from './formToApiMaps/mapFrilansToApiData';
 import { mapOmsorgstilbudToApiData } from './formToApiMaps/mapOmsorgstilbudToApiData';
+import { mapSelvstendigNæringsdrivendeToApiData } from './formToApiMaps/mapSelvstendigNæringsdrivendeToApiData';
 import { mapUtenlandsoppholdIPeriodenToApiData } from './formToApiMaps/mapUtenlandsoppholdIPeriodenToApiData';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from './stepUtils';
 import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet } from './tidsromUtils';
@@ -85,10 +85,6 @@ export const mapFormDataToApiData = (
         utenlandsoppholdIPerioden,
         ferieuttakIPerioden,
         skalTaUtFerieIPerioden,
-        harHattInntektSomFrilanser,
-        selvstendig_harHattInntektSomSN,
-        selvstendig_harFlereVirksomheter,
-        selvstendig_virksomhet,
         relasjonTilBarnet,
         relasjonTilBarnetBeskrivelse,
     } = formData;
@@ -108,6 +104,9 @@ export const mapFormDataToApiData = (
 
             const gjelderAnnetBarn = barnObject.aktørId === null;
             const sprak = getValidSpråk(locale);
+
+            const frilanserApiData = mapFrilansToApiData(formData);
+            const selvstendigApiData = mapSelvstendigNæringsdrivendeToApiData(formData, locale);
 
             const apiData: PleiepengesøknadApiData = {
                 newVersion: true,
@@ -146,19 +145,8 @@ export const mapFormDataToApiData = (
                     isFeatureEnabled(Feature.ANDRE_YTELSER) && formData.mottarAndreYtelser === YesOrNo.YES
                         ? formData.andreYtelser
                         : [],
-                harHattInntektSomFrilanser: harHattInntektSomFrilanser === YesOrNo.YES,
-                frilans: mapFrilansToApiData(formData),
-                harHattInntektSomSelvstendigNæringsdrivende: selvstendig_harHattInntektSomSN === YesOrNo.YES,
-                selvstendigVirksomheter:
-                    selvstendig_harHattInntektSomSN === YesOrNo.YES && selvstendig_virksomhet !== undefined
-                        ? [
-                              mapVirksomhetToVirksomhetApiData(
-                                  locale,
-                                  selvstendig_virksomhet,
-                                  selvstendig_harFlereVirksomheter === YesOrNo.YES
-                              ),
-                          ]
-                        : [],
+                ...frilanserApiData,
+                ...selvstendigApiData,
             };
 
             if (isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG)) {
@@ -193,13 +181,6 @@ export const mapFormDataToApiData = (
                           }))
                         : [],
             };
-
-            apiData.harHattInntektSomSelvstendigNæringsdrivende =
-                formData.selvstendig_harHattInntektSomSN === YesOrNo.YES;
-
-            apiData.selvstendigArbeidsforhold = formData.selvstendig_arbeidsforhold
-                ? mapArbeidsforholdToApiData(formData.selvstendig_arbeidsforhold, ArbeidsforholdType.SELVSTENDIG)
-                : undefined;
 
             apiData.samtidigHjemme = harMedsøker === YesOrNo.YES ? samtidigHjemme === YesOrNo.YES : undefined;
 

@@ -78,7 +78,7 @@ export enum AppFormField {
     omsorgstilbud__planlagt__fasteDager = 'omsorgstilbud.planlagt.fasteDager',
     omsorgstilbud__planlagt__enkeltdager = 'omsorgstilbud.planlagt.enkeltdager',
     omsorgstilbud__historisk__enkeltdager = 'omsorgstilbud.historisk.enkeltdager',
-    frilans_harHattInntektSomFrilanser = 'harHattInntektSomFrilanser',
+    frilans_harHattInntektSomFrilanser = 'frilans_harHattInntektSomFrilanser',
     frilans_startdato = 'frilans_startdato',
     frilans_sluttdato = 'frilans_sluttdato',
     frilans_jobberFortsattSomFrilans = 'frilans_jobberFortsattSomFrilans',

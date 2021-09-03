@@ -42,8 +42,12 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
         .filter((a) => a.arbeidsforhold.erAnsattIPerioden === YesOrNo.YES);
 
     const skalBesvareAnsettelsesforhold = aktiveArbeidsforhold.length > 0;
-    const skalBesvareFrilans = frilans_jobberFortsattSomFrilans && frilans_arbeidsforhold;
+    const skalBesvareFrilans = frilans_jobberFortsattSomFrilans === YesOrNo.YES && frilans_arbeidsforhold;
     const skalBesvareSelvstendig = selvstendig_harHattInntektSomSN === YesOrNo.YES && selvstendig_arbeidsforhold;
+
+    /** Dette kan oppstå dersom bruker er på Arbeidssituasjon, endrer på data, og deretter trykker forward i nettleser */
+    const brukerMåGåTilbakeTilArbeidssituasjon =
+        skalBesvareAnsettelsesforhold === false && skalBesvareFrilans === false && skalBesvareSelvstendig === false;
 
     const arbeidsinfo: string[] = [];
     if (skalBesvareAnsettelsesforhold) {
@@ -60,18 +64,21 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
         <FormikStep id={StepID.ARBEIDSFORHOLD_I_PERIODEN} onValidFormSubmit={onValidSubmit}>
             <Box padBottom="m">
                 <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
-                    <p style={{ marginTop: 0 }}>
-                        <FormattedMessage
-                            id="step.arbeidsforholdIPerioden.StepInfo.1"
-                            values={{
-                                info: intlHelper(
-                                    intl,
-                                    `step.arbeidsforholdIPerioden.StepInfo.1.info.${arbeidsinfo.join('_')}`,
-                                    { antall: aktiveArbeidsforhold.length }
-                                ),
-                            }}
-                        />
-                    </p>
+                    {brukerMåGåTilbakeTilArbeidssituasjon === true && <>Neida, her feiler det gitt</>}
+                    {brukerMåGåTilbakeTilArbeidssituasjon === false && (
+                        <p style={{ marginTop: 0 }}>
+                            <FormattedMessage
+                                id="step.arbeidsforholdIPerioden.StepInfo.1"
+                                values={{
+                                    info: intlHelper(
+                                        intl,
+                                        `step.arbeidsforholdIPerioden.StepInfo.1.info.${arbeidsinfo.join('_')}`,
+                                        { antall: aktiveArbeidsforhold.length }
+                                    ),
+                                }}
+                            />
+                        </p>
+                    )}
                 </CounsellorPanel>
             </Box>
             {skalBesvareAnsettelsesforhold && (

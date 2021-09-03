@@ -5,7 +5,7 @@ import Veilederpanel from 'nav-frontend-veilederpanel';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import Page from '@navikt/sif-common-core/lib/components/page/Page';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import VeilederLokal from './VeilederLokal';
+import VeilederLokal from '../../VeilederLokal/VeilederLokal';
 
 const GeneralErrorPage = () => {
     const intl = useIntl();

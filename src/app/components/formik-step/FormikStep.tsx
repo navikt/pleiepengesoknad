@@ -9,6 +9,7 @@ import { getStepConfig } from '../../config/stepConfig';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { getStepTexts } from '../../utils/stepUtils';
 import AppForm from '../app-form/AppForm';
+import InvalidStepPage from '../pages/invalid-step-page/InvalidStepPage';
 import Step, { StepProps } from '../step/Step';
 
 export interface FormikStepProps {
@@ -27,11 +28,23 @@ type Props = FormikStepProps & StepProps;
 const FormikStep = (props: Props) => {
     const formik = useFormikContext<PleiepengesøknadFormData>();
     const intl = useIntl();
-    const { children, onValidFormSubmit, showButtonSpinner, buttonDisabled, id, customErrorSummary } = props;
+    const {
+        children,
+        onValidFormSubmit,
+        showButtonSpinner,
+        buttonDisabled,
+        id,
+        customErrorSummary,
+        showSubmitButton = true,
+    } = props;
     const stepConfig = getStepConfig(formik.values);
-    const texts = getStepTexts(intl, id, stepConfig);
     useLogSidevisning(id);
 
+    if (stepConfig === undefined || stepConfig[id] === undefined || stepConfig[id].included === false) {
+        return <InvalidStepPage stepId={id} />;
+    }
+
+    const texts = getStepTexts(intl, id, stepConfig);
     return (
         <Step stepConfig={stepConfig} {...props}>
             <AppForm.Form
@@ -42,20 +55,24 @@ const FormikStep = (props: Props) => {
                 cleanup={props.onStepCleanup}
                 formErrorHandler={getIntlFormErrorHandler(intl, 'validation')}
                 formFooter={
-                    <FormBlock>
-                        <Knapp
-                            type="hoved"
-                            htmlType="submit"
-                            className={'step__button'}
-                            spinner={showButtonSpinner || false}
-                            disabled={buttonDisabled || false}
-                            aria-label={texts.nextButtonAriaLabel}>
-                            {texts.nextButtonLabel}
-                        </Knapp>
-                    </FormBlock>
+                    <>
+                        {customErrorSummary && <FormBlock>{customErrorSummary()}</FormBlock>}
+                        {showSubmitButton && (
+                            <FormBlock>
+                                <Knapp
+                                    type="hoved"
+                                    htmlType="submit"
+                                    className={'step__button'}
+                                    spinner={showButtonSpinner || false}
+                                    disabled={buttonDisabled || false}
+                                    aria-label={texts.nextButtonAriaLabel}>
+                                    {texts.nextButtonLabel}
+                                </Knapp>
+                            </FormBlock>
+                        )}
+                    </>
                 }>
                 {children}
-                {customErrorSummary && <FormBlock>{customErrorSummary()}</FormBlock>}
             </AppForm.Form>
         </Step>
     );

@@ -1,8 +1,9 @@
 import { IntlShape } from 'react-intl';
-import { ValidationSummaryError } from '@navikt/sif-common-core/lib/components/validation-error-summary-base/ValidationErrorSummaryBase';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
-import { ArbeidsforholdAnsattApi, PleiepengesøknadApiData, SkalJobbe } from '../types/PleiepengesøknadApiData';
+import { StepID } from '../config/stepConfig';
+import { ArbeidsforholdApi, PleiepengesøknadApiData, SkalJobbe } from '../types/PleiepengesøknadApiData';
 
 export const apiVedleggIsInvalid = (vedlegg: string[]): boolean => {
     vedlegg.find((v) => {
@@ -19,27 +20,27 @@ const isValidRedusertProsent = (timer: number | undefined): boolean => {
     return timer !== undefined && timer > 0 && timer < 100;
 };
 
-const skalJobbeSomVanligIsValid = (org: ArbeidsforholdAnsattApi) => {
+const skalJobbeSomVanligIsValid = (org: ArbeidsforholdApi) => {
     const { jobberNormaltTimer, skalJobbeProsent } = org;
     return isValidVanligeTimer(jobberNormaltTimer) && skalJobbeProsent === 100;
 };
 
-const skalJobbeRedusertIsValid = (org: ArbeidsforholdAnsattApi) => {
+const skalJobbeRedusertIsValid = (org: ArbeidsforholdApi) => {
     const { jobberNormaltTimer, skalJobbeProsent } = org;
     return isValidVanligeTimer(jobberNormaltTimer) && isValidRedusertProsent(skalJobbeProsent);
 };
 
-const skalJobbeVetIkkeIsValid = (org: ArbeidsforholdAnsattApi) => {
+const skalJobbeVetIkkeIsValid = (org: ArbeidsforholdApi) => {
     const { jobberNormaltTimer, skalJobbeProsent } = org;
     return isValidVanligeTimer(jobberNormaltTimer) && skalJobbeProsent === 0;
 };
 
-const skalIkkeJobbeIsValid = (org: ArbeidsforholdAnsattApi) => {
+const skalIkkeJobbeIsValid = (org: ArbeidsforholdApi) => {
     const { jobberNormaltTimer, skalJobbeProsent } = org;
     return isValidVanligeTimer(jobberNormaltTimer) && skalJobbeProsent === 0;
 };
 
-export const isArbeidsforholdApiValuesValid = (arbeidsforhold: ArbeidsforholdAnsattApi): boolean => {
+export const isArbeidsforholdApiValuesValid = (arbeidsforhold: ArbeidsforholdApi): boolean => {
     const { skalJobbe } = arbeidsforhold;
     switch (skalJobbe) {
         case SkalJobbe.JA:
@@ -55,16 +56,21 @@ export const isArbeidsforholdApiValuesValid = (arbeidsforhold: ArbeidsforholdAns
     }
 };
 
+export interface ApiValidationError extends FeiloppsummeringFeil {
+    stepId: StepID;
+}
+
 export const validateApiValues = (
     values: PleiepengesøknadApiData,
     intl: IntlShape
-): ValidationSummaryError[] | undefined => {
-    const errors: ValidationSummaryError[] = [];
+): ApiValidationError[] | undefined => {
+    const errors: ApiValidationError[] = [];
 
     if (apiVedleggIsInvalid(values.vedlegg)) {
         errors.push({
-            name: 'vedlegg',
-            message: intlHelper(intl, 'steg.oppsummering.validering.manglerVedlegg'),
+            skjemaelementId: 'vedlegg',
+            feilmelding: intlHelper(intl, 'steg.oppsummering.validering.manglerVedlegg'),
+            stepId: StepID.LEGEERKLÆRING,
         });
     }
 
@@ -73,11 +79,35 @@ export const validateApiValues = (
         organisasjoner.forEach((arbeidsforhold) => {
             if (isArbeidsforholdApiValuesValid(arbeidsforhold) === false) {
                 errors.push({
-                    name: 'arbeidsforhold',
-                    message: intlHelper(intl, 'steg.oppsummering.validering.ugyldigArbeidsforhold'),
+                    skjemaelementId: 'arbeidsforhold',
+                    feilmelding: intlHelper(intl, 'steg.oppsummering.validering.ugyldigArbeidsforhold'),
+                    stepId: StepID.ARBEIDSFORHOLD,
                 });
             }
         });
     }
+
+    if (
+        (values.frilans && values.frilans.arbeidsforhold === undefined) ||
+        (values.frilans?.arbeidsforhold && isArbeidsforholdApiValuesValid(values.frilans.arbeidsforhold) === false)
+    ) {
+        errors.push({
+            skjemaelementId: 'arbeidsforholdFrilans',
+            feilmelding: intlHelper(intl, 'steg.oppsummering.validering.ugyldigArbeidsforholdFrilans'),
+            stepId: StepID.ARBEIDSFORHOLD,
+        });
+    }
+
+    if (
+        (values.selvstendigArbeidsforhold === undefined && values.selvstendigVirksomheter.length > 0) ||
+        (values.selvstendigArbeidsforhold && isArbeidsforholdApiValuesValid(values.selvstendigArbeidsforhold) === false)
+    ) {
+        errors.push({
+            skjemaelementId: 'arbeidsforholdSn',
+            feilmelding: intlHelper(intl, 'steg.oppsummering.validering.ugyldigArbeidsforholdSN'),
+            stepId: StepID.ARBEIDSFORHOLD,
+        });
+    }
+
     return errors.length > 0 ? errors : undefined;
 };

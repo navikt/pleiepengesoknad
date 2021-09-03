@@ -1,8 +1,6 @@
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import { erFrilanserISøknadsperiode } from '../utils/frilanserUtils';
 import { getSøknadRoute } from '../utils/routeUtils';
-import { skalBrukerSvarePåBeredskapOgNattevåk } from '../utils/stepUtils';
+import { skalBrukerSvarePåArbeidsforholdIPerioden, skalBrukerSvarePåBeredskapOgNattevåk } from '../utils/stepUtils';
 import routeConfig from './routeConfig';
 
 export enum StepID {
@@ -29,6 +27,7 @@ export interface StepItemConfigInterface extends StepConfigItemTexts {
     index: number;
     nextStep?: StepID;
     backLinkHref?: string;
+    included: boolean;
 }
 
 export interface StepConfigInterface {
@@ -45,45 +44,41 @@ const getStepConfigItemTextKeys = (stepId: StepID): StepConfigItemTexts => {
     };
 };
 
-export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
+export const getStepConfig = (formValues?: PleiepengesøknadFormData): StepConfigInterface => {
     const includeNattevåkAndBeredskap = skalBrukerSvarePåBeredskapOgNattevåk(formValues);
-    const includeArbeidsforholdIPerioden =
-        formValues &&
-        (formValues.arbeidsforhold.find((a) => a.erAnsattIPerioden === YesOrNo.YES) !== undefined ||
-            formValues.frilans_jobberFortsattSomFrilans === YesOrNo.YES ||
-            (formValues.frilans_jobberFortsattSomFrilans === YesOrNo.NO &&
-                erFrilanserISøknadsperiode(formValues.periodeFra, formValues.frilans_sluttdato)) ||
-            formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES);
+    const includeArbeidsforholdIPerioden = skalBrukerSvarePåArbeidsforholdIPerioden(formValues);
 
     let idx = 0;
-    let config = {
+    let config: StepConfigInterface = {
         [StepID.OPPLYSNINGER_OM_BARNET]: {
             ...getStepConfigItemTextKeys(StepID.OPPLYSNINGER_OM_BARNET),
             index: idx++,
             nextStep: StepID.TIDSROM,
             backLinkHref: routeConfig.WELCOMING_PAGE_ROUTE,
+            included: true,
         },
         [StepID.TIDSROM]: {
             ...getStepConfigItemTextKeys(StepID.TIDSROM),
             index: idx++,
             nextStep: StepID.ARBEIDSFORHOLD,
             backLinkHref: getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET),
+            included: true,
         },
         [StepID.ARBEIDSFORHOLD]: {
             ...getStepConfigItemTextKeys(StepID.ARBEIDSFORHOLD),
             index: idx++,
             nextStep: includeArbeidsforholdIPerioden ? StepID.ARBEIDSFORHOLD_I_PERIODEN : StepID.OMSORGSTILBUD,
             backLinkHref: getSøknadRoute(StepID.TIDSROM),
+            included: true,
         },
     };
-    if (includeArbeidsforholdIPerioden) {
-        config[StepID.ARBEIDSFORHOLD_I_PERIODEN] = {
-            ...getStepConfigItemTextKeys(StepID.ARBEIDSFORHOLD_I_PERIODEN),
-            index: idx++,
-            nextStep: StepID.OMSORGSTILBUD,
-            backLinkHref: getSøknadRoute(StepID.ARBEIDSFORHOLD),
-        };
-    }
+    config[StepID.ARBEIDSFORHOLD_I_PERIODEN] = {
+        ...getStepConfigItemTextKeys(StepID.ARBEIDSFORHOLD_I_PERIODEN),
+        index: idx++,
+        nextStep: StepID.OMSORGSTILBUD,
+        backLinkHref: getSøknadRoute(StepID.ARBEIDSFORHOLD),
+        included: includeArbeidsforholdIPerioden,
+    };
     config[StepID.OMSORGSTILBUD] = {
         ...getStepConfigItemTextKeys(StepID.OMSORGSTILBUD),
         index: idx++,
@@ -91,23 +86,22 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
         backLinkHref: includeArbeidsforholdIPerioden
             ? getSøknadRoute(StepID.ARBEIDSFORHOLD_I_PERIODEN)
             : getSøknadRoute(StepID.ARBEIDSFORHOLD),
+        included: true,
     };
-    let backLinkStep: StepID = StepID.OMSORGSTILBUD;
-    if (includeNattevåkAndBeredskap) {
-        config[StepID.NATTEVÅK] = {
-            ...getStepConfigItemTextKeys(StepID.NATTEVÅK),
-            index: idx++,
-            nextStep: StepID.BEREDSKAP,
-            backLinkHref: getSøknadRoute(StepID.OMSORGSTILBUD),
-        };
-        config[StepID.BEREDSKAP] = {
-            ...getStepConfigItemTextKeys(StepID.BEREDSKAP),
-            index: idx++,
-            nextStep: StepID.MEDLEMSKAP,
-            backLinkHref: getSøknadRoute(StepID.NATTEVÅK),
-        };
-        backLinkStep = StepID.BEREDSKAP;
-    }
+    config[StepID.NATTEVÅK] = {
+        ...getStepConfigItemTextKeys(StepID.NATTEVÅK),
+        index: idx++,
+        nextStep: StepID.BEREDSKAP,
+        backLinkHref: getSøknadRoute(StepID.OMSORGSTILBUD),
+        included: includeNattevåkAndBeredskap,
+    };
+    config[StepID.BEREDSKAP] = {
+        ...getStepConfigItemTextKeys(StepID.BEREDSKAP),
+        index: idx++,
+        nextStep: StepID.MEDLEMSKAP,
+        backLinkHref: getSøknadRoute(StepID.NATTEVÅK),
+        included: includeNattevåkAndBeredskap,
+    };
 
     config = {
         ...config,
@@ -116,13 +110,15 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
                 ...getStepConfigItemTextKeys(StepID.MEDLEMSKAP),
                 index: idx++,
                 nextStep: StepID.LEGEERKLÆRING,
-                backLinkHref: getSøknadRoute(backLinkStep),
+                backLinkHref: getSøknadRoute(includeNattevåkAndBeredskap ? StepID.BEREDSKAP : StepID.OMSORGSTILBUD),
+                included: true,
             },
             [StepID.LEGEERKLÆRING]: {
                 ...getStepConfigItemTextKeys(StepID.LEGEERKLÆRING),
                 index: idx++,
                 nextStep: StepID.SUMMARY,
                 backLinkHref: getSøknadRoute(StepID.MEDLEMSKAP),
+                included: true,
             },
             [StepID.SUMMARY]: {
                 ...getStepConfigItemTextKeys(StepID.SUMMARY),
@@ -130,12 +126,22 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData) => {
                 backLinkHref: getSøknadRoute(StepID.LEGEERKLÆRING),
                 nextButtonLabel: 'step.sendButtonLabel',
                 nextButtonAriaLabel: 'step.sendButtonAriaLabel',
+                included: true,
             },
         },
     };
     return config;
 };
 
+export const getBackLinkFromNotIncludedStep = (stepId: StepID): string | undefined => {
+    if (stepId === StepID.BEREDSKAP || stepId === StepID.NATTEVÅK) {
+        return getSøknadRoute(StepID.OMSORGSTILBUD);
+    }
+    if (stepId === StepID.ARBEIDSFORHOLD_I_PERIODEN) {
+        return getSøknadRoute(StepID.ARBEIDSFORHOLD);
+    }
+    return undefined;
+};
 export interface StepConfigProps {
     onValidSubmit: () => void;
 }

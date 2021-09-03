@@ -20,6 +20,7 @@ jest.mock('./../stepUtils', () => {
         medlemskapStepAvailable: jest.fn(() => 'medlemskap step available'),
         summaryStepAvailable: jest.fn(() => 'summary step available'),
         skalBrukerSvarePåBeredskapOgNattevåk: jest.fn(() => false),
+        skalBrukerSvarePåArbeidsforholdIPerioden: jest.fn(() => true),
     };
 });
 

@@ -73,7 +73,7 @@
     "timeInput.minutes": "Minutter",
 
     "fileUploadErrors.part1": "Det har dessverre skjedd en feil under opplasting av følgende vedlegg:",
-    "formikValidationErrorSummary.tittel": "Du må rette opp i følgende feil:",
+    "formikValidationErrorSummary.tittel": "Oups - her har det skjedd en feil",
 
     "NAV_YTELSE.dagpenger": "Dagpenger",
     "NAV_YTELSE.foreldrepenger": "Foreldrepenger",
@@ -379,8 +379,12 @@
 
     "steg.oppsummering.vedlegg.header": "Vedlegg",
 
-    "steg.oppsummering.validering.manglerVedlegg": "Noe gikk galt med legeerklæringen. Vennligst gå tilbake og kontroller at den er lastet opp riktig",
-    "steg.oppsummering.validering.ugyldigArbeidsforhold": "Noe stemmer ikke helt med arbeidsforholdet du har registrert. Vennligst se over informasjonen du har fylt ut på den siden.",
+    "steg.oppsummering.validering.manglerVedlegg": "Noe gikk galt med legeerklæringen.",
+    "steg.oppsummering.validering.ugyldigArbeidsforhold": "Noe stemmer ikke helt med arbeidsforholdet du har registrert.",
+    "steg.oppsummering.validering.ugyldigArbeidsforholdSN": "Det mangler informasjon om hvordan du skal jobbe i perioden som selvstendig næringsdrivende.",
+    "steg.oppsummering.validering.ugyldigArbeidsforholdFrilans": "Det mangler informasjon om hvordan du skal jobbe i perioden som frilanser.",
+    "steg.oppsummering.validering.navigasjonTilStegInfo": "Vennligst gå tilbake og kontroller informasjonen du har fylt ut, og bruk \"Fortsett\" knappen for å gå videre.",
+    "steg.oppsummering.validering.navigasjonTilStegGåTil": "Gå til",
 
     "steg.arbeidsforhold.tittel": "Dine arbeidsforhold",
     "steg.arbeidsforhold.intro": "Vi har funnet disse arbeidsforholdene registrert på deg.",
@@ -415,9 +419,13 @@
     "page.confirmation.dinePP.lenke": "Gå til Dine pleiepenger",
 
     "page.generalErrorPage.sidetittel": "Feil",
-
     "page.generalErrorPage.tittel": "Noe gikk galt...",
     "page.generalErrorPage.tekst": "Beklager, her har det dessverre skjedd en feil.",
+
+    "page.invalidStepPage.sidetittel": "Noe gikk galt",
+    "page.invalidStepPage.tittel": "Noe gikk galt...",
+    "page.invalidStepPage.tekst": "Nå har du kommet til en side som du ikke trenger å være på. Dette kan oppstå dersom du går frem og tilbake i søknaden via nettleseren, i stedet for <strong>\"Fortsett\"</strong>-knappen og <strong>\"Tilbake\"</strong>-lenken inne i siden.",
+    "page.invalidStepPage.tilbakeLenke": "Gå tilbake til forrige side",
 
     "page.ikkeMyndig.sidetittel": "Søknad om pleiepenger - ikke myndig",
     "page.ikkeMyndig.banner.tittel": "Hei!",

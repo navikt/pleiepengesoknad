@@ -11,11 +11,13 @@ interface Props {
 }
 
 const renderSteps = (stepConfig: StepConfigInterface, intl: IntlShape) =>
-    Object.keys(stepConfig).map((stepId) => {
-        const { stepIndicatorLabel } = getStepTexts(intl, stepId as StepID, stepConfig);
-        const { index } = stepConfig[stepId];
-        return <Step label={stepIndicatorLabel} index={index} key={`${stepIndicatorLabel + index}`} />;
-    });
+    Object.keys(stepConfig)
+        .filter((stepId) => stepConfig[stepId].included === true)
+        .map((stepId) => {
+            const { stepIndicatorLabel } = getStepTexts(intl, stepId as StepID, stepConfig);
+            const { index } = stepConfig[stepId];
+            return <Step label={stepIndicatorLabel} index={index} key={`${stepIndicatorLabel + index}`} />;
+        });
 
 const StepIndicator = ({ activeStep, stepConfig }: Props) => {
     const intl = useIntl();

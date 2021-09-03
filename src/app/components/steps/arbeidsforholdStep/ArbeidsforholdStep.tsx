@@ -30,10 +30,10 @@ interface LoadState {
 
 export const visVernepliktSpørsmål = ({
     arbeidsforhold = [],
-    harHattInntektSomFrilanser,
+    frilans_harHattInntektSomFrilanser,
     selvstendig_harHattInntektSomSN,
 }: PleiepengesøknadFormData): boolean => {
-    if (harHattInntektSomFrilanser === YesOrNo.NO && selvstendig_harHattInntektSomSN === YesOrNo.NO) {
+    if (frilans_harHattInntektSomFrilanser === YesOrNo.NO && selvstendig_harHattInntektSomSN === YesOrNo.NO) {
         if (arbeidsforhold.length > 0) {
             return !arbeidsforhold.some(
                 ({ erAnsattIPerioden }) => erAnsattIPerioden === undefined || erAnsattIPerioden === YesOrNo.YES
@@ -49,13 +49,13 @@ const cleanupArbeidsforhold = (formValues: PleiepengesøknadFormData): Pleiepeng
     if (values.mottarAndreYtelser === YesOrNo.NO) {
         values.andreYtelser = [];
     }
-    if (values.harHattInntektSomFrilanser === YesOrNo.NO) {
+    if (values.frilans_harHattInntektSomFrilanser === YesOrNo.NO) {
         values.frilans_jobberFortsattSomFrilans = undefined;
         values.frilans_startdato = undefined;
         values.frilans_arbeidsforhold = undefined;
     }
     if (
-        values.harHattInntektSomFrilanser === YesOrNo.YES &&
+        values.frilans_harHattInntektSomFrilanser === YesOrNo.YES &&
         values.frilans_jobberFortsattSomFrilans === YesOrNo.NO &&
         !erFrilanserISøknadsperiode(values.periodeFra, values.frilans_sluttdato)
     ) {

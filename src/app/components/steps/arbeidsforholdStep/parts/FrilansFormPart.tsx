@@ -28,7 +28,7 @@ interface Props {
 const FrilansFormPart = ({ formValues }: Props) => {
     const {
         frilans_jobberFortsattSomFrilans,
-        harHattInntektSomFrilanser,
+        frilans_harHattInntektSomFrilanser,
         frilans_startdato,
         frilans_arbeidsforhold,
         periodeFra,
@@ -54,7 +54,7 @@ const FrilansFormPart = ({ formValues }: Props) => {
                     }
                 />
             </Box>
-            {harHattInntektSomFrilanser === YesOrNo.YES && (
+            {frilans_harHattInntektSomFrilanser === YesOrNo.YES && (
                 <>
                     <Box margin="l">
                         <ResponsivePanel>

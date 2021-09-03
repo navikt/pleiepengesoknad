@@ -22,6 +22,7 @@ import {
     ArbeidsforholdAnsatt,
     ArbeidsforholdSkalJobbeHvorMyeSvar,
     ArbeidsforholdSkalJobbeSvar,
+    Arbeidsform,
     PleiepengesøknadFormData,
 } from '../../types/PleiepengesøknadFormData';
 import { Arbeidsgiver, BarnReceivedFromApi } from '../../types/Søkerdata';
@@ -63,29 +64,32 @@ const telenorRedusertJobbing: ArbeidsforholdAnsatt = {
     skalJobbeHvorMye: ArbeidsforholdSkalJobbeHvorMyeSvar.redusert,
     jobberNormaltTimer: '20',
     skalJobbeProsent: '50',
+    arbeidsform: Arbeidsform.fast,
 };
 
-const maxboIngenJobbing = {
+const maxboIngenJobbing: ArbeidsforholdAnsatt = {
     ...organisasjonMaxbo,
     erAnsattIPerioden: YesOrNo.YES,
     skalJobbe: ArbeidsforholdSkalJobbeSvar.nei,
     jobberNormaltTimer: '20',
     skalJobbeProsent: '0',
+    arbeidsform: Arbeidsform.fast,
 };
 
-const maxboVetIkke = {
+const maxboVetIkke: ArbeidsforholdAnsatt = {
     ...organisasjonMaxbo,
     erAnsattIPerioden: YesOrNo.YES,
     skalJobbe: ArbeidsforholdSkalJobbeSvar.vetIkke,
     jobberNormaltTimer: '20',
-    vetIkkeEkstrainfo: 'ekstrainfo',
+    arbeidsform: Arbeidsform.fast,
 };
 
-const maxboJobbeSomVanlig = {
+const maxboJobbeSomVanlig: ArbeidsforholdAnsatt = {
     ...organisasjonMaxbo,
     erAnsattIPerioden: YesOrNo.YES,
     skalJobbe: ArbeidsforholdSkalJobbeSvar.ja,
     jobberNormaltTimer: '20',
+    arbeidsform: Arbeidsform.fast,
 };
 
 type AttachmentMock = Attachment & { failed: boolean };
@@ -121,9 +125,14 @@ jest.mock('@navikt/sif-common-core/lib/utils/attachmentUtils', () => {
 const completedAttachmentMock = { uploaded: true, url: attachmentMock1.url, pending: false };
 
 const frilansPartialFormData: Partial<PleiepengesøknadFormData> = {
-    harHattInntektSomFrilanser: YesOrNo.YES,
+    frilans_harHattInntektSomFrilanser: YesOrNo.YES,
     frilans_jobberFortsattSomFrilans: YesOrNo.YES,
     frilans_startdato: '2018-02-01',
+    frilans_arbeidsforhold: {
+        arbeidsform: Arbeidsform.fast,
+        jobberNormaltTimer: '10',
+        skalJobbe: ArbeidsforholdSkalJobbeSvar.nei,
+    },
 };
 const selvstendigPartialFormData: Partial<PleiepengesøknadFormData> = {
     selvstendig_harHattInntektSomSN: YesOrNo.YES,
@@ -141,7 +150,14 @@ const selvstendigPartialFormData: Partial<PleiepengesøknadFormData> = {
 };
 
 const completeFormDataMock: PleiepengesøknadFormData = {
-    arbeidsforhold: [{ ...organisasjonMaxbo, erAnsattIPerioden: YesOrNo.YES, jobberNormaltTimer: '37.5' }],
+    arbeidsforhold: [
+        {
+            ...organisasjonMaxbo,
+            erAnsattIPerioden: YesOrNo.YES,
+            arbeidsform: Arbeidsform.fast,
+            jobberNormaltTimer: '37,5',
+        },
+    ],
     barnetSøknadenGjelder: barnMock[0].aktørId,
     harBekreftetOpplysninger: true,
     harMedsøker: YesOrNo.YES,
@@ -298,6 +314,7 @@ describe('mapFormDataToApiData', () => {
                 jobberNormaltTimer: 20,
                 skalJobbe: SkalJobbe.REDUSERT,
                 skalJobbeProsent: 50,
+                arbeidsform: Arbeidsform.fast,
                 _type: ArbeidsforholdType.ANSATT,
             };
             expect(resultingApiData.arbeidsgivere.organisasjoner).toEqual([result]);
@@ -363,6 +380,7 @@ describe('mapFormDataToApiData', () => {
                 skalJobbe: SkalJobbe.NEI,
                 skalJobbeProsent: 0,
                 jobberNormaltTimer: 20,
+                arbeidsform: Arbeidsform.fast,
                 _type: ArbeidsforholdType.ANSATT,
             };
             expect(JSON.stringify(jsonSort(organisasjoner))).toEqual(JSON.stringify(jsonSort([result])));
@@ -381,6 +399,7 @@ describe('mapFormDataToApiData', () => {
                 jobberNormaltTimer: 20,
                 skalJobbe: SkalJobbe.VET_IKKE,
                 skalJobbeProsent: 0,
+                arbeidsform: Arbeidsform.fast,
                 _type: ArbeidsforholdType.ANSATT,
             };
             expect(organisasjoner).toEqual([result]);
@@ -495,7 +514,7 @@ describe('mapFormDataToApiData', () => {
         }
     });
 
-    describe('frilanser part', () => {
+    describe('frilanser and selvstendig næringsdrivende part', () => {
         it('should map frilanserdata if user har answered yes to question about frilans', () => {
             const formDataWithFrilansInfo = { ...formData, ...frilansPartialFormData };
             const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
@@ -508,26 +527,31 @@ describe('mapFormDataToApiData', () => {
 
         it('should include frilanserdata', () => {
             (isFeatureEnabled as any).mockImplementation(() => true);
-            const formDataWithFrilansInfo = {
+            const formDataWithFrilansInfo: Partial<PleiepengesøknadFormData> = {
                 ...formData,
                 ...frilansPartialFormData,
-                harHattInntektSomFrilanser: YesOrNo.NO,
+                frilans_harHattInntektSomFrilanser: YesOrNo.NO,
             };
-            const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
+            const mappedData = mapFormDataToApiData(formDataWithFrilansInfo as any, barnMock, 'nb');
             expect(mappedData).toBeDefined();
             if (mappedData) {
                 expect(mappedData.harHattInntektSomFrilanser).toBeFalsy();
-                expect(mappedData.frilans).toBeDefined();
+                expect(mappedData.frilans).toBeUndefined();
             }
         });
         it('should include selvstendig info', () => {
             (isFeatureEnabled as any).mockImplementation(() => true);
-            const formDataWithSelvstendigInfo = {
+            const formDataWithSelvstendigInfo: Partial<PleiepengesøknadFormData> = {
                 ...formData,
                 ...selvstendigPartialFormData,
-                harHattInntektSomFrilanser: YesOrNo.NO,
+                selvstendig_harHattInntektSomSN: YesOrNo.YES,
+                selvstendig_arbeidsforhold: {
+                    arbeidsform: Arbeidsform.fast,
+                    jobberNormaltTimer: '10',
+                    skalJobbe: ArbeidsforholdSkalJobbeSvar.nei,
+                },
             };
-            const mappedData = mapFormDataToApiData(formDataWithSelvstendigInfo, barnMock, 'nb');
+            const mappedData = mapFormDataToApiData(formDataWithSelvstendigInfo as any, barnMock, 'nb');
             expect(mappedData).toBeDefined();
             if (mappedData) {
                 expect(mappedData.harHattInntektSomSelvstendigNæringsdrivende).toBeTruthy();
@@ -556,6 +580,7 @@ describe('Test complete applications', () => {
                     skalJobbe: SkalJobbe.JA,
                     skalJobbeProsent: 100,
                     jobberNormaltTimer: 37.5,
+                    arbeidsform: Arbeidsform.fast,
                     _type: ArbeidsforholdType.ANSATT,
                 },
             ],
@@ -657,6 +682,13 @@ describe('Test complete applications', () => {
     const featureFrilansApiData: Partial<PleiepengesøknadApiData> = {
         harHattInntektSomFrilanser: true,
         frilans: {
+            arbeidsforhold: {
+                arbeidsform: Arbeidsform.fast,
+                jobberNormaltTimer: 10,
+                skalJobbeProsent: 0,
+                skalJobbe: SkalJobbe.NEI,
+                _type: ArbeidsforholdType.FRILANSER,
+            },
             jobberFortsattSomFrilans: true,
             startdato: frilansDate,
             sluttdato: undefined,
@@ -706,9 +738,14 @@ describe('Test complete applications', () => {
         };
 
         const featureFrilanserFormData: Partial<PleiepengesøknadFormData> = {
-            harHattInntektSomFrilanser: YesOrNo.YES,
+            frilans_harHattInntektSomFrilanser: YesOrNo.YES,
             frilans_startdato: frilansDate,
             frilans_jobberFortsattSomFrilans: YesOrNo.YES,
+            frilans_arbeidsforhold: {
+                arbeidsform: Arbeidsform.fast,
+                jobberNormaltTimer: '10',
+                skalJobbe: ArbeidsforholdSkalJobbeSvar.nei,
+            },
         };
 
         const featureSelvstendigFormData: Partial<PleiepengesøknadFormData> = {

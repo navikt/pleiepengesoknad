@@ -12,6 +12,7 @@ import {
     opplysningerOmTidsromStepIsValid,
     welcomingPageIsValid,
 } from '../validation/stepValidations';
+import { erFrilanserISøknadsperiode } from './frilanserUtils';
 
 export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
     const conf = stepConfig[stepId];
@@ -33,6 +34,12 @@ export const arbeidsforholdStepAvailable = (formData: PleiepengesøknadFormData)
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData);
+
+export const arbeidsforholdIPeriodenStepAvailable = (formData: PleiepengesøknadFormData) =>
+    welcomingPageIsValid(formData) &&
+    opplysningerOmBarnetStepIsValid(formData) &&
+    opplysningerOmTidsromStepIsValid(formData) &&
+    arbeidsforholdStepIsValid();
 
 export const omsorgstilbudStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
@@ -93,3 +100,11 @@ export const skalBrukerSvarePåBeredskapOgNattevåk = (formValues?: Pleiepenges�
         (historiskOmsorgstilbud || planlagtOmsorgstilbud)
     );
 };
+
+export const skalBrukerSvarePåArbeidsforholdIPerioden = (formValues?: PleiepengesøknadFormData): boolean =>
+    formValues !== undefined &&
+    (formValues.arbeidsforhold.find((a) => a.erAnsattIPerioden === YesOrNo.YES) !== undefined ||
+        formValues.frilans_jobberFortsattSomFrilans === YesOrNo.YES ||
+        (formValues.frilans_jobberFortsattSomFrilans === YesOrNo.NO &&
+            erFrilanserISøknadsperiode(formValues.periodeFra, formValues.frilans_sluttdato)) ||
+        formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES);

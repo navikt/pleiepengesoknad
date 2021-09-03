@@ -5,10 +5,10 @@ import { useAmplitudeInstance } from '@navikt/sif-common-amplitude';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-with-header/ContentWithHeader';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import SummaryList from '@navikt/sif-common-core/lib/components/summary-list/SummaryList';
 import TextareaSummary from '@navikt/sif-common-core/lib/components/textarea-summary/TextareaSummary';
-import ValidationErrorSummaryBase from '@navikt/sif-common-core/lib/components/validation-error-summary-base/ValidationErrorSummaryBase';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { apiStringDateToDate, prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
@@ -41,6 +41,7 @@ import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringAttachmentList from '../../legeerklæring-file-list/LegeerklæringFileList';
 import SummarySection from '../../summary-section/SummarySection';
+import ApiValidationSummary from './ApiValidationSummary';
 import BarnSummary from './BarnSummary';
 import FrilansSummary from './FrilansSummary';
 import HistoriskOmsorgstilbudSummary from './HistoriskOmsorgstilbudSummary';
@@ -148,32 +149,39 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                 const mottarAndreYtelserFraNAV =
                     apiValues.andreYtelserFraNAV && apiValues.andreYtelserFraNAV.length > 0;
 
+                const alleArbeidsforhold = [
+                    ...apiValues.arbeidsgivere.organisasjoner,
+                    ...(apiValues.frilans?.arbeidsforhold ? [apiValues.frilans.arbeidsforhold] : []),
+                    ...(apiValues.selvstendigArbeidsforhold ? [apiValues.selvstendigArbeidsforhold] : []),
+                ];
+
                 return (
                     <FormikStep
                         id={StepID.SUMMARY}
                         onValidFormSubmit={() => {
-                            setTimeout(() => {
-                                // La view oppdatere seg først
-                                sendSoknad(apiValues, søkerdata);
-                            });
+                            if (apiValuesValidationErrors === undefined) {
+                                setTimeout(() => {
+                                    // La view oppdatere seg først
+                                    sendSoknad(apiValues, søkerdata);
+                                });
+                            } else {
+                                document.getElementsByClassName('validationErrorSummary');
+                            }
                         }}
                         useValidationErrorSummary={false}
                         showSubmitButton={apiValuesValidationErrors === undefined}
-                        buttonDisabled={sendingInProgress || apiValuesValidationErrors !== undefined}
-                        showButtonSpinner={sendingInProgress}
-                        customErrorSummary={
-                            apiValuesValidationErrors
-                                ? () => (
-                                      <ValidationErrorSummaryBase
-                                          title={intlHelper(intl, 'formikValidationErrorSummary.tittel')}
-                                          errors={apiValuesValidationErrors}
-                                      />
-                                  )
-                                : undefined
-                        }>
+                        buttonDisabled={sendingInProgress}
+                        showButtonSpinner={sendingInProgress}>
                         <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                             <FormattedMessage id="steg.oppsummering.info" />
                         </CounsellorPanel>
+
+                        {apiValuesValidationErrors && apiValuesValidationErrors.length > 0 && (
+                            <FormBlock>
+                                <ApiValidationSummary errors={apiValuesValidationErrors} />
+                            </FormBlock>
+                        )}
+
                         <Box margin="xl">
                             <ResponsivePanel border={true}>
                                 {/* Om deg */}
@@ -338,17 +346,9 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
 
                                 {/* Arbeidsforhold */}
                                 <SummarySection header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.header')}>
-                                    {apiValues.arbeidsgivere.organisasjoner.length > 0 ? (
+                                    {alleArbeidsforhold.length > 0 ? (
                                         <SummaryList
-                                            items={[
-                                                ...apiValues.arbeidsgivere.organisasjoner,
-                                                ...(apiValues.frilans?.arbeidsforhold
-                                                    ? [apiValues.frilans?.arbeidsforhold]
-                                                    : []),
-                                                ...(apiValues.selvstendigArbeidsforhold
-                                                    ? [apiValues.selvstendigArbeidsforhold]
-                                                    : []),
-                                            ]}
+                                            items={alleArbeidsforhold}
                                             itemRenderer={(forhold: ArbeidsforholdApi) => (
                                                 <ArbeidsforholdSummary arbeidsforhold={forhold} />
                                             )}

@@ -135,7 +135,6 @@ class AppEssentialsLoader extends React.Component<Props, State> {
     }
 
     handleSøkerdataFetchError(error: AxiosError) {
-        console.log(error);
         if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
             this.setState({ ...this.state, willRedirectToLoginPage: true });
             relocateToLoginPage();

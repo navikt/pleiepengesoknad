@@ -37,127 +37,127 @@ export const organisasjonMaxboYES: ArbeidsforholdAnsatt = {
 
 export const formDataMock: Partial<PleiepengesøknadFormData> = {
     [AppFormField.arbeidsforhold]: [{ ...organisasjonTelenor }, { ...organisasjonMaxbo }],
-    harHattInntektSomFrilanser: YesOrNo.UNANSWERED,
+    frilans_harHattInntektSomFrilanser: YesOrNo.UNANSWERED,
     [AppFormField.selvstendig_harHattInntektSomSN]: YesOrNo.UNANSWERED,
 };
 
 describe('Check visVernepliktSpørsmål function', () => {
-    const data_frilans_harHattInntektSomFrilanserNo = {
+    const data_frilans_harHattInntektSomFrilanserNo: Partial<PleiepengesøknadFormData> = {
         ...formDataMock,
-        harHattInntektSomFrilanser: YesOrNo.NO,
+        frilans_harHattInntektSomFrilanser: YesOrNo.NO,
     };
 
-    const data_frilans_harHattInntektSomFrilanserYES = {
+    const data_frilans_harHattInntektSomFrilanserYES: Partial<PleiepengesøknadFormData> = {
         ...formDataMock,
-        harHattInntektSomFrilanser: YesOrNo.YES,
+        frilans_harHattInntektSomFrilanser: YesOrNo.YES,
     };
 
-    const data_selvstendig_harHattInntektSomSNNO = {
+    const data_selvstendig_harHattInntektSomSNNO: Partial<PleiepengesøknadFormData> = {
         ...formDataMock,
         selvstendig_harHattInntektSomSN: YesOrNo.NO,
     };
 
-    const data_selvstendig_harHattInntektSomSNYES = {
+    const data_selvstendig_harHattInntektSomSNYES: Partial<PleiepengesøknadFormData> = {
         ...formDataMock,
         selvstendig_harHattInntektSomSN: YesOrNo.YES,
     };
 
-    const data_FrilanserOgSelvstendigNO = {
+    const data_FrilanserOgSelvstendigNO: Partial<PleiepengesøknadFormData> = {
         ...formDataMock,
-        harHattInntektSomFrilanser: YesOrNo.NO,
+        frilans_harHattInntektSomFrilanser: YesOrNo.NO,
         selvstendig_harHattInntektSomSN: YesOrNo.NO,
     };
 
-    const data_FrilanserOgSelvstendigYES = {
+    const data_FrilanserOgSelvstendigYES: Partial<PleiepengesøknadFormData> = {
         ...formDataMock,
-        harHattInntektSomFrilanser: YesOrNo.YES,
+        frilans_harHattInntektSomFrilanser: YesOrNo.YES,
         selvstendig_harHattInntektSomSN: YesOrNo.YES,
     };
 
-    const data_no_organizations = {
+    const data_no_organizations: Partial<PleiepengesøknadFormData> = {
         ...data_frilans_harHattInntektSomFrilanserNo,
         arbeidsforhold: [],
     };
 
-    const data_no_organizations_Frilanser_NO = {
+    const data_no_organizations_Frilanser_NO: Partial<PleiepengesøknadFormData> = {
         ...data_frilans_harHattInntektSomFrilanserNo,
         arbeidsforhold: [],
     };
 
-    const data_no_organizations_SelvstendigNO = {
+    const data_no_organizations_SelvstendigNO: Partial<PleiepengesøknadFormData> = {
         ...data_selvstendig_harHattInntektSomSNNO,
         arbeidsforhold: [],
     };
 
-    const data_no_organizations_FrilanserOgSelvstendigNO = {
+    const data_no_organizations_FrilanserOgSelvstendigNO: Partial<PleiepengesøknadFormData> = {
         ...data_FrilanserOgSelvstendigNO,
         arbeidsforhold: [],
     };
 
-    const data_FrilanserOgSelvstendigNO_one_of_two_org_NO = {
+    const data_FrilanserOgSelvstendigNO_one_of_two_org_NO: Partial<PleiepengesøknadFormData> = {
         ...data_FrilanserOgSelvstendigNO,
         arbeidsforhold: [organisasjonTelenorNO, organisasjonMaxbo],
     };
 
-    const data_FrilanserOgSelvstendigUNANSWERED_one_of_two_org_NO = {
+    const data_FrilanserOgSelvstendigUNANSWERED_one_of_two_org_NO: Partial<PleiepengesøknadFormData> = {
         ...formDataMock,
         arbeidsforhold: [organisasjonTelenorNO, organisasjonMaxbo],
     };
 
-    const data_FrilanserNO_SelvstendigUNANSWERED_one_of_two_org_NO = {
+    const data_FrilanserNO_SelvstendigUNANSWERED_one_of_two_org_NO: Partial<PleiepengesøknadFormData> = {
         ...data_frilans_harHattInntektSomFrilanserNo,
         arbeidsforhold: [organisasjonTelenorNO, organisasjonMaxbo],
     };
 
-    const data_FrilanserUNANSWERED_SelvstendigNO_one_of_two_org_NO = {
+    const data_FrilanserUNANSWERED_SelvstendigNO_one_of_two_org_NO: Partial<PleiepengesøknadFormData> = {
         ...data_selvstendig_harHattInntektSomSNNO,
         arbeidsforhold: [organisasjonTelenorNO, organisasjonMaxbo],
     };
-    const data_FrilanserUNANSWERED_SelvstendigNO_one_of_two_org_YES = {
+    const data_FrilanserUNANSWERED_SelvstendigNO_one_of_two_org_YES: Partial<PleiepengesøknadFormData> = {
         ...data_selvstendig_harHattInntektSomSNNO,
         arbeidsforhold: [organisasjonTelenorYES, organisasjonMaxbo],
     };
-    const data_FrilanserUNANSWERED_SelvstendigNO_and_two_org_YES = {
+    const data_FrilanserUNANSWERED_SelvstendigNO_and_two_org_YES: Partial<PleiepengesøknadFormData> = {
         ...data_selvstendig_harHattInntektSomSNNO,
         arbeidsforhold: [organisasjonTelenorYES, organisasjonMaxboYES],
     };
 
-    const data_FrilanserNO_SelvstendigUNANSWERED_and_two_org_YES = {
+    const data_FrilanserNO_SelvstendigUNANSWERED_and_two_org_YES: Partial<PleiepengesøknadFormData> = {
         ...data_frilans_harHattInntektSomFrilanserNo,
         arbeidsforhold: [organisasjonTelenorYES, organisasjonMaxboYES],
     };
 
-    const data_FrilanserSelvstendigNO_and_two_org_YES = {
+    const data_FrilanserSelvstendigNO_and_two_org_YES: Partial<PleiepengesøknadFormData> = {
         ...data_FrilanserOgSelvstendigNO,
         arbeidsforhold: [organisasjonTelenorYES, organisasjonMaxboYES],
     };
-    const data_FrilanserSelvstendigYES_and_two_org_YES = {
+    const data_FrilanserSelvstendigYES_and_two_org_YES: Partial<PleiepengesøknadFormData> = {
         ...data_FrilanserOgSelvstendigYES,
         arbeidsforhold: [organisasjonTelenorYES, organisasjonMaxboYES],
     };
-    const data_FrilanserYES_SelvstendigNO_and_two_org_YES = {
+    const data_FrilanserYES_SelvstendigNO_and_two_org_YES: Partial<PleiepengesøknadFormData> = {
         ...data_frilans_harHattInntektSomFrilanserYES,
         selvstendig_harHattInntektSomSN: YesOrNo.NO,
         arbeidsforhold: [organisasjonTelenorYES, organisasjonMaxboYES],
     };
 
-    const data_FrilanserNO_SelvstendigYES_and_two_org_YES = {
+    const data_FrilanserNO_SelvstendigYES_and_two_org_YES: Partial<PleiepengesøknadFormData> = {
         ...data_selvstendig_harHattInntektSomSNYES,
-        harHattInntektSomFrilanser: YesOrNo.NO,
+        frilans_harHattInntektSomFrilanser: YesOrNo.NO,
         arbeidsforhold: [organisasjonTelenorYES, organisasjonMaxboYES],
     };
 
-    const data_FrilanserSelvstendigYES_and_two_org_NO = {
+    const data_FrilanserSelvstendigYES_and_two_org_NO: Partial<PleiepengesøknadFormData> = {
         ...data_FrilanserOgSelvstendigYES,
         arbeidsforhold: [organisasjonTelenorYES, organisasjonMaxboYES],
     };
 
-    const data_FrilanserSelvstendigYES_and_no_organizations = {
+    const data_FrilanserSelvstendigYES_and_no_organizations: Partial<PleiepengesøknadFormData> = {
         ...data_FrilanserOgSelvstendigYES,
         arbeidsforhold: [],
     };
 
-    const data_every_questions_NO = {
+    const data_every_questions_NO: Partial<PleiepengesøknadFormData> = {
         ...data_FrilanserOgSelvstendigNO,
         arbeidsforhold: [organisasjonTelenorNO, organisasjonMaxboNO],
     };

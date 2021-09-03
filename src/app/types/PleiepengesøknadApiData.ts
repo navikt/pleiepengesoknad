@@ -53,21 +53,21 @@ export const isArbeidsforholdAnsattApi = (forhold: any): forhold is Arbeidsforho
 
 export type ArbeidsforholdApiNei = Pick<
     ArbeidsforholdApi,
-    'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | '_type'
+    'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | 'arbeidsform' | '_type'
 >;
 export type ArbeidsforholdApiRedusert = Pick<
     ArbeidsforholdApi,
-    'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | 'skalJobbeTimer' | '_type'
+    'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | 'skalJobbeTimer' | 'arbeidsform' | '_type'
 >;
 
 export type ArbeidsforholdApiVetIkke = Pick<
     ArbeidsforholdApi,
-    'skalJobbe' | 'jobberNormaltTimer' | 'skalJobbeProsent' | '_type'
+    'skalJobbe' | 'jobberNormaltTimer' | 'skalJobbeProsent' | 'arbeidsform' | '_type'
 >;
 
 export type ArbeidsforholdApiSomVanlig = Pick<
     ArbeidsforholdApi,
-    'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | '_type'
+    'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | 'arbeidsform' | '_type'
 >;
 
 export interface OmsorgstilbudUkeApi {
