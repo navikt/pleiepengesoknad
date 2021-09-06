@@ -156,6 +156,7 @@ const completeFormDataMock: PleiepengesøknadFormData = {
             erAnsattIPerioden: YesOrNo.YES,
             arbeidsform: Arbeidsform.fast,
             jobberNormaltTimer: '37,5',
+            skalJobbe: ArbeidsforholdSkalJobbeSvar.ja,
         },
     ],
     barnetSøknadenGjelder: barnMock[0].aktørId,
