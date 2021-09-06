@@ -380,7 +380,7 @@
     "steg.oppsummering.vedlegg.header": "Vedlegg",
 
     "steg.oppsummering.validering.manglerVedlegg": "Noe gikk galt med legeerklæringen.",
-    "steg.oppsummering.validering.ugyldigArbeidsforhold": "Noe stemmer ikke helt med arbeidsforholdet du har registrert.",
+    "steg.oppsummering.validering.ugyldigArbeidsforhold": "Noe stemmer ikke helt med informasjonen om din arbeidssituasjon.",
     "steg.oppsummering.validering.ugyldigArbeidsforholdSN": "Det mangler informasjon om hvordan du skal jobbe i perioden som selvstendig næringsdrivende.",
     "steg.oppsummering.validering.ugyldigArbeidsforholdFrilans": "Det mangler informasjon om hvordan du skal jobbe i perioden som frilanser.",
     "steg.oppsummering.validering.navigasjonTilStegInfo": "Vennligst gå tilbake og kontroller informasjonen du har fylt ut, og bruk \"Fortsett\" knappen for å gå videre.",
