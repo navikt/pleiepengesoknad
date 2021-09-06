@@ -88,8 +88,9 @@ export const validateApiValues = (
     }
 
     if (
-        (values.frilans && values.frilans.arbeidsforhold === undefined) ||
-        (values.frilans?.arbeidsforhold && isArbeidsforholdApiValuesValid(values.frilans.arbeidsforhold) === false)
+        values.frilans &&
+        (values.frilans.arbeidsforhold === undefined ||
+            (values.frilans?.arbeidsforhold && isArbeidsforholdApiValuesValid(values.frilans.arbeidsforhold) === false))
     ) {
         errors.push({
             skjemaelementId: 'arbeidsforholdFrilans',

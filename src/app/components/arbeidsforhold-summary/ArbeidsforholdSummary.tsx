@@ -1,7 +1,9 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import AlertStripe from 'nav-frontend-alertstriper';
 import {
     ArbeidsforholdAnsattApi,
     ArbeidsforholdApi,
@@ -20,14 +22,10 @@ const bem = bemUtils('arbeidsforholdSummary');
 const ArbeidsforholdSummary = ({ arbeidsforhold }: Props) => {
     const intl = useIntl();
     const { skalJobbeProsent, skalJobbeTimer, jobberNormaltTimer, skalJobbe, arbeidsform, _type } = arbeidsforhold;
-    const intlValues = {
-        timerNormalt: jobberNormaltTimer,
-        timerRedusert: skalJobbeTimer,
-        prosentRedusert: skalJobbeProsent,
-        arbeidsform: intlHelper(intl, `arbeidsforhold.oppsummering.arbeidsform.${arbeidsform}`),
-    };
 
-    const tittel = isArbeidsforholdAnsattApi(arbeidsforhold)
+    const isAnsattArbeidsforhold = isArbeidsforholdAnsattApi(arbeidsforhold);
+
+    const tittel = isAnsattArbeidsforhold
         ? intlHelper(intl, 'arbeidsforhold.oppsummering.ansatt', {
               navn: arbeidsforhold.navn,
               organisasjonsnummer: arbeidsforhold.organisasjonsnummer,
@@ -35,6 +33,31 @@ const ArbeidsforholdSummary = ({ arbeidsforhold }: Props) => {
         : _type === ArbeidsforholdType.FRILANSER
         ? intlHelper(intl, 'arbeidsforhold.oppsummering.frilanser')
         : intlHelper(intl, 'arbeidsforhold.oppsummering.selvstendig');
+
+    if (skalJobbe === undefined || arbeidsform === undefined) {
+        const feilmelding = isAnsattArbeidsforhold
+            ? intlHelper(intl, 'steg.oppsummering.validering.ugyldigArbeidsforholdAnsatt')
+            : _type === ArbeidsforholdType.FRILANSER
+            ? intlHelper(intl, 'steg.oppsummering.validering.ugyldigArbeidsforholdFrilans')
+            : intlHelper(intl, 'steg.oppsummering.validering.ugyldigArbeidsforholdSN');
+
+        return (
+            <div className={bem.block}>
+                <div className={bem.element('tittel')}>{tittel}</div>
+                <Box margin="m">
+                    <AlertStripe form="inline" type="feil">
+                        {feilmelding}
+                    </AlertStripe>
+                </Box>
+            </div>
+        );
+    }
+    const intlValues = {
+        timerNormalt: jobberNormaltTimer,
+        timerRedusert: skalJobbeTimer,
+        prosentRedusert: skalJobbeProsent,
+        arbeidsform: intlHelper(intl, `arbeidsforhold.oppsummering.arbeidsform.${arbeidsform}`),
+    };
 
     return (
         <div className={bem.block}>

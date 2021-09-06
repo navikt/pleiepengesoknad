@@ -32,8 +32,10 @@ export const mapArbeidsforholdToApiData = (
     const commonData: Pick<ArbeidsforholdApi, 'arbeidsform' | '_type'> = { arbeidsform, _type: type };
     const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
 
-    if (jobberNormaltTimerNumber === undefined) {
-        return undefined;
+    if (jobberNormaltTimerNumber === undefined || skalJobbe === undefined) {
+        return {
+            _type: type,
+        };
     }
 
     if (skalJobbe === ArbeidsforholdSkalJobbeSvar.nei) {
