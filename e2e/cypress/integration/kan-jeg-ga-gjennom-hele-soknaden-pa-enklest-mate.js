@@ -41,12 +41,21 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
             cy.get('[class=DayPicker-Day]').not('.DayPicker-Day--disabled').first().click();
 
             clickNeiPaAlleSporsmal();
+            clickNeiPaAlleSporsmal();
 
             clickFortsett(cy);
         });
 
         it('STEG 3: Arbeidsforhold', () => {
             clickNeiPaAlleSporsmal();
+
+            cy.get('[class=nav-datovelger__kalenderknapp]').first().click();
+            cy.get('#kalender-navbarknapp-previousMonth').first().click();
+            cy.get('[class=DayPicker-Day]').not('.DayPicker-Day--disabled').first().click();
+            cy.get('[class=nav-datovelger__kalenderknapp]').last().click();
+            cy.get('#kalender-navbarknapp-previousMonth').first().click();
+            cy.get('[class=DayPicker-Day]').not('.DayPicker-Day--disabled').first().click();
+
             clickNeiPaAlleSporsmal();
             clickFortsett(cy);
         });
