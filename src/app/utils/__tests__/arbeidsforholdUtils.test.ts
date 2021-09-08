@@ -1,7 +1,15 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { DateRange } from '@navikt/sif-common-formik/lib';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import dayjs from 'dayjs';
 import { ArbeidsforholdAnsatt } from '../../types/PleiepengesøknadFormData';
 import { Arbeidsgiver } from '../../types/Søkerdata';
-import { syncArbeidsforholdWithArbeidsgivere } from '../arbeidsforholdUtils';
+import { harAnsettesesforholdISøknadsperiode, syncArbeidsforholdWithArbeidsgivere } from '../arbeidsforholdUtils';
+
+const søknadsperiode: DateRange = {
+    from: new Date(2020, 1, 1),
+    to: new Date(2020, 2, 1),
+};
 
 const organisasjoner: Arbeidsgiver[] = [
     { navn: 'Org1', organisasjonsnummer: '1' },
@@ -18,10 +26,27 @@ const organisasjonerEqual: Arbeidsgiver[] = [
     { navn: 'Org4', organisasjonsnummer: '4' },
 ];
 
-const arbeidsforhold: ArbeidsforholdAnsatt[] = [
-    { navn: 'Org3', organisasjonsnummer: '3', erAnsattIPerioden: YesOrNo.YES, jobberNormaltTimer: '10' },
-    { navn: 'Org4', organisasjonsnummer: '4', erAnsattIPerioden: YesOrNo.UNANSWERED, jobberNormaltTimer: '20' },
-];
+const arbeidsforholdErAnsatt: ArbeidsforholdAnsatt = {
+    navn: 'Org3',
+    organisasjonsnummer: '3',
+    erAnsatt: YesOrNo.YES,
+    jobberNormaltTimer: '10',
+};
+
+const arbeidsforholdUbesvart: ArbeidsforholdAnsatt = {
+    navn: 'Org4',
+    organisasjonsnummer: '4',
+    erAnsatt: YesOrNo.UNANSWERED,
+    jobberNormaltTimer: '20',
+};
+
+const arbeidsforholdIkkeAnsatt: ArbeidsforholdAnsatt = {
+    navn: 'Org5',
+    organisasjonsnummer: '5',
+    erAnsatt: YesOrNo.NO,
+    sluttdato: '2020-01-01',
+};
+const arbeidsforhold: ArbeidsforholdAnsatt[] = [arbeidsforholdErAnsatt, arbeidsforholdUbesvart];
 
 jest.mock('./../envUtils', () => {
     return {
@@ -39,16 +64,38 @@ describe('arbeidsforholdUtils', () => {
         it('should keep those arbeidsforhold which still are present in arbeidsgivere', () => {
             const result = syncArbeidsforholdWithArbeidsgivere(organisasjonerPartiallyEqual, arbeidsforhold);
             expect(result[0].organisasjonsnummer).toBe('3');
-            expect(result[0].erAnsattIPerioden).toBe(YesOrNo.YES);
+            expect(result[0].erAnsatt).toBe(YesOrNo.YES);
             expect(result[1].organisasjonsnummer).toBe('new');
         });
 
         it('should keep all arbeidsforhold when all are present in arbeidsgivere', () => {
             const result = syncArbeidsforholdWithArbeidsgivere(organisasjonerEqual, arbeidsforhold);
             expect(result[0].organisasjonsnummer).toBe('3');
-            expect(result[0].erAnsattIPerioden).toBe(YesOrNo.YES);
+            expect(result[0].erAnsatt).toBe(YesOrNo.YES);
             expect(result[1].organisasjonsnummer).toBe('4');
-            expect(result[1].erAnsattIPerioden).toBe(YesOrNo.UNANSWERED);
+            expect(result[1].erAnsatt).toBe(YesOrNo.UNANSWERED);
+        });
+    });
+
+    describe('harAnsettesesforholdISøknadsperiode()', () => {
+        it('returnerer false når søker ikke har arbeidsgivere', () => {
+            expect(harAnsettesesforholdISøknadsperiode([], søknadsperiode)).toBeFalsy();
+        });
+        it('returnerer false søker har arbeidsgivere, men er ikke ansatt i søknadsperiode og sluttdato er før søknadsperiode', () => {
+            expect(harAnsettesesforholdISøknadsperiode([arbeidsforholdIkkeAnsatt], søknadsperiode)).toBeFalsy();
+        });
+
+        it('returnerer true når søker er ansatt', () => {
+            expect(harAnsettesesforholdISøknadsperiode([arbeidsforholdErAnsatt], søknadsperiode)).toBeTruthy();
+        });
+        it('returnerer trur når søker har avsluttet arbeidsforhold i søknadsperioden', () => {
+            const sluttdato = dayjs(søknadsperiode.to).subtract(2, 'days').toDate();
+            expect(
+                harAnsettesesforholdISøknadsperiode(
+                    [{ ...arbeidsforholdIkkeAnsatt, sluttdato: datepickerUtils.getDateStringFromValue(sluttdato) }],
+                    søknadsperiode
+                )
+            ).toBeTruthy();
         });
     });
 });

@@ -355,7 +355,7 @@
     "dokumenter.advarsel.totalstørrelse.1": "Du har totalt lasta opp meir enn grensa på 24 Mb. Det betyr at du må fjerne nokre av dei vedlegga du har lasta opp. Dersom det betyr at du ikkje får plass til alt du ønskjer å sende nå, kan du ",
     "dokumenter.advarsel.totalstørrelse.2": "ettersende fleire dokumenter.",
 
-    "arbeidsforhold.erAnsattIPerioden.spm": "Er du tilsett her i perioden du søkjer pleiepengar for?",
+    "arbeidsforhold.erAnsatt.spm": "Er du tilsett her i perioden du søkjer pleiepengar for?",
 
     "arbeidsforhold.arbeidsform.spm": "Korleis jobbar du hos {arbeidsforhold}?",
     "arbeidsforhold.arbeidsform.fast": "Fast tal timar per veke",

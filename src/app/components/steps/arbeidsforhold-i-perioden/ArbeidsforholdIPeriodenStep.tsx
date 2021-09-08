@@ -39,7 +39,7 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
             index,
             arbeidsforhold,
         }))
-        .filter((a) => a.arbeidsforhold.erAnsattIPerioden === YesOrNo.YES);
+        .filter((a) => a.arbeidsforhold.erAnsatt === YesOrNo.YES);
 
     const skalBesvareAnsettelsesforhold = aktiveArbeidsforhold.length > 0;
     const skalBesvareFrilans = frilans_jobberFortsattSomFrilans === YesOrNo.YES && frilans_arbeidsforhold;

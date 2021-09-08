@@ -93,7 +93,8 @@ export enum AppFormField {
 }
 
 export enum ArbeidsforholdField {
-    erAnsattIPerioden = 'erAnsattIPerioden',
+    erAnsatt = 'erAnsatt',
+    sluttdato = 'sluttdato',
     skalJobbe = 'skalJobbe',
     timerEllerProsent = 'timerEllerProsent',
     jobberNormaltTimer = 'jobberNormaltTimer',
@@ -141,7 +142,8 @@ export interface Arbeidsforhold {
     [ArbeidsforholdField.skalJobbeHvorMye]?: ArbeidsforholdSkalJobbeHvorMyeSvar;
 }
 export interface ArbeidsforholdAnsatt extends Arbeidsgiver, Arbeidsforhold {
-    [ArbeidsforholdField.erAnsattIPerioden]?: YesOrNo;
+    [ArbeidsforholdField.erAnsatt]?: YesOrNo;
+    [ArbeidsforholdField.sluttdato]?: string;
 }
 
 export const isArbeidsforholdAnsatt = (arbeidsforhold: any): arbeidsforhold is ArbeidsforholdAnsatt => {

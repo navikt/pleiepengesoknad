@@ -68,8 +68,8 @@ export enum AppFieldValidationErrors {
     'ferieuttak_utenfor_periode' = 'ferieuttak_utenfor_periode',
 }
 
-export const isYesOrNoAnswered = (answer: YesOrNo) => {
-    return answer === YesOrNo.NO || answer === YesOrNo.YES || answer === YesOrNo.DO_NOT_KNOW;
+export const isYesOrNoAnswered = (answer?: YesOrNo) => {
+    return answer !== undefined && (answer === YesOrNo.NO || answer === YesOrNo.YES || answer === YesOrNo.DO_NOT_KNOW);
 };
 
 export const validateFødselsdato = (dateString?: string): ValidationResult<ValidationError> => {
@@ -235,6 +235,19 @@ export const getArbeidsformAnsattValidator =
         return undefined;
     };
 
+export const getArbeidsforholdSluttdatoValidator =
+    ({ maksDato, arbeidsforhold }: { maksDato: Date; arbeidsforhold: ArbeidsforholdAnsatt }) =>
+    (value: any): ValidationError | undefined => {
+        const error = getDateValidator({ required: true, max: maksDato })(value);
+        return error
+            ? {
+                  key: `validation.arbeidsforhold.sluttdato.${error}`,
+                  values: { navn: arbeidsforhold.navn },
+                  keepKeyUnaltered: true,
+              }
+            : undefined;
+    };
+
 export const getJobberNormaltTimerValidator =
     (
         arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF | undefined,
@@ -249,10 +262,14 @@ export const getJobberNormaltTimerValidator =
             min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
             max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
         })(value);
+        const erAvsluttetAnsettelsesforhold =
+            isArbeidsforholdAnsatt(arbeidsforhold) && arbeidsforhold.erAnsatt === YesOrNo.NO;
         if (error) {
             return isArbeidsforholdAnsatt(arbeidsforhold)
                 ? {
-                      key: `validation.arbeidsforhold.jobberNormaltTimer.${arbeidsforhold.arbeidsform}.${error}`,
+                      key: erAvsluttetAnsettelsesforhold
+                          ? `validation.arbeidsforhold.jobberNormaltTimer.avsluttet.${arbeidsforhold.arbeidsform}.${error}`
+                          : `validation.arbeidsforhold.jobberNormaltTimer.${arbeidsforhold.arbeidsform}.${error}`,
                       values: {
                           navn: arbeidsforhold.navn,
                           min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
@@ -261,7 +278,9 @@ export const getJobberNormaltTimerValidator =
                       keepKeyUnaltered: true,
                   }
                 : {
-                      key: `validation.${frilansEllerSelvstendig}_arbeidsforhold.jobberNormaltTimer.${arbeidsforhold.arbeidsform}.${error}`,
+                      key: erAvsluttetAnsettelsesforhold
+                          ? `validation.${frilansEllerSelvstendig}_arbeidsforhold.jobberNormaltTimer.avsluttet.${arbeidsforhold.arbeidsform}.${error}`
+                          : `validation.${frilansEllerSelvstendig}_arbeidsforhold.jobberNormaltTimer.${arbeidsforhold.arbeidsform}.${error}`,
                       values: {
                           min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
                           max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,

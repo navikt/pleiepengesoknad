@@ -6,15 +6,19 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import LoadingSpinner from '@navikt/sif-common-core/lib/components/loading-spinner/LoadingSpinner';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { useFormikContext } from 'formik';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { getArbeidsgivere } from '../../../utils/arbeidsforholdUtils';
+import {
+    sluttdatoErISøknadsperiode,
+    getArbeidsgivere,
+    harAnsettesesforholdISøknadsperiode,
+} from '../../../utils/arbeidsforholdUtils';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
+import { getSøknadsperiodeFromFormData } from '../../../utils/formDataUtils';
 import { erFrilanserISøknadsperiode } from '../../../utils/frilanserUtils';
 import FormikStep from '../../formik-step/FormikStep';
 import AndreYtelserFormPart from './parts/AndreYtelserFormPart';
@@ -22,56 +26,79 @@ import ArbeidsforholdFormPart from './parts/ArbeidsforholdFormPart';
 import FrilansFormPart from './parts/FrilansFormPart';
 import SelvstendigNæringsdrivendeFormPart from './parts/SelvstendigNæringsdrivendeFormPart';
 import VernepliktigFormPart from './parts/VernepliktigFormPart';
+import { DateRange } from '@navikt/sif-common-formik/lib';
 
 interface LoadState {
     isLoading: boolean;
     isLoaded: boolean;
 }
 
-export const visVernepliktSpørsmål = ({
-    arbeidsforhold = [],
-    frilans_harHattInntektSomFrilanser,
-    selvstendig_harHattInntektSomSN,
-}: PleiepengesøknadFormData): boolean => {
-    if (frilans_harHattInntektSomFrilanser === YesOrNo.NO && selvstendig_harHattInntektSomSN === YesOrNo.NO) {
-        if (arbeidsforhold.length > 0) {
-            return !arbeidsforhold.some(
-                ({ erAnsattIPerioden }) => erAnsattIPerioden === undefined || erAnsattIPerioden === YesOrNo.YES
-            );
+export const visVernepliktSpørsmål = (
+    {
+        arbeidsforhold = [],
+        frilans_harHattInntektSomFrilanser,
+        selvstendig_harHattInntektSomSN,
+    }: PleiepengesøknadFormData,
+    søknadsperiode: DateRange
+): boolean => {
+    return (
+        frilans_harHattInntektSomFrilanser === YesOrNo.NO &&
+        selvstendig_harHattInntektSomSN === YesOrNo.NO &&
+        harAnsettesesforholdISøknadsperiode(arbeidsforhold, søknadsperiode) === false
+    );
+};
+
+const cleanupArbeidsforhold =
+    (søknadsperiode: DateRange) =>
+    (formValues: PleiepengesøknadFormData): PleiepengesøknadFormData => {
+        const values: PleiepengesøknadFormData = { ...formValues };
+        if (values.mottarAndreYtelser === YesOrNo.NO) {
+            values.andreYtelser = [];
         }
-        return true;
-    }
-    return false;
-};
+        if (values.frilans_harHattInntektSomFrilanser === YesOrNo.NO) {
+            values.frilans_jobberFortsattSomFrilans = undefined;
+            values.frilans_startdato = undefined;
+            values.frilans_arbeidsforhold = undefined;
+        }
+        if (
+            values.frilans_harHattInntektSomFrilanser === YesOrNo.YES &&
+            values.frilans_jobberFortsattSomFrilans === YesOrNo.NO &&
+            !erFrilanserISøknadsperiode(values.periodeFra, values.frilans_sluttdato)
+        ) {
+            values.frilans_arbeidsforhold = undefined;
+        }
 
-const cleanupArbeidsforhold = (formValues: PleiepengesøknadFormData): PleiepengesøknadFormData => {
-    const values: PleiepengesøknadFormData = { ...formValues };
-    if (values.mottarAndreYtelser === YesOrNo.NO) {
-        values.andreYtelser = [];
-    }
-    if (values.frilans_harHattInntektSomFrilanser === YesOrNo.NO) {
-        values.frilans_jobberFortsattSomFrilans = undefined;
-        values.frilans_startdato = undefined;
-        values.frilans_arbeidsforhold = undefined;
-    }
-    if (
-        values.frilans_harHattInntektSomFrilanser === YesOrNo.YES &&
-        values.frilans_jobberFortsattSomFrilans === YesOrNo.NO &&
-        !erFrilanserISøknadsperiode(values.periodeFra, values.frilans_sluttdato)
-    ) {
-        values.frilans_arbeidsforhold = undefined;
-    }
+        if (values.selvstendig_harHattInntektSomSN === YesOrNo.NO) {
+            values.selvstendig_virksomhet = undefined;
+            values.selvstendig_arbeidsforhold = undefined;
+        }
+        if (!visVernepliktSpørsmål(values, søknadsperiode)) {
+            values.harVærtEllerErVernepliktig = undefined;
+        }
 
-    if (values.selvstendig_harHattInntektSomSN === YesOrNo.NO) {
-        values.selvstendig_virksomhet = undefined;
-        values.selvstendig_arbeidsforhold = undefined;
-    }
-    if (!visVernepliktSpørsmål(values)) {
-        values.harVærtEllerErVernepliktig = undefined;
-    }
+        values.arbeidsforhold = values.arbeidsforhold.map((arbeidsforhold) => {
+            if (arbeidsforhold.erAnsatt === YesOrNo.YES) {
+                arbeidsforhold.sluttdato = undefined;
+            }
+            const erAvsluttetArbeidsforhold = arbeidsforhold.erAnsatt === YesOrNo.NO;
+            const erAvsluttetISøknadsperioden =
+                arbeidsforhold.erAnsatt === YesOrNo.NO &&
+                sluttdatoErISøknadsperiode(arbeidsforhold.sluttdato, søknadsperiode) === true;
 
-    return values;
-};
+            if (erAvsluttetArbeidsforhold && erAvsluttetISøknadsperioden === false) {
+                arbeidsforhold.jobberNormaltTimer = undefined;
+                arbeidsforhold.skalJobbe = undefined;
+                arbeidsforhold.skalJobbeHvorMye = undefined;
+                arbeidsforhold.skalJobbeProsent = undefined;
+                arbeidsforhold.skalJobbeTimer = undefined;
+                arbeidsforhold.timerEllerProsent = undefined;
+                arbeidsforhold.arbeidsform = undefined;
+            }
+            return arbeidsforhold;
+        });
+
+        return values;
+    };
 
 const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
     const formikProps = useFormikContext<PleiepengesøknadFormData>();
@@ -84,39 +111,33 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
     const søkerdata = useContext(SøkerdataContext);
 
     const { isLoading, isLoaded } = loadState;
-    const { periodeFra, periodeTil } = values;
+    const søknadsperiode = getSøknadsperiodeFromFormData(values);
 
     useEffect(() => {
-        const fraDato = datepickerUtils.getDateFromDateString(periodeFra);
-        const tilDato = datepickerUtils.getDateFromDateString(periodeTil);
-
         const fetchData = async () => {
-            if (søkerdata) {
-                if (fraDato && tilDato) {
-                    await getArbeidsgivere(fraDato, tilDato, formikProps, søkerdata);
-                    setLoadState({ isLoading: false, isLoaded: true });
-                }
+            if (søkerdata && søknadsperiode) {
+                await getArbeidsgivere(søknadsperiode.from, søknadsperiode.to, formikProps, søkerdata);
+                setLoadState({ isLoading: false, isLoaded: true });
             }
         };
-        if (fraDato && tilDato && !isLoaded && !isLoading) {
+        if (søknadsperiode && !isLoaded && !isLoading) {
             setLoadState({ isLoading: true, isLoaded: false });
             fetchData();
         }
-    }, [formikProps, søkerdata, isLoaded, isLoading, periodeFra, periodeTil]);
+    }, [formikProps, søkerdata, isLoaded, isLoading, søknadsperiode]);
 
     return (
         <FormikStep
             id={StepID.ARBEIDSFORHOLD}
             onValidFormSubmit={onValidSubmit}
             buttonDisabled={isLoading}
-            onStepCleanup={cleanupArbeidsforhold}>
+            onStepCleanup={søknadsperiode ? cleanupArbeidsforhold(søknadsperiode) : undefined}>
             {isLoading && <LoadingSpinner type="XS" blockTitle="Henter arbeidsforhold" />}
-            {!isLoading && (
+            {!isLoading && søknadsperiode && (
                 <>
                     <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.tittel')}>
                         {arbeidsforhold.length > 0 && (
                             <>
-                                <FormattedMessage id="steg.arbeidsforhold.intro" />
                                 <Box margin="m">
                                     <ExpandableInfo title={intlHelper(intl, 'steg.arbeidsforhold.info.tittel')}>
                                         <FormattedMessage id="steg.arbeidsforhold.info.tekst" />
@@ -124,7 +145,11 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                                 </Box>
                                 {arbeidsforhold.map((forhold, index) => (
                                     <FormBlock key={forhold.organisasjonsnummer}>
-                                        <ArbeidsforholdFormPart arbeidsforhold={forhold} index={index} />
+                                        <ArbeidsforholdFormPart
+                                            arbeidsforhold={forhold}
+                                            søknadsperiode={søknadsperiode}
+                                            index={index}
+                                        />
                                     </FormBlock>
                                 ))}
                             </>
@@ -149,7 +174,7 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                         <SelvstendigNæringsdrivendeFormPart formValues={values} />
                     </FormSection>
 
-                    {visVernepliktSpørsmål(values) && (
+                    {visVernepliktSpørsmål(values, søknadsperiode) && (
                         <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.verneplikt.tittel')}>
                             <VernepliktigFormPart />
                         </FormSection>

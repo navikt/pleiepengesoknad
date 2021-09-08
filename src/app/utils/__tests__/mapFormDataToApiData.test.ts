@@ -59,7 +59,7 @@ const organisasjonMaxbo: Arbeidsgiver = {
 
 const telenorRedusertJobbing: ArbeidsforholdAnsatt = {
     ...organisasjonTelenor,
-    erAnsattIPerioden: YesOrNo.YES,
+    erAnsatt: YesOrNo.YES,
     skalJobbe: ArbeidsforholdSkalJobbeSvar.ja,
     skalJobbeHvorMye: ArbeidsforholdSkalJobbeHvorMyeSvar.redusert,
     jobberNormaltTimer: '20',
@@ -69,7 +69,7 @@ const telenorRedusertJobbing: ArbeidsforholdAnsatt = {
 
 const maxboIngenJobbing: ArbeidsforholdAnsatt = {
     ...organisasjonMaxbo,
-    erAnsattIPerioden: YesOrNo.YES,
+    erAnsatt: YesOrNo.YES,
     skalJobbe: ArbeidsforholdSkalJobbeSvar.nei,
     jobberNormaltTimer: '20',
     skalJobbeProsent: '0',
@@ -78,7 +78,7 @@ const maxboIngenJobbing: ArbeidsforholdAnsatt = {
 
 const maxboVetIkke: ArbeidsforholdAnsatt = {
     ...organisasjonMaxbo,
-    erAnsattIPerioden: YesOrNo.YES,
+    erAnsatt: YesOrNo.YES,
     skalJobbe: ArbeidsforholdSkalJobbeSvar.vetIkke,
     jobberNormaltTimer: '20',
     arbeidsform: Arbeidsform.fast,
@@ -86,7 +86,7 @@ const maxboVetIkke: ArbeidsforholdAnsatt = {
 
 const maxboJobbeSomVanlig: ArbeidsforholdAnsatt = {
     ...organisasjonMaxbo,
-    erAnsattIPerioden: YesOrNo.YES,
+    erAnsatt: YesOrNo.YES,
     skalJobbe: ArbeidsforholdSkalJobbeSvar.ja,
     jobberNormaltTimer: '20',
     arbeidsform: Arbeidsform.fast,
@@ -153,7 +153,7 @@ const completeFormDataMock: PleiepengesøknadFormData = {
     arbeidsforhold: [
         {
             ...organisasjonMaxbo,
-            erAnsattIPerioden: YesOrNo.YES,
+            erAnsatt: YesOrNo.YES,
             arbeidsform: Arbeidsform.fast,
             jobberNormaltTimer: '37,5',
             skalJobbe: ArbeidsforholdSkalJobbeSvar.ja,
@@ -410,7 +410,7 @@ describe('mapFormDataToApiData', () => {
 
     it('should not include arbeidsforhold where user is not ansatt', () => {
         const resultingApiData = mapFormDataToApiData(
-            { ...formData, arbeidsforhold: [{ ...maxboVetIkke, erAnsattIPerioden: YesOrNo.NO }] },
+            { ...formData, arbeidsforhold: [{ ...maxboVetIkke, erAnsatt: YesOrNo.NO }] },
             barnMock,
             'nb'
         );

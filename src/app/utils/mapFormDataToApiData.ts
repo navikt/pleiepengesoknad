@@ -41,7 +41,7 @@ export const getValidSpråk = (locale?: any): Locale => {
 export const getOrganisasjonerApiData = (arbeidsforhold: ArbeidsforholdAnsatt[]): ArbeidsforholdAnsattApi[] => {
     const organisasjoner: ArbeidsforholdAnsattApi[] = [];
     arbeidsforhold
-        .filter((a) => a.erAnsattIPerioden === YesOrNo.YES)
+        .filter((a) => a.erAnsatt === YesOrNo.YES)
         .forEach((forhold) => {
             const arbeidsforholdApiData = mapArbeidsforholdToApiData(forhold, ArbeidsforholdType.ANSATT);
             if (arbeidsforholdApiData) {

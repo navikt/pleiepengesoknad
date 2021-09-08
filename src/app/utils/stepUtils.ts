@@ -103,7 +103,7 @@ export const skalBrukerSvarePåBeredskapOgNattevåk = (formValues?: Pleiepenges�
 
 export const skalBrukerSvarePåArbeidsforholdIPerioden = (formValues?: PleiepengesøknadFormData): boolean =>
     formValues !== undefined &&
-    (formValues.arbeidsforhold.find((a) => a.erAnsattIPerioden === YesOrNo.YES) !== undefined ||
+    (formValues.arbeidsforhold.find((a) => a.erAnsatt === YesOrNo.YES) !== undefined ||
         formValues.frilans_jobberFortsattSomFrilans === YesOrNo.YES ||
         (formValues.frilans_jobberFortsattSomFrilans === YesOrNo.NO &&
             erFrilanserISøknadsperiode(formValues.periodeFra, formValues.frilans_sluttdato)) ||
