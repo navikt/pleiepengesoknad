@@ -25,6 +25,7 @@ import AppForm from '../../app-form/AppForm';
 
 interface Props {
     arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF;
+    erAvsluttetAnsettelseforhold?: boolean;
     parentFieldName: string;
     frilansEllerSelvstendig?: FrilansEllerSelvstendig;
     spørsmål: {
@@ -68,7 +69,13 @@ const getLabelForTimerRedusert = (intl: IntlShape, timerNormalt: number, timerRe
     return intlHelper(intl, 'arbeidsforhold.timer.utledet', { timer: timerNormalt });
 };
 
-const ArbeidsforholdISøknadsperiode = ({ arbeidsforhold, parentFieldName, spørsmål, validatorer }: Props) => {
+const ArbeidsforholdISøknadsperiode = ({
+    arbeidsforhold,
+    parentFieldName,
+    spørsmål,
+    validatorer,
+    erAvsluttetAnsettelseforhold,
+}: Props) => {
     const intl = useIntl();
 
     const getFieldName = (field: ArbeidsforholdField) => `${parentFieldName}.${field}` as AppFormField;
@@ -98,10 +105,14 @@ const ArbeidsforholdISøknadsperiode = ({ arbeidsforhold, parentFieldName, spør
                             label: intlHelper(intl, 'arbeidsforhold.skalJobbe.nei'),
                             value: ArbeidsforholdSkalJobbeSvar.nei,
                         },
-                        {
-                            label: intlHelper(intl, 'arbeidsforhold.skalJobbe.vetIkke'),
-                            value: ArbeidsforholdSkalJobbeSvar.vetIkke,
-                        },
+                        ...(erAvsluttetAnsettelseforhold === false
+                            ? [
+                                  {
+                                      label: intlHelper(intl, 'arbeidsforhold.skalJobbe.vetIkke'),
+                                      value: ArbeidsforholdSkalJobbeSvar.vetIkke,
+                                  },
+                              ]
+                            : []),
                     ]}
                     validate={validatorer.skalJobbe}
                 />

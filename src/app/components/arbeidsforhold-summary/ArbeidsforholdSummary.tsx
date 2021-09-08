@@ -12,6 +12,7 @@ import {
     SkalJobbe,
 } from '../../types/PleiepengesøknadApiData';
 import './arbeidsforholdSummary.less';
+import { apiStringDateToDate, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 
 interface Props {
     arbeidsforhold: ArbeidsforholdApi | ArbeidsforholdAnsattApi;
@@ -21,9 +22,12 @@ const bem = bemUtils('arbeidsforholdSummary');
 
 const ArbeidsforholdSummary = ({ arbeidsforhold }: Props) => {
     const intl = useIntl();
-    const { skalJobbeProsent, skalJobbeTimer, jobberNormaltTimer, skalJobbe, arbeidsform, _type } = arbeidsforhold;
+    const { skalJobbeProsent, skalJobbeTimer, jobberNormaltTimer, skalJobbe, arbeidsform, erAnsatt, sluttdato, _type } =
+        arbeidsforhold;
 
     const isAnsattArbeidsforhold = isArbeidsforholdAnsattApi(arbeidsforhold);
+    const isAvsluttetArbeidsforhold = isAnsattArbeidsforhold && arbeidsforhold.erAnsatt === false;
+    const sluttdatoDate: Date | undefined = sluttdato ? apiStringDateToDate(sluttdato) : undefined;
 
     const tittel = isAnsattArbeidsforhold
         ? intlHelper(intl, 'arbeidsforhold.oppsummering.ansatt', {
@@ -66,29 +70,73 @@ const ArbeidsforholdSummary = ({ arbeidsforhold }: Props) => {
                 <FormattedMessage id={`arbeidsforhold.oppsummering.duHarOppgitt.${_type}`} />
             </p>
             <ul>
+                {isAnsattArbeidsforhold && erAnsatt === false && sluttdatoDate !== undefined && (
+                    <li>
+                        <FormattedMessage
+                            id="arbeidsforhold.oppsummering.avsluttet"
+                            values={{ ...intlValues, dato: prettifyDateFull(sluttdatoDate) }}
+                        />
+                    </li>
+                )}
+
                 <li>
-                    <FormattedMessage id="arbeidsforhold.oppsummering.jobberVanligvis" values={intlValues} />
+                    <FormattedMessage
+                        id={
+                            isAvsluttetArbeidsforhold
+                                ? 'arbeidsforhold.oppsummering.avsluttet.jobberVanligvis'
+                                : 'arbeidsforhold.oppsummering.jobberVanligvis'
+                        }
+                        values={intlValues}
+                    />
                 </li>
                 <li>
                     {skalJobbe === SkalJobbe.JA && (
-                        <FormattedMessage id={`arbeidsforhold.oppsummering.skalJobbeSomVanlig`} values={intlValues} />
+                        <FormattedMessage
+                            id={
+                                isAvsluttetArbeidsforhold
+                                    ? 'arbeidsforhold.oppsummering.avsluttet.skalJobbeSomVanlig'
+                                    : 'arbeidsforhold.oppsummering.skalJobbeSomVanlig1'
+                            }
+                            values={intlValues}
+                        />
                     )}
                     {skalJobbe === SkalJobbe.NEI && (
-                        <FormattedMessage id={`arbeidsforhold.oppsummering.skalIkkeJobbe`} />
+                        <FormattedMessage
+                            id={
+                                isAvsluttetArbeidsforhold
+                                    ? 'arbeidsforhold.oppsummering.avsluttet.skalIkkeJobbe'
+                                    : 'arbeidsforhold.oppsummering.skalIkkeJobbe'
+                            }
+                        />
                     )}
                     {skalJobbe === SkalJobbe.VET_IKKE && (
-                        <FormattedMessage id={`arbeidsforhold.oppsummering.vetIkke`} values={intlValues} />
+                        <FormattedMessage
+                            id={
+                                isAvsluttetArbeidsforhold
+                                    ? 'arbeidsforhold.oppsummering.avsluttet.vetIkke'
+                                    : 'arbeidsforhold.oppsummering.vetIkke'
+                            }
+                            values={intlValues}
+                        />
                     )}
                     {skalJobbe === SkalJobbe.REDUSERT && jobberNormaltTimer && (
                         <>
                             {skalJobbeTimer !== undefined ? (
                                 <FormattedMessage
-                                    id="arbeidsforhold.oppsummering.skalJobbeRedusert.timer"
+                                    id={
+                                        isAvsluttetArbeidsforhold
+                                            ? 'arbeidsforhold.oppsummering.avsluttet.skalJobbeRedusert.timer'
+                                            : 'arbeidsforhold.oppsummering.skalJobbeRedusert.timer'
+                                    }
                                     values={intlValues}
                                 />
                             ) : (
                                 <FormattedMessage
-                                    id="arbeidsforhold.oppsummering.skalJobbeRedusert.prosent"
+                                    id={
+                                        isAvsluttetArbeidsforhold
+                                            ? 'arbeidsforhold.oppsummering.avsluttet.skalJobbeRedusert.prosent'
+                                            : 'arbeidsforhold.oppsummering.skalJobbeRedusert.prosent'
+                                    }
                                     values={intlValues}
                                 />
                             )}

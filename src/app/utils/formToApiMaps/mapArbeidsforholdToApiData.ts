@@ -1,4 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { dateToISOFormattedDateString } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import {
@@ -41,9 +42,10 @@ export const mapArbeidsforholdToApiData = (
     const commonData: Pick<ArbeidsforholdApi, 'arbeidsform' | 'erAnsatt' | 'sluttdato' | '_type'> = {
         arbeidsform,
         erAnsatt,
-        sluttdato,
+        sluttdato: sluttdato ? dateToISOFormattedDateString(sluttdato) : undefined,
         _type: type,
     };
+
     const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
 
     if (jobberNormaltTimerNumber === undefined || skalJobbe === undefined) {

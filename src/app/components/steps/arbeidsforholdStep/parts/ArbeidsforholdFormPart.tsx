@@ -1,5 +1,5 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
@@ -78,8 +78,11 @@ const ArbeidsforholdFormPart: React.FunctionComponent<Props> = ({ arbeidsforhold
                                 {erAvsluttetISøknadsperioden && (
                                     <Box margin="l">
                                         <AlertStripeInfo>
-                                            Sluttdato var innenfor perioden du søker om pleiepenger. Vi trenger derfor å
-                                            vite hvordan normalarbeidstiden din var hos {arbeidsforhold.navn}.
+                                            <FormattedMessage
+                                                id="arbeidsforhold.avsluttet.info"
+                                                values={{ navn: arbeidsforhold.navn }}
+                                            />
+                                            .
                                         </AlertStripeInfo>
                                     </Box>
                                 )}

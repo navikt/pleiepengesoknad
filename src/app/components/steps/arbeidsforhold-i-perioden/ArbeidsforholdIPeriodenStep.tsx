@@ -10,7 +10,7 @@ import { useFormikContext } from 'formik';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { getArbeidsforholdAnsattISøknadsperiode, getTimerTekst } from '../../../utils/arbeidsforholdUtils';
+import { ansettelsesforholdGjelderSøknadsperiode, getTimerTekst } from '../../../utils/arbeidsforholdUtils';
 import { getSøknadsperiodeFromFormData } from '../../../utils/formDataUtils';
 import {
     getArbeidsforholdSkalJobbeHvorMyeValidator,
@@ -43,8 +43,19 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
     }
 
     // Index må være samme på tvers av alle arbeidsforhold, også dem som en ikke er ansatt i
-    const aktiveArbeidsforhold = getArbeidsforholdAnsattISøknadsperiode(arbeidsforhold, søknadsperiode);
-    const skalBesvareAnsettelsesforhold = aktiveArbeidsforhold.length > 0;
+    const aktiveArbeidsforholdMedOpprinneligIndex = arbeidsforhold
+        .map((a, index) => ({
+            index,
+            arbeidsforhold: a,
+        }))
+        .filter(
+            (a) =>
+                a.arbeidsforhold.erAnsatt === YesOrNo.YES ||
+                (a.arbeidsforhold.erAnsatt === YesOrNo.NO &&
+                    ansettelsesforholdGjelderSøknadsperiode(a.arbeidsforhold, søknadsperiode))
+        );
+
+    const skalBesvareAnsettelsesforhold = aktiveArbeidsforholdMedOpprinneligIndex.length > 0;
     const skalBesvareFrilans = frilans_jobberFortsattSomFrilans === YesOrNo.YES && frilans_arbeidsforhold;
     const skalBesvareSelvstendig = selvstendig_harHattInntektSomSN === YesOrNo.YES && selvstendig_arbeidsforhold;
 
@@ -79,7 +90,7 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
                                     info: intlHelper(
                                         intl,
                                         `step.arbeidsforholdIPerioden.StepInfo.1.info.${arbeidsinfo.join('_')}`,
-                                        { antall: aktiveArbeidsforhold.length }
+                                        { antall: aktiveArbeidsforholdMedOpprinneligIndex.length }
                                     ),
                                 }}
                             />
@@ -90,7 +101,7 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
             {skalBesvareAnsettelsesforhold && (
                 <Box margin="xl">
                     <div className="arbeidsforhold">
-                        {aktiveArbeidsforhold.map((arbeidsforhold, index) => {
+                        {aktiveArbeidsforholdMedOpprinneligIndex.map(({ arbeidsforhold, index }) => {
                             const erAvsluttet = arbeidsforhold.erAnsatt === YesOrNo.NO;
                             const arbeidsforholdIntlValues = {
                                 navn: arbeidsforhold.navn,
@@ -105,6 +116,7 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
                                     titleIcon={<BuildingIcon />}>
                                     <ArbeidsforholdISøknadsperiode
                                         arbeidsforhold={arbeidsforhold}
+                                        erAvsluttetAnsettelseforhold={erAvsluttet}
                                         spørsmål={{
                                             skalJobbe: intlHelper(
                                                 intl,

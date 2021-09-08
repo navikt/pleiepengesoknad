@@ -1,6 +1,7 @@
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import {
     ArbeidsforholdAnsattApi,
@@ -11,6 +12,7 @@ import {
 import { ArbeidsforholdAnsatt, BarnRelasjon, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../types/Søkerdata';
 import appSentryLogger from './appSentryLogger';
+import { ansettelsesforholdGjelderSøknadsperiode } from './arbeidsforholdUtils';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
 import { filterAndMapAttachmentsToApiFormat } from './formToApiMaps/attachmentsToApiData';
 import { mapArbeidsforholdToApiData } from './formToApiMaps/mapArbeidsforholdToApiData';
@@ -38,10 +40,13 @@ export const getValidSpråk = (locale?: any): Locale => {
     }
 };
 
-export const getOrganisasjonerApiData = (arbeidsforhold: ArbeidsforholdAnsatt[]): ArbeidsforholdAnsattApi[] => {
+export const getOrganisasjonerApiData = (
+    arbeidsforhold: ArbeidsforholdAnsatt[],
+    søknadsperiode: DateRange
+): ArbeidsforholdAnsattApi[] => {
     const organisasjoner: ArbeidsforholdAnsattApi[] = [];
     arbeidsforhold
-        .filter((a) => a.erAnsatt === YesOrNo.YES)
+        .filter((a) => ansettelsesforholdGjelderSøknadsperiode(a, søknadsperiode))
         .forEach((forhold) => {
             const arbeidsforholdApiData = mapArbeidsforholdToApiData(forhold, ArbeidsforholdType.ANSATT);
             if (arbeidsforholdApiData) {
@@ -50,7 +55,7 @@ export const getOrganisasjonerApiData = (arbeidsforhold: ArbeidsforholdAnsatt[])
                     navn: forhold.navn,
                     organisasjonsnummer: forhold.organisasjonsnummer,
                     erAnsatt: forhold.erAnsatt === YesOrNo.YES,
-                    sluttdato: datepickerUtils.getDateFromDateString(forhold.sluttdato),
+                    sluttdato: forhold.sluttdato,
                 });
             } else {
                 throw new Error('Invalid arbeidsforhold');
@@ -93,9 +98,9 @@ export const mapFormDataToApiData = (
 
     const periodeFra = datepickerUtils.getDateFromDateString(formData.periodeFra);
     const periodeTil = datepickerUtils.getDateFromDateString(formData.periodeTil);
-    const organisasjoner = getOrganisasjonerApiData(arbeidsforhold);
 
     if (periodeFra && periodeTil) {
+        const organisasjoner = getOrganisasjonerApiData(arbeidsforhold, { from: periodeFra, to: periodeTil });
         try {
             const barnObject: BarnToSendToApi = mapBarnToApiData(
                 barn,

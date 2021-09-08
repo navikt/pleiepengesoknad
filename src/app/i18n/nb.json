@@ -440,6 +440,7 @@
 
     "arbeidsforhold.erAnsatt.spm": "Stemmer det at du er ansatt hos {navn}?",
     "arbeidsforhold.sluttdato.spm": "Hva var sluttdato for ansettelsesforholdet ditt hos {navn}?",
+    "arbeidsforhold.avsluttet.info": "Sluttdato var innenfor perioden du søker om pleiepenger. Vi trenger derfor å vite hvordan normalarbeidstiden din var hos {navn}",
 
     "arbeidsforhold.arbeidsform.spm": "Hvordan jobber du vanligvis hos {arbeidsforhold}?",
     "arbeidsforhold.arbeidsform.avsluttet.spm": "Hvordan jobbet du vanligvis hos {arbeidsforhold}?",
@@ -521,12 +522,18 @@
     "arbeidsforhold.oppsummering.duHarOppgitt.ANSATT": "Du har oppgitt at du",
     "arbeidsforhold.oppsummering.duHarOppgitt.FRILANSER": "Du har oppgitt at du som frilanser",
     "arbeidsforhold.oppsummering.duHarOppgitt.SELVSTENDIG": "Du har oppgitt at du som selvstendig næringsdrivende",
+    "arbeidsforhold.oppsummering.avsluttet": "avsluttet ditt ansettelsforhold {dato}.",
     "arbeidsforhold.oppsummering.jobberVanligvis": "vanligvis jobber {timerNormalt, plural, one {# time} other {# timer}} per uke ({arbeidsform}).",
     "arbeidsforhold.oppsummering.skalJobbeSomVanlig": "skal jobbe som vanlig i pleiepengeperioden, {timerNormalt, plural, one {# time} other {# timer}} per uke.",
     "arbeidsforhold.oppsummering.skalJobbeRedusert.timer": "skal jobbe {timerRedusert, plural, one {# time} other {# timer}} av {timerNormalt, plural, one {# time} other {# timer}} per uke i pleiepengeperioden.",
     "arbeidsforhold.oppsummering.skalJobbeRedusert.prosent": "skal jobbe {prosentRedusert} prosent av {timerNormalt, plural, one {# time} other {# timer}} per uke i pleiepengeperioden.",
     "arbeidsforhold.oppsummering.vetIkke": "er usikker på om du skal jobbe i pleiepengeperioden, men at du melder fra hvis du starter å jobbe.",
     "arbeidsforhold.oppsummering.skalIkkeJobbe": "ikke skal jobbe i pleiepengeperioden.",
+    "arbeidsforhold.oppsummering.avsluttet.jobberVanligvis": "jobbet vanligvis {timerNormalt, plural, one {# time} other {# timer}} per uke ({arbeidsform}).",
+    "arbeidsforhold.oppsummering.avsluttet.skalJobbeSomVanlig": "jobbet som vanlig i pleiepengeperioden, {timerNormalt, plural, one {# time} other {# timer}} per uke.",
+    "arbeidsforhold.oppsummering.avsluttet.skalJobbeRedusert.timer": "jobbet {timerRedusert, plural, one {# time} other {# timer}} av {timerNormalt, plural, one {# time} other {# timer}} per uke i pleiepengeperioden.",
+    "arbeidsforhold.oppsummering.avsluttet.skalJobbeRedusert.prosent": "jobbet {prosentRedusert} prosent av {timerNormalt, plural, one {# time} other {# timer}} per uke i pleiepengeperioden.",
+    "arbeidsforhold.oppsummering.avsluttet.skalIkkeJobbe": "jobbet ikke i pleiepengeperioden.",
 
     "arbeidsforhold.oppsummering.arbeidsform.FAST": "fast antall timer per uke",
     "arbeidsforhold.oppsummering.arbeidsform.TURNUS": "turnus",

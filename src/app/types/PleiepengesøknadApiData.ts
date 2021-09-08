@@ -35,7 +35,7 @@ export interface ArbeidsforholdApi {
     skalJobbeTimer?: number;
     skalJobbeProsent?: number;
     erAnsatt?: boolean;
-    sluttdato?: Date;
+    sluttdato?: ApiStringDate;
     _type: ArbeidsforholdType;
 }
 
