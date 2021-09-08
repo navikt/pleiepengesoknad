@@ -475,6 +475,12 @@
     "arbeidsforhold.ansatt.skalJobbeTimer.spm": "Hvor mange timer i uka skal du jobbe?",
     "arbeidsforhold.ansatt.skalJobbeProsent.spm": "Hvor mange prosent av din vanlige arbeidstid skal du jobbe?",
 
+    "arbeidsforhold.ansatt.avsluttet.skalJobbe.spm": "Var du noe på jobb hos {navn} i perioden {fra} til {til}?",
+    "arbeidsforhold.ansatt.avsluttet.jobbeHvorMye.spm": "Du har opplyst at du vanligvis jobbet {timer} per uke hos {navn}. Hvor mye jobbet du der i perioden {fra} til {til}?",
+    "arbeidsforhold.ansatt.avsluttet.timerEllerProsent.spm": "Hvordan vil du oppgi hvor mye du jobbet hos {navn} i perioden {fra} til {til}?",
+    "arbeidsforhold.ansatt.avsluttet.skalJobbeTimer.spm": "Hvor mange timer i uka jobbet du i perioden {fra} til {til}?",
+    "arbeidsforhold.ansatt.avsluttet.skalJobbeProsent.spm": "Hvor mange prosent av din vanlige arbeidstid jobbet du i perioden {fra} til {til}?",
+
     "arbeidsforhold.frilanser.skalJobbe.spm": "Skal du jobbe som frilanser i samme periode som du søker pleiepenger?",
     "arbeidsforhold.frilanser.jobbeHvorMye.spm": "Du har opplyst at du vanligvis jobber {timer} som frilanser. Hvor mye skal du jobbe som frilanser i pleiepengeperioden?",
     "arbeidsforhold.frilanser.timerEllerProsent.spm": "Hvordan vil du oppgi hvor mye du skal jobbe som frilanser?",

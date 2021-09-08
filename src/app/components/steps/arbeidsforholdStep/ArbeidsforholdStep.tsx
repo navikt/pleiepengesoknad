@@ -15,7 +15,7 @@ import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormD
 import {
     sluttdatoErISøknadsperiode,
     getArbeidsgivere,
-    harAnsettesesforholdISøknadsperiode,
+    harAnsettelsesforholdISøknadsperiode,
 } from '../../../utils/arbeidsforholdUtils';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { getSøknadsperiodeFromFormData } from '../../../utils/formDataUtils';
@@ -44,7 +44,7 @@ export const visVernepliktSpørsmål = (
     return (
         frilans_harHattInntektSomFrilanser === YesOrNo.NO &&
         selvstendig_harHattInntektSomSN === YesOrNo.NO &&
-        harAnsettesesforholdISøknadsperiode(arbeidsforhold, søknadsperiode) === false
+        harAnsettelsesforholdISøknadsperiode(arbeidsforhold, søknadsperiode) === false
     );
 };
 

@@ -13,6 +13,7 @@ import { isArbeidsforholdApiValuesValid } from '../apiValuesValidation';
 const arbeidsforhold: ArbeidsforholdAnsattApi = {
     organisasjonsnummer: '123',
     navn: 'mock',
+    erAnsatt: true,
     _type: ArbeidsforholdType.ANSATT,
 };
 

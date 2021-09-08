@@ -34,9 +34,6 @@ const søknadsperiode: DateRange = {
 };
 
 describe('mapOmsorgstilbudToApiData test', () => {
-    it('runs', () => {
-        expect(1).toBe(1);
-    });
     it('should return correct values when NO is selected', () => {
         expect(JSON.stringify(undefined)).toEqual(
             JSON.stringify(mapPlanlagtOmsorgstilbudToApiData({ skalBarnIOmsorgstilbud: YesOrNo.NO }, søknadsperiode))

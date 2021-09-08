@@ -312,10 +312,12 @@ describe('mapFormDataToApiData', () => {
         if (resultingApiData) {
             const result: ArbeidsforholdApiRedusert = {
                 ...organisasjonTelenor,
+                erAnsatt: true,
                 jobberNormaltTimer: 20,
                 skalJobbe: SkalJobbe.REDUSERT,
                 skalJobbeProsent: 50,
                 arbeidsform: Arbeidsform.fast,
+                sluttdato: undefined,
                 _type: ArbeidsforholdType.ANSATT,
             };
             expect(resultingApiData.arbeidsgivere.organisasjoner).toEqual([result]);
@@ -382,6 +384,8 @@ describe('mapFormDataToApiData', () => {
                 skalJobbeProsent: 0,
                 jobberNormaltTimer: 20,
                 arbeidsform: Arbeidsform.fast,
+                erAnsatt: true,
+                sluttdato: undefined,
                 _type: ArbeidsforholdType.ANSATT,
             };
             expect(JSON.stringify(jsonSort(organisasjoner))).toEqual(JSON.stringify(jsonSort([result])));
@@ -401,6 +405,8 @@ describe('mapFormDataToApiData', () => {
                 skalJobbe: SkalJobbe.VET_IKKE,
                 skalJobbeProsent: 0,
                 arbeidsform: Arbeidsform.fast,
+                erAnsatt: true,
+                sluttdato: undefined,
                 _type: ArbeidsforholdType.ANSATT,
             };
             expect(organisasjoner).toEqual([result]);
@@ -582,6 +588,7 @@ describe('Test complete applications', () => {
                     skalJobbeProsent: 100,
                     jobberNormaltTimer: 37.5,
                     arbeidsform: Arbeidsform.fast,
+                    erAnsatt: true,
                     _type: ArbeidsforholdType.ANSATT,
                 },
             ],

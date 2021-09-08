@@ -3,13 +3,15 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import BuildingIcon from '@navikt/sif-common-core/lib/components/building-icon/BuildingIconSvg';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
+import { prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { useFormikContext } from 'formik';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { getTimerTekst } from '../../../utils/arbeidsforholdUtils';
+import { getArbeidsforholdAnsattISøknadsperiode, getTimerTekst } from '../../../utils/arbeidsforholdUtils';
+import { getSøknadsperiodeFromFormData } from '../../../utils/formDataUtils';
 import {
     getArbeidsforholdSkalJobbeHvorMyeValidator,
     getArbeidsforholdSkalJobbeProsentValidator,
@@ -17,8 +19,9 @@ import {
     getArbeidsforholdSkalJobbeValidator,
     getArbeidsforholdTimerEllerProsentValidator,
 } from '../../../validation/fieldValidations';
-import ArbeidsforholdISøknadsperiode from './ArbeidsforholdISøknadsperiode';
 import FormikStep from '../../formik-step/FormikStep';
+import InvalidStepPage from '../../pages/invalid-step-page/InvalidStepPage';
+import ArbeidsforholdISøknadsperiode from './ArbeidsforholdISøknadsperiode';
 
 const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
@@ -33,14 +36,14 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
         },
     } = formikProps;
 
-    // Index må være samme på tvers av alle arbeidsforhold, også dem som en ikke er ansatt i
-    const aktiveArbeidsforhold = arbeidsforhold
-        .map((arbeidsforhold, index) => ({
-            index,
-            arbeidsforhold,
-        }))
-        .filter((a) => a.arbeidsforhold.erAnsatt === YesOrNo.YES);
+    const søknadsperiode = getSøknadsperiodeFromFormData(formikProps.values);
 
+    if (!søknadsperiode) {
+        return <InvalidStepPage stepId={StepID.ARBEIDSFORHOLD_I_PERIODEN} />;
+    }
+
+    // Index må være samme på tvers av alle arbeidsforhold, også dem som en ikke er ansatt i
+    const aktiveArbeidsforhold = getArbeidsforholdAnsattISøknadsperiode(arbeidsforhold, søknadsperiode);
     const skalBesvareAnsettelsesforhold = aktiveArbeidsforhold.length > 0;
     const skalBesvareFrilans = frilans_jobberFortsattSomFrilans === YesOrNo.YES && frilans_arbeidsforhold;
     const skalBesvareSelvstendig = selvstendig_harHattInntektSomSN === YesOrNo.YES && selvstendig_arbeidsforhold;
@@ -48,6 +51,10 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
     /** Dette kan oppstå dersom bruker er på Arbeidssituasjon, endrer på data, og deretter trykker forward i nettleser */
     const brukerMåGåTilbakeTilArbeidssituasjon =
         skalBesvareAnsettelsesforhold === false && skalBesvareFrilans === false && skalBesvareSelvstendig === false;
+
+    if (brukerMåGåTilbakeTilArbeidssituasjon === true) {
+        return <InvalidStepPage stepId={StepID.ARBEIDSFORHOLD_I_PERIODEN} />;
+    }
 
     const arbeidsinfo: string[] = [];
     if (skalBesvareAnsettelsesforhold) {
@@ -64,7 +71,6 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
         <FormikStep id={StepID.ARBEIDSFORHOLD_I_PERIODEN} onValidFormSubmit={onValidSubmit}>
             <Box padBottom="m">
                 <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
-                    {brukerMåGåTilbakeTilArbeidssituasjon === true && <>Neida, her feiler det gitt</>}
                     {brukerMåGåTilbakeTilArbeidssituasjon === false && (
                         <p style={{ marginTop: 0 }}>
                             <FormattedMessage
@@ -84,45 +90,72 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
             {skalBesvareAnsettelsesforhold && (
                 <Box margin="xl">
                     <div className="arbeidsforhold">
-                        {aktiveArbeidsforhold.map(({ arbeidsforhold, index }) => (
-                            <FormSection
-                                title={arbeidsforhold.navn}
-                                key={arbeidsforhold.organisasjonsnummer}
-                                titleIcon={<BuildingIcon />}>
-                                <ArbeidsforholdISøknadsperiode
-                                    arbeidsforhold={arbeidsforhold}
-                                    spørsmål={{
-                                        skalJobbe: intlHelper(intl, 'arbeidsforhold.ansatt.skalJobbe.spm', {
-                                            navn: arbeidsforhold.navn,
-                                        }),
-                                        jobbeHvorMye: intlHelper(intl, 'arbeidsforhold.ansatt.jobbeHvorMye.spm', {
-                                            navn: arbeidsforhold.navn,
-                                            timer: getTimerTekst(arbeidsforhold.jobberNormaltTimer, intl),
-                                        }),
-                                        timerEllerProsent: intlHelper(
-                                            intl,
-                                            'arbeidsforhold.ansatt.timerEllerProsent.spm',
-                                            {
-                                                navn: arbeidsforhold.navn,
-                                            }
-                                        ),
-                                        skalJobbeTimer: intlHelper(intl, 'arbeidsforhold.ansatt.skalJobbeTimer.spm'),
-                                        skalJobbeProsent: intlHelper(
-                                            intl,
-                                            'arbeidsforhold.ansatt.skalJobbeProsent.spm'
-                                        ),
-                                    }}
-                                    validatorer={{
-                                        skalJobbe: getArbeidsforholdSkalJobbeValidator(arbeidsforhold),
-                                        jobbeHvorMye: getArbeidsforholdSkalJobbeHvorMyeValidator(arbeidsforhold),
-                                        timerEllerProsent: getArbeidsforholdTimerEllerProsentValidator(arbeidsforhold),
-                                        skalJobbeTimer: getArbeidsforholdSkalJobbeTimerValidator(arbeidsforhold),
-                                        skalJobbeProsent: getArbeidsforholdSkalJobbeProsentValidator(arbeidsforhold),
-                                    }}
-                                    parentFieldName={`${AppFormField.arbeidsforhold}.${index}`}
-                                />
-                            </FormSection>
-                        ))}
+                        {aktiveArbeidsforhold.map((arbeidsforhold, index) => {
+                            const erAvsluttet = arbeidsforhold.erAnsatt === YesOrNo.NO;
+                            const arbeidsforholdIntlValues = {
+                                navn: arbeidsforhold.navn,
+                                fra: erAvsluttet ? prettifyDateFull(søknadsperiode.from) : undefined,
+                                til: erAvsluttet ? prettifyDateFull(søknadsperiode.to) : undefined,
+                                timer: getTimerTekst(arbeidsforhold.jobberNormaltTimer, intl),
+                            };
+                            return (
+                                <FormSection
+                                    title={arbeidsforhold.navn}
+                                    key={arbeidsforhold.organisasjonsnummer}
+                                    titleIcon={<BuildingIcon />}>
+                                    <ArbeidsforholdISøknadsperiode
+                                        arbeidsforhold={arbeidsforhold}
+                                        spørsmål={{
+                                            skalJobbe: intlHelper(
+                                                intl,
+                                                erAvsluttet
+                                                    ? 'arbeidsforhold.ansatt.avsluttet.skalJobbe.spm'
+                                                    : 'arbeidsforhold.ansatt.skalJobbe.spm',
+                                                arbeidsforholdIntlValues
+                                            ),
+                                            jobbeHvorMye: intlHelper(
+                                                intl,
+                                                erAvsluttet
+                                                    ? 'arbeidsforhold.ansatt.avsluttet.jobbeHvorMye.spm'
+                                                    : 'arbeidsforhold.ansatt.jobbeHvorMye.spm',
+                                                arbeidsforholdIntlValues
+                                            ),
+                                            timerEllerProsent: intlHelper(
+                                                intl,
+                                                erAvsluttet
+                                                    ? 'arbeidsforhold.ansatt.avsluttet.timerEllerProsent.spm'
+                                                    : 'arbeidsforhold.ansatt.timerEllerProsent.spm',
+                                                arbeidsforholdIntlValues
+                                            ),
+                                            skalJobbeTimer: intlHelper(
+                                                intl,
+                                                erAvsluttet
+                                                    ? 'arbeidsforhold.ansatt.avsluttet.skalJobbeTimer.spm'
+                                                    : 'arbeidsforhold.ansatt.skalJobbeTimer.spm',
+                                                arbeidsforholdIntlValues
+                                            ),
+                                            skalJobbeProsent: intlHelper(
+                                                intl,
+                                                erAvsluttet
+                                                    ? 'arbeidsforhold.ansatt.avsluttet.skalJobbeProsent.spm'
+                                                    : 'arbeidsforhold.ansatt.skalJobbeProsent.spm',
+                                                arbeidsforholdIntlValues
+                                            ),
+                                        }}
+                                        validatorer={{
+                                            skalJobbe: getArbeidsforholdSkalJobbeValidator(arbeidsforhold),
+                                            jobbeHvorMye: getArbeidsforholdSkalJobbeHvorMyeValidator(arbeidsforhold),
+                                            timerEllerProsent:
+                                                getArbeidsforholdTimerEllerProsentValidator(arbeidsforhold),
+                                            skalJobbeTimer: getArbeidsforholdSkalJobbeTimerValidator(arbeidsforhold),
+                                            skalJobbeProsent:
+                                                getArbeidsforholdSkalJobbeProsentValidator(arbeidsforhold),
+                                        }}
+                                        parentFieldName={`${AppFormField.arbeidsforhold}.${index}`}
+                                    />
+                                </FormSection>
+                            );
+                        })}
                     </div>
                 </Box>
             )}

@@ -1,4 +1,6 @@
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import {
     ArbeidsforholdApi,
     ArbeidsforholdApiNei,
@@ -10,13 +12,15 @@ import {
 } from '../../types/PleiepengesøknadApiData';
 import {
     Arbeidsforhold,
+    ArbeidsforholdAnsatt,
     ArbeidsforholdSkalJobbeHvorMyeSvar,
     ArbeidsforholdSkalJobbeSvar,
+    isArbeidsforholdAnsatt,
 } from '../../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../arbeidsforholdUtils';
 
 export const mapArbeidsforholdToApiData = (
-    arbeidsforhold: Arbeidsforhold,
+    arbeidsforhold: Arbeidsforhold | ArbeidsforholdAnsatt,
     type: ArbeidsforholdType
 ): ArbeidsforholdApi | undefined => {
     const {
@@ -29,7 +33,17 @@ export const mapArbeidsforholdToApiData = (
         skalJobbeHvorMye,
     } = arbeidsforhold;
 
-    const commonData: Pick<ArbeidsforholdApi, 'arbeidsform' | '_type'> = { arbeidsform, _type: type };
+    const erAnsatt = isArbeidsforholdAnsatt(arbeidsforhold) ? arbeidsforhold.erAnsatt === YesOrNo.YES : undefined;
+    const sluttdato = isArbeidsforholdAnsatt(arbeidsforhold)
+        ? datepickerUtils.getDateFromDateString(arbeidsforhold.sluttdato)
+        : undefined;
+
+    const commonData: Pick<ArbeidsforholdApi, 'arbeidsform' | 'erAnsatt' | 'sluttdato' | '_type'> = {
+        arbeidsform,
+        erAnsatt,
+        sluttdato,
+        _type: type,
+    };
     const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
 
     if (jobberNormaltTimerNumber === undefined || skalJobbe === undefined) {

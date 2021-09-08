@@ -49,6 +49,8 @@ export const getOrganisasjonerApiData = (arbeidsforhold: ArbeidsforholdAnsatt[])
                     ...arbeidsforholdApiData,
                     navn: forhold.navn,
                     organisasjonsnummer: forhold.organisasjonsnummer,
+                    erAnsatt: forhold.erAnsatt === YesOrNo.YES,
+                    sluttdato: datepickerUtils.getDateFromDateString(forhold.sluttdato),
                 });
             } else {
                 throw new Error('Invalid arbeidsforhold');

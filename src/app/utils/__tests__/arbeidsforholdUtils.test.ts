@@ -4,7 +4,11 @@ import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-dat
 import dayjs from 'dayjs';
 import { ArbeidsforholdAnsatt } from '../../types/PleiepengesøknadFormData';
 import { Arbeidsgiver } from '../../types/Søkerdata';
-import { harAnsettesesforholdISøknadsperiode, syncArbeidsforholdWithArbeidsgivere } from '../arbeidsforholdUtils';
+import {
+    ansettelsesforholdGjelderSøknadsperiode,
+    harAnsettelsesforholdISøknadsperiode,
+    syncArbeidsforholdWithArbeidsgivere,
+} from '../arbeidsforholdUtils';
 
 const søknadsperiode: DateRange = {
     from: new Date(2020, 1, 1),
@@ -77,21 +81,45 @@ describe('arbeidsforholdUtils', () => {
         });
     });
 
-    describe('harAnsettesesforholdISøknadsperiode()', () => {
+    describe('ansettelsesforholdGjelderSøknadsperiode()', () => {
+        it('returnerer true dersom bruker erAnsatt', () => {
+            expect(ansettelsesforholdGjelderSøknadsperiode(arbeidsforholdErAnsatt, søknadsperiode)).toBeTruthy();
+        });
+        it('returnerer true dersom bruker ikke er ansatt men har sluttet i søknadsperioden', () => {
+            const sluttdato = dayjs(søknadsperiode.to).subtract(2, 'days').toDate();
+            expect(
+                ansettelsesforholdGjelderSøknadsperiode(
+                    { ...arbeidsforholdIkkeAnsatt, sluttdato: datepickerUtils.getDateStringFromValue(sluttdato) },
+                    søknadsperiode
+                )
+            ).toBeTruthy();
+        });
+        it('returnerer false dersom bruker ikke er ansatt og har sluttet før søknadsperioden', () => {
+            const sluttdato = dayjs(søknadsperiode.from).subtract(1, 'days').toDate();
+            expect(
+                ansettelsesforholdGjelderSøknadsperiode(
+                    { ...arbeidsforholdIkkeAnsatt, sluttdato: datepickerUtils.getDateStringFromValue(sluttdato) },
+                    søknadsperiode
+                )
+            ).toBeFalsy();
+        });
+    });
+
+    describe('harAnsettelsesforholdISøknadsperiode()', () => {
         it('returnerer false når søker ikke har arbeidsgivere', () => {
-            expect(harAnsettesesforholdISøknadsperiode([], søknadsperiode)).toBeFalsy();
+            expect(harAnsettelsesforholdISøknadsperiode([], søknadsperiode)).toBeFalsy();
         });
         it('returnerer false søker har arbeidsgivere, men er ikke ansatt i søknadsperiode og sluttdato er før søknadsperiode', () => {
-            expect(harAnsettesesforholdISøknadsperiode([arbeidsforholdIkkeAnsatt], søknadsperiode)).toBeFalsy();
+            expect(harAnsettelsesforholdISøknadsperiode([arbeidsforholdIkkeAnsatt], søknadsperiode)).toBeFalsy();
         });
 
         it('returnerer true når søker er ansatt', () => {
-            expect(harAnsettesesforholdISøknadsperiode([arbeidsforholdErAnsatt], søknadsperiode)).toBeTruthy();
+            expect(harAnsettelsesforholdISøknadsperiode([arbeidsforholdErAnsatt], søknadsperiode)).toBeTruthy();
         });
         it('returnerer trur når søker har avsluttet arbeidsforhold i søknadsperioden', () => {
             const sluttdato = dayjs(søknadsperiode.to).subtract(2, 'days').toDate();
             expect(
-                harAnsettesesforholdISøknadsperiode(
+                harAnsettelsesforholdISøknadsperiode(
                     [{ ...arbeidsforholdIkkeAnsatt, sluttdato: datepickerUtils.getDateStringFromValue(sluttdato) }],
                     søknadsperiode
                 )

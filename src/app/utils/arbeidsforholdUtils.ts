@@ -96,13 +96,27 @@ export const sluttdatoErISøknadsperiode = (
     return dato ? dayjs(dato).isBetween(søknadsperiode.from, søknadsperiode.to, null, '[]') : undefined;
 };
 
-export const harAnsettesesforholdISøknadsperiode = (
+export const ansettelsesforholdGjelderSøknadsperiode = (
+    arbeidsforhold: ArbeidsforholdAnsatt,
+    søknadsperiode: DateRange
+): boolean => {
+    return (
+        arbeidsforhold.erAnsatt === YesOrNo.YES ||
+        (arbeidsforhold.erAnsatt === YesOrNo.NO &&
+            sluttdatoErISøknadsperiode(arbeidsforhold.sluttdato, søknadsperiode) === true)
+    );
+};
+
+export const getArbeidsforholdAnsattISøknadsperiode = (
+    arbeidsforhold: ArbeidsforholdAnsatt[],
+    søknadsperiode: DateRange
+): ArbeidsforholdAnsatt[] => {
+    return arbeidsforhold.filter((a) => ansettelsesforholdGjelderSøknadsperiode(a, søknadsperiode));
+};
+
+export const harAnsettelsesforholdISøknadsperiode = (
     arbeidsforhold: ArbeidsforholdAnsatt[],
     søknadsperiode: DateRange
 ): boolean => {
-    return arbeidsforhold.some(
-        (a) =>
-            a.erAnsatt === YesOrNo.YES ||
-            (a.erAnsatt === YesOrNo.NO && sluttdatoErISøknadsperiode(a.sluttdato, søknadsperiode) === true)
-    );
+    return getArbeidsforholdAnsattISøknadsperiode(arbeidsforhold, søknadsperiode).length > 0;
 };
