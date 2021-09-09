@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
@@ -9,10 +9,7 @@ import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { Undertittel } from 'nav-frontend-typografi';
 import { AppFormField, ArbeidsforholdAnsatt, ArbeidsforholdField } from '../../../../types/PleiepengesøknadFormData';
-import {
-    arbeidsforholdGjelderSøknadsperiode,
-    harAvsluttetArbeidsforholdISøknadsperiode,
-} from '../../../../utils/arbeidsforholdUtils';
+import { arbeidsforholdGjelderSøknadsperiode } from '../../../../utils/arbeidsforholdUtils';
 import {
     getArbeidsforholdSluttdatoValidator,
     getArbeidsformAnsattValidator,
@@ -21,7 +18,6 @@ import {
 } from '../../../../validation/fieldValidations';
 import AppForm from '../../../app-form/AppForm';
 import ArbeidsformOgTimer from './ArbeidsformOgTimer';
-import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 
 interface Props {
     arbeidsforhold: ArbeidsforholdAnsatt;
@@ -74,21 +70,6 @@ const ArbeidsforholdFormPart: React.FunctionComponent<Props> = ({ arbeidsforhold
                         )}
                         {skalSvarePåArbeidIPerioden && (
                             <>
-                                {erAvsluttetArbeidsforhold &&
-                                    harAvsluttetArbeidsforholdISøknadsperiode(
-                                        arbeidsforhold.sluttdato,
-                                        søknadsperiode
-                                    ) && (
-                                        <Box margin="l">
-                                            <AlertStripeInfo>
-                                                <FormattedMessage
-                                                    id="arbeidsforhold.avsluttet.info"
-                                                    values={{ navn: arbeidsforhold.navn }}
-                                                />
-                                                .
-                                            </AlertStripeInfo>
-                                        </Box>
-                                    )}
                                 <FormBlock margin={arbeidsforhold.erAnsatt === YesOrNo.NO ? undefined : 'none'}>
                                     <ArbeidsformOgTimer
                                         spørsmål={{
