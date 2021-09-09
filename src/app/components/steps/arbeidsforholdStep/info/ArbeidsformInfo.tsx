@@ -102,7 +102,6 @@ const ArbeidsformInfo: React.FunctionComponent<Props> = ({ arbeidsform, gjelderS
                         <Element tag="h3">
                             <FormattedMessage id="arbeidsforhold.arbeidsform.varierende.info.tekst.eksempel" />
                         </Element>
-
                         <p>
                             <FormattedMessage id="arbeidsforhold.arbeidsform.varierende.info.tekst.2" />
 
@@ -111,6 +110,14 @@ const ArbeidsformInfo: React.FunctionComponent<Props> = ({ arbeidsform, gjelderS
                         </p>
                         <p>
                             <FormattedMessage id="arbeidsforhold.arbeidsform.varierende.info.tekst.4" />
+                        </p>
+                    </Box>
+                    <Box margin="l">
+                        <Element tag="h3">
+                            <FormattedMessage id="arbeidsforhold.arbeidsform.varierende.info.tekst.5" />
+                        </Element>
+                        <p>
+                            <FormattedMessage id="arbeidsforhold.arbeidsform.varierende.info.tekst.6" />
                         </p>
                     </Box>
                 </ExpandableInfo>
