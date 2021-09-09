@@ -8,15 +8,14 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { useFormikContext } from 'formik';
-import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import {
+    arbeidsforholdGjelderSøknadsperiode,
     getArbeidsgivere,
     harAnsettelsesforholdISøknadsperiode,
-    sluttdatoErISøknadsperiode,
 } from '../../../utils/arbeidsforholdUtils';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { getSøknadsperiodeFromFormData } from '../../../utils/formDataUtils';
@@ -63,7 +62,7 @@ const cleanupArbeidsforhold =
         if (
             values.frilans_harHattInntektSomFrilanser === YesOrNo.YES &&
             values.frilans_jobberFortsattSomFrilans === YesOrNo.NO &&
-            !erFrilanserISøknadsperiode(values.periodeFra, values.frilans_sluttdato)
+            !erFrilanserISøknadsperiode(values)
         ) {
             values.frilans_arbeidsforhold = undefined;
         }
@@ -80,12 +79,7 @@ const cleanupArbeidsforhold =
             if (arbeidsforhold.erAnsatt === YesOrNo.YES) {
                 arbeidsforhold.sluttdato = undefined;
             }
-            const erAvsluttetArbeidsforhold = arbeidsforhold.erAnsatt === YesOrNo.NO;
-            const erAvsluttetISøknadsperioden =
-                arbeidsforhold.erAnsatt === YesOrNo.NO &&
-                sluttdatoErISøknadsperiode(arbeidsforhold.sluttdato, søknadsperiode) === true;
-
-            if (erAvsluttetArbeidsforhold && erAvsluttetISøknadsperioden === false) {
+            if (arbeidsforholdGjelderSøknadsperiode(arbeidsforhold, søknadsperiode) === false) {
                 arbeidsforhold.jobberNormaltTimer = undefined;
                 arbeidsforhold.skalJobbe = undefined;
                 arbeidsforhold.skalJobbeHvorMye = undefined;
@@ -168,14 +162,23 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                             </>
                         )}
                         {arbeidsforhold.length === 0 && (
-                            <Box margin="l">
-                                <AlertStripeInfo>
-                                    <FormattedMessage id="steg.arbeidsforhold.ingenOpplysninger" />
-                                    <p style={{ marginBottom: 0 }}>
-                                        <FormattedMessage id="steg.arbeidsforhold.info.tekst" />
-                                    </p>
-                                </AlertStripeInfo>
-                            </Box>
+                            <>
+                                <p>
+                                    <FormattedMessage id="steg.arbeidsforhold.veileder.ingenArbeidsgiverFunnet" />
+                                </p>
+                                <p>
+                                    <FormattedMessage id="steg.arbeidsforhold.veileder.manglerDetArbeidsgiver" />
+                                </p>
+                            </>
+
+                            // <Box margin="l">
+                            //     <AlertStripeInfo>
+                            //         <FormattedMessage id="steg.arbeidsforhold.veileder.ingenArbeidsgiverFunnet" />
+                            //         <p style={{ marginBottom: 0 }}>
+                            //             <FormattedMessage id="steg.arbeidsforhold.info.tekst" />
+                            //         </p>
+                            //     </AlertStripeInfo>
+                            // </Box>
                         )}
                     </FormSection>
 

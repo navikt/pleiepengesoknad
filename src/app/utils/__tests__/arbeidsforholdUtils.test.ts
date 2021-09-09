@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import { ArbeidsforholdAnsatt } from '../../types/PleiepengesøknadFormData';
 import { Arbeidsgiver } from '../../types/Søkerdata';
 import {
-    ansettelsesforholdGjelderSøknadsperiode,
+    arbeidsforholdGjelderSøknadsperiode,
     harAnsettelsesforholdISøknadsperiode,
     syncArbeidsforholdWithArbeidsgivere,
 } from '../arbeidsforholdUtils';
@@ -83,12 +83,12 @@ describe('arbeidsforholdUtils', () => {
 
     describe('ansettelsesforholdGjelderSøknadsperiode()', () => {
         it('returnerer true dersom bruker erAnsatt', () => {
-            expect(ansettelsesforholdGjelderSøknadsperiode(arbeidsforholdErAnsatt, søknadsperiode)).toBeTruthy();
+            expect(arbeidsforholdGjelderSøknadsperiode(arbeidsforholdErAnsatt, søknadsperiode)).toBeTruthy();
         });
         it('returnerer true dersom bruker ikke er ansatt men har sluttet i søknadsperioden', () => {
             const sluttdato = dayjs(søknadsperiode.to).subtract(2, 'days').toDate();
             expect(
-                ansettelsesforholdGjelderSøknadsperiode(
+                arbeidsforholdGjelderSøknadsperiode(
                     { ...arbeidsforholdIkkeAnsatt, sluttdato: datepickerUtils.getDateStringFromValue(sluttdato) },
                     søknadsperiode
                 )
@@ -97,7 +97,7 @@ describe('arbeidsforholdUtils', () => {
         it('returnerer false dersom bruker ikke er ansatt og har sluttet før søknadsperioden', () => {
             const sluttdato = dayjs(søknadsperiode.from).subtract(1, 'days').toDate();
             expect(
-                ansettelsesforholdGjelderSøknadsperiode(
+                arbeidsforholdGjelderSøknadsperiode(
                     { ...arbeidsforholdIkkeAnsatt, sluttdato: datepickerUtils.getDateStringFromValue(sluttdato) },
                     søknadsperiode
                 )

@@ -31,8 +31,6 @@ const FrilansFormPart = ({ formValues }: Props) => {
         frilans_harHattInntektSomFrilanser,
         frilans_startdato,
         frilans_arbeidsforhold,
-        periodeFra,
-        frilans_sluttdato,
     } = formValues;
     const intl = useIntl();
     return (
@@ -90,8 +88,7 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                     />
                                 </FormBlock>
                             )}
-                            {(frilans_jobberFortsattSomFrilans === YesOrNo.YES ||
-                                erFrilanserISøknadsperiode(periodeFra, frilans_sluttdato)) && (
+                            {erFrilanserISøknadsperiode(formValues) && (
                                 <FormBlock>
                                     <ArbeidsformOgTimer
                                         spørsmål={{

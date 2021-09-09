@@ -7,10 +7,12 @@ import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtil
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
-import dayjs from 'dayjs';
 import { Undertittel } from 'nav-frontend-typografi';
 import { AppFormField, ArbeidsforholdAnsatt, ArbeidsforholdField } from '../../../../types/PleiepengesøknadFormData';
-import { sluttdatoErISøknadsperiode } from '../../../../utils/arbeidsforholdUtils';
+import {
+    arbeidsforholdGjelderSøknadsperiode,
+    harAvsluttetArbeidsforholdISøknadsperiode,
+} from '../../../../utils/arbeidsforholdUtils';
 import {
     getArbeidsforholdSluttdatoValidator,
     getArbeidsformAnsattValidator,
@@ -29,11 +31,8 @@ interface Props {
 
 const ArbeidsforholdFormPart: React.FunctionComponent<Props> = ({ arbeidsforhold, søknadsperiode, index }) => {
     const intl = useIntl();
-    const dateYesterday = dayjs(dateToday).subtract(1, 'day').toDate();
     const erAvsluttetArbeidsforhold = arbeidsforhold.erAnsatt === YesOrNo.NO;
-    const erAvsluttetISøknadsperioden =
-        arbeidsforhold.erAnsatt === YesOrNo.NO &&
-        sluttdatoErISøknadsperiode(arbeidsforhold.sluttdato, søknadsperiode) === true;
+    const skalSvarePåArbeidIPerioden = arbeidsforholdGjelderSøknadsperiode(arbeidsforhold, søknadsperiode) === true;
 
     return (
         <>
@@ -66,26 +65,30 @@ const ArbeidsforholdFormPart: React.FunctionComponent<Props> = ({ arbeidsforhold
                             <AppForm.DatePicker
                                 label={intlHelper(intl, 'arbeidsforhold.sluttdato.spm', { navn: arbeidsforhold.navn })}
                                 name={`${AppFormField.arbeidsforhold}.${index}.${ArbeidsforholdField.sluttdato}` as any}
-                                maxDate={dateYesterday}
+                                maxDate={dateToday}
                                 validate={getArbeidsforholdSluttdatoValidator({
                                     arbeidsforhold,
-                                    maksDato: dateYesterday,
+                                    maksDato: dateToday,
                                 })}
                             />
                         )}
-                        {(arbeidsforhold.erAnsatt === YesOrNo.YES || erAvsluttetISøknadsperioden) && (
+                        {skalSvarePåArbeidIPerioden && (
                             <>
-                                {erAvsluttetISøknadsperioden && (
-                                    <Box margin="l">
-                                        <AlertStripeInfo>
-                                            <FormattedMessage
-                                                id="arbeidsforhold.avsluttet.info"
-                                                values={{ navn: arbeidsforhold.navn }}
-                                            />
-                                            .
-                                        </AlertStripeInfo>
-                                    </Box>
-                                )}
+                                {erAvsluttetArbeidsforhold &&
+                                    harAvsluttetArbeidsforholdISøknadsperiode(
+                                        arbeidsforhold.sluttdato,
+                                        søknadsperiode
+                                    ) && (
+                                        <Box margin="l">
+                                            <AlertStripeInfo>
+                                                <FormattedMessage
+                                                    id="arbeidsforhold.avsluttet.info"
+                                                    values={{ navn: arbeidsforhold.navn }}
+                                                />
+                                                .
+                                            </AlertStripeInfo>
+                                        </Box>
+                                    )}
                                 <FormBlock margin={arbeidsforhold.erAnsatt === YesOrNo.NO ? undefined : 'none'}>
                                     <ArbeidsformOgTimer
                                         spørsmål={{

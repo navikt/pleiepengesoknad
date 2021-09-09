@@ -88,35 +88,45 @@ export const getTimerTekst = (value: string | undefined, intl: IntlShape): strin
     });
 };
 
-export const sluttdatoErISøknadsperiode = (
+/** */
+export const harAvsluttetArbeidsforholdISøknadsperiode = (
     sluttdato: InputDateString | undefined,
     søknadsperiode: DateRange
 ): boolean | undefined => {
     const dato = datepickerUtils.getDateFromDateString(sluttdato);
-    return dato ? dayjs(dato).isBetween(søknadsperiode.from, søknadsperiode.to, null, '[]') : undefined;
+    return dato ? dayjs(dato).isBetween(søknadsperiode.from, søknadsperiode.to, 'day', '[]') : undefined;
 };
 
-export const ansettelsesforholdGjelderSøknadsperiode = (
+const harAvsluttetArbeidsforholdEtterSøknadsperiode = (
+    sluttdato: InputDateString | undefined,
+    søknadsperiode: DateRange
+): boolean | undefined => {
+    const dato = datepickerUtils.getDateFromDateString(sluttdato);
+    return dato ? dayjs(dato).isAfter(søknadsperiode.to, 'day') : undefined;
+};
+
+export const arbeidsforholdGjelderSøknadsperiode = (
     arbeidsforhold: ArbeidsforholdAnsatt,
     søknadsperiode: DateRange
 ): boolean => {
     return (
         arbeidsforhold.erAnsatt === YesOrNo.YES ||
         (arbeidsforhold.erAnsatt === YesOrNo.NO &&
-            sluttdatoErISøknadsperiode(arbeidsforhold.sluttdato, søknadsperiode) === true)
+            (harAvsluttetArbeidsforholdISøknadsperiode(arbeidsforhold.sluttdato, søknadsperiode) === true ||
+                harAvsluttetArbeidsforholdEtterSøknadsperiode(arbeidsforhold.sluttdato, søknadsperiode) === true))
     );
 };
 
-export const getArbeidsforholdAnsattISøknadsperiode = (
+export const getArbeidsforholdISøknadsperiode = (
     arbeidsforhold: ArbeidsforholdAnsatt[],
     søknadsperiode: DateRange
 ): ArbeidsforholdAnsatt[] => {
-    return arbeidsforhold.filter((a) => ansettelsesforholdGjelderSøknadsperiode(a, søknadsperiode));
+    return arbeidsforhold.filter((a) => arbeidsforholdGjelderSøknadsperiode(a, søknadsperiode));
 };
 
 export const harAnsettelsesforholdISøknadsperiode = (
     arbeidsforhold: ArbeidsforholdAnsatt[],
     søknadsperiode: DateRange
 ): boolean => {
-    return getArbeidsforholdAnsattISøknadsperiode(arbeidsforhold, søknadsperiode).length > 0;
+    return getArbeidsforholdISøknadsperiode(arbeidsforhold, søknadsperiode).length > 0;
 };

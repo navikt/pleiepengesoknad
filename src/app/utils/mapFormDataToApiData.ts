@@ -12,7 +12,7 @@ import {
 import { ArbeidsforholdAnsatt, BarnRelasjon, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../types/Søkerdata';
 import appSentryLogger from './appSentryLogger';
-import { ansettelsesforholdGjelderSøknadsperiode } from './arbeidsforholdUtils';
+import { arbeidsforholdGjelderSøknadsperiode } from './arbeidsforholdUtils';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
 import { filterAndMapAttachmentsToApiFormat } from './formToApiMaps/attachmentsToApiData';
 import { mapArbeidsforholdToApiData } from './formToApiMaps/mapArbeidsforholdToApiData';
@@ -46,7 +46,7 @@ export const getOrganisasjonerApiData = (
 ): ArbeidsforholdAnsattApi[] => {
     const organisasjoner: ArbeidsforholdAnsattApi[] = [];
     arbeidsforhold
-        .filter((a) => ansettelsesforholdGjelderSøknadsperiode(a, søknadsperiode))
+        .filter((a) => arbeidsforholdGjelderSøknadsperiode(a, søknadsperiode))
         .forEach((forhold) => {
             const arbeidsforholdApiData = mapArbeidsforholdToApiData(forhold, ArbeidsforholdType.ANSATT);
             if (arbeidsforholdApiData) {

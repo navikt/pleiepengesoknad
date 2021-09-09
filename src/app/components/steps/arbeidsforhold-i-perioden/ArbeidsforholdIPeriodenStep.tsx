@@ -18,7 +18,7 @@ import {
     ArbeidsforholdSNF,
     PleiepengesøknadFormData,
 } from '../../../types/PleiepengesøknadFormData';
-import { ansettelsesforholdGjelderSøknadsperiode, getTimerTekst } from '../../../utils/arbeidsforholdUtils';
+import { arbeidsforholdGjelderSøknadsperiode, getTimerTekst } from '../../../utils/arbeidsforholdUtils';
 import { getSøknadsperiodeFromFormData } from '../../../utils/formDataUtils';
 import {
     getArbeidsforholdSkalJobbeHvorMyeValidator,
@@ -94,7 +94,7 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
             (a) =>
                 a.arbeidsforhold.erAnsatt === YesOrNo.YES ||
                 (a.arbeidsforhold.erAnsatt === YesOrNo.NO &&
-                    ansettelsesforholdGjelderSøknadsperiode(a.arbeidsforhold, søknadsperiode))
+                    arbeidsforholdGjelderSøknadsperiode(a.arbeidsforhold, søknadsperiode))
         );
 
     const skalBesvareAnsettelsesforhold = aktiveArbeidsforholdMedOpprinneligIndex.length > 0;

@@ -12,6 +12,8 @@ import {
     opplysningerOmTidsromStepIsValid,
     welcomingPageIsValid,
 } from '../validation/stepValidations';
+import { harAnsettelsesforholdISøknadsperiode } from './arbeidsforholdUtils';
+import { getSøknadsperiodeFromFormData } from './formDataUtils';
 import { erFrilanserISøknadsperiode } from './frilanserUtils';
 
 export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
@@ -101,10 +103,17 @@ export const skalBrukerSvarePåBeredskapOgNattevåk = (formValues?: Pleiepenges�
     );
 };
 
-export const skalBrukerSvarePåArbeidsforholdIPerioden = (formValues?: PleiepengesøknadFormData): boolean =>
-    formValues !== undefined &&
-    (formValues.arbeidsforhold.find((a) => a.erAnsatt === YesOrNo.YES) !== undefined ||
-        formValues.frilans_jobberFortsattSomFrilans === YesOrNo.YES ||
-        (formValues.frilans_jobberFortsattSomFrilans === YesOrNo.NO &&
-            erFrilanserISøknadsperiode(formValues.periodeFra, formValues.frilans_sluttdato)) ||
-        formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES);
+export const skalBrukerSvarePåArbeidsforholdIPerioden = (formValues?: PleiepengesøknadFormData): boolean => {
+    if (!formValues) {
+        return false;
+    }
+    const søknadsperiode = getSøknadsperiodeFromFormData(formValues);
+    if (søknadsperiode) {
+        return (
+            harAnsettelsesforholdISøknadsperiode(formValues.arbeidsforhold, søknadsperiode) ||
+            erFrilanserISøknadsperiode(formValues) ||
+            formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES
+        );
+    }
+    return false;
+};
