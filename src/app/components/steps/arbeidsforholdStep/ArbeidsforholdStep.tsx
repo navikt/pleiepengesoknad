@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import LoadingSpinner from '@navikt/sif-common-core/lib/components/loading-spinner/LoadingSpinner';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { DateRange } from '@navikt/sif-common-formik/lib';
 import { useFormikContext } from 'formik';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import FormSection from '../../../pre-common/form-section/FormSection';
@@ -13,9 +14,9 @@ import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import {
-    sluttdatoErISøknadsperiode,
     getArbeidsgivere,
     harAnsettelsesforholdISøknadsperiode,
+    sluttdatoErISøknadsperiode,
 } from '../../../utils/arbeidsforholdUtils';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { getSøknadsperiodeFromFormData } from '../../../utils/formDataUtils';
@@ -26,7 +27,6 @@ import ArbeidsforholdFormPart from './parts/ArbeidsforholdFormPart';
 import FrilansFormPart from './parts/FrilansFormPart';
 import SelvstendigNæringsdrivendeFormPart from './parts/SelvstendigNæringsdrivendeFormPart';
 import VernepliktigFormPart from './parts/VernepliktigFormPart';
-import { DateRange } from '@navikt/sif-common-formik/lib';
 
 interface LoadState {
     isLoading: boolean;
@@ -135,14 +135,27 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
             {isLoading && <LoadingSpinner type="XS" blockTitle="Henter arbeidsforhold" />}
             {!isLoading && søknadsperiode && (
                 <>
+                    <Box padBottom="m">
+                        <CounsellorPanel>
+                            <p>
+                                {arbeidsforhold.length > 0 && (
+                                    <FormattedMessage
+                                        id="steg.arbeidsforhold.veileder.medArbeidsgiver"
+                                        values={{ antall: arbeidsforhold.length }}
+                                    />
+                                )}
+                                {arbeidsforhold.length === 0 && (
+                                    <FormattedMessage id="steg.arbeidsforhold.veileder.ingenArbeidsgiverFunnet" />
+                                )}
+                            </p>
+                            <p>
+                                <FormattedMessage id="steg.arbeidsforhold.veileder.manglerDetArbeidsgiver" />
+                            </p>
+                        </CounsellorPanel>
+                    </Box>
                     <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.tittel')}>
                         {arbeidsforhold.length > 0 && (
                             <>
-                                <Box margin="m">
-                                    <ExpandableInfo title={intlHelper(intl, 'steg.arbeidsforhold.info.tittel')}>
-                                        <FormattedMessage id="steg.arbeidsforhold.info.tekst" />
-                                    </ExpandableInfo>
-                                </Box>
                                 {arbeidsforhold.map((forhold, index) => (
                                     <FormBlock key={forhold.organisasjonsnummer}>
                                         <ArbeidsforholdFormPart
