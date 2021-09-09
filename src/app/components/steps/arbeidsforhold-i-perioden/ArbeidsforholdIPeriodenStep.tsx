@@ -9,7 +9,15 @@ import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { useFormikContext } from 'formik';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
-import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import {
+    AppFormField,
+    Arbeidsforhold,
+    ArbeidsforholdAnsatt,
+    ArbeidsforholdSkalJobbeHvorMyeSvar,
+    ArbeidsforholdSkalJobbeSvar,
+    ArbeidsforholdSNF,
+    PleiepengesøknadFormData,
+} from '../../../types/PleiepengesøknadFormData';
 import { ansettelsesforholdGjelderSøknadsperiode, getTimerTekst } from '../../../utils/arbeidsforholdUtils';
 import { getSøknadsperiodeFromFormData } from '../../../utils/formDataUtils';
 import {
@@ -22,6 +30,40 @@ import {
 import FormikStep from '../../formik-step/FormikStep';
 import InvalidStepPage from '../../pages/invalid-step-page/InvalidStepPage';
 import ArbeidsforholdISøknadsperiode from './ArbeidsforholdISøknadsperiode';
+
+const cleanupArbeidsforholdCommon = (arbeidsforhold: Arbeidsforhold): Arbeidsforhold => {
+    const a = { ...arbeidsforhold };
+    if (a.skalJobbe !== ArbeidsforholdSkalJobbeSvar.ja) {
+        a.skalJobbeHvorMye = undefined;
+    }
+    if (a.skalJobbeHvorMye !== ArbeidsforholdSkalJobbeHvorMyeSvar.redusert) {
+        a.timerEllerProsent = undefined;
+    }
+    if (a.timerEllerProsent === undefined) {
+        a.skalJobbeTimer = undefined;
+        a.skalJobbeProsent = undefined;
+    }
+    return a;
+};
+const cleanupAnsattArbeidsforhold = (arbeidsforhold: ArbeidsforholdAnsatt): ArbeidsforholdAnsatt => {
+    return cleanupArbeidsforholdCommon(arbeidsforhold) as ArbeidsforholdAnsatt;
+};
+
+const cleanupSNF = (arbeidsforhold: ArbeidsforholdSNF): ArbeidsforholdSNF => {
+    return cleanupArbeidsforholdCommon(arbeidsforhold) as ArbeidsforholdSNF;
+};
+
+const cleanupArbeidsforholdIPeriodenStep = (formData: PleiepengesøknadFormData): PleiepengesøknadFormData => {
+    const values: PleiepengesøknadFormData = { ...formData };
+    values.arbeidsforhold = values.arbeidsforhold.map(cleanupAnsattArbeidsforhold);
+    values.frilans_arbeidsforhold = values.frilans_arbeidsforhold
+        ? cleanupSNF(values.frilans_arbeidsforhold)
+        : undefined;
+    values.selvstendig_arbeidsforhold = values.selvstendig_arbeidsforhold
+        ? cleanupSNF(values.selvstendig_arbeidsforhold)
+        : undefined;
+    return values;
+};
 
 const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
@@ -79,7 +121,10 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
     }
 
     return (
-        <FormikStep id={StepID.ARBEIDSFORHOLD_I_PERIODEN} onValidFormSubmit={onValidSubmit}>
+        <FormikStep
+            id={StepID.ARBEIDSFORHOLD_I_PERIODEN}
+            onValidFormSubmit={onValidSubmit}
+            onStepCleanup={cleanupArbeidsforholdIPeriodenStep}>
             <Box padBottom="m">
                 <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                     {brukerMåGåTilbakeTilArbeidssituasjon === false && (
