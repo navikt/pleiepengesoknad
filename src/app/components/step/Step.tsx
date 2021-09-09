@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
 import BackLink from '@navikt/sif-common-core/lib/components/back-link/BackLink';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import AvbrytSøknadDialog from '@navikt/sif-common-core/lib/components/dialogs/avbrytSøknadDialog/AvbrytSøknadDialog';
@@ -12,9 +11,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { FormikValidationErrorSummary } from '@navikt/sif-common-formik';
 import { History } from 'history';
 import { Innholdstittel } from 'nav-frontend-typografi';
-import { purge } from '../../api/api';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from '../../config/stepConfig';
-import { relocateToNavFrontpage, relocateToSoknad } from '../../utils/navigationUtils';
 import { getStepTexts } from '../../utils/stepUtils';
 import StepIndicator from '../step-indicator/StepIndicator';
 import StepFooter from '../stepFooter/StepFooter';
@@ -22,6 +19,8 @@ import './step.less';
 
 export interface StepProps {
     id: StepID;
+    onAvbryt: () => void;
+    onFortsettSenere: () => void;
     useValidationErrorSummary?: boolean;
 }
 
@@ -34,25 +33,12 @@ type Props = OwnProps & StepProps;
 
 const bem = bemHelper('step');
 
-const Step = ({ id, useValidationErrorSummary, stepConfig, children }: Props) => {
+const Step = ({ id, useValidationErrorSummary, stepConfig, onAvbryt, onFortsettSenere, children }: Props) => {
     const conf = stepConfig[id];
     const intl = useIntl();
     const stepTexts: StepConfigItemTexts = getStepTexts(intl, id, stepConfig);
     const [visAvbrytDialog, setVisAvbrytDialog] = React.useState<boolean>(false);
     const [visFortsettSenereDialog, setVisFortsettSenereDialog] = React.useState<boolean>(false);
-
-    const { logHendelse } = useAmplitudeInstance();
-
-    const handleAvbrytSøknad = async () => {
-        await purge();
-        await logHendelse(ApplikasjonHendelse.avbryt);
-        relocateToSoknad();
-    };
-
-    const handleAvsluttOgFortsettSenere = async () => {
-        await logHendelse(ApplikasjonHendelse.avbryt);
-        relocateToNavFrontpage();
-    };
 
     return (
         <Page
@@ -88,12 +74,12 @@ const Step = ({ id, useValidationErrorSummary, stepConfig, children }: Props) =>
             />
             <FortsettSøknadSenereDialog
                 synlig={visFortsettSenereDialog}
-                onFortsettSøknadSenere={() => handleAvsluttOgFortsettSenere()}
+                onFortsettSøknadSenere={onFortsettSenere}
                 onFortsettSøknad={() => setVisFortsettSenereDialog(false)}
             />
             <AvbrytSøknadDialog
                 synlig={visAvbrytDialog}
-                onAvbrytSøknad={() => handleAvbrytSøknad()}
+                onAvbrytSøknad={onAvbryt}
                 onFortsettSøknad={() => setVisAvbrytDialog(false)}
             />
         </Page>

@@ -1,12 +1,14 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { useLogSidevisning } from '@navikt/sif-common-amplitude';
+import { ApplikasjonHendelse, useAmplitudeInstance, useLogSidevisning } from '@navikt/sif-common-amplitude';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import getIntlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
 import { useFormikContext } from 'formik';
 import { Knapp } from 'nav-frontend-knapper';
+import { persist, purge } from '../../api/api';
 import { getStepConfig } from '../../config/stepConfig';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { relocateToNavFrontpage, relocateToSoknad } from '../../utils/navigationUtils';
 import { getStepTexts } from '../../utils/stepUtils';
 import AppForm from '../app-form/AppForm';
 import InvalidStepPage from '../pages/invalid-step-page/InvalidStepPage';
@@ -23,7 +25,7 @@ export interface FormikStepProps {
     onStepCleanup?: (values: PleiepengesøknadFormData) => PleiepengesøknadFormData;
 }
 
-type Props = FormikStepProps & StepProps;
+type Props = FormikStepProps & Omit<StepProps, 'onAvbryt' | 'onFortsettSenere'>;
 
 const FormikStep = (props: Props) => {
     const formik = useFormikContext<PleiepengesøknadFormData>();
@@ -39,6 +41,19 @@ const FormikStep = (props: Props) => {
     } = props;
     const stepConfig = getStepConfig(formik.values);
     useLogSidevisning(id);
+    const { logHendelse } = useAmplitudeInstance();
+
+    const handleAvbrytSøknad = async () => {
+        await purge();
+        await logHendelse(ApplikasjonHendelse.avbryt);
+        relocateToSoknad();
+    };
+
+    const handleAvsluttOgFortsettSenere = async () => {
+        await persist(formik.values, id);
+        await logHendelse(ApplikasjonHendelse.fortsettSenere);
+        relocateToNavFrontpage();
+    };
 
     if (stepConfig === undefined || stepConfig[id] === undefined || stepConfig[id].included === false) {
         return <InvalidStepPage stepId={id} />;
@@ -46,7 +61,11 @@ const FormikStep = (props: Props) => {
 
     const texts = getStepTexts(intl, id, stepConfig);
     return (
-        <Step stepConfig={stepConfig} {...props}>
+        <Step
+            stepConfig={stepConfig}
+            onFortsettSenere={handleAvsluttOgFortsettSenere}
+            onAvbryt={handleAvbrytSøknad}
+            {...props}>
             <AppForm.Form
                 onValidSubmit={onValidFormSubmit}
                 includeButtons={false}
