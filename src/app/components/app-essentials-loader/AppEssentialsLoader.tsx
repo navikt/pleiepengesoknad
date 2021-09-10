@@ -18,6 +18,7 @@ export const VERIFY_MELLOMLAGRING_VERSION = true;
 interface OwnProps {
     contentLoadedRenderer: (
         formdata: Partial<PleiepengesøknadFormData>,
+        harMellomlagring: boolean,
         lastStepID?: StepID,
         søkerdata?: Søkerdata
     ) => React.ReactNode;
@@ -29,6 +30,7 @@ interface State {
     lastStepID?: StepID;
     formdata: Partial<PleiepengesøknadFormData>;
     søkerdata?: Søkerdata;
+    harMellomlagring: boolean;
 }
 
 type Props = OwnProps & RouteComponentProps;
@@ -47,6 +49,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
             willRedirectToLoginPage: false,
             lastStepID: undefined,
             formdata: initialValues,
+            harMellomlagring: false,
         };
 
         this.updateArbeidsgivere = this.updateArbeidsgivere.bind(this);
@@ -101,6 +104,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
                 setArbeidsgivere: this.updateArbeidsgivere,
                 arbeidsgivere: [],
             },
+            mellomlagring?.metadata?.version !== undefined,
             lastStepID,
             () => {
                 this.stopLoading();
@@ -114,6 +118,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
     updateSøkerdata(
         formdata: Partial<PleiepengesøknadFormData>,
         søkerdata: Søkerdata,
+        harMellomlagring: boolean,
         lastStepID?: StepID,
         callback?: () => void
     ) {
@@ -123,6 +128,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
                 lastStepID: lastStepID || this.state.lastStepID,
                 formdata: formdata || this.state.formdata,
                 søkerdata: søkerdata || this.state.søkerdata,
+                harMellomlagring,
             },
             callback
         );
@@ -164,14 +170,14 @@ class AppEssentialsLoader extends React.Component<Props, State> {
 
     render() {
         const { contentLoadedRenderer } = this.props;
-        const { isLoading, willRedirectToLoginPage, lastStepID, formdata, søkerdata } = this.state;
+        const { isLoading, willRedirectToLoginPage, lastStepID, formdata, søkerdata, harMellomlagring } = this.state;
         if (isLoading || willRedirectToLoginPage) {
             return <LoadingPage />;
         }
         return (
             <>
                 <SøkerdataContextProvider value={søkerdata}>
-                    {contentLoadedRenderer(formdata, lastStepID, søkerdata)}
+                    {contentLoadedRenderer(formdata, harMellomlagring, lastStepID, søkerdata)}
                 </SøkerdataContextProvider>
             </>
         );

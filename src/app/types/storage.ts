@@ -5,7 +5,7 @@ import { PleiepengesøknadFormData } from './PleiepengesøknadFormData';
 export const MELLOMLAGRING_VERSION = '6.1';
 interface StorageMetadata {
     version: string;
-    lastStepID: StepID;
+    lastStepID?: StepID;
 }
 
 export interface MellomlagringData {

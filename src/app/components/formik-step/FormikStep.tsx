@@ -50,7 +50,9 @@ const FormikStep = (props: Props) => {
     };
 
     const handleAvsluttOgFortsettSenere = async () => {
-        await persist(formik.values, id);
+        /** Mellomlagring lagrer forrige steg, derfor må dette hentes ut her **/
+        const prevStep = stepConfig[id].prevStep;
+        await persist(formik.values, prevStep);
         await logHendelse(ApplikasjonHendelse.fortsettSenere);
         relocateToNavFrontpage();
     };

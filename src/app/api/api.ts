@@ -9,15 +9,17 @@ import { MELLOMLAGRING_VERSION, MellomlagringData } from '../types/storage';
 import { Arbeidsgiver } from '../types/Søkerdata';
 import { getApiUrlByResourceType, sendMultipartPostRequest } from '../utils/apiUtils';
 
-export const getPersistUrl = (lastStepID: StepID) =>
-    `${getApiUrlByResourceType(ResourceType.MELLOMLAGRING)}?lastStepID=${encodeURI(lastStepID)}`;
+export const getPersistUrl = (stepID?: StepID) =>
+    stepID
+        ? `${getApiUrlByResourceType(ResourceType.MELLOMLAGRING)}?lastStepID=${encodeURI(stepID)}`
+        : getApiUrlByResourceType(ResourceType.MELLOMLAGRING);
 
-export const persist = (formData: Partial<PleiepengesøknadFormData> | undefined, lastStepID: StepID) => {
-    const url = getPersistUrl(lastStepID);
+export const persist = (formData: Partial<PleiepengesøknadFormData> | undefined, prevStep?: StepID) => {
+    const url = getPersistUrl(prevStep);
     if (formData) {
         const body: MellomlagringData = {
             formData,
-            metadata: { lastStepID, version: MELLOMLAGRING_VERSION },
+            metadata: { lastStepID: prevStep, version: MELLOMLAGRING_VERSION },
         };
         return axios.put(url, { ...body }, axiosConfig);
     } else {

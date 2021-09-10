@@ -30,6 +30,7 @@ import OmsorgstilbudStep from '../steps/omsorgstilbud/OmsorgstilbudStep';
 
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
+    harMellomlagring: boolean;
 }
 
 export interface KvitteringInfo {
@@ -56,7 +57,7 @@ const getKvitteringInfoFromApiData = (
     return undefined;
 };
 
-const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps) => {
+const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadContentProps) => {
     const location = useLocation();
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
     const [kvitteringInfo, setKvitteringInfo] = React.useState<KvitteringInfo | undefined>(undefined);
@@ -78,7 +79,10 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
         if (isOnWelcomPage && nextStepRoute !== undefined) {
             sendUserToStep(nextStepRoute);
         }
-    }, [isOnWelcomPage, nextStepRoute, sendUserToStep]);
+        if (isOnWelcomPage && nextStepRoute === undefined && harMellomlagring) {
+            sendUserToStep(StepID.OPPLYSNINGER_OM_BARNET);
+        }
+    }, [isOnWelcomPage, nextStepRoute, harMellomlagring, sendUserToStep]);
 
     const userNotLoggedIn = async () => {
         await logUserLoggedOut('Mellomlagring ved navigasjon');
