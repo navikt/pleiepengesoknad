@@ -28,16 +28,21 @@ import {
 import routeConfig from '../../../config/routeConfig';
 import { StepID } from '../../../config/stepConfig';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
-import { ArbeidsforholdApi, PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
+import {
+    ArbeidsforholdAnsattApi,
+    ArbeidsforholdApi,
+    PleiepengesøknadApiData,
+} from '../../../types/PleiepengesøknadApiData';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { Søkerdata } from '../../../types/Søkerdata';
 import * as apiUtils from '../../../utils/apiUtils';
 import appSentryLogger from '../../../utils/appSentryLogger';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
-import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
+import { getAvsluttaOrganisasjonerApiData, mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
 import { navigateTo, relocateToLoginPage } from '../../../utils/navigationUtils';
 import { validateApiValues } from '../../../validation/apiValuesValidation';
 import AppForm from '../../app-form/AppForm';
+import AvsluttetArbeidsforholdSummary from '../../arbeidsforhold-summary/AvsluttetArbeidsforholdSummary';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringAttachmentList from '../../legeerklæring-file-list/LegeerklæringFileList';
 import SummarySection from '../../summary-section/SummarySection';
@@ -82,17 +87,13 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
     const intl = useIntl();
     const history = useHistory();
 
-    const { logInfo, logSoknadSent, logSoknadFailed, logUserLoggedOut } = useAmplitudeInstance();
+    const { logSoknadSent, logSoknadFailed, logUserLoggedOut } = useAmplitudeInstance();
 
     const sendSoknad = async (apiValues: PleiepengesøknadApiData, søkerdata: Søkerdata) => {
         setSendingInProgress(true);
         try {
             await sendApplication(apiValues);
             await logSoknadSent(SKJEMANAVN);
-            await logInfo({
-                antallArbeidsgivere: søkerdata.arbeidsgivere?.length,
-                antallAktiveArbeidsgivere: apiValues.arbeidsgivere.organisasjoner.length,
-            });
             await purge();
             setSoknadSent(true);
             onApplicationSent(apiValues, søkerdata);
@@ -154,6 +155,11 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                     ...(apiValues.frilans?.arbeidsforhold ? [apiValues.frilans.arbeidsforhold] : []),
                     ...(apiValues.selvstendigArbeidsforhold ? [apiValues.selvstendigArbeidsforhold] : []),
                 ];
+
+                const avsluttaArbeidsforholdFørSøknadsperiode = getAvsluttaOrganisasjonerApiData(
+                    values.arbeidsforhold,
+                    søknadsperiode
+                );
 
                 return (
                     <FormikStep
@@ -346,18 +352,30 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
 
                                 {/* Arbeidsforhold */}
                                 <SummarySection header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.header')}>
-                                    {alleArbeidsforhold.length > 0 ? (
+                                    {alleArbeidsforhold.length > 0 && (
                                         <SummaryList
                                             items={alleArbeidsforhold}
                                             itemRenderer={(forhold: ArbeidsforholdApi) => (
                                                 <ArbeidsforholdSummary arbeidsforhold={forhold} />
                                             )}
                                         />
-                                    ) : (
-                                        <Box margin="m">
-                                            <FormattedMessage id="steg.oppsummering.arbeidsforhold.ingenArbeidsforhold" />
+                                    )}
+                                    {avsluttaArbeidsforholdFørSøknadsperiode.length > 0 && (
+                                        <Box margin={alleArbeidsforhold.length > 0 ? 'l' : 'none'}>
+                                            <SummaryList
+                                                items={avsluttaArbeidsforholdFørSøknadsperiode}
+                                                itemRenderer={(forhold: ArbeidsforholdAnsattApi) => (
+                                                    <AvsluttetArbeidsforholdSummary arbeidsforhold={forhold} />
+                                                )}
+                                            />
                                         </Box>
                                     )}
+                                    {avsluttaArbeidsforholdFørSøknadsperiode.length === 0 &&
+                                        alleArbeidsforhold.length === 0 && (
+                                            <Box margin="m">
+                                                <FormattedMessage id="steg.oppsummering.arbeidsforhold.ingenArbeidsforhold" />
+                                            </Box>
+                                        )}
                                 </SummarySection>
 
                                 {/* Frilansinntekt */}

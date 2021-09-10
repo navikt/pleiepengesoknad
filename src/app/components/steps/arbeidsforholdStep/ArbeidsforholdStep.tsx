@@ -164,25 +164,6 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                                 ))}
                             </>
                         )}
-                        {/* {arbeidsforhold.length === 0 && (
-                            <>
-                                <p>
-                                    <FormattedMessage id="steg.arbeidsforhold.veileder.ingenArbeidsgiverFunnet" />
-                                </p>
-                                <p>
-                                    <FormattedMessage id="steg.arbeidsforhold.veileder.manglerDetArbeidsgiver" />
-                                </p>
-                            </>
-
-                            // <Box margin="l">
-                            //     <AlertStripeInfo>
-                            //         <FormattedMessage id="steg.arbeidsforhold.veileder.ingenArbeidsgiverFunnet" />
-                            //         <p style={{ marginBottom: 0 }}>
-                            //             <FormattedMessage id="steg.arbeidsforhold.info.tekst" />
-                            //         </p>
-                            //     </AlertStripeInfo>
-                            // </Box>
-                        )} */}
                     </FormSection>
 
                     <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.frilanser.tittel')}>

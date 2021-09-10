@@ -64,6 +64,30 @@ export const getOrganisasjonerApiData = (
     return organisasjoner;
 };
 
+export const getAvsluttaOrganisasjonerApiData = (
+    arbeidsforhold: ArbeidsforholdAnsatt[],
+    søknadsperiode: DateRange
+): ArbeidsforholdAnsattApi[] => {
+    const organisasjoner: ArbeidsforholdAnsattApi[] = [];
+    arbeidsforhold
+        .filter((a) => arbeidsforholdGjelderSøknadsperiode(a, søknadsperiode) === false)
+        .forEach((forhold) => {
+            const arbeidsforholdApiData = mapArbeidsforholdToApiData(forhold, ArbeidsforholdType.ANSATT);
+            if (arbeidsforholdApiData) {
+                organisasjoner.push({
+                    ...arbeidsforholdApiData,
+                    navn: forhold.navn,
+                    organisasjonsnummer: forhold.organisasjonsnummer,
+                    erAnsatt: forhold.erAnsatt === YesOrNo.YES,
+                    sluttdato: forhold.sluttdato,
+                });
+            } else {
+                throw new Error('Invalid arbeidsforhold');
+            }
+        });
+    return organisasjoner;
+};
+
 export const mapFormDataToApiData = (
     formData: PleiepengesøknadFormData,
     barn: BarnReceivedFromApi[],

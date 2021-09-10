@@ -78,7 +78,6 @@ const ArbeidsforholdSummary = ({ arbeidsforhold }: Props) => {
                         />
                     </li>
                 )}
-
                 <li>
                     <FormattedMessage
                         id={
