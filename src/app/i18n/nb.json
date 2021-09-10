@@ -388,7 +388,7 @@
     "steg.oppsummering.validering.navigasjonTilStegGåTil": "Gå til",
 
     "steg.arbeidsforhold.tittel": "Dine arbeidsgivere",
-    "steg.arbeidsforhold.veileder.medArbeidsgiver": "Vi har funnet følgende {antall, plural, one {arbeidsgiver} other {arbeidsgivere}} registrert på deg i AA-registeret. For å være sikker på at opplysningene er riktige må du bekrefte om det stemmer at du er ansatt hos arbeidsgiverne e du ser nedenfor.",
+    "steg.arbeidsforhold.veileder.medArbeidsgiver": "Vi har funnet følgende {antall, plural, one {arbeidsgiver} other {arbeidsgivere}} registrert på deg i AA-registeret. For å være sikker på at opplysningene er riktige må du bekrefte om det stemmer at du er ansatt hos arbeidsgiverne du ser nedenfor.",
     "steg.arbeidsforhold.veileder.ingenArbeidsgiverFunnet": "Vi har ikke funnet noen arbeidsgivere registrert på deg i AA-registeret.",
     "steg.arbeidsforhold.veileder.manglerDetArbeidsgiver": "Hvis det mangler aktive arbeidsgivere her må du be arbeidsgiveren din om å sende ny A-melding, enten via lønns- og personalsystemet eller gjennom Altinn.",
     "steg.arbeidsforhold.info.tekst": "Dersom det mangler en arbeidsgiver her, må du be arbeidsgiveren din sende ny A-melding, enten via lønns- og personalsystemet eller gjennom Altinn.",

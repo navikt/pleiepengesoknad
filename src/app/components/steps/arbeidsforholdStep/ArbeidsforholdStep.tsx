@@ -131,6 +131,11 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                 <>
                     <Box padBottom="m">
                         <CounsellorPanel>
+                            For å vurdere/beregne pleiepenger for deg må vi vite litt om din arbeidssituasjon.
+                        </CounsellorPanel>
+                    </Box>
+                    <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.tittel')}>
+                        <Box>
                             <p>
                                 {arbeidsforhold.length > 0 && (
                                     <FormattedMessage
@@ -145,9 +150,7 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                             <p>
                                 <FormattedMessage id="steg.arbeidsforhold.veileder.manglerDetArbeidsgiver" />
                             </p>
-                        </CounsellorPanel>
-                    </Box>
-                    <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.tittel')}>
+                        </Box>
                         {arbeidsforhold.length > 0 && (
                             <>
                                 {arbeidsforhold.map((forhold, index) => (
@@ -161,7 +164,7 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                                 ))}
                             </>
                         )}
-                        {arbeidsforhold.length === 0 && (
+                        {/* {arbeidsforhold.length === 0 && (
                             <>
                                 <p>
                                     <FormattedMessage id="steg.arbeidsforhold.veileder.ingenArbeidsgiverFunnet" />
@@ -179,7 +182,7 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                             //         </p>
                             //     </AlertStripeInfo>
                             // </Box>
-                        )}
+                        )} */}
                     </FormSection>
 
                     <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.frilanser.tittel')}>
