@@ -79,10 +79,10 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
         if (isOnWelcomPage && nextStepRoute !== undefined) {
             sendUserToStep(nextStepRoute);
         }
-        if (isOnWelcomPage && nextStepRoute === undefined && harMellomlagring) {
+        if (isOnWelcomPage && nextStepRoute === undefined && harMellomlagring && !søknadHasBeenSent) {
             sendUserToStep(StepID.OPPLYSNINGER_OM_BARNET);
         }
-    }, [isOnWelcomPage, nextStepRoute, harMellomlagring, sendUserToStep]);
+    }, [isOnWelcomPage, nextStepRoute, harMellomlagring, søknadHasBeenSent, sendUserToStep]);
 
     const userNotLoggedIn = async () => {
         await logUserLoggedOut('Mellomlagring ved navigasjon');

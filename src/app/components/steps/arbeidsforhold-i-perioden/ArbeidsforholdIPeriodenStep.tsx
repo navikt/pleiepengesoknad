@@ -30,6 +30,7 @@ import {
 import FormikStep from '../../formik-step/FormikStep';
 import InvalidStepPage from '../../pages/invalid-step-page/InvalidStepPage';
 import ArbeidsforholdISøknadsperiode from './ArbeidsforholdISøknadsperiode';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 
 const cleanupArbeidsforholdCommon = (arbeidsforhold: Arbeidsforhold): Arbeidsforhold => {
     const a = { ...arbeidsforhold };
@@ -148,10 +149,11 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
                     <div className="arbeidsforhold">
                         {aktiveArbeidsforholdMedOpprinneligIndex.map(({ arbeidsforhold, index }) => {
                             const erAvsluttet = arbeidsforhold.erAnsatt === YesOrNo.NO;
+                            const sluttdato = datepickerUtils.getDateFromDateString(arbeidsforhold.sluttdato);
                             const arbeidsforholdIntlValues = {
                                 navn: arbeidsforhold.navn,
                                 fra: erAvsluttet ? prettifyDateFull(søknadsperiode.from) : undefined,
-                                til: erAvsluttet ? prettifyDateFull(søknadsperiode.to) : undefined,
+                                til: erAvsluttet && sluttdato ? prettifyDateFull(sluttdato) : undefined,
                                 timer: getTimerTekst(arbeidsforhold.jobberNormaltTimer, intl),
                             };
                             return (
