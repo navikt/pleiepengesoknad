@@ -205,7 +205,7 @@
 
     "welcomingPage.sidetittel": "Søknad om pleiepenger for sykt barn",
     "welcomingPage.banner.tittel": "Hei,",
-    "welcomingPage.banner.tekst": "jeg vil hjelpe deg med å fylle ut søknaden!",
+    "welcomingPage.banner.tekst": "jeg vil hjelpe deg med å fylle ut søknaden! Hei, jeg vil hjelpe deg med å fylle ut søknaden! For å gå frem og tilbake i søknaden bruker du \"Fortsett\"-knappen og tilbake-lenken som du finner på hver side.",
     "welcomingPage.introtittel": "Søknad om pleiepenger for sykt barn",
     "welcomingPage.samtykke.tekst": "Jeg bekrefter at jeg har lest og forstått",
     "welcomingPage.samtykke.harForståttLabel": "For å gå videre med søknaden må du bekrefte at du har lest og forstått {plikterLink}.",
@@ -381,10 +381,10 @@
 
     "steg.oppsummering.validering.manglerVedlegg": "Noe gikk galt med legeerklæringen.",
     "steg.oppsummering.validering.ugyldigArbeidsforhold": "Noe stemmer ikke helt med informasjonen om din arbeidssituasjon.",
-    "steg.oppsummering.validering.ugyldigArbeidsforholdAnsatt": "Det mangler informasjon om hvordan du skal jobbe her i perioden.",
-    "steg.oppsummering.validering.ugyldigArbeidsforholdFrilans": "Det mangler informasjon om hvordan du skal jobbe som frilanser i perioden.",
-    "steg.oppsummering.validering.ugyldigArbeidsforholdSN": "Det mangler informasjon om hvordan du skal jobbe som selvstendig næringsdrivende i perioden.",
-    "steg.oppsummering.validering.navigasjonTilStegInfo": "Vennligst gå tilbake og kontroller informasjonen du har fylt ut, og bruk \"Fortsett\" knappen for å gå videre.",
+    "steg.oppsummering.validering.ugyldigArbeidsforholdAnsatt": "Det er ikke fylt ut informasjon om hvordan du skal jobbe her i perioden du har søkt pleiepenger.",
+    "steg.oppsummering.validering.ugyldigArbeidsforholdFrilans": "Det er ikke fylt ut informasjon om hvordan du skal jobbe som frilanser i perioden du har søkt pleiepenger.",
+    "steg.oppsummering.validering.ugyldigArbeidsforholdSN": "Det er ikke fylt ut informasjon om hvordan du skal jobbe som selvstendig næringsdrivende i perioden du har søkt pleiepenger.",
+    "steg.oppsummering.validering.navigasjonTilStegInfo": "Vennligst gå tilbake og sjekk informasjonen du har fylt ut. Når du har gjort det, trykker du på \"Fortsett\"-knappen for å gå videre.",
     "steg.oppsummering.validering.navigasjonTilStegGåTil": "Gå til",
 
     "steg.arbeidsforhold.tittel": "Dine arbeidsgivere",
@@ -424,9 +424,9 @@
     "page.generalErrorPage.tittel": "Noe gikk galt...",
     "page.generalErrorPage.tekst": "Beklager, her har det dessverre skjedd en feil.",
 
-    "page.invalidStepPage.sidetittel": "Noe gikk galt",
-    "page.invalidStepPage.tittel": "Noe gikk galt...",
-    "page.invalidStepPage.tekst": "Nå har du kommet til en side som du ikke trenger å være på. Dette kan oppstå dersom du går frem og tilbake i søknaden via nettleseren, i stedet for <strong>\"Fortsett\"</strong>-knappen og <strong>\"Tilbake\"</strong>-lenken inne i siden.",
+    "page.invalidStepPage.sidetittel": "Oops, nå skjedde det en feil...",
+    "page.invalidStepPage.tittel": "Oops, nå skjedde det en feil...",
+    "page.invalidStepPage.tekst": "Du er kommet til en side du ikke trenger å fylle ut. Dette kan skje hvis du går frem og tilbake i søknaden gjennom pilene i nettleseren (pilene helt øverst til venstre på siden). Du unngår dette problemet hvis du heller bruker knapper og lenker som ligger inne i selve søknaden for å gå frem eller tilbake.:",
     "page.invalidStepPage.tilbakeLenke": "Gå tilbake til forrige side",
 
     "page.ikkeMyndig.sidetittel": "Søknad om pleiepenger - ikke myndig",
