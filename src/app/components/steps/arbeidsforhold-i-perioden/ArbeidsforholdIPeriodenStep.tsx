@@ -73,7 +73,7 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
         values: {
             arbeidsforhold,
             frilans_arbeidsforhold,
-            frilans_jobberFortsattSomFrilans,
+            frilans_harHattInntektSomFrilanser,
             selvstendig_harHattInntektSomSN,
             selvstendig_arbeidsforhold,
         },
@@ -99,7 +99,7 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
         );
 
     const skalBesvareAnsettelsesforhold = aktiveArbeidsforholdMedOpprinneligIndex.length > 0;
-    const skalBesvareFrilans = frilans_jobberFortsattSomFrilans === YesOrNo.YES && frilans_arbeidsforhold;
+    const skalBesvareFrilans = frilans_harHattInntektSomFrilanser === YesOrNo.YES && frilans_arbeidsforhold;
     const skalBesvareSelvstendig = selvstendig_harHattInntektSomSN === YesOrNo.YES && selvstendig_arbeidsforhold;
 
     /** Dette kan oppstå dersom bruker er på Arbeidssituasjon, endrer på data, og deretter trykker forward i nettleser */
