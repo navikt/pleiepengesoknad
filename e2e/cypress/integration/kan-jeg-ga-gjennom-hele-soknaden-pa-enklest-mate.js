@@ -29,9 +29,6 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
         });
 
         it('STEG 2: PERIODEN MED PLEIEPENGER', () => {
-            // TODO: Fikse bug som gjør at man ikke kan skrive i inputfeltet direkte. Må bruke datovelger.
-            // cy.get('[name="periodeFra"]').type("01.01.2021");
-
             // Velg periode, fom
             cy.get('[class=nav-datovelger__kalenderknapp]').first().click();
             cy.get('[class=DayPicker-Day]').not('.DayPicker-Day--disabled').first().click();
