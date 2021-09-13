@@ -1,7 +1,6 @@
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { getSøknadRoute } from '../utils/routeUtils';
 import { skalBrukerSvarePåArbeidsforholdIPerioden, skalBrukerSvarePåBeredskapOgNattevåk } from '../utils/stepUtils';
-import routeConfig from './routeConfig';
 
 export enum StepID {
     'OPPLYSNINGER_OM_BARNET' = 'opplysninger-om-barnet',
@@ -55,7 +54,6 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData): StepConfi
             ...getStepConfigItemTextKeys(StepID.OPPLYSNINGER_OM_BARNET),
             index: idx++,
             nextStep: StepID.TIDSROM,
-            backLinkHref: routeConfig.WELCOMING_PAGE_ROUTE,
             included: true,
         },
         [StepID.TIDSROM]: {

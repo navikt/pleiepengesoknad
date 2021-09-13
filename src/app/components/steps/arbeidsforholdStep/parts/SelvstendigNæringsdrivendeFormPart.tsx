@@ -13,7 +13,7 @@ import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../../../lenker';
 import { AppFormField, Arbeidsform, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
 import {
-    getArbeidsformAnsattValidator,
+    getArbeidsformValidator,
     getJobberNormaltTimerValidator,
     isYesOrNoAnswered,
 } from '../../../../validation/fieldValidations';
@@ -28,6 +28,13 @@ const SelvstendigNæringsdrivendeFormPart = ({ formValues }: Props) => {
     const intl = useIntl();
     const { selvstendig_virksomhet, selvstendig_harFlereVirksomheter, selvstendig_arbeidsforhold } = formValues;
     const harFlereVirksomheter = selvstendig_harFlereVirksomheter === YesOrNo.YES;
+    const intlValues = {
+        hvor: intlHelper(intl, 'arbeidsforhold.part.somSelvstendigNæringsdrivende'),
+        jobber: intlHelper(intl, 'arbeidsforhold.part.jobber'),
+        arbeidsform: selvstendig_arbeidsforhold?.arbeidsform
+            ? intlHelper(intl, `arbeidsforhold.part.arbeidsform.${selvstendig_arbeidsforhold.arbeidsform}`)
+            : undefined,
+    };
     return (
         <>
             <Box margin="l">
@@ -98,11 +105,8 @@ const SelvstendigNæringsdrivendeFormPart = ({ formValues }: Props) => {
                                         intlHelper(intl, `snFrilanser.arbeidsforhold.iDag.${arbeidsform}.spm`),
                                 }}
                                 validator={{
-                                    arbeidsform: getArbeidsformAnsattValidator(selvstendig_arbeidsforhold),
-                                    jobberNormaltTimer: getJobberNormaltTimerValidator(
-                                        selvstendig_arbeidsforhold,
-                                        'selvstendig'
-                                    ),
+                                    arbeidsform: getArbeidsformValidator(intlValues),
+                                    jobberNormaltTimer: getJobberNormaltTimerValidator(intlValues),
                                 }}
                                 arbeidsforhold={selvstendig_arbeidsforhold}
                                 parentFieldName={`${AppFormField.selvstendig_arbeidsforhold}`}

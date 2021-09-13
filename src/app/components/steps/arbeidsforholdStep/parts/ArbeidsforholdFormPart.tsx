@@ -12,7 +12,7 @@ import { AppFormField, ArbeidsforholdAnsatt, ArbeidsforholdField } from '../../.
 import { arbeidsforholdGjelderSøknadsperiode } from '../../../../utils/arbeidsforholdUtils';
 import {
     getArbeidsforholdSluttdatoValidator,
-    getArbeidsformAnsattValidator,
+    getArbeidsformValidator,
     getJobberNormaltTimerValidator,
     isYesOrNoAnswered,
 } from '../../../../validation/fieldValidations';
@@ -27,9 +27,17 @@ interface Props {
 
 const ArbeidsforholdFormPart: React.FunctionComponent<Props> = ({ arbeidsforhold, søknadsperiode, index }) => {
     const intl = useIntl();
-    const erAvsluttetArbeidsforhold = arbeidsforhold.erAnsatt === YesOrNo.NO;
+    const erAvsluttet = arbeidsforhold.erAnsatt === YesOrNo.NO;
     const skalSvarePåArbeidIPerioden = arbeidsforholdGjelderSøknadsperiode(arbeidsforhold, søknadsperiode) === true;
-
+    const intlValues = {
+        hvor: intlHelper(intl, 'arbeidsforhold.part.hosArbeidsgiver', { navn: arbeidsforhold.navn }),
+        jobber: erAvsluttet
+            ? intlHelper(intl, 'arbeidsforhold.part.jobbet')
+            : intlHelper(intl, 'arbeidsforhold.part.jobber'),
+        arbeidsform: arbeidsforhold.arbeidsform
+            ? intlHelper(intl, `arbeidsforhold.part.arbeidsform.${arbeidsforhold.arbeidsform}`)
+            : undefined,
+    };
     return (
         <>
             <FormBlock key={arbeidsforhold.organisasjonsnummer} margin="xl">
@@ -57,7 +65,7 @@ const ArbeidsforholdFormPart: React.FunctionComponent<Props> = ({ arbeidsforhold
             {isYesOrNoAnswered(arbeidsforhold.erAnsatt) && (
                 <FormBlock margin="m">
                     <ResponsivePanel>
-                        {erAvsluttetArbeidsforhold && (
+                        {erAvsluttet && (
                             <AppForm.DatePicker
                                 label={intlHelper(intl, 'arbeidsforhold.sluttdato.spm', { navn: arbeidsforhold.navn })}
                                 name={`${AppFormField.arbeidsforhold}.${index}.${ArbeidsforholdField.sluttdato}` as any}
@@ -75,7 +83,7 @@ const ArbeidsforholdFormPart: React.FunctionComponent<Props> = ({ arbeidsforhold
                                         spørsmål={{
                                             arbeidsform: intlHelper(
                                                 intl,
-                                                erAvsluttetArbeidsforhold
+                                                erAvsluttet
                                                     ? 'arbeidsforhold.arbeidsform.avsluttet.spm'
                                                     : 'arbeidsforhold.arbeidsform.spm',
                                                 {
@@ -85,7 +93,7 @@ const ArbeidsforholdFormPart: React.FunctionComponent<Props> = ({ arbeidsforhold
                                             jobberNormaltTimer: (arbeidsform) =>
                                                 intlHelper(
                                                     intl,
-                                                    erAvsluttetArbeidsforhold
+                                                    erAvsluttet
                                                         ? `arbeidsforhold.iDag.${arbeidsform}.avsluttet.spm`
                                                         : `arbeidsforhold.iDag.${arbeidsform}.spm`,
                                                     {
@@ -94,8 +102,8 @@ const ArbeidsforholdFormPart: React.FunctionComponent<Props> = ({ arbeidsforhold
                                                 ),
                                         }}
                                         validator={{
-                                            arbeidsform: getArbeidsformAnsattValidator(arbeidsforhold),
-                                            jobberNormaltTimer: getJobberNormaltTimerValidator(arbeidsforhold),
+                                            arbeidsform: getArbeidsformValidator(intlValues),
+                                            jobberNormaltTimer: getJobberNormaltTimerValidator(intlValues),
                                         }}
                                         arbeidsforhold={arbeidsforhold}
                                         parentFieldName={`${AppFormField.arbeidsforhold}.${index}`}

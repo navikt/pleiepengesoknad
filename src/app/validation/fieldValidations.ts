@@ -36,7 +36,6 @@ import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from
 import {
     ArbeidsforholdAnsatt,
     ArbeidsforholdSNF,
-    FrilansEllerSelvstendig,
     isArbeidsforholdAnsatt,
     Omsorgstilbud,
 } from '../types/PleiepengesøknadFormData';
@@ -217,22 +216,39 @@ export const getOmsorgstilbudtimerValidatorEnDag =
         return undefined;
     };
 
-export const getArbeidsformAnsattValidator =
-    (arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF | undefined) => (value: any) => {
-        if (arbeidsforhold === undefined) {
+export const getArbeidsformValidator = (intlValues: { hvor: string; jobber: string }) => (value: any) => {
+    const error = getRequiredFieldValidator()(value);
+    return error
+        ? {
+              key: 'validation.arbeidsforhold.arbeidsform.noValue',
+              values: intlValues,
+              keepKeyUnaltered: true,
+          }
+        : undefined;
+};
+
+export const getJobberNormaltTimerValidator =
+    (intlValues: { hvor: string; jobber: string; arbeidsform?: string }) => (value: any) => {
+        if (!intlValues.arbeidsform) {
             return undefined;
         }
-        const error = getRequiredFieldValidator()(value);
-        if (error) {
-            return isArbeidsforholdAnsatt(arbeidsforhold)
-                ? {
-                      key: 'validation.arbeidsforhold.arbeidsform.yesOrNoIsUnanswered',
-                      values: { navn: arbeidsforhold.navn },
-                      keepKeyUnaltered: true,
-                  }
-                : error;
-        }
-        return undefined;
+        const error = getNumberValidator({
+            required: true,
+            min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
+            max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
+        })(value);
+
+        return error
+            ? {
+                  key: `validation.arbeidsforhold.jobberNormaltTimer.${error}`,
+                  values: {
+                      ...intlValues,
+                      min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
+                      max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
+                  },
+                  keepKeyUnaltered: true,
+              }
+            : undefined;
     };
 
 export const getArbeidsforholdSluttdatoValidator =
@@ -246,49 +262,6 @@ export const getArbeidsforholdSluttdatoValidator =
                   keepKeyUnaltered: true,
               }
             : undefined;
-    };
-
-export const getJobberNormaltTimerValidator =
-    (
-        arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF | undefined,
-        frilansEllerSelvstendig?: FrilansEllerSelvstendig
-    ) =>
-    (value: any) => {
-        if (arbeidsforhold === undefined) {
-            return undefined;
-        }
-        const error = getNumberValidator({
-            required: true,
-            min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
-            max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
-        })(value);
-        const erAvsluttetAnsettelsesforhold =
-            isArbeidsforholdAnsatt(arbeidsforhold) && arbeidsforhold.erAnsatt === YesOrNo.NO;
-        if (error) {
-            return isArbeidsforholdAnsatt(arbeidsforhold)
-                ? {
-                      key: erAvsluttetAnsettelsesforhold
-                          ? `validation.arbeidsforhold.jobberNormaltTimer.avsluttet.${arbeidsforhold.arbeidsform}.${error}`
-                          : `validation.arbeidsforhold.jobberNormaltTimer.${arbeidsforhold.arbeidsform}.${error}`,
-                      values: {
-                          navn: arbeidsforhold.navn,
-                          min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
-                          max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
-                      },
-                      keepKeyUnaltered: true,
-                  }
-                : {
-                      key: erAvsluttetAnsettelsesforhold
-                          ? `validation.${frilansEllerSelvstendig}_arbeidsforhold.jobberNormaltTimer.avsluttet.${arbeidsforhold.arbeidsform}.${error}`
-                          : `validation.${frilansEllerSelvstendig}_arbeidsforhold.jobberNormaltTimer.${arbeidsforhold.arbeidsform}.${error}`,
-                      values: {
-                          min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
-                          max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
-                      },
-                      keepKeyUnaltered: true,
-                  };
-        }
-        return undefined;
     };
 
 export const getArbeidsforholdSkalJobbeValidator =

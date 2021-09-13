@@ -1,7 +1,6 @@
 import RouteConfig from '../config/routeConfig';
 import { getStepConfig, StepID } from '../config/stepConfig';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import { appIsRunningInDevEnvironment } from './envUtils';
 import {
     arbeidsforholdStepAvailable,
     beredskapStepAvailable,
@@ -33,31 +32,29 @@ export const isAvailable = (
     values: PleiepengesøknadFormData,
     søknadHasBeenSent?: boolean
 ) => {
-    if (!appIsRunningInDevEnvironment()) {
-        switch (path) {
-            case StepID.OPPLYSNINGER_OM_BARNET:
-                return opplysningerOmBarnetStepAvailable(values);
-            case StepID.TIDSROM:
-                return opplysningerOmTidsromStepAvailable(values);
-            case StepID.ARBEIDSFORHOLD:
-                return arbeidsforholdStepAvailable(values);
-            case StepID.ARBEIDSFORHOLD_I_PERIODEN:
-                return true; //arbeidsforholdStepAvailable(values);
-            case StepID.OMSORGSTILBUD:
-                return omsorgstilbudStepAvailable(values);
-            case StepID.NATTEVÅK:
-                return nattevåkStepAvailable(values);
-            case StepID.BEREDSKAP:
-                return beredskapStepAvailable(values);
-            case StepID.LEGEERKLÆRING:
-                return legeerklæringStepAvailable(values);
-            case StepID.MEDLEMSKAP:
-                return medlemskapStepAvailable(values);
-            case StepID.SUMMARY:
-                return summaryStepAvailable(values);
-            case RouteConfig.SØKNAD_SENDT_ROUTE:
-                return søknadHasBeenSent === true;
-        }
+    switch (path) {
+        case StepID.OPPLYSNINGER_OM_BARNET:
+            return opplysningerOmBarnetStepAvailable(values);
+        case StepID.TIDSROM:
+            return opplysningerOmTidsromStepAvailable(values);
+        case StepID.ARBEIDSFORHOLD:
+            return arbeidsforholdStepAvailable(values);
+        case StepID.ARBEIDSFORHOLD_I_PERIODEN:
+            return true; //arbeidsforholdStepAvailable(values);
+        case StepID.OMSORGSTILBUD:
+            return omsorgstilbudStepAvailable(values);
+        case StepID.NATTEVÅK:
+            return nattevåkStepAvailable(values);
+        case StepID.BEREDSKAP:
+            return beredskapStepAvailable(values);
+        case StepID.LEGEERKLÆRING:
+            return legeerklæringStepAvailable(values);
+        case StepID.MEDLEMSKAP:
+            return medlemskapStepAvailable(values);
+        case StepID.SUMMARY:
+            return summaryStepAvailable(values);
+        case RouteConfig.SØKNAD_SENDT_ROUTE:
+            return søknadHasBeenSent === true;
     }
-    return true;
+    return false;
 };

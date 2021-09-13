@@ -14,7 +14,7 @@ import getLenker from '../../../../lenker';
 import { AppFormField, Arbeidsform, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
 import { erFrilanserISøknadsperiode } from '../../../../utils/frilanserUtils';
 import {
-    getArbeidsformAnsattValidator,
+    getArbeidsformValidator,
     getJobberNormaltTimerValidator,
     validateFrilanserStartdato,
 } from '../../../../validation/fieldValidations';
@@ -33,6 +33,18 @@ const FrilansFormPart = ({ formValues }: Props) => {
         frilans_arbeidsforhold,
     } = formValues;
     const intl = useIntl();
+
+    const erAvsluttet = frilans_jobberFortsattSomFrilans === YesOrNo.NO;
+    const intlValues = {
+        hvor: intlHelper(intl, 'arbeidsforhold.part.somFrilanser'),
+        jobber: erAvsluttet
+            ? intlHelper(intl, 'arbeidsforhold.part.jobbet')
+            : intlHelper(intl, 'arbeidsforhold.part.jobber'),
+        arbeidsform: frilans_arbeidsforhold?.arbeidsform
+            ? intlHelper(intl, `arbeidsforhold.part.arbeidsform.${frilans_arbeidsforhold.arbeidsform}`)
+            : undefined,
+    };
+
     return (
         <>
             <Box margin="l">
@@ -92,16 +104,20 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                 <FormBlock>
                                     <ArbeidsformOgTimer
                                         spørsmål={{
-                                            arbeidsform: intlHelper(intl, `frilans.arbeidsforhold.arbeidsform.spm`),
+                                            arbeidsform: erAvsluttet
+                                                ? intlHelper(intl, `frilans.arbeidsforhold.avsluttet.arbeidsform.spm`)
+                                                : intlHelper(intl, `frilans.arbeidsforhold.arbeidsform.spm`),
                                             jobberNormaltTimer: (arbeidsform: Arbeidsform) =>
-                                                intlHelper(intl, `snFrilanser.arbeidsforhold.iDag.${arbeidsform}.spm`),
+                                                intlHelper(
+                                                    intl,
+                                                    erAvsluttet
+                                                        ? `snFrilanser.arbeidsforhold.avsluttet.iDag.${arbeidsform}.spm`
+                                                        : `snFrilanser.arbeidsforhold.iDag.${arbeidsform}.spm`
+                                                ),
                                         }}
                                         validator={{
-                                            arbeidsform: getArbeidsformAnsattValidator(frilans_arbeidsforhold),
-                                            jobberNormaltTimer: getJobberNormaltTimerValidator(
-                                                frilans_arbeidsforhold,
-                                                'frilans'
-                                            ),
+                                            arbeidsform: getArbeidsformValidator(intlValues),
+                                            jobberNormaltTimer: getJobberNormaltTimerValidator(intlValues),
                                         }}
                                         arbeidsforhold={frilans_arbeidsforhold}
                                         parentFieldName={`${AppFormField.frilans_arbeidsforhold}`}
