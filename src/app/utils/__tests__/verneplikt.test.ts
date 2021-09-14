@@ -1,7 +1,7 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import { visVernepliktSpørsmål } from '../../components/steps/arbeidsforholdStep/ArbeidsforholdStep';
+import { visVernepliktSpørsmål } from '../../components/steps/arbeidsforhold-step/ArbeidsforholdStep';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 
 const periodeStart = new Date(2020, 0, 2);

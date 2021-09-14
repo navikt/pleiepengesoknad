@@ -19,12 +19,12 @@ import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUti
 import { Normaltekst } from 'nav-frontend-typografi';
 import { purge, sendApplication } from '../../../api/api';
 import { SKJEMANAVN } from '../../../App';
-import ArbeidsforholdSummary from '../../../components/arbeidsforhold-summary/ArbeidsforholdSummary';
+import ArbeidsforholdSummary from '../../arbeidsforhold-summary/ArbeidsforholdSummary';
 import {
     renderFerieuttakIPeriodenSummary,
     renderUtenlandsoppholdIPeriodenSummary,
     renderUtenlandsoppholdSummary,
-} from '../../../components/steps/summary/renderUtenlandsoppholdSummary';
+} from './renderUtenlandsoppholdSummary';
 import routeConfig from '../../../config/routeConfig';
 import { StepID } from '../../../config/stepConfig';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';

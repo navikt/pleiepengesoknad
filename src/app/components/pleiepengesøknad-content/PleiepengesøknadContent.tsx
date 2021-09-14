@@ -17,16 +17,16 @@ import { getNextStepRoute, getSøknadRoute, isAvailable } from '../../utils/rout
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
-import ArbeidsforholdIPeriodenStep from '../steps/arbeidsforhold-i-perioden/ArbeidsforholdIPeriodenStep';
-import ArbeidsforholdStep from '../steps/arbeidsforholdStep/ArbeidsforholdStep';
-import BeredskapStep from '../steps/beredskapStep/BeredskapStep';
-import LegeerklæringStep from '../steps/legeerklæring/LegeerklæringStep';
-import MedlemsskapStep from '../steps/medlemskap/MedlemsskapStep';
-import NattevåkStep from '../steps/nattevåkStep/NattevåkStep';
-import OpplysningerOmBarnetStep from '../steps/opplysninger-om-barnet/OpplysningerOmBarnetStep';
-import SummaryStep from '../steps/summary/SummaryStep';
-import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromStep';
-import OmsorgstilbudStep from '../steps/omsorgstilbud/OmsorgstilbudStep';
+import ArbeidsforholdIPeriodenStep from '../steps/arbeidsforhold-i-perioden-step/ArbeidsforholdIPeriodenStep';
+import ArbeidsforholdStep from '../steps/arbeidsforhold-step/ArbeidsforholdStep';
+import BeredskapStep from '../steps/beredskap-step/BeredskapStep';
+import LegeerklæringStep from '../steps/legeerklæring-step/LegeerklæringStep';
+import MedlemsskapStep from '../steps/medlemskap-step/MedlemsskapStep';
+import NattevåkStep from '../steps/nattevåk-step/NattevåkStep';
+import OpplysningerOmBarnetStep from '../steps/opplysninger-om-barnet-step/OpplysningerOmBarnetStep';
+import SummaryStep from '../steps/summary-step/SummaryStep';
+import OpplysningerOmTidsromStep from '../steps/tidsrom-step/OpplysningerOmTidsromStep';
+import OmsorgstilbudStep from '../steps/omsorgstilbud-step/OmsorgstilbudStep';
 
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;

@@ -9,7 +9,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { Ingress, Systemtittel } from 'nav-frontend-typografi';
 import Veilederpanel from 'nav-frontend-veilederpanel';
 import { getBackLinkFromNotIncludedStep, StepID } from '../../../config/stepConfig';
-import VeilederLokal from '../../VeilederLokal/VeilederLokal';
+import VeilederLokal from '../../veileder-lokal/VeilederLokal';
 import { navigateTo } from '../../../utils/navigationUtils';
 
 interface Props {

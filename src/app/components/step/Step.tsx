@@ -14,7 +14,7 @@ import { Innholdstittel } from 'nav-frontend-typografi';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from '../../config/stepConfig';
 import { getStepTexts } from '../../utils/stepUtils';
 import StepIndicator from '../step-indicator/StepIndicator';
-import StepFooter from '../stepFooter/StepFooter';
+import StepFooter from '../step-footer/StepFooter';
 import './step.less';
 
 export interface StepProps {
