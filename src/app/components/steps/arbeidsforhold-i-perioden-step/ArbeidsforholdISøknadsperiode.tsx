@@ -99,7 +99,10 @@ const ArbeidsforholdISøknadsperiode = ({
         fra: prettifyDateFull(søknadsperiode.from),
         til: avsluttetDato ? prettifyDateFull(avsluttetDato) : undefined,
         timer: getTimerTekst(arbeidsforhold.jobberNormaltTimer, intl),
-        skalJobbe: erAvsluttet ? 'har jobbet' : 'skal jobbe',
+        skalJobbe: intlHelper(
+            intl,
+            erAvsluttet ? 'arbeidsforholdIPerioden.skalJobbe.avsluttet' : 'arbeidsforholdIPerioden.skalJobbe.pågående'
+        ),
     };
 
     const spørsmål: Spørsmål = {

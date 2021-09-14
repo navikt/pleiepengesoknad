@@ -527,6 +527,8 @@
     "arbeidsforholdIPerioden.avsluttet.skalJobbeProsent.spm": "Hvor mange prosent av din vanlige arbeidstid jobbet du {hvor} i perioden {fra} til {til}?",
     "arbeidsforholdIPerioden.skalJobbe.ja": "Ja",
     "arbeidsforholdIPerioden.skalJobbe.nei": "Nei",
+    "arbeidsforholdIPerioden.skalJobbe.pågående": "skal jobbe",
+    "arbeidsforholdIPerioden.skalJobbe.avsluttet": "jobbet",
     "arbeidsforholdIPerioden.skalJobbe.vetIkke": "Usikker, men jeg melder fra hvis jeg skal jobbe i pleiepengeperioden",
     "arbeidsforholdIPerioden.jobbeHvorMye.somVanlig": "Som vanlig, {timer} per uke",
     "arbeidsforholdIPerioden.jobbeHvorMye.redusert": "Mindre enn {timer} per uke",
