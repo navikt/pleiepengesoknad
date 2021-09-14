@@ -30,7 +30,7 @@ const ArbeidsforholdFormPart: React.FunctionComponent<Props> = ({ arbeidsforhold
     const erAvsluttet = arbeidsforhold.erAnsatt === YesOrNo.NO;
     const skalSvarePåArbeidIPerioden = arbeidsforholdGjelderSøknadsperiode(arbeidsforhold, søknadsperiode) === true;
     const intlValues = {
-        hvor: intlHelper(intl, 'arbeidsforhold.part.hosArbeidsgiver', { navn: arbeidsforhold.navn }),
+        hvor: intlHelper(intl, 'arbeidsforhold.part.som.ANSATT', { navn: arbeidsforhold.navn }),
         jobber: erAvsluttet
             ? intlHelper(intl, 'arbeidsforhold.part.jobbet')
             : intlHelper(intl, 'arbeidsforhold.part.jobber'),

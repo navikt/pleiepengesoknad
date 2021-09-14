@@ -29,7 +29,7 @@ const SelvstendigNæringsdrivendeFormPart = ({ formValues }: Props) => {
     const { selvstendig_virksomhet, selvstendig_harFlereVirksomheter, selvstendig_arbeidsforhold } = formValues;
     const harFlereVirksomheter = selvstendig_harFlereVirksomheter === YesOrNo.YES;
     const intlValues = {
-        hvor: intlHelper(intl, 'arbeidsforhold.part.somSelvstendigNæringsdrivende'),
+        hvor: intlHelper(intl, 'arbeidsforhold.part.som.SELVSTENDIG'),
         jobber: intlHelper(intl, 'arbeidsforhold.part.jobber'),
         arbeidsform: selvstendig_arbeidsforhold?.arbeidsform
             ? intlHelper(intl, `arbeidsforhold.part.arbeidsform.${selvstendig_arbeidsforhold.arbeidsform}`)

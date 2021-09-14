@@ -1,14 +1,15 @@
 import React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import BuildingIcon from '@navikt/sif-common-core/lib/components/building-icon/BuildingIconSvg';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
-import { prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { useFormikContext } from 'formik';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
+import { ArbeidsforholdType } from '../../../types/PleiepengesøknadApiData';
 import {
     AppFormField,
     Arbeidsforhold,
@@ -18,19 +19,12 @@ import {
     ArbeidsforholdSNF,
     PleiepengesøknadFormData,
 } from '../../../types/PleiepengesøknadFormData';
-import { arbeidsforholdGjelderSøknadsperiode, getTimerTekst } from '../../../utils/arbeidsforholdUtils';
+import { getAktiveArbeidsforholdMedOpprinneligIndex } from '../../../utils/arbeidsforholdUtils';
 import { getSøknadsperiodeFromFormData } from '../../../utils/formDataUtils';
-import {
-    getArbeidsforholdSkalJobbeHvorMyeValidator,
-    getArbeidsforholdSkalJobbeProsentValidator,
-    getArbeidsforholdSkalJobbeTimerValidator,
-    getArbeidsforholdSkalJobbeValidator,
-    getArbeidsforholdTimerEllerProsentValidator,
-} from '../../../validation/fieldValidations';
 import FormikStep from '../../formik-step/FormikStep';
 import InvalidStepPage from '../../pages/invalid-step-page/InvalidStepPage';
+import ArbeidsforholdIPeriodenStepIntro from './ArbeidsforholdIPeriodenStepIntro';
 import ArbeidsforholdISøknadsperiode from './ArbeidsforholdISøknadsperiode';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 
 const cleanupArbeidsforholdCommon = (arbeidsforhold: Arbeidsforhold): Arbeidsforhold => {
     const a = { ...arbeidsforhold };
@@ -74,51 +68,38 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
             arbeidsforhold,
             frilans_arbeidsforhold,
             frilans_harHattInntektSomFrilanser,
+            frilans_sluttdato,
             selvstendig_harHattInntektSomSN,
             selvstendig_arbeidsforhold,
         },
     } = formikProps;
 
     const søknadsperiode = getSøknadsperiodeFromFormData(formikProps.values);
-
     if (!søknadsperiode) {
         return <InvalidStepPage stepId={StepID.ARBEIDSFORHOLD_I_PERIODEN} />;
     }
 
-    // Index må være samme på tvers av alle arbeidsforhold, også dem som en ikke er ansatt i
-    const aktiveArbeidsforholdMedOpprinneligIndex = arbeidsforhold
-        .map((a, index) => ({
-            index,
-            arbeidsforhold: a,
-        }))
-        .filter(
-            (a) =>
-                a.arbeidsforhold.erAnsatt === YesOrNo.YES ||
-                (a.arbeidsforhold.erAnsatt === YesOrNo.NO &&
-                    arbeidsforholdGjelderSøknadsperiode(a.arbeidsforhold, søknadsperiode))
-        );
-
+    const aktiveArbeidsforholdMedOpprinneligIndex = getAktiveArbeidsforholdMedOpprinneligIndex(
+        arbeidsforhold,
+        søknadsperiode
+    );
     const skalBesvareAnsettelsesforhold = aktiveArbeidsforholdMedOpprinneligIndex.length > 0;
-    const skalBesvareFrilans = frilans_harHattInntektSomFrilanser === YesOrNo.YES && frilans_arbeidsforhold;
-    const skalBesvareSelvstendig = selvstendig_harHattInntektSomSN === YesOrNo.YES && selvstendig_arbeidsforhold;
+    const skalBesvareFrilans =
+        frilans_harHattInntektSomFrilanser === YesOrNo.YES && frilans_arbeidsforhold !== undefined;
+    const skalBesvareSelvstendig =
+        selvstendig_harHattInntektSomSN === YesOrNo.YES && selvstendig_arbeidsforhold !== undefined;
 
-    /** Dette kan oppstå dersom bruker er på Arbeidssituasjon, endrer på data, og deretter trykker forward i nettleser */
+    /**
+     * Kontroller om bruker må sendes tilbake til arbeidssituasjon-steget
+     * Dette kan oppstå dersom bruker er på Arbeidssituasjon,
+     * endrer på data, og deretter trykker forward i nettleser
+     * */
+
     const brukerMåGåTilbakeTilArbeidssituasjon =
         skalBesvareAnsettelsesforhold === false && skalBesvareFrilans === false && skalBesvareSelvstendig === false;
 
     if (brukerMåGåTilbakeTilArbeidssituasjon === true) {
         return <InvalidStepPage stepId={StepID.ARBEIDSFORHOLD_I_PERIODEN} />;
-    }
-
-    const arbeidsinfo: string[] = [];
-    if (skalBesvareAnsettelsesforhold) {
-        arbeidsinfo.push('ansatt');
-    }
-    if (skalBesvareFrilans) {
-        arbeidsinfo.push('frilans');
-    }
-    if (skalBesvareSelvstendig) {
-        arbeidsinfo.push('selvstendig');
     }
 
     return (
@@ -127,172 +108,66 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
             onValidFormSubmit={onValidSubmit}
             onStepCleanup={cleanupArbeidsforholdIPeriodenStep}>
             <Box padBottom="m">
-                <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
-                    {brukerMåGåTilbakeTilArbeidssituasjon === false && (
-                        <p style={{ marginTop: 0 }}>
-                            <FormattedMessage
-                                id="step.arbeidsforholdIPerioden.StepInfo.1"
-                                values={{
-                                    info: intlHelper(
-                                        intl,
-                                        `step.arbeidsforholdIPerioden.StepInfo.1.info.${arbeidsinfo.join('_')}`,
-                                        { antall: aktiveArbeidsforholdMedOpprinneligIndex.length }
-                                    ),
-                                }}
-                            />
-                        </p>
-                    )}
+                <CounsellorPanel>
+                    <ArbeidsforholdIPeriodenStepIntro
+                        antallAnsettelsesforhold={aktiveArbeidsforholdMedOpprinneligIndex.length}
+                        skalBesvareAnsettelsesforhold={skalBesvareAnsettelsesforhold}
+                        skalBesvareFrilans={skalBesvareFrilans}
+                        skalBesvareSelvstendig={skalBesvareSelvstendig}
+                    />
                 </CounsellorPanel>
             </Box>
             {skalBesvareAnsettelsesforhold && (
                 <Box margin="xl">
-                    <div className="arbeidsforhold">
-                        {aktiveArbeidsforholdMedOpprinneligIndex.map(({ arbeidsforhold, index }) => {
-                            const erAvsluttet = arbeidsforhold.erAnsatt === YesOrNo.NO;
-                            const sluttdato = datepickerUtils.getDateFromDateString(arbeidsforhold.sluttdato);
-                            const arbeidsforholdIntlValues = {
-                                navn: arbeidsforhold.navn,
-                                fra: erAvsluttet ? prettifyDateFull(søknadsperiode.from) : undefined,
-                                til: erAvsluttet && sluttdato ? prettifyDateFull(sluttdato) : undefined,
-                                timer: getTimerTekst(arbeidsforhold.jobberNormaltTimer, intl),
-                            };
-                            return (
-                                <FormSection
-                                    title={arbeidsforhold.navn}
-                                    key={arbeidsforhold.organisasjonsnummer}
-                                    titleIcon={<BuildingIcon />}>
-                                    <ArbeidsforholdISøknadsperiode
-                                        arbeidsforhold={arbeidsforhold}
-                                        erAvsluttetAnsettelseforhold={erAvsluttet}
-                                        spørsmål={{
-                                            skalJobbe: intlHelper(
-                                                intl,
-                                                erAvsluttet
-                                                    ? 'arbeidsforhold.ansatt.avsluttet.skalJobbe.spm'
-                                                    : 'arbeidsforhold.ansatt.skalJobbe.spm',
-                                                arbeidsforholdIntlValues
-                                            ),
-                                            jobbeHvorMye: intlHelper(
-                                                intl,
-                                                erAvsluttet
-                                                    ? 'arbeidsforhold.ansatt.avsluttet.jobbeHvorMye.spm'
-                                                    : 'arbeidsforhold.ansatt.jobbeHvorMye.spm',
-                                                arbeidsforholdIntlValues
-                                            ),
-                                            timerEllerProsent: intlHelper(
-                                                intl,
-                                                erAvsluttet
-                                                    ? 'arbeidsforhold.ansatt.avsluttet.timerEllerProsent.spm'
-                                                    : 'arbeidsforhold.ansatt.timerEllerProsent.spm',
-                                                arbeidsforholdIntlValues
-                                            ),
-                                            skalJobbeTimer: intlHelper(
-                                                intl,
-                                                erAvsluttet
-                                                    ? 'arbeidsforhold.ansatt.avsluttet.skalJobbeTimer.spm'
-                                                    : 'arbeidsforhold.ansatt.skalJobbeTimer.spm',
-                                                arbeidsforholdIntlValues
-                                            ),
-                                            skalJobbeProsent: intlHelper(
-                                                intl,
-                                                erAvsluttet
-                                                    ? 'arbeidsforhold.ansatt.avsluttet.skalJobbeProsent.spm'
-                                                    : 'arbeidsforhold.ansatt.skalJobbeProsent.spm',
-                                                arbeidsforholdIntlValues
-                                            ),
-                                        }}
-                                        validatorer={{
-                                            skalJobbe: getArbeidsforholdSkalJobbeValidator(arbeidsforhold),
-                                            jobbeHvorMye: getArbeidsforholdSkalJobbeHvorMyeValidator(arbeidsforhold),
-                                            timerEllerProsent:
-                                                getArbeidsforholdTimerEllerProsentValidator(arbeidsforhold),
-                                            skalJobbeTimer: getArbeidsforholdSkalJobbeTimerValidator(arbeidsforhold),
-                                            skalJobbeProsent:
-                                                getArbeidsforholdSkalJobbeProsentValidator(arbeidsforhold),
-                                        }}
-                                        parentFieldName={`${AppFormField.arbeidsforhold}.${index}`}
-                                    />
-                                </FormSection>
-                            );
-                        })}
-                    </div>
+                    {aktiveArbeidsforholdMedOpprinneligIndex.map(({ arbeidsforhold, index }) => {
+                        return (
+                            <FormSection
+                                title={arbeidsforhold.navn}
+                                key={arbeidsforhold.organisasjonsnummer}
+                                titleIcon={<BuildingIcon />}>
+                                <ArbeidsforholdISøknadsperiode
+                                    arbeidsforhold={arbeidsforhold}
+                                    arbeidsforholdType={ArbeidsforholdType.ANSATT}
+                                    søknadsperiode={søknadsperiode}
+                                    avsluttetDato={
+                                        arbeidsforhold.erAnsatt === YesOrNo.NO
+                                            ? datepickerUtils.getDateFromDateString(arbeidsforhold.sluttdato)
+                                            : undefined
+                                    }
+                                    parentFieldName={`${AppFormField.arbeidsforhold}.${index}`}
+                                />
+                            </FormSection>
+                        );
+                    })}
                 </Box>
             )}
             {skalBesvareFrilans && frilans_arbeidsforhold && (
                 <Box margin="xl">
-                    <div className="arbeidsforhold">
-                        <FormSection
-                            title={intlHelper(intl, 'step.arbeidsforholdIPerioden.FrilansLabel')}
-                            titleIcon={<BuildingIcon />}>
-                            <ArbeidsforholdISøknadsperiode
-                                arbeidsforhold={frilans_arbeidsforhold}
-                                frilansEllerSelvstendig="frilans"
-                                parentFieldName={AppFormField.frilans_arbeidsforhold}
-                                spørsmål={{
-                                    skalJobbe: intlHelper(intl, 'arbeidsforhold.frilanser.skalJobbe.spm'),
-                                    jobbeHvorMye: intlHelper(intl, 'arbeidsforhold.frilanser.jobbeHvorMye.spm', {
-                                        timer: getTimerTekst(frilans_arbeidsforhold.jobberNormaltTimer, intl),
-                                    }),
-                                    timerEllerProsent: intlHelper(
-                                        intl,
-                                        'arbeidsforhold.frilanser.timerEllerProsent.spm'
-                                    ),
-                                    skalJobbeTimer: intlHelper(intl, 'arbeidsforhold.frilanser.skalJobbeTimer.spm'),
-                                    skalJobbeProsent: intlHelper(intl, 'arbeidsforhold.frilanser.skalJobbeProsent.spm'),
-                                }}
-                                validatorer={{
-                                    skalJobbe: getArbeidsforholdSkalJobbeValidator(frilans_arbeidsforhold),
-                                    jobbeHvorMye: getArbeidsforholdSkalJobbeHvorMyeValidator(frilans_arbeidsforhold),
-                                    timerEllerProsent:
-                                        getArbeidsforholdTimerEllerProsentValidator(frilans_arbeidsforhold),
-                                    skalJobbeTimer: getArbeidsforholdSkalJobbeTimerValidator(frilans_arbeidsforhold),
-                                    skalJobbeProsent:
-                                        getArbeidsforholdSkalJobbeProsentValidator(frilans_arbeidsforhold),
-                                }}
-                            />
-                        </FormSection>
-                    </div>
+                    <FormSection
+                        title={intlHelper(intl, 'step.arbeidsforholdIPerioden.FrilansLabel')}
+                        titleIcon={<BuildingIcon />}>
+                        <ArbeidsforholdISøknadsperiode
+                            arbeidsforhold={frilans_arbeidsforhold}
+                            arbeidsforholdType={ArbeidsforholdType.FRILANSER}
+                            søknadsperiode={søknadsperiode}
+                            parentFieldName={AppFormField.frilans_arbeidsforhold}
+                            avsluttetDato={datepickerUtils.getDateFromDateString(frilans_sluttdato)}
+                        />
+                    </FormSection>
                 </Box>
             )}
             {skalBesvareSelvstendig && selvstendig_arbeidsforhold && (
                 <Box margin="xl">
-                    <div className="arbeidsforhold">
-                        <FormSection
-                            title={intlHelper(intl, 'step.arbeidsforholdIPerioden.SNLabel')}
-                            titleIcon={<BuildingIcon />}>
-                            <ArbeidsforholdISøknadsperiode
-                                arbeidsforhold={selvstendig_arbeidsforhold}
-                                frilansEllerSelvstendig="selvstendig"
-                                parentFieldName={AppFormField.selvstendig_arbeidsforhold}
-                                spørsmål={{
-                                    skalJobbe: intlHelper(intl, 'arbeidsforhold.selvstendig.skalJobbe.spm'),
-                                    jobbeHvorMye: intlHelper(intl, 'arbeidsforhold.selvstendig.jobbeHvorMye.spm', {
-                                        timer: getTimerTekst(selvstendig_arbeidsforhold.jobberNormaltTimer, intl),
-                                    }),
-                                    timerEllerProsent: intlHelper(
-                                        intl,
-                                        'arbeidsforhold.selvstendig.timerEllerProsent.spm'
-                                    ),
-                                    skalJobbeTimer: intlHelper(intl, 'arbeidsforhold.selvstendig.skalJobbeTimer.spm'),
-                                    skalJobbeProsent: intlHelper(
-                                        intl,
-                                        'arbeidsforhold.selvstendig.skalJobbeProsent.spm'
-                                    ),
-                                }}
-                                validatorer={{
-                                    skalJobbe: getArbeidsforholdSkalJobbeValidator(selvstendig_arbeidsforhold),
-                                    jobbeHvorMye:
-                                        getArbeidsforholdSkalJobbeHvorMyeValidator(selvstendig_arbeidsforhold),
-                                    timerEllerProsent:
-                                        getArbeidsforholdTimerEllerProsentValidator(selvstendig_arbeidsforhold),
-                                    skalJobbeTimer:
-                                        getArbeidsforholdSkalJobbeTimerValidator(selvstendig_arbeidsforhold),
-                                    skalJobbeProsent:
-                                        getArbeidsforholdSkalJobbeProsentValidator(selvstendig_arbeidsforhold),
-                                }}
-                            />
-                        </FormSection>
-                    </div>
+                    <FormSection
+                        title={intlHelper(intl, 'step.arbeidsforholdIPerioden.SNLabel')}
+                        titleIcon={<BuildingIcon />}>
+                        <ArbeidsforholdISøknadsperiode
+                            arbeidsforhold={selvstendig_arbeidsforhold}
+                            arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
+                            søknadsperiode={søknadsperiode}
+                            parentFieldName={AppFormField.selvstendig_arbeidsforhold}
+                        />
+                    </FormSection>
                 </Box>
             )}
         </FormikStep>

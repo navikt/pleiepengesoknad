@@ -96,12 +96,5 @@ describe('routeUtils', () => {
             );
             expect(result).toBe(false);
         });
-
-        describe('when running app in development', () => {
-            it('should return true if app is running in development', () => {
-                process.env.NODE_ENV = 'development';
-                expect(isAvailable(StepID.OPPLYSNINGER_OM_BARNET, formValues)).toBe(true);
-            });
-        });
     });
 });

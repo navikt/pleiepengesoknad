@@ -36,7 +36,7 @@ const FrilansFormPart = ({ formValues }: Props) => {
 
     const erAvsluttet = frilans_jobberFortsattSomFrilans === YesOrNo.NO;
     const intlValues = {
-        hvor: intlHelper(intl, 'arbeidsforhold.part.somFrilanser'),
+        hvor: intlHelper(intl, 'arbeidsforhold.part.som.FRILANSER'),
         jobber: erAvsluttet
             ? intlHelper(intl, 'arbeidsforhold.part.jobbet')
             : intlHelper(intl, 'arbeidsforhold.part.jobber'),

@@ -33,12 +33,7 @@ import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import minMax from 'dayjs/plugin/minMax';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
-import {
-    ArbeidsforholdAnsatt,
-    ArbeidsforholdSNF,
-    isArbeidsforholdAnsatt,
-    Omsorgstilbud,
-} from '../types/PleiepengesøknadFormData';
+import { ArbeidsforholdAnsatt, Omsorgstilbud } from '../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
 import { sumTimerMedOmsorgstilbud } from '../utils/omsorgstilbudUtils';
 
@@ -265,86 +260,71 @@ export const getArbeidsforholdSluttdatoValidator =
     };
 
 export const getArbeidsforholdSkalJobbeValidator =
-    (arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF) => (value: any) => {
+    (intlValues: { hvor: string; skalJobbe: string }) => (value: any) => {
         const error = getRequiredFieldValidator()(value);
-        if (error) {
-            return isArbeidsforholdAnsatt(arbeidsforhold)
-                ? {
-                      key: 'validation.arbeidsforhold.skalJobbe',
-                      values: { navn: arbeidsforhold.navn },
-                      keepKeyUnaltered: true,
-                  }
-                : error;
-        }
-        return undefined;
+        return error
+            ? {
+                  key: 'validation.arbeidsforholdIPerioden.skalJobbe',
+                  values: intlValues,
+                  keepKeyUnaltered: true,
+              }
+            : error;
     };
 
 export const getArbeidsforholdSkalJobbeHvorMyeValidator =
-    (arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF) => (value: any) => {
+    (intlValues: { hvor: string; skalJobbe: string }) => (value: any) => {
         const error = getRequiredFieldValidator()(value);
-        if (error) {
-            return isArbeidsforholdAnsatt(arbeidsforhold)
-                ? {
-                      key: 'validation.arbeidsforhold.jobbeHvorMye',
-                      values: { navn: arbeidsforhold.navn },
-                      keepKeyUnaltered: true,
-                  }
-                : error;
-        }
-        return undefined;
+        return error
+            ? {
+                  key: 'validation.arbeidsforholdIPerioden.jobbeHvorMye',
+                  values: intlValues,
+                  keepKeyUnaltered: true,
+              }
+            : undefined;
     };
 
 export const getArbeidsforholdTimerEllerProsentValidator =
-    (arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF) => (value: any) => {
+    (intlValues: { hvor: string; skalJobbe: string }) => (value: any) => {
         const error = getRequiredFieldValidator()(value);
-        if (error) {
-            return isArbeidsforholdAnsatt(arbeidsforhold)
-                ? {
-                      key: 'validation.arbeidsforhold.timerEllerProsent',
-                      values: { navn: arbeidsforhold.navn },
-                      keepKeyUnaltered: true,
-                  }
-                : error;
-        }
-        return undefined;
+        return error
+            ? {
+                  key: 'validation.arbeidsforholdIPerioden.timerEllerProsent',
+                  values: intlValues,
+                  keepKeyUnaltered: true,
+              }
+            : undefined;
     };
 
 export const getArbeidsforholdSkalJobbeTimerValidator =
-    (arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF) => (value: any) => {
-        const jobberNormaltTimerNumber = getNumberFromNumberInputValue(arbeidsforhold.jobberNormaltTimer);
+    (jobberNormaltTimer: string, intlValues: { hvor: string; skalJobbe: string }) => (value: any) => {
+        const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
         if (!jobberNormaltTimerNumber) {
             return undefined;
         }
         const error = validateReduserteArbeidTimer(value, jobberNormaltTimerNumber);
-        if (error) {
-            return isArbeidsforholdAnsatt(arbeidsforhold)
-                ? {
-                      key: `validation.arbeidsforhold.skalJobbeTimer.${error}`,
-                      values: { navn: arbeidsforhold.navn },
-                      keepKeyUnaltered: true,
-                  }
-                : error;
-        }
-        return undefined;
+        return error
+            ? {
+                  key: `validation.arbeidsforholdIPerioden.skalJobbeTimer.${error}`,
+                  values: intlValues,
+                  keepKeyUnaltered: true,
+              }
+            : undefined;
     };
 
 export const getArbeidsforholdSkalJobbeProsentValidator =
-    (arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF) => (value: any) => {
+    (intlValues: { hvor: string; skalJobbe: string }) => (value: any) => {
         const error = getNumberValidator({
             required: true,
             min: 1,
             max: 99,
         })(value);
-        if (error) {
-            return isArbeidsforholdAnsatt(arbeidsforhold)
-                ? {
-                      key: `validation.arbeidsforhold.skalJobbeProsent.${error}`,
-                      values: { navn: arbeidsforhold.navn },
-                      keepKeyUnaltered: true,
-                  }
-                : error;
-        }
-        return undefined;
+        return error
+            ? {
+                  key: `validation.arbeidsforholdIPerioden.skalJobbeProsent.${error}`,
+                  values: intlValues,
+                  keepKeyUnaltered: true,
+              }
+            : undefined;
     };
 
 export const validateReduserteArbeidTimer = (value: string, jobberNormaltTimer: number): string | undefined => {
