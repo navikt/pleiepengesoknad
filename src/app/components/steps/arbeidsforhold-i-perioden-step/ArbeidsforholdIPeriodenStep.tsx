@@ -40,22 +40,17 @@ const cleanupArbeidsforholdCommon = (arbeidsforhold: Arbeidsforhold): Arbeidsfor
     }
     return a;
 };
-const cleanupAnsattArbeidsforhold = (arbeidsforhold: ArbeidsforholdAnsatt): ArbeidsforholdAnsatt => {
-    return cleanupArbeidsforholdCommon(arbeidsforhold) as ArbeidsforholdAnsatt;
-};
-
-const cleanupSNF = (arbeidsforhold: ArbeidsforholdSNF): ArbeidsforholdSNF => {
-    return cleanupArbeidsforholdCommon(arbeidsforhold) as ArbeidsforholdSNF;
-};
 
 const cleanupArbeidsforholdIPeriodenStep = (formData: PleiepengesøknadFormData): PleiepengesøknadFormData => {
     const values: PleiepengesøknadFormData = { ...formData };
-    values.arbeidsforhold = values.arbeidsforhold.map(cleanupAnsattArbeidsforhold);
+    values.arbeidsforhold = values.arbeidsforhold.map(
+        (arbeidsforhold) => cleanupArbeidsforholdCommon(arbeidsforhold) as ArbeidsforholdAnsatt
+    );
     values.frilans_arbeidsforhold = values.frilans_arbeidsforhold
-        ? cleanupSNF(values.frilans_arbeidsforhold)
+        ? (cleanupArbeidsforholdCommon(values.frilans_arbeidsforhold) as ArbeidsforholdSNF)
         : undefined;
     values.selvstendig_arbeidsforhold = values.selvstendig_arbeidsforhold
-        ? cleanupSNF(values.selvstendig_arbeidsforhold)
+        ? (cleanupArbeidsforholdCommon(values.selvstendig_arbeidsforhold) as ArbeidsforholdSNF)
         : undefined;
     return values;
 };
