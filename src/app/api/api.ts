@@ -17,7 +17,7 @@ export const persist = (formData: Partial<PleiepengesøknadFormData> | undefined
     if (formData) {
         const body: MellomlagringData = {
             formData,
-            metadata: { lastStepID, version: MELLOMLAGRING_VERSION },
+            metadata: { lastStepID, version: MELLOMLAGRING_VERSION, updatedTimestemp: new Date().toISOString() },
         };
         return axios.put(url, { ...body }, axiosConfig);
     } else {
