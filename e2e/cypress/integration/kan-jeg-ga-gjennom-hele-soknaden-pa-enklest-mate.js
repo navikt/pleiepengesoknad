@@ -1,6 +1,8 @@
 const clickFortsett = () => cy.get('button[aria-label="Gå til neste steg"]').click();
 const clickSendInnSøknad = () => cy.get('button[aria-label="Send inn søknaden"]').click();
 
+const PUBLIC_PATH = '/familie/sykdom-i-familien/soknad/pleiepenger';
+
 const clickNeiPaAlleSporsmal = () => {
     cy.get('label[class="inputPanel radioPanel"]').each((element) => {
         if (element.text() === 'Nei') {
@@ -16,7 +18,7 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
             cy.route(`/mellomlagring`, {}); // mellomlagring må slås av.
         });
         before('gå til startsiden', () => {
-            cy.visit(`/soknad`);
+            cy.visit(`${PUBLIC_PATH}/soknad`);
         });
         it('VELKOMMEN SIDE', () => {
             cy.get('.bekreftCheckboksPanel label').click();
