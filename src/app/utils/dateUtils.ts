@@ -1,3 +1,4 @@
+import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 
@@ -13,4 +14,31 @@ export const getMonthsInDateRange = (range: DateRange): DateRange[] => {
         current = current.add(1, 'month').startOf('month');
     } while (current.isBefore(range.to, 'day'));
     return months;
+};
+
+export const getWeeksInDateRange = (range: DateRange): DateRange[] => {
+    const weeks: DateRange[] = [];
+    let current = dayjs(range.from);
+    do {
+        const monthRange: DateRange = { from: current.toDate(), to: current.endOf('week').toDate() };
+        weeks.push({
+            from: monthRange.from,
+            to: dayjs(monthRange.to).isAfter(range.to, 'day') ? range.to : monthRange.to,
+        });
+        current = current.add(1, 'week').startOf('week');
+    } while (current.isBefore(range.to, 'day'));
+    return weeks;
+};
+
+export const erUkeFørSammeEllerEtterDenneUken = (week: DateRange): 'før' | 'samme' | 'etter' | undefined => {
+    if (dayjs(week.from).isAfter(dateToday, 'day')) {
+        return 'etter';
+    }
+    if (dayjs(week.to).isBefore(dateToday, 'day')) {
+        return 'før';
+    }
+    if (dayjs(dateToday).isBetween(week.from, week.to, 'day', '[]')) {
+        return 'samme';
+    }
+    return undefined;
 };

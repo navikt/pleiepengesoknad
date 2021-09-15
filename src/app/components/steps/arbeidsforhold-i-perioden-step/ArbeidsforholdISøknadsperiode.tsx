@@ -1,11 +1,15 @@
 import React from 'react';
-import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import { prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { prettifyDateExtended, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { decimalTimeToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { DateRange, getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
+import {
+    DateRange,
+    FormikInputGroup,
+    FormikNumberInput,
+    getNumberFromNumberInputValue,
+} from '@navikt/sif-common-formik/lib';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { StepID } from '../../../config/stepConfig';
 import { ArbeidsforholdType } from '../../../types/PleiepengesøknadApiData';
@@ -18,14 +22,9 @@ import {
     ArbeidsforholdSNF,
     isArbeidsforholdAnsatt,
 } from '../../../types/PleiepengesøknadFormData';
-import {
-    calcReduserteTimerFromRedusertProsent,
-    calcRedusertProsentFromRedusertTimer,
-    getTimerTekst,
-} from '../../../utils/arbeidsforholdUtils';
+import { getTimerTekst } from '../../../utils/arbeidsforholdUtils';
 import {
     getArbeidsforholdSkalJobbeHvorMyeValidator,
-    getArbeidsforholdSkalJobbeProsentValidator,
     getArbeidsforholdSkalJobbeTimerValidator,
     getArbeidsforholdSkalJobbeValidator,
     getArbeidsforholdTimerEllerProsentValidator,
@@ -34,6 +33,11 @@ import {
 import AppForm from '../../app-form/AppForm';
 import InvalidStepPage from '../../pages/invalid-step-page/InvalidStepPage';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { erUkeFørSammeEllerEtterDenneUken, getWeeksInDateRange } from '../../../utils/dateUtils';
+import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
+import ArbeiderTimerEllerProsentInput, { getLabelForTimerRedusert } from './ArbeiderTimerEllerProsentInput';
+import dayjs from 'dayjs';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
 
 interface Props {
     parentFieldName: string;
@@ -43,30 +47,14 @@ interface Props {
     søknadsperiode: DateRange;
 }
 
-const getLabelForProsentRedusert = (intl: IntlShape, timerNormalt: number, prosentRedusert: number | undefined) => {
-    if (prosentRedusert && prosentRedusert > 0) {
-        const { hours: timer = 0, minutes: minutter = 0 } = decimalTimeToTime(
-            calcReduserteTimerFromRedusertProsent(timerNormalt, prosentRedusert)
-        );
-        return intlHelper(intl, 'arbeidsforholdIPerioden.prosent.utledet.medTimer', {
-            timer: timerNormalt,
-            timerRedusert: intlHelper(intl, 'timerOgMinutter', { timer, minutter }),
-        });
-    }
-    return intlHelper(intl, 'arbeidsforholdIPerioden.prosent.utledet', { timer: timerNormalt });
-};
-
-const getLabelForTimerRedusert = (intl: IntlShape, timerNormalt: number, timerRedusert: number | undefined) => {
-    if (timerRedusert && timerRedusert > 0) {
-        return intlHelper(intl, 'arbeidsforholdIPerioden.timer.utledet.medProsent', {
-            timer: timerNormalt,
-            prosentRedusert: intl.formatNumber(calcRedusertProsentFromRedusertTimer(timerNormalt, timerRedusert), {
-                style: 'decimal',
-            }),
-        });
-    }
-    return intlHelper(intl, 'arbeidsforholdIPerioden.timer.utledet', { timer: timerNormalt });
-};
+export interface ArbeidsforholdISøknadsperiodeIntlValues {
+    hvor: string;
+    arbeidsform: string;
+    fra: string;
+    til: string | undefined;
+    timer: string;
+    skalJobbe: string;
+}
 
 const ArbeidsforholdISøknadsperiode = ({
     arbeidsforhold,
@@ -77,7 +65,7 @@ const ArbeidsforholdISøknadsperiode = ({
 }: Props) => {
     const intl = useIntl();
 
-    const { timerEllerProsent, jobberNormaltTimer, skalJobbeTimer, skalJobbeProsent, arbeidsform, erLiktHverUke } =
+    const { jobberNormaltTimer, arbeidsform, erLiktHverUke, skalJobbeProsent, skalJobbeTimer, timerEllerProsent } =
         arbeidsforhold;
     const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
 
@@ -106,7 +94,8 @@ const ArbeidsforholdISøknadsperiode = ({
         ),
     };
 
-    const spørOmVariasjon = false;
+    const spørOmVariasjon = 1 + 1 == 2;
+    const spørOmTimerEllerProsent = 1 + 1 == 3;
     const skalJobbe = arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.ja;
     const jobberRedusert = skalJobbe && arbeidsforhold.skalJobbeHvorMye === ArbeidsforholdSkalJobbeHvorMyeSvar.redusert;
     const jobberLiktHverUke = jobberRedusert && (spørOmVariasjon == false || erLiktHverUke === YesOrNo.YES);
@@ -187,59 +176,88 @@ const ArbeidsforholdISøknadsperiode = ({
                     />
                 </FormBlock>
             )}
-            {jobberRedusert && (isYesOrNoAnswered(erLiktHverUke) || spørOmVariasjon === false) && (
+            {spørOmTimerEllerProsent &&
+                jobberRedusert &&
+                jobberLiktHverUke === true &&
+                (isYesOrNoAnswered(erLiktHverUke) || spørOmVariasjon === false) && (
+                    <FormBlock>
+                        <AppForm.RadioPanelGroup
+                            name={getFieldName(ArbeidsforholdField.timerEllerProsent)}
+                            legend={getSpørsmål('timerEllerProsent')}
+                            validate={getArbeidsforholdTimerEllerProsentValidator(intlValues)}
+                            useTwoColumns={true}
+                            radios={[
+                                {
+                                    label: intlHelper(intl, 'arbeidsforholdIPerioden.timerEllerProsent.timer'),
+                                    value: 'timer',
+                                },
+                                {
+                                    label: intlHelper(intl, 'arbeidsforholdIPerioden.timerEllerProsent.prosent'),
+                                    value: 'prosent',
+                                },
+                            ]}
+                        />
+                    </FormBlock>
+                )}
+            {skalJobbe && jobberRedusert && isYesOrNoAnswered(erLiktHverUke) && jobberLiktHverUke === false && (
                 <FormBlock>
-                    <AppForm.RadioPanelGroup
-                        name={getFieldName(ArbeidsforholdField.timerEllerProsent)}
-                        legend={getSpørsmål('timerEllerProsent')}
-                        validate={getArbeidsforholdTimerEllerProsentValidator(intlValues)}
-                        useTwoColumns={true}
-                        radios={[
-                            {
-                                label: intlHelper(intl, 'arbeidsforholdIPerioden.timerEllerProsent.timer'),
-                                value: 'timer',
-                            },
-                            {
-                                label: intlHelper(intl, 'arbeidsforholdIPerioden.timerEllerProsent.prosent'),
-                                value: 'prosent',
-                            },
-                        ]}
-                    />
+                    <FormikInputGroup legend={`Arbeidstimer per uke i pleiepengeperioden`} name="abc">
+                        <Box padBottom="l">Du trenger bare fylle ut de ukene hvor du jobbet/skal jobbe.</Box>
+                        {getWeeksInDateRange(søknadsperiode).map((week) => {
+                            const key = dayjs(week.from).format('YYYY_MM_DD');
+                            const weekFieldName = `arbeidstimer.${key}`;
+                            const ukeplassering = erUkeFørSammeEllerEtterDenneUken(week);
+                            const title = `Hvor mye ${
+                                ukeplassering === 'før'
+                                    ? 'jobbet du'
+                                    : ukeplassering === 'samme'
+                                    ? 'jobber du'
+                                    : 'skal du jobbe'
+                            }  i perioden fra ${prettifyDateExtended(week.from)} til ${prettifyDateExtended(week.to)}?`;
+                            const timerIUken = arbeidsforhold.arbeidstimer
+                                ? arbeidsforhold.arbeidstimer[key]
+                                : undefined;
+                            return (
+                                <FormBlock key={key} margin="m">
+                                    <FormikInputGroup name={key}>
+                                        <ResponsivePanel style={{ padding: '1rem' }}>
+                                            <FormikNumberInput
+                                                name={getFieldName(weekFieldName as any)}
+                                                label={title}
+                                                bredde="XS"
+                                                placeholder="0"
+                                                suffix={getLabelForTimerRedusert(
+                                                    intl,
+                                                    jobberNormaltTimerNumber,
+                                                    getNumberFromNumberInputValue(timerIUken)
+                                                )}
+                                                suffixStyle="text"
+                                                value={timerIUken || ''}
+                                                validate={getArbeidsforholdSkalJobbeTimerValidator(
+                                                    jobberNormaltTimerNumber,
+                                                    intlValues,
+                                                    true,
+                                                    false
+                                                )}
+                                            />
+                                        </ResponsivePanel>
+                                    </FormikInputGroup>
+                                </FormBlock>
+                            );
+                        })}
+                    </FormikInputGroup>
                 </FormBlock>
             )}
-            {jobberLiktHverUke && timerEllerProsent === 'timer' && (
-                <FormBlock>
-                    <AppForm.NumberInput
-                        name={getFieldName(ArbeidsforholdField.skalJobbeTimer)}
-                        label={getSpørsmål('skalJobbeTimer')}
-                        bredde="XS"
-                        suffix={getLabelForTimerRedusert(
-                            intl,
-                            jobberNormaltTimerNumber,
-                            getNumberFromNumberInputValue(skalJobbeTimer)
-                        )}
-                        suffixStyle="text"
-                        value={skalJobbeTimer || ''}
-                        validate={getArbeidsforholdSkalJobbeTimerValidator(jobberNormaltTimerNumber, intlValues)}
-                    />
-                </FormBlock>
-            )}
-            {jobberLiktHverUke && timerEllerProsent === 'prosent' && (
-                <FormBlock>
-                    <AppForm.NumberInput
-                        name={getFieldName(ArbeidsforholdField.skalJobbeProsent)}
-                        label={getSpørsmål('skalJobbeProsent')}
-                        bredde="XS"
-                        suffix={getLabelForProsentRedusert(
-                            intl,
-                            jobberNormaltTimerNumber,
-                            getNumberFromNumberInputValue(skalJobbeProsent)
-                        )}
-                        suffixStyle="text"
-                        value={skalJobbeProsent || ''}
-                        validate={getArbeidsforholdSkalJobbeProsentValidator(intlValues)}
-                    />
-                </FormBlock>
+            {jobberLiktHverUke === true && spørOmTimerEllerProsent === false && (
+                <ArbeiderTimerEllerProsentInput
+                    getFieldName={getFieldName}
+                    getSpørsmål={getSpørsmål}
+                    jobberNormaltTimerNumber={jobberNormaltTimerNumber}
+                    intlValues={intlValues}
+                    timerEllerProsent={timerEllerProsent || 'timer'}
+                    skalJobbeProsent={skalJobbeProsent}
+                    skalJobbeTimer={skalJobbeTimer}
+                />
             )}
         </>
     );

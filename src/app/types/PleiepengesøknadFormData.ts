@@ -103,6 +103,7 @@ export enum ArbeidsforholdField {
     skalJobbeProsent = 'skalJobbeProsent',
     planlagtArbeid = 'planlagtArbeid',
     historiskArbeid = 'historiskArbeid',
+    arbeidstimer = 'arbeidstimer',
 }
 
 export enum ArbeidsforholdSkalJobbeHvorMyeSvar {
@@ -125,7 +126,7 @@ export enum AndreYtelserFraNAV {
     'opplæringspenger' = 'opplæringspenger',
 }
 
-export type TidMedArbeid = { [isoDateString: string]: Partial<Time> };
+export type TidMedArbeid = { [isoDateString: string]: string };
 
 export enum ArbeidIPeriodeField {
     'jobber' = 'jobber',
@@ -150,6 +151,7 @@ export interface Arbeidsforhold {
     [ArbeidsforholdField.jobberNormaltTimer]?: string;
     [ArbeidsforholdField.historiskArbeid]?: ArbeidIPeriode;
     [ArbeidsforholdField.planlagtArbeid]?: ArbeidIPeriode;
+    [ArbeidsforholdField.arbeidstimer]?: TidMedArbeid;
     /** Skal fjernes */
     [ArbeidsforholdField.skalJobbe]?: ArbeidsforholdSkalJobbeSvar;
     [ArbeidsforholdField.skalJobbeHvorMye]?: ArbeidsforholdSkalJobbeHvorMyeSvar;

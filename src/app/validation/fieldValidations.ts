@@ -46,7 +46,9 @@ export enum AppFieldValidationErrors {
     'legeerklæring_forMangeFiler' = 'legeerklæring.forMangeFiler',
 
     'arbeidsforhold_timerUgyldig_under_1_prosent' = 'timerUgyldig_under_1_prosent',
+    'arbeidsforhold_timerUgyldig_under_0_prosent' = 'timerUgyldig_under_0_prosent',
     'arbeidsforhold_timerUgyldig_over_99_prosent' = 'timerUgyldig_over_99_prosent',
+    'arbeidsforhold_timerUgyldig_over_100_prosent' = 'timerUgyldig_over_100_prosent',
 
     'omsorgstilbud_ingenInfo' = 'omsorgstilbud_ingenInfo',
     'omsorgstilbud_forMangeTimerTotalt' = 'omsorgstilbud_forMangeTimerTotalt',
@@ -296,8 +298,14 @@ export const getArbeidsforholdTimerEllerProsentValidator =
     };
 
 export const getArbeidsforholdSkalJobbeTimerValidator =
-    (jobberNormaltTimerNumber: number, intlValues: { hvor: string; skalJobbe: string }) => (value: any) => {
-        const error = validateReduserteArbeidTimer(value, jobberNormaltTimerNumber);
+    (
+        jobberNormaltTimerNumber: number,
+        intlValues: { hvor: string; skalJobbe: string },
+        tillatIngentingOgFullt?: boolean,
+        påkrevd?: boolean
+    ) =>
+    (value: any) => {
+        const error = validateReduserteArbeidTimer(value, jobberNormaltTimerNumber, tillatIngentingOgFullt, påkrevd);
         return error
             ? {
                   key: `validation.arbeidsforholdIPerioden.skalJobbeTimer.${error}`,
@@ -323,21 +331,38 @@ export const getArbeidsforholdSkalJobbeProsentValidator =
             : undefined;
     };
 
-export const validateReduserteArbeidTimer = (value: string, jobberNormaltTimer: number): string | undefined => {
-    const numberError = getNumberValidator({ required: true })(value);
+export const validateReduserteArbeidTimer = (
+    value: string,
+    jobberNormaltTimer: number,
+    tillatIngentingOgFullt = false,
+    påkrevd = true
+): string | undefined => {
+    const numberError = getNumberValidator({ required: påkrevd })(value);
     const skalJobbeTimer = getNumberFromNumberInputValue(value);
     if (numberError) {
         return numberError;
     }
+    if (skalJobbeTimer === undefined && påkrevd === false) {
+        return undefined;
+    }
     if (skalJobbeTimer === undefined) {
         return ValidateRequiredFieldError.noValue;
     }
-    const pst = calcRedusertProsentFromRedusertTimer(jobberNormaltTimer, skalJobbeTimer);
-    if (pst < 1) {
-        return AppFieldValidationErrors.arbeidsforhold_timerUgyldig_under_1_prosent;
-    }
-    if (pst > 99) {
-        return AppFieldValidationErrors.arbeidsforhold_timerUgyldig_over_99_prosent;
+    const prosentAvNormalt = calcRedusertProsentFromRedusertTimer(jobberNormaltTimer, skalJobbeTimer);
+    if (tillatIngentingOgFullt) {
+        if (prosentAvNormalt < 0) {
+            return AppFieldValidationErrors.arbeidsforhold_timerUgyldig_under_0_prosent;
+        }
+        if (prosentAvNormalt > 100) {
+            return AppFieldValidationErrors.arbeidsforhold_timerUgyldig_over_100_prosent;
+        }
+    } else {
+        if (prosentAvNormalt < 1) {
+            return AppFieldValidationErrors.arbeidsforhold_timerUgyldig_under_1_prosent;
+        }
+        if (prosentAvNormalt > 99) {
+            return AppFieldValidationErrors.arbeidsforhold_timerUgyldig_over_99_prosent;
+        }
     }
     return undefined;
 };

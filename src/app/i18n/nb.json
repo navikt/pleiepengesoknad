@@ -741,6 +741,8 @@
     "validation.arbeidsforholdIPerioden.skalJobbeTimer.numberHasInvalidFormat": "Antall timer du legger inn for hvor mye du {skalJobbe} {hvor}, kan kun bestå av tall.",
     "validation.arbeidsforholdIPerioden.skalJobbeTimer.timerUgyldig_under_1_prosent": "Du må oppgi et høyere timeantall for hvor mye du {skalJobbe} {hvor}.",
     "validation.arbeidsforholdIPerioden.skalJobbeTimer.timerUgyldig_over_99_prosent": "Du må oppgi et lavere timeantall for hvor mye du {skalJobbe} {hvor}.",
+    "validation.arbeidsforholdIPerioden.skalJobbeTimer.timerUgyldig_under_0_prosent": "Du må oppgi et høyere timeantall for hvor mye du {skalJobbe} {hvor}.",
+    "validation.arbeidsforholdIPerioden.skalJobbeTimer.timerUgyldig_over_100_prosent": "Du må oppgi et lavere timeantall for hvor mye du {skalJobbe} {hvor}.",
     "validation.arbeidsforholdIPerioden_redusertMerEnnNormalt": "Du må oppgi et timeantall som er lavere enn vanlig arbeidstid for hvor mye du {skalJobbe} {hvor}.",
     "validation.arbeidsforholdIPerioden_prosentUgyldig": "Prosenten du kan oppgi er fra 1 til 99 prosent  for hvor mye du {skalJobbe} {hvor}.",
 
