@@ -296,11 +296,7 @@ export const getArbeidsforholdTimerEllerProsentValidator =
     };
 
 export const getArbeidsforholdSkalJobbeTimerValidator =
-    (jobberNormaltTimer: string, intlValues: { hvor: string; skalJobbe: string }) => (value: any) => {
-        const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
-        if (!jobberNormaltTimerNumber) {
-            return undefined;
-        }
+    (jobberNormaltTimerNumber: number, intlValues: { hvor: string; skalJobbe: string }) => (value: any) => {
         const error = validateReduserteArbeidTimer(value, jobberNormaltTimerNumber);
         return error
             ? {

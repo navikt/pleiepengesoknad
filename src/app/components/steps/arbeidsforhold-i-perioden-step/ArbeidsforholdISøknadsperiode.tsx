@@ -6,7 +6,8 @@ import { prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { decimalTimeToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { DateRange, getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
-import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
+import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import { StepID } from '../../../config/stepConfig';
 import { ArbeidsforholdType } from '../../../types/PleiepengesøknadApiData';
 import {
     AppFormField,
@@ -28,8 +29,11 @@ import {
     getArbeidsforholdSkalJobbeTimerValidator,
     getArbeidsforholdSkalJobbeValidator,
     getArbeidsforholdTimerEllerProsentValidator,
+    isYesOrNoAnswered,
 } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
+import InvalidStepPage from '../../pages/invalid-step-page/InvalidStepPage';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 
 interface Props {
     parentFieldName: string;
@@ -39,13 +43,6 @@ interface Props {
     søknadsperiode: DateRange;
 }
 
-interface Spørsmål {
-    skalJobbe: string;
-    jobbeHvorMye: string;
-    timerEllerProsent: string;
-    skalJobbeTimer: string;
-    skalJobbeProsent: string;
-}
 const getLabelForProsentRedusert = (intl: IntlShape, timerNormalt: number, prosentRedusert: number | undefined) => {
     if (prosentRedusert && prosentRedusert > 0) {
         const { hours: timer = 0, minutes: minutter = 0 } = decimalTimeToTime(
@@ -80,8 +77,14 @@ const ArbeidsforholdISøknadsperiode = ({
 }: Props) => {
     const intl = useIntl();
 
-    const { timerEllerProsent, jobberNormaltTimer, skalJobbeTimer, skalJobbeProsent, arbeidsform } = arbeidsforhold;
+    const { timerEllerProsent, jobberNormaltTimer, skalJobbeTimer, skalJobbeProsent, arbeidsform, erLiktHverUke } =
+        arbeidsforhold;
     const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
+
+    if (jobberNormaltTimerNumber === undefined || arbeidsform === undefined) {
+        return <InvalidStepPage stepId={StepID.ARBEIDSFORHOLD} />;
+    }
+
     const erAvsluttet = avsluttetDato !== undefined;
 
     const getFieldName = (field: ArbeidsforholdField) => `${parentFieldName}.${field}` as AppFormField;
@@ -93,9 +96,7 @@ const ArbeidsforholdISøknadsperiode = ({
         hvor: intlHelper(intl, `arbeidsforhold.part.som.${arbeidsforholdType}`, {
             navn: isArbeidsforholdAnsatt(arbeidsforhold) ? arbeidsforhold.navn : undefined,
         }),
-        arbeidsform: arbeidsforhold.arbeidsform
-            ? intlHelper(intl, `arbeidsforhold.part.arbeidsform.${arbeidsforhold.arbeidsform}`)
-            : undefined,
+        arbeidsform: intlHelper(intl, `arbeidsforhold.part.arbeidsform.${arbeidsforhold.arbeidsform}`),
         fra: prettifyDateFull(søknadsperiode.from),
         til: avsluttetDato ? prettifyDateFull(avsluttetDato) : undefined,
         timer: getTimerTekst(arbeidsforhold.jobberNormaltTimer, intl),
@@ -105,20 +106,17 @@ const ArbeidsforholdISøknadsperiode = ({
         ),
     };
 
-    const spørsmål: Spørsmål = {
-        skalJobbe: getSpørsmål('skalJobbe'),
-        jobbeHvorMye: getSpørsmål('jobbeHvorMye'),
-        timerEllerProsent: getSpørsmål('timerEllerProsent'),
-        skalJobbeTimer: getSpørsmål('skalJobbeTimer'),
-        skalJobbeProsent: getSpørsmål('skalJobbeProsent'),
-    };
+    const spørOmVariasjon = false;
+    const skalJobbe = arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.ja;
+    const jobberRedusert = skalJobbe && arbeidsforhold.skalJobbeHvorMye === ArbeidsforholdSkalJobbeHvorMyeSvar.redusert;
+    const jobberLiktHverUke = jobberRedusert && (spørOmVariasjon == false || erLiktHverUke === YesOrNo.YES);
 
     return (
         <>
             <FormBlock>
                 <AppForm.RadioPanelGroup
                     name={getFieldName(ArbeidsforholdField.skalJobbe)}
-                    legend={spørsmål.skalJobbe}
+                    legend={getSpørsmål('skalJobbe')}
                     description={
                         <ExpandableInfo
                             title={intlHelper(intl, 'validation.arbeidsforholdIPerioden.skalJobbe.info.tittel')}>
@@ -146,102 +144,103 @@ const ArbeidsforholdISøknadsperiode = ({
                     ]}
                 />
             </FormBlock>
-            {arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.ja &&
-                arbeidsforhold.jobberNormaltTimer &&
-                hasValue(arbeidsforhold.jobberNormaltTimer) && (
-                    <>
-                        <FormBlock>
-                            <AppForm.RadioPanelGroup
-                                name={getFieldName(ArbeidsforholdField.skalJobbeHvorMye)}
-                                legend={spørsmål.jobbeHvorMye}
-                                validate={getArbeidsforholdSkalJobbeHvorMyeValidator(intlValues)}
-                                radios={[
-                                    {
-                                        value: ArbeidsforholdSkalJobbeHvorMyeSvar.somVanlig,
-                                        label: intlHelper(intl, 'arbeidsforholdIPerioden.jobbeHvorMye.somVanlig', {
-                                            timer: getTimerTekst(arbeidsforhold.jobberNormaltTimer, intl),
-                                        }),
-                                    },
-                                    {
-                                        value: ArbeidsforholdSkalJobbeHvorMyeSvar.redusert,
-                                        label: intlHelper(intl, 'arbeidsforholdIPerioden.jobbeHvorMye.redusert', {
-                                            timer: getTimerTekst(arbeidsforhold.jobberNormaltTimer, intl),
-                                        }),
-                                    },
-                                ]}
-                            />
-                        </FormBlock>
-                        {arbeidsforhold.skalJobbeHvorMye === ArbeidsforholdSkalJobbeHvorMyeSvar.redusert &&
-                            jobberNormaltTimerNumber !== undefined &&
-                            arbeidsform !== undefined && (
-                                <>
-                                    <FormBlock>
-                                        <AppForm.RadioPanelGroup
-                                            name={getFieldName(ArbeidsforholdField.timerEllerProsent)}
-                                            legend={spørsmål.timerEllerProsent}
-                                            validate={getArbeidsforholdTimerEllerProsentValidator(intlValues)}
-                                            useTwoColumns={true}
-                                            radios={[
-                                                {
-                                                    label: intlHelper(
-                                                        intl,
-                                                        'arbeidsforholdIPerioden.timerEllerProsent.timer'
-                                                    ),
-                                                    value: 'timer',
-                                                },
-                                                {
-                                                    label: intlHelper(
-                                                        intl,
-                                                        'arbeidsforholdIPerioden.timerEllerProsent.prosent'
-                                                    ),
-                                                    value: 'prosent',
-                                                },
-                                            ]}
-                                        />
-                                    </FormBlock>
-                                    {timerEllerProsent === 'timer' && (
-                                        <FormBlock>
-                                            <AppForm.NumberInput
-                                                name={getFieldName(ArbeidsforholdField.skalJobbeTimer)}
-                                                label={spørsmål.skalJobbeTimer}
-                                                bredde="XS"
-                                                suffix={getLabelForTimerRedusert(
-                                                    intl,
-                                                    jobberNormaltTimerNumber,
-                                                    getNumberFromNumberInputValue(skalJobbeTimer)
-                                                )}
-                                                suffixStyle="text"
-                                                value={skalJobbeTimer || ''}
-                                                validate={getArbeidsforholdSkalJobbeTimerValidator(
-                                                    arbeidsforhold.jobberNormaltTimer,
-                                                    intlValues
-                                                )}
-                                            />
-                                        </FormBlock>
-                                    )}
-                                    {timerEllerProsent === 'prosent' && (
-                                        <>
-                                            <FormBlock>
-                                                <AppForm.NumberInput
-                                                    name={getFieldName(ArbeidsforholdField.skalJobbeProsent)}
-                                                    label={spørsmål.skalJobbeProsent}
-                                                    bredde="XS"
-                                                    suffix={getLabelForProsentRedusert(
-                                                        intl,
-                                                        jobberNormaltTimerNumber,
-                                                        getNumberFromNumberInputValue(skalJobbeProsent)
-                                                    )}
-                                                    suffixStyle="text"
-                                                    value={skalJobbeProsent || ''}
-                                                    validate={getArbeidsforholdSkalJobbeProsentValidator(intlValues)}
-                                                />
-                                            </FormBlock>
-                                        </>
-                                    )}
-                                </>
-                            )}
-                    </>
-                )}
+            {skalJobbe && (
+                <FormBlock>
+                    <AppForm.RadioPanelGroup
+                        name={getFieldName(ArbeidsforholdField.skalJobbeHvorMye)}
+                        legend={getSpørsmål('jobbeHvorMye')}
+                        validate={getArbeidsforholdSkalJobbeHvorMyeValidator(intlValues)}
+                        radios={[
+                            {
+                                value: ArbeidsforholdSkalJobbeHvorMyeSvar.somVanlig,
+                                label: intlHelper(intl, 'arbeidsforholdIPerioden.jobbeHvorMye.somVanlig', {
+                                    timer: getTimerTekst(arbeidsforhold.jobberNormaltTimer, intl),
+                                }),
+                            },
+                            {
+                                value: ArbeidsforholdSkalJobbeHvorMyeSvar.redusert,
+                                label: intlHelper(intl, 'arbeidsforholdIPerioden.jobbeHvorMye.redusert', {
+                                    timer: getTimerTekst(arbeidsforhold.jobberNormaltTimer, intl),
+                                }),
+                            },
+                        ]}
+                    />
+                </FormBlock>
+            )}
+            {jobberRedusert && spørOmVariasjon && (
+                <FormBlock>
+                    <AppForm.YesOrNoQuestion
+                        name={getFieldName(ArbeidsforholdField.erLiktHverUke)}
+                        legend={getSpørsmål('erLiktHverUke')}
+                        useTwoColumns={false}
+                        labels={{
+                            yes: intlHelper(
+                                intl,
+                                `arbeidsforholdIPerioden.${erAvsluttet ? 'avsluttet.' : ''}erLiktHverUke.erLikt`
+                            ),
+                            no: intlHelper(
+                                intl,
+                                `arbeidsforholdIPerioden.${erAvsluttet ? 'avsluttet.' : ''}erLiktHverUke.varierer`
+                            ),
+                        }}
+                        validate={getYesOrNoValidator()}
+                    />
+                </FormBlock>
+            )}
+            {jobberRedusert && (isYesOrNoAnswered(erLiktHverUke) || spørOmVariasjon === false) && (
+                <FormBlock>
+                    <AppForm.RadioPanelGroup
+                        name={getFieldName(ArbeidsforholdField.timerEllerProsent)}
+                        legend={getSpørsmål('timerEllerProsent')}
+                        validate={getArbeidsforholdTimerEllerProsentValidator(intlValues)}
+                        useTwoColumns={true}
+                        radios={[
+                            {
+                                label: intlHelper(intl, 'arbeidsforholdIPerioden.timerEllerProsent.timer'),
+                                value: 'timer',
+                            },
+                            {
+                                label: intlHelper(intl, 'arbeidsforholdIPerioden.timerEllerProsent.prosent'),
+                                value: 'prosent',
+                            },
+                        ]}
+                    />
+                </FormBlock>
+            )}
+            {jobberLiktHverUke && timerEllerProsent === 'timer' && (
+                <FormBlock>
+                    <AppForm.NumberInput
+                        name={getFieldName(ArbeidsforholdField.skalJobbeTimer)}
+                        label={getSpørsmål('skalJobbeTimer')}
+                        bredde="XS"
+                        suffix={getLabelForTimerRedusert(
+                            intl,
+                            jobberNormaltTimerNumber,
+                            getNumberFromNumberInputValue(skalJobbeTimer)
+                        )}
+                        suffixStyle="text"
+                        value={skalJobbeTimer || ''}
+                        validate={getArbeidsforholdSkalJobbeTimerValidator(jobberNormaltTimerNumber, intlValues)}
+                    />
+                </FormBlock>
+            )}
+            {jobberLiktHverUke && timerEllerProsent === 'prosent' && (
+                <FormBlock>
+                    <AppForm.NumberInput
+                        name={getFieldName(ArbeidsforholdField.skalJobbeProsent)}
+                        label={getSpørsmål('skalJobbeProsent')}
+                        bredde="XS"
+                        suffix={getLabelForProsentRedusert(
+                            intl,
+                            jobberNormaltTimerNumber,
+                            getNumberFromNumberInputValue(skalJobbeProsent)
+                        )}
+                        suffixStyle="text"
+                        value={skalJobbeProsent || ''}
+                        validate={getArbeidsforholdSkalJobbeProsentValidator(intlValues)}
+                    />
+                </FormBlock>
+            )}
         </>
     );
 };

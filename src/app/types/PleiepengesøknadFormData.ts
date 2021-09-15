@@ -8,39 +8,6 @@ import { TidIOmsorgstilbud } from '../components/omsorgstilbud/types';
 import { VetOmsorgstilbud } from './PleiepengesøknadApiData';
 import { Arbeidsgiver } from './Søkerdata';
 
-export enum ArbeidsforholdSkalJobbeSvar {
-    'ja' = 'ja',
-    'nei' = 'nei',
-    'vetIkke' = 'vetIkke',
-}
-
-export interface OmsorgstilbudFasteDager {
-    mandag?: Time;
-    tirsdag?: Time;
-    onsdag?: Time;
-    torsdag?: Time;
-    fredag?: Time;
-}
-
-export interface OmsorgstilbudPlanlagt {
-    vetHvorMyeTid: VetOmsorgstilbud;
-    erLiktHverDag?: YesOrNo;
-    fasteDager?: OmsorgstilbudFasteDager;
-    enkeltdager?: TidIOmsorgstilbud;
-}
-export interface OmsorgstilbudHistorisk {
-    enkeltdager: TidIOmsorgstilbud;
-}
-export interface Omsorgstilbud {
-    skalBarnIOmsorgstilbud?: YesOrNo;
-    harBarnVærtIOmsorgstilbud?: YesOrNo;
-    planlagt?: OmsorgstilbudPlanlagt;
-    historisk?: OmsorgstilbudHistorisk;
-}
-
-export type FrilansEllerSelvstendig = 'frilans' | 'selvstendig';
-export type AnsattFrilansEllerSelvstendig = 'ansatt' | 'frilans' | 'selvstendig';
-
 export enum AppFormField {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
     harBekreftetOpplysninger = 'harBekreftetOpplysninger',
@@ -93,30 +60,54 @@ export enum AppFormField {
     andreYtelser = 'andreYtelser',
 }
 
+export enum ArbeidsforholdSkalJobbeSvar {
+    'ja' = 'ja',
+    'nei' = 'nei',
+    'vetIkke' = 'vetIkke',
+}
+
+export interface OmsorgstilbudFasteDager {
+    mandag?: Time;
+    tirsdag?: Time;
+    onsdag?: Time;
+    torsdag?: Time;
+    fredag?: Time;
+}
+
+export interface OmsorgstilbudPlanlagt {
+    vetHvorMyeTid: VetOmsorgstilbud;
+    erLiktHverDag?: YesOrNo;
+    fasteDager?: OmsorgstilbudFasteDager;
+    enkeltdager?: TidIOmsorgstilbud;
+}
+export interface OmsorgstilbudHistorisk {
+    enkeltdager: TidIOmsorgstilbud;
+}
+export interface Omsorgstilbud {
+    skalBarnIOmsorgstilbud?: YesOrNo;
+    harBarnVærtIOmsorgstilbud?: YesOrNo;
+    planlagt?: OmsorgstilbudPlanlagt;
+    historisk?: OmsorgstilbudHistorisk;
+}
+
 export enum ArbeidsforholdField {
     erAnsatt = 'erAnsatt',
+    arbeidsform = 'arbeidsform',
+    jobberNormaltTimer = 'jobberNormaltTimer',
     sluttdato = 'sluttdato',
     skalJobbe = 'skalJobbe',
+    skalJobbeHvorMye = 'skalJobbeHvorMye',
+    erLiktHverUke = 'erLiktHverUke',
     timerEllerProsent = 'timerEllerProsent',
-    jobberNormaltTimer = 'jobberNormaltTimer',
     skalJobbeTimer = 'skalJobbeTimer',
     skalJobbeProsent = 'skalJobbeProsent',
-    arbeidsform = 'arbeidsform',
-    skalJobbeHvorMye = 'skalJobbeHvorMye',
+    planlagtArbeid = 'planlagtArbeid',
+    historiskArbeid = 'historiskArbeid',
 }
+
 export enum ArbeidsforholdSkalJobbeHvorMyeSvar {
     redusert = 'redusert',
     somVanlig = 'somVanlig',
-}
-
-export enum ArbeidsforholdSNFField {
-    skalJobbe = 'skalJobbe',
-    timerEllerProsent = 'timerEllerProsent',
-    jobberNormaltTimer = 'jobberNormaltTimer',
-    skalJobbeTimer = 'skalJobbeTimer',
-    skalJobbeProsent = 'skalJobbeProsent',
-    arbeidsform = 'arbeidsform',
-    skalJobbeHvorMye = 'skalJobbeHvorMye',
 }
 
 export enum Arbeidsform {
@@ -133,14 +124,39 @@ export enum AndreYtelserFraNAV {
     'omsorgspenger' = 'omsorgspenger',
     'opplæringspenger' = 'opplæringspenger',
 }
+
+export type TidMedArbeid = { [isoDateString: string]: Partial<Time> };
+
+export enum ArbeidIPeriodeField {
+    'jobber' = 'jobber',
+    'jobberRedusert' = 'redusert',
+    'liktHverUke' = 'liktHverUke',
+    'timerPerUke' = 'timerPerUke',
+    'prosentPerUke' = 'prosentPerUke',
+    'enkeltdager' = 'enkeltdager',
+}
+
+export interface ArbeidIPeriode {
+    [ArbeidIPeriodeField.jobber]: YesOrNo;
+    [ArbeidIPeriodeField.jobberRedusert]: YesOrNo;
+    [ArbeidIPeriodeField.liktHverUke]: YesOrNo;
+    [ArbeidIPeriodeField.timerPerUke]: string;
+    [ArbeidIPeriodeField.prosentPerUke]: string;
+    [ArbeidIPeriodeField.enkeltdager]: TidMedArbeid;
+}
+
 export interface Arbeidsforhold {
-    [ArbeidsforholdField.skalJobbe]?: ArbeidsforholdSkalJobbeSvar;
     [ArbeidsforholdField.arbeidsform]?: Arbeidsform;
     [ArbeidsforholdField.jobberNormaltTimer]?: string;
+    [ArbeidsforholdField.historiskArbeid]?: ArbeidIPeriode;
+    [ArbeidsforholdField.planlagtArbeid]?: ArbeidIPeriode;
+    /** Skal fjernes */
+    [ArbeidsforholdField.skalJobbe]?: ArbeidsforholdSkalJobbeSvar;
+    [ArbeidsforholdField.skalJobbeHvorMye]?: ArbeidsforholdSkalJobbeHvorMyeSvar;
+    [ArbeidsforholdField.erLiktHverUke]?: YesOrNo;
     [ArbeidsforholdField.timerEllerProsent]?: 'timer' | 'prosent';
     [ArbeidsforholdField.skalJobbeTimer]?: string;
     [ArbeidsforholdField.skalJobbeProsent]?: string;
-    [ArbeidsforholdField.skalJobbeHvorMye]?: ArbeidsforholdSkalJobbeHvorMyeSvar;
 }
 export interface ArbeidsforholdAnsatt extends Arbeidsgiver, Arbeidsforhold {
     [ArbeidsforholdField.erAnsatt]?: YesOrNo;
