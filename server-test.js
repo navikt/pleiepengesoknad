@@ -25,6 +25,11 @@ server.get(`${process.env.PUBLIC_PATH}/dist/settings.js`, (req, res) => {
     res.send(`${envSettings()}`);
 });
 
+server.get(`/dist/settings.js`, (req, res) => {
+    res.set('content-type', 'application/javascript');
+    res.send(`${envSettings()}`);
+});
+
 const routerHealth = express.Router();
 routerHealth.get('/isAlive', (req, res) => res.sendStatus(200));
 routerHealth.get('/isReady', (req, res) => res.sendStatus(200));
