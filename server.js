@@ -21,8 +21,6 @@ server.set('views', path.resolve(`${__dirname}/dist`));
 server.set('view engine', 'mustache');
 server.engine('html', mustacheExpress());
 
-// createEnvSettingsFile(path.resolve(`${__dirname}/dist/js/settings.js`));
-
 const verifyLoginUrl = () =>
     new Promise((resolve, reject) => {
         if (!process.env.LOGIN_URL) {

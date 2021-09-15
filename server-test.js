@@ -7,7 +7,7 @@ const compression = require('compression');
 const helmet = require('helmet');
 const createEnvSettingsFile = require('./src/build/scripts/envSettings');
 
-createEnvSettingsFile(path.resolve(`${__dirname}/dist/js/settings.js`));
+createEnvSettingsFile(path.resolve(`${__dirname}/dist/settings.js`));
 
 const server = express();
 server.use(
