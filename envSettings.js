@@ -1,4 +1,5 @@
 const process = require('process');
+require('dotenv').config();
 
 const envSettings = () => {
     const API_URL = process.env.API_URL;
