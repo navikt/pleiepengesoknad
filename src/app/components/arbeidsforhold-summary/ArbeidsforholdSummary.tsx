@@ -94,7 +94,7 @@ const ArbeidsforholdSummary = ({ arbeidsforhold }: Props) => {
                             id={
                                 isAvsluttetArbeidsforhold
                                     ? 'arbeidsforhold.oppsummering.avsluttet.skalJobbeSomVanlig'
-                                    : 'arbeidsforhold.oppsummering.skalJobbeSomVanlig1'
+                                    : 'arbeidsforhold.oppsummering.skalJobbeSomVanlig'
                             }
                             values={intlValues}
                         />

@@ -426,7 +426,7 @@
 
     "page.invalidStepPage.sidetittel": "Oops, nå skjedde det en feil...",
     "page.invalidStepPage.tittel": "Oops, nå skjedde det en feil...",
-    "page.invalidStepPage.tekst": "Du er kommet til en side du ikke trenger å fylle ut. Dette kan skje hvis du går frem og tilbake i søknaden gjennom pilene i nettleseren (pilene helt øverst til venstre på siden). Du unngår dette problemet hvis du heller bruker knapper og lenker som ligger inne i selve søknaden for å gå frem eller tilbake.:",
+    "page.invalidStepPage.tekst": "Du er kommet til et steg du ikke skal fylle ut. Dette kan skje hvis du går frem og tilbake i søknaden gjennom pilene i nettleseren (pilene helt øverst til venstre). Du unngår dette hvis du bruker fortsett-knappen og tilbake-lenken i selve søknaden for å gå frem og tilbake.",
     "page.invalidStepPage.tilbakeLenke": "Gå tilbake til forrige side",
 
     "page.ikkeMyndig.sidetittel": "Søknad om pleiepenger - ikke myndig",
