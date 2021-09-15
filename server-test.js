@@ -5,10 +5,7 @@ const mustacheExpress = require('mustache-express');
 const Promise = require('promise');
 const compression = require('compression');
 const helmet = require('helmet');
-const createEnvSettingsFile = require('./src/build/scripts/createEnvSettingsFile');
 const envSettings = require('./envSettings');
-
-createEnvSettingsFile(path.resolve(`${__dirname}/dist/js/settings.js`));
 
 const server = express();
 server.use(
