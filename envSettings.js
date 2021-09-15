@@ -1,8 +1,6 @@
 const process = require('process');
 
-// Used by ~/server.js, ~/src/build/scripts/start-dev.js and start-dev-no-decorator.js
 const envSettings = () => {
-    // See .env, nais/dev-sbs.yml and nais/prod-sbs.yml
     const API_URL = process.env.API_URL;
     const LOGIN_URL = process.env.LOGIN_URL;
     const PUBLIC_PATH = process.env.PUBLIC_PATH;

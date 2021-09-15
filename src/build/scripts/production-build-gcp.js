@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const webpackConfig = require('../webpack/webpack.config.production');
 const path = require('path');
 
-webpackConfig.output.publicPath = '/familie/sykdom-i-familien/soknad/pleiepenger/dist/';
+webpackConfig.output.publicPath = '/familie/sykdom-i-familien/soknad/pleiepenger/dist';
 webpackConfig.output.path = path.resolve(__dirname, './../../../dist-gcp');
 
 return webpack(webpackConfig, (err, stats) => {

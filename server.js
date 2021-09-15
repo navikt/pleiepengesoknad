@@ -4,7 +4,6 @@ const mustacheExpress = require('mustache-express');
 const Promise = require('promise');
 const compression = require('compression');
 const helmet = require('helmet');
-// const createEnvSettingsFile = require('./src/build/scripts/createEnvSettingsFile');
 const getDecorator = require('./src/build/scripts/decorator');
 const envSettings = require('./envSettings');
 
