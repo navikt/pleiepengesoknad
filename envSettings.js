@@ -1,9 +1,7 @@
 const process = require('process');
-const fsExtra = require('fs-extra');
+require('dotenv').config();
 
-// Used by ~/server.js, ~/src/build/scripts/start-dev.js and start-dev-no-decorator.js
-const createEnvSettingsFile = async (settingsFile) => {
-    // See .env, nais/dev-sbs.yml and nais/prod-sbs.yml
+const envSettings = () => {
     const API_URL = process.env.API_URL;
     const LOGIN_URL = process.env.LOGIN_URL;
     const PUBLIC_PATH = process.env.PUBLIC_PATH;
@@ -37,11 +35,10 @@ const createEnvSettingsFile = async (settingsFile) => {
         .replace(/ /g, '');
 
     try {
-        await fsExtra.ensureFile(settingsFile);
-        fsExtra.writeFileSync(settingsFile, `${appSettings}`); // => dist/js/settings.js, and used by dist/dev/index.html
+        return appSettings;
     } catch (e) {
         console.error(e);
     }
 };
 
-module.exports = createEnvSettingsFile;
+module.exports = envSettings;
