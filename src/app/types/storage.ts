@@ -6,6 +6,7 @@ export const MELLOMLAGRING_VERSION = '7.0';
 interface StorageMetadata {
     version: string;
     lastStepID?: StepID;
+    updatedTimestemp: string;
 }
 
 export interface MellomlagringData {
