@@ -67,10 +67,10 @@ jobs:
             - name: build code
               run: |
                   npm i
-                  npm run build-gcp
+                  npm run build
             - name: Build and publish Docker image
               run: |
-                  docker build --tag ${IMAGE} . -f Dockerfile-gcp
+                  docker build --tag ${IMAGE} . -f Dockerfile
                   docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
                   docker push ${IMAGE}
 
