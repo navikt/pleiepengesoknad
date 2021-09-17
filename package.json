@@ -32,7 +32,7 @@
         "@navikt/sif-common-amplitude": "^2.0.0",
         "@navikt/sif-common-core": "^9.4.13",
         "@navikt/sif-common-formik": "^20.1.4",
-        "@navikt/sif-common-forms": "^16.0.0",
+        "@navikt/sif-common-forms": "^16.1.1",
         "@navikt/sif-common-sentry": "0.2.0",
         "@testing-library/react": "^12.0.0",
         "amplitude-js": "^8.5.0",
@@ -66,7 +66,7 @@
         "react": "^17.0.2",
         "react-day-picker": "^7.4.10",
         "react-responsive": "^8.2.0",
-        "snyk": "^1.692.0",
+        "snyk": "^1.717.0",
         "ts-loader": "^9.2.5"
     },
     "devDependencies": {
