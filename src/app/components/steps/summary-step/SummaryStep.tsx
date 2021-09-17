@@ -28,21 +28,17 @@ import {
 import routeConfig from '../../../config/routeConfig';
 import { StepID } from '../../../config/stepConfig';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
-import {
-    ArbeidsforholdAnsattApi,
-    ArbeidsforholdApi,
-    PleiepengesøknadApiData,
-} from '../../../types/PleiepengesøknadApiData';
+import { ArbeidsforholdApi, PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { Søkerdata } from '../../../types/Søkerdata';
 import * as apiUtils from '../../../utils/apiUtils';
 import appSentryLogger from '../../../utils/appSentryLogger';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
-import { getAvsluttaOrganisasjonerApiData, mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
+import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
 import { navigateTo, relocateToLoginPage } from '../../../utils/navigationUtils';
 import { validateApiValues } from '../../../validation/apiValuesValidation';
 import AppForm from '../../app-form/AppForm';
-import AvsluttetArbeidsforholdSummary from '../../arbeidsforhold-summary/AvsluttetArbeidsforholdSummary';
+
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringAttachmentList from '../../legeerklæring-file-list/LegeerklæringFileList';
 import SummarySection from '../../summary-section/SummarySection';
@@ -155,11 +151,6 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                     ...(apiValues.frilans?.arbeidsforhold ? [apiValues.frilans.arbeidsforhold] : []),
                     ...(apiValues.selvstendigArbeidsforhold ? [apiValues.selvstendigArbeidsforhold] : []),
                 ];
-
-                const avsluttaArbeidsforholdFørSøknadsperiode = getAvsluttaOrganisasjonerApiData(
-                    values.arbeidsforhold,
-                    søknadsperiode
-                );
 
                 return (
                     <FormikStep
@@ -360,22 +351,11 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                             )}
                                         />
                                     )}
-                                    {avsluttaArbeidsforholdFørSøknadsperiode.length > 0 && (
-                                        <Box margin={alleArbeidsforhold.length > 0 ? 'l' : 'none'}>
-                                            <SummaryList
-                                                items={avsluttaArbeidsforholdFørSøknadsperiode}
-                                                itemRenderer={(forhold: ArbeidsforholdAnsattApi) => (
-                                                    <AvsluttetArbeidsforholdSummary arbeidsforhold={forhold} />
-                                                )}
-                                            />
+                                    {alleArbeidsforhold.length === 0 && (
+                                        <Box margin="m">
+                                            <FormattedMessage id="steg.oppsummering.arbeidsforhold.ingenArbeidsforhold" />
                                         </Box>
                                     )}
-                                    {avsluttaArbeidsforholdFørSøknadsperiode.length === 0 &&
-                                        alleArbeidsforhold.length === 0 && (
-                                            <Box margin="m">
-                                                <FormattedMessage id="steg.oppsummering.arbeidsforhold.ingenArbeidsforhold" />
-                                            </Box>
-                                        )}
                                 </SummarySection>
 
                                 {/* Frilansinntekt */}

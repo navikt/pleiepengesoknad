@@ -35,7 +35,6 @@ export interface ArbeidsforholdApi {
     skalJobbeTimer?: number;
     skalJobbeProsent?: number;
     erAnsatt?: boolean;
-    sluttdato?: ApiStringDate;
     _type: ArbeidsforholdType;
 }
 
@@ -55,28 +54,21 @@ export const isArbeidsforholdAnsattApi = (forhold: any): forhold is Arbeidsforho
 
 export type ArbeidsforholdApiNei = Pick<
     ArbeidsforholdApi,
-    'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | 'arbeidsform' | 'erAnsatt' | 'sluttdato' | '_type'
+    'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | 'arbeidsform' | 'erAnsatt' | '_type'
 >;
 export type ArbeidsforholdApiRedusert = Pick<
     ArbeidsforholdApi,
-    | 'skalJobbe'
-    | 'skalJobbeProsent'
-    | 'jobberNormaltTimer'
-    | 'skalJobbeTimer'
-    | 'arbeidsform'
-    | 'erAnsatt'
-    | 'sluttdato'
-    | '_type'
+    'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | 'skalJobbeTimer' | 'arbeidsform' | 'erAnsatt' | '_type'
 >;
 
 export type ArbeidsforholdApiVetIkke = Pick<
     ArbeidsforholdApi,
-    'skalJobbe' | 'jobberNormaltTimer' | 'skalJobbeProsent' | 'arbeidsform' | 'erAnsatt' | 'sluttdato' | '_type'
+    'skalJobbe' | 'jobberNormaltTimer' | 'skalJobbeProsent' | 'arbeidsform' | 'erAnsatt' | '_type'
 >;
 
 export type ArbeidsforholdApiSomVanlig = Pick<
     ArbeidsforholdApi,
-    'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | 'arbeidsform' | 'erAnsatt' | 'sluttdato' | '_type'
+    'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | 'arbeidsform' | 'erAnsatt' | '_type'
 >;
 
 export interface OmsorgstilbudUkeApi {

@@ -1,7 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { dateToISOFormattedDateString } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import {
     ArbeidsforholdApi,
     ArbeidsforholdApiNei,
@@ -35,14 +33,10 @@ export const mapArbeidsforholdToApiData = (
     } = arbeidsforhold;
 
     const erAnsatt = isArbeidsforholdAnsatt(arbeidsforhold) ? arbeidsforhold.erAnsatt === YesOrNo.YES : undefined;
-    const sluttdato = isArbeidsforholdAnsatt(arbeidsforhold)
-        ? datepickerUtils.getDateFromDateString(arbeidsforhold.sluttdato)
-        : undefined;
 
-    const commonData: Pick<ArbeidsforholdApi, 'arbeidsform' | 'erAnsatt' | 'sluttdato' | '_type'> = {
+    const commonData: Pick<ArbeidsforholdApi, 'arbeidsform' | 'erAnsatt' | '_type'> = {
         arbeidsform,
         erAnsatt,
-        sluttdato: sluttdato ? dateToISOFormattedDateString(sluttdato) : undefined,
         _type: type,
     };
 

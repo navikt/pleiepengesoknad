@@ -1,19 +1,7 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { DateRange } from '@navikt/sif-common-formik/lib';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import dayjs from 'dayjs';
 import { ArbeidsforholdAnsatt } from '../../types/PleiepengesøknadFormData';
 import { Arbeidsgiver } from '../../types/Søkerdata';
-import {
-    arbeidsforholdGjelderSøknadsperiode,
-    harAnsettelsesforholdISøknadsperiode,
-    syncArbeidsforholdWithArbeidsgivere,
-} from '../arbeidsforholdUtils';
-
-const søknadsperiode: DateRange = {
-    from: new Date(2020, 1, 1),
-    to: new Date(2020, 2, 1),
-};
+import { syncArbeidsforholdWithArbeidsgivere } from '../arbeidsforholdUtils';
 
 const organisasjoner: Arbeidsgiver[] = [
     { navn: 'Org1', organisasjonsnummer: '1' },
@@ -44,12 +32,6 @@ const arbeidsforholdUbesvart: ArbeidsforholdAnsatt = {
     jobberNormaltTimer: '20',
 };
 
-const arbeidsforholdIkkeAnsatt: ArbeidsforholdAnsatt = {
-    navn: 'Org5',
-    organisasjonsnummer: '5',
-    erAnsatt: YesOrNo.NO,
-    sluttdato: '2020-01-01',
-};
 const arbeidsforhold: ArbeidsforholdAnsatt[] = [arbeidsforholdErAnsatt, arbeidsforholdUbesvart];
 
 jest.mock('./../envUtils', () => {
@@ -78,52 +60,6 @@ describe('arbeidsforholdUtils', () => {
             expect(result[0].erAnsatt).toBe(YesOrNo.YES);
             expect(result[1].organisasjonsnummer).toBe('4');
             expect(result[1].erAnsatt).toBe(YesOrNo.UNANSWERED);
-        });
-    });
-
-    describe('ansettelsesforholdGjelderSøknadsperiode()', () => {
-        it('returnerer true dersom bruker erAnsatt', () => {
-            expect(arbeidsforholdGjelderSøknadsperiode(arbeidsforholdErAnsatt, søknadsperiode)).toBeTruthy();
-        });
-        it('returnerer true dersom bruker ikke er ansatt men har sluttet i søknadsperioden', () => {
-            const sluttdato = dayjs(søknadsperiode.to).subtract(2, 'days').toDate();
-            expect(
-                arbeidsforholdGjelderSøknadsperiode(
-                    { ...arbeidsforholdIkkeAnsatt, sluttdato: datepickerUtils.getDateStringFromValue(sluttdato) },
-                    søknadsperiode
-                )
-            ).toBeTruthy();
-        });
-        it('returnerer false dersom bruker ikke er ansatt og har sluttet før søknadsperioden', () => {
-            const sluttdato = dayjs(søknadsperiode.from).subtract(1, 'days').toDate();
-            expect(
-                arbeidsforholdGjelderSøknadsperiode(
-                    { ...arbeidsforholdIkkeAnsatt, sluttdato: datepickerUtils.getDateStringFromValue(sluttdato) },
-                    søknadsperiode
-                )
-            ).toBeFalsy();
-        });
-    });
-
-    describe('harAnsettelsesforholdISøknadsperiode()', () => {
-        it('returnerer false når søker ikke har arbeidsgivere', () => {
-            expect(harAnsettelsesforholdISøknadsperiode([], søknadsperiode)).toBeFalsy();
-        });
-        it('returnerer false søker har arbeidsgivere, men er ikke ansatt i søknadsperiode og sluttdato er før søknadsperiode', () => {
-            expect(harAnsettelsesforholdISøknadsperiode([arbeidsforholdIkkeAnsatt], søknadsperiode)).toBeFalsy();
-        });
-
-        it('returnerer true når søker er ansatt', () => {
-            expect(harAnsettelsesforholdISøknadsperiode([arbeidsforholdErAnsatt], søknadsperiode)).toBeTruthy();
-        });
-        it('returnerer trur når søker har avsluttet arbeidsforhold i søknadsperioden', () => {
-            const sluttdato = dayjs(søknadsperiode.to).subtract(2, 'days').toDate();
-            expect(
-                harAnsettelsesforholdISøknadsperiode(
-                    [{ ...arbeidsforholdIkkeAnsatt, sluttdato: datepickerUtils.getDateStringFromValue(sluttdato) }],
-                    søknadsperiode
-                )
-            ).toBeTruthy();
         });
     });
 });

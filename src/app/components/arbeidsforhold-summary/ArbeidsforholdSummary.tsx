@@ -12,7 +12,6 @@ import {
     SkalJobbe,
 } from '../../types/PleiepengesøknadApiData';
 import './arbeidsforholdSummary.less';
-import { apiStringDateToDate, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 
 interface Props {
     arbeidsforhold: ArbeidsforholdApi | ArbeidsforholdAnsattApi;
@@ -22,12 +21,11 @@ const bem = bemUtils('arbeidsforholdSummary');
 
 const ArbeidsforholdSummary = ({ arbeidsforhold }: Props) => {
     const intl = useIntl();
-    const { skalJobbeProsent, skalJobbeTimer, jobberNormaltTimer, skalJobbe, arbeidsform, erAnsatt, sluttdato, _type } =
+    const { skalJobbeProsent, skalJobbeTimer, jobberNormaltTimer, skalJobbe, arbeidsform, erAnsatt, _type } =
         arbeidsforhold;
 
     const isAnsattArbeidsforhold = isArbeidsforholdAnsattApi(arbeidsforhold);
     const isAvsluttetArbeidsforhold = isAnsattArbeidsforhold && arbeidsforhold.erAnsatt === false;
-    const sluttdatoDate: Date | undefined = sluttdato ? apiStringDateToDate(sluttdato) : undefined;
 
     const tittel = isAnsattArbeidsforhold
         ? intlHelper(intl, 'arbeidsforhold.oppsummering.ansatt', {
@@ -70,12 +68,9 @@ const ArbeidsforholdSummary = ({ arbeidsforhold }: Props) => {
                 <FormattedMessage id={`arbeidsforhold.oppsummering.duHarOppgitt.${_type}`} />
             </p>
             <ul>
-                {isAnsattArbeidsforhold && erAnsatt === false && sluttdatoDate !== undefined && (
+                {isAnsattArbeidsforhold && erAnsatt === false && (
                     <li>
-                        <FormattedMessage
-                            id="arbeidsforhold.oppsummering.avsluttet"
-                            values={{ ...intlValues, dato: prettifyDateFull(sluttdatoDate) }}
-                        />
+                        <FormattedMessage id="arbeidsforhold.oppsummering.avsluttet" values={{ ...intlValues }} />
                     </li>
                 )}
                 <li>

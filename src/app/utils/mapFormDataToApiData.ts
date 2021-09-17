@@ -1,7 +1,6 @@
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { DateRange } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import {
     ArbeidsforholdAnsattApi,
@@ -12,7 +11,6 @@ import {
 import { ArbeidsforholdAnsatt, BarnRelasjon, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../types/Søkerdata';
 import appSentryLogger from './appSentryLogger';
-import { arbeidsforholdGjelderSøknadsperiode } from './arbeidsforholdUtils';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
 import { filterAndMapAttachmentsToApiFormat } from './formToApiMaps/attachmentsToApiData';
 import { mapArbeidsforholdToApiData } from './formToApiMaps/mapArbeidsforholdToApiData';
@@ -40,51 +38,39 @@ export const getValidSpråk = (locale?: any): Locale => {
     }
 };
 
-export const getOrganisasjonerApiData = (
-    arbeidsforhold: ArbeidsforholdAnsatt[],
-    søknadsperiode: DateRange
-): ArbeidsforholdAnsattApi[] => {
+export const getOrganisasjonerApiData = (arbeidsforhold: ArbeidsforholdAnsatt[]): ArbeidsforholdAnsattApi[] => {
     const organisasjoner: ArbeidsforholdAnsattApi[] = [];
-    arbeidsforhold
-        .filter((a) => arbeidsforholdGjelderSøknadsperiode(a, søknadsperiode))
-        .forEach((forhold) => {
-            const arbeidsforholdApiData = mapArbeidsforholdToApiData(forhold, ArbeidsforholdType.ANSATT);
-            if (arbeidsforholdApiData) {
-                organisasjoner.push({
-                    ...arbeidsforholdApiData,
-                    navn: forhold.navn,
-                    organisasjonsnummer: forhold.organisasjonsnummer,
-                    erAnsatt: forhold.erAnsatt === YesOrNo.YES,
-                    sluttdato: forhold.sluttdato,
-                });
-            } else {
-                throw new Error('Invalid arbeidsforhold');
-            }
-        });
+    arbeidsforhold.forEach((forhold) => {
+        const arbeidsforholdApiData = mapArbeidsforholdToApiData(forhold, ArbeidsforholdType.ANSATT);
+        if (arbeidsforholdApiData) {
+            organisasjoner.push({
+                ...arbeidsforholdApiData,
+                navn: forhold.navn,
+                organisasjonsnummer: forhold.organisasjonsnummer,
+                erAnsatt: forhold.erAnsatt === YesOrNo.YES,
+            });
+        } else {
+            throw new Error('Invalid arbeidsforhold');
+        }
+    });
     return organisasjoner;
 };
 
-export const getAvsluttaOrganisasjonerApiData = (
-    arbeidsforhold: ArbeidsforholdAnsatt[],
-    søknadsperiode: DateRange
-): ArbeidsforholdAnsattApi[] => {
+export const getAvsluttaOrganisasjonerApiData = (arbeidsforhold: ArbeidsforholdAnsatt[]): ArbeidsforholdAnsattApi[] => {
     const organisasjoner: ArbeidsforholdAnsattApi[] = [];
-    arbeidsforhold
-        .filter((a) => arbeidsforholdGjelderSøknadsperiode(a, søknadsperiode) === false)
-        .forEach((forhold) => {
-            const arbeidsforholdApiData = mapArbeidsforholdToApiData(forhold, ArbeidsforholdType.ANSATT);
-            if (arbeidsforholdApiData) {
-                organisasjoner.push({
-                    ...arbeidsforholdApiData,
-                    navn: forhold.navn,
-                    organisasjonsnummer: forhold.organisasjonsnummer,
-                    erAnsatt: forhold.erAnsatt === YesOrNo.YES,
-                    sluttdato: forhold.sluttdato,
-                });
-            } else {
-                throw new Error('Invalid arbeidsforhold');
-            }
-        });
+    arbeidsforhold.forEach((forhold) => {
+        const arbeidsforholdApiData = mapArbeidsforholdToApiData(forhold, ArbeidsforholdType.ANSATT);
+        if (arbeidsforholdApiData) {
+            organisasjoner.push({
+                ...arbeidsforholdApiData,
+                navn: forhold.navn,
+                organisasjonsnummer: forhold.organisasjonsnummer,
+                erAnsatt: forhold.erAnsatt === YesOrNo.YES,
+            });
+        } else {
+            throw new Error('Invalid arbeidsforhold');
+        }
+    });
     return organisasjoner;
 };
 
@@ -124,7 +110,7 @@ export const mapFormDataToApiData = (
     const periodeTil = datepickerUtils.getDateFromDateString(formData.periodeTil);
 
     if (periodeFra && periodeTil) {
-        const organisasjoner = getOrganisasjonerApiData(arbeidsforhold, { from: periodeFra, to: periodeTil });
+        const organisasjoner = getOrganisasjonerApiData(arbeidsforhold);
         try {
             const barnObject: BarnToSendToApi = mapBarnToApiData(
                 barn,

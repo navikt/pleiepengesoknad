@@ -317,7 +317,6 @@ describe('mapFormDataToApiData', () => {
                 skalJobbe: SkalJobbe.REDUSERT,
                 skalJobbeProsent: 50,
                 arbeidsform: Arbeidsform.fast,
-                sluttdato: undefined,
                 _type: ArbeidsforholdType.ANSATT,
             };
             expect(resultingApiData.arbeidsgivere.organisasjoner).toEqual([result]);
@@ -385,7 +384,6 @@ describe('mapFormDataToApiData', () => {
                 jobberNormaltTimer: 20,
                 arbeidsform: Arbeidsform.fast,
                 erAnsatt: true,
-                sluttdato: undefined,
                 _type: ArbeidsforholdType.ANSATT,
             };
             expect(JSON.stringify(jsonSort(organisasjoner))).toEqual(JSON.stringify(jsonSort([result])));
@@ -406,7 +404,6 @@ describe('mapFormDataToApiData', () => {
                 skalJobbeProsent: 0,
                 arbeidsform: Arbeidsform.fast,
                 erAnsatt: true,
-                sluttdato: undefined,
                 _type: ArbeidsforholdType.ANSATT,
             };
             expect(organisasjoner).toEqual([result]);
@@ -414,9 +411,9 @@ describe('mapFormDataToApiData', () => {
         }
     });
 
-    it('should not include arbeidsforhold where user is not ansatt', () => {
+    it('should include arbeidsforhold where user is not ansatt', () => {
         const resultingApiData = mapFormDataToApiData(
-            { ...formData, arbeidsforhold: [{ ...maxboVetIkke, erAnsatt: YesOrNo.NO }] },
+            { ...formData, arbeidsforhold: [{ ...maxboIngenJobbing, erAnsatt: YesOrNo.NO }] },
             barnMock,
             'nb'
         );
@@ -425,7 +422,16 @@ describe('mapFormDataToApiData', () => {
             const {
                 arbeidsgivere: { organisasjoner },
             } = resultingApiData;
-            expect(organisasjoner).toEqual([]);
+            const result: ArbeidsforholdApiNei = {
+                ...organisasjonMaxbo,
+                jobberNormaltTimer: 20,
+                skalJobbe: SkalJobbe.NEI,
+                skalJobbeProsent: 0,
+                arbeidsform: Arbeidsform.fast,
+                erAnsatt: false,
+                _type: ArbeidsforholdType.ANSATT,
+            };
+            expect(organisasjoner).toEqual([result]);
         }
     });
 

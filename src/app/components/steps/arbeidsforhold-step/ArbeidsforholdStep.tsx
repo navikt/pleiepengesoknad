@@ -6,17 +6,12 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import LoadingSpinner from '@navikt/sif-common-core/lib/components/loading-spinner/LoadingSpinner';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { DateRange } from '@navikt/sif-common-formik/lib';
 import { useFormikContext } from 'formik';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import {
-    arbeidsforholdGjelderSøknadsperiode,
-    getArbeidsgivere,
-    harAnsettelsesforholdISøknadsperiode,
-} from '../../../utils/arbeidsforholdUtils';
+import { getArbeidsgivere } from '../../../utils/arbeidsforholdUtils';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { getSøknadsperiodeFromFormData } from '../../../utils/formDataUtils';
 import { erFrilanserISøknadsperiode } from '../../../utils/frilanserUtils';
@@ -32,23 +27,20 @@ interface LoadState {
     isLoaded: boolean;
 }
 
-export const visVernepliktSpørsmål = (
-    {
-        arbeidsforhold = [],
-        frilans_harHattInntektSomFrilanser,
-        selvstendig_harHattInntektSomSN,
-    }: PleiepengesøknadFormData,
-    søknadsperiode: DateRange
-): boolean => {
+export const visVernepliktSpørsmål = ({
+    arbeidsforhold = [],
+    frilans_harHattInntektSomFrilanser,
+    selvstendig_harHattInntektSomSN,
+}: PleiepengesøknadFormData): boolean => {
     return (
         frilans_harHattInntektSomFrilanser === YesOrNo.NO &&
         selvstendig_harHattInntektSomSN === YesOrNo.NO &&
-        harAnsettelsesforholdISøknadsperiode(arbeidsforhold, søknadsperiode) === false
+        arbeidsforhold.some((a) => a.erAnsatt === YesOrNo.YES) === false
     );
 };
 
 const cleanupArbeidsforhold =
-    (søknadsperiode: DateRange) =>
+    () =>
     (formValues: PleiepengesøknadFormData): PleiepengesøknadFormData => {
         const values: PleiepengesøknadFormData = { ...formValues };
         if (values.mottarAndreYtelser === YesOrNo.NO) {
@@ -71,25 +63,9 @@ const cleanupArbeidsforhold =
             values.selvstendig_virksomhet = undefined;
             values.selvstendig_arbeidsforhold = undefined;
         }
-        if (!visVernepliktSpørsmål(values, søknadsperiode)) {
+        if (!visVernepliktSpørsmål(values)) {
             values.harVærtEllerErVernepliktig = undefined;
         }
-
-        values.arbeidsforhold = values.arbeidsforhold.map((arbeidsforhold) => {
-            if (arbeidsforhold.erAnsatt === YesOrNo.YES) {
-                arbeidsforhold.sluttdato = undefined;
-            }
-            if (arbeidsforholdGjelderSøknadsperiode(arbeidsforhold, søknadsperiode) === false) {
-                arbeidsforhold.jobberNormaltTimer = undefined;
-                arbeidsforhold.skalJobbe = undefined;
-                arbeidsforhold.skalJobbeHvorMye = undefined;
-                arbeidsforhold.skalJobbeProsent = undefined;
-                arbeidsforhold.skalJobbeTimer = undefined;
-                arbeidsforhold.timerEllerProsent = undefined;
-                arbeidsforhold.arbeidsform = undefined;
-            }
-            return arbeidsforhold;
-        });
 
         return values;
     };
@@ -125,7 +101,7 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
             id={StepID.ARBEIDSFORHOLD}
             onValidFormSubmit={onValidSubmit}
             buttonDisabled={isLoading}
-            onStepCleanup={søknadsperiode ? cleanupArbeidsforhold(søknadsperiode) : undefined}>
+            onStepCleanup={søknadsperiode ? cleanupArbeidsforhold() : undefined}>
             {isLoading && <LoadingSpinner type="XS" blockTitle="Henter arbeidsforhold" />}
             {!isLoading && søknadsperiode && (
                 <>
@@ -155,11 +131,7 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                             <>
                                 {arbeidsforhold.map((forhold, index) => (
                                     <FormBlock key={forhold.organisasjonsnummer}>
-                                        <ArbeidsforholdFormPart
-                                            arbeidsforhold={forhold}
-                                            søknadsperiode={søknadsperiode}
-                                            index={index}
-                                        />
+                                        <ArbeidsforholdFormPart arbeidsforhold={forhold} index={index} />
                                     </FormBlock>
                                 ))}
                             </>
@@ -174,7 +146,7 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
                         <SelvstendigNæringsdrivendeFormPart formValues={values} />
                     </FormSection>
 
-                    {visVernepliktSpørsmål(values, søknadsperiode) && (
+                    {visVernepliktSpørsmål(values) && (
                         <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.verneplikt.tittel')}>
                             <VernepliktigFormPart />
                         </FormSection>

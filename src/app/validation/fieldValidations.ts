@@ -33,7 +33,7 @@ import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import minMax from 'dayjs/plugin/minMax';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
-import { ArbeidsforholdAnsatt, Omsorgstilbud } from '../types/PleiepengesøknadFormData';
+import { Omsorgstilbud } from '../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
 import { sumTimerMedOmsorgstilbud } from '../utils/omsorgstilbudUtils';
 
@@ -243,19 +243,6 @@ export const getJobberNormaltTimerValidator =
                       min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
                       max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
                   },
-                  keepKeyUnaltered: true,
-              }
-            : undefined;
-    };
-
-export const getArbeidsforholdSluttdatoValidator =
-    ({ maksDato, arbeidsforhold }: { maksDato: Date; arbeidsforhold: ArbeidsforholdAnsatt }) =>
-    (value: any): ValidationError | undefined => {
-        const error = getDateValidator({ required: true, max: maksDato })(value);
-        return error
-            ? {
-                  key: `validation.arbeidsforhold.sluttdato.${error}`,
-                  values: { navn: arbeidsforhold.navn },
                   keepKeyUnaltered: true,
               }
             : undefined;

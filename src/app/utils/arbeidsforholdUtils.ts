@@ -2,9 +2,7 @@ import { IntlShape } from 'react-intl';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { DateRange, getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import dayjs from 'dayjs';
+import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
 import { FormikProps } from 'formik';
 import { getArbeidsgiver } from '../api/api';
 import { AppFormField, ArbeidsforholdAnsatt, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
@@ -86,66 +84,3 @@ export const getTimerTekst = (value: string | undefined, intl: IntlShape): strin
         timer: value,
     });
 };
-
-/** */
-export const harAvsluttetArbeidsforholdISøknadsperiode = (
-    sluttdato: Date | undefined,
-    søknadsperiode: DateRange
-): boolean | undefined => {
-    return sluttdato ? dayjs(sluttdato).isBetween(søknadsperiode.from, søknadsperiode.to, 'day', '[]') : undefined;
-};
-
-const harAvsluttetArbeidsforholdEtterSøknadsperiode = (
-    sluttdato: Date | undefined,
-    søknadsperiode: DateRange
-): boolean | undefined => {
-    return sluttdato ? dayjs(sluttdato).isAfter(søknadsperiode.to, 'day') : undefined;
-};
-
-export const arbeidsforholdGjelderSøknadsperiode = (
-    arbeidsforhold: ArbeidsforholdAnsatt,
-    søknadsperiode: DateRange
-): boolean => {
-    return (
-        arbeidsforhold.erAnsatt === YesOrNo.YES ||
-        (arbeidsforhold.erAnsatt === YesOrNo.NO &&
-            (harAvsluttetArbeidsforholdISøknadsperiode(
-                datepickerUtils.getDateFromDateString(arbeidsforhold.sluttdato),
-                søknadsperiode
-            ) === true ||
-                harAvsluttetArbeidsforholdEtterSøknadsperiode(
-                    datepickerUtils.getDateFromDateString(arbeidsforhold.sluttdato),
-                    søknadsperiode
-                ) === true))
-    );
-};
-
-export const getArbeidsforholdISøknadsperiode = (
-    arbeidsforhold: ArbeidsforholdAnsatt[],
-    søknadsperiode: DateRange
-): ArbeidsforholdAnsatt[] => {
-    return arbeidsforhold.filter((a) => arbeidsforholdGjelderSøknadsperiode(a, søknadsperiode));
-};
-
-export const harAnsettelsesforholdISøknadsperiode = (
-    arbeidsforhold: ArbeidsforholdAnsatt[],
-    søknadsperiode: DateRange
-): boolean => {
-    return getArbeidsforholdISøknadsperiode(arbeidsforhold, søknadsperiode).length > 0;
-};
-
-export const getAktiveArbeidsforholdMedOpprinneligIndex = (
-    arbeidsforhold: ArbeidsforholdAnsatt[],
-    søknadsperiode: DateRange
-) =>
-    arbeidsforhold
-        .map((a, index) => ({
-            index,
-            arbeidsforhold: a,
-        }))
-        .filter(
-            (a) =>
-                a.arbeidsforhold.erAnsatt === YesOrNo.YES ||
-                (a.arbeidsforhold.erAnsatt === YesOrNo.NO &&
-                    arbeidsforholdGjelderSøknadsperiode(a.arbeidsforhold, søknadsperiode))
-        );

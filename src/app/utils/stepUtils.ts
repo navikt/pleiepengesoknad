@@ -12,7 +12,6 @@ import {
     opplysningerOmTidsromStepIsValid,
     welcomingPageIsValid,
 } from '../validation/stepValidations';
-import { harAnsettelsesforholdISøknadsperiode } from './arbeidsforholdUtils';
 import { getSøknadsperiodeFromFormData } from './formDataUtils';
 import { erFrilanserISøknadsperiode } from './frilanserUtils';
 
@@ -110,7 +109,7 @@ export const skalBrukerSvarePåArbeidsforholdIPerioden = (formValues?: Pleiepeng
     const søknadsperiode = getSøknadsperiodeFromFormData(formValues);
     if (søknadsperiode) {
         return (
-            harAnsettelsesforholdISøknadsperiode(formValues.arbeidsforhold, søknadsperiode) ||
+            formValues.arbeidsforhold.length > 0 ||
             erFrilanserISøknadsperiode(formValues) ||
             formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES
         );

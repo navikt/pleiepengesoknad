@@ -43,15 +43,14 @@ interface Props {
     parentFieldName: string;
     arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF;
     arbeidsforholdType: ArbeidsforholdType;
-    avsluttetDato?: Date;
     søknadsperiode: DateRange;
+    erAvsluttet?: boolean;
 }
 
 export interface ArbeidsforholdISøknadsperiodeIntlValues {
     hvor: string;
     arbeidsform: string;
     fra: string;
-    til: string | undefined;
     timer: string;
     skalJobbe: string;
 }
@@ -60,8 +59,8 @@ const ArbeidsforholdISøknadsperiode = ({
     arbeidsforhold,
     arbeidsforholdType,
     parentFieldName,
-    avsluttetDato,
     søknadsperiode,
+    erAvsluttet,
 }: Props) => {
     const intl = useIntl();
 
@@ -72,8 +71,6 @@ const ArbeidsforholdISøknadsperiode = ({
     if (jobberNormaltTimerNumber === undefined || arbeidsform === undefined) {
         return <InvalidStepPage stepId={StepID.ARBEIDSFORHOLD} />;
     }
-
-    const erAvsluttet = avsluttetDato !== undefined;
 
     const getFieldName = (field: ArbeidsforholdField) => `${parentFieldName}.${field}` as AppFormField;
 
@@ -86,7 +83,6 @@ const ArbeidsforholdISøknadsperiode = ({
         }),
         arbeidsform: intlHelper(intl, `arbeidsforhold.part.arbeidsform.${arbeidsforhold.arbeidsform}`),
         fra: prettifyDateFull(søknadsperiode.from),
-        til: avsluttetDato ? prettifyDateFull(avsluttetDato) : undefined,
         timer: getTimerTekst(arbeidsforhold.jobberNormaltTimer, intl),
         skalJobbe: intlHelper(
             intl,

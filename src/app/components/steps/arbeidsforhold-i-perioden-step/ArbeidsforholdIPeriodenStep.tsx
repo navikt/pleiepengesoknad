@@ -19,7 +19,6 @@ import {
     ArbeidsforholdSNF,
     PleiepengesøknadFormData,
 } from '../../../types/PleiepengesøknadFormData';
-import { getAktiveArbeidsforholdMedOpprinneligIndex } from '../../../utils/arbeidsforholdUtils';
 import { getSøknadsperiodeFromFormData } from '../../../utils/formDataUtils';
 import FormikStep from '../../formik-step/FormikStep';
 import InvalidStepPage from '../../pages/invalid-step-page/InvalidStepPage';
@@ -74,11 +73,6 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
         return <InvalidStepPage stepId={StepID.ARBEIDSFORHOLD_I_PERIODEN} />;
     }
 
-    const aktiveArbeidsforholdMedOpprinneligIndex = getAktiveArbeidsforholdMedOpprinneligIndex(
-        arbeidsforhold,
-        søknadsperiode
-    );
-    const skalBesvareAnsettelsesforhold = aktiveArbeidsforholdMedOpprinneligIndex.length > 0;
     const skalBesvareFrilans =
         frilans_harHattInntektSomFrilanser === YesOrNo.YES && frilans_arbeidsforhold !== undefined;
     const skalBesvareSelvstendig =
@@ -90,12 +84,12 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
      * endrer på data, og deretter trykker forward i nettleser
      * */
 
-    const brukerMåGåTilbakeTilArbeidssituasjon =
-        skalBesvareAnsettelsesforhold === false && skalBesvareFrilans === false && skalBesvareSelvstendig === false;
+    // const brukerMåGåTilbakeTilArbeidssituasjon =
+    //     skalBesvareAnsettelsesforhold === false && skalBesvareFrilans === false && skalBesvareSelvstendig === false;
 
-    if (brukerMåGåTilbakeTilArbeidssituasjon === true) {
-        return <InvalidStepPage stepId={StepID.ARBEIDSFORHOLD_I_PERIODEN} />;
-    }
+    // if (brukerMåGåTilbakeTilArbeidssituasjon === true) {
+    //     return <InvalidStepPage stepId={StepID.ARBEIDSFORHOLD_I_PERIODEN} />;
+    // }
 
     return (
         <FormikStep
@@ -105,37 +99,31 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
             <Box padBottom="m">
                 <CounsellorPanel>
                     <ArbeidsforholdIPeriodenStepIntro
-                        antallAnsettelsesforhold={aktiveArbeidsforholdMedOpprinneligIndex.length}
-                        skalBesvareAnsettelsesforhold={skalBesvareAnsettelsesforhold}
+                        antallAnsettelsesforhold={arbeidsforhold.length}
+                        skalBesvareAnsettelsesforhold={true}
                         skalBesvareFrilans={skalBesvareFrilans}
                         skalBesvareSelvstendig={skalBesvareSelvstendig}
                     />
                 </CounsellorPanel>
             </Box>
-            {skalBesvareAnsettelsesforhold && (
-                <Box margin="xl">
-                    {aktiveArbeidsforholdMedOpprinneligIndex.map(({ arbeidsforhold, index }) => {
-                        return (
-                            <FormSection
-                                title={arbeidsforhold.navn}
-                                key={arbeidsforhold.organisasjonsnummer}
-                                titleIcon={<BuildingIcon />}>
-                                <ArbeidsforholdISøknadsperiode
-                                    arbeidsforhold={arbeidsforhold}
-                                    arbeidsforholdType={ArbeidsforholdType.ANSATT}
-                                    søknadsperiode={søknadsperiode}
-                                    avsluttetDato={
-                                        arbeidsforhold.erAnsatt === YesOrNo.NO
-                                            ? datepickerUtils.getDateFromDateString(arbeidsforhold.sluttdato)
-                                            : undefined
-                                    }
-                                    parentFieldName={`${AppFormField.arbeidsforhold}.${index}`}
-                                />
-                            </FormSection>
-                        );
-                    })}
-                </Box>
-            )}
+            <Box margin="xl">
+                {arbeidsforhold.map((arbeidsforhold, index) => {
+                    return (
+                        <FormSection
+                            title={arbeidsforhold.navn}
+                            key={arbeidsforhold.organisasjonsnummer}
+                            titleIcon={<BuildingIcon />}>
+                            <ArbeidsforholdISøknadsperiode
+                                arbeidsforhold={arbeidsforhold}
+                                arbeidsforholdType={ArbeidsforholdType.ANSATT}
+                                søknadsperiode={søknadsperiode}
+                                parentFieldName={`${AppFormField.arbeidsforhold}.${index}`}
+                            />
+                        </FormSection>
+                    );
+                })}
+            </Box>
+
             {skalBesvareFrilans && frilans_arbeidsforhold && (
                 <Box margin="xl">
                     <FormSection
@@ -146,7 +134,7 @@ const ArbeidsforholdIPeriodenStep = ({ onValidSubmit }: StepConfigProps) => {
                             arbeidsforholdType={ArbeidsforholdType.FRILANSER}
                             søknadsperiode={søknadsperiode}
                             parentFieldName={AppFormField.frilans_arbeidsforhold}
-                            avsluttetDato={datepickerUtils.getDateFromDateString(frilans_sluttdato)}
+                            erAvsluttet={datepickerUtils.getDateFromDateString(frilans_sluttdato) !== undefined}
                         />
                     </FormSection>
                 </Box>
