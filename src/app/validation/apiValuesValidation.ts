@@ -3,6 +3,7 @@ import { ValidationSummaryError } from '@navikt/sif-common-core/lib/components/v
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
 import { ArbeidsforholdAnsattApi, PleiepengesøknadApiData, SkalJobbe } from '../types/PleiepengesøknadApiData';
+import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
 
 export const apiVedleggIsInvalid = (vedlegg: string[]): boolean => {
     vedlegg.find((v) => {
@@ -55,6 +56,14 @@ export const isArbeidsforholdApiValuesValid = (arbeidsforhold: ArbeidsforholdAns
     }
 };
 
+export const isVirksomhetRegnskapsførerTelefonnummerValid = (virksomhet: VirksomhetApiData) => {
+    const { regnskapsfører } = virksomhet;
+    if (regnskapsfører) {
+        return /^[\w+\s()]+$/.test(regnskapsfører.telefon);
+    }
+    return true;
+};
+
 export const validateApiValues = (
     values: PleiepengesøknadApiData,
     intl: IntlShape
@@ -78,6 +87,16 @@ export const validateApiValues = (
                 });
             }
         });
+    }
+
+    if (values.selvstendigVirksomheter.length === 1) {
+        const virksomhet = values.selvstendigVirksomheter[0];
+        if (isVirksomhetRegnskapsførerTelefonnummerValid(virksomhet) === false) {
+            errors.push({
+                name: 'virksomhet',
+                message: intlHelper(intl, 'steg.oppsummering.validering.ugyldigRegnskapsførerTelefonnummer'),
+            });
+        }
     }
     return errors.length > 0 ? errors : undefined;
 };
