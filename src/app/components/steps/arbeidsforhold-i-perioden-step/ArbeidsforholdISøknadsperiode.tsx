@@ -94,8 +94,8 @@ const ArbeidsforholdISøknadsperiode = ({
         ),
     };
 
-    const spørOmVariasjon = 1 + 1 == 2;
-    const spørOmTimerEllerProsent = 1 + 1 == 3;
+    const spørOmVariasjon = 1 + 1 == 3;
+    const spørOmTimerEllerProsent = 1 + 1 == 2;
     const skalJobbe = arbeidsforhold.skalJobbe === ArbeidsforholdSkalJobbeSvar.ja;
     const jobberRedusert = skalJobbe && arbeidsforhold.skalJobbeHvorMye === ArbeidsforholdSkalJobbeHvorMyeSvar.redusert;
     const jobberLiktHverUke = jobberRedusert && (spørOmVariasjon == false || erLiktHverUke === YesOrNo.YES);
@@ -248,7 +248,8 @@ const ArbeidsforholdISøknadsperiode = ({
                     </FormikInputGroup>
                 </FormBlock>
             )}
-            {jobberLiktHverUke === true && spørOmTimerEllerProsent === false && (
+            {((spørOmVariasjon && jobberLiktHverUke === true && spørOmTimerEllerProsent === false) ||
+                timerEllerProsent !== undefined) && (
                 <ArbeiderTimerEllerProsentInput
                     getFieldName={getFieldName}
                     getSpørsmål={getSpørsmål}
