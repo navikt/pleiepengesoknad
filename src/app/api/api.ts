@@ -19,7 +19,11 @@ export const persist = (formData: Partial<PleiepengesøknadFormData> | undefined
     if (formData) {
         const body: MellomlagringData = {
             formData,
-            metadata: { lastStepID: prevStep, version: MELLOMLAGRING_VERSION },
+            metadata: {
+                lastStepID: prevStep,
+                version: MELLOMLAGRING_VERSION,
+                updatedTimestemp: new Date().toISOString(),
+            },
         };
         return axios.put(url, { ...body }, axiosConfig);
     } else {

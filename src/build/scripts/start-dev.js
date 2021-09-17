@@ -5,9 +5,6 @@ const WebpackDevServer = require('webpack-dev-server');
 const webpackConfig = require('../webpack/webpack.config.dev');
 const configureDevServer = require('../webpack/devserver.config');
 const getDecorator = require('./decorator');
-const createEnvSettingsFile = require('./envSettings');
-
-createEnvSettingsFile(path.resolve(`${__dirname}/../../../dist/js/settings.js`));
 
 getDecorator().then((decoratorData) => {
     webpackConfig.output.publicPath = `${process.env.PUBLIC_PATH}/dist`;
