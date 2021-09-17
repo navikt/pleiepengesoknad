@@ -1,5 +1,6 @@
 import { IntlShape } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
 import { StepID } from '../config/stepConfig';
@@ -59,6 +60,13 @@ export const isArbeidsforholdApiValuesValid = (arbeidsforhold: ArbeidsforholdApi
 export interface ApiValidationError extends FeiloppsummeringFeil {
     stepId: StepID;
 }
+export const isVirksomhetRegnskapsførerTelefonnummerValid = (virksomhet: VirksomhetApiData) => {
+    const { regnskapsfører } = virksomhet;
+    if (regnskapsfører) {
+        return /^[\w+\s()]+$/.test(regnskapsfører.telefon);
+    }
+    return true;
+};
 
 export const validateApiValues = (
     values: PleiepengesøknadApiData,
@@ -110,5 +118,15 @@ export const validateApiValues = (
         });
     }
 
+    if (values.selvstendigVirksomheter.length === 1) {
+        const virksomhet = values.selvstendigVirksomheter[0];
+        if (isVirksomhetRegnskapsførerTelefonnummerValid(virksomhet) === false) {
+            errors.push({
+                stepId: StepID.ARBEIDSFORHOLD,
+                skjemaelementId: 'virksomhet',
+                feilmelding: intlHelper(intl, 'steg.oppsummering.validering.ugyldigRegnskapsførerTelefonnummer'),
+            });
+        }
+    }
     return errors.length > 0 ? errors : undefined;
 };

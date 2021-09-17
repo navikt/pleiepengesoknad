@@ -379,8 +379,6 @@
 
     "steg.oppsummering.vedlegg.header": "Vedlegg",
 
-    "steg.oppsummering.validering.manglerVedlegg": "Noe gikk galt med legeerklæringen.",
-    "steg.oppsummering.validering.ugyldigArbeidsforhold": "Noe stemmer ikke helt med informasjonen om din arbeidssituasjon.",
     "steg.oppsummering.validering.ugyldigArbeidsforholdAnsatt": "Det er ikke fylt ut informasjon om hvordan du skal jobbe her i perioden du har søkt pleiepenger.",
     "steg.oppsummering.validering.ugyldigArbeidsforholdFrilans": "Det er ikke fylt ut informasjon om hvordan du skal jobbe som frilanser i perioden du har søkt pleiepenger.",
     "steg.oppsummering.validering.ugyldigArbeidsforholdSN": "Det er ikke fylt ut informasjon om hvordan du skal jobbe som selvstendig næringsdrivende i perioden du har søkt pleiepenger.",
@@ -393,6 +391,14 @@
     "steg.arbeidsforhold.veileder.manglerDetArbeidsgiver": "Hvis det mangler aktive arbeidsgivere her må du be arbeidsgiveren din om å sende ny A-melding, enten via lønns- og personalsystemet eller gjennom Altinn.",
     "steg.arbeidsforhold.info.tekst": "Dersom det mangler en arbeidsgiver her, må du be arbeidsgiveren din sende ny A-melding, enten via lønns- og personalsystemet eller gjennom Altinn.",
     "steg.arbeidsforhold.ingenOpplysninger": "Vi har ikke funnet noen arbeidsgiver registrert på deg.",
+
+    "steg.oppsummering.validering.manglerVedlegg": "Noe gikk galt med legeerklæringen. Vennligst gå tilbake og kontroller at den er lastet opp riktig",
+    "steg.oppsummering.validering.ugyldigArbeidsforhold": "Noe stemmer ikke helt med arbeidsforholdet du har registrert. Vennligst se over informasjonen du har fylt ut på den siden.",
+    "steg.oppsummering.validering.ugyldigRegnskapsførerTelefonnummer": "Telefonnummeret til regnskapsfører inneholder ugyldig tegn. Vennligst gå tilbake til skjemaet og kontroller verdien.",
+
+    "steg.arbeidsforhold.intro": "Vi har funnet disse arbeidsforholdene registrert på deg.",
+    "steg.arbeidsforhold.info.tittel": "Mangler det et arbeidsforhold her?",
+
     "steg.arbeidsforhold.frilanser.tittel": "Frilans",
     "steg.arbeidsforhold.sn.tittel": "Selvstendig næringsdrivende",
     "steg.arbeidsforhold.verneplikt.tittel": "Verneplikt",
