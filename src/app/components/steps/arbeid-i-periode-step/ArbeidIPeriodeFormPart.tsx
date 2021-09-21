@@ -22,6 +22,7 @@ import AppForm from '../../app-form/AppForm';
 import ArbeidstimerUke from './ArbeidstimerUke';
 import { ArbeidsforholdType } from '../../../types/PleiepengesøknadApiData';
 import { getTimerTekst } from '../../../utils/arbeidsforholdUtils';
+import { prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 
 interface Props {
     parentFieldName: string;
@@ -35,9 +36,17 @@ export type ArbeidIPeriodeIntlValues = {
     hvor: string;
     skalEllerHarJobbet: string;
     timer: string;
+    fra: string;
+    til: string;
 };
 
-const ArbeidIPeriodeFormPart = ({ arbeidsforhold, parentFieldName, erHistorisk, arbeidsforholdType }: Props) => {
+const ArbeidIPeriodeFormPart = ({
+    arbeidsforhold,
+    parentFieldName,
+    erHistorisk,
+    arbeidsforholdType,
+    periode,
+}: Props) => {
     const intl = useIntl();
 
     const intlValues: ArbeidIPeriodeIntlValues = {
@@ -49,6 +58,8 @@ const ArbeidIPeriodeFormPart = ({ arbeidsforhold, parentFieldName, erHistorisk, 
             ? intlHelper(intl, 'arbeidsforhold.part.som.ANSATT', { navn: arbeidsforhold.navn })
             : intlHelper(intl, `arbeidsforhold.part.som.${arbeidsforholdType}`),
         timer: getTimerTekst(intl, arbeidsforhold.jobberNormaltTimer),
+        fra: prettifyDateFull(periode.from),
+        til: prettifyDateFull(periode.to),
     };
 
     const getFieldName = (field: ArbeidIPeriodeField) =>
@@ -72,6 +83,7 @@ const ArbeidIPeriodeFormPart = ({ arbeidsforhold, parentFieldName, erHistorisk, 
                             <FormattedMessage id="validation.arbeidIPeriode.skalJobbe.info.tekst" />
                         </ExpandableInfo>
                     }
+                    useTwoColumns={erHistorisk === true}
                     validate={getArbeidJobberValidator(intlValues)}
                     radios={[
                         {
@@ -135,7 +147,12 @@ const ArbeidIPeriodeFormPart = ({ arbeidsforhold, parentFieldName, erHistorisk, 
             {jobber === ArbeidsforholdJobberSvar.ja && erLiktHverUke === YesOrNo.YES && (
                 <FormBlock>
                     <AppForm.InputGroup
-                        legend={'Oppgi timene og minuttene du skal jobbe i uken'}
+                        legend={intlHelper(
+                            intl,
+                            erHistorisk
+                                ? 'arbeidIPeriode.historisk.ukedager.tittel'
+                                : 'arbeidIPeriode.planlagt.ukedager.tittel'
+                        )}
                         validate={() => validateFasteArbeidstimerIUke(arbeidIPeriode)}
                         name={'fasteDager_gruppe' as any}>
                         <ArbeidstimerUke name={getFieldName(ArbeidIPeriodeField.fasteDager)} />

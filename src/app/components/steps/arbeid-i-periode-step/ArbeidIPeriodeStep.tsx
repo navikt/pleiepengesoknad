@@ -4,7 +4,7 @@ import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import BuildingIcon from '@navikt/sif-common-core/lib/components/building-icon/BuildingIconSvg';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { useFormikContext } from 'formik';
@@ -89,11 +89,11 @@ const ArbeidIPeriodeStep = ({ onValidSubmit, periode, erHistorisk }: Props) => {
             <Box padBottom="m">
                 <CounsellorPanel>
                     <FormattedMessage
-                        id={
-                            erHistorisk
-                                ? 'step.arbeidIPeriode.StepInfo.historisk'
-                                : 'step.arbeidIPeriode.StepInfo.planlagt'
-                        }
+                        id={erHistorisk ? 'arbeidIPeriode.StepInfo.historisk' : 'arbeidIPeriode.StepInfo.planlagt'}
+                        values={{
+                            fra: prettifyDateFull(periode.from),
+                            til: prettifyDateFull(periode.to),
+                        }}
                     />
                 </CounsellorPanel>
             </Box>
@@ -120,9 +120,7 @@ const ArbeidIPeriodeStep = ({ onValidSubmit, periode, erHistorisk }: Props) => {
 
             {skalBesvareFrilans && frilans_arbeidsforhold && (
                 <FormBlock>
-                    <FormSection
-                        title={intlHelper(intl, 'step.arbeidIPeriode.FrilansLabel')}
-                        titleIcon={<BuildingIcon />}>
+                    <FormSection title={intlHelper(intl, 'arbeidIPeriode.FrilansLabel')} titleIcon={<BuildingIcon />}>
                         <ArbeidIPeriodeFormPart
                             arbeidsforholdType={ArbeidsforholdType.FRILANSER}
                             arbeidsforhold={frilans_arbeidsforhold}
@@ -135,7 +133,7 @@ const ArbeidIPeriodeStep = ({ onValidSubmit, periode, erHistorisk }: Props) => {
             )}
             {skalBesvareSelvstendig && selvstendig_arbeidsforhold && (
                 <FormBlock>
-                    <FormSection title={intlHelper(intl, 'step.arbeidIPeriode.SNLabel')} titleIcon={<BuildingIcon />}>
+                    <FormSection title={intlHelper(intl, 'arbeidIPeriode.SNLabel')} titleIcon={<BuildingIcon />}>
                         <ArbeidIPeriodeFormPart
                             arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
                             arbeidsforhold={selvstendig_arbeidsforhold}
