@@ -58,6 +58,8 @@ const FormikStep = (props: Props) => {
     };
 
     if (stepConfig === undefined || stepConfig[id] === undefined || stepConfig[id].included === false) {
+        console.log(stepConfig, id, stepConfig[id].included, stepConfig[id]);
+
         return <InvalidStepPage stepId={id} />;
     }
 

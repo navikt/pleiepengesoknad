@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
-import { apiStringDateToDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { apiStringDateToDate, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { useFormikContext } from 'formik';
 import { persist } from '../../api/api';
@@ -17,7 +17,7 @@ import { getNextStepRoute, getSøknadRoute, isAvailable } from '../../utils/rout
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
-import ArbeidsforholdIPeriodenStep from '../steps/arbeidsforhold-i-perioden-step/ArbeidsforholdIPeriodenStep';
+import ArbeidsforholdIPeriodeStep from '../steps/arbeidsforhold-i-periode-step/ArbeidsforholdIPeriodeStep';
 import ArbeidsforholdStep from '../steps/arbeidsforhold-step/ArbeidsforholdStep';
 import BeredskapStep from '../steps/beredskap-step/BeredskapStep';
 import LegeerklæringStep from '../steps/legeerklæring-step/LegeerklæringStep';
@@ -27,6 +27,8 @@ import OpplysningerOmBarnetStep from '../steps/opplysninger-om-barnet-step/Opply
 import SummaryStep from '../steps/summary-step/SummaryStep';
 import OpplysningerOmTidsromStep from '../steps/tidsrom-step/OpplysningerOmTidsromStep';
 import OmsorgstilbudStep from '../steps/omsorgstilbud-step/OmsorgstilbudStep';
+import { getSøknadsperiodeFromFormData } from '../../utils/formDataUtils';
+import { getHistoriskPeriode, getPlanlagtPeriode } from '../../utils/omsorgstilbudUtils';
 
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
@@ -116,6 +118,10 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
         });
     };
 
+    const søknadsperiode = values ? getSøknadsperiodeFromFormData(values) : undefined;
+    const periodeFørSøknadsdato = søknadsperiode ? getHistoriskPeriode(søknadsperiode, dateToday) : undefined;
+    const periodeFraOgMedSøknadsdato = søknadsperiode ? getPlanlagtPeriode(søknadsperiode, dateToday) : undefined;
+
     return (
         <Switch>
             <Route
@@ -152,12 +158,27 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
                 />
             )}
 
-            {isAvailable(StepID.ARBEIDSFORHOLD_I_PERIODEN, values) && (
+            {isAvailable(StepID.ARBEID_HISTORISK, values) && periodeFørSøknadsdato && (
                 <Route
-                    path={getSøknadRoute(StepID.ARBEIDSFORHOLD_I_PERIODEN)}
+                    path={getSøknadRoute(StepID.ARBEID_HISTORISK)}
                     render={() => (
-                        <ArbeidsforholdIPeriodenStep
-                            onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEIDSFORHOLD_I_PERIODEN)}
+                        <ArbeidsforholdIPeriodeStep
+                            periode={periodeFørSøknadsdato}
+                            erHistorisk={true}
+                            onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEID_HISTORISK)}
+                        />
+                    )}
+                />
+            )}
+
+            {isAvailable(StepID.ARBEID_PLANLAGT, values) && periodeFraOgMedSøknadsdato && (
+                <Route
+                    path={getSøknadRoute(StepID.ARBEID_PLANLAGT)}
+                    render={() => (
+                        <ArbeidsforholdIPeriodeStep
+                            periode={periodeFraOgMedSøknadsdato}
+                            erHistorisk={false}
+                            onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEID_PLANLAGT)}
                         />
                     )}
                 />

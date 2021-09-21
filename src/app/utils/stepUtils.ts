@@ -36,7 +36,7 @@ export const arbeidsforholdStepAvailable = (formData: PleiepengesøknadFormData)
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData);
 
-export const arbeidsforholdIPeriodenStepAvailable = (formData: PleiepengesøknadFormData) =>
+export const ArbeidsforholdIPeriodeStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&

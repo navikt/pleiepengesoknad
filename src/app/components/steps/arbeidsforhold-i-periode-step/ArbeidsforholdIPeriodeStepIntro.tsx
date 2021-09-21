@@ -1,6 +1,5 @@
 import React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { FormattedMessage } from 'react-intl';
 
 interface Props {
     skalBesvareAnsettelsesforhold: boolean;
@@ -9,13 +8,13 @@ interface Props {
     antallAnsettelsesforhold: number;
 }
 
-const ArbeidsforholdIPeriodenStepIntro: React.FunctionComponent<Props> = ({
+const ArbeidsforholdIPeriodeStepIntro: React.FunctionComponent<Props> = ({
     skalBesvareAnsettelsesforhold,
     skalBesvareFrilans,
     skalBesvareSelvstendig,
-    antallAnsettelsesforhold,
+    // antallAnsettelsesforhold,
 }) => {
-    const intl = useIntl();
+    // const intl = useIntl();
     const arbeidsinfo: string[] = [];
     if (skalBesvareAnsettelsesforhold) {
         arbeidsinfo.push('ansatt');
@@ -30,13 +29,13 @@ const ArbeidsforholdIPeriodenStepIntro: React.FunctionComponent<Props> = ({
     return (
         <FormattedMessage
             id="step.arbeidsforholdIPerioden.StepInfo.1"
-            values={{
-                info: intlHelper(intl, `step.arbeidsforholdIPerioden.StepInfo.1.info.${arbeidsinfo.join('_')}`, {
-                    antall: antallAnsettelsesforhold,
-                }),
-            }}
+            // values={{
+            //     info: intlHelper(intl, `step.arbeidsforholdIPerioden.StepInfo.1.info.${arbeidsinfo.join('_')}`, {
+            //         antall: antallAnsettelsesforhold,
+            //     }),
+            // }}
         />
     );
 };
 
-export default ArbeidsforholdIPeriodenStepIntro;
+export default ArbeidsforholdIPeriodeStepIntro;

@@ -33,7 +33,7 @@ import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import minMax from 'dayjs/plugin/minMax';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
-import { Omsorgstilbud } from '../types/PleiepengesøknadFormData';
+import { ArbeidIPeriode, Omsorgstilbud } from '../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
 import { sumTimerMedOmsorgstilbud } from '../utils/omsorgstilbudUtils';
 
@@ -206,6 +206,28 @@ export const getOmsorgstilbudtimerValidatorEnDag =
         if (error) {
             return {
                 key: `validation.omsorgstilbud.planlagt.fastDag.tid.${error}`,
+                values: { dag },
+                keepKeyUnaltered: true,
+            };
+        }
+        return undefined;
+    };
+
+export const validateFasteArbeidstimerIUke = (arbeid?: ArbeidIPeriode): ValidationResult<ValidationError> => {
+    console.log(arbeid);
+
+    return undefined;
+};
+
+export const getArbeidstimerEndDagValidator =
+    (dag: string) =>
+    (time: Time): ValidationResult<ValidationError> => {
+        const error = time
+            ? getTimeValidator({ max: { hours: 23, minutes: 59 }, min: { hours: 0, minutes: 0 } })(time)
+            : undefined;
+        if (error) {
+            return {
+                key: `validation.arbeidstimer.fastDag.tid.${error}`,
                 values: { dag },
                 keepKeyUnaltered: true,
             };

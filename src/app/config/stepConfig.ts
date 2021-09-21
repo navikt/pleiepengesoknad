@@ -1,11 +1,15 @@
+import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
+import { getHistoriskPeriode, getPlanlagtPeriode } from '../utils/omsorgstilbudUtils';
 import { getSøknadRoute } from '../utils/routeUtils';
 import { skalBrukerSvarePåArbeidsforholdIPerioden, skalBrukerSvarePåBeredskapOgNattevåk } from '../utils/stepUtils';
 
 export enum StepID {
     'OPPLYSNINGER_OM_BARNET' = 'opplysninger-om-barnet',
     'ARBEIDSFORHOLD' = 'arbeidsforhold',
-    'ARBEIDSFORHOLD_I_PERIODEN' = 'arbeidsforholdIPerioden',
+    'ARBEID_HISTORISK' = 'arbeidHistorisk',
+    'ARBEID_PLANLAGT' = 'arbeidPlanlagt',
     'OMSORGSTILBUD' = 'omsorgstilbud',
     'NATTEVÅK' = 'nattevåk',
     'BEREDSKAP' = 'beredskap',
@@ -44,100 +48,62 @@ const getStepConfigItemTextKeys = (stepId: StepID): StepConfigItemTexts => {
     };
 };
 
+interface ConfigStepHelperType {
+    stepID: StepID;
+    included: boolean;
+}
+
 export const getStepConfig = (formValues?: PleiepengesøknadFormData): StepConfigInterface => {
+    const søknadsperiode = formValues ? getSøknadsperiodeFromFormData(formValues) : undefined;
+    const periodeFørSøknadsdato = søknadsperiode ? getHistoriskPeriode(søknadsperiode, dateToday) : undefined;
+    const periodeFraOgMedSøknadsdato = søknadsperiode ? getPlanlagtPeriode(søknadsperiode, dateToday) : undefined;
+
     const includeNattevåkAndBeredskap = skalBrukerSvarePåBeredskapOgNattevåk(formValues);
-    const includeArbeidsforholdIPerioden = skalBrukerSvarePåArbeidsforholdIPerioden(formValues);
+    const includeArbeidIPerioden = skalBrukerSvarePåArbeidsforholdIPerioden(formValues);
 
-    let idx = 0;
-    let config: StepConfigInterface = {
-        [StepID.OPPLYSNINGER_OM_BARNET]: {
-            ...getStepConfigItemTextKeys(StepID.OPPLYSNINGER_OM_BARNET),
-            index: idx++,
-            nextStep: StepID.TIDSROM,
-            included: true,
+    const allSteps: ConfigStepHelperType[] = [
+        { stepID: StepID.OPPLYSNINGER_OM_BARNET, included: true },
+        { stepID: StepID.TIDSROM, included: true },
+        { stepID: StepID.ARBEIDSFORHOLD, included: true },
+        { stepID: StepID.ARBEID_HISTORISK, included: includeArbeidIPerioden && periodeFørSøknadsdato !== undefined },
+        {
+            stepID: StepID.ARBEID_PLANLAGT,
+            included: includeArbeidIPerioden && periodeFraOgMedSøknadsdato !== undefined,
         },
-        [StepID.TIDSROM]: {
-            ...getStepConfigItemTextKeys(StepID.TIDSROM),
-            index: idx++,
-            nextStep: StepID.ARBEIDSFORHOLD,
-            prevStep: StepID.OPPLYSNINGER_OM_BARNET,
-            backLinkHref: getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET),
-            included: true,
-        },
-        [StepID.ARBEIDSFORHOLD]: {
-            ...getStepConfigItemTextKeys(StepID.ARBEIDSFORHOLD),
-            index: idx++,
-            nextStep: includeArbeidsforholdIPerioden ? StepID.ARBEIDSFORHOLD_I_PERIODEN : StepID.OMSORGSTILBUD,
-            prevStep: StepID.TIDSROM,
-            backLinkHref: getSøknadRoute(StepID.TIDSROM),
-            included: true,
-        },
-    };
-    config[StepID.ARBEIDSFORHOLD_I_PERIODEN] = {
-        ...getStepConfigItemTextKeys(StepID.ARBEIDSFORHOLD_I_PERIODEN),
-        index: includeArbeidsforholdIPerioden ? idx++ : idx,
-        nextStep: StepID.OMSORGSTILBUD,
-        prevStep: StepID.ARBEIDSFORHOLD,
-        backLinkHref: getSøknadRoute(StepID.ARBEIDSFORHOLD),
-        included: includeArbeidsforholdIPerioden,
-    };
-    config[StepID.OMSORGSTILBUD] = {
-        ...getStepConfigItemTextKeys(StepID.OMSORGSTILBUD),
-        index: idx++,
-        nextStep: includeNattevåkAndBeredskap ? StepID.NATTEVÅK : StepID.MEDLEMSKAP,
-        prevStep: includeArbeidsforholdIPerioden ? StepID.ARBEIDSFORHOLD_I_PERIODEN : StepID.ARBEIDSFORHOLD,
-        backLinkHref: includeArbeidsforholdIPerioden
-            ? getSøknadRoute(StepID.ARBEIDSFORHOLD_I_PERIODEN)
-            : getSøknadRoute(StepID.ARBEIDSFORHOLD),
-        included: true,
-    };
-    config[StepID.NATTEVÅK] = {
-        ...getStepConfigItemTextKeys(StepID.NATTEVÅK),
-        index: includeNattevåkAndBeredskap ? idx++ : idx,
-        nextStep: StepID.BEREDSKAP,
-        prevStep: StepID.OMSORGSTILBUD,
-        backLinkHref: getSøknadRoute(StepID.OMSORGSTILBUD),
-        included: includeNattevåkAndBeredskap,
-    };
-    config[StepID.BEREDSKAP] = {
-        ...getStepConfigItemTextKeys(StepID.BEREDSKAP),
-        index: includeNattevåkAndBeredskap ? idx++ : idx,
-        nextStep: StepID.MEDLEMSKAP,
-        prevStep: StepID.NATTEVÅK,
-        backLinkHref: getSøknadRoute(StepID.NATTEVÅK),
-        included: includeNattevåkAndBeredskap,
+        { stepID: StepID.OMSORGSTILBUD, included: true },
+        { stepID: StepID.NATTEVÅK, included: includeNattevåkAndBeredskap },
+        { stepID: StepID.BEREDSKAP, included: includeNattevåkAndBeredskap },
+        { stepID: StepID.MEDLEMSKAP, included: true },
+        { stepID: StepID.LEGEERKLÆRING, included: true },
+        { stepID: StepID.SUMMARY, included: true },
+    ];
+
+    const includedSteps = allSteps.filter((s) => s.included);
+
+    const getNextStep = (stepID: StepID): StepID | undefined => {
+        const idx = includedSteps.findIndex((s) => s.stepID === stepID);
+        return idx > -1 && idx < includedSteps.length - 1 ? includedSteps[idx + 1].stepID : undefined;
     };
 
-    config = {
-        ...config,
-        ...{
-            [StepID.MEDLEMSKAP]: {
-                ...getStepConfigItemTextKeys(StepID.MEDLEMSKAP),
-                index: idx++,
-                nextStep: StepID.LEGEERKLÆRING,
-                prevStep: includeNattevåkAndBeredskap ? StepID.BEREDSKAP : StepID.OMSORGSTILBUD,
-                backLinkHref: getSøknadRoute(includeNattevåkAndBeredskap ? StepID.BEREDSKAP : StepID.OMSORGSTILBUD),
-                included: true,
-            },
-            [StepID.LEGEERKLÆRING]: {
-                ...getStepConfigItemTextKeys(StepID.LEGEERKLÆRING),
-                index: idx++,
-                nextStep: StepID.SUMMARY,
-                prevStep: StepID.MEDLEMSKAP,
-                backLinkHref: getSøknadRoute(StepID.MEDLEMSKAP),
-                included: true,
-            },
-            [StepID.SUMMARY]: {
-                ...getStepConfigItemTextKeys(StepID.SUMMARY),
-                index: idx++,
-                prevStep: StepID.LEGEERKLÆRING,
-                backLinkHref: getSøknadRoute(StepID.LEGEERKLÆRING),
-                nextButtonLabel: 'step.sendButtonLabel',
-                nextButtonAriaLabel: 'step.sendButtonAriaLabel',
-                included: true,
-            },
-        },
+    const getPreviousStep = (stepID: StepID): StepID | undefined => {
+        const idx = includedSteps.findIndex((s) => s.stepID === stepID);
+        return idx >= 1 ? includedSteps[idx - 1].stepID : undefined;
     };
+
+    const config: StepConfigInterface = {};
+    allSteps.forEach(({ stepID, included }, index) => {
+        const nextStep = getNextStep(stepID);
+        const prevStep = getPreviousStep(stepID);
+        const backLinkHref = prevStep ? getSøknadRoute(prevStep) : undefined;
+        config[stepID] = {
+            ...getStepConfigItemTextKeys(stepID),
+            index,
+            nextStep,
+            prevStep,
+            backLinkHref,
+            included,
+        };
+    });
     return config;
 };
 
@@ -145,7 +111,7 @@ export const getBackLinkFromNotIncludedStep = (stepId: StepID): string | undefin
     if (stepId === StepID.BEREDSKAP || stepId === StepID.NATTEVÅK) {
         return getSøknadRoute(StepID.OMSORGSTILBUD);
     }
-    if (stepId === StepID.ARBEIDSFORHOLD_I_PERIODEN) {
+    if (stepId === StepID.ARBEID_HISTORISK || stepId === StepID.ARBEID_PLANLAGT) {
         return getSøknadRoute(StepID.ARBEIDSFORHOLD);
     }
     return undefined;

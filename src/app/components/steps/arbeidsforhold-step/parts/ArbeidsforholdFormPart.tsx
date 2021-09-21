@@ -15,6 +15,7 @@ import {
 } from '../../../../validation/fieldValidations';
 import AppForm from '../../../app-form/AppForm';
 import ArbeidsformOgTimer from './ArbeidsformOgTimer';
+import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 
 interface Props {
     arbeidsforhold: ArbeidsforholdAnsatt;
@@ -57,6 +58,13 @@ const ArbeidsforholdFormPart: React.FunctionComponent<Props> = ({ arbeidsforhold
                         }}
                     />
                 </Box>
+                {erAvsluttet && (
+                    <Box margin="l">
+                        <AlertStripeInfo>
+                            Informasjon når søker ikke er ansatt - hvorfor en fortsatt må fylle ut informasjonen.
+                        </AlertStripeInfo>
+                    </Box>
+                )}
             </FormBlock>
             {isYesOrNoAnswered(arbeidsforhold.erAnsatt) && (
                 <FormBlock margin="m">

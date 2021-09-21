@@ -20,8 +20,6 @@ import {
 import {
     AppFormField,
     ArbeidsforholdAnsatt,
-    ArbeidsforholdSkalJobbeHvorMyeSvar,
-    ArbeidsforholdSkalJobbeSvar,
     Arbeidsform,
     PleiepengesøknadFormData,
 } from '../../types/PleiepengesøknadFormData';
@@ -60,26 +58,22 @@ const organisasjonMaxbo: Arbeidsgiver = {
 const telenorRedusertJobbing: ArbeidsforholdAnsatt = {
     ...organisasjonTelenor,
     erAnsatt: YesOrNo.YES,
-    skalJobbe: ArbeidsforholdSkalJobbeSvar.ja,
-    skalJobbeHvorMye: ArbeidsforholdSkalJobbeHvorMyeSvar.redusert,
     jobberNormaltTimer: '20',
-    skalJobbeProsent: '50',
     arbeidsform: Arbeidsform.fast,
 };
 
 const maxboIngenJobbing: ArbeidsforholdAnsatt = {
     ...organisasjonMaxbo,
     erAnsatt: YesOrNo.YES,
-    skalJobbe: ArbeidsforholdSkalJobbeSvar.nei,
+    // skalJobbe: ArbeidsforholdSkalJobbeSvar.nei,
     jobberNormaltTimer: '20',
-    skalJobbeProsent: '0',
     arbeidsform: Arbeidsform.fast,
 };
 
 const maxboVetIkke: ArbeidsforholdAnsatt = {
     ...organisasjonMaxbo,
     erAnsatt: YesOrNo.YES,
-    skalJobbe: ArbeidsforholdSkalJobbeSvar.vetIkke,
+    // skalJobbe: ArbeidsforholdSkalJobbeSvar.vetIkke,
     jobberNormaltTimer: '20',
     arbeidsform: Arbeidsform.fast,
 };
@@ -87,7 +81,7 @@ const maxboVetIkke: ArbeidsforholdAnsatt = {
 const maxboJobbeSomVanlig: ArbeidsforholdAnsatt = {
     ...organisasjonMaxbo,
     erAnsatt: YesOrNo.YES,
-    skalJobbe: ArbeidsforholdSkalJobbeSvar.ja,
+    // skalJobbe: ArbeidsforholdSkalJobbeSvar.ja,
     jobberNormaltTimer: '20',
     arbeidsform: Arbeidsform.fast,
 };
@@ -131,7 +125,6 @@ const frilansPartialFormData: Partial<PleiepengesøknadFormData> = {
     frilans_arbeidsforhold: {
         arbeidsform: Arbeidsform.fast,
         jobberNormaltTimer: '10',
-        skalJobbe: ArbeidsforholdSkalJobbeSvar.nei,
     },
 };
 const selvstendigPartialFormData: Partial<PleiepengesøknadFormData> = {
@@ -156,7 +149,6 @@ const completeFormDataMock: PleiepengesøknadFormData = {
             erAnsatt: YesOrNo.YES,
             arbeidsform: Arbeidsform.fast,
             jobberNormaltTimer: '37,5',
-            skalJobbe: ArbeidsforholdSkalJobbeSvar.ja,
         },
     ],
     barnetSøknadenGjelder: barnMock[0].aktørId,
@@ -561,7 +553,6 @@ describe('mapFormDataToApiData', () => {
                 selvstendig_arbeidsforhold: {
                     arbeidsform: Arbeidsform.fast,
                     jobberNormaltTimer: '10',
-                    skalJobbe: ArbeidsforholdSkalJobbeSvar.nei,
                 },
             };
             const mappedData = mapFormDataToApiData(formDataWithSelvstendigInfo as any, barnMock, 'nb');
@@ -758,7 +749,6 @@ describe('Test complete applications', () => {
             frilans_arbeidsforhold: {
                 arbeidsform: Arbeidsform.fast,
                 jobberNormaltTimer: '10',
-                skalJobbe: ArbeidsforholdSkalJobbeSvar.nei,
             },
         };
 

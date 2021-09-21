@@ -39,7 +39,9 @@ export const isAvailable = (
             return opplysningerOmTidsromStepAvailable(values);
         case StepID.ARBEIDSFORHOLD:
             return arbeidsforholdStepAvailable(values);
-        case StepID.ARBEIDSFORHOLD_I_PERIODEN:
+        case StepID.ARBEID_HISTORISK:
+            return true; //arbeidsforholdStepAvailable(values);
+        case StepID.ARBEID_PLANLAGT:
             return true; //arbeidsforholdStepAvailable(values);
         case StepID.OMSORGSTILBUD:
             return omsorgstilbudStepAvailable(values);
