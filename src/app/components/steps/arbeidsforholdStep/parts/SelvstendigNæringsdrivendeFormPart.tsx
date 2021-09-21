@@ -13,7 +13,7 @@ import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../../../lenker';
 import { AppFormField, Arbeidsform, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
 import {
-    getArbeidsformAnsattValidator,
+    getArbeidsformValidator,
     getJobberNormaltTimerValidator,
     isYesOrNoAnswered,
 } from '../../../../validation/fieldValidations';
@@ -98,7 +98,7 @@ const SelvstendigNæringsdrivendeFormPart = ({ formValues }: Props) => {
                                         intlHelper(intl, `snFrilanser.arbeidsforhold.iDag.${arbeidsform}.spm`),
                                 }}
                                 validator={{
-                                    arbeidsform: getArbeidsformAnsattValidator(selvstendig_arbeidsforhold),
+                                    arbeidsform: getArbeidsformValidator(selvstendig_arbeidsforhold),
                                     jobberNormaltTimer: getJobberNormaltTimerValidator(
                                         selvstendig_arbeidsforhold,
                                         'selvstendig'

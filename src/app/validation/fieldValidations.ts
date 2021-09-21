@@ -217,11 +217,8 @@ export const getOmsorgstilbudtimerValidatorEnDag =
         return undefined;
     };
 
-export const getArbeidsformAnsattValidator =
+export const getArbeidsformValidator =
     (arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF | undefined) => (value: any) => {
-        if (arbeidsforhold === undefined) {
-            return undefined;
-        }
         const error = getRequiredFieldValidator()(value);
         if (error) {
             return isArbeidsforholdAnsatt(arbeidsforhold)
