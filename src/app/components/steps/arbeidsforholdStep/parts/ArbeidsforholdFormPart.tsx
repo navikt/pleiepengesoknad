@@ -10,7 +10,7 @@ import { Undertittel } from 'nav-frontend-typografi';
 import { AppFormField, ArbeidsforholdAnsatt, ArbeidsforholdField } from '../../../../types/PleiepengesøknadFormData';
 import AppForm from '../../../app-form/AppForm';
 import ArbeidsformOgTimer from './ArbeidsformOgTimer';
-import { getArbeidsformAnsattValidator, getJobberNormaltTimerValidator } from '../../../../validation/fieldValidations';
+import { getArbeidsformValidator, getJobberNormaltTimerValidator } from '../../../../validation/fieldValidations';
 
 interface Props {
     arbeidsforhold: ArbeidsforholdAnsatt;
@@ -57,7 +57,7 @@ const ArbeidsforholdFormPart: React.FunctionComponent<Props> = ({ arbeidsforhold
                                     }),
                             }}
                             validator={{
-                                arbeidsform: getArbeidsformAnsattValidator(arbeidsforhold),
+                                arbeidsform: getArbeidsformValidator(arbeidsforhold),
                                 jobberNormaltTimer: getJobberNormaltTimerValidator(arbeidsforhold),
                             }}
                             arbeidsforhold={arbeidsforhold}
