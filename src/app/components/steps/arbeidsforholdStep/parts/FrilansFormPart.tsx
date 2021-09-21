@@ -14,7 +14,7 @@ import getLenker from '../../../../lenker';
 import { AppFormField, Arbeidsform, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
 import { erFrilanserISøknadsperiode } from '../../../../utils/frilanserUtils';
 import {
-    getArbeidsformAnsattValidator,
+    getArbeidsformValidator,
     getJobberNormaltTimerValidator,
     validateFrilanserStartdato,
 } from '../../../../validation/fieldValidations';
@@ -100,7 +100,7 @@ const FrilansFormPart = ({ formValues }: Props) => {
                                                 intlHelper(intl, `snFrilanser.arbeidsforhold.iDag.${arbeidsform}.spm`),
                                         }}
                                         validator={{
-                                            arbeidsform: getArbeidsformAnsattValidator(frilans_arbeidsforhold),
+                                            arbeidsform: getArbeidsformValidator(frilans_arbeidsforhold),
                                             jobberNormaltTimer: getJobberNormaltTimerValidator(
                                                 frilans_arbeidsforhold,
                                                 'frilans'
