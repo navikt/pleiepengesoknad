@@ -70,7 +70,7 @@ const cleanupArbeidsforhold =
         return values;
     };
 
-const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
+const ArbeidssituasjonStep = ({ onValidSubmit }: StepConfigProps) => {
     const formikProps = useFormikContext<PleiepengesøknadFormData>();
     const intl = useIntl();
     const {
@@ -98,7 +98,7 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
 
     return (
         <FormikStep
-            id={StepID.ARBEIDSFORHOLD}
+            id={StepID.ARBEIDSSITUASJON}
             onValidFormSubmit={onValidSubmit}
             buttonDisabled={isLoading}
             onStepCleanup={søknadsperiode ? cleanupArbeidsforhold() : undefined}>
@@ -163,4 +163,4 @@ const ArbeidsforholdStep = ({ onValidSubmit }: StepConfigProps) => {
     );
 };
 
-export default ArbeidsforholdStep;
+export default ArbeidssituasjonStep;

@@ -97,7 +97,7 @@ export enum VetOmsorgstilbud {
 
 export interface PlanlagtOmsorgstilbudApi {
     vetOmsorgstilbud: VetOmsorgstilbud;
-    erLiktHverDag?: boolean;
+    erLiktHverUke?: boolean;
     enkeltdager?: OmsorgstilbudDagApi[];
     ukedager?: OmsorgstilbudFasteDagerApi;
 }

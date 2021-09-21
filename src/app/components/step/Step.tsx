@@ -61,7 +61,7 @@ const Step = ({ id, useValidationErrorSummary, stepConfig, onAvbryt, onFortsettS
                 />
             )}
             <Box margin={conf.backLinkHref ? 'none' : 'xl'}>
-                <StepIndicator stepConfig={stepConfig} activeStep={conf.index} />
+                <StepIndicator stepConfig={stepConfig} activeStep={conf.stepNumber} />
             </Box>
             <Box margin="xxl">
                 <Innholdstittel tag="h1" className={bem.element('title')}>

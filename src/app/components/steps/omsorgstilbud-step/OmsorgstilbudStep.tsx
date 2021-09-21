@@ -176,18 +176,18 @@ const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
                                             <AppForm.YesOrNoQuestion
                                                 legend={intlHelper(
                                                     intl,
-                                                    'steg.omsorgstilbud.planlagt.erLiktHverDag.spm'
+                                                    'steg.omsorgstilbud.planlagt.erLiktHverUke.spm'
                                                 )}
-                                                name={AppFormField.omsorgstilbud__planlagt__erLiktHverDag}
+                                                name={AppFormField.omsorgstilbud__planlagt__erLiktHverUke}
                                                 description={
                                                     <ExpandableInfo
                                                         title={intlHelper(
                                                             intl,
-                                                            'steg.omsorgstilbud.planlagt.erLiktHverDag.info.tittel'
+                                                            'steg.omsorgstilbud.planlagt.erLiktHverUke.info.tittel'
                                                         )}>
-                                                        <FormattedMessage id="steg.omsorgstilbud.planlagt.erLiktHverDag.info.1" />
+                                                        <FormattedMessage id="steg.omsorgstilbud.planlagt.erLiktHverUke.info.1" />
                                                         <br />
-                                                        <FormattedMessage id="steg.omsorgstilbud.planlagt.erLiktHverDag.info.2" />
+                                                        <FormattedMessage id="steg.omsorgstilbud.planlagt.erLiktHverUke.info.2" />
                                                     </ExpandableInfo>
                                                 }
                                                 validate={getYesOrNoValidator()}
@@ -195,7 +195,7 @@ const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
                                         </FormBlock>
                                     )}
                                     {visKunEnkeltdagerForOmsorgstilbud(periodeFraOgMedSøknadsdato) === false &&
-                                        omsorgstilbud.planlagt?.erLiktHverDag === YesOrNo.YES && (
+                                        omsorgstilbud.planlagt?.erLiktHverUke === YesOrNo.YES && (
                                             <>
                                                 <FormBlock>
                                                     <AppForm.InputGroup
@@ -225,7 +225,7 @@ const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
                                             </>
                                         )}
                                     {(visKunEnkeltdagerForOmsorgstilbud(periodeFraOgMedSøknadsdato) === true ||
-                                        omsorgstilbud.planlagt?.erLiktHverDag === YesOrNo.NO) && (
+                                        omsorgstilbud.planlagt?.erLiktHverUke === YesOrNo.NO) && (
                                         <>
                                             <FormBlock>
                                                 <OmsorgstilbudFormPart

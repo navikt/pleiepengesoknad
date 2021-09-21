@@ -3,11 +3,11 @@ import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
 import { getHistoriskPeriode, getPlanlagtPeriode } from '../utils/omsorgstilbudUtils';
 import { getSøknadRoute } from '../utils/routeUtils';
-import { skalBrukerSvarePåArbeidsforholdIPerioden, skalBrukerSvarePåBeredskapOgNattevåk } from '../utils/stepUtils';
+import { skalBrukerSvarePåarbeidIPeriode, skalBrukerSvarePåBeredskapOgNattevåk } from '../utils/stepUtils';
 
 export enum StepID {
     'OPPLYSNINGER_OM_BARNET' = 'opplysninger-om-barnet',
-    'ARBEIDSFORHOLD' = 'arbeidsforhold',
+    'ARBEIDSSITUASJON' = 'arbeidssituasjon',
     'ARBEID_HISTORISK' = 'arbeidHistorisk',
     'ARBEID_PLANLAGT' = 'arbeidPlanlagt',
     'OMSORGSTILBUD' = 'omsorgstilbud',
@@ -27,7 +27,7 @@ export interface StepConfigItemTexts {
     nextButtonAriaLabel?: string;
 }
 export interface StepItemConfigInterface extends StepConfigItemTexts {
-    index: number;
+    stepNumber: number;
     prevStep?: StepID;
     nextStep?: StepID;
     backLinkHref?: string;
@@ -59,12 +59,12 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData): StepConfi
     const periodeFraOgMedSøknadsdato = søknadsperiode ? getPlanlagtPeriode(søknadsperiode, dateToday) : undefined;
 
     const includeNattevåkAndBeredskap = skalBrukerSvarePåBeredskapOgNattevåk(formValues);
-    const includeArbeidIPerioden = skalBrukerSvarePåArbeidsforholdIPerioden(formValues);
+    const includeArbeidIPerioden = skalBrukerSvarePåarbeidIPeriode(formValues);
 
     const allSteps: ConfigStepHelperType[] = [
         { stepID: StepID.OPPLYSNINGER_OM_BARNET, included: true },
         { stepID: StepID.TIDSROM, included: true },
-        { stepID: StepID.ARBEIDSFORHOLD, included: true },
+        { stepID: StepID.ARBEIDSSITUASJON, included: true },
         { stepID: StepID.ARBEID_HISTORISK, included: includeArbeidIPerioden && periodeFørSøknadsdato !== undefined },
         {
             stepID: StepID.ARBEID_PLANLAGT,
@@ -91,18 +91,21 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData): StepConfi
     };
 
     const config: StepConfigInterface = {};
-    allSteps.forEach(({ stepID, included }, index) => {
+    let includedStepIdx = 0;
+    allSteps.forEach(({ stepID, included }) => {
         const nextStep = getNextStep(stepID);
         const prevStep = getPreviousStep(stepID);
         const backLinkHref = prevStep ? getSøknadRoute(prevStep) : undefined;
+
         config[stepID] = {
             ...getStepConfigItemTextKeys(stepID),
-            index,
+            stepNumber: includedStepIdx,
             nextStep,
             prevStep,
             backLinkHref,
             included,
         };
+        includedStepIdx = included ? includedStepIdx + 1 : includedStepIdx;
     });
     return config;
 };
@@ -112,7 +115,7 @@ export const getBackLinkFromNotIncludedStep = (stepId: StepID): string | undefin
         return getSøknadRoute(StepID.OMSORGSTILBUD);
     }
     if (stepId === StepID.ARBEID_HISTORISK || stepId === StepID.ARBEID_PLANLAGT) {
-        return getSøknadRoute(StepID.ARBEIDSFORHOLD);
+        return getSøknadRoute(StepID.ARBEIDSSITUASJON);
     }
     return undefined;
 };

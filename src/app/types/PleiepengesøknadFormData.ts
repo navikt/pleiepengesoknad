@@ -42,7 +42,7 @@ export enum AppFormField {
     omsorgstilbud__skalBarnIOmsorgstilbud = 'omsorgstilbud.skalBarnIOmsorgstilbud',
     omsorgstilbud__harBarnVærtIOmsorgstilbud = 'omsorgstilbud.harBarnVærtIOmsorgstilbud',
     omsorgstilbud__planlagt__vetHvorMyeTid = 'omsorgstilbud.planlagt.vetHvorMyeTid',
-    omsorgstilbud__planlagt__erLiktHverDag = 'omsorgstilbud.planlagt.erLiktHverDag',
+    omsorgstilbud__planlagt__erLiktHverUke = 'omsorgstilbud.planlagt.erLiktHverUke',
     omsorgstilbud__planlagt__fasteDager = 'omsorgstilbud.planlagt.fasteDager',
     omsorgstilbud__planlagt__enkeltdager = 'omsorgstilbud.planlagt.enkeltdager',
     omsorgstilbud__historisk__enkeltdager = 'omsorgstilbud.historisk.enkeltdager',
@@ -60,7 +60,7 @@ export enum AppFormField {
     andreYtelser = 'andreYtelser',
 }
 
-export enum ArbeidsforholdSkalJobbeSvar {
+export enum ArbeidsforholdJobberSvar {
     'ja' = 'ja',
     'nei' = 'nei',
     'vetIkke' = 'vetIkke',
@@ -76,7 +76,7 @@ export interface OmsorgstilbudFasteDager {
 
 export interface OmsorgstilbudPlanlagt {
     vetHvorMyeTid: VetOmsorgstilbud;
-    erLiktHverDag?: YesOrNo;
+    erLiktHverUke?: YesOrNo;
     fasteDager?: OmsorgstilbudFasteDager;
     enkeltdager?: TidIOmsorgstilbud;
 }
@@ -121,16 +121,16 @@ export interface OmsorgstilbudFasteDager {
 
 export enum ArbeidIPeriodeField {
     'jobber' = 'jobber',
-    'jobberRedusert' = 'jobberRedusert',
-    'erLiktHverDag' = 'erLiktHverDag',
+    'jobbeHvorMye' = 'jobbeHvorMye',
+    'erLiktHverUke' = 'erLiktHverUke',
     'fasteDager' = 'fasteDager',
     'enkeltdager' = 'enkeltdager',
 }
 
 export interface ArbeidIPeriode {
-    [ArbeidIPeriodeField.jobber]: YesOrNo;
-    [ArbeidIPeriodeField.jobberRedusert]: YesOrNo;
-    [ArbeidIPeriodeField.erLiktHverDag]?: YesOrNo;
+    [ArbeidIPeriodeField.jobber]: ArbeidsforholdJobberSvar;
+    [ArbeidIPeriodeField.jobbeHvorMye]: ArbeidsforholdSkalJobbeHvorMyeSvar;
+    [ArbeidIPeriodeField.erLiktHverUke]?: YesOrNo;
     [ArbeidIPeriodeField.enkeltdager]?: TidMedArbeid;
     [ArbeidIPeriodeField.fasteDager]?: OmsorgstilbudFasteDager;
 }

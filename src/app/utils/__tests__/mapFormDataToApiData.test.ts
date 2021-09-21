@@ -177,7 +177,7 @@ const completeFormDataMock: PleiepengesøknadFormData = {
         },
         planlagt: {
             vetHvorMyeTid: VetOmsorgstilbud.VET_ALLE_TIMER,
-            erLiktHverDag: YesOrNo.YES,
+            erLiktHverUke: YesOrNo.YES,
             fasteDager: {
                 fredag: {
                     hours: '1',
@@ -628,7 +628,7 @@ describe('Test complete applications', () => {
             },
             planlagt: {
                 vetOmsorgstilbud: VetOmsorgstilbud.VET_ALLE_TIMER,
-                erLiktHverDag: true,
+                erLiktHverUke: true,
                 ukedager: { fredag: 'PT1H0M' },
             },
         },

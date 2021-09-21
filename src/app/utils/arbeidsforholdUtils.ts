@@ -36,7 +36,7 @@ export const syncArbeidsforholdWithArbeidsgivere = (
     });
 };
 
-export const getAktiveArbeidsforholdIPerioden = (arbeidsforhold: ArbeidsforholdAnsatt[]) => {
+export const getAktivearbeidIPeriode = (arbeidsforhold: ArbeidsforholdAnsatt[]) => {
     return arbeidsforhold.filter((a) => a.erAnsatt === YesOrNo.YES);
 };
 
@@ -73,7 +73,7 @@ export async function getArbeidsgivere(
     }
 }
 
-export const getTimerTekst = (value: string | undefined, intl: IntlShape): string => {
+export const getTimerTekst = (intl: IntlShape, value: string | undefined): string => {
     const timer = getNumberFromNumberInputValue(value);
     if (timer) {
         return intlHelper(intl, 'timer', {

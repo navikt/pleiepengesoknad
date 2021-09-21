@@ -5,7 +5,7 @@ import { StepConfigInterface, StepConfigItemTexts, StepID } from '../config/step
 import { VetOmsorgstilbud } from '../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import {
-    arbeidsforholdStepIsValid,
+    arbeidssituasjonStepIsValid,
     legeerklæringStepIsValid,
     medlemskapStepIsValid,
     opplysningerOmBarnetStepIsValid,
@@ -31,7 +31,7 @@ export const opplysningerOmBarnetStepAvailable = (formData: PleiepengesøknadFor
 export const opplysningerOmTidsromStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) && opplysningerOmBarnetStepIsValid(formData);
 
-export const arbeidsforholdStepAvailable = (formData: PleiepengesøknadFormData) =>
+export const arbeidssituasjonStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData);
@@ -40,26 +40,26 @@ export const ArbeidsforholdIPeriodeStepAvailable = (formData: PleiepengesøknadF
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
-    arbeidsforholdStepIsValid();
+    arbeidssituasjonStepIsValid();
 
 export const omsorgstilbudStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
-    arbeidsforholdStepIsValid();
+    arbeidssituasjonStepIsValid();
 
 export const nattevåkStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
-    arbeidsforholdStepIsValid() &&
+    arbeidssituasjonStepIsValid() &&
     omsorgstilbudStepAvailable(formData);
 
 export const beredskapStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
-    arbeidsforholdStepIsValid() &&
+    arbeidssituasjonStepIsValid() &&
     omsorgstilbudStepAvailable(formData) &&
     nattevåkStepAvailable(formData);
 
@@ -67,20 +67,20 @@ export const medlemskapStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
-    arbeidsforholdStepIsValid();
+    arbeidssituasjonStepIsValid();
 
 export const legeerklæringStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
-    arbeidsforholdStepIsValid() &&
+    arbeidssituasjonStepIsValid() &&
     medlemskapStepIsValid(formData);
 
 export const summaryStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
-    arbeidsforholdStepIsValid() &&
+    arbeidssituasjonStepIsValid() &&
     medlemskapStepIsValid(formData) &&
     legeerklæringStepIsValid();
 
@@ -102,7 +102,7 @@ export const skalBrukerSvarePåBeredskapOgNattevåk = (formValues?: Pleiepenges�
     );
 };
 
-export const skalBrukerSvarePåArbeidsforholdIPerioden = (formValues?: PleiepengesøknadFormData): boolean => {
+export const skalBrukerSvarePåarbeidIPeriode = (formValues?: PleiepengesøknadFormData): boolean => {
     if (!formValues) {
         return false;
     }

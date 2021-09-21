@@ -15,7 +15,7 @@ const renderSteps = (stepConfig: StepConfigInterface, intl: IntlShape) =>
         .filter((stepId) => stepConfig[stepId].included === true)
         .map((stepId) => {
             const { stepIndicatorLabel } = getStepTexts(intl, stepId as StepID, stepConfig);
-            const { index } = stepConfig[stepId];
+            const { stepNumber: index } = stepConfig[stepId];
             return <Step label={stepIndicatorLabel} index={index} key={`${stepIndicatorLabel + index}`} />;
         });
 

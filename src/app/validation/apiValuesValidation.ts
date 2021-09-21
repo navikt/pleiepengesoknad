@@ -89,7 +89,7 @@ export const validateApiValues = (
                 errors.push({
                     skjemaelementId: 'arbeidsforhold',
                     feilmelding: intlHelper(intl, 'steg.oppsummering.validering.ugyldigArbeidsforhold'),
-                    stepId: StepID.ARBEIDSFORHOLD,
+                    stepId: StepID.ARBEIDSSITUASJON,
                 });
             }
         });
@@ -103,7 +103,7 @@ export const validateApiValues = (
         errors.push({
             skjemaelementId: 'arbeidsforholdFrilans',
             feilmelding: intlHelper(intl, 'steg.oppsummering.validering.ugyldigArbeidsforholdFrilans'),
-            stepId: StepID.ARBEIDSFORHOLD,
+            stepId: StepID.ARBEIDSSITUASJON,
         });
     }
 
@@ -114,7 +114,7 @@ export const validateApiValues = (
         errors.push({
             skjemaelementId: 'arbeidsforholdSn',
             feilmelding: intlHelper(intl, 'steg.oppsummering.validering.ugyldigArbeidsforholdSN'),
-            stepId: StepID.ARBEIDSFORHOLD,
+            stepId: StepID.ARBEIDSSITUASJON,
         });
     }
 
@@ -122,7 +122,7 @@ export const validateApiValues = (
         const virksomhet = values.selvstendigVirksomheter[0];
         if (isVirksomhetRegnskapsførerTelefonnummerValid(virksomhet) === false) {
             errors.push({
-                stepId: StepID.ARBEIDSFORHOLD,
+                stepId: StepID.ARBEIDSSITUASJON,
                 skjemaelementId: 'virksomhet',
                 feilmelding: intlHelper(intl, 'steg.oppsummering.validering.ugyldigRegnskapsførerTelefonnummer'),
             });

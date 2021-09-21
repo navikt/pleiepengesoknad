@@ -59,10 +59,10 @@ const PlanlagtOmsorgstilbudSummary = ({ omsorgstilbud, søknadsperiode }: Props)
                         </SummaryBlock>
                         {omsorgstilbud.vetOmsorgstilbud === VetOmsorgstilbud.VET_ALLE_TIMER && (
                             <>
-                                {omsorgstilbud.erLiktHverDag !== undefined && (
+                                {omsorgstilbud.erLiktHverUke !== undefined && (
                                     <SummaryBlock
-                                        header={intlHelper(intl, 'steg.omsorgstilbud.planlagt.erLiktHverDag.spm')}>
-                                        <JaNeiSvar harSvartJa={omsorgstilbud.erLiktHverDag} />
+                                        header={intlHelper(intl, 'steg.omsorgstilbud.planlagt.erLiktHverUke.spm')}>
+                                        <JaNeiSvar harSvartJa={omsorgstilbud.erLiktHverUke} />
                                     </SummaryBlock>
                                 )}
                                 <SummaryBlock

@@ -32,6 +32,7 @@ import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import minMax from 'dayjs/plugin/minMax';
+import { ArbeidIPeriodeIntlValues as ArbeidIPeriodeIntlValues } from '../components/steps/arbeid-i-periode-step/ArbeidIPeriodeFormPart';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
 import { ArbeidIPeriode, Omsorgstilbud } from '../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
@@ -270,46 +271,43 @@ export const getJobberNormaltTimerValidator =
             : undefined;
     };
 
-export const getArbeidsforholdSkalJobbeValidator =
-    (intlValues: { hvor: string; skalJobbe: string }) => (value: any) => {
-        const error = getRequiredFieldValidator()(value);
-        return error
-            ? {
-                  key: 'validation.arbeidsforholdIPerioden.skalJobbe',
-                  values: intlValues,
-                  keepKeyUnaltered: true,
-              }
-            : error;
-    };
+export const getArbeidJobberValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
+    const error = getRequiredFieldValidator()(value);
+    return error
+        ? {
+              key: 'validation.arbeidIPeriode.skalJobbe',
+              values: intlValues,
+              keepKeyUnaltered: true,
+          }
+        : error;
+};
 
-export const getArbeidsforholdSkalJobbeHvorMyeValidator =
-    (intlValues: { hvor: string; skalJobbe: string }) => (value: any) => {
-        const error = getRequiredFieldValidator()(value);
-        return error
-            ? {
-                  key: 'validation.arbeidsforholdIPerioden.jobbeHvorMye',
-                  values: intlValues,
-                  keepKeyUnaltered: true,
-              }
-            : undefined;
-    };
+export const getArbeidJobbeHvorMyeValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
+    const error = getRequiredFieldValidator()(value);
+    return error
+        ? {
+              key: 'validation.arbeidIPeriode.jobbeHvorMye',
+              values: intlValues,
+              keepKeyUnaltered: true,
+          }
+        : undefined;
+};
 
-export const getArbeidsforholdTimerEllerProsentValidator =
-    (intlValues: { hvor: string; skalJobbe: string }) => (value: any) => {
-        const error = getRequiredFieldValidator()(value);
-        return error
-            ? {
-                  key: 'validation.arbeidsforholdIPerioden.timerEllerProsent',
-                  values: intlValues,
-                  keepKeyUnaltered: true,
-              }
-            : undefined;
-    };
+export const getArbeidsforholdTimerEllerProsentValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
+    const error = getRequiredFieldValidator()(value);
+    return error
+        ? {
+              key: 'validation.arbeidIPeriode.timerEllerProsent',
+              values: intlValues,
+              keepKeyUnaltered: true,
+          }
+        : undefined;
+};
 
 export const getArbeidsforholdSkalJobbeTimerValidator =
     (
         jobberNormaltTimerNumber: number,
-        intlValues: { hvor: string; skalJobbe: string },
+        intlValues: ArbeidIPeriodeIntlValues,
         tillatIngentingOgFullt?: boolean,
         påkrevd?: boolean
     ) =>
@@ -317,28 +315,27 @@ export const getArbeidsforholdSkalJobbeTimerValidator =
         const error = validateReduserteArbeidTimer(value, jobberNormaltTimerNumber, tillatIngentingOgFullt, påkrevd);
         return error
             ? {
-                  key: `validation.arbeidsforholdIPerioden.skalJobbeTimer.${error}`,
+                  key: `validation.arbeidIPeriode.skalJobbeTimer.${error}`,
                   values: intlValues,
                   keepKeyUnaltered: true,
               }
             : undefined;
     };
 
-export const getArbeidsforholdSkalJobbeProsentValidator =
-    (intlValues: { hvor: string; skalJobbe: string }) => (value: any) => {
-        const error = getNumberValidator({
-            required: true,
-            min: 1,
-            max: 99,
-        })(value);
-        return error
-            ? {
-                  key: `validation.arbeidsforholdIPerioden.skalJobbeProsent.${error}`,
-                  values: intlValues,
-                  keepKeyUnaltered: true,
-              }
-            : undefined;
-    };
+export const getArbeidsforholdSkalJobbeProsentValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
+    const error = getNumberValidator({
+        required: true,
+        min: 1,
+        max: 99,
+    })(value);
+    return error
+        ? {
+              key: `validation.arbeidIPeriode.skalJobbeProsent.${error}`,
+              values: intlValues,
+              keepKeyUnaltered: true,
+          }
+        : undefined;
+};
 
 export const validateReduserteArbeidTimer = (
     value: string,

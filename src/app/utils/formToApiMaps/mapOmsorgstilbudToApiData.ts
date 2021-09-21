@@ -64,25 +64,25 @@ export const mapPlanlagtOmsorgstilbudToApiData = (
         return undefined;
     }
 
-    const { erLiktHverDag, fasteDager, enkeltdager, vetHvorMyeTid } = planlagt;
+    const { erLiktHverUke, fasteDager, enkeltdager, vetHvorMyeTid } = planlagt;
     if (vetHvorMyeTid === VetOmsorgstilbud.VET_IKKE) {
         return {
             vetOmsorgstilbud: VetOmsorgstilbud.VET_IKKE,
         };
     }
 
-    if (erLiktHverDag === YesOrNo.YES && fasteDager) {
+    if (erLiktHverUke === YesOrNo.YES && fasteDager) {
         return {
             vetOmsorgstilbud: vetHvorMyeTid,
-            erLiktHverDag: true,
+            erLiktHverUke: true,
             ukedager: getFasteDager(fasteDager),
         };
     }
     const periodeFraOgMedSøknadsdato = getPlanlagtPeriode(søknadsperiode, dateToday);
-    if (erLiktHverDag !== YesOrNo.YES && enkeltdager && periodeFraOgMedSøknadsdato) {
+    if (erLiktHverUke !== YesOrNo.YES && enkeltdager && periodeFraOgMedSøknadsdato) {
         return {
             vetOmsorgstilbud: vetHvorMyeTid,
-            erLiktHverDag: erLiktHverDag === YesOrNo.NO ? false : undefined,
+            erLiktHverUke: erLiktHverUke === YesOrNo.NO ? false : undefined,
             enkeltdager: getEnkeltdagerIPeriode(enkeltdager, periodeFraOgMedSøknadsdato),
         };
     }

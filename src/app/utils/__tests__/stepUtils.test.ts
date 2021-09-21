@@ -9,7 +9,7 @@ jest.mock('./../../validation/stepValidations', () => {
         welcomingPageIsValid: jest.fn(() => true),
         opplysningerOmBarnetStepIsValid: jest.fn(() => true),
         opplysningerOmTidsromStepIsValid: jest.fn(() => true),
-        arbeidsforholdStepIsValid: jest.fn(() => true),
+        arbeidssituasjonStepIsValid: jest.fn(() => true),
         medlemskapStepIsValid: jest.fn(() => true),
         legeerklæringStepIsValid: jest.fn(() => true),
     };
@@ -38,9 +38,9 @@ describe('stepUtils', () => {
         });
     });
 
-    describe('arbeidsforholdStepIsValid', () => {
+    describe('arbeidssituasjonStepIsValid', () => {
         it('should call relevant stepValidator-functions to determine whether the step should be available', () => {
-            const returnValue = stepUtils.arbeidsforholdStepAvailable(formData as PleiepengesøknadFormData);
+            const returnValue = stepUtils.arbeidssituasjonStepAvailable(formData as PleiepengesøknadFormData);
             expect(stepValidations.welcomingPageIsValid).toHaveBeenCalledWith(formData);
             expect(stepValidations.opplysningerOmBarnetStepIsValid).toHaveBeenCalledWith(formData);
             expect(stepValidations.opplysningerOmTidsromStepIsValid).toHaveBeenCalledWith(formData);
@@ -58,12 +58,12 @@ describe('stepUtils', () => {
             expect(stepValidations.welcomingPageIsValid).toHaveBeenCalledWith(formData);
             expect(stepValidations.opplysningerOmBarnetStepIsValid).toHaveBeenCalledWith(formData);
             expect(stepValidations.opplysningerOmTidsromStepIsValid).toHaveBeenCalledWith(formData);
-            expect(stepValidations.arbeidsforholdStepIsValid).toHaveBeenCalled();
+            expect(stepValidations.arbeidssituasjonStepIsValid).toHaveBeenCalled();
             expect(returnValue).toEqual(
                 stepValidations.welcomingPageIsValid({} as any) &&
                     stepValidations.opplysningerOmBarnetStepIsValid({} as any) &&
                     stepValidations.opplysningerOmTidsromStepIsValid({} as any) &&
-                    stepValidations.arbeidsforholdStepIsValid()
+                    stepValidations.arbeidssituasjonStepIsValid()
             );
         });
     });
@@ -74,13 +74,13 @@ describe('stepUtils', () => {
             expect(stepValidations.welcomingPageIsValid).toHaveBeenCalledWith(formData);
             expect(stepValidations.opplysningerOmBarnetStepIsValid).toHaveBeenCalledWith(formData);
             expect(stepValidations.opplysningerOmTidsromStepIsValid).toHaveBeenCalledWith(formData);
-            expect(stepValidations.arbeidsforholdStepIsValid).toHaveBeenCalled();
+            expect(stepValidations.arbeidssituasjonStepIsValid).toHaveBeenCalled();
             expect(stepValidations.medlemskapStepIsValid).toHaveBeenCalledWith(formData);
             expect(returnValue).toEqual(
                 stepValidations.welcomingPageIsValid({} as any) &&
                     stepValidations.opplysningerOmBarnetStepIsValid({} as any) &&
                     stepValidations.opplysningerOmTidsromStepIsValid({} as any) &&
-                    stepValidations.arbeidsforholdStepIsValid() &&
+                    stepValidations.arbeidssituasjonStepIsValid() &&
                     stepValidations.medlemskapStepIsValid({} as any)
             );
         });
@@ -92,14 +92,14 @@ describe('stepUtils', () => {
             expect(stepValidations.welcomingPageIsValid).toHaveBeenCalledWith(formData);
             expect(stepValidations.opplysningerOmBarnetStepIsValid).toHaveBeenCalledWith(formData);
             expect(stepValidations.opplysningerOmTidsromStepIsValid).toHaveBeenCalledWith(formData);
-            expect(stepValidations.arbeidsforholdStepIsValid).toHaveBeenCalled();
+            expect(stepValidations.arbeidssituasjonStepIsValid).toHaveBeenCalled();
             expect(stepValidations.medlemskapStepIsValid).toHaveBeenCalledWith(formData);
             expect(stepValidations.legeerklæringStepIsValid).toHaveBeenCalled();
             expect(returnValue).toEqual(
                 stepValidations.welcomingPageIsValid({} as any) &&
                     stepValidations.opplysningerOmBarnetStepIsValid({} as any) &&
                     stepValidations.opplysningerOmTidsromStepIsValid({} as any) &&
-                    stepValidations.arbeidsforholdStepIsValid() &&
+                    stepValidations.arbeidssituasjonStepIsValid() &&
                     stepValidations.medlemskapStepIsValid({} as any) &&
                     stepValidations.legeerklæringStepIsValid()
             );

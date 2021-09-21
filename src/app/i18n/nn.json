@@ -111,11 +111,11 @@
     "step.arbeidsforhold.stepTitle": "Arbeidssituasjonen din",
     "step.arbeidsforhold.stepIndicatorLabel": "Om arbeidssituasjonen din",
 
-    "step.arbeidsforholdIPerioden.pageTitle": "Pleiepengesøknad – opplysningar om jobb i perioden",
-    "step.arbeidsforholdIPerioden.stepTitle": "Jobb i perioden med pleiepengar",
-    "step.arbeidsforholdIPerioden.stepIndicatorLabel": "Jobb i perioden med pleiepengar",
-    "step.arbeidsforholdIPerioden.FrilansLabel": "Frilans",
-    "step.arbeidsforholdIPerioden.SNLabel": "Sjølvstendig næringsdrivande",
+    "step.arbeidIPeriode.pageTitle": "Pleiepengesøknad – opplysningar om jobb i perioden",
+    "step.arbeidIPeriode.stepTitle": "Jobb i perioden med pleiepengar",
+    "step.arbeidIPeriode.stepIndicatorLabel": "Jobb i perioden med pleiepengar",
+    "step.arbeidIPeriode.FrilansLabel": "Frilans",
+    "step.arbeidIPeriode.SNLabel": "Sjølvstendig næringsdrivande",
 
     "step.omsorgstilbud.pageTitle": "Pleiepengesøknad – omsorgstilbod",
     "step.omsorgstilbud.stepTitle": "Omsorgstilbod",

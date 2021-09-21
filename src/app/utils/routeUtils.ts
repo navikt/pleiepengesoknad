@@ -2,7 +2,7 @@ import RouteConfig from '../config/routeConfig';
 import { getStepConfig, StepID } from '../config/stepConfig';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import {
-    arbeidsforholdStepAvailable,
+    arbeidssituasjonStepAvailable,
     beredskapStepAvailable,
     legeerklæringStepAvailable,
     medlemskapStepAvailable,
@@ -37,12 +37,12 @@ export const isAvailable = (
             return opplysningerOmBarnetStepAvailable(values);
         case StepID.TIDSROM:
             return opplysningerOmTidsromStepAvailable(values);
-        case StepID.ARBEIDSFORHOLD:
-            return arbeidsforholdStepAvailable(values);
+        case StepID.ARBEIDSSITUASJON:
+            return arbeidssituasjonStepAvailable(values);
         case StepID.ARBEID_HISTORISK:
-            return true; //arbeidsforholdStepAvailable(values);
+            return true; //arbeidssituasjonStepAvailable(values);
         case StepID.ARBEID_PLANLAGT:
-            return true; //arbeidsforholdStepAvailable(values);
+            return true; //arbeidssituasjonStepAvailable(values);
         case StepID.OMSORGSTILBUD:
             return omsorgstilbudStepAvailable(values);
         case StepID.NATTEVÅK:

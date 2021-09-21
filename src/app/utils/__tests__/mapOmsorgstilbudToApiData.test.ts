@@ -60,7 +60,7 @@ describe('mapOmsorgstilbudToApiData test', () => {
                     ...omsorgstilbud,
                     planlagt: {
                         vetHvorMyeTid: VetOmsorgstilbud.VET_ALLE_TIMER,
-                        erLiktHverDag: YesOrNo.YES,
+                        erLiktHverUke: YesOrNo.YES,
                         fasteDager: { fredag: { hours: '2', minutes: '30' } },
                     },
                 },

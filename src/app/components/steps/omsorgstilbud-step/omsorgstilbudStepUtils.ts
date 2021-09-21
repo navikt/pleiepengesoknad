@@ -67,15 +67,15 @@ export const cleanupOmsorgstilbudStep = (
             if (cleanedValues.omsorgstilbud.planlagt.vetHvorMyeTid === VetOmsorgstilbud.VET_IKKE) {
                 cleanedValues.omsorgstilbud.planlagt.enkeltdager = undefined;
                 cleanedValues.omsorgstilbud.planlagt.fasteDager = undefined;
-                cleanedValues.omsorgstilbud.planlagt.erLiktHverDag = undefined;
+                cleanedValues.omsorgstilbud.planlagt.erLiktHverUke = undefined;
             }
             if (visKunEnkeltdagerForOmsorgstilbud(søknadsperiode)) {
-                cleanedValues.omsorgstilbud.planlagt.erLiktHverDag = undefined;
+                cleanedValues.omsorgstilbud.planlagt.erLiktHverUke = undefined;
             }
-            if (cleanedValues.omsorgstilbud.planlagt.erLiktHverDag === YesOrNo.YES) {
+            if (cleanedValues.omsorgstilbud.planlagt.erLiktHverUke === YesOrNo.YES) {
                 cleanedValues.omsorgstilbud.planlagt.enkeltdager = undefined;
             }
-            if (cleanedValues.omsorgstilbud.planlagt.erLiktHverDag === YesOrNo.NO) {
+            if (cleanedValues.omsorgstilbud.planlagt.erLiktHverUke === YesOrNo.NO) {
                 cleanedValues.omsorgstilbud.planlagt.fasteDager = undefined;
                 cleanedValues.omsorgstilbud.planlagt.enkeltdager = getTidIOmsorgstilbudInnenforPeriode(
                     cleanedValues.omsorgstilbud.planlagt.enkeltdager || {},
