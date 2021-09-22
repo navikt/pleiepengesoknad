@@ -2,9 +2,11 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import { prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import { ArbeidsforholdType } from '../../types/PleiepengesøknadApiData';
 import {
     AppFormField,
     ArbeidIPeriodeField,
@@ -12,17 +14,16 @@ import {
     ArbeidsforholdJobberSvar,
     ArbeidsforholdSkalJobbeHvorMyeSvar,
     isArbeidsforholdAnsatt,
-} from '../../../types/PleiepengesøknadFormData';
+} from '../../types/PleiepengesøknadFormData';
+import { getTimerTekst } from '../../utils/arbeidsforholdUtils';
 import {
     getArbeidJobbeHvorMyeValidator,
     getArbeidJobberValidator,
+    getArbeidstimerEndDagValidator,
     validateFasteArbeidstimerIUke,
-} from '../../../validation/fieldValidations';
-import AppForm from '../../app-form/AppForm';
-import ArbeidstimerUke from './ArbeidstimerUke';
-import { ArbeidsforholdType } from '../../../types/PleiepengesøknadApiData';
-import { getTimerTekst } from '../../../utils/arbeidsforholdUtils';
-import { prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
+} from '../../validation/fieldValidations';
+import AppForm from '../app-form/AppForm';
+import TimerIUkeInput from '../timer-i-uke-input/TimerIUkeInput';
 
 interface Props {
     parentFieldName: string;
@@ -155,7 +156,10 @@ const ArbeidIPeriodeFormPart = ({
                         )}
                         validate={() => validateFasteArbeidstimerIUke(arbeidIPeriode)}
                         name={'fasteDager_gruppe' as any}>
-                        <ArbeidstimerUke name={getFieldName(ArbeidIPeriodeField.fasteDager)} />
+                        <TimerIUkeInput
+                            name={getFieldName(ArbeidIPeriodeField.fasteDager)}
+                            validator={getArbeidstimerEndDagValidator}
+                        />
                     </AppForm.InputGroup>
                 </FormBlock>
             )}

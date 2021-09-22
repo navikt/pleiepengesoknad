@@ -17,7 +17,7 @@ import { getNextStepRoute, getSøknadRoute, isAvailable } from '../../utils/rout
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
-import ArbeidIPeriodeStep from '../steps/arbeid-i-periode-step/ArbeidIPeriodeStep';
+import HistoriskArbeidStep from '../steps/historisk-arbeid-step/HistoriskArbeidStep';
 import ArbeidssituasjonStep from '../steps/arbeidssituasjon-step/ArbeidssituasjonStep';
 import BeredskapStep from '../steps/beredskap-step/BeredskapStep';
 import LegeerklæringStep from '../steps/legeerklæring-step/LegeerklæringStep';
@@ -29,6 +29,7 @@ import OpplysningerOmTidsromStep from '../steps/tidsrom-step/OpplysningerOmTidsr
 import OmsorgstilbudStep from '../steps/omsorgstilbud-step/OmsorgstilbudStep';
 import { getSøknadsperiodeFromFormData } from '../../utils/formDataUtils';
 import { getHistoriskPeriode, getPlanlagtPeriode } from '../../utils/omsorgstilbudUtils';
+import PlanlagtArbeidStep from '../steps/planlagt-arbeid-step/PlanlagtArbeidStep';
 
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
@@ -162,9 +163,8 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
                 <Route
                     path={getSøknadRoute(StepID.ARBEID_HISTORISK)}
                     render={() => (
-                        <ArbeidIPeriodeStep
+                        <HistoriskArbeidStep
                             periode={periodeFørSøknadsdato}
-                            erHistorisk={true}
                             onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEID_HISTORISK)}
                         />
                     )}
@@ -175,9 +175,8 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
                 <Route
                     path={getSøknadRoute(StepID.ARBEID_PLANLAGT)}
                     render={() => (
-                        <ArbeidIPeriodeStep
+                        <PlanlagtArbeidStep
                             periode={periodeFraOgMedSøknadsdato}
-                            erHistorisk={false}
                             onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEID_PLANLAGT)}
                         />
                     )}

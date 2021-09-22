@@ -516,7 +516,7 @@
     "arbeidsforhold.oppsummering.arbeidsform.VARIERENDE": "deltid/varierende/tilkalling",
 
     "arbeidIPeriode.StepInfo.historisk": "Nå trenger vi å vite om du har vært noe på jobb i perioden frem til og med i går; fra {fra} til {til}. Vi trenger å vite dette fordi som hovedregel skal pleiepengene graderes tilsvarende den tiden du jobber.",
-    "arbeidIPeriode.StepInfo.planlagt": "Nå trenger vi å vite om du skal være noe på jobb i perioden fremover; fra {fra} til {til}. Vi trenger å vite dette fordi som hovedregel skal pleiepengene graderes tilsvarende den tiden du jobber.",
+    "arbeidIPeriode.StepInfo.planlagt": "Nå trenger vi å vite om du skal være noe på jobb i perioden fra og med {fra} til {til}. Vi trenger å vite dette fordi som hovedregel skal pleiepengene graderes tilsvarende den tiden du jobber.",
     "arbeidIPeriode.FrilansLabel": "Frilans",
     "arbeidIPeriode.SNLabel": "Selvstendig næringsdrivende",
     "arbeidIPeriode.jobber.spm": "Skal du være noe på jobb {hvor} i samme periode som du skal ha pleiepenger?",

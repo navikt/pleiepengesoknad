@@ -18,12 +18,11 @@ import {
     PleiepengesøknadFormData,
 } from '../../../types/PleiepengesøknadFormData';
 import FormikStep from '../../formik-step/FormikStep';
-import ArbeidIPeriodeFormPart from './ArbeidIPeriodeFormPart';
+import ArbeidIPeriodeFormPart from '../../arbeid-i-periode/ArbeidIPeriodeFormPart';
 import { ArbeidsforholdType } from '../../../types/PleiepengesøknadApiData';
 
 interface Props extends StepConfigProps {
     periode: DateRange;
-    erHistorisk: boolean;
 }
 
 const cleanupArbeidsforholdCommon = (arbeidsforhold: Arbeidsforhold): Arbeidsforhold => {
@@ -31,7 +30,7 @@ const cleanupArbeidsforholdCommon = (arbeidsforhold: Arbeidsforhold): Arbeidsfor
     return a;
 };
 
-const cleanupArbeidsforholdIPeriodeStep = (formData: PleiepengesøknadFormData): PleiepengesøknadFormData => {
+const cleanupHistoriskArbeid = (formData: PleiepengesøknadFormData): PleiepengesøknadFormData => {
     const values: PleiepengesøknadFormData = { ...formData };
     values.arbeidsforhold = values.arbeidsforhold.map(
         (arbeidsforhold) => cleanupArbeidsforholdCommon(arbeidsforhold) as ArbeidsforholdAnsatt
@@ -45,7 +44,7 @@ const cleanupArbeidsforholdIPeriodeStep = (formData: PleiepengesøknadFormData):
     return values;
 };
 
-const ArbeidIPeriodeStep = ({ onValidSubmit, periode, erHistorisk }: Props) => {
+const HistoriskArbeidStep = ({ onValidSubmit, periode }: Props) => {
     const intl = useIntl();
     const formikProps = useFormikContext<PleiepengesøknadFormData>();
     const {
@@ -64,32 +63,15 @@ const ArbeidIPeriodeStep = ({ onValidSubmit, periode, erHistorisk }: Props) => {
     const skalBesvareSelvstendig =
         selvstendig_harHattInntektSomSN === YesOrNo.YES && selvstendig_arbeidsforhold !== undefined;
 
-    /**
-     * Kontroller om bruker må sendes tilbake til arbeidssituasjon-steget
-     * Dette kan oppstå dersom bruker er på Arbeidssituasjon,
-     * endrer på data, og deretter trykker forward i nettleser
-     * */
-
-    // const brukerMåGåTilbakeTilArbeidssituasjon =
-    //     skalBesvareAnsettelsesforhold === false && skalBesvareFrilans === false && skalBesvareSelvstendig === false;
-
-    // if (brukerMåGåTilbakeTilArbeidssituasjon === true) {
-    //     return <InvalidStepPage stepId={StepID.ARBEIDSFORHOLD_I_PERIODEN} />;
-    // }
-
-    // const intlValues: ArbeidIPeriodeIntlValues = {
-    //     hvor: intlHelper(intl, 'arbeidsforhold.part.som.ANSATT', { navn: arbeidsforhold.navn }),
-    // };
-
     return (
         <FormikStep
-            id={erHistorisk ? StepID.ARBEID_HISTORISK : StepID.ARBEID_PLANLAGT}
+            id={StepID.ARBEID_HISTORISK}
             onValidFormSubmit={onValidSubmit}
-            onStepCleanup={cleanupArbeidsforholdIPeriodeStep}>
+            onStepCleanup={cleanupHistoriskArbeid}>
             <Box padBottom="m">
                 <CounsellorPanel>
                     <FormattedMessage
-                        id={erHistorisk ? 'arbeidIPeriode.StepInfo.historisk' : 'arbeidIPeriode.StepInfo.planlagt'}
+                        id={'arbeidIPeriode.StepInfo.historisk'}
                         values={{
                             fra: prettifyDateFull(periode.from),
                             til: prettifyDateFull(periode.to),
@@ -111,7 +93,7 @@ const ArbeidIPeriodeStep = ({ onValidSubmit, periode, erHistorisk }: Props) => {
                                 arbeidsforhold={arbeidsforhold}
                                 periode={periode}
                                 parentFieldName={`${AppFormField.arbeidsforhold}.${index}`}
-                                erHistorisk={erHistorisk}
+                                erHistorisk={true}
                             />
                         </FormSection>
                     );
@@ -126,7 +108,7 @@ const ArbeidIPeriodeStep = ({ onValidSubmit, periode, erHistorisk }: Props) => {
                             arbeidsforhold={frilans_arbeidsforhold}
                             periode={periode}
                             parentFieldName={`${AppFormField.frilans_arbeidsforhold}`}
-                            erHistorisk={erHistorisk}
+                            erHistorisk={true}
                         />
                     </FormSection>
                 </FormBlock>
@@ -139,7 +121,7 @@ const ArbeidIPeriodeStep = ({ onValidSubmit, periode, erHistorisk }: Props) => {
                             arbeidsforhold={selvstendig_arbeidsforhold}
                             periode={periode}
                             parentFieldName={`${AppFormField.selvstendig_arbeidsforhold}`}
-                            erHistorisk={erHistorisk}
+                            erHistorisk={true}
                         />
                     </FormSection>
                 </FormBlock>
@@ -148,4 +130,4 @@ const ArbeidIPeriodeStep = ({ onValidSubmit, periode, erHistorisk }: Props) => {
     );
 };
 
-export default ArbeidIPeriodeStep;
+export default HistoriskArbeidStep;

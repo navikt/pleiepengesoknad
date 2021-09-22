@@ -32,7 +32,7 @@ import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import minMax from 'dayjs/plugin/minMax';
-import { ArbeidIPeriodeIntlValues as ArbeidIPeriodeIntlValues } from '../components/steps/arbeid-i-periode-step/ArbeidIPeriodeFormPart';
+import { ArbeidIPeriodeIntlValues as ArbeidIPeriodeIntlValues } from '../components/arbeid-i-periode/ArbeidIPeriodeFormPart';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
 import { ArbeidIPeriode, Omsorgstilbud } from '../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
