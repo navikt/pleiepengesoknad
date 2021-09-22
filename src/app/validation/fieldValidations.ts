@@ -220,7 +220,23 @@ export const validateFasteArbeidstimerIUke = (arbeid?: ArbeidIPeriode): Validati
     return undefined;
 };
 
-export const getArbeidstimerEndDagValidator =
+export const getArbeidstimerDatoValidator =
+    (dato: string) =>
+    (time: Time): ValidationResult<ValidationError> => {
+        const error = time
+            ? getTimeValidator({ max: { hours: 23, minutes: 59 }, min: { hours: 0, minutes: 0 } })(time)
+            : undefined;
+        if (error) {
+            return {
+                key: `validation.arbeidstimer.dato.tid.${error}`,
+                values: { dato },
+                keepKeyUnaltered: true,
+            };
+        }
+        return undefined;
+    };
+
+export const getArbeidstimerFastDagValidator =
     (dag: string) =>
     (time: Time): ValidationResult<ValidationError> => {
         const error = time
@@ -228,7 +244,7 @@ export const getArbeidstimerEndDagValidator =
             : undefined;
         if (error) {
             return {
-                key: `validation.arbeidstimer.fastDag.tid.${error}`,
+                key: `validation.arbeidstimer.fastdag.tid.${error}`,
                 values: { dag },
                 keepKeyUnaltered: true,
             };

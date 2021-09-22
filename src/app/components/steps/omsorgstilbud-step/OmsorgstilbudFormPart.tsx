@@ -39,50 +39,47 @@ const OmsorgstilbudFormPart: React.FunctionComponent<Props> = ({
 
     if (visKunEnkeltdager) {
         return (
-            <>
-                {/* <Info /> */}
-                <AppForm.InputGroup
-                    name={`${enkeltdagerFieldName}_gruppe` as any}
-                    tag="div"
-                    legend={intlHelper(
-                        intl,
-                        gjelderFortid
-                            ? 'steg.omsorgstilbud.historisk.hvorMyeTidIOmsorgstilbud'
-                            : 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud'
-                    )}
-                    description={
-                        <ExpandableInfo
-                            title={intlHelper(
-                                intl,
-                                'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.tittel'
-                            )}>
-                            {intlHelper(intl, 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description')}
-                        </ExpandableInfo>
+            <AppForm.InputGroup
+                name={`${enkeltdagerFieldName}_gruppe` as any}
+                tag="div"
+                legend={intlHelper(
+                    intl,
+                    gjelderFortid
+                        ? 'steg.omsorgstilbud.historisk.hvorMyeTidIOmsorgstilbud'
+                        : 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud'
+                )}
+                description={
+                    <ExpandableInfo
+                        title={intlHelper(
+                            intl,
+                            'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.tittel'
+                        )}>
+                        {intlHelper(intl, 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description')}
+                    </ExpandableInfo>
+                }
+                validate={() => {
+                    const omsorgstilbudIPerioden = getTidIOmsorgstilbudInnenforPeriode(tidIOmsorgstilbud, periode);
+                    const hasElements = Object.keys(getCleanedTidIOmsorgstilbud(omsorgstilbudIPerioden)).length > 0;
+                    if (!hasElements) {
+                        return {
+                            key: gjelderFortid ? `ingenTidRegistrert` : 'ingenTidRegistrert',
+                        };
                     }
-                    validate={() => {
-                        const omsorgstilbudIPerioden = getTidIOmsorgstilbudInnenforPeriode(tidIOmsorgstilbud, periode);
-                        const hasElements = Object.keys(getCleanedTidIOmsorgstilbud(omsorgstilbudIPerioden)).length > 0;
-                        if (!hasElements) {
-                            return {
-                                key: gjelderFortid ? `ingenTidRegistrert` : 'ingenTidRegistrert',
-                            };
-                        }
-                        return undefined;
-                    }}>
-                    <OmsorgstilbudInlineForm
-                        fieldName={enkeltdagerFieldName}
-                        søknadsperiode={periode}
-                        ukeTittelRenderer={(ukeinfo) => (
-                            <Element className="omsorgstilbud__uketittel" tag="h4">
-                                <FormattedMessage
-                                    id="steg.omsorgstilbud.omsorgstilbud.uketittel"
-                                    values={{ ukenummer: ukeinfo.ukenummer, år: ukeinfo.år }}
-                                />
-                            </Element>
-                        )}
-                    />
-                </AppForm.InputGroup>
-            </>
+                    return undefined;
+                }}>
+                <OmsorgstilbudInlineForm
+                    fieldName={enkeltdagerFieldName}
+                    søknadsperiode={periode}
+                    ukeTittelRenderer={(ukeinfo) => (
+                        <Element className="omsorgstilbud__uketittel" tag="h4">
+                            <FormattedMessage
+                                id="steg.omsorgstilbud.omsorgstilbud.uketittel"
+                                values={{ ukenummer: ukeinfo.ukenummer, år: ukeinfo.år }}
+                            />
+                        </Element>
+                    )}
+                />
+            </AppForm.InputGroup>
         );
     }
 

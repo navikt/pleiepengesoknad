@@ -19,11 +19,13 @@ import { getTimerTekst } from '../../utils/arbeidsforholdUtils';
 import {
     getArbeidJobbeHvorMyeValidator,
     getArbeidJobberValidator,
-    getArbeidstimerEndDagValidator,
+    getArbeidstimerDatoValidator,
+    getArbeidstimerFastDagValidator,
     validateFasteArbeidstimerIUke,
 } from '../../validation/fieldValidations';
 import AppForm from '../app-form/AppForm';
-import TimerIUkeInput from '../timer-i-uke-input/TimerIUkeInput';
+import TidFasteDagerInput from '../tid-faste-dager-input/TidFasteDagerInput';
+import TidKalenderInput from '../tid-kalender-input/TidKalenderInput';
 
 interface Props {
     parentFieldName: string;
@@ -156,9 +158,34 @@ const ArbeidIPeriodeFormPart = ({
                         )}
                         validate={() => validateFasteArbeidstimerIUke(arbeidIPeriode)}
                         name={'fasteDager_gruppe' as any}>
-                        <TimerIUkeInput
+                        <TidFasteDagerInput
                             name={getFieldName(ArbeidIPeriodeField.fasteDager)}
-                            validator={getArbeidstimerEndDagValidator}
+                            validator={getArbeidstimerFastDagValidator}
+                        />
+                    </AppForm.InputGroup>
+                </FormBlock>
+            )}
+            {jobber === ArbeidsforholdJobberSvar.ja && erLiktHverUke === YesOrNo.NO && (
+                <FormBlock>
+                    <AppForm.InputGroup
+                        legend={intlHelper(
+                            intl,
+                            erHistorisk
+                                ? 'arbeidIPeriode.historisk.enkeltdager.tittel'
+                                : 'arbeidIPeriode.planlagt.enkeltdager.tittel',
+                            intlValues
+                        )}
+                        description={
+                            <ExpandableInfo title="Må jeg fylle ut for alle dagene?">
+                                Du trenger kun å fylle ut de dagene du jobbet. Dager hvor du ikke fyller ut noe tid, vil
+                                bli regnet som at du ikke jobbet den dagen.
+                            </ExpandableInfo>
+                        }
+                        name={'enkeltdager_gruppe' as any}>
+                        <TidKalenderInput
+                            periode={periode}
+                            fieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
+                            tidPerDagValidator={getArbeidstimerDatoValidator}
                         />
                     </AppForm.InputGroup>
                 </FormBlock>

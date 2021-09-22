@@ -5,19 +5,19 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { ValidationError, ValidationFunction } from '@navikt/sif-common-formik/lib/validation/types';
 import { AppFormField } from '../../types/PleiepengesøknadFormData';
 import AppForm from '../app-form/AppForm';
-import './timerIUkeInput.less';
+import './tidFasteDagerInput.less';
 
 interface Props {
     name: AppFormField;
-    validator?: (dag: string) => ValidationFunction<ValidationError>;
+    validator?: (dagnavn: string) => ValidationFunction<ValidationError>;
 }
 
-const TimerIUkeInput = ({ name, validator }: Props) => {
+const TidFasteDagerInput = ({ name, validator }: Props) => {
     const intl = useIntl();
     return (
         <>
             <Box margin="l">
-                <div className="timerIUkeInput">
+                <div className="tidFasteDagerInput">
                     <AppForm.TimeInput
                         label={intlHelper(intl, 'Mandager')}
                         name={`${name}.mandag` as AppFormField}
@@ -69,4 +69,4 @@ const TimerIUkeInput = ({ name, validator }: Props) => {
     );
 };
 
-export default TimerIUkeInput;
+export default TidFasteDagerInput;
