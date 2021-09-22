@@ -2,21 +2,22 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { ValidationError, ValidationFunction } from '@navikt/sif-common-formik/lib/validation/types';
 import { AppFormField } from '../../types/PleiepengesøknadFormData';
-import { getOmsorgstilbudtimerValidatorEnDag } from '../../validation/fieldValidations';
 import AppForm from '../app-form/AppForm';
-import './omsorgstilbudUke.less';
+import './timerIUkeInput.less';
 
 interface Props {
     name: AppFormField;
+    validator?: (dag: string) => ValidationFunction<ValidationError>;
 }
 
-const OmsorgstilbudUke = ({ name }: Props) => {
+const TimerIUkeInput = ({ name, validator }: Props) => {
     const intl = useIntl();
     return (
         <>
             <Box margin="l">
-                <div className="omsorgstilbudUke">
+                <div className="timerIUkeInput">
                     <AppForm.TimeInput
                         label={intlHelper(intl, 'Mandager')}
                         name={`${name}.mandag` as AppFormField}
@@ -24,7 +25,7 @@ const OmsorgstilbudUke = ({ name }: Props) => {
                             direction: 'vertical',
                             compact: true,
                         }}
-                        validate={getOmsorgstilbudtimerValidatorEnDag(intlHelper(intl, 'mandag'))}
+                        validate={validator ? validator(intlHelper(intl, 'mandag')) : undefined}
                     />
                     <AppForm.TimeInput
                         label={intlHelper(intl, 'Tirsdager')}
@@ -33,7 +34,7 @@ const OmsorgstilbudUke = ({ name }: Props) => {
                             direction: 'vertical',
                             compact: true,
                         }}
-                        validate={getOmsorgstilbudtimerValidatorEnDag(intlHelper(intl, 'tirsdag'))}
+                        validate={validator ? validator(intlHelper(intl, 'tirsdag')) : undefined}
                     />
                     <AppForm.TimeInput
                         label={intlHelper(intl, 'Onsdager')}
@@ -42,7 +43,7 @@ const OmsorgstilbudUke = ({ name }: Props) => {
                             direction: 'vertical',
                             compact: true,
                         }}
-                        validate={getOmsorgstilbudtimerValidatorEnDag(intlHelper(intl, 'onsdag'))}
+                        validate={validator ? validator(intlHelper(intl, 'onsdag')) : undefined}
                     />
                     <AppForm.TimeInput
                         label={intlHelper(intl, 'Torsdager')}
@@ -51,7 +52,7 @@ const OmsorgstilbudUke = ({ name }: Props) => {
                             direction: 'vertical',
                             compact: true,
                         }}
-                        validate={getOmsorgstilbudtimerValidatorEnDag(intlHelper(intl, 'torsdag'))}
+                        validate={validator ? validator(intlHelper(intl, 'torsdag')) : undefined}
                     />
                     <AppForm.TimeInput
                         label={intlHelper(intl, 'Fredager')}
@@ -60,7 +61,7 @@ const OmsorgstilbudUke = ({ name }: Props) => {
                             direction: 'vertical',
                             compact: true,
                         }}
-                        validate={getOmsorgstilbudtimerValidatorEnDag(intlHelper(intl, 'fredag'))}
+                        validate={validator ? validator(intlHelper(intl, 'mandag')) : undefined}
                     />
                 </div>
             </Box>
@@ -68,4 +69,4 @@ const OmsorgstilbudUke = ({ name }: Props) => {
     );
 };
 
-export default OmsorgstilbudUke;
+export default TimerIUkeInput;

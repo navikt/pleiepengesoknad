@@ -22,10 +22,10 @@ import {
     getHistoriskPeriode,
     visKunEnkeltdagerForOmsorgstilbud,
 } from '../../../utils/omsorgstilbudUtils';
-import { validateSkalIOmsorgstilbud } from '../../../validation/fieldValidations';
+import { getOmsorgstilbudtimerValidatorEnDag, validateSkalIOmsorgstilbud } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
-import OmsorgstilbudUke from '../../omsorgstilbud-uke/OmsorgstilbudUke';
+import TimerIUkeInput from '../../timer-i-uke-input/TimerIUkeInput';
 import OmsorgstilbudFormPart from './OmsorgstilbudFormPart';
 import { cleanupOmsorgstilbudStep } from './omsorgstilbudStepUtils';
 import { dateToday, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
@@ -217,8 +217,9 @@ const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
                                                         }
                                                         validate={() => validateSkalIOmsorgstilbud(omsorgstilbud)}
                                                         name={'omsorgstilbud_gruppe' as any}>
-                                                        <OmsorgstilbudUke
+                                                        <TimerIUkeInput
                                                             name={AppFormField.omsorgstilbud__planlagt__fasteDager}
+                                                            validator={getOmsorgstilbudtimerValidatorEnDag}
                                                         />
                                                     </AppForm.InputGroup>
                                                 </FormBlock>
