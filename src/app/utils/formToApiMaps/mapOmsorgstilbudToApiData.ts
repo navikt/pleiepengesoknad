@@ -3,16 +3,16 @@ import { dateToday, datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/ut
 import { timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { DateRange, dateToISOString, ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
-import { TidIOmsorgstilbud } from '../../components/omsorgstilbud/types';
+import { TidsbrukDag } from '../../types';
 import {
     HistoriskOmsorgstilbudApi,
-    OmsorgstilbudDagApi,
+    DagMedTidApi,
     OmsorgstilbudV2,
     PlanlagtOmsorgstilbudApi,
     VetOmsorgstilbud,
 } from '../../types/PleiepengesøknadApiData';
 import { Omsorgstilbud, OmsorgstilbudFasteDager } from '../../types/PleiepengesøknadFormData';
-import { getPlanlagtPeriode, getHistoriskPeriode } from '../omsorgstilbudUtils';
+import { getHistoriskPeriode, getPlanlagtPeriode } from '../omsorgstilbudUtils';
 
 export const getFasteDager = ({ mandag, tirsdag, onsdag, torsdag, fredag }: OmsorgstilbudFasteDager) => ({
     mandag: mandag ? timeToIso8601Duration(mandag) : undefined,
@@ -22,11 +22,11 @@ export const getFasteDager = ({ mandag, tirsdag, onsdag, torsdag, fredag }: Omso
     fredag: fredag ? timeToIso8601Duration(fredag) : undefined,
 });
 
-const sortEnkeltdager = (d1: OmsorgstilbudDagApi, d2: OmsorgstilbudDagApi): number =>
+const sortEnkeltdager = (d1: DagMedTidApi, d2: DagMedTidApi): number =>
     dayjs(d1.dato).isBefore(d2.dato, 'day') ? -1 : 1;
 
-export const getEnkeltdagerIPeriode = (enkeltdager: TidIOmsorgstilbud, periode: DateRange): OmsorgstilbudDagApi[] => {
-    const dager: OmsorgstilbudDagApi[] = [];
+export const getEnkeltdagerIPeriode = (enkeltdager: TidsbrukDag, periode: DateRange): DagMedTidApi[] => {
+    const dager: DagMedTidApi[] = [];
 
     Object.keys(enkeltdager).forEach((dag) => {
         const dato = ISOStringToDate(dag);

@@ -5,18 +5,18 @@ import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import { FormikTimeInput } from '@navikt/sif-common-formik';
 import { Undertittel } from 'nav-frontend-typografi';
 import { Daginfo, Ukeinfo } from '../types';
-import formUtils from './omsorgstilbudFormUtils';
-
-export type OmsorgstilbudUkeTittelRenderer = (ukeinfo: Ukeinfo) => React.ReactNode;
+import { getForegåendeDagerIUke } from '../utils';
+import { TidPerDagValidator } from '../../../validation/fieldValidations';
 
 type DagLabelRenderer = (dag: Daginfo) => React.ReactNode;
 
-interface OmsorgstilbudUkeFormProps {
+interface Props {
     getFieldName: (dag: Daginfo) => string;
     ukeinfo: Ukeinfo;
     isNarrow: boolean;
     isWide: boolean;
-    tittelRenderer?: OmsorgstilbudUkeTittelRenderer;
+    tidPerDagValidator?: TidPerDagValidator;
+    ukeTittelRenderer?: (uke: Ukeinfo) => React.ReactNode;
     dagLabelRenderer?: (dag: Daginfo) => React.ReactNode;
 }
 
@@ -35,33 +35,29 @@ const renderDagLabel = (dag: Daginfo, customRenderer?: DagLabelRenderer): JSX.El
     );
 };
 
-const bem = bemUtils('omsorgstilbudForm');
+const bem = bemUtils('tidUkerInput');
 
-const OmsorgstilbudUkeForm: React.FunctionComponent<OmsorgstilbudUkeFormProps> = ({
+const TidUkeInput: React.FunctionComponent<Props> = ({
     ukeinfo,
     getFieldName,
-    tittelRenderer,
     dagLabelRenderer,
+    tidPerDagValidator,
+    ukeTittelRenderer,
     isWide,
 }) => {
-    const { dager, ukenummer, år } = ukeinfo;
+    const { dager } = ukeinfo;
     return (
         <ResponsivePanel className={bem.element('uke')}>
-            {tittelRenderer ? (
-                tittelRenderer(ukeinfo)
+            {ukeTittelRenderer ? (
+                ukeTittelRenderer(ukeinfo)
             ) : (
                 <Undertittel tag="h3">
-                    <FormattedMessage
-                        id="omsorgstilbud.ukeForm.tittel"
-                        values={{
-                            uke: ukenummer,
-                            år,
-                        }}
-                    />
+                    <FormattedMessage id="ukeÅr" values={{ ...ukeinfo }} />
                 </Undertittel>
             )}
+
             <div className={bem.element('uke__ukedager', isWide ? 'grid' : 'liste')}>
-                {formUtils.getForegåendeDagerIUke(dager[0]).map((dag) => (
+                {getForegåendeDagerIUke(dager[0]).map((dag) => (
                     <div
                         className={bem.element('dag', 'utenforPeriode')}
                         key={dag.isoDateString}
@@ -76,10 +72,10 @@ const OmsorgstilbudUkeForm: React.FunctionComponent<OmsorgstilbudUkeFormProps> =
                         <FormikTimeInput
                             name={getFieldName(dag)}
                             label={renderDagLabel(dag, dagLabelRenderer)}
-                            timeInputLayout={
-                                { direction: 'horizontal' } /*formUtils.getTimeInputLayout(isNarrow, isWide)*/
-                            }
-                            validate={formUtils.getTidIOmsorgValidator(dag)}
+                            timeInputLayout={{
+                                direction: 'horizontal',
+                            }}
+                            validate={tidPerDagValidator ? tidPerDagValidator(dag.labelFull) : undefined}
                         />
                     </div>
                 ))}
@@ -88,4 +84,4 @@ const OmsorgstilbudUkeForm: React.FunctionComponent<OmsorgstilbudUkeFormProps> =
     );
 };
 
-export default OmsorgstilbudUkeForm;
+export default TidUkeInput;

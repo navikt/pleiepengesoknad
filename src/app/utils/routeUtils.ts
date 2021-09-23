@@ -3,14 +3,13 @@ import { getStepConfig, StepID } from '../config/stepConfig';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import {
     arbeidssituasjonStepAvailable,
-    beredskapStepAvailable,
     legeerklæringStepAvailable,
     medlemskapStepAvailable,
-    nattevåkStepAvailable,
     opplysningerOmBarnetStepAvailable,
     opplysningerOmTidsromStepAvailable,
     summaryStepAvailable,
     omsorgstilbudStepAvailable,
+    nattevåkOgBeredskapStepAvailable,
 } from './stepUtils';
 
 export const getSøknadRoute = (stepId: StepID | undefined) => {
@@ -45,10 +44,8 @@ export const isAvailable = (
             return true; //arbeidssituasjonStepAvailable(values);
         case StepID.OMSORGSTILBUD:
             return omsorgstilbudStepAvailable(values);
-        case StepID.NATTEVÅK:
-            return nattevåkStepAvailable(values);
-        case StepID.BEREDSKAP:
-            return beredskapStepAvailable(values);
+        case StepID.NATTEVÅK_OG_BEREDSKAP:
+            return nattevåkOgBeredskapStepAvailable;
         case StepID.LEGEERKLÆRING:
             return legeerklæringStepAvailable(values);
         case StepID.MEDLEMSKAP:

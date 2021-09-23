@@ -5,16 +5,16 @@ import { ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import groupBy from 'lodash.groupby';
 import EkspanderbartPanel from 'nav-frontend-ekspanderbartpanel';
-import { OmsorgstilbudDagApi } from '../../../types/PleiepengesøknadApiData';
-import OmsorgsdagerListe from '../../omsorgstilbud/omsorgsdagerListe/OmsorgsdagerListe';
-import { OmsorgstilbudDag } from '../../omsorgstilbud/types';
+import { DagMedTid } from '../../../types';
+import { DagMedTidApi } from '../../../types/PleiepengesøknadApiData';
+import OmsorgsdagerListe from './omsorgsdagerListe/OmsorgsdagerListe';
 
 interface Props {
-    dager: OmsorgstilbudDagApi[];
+    dager: DagMedTidApi[];
 }
 
 const OmsorgstilbudEnkeltdagerSummary: React.FunctionComponent<Props> = ({ dager }) => {
-    const days: OmsorgstilbudDag[] = [];
+    const days: DagMedTid[] = [];
     dager.forEach((dag) => {
         const dato = ISOStringToDate(dag.dato);
         const tid = iso8601DurationToTime(dag.tid);

@@ -11,8 +11,6 @@ const omsorgstilbudMessages = {
         'omsorgstilbud.uke': 'Uke {uke}',
         'omsorgstilbud.ukeOgÅr': 'Omsorgstilbud {ukeOgÅr}',
         'omsorgstilbud.ingenDagerRegistrert': 'Ingen omsorgsdager registrert',
-        'omsorgstilbud.registrerTid': 'Registrer tid',
-        'omsorgstilbud.endreTid': 'Endre tid',
         'omsorgstilbud.form.tittel': 'Omsorgstilbud - {måned}',
         'omsorgstilbud.form.intro.1':
             'Fyll ut antall timer og minutter de dagene barnet skal være i omsorgstilbudet. Du skal bare fylle ut den tiden du vet med sikkerhet. Du trenger ikke fylle ut noe de dagene barnet ikke skal være i omsorgstilbud.',
@@ -22,6 +20,19 @@ const omsorgstilbudMessages = {
         'omsorgstilbud.form.knapp.ok': 'Ok',
         'omsorgstilbud.form.knapp.avbryt': 'Avbryt',
         'omsorgstilbud.ukeForm.tittel': 'Uke {uke}, {år}',
+
+        'omsorgstilbud.svar.ja': 'Ja',
+        'omsorgstilbud.svar.nei': 'Nei',
+
+        'omsorgstilbud.timerPerDag.timerOgMinutter': '{hours}t {minutes}m',
+        'omsorgstilbud.timerPerDag.timer': '{hours}t',
+        'omsorgstilbud.timerPerDag.minutter': '{minutes}m',
+        'omsorgstilbud.ingenDagerValgt': 'Ingen dager med tilsyn er registrert',
+
+        'omsorgstilbud.addLabel': 'Registrer omsorgstilbud {periode}',
+        'omsorgstilbud.deleteLabel': 'Fjern alle timer',
+        'omsorgstilbud.editLabel': 'Endre omsorgstilbud {periode}',
+        'omsorgstilbud.modalTitle': 'Omsorgstilbud - ${periode}',
     },
 };
 

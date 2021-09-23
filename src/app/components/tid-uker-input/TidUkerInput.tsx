@@ -3,21 +3,22 @@ import { useMediaQuery } from 'react-responsive';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import { DateRange } from '@navikt/sif-common-formik';
+import { TidPerDagValidator } from '../../validation/fieldValidations';
 import TidUkeInput from './parts/TidUkeInput';
 import { Ukeinfo } from './types';
 import { getDatoerIPeriode, getTidKalenderFieldName, getUkerFraDager } from './utils';
-import { ValidationError, ValidationFunction } from '@navikt/sif-common-formik/lib/validation/types';
+import './tidUkerInput.less';
 
 interface Props {
     fieldName: string;
     periode: DateRange;
-    ukeTittelRenderer?: (ukeinfo: Ukeinfo) => React.ReactNode;
-    tidPerDagValidator?: (dag: string) => ValidationFunction<ValidationError>;
+    ukeTittelRenderer?: (uke: Ukeinfo) => React.ReactNode;
+    tidPerDagValidator?: TidPerDagValidator;
 }
 
-const bem = bemUtils('omsorgstilbudForm');
+const bem = bemUtils('tidUkerInput');
 
-export const TidKalenderInput: React.FunctionComponent<Props> = ({
+export const TidUkerInput: React.FunctionComponent<Props> = ({
     fieldName,
     periode,
     ukeTittelRenderer,
@@ -34,11 +35,11 @@ export const TidKalenderInput: React.FunctionComponent<Props> = ({
                 return (
                     <FormBlock key={week.ukenummer} margin="m">
                         <TidUkeInput
+                            ukeTittelRenderer={ukeTittelRenderer}
                             getFieldName={(dag) => getTidKalenderFieldName(fieldName, dag)}
                             ukeinfo={week}
                             isNarrow={isNarrow}
                             isWide={isWide}
-                            tittelRenderer={ukeTittelRenderer}
                             tidPerDagValidator={tidPerDagValidator}
                         />
                     </FormBlock>
@@ -48,4 +49,4 @@ export const TidKalenderInput: React.FunctionComponent<Props> = ({
     );
 };
 
-export default TidKalenderInput;
+export default TidUkerInput;

@@ -1,26 +1,25 @@
 import React from 'react';
 import { IntlShape, useIntl } from 'react-intl';
 import AriaAlternative from '@navikt/sif-common-core/lib/components/aria/AriaAlternative';
-import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
+import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { Time } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import { EtikettInfo } from 'nav-frontend-etiketter';
+import { DagMedTid } from '../../types';
 import CalendarGrid from '../calendar-grid/CalendarGrid';
-import FormattedTimeText from './FormattedTimeText';
-import { OmsorgstilbudDag } from './types';
+import FormattedTimeText from '../formatted-time-text/FormattedTimeText';
 
 interface Props {
     måned: Date;
-    omsorgsdager: OmsorgstilbudDag[];
-    fraDato: Date;
-    tilDato: Date;
+    dager: DagMedTid[];
+    periode: DateRange;
     brukEtikettForInnhold?: boolean;
     visSomListe?: boolean;
     skjulTommeDagerIListe?: boolean;
 }
 
-export const formatTime = (intl: IntlShape, time: Partial<Time>): string => {
+const formatTime = (intl: IntlShape, time: Partial<Time>): string => {
     const timer = time.hours || '0';
     const minutter = time.minutes || '0';
     return intlHelper(intl, 'timerOgMinutter', { timer, minutter });
@@ -35,29 +34,19 @@ const DagContent = ({
     brukEtikettForInnhold?: boolean;
     desimalTid?: boolean;
 }) => {
-    const bem = bemUtils('tidIOmsorgstilbud');
     const intl = useIntl();
     const content = (
-        <div className={bem.element('info')}>
-            <span className={bem.element('info__tid')}>
-                <AriaAlternative
-                    visibleText={<FormattedTimeText time={tid} decimal={desimalTid} />}
-                    ariaText={formatTime(intl, tid)}
-                />
-            </span>
-        </div>
+        <AriaAlternative
+            visibleText={<FormattedTimeText time={tid} decimal={desimalTid} />}
+            ariaText={formatTime(intl, tid)}
+        />
     );
-    return brukEtikettForInnhold ? (
-        <EtikettInfo className={bem.block}>{content}</EtikettInfo>
-    ) : (
-        <div className={bem.block}>{content}</div>
-    );
+    return brukEtikettForInnhold ? <EtikettInfo>{content}</EtikettInfo> : content;
 };
-const OmsorgstilbudCalendar: React.FunctionComponent<Props> = ({
+const TidsbrukKalender: React.FunctionComponent<Props> = ({
     måned,
-    fraDato,
-    tilDato,
-    omsorgsdager,
+    periode,
+    dager,
     brukEtikettForInnhold,
     visSomListe,
     skjulTommeDagerIListe,
@@ -65,8 +54,8 @@ const OmsorgstilbudCalendar: React.FunctionComponent<Props> = ({
     return (
         <CalendarGrid
             month={måned}
-            min={fraDato}
-            max={tilDato}
+            min={periode.from}
+            max={periode.to}
             renderAsList={visSomListe}
             dateFormatter={(date: Date) => (
                 <AriaAlternative
@@ -77,7 +66,7 @@ const OmsorgstilbudCalendar: React.FunctionComponent<Props> = ({
             noContentRenderer={() => {
                 return <span />;
             }}
-            content={omsorgsdager.map((dag) => ({
+            days={dager.map((dag) => ({
                 date: dag.dato,
                 content: <DagContent tid={dag.tid} brukEtikettForInnhold={brukEtikettForInnhold} desimalTid={false} />,
             }))}
@@ -86,4 +75,4 @@ const OmsorgstilbudCalendar: React.FunctionComponent<Props> = ({
     );
 };
 
-export default OmsorgstilbudCalendar;
+export default TidsbrukKalender;

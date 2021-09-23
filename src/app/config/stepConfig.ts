@@ -11,8 +11,7 @@ export enum StepID {
     'ARBEID_HISTORISK' = 'arbeidHistorisk',
     'ARBEID_PLANLAGT' = 'arbeidPlanlagt',
     'OMSORGSTILBUD' = 'omsorgstilbud',
-    'NATTEVÅK' = 'nattevåk',
-    'BEREDSKAP' = 'beredskap',
+    'NATTEVÅK_OG_BEREDSKAP' = 'nattevåkOgBeredskap',
     'TIDSROM' = 'tidsrom',
     'MEDLEMSKAP' = 'medlemskap',
     'LEGEERKLÆRING' = 'legeerklaering',
@@ -71,8 +70,7 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData): StepConfi
             included: includeArbeidIPerioden && periodeFraOgMedSøknadsdato !== undefined,
         },
         { stepID: StepID.OMSORGSTILBUD, included: true },
-        { stepID: StepID.NATTEVÅK, included: includeNattevåkAndBeredskap },
-        { stepID: StepID.BEREDSKAP, included: includeNattevåkAndBeredskap },
+        { stepID: StepID.NATTEVÅK_OG_BEREDSKAP, included: includeNattevåkAndBeredskap },
         { stepID: StepID.MEDLEMSKAP, included: true },
         { stepID: StepID.LEGEERKLÆRING, included: true },
         { stepID: StepID.SUMMARY, included: true },
@@ -111,7 +109,7 @@ export const getStepConfig = (formValues?: PleiepengesøknadFormData): StepConfi
 };
 
 export const getBackLinkFromNotIncludedStep = (stepId: StepID): string | undefined => {
-    if (stepId === StepID.BEREDSKAP || stepId === StepID.NATTEVÅK) {
+    if (stepId === StepID.NATTEVÅK_OG_BEREDSKAP) {
         return getSøknadRoute(StepID.OMSORGSTILBUD);
     }
     if (stepId === StepID.ARBEID_HISTORISK || stepId === StepID.ARBEID_PLANLAGT) {

@@ -2,6 +2,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange, ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
+import { DagMedTid, TidsbrukDag } from '../../../types';
 import { VetOmsorgstilbud } from '../../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import {
@@ -10,12 +11,11 @@ import {
     visKunEnkeltdagerForOmsorgstilbud,
 } from '../../../utils/omsorgstilbudUtils';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from '../../../utils/stepUtils';
-import { OmsorgstilbudDag, TidIOmsorgstilbud } from '../../omsorgstilbud/types';
 
 dayjs.extend(isBetween);
 
-export const mapTidIOmsorgToOmsorgstilbudDag = (tidIOmsorgstilbud: TidIOmsorgstilbud): OmsorgstilbudDag[] => {
-    const dager: OmsorgstilbudDag[] = [];
+export const mapTidIOmsorgToDagMedTid = (tidIOmsorgstilbud: TidsbrukDag): DagMedTid[] => {
+    const dager: DagMedTid[] = [];
     Object.keys(tidIOmsorgstilbud).forEach((key) => {
         const dato = ISOStringToDate(key);
         if (dato) {
@@ -28,11 +28,8 @@ export const mapTidIOmsorgToOmsorgstilbudDag = (tidIOmsorgstilbud: TidIOmsorgsti
     return dager;
 };
 
-export const getTidIOmsorgstilbudInnenforPeriode = (
-    dager: TidIOmsorgstilbud,
-    periode: DateRange
-): TidIOmsorgstilbud => {
-    const dagerIPerioden: TidIOmsorgstilbud = {};
+export const getTidIOmsorgstilbudInnenforPeriode = (dager: TidsbrukDag, periode: DateRange): TidsbrukDag => {
+    const dagerIPerioden: TidsbrukDag = {};
     Object.keys(dager).forEach((dag) => {
         const dato = ISOStringToDate(dag);
         if (dato && dayjs(dato).isBetween(periode.from, periode.to, 'day', '[]')) {

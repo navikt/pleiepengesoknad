@@ -19,13 +19,12 @@ import { getTimerTekst } from '../../utils/arbeidsforholdUtils';
 import {
     getArbeidJobbeHvorMyeValidator,
     getArbeidJobberValidator,
-    getArbeidstimerDatoValidator,
     getArbeidstimerFastDagValidator,
     validateFasteArbeidstimerIUke,
 } from '../../validation/fieldValidations';
 import AppForm from '../app-form/AppForm';
 import TidFasteDagerInput from '../tid-faste-dager-input/TidFasteDagerInput';
-import TidKalenderInput from '../tid-kalender-input/TidKalenderInput';
+import ArbeidstidKalenderInput from './ArbeidstidKalenderInput';
 
 interface Props {
     parentFieldName: string;
@@ -43,7 +42,7 @@ export type ArbeidIPeriodeIntlValues = {
     til: string;
 };
 
-const ArbeidIPeriodeFormPart = ({
+const ArbeidIPeriodeSpørsmål = ({
     arbeidsforhold,
     parentFieldName,
     erHistorisk,
@@ -167,31 +166,14 @@ const ArbeidIPeriodeFormPart = ({
             )}
             {jobber === ArbeidsforholdJobberSvar.ja && erLiktHverUke === YesOrNo.NO && (
                 <FormBlock>
-                    <AppForm.InputGroup
-                        legend={intlHelper(
-                            intl,
-                            erHistorisk
-                                ? 'arbeidIPeriode.historisk.enkeltdager.tittel'
-                                : 'arbeidIPeriode.planlagt.enkeltdager.tittel',
-                            intlValues
-                        )}
-                        description={
-                            <ExpandableInfo title="Må jeg fylle ut for alle dagene?">
-                                Du trenger kun å fylle ut de dagene du jobbet. Dager hvor du ikke fyller ut noe tid, vil
-                                bli regnet som at du ikke jobbet den dagen.
-                            </ExpandableInfo>
-                        }
-                        name={'enkeltdager_gruppe' as any}>
-                        <TidKalenderInput
-                            periode={periode}
-                            fieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
-                            tidPerDagValidator={getArbeidstimerDatoValidator}
-                        />
-                    </AppForm.InputGroup>
+                    <ArbeidstidKalenderInput
+                        periode={periode}
+                        enkeltdagerFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
+                    />
                 </FormBlock>
             )}
         </>
     );
 };
 
-export default ArbeidIPeriodeFormPart;
+export default ArbeidIPeriodeSpørsmål;

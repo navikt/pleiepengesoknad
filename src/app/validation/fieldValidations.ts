@@ -32,7 +32,7 @@ import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import minMax from 'dayjs/plugin/minMax';
-import { ArbeidIPeriodeIntlValues as ArbeidIPeriodeIntlValues } from '../components/arbeid-i-periode/ArbeidIPeriodeFormPart';
+import { ArbeidIPeriodeIntlValues as ArbeidIPeriodeIntlValues } from '../components/arbeidstid/ArbeidIPeriodeSpørsmål';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
 import { ArbeidIPeriode, Omsorgstilbud } from '../types/PleiepengesøknadFormData';
 import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
@@ -387,4 +387,23 @@ export const validateReduserteArbeidTimer = (
         }
     }
     return undefined;
+};
+
+export type TidPerDagValidator = (dag: string) => (tid: Time) => ValidationError | undefined;
+
+export const getTidIOmsorgValidator: TidPerDagValidator = (dag: string) => (tid: Time) => {
+    const error = getTimeValidator({
+        required: false,
+        max: { hours: 7, minutes: 30 },
+    })(tid);
+    return error
+        ? {
+              key: `omsorgstilbud.validation.${error}`,
+              values: {
+                  dag,
+                  maksTimer: '7 timer og 30 minutter',
+              },
+              keepKeyUnaltered: true,
+          }
+        : undefined;
 };

@@ -19,10 +19,8 @@ import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
 import HistoriskArbeidStep from '../steps/historisk-arbeid-step/HistoriskArbeidStep';
 import ArbeidssituasjonStep from '../steps/arbeidssituasjon-step/ArbeidssituasjonStep';
-import BeredskapStep from '../steps/beredskap-step/BeredskapStep';
 import LegeerklæringStep from '../steps/legeerklæring-step/LegeerklæringStep';
 import MedlemsskapStep from '../steps/medlemskap-step/MedlemsskapStep';
-import NattevåkStep from '../steps/nattevåk-step/NattevåkStep';
 import OpplysningerOmBarnetStep from '../steps/opplysninger-om-barnet-step/OpplysningerOmBarnetStep';
 import SummaryStep from '../steps/summary-step/SummaryStep';
 import OpplysningerOmTidsromStep from '../steps/tidsrom-step/OpplysningerOmTidsromStep';
@@ -30,6 +28,7 @@ import OmsorgstilbudStep from '../steps/omsorgstilbud-step/OmsorgstilbudStep';
 import { getSøknadsperiodeFromFormData } from '../../utils/formDataUtils';
 import { getHistoriskPeriode, getPlanlagtPeriode } from '../../utils/omsorgstilbudUtils';
 import PlanlagtArbeidStep from '../steps/planlagt-arbeid-step/PlanlagtArbeidStep';
+import NattevåkOgBeredskapStep from '../steps/nattevåk-og-beredskap-step/NattevåkOgBeredskapStep';
 
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
@@ -192,20 +191,15 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
                 />
             )}
 
-            {isAvailable(StepID.NATTEVÅK, values) && (
+            {isAvailable(StepID.NATTEVÅK_OG_BEREDSKAP, values) && (
                 <Route
-                    path={getSøknadRoute(StepID.NATTEVÅK)}
+                    path={getSøknadRoute(StepID.NATTEVÅK_OG_BEREDSKAP)}
                     render={() => {
-                        return <NattevåkStep onValidSubmit={() => navigateToNextStepFrom(StepID.NATTEVÅK)} />;
-                    }}
-                />
-            )}
-
-            {isAvailable(StepID.BEREDSKAP, values) && (
-                <Route
-                    path={getSøknadRoute(StepID.BEREDSKAP)}
-                    render={() => {
-                        return <BeredskapStep onValidSubmit={() => navigateToNextStepFrom(StepID.BEREDSKAP)} />;
+                        return (
+                            <NattevåkOgBeredskapStep
+                                onValidSubmit={() => navigateToNextStepFrom(StepID.NATTEVÅK_OG_BEREDSKAP)}
+                            />
+                        );
                     }}
                 />
             )}

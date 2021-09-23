@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { TidIOmsorgstilbud } from '../../components/omsorgstilbud/types';
+import { TidsbrukDag } from '../../types';
 import { VetOmsorgstilbud } from '../../types/PleiepengesøknadApiData';
 import { AppFormField, Omsorgstilbud } from '../../types/PleiepengesøknadFormData';
 import { getEnkeltdagerIPeriode, mapPlanlagtOmsorgstilbudToApiData } from '../formToApiMaps/mapOmsorgstilbudToApiData';
@@ -70,7 +70,7 @@ describe('mapOmsorgstilbudToApiData test', () => {
         });
     });
     describe('getEnkeltdager', () => {
-        const enkeltdager: TidIOmsorgstilbud = {
+        const enkeltdager: TidsbrukDag = {
             '2021-06-01': { hours: '2', minutes: '30' },
             '2021-06-02': { hours: '2', minutes: '31' },
             '2021-07-01': { hours: '2', minutes: '32' },

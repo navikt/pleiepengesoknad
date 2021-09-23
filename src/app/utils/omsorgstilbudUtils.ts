@@ -5,7 +5,7 @@ import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUti
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import minMax from 'dayjs/plugin/minMax';
-import { TidIOmsorgstilbud } from '../components/omsorgstilbud/types';
+import { TidsbrukDag } from '../types';
 import { OmsorgstilbudFasteDager } from '../types/PleiepengesøknadFormData';
 
 dayjs.extend(isSameOrAfter);
@@ -46,8 +46,8 @@ export const getPlanlagtPeriode = (søknadsperiode: DateRange, søknadsdato: Dat
 const isValidNumberString = (value: any): boolean =>
     hasValue(value) && typeof value === 'string' && value.trim().length > 0;
 
-export const getCleanedTidIOmsorgstilbud = (tidIOmsorg: TidIOmsorgstilbud): TidIOmsorgstilbud => {
-    const cleanedTidIOmsorg: TidIOmsorgstilbud = {};
+export const getCleanedTidIOmsorgstilbud = (tidIOmsorg: TidsbrukDag): TidsbrukDag => {
+    const cleanedTidIOmsorg: TidsbrukDag = {};
     Object.keys(tidIOmsorg).forEach((key) => {
         const tid = tidIOmsorg[key];
         if (isValidTime(tid) && (isValidNumberString(tid.hours) || isValidNumberString(tid.minutes))) {

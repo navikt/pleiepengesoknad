@@ -2,8 +2,7 @@ import { dateToISOString } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import { groupBy } from 'lodash';
 import React from 'react';
-import { Daginfo } from '../omsorgstilbud/types';
-import { Ukeinfo } from './types';
+import { Daginfo, Ukeinfo } from './types';
 
 const getEmptyElements = (num: number): JSX.Element[] | undefined => {
     return num === 0

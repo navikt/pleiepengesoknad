@@ -5,6 +5,7 @@ import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-p
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { dateToday, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
@@ -13,23 +14,22 @@ import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { useFormikContext } from 'formik';
 import AlertStripe from 'nav-frontend-alertstriper';
+import FormSection from '../../../pre-common/form-section/FormSection';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import usePersistSoknad from '../../../hooks/usePersistSoknad';
 import { VetOmsorgstilbud } from '../../../types/PleiepengesøknadApiData';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import {
-    getPlanlagtPeriode,
     getHistoriskPeriode,
+    getPlanlagtPeriode,
     visKunEnkeltdagerForOmsorgstilbud,
 } from '../../../utils/omsorgstilbudUtils';
 import { getOmsorgstilbudtimerValidatorEnDag, validateSkalIOmsorgstilbud } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import TidFasteDagerInput from '../../tid-faste-dager-input/TidFasteDagerInput';
-import OmsorgstilbudFormPart from './OmsorgstilbudFormPart';
 import { cleanupOmsorgstilbudStep } from './omsorgstilbudStepUtils';
-import { dateToday, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import FormSection from '../../../pre-common/form-section/FormSection';
+import OmsorgstilbudIPeriodeSpørsmål from '../../omsorgstilbud/OmsorgstilbudKalenderInput';
 
 dayjs.extend(isBetween);
 
@@ -102,7 +102,7 @@ const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
                     />
                     {omsorgstilbud?.harBarnVærtIOmsorgstilbud === YesOrNo.YES && (
                         <FormBlock>
-                            <OmsorgstilbudFormPart
+                            <OmsorgstilbudIPeriodeSpørsmål
                                 visKunEnkeltdager={visKunEnkeltdagerForOmsorgstilbud(periodeFørSøknadsdato)}
                                 periode={periodeFørSøknadsdato}
                                 tidIOmsorgstilbud={omsorgstilbud.historisk?.enkeltdager || {}}
@@ -229,7 +229,7 @@ const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
                                         omsorgstilbud.planlagt?.erLiktHverUke === YesOrNo.NO) && (
                                         <>
                                             <FormBlock>
-                                                <OmsorgstilbudFormPart
+                                                <OmsorgstilbudIPeriodeSpørsmål
                                                     visKunEnkeltdager={visKunEnkeltdagerForOmsorgstilbud(
                                                         periodeFraOgMedSøknadsdato
                                                     )}

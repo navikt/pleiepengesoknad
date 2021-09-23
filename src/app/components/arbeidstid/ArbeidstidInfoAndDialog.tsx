@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import {
@@ -14,26 +13,17 @@ import Knapp from 'nav-frontend-knapper';
 import { Undertittel } from 'nav-frontend-typografi';
 import { TidsbrukDag } from '../../types';
 import { getDagerMedTidITidsrom } from '../../utils/tidsbrukUtils';
-import TidKalenderForm from '../tid-kalender-form/TidKalenderForm';
 import TidsbrukKalender from '../tidsbruk-kalender/TidsbrukKalender';
-import { getTidIOmsorgValidator } from '../../validation/fieldValidations';
+import TidKalenderForm from '../tid-kalender-form/TidKalenderForm';
+import { getArbeidstimerDatoValidator } from '../../validation/fieldValidations';
 
 interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, ValidationError> {
     name: FieldNames;
     labels: ModalFormAndInfoLabels;
     periode: DateRange;
-    skjulTommeDagerIListe?: boolean;
-    onAfterChange?: (omsorgsdager: TidsbrukDag) => void;
 }
 
-function OmsorgstilbudInfoAndDialog<FieldNames>({
-    name,
-    periode,
-    labels,
-    skjulTommeDagerIListe,
-    validate,
-    onAfterChange,
-}: Props<FieldNames>) {
+function ArbeidstidInfoAndDialog<FieldNames>({ name, periode, labels, validate }: Props<FieldNames>) {
     const gjelderFortid = dayjs(periode.to).isBefore(dateToday, 'day');
     return (
         <FormikModalFormAndInfo<FieldNames, TidsbrukDag, ValidationError>
@@ -74,52 +64,44 @@ function OmsorgstilbudInfoAndDialog<FieldNames>({
                                 </p>
                             </>
                         }
-                        tidPerDagValidator={getTidIOmsorgValidator}
+                        tidPerDagValidator={getArbeidstimerDatoValidator}
                         onSubmit={onSubmit}
                         onCancel={onCancel}
                     />
                 );
             }}
             infoRenderer={({ data, onEdit }) => {
-                const omsorgsdager = getDagerMedTidITidsrom(data, periode);
-                const tittelIdForAriaDescribedBy = `mndTittel_${dayjs(periode.from).format('MM_YYYY')}`;
-                const måned = omsorgsdager.length > 0 ? omsorgsdager[0].dato : periode.from;
+                const dager = getDagerMedTidITidsrom(data, periode);
+                const tittelId = `mndTittel_${dayjs(periode.from).format('MM_YYYY')}`;
+                const måned = dager.length > 0 ? dager[0].dato : periode.from;
+                const mndOgÅr = dayjs(måned).format('MMMM YYYY');
                 return (
                     <>
-                        <Undertittel tag="h3" id={tittelIdForAriaDescribedBy}>
-                            <FormattedMessage
-                                id="omsorgstilbud.ukeOgÅr"
-                                values={{ ukeOgÅr: dayjs(periode.from).format('MMMM YYYY') }}
-                            />
+                        <Undertittel tag="h3">
+                            <FormattedMessage id="arbeidIPeriode.periodetittel" values={{ periode: mndOgÅr }} />
                         </Undertittel>
-                        <Box margin="s">
-                            {omsorgsdager.length === 0 ? (
-                                <FormattedMessage tagName="p" id="omsorgstilbud.ingenDagerRegistrert" />
-                            ) : (
-                                <TidsbrukKalender
-                                    måned={måned}
-                                    periode={periode}
-                                    dager={omsorgsdager}
-                                    visSomListe={false}
-                                    skjulTommeDagerIListe={skjulTommeDagerIListe}
-                                />
-                            )}
-                        </Box>
+                        <TidsbrukKalender
+                            måned={måned}
+                            periode={periode}
+                            dager={dager}
+                            visSomListe={false}
+                            skjulTommeDagerIListe={true}
+                        />
                         <FormBlock margin="l">
                             <Knapp
                                 htmlType="button"
                                 mini={true}
                                 onClick={() => onEdit(data)}
-                                aria-describedby={tittelIdForAriaDescribedBy}>
-                                {omsorgsdager.length === 0 ? labels.addLabel : labels.editLabel}
+                                aria-describedby={tittelId}>
+                                {labels.addLabel}
+                                {/* <FormattedMessage id="arbeidstid.registrerTid.knapp" values={{ periode: mndOgÅr }} /> */}
                             </Knapp>
                         </FormBlock>
                     </>
                 );
             }}
-            onAfterChange={onAfterChange}
         />
     );
 }
 
-export default OmsorgstilbudInfoAndDialog;
+export default ArbeidstidInfoAndDialog;

@@ -86,7 +86,7 @@ export interface OmsorgstilbudFasteDagerApi {
     torsdag?: ISO8601Duration;
     fredag?: ISO8601Duration;
 }
-export interface OmsorgstilbudDagApi {
+export interface DagMedTidApi {
     dato: ISODateString;
     tid: ISO8601Duration;
 }
@@ -98,12 +98,12 @@ export enum VetOmsorgstilbud {
 export interface PlanlagtOmsorgstilbudApi {
     vetOmsorgstilbud: VetOmsorgstilbud;
     erLiktHverUke?: boolean;
-    enkeltdager?: OmsorgstilbudDagApi[];
+    enkeltdager?: DagMedTidApi[];
     ukedager?: OmsorgstilbudFasteDagerApi;
 }
 
 export interface HistoriskOmsorgstilbudApi {
-    enkeltdager: OmsorgstilbudDagApi[];
+    enkeltdager: DagMedTidApi[];
 }
 
 export interface OmsorgstilbudV2 {

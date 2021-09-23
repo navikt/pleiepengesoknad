@@ -18,7 +18,7 @@ import {
     PleiepengesøknadFormData,
 } from '../../../types/PleiepengesøknadFormData';
 import FormikStep from '../../formik-step/FormikStep';
-import ArbeidIPeriodeFormPart from '../../arbeid-i-periode/ArbeidIPeriodeFormPart';
+import ArbeidIPeriodeSpørsmål from '../../arbeidstid/ArbeidIPeriodeSpørsmål';
 import { ArbeidsforholdType } from '../../../types/PleiepengesøknadApiData';
 
 interface Props extends StepConfigProps {
@@ -63,6 +63,11 @@ const PlanlagtArbeidStep = ({ onValidSubmit, periode }: Props) => {
     const skalBesvareSelvstendig =
         selvstendig_harHattInntektSomSN === YesOrNo.YES && selvstendig_arbeidsforhold !== undefined;
 
+    const subTitle = intlHelper(intl, 'arbeidIPeriode.subtitle', {
+        fra: prettifyDateFull(periode.from),
+        til: prettifyDateFull(periode.to),
+    });
+
     /**
      * Kontroller om bruker må sendes tilbake til arbeidssituasjon-steget
      * Dette kan oppstå dersom bruker er på Arbeidssituasjon,
@@ -83,6 +88,7 @@ const PlanlagtArbeidStep = ({ onValidSubmit, periode }: Props) => {
     return (
         <FormikStep
             id={StepID.ARBEID_PLANLAGT}
+            stepSubTitle={subTitle}
             onValidFormSubmit={onValidSubmit}
             onStepCleanup={cleanupArbeidsforholdIPeriodeStep}>
             <Box padBottom="m">
@@ -105,7 +111,7 @@ const PlanlagtArbeidStep = ({ onValidSubmit, periode }: Props) => {
                             title={arbeidsforhold.navn}
                             key={arbeidsforhold.organisasjonsnummer}
                             titleIcon={<BuildingIcon />}>
-                            <ArbeidIPeriodeFormPart
+                            <ArbeidIPeriodeSpørsmål
                                 arbeidsforholdType={ArbeidsforholdType.ANSATT}
                                 arbeidsforhold={arbeidsforhold}
                                 periode={periode}
@@ -120,7 +126,7 @@ const PlanlagtArbeidStep = ({ onValidSubmit, periode }: Props) => {
             {skalBesvareFrilans && frilans_arbeidsforhold && (
                 <FormBlock>
                     <FormSection title={intlHelper(intl, 'arbeidIPeriode.FrilansLabel')} titleIcon={<BuildingIcon />}>
-                        <ArbeidIPeriodeFormPart
+                        <ArbeidIPeriodeSpørsmål
                             arbeidsforholdType={ArbeidsforholdType.FRILANSER}
                             arbeidsforhold={frilans_arbeidsforhold}
                             periode={periode}
@@ -133,7 +139,7 @@ const PlanlagtArbeidStep = ({ onValidSubmit, periode }: Props) => {
             {skalBesvareSelvstendig && selvstendig_arbeidsforhold && (
                 <FormBlock>
                     <FormSection title={intlHelper(intl, 'arbeidIPeriode.SNLabel')} titleIcon={<BuildingIcon />}>
-                        <ArbeidIPeriodeFormPart
+                        <ArbeidIPeriodeSpørsmål
                             arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
                             arbeidsforhold={selvstendig_arbeidsforhold}
                             periode={periode}

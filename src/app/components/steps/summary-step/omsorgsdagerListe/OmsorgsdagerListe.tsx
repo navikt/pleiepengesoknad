@@ -4,18 +4,17 @@ import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import dayjs from 'dayjs';
 import { groupBy } from 'lodash';
 import { Element, Undertittel } from 'nav-frontend-typografi';
-import FormattedTimeText from '../FormattedTimeText';
-import { OmsorgstilbudDag } from '../types';
+import { DagMedTid } from '../../../../types';
+import FormattedTimeText from '../../../formatted-time-text/FormattedTimeText';
 import './omsorgsdagerListe.less';
 
 interface Props {
-    omsorgsdager: OmsorgstilbudDag[];
+    omsorgsdager: DagMedTid[];
     visMåned?: boolean;
     viseUke?: boolean;
 }
 
-const sortDays = (d1: OmsorgstilbudDag, d2: OmsorgstilbudDag): number =>
-    dayjs(d1.dato).isSameOrBefore(d2.dato, 'day') ? -1 : 1;
+const sortDays = (d1: DagMedTid, d2: DagMedTid): number => (dayjs(d1.dato).isSameOrBefore(d2.dato, 'day') ? -1 : 1);
 
 const bem = bemUtils('omsorgsdagerListe');
 

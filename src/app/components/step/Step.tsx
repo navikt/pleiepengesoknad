@@ -19,6 +19,7 @@ import './step.less';
 
 export interface StepProps {
     id: StepID;
+    stepSubTitle?: string;
     onAvbryt: () => void;
     onFortsettSenere: () => void;
     useValidationErrorSummary?: boolean;
@@ -33,7 +34,15 @@ type Props = OwnProps & StepProps;
 
 const bem = bemHelper('step');
 
-const Step = ({ id, useValidationErrorSummary, stepConfig, onAvbryt, onFortsettSenere, children }: Props) => {
+const Step = ({
+    id,
+    useValidationErrorSummary,
+    stepConfig,
+    onAvbryt,
+    onFortsettSenere,
+    children,
+    stepSubTitle,
+}: Props) => {
     const conf = stepConfig[id];
     const intl = useIntl();
     const stepTexts: StepConfigItemTexts = getStepTexts(intl, id, stepConfig);
@@ -66,6 +75,12 @@ const Step = ({ id, useValidationErrorSummary, stepConfig, onAvbryt, onFortsettS
             <Box margin="xxl">
                 <Innholdstittel tag="h1" className={bem.element('title')}>
                     {stepTexts.stepTitle}
+                    {stepSubTitle && (
+                        <>
+                            {' '}
+                            <span className={bem.element('subTitle')}>{stepSubTitle}</span>
+                        </>
+                    )}
                 </Innholdstittel>
             </Box>
             <Box margin="xl">{children}</Box>

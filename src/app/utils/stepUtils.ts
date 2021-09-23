@@ -48,20 +48,12 @@ export const omsorgstilbudStepAvailable = (formData: PleiepengesøknadFormData) 
     opplysningerOmTidsromStepIsValid(formData) &&
     arbeidssituasjonStepIsValid();
 
-export const nattevåkStepAvailable = (formData: PleiepengesøknadFormData) =>
+export const nattevåkOgBeredskapStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
     arbeidssituasjonStepIsValid() &&
     omsorgstilbudStepAvailable(formData);
-
-export const beredskapStepAvailable = (formData: PleiepengesøknadFormData) =>
-    welcomingPageIsValid(formData) &&
-    opplysningerOmBarnetStepIsValid(formData) &&
-    opplysningerOmTidsromStepIsValid(formData) &&
-    arbeidssituasjonStepIsValid() &&
-    omsorgstilbudStepAvailable(formData) &&
-    nattevåkStepAvailable(formData);
 
 export const medlemskapStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
