@@ -6,11 +6,11 @@ import { formatDateToApiFormat, sortItemsByFomTom } from '@navikt/sif-common-cor
 import {
     UtenlandsoppholdIPeriodenApiData,
     UtenlandsoppholdUtenforEøsIPeriodenApiData,
-    PeriodeBarnetErInnlagtApiFormat,
+    PeriodeBarnetErInnlagtApiData,
 } from '../../types/PleiepengesøknadApiData';
 import { DateTidsperiode } from '@navikt/sif-common-forms/lib/tidsperiode';
 
-const mapBarnInnlagtPeriodeToApiFormat = (periode: DateTidsperiode): PeriodeBarnetErInnlagtApiFormat => {
+const mapBarnInnlagtPeriodeToApiFormat = (periode: DateTidsperiode): PeriodeBarnetErInnlagtApiData => {
     return {
         fraOgMed: formatDateToApiFormat(periode.fom),
         tilOgMed: formatDateToApiFormat(periode.tom),

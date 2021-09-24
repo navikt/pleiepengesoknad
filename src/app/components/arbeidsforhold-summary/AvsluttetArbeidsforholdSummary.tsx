@@ -2,11 +2,12 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { ArbeidsforholdAnsattApi, ArbeidsforholdType } from '../../types/PleiepengesøknadApiData';
+import { ArbeidsforholdAnsattApiData } from '../../types/PleiepengesøknadApiData';
 import './arbeidsforholdSummary.less';
+import { ArbeidsforholdType } from '../../types';
 
 interface Props {
-    arbeidsforhold: ArbeidsforholdAnsattApi;
+    arbeidsforhold: ArbeidsforholdAnsattApiData;
 }
 
 const bem = bemUtils('arbeidsforholdSummary');

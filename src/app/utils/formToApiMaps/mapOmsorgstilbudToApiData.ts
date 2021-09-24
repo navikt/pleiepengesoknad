@@ -3,13 +3,12 @@ import { dateToday, datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/ut
 import { timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { DateRange, dateToISOString, ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
-import { TidsbrukDag } from '../../types';
+import { TidsbrukDag, VetOmsorgstilbud } from '../../types';
 import {
-    HistoriskOmsorgstilbudApi,
-    DagMedTidApi,
-    OmsorgstilbudV2,
-    PlanlagtOmsorgstilbudApi,
-    VetOmsorgstilbud,
+    HistoriskOmsorgstilbudApiData,
+    TidEnkeltdagApiData,
+    OmsorgstilbudApiData,
+    PlanlagtOmsorgstilbudApiData,
 } from '../../types/PleiepengesøknadApiData';
 import { Omsorgstilbud, OmsorgstilbudFasteDager } from '../../types/PleiepengesøknadFormData';
 import { getHistoriskPeriode, getPlanlagtPeriode } from '../omsorgstilbudUtils';
@@ -22,11 +21,11 @@ export const getFasteDager = ({ mandag, tirsdag, onsdag, torsdag, fredag }: Omso
     fredag: fredag ? timeToIso8601Duration(fredag) : undefined,
 });
 
-const sortEnkeltdager = (d1: DagMedTidApi, d2: DagMedTidApi): number =>
+const sortEnkeltdager = (d1: TidEnkeltdagApiData, d2: TidEnkeltdagApiData): number =>
     dayjs(d1.dato).isBefore(d2.dato, 'day') ? -1 : 1;
 
-export const getEnkeltdagerIPeriode = (enkeltdager: TidsbrukDag, periode: DateRange): DagMedTidApi[] => {
-    const dager: DagMedTidApi[] = [];
+export const getEnkeltdagerIPeriode = (enkeltdager: TidsbrukDag, periode: DateRange): TidEnkeltdagApiData[] => {
+    const dager: TidEnkeltdagApiData[] = [];
 
     Object.keys(enkeltdager).forEach((dag) => {
         const dato = ISOStringToDate(dag);
@@ -44,7 +43,7 @@ export const getEnkeltdagerIPeriode = (enkeltdager: TidsbrukDag, periode: DateRa
 export const mapOmsorgstilbudToApiData = (
     omsorgstilbud: Omsorgstilbud,
     søknadsperiode: DateRange
-): OmsorgstilbudV2 | undefined => {
+): OmsorgstilbudApiData | undefined => {
     if (omsorgstilbud.historisk || omsorgstilbud.planlagt) {
         return {
             historisk: mapHistoriskOmsorgstilbudToApiData(omsorgstilbud, søknadsperiode),
@@ -57,7 +56,7 @@ export const mapOmsorgstilbudToApiData = (
 export const mapPlanlagtOmsorgstilbudToApiData = (
     omsorgstilbud: Omsorgstilbud,
     søknadsperiode: DateRange
-): PlanlagtOmsorgstilbudApi | undefined => {
+): PlanlagtOmsorgstilbudApiData | undefined => {
     const { planlagt, skalBarnIOmsorgstilbud } = omsorgstilbud;
 
     if (skalBarnIOmsorgstilbud === YesOrNo.NO || !planlagt) {
@@ -92,7 +91,7 @@ export const mapPlanlagtOmsorgstilbudToApiData = (
 export const mapHistoriskOmsorgstilbudToApiData = (
     omsorgstilbud: Omsorgstilbud,
     søknadsperiode: DateRange
-): HistoriskOmsorgstilbudApi | undefined => {
+): HistoriskOmsorgstilbudApiData | undefined => {
     const { harBarnVærtIOmsorgstilbud, historisk } = omsorgstilbud;
     const periodeFørSøknadsdato = getHistoriskPeriode(søknadsperiode, dateToday);
     if (harBarnVærtIOmsorgstilbud === YesOrNo.YES && historisk?.enkeltdager && periodeFørSøknadsdato) {

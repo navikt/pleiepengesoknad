@@ -1,7 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { TidsbrukDag } from '../../../../types';
-import { VetOmsorgstilbud } from '../../../../types/PleiepengesøknadApiData';
+import { TidsbrukDag, VetOmsorgstilbud } from '../../../../types';
 import { PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
 import { cleanupOmsorgstilbudStep, getTidIOmsorgstilbudInnenforPeriode } from '../omsorgstilbudStepUtils';
 

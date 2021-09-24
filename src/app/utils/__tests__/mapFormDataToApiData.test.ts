@@ -6,23 +6,13 @@ import * as dateUtils from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { Næringstype } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import dayjs from 'dayjs';
+import { ArbeidsforholdType, Arbeidsform, JobberSvar, VetOmsorgstilbud } from '../../types';
 import {
-    ArbeidsforholdApiNei,
-    ArbeidsforholdApiRedusert,
-    ArbeidsforholdApiVetIkke,
-    ArbeidsforholdType,
     PleiepengesøknadApiData,
-    SkalJobbe,
     UtenlandsoppholdIPeriodenApiData,
     UtenlandsoppholdUtenforEøsIPeriodenApiData,
-    VetOmsorgstilbud,
 } from '../../types/PleiepengesøknadApiData';
-import {
-    AppFormField,
-    ArbeidsforholdAnsatt,
-    Arbeidsform,
-    PleiepengesøknadFormData,
-} from '../../types/PleiepengesøknadFormData';
+import { AppFormField, ArbeidsforholdAnsatt, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { Arbeidsgiver, BarnReceivedFromApi } from '../../types/Søkerdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
 import { jsonSort } from '../jsonSort';
@@ -65,23 +55,6 @@ const telenorRedusertJobbing: ArbeidsforholdAnsatt = {
 const maxboIngenJobbing: ArbeidsforholdAnsatt = {
     ...organisasjonMaxbo,
     erAnsatt: YesOrNo.YES,
-    // skalJobbe: ArbeidsforholdSkalJobbeSvar.nei,
-    jobberNormaltTimer: '20',
-    arbeidsform: Arbeidsform.fast,
-};
-
-const maxboVetIkke: ArbeidsforholdAnsatt = {
-    ...organisasjonMaxbo,
-    erAnsatt: YesOrNo.YES,
-    // skalJobbe: ArbeidsforholdSkalJobbeSvar.vetIkke,
-    jobberNormaltTimer: '20',
-    arbeidsform: Arbeidsform.fast,
-};
-
-const maxboJobbeSomVanlig: ArbeidsforholdAnsatt = {
-    ...organisasjonMaxbo,
-    erAnsatt: YesOrNo.YES,
-    // skalJobbe: ArbeidsforholdSkalJobbeSvar.ja,
     jobberNormaltTimer: '20',
     arbeidsform: Arbeidsform.fast,
 };
@@ -294,139 +267,6 @@ describe('mapFormDataToApiData', () => {
         }
     });
 
-    it('should include prosentAvVanligUke when skalJobbe is redusert', () => {
-        const resultingApiData = mapFormDataToApiData(
-            { ...formData, arbeidsforhold: [telenorRedusertJobbing] },
-            barnMock,
-            'nb'
-        );
-        expect(resultingApiData).toBeDefined();
-        if (resultingApiData) {
-            const result: ArbeidsforholdApiRedusert = {
-                ...organisasjonTelenor,
-                erAnsatt: true,
-                jobberNormaltTimer: 20,
-                skalJobbe: SkalJobbe.REDUSERT,
-                skalJobbeProsent: 50,
-                arbeidsform: Arbeidsform.fast,
-                _type: ArbeidsforholdType.ANSATT,
-            };
-            expect(resultingApiData.arbeidsgivere.organisasjoner).toEqual([result]);
-            expect(resultingApiData.arbeidsgivere.organisasjoner[0].skalJobbeProsent).not.toEqual(0);
-        }
-    });
-
-    describe('should always include jobber_normalt_timer and skal_jobbe_prosent', () => {
-        it('when skalJobbe is nei', () => {
-            const resultingApiData = mapFormDataToApiData(
-                { ...formData, arbeidsforhold: [maxboIngenJobbing] },
-                barnMock,
-                'nb'
-            );
-            expect(resultingApiData?.arbeidsgivere.organisasjoner[0].jobberNormaltTimer).toBeDefined();
-            expect(resultingApiData?.arbeidsgivere.organisasjoner[0].skalJobbeProsent).toBeDefined();
-        });
-        it('when skalJobbe is vetIkke', () => {
-            const resultingApiData = mapFormDataToApiData(
-                { ...formData, arbeidsforhold: [maxboVetIkke] },
-                barnMock,
-                'nb'
-            );
-            expect(resultingApiData?.arbeidsgivere.organisasjoner[0].jobberNormaltTimer).toBeDefined();
-            expect(resultingApiData?.arbeidsgivere.organisasjoner[0].skalJobbeProsent).toBeDefined();
-        });
-        it('when skalJobbe is redusert', () => {
-            const resultingApiData = mapFormDataToApiData(
-                { ...formData, arbeidsforhold: [telenorRedusertJobbing] },
-                barnMock,
-                'nb'
-            );
-            expect(resultingApiData?.arbeidsgivere.organisasjoner[0].jobberNormaltTimer).toBeDefined();
-            expect(resultingApiData?.arbeidsgivere.organisasjoner[0].skalJobbeProsent).toBeDefined();
-        });
-        it('when skalJobbe is somVanlig', () => {
-            const resultingApiData = mapFormDataToApiData(
-                {
-                    ...formData,
-                    arbeidsforhold: [maxboJobbeSomVanlig],
-                },
-                barnMock,
-                'nb'
-            );
-            expect(resultingApiData?.arbeidsgivere.organisasjoner[0].jobberNormaltTimer).toBeDefined();
-            expect(resultingApiData?.arbeidsgivere.organisasjoner[0].skalJobbeProsent).toBeDefined();
-        });
-    });
-
-    it('should include prosentAvVanligUke when skalJobbe is nei', () => {
-        const resultingApiData = mapFormDataToApiData(
-            { ...formData, arbeidsforhold: [maxboIngenJobbing] },
-            barnMock,
-            'nb'
-        );
-        expect(resultingApiData).toBeDefined();
-        if (resultingApiData) {
-            const {
-                arbeidsgivere: { organisasjoner },
-            } = resultingApiData;
-            const result: ArbeidsforholdApiNei = {
-                ...organisasjonMaxbo,
-                skalJobbe: SkalJobbe.NEI,
-                skalJobbeProsent: 0,
-                jobberNormaltTimer: 20,
-                arbeidsform: Arbeidsform.fast,
-                erAnsatt: true,
-                _type: ArbeidsforholdType.ANSATT,
-            };
-            expect(JSON.stringify(jsonSort(organisasjoner))).toEqual(JSON.stringify(jsonSort([result])));
-        }
-    });
-
-    it('should include correct arbeidsforhold when skalJobbe is vetIkke', () => {
-        const resultingApiData = mapFormDataToApiData({ ...formData, arbeidsforhold: [maxboVetIkke] }, barnMock, 'nb');
-        expect(resultingApiData).toBeDefined();
-        if (resultingApiData) {
-            const {
-                arbeidsgivere: { organisasjoner },
-            } = resultingApiData;
-            const result: ArbeidsforholdApiVetIkke = {
-                ...organisasjonMaxbo,
-                jobberNormaltTimer: 20,
-                skalJobbe: SkalJobbe.VET_IKKE,
-                skalJobbeProsent: 0,
-                arbeidsform: Arbeidsform.fast,
-                erAnsatt: true,
-                _type: ArbeidsforholdType.ANSATT,
-            };
-            expect(organisasjoner).toEqual([result]);
-            expect(organisasjoner[0].skalJobbeTimer).toBeUndefined();
-        }
-    });
-
-    it('should include arbeidsforhold where user is not ansatt', () => {
-        const resultingApiData = mapFormDataToApiData(
-            { ...formData, arbeidsforhold: [{ ...maxboIngenJobbing, erAnsatt: YesOrNo.NO }] },
-            barnMock,
-            'nb'
-        );
-        expect(resultingApiData).toBeDefined();
-        if (resultingApiData) {
-            const {
-                arbeidsgivere: { organisasjoner },
-            } = resultingApiData;
-            const result: ArbeidsforholdApiNei = {
-                ...organisasjonMaxbo,
-                jobberNormaltTimer: 20,
-                skalJobbe: SkalJobbe.NEI,
-                skalJobbeProsent: 0,
-                arbeidsform: Arbeidsform.fast,
-                erAnsatt: false,
-                _type: ArbeidsforholdType.ANSATT,
-            };
-            expect(organisasjoner).toEqual([result]);
-        }
-    });
-
     it('should not include utenlandsoppholdIPerioden if skalOppholdeSegIUtlandet is NO', () => {
         const resultingApiData = mapFormDataToApiData(
             {
@@ -567,7 +407,6 @@ describe('mapFormDataToApiData', () => {
 
 describe('Test complete applications', () => {
     const resultApiData: PleiepengesøknadApiData = {
-        newVersion: true,
         språk: 'nb',
         barn: {
             navn: 'Mock Mocknes',
@@ -581,8 +420,7 @@ describe('Test complete applications', () => {
                 {
                     navn: 'Maxbo',
                     organisasjonsnummer: '910831143',
-                    skalJobbe: SkalJobbe.JA,
-                    skalJobbeProsent: 100,
+                    skalJobbe: JobberSvar.JA,
                     jobberNormaltTimer: 37.5,
                     arbeidsform: Arbeidsform.fast,
                     erAnsatt: true,
@@ -690,8 +528,7 @@ describe('Test complete applications', () => {
             arbeidsforhold: {
                 arbeidsform: Arbeidsform.fast,
                 jobberNormaltTimer: 10,
-                skalJobbeProsent: 0,
-                skalJobbe: SkalJobbe.NEI,
+                skalJobbe: JobberSvar.NEI,
                 _type: ArbeidsforholdType.FRILANSER,
             },
             jobberFortsattSomFrilans: true,

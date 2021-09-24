@@ -1,7 +1,8 @@
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { mapVirksomhetToVirksomhetApiData } from '@navikt/sif-common-forms/lib';
-import { ArbeidsforholdType, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
+import { ArbeidsforholdType } from '../../types';
+import { PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
 

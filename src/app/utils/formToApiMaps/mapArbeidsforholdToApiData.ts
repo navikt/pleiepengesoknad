@@ -1,30 +1,18 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
-import {
-    ArbeidsforholdApi,
-    ArbeidsforholdApiSomVanlig,
-    ArbeidsforholdType,
-    SkalJobbe,
-} from '../../types/PleiepengesøknadApiData';
+import { ArbeidsforholdType, JobberSvar } from '../../types';
+import { ArbeidsforholdApiData, ArbeidsforholdApiSomVanlig } from '../../types/PleiepengesøknadApiData';
 import { Arbeidsforhold, ArbeidsforholdAnsatt, isArbeidsforholdAnsatt } from '../../types/PleiepengesøknadFormData';
 
 export const mapArbeidsforholdToApiData = (
     arbeidsforhold: Arbeidsforhold | ArbeidsforholdAnsatt,
     type: ArbeidsforholdType
-): ArbeidsforholdApi | undefined => {
-    const {
-        // skalJobbe,
-        // timerEllerProsent,
-        jobberNormaltTimer,
-        // skalJobbeTimer,
-        // skalJobbeProsent,
-        arbeidsform,
-        // skalJobbeHvorMye,
-    } = arbeidsforhold;
+): ArbeidsforholdApiData | undefined => {
+    const { jobberNormaltTimer, arbeidsform } = arbeidsforhold;
 
     const erAnsatt = isArbeidsforholdAnsatt(arbeidsforhold) ? arbeidsforhold.erAnsatt === YesOrNo.YES : undefined;
 
-    const commonData: Pick<ArbeidsforholdApi, 'arbeidsform' | 'erAnsatt' | '_type'> = {
+    const commonData: Pick<ArbeidsforholdApiData, 'arbeidsform' | 'erAnsatt' | '_type'> = {
         arbeidsform,
         erAnsatt,
         _type: type,
@@ -88,8 +76,7 @@ export const mapArbeidsforholdToApiData = (
     // }
     const forholdSomVanlig: ArbeidsforholdApiSomVanlig = {
         ...commonData,
-        skalJobbe: SkalJobbe.JA,
-        skalJobbeProsent: 100,
+        skalJobbe: JobberSvar.JA,
         jobberNormaltTimer: jobberNormaltTimerNumber,
     };
     return forholdSomVanlig;

@@ -3,10 +3,10 @@ import { IntlShape, useIntl } from 'react-intl';
 import { Time } from '@navikt/sif-common-core/lib/types/Time';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { iso8601DurationToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { OmsorgstilbudFasteDagerApi } from '../../../types/PleiepengesøknadApiData';
+import { TidFasteDagerApiData } from '../../../types/PleiepengesøknadApiData';
 
 interface Props {
-    fasteDager?: OmsorgstilbudFasteDagerApi;
+    fasteDager?: TidFasteDagerApiData;
 }
 
 const formatTime = (intl: IntlShape, time: Partial<Time>): string => {

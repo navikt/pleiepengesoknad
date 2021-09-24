@@ -3,16 +3,17 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-with-header/ContentWithHeader';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { PlanlagtOmsorgstilbudApi, VetOmsorgstilbud } from '../../../types/PleiepengesøknadApiData';
+import { PlanlagtOmsorgstilbudApiData } from '../../../types/PleiepengesøknadApiData';
 import OmsorgstilbudEnkeltdagerSummary from './OmsorgstilbudEnkeltdagerSummary';
 import OmsorgstilbudFasteDagerSummary from './OmsorgstilbudFasteDagerSummary';
 import SummaryBlock from './SummaryBlock';
 import { DateRange, dateToday, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getPlanlagtPeriode } from '../../../utils/omsorgstilbudUtils';
 import JaNeiSvar from './JaNeiSvar';
+import { VetOmsorgstilbud } from '../../../types';
 
 interface Props {
-    omsorgstilbud?: PlanlagtOmsorgstilbudApi;
+    omsorgstilbud?: PlanlagtOmsorgstilbudApiData;
     søknadsperiode: DateRange;
 }
 

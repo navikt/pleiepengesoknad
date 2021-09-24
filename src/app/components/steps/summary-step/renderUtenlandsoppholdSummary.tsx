@@ -9,7 +9,7 @@ import {
     BostedUtlandApiData,
     FerieuttakIPeriodeApiData,
     isUtenlandsoppholdUtenforEØSApiData,
-    PeriodeBarnetErInnlagtApiFormat,
+    PeriodeBarnetErInnlagtApiData,
     UtenlandsoppholdIPeriodenApiData,
 } from '../../../types/PleiepengesøknadApiData';
 import './utenlandsoppholdSummaryItem.less';
@@ -52,7 +52,7 @@ export const renderUtenlandsoppholdIPeriodenSummary = (opphold: Utenlandsopphold
                             <FormattedMessage id={`utenlandsopphold.form.perioderBarnetErInnlag.listTitle`} />:
                             <SummaryList
                                 items={opphold.perioderBarnetErInnlagt}
-                                itemRenderer={(periode: PeriodeBarnetErInnlagtApiFormat) => (
+                                itemRenderer={(periode: PeriodeBarnetErInnlagtApiData) => (
                                     <>
                                         {prettifyDateExtended(apiStringDateToDate(periode.fraOgMed))} -{' '}
                                         {prettifyDateExtended(apiStringDateToDate(periode.tilOgMed))}

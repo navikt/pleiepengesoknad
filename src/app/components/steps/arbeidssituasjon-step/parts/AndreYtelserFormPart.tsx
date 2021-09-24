@@ -4,9 +4,10 @@ import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getListValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
-import { AndreYtelserFraNAV, AppFormField, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
+import { AppFormField, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
 import AppForm from '../../../app-form/AppForm';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
+import { AndreYtelserFraNAV } from '../../../../types';
 
 interface Props {
     formValues: PleiepengesøknadFormData;

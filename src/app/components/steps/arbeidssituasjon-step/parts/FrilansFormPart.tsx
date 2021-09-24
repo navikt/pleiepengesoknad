@@ -11,7 +11,7 @@ import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-dat
 import { getDateValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../../../lenker';
-import { AppFormField, Arbeidsform, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
+import { AppFormField, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
 import { erFrilanserISøknadsperiode } from '../../../../utils/frilanserUtils';
 import {
     getArbeidsformValidator,
@@ -20,6 +20,7 @@ import {
 } from '../../../../validation/fieldValidations';
 import AppForm from '../../../app-form/AppForm';
 import ArbeidsformOgTimer from './ArbeidsformOgTimer';
+import { Arbeidsform } from '../../../../types';
 
 interface Props {
     formValues: PleiepengesøknadFormData;

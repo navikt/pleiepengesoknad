@@ -19,7 +19,7 @@ import {
 } from '../../../types/PleiepengesøknadFormData';
 import FormikStep from '../../formik-step/FormikStep';
 import ArbeidIPeriodeSpørsmål from '../../arbeidstid/ArbeidIPeriodeSpørsmål';
-import { ArbeidsforholdType } from '../../../types/PleiepengesøknadApiData';
+import { ArbeidsforholdType } from '../../../types';
 
 interface Props extends StepConfigProps {
     periode: DateRange;

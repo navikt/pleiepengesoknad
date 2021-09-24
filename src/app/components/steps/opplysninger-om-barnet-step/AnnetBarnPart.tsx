@@ -11,9 +11,10 @@ import {
     getStringValidator,
 } from '@navikt/sif-common-formik/lib/validation';
 import { Undertittel } from 'nav-frontend-typografi';
-import { AppFormField, BarnRelasjon, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { validateNavn } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
+import { BarnRelasjon } from '../../../types';
 
 interface Props {
     formValues: PleiepengesøknadFormData;

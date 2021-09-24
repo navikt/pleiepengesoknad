@@ -11,7 +11,7 @@ import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-comm
 import VirksomhetInfoAndDialog from '@navikt/sif-common-forms/lib/virksomhet/VirksomhetInfoAndDialog';
 import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../../../lenker';
-import { AppFormField, Arbeidsform, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
+import { AppFormField, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
 import {
     getArbeidsformValidator,
     getJobberNormaltTimerValidator,
@@ -19,6 +19,7 @@ import {
 } from '../../../../validation/fieldValidations';
 import AppForm from '../../../app-form/AppForm';
 import ArbeidsformOgTimer from './ArbeidsformOgTimer';
+import { Arbeidsform } from '../../../../types';
 
 interface Props {
     formValues: PleiepengesøknadFormData;

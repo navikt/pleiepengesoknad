@@ -506,8 +506,6 @@
     "arbeidsforhold.oppsummering.skalIkkeJobbe": "ikke skal jobbe i pleiepengeperioden.",
     "arbeidsforhold.oppsummering.avsluttet.jobberVanligvis": "jobbet vanligvis {timerNormalt, plural, one {# time} other {# timer}} per uke ({arbeidsform}).",
     "arbeidsforhold.oppsummering.avsluttet.skalJobbeSomVanlig": "jobbet som vanlig i pleiepengeperioden, {timerNormalt, plural, one {# time} other {# timer}} per uke.",
-    "arbeidsforhold.oppsummering.avsluttet.skalJobbeRedusert.timer": "jobbet {timerRedusert, plural, one {# time} other {# timer}} av {timerNormalt, plural, one {# time} other {# timer}} per uke i pleiepengeperioden.",
-    "arbeidsforhold.oppsummering.avsluttet.skalJobbeRedusert.prosent": "jobbet {prosentRedusert} prosent av {timerNormalt, plural, one {# time} other {# timer}} per uke i pleiepengeperioden.",
     "arbeidsforhold.oppsummering.avsluttet.skalIkkeJobbe": "jobbet ikke i pleiepengeperioden.",
 
     "arbeidsforhold.oppsummering.arbeidsform.FAST": "fast antall timer per uke",
@@ -520,7 +518,7 @@
     "arbeidIPeriode.FrilansLabel": "Frilans",
     "arbeidIPeriode.SNLabel": "Selvstendig næringsdrivende",
     "arbeidIPeriode.jobber.spm": "Skal du være noe på jobb {hvor} i samme periode som du skal ha pleiepenger?",
-    "arbeidIPeriode.jobbeHvorMye.spm": "Du har opplyst at du vanligvis jobber {timer} per uke {hvor}. Hvor mye skal du jobbe der i pleiepengeperioden?",
+    "arbeidIPeriode.jobberSomVanlig.spm": "Du har opplyst at du vanligvis jobber {timer} per uke {hvor}. Hvor mye skal du jobbe der i pleiepengeperioden?",
     "arbeidIPeriode.erLiktHverUke.spm": "Er arbeidsukene dine like i denne perioden {hvor}, eller varierer det?",
     "arbeidIPeriode.erLiktHverUke.erLikt": "Hver uke er lik",
     "arbeidIPeriode.erLiktHverUke.varierer": "Det varierer fra uke til uke",
@@ -531,7 +529,7 @@
     "arbeidIPeriode.planlagt.enkeltdager.tittel": "Hvor mye skal du jobbe {hvor} i perioden?",
 
     "arbeidIPeriode.historisk.jobber.spm": "Var du noe på jobb {hvor} i perioden {fra} til {til}?",
-    "arbeidIPeriode.historisk.jobbeHvorMye.spm": "Du har opplyst at du vanligvis jobbet {timer} per uke {hvor}. Hvor mye jobbet du der i denne perioden?",
+    "arbeidIPeriode.historisk.jobberSomVanlig.spm": "Du har opplyst at du vanligvis jobbet {timer} per uke {hvor}. Hvor mye jobbet du der i denne perioden?",
     "arbeidIPeriode.historisk.erLiktHverUke.spm": "Var arbeidsukene dine like i denne perioden {hvor}, eller varierte det?",
     "arbeidIPeriode.historisk.erLiktHverUke.erLikt": "Hver uke var lik",
     "arbeidIPeriode.historisk.erLiktHverUke.varierer": "Det varierte fra uke til uke",
@@ -540,8 +538,8 @@
     "arbeidIPeriode.skalJobbe.planlagt": "skal jobbe",
     "arbeidIPeriode.skalJobbe.historisk": "jobbet",
     "arbeidIPeriode.skalJobbe.vetIkke": "Usikker, men jeg melder fra hvis jeg skal jobbe i pleiepengeperioden",
-    "arbeidIPeriode.jobbeHvorMye.somVanlig": "Som vanlig, {timer} per uke",
-    "arbeidIPeriode.jobbeHvorMye.redusert": "Mindre enn {timer} per uke",
+    "arbeidIPeriode.jobberSomVanlig.somVanlig": "Som vanlig, {timer} per uke",
+    "arbeidIPeriode.jobberSomVanlig.redusert": "Mindre enn {timer} per uke",
 
     "arbeidIPeriode.historisk.hvorMyeTidIArbeid": "Oppgi timene og minuttene du arbeidet:",
     "arbeidIPeriode.planlagt.hvorMyeTidIArbeid": "Oppgi de timene og minuttene som du skal arbeide:",
@@ -749,7 +747,7 @@
     "validation.arbeidIPeriode.skalJobbe": "Du må svare på om du {skalEllerHarJobbet} {hvor} i samme periode som du søker pleiepenger.",
     "validation.arbeidIPeriode.skalJobbe.info.tittel": "Hvorfor spør vi om dette?",
     "validation.arbeidIPeriode.skalJobbe.info.tekst": "Vi spør om dette fordi pleiepengene skal graderes tilsvarende den tiden du jobber i pleiepengeperioden. Velg det som passer best i din situasjon.",
-    "validation.arbeidIPeriode.jobbeHvorMye": "Du må svare på hvor mye du {skalEllerHarJobbet} {hvor} i pleiepengeperioden.",
+    "validation.arbeidIPeriode.jobberSomVanlig": "Du må svare på hvor mye du {skalEllerHarJobbet} {hvor} i pleiepengeperioden.",
     "validation.arbeidIPeriode_redusertMerEnnNormalt": "Du må oppgi et timeantall som er lavere enn vanlig arbeidstid for hvor mye du {skalEllerHarJobbet} {hvor}.",
     "validation.arbeidIPeriode_prosentUgyldig": "Prosenten du kan oppgi er fra 1 til 99 prosent  for hvor mye du {skalEllerHarJobbet} {hvor}.",
 

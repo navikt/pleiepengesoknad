@@ -6,18 +6,16 @@ import { prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
-import { ArbeidsforholdType } from '../../types/PleiepengesøknadApiData';
+import { JobberSvar, ArbeidsforholdType } from '../../types';
 import {
     AppFormField,
     ArbeidIPeriodeField,
     Arbeidsforhold,
-    ArbeidsforholdJobberSvar,
-    ArbeidsforholdSkalJobbeHvorMyeSvar,
     isArbeidsforholdAnsatt,
 } from '../../types/PleiepengesøknadFormData';
 import { getTimerTekst } from '../../utils/arbeidsforholdUtils';
 import {
-    getArbeidJobbeHvorMyeValidator,
+    getArbeidJobberSomVanligValidator,
     getArbeidJobberValidator,
     getArbeidstimerFastDagValidator,
     validateFasteArbeidstimerIUke,
@@ -72,7 +70,7 @@ const ArbeidIPeriodeSpørsmål = ({
 
     const arbeidIPeriode = erHistorisk ? arbeidsforhold?.historisk : arbeidsforhold?.planlagt;
 
-    const { jobber, jobbeHvorMye, erLiktHverUke } = arbeidIPeriode || {};
+    const { jobber, jobberSomVanlig, erLiktHverUke } = arbeidIPeriode || {};
 
     return (
         <>
@@ -90,43 +88,38 @@ const ArbeidIPeriodeSpørsmål = ({
                     radios={[
                         {
                             label: intlHelper(intl, 'arbeidIPeriode.skalJobbe.ja'),
-                            value: ArbeidsforholdJobberSvar.ja,
+                            value: JobberSvar.JA,
                         },
                         {
                             label: intlHelper(intl, 'arbeidIPeriode.skalJobbe.nei'),
-                            value: ArbeidsforholdJobberSvar.nei,
+                            value: JobberSvar.NEI,
                         },
                         ...(erHistorisk === false
                             ? [
                                   {
                                       label: intlHelper(intl, 'arbeidIPeriode.skalJobbe.vetIkke'),
-                                      value: ArbeidsforholdJobberSvar.vetIkke,
+                                      value: JobberSvar.VET_IKKE,
                                   },
                               ]
                             : []),
                     ]}
                 />
             </FormBlock>
-            {jobber === ArbeidsforholdJobberSvar.ja && (
+            {jobber === JobberSvar.JA && (
                 <FormBlock>
-                    <AppForm.RadioPanelGroup
-                        name={getFieldName(ArbeidIPeriodeField.jobbeHvorMye)}
-                        legend={getSpørsmål(ArbeidIPeriodeField.jobbeHvorMye)}
-                        radios={[
-                            {
-                                label: intlHelper(intl, 'arbeidIPeriode.jobbeHvorMye.somVanlig', intlValues),
-                                value: ArbeidsforholdSkalJobbeHvorMyeSvar.somVanlig,
-                            },
-                            {
-                                label: intlHelper(intl, 'arbeidIPeriode.jobbeHvorMye.redusert', intlValues),
-                                value: ArbeidsforholdSkalJobbeHvorMyeSvar.redusert,
-                            },
-                        ]}
-                        validate={getArbeidJobbeHvorMyeValidator(intlValues)}
+                    <AppForm.YesOrNoQuestion
+                        name={getFieldName(ArbeidIPeriodeField.jobberSomVanlig)}
+                        legend={getSpørsmål(ArbeidIPeriodeField.jobberSomVanlig)}
+                        useTwoColumns={false}
+                        labels={{
+                            yes: intlHelper(intl, 'arbeidIPeriode.jobberSomVanlig.somVanlig', intlValues),
+                            no: intlHelper(intl, 'arbeidIPeriode.jobberSomVanlig.redusert', intlValues),
+                        }}
+                        validate={getArbeidJobberSomVanligValidator(intlValues)}
                     />
                 </FormBlock>
             )}
-            {jobber === ArbeidsforholdJobberSvar.ja && jobbeHvorMye === ArbeidsforholdSkalJobbeHvorMyeSvar.redusert && (
+            {jobber === JobberSvar.JA && jobberSomVanlig === YesOrNo.NO && (
                 <FormBlock>
                     <AppForm.YesOrNoQuestion
                         name={getFieldName(ArbeidIPeriodeField.erLiktHverUke)}
@@ -146,7 +139,7 @@ const ArbeidIPeriodeSpørsmål = ({
                     />
                 </FormBlock>
             )}
-            {jobber === ArbeidsforholdJobberSvar.ja && erLiktHverUke === YesOrNo.YES && (
+            {jobber === JobberSvar.JA && erLiktHverUke === YesOrNo.YES && (
                 <FormBlock>
                     <AppForm.InputGroup
                         legend={intlHelper(
@@ -164,7 +157,7 @@ const ArbeidIPeriodeSpørsmål = ({
                     </AppForm.InputGroup>
                 </FormBlock>
             )}
-            {jobber === ArbeidsforholdJobberSvar.ja && erLiktHverUke === YesOrNo.NO && (
+            {jobber === JobberSvar.JA && erLiktHverUke === YesOrNo.NO && (
                 <FormBlock>
                     <ArbeidstidKalenderInput
                         periode={periode}

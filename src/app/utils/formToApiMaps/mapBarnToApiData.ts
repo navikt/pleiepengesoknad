@@ -1,6 +1,6 @@
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
-import { BarnToSendToApi } from '../../types/PleiepengesøknadApiData';
+import { BarnApiData } from '../../types/PleiepengesøknadApiData';
 import { BarnReceivedFromApi } from '../../types/Søkerdata';
 
 export const mapBarnToApiData = (
@@ -8,7 +8,7 @@ export const mapBarnToApiData = (
     barnetsNavn: string,
     barnetsFødselsnummer: string | undefined,
     barnetSøknadenGjelder: string | undefined
-): BarnToSendToApi => {
+): BarnApiData => {
     const emptyBarn = {
         navn: barnetsNavn && barnetsNavn !== '' ? barnetsNavn : null,
         fødselsnummer: barnetsFødselsnummer || null,

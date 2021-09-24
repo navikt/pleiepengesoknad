@@ -9,11 +9,11 @@ import {
     ArbeidsforholdAnsatt,
     ArbeidsforholdField,
     ArbeidsforholdSNF,
-    Arbeidsform,
     isArbeidsforholdAnsatt,
 } from '../../../../types/PleiepengesøknadFormData';
 import AppForm from '../../../app-form/AppForm';
 import ArbeidsformInfo from '../info/ArbeidsformInfo';
+import { Arbeidsform } from '../../../../types';
 
 interface Props {
     arbeidsforhold?: ArbeidsforholdAnsatt | ArbeidsforholdSNF;

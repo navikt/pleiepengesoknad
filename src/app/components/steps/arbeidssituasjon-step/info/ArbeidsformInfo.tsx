@@ -4,7 +4,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { Element } from 'nav-frontend-typografi';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Arbeidsform } from '../../../../types/PleiepengesøknadFormData';
+import { Arbeidsform } from '../../../../types';
 
 interface Props {
     arbeidsform: Arbeidsform;

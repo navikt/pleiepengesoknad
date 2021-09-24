@@ -5,12 +5,13 @@ import { apiStringDateToDate, prettifyDate } from '@navikt/sif-common-core/lib/u
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
-import { BarnRelasjon, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../../../types/Søkerdata';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import SummarySection from '../../summary-section/SummarySection';
 import TextareaSummary from '@navikt/sif-common-core/lib/components/textarea-summary/TextareaSummary';
 import Sitat from './Sitat';
+import { BarnRelasjon } from '../../../types';
 
 interface Props {
     barn: BarnReceivedFromApi[];

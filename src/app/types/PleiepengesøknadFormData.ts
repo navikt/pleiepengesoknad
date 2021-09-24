@@ -4,8 +4,8 @@ import { Time } from '@navikt/sif-common-formik/lib/types';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { Virksomhet } from '@navikt/sif-common-forms/lib/virksomhet/types';
-import { TidsbrukDag } from '.';
-import { VetOmsorgstilbud } from './PleiepengesøknadApiData';
+import { AndreYtelserFraNAV, Arbeidsform, BarnRelasjon, JobberSvar, TidsbrukDag, VetOmsorgstilbud } from '.';
+
 import { Arbeidsgiver } from './Søkerdata';
 
 export enum AppFormField {
@@ -60,12 +60,6 @@ export enum AppFormField {
     andreYtelser = 'andreYtelser',
 }
 
-export enum ArbeidsforholdJobberSvar {
-    'ja' = 'ja',
-    'nei' = 'nei',
-    'vetIkke' = 'vetIkke',
-}
-
 export interface OmsorgstilbudFasteDager {
     mandag?: Time;
     tirsdag?: Time;
@@ -90,25 +84,6 @@ export interface Omsorgstilbud {
     historisk?: OmsorgstilbudHistorisk;
 }
 
-export enum ArbeidsforholdField {
-    erAnsatt = 'erAnsatt',
-    arbeidsform = 'arbeidsform',
-    jobberNormaltTimer = 'jobberNormaltTimer',
-    historisk = 'historisk',
-    planlagt = 'planlagt',
-}
-
-export enum ArbeidsforholdSkalJobbeHvorMyeSvar {
-    redusert = 'redusert',
-    somVanlig = 'somVanlig',
-}
-
-export enum Arbeidsform {
-    fast = 'FAST',
-    turnus = 'TURNUS',
-    varierende = 'VARIERENDE',
-}
-
 export interface OmsorgstilbudFasteDager {
     mandag?: Time;
     tirsdag?: Time;
@@ -117,17 +92,25 @@ export interface OmsorgstilbudFasteDager {
     fredag?: Time;
 }
 
+export enum ArbeidsforholdField {
+    erAnsatt = 'erAnsatt',
+    arbeidsform = 'arbeidsform',
+    jobberNormaltTimer = 'jobberNormaltTimer',
+    historisk = 'historisk',
+    planlagt = 'planlagt',
+}
+
 export enum ArbeidIPeriodeField {
-    'jobber' = 'jobber',
-    'jobbeHvorMye' = 'jobbeHvorMye',
-    'erLiktHverUke' = 'erLiktHverUke',
-    'fasteDager' = 'fasteDager',
-    'enkeltdager' = 'enkeltdager',
+    jobber = 'jobber',
+    jobberSomVanlig = 'jobberSomVanlig',
+    erLiktHverUke = 'erLiktHverUke',
+    fasteDager = 'fasteDager',
+    enkeltdager = 'enkeltdager',
 }
 
 export interface ArbeidIPeriode {
-    [ArbeidIPeriodeField.jobber]: ArbeidsforholdJobberSvar;
-    [ArbeidIPeriodeField.jobbeHvorMye]: ArbeidsforholdSkalJobbeHvorMyeSvar;
+    [ArbeidIPeriodeField.jobber]: JobberSvar;
+    [ArbeidIPeriodeField.jobberSomVanlig]: YesOrNo;
     [ArbeidIPeriodeField.erLiktHverUke]?: YesOrNo;
     [ArbeidIPeriodeField.enkeltdager]?: TidsbrukDag;
     [ArbeidIPeriodeField.fasteDager]?: OmsorgstilbudFasteDager;
@@ -148,28 +131,6 @@ export const isArbeidsforholdAnsatt = (arbeidsforhold: any): arbeidsforhold is A
 };
 
 export type ArbeidsforholdSNF = Arbeidsforhold;
-
-export enum OmsorgstilbudVetPeriode {
-    'vetHelePerioden' = 'vetHelePerioden',
-    'usikker' = 'usikker',
-}
-
-export enum BarnRelasjon {
-    MOR = 'MOR',
-    FAR = 'FAR',
-    MEDMOR = 'MEDMOR',
-    FOSTERFORELDER = 'FOSTERFORELDER',
-    ANNET = 'ANNET',
-}
-
-export enum AndreYtelserFraNAV {
-    'dagpenger' = 'dagpenger',
-    'foreldrepenger' = 'foreldrepenger',
-    'svangerskapspenger' = 'svangerskapspenger',
-    'sykepenger' = 'sykepenger',
-    'omsorgspenger' = 'omsorgspenger',
-    'opplæringspenger' = 'opplæringspenger',
-}
 
 export interface PleiepengesøknadFormData {
     [AppFormField.harForståttRettigheterOgPlikter]: boolean;

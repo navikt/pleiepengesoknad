@@ -6,11 +6,11 @@ import dayjs from 'dayjs';
 import groupBy from 'lodash.groupby';
 import EkspanderbartPanel from 'nav-frontend-ekspanderbartpanel';
 import { DagMedTid } from '../../../types';
-import { DagMedTidApi } from '../../../types/PleiepengesøknadApiData';
+import { TidEnkeltdagApiData } from '../../../types/PleiepengesøknadApiData';
 import OmsorgsdagerListe from './omsorgsdagerListe/OmsorgsdagerListe';
 
 interface Props {
-    dager: DagMedTidApi[];
+    dager: TidEnkeltdagApiData[];
 }
 
 const OmsorgstilbudEnkeltdagerSummary: React.FunctionComponent<Props> = ({ dager }) => {

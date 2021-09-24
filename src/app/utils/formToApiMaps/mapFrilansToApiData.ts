@@ -1,10 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import {
-    ArbeidsforholdApi,
-    ArbeidsforholdType,
-    FrilansApiData,
-    PleiepengesøknadApiData,
-} from '../../types/PleiepengesøknadApiData';
+import { ArbeidsforholdType } from '../../types';
+import { ArbeidsforholdApiData, FrilansApiData, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
 import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
@@ -42,7 +38,7 @@ export const mapFrilansToApiData = (formData: PleiepengesøknadFormData): Frilan
     if (frilans_jobberFortsattSomFrilans === YesOrNo.NO && sluttdato === undefined) {
         throw new Error('mapFrilansToApiData - jobber ikke lenger som frilanser, men sluttdato mangler');
     }
-    const arbeidsforhold: ArbeidsforholdApi | undefined = frilans_arbeidsforhold
+    const arbeidsforhold: ArbeidsforholdApiData | undefined = frilans_arbeidsforhold
         ? mapArbeidsforholdToApiData(frilans_arbeidsforhold, ArbeidsforholdType.FRILANSER)
         : undefined;
 

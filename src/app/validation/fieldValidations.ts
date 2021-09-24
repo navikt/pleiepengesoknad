@@ -14,7 +14,6 @@ import {
     dateRangesHasFromDateEqualPreviousRangeToDate,
     dateToday,
 } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import {
     getDateRangeValidator,
@@ -23,7 +22,6 @@ import {
     getNumberValidator,
     getRequiredFieldValidator,
     getStringValidator,
-    ValidateRequiredFieldError,
 } from '@navikt/sif-common-formik/lib/validation';
 import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeValidator';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
@@ -35,7 +33,6 @@ import minMax from 'dayjs/plugin/minMax';
 import { ArbeidIPeriodeIntlValues as ArbeidIPeriodeIntlValues } from '../components/arbeidstid/ArbeidIPeriodeSpørsmål';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
 import { ArbeidIPeriode, Omsorgstilbud } from '../types/PleiepengesøknadFormData';
-import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
 import { sumTimerMedOmsorgstilbud } from '../utils/omsorgstilbudUtils';
 
 dayjs.extend(minMax);
@@ -298,95 +295,15 @@ export const getArbeidJobberValidator = (intlValues: ArbeidIPeriodeIntlValues) =
         : error;
 };
 
-export const getArbeidJobbeHvorMyeValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
+export const getArbeidJobberSomVanligValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
     const error = getRequiredFieldValidator()(value);
     return error
         ? {
-              key: 'validation.arbeidIPeriode.jobbeHvorMye',
+              key: 'validation.arbeidIPeriode.jobberSomVanlig',
               values: intlValues,
               keepKeyUnaltered: true,
           }
         : undefined;
-};
-
-export const getArbeidsforholdTimerEllerProsentValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
-    const error = getRequiredFieldValidator()(value);
-    return error
-        ? {
-              key: 'validation.arbeidIPeriode.timerEllerProsent',
-              values: intlValues,
-              keepKeyUnaltered: true,
-          }
-        : undefined;
-};
-
-export const getArbeidsforholdSkalJobbeTimerValidator =
-    (
-        jobberNormaltTimerNumber: number,
-        intlValues: ArbeidIPeriodeIntlValues,
-        tillatIngentingOgFullt?: boolean,
-        påkrevd?: boolean
-    ) =>
-    (value: any) => {
-        const error = validateReduserteArbeidTimer(value, jobberNormaltTimerNumber, tillatIngentingOgFullt, påkrevd);
-        return error
-            ? {
-                  key: `validation.arbeidIPeriode.skalJobbeTimer.${error}`,
-                  values: intlValues,
-                  keepKeyUnaltered: true,
-              }
-            : undefined;
-    };
-
-export const getArbeidsforholdSkalJobbeProsentValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
-    const error = getNumberValidator({
-        required: true,
-        min: 1,
-        max: 99,
-    })(value);
-    return error
-        ? {
-              key: `validation.arbeidIPeriode.skalJobbeProsent.${error}`,
-              values: intlValues,
-              keepKeyUnaltered: true,
-          }
-        : undefined;
-};
-
-export const validateReduserteArbeidTimer = (
-    value: string,
-    jobberNormaltTimer: number,
-    tillatIngentingOgFullt = false,
-    påkrevd = true
-): string | undefined => {
-    const numberError = getNumberValidator({ required: påkrevd })(value);
-    const skalJobbeTimer = getNumberFromNumberInputValue(value);
-    if (numberError) {
-        return numberError;
-    }
-    if (skalJobbeTimer === undefined && påkrevd === false) {
-        return undefined;
-    }
-    if (skalJobbeTimer === undefined) {
-        return ValidateRequiredFieldError.noValue;
-    }
-    const prosentAvNormalt = calcRedusertProsentFromRedusertTimer(jobberNormaltTimer, skalJobbeTimer);
-    if (tillatIngentingOgFullt) {
-        if (prosentAvNormalt < 0) {
-            return AppFieldValidationErrors.arbeidsforhold_timerUgyldig_under_0_prosent;
-        }
-        if (prosentAvNormalt > 100) {
-            return AppFieldValidationErrors.arbeidsforhold_timerUgyldig_over_100_prosent;
-        }
-    } else {
-        if (prosentAvNormalt < 1) {
-            return AppFieldValidationErrors.arbeidsforhold_timerUgyldig_under_1_prosent;
-        }
-        if (prosentAvNormalt > 99) {
-            return AppFieldValidationErrors.arbeidsforhold_timerUgyldig_over_99_prosent;
-        }
-    }
-    return undefined;
 };
 
 export type TidPerDagValidator = (dag: string) => (tid: Time) => ValidationError | undefined;

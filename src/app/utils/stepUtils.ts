@@ -2,7 +2,6 @@ import { IntlShape } from 'react-intl';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from '../config/stepConfig';
-import { VetOmsorgstilbud } from '../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import {
     arbeidssituasjonStepIsValid,
@@ -14,6 +13,7 @@ import {
 } from '../validation/stepValidations';
 import { getSøknadsperiodeFromFormData } from './formDataUtils';
 import { erFrilanserISøknadsperiode } from './frilanserUtils';
+import { VetOmsorgstilbud } from '../types';
 
 export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
     const conf = stepConfig[stepId];

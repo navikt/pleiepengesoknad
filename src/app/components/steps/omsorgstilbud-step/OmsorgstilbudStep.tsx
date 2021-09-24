@@ -17,7 +17,6 @@ import AlertStripe from 'nav-frontend-alertstriper';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import usePersistSoknad from '../../../hooks/usePersistSoknad';
-import { VetOmsorgstilbud } from '../../../types/PleiepengesøknadApiData';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import {
     getHistoriskPeriode,
@@ -30,6 +29,7 @@ import FormikStep from '../../formik-step/FormikStep';
 import TidFasteDagerInput from '../../tid-faste-dager-input/TidFasteDagerInput';
 import { cleanupOmsorgstilbudStep } from './omsorgstilbudStepUtils';
 import OmsorgstilbudIPeriodeSpørsmål from '../../omsorgstilbud/OmsorgstilbudKalenderInput';
+import { VetOmsorgstilbud } from '../../../types';
 
 dayjs.extend(isBetween);
 

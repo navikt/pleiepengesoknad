@@ -2,13 +2,9 @@ import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import {
-    ArbeidsforholdAnsattApi,
-    ArbeidsforholdType,
-    BarnToSendToApi,
-    PleiepengesøknadApiData,
-} from '../types/PleiepengesøknadApiData';
-import { ArbeidsforholdAnsatt, BarnRelasjon, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { ArbeidsforholdType, BarnRelasjon } from '../types';
+import { ArbeidsforholdAnsattApiData, BarnApiData, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
+import { ArbeidsforholdAnsatt, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../types/Søkerdata';
 import appSentryLogger from './appSentryLogger';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
@@ -38,8 +34,8 @@ export const getValidSpråk = (locale?: any): Locale => {
     }
 };
 
-export const getOrganisasjonerApiData = (arbeidsforhold: ArbeidsforholdAnsatt[]): ArbeidsforholdAnsattApi[] => {
-    const organisasjoner: ArbeidsforholdAnsattApi[] = [];
+export const getOrganisasjonerApiData = (arbeidsforhold: ArbeidsforholdAnsatt[]): ArbeidsforholdAnsattApiData[] => {
+    const organisasjoner: ArbeidsforholdAnsattApiData[] = [];
     arbeidsforhold.forEach((forhold) => {
         const arbeidsforholdApiData = mapArbeidsforholdToApiData(forhold, ArbeidsforholdType.ANSATT);
         if (arbeidsforholdApiData) {
@@ -56,8 +52,10 @@ export const getOrganisasjonerApiData = (arbeidsforhold: ArbeidsforholdAnsatt[])
     return organisasjoner;
 };
 
-export const getAvsluttaOrganisasjonerApiData = (arbeidsforhold: ArbeidsforholdAnsatt[]): ArbeidsforholdAnsattApi[] => {
-    const organisasjoner: ArbeidsforholdAnsattApi[] = [];
+export const getAvsluttaOrganisasjonerApiData = (
+    arbeidsforhold: ArbeidsforholdAnsatt[]
+): ArbeidsforholdAnsattApiData[] => {
+    const organisasjoner: ArbeidsforholdAnsattApiData[] = [];
     arbeidsforhold.forEach((forhold) => {
         const arbeidsforholdApiData = mapArbeidsforholdToApiData(forhold, ArbeidsforholdType.ANSATT);
         if (arbeidsforholdApiData) {
@@ -112,7 +110,7 @@ export const mapFormDataToApiData = (
     if (periodeFra && periodeTil) {
         const organisasjoner = getOrganisasjonerApiData(arbeidsforhold);
         try {
-            const barnObject: BarnToSendToApi = mapBarnToApiData(
+            const barnObject: BarnApiData = mapBarnToApiData(
                 barn,
                 barnetsNavn,
                 barnetsFødselsnummer,
@@ -126,7 +124,6 @@ export const mapFormDataToApiData = (
             const selvstendigApiData = mapSelvstendigNæringsdrivendeToApiData(formData, locale);
 
             const apiData: PleiepengesøknadApiData = {
-                newVersion: true,
                 språk: sprak,
                 barn: barnObject,
                 barnRelasjon: gjelderAnnetBarn ? relasjonTilBarnet : undefined,

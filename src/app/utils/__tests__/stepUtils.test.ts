@@ -1,5 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { VetOmsorgstilbud } from '../../types/PleiepengesøknadApiData';
+import { VetOmsorgstilbud } from '../../types';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import * as stepValidations from '../../validation/stepValidations';
 import * as stepUtils from '../stepUtils';

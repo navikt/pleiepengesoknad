@@ -28,7 +28,7 @@ import {
 import routeConfig from '../../../config/routeConfig';
 import { StepID } from '../../../config/stepConfig';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
-import { ArbeidsforholdApi, PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
+import { ArbeidsforholdApiData, PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { Søkerdata } from '../../../types/Søkerdata';
 import * as apiUtils from '../../../utils/apiUtils';
@@ -62,12 +62,10 @@ type Props = OwnProps;
 const extractAnonymousArbeidsinfo = (values: PleiepengesøknadApiData): string => {
     try {
         const orgs = (values.arbeidsgivere?.organisasjoner || []).map((org) => {
-            const { jobberNormaltTimer, skalJobbe, skalJobbeProsent, skalJobbeTimer } = org;
+            const { jobberNormaltTimer, skalJobbe } = org;
             const data = {
                 jobberNormaltTimer,
                 skalJobbe,
-                skalJobbeProsent,
-                skalJobbeTimer,
             };
             return JSON.stringify(data);
         });
@@ -346,7 +344,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                     {alleArbeidsforhold.length > 0 && (
                                         <SummaryList
                                             items={alleArbeidsforhold}
-                                            itemRenderer={(forhold: ArbeidsforholdApi) => (
+                                            itemRenderer={(forhold: ArbeidsforholdApiData) => (
                                                 <ArbeidsforholdSummary arbeidsforhold={forhold} />
                                             )}
                                         />

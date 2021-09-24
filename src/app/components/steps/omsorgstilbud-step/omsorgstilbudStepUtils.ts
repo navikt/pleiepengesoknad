@@ -2,8 +2,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange, ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
-import { DagMedTid, TidsbrukDag } from '../../../types';
-import { VetOmsorgstilbud } from '../../../types/PleiepengesøknadApiData';
+import { DagMedTid, TidsbrukDag, VetOmsorgstilbud } from '../../../types';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import {
     getPlanlagtPeriode,
