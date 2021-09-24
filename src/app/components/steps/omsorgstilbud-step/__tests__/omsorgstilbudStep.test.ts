@@ -1,8 +1,8 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { TidsbrukDag, VetOmsorgstilbud } from '../../../../types';
+import { TidEnkeltdag, VetOmsorgstilbud } from '../../../../types';
 import { PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
-import { cleanupOmsorgstilbudStep, getTidIOmsorgstilbudInnenforPeriode } from '../omsorgstilbudStepUtils';
+import { cleanupOmsorgstilbudStep } from '../omsorgstilbudStepUtils';
 
 const søknadsperiode: DateRange = {
     from: new Date(2021, 5, 2),
@@ -11,7 +11,7 @@ const søknadsperiode: DateRange = {
 
 const søknadsdato = new Date(2021, 5, 3);
 
-const enkeldagerFormData: TidsbrukDag = {
+const enkeldagerFormData: TidEnkeltdag = {
     '2021-06-01': { hours: '2', minutes: '30' }, // Outside range
     '2021-06-02': { hours: '2', minutes: '30' }, // Historic
     '2021-06-03': { hours: '2', minutes: '30' }, // Planned
@@ -35,18 +35,6 @@ const formValuesTemplate: Partial<PleiepengesøknadFormData> = {
 };
 
 const formValues = formValuesTemplate as PleiepengesøknadFormData;
-
-describe('getTidIOmsorgstilbudInnenforPeriode', () => {
-    it('extract days within periode', () => {
-        const result = getTidIOmsorgstilbudInnenforPeriode(enkeldagerFormData, søknadsperiode);
-        expect(Object.keys(result).length).toBe(3);
-        expect(result['2021-06-01']).toBeUndefined();
-        expect(result['2021-06-02']).toBeDefined(); // historic
-        expect(result['2021-06-03']).toBeDefined(); // Søknadsdato
-        expect(result['2021-06-04']).toBeDefined(); // planned
-        expect(result['2021-06-05']).toBeUndefined();
-    });
-});
 
 describe('cleanupOmsorgstilbudStep', () => {
     it('removes days outside søknadsperiode - historisk', () => {

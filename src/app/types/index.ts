@@ -7,7 +7,15 @@ export interface DagMedTid {
     tid: Partial<Time>;
 }
 
-export type TidsbrukDag = { [isoDateString: string]: Partial<Time> };
+export interface TidFasteDager {
+    mandag?: Time;
+    tirsdag?: Time;
+    onsdag?: Time;
+    torsdag?: Time;
+    fredag?: Time;
+}
+
+export type TidEnkeltdag = { [isoDateString: string]: Partial<Time> };
 
 export type TidDagValidator = (dag: string) => ValidationFunction<ValidationError>;
 

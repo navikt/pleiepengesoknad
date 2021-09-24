@@ -4,7 +4,6 @@ import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsop
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { ISODateString } from 'nav-datovelger/lib/types';
 import { AndreYtelserFraNAV, ArbeidsforholdType, Arbeidsform, BarnRelasjon, JobberSvar, VetOmsorgstilbud } from './';
-import { ArbeidsforholdAnsatt } from './PleiepengesøknadFormData';
 
 export type ISO8601Duration = string;
 
@@ -16,48 +15,31 @@ export interface BarnetSøknadenGjelderApiData {
     sammeAdresse: boolean | null;
 }
 
-/** Brukes kun i klient, ikke backend */
+export interface ArbeidIPeriodeApiData {
+    jobber: JobberSvar;
+    jobberSomVanlig: boolean;
+    enkeltdager?: TidEnkeltdagApiData[];
+    fasteDager?: TidFasteDagerApiData;
+}
+
 export interface ArbeidsforholdApiData {
-    arbeidsform?: Arbeidsform;
-    jobberNormaltTimer?: number;
-    skalJobbe?: JobberSvar;
-    erAnsatt?: boolean;
     _type: ArbeidsforholdType;
+    arbeidsform: Arbeidsform;
+    jobberNormaltTimer: number;
+    erAktivt?: boolean;
+    historisk?: ArbeidIPeriodeApiData;
+    planlagt?: ArbeidIPeriodeApiData;
 }
 
 export interface ArbeidsforholdAnsattApiData extends ArbeidsforholdApiData {
+    _type: ArbeidsforholdType.ANSATT;
     navn: string;
     organisasjonsnummer?: string;
 }
 
-export const isArbeidsforholdAnsattApiData = (forhold: any): forhold is ArbeidsforholdAnsatt => {
-    return (
-        forhold &&
-        forhold._type === ArbeidsforholdType.ANSATT &&
-        forhold.navn !== undefined &&
-        forhold.organisasjonsnummer !== undefined
-    );
+export const isArbeidsforholdAnsattApiData = (forhold: any): forhold is ArbeidsforholdAnsattApiData => {
+    return forhold?._type === ArbeidsforholdType.ANSATT;
 };
-
-export type ArbeidsforholdApiNei = Pick<
-    ArbeidsforholdApiData,
-    'skalJobbe' | 'jobberNormaltTimer' | 'arbeidsform' | 'erAnsatt' | '_type'
->;
-export type ArbeidsforholdApiRedusert = Pick<
-    ArbeidsforholdApiData,
-    'skalJobbe' | 'jobberNormaltTimer' | 'arbeidsform' | 'erAnsatt' | '_type'
->;
-
-export type ArbeidsforholdApiVetIkke = Pick<
-    ArbeidsforholdApiData,
-    'skalJobbe' | 'jobberNormaltTimer' | 'arbeidsform' | 'erAnsatt' | '_type'
->;
-
-export type ArbeidsforholdApiSomVanlig = Pick<
-    ArbeidsforholdApiData,
-    'skalJobbe' | 'jobberNormaltTimer' | 'arbeidsform' | 'erAnsatt' | '_type'
->;
-
 export interface FrilansApiData {
     startdato: ApiStringDate;
     jobberFortsattSomFrilans: boolean;

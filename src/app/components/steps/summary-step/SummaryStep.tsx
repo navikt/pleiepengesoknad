@@ -52,28 +52,10 @@ import PlanlagtOmsorgstilbudSummary from './PlanlagtOmsorgstilbudSummary';
 import SummaryBlock from './SummaryBlock';
 import './summary.less';
 
-interface OwnProps {
+interface Props {
     values: PleiepengesøknadFormData;
     onApplicationSent: (apiValues: PleiepengesøknadApiData, søkerdata: Søkerdata) => void;
 }
-
-type Props = OwnProps;
-
-const extractAnonymousArbeidsinfo = (values: PleiepengesøknadApiData): string => {
-    try {
-        const orgs = (values.arbeidsgivere?.organisasjoner || []).map((org) => {
-            const { jobberNormaltTimer, skalJobbe } = org;
-            const data = {
-                jobberNormaltTimer,
-                skalJobbe,
-            };
-            return JSON.stringify(data);
-        });
-        return orgs.join(';');
-    } catch (e) {
-        return 'undefined';
-    }
-};
 
 const SummaryStep = ({ onApplicationSent, values }: Props) => {
     const [sendingInProgress, setSendingInProgress] = useState<boolean>(false);
@@ -98,7 +80,6 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
             } else {
                 await logSoknadFailed(SKJEMANAVN);
                 appSentryLogger.logApiError(error);
-                appSentryLogger.logError('Innsending feilet', extractAnonymousArbeidsinfo(apiValues));
                 navigateTo(routeConfig.ERROR_PAGE_ROUTE, history);
             }
         }
@@ -113,7 +94,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
         <SøkerdataContextConsumer>
             {(søkerdata: Søkerdata | undefined) => {
                 if (søkerdata === undefined) {
-                    return <div>Det oppstod en feil</div>;
+                    return <div>Det oppstod en feil - informasjon om søker mangler</div>;
                 }
                 const {
                     person: { fornavn, mellomnavn, etternavn, fødselsnummer },
@@ -123,7 +104,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                 const apiValues = mapFormDataToApiData(values, barn, intl.locale as Locale);
 
                 if (apiValues === undefined) {
-                    return <div>Det oppstod en feil</div>;
+                    return <div>Det oppstod en feil - api-data mangler</div>;
                 }
                 const søknadsperiode: DateRange = {
                     from: apiStringDateToDate(apiValues.fraOgMed),

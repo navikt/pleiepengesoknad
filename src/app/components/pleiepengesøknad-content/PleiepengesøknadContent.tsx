@@ -26,9 +26,10 @@ import SummaryStep from '../steps/summary-step/SummaryStep';
 import OpplysningerOmTidsromStep from '../steps/tidsrom-step/OpplysningerOmTidsromStep';
 import OmsorgstilbudStep from '../steps/omsorgstilbud-step/OmsorgstilbudStep';
 import { getSøknadsperiodeFromFormData } from '../../utils/formDataUtils';
-import { getHistoriskPeriode, getPlanlagtPeriode } from '../../utils/omsorgstilbudUtils';
 import PlanlagtArbeidStep from '../steps/planlagt-arbeid-step/PlanlagtArbeidStep';
 import NattevåkOgBeredskapStep from '../steps/nattevåk-og-beredskap-step/NattevåkOgBeredskapStep';
+import { ArbeidsforholdType } from '../../types';
+import { getHistoriskPeriode, getPlanlagtPeriode } from '../../utils/tidsbrukUtils';
 
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
@@ -46,7 +47,9 @@ const getKvitteringInfoFromApiData = (
     apiValues: PleiepengesøknadApiData,
     søkerdata: Søkerdata
 ): KvitteringInfo | undefined => {
-    const aktiveArbeidsforhold = apiValues.arbeidsgivere.organisasjoner?.filter((o) => o.skalJobbe);
+    const aktiveArbeidsforhold = apiValues.arbeidsgivere.organisasjoner?.filter(
+        (o) => o._type === ArbeidsforholdType.ANSATT
+    ); /** TODO - sjekke om dette fortsatt blir riktig */
     if (aktiveArbeidsforhold.length > 0) {
         const { fornavn, mellomnavn, etternavn } = søkerdata.person;
         return {

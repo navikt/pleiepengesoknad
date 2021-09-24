@@ -1,83 +1,53 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
-import { ArbeidsforholdType, JobberSvar } from '../../types';
-import { ArbeidsforholdApiData, ArbeidsforholdApiSomVanlig } from '../../types/PleiepengesøknadApiData';
-import { Arbeidsforhold, ArbeidsforholdAnsatt, isArbeidsforholdAnsatt } from '../../types/PleiepengesøknadFormData';
+import { ArbeidsforholdType } from '../../types';
+import { ArbeidIPeriodeApiData, ArbeidsforholdApiData } from '../../types/PleiepengesøknadApiData';
+import { ArbeidIPeriode, Arbeidsforhold } from '../../types/PleiepengesøknadFormData';
+import {
+    getEnkeltdagerIPeriodeApiData,
+    getFasteDagerApiData,
+    getHistoriskPeriode,
+    getPlanlagtPeriode,
+} from '../tidsbrukUtils';
+
+export const mapArbeidIPeriodeToApiData = (arbeid: ArbeidIPeriode, periode: DateRange): ArbeidIPeriodeApiData => {
+    return {
+        jobber: arbeid.jobber,
+        jobberSomVanlig: arbeid.jobberSomVanlig === YesOrNo.YES,
+        enkeltdager: arbeid.enkeltdager ? getEnkeltdagerIPeriodeApiData(arbeid.enkeltdager, periode) : undefined,
+        fasteDager: arbeid.fasteDager ? getFasteDagerApiData(arbeid.fasteDager) : undefined,
+    };
+};
 
 export const mapArbeidsforholdToApiData = (
-    arbeidsforhold: Arbeidsforhold | ArbeidsforholdAnsatt,
-    type: ArbeidsforholdType
+    arbeidsforhold: Arbeidsforhold,
+    søknadsperiode: DateRange,
+    type: ArbeidsforholdType,
+    erAktivt = true
 ): ArbeidsforholdApiData => {
     const { jobberNormaltTimer, arbeidsform } = arbeidsforhold;
-
-    const erAnsatt = isArbeidsforholdAnsatt(arbeidsforhold) ? arbeidsforhold.erAnsatt === YesOrNo.YES : undefined;
-
-    const commonData: Pick<ArbeidsforholdApiData, 'arbeidsform' | 'erAnsatt' | '_type'> = {
-        arbeidsform,
-        erAnsatt,
-        _type: type,
-    };
-
     const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
 
-    // if (jobberNormaltTimerNumber === undefined || skalJobbe === undefined) {
-    //     return {
-    //         _type: type,
-    //     };
-    // }
+    if (jobberNormaltTimerNumber === undefined || arbeidsform === undefined) {
+        throw new Error('mapArbeidsforholdToApiData');
+    }
 
-    // if (skalJobbe === ArbeidsforholdSkalJobbeSvar.nei) {
-    //     const forhold: ArbeidsforholdApiNei = {
-    //         ...commonData,
-    //         skalJobbe: SkalJobbe.NEI,
-    //         skalJobbeProsent: 0,
-    //         jobberNormaltTimer: jobberNormaltTimerNumber,
-    //         _type: type,
-    //     };
-    //     return forhold;
-    // }
+    const periodeFørSøknadsdato = getHistoriskPeriode(søknadsperiode, dateToday);
+    const periodeFraOgMedSøknadsdato = getPlanlagtPeriode(søknadsperiode, dateToday);
 
-    // if (
-    //     skalJobbe === ArbeidsforholdSkalJobbeSvar.ja &&
-    //     skalJobbeHvorMye === ArbeidsforholdSkalJobbeHvorMyeSvar.redusert
-    // ) {
-    //     const skalJobbeTimerNumber = getNumberFromNumberInputValue(skalJobbeTimer);
-    //     const skalJobbeProsentNumber = getNumberFromNumberInputValue(skalJobbeProsent);
-
-    //     if (skalJobbeTimerNumber === undefined && skalJobbeProsent === undefined) {
-    //         return undefined;
-    //     }
-    //     const redusertForhold: ArbeidsforholdApiRedusert = {
-    //         ...commonData,
-    //         skalJobbe: SkalJobbe.REDUSERT,
-    //         jobberNormaltTimer: jobberNormaltTimerNumber,
-    //         ...(timerEllerProsent === 'timer' && skalJobbeTimer
-    //             ? {
-    //                   skalJobbeTimer: skalJobbeTimerNumber,
-    //                   skalJobbeProsent:
-    //                       jobberNormaltTimer !== undefined && skalJobbeTimerNumber !== undefined
-    //                           ? calcRedusertProsentFromRedusertTimer(jobberNormaltTimerNumber, skalJobbeTimerNumber)
-    //                           : 0,
-    //               }
-    //             : {
-    //                   skalJobbeProsent: skalJobbeProsentNumber,
-    //               }),
-    //     };
-    //     return redusertForhold;
-    // }
-    // if (skalJobbe === ArbeidsforholdSkalJobbeSvar.vetIkke) {
-    //     const vetIkkeForhold: ArbeidsforholdApiVetIkke = {
-    //         ...commonData,
-    //         skalJobbe: SkalJobbe.VET_IKKE,
-    //         jobberNormaltTimer: jobberNormaltTimerNumber,
-    //         skalJobbeProsent: 0,
-    //     };
-    //     return vetIkkeForhold;
-    // }
-    const forholdSomVanlig: ArbeidsforholdApiSomVanlig = {
-        ...commonData,
-        skalJobbe: JobberSvar.JA,
+    return {
+        _type: type,
         jobberNormaltTimer: jobberNormaltTimerNumber,
+        arbeidsform,
+        historisk:
+            periodeFørSøknadsdato && arbeidsforhold.historisk
+                ? mapArbeidIPeriodeToApiData(arbeidsforhold.historisk, periodeFørSøknadsdato)
+                : undefined,
+        planlagt:
+            periodeFraOgMedSøknadsdato && arbeidsforhold.planlagt
+                ? mapArbeidIPeriodeToApiData(arbeidsforhold.planlagt, periodeFraOgMedSøknadsdato)
+                : undefined,
+        erAktivt,
     };
-    return forholdSomVanlig;
 };

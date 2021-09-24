@@ -1,9 +1,9 @@
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
-import { getHistoriskPeriode, getPlanlagtPeriode } from '../utils/omsorgstilbudUtils';
 import { getSøknadRoute } from '../utils/routeUtils';
 import { skalBrukerSvarePåarbeidIPeriode, skalBrukerSvarePåBeredskapOgNattevåk } from '../utils/stepUtils';
+import { getHistoriskPeriode, getPlanlagtPeriode } from '../utils/tidsbrukUtils';
 
 export enum StepID {
     'OPPLYSNINGER_OM_BARNET' = 'opplysninger-om-barnet',

@@ -1,15 +1,14 @@
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange, formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import { ArbeidsforholdType } from '../types';
-import { ArbeidsforholdAnsattApiData, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
-import { ArbeidsforholdAnsatt, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+
+import { PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
+import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../types/Søkerdata';
 import appSentryLogger from './appSentryLogger';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
 import { filterAndMapAttachmentsToApiFormat } from './formToApiMaps/attachmentsToApiData';
-import { mapArbeidsforholdToApiData } from './formToApiMaps/mapArbeidsforholdToApiData';
 import { getBarnApiData } from './formToApiMaps/barnApiData';
 import { getFerieuttakIPeriodenApiData } from './formToApiMaps/ferieuttakIPeriodenApiData';
 import { getFrilansApiData } from './formToApiMaps/frilansApiData';
@@ -35,23 +34,23 @@ export const getValidSpråk = (locale?: any): Locale => {
     }
 };
 
-export const getOrganisasjonerApiData = (arbeidsforhold: ArbeidsforholdAnsatt[]): ArbeidsforholdAnsattApiData[] => {
-    const organisasjoner: ArbeidsforholdAnsattApiData[] = [];
-    arbeidsforhold.forEach((forhold) => {
-        const arbeidsforholdApiData = mapArbeidsforholdToApiData(forhold, ArbeidsforholdType.ANSATT);
-        if (arbeidsforholdApiData) {
-            organisasjoner.push({
-                ...arbeidsforholdApiData,
-                navn: forhold.navn,
-                organisasjonsnummer: forhold.organisasjonsnummer,
-                erAnsatt: forhold.erAnsatt === YesOrNo.YES,
-            });
-        } else {
-            throw new Error('Invalid arbeidsforhold');
-        }
-    });
-    return organisasjoner;
-};
+// export const getOrganisasjonerApiData = (arbeidsforhold: ArbeidsforholdAnsatt[]): ArbeidsforholdAnsattApiData[] => {
+//     const organisasjoner: ArbeidsforholdAnsattApiData[] = [];
+//     arbeidsforhold.forEach((forhold) => {
+//         const arbeidsforholdApiData = mapArbeidsforholdToApiData(forhold, ArbeidsforholdType.ANSATT);
+//         if (arbeidsforholdApiData) {
+//             organisasjoner.push({
+//                 ...arbeidsforholdApiData,
+//                 navn: forhold.navn,
+//                 organisasjonsnummer: forhold.organisasjonsnummer,
+//                 erAnsatt: forhold.erAnsatt === YesOrNo.YES,
+//             });
+//         } else {
+//             throw new Error('Invalid arbeidsforhold');
+//         }
+//     });
+//     return organisasjoner;
+// };
 
 export const mapFormDataToApiData = (
     formData: PleiepengesøknadFormData,
@@ -61,7 +60,7 @@ export const mapFormDataToApiData = (
     const {
         harBekreftetOpplysninger,
         harForståttRettigheterOgPlikter,
-        arbeidsforhold,
+        // arbeidsforhold,
         legeerklæring,
         harMedsøker,
         samtidigHjemme,
@@ -74,7 +73,11 @@ export const mapFormDataToApiData = (
     const periodeTil = datepickerUtils.getDateFromDateString(formData.periodeTil);
 
     if (periodeFra && periodeTil) {
-        const organisasjoner = getOrganisasjonerApiData(arbeidsforhold);
+        const søknadsperiode: DateRange = {
+            from: periodeFra,
+            to: periodeTil,
+        };
+        // const organisasjoner = getOrganisasjonerApiData(arbeidsforhold);
         try {
             const sprak = getValidSpråk(locale);
             const apiData: PleiepengesøknadApiData = {
@@ -84,7 +87,7 @@ export const mapFormDataToApiData = (
                 fraOgMed: formatDateToApiFormat(periodeFra),
                 tilOgMed: formatDateToApiFormat(periodeTil),
                 arbeidsgivere: {
-                    organisasjoner,
+                    organisasjoner: [],
                 },
                 vedlegg: filterAndMapAttachmentsToApiFormat(legeerklæring),
                 harMedsøker: harMedsøker === YesOrNo.YES,
@@ -101,8 +104,8 @@ export const mapFormDataToApiData = (
                     to: periodeTil,
                 }),
                 ...getNattevåkOgBeredskapApiData(formData),
-                ...getFrilansApiData(formData),
-                ...getSelvstendigNæringsdrivendeApiData(formData, locale),
+                ...getFrilansApiData(formData, søknadsperiode),
+                ...getSelvstendigNæringsdrivendeApiData(formData, søknadsperiode, locale),
             };
 
             if (isFeatureEnabled(Feature.ANDRE_YTELSER)) {
@@ -132,6 +135,8 @@ export const mapFormDataToApiData = (
             }
             return apiData;
         } catch (e) {
+            console.error(e);
+
             appSentryLogger.logError('mapFormDataToApiData failed', e);
             return undefined;
         }

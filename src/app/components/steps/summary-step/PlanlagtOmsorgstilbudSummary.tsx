@@ -8,9 +8,9 @@ import OmsorgstilbudEnkeltdagerSummary from './OmsorgstilbudEnkeltdagerSummary';
 import OmsorgstilbudFasteDagerSummary from './OmsorgstilbudFasteDagerSummary';
 import SummaryBlock from './SummaryBlock';
 import { DateRange, dateToday, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { getPlanlagtPeriode } from '../../../utils/omsorgstilbudUtils';
 import JaNeiSvar from './JaNeiSvar';
 import { VetOmsorgstilbud } from '../../../types';
+import { getPlanlagtPeriode } from '../../../utils/tidsbrukUtils';
 
 interface Props {
     omsorgstilbud?: PlanlagtOmsorgstilbudApiData;
