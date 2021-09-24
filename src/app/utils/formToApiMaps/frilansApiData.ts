@@ -1,4 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { ArbeidsforholdType } from '../../types';
 import { FrilansApiData, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
@@ -7,7 +8,10 @@ import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
 
 type FrilansApiDataPart = Pick<PleiepengesøknadApiData, 'frilans' | 'harHattInntektSomFrilanser'>;
 
-export const getFrilansApiData = (formData: PleiepengesøknadFormData): FrilansApiDataPart => {
+export const getFrilansApiData = (
+    formData: PleiepengesøknadFormData,
+    søknadsperiode: DateRange
+): FrilansApiDataPart => {
     const {
         frilans_harHattInntektSomFrilanser,
         frilans_jobberFortsattSomFrilans,
@@ -34,14 +38,18 @@ export const getFrilansApiData = (formData: PleiepengesøknadFormData): FrilansA
     }
 
     const jobberFortsattSomFrilans: boolean = frilans_jobberFortsattSomFrilans === YesOrNo.YES;
-    if (jobberFortsattSomFrilans && frilans_sluttdato === undefined) {
+    if (jobberFortsattSomFrilans === false && frilans_sluttdato === undefined) {
         throw new Error('mapFrilansToApiData - jobber ikke lenger som frilanser, men sluttdato mangler');
     }
 
     const frilans: FrilansApiData = {
         startdato: frilans_startdato,
         jobberFortsattSomFrilans,
-        arbeidsforhold: mapArbeidsforholdToApiData(frilans_arbeidsforhold, ArbeidsforholdType.FRILANSER),
+        arbeidsforhold: mapArbeidsforholdToApiData(
+            frilans_arbeidsforhold,
+            søknadsperiode,
+            ArbeidsforholdType.FRILANSER
+        ),
         sluttdato: frilans_sluttdato,
     };
 

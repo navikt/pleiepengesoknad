@@ -1,42 +1,18 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { DateRange, ISOStringToDate } from '@navikt/sif-common-formik/lib';
+import { DateRange } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
-import { DagMedTid, TidsbrukDag, VetOmsorgstilbud } from '../../../types';
+import { VetOmsorgstilbud } from '../../../types';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import {
-    getPlanlagtPeriode,
-    getHistoriskPeriode,
-    visKunEnkeltdagerForOmsorgstilbud,
-} from '../../../utils/omsorgstilbudUtils';
+import { visKunEnkeltdagerForOmsorgstilbud } from '../../../utils/omsorgstilbudUtils';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from '../../../utils/stepUtils';
+import {
+    getHistoriskPeriode,
+    getPlanlagtPeriode,
+    getTidEnkeltdagerInnenforPeriode,
+} from '../../../utils/tidsbrukUtils';
 
 dayjs.extend(isBetween);
-
-export const mapTidIOmsorgToDagMedTid = (tidIOmsorgstilbud: TidsbrukDag): DagMedTid[] => {
-    const dager: DagMedTid[] = [];
-    Object.keys(tidIOmsorgstilbud).forEach((key) => {
-        const dato = ISOStringToDate(key);
-        if (dato) {
-            dager.push({
-                dato,
-                tid: tidIOmsorgstilbud[key],
-            });
-        }
-    });
-    return dager;
-};
-
-export const getTidIOmsorgstilbudInnenforPeriode = (dager: TidsbrukDag, periode: DateRange): TidsbrukDag => {
-    const dagerIPerioden: TidsbrukDag = {};
-    Object.keys(dager).forEach((dag) => {
-        const dato = ISOStringToDate(dag);
-        if (dato && dayjs(dato).isBetween(periode.from, periode.to, 'day', '[]')) {
-            dagerIPerioden[dag] = dager[dag];
-        }
-    });
-    return dagerIPerioden;
-};
 
 export const cleanupOmsorgstilbudStep = (
     values: PleiepengesøknadFormData,
@@ -73,7 +49,7 @@ export const cleanupOmsorgstilbudStep = (
             }
             if (cleanedValues.omsorgstilbud.planlagt.erLiktHverUke === YesOrNo.NO) {
                 cleanedValues.omsorgstilbud.planlagt.fasteDager = undefined;
-                cleanedValues.omsorgstilbud.planlagt.enkeltdager = getTidIOmsorgstilbudInnenforPeriode(
+                cleanedValues.omsorgstilbud.planlagt.enkeltdager = getTidEnkeltdagerInnenforPeriode(
                     cleanedValues.omsorgstilbud.planlagt.enkeltdager || {},
                     søknadsperiode
                 );
@@ -87,7 +63,7 @@ export const cleanupOmsorgstilbudStep = (
             cleanedValues.omsorgstilbud.harBarnVærtIOmsorgstilbud === YesOrNo.YES &&
             cleanedValues.omsorgstilbud.historisk
         ) {
-            cleanedValues.omsorgstilbud.historisk.enkeltdager = getTidIOmsorgstilbudInnenforPeriode(
+            cleanedValues.omsorgstilbud.historisk.enkeltdager = getTidEnkeltdagerInnenforPeriode(
                 cleanedValues.omsorgstilbud.historisk.enkeltdager || {},
                 periodeFørSøknadsdato
             );
@@ -97,7 +73,7 @@ export const cleanupOmsorgstilbudStep = (
             cleanedValues.omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES &&
             cleanedValues.omsorgstilbud.planlagt
         ) {
-            cleanedValues.omsorgstilbud.planlagt.enkeltdager = getTidIOmsorgstilbudInnenforPeriode(
+            cleanedValues.omsorgstilbud.planlagt.enkeltdager = getTidEnkeltdagerInnenforPeriode(
                 cleanedValues.omsorgstilbud.planlagt.enkeltdager || {},
                 periodeFraOgMedSøknadsdato
             );

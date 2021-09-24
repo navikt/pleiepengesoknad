@@ -11,7 +11,7 @@ import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types'
 import dayjs from 'dayjs';
 import Knapp from 'nav-frontend-knapper';
 import { Undertittel } from 'nav-frontend-typografi';
-import { TidsbrukDag } from '../../types';
+import { TidEnkeltdag } from '../../types';
 import { getDagerMedTidITidsrom } from '../../utils/tidsbrukUtils';
 import TidsbrukKalender from '../tidsbruk-kalender/TidsbrukKalender';
 import TidKalenderForm from '../tid-kalender-form/TidKalenderForm';
@@ -26,7 +26,7 @@ interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, Va
 function ArbeidstidInfoAndDialog<FieldNames>({ name, periode, labels, validate }: Props<FieldNames>) {
     const erHistorisk = dayjs(periode.to).isBefore(dateToday, 'day');
     return (
-        <FormikModalFormAndInfo<FieldNames, TidsbrukDag, ValidationError>
+        <FormikModalFormAndInfo<FieldNames, TidEnkeltdag, ValidationError>
             name={name}
             validate={validate}
             labels={labels}

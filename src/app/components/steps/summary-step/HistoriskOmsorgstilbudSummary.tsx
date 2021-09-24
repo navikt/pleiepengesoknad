@@ -5,9 +5,9 @@ import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-wi
 import { DateRange, dateToday, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { HistoriskOmsorgstilbudApiData } from '../../../types/PleiepengesøknadApiData';
-import { getHistoriskPeriode } from '../../../utils/omsorgstilbudUtils';
 import OmsorgstilbudEnkeltdagerSummary from './OmsorgstilbudEnkeltdagerSummary';
 import SummaryBlock from './SummaryBlock';
+import { getHistoriskPeriode } from '../../../utils/tidsbrukUtils';
 
 interface Props {
     historiskOmsorgstilbud?: HistoriskOmsorgstilbudApiData;

@@ -12,7 +12,7 @@ import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types'
 import dayjs from 'dayjs';
 import Knapp from 'nav-frontend-knapper';
 import { Undertittel } from 'nav-frontend-typografi';
-import { TidsbrukDag } from '../../types';
+import { TidEnkeltdag } from '../../types';
 import { getDagerMedTidITidsrom } from '../../utils/tidsbrukUtils';
 import TidKalenderForm from '../tid-kalender-form/TidKalenderForm';
 import TidsbrukKalender from '../tidsbruk-kalender/TidsbrukKalender';
@@ -23,7 +23,7 @@ interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, Va
     labels: ModalFormAndInfoLabels;
     periode: DateRange;
     skjulTommeDagerIListe?: boolean;
-    onAfterChange?: (omsorgsdager: TidsbrukDag) => void;
+    onAfterChange?: (omsorgsdager: TidEnkeltdag) => void;
 }
 
 function OmsorgstilbudInfoAndDialog<FieldNames>({
@@ -36,7 +36,7 @@ function OmsorgstilbudInfoAndDialog<FieldNames>({
 }: Props<FieldNames>) {
     const gjelderFortid = dayjs(periode.to).isBefore(dateToday, 'day');
     return (
-        <FormikModalFormAndInfo<FieldNames, TidsbrukDag, ValidationError>
+        <FormikModalFormAndInfo<FieldNames, TidEnkeltdag, ValidationError>
             name={name}
             validate={validate}
             labels={labels}

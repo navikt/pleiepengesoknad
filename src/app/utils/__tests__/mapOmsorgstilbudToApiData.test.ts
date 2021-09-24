@@ -1,8 +1,9 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { TidsbrukDag, VetOmsorgstilbud } from '../../types';
+import { TidEnkeltdag, VetOmsorgstilbud } from '../../types';
 import { AppFormField, Omsorgstilbud } from '../../types/PleiepengesøknadFormData';
-import { getEnkeltdagerIPeriode, mapPlanlagtOmsorgstilbudToApiData } from '../formToApiMaps/omsorgstilbudApiData';
+import { mapPlanlagtOmsorgstilbudToApiData } from '../formToApiMaps/omsorgstilbudApiData';
+import { getEnkeltdagerIPeriodeApiData } from '../tidsbrukUtils';
 
 jest.mock('./../envUtils', () => {
     return {
@@ -69,14 +70,14 @@ describe('mapOmsorgstilbudToApiData test', () => {
         });
     });
     describe('getEnkeltdager', () => {
-        const enkeltdager: TidsbrukDag = {
+        const enkeltdager: TidEnkeltdag = {
             '2021-06-01': { hours: '2', minutes: '30' },
             '2021-06-02': { hours: '2', minutes: '31' },
             '2021-07-01': { hours: '2', minutes: '32' },
         };
 
         it(`returns only days within søknadsperiode - 1`, () => {
-            const result = getEnkeltdagerIPeriode(
+            const result = getEnkeltdagerIPeriodeApiData(
                 {
                     ...enkeltdager,
                     '2021-05-30': { hours: '2', minutes: '30' }, // To early
@@ -94,7 +95,7 @@ describe('mapOmsorgstilbudToApiData test', () => {
             expect(result[0].tid).toEqual('PT2H30M');
         });
         it(`returns only days within søknadsperiode - 2`, () => {
-            const result = getEnkeltdagerIPeriode(
+            const result = getEnkeltdagerIPeriodeApiData(
                 {
                     ...enkeltdager,
                     '2021-05-30': { hours: '2', minutes: '30' },

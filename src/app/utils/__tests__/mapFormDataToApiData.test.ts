@@ -4,9 +4,8 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import * as attachmentUtils from '@navikt/sif-common-core/lib/utils/attachmentUtils';
 import * as dateUtils from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
-// import { Næringstype } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import dayjs from 'dayjs';
-import { ArbeidsforholdType, Arbeidsform, JobberSvar, VetOmsorgstilbud } from '../../types';
+import { ArbeidsforholdType, Arbeidsform, VetOmsorgstilbud } from '../../types';
 import {
     PleiepengesøknadApiData,
     UtenlandsoppholdIPeriodenApiData,
@@ -417,15 +416,15 @@ describe('Test complete applications', () => {
         },
         arbeidsgivere: {
             organisasjoner: [
-                {
-                    navn: 'Maxbo',
-                    organisasjonsnummer: '910831143',
-                    skalJobbe: JobberSvar.JA,
-                    jobberNormaltTimer: 37.5,
-                    arbeidsform: Arbeidsform.fast,
-                    erAnsatt: true,
-                    _type: ArbeidsforholdType.ANSATT,
-                },
+                // {
+                //     navn: 'Maxbo',
+                //     organisasjonsnummer: '910831143',
+                //     skalJjoobbe: JobberSvar.JA,
+                //     jobberNormaltTimer: 37.5,
+                //     arbeidsform: Arbeidsform.fast,
+                //     // erAnsatt: true,
+                //     _type: ArbeidsforholdType.ANSATT,
+                // },
             ],
         },
         medlemskap: {
@@ -528,7 +527,7 @@ describe('Test complete applications', () => {
             arbeidsforhold: {
                 arbeidsform: Arbeidsform.fast,
                 jobberNormaltTimer: 10,
-                skalJobbe: JobberSvar.NEI,
+                // skalJobbe: JobberSvar.NEI,
                 _type: ArbeidsforholdType.FRILANSER,
             },
             jobberFortsattSomFrilans: true,

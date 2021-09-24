@@ -1,7 +1,8 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import { getPlanlagtPeriode, getHistoriskPeriode } from '../../../../utils/omsorgstilbudUtils';
+import { TidEnkeltdag } from '../../types';
+import { getHistoriskPeriode, getPlanlagtPeriode, getTidEnkeltdagerInnenforPeriode } from '../tidsbrukUtils';
 
 dayjs.extend(isSameOrAfter);
 
@@ -13,6 +14,26 @@ const søknadsperiode: DateRange = {
 const søknadsdatoFørSøknadsperiode = new Date(2020, 1, 1);
 const søknadsdatoISøknadsperiode = new Date(2020, 3, 1);
 const søknadsdatoEtterSøknadsperiode = new Date(2020, 5, 1);
+
+const enkeldagerFormData: TidEnkeltdag = {
+    '2021-06-01': { hours: '2', minutes: '30' }, // Outside range
+    '2021-06-02': { hours: '2', minutes: '30' }, // Historic
+    '2021-06-03': { hours: '2', minutes: '30' }, // Planned
+    '2021-06-04': { hours: '2', minutes: '30' }, // Planned
+    '2021-06-05': { hours: '2', minutes: '30' }, // Outside range
+};
+
+describe('getTidEnkeltdagerInnenforPeriode', () => {
+    it('extract days within periode', () => {
+        const result = getTidEnkeltdagerInnenforPeriode(enkeldagerFormData, søknadsperiode);
+        expect(Object.keys(result).length).toBe(3);
+        expect(result['2021-06-01']).toBeUndefined();
+        expect(result['2021-06-02']).toBeDefined(); // historic
+        expect(result['2021-06-03']).toBeDefined(); // Søknadsdato
+        expect(result['2021-06-04']).toBeDefined(); // planned
+        expect(result['2021-06-05']).toBeUndefined();
+    });
+});
 
 describe('getHistoriskPeriode', () => {
     it('returnerer undefined dersom søknadsdato er før søknadsperiode', () => {

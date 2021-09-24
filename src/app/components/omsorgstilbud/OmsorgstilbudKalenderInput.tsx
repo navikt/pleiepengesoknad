@@ -6,20 +6,20 @@ import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-p
 import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import dayjs from 'dayjs';
-import { TidsbrukDag } from '../../types';
+import { TidEnkeltdag } from '../../types';
 import { AppFormField } from '../../types/PleiepengesøknadFormData';
 import { getMonthsInDateRange } from '../../utils/dateUtils';
 import { getCleanedTidIOmsorgstilbud } from '../../utils/omsorgstilbudUtils';
 import { getTidIOmsorgValidator } from '../../validation/fieldValidations';
 import AppForm from '../app-form/AppForm';
-import { getTidIOmsorgstilbudInnenforPeriode } from '../steps/omsorgstilbud-step/omsorgstilbudStepUtils';
 import TidUkerInput from '../tid-uker-input/TidUkerInput';
 import OmsorgstilbudInfoAndDialog from './OmsorgstilbudInfoAndDialog';
+import { getTidEnkeltdagerInnenforPeriode } from '../../utils/tidsbrukUtils';
 
 interface Props {
     periode: DateRange;
     visKunEnkeltdager: boolean;
-    tidIOmsorgstilbud: TidsbrukDag;
+    tidIOmsorgstilbud: TidEnkeltdag;
     onOmsorgstilbudChanged?: () => void;
 }
 
@@ -59,7 +59,7 @@ const OmsorgstilbudIPeriodeSpørsmål: React.FunctionComponent<Props> = ({
                 </ExpandableInfo>
             }
             validate={() => {
-                const omsorgstilbudIPerioden = getTidIOmsorgstilbudInnenforPeriode(tidIOmsorgstilbud, periode);
+                const omsorgstilbudIPerioden = getTidEnkeltdagerInnenforPeriode(tidIOmsorgstilbud, periode);
                 const hasElements = Object.keys(getCleanedTidIOmsorgstilbud(omsorgstilbudIPerioden)).length > 0;
                 if (!hasElements) {
                     return {

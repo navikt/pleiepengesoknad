@@ -4,7 +4,7 @@ import { Time } from '@navikt/sif-common-formik/lib/types';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { Virksomhet } from '@navikt/sif-common-forms/lib/virksomhet/types';
-import { AndreYtelserFraNAV, Arbeidsform, BarnRelasjon, JobberSvar, TidsbrukDag, VetOmsorgstilbud } from '.';
+import { AndreYtelserFraNAV, Arbeidsform, BarnRelasjon, JobberSvar, TidEnkeltdag, VetOmsorgstilbud } from '.';
 
 import { Arbeidsgiver } from './Søkerdata';
 
@@ -60,22 +60,14 @@ export enum AppFormField {
     andreYtelser = 'andreYtelser',
 }
 
-export interface OmsorgstilbudFasteDager {
-    mandag?: Time;
-    tirsdag?: Time;
-    onsdag?: Time;
-    torsdag?: Time;
-    fredag?: Time;
-}
-
 export interface OmsorgstilbudPlanlagt {
     vetHvorMyeTid: VetOmsorgstilbud;
     erLiktHverUke?: YesOrNo;
-    fasteDager?: OmsorgstilbudFasteDager;
-    enkeltdager?: TidsbrukDag;
+    fasteDager?: TidFasteDager;
+    enkeltdager?: TidEnkeltdag;
 }
 export interface OmsorgstilbudHistorisk {
-    enkeltdager: TidsbrukDag;
+    enkeltdager: TidEnkeltdag;
 }
 export interface Omsorgstilbud {
     skalBarnIOmsorgstilbud?: YesOrNo;
@@ -84,7 +76,7 @@ export interface Omsorgstilbud {
     historisk?: OmsorgstilbudHistorisk;
 }
 
-export interface OmsorgstilbudFasteDager {
+export interface TidFasteDager {
     mandag?: Time;
     tirsdag?: Time;
     onsdag?: Time;
@@ -112,8 +104,8 @@ export interface ArbeidIPeriode {
     [ArbeidIPeriodeField.jobber]: JobberSvar;
     [ArbeidIPeriodeField.jobberSomVanlig]: YesOrNo;
     [ArbeidIPeriodeField.erLiktHverUke]?: YesOrNo;
-    [ArbeidIPeriodeField.enkeltdager]?: TidsbrukDag;
-    [ArbeidIPeriodeField.fasteDager]?: OmsorgstilbudFasteDager;
+    [ArbeidIPeriodeField.enkeltdager]?: TidEnkeltdag;
+    [ArbeidIPeriodeField.fasteDager]?: TidFasteDager;
 }
 
 export interface Arbeidsforhold {
