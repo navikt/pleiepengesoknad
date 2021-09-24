@@ -2,21 +2,22 @@ import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import { ArbeidsforholdType, BarnRelasjon } from '../types';
-import { ArbeidsforholdAnsattApiData, BarnApiData, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
+import { ArbeidsforholdType } from '../types';
+import { ArbeidsforholdAnsattApiData, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
 import { ArbeidsforholdAnsatt, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../types/Søkerdata';
 import appSentryLogger from './appSentryLogger';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
 import { filterAndMapAttachmentsToApiFormat } from './formToApiMaps/attachmentsToApiData';
 import { mapArbeidsforholdToApiData } from './formToApiMaps/mapArbeidsforholdToApiData';
-import { mapBarnToApiData } from './formToApiMaps/mapBarnToApiData';
-import { mapBostedUtlandToApiData } from './formToApiMaps/mapBostedUtlandToApiData';
-import { mapFrilansToApiData } from './formToApiMaps/mapFrilansToApiData';
-import { mapOmsorgstilbudToApiData } from './formToApiMaps/mapOmsorgstilbudToApiData';
-import { mapSelvstendigNæringsdrivendeToApiData } from './formToApiMaps/mapSelvstendigNæringsdrivendeToApiData';
-import { mapUtenlandsoppholdIPeriodenToApiData } from './formToApiMaps/mapUtenlandsoppholdIPeriodenToApiData';
-import { skalBrukerSvarePåBeredskapOgNattevåk } from './stepUtils';
+import { getBarnApiData } from './formToApiMaps/barnApiData';
+import { getFerieuttakIPeriodenApiData } from './formToApiMaps/ferieuttakIPeriodenApiData';
+import { getFrilansApiData } from './formToApiMaps/frilansApiData';
+import { getMedlemsskapApiData } from './formToApiMaps/medlemsskapApiData';
+import { getNattevåkOgBeredskapApiData } from './formToApiMaps/nattevåkOgBeredskapApiData';
+import { getOmsorgstilbudApiData } from './formToApiMaps/omsorgstilbudApiData';
+import { getSelvstendigNæringsdrivendeApiData } from './formToApiMaps/selvstendigNæringsdrivendeApiData';
+import { getUtenlandsoppholdIPeriodenApiData } from './formToApiMaps/utenlandsoppholdIPeriodenApiData';
 import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet } from './tidsromUtils';
 
 export const getValidSpråk = (locale?: any): Locale => {
@@ -52,56 +53,21 @@ export const getOrganisasjonerApiData = (arbeidsforhold: ArbeidsforholdAnsatt[])
     return organisasjoner;
 };
 
-export const getAvsluttaOrganisasjonerApiData = (
-    arbeidsforhold: ArbeidsforholdAnsatt[]
-): ArbeidsforholdAnsattApiData[] => {
-    const organisasjoner: ArbeidsforholdAnsattApiData[] = [];
-    arbeidsforhold.forEach((forhold) => {
-        const arbeidsforholdApiData = mapArbeidsforholdToApiData(forhold, ArbeidsforholdType.ANSATT);
-        if (arbeidsforholdApiData) {
-            organisasjoner.push({
-                ...arbeidsforholdApiData,
-                navn: forhold.navn,
-                organisasjonsnummer: forhold.organisasjonsnummer,
-                erAnsatt: forhold.erAnsatt === YesOrNo.YES,
-            });
-        } else {
-            throw new Error('Invalid arbeidsforhold');
-        }
-    });
-    return organisasjoner;
-};
-
 export const mapFormDataToApiData = (
     formData: PleiepengesøknadFormData,
     barn: BarnReceivedFromApi[],
     locale: Locale = 'nb'
 ): PleiepengesøknadApiData | undefined => {
     const {
-        barnetsNavn,
-        barnetsFødselsnummer,
-        barnetSøknadenGjelder,
         harBekreftetOpplysninger,
         harForståttRettigheterOgPlikter,
         arbeidsforhold,
         legeerklæring,
-        harBoddUtenforNorgeSiste12Mnd,
-        skalBoUtenforNorgeNeste12Mnd,
-        utenlandsoppholdNeste12Mnd,
-        utenlandsoppholdSiste12Mnd,
         harMedsøker,
         samtidigHjemme,
         omsorgstilbud,
-        harBeredskap,
-        harBeredskap_ekstrainfo,
-        harNattevåk,
-        harNattevåk_ekstrainfo,
         skalOppholdeSegIUtlandetIPerioden,
         utenlandsoppholdIPerioden,
-        ferieuttakIPerioden,
-        skalTaUtFerieIPerioden,
-        relasjonTilBarnet,
-        relasjonTilBarnetBeskrivelse,
     } = formData;
 
     const periodeFra = datepickerUtils.getDateFromDateString(formData.periodeFra);
@@ -110,58 +76,38 @@ export const mapFormDataToApiData = (
     if (periodeFra && periodeTil) {
         const organisasjoner = getOrganisasjonerApiData(arbeidsforhold);
         try {
-            const barnObject: BarnApiData = mapBarnToApiData(
-                barn,
-                barnetsNavn,
-                barnetsFødselsnummer,
-                barnetSøknadenGjelder
-            );
-
-            const gjelderAnnetBarn = barnObject.aktørId === null;
             const sprak = getValidSpråk(locale);
-
-            const frilanserApiData = mapFrilansToApiData(formData);
-            const selvstendigApiData = mapSelvstendigNæringsdrivendeToApiData(formData, locale);
-
             const apiData: PleiepengesøknadApiData = {
                 språk: sprak,
-                barn: barnObject,
-                barnRelasjon: gjelderAnnetBarn ? relasjonTilBarnet : undefined,
-                barnRelasjonBeskrivelse:
-                    gjelderAnnetBarn && relasjonTilBarnet === BarnRelasjon.ANNET
-                        ? relasjonTilBarnetBeskrivelse
-                        : undefined,
+                harBekreftetOpplysninger,
+                harForståttRettigheterOgPlikter,
+                fraOgMed: formatDateToApiFormat(periodeFra),
+                tilOgMed: formatDateToApiFormat(periodeTil),
                 arbeidsgivere: {
                     organisasjoner,
                 },
-                medlemskap: {
-                    harBoddIUtlandetSiste12Mnd: harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES,
-                    skalBoIUtlandetNeste12Mnd: skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES,
-                    utenlandsoppholdSiste12Mnd:
-                        harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES
-                            ? utenlandsoppholdSiste12Mnd.map((o) => mapBostedUtlandToApiData(o, sprak))
-                            : [],
-                    utenlandsoppholdNeste12Mnd:
-                        skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES
-                            ? utenlandsoppholdNeste12Mnd.map((o) => mapBostedUtlandToApiData(o, sprak))
-                            : [],
-                },
-                fraOgMed: formatDateToApiFormat(periodeFra),
-                tilOgMed: formatDateToApiFormat(periodeTil),
                 vedlegg: filterAndMapAttachmentsToApiFormat(legeerklæring),
                 harMedsøker: harMedsøker === YesOrNo.YES,
-                harBekreftetOpplysninger,
-                harForståttRettigheterOgPlikter,
+                samtidigHjemme: harMedsøker === YesOrNo.YES ? samtidigHjemme === YesOrNo.YES : undefined,
                 harVærtEllerErVernepliktig: formData.harVærtEllerErVernepliktig
                     ? formData.harVærtEllerErVernepliktig === YesOrNo.YES
                     : undefined,
-                andreYtelserFraNAV:
-                    isFeatureEnabled(Feature.ANDRE_YTELSER) && formData.mottarAndreYtelser === YesOrNo.YES
-                        ? formData.andreYtelser
-                        : [],
-                ...frilanserApiData,
-                ...selvstendigApiData,
+
+                ...getFerieuttakIPeriodenApiData(formData),
+                ...getBarnApiData(formData, barn),
+                ...getMedlemsskapApiData(formData, sprak),
+                ...getOmsorgstilbudApiData(omsorgstilbud, {
+                    from: periodeFra,
+                    to: periodeTil,
+                }),
+                ...getNattevåkOgBeredskapApiData(formData),
+                ...getFrilansApiData(formData),
+                ...getSelvstendigNæringsdrivendeApiData(formData, locale),
             };
+
+            if (isFeatureEnabled(Feature.ANDRE_YTELSER)) {
+                apiData.andreYtelserFraNAV = formData.mottarAndreYtelser === YesOrNo.YES ? formData.andreYtelser : [];
+            }
 
             if (isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG)) {
                 const skalBekrefteOmsorgForBarnet = brukerSkalBekrefteOmsorgForBarnet(formData, barn);
@@ -180,40 +126,9 @@ export const mapFormDataToApiData = (
                     skalOppholdeSegIUtlandetIPerioden: skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES,
                     opphold:
                         skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES && utenlandsoppholdIPerioden
-                            ? utenlandsoppholdIPerioden.map((o) => mapUtenlandsoppholdIPeriodenToApiData(o, sprak))
+                            ? utenlandsoppholdIPerioden.map((o) => getUtenlandsoppholdIPeriodenApiData(o, sprak))
                             : [],
                 };
-            }
-
-            apiData.ferieuttakIPerioden = {
-                skalTaUtFerieIPerioden: skalTaUtFerieIPerioden === YesOrNo.YES,
-                ferieuttak:
-                    skalTaUtFerieIPerioden === YesOrNo.YES && ferieuttakIPerioden
-                        ? ferieuttakIPerioden.map((uttak) => ({
-                              fraOgMed: formatDateToApiFormat(uttak.fom),
-                              tilOgMed: formatDateToApiFormat(uttak.tom),
-                          }))
-                        : [],
-            };
-
-            apiData.samtidigHjemme = harMedsøker === YesOrNo.YES ? samtidigHjemme === YesOrNo.YES : undefined;
-
-            if (omsorgstilbud !== undefined) {
-                apiData.omsorgstilbudV2 = mapOmsorgstilbudToApiData(omsorgstilbud, {
-                    from: periodeFra,
-                    to: periodeTil,
-                });
-                const inkluderNattevåkOgBeredskap = skalBrukerSvarePåBeredskapOgNattevåk(formData);
-                if (inkluderNattevåkOgBeredskap) {
-                    apiData.nattevåk = {
-                        harNattevåk: harNattevåk === YesOrNo.YES,
-                        tilleggsinformasjon: harNattevåk_ekstrainfo,
-                    };
-                    apiData.beredskap = {
-                        beredskap: harBeredskap === YesOrNo.YES,
-                        tilleggsinformasjon: harBeredskap_ekstrainfo,
-                    };
-                }
             }
             return apiData;
         } catch (e) {

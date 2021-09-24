@@ -48,7 +48,7 @@ import FrilansSummary from './FrilansSummary';
 import HistoriskOmsorgstilbudSummary from './HistoriskOmsorgstilbudSummary';
 import JaNeiSvar from './JaNeiSvar';
 import PlanlagtOmsorgstilbudSummary from './PlanlagtOmsorgstilbudSummary';
-import SelvstendigSummary from './SelvstendigSummary';
+// import SelvstendigSummary from './SelvstendigSummary';
 import SummaryBlock from './SummaryBlock';
 import './summary.less';
 
@@ -147,7 +147,9 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                 const alleArbeidsforhold = [
                     ...apiValues.arbeidsgivere.organisasjoner,
                     ...(apiValues.frilans?.arbeidsforhold ? [apiValues.frilans.arbeidsforhold] : []),
-                    ...(apiValues.selvstendigArbeidsforhold ? [apiValues.selvstendigArbeidsforhold] : []),
+                    ...(apiValues.selvstendigNæringsdrivende
+                        ? [apiValues.selvstendigNæringsdrivende.arbeidsforhold]
+                        : []),
                 ];
 
                 return (
@@ -362,14 +364,14 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                 </SummarySection>
 
                                 {/* Næringsinntekt */}
-                                <SelvstendigSummary
+                                {/* <SelvstendigSummary
                                     virksomhet={
                                         apiValues.selvstendigVirksomheter &&
                                         apiValues.selvstendigVirksomheter.length === 1
                                             ? apiValues.selvstendigVirksomheter[0]
                                             : undefined
                                     }
-                                />
+                                /> */}
 
                                 {/* Vernepliktig */}
                                 {apiValues.harVærtEllerErVernepliktig !== undefined && (

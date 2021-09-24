@@ -8,7 +8,7 @@ import { ArbeidsforholdAnsatt } from './PleiepengesøknadFormData';
 
 export type ISO8601Duration = string;
 
-export interface BarnApiData {
+export interface BarnetSøknadenGjelderApiData {
     navn: string | null;
     fødselsnummer: string | null;
     fødselsdato: string | null;
@@ -18,9 +18,9 @@ export interface BarnApiData {
 
 /** Brukes kun i klient, ikke backend */
 export interface ArbeidsforholdApiData {
-    skalJobbe?: JobberSvar;
     arbeidsform?: Arbeidsform;
     jobberNormaltTimer?: number;
+    skalJobbe?: JobberSvar;
     erAnsatt?: boolean;
     _type: ArbeidsforholdType;
 }
@@ -57,6 +57,18 @@ export type ArbeidsforholdApiSomVanlig = Pick<
     ArbeidsforholdApiData,
     'skalJobbe' | 'jobberNormaltTimer' | 'arbeidsform' | 'erAnsatt' | '_type'
 >;
+
+export interface FrilansApiData {
+    startdato: ApiStringDate;
+    jobberFortsattSomFrilans: boolean;
+    sluttdato?: ApiStringDate;
+    arbeidsforhold: ArbeidsforholdApiData;
+}
+
+export interface SelvstendigNæringsdrivendeApiData {
+    virksomhet: VirksomhetApiData;
+    arbeidsforhold: ArbeidsforholdApiData;
+}
 
 export interface TidFasteDagerApiData {
     mandag?: ISO8601Duration;
@@ -129,18 +141,16 @@ export interface FerieuttakIPeriodeApiData {
     tilOgMed: ApiStringDate;
 }
 
-export interface FrilansApiData {
-    startdato: ApiStringDate;
-    jobberFortsattSomFrilans: boolean;
-    sluttdato?: ApiStringDate;
-    arbeidsforhold?: ArbeidsforholdApiData;
+export interface FerieuttakIPeriodenApiData {
+    skalTaUtFerieIPerioden: boolean;
+    ferieuttak: FerieuttakIPeriodeApiData[];
 }
 
 export interface PleiepengesøknadApiData {
     språk: Locale;
     harForståttRettigheterOgPlikter: boolean;
     harBekreftetOpplysninger: boolean;
-    barn: BarnApiData;
+    barn: BarnetSøknadenGjelderApiData;
     barnRelasjon?: BarnRelasjon;
     barnRelasjonBeskrivelse?: string;
     fraOgMed: ApiStringDate;
@@ -154,10 +164,7 @@ export interface PleiepengesøknadApiData {
         skalOppholdeSegIUtlandetIPerioden: boolean;
         opphold: UtenlandsoppholdIPeriodenApiData[];
     };
-    ferieuttakIPerioden?: {
-        skalTaUtFerieIPerioden: boolean;
-        ferieuttak: FerieuttakIPeriodeApiData[];
-    };
+    ferieuttakIPerioden?: FerieuttakIPeriodenApiData;
     harMedsøker: boolean;
     samtidigHjemme?: boolean;
     omsorgstilbudV2?: OmsorgstilbudApiData;
@@ -173,8 +180,7 @@ export interface PleiepengesøknadApiData {
     harHattInntektSomFrilanser: boolean;
     frilans?: FrilansApiData;
     harHattInntektSomSelvstendigNæringsdrivende: boolean;
-    selvstendigVirksomheter: VirksomhetApiData[];
-    selvstendigArbeidsforhold?: ArbeidsforholdApiData;
+    selvstendigNæringsdrivende?: SelvstendigNæringsdrivendeApiData;
     harVærtEllerErVernepliktig?: boolean;
     andreYtelserFraNAV?: AndreYtelserFraNAV[];
 }

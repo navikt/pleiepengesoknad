@@ -117,15 +117,15 @@ export const validateApiValues = (
     //     });
     // }
 
-    if (values.selvstendigVirksomheter.length === 1) {
-        const virksomhet = values.selvstendigVirksomheter[0];
-        if (isVirksomhetRegnskapsførerTelefonnummerValid(virksomhet) === false) {
-            errors.push({
-                stepId: StepID.ARBEIDSSITUASJON,
-                skjemaelementId: 'virksomhet',
-                feilmelding: intlHelper(intl, 'steg.oppsummering.validering.ugyldigRegnskapsførerTelefonnummer'),
-            });
-        }
-    }
+    // if (values.selvstendigVirksomheter.length === 1) {
+    //     const virksomhet = values.selvstendigVirksomheter[0];
+    //     if (isVirksomhetRegnskapsførerTelefonnummerValid(virksomhet) === false) {
+    //         errors.push({
+    //             stepId: StepID.ARBEIDSSITUASJON,
+    //             skjemaelementId: 'virksomhet',
+    //             feilmelding: intlHelper(intl, 'steg.oppsummering.validering.ugyldigRegnskapsførerTelefonnummer'),
+    //         });
+    //     }
+    // }
     return errors.length > 0 ? errors : undefined;
 };

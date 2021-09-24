@@ -7,7 +7,7 @@ import { Arbeidsforhold, ArbeidsforholdAnsatt, isArbeidsforholdAnsatt } from '..
 export const mapArbeidsforholdToApiData = (
     arbeidsforhold: Arbeidsforhold | ArbeidsforholdAnsatt,
     type: ArbeidsforholdType
-): ArbeidsforholdApiData | undefined => {
+): ArbeidsforholdApiData => {
     const { jobberNormaltTimer, arbeidsform } = arbeidsforhold;
 
     const erAnsatt = isArbeidsforholdAnsatt(arbeidsforhold) ? arbeidsforhold.erAnsatt === YesOrNo.YES : undefined;

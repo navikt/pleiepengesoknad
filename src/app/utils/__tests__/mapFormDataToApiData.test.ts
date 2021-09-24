@@ -4,7 +4,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import * as attachmentUtils from '@navikt/sif-common-core/lib/utils/attachmentUtils';
 import * as dateUtils from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
-import { Næringstype } from '@navikt/sif-common-forms/lib/virksomhet/types';
+// import { Næringstype } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import dayjs from 'dayjs';
 import { ArbeidsforholdType, Arbeidsform, JobberSvar, VetOmsorgstilbud } from '../../types';
 import {
@@ -100,20 +100,20 @@ const frilansPartialFormData: Partial<PleiepengesøknadFormData> = {
         jobberNormaltTimer: '10',
     },
 };
-const selvstendigPartialFormData: Partial<PleiepengesøknadFormData> = {
-    selvstendig_harHattInntektSomSN: YesOrNo.YES,
-    selvstendig_harFlereVirksomheter: YesOrNo.NO,
-    selvstendig_virksomhet: {
-        fom: new Date(),
-        erPågående: true,
-        navnPåVirksomheten: 'abc',
-        næringsinntekt: 200,
-        næringstype: Næringstype.ANNEN,
-        registrertINorge: YesOrNo.YES,
-        organisasjonsnummer: '123123123',
-        harRegnskapsfører: YesOrNo.NO,
-    },
-};
+// const selvstendigPartialFormData: Partial<PleiepengesøknadFormData> = {
+//     selvstendig_harHattInntektSomSN: YesOrNo.YES,
+//     selvstendig_harFlereVirksomheter: YesOrNo.NO,
+//     selvstendig_virksomhet: {
+//         fom: new Date(),
+//         erPågående: true,
+//         navnPåVirksomheten: 'abc',
+//         næringsinntekt: 200,
+//         næringstype: Næringstype.ANNEN,
+//         registrertINorge: YesOrNo.YES,
+//         organisasjonsnummer: '123123123',
+//         harRegnskapsfører: YesOrNo.NO,
+//     },
+// };
 
 const completeFormDataMock: PleiepengesøknadFormData = {
     arbeidsforhold: [
@@ -384,24 +384,24 @@ describe('mapFormDataToApiData', () => {
                 expect(mappedData.frilans).toBeUndefined();
             }
         });
-        it('should include selvstendig info', () => {
-            (isFeatureEnabled as any).mockImplementation(() => true);
-            const formDataWithSelvstendigInfo: Partial<PleiepengesøknadFormData> = {
-                ...formData,
-                ...selvstendigPartialFormData,
-                selvstendig_harHattInntektSomSN: YesOrNo.YES,
-                selvstendig_arbeidsforhold: {
-                    arbeidsform: Arbeidsform.fast,
-                    jobberNormaltTimer: '10',
-                },
-            };
-            const mappedData = mapFormDataToApiData(formDataWithSelvstendigInfo as any, barnMock, 'nb');
-            expect(mappedData).toBeDefined();
-            if (mappedData) {
-                expect(mappedData.harHattInntektSomSelvstendigNæringsdrivende).toBeTruthy();
-                expect(mappedData.selvstendigVirksomheter).toBeDefined();
-            }
-        });
+        // it('should include selvstendig info', () => {
+        //     (isFeatureEnabled as any).mockImplementation(() => true);
+        //     const formDataWithSelvstendigInfo: Partial<PleiepengesøknadFormData> = {
+        //         ...formData,
+        //         ...selvstendigPartialFormData,
+        //         selvstendig_harHattInntektSomSN: YesOrNo.YES,
+        //         selvstendig_arbeidsforhold: {
+        //             arbeidsform: Arbeidsform.fast,
+        //             jobberNormaltTimer: '10',
+        //         },
+        //     };
+        //     const mappedData = mapFormDataToApiData(formDataWithSelvstendigInfo as any, barnMock, 'nb');
+        //     expect(mappedData).toBeDefined();
+        //     if (mappedData) {
+        //         expect(mappedData.harHattInntektSomSelvstendigNæringsdrivende).toBeTruthy();
+        //         expect(mappedData.selvstendigVirksomheter).toBeDefined();
+        //     }
+        // });
     });
 });
 
@@ -483,7 +483,7 @@ describe('Test complete applications', () => {
         andreYtelserFraNAV: [],
         harHattInntektSomFrilanser: false,
         harHattInntektSomSelvstendigNæringsdrivende: false,
-        selvstendigVirksomheter: [],
+        // selvstendigVirksomheter: [],
     };
 
     const utenlandsoppholdISverigeApiData: UtenlandsoppholdIPeriodenApiData = {

@@ -7,8 +7,8 @@ import { TidsbrukDag, VetOmsorgstilbud } from '../../types';
 import {
     HistoriskOmsorgstilbudApiData,
     TidEnkeltdagApiData,
-    OmsorgstilbudApiData,
     PlanlagtOmsorgstilbudApiData,
+    PleiepengesøknadApiData,
 } from '../../types/PleiepengesøknadApiData';
 import { Omsorgstilbud, OmsorgstilbudFasteDager } from '../../types/PleiepengesøknadFormData';
 import { getHistoriskPeriode, getPlanlagtPeriode } from '../omsorgstilbudUtils';
@@ -40,20 +40,9 @@ export const getEnkeltdagerIPeriode = (enkeltdager: TidsbrukDag, periode: DateRa
     return dager.sort(sortEnkeltdager);
 };
 
-export const mapOmsorgstilbudToApiData = (
-    omsorgstilbud: Omsorgstilbud,
-    søknadsperiode: DateRange
-): OmsorgstilbudApiData | undefined => {
-    if (omsorgstilbud.historisk || omsorgstilbud.planlagt) {
-        return {
-            historisk: mapHistoriskOmsorgstilbudToApiData(omsorgstilbud, søknadsperiode),
-            planlagt: mapPlanlagtOmsorgstilbudToApiData(omsorgstilbud, søknadsperiode),
-        };
-    }
-    return undefined;
-};
+type OmsorgstilbudApiDataPart = Pick<PleiepengesøknadApiData, 'omsorgstilbudV2'>;
 
-export const mapPlanlagtOmsorgstilbudToApiData = (
+const mapPlanlagtOmsorgstilbudToApiData = (
     omsorgstilbud: Omsorgstilbud,
     søknadsperiode: DateRange
 ): PlanlagtOmsorgstilbudApiData | undefined => {
@@ -88,7 +77,7 @@ export const mapPlanlagtOmsorgstilbudToApiData = (
     return undefined;
 };
 
-export const mapHistoriskOmsorgstilbudToApiData = (
+const mapHistoriskOmsorgstilbudToApiData = (
     omsorgstilbud: Omsorgstilbud,
     søknadsperiode: DateRange
 ): HistoriskOmsorgstilbudApiData | undefined => {
@@ -100,4 +89,19 @@ export const mapHistoriskOmsorgstilbudToApiData = (
         };
     }
     return undefined;
+};
+
+export const getOmsorgstilbudApiData = (
+    omsorgstilbud: Omsorgstilbud | undefined,
+    søknadsperiode: DateRange
+): OmsorgstilbudApiDataPart => {
+    if (omsorgstilbud?.historisk || omsorgstilbud?.planlagt) {
+        return {
+            omsorgstilbudV2: {
+                historisk: mapHistoriskOmsorgstilbudToApiData(omsorgstilbud, søknadsperiode),
+                planlagt: mapPlanlagtOmsorgstilbudToApiData(omsorgstilbud, søknadsperiode),
+            },
+        };
+    }
+    return { omsorgstilbudV2: undefined };
 };

@@ -8,10 +8,10 @@ import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
 
 type SelvstendigArbeidsforholdApiDataPart = Pick<
     PleiepengesøknadApiData,
-    'selvstendigArbeidsforhold' | 'selvstendigVirksomheter' | 'harHattInntektSomSelvstendigNæringsdrivende'
+    'selvstendigNæringsdrivende' | 'harHattInntektSomSelvstendigNæringsdrivende'
 >;
 
-export const mapSelvstendigNæringsdrivendeToApiData = (
+export const getSelvstendigNæringsdrivendeApiData = (
     {
         selvstendig_arbeidsforhold,
         selvstendig_harHattInntektSomSN,
@@ -25,7 +25,6 @@ export const mapSelvstendigNæringsdrivendeToApiData = (
     if (harHattInntektSomSelvstendigNæringsdrivende === false) {
         return {
             harHattInntektSomSelvstendigNæringsdrivende,
-            selvstendigVirksomheter: [],
         };
     }
 
@@ -37,20 +36,15 @@ export const mapSelvstendigNæringsdrivendeToApiData = (
         throw new Error('mapSelvstendigNæringsdrivendeToApiData - selvstendig_arbeidsforhold er undefined');
     }
 
-    const selvstendigArbeidsforhold = mapArbeidsforholdToApiData(
-        selvstendig_arbeidsforhold,
-        ArbeidsforholdType.SELVSTENDIG
-    );
-
     return {
         harHattInntektSomSelvstendigNæringsdrivende,
-        selvstendigArbeidsforhold,
-        selvstendigVirksomheter: [
-            mapVirksomhetToVirksomhetApiData(
+        selvstendigNæringsdrivende: {
+            arbeidsforhold: mapArbeidsforholdToApiData(selvstendig_arbeidsforhold, ArbeidsforholdType.SELVSTENDIG),
+            virksomhet: mapVirksomhetToVirksomhetApiData(
                 locale,
                 selvstendig_virksomhet,
                 selvstendig_harFlereVirksomheter === YesOrNo.YES
             ),
-        ],
+        },
     };
 };

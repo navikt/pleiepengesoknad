@@ -17,7 +17,7 @@ const mapBarnInnlagtPeriodeToApiFormat = (periode: DateTidsperiode): PeriodeBarn
     };
 };
 
-export const mapUtenlandsoppholdIPeriodenToApiData = (
+export const getUtenlandsoppholdIPeriodenApiData = (
     opphold: Utenlandsopphold,
     locale: string
 ): UtenlandsoppholdIPeriodenApiData => {

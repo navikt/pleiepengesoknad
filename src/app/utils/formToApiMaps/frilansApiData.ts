@@ -1,13 +1,13 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { ArbeidsforholdType } from '../../types';
-import { ArbeidsforholdApiData, FrilansApiData, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
+import { FrilansApiData, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
 import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
 
 type FrilansApiDataPart = Pick<PleiepengesøknadApiData, 'frilans' | 'harHattInntektSomFrilanser'>;
 
-export const mapFrilansToApiData = (formData: PleiepengesøknadFormData): FrilansApiDataPart => {
+export const getFrilansApiData = (formData: PleiepengesøknadFormData): FrilansApiDataPart => {
     const {
         frilans_harHattInntektSomFrilanser,
         frilans_jobberFortsattSomFrilans,
@@ -27,30 +27,24 @@ export const mapFrilansToApiData = (formData: PleiepengesøknadFormData): Frilan
     if (
         frilans_startdato === undefined ||
         frilans_jobberFortsattSomFrilans === undefined ||
-        isYesOrNoAnswered(frilans_jobberFortsattSomFrilans) === false
+        isYesOrNoAnswered(frilans_jobberFortsattSomFrilans) === false ||
+        frilans_arbeidsforhold === undefined
     ) {
-        throw new Error('mapFrilansToApiData - mangler frilansinformasjon');
+        throw new Error('mapFrilansToApiData - mangler arbeidsinformasjon om frilans');
     }
 
-    const startdato = frilans_startdato;
     const jobberFortsattSomFrilans: boolean = frilans_jobberFortsattSomFrilans === YesOrNo.YES;
-    const sluttdato = frilans_jobberFortsattSomFrilans === YesOrNo.NO ? frilans_sluttdato : undefined;
-    if (frilans_jobberFortsattSomFrilans === YesOrNo.NO && sluttdato === undefined) {
+    if (jobberFortsattSomFrilans && frilans_sluttdato === undefined) {
         throw new Error('mapFrilansToApiData - jobber ikke lenger som frilanser, men sluttdato mangler');
     }
-    const arbeidsforhold: ArbeidsforholdApiData | undefined = frilans_arbeidsforhold
-        ? mapArbeidsforholdToApiData(frilans_arbeidsforhold, ArbeidsforholdType.FRILANSER)
-        : undefined;
 
-    if (jobberFortsattSomFrilans === true && arbeidsforhold === undefined) {
-        throw new Error('mapFrilansToApiData - mangler arbeidsforhold informasjon');
-    }
     const frilans: FrilansApiData = {
-        startdato,
+        startdato: frilans_startdato,
         jobberFortsattSomFrilans,
-        arbeidsforhold,
-        sluttdato,
+        arbeidsforhold: mapArbeidsforholdToApiData(frilans_arbeidsforhold, ArbeidsforholdType.FRILANSER),
+        sluttdato: frilans_sluttdato,
     };
+
     return {
         harHattInntektSomFrilanser,
         frilans,
