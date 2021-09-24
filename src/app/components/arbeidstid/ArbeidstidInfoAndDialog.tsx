@@ -24,7 +24,7 @@ interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, Va
 }
 
 function ArbeidstidInfoAndDialog<FieldNames>({ name, periode, labels, validate }: Props<FieldNames>) {
-    const gjelderFortid = dayjs(periode.to).isBefore(dateToday, 'day');
+    const erHistorisk = dayjs(periode.to).isBefore(dateToday, 'day');
     return (
         <FormikModalFormAndInfo<FieldNames, TidsbrukDag, ValidationError>
             name={name}
@@ -42,7 +42,7 @@ function ArbeidstidInfoAndDialog<FieldNames>({ name, periode, labels, validate }
                         tid={data}
                         tittel={
                             <FormattedMessage
-                                id="omsorgstilbud.form.tittel"
+                                id="arbeidstid.form.tittel"
                                 values={{ måned: dayjs(periode.from).format('MMMM YYYY') }}
                             />
                         }
@@ -51,16 +51,11 @@ function ArbeidstidInfoAndDialog<FieldNames>({ name, periode, labels, validate }
                                 <p>
                                     <FormattedMessage
                                         id={
-                                            gjelderFortid
-                                                ? 'omsorgstilbud.form.intro_fortid.1'
-                                                : 'omsorgstilbud.form.intro.1'
+                                            erHistorisk
+                                                ? 'arbeidstid.form.intro.historisk'
+                                                : 'arbeidstid.form.intro.planlagt'
                                         }
                                     />
-                                </p>
-                                <p>
-                                    <strong>
-                                        <FormattedMessage id="omsorgstilbud.form.intro.2" />
-                                    </strong>
                                 </p>
                             </>
                         }
@@ -78,15 +73,19 @@ function ArbeidstidInfoAndDialog<FieldNames>({ name, periode, labels, validate }
                 return (
                     <>
                         <Undertittel tag="h3">
-                            <FormattedMessage id="arbeidIPeriode.periodetittel" values={{ periode: mndOgÅr }} />
+                            <FormattedMessage id="arbeidstid.periodetittel" values={{ periode: mndOgÅr }} />
                         </Undertittel>
-                        <TidsbrukKalender
-                            måned={måned}
-                            periode={periode}
-                            dager={dager}
-                            visSomListe={false}
-                            skjulTommeDagerIListe={true}
-                        />
+                        {dager.length === 0 ? (
+                            <FormattedMessage tagName="p" id="arbeidstid.ingenDagerRegistrert" />
+                        ) : (
+                            <TidsbrukKalender
+                                måned={måned}
+                                periode={periode}
+                                dager={dager}
+                                visSomListe={false}
+                                skjulTommeDagerIListe={true}
+                            />
+                        )}
                         <FormBlock margin="l">
                             <Knapp
                                 htmlType="button"
@@ -94,7 +93,6 @@ function ArbeidstidInfoAndDialog<FieldNames>({ name, periode, labels, validate }
                                 onClick={() => onEdit(data)}
                                 aria-describedby={tittelId}>
                                 {labels.addLabel}
-                                {/* <FormattedMessage id="arbeidstid.registrerTid.knapp" values={{ periode: mndOgÅr }} /> */}
                             </Knapp>
                         </FormBlock>
                     </>
