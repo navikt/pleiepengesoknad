@@ -415,19 +415,18 @@ describe('Test complete applications', () => {
             fødselsdato: '2020-01-20',
             sammeAdresse: true,
         },
-        arbeidsgivere: {
-            organisasjoner: [
-                // {
-                //     navn: 'Maxbo',
-                //     organisasjonsnummer: '910831143',
-                //     skalJjoobbe: JobberSvar.JA,
-                //     jobberNormaltTimer: 37.5,
-                //     arbeidsform: Arbeidsform.fast,
-                //     // erAnsatt: true,
-                //     _type: ArbeidsforholdType.ANSATT,
-                // },
-            ],
-        },
+        arbeidsgivere: [
+            // {
+            //     navn: 'Maxbo',
+            //     organisasjonsnummer: '910831143',
+            //     skalJjoobbe: JobberSvar.JA,
+            //     jobberNormaltTimer: 37.5,
+            //     arbeidsform: Arbeidsform.fast,
+            //     // erAnsatt: true,
+            //     _type: ArbeidsforholdType.ANSATT,
+            // },
+        ],
+
         medlemskap: {
             harBoddIUtlandetSiste12Mnd: true,
             skalBoIUtlandetNeste12Mnd: true,

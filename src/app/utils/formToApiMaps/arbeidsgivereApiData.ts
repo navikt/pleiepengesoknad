@@ -1,28 +1,29 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { ArbeidsforholdType } from '../../types';
-import { ArbeidsforholdAnsattApiData } from '../../types/PleiepengesøknadApiData';
+import { ArbeidsgiverApiData, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
 
-export const getAnsattApiData = (
+export const getArbeidsgivereApiData = (
     formData: PleiepengesøknadFormData,
     søknadsperiode: DateRange
-): ArbeidsforholdAnsattApiData[] => {
-    const arbeidsforhold: ArbeidsforholdAnsattApiData[] = [];
+): Pick<PleiepengesøknadApiData, 'arbeidsgivere'> => {
+    const arbeidsforhold: ArbeidsgiverApiData[] = [];
     formData.ansatt_arbeidsforhold.forEach((forhold) => {
         const arbeidsforholdApiData = mapArbeidsforholdToApiData(forhold, søknadsperiode, ArbeidsforholdType.ANSATT);
         if (arbeidsforholdApiData) {
             arbeidsforhold.push({
-                ...arbeidsforholdApiData,
-                _type: ArbeidsforholdType.ANSATT,
                 navn: forhold.navn,
                 organisasjonsnummer: forhold.organisasjonsnummer,
-                erAktivtArbeidsforhold: forhold.erAnsatt === YesOrNo.YES,
+                erAnsatt: forhold.erAnsatt === YesOrNo.YES,
+                arbeidsforhold: arbeidsforholdApiData,
             });
         } else {
             throw new Error('Invalid arbeidsforhold');
         }
     });
-    return arbeidsforhold;
+    return {
+        arbeidsgivere: arbeidsforhold,
+    };
 };

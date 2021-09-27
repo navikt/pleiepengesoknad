@@ -1,41 +1,40 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
+import { FrilansApiData } from '../../../types/PleiepengesøknadApiData';
+import SummarySection from '../../summary-section/SummarySection';
 import DatoSvar from './DatoSvar';
 import JaNeiSvar from './JaNeiSvar';
 import SummaryBlock from './SummaryBlock';
 
 interface Props {
-    apiValues: PleiepengesøknadApiData;
+    frilansApiData?: FrilansApiData;
 }
 
-const FrilansSummary = ({ apiValues }: Props) => {
-    const { _harHattInntektSomFrilanser: harHattInntektSomFrilanser, frilans } = apiValues;
+const FrilansSummary = ({ frilansApiData }: Props) => {
     const intl = useIntl();
     return (
-        <>
+        <SummarySection header={intlHelper(intl, 'frilanser.summary.header')}>
             <SummaryBlock header={intlHelper(intl, 'frilanser.summary.harDuHattInntekt.header')}>
-                <JaNeiSvar harSvartJa={harHattInntektSomFrilanser} />
+                <JaNeiSvar harSvartJa={frilansApiData !== undefined} />
             </SummaryBlock>
-
-            {harHattInntektSomFrilanser && frilans !== undefined && (
+            {frilansApiData !== undefined && (
                 <>
                     <SummaryBlock header={intlHelper(intl, 'frilanser.summary.nårStartet.header')}>
-                        <DatoSvar apiDato={frilans.startdato} />
+                        <DatoSvar apiDato={frilansApiData.startdato} />
                     </SummaryBlock>
                     <SummaryBlock header={intlHelper(intl, 'frilanser.summary.jobberFortsatt.header')}>
-                        <JaNeiSvar harSvartJa={frilans.jobberFortsattSomFrilans} />
+                        <JaNeiSvar harSvartJa={frilansApiData.jobberFortsattSomFrilans} />
                     </SummaryBlock>
 
-                    {frilans.jobberFortsattSomFrilans === false && frilans.sluttdato && (
+                    {frilansApiData.jobberFortsattSomFrilans === false && frilansApiData.sluttdato && (
                         <SummaryBlock header={intlHelper(intl, 'frilanser.summary.nårSluttet.header')}>
-                            <DatoSvar apiDato={frilans.sluttdato} />
+                            <DatoSvar apiDato={frilansApiData.sluttdato} />
                         </SummaryBlock>
                     )}
                 </>
             )}
-        </>
+        </SummarySection>
     );
 };
 

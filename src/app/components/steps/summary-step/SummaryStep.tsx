@@ -19,16 +19,10 @@ import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUti
 import { Normaltekst } from 'nav-frontend-typografi';
 import { purge, sendApplication } from '../../../api/api';
 import { SKJEMANAVN } from '../../../App';
-import ArbeidsforholdSummary from '../../arbeidsforhold-summary/ArbeidsforholdSummary';
-import {
-    renderFerieuttakIPeriodenSummary,
-    renderUtenlandsoppholdIPeriodenSummary,
-    renderUtenlandsoppholdSummary,
-} from './renderUtenlandsoppholdSummary';
 import routeConfig from '../../../config/routeConfig';
 import { StepID } from '../../../config/stepConfig';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
-import { ArbeidsforholdApiData, PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
+import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { Søkerdata } from '../../../types/Søkerdata';
 import * as apiUtils from '../../../utils/apiUtils';
@@ -38,7 +32,7 @@ import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
 import { navigateTo, relocateToLoginPage } from '../../../utils/navigationUtils';
 import { validateApiValues } from '../../../validation/apiValuesValidation';
 import AppForm from '../../app-form/AppForm';
-
+import ArbeidIPeriodenSummary from '../../arbeid-i-perioden-summary/ArbeidiPeriodenSummary';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringAttachmentList from '../../legeerklæring-file-list/LegeerklæringFileList';
 import SummarySection from '../../summary-section/SummarySection';
@@ -48,9 +42,14 @@ import FrilansSummary from './FrilansSummary';
 import HistoriskOmsorgstilbudSummary from './HistoriskOmsorgstilbudSummary';
 import JaNeiSvar from './JaNeiSvar';
 import PlanlagtOmsorgstilbudSummary from './PlanlagtOmsorgstilbudSummary';
-// import SelvstendigSummary from './SelvstendigSummary';
+import {
+    renderFerieuttakIPeriodenSummary,
+    renderUtenlandsoppholdIPeriodenSummary,
+    renderUtenlandsoppholdSummary,
+} from './renderUtenlandsoppholdSummary';
 import SummaryBlock from './SummaryBlock';
 import './summary.less';
+import SelvstendigSummary from './SelvstendigSummary';
 
 interface Props {
     values: PleiepengesøknadFormData;
@@ -124,14 +123,6 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
 
                 const mottarAndreYtelserFraNAV =
                     apiValues.andreYtelserFraNAV && apiValues.andreYtelserFraNAV.length > 0;
-
-                const alleArbeidsforhold = [
-                    ...apiValues.arbeidsgivere.organisasjoner,
-                    ...(apiValues.frilans?.arbeidsforhold ? [apiValues.frilans.arbeidsforhold] : []),
-                    ...(apiValues.selvstendigNæringsdrivende
-                        ? [apiValues.selvstendigNæringsdrivende.arbeidsforhold]
-                        : []),
-                ];
 
                 return (
                     <FormikStep
@@ -322,37 +313,13 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                     )}
                                 </SummarySection>
 
-                                {/* Arbeidsforhold */}
-                                <SummarySection header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.header')}>
-                                    {alleArbeidsforhold.length > 0 && (
-                                        <SummaryList
-                                            items={alleArbeidsforhold}
-                                            itemRenderer={(forhold: ArbeidsforholdApiData) => (
-                                                <ArbeidsforholdSummary arbeidsforhold={forhold} />
-                                            )}
-                                        />
-                                    )}
-                                    {alleArbeidsforhold.length === 0 && (
-                                        <Box margin="m">
-                                            <FormattedMessage id="steg.oppsummering.arbeidsforhold.ingenArbeidsforhold" />
-                                        </Box>
-                                    )}
-                                </SummarySection>
+                                <ArbeidIPeriodenSummary apiValues={apiValues} />
 
-                                {/* Frilansinntekt */}
-                                <SummarySection header={intlHelper(intl, 'frilanser.summary.header')}>
-                                    <FrilansSummary apiValues={apiValues} />
-                                </SummarySection>
+                                {/* Frilanser */}
+                                <FrilansSummary frilansApiData={apiValues.frilans} />
 
-                                {/* Næringsinntekt */}
-                                {/* <SelvstendigSummary
-                                    virksomhet={
-                                        apiValues.selvstendigVirksomheter &&
-                                        apiValues.selvstendigVirksomheter.length === 1
-                                            ? apiValues.selvstendigVirksomheter[0]
-                                            : undefined
-                                    }
-                                /> */}
+                                {/* Selvstendig næringsdrivende */}
+                                <SelvstendigSummary virksomhet={apiValues.selvstendigNæringsdrivende?.virksomhet} />
 
                                 {/* Vernepliktig */}
                                 {apiValues.harVærtEllerErVernepliktig !== undefined && (

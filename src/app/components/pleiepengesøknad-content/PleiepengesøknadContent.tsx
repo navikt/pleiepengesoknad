@@ -8,7 +8,7 @@ import { persist } from '../../api/api';
 import { SKJEMANAVN } from '../../App';
 import RouteConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';
-import { ArbeidsforholdAnsattApiData, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
+import { ArbeidsgiverApiData, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { Søkerdata } from '../../types/Søkerdata';
 import { apiUtils } from '../../utils/apiUtils';
@@ -26,7 +26,6 @@ import OpplysningerOmTidsromStep from '../steps/tidsrom-step/OpplysningerOmTidsr
 import OmsorgstilbudStep from '../steps/omsorgstilbud-step/OmsorgstilbudStep';
 import { getSøknadsperiodeFromFormData } from '../../utils/formDataUtils';
 import NattevåkOgBeredskapStep from '../steps/nattevåk-og-beredskap-step/NattevåkOgBeredskapStep';
-import { ArbeidsforholdType } from '../../types';
 import { getHistoriskPeriode, getPlanlagtPeriode } from '../../utils/tidsbrukUtils';
 import ArbeidIPeriodeSteps from '../steps/arbeid-i-periode-steps/ArbeidIPeriodeSteps';
 
@@ -39,22 +38,19 @@ export interface KvitteringInfo {
     fom: Date;
     tom: Date;
     søkernavn: string;
-    arbeidsforhold: ArbeidsforholdAnsattApiData[];
+    arbeidsforhold: ArbeidsgiverApiData[];
 }
 
 const getKvitteringInfoFromApiData = (
-    apiValues: PleiepengesøknadApiData,
+    { arbeidsgivere, fraOgMed, tilOgMed }: PleiepengesøknadApiData,
     søkerdata: Søkerdata
 ): KvitteringInfo | undefined => {
-    const aktiveArbeidsforhold = apiValues.arbeidsgivere.organisasjoner?.filter(
-        (o) => o._type === ArbeidsforholdType.ANSATT
-    ); /** TODO - sjekke om dette fortsatt blir riktig */
-    if (aktiveArbeidsforhold.length > 0) {
+    if (arbeidsgivere && arbeidsgivere.length > 0) {
         const { fornavn, mellomnavn, etternavn } = søkerdata.person;
         return {
-            arbeidsforhold: aktiveArbeidsforhold,
-            fom: apiStringDateToDate(apiValues.fraOgMed),
-            tom: apiStringDateToDate(apiValues.tilOgMed),
+            arbeidsforhold: arbeidsgivere,
+            fom: apiStringDateToDate(fraOgMed),
+            tom: apiStringDateToDate(tilOgMed),
             søkernavn: formatName(fornavn, etternavn, mellomnavn),
         };
     }

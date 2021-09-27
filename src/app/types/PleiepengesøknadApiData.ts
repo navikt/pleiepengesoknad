@@ -38,13 +38,14 @@ export interface ArbeidsforholdApiData {
     planlagtArbeid?: ArbeidIPeriodeApiData;
 }
 
-export interface ArbeidsforholdAnsattApiData extends ArbeidsforholdApiData {
-    _type: ArbeidsforholdType.ANSATT;
+export interface ArbeidsgiverApiData {
     navn: string;
     organisasjonsnummer?: string;
+    erAnsatt?: boolean;
+    arbeidsforhold: ArbeidsforholdApiData;
 }
 
-export const isArbeidsforholdAnsattApiData = (forhold: any): forhold is ArbeidsforholdAnsattApiData => {
+export const isArbeidsforholdAnsattApiData = (forhold: any): forhold is ArbeidsgiverApiData => {
     return forhold?._type === ArbeidsforholdType.ANSATT;
 };
 export interface FrilansApiData {
@@ -165,8 +166,7 @@ export interface PleiepengesøknadApiData {
         beredskap: boolean;
         tilleggsinformasjon?: string;
     };
-    arbeidsgivere: { organisasjoner: ArbeidsforholdAnsattApiData[] };
-    ansatt?: ArbeidsforholdAnsattApiData[];
+    arbeidsgivere?: ArbeidsgiverApiData[];
     _harHattInntektSomFrilanser: boolean;
     frilans?: FrilansApiData;
     _harHattInntektSomSelvstendigNæringsdrivende: boolean;
