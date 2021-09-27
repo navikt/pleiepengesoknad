@@ -4,7 +4,7 @@ import { Time } from '@navikt/sif-common-formik/lib/types';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { Virksomhet } from '@navikt/sif-common-forms/lib/virksomhet/types';
-import { AndreYtelserFraNAV, Arbeidsform, BarnRelasjon, JobberSvar, TidEnkeltdag, VetOmsorgstilbud } from '.';
+import { AndreYtelserFraNAV, Arbeidsform, BarnRelasjon, JobberIPeriodeSvar, TidEnkeltdag, VetOmsorgstilbud } from '.';
 
 import { Arbeidsgiver } from './Søkerdata';
 
@@ -23,7 +23,7 @@ export enum AppFormField {
     skalPassePåBarnetIHelePerioden = 'skalPassePåBarnetIHelePerioden',
     beskrivelseOmsorgsrolleIPerioden = 'beskrivelseOmsorgsrolleIPerioden',
     legeerklæring = 'legeerklæring',
-    arbeidsforhold = 'arbeidsforhold',
+    ansatt_arbeidsforhold = 'ansatt_arbeidsforhold',
     harBoddUtenforNorgeSiste12Mnd = 'harBoddUtenforNorgeSiste12Mnd',
     utenlandsoppholdSiste12Mnd = 'utenlandsoppholdSiste12Mnd',
     skalBoUtenforNorgeNeste12Mnd = 'skalBoUtenforNorgeNeste12Mnd',
@@ -93,7 +93,7 @@ export enum ArbeidsforholdField {
 }
 
 export enum ArbeidIPeriodeField {
-    jobber = 'jobber',
+    jobberIPerioden = 'jobberIPerioden',
     jobberSomVanlig = 'jobberSomVanlig',
     erLiktHverUke = 'erLiktHverUke',
     fasteDager = 'fasteDager',
@@ -101,8 +101,8 @@ export enum ArbeidIPeriodeField {
 }
 
 export interface ArbeidIPeriode {
-    [ArbeidIPeriodeField.jobber]: JobberSvar;
-    [ArbeidIPeriodeField.jobberSomVanlig]: YesOrNo;
+    [ArbeidIPeriodeField.jobberIPerioden]: JobberIPeriodeSvar;
+    [ArbeidIPeriodeField.jobberSomVanlig]?: YesOrNo;
     [ArbeidIPeriodeField.erLiktHverUke]?: YesOrNo;
     [ArbeidIPeriodeField.enkeltdager]?: TidEnkeltdag;
     [ArbeidIPeriodeField.fasteDager]?: TidFasteDager;
@@ -134,7 +134,7 @@ export interface PleiepengesøknadFormData {
     [AppFormField.barnetSøknadenGjelder]: string;
     [AppFormField.relasjonTilBarnet]?: BarnRelasjon;
     [AppFormField.relasjonTilBarnetBeskrivelse]?: string;
-    [AppFormField.arbeidsforhold]: ArbeidsforholdAnsatt[];
+    [AppFormField.ansatt_arbeidsforhold]: ArbeidsforholdAnsatt[];
     [AppFormField.periodeFra]?: string;
     [AppFormField.periodeTil]?: string;
     [AppFormField.skalPassePåBarnetIHelePerioden]?: YesOrNo;
@@ -179,7 +179,7 @@ export const initialValues: PleiepengesøknadFormData = {
     [AppFormField.harBekreftetOpplysninger]: false,
     [AppFormField.søknadenGjelderEtAnnetBarn]: false,
     [AppFormField.legeerklæring]: [],
-    [AppFormField.arbeidsforhold]: [],
+    [AppFormField.ansatt_arbeidsforhold]: [],
     [AppFormField.barnetsFødselsdato]: undefined,
     [AppFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,
     [AppFormField.utenlandsoppholdSiste12Mnd]: [],

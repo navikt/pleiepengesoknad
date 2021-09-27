@@ -12,14 +12,11 @@ import VirksomhetInfoAndDialog from '@navikt/sif-common-forms/lib/virksomhet/Vir
 import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../../../lenker';
 import { AppFormField, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
-import {
-    getArbeidsformValidator,
-    getJobberNormaltTimerValidator,
-    isYesOrNoAnswered,
-} from '../../../../validation/fieldValidations';
+import { isYesOrNoAnswered } from '../../../../validation/fieldValidations';
 import AppForm from '../../../app-form/AppForm';
 import ArbeidsformOgTimer from './ArbeidsformOgTimer';
 import { Arbeidsform } from '../../../../types';
+import { getArbeidsformValidator, getJobberNormaltTimerValidator } from '../../../../validation/validateArbeidFields';
 
 interface Props {
     formValues: PleiepengesøknadFormData;

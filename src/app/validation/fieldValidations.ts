@@ -19,21 +19,14 @@ import {
     getDateRangeValidator,
     getDateValidator,
     getFødselsnummerValidator,
-    getNumberValidator,
-    getRequiredFieldValidator,
     getStringValidator,
 } from '@navikt/sif-common-formik/lib/validation';
-import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeValidator';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import minMax from 'dayjs/plugin/minMax';
-import { ArbeidIPeriodeIntlValues as ArbeidIPeriodeIntlValues } from '../components/arbeidstid/ArbeidIPeriodeSpørsmål';
-import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
-import { ArbeidIPeriode, Omsorgstilbud } from '../types/PleiepengesøknadFormData';
-import { sumTimerMedOmsorgstilbud } from '../utils/omsorgstilbudUtils';
 
 dayjs.extend(minMax);
 dayjs.extend(isoWeek);
@@ -48,6 +41,9 @@ export enum AppFieldValidationErrors {
     'arbeidsforhold_timerUgyldig_over_99_prosent' = 'timerUgyldig_over_99_prosent',
     'arbeidsforhold_timerUgyldig_over_100_prosent' = 'timerUgyldig_over_100_prosent',
 
+    'arbeidIPeriode_fasteDager_ingenTidRegistrert' = 'arbeidIPeriode.fasteDager.ingenTidRegistrert',
+    'arbeidIPeriode_fasteDager_forMangeTimer' = 'arbeidIPeriode.fasteDager.forMangeTimer',
+
     'omsorgstilbud_ingenInfo' = 'omsorgstilbud_ingenInfo',
     'omsorgstilbud_forMangeTimerTotalt' = 'omsorgstilbud_forMangeTimerTotalt',
     'omsorgstilbud_forMangeTimerEnDag' = 'omsorgstilbud_forMangeTimerEnDag',
@@ -61,6 +57,8 @@ export enum AppFieldValidationErrors {
     'ferieuttak_overlapper' = 'ferieuttak_overlapper',
     'ferieuttak_utenfor_periode' = 'ferieuttak_utenfor_periode',
 }
+
+export type TidPerDagValidator = (dag: string) => (tid: Time) => ValidationError | undefined;
 
 export const isYesOrNoAnswered = (answer?: YesOrNo) => {
     return answer !== undefined && (answer === YesOrNo.NO || answer === YesOrNo.YES || answer === YesOrNo.DO_NOT_KNOW);
@@ -82,10 +80,6 @@ export const validateNavn = (value: string): ValidationResult<ValidationError> =
 
 export const validateFødselsnummer = (value: string): ValidationResult<ValidationError> => {
     return getFødselsnummerValidator({ required: true })(value);
-};
-
-export const date1YearFromDateStrting = (dateString: string): Date => {
-    return dayjs(dateString).endOf('day').add(1, 'year').toDate();
 };
 
 export const validateFradato = (
@@ -118,14 +112,10 @@ export const validateTildato = (tilDatoString?: string, fraDatoString?: string):
     return getDateRangeValidator({
         required: true,
         min: date3YearsAgo,
-        max: fraDatoString ? date1YearFromDateStrting(fraDatoString) : undefined,
+        max: fraDatoString ? dayjs(fraDatoString).endOf('day').add(1, 'year').toDate() : undefined,
         fromDate: datepickerUtils.getDateFromDateString(fraDatoString),
         onlyWeekdays: true,
     }).validateToDate(tilDatoString);
-};
-
-export const validateFrilanserStartdato = (datoString?: string): ValidationResult<ValidationError> => {
-    return getDateValidator({ required: true, max: dateToday })(datoString);
 };
 
 export const validateUtenlandsoppholdIPerioden = (
@@ -175,152 +165,4 @@ export const validateLegeerklæring = (attachments: Attachment[]): ValidationRes
         return AppFieldValidationErrors.legeerklæring_forMangeFiler;
     }
     return undefined;
-};
-
-export const validateSkalIOmsorgstilbud = (omsorgstilbud: Omsorgstilbud): ValidationResult<ValidationError> => {
-    if (omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES) {
-        if (omsorgstilbud.planlagt === undefined) {
-            return AppFieldValidationErrors.omsorgstilbud_ingenInfo;
-        }
-        const fasteDager = omsorgstilbud.planlagt.fasteDager;
-
-        const hoursInTotal = fasteDager ? sumTimerMedOmsorgstilbud(fasteDager) : 0;
-        if (hoursInTotal === 0) {
-            return AppFieldValidationErrors.omsorgstilbud_ingenInfo;
-        }
-        if (hoursInTotal > 37.5) {
-            return AppFieldValidationErrors.omsorgstilbud_forMangeTimerTotalt;
-        }
-    }
-    return undefined;
-};
-
-export const getOmsorgstilbudtimerValidatorEnDag =
-    (dag: string) =>
-    (time: Time): ValidationResult<ValidationError> => {
-        const error = time
-            ? getTimeValidator({ max: { hours: 7, minutes: 30 }, min: { hours: 0, minutes: 0 } })(time)
-            : undefined;
-        if (error) {
-            return {
-                key: `validation.omsorgstilbud.planlagt.fastDag.tid.${error}`,
-                values: { dag },
-                keepKeyUnaltered: true,
-            };
-        }
-        return undefined;
-    };
-
-export const validateFasteArbeidstimerIUke = (arbeid?: ArbeidIPeriode): ValidationResult<ValidationError> => {
-    console.log(arbeid);
-
-    return undefined;
-};
-
-export const getArbeidstimerDatoValidator =
-    (dato: string) =>
-    (time: Time): ValidationResult<ValidationError> => {
-        const error = time
-            ? getTimeValidator({ max: { hours: 23, minutes: 59 }, min: { hours: 0, minutes: 0 } })(time)
-            : undefined;
-        if (error) {
-            return {
-                key: `validation.arbeidstimer.dato.tid.${error}`,
-                values: { dato },
-                keepKeyUnaltered: true,
-            };
-        }
-        return undefined;
-    };
-
-export const getArbeidstimerFastDagValidator =
-    (dag: string) =>
-    (time: Time): ValidationResult<ValidationError> => {
-        const error = time
-            ? getTimeValidator({ max: { hours: 23, minutes: 59 }, min: { hours: 0, minutes: 0 } })(time)
-            : undefined;
-        if (error) {
-            return {
-                key: `validation.arbeidstimer.fastdag.tid.${error}`,
-                values: { dag },
-                keepKeyUnaltered: true,
-            };
-        }
-        return undefined;
-    };
-
-export const getArbeidsformValidator = (intlValues: { hvor: string; jobber: string }) => (value: any) => {
-    const error = getRequiredFieldValidator()(value);
-    return error
-        ? {
-              key: 'validation.arbeidsforhold.arbeidsform.noValue',
-              values: intlValues,
-              keepKeyUnaltered: true,
-          }
-        : undefined;
-};
-
-export const getJobberNormaltTimerValidator =
-    (intlValues: { hvor: string; jobber: string; arbeidsform?: string }) => (value: any) => {
-        if (!intlValues.arbeidsform) {
-            return undefined;
-        }
-        const error = getNumberValidator({
-            required: true,
-            min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
-            max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
-        })(value);
-
-        return error
-            ? {
-                  key: `validation.arbeidsforhold.jobberNormaltTimer.${error}`,
-                  values: {
-                      ...intlValues,
-                      min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
-                      max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
-                  },
-                  keepKeyUnaltered: true,
-              }
-            : undefined;
-    };
-
-export const getArbeidJobberValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
-    const error = getRequiredFieldValidator()(value);
-    return error
-        ? {
-              key: 'validation.arbeidIPeriode.skalJobbe',
-              values: intlValues,
-              keepKeyUnaltered: true,
-          }
-        : error;
-};
-
-export const getArbeidJobberSomVanligValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
-    const error = getRequiredFieldValidator()(value);
-    return error
-        ? {
-              key: 'validation.arbeidIPeriode.jobberSomVanlig',
-              values: intlValues,
-              keepKeyUnaltered: true,
-          }
-        : undefined;
-};
-
-export type TidPerDagValidator = (dag: string) => (tid: Time) => ValidationError | undefined;
-
-export const getTidIOmsorgValidator: TidPerDagValidator = (dag: string) => (tid: Time) => {
-    const error = getTimeValidator({
-        required: false,
-        max: { hours: 7, minutes: 30 },
-    })(tid);
-    return error
-        ? {
-              key: `omsorgstilbud.validation.${error}`,
-              values: {
-                  dag,
-                  maksTimer: '7 timer og 30 minutter',
-              },
-              keepKeyUnaltered: true,
-          }
-        : undefined;
 };

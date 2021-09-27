@@ -13,14 +13,14 @@ import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../../../lenker';
 import { AppFormField, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
 import { erFrilanserISøknadsperiode } from '../../../../utils/frilanserUtils';
+import AppForm from '../../../app-form/AppForm';
+import ArbeidsformOgTimer from './ArbeidsformOgTimer';
+import { Arbeidsform } from '../../../../types';
 import {
     getArbeidsformValidator,
     getJobberNormaltTimerValidator,
     validateFrilanserStartdato,
-} from '../../../../validation/fieldValidations';
-import AppForm from '../../../app-form/AppForm';
-import ArbeidsformOgTimer from './ArbeidsformOgTimer';
-import { Arbeidsform } from '../../../../types';
+} from '../../../../validation/validateArbeidFields';
 
 interface Props {
     formValues: PleiepengesøknadFormData;

@@ -1,9 +1,15 @@
 import { DateRange, datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
+import { timeToDecimalTime, timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { dateToISOString, ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import { DagMedTid, TidEnkeltdag, TidFasteDager } from '../types';
 import { TidEnkeltdagApiData } from '../types/PleiepengesøknadApiData';
+
+export const sumTimerFasteDager = (uke: TidFasteDager): number => {
+    return Object.keys(uke).reduce((timer: number, key: string) => {
+        return timer + timeToDecimalTime(uke[key]);
+    }, 0);
+};
 
 export const mapTidEnkeltdagToDagMedTid = (tidEnkeltdag: TidEnkeltdag): DagMedTid[] => {
     const dager: DagMedTid[] = [];

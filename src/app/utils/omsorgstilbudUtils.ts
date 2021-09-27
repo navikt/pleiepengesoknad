@@ -35,12 +35,6 @@ export const getCleanedTidIOmsorgstilbud = (tidIOmsorg: TidEnkeltdag): TidEnkelt
     return cleanedTidIOmsorg;
 };
 
-export const sumTimerMedOmsorgstilbud = (uke: TidFasteDager): number => {
-    return Object.keys(uke).reduce((timer: number, key: string) => {
-        return timer + timeToDecimalTime(uke[key]);
-    }, 0);
-};
-
 export const getMaxTimerMedOmsorgstilbudOneDay = (
     uke: TidFasteDager
 ): { maxHours: number; day: string | undefined } | undefined => {

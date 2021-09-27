@@ -8,14 +8,11 @@ import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { Undertittel } from 'nav-frontend-typografi';
 import { AppFormField, ArbeidsforholdAnsatt, ArbeidsforholdField } from '../../../../types/PleiepengesøknadFormData';
-import {
-    getArbeidsformValidator,
-    getJobberNormaltTimerValidator,
-    isYesOrNoAnswered,
-} from '../../../../validation/fieldValidations';
+import { isYesOrNoAnswered } from '../../../../validation/fieldValidations';
 import AppForm from '../../../app-form/AppForm';
 import ArbeidsformOgTimer from './ArbeidsformOgTimer';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
+import { getArbeidsformValidator, getJobberNormaltTimerValidator } from '../../../../validation/validateArbeidFields';
 
 interface Props {
     arbeidsforhold: ArbeidsforholdAnsatt;
@@ -46,7 +43,7 @@ const ArbeidsforholdFormPart: React.FunctionComponent<Props> = ({ arbeidsforhold
                 <Box>
                     <AppForm.YesOrNoQuestion
                         legend={intlHelper(intl, 'arbeidsforhold.erAnsatt.spm', { navn: arbeidsforhold.navn })}
-                        name={`${AppFormField.arbeidsforhold}.${index}.${ArbeidsforholdField.erAnsatt}` as any}
+                        name={`${AppFormField.ansatt_arbeidsforhold}.${index}.${ArbeidsforholdField.erAnsatt}` as any}
                         validate={(value) => {
                             return getYesOrNoValidator()(value)
                                 ? {
@@ -96,7 +93,7 @@ const ArbeidsforholdFormPart: React.FunctionComponent<Props> = ({ arbeidsforhold
                                 jobberNormaltTimer: getJobberNormaltTimerValidator(intlValues),
                             }}
                             arbeidsforhold={arbeidsforhold}
-                            parentFieldName={`${AppFormField.arbeidsforhold}.${index}`}
+                            parentFieldName={`${AppFormField.ansatt_arbeidsforhold}.${index}`}
                         />
                     </ResponsivePanel>
                 </FormBlock>

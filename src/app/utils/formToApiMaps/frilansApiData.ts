@@ -6,7 +6,7 @@ import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
 import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
 
-type FrilansApiDataPart = Pick<PleiepengesøknadApiData, 'frilans' | 'harHattInntektSomFrilanser'>;
+type FrilansApiDataPart = Pick<PleiepengesøknadApiData, 'frilans' | '_harHattInntektSomFrilanser'>;
 
 export const getFrilansApiData = (
     formData: PleiepengesøknadFormData,
@@ -20,11 +20,11 @@ export const getFrilansApiData = (
         frilans_sluttdato,
     } = formData;
 
-    const harHattInntektSomFrilanser = frilans_harHattInntektSomFrilanser === YesOrNo.YES;
+    const _harHattInntektSomFrilanser = frilans_harHattInntektSomFrilanser === YesOrNo.YES;
 
-    if (harHattInntektSomFrilanser === false) {
+    if (_harHattInntektSomFrilanser === false) {
         return {
-            harHattInntektSomFrilanser,
+            _harHattInntektSomFrilanser,
         };
     }
 
@@ -54,7 +54,7 @@ export const getFrilansApiData = (
     };
 
     return {
-        harHattInntektSomFrilanser,
+        _harHattInntektSomFrilanser: _harHattInntektSomFrilanser,
         frilans,
     };
 };

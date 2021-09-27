@@ -5,13 +5,13 @@ import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import dayjs from 'dayjs';
 import { getMonthsInDateRange } from '../../utils/dateUtils';
 import { MAKS_ANTALL_DAGER_FOR_INLINE_SKJEMA } from '../../utils/omsorgstilbudUtils';
-import { getArbeidstimerDatoValidator } from '../../validation/fieldValidations';
 import AppForm from '../app-form/AppForm';
 import TidUkerInput from '../tid-uker-input/TidUkerInput';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { useIntl } from 'react-intl';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import ArbeidstidInfoAndDialog from './ArbeidstidInfoAndDialog';
+import { getArbeidstimerDatoValidator } from '../../validation/validateArbeidFields';
 
 interface Props {
     periode: DateRange;

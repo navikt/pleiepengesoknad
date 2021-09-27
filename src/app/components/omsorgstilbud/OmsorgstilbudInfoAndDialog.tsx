@@ -16,7 +16,7 @@ import { TidEnkeltdag } from '../../types';
 import { getDagerMedTidITidsrom } from '../../utils/tidsbrukUtils';
 import TidKalenderForm from '../tid-kalender-form/TidKalenderForm';
 import TidsbrukKalender from '../tidsbruk-kalender/TidsbrukKalender';
-import { getTidIOmsorgValidator } from '../../validation/fieldValidations';
+import { getTidIOmsorgValidator } from '../../validation/validateOmsorgstilbudFields';
 
 interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, ValidationError> {
     name: FieldNames;

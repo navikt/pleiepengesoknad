@@ -28,14 +28,14 @@ interface LoadState {
 }
 
 export const visVernepliktSpørsmål = ({
-    arbeidsforhold = [],
+    ansatt_arbeidsforhold = [],
     frilans_harHattInntektSomFrilanser,
     selvstendig_harHattInntektSomSN,
 }: PleiepengesøknadFormData): boolean => {
     return (
         frilans_harHattInntektSomFrilanser === YesOrNo.NO &&
         selvstendig_harHattInntektSomSN === YesOrNo.NO &&
-        arbeidsforhold.some((a) => a.erAnsatt === YesOrNo.YES) === false
+        ansatt_arbeidsforhold.some((a) => a.erAnsatt === YesOrNo.YES) === false
     );
 };
 
@@ -75,7 +75,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
     const {
         values,
-        values: { arbeidsforhold },
+        values: { ansatt_arbeidsforhold },
     } = formikProps;
     const [loadState, setLoadState] = useState<LoadState>({ isLoading: false, isLoaded: false });
     const søkerdata = useContext(SøkerdataContext);
@@ -113,13 +113,13 @@ const ArbeidssituasjonStep = ({ onValidSubmit }: StepConfigProps) => {
                     <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.tittel')}>
                         <Box>
                             <p>
-                                {arbeidsforhold.length > 0 && (
+                                {ansatt_arbeidsforhold.length > 0 && (
                                     <FormattedMessage
                                         id="steg.arbeidsforhold.veileder.medArbeidsgiver"
-                                        values={{ antall: arbeidsforhold.length }}
+                                        values={{ antall: ansatt_arbeidsforhold.length }}
                                     />
                                 )}
-                                {arbeidsforhold.length === 0 && (
+                                {ansatt_arbeidsforhold.length === 0 && (
                                     <FormattedMessage id="steg.arbeidsforhold.veileder.ingenArbeidsgiverFunnet" />
                                 )}
                             </p>
@@ -127,9 +127,9 @@ const ArbeidssituasjonStep = ({ onValidSubmit }: StepConfigProps) => {
                                 <FormattedMessage id="steg.arbeidsforhold.veileder.manglerDetArbeidsgiver" />
                             </p>
                         </Box>
-                        {arbeidsforhold.length > 0 && (
+                        {ansatt_arbeidsforhold.length > 0 && (
                             <>
-                                {arbeidsforhold.map((forhold, index) => (
+                                {ansatt_arbeidsforhold.map((forhold, index) => (
                                     <FormBlock key={forhold.organisasjonsnummer}>
                                         <ArbeidsforholdFormPart arbeidsforhold={forhold} index={index} />
                                     </FormBlock>

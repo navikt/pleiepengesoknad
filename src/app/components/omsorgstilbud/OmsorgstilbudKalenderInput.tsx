@@ -10,11 +10,11 @@ import { TidEnkeltdag } from '../../types';
 import { AppFormField } from '../../types/PleiepengesøknadFormData';
 import { getMonthsInDateRange } from '../../utils/dateUtils';
 import { getCleanedTidIOmsorgstilbud } from '../../utils/omsorgstilbudUtils';
-import { getTidIOmsorgValidator } from '../../validation/fieldValidations';
 import AppForm from '../app-form/AppForm';
 import TidUkerInput from '../tid-uker-input/TidUkerInput';
 import OmsorgstilbudInfoAndDialog from './OmsorgstilbudInfoAndDialog';
 import { getTidEnkeltdagerInnenforPeriode } from '../../utils/tidsbrukUtils';
+import { getTidIOmsorgValidator } from '../../validation/validateOmsorgstilbudFields';
 
 interface Props {
     periode: DateRange;

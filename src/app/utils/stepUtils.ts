@@ -101,7 +101,7 @@ export const skalBrukerSvarePåarbeidIPeriode = (formValues?: PleiepengesøknadF
     const søknadsperiode = getSøknadsperiodeFromFormData(formValues);
     if (søknadsperiode) {
         return (
-            formValues.arbeidsforhold.length > 0 ||
+            formValues.ansatt_arbeidsforhold.length > 0 ||
             erFrilanserISøknadsperiode(formValues) ||
             formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES
         );

@@ -42,10 +42,9 @@ export enum AndreYtelserFraNAV {
     'opplæringspenger' = 'opplæringspenger',
 }
 
-export enum JobberSvar {
+export enum JobberIPeriodeSvar {
     JA = 'JA',
     NEI = 'NEI',
-    REDUSERT = 'REDUSERT',
     VET_IKKE = 'VET_IKKE',
 }
 

@@ -9,7 +9,7 @@ import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
 
 type SelvstendigArbeidsforholdApiDataPart = Pick<
     PleiepengesøknadApiData,
-    'selvstendigNæringsdrivende' | 'harHattInntektSomSelvstendigNæringsdrivende'
+    'selvstendigNæringsdrivende' | '_harHattInntektSomSelvstendigNæringsdrivende'
 >;
 
 export const getSelvstendigNæringsdrivendeApiData = (
@@ -22,11 +22,11 @@ export const getSelvstendigNæringsdrivendeApiData = (
     søknadsperiode: DateRange,
     locale: Locale
 ): SelvstendigArbeidsforholdApiDataPart => {
-    const harHattInntektSomSelvstendigNæringsdrivende = selvstendig_harHattInntektSomSN === YesOrNo.YES;
+    const _harHattInntektSomSelvstendigNæringsdrivende = selvstendig_harHattInntektSomSN === YesOrNo.YES;
 
-    if (harHattInntektSomSelvstendigNæringsdrivende === false) {
+    if (_harHattInntektSomSelvstendigNæringsdrivende === false) {
         return {
-            harHattInntektSomSelvstendigNæringsdrivende,
+            _harHattInntektSomSelvstendigNæringsdrivende,
         };
     }
 
@@ -39,7 +39,7 @@ export const getSelvstendigNæringsdrivendeApiData = (
     }
 
     return {
-        harHattInntektSomSelvstendigNæringsdrivende,
+        _harHattInntektSomSelvstendigNæringsdrivende,
         selvstendigNæringsdrivende: {
             arbeidsforhold: mapArbeidsforholdToApiData(
                 selvstendig_arbeidsforhold,

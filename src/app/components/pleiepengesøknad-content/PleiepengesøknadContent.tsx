@@ -17,7 +17,6 @@ import { getNextStepRoute, getSøknadRoute, isAvailable } from '../../utils/rout
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
-import HistoriskArbeidStep from '../steps/historisk-arbeid-step/HistoriskArbeidStep';
 import ArbeidssituasjonStep from '../steps/arbeidssituasjon-step/ArbeidssituasjonStep';
 import LegeerklæringStep from '../steps/legeerklæring-step/LegeerklæringStep';
 import MedlemsskapStep from '../steps/medlemskap-step/MedlemsskapStep';
@@ -26,10 +25,10 @@ import SummaryStep from '../steps/summary-step/SummaryStep';
 import OpplysningerOmTidsromStep from '../steps/tidsrom-step/OpplysningerOmTidsromStep';
 import OmsorgstilbudStep from '../steps/omsorgstilbud-step/OmsorgstilbudStep';
 import { getSøknadsperiodeFromFormData } from '../../utils/formDataUtils';
-import PlanlagtArbeidStep from '../steps/planlagt-arbeid-step/PlanlagtArbeidStep';
 import NattevåkOgBeredskapStep from '../steps/nattevåk-og-beredskap-step/NattevåkOgBeredskapStep';
 import { ArbeidsforholdType } from '../../types';
 import { getHistoriskPeriode, getPlanlagtPeriode } from '../../utils/tidsbrukUtils';
+import ArbeidIPeriodeSteps from '../steps/arbeid-i-periode-steps/ArbeidIPeriodeSteps';
 
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
@@ -165,8 +164,9 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
                 <Route
                     path={getSøknadRoute(StepID.ARBEID_HISTORISK)}
                     render={() => (
-                        <HistoriskArbeidStep
+                        <ArbeidIPeriodeSteps
                             periode={periodeFørSøknadsdato}
+                            stepID={StepID.ARBEID_HISTORISK}
                             onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEID_HISTORISK)}
                         />
                     )}
@@ -177,8 +177,9 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
                 <Route
                     path={getSøknadRoute(StepID.ARBEID_PLANLAGT)}
                     render={() => (
-                        <PlanlagtArbeidStep
+                        <ArbeidIPeriodeSteps
                             periode={periodeFraOgMedSøknadsdato}
+                            stepID={StepID.ARBEID_PLANLAGT}
                             onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEID_PLANLAGT)}
                         />
                     )}

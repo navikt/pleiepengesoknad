@@ -15,7 +15,8 @@ import { AppFormField, ArbeidsforholdAnsatt, PleiepengesøknadFormData } from '.
 import { Arbeidsgiver, BarnReceivedFromApi } from '../../types/Søkerdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
 import { jsonSort } from '../jsonSort';
-import { getValidSpråk, mapFormDataToApiData } from '../mapFormDataToApiData';
+import { mapFormDataToApiData } from '../mapFormDataToApiData';
+import { getValidSpråk } from '../sprakUtils';
 
 jest.mock('./../envUtils', () => {
     return {
@@ -66,7 +67,7 @@ const formDataMock: Partial<PleiepengesøknadFormData> = {
     [AppFormField.barnetsNavn]: 'Ola Foobar',
     [AppFormField.harBekreftetOpplysninger]: true,
     [AppFormField.harForståttRettigheterOgPlikter]: true,
-    [AppFormField.arbeidsforhold]: [
+    [AppFormField.ansatt_arbeidsforhold]: [
         { ...organisasjonTelenor, jobberNormaltTimer: '10' },
         { ...organisasjonMaxbo, jobberNormaltTimer: '20' },
     ],
@@ -115,7 +116,7 @@ const frilansPartialFormData: Partial<PleiepengesøknadFormData> = {
 // };
 
 const completeFormDataMock: PleiepengesøknadFormData = {
-    arbeidsforhold: [
+    ansatt_arbeidsforhold: [
         {
             ...organisasjonMaxbo,
             erAnsatt: YesOrNo.YES,
@@ -243,7 +244,7 @@ describe('mapFormDataToApiData', () => {
     const formData: PleiepengesøknadFormData = {
         ...(formDataMock as PleiepengesøknadFormData),
         [AppFormField.harMedsøker]: YesOrNo.YES,
-        arbeidsforhold: [telenorRedusertJobbing, maxboIngenJobbing],
+        ansatt_arbeidsforhold: [telenorRedusertJobbing, maxboIngenJobbing],
     };
 
     beforeAll(() => {
@@ -364,7 +365,7 @@ describe('mapFormDataToApiData', () => {
             const mappedData = mapFormDataToApiData(formDataWithFrilansInfo, barnMock, 'nb');
             expect(mappedData).toBeDefined();
             if (mappedData) {
-                expect(mappedData.harHattInntektSomFrilanser).toBeTruthy();
+                expect(mappedData._harHattInntektSomFrilanser).toBeTruthy();
                 expect(mappedData.frilans).toBeDefined();
             }
         });
@@ -379,7 +380,7 @@ describe('mapFormDataToApiData', () => {
             const mappedData = mapFormDataToApiData(formDataWithFrilansInfo as any, barnMock, 'nb');
             expect(mappedData).toBeDefined();
             if (mappedData) {
-                expect(mappedData.harHattInntektSomFrilanser).toBeFalsy();
+                expect(mappedData._harHattInntektSomFrilanser).toBeFalsy();
                 expect(mappedData.frilans).toBeUndefined();
             }
         });
@@ -480,8 +481,8 @@ describe('Test complete applications', () => {
         },
         harVærtEllerErVernepliktig: undefined,
         andreYtelserFraNAV: [],
-        harHattInntektSomFrilanser: false,
-        harHattInntektSomSelvstendigNæringsdrivende: false,
+        _harHattInntektSomFrilanser: false,
+        _harHattInntektSomSelvstendigNæringsdrivende: false,
         // selvstendigVirksomheter: [],
     };
 
@@ -522,7 +523,7 @@ describe('Test complete applications', () => {
     };
     const frilansDate = '2020-01-01';
     const featureFrilansApiData: Partial<PleiepengesøknadApiData> = {
-        harHattInntektSomFrilanser: true,
+        _harHattInntektSomFrilanser: true,
         frilans: {
             arbeidsforhold: {
                 arbeidsform: Arbeidsform.fast,
@@ -537,7 +538,7 @@ describe('Test complete applications', () => {
     };
 
     const featureSelvstendigApiData: Partial<PleiepengesøknadApiData> = {
-        harHattInntektSomSelvstendigNæringsdrivende: false,
+        _harHattInntektSomSelvstendigNæringsdrivende: false,
     };
 
     it('All features on', () => {

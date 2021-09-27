@@ -4,6 +4,7 @@ import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
 import { ArbeidsforholdType } from '../../types';
 import { ArbeidIPeriodeApiData, ArbeidsforholdApiData } from '../../types/PleiepengesøknadApiData';
 import { ArbeidIPeriode, Arbeidsforhold } from '../../types/PleiepengesøknadFormData';
+import { isYesOrNoAnswered } from '../../validation/fieldValidations';
 import {
     getEnkeltdagerIPeriodeApiData,
     getFasteDagerApiData,
@@ -13,8 +14,8 @@ import {
 
 export const mapArbeidIPeriodeToApiData = (arbeid: ArbeidIPeriode, periode: DateRange): ArbeidIPeriodeApiData => {
     return {
-        jobber: arbeid.jobber,
-        jobberSomVanlig: arbeid.jobberSomVanlig === YesOrNo.YES,
+        jobberIPerioden: arbeid.jobberIPerioden,
+        jobberSomVanlig: isYesOrNoAnswered(arbeid.jobberSomVanlig) ? arbeid.jobberSomVanlig === YesOrNo.YES : undefined,
         enkeltdager: arbeid.enkeltdager ? getEnkeltdagerIPeriodeApiData(arbeid.enkeltdager, periode) : undefined,
         fasteDager: arbeid.fasteDager ? getFasteDagerApiData(arbeid.fasteDager) : undefined,
     };
@@ -24,7 +25,7 @@ export const mapArbeidsforholdToApiData = (
     arbeidsforhold: Arbeidsforhold,
     søknadsperiode: DateRange,
     type: ArbeidsforholdType,
-    erAktivt = true
+    erAktivtArbeidsforhold = true
 ): ArbeidsforholdApiData => {
     const { jobberNormaltTimer, arbeidsform } = arbeidsforhold;
     const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
@@ -48,6 +49,6 @@ export const mapArbeidsforholdToApiData = (
             periodeFraOgMedSøknadsdato && arbeidsforhold.planlagt
                 ? mapArbeidIPeriodeToApiData(arbeidsforhold.planlagt, periodeFraOgMedSøknadsdato)
                 : undefined,
-        erAktivt,
+        erAktivtArbeidsforhold: erAktivtArbeidsforhold,
     };
 };

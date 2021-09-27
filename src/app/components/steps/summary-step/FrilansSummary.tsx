@@ -11,7 +11,7 @@ interface Props {
 }
 
 const FrilansSummary = ({ apiValues }: Props) => {
-    const { harHattInntektSomFrilanser, frilans } = apiValues;
+    const { _harHattInntektSomFrilanser: harHattInntektSomFrilanser, frilans } = apiValues;
     const intl = useIntl();
     return (
         <>

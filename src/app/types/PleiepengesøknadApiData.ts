@@ -3,7 +3,14 @@ import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { ISODateString } from 'nav-datovelger/lib/types';
-import { AndreYtelserFraNAV, ArbeidsforholdType, Arbeidsform, BarnRelasjon, JobberSvar, VetOmsorgstilbud } from './';
+import {
+    AndreYtelserFraNAV,
+    ArbeidsforholdType,
+    Arbeidsform,
+    BarnRelasjon,
+    JobberIPeriodeSvar,
+    VetOmsorgstilbud,
+} from './';
 
 export type ISO8601Duration = string;
 
@@ -16,8 +23,8 @@ export interface BarnetSøknadenGjelderApiData {
 }
 
 export interface ArbeidIPeriodeApiData {
-    jobber: JobberSvar;
-    jobberSomVanlig: boolean;
+    jobberIPerioden: JobberIPeriodeSvar;
+    jobberSomVanlig?: boolean;
     enkeltdager?: TidEnkeltdagApiData[];
     fasteDager?: TidFasteDagerApiData;
 }
@@ -26,7 +33,7 @@ export interface ArbeidsforholdApiData {
     _type: ArbeidsforholdType;
     arbeidsform: Arbeidsform;
     jobberNormaltTimer: number;
-    erAktivt?: boolean;
+    erAktivtArbeidsforhold?: boolean;
     historiskArbeid?: ArbeidIPeriodeApiData;
     planlagtArbeid?: ArbeidIPeriodeApiData;
 }
@@ -159,9 +166,10 @@ export interface PleiepengesøknadApiData {
         tilleggsinformasjon?: string;
     };
     arbeidsgivere: { organisasjoner: ArbeidsforholdAnsattApiData[] };
-    harHattInntektSomFrilanser: boolean;
+    ansatt?: ArbeidsforholdAnsattApiData[];
+    _harHattInntektSomFrilanser: boolean;
     frilans?: FrilansApiData;
-    harHattInntektSomSelvstendigNæringsdrivende: boolean;
+    _harHattInntektSomSelvstendigNæringsdrivende: boolean;
     selvstendigNæringsdrivende?: SelvstendigNæringsdrivendeApiData;
     harVærtEllerErVernepliktig?: boolean;
     andreYtelserFraNAV?: AndreYtelserFraNAV[];

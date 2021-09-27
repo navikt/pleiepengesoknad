@@ -46,10 +46,10 @@ export const updateArbeidsforhold = (
 ) => {
     const updatedArbeidsforhold = syncArbeidsforholdWithArbeidsgivere(
         arbeidsgivere,
-        formikProps.values[AppFormField.arbeidsforhold]
+        formikProps.values[AppFormField.ansatt_arbeidsforhold]
     );
     if (updatedArbeidsforhold.length > 0) {
-        formikProps.setFieldValue(AppFormField.arbeidsforhold, updatedArbeidsforhold);
+        formikProps.setFieldValue(AppFormField.ansatt_arbeidsforhold, updatedArbeidsforhold);
     }
 };
 

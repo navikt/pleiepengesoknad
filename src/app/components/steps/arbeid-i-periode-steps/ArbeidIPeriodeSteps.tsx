@@ -12,6 +12,7 @@ import FormSection from '../../../pre-common/form-section/FormSection';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import {
     AppFormField,
+    ArbeidIPeriode,
     Arbeidsforhold,
     ArbeidsforholdAnsatt,
     ArbeidsforholdSNF,
@@ -19,37 +20,74 @@ import {
 } from '../../../types/PleiepengesøknadFormData';
 import FormikStep from '../../formik-step/FormikStep';
 import ArbeidIPeriodeSpørsmål from '../../arbeidstid/ArbeidIPeriodeSpørsmål';
-import { ArbeidsforholdType } from '../../../types';
+import { ArbeidsforholdType, JobberIPeriodeSvar } from '../../../types';
 
 interface Props extends StepConfigProps {
     periode: DateRange;
+    stepID: StepID.ARBEID_HISTORISK | StepID.ARBEID_PLANLAGT;
 }
 
-const cleanupArbeidsforholdCommon = (arbeidsforhold: Arbeidsforhold): Arbeidsforhold => {
-    const a = { ...arbeidsforhold };
-    return a;
+const cleanupArbeidIPeriode = (arbeidIPerioden: ArbeidIPeriode): ArbeidIPeriode => {
+    const arbeid: ArbeidIPeriode = {
+        jobberIPerioden: arbeidIPerioden.jobberIPerioden,
+    };
+    if (arbeid.jobberIPerioden !== JobberIPeriodeSvar.JA) {
+        return arbeid;
+    }
+
+    arbeid.jobberSomVanlig = arbeidIPerioden.jobberSomVanlig;
+    if (arbeid.jobberSomVanlig === YesOrNo.YES) {
+        return arbeid;
+    }
+
+    arbeid.erLiktHverUke = arbeidIPerioden.erLiktHverUke;
+    if (arbeidIPerioden.erLiktHverUke === YesOrNo.YES) {
+        arbeid.fasteDager = arbeidIPerioden.fasteDager;
+        return arbeid;
+    }
+    if (arbeidIPerioden.erLiktHverUke === YesOrNo.NO) {
+        arbeid.enkeltdager = arbeidIPerioden.enkeltdager;
+        return arbeid;
+    }
+    return arbeidIPerioden;
 };
 
-const cleanupHistoriskArbeid = (formData: PleiepengesøknadFormData): PleiepengesøknadFormData => {
+const cleanupArbeidsforhold = (arbeidsforhold: Arbeidsforhold, erHistorisk: boolean): Arbeidsforhold => {
+    if (erHistorisk && arbeidsforhold.historisk) {
+        return {
+            ...arbeidsforhold,
+            historisk: cleanupArbeidIPeriode(arbeidsforhold.historisk),
+        };
+    }
+    if (erHistorisk === false && arbeidsforhold.planlagt) {
+        return {
+            ...arbeidsforhold,
+            planlagt: cleanupArbeidIPeriode(arbeidsforhold.planlagt),
+        };
+    }
+    return arbeidsforhold;
+};
+
+const cleanupStepData = (formData: PleiepengesøknadFormData, erHistorisk: boolean): PleiepengesøknadFormData => {
     const values: PleiepengesøknadFormData = { ...formData };
-    values.arbeidsforhold = values.arbeidsforhold.map(
-        (arbeidsforhold) => cleanupArbeidsforholdCommon(arbeidsforhold) as ArbeidsforholdAnsatt
+    values.ansatt_arbeidsforhold = values.ansatt_arbeidsforhold.map(
+        (arbeidsforhold) => cleanupArbeidsforhold(arbeidsforhold, erHistorisk) as ArbeidsforholdAnsatt
     );
     values.frilans_arbeidsforhold = values.frilans_arbeidsforhold
-        ? (cleanupArbeidsforholdCommon(values.frilans_arbeidsforhold) as ArbeidsforholdSNF)
+        ? (cleanupArbeidsforhold(values.frilans_arbeidsforhold, erHistorisk) as ArbeidsforholdSNF)
         : undefined;
     values.selvstendig_arbeidsforhold = values.selvstendig_arbeidsforhold
-        ? (cleanupArbeidsforholdCommon(values.selvstendig_arbeidsforhold) as ArbeidsforholdSNF)
+        ? (cleanupArbeidsforhold(values.selvstendig_arbeidsforhold, erHistorisk) as ArbeidsforholdSNF)
         : undefined;
     return values;
 };
 
-const HistoriskArbeidStep = ({ onValidSubmit, periode }: Props) => {
+const ArbeidIPeriodeSteps = ({ onValidSubmit, periode, stepID }: Props) => {
     const intl = useIntl();
     const formikProps = useFormikContext<PleiepengesøknadFormData>();
     const {
         values: {
-            arbeidsforhold,
+            ansatt_arbeidsforhold,
             frilans_arbeidsforhold,
             frilans_harHattInntektSomFrilanser,
             selvstendig_harHattInntektSomSN,
@@ -68,16 +106,34 @@ const HistoriskArbeidStep = ({ onValidSubmit, periode }: Props) => {
         til: prettifyDateFull(periode.to),
     });
 
+    /**
+     * Kontroller om bruker må sendes tilbake til arbeidssituasjon-steget
+     * Dette kan oppstå dersom bruker er på Arbeidssituasjon,
+     * endrer på data, og deretter trykker forward i nettleser
+     * */
+
+    // const brukerMåGåTilbakeTilArbeidssituasjon =
+    //     skalBesvareAnsettelsesforhold === false && skalBesvareFrilans === false && skalBesvareSelvstendig === false;
+
+    // if (brukerMåGåTilbakeTilArbeidssituasjon === true) {
+    //     return <InvalidStepPage stepId={StepID.ARBEIDSFORHOLD_I_PERIODEN} />;
+    // }
+
+    // const intlValues: ArbeidIPeriodeIntlValues = {
+    //     hvor: intlHelper(intl, 'arbeidsforhold.part.som.ANSATT', { navn: arbeidsforhold.navn }),
+    // };
+
+    const erHistorisk = stepID === StepID.ARBEID_HISTORISK;
     return (
         <FormikStep
-            id={StepID.ARBEID_HISTORISK}
+            id={stepID}
+            stepSubTitle={subTitle}
             onValidFormSubmit={onValidSubmit}
-            onStepCleanup={cleanupHistoriskArbeid}
-            stepSubTitle={subTitle}>
+            onStepCleanup={(values) => cleanupStepData(values, erHistorisk)}>
             <Box padBottom="m">
                 <CounsellorPanel>
                     <FormattedMessage
-                        id={'arbeidIPeriode.StepInfo.historisk'}
+                        id={erHistorisk ? 'arbeidIPeriode.StepInfo.historisk' : 'arbeidIPeriode.StepInfo.planlagt'}
                         values={{
                             fra: prettifyDateFull(periode.from),
                             til: prettifyDateFull(periode.to),
@@ -87,7 +143,7 @@ const HistoriskArbeidStep = ({ onValidSubmit, periode }: Props) => {
             </Box>
 
             <FormBlock>
-                {arbeidsforhold.map((arbeidsforhold, index) => {
+                {ansatt_arbeidsforhold.map((arbeidsforhold, index) => {
                     return (
                         <FormSection
                             titleTag="h3"
@@ -98,8 +154,8 @@ const HistoriskArbeidStep = ({ onValidSubmit, periode }: Props) => {
                                 arbeidsforholdType={ArbeidsforholdType.ANSATT}
                                 arbeidsforhold={arbeidsforhold}
                                 periode={periode}
-                                parentFieldName={`${AppFormField.arbeidsforhold}.${index}`}
-                                erHistorisk={true}
+                                parentFieldName={`${AppFormField.ansatt_arbeidsforhold}.${index}`}
+                                erHistorisk={erHistorisk}
                             />
                         </FormSection>
                     );
@@ -114,7 +170,7 @@ const HistoriskArbeidStep = ({ onValidSubmit, periode }: Props) => {
                             arbeidsforhold={frilans_arbeidsforhold}
                             periode={periode}
                             parentFieldName={`${AppFormField.frilans_arbeidsforhold}`}
-                            erHistorisk={true}
+                            erHistorisk={erHistorisk}
                         />
                     </FormSection>
                 </FormBlock>
@@ -127,7 +183,7 @@ const HistoriskArbeidStep = ({ onValidSubmit, periode }: Props) => {
                             arbeidsforhold={selvstendig_arbeidsforhold}
                             periode={periode}
                             parentFieldName={`${AppFormField.selvstendig_arbeidsforhold}`}
-                            erHistorisk={true}
+                            erHistorisk={erHistorisk}
                         />
                     </FormSection>
                 </FormBlock>
@@ -136,4 +192,4 @@ const HistoriskArbeidStep = ({ onValidSubmit, periode }: Props) => {
     );
 };
 
-export default HistoriskArbeidStep;
+export default ArbeidIPeriodeSteps;

@@ -3,7 +3,7 @@ import { visVernepliktSpørsmål } from '../../components/steps/arbeidssituasjon
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 
 export const formDataMock: Partial<PleiepengesøknadFormData> = {
-    arbeidsforhold: [],
+    ansatt_arbeidsforhold: [],
     frilans_harHattInntektSomFrilanser: YesOrNo.UNANSWERED,
     selvstendig_harHattInntektSomSN: YesOrNo.UNANSWERED,
 };
