@@ -102,6 +102,8 @@ export const mapFormDataToApiData = (
             }
             return apiData;
         } catch (e) {
+            console.error(e);
+
             appSentryLogger.logError('mapFormDataToApiData failed', e);
             return undefined;
         }
