@@ -47,17 +47,15 @@ function ArbeidstidInfoAndDialog<FieldNames>({ name, periode, labels, validate }
                             />
                         }
                         intro={
-                            <>
-                                <p>
-                                    <FormattedMessage
-                                        id={
-                                            erHistorisk
-                                                ? 'arbeidstid.form.intro.historisk'
-                                                : 'arbeidstid.form.intro.planlagt'
-                                        }
-                                    />
-                                </p>
-                            </>
+                            <p>
+                                <FormattedMessage
+                                    id={
+                                        erHistorisk
+                                            ? 'arbeidstid.form.intro.historisk'
+                                            : 'arbeidstid.form.intro.planlagt'
+                                    }
+                                />
+                            </p>
                         }
                         tidPerDagValidator={getArbeidstimerDatoValidator}
                         onSubmit={onSubmit}

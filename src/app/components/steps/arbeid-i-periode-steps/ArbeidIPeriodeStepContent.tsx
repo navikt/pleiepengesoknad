@@ -8,80 +8,17 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { useFormikContext } from 'formik';
 import FormSection from '../../../pre-common/form-section/FormSection';
-import { StepConfigProps, StepID } from '../../../config/stepConfig';
-import {
-    AppFormField,
-    ArbeidIPeriode,
-    Arbeidsforhold,
-    ArbeidsforholdAnsatt,
-    ArbeidsforholdSNF,
-    PleiepengesøknadFormData,
-} from '../../../types/PleiepengesøknadFormData';
-import FormikStep from '../../formik-step/FormikStep';
+import { StepID } from '../../../config/stepConfig';
+import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import ArbeidIPeriodeSpørsmål from '../../arbeidstid/ArbeidIPeriodeSpørsmål';
-import { ArbeidsforholdType, JobberIPeriodeSvar } from '../../../types';
+import { ArbeidsforholdType } from '../../../types';
 
-interface Props extends StepConfigProps {
+interface Props {
     periode: DateRange;
     stepID: StepID.ARBEID_HISTORISK | StepID.ARBEID_PLANLAGT;
 }
 
-const cleanupArbeidIPeriode = (arbeidIPerioden: ArbeidIPeriode): ArbeidIPeriode => {
-    const arbeid: ArbeidIPeriode = {
-        jobberIPerioden: arbeidIPerioden.jobberIPerioden,
-    };
-    if (arbeid.jobberIPerioden !== JobberIPeriodeSvar.JA) {
-        return arbeid;
-    }
-
-    arbeid.jobberSomVanlig = arbeidIPerioden.jobberSomVanlig;
-    if (arbeid.jobberSomVanlig === YesOrNo.YES) {
-        return arbeid;
-    }
-
-    arbeid.erLiktHverUke = arbeidIPerioden.erLiktHverUke;
-    if (arbeidIPerioden.erLiktHverUke === YesOrNo.YES) {
-        arbeid.fasteDager = arbeidIPerioden.fasteDager;
-        return arbeid;
-    }
-    if (arbeidIPerioden.erLiktHverUke === YesOrNo.NO) {
-        arbeid.enkeltdager = arbeidIPerioden.enkeltdager;
-        return arbeid;
-    }
-    return arbeidIPerioden;
-};
-
-const cleanupArbeidsforhold = (arbeidsforhold: Arbeidsforhold, erHistorisk: boolean): Arbeidsforhold => {
-    if (erHistorisk && arbeidsforhold.historisk) {
-        return {
-            ...arbeidsforhold,
-            historisk: cleanupArbeidIPeriode(arbeidsforhold.historisk),
-        };
-    }
-    if (erHistorisk === false && arbeidsforhold.planlagt) {
-        return {
-            ...arbeidsforhold,
-            planlagt: cleanupArbeidIPeriode(arbeidsforhold.planlagt),
-        };
-    }
-    return arbeidsforhold;
-};
-
-const cleanupStepData = (formData: PleiepengesøknadFormData, erHistorisk: boolean): PleiepengesøknadFormData => {
-    const values: PleiepengesøknadFormData = { ...formData };
-    values.ansatt_arbeidsforhold = values.ansatt_arbeidsforhold.map(
-        (arbeidsforhold) => cleanupArbeidsforhold(arbeidsforhold, erHistorisk) as ArbeidsforholdAnsatt
-    );
-    values.frilans_arbeidsforhold = values.frilans_arbeidsforhold
-        ? (cleanupArbeidsforhold(values.frilans_arbeidsforhold, erHistorisk) as ArbeidsforholdSNF)
-        : undefined;
-    values.selvstendig_arbeidsforhold = values.selvstendig_arbeidsforhold
-        ? (cleanupArbeidsforhold(values.selvstendig_arbeidsforhold, erHistorisk) as ArbeidsforholdSNF)
-        : undefined;
-    return values;
-};
-
-const ArbeidIPeriodeSteps = ({ onValidSubmit, periode, stepID }: Props) => {
+const ArbeidIPeriodeStepContent = ({ periode, stepID }: Props) => {
     const intl = useIntl();
     const formikProps = useFormikContext<PleiepengesøknadFormData>();
     const {
@@ -100,11 +37,6 @@ const ArbeidIPeriodeSteps = ({ onValidSubmit, periode, stepID }: Props) => {
     const skalBesvareSelvstendig =
         selvstendig_harHattInntektSomSN === YesOrNo.YES && selvstendig_arbeidsforhold !== undefined;
 
-    const subTitle = intlHelper(intl, 'arbeidIPeriode.subtitle', {
-        fra: prettifyDateFull(periode.from),
-        til: prettifyDateFull(periode.to),
-    });
-
     /**
      * Kontroller om bruker må sendes tilbake til arbeidssituasjon-steget
      * Dette kan oppstå dersom bruker er på Arbeidssituasjon,
@@ -121,14 +53,9 @@ const ArbeidIPeriodeSteps = ({ onValidSubmit, periode, stepID }: Props) => {
     // const intlValues: ArbeidIPeriodeIntlValues = {
     //     hvor: intlHelper(intl, 'arbeidsforhold.part.som.ANSATT', { navn: arbeidsforhold.navn }),
     // };
-
     const erHistorisk = stepID === StepID.ARBEID_HISTORISK;
     return (
-        <FormikStep
-            id={stepID}
-            stepSubTitle={subTitle}
-            onValidFormSubmit={onValidSubmit}
-            onStepCleanup={(values) => cleanupStepData(values, erHistorisk)}>
+        <>
             <Box padBottom="m">
                 <CounsellorPanel>
                     <FormattedMessage
@@ -179,8 +106,8 @@ const ArbeidIPeriodeSteps = ({ onValidSubmit, periode, stepID }: Props) => {
                     />
                 </FormSection>
             )}
-        </FormikStep>
+        </>
     );
 };
 
-export default ArbeidIPeriodeSteps;
+export default ArbeidIPeriodeStepContent;

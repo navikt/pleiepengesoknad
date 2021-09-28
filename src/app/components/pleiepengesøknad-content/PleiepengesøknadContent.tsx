@@ -12,22 +12,23 @@ import { ArbeidsgiverApiData, PleiepengesøknadApiData } from '../../types/Pleie
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { Søkerdata } from '../../types/Søkerdata';
 import { apiUtils } from '../../utils/apiUtils';
+import { getSøknadsperiodeFromFormData } from '../../utils/formDataUtils';
 import { navigateTo, navigateToErrorPage, relocateToLoginPage } from '../../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../../utils/routeUtils';
+import { getHistoriskPeriode, getPlanlagtPeriode } from '../../utils/tidsbrukUtils';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
+import HistoriskArbeidStep from '../steps/arbeid-i-periode-steps/HistoriskArbeidStep';
+import PlanlagtArbeidStep from '../steps/arbeid-i-periode-steps/PlanlagtArbeidStep';
 import ArbeidssituasjonStep from '../steps/arbeidssituasjon-step/ArbeidssituasjonStep';
 import LegeerklæringStep from '../steps/legeerklæring-step/LegeerklæringStep';
 import MedlemsskapStep from '../steps/medlemskap-step/MedlemsskapStep';
+import NattevåkOgBeredskapStep from '../steps/nattevåk-og-beredskap-step/NattevåkOgBeredskapStep';
+import OmsorgstilbudStep from '../steps/omsorgstilbud-step/OmsorgstilbudStep';
 import OpplysningerOmBarnetStep from '../steps/opplysninger-om-barnet-step/OpplysningerOmBarnetStep';
 import SummaryStep from '../steps/summary-step/SummaryStep';
 import OpplysningerOmTidsromStep from '../steps/tidsrom-step/OpplysningerOmTidsromStep';
-import OmsorgstilbudStep from '../steps/omsorgstilbud-step/OmsorgstilbudStep';
-import { getSøknadsperiodeFromFormData } from '../../utils/formDataUtils';
-import NattevåkOgBeredskapStep from '../steps/nattevåk-og-beredskap-step/NattevåkOgBeredskapStep';
-import { getHistoriskPeriode, getPlanlagtPeriode } from '../../utils/tidsbrukUtils';
-import ArbeidIPeriodeSteps from '../steps/arbeid-i-periode-steps/ArbeidIPeriodeSteps';
 
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
@@ -160,9 +161,8 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
                 <Route
                     path={getSøknadRoute(StepID.ARBEID_HISTORISK)}
                     render={() => (
-                        <ArbeidIPeriodeSteps
+                        <HistoriskArbeidStep
                             periode={periodeFørSøknadsdato}
-                            stepID={StepID.ARBEID_HISTORISK}
                             onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEID_HISTORISK)}
                         />
                     )}
@@ -173,9 +173,8 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
                 <Route
                     path={getSøknadRoute(StepID.ARBEID_PLANLAGT)}
                     render={() => (
-                        <ArbeidIPeriodeSteps
+                        <PlanlagtArbeidStep
                             periode={periodeFraOgMedSøknadsdato}
-                            stepID={StepID.ARBEID_PLANLAGT}
                             onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEID_PLANLAGT)}
                         />
                     )}
