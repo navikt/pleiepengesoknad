@@ -10,17 +10,19 @@ import { useFormikContext } from 'formik';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
-import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { getArbeidsgivere } from '../../../utils/arbeidsforholdUtils';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { getSøknadsperiodeFromFormData } from '../../../utils/formDataUtils';
 import { erFrilanserISøknadsperiode } from '../../../utils/frilanserUtils';
 import FormikStep from '../../formik-step/FormikStep';
 import AndreYtelserFormPart from './parts/AndreYtelserFormPart';
-import ArbeidsforholdFormPart from './parts/ArbeidsforholdFormPart';
-import FrilansFormPart from './parts/FrilansFormPart';
-import SelvstendigNæringsdrivendeFormPart from './parts/SelvstendigNæringsdrivendeFormPart';
-import VernepliktigFormPart from './parts/VernepliktigFormPart';
+import ArbeidssituasjonAnsatt from './parts/ArbeidssituasjonAnsatt';
+import ArbeidssituasjonFrilans from './parts/ArbeidssituasjonFrilans';
+import ArbeidssituasonSN from './parts/ArbeidssituasjonSN';
+import AppForm from '../../app-form/AppForm';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 
 interface LoadState {
     isLoading: boolean;
@@ -107,53 +109,65 @@ const ArbeidssituasjonStep = ({ onValidSubmit }: StepConfigProps) => {
                 <>
                     <Box padBottom="m">
                         <CounsellorPanel>
-                            For å vurdere/beregne pleiepenger for deg må vi vite litt om din arbeidssituasjon.
+                            <FormattedMessage id="steg.arbeidssituasjon.veileder" />
                         </CounsellorPanel>
                     </Box>
-                    <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.tittel')}>
+                    <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.tittel')}>
                         <Box>
                             <p>
                                 {ansatt_arbeidsforhold.length > 0 && (
                                     <FormattedMessage
-                                        id="steg.arbeidsforhold.veileder.medArbeidsgiver"
+                                        id="steg.arbeidssituasjon.veileder.medArbeidsgiver"
                                         values={{ antall: ansatt_arbeidsforhold.length }}
                                     />
                                 )}
                                 {ansatt_arbeidsforhold.length === 0 && (
-                                    <FormattedMessage id="steg.arbeidsforhold.veileder.ingenArbeidsgiverFunnet" />
+                                    <FormattedMessage id="steg.arbeidssituasjon.veileder.ingenArbeidsgiverFunnet" />
                                 )}
                             </p>
                             <p>
-                                <FormattedMessage id="steg.arbeidsforhold.veileder.manglerDetArbeidsgiver" />
+                                <FormattedMessage id="steg.arbeidssituasjon.veileder.manglerDetArbeidsgiver" />
                             </p>
                         </Box>
                         {ansatt_arbeidsforhold.length > 0 && (
                             <>
                                 {ansatt_arbeidsforhold.map((forhold, index) => (
                                     <FormBlock key={forhold.organisasjonsnummer}>
-                                        <ArbeidsforholdFormPart arbeidsforhold={forhold} index={index} />
+                                        <ArbeidssituasjonAnsatt arbeidsforhold={forhold} index={index} />
                                     </FormBlock>
                                 ))}
                             </>
                         )}
                     </FormSection>
 
-                    <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.frilanser.tittel')}>
-                        <FrilansFormPart formValues={values} />
+                    <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.frilanser.tittel')}>
+                        <ArbeidssituasjonFrilans formValues={values} />
                     </FormSection>
 
-                    <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.sn.tittel')}>
-                        <SelvstendigNæringsdrivendeFormPart formValues={values} />
+                    <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.sn.tittel')}>
+                        <ArbeidssituasonSN formValues={values} />
                     </FormSection>
 
                     {visVernepliktSpørsmål(values) && (
-                        <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.verneplikt.tittel')}>
-                            <VernepliktigFormPart />
+                        <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.verneplikt.tittel')}>
+                            <Box margin="l">
+                                <AppForm.YesOrNoQuestion
+                                    name={AppFormField.harVærtEllerErVernepliktig}
+                                    legend={intlHelper(intl, 'steg.arbeidssituasjon.verneplikt.spm')}
+                                    validate={getYesOrNoValidator()}
+                                    description={
+                                        <ExpandableInfo
+                                            title={intlHelper(intl, 'steg.arbeidssituasjon.verneplikt.info.tittel')}>
+                                            <FormattedMessage id="steg.arbeidssituasjon.verneplikt.info.tekst" />
+                                        </ExpandableInfo>
+                                    }
+                                />
+                            </Box>
                         </FormSection>
                     )}
 
                     {isFeatureEnabled(Feature.ANDRE_YTELSER) && (
-                        <FormSection title={intlHelper(intl, 'steg.arbeidsforhold.andreYtelser.tittel')}>
+                        <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.andreYtelser.tittel')}>
                             <AndreYtelserFormPart formValues={values} />
                         </FormSection>
                     )}

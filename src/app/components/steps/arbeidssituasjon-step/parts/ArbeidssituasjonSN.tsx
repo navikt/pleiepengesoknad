@@ -14,7 +14,7 @@ import getLenker from '../../../../lenker';
 import { AppFormField, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
 import { isYesOrNoAnswered } from '../../../../validation/fieldValidations';
 import AppForm from '../../../app-form/AppForm';
-import ArbeidsformOgTimer from './ArbeidsformOgTimer';
+import ArbeidsformOgTimer from './ArbeidsformOgTimerFormPart';
 import { Arbeidsform } from '../../../../types';
 import { getArbeidsformValidator, getJobberNormaltTimerValidator } from '../../../../validation/validateArbeidFields';
 
@@ -22,7 +22,7 @@ interface Props {
     formValues: PleiepengesøknadFormData;
 }
 
-const SelvstendigNæringsdrivendeFormPart = ({ formValues }: Props) => {
+const ArbeidssituasonSN = ({ formValues }: Props) => {
     const intl = useIntl();
     const { selvstendig_virksomhet, selvstendig_harFlereVirksomheter, selvstendig_arbeidsforhold } = formValues;
     const harFlereVirksomheter = selvstendig_harFlereVirksomheter === YesOrNo.YES;
@@ -117,4 +117,4 @@ const SelvstendigNæringsdrivendeFormPart = ({ formValues }: Props) => {
     );
 };
 
-export default SelvstendigNæringsdrivendeFormPart;
+export default ArbeidssituasonSN;

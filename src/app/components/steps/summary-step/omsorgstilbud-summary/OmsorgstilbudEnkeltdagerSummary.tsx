@@ -5,8 +5,8 @@ import { ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import groupBy from 'lodash.groupby';
 import EkspanderbartPanel from 'nav-frontend-ekspanderbartpanel';
-import { DagMedTid } from '../../../types';
-import { TidEnkeltdagApiData } from '../../../types/PleiepengesøknadApiData';
+import { DagMedTid } from '../../../../types';
+import { TidEnkeltdagApiData } from '../../../../types/PleiepengesøknadApiData';
 import OmsorgsdagerListe from './omsorgsdagerListe/OmsorgsdagerListe';
 
 interface Props {

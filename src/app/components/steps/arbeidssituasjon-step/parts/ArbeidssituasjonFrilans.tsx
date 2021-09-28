@@ -14,7 +14,7 @@ import getLenker from '../../../../lenker';
 import { AppFormField, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
 import { erFrilanserISøknadsperiode } from '../../../../utils/frilanserUtils';
 import AppForm from '../../../app-form/AppForm';
-import ArbeidsformOgTimer from './ArbeidsformOgTimer';
+import ArbeidsformOgTimer from './ArbeidsformOgTimerFormPart';
 import { Arbeidsform } from '../../../../types';
 import {
     getArbeidsformValidator,
@@ -26,7 +26,7 @@ interface Props {
     formValues: PleiepengesøknadFormData;
 }
 
-const FrilansFormPart = ({ formValues }: Props) => {
+const ArbeidssituasjonFrilans = ({ formValues }: Props) => {
     const {
         frilans_jobberFortsattSomFrilans,
         frilans_harHattInntektSomFrilanser,
@@ -133,4 +133,4 @@ const FrilansFormPart = ({ formValues }: Props) => {
     );
 };
 
-export default FrilansFormPart;
+export default ArbeidssituasjonFrilans;

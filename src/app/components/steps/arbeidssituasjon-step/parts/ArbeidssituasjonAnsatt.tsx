@@ -1,5 +1,5 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
@@ -10,7 +10,7 @@ import { Undertittel } from 'nav-frontend-typografi';
 import { AppFormField, ArbeidsforholdAnsatt, ArbeidsforholdField } from '../../../../types/PleiepengesøknadFormData';
 import { isYesOrNoAnswered } from '../../../../validation/fieldValidations';
 import AppForm from '../../../app-form/AppForm';
-import ArbeidsformOgTimer from './ArbeidsformOgTimer';
+import ArbeidsformOgTimer from './ArbeidsformOgTimerFormPart';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { getArbeidsformValidator, getJobberNormaltTimerValidator } from '../../../../validation/validateArbeidFields';
 
@@ -19,7 +19,7 @@ interface Props {
     index: number;
 }
 
-const ArbeidsforholdFormPart: React.FunctionComponent<Props> = ({ arbeidsforhold, index }) => {
+const ArbeidssituasjonAnsatt: React.FunctionComponent<Props> = ({ arbeidsforhold, index }) => {
     const intl = useIntl();
     const erAvsluttet = arbeidsforhold.erAnsatt === YesOrNo.NO;
 
@@ -55,17 +55,18 @@ const ArbeidsforholdFormPart: React.FunctionComponent<Props> = ({ arbeidsforhold
                         }}
                     />
                 </Box>
-                {erAvsluttet && (
-                    <Box margin="l">
-                        <AlertStripeInfo>
-                            Informasjon når søker ikke er ansatt - hvorfor en fortsatt må fylle ut informasjonen.
-                        </AlertStripeInfo>
-                    </Box>
-                )}
             </FormBlock>
             {isYesOrNoAnswered(arbeidsforhold.erAnsatt) && (
                 <FormBlock margin="m">
                     <ResponsivePanel>
+                        {erAvsluttet && (
+                            <Box padBottom="xl">
+                                <AlertStripeInfo>
+                                    <FormattedMessage id="arbeidsforhold.ikkeAnsatt.info" />
+                                </AlertStripeInfo>
+                            </Box>
+                        )}
+
                         <ArbeidsformOgTimer
                             spørsmål={{
                                 arbeidsform: intlHelper(
@@ -102,4 +103,4 @@ const ArbeidsforholdFormPart: React.FunctionComponent<Props> = ({ arbeidsforhold
     );
 };
 
-export default ArbeidsforholdFormPart;
+export default ArbeidssituasjonAnsatt;

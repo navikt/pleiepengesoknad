@@ -3,7 +3,7 @@ import { IntlShape, useIntl } from 'react-intl';
 import { Time } from '@navikt/sif-common-core/lib/types/Time';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { iso8601DurationToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { TidFasteDagerApiData } from '../../../types/PleiepengesøknadApiData';
+import { TidFasteDagerApiData } from '../../../../types/PleiepengesøknadApiData';
 
 interface Props {
     fasteDager?: TidFasteDagerApiData;

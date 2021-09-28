@@ -8,14 +8,12 @@ import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-p
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import SummaryList from '@navikt/sif-common-core/lib/components/summary-list/SummaryList';
-import TextareaSummary from '@navikt/sif-common-core/lib/components/textarea-summary/TextareaSummary';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
-import { apiStringDateToDate, prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { apiStringDateToDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { getCheckedValidator } from '@navikt/sif-common-formik/lib/validation';
-import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { purge, sendApplication } from '../../../api/api';
 import { SKJEMANAVN } from '../../../App';
@@ -39,17 +37,17 @@ import SummarySection from '../../summary-section/SummarySection';
 import ApiValidationSummary from './ApiValidationSummary';
 import BarnSummary from './BarnSummary';
 import FrilansSummary from './FrilansSummary';
-import HistoriskOmsorgstilbudSummary from './HistoriskOmsorgstilbudSummary';
 import JaNeiSvar from './JaNeiSvar';
-import PlanlagtOmsorgstilbudSummary from './PlanlagtOmsorgstilbudSummary';
+import OmsorgstilbudSummary from './omsorgstilbud-summary/OmsorgstilbudSummary';
 import {
     renderFerieuttakIPeriodenSummary,
     renderUtenlandsoppholdIPeriodenSummary,
     renderUtenlandsoppholdSummary,
 } from './renderUtenlandsoppholdSummary';
+import SelvstendigSummary from './SelvstendigSummary';
 import SummaryBlock from './SummaryBlock';
 import './summary.less';
-import SelvstendigSummary from './SelvstendigSummary';
+import dayjs from 'dayjs';
 
 interface Props {
     values: PleiepengesøknadFormData;
@@ -112,17 +110,13 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
 
                 const apiValuesValidationErrors = validateApiValues(apiValues, intl);
 
-                const {
-                    medlemskap,
-                    omsorgstilbudV2,
-                    nattevåk,
-                    beredskap,
-                    utenlandsoppholdIPerioden,
-                    ferieuttakIPerioden,
-                } = apiValues;
+                const { medlemskap, utenlandsoppholdIPerioden, ferieuttakIPerioden } = apiValues;
 
                 const mottarAndreYtelserFraNAV =
                     apiValues.andreYtelserFraNAV && apiValues.andreYtelserFraNAV.length > 0;
+
+                const periodeFom = apiStringDateToDate(apiValues.fraOgMed);
+                const periodeTom = apiStringDateToDate(apiValues.tilOgMed);
 
                 return (
                     <FormikStep
@@ -166,16 +160,19 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
 
                                 {/* Perioden du søker pleiepenger for */}
                                 <SummarySection header={intlHelper(intl, 'steg.oppsummering.tidsrom.header')}>
-                                    <Box margin="m">
-                                        <FormattedMessage
-                                            id="steg.oppsummering.tidsrom.fomtom"
-                                            values={{
-                                                fom: prettifyDate(apiStringDateToDate(apiValues.fraOgMed)),
-                                                tom: prettifyDate(apiStringDateToDate(apiValues.tilOgMed)),
-                                            }}
-                                        />
+                                    <Box margin="l">
+                                        <ContentWithHeader
+                                            header={intlHelper(intl, 'steg.oppsummering.søknadsperiode.header')}>
+                                            <FormattedMessage
+                                                id="steg.oppsummering.tidsrom.fomtom"
+                                                values={{
+                                                    fom: `${dayjs(periodeFom).format('dddd D. MMMM YYYY')}`,
+                                                    tom: `${dayjs(periodeTom).format('dddd D. MMMM YYYY')}`,
+                                                }}
+                                            />
+                                        </ContentWithHeader>
                                     </Box>
-                                    <Box margin="m">
+                                    <Box margin="l">
                                         <ContentWithHeader
                                             header={intlHelper(
                                                 intl,
@@ -251,69 +248,11 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                     )}
                                 </SummarySection>
 
-                                {/* Omsorgstilbud */}
-                                <SummarySection header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.header')}>
-                                    <HistoriskOmsorgstilbudSummary
-                                        historiskOmsorgstilbud={omsorgstilbudV2?.historisk}
-                                        søknadsperiode={søknadsperiode}
-                                    />
-                                    <PlanlagtOmsorgstilbudSummary
-                                        omsorgstilbud={omsorgstilbudV2?.planlagt}
-                                        søknadsperiode={søknadsperiode}
-                                    />
-
-                                    {nattevåk && (
-                                        <>
-                                            <Box margin="xl">
-                                                <ContentWithHeader
-                                                    header={intlHelper(intl, 'steg.oppsummering.nattevåk.header')}>
-                                                    {nattevåk.harNattevåk === true && intlHelper(intl, 'Ja')}
-                                                    {nattevåk.harNattevåk === false && intlHelper(intl, 'Nei')}
-                                                    {nattevåk.harNattevåk === true && nattevåk.tilleggsinformasjon && (
-                                                        <TextareaSummary text={nattevåk.tilleggsinformasjon} />
-                                                    )}
-                                                </ContentWithHeader>
-                                            </Box>
-                                        </>
-                                    )}
-                                    {beredskap && (
-                                        <Box margin="xl">
-                                            <ContentWithHeader
-                                                header={intlHelper(intl, 'steg.oppsummering.beredskap.header')}>
-                                                {beredskap.beredskap === true && intlHelper(intl, 'Ja')}
-                                                {beredskap.beredskap === false && intlHelper(intl, 'Nei')}
-                                                {beredskap.tilleggsinformasjon && (
-                                                    <TextareaSummary text={beredskap.tilleggsinformasjon} />
-                                                )}
-                                            </ContentWithHeader>
-                                        </Box>
-                                    )}
-
-                                    {isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG) && apiValues.skalBekrefteOmsorg && (
-                                        <Box margin="xl">
-                                            <ContentWithHeader
-                                                header={intlHelper(
-                                                    intl,
-                                                    'steg.oppsummering.skalPassePåBarnetIHelePerioden.header'
-                                                )}>
-                                                <JaNeiSvar harSvartJa={apiValues.skalPassePåBarnetIHelePerioden} />
-                                            </ContentWithHeader>
-                                            {hasValue(apiValues.beskrivelseOmsorgsrollen) && (
-                                                <Box margin="l">
-                                                    <ContentWithHeader
-                                                        header={intlHelper(
-                                                            intl,
-                                                            'steg.oppsummering.bekreftOmsorgEkstrainfo.header'
-                                                        )}>
-                                                        <TextareaSummary text={apiValues.beskrivelseOmsorgsrollen} />
-                                                    </ContentWithHeader>
-                                                </Box>
-                                            )}
-                                        </Box>
-                                    )}
-                                </SummarySection>
-
+                                {/* Arbeid i søknadsperiode */}
                                 <ArbeidIPeriodenSummary apiValues={apiValues} />
+
+                                {/* Omsorgstilbud */}
+                                <OmsorgstilbudSummary søknadsperiode={søknadsperiode} apiValues={apiValues} />
 
                                 {/* Frilanser */}
                                 <FrilansSummary frilansApiData={apiValues.frilans} />

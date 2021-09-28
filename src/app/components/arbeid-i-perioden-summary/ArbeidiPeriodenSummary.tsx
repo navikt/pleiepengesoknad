@@ -48,7 +48,7 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({ apiValues }) =
     return (
         <>
             {/* Arbeidsforhold */}
-            <SummarySection header={intlHelper(intl, 'steg.oppsummering.arbeidsforhold.header')}>
+            <SummarySection header={intlHelper(intl, 'steg.oppsummering.arbeidssituasjon.header')}>
                 {alleArbeidsforhold.length > 0 && (
                     <SummaryList
                         items={alleArbeidsforhold}
@@ -57,7 +57,7 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({ apiValues }) =
                 )}
                 {alleArbeidsforhold.length === 0 && (
                     <Box margin="m">
-                        <FormattedMessage id="steg.oppsummering.arbeidsforhold.ingenArbeidsforhold" />
+                        <FormattedMessage id="steg.oppsummering.arbeidssituasjon.ingenArbeidsforhold" />
                     </Box>
                 )}
             </SummarySection>

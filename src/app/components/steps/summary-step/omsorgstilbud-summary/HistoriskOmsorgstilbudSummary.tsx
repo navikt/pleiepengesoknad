@@ -4,10 +4,10 @@ import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-with-header/ContentWithHeader';
 import { DateRange, dateToday, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { HistoriskOmsorgstilbudApiData } from '../../../types/PleiepengesøknadApiData';
+import { HistoriskOmsorgstilbudApiData } from '../../../../types/PleiepengesøknadApiData';
 import OmsorgstilbudEnkeltdagerSummary from './OmsorgstilbudEnkeltdagerSummary';
-import SummaryBlock from './SummaryBlock';
-import { getHistoriskPeriode } from '../../../utils/tidsbrukUtils';
+import SummaryBlock from '../SummaryBlock';
+import { getHistoriskPeriode } from '../../../../utils/tidsbrukUtils';
 
 interface Props {
     historiskOmsorgstilbud?: HistoriskOmsorgstilbudApiData;

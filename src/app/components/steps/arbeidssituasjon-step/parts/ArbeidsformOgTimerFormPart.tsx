@@ -28,7 +28,7 @@ interface Props {
     parentFieldName: string;
 }
 
-const ArbeidsforholdFormPart: React.FunctionComponent<Props> = ({
+const ArbeidsformOgTimerFormPart: React.FunctionComponent<Props> = ({
     arbeidsforhold,
     spørsmål,
     parentFieldName,
@@ -119,4 +119,4 @@ const ArbeidsforholdFormPart: React.FunctionComponent<Props> = ({
     );
 };
 
-export default ArbeidsforholdFormPart;
+export default ArbeidsformOgTimerFormPart;

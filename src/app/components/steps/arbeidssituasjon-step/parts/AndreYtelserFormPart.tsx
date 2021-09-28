@@ -20,7 +20,7 @@ const AndreYtelserFormPart = ({ formValues: { mottarAndreYtelser } }: Props) => 
             <Box margin="l">
                 <AppForm.YesOrNoQuestion
                     name={AppFormField.mottarAndreYtelser}
-                    legend={intlHelper(intl, 'steg.arbeidsforhold.andreYtelser.spm')}
+                    legend={intlHelper(intl, 'steg.arbeidssituasjon.andreYtelser.spm')}
                     validate={getYesOrNoValidator()}
                 />
             </Box>
@@ -29,7 +29,7 @@ const AndreYtelserFormPart = ({ formValues: { mottarAndreYtelser } }: Props) => 
                     <ResponsivePanel>
                         <AppForm.CheckboxPanelGroup
                             name={AppFormField.andreYtelser}
-                            legend={intlHelper(intl, 'steg.arbeidsforhold.andreYtelser.hvilke.spm')}
+                            legend={intlHelper(intl, 'steg.arbeidssituasjon.andreYtelser.hvilke.spm')}
                             checkboxes={Object.keys(AndreYtelserFraNAV).map((ytelse) => ({
                                 label: intlHelper(intl, `NAV_YTELSE.${ytelse}`),
                                 value: ytelse,

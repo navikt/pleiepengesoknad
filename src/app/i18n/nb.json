@@ -270,6 +270,26 @@
     "steg.tidsrom.skalPassePåBarnetIHelePerioden.spm": "Skal du passe på barnet i hele tidsrommet du skal ha pleiepenger?",
     "steg.tidsrom.bekreftOmsorgEkstrainfo.spm": "Beskriv omsorgsrollen du har for barnet i tidsrommet du skal ha pleiepenger:",
 
+    "steg.arbeidssituasjon.tittel": "Arbeidsgivere",
+    "steg.arbeidssituasjon.veileder": "For å vurdere/beregne pleiepenger for deg må vi vite litt om din arbeidssituasjon.",
+    "steg.arbeidssituasjon.veileder.medArbeidsgiver": "Vi har funnet følgende {antall, plural, one {arbeidsgiver} other {arbeidsgivere}} registrert på deg i AA-registeret. For å være sikker på at opplysningene er riktige må du bekrefte om det stemmer at du er ansatt hos arbeidsgiverne du ser nedenfor.",
+    "steg.arbeidssituasjon.veileder.ingenArbeidsgiverFunnet": "Vi har ikke funnet noen arbeidsgivere registrert på deg i AA-registeret.",
+    "steg.arbeidssituasjon.veileder.manglerDetArbeidsgiver": "Hvis det mangler aktive arbeidsgivere her må du be arbeidsgiveren din om å sende ny A-melding, enten via lønns- og personalsystemet eller gjennom Altinn.",
+    "steg.arbeidssituasjon.info.tekst": "Dersom det mangler en arbeidsgiver her, må du be arbeidsgiveren din sende ny A-melding, enten via lønns- og personalsystemet eller gjennom Altinn.",
+    "steg.arbeidssituasjon.ingenOpplysninger": "Vi har ikke funnet noen arbeidsgiver registrert på deg.",
+
+    "steg.arbeidssituasjon.intro": "Vi har funnet disse arbeidsforholdene registrert på deg.",
+    "steg.arbeidssituasjon.info.tittel": "Mangler det et arbeidsforhold her?",
+    "steg.arbeidssituasjon.frilanser.tittel": "Frilans",
+    "steg.arbeidssituasjon.sn.tittel": "Selvstendig næringsdrivende",
+    "steg.arbeidssituasjon.verneplikt.tittel": "Verneplikt",
+    "steg.arbeidssituasjon.verneplikt.spm": "Utøvde du verneplikt på tidspunktet du søker pleiepenger fra?",
+    "steg.arbeidssituasjon.verneplikt.info.tittel": "Hva betyr dette?",
+    "steg.arbeidssituasjon.verneplikt.info.tekst": "Du skal svare ja på dette spørsmålet om du har utøvd verneplikt i minst 28 dager på starttidspunktet for perioden du søker for, eller om perioden med verneplikt var ment å vare i minst 28 dager.",
+    "steg.arbeidssituasjon.andreYtelser.tittel": "Andre utbetalinger",
+    "steg.arbeidssituasjon.andreYtelser.spm": "Mottar du andre utbetalinger fra NAV i perioden med pleiepenger?",
+    "steg.arbeidssituasjon.andreYtelser.hvilke.spm": "Mottar du andre utbetalinger fra NAV i perioden med pleiepenger?",
+
     "steg.omsorgstilbud.veileder.html": "<p>Hvis barnet er i barnehage, skole eller i andre etablerte omsorgstilbud i perioden du søker for, skal pleiepengene graderes tilsvarende den tiden barnet er i omsorgstilbudet. At omsorgstilbudet er etablert betyr at den tiden som barnet er i omsorgstilbudet er fast og regelmessig.</p><p>Hvis bruken av omsorgstilbudet er så uforutsigbar og uregelmessig at du ikke vet noe av tiden med sikkerhet anses ikke omsorgstilbudet for etablert. Da skal ikke pleiepenger graderes.</p><p>I tillegg til barnehage og skole kan omsorgstilbud være SFO, omsorgsbolig, BPA (brukerstyrt personlig assistent), eller andre organiserte tilbud. Sykehus regnes ikke som et omsorgstilbud.</p>",
     "steg.omsorgstilbud.generelt.tittel": "Omsorgstilbud i perioden",
     "steg.omsorgstilbud.historisk.tittel": "Omsorgstilbud til nå",
@@ -324,7 +344,8 @@
     "steg.oppsummering.søker.header": "Om deg",
     "steg.oppsummering.søker.fnr": "Fødselsnummer: {fødselsnummer}",
     "steg.oppsummering.tidsrom.header": "Perioden du søker pleiepenger for",
-    "steg.oppsummering.tidsrom.fomtom": "Fra {fom} til {tom}",
+    "steg.oppsummering.søknadsperiode.header": "Periode",
+    "steg.oppsummering.tidsrom.fomtom": "Fra og med {fom}, til og med {tom}",
 
     "steg.oppsummering.skalPassePåBarnetIHelePerioden.header": "Skal du passe på barnet i hele tidsrommet du skal ha pleiepenger?",
     "steg.oppsummering.bekreftOmsorgEkstrainfo.header": "Beskriv omsorgsrollen du har for barnet i tidsrommet du skal ha pleiepenger:",
@@ -366,9 +387,9 @@
     "steg.oppsummering.bekrefterOpplysninger": "Jeg bekrefter at opplysningene jeg har gitt er riktige, og at jeg ikke har holdt tilbake opplysninger som har betydning for min rett til pleiepenger.",
     "steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet": "Du må bekrefte opplysningene",
 
-    "steg.oppsummering.arbeidsforhold.header": "Din arbeidssituasjon",
-    "steg.oppsummering.arbeidsforhold.forhold": "{navn} (organisasjonsnummer: {organisasjonsnummer})",
-    "steg.oppsummering.arbeidsforhold.ingenArbeidsforhold": "Ingen arbeidsgiver er valgt",
+    "steg.oppsummering.arbeidssituasjon.header": "Din arbeidssituasjon",
+    "steg.oppsummering.arbeidssituasjon.forhold": "{navn} (organisasjonsnummer: {organisasjonsnummer})",
+    "steg.oppsummering.arbeidssituasjon.ingenArbeidsforhold": "Ingen arbeidsgiver er valgt",
 
     "steg.oppsummering.vedlegg.header": "Vedlegg",
 
@@ -378,29 +399,9 @@
     "steg.oppsummering.validering.navigasjonTilStegInfo": "Vennligst gå tilbake og sjekk informasjonen du har fylt ut. Når du har gjort det, trykker du på \"Fortsett\"-knappen for å gå videre.",
     "steg.oppsummering.validering.navigasjonTilStegGåTil": "Gå til",
 
-    "steg.arbeidsforhold.tittel": "Arbeidsgivere",
-    "steg.arbeidsforhold.veileder.medArbeidsgiver": "Vi har funnet følgende {antall, plural, one {arbeidsgiver} other {arbeidsgivere}} registrert på deg i AA-registeret. For å være sikker på at opplysningene er riktige må du bekrefte om det stemmer at du er ansatt hos arbeidsgiverne du ser nedenfor.",
-    "steg.arbeidsforhold.veileder.ingenArbeidsgiverFunnet": "Vi har ikke funnet noen arbeidsgivere registrert på deg i AA-registeret.",
-    "steg.arbeidsforhold.veileder.manglerDetArbeidsgiver": "Hvis det mangler aktive arbeidsgivere her må du be arbeidsgiveren din om å sende ny A-melding, enten via lønns- og personalsystemet eller gjennom Altinn.",
-    "steg.arbeidsforhold.info.tekst": "Dersom det mangler en arbeidsgiver her, må du be arbeidsgiveren din sende ny A-melding, enten via lønns- og personalsystemet eller gjennom Altinn.",
-    "steg.arbeidsforhold.ingenOpplysninger": "Vi har ikke funnet noen arbeidsgiver registrert på deg.",
-
     "steg.oppsummering.validering.manglerVedlegg": "Noe gikk galt med legeerklæringen. Vennligst gå tilbake og kontroller at den er lastet opp riktig",
     "steg.oppsummering.validering.ugyldigArbeidsforhold": "Noe stemmer ikke helt med arbeidsforholdet du har registrert. Vennligst se over informasjonen du har fylt ut på den siden.",
     "steg.oppsummering.validering.ugyldigRegnskapsførerTelefonnummer": "Telefonnummeret til regnskapsfører inneholder ugyldig tegn. Vennligst gå tilbake til skjemaet og kontroller verdien.",
-
-    "steg.arbeidsforhold.intro": "Vi har funnet disse arbeidsforholdene registrert på deg.",
-    "steg.arbeidsforhold.info.tittel": "Mangler det et arbeidsforhold her?",
-
-    "steg.arbeidsforhold.frilanser.tittel": "Frilans",
-    "steg.arbeidsforhold.sn.tittel": "Selvstendig næringsdrivende",
-    "steg.arbeidsforhold.verneplikt.tittel": "Verneplikt",
-    "steg.arbeidsforhold.verneplikt.spm": "Utøvde du verneplikt på tidspunktet du søker pleiepenger fra?",
-    "steg.arbeidsforhold.verneplikt.info.tittel": "Hva betyr dette?",
-    "steg.arbeidsforhold.verneplikt.info.tekst": "Du skal svare ja på dette spørsmålet om du har utøvd verneplikt i minst 28 dager på starttidspunktet for perioden du søker for, eller om perioden med verneplikt var ment å vare i minst 28 dager.",
-    "steg.arbeidsforhold.andreYtelser.tittel": "Andre utbetalinger",
-    "steg.arbeidsforhold.andreYtelser.spm": "Mottar du andre utbetalinger fra NAV i perioden med pleiepenger?",
-    "steg.arbeidsforhold.andreYtelser.hvilke.spm": "Mottar du andre utbetalinger fra NAV i perioden med pleiepenger?",
 
     "page.confirmation.sidetittel": "Vi har mottatt søknaden din",
     "page.confirmation.tittel.1": "Takk!",
@@ -438,6 +439,8 @@
     "vedleggsliste.ingenLegeerklæringLastetOpp": "Ingen vedlegg er lastet opp",
     "dokumenter.advarsel.totalstørrelse.1": "Du har totalt lastet opp mer enn grensen på 24 Mb. Det betyr at du må fjerne noe av det du har lastet opp. Hvis det betyr at du ikke får plass til alt du ønsker å sende nå, kan du ",
     "dokumenter.advarsel.totalstørrelse.2": "ettersende flere dokumenter.",
+
+    "arbeidsforhold.ikkeAnsatt.info": "Informasjon når søker ikke er ansatt - hvorfor en fortsatt må fylle ut informasjonen.",
 
     "arbeidsforhold.part.jobber": "jobber",
     "arbeidsforhold.part.jobbet": "jobbet",
@@ -517,7 +520,7 @@
     "arbeidIPeriode.StepInfo.planlagt": "Nå trenger vi å vite om du skal være noe på jobb i perioden fra og med {fra} til {til}. Vi trenger å vite dette fordi som hovedregel skal pleiepengene graderes tilsvarende den tiden du jobber.",
     "arbeidIPeriode.FrilansLabel": "Frilans",
     "arbeidIPeriode.SNLabel": "Selvstendig næringsdrivende",
-    "arbeidIPeriode.jobberIPerioden.spm": "Skal du være noe på jobb {hvor} i samme periode som du skal ha pleiepenger?",
+    "arbeidIPeriode.jobberIPerioden.spm": "Skal du være noe på jobb {hvor} i perioden {fra} til {til}?",
     "arbeidIPeriode.jobberSomVanlig.spm": "Du har opplyst at du vanligvis jobber {timer} per uke {hvor}. Hvor mye skal du jobbe der i pleiepengeperioden?",
 
     "arbeidIPeriode.erLiktHverUke.spm": "Er arbeidsukene dine like i denne perioden {hvor}, eller varierer det?",
