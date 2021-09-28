@@ -111,8 +111,8 @@ const ArbeidssituasjonFrilans = ({ formValues }: Props) => {
                                             intlHelper(
                                                 intl,
                                                 erAvsluttet
-                                                    ? `snFrilanser.arbeidsforhold.avsluttet.iDag.${arbeidsform}.spm`
-                                                    : `snFrilanser.arbeidsforhold.iDag.${arbeidsform}.spm`
+                                                    ? `snFrilanser.arbeidsforhold.avsluttet.${arbeidsform}.spm`
+                                                    : `snFrilanser.arbeidsforhold.${arbeidsform}.spm`
                                             ),
                                     }}
                                     validator={{

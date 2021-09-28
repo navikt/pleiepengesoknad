@@ -97,7 +97,7 @@ const ArbeidssituasonSN = ({ formValues }: Props) => {
                                     spørsmål={{
                                         arbeidsform: intlHelper(intl, `selvstendig.arbeidsforhold.arbeidsform.spm`),
                                         jobberNormaltTimer: (arbeidsform: Arbeidsform) =>
-                                            intlHelper(intl, `snFrilanser.arbeidsforhold.iDag.${arbeidsform}.spm`),
+                                            intlHelper(intl, `snFrilanser.arbeidsforhold.${arbeidsform}.spm`),
                                     }}
                                     validator={{
                                         arbeidsform: getArbeidsformValidator(intlValues),

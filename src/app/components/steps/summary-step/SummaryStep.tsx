@@ -14,6 +14,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { getCheckedValidator } from '@navikt/sif-common-formik/lib/validation';
+import dayjs from 'dayjs';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { purge, sendApplication } from '../../../api/api';
 import { SKJEMANAVN } from '../../../App';
@@ -30,7 +31,8 @@ import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
 import { navigateTo, relocateToLoginPage } from '../../../utils/navigationUtils';
 import { validateApiValues } from '../../../validation/apiValuesValidation';
 import AppForm from '../../app-form/AppForm';
-import ArbeidIPeriodenSummary from '../../arbeid-i-perioden-summary/ArbeidiPeriodenSummary';
+import ArbeidIPeriodenSummary from '../../arbeid-i-perioden-summary/ArbeidIPeriodenSummary';
+import ArbeidssituasjonSummary from '../../arbeidssituasjon-summary/ArbeidssituasjonSummary';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringAttachmentList from '../../legeerklæring-file-list/LegeerklæringFileList';
 import SummarySection from '../../summary-section/SummarySection';
@@ -47,7 +49,6 @@ import {
 import SelvstendigSummary from './SelvstendigSummary';
 import SummaryBlock from './SummaryBlock';
 import './summary.less';
-import dayjs from 'dayjs';
 
 interface Props {
     values: PleiepengesøknadFormData;
@@ -115,9 +116,6 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                 const mottarAndreYtelserFraNAV =
                     apiValues.andreYtelserFraNAV && apiValues.andreYtelserFraNAV.length > 0;
 
-                const periodeFom = apiStringDateToDate(apiValues.fraOgMed);
-                const periodeTom = apiStringDateToDate(apiValues.tilOgMed);
-
                 return (
                     <FormikStep
                         id={StepID.SUMMARY}
@@ -166,8 +164,8 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                             <FormattedMessage
                                                 id="steg.oppsummering.tidsrom.fomtom"
                                                 values={{
-                                                    fom: `${dayjs(periodeFom).format('dddd D. MMMM YYYY')}`,
-                                                    tom: `${dayjs(periodeTom).format('dddd D. MMMM YYYY')}`,
+                                                    fom: `${dayjs(søknadsperiode.from).format('dddd D. MMMM YYYY')}`,
+                                                    tom: `${dayjs(søknadsperiode.to).format('dddd D. MMMM YYYY')}`,
                                                 }}
                                             />
                                         </ContentWithHeader>
@@ -248,8 +246,11 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                     )}
                                 </SummarySection>
 
+                                {/* Arbeidssituasjon i søknadsperiode */}
+                                <ArbeidssituasjonSummary apiValues={apiValues} />
+
                                 {/* Arbeid i søknadsperiode */}
-                                <ArbeidIPeriodenSummary apiValues={apiValues} />
+                                <ArbeidIPeriodenSummary apiValues={apiValues} søknadsperiode={søknadsperiode} />
 
                                 {/* Omsorgstilbud */}
                                 <OmsorgstilbudSummary søknadsperiode={søknadsperiode} apiValues={apiValues} />

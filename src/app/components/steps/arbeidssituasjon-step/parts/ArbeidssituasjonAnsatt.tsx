@@ -82,8 +82,8 @@ const ArbeidssituasjonAnsatt: React.FunctionComponent<Props> = ({ arbeidsforhold
                                     intlHelper(
                                         intl,
                                         erAvsluttet
-                                            ? `arbeidsforhold.iDag.${arbeidsform}.avsluttet.spm`
-                                            : `arbeidsforhold.iDag.${arbeidsform}.spm`,
+                                            ? `arbeidsforhold.${arbeidsform}.avsluttet.spm`
+                                            : `arbeidsforhold.${arbeidsform}.spm`,
                                         {
                                             arbeidsforhold: arbeidsforhold.navn,
                                         }

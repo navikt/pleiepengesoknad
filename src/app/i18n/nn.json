@@ -387,10 +387,10 @@
     "arbeidsforhold.arbeidsforhold.vetIkke": "Veit ikkje, men eg melder frå dersom eg skal jobbe i perioden eg søkjer for.",
     "arbeidsforhold.arbeidsforhold.redusert": "Ja, men eg skal jobbe mindre enn vanleg.",
 
-    "arbeidsforhold.iDag.FAST.spm": "Kor mange timar jobbar du fast per veke hos {arbeidsforhold}?",
-    "arbeidsforhold.iDag.TURNUS.spm": "Kor mange timar jobbar du i snitt per veke hos {arbeidsforhold}?",
-    "arbeidsforhold.iDag.VARIERENDE.spm": "Kor mange timar jobbar du i snitt per veke hos {arbeidsforhold}?",
-    "arbeidsforhold.iDag.utledet": "timar i veka",
+    "arbeidsforhold.FAST.spm": "Kor mange timar jobbar du fast per veke hos {arbeidsforhold}?",
+    "arbeidsforhold.TURNUS.spm": "Kor mange timar jobbar du i snitt per veke hos {arbeidsforhold}?",
+    "arbeidsforhold.VARIERENDE.spm": "Kor mange timar jobbar du i snitt per veke hos {arbeidsforhold}?",
+    "arbeidsforhold.utledet": "timar i veka",
     "arbeidsforhold.hvorMye.spm": "Korleis vil du gi opp kor mykje du skal jobbe?",
     "arbeidsforhold.hvorMye.timer": "I timar",
     "arbeidsforhold.hvorMye.prosent": "Som prosent av den vanlege stillinga mi",
@@ -501,10 +501,10 @@
     "snFrilanser.arbeidsforhold.arbeidsform.varierende.info.tekst.1": "Du reknar ut eit snitt ved å leggje saman talet på timar du totalt har jobba dei siste vekene, og deler det med 12.",
     "snFrilanser.arbeidsforhold.arbeidsform.VARIERENDE.timer.suffix": "timar i snitt per veke",
 
-    "snFrilanser.arbeidsforhold.iDag.FAST.spm": "Kor mange timar jobbar du fast per veke?",
-    "snFrilanser.arbeidsforhold.iDag.TURNUS.spm": "Kor mange timar jobbar du i snitt per veke?",
-    "snFrilanser.arbeidsforhold.iDag.VARIERENDE.spm": "Kor mange timar jobbar du i snitt per veke hos?",
-    "snFrilanser.arbeidsforhold.iDag.utledet": "timar i veka",
+    "snFrilanser.arbeidsforhold.FAST.spm": "Kor mange timar jobbar du fast per veke?",
+    "snFrilanser.arbeidsforhold.TURNUS.spm": "Kor mange timar jobbar du i snitt per veke?",
+    "snFrilanser.arbeidsforhold.VARIERENDE.spm": "Kor mange timar jobbar du i snitt per veke hos?",
+    "snFrilanser.arbeidsforhold.utledet": "timar i veka",
 
     "snF.ArbeidsforholdDetaljer.hvaBetyr.spm": "Kva betyr dette?",
 

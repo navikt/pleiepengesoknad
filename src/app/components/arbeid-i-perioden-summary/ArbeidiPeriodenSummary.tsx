@@ -1,26 +1,26 @@
+import React from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import SummaryList from '@navikt/sif-common-core/lib/components/summary-list/SummaryList';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { ArbeidsforholdApiData, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
+import { PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import SummarySection from '../summary-section/SummarySection';
+import ArbeidIPeriodenSummaryItem, { ArbeidIPeriodenSummaryItemType } from './ArbeidIPeriodenSummaryItem';
+import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 
 interface Props {
     apiValues: PleiepengesøknadApiData;
+    søknadsperiode: DateRange;
 }
 
-interface ArbeidsforholdSummaryItem extends ArbeidsforholdApiData {
-    tittel: string;
-}
-
-const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({ apiValues }) => {
+const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
+    apiValues: { arbeidsgivere, frilans, selvstendigNæringsdrivende },
+}) => {
     const intl = useIntl();
+    const alleArbeidsforhold: ArbeidIPeriodenSummaryItemType[] = [];
 
-    const alleArbeidsforhold: ArbeidsforholdSummaryItem[] = [];
-
-    if (apiValues.arbeidsgivere) {
-        apiValues.arbeidsgivere.forEach((a) => {
+    if (arbeidsgivere) {
+        arbeidsgivere.forEach((a) => {
             alleArbeidsforhold.push({
                 ...a.arbeidsforhold,
                 tittel: intlHelper(intl, 'arbeidsforhold.oppsummering.ansatt', {
@@ -31,28 +31,27 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({ apiValues }) =
         });
     }
 
-    if (apiValues.frilans?.arbeidsforhold) {
+    if (frilans?.arbeidsforhold) {
         alleArbeidsforhold.push({
-            ...apiValues.frilans.arbeidsforhold,
+            ...frilans.arbeidsforhold,
             tittel: intlHelper(intl, 'arbeidsforhold.oppsummering.frilanser'),
         });
     }
 
-    if (apiValues.selvstendigNæringsdrivende?.arbeidsforhold) {
+    if (selvstendigNæringsdrivende?.arbeidsforhold) {
         alleArbeidsforhold.push({
-            ...apiValues.selvstendigNæringsdrivende.arbeidsforhold,
+            ...selvstendigNæringsdrivende.arbeidsforhold,
             tittel: intlHelper(intl, 'arbeidsforhold.oppsummering.selvstendig'),
         });
     }
 
     return (
         <>
-            {/* Arbeidsforhold */}
-            <SummarySection header={intlHelper(intl, 'steg.oppsummering.arbeidssituasjon.header')}>
+            <SummarySection header={intlHelper(intl, 'steg.oppsummering.arbeidIPerioden.header')}>
                 {alleArbeidsforhold.length > 0 && (
                     <SummaryList
                         items={alleArbeidsforhold}
-                        itemRenderer={(forhold: ArbeidsforholdSummaryItem) => <p>{forhold.tittel}</p>}
+                        itemRenderer={(item) => <ArbeidIPeriodenSummaryItem item={item} />}
                     />
                 )}
                 {alleArbeidsforhold.length === 0 && (
