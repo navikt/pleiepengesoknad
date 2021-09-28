@@ -10,12 +10,12 @@ import {
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import dayjs from 'dayjs';
 import Knapp from 'nav-frontend-knapper';
-import { Undertittel } from 'nav-frontend-typografi';
+import { Element } from 'nav-frontend-typografi';
 import { TidEnkeltdag } from '../../types';
 import { getDagerMedTidITidsrom } from '../../utils/tidsbrukUtils';
-import TidsbrukKalender from '../tidsbruk-kalender/TidsbrukKalender';
-import TidKalenderForm from '../tid-kalender-form/TidKalenderForm';
 import { getArbeidstimerDatoValidator } from '../../validation/validateArbeidFields';
+import TidKalenderForm from '../tid-kalender-form/TidKalenderForm';
+import TidsbrukKalender from '../tidsbruk-kalender/TidsbrukKalender';
 
 interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, ValidationError> {
     name: FieldNames;
@@ -72,9 +72,9 @@ function ArbeidstidInfoAndDialog<FieldNames>({ name, periode, labels, validate }
                 const mndOgÅr = dayjs(måned).format('MMMM YYYY');
                 return (
                     <>
-                        <Undertittel tag="h3">
+                        <Element tag="h3">
                             <FormattedMessage id="arbeidstid.periodetittel" values={{ periode: mndOgÅr }} />
-                        </Undertittel>
+                        </Element>
                         {dager.length === 0 ? (
                             <FormattedMessage tagName="p" id="arbeidstid.ingenDagerRegistrert" />
                         ) : (

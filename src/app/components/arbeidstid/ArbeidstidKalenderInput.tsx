@@ -1,6 +1,4 @@
 import React from 'react';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import dayjs from 'dayjs';
 import { getMonthsInDateRange } from '../../utils/dateUtils';
@@ -12,6 +10,7 @@ import { useIntl } from 'react-intl';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import ArbeidstidInfoAndDialog from './ArbeidstidInfoAndDialog';
 import { getArbeidstimerDatoValidator } from '../../validation/validateArbeidFields';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 
 interface Props {
     periode: DateRange;
@@ -44,15 +43,23 @@ const ArbeidstidKalenderInput: React.FunctionComponent<Props> = ({
              * brukt.
              * Ikke optimalt, men det virker.
              */
-            legend={intlHelper(
-                intl,
-                erHistorisk ? 'arbeidIPeriode.historisk.hvorMyeTidIArbeid' : 'arbeidIPeriode.planlagt.hvorMyeTidIArbeid'
-            )}
+            legend={
+                visSkjemaInline === true
+                    ? intlHelper(
+                          intl,
+                          erHistorisk
+                              ? 'arbeidIPeriode.historisk.hvorMyeTidIArbeid'
+                              : 'arbeidIPeriode.planlagt.hvorMyeTidIArbeid'
+                      )
+                    : undefined
+            }
             description={
-                <ExpandableInfo title="Må jeg fylle ut for alle dagene?">
-                    Du trenger kun å fylle ut de dagene du jobbet. Dager hvor du ikke fyller ut noe tid, vil bli regnet
-                    som at du ikke jobbet den dagen.
-                </ExpandableInfo>
+                visSkjemaInline === true ? (
+                    <ExpandableInfo title="Må jeg fylle ut for alle dagene?">
+                        Du trenger kun å fylle ut de dagene du jobbet. Dager hvor du ikke fyller ut noe tid, vil bli
+                        regnet som at du ikke jobbet den dagen.
+                    </ExpandableInfo>
+                ) : undefined
             }
             name={`${enkeltdagerFieldName}_dager` as any}
             tag="div">
@@ -68,28 +75,26 @@ const ArbeidstidKalenderInput: React.FunctionComponent<Props> = ({
                     {getMonthsInDateRange(periode).map((periode, index) => {
                         const mndOgÅr = dayjs(periode.from).format('MMMM YYYY');
                         return (
-                            <Box key={dayjs(periode.from).format('MM.YYYY')} margin="l">
-                                <ResponsivePanel className={'noPanelPaddingDialogWrapper'}>
-                                    <AppForm.InputGroup name={`${enkeltdagerFieldName}_${index}` as any} tag="div">
-                                        <ArbeidstidInfoAndDialog
-                                            name={enkeltdagerFieldName}
-                                            periode={periode}
-                                            labels={{
-                                                addLabel: intlHelper(intl, 'arbeidstid.addLabel', { periode: mndOgÅr }),
-                                                deleteLabel: intlHelper(intl, 'arbeidstid.deleteLabel', {
-                                                    periode: mndOgÅr,
-                                                }),
-                                                editLabel: intlHelper(intl, 'arbeidstid.editLabel', {
-                                                    periode: mndOgÅr,
-                                                }),
-                                                modalTitle: intlHelper(intl, 'arbeidstid.modalTitle', {
-                                                    periode: mndOgÅr,
-                                                }),
-                                            }}
-                                        />
-                                    </AppForm.InputGroup>
-                                </ResponsivePanel>
-                            </Box>
+                            <FormBlock key={dayjs(periode.from).format('MM.YYYY')} margin="l">
+                                <AppForm.InputGroup name={`${enkeltdagerFieldName}_${index}` as any} tag="div">
+                                    <ArbeidstidInfoAndDialog
+                                        name={enkeltdagerFieldName}
+                                        periode={periode}
+                                        labels={{
+                                            addLabel: intlHelper(intl, 'arbeidstid.addLabel', { periode: mndOgÅr }),
+                                            deleteLabel: intlHelper(intl, 'arbeidstid.deleteLabel', {
+                                                periode: mndOgÅr,
+                                            }),
+                                            editLabel: intlHelper(intl, 'arbeidstid.editLabel', {
+                                                periode: mndOgÅr,
+                                            }),
+                                            modalTitle: intlHelper(intl, 'arbeidstid.modalTitle', {
+                                                periode: mndOgÅr,
+                                            }),
+                                        }}
+                                    />
+                                </AppForm.InputGroup>
+                            </FormBlock>
                         );
                     })}
                 </>

@@ -139,7 +139,7 @@ const ArbeidIPeriodeSpørsmål = ({
                             </FormBlock>
                         )}
                         {jobberIPerioden === JobberIPeriodeSvar.JA && erLiktHverUke === YesOrNo.YES && (
-                            <FormBlock>
+                            <FormBlock margin="xxl">
                                 <AppForm.InputGroup
                                     legend={intlHelper(
                                         intl,
@@ -158,12 +158,14 @@ const ArbeidIPeriodeSpørsmål = ({
                             </FormBlock>
                         )}
                         {jobberIPerioden === JobberIPeriodeSvar.JA && erLiktHverUke === YesOrNo.NO && (
-                            <FormBlock>
-                                <ArbeidstidKalenderInput
-                                    periode={periode}
-                                    enkeltdagerFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
-                                />
-                            </FormBlock>
+                            <div className="noPanelPaddingDialogWrapper">
+                                <FormBlock>
+                                    <ArbeidstidKalenderInput
+                                        periode={periode}
+                                        enkeltdagerFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
+                                    />
+                                </FormBlock>
+                            </div>
                         )}
                     </ResponsivePanel>
                 </FormBlock>

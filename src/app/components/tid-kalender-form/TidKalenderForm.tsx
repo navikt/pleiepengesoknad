@@ -80,6 +80,7 @@ const TidKalenderForm = ({ periode, tid, tittel, intro, tidPerDagValidator, onSu
                             <TidUkerInput
                                 fieldName={FormField.tid}
                                 periode={periode}
+                                brukPanel={true}
                                 tidPerDagValidator={tidPerDagValidator}
                             />
                         </Form.Form>

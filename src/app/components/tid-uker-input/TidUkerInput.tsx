@@ -8,10 +8,12 @@ import TidUkeInput from './parts/TidUkeInput';
 import { Ukeinfo } from './types';
 import { getDatoerIPeriode, getTidKalenderFieldName, getUkerFraDager } from './utils';
 import './tidUkerInput.less';
+import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 
 interface Props {
     fieldName: string;
     periode: DateRange;
+    brukPanel?: boolean;
     ukeTittelRenderer?: (uke: Ukeinfo) => React.ReactNode;
     tidPerDagValidator?: TidPerDagValidator;
 }
@@ -21,6 +23,7 @@ const bem = bemUtils('tidUkerInput');
 export const TidUkerInput: React.FunctionComponent<Props> = ({
     fieldName,
     periode,
+    brukPanel,
     ukeTittelRenderer,
     tidPerDagValidator,
 }) => {
@@ -32,16 +35,19 @@ export const TidUkerInput: React.FunctionComponent<Props> = ({
     return (
         <div className={bem.classNames(bem.block, bem.modifier('inlineForm'))}>
             {uker.map((week) => {
+                const content = (
+                    <TidUkeInput
+                        ukeTittelRenderer={ukeTittelRenderer}
+                        getFieldName={(dag) => getTidKalenderFieldName(fieldName, dag)}
+                        ukeinfo={week}
+                        isNarrow={isNarrow}
+                        isWide={isWide}
+                        tidPerDagValidator={tidPerDagValidator}
+                    />
+                );
                 return (
-                    <FormBlock key={week.ukenummer} margin="xl">
-                        <TidUkeInput
-                            ukeTittelRenderer={ukeTittelRenderer}
-                            getFieldName={(dag) => getTidKalenderFieldName(fieldName, dag)}
-                            ukeinfo={week}
-                            isNarrow={isNarrow}
-                            isWide={isWide}
-                            tidPerDagValidator={tidPerDagValidator}
-                        />
+                    <FormBlock key={week.ukenummer} margin={brukPanel ? 'm' : 'l'}>
+                        {brukPanel ? <ResponsivePanel>{content}</ResponsivePanel> : content}
                     </FormBlock>
                 );
             })}

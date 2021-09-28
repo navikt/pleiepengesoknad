@@ -548,7 +548,7 @@
     "arbeidIPeriode.historisk.hvorMyeTidIArbeid": "Oppgi timene og minuttene du arbeidet:",
     "arbeidIPeriode.planlagt.hvorMyeTidIArbeid": "Oppgi de timene og minuttene som du skal arbeide:",
 
-    "arbeidstid.periodetittel": "Arbeid {periode}",
+    "arbeidstid.periodetittel": "Oppgi arbeid for {periode}",
     "arbeidstid.ingenDagerRegistrert": "Ingen dager med jobb er registrert.",
     "arbeidstid.form.tittel": "Tid med jobb - {måned}",
     "arbeidstid.form.intro.planlagt": "Fyll ut antall timer og minutter du skal jobbe. Du trenger ikke fylle ut de dagene du ikke arbeider.",
@@ -556,8 +556,8 @@
 
     "arbeidstid.addLabel": "Registrer arbeid {periode}",
     "arbeidstid.deleteLabel": "Fjern alle timer",
-    "arbeidstid.editLabel": "Endre arbeid {periode}",
-    "arbeidstid.modalTitle": "Arbeidstid - ${periode}",
+    "arbeidstid.editLabel": "Endre arbeid  {periode}",
+    "arbeidstid.modalTitle": "Arbeid  ${periode}",
 
     "næringstype.FISKE": "Fiske",
     "næringstype.JORDBRUK_SKOGBRUK": "Jordbruk",

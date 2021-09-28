@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import { FormikTimeInput } from '@navikt/sif-common-formik';
-import { Undertittel } from 'nav-frontend-typografi';
+import { Element } from 'nav-frontend-typografi';
 import { Daginfo, Ukeinfo } from '../types';
 import { getForegåendeDagerIUke } from '../utils';
 import { TidPerDagValidator } from '../../../validation/fieldValidations';
@@ -50,9 +50,9 @@ const TidUkeInput: React.FunctionComponent<Props> = ({
             {ukeTittelRenderer ? (
                 ukeTittelRenderer(ukeinfo)
             ) : (
-                <Undertittel tag="h3">
+                <Element tag="h3">
                     <FormattedMessage id="ukeÅr" values={{ ...ukeinfo }} />
-                </Undertittel>
+                </Element>
             )}
 
             <div className={bem.element('uke__ukedager', isWide ? 'grid' : 'liste')}>
