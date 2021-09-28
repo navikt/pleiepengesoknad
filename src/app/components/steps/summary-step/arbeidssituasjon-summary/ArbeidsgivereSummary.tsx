@@ -1,9 +1,8 @@
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { ArbeidsgiverApiData } from '../../../../types/PleiepengesøknadApiData';
 import SummaryBlock from '../../../summary-block/SummaryBlock';
-import JaNeiSvar from '../enkeltsvar/JaNeiSvar';
+import { getArbeidsformOgTidSetning } from './arbeidssituasjon-summary-utils';
 
 interface Props {
     arbeidsgivere?: ArbeidsgiverApiData[];
@@ -16,45 +15,25 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere })
     }
     return (
         <>
-            {arbeidsgivere.map((arbeidsgivver) => {
+            {arbeidsgivere.map(({ navn, organisasjonsnummer, erAnsatt, arbeidsforhold }) => {
                 return (
                     <SummaryBlock
-                        key={arbeidsgivver.organisasjonsnummer}
-                        header={`${arbeidsgivver.navn} (organisasjonsnummer ${arbeidsgivver.organisasjonsnummer})`}
-                        indentChildren={true}>
-                        <SummaryBlock
-                            header={intlHelper(intl, 'arbeidsforhold.erAnsatt.spm', { navn: arbeidsgivver.navn })}>
-                            <JaNeiSvar harSvartJa={arbeidsgivver.erAnsatt} />
-                        </SummaryBlock>
-                        <SummaryBlock
-                            header={intlHelper(
-                                intl,
-                                arbeidsgivver.erAnsatt === false
-                                    ? 'arbeidsforhold.arbeidsform.avsluttet.spm'
-                                    : 'arbeidsforhold.arbeidsform.spm',
-                                {
-                                    arbeidsforhold: arbeidsgivver.navn,
-                                }
-                            )}>
-                            <FormattedMessage
-                                id={`arbeidsforhold.oppsummering.arbeidsform.${arbeidsgivver.arbeidsforhold.arbeidsform}`}
-                            />
-                        </SummaryBlock>
-                        <SummaryBlock
-                            header={intlHelper(
-                                intl,
-                                arbeidsgivver.erAnsatt === false
-                                    ? `arbeidsforhold.${arbeidsgivver.arbeidsforhold.arbeidsform}.avsluttet.spm`
-                                    : `arbeidsforhold.${arbeidsgivver.arbeidsforhold.arbeidsform}.spm`,
-                                {
-                                    arbeidsforhold: arbeidsgivver.navn,
-                                }
-                            )}>
-                            <FormattedMessage
-                                id="timer.ikkeTall"
-                                values={{ timer: arbeidsgivver.arbeidsforhold.jobberNormaltTimer }}
-                            />
-                        </SummaryBlock>
+                        key={organisasjonsnummer}
+                        header={`${navn} (organisasjonsnummer ${organisasjonsnummer})`}
+                        headerTag="h3"
+                        indentChildren={false}>
+                        <ul>
+                            <li>
+                                <FormattedMessage
+                                    id={
+                                        erAnsatt
+                                            ? `oppsummering.arbeidssituasjon.arbeidsgiver.ansatt`
+                                            : 'oppsummering.arbeidssituasjon.avsluttet.arbeidsgiver.ansatt'
+                                    }
+                                />
+                            </li>
+                            <li>{getArbeidsformOgTidSetning(intl, arbeidsforhold, erAnsatt)}</li>
+                        </ul>
                     </SummaryBlock>
                 );
             })}

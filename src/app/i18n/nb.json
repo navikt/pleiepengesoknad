@@ -390,11 +390,6 @@
     "steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet": "Du må bekrefte opplysningene",
 
     "steg.oppsummering.arbeidssituasjon.header": "Din arbeidssituasjon",
-    "steg.oppsummering.arbeidssituasjon.forhold": "{navn} (organisasjonsnummer: {organisasjonsnummer})",
-    "steg.oppsummering.arbeidssituasjon.ingenArbeidsforhold": "Ingen arbeidsgiver er valgt",
-
-    "steg.oppsummering.arbeidIPerioden.header": "Arbeid i perioden",
-
     "steg.oppsummering.vedlegg.header": "Vedlegg",
 
     "steg.oppsummering.validering.ugyldigArbeidsforholdAnsatt": "Det er ikke fylt ut informasjon om hvordan du skal jobbe her i perioden du har søkt pleiepenger.",
@@ -498,27 +493,6 @@
     "arbeidsforhold.VARIERENDE.avsluttet.spm": "Hvor mange timer jobbet du vanligvis i snitt per uke hos {arbeidsforhold}?",
     "arbeidsforhold.utledet": "timer i uka",
 
-    "arbeidsforhold.oppsummering.ansatt": "{navn} (organisasjonsnummer {organisasjonsnummer}):",
-    "arbeidsforhold.oppsummering.frilanser": "Frilans",
-    "arbeidsforhold.oppsummering.selvstendig": "Selvstendig næringsdrivende",
-    "arbeidsforhold.oppsummering.duHarOppgitt.ANSATT": "Du har oppgitt at du",
-    "arbeidsforhold.oppsummering.duHarOppgitt.FRILANSER": "Du har oppgitt at du som frilanser",
-    "arbeidsforhold.oppsummering.duHarOppgitt.SELVSTENDIG": "Du har oppgitt at du som selvstendig næringsdrivende",
-    "arbeidsforhold.oppsummering.avsluttet": "avsluttet ditt ansettelsforhold {dato}.",
-    "arbeidsforhold.oppsummering.jobberVanligvis": "vanligvis jobber {timerNormalt, plural, one {# time} other {# timer}} per uke ({arbeidsform}).",
-    "arbeidsforhold.oppsummering.skalJobbeSomVanlig": "skal jobbe som vanlig i pleiepengeperioden, {timerNormalt, plural, one {# time} other {# timer}} per uke.",
-    "arbeidsforhold.oppsummering.skalJobbeRedusert.timer": "skal jobbe {timerRedusert, plural, one {# time} other {# timer}} av {timerNormalt, plural, one {# time} other {# timer}} per uke i pleiepengeperioden.",
-    "arbeidsforhold.oppsummering.skalJobbeRedusert.prosent": "skal jobbe {prosentRedusert} prosent av {timerNormalt, plural, one {# time} other {# timer}} per uke i pleiepengeperioden.",
-    "arbeidsforhold.oppsummering.vetIkke": "er usikker på om du skal jobbe i pleiepengeperioden, men at du melder fra hvis du starter å jobbe.",
-    "arbeidsforhold.oppsummering.skalIkkeJobbe": "ikke skal jobbe i pleiepengeperioden.",
-    "arbeidsforhold.oppsummering.avsluttet.jobberVanligvis": "jobbet vanligvis {timerNormalt, plural, one {# time} other {# timer}} per uke ({arbeidsform}).",
-    "arbeidsforhold.oppsummering.avsluttet.skalJobbeSomVanlig": "jobbet som vanlig i pleiepengeperioden, {timerNormalt, plural, one {# time} other {# timer}} per uke.",
-    "arbeidsforhold.oppsummering.avsluttet.skalIkkeJobbe": "jobbet ikke i pleiepengeperioden.",
-
-    "arbeidsforhold.oppsummering.arbeidsform.FAST": "Jobber fast antall timer per uke",
-    "arbeidsforhold.oppsummering.arbeidsform.TURNUS": "Jobber turnus",
-    "arbeidsforhold.oppsummering.arbeidsform.VARIERENDE": "Jobber deltid/varierende/tilkalling",
-
     "arbeidIPeriode.subtitle": "Fra {fra}, til {til}.",
     "arbeidIPeriode.StepInfo.historisk": "Nå trenger vi å vite om du har vært noe på jobb i perioden frem til og med i går; fra {fra} til {til}. Vi trenger å vite dette fordi som hovedregel skal pleiepengene graderes tilsvarende den tiden du jobber.",
     "arbeidIPeriode.StepInfo.planlagt": "Nå trenger vi å vite om du skal være noe på jobb i perioden fra og med {fra} til {til}. Vi trenger å vite dette fordi som hovedregel skal pleiepengene graderes tilsvarende den tiden du jobber.",
@@ -526,16 +500,13 @@
     "arbeidIPeriode.SNLabel": "Selvstendig næringsdrivende",
     "arbeidIPeriode.jobberIPerioden.spm": "Skal du være noe på jobb {hvor} i perioden {fra} til {til}?",
     "arbeidIPeriode.jobberSomVanlig.spm": "Du har opplyst at du vanligvis jobber {timer} per uke {hvor}. Hvor mye skal du jobbe der i pleiepengeperioden?",
-
     "arbeidIPeriode.erLiktHverUke.spm": "Er arbeidsukene dine like i denne perioden {hvor}, eller varierer det?",
     "arbeidIPeriode.erLiktHverUke.erLikt": "Hver uke er lik",
     "arbeidIPeriode.erLiktHverUke.varierer": "Det varierer fra uke til uke",
-
     "arbeidIPeriode.historisk.ukedager.tittel": "Oppgi hvor mye du jobbet de ulike ukedagene {hvor}",
     "arbeidIPeriode.planlagt.ukedager.tittel": "Oppgi hvor mye du skal jobbe i uken",
     "arbeidIPeriode.historisk.enkeltdager.tittel": "Hvor mye jobbet du {hvor} i perioden?",
     "arbeidIPeriode.planlagt.enkeltdager.tittel": "Hvor mye skal du jobbe {hvor} i perioden?",
-
     "arbeidIPeriode.historisk.jobberIPerioden.spm": "Var du noe på jobb {hvor} i perioden {fra} til {til}?",
     "arbeidIPeriode.historisk.jobberSomVanlig.spm": "Du har opplyst at du vanligvis jobbet {timer} per uke {hvor}. Hvor mye jobbet du der i denne perioden?",
     "arbeidIPeriode.historisk.erLiktHverUke.spm": "Var arbeidsukene dine like i denne perioden {hvor}, eller varierte det?",
@@ -548,7 +519,6 @@
     "arbeidIPeriode.jobberIPerioden.historisk": "jobbet",
     "arbeidIPeriode.jobberSomVanlig.somVanlig": "Som vanlig, {timer} per uke",
     "arbeidIPeriode.jobberSomVanlig.redusert": "Mindre enn {timer} per uke",
-
     "arbeidIPeriode.historisk.hvorMyeTidIArbeid": "Oppgi timene og minuttene du arbeidet:",
     "arbeidIPeriode.planlagt.hvorMyeTidIArbeid": "Oppgi de timene og minuttene som du skal arbeide:",
 
@@ -562,6 +532,26 @@
     "arbeidstid.deleteLabel": "Fjern alle timer",
     "arbeidstid.editLabel": "Endre arbeid  {periode}",
     "arbeidstid.modalTitle": "Arbeid  ${periode}",
+
+    "oppsummering.arbeidssituasjon.arbeidsgiver.ansatt": "Er ansatt.",
+    "oppsummering.arbeidssituasjon.avsluttet.arbeidsgiver.ansatt": "Er ikke lenger ansatt.",
+    "oppsummering.arbeidssituasjon.tid.FAST": "Jobber {timer, plural, one {# time} other {# timer}} fast per uke.",
+    "oppsummering.arbeidssituasjon.tid.TURNUS": "Jobber turnus, {timer, plural, one {# time} other {# timer}} i snitt per uke.",
+    "oppsummering.arbeidssituasjon.tid.VARIERENDE": "Jobber deltid/varierende/tilkalling, {timer, plural, one {# time} other {# timer}} i snitt per uke.",
+    "oppsummering.arbeidssituasjon.avsluttet.tid.FAST": "Jobbet {timer, plural, one {# time} other {# timer}} fast per uke.",
+    "oppsummering.arbeidssituasjon.avsluttet.tid.TURNUS": "Jobbet turnus, {timer, plural, one {# time} other {# timer}} i snitt per uke.",
+    "oppsummering.arbeidssituasjon.avsluttet.tid.VARIERENDE": "Jobbet deltid/varierende/tilkalling, {timer, plural, one {# time} other {# timer}} i snitt per uke.",
+
+    "oppsummering.arbeidssituasjon.frilanser.header": "Frilanser",
+    "oppsummering.arbeidssituasjon.frilans.erIkkeFrilanser": "Er ikke frilanser i perioden det søkes for.",
+    "oppsummering.arbeidssituasjon.frilans.startet": "Startet som frilanser {dato}. ",
+    "oppsummering.arbeidssituasjon.frilans.fortsattFrilanser": "Er fortsatt frilanser.",
+    "oppsummering.arbeidssituasjon.frilans.sluttet": "Sluttet som frilanser {dato}.",
+
+    "oppsummering.arbeidssituasjon.selvstendig.header": "Selvstendig næringsdrivende",
+    "oppsummering.arbeidssituasjon.selvstendig.erIkkeSN": "Er ikke selvstendig næringsdrivende i perioden det søkes for.",
+    "oppsummering.arbeidssituasjon.selvstendig.erSn.flereVirksomheter": "Er selvstendig næringsdrivende i perioden. Har flere virksomheter.",
+    "oppsummering.arbeidssituasjon.selvstendig.erSn.enVirksomhet": "Er selvstendig næringsdrivende i perioden. Har 1 virksomhet.",
 
     "næringstype.FISKE": "Fiske",
     "næringstype.JORDBRUK_SKOGBRUK": "Jordbruk",

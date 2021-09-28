@@ -4,7 +4,8 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import VirksomhetSummary from '@navikt/sif-common-forms/lib/virksomhet/VirksomhetSummary';
 import { SelvstendigNæringsdrivendeApiData } from '../../../../types/PleiepengesøknadApiData';
 import SummaryBlock from '../../../summary-block/SummaryBlock';
-import JaNeiSvar from '../enkeltsvar/JaNeiSvar';
+import { getArbeidsformOgTidSetning } from './arbeidssituasjon-summary-utils';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
 
 interface Props {
     selvstendigNæringsdrivende?: SelvstendigNæringsdrivendeApiData;
@@ -14,47 +15,27 @@ function SelvstendigSummary({ selvstendigNæringsdrivende }: Props) {
     const intl = useIntl();
     const { arbeidsforhold, virksomhet } = selvstendigNæringsdrivende || {};
     return (
-        <SummaryBlock
-            header={intlHelper(intl, 'arbeidsforhold.oppsummering.selvstendig')}
-            headerTag="h3"
-            indentChildren={true}>
-            <SummaryBlock header={intlHelper(intl, 'summary.virksomhet.harDuHattInntekt.header')}>
-                <JaNeiSvar harSvartJa={virksomhet !== undefined} />
-            </SummaryBlock>
+        <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.selvstendig.header')} headerTag="h3">
+            {selvstendigNæringsdrivende === undefined && (
+                <FormattedMessage id="oppsummering.arbeidssituasjon.selvstendig.erIkkeSN" tagName="p" />
+            )}
             {virksomhet && arbeidsforhold && (
-                <>
-                    <SummaryBlock header={intlHelper(intl, 'summary.virksomhet.harFlereVirksomheter.header')}>
-                        <JaNeiSvar harSvartJa={virksomhet.harFlereAktiveVirksomheter} />
-                    </SummaryBlock>
-                    <SummaryBlock header={intlHelper(intl, 'summary.virksomhet.virksomhetInfo.tittel')}>
-                        <VirksomhetSummary virksomhet={virksomhet} />
-                    </SummaryBlock>
-                    <SummaryBlock
-                        header={intlHelper(
-                            intl,
-                            arbeidsforhold.erAktivtArbeidsforhold === false
-                                ? 'selvstendig.arbeidsforhold.arbeidsform.avsluttet.spm'
-                                : 'selvstendig.arbeidsforhold.arbeidsform.spm'
-                        )}>
-                        <FormattedMessage
-                            id={`arbeidsforhold.oppsummering.arbeidsform.${arbeidsforhold.arbeidsform}`}
-                        />
-                    </SummaryBlock>
-                    <SummaryBlock
-                        header={intlHelper(
-                            intl,
-                            arbeidsforhold.erAktivtArbeidsforhold === false
-                                ? `snFrilanser.arbeidsforhold.${arbeidsforhold.arbeidsform}.avsluttet.spm`
-                                : `snFrilanser.arbeidsforhold.${arbeidsforhold.arbeidsform}.spm`
-                        )}>
-                        <FormattedMessage
-                            id="timer.ikkeTall"
-                            values={{
-                                timer: arbeidsforhold.jobberNormaltTimer,
-                            }}
-                        />
-                    </SummaryBlock>
-                </>
+                <ul>
+                    <li>
+                        {virksomhet.harFlereAktiveVirksomheter ? (
+                            <FormattedMessage id="oppsummering.arbeidssituasjon.selvstendig.erSn.flereVirksomheter" />
+                        ) : (
+                            <FormattedMessage id="oppsummering.arbeidssituasjon.selvstendig.erSn.enVirksomhet" />
+                        )}
+                    </li>
+                    <li>{getArbeidsformOgTidSetning(intl, arbeidsforhold, true)}</li>
+                    <li>
+                        {intlHelper(intl, 'summary.virksomhet.virksomhetInfo.tittel')}
+                        <Box margin="m">
+                            <VirksomhetSummary virksomhet={virksomhet} />
+                        </Box>
+                    </li>
+                </ul>
             )}
         </SummaryBlock>
     );
