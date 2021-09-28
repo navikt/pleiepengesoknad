@@ -1,7 +1,6 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
@@ -9,14 +8,15 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import VirksomhetInfoAndDialog from '@navikt/sif-common-forms/lib/virksomhet/VirksomhetInfoAndDialog';
+import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../../../lenker';
+import { Arbeidsform } from '../../../../types';
 import { AppFormField, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
 import { isYesOrNoAnswered } from '../../../../validation/fieldValidations';
+import { getArbeidsformValidator, getJobberNormaltTimerValidator } from '../../../../validation/validateArbeidFields';
 import AppForm from '../../../app-form/AppForm';
 import ArbeidsformOgTimer from './ArbeidsformOgTimerFormPart';
-import { Arbeidsform } from '../../../../types';
-import { getArbeidsformValidator, getJobberNormaltTimerValidator } from '../../../../validation/validateArbeidFields';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
@@ -53,28 +53,26 @@ const ArbeidssituasonSN = ({ formValues }: Props) => {
                 />
             </Box>
             {formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES && (
-                <>
-                    <FormBlock>
+                <FormBlock margin="l">
+                    <ResponsivePanel>
                         <AppForm.YesOrNoQuestion
                             name={AppFormField.selvstendig_harFlereVirksomheter}
                             legend={intlHelper(intl, 'selvstendig.harFlereVirksomheter.spm')}
                             validate={getYesOrNoValidator()}
                         />
-                    </FormBlock>
 
-                    {harFlereVirksomheter && (
-                        <FormBlock>
-                            <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
-                                <FormattedMessage id="selvstendig.veileder.flereAktiveVirksomheter" />
-                            </CounsellorPanel>
-                        </FormBlock>
-                    )}
+                        {harFlereVirksomheter && (
+                            <FormBlock>
+                                <AlertStripeInfo>
+                                    <FormattedMessage id="selvstendig.veileder.flereAktiveVirksomheter" />
+                                </AlertStripeInfo>
+                            </FormBlock>
+                        )}
 
-                    {formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES &&
-                        selvstendig_harFlereVirksomheter &&
-                        isYesOrNoAnswered(selvstendig_harFlereVirksomheter) && (
-                            <Box margin="l">
-                                <ResponsivePanel>
+                        {formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES &&
+                            selvstendig_harFlereVirksomheter &&
+                            isYesOrNoAnswered(selvstendig_harFlereVirksomheter) && (
+                                <FormBlock>
                                     <VirksomhetInfoAndDialog
                                         name={AppFormField.selvstendig_virksomhet}
                                         harFlereVirksomheter={harFlereVirksomheter}
@@ -91,27 +89,27 @@ const ArbeidssituasonSN = ({ formValues }: Props) => {
                                         }}
                                         validate={getRequiredFieldValidator()}
                                     />
-                                </ResponsivePanel>
-                            </Box>
+                                </FormBlock>
+                            )}
+                        {formValues.selvstendig_virksomhet !== undefined && (
+                            <FormBlock>
+                                <ArbeidsformOgTimer
+                                    spørsmål={{
+                                        arbeidsform: intlHelper(intl, `selvstendig.arbeidsforhold.arbeidsform.spm`),
+                                        jobberNormaltTimer: (arbeidsform: Arbeidsform) =>
+                                            intlHelper(intl, `snFrilanser.arbeidsforhold.iDag.${arbeidsform}.spm`),
+                                    }}
+                                    validator={{
+                                        arbeidsform: getArbeidsformValidator(intlValues),
+                                        jobberNormaltTimer: getJobberNormaltTimerValidator(intlValues),
+                                    }}
+                                    arbeidsforhold={selvstendig_arbeidsforhold}
+                                    parentFieldName={`${AppFormField.selvstendig_arbeidsforhold}`}
+                                />
+                            </FormBlock>
                         )}
-                    {formValues.selvstendig_virksomhet !== undefined && (
-                        <FormBlock>
-                            <ArbeidsformOgTimer
-                                spørsmål={{
-                                    arbeidsform: intlHelper(intl, `selvstendig.arbeidsforhold.arbeidsform.spm`),
-                                    jobberNormaltTimer: (arbeidsform: Arbeidsform) =>
-                                        intlHelper(intl, `snFrilanser.arbeidsforhold.iDag.${arbeidsform}.spm`),
-                                }}
-                                validator={{
-                                    arbeidsform: getArbeidsformValidator(intlValues),
-                                    jobberNormaltTimer: getJobberNormaltTimerValidator(intlValues),
-                                }}
-                                arbeidsforhold={selvstendig_arbeidsforhold}
-                                parentFieldName={`${AppFormField.selvstendig_arbeidsforhold}`}
-                            />
-                        </FormBlock>
-                    )}
-                </>
+                    </ResponsivePanel>
+                </FormBlock>
             )}
         </>
     );

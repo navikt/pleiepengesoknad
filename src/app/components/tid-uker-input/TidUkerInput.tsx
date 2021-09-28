@@ -33,7 +33,7 @@ export const TidUkerInput: React.FunctionComponent<Props> = ({
         <div className={bem.classNames(bem.block, bem.modifier('inlineForm'))}>
             {uker.map((week) => {
                 return (
-                    <FormBlock key={week.ukenummer} margin="m">
+                    <FormBlock key={week.ukenummer} margin="xl">
                         <TidUkeInput
                             ukeTittelRenderer={ukeTittelRenderer}
                             getFieldName={(dag) => getTidKalenderFieldName(fieldName, dag)}

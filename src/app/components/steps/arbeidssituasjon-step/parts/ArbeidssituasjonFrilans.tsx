@@ -66,68 +66,66 @@ const ArbeidssituasjonFrilans = ({ formValues }: Props) => {
                 />
             </Box>
             {frilans_harHattInntektSomFrilanser === YesOrNo.YES && (
-                <>
-                    <Box margin="l">
-                        <ResponsivePanel>
-                            <Box>
-                                <AppForm.DatePicker
-                                    name={AppFormField.frilans_startdato}
-                                    label={intlHelper(intl, 'frilanser.nårStartet.spm')}
-                                    showYearSelector={true}
-                                    maxDate={dateToday}
-                                    validate={validateFrilanserStartdato}
-                                />
-                            </Box>
+                <Box margin="l">
+                    <ResponsivePanel>
+                        <Box>
+                            <AppForm.DatePicker
+                                name={AppFormField.frilans_startdato}
+                                label={intlHelper(intl, 'frilanser.nårStartet.spm')}
+                                showYearSelector={true}
+                                maxDate={dateToday}
+                                validate={validateFrilanserStartdato}
+                            />
+                        </Box>
+                        <FormBlock>
+                            <AppForm.YesOrNoQuestion
+                                name={AppFormField.frilans_jobberFortsattSomFrilans}
+                                legend={intlHelper(intl, 'frilanser.jobberFortsatt.spm')}
+                                validate={getYesOrNoValidator()}
+                            />
+                        </FormBlock>
+                        {frilans_jobberFortsattSomFrilans === YesOrNo.NO && (
                             <FormBlock>
-                                <AppForm.YesOrNoQuestion
-                                    name={AppFormField.frilans_jobberFortsattSomFrilans}
-                                    legend={intlHelper(intl, 'frilanser.jobberFortsatt.spm')}
-                                    validate={getYesOrNoValidator()}
+                                <AppForm.DatePicker
+                                    name={AppFormField.frilans_sluttdato}
+                                    label={intlHelper(intl, 'frilanser.nårSluttet.spm')}
+                                    showYearSelector={true}
+                                    minDate={datepickerUtils.getDateFromDateString(frilans_startdato)}
+                                    maxDate={dateToday}
+                                    validate={getDateValidator({
+                                        required: true,
+                                        min: datepickerUtils.getDateFromDateString(frilans_startdato),
+                                        max: dateToday,
+                                    })}
                                 />
                             </FormBlock>
-                            {frilans_jobberFortsattSomFrilans === YesOrNo.NO && (
-                                <FormBlock>
-                                    <AppForm.DatePicker
-                                        name={AppFormField.frilans_sluttdato}
-                                        label={intlHelper(intl, 'frilanser.nårSluttet.spm')}
-                                        showYearSelector={true}
-                                        minDate={datepickerUtils.getDateFromDateString(frilans_startdato)}
-                                        maxDate={dateToday}
-                                        validate={getDateValidator({
-                                            required: true,
-                                            min: datepickerUtils.getDateFromDateString(frilans_startdato),
-                                            max: dateToday,
-                                        })}
-                                    />
-                                </FormBlock>
-                            )}
-                            {erFrilanserISøknadsperiode(formValues) && (
-                                <FormBlock>
-                                    <ArbeidsformOgTimer
-                                        spørsmål={{
-                                            arbeidsform: erAvsluttet
-                                                ? intlHelper(intl, `frilans.arbeidsforhold.avsluttet.arbeidsform.spm`)
-                                                : intlHelper(intl, `frilans.arbeidsforhold.arbeidsform.spm`),
-                                            jobberNormaltTimer: (arbeidsform: Arbeidsform) =>
-                                                intlHelper(
-                                                    intl,
-                                                    erAvsluttet
-                                                        ? `snFrilanser.arbeidsforhold.avsluttet.iDag.${arbeidsform}.spm`
-                                                        : `snFrilanser.arbeidsforhold.iDag.${arbeidsform}.spm`
-                                                ),
-                                        }}
-                                        validator={{
-                                            arbeidsform: getArbeidsformValidator(intlValues),
-                                            jobberNormaltTimer: getJobberNormaltTimerValidator(intlValues),
-                                        }}
-                                        arbeidsforhold={frilans_arbeidsforhold}
-                                        parentFieldName={`${AppFormField.frilans_arbeidsforhold}`}
-                                    />
-                                </FormBlock>
-                            )}
-                        </ResponsivePanel>
-                    </Box>
-                </>
+                        )}
+                        {erFrilanserISøknadsperiode(formValues) && (
+                            <FormBlock>
+                                <ArbeidsformOgTimer
+                                    spørsmål={{
+                                        arbeidsform: erAvsluttet
+                                            ? intlHelper(intl, `frilans.arbeidsforhold.avsluttet.arbeidsform.spm`)
+                                            : intlHelper(intl, `frilans.arbeidsforhold.arbeidsform.spm`),
+                                        jobberNormaltTimer: (arbeidsform: Arbeidsform) =>
+                                            intlHelper(
+                                                intl,
+                                                erAvsluttet
+                                                    ? `snFrilanser.arbeidsforhold.avsluttet.iDag.${arbeidsform}.spm`
+                                                    : `snFrilanser.arbeidsforhold.iDag.${arbeidsform}.spm`
+                                            ),
+                                    }}
+                                    validator={{
+                                        arbeidsform: getArbeidsformValidator(intlValues),
+                                        jobberNormaltTimer: getJobberNormaltTimerValidator(intlValues),
+                                    }}
+                                    arbeidsforhold={frilans_arbeidsforhold}
+                                    parentFieldName={`${AppFormField.frilans_arbeidsforhold}`}
+                                />
+                            </FormBlock>
+                        )}
+                    </ResponsivePanel>
+                </Box>
             )}
         </>
     );

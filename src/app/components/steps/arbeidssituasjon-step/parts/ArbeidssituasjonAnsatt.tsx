@@ -57,7 +57,7 @@ const ArbeidssituasjonAnsatt: React.FunctionComponent<Props> = ({ arbeidsforhold
                 </Box>
             </FormBlock>
             {isYesOrNoAnswered(arbeidsforhold.erAnsatt) && (
-                <FormBlock margin="m">
+                <FormBlock margin="l">
                     <ResponsivePanel>
                         {erAvsluttet && (
                             <Box padBottom="xl">

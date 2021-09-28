@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import { FormikTimeInput } from '@navikt/sif-common-formik';
 import { Undertittel } from 'nav-frontend-typografi';
@@ -47,7 +46,7 @@ const TidUkeInput: React.FunctionComponent<Props> = ({
 }) => {
     const { dager } = ukeinfo;
     return (
-        <ResponsivePanel className={bem.element('uke')}>
+        <div className={bem.element('uke')}>
             {ukeTittelRenderer ? (
                 ukeTittelRenderer(ukeinfo)
             ) : (
@@ -80,7 +79,7 @@ const TidUkeInput: React.FunctionComponent<Props> = ({
                     </div>
                 ))}
             </div>
-        </ResponsivePanel>
+        </div>
     );
 };
 

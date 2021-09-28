@@ -23,6 +23,7 @@ import {
     getArbeidstimerFastDagValidator,
     validateFasteArbeidstimerIUke,
 } from '../../validation/validateArbeidFields';
+import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 
 interface Props {
     parentFieldName: string;
@@ -74,96 +75,97 @@ const ArbeidIPeriodeSpørsmål = ({
 
     return (
         <>
-            <FormBlock>
-                <AppForm.RadioPanelGroup
-                    name={getFieldName(ArbeidIPeriodeField.jobberIPerioden)}
-                    legend={getSpørsmål(ArbeidIPeriodeField.jobberIPerioden)}
-                    description={
-                        <ExpandableInfo
-                            title={intlHelper(intl, 'validation.arbeidIPeriode.jobberIPerioden.info.tittel')}>
-                            <FormattedMessage id="validation.arbeidIPeriode.jobberIPerioden.info.tekst" />
-                        </ExpandableInfo>
-                    }
-                    useTwoColumns={erHistorisk === true}
-                    validate={getArbeidJobberValidator(intlValues)}
-                    radios={[
-                        {
-                            label: intlHelper(intl, 'arbeidIPeriode.jobberIPerioden.ja'),
-                            value: JobberIPeriodeSvar.JA,
-                        },
-                        {
-                            label: intlHelper(intl, 'arbeidIPeriode.jobberIPerioden.nei'),
-                            value: JobberIPeriodeSvar.NEI,
-                        },
-                        ...(erHistorisk === false
-                            ? [
-                                  {
-                                      label: intlHelper(intl, 'arbeidIPeriode.jobberIPerioden.vetIkke'),
-                                      value: JobberIPeriodeSvar.VET_IKKE,
-                                  },
-                              ]
-                            : []),
-                    ]}
-                />
-            </FormBlock>
+            <AppForm.RadioPanelGroup
+                name={getFieldName(ArbeidIPeriodeField.jobberIPerioden)}
+                legend={getSpørsmål(ArbeidIPeriodeField.jobberIPerioden)}
+                description={
+                    <ExpandableInfo title={intlHelper(intl, 'validation.arbeidIPeriode.jobberIPerioden.info.tittel')}>
+                        <FormattedMessage id="validation.arbeidIPeriode.jobberIPerioden.info.tekst" />
+                    </ExpandableInfo>
+                }
+                useTwoColumns={erHistorisk === true}
+                validate={getArbeidJobberValidator(intlValues)}
+                radios={[
+                    {
+                        label: intlHelper(intl, 'arbeidIPeriode.jobberIPerioden.ja'),
+                        value: JobberIPeriodeSvar.JA,
+                    },
+                    {
+                        label: intlHelper(intl, 'arbeidIPeriode.jobberIPerioden.nei'),
+                        value: JobberIPeriodeSvar.NEI,
+                    },
+                    ...(erHistorisk === false
+                        ? [
+                              {
+                                  label: intlHelper(intl, 'arbeidIPeriode.jobberIPerioden.vetIkke'),
+                                  value: JobberIPeriodeSvar.VET_IKKE,
+                              },
+                          ]
+                        : []),
+                ]}
+            />
+
             {jobberIPerioden === JobberIPeriodeSvar.JA && (
-                <FormBlock>
-                    <AppForm.YesOrNoQuestion
-                        name={getFieldName(ArbeidIPeriodeField.jobberSomVanlig)}
-                        legend={getSpørsmål(ArbeidIPeriodeField.jobberSomVanlig)}
-                        useTwoColumns={false}
-                        labels={{
-                            yes: intlHelper(intl, 'arbeidIPeriode.jobberSomVanlig.somVanlig', intlValues),
-                            no: intlHelper(intl, 'arbeidIPeriode.jobberSomVanlig.redusert', intlValues),
-                        }}
-                        validate={getArbeidJobberSomVanligValidator(intlValues)}
-                    />
-                </FormBlock>
-            )}
-            {jobberIPerioden === JobberIPeriodeSvar.JA && jobberSomVanlig === YesOrNo.NO && (
-                <FormBlock>
-                    <AppForm.YesOrNoQuestion
-                        name={getFieldName(ArbeidIPeriodeField.erLiktHverUke)}
-                        legend={getSpørsmål(ArbeidIPeriodeField.erLiktHverUke)}
-                        useTwoColumns={false}
-                        labels={{
-                            yes: intlHelper(
-                                intl,
-                                `arbeidIPeriode.${erHistorisk ? 'historisk.' : ''}erLiktHverUke.erLikt`
-                            ),
-                            no: intlHelper(
-                                intl,
-                                `arbeidIPeriode.${erHistorisk ? 'historisk.' : ''}erLiktHverUke.varierer`
-                            ),
-                        }}
-                        validate={getArbeidErLiktHverUkeValidator(intlValues)}
-                    />
-                </FormBlock>
-            )}
-            {jobberIPerioden === JobberIPeriodeSvar.JA && erLiktHverUke === YesOrNo.YES && (
-                <FormBlock>
-                    <AppForm.InputGroup
-                        legend={intlHelper(
-                            intl,
-                            erHistorisk
-                                ? 'arbeidIPeriode.historisk.ukedager.tittel'
-                                : 'arbeidIPeriode.planlagt.ukedager.tittel'
-                        )}
-                        validate={() => validateFasteArbeidstimerIUke(arbeidIPeriode, intlValues)}
-                        name={'fasteDager_gruppe' as any}>
-                        <TidFasteDagerInput
-                            name={getFieldName(ArbeidIPeriodeField.fasteDager)}
-                            validator={getArbeidstimerFastDagValidator}
+                <FormBlock margin="m">
+                    <ResponsivePanel>
+                        <AppForm.YesOrNoQuestion
+                            name={getFieldName(ArbeidIPeriodeField.jobberSomVanlig)}
+                            legend={getSpørsmål(ArbeidIPeriodeField.jobberSomVanlig)}
+                            useTwoColumns={false}
+                            labels={{
+                                yes: intlHelper(intl, 'arbeidIPeriode.jobberSomVanlig.somVanlig', intlValues),
+                                no: intlHelper(intl, 'arbeidIPeriode.jobberSomVanlig.redusert', intlValues),
+                            }}
+                            validate={getArbeidJobberSomVanligValidator(intlValues)}
                         />
-                    </AppForm.InputGroup>
-                </FormBlock>
-            )}
-            {jobberIPerioden === JobberIPeriodeSvar.JA && erLiktHverUke === YesOrNo.NO && (
-                <FormBlock>
-                    <ArbeidstidKalenderInput
-                        periode={periode}
-                        enkeltdagerFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
-                    />
+                        {jobberIPerioden === JobberIPeriodeSvar.JA && jobberSomVanlig === YesOrNo.NO && (
+                            <FormBlock>
+                                <AppForm.YesOrNoQuestion
+                                    name={getFieldName(ArbeidIPeriodeField.erLiktHverUke)}
+                                    legend={getSpørsmål(ArbeidIPeriodeField.erLiktHverUke)}
+                                    useTwoColumns={false}
+                                    labels={{
+                                        yes: intlHelper(
+                                            intl,
+                                            `arbeidIPeriode.${erHistorisk ? 'historisk.' : ''}erLiktHverUke.erLikt`
+                                        ),
+                                        no: intlHelper(
+                                            intl,
+                                            `arbeidIPeriode.${erHistorisk ? 'historisk.' : ''}erLiktHverUke.varierer`
+                                        ),
+                                    }}
+                                    validate={getArbeidErLiktHverUkeValidator(intlValues)}
+                                />
+                            </FormBlock>
+                        )}
+                        {jobberIPerioden === JobberIPeriodeSvar.JA && erLiktHverUke === YesOrNo.YES && (
+                            <FormBlock>
+                                <AppForm.InputGroup
+                                    legend={intlHelper(
+                                        intl,
+                                        erHistorisk
+                                            ? 'arbeidIPeriode.historisk.ukedager.tittel'
+                                            : 'arbeidIPeriode.planlagt.ukedager.tittel',
+                                        intlValues
+                                    )}
+                                    validate={() => validateFasteArbeidstimerIUke(arbeidIPeriode, intlValues)}
+                                    name={'fasteDager_gruppe' as any}>
+                                    <TidFasteDagerInput
+                                        name={getFieldName(ArbeidIPeriodeField.fasteDager)}
+                                        validator={getArbeidstimerFastDagValidator}
+                                    />
+                                </AppForm.InputGroup>
+                            </FormBlock>
+                        )}
+                        {jobberIPerioden === JobberIPeriodeSvar.JA && erLiktHverUke === YesOrNo.NO && (
+                            <FormBlock>
+                                <ArbeidstidKalenderInput
+                                    periode={periode}
+                                    enkeltdagerFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
+                                />
+                            </FormBlock>
+                        )}
+                    </ResponsivePanel>
                 </FormBlock>
             )}
         </>

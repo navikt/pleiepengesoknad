@@ -1,7 +1,6 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import BuildingIcon from '@navikt/sif-common-core/lib/components/building-icon/BuildingIconSvg';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
@@ -145,11 +144,7 @@ const ArbeidIPeriodeSteps = ({ onValidSubmit, periode, stepID }: Props) => {
             <FormBlock>
                 {ansatt_arbeidsforhold.map((arbeidsforhold, index) => {
                     return (
-                        <FormSection
-                            titleTag="h3"
-                            title={arbeidsforhold.navn}
-                            key={arbeidsforhold.organisasjonsnummer}
-                            titleIcon={<BuildingIcon />}>
+                        <FormSection title={arbeidsforhold.navn} key={arbeidsforhold.organisasjonsnummer}>
                             <ArbeidIPeriodeSpørsmål
                                 arbeidsforholdType={ArbeidsforholdType.ANSATT}
                                 arbeidsforhold={arbeidsforhold}
@@ -163,30 +158,26 @@ const ArbeidIPeriodeSteps = ({ onValidSubmit, periode, stepID }: Props) => {
             </FormBlock>
 
             {skalBesvareFrilans && frilans_arbeidsforhold && (
-                <FormBlock>
-                    <FormSection title={intlHelper(intl, 'arbeidIPeriode.FrilansLabel')} titleIcon={<BuildingIcon />}>
-                        <ArbeidIPeriodeSpørsmål
-                            arbeidsforholdType={ArbeidsforholdType.FRILANSER}
-                            arbeidsforhold={frilans_arbeidsforhold}
-                            periode={periode}
-                            parentFieldName={`${AppFormField.frilans_arbeidsforhold}`}
-                            erHistorisk={erHistorisk}
-                        />
-                    </FormSection>
-                </FormBlock>
+                <FormSection title={intlHelper(intl, 'arbeidIPeriode.FrilansLabel')}>
+                    <ArbeidIPeriodeSpørsmål
+                        arbeidsforholdType={ArbeidsforholdType.FRILANSER}
+                        arbeidsforhold={frilans_arbeidsforhold}
+                        periode={periode}
+                        parentFieldName={`${AppFormField.frilans_arbeidsforhold}`}
+                        erHistorisk={erHistorisk}
+                    />
+                </FormSection>
             )}
             {skalBesvareSelvstendig && selvstendig_arbeidsforhold && (
-                <FormBlock>
-                    <FormSection title={intlHelper(intl, 'arbeidIPeriode.SNLabel')} titleIcon={<BuildingIcon />}>
-                        <ArbeidIPeriodeSpørsmål
-                            arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
-                            arbeidsforhold={selvstendig_arbeidsforhold}
-                            periode={periode}
-                            parentFieldName={`${AppFormField.selvstendig_arbeidsforhold}`}
-                            erHistorisk={erHistorisk}
-                        />
-                    </FormSection>
-                </FormBlock>
+                <FormSection title={intlHelper(intl, 'arbeidIPeriode.SNLabel')}>
+                    <ArbeidIPeriodeSpørsmål
+                        arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
+                        arbeidsforhold={selvstendig_arbeidsforhold}
+                        periode={periode}
+                        parentFieldName={`${AppFormField.selvstendig_arbeidsforhold}`}
+                        erHistorisk={erHistorisk}
+                    />
+                </FormSection>
             )}
         </FormikStep>
     );
