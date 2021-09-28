@@ -3,10 +3,10 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { Element } from 'nav-frontend-typografi';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
-import JaNeiSvar from '../steps/summary-step/JaNeiSvar';
-import SummaryBlock from '../steps/summary-step/SummaryBlock';
-import SummarySection from '../summary-section/SummarySection';
+import { PleiepengesøknadApiData } from '../../../../types/PleiepengesøknadApiData';
+import JaNeiSvar from '../enkeltsvar/JaNeiSvar';
+import SummaryBlock from '../../../summary-block/SummaryBlock';
+import SummarySection from '../../../summary-section/SummarySection';
 
 interface Props {
     apiValues: PleiepengesøknadApiData;

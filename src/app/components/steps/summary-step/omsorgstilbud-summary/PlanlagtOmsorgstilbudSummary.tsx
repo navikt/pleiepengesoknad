@@ -6,10 +6,10 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { VetOmsorgstilbud } from '../../../../types';
 import { PlanlagtOmsorgstilbudApiData } from '../../../../types/PleiepengesøknadApiData';
 import { getPlanlagtPeriode } from '../../../../utils/tidsbrukUtils';
-import JaNeiSvar from '../JaNeiSvar';
-import SummaryBlock from '../SummaryBlock';
-import TidEnkeltdagerSummary from '../dager-med-tid/TidEnkeltdagerSummary';
-import TidFasteDagerSummary from '../dager-med-tid/TidFasteDagerSummary';
+import JaNeiSvar from '../enkeltsvar/JaNeiSvar';
+import SummaryBlock from '../../../summary-block/SummaryBlock';
+import TidEnkeltdager from '../../../dager-med-tid/TidEnkeltdager';
+import TidFasteDager from '../../../dager-med-tid/TidFasteDager';
 
 interface Props {
     omsorgstilbud?: PlanlagtOmsorgstilbudApiData;
@@ -66,12 +66,8 @@ const PlanlagtOmsorgstilbudSummary = ({ omsorgstilbud, søknadsperiode }: Props)
                                 <SummaryBlock
                                     header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.planlagt.header')}
                                     headerTag="h3">
-                                    {omsorgstilbud.ukedager && (
-                                        <TidFasteDagerSummary fasteDager={omsorgstilbud.ukedager} />
-                                    )}
-                                    {omsorgstilbud.enkeltdager && (
-                                        <TidEnkeltdagerSummary dager={omsorgstilbud.enkeltdager} />
-                                    )}
+                                    {omsorgstilbud.ukedager && <TidFasteDager fasteDager={omsorgstilbud.ukedager} />}
+                                    {omsorgstilbud.enkeltdager && <TidEnkeltdager dager={omsorgstilbud.enkeltdager} />}
                                 </SummaryBlock>
                             </>
                         )}

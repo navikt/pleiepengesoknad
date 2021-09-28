@@ -9,9 +9,10 @@ import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUti
 import { PleiepengesøknadApiData } from '../../../../types/PleiepengesøknadApiData';
 import { Feature, isFeatureEnabled } from '../../../../utils/featureToggleUtils';
 import SummarySection from '../../../summary-section/SummarySection';
-import JaNeiSvar from '../JaNeiSvar';
+import JaNeiSvar from '../enkeltsvar/JaNeiSvar';
 import HistoriskOmsorgstilbudSummary from './HistoriskOmsorgstilbudSummary';
 import PlanlagtOmsorgstilbudSummary from './PlanlagtOmsorgstilbudSummary';
+import Sitat from '../enkeltsvar/Sitat';
 
 interface Props {
     søknadsperiode: DateRange;
@@ -44,7 +45,9 @@ const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
                         {nattevåk.harNattevåk === true && intlHelper(intl, 'Ja')}
                         {nattevåk.harNattevåk === false && intlHelper(intl, 'Nei')}
                         {nattevåk.harNattevåk === true && nattevåk.tilleggsinformasjon && (
-                            <TextareaSummary text={nattevåk.tilleggsinformasjon} />
+                            <Sitat>
+                                <TextareaSummary text={nattevåk.tilleggsinformasjon} />
+                            </Sitat>
                         )}
                     </ContentWithHeader>
                 </Box>
@@ -54,7 +57,11 @@ const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
                     <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.beredskap.header')}>
                         {beredskap.beredskap === true && intlHelper(intl, 'Ja')}
                         {beredskap.beredskap === false && intlHelper(intl, 'Nei')}
-                        {beredskap.tilleggsinformasjon && <TextareaSummary text={beredskap.tilleggsinformasjon} />}
+                        {beredskap.tilleggsinformasjon && (
+                            <Sitat>
+                                <TextareaSummary text={beredskap.tilleggsinformasjon} />
+                            </Sitat>
+                        )}
                     </ContentWithHeader>
                 </Box>
             )}
@@ -69,7 +76,9 @@ const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
                         <Box margin="l">
                             <ContentWithHeader
                                 header={intlHelper(intl, 'steg.oppsummering.bekreftOmsorgEkstrainfo.header')}>
-                                <TextareaSummary text={beskrivelseOmsorgsrollen} />
+                                <Sitat>
+                                    <TextareaSummary text={beskrivelseOmsorgsrollen} />
+                                </Sitat>
                             </ContentWithHeader>
                         </Box>
                     )}

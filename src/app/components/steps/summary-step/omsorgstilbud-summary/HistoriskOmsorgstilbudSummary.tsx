@@ -5,8 +5,8 @@ import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-wi
 import { DateRange, dateToday, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { HistoriskOmsorgstilbudApiData } from '../../../../types/PleiepengesøknadApiData';
-import TidEnkeltdagerSummary from '../dager-med-tid/TidEnkeltdagerSummary';
-import SummaryBlock from '../SummaryBlock';
+import TidEnkeltdager from '../../../dager-med-tid/TidEnkeltdager';
+import SummaryBlock from '../../../summary-block/SummaryBlock';
 import { getHistoriskPeriode } from '../../../../utils/tidsbrukUtils';
 
 interface Props {
@@ -37,7 +37,7 @@ const HistoriskOmsorgstilbudSummary = ({ historiskOmsorgstilbud, søknadsperiode
                 <SummaryBlock
                     header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.historisk.header')}
                     headerTag="h3">
-                    <TidEnkeltdagerSummary dager={historiskOmsorgstilbud.enkeltdager} />
+                    <TidEnkeltdager dager={historiskOmsorgstilbud.enkeltdager} />
                 </SummaryBlock>
             )}
         </>

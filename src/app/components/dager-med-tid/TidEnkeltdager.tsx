@@ -6,15 +6,15 @@ import { ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import groupBy from 'lodash.groupby';
 import EkspanderbartPanel from 'nav-frontend-ekspanderbartpanel';
-import { DagMedTid } from '../../../../types';
-import { TidEnkeltdagApiData } from '../../../../types/PleiepengesøknadApiData';
+import { DagMedTid } from '../../types';
+import { TidEnkeltdagApiData } from '../../types/PleiepengesøknadApiData';
 import DagerMedTidListe from './dager-med-tid-liste/DagerMedTidListe';
 
 interface Props {
     dager: TidEnkeltdagApiData[];
 }
 
-const TidEnkeltdagerSummary: React.FunctionComponent<Props> = ({ dager }) => {
+const TidEnkeltdager: React.FunctionComponent<Props> = ({ dager }) => {
     const days: DagMedTid[] = [];
     dager.forEach((dag) => {
         const dato = ISOStringToDate(dag.dato);
@@ -57,4 +57,4 @@ const TidEnkeltdagerSummary: React.FunctionComponent<Props> = ({ dager }) => {
     );
 };
 
-export default TidEnkeltdagerSummary;
+export default TidEnkeltdager;

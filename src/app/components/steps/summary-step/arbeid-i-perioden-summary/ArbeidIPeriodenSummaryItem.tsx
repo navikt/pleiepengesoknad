@@ -1,10 +1,10 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { JobberIPeriodeSvar } from '../../types';
-import { ArbeidIPeriodeApiData, ArbeidsforholdApiData } from '../../types/PleiepengesøknadApiData';
-import JaNeiSvar from '../steps/summary-step/JaNeiSvar';
-import SummaryBlock from '../steps/summary-step/SummaryBlock';
+import { JobberIPeriodeSvar } from '../../../../types';
+import { ArbeidIPeriodeApiData, ArbeidsforholdApiData } from '../../../../types/PleiepengesøknadApiData';
+import JaNeiSvar from '../enkeltsvar/JaNeiSvar';
+import SummaryBlock from '../../../summary-block/SummaryBlock';
 
 interface Props {
     periode: DateRange;

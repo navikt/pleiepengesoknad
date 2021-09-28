@@ -3,12 +3,12 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { Feiloppsummering } from 'nav-frontend-skjema';
-import { ApiValidationError } from '../../../validation/apiValuesValidation';
+import { ApiValidationError } from '../../../../validation/apiValuesValidation';
 import ActionLink from '@navikt/sif-common-core/lib/components/action-link/ActionLink';
-import { navigateToSoknadStep } from '../../../utils/navigationUtils';
-import { stepConfig } from '../../../config/stepConfig';
+import { navigateToSoknadStep } from '../../../../utils/navigationUtils';
+import { stepConfig } from '../../../../config/stepConfig';
 import { useHistory } from 'react-router';
-import { getStepTexts } from '../../../utils/stepUtils';
+import { getStepTexts } from '../../../../utils/stepUtils';
 
 interface Props {
     errors: ApiValidationError[];

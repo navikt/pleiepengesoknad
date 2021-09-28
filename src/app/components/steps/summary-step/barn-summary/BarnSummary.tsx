@@ -4,14 +4,14 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { apiStringDateToDate, prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
-import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
-import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { BarnReceivedFromApi } from '../../../types/Søkerdata';
+import { PleiepengesøknadApiData } from '../../../../types/PleiepengesøknadApiData';
+import { PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
+import { BarnReceivedFromApi } from '../../../../types/Søkerdata';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import SummarySection from '../../summary-section/SummarySection';
+import SummarySection from '../../../summary-section/SummarySection';
 import TextareaSummary from '@navikt/sif-common-core/lib/components/textarea-summary/TextareaSummary';
-import Sitat from './Sitat';
-import { BarnRelasjon } from '../../../types';
+import { BarnRelasjon } from '../../../../types';
+import Sitat from '../enkeltsvar/Sitat';
 
 interface Props {
     barn: BarnReceivedFromApi[];

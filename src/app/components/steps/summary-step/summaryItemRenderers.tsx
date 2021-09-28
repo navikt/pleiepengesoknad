@@ -12,7 +12,6 @@ import {
     PeriodeBarnetErInnlagtApiData,
     UtenlandsoppholdIPeriodenApiData,
 } from '../../../types/PleiepengesøknadApiData';
-import './utenlandsoppholdSummaryItem.less';
 
 const bem = bemUtils('utenlandsoppholdSummaryItem');
 

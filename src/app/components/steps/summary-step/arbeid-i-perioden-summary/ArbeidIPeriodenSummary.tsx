@@ -2,10 +2,10 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
-import { getHistoriskPeriode, getPlanlagtPeriode } from '../../utils/tidsbrukUtils';
-import SummaryBlock from '../steps/summary-step/SummaryBlock';
-import SummarySection from '../summary-section/SummarySection';
+import { PleiepengesøknadApiData } from '../../../../types/PleiepengesøknadApiData';
+import { getHistoriskPeriode, getPlanlagtPeriode } from '../../../../utils/tidsbrukUtils';
+import SummaryBlock from '../../../summary-block/SummaryBlock';
+import SummarySection from '../../../summary-section/SummarySection';
 import ArbeidIPeriodeSummaryItem, { ArbeidIPeriodenSummaryItemType } from './ArbeidIPeriodenSummaryItem';
 
 interface Props {

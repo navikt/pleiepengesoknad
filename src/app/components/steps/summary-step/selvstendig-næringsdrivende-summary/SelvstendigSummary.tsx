@@ -3,9 +3,9 @@ import { useIntl } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import VirksomhetSummary from '@navikt/sif-common-forms/lib/virksomhet/VirksomhetSummary';
-import SummarySection from '../../summary-section/SummarySection';
-import JaNeiSvar from './JaNeiSvar';
-import SummaryBlock from './SummaryBlock';
+import SummarySection from '../../../summary-section/SummarySection';
+import JaNeiSvar from '../enkeltsvar/JaNeiSvar';
+import SummaryBlock from '../../../summary-block/SummaryBlock';
 
 interface Props {
     virksomhet?: VirksomhetApiData;

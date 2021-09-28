@@ -3,7 +3,7 @@ import { IntlShape, useIntl } from 'react-intl';
 import { Time } from '@navikt/sif-common-core/lib/types/Time';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { iso8601DurationToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { TidFasteDagerApiData } from '../../../../types/PleiepengesøknadApiData';
+import { TidFasteDagerApiData } from '../../types/PleiepengesøknadApiData';
 
 interface Props {
     fasteDager?: TidFasteDagerApiData;
@@ -15,7 +15,7 @@ const formatTime = (intl: IntlShape, time: Partial<Time>): string => {
     return intlHelper(intl, 'timerOgMinutter', { timer, minutter });
 };
 
-const TidFasteDagerSummary: React.FunctionComponent<Props> = ({ fasteDager }) => {
+const TidFasteDager: React.FunctionComponent<Props> = ({ fasteDager }) => {
     const intl = useIntl();
 
     if (fasteDager) {
@@ -38,4 +38,4 @@ const TidFasteDagerSummary: React.FunctionComponent<Props> = ({ fasteDager }) =>
     return <>{intlHelper(intl, 'dagerMedTid.ingenDagerRegistrert')}</>;
 };
 
-export default TidFasteDagerSummary;
+export default TidFasteDager;

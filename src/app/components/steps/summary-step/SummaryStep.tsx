@@ -30,23 +30,23 @@ import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
 import { navigateTo, relocateToLoginPage } from '../../../utils/navigationUtils';
 import { validateApiValues } from '../../../validation/apiValuesValidation';
 import AppForm from '../../app-form/AppForm';
-import ArbeidIPeriodenSummary from '../../arbeid-i-perioden-summary/ArbeidIPeriodenSummary';
-import ArbeidssituasjonSummary from '../../arbeidssituasjon-summary/ArbeidssituasjonSummary';
+import ArbeidIPeriodenSummary from './arbeid-i-perioden-summary/ArbeidIPeriodenSummary';
+import ArbeidssituasjonSummary from './arbeidssituasjon-summary/ArbeidssituasjonSummary';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringAttachmentList from '../../legeerklæring-file-list/LegeerklæringFileList';
 import SummarySection from '../../summary-section/SummarySection';
-import ApiValidationSummary from './ApiValidationSummary';
-import BarnSummary from './BarnSummary';
-import FrilansSummary from './FrilansSummary';
-import JaNeiSvar from './JaNeiSvar';
+import ApiValidationSummary from './api-validation-summary/ApiValidationSummary';
+import BarnSummary from './barn-summary/BarnSummary';
+import FrilansSummary from './frilanser-summary/FrilansSummary';
+import JaNeiSvar from './enkeltsvar/JaNeiSvar';
 import OmsorgstilbudSummary from './omsorgstilbud-summary/OmsorgstilbudSummary';
 import {
     renderFerieuttakIPeriodenSummary,
     renderUtenlandsoppholdIPeriodenSummary,
     renderUtenlandsoppholdSummary,
-} from './renderUtenlandsoppholdSummary';
-import SelvstendigSummary from './SelvstendigSummary';
-import SummaryBlock from './SummaryBlock';
+} from './summaryItemRenderers';
+import SelvstendigSummary from './selvstendig-næringsdrivende-summary/SelvstendigSummary';
+import SummaryBlock from '../../summary-block/SummaryBlock';
 import './summary.less';
 
 interface Props {
