@@ -37,7 +37,6 @@ import LegeerklæringAttachmentList from '../../legeerklæring-file-list/Legeerk
 import SummarySection from '../../summary-section/SummarySection';
 import ApiValidationSummary from './api-validation-summary/ApiValidationSummary';
 import BarnSummary from './barn-summary/BarnSummary';
-import FrilansSummary from './frilanser-summary/FrilansSummary';
 import JaNeiSvar from './enkeltsvar/JaNeiSvar';
 import OmsorgstilbudSummary from './omsorgstilbud-summary/OmsorgstilbudSummary';
 import {
@@ -45,7 +44,6 @@ import {
     renderUtenlandsoppholdIPeriodenSummary,
     renderUtenlandsoppholdSummary,
 } from './summaryItemRenderers';
-import SelvstendigSummary from './selvstendig-næringsdrivende-summary/SelvstendigSummary';
 import SummaryBlock from '../../summary-block/SummaryBlock';
 import './summary.less';
 
@@ -241,25 +239,6 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
 
                                 {/* Omsorgstilbud */}
                                 <OmsorgstilbudSummary søknadsperiode={søknadsperiode} apiValues={apiValues} />
-
-                                {/* Frilanser */}
-                                <FrilansSummary frilansApiData={apiValues.frilans} />
-
-                                {/* Selvstendig næringsdrivende */}
-                                <SelvstendigSummary virksomhet={apiValues.selvstendigNæringsdrivende?.virksomhet} />
-
-                                {/* Vernepliktig */}
-                                {apiValues.harVærtEllerErVernepliktig !== undefined && (
-                                    <SummarySection header={intlHelper(intl, 'verneplikt.summary.header')}>
-                                        <SummaryBlock
-                                            header={intlHelper(
-                                                intl,
-                                                'verneplikt.summary.harVærtEllerErVernepliktig.header'
-                                            )}>
-                                            <JaNeiSvar harSvartJa={apiValues.harVærtEllerErVernepliktig} />
-                                        </SummaryBlock>
-                                    </SummarySection>
-                                )}
 
                                 {/* Andre ytelser */}
                                 {isFeatureEnabled(Feature.ANDRE_YTELSER) && (
