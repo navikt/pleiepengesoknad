@@ -25,6 +25,7 @@ export interface BarnetSøknadenGjelderApiData {
 export interface ArbeidIPeriodeApiData {
     jobberIPerioden: JobberIPeriodeSvar;
     jobberSomVanlig?: boolean;
+    erLiktHverUke?: boolean;
     enkeltdager?: TidEnkeltdagApiData[];
     fasteDager?: TidFasteDagerApiData;
 }

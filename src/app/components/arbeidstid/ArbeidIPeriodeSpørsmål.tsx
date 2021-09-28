@@ -87,17 +87,20 @@ const ArbeidIPeriodeSpørsmål = ({
                 validate={getArbeidJobberValidator(intlValues)}
                 radios={[
                     {
-                        label: intlHelper(intl, 'arbeidIPeriode.jobberIPerioden.ja'),
+                        label: intlHelper(intl, `arbeidIPeriode.jobberIPerioden.${JobberIPeriodeSvar.JA}`),
                         value: JobberIPeriodeSvar.JA,
                     },
                     {
-                        label: intlHelper(intl, 'arbeidIPeriode.jobberIPerioden.nei'),
+                        label: intlHelper(intl, `arbeidIPeriode.jobberIPerioden.${JobberIPeriodeSvar.NEI}`),
                         value: JobberIPeriodeSvar.NEI,
                     },
                     ...(erHistorisk === false
                         ? [
                               {
-                                  label: intlHelper(intl, 'arbeidIPeriode.jobberIPerioden.vetIkke'),
+                                  label: intlHelper(
+                                      intl,
+                                      `arbeidIPeriode.jobberIPerioden.${JobberIPeriodeSvar.VET_IKKE}`
+                                  ),
                                   value: JobberIPeriodeSvar.VET_IKKE,
                               },
                           ]

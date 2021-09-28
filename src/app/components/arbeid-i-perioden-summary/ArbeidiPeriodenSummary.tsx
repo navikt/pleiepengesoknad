@@ -1,12 +1,12 @@
 import React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import SummaryList from '@navikt/sif-common-core/lib/components/summary-list/SummaryList';
+import { useIntl } from 'react-intl';
+import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
+import { getHistoriskPeriode, getPlanlagtPeriode } from '../../utils/tidsbrukUtils';
+import SummaryBlock from '../steps/summary-step/SummaryBlock';
 import SummarySection from '../summary-section/SummarySection';
-import ArbeidIPeriodenSummaryItem, { ArbeidIPeriodenSummaryItemType } from './ArbeidIPeriodenSummaryItem';
-import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import ArbeidIPeriodeSummaryItem, { ArbeidIPeriodenSummaryItemType } from './ArbeidIPeriodenSummaryItem';
 
 interface Props {
     apiValues: PleiepengesøknadApiData;
@@ -15,9 +15,13 @@ interface Props {
 
 const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
     apiValues: { arbeidsgivere, frilans, selvstendigNæringsdrivende },
+    søknadsperiode,
 }) => {
     const intl = useIntl();
     const alleArbeidsforhold: ArbeidIPeriodenSummaryItemType[] = [];
+
+    const periodeFørSøknadsdato = søknadsperiode ? getHistoriskPeriode(søknadsperiode, dateToday) : undefined;
+    const periodeFraOgMedSøknadsdato = søknadsperiode ? getPlanlagtPeriode(søknadsperiode, dateToday) : undefined;
 
     if (arbeidsgivere) {
         arbeidsgivere.forEach((a) => {
@@ -45,21 +49,40 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
         });
     }
 
+    if (alleArbeidsforhold.length === 0) {
+        return <SummarySection header={'Arbeid i perioden'}>Ingen arbeidsforhold registrert</SummarySection>;
+    }
+
     return (
         <>
-            <SummarySection header={intlHelper(intl, 'steg.oppsummering.arbeidIPerioden.header')}>
-                {alleArbeidsforhold.length > 0 && (
-                    <SummaryList
-                        items={alleArbeidsforhold}
-                        itemRenderer={(item) => <ArbeidIPeriodenSummaryItem item={item} />}
-                    />
-                )}
-                {alleArbeidsforhold.length === 0 && (
-                    <Box margin="m">
-                        <FormattedMessage id="steg.oppsummering.arbeidssituasjon.ingenArbeidsforhold" />
-                    </Box>
-                )}
-            </SummarySection>
+            {periodeFørSøknadsdato && (
+                <SummarySection header={'Jobb til nå'}>
+                    {alleArbeidsforhold.map((forhold) =>
+                        forhold.historiskArbeid ? (
+                            <SummaryBlock header={forhold.tittel} key={forhold.tittel}>
+                                <ArbeidIPeriodeSummaryItem
+                                    periode={periodeFørSøknadsdato}
+                                    arbeid={forhold.historiskArbeid}
+                                />
+                            </SummaryBlock>
+                        ) : undefined
+                    )}
+                </SummarySection>
+            )}
+            {periodeFraOgMedSøknadsdato && (
+                <SummarySection header={'Jobb fremover'}>
+                    {alleArbeidsforhold.map((forhold) =>
+                        forhold.planlagtArbeid ? (
+                            <SummaryBlock header={forhold.tittel} key={forhold.tittel}>
+                                <ArbeidIPeriodeSummaryItem
+                                    periode={periodeFraOgMedSøknadsdato}
+                                    arbeid={forhold.planlagtArbeid}
+                                />
+                            </SummaryBlock>
+                        ) : undefined
+                    )}
+                </SummarySection>
+            )}
         </>
     );
 };

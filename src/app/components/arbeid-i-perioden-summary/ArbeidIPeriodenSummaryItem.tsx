@@ -1,21 +1,38 @@
-import { Element } from 'nav-frontend-typografi';
+import { DateRange } from '@navikt/sif-common-formik/lib';
 import React from 'react';
-import { ArbeidsforholdApiData } from '../../types/PleiepengesøknadApiData';
+import { FormattedMessage } from 'react-intl';
+import { JobberIPeriodeSvar } from '../../types';
+import { ArbeidIPeriodeApiData, ArbeidsforholdApiData } from '../../types/PleiepengesøknadApiData';
+import JaNeiSvar from '../steps/summary-step/JaNeiSvar';
+import SummaryBlock from '../steps/summary-step/SummaryBlock';
 
 interface Props {
-    item: ArbeidIPeriodenSummaryItemType;
+    periode: DateRange;
+    arbeid: ArbeidIPeriodeApiData;
 }
 
 export interface ArbeidIPeriodenSummaryItemType extends ArbeidsforholdApiData {
     tittel: string;
 }
 
-const ArbeidIPeriodenSummaryItem: React.FunctionComponent<Props> = ({ item }) => {
+const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeid }) => {
     return (
-        <>
-            <Element tag="h3">{item.tittel}</Element>
-        </>
+        <div style={{ paddingLeft: '2rem' }}>
+            <SummaryBlock header="Skal du være på jobb i perioden?" headerTag="h4">
+                <FormattedMessage id={`arbeidIPeriode.jobberIPerioden.${arbeid.jobberIPerioden}`} />
+            </SummaryBlock>
+            {arbeid.jobberIPerioden === JobberIPeriodeSvar.JA && (
+                <SummaryBlock header="Hvor mye skal du jobbe der i perioden?" headerTag="h4">
+                    <JaNeiSvar harSvartJa={arbeid.jobberSomVanlig} />
+                </SummaryBlock>
+            )}
+            {arbeid.jobberSomVanlig === false && (
+                <SummaryBlock header="Er arbeidsukene dine like i denne perioden, eller varierer det?" headerTag="h4">
+                    {arbeid.erLiktHverUke ? 'Hver uke er lik' : 'Det varierer fra uke til uke'}
+                </SummaryBlock>
+            )}
+        </div>
     );
 };
 
-export default ArbeidIPeriodenSummaryItem;
+export default ArbeidIPeriodeSummaryItem;

@@ -6,26 +6,23 @@ import { groupBy } from 'lodash';
 import { Element, Undertittel } from 'nav-frontend-typografi';
 import { DagMedTid } from '../../../../../types';
 import FormattedTimeText from '../../../../formatted-time-text/FormattedTimeText';
-import './omsorgsdagerListe.less';
+import './dagerMedTidListe.less';
 
 interface Props {
-    omsorgsdager: DagMedTid[];
+    dagerMedTid: DagMedTid[];
     visMåned?: boolean;
     viseUke?: boolean;
 }
 
 const sortDays = (d1: DagMedTid, d2: DagMedTid): number => (dayjs(d1.dato).isSameOrBefore(d2.dato, 'day') ? -1 : 1);
 
-const bem = bemUtils('omsorgsdagerListe');
+const bem = bemUtils('dagerMedTidListe');
 
-export const OmsorgsdagerListe = ({ omsorgsdager, viseUke, visMåned }: Props) => {
-    if (omsorgsdager.length === 0) {
-        return <FormattedMessage id="omsorgstilbud.ingenDagerRegistrert" />;
-    }
-    const weeksWithDays = groupBy(omsorgsdager, (dag) => `${dag.dato.getFullYear()}-${dayjs(dag.dato).isoWeek()}`);
+export const DagerMedTidListe = ({ dagerMedTid: dagerMedTid, viseUke, visMåned }: Props) => {
+    const weeksWithDays = groupBy(dagerMedTid, (dag) => `${dag.dato.getFullYear()}-${dayjs(dag.dato).isoWeek()}`);
     return (
         <div className={bem.block}>
-            {visMåned && <Undertittel className="m-caps">{dayjs(omsorgsdager[0].dato).format('MMM YYYY')}</Undertittel>}
+            {visMåned && <Undertittel className="m-caps">{dayjs(dagerMedTid[0].dato).format('MMM YYYY')}</Undertittel>}
             <div className={bem.element('uker')}>
                 {Object.keys(weeksWithDays).map((key) => {
                     const days = weeksWithDays[key];
@@ -34,7 +31,7 @@ export const OmsorgsdagerListe = ({ omsorgsdager, viseUke, visMåned }: Props) =
                             {viseUke && (
                                 <Element tag="h4" className={bem.element('uketittel')}>
                                     <FormattedMessage
-                                        id="omsorgstilbud.uke"
+                                        id="dagerMedTid.uke"
                                         values={{ uke: dayjs(days[0].dato).isoWeek() }}
                                     />
                                 </Element>
@@ -69,4 +66,4 @@ export const OmsorgsdagerListe = ({ omsorgsdager, viseUke, visMåned }: Props) =
     );
 };
 
-export default OmsorgsdagerListe;
+export default DagerMedTidListe;

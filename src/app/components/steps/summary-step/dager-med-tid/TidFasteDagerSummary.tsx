@@ -15,7 +15,7 @@ const formatTime = (intl: IntlShape, time: Partial<Time>): string => {
     return intlHelper(intl, 'timerOgMinutter', { timer, minutter });
 };
 
-const OmsorgstilbudFasteDagerSummary: React.FunctionComponent<Props> = ({ fasteDager }) => {
+const TidFasteDagerSummary: React.FunctionComponent<Props> = ({ fasteDager }) => {
     const intl = useIntl();
 
     if (fasteDager) {
@@ -35,7 +35,7 @@ const OmsorgstilbudFasteDagerSummary: React.FunctionComponent<Props> = ({ fasteD
             );
         }
     }
-    return <>{intlHelper(intl, 'omsorgstilbud.ingenDagerValgt')}</>;
+    return <>{intlHelper(intl, 'dagerMedTid.ingenDagerRegistrert')}</>;
 };
 
-export default OmsorgstilbudFasteDagerSummary;
+export default TidFasteDagerSummary;

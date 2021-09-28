@@ -3,7 +3,6 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
 import { useAmplitudeInstance } from '@navikt/sif-common-amplitude';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-with-header/ContentWithHeader';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
@@ -158,59 +157,49 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
 
                                 {/* Perioden du søker pleiepenger for */}
                                 <SummarySection header={intlHelper(intl, 'steg.oppsummering.tidsrom.header')}>
-                                    <Box margin="l">
-                                        <ContentWithHeader
-                                            header={intlHelper(intl, 'steg.oppsummering.søknadsperiode.header')}>
-                                            <FormattedMessage
-                                                id="steg.oppsummering.tidsrom.fomtom"
-                                                values={{
-                                                    fom: `${dayjs(søknadsperiode.from).format('dddd D. MMMM YYYY')}`,
-                                                    tom: `${dayjs(søknadsperiode.to).format('dddd D. MMMM YYYY')}`,
-                                                }}
-                                            />
-                                        </ContentWithHeader>
-                                    </Box>
-                                    <Box margin="l">
-                                        <ContentWithHeader
-                                            header={intlHelper(
-                                                intl,
-                                                'steg.oppsummering.annenSøkerSammePeriode.header'
-                                            )}>
-                                            {apiValues.harMedsøker === true && intlHelper(intl, 'Ja')}
-                                            {apiValues.harMedsøker === false && intlHelper(intl, 'Nei')}
-                                        </ContentWithHeader>
-                                    </Box>
+                                    <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.søknadsperiode.header')}>
+                                        <FormattedMessage
+                                            id="steg.oppsummering.tidsrom.fomtom"
+                                            values={{
+                                                fom: `${dayjs(søknadsperiode.from).format('dddd D. MMMM YYYY')}`,
+                                                tom: `${dayjs(søknadsperiode.to).format('dddd D. MMMM YYYY')}`,
+                                            }}
+                                        />
+                                    </SummaryBlock>
+
+                                    <SummaryBlock
+                                        header={intlHelper(intl, 'steg.oppsummering.annenSøkerSammePeriode.header')}>
+                                        {apiValues.harMedsøker === true && intlHelper(intl, 'Ja')}
+                                        {apiValues.harMedsøker === false && intlHelper(intl, 'Nei')}
+                                    </SummaryBlock>
+
                                     {apiValues.harMedsøker && (
-                                        <Box margin="l">
-                                            <ContentWithHeader
-                                                header={intlHelper(intl, 'steg.oppsummering.samtidigHjemme.header')}>
-                                                <FormattedMessage id={apiValues.samtidigHjemme ? 'Ja' : 'Nei'} />
-                                            </ContentWithHeader>
-                                        </Box>
+                                        <SummaryBlock
+                                            header={intlHelper(intl, 'steg.oppsummering.samtidigHjemme.header')}>
+                                            <FormattedMessage id={apiValues.samtidigHjemme ? 'Ja' : 'Nei'} />
+                                        </SummaryBlock>
                                     )}
 
                                     {/* Utenlandsopphold i perioden */}
                                     {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) &&
                                         utenlandsoppholdIPerioden && (
                                             <>
-                                                <Box margin="l">
-                                                    <ContentWithHeader
-                                                        header={intlHelper(
-                                                            intl,
-                                                            'steg.oppsummering.utenlandsoppholdIPerioden.header'
-                                                        )}>
-                                                        <FormattedMessage
-                                                            id={
-                                                                utenlandsoppholdIPerioden.skalOppholdeSegIUtlandetIPerioden
-                                                                    ? 'Ja'
-                                                                    : 'Nei'
-                                                            }
-                                                        />
-                                                    </ContentWithHeader>
-                                                </Box>
+                                                <SummaryBlock
+                                                    header={intlHelper(
+                                                        intl,
+                                                        'steg.oppsummering.utenlandsoppholdIPerioden.header'
+                                                    )}>
+                                                    <FormattedMessage
+                                                        id={
+                                                            utenlandsoppholdIPerioden.skalOppholdeSegIUtlandetIPerioden
+                                                                ? 'Ja'
+                                                                : 'Nei'
+                                                        }
+                                                    />
+                                                </SummaryBlock>
 
                                                 {utenlandsoppholdIPerioden.opphold.length > 0 && (
-                                                    <Box margin="l">
+                                                    <Box>
                                                         <SummaryList
                                                             items={utenlandsoppholdIPerioden.opphold}
                                                             itemRenderer={renderUtenlandsoppholdIPeriodenSummary}
@@ -223,17 +212,15 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                     {/* Ferieuttak i perioden */}
                                     {ferieuttakIPerioden && (
                                         <>
-                                            <Box margin="l">
-                                                <ContentWithHeader
-                                                    header={intlHelper(
-                                                        intl,
-                                                        'steg.oppsummering.ferieuttakIPerioden.header'
-                                                    )}>
-                                                    <FormattedMessage
-                                                        id={ferieuttakIPerioden.skalTaUtFerieIPerioden ? 'Ja' : 'Nei'}
-                                                    />
-                                                </ContentWithHeader>
-                                            </Box>
+                                            <SummaryBlock
+                                                header={intlHelper(
+                                                    intl,
+                                                    'steg.oppsummering.ferieuttakIPerioden.header'
+                                                )}>
+                                                <FormattedMessage
+                                                    id={ferieuttakIPerioden.skalTaUtFerieIPerioden ? 'Ja' : 'Nei'}
+                                                />
+                                            </SummaryBlock>
                                             {ferieuttakIPerioden.ferieuttak.length > 0 && (
                                                 <Box margin="l">
                                                     <SummaryList
@@ -295,15 +282,12 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
 
                                 {/* Medlemskap i folketrygden */}
                                 <SummarySection header={intlHelper(intl, 'medlemskap.summary.header')}>
-                                    <Box margin="l">
-                                        <ContentWithHeader
-                                            header={intlHelper(intl, 'steg.oppsummering.utlandetSiste12.header')}>
-                                            {apiValues.medlemskap.harBoddIUtlandetSiste12Mnd === true &&
-                                                intlHelper(intl, 'Ja')}
-                                            {apiValues.medlemskap.harBoddIUtlandetSiste12Mnd === false &&
-                                                intlHelper(intl, 'Nei')}
-                                        </ContentWithHeader>
-                                    </Box>
+                                    <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.utlandetSiste12.header')}>
+                                        {apiValues.medlemskap.harBoddIUtlandetSiste12Mnd === true &&
+                                            intlHelper(intl, 'Ja')}
+                                        {apiValues.medlemskap.harBoddIUtlandetSiste12Mnd === false &&
+                                            intlHelper(intl, 'Nei')}
+                                    </SummaryBlock>
                                     {apiValues.medlemskap.harBoddIUtlandetSiste12Mnd === true &&
                                         medlemskap.utenlandsoppholdSiste12Mnd.length > 0 && (
                                             <Box margin="l">
@@ -313,15 +297,12 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                                 />
                                             </Box>
                                         )}
-                                    <Box margin="l">
-                                        <ContentWithHeader
-                                            header={intlHelper(intl, 'steg.oppsummering.utlandetNeste12.header')}>
-                                            {apiValues.medlemskap.skalBoIUtlandetNeste12Mnd === true &&
-                                                intlHelper(intl, 'Ja')}
-                                            {apiValues.medlemskap.skalBoIUtlandetNeste12Mnd === false &&
-                                                intlHelper(intl, 'Nei')}
-                                        </ContentWithHeader>
-                                    </Box>
+                                    <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.utlandetNeste12.header')}>
+                                        {apiValues.medlemskap.skalBoIUtlandetNeste12Mnd === true &&
+                                            intlHelper(intl, 'Ja')}
+                                        {apiValues.medlemskap.skalBoIUtlandetNeste12Mnd === false &&
+                                            intlHelper(intl, 'Nei')}
+                                    </SummaryBlock>
                                     {apiValues.medlemskap.skalBoIUtlandetNeste12Mnd === true &&
                                         medlemskap.utenlandsoppholdNeste12Mnd.length > 0 && (
                                             <Box margin="l">

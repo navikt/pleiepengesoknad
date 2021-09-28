@@ -16,6 +16,7 @@ export const mapArbeidIPeriodeToApiData = (arbeid: ArbeidIPeriode, periode: Date
     return {
         jobberIPerioden: arbeid.jobberIPerioden,
         jobberSomVanlig: isYesOrNoAnswered(arbeid.jobberSomVanlig) ? arbeid.jobberSomVanlig === YesOrNo.YES : undefined,
+        erLiktHverUke: isYesOrNoAnswered(arbeid.erLiktHverUke) ? arbeid.erLiktHverUke === YesOrNo.YES : undefined,
         enkeltdager: arbeid.enkeltdager ? getEnkeltdagerIPeriodeApiData(arbeid.enkeltdager, periode) : undefined,
         fasteDager: arbeid.fasteDager ? getFasteDagerApiData(arbeid.fasteDager) : undefined,
     };

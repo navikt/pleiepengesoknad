@@ -56,6 +56,8 @@
     "Fredager": "Fredager",
 
     "ukeÅr": "Uke {ukenummer}, {år}",
+    "dagerMedTid.uke": "Uke {uke}",
+    "dagerMedTid.ingenDagerRegistrert": "Ingen dager registrert",
 
     "page.loadingPage.tekst": "Laster ...",
     "gotoApplicationLink.lenketekst": "Gå til den digitale søknaden",
@@ -539,11 +541,11 @@
     "arbeidIPeriode.historisk.erLiktHverUke.spm": "Var arbeidsukene dine like i denne perioden {hvor}, eller varierte det?",
     "arbeidIPeriode.historisk.erLiktHverUke.erLikt": "Hver uke var lik",
     "arbeidIPeriode.historisk.erLiktHverUke.varierer": "Det varierte fra uke til uke",
-    "arbeidIPeriode.jobberIPerioden.ja": "Ja",
-    "arbeidIPeriode.jobberIPerioden.nei": "Nei",
+    "arbeidIPeriode.jobberIPerioden.JA": "Ja",
+    "arbeidIPeriode.jobberIPerioden.NEI": "Nei",
+    "arbeidIPeriode.jobberIPerioden.VET_IKKE": "Usikker, men jeg melder fra hvis jeg skal jobbe i pleiepengeperioden",
     "arbeidIPeriode.jobberIPerioden.planlagt": "skal jobbe",
     "arbeidIPeriode.jobberIPerioden.historisk": "jobbet",
-    "arbeidIPeriode.jobberIPerioden.vetIkke": "Usikker, men jeg melder fra hvis jeg skal jobbe i pleiepengeperioden",
     "arbeidIPeriode.jobberSomVanlig.somVanlig": "Som vanlig, {timer} per uke",
     "arbeidIPeriode.jobberSomVanlig.redusert": "Mindre enn {timer} per uke",
 

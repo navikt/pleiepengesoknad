@@ -1,7 +1,6 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-with-header/ContentWithHeader';
 import { DateRange, dateToday, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { VetOmsorgstilbud } from '../../../../types';
@@ -9,8 +8,8 @@ import { PlanlagtOmsorgstilbudApiData } from '../../../../types/Pleiepengesøkna
 import { getPlanlagtPeriode } from '../../../../utils/tidsbrukUtils';
 import JaNeiSvar from '../JaNeiSvar';
 import SummaryBlock from '../SummaryBlock';
-import OmsorgstilbudEnkeltdagerSummary from './OmsorgstilbudEnkeltdagerSummary';
-import OmsorgstilbudFasteDagerSummary from './OmsorgstilbudFasteDagerSummary';
+import TidEnkeltdagerSummary from '../dager-med-tid/TidEnkeltdagerSummary';
+import TidFasteDagerSummary from '../dager-med-tid/TidFasteDagerSummary';
 
 interface Props {
     omsorgstilbud?: PlanlagtOmsorgstilbudApiData;
@@ -29,15 +28,13 @@ const PlanlagtOmsorgstilbudSummary = ({ omsorgstilbud, søknadsperiode }: Props)
 
     return (
         <>
-            <Box margin="xl">
-                <ContentWithHeader
-                    header={intlHelper(intl, 'steg.omsorgstilbud.skalBarnetIOmsorgstilbud.spm', {
-                        fra: prettifyDateFull(periodeFraOgMedSøknadsdato.from),
-                        til: prettifyDateFull(periodeFraOgMedSøknadsdato.to),
-                    })}>
-                    <FormattedMessage id={`omsorgstilbud.svar.${svar}`} />
-                </ContentWithHeader>
-            </Box>
+            <SummaryBlock
+                header={intlHelper(intl, 'steg.omsorgstilbud.skalBarnetIOmsorgstilbud.spm', {
+                    fra: prettifyDateFull(periodeFraOgMedSøknadsdato.from),
+                    til: prettifyDateFull(periodeFraOgMedSøknadsdato.to),
+                })}>
+                <FormattedMessage id={`omsorgstilbud.svar.${svar}`} />
+            </SummaryBlock>
             {omsorgstilbud && (
                 <>
                     <Box margin="xl">
@@ -70,10 +67,10 @@ const PlanlagtOmsorgstilbudSummary = ({ omsorgstilbud, søknadsperiode }: Props)
                                     header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.planlagt.header')}
                                     headerTag="h3">
                                     {omsorgstilbud.ukedager && (
-                                        <OmsorgstilbudFasteDagerSummary fasteDager={omsorgstilbud.ukedager} />
+                                        <TidFasteDagerSummary fasteDager={omsorgstilbud.ukedager} />
                                     )}
                                     {omsorgstilbud.enkeltdager && (
-                                        <OmsorgstilbudEnkeltdagerSummary dager={omsorgstilbud.enkeltdager} />
+                                        <TidEnkeltdagerSummary dager={omsorgstilbud.enkeltdager} />
                                     )}
                                 </SummaryBlock>
                             </>

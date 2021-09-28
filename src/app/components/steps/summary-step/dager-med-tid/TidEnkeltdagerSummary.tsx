@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import { iso8601DurationToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { ISOStringToDate } from '@navikt/sif-common-formik/lib';
@@ -7,13 +8,13 @@ import groupBy from 'lodash.groupby';
 import EkspanderbartPanel from 'nav-frontend-ekspanderbartpanel';
 import { DagMedTid } from '../../../../types';
 import { TidEnkeltdagApiData } from '../../../../types/PleiepengesøknadApiData';
-import OmsorgsdagerListe from './omsorgsdagerListe/OmsorgsdagerListe';
+import DagerMedTidListe from './dager-med-tid-liste/DagerMedTidListe';
 
 interface Props {
     dager: TidEnkeltdagApiData[];
 }
 
-const OmsorgstilbudEnkeltdagerSummary: React.FunctionComponent<Props> = ({ dager }) => {
+const TidEnkeltdagerSummary: React.FunctionComponent<Props> = ({ dager }) => {
     const days: DagMedTid[] = [];
     dager.forEach((dag) => {
         const dato = ISOStringToDate(dag.dato);
@@ -23,25 +24,31 @@ const OmsorgstilbudEnkeltdagerSummary: React.FunctionComponent<Props> = ({ dager
         }
     });
 
+    const ingenDagerRegistrertMelding = <FormattedMessage id="dagerMedTid.ingenDagerRegistrert" />;
+    if (dager.length === 0) {
+        return ingenDagerRegistrertMelding;
+    }
     if (dager.length < 10) {
-        return <OmsorgsdagerListe omsorgsdager={days} viseUke={false} />;
+        return <DagerMedTidListe dagerMedTid={days} viseUke={false} />;
     }
 
     const months = groupBy(days, ({ dato }) => `${dato.getFullYear()}.${dato.getMonth()}`);
     return (
         <div>
             {Object.keys(months).map((key) => {
-                const days = months[key];
+                const dagerMedTid = months[key];
+                if (dagerMedTid.length === 0) {
+                    return ingenDagerRegistrertMelding;
+                }
                 return (
                     <Box margin="m" key={key}>
                         <EkspanderbartPanel
-                            className={'ekspanderbartPanel--omsorgstilbud'}
                             tittel={
                                 <span style={{ textTransform: 'capitalize', fontSize: '1rem' }}>
-                                    {dayjs(days[0].dato).format('MMMM YYYY')}
+                                    {dayjs(dagerMedTid[0].dato).format('MMMM YYYY')}
                                 </span>
                             }>
-                            <OmsorgsdagerListe omsorgsdager={days} viseUke={true} />
+                            <DagerMedTidListe dagerMedTid={dagerMedTid} viseUke={true} />
                         </EkspanderbartPanel>
                     </Box>
                 );
@@ -50,4 +57,4 @@ const OmsorgstilbudEnkeltdagerSummary: React.FunctionComponent<Props> = ({ dager
     );
 };
 
-export default OmsorgstilbudEnkeltdagerSummary;
+export default TidEnkeltdagerSummary;
