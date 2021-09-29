@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { visVernepliktSpørsmål } from '../../components/steps/arbeidssituasjon-step/ArbeidssituasjonStep';
-import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { ArbeidsforholdAnsatt, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 
 export const formDataMock: Partial<PleiepengesøknadFormData> = {
     ansatt_arbeidsforhold: [],
@@ -8,85 +8,86 @@ export const formDataMock: Partial<PleiepengesøknadFormData> = {
     selvstendig_harHattInntektSomSN: YesOrNo.UNANSWERED,
 };
 
+const ansattArbeidsforhold: ArbeidsforholdAnsatt = {
+    organisasjonsnummer: '123',
+    navn: '123',
+};
+
 describe('visVernepliktSpørsmål', () => {
     describe('skjuler spørsmål om verneplikt dersom', () => {
         it('søker har ikke besvart spørsmål om arbeidsgivere, frilanser og selvstendig næringdrivende', () => {
-            expect(
-                visVernepliktSpørsmål({
-                    ...formDataMock,
-                    arbeidsforhold: [
-                        {
-                            erAnsatt: YesOrNo.UNANSWERED,
-                        },
-                    ],
-                    frilans_harHattInntektSomFrilanser: YesOrNo.UNANSWERED,
-                    selvstendig_harHattInntektSomSN: YesOrNo.UNANSWERED,
-                } as PleiepengesøknadFormData)
-            ).toBeFalsy();
+            const data: Partial<PleiepengesøknadFormData> = {
+                ...formDataMock,
+                ansatt_arbeidsforhold: [
+                    {
+                        ...ansattArbeidsforhold,
+                        erAnsatt: YesOrNo.UNANSWERED,
+                    },
+                ],
+                frilans_harHattInntektSomFrilanser: YesOrNo.UNANSWERED,
+                selvstendig_harHattInntektSomSN: YesOrNo.UNANSWERED,
+            };
+            expect(visVernepliktSpørsmål(data)).toBeFalsy();
         });
         it('søker er ansatt', () => {
-            expect(
-                visVernepliktSpørsmål({
-                    ...formDataMock,
-                    arbeidsforhold: [
-                        {
-                            erAnsatt: YesOrNo.YES,
-                        },
-                    ],
-                    frilans_harHattInntektSomFrilanser: YesOrNo.NO,
-                    selvstendig_harHattInntektSomSN: YesOrNo.NO,
-                } as PleiepengesøknadFormData)
-            ).toBeFalsy();
+            const data: Partial<PleiepengesøknadFormData> = {
+                ...formDataMock,
+                ansatt_arbeidsforhold: [
+                    {
+                        ...ansattArbeidsforhold,
+                        erAnsatt: YesOrNo.YES,
+                    },
+                ],
+                frilans_harHattInntektSomFrilanser: YesOrNo.NO,
+                selvstendig_harHattInntektSomSN: YesOrNo.NO,
+            };
+            expect(visVernepliktSpørsmål(data)).toBeFalsy();
         });
         it('søker har ikke ansettesesforhold men er frilanser eller sn', () => {
-            expect(
-                visVernepliktSpørsmål({
-                    ...formDataMock,
-                    frilans_harHattInntektSomFrilanser: YesOrNo.YES,
-                    selvstendig_harHattInntektSomSN: YesOrNo.NO,
-                } as PleiepengesøknadFormData)
-            ).toBeFalsy();
+            const data: Partial<PleiepengesøknadFormData> = {
+                ...formDataMock,
+                frilans_harHattInntektSomFrilanser: YesOrNo.YES,
+                selvstendig_harHattInntektSomSN: YesOrNo.NO,
+            };
+            expect(visVernepliktSpørsmål(data)).toBeFalsy();
         });
         it('søker er frilanser', () => {
-            expect(
-                visVernepliktSpørsmål({
-                    ...formDataMock,
-                    frilans_harHattInntektSomFrilanser: YesOrNo.YES,
-                } as PleiepengesøknadFormData)
-            ).toBeFalsy();
+            const data: Partial<PleiepengesøknadFormData> = {
+                ...formDataMock,
+                frilans_harHattInntektSomFrilanser: YesOrNo.YES,
+            };
+            expect(visVernepliktSpørsmål(data)).toBeFalsy();
         });
         it('søker er selvstendig næringsdrivende', () => {
-            expect(
-                visVernepliktSpørsmål({
-                    ...formDataMock,
-                    selvstendig_harHattInntektSomSN: YesOrNo.YES,
-                } as PleiepengesøknadFormData)
-            ).toBeFalsy();
+            const data: Partial<PleiepengesøknadFormData> = {
+                ...formDataMock,
+                selvstendig_harHattInntektSomSN: YesOrNo.YES,
+            };
+            expect(visVernepliktSpørsmål(data)).toBeFalsy();
         });
     });
     describe('viser spørsmål om verneplikt dersom', () => {
-        const formData = {
-            ...formDataMock,
-            selvstendig_harHattInntektSomSN: YesOrNo.NO,
-            frilans_harHattInntektSomFrilanser: YesOrNo.NO,
-        } as PleiepengesøknadFormData;
-
         it('søker er ikke frilanser, er ikke selvstendig næringsdrivende, og har ingen arbeidsgivere', () => {
-            expect(visVernepliktSpørsmål(formData)).toBeTruthy();
+            const data: Partial<PleiepengesøknadFormData> = {
+                ...formDataMock,
+                selvstendig_harHattInntektSomSN: YesOrNo.NO,
+                frilans_harHattInntektSomFrilanser: YesOrNo.NO,
+            } as PleiepengesøknadFormData;
+            expect(visVernepliktSpørsmål(data)).toBeTruthy();
         });
         it('søker er ikke frilanser, er ikke selvstendig næringsdrivende, og har sluttet før søknadsperioden', () => {
-            expect(
-                visVernepliktSpørsmål({
-                    ...formData,
-                    arbeidsforhold: [
-                        {
-                            erAnsatt: YesOrNo.NO,
-                        },
-                    ],
-                    selvstendig_harHattInntektSomSN: YesOrNo.NO,
-                    frilans_harHattInntektSomFrilanser: YesOrNo.NO,
-                } as PleiepengesøknadFormData)
-            ).toBeTruthy();
+            const data: Partial<PleiepengesøknadFormData> = {
+                ...formDataMock,
+                ansatt_arbeidsforhold: [
+                    {
+                        ...ansattArbeidsforhold,
+                        erAnsatt: YesOrNo.NO,
+                    },
+                ],
+                selvstendig_harHattInntektSomSN: YesOrNo.NO,
+                frilans_harHattInntektSomFrilanser: YesOrNo.NO,
+            };
+            expect(visVernepliktSpørsmål(data)).toBeTruthy();
         });
     });
 });

@@ -2,15 +2,19 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { DateRange, dateToday, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { PleiepengesøknadApiData } from '../../../../types/PleiepengesøknadApiData';
+import { ArbeidsforholdApiData, PleiepengesøknadApiData } from '../../../../types/PleiepengesøknadApiData';
 import { getHistoriskPeriode, getPlanlagtPeriode } from '../../../../utils/tidsbrukUtils';
 import SummaryBlock from '../../../summary-block/SummaryBlock';
 import SummarySection from '../../../summary-section/SummarySection';
-import ArbeidIPeriodeSummaryItem, { ArbeidIPeriodenSummaryItemType } from './ArbeidIPeriodenSummaryItem';
+import ArbeidIPeriodeSummaryItem from './ArbeidIPeriodenSummaryItem';
 
 interface Props {
     apiValues: PleiepengesøknadApiData;
     søknadsperiode: DateRange;
+}
+
+export interface ArbeidIPeriodenSummaryItemType extends ArbeidsforholdApiData {
+    tittel: string;
 }
 
 const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
@@ -67,6 +71,8 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
                                 <ArbeidIPeriodeSummaryItem
                                     periode={periodeFørSøknadsdato}
                                     arbeid={forhold.historiskArbeid}
+                                    arbeidsform={forhold.arbeidsform}
+                                    normaltimer={forhold.jobberNormaltTimer}
                                     erHistorisk={true}
                                 />
                             </SummaryBlock>
@@ -82,6 +88,8 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
                                 <ArbeidIPeriodeSummaryItem
                                     periode={periodeFraOgMedSøknadsdato}
                                     arbeid={forhold.planlagtArbeid}
+                                    arbeidsform={forhold.arbeidsform}
+                                    normaltimer={forhold.jobberNormaltTimer}
                                     erHistorisk={false}
                                 />
                             </SummaryBlock>

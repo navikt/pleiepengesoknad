@@ -33,7 +33,7 @@ export const visVernepliktSpørsmål = ({
     ansatt_arbeidsforhold = [],
     frilans_harHattInntektSomFrilanser,
     selvstendig_harHattInntektSomSN,
-}: PleiepengesøknadFormData): boolean => {
+}: Partial<PleiepengesøknadFormData>): boolean => {
     return (
         frilans_harHattInntektSomFrilanser === YesOrNo.NO &&
         selvstendig_harHattInntektSomSN === YesOrNo.NO &&
