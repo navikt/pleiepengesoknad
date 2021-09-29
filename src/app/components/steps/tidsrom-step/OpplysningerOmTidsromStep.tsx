@@ -7,7 +7,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { date1YearAgo, date1YearFromNow, date3YearsAgo, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import { getStringValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import FerieuttakListAndDialog from '@navikt/sif-common-forms/lib/ferieuttak/FerieuttakListAndDialog';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
@@ -17,7 +17,6 @@ import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
-import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet } from '../../../utils/tidsromUtils';
 import {
     validateFerieuttakIPerioden,
     validateFradato,
@@ -100,29 +99,6 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
             <ExpandableInfo title={intlHelper(intl, 'steg.tidsrom.hjelpetekst.tittel.1')}>
                 <FormattedMessage id="steg.tidsrom.hjelpetekst.1" />
             </ExpandableInfo>
-
-            {isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG) &&
-                brukerSkalBekrefteOmsorgForBarnet(values, søkerdata.barn) && (
-                    <>
-                        <Box margin="xl">
-                            <AppForm.YesOrNoQuestion
-                                legend={intlHelper(intl, 'steg.tidsrom.skalPassePåBarnetIHelePerioden.spm')}
-                                name={AppFormField.skalPassePåBarnetIHelePerioden}
-                                validate={getYesOrNoValidator()}
-                            />
-                        </Box>
-                        {brukerSkalBeskriveOmsorgForBarnet(values, søkerdata.barn) && (
-                            <Box margin="xl">
-                                <AppForm.Textarea
-                                    label={intlHelper(intl, 'steg.tidsrom.bekreftOmsorgEkstrainfo.spm')}
-                                    name={AppFormField.beskrivelseOmsorgsrolleIPerioden}
-                                    validate={getStringValidator({ maxLength: 1000, required: true })}
-                                    maxLength={1000}
-                                />
-                            </Box>
-                        )}
-                    </>
-                )}
 
             <Box margin="xl">
                 <AppForm.YesOrNoQuestion

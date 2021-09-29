@@ -146,9 +146,6 @@ export interface PleiepengesøknadApiData {
     barnRelasjonBeskrivelse?: string;
     fraOgMed: ApiStringDate;
     tilOgMed: ApiStringDate;
-    skalBekrefteOmsorg?: boolean;
-    skalPassePåBarnetIHelePerioden?: boolean;
-    beskrivelseOmsorgsrollen?: string;
     vedlegg: string[];
     medlemskap: MedlemskapApiData;
     utenlandsoppholdIPerioden?: {
@@ -158,7 +155,7 @@ export interface PleiepengesøknadApiData {
     ferieuttakIPerioden?: FerieuttakIPeriodenApiData;
     harMedsøker: boolean;
     samtidigHjemme?: boolean;
-    omsorgstilbudV2?: OmsorgstilbudApiData;
+    omsorgstilbud?: OmsorgstilbudApiData;
     nattevåk?: {
         harNattevåk: boolean;
         tilleggsinformasjon?: string;

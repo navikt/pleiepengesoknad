@@ -15,7 +15,7 @@ import {
     getPlanlagtPeriode,
 } from '../tidsbrukUtils';
 
-type OmsorgstilbudApiDataPart = Pick<PleiepengesøknadApiData, 'omsorgstilbudV2'>;
+type OmsorgstilbudApiDataPart = Pick<PleiepengesøknadApiData, 'omsorgstilbud'>;
 
 export const mapPlanlagtOmsorgstilbudToApiData = (
     omsorgstilbud: Omsorgstilbud,
@@ -72,11 +72,11 @@ export const getOmsorgstilbudApiData = (
 ): OmsorgstilbudApiDataPart => {
     if (omsorgstilbud?.historisk || omsorgstilbud?.planlagt) {
         return {
-            omsorgstilbudV2: {
+            omsorgstilbud: {
                 historisk: mapHistoriskOmsorgstilbudToApiData(omsorgstilbud, søknadsperiode),
                 planlagt: mapPlanlagtOmsorgstilbudToApiData(omsorgstilbud, søknadsperiode),
             },
         };
     }
-    return { omsorgstilbudV2: undefined };
+    return { omsorgstilbud: undefined };
 };

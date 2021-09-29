@@ -5,11 +5,8 @@ import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-wi
 import TextareaSummary from '@navikt/sif-common-core/lib/components/textarea-summary/TextareaSummary';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
 import { PleiepengesøknadApiData } from '../../../../types/PleiepengesøknadApiData';
-import { Feature, isFeatureEnabled } from '../../../../utils/featureToggleUtils';
 import SummarySection from '../../../summary-section/SummarySection';
-import JaNeiSvar from '../enkeltsvar/JaNeiSvar';
 import HistoriskOmsorgstilbudSummary from './HistoriskOmsorgstilbudSummary';
 import PlanlagtOmsorgstilbudSummary from './PlanlagtOmsorgstilbudSummary';
 import Sitat from '../enkeltsvar/Sitat';
@@ -20,24 +17,17 @@ interface Props {
 }
 
 const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
-    apiValues: {
-        nattevåk,
-        beredskap,
-        omsorgstilbudV2,
-        skalBekrefteOmsorg,
-        skalPassePåBarnetIHelePerioden,
-        beskrivelseOmsorgsrollen,
-    },
+    apiValues: { nattevåk, beredskap, omsorgstilbud: omsorgstilbud },
     søknadsperiode,
 }) => {
     const intl = useIntl();
     return (
         <SummarySection header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.header')}>
             <HistoriskOmsorgstilbudSummary
-                historiskOmsorgstilbud={omsorgstilbudV2?.historisk}
+                historiskOmsorgstilbud={omsorgstilbud?.historisk}
                 søknadsperiode={søknadsperiode}
             />
-            <PlanlagtOmsorgstilbudSummary omsorgstilbud={omsorgstilbudV2?.planlagt} søknadsperiode={søknadsperiode} />
+            <PlanlagtOmsorgstilbudSummary omsorgstilbud={omsorgstilbud?.planlagt} søknadsperiode={søknadsperiode} />
 
             {nattevåk && (
                 <Box margin="xl">
@@ -63,25 +53,6 @@ const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
                             </Sitat>
                         )}
                     </ContentWithHeader>
-                </Box>
-            )}
-
-            {isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG) && skalBekrefteOmsorg && (
-                <Box margin="xl">
-                    <ContentWithHeader
-                        header={intlHelper(intl, 'steg.oppsummering.skalPassePåBarnetIHelePerioden.header')}>
-                        <JaNeiSvar harSvartJa={skalPassePåBarnetIHelePerioden} />
-                    </ContentWithHeader>
-                    {hasValue(beskrivelseOmsorgsrollen) && (
-                        <Box margin="l">
-                            <ContentWithHeader
-                                header={intlHelper(intl, 'steg.oppsummering.bekreftOmsorgEkstrainfo.header')}>
-                                <Sitat>
-                                    <TextareaSummary text={beskrivelseOmsorgsrollen} />
-                                </Sitat>
-                            </ContentWithHeader>
-                        </Box>
-                    )}
                 </Box>
             )}
         </SummarySection>

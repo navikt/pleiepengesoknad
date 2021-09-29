@@ -18,7 +18,6 @@ import { getOmsorgstilbudApiData } from './formToApiMaps/omsorgstilbudApiData';
 import { getSelvstendigNæringsdrivendeApiData } from './formToApiMaps/selvstendigNæringsdrivendeApiData';
 import { getUtenlandsoppholdIPeriodenApiData } from './formToApiMaps/utenlandsoppholdIPeriodenApiData';
 import { getValidSpråk } from './sprakUtils';
-import { brukerSkalBekrefteOmsorgForBarnet, brukerSkalBeskriveOmsorgForBarnet } from './tidsromUtils';
 
 export const mapFormDataToApiData = (
     formData: PleiepengesøknadFormData,
@@ -74,18 +73,6 @@ export const mapFormDataToApiData = (
 
             if (isFeatureEnabled(Feature.ANDRE_YTELSER)) {
                 apiData.andreYtelserFraNAV = formData.mottarAndreYtelser === YesOrNo.YES ? formData.andreYtelser : [];
-            }
-
-            if (isFeatureEnabled(Feature.TOGGLE_BEKREFT_OMSORG)) {
-                const skalBekrefteOmsorgForBarnet = brukerSkalBekrefteOmsorgForBarnet(formData, barn);
-                const skalBeskriveOmsorgForBarnet = brukerSkalBeskriveOmsorgForBarnet(formData, barn);
-                if (skalBekrefteOmsorgForBarnet) {
-                    apiData.skalBekrefteOmsorg = true;
-                    apiData.skalPassePåBarnetIHelePerioden = formData.skalPassePåBarnetIHelePerioden === YesOrNo.YES;
-                    if (skalBeskriveOmsorgForBarnet) {
-                        apiData.beskrivelseOmsorgsrollen = formData.beskrivelseOmsorgsrolleIPerioden;
-                    }
-                }
             }
 
             if (isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN)) {

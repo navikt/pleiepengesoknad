@@ -1,7 +1,7 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { Arbeidsform } from '../../../../types';
+import { Arbeidsform, JobberIPeriodeSvar } from '../../../../types';
 import { ArbeidIPeriodeApiData, ArbeidsforholdApiData } from '../../../../types/PleiepengesøknadApiData';
 import SummaryBlock from '../../../summary-block/SummaryBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
@@ -35,8 +35,8 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({
             ? intlHelper(
                   intl,
                   arbeid.jobberSomVanlig
-                      ? 'oppsummering.arbeidIPeriode.jobberIPerioden.somVanlig'
-                      : 'oppsummering.arbeidIPeriode.jobberIPerioden.redusert',
+                      ? 'oppsummering.arbeidIPeriode.jobberIPerioden.ja.somVanlig'
+                      : 'oppsummering.arbeidIPeriode.jobberIPerioden.ja.redusert',
                   {
                       timerArbeidsform: arbeid.jobberIPerioden
                           ? intlHelper(intl, `timer.arbeidsform.${arbeidsform}`, { timer: normaltimer })
@@ -46,16 +46,23 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({
             : '',
     };
 
-    const getIntlText = (part: string): string => {
-        return intlHelper(intl, `oppsummering.arbeidIPeriode.${part}`, intlTexts);
+    const getJobberIPeriodenTekst = () => {
+        switch (arbeid.jobberIPerioden) {
+            case JobberIPeriodeSvar.JA:
+                return intlHelper(intl, `oppsummering.arbeidIPeriode.jobberIPerioden.ja`, intlTexts);
+            case JobberIPeriodeSvar.NEI:
+                return intlHelper(intl, `oppsummering.arbeidIPeriode.jobberIPerioden.nei`, intlTexts);
+            case JobberIPeriodeSvar.VET_IKKE:
+                return intlHelper(intl, `oppsummering.arbeidIPeriode.jobberIPerioden.vetIkke`, intlTexts);
+        }
     };
-    const jobberIPeriodenTekst = arbeid.jobberIPerioden
-        ? getIntlText('jobberIPerioden')
-        : getIntlText('jobberIkkeIPerioden');
 
     return (
         <>
-            <p>{jobberIPeriodenTekst}</p>
+            <ul>
+                <li>{getJobberIPeriodenTekst()}</li>
+            </ul>
+
             <div style={{ paddingLeft: '2rem' }}>
                 {arbeid.jobberSomVanlig === false && (
                     <SummaryBlock
