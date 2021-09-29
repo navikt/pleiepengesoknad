@@ -557,7 +557,8 @@
     "oppsummering.arbeidssituasjon.selvstendig.erSn.flereVirksomheter": "Er selvstendig næringsdrivende i perioden. Har flere virksomheter.",
     "oppsummering.arbeidssituasjon.selvstendig.erSn.enVirksomhet": "Er selvstendig næringsdrivende i perioden. Har 1 virksomhet.",
 
-    "oppsummering.arbeidIPeriode.jobbIPerioden.header": "Jobb i perioden {fra} til {til}",
+    "oppsummering.arbeidIPeriode.jobbIPerioden.historisk.header": "Jobb til nå ({fra} til {til})",
+    "oppsummering.arbeidIPeriode.jobbIPerioden.planlagt.header": "Jobb frem i tid ({fra} til {til})",
     "oppsummering.arbeidIPeriode.Jobber": "Jobber",
     "oppsummering.arbeidIPeriode.Jobbet": "Jobbet",
     "oppsummering.arbeidIPeriode.jobberIPerioden.ja": "{JobberJobbet} {vanligRedusert}.",

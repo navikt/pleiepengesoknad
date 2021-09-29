@@ -42,8 +42,8 @@ const getStepConfigItemTextKeys = (stepId: StepID): StepConfigItemTexts => {
         pageTitle: `step.${stepId}.pageTitle`,
         stepTitle: `step.${stepId}.stepTitle`,
         stepIndicatorLabel: `step.${stepId}.stepIndicatorLabel`,
-        nextButtonLabel: 'step.nextButtonLabel',
-        nextButtonAriaLabel: 'step.nextButtonAriaLabel',
+        nextButtonLabel: stepId === StepID.SUMMARY ? 'step.sendButtonLabel' : 'step.nextButtonLabel',
+        nextButtonAriaLabel: stepId === StepID.SUMMARY ? 'step.sendButtonAriaLabel' : 'step.nextButtonAriaLabel',
     };
 };
 
