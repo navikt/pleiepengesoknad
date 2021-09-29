@@ -92,6 +92,10 @@
     "barnRelasjon.FAR": "Far",
     "barnRelasjon.ANNET": "Annet",
 
+    "arbeidsgiver.tittel": "{navn} (organisasjonsnummer {organisasjonsnummer})",
+    "frilans.tittel": "Frilans",
+    "selvstendigNæringsdrivende.tittel": "Selvstendig næringsdrivende",
+
     "avbrytSøknadDialog.avbrytSøknadLabel": "Ja, avbryt søknad",
     "avbrytSøknadDialog.fortsettSøknadLabel": "Nei",
     "avbrytSøknadDialog.intro": "Det du har fylt ut i søknaden blir slettet, og du kommer tilbake til velkomstsiden.",
@@ -552,6 +556,14 @@
     "oppsummering.arbeidssituasjon.selvstendig.erIkkeSN": "Er ikke selvstendig næringsdrivende i perioden det søkes for.",
     "oppsummering.arbeidssituasjon.selvstendig.erSn.flereVirksomheter": "Er selvstendig næringsdrivende i perioden. Har flere virksomheter.",
     "oppsummering.arbeidssituasjon.selvstendig.erSn.enVirksomhet": "Er selvstendig næringsdrivende i perioden. Har 1 virksomhet.",
+
+    "oppsummering.arbeidIPeriode.jobbIPerioden.header": "Jobb i perioden {fra} til {til}",
+    "oppsummering.arbeidIPeriode.Jobber": "Jobber",
+    "oppsummering.arbeidIPeriode.Jobbet": "Jobbet",
+    "oppsummering.arbeidIPeriode.jobberIPerioden": "{JobberJobbet} {vanligRedusert} i perioden.",
+    "oppsummering.arbeidIPeriode.jobberIPerioden.somVanlig": "som vanlig",
+    "oppsummering.arbeidIPeriode.jobberIPerioden.redusert": "redusert",
+    "oppsummering.arbeidIPeriode.jobberIkkeIPerioden": "{JobberJobbet} ikke i perioden.",
 
     "næringstype.FISKE": "Fiske",
     "næringstype.JORDBRUK_SKOGBRUK": "Jordbruk",

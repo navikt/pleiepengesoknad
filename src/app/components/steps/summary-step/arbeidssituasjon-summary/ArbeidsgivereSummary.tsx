@@ -1,3 +1,4 @@
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { ArbeidsgiverApiData } from '../../../../types/PleiepengesøknadApiData';
@@ -19,7 +20,7 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere })
                 return (
                     <SummaryBlock
                         key={organisasjonsnummer}
-                        header={`${navn} (organisasjonsnummer ${organisasjonsnummer})`}
+                        header={intlHelper(intl, 'arbeidsgiver.tittel', { navn, organisasjonsnummer })}
                         headerTag="h3"
                         indentChildren={false}>
                         <ul>

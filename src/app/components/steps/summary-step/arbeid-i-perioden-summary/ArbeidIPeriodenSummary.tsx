@@ -1,6 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange, dateToday, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { PleiepengesøknadApiData } from '../../../../types/PleiepengesøknadApiData';
 import { getHistoriskPeriode, getPlanlagtPeriode } from '../../../../utils/tidsbrukUtils';
@@ -27,7 +27,7 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
         arbeidsgivere.forEach((a) => {
             alleArbeidsforhold.push({
                 ...a.arbeidsforhold,
-                tittel: intlHelper(intl, 'arbeidsforhold.oppsummering.ansatt', {
+                tittel: intlHelper(intl, 'arbeidsgiver.tittel', {
                     navn: a.navn,
                     organisasjonsnummer: a.organisasjonsnummer,
                 }),
@@ -38,14 +38,14 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
     if (frilans?.arbeidsforhold) {
         alleArbeidsforhold.push({
             ...frilans.arbeidsforhold,
-            tittel: intlHelper(intl, 'arbeidsforhold.oppsummering.frilanser'),
+            tittel: intlHelper(intl, 'frilans.tittel'),
         });
     }
 
     if (selvstendigNæringsdrivende?.arbeidsforhold) {
         alleArbeidsforhold.push({
             ...selvstendigNæringsdrivende.arbeidsforhold,
-            tittel: intlHelper(intl, 'arbeidsforhold.oppsummering.selvstendig'),
+            tittel: intlHelper(intl, 'selvstendigNæringsdrivende.tittel'),
         });
     }
 
@@ -56,13 +56,18 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
     return (
         <>
             {periodeFørSøknadsdato && (
-                <SummarySection header={'Jobb til nå'}>
+                <SummarySection
+                    header={intlHelper(intl, 'oppsummering.arbeidIPeriode.jobbIPerioden.header', {
+                        fra: prettifyDateFull(periodeFørSøknadsdato.from),
+                        til: prettifyDateFull(periodeFørSøknadsdato.to),
+                    })}>
                     {alleArbeidsforhold.map((forhold) =>
                         forhold.historiskArbeid ? (
                             <SummaryBlock header={forhold.tittel} key={forhold.tittel}>
                                 <ArbeidIPeriodeSummaryItem
                                     periode={periodeFørSøknadsdato}
                                     arbeid={forhold.historiskArbeid}
+                                    erHistorisk={true}
                                 />
                             </SummaryBlock>
                         ) : undefined
@@ -77,6 +82,7 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
                                 <ArbeidIPeriodeSummaryItem
                                     periode={periodeFraOgMedSøknadsdato}
                                     arbeid={forhold.planlagtArbeid}
+                                    erHistorisk={false}
                                 />
                             </SummaryBlock>
                         ) : undefined
