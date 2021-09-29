@@ -53,6 +53,12 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
         });
     }
 
+    const getSectionHeaderText = (periode: DateRange) =>
+        intlHelper(intl, 'oppsummering.arbeidIPeriode.jobbIPerioden.header', {
+            fra: prettifyDateFull(periode.from),
+            til: prettifyDateFull(periode.to),
+        });
+
     if (alleArbeidsforhold.length === 0) {
         return <SummarySection header={'Arbeid i perioden'}>Ingen arbeidsforhold registrert</SummarySection>;
     }
@@ -60,11 +66,7 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
     return (
         <>
             {periodeFørSøknadsdato && (
-                <SummarySection
-                    header={intlHelper(intl, 'oppsummering.arbeidIPeriode.jobbIPerioden.header', {
-                        fra: prettifyDateFull(periodeFørSøknadsdato.from),
-                        til: prettifyDateFull(periodeFørSøknadsdato.to),
-                    })}>
+                <SummarySection header={getSectionHeaderText(periodeFørSøknadsdato)}>
                     {alleArbeidsforhold.map((forhold) =>
                         forhold.historiskArbeid ? (
                             <SummaryBlock header={forhold.tittel} key={forhold.tittel}>
@@ -81,7 +83,7 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
                 </SummarySection>
             )}
             {periodeFraOgMedSøknadsdato && (
-                <SummarySection header={'Jobb fremover'}>
+                <SummarySection header={getSectionHeaderText(periodeFraOgMedSøknadsdato)}>
                     {alleArbeidsforhold.map((forhold) =>
                         forhold.planlagtArbeid ? (
                             <SummaryBlock header={forhold.tittel} key={forhold.tittel}>
