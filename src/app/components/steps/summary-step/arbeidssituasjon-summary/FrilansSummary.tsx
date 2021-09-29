@@ -15,7 +15,11 @@ const FrilansSummary = ({ frilans }: Props) => {
     return (
         <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')} headerTag="h3">
             {frilans === undefined && (
-                <FormattedMessage id="oppsummering.arbeidssituasjon.frilans.erIkkeFrilanser" tagName="p" />
+                <ul>
+                    <li>
+                        <FormattedMessage id="oppsummering.arbeidssituasjon.frilans.erIkkeFrilanser" tagName="p" />
+                    </li>
+                </ul>
             )}
             {frilans !== undefined && (
                 <ul>

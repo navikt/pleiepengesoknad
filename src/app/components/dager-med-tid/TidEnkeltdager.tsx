@@ -29,7 +29,7 @@ const TidEnkeltdager: React.FunctionComponent<Props> = ({ dager }) => {
         return ingenDagerRegistrertMelding;
     }
     if (dager.length < 10) {
-        return <DagerMedTidListe dagerMedTid={days} viseUke={false} />;
+        return <DagerMedTidListe dagerMedTid={days} viseUke={true} />;
     }
 
     const months = groupBy(days, ({ dato }) => `${dato.getFullYear()}.${dato.getMonth()}`);

@@ -17,7 +17,11 @@ function SelvstendigSummary({ selvstendigNæringsdrivende }: Props) {
     return (
         <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.selvstendig.header')} headerTag="h3">
             {selvstendigNæringsdrivende === undefined && (
-                <FormattedMessage id="oppsummering.arbeidssituasjon.selvstendig.erIkkeSN" tagName="p" />
+                <ul>
+                    <li>
+                        <FormattedMessage id="oppsummering.arbeidssituasjon.selvstendig.erIkkeSN" tagName="p" />
+                    </li>
+                </ul>
             )}
             {virksomhet && arbeidsforhold && (
                 <ul>

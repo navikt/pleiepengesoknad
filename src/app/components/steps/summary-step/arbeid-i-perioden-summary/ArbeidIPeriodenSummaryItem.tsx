@@ -3,12 +3,13 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { Arbeidsform, JobberIPeriodeSvar } from '../../../../types';
 import { ArbeidIPeriodeApiData, ArbeidsforholdApiData } from '../../../../types/PleiepengesøknadApiData';
-import SummaryBlock from '../../../summary-block/SummaryBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import TidEnkeltdager from '../../../dager-med-tid/TidEnkeltdager';
+import TidFasteDager from '../../../dager-med-tid/TidFasteDager';
 
 interface Props {
     periode: DateRange;
-    arbeid: ArbeidIPeriodeApiData;
+    arbeidIPeriode: ArbeidIPeriodeApiData;
     arbeidsform: Arbeidsform;
     normaltimer: number;
     erHistorisk: boolean;
@@ -19,7 +20,7 @@ export interface ArbeidIPeriodenSummaryItemType extends ArbeidsforholdApiData {
 }
 
 const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({
-    arbeid,
+    arbeidIPeriode,
     arbeidsform,
     erHistorisk,
     normaltimer,
@@ -31,14 +32,14 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({
             intl,
             erHistorisk ? 'oppsummering.arbeidIPeriode.Jobbet' : 'oppsummering.arbeidIPeriode.Jobber'
         ),
-        vanligRedusert: arbeid.jobberIPerioden
+        vanligRedusert: arbeidIPeriode.jobberIPerioden
             ? intlHelper(
                   intl,
-                  arbeid.jobberSomVanlig
+                  arbeidIPeriode.jobberSomVanlig
                       ? 'oppsummering.arbeidIPeriode.jobberIPerioden.ja.somVanlig'
                       : 'oppsummering.arbeidIPeriode.jobberIPerioden.ja.redusert',
                   {
-                      timerArbeidsform: arbeid.jobberIPerioden
+                      timerArbeidsform: arbeidIPeriode.jobberIPerioden
                           ? intlHelper(intl, `timer.arbeidsform.${arbeidsform}`, { timer: normaltimer })
                           : '',
                   }
@@ -47,7 +48,7 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({
     };
 
     const getJobberIPeriodenTekst = () => {
-        switch (arbeid.jobberIPerioden) {
+        switch (arbeidIPeriode.jobberIPerioden) {
             case JobberIPeriodeSvar.JA:
                 return intlHelper(intl, `oppsummering.arbeidIPeriode.jobberIPerioden.ja`, intlTexts);
             case JobberIPeriodeSvar.NEI:
@@ -61,17 +62,29 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({
         <>
             <ul>
                 <li>{getJobberIPeriodenTekst()}</li>
+                {arbeidIPeriode.jobberSomVanlig === false && arbeidIPeriode.enkeltdager && (
+                    <li>
+                        <p>{erHistorisk ? 'Jobbet:' : 'Skal Jobbe:'}</p>
+                        <TidEnkeltdager dager={arbeidIPeriode.enkeltdager} />
+                    </li>
+                )}
+                {arbeidIPeriode.jobberSomVanlig === false && arbeidIPeriode.fasteDager && (
+                    <li>
+                        <p>{erHistorisk ? 'Jobbet likt hver uke:' : 'Skal jobbe likt hver uke:'}</p>
+                        <TidFasteDager fasteDager={arbeidIPeriode.fasteDager} />
+                    </li>
+                )}
             </ul>
 
-            <div style={{ paddingLeft: '2rem' }}>
-                {arbeid.jobberSomVanlig === false && (
+            {/* <div style={{ paddingLeft: '2rem' }}>
+                {arbeidIPeriode.jobberSomVanlig === false && (
                     <SummaryBlock
                         header="Er arbeidsukene dine like i denne perioden, eller varierer det?"
                         headerTag="h4">
-                        {arbeid.erLiktHverUke ? 'Hver uke er lik' : 'Det varierer fra uke til uke'}
+                        {arbeidIPeriode.erLiktHverUke ? 'Hver uke er lik' : 'Det varierer fra uke til uke'}
                     </SummaryBlock>
                 )}
-            </div>
+            </div> */}
         </>
     );
 };
