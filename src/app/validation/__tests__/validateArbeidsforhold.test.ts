@@ -1,3 +1,9 @@
+describe('arbeidsforhold', () => {
+    it('is deprecated', () => {
+        expect(1).toBe(1);
+    });
+});
+
 // import { ArbeidsforholdType, JobberSvar } from '../../types';
 // import {
 //     ArbeidsforholdAnsattApiData,
