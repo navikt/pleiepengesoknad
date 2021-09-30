@@ -76,7 +76,7 @@
     "avbrytSøknadDialog.tittel": "Avbryt og slett søknaden",
     "fortsettSøknadSenereDialog.avbrytSøknadLabel": "Ja, fortset seinare.",
     "fortsettSøknadSenereDialog.fortsettSøknadLabel": "Nei",
-    "fortsettSøknadSenereDialog.intro": "Vi lagrar søknaden din for deg i 24 timar.",
+
     "fortsettSøknadSenereDialog.spørsmål": "Vil du avslutte no og fortsetje seinare?",
     "fortsettSøknadSenereDialog.tittel": "Avslutt og fortset seinare.",
 
@@ -160,7 +160,7 @@
     "page.intro.text.2.c": "skal pleie og/eller ha tilsyn med ein svært alvorleg sjuk og utviklingshemma person som er 18 år eller eldre.",
     "page.intro.text.3": "Om søknaden",
     "page.intro.text.4": "Det kan vere greitt for deg å vite at du må svare på alle spørsmåla for å kunne gå vidare i søknaden. Du får rettleiing undervegs om kva du skal fylle ut, og korleis.",
-    "page.intro.text.5": "Dersom du begynner på ein søknad og ikkje fullfører utfyllinga, lagrar vi søknaden for deg i 24 timar. På den måten treng du ikkje fylle inn på nytt det du allereie har svart på. Om du vel å avbryte utfyllinga utan å lagre, blir opplysningane du har lagt inn, sletta.",
+    "page.intro.text.5": "Dersom du begynner på ein søknad og ikkje fullfører utfyllinga, lagrar vi søknaden for deg i 72 timar. På den måten treng du ikkje fylle inn på nytt det du allereie har svart på. Om du vel å avbryte utfyllinga utan å lagre, blir opplysningane du har lagt inn, sletta.",
     "page.intro.text.6.a": "Kan du ikkje søkje digitalt?",
     "page.intro.text.6.b": "Her finn du papirsøknaden som du sender til oss i posten",
     "page.intro.text.6.c": ".",

@@ -103,7 +103,7 @@
     "avbrytSøknadDialog.tittel": "Avbryt og slett søknad",
     "fortsettSøknadSenereDialog.avbrytSøknadLabel": "Ja, fortsett senere",
     "fortsettSøknadSenereDialog.fortsettSøknadLabel": "Nei",
-    "fortsettSøknadSenereDialog.intro": "Vi lagrer søknaden din for deg i 24 timer.",
+    "fortsettSøknadSenereDialog.intro": "Vi lagrer det du har fylt ut i søknaden i 72 timer (3 døgn). Når du vil fortsette på søknaden finner du den igjen på Dine pleiepenger på Ditt NAV.",
     "fortsettSøknadSenereDialog.spørsmål": "Vil du avslutte nå og fortsette senere?",
     "fortsettSøknadSenereDialog.tittel": "Avslutt og fortsett senere",
 
@@ -185,7 +185,7 @@
     "page.intro.text.2.c": "skal pleie og/eller ha tilsyn med en svært alvorlig syk og utviklingshemmet person som er 18 år eller eldre.",
     "page.intro.text.3": "Om søknaden",
     "page.intro.text.4": "Det kan være greit for deg å vite at du må svare på alle spørsmålene for å kunne gå videre i søknaden. Du får veiledning underveis om hva du skal fylle ut og hvordan.",
-    "page.intro.text.5": "Hvis du begynner på en søknad og ikke fullfører utfyllingen, lagrer vi søknaden for deg i 24 timer. På den måten trenger du ikke fylle inn på nytt det du allerede har svart på. Om du velger å avbryte utfyllingen uten å lagre, blir opplysningene du har lagt inn slettet.",
+    "page.intro.text.5": "Hvis du begynner på en søknad og ikke fullfører utfyllingen, lagrer vi søknaden for deg i 72 timer. På den måten trenger du ikke fylle inn på nytt det du allerede har svart på. Om du velger å avbryte utfyllingen uten å lagre, blir opplysningene du har lagt inn slettet.",
     "page.intro.text.6.a": "Kan du ikke søke digitalt?",
     "page.intro.text.6.b": "Her finner du papirsøknaden som du sender til oss i posten",
     "page.intro.text.6.c": ".",
@@ -416,7 +416,7 @@
     "page.confirmation.tittel.advarsel.list.item.2": "det er mer enn 4 uker siden du hadde pleiepenger sist.",
 
     "page.confirmation.dinePP.info.tittel": "Dine pleiepenger",
-    "page.confirmation.dinePP.info.1": "Du får mer informasjon om søknaden din på «Dine pleiepenger».",
+    "page.confirmation.dinePP.info.1": "Du får mer informasjon om søknaden din på \"Dine pleiepenger\".",
     "page.confirmation.dinePP.list.tittel": "Der kan du:",
     "page.confirmation.dinePP.list.item.1": "laste ned en bekreftelse på søknaden din til arbeidsgiver(e)",
     "page.confirmation.dinePP.list.item.2": "ettersende dokumentasjon",
