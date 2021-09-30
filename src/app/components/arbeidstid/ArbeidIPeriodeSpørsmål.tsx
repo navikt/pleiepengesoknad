@@ -122,53 +122,55 @@ const ArbeidIPeriodeSpørsmål = ({
                             validate={getArbeidJobberSomVanligValidator(intlValues)}
                         />
                         {jobberIPerioden === JobberIPeriodeSvar.JA && jobberSomVanlig === YesOrNo.NO && (
-                            <FormBlock>
-                                <AppForm.YesOrNoQuestion
-                                    name={getFieldName(ArbeidIPeriodeField.erLiktHverUke)}
-                                    legend={getSpørsmål(ArbeidIPeriodeField.erLiktHverUke)}
-                                    useTwoColumns={false}
-                                    labels={{
-                                        yes: intlHelper(
-                                            intl,
-                                            `arbeidIPeriode.${erHistorisk ? 'historisk.' : ''}erLiktHverUke.erLikt`
-                                        ),
-                                        no: intlHelper(
-                                            intl,
-                                            `arbeidIPeriode.${erHistorisk ? 'historisk.' : ''}erLiktHverUke.varierer`
-                                        ),
-                                    }}
-                                    validate={getArbeidErLiktHverUkeValidator(intlValues)}
-                                />
-                            </FormBlock>
-                        )}
-                        {jobberIPerioden === JobberIPeriodeSvar.JA && erLiktHverUke === YesOrNo.YES && (
-                            <FormBlock margin="xxl">
-                                <AppForm.InputGroup
-                                    legend={intlHelper(
-                                        intl,
-                                        erHistorisk
-                                            ? 'arbeidIPeriode.historisk.ukedager.tittel'
-                                            : 'arbeidIPeriode.planlagt.ukedager.tittel',
-                                        intlValues
-                                    )}
-                                    validate={() => validateFasteArbeidstimerIUke(arbeidIPeriode, intlValues)}
-                                    name={'fasteDager_gruppe' as any}>
-                                    <TidFasteDagerInput
-                                        name={getFieldName(ArbeidIPeriodeField.fasteDager)}
-                                        validator={getArbeidstimerFastDagValidator}
-                                    />
-                                </AppForm.InputGroup>
-                            </FormBlock>
-                        )}
-                        {jobberIPerioden === JobberIPeriodeSvar.JA && erLiktHverUke === YesOrNo.NO && (
-                            <div className="noPanelPaddingDialogWrapper">
+                            <>
                                 <FormBlock>
-                                    <ArbeidstidKalenderInput
-                                        periode={periode}
-                                        enkeltdagerFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
+                                    <AppForm.YesOrNoQuestion
+                                        name={getFieldName(ArbeidIPeriodeField.erLiktHverUke)}
+                                        legend={getSpørsmål(ArbeidIPeriodeField.erLiktHverUke)}
+                                        useTwoColumns={false}
+                                        labels={{
+                                            yes: intlHelper(
+                                                intl,
+                                                `arbeidIPeriode.${erHistorisk ? 'historisk.' : ''}erLiktHverUke.erLikt`
+                                            ),
+                                            no: intlHelper(
+                                                intl,
+                                                `arbeidIPeriode.${
+                                                    erHistorisk ? 'historisk.' : ''
+                                                }erLiktHverUke.varierer`
+                                            ),
+                                        }}
+                                        validate={getArbeidErLiktHverUkeValidator(intlValues)}
                                     />
                                 </FormBlock>
-                            </div>
+                                {erLiktHverUke === YesOrNo.YES && (
+                                    <FormBlock margin="xxl">
+                                        <AppForm.InputGroup
+                                            legend={intlHelper(
+                                                intl,
+                                                erHistorisk
+                                                    ? 'arbeidIPeriode.historisk.ukedager.tittel'
+                                                    : 'arbeidIPeriode.planlagt.ukedager.tittel',
+                                                intlValues
+                                            )}
+                                            validate={() => validateFasteArbeidstimerIUke(arbeidIPeriode, intlValues)}
+                                            name={'fasteDager_gruppe' as any}>
+                                            <TidFasteDagerInput
+                                                name={getFieldName(ArbeidIPeriodeField.fasteDager)}
+                                                validator={getArbeidstimerFastDagValidator}
+                                            />
+                                        </AppForm.InputGroup>
+                                    </FormBlock>
+                                )}
+                                {erLiktHverUke === YesOrNo.NO && (
+                                    <FormBlock>
+                                        <ArbeidstidKalenderInput
+                                            periode={periode}
+                                            enkeltdagerFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
+                                        />
+                                    </FormBlock>
+                                )}
+                            </>
                         )}
                     </ResponsivePanel>
                 </FormBlock>

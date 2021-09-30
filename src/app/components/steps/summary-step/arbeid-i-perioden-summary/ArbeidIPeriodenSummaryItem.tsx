@@ -1,9 +1,9 @@
-import { DateRange } from '@navikt/sif-common-formik/lib';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { DateRange } from '@navikt/sif-common-formik/lib';
 import { Arbeidsform, JobberIPeriodeSvar } from '../../../../types';
 import { ArbeidIPeriodeApiData, ArbeidsforholdApiData } from '../../../../types/PleiepengesøknadApiData';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import TidEnkeltdager from '../../../dager-med-tid/TidEnkeltdager';
 import TidFasteDager from '../../../dager-med-tid/TidFasteDager';
 
@@ -52,7 +52,13 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({
             case JobberIPeriodeSvar.JA:
                 return intlHelper(intl, `oppsummering.arbeidIPeriode.jobberIPerioden.ja`, intlTexts);
             case JobberIPeriodeSvar.NEI:
-                return intlHelper(intl, `oppsummering.arbeidIPeriode.jobberIPerioden.nei`, intlTexts);
+                return intlHelper(
+                    intl,
+                    erHistorisk
+                        ? `oppsummering.arbeidIPeriode.jobberIPerioden.nei.historisk`
+                        : `oppsummering.arbeidIPeriode.jobberIPerioden.nei`,
+                    intlTexts
+                );
             case JobberIPeriodeSvar.VET_IKKE:
                 return intlHelper(intl, `oppsummering.arbeidIPeriode.jobberIPerioden.vetIkke`, intlTexts);
         }
@@ -64,7 +70,7 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({
                 <li>{getJobberIPeriodenTekst()}</li>
                 {arbeidIPeriode.jobberSomVanlig === false && arbeidIPeriode.enkeltdager && (
                     <li>
-                        <p>{erHistorisk ? 'Jobbet:' : 'Skal Jobbe:'}</p>
+                        <p>{erHistorisk ? 'Jobbet:' : 'Skal jobbe:'}</p>
                         <TidEnkeltdager dager={arbeidIPeriode.enkeltdager} />
                     </li>
                 )}
@@ -75,16 +81,6 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({
                     </li>
                 )}
             </ul>
-
-            {/* <div style={{ paddingLeft: '2rem' }}>
-                {arbeidIPeriode.jobberSomVanlig === false && (
-                    <SummaryBlock
-                        header="Er arbeidsukene dine like i denne perioden, eller varierer det?"
-                        headerTag="h4">
-                        {arbeidIPeriode.erLiktHverUke ? 'Hver uke er lik' : 'Det varierer fra uke til uke'}
-                    </SummaryBlock>
-                )}
-            </div> */}
         </>
     );
 };

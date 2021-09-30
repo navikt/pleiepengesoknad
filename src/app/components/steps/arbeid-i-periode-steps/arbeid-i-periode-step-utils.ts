@@ -15,7 +15,6 @@ const cleanupArbeidIPeriode = (arbeidIPerioden: ArbeidIPeriode): ArbeidIPeriode 
     if (arbeid.jobberIPerioden !== JobberIPeriodeSvar.JA) {
         return arbeid;
     }
-
     arbeid.jobberSomVanlig = arbeidIPerioden.jobberSomVanlig;
     if (arbeid.jobberSomVanlig === YesOrNo.YES) {
         return arbeid;

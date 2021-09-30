@@ -16,6 +16,7 @@ import { TidEnkeltdag } from '../../types';
 import { getCleanedTidIOmsorgstilbud } from '../../utils/omsorgstilbudUtils';
 import TidUkerInput from '../tid-uker-input/TidUkerInput';
 import { TidPerDagValidator } from '../../validation/fieldValidations';
+import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 
 dayjs.extend(isoWeek);
 dayjs.extend(weekOfYear);
@@ -77,12 +78,14 @@ const TidKalenderForm = ({ periode, tid, tittel, intro, tidPerDagValidator, onSu
                             }>
                             <Systemtittel tag="h1">{tittel}</Systemtittel>
                             {intro ? <Box margin="l">{intro}</Box> : undefined}
-                            <TidUkerInput
-                                fieldName={FormField.tid}
-                                periode={periode}
-                                brukPanel={true}
-                                tidPerDagValidator={tidPerDagValidator}
-                            />
+                            <ResponsivePanel>
+                                <TidUkerInput
+                                    fieldName={FormField.tid}
+                                    periode={periode}
+                                    brukPanel={false}
+                                    tidPerDagValidator={tidPerDagValidator}
+                                />
+                            </ResponsivePanel>
                         </Form.Form>
                     );
                 }}

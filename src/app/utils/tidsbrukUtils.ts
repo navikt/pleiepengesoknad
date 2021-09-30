@@ -4,6 +4,7 @@ import { dateToISOString, ISOStringToDate } from '@navikt/sif-common-formik/lib'
 import dayjs from 'dayjs';
 import { DagMedTid, TidEnkeltdag, TidFasteDager } from '../types';
 import { TidEnkeltdagApiData } from '../types/PleiepengesøknadApiData';
+import { MAKS_ANTALL_DAGER_FOR_INLINE_SKJEMA } from './omsorgstilbudUtils';
 
 export const sumTimerFasteDager = (uke: TidFasteDager): number => {
     return Object.keys(uke).reduce((timer: number, key: string) => {
@@ -100,4 +101,12 @@ export const getDagerMedTidITidsrom = (data: TidEnkeltdag, tidsrom: DateRange): 
         return false;
     });
     return dager;
+};
+
+export const erKortPeriode = (periode: DateRange): boolean => {
+    const antallDager = dayjs(periode.to).diff(periode.from, 'days');
+    if (antallDager <= MAKS_ANTALL_DAGER_FOR_INLINE_SKJEMA) {
+        return true;
+    }
+    return false;
 };

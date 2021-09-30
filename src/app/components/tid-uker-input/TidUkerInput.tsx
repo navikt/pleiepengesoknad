@@ -1,6 +1,6 @@
 import React from 'react';
 import { useMediaQuery } from 'react-responsive';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import { DateRange } from '@navikt/sif-common-formik';
 import { TidPerDagValidator } from '../../validation/fieldValidations';
@@ -8,7 +8,6 @@ import TidUkeInput from './parts/TidUkeInput';
 import { Ukeinfo } from './types';
 import { getDatoerIPeriode, getTidKalenderFieldName, getUkerFraDager } from './utils';
 import './tidUkerInput.less';
-import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 
 interface Props {
     fieldName: string;
@@ -46,9 +45,9 @@ export const TidUkerInput: React.FunctionComponent<Props> = ({
                     />
                 );
                 return (
-                    <FormBlock key={week.ukenummer} margin={brukPanel ? 'm' : 'l'}>
+                    <div key={week.ukenummer} className={bem.element('ukeWrapper')}>
                         {brukPanel ? <ResponsivePanel>{content}</ResponsivePanel> : content}
-                    </FormBlock>
+                    </div>
                 );
             })}
         </div>

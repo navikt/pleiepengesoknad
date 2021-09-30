@@ -42,7 +42,7 @@ export const getArbeidstimerDatoValidator =
     (dato: string) =>
     (time: Time): ValidationResult<ValidationError> => {
         const error = time
-            ? getTimeValidator({ max: { hours: 23, minutes: 59 }, min: { hours: 0, minutes: 0 } })(time)
+            ? getTimeValidator({ max: { hours: 24, minutes: 0 }, min: { hours: 0, minutes: 0 } })(time)
             : undefined;
         if (error) {
             return {
@@ -58,7 +58,7 @@ export const getArbeidstimerFastDagValidator =
     (dag: string) =>
     (time: Time): ValidationResult<ValidationError> => {
         const error = time
-            ? getTimeValidator({ max: { hours: 23, minutes: 59 }, min: { hours: 0, minutes: 0 } })(time)
+            ? getTimeValidator({ max: { hours: 24, minutes: 0 }, min: { hours: 0, minutes: 0 } })(time)
             : undefined;
         if (error) {
             return {

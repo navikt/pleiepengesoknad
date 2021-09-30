@@ -1,8 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import dayjs from 'dayjs';
@@ -13,8 +11,9 @@ import { getCleanedTidIOmsorgstilbud } from '../../utils/omsorgstilbudUtils';
 import AppForm from '../app-form/AppForm';
 import TidUkerInput from '../tid-uker-input/TidUkerInput';
 import OmsorgstilbudInfoAndDialog from './OmsorgstilbudInfoAndDialog';
-import { getTidEnkeltdagerInnenforPeriode } from '../../utils/tidsbrukUtils';
+import { erKortPeriode, getTidEnkeltdagerInnenforPeriode } from '../../utils/tidsbrukUtils';
 import { getTidIOmsorgValidator } from '../../validation/validateOmsorgstilbudFields';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 
 interface Props {
     periode: DateRange;
@@ -32,6 +31,8 @@ const OmsorgstilbudIPeriodeSpørsmål: React.FunctionComponent<Props> = ({
     const intl = useIntl();
     const gjelderFortid = dayjs(periode.to).isBefore(dateToday, 'day');
 
+    const visSkjemaInline: boolean = visKunEnkeltdager || erKortPeriode(periode);
+
     const enkeltdagerFieldName = gjelderFortid
         ? AppFormField.omsorgstilbud__historisk__enkeltdager
         : AppFormField.omsorgstilbud__planlagt__enkeltdager;
@@ -44,19 +45,28 @@ const OmsorgstilbudIPeriodeSpørsmål: React.FunctionComponent<Props> = ({
              * brukt.
              * Ikke optimalt, men det virker.
              */
-            legend={intlHelper(
-                intl,
-                gjelderFortid
-                    ? 'steg.omsorgstilbud.historisk.hvorMyeTidIOmsorgstilbud'
-                    : 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud'
-            )}
+            legend={
+                visSkjemaInline === true
+                    ? intlHelper(
+                          intl,
+                          gjelderFortid
+                              ? 'steg.omsorgstilbud.historisk.hvorMyeTidIOmsorgstilbud'
+                              : 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud'
+                      )
+                    : undefined
+            }
             name={`${enkeltdagerFieldName}_dager` as any}
             tag="div"
             description={
-                <ExpandableInfo
-                    title={intlHelper(intl, 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.tittel')}>
-                    {intlHelper(intl, 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description')}
-                </ExpandableInfo>
+                visSkjemaInline ? (
+                    <ExpandableInfo
+                        title={intlHelper(
+                            intl,
+                            'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.tittel'
+                        )}>
+                        {intlHelper(intl, 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description')}
+                    </ExpandableInfo>
+                ) : undefined
             }
             validate={() => {
                 const omsorgstilbudIPerioden = getTidEnkeltdagerInnenforPeriode(tidIOmsorgstilbud, periode);
@@ -71,44 +81,42 @@ const OmsorgstilbudIPeriodeSpørsmål: React.FunctionComponent<Props> = ({
                 }
                 return undefined;
             }}>
-            {visKunEnkeltdager && (
+            {visSkjemaInline && (
                 <TidUkerInput
                     periode={periode}
                     fieldName={enkeltdagerFieldName}
                     tidPerDagValidator={getTidIOmsorgValidator}
                 />
             )}
-            {visKunEnkeltdager === false && (
+            {visSkjemaInline === false && (
                 <>
                     {getMonthsInDateRange(periode).map((periode, index) => {
                         const mndOgÅr = dayjs(periode.from).format('MMMM YYYY');
                         return (
-                            <Box key={dayjs(periode.from).format('MM.YYYY')} margin="l">
-                                <ResponsivePanel className={'noPanelPaddingDialogWrapper'}>
-                                    <AppForm.InputGroup name={`${enkeltdagerFieldName}_${index}` as any} tag="div">
-                                        <OmsorgstilbudInfoAndDialog
-                                            name={enkeltdagerFieldName}
-                                            periode={periode}
-                                            skjulTommeDagerIListe={true}
-                                            onAfterChange={onOmsorgstilbudChanged}
-                                            labels={{
-                                                addLabel: intlHelper(intl, 'omsorgstilbud.addLabel', {
-                                                    periode: mndOgÅr,
-                                                }),
-                                                deleteLabel: intlHelper(intl, 'omsorgstilbud.deleteLabel', {
-                                                    periode: mndOgÅr,
-                                                }),
-                                                editLabel: intlHelper(intl, 'omsorgstilbud.editLabel', {
-                                                    periode: mndOgÅr,
-                                                }),
-                                                modalTitle: intlHelper(intl, 'omsorgstilbud.modalTitle', {
-                                                    periode: mndOgÅr,
-                                                }),
-                                            }}
-                                        />
-                                    </AppForm.InputGroup>
-                                </ResponsivePanel>
-                            </Box>
+                            <FormBlock key={dayjs(periode.from).format('MM.YYYY')} margin="l">
+                                <AppForm.InputGroup name={`${enkeltdagerFieldName}_${index}` as any} tag="div">
+                                    <OmsorgstilbudInfoAndDialog
+                                        name={enkeltdagerFieldName}
+                                        periode={periode}
+                                        skjulTommeDagerIListe={true}
+                                        onAfterChange={onOmsorgstilbudChanged}
+                                        labels={{
+                                            addLabel: intlHelper(intl, 'omsorgstilbud.addLabel', {
+                                                periode: mndOgÅr,
+                                            }),
+                                            deleteLabel: intlHelper(intl, 'omsorgstilbud.deleteLabel', {
+                                                periode: mndOgÅr,
+                                            }),
+                                            editLabel: intlHelper(intl, 'omsorgstilbud.editLabel', {
+                                                periode: mndOgÅr,
+                                            }),
+                                            modalTitle: intlHelper(intl, 'omsorgstilbud.modalTitle', {
+                                                periode: mndOgÅr,
+                                            }),
+                                        }}
+                                    />
+                                </AppForm.InputGroup>
+                            </FormBlock>
                         );
                     })}
                 </>

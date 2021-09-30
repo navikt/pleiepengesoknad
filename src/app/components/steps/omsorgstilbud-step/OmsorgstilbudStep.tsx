@@ -23,13 +23,14 @@ import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import TidFasteDagerInput from '../../tid-faste-dager-input/TidFasteDagerInput';
 import { cleanupOmsorgstilbudStep } from './omsorgstilbudStepUtils';
-import OmsorgstilbudIPeriodeSpørsmål from '../../omsorgstilbud/OmsorgstilbudKalenderInput';
+import OmsorgstilbudIPeriodeSpørsmål from '../../omsorgstilbud/OmsorgstilbudIPeriodeSpørsmål';
 import { VetOmsorgstilbud } from '../../../types';
 import { getHistoriskPeriode, getPlanlagtPeriode } from '../../../utils/tidsbrukUtils';
 import {
     getOmsorgstilbudtimerValidatorEnDag,
     validateSkalIOmsorgstilbud,
 } from '../../../validation/validateOmsorgstilbudFields';
+import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 
 dayjs.extend(isBetween);
 
@@ -102,14 +103,16 @@ const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
                     />
                     {omsorgstilbud?.harBarnVærtIOmsorgstilbud === YesOrNo.YES && (
                         <FormBlock>
-                            <OmsorgstilbudIPeriodeSpørsmål
-                                visKunEnkeltdager={visKunEnkeltdagerForOmsorgstilbud(periodeFørSøknadsdato)}
-                                periode={periodeFørSøknadsdato}
-                                tidIOmsorgstilbud={omsorgstilbud.historisk?.enkeltdager || {}}
-                                onOmsorgstilbudChanged={() => {
-                                    setOmsorgstilbudChanged(true);
-                                }}
-                            />
+                            <ResponsivePanel>
+                                <OmsorgstilbudIPeriodeSpørsmål
+                                    visKunEnkeltdager={visKunEnkeltdagerForOmsorgstilbud(periodeFørSøknadsdato)}
+                                    periode={periodeFørSøknadsdato}
+                                    tidIOmsorgstilbud={omsorgstilbud.historisk?.enkeltdager || {}}
+                                    onOmsorgstilbudChanged={() => {
+                                        setOmsorgstilbudChanged(true);
+                                    }}
+                                />
+                            </ResponsivePanel>
                         </FormBlock>
                     )}
                 </FormSection>
