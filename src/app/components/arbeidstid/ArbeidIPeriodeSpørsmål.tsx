@@ -24,6 +24,7 @@ import {
     validateFasteArbeidstimerIUke,
 } from '../../validation/validateArbeidFields';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
+import dayjs from 'dayjs';
 
 interface Props {
     parentFieldName: string;
@@ -41,6 +42,16 @@ export type ArbeidIPeriodeIntlValues = {
     til: string;
     iPerioden: string;
     iPeriodenKort: string;
+};
+
+export const GRENSE_FOR_FAST_PLAN = 20;
+
+export const skalKunViseEnkeltdager = (periode: DateRange): boolean => {
+    const antallDager = dayjs(periode.to).diff(periode.from, 'days');
+    if (antallDager <= GRENSE_FOR_FAST_PLAN) {
+        return true;
+    }
+    return false;
 };
 
 const ArbeidIPeriodeSpørsmål = ({
@@ -82,6 +93,8 @@ const ArbeidIPeriodeSpørsmål = ({
     const arbeidIPeriode = erHistorisk ? arbeidsforhold?.historisk : arbeidsforhold?.planlagt;
 
     const { jobberIPerioden, jobberSomVanlig, erLiktHverUke } = arbeidIPeriode || {};
+
+    const visKunEnkeltdager = skalKunViseEnkeltdager(periode);
 
     return (
         <>
@@ -133,46 +146,54 @@ const ArbeidIPeriodeSpørsmål = ({
                         />
                         {jobberIPerioden === JobberIPeriodeSvar.JA && jobberSomVanlig === YesOrNo.NO && (
                             <>
-                                <FormBlock>
-                                    <AppForm.YesOrNoQuestion
-                                        name={getFieldName(ArbeidIPeriodeField.erLiktHverUke)}
-                                        legend={getSpørsmål(ArbeidIPeriodeField.erLiktHverUke)}
-                                        useTwoColumns={false}
-                                        labels={{
-                                            yes: intlHelper(
-                                                intl,
-                                                `arbeidIPeriode.${erHistorisk ? 'historisk.' : ''}erLiktHverUke.erLikt`
-                                            ),
-                                            no: intlHelper(
-                                                intl,
-                                                `arbeidIPeriode.${
-                                                    erHistorisk ? 'historisk.' : ''
-                                                }erLiktHverUke.varierer`
-                                            ),
-                                        }}
-                                        validate={getArbeidErLiktHverUkeValidator(intlValues)}
-                                    />
-                                </FormBlock>
-                                {erLiktHverUke === YesOrNo.YES && (
-                                    <FormBlock margin="xxl">
-                                        <AppForm.InputGroup
-                                            legend={intlHelper(
-                                                intl,
-                                                erHistorisk
-                                                    ? 'arbeidIPeriode.historisk.ukedager.tittel'
-                                                    : 'arbeidIPeriode.planlagt.ukedager.tittel',
-                                                intlValues
-                                            )}
-                                            validate={() => validateFasteArbeidstimerIUke(arbeidIPeriode, intlValues)}
-                                            name={'fasteDager_gruppe' as any}>
-                                            <TidFasteDagerInput
-                                                name={getFieldName(ArbeidIPeriodeField.fasteDager)}
-                                                validator={getArbeidstimerFastDagValidator}
+                                {visKunEnkeltdager === false && (
+                                    <>
+                                        <FormBlock>
+                                            <AppForm.YesOrNoQuestion
+                                                name={getFieldName(ArbeidIPeriodeField.erLiktHverUke)}
+                                                legend={getSpørsmål(ArbeidIPeriodeField.erLiktHverUke)}
+                                                useTwoColumns={false}
+                                                labels={{
+                                                    yes: intlHelper(
+                                                        intl,
+                                                        `arbeidIPeriode.${
+                                                            erHistorisk ? 'historisk.' : ''
+                                                        }erLiktHverUke.erLikt`
+                                                    ),
+                                                    no: intlHelper(
+                                                        intl,
+                                                        `arbeidIPeriode.${
+                                                            erHistorisk ? 'historisk.' : ''
+                                                        }erLiktHverUke.varierer`
+                                                    ),
+                                                }}
+                                                validate={getArbeidErLiktHverUkeValidator(intlValues)}
                                             />
-                                        </AppForm.InputGroup>
-                                    </FormBlock>
+                                        </FormBlock>
+                                        {erLiktHverUke === YesOrNo.YES && (
+                                            <FormBlock margin="xxl">
+                                                <AppForm.InputGroup
+                                                    legend={intlHelper(
+                                                        intl,
+                                                        erHistorisk
+                                                            ? 'arbeidIPeriode.historisk.ukedager.tittel'
+                                                            : 'arbeidIPeriode.planlagt.ukedager.tittel',
+                                                        intlValues
+                                                    )}
+                                                    validate={() =>
+                                                        validateFasteArbeidstimerIUke(arbeidIPeriode, intlValues)
+                                                    }
+                                                    name={'fasteDager_gruppe' as any}>
+                                                    <TidFasteDagerInput
+                                                        name={getFieldName(ArbeidIPeriodeField.fasteDager)}
+                                                        validator={getArbeidstimerFastDagValidator}
+                                                    />
+                                                </AppForm.InputGroup>
+                                            </FormBlock>
+                                        )}
+                                    </>
                                 )}
-                                {erLiktHverUke === YesOrNo.NO && (
+                                {(erLiktHverUke === YesOrNo.NO || visKunEnkeltdager) && (
                                     <FormBlock>
                                         <ArbeidstidKalenderInput
                                             periode={periode}
