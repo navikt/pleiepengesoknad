@@ -24,7 +24,7 @@ export const validateSkalIOmsorgstilbud = (omsorgstilbud: Omsorgstilbud): Valida
     return undefined;
 };
 
-export const getOmsorgstilbudtimerValidatorEnDag =
+export const getOmsorgstilbudtimerValidatorFastDag =
     (dag: string) =>
     (time: Time): ValidationResult<ValidationError> => {
         const error = time

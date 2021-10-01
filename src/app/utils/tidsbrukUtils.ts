@@ -1,14 +1,46 @@
 import { DateRange, datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { timeToDecimalTime, timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { dateToISOString, ISOStringToDate } from '@navikt/sif-common-formik/lib';
+import { isValidTime } from '@navikt/sif-common-formik/lib/components/formik-time-input/TimeInput';
+import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
 import dayjs from 'dayjs';
 import { DagMedTid, TidEnkeltdag, TidFasteDager } from '../types';
 import { TidEnkeltdagApiData } from '../types/PleiepengesøknadApiData';
-import { MAKS_ANTALL_DAGER_FOR_INLINE_SKJEMA } from './omsorgstilbudUtils';
+
+export const MIN_ANTALL_DAGER_FOR_FAST_PLAN = 20;
+
+const isValidNumberString = (value: any): boolean =>
+    hasValue(value) && typeof value === 'string' && value.trim().length > 0;
+
+/**
+ * Fjerner dager med ugyldige verdier
+ */
+export const getValidEnkeltdager = (tidEnkeltdag: TidEnkeltdag): TidEnkeltdag => {
+    const cleanedTidEnkeltdag: TidEnkeltdag = {};
+    Object.keys(tidEnkeltdag).forEach((key) => {
+        const tid = tidEnkeltdag[key];
+        if (isValidTime(tid) && (isValidNumberString(tid.hours) || isValidNumberString(tid.minutes))) {
+            cleanedTidEnkeltdag[key] = tid;
+        }
+    });
+    return cleanedTidEnkeltdag;
+};
 
 export const sumTimerFasteDager = (uke: TidFasteDager): number => {
     return Object.keys(uke).reduce((timer: number, key: string) => {
         return timer + timeToDecimalTime(uke[key]);
+    }, 0);
+};
+
+export const sumTimerEnkeltdager = (dager: TidEnkeltdag): number => {
+    return Object.keys(dager).reduce((timer: number, key: string) => {
+        return (
+            timer +
+            timeToDecimalTime({
+                hours: dager[key].hours || '0',
+                minutes: dager[key].minutes || '0',
+            })
+        );
     }, 0);
 };
 
@@ -105,7 +137,7 @@ export const getDagerMedTidITidsrom = (data: TidEnkeltdag, tidsrom: DateRange): 
 
 export const erKortPeriode = (periode: DateRange): boolean => {
     const antallDager = dayjs(periode.to).diff(periode.from, 'days');
-    if (antallDager <= MAKS_ANTALL_DAGER_FOR_INLINE_SKJEMA) {
+    if (antallDager < MIN_ANTALL_DAGER_FOR_FAST_PLAN) {
         return true;
     }
     return false;

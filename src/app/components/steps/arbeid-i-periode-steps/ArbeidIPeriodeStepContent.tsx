@@ -12,6 +12,7 @@ import { StepID } from '../../../config/stepConfig';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import ArbeidIPeriodeSpørsmål from '../../arbeidstid/ArbeidIPeriodeSpørsmål';
 import { ArbeidsforholdType } from '../../../types';
+import { erKortPeriode } from '../../../utils/tidsbrukUtils';
 
 interface Props {
     periode: DateRange;
@@ -73,6 +74,7 @@ const ArbeidIPeriodeStepContent = ({ periode, stepID }: Props) => {
                                 arbeidsforholdType={ArbeidsforholdType.ANSATT}
                                 arbeidsforhold={arbeidsforhold}
                                 periode={periode}
+                                visKunEnkeltdager={erKortPeriode(periode)}
                                 parentFieldName={`${AppFormField.ansatt_arbeidsforhold}.${index}`}
                                 erHistorisk={erHistorisk}
                             />
@@ -87,6 +89,7 @@ const ArbeidIPeriodeStepContent = ({ periode, stepID }: Props) => {
                         arbeidsforholdType={ArbeidsforholdType.FRILANSER}
                         arbeidsforhold={frilans_arbeidsforhold}
                         periode={periode}
+                        visKunEnkeltdager={erKortPeriode(periode)}
                         parentFieldName={`${AppFormField.frilans_arbeidsforhold}`}
                         erHistorisk={erHistorisk}
                     />
@@ -98,6 +101,7 @@ const ArbeidIPeriodeStepContent = ({ periode, stepID }: Props) => {
                         arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
                         arbeidsforhold={selvstendig_arbeidsforhold}
                         periode={periode}
+                        visKunEnkeltdager={erKortPeriode(periode)}
                         parentFieldName={`${AppFormField.selvstendig_arbeidsforhold}`}
                         erHistorisk={erHistorisk}
                     />

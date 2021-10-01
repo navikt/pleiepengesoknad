@@ -1,19 +1,18 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import dayjs from 'dayjs';
 import { TidEnkeltdag } from '../../types';
 import { AppFormField } from '../../types/PleiepengesøknadFormData';
 import { getMonthsInDateRange } from '../../utils/dateUtils';
-import { getCleanedTidIOmsorgstilbud } from '../../utils/omsorgstilbudUtils';
+import { getTidIOmsorgValidator } from '../../validation/validateOmsorgstilbudFields';
 import AppForm from '../app-form/AppForm';
 import TidUkerInput from '../tid-uker-input/TidUkerInput';
 import OmsorgstilbudInfoAndDialog from './OmsorgstilbudInfoAndDialog';
-import { erKortPeriode, getTidEnkeltdagerInnenforPeriode } from '../../utils/tidsbrukUtils';
-import { getTidIOmsorgValidator } from '../../validation/validateOmsorgstilbudFields';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import { validateOmsorgstilbudEnkeltdagerIPeriode } from '../../validation/validateArbeidFields';
 
 interface Props {
     periode: DateRange;
@@ -31,8 +30,6 @@ const OmsorgstilbudIPeriodeSpørsmål: React.FunctionComponent<Props> = ({
     const intl = useIntl();
     const gjelderFortid = dayjs(periode.to).isBefore(dateToday, 'day');
 
-    const visSkjemaInline: boolean = visKunEnkeltdager || erKortPeriode(periode);
-
     const enkeltdagerFieldName = gjelderFortid
         ? AppFormField.omsorgstilbud__historisk__enkeltdager
         : AppFormField.omsorgstilbud__planlagt__enkeltdager;
@@ -46,7 +43,7 @@ const OmsorgstilbudIPeriodeSpørsmål: React.FunctionComponent<Props> = ({
              * Ikke optimalt, men det virker.
              */
             legend={
-                visSkjemaInline === true
+                visKunEnkeltdager === true
                     ? intlHelper(
                           intl,
                           gjelderFortid
@@ -58,7 +55,7 @@ const OmsorgstilbudIPeriodeSpørsmål: React.FunctionComponent<Props> = ({
             name={`${enkeltdagerFieldName}_dager` as any}
             tag="div"
             description={
-                visSkjemaInline ? (
+                visKunEnkeltdager ? (
                     <ExpandableInfo
                         title={intlHelper(
                             intl,
@@ -68,27 +65,15 @@ const OmsorgstilbudIPeriodeSpørsmål: React.FunctionComponent<Props> = ({
                     </ExpandableInfo>
                 ) : undefined
             }
-            validate={() => {
-                const omsorgstilbudIPerioden = getTidEnkeltdagerInnenforPeriode(tidIOmsorgstilbud, periode);
-                const hasElements = Object.keys(getCleanedTidIOmsorgstilbud(omsorgstilbudIPerioden)).length > 0;
-                if (!hasElements) {
-                    return {
-                        key: gjelderFortid
-                            ? `validation.${AppFormField.omsorgstilbud__historisk__enkeltdager}.ingenTidRegistrert`
-                            : `validation.${AppFormField.omsorgstilbud__planlagt__enkeltdager}.ingenTidRegistrert`,
-                        keepKeyUnaltered: true,
-                    };
-                }
-                return undefined;
-            }}>
-            {visSkjemaInline && (
+            validate={() => validateOmsorgstilbudEnkeltdagerIPeriode(tidIOmsorgstilbud, periode, gjelderFortid)}>
+            {visKunEnkeltdager && (
                 <TidUkerInput
                     periode={periode}
                     fieldName={enkeltdagerFieldName}
                     tidPerDagValidator={getTidIOmsorgValidator}
                 />
             )}
-            {visSkjemaInline === false && (
+            {visKunEnkeltdager === false && (
                 <>
                     {getMonthsInDateRange(periode).map((periode, index) => {
                         const mndOgÅr = dayjs(periode.from).format('MMMM YYYY');

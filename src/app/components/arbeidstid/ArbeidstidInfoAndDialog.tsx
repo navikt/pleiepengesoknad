@@ -16,14 +16,16 @@ import { getDagerMedTidITidsrom } from '../../utils/tidsbrukUtils';
 import { getArbeidstimerDatoValidator } from '../../validation/validateArbeidFields';
 import TidKalenderForm from '../tid-kalender-form/TidKalenderForm';
 import TidsbrukKalender from '../tidsbruk-kalender/TidsbrukKalender';
+import { ArbeidIPeriodeIntlValues } from './ArbeidIPeriodeSpørsmål';
 
 interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, ValidationError> {
     name: FieldNames;
     labels: ModalFormAndInfoLabels;
     periode: DateRange;
+    intlValues: ArbeidIPeriodeIntlValues;
 }
 
-function ArbeidstidInfoAndDialog<FieldNames>({ name, periode, labels, validate }: Props<FieldNames>) {
+function ArbeidstidInfoAndDialog<FieldNames>({ name, periode, labels, intlValues, validate }: Props<FieldNames>) {
     const erHistorisk = dayjs(periode.to).isBefore(dateToday, 'day');
     return (
         <FormikModalFormAndInfo<FieldNames, TidEnkeltdag, ValidationError>
@@ -57,7 +59,7 @@ function ArbeidstidInfoAndDialog<FieldNames>({ name, periode, labels, validate }
                                 />
                             </p>
                         }
-                        tidPerDagValidator={getArbeidstimerDatoValidator}
+                        tidPerDagValidator={getArbeidstimerDatoValidator(intlValues)}
                         onSubmit={onSubmit}
                         onCancel={onCancel}
                     />

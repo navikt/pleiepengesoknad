@@ -18,16 +18,15 @@ import FormSection from '../../../pre-common/form-section/FormSection';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import usePersistSoknad from '../../../hooks/usePersistSoknad';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { visKunEnkeltdagerForOmsorgstilbud } from '../../../utils/omsorgstilbudUtils';
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import TidFasteDagerInput from '../../tid-faste-dager-input/TidFasteDagerInput';
 import { cleanupOmsorgstilbudStep } from './omsorgstilbudStepUtils';
 import OmsorgstilbudIPeriodeSpørsmål from '../../omsorgstilbud/OmsorgstilbudIPeriodeSpørsmål';
 import { VetOmsorgstilbud } from '../../../types';
-import { getHistoriskPeriode, getPlanlagtPeriode } from '../../../utils/tidsbrukUtils';
+import { erKortPeriode, getHistoriskPeriode, getPlanlagtPeriode } from '../../../utils/tidsbrukUtils';
 import {
-    getOmsorgstilbudtimerValidatorEnDag,
+    getOmsorgstilbudtimerValidatorFastDag,
     validateSkalIOmsorgstilbud,
 } from '../../../validation/validateOmsorgstilbudFields';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
@@ -105,7 +104,7 @@ const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
                         <FormBlock>
                             <ResponsivePanel>
                                 <OmsorgstilbudIPeriodeSpørsmål
-                                    visKunEnkeltdager={visKunEnkeltdagerForOmsorgstilbud(periodeFørSøknadsdato)}
+                                    visKunEnkeltdager={erKortPeriode(periodeFørSøknadsdato)}
                                     periode={periodeFørSøknadsdato}
                                     tidIOmsorgstilbud={omsorgstilbud.historisk?.enkeltdager || {}}
                                     onOmsorgstilbudChanged={() => {
@@ -174,7 +173,7 @@ const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
 
                             {omsorgstilbud.planlagt?.vetHvorMyeTid === VetOmsorgstilbud.VET_ALLE_TIMER && (
                                 <>
-                                    {visKunEnkeltdagerForOmsorgstilbud(periodeFraOgMedSøknadsdato) === false && (
+                                    {erKortPeriode(periodeFraOgMedSøknadsdato) === false && (
                                         <FormBlock>
                                             <AppForm.YesOrNoQuestion
                                                 legend={intlHelper(
@@ -197,7 +196,7 @@ const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
                                             />
                                         </FormBlock>
                                     )}
-                                    {visKunEnkeltdagerForOmsorgstilbud(periodeFraOgMedSøknadsdato) === false &&
+                                    {erKortPeriode(periodeFraOgMedSøknadsdato) === false &&
                                         omsorgstilbud.planlagt?.erLiktHverUke === YesOrNo.YES && (
                                             <>
                                                 <FormBlock>
@@ -222,20 +221,18 @@ const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
                                                         name={'omsorgstilbud_gruppe' as any}>
                                                         <TidFasteDagerInput
                                                             name={AppFormField.omsorgstilbud__planlagt__fasteDager}
-                                                            validator={getOmsorgstilbudtimerValidatorEnDag}
+                                                            validator={getOmsorgstilbudtimerValidatorFastDag}
                                                         />
                                                     </AppForm.InputGroup>
                                                 </FormBlock>
                                             </>
                                         )}
-                                    {(visKunEnkeltdagerForOmsorgstilbud(periodeFraOgMedSøknadsdato) === true ||
+                                    {(erKortPeriode(periodeFraOgMedSøknadsdato) === true ||
                                         omsorgstilbud.planlagt?.erLiktHverUke === YesOrNo.NO) && (
                                         <>
                                             <FormBlock>
                                                 <OmsorgstilbudIPeriodeSpørsmål
-                                                    visKunEnkeltdager={visKunEnkeltdagerForOmsorgstilbud(
-                                                        periodeFraOgMedSøknadsdato
-                                                    )}
+                                                    visKunEnkeltdager={erKortPeriode(periodeFraOgMedSøknadsdato)}
                                                     periode={periodeFraOgMedSøknadsdato}
                                                     tidIOmsorgstilbud={omsorgstilbud.planlagt.enkeltdager || {}}
                                                     onOmsorgstilbudChanged={() => {

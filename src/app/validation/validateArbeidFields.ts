@@ -1,4 +1,4 @@
-import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { Time } from '@navikt/sif-common-formik/lib';
 import {
     getDateValidator,
@@ -9,8 +9,14 @@ import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeVa
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import { ArbeidIPeriodeIntlValues } from '../components/arbeidstid/ArbeidIPeriodeSpørsmål';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
-import { ArbeidIPeriode } from '../types/PleiepengesøknadFormData';
-import { sumTimerFasteDager } from '../utils/tidsbrukUtils';
+import { TidEnkeltdag } from '../types';
+import { AppFormField, ArbeidIPeriode } from '../types/PleiepengesøknadFormData';
+import {
+    getValidEnkeltdager,
+    getTidEnkeltdagerInnenforPeriode,
+    sumTimerEnkeltdager,
+    sumTimerFasteDager,
+} from '../utils/tidsbrukUtils';
 import { AppFieldValidationErrors } from './fieldValidations';
 
 export const validateFrilanserStartdato = (datoString?: string): ValidationResult<ValidationError> => {
@@ -38,7 +44,50 @@ export const validateFasteArbeidstimerIUke = (
         : undefined;
 };
 
+export const validateArbeidsTidEnkeltdager = (
+    tidMedArbeid: TidEnkeltdag,
+    periode: DateRange,
+    erHistorisk: boolean | undefined,
+    intlValues: ArbeidIPeriodeIntlValues
+): ValidationResult<ValidationError> => {
+    const tidIPerioden = getTidEnkeltdagerInnenforPeriode(tidMedArbeid, periode);
+    const validTidEnkeltdager = getValidEnkeltdager(tidIPerioden);
+    const hasElements = Object.keys(validTidEnkeltdager).length > 0;
+
+    if (!hasElements || sumTimerEnkeltdager(validTidEnkeltdager) <= 0) {
+        return {
+            key: erHistorisk
+                ? `validation.arbeidIPeriode.enkeltdager.historisk.ingenTidRegistrert`
+                : `validation.arbeidIPeriode.enkeltdager.ingenTidRegistrert`,
+            keepKeyUnaltered: true,
+            values: intlValues,
+        };
+    }
+    return undefined;
+};
+
+export const validateOmsorgstilbudEnkeltdagerIPeriode = (
+    tidIOmsorgstilbud: TidEnkeltdag,
+    periode: DateRange,
+    erHistorisk: boolean | undefined
+) => {
+    const tidIPerioden = getTidEnkeltdagerInnenforPeriode(tidIOmsorgstilbud, periode);
+    const validTidEnkeltdager = getValidEnkeltdager(tidIPerioden);
+    const hasElements = Object.keys(validTidEnkeltdager).length > 0;
+
+    if (!hasElements || sumTimerEnkeltdager(validTidEnkeltdager) <= 0) {
+        return {
+            key: erHistorisk
+                ? `validation.${AppFormField.omsorgstilbud__historisk__enkeltdager}.ingenTidRegistrert`
+                : `validation.${AppFormField.omsorgstilbud__planlagt__enkeltdager}.ingenTidRegistrert`,
+            keepKeyUnaltered: true,
+        };
+    }
+    return undefined;
+};
+
 export const getArbeidstimerDatoValidator =
+    (intlValues: ArbeidIPeriodeIntlValues) =>
     (dato: string) =>
     (time: Time): ValidationResult<ValidationError> => {
         const error = time
@@ -47,7 +96,7 @@ export const getArbeidstimerDatoValidator =
         if (error) {
             return {
                 key: `validation.arbeidstimer.dato.tid.${error}`,
-                values: { dato },
+                values: { ...intlValues, dato },
                 keepKeyUnaltered: true,
             };
         }

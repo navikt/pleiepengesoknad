@@ -4,9 +4,9 @@ import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { VetOmsorgstilbud } from '../../../types';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { visKunEnkeltdagerForOmsorgstilbud } from '../../../utils/omsorgstilbudUtils';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from '../../../utils/stepUtils';
 import {
+    erKortPeriode,
     getHistoriskPeriode,
     getPlanlagtPeriode,
     getTidEnkeltdagerInnenforPeriode,
@@ -41,7 +41,7 @@ export const cleanupOmsorgstilbudStep = (
                 cleanedValues.omsorgstilbud.planlagt.fasteDager = undefined;
                 cleanedValues.omsorgstilbud.planlagt.erLiktHverUke = undefined;
             }
-            if (visKunEnkeltdagerForOmsorgstilbud(søknadsperiode)) {
+            if (erKortPeriode(søknadsperiode)) {
                 cleanedValues.omsorgstilbud.planlagt.erLiktHverUke = undefined;
             }
             if (cleanedValues.omsorgstilbud.planlagt.erLiktHverUke === YesOrNo.YES) {

@@ -24,13 +24,13 @@ import {
     validateFasteArbeidstimerIUke,
 } from '../../validation/validateArbeidFields';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
-import dayjs from 'dayjs';
 
 interface Props {
     parentFieldName: string;
     arbeidsforhold: Arbeidsforhold;
     arbeidsforholdType: ArbeidsforholdType;
     periode: DateRange;
+    visKunEnkeltdager: boolean;
     erHistorisk: boolean;
 }
 
@@ -44,21 +44,12 @@ export type ArbeidIPeriodeIntlValues = {
     iPeriodenKort: string;
 };
 
-export const GRENSE_FOR_FAST_PLAN = 20;
-
-export const skalKunViseEnkeltdager = (periode: DateRange): boolean => {
-    const antallDager = dayjs(periode.to).diff(periode.from, 'days');
-    if (antallDager <= GRENSE_FOR_FAST_PLAN) {
-        return true;
-    }
-    return false;
-};
-
 const ArbeidIPeriodeSpørsmål = ({
     arbeidsforhold,
     parentFieldName,
     erHistorisk,
     arbeidsforholdType,
+    visKunEnkeltdager,
     periode,
 }: Props) => {
     const intl = useIntl();
@@ -93,8 +84,6 @@ const ArbeidIPeriodeSpørsmål = ({
     const arbeidIPeriode = erHistorisk ? arbeidsforhold?.historisk : arbeidsforhold?.planlagt;
 
     const { jobberIPerioden, jobberSomVanlig, erLiktHverUke } = arbeidIPeriode || {};
-
-    const visKunEnkeltdager = skalKunViseEnkeltdager(periode);
 
     return (
         <>
@@ -197,6 +186,8 @@ const ArbeidIPeriodeSpørsmål = ({
                                     <FormBlock>
                                         <ArbeidstidKalenderInput
                                             periode={periode}
+                                            tidMedArbeid={arbeidIPeriode?.enkeltdager}
+                                            intlValues={intlValues}
                                             enkeltdagerFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
                                         />
                                     </FormBlock>

@@ -3,6 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import Knapperad from '@navikt/sif-common-core/lib/components/knapperad/Knapperad';
+import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
 import getFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
@@ -13,10 +14,9 @@ import weekOfYear from 'dayjs/plugin/weekOfYear';
 import Knapp from 'nav-frontend-knapper';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { TidEnkeltdag } from '../../types';
-import { getCleanedTidIOmsorgstilbud } from '../../utils/omsorgstilbudUtils';
-import TidUkerInput from '../tid-uker-input/TidUkerInput';
 import { TidPerDagValidator } from '../../validation/fieldValidations';
-import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
+import TidUkerInput from '../tid-uker-input/TidUkerInput';
+import { getValidEnkeltdager } from '../../utils/tidsbrukUtils';
 
 dayjs.extend(isoWeek);
 dayjs.extend(weekOfYear);
@@ -48,7 +48,7 @@ const TidKalenderForm = ({ periode, tid, tittel, intro, tidPerDagValidator, onSu
     }
 
     const onFormikSubmit = ({ tid = {} }: Partial<FormValues>) => {
-        const cleanedTidIOmsorg = getCleanedTidIOmsorgstilbud(tid);
+        const cleanedTidIOmsorg = getValidEnkeltdager(tid);
         onSubmit(cleanedTidIOmsorg);
     };
 

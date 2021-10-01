@@ -7,26 +7,33 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import dayjs from 'dayjs';
 import { getMonthsInDateRange } from '../../utils/dateUtils';
 import { erKortPeriode } from '../../utils/tidsbrukUtils';
-import { getArbeidstimerDatoValidator } from '../../validation/validateArbeidFields';
+import { getArbeidstimerDatoValidator, validateArbeidsTidEnkeltdager } from '../../validation/validateArbeidFields';
 import AppForm from '../app-form/AppForm';
 import TidUkerInput from '../tid-uker-input/TidUkerInput';
 import ArbeidstidInfoAndDialog from './ArbeidstidInfoAndDialog';
+import { TidEnkeltdag } from '../../types';
+import { ArbeidIPeriodeIntlValues } from './ArbeidIPeriodeSpørsmål';
 
 interface Props {
     periode: DateRange;
     erHistorisk?: boolean;
+    tidMedArbeid?: TidEnkeltdag;
     enkeltdagerFieldName: string;
     visKunEnkeltdager?: boolean;
+    intlValues: ArbeidIPeriodeIntlValues;
 }
 
 const ArbeidstidKalenderInput: React.FunctionComponent<Props> = ({
     enkeltdagerFieldName,
     periode,
     visKunEnkeltdager,
+    tidMedArbeid = {},
+    intlValues,
     erHistorisk,
 }) => {
     const visSkjemaInline: boolean = visKunEnkeltdager || erKortPeriode(periode);
     const intl = useIntl();
+
     return (
         <AppForm.InputGroup
             /** På grunn av at dialogen jobber mot ett felt i formik, kan ikke
@@ -54,12 +61,13 @@ const ArbeidstidKalenderInput: React.FunctionComponent<Props> = ({
                 ) : undefined
             }
             name={`${enkeltdagerFieldName}_dager` as any}
+            validate={() => validateArbeidsTidEnkeltdager(tidMedArbeid, periode, erHistorisk, intlValues)}
             tag="div">
             {visSkjemaInline && (
                 <TidUkerInput
                     periode={periode}
                     fieldName={enkeltdagerFieldName}
-                    tidPerDagValidator={getArbeidstimerDatoValidator}
+                    tidPerDagValidator={getArbeidstimerDatoValidator(intlValues)}
                 />
             )}
             {visSkjemaInline === false && (
@@ -84,6 +92,7 @@ const ArbeidstidKalenderInput: React.FunctionComponent<Props> = ({
                                                 periode: mndOgÅr,
                                             }),
                                         }}
+                                        intlValues={intlValues}
                                     />
                                 </AppForm.InputGroup>
                             </FormBlock>
