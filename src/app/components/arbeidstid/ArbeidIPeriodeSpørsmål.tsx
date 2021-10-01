@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import { prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { prettifyDate, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { JobberIPeriodeSvar, ArbeidsforholdType } from '../../types';
@@ -39,6 +39,8 @@ export type ArbeidIPeriodeIntlValues = {
     timer: string;
     fra: string;
     til: string;
+    iPerioden: string;
+    iPeriodenKort: string;
 };
 
 const ArbeidIPeriodeSpørsmål = ({
@@ -61,6 +63,14 @@ const ArbeidIPeriodeSpørsmål = ({
         timer: getTimerTekst(intl, arbeidsforhold.jobberNormaltTimer),
         fra: prettifyDateFull(periode.from),
         til: prettifyDateFull(periode.to),
+        iPerioden: intlHelper(intl, 'arbeidIPeriode.iPerioden.part', {
+            fra: prettifyDate(periode.from),
+            til: prettifyDate(periode.to),
+        }),
+        iPeriodenKort: intlHelper(intl, 'arbeidIPeriode.iPerioden.part', {
+            fra: prettifyDateFull(periode.from),
+            til: prettifyDateFull(periode.to),
+        }),
     };
 
     const getFieldName = (field: ArbeidIPeriodeField) =>

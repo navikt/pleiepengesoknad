@@ -50,9 +50,6 @@ const ArbeidIPeriodeStepContent = ({ periode, stepID }: Props) => {
     //     return <InvalidStepPage stepId={StepID.ARBEIDSFORHOLD_I_PERIODEN} />;
     // }
 
-    // const intlValues: ArbeidIPeriodeIntlValues = {
-    //     hvor: intlHelper(intl, 'arbeidsforhold.part.som.ANSATT', { navn: arbeidsforhold.navn }),
-    // };
     const erHistorisk = stepID === StepID.ARBEID_HISTORISK;
     return (
         <>
