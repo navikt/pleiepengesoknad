@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
 import { apiStringDateToDate, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { useFormikContext } from 'formik';
-import { persist } from '../../api/api';
+import { persist, purge } from '../../api/api';
 import { SKJEMANAVN } from '../../App';
 import RouteConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';
@@ -58,6 +58,8 @@ const getKvitteringInfoFromApiData = (
     return undefined;
 };
 
+const MAX_REDIRECT_COUNT = 1;
+
 const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadContentProps) => {
     const location = useLocation();
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
@@ -65,6 +67,7 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
     const { values, resetForm } = useFormikContext<PleiepengesøknadFormData>();
     const history = useHistory();
     const { logHendelse, logUserLoggedOut, logSoknadStartet } = useAmplitudeInstance();
+    const [redirectCount, setRedirectCount] = useState<number>(0);
 
     const sendUserToStep = useCallback(
         async (route: string) => {
@@ -76,14 +79,41 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
 
     const isOnWelcomPage = location.pathname === RouteConfig.WELCOMING_PAGE_ROUTE;
     const nextStepRoute = søknadHasBeenSent ? undefined : lastStepID ? getNextStepRoute(lastStepID, values) : undefined;
+
+    const handleInvalidMellomlagring = useCallback(async () => {
+        await purge();
+        console.log('mellomlagring tømt');
+        navigateToErrorPage(history);
+    }, [history]);
+
     useEffect(() => {
+        if (redirectCount > MAX_REDIRECT_COUNT) {
+            handleInvalidMellomlagring();
+            return;
+        }
         if (isOnWelcomPage && nextStepRoute !== undefined) {
+            setRedirectCount(redirectCount + 1);
             sendUserToStep(nextStepRoute);
         }
-        if (isOnWelcomPage && nextStepRoute === undefined && harMellomlagring && !søknadHasBeenSent) {
+        if (
+            isOnWelcomPage &&
+            nextStepRoute === undefined &&
+            harMellomlagring &&
+            !søknadHasBeenSent &&
+            redirectCount < MAX_REDIRECT_COUNT
+        ) {
+            setRedirectCount(redirectCount + 1);
             sendUserToStep(StepID.OPPLYSNINGER_OM_BARNET);
         }
-    }, [isOnWelcomPage, nextStepRoute, harMellomlagring, søknadHasBeenSent, sendUserToStep]);
+    }, [
+        isOnWelcomPage,
+        nextStepRoute,
+        harMellomlagring,
+        søknadHasBeenSent,
+        redirectCount,
+        sendUserToStep,
+        handleInvalidMellomlagring,
+    ]);
 
     const userNotLoggedIn = async () => {
         await logUserLoggedOut('Mellomlagring ved navigasjon');
