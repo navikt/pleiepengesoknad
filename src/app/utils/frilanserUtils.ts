@@ -5,6 +5,9 @@ import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-dat
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import minMax from 'dayjs/plugin/minMax';
+
+dayjs.extend(minMax);
 
 export const erFrilanserISøknadsperiode = ({
     frilans_harHattInntektSomFrilanser,
