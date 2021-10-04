@@ -57,7 +57,6 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
             });
 
             cy.get('input[name*="jobberNormaltTimer"]').first().type('10');
-            cy.get('input[name*="jobberNormaltTimer"]').last().type('10');
 
             clickFortsett(cy);
         });
