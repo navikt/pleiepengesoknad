@@ -16,7 +16,6 @@ import { useFormikContext } from 'formik';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import {
     validateFerieuttakIPerioden,
     validateFradato,
@@ -118,43 +117,38 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                 </Box>
             )}
 
-            {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) && (
-                <>
-                    <Box margin="xl">
-                        <AppForm.YesOrNoQuestion
-                            legend={intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.spm')}
-                            name={AppFormField.skalOppholdeSegIUtlandetIPerioden}
-                            validate={getYesOrNoValidator()}
-                        />
-                    </Box>
-                    {values.skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES && (
-                        <Box margin="m">
-                            <UtenlandsoppholdListAndDialog<AppFormField>
-                                name={AppFormField.utenlandsoppholdIPerioden}
-                                minDate={periode.from}
-                                maxDate={periode.to}
-                                labels={{
-                                    modalTitle: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.modalTitle'),
-                                    listTitle: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.listTitle'),
-                                    addLabel: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.addLabel'),
-                                }}
-                                validate={
-                                    periode
-                                        ? (opphold: Utenlandsopphold[]) =>
-                                              validateUtenlandsoppholdIPerioden(periode, opphold)
-                                        : undefined
-                                }
-                            />
-                        </Box>
-                    )}
-                    {visInfoOmUtenlandsopphold && (
-                        <Box margin="l" padBottom="l">
-                            <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
-                                <FormattedMessage id="steg.tidsrom.veileder.utenlandsopphold" />
-                            </CounsellorPanel>
-                        </Box>
-                    )}
-                </>
+            <Box margin="xl">
+                <AppForm.YesOrNoQuestion
+                    legend={intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.spm')}
+                    name={AppFormField.skalOppholdeSegIUtlandetIPerioden}
+                    validate={getYesOrNoValidator()}
+                />
+            </Box>
+            {values.skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES && (
+                <Box margin="m">
+                    <UtenlandsoppholdListAndDialog<AppFormField>
+                        name={AppFormField.utenlandsoppholdIPerioden}
+                        minDate={periode.from}
+                        maxDate={periode.to}
+                        labels={{
+                            modalTitle: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.modalTitle'),
+                            listTitle: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.listTitle'),
+                            addLabel: intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.addLabel'),
+                        }}
+                        validate={
+                            periode
+                                ? (opphold: Utenlandsopphold[]) => validateUtenlandsoppholdIPerioden(periode, opphold)
+                                : undefined
+                        }
+                    />
+                </Box>
+            )}
+            {visInfoOmUtenlandsopphold && (
+                <Box margin="l" padBottom="l">
+                    <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
+                        <FormattedMessage id="steg.tidsrom.veileder.utenlandsopphold" />
+                    </CounsellorPanel>
+                </Box>
             )}
 
             <Box margin="xl">

@@ -179,33 +179,32 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                     )}
 
                                     {/* Utenlandsopphold i perioden */}
-                                    {isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN) &&
-                                        utenlandsoppholdIPerioden && (
-                                            <>
-                                                <SummaryBlock
-                                                    header={intlHelper(
-                                                        intl,
-                                                        'steg.oppsummering.utenlandsoppholdIPerioden.header'
-                                                    )}>
-                                                    <FormattedMessage
-                                                        id={
-                                                            utenlandsoppholdIPerioden.skalOppholdeSegIUtlandetIPerioden
-                                                                ? 'Ja'
-                                                                : 'Nei'
-                                                        }
-                                                    />
-                                                </SummaryBlock>
+                                    {utenlandsoppholdIPerioden && (
+                                        <>
+                                            <SummaryBlock
+                                                header={intlHelper(
+                                                    intl,
+                                                    'steg.oppsummering.utenlandsoppholdIPerioden.header'
+                                                )}>
+                                                <FormattedMessage
+                                                    id={
+                                                        utenlandsoppholdIPerioden.skalOppholdeSegIUtlandetIPerioden
+                                                            ? 'Ja'
+                                                            : 'Nei'
+                                                    }
+                                                />
+                                            </SummaryBlock>
 
-                                                {utenlandsoppholdIPerioden.opphold.length > 0 && (
-                                                    <Box>
-                                                        <SummaryList
-                                                            items={utenlandsoppholdIPerioden.opphold}
-                                                            itemRenderer={renderUtenlandsoppholdIPeriodenSummary}
-                                                        />
-                                                    </Box>
-                                                )}
-                                            </>
-                                        )}
+                                            {utenlandsoppholdIPerioden.opphold.length > 0 && (
+                                                <Box>
+                                                    <SummaryList
+                                                        items={utenlandsoppholdIPerioden.opphold}
+                                                        itemRenderer={renderUtenlandsoppholdIPeriodenSummary}
+                                                    />
+                                                </Box>
+                                            )}
+                                        </>
+                                    )}
 
                                     {/* Ferieuttak i perioden */}
                                     {ferieuttakIPerioden && (

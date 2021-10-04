@@ -57,7 +57,13 @@ export const mapFormDataToApiData = (
                 harVærtEllerErVernepliktig: formData.harVærtEllerErVernepliktig
                     ? formData.harVærtEllerErVernepliktig === YesOrNo.YES
                     : undefined,
-
+                utenlandsoppholdIPerioden: {
+                    skalOppholdeSegIUtlandetIPerioden: skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES,
+                    opphold:
+                        skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES && utenlandsoppholdIPerioden
+                            ? utenlandsoppholdIPerioden.map((o) => getUtenlandsoppholdIPeriodenApiData(o, sprak))
+                            : [],
+                },
                 ...getFerieuttakIPeriodenApiData(formData),
                 ...getBarnApiData(formData, barn),
                 ...getMedlemsskapApiData(formData, sprak),
@@ -75,19 +81,9 @@ export const mapFormDataToApiData = (
                 apiData.andreYtelserFraNAV = formData.mottarAndreYtelser === YesOrNo.YES ? formData.andreYtelser : [];
             }
 
-            if (isFeatureEnabled(Feature.TOGGLE_UTENLANDSOPPHOLD_I_PERIODEN)) {
-                apiData.utenlandsoppholdIPerioden = {
-                    skalOppholdeSegIUtlandetIPerioden: skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES,
-                    opphold:
-                        skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES && utenlandsoppholdIPerioden
-                            ? utenlandsoppholdIPerioden.map((o) => getUtenlandsoppholdIPeriodenApiData(o, sprak))
-                            : [],
-                };
-            }
             return apiData;
         } catch (e) {
             console.error(e);
-
             appSentryLogger.logError('mapFormDataToApiData failed', e);
             return undefined;
         }
