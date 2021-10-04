@@ -5,6 +5,7 @@ import { ArbeidsforholdType } from '../../types';
 import { FrilansApiData, PleiepengesøknadApiData, TidEnkeltdagApiData } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
+import { erFrilanserISøknadsperiode } from '../frilanserUtils';
 import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
 
 type FrilansApiDataPart = Pick<PleiepengesøknadApiData, 'frilans' | '_harHattInntektSomFrilanser'>;
@@ -43,7 +44,15 @@ export const getFrilansApiData = (
 
     const _harHattInntektSomFrilanser = frilans_harHattInntektSomFrilanser === YesOrNo.YES;
 
-    if (_harHattInntektSomFrilanser === false) {
+    if (
+        _harHattInntektSomFrilanser === false ||
+        erFrilanserISøknadsperiode({
+            frilans_harHattInntektSomFrilanser,
+            frilans_jobberFortsattSomFrilans,
+            frilans_sluttdato,
+            periodeFra: formData.periodeFra,
+        }) === false
+    ) {
         return {
             _harHattInntektSomFrilanser,
         };

@@ -3,7 +3,7 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { AppFormField, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import minMax from 'dayjs/plugin/minMax';
 
@@ -14,7 +14,13 @@ export const erFrilanserISøknadsperiode = ({
     frilans_jobberFortsattSomFrilans,
     frilans_sluttdato,
     periodeFra,
-}: Partial<PleiepengesøknadFormData>): boolean => {
+}: Pick<
+    PleiepengesøknadFormData,
+    | AppFormField.frilans_harHattInntektSomFrilanser
+    | AppFormField.frilans_jobberFortsattSomFrilans
+    | AppFormField.frilans_sluttdato
+    | AppFormField.periodeFra
+>): boolean => {
     if (frilans_harHattInntektSomFrilanser !== YesOrNo.YES) {
         return false;
     }
