@@ -75,7 +75,10 @@ class AppEssentialsLoader extends React.Component<Props, State> {
 
     getValidMellomlagring = (data?: MellomlagringData): MellomlagringData | undefined => {
         if (VERIFY_MELLOMLAGRING_VERSION) {
-            if (data?.metadata?.version === MELLOMLAGRING_VERSION) {
+            if (
+                data?.metadata?.version === MELLOMLAGRING_VERSION &&
+                data?.formData?.harForståttRettigheterOgPlikter === true
+            ) {
                 return data;
             }
             return undefined;
