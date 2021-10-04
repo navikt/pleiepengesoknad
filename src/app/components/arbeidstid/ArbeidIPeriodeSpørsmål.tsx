@@ -14,7 +14,7 @@ import {
     isArbeidsforholdAnsatt,
 } from '../../types/PleiepengesøknadFormData';
 import { getTimerTekst } from '../../utils/arbeidsforholdUtils';
-import { erKortPeriode } from '../../utils/tidsbrukUtils';
+import { visSpørsmålOmTidErLikHverUke } from '../../utils/tidsbrukUtils';
 import {
     getArbeidErLiktHverUkeValidator,
     getArbeidJobberSomVanligValidator,
@@ -84,7 +84,7 @@ const ArbeidIPeriodeSpørsmål = ({
 
     const { jobberIPerioden, jobberSomVanlig, erLiktHverUke } = arbeidIPeriode || {};
 
-    const visKunEnkeltdager = erKortPeriode(periode);
+    const visSpørsmålOmLiktHverUke = visSpørsmålOmTidErLikHverUke(periode);
 
     return (
         <>
@@ -136,7 +136,7 @@ const ArbeidIPeriodeSpørsmål = ({
                         />
                         {jobberIPerioden === JobberIPeriodeSvar.JA && jobberSomVanlig === YesOrNo.NO && (
                             <>
-                                {visKunEnkeltdager === false && (
+                                {visSpørsmålOmLiktHverUke && (
                                     <>
                                         <FormBlock>
                                             <AppForm.YesOrNoQuestion
@@ -183,7 +183,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                         )}
                                     </>
                                 )}
-                                {(erLiktHverUke === YesOrNo.NO || visKunEnkeltdager) && (
+                                {(erLiktHverUke === YesOrNo.NO || visSpørsmålOmLiktHverUke === false) && (
                                     <FormBlock>
                                         <ArbeidstidKalenderInput
                                             periode={periode}

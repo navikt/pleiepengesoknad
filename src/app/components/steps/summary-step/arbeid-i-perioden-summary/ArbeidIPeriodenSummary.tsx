@@ -1,12 +1,22 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
-import { DateRange, dateToday, prettifyDateExtended } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { IntlShape, useIntl } from 'react-intl';
+import {
+    apiStringDateToDate,
+    DateRange,
+    dateToday,
+    prettifyDateExtended,
+} from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { ArbeidsforholdApiData, PleiepengesøknadApiData } from '../../../../types/PleiepengesøknadApiData';
+import {
+    ArbeidsforholdApiData,
+    FrilansApiData,
+    PleiepengesøknadApiData,
+} from '../../../../types/PleiepengesøknadApiData';
 import { getHistoriskPeriode, getPlanlagtPeriode } from '../../../../utils/tidsbrukUtils';
 import SummaryBlock from '../../../summary-block/SummaryBlock';
 import SummarySection from '../../../summary-section/SummarySection';
 import ArbeidIPeriodeSummaryItem from './ArbeidIPeriodenSummaryItem';
+import dayjs from 'dayjs';
 
 interface Props {
     apiValues: PleiepengesøknadApiData;
@@ -16,6 +26,31 @@ interface Props {
 export interface ArbeidIPeriodenSummaryItemType extends ArbeidsforholdApiData {
     tittel: string;
 }
+
+const getFrilansTittel = (intl: IntlShape, frilans: FrilansApiData, periode: DateRange) => {
+    const startdato = frilans.startdato && apiStringDateToDate(frilans.startdato);
+    const sluttdato = frilans.sluttdato && apiStringDateToDate(frilans.sluttdato);
+
+    if (startdato || sluttdato) {
+        const intlValues = {
+            startdato: startdato ? prettifyDateExtended(startdato) : undefined,
+            sluttdato: sluttdato ? prettifyDateExtended(sluttdato) : undefined,
+        };
+        const visStartdato = startdato && dayjs(startdato).isAfter(periode.from, 'day');
+        const visSluttdato = sluttdato && dayjs(sluttdato).isBefore(periode.to, 'day');
+
+        if (visStartdato && visSluttdato) {
+            return intlHelper(intl, 'frilans.tittel.startOgSlutt', intlValues);
+        }
+        if (visStartdato) {
+            return intlHelper(intl, 'frilans.tittel.start', intlValues);
+        }
+        if (visSluttdato) {
+            return intlHelper(intl, 'frilans.tittel.slutt', intlValues);
+        }
+    }
+    return intlHelper(intl, 'frilans.tittel.header');
+};
 
 const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
     apiValues: { arbeidsgivere, frilans, selvstendigNæringsdrivende },
@@ -42,7 +77,7 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
     if (frilans?.arbeidsforhold) {
         alleArbeidsforhold.push({
             ...frilans.arbeidsforhold,
-            tittel: intlHelper(intl, 'frilans.tittel'),
+            tittel: getFrilansTittel(intl, frilans, søknadsperiode),
         });
     }
 

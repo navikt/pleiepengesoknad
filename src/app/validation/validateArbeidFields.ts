@@ -10,7 +10,7 @@ import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib
 import { ArbeidIPeriodeIntlValues } from '../components/arbeidstid/ArbeidIPeriodeSpørsmål';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
 import { TidEnkeltdag } from '../types';
-import { AppFormField, ArbeidIPeriode } from '../types/PleiepengesøknadFormData';
+import { ArbeidIPeriode } from '../types/PleiepengesøknadFormData';
 import {
     getValidEnkeltdager,
     getTidEnkeltdagerInnenforPeriode,
@@ -61,26 +61,6 @@ export const validateArbeidsTidEnkeltdager = (
                 : `validation.arbeidIPeriode.enkeltdager.ingenTidRegistrert`,
             keepKeyUnaltered: true,
             values: intlValues,
-        };
-    }
-    return undefined;
-};
-
-export const validateOmsorgstilbudEnkeltdagerIPeriode = (
-    tidIOmsorgstilbud: TidEnkeltdag,
-    periode: DateRange,
-    erHistorisk: boolean | undefined
-) => {
-    const tidIPerioden = getTidEnkeltdagerInnenforPeriode(tidIOmsorgstilbud, periode);
-    const validTidEnkeltdager = getValidEnkeltdager(tidIPerioden);
-    const hasElements = Object.keys(validTidEnkeltdager).length > 0;
-
-    if (!hasElements || sumTimerEnkeltdager(validTidEnkeltdager) <= 0) {
-        return {
-            key: erHistorisk
-                ? `validation.${AppFormField.omsorgstilbud__historisk__enkeltdager}.ingenTidRegistrert`
-                : `validation.${AppFormField.omsorgstilbud__planlagt__enkeltdager}.ingenTidRegistrert`,
-            keepKeyUnaltered: true,
         };
     }
     return undefined;

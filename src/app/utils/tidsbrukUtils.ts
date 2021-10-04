@@ -135,10 +135,10 @@ export const getDagerMedTidITidsrom = (data: TidEnkeltdag, tidsrom: DateRange): 
     return dager;
 };
 
-export const erKortPeriode = (periode: DateRange): boolean => {
+export const visSpørsmålOmTidErLikHverUke = (periode: DateRange): boolean => {
     const antallDager = dayjs(periode.to).diff(periode.from, 'days');
     if (antallDager < MIN_ANTALL_DAGER_FOR_FAST_PLAN) {
-        return true;
+        return false;
     }
-    return false;
+    return true;
 };

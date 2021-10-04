@@ -18,13 +18,14 @@ const HistoriskArbeidStep = ({ onValidSubmit, periode }: Props) => {
         til: prettifyDateFull(periode.to),
     });
 
+    const erHistorisk = true;
     return (
         <FormikStep
             id={StepID.ARBEID_HISTORISK}
             stepSubTitle={subTitle}
             onValidFormSubmit={onValidSubmit}
-            onStepCleanup={(values) => cleanupArbeidIPeriodeStepData(values, true)}>
-            <ArbeidIPeriodeStepContent stepID={StepID.ARBEID_HISTORISK} periode={periode} />
+            onStepCleanup={(values) => cleanupArbeidIPeriodeStepData(values, periode, erHistorisk)}>
+            <ArbeidIPeriodeStepContent erHistorisk={erHistorisk} periode={periode} />
         </FormikStep>
     );
 };

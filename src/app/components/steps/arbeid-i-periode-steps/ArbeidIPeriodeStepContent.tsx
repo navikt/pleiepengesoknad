@@ -8,18 +8,17 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { useFormikContext } from 'formik';
 import FormSection from '../../../pre-common/form-section/FormSection';
-import { StepID } from '../../../config/stepConfig';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import ArbeidIPeriodeSpørsmål from '../../arbeidstid/ArbeidIPeriodeSpørsmål';
 import { ArbeidsforholdType } from '../../../types';
-import { getArbeidsperiodeFrilans } from './arbeidIPeriodeStepUtils';
+import { getArbeidsperiodeFrilans } from '../../../utils/frilanserUtils';
 
 interface Props {
     periode: DateRange;
-    stepID: StepID.ARBEID_HISTORISK | StepID.ARBEID_PLANLAGT;
+    erHistorisk: boolean;
 }
 
-const ArbeidIPeriodeStepContent = ({ periode, stepID }: Props) => {
+const ArbeidIPeriodeStepContent = ({ periode, erHistorisk }: Props) => {
     const intl = useIntl();
     const formikProps = useFormikContext<PleiepengesøknadFormData>();
     const {
@@ -38,7 +37,11 @@ const ArbeidIPeriodeStepContent = ({ periode, stepID }: Props) => {
     const erFrilanser = frilans_harHattInntektSomFrilanser === YesOrNo.YES && frilans_arbeidsforhold !== undefined;
 
     const arbeidsperiodeFrilans = erFrilanser
-        ? getArbeidsperiodeFrilans(periode, frilans_startdato, frilans_sluttdato, frilans_jobberFortsattSomFrilans)
+        ? getArbeidsperiodeFrilans(periode, {
+              frilans_startdato,
+              frilans_sluttdato,
+              frilans_jobberFortsattSomFrilans,
+          })
         : undefined;
 
     const skalBesvareSelvstendig =
@@ -57,7 +60,6 @@ const ArbeidIPeriodeStepContent = ({ periode, stepID }: Props) => {
     //     return <InvalidStepPage stepId={StepID.ARBEIDSFORHOLD_I_PERIODEN} />;
     // }
 
-    const erHistorisk = stepID === StepID.ARBEID_HISTORISK;
     return (
         <>
             <Box padBottom="m">

@@ -94,6 +94,9 @@
 
     "arbeidsgiver.tittel": "{navn} (organisasjonsnummer {organisasjonsnummer})",
     "frilans.tittel": "Frilans",
+    "frilans.tittel.start": "Frilanser (startet {startdato})",
+    "frilans.tittel.slutt": "Frilanser (sluttet {sluttdato})",
+    "frilans.tittel.startOgSlutt": "Frilanser (startet {startdato}, sluttet {sluttdato})",
     "selvstendigNæringsdrivende.tittel": "Selvstendig næringsdrivende",
 
     "avbrytSøknadDialog.avbrytSøknadLabel": "Ja, avbryt søknad",

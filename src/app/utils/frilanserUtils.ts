@@ -4,6 +4,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 
 export const erFrilanserISøknadsperiode = ({
     frilans_harHattInntektSomFrilanser,
@@ -28,3 +29,56 @@ export const erFrilanserISøknadsperiode = ({
         ? dayjs(frilansSluttdatoDate).isSameOrAfter(periodeFraDate, 'day')
         : false;
 };
+
+/**
+ *
+ * @param periode
+ * @param frilans_startdato
+ * @param frilans_sluttdato
+ * @param frilans_jobberFortsattSomFrilans
+ * @returns DateRange
+ *
+ * Avkort periode med evt start og sluttdato som frilanser.
+ * Returnerer undefined dersom start og/eller slutt som frilanser
+ * gjør at bruker ikke var frilanser i perioden
+ */
+
+export const getArbeidsperiodeFrilans = (
+    periode: DateRange,
+    frilans: {
+        frilans_startdato?: string;
+        frilans_sluttdato?: string;
+        frilans_jobberFortsattSomFrilans?: YesOrNo;
+    }
+): DateRange | undefined => {
+    const { frilans_startdato, frilans_sluttdato, frilans_jobberFortsattSomFrilans } = frilans;
+    const startdato = datepickerUtils.getDateFromDateString(frilans_startdato);
+    const sluttdato = datepickerUtils.getDateFromDateString(frilans_sluttdato);
+
+    if (frilans_jobberFortsattSomFrilans === YesOrNo.YES && frilans_sluttdato !== undefined) {
+        throw new Error('getArbeidsperiodeFrilans - Jobber fortsatt som frilanser, men sluttdato er satt');
+    }
+    if (frilans_jobberFortsattSomFrilans !== YesOrNo.YES && !sluttdato) {
+        throw new Error('getArbeidsperiodeFrilans - Er ikke frilanser, men sluttdato er ikke satt');
+    }
+
+    if (dayjs(startdato).isAfter(periode.to, 'day')) {
+        return undefined;
+    }
+    if (dayjs(sluttdato).isBefore(periode.from, 'day')) {
+        return undefined;
+    }
+
+    const fromDate: Date = dayjs.max([dayjs(periode.from), dayjs(startdato)]).toDate();
+    const toDate: Date = dayjs.min([dayjs(periode.to), dayjs(sluttdato)]).toDate();
+
+    return {
+        from: fromDate,
+        to: toDate,
+    };
+};
+
+// export const harAvkortetFrilanserperiode = (arbeidsperiodeFrilans: DateRange, søknadsperiode: DateRange): boolean => {
+
+//     return false;
+// };

@@ -6,7 +6,7 @@ import { VetOmsorgstilbud } from '../../../types';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from '../../../utils/stepUtils';
 import {
-    erKortPeriode,
+    visSpørsmålOmTidErLikHverUke,
     getHistoriskPeriode,
     getPlanlagtPeriode,
     getTidEnkeltdagerInnenforPeriode,
@@ -41,7 +41,7 @@ export const cleanupOmsorgstilbudStep = (
                 cleanedValues.omsorgstilbud.planlagt.fasteDager = undefined;
                 cleanedValues.omsorgstilbud.planlagt.erLiktHverUke = undefined;
             }
-            if (erKortPeriode(søknadsperiode)) {
+            if (visSpørsmålOmTidErLikHverUke(søknadsperiode) === false) {
                 cleanedValues.omsorgstilbud.planlagt.erLiktHverUke = undefined;
             }
             if (cleanedValues.omsorgstilbud.planlagt.erLiktHverUke === YesOrNo.YES) {

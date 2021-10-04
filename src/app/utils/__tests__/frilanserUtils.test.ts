@@ -1,6 +1,10 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import dayjs from 'dayjs';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
-import { erFrilanserISøknadsperiode } from '../frilanserUtils';
+import { erFrilanserISøknadsperiode, getArbeidsperiodeFrilans } from '../frilanserUtils';
 
 type TestData = Partial<PleiepengesøknadFormData>;
 
@@ -68,5 +72,37 @@ describe('Frilanser sluttdato er innenfor søknadsperiode', () => {
         expect(
             erFrilanserISøknadsperiode({ ...values, periodeFra: 'undefined23', frilans_sluttdato: '344undefined' })
         ).toBeFalsy();
+    });
+});
+
+describe('arbeidIPeriodeStepUtils', () => {
+    const periodeFromDateString = '2021-02-01';
+    const periodeToDateString = '2021-02-12';
+
+    const periode: DateRange = {
+        from: datepickerUtils.getDateFromDateString(periodeFromDateString)!,
+        to: datepickerUtils.getDateFromDateString(periodeToDateString)!,
+    };
+    describe('getArbeidsperiodeFrilans', () => {
+        it('returnerer opprinnelig periode når frilans startdato er før periode og er fortsatt frilanser', () => {
+            const result = getArbeidsperiodeFrilans(periode, '2021-01-01', undefined, true);
+            expect(dayjs(result?.from).isSame(periode.from, 'day')).toBeTruthy();
+        });
+        it('returnerer opprinnelig periode når frilans-sluttdato er etter periode', () => {
+            const result = getArbeidsperiodeFrilans(periode, '2021-01-01', '2021-03-01', false);
+            expect(dayjs(result?.to).isSame(periode.to, 'day')).toBeTruthy();
+        });
+        it('bruker frilans-startdato som periode.from når frilans-startdato er i periode og er fortsatt frilanser', () => {
+            const result = getArbeidsperiodeFrilans(periode, '2021-02-05', undefined, true);
+            expect(datepickerUtils.getDateStringFromValue(result?.from)).toEqual('2021-02-05');
+        });
+        it('bruker frilans-sluttdato som periode.to når frilans-sluttdato er i periode', () => {
+            const result = getArbeidsperiodeFrilans(periode, '2021-01-01', '2021-02-06', false);
+            expect(datepickerUtils.getDateStringFromValue(result?.to)).toEqual('2021-02-06');
+        });
+        it('returnerer undefined dersom frilans-startdato og frilans-sluttdato er utenfor periode', () => {
+            const result = getArbeidsperiodeFrilans(periode, '2021-03-01', '2021-03-05', false);
+            expect(result).toBeUndefined();
+        });
     });
 });

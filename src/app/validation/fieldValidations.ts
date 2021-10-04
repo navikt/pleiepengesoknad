@@ -27,6 +27,9 @@ import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import minMax from 'dayjs/plugin/minMax';
+import { TidEnkeltdag } from '../types';
+import { AppFormField } from '../types/PleiepengesøknadFormData';
+import { getTidEnkeltdagerInnenforPeriode, getValidEnkeltdager, sumTimerEnkeltdager } from '../utils/tidsbrukUtils';
 
 dayjs.extend(minMax);
 dayjs.extend(isoWeek);
@@ -163,6 +166,26 @@ export const validateLegeerklæring = (attachments: Attachment[]): ValidationRes
     }
     if (uploadedAttachments.length > 100) {
         return AppFieldValidationErrors.legeerklæring_forMangeFiler;
+    }
+    return undefined;
+};
+
+export const validateOmsorgstilbudEnkeltdagerIPeriode = (
+    tidIOmsorgstilbud: TidEnkeltdag,
+    periode: DateRange,
+    erHistorisk: boolean | undefined
+) => {
+    const tidIPerioden = getTidEnkeltdagerInnenforPeriode(tidIOmsorgstilbud, periode);
+    const validTidEnkeltdager = getValidEnkeltdager(tidIPerioden);
+    const hasElements = Object.keys(validTidEnkeltdager).length > 0;
+
+    if (!hasElements || sumTimerEnkeltdager(validTidEnkeltdager) <= 0) {
+        return {
+            key: erHistorisk
+                ? `validation.${AppFormField.omsorgstilbud__historisk__enkeltdager}.ingenTidRegistrert`
+                : `validation.${AppFormField.omsorgstilbud__planlagt__enkeltdager}.ingenTidRegistrert`,
+            keepKeyUnaltered: true,
+        };
     }
     return undefined;
 };

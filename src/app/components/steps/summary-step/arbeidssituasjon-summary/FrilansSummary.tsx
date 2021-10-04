@@ -2,8 +2,8 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { FrilansApiData } from '../../../../types/PleiepengesøknadApiData';
-import { prettifyApiDate } from '../enkeltsvar/DatoSvar';
 import SummaryBlock from '../../../summary-block/SummaryBlock';
+import { prettifyApiDate } from '../enkeltsvar/DatoSvar';
 import { getArbeidsformOgTidSetning } from './arbeidssituasjon-summary-utils';
 
 interface Props {
@@ -12,6 +12,18 @@ interface Props {
 
 const FrilansSummary = ({ frilans }: Props) => {
     const intl = useIntl();
+    if (frilans === undefined) {
+        return (
+            <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')} headerTag="h3">
+                <ul>
+                    <li>
+                        <FormattedMessage id="oppsummering.arbeidssituasjon.frilans.erIkkeFrilanser" tagName="p" />
+                    </li>
+                </ul>
+            </SummaryBlock>
+        );
+    }
+
     return (
         <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')} headerTag="h3">
             {frilans === undefined && (

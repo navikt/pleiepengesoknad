@@ -6,7 +6,7 @@ import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import dayjs from 'dayjs';
 import { getMonthsInDateRange } from '../../utils/dateUtils';
-import { erKortPeriode } from '../../utils/tidsbrukUtils';
+import { visSpørsmålOmTidErLikHverUke } from '../../utils/tidsbrukUtils';
 import { getArbeidstimerDatoValidator, validateArbeidsTidEnkeltdager } from '../../validation/validateArbeidFields';
 import AppForm from '../app-form/AppForm';
 import TidUkerInput from '../tid-uker-input/TidUkerInput';
@@ -32,7 +32,7 @@ const ArbeidstidKalenderInput: React.FunctionComponent<Props> = ({
     intlValues,
     erHistorisk,
 }) => {
-    const visSkjemaInline: boolean = visKunEnkeltdager || erKortPeriode(periode);
+    const visSkjemaInline: boolean = visKunEnkeltdager || visSpørsmålOmTidErLikHverUke(periode) === false;
     const intl = useIntl();
 
     return (
