@@ -2,10 +2,11 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { prettifyDate, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
-import { JobberIPeriodeSvar, ArbeidsforholdType } from '../../types';
+import { ArbeidsforholdType, JobberIPeriodeSvar } from '../../types';
 import {
     AppFormField,
     ArbeidIPeriodeField,
@@ -13,9 +14,7 @@ import {
     isArbeidsforholdAnsatt,
 } from '../../types/PleiepengesøknadFormData';
 import { getTimerTekst } from '../../utils/arbeidsforholdUtils';
-import AppForm from '../app-form/AppForm';
-import TidFasteDagerInput from '../tid-faste-dager-input/TidFasteDagerInput';
-import ArbeidstidKalenderInput from './ArbeidstidKalenderInput';
+import { erKortPeriode } from '../../utils/tidsbrukUtils';
 import {
     getArbeidErLiktHverUkeValidator,
     getArbeidJobberSomVanligValidator,
@@ -23,14 +22,15 @@ import {
     getArbeidstimerFastDagValidator,
     validateFasteArbeidstimerIUke,
 } from '../../validation/validateArbeidFields';
-import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
+import AppForm from '../app-form/AppForm';
+import TidFasteDagerInput from '../tid-faste-dager-input/TidFasteDagerInput';
+import ArbeidstidKalenderInput from './ArbeidstidKalenderInput';
 
 interface Props {
     parentFieldName: string;
     arbeidsforhold: Arbeidsforhold;
     arbeidsforholdType: ArbeidsforholdType;
     periode: DateRange;
-    visKunEnkeltdager: boolean;
     erHistorisk: boolean;
 }
 
@@ -49,7 +49,6 @@ const ArbeidIPeriodeSpørsmål = ({
     parentFieldName,
     erHistorisk,
     arbeidsforholdType,
-    visKunEnkeltdager,
     periode,
 }: Props) => {
     const intl = useIntl();
@@ -84,6 +83,8 @@ const ArbeidIPeriodeSpørsmål = ({
     const arbeidIPeriode = erHistorisk ? arbeidsforhold?.historisk : arbeidsforhold?.planlagt;
 
     const { jobberIPerioden, jobberSomVanlig, erLiktHverUke } = arbeidIPeriode || {};
+
+    const visKunEnkeltdager = erKortPeriode(periode);
 
     return (
         <>

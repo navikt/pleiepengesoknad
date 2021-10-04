@@ -76,7 +76,9 @@ function ArbeidstidInfoAndDialog<FieldNames>({ name, periode, labels, intlValues
                             <FormattedMessage id="arbeidstid.periodetittel" values={{ periode: mndOgÅr }} />
                         </Element>
                         {dager.length === 0 ? (
-                            <FormattedMessage tagName="p" id="arbeidstid.ingenDagerRegistrert" />
+                            <p style={{ marginTop: '0.5rem' }}>
+                                <FormattedMessage id="arbeidstid.ingenDagerRegistrert" />
+                            </p>
                         ) : (
                             <TidsbrukKalender
                                 måned={måned}

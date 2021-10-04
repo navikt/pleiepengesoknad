@@ -34,7 +34,6 @@ export interface ArbeidsforholdApiData {
     _type: ArbeidsforholdType;
     arbeidsform: Arbeidsform;
     jobberNormaltTimer: number;
-    erAktivtArbeidsforhold?: boolean;
     historiskArbeid?: ArbeidIPeriodeApiData;
     planlagtArbeid?: ArbeidIPeriodeApiData;
 }

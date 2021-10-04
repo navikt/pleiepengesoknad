@@ -13,6 +13,7 @@ import TidUkerInput from '../tid-uker-input/TidUkerInput';
 import ArbeidstidInfoAndDialog from './ArbeidstidInfoAndDialog';
 import { TidEnkeltdag } from '../../types';
 import { ArbeidIPeriodeIntlValues } from './ArbeidIPeriodeSpørsmål';
+import './arbeidstidKalender.less';
 
 interface Props {
     periode: DateRange;
@@ -75,27 +76,29 @@ const ArbeidstidKalenderInput: React.FunctionComponent<Props> = ({
                     {getMonthsInDateRange(periode).map((periode, index) => {
                         const mndOgÅr = dayjs(periode.from).format('MMMM YYYY');
                         return (
-                            <FormBlock key={dayjs(periode.from).format('MM.YYYY')} margin="l">
-                                <AppForm.InputGroup name={`${enkeltdagerFieldName}_${index}` as any} tag="div">
-                                    <ArbeidstidInfoAndDialog
-                                        name={enkeltdagerFieldName}
-                                        periode={periode}
-                                        labels={{
-                                            addLabel: intlHelper(intl, 'arbeidstid.addLabel', { periode: mndOgÅr }),
-                                            deleteLabel: intlHelper(intl, 'arbeidstid.deleteLabel', {
-                                                periode: mndOgÅr,
-                                            }),
-                                            editLabel: intlHelper(intl, 'arbeidstid.editLabel', {
-                                                periode: mndOgÅr,
-                                            }),
-                                            modalTitle: intlHelper(intl, 'arbeidstid.modalTitle', {
-                                                periode: mndOgÅr,
-                                            }),
-                                        }}
-                                        intlValues={intlValues}
-                                    />
-                                </AppForm.InputGroup>
-                            </FormBlock>
+                            <div className="arbeidstidKalender__mnd" key={dayjs(periode.from).format('MM.YYYY')}>
+                                <FormBlock>
+                                    <AppForm.InputGroup name={`${enkeltdagerFieldName}_${index}` as any} tag="div">
+                                        <ArbeidstidInfoAndDialog
+                                            name={enkeltdagerFieldName}
+                                            periode={periode}
+                                            labels={{
+                                                addLabel: intlHelper(intl, 'arbeidstid.addLabel', { periode: mndOgÅr }),
+                                                deleteLabel: intlHelper(intl, 'arbeidstid.deleteLabel', {
+                                                    periode: mndOgÅr,
+                                                }),
+                                                editLabel: intlHelper(intl, 'arbeidstid.editLabel', {
+                                                    periode: mndOgÅr,
+                                                }),
+                                                modalTitle: intlHelper(intl, 'arbeidstid.modalTitle', {
+                                                    periode: mndOgÅr,
+                                                }),
+                                            }}
+                                            intlValues={intlValues}
+                                        />
+                                    </AppForm.InputGroup>
+                                </FormBlock>
+                            </div>
                         );
                     })}
                 </>

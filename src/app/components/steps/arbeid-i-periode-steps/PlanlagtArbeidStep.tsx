@@ -4,7 +4,7 @@ import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/d
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import FormikStep from '../../formik-step/FormikStep';
-import { cleanupArbeidIPeriodeStepData } from './arbeid-i-periode-step-utils';
+import { cleanupArbeidIPeriodeStepData } from './arbeidIPeriodeStepUtils';
 import ArbeidIPeriodeStepContent from './ArbeidIPeriodeStepContent';
 
 interface Props extends StepConfigProps {

@@ -31,8 +31,7 @@ export const mapArbeidIPeriodeToApiData = (arbeid: ArbeidIPeriode, periode: Date
 export const mapArbeidsforholdToApiData = (
     arbeidsforhold: Arbeidsforhold,
     søknadsperiode: DateRange,
-    type: ArbeidsforholdType,
-    erAktivtArbeidsforhold = true
+    type: ArbeidsforholdType
 ): ArbeidsforholdApiData => {
     const { jobberNormaltTimer, arbeidsform } = arbeidsforhold;
     const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
@@ -56,6 +55,5 @@ export const mapArbeidsforholdToApiData = (
             periodeFraOgMedSøknadsdato && arbeidsforhold.planlagt
                 ? mapArbeidIPeriodeToApiData(arbeidsforhold.planlagt, periodeFraOgMedSøknadsdato)
                 : undefined,
-        erAktivtArbeidsforhold: erAktivtArbeidsforhold,
     };
 };

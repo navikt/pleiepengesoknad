@@ -12,7 +12,7 @@ import { StepID } from '../../../config/stepConfig';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import ArbeidIPeriodeSpørsmål from '../../arbeidstid/ArbeidIPeriodeSpørsmål';
 import { ArbeidsforholdType } from '../../../types';
-import { erKortPeriode } from '../../../utils/tidsbrukUtils';
+import { getArbeidsperiodeFrilans } from './arbeidIPeriodeStepUtils';
 
 interface Props {
     periode: DateRange;
@@ -28,12 +28,18 @@ const ArbeidIPeriodeStepContent = ({ periode, stepID }: Props) => {
             frilans_arbeidsforhold,
             frilans_harHattInntektSomFrilanser,
             selvstendig_harHattInntektSomSN,
+            frilans_startdato,
+            frilans_sluttdato,
+            frilans_jobberFortsattSomFrilans,
             selvstendig_arbeidsforhold,
         },
     } = formikProps;
 
-    const skalBesvareFrilans =
-        frilans_harHattInntektSomFrilanser === YesOrNo.YES && frilans_arbeidsforhold !== undefined;
+    const erFrilanser = frilans_harHattInntektSomFrilanser === YesOrNo.YES && frilans_arbeidsforhold !== undefined;
+
+    const arbeidsperiodeFrilans = erFrilanser
+        ? getArbeidsperiodeFrilans(periode, frilans_startdato, frilans_sluttdato, frilans_jobberFortsattSomFrilans)
+        : undefined;
 
     const skalBesvareSelvstendig =
         selvstendig_harHattInntektSomSN === YesOrNo.YES && selvstendig_arbeidsforhold !== undefined;
@@ -74,7 +80,6 @@ const ArbeidIPeriodeStepContent = ({ periode, stepID }: Props) => {
                                 arbeidsforholdType={ArbeidsforholdType.ANSATT}
                                 arbeidsforhold={arbeidsforhold}
                                 periode={periode}
-                                visKunEnkeltdager={erKortPeriode(periode)}
                                 parentFieldName={`${AppFormField.ansatt_arbeidsforhold}.${index}`}
                                 erHistorisk={erHistorisk}
                             />
@@ -83,13 +88,12 @@ const ArbeidIPeriodeStepContent = ({ periode, stepID }: Props) => {
                 })}
             </FormBlock>
 
-            {skalBesvareFrilans && frilans_arbeidsforhold && (
+            {erFrilanser && frilans_arbeidsforhold && arbeidsperiodeFrilans && (
                 <FormSection title={intlHelper(intl, 'arbeidIPeriode.FrilansLabel')}>
                     <ArbeidIPeriodeSpørsmål
                         arbeidsforholdType={ArbeidsforholdType.FRILANSER}
                         arbeidsforhold={frilans_arbeidsforhold}
-                        periode={periode}
-                        visKunEnkeltdager={erKortPeriode(periode)}
+                        periode={arbeidsperiodeFrilans}
                         parentFieldName={`${AppFormField.frilans_arbeidsforhold}`}
                         erHistorisk={erHistorisk}
                     />
@@ -101,7 +105,6 @@ const ArbeidIPeriodeStepContent = ({ periode, stepID }: Props) => {
                         arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
                         arbeidsforhold={selvstendig_arbeidsforhold}
                         periode={periode}
-                        visKunEnkeltdager={erKortPeriode(periode)}
                         parentFieldName={`${AppFormField.selvstendig_arbeidsforhold}`}
                         erHistorisk={erHistorisk}
                     />
