@@ -4,7 +4,7 @@ import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import dayjs from 'dayjs';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
-import { erFrilanserISøknadsperiode, getArbeidsperiodeFrilans } from '../frilanserUtils';
+import { erFrilanserISøknadsperiode, getPeriodeSomFrilanserInneforPeriode } from '../frilanserUtils';
 import minMax from 'dayjs/plugin/minMax';
 
 dayjs.extend(minMax);
@@ -86,9 +86,9 @@ describe('arbeidIPeriodeStepUtils', () => {
         from: datepickerUtils.getDateFromDateString(periodeFromDateString)!,
         to: datepickerUtils.getDateFromDateString(periodeToDateString)!,
     };
-    describe('getArbeidsperiodeFrilans', () => {
+    describe('getPeriodeSomFrilanserInneforPeriode', () => {
         it('returnerer opprinnelig periode når frilans startdato er før periode og er fortsatt frilanser', () => {
-            const result = getArbeidsperiodeFrilans(periode, {
+            const result = getPeriodeSomFrilanserInneforPeriode(periode, {
                 frilans_startdato: '2021-01-01',
                 frilans_sluttdato: undefined,
                 frilans_jobberFortsattSomFrilans: YesOrNo.YES,
@@ -96,7 +96,7 @@ describe('arbeidIPeriodeStepUtils', () => {
             expect(dayjs(result?.from).isSame(periode.from, 'day')).toBeTruthy();
         });
         it('returnerer opprinnelig periode når frilans-sluttdato er etter periode', () => {
-            const result = getArbeidsperiodeFrilans(periode, {
+            const result = getPeriodeSomFrilanserInneforPeriode(periode, {
                 frilans_startdato: '2021-01-01',
                 frilans_sluttdato: '2021-03-01',
                 frilans_jobberFortsattSomFrilans: YesOrNo.NO,
@@ -104,7 +104,7 @@ describe('arbeidIPeriodeStepUtils', () => {
             expect(dayjs(result?.to).isSame(periode.to, 'day')).toBeTruthy();
         });
         it('bruker frilans-startdato som periode.from når frilans-startdato er i periode og er fortsatt frilanser', () => {
-            const result = getArbeidsperiodeFrilans(periode, {
+            const result = getPeriodeSomFrilanserInneforPeriode(periode, {
                 frilans_startdato: '2021-02-05',
                 frilans_sluttdato: undefined,
                 frilans_jobberFortsattSomFrilans: YesOrNo.YES,
@@ -112,7 +112,7 @@ describe('arbeidIPeriodeStepUtils', () => {
             expect(datepickerUtils.getDateStringFromValue(result?.from)).toEqual('2021-02-05');
         });
         it('bruker frilans-sluttdato som periode.to når frilans-sluttdato er i periode', () => {
-            const result = getArbeidsperiodeFrilans(periode, {
+            const result = getPeriodeSomFrilanserInneforPeriode(periode, {
                 frilans_startdato: '2021-01-01',
                 frilans_sluttdato: '2021-02-06',
                 frilans_jobberFortsattSomFrilans: YesOrNo.NO,
@@ -120,7 +120,7 @@ describe('arbeidIPeriodeStepUtils', () => {
             expect(datepickerUtils.getDateStringFromValue(result?.to)).toEqual('2021-02-06');
         });
         it('returnerer undefined dersom frilans-startdato og frilans-sluttdato er utenfor periode', () => {
-            const result = getArbeidsperiodeFrilans(periode, {
+            const result = getPeriodeSomFrilanserInneforPeriode(periode, {
                 frilans_startdato: '2021-03-01',
                 frilans_sluttdato: '2021-03-05',
                 frilans_jobberFortsattSomFrilans: YesOrNo.NO,

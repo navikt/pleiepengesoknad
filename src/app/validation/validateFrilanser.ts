@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { AppFormField, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
@@ -53,24 +52,3 @@ export const getFrilanserSluttdatoValidator =
 
         return undefined;
     };
-
-export const erFrilanserISøknadsperiode = ({
-    frilans_harHattInntektSomFrilanser,
-    frilans_jobberFortsattSomFrilans,
-    frilans_sluttdato,
-    periodeFra,
-}: FrilansFormDataForValidation): boolean => {
-    if (frilans_harHattInntektSomFrilanser !== YesOrNo.YES) {
-        return false;
-    }
-    if (frilans_jobberFortsattSomFrilans === YesOrNo.YES) {
-        return true;
-    }
-
-    const periodeFraDate = datepickerUtils.getDateFromDateString(periodeFra);
-    const frilansSluttdatoDate = datepickerUtils.getDateFromDateString(frilans_sluttdato);
-
-    return periodeFraDate && frilansSluttdatoDate
-        ? dayjs(frilansSluttdatoDate).isSameOrAfter(periodeFraDate, 'day')
-        : false;
-};

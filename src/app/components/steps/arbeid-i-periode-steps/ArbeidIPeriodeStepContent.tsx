@@ -11,7 +11,7 @@ import FormSection from '../../../pre-common/form-section/FormSection';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import ArbeidIPeriodeSpørsmål from '../../arbeidstid/ArbeidIPeriodeSpørsmål';
 import { ArbeidsforholdType } from '../../../types';
-import { getArbeidsperiodeFrilans } from '../../../utils/frilanserUtils';
+import { getPeriodeSomFrilanserInneforPeriode } from '../../../utils/frilanserUtils';
 
 interface Props {
     periode: DateRange;
@@ -37,7 +37,7 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk }: Props) => {
     const erFrilanser = frilans_harHattInntektSomFrilanser === YesOrNo.YES && frilans_arbeidsforhold !== undefined;
 
     const arbeidsperiodeFrilans = erFrilanser
-        ? getArbeidsperiodeFrilans(periode, {
+        ? getPeriodeSomFrilanserInneforPeriode(periode, {
               frilans_startdato,
               frilans_sluttdato,
               frilans_jobberFortsattSomFrilans,

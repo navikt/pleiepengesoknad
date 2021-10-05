@@ -12,7 +12,7 @@ import {
 import minMax from 'dayjs/plugin/minMax';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { getArbeidsperiodeFrilans } from '../../../utils/frilanserUtils';
+import { getPeriodeSomFrilanserInneforPeriode } from '../../../utils/frilanserUtils';
 import { visSpørsmålOmTidErLikHverUke } from '../../../utils/tidsbrukUtils';
 
 dayjs.extend(minMax);
@@ -70,7 +70,7 @@ const cleanupArbeidsforholdFrilanser = (
     frilans_sluttdato?: string,
     frilans_jobberFortsattSomFrilans?: YesOrNo
 ): ArbeidsforholdSNF => {
-    const frilansPeriodeISøknadsperiode = getArbeidsperiodeFrilans(periode, {
+    const frilansPeriodeISøknadsperiode = getPeriodeSomFrilanserInneforPeriode(periode, {
         frilans_sluttdato,
         frilans_startdato,
         frilans_jobberFortsattSomFrilans,
@@ -84,17 +84,15 @@ const cleanupArbeidsforholdFrilanser = (
 
     /** Frilanser er ikke frilanser i søknadsperioden før dagens dato */
     if (frilansPeriodeISøknadsperiode === undefined && erHistorisk) {
-        arbeidsforhold.historisk = undefined;
-        // arbeidsforhold.historisk = {
-        //     jobberIPerioden: JobberIPeriodeSvar.NEI,
-        // };
+        arbeidsforhold.historisk = {
+            jobberIPerioden: JobberIPeriodeSvar.NEI,
+        };
     }
     /** Frilanser er ikke frilanser i søknadsperioden fom dagens dato */
     if (frilansPeriodeISøknadsperiode === undefined && erHistorisk === false) {
-        arbeidsforhold.planlagt = undefined;
-        // arbeidsforhold.planlagt = {
-        //     jobberIPerioden: JobberIPeriodeSvar.NEI,
-        // };
+        arbeidsforhold.planlagt = {
+            jobberIPerioden: JobberIPeriodeSvar.NEI,
+        };
     }
     return arbeidsforhold;
 };

@@ -11,7 +11,9 @@ export const erFrilanserISøknadsperiode = ({
     frilans_harHattInntektSomFrilanser,
     frilans_jobberFortsattSomFrilans,
     frilans_sluttdato,
+    frilans_startdato,
     periodeFra,
+    periodeTil,
 }: Pick<
     PleiepengesøknadFormData,
     | AppFormField.frilans_harHattInntektSomFrilanser
@@ -28,12 +30,15 @@ export const erFrilanserISøknadsperiode = ({
         return true;
     }
 
-    const periodeFraDate = datepickerUtils.getDateFromDateString(periodeFra);
-    const frilansSluttdatoDate = datepickerUtils.getDateFromDateString(frilans_sluttdato);
+    const periodeTilDato = datepickerUtils.getDateFromDateString(periodeTil);
+    const frilansStartdato = datepickerUtils.getDateFromDateString(frilans_startdato);
+    const periodeFraDato = datepickerUtils.getDateFromDateString(periodeFra);
+    const frilansSluttdato = datepickerUtils.getDateFromDateString(frilans_sluttdato);
 
-    return periodeFraDate && frilansSluttdatoDate
-        ? dayjs(frilansSluttdatoDate).isSameOrAfter(periodeFraDate, 'day')
-        : false;
+    if (periodeTilDato && frilansStartdato && dayjs(frilansStartdato).isAfter(periodeTilDato)) {
+        return false;
+    }
+    return periodeFraDato && frilansSluttdato ? dayjs(frilansSluttdato).isSameOrAfter(periodeFraDato, 'day') : false;
 };
 
 /**
@@ -49,7 +54,7 @@ export const erFrilanserISøknadsperiode = ({
  * gjør at bruker ikke var frilanser i perioden
  */
 
-export const getArbeidsperiodeFrilans = (
+export const getPeriodeSomFrilanserInneforPeriode = (
     periode: DateRange,
     frilans: {
         frilans_startdato?: string;
@@ -62,13 +67,16 @@ export const getArbeidsperiodeFrilans = (
     const sluttdato = datepickerUtils.getDateFromDateString(frilans_sluttdato);
 
     if (startdato === undefined) {
-        throw new Error('getArbeidsperiodeFrilans - Startdato ikke satt');
+        console.error('getPeriodeSomFrilanserInneforPeriode - Startdato ikke satt');
+        return undefined;
     }
     if (frilans_jobberFortsattSomFrilans === YesOrNo.YES && frilans_sluttdato !== undefined) {
-        throw new Error('getArbeidsperiodeFrilans - Jobber fortsatt som frilanser, men sluttdato er satt');
+        console.error('getPeriodeSomFrilanserInneforPeriode - Jobber fortsatt som frilanser, men sluttdato er satt');
+        return undefined;
     }
     if (frilans_jobberFortsattSomFrilans === YesOrNo.NO && !sluttdato) {
-        throw new Error('getArbeidsperiodeFrilans - Er ikke frilanser, men sluttdato er ikke satt');
+        console.error('getPeriodeSomFrilanserInneforPeriode - Er ikke frilanser, men sluttdato er ikke satt');
+        return undefined;
     }
 
     if (dayjs(startdato).isAfter(periode.to, 'day')) {
