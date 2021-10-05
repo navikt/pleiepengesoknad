@@ -1,7 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import dayjs from 'dayjs';
@@ -78,7 +77,7 @@ const OmsorgstilbudIPeriodeSpørsmål: React.FunctionComponent<Props> = ({
                     {getMonthsInDateRange(periode).map((periode, index) => {
                         const mndOgÅr = dayjs(periode.from).format('MMMM YYYY');
                         return (
-                            <FormBlock key={dayjs(periode.from).format('MM.YYYY')} margin="l">
+                            <div key={dayjs(periode.from).format('MM.YYYY')} className="omsorgstilbudKalender__mnd">
                                 <AppForm.InputGroup name={`${enkeltdagerFieldName}_${index}` as any} tag="div">
                                     <OmsorgstilbudInfoAndDialog
                                         name={enkeltdagerFieldName}
@@ -101,7 +100,7 @@ const OmsorgstilbudIPeriodeSpørsmål: React.FunctionComponent<Props> = ({
                                         }}
                                     />
                                 </AppForm.InputGroup>
-                            </FormBlock>
+                            </div>
                         );
                     })}
                 </>

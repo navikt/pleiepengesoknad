@@ -57,21 +57,14 @@ export const getArbeidsperiodeFrilans = (
         frilans_jobberFortsattSomFrilans?: YesOrNo;
     }
 ): DateRange | undefined => {
-    const { frilans_startdato, frilans_sluttdato, frilans_jobberFortsattSomFrilans } = frilans;
+    const { frilans_startdato, frilans_sluttdato } = frilans;
     const startdato = datepickerUtils.getDateFromDateString(frilans_startdato);
     const sluttdato = datepickerUtils.getDateFromDateString(frilans_sluttdato);
-
-    if (frilans_jobberFortsattSomFrilans === YesOrNo.YES && frilans_sluttdato !== undefined) {
-        throw new Error('getArbeidsperiodeFrilans - Jobber fortsatt som frilanser, men sluttdato er satt');
-    }
-    if (frilans_jobberFortsattSomFrilans !== YesOrNo.YES && !sluttdato) {
-        throw new Error('getArbeidsperiodeFrilans - Er ikke frilanser, men sluttdato er ikke satt');
-    }
 
     if (dayjs(startdato).isAfter(periode.to, 'day')) {
         return undefined;
     }
-    if (dayjs(sluttdato).isBefore(periode.from, 'day')) {
+    if (sluttdato === undefined || dayjs(sluttdato).isBefore(periode.from, 'day')) {
         return undefined;
     }
 
