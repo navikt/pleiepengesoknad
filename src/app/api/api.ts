@@ -14,13 +14,13 @@ export const getPersistUrl = (stepID?: StepID) =>
         ? `${getApiUrlByResourceType(ResourceType.MELLOMLAGRING)}?lastStepID=${encodeURI(stepID)}`
         : getApiUrlByResourceType(ResourceType.MELLOMLAGRING);
 
-export const persist = (formData: Partial<PleiepengesøknadFormData> | undefined, prevStep?: StepID) => {
-    const url = getPersistUrl(prevStep);
+export const persist = (formData: Partial<PleiepengesøknadFormData> | undefined, lastStepID?: StepID) => {
+    const url = getPersistUrl(lastStepID);
     if (formData) {
         const body: MellomlagringData = {
             formData,
             metadata: {
-                lastStepID: prevStep,
+                lastStepID,
                 version: MELLOMLAGRING_VERSION,
                 updatedTimestemp: new Date().toISOString(),
             },
