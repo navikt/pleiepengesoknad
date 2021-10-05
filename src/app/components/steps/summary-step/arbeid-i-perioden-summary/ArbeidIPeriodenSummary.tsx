@@ -49,7 +49,7 @@ const getFrilansTittel = (intl: IntlShape, frilans: FrilansApiData, periode: Dat
             return intlHelper(intl, 'frilans.tittel.slutt', intlValues);
         }
     }
-    return intlHelper(intl, 'frilans.tittel.header');
+    return intlHelper(intl, 'frilans.tittel');
 };
 
 const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
