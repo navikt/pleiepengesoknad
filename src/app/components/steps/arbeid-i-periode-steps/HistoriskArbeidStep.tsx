@@ -4,7 +4,7 @@ import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/d
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import FormikStep from '../../formik-step/FormikStep';
-import { cleanupArbeidIPeriodeStepData } from './arbeidIPeriodeStepUtils';
+import { cleanupArbeidIPeriodeStep } from './arbeidIPeriodeStepUtils';
 import ArbeidIPeriodeStepContent from './ArbeidIPeriodeStepContent';
 
 interface Props extends StepConfigProps {
@@ -24,7 +24,7 @@ const HistoriskArbeidStep = ({ onValidSubmit, periode }: Props) => {
             id={StepID.ARBEID_HISTORISK}
             stepSubTitle={subTitle}
             onValidFormSubmit={onValidSubmit}
-            onStepCleanup={(values) => cleanupArbeidIPeriodeStepData(values, periode, erHistorisk)}>
+            onStepCleanup={(values) => cleanupArbeidIPeriodeStep(values, periode, erHistorisk)}>
             <ArbeidIPeriodeStepContent erHistorisk={erHistorisk} periode={periode} />
         </FormikStep>
     );

@@ -70,7 +70,7 @@ const cleanupArbeidsforholdFrilanser = (
     frilans_sluttdato?: string,
     frilans_jobberFortsattSomFrilans?: YesOrNo
 ): ArbeidsforholdSNF => {
-    const friPeriode = getArbeidsperiodeFrilans(periode, {
+    const frilansPeriodeISøknadsperiode = getArbeidsperiodeFrilans(periode, {
         frilans_sluttdato,
         frilans_startdato,
         frilans_jobberFortsattSomFrilans,
@@ -78,30 +78,26 @@ const cleanupArbeidsforholdFrilanser = (
 
     const arbeidsforhold: ArbeidsforholdSNF = cleanupArbeidsforhold(
         frilans_arbeidsforhold,
-        friPeriode || periode,
+        frilansPeriodeISøknadsperiode || periode,
         erHistorisk
     ) as ArbeidsforholdSNF;
 
-    if (friPeriode === undefined && erHistorisk) {
-        arbeidsforhold.historisk = undefined;
+    /** Frilanser er ikke frilanser i søknadsperioden før dagens dato */
+    if (frilansPeriodeISøknadsperiode === undefined && erHistorisk) {
+        arbeidsforhold.historisk = {
+            jobberIPerioden: JobberIPeriodeSvar.NEI,
+        };
     }
-    if (friPeriode === undefined && erHistorisk === false) {
-        arbeidsforhold.planlagt = undefined;
+    /** Frilanser er ikke frilanser i søknadsperioden fom dagens dato */
+    if (frilansPeriodeISøknadsperiode === undefined && erHistorisk === false) {
+        arbeidsforhold.planlagt = {
+            jobberIPerioden: JobberIPeriodeSvar.NEI,
+        };
     }
-
-    // const startdato = datepickerUtils.getDateFromDateString(frilans_startdato);
-    // const sluttdato = datepickerUtils.getDateFromDateString(frilans_sluttdato);
-    // if (erHistorisk === false && sluttdato && dayjs(sluttdato).isBefore(periode.from, 'day')) {
-    //     arbeidsforhold.planlagt = undefined;
-    // }
-    // if (erHistorisk && startdato && dayjs(startdato).isAfter(periode.to, 'day')) {
-    //     arbeidsforhold.historisk = undefined;
-    // }
-
     return arbeidsforhold;
 };
 
-export const cleanupArbeidIPeriodeStepData = (
+export const cleanupArbeidIPeriodeStep = (
     formData: PleiepengesøknadFormData,
     periode: DateRange,
     erHistorisk: boolean
