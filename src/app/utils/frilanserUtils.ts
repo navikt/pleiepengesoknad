@@ -61,6 +61,9 @@ export const getArbeidsperiodeFrilans = (
     const startdato = datepickerUtils.getDateFromDateString(frilans_startdato);
     const sluttdato = datepickerUtils.getDateFromDateString(frilans_sluttdato);
 
+    if (startdato === undefined) {
+        throw new Error('getArbeidsperiodeFrilans - Startdato ikke satt');
+    }
     if (frilans_jobberFortsattSomFrilans === YesOrNo.YES && frilans_sluttdato !== undefined) {
         throw new Error('getArbeidsperiodeFrilans - Jobber fortsatt som frilanser, men sluttdato er satt');
     }
@@ -76,7 +79,7 @@ export const getArbeidsperiodeFrilans = (
     }
 
     const fromDate: Date = dayjs.max([dayjs(periode.from), dayjs(startdato)]).toDate();
-    const toDate: Date = dayjs.min([dayjs(periode.to), dayjs(sluttdato)]).toDate();
+    const toDate: Date = sluttdato ? dayjs.min([dayjs(periode.to), dayjs(sluttdato)]).toDate() : periode.to;
 
     return {
         from: fromDate,

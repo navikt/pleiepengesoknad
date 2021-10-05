@@ -74,32 +74,32 @@ const OmsorgstilbudIPeriodeSpørsmål: React.FunctionComponent<Props> = ({
             )}
             {visKunEnkeltdager === false && (
                 <>
-                    {getMonthsInDateRange(periode).map((periode, index) => {
+                    {getMonthsInDateRange(periode).map((periode) => {
                         const mndOgÅr = dayjs(periode.from).format('MMMM YYYY');
                         return (
                             <div key={dayjs(periode.from).format('MM.YYYY')} className="omsorgstilbudKalender__mnd">
-                                <AppForm.InputGroup name={`${enkeltdagerFieldName}_${index}` as any} tag="div">
-                                    <OmsorgstilbudInfoAndDialog
-                                        name={enkeltdagerFieldName}
-                                        periode={periode}
-                                        skjulTommeDagerIListe={true}
-                                        onAfterChange={onOmsorgstilbudChanged}
-                                        labels={{
-                                            addLabel: intlHelper(intl, 'omsorgstilbud.addLabel', {
-                                                periode: mndOgÅr,
-                                            }),
-                                            deleteLabel: intlHelper(intl, 'omsorgstilbud.deleteLabel', {
-                                                periode: mndOgÅr,
-                                            }),
-                                            editLabel: intlHelper(intl, 'omsorgstilbud.editLabel', {
-                                                periode: mndOgÅr,
-                                            }),
-                                            modalTitle: intlHelper(intl, 'omsorgstilbud.modalTitle', {
-                                                periode: mndOgÅr,
-                                            }),
-                                        }}
-                                    />
-                                </AppForm.InputGroup>
+                                {/* <AppForm.InputGroup name={`${enkeltdagerFieldName}_${index}` as any} tag="div"> */}
+                                <OmsorgstilbudInfoAndDialog
+                                    name={enkeltdagerFieldName}
+                                    periode={periode}
+                                    skjulTommeDagerIListe={true}
+                                    onAfterChange={onOmsorgstilbudChanged}
+                                    labels={{
+                                        addLabel: intlHelper(intl, 'omsorgstilbud.addLabel', {
+                                            periode: mndOgÅr,
+                                        }),
+                                        deleteLabel: intlHelper(intl, 'omsorgstilbud.deleteLabel', {
+                                            periode: mndOgÅr,
+                                        }),
+                                        editLabel: intlHelper(intl, 'omsorgstilbud.editLabel', {
+                                            periode: mndOgÅr,
+                                        }),
+                                        modalTitle: intlHelper(intl, 'omsorgstilbud.modalTitle', {
+                                            periode: mndOgÅr,
+                                        }),
+                                    }}
+                                />
+                                {/* </AppForm.InputGroup> */}
                             </div>
                         );
                     })}
