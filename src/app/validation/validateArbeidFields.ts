@@ -1,10 +1,6 @@
-import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { Time } from '@navikt/sif-common-formik/lib';
-import {
-    getDateValidator,
-    getNumberValidator,
-    getRequiredFieldValidator,
-} from '@navikt/sif-common-formik/lib/validation';
+import { getNumberValidator, getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
 import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeValidator';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import { ArbeidIPeriodeIntlValues } from '../components/arbeidstid/ArbeidIPeriodeSpørsmål';
@@ -18,10 +14,6 @@ import {
     sumTimerFasteDager,
 } from '../utils/tidsbrukUtils';
 import { AppFieldValidationErrors } from './fieldValidations';
-
-export const validateFrilanserStartdato = (datoString?: string): ValidationResult<ValidationError> => {
-    return getDateValidator({ required: true, max: dateToday })(datoString);
-};
 
 export const validateFasteArbeidstimerIUke = (
     arbeid: ArbeidIPeriode | undefined,
@@ -66,7 +58,7 @@ export const validateArbeidsTidEnkeltdager = (
     return undefined;
 };
 
-export const getArbeidstimerDatoValidator =
+export const getArbeidstimerEnkeltdagValidator =
     (intlValues: ArbeidIPeriodeIntlValues) =>
     (dato: string) =>
     (time: Time): ValidationResult<ValidationError> => {

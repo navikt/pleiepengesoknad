@@ -7,7 +7,10 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import dayjs from 'dayjs';
 import { getMonthsInDateRange } from '../../utils/dateUtils';
 import { visSpørsmålOmTidErLikHverUke } from '../../utils/tidsbrukUtils';
-import { getArbeidstimerDatoValidator, validateArbeidsTidEnkeltdager } from '../../validation/validateArbeidFields';
+import {
+    getArbeidstimerEnkeltdagValidator,
+    validateArbeidsTidEnkeltdager,
+} from '../../validation/validateArbeidFields';
 import AppForm from '../app-form/AppForm';
 import TidUkerInput from '../tid-uker-input/TidUkerInput';
 import ArbeidstidInfoAndDialog from './ArbeidstidInfoAndDialog';
@@ -68,7 +71,7 @@ const ArbeidstidKalenderInput: React.FunctionComponent<Props> = ({
                 <TidUkerInput
                     periode={periode}
                     fieldName={enkeltdagerFieldName}
-                    tidPerDagValidator={getArbeidstimerDatoValidator(intlValues)}
+                    tidPerDagValidator={getArbeidstimerEnkeltdagValidator(intlValues)}
                 />
             )}
             {visSkjemaInline === false && (

@@ -5,10 +5,10 @@ import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-co
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import { getDateValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../../../lenker';
 import { AppFormField, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
@@ -16,14 +16,15 @@ import { erFrilanserISøknadsperiode } from '../../../../utils/frilanserUtils';
 import AppForm from '../../../app-form/AppForm';
 import ArbeidsformOgTimer from './ArbeidsformOgTimerFormPart';
 import { Arbeidsform } from '../../../../types';
+import { getArbeidsformValidator, getJobberNormaltTimerValidator } from '../../../../validation/validateArbeidFields';
 import {
-    getArbeidsformValidator,
-    getJobberNormaltTimerValidator,
-    validateFrilanserStartdato,
-} from '../../../../validation/validateArbeidFields';
+    getFrilanserSluttdatoValidator,
+    getFrilanserStartdatoValidator,
+} from '../../../../validation/validateFrilanser';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
+    søknadsperiode: DateRange;
 }
 
 const ArbeidssituasjonFrilans = ({ formValues }: Props) => {
@@ -74,7 +75,7 @@ const ArbeidssituasjonFrilans = ({ formValues }: Props) => {
                                 label={intlHelper(intl, 'frilanser.nårStartet.spm')}
                                 showYearSelector={true}
                                 maxDate={dateToday}
-                                validate={validateFrilanserStartdato}
+                                validate={getFrilanserStartdatoValidator(formValues)}
                             />
                         </Box>
                         <FormBlock>
@@ -92,11 +93,7 @@ const ArbeidssituasjonFrilans = ({ formValues }: Props) => {
                                     showYearSelector={true}
                                     minDate={datepickerUtils.getDateFromDateString(frilans_startdato)}
                                     maxDate={dateToday}
-                                    validate={getDateValidator({
-                                        required: true,
-                                        min: datepickerUtils.getDateFromDateString(frilans_startdato),
-                                        max: dateToday,
-                                    })}
+                                    validate={getFrilanserSluttdatoValidator(formValues)}
                                 />
                             </FormBlock>
                         )}

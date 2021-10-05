@@ -141,7 +141,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit }: StepConfigProps) => {
                     </FormSection>
 
                     <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.frilanser.tittel')}>
-                        <ArbeidssituasjonFrilans formValues={values} />
+                        <ArbeidssituasjonFrilans formValues={values} søknadsperiode={søknadsperiode} />
                     </FormSection>
 
                     <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.sn.tittel')}>

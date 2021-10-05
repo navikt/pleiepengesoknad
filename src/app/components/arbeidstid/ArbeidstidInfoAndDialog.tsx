@@ -13,7 +13,7 @@ import Knapp from 'nav-frontend-knapper';
 import { Element } from 'nav-frontend-typografi';
 import { TidEnkeltdag } from '../../types';
 import { getDagerMedTidITidsrom } from '../../utils/tidsbrukUtils';
-import { getArbeidstimerDatoValidator } from '../../validation/validateArbeidFields';
+import { getArbeidstimerEnkeltdagValidator } from '../../validation/validateArbeidFields';
 import TidKalenderForm from '../tid-kalender-form/TidKalenderForm';
 import TidsbrukKalender from '../tidsbruk-kalender/TidsbrukKalender';
 import { ArbeidIPeriodeIntlValues } from './ArbeidIPeriodeSpørsmål';
@@ -59,7 +59,7 @@ function ArbeidstidInfoAndDialog<FieldNames>({ name, periode, labels, intlValues
                                 />
                             </p>
                         }
-                        tidPerDagValidator={getArbeidstimerDatoValidator(intlValues)}
+                        tidPerDagValidator={getArbeidstimerEnkeltdagValidator(intlValues)}
                         onSubmit={onSubmit}
                         onCancel={onCancel}
                     />

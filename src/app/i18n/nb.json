@@ -733,6 +733,8 @@
     "validation.frilans_startdato.dateHasNoValue": "Du må oppgi hvilken dato du startet som frilanser. Skriv inn eller velg dato fra kalenderen.",
     "validation.frilans_startdato.dateHasInvalidFormat": "Du må oppgi datoen for når du startet som frilanser i et gyldig format. Gyldig format er dd.mm.åååå.",
     "validation.frilans_startdato.dateIsAfterMax": "Datoen for når du startet som frilanser kan ikke være etter dagens dato.",
+    "validation.frilans_startdato.startetEtterSøknadsperiode": "Du har oppgitt at du startet som frilanser etter perioden du søker for. Dersom dette stemmer, kand du svare \"Nei\" på spørsmålet om du var frilanser i perioden du søker for.",
+    "validation.frilans_sluttdato.sluttetFørSøknadsperiode": "Du har oppgitt at du sluttet som frilanser før perioden du søker for. Dersom dette stemmer, kan du svare \"Nei\" på spørsmålet om du var frilanser i perioden du søker for.",
     "validation.frilans_sluttdato.dateHasNoValue": "Oppgi når du sluttet som frilanser. Skriv inn eller velg dato fra kalenderen.",
     "validation.frilans_sluttdato.dateHasInvalidFormat": "Du må oppgi datoen for når du sluttet som frilanser i et gyldig format. Gyldig format er dd.mm.åååå.",
     "validation.frilans_sluttdato.dateIsAfterMax": "Datoen for når du sluttet som frilanser kan ikke være etter dagens dato.",

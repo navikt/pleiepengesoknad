@@ -1,13 +1,11 @@
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { AppFormField, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import minMax from 'dayjs/plugin/minMax';
+import { AppFormField, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 
-dayjs.extend(minMax);
+dayjs.extend(isSameOrAfter);
 
 export const erFrilanserISøknadsperiode = ({
     frilans_harHattInntektSomFrilanser,
@@ -19,7 +17,9 @@ export const erFrilanserISøknadsperiode = ({
     | AppFormField.frilans_harHattInntektSomFrilanser
     | AppFormField.frilans_jobberFortsattSomFrilans
     | AppFormField.frilans_sluttdato
+    | AppFormField.frilans_startdato
     | AppFormField.periodeFra
+    | AppFormField.periodeTil
 >): boolean => {
     if (frilans_harHattInntektSomFrilanser !== YesOrNo.YES) {
         return false;
@@ -27,9 +27,6 @@ export const erFrilanserISøknadsperiode = ({
     if (frilans_jobberFortsattSomFrilans === YesOrNo.YES) {
         return true;
     }
-
-    dayjs.extend(isSameOrAfter);
-    dayjs.extend(customParseFormat);
 
     const periodeFraDate = datepickerUtils.getDateFromDateString(periodeFra);
     const frilansSluttdatoDate = datepickerUtils.getDateFromDateString(frilans_sluttdato);
