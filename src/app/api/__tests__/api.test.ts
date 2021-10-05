@@ -2,7 +2,7 @@ import axios from 'axios';
 import axiosConfig from '../../config/axiosConfig';
 import { StepID } from '../../config/stepConfig';
 import { ResourceType } from '../../types/ResourceType';
-import { getApiUrlByResourceType, sendMultipartPostRequest } from '../../utils/apiUtils';
+import { axiosJsonConfig, getApiUrlByResourceType, sendMultipartPostRequest } from '../../utils/apiUtils';
 import {
     deleteFile,
     getArbeidsgiver,
@@ -26,14 +26,14 @@ describe('api', () => {
     describe('getBarn', () => {
         it('should call axios.get with correct URL and axios config', () => {
             getBarn();
-            expect(axios.get).toHaveBeenCalledWith(getApiUrlByResourceType(ResourceType.BARN), axiosConfig);
+            expect(axios.get).toHaveBeenCalledWith(getApiUrlByResourceType(ResourceType.BARN), axiosJsonConfig);
         });
     });
 
     describe('getSøker', () => {
         it('should call axios.get with correct URL and axios config', () => {
             getSøker();
-            expect(axios.get).toHaveBeenCalledWith(getApiUrlByResourceType(ResourceType.SØKER), axiosConfig);
+            expect(axios.get).toHaveBeenCalledWith(getApiUrlByResourceType(ResourceType.SØKER), axiosJsonConfig);
         });
     });
 
@@ -43,7 +43,7 @@ describe('api', () => {
             const date2 = 'some other date';
             getArbeidsgiver(date1, date2);
             const url = `${getApiUrlByResourceType(ResourceType.SØKER)}?fra_og_med=${date1}&til_og_med=${date2}`;
-            expect(axios.get).toHaveBeenCalledWith(url, axiosConfig);
+            expect(axios.get).toHaveBeenCalledWith(url, axiosJsonConfig);
         });
     });
 
@@ -54,7 +54,7 @@ describe('api', () => {
             expect(axios.post).toHaveBeenCalledWith(
                 getApiUrlByResourceType(ResourceType.SEND_SØKNAD),
                 data,
-                axiosConfig
+                axiosJsonConfig
             );
         });
     });
@@ -79,7 +79,7 @@ describe('api', () => {
         const persistApiUrl = getPersistUrl(stepId);
         it('should call axios.post when no formData', () => {
             persist(undefined, stepId);
-            expect(axios.post).toHaveBeenCalledWith(persistApiUrl, {}, axiosConfig);
+            expect(axios.post).toHaveBeenCalledWith(persistApiUrl, {}, axiosJsonConfig);
         });
     });
 });

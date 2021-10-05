@@ -1,6 +1,7 @@
 import { History } from 'history';
 import RouteConfig from '../config/routeConfig';
 import routeConfig, { getRouteUrl } from '../config/routeConfig';
+import { StepID } from '../config/stepConfig';
 import { getEnvironmentVariable } from './envUtils';
 
 export const userIsCurrentlyOnErrorPage = () => {
@@ -14,6 +15,7 @@ const relocateTo = (url: string): void => {
 
 /** Simple route change, no page reload */
 export const navigateTo = (route: string, history: History): void => history.push(route);
+export const navigateToSoknadStep = (step: StepID, history: History): void => history.push(`${step}`);
 
 export const relocateToLoginPage = (): void => relocateTo(getEnvironmentVariable('LOGIN_URL'));
 export const relocateToNavFrontpage = (): void => relocateTo('https://www.nav.no/');

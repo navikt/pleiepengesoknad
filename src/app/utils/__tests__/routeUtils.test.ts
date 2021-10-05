@@ -15,11 +15,12 @@ jest.mock('./../stepUtils', () => {
     return {
         opplysningerOmBarnetStepAvailable: jest.fn(() => 'barn step available'),
         opplysningerOmTidsromStepAvailable: jest.fn(() => 'tidsrom step available'),
-        arbeidsforholdStepAvailable: jest.fn(() => 'arbeidsforhold step available'),
+        arbeidssituasjonStepAvailable: jest.fn(() => 'arbeidsforhold step available'),
         legeerklæringStepAvailable: jest.fn(() => 'legeerklæring step available'),
         medlemskapStepAvailable: jest.fn(() => 'medlemskap step available'),
         summaryStepAvailable: jest.fn(() => 'summary step available'),
         skalBrukerSvarePåBeredskapOgNattevåk: jest.fn(() => false),
+        skalBrukerSvarePåarbeidIPeriode: jest.fn(() => true),
     };
 });
 
@@ -28,7 +29,7 @@ const formValues = {} as any;
 describe('routeUtils', () => {
     describe('getSøknadRoute', () => {
         it('should prefix provided string with a common prefix for routes', () => {
-            const s1 = StepID.ARBEIDSFORHOLD;
+            const s1 = StepID.ARBEIDSSITUASJON;
             const s2 = StepID.SUMMARY;
             expect(getSøknadRoute(s1)).toEqual(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${s1}`);
             expect(getSøknadRoute(s2)).toEqual(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${s2}`);
@@ -48,10 +49,10 @@ describe('routeUtils', () => {
             expect(result).toEqual(stepUtils.opplysningerOmTidsromStepAvailable(formValues));
         });
 
-        it('should return result from calling arbeidsforholdStepAvailable if route=StepID.ARBEIDSFORHOLD', () => {
-            const result = isAvailable(StepID.ARBEIDSFORHOLD, formValues);
-            expect(stepUtils.arbeidsforholdStepAvailable).toHaveBeenCalledWith(formValues);
-            expect(result).toEqual(stepUtils.arbeidsforholdStepAvailable(formValues));
+        it('should return result from calling arbeidssituasjonStepAvailable if route=StepID.ARBEIDSFORHOLD', () => {
+            const result = isAvailable(StepID.ARBEIDSSITUASJON, formValues);
+            expect(stepUtils.arbeidssituasjonStepAvailable).toHaveBeenCalledWith(formValues);
+            expect(result).toEqual(stepUtils.arbeidssituasjonStepAvailable(formValues));
         });
 
         it('should return result from calling legeerklæringStepAvailable if route=StepID.LEGEERKLÆRING', () => {
@@ -94,13 +95,6 @@ describe('routeUtils', () => {
                 false
             );
             expect(result).toBe(false);
-        });
-
-        describe('when running app in development', () => {
-            it('should return true if app is running in development', () => {
-                process.env.NODE_ENV = 'development';
-                expect(isAvailable(StepID.OPPLYSNINGER_OM_BARNET, formValues)).toBe(true);
-            });
         });
     });
 });

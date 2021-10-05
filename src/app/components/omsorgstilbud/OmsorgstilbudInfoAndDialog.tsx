@@ -1,11 +1,10 @@
 import React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import { datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import {
     FormikModalFormAndInfo,
-    ISOStringToDate,
     ModalFormAndInfoLabels,
     TypedFormInputValidationProps,
 } from '@navikt/sif-common-formik';
@@ -13,92 +12,106 @@ import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types'
 import dayjs from 'dayjs';
 import Knapp from 'nav-frontend-knapper';
 import { Undertittel } from 'nav-frontend-typografi';
-import OmsorgstilbudInfo from './OmsorgstilbudInfo';
-import OmsorgstilbudForm from './omsorgtilbudForm/OmsorgstilbudForm';
-import { OmsorgstilbudDag, TidIOmsorgstilbud } from './types';
-import './omsorgstilbud.less';
+import { TidEnkeltdag } from '../../types';
+import { getDagerMedTidITidsrom } from '../../utils/tidsbrukUtils';
+import TidKalenderForm from '../tid-kalender-form/TidKalenderForm';
+import TidsbrukKalender from '../tidsbruk-kalender/TidsbrukKalender';
+import { getTidIOmsorgValidator } from '../../validation/validateOmsorgstilbudFields';
 
 interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, ValidationError> {
     name: FieldNames;
     labels: ModalFormAndInfoLabels;
-    fraDato: Date;
-    tilDato: Date;
+    periode: DateRange;
     skjulTommeDagerIListe?: boolean;
-    onAfterChange?: (omsorgsdager: TidIOmsorgstilbud) => void;
+    onAfterChange?: (omsorgsdager: TidEnkeltdag) => void;
 }
 
 function OmsorgstilbudInfoAndDialog<FieldNames>({
     name,
-    fraDato,
-    tilDato,
+    periode,
     labels,
     skjulTommeDagerIListe,
     validate,
     onAfterChange,
 }: Props<FieldNames>) {
-    const intl = useIntl();
+    const gjelderFortid = dayjs(periode.to).isBefore(dateToday, 'day');
     return (
-        <FormikModalFormAndInfo<FieldNames, TidIOmsorgstilbud, ValidationError>
+        <FormikModalFormAndInfo<FieldNames, TidEnkeltdag, ValidationError>
             name={name}
             validate={validate}
             labels={labels}
             renderEditButtons={false}
             renderDeleteButton={false}
-            dialogClassName={'omsorgstilbudDialog'}
+            dialogClassName={'calendarDialog'}
             wrapInfoInPanel={false}
             defaultValue={{}}
             formRenderer={({ onSubmit, onCancel, data = {} }) => {
                 return (
-                    <OmsorgstilbudForm
-                        fraDato={fraDato}
-                        tilDato={tilDato}
-                        tidIOmsorgstilbud={data}
+                    <TidKalenderForm
+                        periode={periode}
+                        tid={data}
+                        tittel={
+                            <FormattedMessage
+                                id="omsorgstilbud.form.tittel"
+                                values={{ måned: dayjs(periode.from).format('MMMM YYYY') }}
+                            />
+                        }
+                        intro={
+                            <>
+                                <p>
+                                    <FormattedMessage
+                                        id={
+                                            gjelderFortid
+                                                ? 'omsorgstilbud.form.intro_fortid.1'
+                                                : 'omsorgstilbud.form.intro.1'
+                                        }
+                                    />
+                                </p>
+                                <p>
+                                    <strong>
+                                        <FormattedMessage id="omsorgstilbud.form.intro.2" />
+                                    </strong>
+                                </p>
+                            </>
+                        }
+                        tidPerDagValidator={getTidIOmsorgValidator}
                         onSubmit={onSubmit}
                         onCancel={onCancel}
                     />
                 );
             }}
             infoRenderer={({ data, onEdit }) => {
-                const omsorgsdager: OmsorgstilbudDag[] = [];
-                Object.keys(data || {}).forEach((isoDateString) => {
-                    const dato = ISOStringToDate(isoDateString);
-                    if (dato && datoErInnenforTidsrom(dato, { from: fraDato, to: tilDato })) {
-                        const tid = data[isoDateString];
-                        if (tid) {
-                            omsorgsdager.push({
-                                dato,
-                                tid,
-                            });
-                        }
-                    }
-                    return false;
-                });
-                const tittelId = `mndTittel_${dayjs(fraDato).format('MM_YYYY')}`;
+                const omsorgsdager = getDagerMedTidITidsrom(data, periode);
+                const tittelIdForAriaDescribedBy = `mndTittel_${dayjs(periode.from).format('MM_YYYY')}`;
+                const måned = omsorgsdager.length > 0 ? omsorgsdager[0].dato : periode.from;
                 return (
                     <>
-                        <OmsorgstilbudInfo
-                            omsorgsdager={omsorgsdager}
-                            fraDato={fraDato}
-                            tilDato={tilDato}
-                            skjulTommeDagerIListe={skjulTommeDagerIListe}
-                            tittelRenderer={(fraDato) => (
-                                <Undertittel tag="h3" id={tittelId}>
-                                    <FormattedMessage
-                                        id="omsorgstilbud.ukeOgÅr"
-                                        values={{ ukeOgÅr: dayjs(fraDato).format('MMMM YYYY') }}
-                                    />
-                                </Undertittel>
+                        <Undertittel tag="h3" id={tittelIdForAriaDescribedBy}>
+                            <FormattedMessage
+                                id="omsorgstilbud.ukeOgÅr"
+                                values={{ ukeOgÅr: dayjs(periode.from).format('MMMM YYYY') }}
+                            />
+                        </Undertittel>
+                        <Box margin="s">
+                            {omsorgsdager.length === 0 ? (
+                                <FormattedMessage tagName="p" id="omsorgstilbud.ingenDagerRegistrert" />
+                            ) : (
+                                <TidsbrukKalender
+                                    måned={måned}
+                                    periode={periode}
+                                    dager={omsorgsdager}
+                                    visSomListe={false}
+                                    skjulTommeDagerIListe={skjulTommeDagerIListe}
+                                />
                             )}
-                        />
+                        </Box>
                         <FormBlock margin="l">
                             <Knapp
                                 htmlType="button"
                                 mini={true}
                                 onClick={() => onEdit(data)}
-                                aria-describedby={tittelId}>
-                                {omsorgsdager.length === 0
-                                    ? intlHelper(intl, 'omsorgstilbud.registrerTid')
-                                    : intlHelper(intl, 'omsorgstilbud.endreTid')}
+                                aria-describedby={tittelIdForAriaDescribedBy}>
+                                {omsorgsdager.length === 0 ? labels.addLabel : labels.editLabel}
                             </Knapp>
                         </FormBlock>
                     </>

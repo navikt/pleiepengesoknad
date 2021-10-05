@@ -1,25 +1,39 @@
+const path = require('path');
 require('dotenv').config();
+
 const mustacheExpress = require('mustache-express');
-var path = require('path');
+const envSettings = require('../../../envSettings');
 
 const configureDevServer = (decoratorFragments) => ({
-    before: (app) => {
-        app.engine('html', mustacheExpress());
-        app.set('views', `${__dirname}/../../../dist/dev`);
-        app.set('view engine', 'mustache');
-        app.get(`${process.env.PUBLIC_PATH}/dist/js/settings.js`, (req, res) => {
+    onBeforeSetupMiddleware: (devServer) => {
+        devServer.app.engine('html', mustacheExpress());
+        devServer.app.set('views', `${__dirname}/../../../dist/dev`);
+        devServer.app.set('view engine', 'mustache');
+        devServer.app.get(`${process.env.PUBLIC_PATH}/dist/settings.js`, (req, res) => {
+            res.set('content-type', 'application/javascript');
+            res.send(`${envSettings()}`);
+        });
+        devServer.app.get(`/dist/settings.js`, (req, res) => {
+            res.set('content-type', 'application/javascript');
+            res.send(`${envSettings()}`);
+        });
+        devServer.app.get(`/dist/js/settings.js`, (req, res) => {
             res.sendFile(path.resolve(`${__dirname}/../../../dist/js/settings.js`));
         });
-        app.get(/^\/(?!.*dist).*$/, (req, res) => {
+        devServer.app.get(/^\/(?!.*dist).*$/, (req, res) => {
             res.render('index.html', Object.assign(decoratorFragments));
         });
     },
-    watchContentBase: true,
-    quiet: false,
-    noInfo: false,
-    stats: 'minimal',
-    publicPath: `${process.env.PUBLIC_PATH}/dist`,
-    disableHostCheck: true,
+    devMiddleware: {
+        index: true,
+        stats: 'minimal',
+        publicPath: `${process.env.PUBLIC_PATH}/dist`,
+    },
+    static: {
+        directory: path.resolve(`${__dirname}/../../../dist`),
+        serveIndex: true,
+        watch: true,
+    },
 });
 
 module.exports = configureDevServer;

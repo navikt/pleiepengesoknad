@@ -2,10 +2,11 @@ import { StepID } from '../config/stepConfig';
 import { PleiepengesøknadFormData } from './PleiepengesøknadFormData';
 
 /** Persistence */
-export const MELLOMLAGRING_VERSION = '6.1';
+export const MELLOMLAGRING_VERSION = '7.1';
 interface StorageMetadata {
     version: string;
-    lastStepID: StepID;
+    lastStepID?: StepID;
+    updatedTimestemp: string;
 }
 
 export interface MellomlagringData {

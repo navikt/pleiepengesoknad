@@ -18,10 +18,21 @@ const organisasjonerEqual: Arbeidsgiver[] = [
     { navn: 'Org4', organisasjonsnummer: '4' },
 ];
 
-const arbeidsforhold: ArbeidsforholdAnsatt[] = [
-    { navn: 'Org3', organisasjonsnummer: '3', erAnsattIPerioden: YesOrNo.YES, jobberNormaltTimer: '10' },
-    { navn: 'Org4', organisasjonsnummer: '4', erAnsattIPerioden: YesOrNo.UNANSWERED, jobberNormaltTimer: '20' },
-];
+const arbeidsforholdErAnsatt: ArbeidsforholdAnsatt = {
+    navn: 'Org3',
+    organisasjonsnummer: '3',
+    erAnsatt: YesOrNo.YES,
+    jobberNormaltTimer: '10',
+};
+
+const arbeidsforholdUbesvart: ArbeidsforholdAnsatt = {
+    navn: 'Org4',
+    organisasjonsnummer: '4',
+    erAnsatt: YesOrNo.UNANSWERED,
+    jobberNormaltTimer: '20',
+};
+
+const arbeidsforhold: ArbeidsforholdAnsatt[] = [arbeidsforholdErAnsatt, arbeidsforholdUbesvart];
 
 jest.mock('./../envUtils', () => {
     return {
@@ -39,16 +50,16 @@ describe('arbeidsforholdUtils', () => {
         it('should keep those arbeidsforhold which still are present in arbeidsgivere', () => {
             const result = syncArbeidsforholdWithArbeidsgivere(organisasjonerPartiallyEqual, arbeidsforhold);
             expect(result[0].organisasjonsnummer).toBe('3');
-            expect(result[0].erAnsattIPerioden).toBe(YesOrNo.YES);
+            expect(result[0].erAnsatt).toBe(YesOrNo.YES);
             expect(result[1].organisasjonsnummer).toBe('new');
         });
 
         it('should keep all arbeidsforhold when all are present in arbeidsgivere', () => {
             const result = syncArbeidsforholdWithArbeidsgivere(organisasjonerEqual, arbeidsforhold);
             expect(result[0].organisasjonsnummer).toBe('3');
-            expect(result[0].erAnsattIPerioden).toBe(YesOrNo.YES);
+            expect(result[0].erAnsatt).toBe(YesOrNo.YES);
             expect(result[1].organisasjonsnummer).toBe('4');
-            expect(result[1].erAnsattIPerioden).toBe(YesOrNo.UNANSWERED);
+            expect(result[1].erAnsatt).toBe(YesOrNo.UNANSWERED);
         });
     });
 });

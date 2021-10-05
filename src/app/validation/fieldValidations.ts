@@ -14,34 +14,22 @@ import {
     dateRangesHasFromDateEqualPreviousRangeToDate,
     dateToday,
 } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import {
     getDateRangeValidator,
     getDateValidator,
     getFødselsnummerValidator,
-    getNumberValidator,
-    getRequiredFieldValidator,
     getStringValidator,
-    ValidateRequiredFieldError,
 } from '@navikt/sif-common-formik/lib/validation';
-import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeValidator';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import minMax from 'dayjs/plugin/minMax';
-import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
-import {
-    ArbeidsforholdAnsatt,
-    ArbeidsforholdSNF,
-    FrilansEllerSelvstendig,
-    isArbeidsforholdAnsatt,
-    Omsorgstilbud,
-} from '../types/PleiepengesøknadFormData';
-import { calcRedusertProsentFromRedusertTimer } from '../utils/arbeidsforholdUtils';
-import { sumTimerMedOmsorgstilbud } from '../utils/omsorgstilbudUtils';
+import { TidEnkeltdag } from '../types';
+import { AppFormField } from '../types/PleiepengesøknadFormData';
+import { getTidEnkeltdagerInnenforPeriode, getValidEnkeltdager, sumTimerEnkeltdager } from '../utils/tidsbrukUtils';
 
 dayjs.extend(minMax);
 dayjs.extend(isoWeek);
@@ -52,7 +40,12 @@ export enum AppFieldValidationErrors {
     'legeerklæring_forMangeFiler' = 'legeerklæring.forMangeFiler',
 
     'arbeidsforhold_timerUgyldig_under_1_prosent' = 'timerUgyldig_under_1_prosent',
+    'arbeidsforhold_timerUgyldig_under_0_prosent' = 'timerUgyldig_under_0_prosent',
     'arbeidsforhold_timerUgyldig_over_99_prosent' = 'timerUgyldig_over_99_prosent',
+    'arbeidsforhold_timerUgyldig_over_100_prosent' = 'timerUgyldig_over_100_prosent',
+
+    'arbeidIPeriode_fasteDager_ingenTidRegistrert' = 'arbeidIPeriode.fasteDager.ingenTidRegistrert',
+    'arbeidIPeriode_fasteDager_forMangeTimer' = 'arbeidIPeriode.fasteDager.forMangeTimer',
 
     'omsorgstilbud_ingenInfo' = 'omsorgstilbud_ingenInfo',
     'omsorgstilbud_forMangeTimerTotalt' = 'omsorgstilbud_forMangeTimerTotalt',
@@ -68,8 +61,10 @@ export enum AppFieldValidationErrors {
     'ferieuttak_utenfor_periode' = 'ferieuttak_utenfor_periode',
 }
 
-export const isYesOrNoAnswered = (answer: YesOrNo) => {
-    return answer === YesOrNo.NO || answer === YesOrNo.YES || answer === YesOrNo.DO_NOT_KNOW;
+export type TidPerDagValidator = (dag: string) => (tid: Time) => ValidationError | undefined;
+
+export const isYesOrNoAnswered = (answer?: YesOrNo) => {
+    return answer !== undefined && (answer === YesOrNo.NO || answer === YesOrNo.YES || answer === YesOrNo.DO_NOT_KNOW);
 };
 
 export const validateFødselsdato = (dateString?: string): ValidationResult<ValidationError> => {
@@ -88,10 +83,6 @@ export const validateNavn = (value: string): ValidationResult<ValidationError> =
 
 export const validateFødselsnummer = (value: string): ValidationResult<ValidationError> => {
     return getFødselsnummerValidator({ required: true })(value);
-};
-
-export const date1YearFromDateStrting = (dateString: string): Date => {
-    return dayjs(dateString).endOf('day').add(1, 'year').toDate();
 };
 
 export const validateFradato = (
@@ -124,14 +115,10 @@ export const validateTildato = (tilDatoString?: string, fraDatoString?: string):
     return getDateRangeValidator({
         required: true,
         min: date3YearsAgo,
-        max: fraDatoString ? date1YearFromDateStrting(fraDatoString) : undefined,
+        max: fraDatoString ? dayjs(fraDatoString).endOf('day').add(1, 'year').toDate() : undefined,
         fromDate: datepickerUtils.getDateFromDateString(fraDatoString),
         onlyWeekdays: true,
     }).validateToDate(tilDatoString);
-};
-
-export const validateFrilanserStartdato = (datoString?: string): ValidationResult<ValidationError> => {
-    return getDateValidator({ required: true, max: dateToday })(datoString);
 };
 
 export const validateUtenlandsoppholdIPerioden = (
@@ -183,193 +170,22 @@ export const validateLegeerklæring = (attachments: Attachment[]): ValidationRes
     return undefined;
 };
 
-export const validateSkalIOmsorgstilbud = (omsorgstilbud: Omsorgstilbud): ValidationResult<ValidationError> => {
-    if (omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES) {
-        if (omsorgstilbud.planlagt === undefined) {
-            return AppFieldValidationErrors.omsorgstilbud_ingenInfo;
-        }
-        const fasteDager = omsorgstilbud.planlagt.fasteDager;
+export const validateOmsorgstilbudEnkeltdagerIPeriode = (
+    tidIOmsorgstilbud: TidEnkeltdag,
+    periode: DateRange,
+    erHistorisk: boolean | undefined
+) => {
+    const tidIPerioden = getTidEnkeltdagerInnenforPeriode(tidIOmsorgstilbud, periode);
+    const validTidEnkeltdager = getValidEnkeltdager(tidIPerioden);
+    const hasElements = Object.keys(validTidEnkeltdager).length > 0;
 
-        const hoursInTotal = fasteDager ? sumTimerMedOmsorgstilbud(fasteDager) : 0;
-        if (hoursInTotal === 0) {
-            return AppFieldValidationErrors.omsorgstilbud_ingenInfo;
-        }
-        if (hoursInTotal > 37.5) {
-            return AppFieldValidationErrors.omsorgstilbud_forMangeTimerTotalt;
-        }
-    }
-    return undefined;
-};
-
-export const getOmsorgstilbudtimerValidatorEnDag =
-    (dag: string) =>
-    (time: Time): ValidationResult<ValidationError> => {
-        const error = time
-            ? getTimeValidator({ max: { hours: 7, minutes: 30 }, min: { hours: 0, minutes: 0 } })(time)
-            : undefined;
-        if (error) {
-            return {
-                key: `validation.omsorgstilbud.planlagt.fastDag.tid.${error}`,
-                values: { dag },
-                keepKeyUnaltered: true,
-            };
-        }
-        return undefined;
-    };
-
-export const getArbeidsformAnsattValidator =
-    (arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF | undefined) => (value: any) => {
-        if (arbeidsforhold === undefined) {
-            return undefined;
-        }
-        const error = getRequiredFieldValidator()(value);
-        if (error) {
-            return isArbeidsforholdAnsatt(arbeidsforhold)
-                ? {
-                      key: 'validation.arbeidsforhold.arbeidsform.yesOrNoIsUnanswered',
-                      values: { navn: arbeidsforhold.navn },
-                      keepKeyUnaltered: true,
-                  }
-                : error;
-        }
-        return undefined;
-    };
-
-export const getJobberNormaltTimerValidator =
-    (
-        arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF | undefined,
-        frilansEllerSelvstendig?: FrilansEllerSelvstendig
-    ) =>
-    (value: any) => {
-        if (arbeidsforhold === undefined) {
-            return undefined;
-        }
-        const error = getNumberValidator({
-            required: true,
-            min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
-            max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
-        })(value);
-        if (error) {
-            return isArbeidsforholdAnsatt(arbeidsforhold)
-                ? {
-                      key: `validation.arbeidsforhold.jobberNormaltTimer.${arbeidsforhold.arbeidsform}.${error}`,
-                      values: {
-                          navn: arbeidsforhold.navn,
-                          min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
-                          max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
-                      },
-                      keepKeyUnaltered: true,
-                  }
-                : {
-                      key: `validation.${frilansEllerSelvstendig}_arbeidsforhold.jobberNormaltTimer.${arbeidsforhold.arbeidsform}.${error}`,
-                      values: {
-                          min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
-                          max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
-                      },
-                      keepKeyUnaltered: true,
-                  };
-        }
-        return undefined;
-    };
-
-export const getArbeidsforholdSkalJobbeValidator =
-    (arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF) => (value: any) => {
-        const error = getRequiredFieldValidator()(value);
-        if (error) {
-            return isArbeidsforholdAnsatt(arbeidsforhold)
-                ? {
-                      key: 'validation.arbeidsforhold.skalJobbe',
-                      values: { navn: arbeidsforhold.navn },
-                      keepKeyUnaltered: true,
-                  }
-                : error;
-        }
-        return undefined;
-    };
-
-export const getArbeidsforholdSkalJobbeHvorMyeValidator =
-    (arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF) => (value: any) => {
-        const error = getRequiredFieldValidator()(value);
-        if (error) {
-            return isArbeidsforholdAnsatt(arbeidsforhold)
-                ? {
-                      key: 'validation.arbeidsforhold.jobbeHvorMye',
-                      values: { navn: arbeidsforhold.navn },
-                      keepKeyUnaltered: true,
-                  }
-                : error;
-        }
-        return undefined;
-    };
-
-export const getArbeidsforholdTimerEllerProsentValidator =
-    (arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF) => (value: any) => {
-        const error = getRequiredFieldValidator()(value);
-        if (error) {
-            return isArbeidsforholdAnsatt(arbeidsforhold)
-                ? {
-                      key: 'validation.arbeidsforhold.timerEllerProsent',
-                      values: { navn: arbeidsforhold.navn },
-                      keepKeyUnaltered: true,
-                  }
-                : error;
-        }
-        return undefined;
-    };
-
-export const getArbeidsforholdSkalJobbeTimerValidator =
-    (arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF) => (value: any) => {
-        const jobberNormaltTimerNumber = getNumberFromNumberInputValue(arbeidsforhold.jobberNormaltTimer);
-        if (!jobberNormaltTimerNumber) {
-            return undefined;
-        }
-        const error = validateReduserteArbeidTimer(value, jobberNormaltTimerNumber);
-        if (error) {
-            return isArbeidsforholdAnsatt(arbeidsforhold)
-                ? {
-                      key: `validation.arbeidsforhold.skalJobbeTimer.${error}`,
-                      values: { navn: arbeidsforhold.navn },
-                      keepKeyUnaltered: true,
-                  }
-                : error;
-        }
-        return undefined;
-    };
-
-export const getArbeidsforholdSkalJobbeProsentValidator =
-    (arbeidsforhold: ArbeidsforholdAnsatt | ArbeidsforholdSNF) => (value: any) => {
-        const error = getNumberValidator({
-            required: true,
-            min: 1,
-            max: 99,
-        })(value);
-        if (error) {
-            return isArbeidsforholdAnsatt(arbeidsforhold)
-                ? {
-                      key: `validation.arbeidsforhold.skalJobbeProsent.${error}`,
-                      values: { navn: arbeidsforhold.navn },
-                      keepKeyUnaltered: true,
-                  }
-                : error;
-        }
-        return undefined;
-    };
-
-export const validateReduserteArbeidTimer = (value: string, jobberNormaltTimer: number): string | undefined => {
-    const numberError = getNumberValidator({ required: true })(value);
-    const skalJobbeTimer = getNumberFromNumberInputValue(value);
-    if (numberError) {
-        return numberError;
-    }
-    if (skalJobbeTimer === undefined) {
-        return ValidateRequiredFieldError.noValue;
-    }
-    const pst = calcRedusertProsentFromRedusertTimer(jobberNormaltTimer, skalJobbeTimer);
-    if (pst < 1) {
-        return AppFieldValidationErrors.arbeidsforhold_timerUgyldig_under_1_prosent;
-    }
-    if (pst > 99) {
-        return AppFieldValidationErrors.arbeidsforhold_timerUgyldig_over_99_prosent;
+    if (!hasElements || sumTimerEnkeltdager(validTidEnkeltdager) <= 0) {
+        return {
+            key: erHistorisk
+                ? `validation.${AppFormField.omsorgstilbud__historisk__enkeltdager}.ingenTidRegistrert`
+                : `validation.${AppFormField.omsorgstilbud__planlagt__enkeltdager}.ingenTidRegistrert`,
+            keepKeyUnaltered: true,
+        };
     }
     return undefined;
 };
