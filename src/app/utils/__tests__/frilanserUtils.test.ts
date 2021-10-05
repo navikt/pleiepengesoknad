@@ -5,6 +5,9 @@ import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-dat
 import dayjs from 'dayjs';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { erFrilanserISøknadsperiode, getArbeidsperiodeFrilans } from '../frilanserUtils';
+import minMax from 'dayjs/plugin/minMax';
+
+dayjs.extend(minMax);
 
 type TestData = Partial<PleiepengesøknadFormData>;
 
