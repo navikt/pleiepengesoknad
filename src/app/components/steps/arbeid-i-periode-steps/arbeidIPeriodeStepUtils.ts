@@ -84,15 +84,17 @@ const cleanupArbeidsforholdFrilanser = (
 
     /** Frilanser er ikke frilanser i søknadsperioden før dagens dato */
     if (frilansPeriodeISøknadsperiode === undefined && erHistorisk) {
-        arbeidsforhold.historisk = {
-            jobberIPerioden: JobberIPeriodeSvar.NEI,
-        };
+        arbeidsforhold.historisk = undefined;
+        // arbeidsforhold.historisk = {
+        //     jobberIPerioden: JobberIPeriodeSvar.NEI,
+        // };
     }
     /** Frilanser er ikke frilanser i søknadsperioden fom dagens dato */
     if (frilansPeriodeISøknadsperiode === undefined && erHistorisk === false) {
-        arbeidsforhold.planlagt = {
-            jobberIPerioden: JobberIPeriodeSvar.NEI,
-        };
+        arbeidsforhold.planlagt = undefined;
+        // arbeidsforhold.planlagt = {
+        //     jobberIPerioden: JobberIPeriodeSvar.NEI,
+        // };
     }
     return arbeidsforhold;
 };

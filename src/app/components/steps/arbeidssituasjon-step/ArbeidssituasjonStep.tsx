@@ -48,16 +48,14 @@ const cleanupArbeidsforhold =
         if (values.mottarAndreYtelser === YesOrNo.NO) {
             values.andreYtelser = [];
         }
-        if (values.frilans_harHattInntektSomFrilanser === YesOrNo.NO) {
+        if (values.frilans_harHattInntektSomFrilanser !== YesOrNo.YES) {
             values.frilans_jobberFortsattSomFrilans = undefined;
             values.frilans_startdato = undefined;
-            values.frilans_arbeidsforhold = undefined;
         }
-        if (
-            values.frilans_harHattInntektSomFrilanser === YesOrNo.YES &&
-            values.frilans_jobberFortsattSomFrilans === YesOrNo.NO &&
-            !erFrilanserISøknadsperiode(values)
-        ) {
+        if (values.frilans_jobberFortsattSomFrilans !== YesOrNo.NO) {
+            values.frilans_sluttdato = undefined;
+        }
+        if (values.frilans_harHattInntektSomFrilanser !== YesOrNo.YES || !erFrilanserISøknadsperiode(values)) {
             values.frilans_arbeidsforhold = undefined;
         }
 
