@@ -41,24 +41,21 @@ export const visVernepliktSpørsmål = ({
     );
 };
 
-const cleanupArbeidsforhold =
+const cleanupArbeidssituasjonStep =
     () =>
     (formValues: PleiepengesøknadFormData): PleiepengesøknadFormData => {
         const values: PleiepengesøknadFormData = { ...formValues };
         if (values.mottarAndreYtelser === YesOrNo.NO) {
             values.andreYtelser = [];
         }
-        if (values.frilans_harHattInntektSomFrilanser !== YesOrNo.YES) {
+        if (values.frilans_harHattInntektSomFrilanser !== YesOrNo.YES || !erFrilanserISøknadsperiode(values)) {
             values.frilans_jobberFortsattSomFrilans = undefined;
             values.frilans_startdato = undefined;
+            values.frilans_arbeidsforhold = undefined;
         }
         if (values.frilans_jobberFortsattSomFrilans !== YesOrNo.NO) {
             values.frilans_sluttdato = undefined;
         }
-        if (values.frilans_harHattInntektSomFrilanser !== YesOrNo.YES || !erFrilanserISøknadsperiode(values)) {
-            values.frilans_arbeidsforhold = undefined;
-        }
-
         if (values.selvstendig_harHattInntektSomSN === YesOrNo.NO) {
             values.selvstendig_virksomhet = undefined;
             values.selvstendig_arbeidsforhold = undefined;
@@ -101,7 +98,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit }: StepConfigProps) => {
             id={StepID.ARBEIDSSITUASJON}
             onValidFormSubmit={onValidSubmit}
             buttonDisabled={isLoading}
-            onStepCleanup={søknadsperiode ? cleanupArbeidsforhold() : undefined}>
+            onStepCleanup={søknadsperiode ? cleanupArbeidssituasjonStep() : undefined}>
             {isLoading && <LoadingSpinner type="XS" blockTitle="Henter arbeidsforhold" />}
             {!isLoading && søknadsperiode && (
                 <>
