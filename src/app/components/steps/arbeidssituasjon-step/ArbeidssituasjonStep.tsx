@@ -14,7 +14,7 @@ import { AppFormField, PleiepengesøknadFormData } from '../../../types/Pleiepen
 import { getArbeidsgivere } from '../../../utils/arbeidsforholdUtils';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { getSøknadsperiodeFromFormData } from '../../../utils/formDataUtils';
-import { erFrilanserISøknadsperiode } from '../../../utils/frilanserUtils';
+// import { erFrilanserISøknadsperiode } from '../../../utils/frilanserUtils';
 import FormikStep from '../../formik-step/FormikStep';
 import AndreYtelserFormPart from './parts/AndreYtelserFormPart';
 import ArbeidssituasjonAnsatt from './parts/ArbeidssituasjonAnsatt';
@@ -41,31 +41,29 @@ export const visVernepliktSpørsmål = ({
     );
 };
 
-const cleanupArbeidssituasjonStep =
-    () =>
-    (formValues: PleiepengesøknadFormData): PleiepengesøknadFormData => {
-        const values: PleiepengesøknadFormData = { ...formValues };
-        if (values.mottarAndreYtelser === YesOrNo.NO) {
-            values.andreYtelser = [];
-        }
-        if (values.frilans_harHattInntektSomFrilanser !== YesOrNo.YES || !erFrilanserISøknadsperiode(values)) {
-            values.frilans_jobberFortsattSomFrilans = undefined;
-            values.frilans_startdato = undefined;
-            values.frilans_arbeidsforhold = undefined;
-        }
-        if (values.frilans_jobberFortsattSomFrilans !== YesOrNo.NO) {
-            values.frilans_sluttdato = undefined;
-        }
-        if (values.selvstendig_harHattInntektSomSN === YesOrNo.NO) {
-            values.selvstendig_virksomhet = undefined;
-            values.selvstendig_arbeidsforhold = undefined;
-        }
-        if (!visVernepliktSpørsmål(values)) {
-            values.harVærtEllerErVernepliktig = undefined;
-        }
+const cleanupArbeidssituasjonStep = (formValues: PleiepengesøknadFormData): PleiepengesøknadFormData => {
+    const values: PleiepengesøknadFormData = { ...formValues };
+    if (values.mottarAndreYtelser === YesOrNo.NO) {
+        values.andreYtelser = [];
+    }
+    if (values.frilans_harHattInntektSomFrilanser !== YesOrNo.YES) {
+        values.frilans_jobberFortsattSomFrilans = undefined;
+        values.frilans_startdato = undefined;
+        values.frilans_arbeidsforhold = undefined;
+    }
+    if (values.frilans_jobberFortsattSomFrilans !== YesOrNo.NO) {
+        values.frilans_sluttdato = undefined;
+    }
+    if (values.selvstendig_harHattInntektSomSN === YesOrNo.NO) {
+        values.selvstendig_virksomhet = undefined;
+        values.selvstendig_arbeidsforhold = undefined;
+    }
+    if (!visVernepliktSpørsmål(values)) {
+        values.harVærtEllerErVernepliktig = undefined;
+    }
 
-        return values;
-    };
+    return values;
+};
 
 const ArbeidssituasjonStep = ({ onValidSubmit }: StepConfigProps) => {
     const formikProps = useFormikContext<PleiepengesøknadFormData>();
@@ -96,9 +94,11 @@ const ArbeidssituasjonStep = ({ onValidSubmit }: StepConfigProps) => {
     return (
         <FormikStep
             id={StepID.ARBEIDSSITUASJON}
-            onValidFormSubmit={onValidSubmit}
+            onValidFormSubmit={() => {
+                onValidSubmit();
+            }}
             buttonDisabled={isLoading}
-            onStepCleanup={søknadsperiode ? cleanupArbeidssituasjonStep() : undefined}>
+            onStepCleanup={søknadsperiode ? cleanupArbeidssituasjonStep : undefined}>
             {isLoading && <LoadingSpinner type="XS" blockTitle="Henter arbeidsforhold" />}
             {!isLoading && søknadsperiode && (
                 <>

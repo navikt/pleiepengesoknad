@@ -29,6 +29,7 @@ type Props = FormikStepProps & Omit<StepProps, 'onAvbryt' | 'onFortsettSenere'>;
 
 const FormikStep = (props: Props) => {
     const formik = useFormikContext<PleiepengesøknadFormData>();
+
     const intl = useIntl();
     const {
         children,
