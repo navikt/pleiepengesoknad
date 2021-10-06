@@ -303,9 +303,8 @@
     "steg.omsorgstilbud.generelt.tittel": "Omsorgstilbud i perioden",
     "steg.omsorgstilbud.historisk.tittel": "Omsorgstilbud til nå",
     "steg.omsorgstilbud.planlagt.tittel": "Omsorgstilbud frem i tid",
-    "steg.omsorgstilbud.skalBarnetVæreIOmsorgstilbud.spm": "Skal barnet være noe i et omsorgstilbud i perioden du søker om?",
-    "steg.omsorgstilbud.harBarnetVærtIOmsorgstilbud.spm": "Har barnet vært noe i et omsorgstilbud i pleiepengeperioden?",
-    "steg.omsorgstilbud.skalBarnetIOmsorgstilbud.spm": "Skal barnet være noe i et omsorgstilbud i pleiepengeperioden?",
+    "steg.omsorgstilbud.historisk.harBarnetVærtIOmsorgstilbud.spm": "Har barnet vært noe i et omsorgstilbud i perioden {fra} til {til}?",
+    "steg.omsorgstilbud.planlagt.skalBarnetVæreIOmsorgstilbud.spm": "Skal barnet være noe i et omsorgstilbud i perioden {fra} til {til}?",
 
     "steg.omsorgstilbud.planlagt.vetHvorMye.spm": "Vet du noe av tiden barnet skal være i omsorgstilbudet?",
     "steg.omsorgstilbud.planlagt.vetHvorMye.ja": "Ja",
@@ -387,7 +386,7 @@
     "steg.oppsummering.omsorgstilbud.hvorMyeTidOms.VET_ALLE_TIMER": "Ja",
     "steg.oppsummering.omsorgstilbud.hvorMyeTidOms.VET_IKKE": "Nei",
 
-    "steg.oppsummering.omsorgstilbud.historisk.header": "Tid barnet har vært i omsorgstilbud:",
+    "steg.oppsummering.omsorgstilbud.historisk.header": "Tid barnet var i omsorgstilbud:",
     "steg.oppsummering.omsorgstilbud.planlagt.header": "Tid barnet skal være i omsorgstilbud:",
 
     "steg.oppsummering.utlandetSiste12.header": "Har bodd i utlandet siste 12 måneder",

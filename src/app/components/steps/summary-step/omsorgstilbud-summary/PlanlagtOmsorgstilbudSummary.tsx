@@ -29,7 +29,7 @@ const PlanlagtOmsorgstilbudSummary = ({ omsorgstilbud, søknadsperiode }: Props)
     return (
         <>
             <SummaryBlock
-                header={intlHelper(intl, 'steg.omsorgstilbud.skalBarnetIOmsorgstilbud.spm', {
+                header={intlHelper(intl, 'steg.omsorgstilbud.planlagt.skalBarnetVæreIOmsorgstilbud.spm', {
                     fra: prettifyDateFull(periodeFraOgMedSøknadsdato.from),
                     til: prettifyDateFull(periodeFraOgMedSøknadsdato.to),
                 })}>

@@ -31,7 +31,7 @@ const OmsorgstilbudHistoriskSpørsmål = ({ tittel, periode, omsorgstilbud, onOm
         <FormSection title={tittel}>
             <AppForm.YesOrNoQuestion
                 name={AppFormField.omsorgstilbud__harBarnVærtIOmsorgstilbud}
-                legend={intlHelper(intl, 'steg.omsorgstilbud.harBarnetVærtIOmsorgstilbud.spm', {
+                legend={intlHelper(intl, 'steg.omsorgstilbud.historisk.harBarnetVærtIOmsorgstilbud.spm', {
                     fra: prettifyDateFull(periode.from),
                     til: prettifyDateFull(periode.to),
                 })}

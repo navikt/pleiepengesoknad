@@ -40,7 +40,7 @@ const OmsorgstilbudPlanlagtSpørsmål = ({ periode, tittel, omsorgstilbud, onOms
         <FormSection title={tittel}>
             <AppForm.YesOrNoQuestion
                 name={AppFormField.omsorgstilbud__skalBarnIOmsorgstilbud}
-                legend={intlHelper(intl, 'steg.omsorgstilbud.skalBarnetVæreIOmsorgstilbud.spm')}
+                legend={intlHelper(intl, 'steg.omsorgstilbud.planlagt.skalBarnetVæreIOmsorgstilbud.spm')}
                 validate={getYesOrNoValidator()}
             />
 

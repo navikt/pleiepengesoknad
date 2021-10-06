@@ -26,7 +26,7 @@ const HistoriskOmsorgstilbudSummary = ({ historiskOmsorgstilbud, søknadsperiode
         <>
             <Box margin="xl">
                 <ContentWithHeader
-                    header={intlHelper(intl, 'steg.omsorgstilbud.harBarnetVærtIOmsorgstilbud.spm', {
+                    header={intlHelper(intl, 'steg.omsorgstilbud.historisk.harBarnetVærtIOmsorgstilbud.spm', {
                         fra: prettifyDateFull(periodeFørSøknadsdato.from),
                         til: prettifyDateFull(periodeFørSøknadsdato.to),
                     })}>

@@ -14,7 +14,6 @@ import { AppFormField, PleiepengesøknadFormData } from '../../../types/Pleiepen
 import { getArbeidsgivere } from '../../../utils/arbeidsforholdUtils';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { getSøknadsperiodeFromFormData } from '../../../utils/formDataUtils';
-// import { erFrilanserISøknadsperiode } from '../../../utils/frilanserUtils';
 import FormikStep from '../../formik-step/FormikStep';
 import AndreYtelserFormPart from './parts/AndreYtelserFormPart';
 import ArbeidssituasjonAnsatt from './parts/ArbeidssituasjonAnsatt';

@@ -7,6 +7,16 @@ import { AppFormField, PleiepengesøknadFormData } from '../types/Pleiepengesøk
 
 dayjs.extend(isSameOrAfter);
 
+export const erFrilanserITidsrom = (tidsrom: DateRange, frilansStartdato: Date, frilansSluttdato?: Date): boolean => {
+    if (dayjs(frilansStartdato).isSameOrAfter(tidsrom.from, 'day')) {
+        return false;
+    }
+    if (frilansSluttdato && dayjs(frilansSluttdato).isSameOrBefore(tidsrom.to, 'day')) {
+        return false;
+    }
+    return true;
+};
+
 export const erFrilanserISøknadsperiode = ({
     frilans_harHattInntektSomFrilanser,
     frilans_jobberFortsattSomFrilans,
@@ -35,10 +45,9 @@ export const erFrilanserISøknadsperiode = ({
     const periodeFraDato = datepickerUtils.getDateFromDateString(periodeFra);
     const frilansSluttdato = datepickerUtils.getDateFromDateString(frilans_sluttdato);
 
-    if (periodeTilDato && frilansStartdato && dayjs(frilansStartdato).isAfter(periodeTilDato)) {
-        return false;
-    }
-    return periodeFraDato && frilansSluttdato ? dayjs(frilansSluttdato).isSameOrAfter(periodeFraDato, 'day') : false;
+    return periodeFraDato && periodeTilDato && frilansStartdato
+        ? erFrilanserITidsrom({ from: periodeFraDato, to: periodeTilDato }, frilansStartdato, frilansSluttdato)
+        : false;
 };
 
 /**
@@ -79,10 +88,7 @@ export const getPeriodeSomFrilanserInneforPeriode = (
         return undefined;
     }
 
-    if (dayjs(startdato).isAfter(periode.to, 'day')) {
-        return undefined;
-    }
-    if (sluttdato && dayjs(sluttdato).isBefore(periode.from, 'day')) {
+    if (erFrilanserITidsrom(periode, startdato, sluttdato) === false) {
         return undefined;
     }
 

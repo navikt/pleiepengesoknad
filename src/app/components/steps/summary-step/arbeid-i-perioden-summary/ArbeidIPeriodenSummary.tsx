@@ -7,16 +7,17 @@ import {
     prettifyDateExtended,
 } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import dayjs from 'dayjs';
 import {
     ArbeidsforholdApiData,
     FrilansApiData,
     PleiepengesøknadApiData,
 } from '../../../../types/PleiepengesøknadApiData';
+import { erFrilanserITidsrom } from '../../../../utils/frilanserUtils';
 import { getHistoriskPeriode, getPlanlagtPeriode } from '../../../../utils/tidsbrukUtils';
 import SummaryBlock from '../../../summary-block/SummaryBlock';
 import SummarySection from '../../../summary-section/SummarySection';
 import ArbeidIPeriodeSummaryItem from './ArbeidIPeriodenSummaryItem';
-import dayjs from 'dayjs';
 
 interface Props {
     apiValues: PleiepengesøknadApiData;
@@ -25,6 +26,8 @@ interface Props {
 
 export interface ArbeidIPeriodenSummaryItemType extends ArbeidsforholdApiData {
     tittel: string;
+    varAktivtIHistoriskPeriode: boolean;
+    erAktivtIPlanlagtPeriode: boolean;
 }
 
 const getFrilansTittel = (intl: IntlShape, frilans: FrilansApiData, periode: DateRange) => {
@@ -70,6 +73,8 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
                     navn: a.navn,
                     organisasjonsnummer: a.organisasjonsnummer,
                 }),
+                erAktivtIPlanlagtPeriode: true,
+                varAktivtIHistoriskPeriode: true,
             });
         });
     }
@@ -78,6 +83,14 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
         alleArbeidsforhold.push({
             ...frilans.arbeidsforhold,
             tittel: getFrilansTittel(intl, frilans, søknadsperiode),
+            erAktivtIPlanlagtPeriode: periodeFraOgMedSøknadsdato
+                ? erFrilanserITidsrom(
+                      periodeFraOgMedSøknadsdato,
+                      apiStringDateToDate(frilans.startdato),
+                      frilans.sluttdato ? apiStringDateToDate(frilans.sluttdato) : undefined
+                  )
+                : false,
+            varAktivtIHistoriskPeriode: true,
         });
     }
 
@@ -85,6 +98,8 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
         alleArbeidsforhold.push({
             ...selvstendigNæringsdrivende.arbeidsforhold,
             tittel: intlHelper(intl, 'selvstendigNæringsdrivende.tittel'),
+            erAktivtIPlanlagtPeriode: true,
+            varAktivtIHistoriskPeriode: true,
         });
     }
 
@@ -108,36 +123,40 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
         <>
             {periodeFørSøknadsdato && (
                 <SummarySection header={getSectionHeaderText(periodeFørSøknadsdato, true)}>
-                    {alleArbeidsforhold.map((forhold) =>
-                        forhold.historiskArbeid ? (
-                            <SummaryBlock header={forhold.tittel} key={forhold.tittel}>
-                                <ArbeidIPeriodeSummaryItem
-                                    periode={periodeFørSøknadsdato}
-                                    arbeidIPeriode={forhold.historiskArbeid}
-                                    arbeidsform={forhold.arbeidsform}
-                                    normaltimer={forhold.jobberNormaltTimer}
-                                    erHistorisk={true}
-                                />
-                            </SummaryBlock>
-                        ) : undefined
-                    )}
+                    {alleArbeidsforhold
+                        .filter((a) => a.varAktivtIHistoriskPeriode)
+                        .map((forhold) =>
+                            forhold.historiskArbeid ? (
+                                <SummaryBlock header={forhold.tittel} key={forhold.tittel}>
+                                    <ArbeidIPeriodeSummaryItem
+                                        periode={periodeFørSøknadsdato}
+                                        arbeidIPeriode={forhold.historiskArbeid}
+                                        arbeidsform={forhold.arbeidsform}
+                                        normaltimer={forhold.jobberNormaltTimer}
+                                        erHistorisk={true}
+                                    />
+                                </SummaryBlock>
+                            ) : undefined
+                        )}
                 </SummarySection>
             )}
             {periodeFraOgMedSøknadsdato && (
                 <SummarySection header={getSectionHeaderText(periodeFraOgMedSøknadsdato, false)}>
-                    {alleArbeidsforhold.map((forhold) =>
-                        forhold.planlagtArbeid ? (
-                            <SummaryBlock header={forhold.tittel} key={forhold.tittel}>
-                                <ArbeidIPeriodeSummaryItem
-                                    periode={periodeFraOgMedSøknadsdato}
-                                    arbeidIPeriode={forhold.planlagtArbeid}
-                                    arbeidsform={forhold.arbeidsform}
-                                    normaltimer={forhold.jobberNormaltTimer}
-                                    erHistorisk={false}
-                                />
-                            </SummaryBlock>
-                        ) : undefined
-                    )}
+                    {alleArbeidsforhold
+                        .filter((a) => a.erAktivtIPlanlagtPeriode)
+                        .map((forhold) =>
+                            forhold.planlagtArbeid ? (
+                                <SummaryBlock header={forhold.tittel} key={forhold.tittel}>
+                                    <ArbeidIPeriodeSummaryItem
+                                        periode={periodeFraOgMedSøknadsdato}
+                                        arbeidIPeriode={forhold.planlagtArbeid}
+                                        arbeidsform={forhold.arbeidsform}
+                                        normaltimer={forhold.jobberNormaltTimer}
+                                        erHistorisk={false}
+                                    />
+                                </SummaryBlock>
+                            ) : undefined
+                        )}
                 </SummarySection>
             )}
         </>
