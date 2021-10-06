@@ -231,7 +231,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                 </SummarySection>
 
                                 {/* Arbeidssituasjon i søknadsperiode */}
-                                <ArbeidssituasjonSummary apiValues={apiValues} />
+                                <ArbeidssituasjonSummary apiValues={apiValues} søknadsperiode={søknadsperiode} />
 
                                 {/* Arbeid i søknadsperiode */}
                                 <ArbeidIPeriodenSummary apiValues={apiValues} søknadsperiode={søknadsperiode} />

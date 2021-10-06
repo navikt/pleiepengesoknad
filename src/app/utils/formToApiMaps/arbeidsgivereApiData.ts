@@ -17,6 +17,7 @@ export const getArbeidsgivereApiData = (
                 navn: forhold.navn,
                 organisasjonsnummer: forhold.organisasjonsnummer,
                 erAnsatt: forhold.erAnsatt === YesOrNo.YES,
+                sluttetNår: forhold.erAnsatt === YesOrNo.NO ? forhold.sluttetNår : undefined,
                 arbeidsforhold: arbeidsforholdApiData,
             });
         } else {

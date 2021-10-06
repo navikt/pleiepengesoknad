@@ -8,13 +8,16 @@ import FrilansSummary from './FrilansSummary';
 import ArbeidsgivereSummary from './ArbeidsgivereSummary';
 import SummaryBlock from '../../../summary-block/SummaryBlock';
 import JaNeiSvar from '../enkeltsvar/JaNeiSvar';
+import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 
 interface Props {
     apiValues: PleiepengesøknadApiData;
+    søknadsperiode: DateRange;
 }
 
 const ArbeidssituasjonSummary: React.FunctionComponent<Props> = ({
     apiValues: { arbeidsgivere, frilans, selvstendigNæringsdrivende, harVærtEllerErVernepliktig },
+    søknadsperiode,
 }) => {
     const intl = useIntl();
     const harRegistrerArbeid =
@@ -25,7 +28,7 @@ const ArbeidssituasjonSummary: React.FunctionComponent<Props> = ({
         <SummarySection header={intlHelper(intl, 'steg.oppsummering.arbeidssituasjon.header')}>
             {harRegistrerArbeid && (
                 <>
-                    <ArbeidsgivereSummary arbeidsgivere={arbeidsgivere} />
+                    <ArbeidsgivereSummary arbeidsgivere={arbeidsgivere} søknadsperiode={søknadsperiode} />
 
                     <FrilansSummary frilans={frilans} />
 

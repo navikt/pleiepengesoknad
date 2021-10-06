@@ -5,25 +5,33 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
-import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { Undertittel } from 'nav-frontend-typografi';
-import { AppFormField, ArbeidsforholdAnsatt, ArbeidsforholdField } from '../../../../types/PleiepengesøknadFormData';
+import {
+    AppFormField,
+    ArbeidsforholdAnsatt,
+    ArbeidsforholdField,
+    ArbeidsforholdSluttetNårSvar,
+} from '../../../../types/PleiepengesøknadFormData';
 import { isYesOrNoAnswered } from '../../../../validation/fieldValidations';
 import AppForm from '../../../app-form/AppForm';
 import ArbeidsformOgTimer from './ArbeidsformOgTimerFormPart';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { getArbeidsformValidator, getJobberNormaltTimerValidator } from '../../../../validation/validateArbeidFields';
+import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 
 interface Props {
     søkerKunHistoriskPeriode: boolean;
     arbeidsforhold: ArbeidsforholdAnsatt;
     index: number;
+    søknadsperiode: DateRange;
 }
 
 const ArbeidssituasjonAnsatt: React.FunctionComponent<Props> = ({
     arbeidsforhold,
     søkerKunHistoriskPeriode,
     index,
+    søknadsperiode,
 }) => {
     const intl = useIntl();
     const erAvsluttet = arbeidsforhold.erAnsatt === YesOrNo.NO;
@@ -36,9 +44,15 @@ const ArbeidssituasjonAnsatt: React.FunctionComponent<Props> = ({
         arbeidsform: arbeidsforhold.arbeidsform
             ? intlHelper(intl, `arbeidsforhold.part.arbeidsform.${arbeidsforhold.arbeidsform}`)
             : undefined,
+        periodeFra: prettifyDateFull(søknadsperiode.from),
+        periodeTil: prettifyDateFull(søknadsperiode.to),
     };
 
     const erHistorisk = erAvsluttet || søkerKunHistoriskPeriode;
+    const parentFieldName = `${AppFormField.ansatt_arbeidsforhold}.${index}`;
+
+    const getFieldName = (field: ArbeidsforholdField): AppFormField => `${parentFieldName}.${field}` as AppFormField;
+
     return (
         <>
             <FormBlock key={arbeidsforhold.organisasjonsnummer} margin="xl">
@@ -54,7 +68,7 @@ const ArbeidssituasjonAnsatt: React.FunctionComponent<Props> = ({
                             erHistorisk ? 'arbeidsforhold.erAnsatt.historisk.spm' : 'arbeidsforhold.erAnsatt.spm',
                             { navn: arbeidsforhold.navn }
                         )}
-                        name={`${AppFormField.ansatt_arbeidsforhold}.${index}.${ArbeidsforholdField.erAnsatt}` as any}
+                        name={getFieldName(ArbeidsforholdField.erAnsatt)}
                         validate={(value) => {
                             return getYesOrNoValidator()(value)
                                 ? {
@@ -75,38 +89,76 @@ const ArbeidssituasjonAnsatt: React.FunctionComponent<Props> = ({
                                 <AlertStripeInfo>
                                     <FormattedMessage id="arbeidsforhold.ikkeAnsatt.info" />
                                 </AlertStripeInfo>
+                                <FormBlock>
+                                    <AppForm.RadioPanelGroup
+                                        name={getFieldName(ArbeidsforholdField.sluttetNår)}
+                                        legend={intlHelper(intl, 'arbeidsforhold.sluttetNår.spm', {
+                                            navn: arbeidsforhold.navn,
+                                        })}
+                                        validate={(value) => {
+                                            const error = getRequiredFieldValidator()(value);
+                                            return error
+                                                ? {
+                                                      key: 'validation.arbeidsforhold.sluttetNår.noValue',
+                                                      values: { navn: arbeidsforhold.navn },
+                                                      keepKeyUnaltered: true,
+                                                  }
+                                                : undefined;
+                                        }}
+                                        radios={[
+                                            {
+                                                label: intlHelper(
+                                                    intl,
+                                                    'arbeidsforhold.sluttetNår.alternativ.førPerioden',
+                                                    intlValues
+                                                ),
+                                                value: ArbeidsforholdSluttetNårSvar.førSøknadsperiode,
+                                            },
+                                            {
+                                                label: intlHelper(
+                                                    intl,
+                                                    'arbeidsforhold.sluttetNår.alternativ.iPerioden',
+                                                    intlValues
+                                                ),
+                                                value: ArbeidsforholdSluttetNårSvar.iSøknadsperiode,
+                                            },
+                                        ]}
+                                    />
+                                </FormBlock>
                             </Box>
                         )}
-
-                        <ArbeidsformOgTimer
-                            spørsmål={{
-                                arbeidsform: intlHelper(
-                                    intl,
-                                    erAvsluttet
-                                        ? 'arbeidsforhold.arbeidsform.avsluttet.spm'
-                                        : 'arbeidsforhold.arbeidsform.spm',
-                                    {
-                                        arbeidsforhold: arbeidsforhold.navn,
-                                    }
-                                ),
-                                jobberNormaltTimer: (arbeidsform) =>
-                                    intlHelper(
+                        {((erAvsluttet && arbeidsforhold.sluttetNår === ArbeidsforholdSluttetNårSvar.iSøknadsperiode) ||
+                            !erAvsluttet) && (
+                            <ArbeidsformOgTimer
+                                spørsmål={{
+                                    arbeidsform: intlHelper(
                                         intl,
                                         erAvsluttet
-                                            ? `arbeidsforhold.${arbeidsform}.avsluttet.spm`
-                                            : `arbeidsforhold.${arbeidsform}.spm`,
+                                            ? 'arbeidsforhold.arbeidsform.avsluttet.spm'
+                                            : 'arbeidsforhold.arbeidsform.spm',
                                         {
                                             arbeidsforhold: arbeidsforhold.navn,
                                         }
                                     ),
-                            }}
-                            validator={{
-                                arbeidsform: getArbeidsformValidator(intlValues),
-                                jobberNormaltTimer: getJobberNormaltTimerValidator(intlValues),
-                            }}
-                            arbeidsforhold={arbeidsforhold}
-                            parentFieldName={`${AppFormField.ansatt_arbeidsforhold}.${index}`}
-                        />
+                                    jobberNormaltTimer: (arbeidsform) =>
+                                        intlHelper(
+                                            intl,
+                                            erAvsluttet
+                                                ? `arbeidsforhold.${arbeidsform}.avsluttet.spm`
+                                                : `arbeidsforhold.${arbeidsform}.spm`,
+                                            {
+                                                arbeidsforhold: arbeidsforhold.navn,
+                                            }
+                                        ),
+                                }}
+                                validator={{
+                                    arbeidsform: getArbeidsformValidator(intlValues),
+                                    jobberNormaltTimer: getJobberNormaltTimerValidator(intlValues),
+                                }}
+                                arbeidsforhold={arbeidsforhold}
+                                parentFieldName={parentFieldName}
+                            />
+                        )}
                     </ResponsivePanel>
                 </FormBlock>
             )}

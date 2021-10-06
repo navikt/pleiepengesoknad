@@ -1,6 +1,10 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { visVernepliktSpørsmål } from '../../components/steps/arbeidssituasjon-step/ArbeidssituasjonStep';
-import { ArbeidsforholdAnsatt, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import {
+    ArbeidsforholdAnsatt,
+    ArbeidsforholdSluttetNårSvar,
+    PleiepengesøknadFormData,
+} from '../../types/PleiepengesøknadFormData';
 
 export const formDataMock: Partial<PleiepengesøknadFormData> = {
     ansatt_arbeidsforhold: [],
@@ -36,6 +40,50 @@ describe('visVernepliktSpørsmål', () => {
                     {
                         ...ansattArbeidsforhold,
                         erAnsatt: YesOrNo.YES,
+                    },
+                ],
+                frilans_harHattInntektSomFrilanser: YesOrNo.NO,
+                selvstendig_harHattInntektSomSN: YesOrNo.NO,
+            };
+            expect(visVernepliktSpørsmål(data)).toBeFalsy();
+        });
+        it('søker er ikke ansatt, men har ikke svart på sluttdato', () => {
+            const data: Partial<PleiepengesøknadFormData> = {
+                ...formDataMock,
+                ansatt_arbeidsforhold: [
+                    {
+                        ...ansattArbeidsforhold,
+                        erAnsatt: YesOrNo.NO,
+                    },
+                ],
+                frilans_harHattInntektSomFrilanser: YesOrNo.NO,
+                selvstendig_harHattInntektSomSN: YesOrNo.NO,
+            };
+            expect(visVernepliktSpørsmål(data)).toBeFalsy();
+        });
+        it('søker er ikke ansatt, men sluttet i perioden', () => {
+            const data: Partial<PleiepengesøknadFormData> = {
+                ...formDataMock,
+                ansatt_arbeidsforhold: [
+                    {
+                        ...ansattArbeidsforhold,
+                        erAnsatt: YesOrNo.NO,
+                        sluttetNår: ArbeidsforholdSluttetNårSvar.iSøknadsperiode,
+                    },
+                ],
+                frilans_harHattInntektSomFrilanser: YesOrNo.NO,
+                selvstendig_harHattInntektSomSN: YesOrNo.NO,
+            };
+            expect(visVernepliktSpørsmål(data)).toBeFalsy();
+        });
+        it('søker er ikke ansatt, men sluttet i perioden', () => {
+            const data: Partial<PleiepengesøknadFormData> = {
+                ...formDataMock,
+                ansatt_arbeidsforhold: [
+                    {
+                        ...ansattArbeidsforhold,
+                        erAnsatt: YesOrNo.NO,
+                        sluttetNår: ArbeidsforholdSluttetNårSvar.iSøknadsperiode,
                     },
                 ],
                 frilans_harHattInntektSomFrilanser: YesOrNo.NO,
@@ -82,6 +130,7 @@ describe('visVernepliktSpørsmål', () => {
                     {
                         ...ansattArbeidsforhold,
                         erAnsatt: YesOrNo.NO,
+                        sluttetNår: ArbeidsforholdSluttetNårSvar.førSøknadsperiode,
                     },
                 ],
                 selvstendig_harHattInntektSomSN: YesOrNo.NO,

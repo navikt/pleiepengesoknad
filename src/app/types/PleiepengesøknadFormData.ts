@@ -87,6 +87,7 @@ export interface TidFasteDager {
 export enum ArbeidsforholdField {
     erAnsatt = 'erAnsatt',
     arbeidsform = 'arbeidsform',
+    sluttetNår = 'sluttetNår',
     jobberNormaltTimer = 'jobberNormaltTimer',
     historisk = 'historisk',
     planlagt = 'planlagt',
@@ -100,6 +101,10 @@ export enum ArbeidIPeriodeField {
     enkeltdager = 'enkeltdager',
 }
 
+export enum ArbeidsforholdSluttetNårSvar {
+    førSøknadsperiode = 'førSøknadsperiode',
+    iSøknadsperiode = 'iSøknadsperiode',
+}
 export interface ArbeidIPeriode {
     [ArbeidIPeriodeField.jobberIPerioden]: JobberIPeriodeSvar;
     [ArbeidIPeriodeField.jobberSomVanlig]?: YesOrNo;
@@ -110,6 +115,7 @@ export interface ArbeidIPeriode {
 
 export interface Arbeidsforhold {
     [ArbeidsforholdField.arbeidsform]?: Arbeidsform;
+    [ArbeidsforholdField.sluttetNår]?: ArbeidsforholdSluttetNårSvar;
     [ArbeidsforholdField.jobberNormaltTimer]?: string;
     [ArbeidsforholdField.historisk]?: ArbeidIPeriode;
     [ArbeidsforholdField.planlagt]?: ArbeidIPeriode;

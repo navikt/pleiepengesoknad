@@ -461,7 +461,9 @@
 
     "arbeidsforhold.erAnsatt.spm": "Stemmer det at du er ansatt hos {navn} i perioden du søker for?",
     "arbeidsforhold.erAnsatt.historisk.spm": "Stemmer det at du var ansatt hos {navn} i perioden du søker for?",
-    "arbeidsforhold.sluttdato.spm": "Hva var sluttdato for ansettelsesforholdet ditt hos {navn}?",
+    "arbeidsforhold.sluttetNår.spm": "Når sluttet du hos {navn}?",
+    "arbeidsforhold.sluttetNår.alternativ.førPerioden": "Før {periodeFra}",
+    "arbeidsforhold.sluttetNår.alternativ.iPerioden": "Mellom {periodeFra} og {periodeTil}",
     "arbeidsforhold.avsluttet.info": "Sluttdato var innenfor perioden du søker om pleiepenger. Vi trenger derfor å vite hvordan normalarbeidstiden din var hos {navn}",
 
     "arbeidsforhold.arbeidsform.spm": "Hvordan jobber du vanligvis hos {arbeidsforhold}?",
@@ -552,6 +554,8 @@
     "oppsummering.arbeidssituasjon.avsluttet.tid.FAST": "Jobbet {timer, plural, one {# time} other {# timer}} fast per uke.",
     "oppsummering.arbeidssituasjon.avsluttet.tid.TURNUS": "Jobbet turnus, {timer, plural, one {# time} other {# timer}} i snitt per uke.",
     "oppsummering.arbeidssituasjon.avsluttet.tid.VARIERENDE": "Jobbet deltid/varierende/tilkalling, {timer, plural, one {# time} other {# timer}} i snitt per uke.",
+    "oppsummering.arbeidssituasjon.avsluttet.sluttetNår.førPerioden": "Sluttet før {periodeFra}",
+    "oppsummering.arbeidssituasjon.avsluttet.sluttetNår.iPerioden": "Sluttet mellom {periodeFra} og {periodeTil}",
 
     "oppsummering.arbeidssituasjon.frilanser.header": "Frilanser",
     "oppsummering.arbeidssituasjon.frilans.erIkkeFrilanser": "Er ikke frilanser i perioden det søkes for.",
@@ -723,9 +727,7 @@
     "validation.ansatt_arbeidsforhold.erAnsatt.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du er ansatt hos {navn} i perioden du søker pleiepenger.",
 
     "validation.arbeidsforhold.arbeidsform.noValue": "Du må svare på hvordan du {jobber} {hvor}.",
-    "validation.arbeidsforhold.sluttdato.dateHasInvalidFormat": "Du må oppgi sluttdato for ansettelsesforholdet ditt hos {navn} i et gyldig format. Gyldig format er dd.mm.åååå.",
-    "validation.arbeidsforhold.sluttdato.dateIsAfterMax": "Sluttdato for ansettelsesforholdet ditt hos {navn} kan ikke være lik eller etter dagens dato.",
-    "validation.arbeidsforhold.sluttdato.dateHasNoValue": "Oppgi sluttdato for ansettelsesforholdet hos {navn}. Skriv inn eller velg dato fra kalenderen.",
+    "validation.arbeidsforhold.sluttetNår.noValue": "Du må oppgi når du sluttet hos {navn}.",
 
     "validation.arbeidsforhold.jobberNormaltTimer.numberHasNoValue": "Du må oppgi hvor mange timer per uke du {jobber} {arbeidsform} {hvor}.",
     "validation.arbeidsforhold.jobberNormaltTimer.numberHasInvalidFormat": "Antall timer du {jobber} {arbeidsform} per uke {hvor} kan kun bestå av tall.",
