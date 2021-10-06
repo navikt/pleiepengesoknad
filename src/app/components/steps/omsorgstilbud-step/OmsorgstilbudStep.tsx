@@ -14,8 +14,8 @@ import usePersistSoknad from '../../../hooks/usePersistSoknad';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { getHistoriskPeriode, getPlanlagtPeriode } from '../../../utils/tidsbrukUtils';
 import FormikStep from '../../formik-step/FormikStep';
-import OmsorgstilbudHistoriskSpørsmål from './OmsorgstilbudHistoriskSpørsmål';
-import OmsorgstilbudPlanlagtSpørsmål from './OmsorgstilbudPlanlagtSpørsmål';
+import HistoriskOmsorgstilbudSpørsmål from './HistoriskOmsorgstilbudSpørsmål';
+import PlanlagtOmsorgstilbudSpørsmål from './PlanlagtOmsorgstilbudSpørsmål';
 import { cleanupOmsorgstilbudStep } from './omsorgstilbudStepUtils';
 
 dayjs.extend(isBetween);
@@ -59,7 +59,7 @@ const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
                 <FormattedMessage id="steg.omsorgstilbud.veileder.html" values={{ p: (msg: string) => <p>{msg}</p> }} />
             </CounsellorPanel>
             {periodeFørSøknadsdato && (
-                <OmsorgstilbudHistoriskSpørsmål
+                <HistoriskOmsorgstilbudSpørsmål
                     periode={periodeFørSøknadsdato}
                     omsorgstilbud={omsorgstilbud}
                     tittel={intlHelper(
@@ -72,7 +72,7 @@ const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
                 />
             )}
             {periodeFraOgMedSøknadsdato && (
-                <OmsorgstilbudPlanlagtSpørsmål
+                <PlanlagtOmsorgstilbudSpørsmål
                     periode={periodeFraOgMedSøknadsdato}
                     omsorgstilbud={omsorgstilbud}
                     tittel={intlHelper(

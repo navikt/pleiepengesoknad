@@ -21,6 +21,7 @@ import AppForm from '../../app-form/AppForm';
 import OmsorgstilbudIPeriodeSpørsmål from '../../omsorgstilbud/OmsorgstilbudIPeriodeSpørsmål';
 import TidFasteDagerInput from '../../tid-faste-dager-input/TidFasteDagerInput';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
+import { prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 
 dayjs.extend(isBetween);
 
@@ -31,7 +32,7 @@ interface Props {
     onOmsorgstilbudChanged: () => void;
 }
 
-const OmsorgstilbudPlanlagtSpørsmål = ({ periode, tittel, omsorgstilbud, onOmsorgstilbudChanged }: Props) => {
+const PlanlagtOmsorgstilbudSpørsmål = ({ periode, tittel, omsorgstilbud, onOmsorgstilbudChanged }: Props) => {
     const intl = useIntl();
 
     const inkluderFastPlan = visSpørsmålOmTidErLikHverUke(periode);
@@ -40,7 +41,10 @@ const OmsorgstilbudPlanlagtSpørsmål = ({ periode, tittel, omsorgstilbud, onOms
         <FormSection title={tittel}>
             <AppForm.YesOrNoQuestion
                 name={AppFormField.omsorgstilbud__skalBarnIOmsorgstilbud}
-                legend={intlHelper(intl, 'steg.omsorgstilbud.planlagt.skalBarnetVæreIOmsorgstilbud.spm')}
+                legend={intlHelper(intl, 'steg.omsorgstilbud.planlagt.skalBarnetVæreIOmsorgstilbud.spm', {
+                    fra: prettifyDateFull(periode.from),
+                    til: prettifyDateFull(periode.to),
+                })}
                 validate={getYesOrNoValidator()}
             />
 
@@ -152,4 +156,4 @@ const OmsorgstilbudPlanlagtSpørsmål = ({ periode, tittel, omsorgstilbud, onOms
     );
 };
 
-export default OmsorgstilbudPlanlagtSpørsmål;
+export default PlanlagtOmsorgstilbudSpørsmål;

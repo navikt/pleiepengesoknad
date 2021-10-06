@@ -24,7 +24,7 @@ interface Props {
     onOmsorgstilbudChanged: () => void;
 }
 
-const OmsorgstilbudHistoriskSpørsmål = ({ tittel, periode, omsorgstilbud, onOmsorgstilbudChanged }: Props) => {
+const HistoriskOmsorgstilbudSpørsmål = ({ tittel, periode, omsorgstilbud, onOmsorgstilbudChanged }: Props) => {
     const intl = useIntl();
 
     return (
@@ -67,4 +67,4 @@ const OmsorgstilbudHistoriskSpørsmål = ({ tittel, periode, omsorgstilbud, onOm
     );
 };
 
-export default OmsorgstilbudHistoriskSpørsmål;
+export default HistoriskOmsorgstilbudSpørsmål;
