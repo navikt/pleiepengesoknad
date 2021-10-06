@@ -332,13 +332,10 @@
     "page.confirmation.tittel.advarsel.list.item.1": "du søker for første gang, eller",
     "page.confirmation.tittel.advarsel.list.item.2": "det er mer enn 4 uker siden du hadde pleiepenger sist.",
 
-    "page.confirmation.dinePP.info.tittel": "Dine pleiepenger",
-    "page.confirmation.dinePP.info.1": "Du får mer informasjon om søknaden din på «Dine pleiepenger».",
-    "page.confirmation.dinePP.list.tittel": "Der kan du:",
-    "page.confirmation.dinePP.list.item.1": "laste ned en bekreftelse på søknaden din til arbeidsgiver(e)",
-    "page.confirmation.dinePP.list.item.2": "ettersende dokumentasjon",
-    "page.confirmation.dinePP.list.item.3": "gi beskjed om endringer",
-    "page.confirmation.dinePP.lenke": "Gå til Dine pleiepenger",
+    "page.confirmation.dinePP.info.tittel": "På Dine pleiepenger kan du:",
+    "page.confirmation.dinePP.list.item.1": "Laste ned bekreftelse til arbeidsgiver(e)",
+    "page.confirmation.dinePP.list.item.2": "Ettersende dokumentasjon",
+    "page.confirmation.dinePP.lenke": "GÅ TIL DINE PLEIEPENGER",
 
     "page.generalErrorPage.sidetittel": "Feil",
     "page.generalErrorPage.tittel": "Noko gjekk gale...",

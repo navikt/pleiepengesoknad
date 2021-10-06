@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { SIFCommonPageKey, useLogSidevisning } from '@navikt/sif-common-amplitude';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import { Innholdstittel, Normaltekst, Element } from 'nav-frontend-typografi';
+import { Innholdstittel, Undertittel } from 'nav-frontend-typografi';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CheckmarkIcon from '@navikt/sif-common-core/lib/components/checkmark-icon/CheckmarkIcon';
 import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatted-html-message/FormattedHtmlMessage';
@@ -59,26 +59,21 @@ const ConfirmationPage = ({ kvitteringInfo }: Props) => {
                                 <FormattedMessage id="page.confirmation.tittel.advarsel.list.item.2" />
                             </li>
                         </ul>
+                        <Box margin="xl" padBottom="xl">
+                            <FormattedMessage id="page.confirmation.tittel.advarsel.info" />{' '}
+                            <Lenke href={lenker.innsynSIF} target="_blank">
+                                <FormattedMessage id="page.confirmation.tittel.advarsel.info.lenke" />
+                            </Lenke>
+                        </Box>
                     </AlertStripeAdvarsel>
                 </Box>
             )}
 
             <Box margin="xxl">
-                <hr />
-            </Box>
-
-            <Box margin="xxl">
-                <Element>
+                <Undertittel>
                     <FormattedHtmlMessage id="page.confirmation.dinePP.info.tittel" />
-                </Element>
+                </Undertittel>
                 <Box margin="m">
-                    <Normaltekst>
-                        <FormattedMessage id="page.confirmation.dinePP.info.1" />
-                    </Normaltekst>
-                    <Normaltekst>
-                        <FormattedMessage id="page.confirmation.dinePP.list.tittel" />
-                    </Normaltekst>
-
                     <ul>
                         {kvitteringInfo?.arbeidsforhold && (
                             <li>
@@ -91,9 +86,12 @@ const ConfirmationPage = ({ kvitteringInfo }: Props) => {
                         <li>
                             <FormattedMessage id="page.confirmation.dinePP.list.item.3" />
                         </li>
+                        <li>
+                            <FormattedMessage id="page.confirmation.dinePP.list.item.4" />
+                        </li>
                     </ul>
                     <Box margin="xl">
-                        <Lenke href={lenker.innsynSIF} target="_blank">
+                        <Lenke href={lenker.innsynSIF} target="_blank" className="knapp knapp--hoved">
                             <FormattedMessage id="page.confirmation.dinePP.lenke" />
                         </Lenke>
                     </Box>
