@@ -14,6 +14,7 @@ interface Props {
 function SelvstendigSummary({ selvstendigNæringsdrivende }: Props) {
     const intl = useIntl();
     const { arbeidsforhold, virksomhet } = selvstendigNæringsdrivende || {};
+    const arbeidsformOgTid = arbeidsforhold ? getArbeidsformOgTidSetning(intl, arbeidsforhold, true) : undefined;
     return (
         <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.selvstendig.header')} headerTag="h3">
             {selvstendigNæringsdrivende === undefined && (
@@ -32,7 +33,7 @@ function SelvstendigSummary({ selvstendigNæringsdrivende }: Props) {
                             <FormattedMessage id="oppsummering.arbeidssituasjon.selvstendig.erSn.enVirksomhet" />
                         )}
                     </li>
-                    <li>{getArbeidsformOgTidSetning(intl, arbeidsforhold, true)}</li>
+                    {arbeidsformOgTid && <li>{arbeidsformOgTid}</li>}
                     <li>
                         {intlHelper(intl, 'summary.virksomhet.virksomhetInfo.tittel')}
                         <Box margin="m">

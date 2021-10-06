@@ -20,8 +20,8 @@ export const getArbeidsgivereApiData = (
                 sluttetNår: forhold.erAnsatt === YesOrNo.NO ? forhold.sluttetNår : undefined,
                 arbeidsforhold: arbeidsforholdApiData,
             });
-        } else {
-            throw new Error('Invalid arbeidsforhold');
+            // } else {
+            //     throw new Error('Invalid arbeidsforhold');
         }
     });
     return {

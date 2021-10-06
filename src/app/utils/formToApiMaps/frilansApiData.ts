@@ -1,11 +1,12 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { apiStringDateToDate, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import dayjs from 'dayjs';
 import { ArbeidsforholdType } from '../../types';
 import { FrilansApiData, PleiepengesøknadApiData, TidEnkeltdagApiData } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
-import { erFrilanserISøknadsperiode } from '../frilanserUtils';
+import { erFrilanserITidsrom } from '../frilanserUtils';
 import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
 
 type FrilansApiDataPart = Pick<PleiepengesøknadApiData, 'frilans' | '_harHattInntektSomFrilanser'>;
@@ -44,14 +45,13 @@ export const getFrilansApiData = (
 
     const _harHattInntektSomFrilanser = frilans_harHattInntektSomFrilanser === YesOrNo.YES;
 
+    const jobberFortsattSomFrilans: boolean = frilans_jobberFortsattSomFrilans === YesOrNo.YES;
+    const startdato = datepickerUtils.getDateFromDateString(frilans_startdato);
+    const sluttdato = datepickerUtils.getDateFromDateString(frilans_sluttdato);
+
     if (
-        _harHattInntektSomFrilanser === false ||
-        erFrilanserISøknadsperiode({
-            frilans_harHattInntektSomFrilanser,
-            frilans_jobberFortsattSomFrilans,
-            frilans_sluttdato,
-            periodeFra: formData.periodeFra,
-        }) === false
+        !startdato ||
+        erFrilanserITidsrom(søknadsperiode, { frilansStartdato: startdato, frilansSluttdato: sluttdato }) === false
     ) {
         return {
             _harHattInntektSomFrilanser,
@@ -67,7 +67,6 @@ export const getFrilansApiData = (
         throw new Error('mapFrilansToApiData - mangler arbeidsinformasjon om frilans');
     }
 
-    const jobberFortsattSomFrilans: boolean = frilans_jobberFortsattSomFrilans === YesOrNo.YES;
     if (jobberFortsattSomFrilans === false && frilans_sluttdato === undefined) {
         throw new Error('mapFrilansToApiData - jobber ikke lenger som frilanser, men sluttdato mangler');
     }

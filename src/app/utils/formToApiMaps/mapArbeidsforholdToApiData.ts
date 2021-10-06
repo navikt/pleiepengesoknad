@@ -1,7 +1,7 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
-import { ArbeidsforholdType } from '../../types';
+import { ArbeidsforholdType, JobberIPeriodeSvar } from '../../types';
 import { ArbeidIPeriodeApiData, ArbeidsforholdApiData } from '../../types/PleiepengesøknadApiData';
 import { ArbeidIPeriode, Arbeidsforhold } from '../../types/PleiepengesøknadFormData';
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
@@ -33,10 +33,13 @@ export const mapArbeidsforholdToApiData = (
     søknadsperiode: DateRange,
     type: ArbeidsforholdType
 ): ArbeidsforholdApiData => {
-    const { jobberNormaltTimer, arbeidsform } = arbeidsforhold;
+    const { jobberNormaltTimer, arbeidsform, historisk, planlagt } = arbeidsforhold;
     const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
 
-    if (jobberNormaltTimerNumber === undefined || arbeidsform === undefined) {
+    const harArbeidetIPerioden =
+        historisk?.jobberIPerioden === JobberIPeriodeSvar.JA || planlagt?.jobberIPerioden === JobberIPeriodeSvar.JA;
+
+    if ((jobberNormaltTimerNumber === undefined || arbeidsform === undefined) && harArbeidetIPerioden) {
         throw new Error('mapArbeidsforholdToApiData');
     }
 

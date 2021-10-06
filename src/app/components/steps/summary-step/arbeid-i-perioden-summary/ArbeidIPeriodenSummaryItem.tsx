@@ -10,8 +10,8 @@ import TidFasteDager from '../../../dager-med-tid/TidFasteDager';
 interface Props {
     periode: DateRange;
     arbeidIPeriode: ArbeidIPeriodeApiData;
-    arbeidsform: Arbeidsform;
-    normaltimer: number;
+    arbeidsform?: Arbeidsform;
+    normaltimer?: number;
     erHistorisk: boolean;
 }
 
@@ -39,9 +39,10 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({
                       ? 'oppsummering.arbeidIPeriode.jobberIPerioden.ja.somVanlig'
                       : 'oppsummering.arbeidIPeriode.jobberIPerioden.ja.redusert',
                   {
-                      timerArbeidsform: arbeidIPeriode.jobberIPerioden
-                          ? intlHelper(intl, `timer.arbeidsform.${arbeidsform}`, { timer: normaltimer })
-                          : '',
+                      timerArbeidsform:
+                          arbeidIPeriode.jobberIPerioden && arbeidsform && normaltimer !== undefined
+                              ? intlHelper(intl, `timer.arbeidsform.${arbeidsform}`, { timer: normaltimer })
+                              : '',
                   }
               )
             : '',

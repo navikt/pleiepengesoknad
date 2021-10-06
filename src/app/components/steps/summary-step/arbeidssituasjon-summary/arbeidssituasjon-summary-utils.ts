@@ -6,7 +6,10 @@ export const getArbeidsformOgTidSetning = (
     intl: IntlShape,
     arbeidsforhold: ArbeidsforholdApiData,
     erAktivt?: boolean
-) => {
+): string | undefined => {
+    if (!arbeidsforhold.arbeidsform || !arbeidsforhold.jobberNormaltTimer) {
+        return undefined;
+    }
     return intlHelper(
         intl,
         erAktivt

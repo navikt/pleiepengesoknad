@@ -20,6 +20,7 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, s
     return (
         <>
             {arbeidsgivere.map(({ navn, organisasjonsnummer, erAnsatt, arbeidsforhold, sluttetNår }) => {
+                const arbeidsformOgTid = getArbeidsformOgTidSetning(intl, arbeidsforhold, erAnsatt);
                 return (
                     <SummaryBlock
                         key={organisasjonsnummer}
@@ -36,7 +37,7 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, s
                                     }
                                 />
                             </li>
-                            <li>{getArbeidsformOgTidSetning(intl, arbeidsforhold, erAnsatt)}</li>
+                            {arbeidsformOgTid && <li>{arbeidsformOgTid}</li>}
                             {erAnsatt === false && (
                                 <li>
                                     <FormattedMessage
