@@ -20,6 +20,7 @@ import {
 } from '../../../../validation/validateFrilanser';
 import AppForm from '../../../app-form/AppForm';
 import ArbeidsformOgTimer from './ArbeidsformOgTimerFormPart';
+import { erFrilanserISøknadsperiode } from '../../../../utils/frilanserUtils';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
@@ -102,7 +103,9 @@ const ArbeidssituasjonFrilans = ({ formValues, søkerKunHistoriskPeriode }: Prop
                                 />
                             </FormBlock>
                         )}
-                        {frilans_jobberFortsattSomFrilans === YesOrNo.YES && (
+                        {(frilans_jobberFortsattSomFrilans === YesOrNo.YES ||
+                            (frilans_jobberFortsattSomFrilans === YesOrNo.NO &&
+                                erFrilanserISøknadsperiode(formValues))) && (
                             <FormBlock>
                                 <ArbeidsformOgTimer
                                     spørsmål={{
