@@ -20,9 +20,10 @@ import ArbeidsformOgTimer from './ArbeidsformOgTimerFormPart';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
+    søkerKunHistoriskPeriode: boolean;
 }
 
-const ArbeidssituasonSN = ({ formValues }: Props) => {
+const ArbeidssituasonSN = ({ formValues, søkerKunHistoriskPeriode }: Props) => {
     const intl = useIntl();
     const { selvstendig_virksomhet, selvstendig_harFlereVirksomheter, selvstendig_arbeidsforhold } = formValues;
     const harFlereVirksomheter = selvstendig_harFlereVirksomheter === YesOrNo.YES;
@@ -38,7 +39,12 @@ const ArbeidssituasonSN = ({ formValues }: Props) => {
             <Box margin="l">
                 <AppForm.YesOrNoQuestion
                     name={AppFormField.selvstendig_harHattInntektSomSN}
-                    legend={intlHelper(intl, 'selvstendig.harDuHattInntekt.spm')}
+                    legend={intlHelper(
+                        intl,
+                        søkerKunHistoriskPeriode
+                            ? 'selvstendig.harDuHattInntekt.historisk.spm'
+                            : 'selvstendig.harDuHattInntekt.spm'
+                    )}
                     validate={getYesOrNoValidator()}
                     description={
                         <ExpandableInfo title={intlHelper(intl, 'selvstendig.harDuHattInntekt.hjelpetekst.tittel')}>

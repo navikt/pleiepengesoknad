@@ -1,6 +1,5 @@
 import React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import { useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { prettifyDate, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
@@ -91,11 +90,6 @@ const ArbeidIPeriodeSpørsmål = ({
             <AppForm.RadioPanelGroup
                 name={getFieldName(ArbeidIPeriodeField.jobberIPerioden)}
                 legend={getSpørsmål(ArbeidIPeriodeField.jobberIPerioden)}
-                description={
-                    <ExpandableInfo title={intlHelper(intl, 'validation.arbeidIPeriode.jobberIPerioden.info.tittel')}>
-                        <FormattedMessage id="validation.arbeidIPeriode.jobberIPerioden.info.tekst" />
-                    </ExpandableInfo>
-                }
                 useTwoColumns={erHistorisk === true}
                 validate={getArbeidJobberValidator(intlValues)}
                 radios={[

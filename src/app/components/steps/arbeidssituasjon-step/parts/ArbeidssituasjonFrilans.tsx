@@ -24,9 +24,10 @@ import ArbeidsformOgTimer from './ArbeidsformOgTimerFormPart';
 interface Props {
     formValues: PleiepengesøknadFormData;
     søknadsperiode: DateRange;
+    søkerKunHistoriskPeriode: boolean;
 }
 
-const ArbeidssituasjonFrilans = ({ formValues }: Props) => {
+const ArbeidssituasjonFrilans = ({ formValues, søkerKunHistoriskPeriode }: Props) => {
     const {
         frilans_jobberFortsattSomFrilans,
         frilans_harHattInntektSomFrilanser,
@@ -51,7 +52,12 @@ const ArbeidssituasjonFrilans = ({ formValues }: Props) => {
             <Box margin="l">
                 <AppForm.YesOrNoQuestion
                     name={AppFormField.frilans_harHattInntektSomFrilanser}
-                    legend={intlHelper(intl, 'frilanser.harDuHattInntekt.spm')}
+                    legend={intlHelper(
+                        intl,
+                        søkerKunHistoriskPeriode
+                            ? 'frilanser.harDuHattInntekt.historisk.spm'
+                            : 'frilanser.harDuHattInntekt.spm'
+                    )}
                     validate={getYesOrNoValidator()}
                     description={
                         <ExpandableInfo title={intlHelper(intl, 'frilanser.hjelpetekst.spm')}>

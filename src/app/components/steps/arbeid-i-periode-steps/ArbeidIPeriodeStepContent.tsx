@@ -64,13 +64,18 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk }: Props) => {
         <>
             <Box padBottom="m">
                 <CounsellorPanel>
-                    <FormattedMessage
-                        id={erHistorisk ? 'arbeidIPeriode.StepInfo.historisk' : 'arbeidIPeriode.StepInfo.planlagt'}
-                        values={{
-                            fra: prettifyDateFull(periode.from),
-                            til: prettifyDateFull(periode.to),
-                        }}
-                    />
+                    <p>
+                        <FormattedMessage
+                            id={erHistorisk ? 'arbeidIPeriode.StepInfo.historisk' : 'arbeidIPeriode.StepInfo.planlagt'}
+                            values={{
+                                fra: prettifyDateFull(periode.from),
+                                til: prettifyDateFull(periode.to),
+                            }}
+                        />
+                    </p>
+                    <p>
+                        <FormattedMessage id={'arbeidIPeriode.StepInfo.info'} />
+                    </p>
                 </CounsellorPanel>
             </Box>
 

@@ -15,11 +15,16 @@ import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { getArbeidsformValidator, getJobberNormaltTimerValidator } from '../../../../validation/validateArbeidFields';
 
 interface Props {
+    søkerKunHistoriskPeriode: boolean;
     arbeidsforhold: ArbeidsforholdAnsatt;
     index: number;
 }
 
-const ArbeidssituasjonAnsatt: React.FunctionComponent<Props> = ({ arbeidsforhold, index }) => {
+const ArbeidssituasjonAnsatt: React.FunctionComponent<Props> = ({
+    arbeidsforhold,
+    søkerKunHistoriskPeriode,
+    index,
+}) => {
     const intl = useIntl();
     const erAvsluttet = arbeidsforhold.erAnsatt === YesOrNo.NO;
 
@@ -32,6 +37,8 @@ const ArbeidssituasjonAnsatt: React.FunctionComponent<Props> = ({ arbeidsforhold
             ? intlHelper(intl, `arbeidsforhold.part.arbeidsform.${arbeidsforhold.arbeidsform}`)
             : undefined,
     };
+
+    const erHistorisk = erAvsluttet || søkerKunHistoriskPeriode;
     return (
         <>
             <FormBlock key={arbeidsforhold.organisasjonsnummer} margin="xl">
@@ -42,7 +49,11 @@ const ArbeidssituasjonAnsatt: React.FunctionComponent<Props> = ({ arbeidsforhold
                 </Box>
                 <Box>
                     <AppForm.YesOrNoQuestion
-                        legend={intlHelper(intl, 'arbeidsforhold.erAnsatt.spm', { navn: arbeidsforhold.navn })}
+                        legend={intlHelper(
+                            intl,
+                            erHistorisk ? 'arbeidsforhold.erAnsatt.historisk.spm' : 'arbeidsforhold.erAnsatt.spm',
+                            { navn: arbeidsforhold.navn }
+                        )}
                         name={`${AppFormField.ansatt_arbeidsforhold}.${index}.${ArbeidsforholdField.erAnsatt}` as any}
                         validate={(value) => {
                             return getYesOrNoValidator()(value)
