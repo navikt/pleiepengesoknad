@@ -11,16 +11,15 @@ import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-dat
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../../../lenker';
-import { AppFormField, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
-import { erFrilanserISøknadsperiode } from '../../../../utils/frilanserUtils';
-import AppForm from '../../../app-form/AppForm';
-import ArbeidsformOgTimer from './ArbeidsformOgTimerFormPart';
 import { Arbeidsform } from '../../../../types';
+import { AppFormField, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
 import { getArbeidsformValidator, getJobberNormaltTimerValidator } from '../../../../validation/validateArbeidFields';
 import {
     getFrilanserSluttdatoValidator,
     getFrilanserStartdatoValidator,
 } from '../../../../validation/validateFrilanser';
+import AppForm from '../../../app-form/AppForm';
+import ArbeidsformOgTimer from './ArbeidsformOgTimerFormPart';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
@@ -97,7 +96,7 @@ const ArbeidssituasjonFrilans = ({ formValues }: Props) => {
                                 />
                             </FormBlock>
                         )}
-                        {erFrilanserISøknadsperiode(formValues) && (
+                        {frilans_jobberFortsattSomFrilans === YesOrNo.YES && (
                             <FormBlock>
                                 <ArbeidsformOgTimer
                                     spørsmål={{

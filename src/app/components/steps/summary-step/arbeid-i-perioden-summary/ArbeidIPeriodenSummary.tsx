@@ -84,11 +84,10 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
             ...frilans.arbeidsforhold,
             tittel: getFrilansTittel(intl, frilans, søknadsperiode),
             erAktivtIPlanlagtPeriode: periodeFraOgMedSøknadsdato
-                ? erFrilanserITidsrom(
-                      periodeFraOgMedSøknadsdato,
-                      apiStringDateToDate(frilans.startdato),
-                      frilans.sluttdato ? apiStringDateToDate(frilans.sluttdato) : undefined
-                  )
+                ? erFrilanserITidsrom(periodeFraOgMedSøknadsdato, {
+                      frilansStartdato: apiStringDateToDate(frilans.startdato),
+                      frilansSluttdato: frilans.sluttdato ? apiStringDateToDate(frilans.sluttdato) : undefined,
+                  })
                 : false,
             varAktivtIHistoriskPeriode: true,
         });

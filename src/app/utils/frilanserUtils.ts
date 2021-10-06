@@ -7,11 +7,14 @@ import { AppFormField, PleiepengesøknadFormData } from '../types/Pleiepengesøk
 
 dayjs.extend(isSameOrAfter);
 
-export const erFrilanserITidsrom = (tidsrom: DateRange, frilansStartdato: Date, frilansSluttdato?: Date): boolean => {
-    if (dayjs(frilansStartdato).isSameOrAfter(tidsrom.from, 'day')) {
+export const erFrilanserITidsrom = (
+    tidsrom: DateRange,
+    { frilansStartdato, frilansSluttdato }: { frilansStartdato: Date; frilansSluttdato?: Date }
+): boolean => {
+    if (dayjs(frilansStartdato).isAfter(tidsrom.to, 'day')) {
         return false;
     }
-    if (frilansSluttdato && dayjs(frilansSluttdato).isSameOrBefore(tidsrom.to, 'day')) {
+    if (frilansSluttdato && dayjs(frilansSluttdato).isBefore(tidsrom.from, 'day')) {
         return false;
     }
     return true;
@@ -41,12 +44,13 @@ export const erFrilanserISøknadsperiode = ({
     }
 
     const periodeTilDato = datepickerUtils.getDateFromDateString(periodeTil);
-    const frilansStartdato = datepickerUtils.getDateFromDateString(frilans_startdato);
     const periodeFraDato = datepickerUtils.getDateFromDateString(periodeFra);
+
+    const frilansStartdato = datepickerUtils.getDateFromDateString(frilans_startdato);
     const frilansSluttdato = datepickerUtils.getDateFromDateString(frilans_sluttdato);
 
     return periodeFraDato && periodeTilDato && frilansStartdato
-        ? erFrilanserITidsrom({ from: periodeFraDato, to: periodeTilDato }, frilansStartdato, frilansSluttdato)
+        ? erFrilanserITidsrom({ from: periodeFraDato, to: periodeTilDato }, { frilansStartdato, frilansSluttdato })
         : false;
 };
 
@@ -72,10 +76,10 @@ export const getPeriodeSomFrilanserInneforPeriode = (
     }
 ): DateRange | undefined => {
     const { frilans_startdato, frilans_sluttdato, frilans_jobberFortsattSomFrilans } = frilans;
-    const startdato = datepickerUtils.getDateFromDateString(frilans_startdato);
-    const sluttdato = datepickerUtils.getDateFromDateString(frilans_sluttdato);
+    const frilansStartdato = datepickerUtils.getDateFromDateString(frilans_startdato);
+    const frilansSluttdato = datepickerUtils.getDateFromDateString(frilans_sluttdato);
 
-    if (startdato === undefined) {
+    if (frilansStartdato === undefined) {
         console.error('getPeriodeSomFrilanserInneforPeriode - Startdato ikke satt');
         return undefined;
     }
@@ -83,17 +87,19 @@ export const getPeriodeSomFrilanserInneforPeriode = (
         console.error('getPeriodeSomFrilanserInneforPeriode - Jobber fortsatt som frilanser, men sluttdato er satt');
         return undefined;
     }
-    if (frilans_jobberFortsattSomFrilans === YesOrNo.NO && !sluttdato) {
+    if (frilans_jobberFortsattSomFrilans === YesOrNo.NO && !frilansSluttdato) {
         console.error('getPeriodeSomFrilanserInneforPeriode - Er ikke frilanser, men sluttdato er ikke satt');
         return undefined;
     }
 
-    if (erFrilanserITidsrom(periode, startdato, sluttdato) === false) {
+    if (erFrilanserITidsrom(periode, { frilansStartdato, frilansSluttdato }) === false) {
         return undefined;
     }
 
-    const fromDate: Date = dayjs.max([dayjs(periode.from), dayjs(startdato)]).toDate();
-    const toDate: Date = sluttdato ? dayjs.min([dayjs(periode.to), dayjs(sluttdato)]).toDate() : periode.to;
+    const fromDate: Date = dayjs.max([dayjs(periode.from), dayjs(frilansStartdato)]).toDate();
+    const toDate: Date = frilansSluttdato
+        ? dayjs.min([dayjs(periode.to), dayjs(frilansSluttdato)]).toDate()
+        : periode.to;
 
     return {
         from: fromDate,
