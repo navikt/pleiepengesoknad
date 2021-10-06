@@ -6,8 +6,12 @@ import dayjs from 'dayjs';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { erFrilanserISøknadsperiode, getPeriodeSomFrilanserInneforPeriode } from '../frilanserUtils';
 import minMax from 'dayjs/plugin/minMax';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 
 dayjs.extend(minMax);
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
 
 type TestData = Partial<PleiepengesøknadFormData>;
 
