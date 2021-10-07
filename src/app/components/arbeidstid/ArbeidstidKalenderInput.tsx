@@ -80,7 +80,7 @@ const ArbeidstidKalenderInput: React.FunctionComponent<Props> = ({
                         const mndOgÅr = dayjs(periode.from).format('MMMM YYYY');
                         return (
                             <div className="arbeidstidKalender__mnd" key={dayjs(periode.from).format('MM.YYYY')}>
-                                <FormBlock>
+                                <FormBlock margin={index === 0 ? 'none' : undefined}>
                                     <AppForm.InputGroup name={`${enkeltdagerFieldName}_${index}` as any} tag="div">
                                         <ArbeidstidInfoAndDialog
                                             name={enkeltdagerFieldName}

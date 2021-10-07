@@ -43,7 +43,7 @@ const ArbeidssituasjonAnsatt: React.FunctionComponent<Props> = ({
         periodeTil: prettifyDateFull(søknadsperiode.to),
     };
 
-    const erHistorisk = erAvsluttet || søkerKunHistoriskPeriode;
+    const erHistorisk = søkerKunHistoriskPeriode;
     const parentFieldName = `${AppFormField.ansatt_arbeidsforhold}.${index}`;
 
     const getFieldName = (field: ArbeidsforholdField): AppFormField => `${parentFieldName}.${field}` as AppFormField;
