@@ -13,7 +13,7 @@ import {
     opplysningerOmTidsromStepIsValid,
     welcomingPageIsValid,
 } from '../validation/stepValidations';
-import { erAnsattIPeriode } from './ansattUtils';
+import { erAnsattISøknadsperiode } from './ansattUtils';
 import { erFrilanserIPeriode } from './frilanserUtils';
 import { getHistoriskPeriode, getPlanlagtPeriode } from './tidsbrukUtils';
 
@@ -105,7 +105,7 @@ export const skalBrukerSvarePåHistoriskArbeid = (
     }
     const periode = getHistoriskPeriode(søknadsperiode, dateToday);
     return periode
-        ? erAnsattIPeriode(periode, formValues.ansatt_arbeidsforhold) ||
+        ? erAnsattISøknadsperiode(formValues.ansatt_arbeidsforhold) ||
               erFrilanserIPeriode(periode, formValues) ||
               formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES
         : false;
@@ -120,7 +120,7 @@ export const skalBrukerSvarePåPlanlagtArbeid = (
     }
     const periode = getPlanlagtPeriode(søknadsperiode, dateToday);
     return periode
-        ? erAnsattIPeriode(periode, formValues.ansatt_arbeidsforhold) ||
+        ? erAnsattISøknadsperiode(formValues.ansatt_arbeidsforhold) ||
               erFrilanserIPeriode(periode, formValues) ||
               formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES
         : false;

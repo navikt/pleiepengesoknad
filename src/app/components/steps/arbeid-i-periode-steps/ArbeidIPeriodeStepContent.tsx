@@ -12,6 +12,7 @@ import { AppFormField, PleiepengesøknadFormData } from '../../../types/Pleiepen
 import ArbeidIPeriodeSpørsmål from '../../arbeidstid/ArbeidIPeriodeSpørsmål';
 import { ArbeidsforholdType } from '../../../types';
 import { getPeriodeSomFrilanserInneforPeriode } from '../../../utils/frilanserUtils';
+import { erAnsattHosArbeidsgiverISøknadsperiode } from '../../../utils/ansattUtils';
 
 interface Props {
     periode: DateRange;
@@ -79,21 +80,26 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk }: Props) => {
                 </CounsellorPanel>
             </Box>
 
-            <FormBlock>
-                {ansatt_arbeidsforhold.map((arbeidsforhold, index) => {
-                    return (
-                        <FormSection title={arbeidsforhold.navn} key={arbeidsforhold.organisasjonsnummer}>
-                            <ArbeidIPeriodeSpørsmål
-                                arbeidsforholdType={ArbeidsforholdType.ANSATT}
-                                arbeidsforhold={arbeidsforhold}
-                                periode={periode}
-                                parentFieldName={`${AppFormField.ansatt_arbeidsforhold}.${index}`}
-                                erHistorisk={erHistorisk}
-                            />
-                        </FormSection>
-                    );
-                })}
-            </FormBlock>
+            {ansatt_arbeidsforhold.length > 0 && (
+                <FormBlock>
+                    {ansatt_arbeidsforhold.map((arbeidsforhold, index) => {
+                        if (erAnsattHosArbeidsgiverISøknadsperiode(arbeidsforhold) === false) {
+                            return null;
+                        }
+                        return (
+                            <FormSection title={arbeidsforhold.navn} key={arbeidsforhold.organisasjonsnummer}>
+                                <ArbeidIPeriodeSpørsmål
+                                    arbeidsforholdType={ArbeidsforholdType.ANSATT}
+                                    arbeidsforhold={arbeidsforhold}
+                                    periode={periode}
+                                    parentFieldName={`${AppFormField.ansatt_arbeidsforhold}.${index}`}
+                                    erHistorisk={erHistorisk}
+                                />
+                            </FormSection>
+                        );
+                    })}
+                </FormBlock>
+            )}
 
             {erFrilanser && frilans_arbeidsforhold && arbeidsperiodeFrilans && (
                 <FormSection title={intlHelper(intl, 'arbeidIPeriode.FrilansLabel')}>
