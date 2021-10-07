@@ -1,38 +1,20 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { apiStringDateToDate, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import dayjs from 'dayjs';
+
 import { ArbeidsforholdType } from '../../types';
-import { FrilansApiData, PleiepengesøknadApiData, TidEnkeltdagApiData } from '../../types/PleiepengesøknadApiData';
+import { FrilansApiData, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { erFrilanserITidsrom } from '../frilanserUtils';
+import { fjernArbeidstidUtenforPeriode } from '../tidsbrukUtils';
 import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
 
-type FrilansApiDataPart = Pick<PleiepengesøknadApiData, 'frilans' | '_harHattInntektSomFrilanser'>;
-
-const fjernArbeidstidUtenforPeriodeSomFrilanser = (
-    fom: Date | undefined,
-    tom: Date | undefined,
-    arbeidstid?: TidEnkeltdagApiData[]
-): TidEnkeltdagApiData[] | undefined => {
-    if (!arbeidstid || (!fom && !tom)) {
-        return arbeidstid;
-    }
-    return arbeidstid.filter((dag) => {
-        const dato = apiStringDateToDate(dag.dato);
-        if (fom && dayjs(dato).isBefore(fom)) {
-            return false;
-        }
-        if (tom && dayjs(dato).isAfter(tom)) {
-            return false;
-        }
-        return true;
-    });
-};
+export type FrilansApiDataPart = Pick<PleiepengesøknadApiData, 'frilans' | '_harHattInntektSomFrilanser'>;
 
 export const getFrilansApiData = (
     formData: PleiepengesøknadFormData,
-    søknadsperiode: DateRange
+    søknadsperiode: DateRange,
+    søknadsdato: Date
 ): FrilansApiDataPart => {
     const {
         frilans_harHattInntektSomFrilanser,
@@ -42,7 +24,14 @@ export const getFrilansApiData = (
         frilans_sluttdato,
     } = formData;
 
-    const _harHattInntektSomFrilanser = frilans_harHattInntektSomFrilanser === YesOrNo.NO;
+    const _harHattInntektSomFrilanser = frilans_harHattInntektSomFrilanser === YesOrNo.YES;
+
+    if (_harHattInntektSomFrilanser === false) {
+        return {
+            _harHattInntektSomFrilanser: false,
+        };
+    }
+
     const jobberFortsattSomFrilans: boolean = frilans_jobberFortsattSomFrilans === YesOrNo.YES;
     const startdato = datepickerUtils.getDateFromDateString(frilans_startdato);
     const sluttdato = datepickerUtils.getDateFromDateString(frilans_sluttdato);
@@ -59,11 +48,16 @@ export const getFrilansApiData = (
         erFrilanserITidsrom(søknadsperiode, { frilansStartdato: startdato, frilansSluttdato: sluttdato })
     ) {
         const arbeidsforhold = frilans_arbeidsforhold
-            ? mapArbeidsforholdToApiData(frilans_arbeidsforhold, søknadsperiode, ArbeidsforholdType.FRILANSER)
+            ? mapArbeidsforholdToApiData(
+                  frilans_arbeidsforhold,
+                  søknadsperiode,
+                  ArbeidsforholdType.FRILANSER,
+                  søknadsdato
+              )
             : undefined;
 
         if (arbeidsforhold?.historiskArbeid?.enkeltdager) {
-            arbeidsforhold.historiskArbeid.enkeltdager = fjernArbeidstidUtenforPeriodeSomFrilanser(
+            arbeidsforhold.historiskArbeid.enkeltdager = fjernArbeidstidUtenforPeriode(
                 apiStringDateToDate(frilans_startdato),
                 frilans_sluttdato ? apiStringDateToDate(frilans_sluttdato) : undefined,
                 arbeidsforhold.historiskArbeid.enkeltdager
@@ -71,7 +65,7 @@ export const getFrilansApiData = (
         }
 
         if (arbeidsforhold?.planlagtArbeid?.enkeltdager) {
-            arbeidsforhold.planlagtArbeid.enkeltdager = fjernArbeidstidUtenforPeriodeSomFrilanser(
+            arbeidsforhold.planlagtArbeid.enkeltdager = fjernArbeidstidUtenforPeriode(
                 apiStringDateToDate(frilans_startdato),
                 frilans_sluttdato ? apiStringDateToDate(frilans_sluttdato) : undefined,
                 arbeidsforhold.planlagtArbeid.enkeltdager

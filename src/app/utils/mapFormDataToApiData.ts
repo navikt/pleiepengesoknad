@@ -1,6 +1,6 @@
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { DateRange, formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange, dateToday, formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
@@ -72,9 +72,9 @@ export const mapFormDataToApiData = (
                     to: periodeTil,
                 }),
                 ...getNattevåkOgBeredskapApiData(formData),
-                ...getArbeidsgivereISøknadsperiodenApiData(formData, søknadsperiode),
-                ...getFrilansApiData(formData, søknadsperiode),
-                ...getSelvstendigNæringsdrivendeApiData(formData, søknadsperiode, locale),
+                ...getArbeidsgivereISøknadsperiodenApiData(formData, søknadsperiode, dateToday),
+                ...getFrilansApiData(formData, søknadsperiode, dateToday),
+                ...getSelvstendigNæringsdrivendeApiData(formData, søknadsperiode, dateToday, locale),
             };
 
             if (isFeatureEnabled(Feature.ANDRE_YTELSER)) {

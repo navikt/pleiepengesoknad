@@ -37,5 +37,6 @@ const formData: Partial<PleiepengesøknadFormData> = {
 describe('mapArbeidsforholdToApiData', () => {
     it('exists', () => {
         expect(formData).toBeDefined();
+        // TODO
     });
 });

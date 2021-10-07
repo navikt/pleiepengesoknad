@@ -20,6 +20,7 @@ export const getSelvstendigNæringsdrivendeApiData = (
         selvstendig_virksomhet,
     }: PleiepengesøknadFormData,
     søknadsperiode: DateRange,
+    søknadsdato: Date,
     locale: Locale
 ): SelvstendigArbeidsforholdApiDataPart => {
     const _harHattInntektSomSelvstendigNæringsdrivende = selvstendig_harHattInntektSomSN === YesOrNo.YES;
@@ -44,7 +45,8 @@ export const getSelvstendigNæringsdrivendeApiData = (
             arbeidsforhold: mapArbeidsforholdToApiData(
                 selvstendig_arbeidsforhold,
                 søknadsperiode,
-                ArbeidsforholdType.SELVSTENDIG
+                ArbeidsforholdType.SELVSTENDIG,
+                søknadsdato
             ),
             virksomhet: mapVirksomhetToVirksomhetApiData(
                 locale,

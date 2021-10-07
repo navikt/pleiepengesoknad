@@ -1,4 +1,9 @@
-import { DateRange, dateToday, datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import {
+    apiStringDateToDate,
+    DateRange,
+    dateToday,
+    datoErInnenforTidsrom,
+} from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { timeToDecimalTime, timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { dateToISOString, ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import { isValidTime } from '@navikt/sif-common-formik/lib/components/formik-time-input/TimeInput';
@@ -144,4 +149,24 @@ export const visSpørsmålOmTidErLikHverUke = (periode: DateRange): boolean => {
         return false;
     }
     return true;
+};
+
+export const fjernArbeidstidUtenforPeriode = (
+    fom: Date | undefined,
+    tom: Date | undefined,
+    arbeidstid?: TidEnkeltdagApiData[]
+): TidEnkeltdagApiData[] | undefined => {
+    if (!arbeidstid || (!fom && !tom)) {
+        return arbeidstid;
+    }
+    return arbeidstid.filter((dag) => {
+        const dato = apiStringDateToDate(dag.dato);
+        if (fom && dayjs(dato).isBefore(fom)) {
+            return false;
+        }
+        if (tom && dayjs(dato).isAfter(tom)) {
+            return false;
+        }
+        return true;
+    });
 };
