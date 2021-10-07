@@ -29,7 +29,7 @@ const ArbeidssituasjonSummary: React.FunctionComponent<Props> = ({
 
             {/* Vernepliktig */}
             {harVærtEllerErVernepliktig !== undefined && (
-                <SummaryBlock header={intlHelper(intl, 'verneplikt.summary.header')} indentChildren={true}>
+                <SummaryBlock header={intlHelper(intl, 'verneplikt.summary.header')} headerTag="h3">
                     <ul>
                         <li>
                             {intlHelper(

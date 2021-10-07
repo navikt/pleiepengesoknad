@@ -5,7 +5,6 @@ import dayjs from 'dayjs';
 import { ArbeidsforholdType } from '../../types';
 import { FrilansApiData, PleiepengesøknadApiData, TidEnkeltdagApiData } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
-import { isYesOrNoAnswered } from '../../validation/fieldValidations';
 import { erFrilanserITidsrom } from '../frilanserUtils';
 import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
 
@@ -43,65 +42,53 @@ export const getFrilansApiData = (
         frilans_sluttdato,
     } = formData;
 
-    const _harHattInntektSomFrilanser = frilans_harHattInntektSomFrilanser === YesOrNo.YES;
+    const _harHattInntektSomFrilanser = frilans_harHattInntektSomFrilanser === YesOrNo.NO;
+    if (_harHattInntektSomFrilanser === false || frilans_startdato === undefined) {
+        return {
+            _harHattInntektSomFrilanser,
+        };
+    }
 
     const jobberFortsattSomFrilans: boolean = frilans_jobberFortsattSomFrilans === YesOrNo.YES;
     const startdato = datepickerUtils.getDateFromDateString(frilans_startdato);
     const sluttdato = datepickerUtils.getDateFromDateString(frilans_sluttdato);
 
     if (
-        !startdato ||
-        erFrilanserITidsrom(søknadsperiode, { frilansStartdato: startdato, frilansSluttdato: sluttdato }) === false
+        startdato &&
+        erFrilanserITidsrom(søknadsperiode, { frilansStartdato: startdato, frilansSluttdato: sluttdato })
     ) {
+        const arbeidsforhold = frilans_arbeidsforhold
+            ? mapArbeidsforholdToApiData(frilans_arbeidsforhold, søknadsperiode, ArbeidsforholdType.FRILANSER)
+            : undefined;
+
+        if (arbeidsforhold?.historiskArbeid?.enkeltdager) {
+            arbeidsforhold.historiskArbeid.enkeltdager = fjernArbeidstidUtenforPeriodeSomFrilanser(
+                apiStringDateToDate(frilans_startdato),
+                frilans_sluttdato ? apiStringDateToDate(frilans_sluttdato) : undefined,
+                arbeidsforhold.historiskArbeid.enkeltdager
+            );
+        }
+
+        if (arbeidsforhold?.planlagtArbeid?.enkeltdager) {
+            arbeidsforhold.planlagtArbeid.enkeltdager = fjernArbeidstidUtenforPeriodeSomFrilanser(
+                apiStringDateToDate(frilans_startdato),
+                frilans_sluttdato ? apiStringDateToDate(frilans_sluttdato) : undefined,
+                arbeidsforhold.planlagtArbeid.enkeltdager
+            );
+        }
+        const frilans: FrilansApiData = {
+            startdato: frilans_startdato,
+            jobberFortsattSomFrilans,
+            sluttdato: frilans_sluttdato,
+            arbeidsforhold,
+        };
+        return {
+            _harHattInntektSomFrilanser,
+            frilans,
+        };
+    } else {
         return {
             _harHattInntektSomFrilanser,
         };
     }
-
-    if (
-        frilans_startdato === undefined ||
-        frilans_jobberFortsattSomFrilans === undefined ||
-        isYesOrNoAnswered(frilans_jobberFortsattSomFrilans) === false ||
-        frilans_arbeidsforhold === undefined
-    ) {
-        throw new Error('mapFrilansToApiData - mangler arbeidsinformasjon om frilans');
-    }
-
-    if (jobberFortsattSomFrilans === false && frilans_sluttdato === undefined) {
-        throw new Error('mapFrilansToApiData - jobber ikke lenger som frilanser, men sluttdato mangler');
-    }
-
-    const arbeidsforhold = mapArbeidsforholdToApiData(
-        frilans_arbeidsforhold,
-        søknadsperiode,
-        ArbeidsforholdType.FRILANSER
-    );
-
-    if (arbeidsforhold.historiskArbeid?.enkeltdager) {
-        arbeidsforhold.historiskArbeid.enkeltdager = fjernArbeidstidUtenforPeriodeSomFrilanser(
-            apiStringDateToDate(frilans_startdato),
-            frilans_sluttdato ? apiStringDateToDate(frilans_sluttdato) : undefined,
-            arbeidsforhold.historiskArbeid.enkeltdager
-        );
-    }
-
-    if (arbeidsforhold.planlagtArbeid?.enkeltdager) {
-        arbeidsforhold.planlagtArbeid.enkeltdager = fjernArbeidstidUtenforPeriodeSomFrilanser(
-            apiStringDateToDate(frilans_startdato),
-            frilans_sluttdato ? apiStringDateToDate(frilans_sluttdato) : undefined,
-            arbeidsforhold.planlagtArbeid.enkeltdager
-        );
-    }
-
-    const frilans: FrilansApiData = {
-        startdato: frilans_startdato,
-        jobberFortsattSomFrilans,
-        arbeidsforhold,
-        sluttdato: frilans_sluttdato,
-    };
-
-    return {
-        _harHattInntektSomFrilanser: _harHattInntektSomFrilanser,
-        frilans,
-    };
 };

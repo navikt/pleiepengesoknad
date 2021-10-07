@@ -24,7 +24,6 @@ const FrilansSummary = ({ frilans }: Props) => {
         );
     }
 
-    const arbeidsformOgTid = getArbeidsformOgTidSetning(intl, frilans.arbeidsforhold, frilans.jobberFortsattSomFrilans);
     return (
         <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')} headerTag="h3">
             {frilans === undefined && (
@@ -56,7 +55,11 @@ const FrilansSummary = ({ frilans }: Props) => {
                             />
                         </li>
                     )}
-                    {arbeidsformOgTid && <li>{arbeidsformOgTid}</li>}
+                    {frilans.arbeidsforhold && (
+                        <li>
+                            {getArbeidsformOgTidSetning(intl, frilans.arbeidsforhold, frilans.jobberFortsattSomFrilans)}
+                        </li>
+                    )}
                 </ul>
             )}
         </SummaryBlock>

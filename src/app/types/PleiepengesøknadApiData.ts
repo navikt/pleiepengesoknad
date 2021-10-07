@@ -71,7 +71,7 @@ export interface FrilansApiData {
     startdato: ApiStringDate;
     jobberFortsattSomFrilans: boolean;
     sluttdato?: ApiStringDate;
-    arbeidsforhold: ArbeidsforholdApiData;
+    arbeidsforhold?: ArbeidsforholdApiData;
 }
 
 export interface SelvstendigNæringsdrivendeApiData {

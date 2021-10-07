@@ -118,7 +118,11 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
         );
 
     if (alleArbeidsforhold.length === 0) {
-        return <SummarySection header={'Arbeid i perioden'}>Ingen arbeidsforhold registrert</SummarySection>;
+        return (
+            <SummarySection header={intlHelper(intl, 'oppsummering.arbeidIPeriode.arbeidIkkeRegistrert.header')}>
+                {intlHelper(intl, 'oppsummering.arbeidIPeriode.arbeidIkkeRegistrert.info')}
+            </SummarySection>
+        );
     }
 
     return (

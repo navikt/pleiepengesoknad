@@ -582,6 +582,10 @@
     "oppsummering.arbeidIPeriode.jobberIPerioden.nei": "Skal ikke jobbe i perioden.",
     "oppsummering.arbeidIPeriode.jobberIPerioden.nei.historisk": "Jobbet ikke i perioden.",
     "oppsummering.arbeidIPeriode.jobberIPerioden.vetIkke": "Usikker, men jeg melder fra hvis jeg skal jobbe",
+
+    "oppsummering.arbeidIPeriode.arbeidIkkeRegistrert.header": "Jobb i perioden",
+    "oppsummering.arbeidIPeriode.arbeidIkkeRegistrert.info": "Ingen arbeidstid registrert i perioden.",
+
     "timer.arbeidsform.FAST": "{timer, plural, one {# time} other {# timer}} fast per uke",
     "timer.arbeidsform.TURNUS": "{timer, plural, one {# time} other {# timer}} i snitt per uke",
     "timer.arbeidsform.VARIERENDE": "{timer, plural, one {# time} other {# timer}} i snitt per uke",
