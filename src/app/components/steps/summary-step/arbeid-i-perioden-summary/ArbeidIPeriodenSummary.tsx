@@ -83,16 +83,20 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
     }
 
     if (frilans?.arbeidsforhold) {
+        const frilansStartSlutt = {
+            frilansStartdato: apiStringDateToDate(frilans.startdato),
+            frilansSluttdato: frilans.sluttdato ? apiStringDateToDate(frilans.sluttdato) : undefined,
+        };
+
         alleArbeidsforhold.push({
             ...frilans.arbeidsforhold,
             tittel: getFrilansTittel(intl, frilans, søknadsperiode),
-            erAktivtIPlanlagtPeriode: periodeFraOgMedSøknadsdato
-                ? erFrilanserITidsrom(periodeFraOgMedSøknadsdato, {
-                      frilansStartdato: apiStringDateToDate(frilans.startdato),
-                      frilansSluttdato: frilans.sluttdato ? apiStringDateToDate(frilans.sluttdato) : undefined,
-                  })
+            varAktivtIHistoriskPeriode: periodeFørSøknadsdato
+                ? erFrilanserITidsrom(periodeFørSøknadsdato, frilansStartSlutt)
                 : false,
-            varAktivtIHistoriskPeriode: true,
+            erAktivtIPlanlagtPeriode: periodeFraOgMedSøknadsdato
+                ? erFrilanserITidsrom(periodeFraOgMedSøknadsdato, frilansStartSlutt)
+                : false,
         });
     }
 
@@ -125,44 +129,43 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
         );
     }
 
+    const arbeidsforholdIHistoriskPeriode = alleArbeidsforhold.filter((a) => a.varAktivtIHistoriskPeriode);
+    const arbeidsforholdIPlanlagtPeriode = alleArbeidsforhold.filter((a) => a.erAktivtIPlanlagtPeriode);
+
     return (
         <>
-            {periodeFørSøknadsdato && (
+            {periodeFørSøknadsdato && arbeidsforholdIHistoriskPeriode.length > 0 && (
                 <SummarySection header={getSectionHeaderText(periodeFørSøknadsdato, true)}>
-                    {alleArbeidsforhold
-                        .filter((a) => a.varAktivtIHistoriskPeriode)
-                        .map((forhold) =>
-                            forhold.historiskArbeid ? (
-                                <SummaryBlock header={forhold.tittel} key={forhold.tittel}>
-                                    <ArbeidIPeriodeSummaryItem
-                                        periode={periodeFørSøknadsdato}
-                                        arbeidIPeriode={forhold.historiskArbeid}
-                                        arbeidsform={forhold.arbeidsform}
-                                        normaltimer={forhold.jobberNormaltTimer}
-                                        erHistorisk={true}
-                                    />
-                                </SummaryBlock>
-                            ) : undefined
-                        )}
+                    {arbeidsforholdIHistoriskPeriode.map((forhold) =>
+                        forhold.historiskArbeid ? (
+                            <SummaryBlock header={forhold.tittel} key={forhold.tittel}>
+                                <ArbeidIPeriodeSummaryItem
+                                    periode={periodeFørSøknadsdato}
+                                    arbeidIPeriode={forhold.historiskArbeid}
+                                    arbeidsform={forhold.arbeidsform}
+                                    normaltimer={forhold.jobberNormaltTimer}
+                                    erHistorisk={true}
+                                />
+                            </SummaryBlock>
+                        ) : undefined
+                    )}
                 </SummarySection>
             )}
-            {periodeFraOgMedSøknadsdato && (
+            {periodeFraOgMedSøknadsdato && arbeidsforholdIPlanlagtPeriode.length > 0 && (
                 <SummarySection header={getSectionHeaderText(periodeFraOgMedSøknadsdato, false)}>
-                    {alleArbeidsforhold
-                        .filter((a) => a.erAktivtIPlanlagtPeriode)
-                        .map((forhold) =>
-                            forhold.planlagtArbeid ? (
-                                <SummaryBlock header={forhold.tittel} key={forhold.tittel}>
-                                    <ArbeidIPeriodeSummaryItem
-                                        periode={periodeFraOgMedSøknadsdato}
-                                        arbeidIPeriode={forhold.planlagtArbeid}
-                                        arbeidsform={forhold.arbeidsform}
-                                        normaltimer={forhold.jobberNormaltTimer}
-                                        erHistorisk={false}
-                                    />
-                                </SummaryBlock>
-                            ) : undefined
-                        )}
+                    {arbeidsforholdIPlanlagtPeriode.map((forhold) =>
+                        forhold.planlagtArbeid ? (
+                            <SummaryBlock header={forhold.tittel} key={forhold.tittel}>
+                                <ArbeidIPeriodeSummaryItem
+                                    periode={periodeFraOgMedSøknadsdato}
+                                    arbeidIPeriode={forhold.planlagtArbeid}
+                                    arbeidsform={forhold.arbeidsform}
+                                    normaltimer={forhold.jobberNormaltTimer}
+                                    erHistorisk={false}
+                                />
+                            </SummaryBlock>
+                        ) : undefined
+                    )}
                 </SummarySection>
             )}
         </>
