@@ -5,14 +5,14 @@ import { ArbeidsforholdApiData } from '../../../../types/PleiepengesøknadApiDat
 export const getArbeidsformOgTidSetning = (
     intl: IntlShape,
     arbeidsforhold: ArbeidsforholdApiData,
-    erAktivt?: boolean
+    erAnsatt?: boolean
 ): string | undefined => {
     if (!arbeidsforhold.arbeidsform || !arbeidsforhold.jobberNormaltTimer) {
         return undefined;
     }
     return intlHelper(
         intl,
-        erAktivt
+        erAnsatt
             ? `oppsummering.arbeidssituasjon.tid.${arbeidsforhold.arbeidsform}`
             : `oppsummering.arbeidssituasjon.avsluttet.tid.${arbeidsforhold.arbeidsform}`,
         { timer: arbeidsforhold.jobberNormaltTimer }

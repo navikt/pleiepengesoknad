@@ -33,19 +33,36 @@ export interface ArbeidIPeriodeApiData {
 
 export interface ArbeidsforholdApiData {
     _type: ArbeidsforholdType;
-    arbeidsform?: Arbeidsform;
-    jobberNormaltTimer?: number;
+    arbeidsform: Arbeidsform;
+    jobberNormaltTimer: number;
     historiskArbeid?: ArbeidIPeriodeApiData;
     planlagtArbeid?: ArbeidIPeriodeApiData;
 }
 
-export interface ArbeidsgiverApiData {
+export type ArbeidsgiverApiData = ArbeidsgiverISøknadsperiodeApiData | ArbeidsgiverUtenforSøknadsperiodeApiData;
+
+export interface ArbeidsgiverUtenforSøknadsperiodeApiData {
     navn: string;
     organisasjonsnummer?: string;
-    erAnsatt?: boolean;
-    sluttetNår?: ArbeidsforholdSluttetNårSvar;
+    erAnsatt: false;
+    sluttetNår: ArbeidsforholdSluttetNårSvar.førSøknadsperiode;
+}
+export interface ArbeidsgiverISøknadsperiodeApiData {
+    navn: string;
+    organisasjonsnummer?: string;
+    erAnsatt: boolean;
+    sluttetNår?: ArbeidsforholdSluttetNårSvar.iSøknadsperiode;
     arbeidsforhold: ArbeidsforholdApiData;
 }
+
+export const isArbeidsgiverISøknadsperiodeApiData = (
+    arbeidsgiver: any
+): arbeidsgiver is ArbeidsgiverISøknadsperiodeApiData => {
+    return (
+        arbeidsgiver.erAnsatt === true ||
+        (arbeidsgiver.erAnsatt === false && arbeidsgiver.sluttetNår === ArbeidsforholdSluttetNårSvar.iSøknadsperiode)
+    );
+};
 
 export const isArbeidsforholdAnsattApiData = (forhold: any): forhold is ArbeidsgiverApiData => {
     return forhold?._type === ArbeidsforholdType.ANSATT;

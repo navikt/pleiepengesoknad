@@ -11,6 +11,7 @@ import dayjs from 'dayjs';
 import {
     ArbeidsforholdApiData,
     FrilansApiData,
+    isArbeidsgiverISøknadsperiodeApiData,
     PleiepengesøknadApiData,
 } from '../../../../types/PleiepengesøknadApiData';
 import { erFrilanserITidsrom } from '../../../../utils/frilanserUtils';
@@ -67,15 +68,17 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
 
     if (arbeidsgivere) {
         arbeidsgivere.forEach((a) => {
-            alleArbeidsforhold.push({
-                ...a.arbeidsforhold,
-                tittel: intlHelper(intl, 'arbeidsgiver.tittel', {
-                    navn: a.navn,
-                    organisasjonsnummer: a.organisasjonsnummer,
-                }),
-                erAktivtIPlanlagtPeriode: true,
-                varAktivtIHistoriskPeriode: true,
-            });
+            if (isArbeidsgiverISøknadsperiodeApiData(a)) {
+                alleArbeidsforhold.push({
+                    ...a.arbeidsforhold,
+                    tittel: intlHelper(intl, 'arbeidsgiver.tittel', {
+                        navn: a.navn,
+                        organisasjonsnummer: a.organisasjonsnummer,
+                    }),
+                    erAktivtIPlanlagtPeriode: true,
+                    varAktivtIHistoriskPeriode: true,
+                });
+            }
         });
     }
 

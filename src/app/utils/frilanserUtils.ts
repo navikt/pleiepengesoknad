@@ -20,38 +20,28 @@ export const erFrilanserITidsrom = (
     return true;
 };
 
-export const erFrilanserISøknadsperiode = ({
-    frilans_harHattInntektSomFrilanser,
-    frilans_jobberFortsattSomFrilans,
-    frilans_sluttdato,
-    frilans_startdato,
-    periodeFra,
-    periodeTil,
-}: Pick<
-    PleiepengesøknadFormData,
-    | AppFormField.frilans_harHattInntektSomFrilanser
-    | AppFormField.frilans_jobberFortsattSomFrilans
-    | AppFormField.frilans_sluttdato
-    | AppFormField.frilans_startdato
-    | AppFormField.periodeFra
-    | AppFormField.periodeTil
->): boolean => {
-    if (frilans_harHattInntektSomFrilanser !== YesOrNo.YES) {
-        return false;
-    }
-    if (frilans_jobberFortsattSomFrilans === YesOrNo.YES) {
-        return true;
-    }
-
-    const periodeTilDato = datepickerUtils.getDateFromDateString(periodeTil);
-    const periodeFraDato = datepickerUtils.getDateFromDateString(periodeFra);
-
+export const erFrilanserIPeriode = (
+    periode: DateRange,
+    {
+        frilans_harHattInntektSomFrilanser,
+        // frilans_jobberFortsattSomFrilans,
+        frilans_sluttdato,
+        frilans_startdato,
+    }: Pick<
+        PleiepengesøknadFormData,
+        | AppFormField.frilans_harHattInntektSomFrilanser
+        | AppFormField.frilans_jobberFortsattSomFrilans
+        | AppFormField.frilans_sluttdato
+        | AppFormField.frilans_startdato
+    >
+): boolean => {
     const frilansStartdato = datepickerUtils.getDateFromDateString(frilans_startdato);
     const frilansSluttdato = datepickerUtils.getDateFromDateString(frilans_sluttdato);
 
-    return periodeFraDato && periodeTilDato && frilansStartdato
-        ? erFrilanserITidsrom({ from: periodeFraDato, to: periodeTilDato }, { frilansStartdato, frilansSluttdato })
-        : false;
+    if (frilans_harHattInntektSomFrilanser !== YesOrNo.YES || frilansStartdato === undefined) {
+        return false;
+    }
+    return erFrilanserITidsrom(periode, { frilansStartdato, frilansSluttdato });
 };
 
 /**

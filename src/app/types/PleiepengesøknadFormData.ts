@@ -86,8 +86,8 @@ export interface TidFasteDager {
 
 export enum ArbeidsforholdField {
     erAnsatt = 'erAnsatt',
-    arbeidsform = 'arbeidsform',
     sluttetNår = 'sluttetNår',
+    arbeidsform = 'arbeidsform',
     jobberNormaltTimer = 'jobberNormaltTimer',
     historisk = 'historisk',
     planlagt = 'planlagt',
@@ -115,13 +115,13 @@ export interface ArbeidIPeriode {
 
 export interface Arbeidsforhold {
     [ArbeidsforholdField.arbeidsform]?: Arbeidsform;
-    [ArbeidsforholdField.sluttetNår]?: ArbeidsforholdSluttetNårSvar;
     [ArbeidsforholdField.jobberNormaltTimer]?: string;
     [ArbeidsforholdField.historisk]?: ArbeidIPeriode;
     [ArbeidsforholdField.planlagt]?: ArbeidIPeriode;
 }
 export interface ArbeidsforholdAnsatt extends Arbeidsgiver, Arbeidsforhold {
     [ArbeidsforholdField.erAnsatt]?: YesOrNo;
+    [ArbeidsforholdField.sluttetNår]?: ArbeidsforholdSluttetNårSvar;
 }
 
 export const isArbeidsforholdAnsatt = (arbeidsforhold: any): arbeidsforhold is ArbeidsforholdAnsatt => {

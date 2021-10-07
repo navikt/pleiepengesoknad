@@ -558,6 +558,9 @@
     "oppsummering.arbeidssituasjon.avsluttet.sluttetNår.førPerioden": "Sluttet før {periodeFra}",
     "oppsummering.arbeidssituasjon.avsluttet.sluttetNår.iPerioden": "Sluttet mellom {periodeFra} og {periodeTil}",
 
+    "oppsummering.arbeidssituasjon.arbeidsgivere.ingenIPeriode.header": "Arbeidsgivere",
+    "oppsummering.arbeidssituasjon.arbeidsgivere.ingenIPeriode.tekst": "Er ikke ansatt i perioden det søkes for.",
+
     "oppsummering.arbeidssituasjon.frilanser.header": "Frilanser",
     "oppsummering.arbeidssituasjon.frilans.erIkkeFrilanser": "Er ikke frilanser i perioden det søkes for.",
     "oppsummering.arbeidssituasjon.frilans.startet": "Startet som frilanser {dato}. ",
@@ -666,7 +669,8 @@
     "frilanser.summary.nårSluttet.header": "Når sluttet du som frilanser?",
 
     "verneplikt.summary.header": "Verneplikt",
-    "verneplikt.summary.harVærtEllerErVernepliktig.header": "Utøvde du verneplikt på tidspunktet du søker pleiepenger fra?",
+    "verneplikt.summary.harVærtVernepliktig": "Utøvde verneplikt på tidspunktet det søkes pleiepenger fra",
+    "verneplikt.summary.harIkkeVærtVernepliktig": "Utøvde ikke verneplikt på tidspunktet det søkes pleiepenger fra",
 
     "andreYtelser.summary.header": "Andre utbetalinger",
     "andreYtelser.summary.mottarAndreYtelser.header": "Mottar du andre utbetalinger fra NAV i perioden med pleiepenger?",

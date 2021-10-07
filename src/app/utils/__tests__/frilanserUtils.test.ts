@@ -6,7 +6,7 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import minMax from 'dayjs/plugin/minMax';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
-import { erFrilanserISøknadsperiode, erFrilanserITidsrom } from '../frilanserUtils';
+import { erFrilanserIPeriode, erFrilanserITidsrom } from '../frilanserUtils';
 
 dayjs.extend(minMax);
 dayjs.extend(isSameOrAfter);
@@ -50,27 +50,23 @@ describe('erFrilanserITidsrom', () => {
 describe('Frilanser sluttdato er innenfor søknadsperiode', () => {
     const values: TestData = {
         ...formValues,
-        periodeFra: '2021-01-31',
-        periodeTil: '2021-05-31',
         frilans_startdato: '2020-01-01',
     };
+    const periode: DateRange = {
+        from: apiStringDateToDate('2021-01-31'),
+        to: apiStringDateToDate('2021-05-31'),
+    };
     it('should return false if frilans end date is before application period ', () => {
-        expect(erFrilanserISøknadsperiode({ ...values, frilans_sluttdato: '2021-01-19' })).toBeFalsy();
-        expect(erFrilanserISøknadsperiode({ ...values, frilans_sluttdato: '2021-01-30' })).toBeFalsy();
-        expect(erFrilanserISøknadsperiode({ ...values, frilans_sluttdato: '2020-01-19' })).toBeFalsy();
-        expect(erFrilanserISøknadsperiode({ ...values, frilans_sluttdato: '2020-01-31' })).toBeFalsy();
+        expect(erFrilanserIPeriode(periode, { ...values, frilans_sluttdato: '2021-01-19' })).toBeFalsy();
+        expect(erFrilanserIPeriode(periode, { ...values, frilans_sluttdato: '2021-01-30' })).toBeFalsy();
+        expect(erFrilanserIPeriode(periode, { ...values, frilans_sluttdato: '2020-01-19' })).toBeFalsy();
+        expect(erFrilanserIPeriode(periode, { ...values, frilans_sluttdato: '2020-01-31' })).toBeFalsy();
     });
 
     it('should return true if frilans end date is in or after application period ', () => {
-        expect(erFrilanserISøknadsperiode({ ...values, frilans_sluttdato: '2021-01-31' })).toBeTruthy();
-        expect(erFrilanserISøknadsperiode({ ...values, frilans_sluttdato: '2021-02-01' })).toBeTruthy();
-        expect(erFrilanserISøknadsperiode({ ...values, frilans_sluttdato: '2021-02-19' })).toBeTruthy();
-        expect(erFrilanserISøknadsperiode({ ...values, frilans_sluttdato: '2022-01-31' })).toBeTruthy();
-    });
-
-    it('should return false if periodeFra is undefined', () => {
-        expect(
-            erFrilanserISøknadsperiode({ ...values, periodeFra: undefined, frilans_sluttdato: '2021-01-31' })
-        ).toBeFalsy();
+        expect(erFrilanserIPeriode(periode, { ...values, frilans_sluttdato: '2021-01-31' })).toBeTruthy();
+        expect(erFrilanserIPeriode(periode, { ...values, frilans_sluttdato: '2021-02-01' })).toBeTruthy();
+        expect(erFrilanserIPeriode(periode, { ...values, frilans_sluttdato: '2021-02-19' })).toBeTruthy();
+        expect(erFrilanserIPeriode(periode, { ...values, frilans_sluttdato: '2022-01-31' })).toBeTruthy();
     });
 });

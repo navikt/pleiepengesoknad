@@ -1,9 +1,11 @@
-import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
 import { getSøknadRoute } from '../utils/routeUtils';
-import { skalBrukerSvarePåarbeidIPeriode, skalBrukerSvarePåBeredskapOgNattevåk } from '../utils/stepUtils';
-import { getHistoriskPeriode, getPlanlagtPeriode } from '../utils/tidsbrukUtils';
+import {
+    skalBrukerSvarePåBeredskapOgNattevåk,
+    skalBrukerSvarePåHistoriskArbeid,
+    skalBrukerSvarePåPlanlagtArbeid,
+} from '../utils/stepUtils';
 
 export enum StepID {
     'OPPLYSNINGER_OM_BARNET' = 'opplysninger-om-barnet',
@@ -54,20 +56,21 @@ interface ConfigStepHelperType {
 
 export const getStepConfig = (formValues?: PleiepengesøknadFormData): StepConfigInterface => {
     const søknadsperiode = formValues ? getSøknadsperiodeFromFormData(formValues) : undefined;
-    const periodeFørSøknadsdato = søknadsperiode ? getHistoriskPeriode(søknadsperiode, dateToday) : undefined;
-    const periodeFraOgMedSøknadsdato = søknadsperiode ? getPlanlagtPeriode(søknadsperiode, dateToday) : undefined;
-
     const includeNattevåkAndBeredskap = skalBrukerSvarePåBeredskapOgNattevåk(formValues);
-    const includeArbeidIPerioden = skalBrukerSvarePåarbeidIPeriode(formValues);
+
+    const includeHistoriskArbeid = søknadsperiode
+        ? skalBrukerSvarePåHistoriskArbeid(søknadsperiode, formValues)
+        : false;
+    const includePlanlagtArbeid = søknadsperiode ? skalBrukerSvarePåPlanlagtArbeid(søknadsperiode, formValues) : false;
 
     const allSteps: ConfigStepHelperType[] = [
         { stepID: StepID.OPPLYSNINGER_OM_BARNET, included: true },
         { stepID: StepID.TIDSROM, included: true },
         { stepID: StepID.ARBEIDSSITUASJON, included: true },
-        { stepID: StepID.ARBEID_HISTORISK, included: includeArbeidIPerioden && periodeFørSøknadsdato !== undefined },
+        { stepID: StepID.ARBEID_HISTORISK, included: includeHistoriskArbeid },
         {
             stepID: StepID.ARBEID_PLANLAGT,
-            included: includeArbeidIPerioden && periodeFraOgMedSøknadsdato !== undefined,
+            included: includePlanlagtArbeid,
         },
         { stepID: StepID.OMSORGSTILBUD, included: true },
         { stepID: StepID.NATTEVÅK_OG_BEREDSKAP, included: includeNattevåkAndBeredskap },

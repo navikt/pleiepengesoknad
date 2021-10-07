@@ -1,7 +1,9 @@
 import { IntlShape } from 'react-intl';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from '../config/stepConfig';
+import { VetOmsorgstilbud } from '../types';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import {
     arbeidssituasjonStepIsValid,
@@ -11,9 +13,9 @@ import {
     opplysningerOmTidsromStepIsValid,
     welcomingPageIsValid,
 } from '../validation/stepValidations';
-import { getSøknadsperiodeFromFormData } from './formDataUtils';
-import { erFrilanserISøknadsperiode } from './frilanserUtils';
-import { VetOmsorgstilbud } from '../types';
+import { erAnsattIPeriode } from './ansattUtils';
+import { erFrilanserIPeriode } from './frilanserUtils';
+import { getHistoriskPeriode, getPlanlagtPeriode } from './tidsbrukUtils';
 
 export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
     const conf = stepConfig[stepId];
@@ -36,7 +38,7 @@ export const arbeidssituasjonStepAvailable = (formData: PleiepengesøknadFormDat
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData);
 
-export const ArbeidsforholdIPeriodeStepAvailable = (formData: PleiepengesøknadFormData) =>
+export const arbeidsforholdIPeriodeStepAvailable = (formData: PleiepengesøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
@@ -94,17 +96,32 @@ export const skalBrukerSvarePåBeredskapOgNattevåk = (formValues?: Pleiepenges�
     );
 };
 
-export const skalBrukerSvarePåarbeidIPeriode = (formValues?: PleiepengesøknadFormData): boolean => {
+export const skalBrukerSvarePåHistoriskArbeid = (
+    søknadsperiode: DateRange,
+    formValues?: PleiepengesøknadFormData
+): boolean => {
     if (!formValues) {
         return false;
     }
-    const søknadsperiode = getSøknadsperiodeFromFormData(formValues);
-    if (søknadsperiode) {
-        return (
-            formValues.ansatt_arbeidsforhold.length > 0 ||
-            erFrilanserISøknadsperiode(formValues) ||
-            formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES
-        );
+    const periode = getHistoriskPeriode(søknadsperiode, dateToday);
+    return periode
+        ? erAnsattIPeriode(periode, formValues.ansatt_arbeidsforhold) ||
+              erFrilanserIPeriode(periode, formValues) ||
+              formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES
+        : false;
+};
+
+export const skalBrukerSvarePåPlanlagtArbeid = (
+    søknadsperiode: DateRange,
+    formValues?: PleiepengesøknadFormData
+): boolean => {
+    if (!formValues) {
+        return false;
     }
-    return false;
+    const periode = getPlanlagtPeriode(søknadsperiode, dateToday);
+    return periode
+        ? erAnsattIPeriode(periode, formValues.ansatt_arbeidsforhold) ||
+              erFrilanserIPeriode(periode, formValues) ||
+              formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES
+        : false;
 };

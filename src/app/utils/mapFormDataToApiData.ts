@@ -7,7 +7,7 @@ import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../types/Søkerdata';
 import appSentryLogger from './appSentryLogger';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
-import { getArbeidsgivereApiData } from './formToApiMaps/arbeidsgivereApiData';
+import { getArbeidsgivereISøknadsperiodenApiData } from './formToApiMaps/arbeidsgivereApiData';
 import { filterAndMapAttachmentsToApiFormat } from './formToApiMaps/attachmentsToApiData';
 import { getBarnApiData } from './formToApiMaps/barnApiData';
 import { getFerieuttakIPeriodenApiData } from './formToApiMaps/ferieuttakIPeriodenApiData';
@@ -72,7 +72,7 @@ export const mapFormDataToApiData = (
                     to: periodeTil,
                 }),
                 ...getNattevåkOgBeredskapApiData(formData),
-                ...getArbeidsgivereApiData(formData, søknadsperiode),
+                ...getArbeidsgivereISøknadsperiodenApiData(formData, søknadsperiode),
                 ...getFrilansApiData(formData, søknadsperiode),
                 ...getSelvstendigNæringsdrivendeApiData(formData, søknadsperiode, locale),
             };

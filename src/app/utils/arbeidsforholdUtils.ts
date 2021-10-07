@@ -1,5 +1,4 @@
 import { IntlShape } from 'react-intl';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
@@ -34,10 +33,6 @@ export const syncArbeidsforholdWithArbeidsgivere = (
             ...forhold,
         };
     });
-};
-
-export const getAktivearbeidIPeriode = (arbeidsforhold: ArbeidsforholdAnsatt[]) => {
-    return arbeidsforhold.filter((a) => a.erAnsatt === YesOrNo.YES);
 };
 
 export const updateArbeidsforhold = (

@@ -20,7 +20,7 @@ import {
 } from '../../../../validation/validateFrilanser';
 import AppForm from '../../../app-form/AppForm';
 import ArbeidsformOgTimer from './ArbeidsformOgTimerFormPart';
-import { erFrilanserISøknadsperiode } from '../../../../utils/frilanserUtils';
+import { erFrilanserIPeriode } from '../../../../utils/frilanserUtils';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
@@ -28,7 +28,7 @@ interface Props {
     søkerKunHistoriskPeriode: boolean;
 }
 
-const ArbeidssituasjonFrilans = ({ formValues, søkerKunHistoriskPeriode }: Props) => {
+const ArbeidssituasjonFrilans = ({ formValues, søkerKunHistoriskPeriode, søknadsperiode }: Props) => {
     const {
         frilans_jobberFortsattSomFrilans,
         frilans_harHattInntektSomFrilanser,
@@ -105,7 +105,7 @@ const ArbeidssituasjonFrilans = ({ formValues, søkerKunHistoriskPeriode }: Prop
                         )}
                         {(frilans_jobberFortsattSomFrilans === YesOrNo.YES ||
                             (frilans_jobberFortsattSomFrilans === YesOrNo.NO &&
-                                erFrilanserISøknadsperiode(formValues))) && (
+                                erFrilanserIPeriode(søknadsperiode, formValues))) && (
                             <FormBlock>
                                 <ArbeidsformOgTimer
                                     spørsmål={{
