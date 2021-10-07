@@ -223,5 +223,53 @@ describe('frilansApiData', () => {
                 expect(apiData.frilans.arbeidsforhold.planlagtArbeid?.jobberIPerioden).toBeUndefined();
             }
         });
+
+        it(`planlagtArbeid er undefined dersom en kun søker fortid`, () => {
+            const apiData: FrilansApiDataPart = getFrilansApiData(
+                formDataMedArbeidsforhold,
+                søknadsperiodeHistorisk,
+                søknadsdato
+            );
+            expect(apiData.frilans?.arbeidsforhold).toBeDefined();
+            if (apiData.frilans && apiData.frilans.arbeidsforhold) {
+                expect(apiData.frilans.arbeidsforhold.planlagtArbeid).toBeUndefined();
+            }
+        });
+
+        it(`planlagtArbeid.jobberIPerioden er NEI dersom en søker fortid og fremtid, men er ikke frilanser i fremtid`, () => {
+            const apiData: FrilansApiDataPart = getFrilansApiData(
+                { ...formDataMedArbeidsforhold, frilans_sluttdato: '2021-02-05' },
+                søknadsperiode,
+                søknadsdato
+            );
+            expect(apiData.frilans?.arbeidsforhold).toBeDefined();
+            if (apiData.frilans && apiData.frilans.arbeidsforhold) {
+                expect(apiData.frilans.arbeidsforhold.planlagtArbeid?.jobberIPerioden).toEqual(JobberIPeriodeSvar.NEI);
+            }
+        });
+
+        it(`historiskArbeid er undefined dersom en kun søker fremtid`, () => {
+            const apiData: FrilansApiDataPart = getFrilansApiData(
+                formDataMedArbeidsforhold,
+                søknadsperiodePlanlagt,
+                søknadsdato
+            );
+            expect(apiData.frilans?.arbeidsforhold).toBeDefined();
+            if (apiData.frilans && apiData.frilans.arbeidsforhold) {
+                expect(apiData.frilans.arbeidsforhold.historiskArbeid).toBeUndefined();
+            }
+        });
+
+        it(`historiskArbeid.jobberIPerioden er NEI dersom en søker fortid/fremtid men er ikke frilanser i fortid`, () => {
+            const apiData: FrilansApiDataPart = getFrilansApiData(
+                { ...formDataMedArbeidsforhold, frilans_startdato: '2021-02-06' },
+                søknadsperiode,
+                søknadsdato
+            );
+            expect(apiData.frilans?.arbeidsforhold).toBeDefined();
+            if (apiData.frilans && apiData.frilans.arbeidsforhold) {
+                expect(apiData.frilans.arbeidsforhold.historiskArbeid?.jobberIPerioden).toEqual(JobberIPeriodeSvar.NEI);
+            }
+        });
     });
 });

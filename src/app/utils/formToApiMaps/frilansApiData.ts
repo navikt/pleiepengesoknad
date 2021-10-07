@@ -2,7 +2,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { apiStringDateToDate, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 
-import { ArbeidsforholdType } from '../../types';
+import { ArbeidsforholdType, JobberIPeriodeSvar } from '../../types';
 import { FrilansApiData, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { erFrilanserITidsrom } from '../frilanserUtils';
@@ -62,10 +62,18 @@ export const getFrilansApiData = (
         const planlagtPeriode = getPlanlagtPeriode(søknadsperiode, søknadsdato);
 
         if (historiskPeriode && arbeidsforhold && erFrilanserITidsrom(historiskPeriode, frilanserPeriode) === false) {
-            arbeidsforhold.historiskArbeid = undefined;
+            if (planlagtPeriode) {
+                arbeidsforhold.historiskArbeid = { jobberIPerioden: JobberIPeriodeSvar.NEI };
+            } else {
+                arbeidsforhold.historiskArbeid = undefined;
+            }
         }
         if (planlagtPeriode && arbeidsforhold && erFrilanserITidsrom(planlagtPeriode, frilanserPeriode) === false) {
-            arbeidsforhold.planlagtArbeid = undefined;
+            if (historiskPeriode) {
+                arbeidsforhold.planlagtArbeid = { jobberIPerioden: JobberIPeriodeSvar.NEI };
+            } else {
+                arbeidsforhold.planlagtArbeid = undefined;
+            }
         }
 
         if (arbeidsforhold?.historiskArbeid?.enkeltdager) {
