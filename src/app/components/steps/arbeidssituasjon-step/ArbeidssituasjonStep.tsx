@@ -10,11 +10,7 @@ import { useFormikContext } from 'formik';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
-import {
-    AppFormField,
-    ArbeidsforholdSluttetNårSvar,
-    PleiepengesøknadFormData,
-} from '../../../types/PleiepengesøknadFormData';
+import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { getArbeidsgivere } from '../../../utils/arbeidsforholdUtils';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { getSøknadsperiodeFromFormData } from '../../../utils/formDataUtils';
@@ -42,9 +38,8 @@ export const visVernepliktSpørsmål = ({
         frilans_harHattInntektSomFrilanser === YesOrNo.NO &&
         selvstendig_harHattInntektSomSN === YesOrNo.NO &&
         ansatt_arbeidsforhold.some((a) => a.erAnsatt === YesOrNo.YES) === false &&
-        ansatt_arbeidsforhold.some(
-            (a) => a.erAnsatt === YesOrNo.NO && a.sluttetNår !== ArbeidsforholdSluttetNårSvar.førSøknadsperiode
-        ) === false
+        ansatt_arbeidsforhold.some((a) => a.erAnsatt === YesOrNo.NO && a.sluttetFørSøknadsperiode !== YesOrNo.YES) ===
+            false
     );
 };
 
@@ -54,11 +49,11 @@ const cleanupArbeidssituasjonStep = (formValues: PleiepengesøknadFormData): Ple
     values.ansatt_arbeidsforhold = values.ansatt_arbeidsforhold.map((a) => {
         const cleanedArbeidsforhold = { ...a };
         if (cleanedArbeidsforhold.erAnsatt === YesOrNo.YES) {
-            cleanedArbeidsforhold.sluttetNår = undefined;
+            cleanedArbeidsforhold.sluttetFørSøknadsperiode = undefined;
         }
         if (
             cleanedArbeidsforhold.erAnsatt === YesOrNo.NO &&
-            cleanedArbeidsforhold.sluttetNår === ArbeidsforholdSluttetNårSvar.førSøknadsperiode
+            cleanedArbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.YES
         ) {
             cleanedArbeidsforhold.jobberNormaltTimer = undefined;
             cleanedArbeidsforhold.arbeidsform = undefined;

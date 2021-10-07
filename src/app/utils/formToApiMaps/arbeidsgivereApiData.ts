@@ -2,7 +2,8 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { ArbeidsforholdType } from '../../types';
 import { ArbeidsgiverApiData, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
-import { ArbeidsforholdSluttetNårSvar, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { erAnsattHosArbeidsgiverISøknadsperiode } from '../ansattUtils';
 import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
 
 export const getArbeidsgivereISøknadsperiodenApiData = (
@@ -12,10 +13,7 @@ export const getArbeidsgivereISøknadsperiodenApiData = (
 ): Pick<PleiepengesøknadApiData, 'arbeidsgivere'> => {
     const arbeidsgivere: ArbeidsgiverApiData[] = [];
     formData.ansatt_arbeidsforhold.forEach((forhold) => {
-        if (
-            forhold.erAnsatt === YesOrNo.YES ||
-            (forhold.erAnsatt === YesOrNo.NO && forhold.sluttetNår === ArbeidsforholdSluttetNårSvar.iSøknadsperiode)
-        ) {
+        if (erAnsattHosArbeidsgiverISøknadsperiode(forhold)) {
             const arbeidsforholdApiData = mapArbeidsforholdToApiData(
                 forhold,
                 søknadsperiode,
@@ -27,20 +25,19 @@ export const getArbeidsgivereISøknadsperiodenApiData = (
                     navn: forhold.navn,
                     organisasjonsnummer: forhold.organisasjonsnummer,
                     erAnsatt: forhold.erAnsatt === YesOrNo.YES,
-                    sluttetNår:
-                        forhold.erAnsatt === YesOrNo.NO ? ArbeidsforholdSluttetNårSvar.iSøknadsperiode : undefined,
+                    sluttetFørSøknadsperiode: forhold.erAnsatt === YesOrNo.NO ? false : undefined,
                     arbeidsforhold: arbeidsforholdApiData,
                 });
             } else {
                 throw new Error('Invalid arbeidsforhold');
             }
         } else {
-            if (forhold.sluttetNår === ArbeidsforholdSluttetNårSvar.førSøknadsperiode) {
+            if (forhold.sluttetFørSøknadsperiode === YesOrNo.YES) {
                 arbeidsgivere.push({
                     navn: forhold.navn,
                     organisasjonsnummer: forhold.organisasjonsnummer,
                     erAnsatt: false,
-                    sluttetNår: ArbeidsforholdSluttetNårSvar.førSøknadsperiode,
+                    sluttetFørSøknadsperiode: true,
                 });
             }
         }

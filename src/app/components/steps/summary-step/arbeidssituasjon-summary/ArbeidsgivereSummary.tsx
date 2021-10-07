@@ -10,7 +10,6 @@ import {
 } from '../../../../types/PleiepengesøknadApiData';
 import SummaryBlock from '../../../summary-block/SummaryBlock';
 import { getArbeidsformOgTidSetning } from './arbeidssituasjon-summary-utils';
-import { ArbeidsforholdSluttetNårSvar } from '../../../../types/PleiepengesøknadFormData';
 
 interface Props {
     arbeidsgivere?: ArbeidsgiverApiData[];
@@ -74,9 +73,9 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere: a
                                 <li>
                                     <FormattedMessage
                                         id={
-                                            arbeidsgiver.sluttetNår === ArbeidsforholdSluttetNårSvar.iSøknadsperiode
-                                                ? 'oppsummering.arbeidssituasjon.avsluttet.sluttetNår.iPerioden'
-                                                : 'oppsummering.arbeidssituasjon.avsluttet.sluttetNår.førPerioden'
+                                            arbeidsgiver.sluttetFørSøknadsperiode
+                                                ? 'oppsummering.arbeidssituasjon.avsluttet.sluttetFørSøknadsperiode'
+                                                : 'oppsummering.arbeidssituasjon.avsluttet.sluttetISøknadsperiode'
                                         }
                                         values={{
                                             periodeFra: prettifyDateFull(søknadsperiode.from),

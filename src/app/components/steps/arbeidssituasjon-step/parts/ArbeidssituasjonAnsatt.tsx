@@ -7,12 +7,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { Undertittel } from 'nav-frontend-typografi';
-import {
-    AppFormField,
-    ArbeidsforholdAnsatt,
-    ArbeidsforholdField,
-    ArbeidsforholdSluttetNårSvar,
-} from '../../../../types/PleiepengesøknadFormData';
+import { AppFormField, ArbeidsforholdAnsatt, ArbeidsforholdField } from '../../../../types/PleiepengesøknadFormData';
 import { isYesOrNoAnswered } from '../../../../validation/fieldValidations';
 import AppForm from '../../../app-form/AppForm';
 import ArbeidsformOgTimer from './ArbeidsformOgTimerFormPart';
@@ -85,50 +80,35 @@ const ArbeidssituasjonAnsatt: React.FunctionComponent<Props> = ({
                 <FormBlock margin="l">
                     <ResponsivePanel>
                         {erAvsluttet && (
-                            <Box padBottom="xl">
+                            <Box padBottom={arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO ? 'xl' : 'none'}>
                                 <AlertStripeInfo>
                                     <FormattedMessage id="arbeidsforhold.ikkeAnsatt.info" />
                                 </AlertStripeInfo>
                                 <FormBlock>
-                                    <AppForm.RadioPanelGroup
-                                        name={getFieldName(ArbeidsforholdField.sluttetNår)}
-                                        legend={intlHelper(intl, 'arbeidsforhold.sluttetNår.spm', {
+                                    <AppForm.YesOrNoQuestion
+                                        name={getFieldName(ArbeidsforholdField.sluttetFørSøknadsperiode)}
+                                        legend={intlHelper(intl, 'arbeidsforhold.sluttetFørSøknadsperiode.spm', {
                                             navn: arbeidsforhold.navn,
+                                            fraDato: prettifyDateFull(søknadsperiode.from),
                                         })}
                                         validate={(value) => {
                                             const error = getRequiredFieldValidator()(value);
                                             return error
                                                 ? {
-                                                      key: 'validation.arbeidsforhold.sluttetNår.noValue',
-                                                      values: { navn: arbeidsforhold.navn },
+                                                      key: 'validation.arbeidsforhold.sluttetFørSøknadsperiode.yesOrNoIsUnanswered',
+                                                      values: {
+                                                          navn: arbeidsforhold.navn,
+                                                          fraDato: prettifyDateFull(søknadsperiode.from),
+                                                      },
                                                       keepKeyUnaltered: true,
                                                   }
                                                 : undefined;
                                         }}
-                                        radios={[
-                                            {
-                                                label: intlHelper(
-                                                    intl,
-                                                    'arbeidsforhold.sluttetNår.alternativ.førPerioden',
-                                                    intlValues
-                                                ),
-                                                value: ArbeidsforholdSluttetNårSvar.førSøknadsperiode,
-                                            },
-                                            {
-                                                label: intlHelper(
-                                                    intl,
-                                                    'arbeidsforhold.sluttetNår.alternativ.iPerioden',
-                                                    intlValues
-                                                ),
-                                                value: ArbeidsforholdSluttetNårSvar.iSøknadsperiode,
-                                            },
-                                        ]}
                                     />
                                 </FormBlock>
                             </Box>
                         )}
-                        {((erAvsluttet && arbeidsforhold.sluttetNår === ArbeidsforholdSluttetNårSvar.iSøknadsperiode) ||
-                            !erAvsluttet) && (
+                        {((erAvsluttet && arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO) || !erAvsluttet) && (
                             <ArbeidsformOgTimer
                                 spørsmål={{
                                     arbeidsform: intlHelper(

@@ -1,10 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { visVernepliktSpørsmål } from '../../components/steps/arbeidssituasjon-step/ArbeidssituasjonStep';
-import {
-    ArbeidsforholdAnsatt,
-    ArbeidsforholdSluttetNårSvar,
-    PleiepengesøknadFormData,
-} from '../../types/PleiepengesøknadFormData';
+import { ArbeidsforholdAnsatt, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 
 export const formDataMock: Partial<PleiepengesøknadFormData> = {
     ansatt_arbeidsforhold: [],
@@ -68,7 +64,7 @@ describe('visVernepliktSpørsmål', () => {
                     {
                         ...ansattArbeidsforhold,
                         erAnsatt: YesOrNo.NO,
-                        sluttetNår: ArbeidsforholdSluttetNårSvar.iSøknadsperiode,
+                        sluttetFørSøknadsperiode: YesOrNo.NO,
                     },
                 ],
                 frilans_harHattInntektSomFrilanser: YesOrNo.NO,
@@ -83,7 +79,7 @@ describe('visVernepliktSpørsmål', () => {
                     {
                         ...ansattArbeidsforhold,
                         erAnsatt: YesOrNo.NO,
-                        sluttetNår: ArbeidsforholdSluttetNårSvar.iSøknadsperiode,
+                        sluttetFørSøknadsperiode: YesOrNo.NO,
                     },
                 ],
                 frilans_harHattInntektSomFrilanser: YesOrNo.NO,
@@ -130,7 +126,7 @@ describe('visVernepliktSpørsmål', () => {
                     {
                         ...ansattArbeidsforhold,
                         erAnsatt: YesOrNo.NO,
-                        sluttetNår: ArbeidsforholdSluttetNårSvar.førSøknadsperiode,
+                        sluttetFørSøknadsperiode: YesOrNo.YES,
                     },
                 ],
                 selvstendig_harHattInntektSomSN: YesOrNo.NO,

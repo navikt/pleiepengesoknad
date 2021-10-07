@@ -462,9 +462,7 @@
 
     "arbeidsforhold.erAnsatt.spm": "Stemmer det at du er ansatt hos {navn} i perioden du søker for?",
     "arbeidsforhold.erAnsatt.historisk.spm": "Stemmer det at du var ansatt hos {navn} i perioden du søker for?",
-    "arbeidsforhold.sluttetNår.spm": "Når sluttet du hos {navn}?",
-    "arbeidsforhold.sluttetNår.alternativ.førPerioden": "Før {periodeFra}",
-    "arbeidsforhold.sluttetNår.alternativ.iPerioden": "Mellom {periodeFra} og {periodeTil}",
+    "arbeidsforhold.sluttetFørSøknadsperiode.spm": "Sluttet du hos {navn} før {fraDato}?",
     "arbeidsforhold.avsluttet.info": "Sluttdato var innenfor perioden du søker om pleiepenger. Vi trenger derfor å vite hvordan normalarbeidstiden din var hos {navn}",
 
     "arbeidsforhold.arbeidsform.spm": "Hvordan jobber du vanligvis hos {arbeidsforhold}?",
@@ -555,8 +553,8 @@
     "oppsummering.arbeidssituasjon.avsluttet.tid.FAST": "Jobbet {timer, plural, one {# time} other {# timer}} fast per uke.",
     "oppsummering.arbeidssituasjon.avsluttet.tid.TURNUS": "Jobbet turnus, {timer, plural, one {# time} other {# timer}} i snitt per uke.",
     "oppsummering.arbeidssituasjon.avsluttet.tid.VARIERENDE": "Jobbet deltid/varierende/tilkalling, {timer, plural, one {# time} other {# timer}} i snitt per uke.",
-    "oppsummering.arbeidssituasjon.avsluttet.sluttetNår.førPerioden": "Sluttet før {periodeFra}",
-    "oppsummering.arbeidssituasjon.avsluttet.sluttetNår.iPerioden": "Sluttet mellom {periodeFra} og {periodeTil}",
+    "oppsummering.arbeidssituasjon.avsluttet.sluttetFørSøknadsperiode": "Sluttet før {periodeFra}",
+    "oppsummering.arbeidssituasjon.avsluttet.sluttetISøknadsperiode": "Sluttet mellom {periodeFra} og {periodeTil}",
 
     "oppsummering.arbeidssituasjon.arbeidsgivere.ingenIPeriode.header": "Arbeidsgivere",
     "oppsummering.arbeidssituasjon.arbeidsgivere.ingenIPeriode.tekst": "Er ikke ansatt i perioden det søkes for.",
@@ -736,7 +734,7 @@
     "validation.ansatt_arbeidsforhold.erAnsatt.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du er ansatt hos {navn} i perioden du søker pleiepenger.",
 
     "validation.arbeidsforhold.arbeidsform.noValue": "Du må svare på hvordan du {jobber} {hvor}.",
-    "validation.arbeidsforhold.sluttetNår.noValue": "Du må oppgi når du sluttet hos {navn}.",
+    "validation.arbeidsforhold.sluttetFørSøknadsperiode.yesOrNoIsUnanswered": "Du må svare på om du sluttet hos {navn} før {fraDato}.",
 
     "validation.arbeidsforhold.jobberNormaltTimer.numberHasNoValue": "Du må oppgi hvor mange timer per uke du {jobber} {arbeidsform} {hvor}.",
     "validation.arbeidsforhold.jobberNormaltTimer.numberHasInvalidFormat": "Antall timer du {jobber} {arbeidsform} per uke {hvor} kan kun bestå av tall.",

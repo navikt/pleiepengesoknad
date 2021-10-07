@@ -11,7 +11,6 @@ import {
     JobberIPeriodeSvar,
     VetOmsorgstilbud,
 } from './';
-import { ArbeidsforholdSluttetNårSvar } from './PleiepengesøknadFormData';
 
 export type ISO8601Duration = string;
 
@@ -45,13 +44,13 @@ export interface ArbeidsgiverUtenforSøknadsperiodeApiData {
     navn: string;
     organisasjonsnummer?: string;
     erAnsatt: false;
-    sluttetNår: ArbeidsforholdSluttetNårSvar.førSøknadsperiode;
+    sluttetFørSøknadsperiode: true;
 }
 export interface ArbeidsgiverISøknadsperiodeApiData {
     navn: string;
     organisasjonsnummer?: string;
     erAnsatt: boolean;
-    sluttetNår?: ArbeidsforholdSluttetNårSvar.iSøknadsperiode;
+    sluttetFørSøknadsperiode?: false;
     arbeidsforhold: ArbeidsforholdApiData;
 }
 
@@ -60,7 +59,7 @@ export const isArbeidsgiverISøknadsperiodeApiData = (
 ): arbeidsgiver is ArbeidsgiverISøknadsperiodeApiData => {
     return (
         arbeidsgiver.erAnsatt === true ||
-        (arbeidsgiver.erAnsatt === false && arbeidsgiver.sluttetNår === ArbeidsforholdSluttetNårSvar.iSøknadsperiode)
+        (arbeidsgiver.erAnsatt === false && arbeidsgiver.sluttetFørSøknadsperiode === false)
     );
 };
 
