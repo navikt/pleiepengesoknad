@@ -28,6 +28,44 @@ export const mapArbeidIPeriodeToApiData = (arbeid: ArbeidIPeriode, periode: Date
     };
 };
 
+export const getHistoriskArbeidIArbeidsforhold = ({
+    søkerHistorisk,
+    søkerPlanlagt,
+    arbeidHistoriskPeriode,
+    historiskPeriode,
+}: {
+    søkerPlanlagt: boolean;
+    søkerHistorisk: boolean;
+    historiskPeriode?: DateRange;
+    arbeidHistoriskPeriode?: ArbeidIPeriode;
+}): ArbeidIPeriodeApiData | undefined => {
+    if (søkerPlanlagt && !søkerHistorisk) {
+        return undefined;
+    }
+    return historiskPeriode && arbeidHistoriskPeriode
+        ? mapArbeidIPeriodeToApiData(arbeidHistoriskPeriode, historiskPeriode)
+        : { jobberIPerioden: JobberIPeriodeSvar.NEI };
+};
+
+export const getPlanlagtArbeidIArbeidsforhold = ({
+    søkerHistorisk,
+    søkerPlanlagt,
+    arbeidPlanlagtPeriode,
+    planlagtPeriode,
+}: {
+    søkerPlanlagt: boolean;
+    søkerHistorisk: boolean;
+    planlagtPeriode?: DateRange;
+    arbeidPlanlagtPeriode?: ArbeidIPeriode;
+}): ArbeidIPeriodeApiData | undefined => {
+    if (søkerHistorisk && !søkerPlanlagt) {
+        return undefined;
+    }
+    return planlagtPeriode && arbeidPlanlagtPeriode
+        ? mapArbeidIPeriodeToApiData(arbeidPlanlagtPeriode, planlagtPeriode)
+        : { jobberIPerioden: JobberIPeriodeSvar.NEI };
+};
+
 export const mapArbeidsforholdToApiData = (
     arbeidsforhold: Arbeidsforhold,
     søknadsperiode: DateRange,
@@ -46,29 +84,21 @@ export const mapArbeidsforholdToApiData = (
     const søkerHistorisk = periodeFørSøknadsdato !== undefined;
     const søkerPlanlagt = periodeFraOgMedSøknadsdato !== undefined;
 
-    const getHistoriskArbeid = (): ArbeidIPeriodeApiData | undefined => {
-        if (søkerPlanlagt && !søkerHistorisk) {
-            return undefined;
-        }
-        return periodeFørSøknadsdato && arbeidsforhold.historisk
-            ? mapArbeidIPeriodeToApiData(arbeidsforhold.historisk, periodeFørSøknadsdato)
-            : { jobberIPerioden: JobberIPeriodeSvar.NEI };
-    };
-
-    const getPlanlagtArbeid = (): ArbeidIPeriodeApiData | undefined => {
-        if (søkerHistorisk && !søkerPlanlagt) {
-            return undefined;
-        }
-        return periodeFraOgMedSøknadsdato && arbeidsforhold.planlagt
-            ? mapArbeidIPeriodeToApiData(arbeidsforhold.planlagt, periodeFraOgMedSøknadsdato)
-            : { jobberIPerioden: JobberIPeriodeSvar.NEI };
-    };
-
     return {
         _type: type,
         jobberNormaltTimer: jobberNormaltTimerNumber,
         arbeidsform,
-        historiskArbeid: getHistoriskArbeid(),
-        planlagtArbeid: getPlanlagtArbeid(),
+        historiskArbeid: getHistoriskArbeidIArbeidsforhold({
+            søkerPlanlagt,
+            søkerHistorisk,
+            historiskPeriode: periodeFørSøknadsdato,
+            arbeidHistoriskPeriode: arbeidsforhold.historisk,
+        }),
+        planlagtArbeid: getPlanlagtArbeidIArbeidsforhold({
+            søkerPlanlagt,
+            søkerHistorisk,
+            planlagtPeriode: periodeFraOgMedSøknadsdato,
+            arbeidPlanlagtPeriode: arbeidsforhold.planlagt,
+        }),
     };
 };
