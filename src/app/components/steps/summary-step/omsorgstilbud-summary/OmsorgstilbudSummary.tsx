@@ -13,12 +13,14 @@ import Sitat from '../enkeltsvar/Sitat';
 
 interface Props {
     søknadsperiode: DateRange;
+    søknadsdato: Date;
     apiValues: PleiepengesøknadApiData;
 }
 
 const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
     apiValues: { nattevåk, beredskap, omsorgstilbud: omsorgstilbud },
     søknadsperiode,
+    søknadsdato,
 }) => {
     const intl = useIntl();
     return (
@@ -26,8 +28,13 @@ const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
             <HistoriskOmsorgstilbudSummary
                 historiskOmsorgstilbud={omsorgstilbud?.historisk}
                 søknadsperiode={søknadsperiode}
+                søknadsdato={søknadsdato}
             />
-            <PlanlagtOmsorgstilbudSummary omsorgstilbud={omsorgstilbud?.planlagt} søknadsperiode={søknadsperiode} />
+            <PlanlagtOmsorgstilbudSummary
+                omsorgstilbud={omsorgstilbud?.planlagt}
+                søknadsperiode={søknadsperiode}
+                søknadsdato={søknadsdato}
+            />
 
             {nattevåk && (
                 <Box margin="xl">

@@ -1,11 +1,6 @@
 import React from 'react';
 import { IntlShape, useIntl } from 'react-intl';
-import {
-    apiStringDateToDate,
-    DateRange,
-    dateToday,
-    prettifyDateExtended,
-} from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { apiStringDateToDate, DateRange, prettifyDateExtended } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import dayjs from 'dayjs';
 import {
@@ -23,6 +18,7 @@ import ArbeidIPeriodeSummaryItem from './ArbeidIPeriodenSummaryItem';
 interface Props {
     apiValues: PleiepengesøknadApiData;
     søknadsperiode: DateRange;
+    søknadsdato: Date;
 }
 
 export interface ArbeidIPeriodenSummaryItemType extends ArbeidsforholdApiData {
@@ -59,12 +55,13 @@ const getFrilansTittel = (intl: IntlShape, frilans: FrilansApiData, periode: Dat
 const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
     apiValues: { arbeidsgivere, frilans, selvstendigNæringsdrivende },
     søknadsperiode,
+    søknadsdato,
 }) => {
     const intl = useIntl();
     const alleArbeidsforhold: ArbeidIPeriodenSummaryItemType[] = [];
 
-    const periodeFørSøknadsdato = søknadsperiode ? getHistoriskPeriode(søknadsperiode, dateToday) : undefined;
-    const periodeFraOgMedSøknadsdato = søknadsperiode ? getPlanlagtPeriode(søknadsperiode, dateToday) : undefined;
+    const periodeFørSøknadsdato = søknadsperiode ? getHistoriskPeriode(søknadsperiode, søknadsdato) : undefined;
+    const periodeFraOgMedSøknadsdato = søknadsperiode ? getPlanlagtPeriode(søknadsperiode, søknadsdato) : undefined;
 
     if (arbeidsgivere) {
         arbeidsgivere.forEach((a) => {

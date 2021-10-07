@@ -22,11 +22,15 @@ import ArbeidssituasonSN from './parts/ArbeidssituasjonSN';
 import AppForm from '../../app-form/AppForm';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
-import { getSøkerKunHistoriskPeriode as getSøkerKunHistoriskPeriode } from '../../../utils/tidsbrukUtils';
+import { getSøkerKunHistoriskPeriode } from '../../../utils/tidsbrukUtils';
 
 interface LoadState {
     isLoading: boolean;
     isLoaded: boolean;
+}
+
+interface Props {
+    søknadsdato: Date;
 }
 
 export const visVernepliktSpørsmål = ({
@@ -82,7 +86,7 @@ const cleanupArbeidssituasjonStep = (formValues: PleiepengesøknadFormData): Ple
     return values;
 };
 
-const ArbeidssituasjonStep = ({ onValidSubmit }: StepConfigProps) => {
+const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Props) => {
     const formikProps = useFormikContext<PleiepengesøknadFormData>();
     const intl = useIntl();
     const {
@@ -108,14 +112,12 @@ const ArbeidssituasjonStep = ({ onValidSubmit }: StepConfigProps) => {
         }
     }, [formikProps, søkerdata, isLoaded, isLoading, søknadsperiode]);
 
-    const søkerKunHistoriskPeriode = søknadsperiode ? getSøkerKunHistoriskPeriode(søknadsperiode) : false;
+    const søkerKunHistoriskPeriode = søknadsperiode ? getSøkerKunHistoriskPeriode(søknadsperiode, søknadsdato) : false;
 
     return (
         <FormikStep
             id={StepID.ARBEIDSSITUASJON}
-            onValidFormSubmit={() => {
-                onValidSubmit();
-            }}
+            onValidFormSubmit={onValidSubmit}
             buttonDisabled={isLoading}
             onStepCleanup={søknadsperiode ? cleanupArbeidssituasjonStep : undefined}>
             {isLoading && <LoadingSpinner type="XS" blockTitle="Henter arbeidsforhold" />}
@@ -173,6 +175,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit }: StepConfigProps) => {
                         <ArbeidssituasjonFrilans
                             formValues={values}
                             søknadsperiode={søknadsperiode}
+                            søknadsdato={søknadsdato}
                             søkerKunHistoriskPeriode={søkerKunHistoriskPeriode}
                         />
                     </FormSection>

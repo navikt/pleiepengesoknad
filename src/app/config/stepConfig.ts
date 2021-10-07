@@ -1,3 +1,4 @@
+import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
 import { getSøknadRoute } from '../utils/routeUtils';
@@ -57,11 +58,14 @@ interface ConfigStepHelperType {
 export const getStepConfig = (formValues?: PleiepengesøknadFormData): StepConfigInterface => {
     const søknadsperiode = formValues ? getSøknadsperiodeFromFormData(formValues) : undefined;
     const includeNattevåkAndBeredskap = skalBrukerSvarePåBeredskapOgNattevåk(formValues);
+    const søknadsdato = dateToday;
 
     const includeHistoriskArbeid = søknadsperiode
-        ? skalBrukerSvarePåHistoriskArbeid(søknadsperiode, formValues)
+        ? skalBrukerSvarePåHistoriskArbeid(søknadsperiode, søknadsdato, formValues)
         : false;
-    const includePlanlagtArbeid = søknadsperiode ? skalBrukerSvarePåPlanlagtArbeid(søknadsperiode, formValues) : false;
+    const includePlanlagtArbeid = søknadsperiode
+        ? skalBrukerSvarePåPlanlagtArbeid(søknadsperiode, søknadsdato, formValues)
+        : false;
 
     const allSteps: ConfigStepHelperType[] = [
         { stepID: StepID.OPPLYSNINGER_OM_BARNET, included: true },

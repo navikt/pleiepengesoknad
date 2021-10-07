@@ -9,9 +9,10 @@ import { cleanupArbeidIPeriodeStep } from './arbeidIPeriodeStepUtils';
 
 interface Props extends StepConfigProps {
     periode: DateRange;
+    søknadsdato: Date;
 }
 
-const PlanlagtArbeidStep = ({ onValidSubmit, periode }: Props) => {
+const PlanlagtArbeidStep = ({ onValidSubmit, periode, søknadsdato }: Props) => {
     const intl = useIntl();
     const subTitle = intlHelper(intl, 'arbeidIPeriode.subtitle', {
         fra: prettifyDateFull(periode.from),
@@ -25,7 +26,7 @@ const PlanlagtArbeidStep = ({ onValidSubmit, periode }: Props) => {
             stepSubTitle={subTitle}
             onValidFormSubmit={onValidSubmit}
             onStepCleanup={(values) => cleanupArbeidIPeriodeStep(values, periode, erHistorisk)}>
-            <ArbeidIPeriodeStepContent erHistorisk={erHistorisk} periode={periode} />
+            <ArbeidIPeriodeStepContent erHistorisk={erHistorisk} periode={periode} søknadsdato={søknadsdato} />
         </FormikStep>
     );
 };

@@ -12,12 +12,10 @@ import {
     dateRangesCollide,
     dateRangesExceedsRange,
     dateRangesHasFromDateEqualPreviousRangeToDate,
-    dateToday,
 } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import {
     getDateRangeValidator,
-    getDateValidator,
     getFødselsnummerValidator,
     getStringValidator,
 } from '@navikt/sif-common-formik/lib/validation';
@@ -65,10 +63,6 @@ export type TidPerDagValidator = (dag: string) => (tid: Time) => ValidationError
 
 export const isYesOrNoAnswered = (answer?: YesOrNo) => {
     return answer !== undefined && (answer === YesOrNo.NO || answer === YesOrNo.YES || answer === YesOrNo.DO_NOT_KNOW);
-};
-
-export const validateFødselsdato = (dateString?: string): ValidationResult<ValidationError> => {
-    return getDateValidator({ required: true, max: dateToday })(dateString);
 };
 
 export const validateNavn = (value: string): ValidationResult<ValidationError> => {

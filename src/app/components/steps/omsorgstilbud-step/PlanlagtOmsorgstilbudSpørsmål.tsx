@@ -29,10 +29,17 @@ interface Props {
     tittel: string;
     periode: DateRange;
     omsorgstilbud?: Omsorgstilbud;
+    søknadsdato: Date;
     onOmsorgstilbudChanged: () => void;
 }
 
-const PlanlagtOmsorgstilbudSpørsmål = ({ periode, tittel, omsorgstilbud, onOmsorgstilbudChanged }: Props) => {
+const PlanlagtOmsorgstilbudSpørsmål = ({
+    periode,
+    tittel,
+    omsorgstilbud,
+    søknadsdato,
+    onOmsorgstilbudChanged,
+}: Props) => {
     const intl = useIntl();
 
     const inkluderFastPlan = visSpørsmålOmTidErLikHverUke(periode);
@@ -144,6 +151,7 @@ const PlanlagtOmsorgstilbudSpørsmål = ({ periode, tittel, omsorgstilbud, onOms
                                             onOmsorgstilbudChanged={() => {
                                                 onOmsorgstilbudChanged();
                                             }}
+                                            søknadsdato={søknadsdato}
                                         />
                                     </ResponsivePanel>
                                 </FormBlock>

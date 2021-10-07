@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-with-header/ContentWithHeader';
-import { DateRange, dateToday, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { HistoriskOmsorgstilbudApiData } from '../../../../types/PleiepengesøknadApiData';
 import TidEnkeltdager from '../../../dager-med-tid/TidEnkeltdager';
@@ -12,11 +12,12 @@ import { getHistoriskPeriode } from '../../../../utils/tidsbrukUtils';
 interface Props {
     historiskOmsorgstilbud?: HistoriskOmsorgstilbudApiData;
     søknadsperiode: DateRange;
+    søknadsdato: Date;
 }
 
-const HistoriskOmsorgstilbudSummary = ({ historiskOmsorgstilbud, søknadsperiode }: Props) => {
+const HistoriskOmsorgstilbudSummary = ({ historiskOmsorgstilbud, søknadsperiode, søknadsdato }: Props) => {
     const intl = useIntl();
-    const periodeFørSøknadsdato = getHistoriskPeriode(søknadsperiode, dateToday);
+    const periodeFørSøknadsdato = getHistoriskPeriode(søknadsperiode, søknadsdato);
     if (!periodeFørSøknadsdato) {
         return null;
     }

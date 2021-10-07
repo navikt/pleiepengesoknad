@@ -8,10 +8,11 @@ import { cleanupArbeidIPeriodeStep } from './arbeidIPeriodeStepUtils';
 import ArbeidIPeriodeStepContent from './ArbeidIPeriodeStepContent';
 
 interface Props extends StepConfigProps {
+    søknadsdato: Date;
     periode: DateRange;
 }
 
-const HistoriskArbeidStep = ({ onValidSubmit, periode }: Props) => {
+const HistoriskArbeidStep = ({ onValidSubmit, periode, søknadsdato }: Props) => {
     const intl = useIntl();
     const subTitle = intlHelper(intl, 'arbeidIPeriode.subtitle', {
         fra: prettifyDateFull(periode.from),
@@ -25,7 +26,7 @@ const HistoriskArbeidStep = ({ onValidSubmit, periode }: Props) => {
             stepSubTitle={subTitle}
             onValidFormSubmit={onValidSubmit}
             onStepCleanup={(values) => cleanupArbeidIPeriodeStep(values, periode, erHistorisk)}>
-            <ArbeidIPeriodeStepContent erHistorisk={erHistorisk} periode={periode} />
+            <ArbeidIPeriodeStepContent erHistorisk={erHistorisk} periode={periode} søknadsdato={søknadsdato} />
         </FormikStep>
     );
 };

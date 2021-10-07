@@ -119,8 +119,9 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
     };
 
     const søknadsperiode = values ? getSøknadsperiodeFromFormData(values) : undefined;
-    const periodeFørSøknadsdato = søknadsperiode ? getHistoriskPeriode(søknadsperiode, dateToday) : undefined;
-    const periodeFraOgMedSøknadsdato = søknadsperiode ? getPlanlagtPeriode(søknadsperiode, dateToday) : undefined;
+    const søknadsdato = dateToday;
+    const periodeFørSøknadsdato = søknadsperiode ? getHistoriskPeriode(søknadsperiode, søknadsdato) : undefined;
+    const periodeFraOgMedSøknadsdato = søknadsperiode ? getPlanlagtPeriode(søknadsperiode, søknadsdato) : undefined;
 
     return (
         <Switch>
@@ -153,7 +154,10 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
                 <Route
                     path={getSøknadRoute(StepID.ARBEIDSSITUASJON)}
                     render={() => (
-                        <ArbeidssituasjonStep onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEIDSSITUASJON)} />
+                        <ArbeidssituasjonStep
+                            onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEIDSSITUASJON)}
+                            søknadsdato={søknadsdato}
+                        />
                     )}
                 />
             )}
@@ -164,6 +168,7 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
                     render={() => (
                         <HistoriskArbeidStep
                             periode={periodeFørSøknadsdato}
+                            søknadsdato={søknadsdato}
                             onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEID_HISTORISK)}
                         />
                     )}
@@ -177,6 +182,7 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
                         <PlanlagtArbeidStep
                             periode={periodeFraOgMedSøknadsdato}
                             onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEID_PLANLAGT)}
+                            søknadsdato={søknadsdato}
                         />
                     )}
                 />
@@ -186,7 +192,12 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
                 <Route
                     path={getSøknadRoute(StepID.OMSORGSTILBUD)}
                     render={() => {
-                        return <OmsorgstilbudStep onValidSubmit={() => navigateToNextStepFrom(StepID.OMSORGSTILBUD)} />;
+                        return (
+                            <OmsorgstilbudStep
+                                onValidSubmit={() => navigateToNextStepFrom(StepID.OMSORGSTILBUD)}
+                                søknadsdato={søknadsdato}
+                            />
+                        );
                     }}
                 />
             )}
@@ -207,7 +218,12 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
             {isAvailable(StepID.MEDLEMSKAP, values) && (
                 <Route
                     path={getSøknadRoute(StepID.MEDLEMSKAP)}
-                    render={() => <MedlemsskapStep onValidSubmit={() => navigateToNextStepFrom(StepID.MEDLEMSKAP)} />}
+                    render={() => (
+                        <MedlemsskapStep
+                            onValidSubmit={() => navigateToNextStepFrom(StepID.MEDLEMSKAP)}
+                            søknadsdato={søknadsdato}
+                        />
+                    )}
                 />
             )}
 
@@ -226,6 +242,7 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
                     render={() => (
                         <SummaryStep
                             values={values}
+                            søknadsdato={søknadsdato}
                             onApplicationSent={(apiData: PleiepengesøknadApiData, søkerdata: Søkerdata) => {
                                 const info = getKvitteringInfoFromApiData(apiData, søkerdata);
                                 setKvitteringInfo(info);

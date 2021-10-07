@@ -31,6 +31,7 @@ interface Props {
     arbeidsforholdType: ArbeidsforholdType;
     periode: DateRange;
     erHistorisk: boolean;
+    søknadsdato: Date;
 }
 
 export type ArbeidIPeriodeIntlValues = {
@@ -49,6 +50,7 @@ const ArbeidIPeriodeSpørsmål = ({
     erHistorisk,
     arbeidsforholdType,
     periode,
+    søknadsdato,
 }: Props) => {
     const intl = useIntl();
 
@@ -184,6 +186,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                             tidMedArbeid={arbeidIPeriode?.enkeltdager}
                                             intlValues={intlValues}
                                             enkeltdagerFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
+                                            søknadsdato={søknadsdato}
                                         />
                                     </FormBlock>
                                 )}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import dayjs from 'dayjs';
 import { TidEnkeltdag } from '../../types';
@@ -15,6 +15,7 @@ import OmsorgstilbudInfoAndDialog from './OmsorgstilbudInfoAndDialog';
 
 interface Props {
     periode: DateRange;
+    søknadsdato: Date;
     visKunEnkeltdager: boolean;
     tidIOmsorgstilbud: TidEnkeltdag;
     onOmsorgstilbudChanged?: () => void;
@@ -24,10 +25,11 @@ const OmsorgstilbudIPeriodeSpørsmål: React.FunctionComponent<Props> = ({
     visKunEnkeltdager,
     periode,
     tidIOmsorgstilbud,
+    søknadsdato,
     onOmsorgstilbudChanged,
 }) => {
     const intl = useIntl();
-    const gjelderFortid = dayjs(periode.to).isBefore(dateToday, 'day');
+    const gjelderFortid = dayjs(periode.to).isBefore(søknadsdato, 'day');
 
     const enkeltdagerFieldName = gjelderFortid
         ? AppFormField.omsorgstilbud__historisk__enkeltdager
@@ -82,6 +84,7 @@ const OmsorgstilbudIPeriodeSpørsmål: React.FunctionComponent<Props> = ({
                                 <OmsorgstilbudInfoAndDialog
                                     name={enkeltdagerFieldName}
                                     periode={periode}
+                                    søknadsdato={søknadsdato}
                                     skjulTommeDagerIListe={true}
                                     onAfterChange={onOmsorgstilbudChanged}
                                     labels={{

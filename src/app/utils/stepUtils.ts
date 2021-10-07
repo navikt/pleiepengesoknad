@@ -1,6 +1,6 @@
 import { IntlShape } from 'react-intl';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from '../config/stepConfig';
 import { VetOmsorgstilbud } from '../types';
@@ -98,12 +98,13 @@ export const skalBrukerSvarePåBeredskapOgNattevåk = (formValues?: Pleiepenges�
 
 export const skalBrukerSvarePåHistoriskArbeid = (
     søknadsperiode: DateRange,
+    søknadsdato: Date,
     formValues?: PleiepengesøknadFormData
 ): boolean => {
     if (!formValues) {
         return false;
     }
-    const periode = getHistoriskPeriode(søknadsperiode, dateToday);
+    const periode = getHistoriskPeriode(søknadsperiode, søknadsdato);
     return periode
         ? erAnsattISøknadsperiode(formValues.ansatt_arbeidsforhold) ||
               erFrilanserIPeriode(periode, formValues) ||
@@ -113,12 +114,13 @@ export const skalBrukerSvarePåHistoriskArbeid = (
 
 export const skalBrukerSvarePåPlanlagtArbeid = (
     søknadsperiode: DateRange,
+    søknadsdato: Date,
     formValues?: PleiepengesøknadFormData
 ): boolean => {
     if (!formValues) {
         return false;
     }
-    const periode = getPlanlagtPeriode(søknadsperiode, dateToday);
+    const periode = getPlanlagtPeriode(søknadsperiode, søknadsdato);
     return periode
         ? erAnsattISøknadsperiode(formValues.ansatt_arbeidsforhold) ||
               erFrilanserIPeriode(periode, formValues) ||

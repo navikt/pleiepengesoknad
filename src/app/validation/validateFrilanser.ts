@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { AppFormField, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import { getDateValidator } from '@navikt/sif-common-formik/lib/validation';
 
@@ -19,9 +18,9 @@ type FrilansFormDataForValidation = Pick<
 >;
 
 export const getFrilanserStartdatoValidator =
-    (formData: FrilansFormDataForValidation) =>
+    (formData: FrilansFormDataForValidation, søknadsdato: Date) =>
     (value: string): ValidationResult<ValidationError> => {
-        const dateError = getDateValidator({ required: true, max: dateToday })(value);
+        const dateError = getDateValidator({ required: true, max: søknadsdato })(value);
         if (dateError) {
             return dateError;
         }
@@ -34,12 +33,12 @@ export const getFrilanserStartdatoValidator =
     };
 
 export const getFrilanserSluttdatoValidator =
-    (formData: FrilansFormDataForValidation) =>
+    (formData: FrilansFormDataForValidation, søknadsdato: Date) =>
     (value: string): ValidationResult<ValidationError> => {
         const dateError = getDateValidator({
             required: true,
             min: datepickerUtils.getDateFromDateString(formData.frilans_startdato),
-            max: dateToday,
+            max: søknadsdato,
         })(value);
         if (dateError) {
             return dateError;

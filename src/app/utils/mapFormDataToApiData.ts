@@ -1,6 +1,6 @@
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { DateRange, dateToday, formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange, formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
@@ -22,7 +22,8 @@ import { getValidSpråk } from './sprakUtils';
 export const mapFormDataToApiData = (
     formData: PleiepengesøknadFormData,
     barn: BarnReceivedFromApi[],
-    locale: Locale = 'nb'
+    locale: Locale = 'nb',
+    søknadsdato: Date
 ): PleiepengesøknadApiData | undefined => {
     const {
         harBekreftetOpplysninger,
@@ -67,14 +68,18 @@ export const mapFormDataToApiData = (
                 ...getFerieuttakIPeriodenApiData(formData),
                 ...getBarnApiData(formData, barn),
                 ...getMedlemsskapApiData(formData, sprak),
-                ...getOmsorgstilbudApiData(omsorgstilbud, {
-                    from: periodeFra,
-                    to: periodeTil,
-                }),
+                ...getOmsorgstilbudApiData(
+                    omsorgstilbud,
+                    {
+                        from: periodeFra,
+                        to: periodeTil,
+                    },
+                    søknadsdato
+                ),
                 ...getNattevåkOgBeredskapApiData(formData),
-                ...getArbeidsgivereISøknadsperiodenApiData(formData, søknadsperiode, dateToday),
-                ...getFrilansApiData(formData, søknadsperiode, dateToday),
-                ...getSelvstendigNæringsdrivendeApiData(formData, søknadsperiode, dateToday, locale),
+                ...getArbeidsgivereISøknadsperiodenApiData(formData, søknadsperiode, søknadsdato),
+                ...getFrilansApiData(formData, søknadsperiode, søknadsdato),
+                ...getSelvstendigNæringsdrivendeApiData(formData, søknadsperiode, søknadsdato, locale),
             };
 
             if (isFeatureEnabled(Feature.ANDRE_YTELSER)) {

@@ -49,10 +49,11 @@ import './summary.less';
 
 interface Props {
     values: PleiepengesøknadFormData;
+    søknadsdato: Date;
     onApplicationSent: (apiValues: PleiepengesøknadApiData, søkerdata: Søkerdata) => void;
 }
 
-const SummaryStep = ({ onApplicationSent, values }: Props) => {
+const SummaryStep = ({ onApplicationSent, values, søknadsdato }: Props) => {
     const [sendingInProgress, setSendingInProgress] = useState<boolean>(false);
     const [soknadSent, setSoknadSent] = useState<boolean>(false);
     const intl = useIntl();
@@ -96,7 +97,7 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                     barn,
                 } = søkerdata;
 
-                const apiValues = mapFormDataToApiData(values, barn, intl.locale as Locale);
+                const apiValues = mapFormDataToApiData(values, barn, intl.locale as Locale, søknadsdato);
 
                 if (apiValues === undefined) {
                     return <div>Det oppstod en feil - api-data mangler</div>;
@@ -234,10 +235,18 @@ const SummaryStep = ({ onApplicationSent, values }: Props) => {
                                 <ArbeidssituasjonSummary apiValues={apiValues} søknadsperiode={søknadsperiode} />
 
                                 {/* Arbeid i søknadsperiode */}
-                                <ArbeidIPeriodenSummary apiValues={apiValues} søknadsperiode={søknadsperiode} />
+                                <ArbeidIPeriodenSummary
+                                    apiValues={apiValues}
+                                    søknadsperiode={søknadsperiode}
+                                    søknadsdato={søknadsdato}
+                                />
 
                                 {/* Omsorgstilbud */}
-                                <OmsorgstilbudSummary søknadsperiode={søknadsperiode} apiValues={apiValues} />
+                                <OmsorgstilbudSummary
+                                    søknadsperiode={søknadsperiode}
+                                    apiValues={apiValues}
+                                    søknadsdato={søknadsdato}
+                                />
 
                                 {/* Andre ytelser */}
                                 {isFeatureEnabled(Feature.ANDRE_YTELSER) && (

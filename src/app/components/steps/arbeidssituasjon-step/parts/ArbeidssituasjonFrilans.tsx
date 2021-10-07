@@ -5,7 +5,7 @@ import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-co
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
@@ -25,10 +25,11 @@ import { erFrilanserIPeriode } from '../../../../utils/frilanserUtils';
 interface Props {
     formValues: PleiepengesøknadFormData;
     søknadsperiode: DateRange;
+    søknadsdato: Date;
     søkerKunHistoriskPeriode: boolean;
 }
 
-const ArbeidssituasjonFrilans = ({ formValues, søkerKunHistoriskPeriode, søknadsperiode }: Props) => {
+const ArbeidssituasjonFrilans = ({ formValues, søkerKunHistoriskPeriode, søknadsperiode, søknadsdato }: Props) => {
     const {
         frilans_jobberFortsattSomFrilans,
         frilans_harHattInntektSomFrilanser,
@@ -80,8 +81,8 @@ const ArbeidssituasjonFrilans = ({ formValues, søkerKunHistoriskPeriode, søkna
                                 name={AppFormField.frilans_startdato}
                                 label={intlHelper(intl, 'frilanser.nårStartet.spm')}
                                 showYearSelector={true}
-                                maxDate={dateToday}
-                                validate={getFrilanserStartdatoValidator(formValues)}
+                                maxDate={søknadsdato}
+                                validate={getFrilanserStartdatoValidator(formValues, søknadsdato)}
                             />
                         </Box>
                         <FormBlock>
@@ -98,8 +99,8 @@ const ArbeidssituasjonFrilans = ({ formValues, søkerKunHistoriskPeriode, søkna
                                     label={intlHelper(intl, 'frilanser.nårSluttet.spm')}
                                     showYearSelector={true}
                                     minDate={datepickerUtils.getDateFromDateString(frilans_startdato)}
-                                    maxDate={dateToday}
-                                    validate={getFrilanserSluttdatoValidator(formValues)}
+                                    maxDate={søknadsdato}
+                                    validate={getFrilanserSluttdatoValidator(formValues, søknadsdato)}
                                 />
                             </FormBlock>
                         )}

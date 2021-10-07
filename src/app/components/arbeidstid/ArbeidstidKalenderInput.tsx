@@ -25,6 +25,7 @@ interface Props {
     enkeltdagerFieldName: string;
     visKunEnkeltdager?: boolean;
     intlValues: ArbeidIPeriodeIntlValues;
+    søknadsdato: Date;
 }
 
 const ArbeidstidKalenderInput: React.FunctionComponent<Props> = ({
@@ -34,6 +35,7 @@ const ArbeidstidKalenderInput: React.FunctionComponent<Props> = ({
     tidMedArbeid = {},
     intlValues,
     erHistorisk,
+    søknadsdato,
 }) => {
     const visSkjemaInline: boolean = visKunEnkeltdager || visSpørsmålOmTidErLikHverUke(periode) === false;
     const intl = useIntl();
@@ -98,6 +100,7 @@ const ArbeidstidKalenderInput: React.FunctionComponent<Props> = ({
                                                 }),
                                             }}
                                             intlValues={intlValues}
+                                            søknadsdato={søknadsdato}
                                         />
                                     </AppForm.InputGroup>
                                 </FormBlock>

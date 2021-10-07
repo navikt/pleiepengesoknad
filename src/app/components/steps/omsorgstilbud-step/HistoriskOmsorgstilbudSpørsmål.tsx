@@ -20,11 +20,18 @@ dayjs.extend(isBetween);
 interface Props {
     tittel: string;
     periode: DateRange;
+    søknadsdato: Date;
     omsorgstilbud?: Omsorgstilbud;
     onOmsorgstilbudChanged: () => void;
 }
 
-const HistoriskOmsorgstilbudSpørsmål = ({ tittel, periode, omsorgstilbud, onOmsorgstilbudChanged }: Props) => {
+const HistoriskOmsorgstilbudSpørsmål = ({
+    tittel,
+    periode,
+    omsorgstilbud,
+    søknadsdato,
+    onOmsorgstilbudChanged,
+}: Props) => {
     const intl = useIntl();
 
     return (
@@ -59,6 +66,7 @@ const HistoriskOmsorgstilbudSpørsmål = ({ tittel, periode, omsorgstilbud, onOm
                             onOmsorgstilbudChanged={() => {
                                 onOmsorgstilbudChanged();
                             }}
+                            søknadsdato={søknadsdato}
                         />
                     </ResponsivePanel>
                 </FormBlock>

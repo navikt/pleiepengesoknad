@@ -1,5 +1,4 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { VetOmsorgstilbud } from '../../types';
 import {
@@ -19,7 +18,8 @@ type OmsorgstilbudApiDataPart = Pick<PleiepengesøknadApiData, 'omsorgstilbud'>;
 
 export const mapPlanlagtOmsorgstilbudToApiData = (
     omsorgstilbud: Omsorgstilbud,
-    søknadsperiode: DateRange
+    søknadsperiode: DateRange,
+    søknadsdato: Date
 ): PlanlagtOmsorgstilbudApiData | undefined => {
     const { planlagt, skalBarnIOmsorgstilbud } = omsorgstilbud;
 
@@ -41,7 +41,7 @@ export const mapPlanlagtOmsorgstilbudToApiData = (
             ukedager: getFasteDagerApiData(fasteDager),
         };
     }
-    const periodeFraOgMedSøknadsdato = getPlanlagtPeriode(søknadsperiode, dateToday);
+    const periodeFraOgMedSøknadsdato = getPlanlagtPeriode(søknadsperiode, søknadsdato);
     if (erLiktHverUke !== YesOrNo.YES && enkeltdager && periodeFraOgMedSøknadsdato) {
         return {
             vetOmsorgstilbud: vetHvorMyeTid,
@@ -54,10 +54,11 @@ export const mapPlanlagtOmsorgstilbudToApiData = (
 
 export const mapHistoriskOmsorgstilbudToApiData = (
     omsorgstilbud: Omsorgstilbud,
-    søknadsperiode: DateRange
+    søknadsperiode: DateRange,
+    søknadsdato: Date
 ): HistoriskOmsorgstilbudApiData | undefined => {
     const { harBarnVærtIOmsorgstilbud, historisk } = omsorgstilbud;
-    const periodeFørSøknadsdato = getHistoriskPeriode(søknadsperiode, dateToday);
+    const periodeFørSøknadsdato = getHistoriskPeriode(søknadsperiode, søknadsdato);
     if (harBarnVærtIOmsorgstilbud === YesOrNo.YES && historisk?.enkeltdager && periodeFørSøknadsdato) {
         return {
             enkeltdager: getEnkeltdagerIPeriodeApiData(historisk.enkeltdager, periodeFørSøknadsdato),
@@ -68,13 +69,14 @@ export const mapHistoriskOmsorgstilbudToApiData = (
 
 export const getOmsorgstilbudApiData = (
     omsorgstilbud: Omsorgstilbud | undefined,
-    søknadsperiode: DateRange
+    søknadsperiode: DateRange,
+    søknadsdato: Date
 ): OmsorgstilbudApiDataPart => {
     if (omsorgstilbud?.historisk || omsorgstilbud?.planlagt) {
         return {
             omsorgstilbud: {
-                historisk: mapHistoriskOmsorgstilbudToApiData(omsorgstilbud, søknadsperiode),
-                planlagt: mapPlanlagtOmsorgstilbudToApiData(omsorgstilbud, søknadsperiode),
+                historisk: mapHistoriskOmsorgstilbudToApiData(omsorgstilbud, søknadsperiode, søknadsdato),
+                planlagt: mapPlanlagtOmsorgstilbudToApiData(omsorgstilbud, søknadsperiode, søknadsdato),
             },
         };
     }

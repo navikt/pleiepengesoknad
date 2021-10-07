@@ -16,10 +16,11 @@ import { erAnsattHosArbeidsgiverISøknadsperiode } from '../../../utils/ansattUt
 
 interface Props {
     periode: DateRange;
+    søknadsdato: Date;
     erHistorisk: boolean;
 }
 
-const ArbeidIPeriodeStepContent = ({ periode, erHistorisk }: Props) => {
+const ArbeidIPeriodeStepContent = ({ periode, erHistorisk, søknadsdato }: Props) => {
     const intl = useIntl();
     const formikProps = useFormikContext<PleiepengesøknadFormData>();
     const {
@@ -94,6 +95,7 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk }: Props) => {
                                     periode={periode}
                                     parentFieldName={`${AppFormField.ansatt_arbeidsforhold}.${index}`}
                                     erHistorisk={erHistorisk}
+                                    søknadsdato={søknadsdato}
                                 />
                             </FormSection>
                         );
@@ -109,6 +111,7 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk }: Props) => {
                         periode={arbeidsperiodeFrilans}
                         parentFieldName={`${AppFormField.frilans_arbeidsforhold}`}
                         erHistorisk={erHistorisk}
+                        søknadsdato={søknadsdato}
                     />
                 </FormSection>
             )}
@@ -120,6 +123,7 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk }: Props) => {
                         periode={periode}
                         parentFieldName={`${AppFormField.selvstendig_arbeidsforhold}`}
                         erHistorisk={erHistorisk}
+                        søknadsdato={søknadsdato}
                     />
                 </FormSection>
             )}

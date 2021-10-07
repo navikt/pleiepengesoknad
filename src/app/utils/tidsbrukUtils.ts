@@ -1,9 +1,4 @@
-import {
-    apiStringDateToDate,
-    DateRange,
-    dateToday,
-    datoErInnenforTidsrom,
-} from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { apiStringDateToDate, DateRange, datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { timeToDecimalTime, timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { dateToISOString, ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import { isValidTime } from '@navikt/sif-common-formik/lib/components/formik-time-input/TimeInput';
@@ -74,8 +69,8 @@ export const getTidEnkeltdagerInnenforPeriode = (dager: TidEnkeltdag, periode: D
     return dagerIPerioden;
 };
 
-export const getSøkerKunHistoriskPeriode = (søknadsperiode: DateRange) =>
-    dayjs(søknadsperiode.to).isBefore(dateToday, 'day');
+export const getSøkerKunHistoriskPeriode = (søknadsperiode: DateRange, søknadsdato: Date) =>
+    dayjs(søknadsperiode.to).isBefore(søknadsdato, 'day');
 
 export const getHistoriskPeriode = (søknadsperiode: DateRange, søknadsdato: Date): DateRange | undefined => {
     const yesterday = dayjs(søknadsdato).subtract(1, 'day').toDate();

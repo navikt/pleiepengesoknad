@@ -19,6 +19,8 @@ const fasteDagerResult = {
     fredag: 'PT2H30M',
 };
 
+const søknadsdato = new Date();
+
 jest.mock('./../featureToggleUtils.ts', () => ({
     isFeatureEnabled: jest.fn(),
     Feature: {},
@@ -36,7 +38,9 @@ const søknadsperiode: DateRange = {
 describe('mapOmsorgstilbudToApiData test', () => {
     it('should return correct values when NO is selected', () => {
         expect(JSON.stringify(undefined)).toEqual(
-            JSON.stringify(mapPlanlagtOmsorgstilbudToApiData({ skalBarnIOmsorgstilbud: YesOrNo.NO }, søknadsperiode))
+            JSON.stringify(
+                mapPlanlagtOmsorgstilbudToApiData({ skalBarnIOmsorgstilbud: YesOrNo.NO }, søknadsperiode, søknadsdato)
+            )
         );
     });
     it(`should return ${VetOmsorgstilbud.VET_IKKE} when ${AppFormField.omsorgstilbud__skalBarnIOmsorgstilbud} === ${YesOrNo.YES} and ${AppFormField.omsorgstilbud__planlagt__vetHvorMyeTid} === ${VetOmsorgstilbud.VET_IKKE}`, () => {
@@ -47,7 +51,8 @@ describe('mapOmsorgstilbudToApiData test', () => {
                     vetHvorMyeTid: VetOmsorgstilbud.VET_IKKE,
                 },
             },
-            søknadsperiode
+            søknadsperiode,
+            søknadsdato
         );
         expect(result?.enkeltdager).toBeUndefined();
         expect(result?.ukedager).toBeUndefined();
@@ -64,7 +69,8 @@ describe('mapOmsorgstilbudToApiData test', () => {
                         fasteDager: { fredag: { hours: '2', minutes: '30' } },
                     },
                 },
-                søknadsperiode
+                søknadsperiode,
+                søknadsdato
             );
             expect(JSON.stringify(result?.ukedager)).toEqual(JSON.stringify(fasteDagerResult));
         });

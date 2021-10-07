@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import { DateRange, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import {
     FormikModalFormAndInfo,
     ModalFormAndInfoLabels,
@@ -22,11 +22,19 @@ interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, Va
     name: FieldNames;
     labels: ModalFormAndInfoLabels;
     periode: DateRange;
+    søknadsdato: Date;
     intlValues: ArbeidIPeriodeIntlValues;
 }
 
-function ArbeidstidInfoAndDialog<FieldNames>({ name, periode, labels, intlValues, validate }: Props<FieldNames>) {
-    const erHistorisk = dayjs(periode.to).isBefore(dateToday, 'day');
+function ArbeidstidInfoAndDialog<FieldNames>({
+    name,
+    periode,
+    labels,
+    intlValues,
+    søknadsdato,
+    validate,
+}: Props<FieldNames>) {
+    const erHistorisk = dayjs(periode.to).isBefore(søknadsdato, 'day');
     return (
         <FormikModalFormAndInfo<FieldNames, TidEnkeltdag, ValidationError>
             name={name}

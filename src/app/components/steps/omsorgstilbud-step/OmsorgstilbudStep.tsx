@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useHistory } from 'react-router';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
-import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
@@ -20,7 +19,11 @@ import { cleanupOmsorgstilbudStep } from './omsorgstilbudStepUtils';
 
 dayjs.extend(isBetween);
 
-const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
+interface Props {
+    søknadsdato: Date;
+}
+
+const OmsorgstilbudStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Props) => {
     const intl = useIntl();
     const history = useHistory();
     const { values } = useFormikContext<PleiepengesøknadFormData>();
@@ -45,15 +48,15 @@ const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
 
     const søknadsperiode: DateRange = { from: periodeFra, to: periodeTil };
 
-    const periodeFørSøknadsdato = getHistoriskPeriode(søknadsperiode, dateToday);
-    const periodeFraOgMedSøknadsdato = getPlanlagtPeriode(søknadsperiode, dateToday);
+    const periodeFørSøknadsdato = getHistoriskPeriode(søknadsperiode, søknadsdato);
+    const periodeFraOgMedSøknadsdato = getPlanlagtPeriode(søknadsperiode, søknadsdato);
 
     const harBådeHistoriskOgPlanlagt = periodeFørSøknadsdato !== undefined && periodeFraOgMedSøknadsdato;
 
     return (
         <FormikStep
             id={StepID.OMSORGSTILBUD}
-            onStepCleanup={(values) => cleanupOmsorgstilbudStep(values, søknadsperiode, dateToday)}
+            onStepCleanup={(values) => cleanupOmsorgstilbudStep(values, søknadsperiode, søknadsdato)}
             onValidFormSubmit={onValidSubmit}>
             <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                 <FormattedMessage id="steg.omsorgstilbud.veileder.html" values={{ p: (msg: string) => <p>{msg}</p> }} />
@@ -69,6 +72,7 @@ const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
                             : 'steg.omsorgstilbud.generelt.tittel'
                     )}
                     onOmsorgstilbudChanged={() => setOmsorgstilbudChanged(true)}
+                    søknadsdato={søknadsdato}
                 />
             )}
             {periodeFraOgMedSøknadsdato && (
@@ -82,6 +86,7 @@ const OmsorgstilbudStep = ({ onValidSubmit }: StepConfigProps) => {
                             : 'steg.omsorgstilbud.generelt.tittel'
                     )}
                     onOmsorgstilbudChanged={() => setOmsorgstilbudChanged(true)}
+                    søknadsdato={søknadsdato}
                 />
             )}
         </FormikStep>

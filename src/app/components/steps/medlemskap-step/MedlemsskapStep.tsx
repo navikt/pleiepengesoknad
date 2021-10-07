@@ -5,7 +5,7 @@ import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-p
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { date1YearAgo, date1YearFromNow, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { date1YearAgo, date1YearFromNow } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import BostedUtlandListAndDialog from '@navikt/sif-common-forms/lib/bosted-utland/BostedUtlandListAndDialog';
@@ -20,18 +20,23 @@ import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import { validateUtenlandsoppholdNeste12Mnd, validateUtenlandsoppholdSiste12Mnd } from './medlemskapFieldValidations';
 
-const getFomForBostedNeste12 = (bosted: BostedUtland[]): Date => {
+const getFomForBostedNeste12 = (bosted: BostedUtland[], søknadsdato: Date): Date => {
     const sisteBosted = bosted.length > 0 ? bosted[bosted.length - 1] : undefined;
     if (sisteBosted) {
-        return moment(sisteBosted.tom).isSame(dateToday, 'day') ? moment(dateToday).add(1, 'day').toDate() : dateToday;
+        return moment(sisteBosted.tom).isSame(søknadsdato, 'day')
+            ? moment(søknadsdato).add(1, 'day').toDate()
+            : søknadsdato;
     }
-    return dateToday;
+    return søknadsdato;
 };
 
-const MedlemsskapStep = ({ onValidSubmit }: StepConfigProps) => {
+type Props = {
+    søknadsdato: Date;
+};
+const MedlemsskapStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Props) => {
     const { values } = useFormikContext<PleiepengesøknadFormData>();
     const intl = useIntl();
-    const neste12FomDate = getFomForBostedNeste12(values.utenlandsoppholdSiste12Mnd);
+    const neste12FomDate = getFomForBostedNeste12(values.utenlandsoppholdSiste12Mnd, søknadsdato);
     return (
         <FormikStep id={StepID.MEDLEMSKAP} onValidFormSubmit={onValidSubmit}>
             <Box padBottom="xxl">
@@ -58,7 +63,7 @@ const MedlemsskapStep = ({ onValidSubmit }: StepConfigProps) => {
                     <BostedUtlandListAndDialog<AppFormField>
                         name={AppFormField.utenlandsoppholdSiste12Mnd}
                         minDate={date1YearAgo}
-                        maxDate={dateToday}
+                        maxDate={søknadsdato}
                         labels={{
                             addLabel: intlHelper(intl, 'step.medlemskap.leggTilKnapp'),
                             listTitle: intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.listeTittel'),

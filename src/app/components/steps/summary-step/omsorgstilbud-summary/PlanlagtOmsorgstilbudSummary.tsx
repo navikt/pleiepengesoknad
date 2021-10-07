@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import { DateRange, dateToday, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { VetOmsorgstilbud } from '../../../../types';
 import { PlanlagtOmsorgstilbudApiData } from '../../../../types/PleiepengesøknadApiData';
@@ -14,12 +14,13 @@ import TidFasteDager from '../../../dager-med-tid/TidFasteDager';
 interface Props {
     omsorgstilbud?: PlanlagtOmsorgstilbudApiData;
     søknadsperiode: DateRange;
+    søknadsdato: Date;
 }
 
-const PlanlagtOmsorgstilbudSummary = ({ omsorgstilbud, søknadsperiode }: Props) => {
+const PlanlagtOmsorgstilbudSummary = ({ omsorgstilbud, søknadsperiode, søknadsdato }: Props) => {
     const intl = useIntl();
 
-    const periodeFraOgMedSøknadsdato = getPlanlagtPeriode(søknadsperiode, dateToday);
+    const periodeFraOgMedSøknadsdato = getPlanlagtPeriode(søknadsperiode, søknadsdato);
     if (!periodeFraOgMedSøknadsdato) {
         return null;
     }
