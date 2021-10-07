@@ -43,15 +43,16 @@ export const getFrilansApiData = (
     } = formData;
 
     const _harHattInntektSomFrilanser = frilans_harHattInntektSomFrilanser === YesOrNo.NO;
-    if (_harHattInntektSomFrilanser === false || frilans_startdato === undefined) {
-        return {
-            _harHattInntektSomFrilanser,
-        };
-    }
-
     const jobberFortsattSomFrilans: boolean = frilans_jobberFortsattSomFrilans === YesOrNo.YES;
     const startdato = datepickerUtils.getDateFromDateString(frilans_startdato);
     const sluttdato = datepickerUtils.getDateFromDateString(frilans_sluttdato);
+
+    if (frilans_startdato === undefined) {
+        console.error('getFrilansApiData - frilans_startdato === undefined');
+        return {
+            _harHattInntektSomFrilanser: false,
+        };
+    }
 
     if (
         startdato &&
