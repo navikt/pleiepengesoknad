@@ -561,7 +561,7 @@
     "oppsummering.arbeidssituasjon.avsluttet.tid.TURNUS": "Jobbet turnus, {timer, plural, one {# time} other {# timer}} i snitt per uke.",
     "oppsummering.arbeidssituasjon.avsluttet.tid.VARIERENDE": "Jobbet deltid/varierende/tilkalling, {timer, plural, one {# time} other {# timer}} i snitt per uke.",
     "oppsummering.arbeidssituasjon.avsluttet.sluttetFørSøknadsperiode": "Sluttet før {periodeFra}",
-    "oppsummering.arbeidssituasjon.avsluttet.sluttetISøknadsperiode": "Sluttet mellom {periodeFra} og {periodeTil}",
+    "oppsummering.arbeidssituasjon.avsluttet.sluttetISøknadsperiode": "Sluttet etter {periodeFra}",
 
     "oppsummering.arbeidssituasjon.arbeidsgivere.ingenIPeriode.header": "Arbeidsgivere",
     "oppsummering.arbeidssituasjon.arbeidsgivere.ingenIPeriode.tekst": "Er ikke ansatt i perioden det søkes for.",
