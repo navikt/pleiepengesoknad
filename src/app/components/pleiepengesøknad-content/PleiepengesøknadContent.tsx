@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
-import { apiStringDateToDate, dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
+import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { useFormikContext } from 'formik';
 import { persist } from '../../api/api';
 import { SKJEMANAVN } from '../../App';
@@ -13,6 +12,7 @@ import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData
 import { Søkerdata } from '../../types/Søkerdata';
 import { apiUtils } from '../../utils/apiUtils';
 import { getSøknadsperiodeFromFormData } from '../../utils/formDataUtils';
+import { getKvitteringInfoFromApiData } from '../../utils/kvitteringUtils';
 import { navigateTo, navigateToErrorPage, relocateToLoginPage } from '../../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../../utils/routeUtils';
 import { getHistoriskPeriode, getPlanlagtPeriode } from '../../utils/tidsbrukUtils';
@@ -39,24 +39,8 @@ export interface KvitteringInfo {
     fom: Date;
     tom: Date;
     søkernavn: string;
-    arbeidsforhold: ArbeidsgiverApiData[];
+    arbeidsgivere: ArbeidsgiverApiData[];
 }
-
-const getKvitteringInfoFromApiData = (
-    { arbeidsgivere, fraOgMed, tilOgMed }: PleiepengesøknadApiData,
-    søkerdata: Søkerdata
-): KvitteringInfo | undefined => {
-    if (arbeidsgivere && arbeidsgivere.length > 0) {
-        const { fornavn, mellomnavn, etternavn } = søkerdata.person;
-        return {
-            arbeidsforhold: arbeidsgivere,
-            fom: apiStringDateToDate(fraOgMed),
-            tom: apiStringDateToDate(tilOgMed),
-            søkernavn: formatName(fornavn, etternavn, mellomnavn),
-        };
-    }
-    return undefined;
-};
 
 const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadContentProps) => {
     const location = useLocation();
@@ -244,8 +228,7 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
                             values={values}
                             søknadsdato={søknadsdato}
                             onApplicationSent={(apiData: PleiepengesøknadApiData, søkerdata: Søkerdata) => {
-                                const info = getKvitteringInfoFromApiData(apiData, søkerdata);
-                                setKvitteringInfo(info);
+                                setKvitteringInfo(getKvitteringInfoFromApiData(apiData, søkerdata));
                                 setSøknadHasBeenSent(true);
                                 resetForm();
                                 navigateTo(RouteConfig.SØKNAD_SENDT_ROUTE, history);
