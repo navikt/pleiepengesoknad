@@ -48,7 +48,6 @@ export const getFrilansApiData = (
         erFrilanserITidsrom(søknadsperiode, { frilansStartdato: startdato, frilansSluttdato: sluttdato })
     ) {
         const frilanserPeriode = { frilansStartdato: startdato, frilansSluttdato: sluttdato };
-
         const arbeidsforhold = frilans_arbeidsforhold
             ? mapArbeidsforholdToApiData(
                   frilans_arbeidsforhold,

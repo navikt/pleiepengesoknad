@@ -14,6 +14,8 @@ import {
 import AppForm from '../../../app-form/AppForm';
 import ArbeidsformInfo from '../info/ArbeidsformInfo';
 import { Arbeidsform } from '../../../../types';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 
 interface Props {
     arbeidsforhold?: ArbeidsforholdAnsatt | ArbeidsforholdSNF;
@@ -37,12 +39,28 @@ const ArbeidsformOgTimerFormPart: React.FunctionComponent<Props> = ({
     const intl = useIntl();
     const getFieldName = (field: ArbeidsforholdField) => `${parentFieldName}.${field}` as AppFormField;
     const erAnsattArbeidsforhold = isArbeidsforholdAnsatt(arbeidsforhold);
+    const visInfoSomSluttetAnsatt =
+        isArbeidsforholdAnsatt(arbeidsforhold) &&
+        arbeidsforhold.erAnsatt === YesOrNo.NO &&
+        arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO
+            ? true
+            : false;
     return (
         <>
             <FormBlock margin="none">
                 <AppForm.RadioPanelGroup
                     legend={spørsmål.arbeidsform}
                     name={getFieldName(ArbeidsforholdField.arbeidsform)}
+                    description={
+                        <ExpandableInfo title={intlHelper(intl, 'arbeidsforhold.arbeidsform.info.tittel')}>
+                            {intlHelper(
+                                intl,
+                                visInfoSomSluttetAnsatt
+                                    ? 'arbeidsforhold.arbeidsform.info.sluttet.tekst'
+                                    : 'arbeidsforhold.arbeidsform.info.tekst'
+                            )}
+                        </ExpandableInfo>
+                    }
                     radios={[
                         {
                             label: intlHelper(intl, 'arbeidsforhold.arbeidsform.fast'),

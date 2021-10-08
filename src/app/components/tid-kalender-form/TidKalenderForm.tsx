@@ -14,9 +14,9 @@ import weekOfYear from 'dayjs/plugin/weekOfYear';
 import Knapp from 'nav-frontend-knapper';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { TidEnkeltdag } from '../../types';
+import { getValidEnkeltdager } from '../../utils/tidsbrukUtils';
 import { TidPerDagValidator } from '../../validation/fieldValidations';
 import TidUkerInput from '../tid-uker-input/TidUkerInput';
-import { getValidEnkeltdager } from '../../utils/tidsbrukUtils';
 
 dayjs.extend(isoWeek);
 dayjs.extend(weekOfYear);
@@ -48,8 +48,7 @@ const TidKalenderForm = ({ periode, tid, tittel, intro, tidPerDagValidator, onSu
     }
 
     const onFormikSubmit = ({ tid = {} }: Partial<FormValues>) => {
-        const cleanedTidIOmsorg = getValidEnkeltdager(tid);
-        onSubmit(cleanedTidIOmsorg);
+        onSubmit(getValidEnkeltdager(tid));
     };
 
     return (
@@ -68,10 +67,10 @@ const TidKalenderForm = ({ periode, tid, tittel, intro, tidPerDagValidator, onSu
                                 <FormBlock margin="l">
                                     <Knapperad align="left">
                                         <Knapp htmlType="submit" type="hoved">
-                                            <FormattedMessage id="omsorgstilbud.form.knapp.ok" />
+                                            <FormattedMessage id="tidKalenderForm.ok.label" />
                                         </Knapp>
                                         <Knapp htmlType="button" type="standard" onClick={onCancel}>
-                                            <FormattedMessage id="omsorgstilbud.form.knapp.avbryt" />
+                                            <FormattedMessage id="tidKalenderForm.avbryt.label" />
                                         </Knapp>
                                     </Knapperad>
                                 </FormBlock>

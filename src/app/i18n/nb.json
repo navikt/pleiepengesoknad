@@ -280,9 +280,9 @@
     "steg.tidsrom.bekreftOmsorgEkstrainfo.spm": "Beskriv omsorgsrollen du har for barnet i tidsrommet du skal ha pleiepenger:",
 
     "steg.arbeidssituasjon.tittel": "Arbeidsgivere",
-    "steg.arbeidssituasjon.veileder": "Nå trenger vi å vite litt om arbeidssituasjonen din og hvor mye du vanligvis jobber.",
-    "steg.arbeidssituasjon.veileder.medArbeidsgiver": "Nedenfor ser du {antall, plural, one {arbeidsgiveren} other {arbeidsgivere}} du er registrert ansatt hos i AA-registeret i perioden du søker om pleiepenger. For at vi skal være sikre på at opplysningene er riktige, må du bekrefte eller avkrefte at du er ansatt der.",
-    "steg.arbeidssituasjon.veileder.medArbeidsgiver.historisk": "Nedenfor ser du {antall, plural, one {arbeidsgiveren} other {arbeidsgivere}} du er registrert ansatt hos i AA-registeret i perioden du søker om pleiepenger. For at vi skal være sikre på at opplysningene er riktige, må du bekrefte eller avkrefte at du var ansatt der.",
+    "steg.arbeidssituasjon.veileder": "Nå trenger vi å vite litt om arbeidssituasjonen din og hvor mye du vanligvis jobber når du ikke har fravær på grunn av pleiepenger.",
+    "steg.arbeidssituasjon.veileder.medArbeidsgiver": "Nedenfor ser du {antall, plural, one {arbeidsgiveren} other {arbeidsgivere}} du er registrert ansatt hos i AA-registeret i perioden du søker om pleiepenger. For at vi skal være sikre på at opplysningene er riktige må du bekrefte eller avkrefte at du er, eller har vært, ansatt der.",
+    "steg.arbeidssituasjon.veileder.medArbeidsgiver.historisk": "Nedenfor ser du {antall, plural, one {arbeidsgiveren} other {arbeidsgivere}} du er registrert ansatt hos i AA-registeret i perioden du søker om pleiepenger. For at vi skal være sikre på at opplysningene er riktige må du bekrefte eller avkrefte at du har vært, ansatt der.",
     "steg.arbeidssituasjon.veileder.ingenArbeidsgiverFunnet": "Vi har ikke funnet noen arbeidsgivere registrert på deg i AA-registeret.",
     "steg.arbeidssituasjon.veileder.manglerDetArbeidsgiver": "Hvis du er ansatt hos en arbeidsgiver som ikke vises her, må du be arbeidsgiveren om å sende en ny A-melding. Dette gjør de enten via eget lønns- og personalsystem, eller via Altinn.",
     "steg.arbeidssituasjon.veileder.manglerDetArbeidsgiver.historisk": "Hvis du er eller var ansatt hos en arbeidsgiver som ikke vises her, må du be arbeidsgiveren om å sende en ny A-melding. Dette gjør de enten via eget lønns- og personalsystem, eller via Altinn.",
@@ -448,7 +448,7 @@
     "dokumenter.advarsel.totalstørrelse.1": "Du har totalt lastet opp mer enn grensen på 24 Mb. Det betyr at du må fjerne noe av det du har lastet opp. Hvis det betyr at du ikke får plass til alt du ønsker å sende nå, kan du ",
     "dokumenter.advarsel.totalstørrelse.2": "ettersende flere dokumenter.",
 
-    "arbeidsforhold.ikkeAnsatt.info": "[TODO] Informasjon når søker ikke er ansatt - hvorfor en fortsatt må fylle ut informasjonen.",
+    "arbeidsforhold.ikkeAnsatt.info": "Når du ikke er ansatt her lenger, må du be denne arbeidsgiveren om å sende en ny A-melding med sluttdato. Dette gjør de enten via eget lønns- og personalsystem, eller via Altinn.",
 
     "arbeidsforhold.part.jobber": "jobber",
     "arbeidsforhold.part.jobbet": "jobbet",
@@ -467,6 +467,9 @@
 
     "arbeidsforhold.arbeidsform.spm": "Hvordan jobber du vanligvis hos {arbeidsforhold}?",
     "arbeidsforhold.arbeidsform.avsluttet.spm": "Hvordan jobbet du vanligvis hos {arbeidsforhold} da du var ansatt der?",
+    "arbeidsforhold.arbeidsform.info.tittel": "Hva betyr dette?",
+    "arbeidsforhold.arbeidsform.info.tekst": "Her lurer vi på hvordan du jobber hos denne arbeidsgiveren hvis du ikke hadde hatt fravær på grunn av pleiepenger.",
+    "arbeidsforhold.arbeidsform.info.sluttet.tekst": "Her lurer vi på hvordan du hadde jobbet hos denne arbeidsgiveren hvis du ikke hadde hatt fravær på grunn av pleiepenger.",
     "arbeidsforhold.arbeidsform.fast": "Fast antall timer per uke",
     "arbeidsforhold.arbeidsform.fast.info.tittel": "Hva betyr dette?",
     "arbeidsforhold.arbeidsform.fast.info.tekst": "Her skal du legge inn antall timer du jobber per uke. Hvis du er usikker på antallet må du høre med arbeidsgiveren din, eller finne svaret i arbeidskontrakten din.",
@@ -505,9 +508,9 @@
 
     "arbeidIPeriode.subtitle": "Fra {fra} til {til}",
     "arbeidIPeriode.iPerioden.part": "i perioden {fra} til {til}",
-    "arbeidIPeriode.StepInfo.historisk": "Nå trenger vi å vite om du har jobbet noe i perioden fra {fra} til {til}.",
+    "arbeidIPeriode.StepInfo.historisk": "Nå trenger vi å vite om du har jobbet noe i perioden {fra} til {til}. Dette er informasjon vi trenger, fordi vi graderer pleiepengene opp mot den tiden du har jobbet. ",
     "arbeidIPeriode.StepInfo.planlagt": "Nå trenger vi å vite om du skal jobbe noe i perioden fra og med {fra} til {til}.",
-    "arbeidIPeriode.StepInfo.info": "Dette er informasjon vi trenger, fordi vi graderer pleiepengene opp mot den tiden du har jobbet. Det betyr at om du i pleiepengeperioden for eksempel har jobbet 50 prosent, kan du ha rett til 50 prosent pleiepenger.",
+    "arbeidIPeriode.StepInfo.info": "Gradering betyr at pleiepengene reduseres. Hvis du i pleiepengeperioden for eksempel har jobbet 50 prosent, kan du ha rett til 50 prosent pleiepenger.",
     "arbeidIPeriode.FrilansLabel": "Frilans",
     "arbeidIPeriode.SNLabel": "Selvstendig næringsdrivende",
     "arbeidIPeriode.jobberIPerioden.spm": "Skal du være noe på jobb {hvor} {iPerioden}?",
@@ -534,16 +537,20 @@
     "arbeidIPeriode.historisk.hvorMyeTidIArbeid": "Oppgi timene og minuttene du arbeidet:",
     "arbeidIPeriode.planlagt.hvorMyeTidIArbeid": "Oppgi de timene og minuttene som du skal arbeide:",
 
-    "arbeidstid.periodetittel": "Oppgi arbeidstid for {periode}",
-    "arbeidstid.ingenDagerRegistrert": "Ingen dager med jobb er registrert.",
-    "arbeidstid.form.tittel": "Arbeidstid i {måned}",
-    "arbeidstid.form.intro.planlagt": "Fyll ut antall timer og minutter du skal jobbe. Du trenger ikke fylle ut de dagene du ikke jobber.",
-    "arbeidstid.form.intro.historisk": "Fyll ut antall timer og minutter du jobbet. Du trenger ikke fylle ut de dagene du ikke jobbet.",
+    "tidKalenderForm.ok.label": "Lagre",
+    "tidKalenderForm.avbryt.label": "Avbryt",
 
-    "arbeidstid.addLabel": "Registrer arbeidstid {periode}",
+    "arbeidstid.periodetittel": "Oppgi hvor mye du skal jobbe i {periode}",
+    "arbeidstid.periodetittel.historisk": "Oppgi hvor mye du jobbet i {periode}",
+    "arbeidstid.ingenDagerRegistrert": "Ingen dager med jobb er registrert.",
+    "arbeidstid.form.tittel": "Jobb i {måned}",
+    "arbeidstid.form.intro.planlagt": "Fyll ut antall timer og minutter du skal jobbe. Du trenger ikke fylle ut noe de dagene du ikke jobber. Husk å trykke lagre når du er ferdig med å fylle ut.",
+    "arbeidstid.form.intro.historisk": "Fyll ut antall timer og minutter du jobbet. Du trenger ikke fylle ut noe de dagene du ikke jobbet. Husk å trykke lagre når du er ferdig med å fylle ut.",
+
+    "arbeidstid.addLabel": "Registrer jobb for {periode}",
     "arbeidstid.deleteLabel": "Fjern alle timer",
-    "arbeidstid.editLabel": "Endre arbeidstid {periode}",
-    "arbeidstid.modalTitle": "Arbeidstid ${periode}",
+    "arbeidstid.editLabel": "Endre jobb for {periode}",
+    "arbeidstid.modalTitle": "Jobb i ${periode}",
 
     "oppsummering.arbeidssituasjon.arbeidsgiver.ansatt": "Er ansatt.",
     "oppsummering.arbeidssituasjon.avsluttet.arbeidsgiver.ansatt": "Er ikke lenger ansatt.",

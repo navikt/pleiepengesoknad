@@ -81,7 +81,10 @@ function ArbeidstidInfoAndDialog<FieldNames>({
                 return (
                     <>
                         <Element tag="h3">
-                            <FormattedMessage id="arbeidstid.periodetittel" values={{ periode: mndOgÅr }} />
+                            <FormattedMessage
+                                id={erHistorisk ? 'arbeidstid.periodetittel.historisk' : 'arbeidstid.periodetittel'}
+                                values={{ periode: mndOgÅr }}
+                            />
                         </Element>
                         {dager.length === 0 ? (
                             <p style={{ marginTop: '0.5rem' }}>
@@ -102,7 +105,7 @@ function ArbeidstidInfoAndDialog<FieldNames>({
                                 mini={true}
                                 onClick={() => onEdit(data)}
                                 aria-describedby={tittelId}>
-                                {labels.addLabel}
+                                {dager.length === 0 ? labels.addLabel : labels.editLabel}
                             </Knapp>
                         </FormBlock>
                     </>
