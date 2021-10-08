@@ -25,18 +25,14 @@ export const getSelvstendigNæringsdrivendeApiData = (
 ): SelvstendigArbeidsforholdApiDataPart => {
     const _harHattInntektSomSelvstendigNæringsdrivende = selvstendig_harHattInntektSomSN === YesOrNo.YES;
 
-    if (_harHattInntektSomSelvstendigNæringsdrivende === false) {
+    if (
+        _harHattInntektSomSelvstendigNæringsdrivende === false ||
+        !selvstendig_virksomhet ||
+        !selvstendig_arbeidsforhold
+    ) {
         return {
             _harHattInntektSomSelvstendigNæringsdrivende,
         };
-    }
-
-    if (!selvstendig_virksomhet) {
-        throw new Error('mapSelvstendigNæringsdrivendeToApiData - virksomhet ikke registrert');
-    }
-
-    if (!selvstendig_arbeidsforhold) {
-        throw new Error('mapSelvstendigNæringsdrivendeToApiData - selvstendig_arbeidsforhold er undefined');
     }
 
     return {

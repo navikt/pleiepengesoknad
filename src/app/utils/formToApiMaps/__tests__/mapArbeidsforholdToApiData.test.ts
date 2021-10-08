@@ -28,7 +28,13 @@ const arbeidHistoriskPeriode: ArbeidIPeriode = {
     },
 };
 
-const arbeidEnkeltdagerHistoriskPeriode = { '2021-02-02': { hours: '2' } };
+const arbeidEnkeltdagerHistoriskPeriode = {
+    '2021-02-01': { hours: '2' },
+    '2021-02-02': { hours: '2' },
+    '2021-02-03': { hours: '2' },
+    '2021-02-04': { hours: '2' },
+    '2021-02-05': { hours: '2' },
+};
 
 const arbeidPlanlagtPeriode: ArbeidIPeriode = {
     jobberIPerioden: JobberIPeriodeSvar.JA,
@@ -209,6 +215,71 @@ describe('mapArbeidsforholdToApiData', () => {
             expect(result.erLiktHverUke).toBeUndefined();
             expect(result.fasteDager).toBeUndefined();
             expect(result.enkeltdager).toBeDefined();
+        });
+        describe('Avgrenset arbeidsperiode', () => {
+            it('Starter å arbeide i perioden - fjerner dager oppgitt før startdato', () => {
+                const result: ArbeidIPeriodeApiData = mapArbeidIPeriodeToApiData(
+                    {
+                        jobberIPerioden: JobberIPeriodeSvar.JA,
+                        jobberSomVanlig: YesOrNo.NO,
+                        enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
+                    },
+                    historiskPeriode,
+                    {
+                        from: apiStringDateToDate('2021-02-04'),
+                    }
+                );
+                const { enkeltdager } = result;
+                expect(enkeltdager).toBeDefined();
+                if (enkeltdager) {
+                    expect(enkeltdager.length).toBe(2);
+                    expect(enkeltdager[0].dato).toEqual('2021-02-04');
+                    expect(enkeltdager[1].dato).toEqual('2021-02-05');
+                }
+            });
+            it('Slutter å arbeide i perioden - fjerner dager oppgitt etter sluttdato', () => {
+                const result: ArbeidIPeriodeApiData = mapArbeidIPeriodeToApiData(
+                    {
+                        jobberIPerioden: JobberIPeriodeSvar.JA,
+                        jobberSomVanlig: YesOrNo.NO,
+                        enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
+                    },
+                    historiskPeriode,
+                    {
+                        to: apiStringDateToDate('2021-02-04'),
+                    }
+                );
+                const { enkeltdager } = result;
+                expect(enkeltdager).toBeDefined();
+                if (enkeltdager) {
+                    expect(enkeltdager.length).toBe(4);
+                    expect(enkeltdager[0].dato).toEqual('2021-02-01');
+                    expect(enkeltdager[1].dato).toEqual('2021-02-02');
+                    expect(enkeltdager[2].dato).toEqual('2021-02-03');
+                    expect(enkeltdager[3].dato).toEqual('2021-02-04');
+                }
+            });
+            it('Starter og slutter å arbeide i perioden - fjerner dager utenfor start/sluttdato', () => {
+                const result: ArbeidIPeriodeApiData = mapArbeidIPeriodeToApiData(
+                    {
+                        jobberIPerioden: JobberIPeriodeSvar.JA,
+                        jobberSomVanlig: YesOrNo.NO,
+                        enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
+                    },
+                    historiskPeriode,
+                    {
+                        from: apiStringDateToDate('2021-02-03'),
+                        to: apiStringDateToDate('2021-02-04'),
+                    }
+                );
+                const { enkeltdager } = result;
+                expect(enkeltdager).toBeDefined();
+                if (enkeltdager) {
+                    expect(enkeltdager.length).toBe(2);
+                    expect(enkeltdager[0].dato).toEqual('2021-02-03');
+                    expect(enkeltdager[1].dato).toEqual('2021-02-04');
+                }
+            });
         });
     });
 });

@@ -32,20 +32,20 @@ export const getEnkeltdagerIPeriodeApiData = (enkeltdager: TidEnkeltdag, periode
     return dager.sort(sortTidEnkeltdagApiData);
 };
 
-export const fjernArbeidstidUtenforPeriode = (
-    fom: Date | undefined,
-    tom: Date | undefined,
+export const fjernTidUtenforPeriode = (
+    periode: Partial<DateRange>,
     arbeidstid?: TidEnkeltdagApiData[]
 ): TidEnkeltdagApiData[] | undefined => {
-    if (!arbeidstid || (!fom && !tom)) {
+    const { from, to } = periode;
+    if (!arbeidstid || (!from && !to)) {
         return arbeidstid;
     }
     return arbeidstid.filter((dag) => {
         const dato = apiStringDateToDate(dag.dato);
-        if (fom && dayjs(dato).isBefore(fom)) {
+        if (from && dayjs(dato).isBefore(from)) {
             return false;
         }
-        if (tom && dayjs(dato).isAfter(tom)) {
+        if (to && dayjs(dato).isAfter(to)) {
             return false;
         }
         return true;
