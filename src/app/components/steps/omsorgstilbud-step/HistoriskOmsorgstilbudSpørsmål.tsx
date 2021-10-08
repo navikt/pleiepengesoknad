@@ -11,7 +11,6 @@ import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { AppFormField, Omsorgstilbud } from '../../../types/PleiepengesøknadFormData';
-import { visSpørsmålOmTidErLikHverUke } from '../../../utils/tidsbrukUtils';
 import AppForm from '../../app-form/AppForm';
 import OmsorgstilbudIPeriodeSpørsmål from '../../omsorgstilbud/OmsorgstilbudIPeriodeSpørsmål';
 
@@ -60,7 +59,6 @@ const HistoriskOmsorgstilbudSpørsmål = ({
                 <FormBlock>
                     <ResponsivePanel>
                         <OmsorgstilbudIPeriodeSpørsmål
-                            visKunEnkeltdager={visSpørsmålOmTidErLikHverUke(periode) === false}
                             periode={periode}
                             tidIOmsorgstilbud={omsorgstilbud.historisk?.enkeltdager || {}}
                             onOmsorgstilbudChanged={() => {

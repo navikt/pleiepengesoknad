@@ -145,7 +145,6 @@ const PlanlagtOmsorgstilbudSpørsmål = ({
                                 <FormBlock>
                                     <ResponsivePanel>
                                         <OmsorgstilbudIPeriodeSpørsmål
-                                            visKunEnkeltdager={false}
                                             periode={periode}
                                             tidIOmsorgstilbud={omsorgstilbud.planlagt.enkeltdager || {}}
                                             onOmsorgstilbudChanged={() => {
