@@ -1,5 +1,6 @@
 import { apiStringDateToDate, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { getEnkeltdagerIPeriodeApiData, getFasteDagerApiData } from '../tidsbrukApiUtils';
+import { TidEnkeltdagApiData } from '../../../types/PleiepengesøknadApiData';
+import { fjernTidUtenforPeriode, getEnkeltdagerIPeriodeApiData, getFasteDagerApiData } from '../tidsbrukApiUtils';
 
 describe('tidsbrukApiUtils', () => {
     describe('getFasteDagerApiData', () => {
@@ -58,6 +59,28 @@ describe('tidsbrukApiUtils', () => {
             expect(result[1].dato).toEqual('2021-02-03');
             expect(result[2].dato).toEqual('2021-02-04');
             expect(result[3].dato).toEqual('2021-02-05');
+        });
+    });
+
+    describe('fjernTidUtenforPeriode', () => {
+        it('fjerner tid som er før eller etter periode', () => {
+            const periode: Partial<DateRange> = {
+                from: apiStringDateToDate('2021-02-05'),
+                to: apiStringDateToDate('2021-02-06'),
+            };
+            const tidEnkeltdager: TidEnkeltdagApiData[] = [
+                { dato: '2021-02-04', tid: '2' },
+                { dato: '2021-02-05', tid: '2' },
+                { dato: '2021-02-06', tid: '2' },
+                { dato: '2021-02-07', tid: '2' },
+            ];
+            const result = fjernTidUtenforPeriode(periode, tidEnkeltdager);
+            expect(result).toBeDefined();
+            if (result) {
+                expect(result.length).toBe(2);
+                expect(result[0].dato).toEqual('2021-02-05');
+                expect(result[1].dato).toEqual('2021-02-06');
+            }
         });
     });
 });

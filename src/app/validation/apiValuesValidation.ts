@@ -3,7 +3,14 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 import { StepID } from '../config/stepConfig';
-import { PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
+import {
+    ArbeidIPeriodeApiData,
+    ArbeidsforholdApiData,
+    isArbeidsgiverISøknadsperiodeApiData,
+    PleiepengesøknadApiData,
+} from '../types/PleiepengesøknadApiData';
+import { JobberIPeriodeSvar } from '../types';
+import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
 
 export const apiVedleggIsInvalid = (vedlegg: string[]): boolean => {
     vedlegg.find((v) => {
@@ -21,6 +28,55 @@ export const isVirksomhetRegnskapsførerTelefonnummerValid = (virksomhet: Virkso
     }
     return true;
 };
+
+const isValidNormalarbeidstid = (timer: number | undefined): boolean => {
+    return timer !== undefined && timer >= MIN_TIMER_NORMAL_ARBEIDSFORHOLD && timer <= MAX_TIMER_NORMAL_ARBEIDSFORHOLD;
+};
+
+export const isArbeidIPeriodeValid = (arbeidIPeriode: ArbeidIPeriodeApiData): boolean => {
+    const { jobberIPerioden, fasteDager, enkeltdager, jobberSomVanlig } = arbeidIPeriode;
+    if (jobberIPerioden === JobberIPeriodeSvar.NEI || jobberIPerioden === JobberIPeriodeSvar.VET_IKKE) {
+        return true;
+    }
+    if (jobberSomVanlig === true) {
+        return true;
+    }
+    if (fasteDager === undefined && enkeltdager === undefined) {
+        return false;
+    }
+    if (fasteDager !== undefined && enkeltdager !== undefined) {
+        return false;
+    }
+    return true;
+};
+
+const isArbeidsformOgNormalarbeidstidValid = (arbeidsforhold: ArbeidsforholdApiData): boolean => {
+    const { jobberNormaltTimer, arbeidsform } = arbeidsforhold;
+    if (!arbeidsform || !jobberNormaltTimer) {
+        return false;
+    }
+    return isValidNormalarbeidstid(jobberNormaltTimer);
+};
+
+export const isArbeidsforholdValid = (arbeidsforhold: ArbeidsforholdApiData): boolean => {
+    return isArbeidsformOgNormalarbeidstidValid(arbeidsforhold);
+};
+
+export const isArbeidIPeriodeApiValuesValid = (arbeidsforhold: ArbeidsforholdApiData): boolean => {
+    if (arbeidsforhold.historiskArbeid === undefined && arbeidsforhold.planlagtArbeid === undefined) {
+        return false;
+    }
+    const historiskIsValid = arbeidsforhold.historiskArbeid
+        ? isArbeidIPeriodeValid(arbeidsforhold.historiskArbeid)
+        : true;
+    const planlagtIsValid = arbeidsforhold.historiskArbeid
+        ? isArbeidIPeriodeValid(arbeidsforhold.historiskArbeid)
+        : true;
+    return historiskIsValid === true && planlagtIsValid == true;
+};
+
+export const isArbeidsforholdApiDataValid = (arbeidsforhold: ArbeidsforholdApiData) =>
+    isArbeidsformOgNormalarbeidstidValid(arbeidsforhold) && isArbeidIPeriodeApiValuesValid(arbeidsforhold);
 
 export const validateApiValues = (
     values: PleiepengesøknadApiData,
@@ -42,6 +98,45 @@ export const validateApiValues = (
             errors.push({
                 skjemaelementId: 'virksomhet',
                 feilmelding: intlHelper(intl, 'steg.oppsummering.validering.ugyldigRegnskapsførerTelefonnummer'),
+                stepId: StepID.ARBEIDSSITUASJON,
+            });
+        }
+    }
+
+    if (values.arbeidsgivere && values.arbeidsgivere.length > 0) {
+        values.arbeidsgivere.forEach((arbeidsgiver) => {
+            if (isArbeidsgiverISøknadsperiodeApiData(arbeidsgiver)) {
+                const isValid = isArbeidsforholdApiDataValid(arbeidsgiver.arbeidsforhold);
+                if (!isValid) {
+                    errors.push({
+                        skjemaelementId: 'arbeidsforholdAnsatt',
+                        feilmelding: intlHelper(intl, 'steg.oppsummering.validering.ugyldigArbeidsforholdAnsatt', {
+                            hvor: `hos ${arbeidsgiver.navn}`,
+                        }),
+                        stepId: StepID.ARBEIDSSITUASJON,
+                    });
+                }
+            }
+        });
+    }
+
+    if (values.frilans?.arbeidsforhold) {
+        const isValid = isArbeidsforholdApiDataValid(values.frilans.arbeidsforhold);
+        if (!isValid) {
+            errors.push({
+                skjemaelementId: 'arbeidsforholdFrilans',
+                feilmelding: intlHelper(intl, 'steg.oppsummering.validering.ugyldigArbeidsforholdFrilans'),
+                stepId: StepID.ARBEIDSSITUASJON,
+            });
+        }
+    }
+
+    if (values.selvstendigNæringsdrivende) {
+        const isValid = isArbeidsforholdApiDataValid(values.selvstendigNæringsdrivende.arbeidsforhold);
+        if (!isValid) {
+            errors.push({
+                skjemaelementId: 'arbeidsforholdSn',
+                feilmelding: intlHelper(intl, 'steg.oppsummering.validering.ugyldigArbeidsforholdSN'),
                 stepId: StepID.ARBEIDSSITUASJON,
             });
         }

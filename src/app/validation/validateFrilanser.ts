@@ -1,11 +1,8 @@
-import dayjs from 'dayjs';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import { AppFormField, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import { getDateValidator } from '@navikt/sif-common-formik/lib/validation';
-
-dayjs.extend(isSameOrAfter);
+import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
+import dayjs from 'dayjs';
+import { AppFormField, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 
 type FrilansFormDataForValidation = Pick<
     PleiepengesøknadFormData,
@@ -26,7 +23,7 @@ export const getFrilanserStartdatoValidator =
         }
         const periodeTilDato = datepickerUtils.getDateFromDateString(formData.periodeTil);
         const frilansStartdato = datepickerUtils.getDateFromDateString(formData.frilans_startdato);
-        if (periodeTilDato && frilansStartdato && dayjs(frilansStartdato).isAfter(periodeTilDato)) {
+        if (periodeTilDato && frilansStartdato && dayjs(frilansStartdato).isAfter(periodeTilDato, 'day')) {
             return 'startetEtterSøknadsperiode';
         }
         return undefined;
@@ -45,7 +42,7 @@ export const getFrilanserSluttdatoValidator =
         }
         const periodeFraDato = datepickerUtils.getDateFromDateString(formData.periodeFra);
         const frilansSluttdato = datepickerUtils.getDateFromDateString(formData.frilans_sluttdato);
-        if (periodeFraDato && frilansSluttdato && dayjs(frilansSluttdato).isBefore(periodeFraDato)) {
+        if (periodeFraDato && frilansSluttdato && dayjs(frilansSluttdato).isBefore(periodeFraDato, 'day')) {
             return 'sluttetFørSøknadsperiode';
         }
 

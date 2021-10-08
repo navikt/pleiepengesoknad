@@ -2,15 +2,11 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { apiStringDateToDate, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import dayjs from 'dayjs';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import minMax from 'dayjs/plugin/minMax';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { erFrilanserIPeriode, erFrilanserITidsrom } from '../frilanserUtils';
 
 dayjs.extend(minMax);
-dayjs.extend(isSameOrAfter);
-dayjs.extend(isSameOrBefore);
 
 type TestData = Partial<PleiepengesøknadFormData>;
 

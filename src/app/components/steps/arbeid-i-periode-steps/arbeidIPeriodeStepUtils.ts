@@ -10,13 +10,11 @@ import {
 } from '../../../types/PleiepengesøknadFormData';
 
 import minMax from 'dayjs/plugin/minMax';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getPeriodeSomFrilanserInneforPeriode } from '../../../utils/frilanserUtils';
 import { visSpørsmålOmTidErLikHverUke } from '../../../utils/tidsbrukUtils';
 
 dayjs.extend(minMax);
-dayjs.extend(isSameOrBefore);
 
 const cleanupArbeidIPeriode = (periode: DateRange, arbeidIPerioden: ArbeidIPeriode): ArbeidIPeriode => {
     const arbeid: ArbeidIPeriode = {

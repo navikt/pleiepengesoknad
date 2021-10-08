@@ -34,18 +34,18 @@ export const getEnkeltdagerIPeriodeApiData = (enkeltdager: TidEnkeltdag, periode
 
 export const fjernTidUtenforPeriode = (
     periode: Partial<DateRange>,
-    arbeidstid?: TidEnkeltdagApiData[]
+    tidEnkeltdag?: TidEnkeltdagApiData[]
 ): TidEnkeltdagApiData[] | undefined => {
     const { from, to } = periode;
-    if (!arbeidstid || (!from && !to)) {
-        return arbeidstid;
+    if (!tidEnkeltdag || (!from && !to)) {
+        return tidEnkeltdag;
     }
-    return arbeidstid.filter((dag) => {
+    return tidEnkeltdag.filter((dag) => {
         const dato = apiStringDateToDate(dag.dato);
-        if (from && dayjs(dato).isBefore(from)) {
+        if (from && dayjs(dato).isBefore(from, 'day')) {
             return false;
         }
-        if (to && dayjs(dato).isAfter(to)) {
+        if (to && dayjs(dato).isAfter(to, 'day')) {
             return false;
         }
         return true;

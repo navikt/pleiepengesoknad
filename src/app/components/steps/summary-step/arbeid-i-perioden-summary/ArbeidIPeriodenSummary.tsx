@@ -126,8 +126,12 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
         );
     }
 
-    const arbeidsforholdIHistoriskPeriode = alleArbeidsforhold.filter((a) => a.varAktivtIHistoriskPeriode);
-    const arbeidsforholdIPlanlagtPeriode = alleArbeidsforhold.filter((a) => a.erAktivtIPlanlagtPeriode);
+    const arbeidsforholdIHistoriskPeriode = alleArbeidsforhold.filter(
+        (a) => a.varAktivtIHistoriskPeriode && a.historiskArbeid
+    );
+    const arbeidsforholdIPlanlagtPeriode = alleArbeidsforhold.filter(
+        (a) => a.erAktivtIPlanlagtPeriode && a.planlagtArbeid
+    );
 
     return (
         <>
@@ -144,7 +148,9 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
                                     erHistorisk={true}
                                 />
                             </SummaryBlock>
-                        ) : undefined
+                        ) : (
+                            <div>Historisk arbeid mangler</div>
+                        )
                     )}
                 </SummarySection>
             )}
@@ -161,7 +167,9 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
                                     erHistorisk={false}
                                 />
                             </SummaryBlock>
-                        ) : undefined
+                        ) : (
+                            <div>Planlagt arbeid mangler</div>
+                        )
                     )}
                 </SummarySection>
             )}

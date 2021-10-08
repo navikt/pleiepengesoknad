@@ -400,7 +400,7 @@
     "steg.oppsummering.arbeidssituasjon.header": "Din arbeidssituasjon",
     "steg.oppsummering.vedlegg.header": "Vedlegg",
 
-    "steg.oppsummering.validering.ugyldigArbeidsforholdAnsatt": "Det er ikke fylt ut informasjon om hvordan du skal jobbe her i perioden du har søkt pleiepenger.",
+    "steg.oppsummering.validering.ugyldigArbeidsforholdAnsatt": "Det er ikke fylt ut informasjon om hvordan du skal jobbe {hvor} i perioden du har søkt pleiepenger.",
     "steg.oppsummering.validering.ugyldigArbeidsforholdFrilans": "Det er ikke fylt ut informasjon om hvordan du skal jobbe som frilanser i perioden du har søkt pleiepenger.",
     "steg.oppsummering.validering.ugyldigArbeidsforholdSN": "Det er ikke fylt ut informasjon om hvordan du skal jobbe som selvstendig næringsdrivende i perioden du har søkt pleiepenger.",
     "steg.oppsummering.validering.navigasjonTilStegInfo": "Vennligst gå tilbake og sjekk informasjonen du har fylt ut. Når du har gjort det, trykker du på \"Fortsett\"-knappen for å gå videre.",

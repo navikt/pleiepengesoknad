@@ -1,11 +1,8 @@
-import dayjs from 'dayjs';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import dayjs from 'dayjs';
 import { AppFormField, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-
-dayjs.extend(isSameOrAfter);
 
 export const erFrilanserITidsrom = (
     tidsrom: DateRange,
