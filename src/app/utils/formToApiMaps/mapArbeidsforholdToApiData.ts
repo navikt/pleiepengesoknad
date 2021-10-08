@@ -5,65 +5,71 @@ import { ArbeidsforholdType, JobberIPeriodeSvar } from '../../types';
 import { ArbeidIPeriodeApiData, ArbeidsforholdApiData } from '../../types/PleiepengesøknadApiData';
 import { ArbeidIPeriode, Arbeidsforhold } from '../../types/PleiepengesøknadFormData';
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
-import {
-    getEnkeltdagerIPeriodeApiData,
-    getFasteDagerApiData,
-    getHistoriskPeriode,
-    getPlanlagtPeriode,
-} from '../tidsbrukUtils';
+import { getHistoriskPeriode, getPlanlagtPeriode } from '../tidsbrukUtils';
+import { getEnkeltdagerIPeriodeApiData, getFasteDagerApiData } from './tidsbrukApiUtils';
 
 export const mapArbeidIPeriodeToApiData = (arbeid: ArbeidIPeriode, periode: DateRange): ArbeidIPeriodeApiData => {
-    return {
+    const apiData: ArbeidIPeriodeApiData = {
         jobberIPerioden: arbeid.jobberIPerioden,
-        jobberSomVanlig: isYesOrNoAnswered(arbeid.jobberSomVanlig) ? arbeid.jobberSomVanlig === YesOrNo.YES : undefined,
-        erLiktHverUke: isYesOrNoAnswered(arbeid.erLiktHverUke) ? arbeid.erLiktHverUke === YesOrNo.YES : undefined,
+    };
+    if (arbeid.jobberIPerioden !== JobberIPeriodeSvar.JA) {
+        return apiData;
+    }
+    if (arbeid.jobberSomVanlig === YesOrNo.YES) {
+        return {
+            ...apiData,
+            jobberSomVanlig: true,
+        };
+    }
+    const erLiktHverUke = isYesOrNoAnswered(arbeid.erLiktHverUke) ? arbeid.erLiktHverUke === YesOrNo.YES : undefined;
+    return {
+        jobberIPerioden: JobberIPeriodeSvar.JA,
+        jobberSomVanlig: false,
+        erLiktHverUke,
         enkeltdager:
-            arbeid.enkeltdager && arbeid.erLiktHverUke !== YesOrNo.YES
+            arbeid.enkeltdager && !erLiktHverUke
                 ? getEnkeltdagerIPeriodeApiData(arbeid.enkeltdager, periode)
                 : undefined,
-        fasteDager:
-            arbeid.fasteDager && arbeid.erLiktHverUke === YesOrNo.YES
-                ? getFasteDagerApiData(arbeid.fasteDager)
-                : undefined,
+        fasteDager: arbeid.fasteDager && erLiktHverUke ? getFasteDagerApiData(arbeid.fasteDager) : undefined,
     };
 };
 
 export const getHistoriskArbeidIArbeidsforhold = ({
-    søkerHistorisk,
-    søkerPlanlagt,
+    søkerFortid,
+    søkerFremtid,
     arbeidHistoriskPeriode,
     historiskPeriode,
 }: {
-    søkerPlanlagt: boolean;
-    søkerHistorisk: boolean;
+    søkerFremtid: boolean;
+    søkerFortid: boolean;
     historiskPeriode?: DateRange;
     arbeidHistoriskPeriode?: ArbeidIPeriode;
 }): ArbeidIPeriodeApiData | undefined => {
-    if (søkerPlanlagt && !søkerHistorisk) {
+    if (søkerFremtid && !søkerFortid) {
         return undefined;
     }
     return historiskPeriode && arbeidHistoriskPeriode
         ? mapArbeidIPeriodeToApiData(arbeidHistoriskPeriode, historiskPeriode)
-        : { jobberIPerioden: JobberIPeriodeSvar.NEI };
+        : undefined;
 };
 
 export const getPlanlagtArbeidIArbeidsforhold = ({
-    søkerHistorisk,
-    søkerPlanlagt,
+    søkerFortid,
+    søkerFremtid,
     arbeidPlanlagtPeriode,
     planlagtPeriode,
 }: {
-    søkerPlanlagt: boolean;
-    søkerHistorisk: boolean;
+    søkerFremtid: boolean;
+    søkerFortid: boolean;
     planlagtPeriode?: DateRange;
     arbeidPlanlagtPeriode?: ArbeidIPeriode;
 }): ArbeidIPeriodeApiData | undefined => {
-    if (søkerHistorisk && !søkerPlanlagt) {
+    if (søkerFortid && !søkerFremtid) {
         return undefined;
     }
     return planlagtPeriode && arbeidPlanlagtPeriode
         ? mapArbeidIPeriodeToApiData(arbeidPlanlagtPeriode, planlagtPeriode)
-        : { jobberIPerioden: JobberIPeriodeSvar.NEI };
+        : undefined;
 };
 
 export const mapArbeidsforholdToApiData = (
@@ -79,25 +85,25 @@ export const mapArbeidsforholdToApiData = (
         throw new Error('mapArbeidsforholdToApiData');
     }
 
-    const periodeFørSøknadsdato = getHistoriskPeriode(søknadsperiode, søknadsdato);
-    const periodeFraOgMedSøknadsdato = getPlanlagtPeriode(søknadsperiode, søknadsdato);
-    const søkerHistorisk = periodeFørSøknadsdato !== undefined;
-    const søkerPlanlagt = periodeFraOgMedSøknadsdato !== undefined;
+    const periodeFortid = getHistoriskPeriode(søknadsperiode, søknadsdato);
+    const periodeFremtid = getPlanlagtPeriode(søknadsperiode, søknadsdato);
+    const søkerFortid = periodeFortid !== undefined;
+    const søkerFremtid = periodeFremtid !== undefined;
 
     return {
         _type: type,
         jobberNormaltTimer: jobberNormaltTimerNumber,
         arbeidsform,
         historiskArbeid: getHistoriskArbeidIArbeidsforhold({
-            søkerPlanlagt,
-            søkerHistorisk,
-            historiskPeriode: periodeFørSøknadsdato,
+            søkerFremtid,
+            søkerFortid,
+            historiskPeriode: periodeFortid,
             arbeidHistoriskPeriode: arbeidsforhold.historisk,
         }),
         planlagtArbeid: getPlanlagtArbeidIArbeidsforhold({
-            søkerPlanlagt,
-            søkerHistorisk,
-            planlagtPeriode: periodeFraOgMedSøknadsdato,
+            søkerFremtid,
+            søkerFortid,
+            planlagtPeriode: periodeFremtid,
             arbeidPlanlagtPeriode: arbeidsforhold.planlagt,
         }),
     };

@@ -7,12 +7,8 @@ import {
     PleiepengesøknadApiData,
 } from '../../types/PleiepengesøknadApiData';
 import { Omsorgstilbud } from '../../types/PleiepengesøknadFormData';
-import {
-    getEnkeltdagerIPeriodeApiData,
-    getFasteDagerApiData,
-    getHistoriskPeriode,
-    getPlanlagtPeriode,
-} from '../tidsbrukUtils';
+import { getHistoriskPeriode, getPlanlagtPeriode } from '../tidsbrukUtils';
+import { getEnkeltdagerIPeriodeApiData, getFasteDagerApiData } from './tidsbrukApiUtils';
 
 type OmsorgstilbudApiDataPart = Pick<PleiepengesøknadApiData, 'omsorgstilbud'>;
 

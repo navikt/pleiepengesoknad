@@ -1,13 +1,13 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { apiStringDateToDate, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-
 import { ArbeidsforholdType, JobberIPeriodeSvar } from '../../types';
 import { FrilansApiData, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { erFrilanserITidsrom } from '../frilanserUtils';
-import { fjernArbeidstidUtenforPeriode, getHistoriskPeriode, getPlanlagtPeriode } from '../tidsbrukUtils';
+import { getHistoriskPeriode, getPlanlagtPeriode } from '../tidsbrukUtils';
 import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
+import { fjernArbeidstidUtenforPeriode } from './tidsbrukApiUtils';
 
 export type FrilansApiDataPart = Pick<PleiepengesøknadApiData, 'frilans' | '_harHattInntektSomFrilanser'>;
 

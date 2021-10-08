@@ -3,7 +3,7 @@ import { DateRange } from '@navikt/sif-common-formik/lib';
 import { TidEnkeltdag, VetOmsorgstilbud } from '../../types';
 import { AppFormField, Omsorgstilbud } from '../../types/PleiepengesøknadFormData';
 import { mapPlanlagtOmsorgstilbudToApiData } from '../formToApiMaps/omsorgstilbudApiData';
-import { getEnkeltdagerIPeriodeApiData } from '../tidsbrukUtils';
+import { getEnkeltdagerIPeriodeApiData } from '../formToApiMaps/tidsbrukApiUtils';
 
 jest.mock('./../envUtils', () => {
     return {
