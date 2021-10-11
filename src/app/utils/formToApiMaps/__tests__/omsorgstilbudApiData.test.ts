@@ -51,6 +51,7 @@ describe('omsorgstilbudApiData', () => {
             expect(result.omsorgstilbud).toBeUndefined();
         });
     });
+
     describe('mapHistoriskOmsorgstilbudToApiData', () => {
         it(`returner undefined dersom ${AppFormField.omsorgstilbud__harBarnVærtIOmsorgstilbud} !== ${YesOrNo.YES}`, () => {
             expect(
@@ -123,6 +124,13 @@ describe('omsorgstilbudApiData', () => {
                 )
             ).toBeUndefined();
         });
+
+        it('returnerer undefined for planlagt dersom en kun søker historisk', () => {
+            expect(
+                mapPlanlagtOmsorgstilbudToApiData(omsorgstilbud, søknadsperiodeHistorisk, søknadsdato)
+            ).toBeUndefined();
+        });
+
         it('returnerer riktig når barn skal i omsorgstilbud, men en vet ikke hvor mye', () => {
             const result = mapPlanlagtOmsorgstilbudToApiData(
                 { ...omsorgstilbud, planlagt: { vetHvorMyeTid: VetOmsorgstilbud.VET_IKKE } },
@@ -131,6 +139,7 @@ describe('omsorgstilbudApiData', () => {
             );
             expect(result?.vetOmsorgstilbud).toEqual(VetOmsorgstilbud.VET_IKKE);
         });
+
         it('returnerer undefined dersom planlagt er undefined', () => {
             const result = mapPlanlagtOmsorgstilbudToApiData(
                 { ...omsorgstilbud, planlagt: undefined },
@@ -138,6 +147,43 @@ describe('omsorgstilbudApiData', () => {
                 søknadsdato
             );
             expect(result).toBeUndefined();
+        });
+
+        it('returnerer enkeltdager dersom hver uke ikke er lik', () => {
+            const result = mapPlanlagtOmsorgstilbudToApiData(
+                {
+                    ...omsorgstilbud,
+                    planlagt: {
+                        ...omsorgstilbud.planlagt,
+                        vetHvorMyeTid: VetOmsorgstilbud.VET_ALLE_TIMER,
+                        erLiktHverUke: YesOrNo.NO,
+                    },
+                },
+                søknadsperiode,
+                søknadsdato
+            );
+            expect(result).toBeDefined();
+            expect(result?.enkeltdager).toBeDefined();
+        });
+        it('returnerer fasteDager dersom hver uke er lik', () => {
+            const result = mapPlanlagtOmsorgstilbudToApiData(
+                {
+                    ...omsorgstilbud,
+                    planlagt: {
+                        ...omsorgstilbud.planlagt,
+                        vetHvorMyeTid: VetOmsorgstilbud.VET_ALLE_TIMER,
+                        erLiktHverUke: YesOrNo.YES,
+                        fasteDager: {
+                            fredag: { hours: '1', minutes: '0' },
+                        },
+                    },
+                },
+                søknadsperiode,
+                søknadsdato
+            );
+            expect(result).toBeDefined();
+            expect(result?.ukedager).toBeDefined();
+            expect(result?.ukedager?.fredag).toBeDefined();
         });
     });
 });
