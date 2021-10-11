@@ -134,13 +134,16 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
                 />
             )}
 
-            {isAvailable(StepID.ARBEIDSSITUASJON, values) && (
+            {isAvailable(StepID.ARBEIDSSITUASJON, values) && søknadsperiode && (
                 <Route
                     path={getSøknadRoute(StepID.ARBEIDSSITUASJON)}
                     render={() => (
                         <ArbeidssituasjonStep
                             onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEIDSSITUASJON)}
                             søknadsdato={søknadsdato}
+                            søknadsperiode={søknadsperiode}
+                            periodeFraOgMedSøknadsdato={periodeFraOgMedSøknadsdato}
+                            periodeFørSøknadsdato={periodeFørSøknadsdato}
                         />
                     )}
                 />

@@ -281,11 +281,11 @@
 
     "steg.arbeidssituasjon.tittel": "Arbeidsgivere",
     "steg.arbeidssituasjon.veileder": "Nå trenger vi å vite litt om arbeidssituasjonen din og hvor mye du vanligvis jobber når du ikke har fravær på grunn av pleiepenger.",
-    "steg.arbeidssituasjon.veileder.medArbeidsgiver": "Nedenfor ser du {antall, plural, one {arbeidsgiveren} other {arbeidsgivere}} du er registrert ansatt hos i AA-registeret i perioden du søker om pleiepenger. For at vi skal være sikre på at opplysningene er riktige må du bekrefte eller avkrefte at du er, eller har vært, ansatt der.",
-    "steg.arbeidssituasjon.veileder.medArbeidsgiver.historisk": "Nedenfor ser du {antall, plural, one {arbeidsgiveren} other {arbeidsgivere}} du er registrert ansatt hos i AA-registeret i perioden du søker om pleiepenger. For at vi skal være sikre på at opplysningene er riktige må du bekrefte eller avkrefte at du har vært, ansatt der.",
+    "steg.arbeidssituasjon.veileder.medArbeidsgiver": "Nedenfor ser du {antall, plural, one {arbeidsgiveren} other {arbeidsgivere}} du er registrert ansatt hos i AA-registeret i perioden du søker om pleiepenger. For at vi skal være sikre på at opplysningene er riktige, må du bekrefte eller avkrefte at du er, eller har vært, ansatt der.",
+    "steg.arbeidssituasjon.veileder.medArbeidsgiver.historisk": "Nedenfor ser du {antall, plural, one {arbeidsgiveren} other {arbeidsgivere}} du var registrert ansatt hos i AA-registeret i perioden du søker om pleiepenger. For at vi skal være sikre på at opplysningene er riktige, må du bekrefte eller avkrefte at du er, eller har vært, ansatt der.",
     "steg.arbeidssituasjon.veileder.ingenArbeidsgiverFunnet": "Vi har ikke funnet noen arbeidsgivere registrert på deg i AA-registeret.",
-    "steg.arbeidssituasjon.veileder.manglerDetArbeidsgiver": "Hvis du er ansatt hos en arbeidsgiver som ikke vises her, må du be arbeidsgiveren om å sende en ny A-melding. Dette gjør de enten via eget lønns- og personalsystem, eller via Altinn.",
-    "steg.arbeidssituasjon.veileder.manglerDetArbeidsgiver.historisk": "Hvis du er eller var ansatt hos en arbeidsgiver som ikke vises her, må du be arbeidsgiveren om å sende en ny A-melding. Dette gjør de enten via eget lønns- og personalsystem, eller via Altinn.",
+    "steg.arbeidssituasjon.veileder.manglerDetArbeidsgiver": "Hvis du i perioden du søker for er, eller var, ansatt hos en arbeidsgiver som ikke vises her, må du be arbeidsgiveren om å sende en ny A-melding. Det gjør de enten via eget lønns- og personalsystem, eller via Altinn.",
+    "steg.arbeidssituasjon.veileder.manglerDetArbeidsgiver.historisk": "Hvis du i perioden du søker for er, eller var, ansatt hos en arbeidsgiver som ikke vises her, må du be arbeidsgiveren om å sende en ny A-melding. Det gjør de enten via eget lønns- og personalsystem, eller via Altinn.",
     "steg.arbeidssituasjon.info.tekst": "Dersom det mangler en arbeidsgiver her, må du be arbeidsgiveren din sende ny A-melding, enten via lønns- og personalsystemet eller gjennom Altinn.",
     "steg.arbeidssituasjon.ingenOpplysninger": "Vi har ikke funnet noen arbeidsgiver registrert på deg.",
 

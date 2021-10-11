@@ -13,7 +13,6 @@ import { SøkerdataContext } from '../../../context/SøkerdataContext';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { getArbeidsgivere } from '../../../utils/arbeidsforholdUtils';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
-import { getSøknadsperiodeFromFormData } from '../../../utils/formDataUtils';
 import FormikStep from '../../formik-step/FormikStep';
 import AndreYtelserFormPart from './parts/AndreYtelserFormPart';
 import ArbeidssituasjonAnsatt from './parts/ArbeidssituasjonAnsatt';
@@ -22,7 +21,7 @@ import ArbeidssituasonSN from './parts/ArbeidssituasjonSN';
 import AppForm from '../../app-form/AppForm';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
-import { getSøkerKunHistoriskPeriode } from '../../../utils/tidsbrukUtils';
+import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 
 interface LoadState {
     isLoading: boolean;
@@ -31,6 +30,9 @@ interface LoadState {
 
 interface Props {
     søknadsdato: Date;
+    søknadsperiode: DateRange;
+    periodeFørSøknadsdato?: DateRange;
+    periodeFraOgMedSøknadsdato?: DateRange;
 }
 
 export const visVernepliktSpørsmål = ({
@@ -86,7 +88,13 @@ const cleanupArbeidssituasjonStep = (formValues: PleiepengesøknadFormData): Ple
     return values;
 };
 
-const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Props) => {
+const ArbeidssituasjonStep = ({
+    onValidSubmit,
+    søknadsdato,
+    periodeFraOgMedSøknadsdato,
+    periodeFørSøknadsdato,
+    søknadsperiode,
+}: StepConfigProps & Props) => {
     const formikProps = useFormikContext<PleiepengesøknadFormData>();
     const intl = useIntl();
     const {
@@ -97,7 +105,6 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato }: StepConfigProps &
     const søkerdata = useContext(SøkerdataContext);
 
     const { isLoading, isLoaded } = loadState;
-    const søknadsperiode = getSøknadsperiodeFromFormData(values);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -112,7 +119,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato }: StepConfigProps &
         }
     }, [formikProps, søkerdata, isLoaded, isLoading, søknadsperiode]);
 
-    const søkerKunHistoriskPeriode = søknadsperiode ? getSøkerKunHistoriskPeriode(søknadsperiode, søknadsdato) : false;
+    const søkerKunHistoriskPeriode = periodeFørSøknadsdato !== undefined && periodeFraOgMedSøknadsdato === undefined;
 
     return (
         <FormikStep
@@ -135,8 +142,8 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato }: StepConfigProps &
                                     <FormattedMessage
                                         id={
                                             søkerKunHistoriskPeriode
-                                                ? 'steg.arbeidssituasjon.veileder.medArbeidsgiver'
-                                                : 'steg.arbeidssituasjon.veileder.medArbeidsgiver.historisk'
+                                                ? 'steg.arbeidssituasjon.veileder.medArbeidsgiver.historisk'
+                                                : 'steg.arbeidssituasjon.veileder.medArbeidsgiver'
                                         }
                                         values={{ antall: ansatt_arbeidsforhold.length }}
                                     />
