@@ -19,7 +19,7 @@ export const mapPlanlagtOmsorgstilbudToApiData = (
 ): PlanlagtOmsorgstilbudApiData | undefined => {
     const { planlagt, skalBarnIOmsorgstilbud } = omsorgstilbud;
 
-    if (skalBarnIOmsorgstilbud === YesOrNo.NO || !planlagt) {
+    if (skalBarnIOmsorgstilbud !== YesOrNo.YES || !planlagt) {
         return undefined;
     }
 
@@ -55,7 +55,7 @@ export const mapHistoriskOmsorgstilbudToApiData = (
 ): HistoriskOmsorgstilbudApiData | undefined => {
     const { harBarnVærtIOmsorgstilbud, historisk } = omsorgstilbud;
     const periodeFørSøknadsdato = getHistoriskPeriode(søknadsperiode, søknadsdato);
-    if (harBarnVærtIOmsorgstilbud === YesOrNo.YES && historisk?.enkeltdager && periodeFørSøknadsdato) {
+    if (harBarnVærtIOmsorgstilbud === YesOrNo.YES && historisk && periodeFørSøknadsdato) {
         return {
             enkeltdager: getEnkeltdagerIPeriodeApiData(historisk.enkeltdager, periodeFørSøknadsdato),
         };
