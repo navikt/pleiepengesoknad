@@ -10,6 +10,7 @@ import SummarySection from '../../../summary-section/SummarySection';
 import HistoriskOmsorgstilbudSummary from './HistoriskOmsorgstilbudSummary';
 import PlanlagtOmsorgstilbudSummary from './PlanlagtOmsorgstilbudSummary';
 import Sitat from '../enkeltsvar/Sitat';
+import { getSøkerKunHistoriskPeriode } from '../../../../utils/tidsbrukUtils';
 
 interface Props {
     søknadsperiode: DateRange;
@@ -23,6 +24,7 @@ const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
     søknadsdato,
 }) => {
     const intl = useIntl();
+    const søkerKunHistoriskPeriode = getSøkerKunHistoriskPeriode(søknadsperiode, søknadsdato);
     return (
         <SummarySection header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.header')}>
             <HistoriskOmsorgstilbudSummary
@@ -38,7 +40,13 @@ const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
 
             {nattevåk && (
                 <Box margin="xl">
-                    <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.nattevåk.header')}>
+                    <ContentWithHeader
+                        header={intlHelper(
+                            intl,
+                            søkerKunHistoriskPeriode
+                                ? 'steg.nattevåkOgBeredskap.nattevåk.historisk.spm'
+                                : 'steg.nattevåkOgBeredskap.nattevåk.spm'
+                        )}>
                         {nattevåk.harNattevåk === true && intlHelper(intl, 'Ja')}
                         {nattevåk.harNattevåk === false && intlHelper(intl, 'Nei')}
                         {nattevåk.harNattevåk === true && nattevåk.tilleggsinformasjon && (
@@ -51,7 +59,13 @@ const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
             )}
             {beredskap && (
                 <Box margin="xl">
-                    <ContentWithHeader header={intlHelper(intl, 'steg.oppsummering.beredskap.header')}>
+                    <ContentWithHeader
+                        header={intlHelper(
+                            intl,
+                            søkerKunHistoriskPeriode
+                                ? 'steg.nattevåkOgBeredskap.beredskap.historisk.spm'
+                                : 'steg.nattevåkOgBeredskap.beredskap.spm'
+                        )}>
                         {beredskap.beredskap === true && intlHelper(intl, 'Ja')}
                         {beredskap.beredskap === false && intlHelper(intl, 'Nei')}
                         {beredskap.tilleggsinformasjon && (

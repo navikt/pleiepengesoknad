@@ -142,8 +142,6 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
                             onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEIDSSITUASJON)}
                             søknadsdato={søknadsdato}
                             søknadsperiode={søknadsperiode}
-                            periodeFraOgMedSøknadsdato={periodeFraOgMedSøknadsdato}
-                            periodeFørSøknadsdato={periodeFørSøknadsdato}
                         />
                     )}
                 />
@@ -192,15 +190,15 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
                 />
             )}
 
-            {isAvailable(StepID.NATTEVÅK_OG_BEREDSKAP, values) && (
+            {isAvailable(StepID.NATTEVÅK_OG_BEREDSKAP, values) && søknadsperiode && (
                 <Route
                     path={getSøknadRoute(StepID.NATTEVÅK_OG_BEREDSKAP)}
                     render={() => {
                         return (
                             <NattevåkOgBeredskapStep
                                 onValidSubmit={() => navigateToNextStepFrom(StepID.NATTEVÅK_OG_BEREDSKAP)}
-                                periodeFraOgMedSøknadsdato={periodeFraOgMedSøknadsdato}
-                                periodeFørSøknadsdato={periodeFørSøknadsdato}
+                                søknadsdato={søknadsdato}
+                                søknadsperiode={søknadsperiode}
                             />
                         );
                     }}
@@ -228,13 +226,14 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
                 />
             )}
 
-            {isAvailable(StepID.SUMMARY, values) && (
+            {isAvailable(StepID.SUMMARY, values) && søknadsperiode && (
                 <Route
                     path={getSøknadRoute(StepID.SUMMARY)}
                     render={() => (
                         <SummaryStep
                             values={values}
                             søknadsdato={søknadsdato}
+                            søknadsperiode={søknadsperiode}
                             onApplicationSent={(apiData: PleiepengesøknadApiData, søkerdata: Søkerdata) => {
                                 setKvitteringInfo(getKvitteringInfoFromApiData(apiData, søkerdata));
                                 setSøknadHasBeenSent(true);

@@ -12,20 +12,26 @@ import SelvstendigSummary from './SelvstendigSummary';
 interface Props {
     apiValues: PleiepengesøknadApiData;
     søknadsperiode: DateRange;
+    søkerKunHistoriskPeriode: boolean;
 }
 
 const ArbeidssituasjonSummary: React.FunctionComponent<Props> = ({
     apiValues: { arbeidsgivere, frilans, selvstendigNæringsdrivende, harVærtEllerErVernepliktig },
     søknadsperiode,
+    søkerKunHistoriskPeriode,
 }) => {
     const intl = useIntl();
+
     return (
         <SummarySection header={intlHelper(intl, 'steg.oppsummering.arbeidssituasjon.header')}>
             <ArbeidsgivereSummary arbeidsgivere={arbeidsgivere} søknadsperiode={søknadsperiode} />
 
-            <FrilansSummary frilans={frilans} />
+            <FrilansSummary frilans={frilans} søkerKunHistoriskPeriode={søkerKunHistoriskPeriode} />
 
-            <SelvstendigSummary selvstendigNæringsdrivende={selvstendigNæringsdrivende} />
+            <SelvstendigSummary
+                selvstendigNæringsdrivende={selvstendigNæringsdrivende}
+                søkerKunHistoriskPeriode={søkerKunHistoriskPeriode}
+            />
 
             {/* Vernepliktig */}
             {harVærtEllerErVernepliktig !== undefined && (

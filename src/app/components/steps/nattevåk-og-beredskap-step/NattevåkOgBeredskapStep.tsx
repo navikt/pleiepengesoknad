@@ -14,6 +14,7 @@ import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-co
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { getSøkerKunHistoriskPeriode } from '../../../utils/tidsbrukUtils';
 
 const cleanupNattevåkStep = (values: PleiepengesøknadFormData): PleiepengesøknadFormData => {
     const cleanedValues = { ...values };
@@ -24,20 +25,16 @@ const cleanupNattevåkStep = (values: PleiepengesøknadFormData): Pleiepengesøk
 };
 
 interface Props {
-    periodeFørSøknadsdato?: DateRange;
-    periodeFraOgMedSøknadsdato?: DateRange;
+    søknadsperiode: DateRange;
+    søknadsdato: Date;
 }
 
-const NattevåkOgBeredskapStep = ({
-    onValidSubmit,
-    periodeFørSøknadsdato,
-    periodeFraOgMedSøknadsdato,
-}: StepConfigProps & Props) => {
+const NattevåkOgBeredskapStep = ({ onValidSubmit, søknadsperiode, søknadsdato }: StepConfigProps & Props) => {
     const intl = useIntl();
     const { values } = useFormikContext<PleiepengesøknadFormData>();
     const { harNattevåk, harBeredskap } = values;
 
-    const søkerKunHistoriskPeriode = periodeFørSøknadsdato !== undefined && periodeFraOgMedSøknadsdato === undefined;
+    const søkerKunHistoriskPeriode = getSøkerKunHistoriskPeriode(søknadsperiode, søknadsdato);
 
     return (
         <FormikStep

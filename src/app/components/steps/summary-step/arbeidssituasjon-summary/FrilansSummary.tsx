@@ -8,16 +8,24 @@ import { getArbeidsformOgTidSetning } from './arbeidssituasjon-summary-utils';
 
 interface Props {
     frilans?: FrilansApiData;
+    søkerKunHistoriskPeriode: boolean;
 }
 
-const FrilansSummary = ({ frilans }: Props) => {
+const FrilansSummary = ({ frilans, søkerKunHistoriskPeriode }: Props) => {
     const intl = useIntl();
     if (frilans === undefined) {
         return (
             <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')} headerTag="h3">
                 <ul>
                     <li>
-                        <FormattedMessage id="oppsummering.arbeidssituasjon.frilans.erIkkeFrilanser" tagName="p" />
+                        <FormattedMessage
+                            id={
+                                søkerKunHistoriskPeriode
+                                    ? 'oppsummering.arbeidssituasjon.frilans.historisk.erIkkeFrilanser'
+                                    : 'oppsummering.arbeidssituasjon.frilans.erIkkeFrilanser'
+                            }
+                            tagName="p"
+                        />
                     </li>
                 </ul>
             </SummaryBlock>
@@ -26,42 +34,33 @@ const FrilansSummary = ({ frilans }: Props) => {
 
     return (
         <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')} headerTag="h3">
-            {frilans === undefined && (
-                <ul>
+            <ul>
+                <li>
+                    <FormattedMessage
+                        id="oppsummering.arbeidssituasjon.frilans.startet"
+                        values={{ dato: prettifyApiDate(frilans.startdato) }}
+                    />
+                </li>
+                {frilans.jobberFortsattSomFrilans && (
                     <li>
-                        <FormattedMessage id="oppsummering.arbeidssituasjon.frilans.erIkkeFrilanser" tagName="p" />
+                        <FormattedMessage id="oppsummering.arbeidssituasjon.frilans.fortsattFrilanser" />
                     </li>
-                </ul>
-            )}
-            {frilans !== undefined && (
-                <ul>
+                )}
+
+                {frilans.sluttdato && (
                     <li>
                         <FormattedMessage
-                            id="oppsummering.arbeidssituasjon.frilans.startet"
-                            values={{ dato: prettifyApiDate(frilans.startdato) }}
+                            id="oppsummering.arbeidssituasjon.frilans.sluttet"
+                            values={{ dato: prettifyApiDate(frilans.sluttdato) }}
                         />
                     </li>
-                    {frilans.jobberFortsattSomFrilans && (
-                        <li>
-                            <FormattedMessage id="oppsummering.arbeidssituasjon.frilans.fortsattFrilanser" />
-                        </li>
-                    )}
-
-                    {frilans.sluttdato && (
-                        <li>
-                            <FormattedMessage
-                                id="oppsummering.arbeidssituasjon.frilans.sluttet"
-                                values={{ dato: prettifyApiDate(frilans.sluttdato) }}
-                            />
-                        </li>
-                    )}
-                    {frilans.arbeidsforhold && (
-                        <li>
-                            {getArbeidsformOgTidSetning(intl, frilans.arbeidsforhold, frilans.jobberFortsattSomFrilans)}
-                        </li>
-                    )}
-                </ul>
-            )}
+                )}
+                {frilans.arbeidsforhold && (
+                    <li>
+                        {getArbeidsformOgTidSetning(intl, frilans.arbeidsforhold, frilans.jobberFortsattSomFrilans)}
+                    </li>
+                )}
+            </ul>
         </SummaryBlock>
     );
 };

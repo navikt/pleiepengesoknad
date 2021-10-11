@@ -22,6 +22,7 @@ import AppForm from '../../app-form/AppForm';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { getSøkerKunHistoriskPeriode } from '../../../utils/tidsbrukUtils';
 
 interface LoadState {
     isLoading: boolean;
@@ -31,8 +32,6 @@ interface LoadState {
 interface Props {
     søknadsdato: Date;
     søknadsperiode: DateRange;
-    periodeFørSøknadsdato?: DateRange;
-    periodeFraOgMedSøknadsdato?: DateRange;
 }
 
 export const visVernepliktSpørsmål = ({
@@ -88,13 +87,7 @@ const cleanupArbeidssituasjonStep = (formValues: PleiepengesøknadFormData): Ple
     return values;
 };
 
-const ArbeidssituasjonStep = ({
-    onValidSubmit,
-    søknadsdato,
-    periodeFraOgMedSøknadsdato,
-    periodeFørSøknadsdato,
-    søknadsperiode,
-}: StepConfigProps & Props) => {
+const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: StepConfigProps & Props) => {
     const formikProps = useFormikContext<PleiepengesøknadFormData>();
     const intl = useIntl();
     const {
@@ -119,7 +112,7 @@ const ArbeidssituasjonStep = ({
         }
     }, [formikProps, søkerdata, isLoaded, isLoading, søknadsperiode]);
 
-    const søkerKunHistoriskPeriode = periodeFørSøknadsdato !== undefined && periodeFraOgMedSøknadsdato === undefined;
+    const søkerKunHistoriskPeriode = getSøkerKunHistoriskPeriode(søknadsperiode, søknadsdato);
 
     return (
         <FormikStep

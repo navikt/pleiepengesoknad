@@ -46,20 +46,24 @@ import {
 } from './summaryItemRenderers';
 import SummaryBlock from '../../summary-block/SummaryBlock';
 import './summary.less';
+import { getSøkerKunHistoriskPeriode } from '../../../utils/tidsbrukUtils';
 
 interface Props {
     values: PleiepengesøknadFormData;
     søknadsdato: Date;
+    søknadsperiode: DateRange;
     onApplicationSent: (apiValues: PleiepengesøknadApiData, søkerdata: Søkerdata) => void;
 }
 
-const SummaryStep = ({ onApplicationSent, values, søknadsdato }: Props) => {
+const SummaryStep = ({ onApplicationSent, values, søknadsdato, søknadsperiode }: Props) => {
     const [sendingInProgress, setSendingInProgress] = useState<boolean>(false);
     const [soknadSent, setSoknadSent] = useState<boolean>(false);
     const intl = useIntl();
     const history = useHistory();
 
     const { logSoknadSent, logSoknadFailed, logUserLoggedOut } = useAmplitudeInstance();
+
+    const søkerKunHistoriskPeriode = getSøkerKunHistoriskPeriode(søknadsperiode, søknadsdato);
 
     const sendSoknad = async (apiValues: PleiepengesøknadApiData, søkerdata: Søkerdata) => {
         setSendingInProgress(true);
@@ -160,8 +164,8 @@ const SummaryStep = ({ onApplicationSent, values, søknadsdato }: Props) => {
                                         <FormattedMessage
                                             id="steg.oppsummering.tidsrom.fomtom"
                                             values={{
-                                                fom: `${dayjs(søknadsperiode.from).format('dddd D. MMMM YYYY')}`,
-                                                tom: `${dayjs(søknadsperiode.to).format('dddd D. MMMM YYYY')}`,
+                                                fom: `${dayjs(søknadsperiode.from).format('D. MMMM YYYY')}`,
+                                                tom: `${dayjs(søknadsperiode.to).format('D. MMMM YYYY')}`,
                                             }}
                                         />
                                     </SummaryBlock>
@@ -185,7 +189,9 @@ const SummaryStep = ({ onApplicationSent, values, søknadsdato }: Props) => {
                                             <SummaryBlock
                                                 header={intlHelper(
                                                     intl,
-                                                    'steg.oppsummering.utenlandsoppholdIPerioden.header'
+                                                    søkerKunHistoriskPeriode
+                                                        ? 'steg.oppsummering.utenlandsoppholdIPerioden.historisk.header'
+                                                        : 'steg.oppsummering.utenlandsoppholdIPerioden.header'
                                                 )}>
                                                 <FormattedMessage
                                                     id={
@@ -213,7 +219,9 @@ const SummaryStep = ({ onApplicationSent, values, søknadsdato }: Props) => {
                                             <SummaryBlock
                                                 header={intlHelper(
                                                     intl,
-                                                    'steg.oppsummering.ferieuttakIPerioden.header'
+                                                    søkerKunHistoriskPeriode
+                                                        ? 'steg.oppsummering.ferieuttakIPerioden.historisk.header'
+                                                        : 'steg.oppsummering.ferieuttakIPerioden.header'
                                                 )}>
                                                 <FormattedMessage
                                                     id={ferieuttakIPerioden.skalTaUtFerieIPerioden ? 'Ja' : 'Nei'}
@@ -232,7 +240,11 @@ const SummaryStep = ({ onApplicationSent, values, søknadsdato }: Props) => {
                                 </SummarySection>
 
                                 {/* Arbeidssituasjon i søknadsperiode */}
-                                <ArbeidssituasjonSummary apiValues={apiValues} søknadsperiode={søknadsperiode} />
+                                <ArbeidssituasjonSummary
+                                    apiValues={apiValues}
+                                    søknadsperiode={søknadsperiode}
+                                    søkerKunHistoriskPeriode={søkerKunHistoriskPeriode}
+                                />
 
                                 {/* Arbeid i søknadsperiode */}
                                 <ArbeidIPeriodenSummary
