@@ -4,14 +4,14 @@ import { useHistory } from 'react-router';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+// import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { useFormikContext } from 'formik';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import usePersistSoknad from '../../../hooks/usePersistSoknad';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-import { getHistoriskPeriode, getPlanlagtPeriode } from '../../../utils/tidsbrukUtils';
+// import { getHistoriskPeriode, getPlanlagtPeriode } from '../../../utils/tidsbrukUtils';
 import FormikStep from '../../formik-step/FormikStep';
 import HistoriskOmsorgstilbudSpørsmål from './HistoriskOmsorgstilbudSpørsmål';
 import PlanlagtOmsorgstilbudSpørsmål from './PlanlagtOmsorgstilbudSpørsmål';
@@ -21,9 +21,18 @@ dayjs.extend(isBetween);
 
 interface Props {
     søknadsdato: Date;
+    søknadsperiode: DateRange;
+    periodeFørSøknadsdato?: DateRange;
+    periodeFraOgMedSøknadsdato?: DateRange;
 }
 
-const OmsorgstilbudStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Props) => {
+const OmsorgstilbudStep = ({
+    onValidSubmit,
+    søknadsdato,
+    periodeFørSøknadsdato,
+    periodeFraOgMedSøknadsdato,
+    søknadsperiode,
+}: StepConfigProps & Props) => {
     const intl = useIntl();
     const history = useHistory();
     const { values } = useFormikContext<PleiepengesøknadFormData>();
@@ -39,19 +48,8 @@ const OmsorgstilbudStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Pr
         }
     }, [omsorgstilbudChanged, persist]);
 
-    const periodeFra = datepickerUtils.getDateFromDateString(values.periodeFra);
-    const periodeTil = datepickerUtils.getDateFromDateString(values.periodeTil);
-
-    if (!periodeFra || !periodeTil) {
-        return <div>Perioden mangler, gå tilbake og endre datoer</div>;
-    }
-
-    const søknadsperiode: DateRange = { from: periodeFra, to: periodeTil };
-
-    const periodeFørSøknadsdato = getHistoriskPeriode(søknadsperiode, søknadsdato);
-    const periodeFraOgMedSøknadsdato = getPlanlagtPeriode(søknadsperiode, søknadsdato);
-
-    const harBådeHistoriskOgPlanlagt = periodeFørSøknadsdato !== undefined && periodeFraOgMedSøknadsdato;
+    const harBådeHistoriskOgPlanlagt = periodeFørSøknadsdato !== undefined && periodeFraOgMedSøknadsdato !== undefined;
+    const kunHistorisk = periodeFørSøknadsdato && periodeFraOgMedSøknadsdato === undefined;
 
     return (
         <FormikStep
@@ -59,7 +57,29 @@ const OmsorgstilbudStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Pr
             onStepCleanup={(values) => cleanupOmsorgstilbudStep(values, søknadsperiode, søknadsdato)}
             onValidFormSubmit={onValidSubmit}>
             <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
-                <FormattedMessage id="steg.omsorgstilbud.veileder.html" values={{ p: (msg: string) => <p>{msg}</p> }} />
+                {kunHistorisk && (
+                    <>
+                        <p>
+                            <FormattedMessage id="steg.omsorgstilbud.veileder.historisk.1" />
+                        </p>
+                        <p>
+                            <FormattedMessage id="steg.omsorgstilbud.veileder.historisk.2" />
+                        </p>
+                    </>
+                )}
+                {kunHistorisk === false && (
+                    <>
+                        <p>
+                            <FormattedMessage id="steg.omsorgstilbud.veileder.1" />
+                        </p>
+                        <p>
+                            <FormattedMessage id="steg.omsorgstilbud.veileder.2" />
+                        </p>
+                        <p>
+                            <FormattedMessage id="steg.omsorgstilbud.veileder.3" />
+                        </p>
+                    </>
+                )}
             </CounsellorPanel>
             {periodeFørSøknadsdato && (
                 <HistoriskOmsorgstilbudSpørsmål

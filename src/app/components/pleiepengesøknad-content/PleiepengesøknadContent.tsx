@@ -172,7 +172,7 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
                 />
             )}
 
-            {isAvailable(StepID.OMSORGSTILBUD, values) && (
+            {isAvailable(StepID.OMSORGSTILBUD, values) && søknadsperiode && (
                 <Route
                     path={getSøknadRoute(StepID.OMSORGSTILBUD)}
                     render={() => {
@@ -180,6 +180,9 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
                             <OmsorgstilbudStep
                                 onValidSubmit={() => navigateToNextStepFrom(StepID.OMSORGSTILBUD)}
                                 søknadsdato={søknadsdato}
+                                søknadsperiode={søknadsperiode}
+                                periodeFraOgMedSøknadsdato={periodeFraOgMedSøknadsdato}
+                                periodeFørSøknadsdato={periodeFørSøknadsdato}
                             />
                         );
                     }}
@@ -193,6 +196,8 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
                         return (
                             <NattevåkOgBeredskapStep
                                 onValidSubmit={() => navigateToNextStepFrom(StepID.NATTEVÅK_OG_BEREDSKAP)}
+                                periodeFraOgMedSøknadsdato={periodeFraOgMedSøknadsdato}
+                                periodeFørSøknadsdato={periodeFørSøknadsdato}
                             />
                         );
                     }}
