@@ -598,7 +598,7 @@
     "oppsummering.arbeidIPeriode.jobbIPerioden.planlagt.header": "Jobb frem i tid ({fra} til {til})",
     "oppsummering.arbeidIPeriode.Jobber": "Skal jobbe",
     "oppsummering.arbeidIPeriode.Jobbet": "Jobbet",
-    "oppsummering.arbeidIPeriode.jobberIPerioden.ja": "{JobberJobbet} {vanligRedusert}.",
+    "oppsummering.arbeidIPeriode.jobberIPerioden.ja": "{JobberJobbet} {vanligRedusert}",
     "oppsummering.arbeidIPeriode.jobberIPerioden.ja.somVanlig": "som vanlig, {timerArbeidsform}",
     "oppsummering.arbeidIPeriode.jobberIPerioden.ja.redusert": "redusert",
     "oppsummering.arbeidIPeriode.jobberIPerioden.nei": "Skal ikke jobbe i perioden",
