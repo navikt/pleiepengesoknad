@@ -307,7 +307,7 @@
     "steg.omsorgstilbud.veileder.historisk.1": "Hvis barnet var i barnehage, skole eller andre etablerte omsorgstilbud i perioden du søker for, skal pleiepengene graderes tilsvarende den tiden barnet var i omsorgstilbudet. At omsorgstilbudet er etablert betyr at den tiden som barnet er i omsorgstilbudet er fast og regelmessig.",
     "steg.omsorgstilbud.veileder.historisk.2": "I tillegg til barnehage og skole kan omsorgstilbud være SFO, omsorgsbolig, BPA (brukerstyrt personlig assistent), eller andre organiserte tilbud. Sykehus regnes ikke som et omsorgstilbud.",
     "steg.omsorgstilbud.generelt.tittel": "Omsorgstilbud i perioden",
-    "steg.omsorgstilbud.historisk.tittel": "Omsorgstilbud til nå",
+    "steg.omsorgstilbud.historisk.tittel": "Omsorgstilbud tilbake i tid",
     "steg.omsorgstilbud.planlagt.tittel": "Omsorgstilbud frem i tid",
     "steg.omsorgstilbud.historisk.harBarnetVærtIOmsorgstilbud.spm": "Har barnet vært noe i et omsorgstilbud i perioden {fra} til {til}?",
     "steg.omsorgstilbud.planlagt.skalBarnetVæreIOmsorgstilbud.spm": "Skal barnet være noe i et omsorgstilbud i perioden {fra} til {til}?",
@@ -573,7 +573,7 @@
     "arbeidstid.editLabel": "Endre jobb for {periode}",
     "arbeidstid.modalTitle": "Jobb i ${periode}",
 
-    "oppsummering.arbeidssituasjon.arbeidsgiver.ansatt": "Er ansatt.",
+    "oppsummering.arbeidssituasjon.arbeidsgiver.ansatt": "Er ansatt",
     "oppsummering.arbeidssituasjon.avsluttet.arbeidsgiver.ansatt": "Er ikke lenger ansatt",
     "oppsummering.arbeidssituasjon.tid.FAST": "Jobber {timer, plural, one {# time} other {# timer}} fast per uke",
     "oppsummering.arbeidssituasjon.tid.TURNUS": "Jobber turnus, {timer, plural, one {# time} other {# timer}} i snitt per uke",

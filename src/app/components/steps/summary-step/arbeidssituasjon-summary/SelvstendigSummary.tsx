@@ -6,6 +6,7 @@ import VirksomhetSummary from '@navikt/sif-common-forms/lib/virksomhet/Virksomhe
 import { SelvstendigNæringsdrivendeApiData } from '../../../../types/PleiepengesøknadApiData';
 import SummaryBlock from '../../../summary-block/SummaryBlock';
 import { getArbeidsformOgTidSetning } from './arbeidssituasjon-summary-utils';
+import { Element } from 'nav-frontend-typografi';
 
 interface Props {
     selvstendigNæringsdrivende?: SelvstendigNæringsdrivendeApiData;
@@ -33,25 +34,27 @@ function SelvstendigSummary({ selvstendigNæringsdrivende, søkerKunHistoriskPer
                 </ul>
             )}
             {virksomhet && arbeidsforhold && (
-                <ul>
-                    <li>
-                        <FormattedMessage id="oppsummering.arbeidssituasjon.selvstendig.erSn" />
-                    </li>
-                    <li>
-                        {virksomhet.harFlereAktiveVirksomheter ? (
-                            <FormattedMessage id="oppsummering.arbeidssituasjon.selvstendig.flereVirksomheter" />
-                        ) : (
-                            <FormattedMessage id="oppsummering.arbeidssituasjon.selvstendig.enVirksomhet" />
-                        )}
-                    </li>
-                    {arbeidsformOgTid && <li>{arbeidsformOgTid}</li>}
-                    <li>
-                        {intlHelper(intl, 'summary.virksomhet.virksomhetInfo.tittel')}
-                        <Box margin="m">
+                <>
+                    <ul>
+                        <li>
+                            <FormattedMessage id="oppsummering.arbeidssituasjon.selvstendig.erSn" />
+                        </li>
+                        <li>
+                            {virksomhet.harFlereAktiveVirksomheter ? (
+                                <FormattedMessage id="oppsummering.arbeidssituasjon.selvstendig.flereVirksomheter" />
+                            ) : (
+                                <FormattedMessage id="oppsummering.arbeidssituasjon.selvstendig.enVirksomhet" />
+                            )}
+                        </li>
+                        {arbeidsformOgTid && <li>{arbeidsformOgTid}</li>}
+                    </ul>
+                    <Element tag="h4">{intlHelper(intl, 'summary.virksomhet.virksomhetInfo.tittel')}</Element>
+                    <Box margin="m">
+                        <div style={{ paddingLeft: '1rem' }}>
                             <VirksomhetSummary virksomhet={virksomhet} />
-                        </Box>
-                    </li>
-                </ul>
+                        </div>
+                    </Box>
+                </>
             )}
         </SummaryBlock>
     );
