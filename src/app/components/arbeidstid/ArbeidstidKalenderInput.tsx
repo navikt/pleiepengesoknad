@@ -1,6 +1,5 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import dayjs from 'dayjs';
@@ -43,32 +42,28 @@ const ArbeidstidKalenderInput: React.FunctionComponent<Props> = ({
             name={`${enkeltdagerFieldName}_dager` as any}
             validate={() => validateArbeidsTidEnkeltdager(tidMedArbeid, periode, erHistorisk, intlValues)}
             tag="div">
-            {getMonthsInDateRange(periode).map((periode, index) => {
+            {getMonthsInDateRange(periode).map((periode) => {
                 const mndOgÅr = dayjs(periode.from).format('MMMM YYYY');
                 return (
                     <div className="arbeidstidKalender__mnd" key={dayjs(periode.from).format('MM.YYYY')}>
-                        <FormBlock margin={index === 0 ? 'none' : undefined}>
-                            <AppForm.InputGroup name={`${enkeltdagerFieldName}_${index}` as any} tag="div">
-                                <ArbeidstidInfoAndDialog
-                                    name={enkeltdagerFieldName}
-                                    periode={periode}
-                                    labels={{
-                                        addLabel: intlHelper(intl, 'arbeidstid.addLabel', { periode: mndOgÅr }),
-                                        deleteLabel: intlHelper(intl, 'arbeidstid.deleteLabel', {
-                                            periode: mndOgÅr,
-                                        }),
-                                        editLabel: intlHelper(intl, 'arbeidstid.editLabel', {
-                                            periode: mndOgÅr,
-                                        }),
-                                        modalTitle: intlHelper(intl, 'arbeidstid.modalTitle', {
-                                            periode: mndOgÅr,
-                                        }),
-                                    }}
-                                    intlValues={intlValues}
-                                    søknadsdato={søknadsdato}
-                                />
-                            </AppForm.InputGroup>
-                        </FormBlock>
+                        <ArbeidstidInfoAndDialog
+                            name={enkeltdagerFieldName}
+                            periode={periode}
+                            labels={{
+                                addLabel: intlHelper(intl, 'arbeidstid.addLabel', { periode: mndOgÅr }),
+                                deleteLabel: intlHelper(intl, 'arbeidstid.deleteLabel', {
+                                    periode: mndOgÅr,
+                                }),
+                                editLabel: intlHelper(intl, 'arbeidstid.editLabel', {
+                                    periode: mndOgÅr,
+                                }),
+                                modalTitle: intlHelper(intl, 'arbeidstid.modalTitle', {
+                                    periode: mndOgÅr,
+                                }),
+                            }}
+                            intlValues={intlValues}
+                            søknadsdato={søknadsdato}
+                        />
                     </div>
                 );
             })}

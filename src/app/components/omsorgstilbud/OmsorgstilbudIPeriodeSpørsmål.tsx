@@ -45,7 +45,6 @@ const OmsorgstilbudIPeriodeSpørsmål: React.FunctionComponent<Props> = ({
                 const mndOgÅr = dayjs(periode.from).format('MMMM YYYY');
                 return (
                     <div key={dayjs(periode.from).format('MM.YYYY')} className="omsorgstilbudKalender__mnd">
-                        {/* <AppForm.InputGroup name={`${enkeltdagerFieldName}_${index}` as any} tag="div"> */}
                         <OmsorgstilbudInfoAndDialog
                             name={enkeltdagerFieldName}
                             periode={periode}
@@ -67,7 +66,6 @@ const OmsorgstilbudIPeriodeSpørsmål: React.FunctionComponent<Props> = ({
                                 }),
                             }}
                         />
-                        {/* </AppForm.InputGroup> */}
                     </div>
                 );
             })}
