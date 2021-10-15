@@ -9,8 +9,6 @@ import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types'
 import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
 import { IntroFormData, IntroFormField, introFormInitialValues } from './introFormConfig';
 import FormQuestion from '../../form-question/FormQuestion';
-import { Datepicker } from '@navikt/ds-datepicker';
-import '@navikt/ds-css';
 interface Props {
     onValidSubmit: () => void;
 }
@@ -31,7 +29,6 @@ const IntroForm: React.FunctionComponent<Props> = ({ onValidSubmit }) => {
                 const kanFortsette: boolean = legeerklæringBesvart && arbeidstakerBesvart;
                 return (
                     <section aria-label="Se om du kan bruke det dette skjemaet:">
-                        <Datepicker onChange={(date) => console.log(date)} />
                         <IntroFormComponents.Form
                             runDelayedFormValidation={true}
                             includeValidationSummary={true}
