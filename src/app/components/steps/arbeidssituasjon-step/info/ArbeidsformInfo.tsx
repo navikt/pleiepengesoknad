@@ -12,19 +12,14 @@ interface Props {
     erAvsluttet: boolean;
 }
 
-const ArbeidsformInfo: React.FunctionComponent<Props> = ({
-    arbeidsform,
-    arbeidsforholdType,
-    erAvsluttet: erHistorisk,
-}) => {
+const ArbeidsformInfo: React.FunctionComponent<Props> = ({ arbeidsform, arbeidsforholdType, erAvsluttet }) => {
     const intl = useIntl();
 
     if (arbeidsforholdType !== ArbeidsforholdType.ANSATT) {
         switch (arbeidsform) {
             case Arbeidsform.varierende:
                 return (
-                    <ExpandableInfo
-                        title={intlHelper(intl, 'snFrilanser.arbeidsforhold.arbeidsform.varierende.info.tittel')}>
+                    <ExpandableInfo title={intlHelper(intl, 'arbeidsforhold.arbeidsform.varierende.info.tittel')}>
                         <FormattedMessage id="arbeidsforhold.arbeidsform.varierende.info.tekst.1" />
                     </ExpandableInfo>
                 );
@@ -55,12 +50,18 @@ const ArbeidsformInfo: React.FunctionComponent<Props> = ({
                 );
             default:
                 return (
-                    <ExpandableInfo title={intlHelper(intl, 'snFrilanser.arbeidsforhold.arbeidsform.fast.info.tittel')}>
+                    <ExpandableInfo title={intlHelper(intl, 'arbeidsforhold.arbeidsform.fast.info.tittel')}>
                         {arbeidsforholdType === ArbeidsforholdType.FRILANSER && (
-                            <FormattedMessage id="snFrilanser.arbeidsforhold.arbeidsform.frilanser.fast.info.tekst" />
+                            <FormattedMessage
+                                id={
+                                    erAvsluttet
+                                        ? 'arbeidsforhold.arbeidsform.avsluttet.frilanser.fast.info.tekst'
+                                        : 'arbeidsforhold.arbeidsform.frilanser.fast.info.tekst'
+                                }
+                            />
                         )}
                         {arbeidsforholdType === ArbeidsforholdType.SELVSTENDIG && (
-                            <FormattedMessage id="snFrilanser.arbeidsforhold.arbeidsform.sn.fast.info.tekst" />
+                            <FormattedMessage id="arbeidsforhold.arbeidsform.sn.fast.info.tekst" />
                         )}
                     </ExpandableInfo>
                 );
@@ -73,7 +74,7 @@ const ArbeidsformInfo: React.FunctionComponent<Props> = ({
                 <ExpandableInfo title={intlHelper(intl, 'arbeidsforhold.arbeidsform.fast.info.tittel')}>
                     <FormattedMessage
                         id={
-                            erHistorisk
+                            erAvsluttet
                                 ? 'arbeidsforhold.arbeidsform.avsluttet.fast.info.tekst'
                                 : 'arbeidsforhold.arbeidsform.fast.info.tekst'
                         }

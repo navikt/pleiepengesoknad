@@ -280,7 +280,7 @@
     "steg.tidsrom.bekreftOmsorgEkstrainfo.spm": "Beskriv omsorgsrollen du har for barnet i tidsrommet du skal ha pleiepenger:",
 
     "steg.arbeidssituasjon.tittel": "Arbeidsgivere",
-    "steg.arbeidssituasjon.veileder": "Nå trenger vi å vite litt om arbeidssituasjonen din og hvor mye du vanligvis jobber når du ikke har fravær på grunn av pleiepenger.",
+    "steg.arbeidssituasjon.veileder": "Nå trenger vi å vite litt om arbeidssituasjonen din og hvor mye du vanligvis jobber når du ikke har fravær fra jobben din.",
     "steg.arbeidssituasjon.veileder.medArbeidsgiver": "Nedenfor ser du {antall, plural, one {arbeidsgiveren} other {arbeidsgivere}} du er registrert ansatt hos i AA-registeret i perioden du søker om pleiepenger. For at vi skal være sikre på at opplysningene er riktige må du bekrefte om du er, eller har vært, ansatt der.",
     "steg.arbeidssituasjon.veileder.medArbeidsgiver.historisk": "Nedenfor ser du {antall, plural, one {arbeidsgiveren} other {arbeidsgivere}} du var registrert ansatt hos i AA-registeret i perioden du søker om pleiepenger. For at vi skal være sikre på at opplysningene er riktige må du bekrefte om du er, eller har vært, ansatt der.",
     "steg.arbeidssituasjon.veileder.ingenArbeidsgiverFunnet": "Vi har ikke funnet noen arbeidsgivere registrert på deg i AA-registeret.",
@@ -483,15 +483,16 @@
     "arbeidsforhold.arbeidsform.avsluttet.spm": "Hvordan jobbet du vanligvis hos {arbeidsforhold} da du var ansatt der?",
     "arbeidsforhold.arbeidsform.info.tittel": "Hva betyr dette?",
     "arbeidsforhold.ansatt.arbeidsform.info.tekst": "Her lurer vi på hvordan du jobber hos denne arbeidsgiveren når du jobber som normalt og ikke har noe fravær.",
-    "arbeidsforhold.ansatt.arbeidsform.info.sluttet.tekst": "Her lurer vi på hvordan du hadde jobbet hos denne arbeidsgiveren hvis du ikke hadde hatt fravær på grunn av pleiepenger.",
-    "arbeidsforhold.frilanser.arbeidsform.info.tekst": "Her lurer vi på hvordan du jobber som frilanser når du jobber som normalt og ikke har noe fravær",
-    "arbeidsforhold.frilanser.arbeidsform.info.sluttet.tekst": "Her lurer vi på hvordan du hadde jobbet som frilanser hvis du ikke hadde hatt fravær på grunn av pleiepenger.",
+    "arbeidsforhold.ansatt.arbeidsform.info.sluttet.tekst": "Her lurer vi på hvordan du hadde jobbet hos denne arbeidsgiveren hvis du ikke hadde hatt noe fravær.",
+    "arbeidsforhold.frilanser.arbeidsform.info.tekst": "Her lurer vi på hvordan du jobber som frilanser når du jobber som normalt og ikke har noe fravær.",
+    "arbeidsforhold.frilanser.arbeidsform.info.sluttet.tekst": "Her lurer vi på hvordan du hadde jobbet som frilanser hvis du skulle jobbet som normalt og ikke hatt noe fravær.",
     "arbeidsforhold.sn.arbeidsform.info.tekst": "Her lurer vi på hvordan du jobber som selvstendig næringsdrivende når du jobber som normalt og ikke har noe fravær.",
-    "arbeidsforhold.sn.arbeidsform.info.sluttet.tekst": "Her lurer vi på hvordan du hadde jobbet som selvstendig næringsdrivende hvis du ikke hadde hatt fravær på grunn av pleiepenger.",
+    "arbeidsforhold.sn.arbeidsform.info.sluttet.tekst": "Her lurer vi på hvordan du hadde jobbet som selvstendig næringsdrivende hvis du ikke hadde hatt noe fravær.",
     "arbeidsforhold.arbeidsform.fast": "Fast antall timer per uke",
     "arbeidsforhold.arbeidsform.fast.info.tittel": "Hva betyr dette?",
     "arbeidsforhold.arbeidsform.fast.info.tekst": "Her skal du legge inn antall timer du jobber per uke. Hvis du er usikker på antallet må du høre med arbeidsgiveren din, eller finne svaret i arbeidskontrakten din.",
     "arbeidsforhold.arbeidsform.frilanser.fast.info.tekst": "Her skal du legge inn antall timer du jobber som frilanser per uke.",
+    "arbeidsforhold.arbeidsform.avsluttet.frilanser.fast.info.tekst": "Her skal du legge inn antall timer du jobbet per uke da du var frilanser.",
     "arbeidsforhold.arbeidsform.sn.fast.info.tekst": "Her skal du legge inn antall timer du jobber som selvstendig næringsdrivende per uke.",
     "arbeidsforhold.arbeidsform.avsluttet.fast.info.tekst": "Her skal du legge inn antall timer du jobbet per uke hos denne arbeidsgiveren mens du var ansatt der. Hvis du er usikker på antallet må du høre med arbeidsgiveren din, eller finne svaret i arbeidskontrakten din.",
     "arbeidsforhold.arbeidsform.FAST.timer.suffix": "timer fast per uke",
@@ -655,7 +656,6 @@
     "frilanser.nårSluttet.spm": "Når sluttet du som frilanser?",
 
     "snFrilanser.arbeidsforhold.arbeidsform.fast": "Fast antall timer per uke",
-    "snFrilanser.arbeidsforhold.arbeidsform.fast.info.tittel": "Hva betyr dette?",
     "snFrilanser.arbeidsforhold.arbeidsform.fast.info.tekst": "Her skal du legge inn antall timer du jobber per uke.",
     "snFrilanser.arbeidsforhold.arbeidsform.FAST.timer.suffix": "timer fast per uke",
 
@@ -671,7 +671,6 @@
     "snFrilanser.arbeidsforhold.arbeidsform.TURNUS.timer.suffix": "timer i snitt per uke",
 
     "snFrilanser.arbeidsforhold.arbeidsform.varierende": "Deltid/varierende/tilkalling",
-    "snFrilanser.arbeidsforhold.arbeidsform.varierende.info.tittel": "Hvordan regner jeg ut et snitt i min situasjon?",
     "snFrilanser.arbeidsforhold.arbeidsform.varierende.info.tekst.1": "Hvis du har flere frilansoppdrag skal du svare samlet for alle.",
     "snFrilanser.arbeidsforhold.arbeidsform.VARIERENDE.timer.suffix": "timer i snitt per uke",
 
