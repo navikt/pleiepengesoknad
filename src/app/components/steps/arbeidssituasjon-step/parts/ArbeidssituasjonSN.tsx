@@ -11,7 +11,7 @@ import VirksomhetInfoAndDialog from '@navikt/sif-common-forms/lib/virksomhet/Vir
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../../../lenker';
-import { Arbeidsform } from '../../../../types';
+import { ArbeidsforholdType, Arbeidsform } from '../../../../types';
 import { AppFormField, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
 import { isYesOrNoAnswered } from '../../../../validation/fieldValidations';
 import { getArbeidsformValidator, getJobberNormaltTimerValidator } from '../../../../validation/validateArbeidFields';
@@ -100,6 +100,8 @@ const ArbeidssituasonSN = ({ formValues, søkerKunHistoriskPeriode }: Props) => 
                         {formValues.selvstendig_virksomhet !== undefined && (
                             <FormBlock>
                                 <ArbeidsformOgTimer
+                                    arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
+                                    erAvsluttet={false}
                                     spørsmål={{
                                         arbeidsform: intlHelper(intl, `selvstendig.arbeidsforhold.arbeidsform.spm`),
                                         jobberNormaltTimer: (arbeidsform: Arbeidsform) =>

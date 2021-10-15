@@ -11,7 +11,7 @@ import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-dat
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../../../lenker';
-import { Arbeidsform } from '../../../../types';
+import { ArbeidsforholdType, Arbeidsform } from '../../../../types';
 import { AppFormField, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
 import { getArbeidsformValidator, getJobberNormaltTimerValidator } from '../../../../validation/validateArbeidFields';
 import {
@@ -109,6 +109,8 @@ const ArbeidssituasjonFrilans = ({ formValues, søkerKunHistoriskPeriode, søkna
                                 erFrilanserIPeriode(søknadsperiode, formValues))) && (
                             <FormBlock>
                                 <ArbeidsformOgTimer
+                                    arbeidsforholdType={ArbeidsforholdType.FRILANSER}
+                                    erAvsluttet={frilans_jobberFortsattSomFrilans === YesOrNo.NO}
                                     spørsmål={{
                                         arbeidsform: erAvsluttet
                                             ? intlHelper(intl, `frilans.arbeidsforhold.avsluttet.arbeidsform.spm`)

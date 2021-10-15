@@ -4,17 +4,22 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { Element } from 'nav-frontend-typografi';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Arbeidsform } from '../../../../types';
+import { ArbeidsforholdType, Arbeidsform } from '../../../../types';
 
 interface Props {
     arbeidsform: Arbeidsform;
-    gjelderSnFri: boolean;
+    arbeidsforholdType: ArbeidsforholdType;
+    erAvsluttet: boolean;
 }
 
-const ArbeidsformInfo: React.FunctionComponent<Props> = ({ arbeidsform, gjelderSnFri }) => {
+const ArbeidsformInfo: React.FunctionComponent<Props> = ({
+    arbeidsform,
+    arbeidsforholdType,
+    erAvsluttet: erHistorisk,
+}) => {
     const intl = useIntl();
 
-    if (gjelderSnFri) {
+    if (arbeidsforholdType !== ArbeidsforholdType.ANSATT) {
         switch (arbeidsform) {
             case Arbeidsform.varierende:
                 return (
@@ -51,7 +56,12 @@ const ArbeidsformInfo: React.FunctionComponent<Props> = ({ arbeidsform, gjelderS
             default:
                 return (
                     <ExpandableInfo title={intlHelper(intl, 'snFrilanser.arbeidsforhold.arbeidsform.fast.info.tittel')}>
-                        <FormattedMessage id="snFrilanser.arbeidsforhold.arbeidsform.fast.info.tekst" />
+                        {arbeidsforholdType === ArbeidsforholdType.FRILANSER && (
+                            <FormattedMessage id="snFrilanser.arbeidsforhold.arbeidsform.frilanser.fast.info.tekst" />
+                        )}
+                        {arbeidsforholdType === ArbeidsforholdType.SELVSTENDIG && (
+                            <FormattedMessage id="snFrilanser.arbeidsforhold.arbeidsform.sn.fast.info.tekst" />
+                        )}
                     </ExpandableInfo>
                 );
         }
@@ -59,14 +69,15 @@ const ArbeidsformInfo: React.FunctionComponent<Props> = ({ arbeidsform, gjelderS
 
     switch (arbeidsform) {
         case Arbeidsform.fast:
-            return gjelderSnFri ? (
-                <ExpandableInfo
-                    title={intlHelper(intl, 'snFrilanser.arbeidsforhold.arbeidsform.varierende.info.tittel')}>
-                    <FormattedMessage id="arbeidsforhold.arbeidsform.varierende.info.tekst.1" />
-                </ExpandableInfo>
-            ) : (
+            return (
                 <ExpandableInfo title={intlHelper(intl, 'arbeidsforhold.arbeidsform.fast.info.tittel')}>
-                    <FormattedMessage id="arbeidsforhold.arbeidsform.fast.info.tekst" />
+                    <FormattedMessage
+                        id={
+                            erHistorisk
+                                ? 'arbeidsforhold.arbeidsform.avsluttet.fast.info.tekst'
+                                : 'arbeidsforhold.arbeidsform.fast.info.tekst'
+                        }
+                    />
                 </ExpandableInfo>
             );
         case Arbeidsform.turnus:

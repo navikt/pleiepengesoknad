@@ -13,12 +13,13 @@ import {
 } from '../../../../types/PleiepengesøknadFormData';
 import AppForm from '../../../app-form/AppForm';
 import ArbeidsformInfo from '../info/ArbeidsformInfo';
-import { Arbeidsform } from '../../../../types';
+import { ArbeidsforholdType, Arbeidsform } from '../../../../types';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 
 interface Props {
+    arbeidsforholdType: ArbeidsforholdType;
     arbeidsforhold?: ArbeidsforholdAnsatt | ArbeidsforholdSNF;
+    erAvsluttet: boolean;
     validator: {
         arbeidsform: ValidationFunction<ValidationError>;
         jobberNormaltTimer: ValidationFunction<ValidationError>;
@@ -31,20 +32,16 @@ interface Props {
 }
 
 const ArbeidsformOgTimerFormPart: React.FunctionComponent<Props> = ({
+    arbeidsforholdType,
     arbeidsforhold,
     spørsmål,
     parentFieldName,
     validator,
+    erAvsluttet,
 }) => {
     const intl = useIntl();
     const getFieldName = (field: ArbeidsforholdField) => `${parentFieldName}.${field}` as AppFormField;
-    const erAnsattArbeidsforhold = isArbeidsforholdAnsatt(arbeidsforhold);
-    const visInfoSomSluttetAnsatt =
-        isArbeidsforholdAnsatt(arbeidsforhold) &&
-        arbeidsforhold.erAnsatt === YesOrNo.NO &&
-        arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO
-            ? true
-            : false;
+    const visInfoSomSluttetAnsatt = isArbeidsforholdAnsatt(arbeidsforhold) && erAvsluttet;
     return (
         <>
             <FormBlock margin="none">
@@ -53,11 +50,26 @@ const ArbeidsformOgTimerFormPart: React.FunctionComponent<Props> = ({
                     name={getFieldName(ArbeidsforholdField.arbeidsform)}
                     description={
                         <ExpandableInfo title={intlHelper(intl, 'arbeidsforhold.arbeidsform.info.tittel')}>
-                            {intlHelper(
-                                intl,
-                                visInfoSomSluttetAnsatt
-                                    ? 'arbeidsforhold.arbeidsform.info.sluttet.tekst'
-                                    : 'arbeidsforhold.arbeidsform.info.tekst'
+                            {arbeidsforholdType === ArbeidsforholdType.FRILANSER && (
+                                <FormattedMessage
+                                    id={
+                                        erAvsluttet
+                                            ? 'arbeidsforhold.frilanser.arbeidsform.info.sluttet.tekst'
+                                            : 'arbeidsforhold.frilanser.arbeidsform.info.tekst'
+                                    }
+                                />
+                            )}
+                            {arbeidsforholdType === ArbeidsforholdType.ANSATT && (
+                                <FormattedMessage
+                                    id={
+                                        visInfoSomSluttetAnsatt
+                                            ? 'arbeidsforhold.ansatt.arbeidsform.info.sluttet.tekst'
+                                            : 'arbeidsforhold.ansatt.arbeidsform.info.tekst'
+                                    }
+                                />
+                            )}
+                            {arbeidsforholdType === ArbeidsforholdType.SELVSTENDIG && (
+                                <FormattedMessage id={'arbeidsforhold.sn.arbeidsform.info.tekst'} />
                             )}
                         </ExpandableInfo>
                     }
@@ -103,7 +115,8 @@ const ArbeidsformOgTimerFormPart: React.FunctionComponent<Props> = ({
                                     <Box margin="m">
                                         <ArbeidsformInfo
                                             arbeidsform={Arbeidsform.fast}
-                                            gjelderSnFri={erAnsattArbeidsforhold === false}
+                                            arbeidsforholdType={arbeidsforholdType}
+                                            erAvsluttet={erAvsluttet}
                                         />
                                     </Box>
                                 )}
@@ -111,7 +124,8 @@ const ArbeidsformOgTimerFormPart: React.FunctionComponent<Props> = ({
                                     <Box margin="m">
                                         <ArbeidsformInfo
                                             arbeidsform={Arbeidsform.turnus}
-                                            gjelderSnFri={erAnsattArbeidsforhold === false}
+                                            arbeidsforholdType={arbeidsforholdType}
+                                            erAvsluttet={erAvsluttet}
                                         />
                                     </Box>
                                 )}
@@ -120,7 +134,8 @@ const ArbeidsformOgTimerFormPart: React.FunctionComponent<Props> = ({
                                         <Box margin="m">
                                             <ArbeidsformInfo
                                                 arbeidsform={Arbeidsform.varierende}
-                                                gjelderSnFri={erAnsattArbeidsforhold === false}
+                                                arbeidsforholdType={arbeidsforholdType}
+                                                erAvsluttet={erAvsluttet}
                                             />
                                         </Box>
                                     </>

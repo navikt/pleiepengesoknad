@@ -14,6 +14,7 @@ import ArbeidsformOgTimer from './ArbeidsformOgTimerFormPart';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { getArbeidsformValidator, getJobberNormaltTimerValidator } from '../../../../validation/validateArbeidFields';
 import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { ArbeidsforholdType } from '../../../../types';
 
 interface Props {
     søkerKunHistoriskPeriode: boolean;
@@ -110,6 +111,13 @@ const ArbeidssituasjonAnsatt: React.FunctionComponent<Props> = ({
                         )}
                         {((erAvsluttet && arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO) || !erAvsluttet) && (
                             <ArbeidsformOgTimer
+                                arbeidsforholdType={ArbeidsforholdType.ANSATT}
+                                erAvsluttet={
+                                    arbeidsforhold.erAnsatt === YesOrNo.NO &&
+                                    arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO
+                                        ? true
+                                        : false
+                                }
                                 spørsmål={{
                                     arbeidsform: intlHelper(
                                         intl,
