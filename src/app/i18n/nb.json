@@ -771,7 +771,7 @@
     "validation.ferieuttakIPerioden.ferieuttak_overlapper": "Du har lagt inn ferier som overlapper hverandre.",
     "validation.skalTaUtFerieIPerioden.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du skal ha lovbestemt ferie i perioden du søker for.",
 
-    "validation.ansatt_arbeidsforhold.erAnsatt.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du er ansatt hos {navn} i perioden du søker pleiepenger.",
+    "validation.arbeidsforhold.erAnsatt.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du er ansatt hos {navn} i perioden du søker pleiepenger.",
 
     "validation.arbeidsforhold.arbeidsform.noValue": "Du må svare på hvordan du {jobber} {hvor}.",
     "validation.arbeidsforhold.sluttetFørSøknadsperiode.yesOrNoIsUnanswered": "Du må svare på om du sluttet hos {navn} før {fraDato}.",
