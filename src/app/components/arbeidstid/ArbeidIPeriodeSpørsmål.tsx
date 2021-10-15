@@ -1,5 +1,6 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { prettifyDate, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
@@ -157,7 +158,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                             />
                                         </FormBlock>
                                         {erLiktHverUke === YesOrNo.YES && (
-                                            <FormBlock margin="xxl">
+                                            <FormBlock margin="xl">
                                                 <AppForm.InputGroup
                                                     legend={intlHelper(
                                                         intl,
@@ -169,7 +170,31 @@ const ArbeidIPeriodeSpørsmål = ({
                                                     validate={() =>
                                                         validateFasteArbeidstimerIUke(arbeidIPeriode, intlValues)
                                                     }
-                                                    name={'fasteDager_gruppe' as any}>
+                                                    name={'fasteDager_gruppe' as any}
+                                                    description={
+                                                        <ExpandableInfo
+                                                            title={intlHelper(
+                                                                intl,
+                                                                'arbeidIPeriode.ukedager.info.tittel'
+                                                            )}>
+                                                            <FormattedMessage
+                                                                id={
+                                                                    erHistorisk
+                                                                        ? 'arbeidIPeriode.ukedager.historisk.info.tekst.1'
+                                                                        : 'arbeidIPeriode.ukedager.planlagt.info.tekst.1'
+                                                                }
+                                                                tagName="p"
+                                                            />
+                                                            <FormattedMessage
+                                                                id={
+                                                                    erHistorisk
+                                                                        ? 'arbeidIPeriode.ukedager.historisk.info.tekst.2'
+                                                                        : 'arbeidIPeriode.ukedager.planlagt.info.tekst.2'
+                                                                }
+                                                                tagName="p"
+                                                            />
+                                                        </ExpandableInfo>
+                                                    }>
                                                     <TidFasteDagerInput
                                                         name={getFieldName(ArbeidIPeriodeField.fasteDager)}
                                                         validator={getArbeidstimerFastDagValidator}

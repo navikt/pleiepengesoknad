@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import {
@@ -17,6 +17,8 @@ import { getArbeidstimerEnkeltdagValidator } from '../../validation/validateArbe
 import TidKalenderForm from '../tid-kalender-form/TidKalenderForm';
 import TidsbrukKalender from '../tidsbruk-kalender/TidsbrukKalender';
 import { ArbeidIPeriodeIntlValues } from './ArbeidIPeriodeSpørsmål';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 
 interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, ValidationError> {
     name: FieldNames;
@@ -35,6 +37,7 @@ function ArbeidstidInfoAndDialog<FieldNames>({
     validate,
 }: Props<FieldNames>) {
     const erHistorisk = dayjs(periode.to).isBefore(søknadsdato, 'day');
+    const intl = useIntl();
     return (
         <FormikModalFormAndInfo<FieldNames, TidEnkeltdag, ValidationError>
             name={name}
@@ -57,15 +60,36 @@ function ArbeidstidInfoAndDialog<FieldNames>({
                             />
                         }
                         intro={
-                            <p>
-                                <FormattedMessage
-                                    id={
-                                        erHistorisk
-                                            ? 'arbeidstid.form.intro.historisk'
-                                            : 'arbeidstid.form.intro.planlagt'
-                                    }
-                                />
-                            </p>
+                            <>
+                                <p>
+                                    <FormattedMessage
+                                        id={
+                                            erHistorisk
+                                                ? 'arbeidstid.form.intro.historisk'
+                                                : 'arbeidstid.form.intro.planlagt'
+                                        }
+                                    />
+                                </p>
+
+                                <ExpandableInfo title={intlHelper(intl, 'arbeidIPeriode.ukedager.info.tittel')}>
+                                    <FormattedMessage
+                                        id={
+                                            erHistorisk
+                                                ? 'arbeidstid.form.info.historisk.tekst.1'
+                                                : 'arbeidstid.form.info.planlagt.tekst.1'
+                                        }
+                                        tagName="p"
+                                    />
+                                    <FormattedMessage
+                                        id={
+                                            erHistorisk
+                                                ? 'arbeidstid.form.info.historisk.tekst.2'
+                                                : 'arbeidstid.form.info.planlagt.tekst.2'
+                                        }
+                                        tagName="p"
+                                    />
+                                </ExpandableInfo>
+                            </>
                         }
                         tidPerDagValidator={getArbeidstimerEnkeltdagValidator(intlValues)}
                         onSubmit={onSubmit}
