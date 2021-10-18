@@ -90,7 +90,6 @@ const ArbeidsformOgTimerFormPart: React.FunctionComponent<Props> = ({
                                     <FormattedMessage id="arbeidsforhold.arbeidsform.varierende.2" />
                                     /&shy;
                                     <FormattedMessage id="arbeidsforhold.arbeidsform.varierende.3" />
-                                    /&shy;
                                 </>
                             ),
                             value: Arbeidsform.varierende,

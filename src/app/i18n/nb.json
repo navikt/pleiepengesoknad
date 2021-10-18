@@ -301,11 +301,16 @@
     "steg.arbeidssituasjon.andreYtelser.spm": "Mottar du andre utbetalinger fra NAV i perioden med pleiepenger?",
     "steg.arbeidssituasjon.andreYtelser.hvilke.spm": "Mottar du andre utbetalinger fra NAV i perioden med pleiepenger?",
 
-    "steg.omsorgstilbud.veileder.1": "Hvis barnet er i barnehage, skole eller i andre etablerte omsorgstilbud i perioden du søker for, skal pleiepengene graderes tilsvarende den tiden barnet er i omsorgstilbudet. At omsorgstilbudet er etablert betyr at den tiden som barnet er i omsorgstilbudet er fast og regelmessig.",
-    "steg.omsorgstilbud.veileder.2": "Hvis bruken av omsorgstilbudet er så uforutsigbar og uregelmessig at du ikke vet noe av tiden med sikkerhet anses ikke omsorgstilbudet for etablert. Da skal ikke pleiepenger graderes.",
-    "steg.omsorgstilbud.veileder.3": "I tillegg til barnehage og skole kan omsorgstilbud være SFO, omsorgsbolig, BPA (brukerstyrt personlig assistent), eller andre organiserte tilbud. Sykehus regnes ikke som et omsorgstilbud.",
-    "steg.omsorgstilbud.veileder.historisk.1": "Hvis barnet var i barnehage, skole eller andre etablerte omsorgstilbud i perioden du søker for, skal pleiepengene graderes tilsvarende den tiden barnet var i omsorgstilbudet. At omsorgstilbudet er etablert betyr at den tiden som barnet er i omsorgstilbudet er fast og regelmessig.",
-    "steg.omsorgstilbud.veileder.historisk.2": "I tillegg til barnehage og skole kan omsorgstilbud være SFO, omsorgsbolig, BPA (brukerstyrt personlig assistent), eller andre organiserte tilbud. Sykehus regnes ikke som et omsorgstilbud.",
+    "steg.omsorgstilbud.veileder.1": "Et omsorgstilbud kan være barnehage, skole, SFO, omsorgsbolig, BPA (brukerstyrt personlig assistent) eller andre organiserte tilbud.",
+    "steg.omsorgstilbud.veileder.2": "Å være innlagt eller til behandling på sykehus regnes ikke som et omsorgstilbud.",
+    "steg.omsorgstilbud.veileder.3": "Hvis barnet er i et etablert omsorgstilbud i perioden du søker for, skal pleiepengene graderes tilsvarende den tiden barnet er i omsorgstilbudet. At omsorgstilbudet er etablert betyr at den tiden som barnet er i omsorgstilbudet er fast og regelmessig.",
+    "steg.omsorgstilbud.veileder.4": "Hvis bruken av omsorgstilbud er uforutsigbar og uregelmessig, slik at du ikke vet når barnet skal være der, skal du heller ikke oppgi noe av tiden barnet er der. I disse tilfellene anses ikke omsorgstilbudet som etablert, og pleiepengen graderes ikke.",
+
+    "steg.omsorgstilbud.veileder.historisk.1": "Et omsorgstilbud kan være barnehage, skole, SFO, omsorgsbolig, BPA (brukerstyrt personlig assistent) eller andre organiserte tilbud.",
+    "steg.omsorgstilbud.veileder.historisk.2": "Å være innlagt eller til behandling på sykehus regnes ikke som et omsorgstilbud.",
+    "steg.omsorgstilbud.veileder.historisk.3": "Hvis barnet var i et etablert omsorgstilbud i perioden du søker for, skal pleiepengene graderes tilsvarende den tiden barnet var i omsorgstilbudet. At omsorgstilbudet var etablert betyr at den tiden barnet var i omsorgstilbudet var fast og regelmessig.",
+    "steg.omsorgstilbud.veileder.historisk.4": "Hvis bruken av omsorgstilbudet var uforutsigbar og uregelmessig, skal du ikke oppgi noe av tiden barnet var der. I disse tilfellene anses ikke omsorgstilbudet som etablert, og pleiepengene graderes ikke.",
+
     "steg.omsorgstilbud.generelt.tittel": "Omsorgstilbud i perioden",
     "steg.omsorgstilbud.historisk.tittel": "Omsorgstilbud tilbake i tid",
     "steg.omsorgstilbud.planlagt.tittel": "Omsorgstilbud frem i tid",

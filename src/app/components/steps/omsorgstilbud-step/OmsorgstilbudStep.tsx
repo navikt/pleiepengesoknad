@@ -65,6 +65,12 @@ const OmsorgstilbudStep = ({
                         <p>
                             <FormattedMessage id="steg.omsorgstilbud.veileder.historisk.2" />
                         </p>
+                        <p>
+                            <FormattedMessage id="steg.omsorgstilbud.veileder.historisk.3" />
+                        </p>
+                        <p>
+                            <FormattedMessage id="steg.omsorgstilbud.veileder.historisk.4" />
+                        </p>
                     </>
                 )}
                 {kunHistorisk === false && (
@@ -77,6 +83,9 @@ const OmsorgstilbudStep = ({
                         </p>
                         <p>
                             <FormattedMessage id="steg.omsorgstilbud.veileder.3" />
+                        </p>
+                        <p>
+                            <FormattedMessage id="steg.omsorgstilbud.veileder.4" />
                         </p>
                     </>
                 )}
