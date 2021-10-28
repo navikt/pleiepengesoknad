@@ -130,12 +130,10 @@
     "steg.tidsrom.iUtlandetIPerioden.modalTitle": "Utenlandsopphold",
     "steg.tidsrom.iUtlandetIPerioden.addLabel": "Legg til utenlandsopphold",
 
-    "steg.tidsrom.ferieuttakIPerioden.spm": "Skal du ha lovbestemt ferie i perioden du søker for?",
+    "steg.tidsrom.ferieuttakIPerioden.spm": "Skal du ha ferie i perioden du søker for?",
     "steg.tidsrom.ferieuttakIPerioden.listTitle": "Ferie i perioden",
     "steg.tidsrom.ferieuttakIPerioden.modalTitle": "Ferie",
     "steg.tidsrom.ferieuttakIPerioden.addLabel": "Legg til ferie",
-    "steg.tidsrom.ferieuttakIPerioden.veileder.tittel": "Hva er lovbestemt ferie?",
-    "steg.tidsrom.ferieuttakIPerioden.veileder": "Hvis du skal ha ferie og er usikker på om det er lovbestemt ferie, må du sjekke det med arbeidsgiveren din.",
 
     "step.arbeidssituasjon.pageTitle": "Pleiepengesøknad - opplysninger om din arbeidssituasjon",
     "step.arbeidssituasjon.stepTitle": "Arbeidssituasjonen din",
@@ -189,9 +187,6 @@
     "page.intro.text.3": "Om søknaden",
     "page.intro.text.4": "Det kan være greit for deg å vite at du må svare på alle spørsmålene for å kunne gå videre i søknaden. Du får veiledning underveis om hva du skal fylle ut og hvordan.",
     "page.intro.text.5": "Hvis du begynner på en søknad og ikke fullfører utfyllingen, lagrer vi søknaden for deg i 72 timer. På den måten trenger du ikke fylle inn på nytt det du allerede har svart på. Om du velger å avbryte utfyllingen uten å lagre, blir opplysningene du har lagt inn slettet.",
-    "page.intro.text.6.a": "Kan du ikke søke digitalt?",
-    "page.intro.text.6.b": "Her finner du papirsøknaden som du sender til oss i posten",
-    "page.intro.text.6.c": ".",
 
     "introForm.form.harLegeerklæring.spm": "Har du fått legeerklæring fra sykehuslege eller lege i spesialisthelsetjenesten?",
     "introForm.form.harLegeerklæring.ja.info": "Legeerklæringen laster du opp som et vedlegg senere i søknaden. Da tar du enten et bilde av legeerklæringen, eller skanner den for å få lastet den opp. Du får mer veiledning om hvordan du laster opp vedlegg når du kommer til dette steget i søknaden.",
@@ -199,7 +194,6 @@
     "introForm.form.erArbeidstaker.spm": "Er du arbeidstaker?",
     "introForm.form.erArbeidstaker.nei.info": "Hvis du er selvstendig næringsdrivende, frilanser eller mottar utbetaling fra NAV trenger du ikke sende med dokumentasjon om inntekten din. Vi innhenter opplysninger om inntekten din fra offentlige registre, og kontakter deg hvis vi trenger flere opplysninger fra deg.",
     "introForm.form.erArbeidstaker.ja.info.1": "Det er viktig at du gir beskjed til arbeidsgiveren(e) dine om at de må sende inntektsmelding til oss så snart som mulig etter at du har sendt inn søknaden. Vi trenger den for å kunne behandle søknaden din.",
-    "introForm.form.erArbeidstaker.ja.info.2": "Når du har sendt inn søknaden kommer du til en side hvor du får veiledning om hvilken informasjon du skal gi til arbeidsgiver.",
     "introForm.form.inntektsmelding.spm": "Jeg har lest og forstått informasjonen om inntektsmelding",
     "introForm.form.inntektsmelding.ikkeBesvart": "Du må bekrefte at du har lest og forstått informasjonen om inntektsmeldingen",
     "introForm.start": "Start søknad",
@@ -774,7 +768,7 @@
     "validation.ferieuttakIPerioden.ferieuttak_ikke_registrert": "Du har svart ja til at du skal ha ferie i perioden med pleiepenger. Legg til minst ett ferieuttak.",
     "validation.ferieuttakIPerioden.ferieuttak_utenfor_periode": "Du har lagt inn ferie som er utenfor søknadsperioden.",
     "validation.ferieuttakIPerioden.ferieuttak_overlapper": "Du har lagt inn ferier som overlapper hverandre.",
-    "validation.skalTaUtFerieIPerioden.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du skal ha lovbestemt ferie i perioden du søker for.",
+    "validation.skalTaUtFerieIPerioden.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du skal ha ferie i perioden du søker for.",
 
     "validation.arbeidsforhold.erAnsatt.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du er ansatt hos {navn} i perioden du søker pleiepenger.",
 

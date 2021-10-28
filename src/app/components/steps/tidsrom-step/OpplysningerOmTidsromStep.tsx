@@ -156,11 +156,6 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                     legend={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.spm')}
                     name={AppFormField.skalTaUtFerieIPerioden}
                     validate={getYesOrNoValidator()}
-                    description={
-                        <ExpandableInfo title={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.veileder.tittel')}>
-                            <FormattedMessage id="steg.tidsrom.ferieuttakIPerioden.veileder" />
-                        </ExpandableInfo>
-                    }
                 />
             </Box>
             {values.skalTaUtFerieIPerioden === YesOrNo.YES && (
