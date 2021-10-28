@@ -1,6 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { VetOmsorgstilbud } from '../../types';
 import {
     HistoriskOmsorgstilbudApiData,
     PlanlagtOmsorgstilbudApiData,
@@ -23,16 +22,10 @@ export const mapPlanlagtOmsorgstilbudToApiData = (
         return undefined;
     }
 
-    const { erLiktHverUke, fasteDager, enkeltdager, vetHvorMyeTid } = planlagt;
-    if (vetHvorMyeTid === VetOmsorgstilbud.VET_IKKE) {
-        return {
-            vetOmsorgstilbud: VetOmsorgstilbud.VET_IKKE,
-        };
-    }
+    const { erLiktHverUke, fasteDager, enkeltdager } = planlagt;
 
     if (erLiktHverUke === YesOrNo.YES && fasteDager) {
         return {
-            vetOmsorgstilbud: vetHvorMyeTid,
             erLiktHverUke: true,
             ukedager: getFasteDagerApiData(fasteDager),
         };
@@ -40,7 +33,6 @@ export const mapPlanlagtOmsorgstilbudToApiData = (
     const periodeFraOgMedSøknadsdato = getPlanlagtPeriode(søknadsperiode, søknadsdato);
     if (erLiktHverUke !== YesOrNo.YES && enkeltdager && periodeFraOgMedSøknadsdato) {
         return {
-            vetOmsorgstilbud: vetHvorMyeTid,
             erLiktHverUke: erLiktHverUke === YesOrNo.NO ? false : undefined,
             enkeltdager: getEnkeltdagerIPeriodeApiData(enkeltdager, periodeFraOgMedSøknadsdato),
         };

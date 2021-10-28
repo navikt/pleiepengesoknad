@@ -302,6 +302,13 @@
     "steg.arbeidssituasjon.andreYtelser.spm": "Mottar du andre utbetalinger fra NAV i perioden med pleiepenger?",
     "steg.arbeidssituasjon.andreYtelser.hvilke.spm": "Mottar du andre utbetalinger fra NAV i perioden med pleiepenger?",
 
+    "steg.omsorgstilbud.veileder.ny.1": "Et omsorgstilbud kan være barnehage, skole, SFO, omsorgsbolig, BPA (brukerstyrt personlig assistent) eller andre organiserte tilbud.",
+    "steg.omsorgstilbud.veileder.ny.2": "Å være innlagt eller til behandling på sykehus regnes ikke som et omsorgstilbud.",
+    "steg.omsorgstilbud.veileder.ny.3a": "Når tiden barnet oppholder seg i et omsorgstilbud er fast og regelmessig, skal pleiepengene graderes tilsvarende den tiden barnet er i omsorgstilbudet. Det er bare når bruken av omsorgstilbudet er",
+    "steg.omsorgstilbud.veileder.ny.3b": "fast og regelmessig",
+    "steg.omsorgstilbud.veileder.ny.3c": "at du skal oppgi hvor mye barnet oppholder seg der.",
+    "steg.omsorgstilbud.veileder.ny.4": "Hvis bruken av omsorgstilbudet er uforutsigbar og uregelmessig graderes ikke pleiepengene, og du skal heller ikke oppgi noe av tiden barnet oppholder seg der.",
+
     "steg.omsorgstilbud.veileder.1": "Et omsorgstilbud kan være barnehage, skole, SFO, omsorgsbolig, BPA (brukerstyrt personlig assistent) eller andre organiserte tilbud.",
     "steg.omsorgstilbud.veileder.2": "Å være innlagt eller til behandling på sykehus regnes ikke som et omsorgstilbud.",
     "steg.omsorgstilbud.veileder.3": "Hvis barnet er i et etablert omsorgstilbud i perioden du søker for, skal pleiepengene graderes tilsvarende den tiden barnet er i omsorgstilbudet. At omsorgstilbudet er etablert betyr at den tiden som barnet er i omsorgstilbudet er fast og regelmessig.",
@@ -315,13 +322,10 @@
     "steg.omsorgstilbud.generelt.tittel": "Omsorgstilbud i perioden",
     "steg.omsorgstilbud.historisk.tittel": "Omsorgstilbud tilbake i tid",
     "steg.omsorgstilbud.planlagt.tittel": "Omsorgstilbud frem i tid",
-    "steg.omsorgstilbud.historisk.harBarnetVærtIOmsorgstilbud.spm": "Har barnet vært noe i et omsorgstilbud i perioden {fra} til {til}?",
-    "steg.omsorgstilbud.planlagt.skalBarnetVæreIOmsorgstilbud.spm": "Skal barnet være noe i et omsorgstilbud i perioden {fra} til {til}?",
 
-    "steg.omsorgstilbud.planlagt.vetHvorMye.spm": "Vet du noe av tiden barnet skal være i omsorgstilbudet?",
-    "steg.omsorgstilbud.planlagt.vetHvorMye.ja": "Ja",
-    "steg.omsorgstilbud.planlagt.vetHvorMye.nei": "Nei",
-    "steg.omsorgstilbud.planlagt.vetHvorMye.info": "Du skal bare oppgi den tiden du vet med sikkerhet. Dersom du vet noe av tiden barnet kan være i omsorgstilbudet svarer du ja. Hvis du ikke vet noe tid med sikkerhet, svarer du nei.",
+    "steg.omsorgstilbud.historisk.harBarnetVærtIOmsorgstilbud.spm": "Oppholdt barnet seg noe i et fast omsorgstilbud i perioden {fra} til {til}?",
+    "steg.omsorgstilbud.planlagt.skalBarnetVæreIOmsorgstilbud.spm": "Skal barnet oppholde seg noe i et fast omsorgstilbud i perioden {fra} til {til}?",
+    "steg.omsorgstilbud.planlagt.skalBarnetVæreIOmsorgstilbud.nei.info": "Du må gi oss beskjed hvis det blir endringer, og barnet likevel skal oppholde seg noe i et fast omsorgstilbud i pleiepengeperioden. ",
 
     "steg.omsorgstilbud.planlagt.erLiktHverUke.spm": "Er tiden barnet skal være i omsorgstilbudet lik for hver dag i perioden du søker om? Det vil si at alle mandager er like, alle tirsdager er like og så videre.",
     "steg.omsorgstilbud.planlagt.erLiktHverUke.info.tittel": "Hva betyr dette?",
@@ -404,9 +408,6 @@
     "steg.oppsummering.nattevåk.borteFraJobb.header": "Må være borte fra jobb",
 
     "steg.oppsummering.omsorgstilbud.header": "Omsorgstilbud",
-    "steg.oppsummering.omsorgstilbud.hvorMyeTidOms.spm": "Vet du noe av tiden barnet skal være i omsorgstilbudet?",
-    "steg.oppsummering.omsorgstilbud.hvorMyeTidOms.VET_ALLE_TIMER": "Ja",
-    "steg.oppsummering.omsorgstilbud.hvorMyeTidOms.VET_IKKE": "Nei",
 
     "steg.oppsummering.omsorgstilbud.historisk.header": "Tid barnet var i et omsorgstilbud:",
     "steg.oppsummering.omsorgstilbud.planlagt.header": "Tid barnet skal være i et omsorgstilbud:",
@@ -868,10 +869,10 @@
     "validation.omsorgstilbud.planlagt.fastDag.tid.tooManyMinutes": "Antall minutter på {dag} kan ikke overstige 59",
     "validation.omsorgstilbud.planlagt.fastDag.tid.durationIsTooLong": "Antall timer og minutter registrert {dag} er for høyt. Tiden kan ikke være mer enn 7 timer og 30 minutter hver ukedag.",
     "validation.omsorgstilbud.planlagt.fastDag.tid.durationIsTooShort": "0 timer og 0 minutter er oppgitt for {dag}. Dersom barnet skal være i et omsorgstilbud på {dag}, må du oppgi en gyldig tid.",
-    "validation.omsorgstilbud.planlagt.enkeltdager.ingenTidRegistrert": "Du må registrere den tiden du vet barnet skal være i et omsorgstilbud.",
-    "validation.omsorgstilbud.planlagt.enkeltdager_gruppe.ingenTidRegistrert": "Du må registrere den tiden du vet barnet skal være i et omsorgstilbud.",
-    "validation.omsorgstilbud.historisk.enkeltdager.ingenTidRegistrert": "Du må registrere den tiden barnet var i et omsorgstilbud.",
-    "validation.omsorgstilbud.historisk.enkeltdager_gruppe.ingenTidRegistrert": "Du må registrere den tiden barnet har vært i et omsorgstilbud.",
+    "validation.omsorgstilbud.planlagt.enkeltdager.ingenTidRegistrert": "Du må registrere den tiden du vet barnet skal være i et fast omsorgstilbud.",
+    "validation.omsorgstilbud.planlagt.enkeltdager_gruppe.ingenTidRegistrert": "Du må registrere den tiden du vet barnet skal være i et fast omsorgstilbud.",
+    "validation.omsorgstilbud.historisk.enkeltdager.ingenTidRegistrert": "Du må registrere den tiden barnet var i et fast omsorgstilbud.",
+    "validation.omsorgstilbud.historisk.enkeltdager_gruppe.ingenTidRegistrert": "Du må registrere den tiden barnet har vært i et fast omsorgstilbud.",
     "validation.omsorgstilbud.planlagt.erLiktHverUke.yesOrNoIsUnanswered": "Du må svare på om tiden barnet skal være i omsorgstilbudet er lik for hver dag i perioden du søker om.",
 
     "validation.harNattevåk.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnets sykdom gjør at du må være våken om natten.",

@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { TidEnkeltdag, VetOmsorgstilbud } from '../../../../types';
+import { TidEnkeltdag } from '../../../../types';
 import { PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
 import { cleanupOmsorgstilbudStep } from '../omsorgstilbudStepUtils';
 
@@ -24,7 +24,6 @@ const formValuesTemplate: Partial<PleiepengesøknadFormData> = {
         skalBarnIOmsorgstilbud: YesOrNo.YES,
         harBarnVærtIOmsorgstilbud: YesOrNo.YES,
         planlagt: {
-            vetHvorMyeTid: VetOmsorgstilbud.VET_ALLE_TIMER,
             erLiktHverUke: YesOrNo.NO,
             enkeltdager: enkeldagerFormData,
         },

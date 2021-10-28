@@ -4,18 +4,16 @@ import { useHistory } from 'react-router';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-// import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { useFormikContext } from 'formik';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import usePersistSoknad from '../../../hooks/usePersistSoknad';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
-// import { getHistoriskPeriode, getPlanlagtPeriode } from '../../../utils/tidsbrukUtils';
 import FormikStep from '../../formik-step/FormikStep';
 import HistoriskOmsorgstilbudSpørsmål from './HistoriskOmsorgstilbudSpørsmål';
-import PlanlagtOmsorgstilbudSpørsmål from './PlanlagtOmsorgstilbudSpørsmål';
 import { cleanupOmsorgstilbudStep } from './omsorgstilbudStepUtils';
+import PlanlagtOmsorgstilbudSpørsmål from './PlanlagtOmsorgstilbudSpørsmål';
 
 dayjs.extend(isBetween);
 
@@ -49,7 +47,7 @@ const OmsorgstilbudStep = ({
     }, [omsorgstilbudChanged, persist]);
 
     const harBådeHistoriskOgPlanlagt = periodeFørSøknadsdato !== undefined && periodeFraOgMedSøknadsdato !== undefined;
-    const kunHistorisk = periodeFørSøknadsdato && periodeFraOgMedSøknadsdato === undefined;
+    // const kunHistorisk = periodeFørSøknadsdato && periodeFraOgMedSøknadsdato === undefined;
 
     return (
         <FormikStep
@@ -57,7 +55,23 @@ const OmsorgstilbudStep = ({
             onStepCleanup={(values) => cleanupOmsorgstilbudStep(values, søknadsperiode, søknadsdato)}
             onValidFormSubmit={onValidSubmit}>
             <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
-                {kunHistorisk && (
+                <p>
+                    <FormattedMessage id="steg.omsorgstilbud.veileder.ny.1" />
+                </p>
+                <p>
+                    <FormattedMessage id="steg.omsorgstilbud.veileder.ny.2" />
+                </p>
+                <p>
+                    <FormattedMessage id="steg.omsorgstilbud.veileder.ny.3a" />{' '}
+                    <strong>
+                        <FormattedMessage id="steg.omsorgstilbud.veileder.ny.3b" />
+                    </strong>{' '}
+                    <FormattedMessage id="steg.omsorgstilbud.veileder.ny.3c" />
+                </p>
+                <p>
+                    <FormattedMessage id="steg.omsorgstilbud.veileder.ny.4" />
+                </p>
+                {/* {kunHistorisk && (
                     <>
                         <p>
                             <FormattedMessage id="steg.omsorgstilbud.veileder.historisk.1" />
@@ -88,7 +102,7 @@ const OmsorgstilbudStep = ({
                             <FormattedMessage id="steg.omsorgstilbud.veileder.4" />
                         </p>
                     </>
-                )}
+                )} */}
             </CounsellorPanel>
             {periodeFørSøknadsdato && (
                 <HistoriskOmsorgstilbudSpørsmål

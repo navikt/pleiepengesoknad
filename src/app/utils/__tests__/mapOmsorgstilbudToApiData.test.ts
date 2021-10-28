@@ -1,7 +1,7 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { TidEnkeltdag, VetOmsorgstilbud } from '../../types';
-import { AppFormField, Omsorgstilbud } from '../../types/PleiepengesøknadFormData';
+import { TidEnkeltdag } from '../../types';
+import { Omsorgstilbud } from '../../types/PleiepengesøknadFormData';
 import { mapPlanlagtOmsorgstilbudToApiData } from '../formToApiMaps/omsorgstilbudApiData';
 import { getEnkeltdagerIPeriodeApiData } from '../formToApiMaps/tidsbrukApiUtils';
 
@@ -43,28 +43,12 @@ describe('mapOmsorgstilbudToApiData test', () => {
             )
         );
     });
-    it(`should return ${VetOmsorgstilbud.VET_IKKE} when ${AppFormField.omsorgstilbud__skalBarnIOmsorgstilbud} === ${YesOrNo.YES} and ${AppFormField.omsorgstilbud__planlagt__vetHvorMyeTid} === ${VetOmsorgstilbud.VET_IKKE}`, () => {
-        const result = mapPlanlagtOmsorgstilbudToApiData(
-            {
-                ...omsorgstilbud,
-                planlagt: {
-                    vetHvorMyeTid: VetOmsorgstilbud.VET_IKKE,
-                },
-            },
-            søknadsperiode,
-            søknadsdato
-        );
-        expect(result?.enkeltdager).toBeUndefined();
-        expect(result?.ukedager).toBeUndefined();
-        expect(result?.vetOmsorgstilbud).toBe(VetOmsorgstilbud.VET_IKKE);
-    });
     describe('getFasteDager', () => {
         it('returns fasteDager correctly', () => {
             const result = mapPlanlagtOmsorgstilbudToApiData(
                 {
                     ...omsorgstilbud,
                     planlagt: {
-                        vetHvorMyeTid: VetOmsorgstilbud.VET_ALLE_TIMER,
                         erLiktHverUke: YesOrNo.YES,
                         fasteDager: { fredag: { hours: '2', minutes: '30' } },
                     },

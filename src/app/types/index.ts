@@ -53,8 +53,3 @@ export enum ArbeidsforholdType {
     FRILANSER = 'FRILANSER',
     SELVSTENDIG = 'SELVSTENDIG',
 }
-
-export enum VetOmsorgstilbud {
-    'VET_ALLE_TIMER' = 'VET_ALLE_TIMER',
-    'VET_IKKE' = 'VET_IKKE',
-}
