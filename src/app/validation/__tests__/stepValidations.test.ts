@@ -2,7 +2,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { AppFormField, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import * as fieldValidations from '../fieldValidations';
 import {
-    arbeidsforholdStepIsValid,
+    arbeidssituasjonStepIsValid,
     legeerklæringStepIsValid,
     medlemskapStepIsValid,
     opplysningerOmBarnetStepIsValid,
@@ -92,7 +92,7 @@ describe('stepValidation tests', () => {
 
     describe('opplysningerOmTidsromStepIsValid', () => {
         it('should always be valid', () => {
-            expect(arbeidsforholdStepIsValid()).toBe(true);
+            expect(arbeidssituasjonStepIsValid()).toBe(true);
         });
     });
 

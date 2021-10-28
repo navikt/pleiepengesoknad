@@ -66,8 +66,8 @@ const barnMock = {
 
 const arbeidsgivereMock = {
     organisasjoner: [
-        { navn: 'Arbeids- og velferdsetaten', organisasjonsnummer: '123451234' },
-        { navn: 'Arbeids- og sosialdepartementet', organisasjonsnummer: '123451235' },
+        { navn: 'Karls godteributikk', organisasjonsnummer: '123451234' },
+        // { navn: 'Noras sveiseri', organisasjonsnummer: '123451235' },
     ],
 };
 const MELLOMLAGRING_JSON = `${os.tmpdir()}/mellomlagring.json`;
@@ -79,9 +79,7 @@ const isJSON = (str) => {
         return false;
     }
 };
-/*const writeFileSync = (path, text) => {
-    return fs.writeFileSync(path, text);
-};*/
+
 const writeFileAsync = async (path, text) => {
     return new Promise((resolve, reject) => {
         fs.writeFile(path, text, 'utf8', (err) => {

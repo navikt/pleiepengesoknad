@@ -3,11 +3,18 @@ import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { ISODateString } from 'nav-datovelger/lib/types';
-import { BarnRelasjon, AndreYtelserFraNAV, Arbeidsform, ArbeidsforholdAnsatt } from './PleiepengesøknadFormData';
+import {
+    AndreYtelserFraNAV,
+    ArbeidsforholdType,
+    Arbeidsform,
+    BarnRelasjon,
+    JobberIPeriodeSvar,
+    VetOmsorgstilbud,
+} from './';
 
 export type ISO8601Duration = string;
 
-export interface BarnToSendToApi {
+export interface BarnetSøknadenGjelderApiData {
     navn: string | null;
     fødselsnummer: string | null;
     fødselsdato: string | null;
@@ -15,102 +22,91 @@ export interface BarnToSendToApi {
     sammeAdresse: boolean | null;
 }
 
-export enum SkalJobbe {
-    JA = 'JA',
-    NEI = 'NEI',
-    REDUSERT = 'REDUSERT',
-    VET_IKKE = 'VET_IKKE',
+export interface ArbeidIPeriodeApiData {
+    jobberIPerioden: JobberIPeriodeSvar;
+    jobberSomVanlig?: boolean;
+    erLiktHverUke?: boolean;
+    enkeltdager?: TidEnkeltdagApiData[];
+    fasteDager?: TidFasteDagerApiData;
 }
 
-/** Brukes kun i klient, ikke backend */
-export enum ArbeidsforholdType {
-    ANSATT = 'ANSATT',
-    FRILANSER = 'FRILANSER',
-    SELVSTENDIG = 'SELVSTENDIG',
-}
-export interface ArbeidsforholdApi {
-    skalJobbe?: SkalJobbe;
-    arbeidsform?: Arbeidsform;
-    jobberNormaltTimer?: number;
-    skalJobbeTimer?: number;
-    skalJobbeProsent?: number;
+export interface ArbeidsforholdApiData {
     _type: ArbeidsforholdType;
+    arbeidsform: Arbeidsform;
+    jobberNormaltTimer: number;
+    historiskArbeid?: ArbeidIPeriodeApiData;
+    planlagtArbeid?: ArbeidIPeriodeApiData;
 }
 
-export interface ArbeidsforholdAnsattApi extends ArbeidsforholdApi {
+export type ArbeidsgiverApiData = ArbeidsgiverISøknadsperiodeApiData | ArbeidsgiverUtenforSøknadsperiodeApiData;
+
+export interface ArbeidsgiverUtenforSøknadsperiodeApiData {
     navn: string;
     organisasjonsnummer?: string;
+    erAnsatt: false;
+    sluttetFørSøknadsperiode: true;
+}
+export interface ArbeidsgiverISøknadsperiodeApiData {
+    navn: string;
+    organisasjonsnummer?: string;
+    erAnsatt: boolean;
+    sluttetFørSøknadsperiode?: false;
+    arbeidsforhold: ArbeidsforholdApiData;
 }
 
-export const isArbeidsforholdAnsattApi = (forhold: any): forhold is ArbeidsforholdAnsatt => {
+export const isArbeidsgiverISøknadsperiodeApiData = (
+    arbeidsgiver: any
+): arbeidsgiver is ArbeidsgiverISøknadsperiodeApiData => {
     return (
-        forhold &&
-        forhold._type === ArbeidsforholdType.ANSATT &&
-        forhold.navn !== undefined &&
-        forhold.organisasjonsnummer !== undefined
+        arbeidsgiver.erAnsatt === true ||
+        (arbeidsgiver.erAnsatt === false && arbeidsgiver.sluttetFørSøknadsperiode === false)
     );
 };
 
-export type ArbeidsforholdApiNei = Pick<
-    ArbeidsforholdApi,
-    'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | '_type'
->;
-export type ArbeidsforholdApiRedusert = Pick<
-    ArbeidsforholdApi,
-    'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | 'skalJobbeTimer' | '_type'
->;
-
-export type ArbeidsforholdApiVetIkke = Pick<
-    ArbeidsforholdApi,
-    'skalJobbe' | 'jobberNormaltTimer' | 'skalJobbeProsent' | '_type'
->;
-
-export type ArbeidsforholdApiSomVanlig = Pick<
-    ArbeidsforholdApi,
-    'skalJobbe' | 'skalJobbeProsent' | 'jobberNormaltTimer' | '_type'
->;
-
-export interface OmsorgstilbudUkeApi {
-    mandag?: string;
-    tirsdag?: string;
-    onsdag?: string;
-    torsdag?: string;
-    fredag?: string;
+export const isArbeidsforholdAnsattApiData = (forhold: any): forhold is ArbeidsgiverApiData => {
+    return forhold?._type === ArbeidsforholdType.ANSATT;
+};
+export interface FrilansApiData {
+    startdato: ApiStringDate;
+    jobberFortsattSomFrilans: boolean;
+    sluttdato?: ApiStringDate;
+    arbeidsforhold?: ArbeidsforholdApiData;
 }
 
-export interface OmsorgstilbudFasteDagerApi {
+export interface SelvstendigNæringsdrivendeApiData {
+    virksomhet: VirksomhetApiData;
+    arbeidsforhold: ArbeidsforholdApiData;
+}
+
+export interface TidFasteDagerApiData {
     mandag?: ISO8601Duration;
     tirsdag?: ISO8601Duration;
     onsdag?: ISO8601Duration;
     torsdag?: ISO8601Duration;
     fredag?: ISO8601Duration;
 }
-export interface OmsorgstilbudDagApi {
+export interface TidEnkeltdagApiData {
     dato: ISODateString;
     tid: ISO8601Duration;
 }
-export enum VetOmsorgstilbud {
-    'VET_ALLE_TIMER' = 'VET_ALLE_TIMER',
-    'VET_IKKE' = 'VET_IKKE',
-}
 
-export interface PlanlagtOmsorgstilbudApi {
+export interface PlanlagtOmsorgstilbudApiData {
     vetOmsorgstilbud: VetOmsorgstilbud;
-    erLiktHverDag?: boolean;
-    enkeltdager?: OmsorgstilbudDagApi[];
-    ukedager?: OmsorgstilbudFasteDagerApi;
+    erLiktHverUke?: boolean;
+    enkeltdager?: TidEnkeltdagApiData[];
+    ukedager?: TidFasteDagerApiData;
 }
 
-export interface HistoriskOmsorgstilbudApi {
-    enkeltdager: OmsorgstilbudDagApi[];
+export interface HistoriskOmsorgstilbudApiData {
+    enkeltdager: TidEnkeltdagApiData[];
 }
 
-export interface OmsorgstilbudV2 {
-    historisk?: HistoriskOmsorgstilbudApi;
-    planlagt?: PlanlagtOmsorgstilbudApi;
+export interface OmsorgstilbudApiData {
+    historisk?: HistoriskOmsorgstilbudApiData;
+    planlagt?: PlanlagtOmsorgstilbudApiData;
 }
 
-interface Medlemskap {
+interface MedlemskapApiData {
     harBoddIUtlandetSiste12Mnd: boolean;
     skalBoIUtlandetNeste12Mnd: boolean;
     utenlandsoppholdNeste12Mnd: BostedUtlandApiData[];
@@ -131,14 +127,14 @@ export interface UtenlandsoppholdIPeriodenApiData {
     landnavn: string;
 }
 
-export interface PeriodeBarnetErInnlagtApiFormat {
+export interface PeriodeBarnetErInnlagtApiData {
     fraOgMed: ApiStringDate;
     tilOgMed: ApiStringDate;
 }
 export interface UtenlandsoppholdUtenforEøsIPeriodenApiData extends UtenlandsoppholdIPeriodenApiData {
     erBarnetInnlagt: boolean;
     erUtenforEøs: boolean;
-    perioderBarnetErInnlagt: PeriodeBarnetErInnlagtApiFormat[];
+    perioderBarnetErInnlagt: PeriodeBarnetErInnlagtApiData[];
     årsak: UtenlandsoppholdÅrsak | null;
 }
 
@@ -153,40 +149,30 @@ export interface FerieuttakIPeriodeApiData {
     tilOgMed: ApiStringDate;
 }
 
-export interface FrilansApiData {
-    startdato: ApiStringDate;
-    jobberFortsattSomFrilans: boolean;
-    sluttdato?: ApiStringDate;
-    arbeidsforhold?: ArbeidsforholdApi;
+export interface FerieuttakIPeriodenApiData {
+    skalTaUtFerieIPerioden: boolean;
+    ferieuttak: FerieuttakIPeriodeApiData[];
 }
 
 export interface PleiepengesøknadApiData {
-    newVersion: boolean;
     språk: Locale;
-    barn: BarnToSendToApi;
+    harForståttRettigheterOgPlikter: boolean;
+    harBekreftetOpplysninger: boolean;
+    barn: BarnetSøknadenGjelderApiData;
     barnRelasjon?: BarnRelasjon;
     barnRelasjonBeskrivelse?: string;
     fraOgMed: ApiStringDate;
     tilOgMed: ApiStringDate;
-    skalBekrefteOmsorg?: boolean;
-    skalPassePåBarnetIHelePerioden?: boolean;
-    beskrivelseOmsorgsrollen?: string;
-    arbeidsgivere: { organisasjoner: ArbeidsforholdAnsattApi[] };
     vedlegg: string[];
-    medlemskap: Medlemskap;
+    medlemskap: MedlemskapApiData;
     utenlandsoppholdIPerioden?: {
         skalOppholdeSegIUtlandetIPerioden: boolean;
         opphold: UtenlandsoppholdIPeriodenApiData[];
     };
-    ferieuttakIPerioden?: {
-        skalTaUtFerieIPerioden: boolean;
-        ferieuttak: FerieuttakIPeriodeApiData[];
-    };
+    ferieuttakIPerioden?: FerieuttakIPeriodenApiData;
     harMedsøker: boolean;
     samtidigHjemme?: boolean;
-    harForståttRettigheterOgPlikter: boolean;
-    harBekreftetOpplysninger: boolean;
-    omsorgstilbudV2?: OmsorgstilbudV2;
+    omsorgstilbud?: OmsorgstilbudApiData;
     nattevåk?: {
         harNattevåk: boolean;
         tilleggsinformasjon?: string;
@@ -195,11 +181,11 @@ export interface PleiepengesøknadApiData {
         beredskap: boolean;
         tilleggsinformasjon?: string;
     };
-    harHattInntektSomFrilanser: boolean;
+    arbeidsgivere?: ArbeidsgiverApiData[];
+    _harHattInntektSomFrilanser: boolean;
     frilans?: FrilansApiData;
-    harHattInntektSomSelvstendigNæringsdrivende: boolean;
-    selvstendigVirksomheter: VirksomhetApiData[];
-    selvstendigArbeidsforhold?: ArbeidsforholdApi;
+    _harHattInntektSomSelvstendigNæringsdrivende: boolean;
+    selvstendigNæringsdrivende?: SelvstendigNæringsdrivendeApiData;
     harVærtEllerErVernepliktig?: boolean;
     andreYtelserFraNAV?: AndreYtelserFraNAV[];
 }

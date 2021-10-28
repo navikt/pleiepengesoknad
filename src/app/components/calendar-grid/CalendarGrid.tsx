@@ -24,7 +24,7 @@ interface Week {
 }
 
 interface Props {
-    content: Day[];
+    days: Day[];
     month: Date;
     min?: Date;
     max?: Date;
@@ -45,7 +45,7 @@ const getFirstWeekdayOnOrAfterDate = (date: Date): Date => {
     return dayjs(date).add(1, 'day').toDate();
 };
 
-const getDays = (month: Date, calendarDayContent: Day[], range?: Partial<DateRange>): Day[] => {
+const getDaysInRange = (month: Date, calendarDayContent: Day[], range?: Partial<DateRange>): Day[] => {
     const from = getFirstWeekdayOnOrAfterDate(range?.from || month);
     const to = range?.to || dayjs(month).endOf('month');
     const days: Array<Day> = [];
@@ -75,7 +75,7 @@ const getWeeks = (days: Day[]): Week[] => {
 const bem = bemUtils('calendarGrid');
 
 const CalendarGrid: React.FunctionComponent<Props> = ({
-    content,
+    days,
     month,
     min,
     max,
@@ -85,8 +85,8 @@ const CalendarGrid: React.FunctionComponent<Props> = ({
     renderAsList,
     hideEmptyContentInListMode,
 }) => {
-    const days = getDays(month, content, { from: min, to: max });
-    const weeks = getWeeks(days);
+    const daysInRange = getDaysInRange(month, days, { from: min, to: max });
+    const weeks = getWeeks(daysInRange);
     return (
         <div
             className={bem.classNames(

@@ -1,9 +1,9 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { TidIOmsorgstilbud } from '../../components/omsorgstilbud/types';
-import { VetOmsorgstilbud } from '../../types/PleiepengesøknadApiData';
+import { TidEnkeltdag, VetOmsorgstilbud } from '../../types';
 import { AppFormField, Omsorgstilbud } from '../../types/PleiepengesøknadFormData';
-import { getEnkeltdagerIPeriode, mapPlanlagtOmsorgstilbudToApiData } from '../formToApiMaps/mapOmsorgstilbudToApiData';
+import { mapPlanlagtOmsorgstilbudToApiData } from '../formToApiMaps/omsorgstilbudApiData';
+import { getEnkeltdagerIPeriodeApiData } from '../formToApiMaps/tidsbrukApiUtils';
 
 jest.mock('./../envUtils', () => {
     return {
@@ -18,6 +18,8 @@ const fasteDagerResult = {
     torsdag: undefined,
     fredag: 'PT2H30M',
 };
+
+const søknadsdato = new Date();
 
 jest.mock('./../featureToggleUtils.ts', () => ({
     isFeatureEnabled: jest.fn(),
@@ -34,12 +36,11 @@ const søknadsperiode: DateRange = {
 };
 
 describe('mapOmsorgstilbudToApiData test', () => {
-    it('runs', () => {
-        expect(1).toBe(1);
-    });
     it('should return correct values when NO is selected', () => {
         expect(JSON.stringify(undefined)).toEqual(
-            JSON.stringify(mapPlanlagtOmsorgstilbudToApiData({ skalBarnIOmsorgstilbud: YesOrNo.NO }, søknadsperiode))
+            JSON.stringify(
+                mapPlanlagtOmsorgstilbudToApiData({ skalBarnIOmsorgstilbud: YesOrNo.NO }, søknadsperiode, søknadsdato)
+            )
         );
     });
     it(`should return ${VetOmsorgstilbud.VET_IKKE} when ${AppFormField.omsorgstilbud__skalBarnIOmsorgstilbud} === ${YesOrNo.YES} and ${AppFormField.omsorgstilbud__planlagt__vetHvorMyeTid} === ${VetOmsorgstilbud.VET_IKKE}`, () => {
@@ -50,7 +51,8 @@ describe('mapOmsorgstilbudToApiData test', () => {
                     vetHvorMyeTid: VetOmsorgstilbud.VET_IKKE,
                 },
             },
-            søknadsperiode
+            søknadsperiode,
+            søknadsdato
         );
         expect(result?.enkeltdager).toBeUndefined();
         expect(result?.ukedager).toBeUndefined();
@@ -63,24 +65,25 @@ describe('mapOmsorgstilbudToApiData test', () => {
                     ...omsorgstilbud,
                     planlagt: {
                         vetHvorMyeTid: VetOmsorgstilbud.VET_ALLE_TIMER,
-                        erLiktHverDag: YesOrNo.YES,
+                        erLiktHverUke: YesOrNo.YES,
                         fasteDager: { fredag: { hours: '2', minutes: '30' } },
                     },
                 },
-                søknadsperiode
+                søknadsperiode,
+                søknadsdato
             );
             expect(JSON.stringify(result?.ukedager)).toEqual(JSON.stringify(fasteDagerResult));
         });
     });
     describe('getEnkeltdager', () => {
-        const enkeltdager: TidIOmsorgstilbud = {
+        const enkeltdager: TidEnkeltdag = {
             '2021-06-01': { hours: '2', minutes: '30' },
             '2021-06-02': { hours: '2', minutes: '31' },
             '2021-07-01': { hours: '2', minutes: '32' },
         };
 
         it(`returns only days within søknadsperiode - 1`, () => {
-            const result = getEnkeltdagerIPeriode(
+            const result = getEnkeltdagerIPeriodeApiData(
                 {
                     ...enkeltdager,
                     '2021-05-30': { hours: '2', minutes: '30' }, // To early
@@ -98,7 +101,7 @@ describe('mapOmsorgstilbudToApiData test', () => {
             expect(result[0].tid).toEqual('PT2H30M');
         });
         it(`returns only days within søknadsperiode - 2`, () => {
-            const result = getEnkeltdagerIPeriode(
+            const result = getEnkeltdagerIPeriodeApiData(
                 {
                     ...enkeltdager,
                     '2021-05-30': { hours: '2', minutes: '30' },

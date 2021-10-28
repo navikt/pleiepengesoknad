@@ -7,38 +7,47 @@ import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { ResourceType } from '../types/ResourceType';
 import { MELLOMLAGRING_VERSION, MellomlagringData } from '../types/storage';
 import { Arbeidsgiver } from '../types/Søkerdata';
-import { getApiUrlByResourceType, sendMultipartPostRequest } from '../utils/apiUtils';
+import { getApiUrlByResourceType, axiosJsonConfig, sendMultipartPostRequest } from '../utils/apiUtils';
 
-export const getPersistUrl = (lastStepID: StepID) =>
-    `${getApiUrlByResourceType(ResourceType.MELLOMLAGRING)}?lastStepID=${encodeURI(lastStepID)}`;
+export const getPersistUrl = (stepID?: StepID) =>
+    stepID
+        ? `${getApiUrlByResourceType(ResourceType.MELLOMLAGRING)}?lastStepID=${encodeURI(stepID)}`
+        : getApiUrlByResourceType(ResourceType.MELLOMLAGRING);
 
-export const persist = (formData: Partial<PleiepengesøknadFormData> | undefined, lastStepID: StepID) => {
+export const persist = (formData: Partial<PleiepengesøknadFormData> | undefined, lastStepID?: StepID) => {
     const url = getPersistUrl(lastStepID);
     if (formData) {
         const body: MellomlagringData = {
             formData,
-            metadata: { lastStepID, version: MELLOMLAGRING_VERSION, updatedTimestemp: new Date().toISOString() },
+            metadata: {
+                lastStepID,
+                version: MELLOMLAGRING_VERSION,
+                updatedTimestemp: new Date().toISOString(),
+            },
         };
-        return axios.put(url, { ...body }, axiosConfig);
+        return axios.put(url, { ...body }, axiosJsonConfig);
     } else {
-        return axios.post(url, {}, axiosConfig);
+        return axios.post(url, {}, axiosJsonConfig);
     }
 };
 export const rehydrate = () =>
     axios.get(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), {
-        ...axiosConfig,
+        ...axiosJsonConfig,
         transformResponse: storageParser,
     });
 export const purge = () =>
     axios.delete(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), { ...axiosConfig, data: {} });
 
-export const getBarn = () => axios.get(getApiUrlByResourceType(ResourceType.BARN), axiosConfig);
-export const getSøker = () => axios.get(getApiUrlByResourceType(ResourceType.SØKER), axiosConfig);
+export const getBarn = () => axios.get(getApiUrlByResourceType(ResourceType.BARN), axiosJsonConfig);
+export const getSøker = () => axios.get(getApiUrlByResourceType(ResourceType.SØKER), axiosJsonConfig);
 export const getArbeidsgiver = (fom: string, tom: string): Promise<AxiosResponse<{ organisasjoner: Arbeidsgiver[] }>> =>
-    axios.get(`${getApiUrlByResourceType(ResourceType.ARBEIDSGIVER)}?fra_og_med=${fom}&til_og_med=${tom}`, axiosConfig);
+    axios.get(
+        `${getApiUrlByResourceType(ResourceType.ARBEIDSGIVER)}?fra_og_med=${fom}&til_og_med=${tom}`,
+        axiosJsonConfig
+    );
 
 export const sendApplication = (data: PleiepengesøknadApiData) =>
-    axios.post(getApiUrlByResourceType(ResourceType.SEND_SØKNAD), data, axiosConfig);
+    axios.post(getApiUrlByResourceType(ResourceType.SEND_SØKNAD), data, axiosJsonConfig);
 
 export const uploadFile = (file: File) => {
     const formData = new FormData();

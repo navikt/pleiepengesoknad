@@ -1,94 +1,123 @@
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
-import {
-    ArbeidsforholdApi,
-    ArbeidsforholdApiNei,
-    ArbeidsforholdApiRedusert,
-    ArbeidsforholdApiSomVanlig,
-    ArbeidsforholdApiVetIkke,
-    ArbeidsforholdType,
-    SkalJobbe,
-} from '../../types/PleiepengesøknadApiData';
-import {
-    Arbeidsforhold,
-    ArbeidsforholdSkalJobbeHvorMyeSvar,
-    ArbeidsforholdSkalJobbeSvar,
-} from '../../types/PleiepengesøknadFormData';
-import { calcRedusertProsentFromRedusertTimer } from '../arbeidsforholdUtils';
+import { ArbeidsforholdType, JobberIPeriodeSvar } from '../../types';
+import { ArbeidIPeriodeApiData, ArbeidsforholdApiData } from '../../types/PleiepengesøknadApiData';
+import { ArbeidIPeriode, Arbeidsforhold } from '../../types/PleiepengesøknadFormData';
+import { isYesOrNoAnswered } from '../../validation/fieldValidations';
+import { getHistoriskPeriode, getPlanlagtPeriode } from '../tidsbrukUtils';
+import { fjernTidUtenforPeriode, getEnkeltdagerIPeriodeApiData, getFasteDagerApiData } from './tidsbrukApiUtils';
+
+export const mapArbeidIPeriodeToApiData = (
+    arbeid: ArbeidIPeriode,
+    periode: DateRange,
+    /** Periode hvor en er aktiv og som kan påvirke dager innenfor perioden, f.eks. noen som starter/slutter i periode */
+    arbeidsperiode?: Partial<DateRange>
+): ArbeidIPeriodeApiData => {
+    const apiData: ArbeidIPeriodeApiData = {
+        jobberIPerioden: arbeid.jobberIPerioden,
+    };
+    if (arbeid.jobberIPerioden !== JobberIPeriodeSvar.JA) {
+        return apiData;
+    }
+    if (arbeid.jobberSomVanlig === YesOrNo.YES) {
+        return {
+            ...apiData,
+            jobberSomVanlig: true,
+        };
+    }
+    const erLiktHverUke = isYesOrNoAnswered(arbeid.erLiktHverUke) ? arbeid.erLiktHverUke === YesOrNo.YES : undefined;
+    const enkeltdager =
+        arbeid.enkeltdager && !erLiktHverUke ? getEnkeltdagerIPeriodeApiData(arbeid.enkeltdager, periode) : undefined;
+
+    return {
+        jobberIPerioden: JobberIPeriodeSvar.JA,
+        jobberSomVanlig: false,
+        erLiktHverUke,
+        enkeltdager: arbeidsperiode ? fjernTidUtenforPeriode(arbeidsperiode, enkeltdager) : enkeltdager,
+        fasteDager: arbeid.fasteDager && erLiktHverUke ? getFasteDagerApiData(arbeid.fasteDager) : undefined,
+    };
+};
+
+export const getHistoriskArbeidIArbeidsforhold = ({
+    søkerFortid,
+    søkerFremtid,
+    arbeidHistoriskPeriode,
+    historiskPeriode,
+    arbeidsperiode,
+}: {
+    søkerFremtid: boolean;
+    søkerFortid: boolean;
+    historiskPeriode?: DateRange;
+    arbeidHistoriskPeriode?: ArbeidIPeriode;
+    arbeidsperiode?: Partial<DateRange>;
+}): ArbeidIPeriodeApiData | undefined => {
+    if (søkerFremtid && !søkerFortid) {
+        return undefined;
+    }
+    return historiskPeriode && arbeidHistoriskPeriode
+        ? mapArbeidIPeriodeToApiData(arbeidHistoriskPeriode, historiskPeriode, arbeidsperiode)
+        : undefined;
+};
+
+export const getPlanlagtArbeidIArbeidsforhold = ({
+    søkerFortid,
+    søkerFremtid,
+    arbeidPlanlagtPeriode,
+    planlagtPeriode,
+    arbeidsperiode,
+}: {
+    søkerFremtid: boolean;
+    søkerFortid: boolean;
+    planlagtPeriode?: DateRange;
+    arbeidPlanlagtPeriode?: ArbeidIPeriode;
+    arbeidsperiode?: Partial<DateRange>;
+}): ArbeidIPeriodeApiData | undefined => {
+    if (søkerFortid && !søkerFremtid) {
+        return undefined;
+    }
+    return planlagtPeriode && arbeidPlanlagtPeriode
+        ? mapArbeidIPeriodeToApiData(arbeidPlanlagtPeriode, planlagtPeriode, arbeidsperiode)
+        : undefined;
+};
 
 export const mapArbeidsforholdToApiData = (
     arbeidsforhold: Arbeidsforhold,
-    type: ArbeidsforholdType
-): ArbeidsforholdApi | undefined => {
-    const {
-        skalJobbe,
-        timerEllerProsent,
-        jobberNormaltTimer,
-        skalJobbeTimer,
-        skalJobbeProsent,
-        arbeidsform,
-        skalJobbeHvorMye,
-    } = arbeidsforhold;
-
-    const commonData: Pick<ArbeidsforholdApi, 'arbeidsform' | '_type'> = { arbeidsform, _type: type };
+    søknadsperiode: DateRange,
+    type: ArbeidsforholdType,
+    søknadsdato: Date,
+    /** Periode hvor en er aktiv, f.eks. noen som starter sluttet i søknadsperioden */
+    arbeidsperiode?: Partial<DateRange>
+): ArbeidsforholdApiData => {
+    const { jobberNormaltTimer, arbeidsform } = arbeidsforhold;
     const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
 
-    if (jobberNormaltTimerNumber === undefined) {
-        return undefined;
+    if (jobberNormaltTimerNumber === undefined || arbeidsform === undefined) {
+        throw new Error('mapArbeidsforholdToApiData');
     }
 
-    if (skalJobbe === ArbeidsforholdSkalJobbeSvar.nei) {
-        const forhold: ArbeidsforholdApiNei = {
-            ...commonData,
-            skalJobbe: SkalJobbe.NEI,
-            skalJobbeProsent: 0,
-            jobberNormaltTimer: jobberNormaltTimerNumber,
-            _type: type,
-        };
-        return forhold;
-    }
+    const periodeFortid = getHistoriskPeriode(søknadsperiode, søknadsdato);
+    const periodeFremtid = getPlanlagtPeriode(søknadsperiode, søknadsdato);
+    const søkerFortid = periodeFortid !== undefined;
+    const søkerFremtid = periodeFremtid !== undefined;
 
-    if (
-        skalJobbe === ArbeidsforholdSkalJobbeSvar.ja &&
-        skalJobbeHvorMye === ArbeidsforholdSkalJobbeHvorMyeSvar.redusert
-    ) {
-        const skalJobbeTimerNumber = getNumberFromNumberInputValue(skalJobbeTimer);
-        const skalJobbeProsentNumber = getNumberFromNumberInputValue(skalJobbeProsent);
-
-        if (skalJobbeTimerNumber === undefined && skalJobbeProsent === undefined) {
-            return undefined;
-        }
-        const redusertForhold: ArbeidsforholdApiRedusert = {
-            ...commonData,
-            skalJobbe: SkalJobbe.REDUSERT,
-            jobberNormaltTimer: jobberNormaltTimerNumber,
-            ...(timerEllerProsent === 'timer' && skalJobbeTimer
-                ? {
-                      skalJobbeTimer: skalJobbeTimerNumber,
-                      skalJobbeProsent:
-                          jobberNormaltTimer !== undefined && skalJobbeTimerNumber !== undefined
-                              ? calcRedusertProsentFromRedusertTimer(jobberNormaltTimerNumber, skalJobbeTimerNumber)
-                              : 0,
-                  }
-                : {
-                      skalJobbeProsent: skalJobbeProsentNumber,
-                  }),
-        };
-        return redusertForhold;
-    }
-    if (skalJobbe === ArbeidsforholdSkalJobbeSvar.vetIkke) {
-        const vetIkkeForhold: ArbeidsforholdApiVetIkke = {
-            ...commonData,
-            skalJobbe: SkalJobbe.VET_IKKE,
-            jobberNormaltTimer: jobberNormaltTimerNumber,
-            skalJobbeProsent: 0,
-        };
-        return vetIkkeForhold;
-    }
-    const forholdSomVanlig: ArbeidsforholdApiSomVanlig = {
-        ...commonData,
-        skalJobbe: SkalJobbe.JA,
-        skalJobbeProsent: 100,
+    return {
+        _type: type,
         jobberNormaltTimer: jobberNormaltTimerNumber,
+        arbeidsform,
+        historiskArbeid: getHistoriskArbeidIArbeidsforhold({
+            søkerFremtid,
+            søkerFortid,
+            historiskPeriode: periodeFortid,
+            arbeidHistoriskPeriode: arbeidsforhold.historisk,
+            arbeidsperiode,
+        }),
+        planlagtArbeid: getPlanlagtArbeidIArbeidsforhold({
+            søkerFremtid,
+            søkerFortid,
+            planlagtPeriode: periodeFremtid,
+            arbeidPlanlagtPeriode: arbeidsforhold.planlagt,
+            arbeidsperiode,
+        }),
     };
-    return forholdSomVanlig;
 };

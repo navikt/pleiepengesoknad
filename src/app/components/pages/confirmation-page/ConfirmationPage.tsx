@@ -47,7 +47,7 @@ const ConfirmationPage = ({ kvitteringInfo }: Props) => {
                     </Box>
                 </Box>
             </div>
-            {kvitteringInfo?.arbeidsforhold && (
+            {kvitteringInfo?.arbeidsgivere && (
                 <Box margin="xl">
                     <AlertStripeAdvarsel>
                         {intlHelper(intl, 'page.confirmation.tittel.advarsel.list.tittel')}
@@ -75,7 +75,7 @@ const ConfirmationPage = ({ kvitteringInfo }: Props) => {
                 </Undertittel>
                 <Box margin="m">
                     <ul>
-                        {kvitteringInfo?.arbeidsforhold && (
+                        {kvitteringInfo?.arbeidsgivere && (
                             <li>
                                 <FormattedMessage id="page.confirmation.dinePP.list.item.1" />
                             </li>

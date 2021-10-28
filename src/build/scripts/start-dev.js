@@ -9,9 +9,8 @@ getDecorator().then((decoratorData) => {
     webpackConfig.output.publicPath = `${process.env.PUBLIC_PATH}/dist`;
 
     const compiler = webpack(webpackConfig);
-    const server = new WebpackDevServer(compiler, configureDevServer(decoratorData));
-
+    const server = new WebpackDevServer(configureDevServer(decoratorData), compiler);
     const host = process.env.HOST || 'localhost';
     const port = process.env.PORT || 8080;
-    server.listen(port, host, () => console.log(`Started WebpackDevServer on http://${host}:${port}`));
+    server.start(port, host, () => console.log(`Started WebpackDevServer on http://${host}:${port}`));
 });

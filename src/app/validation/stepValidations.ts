@@ -26,7 +26,7 @@ export const opplysningerOmTidsromStepIsValid = ({ periodeFra, periodeTil }: Ple
     return periodeFra !== undefined && periodeTil !== undefined;
 };
 
-export const arbeidsforholdStepIsValid = () => true;
+export const arbeidssituasjonStepIsValid = () => true;
 
 export const medlemskapStepIsValid = ({
     harBoddUtenforNorgeSiste12Mnd,

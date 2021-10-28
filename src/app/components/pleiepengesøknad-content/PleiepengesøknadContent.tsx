@@ -1,62 +1,48 @@
 import React, { useCallback, useEffect } from 'react';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
-import { apiStringDateToDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
+import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { useFormikContext } from 'formik';
 import { persist } from '../../api/api';
 import { SKJEMANAVN } from '../../App';
 import RouteConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';
-import { ArbeidsforholdAnsattApi, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
+import { ArbeidsgiverApiData, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { Søkerdata } from '../../types/Søkerdata';
 import { apiUtils } from '../../utils/apiUtils';
+import { getSøknadsperiodeFromFormData } from '../../utils/formDataUtils';
+import { getKvitteringInfoFromApiData } from '../../utils/kvitteringUtils';
 import { navigateTo, navigateToErrorPage, relocateToLoginPage } from '../../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../../utils/routeUtils';
+import { getHistoriskPeriode, getPlanlagtPeriode } from '../../utils/tidsbrukUtils';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
-import ArbeidsforholdIPeriodenStep from '../steps/arbeidsforhold-i-perioden/ArbeidsforholdIPeriodenStep';
-import ArbeidsforholdStep from '../steps/arbeidsforholdStep/ArbeidsforholdStep';
-import BeredskapStep from '../steps/beredskapStep/BeredskapStep';
-import LegeerklæringStep from '../steps/legeerklæring/LegeerklæringStep';
-import MedlemsskapStep from '../steps/medlemskap/MedlemsskapStep';
-import NattevåkStep from '../steps/nattevåkStep/NattevåkStep';
-import OpplysningerOmBarnetStep from '../steps/opplysninger-om-barnet/OpplysningerOmBarnetStep';
-import SummaryStep from '../steps/summary/SummaryStep';
-import OpplysningerOmTidsromStep from '../steps/tidsrom/OpplysningerOmTidsromStep';
-import OmsorgstilbudStep from '../steps/omsorgstilbud/OmsorgstilbudStep';
+import HistoriskArbeidStep from '../steps/arbeid-i-periode-steps/HistoriskArbeidStep';
+import PlanlagtArbeidStep from '../steps/arbeid-i-periode-steps/PlanlagtArbeidStep';
+import ArbeidssituasjonStep from '../steps/arbeidssituasjon-step/ArbeidssituasjonStep';
+import LegeerklæringStep from '../steps/legeerklæring-step/LegeerklæringStep';
+import MedlemsskapStep from '../steps/medlemskap-step/MedlemsskapStep';
+import NattevåkOgBeredskapStep from '../steps/nattevåk-og-beredskap-step/NattevåkOgBeredskapStep';
+import OmsorgstilbudStep from '../steps/omsorgstilbud-step/OmsorgstilbudStep';
+import OpplysningerOmBarnetStep from '../steps/opplysninger-om-barnet-step/OpplysningerOmBarnetStep';
+import SummaryStep from '../steps/summary-step/SummaryStep';
+import OpplysningerOmTidsromStep from '../steps/tidsrom-step/OpplysningerOmTidsromStep';
 
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
+    harMellomlagring: boolean;
 }
 
 export interface KvitteringInfo {
     fom: Date;
     tom: Date;
     søkernavn: string;
-    arbeidsforhold: ArbeidsforholdAnsattApi[];
+    arbeidsgivere: ArbeidsgiverApiData[];
 }
 
-const getKvitteringInfoFromApiData = (
-    apiValues: PleiepengesøknadApiData,
-    søkerdata: Søkerdata
-): KvitteringInfo | undefined => {
-    const aktiveArbeidsforhold = apiValues.arbeidsgivere.organisasjoner?.filter((o) => o.skalJobbe);
-    if (aktiveArbeidsforhold.length > 0) {
-        const { fornavn, mellomnavn, etternavn } = søkerdata.person;
-        return {
-            arbeidsforhold: aktiveArbeidsforhold,
-            fom: apiStringDateToDate(apiValues.fraOgMed),
-            tom: apiStringDateToDate(apiValues.tilOgMed),
-            søkernavn: formatName(fornavn, etternavn, mellomnavn),
-        };
-    }
-    return undefined;
-};
-
-const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps) => {
+const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadContentProps) => {
     const location = useLocation();
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
     const [kvitteringInfo, setKvitteringInfo] = React.useState<KvitteringInfo | undefined>(undefined);
@@ -74,11 +60,15 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
 
     const isOnWelcomPage = location.pathname === RouteConfig.WELCOMING_PAGE_ROUTE;
     const nextStepRoute = søknadHasBeenSent ? undefined : lastStepID ? getNextStepRoute(lastStepID, values) : undefined;
+
     useEffect(() => {
         if (isOnWelcomPage && nextStepRoute !== undefined) {
             sendUserToStep(nextStepRoute);
         }
-    }, [isOnWelcomPage, nextStepRoute, sendUserToStep]);
+        if (isOnWelcomPage && nextStepRoute === undefined && harMellomlagring && !søknadHasBeenSent) {
+            sendUserToStep(StepID.OPPLYSNINGER_OM_BARNET);
+        }
+    }, [isOnWelcomPage, nextStepRoute, harMellomlagring, søknadHasBeenSent, sendUserToStep]);
 
     const userNotLoggedIn = async () => {
         await logUserLoggedOut('Mellomlagring ved navigasjon');
@@ -112,6 +102,11 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
         });
     };
 
+    const søknadsperiode = values ? getSøknadsperiodeFromFormData(values) : undefined;
+    const søknadsdato = dateToday;
+    const periodeFørSøknadsdato = søknadsperiode ? getHistoriskPeriode(søknadsperiode, søknadsdato) : undefined;
+    const periodeFraOgMedSøknadsdato = søknadsperiode ? getPlanlagtPeriode(søknadsperiode, søknadsdato) : undefined;
+
     return (
         <Switch>
             <Route
@@ -139,49 +134,73 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
                 />
             )}
 
-            {isAvailable(StepID.ARBEIDSFORHOLD, values) && (
+            {isAvailable(StepID.ARBEIDSSITUASJON, values) && søknadsperiode && (
                 <Route
-                    path={getSøknadRoute(StepID.ARBEIDSFORHOLD)}
+                    path={getSøknadRoute(StepID.ARBEIDSSITUASJON)}
                     render={() => (
-                        <ArbeidsforholdStep onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEIDSFORHOLD)} />
-                    )}
-                />
-            )}
-
-            {isAvailable(StepID.ARBEIDSFORHOLD_I_PERIODEN, values) && (
-                <Route
-                    path={getSøknadRoute(StepID.ARBEIDSFORHOLD_I_PERIODEN)}
-                    render={() => (
-                        <ArbeidsforholdIPeriodenStep
-                            onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEIDSFORHOLD_I_PERIODEN)}
+                        <ArbeidssituasjonStep
+                            onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEIDSSITUASJON)}
+                            søknadsdato={søknadsdato}
+                            søknadsperiode={søknadsperiode}
                         />
                     )}
                 />
             )}
 
-            {isAvailable(StepID.OMSORGSTILBUD, values) && (
+            {isAvailable(StepID.ARBEID_HISTORISK, values) && periodeFørSøknadsdato && (
+                <Route
+                    path={getSøknadRoute(StepID.ARBEID_HISTORISK)}
+                    render={() => (
+                        <HistoriskArbeidStep
+                            periode={periodeFørSøknadsdato}
+                            søknadsdato={søknadsdato}
+                            onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEID_HISTORISK)}
+                        />
+                    )}
+                />
+            )}
+
+            {isAvailable(StepID.ARBEID_PLANLAGT, values) && periodeFraOgMedSøknadsdato && (
+                <Route
+                    path={getSøknadRoute(StepID.ARBEID_PLANLAGT)}
+                    render={() => (
+                        <PlanlagtArbeidStep
+                            periode={periodeFraOgMedSøknadsdato}
+                            onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEID_PLANLAGT)}
+                            søknadsdato={søknadsdato}
+                        />
+                    )}
+                />
+            )}
+
+            {isAvailable(StepID.OMSORGSTILBUD, values) && søknadsperiode && (
                 <Route
                     path={getSøknadRoute(StepID.OMSORGSTILBUD)}
                     render={() => {
-                        return <OmsorgstilbudStep onValidSubmit={() => navigateToNextStepFrom(StepID.OMSORGSTILBUD)} />;
+                        return (
+                            <OmsorgstilbudStep
+                                onValidSubmit={() => navigateToNextStepFrom(StepID.OMSORGSTILBUD)}
+                                søknadsdato={søknadsdato}
+                                søknadsperiode={søknadsperiode}
+                                periodeFraOgMedSøknadsdato={periodeFraOgMedSøknadsdato}
+                                periodeFørSøknadsdato={periodeFørSøknadsdato}
+                            />
+                        );
                     }}
                 />
             )}
 
-            {isAvailable(StepID.NATTEVÅK, values) && (
+            {isAvailable(StepID.NATTEVÅK_OG_BEREDSKAP, values) && søknadsperiode && (
                 <Route
-                    path={getSøknadRoute(StepID.NATTEVÅK)}
+                    path={getSøknadRoute(StepID.NATTEVÅK_OG_BEREDSKAP)}
                     render={() => {
-                        return <NattevåkStep onValidSubmit={() => navigateToNextStepFrom(StepID.NATTEVÅK)} />;
-                    }}
-                />
-            )}
-
-            {isAvailable(StepID.BEREDSKAP, values) && (
-                <Route
-                    path={getSøknadRoute(StepID.BEREDSKAP)}
-                    render={() => {
-                        return <BeredskapStep onValidSubmit={() => navigateToNextStepFrom(StepID.BEREDSKAP)} />;
+                        return (
+                            <NattevåkOgBeredskapStep
+                                onValidSubmit={() => navigateToNextStepFrom(StepID.NATTEVÅK_OG_BEREDSKAP)}
+                                søknadsdato={søknadsdato}
+                                søknadsperiode={søknadsperiode}
+                            />
+                        );
                     }}
                 />
             )}
@@ -189,7 +208,12 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
             {isAvailable(StepID.MEDLEMSKAP, values) && (
                 <Route
                     path={getSøknadRoute(StepID.MEDLEMSKAP)}
-                    render={() => <MedlemsskapStep onValidSubmit={() => navigateToNextStepFrom(StepID.MEDLEMSKAP)} />}
+                    render={() => (
+                        <MedlemsskapStep
+                            onValidSubmit={() => navigateToNextStepFrom(StepID.MEDLEMSKAP)}
+                            søknadsdato={søknadsdato}
+                        />
+                    )}
                 />
             )}
 
@@ -202,15 +226,16 @@ const PleiepengesøknadContent = ({ lastStepID }: PleiepengesøknadContentProps)
                 />
             )}
 
-            {isAvailable(StepID.SUMMARY, values) && (
+            {isAvailable(StepID.SUMMARY, values) && søknadsperiode && (
                 <Route
                     path={getSøknadRoute(StepID.SUMMARY)}
                     render={() => (
                         <SummaryStep
                             values={values}
+                            søknadsdato={søknadsdato}
+                            søknadsperiode={søknadsperiode}
                             onApplicationSent={(apiData: PleiepengesøknadApiData, søkerdata: Søkerdata) => {
-                                const info = getKvitteringInfoFromApiData(apiData, søkerdata);
-                                setKvitteringInfo(info);
+                                setKvitteringInfo(getKvitteringInfoFromApiData(apiData, søkerdata));
                                 setSøknadHasBeenSent(true);
                                 resetForm();
                                 navigateTo(RouteConfig.SØKNAD_SENDT_ROUTE, history);

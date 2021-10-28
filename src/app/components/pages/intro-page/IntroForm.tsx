@@ -9,7 +9,6 @@ import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types'
 import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
 import { IntroFormData, IntroFormField, introFormInitialValues } from './introFormConfig';
 import FormQuestion from '../../form-question/FormQuestion';
-
 interface Props {
     onValidSubmit: () => void;
 }

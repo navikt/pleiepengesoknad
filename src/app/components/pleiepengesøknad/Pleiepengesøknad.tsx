@@ -10,6 +10,7 @@ const Pleiepengesøknad = () => (
     <AppEssentialsLoader
         contentLoadedRenderer={(
             formdata: Partial<PleiepengesøknadFormData>,
+            harMellomlagring,
             lastStepID: StepID | undefined,
             søkerdata
         ) => {
@@ -25,7 +26,9 @@ const Pleiepengesøknad = () => (
                     onSubmit={() => {
                         null;
                     }}
-                    renderForm={() => <PleiepengesøknadContent lastStepID={lastStepID} />}
+                    renderForm={() => (
+                        <PleiepengesøknadContent lastStepID={lastStepID} harMellomlagring={harMellomlagring} />
+                    )}
                 />
             );
         }}

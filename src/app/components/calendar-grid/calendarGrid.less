@@ -34,15 +34,18 @@
             margin-top: 1rem;
         }
         &__weekNum {
-            padding-left: 0.125rem;
-            font-weight: bold;
-            justify-self: flex-start;
+            align-self: flex-start;
+            justify-self: center;
+            font-weight: normal;
+            padding: 0;
+            margin-top: 0.25rem;
+            font-size: 0.8rem;
         }
         &__dayHeader {
             padding: 0.5rem 0.5rem;
-            margin-right: 1px;
-            margin-top: 1rem;
+            margin: 1rem 0 0.5rem 0;
             font-weight: bold;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.55);
             &--week {
                 padding-left: 0;
             }
@@ -76,8 +79,11 @@
         }
         &__weekNum {
             display: block;
-            margin-top: 1rem;
-            padding-left: 0;
+            align-self: flex-start;
+            justify-self: flex-start;
+            font-weight: bold;
+            margin: 1rem 0 0.5rem 0;
+            font-size: 1rem;
         }
         &__date {
             left: initial;
@@ -116,9 +122,10 @@
         min-height: 4.5rem;
         position: relative;
         padding-top: 2rem;
+        margin: -1px;
         border: 1px solid rgba(0, 0, 0, 0.2);
-        margin: 1px;
-        border-radius: 0.125rem;
+        border-radius: 0; //0.125rem;
+        background-color: white;
         &--outsideMonth {
             border: none; // 1px dashed rgba(0, 0, 0, 0.3);
             background-color: transparent;
@@ -126,7 +133,6 @@
     }
     &--empty {
         background-color: white;
-        background-color: transparent;
         background-size: 10px 10px;
     }
     &__date {
@@ -155,6 +161,7 @@
 
     &--grid {
         .calendarGridLayout();
+        padding-bottom: 0.5rem;
     }
     &--list {
         .calendarListLayout();
@@ -162,5 +169,9 @@
 
     @media screen and (max-width: 700px) {
         .calendarListLayout();
+        &--grid {
+            padding-bottom: 0;
+            border-bottom: none;
+        }
     }
 }

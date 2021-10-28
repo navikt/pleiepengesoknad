@@ -1,9 +1,16 @@
 import { IntlShape } from 'react-intl';
-import { ValidationSummaryError } from '@navikt/sif-common-core/lib/components/validation-error-summary-base/ValidationErrorSummaryBase';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
-import { ArbeidsforholdAnsattApi, PleiepengesøknadApiData, SkalJobbe } from '../types/PleiepengesøknadApiData';
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
+import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
+import { StepID } from '../config/stepConfig';
+import {
+    ArbeidIPeriodeApiData,
+    ArbeidsforholdApiData,
+    isArbeidsgiverISøknadsperiodeApiData,
+    PleiepengesøknadApiData,
+} from '../types/PleiepengesøknadApiData';
+import { JobberIPeriodeSvar } from '../types';
+import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
 
 export const apiVedleggIsInvalid = (vedlegg: string[]): boolean => {
     vedlegg.find((v) => {
@@ -11,51 +18,9 @@ export const apiVedleggIsInvalid = (vedlegg: string[]): boolean => {
     });
     return false;
 };
-
-const isValidVanligeTimer = (timer: number | undefined): boolean => {
-    return timer !== undefined && timer >= MIN_TIMER_NORMAL_ARBEIDSFORHOLD && timer <= MAX_TIMER_NORMAL_ARBEIDSFORHOLD;
-};
-
-const isValidRedusertProsent = (timer: number | undefined): boolean => {
-    return timer !== undefined && timer > 0 && timer < 100;
-};
-
-const skalJobbeSomVanligIsValid = (org: ArbeidsforholdAnsattApi) => {
-    const { jobberNormaltTimer, skalJobbeProsent } = org;
-    return isValidVanligeTimer(jobberNormaltTimer) && skalJobbeProsent === 100;
-};
-
-const skalJobbeRedusertIsValid = (org: ArbeidsforholdAnsattApi) => {
-    const { jobberNormaltTimer, skalJobbeProsent } = org;
-    return isValidVanligeTimer(jobberNormaltTimer) && isValidRedusertProsent(skalJobbeProsent);
-};
-
-const skalJobbeVetIkkeIsValid = (org: ArbeidsforholdAnsattApi) => {
-    const { jobberNormaltTimer, skalJobbeProsent } = org;
-    return isValidVanligeTimer(jobberNormaltTimer) && skalJobbeProsent === 0;
-};
-
-const skalIkkeJobbeIsValid = (org: ArbeidsforholdAnsattApi) => {
-    const { jobberNormaltTimer, skalJobbeProsent } = org;
-    return isValidVanligeTimer(jobberNormaltTimer) && skalJobbeProsent === 0;
-};
-
-export const isArbeidsforholdApiValuesValid = (arbeidsforhold: ArbeidsforholdAnsattApi): boolean => {
-    const { skalJobbe } = arbeidsforhold;
-    switch (skalJobbe) {
-        case SkalJobbe.JA:
-            return skalJobbeSomVanligIsValid(arbeidsforhold);
-        case SkalJobbe.REDUSERT:
-            return skalJobbeRedusertIsValid(arbeidsforhold);
-        case SkalJobbe.VET_IKKE:
-            return skalJobbeVetIkkeIsValid(arbeidsforhold);
-        case SkalJobbe.NEI:
-            return skalIkkeJobbeIsValid(arbeidsforhold);
-        default:
-            return false;
-    }
-};
-
+export interface ApiValidationError extends FeiloppsummeringFeil {
+    stepId: StepID;
+}
 export const isVirksomhetRegnskapsførerTelefonnummerValid = (virksomhet: VirksomhetApiData) => {
     const { regnskapsfører } = virksomhet;
     if (regnskapsfører) {
@@ -64,37 +29,115 @@ export const isVirksomhetRegnskapsførerTelefonnummerValid = (virksomhet: Virkso
     return true;
 };
 
+const isValidNormalarbeidstid = (timer: number | undefined): boolean => {
+    return timer !== undefined && timer >= MIN_TIMER_NORMAL_ARBEIDSFORHOLD && timer <= MAX_TIMER_NORMAL_ARBEIDSFORHOLD;
+};
+
+export const isArbeidIPeriodeValid = (arbeidIPeriode: ArbeidIPeriodeApiData): boolean => {
+    const { jobberIPerioden, fasteDager, enkeltdager, jobberSomVanlig } = arbeidIPeriode;
+    if (jobberIPerioden === JobberIPeriodeSvar.NEI || jobberIPerioden === JobberIPeriodeSvar.VET_IKKE) {
+        return true;
+    }
+    if (jobberSomVanlig === true) {
+        return true;
+    }
+    if (fasteDager === undefined && enkeltdager === undefined) {
+        return false;
+    }
+    if (fasteDager !== undefined && enkeltdager !== undefined) {
+        return false;
+    }
+    return true;
+};
+
+const isArbeidsformOgNormalarbeidstidValid = (arbeidsforhold: ArbeidsforholdApiData): boolean => {
+    const { jobberNormaltTimer, arbeidsform } = arbeidsforhold;
+    if (!arbeidsform || !jobberNormaltTimer) {
+        return false;
+    }
+    return isValidNormalarbeidstid(jobberNormaltTimer);
+};
+
+export const isArbeidsforholdValid = (arbeidsforhold: ArbeidsforholdApiData): boolean => {
+    return isArbeidsformOgNormalarbeidstidValid(arbeidsforhold);
+};
+
+export const isArbeidIPeriodeApiValuesValid = (arbeidsforhold: ArbeidsforholdApiData): boolean => {
+    if (arbeidsforhold.historiskArbeid === undefined && arbeidsforhold.planlagtArbeid === undefined) {
+        return false;
+    }
+    const historiskIsValid = arbeidsforhold.historiskArbeid
+        ? isArbeidIPeriodeValid(arbeidsforhold.historiskArbeid)
+        : true;
+    const planlagtIsValid = arbeidsforhold.historiskArbeid
+        ? isArbeidIPeriodeValid(arbeidsforhold.historiskArbeid)
+        : true;
+    return historiskIsValid === true && planlagtIsValid == true;
+};
+
+export const isArbeidsforholdApiDataValid = (arbeidsforhold: ArbeidsforholdApiData) =>
+    isArbeidsformOgNormalarbeidstidValid(arbeidsforhold) && isArbeidIPeriodeApiValuesValid(arbeidsforhold);
+
 export const validateApiValues = (
     values: PleiepengesøknadApiData,
     intl: IntlShape
-): ValidationSummaryError[] | undefined => {
-    const errors: ValidationSummaryError[] = [];
+): ApiValidationError[] | undefined => {
+    const errors: ApiValidationError[] = [];
 
     if (apiVedleggIsInvalid(values.vedlegg)) {
         errors.push({
-            name: 'vedlegg',
-            message: intlHelper(intl, 'steg.oppsummering.validering.manglerVedlegg'),
+            skjemaelementId: 'vedlegg',
+            feilmelding: intlHelper(intl, 'steg.oppsummering.validering.manglerVedlegg'),
+            stepId: StepID.LEGEERKLÆRING,
         });
     }
 
-    const { organisasjoner = [] } = values.arbeidsgivere || {};
-    if (organisasjoner.length > 0) {
-        organisasjoner.forEach((arbeidsforhold) => {
-            if (isArbeidsforholdApiValuesValid(arbeidsforhold) === false) {
-                errors.push({
-                    name: 'arbeidsforhold',
-                    message: intlHelper(intl, 'steg.oppsummering.validering.ugyldigArbeidsforhold'),
-                });
+    const virksomhet = values.selvstendigNæringsdrivende?.virksomhet;
+    if (virksomhet) {
+        if (isVirksomhetRegnskapsførerTelefonnummerValid(virksomhet) === false) {
+            errors.push({
+                skjemaelementId: 'virksomhet',
+                feilmelding: intlHelper(intl, 'steg.oppsummering.validering.ugyldigRegnskapsførerTelefonnummer'),
+                stepId: StepID.ARBEIDSSITUASJON,
+            });
+        }
+    }
+
+    if (values.arbeidsgivere && values.arbeidsgivere.length > 0) {
+        values.arbeidsgivere.forEach((arbeidsgiver) => {
+            if (isArbeidsgiverISøknadsperiodeApiData(arbeidsgiver)) {
+                const isValid = isArbeidsforholdApiDataValid(arbeidsgiver.arbeidsforhold);
+                if (!isValid) {
+                    errors.push({
+                        skjemaelementId: 'arbeidsforholdAnsatt',
+                        feilmelding: intlHelper(intl, 'steg.oppsummering.validering.ugyldigArbeidsforholdAnsatt', {
+                            hvor: `hos ${arbeidsgiver.navn}`,
+                        }),
+                        stepId: StepID.ARBEIDSSITUASJON,
+                    });
+                }
             }
         });
     }
 
-    if (values.selvstendigVirksomheter.length === 1) {
-        const virksomhet = values.selvstendigVirksomheter[0];
-        if (isVirksomhetRegnskapsførerTelefonnummerValid(virksomhet) === false) {
+    if (values.frilans?.arbeidsforhold) {
+        const isValid = isArbeidsforholdApiDataValid(values.frilans.arbeidsforhold);
+        if (!isValid) {
             errors.push({
-                name: 'virksomhet',
-                message: intlHelper(intl, 'steg.oppsummering.validering.ugyldigRegnskapsførerTelefonnummer'),
+                skjemaelementId: 'arbeidsforholdFrilans',
+                feilmelding: intlHelper(intl, 'steg.oppsummering.validering.ugyldigArbeidsforholdFrilans'),
+                stepId: StepID.ARBEIDSSITUASJON,
+            });
+        }
+    }
+
+    if (values.selvstendigNæringsdrivende) {
+        const isValid = isArbeidsforholdApiDataValid(values.selvstendigNæringsdrivende.arbeidsforhold);
+        if (!isValid) {
+            errors.push({
+                skjemaelementId: 'arbeidsforholdSn',
+                feilmelding: intlHelper(intl, 'steg.oppsummering.validering.ugyldigArbeidsforholdSN'),
+                stepId: StepID.ARBEIDSSITUASJON,
             });
         }
     }
