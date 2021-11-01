@@ -11,8 +11,6 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { navigateToSoknadFrontpage } from '../../../utils/navigationUtils';
 import IntroForm from './IntroForm';
 import { Element } from 'nav-frontend-typografi';
-import Lenke from 'nav-frontend-lenker';
-import getLenker from '../../../lenker';
 
 const bem = bemUtils('introPage');
 
@@ -49,13 +47,6 @@ const IntroPage = () => {
                     </p>
                     <p>
                         <FormattedMessage id="page.intro.text.5" />
-                    </p>
-                    <p>
-                        <FormattedMessage id="page.intro.text.6.a" />{' '}
-                        <Lenke href={getLenker(intl.locale).papirskjemaPrivat}>
-                            <FormattedMessage id="page.intro.text.6.b" />
-                        </Lenke>
-                        <FormattedMessage id="page.intro.text.6.c" />
                     </p>
                 </InformationPoster>
             </Box>

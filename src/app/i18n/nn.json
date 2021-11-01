@@ -100,12 +100,10 @@
     "steg.tidsrom.iUtlandetIPerioden.modalTitle": "Utenlandsopphald",
     "steg.tidsrom.iUtlandetIPerioden.addLabel": "Legg til utenlandsopphald",
 
-    "steg.tidsrom.ferieuttakIPerioden.spm": "Skal du ha lovbestemt ferie i perioden du søkjer for?",
+    "steg.tidsrom.ferieuttakIPerioden.spm": "Skal du ha ferie i perioden du søkjer for?",
     "steg.tidsrom.ferieuttakIPerioden.listTitle": "Ferie i perioden",
     "steg.tidsrom.ferieuttakIPerioden.modalTitle": "Ferie",
     "steg.tidsrom.ferieuttakIPerioden.addLabel": "Legg til ferie",
-    "steg.tidsrom.ferieuttakIPerioden.veileder.tittel": "Kva er lovfesta ferie?",
-    "steg.tidsrom.ferieuttakIPerioden.veileder": "Dersom du skal ha ferie og er usikker på om det er lovbestemt ferie, må du sjekke det med arbeidsgivaren din.",
 
     "step.arbeidsforhold.pageTitle": "Pleiepengesøknad – opplysningar om arbeidssituasjonen din",
     "step.arbeidsforhold.stepTitle": "Arbeidssituasjonen din",
@@ -161,9 +159,6 @@
     "page.intro.text.3": "Om søknaden",
     "page.intro.text.4": "Det kan vere greitt for deg å vite at du må svare på alle spørsmåla for å kunne gå vidare i søknaden. Du får rettleiing undervegs om kva du skal fylle ut, og korleis.",
     "page.intro.text.5": "Dersom du begynner på ein søknad og ikkje fullfører utfyllinga, lagrar vi søknaden for deg i 72 timar. På den måten treng du ikkje fylle inn på nytt det du allereie har svart på. Om du vel å avbryte utfyllinga utan å lagre, blir opplysningane du har lagt inn, sletta.",
-    "page.intro.text.6.a": "Kan du ikkje søkje digitalt?",
-    "page.intro.text.6.b": "Her finn du papirsøknaden som du sender til oss i posten",
-    "page.intro.text.6.c": ".",
 
     "introForm.form.harLegeerklæring.spm": "Har du fått legeerklæring frå sjukehuslege eller lege i spesialisthelsetenesta?",
     "introForm.form.harLegeerklæring.ja.info": "Legeerklæringa lastar du opp som eit vedlegg seinare i søknaden. Då tek du anten eit bilete av legeerklæringa eller skannar henne for å få lasta henne opp. Du får meir rettleiing om korleis du lastar opp vedlegget når du kjem til dette steget i søknaden.",
@@ -171,7 +166,6 @@
     "introForm.form.erArbeidstaker.spm": "Er du arbeidstakar?",
     "introForm.form.erArbeidstaker.nei.info": "Dersom du er sjølvstendig næringsdrivande, frilansar eller får utbetaling frå NAV, treng du ikkje sende med dokumentasjon om inntekta di. Vi hentar opplysningar om inntekta di frå offentlege register, og kontaktar deg dersom vi treng fleire opplysningar frå deg.",
     "introForm.form.erArbeidstaker.ja.info.1": "Det er viktig at du varslar arbeidsgivaren/arbeidsgivarane dine om at dei må sende inntektsmelding til oss så snart som mogleg etter at du har sendt inn søknaden. Vi treng meldinga for å kunne betale ut pleiepengar.",
-    "introForm.form.erArbeidstaker.ja.info.2": "Når du har sendt inn søknaden, kjem du til ei side der du får rettleiing om kva informasjon du skal gi til arbeidsgivaren.",
     "introForm.form.inntektsmelding.spm": "Eg har lese og forstått informasjonen om inntektsmelding",
     "introForm.form.inntektsmelding.ikkeBesvart": "Du må stadfeste at du har lese og forstått informasjonen om inntektsmeldinga",
     "introForm.start": "Start søknad",

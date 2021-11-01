@@ -70,7 +70,6 @@ const IntroForm: React.FunctionComponent<Props> = ({ onValidSubmit }) => {
                                             {erArbeidstaker === YesOrNo.YES && (
                                                 <>
                                                     <p>{intlHelper(intl, 'introForm.form.erArbeidstaker.ja.info.1')}</p>
-                                                    <p>{intlHelper(intl, 'introForm.form.erArbeidstaker.ja.info.2')}</p>
                                                 </>
                                             )}
                                             {erArbeidstaker === YesOrNo.NO && (
