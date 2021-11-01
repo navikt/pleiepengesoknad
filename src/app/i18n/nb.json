@@ -274,7 +274,8 @@
     "steg.tidsrom.bekreftOmsorgEkstrainfo.spm": "Beskriv omsorgsrollen du har for barnet i tidsrommet du skal ha pleiepenger:",
 
     "steg.arbeidssituasjon.tittel": "Arbeidsgivere",
-    "steg.arbeidssituasjon.veileder": "Nå trenger vi å vite litt om arbeidssituasjonen din og hvor mye du vanligvis jobber når du ikke har fravær fra jobben din.",
+    "steg.arbeidssituasjon.veileder.1": "Nå trenger vi å vite litt om arbeidssituasjonen din og hvor mye du vanligvis jobber når du ikke har fravær fra jobben din.",
+    "steg.arbeidssituasjon.veileder.2": "Hvis du er arbeidstaker og er usikker på hva som er din vanlige arbeidstid finner du svaret i arbeidskontrakten din, eller du kan forhøre deg med arbeidsgiveren din.",
     "steg.arbeidssituasjon.veileder.medArbeidsgiver": "Nedenfor ser du {antall, plural, one {arbeidsgiveren} other {arbeidsgivere}} du er registrert ansatt hos i AA-registeret i perioden du søker om pleiepenger. For at vi skal være sikre på at opplysningene er riktige må du bekrefte om du er, eller har vært, ansatt der.",
     "steg.arbeidssituasjon.veileder.medArbeidsgiver.historisk": "Nedenfor ser du {antall, plural, one {arbeidsgiveren} other {arbeidsgivere}} du var registrert ansatt hos i AA-registeret i perioden du søker om pleiepenger. For at vi skal være sikre på at opplysningene er riktige må du bekrefte om du er, eller har vært, ansatt der.",
     "steg.arbeidssituasjon.veileder.ingenArbeidsgiverFunnet": "Vi har ikke funnet noen arbeidsgivere registrert på deg i AA-registeret.",

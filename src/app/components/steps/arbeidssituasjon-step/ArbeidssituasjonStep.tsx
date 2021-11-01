@@ -125,7 +125,12 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                 <>
                     <Box padBottom="m">
                         <CounsellorPanel>
-                            <FormattedMessage id="steg.arbeidssituasjon.veileder" />
+                            <p>
+                                <FormattedMessage id="steg.arbeidssituasjon.veileder.1" />
+                            </p>
+                            <p>
+                                <FormattedMessage id="steg.arbeidssituasjon.veileder.2" />
+                            </p>
                         </CounsellorPanel>
                     </Box>
                     <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.tittel')}>
