@@ -11,6 +11,7 @@ import { AppFormField, initialValues, PleiepengesøknadFormData } from '../../..
 import { BarnReceivedFromApi } from '../../../types/Søkerdata';
 import AppForm from '../../app-form/AppForm';
 import { getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 interface Props {
     søkersBarn: BarnReceivedFromApi[];
@@ -33,6 +34,19 @@ const RegistrertBarnPart = ({ søkersBarn }: Props) => {
             <AppForm.RadioPanelGroup
                 legend={intlHelper(intl, 'steg.omBarnet.hvilketBarn.registrerteBarn')}
                 name={AppFormField.barnetSøknadenGjelder}
+                description={
+                    <ExpandableInfo title={intlHelper(intl, 'steg.omBarnet.hvilketBarn.description.tittel')}>
+                        <p>
+                            <FormattedMessage id={'steg.omBarnet.hvilketBarn.description.info'} />
+                        </p>
+                        <ul>
+                            <li>{intlHelper(intl, 'steg.omBarnet.hvilketBarn.description.list.item.1')}</li>
+                            <li>{intlHelper(intl, 'steg.omBarnet.hvilketBarn.description.list.item.2')}</li>
+                            <li>{intlHelper(intl, 'steg.omBarnet.hvilketBarn.description.list.item.3')}</li>
+                            <li>{intlHelper(intl, 'steg.omBarnet.hvilketBarn.description.list.item.4')}</li>
+                        </ul>
+                    </ExpandableInfo>
+                }
                 useTwoColumns={true}
                 radios={søkersBarn.map((barn) => {
                     const { fornavn, mellomnavn, etternavn, fødselsdato, aktørId } = barn;

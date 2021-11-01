@@ -240,7 +240,15 @@
 
     "steg.footer.avbryt": "Avbryt og slett søknad",
     "steg.footer.fortsettSenere": "Avslutt og fortsett senere",
+    "steg.omBarnet.intro.1": "Her skal du velge hvilket barn søknaden gjelder.",
+    "steg.omBarnet.intro.2": "Hvis du pleier mer enn ett barn samtidig skal du bare sende inn 1 søknad til NAV. Saken vil registreres på ett av barna..",
     "steg.omBarnet.hvilketBarn.spm": "Hvilket barn gjelder søknaden?",
+    "steg.omBarnet.hvilketBarn.description.tittel": "Hvordan søker jeg for flere barn samtidig?",
+    "steg.omBarnet.hvilketBarn.description.info": "Her kan vi skrive noen eksepmpler: TODO",
+    "steg.omBarnet.hvilketBarn.description.list.item.1": "tvillinger",
+    "steg.omBarnet.hvilketBarn.description.list.item.2": "Et kronisk sykt + ett ikke-kronisk",
+    "steg.omBarnet.hvilketBarn.description.list.item.3": "et ungt + ett snart 18 år ",
+    "steg.omBarnet.hvilketBarn.description.list.item.4": "+++",
     "steg.omBarnet.hvilketBarn.registrerteBarn": "Barn registrert på deg:",
     "steg.omBarnet.hvilketBarn.født": "Født {dato}",
     "steg.omBarnet.gjelderAnnetBarn": "Søknaden gjelder et annet barn",
@@ -305,6 +313,9 @@
     "steg.omsorgstilbud.veileder.historisk.2": "Å være innlagt eller til behandling på sykehus regnes ikke som et omsorgstilbud.",
     "steg.omsorgstilbud.veileder.historisk.3": "Hvis barnet var i et etablert omsorgstilbud i perioden du søker for, skal pleiepengene graderes tilsvarende den tiden barnet var i omsorgstilbudet. At omsorgstilbudet var etablert betyr at den tiden barnet var i omsorgstilbudet var fast og regelmessig.",
     "steg.omsorgstilbud.veileder.historisk.4": "Hvis bruken av omsorgstilbudet var uforutsigbar og uregelmessig, skal du ikke oppgi noe av tiden barnet var der. I disse tilfellene anses ikke omsorgstilbudet som etablert, og pleiepengene graderes ikke.",
+
+    "steg.omsorgstilbud.veileder.infoFlereBarn.titel": "Hvordan fylle inn omsorgstilbud hvis jeg søker for flere barn?",
+    "steg.omsorgstilbud.veileder.infoFlereBarn": "Du skal svare ja bare hvis barna skal være samtidig i omsorgstilbudet. Du svarer nei hvis minst ett av barna ikke skal være der samtidig med det andre barnet, eller hvis barna skal være i omsorgstilbudet på ulike tider.",
 
     "steg.omsorgstilbud.generelt.tittel": "Omsorgstilbud i perioden",
     "steg.omsorgstilbud.historisk.tittel": "Omsorgstilbud tilbake i tid",
