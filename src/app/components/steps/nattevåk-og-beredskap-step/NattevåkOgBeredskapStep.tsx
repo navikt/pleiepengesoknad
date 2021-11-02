@@ -50,6 +50,12 @@ const NattevåkOgBeredskapStep = ({ onValidSubmit, søknadsperiode, søknadsdato
                                 : 'steg.nattevåkOgBeredskap.veileder'
                         }
                     />
+                    <Box margin="xl">
+                        <ExpandableInfo
+                            title={intlHelper(intl, 'steg.nattevåkOgBeredskap.nattevåk.veileder.flereBarn.tittel')}>
+                            <FormattedMessage id={'steg.nattevåkOgBeredskap.nattevåk.veileder.flereBarn'} />
+                        </ExpandableInfo>
+                    </Box>
                 </CounsellorPanel>
             </Box>
             <FormSection title="Nattevåk">

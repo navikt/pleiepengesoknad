@@ -24,6 +24,7 @@ import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringFileList from '../../legeerklæring-file-list/LegeerklæringFileList';
 import getLenker from '../../../lenker';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
@@ -105,6 +106,12 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
                             <FormattedMessage id={'steg.legeerklaering.counsellorpanel.ettersendLenke'} />
                         </Lenke>
                     </p>
+                    <Box margin="xl">
+                        <ExpandableInfo
+                            title={intlHelper(intl, 'steg.legeerklaering.counsellorpanel.flereBarnInfo.tittel')}>
+                            <FormattedMessage id={'steg.legeerklaering.counsellorpanel.flereBarnInfo'} />
+                        </ExpandableInfo>
+                    </Box>
                 </CounsellorPanel>
             </Box>
 

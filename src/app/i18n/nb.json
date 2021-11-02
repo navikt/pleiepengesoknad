@@ -343,6 +343,8 @@
     "steg.nattevåkOgBeredskap.veileder": "Nå trenger vi å vite om du på grunn av barnets sykdom må være våken om natten, eller være i beredskap for barnet i pleiepengeperioden. Hvis noen av disse situasjonene gjør at du ikke kan gå på jobb, skal pleiepengene som hovedregel ikke graderes, selv om barnet er i et omsorgstilbud på dagtid.",
     "steg.nattevåkOgBeredskap.veileder.historisk": "Nå trenger vi å vite om du på grunn av barnets sykdom har måttet være våken om natten, eller vært i beredskap for barnet i pleiepengeperioden. Hvis noen av disse situasjonene gjorde at du ikke kunne gå på jobb, skal pleiepengene som hovedregel ikke graderes, selv om barnet var i et omsorgstilbud på dagtid.",
     "steg.nattevåkOgBeredskap.nattevåk.veileder": "I noen tilfeller gjør barnets sykdom at du må være våken om natten for å pleie eller ha tilsyn med barnet. Hvis dette gjør at du ikke kan gå på jobb dagen etter skal pleiepengene som hovedregel ikke graderes, selv om barnet er i et omsorgstilbud på dagtid. Det må være en sammenheng mellom pleien/tilsynet du gir om natten og barnets sykdom.",
+    "steg.nattevåkOgBeredskap.nattevåk.veileder.flereBarn.tittel": "Hvordan fylle inn nattevåk og beredskap hvis jeg søker for flere barn?",
+    "steg.nattevåkOgBeredskap.nattevåk.veileder.flereBarn": "TODO INFO TEKST",
     "steg.nattevåkOgBeredskap.nattevåk.spm": "Gjør barnets sykdom at du må være våken om natten og derfor ikke kan gå på jobb dagen etter?",
     "steg.nattevåkOgBeredskap.nattevåk.tilleggsinfo.spm": "Her skal du beskrive på hvilken måte barnets sykdom gjør at du må være våken om natten. Beskriv så utfyllende og detaljert du kan.",
     "steg.nattevåkOgBeredskap.nattevåk.tilleggsinfo.veiledning.tittel": "Hva om jeg har våkenetter kun deler av perioden?",
@@ -373,6 +375,8 @@
     "steg.legeerklaering.counsellorpanel.1": "Her skal du laste opp legeerklæringen. Det gjør du enten ved å ta bilde av leggerklæringen, eller ved å skanne den. Vær nøye med at all tekst er med, inkludert legens signatur.",
     "steg.legeerklaering.counsellorpanel.2": "Vi kan ikke behandle søknaden din før vi mottar legeerklæringen. Hvis du ikke har legeerklæringen tilgjengelig nå, anbefaler vi at du venter med å søke til du har den tilgjengelig. Hvis du ikke kan vente med å sende søknaden, kan du fortsette uten legeerklæring, men da må du ettersende den så snart som mulig.",
     "steg.legeerklaering.counsellorpanel.ettersendLenke": "Her får du veiledning til hvordan du ettersender dokumentasjon.",
+    "steg.legeerklaering.counsellorpanel.flereBarnInfo.tittel": "Laste opp legeerklæring for flere barn?",
+    "steg.legeerklaering.counsellorpanel.flereBarnInfo": "TODO TEKST",
 
     "steg.oppsummering.info": "Les gjennom oppsummeringen før du sender inn søknaden. Du kan gå tilbake hvis du vil gjøre endringer.",
     "steg.oppsummering.søker.header": "Om deg",
