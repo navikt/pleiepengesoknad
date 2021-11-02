@@ -17,7 +17,7 @@ const OpplysningerOmBarnetStep = ({ onValidSubmit }: StepConfigProps) => {
     const søkerdata = React.useContext(SøkerdataContext);
     return (
         <FormikStep id={StepID.OPPLYSNINGER_OM_BARNET} onValidFormSubmit={onValidSubmit}>
-            <Box padBottom="l">
+            <Box padBottom="xl">
                 <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                     <p>
                         <FormattedMessage id={'steg.omBarnet.intro.1'} />

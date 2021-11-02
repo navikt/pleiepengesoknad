@@ -16,6 +16,7 @@ import FormikStep from '../../formik-step/FormikStep';
 import HistoriskOmsorgstilbudSpørsmål from './HistoriskOmsorgstilbudSpørsmål';
 import PlanlagtOmsorgstilbudSpørsmål from './PlanlagtOmsorgstilbudSpørsmål';
 import { cleanupOmsorgstilbudStep } from './omsorgstilbudStepUtils';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 dayjs.extend(isBetween);
 
@@ -89,6 +90,11 @@ const OmsorgstilbudStep = ({
                         </p>
                     </>
                 )}
+                <p>
+                    <ExpandableInfo title={intlHelper(intl, 'steg.omsorgstilbud.veileder.infoFlereBarn.tittel')}>
+                        <FormattedMessage id={'steg.omsorgstilbud.veileder.infoFlereBarn'} />
+                    </ExpandableInfo>
+                </p>
             </CounsellorPanel>
             {periodeFørSøknadsdato && (
                 <HistoriskOmsorgstilbudSpørsmål

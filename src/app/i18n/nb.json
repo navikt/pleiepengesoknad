@@ -314,7 +314,7 @@
     "steg.omsorgstilbud.veileder.historisk.3": "Hvis barnet var i et etablert omsorgstilbud i perioden du søker for, skal pleiepengene graderes tilsvarende den tiden barnet var i omsorgstilbudet. At omsorgstilbudet var etablert betyr at den tiden barnet var i omsorgstilbudet var fast og regelmessig.",
     "steg.omsorgstilbud.veileder.historisk.4": "Hvis bruken av omsorgstilbudet var uforutsigbar og uregelmessig, skal du ikke oppgi noe av tiden barnet var der. I disse tilfellene anses ikke omsorgstilbudet som etablert, og pleiepengene graderes ikke.",
 
-    "steg.omsorgstilbud.veileder.infoFlereBarn.titel": "Hvordan fylle inn omsorgstilbud hvis jeg søker for flere barn?",
+    "steg.omsorgstilbud.veileder.infoFlereBarn.tittel": "Hvordan fylle inn omsorgstilbud hvis jeg søker for flere barn?",
     "steg.omsorgstilbud.veileder.infoFlereBarn": "Du skal svare ja bare hvis barna skal være samtidig i omsorgstilbudet. Du svarer nei hvis minst ett av barna ikke skal være der samtidig med det andre barnet, eller hvis barna skal være i omsorgstilbudet på ulike tider.",
 
     "steg.omsorgstilbud.generelt.tittel": "Omsorgstilbud i perioden",
