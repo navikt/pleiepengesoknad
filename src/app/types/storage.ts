@@ -2,7 +2,7 @@ import { StepID } from '../config/stepConfig';
 import { PleiepengesøknadFormData } from './PleiepengesøknadFormData';
 
 /** Persistence */
-export const MELLOMLAGRING_VERSION = '7.2';
+export const MELLOMLAGRING_VERSION = '7.3';
 interface StorageMetadata {
     version: string;
     lastStepID?: StepID;
