@@ -22,6 +22,7 @@ import AppForm from '../../app-form/AppForm';
 import OmsorgstilbudIPeriodeSpørsmål from '../../omsorgstilbud/OmsorgstilbudIPeriodeSpørsmål';
 import TidFasteDagerInput from '../../tid-faste-dager-input/TidFasteDagerInput';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import EksempelOmsorgstilbud from './EksempelOmsorgstilbud';
 
 dayjs.extend(isBetween);
 
@@ -52,6 +53,7 @@ const PlanlagtOmsorgstilbudSpørsmål = ({
                     fra: prettifyDateFull(periode.from),
                     til: prettifyDateFull(periode.to),
                 })}
+                description={<EksempelOmsorgstilbud />}
                 validate={getYesOrNoValidator()}
             />
 
@@ -67,7 +69,15 @@ const PlanlagtOmsorgstilbudSpørsmål = ({
                     {inkluderFastPlan && (
                         <FormBlock>
                             <AppForm.YesOrNoQuestion
-                                legend={intlHelper(intl, 'steg.omsorgstilbud.planlagt.erLiktHverUke.spm')}
+                                legend={intlHelper(intl, 'steg.omsorgstilbud.planlagt.erLiktHverUke.spm', {
+                                    fra: prettifyDateFull(periode.from),
+                                    til: prettifyDateFull(periode.to),
+                                })}
+                                useTwoColumns={false}
+                                labels={{
+                                    yes: intlHelper(intl, 'steg.omsorgstilbud.planlagt.erLiktHverUke.yes'),
+                                    no: intlHelper(intl, 'steg.omsorgstilbud.planlagt.erLiktHverUke.no'),
+                                }}
                                 name={AppFormField.omsorgstilbud__planlagt__erLiktHverUke}
                                 description={
                                     <ExpandableInfo

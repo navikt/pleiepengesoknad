@@ -13,6 +13,7 @@ import FormSection from '../../../pre-common/form-section/FormSection';
 import { AppFormField, Omsorgstilbud } from '../../../types/PleiepengesøknadFormData';
 import AppForm from '../../app-form/AppForm';
 import OmsorgstilbudIPeriodeSpørsmål from '../../omsorgstilbud/OmsorgstilbudIPeriodeSpørsmål';
+import EksempelOmsorgstilbud from './EksempelOmsorgstilbud';
 
 dayjs.extend(isBetween);
 
@@ -41,6 +42,7 @@ const HistoriskOmsorgstilbudSpørsmål = ({
                     fra: prettifyDateFull(periode.from),
                     til: prettifyDateFull(periode.to),
                 })}
+                description={<EksempelOmsorgstilbud />}
                 validate={(value) => {
                     const error = getYesOrNoValidator()(value);
                     if (error) {
