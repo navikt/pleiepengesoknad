@@ -49,7 +49,6 @@ const OmsorgstilbudStep = ({
     }, [omsorgstilbudChanged, persist]);
 
     const harBådeHistoriskOgPlanlagt = periodeFørSøknadsdato !== undefined && periodeFraOgMedSøknadsdato !== undefined;
-    // const kunHistorisk = periodeFørSøknadsdato && periodeFraOgMedSøknadsdato === undefined;
 
     return (
         <FormikStep
