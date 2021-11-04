@@ -14,6 +14,8 @@ import FormikStep from '../../formik-step/FormikStep';
 import HistoriskOmsorgstilbudSpørsmål from './HistoriskOmsorgstilbudSpørsmål';
 import { cleanupOmsorgstilbudStep } from './omsorgstilbudStepUtils';
 import PlanlagtOmsorgstilbudSpørsmål from './PlanlagtOmsorgstilbudSpørsmål';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import EksempelOmsorgstilbud from './EksempelOmsorgstilbud';
 
 dayjs.extend(isBetween);
 
@@ -71,38 +73,9 @@ const OmsorgstilbudStep = ({
                 <p>
                     <FormattedMessage id="steg.omsorgstilbud.veileder.ny.4" />
                 </p>
-                {/* {kunHistorisk && (
-                    <>
-                        <p>
-                            <FormattedMessage id="steg.omsorgstilbud.veileder.historisk.1" />
-                        </p>
-                        <p>
-                            <FormattedMessage id="steg.omsorgstilbud.veileder.historisk.2" />
-                        </p>
-                        <p>
-                            <FormattedMessage id="steg.omsorgstilbud.veileder.historisk.3" />
-                        </p>
-                        <p>
-                            <FormattedMessage id="steg.omsorgstilbud.veileder.historisk.4" />
-                        </p>
-                    </>
-                )}
-                {kunHistorisk === false && (
-                    <>
-                        <p>
-                            <FormattedMessage id="steg.omsorgstilbud.veileder.1" />
-                        </p>
-                        <p>
-                            <FormattedMessage id="steg.omsorgstilbud.veileder.2" />
-                        </p>
-                        <p>
-                            <FormattedMessage id="steg.omsorgstilbud.veileder.3" />
-                        </p>
-                        <p>
-                            <FormattedMessage id="steg.omsorgstilbud.veileder.4" />
-                        </p>
-                    </>
-                )} */}
+                <Box>
+                    <EksempelOmsorgstilbud />
+                </Box>
             </CounsellorPanel>
             {periodeFørSøknadsdato && (
                 <HistoriskOmsorgstilbudSpørsmål

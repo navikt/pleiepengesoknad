@@ -22,7 +22,6 @@ import AppForm from '../../app-form/AppForm';
 import OmsorgstilbudIPeriodeSpørsmål from '../../omsorgstilbud/OmsorgstilbudIPeriodeSpørsmål';
 import TidFasteDagerInput from '../../tid-faste-dager-input/TidFasteDagerInput';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import EksempelOmsorgstilbud from './EksempelOmsorgstilbud';
 
 dayjs.extend(isBetween);
 
@@ -53,7 +52,6 @@ const PlanlagtOmsorgstilbudSpørsmål = ({
                     fra: prettifyDateFull(periode.from),
                     til: prettifyDateFull(periode.to),
                 })}
-                description={<EksempelOmsorgstilbud />}
                 validate={getYesOrNoValidator()}
             />
 
