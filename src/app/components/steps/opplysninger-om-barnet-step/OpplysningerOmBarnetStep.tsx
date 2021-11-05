@@ -22,9 +22,6 @@ const OpplysningerOmBarnetStep = ({ onValidSubmit }: StepConfigProps) => {
                     <p>
                         <FormattedMessage id={'steg.omBarnet.intro.1'} />
                     </p>
-                    <p>
-                        <FormattedMessage id={'steg.omBarnet.intro.2'} />
-                    </p>
                 </CounsellorPanel>
             </Box>
             {søkerdata && (

@@ -37,14 +37,11 @@ const RegistrertBarnPart = ({ søkersBarn }: Props) => {
                 description={
                     <ExpandableInfo title={intlHelper(intl, 'steg.omBarnet.hvilketBarn.description.tittel')}>
                         <p>
-                            <FormattedMessage id={'steg.omBarnet.hvilketBarn.description.info'} />
+                            <FormattedMessage id={'steg.omBarnet.hvilketBarn.description.info.1'} />
                         </p>
-                        <ul>
-                            <li>{intlHelper(intl, 'steg.omBarnet.hvilketBarn.description.list.item.1')}</li>
-                            <li>{intlHelper(intl, 'steg.omBarnet.hvilketBarn.description.list.item.2')}</li>
-                            <li>{intlHelper(intl, 'steg.omBarnet.hvilketBarn.description.list.item.3')}</li>
-                            <li>{intlHelper(intl, 'steg.omBarnet.hvilketBarn.description.list.item.4')}</li>
-                        </ul>
+                        <p>
+                            <FormattedMessage id={'steg.omBarnet.hvilketBarn.description.info.2'} />
+                        </p>
                     </ExpandableInfo>
                 }
                 useTwoColumns={true}
