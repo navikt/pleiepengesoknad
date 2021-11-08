@@ -3,7 +3,6 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from '../config/stepConfig';
-import { VetOmsorgstilbud } from '../types';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import {
     arbeidssituasjonStepIsValid,
@@ -86,8 +85,7 @@ export const skalBrukerSvarePåBeredskapOgNattevåk = (formValues?: Pleiepenges�
 
     const planlagtOmsorgstilbud =
         formValues?.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.YES &&
-        formValues.omsorgstilbud.planlagt !== undefined &&
-        formValues.omsorgstilbud.planlagt.vetHvorMyeTid === VetOmsorgstilbud.VET_ALLE_TIMER;
+        formValues.omsorgstilbud.planlagt !== undefined;
 
     return (
         formValues !== undefined &&

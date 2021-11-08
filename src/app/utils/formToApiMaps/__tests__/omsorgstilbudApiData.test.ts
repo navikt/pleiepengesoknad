@@ -1,6 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { VetOmsorgstilbud } from '../../../types';
 import { AppFormField, Omsorgstilbud } from '../../../types/PleiepengesøknadFormData';
 import {
     getOmsorgstilbudApiData,
@@ -36,7 +35,6 @@ const omsorgstilbud: Omsorgstilbud = {
             '2021-01-06': { hours: '1' },
         },
         erLiktHverUke: YesOrNo.NO,
-        vetHvorMyeTid: VetOmsorgstilbud.VET_ALLE_TIMER,
     },
 };
 
@@ -131,15 +129,6 @@ describe('omsorgstilbudApiData', () => {
             ).toBeUndefined();
         });
 
-        it('returnerer riktig når barn skal i omsorgstilbud, men en vet ikke hvor mye', () => {
-            const result = mapPlanlagtOmsorgstilbudToApiData(
-                { ...omsorgstilbud, planlagt: { vetHvorMyeTid: VetOmsorgstilbud.VET_IKKE } },
-                søknadsperiodePlanlagt,
-                søknadsdato
-            );
-            expect(result?.vetOmsorgstilbud).toEqual(VetOmsorgstilbud.VET_IKKE);
-        });
-
         it('returnerer undefined dersom planlagt er undefined', () => {
             const result = mapPlanlagtOmsorgstilbudToApiData(
                 { ...omsorgstilbud, planlagt: undefined },
@@ -155,7 +144,6 @@ describe('omsorgstilbudApiData', () => {
                     ...omsorgstilbud,
                     planlagt: {
                         ...omsorgstilbud.planlagt,
-                        vetHvorMyeTid: VetOmsorgstilbud.VET_ALLE_TIMER,
                         erLiktHverUke: YesOrNo.NO,
                     },
                 },
@@ -171,7 +159,6 @@ describe('omsorgstilbudApiData', () => {
                     ...omsorgstilbud,
                     planlagt: {
                         ...omsorgstilbud.planlagt,
-                        vetHvorMyeTid: VetOmsorgstilbud.VET_ALLE_TIMER,
                         erLiktHverUke: YesOrNo.YES,
                         fasteDager: {
                             fredag: { hours: '1', minutes: '0' },

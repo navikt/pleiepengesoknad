@@ -2,7 +2,6 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
-import { VetOmsorgstilbud } from '../../../types';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from '../../../utils/stepUtils';
 import {
@@ -36,11 +35,6 @@ export const cleanupOmsorgstilbudStep = (
             cleanedValues.omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES &&
             cleanedValues.omsorgstilbud.planlagt
         ) {
-            if (cleanedValues.omsorgstilbud.planlagt.vetHvorMyeTid === VetOmsorgstilbud.VET_IKKE) {
-                cleanedValues.omsorgstilbud.planlagt.enkeltdager = undefined;
-                cleanedValues.omsorgstilbud.planlagt.fasteDager = undefined;
-                cleanedValues.omsorgstilbud.planlagt.erLiktHverUke = undefined;
-            }
             if (visSpørsmålOmTidErLikHverUke(søknadsperiode) === false) {
                 cleanedValues.omsorgstilbud.planlagt.erLiktHverUke = undefined;
             }

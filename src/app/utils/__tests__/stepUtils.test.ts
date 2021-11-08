@@ -1,5 +1,4 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { VetOmsorgstilbud } from '../../types';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import * as stepValidations from '../../validation/stepValidations';
 import * as stepUtils from '../stepUtils';
@@ -145,26 +144,6 @@ describe('stepUtils', () => {
             };
             const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as PleiepengesøknadFormData);
             expect(returnValue).toBeTruthy();
-        });
-        it('inkluderer nattevåk/beredskap dersom søker fremtidig og vetHvorMyeTid === VET_ALLE_TIMER', () => {
-            formData.omsorgstilbud = {
-                skalBarnIOmsorgstilbud: YesOrNo.YES,
-                planlagt: {
-                    vetHvorMyeTid: VetOmsorgstilbud.VET_ALLE_TIMER,
-                },
-            };
-            const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as PleiepengesøknadFormData);
-            expect(returnValue).toBeTruthy();
-        });
-        it('inkluderer ikke nattevåk/beredskap dersom søker fremtidig og vetHvorMyeTid === VET_ALLE_TIMER', () => {
-            formData.omsorgstilbud = {
-                skalBarnIOmsorgstilbud: YesOrNo.YES,
-                planlagt: {
-                    vetHvorMyeTid: VetOmsorgstilbud.VET_IKKE,
-                },
-            };
-            const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as PleiepengesøknadFormData);
-            expect(returnValue).toBeFalsy();
         });
     });
 });
