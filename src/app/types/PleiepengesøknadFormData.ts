@@ -4,7 +4,7 @@ import { Time } from '@navikt/sif-common-formik/lib/types';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { Virksomhet } from '@navikt/sif-common-forms/lib/virksomhet/types';
-import { AndreYtelserFraNAV, Arbeidsform, BarnRelasjon, JobberIPeriodeSvar, TidEnkeltdag, VetOmsorgstilbud } from '.';
+import { AndreYtelserFraNAV, Arbeidsform, BarnRelasjon, JobberIPeriodeSvar, TidEnkeltdag } from '.';
 
 import { Arbeidsgiver } from './Søkerdata';
 
@@ -61,7 +61,6 @@ export enum AppFormField {
 }
 
 export interface OmsorgstilbudPlanlagt {
-    vetHvorMyeTid: VetOmsorgstilbud;
     erLiktHverUke?: YesOrNo;
     fasteDager?: TidFasteDager;
     enkeltdager?: TidEnkeltdag;
