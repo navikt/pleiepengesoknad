@@ -325,7 +325,11 @@
     "steg.omsorgstilbud.planlagt.tittel": "Omsorgstilbud frem i tid",
 
     "steg.omsorgstilbud.historisk.harBarnetVærtIOmsorgstilbud.spm": "Har barnet vært fast og regelmessig i et omsorgstilbud i perioden {fra} til {til}?",
+    "steg.omsorgstilbud.historisk.harBarnetVærtIOmsorgstilbud.spm.description.tittel": "Hvordan fyller jeg ut om omsorgstilbud når jeg søker for flere barn?",
+    "steg.omsorgstilbud.historisk.harBarnetVærtIOmsorgstilbud.spm.description": "Du skal svare ja på at barna er i et fast og regelmessig omsorgstilbud bare hvis de skal være der samtidig. Du skal svare nei hvis barna skal være i omsorgstilbudet på ulike tider, eller hvis minst ett barn ikke skal være i et omsorgstilbud i det hele tatt.",
     "steg.omsorgstilbud.planlagt.skalBarnetVæreIOmsorgstilbud.spm": "Skal barnet være fast og regelmessig i et omsorgstilbud i perioden {fra} til {til}?",
+    "steg.omsorgstilbud.planlagt.skalBarnetVæreIOmsorgstilbud.spm.description.tittel": "Hvordan fyller jeg ut om omsorgstilbud når jeg søker for flere barn?",
+    "steg.omsorgstilbud.planlagt.skalBarnetVæreIOmsorgstilbud.spm.description": "Du skal svare ja på at barna er i et fast og regelmessig omsorgstilbud bare hvis de skal være der samtidig. Du skal svare nei hvis barna skal være i omsorgstilbudet på ulike tider, eller hvis minst ett barn ikke skal være i et omsorgstilbud i det hele tatt.",
     "steg.omsorgstilbud.eksempel.tittel": "Eksempel på å være fast og regelmessig i et omsorgstilbud",
     "steg.omsorgstilbud.eksempel.1": "I perioden med pleiepenger klarer Anna å være i barnehagen mellom 5 og 15 timer per uke. Det er det laveste antallet timer Anna er i barnehagen som anses som fast og regelmessig. I dette eksempelet skal det derfor oppgis 5 timer per uke.",
     "steg.omsorgstilbud.eksempel.2": "Peder er på skolen bare av og til, når han er i form til det. Noen uker klarer han å være der noen timer, andre uker er han ikke på skolen i det hele tatt. I dette eksempelet skal det svares nei på om barnet er fast og regelmessig i omsorgstilbudet, ettersom tiden Peder er på skolen er uforutsigbar og uregelmessig.",
