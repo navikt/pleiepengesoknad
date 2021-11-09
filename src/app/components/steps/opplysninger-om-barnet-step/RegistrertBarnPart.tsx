@@ -32,7 +32,6 @@ const RegistrertBarnPart = ({ søkersBarn }: Props) => {
                 </Undertittel>
             }>
             <AppForm.RadioPanelGroup
-                legend={intlHelper(intl, 'steg.omBarnet.hvilketBarn.registrerteBarn')}
                 name={AppFormField.barnetSøknadenGjelder}
                 description={
                     <ExpandableInfo title={intlHelper(intl, 'steg.omBarnet.hvilketBarn.description.tittel')}>
