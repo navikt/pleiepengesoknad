@@ -97,16 +97,26 @@ const PlanlagtOmsorgstilbudSpørsmål = ({
                             <AppForm.InputGroup
                                 legend={intlHelper(intl, 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud')}
                                 description={
-                                    <ExpandableInfo
-                                        title={intlHelper(
-                                            intl,
-                                            'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.tittel'
-                                        )}>
-                                        {intlHelper(
-                                            intl,
-                                            'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description'
-                                        )}
-                                    </ExpandableInfo>
+                                    <>
+                                        <ExpandableInfo
+                                            title={intlHelper(
+                                                intl,
+                                                'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.tittel'
+                                            )}>
+                                            <p>
+                                                <FormattedMessage
+                                                    id={
+                                                        'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.info.1'
+                                                    }
+                                                />
+                                            </p>
+                                        </ExpandableInfo>
+                                        <p>
+                                            <strong>
+                                                <FormattedMessage id="steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.info.2" />
+                                            </strong>
+                                        </p>
+                                    </>
                                 }
                                 validate={() => validateSkalIOmsorgstilbud(omsorgstilbud)}
                                 name={'omsorgstilbud_gruppe' as any}>
