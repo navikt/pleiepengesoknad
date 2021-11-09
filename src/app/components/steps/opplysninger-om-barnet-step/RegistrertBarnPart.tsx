@@ -6,7 +6,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { resetFieldValue, resetFieldValues, SkjemagruppeQuestion } from '@navikt/sif-common-formik';
 import { useFormikContext } from 'formik';
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { Normaltekst } from 'nav-frontend-typografi';
 import { AppFormField, initialValues, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../../../types/Søkerdata';
 import AppForm from '../../app-form/AppForm';
@@ -25,14 +25,10 @@ const RegistrertBarnPart = ({ søkersBarn }: Props) => {
     } = useFormikContext<PleiepengesøknadFormData>();
 
     return (
-        <SkjemagruppeQuestion
-            legend={
-                <Undertittel tag="h2" style={{ display: 'inline-block', marginBottom: '.75rem', fontSize: '1.125rem' }}>
-                    {intlHelper(intl, 'steg.omBarnet.hvilketBarn.spm')}
-                </Undertittel>
-            }>
+        <SkjemagruppeQuestion>
             <AppForm.RadioPanelGroup
                 name={AppFormField.barnetSøknadenGjelder}
+                legend={intlHelper(intl, 'steg.omBarnet.hvilketBarn.spm')}
                 description={
                     <ExpandableInfo title={intlHelper(intl, 'steg.omBarnet.hvilketBarn.description.tittel')}>
                         <p>

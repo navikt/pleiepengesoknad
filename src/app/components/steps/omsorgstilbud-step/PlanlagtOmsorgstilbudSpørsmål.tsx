@@ -52,17 +52,6 @@ const PlanlagtOmsorgstilbudSpørsmål = ({
                     fra: prettifyDateFull(periode.from),
                     til: prettifyDateFull(periode.to),
                 })}
-                description={
-                    <ExpandableInfo
-                        title={intlHelper(
-                            intl,
-                            'steg.omsorgstilbud.planlagt.skalBarnetVæreIOmsorgstilbud.spm.description.tittel'
-                        )}>
-                        <p>
-                            <FormattedMessage />
-                        </p>
-                    </ExpandableInfo>
-                }
                 validate={getYesOrNoValidator()}
             />
 

@@ -240,7 +240,6 @@
 
     "steg.footer.avbryt": "Avbryt og slett søknad",
     "steg.footer.fortsettSenere": "Avslutt og fortsett senere",
-    "steg.omBarnet.intro.1": "Her skal du velge hvilket barn søknaden gjelder for.",
     "steg.omBarnet.hvilketBarn.spm": "Hvilket barn gjelder søknaden?",
     "steg.omBarnet.hvilketBarn.description.tittel": "Hva gjør jeg når søknaden gjelder flere barn?",
     "steg.omBarnet.hvilketBarn.description.info.1": "Når du pleier flere barn samtidig, skal du sende én søknad som gjelder for alle barna. Vi kan bare registrere saken din på ett av barna, derfor kan du kun krysse av for ett av barna her. Søknaden gjelder likevel for flere barn.",
@@ -324,11 +323,7 @@
     "steg.omsorgstilbud.planlagt.tittel": "Omsorgstilbud frem i tid",
 
     "steg.omsorgstilbud.historisk.harBarnetVærtIOmsorgstilbud.spm": "Har barnet vært fast og regelmessig i et omsorgstilbud i perioden {fra} til {til}?",
-    "steg.omsorgstilbud.historisk.harBarnetVærtIOmsorgstilbud.spm.description.tittel": "Hvordan fyller jeg ut om omsorgstilbud når jeg søker for flere barn?",
-    "steg.omsorgstilbud.historisk.harBarnetVærtIOmsorgstilbud.spm.description": "Du skal svare ja på at barna er i et fast og regelmessig omsorgstilbud bare hvis de skal være der samtidig. Du skal svare nei hvis barna skal være i omsorgstilbudet på ulike tider, eller hvis minst ett barn ikke skal være i et omsorgstilbud i det hele tatt.",
     "steg.omsorgstilbud.planlagt.skalBarnetVæreIOmsorgstilbud.spm": "Skal barnet være fast og regelmessig i et omsorgstilbud i perioden {fra} til {til}?",
-    "steg.omsorgstilbud.planlagt.skalBarnetVæreIOmsorgstilbud.spm.description.tittel": "Hvordan fyller jeg ut om omsorgstilbud når jeg søker for flere barn?",
-    "steg.omsorgstilbud.planlagt.skalBarnetVæreIOmsorgstilbud.spm.description": "Du skal svare ja på at barna er i et fast og regelmessig omsorgstilbud bare hvis de skal være der samtidig. Du skal svare nei hvis barna skal være i omsorgstilbudet på ulike tider, eller hvis minst ett barn ikke skal være i et omsorgstilbud i det hele tatt.",
     "steg.omsorgstilbud.eksempel.tittel": "Eksempel på å være fast og regelmessig i et omsorgstilbud",
     "steg.omsorgstilbud.eksempel.1": "I perioden med pleiepenger klarer Anna å være i barnehagen mellom 5 og 15 timer per uke. Det er det laveste antallet timer Anna er i barnehagen som anses som fast og regelmessig. I dette eksempelet skal det derfor oppgis 5 timer per uke.",
     "steg.omsorgstilbud.eksempel.2": "Peder er på skolen bare av og til, når han er i form til det. Noen uker klarer han å være der noen timer, andre uker er han ikke på skolen i det hele tatt. I dette eksempelet skal det svares nei på om barnet er fast og regelmessig i omsorgstilbudet, ettersom tiden Peder er på skolen er uforutsigbar og uregelmessig.",
@@ -351,7 +346,7 @@
     "steg.nattevåkOgBeredskap.veileder": "Nå trenger vi å vite om du på grunn av barnets sykdom må være våken om natten, eller være i beredskap for barnet i pleiepengeperioden. Hvis noen av disse situasjonene gjør at du ikke kan gå på jobb, skal pleiepengene som hovedregel ikke graderes, selv om barnet er i et omsorgstilbud på dagtid.",
     "steg.nattevåkOgBeredskap.veileder.historisk": "Nå trenger vi å vite om du på grunn av barnets sykdom har måttet være våken om natten, eller vært i beredskap for barnet i pleiepengeperioden. Hvis noen av disse situasjonene gjorde at du ikke kunne gå på jobb, skal pleiepengene som hovedregel ikke graderes, selv om barnet var i et omsorgstilbud på dagtid.",
     "steg.nattevåkOgBeredskap.nattevåk.veileder": "I noen tilfeller gjør barnets sykdom at du må være våken om natten for å pleie eller ha tilsyn med barnet. Hvis dette gjør at du ikke kan gå på jobb dagen etter skal pleiepengene som hovedregel ikke graderes, selv om barnet er i et omsorgstilbud på dagtid. Det må være en sammenheng mellom pleien/tilsynet du gir om natten og barnets sykdom.",
-    "steg.nattevåkOgBeredskap.nattevåk.spm": "Gjør noen av barnas sykdom at du må være våken om natten og derfor være borte fra jobb dagen etter?",
+    "steg.nattevåkOgBeredskap.nattevåk.spm": "Gjør barnets sykdom at du må være våken om natten og derfor være borte fra jobb dagen etter?",
     "steg.nattevåkOgBeredskap.nattevåk.spm.description.flereBarn.tittel": "Hvordan svarer jeg når jeg søker for flere barn?",
     "steg.nattevåkOgBeredskap.nattevåk.spm.description.flereBarn": "Du skal svare ja hvis minst ett av barnas sykdom gjør at du må være våken om natten og derfor ikke kan gå på jobb dagen etter.",
     "steg.nattevåkOgBeredskap.nattevåk.tilleggsinfo.spm": "Her skal du beskrive på hvilken måte barnets sykdom gjør at du må være våken om natten. Beskriv så utfyllende og detaljert du kan.",
@@ -362,7 +357,7 @@
     "steg.nattevåkOgBeredskap.nattevåk.historisk.tilleggsinfo.veiledning.tittel": "Hva om jeg hadde våkenetter kun deler av perioden?",
     "steg.nattevåkOgBeredskap.nattevåk.historisk.tilleggsinfo.veiledning": "Hvis du hadde våkenetter i kun deler av perioden du søker pleiepenger for, må du presisere hvilke perioder eller netter du måtte være våken.",
 
-    "steg.nattevåkOgBeredskap.beredskap.veileder": "I noen tilfeller kan barns sykdom gjøre at du må være i beredskap eller være tilgjengelig, selv om barnet er i et omsorgstilbud. Det kan for eksempel være at du må være til stede i klasserommet, eller på annen måte være tilgjengelig mens barnet/barna er i omsorgstilbudet. Hvis dette gjør at du ikke kan være på jobb selv om barnet er i et omsorgstilbud, skal pleiepengene som hovedregel ikke graderes.",
+    "steg.nattevåkOgBeredskap.beredskap.veileder": "I noen tilfeller kan barnets sykdom gjøre at du må være i beredskap eller være tilgjengelig, selv om barnet er i et omsorgstilbud. Det kan for eksempel være at du må være til stede i klasserommet, eller på annen måte være tilgjengelig mens barnet/barna er i omsorgstilbudet. Hvis dette gjør at du ikke kan være på jobb selv om barnet er i et omsorgstilbud, skal pleiepengene som hovedregel ikke graderes.",
     "steg.nattevåkOgBeredskap.beredskap.spm": "Gjør barnets sykdom at du må være i beredskap når barnet er i et omsorgstilbud slik at du må være borte fra jobb?",
     "steg.nattevåkOgBeredskap.beredskap.spm.description.flereBarn.tittel": "Hvordan svarer jeg når jeg søker for flere barn?",
     "steg.nattevåkOgBeredskap.beredskap.spm.description.flereBarn": "Du skal svare ja hvis minst ett av barnas sykdom gjør at du må være i beredskap slik at du må være borte fra jobb.",
