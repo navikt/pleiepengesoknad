@@ -74,7 +74,7 @@ const SummaryStep = ({ onApplicationSent, values, søknadsdato, søknadsperiode 
             setSoknadSent(true);
             onApplicationSent(apiValues, søkerdata);
         } catch (error) {
-            if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+            if (apiUtils.isUnauthorized(error)) {
                 logUserLoggedOut('Ved innsending av søknad');
                 relocateToLoginPage();
             } else {

@@ -13,7 +13,7 @@ function usePersistSoknad(history: History) {
 
     async function doPersist(stepID: StepID) {
         apiPersist(values, stepID).catch((error) => {
-            if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+            if (apiUtils.isUnauthorized(error)) {
                 logUserLoggedOut('Mellomlagring ved navigasjon');
                 relocateToLoginPage();
             } else {

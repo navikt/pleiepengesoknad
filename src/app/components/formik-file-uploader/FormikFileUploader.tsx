@@ -92,7 +92,7 @@ const FormikFileUploader = ({
                 attachment.url = response.headers.location;
                 attachment.uploaded = true;
             } catch (error) {
-                if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+                if (apiUtils.isUnauthorized(error)) {
                     onUnauthorizedOrForbiddenUpload();
                 } else {
                     appSentryLogger.logApiError(error);

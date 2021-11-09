@@ -60,7 +60,7 @@ export async function getArbeidsgivere(
         søkerdata.setArbeidsgivere(organisasjoner);
         updateArbeidsforhold(formikProps, organisasjoner);
     } catch (error) {
-        if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+        if (apiUtils.isUnauthorized(error)) {
             relocateToLoginPage();
         } else {
             appSentryLogger.logApiError(error);

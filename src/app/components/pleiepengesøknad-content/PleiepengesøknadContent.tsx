@@ -84,7 +84,7 @@ const PleiepengesÃ¸knadContent = ({ lastStepID, harMellomlagring }: PleiepengesÃ
                         navigateTo(nextStepRoute, history);
                     })
                     .catch((error) => {
-                        if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+                        if (apiUtils.isUnauthorized(error)) {
                             userNotLoggedIn();
                         } else {
                             return navigateToErrorPage(history);
