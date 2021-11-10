@@ -2,15 +2,16 @@ import { IntlShape } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
+import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
 import { StepID } from '../config/stepConfig';
+import { JobberIPeriodeSvar } from '../types';
 import {
     ArbeidIPeriodeApiData,
     ArbeidsforholdApiData,
     isArbeidsgiverISøknadsperiodeApiData,
+    OmsorgstilbudApiData,
     PleiepengesøknadApiData,
 } from '../types/PleiepengesøknadApiData';
-import { JobberIPeriodeSvar } from '../types';
-import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
 
 export const apiVedleggIsInvalid = (vedlegg: string[]): boolean => {
     vedlegg.find((v) => {
@@ -78,6 +79,24 @@ export const isArbeidIPeriodeApiValuesValid = (arbeidsforhold: ArbeidsforholdApi
 export const isArbeidsforholdApiDataValid = (arbeidsforhold: ArbeidsforholdApiData) =>
     isArbeidsformOgNormalarbeidstidValid(arbeidsforhold) && isArbeidIPeriodeApiValuesValid(arbeidsforhold);
 
+export const isOmsorgstilbudApiDataValid = (omsorgstilbud: OmsorgstilbudApiData): boolean => {
+    if (omsorgstilbud.historisk) {
+        if (Object.keys(omsorgstilbud.historisk.enkeltdager).length === 0) {
+            return false;
+        }
+    }
+    if (omsorgstilbud.planlagt) {
+        const { enkeltdager, ukedager, erLiktHverUke } = omsorgstilbud.planlagt;
+        if (erLiktHverUke && ukedager === undefined) {
+            return false;
+        }
+        if (erLiktHverUke !== true && (enkeltdager === undefined || enkeltdager?.length === 0)) {
+            return false;
+        }
+    }
+    return true;
+};
+
 export const validateApiValues = (
     values: PleiepengesøknadApiData,
     intl: IntlShape
@@ -89,6 +108,14 @@ export const validateApiValues = (
             skjemaelementId: 'vedlegg',
             feilmelding: intlHelper(intl, 'steg.oppsummering.validering.manglerVedlegg'),
             stepId: StepID.LEGEERKLÆRING,
+        });
+    }
+
+    if (values.omsorgstilbud && isOmsorgstilbudApiDataValid(values.omsorgstilbud) === false) {
+        errors.push({
+            skjemaelementId: 'omsorgstilbud',
+            feilmelding: intlHelper(intl, 'steg.oppsummering.validering.omsorgstilbud.ugyldig'),
+            stepId: StepID.OMSORGSTILBUD,
         });
     }
 
