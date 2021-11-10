@@ -31,6 +31,10 @@ const omsorgstilbudMessages = {
         'omsorgstilbud.deleteLabel': 'Fjern alle timer',
         'omsorgstilbud.editLabel': 'Endre omsorgstilbud {periode}',
         'omsorgstilbud.modalTitle': 'Omsorgstilbud - ${periode}',
+
+        'omsorgstilbud.flereBarn.tittel': 'Hvordan fyller jeg ut om omsorgstilbud når jeg pleier flere barn samtidig?',
+        'omsorgstilbud.flereBarn':
+            'Du skal svare ja på at barna er i et fast og regelmessig omsorgstilbud bare hvis de skal være der samtidig. Du skal svare nei hvis barna skal være i omsorgstilbudet på ulike tider, eller hvis minst ett barn ikke skal være i et omsorgstilbud i det hele tatt.',
     },
 };
 

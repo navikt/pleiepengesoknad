@@ -6,11 +6,12 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { resetFieldValue, resetFieldValues, SkjemagruppeQuestion } from '@navikt/sif-common-formik';
 import { useFormikContext } from 'formik';
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { Normaltekst } from 'nav-frontend-typografi';
 import { AppFormField, initialValues, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { BarnReceivedFromApi } from '../../../types/Søkerdata';
 import AppForm from '../../app-form/AppForm';
 import { getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 interface Props {
     søkersBarn: BarnReceivedFromApi[];
@@ -24,15 +25,23 @@ const RegistrertBarnPart = ({ søkersBarn }: Props) => {
     } = useFormikContext<PleiepengesøknadFormData>();
 
     return (
-        <SkjemagruppeQuestion
-            legend={
-                <Undertittel tag="h2" style={{ display: 'inline-block', marginBottom: '.75rem', fontSize: '1.125rem' }}>
-                    {intlHelper(intl, 'steg.omBarnet.hvilketBarn.spm')}
-                </Undertittel>
-            }>
+        <SkjemagruppeQuestion>
             <AppForm.RadioPanelGroup
-                legend={intlHelper(intl, 'steg.omBarnet.hvilketBarn.registrerteBarn')}
                 name={AppFormField.barnetSøknadenGjelder}
+                legend={intlHelper(intl, 'steg.omBarnet.hvilketBarn.spm')}
+                description={
+                    <ExpandableInfo title={intlHelper(intl, 'steg.omBarnet.hvilketBarn.description.tittel')}>
+                        <p>
+                            <FormattedMessage id={'steg.omBarnet.hvilketBarn.description.info.1'} />
+                        </p>
+                        <p>
+                            <FormattedMessage id={'steg.omBarnet.hvilketBarn.description.info.2'} />
+                        </p>
+                        <p>
+                            <FormattedMessage id={'steg.omBarnet.hvilketBarn.description.info.3'} />
+                        </p>
+                    </ExpandableInfo>
+                }
                 useTwoColumns={true}
                 radios={søkersBarn.map((barn) => {
                     const { fornavn, mellomnavn, etternavn, fødselsdato, aktørId } = barn;
