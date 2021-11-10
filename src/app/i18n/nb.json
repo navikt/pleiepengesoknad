@@ -425,10 +425,10 @@
     "steg.oppsummering.validering.ugyldigArbeidsforholdSN": "Det er ikke fylt ut informasjon om hvordan du skal jobbe som selvstendig næringsdrivende i perioden du har søkt pleiepenger.",
     "steg.oppsummering.validering.navigasjonTilStegInfo": "Vennligst gå tilbake og sjekk informasjonen du har fylt ut. Når du har gjort det, trykker du på \"Fortsett\"-knappen for å gå videre.",
     "steg.oppsummering.validering.navigasjonTilStegGåTil": "Gå til",
-    "steg.oppsummering.validering.manglerVedlegg": "Noe gikk galt med legeerklæringen. Vennligst gå tilbake og kontroller at den er lastet opp riktig",
-    "steg.oppsummering.validering.ugyldigArbeidsforhold": "Noe stemmer ikke helt med arbeidsforholdet du har registrert. Vennligst se over informasjonen du har fylt ut på den siden.",
+    "steg.oppsummering.validering.manglerVedlegg": "Oops, noe gikk galt med legeerklæringen. Vennligst gå tilbake og kontroller at den er lastet opp riktig",
+    "steg.oppsummering.validering.ugyldigArbeidsforhold": "Oops, noe gikk galt med arbeidsforholdet som du har registrert.",
     "steg.oppsummering.validering.ugyldigRegnskapsførerTelefonnummer": "Telefonnummeret til regnskapsfører inneholder ugyldig tegn. Vennligst gå tilbake til skjemaet og kontroller verdien.",
-    "steg.oppsummering.validering.omsorgstilbud.ugyldig": "Noe stemmer ikke helt med omsorgstilbudet som er registrert.",
+    "steg.oppsummering.validering.omsorgstilbud.ugyldig": "Oops, noe gikk galt med omsorgstilbudet som er registrert.",
 
     "page.confirmation.sidetittel": "Vi har mottatt søknaden din",
     "page.confirmation.tittel.1": "Takk!",
