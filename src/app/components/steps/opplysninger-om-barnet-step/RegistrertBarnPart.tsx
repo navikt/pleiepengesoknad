@@ -37,6 +37,9 @@ const RegistrertBarnPart = ({ søkersBarn }: Props) => {
                         <p>
                             <FormattedMessage id={'steg.omBarnet.hvilketBarn.description.info.2'} />
                         </p>
+                        <p>
+                            <FormattedMessage id={'steg.omBarnet.hvilketBarn.description.info.3'} />
+                        </p>
                     </ExpandableInfo>
                 }
                 useTwoColumns={true}
