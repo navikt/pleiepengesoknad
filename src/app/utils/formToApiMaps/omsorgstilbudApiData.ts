@@ -33,7 +33,7 @@ export const mapPlanlagtOmsorgstilbudToApiData = (
     const periodeFraOgMedSøknadsdato = getPlanlagtPeriode(søknadsperiode, søknadsdato);
     if (erLiktHverUke !== YesOrNo.YES && enkeltdager && periodeFraOgMedSøknadsdato) {
         return {
-            erLiktHverUke: erLiktHverUke === YesOrNo.NO ? false : undefined,
+            erLiktHverUke: erLiktHverUke === YesOrNo.NO ? false : true,
             enkeltdager: getEnkeltdagerIPeriodeApiData(enkeltdager, periodeFraOgMedSøknadsdato),
         };
     }
