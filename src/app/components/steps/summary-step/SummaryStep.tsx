@@ -102,7 +102,7 @@ const SummaryStep = ({ onApplicationSent, values, søknadsdato, søknadsperiode 
                 } = søkerdata;
 
                 const apiValues = mapFormDataToApiData(values, barn, intl.locale as Locale, søknadsdato);
-
+                console.log(apiValues);
                 if (apiValues === undefined) {
                     return <div>Det oppstod en feil - api-data mangler</div>;
                 }
@@ -112,7 +112,7 @@ const SummaryStep = ({ onApplicationSent, values, søknadsdato, søknadsperiode 
                 };
 
                 const apiValuesValidationErrors = validateApiValues(apiValues, intl);
-
+                console.log(apiValuesValidationErrors);
                 const { medlemskap, utenlandsoppholdIPerioden, ferieuttakIPerioden } = apiValues;
 
                 const mottarAndreYtelserFraNAV =

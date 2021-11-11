@@ -1,4 +1,5 @@
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { ArbeidsforholdType } from '../../../../types';
 import { IntlShape } from 'react-intl';
 import { ArbeidsforholdApiData } from '../../../../types/PleiepengesøknadApiData';
 
@@ -7,7 +8,8 @@ export const getArbeidsformOgTidSetning = (
     arbeidsforhold: ArbeidsforholdApiData,
     erAnsatt?: boolean
 ): string | undefined => {
-    if (!arbeidsforhold.arbeidsform || !arbeidsforhold.jobberNormaltTimer) {
+    const isAbeidstaker = arbeidsforhold._type === ArbeidsforholdType.ANSATT;
+    if ((!isAbeidstaker && !arbeidsforhold.arbeidsform) || !arbeidsforhold.jobberNormaltTimer) {
         return undefined;
     }
     return intlHelper(

@@ -92,7 +92,7 @@ export const mapArbeidsforholdToApiData = (
     const { jobberNormaltTimer, arbeidsform } = arbeidsforhold;
     const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
 
-    if (jobberNormaltTimerNumber === undefined || arbeidsform === undefined) {
+    if (jobberNormaltTimerNumber === undefined || (arbeidsform === undefined && type !== ArbeidsforholdType.ANSATT)) {
         throw new Error('mapArbeidsforholdToApiData');
     }
 

@@ -40,7 +40,7 @@ const OmsorgstilbudStep = ({
     const { persist } = usePersistSoknad(history);
 
     const [omsorgstilbudChanged, setOmsorgstilbudChanged] = useState(false);
-
+    console.log(values);
     useEffect(() => {
         if (omsorgstilbudChanged === true) {
             setOmsorgstilbudChanged(false);

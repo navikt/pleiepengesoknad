@@ -4,7 +4,7 @@ import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types
 import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
 import { StepID } from '../config/stepConfig';
-import { JobberIPeriodeSvar } from '../types';
+import { ArbeidsforholdType, JobberIPeriodeSvar } from '../types';
 import {
     ArbeidIPeriodeApiData,
     ArbeidsforholdApiData,
@@ -52,8 +52,8 @@ export const isArbeidIPeriodeValid = (arbeidIPeriode: ArbeidIPeriodeApiData): bo
 };
 
 const isArbeidsformOgNormalarbeidstidValid = (arbeidsforhold: ArbeidsforholdApiData): boolean => {
-    const { jobberNormaltTimer, arbeidsform } = arbeidsforhold;
-    if (!arbeidsform || !jobberNormaltTimer) {
+    const { jobberNormaltTimer, arbeidsform, _type } = arbeidsforhold;
+    if ((_type !== ArbeidsforholdType.ANSATT && !arbeidsform) || !jobberNormaltTimer) {
         return false;
     }
     return isValidNormalarbeidstid(jobberNormaltTimer);
@@ -88,6 +88,7 @@ export const isOmsorgstilbudApiDataValid = (omsorgstilbud: OmsorgstilbudApiData)
     if (omsorgstilbud.planlagt) {
         const { enkeltdager, ukedager, erLiktHverUke } = omsorgstilbud.planlagt;
         if (erLiktHverUke && ukedager === undefined) {
+            console.log('erLiktHverUke', erLiktHverUke);
             return false;
         }
         if (erLiktHverUke !== true && (enkeltdager === undefined || enkeltdager?.length === 0)) {

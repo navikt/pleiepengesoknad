@@ -103,8 +103,8 @@ export const getArbeidsformValidator = (intlValues: { hvor: string; jobber: stri
 };
 
 export const getJobberNormaltTimerValidator =
-    (intlValues: { hvor: string; jobber: string; arbeidsform?: string }) => (value: any) => {
-        if (!intlValues.arbeidsform) {
+    (intlValues: { hvor: string; jobber: string; arbeidsform?: string }, ansatt?: boolean) => (value: any) => {
+        if (!ansatt && !intlValues.arbeidsform) {
             return undefined;
         }
         const error = getNumberValidator({

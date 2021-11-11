@@ -71,12 +71,12 @@ function OmsorgstilbudInfoAndDialog<FieldNames>({
                                                 : 'omsorgstilbud.form.intro.1'
                                         }
                                     />
-                                    <ExpandableInfo title={intlHelper(intl, 'omsorgstilbud.flereBarn.tittel')}>
-                                        <p>
-                                            <FormattedMessage id={'omsorgstilbud.flereBarn'} />
-                                        </p>
-                                    </ExpandableInfo>
                                 </p>
+                                <ExpandableInfo title={intlHelper(intl, 'omsorgstilbud.flereBarn.tittel')}>
+                                    <p>
+                                        <FormattedMessage id={'omsorgstilbud.flereBarn'} />
+                                    </p>
+                                </ExpandableInfo>
                                 <p>
                                     <strong>
                                         <FormattedMessage id="omsorgstilbud.form.intro.2" />

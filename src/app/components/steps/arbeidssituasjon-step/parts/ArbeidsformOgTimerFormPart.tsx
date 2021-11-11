@@ -31,7 +31,7 @@ interface Props {
     parentFieldName: string;
 }
 
-const ArbeidsformOgTimerFormPart: React.FunctionComponent<Props> = ({
+const ArbeidsformOgTimerFormPart: React.FC<Props> = ({
     arbeidsforholdType,
     arbeidsforhold,
     spørsmål,
@@ -42,62 +42,58 @@ const ArbeidsformOgTimerFormPart: React.FunctionComponent<Props> = ({
     const intl = useIntl();
     const getFieldName = (field: ArbeidsforholdField) => `${parentFieldName}.${field}` as AppFormField;
     const visInfoSomSluttetAnsatt = isArbeidsforholdAnsatt(arbeidsforhold) && erAvsluttet;
+    console.log(visInfoSomSluttetAnsatt);
     return (
         <>
-            <FormBlock margin="none">
-                <AppForm.RadioPanelGroup
-                    legend={spørsmål.arbeidsform}
-                    name={getFieldName(ArbeidsforholdField.arbeidsform)}
-                    description={
-                        <ExpandableInfo title={intlHelper(intl, 'arbeidsforhold.arbeidsform.info.tittel')}>
-                            {arbeidsforholdType === ArbeidsforholdType.FRILANSER && (
-                                <FormattedMessage
-                                    id={
-                                        erAvsluttet
-                                            ? 'arbeidsforhold.frilanser.arbeidsform.info.sluttet.tekst'
-                                            : 'arbeidsforhold.frilanser.arbeidsform.info.tekst'
-                                    }
-                                />
-                            )}
-                            {arbeidsforholdType === ArbeidsforholdType.ANSATT && (
-                                <FormattedMessage
-                                    id={
-                                        visInfoSomSluttetAnsatt
-                                            ? 'arbeidsforhold.ansatt.arbeidsform.info.sluttet.tekst'
-                                            : 'arbeidsforhold.ansatt.arbeidsform.info.tekst'
-                                    }
-                                />
-                            )}
-                            {arbeidsforholdType === ArbeidsforholdType.SELVSTENDIG && (
-                                <FormattedMessage id={'arbeidsforhold.sn.arbeidsform.info.tekst'} />
-                            )}
-                        </ExpandableInfo>
-                    }
-                    radios={[
-                        {
-                            label: intlHelper(intl, 'arbeidsforhold.arbeidsform.fast'),
-                            value: Arbeidsform.fast,
-                        },
-                        {
-                            label: intlHelper(intl, 'arbeidsforhold.arbeidsform.turnus'),
-                            value: Arbeidsform.turnus,
-                        },
-                        {
-                            label: (
-                                <>
-                                    <FormattedMessage id="arbeidsforhold.arbeidsform.varierende.1" />
-                                    /&shy;
-                                    <FormattedMessage id="arbeidsforhold.arbeidsform.varierende.2" />
-                                    /&shy;
-                                    <FormattedMessage id="arbeidsforhold.arbeidsform.varierende.3" />
-                                </>
-                            ),
-                            value: Arbeidsform.varierende,
-                        },
-                    ]}
-                    validate={validator.arbeidsform}
-                />
-            </FormBlock>
+            {(arbeidsforholdType === ArbeidsforholdType.FRILANSER ||
+                arbeidsforholdType === ArbeidsforholdType.SELVSTENDIG) && (
+                <FormBlock margin="none">
+                    <AppForm.RadioPanelGroup
+                        legend={spørsmål.arbeidsform}
+                        name={getFieldName(ArbeidsforholdField.arbeidsform)}
+                        description={
+                            <ExpandableInfo title={intlHelper(intl, 'arbeidsforhold.arbeidsform.info.tittel')}>
+                                {arbeidsforholdType === ArbeidsforholdType.FRILANSER && (
+                                    <FormattedMessage
+                                        id={
+                                            erAvsluttet
+                                                ? 'arbeidsforhold.frilanser.arbeidsform.info.sluttet.tekst'
+                                                : 'arbeidsforhold.frilanser.arbeidsform.info.tekst'
+                                        }
+                                    />
+                                )}
+
+                                {arbeidsforholdType === ArbeidsforholdType.SELVSTENDIG && (
+                                    <FormattedMessage id={'arbeidsforhold.sn.arbeidsform.info.tekst'} />
+                                )}
+                            </ExpandableInfo>
+                        }
+                        radios={[
+                            {
+                                label: intlHelper(intl, 'arbeidsforhold.arbeidsform.fast'),
+                                value: Arbeidsform.fast,
+                            },
+                            {
+                                label: intlHelper(intl, 'arbeidsforhold.arbeidsform.turnus'),
+                                value: Arbeidsform.turnus,
+                            },
+                            {
+                                label: (
+                                    <>
+                                        <FormattedMessage id="arbeidsforhold.arbeidsform.varierende.1" />
+                                        /&shy;
+                                        <FormattedMessage id="arbeidsforhold.arbeidsform.varierende.2" />
+                                        /&shy;
+                                        <FormattedMessage id="arbeidsforhold.arbeidsform.varierende.3" />
+                                    </>
+                                ),
+                                value: Arbeidsform.varierende,
+                            },
+                        ]}
+                        validate={validator.arbeidsform}
+                    />
+                </FormBlock>
+            )}
             {arbeidsforhold?.arbeidsform !== undefined && (
                 <FormBlock>
                     <AppForm.NumberInput
