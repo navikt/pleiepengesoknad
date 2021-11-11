@@ -11,6 +11,7 @@
         "dev": "npm-run-all -p start-api-mock start-no-decorator",
         "start": "node ./src/build/scripts/start-dev.js",
         "start-no-decorator": "node ./src/build/scripts/start-dev-no-decorator.js",
+        "snd": "node ./src/build/scripts/start-dev-no-decorator.js",
         "start-express": "node ./server.js",
         "test": "jest --maxWorkers=2 --config ./jest/jest.config.js",
         "test-w": "jest --maxWorkers=2 --config ./jest/jest.config.js --watch",
@@ -29,7 +30,7 @@
     },
     "dependencies": {
         "@formatjs/intl-pluralrules": "^4.1.4",
-        "@navikt/sif-common-amplitude": "^2.0.0",
+        "@navikt/sif-common-amplitude": "^2.1.0",
         "@navikt/sif-common-core": "^9.5.2",
         "@navikt/sif-common-formik": "^20.3.3",
         "@navikt/sif-common-forms": "^16.2.1",

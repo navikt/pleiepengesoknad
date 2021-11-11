@@ -335,11 +335,10 @@
     "page.generalErrorPage.tittel": "Noko gjekk gale...",
     "page.generalErrorPage.tekst": "Beklagar, her har det dessverre skjedd ein feil.",
 
-    "page.ikkeMyndig.sidetittel": "Søknad om pleiepengar – ikkje myndig",
-    "page.ikkeMyndig.banner.tittel": "Hei!",
-    "page.ikkeMyndig.banner.tekst": "Fordi du er under 18 år, må éin av foreldra dine eller ein føresett skrive under på søknaden saman med deg. Du må derfor fylle ut søknaden på papir og sende han i posten.",
-    "page.ikkeMyndig.banner.lastNed": "Her kan du laste ned papirsøknaden.",
-    "page.ikkeMyndig.tittel": "Søknad om pleiepengar",
+    "page.ikkeTilgang.sidetittel": "Søknad om pleiepengar – ikkje myndig",
+    "page.ikkeTilgang.tekst": "Fordi du er under 18 år, må éin av foreldra dine eller ein føresett skrive under på søknaden saman med deg. Du må derfor fylle ut søknaden på papir og sende han i posten.",
+    "page.ikkeTilgang.lastNed": "Her kan du laste ned papirsøknaden.",
+    "page.ikkeTilgang.tittel": "Søknad om pleiepengar",
 
     "vedleggsliste.fjernKnapp": "Fjern vedlegg",
     "vedleggsliste.ingenLegeerklæringLastetOpp": "Ingen vedlegg er lasta opp.",
