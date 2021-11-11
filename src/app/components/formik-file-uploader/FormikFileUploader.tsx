@@ -12,7 +12,7 @@ import { FormikFileInput, TypedFormInputValidationProps } from '@navikt/sif-comm
 import { ArrayHelpers, connect, useFormikContext } from 'formik';
 import { uploadFile } from '../../api/api';
 import { AppFormField, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
-import * as apiUtils from '../../utils/apiUtils';
+import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import appSentryLogger from '../../utils/appSentryLogger';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 

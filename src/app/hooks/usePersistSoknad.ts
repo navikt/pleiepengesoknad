@@ -4,7 +4,7 @@ import { History } from 'history';
 import { persist as apiPersist } from '../api/api';
 import { StepID } from '../config/stepConfig';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import { apiUtils } from '../utils/apiUtils';
+import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { navigateToErrorPage, relocateToLoginPage } from '../utils/navigationUtils';
 
 function usePersistSoknad(history: History) {

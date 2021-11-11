@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
+import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { useFormikContext } from 'formik';
 import { persist } from '../../api/api';
@@ -10,7 +11,6 @@ import { StepID } from '../../config/stepConfig';
 import { ArbeidsgiverApiData, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { Søkerdata } from '../../types/Søkerdata';
-import { apiUtils } from '../../utils/apiUtils';
 import { getSøknadsperiodeFromFormData } from '../../utils/formDataUtils';
 import { getKvitteringInfoFromApiData } from '../../utils/kvitteringUtils';
 import { navigateTo, navigateToErrorPage, relocateToLoginPage } from '../../utils/navigationUtils';

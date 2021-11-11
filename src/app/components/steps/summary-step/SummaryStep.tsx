@@ -8,6 +8,7 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import SummaryList from '@navikt/sif-common-core/lib/components/summary-list/SummaryList';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
+import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { apiStringDateToDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
@@ -23,19 +24,20 @@ import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
 import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
 import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { Søkerdata } from '../../../types/Søkerdata';
-import * as apiUtils from '../../../utils/apiUtils';
 import appSentryLogger from '../../../utils/appSentryLogger';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import { mapFormDataToApiData } from '../../../utils/mapFormDataToApiData';
 import { navigateTo, relocateToLoginPage } from '../../../utils/navigationUtils';
+import { getSøkerKunHistoriskPeriode } from '../../../utils/tidsbrukUtils';
 import { validateApiValues } from '../../../validation/apiValuesValidation';
 import AppForm from '../../app-form/AppForm';
-import ArbeidIPeriodenSummary from './arbeid-i-perioden-summary/ArbeidIPeriodenSummary';
-import ArbeidssituasjonSummary from './arbeidssituasjon-summary/ArbeidssituasjonSummary';
 import FormikStep from '../../formik-step/FormikStep';
 import LegeerklæringAttachmentList from '../../legeerklæring-file-list/LegeerklæringFileList';
+import SummaryBlock from '../../summary-block/SummaryBlock';
 import SummarySection from '../../summary-section/SummarySection';
 import ApiValidationSummary from './api-validation-summary/ApiValidationSummary';
+import ArbeidIPeriodenSummary from './arbeid-i-perioden-summary/ArbeidIPeriodenSummary';
+import ArbeidssituasjonSummary from './arbeidssituasjon-summary/ArbeidssituasjonSummary';
 import BarnSummary from './barn-summary/BarnSummary';
 import JaNeiSvar from './enkeltsvar/JaNeiSvar';
 import OmsorgstilbudSummary from './omsorgstilbud-summary/OmsorgstilbudSummary';
@@ -44,9 +46,7 @@ import {
     renderUtenlandsoppholdIPeriodenSummary,
     renderUtenlandsoppholdSummary,
 } from './summaryItemRenderers';
-import SummaryBlock from '../../summary-block/SummaryBlock';
 import './summary.less';
-import { getSøkerKunHistoriskPeriode } from '../../../utils/tidsbrukUtils';
 
 interface Props {
     values: PleiepengesøknadFormData;

@@ -8,7 +8,7 @@ import { SøkerdataContextProvider } from '../../context/SøkerdataContext';
 import { AppFormField, initialValues, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { MELLOMLAGRING_VERSION, MellomlagringData } from '../../types/storage';
 import { Arbeidsgiver, Søkerdata } from '../../types/Søkerdata';
-import * as apiUtils from '../../utils/apiUtils';
+import * as apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import appSentryLogger from '../../utils/appSentryLogger';
 import { navigateToErrorPage, relocateToLoginPage, userIsCurrentlyOnErrorPage } from '../../utils/navigationUtils';
 import LoadingPage from '../pages/loading-page/LoadingPage';
