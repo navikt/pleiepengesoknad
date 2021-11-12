@@ -5,7 +5,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import VirksomhetSummary from '@navikt/sif-common-forms/lib/virksomhet/VirksomhetSummary';
 import { SelvstendigNæringsdrivendeApiData } from '../../../../types/PleiepengesøknadApiData';
 import SummaryBlock from '../../../summary-block/SummaryBlock';
-import { getArbeidsformOgTidSetning } from './arbeidssituasjon-summary-utils';
+import { getTidSetning } from './arbeidssituasjon-summary-utils';
 import { Element } from 'nav-frontend-typografi';
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
 function SelvstendigSummary({ selvstendigNæringsdrivende, søkerKunHistoriskPeriode }: Props) {
     const intl = useIntl();
     const { arbeidsforhold, virksomhet } = selvstendigNæringsdrivende || {};
-    const arbeidsformOgTid = arbeidsforhold ? getArbeidsformOgTidSetning(intl, arbeidsforhold, true) : undefined;
+    const Tid = arbeidsforhold ? getTidSetning(intl, arbeidsforhold, true) : undefined;
     return (
         <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.selvstendig.header')} headerTag="h3">
             {selvstendigNæringsdrivende === undefined && (
@@ -46,7 +46,7 @@ function SelvstendigSummary({ selvstendigNæringsdrivende, søkerKunHistoriskPer
                                 <FormattedMessage id="oppsummering.arbeidssituasjon.selvstendig.enVirksomhet" />
                             )}
                         </li>
-                        {arbeidsformOgTid && <li>{arbeidsformOgTid}</li>}
+                        {Tid && <li>{Tid}</li>}
                     </ul>
                     <Element tag="h4">{intlHelper(intl, 'summary.virksomhet.virksomhetInfo.tittel')}</Element>
                     <Box margin="m">

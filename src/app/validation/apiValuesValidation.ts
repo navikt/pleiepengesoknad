@@ -4,7 +4,7 @@ import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types
 import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
 import { StepID } from '../config/stepConfig';
-import { ArbeidsforholdType, JobberIPeriodeSvar } from '../types';
+import { JobberIPeriodeSvar } from '../types';
 import {
     ArbeidIPeriodeApiData,
     ArbeidsforholdApiData,
@@ -51,16 +51,16 @@ export const isArbeidIPeriodeValid = (arbeidIPeriode: ArbeidIPeriodeApiData): bo
     return true;
 };
 
-const isArbeidsformOgNormalarbeidstidValid = (arbeidsforhold: ArbeidsforholdApiData): boolean => {
-    const { jobberNormaltTimer, arbeidsform, _type } = arbeidsforhold;
-    if ((_type !== ArbeidsforholdType.ANSATT && !arbeidsform) || !jobberNormaltTimer) {
+const isNormalarbeidstidValid = (arbeidsforhold: ArbeidsforholdApiData): boolean => {
+    const { jobberNormaltTimer } = arbeidsforhold;
+    if (!jobberNormaltTimer) {
         return false;
     }
     return isValidNormalarbeidstid(jobberNormaltTimer);
 };
 
 export const isArbeidsforholdValid = (arbeidsforhold: ArbeidsforholdApiData): boolean => {
-    return isArbeidsformOgNormalarbeidstidValid(arbeidsforhold);
+    return isNormalarbeidstidValid(arbeidsforhold);
 };
 
 export const isArbeidIPeriodeApiValuesValid = (arbeidsforhold: ArbeidsforholdApiData): boolean => {
@@ -77,7 +77,7 @@ export const isArbeidIPeriodeApiValuesValid = (arbeidsforhold: ArbeidsforholdApi
 };
 
 export const isArbeidsforholdApiDataValid = (arbeidsforhold: ArbeidsforholdApiData) =>
-    isArbeidsformOgNormalarbeidstidValid(arbeidsforhold) && isArbeidIPeriodeApiValuesValid(arbeidsforhold);
+    isNormalarbeidstidValid(arbeidsforhold) && isArbeidIPeriodeApiValuesValid(arbeidsforhold);
 
 export const isOmsorgstilbudApiDataValid = (omsorgstilbud: OmsorgstilbudApiData): boolean => {
     if (omsorgstilbud.historisk) {

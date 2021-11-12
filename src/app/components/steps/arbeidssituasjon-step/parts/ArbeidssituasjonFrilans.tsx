@@ -11,15 +11,15 @@ import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-dat
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../../../lenker';
-import { ArbeidsforholdType, Arbeidsform } from '../../../../types';
+import { ArbeidsforholdType } from '../../../../types';
 import { AppFormField, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
-import { getArbeidsformValidator, getJobberNormaltTimerValidator } from '../../../../validation/validateArbeidFields';
+import { getJobberNormaltTimerValidator } from '../../../../validation/validateArbeidFields';
 import {
     getFrilanserSluttdatoValidator,
     getFrilanserStartdatoValidator,
 } from '../../../../validation/validateFrilanser';
 import AppForm from '../../../app-form/AppForm';
-import ArbeidsformOgTimer from './ArbeidsformOgTimerFormPart';
+import TimerFormPart from './TimerFormPart';
 import { erFrilanserIPeriode } from '../../../../utils/frilanserUtils';
 
 interface Props {
@@ -44,9 +44,6 @@ const ArbeidssituasjonFrilans = ({ formValues, søkerKunHistoriskPeriode, søkna
         jobber: erAvsluttet
             ? intlHelper(intl, 'arbeidsforhold.part.jobbet')
             : intlHelper(intl, 'arbeidsforhold.part.jobber'),
-        arbeidsform: frilans_arbeidsforhold?.arbeidsform
-            ? intlHelper(intl, `arbeidsforhold.part.arbeidsform.${frilans_arbeidsforhold.arbeidsform}`)
-            : undefined,
     };
 
     return (
@@ -108,23 +105,18 @@ const ArbeidssituasjonFrilans = ({ formValues, søkerKunHistoriskPeriode, søkna
                             (frilans_jobberFortsattSomFrilans === YesOrNo.NO &&
                                 erFrilanserIPeriode(søknadsperiode, formValues))) && (
                             <FormBlock>
-                                <ArbeidsformOgTimer
+                                <TimerFormPart
                                     arbeidsforholdType={ArbeidsforholdType.FRILANSER}
-                                    erAvsluttet={frilans_jobberFortsattSomFrilans === YesOrNo.NO}
                                     spørsmål={{
-                                        arbeidsform: erAvsluttet
-                                            ? intlHelper(intl, `frilans.arbeidsforhold.avsluttet.arbeidsform.spm`)
-                                            : intlHelper(intl, `frilans.arbeidsforhold.arbeidsform.spm`),
-                                        jobberNormaltTimer: (arbeidsform: Arbeidsform) =>
+                                        jobberNormaltTimer: () =>
                                             intlHelper(
                                                 intl,
                                                 erAvsluttet
-                                                    ? `snFrilanser.arbeidsforhold.avsluttet.${arbeidsform}.spm`
-                                                    : `snFrilanser.arbeidsforhold.${arbeidsform}.spm`
+                                                    ? `frilanser.arbeidsforhold.avsluttet.spm`
+                                                    : `frilanser.arbeidsforhold.spm`
                                             ),
                                     }}
                                     validator={{
-                                        arbeidsform: getArbeidsformValidator(intlValues),
                                         jobberNormaltTimer: getJobberNormaltTimerValidator(intlValues),
                                     }}
                                     arbeidsforhold={frilans_arbeidsforhold}

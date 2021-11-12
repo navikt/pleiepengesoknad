@@ -2,7 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { Arbeidsform, JobberIPeriodeSvar } from '../../../../types';
+import { JobberIPeriodeSvar } from '../../../../types';
 import { ArbeidIPeriodeApiData, ArbeidsforholdApiData } from '../../../../types/PleiepengesøknadApiData';
 import TidEnkeltdager from '../../../dager-med-tid/TidEnkeltdager';
 import TidFasteDager from '../../../dager-med-tid/TidFasteDager';
@@ -10,7 +10,6 @@ import TidFasteDager from '../../../dager-med-tid/TidFasteDager';
 interface Props {
     periode: DateRange;
     arbeidIPeriode: ArbeidIPeriodeApiData;
-    arbeidsform?: Arbeidsform;
     normaltimer?: number;
     erHistorisk: boolean;
 }
@@ -19,12 +18,7 @@ export interface ArbeidIPeriodenSummaryItemType extends ArbeidsforholdApiData {
     tittel: string;
 }
 
-const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({
-    arbeidIPeriode,
-    arbeidsform,
-    erHistorisk,
-    normaltimer,
-}) => {
+const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeriode, erHistorisk, normaltimer }) => {
     const intl = useIntl();
 
     const intlTexts = {
@@ -39,9 +33,9 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({
                       ? 'oppsummering.arbeidIPeriode.jobberIPerioden.ja.somVanlig'
                       : 'oppsummering.arbeidIPeriode.jobberIPerioden.ja.redusert',
                   {
-                      timerArbeidsform:
-                          arbeidIPeriode.jobberIPerioden && arbeidsform && normaltimer !== undefined
-                              ? intlHelper(intl, `timer.arbeidsform.${arbeidsform}`, { timer: normaltimer })
+                      timer:
+                          arbeidIPeriode.jobberIPerioden && normaltimer !== undefined
+                              ? intlHelper(intl, `timer`, { timer: normaltimer })
                               : '',
                   }
               )

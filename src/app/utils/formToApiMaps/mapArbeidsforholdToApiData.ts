@@ -89,10 +89,10 @@ export const mapArbeidsforholdToApiData = (
     /** Periode hvor en er aktiv, f.eks. noen som starter sluttet i søknadsperioden */
     arbeidsperiode?: Partial<DateRange>
 ): ArbeidsforholdApiData => {
-    const { jobberNormaltTimer, arbeidsform } = arbeidsforhold;
+    const { jobberNormaltTimer } = arbeidsforhold;
     const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
 
-    if (jobberNormaltTimerNumber === undefined || (arbeidsform === undefined && type !== ArbeidsforholdType.ANSATT)) {
+    if (jobberNormaltTimerNumber === undefined) {
         throw new Error('mapArbeidsforholdToApiData');
     }
 
@@ -104,7 +104,6 @@ export const mapArbeidsforholdToApiData = (
     return {
         _type: type,
         jobberNormaltTimer: jobberNormaltTimerNumber,
-        arbeidsform,
         historiskArbeid: getHistoriskArbeidIArbeidsforhold({
             søkerFremtid,
             søkerFortid,

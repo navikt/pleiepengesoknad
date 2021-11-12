@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { Arbeidsform, JobberIPeriodeSvar } from '../../../types';
+import { JobberIPeriodeSvar } from '../../../types';
 import { AppFormField, Arbeidsforhold, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { FrilansApiDataPart, getFrilansApiData } from '../frilansApiData';
 
@@ -22,7 +22,6 @@ const søknadsperiodePlanlagt: DateRange = {
 const søknadsdato = new Date(2021, 1, 6);
 
 const frilans_arbeidsforhold: Arbeidsforhold = {
-    arbeidsform: Arbeidsform.fast,
     jobberNormaltTimer: '10',
     historisk: {
         jobberIPerioden: JobberIPeriodeSvar.JA,

@@ -50,12 +50,6 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
             cy.get('input[name*="frilans"][value="no"]').parent('label').click();
             cy.get('input[name*="selvstendig"][value="no"]').parent('label').click();
 
-            cy.get('label[class="inputPanel radioPanel"]').each((element) => {
-                if (element.text() === 'Turnus') {
-                    element.click();
-                }
-            });
-
             cy.get('input[name*="jobberNormaltTimer"]').first().type('10');
 
             clickFortsett(cy);

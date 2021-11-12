@@ -13,7 +13,8 @@ import AppForm from '../../../app-form/AppForm';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { getJobberNormaltTimerValidator } from '../../../../validation/validateArbeidFields';
 import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import AnsattTimerFormPart from './AnsattTimerFormPart';
+import TimerFormPart from './TimerFormPart';
+import { ArbeidsforholdType } from '../../../../types';
 
 interface Props {
     søkerKunHistoriskPeriode: boolean;
@@ -106,7 +107,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({
                             </Box>
                         )}
                         {((erAvsluttet && arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO) || !erAvsluttet) && (
-                            <AnsattTimerFormPart
+                            <TimerFormPart
                                 spørsmål={{
                                     jobberNormaltTimer: () =>
                                         intlHelper(
@@ -120,10 +121,11 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({
                                         ),
                                 }}
                                 validator={{
-                                    jobberNormaltTimer: getJobberNormaltTimerValidator(intlValues, true),
+                                    jobberNormaltTimer: getJobberNormaltTimerValidator(intlValues),
                                 }}
                                 arbeidsforhold={arbeidsforhold}
                                 parentFieldName={parentFieldName}
+                                arbeidsforholdType={ArbeidsforholdType.ANSATT}
                             />
                         )}
                     </ResponsivePanel>
