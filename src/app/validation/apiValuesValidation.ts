@@ -88,7 +88,6 @@ export const isOmsorgstilbudApiDataValid = (omsorgstilbud: OmsorgstilbudApiData)
     if (omsorgstilbud.planlagt) {
         const { enkeltdager, ukedager, erLiktHverUke } = omsorgstilbud.planlagt;
         if (erLiktHverUke && ukedager === undefined) {
-            console.log('erLiktHverUke', erLiktHverUke);
             return false;
         }
         if (erLiktHverUke !== true && (enkeltdager === undefined || enkeltdager?.length === 0)) {

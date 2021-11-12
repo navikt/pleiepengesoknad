@@ -9,7 +9,6 @@ import {
     ArbeidsforholdAnsatt,
     ArbeidsforholdField,
     ArbeidsforholdSNF,
-    isArbeidsforholdAnsatt,
 } from '../../../../types/PleiepengesøknadFormData';
 import AppForm from '../../../app-form/AppForm';
 import ArbeidsformInfo from '../info/ArbeidsformInfo';
@@ -41,8 +40,7 @@ const ArbeidsformOgTimerFormPart: React.FC<Props> = ({
 }) => {
     const intl = useIntl();
     const getFieldName = (field: ArbeidsforholdField) => `${parentFieldName}.${field}` as AppFormField;
-    const visInfoSomSluttetAnsatt = isArbeidsforholdAnsatt(arbeidsforhold) && erAvsluttet;
-    console.log(visInfoSomSluttetAnsatt);
+
     return (
         <>
             {(arbeidsforholdType === ArbeidsforholdType.FRILANSER ||
