@@ -84,7 +84,7 @@ export interface TidEnkeltdagApiData {
 }
 
 export interface PlanlagtOmsorgstilbudApiData {
-    erLiktHverUke?: boolean;
+    erLiktHverUke: boolean;
     enkeltdager?: TidEnkeltdagApiData[];
     ukedager?: TidFasteDagerApiData;
 }
