@@ -90,7 +90,7 @@ export const isOmsorgstilbudApiDataValid = (omsorgstilbud: OmsorgstilbudApiData)
         if (erLiktHverUke && ukedager === undefined) {
             return false;
         }
-        if (erLiktHverUke !== true && (enkeltdager === undefined || enkeltdager?.length === 0)) {
+        if (erLiktHverUke === false && (enkeltdager === undefined || enkeltdager.length === 0)) {
             return false;
         }
     }
