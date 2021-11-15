@@ -10,7 +10,6 @@ import {
 } from '../../../../types/PleiepengesøknadFormData';
 import AppForm from '../../../app-form/AppForm';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import { ArbeidsforholdType } from '../../../../types';
 
 interface Props {
@@ -85,15 +84,9 @@ const TimerFormPart: React.FC<Props> = ({
                                 <p>
                                     <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.2'} />
                                 </p>
-                                <Box margin={'l'} padBottom={'l'}>
+                                <p>
                                     <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.3'} />
-                                    <br />
-                                    <div style={{ paddingLeft: '20px' }}>
-                                        <FormattedMessage
-                                            id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.3a'}
-                                        />
-                                    </div>
-                                </Box>
+                                </p>
                                 <p>
                                     <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.4'} />
                                 </p>

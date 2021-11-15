@@ -493,9 +493,9 @@
     "arbeidsforhold.avsluttet.info": "Sluttdato var innenfor perioden du søker om pleiepenger. Vi trenger derfor å vite hvordan normalarbeidstiden din var hos {navn}",
 
     "arbeidsforhold.normalTimer.info.tittel": "Hva betyr dette?",
-    "arbeidsforhold.ANSATT.normalTimer.info": "Hvis du er usikker på antallet finner du som regel svaret i arbeidskontrakten din, eller du kan høre med arbeidsgiver",
-    "arbeidsforhold.FRILANSER.normalTimer.info": "Her skal du oppgi hvor mange timer du normalt jobber som frilanser når du ikke har fravær på grunn av for eksempel pleiepenger",
-    "arbeidsforhold.SELVSTENDIG.normalTimer.info": "Her skal du oppgi hvor mange timer du normalt jobber som selvstendig næringsdrivende når du ikke har fravær på grunn av for eksempel pleiepenger",
+    "arbeidsforhold.ANSATT.normalTimer.info": "Hvis du er usikker på antallet finner du som regel svaret i arbeidskontrakten din, eller du kan høre med arbeidsgiver.",
+    "arbeidsforhold.FRILANSER.normalTimer.info": "Her skal du oppgi hvor mange timer du normalt jobber som frilanser når du ikke har fravær på grunn av for eksempel pleiepenger.",
+    "arbeidsforhold.SELVSTENDIG.normalTimer.info": "Her skal du oppgi hvor mange timer du normalt jobber som selvstendig næringsdrivende når du ikke har fravær på grunn av for eksempel pleiepenger.",
     "arbeidsforhold.normalTimer.info.list.item.1": "Hvis du jobber et fast antall timer per uke, er det dette antallet du oppgir.",
     "arbeidsforhold.normalTimer.info.list.item.2": "Hvis du jobber turnus eller har annen varierende arbeidstid, skal du legge inn et snitt per uke.",
 
@@ -511,8 +511,7 @@
     "arbeidsforhold.normalTimer.info.varierende.tittel": "Hvordan regner jeg ut et snitt ved varierende arbeidstid?",
     "arbeidsforhold.normalTimer.info.varierende.avsnitt.1": "Du regner ut et snitt ved å legge sammen antall timer du totalt har jobbet de siste 12 ukene og deler det med 12. Hvis du ikke har jobbet i 12 uker, regner du ut snittet på samme måte ved å bruke de ukene du har jobbet.",
     "arbeidsforhold.normalTimer.info.varierende.avsnitt.2": "Eksempel når du har jobbet de siste 12 ukene:",
-    "arbeidsforhold.normalTimer.info.varierende.avsnitt.3": "De siste 12 ukene har du jobbet 250 timer. Da deler du antall timer du har jobbet med 12:",
-    "arbeidsforhold.normalTimer.info.varierende.avsnitt.3a": "250 timer / 12 uker = 20,8",
+    "arbeidsforhold.normalTimer.info.varierende.avsnitt.3": "De siste 12 ukene har du jobbet 250 timer. Da deler du antall timer du har jobbet med 12: 250 timer / 12 uker = 20,8",
     "arbeidsforhold.normalTimer.info.varierende.avsnitt.4": "Du jobber altså i snitt 20,8 timer per uke, og det er dette tallet du oppgir.",
     "arbeidsforhold.normalTimer.info.varierende.avsnitt.5": "Slik regner du ut et snitt når du har jobbet mindre enn 12 uker:",
     "arbeidsforhold.normalTimer.info.varierende.avsnitt.6": "Da deler du antall timer med antall uker du har jobbet. Hvis du for eksempel har jobbet i 7 uker, så deler du antall timer du har jobbet med 7.",
