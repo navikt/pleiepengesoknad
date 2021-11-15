@@ -494,11 +494,10 @@
 
     "arbeidsforhold.normalTimer.info.tittel": "Hva betyr dette?",
     "arbeidsforhold.ANSATT.normalTimer.info": "Hvis du er usikker på antallet finner du som regel svaret i arbeidskontrakten din, eller du kan høre med arbeidsgiver",
-    "arbeidsforhold.FRILANSER.normalTimer.info": "Her skal du oppgi hvor mange timer du normalt jobber som frilanser når du ikke har fravær på grunn av for eksempel pleiepenger.",
-    "arbeidsforhold.SELVSTENDIG.normalTimer.info": "Her skal du oppgi hvor mange timer du normalt jobber som selvstendig næringsdrivende når du ikke har fravær på grunn av for eksempel pleiepenger.",
+    "arbeidsforhold.FRILANSER.normalTimer.info": "Her skal du oppgi hvor mange timer du normalt jobber som frilanser når du ikke har fravær på grunn av for eksempel pleiepenger",
+    "arbeidsforhold.SELVSTENDIG.normalTimer.info": "Her skal du oppgi hvor mange timer du normalt jobber som selvstendig næringsdrivende når du ikke har fravær på grunn av for eksempel pleiepenger",
     "arbeidsforhold.normalTimer.info.list.item.1": "Hvis du jobber et fast antall timer per uke, er det dette antallet du oppgir.",
-    "arbeidsforhold.normalTimer.info.list.item.2": "Når du jobber turnus, skal du legge inn et snitt per uke. ",
-    "arbeidsforhold.normalTimer.info.list.item.3": "Hvis du jobber variert eller som tilkallingsvikar, skal du legge inn et snitt per uke. ",
+    "arbeidsforhold.normalTimer.info.list.item.2": "Hvis du jobber turnus eller har annen varierende arbeidstid, skal du legge inn et snitt per uke.",
 
     "arbeidsforhold.normalTimer.info.turnus.tittel": "Hvordan regner jeg ut et snitt når jeg jobber turnus?",
     "arbeidsforhold.normalTimer.info.turnus.avsnitt.1": "Du regner ut snittet ved å legge sammen antall timer du jobber totalt i hele turnusperioden din, og deler det med antall uker som turnusperioden din består av.",
@@ -509,7 +508,7 @@
     "arbeidsforhold.normalTimer.info.turnus.avsnitt.4b": "Så deler du antall timer med antall uker i turnusperioden din: 75 / 3 = 25",
     "arbeidsforhold.normalTimer.info.turnus.avsnitt.5": "Du jobber altså i snitt 25 timer per uke, og det er dette tallet du oppgir.",
 
-    "arbeidsforhold.normalTimer.info.varierende.tittel": "Hvordan regner jeg ut et snitt ved variert arbeid eller som tilkallingsvikar?",
+    "arbeidsforhold.normalTimer.info.varierende.tittel": "Hvordan regner jeg ut et snitt ved varierende arbeidstid?",
     "arbeidsforhold.normalTimer.info.varierende.avsnitt.1": "Du regner ut et snitt ved å legge sammen antall timer du totalt har jobbet de siste 12 ukene og deler det med 12. Hvis du ikke har jobbet i 12 uker, regner du ut snittet på samme måte ved å bruke de ukene du har jobbet.",
     "arbeidsforhold.normalTimer.info.varierende.avsnitt.2": "Eksempel når du har jobbet de siste 12 ukene:",
     "arbeidsforhold.normalTimer.info.varierende.avsnitt.3": "De siste 12 ukene har du jobbet 250 timer. Da deler du antall timer du har jobbet med 12:",

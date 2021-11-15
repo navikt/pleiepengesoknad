@@ -54,9 +54,6 @@ const TimerFormPart: React.FC<Props> = ({
                                 <li>
                                     <FormattedMessage id={'arbeidsforhold.normalTimer.info.list.item.2'} />
                                 </li>
-                                <li>
-                                    <FormattedMessage id={'arbeidsforhold.normalTimer.info.list.item.3'} />
-                                </li>
                             </ul>
                             <ExpandableInfo
                                 filledBackground={false}
