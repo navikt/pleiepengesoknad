@@ -35,7 +35,7 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
                   {
                       timer:
                           arbeidIPeriode.jobberIPerioden && normaltimer !== undefined
-                              ? intlHelper(intl, `timer`, { timer: normaltimer })
+                              ? intlHelper(intl, `timerPerUke`, { timer: normaltimer })
                               : '',
                   }
               )

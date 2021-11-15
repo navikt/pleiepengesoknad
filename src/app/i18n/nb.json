@@ -636,7 +636,7 @@
     "oppsummering.arbeidIPeriode.arbeidIkkeRegistrert.header": "Jobb i perioden",
     "oppsummering.arbeidIPeriode.arbeidIkkeRegistrert.info": "Ingen arbeidstid registrert i perioden",
 
-    "timer": "{timer, plural, one {# time} other {# timer}} per uke",
+    "timerPerUke": "{timer, plural, one {# time} other {# timer}} per uke",
 
     "næringstype.FISKE": "Fiske",
     "næringstype.JORDBRUK_SKOGBRUK": "Jordbruk",
