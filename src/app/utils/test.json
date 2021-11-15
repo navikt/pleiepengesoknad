@@ -28,7 +28,6 @@
             "arbeidsforhold": {
                 "_type": "ANSATT",
                 "jobberNormaltTimer": 20,
-                "arbeidsform": "FAST",
                 "historiskArbeid": { "jobberIPerioden": "NEI" },
                 "planlagtArbeid": { "jobberIPerioden": "NEI" }
             }
@@ -40,7 +39,6 @@
             "arbeidsforhold": {
                 "_type": "ANSATT",
                 "jobberNormaltTimer": 10,
-                "arbeidsform": "TURNUS",
                 "historiskArbeid": { "jobberIPerioden": "NEI" },
                 "planlagtArbeid": { "jobberIPerioden": "NEI" }
             }
@@ -53,7 +51,6 @@
         "arbeidsforhold": {
             "_type": "FRILANSER",
             "jobberNormaltTimer": 5,
-            "arbeidsform": "TURNUS",
             "historiskArbeid": {
                 "jobberIPerioden": "JA",
                 "jobberSomVanlig": false,

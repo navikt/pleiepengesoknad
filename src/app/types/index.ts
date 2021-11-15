@@ -19,12 +19,6 @@ export type TidEnkeltdag = { [isoDateString: string]: Partial<Time> };
 
 export type TidDagValidator = (dag: string) => ValidationFunction<ValidationError>;
 
-export enum Arbeidsform {
-    fast = 'FAST',
-    turnus = 'TURNUS',
-    varierende = 'VARIERENDE',
-}
-
 export enum BarnRelasjon {
     MOR = 'MOR',
     FAR = 'FAR',

@@ -91,40 +91,25 @@ export const getArbeidstimerFastDagValidator =
         return undefined;
     };
 
-export const getArbeidsformValidator = (intlValues: { hvor: string; jobber: string }) => (value: any) => {
-    const error = getRequiredFieldValidator()(value);
+export const getJobberNormaltTimerValidator = (intlValues: { hvor: string; jobber: string }) => (value: any) => {
+    const error = getNumberValidator({
+        required: true,
+        min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
+        max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
+    })(value);
+
     return error
         ? {
-              key: 'validation.arbeidsforhold.arbeidsform.noValue',
-              values: intlValues,
+              key: `validation.arbeidsforhold.jobberNormaltTimer.${error}`,
+              values: {
+                  ...intlValues,
+                  min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
+                  max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
+              },
               keepKeyUnaltered: true,
           }
         : undefined;
 };
-
-export const getJobberNormaltTimerValidator =
-    (intlValues: { hvor: string; jobber: string; arbeidsform?: string }) => (value: any) => {
-        if (!intlValues.arbeidsform) {
-            return undefined;
-        }
-        const error = getNumberValidator({
-            required: true,
-            min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
-            max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
-        })(value);
-
-        return error
-            ? {
-                  key: `validation.arbeidsforhold.jobberNormaltTimer.${error}`,
-                  values: {
-                      ...intlValues,
-                      min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
-                      max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
-                  },
-                  keepKeyUnaltered: true,
-              }
-            : undefined;
-    };
 
 export const getArbeidJobberValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
     const error = getRequiredFieldValidator()(value);

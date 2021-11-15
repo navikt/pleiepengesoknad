@@ -9,7 +9,7 @@ import {
     isArbeidsgiverISøknadsperiodeApiData,
 } from '../../../../types/PleiepengesøknadApiData';
 import SummaryBlock from '../../../summary-block/SummaryBlock';
-import { getArbeidsformOgTidSetning } from './arbeidssituasjon-summary-utils';
+import { getTidSetning } from './arbeidssituasjon-summary-utils';
 
 interface Props {
     arbeidsgivere?: ArbeidsgiverApiData[];
@@ -67,7 +67,7 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere: a
                                 />
                             </li>
                             {isArbeidsgiverISøknadsperiodeApiData(arbeidsgiver) && (
-                                <li>{getArbeidsformOgTidSetning(intl, arbeidsgiver.arbeidsforhold, erAnsatt)}</li>
+                                <li>{getTidSetning(intl, arbeidsgiver.arbeidsforhold, erAnsatt)}</li>
                             )}
                             {erAnsatt === false && (
                                 <li>

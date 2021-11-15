@@ -4,7 +4,7 @@ import { Time } from '@navikt/sif-common-formik/lib/types';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { Virksomhet } from '@navikt/sif-common-forms/lib/virksomhet/types';
-import { AndreYtelserFraNAV, Arbeidsform, BarnRelasjon, JobberIPeriodeSvar, TidEnkeltdag } from '.';
+import { AndreYtelserFraNAV, BarnRelasjon, JobberIPeriodeSvar, TidEnkeltdag } from '.';
 
 import { Arbeidsgiver } from './Søkerdata';
 
@@ -86,7 +86,6 @@ export interface TidFasteDager {
 export enum ArbeidsforholdField {
     erAnsatt = 'erAnsatt',
     sluttetFørSøknadsperiode = 'sluttetFørSøknadsperiode',
-    arbeidsform = 'arbeidsform',
     jobberNormaltTimer = 'jobberNormaltTimer',
     historisk = 'historisk',
     planlagt = 'planlagt',
@@ -109,7 +108,6 @@ export interface ArbeidIPeriode {
 }
 
 export interface Arbeidsforhold {
-    [ArbeidsforholdField.arbeidsform]?: Arbeidsform;
     [ArbeidsforholdField.jobberNormaltTimer]?: string;
     [ArbeidsforholdField.historisk]?: ArbeidIPeriode;
     [ArbeidsforholdField.planlagt]?: ArbeidIPeriode;

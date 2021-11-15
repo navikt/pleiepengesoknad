@@ -1,4 +1,4 @@
-import { ArbeidsforholdType, Arbeidsform } from '../../types';
+import { ArbeidsforholdType } from '../../types';
 import { ArbeidsgiverApiData } from '../../types/PleiepengesøknadApiData';
 import { Arbeidsgiver, Søkerdata } from '../../types/Søkerdata';
 import { getKvitteringInfoFromApiData, KvitteringApiData } from '../kvitteringUtils';
@@ -49,7 +49,6 @@ describe('kvitteringUtils', () => {
                 erAnsatt: false,
                 sluttetFørSøknadsperiode: false,
                 arbeidsforhold: {
-                    arbeidsform: Arbeidsform.fast,
                     jobberNormaltTimer: 20,
                     _type: ArbeidsforholdType.ANSATT,
                 },
@@ -59,7 +58,6 @@ describe('kvitteringUtils', () => {
                 organisasjonsnummer: '3',
                 erAnsatt: true,
                 arbeidsforhold: {
-                    arbeidsform: Arbeidsform.fast,
                     jobberNormaltTimer: 20,
                     _type: ArbeidsforholdType.ANSATT,
                 },
