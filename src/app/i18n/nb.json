@@ -599,8 +599,8 @@
 
     "oppsummering.arbeidssituasjon.arbeidsgiver.ansatt": "Er ansatt",
     "oppsummering.arbeidssituasjon.avsluttet.arbeidsgiver.ansatt": "Er ikke lenger ansatt",
-    "oppsummering.arbeidssituasjon.tid": "Jobber {timer, plural, one {# time} other {# timer}} per uke",
-    "oppsummering.arbeidssituasjon.avsluttet.tid": "Jobbet {timer, plural, one {# time} other {# timer}} per uke",
+    "oppsummering.arbeidssituasjon.tid": "Jobber normalt {timer, plural, one {# time} other {# timer}} per uke",
+    "oppsummering.arbeidssituasjon.avsluttet.tid": "Jobbet normalt {timer, plural, one {# time} other {# timer}} per uke",
     "oppsummering.arbeidssituasjon.avsluttet.sluttetFørSøknadsperiode": "Sluttet før {periodeFra}",
     "oppsummering.arbeidssituasjon.avsluttet.sluttetISøknadsperiode": "Sluttet etter {periodeFra}",
 
