@@ -138,7 +138,7 @@ describe('mapArbeidsforholdToApiData', () => {
             expect(result.enkeltdager).toBeUndefined();
         });
 
-        it('jobber som vanlig i perioden', () => {
+        it('jobber som normalt i perioden', () => {
             const result: ArbeidIPeriodeApiData = mapArbeidIPeriodeToApiData(
                 {
                     jobberIPerioden: JobberIPeriodeSvar.JA,
