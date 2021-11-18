@@ -25,6 +25,8 @@ import {
 import AppForm from '../app-form/AppForm';
 import TidFasteDagerInput from '../tid-faste-dager-input/TidFasteDagerInput';
 import ArbeidstidKalenderInput from './ArbeidstidKalenderInput';
+import { AlertStripeInfo } from 'nav-frontend-alertstriper';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
 
 interface Props {
     parentFieldName: string;
@@ -117,7 +119,13 @@ const ArbeidIPeriodeSpørsmål = ({
                         : []),
                 ]}
             />
-
+            {jobberIPerioden === JobberIPeriodeSvar.VET_IKKE && (
+                <Box margin="l">
+                    <AlertStripeInfo>
+                        {intlHelper(intl, 'arbeidIPeriode.jobberIPerioden.VET_IKKE.AlertStripeInfo')}
+                    </AlertStripeInfo>
+                </Box>
+            )}
             {jobberIPerioden === JobberIPeriodeSvar.JA && (
                 <FormBlock margin="m">
                     <ResponsivePanel>

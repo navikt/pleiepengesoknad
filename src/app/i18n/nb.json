@@ -568,6 +568,7 @@
     "arbeidIPeriode.jobberIPerioden.JA": "Ja",
     "arbeidIPeriode.jobberIPerioden.NEI": "Nei",
     "arbeidIPeriode.jobberIPerioden.VET_IKKE": "Usikker, men jeg melder fra hvis jeg skal jobbe",
+    "arbeidIPeriode.jobberIPerioden.VET_IKKE.AlertStripeInfo": "Det er viktig at du melder fra til oss med én gang dersom du begynner å jobbe i pleiepengeperioden. Dette er fordi pleiepengene skal graderes tilsvarende den tiden du jobber. Du melder fra ved å sende en melding via «Skriv til oss» på Ditt NAV.",
     "arbeidIPeriode.jobberIPerioden.planlagt": "skal jobbe",
     "arbeidIPeriode.jobberIPerioden.historisk": "jobbet",
     "arbeidIPeriode.jobberSomVanlig.somVanlig": "Som normalt, {timer} per uke",
