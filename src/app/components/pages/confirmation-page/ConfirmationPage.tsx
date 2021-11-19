@@ -51,7 +51,7 @@ const ConfirmationPage = ({ kvitteringInfo }: Props) => {
                 <Box margin="xl">
                     <AlertStripeAdvarsel>
                         {intlHelper(intl, 'page.confirmation.tittel.advarsel.list.tittel')}
-                        <ul style={{ marginTop: '0rem' }}>
+                        <ul style={{ marginTop: '0rem', marginBottom: '0rem' }}>
                             <li>
                                 <FormattedMessage id="page.confirmation.tittel.advarsel.list.item.1" />
                             </li>
