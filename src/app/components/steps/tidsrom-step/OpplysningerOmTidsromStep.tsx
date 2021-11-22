@@ -27,6 +27,8 @@ import FormikStep from '../../formik-step/FormikStep';
 import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
+import { søkerKunHelgedager } from '../../../utils/dateUtils';
+import Alertstripe from 'nav-frontend-alertstriper';
 
 dayjs.extend(minMax);
 
@@ -63,7 +65,10 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
         harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning(values.utenlandsoppholdIPerioden);
 
     return (
-        <FormikStep id={StepID.TIDSROM} onValidFormSubmit={onValidSubmit}>
+        <FormikStep
+            id={StepID.TIDSROM}
+            onValidFormSubmit={onValidSubmit}
+            showSubmitButton={!søkerKunHelgedager(values.periodeFra, values.periodeTil)}>
             <AppForm.DateRangePicker
                 legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
                 minDate={
@@ -92,12 +97,15 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                     name: AppFormField.periodeTil,
                     dayPickerProps: { initialMonth: periodeFra ? new Date(periodeFra) : undefined },
                 }}
-                disableWeekend={true}
+                disableWeekend={false}
             />
-
-            <ExpandableInfo title={intlHelper(intl, 'steg.tidsrom.hjelpetekst.tittel.1')}>
-                <FormattedMessage id="steg.tidsrom.hjelpetekst.1" />
-            </ExpandableInfo>
+            {søkerKunHelgedager(values.periodeFra, values.periodeTil) && (
+                <Box padBottom="xl">
+                    <Alertstripe type="advarsel">
+                        <FormattedMessage id="step.tidsrom.søkerKunHelgedager.alert" />
+                    </Alertstripe>
+                </Box>
+            )}
 
             <Box margin="xl">
                 <AppForm.YesOrNoQuestion

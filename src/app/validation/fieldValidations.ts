@@ -93,7 +93,7 @@ export const validateFradato = (
         required: true,
         min: minDate,
         toDate: tilDato,
-        onlyWeekdays: true,
+        onlyWeekdays: false,
     }).validateFromDate(fraDatoString);
     return error
         ? {
@@ -111,7 +111,7 @@ export const validateTildato = (tilDatoString?: string, fraDatoString?: string):
         min: date3YearsAgo,
         max: fraDatoString ? dayjs(fraDatoString).endOf('day').add(1, 'year').toDate() : undefined,
         fromDate: datepickerUtils.getDateFromDateString(fraDatoString),
-        onlyWeekdays: true,
+        onlyWeekdays: false,
     }).validateToDate(tilDatoString);
 };
 

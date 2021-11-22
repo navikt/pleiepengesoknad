@@ -12,6 +12,7 @@ import {
     OmsorgstilbudApiData,
     PleiepengesøknadApiData,
 } from '../types/PleiepengesøknadApiData';
+import { søkerKunHelgedager } from '../utils/dateUtils';
 
 export const apiVedleggIsInvalid = (vedlegg: string[]): boolean => {
     vedlegg.find((v) => {
@@ -103,6 +104,13 @@ export const validateApiValues = (
 ): ApiValidationError[] | undefined => {
     const errors: ApiValidationError[] = [];
 
+    if (søkerKunHelgedager(values.fraOgMed, values.tilOgMed)) {
+        errors.push({
+            skjemaelementId: 'tidsrom',
+            feilmelding: intlHelper(intl, 'steg.oppsummering.validering.tidsromKunHelg'),
+            stepId: StepID.TIDSROM,
+        });
+    }
     if (apiVedleggIsInvalid(values.vedlegg)) {
         errors.push({
             skjemaelementId: 'vedlegg',
