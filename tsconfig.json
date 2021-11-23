@@ -22,5 +22,5 @@
         "noEmit": false,
         "noFallthroughCasesInSwitch": true
     },
-    "exclude": ["node_modules", "src/build", "**.js", "dist", "e2e/cypress"]
+    "exclude": ["node_modules", "src/build", "**.js", "dist", "e2e/cypress", "old"]
 }

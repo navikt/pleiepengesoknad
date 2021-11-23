@@ -576,6 +576,23 @@
     "arbeidIPeriode.historisk.hvorMyeTidIArbeid": "Oppgi timene og minuttene du arbeidet:",
     "arbeidIPeriode.planlagt.hvorMyeTidIArbeid": "Oppgi de timene og minuttene som du skal arbeide:",
 
+    "arbeidIPeriode.hvordanOppgiArbeidstid.spm": "Hvordan ønsker du å oppgi hvor mye du skal jobbe i perioden?",
+    "arbeidIPeriode.hvordanOppgiArbeidstid.prosent": "Som prosent av hvor mye jeg jobber til vanlig",
+    "arbeidIPeriode.hvordanOppgiArbeidstid.timer": "Som timer per uke",
+    "arbeidIPeriode.hvordanOppgiArbeidstid.timerPerUkedag": "Som timer per ukedag",
+    "arbeidIPeriode.hvordanOppgiArbeidstid.timerPerDato": "Som timer per dag",
+
+    "arbeidIPeriode.timerEllerProsent.spm": "Hvordan vil du oppgi hvor mye du skal jobbe hos {navn}?",
+    "arbeidIPeriode.skalJobbeTimer.spm": "Hvor mange timer i uka skal du jobbe?",
+    "arbeidIPeriode.skalJobbeProsent.spm": "Hvor mange prosent av din vanlige arbeidstid skal du jobbe?",
+    "arbeidIPeriode.iDag.utledet": "timer i uka",
+    "arbeidIPeriode.timerEllerProsent.timer": "I timer",
+    "arbeidIPeriode.timerEllerProsent.prosent": "Som prosent",
+    "arbeidIPeriode.timer.utledet": "timer i uka",
+    "arbeidIPeriode.timer.utledet.medProsent": "timer i uka ({prosentRedusert} prosent av vanlig)",
+    "arbeidIPeriode.prosent.utledet": "prosent av {timer, plural, one {# time} other {# timer}}",
+    "arbeidIPeriode.prosent.utledet.medTimer": "prosent av {timer, plural, one {# time} other {# timer}} ({timerRedusert} i uka)",
+
     "tidKalenderForm.ok.label": "Lagre",
     "tidKalenderForm.avbryt.label": "Avbryt",
 
