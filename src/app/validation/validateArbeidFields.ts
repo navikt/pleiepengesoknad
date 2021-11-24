@@ -90,6 +90,17 @@ export const getArbeidstimerFastDagValidator =
         }
         return undefined;
     };
+export const getArbeidstidProsentValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
+    const error = getNumberValidator({ required: true, max: 99, min: 1 })(value);
+    if (error) {
+        return {
+            key: `validation.arbeidstimer.prosent.${error}`,
+            values: { ...intlValues, min: 1, max: 99 },
+            keepKeyUnaltered: true,
+        };
+    }
+    return undefined;
+};
 
 export const getJobberNormaltTimerValidator = (intlValues: { hvor: string; jobber: string }) => (value: any) => {
     const error = getNumberValidator({

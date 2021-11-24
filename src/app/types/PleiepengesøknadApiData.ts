@@ -21,6 +21,7 @@ export interface ArbeidIPeriodeApiData {
     erLiktHverUke?: boolean;
     enkeltdager?: TidEnkeltdagApiData[];
     fasteDager?: TidFasteDagerApiData;
+    _jobberProsent?: number;
 }
 
 export interface ArbeidsforholdApiData {

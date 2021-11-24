@@ -548,7 +548,7 @@
     "arbeidIPeriode.SNLabel": "Selvstendig næringsdrivende",
     "arbeidIPeriode.jobberIPerioden.spm": "Skal du være noe på jobb {hvor} {iPerioden}?",
     "arbeidIPeriode.jobberSomVanlig.spm": "Du har opplyst at du normalt jobber {timer} per uke {hvor}. Hvor mye skal du jobbe der {iPerioden}?",
-    "arbeidIPeriode.erLiktHverUke.spm": "Skal arbeidsukene dine være like {iPerioden} {hvor}, eller varierer det?",
+    "arbeidIPeriode.erLiktHverUke.spm": "Skal arbeidsukene dine være like {hvor}, eller varierer det?",
     "arbeidIPeriode.erLiktHverUke.erLikt": "Hver uke er lik",
     "arbeidIPeriode.erLiktHverUke.varierer": "Det varierer fra uke til uke",
     "arbeidIPeriode.historisk.ukedager.tittel": "Oppgi hvor mye du jobbet i ukedagene {hvor} {iPerioden}. Det er viktig at du fyller ut timer og minutter på riktig dag, altså den dagen du faktisk var på jobb.",
@@ -576,14 +576,7 @@
     "arbeidIPeriode.historisk.hvorMyeTidIArbeid": "Oppgi timene og minuttene du arbeidet:",
     "arbeidIPeriode.planlagt.hvorMyeTidIArbeid": "Oppgi de timene og minuttene som du skal arbeide:",
 
-    "arbeidIPeriode.hvordanOppgiArbeidstid.spm": "Hvordan ønsker du å oppgi hvor mye du skal jobbe i perioden?",
-    "arbeidIPeriode.hvordanOppgiArbeidstid.prosent": "Som prosent av hvor mye jeg jobber til vanlig",
-    "arbeidIPeriode.hvordanOppgiArbeidstid.timer": "Som timer per uke",
-    "arbeidIPeriode.hvordanOppgiArbeidstid.timerPerUkedag": "Som timer per ukedag",
-    "arbeidIPeriode.hvordanOppgiArbeidstid.timerPerDato": "Som timer per dag",
-
-    "arbeidIPeriode.timerEllerProsent.spm": "Hvordan vil du oppgi hvor mye du skal jobbe hos {navn}?",
-    "arbeidIPeriode.skalJobbeTimer.spm": "Hvor mange timer i uka skal du jobbe?",
+    "arbeidIPeriode.timerEllerProsent.spm": "Hvordan vil du oppgi hvor mye du skal jobbe {hvor}?",
     "arbeidIPeriode.skalJobbeProsent.spm": "Hvor mange prosent av din vanlige arbeidstid skal du jobbe?",
     "arbeidIPeriode.iDag.utledet": "timer i uka",
     "arbeidIPeriode.timerEllerProsent.timer": "I timer",
@@ -647,6 +640,8 @@
     "oppsummering.arbeidIPeriode.jobberIPerioden.nei": "Skal ikke jobbe i perioden",
     "oppsummering.arbeidIPeriode.jobberIPerioden.nei.historisk": "Jobbet ikke i perioden",
     "oppsummering.arbeidIPeriode.jobberIPerioden.vetIkke": "Usikker, men jeg melder fra hvis jeg skal jobbe",
+    "oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke.historisk": "Jobbet likt hver uke",
+    "oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke": "Skal jobbe likt hver uke",
 
     "oppsummering.arbeidIPeriode.arbeidIkkeRegistrert.header": "Jobb i perioden",
     "oppsummering.arbeidIPeriode.arbeidIkkeRegistrert.info": "Ingen arbeidstid registrert i perioden",
@@ -813,6 +808,11 @@
     "validation.frilans_arbeidsforhold.avsluttet.jobberNormaltTimer.FAST.numberHasNoValue": "Du må oppgi hvor mange timer per uke du jobbet fast som frilanser.",
     "validation.selvstendig_virksomhet.noValue": "Du må oppgi informasjon om virksomheten din som selvstendig næringsdrivende.",
     "validation.harVærtEllerErVernepliktig.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du utøvde verneplikt på tidspunktet du søker pleiepenger fra.",
+
+    "validation.arbeidstimer.prosent.numberHasNoValue": "Du må oppgi hvor mange prosent du {skalEllerHarJobbet} {hvor}.",
+    "validation.arbeidstimer.prosent.numberHasInvalidFormat": "Antall prosent du {skalEllerHarJobbet} {hvor} kan kun bestå av tall.",
+    "validation.arbeidstimer.prosent.numberIsTooSmall": "Antall prosent du {skalEllerHarJobbet} {hvor} kan ikke være mindre enn {min}.",
+    "validation.arbeidstimer.prosent.numberIsTooLarge": "Antall prosent du {skalEllerHarJobbet} {hvor} kan ikke være mer enn {max}.",
 
     "validation.arbeidstimer.dato.tid.timeHasNoValue": "Du må fylle ut timer og minutter for {dato} {hvor}.",
     "validation.arbeidstimer.dato.tid.hoursAreInvalid": "Antall timer {dato} {hvor} er ikke et gyldig tall.",

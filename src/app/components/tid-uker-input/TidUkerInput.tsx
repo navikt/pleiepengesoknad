@@ -28,7 +28,7 @@ export const TidUkerInput: React.FunctionComponent<Props> = ({
 }) => {
     const isNarrow = useMediaQuery({ maxWidth: 400 });
     const isWide = useMediaQuery({ minWidth: 1050 });
-    const datoer = getDatoerIPeriode(periode.from, periode.to);
+    const datoer = getDatoerIPeriode(periode);
     const uker = getUkerFraDager(datoer);
 
     return (

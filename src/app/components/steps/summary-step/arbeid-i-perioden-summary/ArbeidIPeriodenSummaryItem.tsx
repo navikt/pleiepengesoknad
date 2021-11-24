@@ -1,5 +1,5 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedNumber, useIntl } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { JobberIPeriodeSvar } from '../../../../types';
@@ -65,13 +65,35 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
                 <li>{getJobberIPeriodenTekst()}</li>
                 {arbeidIPeriode.jobberSomVanlig === false && arbeidIPeriode.enkeltdager && (
                     <li>
-                        <p>{erHistorisk ? 'Jobbet:' : 'Skal jobbe:'}</p>
+                        <p>
+                            {intlHelper(
+                                intl,
+                                erHistorisk
+                                    ? 'oppsummering.arbeidIPeriode.Jobbet'
+                                    : 'oppsummering.arbeidIPeriode.Jobber'
+                            )}
+                            :
+                        </p>
                         <TidEnkeltdager dager={arbeidIPeriode.enkeltdager} />
                     </li>
                 )}
                 {arbeidIPeriode.jobberSomVanlig === false && arbeidIPeriode.fasteDager && (
                     <li>
-                        <p>{erHistorisk ? 'Jobbet likt hver uke:' : 'Skal jobbe likt hver uke:'}</p>
+                        <p>
+                            {intlHelper(
+                                intl,
+                                erHistorisk
+                                    ? 'oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke.historisk'
+                                    : 'oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke'
+                            )}
+                            {arbeidIPeriode._jobberProsent !== undefined && (
+                                <>
+                                    {' '}
+                                    (<FormattedNumber value={arbeidIPeriode._jobberProsent} /> prosent)
+                                </>
+                            )}
+                            :
+                        </p>
                         <TidFasteDager fasteDager={arbeidIPeriode.fasteDager} />
                     </li>
                 )}

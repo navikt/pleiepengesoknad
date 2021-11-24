@@ -7,6 +7,7 @@ import {
     ArbeidsforholdAnsatt,
     ArbeidsforholdSNF,
     PleiepengesøknadFormData,
+    TimerEllerProsent,
 } from '../../../types/PleiepengesøknadFormData';
 
 import minMax from 'dayjs/plugin/minMax';
@@ -25,6 +26,12 @@ const cleanupArbeidIPeriode = (periode: DateRange, arbeidIPerioden: ArbeidIPerio
     }
     arbeid.jobberSomVanlig = arbeidIPerioden.jobberSomVanlig;
     if (arbeid.jobberSomVanlig === YesOrNo.YES) {
+        return arbeid;
+    }
+
+    arbeid.timerEllerProsent = arbeidIPerioden.timerEllerProsent;
+    if (arbeid.timerEllerProsent === TimerEllerProsent.prosent) {
+        arbeid.skalJobbeProsent = arbeidIPerioden.skalJobbeProsent;
         return arbeid;
     }
 

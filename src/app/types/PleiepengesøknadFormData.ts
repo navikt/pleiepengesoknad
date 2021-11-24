@@ -95,37 +95,25 @@ export enum ArbeidIPeriodeField {
     jobberIPerioden = 'jobberIPerioden',
     jobberSomVanlig = 'jobberSomVanlig',
     erLiktHverUke = 'erLiktHverUke',
-    hvordanOppgiArbeidstid = 'hvordanOppgiArbeidstid',
-    prosent = 'prosent',
-    timerPerUke = 'timerPerUke',
+    timerEllerProsent = 'timerEllerProsent',
+    skalJobbeProsent = 'skalJobbeProsent',
     fasteDager = 'fasteDager',
     enkeltdager = 'enkeltdager',
-    /** Forenklet fields */
-    timerEllerProsent = 'timerEllerProsent',
-    skalJobbeTimer = 'skalJobbeTimer',
-    skalJobbeProsent = 'skalJobbeProsent',
 }
 
-export enum HvordanOppgiArbeidstidType {
+export enum TimerEllerProsent {
     prosent = 'prosent',
     timer = 'timer',
-    timerPerUkedag = 'timerPerUkedag',
-    timerPerDato = 'timerPerDato',
 }
 
 export interface ArbeidIPeriode {
     [ArbeidIPeriodeField.jobberIPerioden]: JobberIPeriodeSvar;
     [ArbeidIPeriodeField.jobberSomVanlig]?: YesOrNo;
     [ArbeidIPeriodeField.erLiktHverUke]?: YesOrNo;
-    [ArbeidIPeriodeField.enkeltdager]?: TidEnkeltdag;
-    [ArbeidIPeriodeField.hvordanOppgiArbeidstid]?: HvordanOppgiArbeidstidType;
-    [ArbeidIPeriodeField.fasteDager]?: TidFasteDager;
-    [ArbeidIPeriodeField.prosent]?: string;
-    [ArbeidIPeriodeField.timerPerUke]?: Time;
-    /** Forenklet */
-    [ArbeidIPeriodeField.timerEllerProsent]?: 'timer' | 'prosent';
-    [ArbeidIPeriodeField.skalJobbeTimer]?: string;
+    [ArbeidIPeriodeField.timerEllerProsent]?: TimerEllerProsent;
     [ArbeidIPeriodeField.skalJobbeProsent]?: string;
+    [ArbeidIPeriodeField.enkeltdager]?: TidEnkeltdag;
+    [ArbeidIPeriodeField.fasteDager]?: TidFasteDager;
 }
 
 export interface Arbeidsforhold {
