@@ -227,7 +227,14 @@ const ArbeidIPeriodeSpørsmål = ({
                                                     name={getFieldName(ArbeidIPeriodeField.skalJobbeProsent)}
                                                     bredde="XS"
                                                     maxLength={4}
-                                                    label="Hvor mange prosent skal du jobbe i denne perioden?"
+                                                    label={intlHelper(
+                                                        intl,
+                                                        erHistorisk
+                                                            ? 'arbeidIPeriode.historisk.skalJobbeProsent.spm'
+                                                            : 'arbeidIPeriode.skalJobbeProsent.spm',
+
+                                                        intlValues
+                                                    )}
                                                     validate={getArbeidstidProsentValidator(intlValues)}
                                                     description={
                                                         <ExpandableInfo title="Viktig når du oppgir hvor mye du skal jobbe i prosent">
