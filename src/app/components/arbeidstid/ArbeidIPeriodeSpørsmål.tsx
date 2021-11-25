@@ -27,6 +27,8 @@ import TidFasteDagerInput from '../tid-faste-dager-input/TidFasteDagerInput';
 import ArbeidstidKalenderInput from './ArbeidstidKalenderInput';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import { søkerKunHelgedager } from '../../utils/dateUtils';
+import Alertstripe from 'nav-frontend-alertstriper';
 
 interface Props {
     parentFieldName: string;
@@ -221,6 +223,21 @@ const ArbeidIPeriodeSpørsmål = ({
                                             enkeltdagerFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
                                             søknadsdato={søknadsdato}
                                         />
+                                        {søkerKunHelgedager(periode.from, periode.to) && (
+                                            <Box margin="xl">
+                                                <Alertstripe type="advarsel">
+                                                    <p>
+                                                        <FormattedMessage id="arbeidIPeriode.søkerKunHelgedager.alert.avsnitt.1" />
+                                                    </p>
+                                                    <p>
+                                                        <FormattedMessage id="arbeidIPeriode.søkerKunHelgedager.alert.avsnitt.2" />
+                                                    </p>
+                                                    <p>
+                                                        <FormattedMessage id="arbeidIPeriode.søkerKunHelgedager.alert.avsnitt.3" />
+                                                    </p>
+                                                </Alertstripe>
+                                            </Box>
+                                        )}
                                     </FormBlock>
                                 )}
                             </>

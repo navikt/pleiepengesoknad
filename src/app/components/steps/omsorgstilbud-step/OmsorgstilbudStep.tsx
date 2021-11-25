@@ -108,7 +108,15 @@ const OmsorgstilbudStep = ({
             {søkerKunHelgedager(values.periodeFra, values.periodeTil) && (
                 <Box margin="xl">
                     <Alertstripe type="advarsel">
-                        <FormattedMessage id="step.tidsrom.søkerKunHelgedager.alert" />
+                        <p>
+                            <FormattedMessage id="step.omsorgstilbud.søkerKunHelgedager.alert.avsnitt.1" />
+                        </p>
+                        <p>
+                            <FormattedMessage id="step.omsorgstilbud.søkerKunHelgedager.alert.avsnitt.2" />
+                        </p>
+                        <p>
+                            <FormattedMessage id="step.omsorgstilbud.søkerKunHelgedager.alert.avsnitt.3" />
+                        </p>
                     </Alertstripe>
                 </Box>
             )}

@@ -43,7 +43,7 @@ export const erUkeFørSammeEllerEtterDenneUken = (week: DateRange): 'før' | 'sa
     return undefined;
 };
 
-export const søkerKunHelgedager = (fom?: string, tom?: string): boolean => {
+export const søkerKunHelgedager = (fom?: string | Date, tom?: string | Date): boolean => {
     if (fom && tom) {
         const fomDayJs = dayjs(fom);
         const tomDayJs = dayjs(tom);
