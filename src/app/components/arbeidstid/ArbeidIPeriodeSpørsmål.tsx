@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
@@ -32,7 +32,7 @@ import TidFasteDagerInput from '../tid-faste-dager-input/TidFasteDagerInput';
 import ArbeidstidKalenderInput from './ArbeidstidKalenderInput';
 import { getRedusertArbeidstidSomIso8601Duration } from '../../utils/formToApiMaps/tidsbrukApiUtils';
 import { iso8601DurationToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import TimerOgMinutter from '../timer-og-minutter/TimerOgMinutter';
+import { formatTime } from '../timer-og-minutter/TimerOgMinutter';
 
 interface Props {
     parentFieldName: string;
@@ -53,24 +53,23 @@ export type ArbeidIPeriodeIntlValues = {
     iPeriodenKort: string;
 };
 
-const RedusertArbeidstidPerDagInfo = ({
-    jobberNormaltTimer,
-    skalJobbeProsent,
-}: {
-    jobberNormaltTimer?: string;
-    skalJobbeProsent?: string;
-}) => {
+export const getRedusertArbeidstidPerUkeInfo = (
+    intl: IntlShape,
+    jobberNormaltTimer: string | undefined,
+    skalJobbeProsent: string | undefined
+): string => {
     const normalTimer = getNumberFromNumberInputValue(jobberNormaltTimer);
     const prosent = getNumberFromNumberInputValue(skalJobbeProsent);
     if (normalTimer !== undefined && prosent !== undefined) {
         const timerPerUkedag = normalTimer / 5;
         const time = iso8601DurationToTime(getRedusertArbeidstidSomIso8601Duration(timerPerUkedag, prosent));
-        if (!time) {
-            return null;
+        if (time) {
+            return intlHelper(intl, 'arbeidIPeriode.skalJobbeProsent.utledetTimerPerUke', {
+                tid: formatTime(intl, { hours: `${time.hours}` || '', minutes: `${time.minutes}` }),
+            });
         }
-        return <p>Dette tilsvarer {<TimerOgMinutter timer={time.hours} minutter={time.minutes} />} per dag.</p>;
     }
-    return null;
+    return '';
 };
 
 const ArbeidIPeriodeSpørsmål = ({
@@ -236,21 +235,12 @@ const ArbeidIPeriodeSpørsmål = ({
                                                         intlValues
                                                     )}
                                                     validate={getArbeidstidProsentValidator(intlValues)}
-                                                    description={
-                                                        <ExpandableInfo title="Viktig når du oppgir hvor mye du skal jobbe i prosent">
-                                                            Når du sier du skal jobbe en prosent av det du gjør normalt
-                                                            i søknadsperioden, vil denne tiden fordele seg utover hver
-                                                            dag i en periode. Dersok du vet hvilke dager du skal jobbe,
-                                                            bør du heller velge å oppgi dette i timer og at hver uke er
-                                                            lik.
-                                                        </ExpandableInfo>
-                                                    }
-                                                    suffix="prosent"
+                                                    suffix={getRedusertArbeidstidPerUkeInfo(
+                                                        intl,
+                                                        jobberNormaltTimer,
+                                                        skalJobbeProsent
+                                                    )}
                                                     suffixStyle="text"
-                                                />
-                                                <RedusertArbeidstidPerDagInfo
-                                                    jobberNormaltTimer={jobberNormaltTimer}
-                                                    skalJobbeProsent={skalJobbeProsent}
                                                 />
                                             </FormBlock>
                                         )}
@@ -307,24 +297,12 @@ const ArbeidIPeriodeSpørsmål = ({
                                                         </AppForm.InputGroup>
                                                     </FormBlock>
                                                 )}
-                                                {erLiktHverUke === YesOrNo.NO && (
-                                                    <FormBlock>
-                                                        <ArbeidstidKalenderInput
-                                                            periode={periode}
-                                                            tidMedArbeid={arbeidIPeriode?.enkeltdager}
-                                                            intlValues={intlValues}
-                                                            enkeltdagerFieldName={getFieldName(
-                                                                ArbeidIPeriodeField.enkeltdager
-                                                            )}
-                                                            søknadsdato={søknadsdato}
-                                                        />
-                                                    </FormBlock>
-                                                )}
                                             </>
                                         )}
                                     </>
                                 )}
-                                {/* {(erLiktHverUke === YesOrNo.NO || visSpørsmålOmLiktHverUke === false) && (
+                                {((timerEllerProsent === TimerEllerProsent.timer && erLiktHverUke === YesOrNo.NO) ||
+                                    visSpørsmålOmLiktHverUke === false) && (
                                     <FormBlock>
                                         <ArbeidstidKalenderInput
                                             periode={periode}
@@ -334,7 +312,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                             søknadsdato={søknadsdato}
                                         />
                                     </FormBlock>
-                                )} */}
+                                )}
                             </>
                         )}
                     </ResponsivePanel>

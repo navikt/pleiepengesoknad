@@ -6,6 +6,12 @@ import { Time } from '@navikt/sif-common-formik/lib';
 export const formatTime = (intl: IntlShape, time: Partial<Time>): string => {
     const timer = time.hours || '0';
     const minutter = time.minutes || '0';
+    if (minutter === '0') {
+        return intlHelper(intl, 'timer', { timer });
+    }
+    if (timer === '0') {
+        return intlHelper(intl, 'minutter', { minutter });
+    }
     return intlHelper(intl, 'timerOgMinutter', { timer, minutter });
 };
 
