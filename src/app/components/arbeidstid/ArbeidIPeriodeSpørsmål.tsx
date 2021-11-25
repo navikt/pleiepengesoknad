@@ -7,7 +7,6 @@ import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-p
 import { prettifyDate, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
-import { getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { ArbeidsforholdType, JobberIPeriodeSvar } from '../../types';
 import {
@@ -24,6 +23,7 @@ import {
     getArbeidJobberSomVanligValidator,
     getArbeidJobberValidator,
     getArbeidstidProsentValidator,
+    getArbeidstidTimerEllerProsentValidator,
     getArbeidstimerFastDagValidator,
     validateFasteArbeidstimerIUke,
 } from '../../validation/validateArbeidFields';
@@ -168,7 +168,7 @@ const ArbeidIPeriodeSpørsmål = ({
                     value: TimerEllerProsent.timer,
                 },
             ]}
-            validate={getRequiredFieldValidator()}
+            validate={getArbeidstidTimerEllerProsentValidator(intlValues)}
         />
     );
 

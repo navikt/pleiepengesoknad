@@ -811,8 +811,11 @@
     "validation.frilans_jobberFortsattSomFrilans.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du fortsatt jobber som frilanser.",
     "validation.frilans_arbeidsforhold.jobberNormaltTimer.FAST.numberHasNoValue": "Du må oppgi hvor mange timer per uke du jobber fast som frilanser.",
     "validation.frilans_arbeidsforhold.avsluttet.jobberNormaltTimer.FAST.numberHasNoValue": "Du må oppgi hvor mange timer per uke du jobbet fast som frilanser.",
+
     "validation.selvstendig_virksomhet.noValue": "Du må oppgi informasjon om virksomheten din som selvstendig næringsdrivende.",
     "validation.harVærtEllerErVernepliktig.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du utøvde verneplikt på tidspunktet du søker pleiepenger fra.",
+
+    "validation.arbeidstimer.timerEllerProsent.noValue": "Du må svare på hvordan du ønsker å oppgi hvor mye du {skalEllerHarJobbet} {hvor}.",
 
     "validation.arbeidstimer.prosent.numberHasNoValue": "Du må oppgi hvor mange prosent du {skalEllerHarJobbet} {hvor}.",
     "validation.arbeidstimer.prosent.numberHasInvalidFormat": "Antall prosent du {skalEllerHarJobbet} {hvor} kan kun bestå av tall.",
