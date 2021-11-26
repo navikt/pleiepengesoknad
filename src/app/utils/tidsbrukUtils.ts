@@ -6,7 +6,7 @@ import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUti
 import dayjs from 'dayjs';
 import { DagMedTid, TidEnkeltdag, TidFasteDager } from '../types';
 
-export const MIN_ANTALL_DAGER_FOR_FAST_PLAN = 20;
+export const MIN_ANTALL_DAGER_FOR_FAST_PLAN = 6;
 
 const isValidNumberString = (value: any): boolean =>
     hasValue(value) && typeof value === 'string' && value.trim().length > 0;
