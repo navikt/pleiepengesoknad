@@ -1,5 +1,5 @@
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { Time } from '@navikt/sif-common-formik/lib';
+import { InputTime } from '@navikt/sif-common-formik/lib';
 import { getNumberValidator, getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
 import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeValidator';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
@@ -61,7 +61,7 @@ export const validateArbeidsTidEnkeltdager = (
 export const getArbeidstimerEnkeltdagValidator =
     (intlValues: ArbeidIPeriodeIntlValues) =>
     (dato: string) =>
-    (time: Time): ValidationResult<ValidationError> => {
+    (time: InputTime): ValidationResult<ValidationError> => {
         const error = time
             ? getTimeValidator({ max: { hours: 24, minutes: 0 }, min: { hours: 0, minutes: 0 } })(time)
             : undefined;
@@ -77,7 +77,7 @@ export const getArbeidstimerEnkeltdagValidator =
 
 export const getArbeidstimerFastDagValidator =
     (dag: string) =>
-    (time: Time): ValidationResult<ValidationError> => {
+    (time: InputTime): ValidationResult<ValidationError> => {
         const error = time
             ? getTimeValidator({ max: { hours: 24, minutes: 0 }, min: { hours: 0, minutes: 0 } })(time)
             : undefined;

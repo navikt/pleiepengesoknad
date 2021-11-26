@@ -1,16 +1,18 @@
 import React from 'react';
-import { FormattedNumber, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { JobberIPeriodeSvar } from '../../../../types';
 import { ArbeidIPeriodeApiData, ArbeidsforholdApiData } from '../../../../types/PleiepengesøknadApiData';
 import TidEnkeltdager from '../../../dager-med-tid/TidEnkeltdager';
 import TidFasteDager from '../../../dager-med-tid/TidFasteDager';
+import { formatTimerOgMinutter } from '../../../timer-og-minutter/TimerOgMinutter';
+import { getRedusertArbeidstidSomInputTime } from '../../../../utils/formToApiMaps/tidsbrukApiUtils';
 
 interface Props {
     periode: DateRange;
     arbeidIPeriode: ArbeidIPeriodeApiData;
-    normaltimer?: number;
+    normaltimerUke: number;
     erHistorisk: boolean;
 }
 
@@ -18,7 +20,7 @@ export interface ArbeidIPeriodenSummaryItemType extends ArbeidsforholdApiData {
     tittel: string;
 }
 
-const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeriode, erHistorisk, normaltimer }) => {
+const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeriode, erHistorisk, normaltimerUke }) => {
     const intl = useIntl();
 
     const intlTexts = {
@@ -34,8 +36,8 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
                       : 'oppsummering.arbeidIPeriode.jobberIPerioden.ja.redusert',
                   {
                       timer:
-                          arbeidIPeriode.jobberIPerioden && normaltimer !== undefined
-                              ? intlHelper(intl, `timerPerUke`, { timer: normaltimer })
+                          arbeidIPeriode.jobberIPerioden && normaltimerUke !== undefined
+                              ? intlHelper(intl, `timerPerUke`, { timer: normaltimerUke })
                               : '',
                   }
               )
@@ -59,6 +61,20 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
         }
     };
 
+    const getArbeidProsentTekst = (prosent: number) => {
+        const tid = getRedusertArbeidstidSomInputTime(prosent, normaltimerUke / 5);
+        return intlHelper(
+            intl,
+            erHistorisk
+                ? 'oppsummering.arbeidIPeriode.jobberIPerioden.prosent.historisk'
+                : 'oppsummering.arbeidIPeriode.jobberIPerioden.prosent',
+            {
+                prosent: Intl.NumberFormat().format(prosent),
+                timer: formatTimerOgMinutter(intl, tid),
+            }
+        );
+    };
+
     return (
         <>
             <ul>
@@ -77,24 +93,27 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
                         <TidEnkeltdager dager={arbeidIPeriode.enkeltdager} />
                     </li>
                 )}
+                {/* Bruker har valgt faste dager eller prosent */}
                 {arbeidIPeriode.jobberSomVanlig === false && arbeidIPeriode.fasteDager && (
                     <li>
-                        <p>
-                            {intlHelper(
-                                intl,
-                                erHistorisk
-                                    ? 'oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke.historisk'
-                                    : 'oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke'
-                            )}
-                            {arbeidIPeriode._jobberProsent !== undefined && (
-                                <>
-                                    {' '}
-                                    (<FormattedNumber value={arbeidIPeriode._jobberProsent} /> prosent)
-                                </>
-                            )}
-                            :
-                        </p>
-                        <TidFasteDager fasteDager={arbeidIPeriode.fasteDager} />
+                        {/* Faste dager */}
+                        {arbeidIPeriode._jobberProsent === undefined && (
+                            <>
+                                <p>
+                                    {intlHelper(
+                                        intl,
+                                        erHistorisk
+                                            ? 'oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke.historisk'
+                                            : 'oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke'
+                                    )}
+                                    :
+                                </p>
+                                <TidFasteDager fasteDager={arbeidIPeriode.fasteDager} />
+                            </>
+                        )}
+                        {/* Prosent - men verdi er fordelt likt på  fasteDager */}
+                        {arbeidIPeriode._jobberProsent !== undefined &&
+                            getArbeidProsentTekst(arbeidIPeriode._jobberProsent)}
                     </li>
                 )}
             </ul>

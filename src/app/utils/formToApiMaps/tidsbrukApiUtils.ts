@@ -1,6 +1,6 @@
 import { apiStringDateToDate, DateRange, datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { decimalTimeToTime, timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { dateToISOString, ISOStringToDate, Time } from '@navikt/sif-common-formik/lib';
+import { dateToISOString, ISOStringToDate, InputTime } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import { TidEnkeltdag, TidFasteDager } from '../../types';
 import { ISO8601Duration, TidEnkeltdagApiData } from '../../types/PleiepengesøknadApiData';
@@ -33,7 +33,7 @@ export const getEnkeltdagerIPeriodeApiData = (enkeltdager: TidEnkeltdag, periode
 };
 
 export const getEnkeltdagerMedTidIPeriodeApiData = (
-    tidPerDag: Partial<Time>,
+    tidPerDag: Partial<InputTime>,
     enkeltdager: TidEnkeltdag,
     periode: DateRange
 ): TidEnkeltdagApiData[] => {
@@ -77,4 +77,12 @@ export const getRedusertArbeidstidSomIso8601Duration = (
 ): ISO8601Duration => {
     const redusertTidPerDag = (jobberNormaltTimerNumber / 100) * skalJobbeProsent;
     return timeToIso8601Duration(decimalTimeToTime(redusertTidPerDag));
+};
+
+export const getRedusertArbeidstidSomInputTime = (
+    jobberNormaltTimerNumber: number,
+    skalJobbeProsent: number
+): InputTime => {
+    const redusertTidPerDag = (jobberNormaltTimerNumber / 100) * skalJobbeProsent;
+    return decimalTimeToTime(redusertTidPerDag);
 };

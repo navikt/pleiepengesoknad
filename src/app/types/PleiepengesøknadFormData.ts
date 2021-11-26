@@ -1,6 +1,6 @@
 import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { Time } from '@navikt/sif-common-formik/lib/types';
+import { InputTime } from '@navikt/sif-common-formik/lib/types';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { Virksomhet } from '@navikt/sif-common-forms/lib/virksomhet/types';
@@ -76,11 +76,11 @@ export interface Omsorgstilbud {
 }
 
 export interface TidFasteDager {
-    mandag?: Time;
-    tirsdag?: Time;
-    onsdag?: Time;
-    torsdag?: Time;
-    fredag?: Time;
+    mandag?: InputTime;
+    tirsdag?: InputTime;
+    onsdag?: InputTime;
+    torsdag?: InputTime;
+    fredag?: InputTime;
 }
 
 export enum ArbeidsforholdField {

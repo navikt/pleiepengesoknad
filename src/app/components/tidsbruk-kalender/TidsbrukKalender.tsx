@@ -2,13 +2,13 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import AriaAlternative from '@navikt/sif-common-core/lib/components/aria/AriaAlternative';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { Time } from '@navikt/sif-common-formik/lib';
+import { InputTime } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import { EtikettInfo } from 'nav-frontend-etiketter';
 import { DagMedTid } from '../../types';
 import CalendarGrid from '../calendar-grid/CalendarGrid';
 import FormattedTimeText from '../formatted-time-text/FormattedTimeText';
-import { formatTime } from '../timer-og-minutter/TimerOgMinutter';
+import { formatTimerOgMinutter } from '../timer-og-minutter/TimerOgMinutter';
 
 interface Props {
     måned: Date;
@@ -24,7 +24,7 @@ const DagContent = ({
     brukEtikettForInnhold = true,
     desimalTid,
 }: {
-    tid: Partial<Time>;
+    tid: Partial<InputTime>;
     brukEtikettForInnhold?: boolean;
     desimalTid?: boolean;
 }) => {
@@ -32,7 +32,7 @@ const DagContent = ({
     const content = (
         <AriaAlternative
             visibleText={<FormattedTimeText time={tid} decimal={desimalTid} />}
-            ariaText={formatTime(intl, tid)}
+            ariaText={formatTimerOgMinutter(intl, tid)}
         />
     );
     return brukEtikettForInnhold ? <EtikettInfo>{content}</EtikettInfo> : content;

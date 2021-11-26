@@ -32,7 +32,7 @@ import TidFasteDagerInput from '../tid-faste-dager-input/TidFasteDagerInput';
 import ArbeidstidKalenderInput from './ArbeidstidKalenderInput';
 import { getRedusertArbeidstidSomIso8601Duration } from '../../utils/formToApiMaps/tidsbrukApiUtils';
 import { iso8601DurationToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { formatTime } from '../timer-og-minutter/TimerOgMinutter';
+import { formatTimerOgMinutter } from '../timer-og-minutter/TimerOgMinutter';
 
 interface Props {
     parentFieldName: string;
@@ -61,11 +61,15 @@ export const getRedusertArbeidstidPerUkeInfo = (
     const normalTimer = getNumberFromNumberInputValue(jobberNormaltTimer);
     const prosent = getNumberFromNumberInputValue(skalJobbeProsent);
     if (normalTimer !== undefined && prosent !== undefined) {
-        const timerPerUkedag = normalTimer / 5;
-        const time = iso8601DurationToTime(getRedusertArbeidstidSomIso8601Duration(timerPerUkedag, prosent));
-        if (time) {
-            return intlHelper(intl, 'arbeidIPeriode.skalJobbeProsent.utledetTimerPerUke', {
-                tid: formatTime(intl, { hours: `${time.hours}` || '', minutes: `${time.minutes}` }),
+        const timerPerDage = normalTimer / 5;
+        const varighet = iso8601DurationToTime(getRedusertArbeidstidSomIso8601Duration(timerPerDage, prosent));
+        if (varighet) {
+            return intlHelper(intl, 'arbeidIPeriode.prosent.utledet.medTimer', {
+                timer: normalTimer,
+                timerRedusert: formatTimerOgMinutter(intl, {
+                    hours: `${varighet.hours}` || '',
+                    minutes: `${varighet.minutes}`,
+                }),
             });
         }
     }
@@ -225,7 +229,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                                 <AppForm.NumberInput
                                                     name={getFieldName(ArbeidIPeriodeField.skalJobbeProsent)}
                                                     bredde="XS"
-                                                    maxLength={4}
+                                                    maxLength={5}
                                                     label={intlHelper(
                                                         intl,
                                                         erHistorisk
