@@ -585,7 +585,7 @@
     "arbeidIPeriode.historisk.timerEllerProsent.prosent": "Som prosent",
     "arbeidIPeriode.skalJobbeProsent.spm": "Hvor mange prosent av din vanlige arbeidstid skal du jobbe?",
     "arbeidIPeriode.historisk.skalJobbeProsent.spm": "Hvor mange prosent av din vanlige arbeidstid jobbet du?",
-    "arbeidIPeriode.prosent.utledet.medTimer": "prosent (tilsvarer {timerRedusert} hver ukedag i snitt)",
+    "arbeidIPeriode.prosent.utledet.medTimer": "prosent av {timerNormalt} (tilsvarer {timerRedusert} hver ukedag i snitt)",
 
     "tidKalenderForm.ok.label": "Lagre",
     "tidKalenderForm.avbryt.label": "Avbryt",

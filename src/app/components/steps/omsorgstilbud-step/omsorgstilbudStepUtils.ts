@@ -5,7 +5,7 @@ import isBetween from 'dayjs/plugin/isBetween';
 import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from '../../../utils/stepUtils';
 import {
-    visSpørsmålOmTidErLikHverUke,
+    skalViseSpørsmålOmProsentEllerLiktHverUke,
     getHistoriskPeriode,
     getPlanlagtPeriode,
     getTidEnkeltdagerInnenforPeriode,
@@ -35,7 +35,7 @@ export const cleanupOmsorgstilbudStep = (
             cleanedValues.omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES &&
             cleanedValues.omsorgstilbud.planlagt
         ) {
-            if (visSpørsmålOmTidErLikHverUke(søknadsperiode) === false) {
+            if (skalViseSpørsmålOmProsentEllerLiktHverUke(søknadsperiode) === false) {
                 cleanedValues.omsorgstilbud.planlagt.erLiktHverUke = undefined;
             }
             if (cleanedValues.omsorgstilbud.planlagt.erLiktHverUke === YesOrNo.YES) {

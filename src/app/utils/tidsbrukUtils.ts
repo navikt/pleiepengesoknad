@@ -111,7 +111,7 @@ export const getDagerMedTidITidsrom = (data: TidEnkeltdag, tidsrom: DateRange): 
     return dager;
 };
 
-export const visSpørsmålOmTidErLikHverUke = (periode: DateRange): boolean => {
+export const skalViseSpørsmålOmProsentEllerLiktHverUke = (periode: DateRange): boolean => {
     const antallDager = dayjs(periode.to).diff(periode.from, 'days');
     if (antallDager < MIN_ANTALL_DAGER_FOR_FAST_PLAN) {
         return false;

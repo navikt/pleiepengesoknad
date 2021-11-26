@@ -13,7 +13,7 @@ import isBetween from 'dayjs/plugin/isBetween';
 import AlertStripe from 'nav-frontend-alertstriper';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { AppFormField, Omsorgstilbud } from '../../../types/PleiepengesøknadFormData';
-import { visSpørsmålOmTidErLikHverUke } from '../../../utils/tidsbrukUtils';
+import { skalViseSpørsmålOmProsentEllerLiktHverUke } from '../../../utils/tidsbrukUtils';
 import {
     getOmsorgstilbudtimerValidatorFastDag,
     validateSkalIOmsorgstilbud,
@@ -42,7 +42,7 @@ const PlanlagtOmsorgstilbudSpørsmål = ({
 }: Props) => {
     const intl = useIntl();
 
-    const inkluderFastPlan = visSpørsmålOmTidErLikHverUke(periode);
+    const inkluderFastPlan = skalViseSpørsmålOmProsentEllerLiktHverUke(periode);
 
     return (
         <FormSection title={tittel}>

@@ -17,7 +17,7 @@ import {
     TimerEllerProsent,
 } from '../../types/PleiepengesøknadFormData';
 import { getTimerTekst } from '../../utils/arbeidsforholdUtils';
-import { visSpørsmålOmTidErLikHverUke } from '../../utils/tidsbrukUtils';
+import { skalViseSpørsmålOmProsentEllerLiktHverUke } from '../../utils/tidsbrukUtils';
 import {
     getArbeidErLiktHverUkeValidator,
     getArbeidJobberSomVanligValidator,
@@ -31,7 +31,7 @@ import AppForm from '../app-form/AppForm';
 import TidFasteDagerInput from '../tid-faste-dager-input/TidFasteDagerInput';
 import ArbeidstidKalenderInput from './ArbeidstidKalenderInput';
 import { getRedusertArbeidstidSomIso8601Duration } from '../../utils/formToApiMaps/tidsbrukApiUtils';
-import { iso8601DurationToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
+import { decimalTimeToTime, iso8601DurationToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { formatTimerOgMinutter } from '../timer-og-minutter/TimerOgMinutter';
 
 interface Props {
@@ -65,7 +65,7 @@ export const getRedusertArbeidstidPerUkeInfo = (
         const varighet = iso8601DurationToTime(getRedusertArbeidstidSomIso8601Duration(timerPerDage, prosent));
         if (varighet) {
             return intlHelper(intl, 'arbeidIPeriode.prosent.utledet.medTimer', {
-                timer: normalTimer,
+                timerNormalt: formatTimerOgMinutter(intl, decimalTimeToTime(normalTimer)),
                 timerRedusert: formatTimerOgMinutter(intl, {
                     hours: `${varighet.hours}` || '',
                     minutes: `${varighet.minutes}`,
@@ -120,7 +120,7 @@ const ArbeidIPeriodeSpørsmål = ({
 
     const { jobberNormaltTimer } = arbeidsforhold; // getNumberFromNumberInputValue(arbeidsforhold.jobberNormaltTimer);
 
-    const visSpørsmålOmLiktHverUke = visSpørsmålOmTidErLikHverUke(periode);
+    const visSpørsmålOmProsentEllerLiktHverUke = skalViseSpørsmålOmProsentEllerLiktHverUke(periode);
 
     /** Spørsmål */
     const JobberSomVanligSpørsmål = () => (
@@ -219,7 +219,7 @@ const ArbeidIPeriodeSpørsmål = ({
 
                         {jobberIPerioden === JobberIPeriodeSvar.JA && jobberSomVanlig === YesOrNo.NO && (
                             <>
-                                {visSpørsmålOmLiktHverUke && (
+                                {visSpørsmålOmProsentEllerLiktHverUke && (
                                     <>
                                         <FormBlock>
                                             <TimerEllerProsentSpørsmål />
@@ -306,7 +306,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                     </>
                                 )}
                                 {((timerEllerProsent === TimerEllerProsent.timer && erLiktHverUke === YesOrNo.NO) ||
-                                    visSpørsmålOmLiktHverUke === false) && (
+                                    visSpørsmålOmProsentEllerLiktHverUke === false) && (
                                     <FormBlock>
                                         <ArbeidstidKalenderInput
                                             periode={periode}
