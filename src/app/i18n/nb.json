@@ -585,7 +585,7 @@
     "arbeidIPeriode.historisk.timerEllerProsent.prosent": "Som prosent",
     "arbeidIPeriode.skalJobbeProsent.spm": "Hvor mange prosent av din vanlige arbeidstid skal du jobbe?",
     "arbeidIPeriode.historisk.skalJobbeProsent.spm": "Hvor mange prosent av din vanlige arbeidstid jobbet du?",
-    "arbeidIPeriode.prosent.utledet.medTimer": "prosent av {timerNormalt} (tilsvarer {timerRedusert} hver ukedag i snitt)",
+    "arbeidIPeriode.prosent.utledet.medTimer": "prosent av {timerNormalt}",
 
     "tidKalenderForm.ok.label": "Lagre",
     "tidKalenderForm.avbryt.label": "Avbryt",
@@ -643,8 +643,8 @@
     "oppsummering.arbeidIPeriode.jobberIPerioden.vetIkke": "Usikker, men jeg melder fra hvis jeg skal jobbe",
     "oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke.historisk": "Jobbet likt hver uke",
     "oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke": "Skal jobbe likt hver uke",
-    "oppsummering.arbeidIPeriode.jobberIPerioden.prosent.historisk": "Jobbet {prosent} prosent, tilsvarer {timer} hver ukedag i snitt",
-    "oppsummering.arbeidIPeriode.jobberIPerioden.prosent": "Skal jobbe {prosent} prosent, tilsvarer {timer} hver ukedag i snitt",
+    "oppsummering.arbeidIPeriode.jobberIPerioden.prosent.historisk": "Jobbet {prosent} prosent, i snitt {timer} hver ukedag",
+    "oppsummering.arbeidIPeriode.jobberIPerioden.prosent": "Skal jobbe {prosent} prosent, i snitt {timer} hver ukedag",
 
     "oppsummering.arbeidIPeriode.arbeidIkkeRegistrert.header": "Jobb i perioden",
     "oppsummering.arbeidIPeriode.arbeidIkkeRegistrert.info": "Ingen arbeidstid registrert i perioden",
