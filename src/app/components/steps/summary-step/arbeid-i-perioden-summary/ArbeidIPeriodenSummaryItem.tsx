@@ -8,6 +8,7 @@ import TidEnkeltdager from '../../../dager-med-tid/TidEnkeltdager';
 import TidFasteDager from '../../../dager-med-tid/TidFasteDager';
 import { formatTimerOgMinutter } from '../../../timer-og-minutter/TimerOgMinutter';
 import { getRedusertArbeidstidSomInputTime } from '../../../../utils/formToApiMaps/tidsbrukApiUtils';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
 
 interface Props {
     periode: DateRange;
@@ -81,7 +82,7 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
                 <li>{getJobberIPeriodenTekst()}</li>
                 {arbeidIPeriode.jobberSomVanlig === false && arbeidIPeriode.enkeltdager && (
                     <li>
-                        <p>
+                        <div>
                             {intlHelper(
                                 intl,
                                 erHistorisk
@@ -89,8 +90,10 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
                                     : 'oppsummering.arbeidIPeriode.Jobber'
                             )}
                             :
-                        </p>
-                        <TidEnkeltdager dager={arbeidIPeriode.enkeltdager} />
+                        </div>
+                        <Box margin="m">
+                            <TidEnkeltdager dager={arbeidIPeriode.enkeltdager} />
+                        </Box>
                     </li>
                 )}
                 {/* Bruker har valgt faste dager eller prosent */}
@@ -99,7 +102,7 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
                         {/* Faste dager */}
                         {arbeidIPeriode._jobberProsent === undefined && (
                             <>
-                                <p>
+                                <div>
                                     {intlHelper(
                                         intl,
                                         erHistorisk
@@ -107,8 +110,10 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
                                             : 'oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke'
                                     )}
                                     :
-                                </p>
-                                <TidFasteDager fasteDager={arbeidIPeriode.fasteDager} />
+                                </div>
+                                <Box margin="m">
+                                    <TidFasteDager fasteDager={arbeidIPeriode.fasteDager} />
+                                </Box>
                             </>
                         )}
                         {/* Prosent - men verdi er fordelt likt på  fasteDager */}
