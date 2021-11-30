@@ -8,7 +8,7 @@ import { Knapp } from 'nav-frontend-knapper';
 import { persist, purge } from '../../api/api';
 import { getStepConfig } from '../../config/stepConfig';
 import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
-import { relocateToNavFrontpage, relocateToSoknad } from '../../utils/navigationUtils';
+import { relocateToDinePleiepenger, relocateToSoknad } from '../../utils/navigationUtils';
 import { getStepTexts } from '../../utils/stepUtils';
 import AppForm from '../app-form/AppForm';
 import InvalidStepPage from '../pages/invalid-step-page/InvalidStepPage';
@@ -55,7 +55,7 @@ const FormikStep = (props: Props) => {
         const prevStep = stepConfig[id].prevStep;
         await persist(formik.values, prevStep);
         await logHendelse(ApplikasjonHendelse.fortsettSenere);
-        relocateToNavFrontpage();
+        relocateToDinePleiepenger();
     };
 
     if (stepConfig === undefined || stepConfig[id] === undefined || stepConfig[id].included === false) {
