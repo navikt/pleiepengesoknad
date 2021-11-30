@@ -29,7 +29,7 @@ const envSettings = () => {
         APPSTATUS_DATASET: '${APPSTATUS_DATASET}',
         USE_AMPLITUDE: '${USE_AMPLITUDE}',
         APP_VERSION: '${APP_VERSION}',
-        INNSYN_URL: '${INNSYN_URL}'
+        INNSYN_URL: '${INNSYN_URL}',
         FORENKLET_ARBEID: '${FORENKLET_ARBEID}'
     };`
         .trim()
