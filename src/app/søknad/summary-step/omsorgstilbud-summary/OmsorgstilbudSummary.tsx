@@ -2,15 +2,15 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-with-header/ContentWithHeader';
+import SummarySection from '@navikt/sif-common-core/lib/components/summary-section/SummarySection';
 import TextareaSummary from '@navikt/sif-common-core/lib/components/textarea-summary/TextareaSummary';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { SøknadApiData } from '../../../types/SøknadApiData';
-import SummarySection from '../../../components/summary-section/SummarySection';
+import { getSøkerKunHistoriskPeriode } from '../../../utils/tidsbrukUtils';
+import Sitat from '../enkeltsvar/Sitat';
 import HistoriskOmsorgstilbudSummary from './HistoriskOmsorgstilbudSummary';
 import PlanlagtOmsorgstilbudSummary from './PlanlagtOmsorgstilbudSummary';
-import Sitat from '../enkeltsvar/Sitat';
-import { getSøkerKunHistoriskPeriode } from '../../../utils/tidsbrukUtils';
 
 interface Props {
     søknadsperiode: DateRange;

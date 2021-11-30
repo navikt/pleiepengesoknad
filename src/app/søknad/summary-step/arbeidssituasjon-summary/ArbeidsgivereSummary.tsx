@@ -8,8 +8,8 @@ import {
     ArbeidsgiverUtenforSøknadsperiodeApiData,
     isArbeidsgiverISøknadsperiodeApiData,
 } from '../../../types/SøknadApiData';
-import SummaryBlock from '../../../components/summary-block/SummaryBlock';
 import { getTidSetning } from './arbeidssituasjon-summary-utils';
+import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 
 interface Props {
     arbeidsgivere?: ArbeidsgiverApiData[];

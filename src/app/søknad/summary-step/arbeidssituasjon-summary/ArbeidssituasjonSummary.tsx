@@ -3,11 +3,11 @@ import { useIntl } from 'react-intl';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { SøknadApiData } from '../../../types/SøknadApiData';
-import SummaryBlock from '../../../components/summary-block/SummaryBlock';
-import SummarySection from '../../../components/summary-section/SummarySection';
 import ArbeidsgivereSummary from './ArbeidsgivereSummary';
 import FrilansSummary from './FrilansSummary';
 import SelvstendigSummary from './SelvstendigSummary';
+import SummarySection from '@navikt/sif-common-core/lib/components/summary-section/SummarySection';
+import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 
 interface Props {
     apiValues: SøknadApiData;

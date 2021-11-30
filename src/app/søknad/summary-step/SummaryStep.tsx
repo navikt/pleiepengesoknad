@@ -33,8 +33,6 @@ import { validateApiValues } from '../../validation/apiValuesValidation';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import LegeerklæringAttachmentList from '../../components/legeerklæring-file-list/LegeerklæringFileList';
-import SummaryBlock from '../../components/summary-block/SummaryBlock';
-import SummarySection from '../../components/summary-section/SummarySection';
 import ApiValidationSummary from './api-validation-summary/ApiValidationSummary';
 import ArbeidIPeriodenSummary from './arbeid-i-perioden-summary/ArbeidIPeriodenSummary';
 import ArbeidssituasjonSummary from './arbeidssituasjon-summary/ArbeidssituasjonSummary';
@@ -47,6 +45,8 @@ import {
     renderUtenlandsoppholdSummary,
 } from './summaryItemRenderers';
 import './summary.less';
+import SummarySection from '@navikt/sif-common-core/lib/components/summary-section/SummarySection';
+import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 
 interface Props {
     values: SøknadFormData;

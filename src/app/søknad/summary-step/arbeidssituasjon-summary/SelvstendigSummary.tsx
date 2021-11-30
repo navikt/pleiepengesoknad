@@ -1,12 +1,12 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import VirksomhetSummary from '@navikt/sif-common-forms/lib/virksomhet/VirksomhetSummary';
-import { SelvstendigNæringsdrivendeApiData } from '../../../types/SøknadApiData';
-import SummaryBlock from '../../../components/summary-block/SummaryBlock';
-import { getTidSetning } from './arbeidssituasjon-summary-utils';
 import { Element } from 'nav-frontend-typografi';
+import { SelvstendigNæringsdrivendeApiData } from '../../../types/SøknadApiData';
+import { getTidSetning } from './arbeidssituasjon-summary-utils';
 
 interface Props {
     selvstendigNæringsdrivende?: SelvstendigNæringsdrivendeApiData;

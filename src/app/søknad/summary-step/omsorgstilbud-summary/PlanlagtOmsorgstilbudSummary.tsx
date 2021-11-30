@@ -1,12 +1,12 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { PlanlagtOmsorgstilbudApiData } from '../../../types/SøknadApiData';
-import { getPlanlagtPeriode } from '../../../utils/tidsbrukUtils';
 import TidEnkeltdager from '../../../components/dager-med-tid/TidEnkeltdager';
 import TidFasteDager from '../../../components/dager-med-tid/TidFasteDager';
-import SummaryBlock from '../../../components/summary-block/SummaryBlock';
+import { PlanlagtOmsorgstilbudApiData } from '../../../types/SøknadApiData';
+import { getPlanlagtPeriode } from '../../../utils/tidsbrukUtils';
 import JaNeiSvar from '../enkeltsvar/JaNeiSvar';
 
 interface Props {

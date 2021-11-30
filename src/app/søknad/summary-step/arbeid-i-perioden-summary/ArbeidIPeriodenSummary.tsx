@@ -11,9 +11,9 @@ import {
 } from '../../../types/SøknadApiData';
 import { erFrilanserITidsrom } from '../../../utils/frilanserUtils';
 import { getHistoriskPeriode, getPlanlagtPeriode } from '../../../utils/tidsbrukUtils';
-import SummaryBlock from '../../../components/summary-block/SummaryBlock';
-import SummarySection from '../../../components/summary-section/SummarySection';
 import ArbeidIPeriodeSummaryItem from './ArbeidIPeriodenSummaryItem';
+import SummarySection from '@navikt/sif-common-core/lib/components/summary-section/SummarySection';
+import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 
 interface Props {
     apiValues: SøknadApiData;

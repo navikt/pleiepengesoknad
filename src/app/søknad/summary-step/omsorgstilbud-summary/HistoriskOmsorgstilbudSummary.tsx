@@ -6,8 +6,8 @@ import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/d
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { HistoriskOmsorgstilbudApiData } from '../../../types/SøknadApiData';
 import TidEnkeltdager from '../../../components/dager-med-tid/TidEnkeltdager';
-import SummaryBlock from '../../../components/summary-block/SummaryBlock';
 import { getHistoriskPeriode } from '../../../utils/tidsbrukUtils';
+import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 
 interface Props {
     historiskOmsorgstilbud?: HistoriskOmsorgstilbudApiData;

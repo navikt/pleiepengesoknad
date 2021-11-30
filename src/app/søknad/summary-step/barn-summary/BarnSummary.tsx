@@ -1,16 +1,16 @@
 import React from 'react';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import SummarySection from '@navikt/sif-common-core/lib/components/summary-section/SummarySection';
 import TextareaSummary from '@navikt/sif-common-core/lib/components/textarea-summary/TextareaSummary';
 import { apiStringDateToDate, prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { BarnRelasjon } from '../../../types';
+import { BarnReceivedFromApi } from '../../../types/Søkerdata';
 import { SøknadApiData } from '../../../types/SøknadApiData';
 import { SøknadFormData } from '../../../types/SøknadFormData';
-import { BarnReceivedFromApi } from '../../../types/Søkerdata';
-import SummarySection from '../../../components/summary-section/SummarySection';
 import Sitat from '../enkeltsvar/Sitat';
 
 interface Props {

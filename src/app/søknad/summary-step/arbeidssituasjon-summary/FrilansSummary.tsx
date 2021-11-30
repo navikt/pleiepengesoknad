@@ -2,9 +2,9 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { FrilansApiData } from '../../../types/SøknadApiData';
-import SummaryBlock from '../../../components/summary-block/SummaryBlock';
 import { prettifyApiDate } from '../enkeltsvar/DatoSvar';
 import { getTidSetning } from './arbeidssituasjon-summary-utils';
+import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 
 interface Props {
     frilans?: FrilansApiData;
