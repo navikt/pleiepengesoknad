@@ -6,10 +6,10 @@ import dayjs from 'dayjs';
 import { TidEnkeltdag } from '../../types';
 import { getMonthsInDateRange } from '../../utils/dateUtils';
 import { validateArbeidsTidEnkeltdager } from '../../validation/validateArbeidFields';
-import AppForm from '../app-form/AppForm';
 import { ArbeidIPeriodeIntlValues } from './ArbeidIPeriodeSpørsmål';
 import ArbeidstidInfoAndDialog from './ArbeidstidInfoAndDialog';
 import './arbeidstidKalender.less';
+import SøknadFormComponents from '../../søknad/SøknadFormComponents';
 
 interface Props {
     periode: DateRange;
@@ -31,7 +31,7 @@ const ArbeidstidKalenderInput: React.FunctionComponent<Props> = ({
     const intl = useIntl();
 
     return (
-        <AppForm.InputGroup
+        <SøknadFormComponents.InputGroup
             /** På grunn av at dialogen jobber mot ett felt i formik, kan ikke
              * validate på dialogen brukes. Da vil siste periode alltid bli brukt ved validering.
              * Derfor wrappes dialogen med denne komponenten, og et unikt name brukes - da blir riktig periode
@@ -67,7 +67,7 @@ const ArbeidstidKalenderInput: React.FunctionComponent<Props> = ({
                     </div>
                 );
             })}
-        </AppForm.InputGroup>
+        </SøknadFormComponents.InputGroup>
     );
 };
 

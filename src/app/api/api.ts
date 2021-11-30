@@ -1,13 +1,13 @@
 import { storageParser } from '@navikt/sif-common-core/lib/utils/persistence/persistence';
 import axios, { AxiosResponse } from 'axios';
 import axiosConfig from '../config/axiosConfig';
-import { StepID } from '../config/stepConfig';
+import { StepID } from '../søknad/søknadStepsConfig';
 import { SøknadApiData } from '../types/SøknadApiData';
 import { SøknadFormData } from '../types/SøknadFormData';
 import { ResourceType } from '../types/ResourceType';
-import { MELLOMLAGRING_VERSION, MellomlagringData } from '../types/storage';
 import { Arbeidsgiver } from '../types/Søkerdata';
 import { getApiUrlByResourceType, axiosJsonConfig, sendMultipartPostRequest } from '../utils/apiUtils';
+import { MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
 
 export const getPersistUrl = (stepID?: StepID) =>
     stepID
@@ -17,7 +17,7 @@ export const getPersistUrl = (stepID?: StepID) =>
 export const persist = (formData: Partial<SøknadFormData> | undefined, lastStepID?: StepID) => {
     const url = getPersistUrl(lastStepID);
     if (formData) {
-        const body: MellomlagringData = {
+        const body: SøknadTempStorageData = {
             formData,
             metadata: {
                 lastStepID,

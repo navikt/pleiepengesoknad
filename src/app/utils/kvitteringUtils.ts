@@ -1,6 +1,6 @@
 import { apiStringDateToDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
-import { KvitteringInfo } from '../components/pleiepengesøknad-content/PleiepengesøknadContent';
+import { KvitteringInfo } from '../søknad/SøknadContent';
 import { isArbeidsgiverISøknadsperiodeApiData, SøknadApiData } from '../types/SøknadApiData';
 import { Søkerdata } from '../types/Søkerdata';
 

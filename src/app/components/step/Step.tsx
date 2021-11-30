@@ -11,7 +11,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { FormikValidationErrorSummary } from '@navikt/sif-common-formik';
 import { History } from 'history';
 import { Innholdstittel } from 'nav-frontend-typografi';
-import { StepConfigInterface, StepConfigItemTexts, StepID } from '../../config/stepConfig';
+import { StepConfigInterface, StepConfigItemTexts, StepID } from '../../søknad/søknadStepsConfig';
 import { getStepTexts } from '../../utils/stepUtils';
 import StepIndicator from '../step-indicator/StepIndicator';
 import StepFooter from '../step-footer/StepFooter';

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StepID } from '../config/stepConfig';
+import { StepID } from '../søknad/søknadStepsConfig';
 import { SøknadFormData } from '../types/SøknadFormData';
 import { Søkerdata } from '../types/Søkerdata';
 

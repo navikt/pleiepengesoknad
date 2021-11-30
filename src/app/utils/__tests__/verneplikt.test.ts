@@ -1,5 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { visVernepliktSpørsmål } from '../../components/steps/arbeidssituasjon-step/ArbeidssituasjonStep';
+import { visVernepliktSpørsmål } from '../../søknad/arbeidssituasjon-step/ArbeidssituasjonStep';
 import { ArbeidsforholdAnsatt, SøknadFormData } from '../../types/SøknadFormData';
 
 export const formDataMock: Partial<SøknadFormData> = {

@@ -7,7 +7,7 @@ import { TidEnkeltdag } from '../../types';
 import { SøknadFormField } from '../../types/SøknadFormData';
 import { getMonthsInDateRange } from '../../utils/dateUtils';
 import { validateOmsorgstilbudEnkeltdagerIPeriode } from '../../validation/fieldValidations';
-import AppForm from '../app-form/AppForm';
+import SøknadFormComponents from '../../søknad/SøknadFormComponents';
 import OmsorgstilbudInfoAndDialog from './OmsorgstilbudInfoAndDialog';
 
 interface Props {
@@ -31,7 +31,7 @@ const OmsorgstilbudIPeriodeSpørsmål: React.FunctionComponent<Props> = ({
         : SøknadFormField.omsorgstilbud__planlagt__enkeltdager;
 
     return (
-        <AppForm.InputGroup
+        <SøknadFormComponents.InputGroup
             /** På grunn av at dialogen jobber mot ett felt i formik, kan ikke
              * validate på dialogen brukes. Da vil siste periode alltid bli brukt ved validering.
              * Derfor wrappes dialogen med denne komponenten, og et unikt name brukes - da blir riktig periode
@@ -69,7 +69,7 @@ const OmsorgstilbudIPeriodeSpørsmål: React.FunctionComponent<Props> = ({
                     </div>
                 );
             })}
-        </AppForm.InputGroup>
+        </SøknadFormComponents.InputGroup>
     );
 };
 

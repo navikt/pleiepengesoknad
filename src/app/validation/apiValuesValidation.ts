@@ -3,7 +3,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
-import { StepID } from '../config/stepConfig';
+import { StepID } from '../søknad/søknadStepsConfig';
 import { JobberIPeriodeSvar } from '../types';
 import {
     ArbeidIPeriodeApiData,

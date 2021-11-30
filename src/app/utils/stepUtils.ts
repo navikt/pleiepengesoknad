@@ -2,7 +2,7 @@ import { IntlShape } from 'react-intl';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { StepConfigInterface, StepConfigItemTexts, StepID } from '../config/stepConfig';
+import { StepConfigInterface, StepConfigItemTexts, StepID } from '../søknad/søknadStepsConfig';
 import { SøknadFormData } from '../types/SøknadFormData';
 import {
     arbeidssituasjonStepIsValid,

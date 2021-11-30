@@ -1,7 +1,7 @@
 import { History } from 'history';
 import RouteConfig from '../config/routeConfig';
 import routeConfig, { getRouteUrl } from '../config/routeConfig';
-import { StepID } from '../config/stepConfig';
+import { StepID } from '../søknad/søknadStepsConfig';
 import { getEnvironmentVariable } from './envUtils';
 
 export const userIsCurrentlyOnErrorPage = () => {

@@ -8,10 +8,10 @@ import dayjs from 'dayjs';
 import moment from 'moment';
 import Modal from 'nav-frontend-modal';
 import ApplicationWrapper from './components/application-wrapper/ApplicationWrapper';
-import IntroPage from './components/pages/intro-page/IntroPage';
-import UnavailablePage from './components/pages/unavailable-page/UnavailablePage';
-import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad';
+import Søknad from './søknad/Søknad';
 import RouteConfig from './config/routeConfig';
+import IntroPage from './pages/intro-page/IntroPage';
+import UnavailablePage from './pages/unavailable-page/UnavailablePage';
 import appSentryLogger from './utils/appSentryLogger';
 import { getEnvironmentVariable } from './utils/envUtils';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
@@ -42,7 +42,7 @@ const App = () => {
     const content = (
         <Switch>
             <Route path="/" component={IntroPage} exact={true} />
-            <Route path={RouteConfig.SØKNAD_ROUTE_PREFIX} component={Pleiepengesøknad} />
+            <Route path={RouteConfig.SØKNAD_ROUTE_PREFIX} component={Søknad} />
         </Switch>
     );
 

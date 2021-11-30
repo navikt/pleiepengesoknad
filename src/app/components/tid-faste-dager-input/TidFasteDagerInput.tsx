@@ -4,7 +4,7 @@ import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { ValidationError, ValidationFunction } from '@navikt/sif-common-formik/lib/validation/types';
 import { SøknadFormField } from '../../types/SøknadFormData';
-import AppForm from '../app-form/AppForm';
+import SøknadFormComponents from '../../søknad/SøknadFormComponents';
 import './tidFasteDagerInput.less';
 
 interface Props {
@@ -18,7 +18,7 @@ const TidFasteDagerInput = ({ name, validator }: Props) => {
         <>
             <Box margin="l">
                 <div className="tidFasteDagerInput">
-                    <AppForm.TimeInput
+                    <SøknadFormComponents.TimeInput
                         label={intlHelper(intl, 'Mandager')}
                         name={`${name}.mandag` as SøknadFormField}
                         timeInputLayout={{
@@ -27,7 +27,7 @@ const TidFasteDagerInput = ({ name, validator }: Props) => {
                         }}
                         validate={validator ? validator(intlHelper(intl, 'mandag')) : undefined}
                     />
-                    <AppForm.TimeInput
+                    <SøknadFormComponents.TimeInput
                         label={intlHelper(intl, 'Tirsdager')}
                         name={`${name}.tirsdag` as SøknadFormField}
                         timeInputLayout={{
@@ -36,7 +36,7 @@ const TidFasteDagerInput = ({ name, validator }: Props) => {
                         }}
                         validate={validator ? validator(intlHelper(intl, 'tirsdag')) : undefined}
                     />
-                    <AppForm.TimeInput
+                    <SøknadFormComponents.TimeInput
                         label={intlHelper(intl, 'Onsdager')}
                         name={`${name}.onsdag` as SøknadFormField}
                         timeInputLayout={{
@@ -45,7 +45,7 @@ const TidFasteDagerInput = ({ name, validator }: Props) => {
                         }}
                         validate={validator ? validator(intlHelper(intl, 'onsdag')) : undefined}
                     />
-                    <AppForm.TimeInput
+                    <SøknadFormComponents.TimeInput
                         label={intlHelper(intl, 'Torsdager')}
                         name={`${name}.torsdag` as SøknadFormField}
                         timeInputLayout={{
@@ -54,7 +54,7 @@ const TidFasteDagerInput = ({ name, validator }: Props) => {
                         }}
                         validate={validator ? validator(intlHelper(intl, 'torsdag')) : undefined}
                     />
-                    <AppForm.TimeInput
+                    <SøknadFormComponents.TimeInput
                         label={intlHelper(intl, 'Fredager')}
                         name={`${name}.fredag` as SøknadFormField}
                         timeInputLayout={{
