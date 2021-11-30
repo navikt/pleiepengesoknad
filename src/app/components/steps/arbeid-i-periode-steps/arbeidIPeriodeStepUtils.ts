@@ -7,12 +7,13 @@ import {
     ArbeidsforholdAnsatt,
     ArbeidsforholdSNF,
     PleiepengesøknadFormData,
+    TimerEllerProsent,
 } from '../../../types/PleiepengesøknadFormData';
 
 import minMax from 'dayjs/plugin/minMax';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getPeriodeSomFrilanserInneforPeriode } from '../../../utils/frilanserUtils';
-import { visSpørsmålOmTidErLikHverUke } from '../../../utils/tidsbrukUtils';
+import { skalViseSpørsmålOmProsentEllerLiktHverUke } from '../../../utils/tidsbrukUtils';
 
 dayjs.extend(minMax);
 
@@ -28,7 +29,15 @@ const cleanupArbeidIPeriode = (periode: DateRange, arbeidIPerioden: ArbeidIPerio
         return arbeid;
     }
 
-    arbeid.erLiktHverUke = visSpørsmålOmTidErLikHverUke(periode) ? arbeidIPerioden.erLiktHverUke : undefined;
+    const harSpurtOmTIdErLikHverUkeEllerProsent = skalViseSpørsmålOmProsentEllerLiktHverUke(periode);
+
+    arbeid.timerEllerProsent = harSpurtOmTIdErLikHverUkeEllerProsent ? arbeidIPerioden.timerEllerProsent : undefined;
+    if (arbeid.timerEllerProsent === TimerEllerProsent.prosent) {
+        arbeid.skalJobbeProsent = arbeidIPerioden.skalJobbeProsent;
+        return arbeid;
+    }
+
+    arbeid.erLiktHverUke = harSpurtOmTIdErLikHverUkeEllerProsent ? arbeidIPerioden.erLiktHverUke : undefined;
     if (arbeidIPerioden.erLiktHverUke === YesOrNo.YES) {
         arbeid.fasteDager = arbeidIPerioden.fasteDager;
         return arbeid;

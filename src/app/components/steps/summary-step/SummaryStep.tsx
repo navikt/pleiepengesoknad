@@ -102,7 +102,6 @@ const SummaryStep = ({ onApplicationSent, values, søknadsdato, søknadsperiode 
                 } = søkerdata;
 
                 const apiValues = mapFormDataToApiData(values, barn, intl.locale as Locale, søknadsdato);
-
                 if (apiValues === undefined) {
                     return <div>Det oppstod en feil - api-data mangler</div>;
                 }

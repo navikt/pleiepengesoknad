@@ -10,10 +10,10 @@ import { Undertittel } from 'nav-frontend-typografi';
 import { AppFormField, ArbeidsforholdAnsatt, ArbeidsforholdField } from '../../../../types/PleiepengesøknadFormData';
 import { isYesOrNoAnswered } from '../../../../validation/fieldValidations';
 import AppForm from '../../../app-form/AppForm';
-import ArbeidsformOgTimer from './ArbeidsformOgTimerFormPart';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
-import { getArbeidsformValidator, getJobberNormaltTimerValidator } from '../../../../validation/validateArbeidFields';
+import { getJobberNormaltTimerValidator } from '../../../../validation/validateArbeidFields';
 import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import TimerFormPart from './TimerFormPart';
 import { ArbeidsforholdType } from '../../../../types';
 
 interface Props {
@@ -23,7 +23,7 @@ interface Props {
     søknadsperiode: DateRange;
 }
 
-const ArbeidssituasjonAnsatt: React.FunctionComponent<Props> = ({
+const ArbeidssituasjonAnsatt: React.FC<Props> = ({
     arbeidsforhold,
     søkerKunHistoriskPeriode,
     index,
@@ -37,9 +37,6 @@ const ArbeidssituasjonAnsatt: React.FunctionComponent<Props> = ({
         jobber: erAvsluttet
             ? intlHelper(intl, 'arbeidsforhold.part.jobbet')
             : intlHelper(intl, 'arbeidsforhold.part.jobber'),
-        arbeidsform: arbeidsforhold.arbeidsform
-            ? intlHelper(intl, `arbeidsforhold.part.arbeidsform.${arbeidsforhold.arbeidsform}`)
-            : undefined,
         periodeFra: prettifyDateFull(søknadsperiode.from),
         periodeTil: prettifyDateFull(søknadsperiode.to),
     };
@@ -47,12 +44,12 @@ const ArbeidssituasjonAnsatt: React.FunctionComponent<Props> = ({
     const erHistorisk = søkerKunHistoriskPeriode;
     const parentFieldName = `${AppFormField.ansatt_arbeidsforhold}.${index}`;
 
-    const getFieldName = (field: ArbeidsforholdField): AppFormField => `${parentFieldName}.${field}` as AppFormField;
+    const getFieldName = (field: ArbeidsforholdField): AppFormField => `${parentFieldName}.${field}` as any;
 
     return (
         <>
             <FormBlock key={arbeidsforhold.organisasjonsnummer} margin="xl">
-                <Box padBottom="m">
+                <Box>
                     <Undertittel tag="h3" style={{ fontWeight: 'normal' }}>
                         {arbeidsforhold.navn}
                     </Undertittel>
@@ -78,7 +75,7 @@ const ArbeidssituasjonAnsatt: React.FunctionComponent<Props> = ({
                 </Box>
             </FormBlock>
             {isYesOrNoAnswered(arbeidsforhold.erAnsatt) && (
-                <FormBlock margin="l">
+                <FormBlock>
                     <ResponsivePanel>
                         {erAvsluttet && (
                             <Box padBottom={arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO ? 'xl' : 'none'}>
@@ -110,41 +107,25 @@ const ArbeidssituasjonAnsatt: React.FunctionComponent<Props> = ({
                             </Box>
                         )}
                         {((erAvsluttet && arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO) || !erAvsluttet) && (
-                            <ArbeidsformOgTimer
-                                arbeidsforholdType={ArbeidsforholdType.ANSATT}
-                                erAvsluttet={
-                                    arbeidsforhold.erAnsatt === YesOrNo.NO &&
-                                    arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO
-                                        ? true
-                                        : false
-                                }
+                            <TimerFormPart
                                 spørsmål={{
-                                    arbeidsform: intlHelper(
-                                        intl,
-                                        erAvsluttet
-                                            ? 'arbeidsforhold.arbeidsform.avsluttet.spm'
-                                            : 'arbeidsforhold.arbeidsform.spm',
-                                        {
-                                            arbeidsforhold: arbeidsforhold.navn,
-                                        }
-                                    ),
-                                    jobberNormaltTimer: (arbeidsform) =>
+                                    jobberNormaltTimer: () =>
                                         intlHelper(
                                             intl,
                                             erAvsluttet
-                                                ? `arbeidsforhold.${arbeidsform}.avsluttet.spm`
-                                                : `arbeidsforhold.${arbeidsform}.spm`,
+                                                ? `arbeidsforhold.FAST.avsluttet.spm`
+                                                : `arbeidsforhold.FAST.spm`,
                                             {
                                                 arbeidsforhold: arbeidsforhold.navn,
                                             }
                                         ),
                                 }}
                                 validator={{
-                                    arbeidsform: getArbeidsformValidator(intlValues),
                                     jobberNormaltTimer: getJobberNormaltTimerValidator(intlValues),
                                 }}
                                 arbeidsforhold={arbeidsforhold}
                                 parentFieldName={parentFieldName}
+                                arbeidsforholdType={ArbeidsforholdType.ANSATT}
                             />
                         )}
                     </ResponsivePanel>

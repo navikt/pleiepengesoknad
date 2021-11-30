@@ -101,9 +101,6 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
                     </p>
                     <p>
                         <FormattedMessage id={'steg.legeerklaering.counsellorpanel.2'} />{' '}
-                        <Lenke href={getLenker(intl.locale).ettersend} target="_blank" rel={'noopener'}>
-                            <FormattedMessage id={'steg.legeerklaering.counsellorpanel.ettersendLenke'} />
-                        </Lenke>
                     </p>
                 </CounsellorPanel>
             </Box>

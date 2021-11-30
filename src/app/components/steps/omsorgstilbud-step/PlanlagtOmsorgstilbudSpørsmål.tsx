@@ -13,7 +13,7 @@ import isBetween from 'dayjs/plugin/isBetween';
 import AlertStripe from 'nav-frontend-alertstriper';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { AppFormField, Omsorgstilbud } from '../../../types/PleiepengesøknadFormData';
-import { visSpørsmålOmTidErLikHverUke } from '../../../utils/tidsbrukUtils';
+import { skalViseSpørsmålOmProsentEllerLiktHverUke } from '../../../utils/tidsbrukUtils';
 import {
     getOmsorgstilbudtimerValidatorFastDag,
     validateSkalIOmsorgstilbud,
@@ -42,7 +42,7 @@ const PlanlagtOmsorgstilbudSpørsmål = ({
 }: Props) => {
     const intl = useIntl();
 
-    const inkluderFastPlan = visSpørsmålOmTidErLikHverUke(periode);
+    const inkluderFastPlan = skalViseSpørsmålOmProsentEllerLiktHverUke(periode);
 
     return (
         <FormSection title={tittel}>
@@ -97,16 +97,26 @@ const PlanlagtOmsorgstilbudSpørsmål = ({
                             <AppForm.InputGroup
                                 legend={intlHelper(intl, 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud')}
                                 description={
-                                    <ExpandableInfo
-                                        title={intlHelper(
-                                            intl,
-                                            'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.tittel'
-                                        )}>
-                                        {intlHelper(
-                                            intl,
-                                            'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description'
-                                        )}
-                                    </ExpandableInfo>
+                                    <>
+                                        <ExpandableInfo
+                                            title={intlHelper(
+                                                intl,
+                                                'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.tittel'
+                                            )}>
+                                            <p>
+                                                <FormattedMessage
+                                                    id={
+                                                        'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.info.1'
+                                                    }
+                                                />
+                                            </p>
+                                        </ExpandableInfo>
+                                        <p>
+                                            <strong>
+                                                <FormattedMessage id="steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.info.2" />
+                                            </strong>
+                                        </p>
+                                    </>
                                 }
                                 validate={() => validateSkalIOmsorgstilbud(omsorgstilbud)}
                                 name={'omsorgstilbud_gruppe' as any}>

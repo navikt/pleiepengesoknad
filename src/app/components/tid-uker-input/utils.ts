@@ -1,4 +1,4 @@
-import { dateToISOString } from '@navikt/sif-common-formik/lib';
+import { DateRange, dateToISOString } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import { groupBy } from 'lodash';
 import React from 'react';
@@ -25,7 +25,7 @@ export const getDagInfo = (date: Date): Daginfo => {
     };
 };
 
-export const getDatoerIPeriode = (from: Date, to: Date): Daginfo[] => {
+export const getDatoerIPeriode = ({ from, to }: DateRange): Daginfo[] => {
     const dager: Daginfo[] = [];
     let dayjsDato = dayjs(from);
     while (dayjsDato.isSameOrBefore(to, 'day')) {

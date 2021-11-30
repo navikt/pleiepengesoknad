@@ -64,6 +64,15 @@ const NattevåkOgBeredskapStep = ({ onValidSubmit, søknadsperiode, søknadsdato
                                 : 'steg.nattevåkOgBeredskap.nattevåk.spm'
                         )}
                         name={AppFormField.harNattevåk}
+                        description={
+                            <ExpandableInfo
+                                title={intlHelper(
+                                    intl,
+                                    'steg.nattevåkOgBeredskap.nattevåk.spm.description.flereBarn.tittel'
+                                )}>
+                                <FormattedMessage id={'steg.nattevåkOgBeredskap.nattevåk.spm.description.flereBarn'} />
+                            </ExpandableInfo>
+                        }
                         validate={getYesOrNoValidator()}
                     />
                 </FormBlock>
@@ -115,6 +124,15 @@ const NattevåkOgBeredskapStep = ({ onValidSubmit, søknadsperiode, søknadsdato
                                 : 'steg.nattevåkOgBeredskap.beredskap.spm'
                         )}
                         name={AppFormField.harBeredskap}
+                        description={
+                            <ExpandableInfo
+                                title={intlHelper(
+                                    intl,
+                                    'steg.nattevåkOgBeredskap.beredskap.spm.description.flereBarn.tittel'
+                                )}>
+                                <FormattedMessage id={'steg.nattevåkOgBeredskap.beredskap.spm.description.flereBarn'} />
+                            </ExpandableInfo>
+                        }
                         validate={getYesOrNoValidator()}
                     />
                 </FormBlock>

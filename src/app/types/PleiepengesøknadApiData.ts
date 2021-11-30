@@ -3,7 +3,7 @@ import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { ISODateString } from 'nav-datovelger/lib/types';
-import { AndreYtelserFraNAV, ArbeidsforholdType, Arbeidsform, BarnRelasjon, JobberIPeriodeSvar } from './';
+import { AndreYtelserFraNAV, ArbeidsforholdType, BarnRelasjon, JobberIPeriodeSvar } from './';
 
 export type ISO8601Duration = string;
 
@@ -21,11 +21,11 @@ export interface ArbeidIPeriodeApiData {
     erLiktHverUke?: boolean;
     enkeltdager?: TidEnkeltdagApiData[];
     fasteDager?: TidFasteDagerApiData;
+    _jobberProsent?: number;
 }
 
 export interface ArbeidsforholdApiData {
     _type: ArbeidsforholdType;
-    arbeidsform: Arbeidsform;
     jobberNormaltTimer: number;
     historiskArbeid?: ArbeidIPeriodeApiData;
     planlagtArbeid?: ArbeidIPeriodeApiData;
@@ -84,7 +84,7 @@ export interface TidEnkeltdagApiData {
 }
 
 export interface PlanlagtOmsorgstilbudApiData {
-    erLiktHverUke?: boolean;
+    erLiktHverUke: boolean;
     enkeltdager?: TidEnkeltdagApiData[];
     ukedager?: TidFasteDagerApiData;
 }

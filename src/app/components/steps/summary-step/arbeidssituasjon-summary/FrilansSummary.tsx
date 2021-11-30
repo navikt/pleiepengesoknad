@@ -4,7 +4,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { FrilansApiData } from '../../../../types/PleiepengesøknadApiData';
 import SummaryBlock from '../../../summary-block/SummaryBlock';
 import { prettifyApiDate } from '../enkeltsvar/DatoSvar';
-import { getArbeidsformOgTidSetning } from './arbeidssituasjon-summary-utils';
+import { getTidSetning } from './arbeidssituasjon-summary-utils';
 
 interface Props {
     frilans?: FrilansApiData;
@@ -56,9 +56,7 @@ const FrilansSummary = ({ frilans, søkerKunHistoriskPeriode }: Props) => {
                     </li>
                 )}
                 {frilans.arbeidsforhold && (
-                    <li>
-                        {getArbeidsformOgTidSetning(intl, frilans.arbeidsforhold, frilans.jobberFortsattSomFrilans)}
-                    </li>
+                    <li>{getTidSetning(intl, frilans.arbeidsforhold, frilans.jobberFortsattSomFrilans)}</li>
                 )}
             </ul>
         </SummaryBlock>

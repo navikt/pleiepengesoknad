@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
@@ -17,6 +17,8 @@ import { getDagerMedTidITidsrom } from '../../utils/tidsbrukUtils';
 import TidKalenderForm from '../tid-kalender-form/TidKalenderForm';
 import TidsbrukKalender from '../tidsbruk-kalender/TidsbrukKalender';
 import { getTidIOmsorgValidator } from '../../validation/validateOmsorgstilbudFields';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 
 interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, ValidationError> {
     name: FieldNames;
@@ -36,6 +38,7 @@ function OmsorgstilbudInfoAndDialog<FieldNames>({
     validate,
     onAfterChange,
 }: Props<FieldNames>) {
+    const intl = useIntl();
     const erHistorisk = dayjs(periode.to).isBefore(søknadsdato, 'day');
     return (
         <FormikModalFormAndInfo<FieldNames, TidEnkeltdag, ValidationError>
@@ -69,6 +72,11 @@ function OmsorgstilbudInfoAndDialog<FieldNames>({
                                         }
                                     />
                                 </p>
+                                <ExpandableInfo title={intlHelper(intl, 'omsorgstilbud.flereBarn.tittel')}>
+                                    <p>
+                                        <FormattedMessage id={'omsorgstilbud.flereBarn'} />
+                                    </p>
+                                </ExpandableInfo>
                                 <p>
                                     <strong>
                                         <FormattedMessage id="omsorgstilbud.form.intro.2" />

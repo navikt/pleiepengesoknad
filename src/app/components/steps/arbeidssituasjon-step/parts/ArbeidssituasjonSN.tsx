@@ -11,12 +11,12 @@ import VirksomhetInfoAndDialog from '@navikt/sif-common-forms/lib/virksomhet/Vir
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../../../lenker';
-import { ArbeidsforholdType, Arbeidsform } from '../../../../types';
+import { ArbeidsforholdType } from '../../../../types';
 import { AppFormField, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
 import { isYesOrNoAnswered } from '../../../../validation/fieldValidations';
-import { getArbeidsformValidator, getJobberNormaltTimerValidator } from '../../../../validation/validateArbeidFields';
+import { getJobberNormaltTimerValidator } from '../../../../validation/validateArbeidFields';
 import AppForm from '../../../app-form/AppForm';
-import ArbeidsformOgTimer from './ArbeidsformOgTimerFormPart';
+import TimerFormPart from './TimerFormPart';
 
 interface Props {
     formValues: PleiepengesøknadFormData;
@@ -30,9 +30,6 @@ const ArbeidssituasonSN = ({ formValues, søkerKunHistoriskPeriode }: Props) => 
     const intlValues = {
         hvor: intlHelper(intl, 'arbeidsforhold.part.som.SELVSTENDIG'),
         jobber: intlHelper(intl, 'arbeidsforhold.part.jobber'),
-        arbeidsform: selvstendig_arbeidsforhold?.arbeidsform
-            ? intlHelper(intl, `arbeidsforhold.part.arbeidsform.${selvstendig_arbeidsforhold.arbeidsform}`)
-            : undefined,
     };
     return (
         <>
@@ -99,16 +96,12 @@ const ArbeidssituasonSN = ({ formValues, søkerKunHistoriskPeriode }: Props) => 
                             )}
                         {formValues.selvstendig_virksomhet !== undefined && (
                             <FormBlock>
-                                <ArbeidsformOgTimer
+                                <TimerFormPart
                                     arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
-                                    erAvsluttet={false}
                                     spørsmål={{
-                                        arbeidsform: intlHelper(intl, `selvstendig.arbeidsforhold.arbeidsform.spm`),
-                                        jobberNormaltTimer: (arbeidsform: Arbeidsform) =>
-                                            intlHelper(intl, `snFrilanser.arbeidsforhold.${arbeidsform}.spm`),
+                                        jobberNormaltTimer: () => intlHelper(intl, `sn.arbeidsforhold.spm`),
                                     }}
                                     validator={{
-                                        arbeidsform: getArbeidsformValidator(intlValues),
                                         jobberNormaltTimer: getJobberNormaltTimerValidator(intlValues),
                                     }}
                                     arbeidsforhold={selvstendig_arbeidsforhold}

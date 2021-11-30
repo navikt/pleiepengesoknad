@@ -61,7 +61,6 @@ const cleanupArbeidssituasjonStep = (formValues: PleiepengesøknadFormData): Ple
             cleanedArbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.YES
         ) {
             cleanedArbeidsforhold.jobberNormaltTimer = undefined;
-            cleanedArbeidsforhold.arbeidsform = undefined;
         }
         return cleanedArbeidsforhold;
     });
