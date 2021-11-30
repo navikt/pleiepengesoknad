@@ -44,7 +44,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({
     const erHistorisk = søkerKunHistoriskPeriode;
     const parentFieldName = `${AppFormField.ansatt_arbeidsforhold}.${index}`;
 
-    const getFieldName = (field: ArbeidsforholdField): AppFormField => `${parentFieldName}.${field}` as AppFormField;
+    const getFieldName = (field: ArbeidsforholdField): AppFormField => `${parentFieldName}.${field}` as any;
 
     return (
         <>

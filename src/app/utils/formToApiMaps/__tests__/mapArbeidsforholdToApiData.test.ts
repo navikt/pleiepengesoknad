@@ -53,6 +53,7 @@ describe('mapArbeidsforholdToApiData', () => {
                 søkerFremtid: true,
                 arbeidHistoriskPeriode,
                 historiskPeriode,
+                jobberNormaltTimerNumber: 40,
             });
             expect(result).toBeUndefined();
         });
@@ -62,6 +63,7 @@ describe('mapArbeidsforholdToApiData', () => {
                 søkerFremtid: false,
                 arbeidHistoriskPeriode,
                 historiskPeriode,
+                jobberNormaltTimerNumber: 40,
             });
             expect(result).toBeDefined();
         });
@@ -71,6 +73,7 @@ describe('mapArbeidsforholdToApiData', () => {
                 søkerFremtid: true,
                 arbeidHistoriskPeriode,
                 historiskPeriode,
+                jobberNormaltTimerNumber: 40,
             });
             expect(result).toBeDefined();
         });
@@ -82,6 +85,7 @@ describe('mapArbeidsforholdToApiData', () => {
                 søkerFremtid: false,
                 arbeidPlanlagtPeriode,
                 planlagtPeriode,
+                jobberNormaltTimerNumber: 40,
             });
             expect(result).toBeUndefined();
         });
@@ -91,6 +95,7 @@ describe('mapArbeidsforholdToApiData', () => {
                 søkerFremtid: true,
                 arbeidPlanlagtPeriode,
                 planlagtPeriode,
+                jobberNormaltTimerNumber: 40,
             });
             expect(result).toBeDefined();
         });
@@ -100,6 +105,7 @@ describe('mapArbeidsforholdToApiData', () => {
                 søkerFremtid: true,
                 arbeidPlanlagtPeriode,
                 planlagtPeriode,
+                jobberNormaltTimerNumber: 40,
             });
             expect(result).toBeDefined();
         });
@@ -113,7 +119,9 @@ describe('mapArbeidsforholdToApiData', () => {
                     enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
                     fasteDager: { fredag: { hours: '2', minutes: '0' } },
                 },
-                historiskPeriode
+                historiskPeriode,
+                40,
+                undefined
             );
             expect(result.jobberIPerioden).toEqual(JobberIPeriodeSvar.NEI);
             expect(result.jobberSomVanlig).toBeUndefined();
@@ -129,7 +137,9 @@ describe('mapArbeidsforholdToApiData', () => {
                     enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
                     fasteDager: { fredag: { hours: '2', minutes: '0' } },
                 },
-                historiskPeriode
+                historiskPeriode,
+                40,
+                undefined
             );
             expect(result.jobberIPerioden).toEqual(JobberIPeriodeSvar.VET_IKKE);
             expect(result.jobberSomVanlig).toBeUndefined();
@@ -146,7 +156,9 @@ describe('mapArbeidsforholdToApiData', () => {
                     enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
                     fasteDager: { fredag: { hours: '2', minutes: '0' } },
                 },
-                historiskPeriode
+                historiskPeriode,
+                40,
+                undefined
             );
             expect(result.jobberIPerioden).toEqual(JobberIPeriodeSvar.JA);
             expect(result.jobberSomVanlig).toBeTruthy();
@@ -164,7 +176,9 @@ describe('mapArbeidsforholdToApiData', () => {
                     enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
                     fasteDager: { fredag: { hours: '2', minutes: '0' } },
                 },
-                historiskPeriode
+                historiskPeriode,
+                40,
+                undefined
             );
             expect(result.erLiktHverUke).toEqual(true);
             expect(result.fasteDager).toBeDefined();
@@ -179,7 +193,9 @@ describe('mapArbeidsforholdToApiData', () => {
                     enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
                     fasteDager: { fredag: { hours: '2', minutes: '0' } },
                 },
-                historiskPeriode
+                historiskPeriode,
+                40,
+                undefined
             );
             expect(result.erLiktHverUke).toEqual(true);
             expect(result.fasteDager).toBeDefined();
@@ -195,7 +211,9 @@ describe('mapArbeidsforholdToApiData', () => {
                     enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
                     fasteDager: { fredag: { hours: '2', minutes: '0' } },
                 },
-                historiskPeriode
+                historiskPeriode,
+                40,
+                undefined
             );
             expect(result.erLiktHverUke).toEqual(false);
             expect(result.fasteDager).toBeUndefined();
@@ -210,7 +228,9 @@ describe('mapArbeidsforholdToApiData', () => {
                     enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
                     fasteDager: { fredag: { hours: '2', minutes: '0' } },
                 },
-                historiskPeriode
+                historiskPeriode,
+                40,
+                undefined
             );
             expect(result.erLiktHverUke).toBeUndefined();
             expect(result.fasteDager).toBeUndefined();
@@ -225,6 +245,7 @@ describe('mapArbeidsforholdToApiData', () => {
                         enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
                     },
                     historiskPeriode,
+                    40,
                     {
                         from: apiStringDateToDate('2021-02-04'),
                     }
@@ -245,6 +266,7 @@ describe('mapArbeidsforholdToApiData', () => {
                         enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
                     },
                     historiskPeriode,
+                    40,
                     {
                         to: apiStringDateToDate('2021-02-04'),
                     }
@@ -267,6 +289,7 @@ describe('mapArbeidsforholdToApiData', () => {
                         enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
                     },
                     historiskPeriode,
+                    40,
                     {
                         from: apiStringDateToDate('2021-02-03'),
                         to: apiStringDateToDate('2021-02-04'),
