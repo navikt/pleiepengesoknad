@@ -2,16 +2,16 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { ArbeidsforholdType, JobberIPeriodeSvar } from '../../types';
-import { FrilansApiData, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
-import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { FrilansApiData, SøknadApiData } from '../../types/SøknadApiData';
+import { SøknadFormData } from '../../types/SøknadFormData';
 import { erFrilanserITidsrom } from '../frilanserUtils';
 import { getHistoriskPeriode, getPlanlagtPeriode } from '../tidsbrukUtils';
 import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
 
-export type FrilansApiDataPart = Pick<PleiepengesøknadApiData, 'frilans' | '_harHattInntektSomFrilanser'>;
+export type FrilansApiDataPart = Pick<SøknadApiData, 'frilans' | '_harHattInntektSomFrilanser'>;
 
 export const getFrilansApiData = (
-    formData: PleiepengesøknadFormData,
+    formData: SøknadFormData,
     søknadsperiode: DateRange,
     søknadsdato: Date
 ): FrilansApiDataPart => {

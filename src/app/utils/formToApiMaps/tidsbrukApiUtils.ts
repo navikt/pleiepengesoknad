@@ -1,9 +1,9 @@
 import { apiStringDateToDate, DateRange, datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { dateToISOString, ISOStringToDate } from '@navikt/sif-common-formik/lib';
+import { decimalTimeToTime, timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
+import { dateToISOString, ISOStringToDate, InputTime } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import { TidEnkeltdag, TidFasteDager } from '../../types';
-import { TidEnkeltdagApiData } from '../../types/PleiepengesøknadApiData';
+import { ISO8601Duration, TidEnkeltdagApiData } from '../../types/SøknadApiData';
 
 export const getFasteDagerApiData = ({ mandag, tirsdag, onsdag, torsdag, fredag }: TidFasteDager) => ({
     mandag: mandag ? timeToIso8601Duration(mandag) : undefined,
@@ -32,6 +32,25 @@ export const getEnkeltdagerIPeriodeApiData = (enkeltdager: TidEnkeltdag, periode
     return dager.sort(sortTidEnkeltdagApiData);
 };
 
+export const getEnkeltdagerMedTidIPeriodeApiData = (
+    tidPerDag: Partial<InputTime>,
+    enkeltdager: TidEnkeltdag,
+    periode: DateRange
+): TidEnkeltdagApiData[] => {
+    const dager: TidEnkeltdagApiData[] = [];
+    Object.keys(enkeltdager).forEach((dag) => {
+        const dato = ISOStringToDate(dag);
+        const tid = timeToIso8601Duration(tidPerDag);
+        if (dato && datoErInnenforTidsrom(dato, periode)) {
+            dager.push({
+                dato: dateToISOString(dato),
+                tid,
+            });
+        }
+    });
+    return dager.sort(sortTidEnkeltdagApiData);
+};
+
 export const fjernTidUtenforPeriode = (
     periode: Partial<DateRange>,
     tidEnkeltdag?: TidEnkeltdagApiData[]
@@ -50,4 +69,20 @@ export const fjernTidUtenforPeriode = (
         }
         return true;
     });
+};
+
+export const getRedusertArbeidstidSomIso8601Duration = (
+    jobberNormaltTimerNumber: number,
+    skalJobbeProsent: number
+): ISO8601Duration => {
+    const redusertTidPerDag = (jobberNormaltTimerNumber / 100) * skalJobbeProsent;
+    return timeToIso8601Duration(decimalTimeToTime(redusertTidPerDag));
+};
+
+export const getRedusertArbeidstidSomInputTime = (
+    jobberNormaltTimerNumber: number,
+    skalJobbeProsent: number
+): InputTime => {
+    const redusertTidPerDag = (jobberNormaltTimerNumber / 100) * skalJobbeProsent;
+    return decimalTimeToTime(redusertTidPerDag);
 };

@@ -1,12 +1,12 @@
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { Time } from '@navikt/sif-common-formik/lib';
+import { InputTime } from '@navikt/sif-common-formik/lib';
 import { getNumberValidator, getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
 import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeValidator';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import { ArbeidIPeriodeIntlValues } from '../components/arbeidstid/ArbeidIPeriodeSpørsmål';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
 import { TidEnkeltdag } from '../types';
-import { ArbeidIPeriode } from '../types/PleiepengesøknadFormData';
+import { ArbeidIPeriode } from '../types/SøknadFormData';
 import {
     getValidEnkeltdager,
     getTidEnkeltdagerInnenforPeriode,
@@ -61,7 +61,7 @@ export const validateArbeidsTidEnkeltdager = (
 export const getArbeidstimerEnkeltdagValidator =
     (intlValues: ArbeidIPeriodeIntlValues) =>
     (dato: string) =>
-    (time: Time): ValidationResult<ValidationError> => {
+    (time: InputTime): ValidationResult<ValidationError> => {
         const error = time
             ? getTimeValidator({ max: { hours: 24, minutes: 0 }, min: { hours: 0, minutes: 0 } })(time)
             : undefined;
@@ -77,7 +77,7 @@ export const getArbeidstimerEnkeltdagValidator =
 
 export const getArbeidstimerFastDagValidator =
     (dag: string) =>
-    (time: Time): ValidationResult<ValidationError> => {
+    (time: InputTime): ValidationResult<ValidationError> => {
         const error = time
             ? getTimeValidator({ max: { hours: 24, minutes: 0 }, min: { hours: 0, minutes: 0 } })(time)
             : undefined;
@@ -90,6 +90,30 @@ export const getArbeidstimerFastDagValidator =
         }
         return undefined;
     };
+
+export const getArbeidstidProsentValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
+    const error = getNumberValidator({ required: true, max: 99, min: 1 })(value);
+    if (error) {
+        return {
+            key: `validation.arbeidstimer.prosent.${error}`,
+            values: { ...intlValues, min: 1, max: 99 },
+            keepKeyUnaltered: true,
+        };
+    }
+    return undefined;
+};
+
+export const getArbeidstidTimerEllerProsentValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
+    const error = getRequiredFieldValidator()(value);
+    if (error) {
+        return {
+            key: `validation.arbeidstimer.timerEllerProsent.${error}`,
+            values: { ...intlValues, min: 1, max: 99 },
+            keepKeyUnaltered: true,
+        };
+    }
+    return undefined;
+};
 
 export const getJobberNormaltTimerValidator = (intlValues: { hvor: string; jobber: string }) => (value: any) => {
     const error = getNumberValidator({

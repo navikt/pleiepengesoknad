@@ -1,8 +1,8 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { Time } from '@navikt/sif-common-formik/lib';
+import { InputTime } from '@navikt/sif-common-formik/lib';
 import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeValidator';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
-import { Omsorgstilbud } from '../types/PleiepengesøknadFormData';
+import { Omsorgstilbud } from '../types/SøknadFormData';
 import { sumTimerFasteDager } from '../utils/tidsbrukUtils';
 import { AppFieldValidationErrors, TidPerDagValidator } from './fieldValidations';
 
@@ -26,7 +26,7 @@ export const validateSkalIOmsorgstilbud = (omsorgstilbud: Omsorgstilbud): Valida
 
 export const getOmsorgstilbudtimerValidatorFastDag =
     (dag: string) =>
-    (time: Time): ValidationResult<ValidationError> => {
+    (time: InputTime): ValidationResult<ValidationError> => {
         const error = time
             ? getTimeValidator({ max: { hours: 7, minutes: 30 }, min: { hours: 0, minutes: 0 } })(time)
             : undefined;
@@ -40,7 +40,7 @@ export const getOmsorgstilbudtimerValidatorFastDag =
         return undefined;
     };
 
-export const getTidIOmsorgValidator: TidPerDagValidator = (dag: string) => (tid: Time) => {
+export const getTidIOmsorgValidator: TidPerDagValidator = (dag: string) => (tid: InputTime) => {
     const error = getTimeValidator({
         required: false,
         max: { hours: 7, minutes: 30 },

@@ -7,7 +7,7 @@ import {
     UtenlandsoppholdIPeriodenApiData,
     UtenlandsoppholdUtenforEøsIPeriodenApiData,
     PeriodeBarnetErInnlagtApiData,
-} from '../../types/PleiepengesøknadApiData';
+} from '../../types/SøknadApiData';
 import { DateTidsperiode } from '@navikt/sif-common-forms/lib/tidsperiode';
 
 const mapBarnInnlagtPeriodeToApiFormat = (periode: DateTidsperiode): PeriodeBarnetErInnlagtApiData => {

@@ -1,12 +1,12 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
-import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { SøknadApiData } from '../../types/SøknadApiData';
+import { SøknadFormData } from '../../types/SøknadFormData';
 
 export const getFerieuttakIPeriodenApiData = ({
     skalTaUtFerieIPerioden,
     ferieuttakIPerioden,
-}: PleiepengesøknadFormData): Pick<PleiepengesøknadApiData, 'ferieuttakIPerioden'> => ({
+}: SøknadFormData): Pick<SøknadApiData, 'ferieuttakIPerioden'> => ({
     ferieuttakIPerioden: {
         skalTaUtFerieIPerioden: skalTaUtFerieIPerioden === YesOrNo.YES,
         ferieuttak:

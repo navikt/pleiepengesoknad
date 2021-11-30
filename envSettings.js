@@ -13,6 +13,8 @@ const envSettings = () => {
     const APPSTATUS_DATASET = process.env.APPSTATUS_DATASET;
     const USE_AMPLITUDE = process.env.USE_AMPLITUDE;
     const APP_VERSION = process.env.APP_VERSION;
+    const INNSYN_URL = process.env.INNSYN_URL;
+    const FORENKLET_ARBEID = process.env.FORENKLET_ARBEID;
 
     const appSettings = `
     window.appSettings = {
@@ -26,7 +28,9 @@ const envSettings = () => {
         APPSTATUS_PROJECT_ID: '${APPSTATUS_PROJECT_ID}',
         APPSTATUS_DATASET: '${APPSTATUS_DATASET}',
         USE_AMPLITUDE: '${USE_AMPLITUDE}',
-        APP_VERSION: '${APP_VERSION}'
+        APP_VERSION: '${APP_VERSION}',
+        INNSYN_URL: '${INNSYN_URL}',
+        FORENKLET_ARBEID: '${FORENKLET_ARBEID}'
     };`
         .trim()
         .replace(/ /g, '');

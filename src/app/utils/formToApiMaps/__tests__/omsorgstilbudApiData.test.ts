@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { AppFormField, Omsorgstilbud } from '../../../types/PleiepengesøknadFormData';
+import { SøknadFormField, Omsorgstilbud } from '../../../types/SøknadFormData';
 import {
     getOmsorgstilbudApiData,
     mapHistoriskOmsorgstilbudToApiData,
@@ -51,7 +51,7 @@ describe('omsorgstilbudApiData', () => {
     });
 
     describe('mapHistoriskOmsorgstilbudToApiData', () => {
-        it(`returner undefined dersom ${AppFormField.omsorgstilbud__harBarnVærtIOmsorgstilbud} !== ${YesOrNo.YES}`, () => {
+        it(`returner undefined dersom ${SøknadFormField.omsorgstilbud__harBarnVærtIOmsorgstilbud} !== ${YesOrNo.YES}`, () => {
             expect(
                 mapHistoriskOmsorgstilbudToApiData(
                     { ...omsorgstilbud, harBarnVærtIOmsorgstilbud: YesOrNo.NO },
@@ -92,7 +92,7 @@ describe('omsorgstilbudApiData', () => {
         });
     });
     describe('mapPlanlagtOmsorgstilbudToApiData', () => {
-        it(`returner undefined dersom ${AppFormField.omsorgstilbud__skalBarnIOmsorgstilbud} === ${YesOrNo.NO} || planlagt info er undefinert`, () => {
+        it(`returner undefined dersom ${SøknadFormField.omsorgstilbud__skalBarnIOmsorgstilbud} === ${YesOrNo.NO} || planlagt info er undefinert`, () => {
             expect(
                 mapPlanlagtOmsorgstilbudToApiData(
                     { ...omsorgstilbud, skalBarnIOmsorgstilbud: YesOrNo.NO },

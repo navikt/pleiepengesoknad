@@ -2,16 +2,16 @@ import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-dat
 import { getDateValidator } from '@navikt/sif-common-formik/lib/validation';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import dayjs from 'dayjs';
-import { AppFormField, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { SøknadFormData, SøknadFormField } from '../types/SøknadFormData';
 
 type FrilansFormDataForValidation = Pick<
-    PleiepengesøknadFormData,
-    | AppFormField.frilans_harHattInntektSomFrilanser
-    | AppFormField.frilans_jobberFortsattSomFrilans
-    | AppFormField.frilans_sluttdato
-    | AppFormField.frilans_startdato
-    | AppFormField.periodeFra
-    | AppFormField.periodeTil
+    SøknadFormData,
+    | SøknadFormField.frilans_harHattInntektSomFrilanser
+    | SøknadFormField.frilans_jobberFortsattSomFrilans
+    | SøknadFormField.frilans_sluttdato
+    | SøknadFormField.frilans_startdato
+    | SøknadFormField.periodeFra
+    | SøknadFormField.periodeTil
 >;
 
 export const getFrilanserStartdatoValidator =

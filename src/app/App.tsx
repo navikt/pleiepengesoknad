@@ -1,22 +1,22 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import { Route, Switch } from 'react-router-dom';
-import { AmplitudeProvider } from '@navikt/sif-common-amplitude';
 import AppStatusWrapper from '@navikt/sif-common-core/lib/components/app-status-wrapper/AppStatusWrapper';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import dayjs from 'dayjs';
 import moment from 'moment';
 import Modal from 'nav-frontend-modal';
 import ApplicationWrapper from './components/application-wrapper/ApplicationWrapper';
-import IntroPage from './components/pages/intro-page/IntroPage';
-import UnavailablePage from './components/pages/unavailable-page/UnavailablePage';
-import Pleiepengesøknad from './components/pleiepengesøknad/Pleiepengesøknad';
+import Søknad from './søknad/Søknad';
 import RouteConfig from './config/routeConfig';
+import IntroPage from './pages/intro-page/IntroPage';
+import UnavailablePage from './pages/unavailable-page/UnavailablePage';
 import appSentryLogger from './utils/appSentryLogger';
 import { getEnvironmentVariable } from './utils/envUtils';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
 import '@navikt/sif-common-core/lib/styles/globalStyles.less';
 import './app.less';
+import { AmplitudeProvider } from '@navikt/sif-common-amplitude/lib';
 
 export const APPLICATION_KEY = 'pleiepengesoknad';
 export const SKJEMANAVN = 'Søknad om pleiepenger';
@@ -42,7 +42,7 @@ const App = () => {
     const content = (
         <Switch>
             <Route path="/" component={IntroPage} exact={true} />
-            <Route path={RouteConfig.SØKNAD_ROUTE_PREFIX} component={Pleiepengesøknad} />
+            <Route path={RouteConfig.SØKNAD_ROUTE_PREFIX} component={Søknad} />
         </Switch>
     );
 

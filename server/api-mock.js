@@ -54,7 +54,6 @@ const søkerMock = {
     mellomnavn: undefined,
     etternavn: 'Testesen',
     fødselsnummer: '23058916765',
-    myndig: true,
 };
 
 const barnMock = {
@@ -107,6 +106,10 @@ const startExpressServer = () => {
 
     server.get('/soker', (req, res) => {
         res.send(søkerMock);
+    });
+
+    server.get('/soker-umyndig', (req, res) => {
+        res.sendStatus(451);
     });
 
     server.post('/vedlegg', (req, res) => {

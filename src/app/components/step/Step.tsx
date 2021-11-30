@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 import BackLink from '@navikt/sif-common-core/lib/components/back-link/BackLink';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import StepFooter from '@navikt/sif-common-core/lib/components/step-footer/StepFooter';
 import AvbrytSøknadDialog from '@navikt/sif-common-core/lib/components/dialogs/avbrytSøknadDialog/AvbrytSøknadDialog';
 import FortsettSøknadSenereDialog from '@navikt/sif-common-core/lib/components/dialogs/fortsettSøknadSenereDialog/FortsettSøknadSenereDialog';
 import Page from '@navikt/sif-common-core/lib/components/page/Page';
@@ -11,10 +12,9 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { FormikValidationErrorSummary } from '@navikt/sif-common-formik';
 import { History } from 'history';
 import { Innholdstittel } from 'nav-frontend-typografi';
-import { StepConfigInterface, StepConfigItemTexts, StepID } from '../../config/stepConfig';
+import { StepConfigInterface, StepConfigItemTexts, StepID } from '../../søknad/søknadStepsConfig';
 import { getStepTexts } from '../../utils/stepUtils';
 import StepIndicator from '../step-indicator/StepIndicator';
-import StepFooter from '../step-footer/StepFooter';
 import './step.less';
 
 export interface StepProps {
@@ -85,8 +85,8 @@ const Step = ({
             </Box>
             <Box margin="xl">{children}</Box>
             <StepFooter
-                onFortsettSenere={() => setVisFortsettSenereDialog(true)}
-                onAvbryt={() => setVisAvbrytDialog(true)}
+                onAvbrytOgFortsettSenere={() => setVisFortsettSenereDialog(true)}
+                onAvbrytOgSlett={() => setVisAvbrytDialog(true)}
             />
             <FortsettSøknadSenereDialog
                 synlig={visFortsettSenereDialog}

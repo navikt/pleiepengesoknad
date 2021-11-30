@@ -1,5 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { ArbeidsforholdAnsatt } from '../../types/PleiepengesøknadFormData';
+import { ArbeidsforholdAnsatt } from '../../types/SøknadFormData';
 import { Arbeidsgiver } from '../../types/Søkerdata';
 import { syncArbeidsforholdWithArbeidsgivere } from '../arbeidsforholdUtils';
 
