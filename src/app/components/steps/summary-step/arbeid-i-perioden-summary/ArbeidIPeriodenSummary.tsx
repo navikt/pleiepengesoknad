@@ -143,7 +143,7 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
                                 <ArbeidIPeriodeSummaryItem
                                     periode={periodeFørSøknadsdato}
                                     arbeidIPeriode={forhold.historiskArbeid}
-                                    normaltimer={forhold.jobberNormaltTimer}
+                                    normaltimerUke={forhold.jobberNormaltTimer}
                                     erHistorisk={true}
                                 />
                             </SummaryBlock>
@@ -161,7 +161,7 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
                                 <ArbeidIPeriodeSummaryItem
                                     periode={periodeFraOgMedSøknadsdato}
                                     arbeidIPeriode={forhold.planlagtArbeid}
-                                    normaltimer={forhold.jobberNormaltTimer}
+                                    normaltimerUke={forhold.jobberNormaltTimer}
                                     erHistorisk={false}
                                 />
                             </SummaryBlock>

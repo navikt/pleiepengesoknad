@@ -6,11 +6,14 @@ import { JobberIPeriodeSvar } from '../../../../types';
 import { ArbeidIPeriodeApiData, ArbeidsforholdApiData } from '../../../../types/PleiepengesøknadApiData';
 import TidEnkeltdager from '../../../dager-med-tid/TidEnkeltdager';
 import TidFasteDager from '../../../dager-med-tid/TidFasteDager';
+import { formatTimerOgMinutter } from '../../../timer-og-minutter/TimerOgMinutter';
+import { getRedusertArbeidstidSomInputTime } from '../../../../utils/formToApiMaps/tidsbrukApiUtils';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
 
 interface Props {
     periode: DateRange;
     arbeidIPeriode: ArbeidIPeriodeApiData;
-    normaltimer?: number;
+    normaltimerUke: number;
     erHistorisk: boolean;
 }
 
@@ -18,7 +21,7 @@ export interface ArbeidIPeriodenSummaryItemType extends ArbeidsforholdApiData {
     tittel: string;
 }
 
-const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeriode, erHistorisk, normaltimer }) => {
+const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeriode, erHistorisk, normaltimerUke }) => {
     const intl = useIntl();
 
     const intlTexts = {
@@ -34,8 +37,8 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
                       : 'oppsummering.arbeidIPeriode.jobberIPerioden.ja.redusert',
                   {
                       timer:
-                          arbeidIPeriode.jobberIPerioden && normaltimer !== undefined
-                              ? intlHelper(intl, `timerPerUke`, { timer: normaltimer })
+                          arbeidIPeriode.jobberIPerioden && normaltimerUke !== undefined
+                              ? intlHelper(intl, `timerPerUke`, { timer: normaltimerUke })
                               : '',
                   }
               )
@@ -59,20 +62,63 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
         }
     };
 
+    const getArbeidProsentTekst = (prosent: number) => {
+        const tid = getRedusertArbeidstidSomInputTime(prosent, normaltimerUke / 5);
+        return intlHelper(
+            intl,
+            erHistorisk
+                ? 'oppsummering.arbeidIPeriode.jobberIPerioden.prosent.historisk'
+                : 'oppsummering.arbeidIPeriode.jobberIPerioden.prosent',
+            {
+                prosent: Intl.NumberFormat().format(prosent),
+                timer: formatTimerOgMinutter(intl, tid),
+            }
+        );
+    };
+
     return (
         <>
             <ul>
                 <li>{getJobberIPeriodenTekst()}</li>
                 {arbeidIPeriode.jobberSomVanlig === false && arbeidIPeriode.enkeltdager && (
                     <li>
-                        <p>{erHistorisk ? 'Jobbet:' : 'Skal jobbe:'}</p>
-                        <TidEnkeltdager dager={arbeidIPeriode.enkeltdager} />
+                        <div>
+                            {intlHelper(
+                                intl,
+                                erHistorisk
+                                    ? 'oppsummering.arbeidIPeriode.Jobbet'
+                                    : 'oppsummering.arbeidIPeriode.Jobber'
+                            )}
+                            :
+                        </div>
+                        <Box margin="m">
+                            <TidEnkeltdager dager={arbeidIPeriode.enkeltdager} />
+                        </Box>
                     </li>
                 )}
+                {/* Bruker har valgt faste dager eller prosent */}
                 {arbeidIPeriode.jobberSomVanlig === false && arbeidIPeriode.fasteDager && (
                     <li>
-                        <p>{erHistorisk ? 'Jobbet likt hver uke:' : 'Skal jobbe likt hver uke:'}</p>
-                        <TidFasteDager fasteDager={arbeidIPeriode.fasteDager} />
+                        {/* Faste dager */}
+                        {arbeidIPeriode._jobberProsent === undefined && (
+                            <>
+                                <div>
+                                    {intlHelper(
+                                        intl,
+                                        erHistorisk
+                                            ? 'oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke.historisk'
+                                            : 'oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke'
+                                    )}
+                                    :
+                                </div>
+                                <Box margin="m">
+                                    <TidFasteDager fasteDager={arbeidIPeriode.fasteDager} />
+                                </Box>
+                            </>
+                        )}
+                        {/* Prosent - men verdi er fordelt likt på  fasteDager */}
+                        {arbeidIPeriode._jobberProsent !== undefined &&
+                            getArbeidProsentTekst(arbeidIPeriode._jobberProsent)}
                     </li>
                 )}
             </ul>
