@@ -21,8 +21,8 @@ import { SKJEMANAVN } from '../../../App';
 import routeConfig from '../../../config/routeConfig';
 import { StepID } from '../../../config/stepConfig';
 import { SøkerdataContextConsumer } from '../../../context/SøkerdataContext';
-import { PleiepengesøknadApiData } from '../../../types/PleiepengesøknadApiData';
-import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { SøknadApiData } from '../../../types/SøknadApiData';
+import { SøknadFormField, SøknadFormData } from '../../../types/SøknadFormData';
 import { Søkerdata } from '../../../types/Søkerdata';
 import appSentryLogger from '../../../utils/appSentryLogger';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
@@ -49,10 +49,10 @@ import {
 import './summary.less';
 
 interface Props {
-    values: PleiepengesøknadFormData;
+    values: SøknadFormData;
     søknadsdato: Date;
     søknadsperiode: DateRange;
-    onApplicationSent: (apiValues: PleiepengesøknadApiData, søkerdata: Søkerdata) => void;
+    onApplicationSent: (apiValues: SøknadApiData, søkerdata: Søkerdata) => void;
 }
 
 const SummaryStep = ({ onApplicationSent, values, søknadsdato, søknadsperiode }: Props) => {
@@ -65,7 +65,7 @@ const SummaryStep = ({ onApplicationSent, values, søknadsdato, søknadsperiode 
 
     const søkerKunHistoriskPeriode = getSøkerKunHistoriskPeriode(søknadsperiode, søknadsdato);
 
-    const sendSoknad = async (apiValues: PleiepengesøknadApiData, søkerdata: Søkerdata) => {
+    const sendSoknad = async (apiValues: SøknadApiData, søkerdata: Søkerdata) => {
         setSendingInProgress(true);
         try {
             await sendApplication(apiValues);
@@ -324,7 +324,7 @@ const SummaryStep = ({ onApplicationSent, values, søknadsdato, søknadsperiode 
                         <Box margin="l">
                             <AppForm.ConfirmationCheckbox
                                 label={intlHelper(intl, 'steg.oppsummering.bekrefterOpplysninger')}
-                                name={AppFormField.harBekreftetOpplysninger}
+                                name={SøknadFormField.harBekreftetOpplysninger}
                                 validate={getCheckedValidator()}
                             />
                         </Box>

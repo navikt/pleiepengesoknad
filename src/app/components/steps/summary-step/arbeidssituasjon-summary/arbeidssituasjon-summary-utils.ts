@@ -1,6 +1,6 @@
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { IntlShape } from 'react-intl';
-import { ArbeidsforholdApiData } from '../../../../types/PleiepengesøknadApiData';
+import { ArbeidsforholdApiData } from '../../../../types/SøknadApiData';
 
 export const getTidSetning = (
     intl: IntlShape,

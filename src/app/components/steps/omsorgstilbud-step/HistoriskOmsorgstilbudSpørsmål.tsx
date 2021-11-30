@@ -10,7 +10,7 @@ import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import FormSection from '../../../pre-common/form-section/FormSection';
-import { AppFormField, Omsorgstilbud } from '../../../types/PleiepengesøknadFormData';
+import { SøknadFormField, Omsorgstilbud } from '../../../types/SøknadFormData';
 import AppForm from '../../app-form/AppForm';
 import OmsorgstilbudIPeriodeSpørsmål from '../../omsorgstilbud/OmsorgstilbudIPeriodeSpørsmål';
 
@@ -36,7 +36,7 @@ const HistoriskOmsorgstilbudSpørsmål = ({
     return (
         <FormSection title={tittel}>
             <AppForm.YesOrNoQuestion
-                name={AppFormField.omsorgstilbud__harBarnVærtIOmsorgstilbud}
+                name={SøknadFormField.omsorgstilbud__harBarnVærtIOmsorgstilbud}
                 legend={intlHelper(intl, 'steg.omsorgstilbud.historisk.harBarnetVærtIOmsorgstilbud.spm', {
                     fra: prettifyDateFull(periode.from),
                     til: prettifyDateFull(periode.to),

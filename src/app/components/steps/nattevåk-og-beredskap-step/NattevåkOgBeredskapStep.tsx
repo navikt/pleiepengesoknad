@@ -6,7 +6,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getStringValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { useFormikContext } from 'formik';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
-import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { SøknadFormField, SøknadFormData } from '../../../types/SøknadFormData';
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
@@ -16,7 +16,7 @@ import FormSection from '../../../pre-common/form-section/FormSection';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getSøkerKunHistoriskPeriode } from '../../../utils/tidsbrukUtils';
 
-const cleanupNattevåkStep = (values: PleiepengesøknadFormData): PleiepengesøknadFormData => {
+const cleanupNattevåkStep = (values: SøknadFormData): SøknadFormData => {
     const cleanedValues = { ...values };
     if (values.harNattevåk === YesOrNo.NO) {
         cleanedValues.harNattevåk_ekstrainfo = undefined;
@@ -31,7 +31,7 @@ interface Props {
 
 const NattevåkOgBeredskapStep = ({ onValidSubmit, søknadsperiode, søknadsdato }: StepConfigProps & Props) => {
     const intl = useIntl();
-    const { values } = useFormikContext<PleiepengesøknadFormData>();
+    const { values } = useFormikContext<SøknadFormData>();
     const { harNattevåk, harBeredskap } = values;
 
     const søkerKunHistoriskPeriode = getSøkerKunHistoriskPeriode(søknadsperiode, søknadsdato);
@@ -63,7 +63,7 @@ const NattevåkOgBeredskapStep = ({ onValidSubmit, søknadsperiode, søknadsdato
                                 ? 'steg.nattevåkOgBeredskap.nattevåk.historisk.spm'
                                 : 'steg.nattevåkOgBeredskap.nattevåk.spm'
                         )}
-                        name={AppFormField.harNattevåk}
+                        name={SøknadFormField.harNattevåk}
                         description={
                             <ExpandableInfo
                                 title={intlHelper(
@@ -80,7 +80,7 @@ const NattevåkOgBeredskapStep = ({ onValidSubmit, søknadsperiode, søknadsdato
                 {harNattevåk === YesOrNo.YES && (
                     <FormBlock>
                         <AppForm.Textarea
-                            name={AppFormField.harNattevåk_ekstrainfo}
+                            name={SøknadFormField.harNattevåk_ekstrainfo}
                             label={
                                 <FormattedMessage
                                     id={
@@ -123,7 +123,7 @@ const NattevåkOgBeredskapStep = ({ onValidSubmit, søknadsperiode, søknadsdato
                                 ? 'steg.nattevåkOgBeredskap.beredskap.historisk.spm'
                                 : 'steg.nattevåkOgBeredskap.beredskap.spm'
                         )}
-                        name={AppFormField.harBeredskap}
+                        name={SøknadFormField.harBeredskap}
                         description={
                             <ExpandableInfo
                                 title={intlHelper(
@@ -139,7 +139,7 @@ const NattevåkOgBeredskapStep = ({ onValidSubmit, søknadsperiode, søknadsdato
                 {harBeredskap === YesOrNo.YES && (
                     <FormBlock>
                         <AppForm.Textarea
-                            name={AppFormField.harBeredskap_ekstrainfo}
+                            name={SøknadFormField.harBeredskap_ekstrainfo}
                             label={
                                 <FormattedMessage
                                     id={

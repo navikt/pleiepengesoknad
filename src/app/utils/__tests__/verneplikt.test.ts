@@ -1,8 +1,8 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { visVernepliktSpørsmål } from '../../components/steps/arbeidssituasjon-step/ArbeidssituasjonStep';
-import { ArbeidsforholdAnsatt, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { ArbeidsforholdAnsatt, SøknadFormData } from '../../types/SøknadFormData';
 
-export const formDataMock: Partial<PleiepengesøknadFormData> = {
+export const formDataMock: Partial<SøknadFormData> = {
     ansatt_arbeidsforhold: [],
     frilans_harHattInntektSomFrilanser: YesOrNo.UNANSWERED,
     selvstendig_harHattInntektSomSN: YesOrNo.UNANSWERED,
@@ -16,7 +16,7 @@ const ansattArbeidsforhold: ArbeidsforholdAnsatt = {
 describe('visVernepliktSpørsmål', () => {
     describe('skjuler spørsmål om verneplikt dersom', () => {
         it('søker har ikke besvart spørsmål om arbeidsgivere, frilanser og selvstendig næringdrivende', () => {
-            const data: Partial<PleiepengesøknadFormData> = {
+            const data: Partial<SøknadFormData> = {
                 ...formDataMock,
                 ansatt_arbeidsforhold: [
                     {
@@ -30,7 +30,7 @@ describe('visVernepliktSpørsmål', () => {
             expect(visVernepliktSpørsmål(data)).toBeFalsy();
         });
         it('søker er ansatt', () => {
-            const data: Partial<PleiepengesøknadFormData> = {
+            const data: Partial<SøknadFormData> = {
                 ...formDataMock,
                 ansatt_arbeidsforhold: [
                     {
@@ -44,7 +44,7 @@ describe('visVernepliktSpørsmål', () => {
             expect(visVernepliktSpørsmål(data)).toBeFalsy();
         });
         it('søker er ikke ansatt, men har ikke svart på sluttdato', () => {
-            const data: Partial<PleiepengesøknadFormData> = {
+            const data: Partial<SøknadFormData> = {
                 ...formDataMock,
                 ansatt_arbeidsforhold: [
                     {
@@ -58,7 +58,7 @@ describe('visVernepliktSpørsmål', () => {
             expect(visVernepliktSpørsmål(data)).toBeFalsy();
         });
         it('søker er ikke ansatt, men sluttet i perioden', () => {
-            const data: Partial<PleiepengesøknadFormData> = {
+            const data: Partial<SøknadFormData> = {
                 ...formDataMock,
                 ansatt_arbeidsforhold: [
                     {
@@ -73,7 +73,7 @@ describe('visVernepliktSpørsmål', () => {
             expect(visVernepliktSpørsmål(data)).toBeFalsy();
         });
         it('søker er ikke ansatt, men sluttet i perioden', () => {
-            const data: Partial<PleiepengesøknadFormData> = {
+            const data: Partial<SøknadFormData> = {
                 ...formDataMock,
                 ansatt_arbeidsforhold: [
                     {
@@ -88,7 +88,7 @@ describe('visVernepliktSpørsmål', () => {
             expect(visVernepliktSpørsmål(data)).toBeFalsy();
         });
         it('søker har ikke ansettesesforhold men er frilanser eller sn', () => {
-            const data: Partial<PleiepengesøknadFormData> = {
+            const data: Partial<SøknadFormData> = {
                 ...formDataMock,
                 frilans_harHattInntektSomFrilanser: YesOrNo.YES,
                 selvstendig_harHattInntektSomSN: YesOrNo.NO,
@@ -96,14 +96,14 @@ describe('visVernepliktSpørsmål', () => {
             expect(visVernepliktSpørsmål(data)).toBeFalsy();
         });
         it('søker er frilanser', () => {
-            const data: Partial<PleiepengesøknadFormData> = {
+            const data: Partial<SøknadFormData> = {
                 ...formDataMock,
                 frilans_harHattInntektSomFrilanser: YesOrNo.YES,
             };
             expect(visVernepliktSpørsmål(data)).toBeFalsy();
         });
         it('søker er selvstendig næringsdrivende', () => {
-            const data: Partial<PleiepengesøknadFormData> = {
+            const data: Partial<SøknadFormData> = {
                 ...formDataMock,
                 selvstendig_harHattInntektSomSN: YesOrNo.YES,
             };
@@ -112,15 +112,15 @@ describe('visVernepliktSpørsmål', () => {
     });
     describe('viser spørsmål om verneplikt dersom', () => {
         it('søker er ikke frilanser, er ikke selvstendig næringsdrivende, og har ingen arbeidsgivere', () => {
-            const data: Partial<PleiepengesøknadFormData> = {
+            const data: Partial<SøknadFormData> = {
                 ...formDataMock,
                 selvstendig_harHattInntektSomSN: YesOrNo.NO,
                 frilans_harHattInntektSomFrilanser: YesOrNo.NO,
-            } as PleiepengesøknadFormData;
+            } as SøknadFormData;
             expect(visVernepliktSpørsmål(data)).toBeTruthy();
         });
         it('søker er ikke frilanser, er ikke selvstendig næringsdrivende, og har sluttet før søknadsperioden', () => {
-            const data: Partial<PleiepengesøknadFormData> = {
+            const data: Partial<SøknadFormData> = {
                 ...formDataMock,
                 ansatt_arbeidsforhold: [
                     {

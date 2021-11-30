@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { JobberIPeriodeSvar } from '../../../../types';
-import { ArbeidIPeriodeApiData, ArbeidsforholdApiData } from '../../../../types/PleiepengesøknadApiData';
+import { ArbeidIPeriodeApiData, ArbeidsforholdApiData } from '../../../../types/SøknadApiData';
 import TidEnkeltdager from '../../../dager-med-tid/TidEnkeltdager';
 import TidFasteDager from '../../../dager-med-tid/TidFasteDager';
 import { formatTimerOgMinutter } from '../../../timer-og-minutter/TimerOgMinutter';

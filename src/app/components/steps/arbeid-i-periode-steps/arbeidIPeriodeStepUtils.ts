@@ -6,9 +6,9 @@ import {
     Arbeidsforhold,
     ArbeidsforholdAnsatt,
     ArbeidsforholdSNF,
-    PleiepengesøknadFormData,
+    SøknadFormData,
     TimerEllerProsent,
-} from '../../../types/PleiepengesøknadFormData';
+} from '../../../types/SøknadFormData';
 
 import minMax from 'dayjs/plugin/minMax';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
@@ -105,11 +105,11 @@ const cleanupArbeidsforholdFrilanser = (
 };
 
 export const cleanupArbeidIPeriodeStep = (
-    formData: PleiepengesøknadFormData,
+    formData: SøknadFormData,
     periode: DateRange,
     erHistorisk: boolean
-): PleiepengesøknadFormData => {
-    const values: PleiepengesøknadFormData = { ...formData };
+): SøknadFormData => {
+    const values: SøknadFormData = { ...formData };
     values.ansatt_arbeidsforhold = values.ansatt_arbeidsforhold.map(
         (arbeidsforhold) => cleanupArbeidsforhold(arbeidsforhold, periode, erHistorisk) as ArbeidsforholdAnsatt
     );

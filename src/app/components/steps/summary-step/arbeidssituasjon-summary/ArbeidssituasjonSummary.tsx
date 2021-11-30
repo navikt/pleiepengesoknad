@@ -2,7 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { PleiepengesøknadApiData } from '../../../../types/PleiepengesøknadApiData';
+import { SøknadApiData } from '../../../../types/SøknadApiData';
 import SummaryBlock from '../../../summary-block/SummaryBlock';
 import SummarySection from '../../../summary-section/SummarySection';
 import ArbeidsgivereSummary from './ArbeidsgivereSummary';
@@ -10,7 +10,7 @@ import FrilansSummary from './FrilansSummary';
 import SelvstendigSummary from './SelvstendigSummary';
 
 interface Props {
-    apiValues: PleiepengesøknadApiData;
+    apiValues: SøknadApiData;
     søknadsperiode: DateRange;
     søkerKunHistoriskPeriode: boolean;
 }

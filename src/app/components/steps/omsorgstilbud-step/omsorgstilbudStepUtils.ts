@@ -2,7 +2,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
-import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { SøknadFormData } from '../../../types/SøknadFormData';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from '../../../utils/stepUtils';
 import {
     skalViseSpørsmålOmProsentEllerLiktHverUke,
@@ -14,10 +14,10 @@ import {
 dayjs.extend(isBetween);
 
 export const cleanupOmsorgstilbudStep = (
-    values: PleiepengesøknadFormData,
+    values: SøknadFormData,
     søknadsperiode: DateRange,
     søknadsdato: Date
-): PleiepengesøknadFormData => {
+): SøknadFormData => {
     const cleanedValues = { ...values };
 
     if (cleanedValues.omsorgstilbud) {

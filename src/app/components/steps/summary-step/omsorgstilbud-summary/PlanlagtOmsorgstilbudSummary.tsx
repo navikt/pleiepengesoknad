@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { PlanlagtOmsorgstilbudApiData } from '../../../../types/PleiepengesøknadApiData';
+import { PlanlagtOmsorgstilbudApiData } from '../../../../types/SøknadApiData';
 import { getPlanlagtPeriode } from '../../../../utils/tidsbrukUtils';
 import TidEnkeltdager from '../../../dager-med-tid/TidEnkeltdager';
 import TidFasteDager from '../../../dager-med-tid/TidFasteDager';

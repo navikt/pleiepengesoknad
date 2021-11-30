@@ -1,10 +1,10 @@
 import { apiStringDateToDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { KvitteringInfo } from '../components/pleiepengesøknad-content/PleiepengesøknadContent';
-import { isArbeidsgiverISøknadsperiodeApiData, PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
+import { isArbeidsgiverISøknadsperiodeApiData, SøknadApiData } from '../types/SøknadApiData';
 import { Søkerdata } from '../types/Søkerdata';
 
-export type KvitteringApiData = Pick<PleiepengesøknadApiData, 'arbeidsgivere' | 'fraOgMed' | 'tilOgMed'>;
+export type KvitteringApiData = Pick<SøknadApiData, 'arbeidsgivere' | 'fraOgMed' | 'tilOgMed'>;
 
 export const getKvitteringInfoFromApiData = (
     { arbeidsgivere, fraOgMed, tilOgMed }: KvitteringApiData,

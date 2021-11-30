@@ -12,7 +12,7 @@ import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import AlertStripe from 'nav-frontend-alertstriper';
 import FormSection from '../../../pre-common/form-section/FormSection';
-import { AppFormField, Omsorgstilbud } from '../../../types/PleiepengesøknadFormData';
+import { SøknadFormField, Omsorgstilbud } from '../../../types/SøknadFormData';
 import { skalViseSpørsmålOmProsentEllerLiktHverUke } from '../../../utils/tidsbrukUtils';
 import {
     getOmsorgstilbudtimerValidatorFastDag,
@@ -47,7 +47,7 @@ const PlanlagtOmsorgstilbudSpørsmål = ({
     return (
         <FormSection title={tittel}>
             <AppForm.YesOrNoQuestion
-                name={AppFormField.omsorgstilbud__skalBarnIOmsorgstilbud}
+                name={SøknadFormField.omsorgstilbud__skalBarnIOmsorgstilbud}
                 legend={intlHelper(intl, 'steg.omsorgstilbud.planlagt.skalBarnetVæreIOmsorgstilbud.spm', {
                     fra: prettifyDateFull(periode.from),
                     til: prettifyDateFull(periode.to),
@@ -76,7 +76,7 @@ const PlanlagtOmsorgstilbudSpørsmål = ({
                                     yes: intlHelper(intl, 'steg.omsorgstilbud.planlagt.erLiktHverUke.yes'),
                                     no: intlHelper(intl, 'steg.omsorgstilbud.planlagt.erLiktHverUke.no'),
                                 }}
-                                name={AppFormField.omsorgstilbud__planlagt__erLiktHverUke}
+                                name={SøknadFormField.omsorgstilbud__planlagt__erLiktHverUke}
                                 description={
                                     <ExpandableInfo
                                         title={intlHelper(
@@ -122,7 +122,7 @@ const PlanlagtOmsorgstilbudSpørsmål = ({
                                 name={'omsorgstilbud_gruppe' as any}>
                                 <ResponsivePanel>
                                     <TidFasteDagerInput
-                                        name={AppFormField.omsorgstilbud__planlagt__fasteDager}
+                                        name={SøknadFormField.omsorgstilbud__planlagt__fasteDager}
                                         validator={getOmsorgstilbudtimerValidatorFastDag}
                                     />
                                 </ResponsivePanel>

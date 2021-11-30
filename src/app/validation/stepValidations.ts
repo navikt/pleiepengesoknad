@@ -1,9 +1,9 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { getStringValidator } from '@navikt/sif-common-formik/lib/validation';
-import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { SøknadFormData } from '../types/SøknadFormData';
 import { validateFødselsnummer, validateNavn } from './fieldValidations';
 
-export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: PleiepengesøknadFormData) =>
+export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: SøknadFormData) =>
     harForståttRettigheterOgPlikter === true;
 
 export const opplysningerOmBarnetStepIsValid = ({
@@ -11,7 +11,7 @@ export const opplysningerOmBarnetStepIsValid = ({
     barnetsFødselsnummer,
 
     barnetSøknadenGjelder,
-}: PleiepengesøknadFormData) => {
+}: SøknadFormData) => {
     const formIsValid =
         validateNavn(barnetsNavn) === undefined && validateFødselsnummer(barnetsFødselsnummer) === undefined;
 
@@ -22,7 +22,7 @@ export const opplysningerOmBarnetStepIsValid = ({
     return formIsValid;
 };
 
-export const opplysningerOmTidsromStepIsValid = ({ periodeFra, periodeTil }: PleiepengesøknadFormData) => {
+export const opplysningerOmTidsromStepIsValid = ({ periodeFra, periodeTil }: SøknadFormData) => {
     return periodeFra !== undefined && periodeTil !== undefined;
 };
 
@@ -31,7 +31,7 @@ export const arbeidssituasjonStepIsValid = () => true;
 export const medlemskapStepIsValid = ({
     harBoddUtenforNorgeSiste12Mnd,
     skalBoUtenforNorgeNeste12Mnd,
-}: PleiepengesøknadFormData) =>
+}: SøknadFormData) =>
     (harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES || harBoddUtenforNorgeSiste12Mnd === YesOrNo.NO) &&
     (skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES || skalBoUtenforNorgeNeste12Mnd === YesOrNo.NO);
 

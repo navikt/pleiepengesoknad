@@ -1,7 +1,7 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { TidEnkeltdag } from '../../../../types';
-import { PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
+import { SøknadFormData } from '../../../../types/SøknadFormData';
 import { cleanupOmsorgstilbudStep } from '../omsorgstilbudStepUtils';
 
 const søknadsperiode: DateRange = {
@@ -19,7 +19,7 @@ const enkeldagerFormData: TidEnkeltdag = {
     '2021-06-05': { hours: '2', minutes: '30' }, // Outside range
 };
 
-const formValuesTemplate: Partial<PleiepengesøknadFormData> = {
+const formValuesTemplate: Partial<SøknadFormData> = {
     omsorgstilbud: {
         skalBarnIOmsorgstilbud: YesOrNo.YES,
         harBarnVærtIOmsorgstilbud: YesOrNo.YES,
@@ -33,7 +33,7 @@ const formValuesTemplate: Partial<PleiepengesøknadFormData> = {
     },
 };
 
-const formValues = formValuesTemplate as PleiepengesøknadFormData;
+const formValues = formValuesTemplate as SøknadFormData;
 
 describe('cleanupOmsorgstilbudStep', () => {
     it('removes days outside søknadsperiode - historisk', () => {

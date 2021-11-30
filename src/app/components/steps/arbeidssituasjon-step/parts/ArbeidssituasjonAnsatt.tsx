@@ -7,7 +7,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { Undertittel } from 'nav-frontend-typografi';
-import { AppFormField, ArbeidsforholdAnsatt, ArbeidsforholdField } from '../../../../types/PleiepengesøknadFormData';
+import { SøknadFormField, ArbeidsforholdAnsatt, ArbeidsforholdField } from '../../../../types/SøknadFormData';
 import { isYesOrNoAnswered } from '../../../../validation/fieldValidations';
 import AppForm from '../../../app-form/AppForm';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
@@ -42,9 +42,9 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({
     };
 
     const erHistorisk = søkerKunHistoriskPeriode;
-    const parentFieldName = `${AppFormField.ansatt_arbeidsforhold}.${index}`;
+    const parentFieldName = `${SøknadFormField.ansatt_arbeidsforhold}.${index}`;
 
-    const getFieldName = (field: ArbeidsforholdField): AppFormField => `${parentFieldName}.${field}` as any;
+    const getFieldName = (field: ArbeidsforholdField): SøknadFormField => `${parentFieldName}.${field}` as any;
 
     return (
         <>

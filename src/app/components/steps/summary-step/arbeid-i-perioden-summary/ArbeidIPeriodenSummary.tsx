@@ -7,8 +7,8 @@ import {
     ArbeidsforholdApiData,
     FrilansApiData,
     isArbeidsgiverISøknadsperiodeApiData,
-    PleiepengesøknadApiData,
-} from '../../../../types/PleiepengesøknadApiData';
+    SøknadApiData,
+} from '../../../../types/SøknadApiData';
 import { erFrilanserITidsrom } from '../../../../utils/frilanserUtils';
 import { getHistoriskPeriode, getPlanlagtPeriode } from '../../../../utils/tidsbrukUtils';
 import SummaryBlock from '../../../summary-block/SummaryBlock';
@@ -16,7 +16,7 @@ import SummarySection from '../../../summary-section/SummarySection';
 import ArbeidIPeriodeSummaryItem from './ArbeidIPeriodenSummaryItem';
 
 interface Props {
-    apiValues: PleiepengesøknadApiData;
+    apiValues: SøknadApiData;
     søknadsperiode: DateRange;
     søknadsdato: Date;
 }

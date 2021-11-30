@@ -10,12 +10,12 @@ import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-c
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { ArbeidsforholdType, JobberIPeriodeSvar } from '../../types';
 import {
-    AppFormField,
+    SøknadFormField,
     ArbeidIPeriodeField,
     Arbeidsforhold,
     isArbeidsforholdAnsatt,
     TimerEllerProsent,
-} from '../../types/PleiepengesøknadFormData';
+} from '../../types/SøknadFormData';
 import { getTimerTekst } from '../../utils/arbeidsforholdUtils';
 import { skalViseSpørsmålOmProsentEllerLiktHverUke } from '../../utils/tidsbrukUtils';
 import {
@@ -108,7 +108,7 @@ const ArbeidIPeriodeSpørsmål = ({
     };
 
     const getFieldName = (field: ArbeidIPeriodeField) =>
-        `${parentFieldName}.${erHistorisk ? 'historisk' : 'planlagt'}.${field}` as AppFormField;
+        `${parentFieldName}.${erHistorisk ? 'historisk' : 'planlagt'}.${field}` as SøknadFormField;
 
     const getSpørsmål = (spørsmål: ArbeidIPeriodeField) =>
         intlHelper(intl, `arbeidIPeriode.${erHistorisk ? 'historisk.' : ''}${spørsmål}.spm`, intlValues as any);

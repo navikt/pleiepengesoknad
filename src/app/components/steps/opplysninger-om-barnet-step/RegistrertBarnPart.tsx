@@ -7,7 +7,7 @@ import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { resetFieldValue, resetFieldValues, SkjemagruppeQuestion } from '@navikt/sif-common-formik';
 import { useFormikContext } from 'formik';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { AppFormField, initialValues, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { SøknadFormField, initialValues, SøknadFormData } from '../../../types/SøknadFormData';
 import { BarnReceivedFromApi } from '../../../types/Søkerdata';
 import AppForm from '../../app-form/AppForm';
 import { getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
@@ -22,12 +22,12 @@ const RegistrertBarnPart = ({ søkersBarn }: Props) => {
     const {
         values: { søknadenGjelderEtAnnetBarn },
         setFieldValue,
-    } = useFormikContext<PleiepengesøknadFormData>();
+    } = useFormikContext<SøknadFormData>();
 
     return (
         <SkjemagruppeQuestion>
             <AppForm.RadioPanelGroup
-                name={AppFormField.barnetSøknadenGjelder}
+                name={SøknadFormField.barnetSøknadenGjelder}
                 legend={intlHelper(intl, 'steg.omBarnet.hvilketBarn.spm')}
                 description={
                     <ExpandableInfo title={intlHelper(intl, 'steg.omBarnet.hvilketBarn.description.tittel')}>
@@ -68,16 +68,16 @@ const RegistrertBarnPart = ({ søkersBarn }: Props) => {
             <FormBlock margin="l">
                 <AppForm.Checkbox
                     label={intlHelper(intl, 'steg.omBarnet.gjelderAnnetBarn')}
-                    name={AppFormField.søknadenGjelderEtAnnetBarn}
+                    name={SøknadFormField.søknadenGjelderEtAnnetBarn}
                     afterOnChange={(newValue) => {
                         if (newValue) {
-                            resetFieldValue(AppFormField.barnetSøknadenGjelder, setFieldValue, initialValues);
+                            resetFieldValue(SøknadFormField.barnetSøknadenGjelder, setFieldValue, initialValues);
                         } else {
                             resetFieldValues(
                                 [
-                                    AppFormField.barnetsFødselsnummer,
-                                    AppFormField.barnetsFødselsdato,
-                                    AppFormField.barnetsNavn,
+                                    SøknadFormField.barnetsFødselsnummer,
+                                    SøknadFormField.barnetsFødselsdato,
+                                    SøknadFormField.barnetsNavn,
                                 ],
                                 setFieldValue,
                                 initialValues

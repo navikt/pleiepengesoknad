@@ -2,7 +2,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { InputTime } from '@navikt/sif-common-formik/lib';
 import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeValidator';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
-import { Omsorgstilbud } from '../types/PleiepengesøknadFormData';
+import { Omsorgstilbud } from '../types/SøknadFormData';
 import { sumTimerFasteDager } from '../utils/tidsbrukUtils';
 import { AppFieldValidationErrors, TidPerDagValidator } from './fieldValidations';
 

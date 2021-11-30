@@ -1,8 +1,8 @@
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { BarnRelasjon } from '../../types';
-import { BarnetSøknadenGjelderApiData, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
-import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { BarnetSøknadenGjelderApiData, SøknadApiData } from '../../types/SøknadApiData';
+import { SøknadFormData } from '../../types/SøknadFormData';
 import { BarnReceivedFromApi } from '../../types/Søkerdata';
 
 const getBarnetSøknadenGjelderApiData = (
@@ -37,7 +37,7 @@ const getBarnetSøknadenGjelderApiData = (
     }
 };
 
-type BarnApiData = Pick<PleiepengesøknadApiData, 'barn' | 'barnRelasjon' | 'barnRelasjonBeskrivelse'>;
+type BarnApiData = Pick<SøknadApiData, 'barn' | 'barnRelasjon' | 'barnRelasjonBeskrivelse'>;
 
 export const getBarnApiData = (
     {
@@ -46,7 +46,7 @@ export const getBarnApiData = (
         barnetSøknadenGjelder,
         relasjonTilBarnet,
         relasjonTilBarnetBeskrivelse,
-    }: PleiepengesøknadFormData,
+    }: SøknadFormData,
     barn: BarnReceivedFromApi[]
 ): BarnApiData => {
     const barnObject: BarnetSøknadenGjelderApiData = getBarnetSøknadenGjelderApiData(

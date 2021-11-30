@@ -7,7 +7,7 @@ import {
     ArbeidsgiverISøknadsperiodeApiData,
     ArbeidsgiverUtenforSøknadsperiodeApiData,
     isArbeidsgiverISøknadsperiodeApiData,
-} from '../../../../types/PleiepengesøknadApiData';
+} from '../../../../types/SøknadApiData';
 import SummaryBlock from '../../../summary-block/SummaryBlock';
 import { getTidSetning } from './arbeidssituasjon-summary-utils';
 

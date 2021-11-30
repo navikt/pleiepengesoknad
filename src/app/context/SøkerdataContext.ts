@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { StepID } from '../config/stepConfig';
-import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { SøknadFormData } from '../types/SøknadFormData';
 import { Søkerdata } from '../types/Søkerdata';
 
 export interface Appdata {
     lastStepID?: StepID;
     søkerdata: Søkerdata;
-    formdata: PleiepengesøknadFormData;
+    formdata: SøknadFormData;
 }
 export const SøkerdataContext = React.createContext<Søkerdata | undefined>(undefined);
 

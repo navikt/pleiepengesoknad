@@ -1,16 +1,16 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { ArbeidsforholdType } from '../../types';
-import { ArbeidsgiverApiData, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
-import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { ArbeidsgiverApiData, SøknadApiData } from '../../types/SøknadApiData';
+import { SøknadFormData } from '../../types/SøknadFormData';
 import { erAnsattHosArbeidsgiverISøknadsperiode } from '../ansattUtils';
 import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
 
 export const getArbeidsgivereISøknadsperiodenApiData = (
-    formData: PleiepengesøknadFormData,
+    formData: SøknadFormData,
     søknadsperiode: DateRange,
     søknadsdato: Date
-): Pick<PleiepengesøknadApiData, 'arbeidsgivere'> => {
+): Pick<SøknadApiData, 'arbeidsgivere'> => {
     const arbeidsgivere: ArbeidsgiverApiData[] = [];
     formData.ansatt_arbeidsforhold.forEach((forhold) => {
         if (erAnsattHosArbeidsgiverISøknadsperiode(forhold)) {

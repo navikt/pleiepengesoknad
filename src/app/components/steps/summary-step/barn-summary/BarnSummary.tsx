@@ -1,22 +1,22 @@
 import React from 'react';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
-import { Normaltekst } from 'nav-frontend-typografi';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import TextareaSummary from '@navikt/sif-common-core/lib/components/textarea-summary/TextareaSummary';
 import { apiStringDateToDate, prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
-import { PleiepengesøknadApiData } from '../../../../types/PleiepengesøknadApiData';
-import { PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
-import { BarnReceivedFromApi } from '../../../../types/Søkerdata';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import SummarySection from '../../../summary-section/SummarySection';
-import TextareaSummary from '@navikt/sif-common-core/lib/components/textarea-summary/TextareaSummary';
+import { Normaltekst } from 'nav-frontend-typografi';
 import { BarnRelasjon } from '../../../../types';
+import { SøknadApiData } from '../../../../types/SøknadApiData';
+import { SøknadFormData } from '../../../../types/SøknadFormData';
+import { BarnReceivedFromApi } from '../../../../types/Søkerdata';
+import SummarySection from '../../../summary-section/SummarySection';
 import Sitat from '../enkeltsvar/Sitat';
 
 interface Props {
     barn: BarnReceivedFromApi[];
-    formValues: PleiepengesøknadFormData;
-    apiValues: PleiepengesøknadApiData;
+    formValues: SøknadFormData;
+    apiValues: SøknadApiData;
 }
 
 const apiBarnSummary = (apiBarn: BarnReceivedFromApi) => (
@@ -40,7 +40,7 @@ const apiBarnSummary = (apiBarn: BarnReceivedFromApi) => (
     </>
 );
 
-const annetBarnSummary = (apiValues: PleiepengesøknadApiData) => (
+const annetBarnSummary = (apiValues: SøknadApiData) => (
     <>
         {apiValues.barn.fødselsdato ? (
             <Normaltekst>
@@ -65,7 +65,7 @@ const annetBarnSummary = (apiValues: PleiepengesøknadApiData) => (
     </>
 );
 
-const RelasjonTilBarnet = (intl: IntlShape, apiValues: PleiepengesøknadApiData) => (
+const RelasjonTilBarnet = (intl: IntlShape, apiValues: SøknadApiData) => (
     <SummarySection header={intlHelper(intl, 'steg.oppsummering.relasjonTilBarnet.header')}>
         <Box margin="m">
             {apiValues.barnRelasjon !== BarnRelasjon.ANNET && (

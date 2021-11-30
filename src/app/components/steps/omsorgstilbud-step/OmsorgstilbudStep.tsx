@@ -9,7 +9,7 @@ import isBetween from 'dayjs/plugin/isBetween';
 import { useFormikContext } from 'formik';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import usePersistSoknad from '../../../hooks/usePersistSoknad';
-import { PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { SøknadFormData } from '../../../types/SøknadFormData';
 import FormikStep from '../../formik-step/FormikStep';
 import HistoriskOmsorgstilbudSpørsmål from './HistoriskOmsorgstilbudSpørsmål';
 import { cleanupOmsorgstilbudStep } from './omsorgstilbudStepUtils';
@@ -35,7 +35,7 @@ const OmsorgstilbudStep = ({
 }: StepConfigProps & Props) => {
     const intl = useIntl();
     const history = useHistory();
-    const { values } = useFormikContext<PleiepengesøknadFormData>();
+    const { values } = useFormikContext<SøknadFormData>();
     const { omsorgstilbud } = values;
     const { persist } = usePersistSoknad(history);
 

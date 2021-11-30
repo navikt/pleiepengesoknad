@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { TypedFormikWrapper } from '@navikt/sif-common-formik';
 import { StepID } from '../../config/stepConfig';
-import { initialValues, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { initialValues, SøknadFormData } from '../../types/SøknadFormData';
 import AppEssentialsLoader from '../app-essentials-loader/AppEssentialsLoader';
 
 import PleiepengesøknadContent from '../pleiepengesøknad-content/PleiepengesøknadContent';
@@ -9,12 +9,12 @@ import PleiepengesøknadContent from '../pleiepengesøknad-content/Pleiepengesø
 const Pleiepengesøknad = () => (
     <AppEssentialsLoader
         contentLoadedRenderer={(
-            formdata: Partial<PleiepengesøknadFormData>,
+            formdata: Partial<SøknadFormData>,
             harMellomlagring,
             lastStepID: StepID | undefined
         ) => {
             return (
-                <TypedFormikWrapper<PleiepengesøknadFormData>
+                <TypedFormikWrapper<SøknadFormData>
                     initialValues={formdata || initialValues}
                     onSubmit={() => {
                         null;

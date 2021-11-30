@@ -1,8 +1,8 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { apiStringDateToDate, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { JobberIPeriodeSvar } from '../../../types';
-import { ArbeidIPeriodeApiData } from '../../../types/PleiepengesøknadApiData';
-import { ArbeidIPeriode } from '../../../types/PleiepengesøknadFormData';
+import { ArbeidIPeriodeApiData } from '../../../types/SøknadApiData';
+import { ArbeidIPeriode } from '../../../types/SøknadFormData';
 import {
     getHistoriskArbeidIArbeidsforhold,
     getPlanlagtArbeidIArbeidsforhold,

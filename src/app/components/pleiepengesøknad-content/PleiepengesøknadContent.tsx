@@ -8,8 +8,8 @@ import { persist } from '../../api/api';
 import { SKJEMANAVN } from '../../App';
 import RouteConfig from '../../config/routeConfig';
 import { StepID } from '../../config/stepConfig';
-import { ArbeidsgiverApiData, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
-import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { ArbeidsgiverApiData, SøknadApiData } from '../../types/SøknadApiData';
+import { SøknadFormData } from '../../types/SøknadFormData';
 import { Søkerdata } from '../../types/Søkerdata';
 import { getSøknadsperiodeFromFormData } from '../../utils/formDataUtils';
 import { getKvitteringInfoFromApiData } from '../../utils/kvitteringUtils';
@@ -46,7 +46,7 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
     const location = useLocation();
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
     const [kvitteringInfo, setKvitteringInfo] = React.useState<KvitteringInfo | undefined>(undefined);
-    const { values, resetForm } = useFormikContext<PleiepengesøknadFormData>();
+    const { values, resetForm } = useFormikContext<SøknadFormData>();
     const history = useHistory();
     const { logHendelse, logUserLoggedOut, logSoknadStartet } = useAmplitudeInstance();
 
@@ -234,7 +234,7 @@ const PleiepengesøknadContent = ({ lastStepID, harMellomlagring }: Pleiepenges�
                             values={values}
                             søknadsdato={søknadsdato}
                             søknadsperiode={søknadsperiode}
-                            onApplicationSent={(apiData: PleiepengesøknadApiData, søkerdata: Søkerdata) => {
+                            onApplicationSent={(apiData: SøknadApiData, søkerdata: Søkerdata) => {
                                 setKvitteringInfo(getKvitteringInfoFromApiData(apiData, søkerdata));
                                 setSøknadHasBeenSent(true);
                                 resetForm();

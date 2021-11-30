@@ -4,7 +4,7 @@ import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-with-header/ContentWithHeader';
 import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { HistoriskOmsorgstilbudApiData } from '../../../../types/PleiepengesøknadApiData';
+import { HistoriskOmsorgstilbudApiData } from '../../../../types/SøknadApiData';
 import TidEnkeltdager from '../../../dager-med-tid/TidEnkeltdager';
 import SummaryBlock from '../../../summary-block/SummaryBlock';
 import { getHistoriskPeriode } from '../../../../utils/tidsbrukUtils';

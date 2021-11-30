@@ -10,7 +10,7 @@ import { useFormikContext } from 'formik';
 import FormSection from '../../../pre-common/form-section/FormSection';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
-import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { SøknadFormField, SøknadFormData } from '../../../types/SøknadFormData';
 import { getArbeidsgivere } from '../../../utils/arbeidsforholdUtils';
 import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
 import FormikStep from '../../formik-step/FormikStep';
@@ -38,7 +38,7 @@ export const visVernepliktSpørsmål = ({
     ansatt_arbeidsforhold = [],
     frilans_harHattInntektSomFrilanser,
     selvstendig_harHattInntektSomSN,
-}: Partial<PleiepengesøknadFormData>): boolean => {
+}: Partial<SøknadFormData>): boolean => {
     return (
         frilans_harHattInntektSomFrilanser === YesOrNo.NO &&
         selvstendig_harHattInntektSomSN === YesOrNo.NO &&
@@ -48,8 +48,8 @@ export const visVernepliktSpørsmål = ({
     );
 };
 
-const cleanupArbeidssituasjonStep = (formValues: PleiepengesøknadFormData): PleiepengesøknadFormData => {
-    const values: PleiepengesøknadFormData = { ...formValues };
+const cleanupArbeidssituasjonStep = (formValues: SøknadFormData): SøknadFormData => {
+    const values: SøknadFormData = { ...formValues };
 
     values.ansatt_arbeidsforhold = values.ansatt_arbeidsforhold.map((a) => {
         const cleanedArbeidsforhold = { ...a };
@@ -87,7 +87,7 @@ const cleanupArbeidssituasjonStep = (formValues: PleiepengesøknadFormData): Ple
 };
 
 const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: StepConfigProps & Props) => {
-    const formikProps = useFormikContext<PleiepengesøknadFormData>();
+    const formikProps = useFormikContext<SøknadFormData>();
     const intl = useIntl();
     const {
         values,
@@ -192,7 +192,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                         <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.verneplikt.tittel')}>
                             <Box margin="l">
                                 <AppForm.YesOrNoQuestion
-                                    name={AppFormField.harVærtEllerErVernepliktig}
+                                    name={SøknadFormField.harVærtEllerErVernepliktig}
                                     legend={intlHelper(intl, 'steg.arbeidssituasjon.verneplikt.spm')}
                                     validate={getYesOrNoValidator()}
                                     description={

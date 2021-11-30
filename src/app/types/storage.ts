@@ -1,5 +1,5 @@
 import { StepID } from '../config/stepConfig';
-import { PleiepengesøknadFormData } from './PleiepengesøknadFormData';
+import { SøknadFormData } from './SøknadFormData';
 
 /** Persistence */
 export const MELLOMLAGRING_VERSION = '7.4';
@@ -11,5 +11,5 @@ interface StorageMetadata {
 
 export interface MellomlagringData {
     metadata: StorageMetadata;
-    formData: Partial<PleiepengesøknadFormData>;
+    formData: Partial<SøknadFormData>;
 }

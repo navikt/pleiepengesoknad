@@ -8,7 +8,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { useFormikContext } from 'formik';
 import FormSection from '../../../pre-common/form-section/FormSection';
-import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { SøknadFormField, SøknadFormData } from '../../../types/SøknadFormData';
 import ArbeidIPeriodeSpørsmål from '../../arbeidstid/ArbeidIPeriodeSpørsmål';
 import { ArbeidsforholdType } from '../../../types';
 import { getPeriodeSomFrilanserInneforPeriode } from '../../../utils/frilanserUtils';
@@ -22,7 +22,7 @@ interface Props {
 
 const ArbeidIPeriodeStepContent = ({ periode, erHistorisk, søknadsdato }: Props) => {
     const intl = useIntl();
-    const formikProps = useFormikContext<PleiepengesøknadFormData>();
+    const formikProps = useFormikContext<SøknadFormData>();
     const {
         values: {
             ansatt_arbeidsforhold,
@@ -93,7 +93,7 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk, søknadsdato }: Props
                                     arbeidsforholdType={ArbeidsforholdType.ANSATT}
                                     arbeidsforhold={arbeidsforhold}
                                     periode={periode}
-                                    parentFieldName={`${AppFormField.ansatt_arbeidsforhold}.${index}`}
+                                    parentFieldName={`${SøknadFormField.ansatt_arbeidsforhold}.${index}`}
                                     erHistorisk={erHistorisk}
                                     søknadsdato={søknadsdato}
                                 />
@@ -109,7 +109,7 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk, søknadsdato }: Props
                         arbeidsforholdType={ArbeidsforholdType.FRILANSER}
                         arbeidsforhold={frilans_arbeidsforhold}
                         periode={arbeidsperiodeFrilans}
-                        parentFieldName={`${AppFormField.frilans_arbeidsforhold}`}
+                        parentFieldName={`${SøknadFormField.frilans_arbeidsforhold}`}
                         erHistorisk={erHistorisk}
                         søknadsdato={søknadsdato}
                     />
@@ -121,7 +121,7 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk, søknadsdato }: Props
                         arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
                         arbeidsforhold={selvstendig_arbeidsforhold}
                         periode={periode}
-                        parentFieldName={`${AppFormField.selvstendig_arbeidsforhold}`}
+                        parentFieldName={`${SøknadFormField.selvstendig_arbeidsforhold}`}
                         erHistorisk={erHistorisk}
                         søknadsdato={søknadsdato}
                     />

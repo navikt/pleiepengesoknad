@@ -4,7 +4,7 @@ import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import dayjs from 'dayjs';
 import { TidEnkeltdag } from '../../types';
-import { AppFormField } from '../../types/PleiepengesøknadFormData';
+import { SøknadFormField } from '../../types/SøknadFormData';
 import { getMonthsInDateRange } from '../../utils/dateUtils';
 import { validateOmsorgstilbudEnkeltdagerIPeriode } from '../../validation/fieldValidations';
 import AppForm from '../app-form/AppForm';
@@ -27,8 +27,8 @@ const OmsorgstilbudIPeriodeSpørsmål: React.FunctionComponent<Props> = ({
     const gjelderFortid = dayjs(periode.to).isBefore(søknadsdato, 'day');
 
     const enkeltdagerFieldName = gjelderFortid
-        ? AppFormField.omsorgstilbud__historisk__enkeltdager
-        : AppFormField.omsorgstilbud__planlagt__enkeltdager;
+        ? SøknadFormField.omsorgstilbud__historisk__enkeltdager
+        : SøknadFormField.omsorgstilbud__planlagt__enkeltdager;
 
     return (
         <AppForm.InputGroup

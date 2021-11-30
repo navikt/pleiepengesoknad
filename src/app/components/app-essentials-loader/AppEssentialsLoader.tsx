@@ -5,7 +5,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { getBarn, getSøker, rehydrate } from '../../api/api';
 import { StepID } from '../../config/stepConfig';
 import { SøkerdataContextProvider } from '../../context/SøkerdataContext';
-import { AppFormField, initialValues, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { SøknadFormField, initialValues, SøknadFormData } from '../../types/SøknadFormData';
 import { MELLOMLAGRING_VERSION, MellomlagringData } from '../../types/storage';
 import { Arbeidsgiver, Søkerdata } from '../../types/Søkerdata';
 import * as apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
@@ -18,7 +18,7 @@ export const VERIFY_MELLOMLAGRING_VERSION = true;
 
 interface OwnProps {
     contentLoadedRenderer: (
-        formdata: Partial<PleiepengesøknadFormData>,
+        formdata: Partial<SøknadFormData>,
         harMellomlagring: boolean,
         lastStepID?: StepID,
         søkerdata?: Søkerdata
@@ -29,7 +29,7 @@ interface State {
     isLoading: boolean;
     willRedirectToLoginPage: boolean;
     lastStepID?: StepID;
-    formdata: Partial<PleiepengesøknadFormData>;
+    formdata: Partial<SøknadFormData>;
     søkerdata?: Søkerdata;
     harMellomlagring: boolean;
     harIkkeTilgang: boolean;
@@ -98,7 +98,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
         const formData = mellomlagring?.formData
             ? {
                   ...mellomlagring.formData,
-                  [AppFormField.legeerklæring]: getValidAttachments(mellomlagring.formData.legeerklæring),
+                  [SøknadFormField.legeerklæring]: getValidAttachments(mellomlagring.formData.legeerklæring),
               }
             : undefined;
         const lastStepID = mellomlagring?.metadata?.lastStepID;
@@ -122,7 +122,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
     }
 
     updateSøkerdata(
-        formdata: Partial<PleiepengesøknadFormData>,
+        formdata: Partial<SøknadFormData>,
         søkerdata: Søkerdata,
         harMellomlagring: boolean,
         lastStepID?: StepID,

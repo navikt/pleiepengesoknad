@@ -7,7 +7,7 @@ import { useFormikContext } from 'formik';
 import { Knapp } from 'nav-frontend-knapper';
 import { persist, purge } from '../../api/api';
 import { getStepConfig } from '../../config/stepConfig';
-import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { SøknadFormData } from '../../types/SøknadFormData';
 import { relocateToDinePleiepenger, relocateToSoknad } from '../../utils/navigationUtils';
 import { getStepTexts } from '../../utils/stepUtils';
 import AppForm from '../app-form/AppForm';
@@ -22,13 +22,13 @@ export interface FormikStepProps {
     skipValidation?: boolean;
     onValidFormSubmit?: () => void;
     customErrorSummary?: () => React.ReactNode;
-    onStepCleanup?: (values: PleiepengesøknadFormData) => PleiepengesøknadFormData;
+    onStepCleanup?: (values: SøknadFormData) => SøknadFormData;
 }
 
 type Props = FormikStepProps & Omit<StepProps, 'onAvbryt' | 'onFortsettSenere'>;
 
 const FormikStep = (props: Props) => {
-    const formik = useFormikContext<PleiepengesøknadFormData>();
+    const formik = useFormikContext<SøknadFormData>();
 
     const intl = useIntl();
     const {

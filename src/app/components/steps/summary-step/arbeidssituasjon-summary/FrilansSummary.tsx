@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { FrilansApiData } from '../../../../types/PleiepengesøknadApiData';
+import { FrilansApiData } from '../../../../types/SøknadApiData';
 import SummaryBlock from '../../../summary-block/SummaryBlock';
 import { prettifyApiDate } from '../enkeltsvar/DatoSvar';
 import { getTidSetning } from './arbeidssituasjon-summary-utils';

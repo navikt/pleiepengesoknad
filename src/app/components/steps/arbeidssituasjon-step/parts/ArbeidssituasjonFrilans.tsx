@@ -12,7 +12,7 @@ import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../../../lenker';
 import { ArbeidsforholdType } from '../../../../types';
-import { AppFormField, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
+import { SøknadFormField, SøknadFormData } from '../../../../types/SøknadFormData';
 import { getJobberNormaltTimerValidator } from '../../../../validation/validateArbeidFields';
 import {
     getFrilanserSluttdatoValidator,
@@ -23,7 +23,7 @@ import TimerFormPart from './TimerFormPart';
 import { erFrilanserIPeriode } from '../../../../utils/frilanserUtils';
 
 interface Props {
-    formValues: PleiepengesøknadFormData;
+    formValues: SøknadFormData;
     søknadsperiode: DateRange;
     søknadsdato: Date;
     søkerKunHistoriskPeriode: boolean;
@@ -50,7 +50,7 @@ const ArbeidssituasjonFrilans = ({ formValues, søkerKunHistoriskPeriode, søkna
         <>
             <Box margin="l">
                 <AppForm.YesOrNoQuestion
-                    name={AppFormField.frilans_harHattInntektSomFrilanser}
+                    name={SøknadFormField.frilans_harHattInntektSomFrilanser}
                     legend={intlHelper(
                         intl,
                         søkerKunHistoriskPeriode
@@ -75,7 +75,7 @@ const ArbeidssituasjonFrilans = ({ formValues, søkerKunHistoriskPeriode, søkna
                     <ResponsivePanel>
                         <Box>
                             <AppForm.DatePicker
-                                name={AppFormField.frilans_startdato}
+                                name={SøknadFormField.frilans_startdato}
                                 label={intlHelper(intl, 'frilanser.nårStartet.spm')}
                                 showYearSelector={true}
                                 maxDate={søknadsdato}
@@ -84,7 +84,7 @@ const ArbeidssituasjonFrilans = ({ formValues, søkerKunHistoriskPeriode, søkna
                         </Box>
                         <FormBlock>
                             <AppForm.YesOrNoQuestion
-                                name={AppFormField.frilans_jobberFortsattSomFrilans}
+                                name={SøknadFormField.frilans_jobberFortsattSomFrilans}
                                 legend={intlHelper(intl, 'frilanser.jobberFortsatt.spm')}
                                 validate={getYesOrNoValidator()}
                             />
@@ -92,7 +92,7 @@ const ArbeidssituasjonFrilans = ({ formValues, søkerKunHistoriskPeriode, søkna
                         {frilans_jobberFortsattSomFrilans === YesOrNo.NO && (
                             <FormBlock>
                                 <AppForm.DatePicker
-                                    name={AppFormField.frilans_sluttdato}
+                                    name={SøknadFormField.frilans_sluttdato}
                                     label={intlHelper(intl, 'frilanser.nårSluttet.spm')}
                                     showYearSelector={true}
                                     minDate={datepickerUtils.getDateFromDateString(frilans_startdato)}
@@ -120,7 +120,7 @@ const ArbeidssituasjonFrilans = ({ formValues, søkerKunHistoriskPeriode, søkna
                                         jobberNormaltTimer: getJobberNormaltTimerValidator(intlValues),
                                     }}
                                     arbeidsforhold={frilans_arbeidsforhold}
-                                    parentFieldName={`${AppFormField.frilans_arbeidsforhold}`}
+                                    parentFieldName={`${SøknadFormField.frilans_arbeidsforhold}`}
                                 />
                             </FormBlock>
                         )}

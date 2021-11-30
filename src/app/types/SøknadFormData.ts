@@ -8,7 +8,7 @@ import { AndreYtelserFraNAV, BarnRelasjon, JobberIPeriodeSvar, TidEnkeltdag } fr
 
 import { Arbeidsgiver } from './Søkerdata';
 
-export enum AppFormField {
+export enum SøknadFormField {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
     harBekreftetOpplysninger = 'harBekreftetOpplysninger',
     barnetsNavn = 'barnetsNavn',
@@ -132,78 +132,78 @@ export const isArbeidsforholdAnsatt = (arbeidsforhold: any): arbeidsforhold is A
 
 export type ArbeidsforholdSNF = Arbeidsforhold;
 
-export interface PleiepengesøknadFormData {
-    [AppFormField.harForståttRettigheterOgPlikter]: boolean;
-    [AppFormField.harBekreftetOpplysninger]: boolean;
-    [AppFormField.barnetsNavn]: string;
-    [AppFormField.barnetsFødselsnummer]: string;
-    [AppFormField.barnetsFødselsdato]?: string;
-    [AppFormField.søknadenGjelderEtAnnetBarn]: boolean;
-    [AppFormField.barnetSøknadenGjelder]: string;
-    [AppFormField.relasjonTilBarnet]?: BarnRelasjon;
-    [AppFormField.relasjonTilBarnetBeskrivelse]?: string;
-    [AppFormField.ansatt_arbeidsforhold]: ArbeidsforholdAnsatt[];
-    [AppFormField.periodeFra]?: string;
-    [AppFormField.periodeTil]?: string;
-    [AppFormField.skalPassePåBarnetIHelePerioden]?: YesOrNo;
-    [AppFormField.beskrivelseOmsorgsrolleIPerioden]?: string;
-    [AppFormField.legeerklæring]: Attachment[];
-    [AppFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo;
-    [AppFormField.utenlandsoppholdSiste12Mnd]: Utenlandsopphold[];
-    [AppFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo;
-    [AppFormField.utenlandsoppholdNeste12Mnd]: Utenlandsopphold[];
-    [AppFormField.skalOppholdeSegIUtlandetIPerioden]?: YesOrNo;
-    [AppFormField.utenlandsoppholdIPerioden]?: Utenlandsopphold[];
-    [AppFormField.skalTaUtFerieIPerioden]?: YesOrNo;
-    [AppFormField.ferieuttakIPerioden]?: Ferieuttak[];
-    [AppFormField.harMedsøker]: YesOrNo;
-    [AppFormField.samtidigHjemme]: YesOrNo;
-    [AppFormField.omsorgstilbud]?: Omsorgstilbud;
-    [AppFormField.harNattevåk]: YesOrNo;
-    [AppFormField.harNattevåk_ekstrainfo]?: string;
-    [AppFormField.harBeredskap]: YesOrNo;
-    [AppFormField.harBeredskap_ekstrainfo]?: string;
-    [AppFormField.frilans_harHattInntektSomFrilanser]?: YesOrNo;
-    [AppFormField.frilans_startdato]?: string;
-    [AppFormField.frilans_sluttdato]?: string;
-    [AppFormField.frilans_jobberFortsattSomFrilans]?: YesOrNo;
-    [AppFormField.frilans_arbeidsforhold]?: ArbeidsforholdSNF;
-    [AppFormField.selvstendig_harHattInntektSomSN]?: YesOrNo;
-    [AppFormField.selvstendig_harFlereVirksomheter]?: YesOrNo;
-    [AppFormField.selvstendig_virksomhet]?: Virksomhet;
-    [AppFormField.selvstendig_arbeidsforhold]?: ArbeidsforholdSNF;
-    [AppFormField.harVærtEllerErVernepliktig]?: YesOrNo;
-    [AppFormField.mottarAndreYtelser]?: YesOrNo;
-    [AppFormField.andreYtelser]?: AndreYtelserFraNAV[];
+export interface SøknadFormData {
+    [SøknadFormField.harForståttRettigheterOgPlikter]: boolean;
+    [SøknadFormField.harBekreftetOpplysninger]: boolean;
+    [SøknadFormField.barnetsNavn]: string;
+    [SøknadFormField.barnetsFødselsnummer]: string;
+    [SøknadFormField.barnetsFødselsdato]?: string;
+    [SøknadFormField.søknadenGjelderEtAnnetBarn]: boolean;
+    [SøknadFormField.barnetSøknadenGjelder]: string;
+    [SøknadFormField.relasjonTilBarnet]?: BarnRelasjon;
+    [SøknadFormField.relasjonTilBarnetBeskrivelse]?: string;
+    [SøknadFormField.ansatt_arbeidsforhold]: ArbeidsforholdAnsatt[];
+    [SøknadFormField.periodeFra]?: string;
+    [SøknadFormField.periodeTil]?: string;
+    [SøknadFormField.skalPassePåBarnetIHelePerioden]?: YesOrNo;
+    [SøknadFormField.beskrivelseOmsorgsrolleIPerioden]?: string;
+    [SøknadFormField.legeerklæring]: Attachment[];
+    [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo;
+    [SøknadFormField.utenlandsoppholdSiste12Mnd]: Utenlandsopphold[];
+    [SøknadFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo;
+    [SøknadFormField.utenlandsoppholdNeste12Mnd]: Utenlandsopphold[];
+    [SøknadFormField.skalOppholdeSegIUtlandetIPerioden]?: YesOrNo;
+    [SøknadFormField.utenlandsoppholdIPerioden]?: Utenlandsopphold[];
+    [SøknadFormField.skalTaUtFerieIPerioden]?: YesOrNo;
+    [SøknadFormField.ferieuttakIPerioden]?: Ferieuttak[];
+    [SøknadFormField.harMedsøker]: YesOrNo;
+    [SøknadFormField.samtidigHjemme]: YesOrNo;
+    [SøknadFormField.omsorgstilbud]?: Omsorgstilbud;
+    [SøknadFormField.harNattevåk]: YesOrNo;
+    [SøknadFormField.harNattevåk_ekstrainfo]?: string;
+    [SøknadFormField.harBeredskap]: YesOrNo;
+    [SøknadFormField.harBeredskap_ekstrainfo]?: string;
+    [SøknadFormField.frilans_harHattInntektSomFrilanser]?: YesOrNo;
+    [SøknadFormField.frilans_startdato]?: string;
+    [SøknadFormField.frilans_sluttdato]?: string;
+    [SøknadFormField.frilans_jobberFortsattSomFrilans]?: YesOrNo;
+    [SøknadFormField.frilans_arbeidsforhold]?: ArbeidsforholdSNF;
+    [SøknadFormField.selvstendig_harHattInntektSomSN]?: YesOrNo;
+    [SøknadFormField.selvstendig_harFlereVirksomheter]?: YesOrNo;
+    [SøknadFormField.selvstendig_virksomhet]?: Virksomhet;
+    [SøknadFormField.selvstendig_arbeidsforhold]?: ArbeidsforholdSNF;
+    [SøknadFormField.harVærtEllerErVernepliktig]?: YesOrNo;
+    [SøknadFormField.mottarAndreYtelser]?: YesOrNo;
+    [SøknadFormField.andreYtelser]?: AndreYtelserFraNAV[];
 }
 
-export const initialValues: PleiepengesøknadFormData = {
-    [AppFormField.periodeFra]: undefined,
-    [AppFormField.periodeTil]: undefined,
-    [AppFormField.barnetsNavn]: '',
-    [AppFormField.barnetsFødselsnummer]: '',
-    [AppFormField.barnetSøknadenGjelder]: '',
-    [AppFormField.harForståttRettigheterOgPlikter]: false,
-    [AppFormField.harBekreftetOpplysninger]: false,
-    [AppFormField.søknadenGjelderEtAnnetBarn]: false,
-    [AppFormField.legeerklæring]: [],
-    [AppFormField.ansatt_arbeidsforhold]: [],
-    [AppFormField.barnetsFødselsdato]: undefined,
-    [AppFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,
-    [AppFormField.utenlandsoppholdSiste12Mnd]: [],
-    [AppFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.UNANSWERED,
-    [AppFormField.utenlandsoppholdNeste12Mnd]: [],
-    [AppFormField.skalOppholdeSegIUtlandetIPerioden]: YesOrNo.UNANSWERED,
-    [AppFormField.utenlandsoppholdIPerioden]: [],
-    [AppFormField.skalTaUtFerieIPerioden]: YesOrNo.UNANSWERED,
-    [AppFormField.ferieuttakIPerioden]: [],
-    [AppFormField.harMedsøker]: YesOrNo.UNANSWERED,
-    [AppFormField.samtidigHjemme]: YesOrNo.UNANSWERED,
-    [AppFormField.omsorgstilbud]: undefined,
-    [AppFormField.harNattevåk]: YesOrNo.UNANSWERED,
-    [AppFormField.harBeredskap]: YesOrNo.UNANSWERED,
-    [AppFormField.frilans_harHattInntektSomFrilanser]: YesOrNo.UNANSWERED,
-    [AppFormField.selvstendig_harHattInntektSomSN]: YesOrNo.UNANSWERED,
-    [AppFormField.selvstendig_virksomhet]: undefined,
-    [AppFormField.andreYtelser]: [],
+export const initialValues: SøknadFormData = {
+    [SøknadFormField.periodeFra]: undefined,
+    [SøknadFormField.periodeTil]: undefined,
+    [SøknadFormField.barnetsNavn]: '',
+    [SøknadFormField.barnetsFødselsnummer]: '',
+    [SøknadFormField.barnetSøknadenGjelder]: '',
+    [SøknadFormField.harForståttRettigheterOgPlikter]: false,
+    [SøknadFormField.harBekreftetOpplysninger]: false,
+    [SøknadFormField.søknadenGjelderEtAnnetBarn]: false,
+    [SøknadFormField.legeerklæring]: [],
+    [SøknadFormField.ansatt_arbeidsforhold]: [],
+    [SøknadFormField.barnetsFødselsdato]: undefined,
+    [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.UNANSWERED,
+    [SøknadFormField.utenlandsoppholdSiste12Mnd]: [],
+    [SøknadFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.UNANSWERED,
+    [SøknadFormField.utenlandsoppholdNeste12Mnd]: [],
+    [SøknadFormField.skalOppholdeSegIUtlandetIPerioden]: YesOrNo.UNANSWERED,
+    [SøknadFormField.utenlandsoppholdIPerioden]: [],
+    [SøknadFormField.skalTaUtFerieIPerioden]: YesOrNo.UNANSWERED,
+    [SøknadFormField.ferieuttakIPerioden]: [],
+    [SøknadFormField.harMedsøker]: YesOrNo.UNANSWERED,
+    [SøknadFormField.samtidigHjemme]: YesOrNo.UNANSWERED,
+    [SøknadFormField.omsorgstilbud]: undefined,
+    [SøknadFormField.harNattevåk]: YesOrNo.UNANSWERED,
+    [SøknadFormField.harBeredskap]: YesOrNo.UNANSWERED,
+    [SøknadFormField.frilans_harHattInntektSomFrilanser]: YesOrNo.UNANSWERED,
+    [SøknadFormField.selvstendig_harHattInntektSomSN]: YesOrNo.UNANSWERED,
+    [SøknadFormField.selvstendig_virksomhet]: undefined,
+    [SøknadFormField.andreYtelser]: [],
 };

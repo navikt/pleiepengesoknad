@@ -1,5 +1,5 @@
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { SøknadFormData } from '../types/SøknadFormData';
 import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
 import { getSøknadRoute } from '../utils/routeUtils';
 import {
@@ -55,7 +55,7 @@ interface ConfigStepHelperType {
     included: boolean;
 }
 
-export const getStepConfig = (formValues?: PleiepengesøknadFormData): StepConfigInterface => {
+export const getStepConfig = (formValues?: SøknadFormData): StepConfigInterface => {
     const søknadsperiode = formValues ? getSøknadsperiodeFromFormData(formValues) : undefined;
     const includeNattevåkAndBeredskap = skalBrukerSvarePåBeredskapOgNattevåk(formValues);
     const søknadsdato = dateToday;

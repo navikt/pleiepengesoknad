@@ -6,7 +6,7 @@ import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib
 import { ArbeidIPeriodeIntlValues } from '../components/arbeidstid/ArbeidIPeriodeSpørsmål';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
 import { TidEnkeltdag } from '../types';
-import { ArbeidIPeriode } from '../types/PleiepengesøknadFormData';
+import { ArbeidIPeriode } from '../types/SøknadFormData';
 import {
     getValidEnkeltdager,
     getTidEnkeltdagerInnenforPeriode,

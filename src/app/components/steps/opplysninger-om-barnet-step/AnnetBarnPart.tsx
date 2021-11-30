@@ -11,13 +11,13 @@ import {
     getStringValidator,
 } from '@navikt/sif-common-formik/lib/validation';
 import { Undertittel } from 'nav-frontend-typografi';
-import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { SøknadFormField, SøknadFormData } from '../../../types/SøknadFormData';
 import { validateNavn } from '../../../validation/fieldValidations';
 import AppForm from '../../app-form/AppForm';
 import { BarnRelasjon } from '../../../types';
 
 interface Props {
-    formValues: PleiepengesøknadFormData;
+    formValues: SøknadFormData;
     søkersFødselsnummer: string;
 }
 
@@ -34,7 +34,7 @@ const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues, søkersFød
                 }>
                 <AppForm.Input
                     label={intlHelper(intl, 'steg.omBarnet.fnr.spm')}
-                    name={AppFormField.barnetsFødselsnummer}
+                    name={SøknadFormField.barnetsFødselsnummer}
                     validate={getFødselsnummerValidator({
                         required: true,
                         disallowedValues: [søkersFødselsnummer],
@@ -47,7 +47,7 @@ const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues, søkersFød
                 <FormBlock>
                     <AppForm.Input
                         label={intlHelper(intl, 'steg.omBarnet.navn')}
-                        name={AppFormField.barnetsNavn}
+                        name={SøknadFormField.barnetsNavn}
                         validate={validateNavn}
                         bredde="XL"
                     />
@@ -55,7 +55,7 @@ const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues, søkersFød
                 <FormBlock>
                     <AppForm.RadioGroup
                         legend={intlHelper(intl, 'steg.omBarnet.relasjon.spm')}
-                        name={AppFormField.relasjonTilBarnet}
+                        name={SøknadFormField.relasjonTilBarnet}
                         radios={Object.keys(BarnRelasjon).map((relasjon) => ({
                             label: intlHelper(intl, `barnRelasjon.${relasjon}`),
                             value: relasjon,
@@ -85,7 +85,7 @@ const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues, søkersFød
                                     </ExpandableInfo>
                                 </>
                             }
-                            name={AppFormField.relasjonTilBarnetBeskrivelse}
+                            name={SøknadFormField.relasjonTilBarnetBeskrivelse}
                             validate={(value) => {
                                 const error = getStringValidator({ required: true, maxLength: 2000 })(value);
                                 return error

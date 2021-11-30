@@ -1,6 +1,6 @@
 import RouteConfig from '../config/routeConfig';
 import { getStepConfig, StepID } from '../config/stepConfig';
-import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { SøknadFormData } from '../types/SøknadFormData';
 import {
     arbeidssituasjonStepAvailable,
     legeerklæringStepAvailable,
@@ -19,18 +19,14 @@ export const getSøknadRoute = (stepId: StepID | undefined) => {
     return undefined;
 };
 
-export const getNextStepRoute = (stepId: StepID, formData?: PleiepengesøknadFormData): string | undefined => {
+export const getNextStepRoute = (stepId: StepID, formData?: SøknadFormData): string | undefined => {
     const stepConfig = getStepConfig(formData);
     return stepConfig[stepId] && stepConfig[stepId].included === true
         ? getSøknadRoute(stepConfig[stepId].nextStep)
         : undefined;
 };
 
-export const isAvailable = (
-    path: StepID | RouteConfig,
-    values: PleiepengesøknadFormData,
-    søknadHasBeenSent?: boolean
-) => {
+export const isAvailable = (path: StepID | RouteConfig, values: SøknadFormData, søknadHasBeenSent?: boolean) => {
     switch (path) {
         case StepID.OPPLYSNINGER_OM_BARNET:
             return opplysningerOmBarnetStepAvailable(values);

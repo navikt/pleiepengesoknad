@@ -5,7 +5,7 @@ import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-wi
 import TextareaSummary from '@navikt/sif-common-core/lib/components/textarea-summary/TextareaSummary';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { PleiepengesøknadApiData } from '../../../../types/PleiepengesøknadApiData';
+import { SøknadApiData } from '../../../../types/SøknadApiData';
 import SummarySection from '../../../summary-section/SummarySection';
 import HistoriskOmsorgstilbudSummary from './HistoriskOmsorgstilbudSummary';
 import PlanlagtOmsorgstilbudSummary from './PlanlagtOmsorgstilbudSummary';
@@ -15,7 +15,7 @@ import { getSøkerKunHistoriskPeriode } from '../../../../utils/tidsbrukUtils';
 interface Props {
     søknadsperiode: DateRange;
     søknadsdato: Date;
-    apiValues: PleiepengesøknadApiData;
+    apiValues: SøknadApiData;
 }
 
 const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({

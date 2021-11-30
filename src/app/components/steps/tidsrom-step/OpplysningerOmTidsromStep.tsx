@@ -15,7 +15,7 @@ import UtenlandsoppholdListAndDialog from '@navikt/sif-common-forms/lib/utenland
 import { useFormikContext } from 'formik';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import { SøkerdataContext } from '../../../context/SøkerdataContext';
-import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { SøknadFormField, SøknadFormData } from '../../../types/SøknadFormData';
 import {
     validateFerieuttakIPerioden,
     validateFradato,
@@ -31,7 +31,7 @@ import minMax from 'dayjs/plugin/minMax';
 dayjs.extend(minMax);
 
 const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
-    const { values } = useFormikContext<PleiepengesøknadFormData>();
+    const { values } = useFormikContext<SøknadFormData>();
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const søkerdata = React.useContext(SøkerdataContext)!;
 
@@ -39,7 +39,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
         ? søkerdata.barn.find((barn) => barn.aktørId === values.barnetSøknadenGjelder)
         : undefined;
 
-    const harMedsøker = values[AppFormField.harMedsøker];
+    const harMedsøker = values[SøknadFormField.harMedsøker];
 
     const periodeFra = datepickerUtils.getDateFromDateString(values.periodeFra);
 
@@ -84,12 +84,12 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                 fromInputProps={{
                     label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.fom'),
                     validate: validateFraDatoField,
-                    name: AppFormField.periodeFra,
+                    name: SøknadFormField.periodeFra,
                 }}
                 toInputProps={{
                     label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.tom'),
                     validate: validateTilDatoField,
-                    name: AppFormField.periodeTil,
+                    name: SøknadFormField.periodeTil,
                     dayPickerProps: { initialMonth: periodeFra ? new Date(periodeFra) : undefined },
                 }}
                 disableWeekend={true}
@@ -102,7 +102,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
             <Box margin="xl">
                 <AppForm.YesOrNoQuestion
                     legend={intlHelper(intl, 'steg.tidsrom.annenSamtidig.spm')}
-                    name={AppFormField.harMedsøker}
+                    name={SøknadFormField.harMedsøker}
                     validate={getYesOrNoValidator()}
                 />
             </Box>
@@ -111,7 +111,7 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                 <Box margin="xl">
                     <AppForm.YesOrNoQuestion
                         legend={intlHelper(intl, 'steg.tidsrom.samtidigHjemme.spm')}
-                        name={AppFormField.samtidigHjemme}
+                        name={SøknadFormField.samtidigHjemme}
                         validate={getYesOrNoValidator()}
                     />
                 </Box>
@@ -120,14 +120,14 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
             <Box margin="xl">
                 <AppForm.YesOrNoQuestion
                     legend={intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.spm')}
-                    name={AppFormField.skalOppholdeSegIUtlandetIPerioden}
+                    name={SøknadFormField.skalOppholdeSegIUtlandetIPerioden}
                     validate={getYesOrNoValidator()}
                 />
             </Box>
             {values.skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES && (
                 <Box margin="m">
-                    <UtenlandsoppholdListAndDialog<AppFormField>
-                        name={AppFormField.utenlandsoppholdIPerioden}
+                    <UtenlandsoppholdListAndDialog<SøknadFormField>
+                        name={SøknadFormField.utenlandsoppholdIPerioden}
                         minDate={periode.from}
                         maxDate={periode.to}
                         labels={{
@@ -154,14 +154,14 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
             <Box margin="xl">
                 <AppForm.YesOrNoQuestion
                     legend={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.spm')}
-                    name={AppFormField.skalTaUtFerieIPerioden}
+                    name={SøknadFormField.skalTaUtFerieIPerioden}
                     validate={getYesOrNoValidator()}
                 />
             </Box>
             {values.skalTaUtFerieIPerioden === YesOrNo.YES && (
                 <Box margin="m" padBottom="l">
-                    <FerieuttakListAndDialog<AppFormField>
-                        name={AppFormField.ferieuttakIPerioden}
+                    <FerieuttakListAndDialog<SøknadFormField>
+                        name={SøknadFormField.ferieuttakIPerioden}
                         minDate={periode.from}
                         maxDate={periode.to}
                         labels={{

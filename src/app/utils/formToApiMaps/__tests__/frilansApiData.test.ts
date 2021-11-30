@@ -1,7 +1,7 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { JobberIPeriodeSvar } from '../../../types';
-import { AppFormField, Arbeidsforhold, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { SøknadFormField, Arbeidsforhold, SøknadFormData } from '../../../types/SøknadFormData';
 import { FrilansApiDataPart, getFrilansApiData } from '../frilansApiData';
 
 const søknadsperiode: DateRange = {
@@ -43,7 +43,7 @@ const frilans_arbeidsforhold: Arbeidsforhold = {
 };
 
 describe('frilansApiData', () => {
-    const formData: PleiepengesøknadFormData = {} as PleiepengesøknadFormData;
+    const formData: SøknadFormData = {} as SøknadFormData;
 
     it('returnerer _harHattInntektSomFrilanser===false dersom startdato er ugyldig', () => {
         const apiData = getFrilansApiData({ ...formData, frilans_startdato: undefined }, søknadsperiode, søknadsdato);
@@ -51,7 +51,7 @@ describe('frilansApiData', () => {
         expect(apiData.frilans).toBeUndefined();
     });
 
-    it(`returnerer _harHattInntektSomFrilanser===false, og frilans===undefined dersom ${AppFormField.frilans_harHattInntektSomFrilanser} === ${YesOrNo.NO}`, () => {
+    it(`returnerer _harHattInntektSomFrilanser===false, og frilans===undefined dersom ${SøknadFormField.frilans_harHattInntektSomFrilanser} === ${YesOrNo.NO}`, () => {
         const apiData: FrilansApiDataPart = getFrilansApiData(
             { ...formData, frilans_harHattInntektSomFrilanser: YesOrNo.NO },
             søknadsperiode,

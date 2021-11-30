@@ -8,7 +8,7 @@ import getIntlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/in
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import Lenke from 'nav-frontend-lenker';
-import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { SøknadFormField, SøknadFormData } from '../../../types/SøknadFormData';
 import { getCheckedValidator } from '@navikt/sif-common-formik/lib/validation';
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
     onOpenDinePlikterModal: () => void;
 }
 
-const AppForm = getTypedFormComponents<AppFormField, PleiepengesøknadFormData, ValidationError>();
+const AppForm = getTypedFormComponents<SøknadFormField, SøknadFormData, ValidationError>();
 
 const bem = bemHelper('welcomingPage');
 
@@ -30,7 +30,7 @@ const SamtykkeForm = ({ onConfirm, onOpenDinePlikterModal }: Props) => {
             <FormBlock>
                 <AppForm.ConfirmationCheckbox
                     label={intlHelper(intl, 'welcomingPage.samtykke.tekst')}
-                    name={AppFormField.harForståttRettigheterOgPlikter}
+                    name={SøknadFormField.harForståttRettigheterOgPlikter}
                     data-cy={'harForståttRettigheterOgPlikter'}
                     validate={getCheckedValidator()}>
                     <FormattedMessage

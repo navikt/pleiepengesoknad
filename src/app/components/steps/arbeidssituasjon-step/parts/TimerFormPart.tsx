@@ -2,11 +2,7 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { ValidationError, ValidationFunction } from '@navikt/sif-common-formik/lib/validation/types';
-import {
-    ArbeidsforholdAnsatt,
-    ArbeidsforholdField,
-    ArbeidsforholdSNF,
-} from '../../../../types/PleiepengesøknadFormData';
+import { ArbeidsforholdAnsatt, ArbeidsforholdField, ArbeidsforholdSNF } from '../../../../types/SøknadFormData';
 import AppForm from '../../../app-form/AppForm';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import { ArbeidsforholdType } from '../../../../types';

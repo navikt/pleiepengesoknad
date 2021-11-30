@@ -12,14 +12,14 @@ import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../../../lenker';
 import { ArbeidsforholdType } from '../../../../types';
-import { AppFormField, PleiepengesøknadFormData } from '../../../../types/PleiepengesøknadFormData';
+import { SøknadFormField, SøknadFormData } from '../../../../types/SøknadFormData';
 import { isYesOrNoAnswered } from '../../../../validation/fieldValidations';
 import { getJobberNormaltTimerValidator } from '../../../../validation/validateArbeidFields';
 import AppForm from '../../../app-form/AppForm';
 import TimerFormPart from './TimerFormPart';
 
 interface Props {
-    formValues: PleiepengesøknadFormData;
+    formValues: SøknadFormData;
     søkerKunHistoriskPeriode: boolean;
 }
 
@@ -35,7 +35,7 @@ const ArbeidssituasonSN = ({ formValues, søkerKunHistoriskPeriode }: Props) => 
         <>
             <Box margin="l">
                 <AppForm.YesOrNoQuestion
-                    name={AppFormField.selvstendig_harHattInntektSomSN}
+                    name={SøknadFormField.selvstendig_harHattInntektSomSN}
                     legend={intlHelper(
                         intl,
                         søkerKunHistoriskPeriode
@@ -59,7 +59,7 @@ const ArbeidssituasonSN = ({ formValues, søkerKunHistoriskPeriode }: Props) => 
                 <FormBlock margin="l">
                     <ResponsivePanel>
                         <AppForm.YesOrNoQuestion
-                            name={AppFormField.selvstendig_harFlereVirksomheter}
+                            name={SøknadFormField.selvstendig_harFlereVirksomheter}
                             legend={intlHelper(intl, 'selvstendig.harFlereVirksomheter.spm')}
                             validate={getYesOrNoValidator()}
                         />
@@ -77,7 +77,7 @@ const ArbeidssituasonSN = ({ formValues, søkerKunHistoriskPeriode }: Props) => 
                             isYesOrNoAnswered(selvstendig_harFlereVirksomheter) && (
                                 <FormBlock>
                                     <VirksomhetInfoAndDialog
-                                        name={AppFormField.selvstendig_virksomhet}
+                                        name={SøknadFormField.selvstendig_virksomhet}
                                         harFlereVirksomheter={harFlereVirksomheter}
                                         labels={{
                                             infoTitle: selvstendig_virksomhet
@@ -105,7 +105,7 @@ const ArbeidssituasonSN = ({ formValues, søkerKunHistoriskPeriode }: Props) => 
                                         jobberNormaltTimer: getJobberNormaltTimerValidator(intlValues),
                                     }}
                                     arbeidsforhold={selvstendig_arbeidsforhold}
-                                    parentFieldName={`${AppFormField.selvstendig_arbeidsforhold}`}
+                                    parentFieldName={`${SøknadFormField.selvstendig_arbeidsforhold}`}
                                 />
                             </FormBlock>
                         )}

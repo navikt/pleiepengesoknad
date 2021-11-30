@@ -15,7 +15,7 @@ import moment from 'moment';
 import Lenke from 'nav-frontend-lenker';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
 import getLenker from '../../../lenker';
-import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { SøknadFormField, SøknadFormData } from '../../../types/SøknadFormData';
 import AppForm from '../../app-form/AppForm';
 import FormikStep from '../../formik-step/FormikStep';
 import { validateUtenlandsoppholdNeste12Mnd, validateUtenlandsoppholdSiste12Mnd } from './medlemskapFieldValidations';
@@ -34,7 +34,7 @@ type Props = {
     søknadsdato: Date;
 };
 const MedlemsskapStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Props) => {
-    const { values } = useFormikContext<PleiepengesøknadFormData>();
+    const { values } = useFormikContext<SøknadFormData>();
     const intl = useIntl();
     const neste12FomDate = getFomForBostedNeste12(values.utenlandsoppholdSiste12Mnd, søknadsdato);
     return (
@@ -50,7 +50,7 @@ const MedlemsskapStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Prop
             </Box>
             <AppForm.YesOrNoQuestion
                 legend={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.spm')}
-                name={AppFormField.harBoddUtenforNorgeSiste12Mnd}
+                name={SøknadFormField.harBoddUtenforNorgeSiste12Mnd}
                 validate={getYesOrNoValidator()}
                 description={
                     <ExpandableInfo title={intlHelper(intl, 'HvaBetyrDette')}>
@@ -60,8 +60,8 @@ const MedlemsskapStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Prop
             />
             {values.harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && (
                 <FormBlock margin="l">
-                    <BostedUtlandListAndDialog<AppFormField>
-                        name={AppFormField.utenlandsoppholdSiste12Mnd}
+                    <BostedUtlandListAndDialog<SøknadFormField>
+                        name={SøknadFormField.utenlandsoppholdSiste12Mnd}
                         minDate={date1YearAgo}
                         maxDate={søknadsdato}
                         labels={{
@@ -76,7 +76,7 @@ const MedlemsskapStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Prop
             <FormBlock>
                 <AppForm.YesOrNoQuestion
                     legend={intlHelper(intl, 'steg.medlemsskap.annetLandNeste12.spm')}
-                    name={AppFormField.skalBoUtenforNorgeNeste12Mnd}
+                    name={SøknadFormField.skalBoUtenforNorgeNeste12Mnd}
                     validate={getYesOrNoValidator()}
                     description={
                         <ExpandableInfo title={intlHelper(intl, 'HvaBetyrDette')}>
@@ -87,8 +87,8 @@ const MedlemsskapStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Prop
             </FormBlock>
             {values.skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES && (
                 <FormBlock margin="l">
-                    <BostedUtlandListAndDialog<AppFormField>
-                        name={AppFormField.utenlandsoppholdNeste12Mnd}
+                    <BostedUtlandListAndDialog<SøknadFormField>
+                        name={SøknadFormField.utenlandsoppholdNeste12Mnd}
                         minDate={neste12FomDate}
                         maxDate={date1YearFromNow}
                         labels={{

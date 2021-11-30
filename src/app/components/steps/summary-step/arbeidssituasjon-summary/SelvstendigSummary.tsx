@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import VirksomhetSummary from '@navikt/sif-common-forms/lib/virksomhet/VirksomhetSummary';
-import { SelvstendigNæringsdrivendeApiData } from '../../../../types/PleiepengesøknadApiData';
+import { SelvstendigNæringsdrivendeApiData } from '../../../../types/SøknadApiData';
 import SummaryBlock from '../../../summary-block/SummaryBlock';
 import { getTidSetning } from './arbeidssituasjon-summary-utils';
 import { Element } from 'nav-frontend-typografi';

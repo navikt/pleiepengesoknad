@@ -17,7 +17,7 @@ import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
 import { persist } from '../../../api/api';
 import { StepConfigProps, StepID } from '../../../config/stepConfig';
-import { AppFormField, PleiepengesøknadFormData } from '../../../types/PleiepengesøknadFormData';
+import { SøknadFormField, SøknadFormData } from '../../../types/SøknadFormData';
 import { relocateToLoginPage } from '../../../utils/navigationUtils';
 import { validateLegeerklæring } from '../../../validation/fieldValidations';
 import FormikFileUploader from '../../formik-file-uploader/FormikFileUploader';
@@ -27,10 +27,10 @@ import getLenker from '../../../lenker';
 
 const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
-    const { values, setFieldValue } = useFormikContext<PleiepengesøknadFormData>();
+    const { values, setFieldValue } = useFormikContext<SøknadFormData>();
     const intl = useIntl();
     const attachments: Attachment[] = React.useMemo(() => {
-        return values ? values[AppFormField.legeerklæring] : [];
+        return values ? values[SøknadFormField.legeerklæring] : [];
     }, [values]);
     const hasPendingUploads: boolean = attachments.find((a) => a.pending === true) !== undefined;
     const totalSize = getTotalSizeOfAttachments(attachments);
@@ -77,7 +77,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
                 };
             });
             const valuesToPersist = { ...values, legeerklæring: newValues };
-            setFieldValue(AppFormField.legeerklæring, newValues);
+            setFieldValue(SøknadFormField.legeerklæring, newValues);
             persist(valuesToPersist, StepID.LEGEERKLÆRING);
         }
         ref.current = {
@@ -111,7 +111,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
             {totalSize <= MAX_TOTAL_ATTACHMENT_SIZE_BYTES && (
                 <Box margin="l">
                     <FormikFileUploader
-                        name={AppFormField.legeerklæring}
+                        name={SøknadFormField.legeerklæring}
                         label={intlHelper(intl, 'steg.lege.vedlegg')}
                         onErrorUploadingAttachments={vedleggOpplastingFeilet}
                         onFileInputClick={() => {
