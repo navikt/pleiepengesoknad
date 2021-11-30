@@ -26,7 +26,7 @@ import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import minMax from 'dayjs/plugin/minMax';
 import { TidEnkeltdag } from '../types';
-import { AppFormField } from '../types/PleiepengesøknadFormData';
+import { SøknadFormField } from '../types/SøknadFormData';
 import { getTidEnkeltdagerInnenforPeriode, getValidEnkeltdager, sumTimerEnkeltdager } from '../utils/tidsbrukUtils';
 
 dayjs.extend(minMax);
@@ -176,8 +176,8 @@ export const validateOmsorgstilbudEnkeltdagerIPeriode = (
     if (!hasElements || sumTimerEnkeltdager(validTidEnkeltdager) <= 0) {
         return {
             key: erHistorisk
-                ? `validation.${AppFormField.omsorgstilbud__historisk__enkeltdager}.ingenTidRegistrert`
-                : `validation.${AppFormField.omsorgstilbud__planlagt__enkeltdager}.ingenTidRegistrert`,
+                ? `validation.${SøknadFormField.omsorgstilbud__historisk__enkeltdager}.ingenTidRegistrert`
+                : `validation.${SøknadFormField.omsorgstilbud__planlagt__enkeltdager}.ingenTidRegistrert`,
             keepKeyUnaltered: true,
         };
     }

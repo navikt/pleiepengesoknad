@@ -4,8 +4,8 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { attachmentUploadHasFailed } from '@navikt/sif-common-core/lib/utils/attachmentUtils';
 import { dateToISOFormattedDateString } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import dayjs from 'dayjs';
-import { PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
-import { AppFormField, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { SøknadApiData } from '../../types/SøknadApiData';
+import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
 import { BarnReceivedFromApi } from '../../types/Søkerdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
 import { mapFormDataToApiData } from '../mapFormDataToApiData';
@@ -32,21 +32,21 @@ type AttachmentMock = Attachment & { failed: boolean };
 const attachmentMock1: Partial<AttachmentMock> = { url: 'nav.no/1', failed: true };
 const attachmentMock2: Partial<AttachmentMock> = { url: 'nav.no/2', failed: false };
 
-const formDataMock: Partial<PleiepengesøknadFormData> = {
-    [AppFormField.barnetsNavn]: 'Ola Foobar',
-    [AppFormField.harBekreftetOpplysninger]: true,
-    [AppFormField.harForståttRettigheterOgPlikter]: true,
-    [AppFormField.ansatt_arbeidsforhold]: [],
-    [AppFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.YES,
-    [AppFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.NO,
-    [AppFormField.utenlandsoppholdNeste12Mnd]: [],
-    [AppFormField.utenlandsoppholdSiste12Mnd]: [],
-    [AppFormField.periodeFra]: dateToISOFormattedDateString(søknadsdato),
-    [AppFormField.periodeTil]: dateToISOFormattedDateString(dayjs(søknadsdato).add(1, 'day').toDate()),
-    [AppFormField.utenlandsoppholdIPerioden]: [],
-    [AppFormField.legeerklæring]: [attachmentMock1 as AttachmentMock, attachmentMock2 as AttachmentMock],
-    [AppFormField.skalTaUtFerieIPerioden]: undefined,
-    [AppFormField.ferieuttakIPerioden]: [],
+const formDataMock: Partial<SøknadFormData> = {
+    [SøknadFormField.barnetsNavn]: 'Ola Foobar',
+    [SøknadFormField.harBekreftetOpplysninger]: true,
+    [SøknadFormField.harForståttRettigheterOgPlikter]: true,
+    [SøknadFormField.ansatt_arbeidsforhold]: [],
+    [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.YES,
+    [SøknadFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.NO,
+    [SøknadFormField.utenlandsoppholdNeste12Mnd]: [],
+    [SøknadFormField.utenlandsoppholdSiste12Mnd]: [],
+    [SøknadFormField.periodeFra]: dateToISOFormattedDateString(søknadsdato),
+    [SøknadFormField.periodeTil]: dateToISOFormattedDateString(dayjs(søknadsdato).add(1, 'day').toDate()),
+    [SøknadFormField.utenlandsoppholdIPerioden]: [],
+    [SøknadFormField.legeerklæring]: [attachmentMock1 as AttachmentMock, attachmentMock2 as AttachmentMock],
+    [SøknadFormField.skalTaUtFerieIPerioden]: undefined,
+    [SøknadFormField.ferieuttakIPerioden]: [],
 };
 
 jest.mock('@navikt/sif-common-core/lib/utils/attachmentUtils', () => {
@@ -56,21 +56,21 @@ jest.mock('@navikt/sif-common-core/lib/utils/attachmentUtils', () => {
 });
 
 describe('mapFormDataToApiData', () => {
-    let resultingApiData: PleiepengesøknadApiData;
+    let resultingApiData: SøknadApiData;
 
-    const formData: PleiepengesøknadFormData = {
-        ...(formDataMock as PleiepengesøknadFormData),
-        [AppFormField.harMedsøker]: YesOrNo.YES,
+    const formData: SøknadFormData = {
+        ...(formDataMock as SøknadFormData),
+        [SøknadFormField.harMedsøker]: YesOrNo.YES,
         ansatt_arbeidsforhold: [],
     };
 
     beforeAll(() => {
         (isFeatureEnabled as any).mockImplementation(() => false);
-        resultingApiData = mapFormDataToApiData(formDataMock as PleiepengesøknadFormData, barnMock, 'nb', søknadsdato)!;
+        resultingApiData = mapFormDataToApiData(formDataMock as SøknadFormData, barnMock, 'nb', søknadsdato)!;
     });
 
     it("should set 'barnetsNavn' in api data correctly", () => {
-        expect(resultingApiData.barn.navn).toEqual(formDataMock[AppFormField.barnetsNavn]);
+        expect(resultingApiData.barn.navn).toEqual(formDataMock[SøknadFormField.barnetsNavn]);
     });
 
     it("should set 'medlemskap.skal_bo_i_utlandet_neste_12_mnd' in api data correctly", () => {
@@ -99,11 +99,11 @@ describe('mapFormDataToApiData', () => {
     it("should set 'fodselsnummer' in api data to undefined if it doesnt exist, and otherwise it should assign value to 'fodselsnummer' in api data", () => {
         const fnr = '12345123456';
         expect(resultingApiData.barn.fødselsnummer).toBeNull();
-        const formDataWithFnr: Partial<PleiepengesøknadFormData> = {
+        const formDataWithFnr: Partial<SøknadFormData> = {
             ...formDataMock,
-            [AppFormField.barnetsFødselsnummer]: fnr,
+            [SøknadFormField.barnetsFødselsnummer]: fnr,
         };
-        const result = mapFormDataToApiData(formDataWithFnr as PleiepengesøknadFormData, barnMock, 'nb', søknadsdato);
+        const result = mapFormDataToApiData(formDataWithFnr as SøknadFormData, barnMock, 'nb', søknadsdato);
         expect(result).toBeDefined();
         if (result) {
             expect(result.barn.fødselsnummer).toEqual(fnr);
@@ -111,12 +111,12 @@ describe('mapFormDataToApiData', () => {
     });
 
     it('should set har_bekreftet_opplysninger to value of harBekreftetOpplysninger in form data', () => {
-        expect(resultingApiData.harBekreftetOpplysninger).toBe(formDataMock[AppFormField.harBekreftetOpplysninger]);
+        expect(resultingApiData.harBekreftetOpplysninger).toBe(formDataMock[SøknadFormField.harBekreftetOpplysninger]);
     });
 
     it('should set har_forstått_rettigheter_og_plikter to value of harForståttRettigheterOgPlikter in form data', () => {
         expect(resultingApiData.harForståttRettigheterOgPlikter).toBe(
-            formDataMock[AppFormField.harForståttRettigheterOgPlikter]
+            formDataMock[SøknadFormField.harForståttRettigheterOgPlikter]
         );
     });
 

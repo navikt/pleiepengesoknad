@@ -1,15 +1,11 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import {
-    HistoriskOmsorgstilbudApiData,
-    PlanlagtOmsorgstilbudApiData,
-    PleiepengesøknadApiData,
-} from '../../types/PleiepengesøknadApiData';
-import { Omsorgstilbud } from '../../types/PleiepengesøknadFormData';
+import { HistoriskOmsorgstilbudApiData, PlanlagtOmsorgstilbudApiData, SøknadApiData } from '../../types/SøknadApiData';
+import { Omsorgstilbud } from '../../types/SøknadFormData';
 import { getHistoriskPeriode, getPlanlagtPeriode } from '../tidsbrukUtils';
 import { getEnkeltdagerIPeriodeApiData, getFasteDagerApiData } from './tidsbrukApiUtils';
 
-type OmsorgstilbudApiDataPart = Pick<PleiepengesøknadApiData, 'omsorgstilbud'>;
+type OmsorgstilbudApiDataPart = Pick<SøknadApiData, 'omsorgstilbud'>;
 
 export const mapPlanlagtOmsorgstilbudToApiData = (
     omsorgstilbud: Omsorgstilbud,

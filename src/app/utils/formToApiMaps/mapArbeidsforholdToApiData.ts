@@ -8,8 +8,8 @@ import {
     ArbeidsforholdApiData,
     TidEnkeltdagApiData,
     TidFasteDagerApiData,
-} from '../../types/PleiepengesøknadApiData';
-import { ArbeidIPeriode, Arbeidsforhold, TimerEllerProsent } from '../../types/PleiepengesøknadFormData';
+} from '../../types/SøknadApiData';
+import { ArbeidIPeriode, Arbeidsforhold, TimerEllerProsent } from '../../types/SøknadFormData';
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
 import { getHistoriskPeriode, getPlanlagtPeriode } from '../tidsbrukUtils';
 import {

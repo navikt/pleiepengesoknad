@@ -1,6 +1,6 @@
 import RouteConfig from '../../config/routeConfig';
-import { StepID } from '../../config/stepConfig';
-import { AppFormField } from '../../types/PleiepengesøknadFormData';
+import { StepID } from '../../søknad/søknadStepsConfig';
+import { SøknadFormField } from '../../types/SøknadFormData';
 import { getSøknadRoute, isAvailable } from '../routeUtils';
 import * as stepUtils from '../stepUtils';
 
@@ -78,7 +78,7 @@ describe('routeUtils', () => {
                 RouteConfig.SØKNAD_SENDT_ROUTE,
                 {
                     ...formValues,
-                    [AppFormField.harBekreftetOpplysninger]: true,
+                    [SøknadFormField.harBekreftetOpplysninger]: true,
                 },
                 true
             );
@@ -90,7 +90,7 @@ describe('routeUtils', () => {
                 RouteConfig.SØKNAD_SENDT_ROUTE,
                 {
                     ...formValues,
-                    [AppFormField.harBekreftetOpplysninger]: false,
+                    [SøknadFormField.harBekreftetOpplysninger]: false,
                 },
                 false
             );

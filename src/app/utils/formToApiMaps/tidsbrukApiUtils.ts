@@ -3,7 +3,7 @@ import { decimalTimeToTime, timeToIso8601Duration } from '@navikt/sif-common-cor
 import { dateToISOString, ISOStringToDate, InputTime } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import { TidEnkeltdag, TidFasteDager } from '../../types';
-import { ISO8601Duration, TidEnkeltdagApiData } from '../../types/PleiepengesøknadApiData';
+import { ISO8601Duration, TidEnkeltdagApiData } from '../../types/SøknadApiData';
 
 export const getFasteDagerApiData = ({ mandag, tirsdag, onsdag, torsdag, fredag }: TidFasteDager) => ({
     mandag: mandag ? timeToIso8601Duration(mandag) : undefined,

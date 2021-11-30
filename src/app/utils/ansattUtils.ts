@@ -1,5 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { ArbeidsforholdAnsatt } from '../types/PleiepengesøknadFormData';
+import { ArbeidsforholdAnsatt } from '../types/SøknadFormData';
 
 export const erAnsattHosArbeidsgiverISøknadsperiode = (arbeidsgiver: ArbeidsforholdAnsatt): boolean => {
     return (

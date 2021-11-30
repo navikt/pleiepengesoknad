@@ -3,15 +3,15 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
-import { StepID } from '../config/stepConfig';
+import { StepID } from '../søknad/søknadStepsConfig';
 import { JobberIPeriodeSvar } from '../types';
 import {
     ArbeidIPeriodeApiData,
     ArbeidsforholdApiData,
     isArbeidsgiverISøknadsperiodeApiData,
     OmsorgstilbudApiData,
-    PleiepengesøknadApiData,
-} from '../types/PleiepengesøknadApiData';
+    SøknadApiData,
+} from '../types/SøknadApiData';
 
 export const apiVedleggIsInvalid = (vedlegg: string[]): boolean => {
     vedlegg.find((v) => {
@@ -97,10 +97,7 @@ export const isOmsorgstilbudApiDataValid = (omsorgstilbud: OmsorgstilbudApiData)
     return true;
 };
 
-export const validateApiValues = (
-    values: PleiepengesøknadApiData,
-    intl: IntlShape
-): ApiValidationError[] | undefined => {
+export const validateApiValues = (values: SøknadApiData, intl: IntlShape): ApiValidationError[] | undefined => {
     const errors: ApiValidationError[] = [];
 
     if (apiVedleggIsInvalid(values.vedlegg)) {

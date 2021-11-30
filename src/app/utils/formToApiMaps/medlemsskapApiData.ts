@@ -3,10 +3,10 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getCountryName } from '@navikt/sif-common-formik/lib';
 import { BostedUtland } from '@navikt/sif-common-forms/lib';
-import { BostedUtlandApiData, PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
-import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { BostedUtlandApiData, SøknadApiData } from '../../types/SøknadApiData';
+import { SøknadFormData } from '../../types/SøknadFormData';
 
-type MedlemsskapApiData = Pick<PleiepengesøknadApiData, 'medlemskap'>;
+type MedlemsskapApiData = Pick<SøknadApiData, 'medlemskap'>;
 
 const mapBostedUtlandToApiData = (opphold: BostedUtland, locale: string): BostedUtlandApiData => ({
     landnavn: getCountryName(opphold.landkode, locale),
@@ -21,7 +21,7 @@ export const getMedlemsskapApiData = (
         skalBoUtenforNorgeNeste12Mnd,
         utenlandsoppholdSiste12Mnd,
         utenlandsoppholdNeste12Mnd,
-    }: PleiepengesøknadFormData,
+    }: SøknadFormData,
     sprak: Locale
 ): MedlemsskapApiData => {
     return {

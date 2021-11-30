@@ -10,12 +10,12 @@ import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-c
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { ArbeidsforholdType, JobberIPeriodeSvar } from '../../types';
 import {
-    AppFormField,
+    SøknadFormField,
     ArbeidIPeriodeField,
     Arbeidsforhold,
     isArbeidsforholdAnsatt,
     TimerEllerProsent,
-} from '../../types/PleiepengesøknadFormData';
+} from '../../types/SøknadFormData';
 import { getTimerTekst } from '../../utils/arbeidsforholdUtils';
 import { skalViseSpørsmålOmProsentEllerLiktHverUke } from '../../utils/tidsbrukUtils';
 import {
@@ -27,7 +27,7 @@ import {
     getArbeidstimerFastDagValidator,
     validateFasteArbeidstimerIUke,
 } from '../../validation/validateArbeidFields';
-import AppForm from '../app-form/AppForm';
+import SøknadFormComponents from '../../søknad/SøknadFormComponents';
 import TidFasteDagerInput from '../tid-faste-dager-input/TidFasteDagerInput';
 import ArbeidstidKalenderInput from './ArbeidstidKalenderInput';
 import { getRedusertArbeidstidSomIso8601Duration } from '../../utils/formToApiMaps/tidsbrukApiUtils';
@@ -108,7 +108,7 @@ const ArbeidIPeriodeSpørsmål = ({
     };
 
     const getFieldName = (field: ArbeidIPeriodeField) =>
-        `${parentFieldName}.${erHistorisk ? 'historisk' : 'planlagt'}.${field}` as AppFormField;
+        `${parentFieldName}.${erHistorisk ? 'historisk' : 'planlagt'}.${field}` as SøknadFormField;
 
     const getSpørsmål = (spørsmål: ArbeidIPeriodeField) =>
         intlHelper(intl, `arbeidIPeriode.${erHistorisk ? 'historisk.' : ''}${spørsmål}.spm`, intlValues as any);
@@ -124,7 +124,7 @@ const ArbeidIPeriodeSpørsmål = ({
 
     /** Spørsmål */
     const JobberSomVanligSpørsmål = () => (
-        <AppForm.YesOrNoQuestion
+        <SøknadFormComponents.YesOrNoQuestion
             name={getFieldName(ArbeidIPeriodeField.jobberSomVanlig)}
             legend={getSpørsmål(ArbeidIPeriodeField.jobberSomVanlig)}
             useTwoColumns={false}
@@ -137,7 +137,7 @@ const ArbeidIPeriodeSpørsmål = ({
     );
 
     const ErLiktHverUkeSpørsmål = () => (
-        <AppForm.YesOrNoQuestion
+        <SøknadFormComponents.YesOrNoQuestion
             name={getFieldName(ArbeidIPeriodeField.erLiktHverUke)}
             legend={getSpørsmål(ArbeidIPeriodeField.erLiktHverUke)}
             useTwoColumns={false}
@@ -150,7 +150,7 @@ const ArbeidIPeriodeSpørsmål = ({
     );
 
     const TimerEllerProsentSpørsmål = () => (
-        <AppForm.RadioPanelGroup
+        <SøknadFormComponents.RadioPanelGroup
             name={getFieldName(ArbeidIPeriodeField.timerEllerProsent)}
             legend={getSpørsmål(ArbeidIPeriodeField.timerEllerProsent)}
             useTwoColumns={false}
@@ -178,7 +178,7 @@ const ArbeidIPeriodeSpørsmål = ({
 
     return (
         <>
-            <AppForm.RadioPanelGroup
+            <SøknadFormComponents.RadioPanelGroup
                 name={getFieldName(ArbeidIPeriodeField.jobberIPerioden)}
                 legend={getSpørsmål(ArbeidIPeriodeField.jobberIPerioden)}
                 useTwoColumns={erHistorisk === true}
@@ -226,7 +226,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                         </FormBlock>
                                         {timerEllerProsent === TimerEllerProsent.prosent && (
                                             <FormBlock>
-                                                <AppForm.NumberInput
+                                                <SøknadFormComponents.NumberInput
                                                     name={getFieldName(ArbeidIPeriodeField.skalJobbeProsent)}
                                                     bredde="XS"
                                                     maxLength={5}
@@ -255,7 +255,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                                 </FormBlock>
                                                 {erLiktHverUke === YesOrNo.YES && (
                                                     <FormBlock>
-                                                        <AppForm.InputGroup
+                                                        <SøknadFormComponents.InputGroup
                                                             legend={intlHelper(
                                                                 intl,
                                                                 erHistorisk
@@ -298,7 +298,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                                                 name={getFieldName(ArbeidIPeriodeField.fasteDager)}
                                                                 validator={getArbeidstimerFastDagValidator}
                                                             />
-                                                        </AppForm.InputGroup>
+                                                        </SøknadFormComponents.InputGroup>
                                                     </FormBlock>
                                                 )}
                                             </>

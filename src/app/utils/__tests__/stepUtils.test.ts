@@ -1,5 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { SøknadFormData } from '../../types/SøknadFormData';
 import * as stepValidations from '../../validation/stepValidations';
 import * as stepUtils from '../stepUtils';
 
@@ -14,12 +14,12 @@ jest.mock('./../../validation/stepValidations', () => {
     };
 });
 
-const formData: Partial<PleiepengesøknadFormData> = {};
+const formData: Partial<SøknadFormData> = {};
 
 describe('stepUtils', () => {
     describe('opplysningerOmBarnetStepAvailable', () => {
         it('should call relevant stepValidator-functions to determine whether the step should be available', () => {
-            const returnValue = stepUtils.opplysningerOmBarnetStepAvailable(formData as PleiepengesøknadFormData);
+            const returnValue = stepUtils.opplysningerOmBarnetStepAvailable(formData as SøknadFormData);
             expect(stepValidations.welcomingPageIsValid).toHaveBeenCalledWith(formData);
             expect(returnValue).toEqual(stepValidations.welcomingPageIsValid({} as any));
         });
@@ -27,7 +27,7 @@ describe('stepUtils', () => {
 
     describe('opplysningerOmTidsromStepAvailable', () => {
         it('should call relevant stepValidator-functions to determine whether the step should be available', () => {
-            const returnValue = stepUtils.opplysningerOmTidsromStepAvailable(formData as PleiepengesøknadFormData);
+            const returnValue = stepUtils.opplysningerOmTidsromStepAvailable(formData as SøknadFormData);
             expect(stepValidations.welcomingPageIsValid).toHaveBeenCalledWith(formData);
             expect(stepValidations.opplysningerOmBarnetStepIsValid).toHaveBeenCalledWith(formData);
             expect(returnValue).toEqual(
@@ -39,7 +39,7 @@ describe('stepUtils', () => {
 
     describe('arbeidssituasjonStepIsValid', () => {
         it('should call relevant stepValidator-functions to determine whether the step should be available', () => {
-            const returnValue = stepUtils.arbeidssituasjonStepAvailable(formData as PleiepengesøknadFormData);
+            const returnValue = stepUtils.arbeidssituasjonStepAvailable(formData as SøknadFormData);
             expect(stepValidations.welcomingPageIsValid).toHaveBeenCalledWith(formData);
             expect(stepValidations.opplysningerOmBarnetStepIsValid).toHaveBeenCalledWith(formData);
             expect(stepValidations.opplysningerOmTidsromStepIsValid).toHaveBeenCalledWith(formData);
@@ -53,7 +53,7 @@ describe('stepUtils', () => {
 
     describe('medlemskapStepAvailable', () => {
         it('should call relevant stepValidator-functions to determine whether the step should be available', () => {
-            const returnValue = stepUtils.medlemskapStepAvailable(formData as PleiepengesøknadFormData);
+            const returnValue = stepUtils.medlemskapStepAvailable(formData as SøknadFormData);
             expect(stepValidations.welcomingPageIsValid).toHaveBeenCalledWith(formData);
             expect(stepValidations.opplysningerOmBarnetStepIsValid).toHaveBeenCalledWith(formData);
             expect(stepValidations.opplysningerOmTidsromStepIsValid).toHaveBeenCalledWith(formData);
@@ -69,7 +69,7 @@ describe('stepUtils', () => {
 
     describe('legeerklæringStepAvailable', () => {
         it('should call relevant stepValidator-functions to determine whether the step should be available', () => {
-            const returnValue = stepUtils.legeerklæringStepAvailable(formData as PleiepengesøknadFormData);
+            const returnValue = stepUtils.legeerklæringStepAvailable(formData as SøknadFormData);
             expect(stepValidations.welcomingPageIsValid).toHaveBeenCalledWith(formData);
             expect(stepValidations.opplysningerOmBarnetStepIsValid).toHaveBeenCalledWith(formData);
             expect(stepValidations.opplysningerOmTidsromStepIsValid).toHaveBeenCalledWith(formData);
@@ -87,7 +87,7 @@ describe('stepUtils', () => {
 
     describe('summaryStepAvailable', () => {
         it('should call relevant stepValidator-functions to determine whether the step should be available', () => {
-            const returnValue = stepUtils.summaryStepAvailable(formData as PleiepengesøknadFormData);
+            const returnValue = stepUtils.summaryStepAvailable(formData as SøknadFormData);
             expect(stepValidations.welcomingPageIsValid).toHaveBeenCalledWith(formData);
             expect(stepValidations.opplysningerOmBarnetStepIsValid).toHaveBeenCalledWith(formData);
             expect(stepValidations.opplysningerOmTidsromStepIsValid).toHaveBeenCalledWith(formData);
@@ -108,21 +108,21 @@ describe('stepUtils', () => {
     describe('skalBrukerSvarePåBeredskapOgNattevåk', () => {
         it('inkluderer ikke nattevåk/beredskap dersom barnet ikke har vært/skal i tilsyn - 1', () => {
             formData.omsorgstilbud = undefined;
-            const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as PleiepengesøknadFormData);
+            const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as SøknadFormData);
             expect(returnValue).toBeFalsy();
         });
         it('inkluderer ikke nattevåk/beredskap dersom barnet ikke skal i tilsyn - søker ikke historisk', () => {
             formData.omsorgstilbud = {
                 skalBarnIOmsorgstilbud: YesOrNo.NO,
             };
-            const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as PleiepengesøknadFormData);
+            const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as SøknadFormData);
             expect(returnValue).toBeFalsy();
         });
         it('inkluderer ikke nattevåk/beredskap dersom barnet ikke har vært i tilsyn - søker ikke fremtid', () => {
             formData.omsorgstilbud = {
                 harBarnVærtIOmsorgstilbud: YesOrNo.NO,
             };
-            const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as PleiepengesøknadFormData);
+            const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as SøknadFormData);
             expect(returnValue).toBeFalsy();
         });
         it('inkluderer ikke nattevåk/beredskap dersom barnet ikke har vært i tilsyn - søker både historisk og fremtid', () => {
@@ -130,7 +130,7 @@ describe('stepUtils', () => {
                 harBarnVærtIOmsorgstilbud: YesOrNo.NO,
                 skalBarnIOmsorgstilbud: YesOrNo.NO,
             };
-            const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as PleiepengesøknadFormData);
+            const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as SøknadFormData);
             expect(returnValue).toBeFalsy();
         });
         it('inkluderer nattevåk/beredskap dersom søker historisk', () => {
@@ -142,7 +142,7 @@ describe('stepUtils', () => {
                     },
                 },
             };
-            const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as PleiepengesøknadFormData);
+            const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as SøknadFormData);
             expect(returnValue).toBeTruthy();
         });
     });

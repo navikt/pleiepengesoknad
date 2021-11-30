@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import groupBy from 'lodash.groupby';
 import EkspanderbartPanel from 'nav-frontend-ekspanderbartpanel';
 import { DagMedTid } from '../../types';
-import { TidEnkeltdagApiData } from '../../types/PleiepengesøknadApiData';
+import { TidEnkeltdagApiData } from '../../types/SøknadApiData';
 import DagerMedTidListe from './dager-med-tid-liste/DagerMedTidListe';
 
 interface Props {

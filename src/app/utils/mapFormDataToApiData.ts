@@ -2,8 +2,8 @@ import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange, formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import { PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
-import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { SøknadApiData } from '../types/SøknadApiData';
+import { SøknadFormData } from '../types/SøknadFormData';
 import { BarnReceivedFromApi } from '../types/Søkerdata';
 import appSentryLogger from './appSentryLogger';
 import { Feature, isFeatureEnabled } from './featureToggleUtils';
@@ -20,11 +20,11 @@ import { getUtenlandsoppholdIPeriodenApiData } from './formToApiMaps/utenlandsop
 import { getValidSpråk } from './sprakUtils';
 
 export const mapFormDataToApiData = (
-    formData: PleiepengesøknadFormData,
+    formData: SøknadFormData,
     barn: BarnReceivedFromApi[],
     locale: Locale = 'nb',
     søknadsdato: Date
-): PleiepengesøknadApiData | undefined => {
+): SøknadApiData | undefined => {
     const {
         harBekreftetOpplysninger,
         harForståttRettigheterOgPlikter,
@@ -46,7 +46,7 @@ export const mapFormDataToApiData = (
         };
         try {
             const sprak = getValidSpråk(locale);
-            const apiData: PleiepengesøknadApiData = {
+            const apiData: SøknadApiData = {
                 språk: sprak,
                 harBekreftetOpplysninger,
                 harForståttRettigheterOgPlikter,

@@ -1,5 +1,5 @@
 import { apiStringDateToDate, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { TidEnkeltdagApiData } from '../../../types/PleiepengesøknadApiData';
+import { TidEnkeltdagApiData } from '../../../types/SøknadApiData';
 import {
     fjernTidUtenforPeriode,
     getEnkeltdagerIPeriodeApiData,
