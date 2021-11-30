@@ -4,7 +4,7 @@ import { History } from 'history';
 import { persist as apiPersist } from '../api/api';
 import { StepID } from '../config/stepConfig';
 import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
-import { apiUtils } from '../utils/apiUtils';
+import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { navigateToErrorPage, relocateToLoginPage } from '../utils/navigationUtils';
 
 function usePersistSoknad(history: History) {
@@ -13,7 +13,7 @@ function usePersistSoknad(history: History) {
 
     async function doPersist(stepID: StepID) {
         apiPersist(values, stepID).catch((error) => {
-            if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+            if (apiUtils.isUnauthorized(error)) {
                 logUserLoggedOut('Mellomlagring ved navigasjon');
                 relocateToLoginPage();
             } else {

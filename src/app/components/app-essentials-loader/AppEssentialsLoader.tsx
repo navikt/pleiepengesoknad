@@ -8,10 +8,11 @@ import { SøkerdataContextProvider } from '../../context/SøkerdataContext';
 import { AppFormField, initialValues, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
 import { MELLOMLAGRING_VERSION, MellomlagringData } from '../../types/storage';
 import { Arbeidsgiver, Søkerdata } from '../../types/Søkerdata';
-import * as apiUtils from '../../utils/apiUtils';
+import * as apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import appSentryLogger from '../../utils/appSentryLogger';
 import { navigateToErrorPage, relocateToLoginPage, userIsCurrentlyOnErrorPage } from '../../utils/navigationUtils';
 import LoadingPage from '../pages/loading-page/LoadingPage';
+import IkkeTilgangPage from '../pages/ikke-tilgang-page/IkkeTilgangPage';
 
 export const VERIFY_MELLOMLAGRING_VERSION = true;
 
@@ -31,6 +32,7 @@ interface State {
     formdata: Partial<PleiepengesøknadFormData>;
     søkerdata?: Søkerdata;
     harMellomlagring: boolean;
+    harIkkeTilgang: boolean;
 }
 
 type Props = OwnProps & RouteComponentProps;
@@ -50,6 +52,7 @@ class AppEssentialsLoader extends React.Component<Props, State> {
             lastStepID: undefined,
             formdata: initialValues,
             harMellomlagring: false,
+            harIkkeTilgang: false,
         };
 
         this.updateArbeidsgivere = this.updateArbeidsgivere.bind(this);
@@ -144,9 +147,11 @@ class AppEssentialsLoader extends React.Component<Props, State> {
     }
 
     handleSøkerdataFetchError(error: AxiosError) {
-        if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+        if (apiUtils.isUnauthorized(error)) {
             this.setState({ ...this.state, willRedirectToLoginPage: true });
             relocateToLoginPage();
+        } else if (apiUtils.isForbidden(error)) {
+            this.setState({ ...this.state, harIkkeTilgang: true });
         } else if (!userIsCurrentlyOnErrorPage()) {
             appSentryLogger.logApiError(error);
             navigateToErrorPage(this.props.history);
@@ -173,9 +178,20 @@ class AppEssentialsLoader extends React.Component<Props, State> {
 
     render() {
         const { contentLoadedRenderer } = this.props;
-        const { isLoading, willRedirectToLoginPage, lastStepID, formdata, søkerdata, harMellomlagring } = this.state;
+        const {
+            isLoading,
+            harIkkeTilgang,
+            willRedirectToLoginPage,
+            lastStepID,
+            formdata,
+            søkerdata,
+            harMellomlagring,
+        } = this.state;
         if (isLoading || willRedirectToLoginPage) {
             return <LoadingPage />;
+        }
+        if (harIkkeTilgang) {
+            return <IkkeTilgangPage />;
         }
         return (
             <>

@@ -1,4 +1,5 @@
 import { IntlShape } from 'react-intl';
+import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
@@ -6,7 +7,6 @@ import { FormikProps } from 'formik';
 import { getArbeidsgiver } from '../api/api';
 import { AppFormField, ArbeidsforholdAnsatt, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
 import { Arbeidsgiver, Søkerdata } from '../types/Søkerdata';
-import { apiUtils } from './apiUtils';
 import appSentryLogger from './appSentryLogger';
 import { relocateToLoginPage } from './navigationUtils';
 
@@ -60,7 +60,7 @@ export async function getArbeidsgivere(
         søkerdata.setArbeidsgivere(organisasjoner);
         updateArbeidsforhold(formikProps, organisasjoner);
     } catch (error) {
-        if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+        if (apiUtils.isUnauthorized(error)) {
             relocateToLoginPage();
         } else {
             appSentryLogger.logApiError(error);
