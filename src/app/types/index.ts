@@ -24,8 +24,8 @@ export type TidEnkeltdag = { [isoDateString: string]: Partial<InputTime> };
 export type TidDagValidator = (dag: string) => ValidationFunction<ValidationError>;
 
 export enum TimerEllerProsent {
-    prosent = 'prosent',
-    timer = 'timer',
+    PROSENT = 'prosent',
+    TIMER = 'timer',
 }
 
 export enum BarnRelasjon {
@@ -39,7 +39,7 @@ export enum BarnRelasjon {
 export enum JobberIPeriodeSvar {
     JA = 'JA',
     NEI = 'NEI',
-    VET_IKKE = 'VET_IKKE',
+    // VET_IKKE = 'VET_IKKE',
 }
 
 export enum ArbeidsforholdType {

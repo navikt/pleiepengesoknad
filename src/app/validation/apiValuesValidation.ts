@@ -36,7 +36,7 @@ const isValidNormalarbeidstid = (timer: number | undefined): boolean => {
 
 export const isArbeidIPeriodeValid = (arbeidIPeriode: ArbeidIPeriodeApiData): boolean => {
     const { jobberIPerioden, fasteDager, enkeltdager } = arbeidIPeriode;
-    if (jobberIPerioden === JobberIPeriodeSvar.NEI || jobberIPerioden === JobberIPeriodeSvar.VET_IKKE) {
+    if (jobberIPerioden !== JobberIPeriodeSvar.JA) {
         return true;
     }
     if (fasteDager === undefined && enkeltdager === undefined) {

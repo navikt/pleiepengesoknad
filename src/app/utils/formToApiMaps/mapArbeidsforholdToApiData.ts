@@ -61,7 +61,7 @@ export const mapArbeidIPeriodeToApiData = (
     if (arbeid.jobberIPerioden !== JobberIPeriodeSvar.JA) {
         return apiData;
     }
-    if (arbeid.timerEllerProsent === TimerEllerProsent.prosent) {
+    if (arbeid.timerEllerProsent === TimerEllerProsent.PROSENT) {
         const skalJobbeProsentNumber = getNumberFromNumberInputValue(arbeid.skalJobbeProsent);
         if (skalJobbeProsentNumber === undefined) {
             throw new Error('mapArbeidIPeriodeToApiData - skalJobbeProsentNumber undefined');

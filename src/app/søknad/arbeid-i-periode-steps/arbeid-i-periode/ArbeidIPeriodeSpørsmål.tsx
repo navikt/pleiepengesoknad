@@ -133,7 +133,7 @@ const ArbeidIPeriodeSpørsmål = ({
                         `arbeidIPeriode.${erHistorisk ? 'historisk.' : ''}timerEllerProsent.prosent`,
                         intlValues
                     ),
-                    value: TimerEllerProsent.prosent,
+                    value: TimerEllerProsent.PROSENT,
                 },
                 {
                     label: intlHelper(
@@ -141,7 +141,7 @@ const ArbeidIPeriodeSpørsmål = ({
                         `arbeidIPeriode.${erHistorisk ? 'historisk.' : ''}timerEllerProsent.timer`,
                         intlValues
                     ),
-                    value: TimerEllerProsent.timer,
+                    value: TimerEllerProsent.TIMER,
                 },
             ]}
             validate={getArbeidstidTimerEllerProsentValidator(intlValues)}
@@ -172,90 +172,85 @@ const ArbeidIPeriodeSpørsmål = ({
                         <ErLiktHverUkeSpørsmål />
                     </FormBlock>
 
-                    {jobberIPerioden === JobberIPeriodeSvar.JA && (
-                        <>
-                            {erLiktHverUke === YesOrNo.YES && (
-                                <>
-                                    <FormBlock>
-                                        <TimerEllerProsentSpørsmål />
-                                    </FormBlock>
-                                    {timerEllerProsent === TimerEllerProsent.prosent && (
-                                        <FormBlock>
-                                            <SøknadFormComponents.NumberInput
-                                                name={getFieldName(ArbeidIPeriodeField.skalJobbeProsent)}
-                                                bredde="XS"
-                                                maxLength={5}
-                                                label={intlHelper(
-                                                    intl,
-                                                    erHistorisk
-                                                        ? 'arbeidIPeriode.historisk.skalJobbeProsent.spm'
-                                                        : 'arbeidIPeriode.skalJobbeProsent.spm',
+                    {erLiktHverUke === YesOrNo.NO && (
+                        <FormBlock>
+                            <ArbeidstidKalenderInput
+                                periode={periode}
+                                tidMedArbeid={arbeidIPeriode?.enkeltdager}
+                                intlValues={intlValues}
+                                enkeltdagerFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
+                                søknadsdato={søknadsdato}
+                            />
+                        </FormBlock>
+                    )}
 
-                                                    intlValues
-                                                )}
-                                                validate={getArbeidstidProsentValidator(intlValues)}
-                                                suffix={getRedusertArbeidstidPerUkeInfo(
-                                                    intl,
-                                                    jobberNormaltTimer,
-                                                    skalJobbeProsent
-                                                )}
-                                                suffixStyle="text"
-                                            />
-                                        </FormBlock>
-                                    )}
-                                    {timerEllerProsent === TimerEllerProsent.timer && (
-                                        <FormBlock>
-                                            <SøknadFormComponents.InputGroup
-                                                legend={intlHelper(
-                                                    intl,
-                                                    erHistorisk
-                                                        ? 'arbeidIPeriode.historisk.ukedager.tittel'
-                                                        : 'arbeidIPeriode.planlagt.ukedager.tittel',
-                                                    intlValues
-                                                )}
-                                                validate={() =>
-                                                    validateFasteArbeidstimerIUke(arbeidIPeriode, intlValues)
-                                                }
-                                                name={'fasteDager_gruppe' as any}
-                                                description={
-                                                    <ExpandableInfo
-                                                        title={intlHelper(intl, 'arbeidIPeriode.ukedager.info.tittel')}>
-                                                        <FormattedMessage
-                                                            id={
-                                                                erHistorisk
-                                                                    ? 'arbeidIPeriode.ukedager.historisk.info.tekst.1'
-                                                                    : 'arbeidIPeriode.ukedager.planlagt.info.tekst.1'
-                                                            }
-                                                            tagName="p"
-                                                        />
-                                                        <FormattedMessage
-                                                            id={
-                                                                erHistorisk
-                                                                    ? 'arbeidIPeriode.ukedager.historisk.info.tekst.2'
-                                                                    : 'arbeidIPeriode.ukedager.planlagt.info.tekst.2'
-                                                            }
-                                                            tagName="p"
-                                                        />
-                                                    </ExpandableInfo>
-                                                }>
-                                                <TidFasteDagerInput
-                                                    name={getFieldName(ArbeidIPeriodeField.fasteDager)}
-                                                    validator={getArbeidstimerFastDagValidator}
-                                                />
-                                            </SøknadFormComponents.InputGroup>
-                                        </FormBlock>
-                                    )}
-                                </>
-                            )}
-                            {erLiktHverUke === YesOrNo.NO && (
+                    {erLiktHverUke === YesOrNo.YES && (
+                        <>
+                            <FormBlock>
+                                <TimerEllerProsentSpørsmål />
+                            </FormBlock>
+                            {timerEllerProsent === TimerEllerProsent.PROSENT && (
                                 <FormBlock>
-                                    <ArbeidstidKalenderInput
-                                        periode={periode}
-                                        tidMedArbeid={arbeidIPeriode?.enkeltdager}
-                                        intlValues={intlValues}
-                                        enkeltdagerFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
-                                        søknadsdato={søknadsdato}
+                                    <SøknadFormComponents.NumberInput
+                                        name={getFieldName(ArbeidIPeriodeField.skalJobbeProsent)}
+                                        bredde="XS"
+                                        maxLength={5}
+                                        label={intlHelper(
+                                            intl,
+                                            erHistorisk
+                                                ? 'arbeidIPeriode.historisk.skalJobbeProsent.spm'
+                                                : 'arbeidIPeriode.skalJobbeProsent.spm',
+
+                                            intlValues
+                                        )}
+                                        validate={getArbeidstidProsentValidator(intlValues)}
+                                        suffix={getRedusertArbeidstidPerUkeInfo(
+                                            intl,
+                                            jobberNormaltTimer,
+                                            skalJobbeProsent
+                                        )}
+                                        suffixStyle="text"
                                     />
+                                </FormBlock>
+                            )}
+                            {timerEllerProsent === TimerEllerProsent.TIMER && (
+                                <FormBlock>
+                                    <SøknadFormComponents.InputGroup
+                                        legend={intlHelper(
+                                            intl,
+                                            erHistorisk
+                                                ? 'arbeidIPeriode.historisk.ukedager.tittel'
+                                                : 'arbeidIPeriode.planlagt.ukedager.tittel',
+                                            intlValues
+                                        )}
+                                        validate={() => validateFasteArbeidstimerIUke(arbeidIPeriode, intlValues)}
+                                        name={'fasteDager_gruppe' as any}
+                                        description={
+                                            <ExpandableInfo
+                                                title={intlHelper(intl, 'arbeidIPeriode.ukedager.info.tittel')}>
+                                                <FormattedMessage
+                                                    id={
+                                                        erHistorisk
+                                                            ? 'arbeidIPeriode.ukedager.historisk.info.tekst.1'
+                                                            : 'arbeidIPeriode.ukedager.planlagt.info.tekst.1'
+                                                    }
+                                                    tagName="p"
+                                                />
+                                                <FormattedMessage
+                                                    id={
+                                                        erHistorisk
+                                                            ? 'arbeidIPeriode.ukedager.historisk.info.tekst.2'
+                                                            : 'arbeidIPeriode.ukedager.planlagt.info.tekst.2'
+                                                    }
+                                                    tagName="p"
+                                                />
+                                            </ExpandableInfo>
+                                        }>
+                                        <TidFasteDagerInput
+                                            name={getFieldName(ArbeidIPeriodeField.fasteDager)}
+                                            validator={getArbeidstimerFastDagValidator}
+                                        />
+                                    </SøknadFormComponents.InputGroup>
                                 </FormBlock>
                             )}
                         </>

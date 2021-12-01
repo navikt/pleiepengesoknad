@@ -54,27 +54,29 @@ const OmsorgstilbudStep = ({
             id={StepID.OMSORGSTILBUD}
             onStepCleanup={(values) => cleanupOmsorgstilbudStep(values, søknadsperiode, søknadsdato)}
             onValidFormSubmit={onValidSubmit}>
-            <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
-                <p>
-                    <FormattedMessage id="steg.omsorgstilbud.veileder.ny.1" />
-                </p>
-                <p>
-                    <FormattedMessage id="steg.omsorgstilbud.veileder.ny.2" />
-                </p>
-                <p>
-                    <FormattedMessage id="steg.omsorgstilbud.veileder.ny.3a" />{' '}
-                    <strong>
-                        <FormattedMessage id="steg.omsorgstilbud.veileder.ny.3b" />
-                    </strong>{' '}
-                    <FormattedMessage id="steg.omsorgstilbud.veileder.ny.3c" />
-                </p>
-                <p>
-                    <FormattedMessage id="steg.omsorgstilbud.veileder.ny.4" />
-                </p>
-                <Box>
-                    <EksempelOmsorgstilbud />
-                </Box>
-            </CounsellorPanel>
+            <Box padBottom="xl">
+                <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
+                    <p>
+                        <FormattedMessage id="steg.omsorgstilbud.veileder.ny.1" />
+                    </p>
+                    <p>
+                        <FormattedMessage id="steg.omsorgstilbud.veileder.ny.2" />
+                    </p>
+                    <p>
+                        <FormattedMessage id="steg.omsorgstilbud.veileder.ny.3a" />{' '}
+                        <strong>
+                            <FormattedMessage id="steg.omsorgstilbud.veileder.ny.3b" />
+                        </strong>{' '}
+                        <FormattedMessage id="steg.omsorgstilbud.veileder.ny.3c" />
+                    </p>
+                    <p>
+                        <FormattedMessage id="steg.omsorgstilbud.veileder.ny.4" />
+                    </p>
+                    <Box>
+                        <EksempelOmsorgstilbud />
+                    </Box>
+                </CounsellorPanel>
+            </Box>
             {periodeFørSøknadsdato && (
                 <HistoriskOmsorgstilbudSpørsmål
                     periode={periodeFørSøknadsdato}

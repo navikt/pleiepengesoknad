@@ -11,7 +11,7 @@ import {
     SøknadFormData,
 } from '../../types/SøknadFormData';
 import { getPeriodeSomFrilanserInneforPeriode } from '../../utils/frilanserUtils';
-import { skalViseSpørsmålOmProsentEllerLiktHverUke } from '../../utils/tidsbrukUtils';
+// import { skalViseSpørsmålOmProsentEllerLiktHverUke, } from '../../utils/tidsbrukUtils';
 
 dayjs.extend(minMax);
 
@@ -19,28 +19,22 @@ const cleanupArbeidIPeriode = (periode: DateRange, arbeidIPerioden: ArbeidIPerio
     const arbeid: ArbeidIPeriode = {
         jobberIPerioden: arbeidIPerioden.jobberIPerioden,
     };
+
     if (arbeid.jobberIPerioden !== JobberIPeriodeSvar.JA) {
         return arbeid;
     }
 
-    const harSpurtOmTIdErLikHverUkeEllerProsent = skalViseSpørsmålOmProsentEllerLiktHverUke(periode);
+    const { erLiktHverUke, enkeltdager, timerEllerProsent, fasteDager, skalJobbeProsent } = arbeidIPerioden;
 
-    arbeid.timerEllerProsent = harSpurtOmTIdErLikHverUkeEllerProsent ? arbeidIPerioden.timerEllerProsent : undefined;
-    if (arbeid.timerEllerProsent === TimerEllerProsent.prosent) {
-        arbeid.skalJobbeProsent = arbeidIPerioden.skalJobbeProsent;
-        return arbeid;
+    if (erLiktHverUke === YesOrNo.YES) {
+        arbeid.erLiktHverUke = erLiktHverUke;
+        arbeid.timerEllerProsent = timerEllerProsent;
+        return timerEllerProsent === TimerEllerProsent.PROSENT
+            ? { ...arbeid, skalJobbeProsent }
+            : { ...arbeid, fasteDager };
     }
 
-    arbeid.erLiktHverUke = harSpurtOmTIdErLikHverUkeEllerProsent ? arbeidIPerioden.erLiktHverUke : undefined;
-    if (arbeidIPerioden.erLiktHverUke === YesOrNo.YES) {
-        arbeid.fasteDager = arbeidIPerioden.fasteDager;
-        return arbeid;
-    }
-    if (arbeidIPerioden.erLiktHverUke === YesOrNo.NO || arbeidIPerioden.erLiktHverUke === undefined) {
-        arbeid.enkeltdager = arbeidIPerioden.enkeltdager;
-        return arbeid;
-    }
-    return arbeidIPerioden;
+    return { ...arbeid, erLiktHverUke, enkeltdager };
 };
 
 const cleanupArbeidsforhold = (
