@@ -1,6 +1,9 @@
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
+import isoWeek from 'dayjs/plugin/isoWeek';
+
+dayjs.extend(isoWeek);
 
 export const getMonthsInDateRange = (range: DateRange): DateRange[] => {
     const months: DateRange[] = [];
@@ -48,11 +51,13 @@ export const søkerKunHelgedager = (fom?: string | Date, tom?: string | Date): b
         const fomDayJs = dayjs(fom);
         const tomDayJs = dayjs(tom);
 
-        return (fomDayJs.day() === 0 || fomDayJs.day() === 6) && fomDayJs.isSame(tomDayJs, 'day')
-            ? true
-            : fomDayJs.day() === 6 && tomDayJs.isSame(fomDayJs.add(1, 'd'), 'day')
-            ? true
-            : false;
+        if ((fomDayJs.isoWeekday() === 6 || fomDayJs.isoWeekday() === 7) && fomDayJs.isSame(tomDayJs, 'day')) {
+            return true;
+        } else if (fomDayJs.isoWeekday() === 6 && tomDayJs.isSame(fomDayJs.add(1, 'd'), 'day')) {
+            return true;
+        } else {
+            return false;
+        }
     }
     return false;
 };
