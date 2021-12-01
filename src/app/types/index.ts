@@ -4,8 +4,12 @@ import { ValidationError } from 'schema-utils';
 
 export interface DagMedTid {
     dato: Date;
-    tid: Partial<InputTime>;
+    tid: InputTime;
 }
+
+export type ISODateRange = string;
+export type ISODuration = string;
+export type ISODate = string;
 
 export interface TidFasteDager {
     mandag?: InputTime;
@@ -19,21 +23,17 @@ export type TidEnkeltdag = { [isoDateString: string]: Partial<InputTime> };
 
 export type TidDagValidator = (dag: string) => ValidationFunction<ValidationError>;
 
+export enum TimerEllerProsent {
+    prosent = 'prosent',
+    timer = 'timer',
+}
+
 export enum BarnRelasjon {
     MOR = 'MOR',
     FAR = 'FAR',
     MEDMOR = 'MEDMOR',
     FOSTERFORELDER = 'FOSTERFORELDER',
     ANNET = 'ANNET',
-}
-
-export enum AndreYtelserFraNAV {
-    'dagpenger' = 'dagpenger',
-    'foreldrepenger' = 'foreldrepenger',
-    'svangerskapspenger' = 'svangerskapspenger',
-    'sykepenger' = 'sykepenger',
-    'omsorgspenger' = 'omsorgspenger',
-    'opplæringspenger' = 'opplæringspenger',
 }
 
 export enum JobberIPeriodeSvar {
@@ -46,4 +46,13 @@ export enum ArbeidsforholdType {
     ANSATT = 'ANSATT',
     FRILANSER = 'FRILANSER',
     SELVSTENDIG = 'SELVSTENDIG',
+}
+
+export enum AndreYtelserFraNAV {
+    'dagpenger' = 'dagpenger',
+    'foreldrepenger' = 'foreldrepenger',
+    'svangerskapspenger' = 'svangerskapspenger',
+    'sykepenger' = 'sykepenger',
+    'omsorgspenger' = 'omsorgspenger',
+    'opplæringspenger' = 'opplæringspenger',
 }

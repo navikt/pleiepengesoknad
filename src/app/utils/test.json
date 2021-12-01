@@ -53,7 +53,6 @@
             "jobberNormaltTimer": 5,
             "historiskArbeid": {
                 "jobberIPerioden": "JA",
-                "jobberSomVanlig": false,
                 "erLiktHverUke": false,
                 "enkeltdager": [
                     { "dato": "2021-09-01", "tid": "PT1H0M" },

@@ -1,20 +1,20 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { getStringValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
-import { useFormikContext } from 'formik';
-import { StepConfigProps, StepID } from '../søknadStepsConfig';
-import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
-import SøknadFormComponents from '../SøknadFormComponents';
-import SøknadFormStep from '../SøknadFormStep';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import FormSection from '../../pre-common/form-section/FormSection';
+import FormSection from '@navikt/sif-common-core/lib/components/form-section/FormSection';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { getStringValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import { useFormikContext } from 'formik';
+import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { getSøkerKunHistoriskPeriode } from '../../utils/tidsbrukUtils';
+import SøknadFormComponents from '../SøknadFormComponents';
+import SøknadFormStep from '../SøknadFormStep';
+import { StepConfigProps, StepID } from '../søknadStepsConfig';
 
 const cleanupNattevåkStep = (values: SøknadFormData): SøknadFormData => {
     const cleanedValues = { ...values };

@@ -3,11 +3,11 @@ import { useIntl } from 'react-intl';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import dayjs from 'dayjs';
-import { TidEnkeltdag } from '../../types';
-import { SøknadFormField } from '../../types/SøknadFormData';
-import { getMonthsInDateRange } from '../../utils/dateUtils';
-import { validateOmsorgstilbudEnkeltdagerIPeriode } from '../../validation/fieldValidations';
-import SøknadFormComponents from '../../søknad/SøknadFormComponents';
+import SøknadFormComponents from '../../SøknadFormComponents';
+import { TidEnkeltdag } from '../../../types';
+import { SøknadFormField } from '../../../types/SøknadFormData';
+import { getMonthsInDateRange } from '../../../utils/dateUtils';
+import { validateOmsorgstilbudEnkeltdagerIPeriode } from '../../../validation/fieldValidations';
 import OmsorgstilbudInfoAndDialog from './OmsorgstilbudInfoAndDialog';
 
 interface Props {

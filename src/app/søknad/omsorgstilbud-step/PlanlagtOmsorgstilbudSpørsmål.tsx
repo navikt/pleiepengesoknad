@@ -1,7 +1,9 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import FormSection from '@navikt/sif-common-core/lib/components/form-section/FormSection';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
@@ -11,17 +13,15 @@ import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import AlertStripe from 'nav-frontend-alertstriper';
-import FormSection from '../../pre-common/form-section/FormSection';
-import { SøknadFormField, Omsorgstilbud } from '../../types/SøknadFormData';
+import TidFasteDagerInput from '../../components/tid-faste-dager-input/TidFasteDagerInput';
+import { Omsorgstilbud, SøknadFormField } from '../../types/SøknadFormData';
 import { skalViseSpørsmålOmProsentEllerLiktHverUke } from '../../utils/tidsbrukUtils';
 import {
     getOmsorgstilbudtimerValidatorFastDag,
     validateSkalIOmsorgstilbud,
 } from '../../validation/validateOmsorgstilbudFields';
 import SøknadFormComponents from '../SøknadFormComponents';
-import OmsorgstilbudIPeriodeSpørsmål from '../../components/omsorgstilbud/OmsorgstilbudIPeriodeSpørsmål';
-import TidFasteDagerInput from '../../components/tid-faste-dager-input/TidFasteDagerInput';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import OmsorgstilbudIPeriodeSpørsmål from './omsorgstilbud-i-periode/OmsorgstilbudIPeriodeSpørsmål';
 
 dayjs.extend(isBetween);
 

@@ -4,8 +4,7 @@ import { InputTime } from '@navikt/sif-common-formik/lib/types';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { Virksomhet } from '@navikt/sif-common-forms/lib/virksomhet/types';
-import { AndreYtelserFraNAV, BarnRelasjon, JobberIPeriodeSvar, TidEnkeltdag } from '.';
-
+import { AndreYtelserFraNAV, BarnRelasjon, JobberIPeriodeSvar, TidEnkeltdag, TimerEllerProsent } from './';
 import { Arbeidsgiver } from './Søkerdata';
 
 export enum SøknadFormField {
@@ -93,7 +92,6 @@ export enum ArbeidsforholdField {
 
 export enum ArbeidIPeriodeField {
     jobberIPerioden = 'jobberIPerioden',
-    jobberSomVanlig = 'jobberSomVanlig',
     erLiktHverUke = 'erLiktHverUke',
     timerEllerProsent = 'timerEllerProsent',
     skalJobbeProsent = 'skalJobbeProsent',
@@ -101,14 +99,8 @@ export enum ArbeidIPeriodeField {
     enkeltdager = 'enkeltdager',
 }
 
-export enum TimerEllerProsent {
-    prosent = 'prosent',
-    timer = 'timer',
-}
-
 export interface ArbeidIPeriode {
     [ArbeidIPeriodeField.jobberIPerioden]: JobberIPeriodeSvar;
-    [ArbeidIPeriodeField.jobberSomVanlig]?: YesOrNo;
     [ArbeidIPeriodeField.erLiktHverUke]?: YesOrNo;
     [ArbeidIPeriodeField.timerEllerProsent]?: TimerEllerProsent;
     [ArbeidIPeriodeField.skalJobbeProsent]?: string;

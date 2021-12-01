@@ -5,6 +5,7 @@ import { isValidTime } from '@navikt/sif-common-formik/lib/components/formik-tim
 import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
 import dayjs from 'dayjs';
 import { DagMedTid, TidEnkeltdag, TidFasteDager } from '../types';
+import { ensureTime } from './timeUtils';
 
 export const MIN_ANTALL_DAGER_FOR_FAST_PLAN = 6;
 
@@ -50,7 +51,7 @@ export const mapTidEnkeltdagToDagMedTid = (tidEnkeltdag: TidEnkeltdag): DagMedTi
         if (dato) {
             dager.push({
                 dato,
-                tid: tidEnkeltdag[key],
+                tid: ensureTime(tidEnkeltdag[key]),
             });
         }
     });
@@ -102,7 +103,7 @@ export const getDagerMedTidITidsrom = (data: TidEnkeltdag, tidsrom: DateRange): 
             if (time) {
                 dager.push({
                     dato: date,
-                    tid: time,
+                    tid: ensureTime(time),
                 });
             }
         }

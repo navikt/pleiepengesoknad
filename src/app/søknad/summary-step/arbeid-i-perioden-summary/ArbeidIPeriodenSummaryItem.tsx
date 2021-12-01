@@ -2,13 +2,13 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { JobberIPeriodeSvar } from '../../../types';
 import { ArbeidIPeriodeApiData, ArbeidsforholdApiData } from '../../../types/SøknadApiData';
 import TidEnkeltdager from '../../../components/dager-med-tid/TidEnkeltdager';
 import TidFasteDager from '../../../components/dager-med-tid/TidFasteDager';
 import { formatTimerOgMinutter } from '../../../components/timer-og-minutter/TimerOgMinutter';
 import { getRedusertArbeidstidSomInputTime } from '../../../utils/formToApiMaps/tidsbrukApiUtils';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import { JobberIPeriodeSvar } from '../../../types';
 
 interface Props {
     periode: DateRange;
@@ -30,18 +30,12 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
             erHistorisk ? 'oppsummering.arbeidIPeriode.Jobbet' : 'oppsummering.arbeidIPeriode.Jobber'
         ),
         vanligRedusert: arbeidIPeriode.jobberIPerioden
-            ? intlHelper(
-                  intl,
-                  arbeidIPeriode.jobberSomVanlig
-                      ? 'oppsummering.arbeidIPeriode.jobberIPerioden.ja.somVanlig'
-                      : 'oppsummering.arbeidIPeriode.jobberIPerioden.ja.redusert',
-                  {
-                      timer:
-                          arbeidIPeriode.jobberIPerioden && normaltimerUke !== undefined
-                              ? intlHelper(intl, `timerPerUke`, { timer: normaltimerUke })
-                              : '',
-                  }
-              )
+            ? intlHelper(intl, 'oppsummering.arbeidIPeriode.jobberIPerioden.ja.redusert', {
+                  timer:
+                      arbeidIPeriode.jobberIPerioden && normaltimerUke !== undefined
+                          ? intlHelper(intl, `timerPerUke`, { timer: normaltimerUke })
+                          : '',
+              })
             : '',
     };
 
@@ -80,7 +74,7 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
         <>
             <ul>
                 <li>{getJobberIPeriodenTekst()}</li>
-                {arbeidIPeriode.jobberSomVanlig === false && arbeidIPeriode.enkeltdager && (
+                {arbeidIPeriode.enkeltdager && (
                     <li>
                         <div>
                             {intlHelper(
@@ -97,7 +91,7 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
                     </li>
                 )}
                 {/* Bruker har valgt faste dager eller prosent */}
-                {arbeidIPeriode.jobberSomVanlig === false && arbeidIPeriode.fasteDager && (
+                {arbeidIPeriode.fasteDager && (
                     <li>
                         {/* Faste dager */}
                         {arbeidIPeriode._jobberProsent === undefined && (

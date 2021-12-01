@@ -3,7 +3,7 @@ import { InputTime } from '@navikt/sif-common-formik/lib';
 import { getNumberValidator, getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
 import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeValidator';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
-import { ArbeidIPeriodeIntlValues } from '../components/arbeidstid/ArbeidIPeriodeSpørsmål';
+import { ArbeidIPeriodeIntlValues } from '../søknad/arbeid-i-periode-steps/arbeid-i-periode/ArbeidIPeriodeSpørsmål';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
 import { TidEnkeltdag } from '../types';
 import { ArbeidIPeriode } from '../types/SøknadFormData';
@@ -144,17 +144,6 @@ export const getArbeidJobberValidator = (intlValues: ArbeidIPeriodeIntlValues) =
               keepKeyUnaltered: true,
           }
         : error;
-};
-
-export const getArbeidJobberSomVanligValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
-    const error = getRequiredFieldValidator()(value);
-    return error
-        ? {
-              key: 'validation.arbeidIPeriode.jobberSomVanlig',
-              values: intlValues,
-              keepKeyUnaltered: true,
-          }
-        : undefined;
 };
 
 export const getArbeidErLiktHverUkeValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {

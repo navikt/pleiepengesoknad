@@ -3,13 +3,13 @@ import { useIntl } from 'react-intl';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import dayjs from 'dayjs';
-import { TidEnkeltdag } from '../../types';
-import { getMonthsInDateRange } from '../../utils/dateUtils';
-import { validateArbeidsTidEnkeltdager } from '../../validation/validateArbeidFields';
+import SøknadFormComponents from '../../SøknadFormComponents';
+import { TidEnkeltdag } from '../../../types';
+import { getMonthsInDateRange } from '../../../utils/dateUtils';
+import { validateArbeidsTidEnkeltdager } from '../../../validation/validateArbeidFields';
 import { ArbeidIPeriodeIntlValues } from './ArbeidIPeriodeSpørsmål';
 import ArbeidstidInfoAndDialog from './ArbeidstidInfoAndDialog';
 import './arbeidstidKalender.less';
-import SøknadFormComponents from '../../søknad/SøknadFormComponents';
 
 interface Props {
     periode: DateRange;

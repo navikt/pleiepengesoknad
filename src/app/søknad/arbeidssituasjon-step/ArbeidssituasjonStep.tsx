@@ -2,27 +2,27 @@ import React, { useContext, useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import FormSection from '@navikt/sif-common-core/lib/components/form-section/FormSection';
 import LoadingSpinner from '@navikt/sif-common-core/lib/components/loading-spinner/LoadingSpinner';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { useFormikContext } from 'formik';
-import FormSection from '../../pre-common/form-section/FormSection';
-import { StepConfigProps, StepID } from '../søknadStepsConfig';
 import { SøkerdataContext } from '../../context/SøkerdataContext';
-import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
+import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { getArbeidsgivere } from '../../utils/arbeidsforholdUtils';
 import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
+import { getSøkerKunHistoriskPeriode } from '../../utils/tidsbrukUtils';
+import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
+import { StepConfigProps, StepID } from '../søknadStepsConfig';
 import AndreYtelserFormPart from './parts/AndreYtelserFormPart';
 import ArbeidssituasjonAnsatt from './parts/ArbeidssituasjonAnsatt';
 import ArbeidssituasjonFrilans from './parts/ArbeidssituasjonFrilans';
 import ArbeidssituasonSN from './parts/ArbeidssituasjonSN';
-import SøknadFormComponents from '../SøknadFormComponents';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
-import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { getSøkerKunHistoriskPeriode } from '../../utils/tidsbrukUtils';
 
 interface LoadState {
     isLoading: boolean;
@@ -122,7 +122,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
             {isLoading && <LoadingSpinner type="XS" blockTitle="Henter arbeidsforhold" />}
             {!isLoading && søknadsperiode && (
                 <>
-                    <Box padBottom="m">
+                    <Box padBottom="xl">
                         <CounsellorPanel>
                             <p>
                                 <FormattedMessage id="steg.arbeidssituasjon.veileder.1" />

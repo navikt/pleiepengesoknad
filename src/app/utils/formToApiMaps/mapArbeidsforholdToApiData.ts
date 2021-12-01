@@ -2,14 +2,14 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
 import { getDatoerIPeriode } from '../../components/tid-uker-input/utils';
-import { ArbeidsforholdType, JobberIPeriodeSvar } from '../../types';
+import { ArbeidsforholdType, JobberIPeriodeSvar, TimerEllerProsent } from '../../types';
 import {
     ArbeidIPeriodeApiData,
     ArbeidsforholdApiData,
     TidEnkeltdagApiData,
     TidFasteDagerApiData,
 } from '../../types/SøknadApiData';
-import { ArbeidIPeriode, Arbeidsforhold, TimerEllerProsent } from '../../types/SøknadFormData';
+import { ArbeidIPeriode, Arbeidsforhold } from '../../types/SøknadFormData';
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
 import { getHistoriskPeriode, getPlanlagtPeriode } from '../tidsbrukUtils';
 import {
@@ -61,12 +61,6 @@ export const mapArbeidIPeriodeToApiData = (
     if (arbeid.jobberIPerioden !== JobberIPeriodeSvar.JA) {
         return apiData;
     }
-    if (arbeid.jobberSomVanlig === YesOrNo.YES) {
-        return {
-            ...apiData,
-            jobberSomVanlig: true,
-        };
-    }
     if (arbeid.timerEllerProsent === TimerEllerProsent.prosent) {
         const skalJobbeProsentNumber = getNumberFromNumberInputValue(arbeid.skalJobbeProsent);
         if (skalJobbeProsentNumber === undefined) {
@@ -75,7 +69,6 @@ export const mapArbeidIPeriodeToApiData = (
         return {
             ...apiData,
             jobberIPerioden: JobberIPeriodeSvar.JA,
-            jobberSomVanlig: false,
             erLiktHverUke: true,
             fasteDager: lagFasteDagerUtFraProsentIPeriode(jobberNormaltTimerNumber, skalJobbeProsentNumber),
             _jobberProsent: skalJobbeProsentNumber,
@@ -88,7 +81,6 @@ export const mapArbeidIPeriodeToApiData = (
 
     return {
         jobberIPerioden: JobberIPeriodeSvar.JA,
-        jobberSomVanlig: false,
         erLiktHverUke,
         enkeltdager: arbeidsperiode ? fjernTidUtenforPeriode(arbeidsperiode, enkeltdager) : enkeltdager,
         fasteDager: arbeid.fasteDager && erLiktHverUke ? getFasteDagerApiData(arbeid.fasteDager) : undefined,

@@ -11,11 +11,11 @@ import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types'
 import dayjs from 'dayjs';
 import Knapp from 'nav-frontend-knapper';
 import { Element } from 'nav-frontend-typografi';
-import { TidEnkeltdag } from '../../types';
-import { getDagerMedTidITidsrom } from '../../utils/tidsbrukUtils';
-import { getArbeidstimerEnkeltdagValidator } from '../../validation/validateArbeidFields';
-import TidKalenderForm from '../tid-kalender-form/TidKalenderForm';
-import TidsbrukKalender from '../tidsbruk-kalender/TidsbrukKalender';
+import { TidEnkeltdag } from '../../../types';
+import { getDagerMedTidITidsrom } from '../../../utils/tidsbrukUtils';
+import { getArbeidstimerEnkeltdagValidator } from '../../../validation/validateArbeidFields';
+import TidKalenderForm from '../../../components/tid-kalender-form/TidKalenderForm';
+import TidsbrukKalender from '../../../components/tidsbruk-kalender/TidsbrukKalender';
 import { ArbeidIPeriodeIntlValues } from './ArbeidIPeriodeSpørsmål';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';

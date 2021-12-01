@@ -25,7 +25,6 @@ const frilans_arbeidsforhold: Arbeidsforhold = {
     jobberNormaltTimer: '10',
     historisk: {
         jobberIPerioden: JobberIPeriodeSvar.JA,
-        jobberSomVanlig: YesOrNo.YES,
         enkeltdager: {
             '2021-01-31': { hours: '5', minutes: '0' },
             '2021-02-01': { hours: '5', minutes: '0' },
@@ -35,7 +34,6 @@ const frilans_arbeidsforhold: Arbeidsforhold = {
     },
     planlagt: {
         jobberIPerioden: JobberIPeriodeSvar.JA,
-        jobberSomVanlig: YesOrNo.YES,
         enkeltdager: {
             '2021-02-09': { hours: '5', minutes: '0' },
         },

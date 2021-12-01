@@ -1,6 +1,6 @@
 import { apiStringDateToDate, DateRange, datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { decimalTimeToTime, timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { dateToISOString, ISOStringToDate, InputTime } from '@navikt/sif-common-formik/lib';
+import { dateToISOString, InputTime, ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import { TidEnkeltdag, TidFasteDager } from '../../types';
 import { ISO8601Duration, TidEnkeltdagApiData } from '../../types/SøknadApiData';

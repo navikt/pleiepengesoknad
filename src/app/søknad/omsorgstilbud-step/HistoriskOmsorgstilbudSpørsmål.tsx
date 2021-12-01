@@ -1,6 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import FormSection from '@navikt/sif-common-core/lib/components/form-section/FormSection';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
@@ -9,10 +10,9 @@ import { DateRange } from '@navikt/sif-common-formik/lib';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
-import FormSection from '../../pre-common/form-section/FormSection';
-import { SøknadFormField, Omsorgstilbud } from '../../types/SøknadFormData';
+import { Omsorgstilbud, SøknadFormField } from '../../types/SøknadFormData';
 import SøknadFormComponents from '../SøknadFormComponents';
-import OmsorgstilbudIPeriodeSpørsmål from '../../components/omsorgstilbud/OmsorgstilbudIPeriodeSpørsmål';
+import OmsorgstilbudIPeriodeSpørsmål from './omsorgstilbud-i-periode/OmsorgstilbudIPeriodeSpørsmål';
 
 dayjs.extend(isBetween);
 

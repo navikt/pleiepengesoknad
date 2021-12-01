@@ -1,15 +1,9 @@
 import React from 'react';
 import { FormattedNumber, useIntl } from 'react-intl';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { timeToDecimalTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { InputTime } from '@navikt/sif-common-formik';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-
-const ensureTime = (time: Partial<InputTime>): InputTime => {
-    return {
-        hours: time.hours || '0',
-        minutes: time.minutes || '0',
-    };
-};
+import { ensureTime } from '../../utils/timeUtils';
 
 const FormattedTimeText = ({
     time,

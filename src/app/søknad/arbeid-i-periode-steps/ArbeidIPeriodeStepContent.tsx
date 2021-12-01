@@ -3,16 +3,16 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import FormSection from '@navikt/sif-common-core/lib/components/form-section/FormSection';
 import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { useFormikContext } from 'formik';
-import FormSection from '../../pre-common/form-section/FormSection';
-import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
-import ArbeidIPeriodeSpørsmål from '../../components/arbeidstid/ArbeidIPeriodeSpørsmål';
+import ArbeidIPeriodeSpørsmål from './arbeid-i-periode/ArbeidIPeriodeSpørsmål';
 import { ArbeidsforholdType } from '../../types';
-import { getPeriodeSomFrilanserInneforPeriode } from '../../utils/frilanserUtils';
+import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { erAnsattHosArbeidsgiverISøknadsperiode } from '../../utils/ansattUtils';
+import { getPeriodeSomFrilanserInneforPeriode } from '../../utils/frilanserUtils';
 
 interface Props {
     periode: DateRange;

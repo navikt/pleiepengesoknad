@@ -1,17 +1,15 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import dayjs from 'dayjs';
-import { JobberIPeriodeSvar } from '../../types';
+import minMax from 'dayjs/plugin/minMax';
+import { JobberIPeriodeSvar, TimerEllerProsent } from '../../types';
 import {
     ArbeidIPeriode,
     Arbeidsforhold,
     ArbeidsforholdAnsatt,
     ArbeidsforholdSNF,
     SøknadFormData,
-    TimerEllerProsent,
 } from '../../types/SøknadFormData';
-
-import minMax from 'dayjs/plugin/minMax';
-import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getPeriodeSomFrilanserInneforPeriode } from '../../utils/frilanserUtils';
 import { skalViseSpørsmålOmProsentEllerLiktHverUke } from '../../utils/tidsbrukUtils';
 
@@ -22,10 +20,6 @@ const cleanupArbeidIPeriode = (periode: DateRange, arbeidIPerioden: ArbeidIPerio
         jobberIPerioden: arbeidIPerioden.jobberIPerioden,
     };
     if (arbeid.jobberIPerioden !== JobberIPeriodeSvar.JA) {
-        return arbeid;
-    }
-    arbeid.jobberSomVanlig = arbeidIPerioden.jobberSomVanlig;
-    if (arbeid.jobberSomVanlig === YesOrNo.YES) {
         return arbeid;
     }
 

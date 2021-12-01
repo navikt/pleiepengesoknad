@@ -1,8 +1,10 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import {
     FormikModalFormAndInfo,
     ModalFormAndInfoLabels,
@@ -12,13 +14,11 @@ import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types'
 import dayjs from 'dayjs';
 import Knapp from 'nav-frontend-knapper';
 import { Undertittel } from 'nav-frontend-typografi';
-import { TidEnkeltdag } from '../../types';
-import { getDagerMedTidITidsrom } from '../../utils/tidsbrukUtils';
-import TidKalenderForm from '../tid-kalender-form/TidKalenderForm';
-import TidsbrukKalender from '../tidsbruk-kalender/TidsbrukKalender';
-import { getTidIOmsorgValidator } from '../../validation/validateOmsorgstilbudFields';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import TidKalenderForm from '../../../components/tid-kalender-form/TidKalenderForm';
+import TidsbrukKalender from '../../../components/tidsbruk-kalender/TidsbrukKalender';
+import { TidEnkeltdag } from '../../../types';
+import { getDagerMedTidITidsrom } from '../../../utils/tidsbrukUtils';
+import { getTidIOmsorgValidator } from '../../../validation/validateOmsorgstilbudFields';
 
 interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, ValidationError> {
     name: FieldNames;
