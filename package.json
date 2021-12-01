@@ -30,7 +30,7 @@
         "server-test": "node ./server-test.js"
     },
     "dependencies": {
-        "@formatjs/intl-pluralrules": "^4.1.5",
+        "@formatjs/intl-pluralrules": "^4.1.6",
         "@navikt/sif-common-amplitude": "^2.2.3",
         "@navikt/sif-common-core": "^10.0.2",
         "@navikt/sif-common-formik": "^21.0.0",
