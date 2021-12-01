@@ -3,12 +3,12 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { mapVirksomhetToVirksomhetApiData } from '@navikt/sif-common-forms/lib';
 import { ArbeidsforholdType } from '../../types';
-import { PleiepengesøknadApiData } from '../../types/PleiepengesøknadApiData';
-import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { SøknadApiData } from '../../types/SøknadApiData';
+import { SøknadFormData } from '../../types/SøknadFormData';
 import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
 
 type SelvstendigArbeidsforholdApiDataPart = Pick<
-    PleiepengesøknadApiData,
+    SøknadApiData,
     'selvstendigNæringsdrivende' | '_harHattInntektSomSelvstendigNæringsdrivende'
 >;
 
@@ -18,7 +18,7 @@ export const getSelvstendigNæringsdrivendeApiData = (
         selvstendig_harHattInntektSomSN,
         selvstendig_harFlereVirksomheter,
         selvstendig_virksomhet,
-    }: PleiepengesøknadFormData,
+    }: SøknadFormData,
     søknadsperiode: DateRange,
     søknadsdato: Date,
     locale: Locale

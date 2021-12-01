@@ -2,7 +2,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import dayjs from 'dayjs';
-import { AppFormField, PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { SøknadFormField, SøknadFormData } from '../types/SøknadFormData';
 
 export const erFrilanserITidsrom = (
     tidsrom: DateRange,
@@ -25,11 +25,11 @@ export const erFrilanserIPeriode = (
         frilans_sluttdato,
         frilans_startdato,
     }: Pick<
-        PleiepengesøknadFormData,
-        | AppFormField.frilans_harHattInntektSomFrilanser
-        | AppFormField.frilans_jobberFortsattSomFrilans
-        | AppFormField.frilans_sluttdato
-        | AppFormField.frilans_startdato
+        SøknadFormData,
+        | SøknadFormField.frilans_harHattInntektSomFrilanser
+        | SøknadFormField.frilans_jobberFortsattSomFrilans
+        | SøknadFormField.frilans_sluttdato
+        | SøknadFormField.frilans_startdato
     >
 ): boolean => {
     const frilansStartdato = datepickerUtils.getDateFromDateString(frilans_startdato);

@@ -3,12 +3,12 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { apiStringDateToDate, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
-import { PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { SøknadFormData } from '../../types/SøknadFormData';
 import { erFrilanserIPeriode, erFrilanserITidsrom } from '../frilanserUtils';
 
 dayjs.extend(minMax);
 
-type TestData = Partial<PleiepengesøknadFormData>;
+type TestData = Partial<SøknadFormData>;
 
 const formValues: TestData = {
     frilans_harHattInntektSomFrilanser: YesOrNo.YES,

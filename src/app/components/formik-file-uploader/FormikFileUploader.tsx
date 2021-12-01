@@ -11,8 +11,8 @@ import {
 import { FormikFileInput, TypedFormInputValidationProps } from '@navikt/sif-common-formik';
 import { ArrayHelpers, connect, useFormikContext } from 'formik';
 import { uploadFile } from '../../api/api';
-import { AppFormField, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
-import * as apiUtils from '../../utils/apiUtils';
+import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
+import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import appSentryLogger from '../../utils/appSentryLogger';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 
@@ -20,8 +20,8 @@ export type FieldArrayReplaceFn = (index: number, value: any) => void;
 export type FieldArrayPushFn = (obj: any) => void;
 export type FieldArrayRemoveFn = (index: number) => undefined;
 
-interface FormikFileUploader extends TypedFormInputValidationProps<AppFormField, ValidationError> {
-    name: AppFormField;
+interface FormikFileUploader extends TypedFormInputValidationProps<SøknadFormField, ValidationError> {
+    name: SøknadFormField;
     label: string;
     onFileUploadComplete?: () => void;
     onFileInputClick?: () => void;
@@ -39,7 +39,7 @@ const FormikFileUploader = ({
     onUnauthorizedOrForbiddenUpload,
     ...otherProps
 }: Props) => {
-    const { values } = useFormikContext<PleiepengesøknadFormData>();
+    const { values } = useFormikContext<SøknadFormData>();
 
     function updateAttachmentListElement(
         attachments: Attachment[],
@@ -92,7 +92,7 @@ const FormikFileUploader = ({
                 attachment.url = response.headers.location;
                 attachment.uploaded = true;
             } catch (error) {
-                if (apiUtils.isForbidden(error) || apiUtils.isUnauthorized(error)) {
+                if (apiUtils.isUnauthorized(error)) {
                     onUnauthorizedOrForbiddenUpload();
                 } else {
                     appSentryLogger.logApiError(error);
@@ -119,7 +119,7 @@ const FormikFileUploader = ({
         }
     }
     return (
-        <FormikFileInput<AppFormField, ValidationError>
+        <FormikFileInput<SøknadFormField, ValidationError>
             name={name}
             acceptedExtensions={VALID_EXTENSIONS.join(', ')}
             onFilesSelect={async (files: File[], { push, replace }: ArrayHelpers) => {
@@ -135,4 +135,4 @@ const FormikFileUploader = ({
     );
 };
 
-export default connect<FormikFileUploader, AppFormField>(FormikFileUploader);
+export default connect<FormikFileUploader, SøknadFormField>(FormikFileUploader);

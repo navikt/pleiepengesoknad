@@ -1,5 +1,5 @@
 import { ArbeidsforholdType } from '../../types';
-import { ArbeidsgiverApiData } from '../../types/PleiepengesøknadApiData';
+import { ArbeidsgiverApiData } from '../../types/SøknadApiData';
 import { Arbeidsgiver, Søkerdata } from '../../types/Søkerdata';
 import { getKvitteringInfoFromApiData, KvitteringApiData } from '../kvitteringUtils';
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import axiosConfig from '../../config/axiosConfig';
-import { StepID } from '../../config/stepConfig';
+import { StepID } from '../../søknad/søknadStepsConfig';
 import { ResourceType } from '../../types/ResourceType';
 import { axiosJsonConfig, getApiUrlByResourceType, sendMultipartPostRequest } from '../../utils/apiUtils';
 import {

@@ -1,7 +1,7 @@
 import { History } from 'history';
 import RouteConfig from '../config/routeConfig';
 import routeConfig, { getRouteUrl } from '../config/routeConfig';
-import { StepID } from '../config/stepConfig';
+import { StepID } from '../søknad/søknadStepsConfig';
 import { getEnvironmentVariable } from './envUtils';
 
 export const userIsCurrentlyOnErrorPage = () => {
@@ -20,6 +20,7 @@ export const navigateToSoknadStep = (step: StepID, history: History): void => hi
 export const relocateToLoginPage = (): void => relocateTo(getEnvironmentVariable('LOGIN_URL'));
 export const relocateToNavFrontpage = (): void => relocateTo('https://www.nav.no/');
 export const relocateToSoknad = (): void => relocateTo(getRouteUrl(RouteConfig.SØKNAD_ROUTE_PREFIX));
+export const relocateToDinePleiepenger = (): void => relocateTo(getEnvironmentVariable('INNSYN_URL'));
 
 export const navigateToSoknadFrontpage = (history: History): void =>
     navigateTo(RouteConfig.SØKNAD_ROUTE_PREFIX, history);

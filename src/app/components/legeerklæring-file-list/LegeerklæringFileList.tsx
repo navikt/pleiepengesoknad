@@ -12,7 +12,7 @@ import {
 } from '@navikt/sif-common-core/lib/utils/attachmentUtils';
 import { removeElementFromArray } from '@navikt/sif-common-core/lib/utils/listUtils';
 import { deleteFile } from '../../api/api';
-import { AppFormField, PleiepengesøknadFormData } from '../../types/PleiepengesøknadFormData';
+import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
 
 interface LegeerklæringAttachmentListProps {
     includeDeletionFunctionality: boolean;
@@ -22,8 +22,8 @@ interface LegeerklæringAttachmentListProps {
 type Props = LegeerklæringAttachmentListProps;
 
 const LegeerklæringAttachmentList = ({ wrapNoAttachmentsInBox, includeDeletionFunctionality }: Props) => {
-    const { values, setFieldValue } = useFormikContext<PleiepengesøknadFormData>();
-    const legeerklæring: Attachment[] = values[AppFormField.legeerklæring].filter(({ file }: Attachment) =>
+    const { values, setFieldValue } = useFormikContext<SøknadFormData>();
+    const legeerklæring: Attachment[] = values[SøknadFormField.legeerklæring].filter(({ file }: Attachment) =>
         fileExtensionIsValid(file.name)
     );
 
@@ -44,7 +44,7 @@ const LegeerklæringAttachmentList = ({ wrapNoAttachmentsInBox, includeDeletionF
             <AttachmentListWithDeletion
                 attachments={legeerklæring}
                 onRemoveAttachmentClick={(attachment: Attachment) => {
-                    setFieldValue(AppFormField.legeerklæring, removeElementFromArray(attachment, legeerklæring));
+                    setFieldValue(SøknadFormField.legeerklæring, removeElementFromArray(attachment, legeerklæring));
                     if (attachment.url) {
                         deleteFile(attachment.url);
                     }
@@ -56,4 +56,4 @@ const LegeerklæringAttachmentList = ({ wrapNoAttachmentsInBox, includeDeletionF
     }
 };
 
-export default connect<LegeerklæringAttachmentListProps, AppFormField>(LegeerklæringAttachmentList);
+export default connect<LegeerklæringAttachmentListProps, SøknadFormField>(LegeerklæringAttachmentList);

@@ -1,6 +1,11 @@
 import { apiStringDateToDate, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { TidEnkeltdagApiData } from '../../../types/PleiepengesøknadApiData';
-import { fjernTidUtenforPeriode, getEnkeltdagerIPeriodeApiData, getFasteDagerApiData } from '../tidsbrukApiUtils';
+import { TidEnkeltdagApiData } from '../../../types/SøknadApiData';
+import {
+    fjernTidUtenforPeriode,
+    getEnkeltdagerIPeriodeApiData,
+    getFasteDagerApiData,
+    getRedusertArbeidstidSomIso8601Duration,
+} from '../tidsbrukApiUtils';
 
 describe('tidsbrukApiUtils', () => {
     describe('getFasteDagerApiData', () => {
@@ -82,5 +87,27 @@ describe('tidsbrukApiUtils', () => {
                 expect(result[1].dato).toEqual('2021-02-06');
             }
         });
+    });
+});
+
+describe('getRedusertArbeidstidSomIso8601Duration', () => {
+    it('beregner riktig ved 20%', () => {
+        expect(getRedusertArbeidstidSomIso8601Duration(40, 20)).toEqual('PT8H0M');
+        expect(getRedusertArbeidstidSomIso8601Duration(37.5, 20)).toEqual('PT7H30M');
+    });
+    it('beregner riktig ved 33.34%', () => {
+        expect(getRedusertArbeidstidSomIso8601Duration(40, 33.34)).toEqual('PT13H20M');
+        expect(getRedusertArbeidstidSomIso8601Duration(30, 33.34)).toEqual('PT10H0M');
+        expect(getRedusertArbeidstidSomIso8601Duration(37.5, 33.34)).toEqual('PT12H30M');
+    });
+    it('beregner riktig ved 50%', () => {
+        expect(getRedusertArbeidstidSomIso8601Duration(40, 50)).toEqual('PT20H0M');
+        expect(getRedusertArbeidstidSomIso8601Duration(30, 50)).toEqual('PT15H0M');
+        expect(getRedusertArbeidstidSomIso8601Duration(37.5, 50)).toEqual('PT18H45M');
+    });
+    it('beregner riktig ved 13.5%', () => {
+        expect(getRedusertArbeidstidSomIso8601Duration(40, 13.5)).toEqual('PT5H24M');
+        expect(getRedusertArbeidstidSomIso8601Duration(30, 13.5)).toEqual('PT4H3M');
+        expect(getRedusertArbeidstidSomIso8601Duration(37.5, 13.5)).toEqual('PT5H4M');
     });
 });

@@ -1,23 +1,23 @@
 import { storageParser } from '@navikt/sif-common-core/lib/utils/persistence/persistence';
 import axios, { AxiosResponse } from 'axios';
 import axiosConfig from '../config/axiosConfig';
-import { StepID } from '../config/stepConfig';
-import { PleiepengesøknadApiData } from '../types/PleiepengesøknadApiData';
-import { PleiepengesøknadFormData } from '../types/PleiepengesøknadFormData';
+import { StepID } from '../søknad/søknadStepsConfig';
+import { SøknadApiData } from '../types/SøknadApiData';
+import { SøknadFormData } from '../types/SøknadFormData';
 import { ResourceType } from '../types/ResourceType';
-import { MELLOMLAGRING_VERSION, MellomlagringData } from '../types/storage';
 import { Arbeidsgiver } from '../types/Søkerdata';
 import { getApiUrlByResourceType, axiosJsonConfig, sendMultipartPostRequest } from '../utils/apiUtils';
+import { MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
 
 export const getPersistUrl = (stepID?: StepID) =>
     stepID
         ? `${getApiUrlByResourceType(ResourceType.MELLOMLAGRING)}?lastStepID=${encodeURI(stepID)}`
         : getApiUrlByResourceType(ResourceType.MELLOMLAGRING);
 
-export const persist = (formData: Partial<PleiepengesøknadFormData> | undefined, lastStepID?: StepID) => {
+export const persist = (formData: Partial<SøknadFormData> | undefined, lastStepID?: StepID) => {
     const url = getPersistUrl(lastStepID);
     if (formData) {
-        const body: MellomlagringData = {
+        const body: SøknadTempStorageData = {
             formData,
             metadata: {
                 lastStepID,
@@ -46,7 +46,7 @@ export const getArbeidsgiver = (fom: string, tom: string): Promise<AxiosResponse
         axiosJsonConfig
     );
 
-export const sendApplication = (data: PleiepengesøknadApiData) =>
+export const sendApplication = (data: SøknadApiData) =>
     axios.post(getApiUrlByResourceType(ResourceType.SEND_SØKNAD), data, axiosJsonConfig);
 
 export const uploadFile = (file: File) => {

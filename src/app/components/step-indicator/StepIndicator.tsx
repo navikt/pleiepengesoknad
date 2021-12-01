@@ -2,7 +2,7 @@ import * as React from 'react';
 import { IntlShape, useIntl } from 'react-intl';
 import NAVStepIndicator from 'nav-frontend-stegindikator/lib/stegindikator';
 import { default as Step } from 'nav-frontend-stegindikator/lib/stegindikator-steg';
-import { StepConfigInterface, StepID } from '../../config/stepConfig';
+import { StepConfigInterface, StepID } from '../../søknad/søknadStepsConfig';
 import { getStepTexts } from '../../utils/stepUtils';
 
 interface Props {
