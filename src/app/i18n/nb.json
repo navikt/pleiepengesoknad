@@ -594,7 +594,7 @@
 
     "arbeidstid.addLabel": "Registrer jobb for {periode}",
     "arbeidstid.deleteLabel": "Fjern alle timer",
-    "arbeidstid.editLabel": "Endre jobb for {periode}",
+    "arbeidstid.editLabel": "Vis skjema for alle dager i {periode}",
     "arbeidstid.modalTitle": "Jobb i ${periode}",
 
     "oppsummering.arbeidssituasjon.arbeidsgiver.ansatt": "Er ansatt",

@@ -8,11 +8,12 @@ import dayjs from 'dayjs';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import Knapp from 'nav-frontend-knapper';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
+import ArbeidstidEnkeltdagDialog from '../../../pre-common/arbeidstid-enkeltdag/ArbeidstidEnkeltdagDialog';
+import { ArbeidstidEnkeltdagEndring } from '../../../pre-common/arbeidstid-enkeltdag/ArbeidstidEnkeltdagForm';
+import FormattedTimeText from '../../../components/formatted-time-text/FormattedTimeText';
 import TidsbrukKalender from '../../../components/tidsbruk-kalender/TidsbrukKalender';
 import { TidEnkeltdag } from '../../../types';
-import { ArbeidstidEnkeltdagEndring } from '../../../pre-common/arbeidstid-enkeltdag/ArbeidstidEnkeltdagForm';
 import { getDagerMedTidITidsrom, tidErIngenTid } from '../../../utils/tidsbrukUtils';
-import ArbeidstidEnkeltdagDialog from '../../../pre-common/arbeidstid-enkeltdag/ArbeidstidEnkeltdagDialog';
 
 interface Props {
     måned: DateRange;
@@ -22,7 +23,7 @@ interface Props {
     addLabel: string;
     utilgjengeligeDatoer?: Date[];
     månedTittelHeadingLevel?: number;
-    søknadsperiode: DateRange;
+    periode: DateRange;
     onEnkeltdagChange?: (evt: ArbeidstidEnkeltdagEndring) => void;
     onRequestEdit: (tid: TidEnkeltdag) => void;
 }
@@ -34,7 +35,7 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
     addLabel,
     utilgjengeligeDatoer,
     månedTittelHeadingLevel = 2,
-    søknadsperiode,
+    periode,
     onEnkeltdagChange,
     onRequestEdit,
 }) => {
@@ -78,9 +79,14 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
                 periode={måned}
                 dager={dager}
                 utilgjengeligeDatoer={utilgjengeligeDatoer}
-                dagerOpprinnelig={[]}
                 skjulTommeDagerIListe={true}
-                visEndringsinformasjon={true}
+                visEndringsinformasjon={false}
+                tidRenderer={(tid: InputTime) => {
+                    if (tid.hours === '0' && tid.minutes === '0') {
+                        return <></>;
+                    }
+                    return <FormattedTimeText time={tid} />;
+                }}
                 onDateClick={
                     onEnkeltdagChange
                         ? (dato) => {
@@ -99,7 +105,7 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
                 <ArbeidstidEnkeltdagDialog
                     isOpen={editDate !== undefined}
                     dagMedTid={editDate}
-                    søknadsperiode={søknadsperiode}
+                    periode={periode}
                     onSubmit={(evt) => {
                         onEnkeltdagChange(evt);
                         setEditDate(undefined);

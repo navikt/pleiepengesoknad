@@ -4,7 +4,7 @@ import { timeHasSameDuration } from '../../utils/dateUtils';
 import FormattedTimeText from '../formatted-time-text/FormattedTimeText';
 import { InputTime } from '@navikt/sif-common-formik/lib';
 
-export type TidRenderer = (tid: InputTime, dato: Date) => React.ReactNode;
+export type TidRenderer = (tid: InputTime | undefined, dato: Date) => React.ReactNode;
 interface Props {
     dato: Date;
     tid?: InputTime;

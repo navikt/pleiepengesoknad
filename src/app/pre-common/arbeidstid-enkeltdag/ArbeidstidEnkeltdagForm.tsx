@@ -17,7 +17,7 @@ import dateFormatter from '../../utils/dateFormatterUtils';
 interface Props {
     dagMedTid: DagMedTid;
     arbeidsstedNavn: string;
-    endringsperiode: DateRange;
+    periode: DateRange;
     onSubmit: (data: ArbeidstidEnkeltdagEndring) => void;
     onCancel: () => void;
 }
@@ -66,7 +66,7 @@ const bem = bemUtils('arbeidstidEnkeltdagEdit');
 const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
     dagMedTid: { dato, tid },
     arbeidsstedNavn,
-    endringsperiode,
+    periode,
     onSubmit,
     onCancel,
 }) => {
@@ -91,11 +91,19 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
 
     const erHistorisk = dayjs(dato).isBefore(dateToday);
     const dagNavn = dayjs(dato).format('dddd');
+    const ukedager: DateRange = {
+        from: dayjs(dato).startOf('week').toDate(),
+        to: dayjs(dato).endOf('week').subtract(2, 'days').toDate(),
+    };
+    const mandag = dayjs(ukedager.from).format('D. MMM');
+    const fredag = dayjs(ukedager.to).format('D. MMM');
+    const ukeNavn = `${dayjs(dato).isoWeek()} (${mandag} til ${fredag})`;
+    const månedNavn = dayjs(dato).format('MMMM YYYY');
     const datoString = dateFormatter.extended(dato);
     return (
         <div>
             <Undertittel tag="h1" className={bem.element('tittel')}>
-                Arbeidstid {dateFormatter.full(dato)}
+                <span className="m-caps">{dagNavn}</span> {dateFormatter.full(dato)}
             </Undertittel>
             <FormBlock margin="l">
                 <FormComponents.FormikWrapper
@@ -155,19 +163,19 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                                                 className="compactRadios"
                                                 radios={[
                                                     {
-                                                        label: `Alle dager i denne uken`,
+                                                        label: `Alle hverdager i uke ${ukeNavn}`,
                                                         value: GjentagelseType.heleUken,
                                                     },
                                                     {
-                                                        label: `Alle dager i denne måneden`,
+                                                        label: `Alle hverdager i ${månedNavn}`,
                                                         value: GjentagelseType.heleMåneden,
                                                     },
                                                     {
-                                                        label: `Hver ${dagNavn} etter ${datoString}`,
+                                                        label: `Hver ${dagNavn} fra og med ${datoString}`,
                                                         value: GjentagelseType.hverUke,
                                                     },
                                                     {
-                                                        label: `Hver andre ${dagNavn} etter ${datoString}`,
+                                                        label: `Hver andre ${dagNavn} fra og med ${datoString}`,
                                                         value: GjentagelseType.hverAndreUke,
                                                     },
                                                 ]}
@@ -188,7 +196,7 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                                                         <FormComponents.DatePicker
                                                             label="Dato for stopp"
                                                             minDate={dato}
-                                                            maxDate={endringsperiode.to}
+                                                            maxDate={periode.to}
                                                             disableWeekend={true}
                                                             fullScreenOnMobile={true}
                                                             useFastField={true}

@@ -10,7 +10,7 @@ interface Props {
     isOpen?: boolean;
     dagMedTid?: DagMedTid;
     arbeidsstedNavn: string;
-    søknadsperiode: DateRange;
+    periode: DateRange;
     onSubmit: (evt: ArbeidstidEnkeltdagEndring) => void;
     onCancel: () => void;
 }
@@ -19,14 +19,14 @@ const ArbeidstidEnkeltdagDialog: React.FunctionComponent<Props> = ({
     isOpen = false,
     dagMedTid,
     arbeidsstedNavn,
-    søknadsperiode,
+    periode,
     onSubmit,
     onCancel,
 }) => {
     if (!isOpen) {
         return null;
     }
-    const contentLabel = dagMedTid ? `Arbeidstid ${dateFormatter.full(dagMedTid.dato)}` : `Arbeidstid`;
+    const contentLabel = dagMedTid ? `Arbeidstid ${dateFormatter.fullWithDayName(dagMedTid.dato)}` : `Arbeidstid`;
 
     return isOpen && dagMedTid ? (
         <>
@@ -37,7 +37,7 @@ const ArbeidstidEnkeltdagDialog: React.FunctionComponent<Props> = ({
                 shouldCloseOnOverlayClick={false}
                 className="arbeidstidEnkeltdagDialog">
                 <ArbeidstidEnkeltdagForm
-                    endringsperiode={søknadsperiode}
+                    periode={periode}
                     dagMedTid={dagMedTid}
                     arbeidsstedNavn={arbeidsstedNavn}
                     onCancel={onCancel}

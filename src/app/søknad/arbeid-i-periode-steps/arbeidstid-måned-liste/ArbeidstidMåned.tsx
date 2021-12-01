@@ -85,7 +85,7 @@ function ArbeidstidMåned<FieldNames>({
                         måned={måned}
                         tidArbeidstid={data}
                         utilgjengeligeDatoer={utilgjengeligeDatoer}
-                        søknadsperiode={periode}
+                        periode={periode}
                         onRequestEdit={onEdit}
                         onEnkeltdagChange={handleOnEnkeltdagChange}
                         editLabel={labels.editLabel}
