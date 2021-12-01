@@ -77,10 +77,12 @@ export const getDatesInMonth = (month: Date, onlyWeekDays = true): Date[] => {
     return dates;
 };
 
-export const getFirstDateOfWeek = (dateInWeek: Date): Date =>
-    dayjs(dateInWeek)
-        .subtract(dayjs(dateInWeek).isoWeekday() - 1, 'days')
-        .toDate();
+export const getWeekDateRange = (date: Date): DateRange => {
+    return {
+        from: dayjs(date).startOf('week').toDate(),
+        to: dayjs(date).endOf('week').toDate(),
+    };
+};
 
 export const getMonthDateRange = (date: Date): DateRange => ({
     from: dayjs(date).startOf('month').toDate(),
@@ -202,3 +204,6 @@ export const getDateRangesBetweenDateRanges = (dateRanges: DateRange[]): DateRan
     });
     return rangesInBetween;
 };
+
+export const _getYearMonthKey = (date: Date): string => dayjs(date).format('YYYY-MM');
+export const getYearMonthKey = moize(_getYearMonthKey);

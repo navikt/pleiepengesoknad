@@ -11,12 +11,16 @@ export const _formatExtended = moize((date: Date) => {
 export const _formatFull = moize((date: Date) => {
     return prettifyDateFull(date);
 });
+export const _formatFullWithDayName = moize((date: Date) => {
+    return `${dayjs(date).format('dddd')} ${prettifyDateFull(date)}`;
+});
 export const _dateDayAndMonth = moize((date) => dayjs(date).format('dddd DD. MMM'));
 
 const dateFormatter = {
     short: _formatDefault,
     extended: _formatExtended,
     full: _formatFull,
+    fullWithDayName: _formatFullWithDayName,
     dayDateAndMonth: _dateDayAndMonth,
 };
 

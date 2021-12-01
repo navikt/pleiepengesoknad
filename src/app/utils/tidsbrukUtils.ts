@@ -1,11 +1,12 @@
 import { DateRange, datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { timeToDecimalTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { ISOStringToDate } from '@navikt/sif-common-formik/lib';
+import { InputTime, ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import { isValidTime } from '@navikt/sif-common-formik/lib/components/formik-time-input/TimeInput';
 import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
 import dayjs from 'dayjs';
+import moize from 'moize';
 import { DagMedTid, TidEnkeltdag, TidFasteDager } from '../types';
-import { ensureTime } from './timeUtils';
+import { ensureTime, timeToISODuration } from './timeUtils';
 
 export const MIN_ANTALL_DAGER_FOR_FAST_PLAN = 6;
 
@@ -119,3 +120,8 @@ export const skalViseSpørsmålOmProsentEllerLiktHverUke = (periode: DateRange):
     }
     return true;
 };
+
+export const _tidErIngenTid = (time: InputTime): boolean => {
+    return timeToISODuration(time) === 'PT0H0M';
+};
+export const tidErIngenTid = moize(_tidErIngenTid);

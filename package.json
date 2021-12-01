@@ -33,7 +33,7 @@
         "@formatjs/intl-pluralrules": "^4.1.5",
         "@navikt/sif-common-amplitude": "^2.2.3",
         "@navikt/sif-common-core": "^10.0.4",
-        "@navikt/sif-common-formik": "^21.0.0",
+        "@navikt/sif-common-formik": "^21.0.1",
         "@navikt/sif-common-forms": "^16.2.3",
         "@navikt/sif-common-sentry": "0.2.1",
         "@testing-library/react": "^12.1.2",

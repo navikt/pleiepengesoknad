@@ -2,6 +2,20 @@ html {
     font-size: 112.5%;
 }
 
+.arbeidstidKalender,
+.omsorgstilbudKalender {
+    &__mnd {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.55);
+        &:first-child {
+            padding-top: 0;
+            margin-top: 0;
+            border-top: none;
+        }
+    }
+}
+
 .infoMessageContent {
     p:first-child {
         margin-top: 0;
@@ -40,4 +54,10 @@ html {
 
 .m-caps {
     text-transform: capitalize;
+}
+
+.radiogruppe.compactRadios {
+    > .skjemaelement {
+        margin-bottom: 0.5rem;
+    }
 }

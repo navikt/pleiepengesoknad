@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { prettifyDate, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
-import { ArbeidsforholdType, TimerEllerProsent, JobberIPeriodeSvar } from '../../../types';
+import { ArbeidsforholdType, TimerEllerProsent, JobberIPeriodeSvar } from '../../types';
 import {
     SøknadFormField,
     ArbeidIPeriodeField,
     Arbeidsforhold,
     isArbeidsforholdAnsatt,
-} from '../../../types/SøknadFormData';
-import { getTimerTekst } from '../../../utils/arbeidsforholdUtils';
+} from '../../types/SøknadFormData';
+import { getTimerTekst } from '../../utils/arbeidsforholdUtils';
 import {
     getArbeidErLiktHverUkeValidator,
     getArbeidJobberValidator,
@@ -20,13 +20,16 @@ import {
     getArbeidstidTimerEllerProsentValidator,
     getArbeidstimerFastDagValidator,
     validateFasteArbeidstimerIUke,
-} from '../../../validation/validateArbeidFields';
-import SøknadFormComponents from '../../SøknadFormComponents';
-import TidFasteDagerInput from '../../../components/tid-faste-dager-input/TidFasteDagerInput';
-import ArbeidstidKalenderInput from './ArbeidstidKalenderInput';
-import { getRedusertArbeidstidSomIso8601Duration } from '../../../utils/formToApiMaps/tidsbrukApiUtils';
+} from '../../validation/validateArbeidFields';
+import SøknadFormComponents from '../SøknadFormComponents';
+import TidFasteDagerInput from '../../components/tid-faste-dager-input/TidFasteDagerInput';
+import ArbeidstidVarierendeFormPart from './ArbeidstidVarierendeFormPart';
+import { getRedusertArbeidstidSomIso8601Duration } from '../../utils/formToApiMaps/tidsbrukApiUtils';
 import { decimalTimeToTime, iso8601DurationToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { formatTimerOgMinutter } from '../../../components/timer-og-minutter/TimerOgMinutter';
+import { formatTimerOgMinutter } from '../../components/timer-og-minutter/TimerOgMinutter';
+import { useHistory } from 'react-router';
+import usePersistSoknad from '../../hooks/usePersistSoknad';
+import { StepID } from '../søknadStepsConfig';
 
 interface Props {
     parentFieldName: string;
@@ -79,6 +82,16 @@ const ArbeidIPeriodeSpørsmål = ({
     søknadsdato,
 }: Props) => {
     const intl = useIntl();
+
+    const history = useHistory();
+    const { persist } = usePersistSoknad(history);
+    const [arbeidstidChanged, setArbeidstidChanged] = useState(false);
+    useEffect(() => {
+        if (arbeidstidChanged === true) {
+            setArbeidstidChanged(false);
+            persist(erHistorisk ? StepID.ARBEID_HISTORISK : StepID.ARBEID_PLANLAGT);
+        }
+    }, [erHistorisk, arbeidstidChanged, persist]);
 
     const intlValues: ArbeidIPeriodeIntlValues = {
         skalEllerHarJobbet: intlHelper(
@@ -174,12 +187,13 @@ const ArbeidIPeriodeSpørsmål = ({
 
                     {erLiktHverUke === YesOrNo.NO && (
                         <FormBlock>
-                            <ArbeidstidKalenderInput
+                            <ArbeidstidVarierendeFormPart
                                 periode={periode}
                                 tidMedArbeid={arbeidIPeriode?.enkeltdager}
                                 intlValues={intlValues}
                                 enkeltdagerFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
                                 søknadsdato={søknadsdato}
+                                onChanged={() => setArbeidstidChanged(true)}
                             />
                         </FormBlock>
                     )}

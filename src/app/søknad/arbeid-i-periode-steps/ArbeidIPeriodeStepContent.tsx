@@ -8,7 +8,7 @@ import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/d
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { useFormikContext } from 'formik';
-import ArbeidIPeriodeSpørsmål from './arbeid-i-periode/ArbeidIPeriodeSpørsmål';
+import ArbeidIPeriodeSpørsmål from './ArbeidIPeriodeSpørsmål';
 import { ArbeidsforholdType } from '../../types';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { erAnsattHosArbeidsgiverISøknadsperiode } from '../../utils/ansattUtils';

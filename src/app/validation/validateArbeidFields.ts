@@ -3,7 +3,7 @@ import { InputTime } from '@navikt/sif-common-formik/lib';
 import { getNumberValidator, getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
 import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeValidator';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
-import { ArbeidIPeriodeIntlValues } from '../søknad/arbeid-i-periode-steps/arbeid-i-periode/ArbeidIPeriodeSpørsmål';
+import { ArbeidIPeriodeIntlValues } from '../søknad/arbeid-i-periode-steps/ArbeidIPeriodeSpørsmål';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
 import { TidEnkeltdag } from '../types';
 import { ArbeidIPeriode } from '../types/SøknadFormData';

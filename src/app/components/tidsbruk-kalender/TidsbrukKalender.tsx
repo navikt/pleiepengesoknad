@@ -1,70 +1,93 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
 import AriaAlternative from '@navikt/sif-common-core/lib/components/aria/AriaAlternative';
-import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { InputTime } from '@navikt/sif-common-formik/lib';
+import { DateRange, InputTime } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
-import { EtikettInfo } from 'nav-frontend-etiketter';
-import { DagMedTid } from '../../types';
-import CalendarGrid from '../calendar-grid/CalendarGrid';
-import FormattedTimeText from '../formatted-time-text/FormattedTimeText';
-import { formatTimerOgMinutter } from '../timer-og-minutter/TimerOgMinutter';
 
+import CalendarGrid from '../calendar-grid/CalendarGrid';
+import TidsbrukKalenderDag from './TidsbrukKalenderDag';
+import { dateToISODate } from '../../utils/dateUtils';
+import { DagMedTid } from '../../types';
+
+export type TidRenderer = (tid: InputTime, dato: Date) => React.ReactNode;
+
+type KalenderDag = {
+    tid?: InputTime;
+    tidOpprinnelig?: InputTime;
+};
+
+type Kalenderdager = {
+    [dato: string]: KalenderDag;
+};
 interface Props {
-    måned: Date;
-    dager: DagMedTid[];
     periode: DateRange;
-    brukEtikettForInnhold?: boolean;
-    visSomListe?: boolean;
+    dager: DagMedTid[];
+    dagerOpprinnelig?: DagMedTid[];
+    utilgjengeligeDatoer?: Date[];
+    utilgjengeligDagInfo?: string;
     skjulTommeDagerIListe?: boolean;
+    visEndringsinformasjon?: boolean;
+    onDateClick?: (date: Date) => void;
+    tomUkeContentRenderer?: () => React.ReactNode;
+    tidRenderer?: TidRenderer;
 }
 
-const DagContent = ({
-    tid,
-    brukEtikettForInnhold = true,
-    desimalTid,
-}: {
-    tid: Partial<InputTime>;
-    brukEtikettForInnhold?: boolean;
-    desimalTid?: boolean;
-}) => {
-    const intl = useIntl();
-    const content = (
-        <AriaAlternative
-            visibleText={<FormattedTimeText time={tid} decimal={desimalTid} />}
-            ariaText={formatTimerOgMinutter(intl, tid)}
-        />
-    );
-    return brukEtikettForInnhold ? <EtikettInfo>{content}</EtikettInfo> : content;
-};
 const TidsbrukKalender: React.FunctionComponent<Props> = ({
-    måned,
     periode,
-    dager,
-    brukEtikettForInnhold,
-    visSomListe,
+    dager: dagerMedTid,
+    dagerOpprinnelig = [],
+    utilgjengeligeDatoer,
+    utilgjengeligDagInfo,
     skjulTommeDagerIListe,
+    visEndringsinformasjon,
+    onDateClick,
+    tidRenderer,
+    tomUkeContentRenderer,
 }) => {
+    const kalenderdager: Kalenderdager = {};
+    dagerMedTid.forEach((d) => {
+        const datostring = dateToISODate(d.dato);
+        kalenderdager[datostring] = {
+            ...kalenderdager[datostring],
+            tid: d.tid,
+        };
+    });
+    dagerOpprinnelig.forEach((d) => {
+        const datostring = dateToISODate(d.dato);
+        kalenderdager[datostring] = {
+            ...kalenderdager[datostring],
+            tidOpprinnelig: d.tid,
+        };
+    });
+
     return (
         <CalendarGrid
-            month={måned}
-            min={periode.from}
-            max={periode.to}
-            renderAsList={visSomListe}
-            dateFormatter={(date: Date) => (
+            month={periode}
+            disabledDates={utilgjengeligeDatoer}
+            disabledDateInfo={utilgjengeligDagInfo}
+            hideEmptyContentInListMode={skjulTommeDagerIListe}
+            hideWeeksWithOnlyDisabledContent={true}
+            onDateClick={onDateClick}
+            allDaysInWeekDisabledContentRenderer={tomUkeContentRenderer}
+            dateRendererShort={(date: Date) => (
                 <AriaAlternative
                     visibleText={dayjs(date).format('D.')}
                     ariaText={dayjs(date).format('dddd DD. MMM YYYY')}
                 />
             )}
-            noContentRenderer={() => {
-                return <span />;
+            dateContentRenderer={(dato) => {
+                const dag = kalenderdager[dateToISODate(dato)];
+                return dag ? (
+                    <TidsbrukKalenderDag
+                        dato={dato}
+                        tid={dag.tid}
+                        tidRenderer={tidRenderer}
+                        tidOpprinnelig={dag.tidOpprinnelig}
+                        visEndringsinformasjon={visEndringsinformasjon}
+                    />
+                ) : (
+                    <span />
+                );
             }}
-            days={dager.map((dag) => ({
-                date: dag.dato,
-                content: <DagContent tid={dag.tid} brukEtikettForInnhold={brukEtikettForInnhold} desimalTid={false} />,
-            }))}
-            hideEmptyContentInListMode={skjulTommeDagerIListe}
         />
     );
 };
