@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import Knapperad from '@navikt/sif-common-core/lib/components/knapperad/Knapperad';
-import { DateRange, getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
+import { DateRange, getNumberFromNumberInputValue, InputTime } from '@navikt/sif-common-formik/lib';
 import { useFormikContext } from 'formik';
 import { Knapp } from 'nav-frontend-knapper';
-import { DatoTidMap } from '../../../types';
+import { DatoTidMap, TidFasteDager } from '../../../types';
 import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
 import { ArbeidstidPeriodeData } from '../../../pre-common/arbeidstid-periode/ArbeidstidPeriodeForm';
 import ArbeidstidPeriodeDialog from '../../../pre-common/arbeidstid-periode/ArbeidstidPeriodeDialog';
 import { ArbeidIPeriodeIntlValues } from '../ArbeidIPeriodeSpørsmål';
 import { getDagInfoForPeriode } from '../../../components/tid-uker-input/utils';
 import { getRedusertArbeidstidSomInputTime } from '../../../utils/formToApiMaps/tidsbrukApiUtils';
-import { dateToISODate } from '../../../utils/dateUtils';
+import { dateToISODate, ISODateToDate } from '../../../utils/dateUtils';
+import dayjs from 'dayjs';
 
 interface Props {
     formFieldName: SøknadFormField;
@@ -35,21 +36,21 @@ interface Props {
 //     return dagerIPeriodeDetErSøktFor;
 // };
 
-// const getTidForUkedag = (tid: TidFasteDager, ukedag: number): InputTime | undefined => {
-//     switch (ukedag) {
-//         case 1:
-//             return tid.mandag;
-//         case 2:
-//             return tid.tirsdag;
-//         case 3:
-//             return tid.onsdag;
-//         case 4:
-//             return tid.torsdag;
-//         case 5:
-//             return tid.fredag;
-//     }
-//     return undefined;
-// };
+const getTidForUkedag = (tid: TidFasteDager, ukedag: number): InputTime | undefined => {
+    switch (ukedag) {
+        case 1:
+            return tid.mandag;
+        case 2:
+            return tid.tirsdag;
+        case 3:
+            return tid.onsdag;
+        case 4:
+            return tid.torsdag;
+        case 5:
+            return tid.fredag;
+    }
+    return undefined;
+};
 
 const EndreArbeidstid: React.FunctionComponent<Props> = ({
     intlValues,
@@ -64,26 +65,28 @@ const EndreArbeidstid: React.FunctionComponent<Props> = ({
     const { setFieldValue } = useFormikContext<SøknadFormData>();
     const normalTimer = getNumberFromNumberInputValue(jobberNormaltTimer);
 
-    const handleChangePeriode = ({ fom, tom, prosent }: ArbeidstidPeriodeData) => {
+    const ingenTid: InputTime = { hours: '0', minutes: '0' };
+
+    const handleChangePeriode = ({ fom, tom, prosent, tidFasteDager }: ArbeidstidPeriodeData) => {
         const datoerIPeriode = getDagInfoForPeriode({ from: fom, to: tom });
         const dagerSomSkalEndres: DatoTidMap = {};
         datoerIPeriode.forEach((dag) => {
             const isoDate = dateToISODate(dag.dato);
             if (prosent !== undefined) {
                 const prosentNumber = getNumberFromNumberInputValue(prosent);
-                if (prosentNumber !== undefined && normalTimer !== undefined) {
+                if (prosentNumber === undefined || normalTimer === undefined) {
+                    return;
+                }
+                if (prosentNumber === 0) {
+                    dagerSomSkalEndres[isoDate] = { tid: ingenTid, prosent: prosentNumber };
+                } else {
                     const isoDurationPerDag = getRedusertArbeidstidSomInputTime(normalTimer / 5, prosentNumber);
                     dagerSomSkalEndres[isoDate] = { tid: isoDurationPerDag, prosent: prosentNumber };
                 }
+            } else if (tidFasteDager) {
+                const tid = getTidForUkedag(tidFasteDager, dayjs(ISODateToDate(isoDate)).isoWeekday());
+                dagerSomSkalEndres[isoDate] = { tid: tid || ingenTid };
             }
-            // if (skalJobbe === false) {
-            //     dagerSomSkalEndres[isoDate] = { hours: '0', minutes: '0' };
-            // } else if (skalJobbe === true && tidFasteDager) {
-            //     const tid = getTidForUkedag(tidFasteDager, dayjs(ISODateToDate(isoDate)).isoWeekday());
-            //     if (tid) {
-            //         dagerSomSkalEndres[isoDate] = tid;
-            //     }
-            // }
         });
         const newValues = { ...arbeidstidSøknad, ...dagerSomSkalEndres };
         setFieldValue(formFieldName, newValues);
