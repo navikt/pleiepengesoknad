@@ -7,6 +7,7 @@
     "author": "NAV",
     "scripts": {
         "build": "node src/build/scripts/production-build.js",
+        "build-heroku": "node src/build/scripts/heroku-build.js",
         "start-api-mock": "node server/api-mock.js",
         "dev-api": "node server/api-mock.js",
         "dev": "npm-run-all -p start-api-mock start-no-decorator",

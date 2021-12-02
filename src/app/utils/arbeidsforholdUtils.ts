@@ -9,6 +9,8 @@ import { SøknadFormField, ArbeidsforholdAnsatt, SøknadFormData } from '../type
 import { Arbeidsgiver, Søkerdata } from '../types/Søkerdata';
 import appSentryLogger from './appSentryLogger';
 import { relocateToLoginPage } from './navigationUtils';
+import { Feature, isFeatureEnabled } from './featureToggleUtils';
+import { arbeidsgivereMock } from '../mock-data/MockData';
 
 const roundWithTwoDecimals = (nbr: number): number => Math.round(nbr * 100) / 100;
 
@@ -51,16 +53,21 @@ export async function getArbeidsgivere(
     formikProps: FormikProps<SøknadFormData>,
     søkerdata: Søkerdata
 ) {
-    try {
-        const response = await getArbeidsgiver(formatDateToApiFormat(fromDate), formatDateToApiFormat(toDate));
-        const { organisasjoner } = response.data;
-        søkerdata.setArbeidsgivere(organisasjoner);
-        updateArbeidsforhold(formikProps, organisasjoner);
-    } catch (error) {
-        if (apiUtils.isUnauthorized(error)) {
-            relocateToLoginPage();
-        } else {
-            appSentryLogger.logApiError(error);
+    if (isFeatureEnabled(Feature.DEMO_MODE)) {
+        søkerdata.setArbeidsgivere(arbeidsgivereMock.organisasjoner);
+        updateArbeidsforhold(formikProps, arbeidsgivereMock.organisasjoner);
+    } else {
+        try {
+            const response = await getArbeidsgiver(formatDateToApiFormat(fromDate), formatDateToApiFormat(toDate));
+            const { organisasjoner } = response.data;
+            søkerdata.setArbeidsgivere(organisasjoner);
+            updateArbeidsforhold(formikProps, organisasjoner);
+        } catch (error) {
+            if (apiUtils.isUnauthorized(error)) {
+                relocateToLoginPage();
+            } else {
+                appSentryLogger.logApiError(error);
+            }
         }
     }
 }

@@ -15,6 +15,7 @@ const envSettings = () => {
     const APP_VERSION = process.env.APP_VERSION;
     const INNSYN_URL = process.env.INNSYN_URL;
     const FORENKLET_ARBEID = process.env.FORENKLET_ARBEID;
+    const DEMO_MODE = process.env.DEMO_MODE;
 
     const appSettings = `
     window.appSettings = {
@@ -30,7 +31,8 @@ const envSettings = () => {
         USE_AMPLITUDE: '${USE_AMPLITUDE}',
         APP_VERSION: '${APP_VERSION}',
         INNSYN_URL: '${INNSYN_URL}',
-        FORENKLET_ARBEID: '${FORENKLET_ARBEID}'
+        FORENKLET_ARBEID: '${FORENKLET_ARBEID}',
+        DEMO_MODE: '${DEMO_MODE}'
     };`
         .trim()
         .replace(/ /g, '');
