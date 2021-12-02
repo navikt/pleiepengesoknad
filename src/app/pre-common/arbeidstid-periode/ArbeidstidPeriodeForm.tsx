@@ -113,29 +113,37 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<Props> = ({
                                 includeButtons={visKnapper}
                                 submitButtonLabel="Ok"
                                 cancelButtonLabel="Avbryt">
-                                <FormBlock>
-                                    <FormComponents.DateIntervalPicker
-                                        fromDatepickerProps={{
-                                            label: 'Fra og med',
-                                            name: FormFields.fom,
-                                            disableWeekend: true,
-                                            fullScreenOnMobile: true,
-                                            minDate: rammePeriode.from,
-                                            maxDate: periode?.to || rammePeriode.to,
-                                            validate: getDateRangeValidator({ required: true, onlyWeekdays: true })
-                                                .validateFromDate,
-                                        }}
-                                        toDatepickerProps={{
-                                            label: 'Til og med',
-                                            name: FormFields.tom,
-                                            disableWeekend: true,
-                                            fullScreenOnMobile: true,
-                                            minDate: periode?.from || rammePeriode.from,
-                                            maxDate: rammePeriode.to,
-                                            validate: getDateRangeValidator({ required: true }).validateToDate,
-                                        }}
-                                    />
-                                </FormBlock>
+                                <div style={{ maxWidth: '20rem' }}>
+                                    <FormBlock>
+                                        <FormComponents.DateIntervalPicker
+                                            fromDatepickerProps={{
+                                                label: 'Fra og med',
+                                                name: FormFields.fom,
+                                                disableWeekend: true,
+                                                fullScreenOnMobile: true,
+                                                dayPickerProps: {
+                                                    initialMonth: rammePeriode.from,
+                                                },
+                                                minDate: rammePeriode.from,
+                                                maxDate: periode?.to || rammePeriode.to,
+                                                validate: getDateRangeValidator({ required: true, onlyWeekdays: true })
+                                                    .validateFromDate,
+                                            }}
+                                            toDatepickerProps={{
+                                                label: 'Til og med',
+                                                name: FormFields.tom,
+                                                disableWeekend: true,
+                                                fullScreenOnMobile: true,
+                                                minDate: periode?.from || rammePeriode.from,
+                                                maxDate: rammePeriode.to,
+                                                dayPickerProps: {
+                                                    initialMonth: rammePeriode.from,
+                                                },
+                                                validate: getDateRangeValidator({ required: true }).validateToDate,
+                                            }}
+                                        />
+                                    </FormBlock>
+                                </div>
 
                                 <FormBlock>
                                     <FormComponents.RadioPanelGroup

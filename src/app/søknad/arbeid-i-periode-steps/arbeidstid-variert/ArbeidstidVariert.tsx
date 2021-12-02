@@ -74,13 +74,19 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
             <Box margin="m">
                 <ExpandableInfo title="Slik registrerer du arbeid">
                     <ul style={{ margin: '0', paddingLeft: '1rem' }}>
-                        <li>Du kan legge inn så mange perioder du vil med arbeid innenfor søknadsperioden. </li>
-                        <li>Du kan oppgi arbeid som prosent eller faste timer i uka </li>
-                        <li>Du kan se det du har lagt inn som timer per dag på den måneden de gjelder</li>
-                        <li>Du kan også legge inn enkeltdager ved å åpne en måned og klikke på en dag</li>
                         <li>
-                            Hvis du har registrert feil så må du gå inn og velge samme periode på nytt og sette tid = 0.
+                            Du kan legge inn arbeidstid for en periode med en prosent av hvor mye du jobber normalt,
+                            eller som faste timer i en uke.
                         </li>
+                        <li>
+                            Du kan velge en enkeltdag og legge inn arbeidstid for den dagen. Da kan du også velge at den
+                            tiden også skal gjelde flere dager.
+                        </li>
+                        <li>
+                            Hvis du har registrert feil så må du gå inn og velge samme periode på nytt og sette riktig
+                            tid.
+                        </li>
+                        <li>Dager uten registrert arbeidstid blir regnet som at du ikke skal arbeide den dagen.</li>
                     </ul>
                 </ExpandableInfo>
                 <EndreArbeidstid
