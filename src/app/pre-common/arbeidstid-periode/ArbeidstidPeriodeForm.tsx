@@ -82,8 +82,12 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<Props> = ({
         onSubmit({
             fom,
             tom,
-            prosent: values.prosent,
-            tidFasteDager: values.tidFasteDager,
+            prosent:
+                values.tidFasteDagerEllerProsent === TidFasteDagerEllerProsent.prosent ? values.prosent : undefined,
+            tidFasteDager:
+                values.tidFasteDagerEllerProsent === TidFasteDagerEllerProsent.tidFasteDager
+                    ? values.tidFasteDager
+                    : undefined,
         });
     };
 
