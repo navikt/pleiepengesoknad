@@ -11,21 +11,25 @@ import ArbeidstidMåned from './ArbeidstidMåned';
 import { Undertittel } from 'nav-frontend-typografi';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import EndreArbeidstid from './EndreArbeidstid';
 
 interface Props {
     arbeidsstedNavn: string;
     formFieldName: SøknadFormField;
     periode: DateRange;
+    arbeidstidSøknad?: TidEnkeltdag;
     intlValues: ArbeidIPeriodeIntlValues;
     søknadsdato: Date;
     onArbeidstidChanged?: (arbeidstid: TidEnkeltdag) => void;
 }
 
-const ArbeidstidMånedListe: React.FunctionComponent<Props> = ({
+const ArbeidstidVariert: React.FunctionComponent<Props> = ({
     formFieldName,
+    arbeidsstedNavn,
     periode,
     intlValues,
     søknadsdato,
+    arbeidstidSøknad = {},
     onArbeidstidChanged,
 }) => {
     const intl = useIntl();
@@ -48,7 +52,7 @@ const ArbeidstidMånedListe: React.FunctionComponent<Props> = ({
                         periode: mndOgÅr,
                     }),
                 }}
-                arbeidsstedNavn="ABC"
+                arbeidsstedNavn={arbeidsstedNavn}
                 periode={periode}
                 intlValues={intlValues}
                 søknadsdato={søknadsdato}
@@ -72,6 +76,13 @@ const ArbeidstidMånedListe: React.FunctionComponent<Props> = ({
                         </li>
                     </ul>
                 </ExpandableInfo>
+                <EndreArbeidstid
+                    intlValues={intlValues}
+                    periode={periode}
+                    formFieldName={formFieldName}
+                    arbeidsstedNavn={arbeidsstedNavn}
+                    arbeidstidSøknad={arbeidstidSøknad}
+                />
             </Box>
             <SøknadsperioderMånedListe
                 periode={periode}
@@ -83,4 +94,4 @@ const ArbeidstidMånedListe: React.FunctionComponent<Props> = ({
     );
 };
 
-export default ArbeidstidMånedListe;
+export default ArbeidstidVariert;

@@ -1,40 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
+import { useHistory } from 'react-router';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { prettifyDate, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { decimalTimeToTime, iso8601DurationToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
-import { ArbeidsforholdType, TimerEllerProsent, JobberIPeriodeSvar } from '../../types';
+import TidFasteDagerInput from '../../components/tid-faste-dager-input/TidFasteDagerInput';
+import { formatTimerOgMinutter } from '../../components/timer-og-minutter/TimerOgMinutter';
+import usePersistSoknad from '../../hooks/usePersistSoknad';
+import { ArbeidsforholdType, JobberIPeriodeSvar, TimerEllerProsent } from '../../types';
 import {
-    SøknadFormField,
     ArbeidIPeriodeField,
     Arbeidsforhold,
     isArbeidsforholdAnsatt,
+    SøknadFormField,
 } from '../../types/SøknadFormData';
 import { getTimerTekst } from '../../utils/arbeidsforholdUtils';
+import { getRedusertArbeidstidSomIso8601Duration } from '../../utils/formToApiMaps/tidsbrukApiUtils';
 import {
     getArbeidErLiktHverUkeValidator,
     getArbeidJobberValidator,
     getArbeidstidProsentValidator,
     getArbeidstidTimerEllerProsentValidator,
     getArbeidstimerFastDagValidator,
+    validateArbeidsTidEnkeltdager,
     validateFasteArbeidstimerIUke,
 } from '../../validation/validateArbeidFields';
 import SøknadFormComponents from '../SøknadFormComponents';
-import TidFasteDagerInput from '../../components/tid-faste-dager-input/TidFasteDagerInput';
-import ArbeidstidVarierendeFormPart from './ArbeidstidVarierendeFormPart';
-import { getRedusertArbeidstidSomIso8601Duration } from '../../utils/formToApiMaps/tidsbrukApiUtils';
-import { decimalTimeToTime, iso8601DurationToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { formatTimerOgMinutter } from '../../components/timer-og-minutter/TimerOgMinutter';
-import { useHistory } from 'react-router';
-import usePersistSoknad from '../../hooks/usePersistSoknad';
 import { StepID } from '../søknadStepsConfig';
+import ArbeidstidVariert from './arbeidstid-variert/ArbeidstidVariert';
 
 interface Props {
     parentFieldName: string;
     arbeidsforhold: Arbeidsforhold;
     arbeidsforholdType: ArbeidsforholdType;
+    arbeidsstedNavn: string;
     periode: DateRange;
     erHistorisk: boolean;
     søknadsdato: Date;
@@ -79,6 +81,7 @@ const ArbeidIPeriodeSpørsmål = ({
     erHistorisk,
     arbeidsforholdType,
     periode,
+    arbeidsstedNavn,
     søknadsdato,
 }: Props) => {
     const intl = useIntl();
@@ -187,14 +190,37 @@ const ArbeidIPeriodeSpørsmål = ({
 
                     {erLiktHverUke === YesOrNo.NO && (
                         <FormBlock>
-                            <ArbeidstidVarierendeFormPart
-                                periode={periode}
-                                tidMedArbeid={arbeidIPeriode?.enkeltdager}
-                                intlValues={intlValues}
-                                enkeltdagerFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
-                                søknadsdato={søknadsdato}
-                                onChanged={() => setArbeidstidChanged(true)}
-                            />
+                            <SøknadFormComponents.InputGroup
+                                /** På grunn av at dialogen jobber mot ett felt i formik, kan ikke
+                                 * validate på dialogen brukes. Da vil siste periode alltid bli brukt ved validering.
+                                 * Derfor wrappes dialogen med denne komponenten, og et unikt name brukes - da blir riktig periode
+                                 * brukt.
+                                 * Ikke optimalt, men det virker.
+                                 */
+                                name={`${getFieldName(ArbeidIPeriodeField.enkeltdager)}_dager` as any}
+                                validate={() =>
+                                    validateArbeidsTidEnkeltdager(
+                                        arbeidIPeriode?.enkeltdager || {},
+                                        periode,
+                                        erHistorisk,
+                                        intlValues
+                                    )
+                                }
+                                tag="div">
+                                <ArbeidstidVariert
+                                    arbeidstidSøknad={
+                                        erHistorisk
+                                            ? arbeidsforhold.historisk?.enkeltdager
+                                            : arbeidsforhold.planlagt?.enkeltdager
+                                    }
+                                    periode={periode}
+                                    intlValues={intlValues}
+                                    arbeidsstedNavn={arbeidsstedNavn}
+                                    søknadsdato={søknadsdato}
+                                    formFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
+                                    onArbeidstidChanged={() => setArbeidstidChanged(true)}
+                                />
+                            </SøknadFormComponents.InputGroup>
                         </FormBlock>
                     )}
 
@@ -237,7 +263,9 @@ const ArbeidIPeriodeSpørsmål = ({
                                                 : 'arbeidIPeriode.planlagt.ukedager.tittel',
                                             intlValues
                                         )}
-                                        validate={() => validateFasteArbeidstimerIUke(arbeidIPeriode, intlValues)}
+                                        validate={() =>
+                                            validateFasteArbeidstimerIUke(arbeidIPeriode?.fasteDager, intlValues)
+                                        }
                                         name={'fasteDager_gruppe' as any}
                                         description={
                                             <ExpandableInfo

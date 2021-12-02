@@ -90,6 +90,7 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk, søknadsdato }: Props
                         return (
                             <FormSection title={arbeidsforhold.navn} key={arbeidsforhold.organisasjonsnummer}>
                                 <ArbeidIPeriodeSpørsmål
+                                    arbeidsstedNavn={arbeidsforhold.navn}
                                     arbeidsforholdType={ArbeidsforholdType.ANSATT}
                                     arbeidsforhold={arbeidsforhold}
                                     periode={periode}
@@ -106,6 +107,7 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk, søknadsdato }: Props
             {erFrilanser && frilans_arbeidsforhold && arbeidsperiodeFrilans && (
                 <FormSection title={intlHelper(intl, 'arbeidIPeriode.FrilansLabel')}>
                     <ArbeidIPeriodeSpørsmål
+                        arbeidsstedNavn="Frilanser"
                         arbeidsforholdType={ArbeidsforholdType.FRILANSER}
                         arbeidsforhold={frilans_arbeidsforhold}
                         periode={arbeidsperiodeFrilans}
@@ -118,6 +120,7 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk, søknadsdato }: Props
             {skalBesvareSelvstendig && selvstendig_arbeidsforhold && (
                 <FormSection title={intlHelper(intl, 'arbeidIPeriode.SNLabel')}>
                     <ArbeidIPeriodeSpørsmål
+                        arbeidsstedNavn="Selvstendig næringsdrivende"
                         arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
                         arbeidsforhold={selvstendig_arbeidsforhold}
                         periode={periode}

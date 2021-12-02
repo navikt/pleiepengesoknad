@@ -5,8 +5,7 @@ import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeVa
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import { ArbeidIPeriodeIntlValues } from '../søknad/arbeid-i-periode-steps/ArbeidIPeriodeSpørsmål';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
-import { TidEnkeltdag } from '../types';
-import { ArbeidIPeriode } from '../types/SøknadFormData';
+import { TidEnkeltdag, TidFasteDager } from '../types';
 import {
     getValidEnkeltdager,
     getTidEnkeltdagerInnenforPeriode,
@@ -16,11 +15,11 @@ import {
 import { AppFieldValidationErrors } from './fieldValidations';
 
 export const validateFasteArbeidstimerIUke = (
-    arbeid: ArbeidIPeriode | undefined,
+    fasteDager: TidFasteDager | undefined,
     intlValues: ArbeidIPeriodeIntlValues
 ): ValidationResult<ValidationError> => {
     let error;
-    const timer = arbeid?.fasteDager ? sumTimerFasteDager(arbeid?.fasteDager) : 0;
+    const timer = fasteDager ? sumTimerFasteDager(fasteDager) : 0;
     if (timer === 0) {
         error = AppFieldValidationErrors.arbeidIPeriode_fasteDager_ingenTidRegistrert;
     }

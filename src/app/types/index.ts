@@ -5,6 +5,7 @@ import { ValidationError } from 'schema-utils';
 export interface DagMedTid {
     dato: Date;
     tid: InputTime;
+    prosent?: number;
 }
 
 export type ISODateRange = string;

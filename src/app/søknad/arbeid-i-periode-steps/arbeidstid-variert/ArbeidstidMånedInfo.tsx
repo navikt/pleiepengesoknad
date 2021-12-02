@@ -30,6 +30,7 @@ interface Props {
 
 const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
     måned,
+    arbeidsstedNavn,
     tidArbeidstid,
     editLabel,
     addLabel,
@@ -111,7 +112,7 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
                         setEditDate(undefined);
                     }}
                     onCancel={() => setEditDate(undefined)}
-                    arbeidsstedNavn={'abc'}
+                    arbeidsstedNavn={arbeidsstedNavn}
                 />
             )}
         </Ekspanderbartpanel>

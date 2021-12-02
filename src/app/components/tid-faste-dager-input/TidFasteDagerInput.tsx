@@ -2,13 +2,12 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { FormikTimeInput } from '@navikt/sif-common-formik/lib';
 import { ValidationError, ValidationFunction } from '@navikt/sif-common-formik/lib/validation/types';
-import { SøknadFormField } from '../../types/SøknadFormData';
-import SøknadFormComponents from '../../søknad/SøknadFormComponents';
 import './tidFasteDagerInput.less';
 
 interface Props {
-    name: SøknadFormField;
+    name: string;
     validator?: (dagnavn: string) => ValidationFunction<ValidationError>;
 }
 
@@ -18,45 +17,45 @@ const TidFasteDagerInput = ({ name, validator }: Props) => {
         <>
             <Box margin="l">
                 <div className="tidFasteDagerInput">
-                    <SøknadFormComponents.TimeInput
+                    <FormikTimeInput
                         label={intlHelper(intl, 'Mandager')}
-                        name={`${name}.mandag` as SøknadFormField}
+                        name={`${name}.mandag`}
                         timeInputLayout={{
                             direction: 'vertical',
                             compact: true,
                         }}
                         validate={validator ? validator(intlHelper(intl, 'mandag')) : undefined}
                     />
-                    <SøknadFormComponents.TimeInput
+                    <FormikTimeInput
                         label={intlHelper(intl, 'Tirsdager')}
-                        name={`${name}.tirsdag` as SøknadFormField}
+                        name={`${name}.tirsdag`}
                         timeInputLayout={{
                             direction: 'vertical',
                             compact: true,
                         }}
                         validate={validator ? validator(intlHelper(intl, 'tirsdag')) : undefined}
                     />
-                    <SøknadFormComponents.TimeInput
+                    <FormikTimeInput
                         label={intlHelper(intl, 'Onsdager')}
-                        name={`${name}.onsdag` as SøknadFormField}
+                        name={`${name}.onsdag`}
                         timeInputLayout={{
                             direction: 'vertical',
                             compact: true,
                         }}
                         validate={validator ? validator(intlHelper(intl, 'onsdag')) : undefined}
                     />
-                    <SøknadFormComponents.TimeInput
+                    <FormikTimeInput
                         label={intlHelper(intl, 'Torsdager')}
-                        name={`${name}.torsdag` as SøknadFormField}
+                        name={`${name}.torsdag`}
                         timeInputLayout={{
                             direction: 'vertical',
                             compact: true,
                         }}
                         validate={validator ? validator(intlHelper(intl, 'torsdag')) : undefined}
                     />
-                    <SøknadFormComponents.TimeInput
+                    <FormikTimeInput
                         label={intlHelper(intl, 'Fredager')}
-                        name={`${name}.fredag` as SøknadFormField}
+                        name={`${name}.fredag`}
                         timeInputLayout={{
                             direction: 'vertical',
                             compact: true,
