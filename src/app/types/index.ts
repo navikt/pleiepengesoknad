@@ -2,12 +2,6 @@ import { InputTime } from '@navikt/sif-common-formik/lib';
 import { ValidationFunction } from '@navikt/sif-common-formik/lib/validation/types';
 import { ValidationError } from 'schema-utils';
 
-export interface DagMedTid {
-    dato: Date;
-    tid: InputTime;
-    prosent?: number;
-}
-
 export type ISODateRange = string;
 export type ISODuration = string;
 export type ISODate = string;

@@ -6,12 +6,13 @@ import dayjs from 'dayjs';
 import CalendarGrid from '../calendar-grid/CalendarGrid';
 import TidsbrukKalenderDag from './TidsbrukKalenderDag';
 import { dateToISODate } from '../../utils/dateUtils';
-import { DagMedTid } from '../../types';
+import { TidEnkeltdag } from '../../types';
+import { ensureTime } from '../../utils/timeUtils';
 
 export type TidRenderer = (tid: InputTime, dato: Date) => React.ReactNode;
 
 type KalenderDag = {
-    tid?: InputTime;
+    tid?: Partial<InputTime>;
     tidOpprinnelig?: InputTime;
 };
 
@@ -20,8 +21,8 @@ type Kalenderdager = {
 };
 interface Props {
     periode: DateRange;
-    dager: DagMedTid[];
-    dagerOpprinnelig?: DagMedTid[];
+    dager: TidEnkeltdag;
+    dagerOpprinnelig?: TidEnkeltdag;
     utilgjengeligeDatoer?: Date[];
     utilgjengeligDagInfo?: string;
     skjulTommeDagerIListe?: boolean;
@@ -44,18 +45,16 @@ const TidsbrukKalender: React.FunctionComponent<Props> = ({
     tomUkeContentRenderer,
 }) => {
     const kalenderdager: Kalenderdager = {};
-    dagerMedTid.forEach((d) => {
-        const datostring = dateToISODate(d.dato);
-        kalenderdager[datostring] = {
-            ...kalenderdager[datostring],
-            tid: d.tid,
+    Object.keys(dagerMedTid).forEach((key) => {
+        kalenderdager[key] = {
+            ...kalenderdager[key],
+            tid: dagerMedTid[key],
         };
     });
-    dagerOpprinnelig.forEach((d) => {
-        const datostring = dateToISODate(d.dato);
-        kalenderdager[datostring] = {
-            ...kalenderdager[datostring],
-            tidOpprinnelig: d.tid,
+    Object.keys(dagerOpprinnelig).forEach((key) => {
+        kalenderdager[key] = {
+            ...kalenderdager[key],
+            tidOpprinnelig: dagerOpprinnelig[key],
         };
     });
 
@@ -79,7 +78,7 @@ const TidsbrukKalender: React.FunctionComponent<Props> = ({
                 return dag ? (
                     <TidsbrukKalenderDag
                         dato={dato}
-                        tid={dag.tid}
+                        tid={dag.tid ? ensureTime(dag.tid) : undefined}
                         tidRenderer={tidRenderer}
                         tidOpprinnelig={dag.tidOpprinnelig}
                         visEndringsinformasjon={visEndringsinformasjon}

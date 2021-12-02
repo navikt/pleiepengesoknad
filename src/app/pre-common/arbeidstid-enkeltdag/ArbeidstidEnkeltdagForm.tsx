@@ -11,11 +11,12 @@ import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types'
 import dayjs from 'dayjs';
 import { InputDateString } from 'nav-datovelger/lib/types';
 import { Undertittel } from 'nav-frontend-typografi';
-import { DagMedTid } from '../../types';
 import dateFormatter from '../../utils/dateFormatterUtils';
+import { ensureTime } from '../../utils/timeUtils';
 
 interface Props {
-    dagMedTid: DagMedTid;
+    dato: Date;
+    tid?: Partial<InputTime>;
     arbeidsstedNavn: string;
     periode: DateRange;
     onSubmit: (data: ArbeidstidEnkeltdagEndring) => void;
@@ -30,7 +31,8 @@ export interface GjentagelseEnkeltdag {
 }
 
 export interface ArbeidstidEnkeltdagEndring {
-    dagMedTid: DagMedTid;
+    dato: Date;
+    tid: InputTime;
     gjelderFlereDager?: GjentagelseEnkeltdag;
 }
 
@@ -64,7 +66,8 @@ const FormComponents = getTypedFormComponents<FormFields, FormValues, Validation
 const bem = bemUtils('arbeidstidEnkeltdagEdit');
 
 const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
-    dagMedTid: { dato, tid },
+    dato,
+    tid,
     arbeidsstedNavn,
     periode,
     onSubmit,
@@ -81,10 +84,8 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                   }
                 : undefined;
         onSubmit({
-            dagMedTid: {
-                dato,
-                tid: value.skalIkkeJobbe === true ? { hours: '0', minutes: '0' } : value.tid,
-            },
+            dato,
+            tid: value.skalIkkeJobbe === true ? { hours: '0', minutes: '0' } : value.tid,
             gjelderFlereDager: gjentagelse,
         });
     };
@@ -109,7 +110,7 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                 <FormComponents.FormikWrapper
                     enableReinitialize={true}
                     initialValues={{
-                        tid,
+                        tid: tid ? ensureTime(tid) : undefined,
                     }}
                     onSubmit={onValidSubmit}
                     renderForm={({

@@ -143,7 +143,7 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<Props> = ({
                                                 value: TidFasteDagerEllerProsent.prosent,
                                             },
                                             {
-                                                label: 'Eksempeluke',
+                                                label: 'I timer',
                                                 value: TidFasteDagerEllerProsent.tidFasteDager,
                                             },
                                         ]}

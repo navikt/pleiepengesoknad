@@ -5,8 +5,8 @@ import { isValidTime } from '@navikt/sif-common-formik/lib/components/formik-tim
 import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
 import dayjs from 'dayjs';
 import moize from 'moize';
-import { DagMedTid, TidEnkeltdag, TidFasteDager } from '../types';
-import { ensureTime, timeToISODuration } from './timeUtils';
+import { TidEnkeltdag, TidFasteDager } from '../types';
+import { timeToISODuration } from './timeUtils';
 
 export const MIN_ANTALL_DAGER_FOR_FAST_PLAN = 6;
 
@@ -45,20 +45,6 @@ export const sumTimerEnkeltdager = (dager: TidEnkeltdag): number => {
     }, 0);
 };
 
-export const mapTidEnkeltdagToDagMedTid = (tidEnkeltdag: TidEnkeltdag): DagMedTid[] => {
-    const dager: DagMedTid[] = [];
-    Object.keys(tidEnkeltdag).forEach((key) => {
-        const dato = ISOStringToDate(key);
-        if (dato) {
-            dager.push({
-                dato,
-                tid: ensureTime(tidEnkeltdag[key]),
-            });
-        }
-    });
-    return dager;
-};
-
 export const getTidEnkeltdagerInnenforPeriode = (dager: TidEnkeltdag, periode: DateRange): TidEnkeltdag => {
     const dagerIPerioden: TidEnkeltdag = {};
     Object.keys(dager).forEach((dag) => {
@@ -95,17 +81,14 @@ export const getPlanlagtPeriode = (søknadsperiode: DateRange, søknadsdato: Dat
     return undefined;
 };
 
-export const getDagerMedTidITidsrom = (data: TidEnkeltdag, tidsrom: DateRange): DagMedTid[] => {
-    const dager: DagMedTid[] = [];
+export const getEnkeltdagerMedTidITidsrom = (data: TidEnkeltdag, tidsrom: DateRange): TidEnkeltdag => {
+    const dager: TidEnkeltdag = {};
     Object.keys(data || {}).forEach((isoDateString) => {
         const date = ISOStringToDate(isoDateString);
         if (date && datoErInnenforTidsrom(date, tidsrom)) {
             const time = data[isoDateString];
             if (time) {
-                dager.push({
-                    dato: date,
-                    tid: ensureTime(time),
-                });
+                dager[isoDateString] = time;
             }
         }
         return false;

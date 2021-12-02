@@ -16,7 +16,7 @@ import Knapp from 'nav-frontend-knapper';
 import { Undertittel } from 'nav-frontend-typografi';
 import TidKalenderForm from '../../../components/tid-kalender-form/TidKalenderForm';
 import { TidEnkeltdag } from '../../../types';
-import { getDagerMedTidITidsrom } from '../../../utils/tidsbrukUtils';
+import { getEnkeltdagerMedTidITidsrom } from '../../../utils/tidsbrukUtils';
 import { getTidIOmsorgValidator } from '../../../validation/validateOmsorgstilbudFields';
 import TidsbrukKalender from '../../../components/tidsbruk-kalender/TidsbrukKalender';
 
@@ -91,7 +91,7 @@ function OmsorgstilbudInfoAndDialog<FieldNames>({
                 );
             }}
             infoRenderer={({ data, onEdit }) => {
-                const omsorgsdager = getDagerMedTidITidsrom(data, periode);
+                const omsorgsdager = getEnkeltdagerMedTidITidsrom(data, periode);
                 const tittelIdForAriaDescribedBy = `mndTittel_${dayjs(periode.from).format('MM_YYYY')}`;
                 // const måned = omsorgsdager.length > 0 ? omsorgsdager[0].dato : periode.from;
                 return (

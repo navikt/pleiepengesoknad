@@ -20,13 +20,13 @@ export const getDagerMedInterval = (interval: number, periode: DateRange) => {
 };
 
 export const getDagerSomSkalEndresFraEnkeltdagEndring = (
-    { dagMedTid, gjelderFlereDager }: ArbeidstidEnkeltdagEndring,
+    { dato, gjelderFlereDager }: ArbeidstidEnkeltdagEndring,
     endringsperiode: DateRange
 ): ISODate[] => {
     if (gjelderFlereDager) {
         let dagerSomSkalEndres: Daginfo[] = [];
         const periode: DateRange = {
-            from: dagMedTid.dato,
+            from: dato,
             to: gjelderFlereDager.tom || endringsperiode.to,
         };
         if (gjelderFlereDager.gjentagelsetype === GjentagelseType.hverUke) {
@@ -43,5 +43,5 @@ export const getDagerSomSkalEndresFraEnkeltdagEndring = (
         }
         return dagerSomSkalEndres.map((dag) => dag.isoDateString);
     }
-    return [dateToISODate(dagMedTid.dato)];
+    return [dateToISODate(dato)];
 };

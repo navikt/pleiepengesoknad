@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { DateRange, InputTime } from '@navikt/sif-common-formik/lib';
+import { DateRange, dateToISOString, InputTime } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import Knapp from 'nav-frontend-knapper';
@@ -13,7 +13,8 @@ import { ArbeidstidEnkeltdagEndring } from '../../../pre-common/arbeidstid-enkel
 import FormattedTimeText from '../../../components/formatted-time-text/FormattedTimeText';
 import TidsbrukKalender from '../../../components/tidsbruk-kalender/TidsbrukKalender';
 import { TidEnkeltdag } from '../../../types';
-import { getDagerMedTidITidsrom, tidErIngenTid } from '../../../utils/tidsbrukUtils';
+import { getEnkeltdagerMedTidITidsrom, tidErIngenTid } from '../../../utils/tidsbrukUtils';
+import { ensureTime } from '../../../utils/timeUtils';
 
 interface Props {
     måned: DateRange;
@@ -42,10 +43,13 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
 }) => {
     const intl = useIntl();
 
-    const [editDate, setEditDate] = useState<{ dato: Date; tid: InputTime } | undefined>();
+    const [editDate, setEditDate] = useState<{ dato: Date; tid: Partial<InputTime> } | undefined>();
 
-    const dager = getDagerMedTidITidsrom(tidArbeidstid, måned);
-    const dagerMedRegistrertArbeidstid = dager.filter((d) => tidErIngenTid(d.tid) === false);
+    const dager = getEnkeltdagerMedTidITidsrom(tidArbeidstid, måned);
+    const dagerMedRegistrertArbeidstid = Object.keys(dager).filter((key) => {
+        const tid = dager[key];
+        return tid !== undefined && tidErIngenTid(ensureTime(tid)) === false;
+    });
 
     return (
         <Ekspanderbartpanel
@@ -91,8 +95,11 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
                 onDateClick={
                     onEnkeltdagChange
                         ? (dato) => {
-                              const dagMedTid = dager.find((d) => dayjs(d.dato).isSame(dato, 'day'));
-                              setEditDate(dagMedTid || { dato, tid: { hours: '', minutes: '' } });
+                              const tid: Partial<InputTime> = dager[dateToISOString(dato)] || {
+                                  hours: '',
+                                  minutes: '',
+                              };
+                              setEditDate({ dato, tid });
                           }
                         : undefined
                 }
@@ -105,7 +112,8 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
             {editDate && onEnkeltdagChange && (
                 <ArbeidstidEnkeltdagDialog
                     isOpen={editDate !== undefined}
-                    dagMedTid={editDate}
+                    dato={editDate.dato}
+                    tid={editDate.tid}
                     periode={periode}
                     onSubmit={(evt) => {
                         onEnkeltdagChange(evt);

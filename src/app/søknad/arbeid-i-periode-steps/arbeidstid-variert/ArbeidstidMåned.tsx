@@ -70,9 +70,9 @@ function ArbeidstidMåned<FieldNames>({
                     const newValues = { ...data };
                     const dagerSomSkalEndres = getDagerSomSkalEndresFraEnkeltdagEndring(evt, periode);
                     dagerSomSkalEndres.forEach((isoDate) => {
-                        newValues[isoDate] = evt.dagMedTid.tid;
+                        newValues[isoDate] = evt.tid;
                     });
-                    newValues[dateToISODate(evt.dagMedTid.dato)] = evt.dagMedTid.tid;
+                    newValues[dateToISODate(evt.dato)] = evt.tid;
                     setFieldValue(formFieldName as any, newValues);
                     onAfterChange ? onAfterChange(newValues) : undefined;
                 };

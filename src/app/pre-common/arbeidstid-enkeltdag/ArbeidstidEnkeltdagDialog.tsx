@@ -1,14 +1,14 @@
 import React from 'react';
-import { DateRange } from '@navikt/sif-common-formik/lib';
+import { DateRange, InputTime } from '@navikt/sif-common-formik/lib';
 import Modal from 'nav-frontend-modal';
-import { DagMedTid } from '../../types';
 import dateFormatter from '../../utils/dateFormatterUtils';
 import ArbeidstidEnkeltdagForm, { ArbeidstidEnkeltdagEndring } from './ArbeidstidEnkeltdagForm';
 import './arbeidstidEnkeltdag.less';
 
 interface Props {
     isOpen?: boolean;
-    dagMedTid?: DagMedTid;
+    dato: Date;
+    tid?: Partial<InputTime>;
     arbeidsstedNavn: string;
     periode: DateRange;
     onSubmit: (evt: ArbeidstidEnkeltdagEndring) => void;
@@ -17,7 +17,8 @@ interface Props {
 
 const ArbeidstidEnkeltdagDialog: React.FunctionComponent<Props> = ({
     isOpen = false,
-    dagMedTid,
+    dato,
+    tid,
     arbeidsstedNavn,
     periode,
     onSubmit,
@@ -26,9 +27,9 @@ const ArbeidstidEnkeltdagDialog: React.FunctionComponent<Props> = ({
     if (!isOpen) {
         return null;
     }
-    const contentLabel = dagMedTid ? `Arbeidstid ${dateFormatter.fullWithDayName(dagMedTid.dato)}` : `Arbeidstid`;
+    const contentLabel = `Arbeidstid ${dateFormatter.fullWithDayName(dato)}`;
 
-    return isOpen && dagMedTid ? (
+    return isOpen ? (
         <>
             <Modal
                 isOpen={isOpen}
@@ -38,7 +39,8 @@ const ArbeidstidEnkeltdagDialog: React.FunctionComponent<Props> = ({
                 className="arbeidstidEnkeltdagDialog">
                 <ArbeidstidEnkeltdagForm
                     periode={periode}
-                    dagMedTid={dagMedTid}
+                    dato={dato}
+                    tid={tid}
                     arbeidsstedNavn={arbeidsstedNavn}
                     onCancel={onCancel}
                     onSubmit={onSubmit}
