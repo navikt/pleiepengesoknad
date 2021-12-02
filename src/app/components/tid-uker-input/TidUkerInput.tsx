@@ -6,7 +6,7 @@ import { DateRange } from '@navikt/sif-common-formik';
 import { TidPerDagValidator } from '../../validation/fieldValidations';
 import TidUkeInput from './parts/TidUkeInput';
 import { Ukeinfo } from './types';
-import { getDatoerIPeriode, getTidKalenderFieldName, getUkerFraDager } from './utils';
+import { getDagInfoForPeriode, getTidKalenderFieldName, getUkerFraDager } from './utils';
 import './tidUkerInput.less';
 
 interface Props {
@@ -28,7 +28,7 @@ export const TidUkerInput: React.FunctionComponent<Props> = ({
 }) => {
     const isNarrow = useMediaQuery({ maxWidth: 400 });
     const isWide = useMediaQuery({ minWidth: 1050 });
-    const datoer = getDatoerIPeriode(periode);
+    const datoer = getDagInfoForPeriode(periode);
     const uker = getUkerFraDager(datoer);
 
     return (

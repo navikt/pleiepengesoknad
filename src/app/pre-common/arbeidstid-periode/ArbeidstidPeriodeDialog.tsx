@@ -9,6 +9,7 @@ import { ArbeidIPeriodeIntlValues } from '../../søknad/arbeid-i-periode-steps/A
 interface Props {
     isOpen: boolean;
     arbeidsstedNavn: string;
+    jobberNormaltTimer: string;
     periode: DateRange;
     intlValues: ArbeidIPeriodeIntlValues;
     onSubmit: (arbeidstidPeriode: ArbeidstidPeriodeData) => void;
@@ -20,6 +21,7 @@ const ArbeidstidPeriodeDialog: React.FunctionComponent<Props> = ({
     periode,
     isOpen,
     intlValues,
+    jobberNormaltTimer,
     onSubmit,
     onCancel,
 }) => {
@@ -32,6 +34,7 @@ const ArbeidstidPeriodeDialog: React.FunctionComponent<Props> = ({
             className="arbeidstidPeriodeDialog">
             <Normaltekst tag="div">
                 <ArbeidstidPeriodeForm
+                    jobberNormaltTimer={jobberNormaltTimer}
                     intlValues={intlValues}
                     arbeidsstedNavn={arbeidsstedNavn}
                     rammePeriode={periode}

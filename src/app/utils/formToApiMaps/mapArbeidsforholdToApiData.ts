@@ -1,7 +1,7 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
-import { getDatoerIPeriode } from '../../components/tid-uker-input/utils';
+import { getDagInfoForPeriode } from '../../components/tid-uker-input/utils';
 import { ArbeidsforholdType, JobberIPeriodeSvar, TimerEllerProsent } from '../../types';
 import {
     ArbeidIPeriodeApiData,
@@ -24,7 +24,7 @@ export const lagEnkeltdagerUtFraProsentIPeriode = (
     jobberNormaltTimerNumber: number,
     skalJobbeProsent: number
 ): TidEnkeltdagApiData[] => {
-    const datoer = getDatoerIPeriode(periode);
+    const datoer = getDagInfoForPeriode(periode);
     const tid = getRedusertArbeidstidSomIso8601Duration(jobberNormaltTimerNumber, skalJobbeProsent);
     return datoer.map(
         (dato): TidEnkeltdagApiData => ({

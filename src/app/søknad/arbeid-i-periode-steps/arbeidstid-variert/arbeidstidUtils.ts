@@ -1,7 +1,7 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import { Daginfo } from '../../../components/tid-uker-input/types';
-import { getDatoerIPeriode } from '../../../components/tid-uker-input/utils';
+import { getDagInfoForPeriode } from '../../../components/tid-uker-input/utils';
 import {
     ArbeidstidEnkeltdagEndring,
     GjentagelseType,
@@ -12,7 +12,7 @@ import { dateToISODate, getISOWeekdayFromISODate, getMonthDateRange, getWeekDate
 
 export const getDagerMedInterval = (interval: number, periode: DateRange) => {
     const ukedag = dayjs(periode.from).isoWeekday();
-    const dagerIPeriodenDetErSøktFor = getDatoerIPeriode(periode);
+    const dagerIPeriodenDetErSøktFor = getDagInfoForPeriode(periode);
     const dager = dagerIPeriodenDetErSøktFor.filter((dag) => getISOWeekdayFromISODate(dag.isoDateString) === ukedag);
     return dager.filter((dag, index) => {
         return nthItemFilter(index, interval);
@@ -36,10 +36,10 @@ export const getDagerSomSkalEndresFraEnkeltdagEndring = (
             dagerSomSkalEndres = getDagerMedInterval(2, periode);
         }
         if (gjelderFlereDager.gjentagelsetype === GjentagelseType.heleUken) {
-            dagerSomSkalEndres = getDatoerIPeriode(getWeekDateRange(periode.from));
+            dagerSomSkalEndres = getDagInfoForPeriode(getWeekDateRange(periode.from));
         }
         if (gjelderFlereDager.gjentagelsetype === GjentagelseType.heleMåneden) {
-            dagerSomSkalEndres = getDatoerIPeriode(getMonthDateRange(periode.from));
+            dagerSomSkalEndres = getDagInfoForPeriode(getMonthDateRange(periode.from));
         }
         return dagerSomSkalEndres.map((dag) => dag.isoDateString);
     }

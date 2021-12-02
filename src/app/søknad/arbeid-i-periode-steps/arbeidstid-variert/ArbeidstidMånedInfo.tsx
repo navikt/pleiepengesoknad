@@ -96,7 +96,7 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
                 onDateClick={
                     onEnkeltdagChange
                         ? (dato) => {
-                              const tid: Partial<InputTime> = dager[dateToISOString(dato)].tid || {
+                              const tid: Partial<InputTime> = dager[dateToISOString(dato)]?.tid || {
                                   hours: '',
                                   minutes: '',
                               };

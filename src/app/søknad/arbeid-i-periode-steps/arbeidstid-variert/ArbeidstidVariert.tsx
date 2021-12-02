@@ -19,6 +19,7 @@ interface Props {
     arbeidsstedNavn: string;
     formFieldName: SøknadFormField;
     periode: DateRange;
+    jobberNormaltTimer: string;
     arbeidstidSøknad?: DatoTidMap;
     intlValues: ArbeidIPeriodeIntlValues;
     søknadsdato: Date;
@@ -28,6 +29,7 @@ interface Props {
 const ArbeidstidVariert: React.FunctionComponent<Props> = ({
     formFieldName,
     arbeidsstedNavn,
+    jobberNormaltTimer,
     periode,
     intlValues,
     søknadsdato,
@@ -81,15 +83,15 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                         </li>
                     </ul>
                 </ExpandableInfo>
-                <div style={{ display: 'none' }}>
-                    <EndreArbeidstid
-                        intlValues={intlValues}
-                        periode={periode}
-                        formFieldName={formFieldName}
-                        arbeidsstedNavn={arbeidsstedNavn}
-                        arbeidstidSøknad={arbeidstidSøknad}
-                    />
-                </div>
+                <EndreArbeidstid
+                    jobberNormaltTimer={jobberNormaltTimer}
+                    intlValues={intlValues}
+                    periode={periode}
+                    formFieldName={formFieldName}
+                    arbeidsstedNavn={arbeidsstedNavn}
+                    arbeidstidSøknad={arbeidstidSøknad}
+                    onAfterChange={onArbeidstidChanged ? (tid) => onArbeidstidChanged(tid) : undefined}
+                />
             </Box>
             <FormBlock>
                 <SøknadsperioderMånedListe

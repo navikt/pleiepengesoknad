@@ -31,6 +31,7 @@ import {
 import SøknadFormComponents from '../SøknadFormComponents';
 import { StepID } from '../søknadStepsConfig';
 import ArbeidstidVariert from './arbeidstid-variert/ArbeidstidVariert';
+import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 
 interface Props {
     parentFieldName: string;
@@ -60,8 +61,8 @@ export const getRedusertArbeidstidPerUkeInfo = (
     const normalTimer = getNumberFromNumberInputValue(jobberNormaltTimer);
     const prosent = getNumberFromNumberInputValue(skalJobbeProsent);
     if (normalTimer !== undefined && prosent !== undefined) {
-        const timerPerDage = normalTimer / 5;
-        const varighet = iso8601DurationToTime(getRedusertArbeidstidSomIso8601Duration(timerPerDage, prosent));
+        const timerPerDag = normalTimer / 5;
+        const varighet = iso8601DurationToTime(getRedusertArbeidstidSomIso8601Duration(timerPerDag, prosent));
         if (varighet) {
             return intlHelper(intl, 'arbeidIPeriode.prosent.utledet.medTimer', {
                 timerNormalt: formatTimerOgMinutter(intl, decimalTimeToTime(normalTimer)),
@@ -89,12 +90,18 @@ const ArbeidIPeriodeSpørsmål = ({
     const history = useHistory();
     const { persist } = usePersistSoknad(history);
     const [arbeidstidChanged, setArbeidstidChanged] = useState(false);
+    const { jobberNormaltTimer } = arbeidsforhold;
+
     useEffect(() => {
         if (arbeidstidChanged === true) {
             setArbeidstidChanged(false);
             persist(erHistorisk ? StepID.ARBEID_HISTORISK : StepID.ARBEID_PLANLAGT);
         }
     }, [erHistorisk, arbeidstidChanged, persist]);
+
+    if (jobberNormaltTimer === undefined) {
+        return <AlertStripeFeil>Det mangler informasjon om hvor mye du jobber normalt</AlertStripeFeil>;
+    }
 
     const intlValues: ArbeidIPeriodeIntlValues = {
         skalEllerHarJobbet: intlHelper(
@@ -126,8 +133,6 @@ const ArbeidIPeriodeSpørsmål = ({
     const arbeidIPeriode = erHistorisk ? arbeidsforhold?.historisk : arbeidsforhold?.planlagt;
 
     const { jobberIPerioden, timerEllerProsent, erLiktHverUke, skalJobbeProsent } = arbeidIPeriode || {};
-
-    const { jobberNormaltTimer } = arbeidsforhold;
 
     const ErLiktHverUkeSpørsmål = () => (
         <SøknadFormComponents.YesOrNoQuestion
@@ -213,6 +218,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                             ? arbeidsforhold.historisk?.enkeltdager
                                             : arbeidsforhold.planlagt?.enkeltdager
                                     }
+                                    jobberNormaltTimer={jobberNormaltTimer}
                                     periode={periode}
                                     intlValues={intlValues}
                                     arbeidsstedNavn={arbeidsstedNavn}

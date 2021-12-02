@@ -90,17 +90,22 @@ export const getArbeidstimerFastDagValidator =
         return undefined;
     };
 
-export const getArbeidstidProsentValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
-    const error = getNumberValidator({ required: true, max: 99, min: 1 })(value);
-    if (error) {
-        return {
-            key: `validation.arbeidstimer.prosent.${error}`,
-            values: { ...intlValues, min: 1, max: 99 },
-            keepKeyUnaltered: true,
+export const getArbeidstidProsentValidator =
+    (intlValues: ArbeidIPeriodeIntlValues, minMax?: { min: number; max: number }) => (value: any) => {
+        const minMaxOptions = minMax || {
+            min: 1,
+            max: 99,
         };
-    }
-    return undefined;
-};
+        const error = getNumberValidator({ required: true, ...minMaxOptions })(value);
+        if (error) {
+            return {
+                key: `validation.arbeidstimer.prosent.${error}`,
+                values: { ...intlValues, ...minMaxOptions },
+                keepKeyUnaltered: true,
+            };
+        }
+        return undefined;
+    };
 
 export const getArbeidstidTimerEllerProsentValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
     const error = getRequiredFieldValidator()(value);

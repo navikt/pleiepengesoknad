@@ -5,24 +5,24 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import { DateRange, getTypedFormComponents, UnansweredQuestionsInfo } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import {
-    getDateRangeValidator,
-    getNumberValidator,
-    getRequiredFieldValidator,
-} from '@navikt/sif-common-formik/lib/validation';
+import { getDateRangeValidator, getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
 import getIntlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { InputDateString } from 'nav-datovelger/lib/types';
 import { Undertittel } from 'nav-frontend-typografi';
 import TidFasteDagerInput from '../../components/tid-faste-dager-input/TidFasteDagerInput';
 import { TidFasteDager } from '../../types';
-import { validateFasteArbeidstimerIUke } from '../../validation/validateArbeidFields';
-import { ArbeidIPeriodeIntlValues } from '../../søknad/arbeid-i-periode-steps/ArbeidIPeriodeSpørsmål';
+import { getArbeidstidProsentValidator, validateFasteArbeidstimerIUke } from '../../validation/validateArbeidFields';
+import {
+    ArbeidIPeriodeIntlValues,
+    getRedusertArbeidstidPerUkeInfo,
+} from '../../søknad/arbeid-i-periode-steps/ArbeidIPeriodeSpørsmål';
 
 interface Props {
     arbeidsstedNavn: string;
     rammePeriode: DateRange;
     intlValues: ArbeidIPeriodeIntlValues;
+    jobberNormaltTimer: string;
     onSubmit: (data: ArbeidstidPeriodeData) => void;
     onCancel: () => void;
 }
@@ -65,6 +65,7 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<Props> = ({
     arbeidsstedNavn,
     rammePeriode,
     intlValues,
+    jobberNormaltTimer,
     onSubmit,
     onCancel,
 }) => {
@@ -95,7 +96,7 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<Props> = ({
                 <FormComponents.FormikWrapper
                     initialValues={initialFormValues}
                     onSubmit={onValidSubmit}
-                    renderForm={({ values: { fom, tom, tidFasteDagerEllerProsent, tidFasteDager } }) => {
+                    renderForm={({ values: { fom, tom, tidFasteDagerEllerProsent, tidFasteDager, prosent } }) => {
                         const from = datepickerUtils.getDateFromDateString(fom);
                         const to = datepickerUtils.getDateFromDateString(tom);
                         const periode = from && to ? { from, to } : undefined;
@@ -158,12 +159,15 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<Props> = ({
                                             bredde="XS"
                                             maxLength={3}
                                             label="Hvor mange prosent skal du jobbe i denne perioden?"
-                                            validate={getNumberValidator({ min: 0, max: 99 })}
+                                            // validate={getNumberValidator({ min: 0, max: 99 })}
                                             description={
                                                 <ExpandableInfo title="Viktig når du oppgir arbeidstid i prosent">
                                                     Når du oppgir i prosent, betyr dette at.
                                                 </ExpandableInfo>
                                             }
+                                            validate={getArbeidstidProsentValidator(intlValues, { min: 0, max: 100 })}
+                                            suffix={getRedusertArbeidstidPerUkeInfo(intl, jobberNormaltTimer, prosent)}
+                                            suffixStyle="text"
                                         />
                                     </FormBlock>
                                 )}

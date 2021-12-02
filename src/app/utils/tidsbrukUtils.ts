@@ -19,7 +19,7 @@ const isValidNumberString = (value: any): boolean =>
 export const getValidEnkeltdager = (datoTid: DatoTidMap): DatoTidMap => {
     const cleanedTidEnkeltdag: DatoTidMap = {};
     Object.keys(datoTid).forEach((key) => {
-        const { tid } = datoTid[key];
+        const { tid } = datoTid[key] || {};
         if (isValidTime(tid) && (isValidNumberString(tid.hours) || isValidNumberString(tid.minutes))) {
             cleanedTidEnkeltdag[key] = { tid };
         }

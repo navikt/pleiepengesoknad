@@ -72,17 +72,17 @@ export const fjernTidUtenforPeriode = (
 };
 
 export const getRedusertArbeidstidSomIso8601Duration = (
-    jobberNormaltTimerNumber: number,
+    jobberNormaltTimerPerDagNumber: number,
     skalJobbeProsent: number
 ): ISO8601Duration => {
-    const redusertTidPerDag = (jobberNormaltTimerNumber / 100) * skalJobbeProsent;
+    const redusertTidPerDag = (jobberNormaltTimerPerDagNumber / 100) * skalJobbeProsent;
     return timeToIso8601Duration(decimalTimeToTime(redusertTidPerDag));
 };
 
 export const getRedusertArbeidstidSomInputTime = (
-    jobberNormaltTimerNumber: number,
+    jobberNormaltTimerPerDagNumber: number,
     skalJobbeProsent: number
 ): InputTime => {
-    const redusertTidPerDag = (jobberNormaltTimerNumber / 100) * skalJobbeProsent;
+    const redusertTidPerDag = (jobberNormaltTimerPerDagNumber / 100) * skalJobbeProsent;
     return decimalTimeToTime(redusertTidPerDag);
 };
