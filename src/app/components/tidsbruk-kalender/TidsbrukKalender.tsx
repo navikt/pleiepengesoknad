@@ -9,10 +9,11 @@ import { dateToISODate } from '../../utils/dateUtils';
 import { DatoTidMap } from '../../types';
 import { ensureTime } from '../../utils/timeUtils';
 
-export type TidRenderer = (tid: InputTime, dato: Date) => React.ReactNode;
+export type TidRenderer = (tid: { tid: InputTime; dato: Date; prosent?: number }) => React.ReactNode;
 
 type KalenderDag = {
     tid?: Partial<InputTime>;
+    prosent?: number;
     tidOpprinnelig?: InputTime;
 };
 
@@ -49,12 +50,14 @@ const TidsbrukKalender: React.FunctionComponent<Props> = ({
         kalenderdager[key] = {
             ...kalenderdager[key],
             tid: dagerMedTid[key].tid,
+            prosent: dagerMedTid[key].prosent,
         };
     });
     Object.keys(dagerOpprinnelig).forEach((key) => {
         kalenderdager[key] = {
             ...kalenderdager[key],
             tidOpprinnelig: dagerOpprinnelig[key],
+            prosent: dagerOpprinnelig[key].prosent,
         };
     });
 
@@ -79,6 +82,7 @@ const TidsbrukKalender: React.FunctionComponent<Props> = ({
                     <TidsbrukKalenderDag
                         dato={dato}
                         tid={dag.tid ? ensureTime(dag.tid) : undefined}
+                        prosent={dag.prosent}
                         tidRenderer={tidRenderer}
                         tidOpprinnelig={dag.tidOpprinnelig}
                         visEndringsinformasjon={visEndringsinformasjon}

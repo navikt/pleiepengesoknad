@@ -87,7 +87,16 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
                 utilgjengeligeDatoer={utilgjengeligeDatoer}
                 skjulTommeDagerIListe={true}
                 visEndringsinformasjon={false}
-                tidRenderer={(tid: InputTime) => {
+                tidRenderer={({ tid, prosent }) => {
+                    console.log(tid, prosent);
+                    if (prosent !== undefined && prosent > 0) {
+                        return (
+                            <>
+                                <div>{prosent} %</div>
+                                (<FormattedTimeText time={tid} />)
+                            </>
+                        );
+                    }
                     if (tid.hours === '0' && tid.minutes === '0') {
                         return <></>;
                     }
