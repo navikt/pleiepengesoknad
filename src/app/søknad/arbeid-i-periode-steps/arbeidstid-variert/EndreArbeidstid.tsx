@@ -4,7 +4,7 @@ import Knapperad from '@navikt/sif-common-core/lib/components/knapperad/Knappera
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { useFormikContext } from 'formik';
 import { Knapp } from 'nav-frontend-knapper';
-import { TidEnkeltdag } from '../../../types';
+import { DatoTidMap } from '../../../types';
 import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
 import { ArbeidstidPeriodeData } from '../../../pre-common/arbeidstid-periode/ArbeidstidPeriodeForm';
 import ArbeidstidPeriodeDialog from '../../../pre-common/arbeidstid-periode/ArbeidstidPeriodeDialog';
@@ -15,7 +15,7 @@ interface Props {
     formFieldName: SøknadFormField;
     intlValues: ArbeidIPeriodeIntlValues;
     arbeidsstedNavn: string;
-    arbeidstidSøknad: TidEnkeltdag;
+    arbeidstidSøknad: DatoTidMap;
     periode: DateRange;
 }
 
@@ -59,7 +59,7 @@ const EndreArbeidstid: React.FunctionComponent<Props> = ({
 
     const handleChangePeriode = ({ fom, tom }: ArbeidstidPeriodeData) => {
         const datoerIPeriode = getDatoerIPeriode({ from: fom, to: tom });
-        const dagerSomSkalEndres: TidEnkeltdag = {};
+        const dagerSomSkalEndres: DatoTidMap = {};
         datoerIPeriode.forEach((dato) => {
             console.log(dato);
             // if (prosent !== undefined) {

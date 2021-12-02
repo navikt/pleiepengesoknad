@@ -15,7 +15,7 @@ import dayjs from 'dayjs';
 import Knapp from 'nav-frontend-knapper';
 import { Undertittel } from 'nav-frontend-typografi';
 import TidKalenderForm from '../../../components/tid-kalender-form/TidKalenderForm';
-import { TidEnkeltdag } from '../../../types';
+import { DatoTidMap } from '../../../types';
 import { getEnkeltdagerMedTidITidsrom } from '../../../utils/tidsbrukUtils';
 import { getTidIOmsorgValidator } from '../../../validation/validateOmsorgstilbudFields';
 import TidsbrukKalender from '../../../components/tidsbruk-kalender/TidsbrukKalender';
@@ -26,7 +26,7 @@ interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, Va
     periode: DateRange;
     søknadsdato: Date;
     skjulTommeDagerIListe?: boolean;
-    onAfterChange?: (omsorgsdager: TidEnkeltdag) => void;
+    onAfterChange?: (omsorgsdager: DatoTidMap) => void;
 }
 
 function OmsorgstilbudInfoAndDialog<FieldNames>({
@@ -41,7 +41,7 @@ function OmsorgstilbudInfoAndDialog<FieldNames>({
     const intl = useIntl();
     const erHistorisk = dayjs(periode.to).isBefore(søknadsdato, 'day');
     return (
-        <FormikModalFormAndInfo<FieldNames, TidEnkeltdag, ValidationError>
+        <FormikModalFormAndInfo<FieldNames, DatoTidMap, ValidationError>
             name={name}
             validate={validate}
             labels={labels}
@@ -92,6 +92,7 @@ function OmsorgstilbudInfoAndDialog<FieldNames>({
             }}
             infoRenderer={({ data, onEdit }) => {
                 const omsorgsdager = getEnkeltdagerMedTidITidsrom(data, periode);
+                const antallDager = Object.keys(omsorgsdager).length;
                 const tittelIdForAriaDescribedBy = `mndTittel_${dayjs(periode.from).format('MM_YYYY')}`;
                 // const måned = omsorgsdager.length > 0 ? omsorgsdager[0].dato : periode.from;
                 return (
@@ -103,7 +104,7 @@ function OmsorgstilbudInfoAndDialog<FieldNames>({
                             />
                         </Undertittel>
                         <Box margin="s">
-                            {omsorgsdager.length === 0 ? (
+                            {antallDager === 0 ? (
                                 <FormattedMessage tagName="p" id="omsorgstilbud.ingenDagerRegistrert" />
                             ) : (
                                 <TidsbrukKalender
@@ -119,7 +120,7 @@ function OmsorgstilbudInfoAndDialog<FieldNames>({
                                 mini={true}
                                 onClick={() => onEdit(data)}
                                 aria-describedby={tittelIdForAriaDescribedBy}>
-                                {omsorgsdager.length === 0 ? labels.addLabel : labels.editLabel}
+                                {antallDager === 0 ? labels.addLabel : labels.editLabel}
                             </Knapp>
                         </FormBlock>
                     </>

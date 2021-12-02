@@ -7,7 +7,7 @@ import {
 } from '@navikt/sif-common-formik';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import dayjs from 'dayjs';
-import { TidEnkeltdag } from '../../../types';
+import { DatoTidMap } from '../../../types';
 import { ArbeidIPeriodeIntlValues } from '../ArbeidIPeriodeSpørsmål';
 import ArbeidstidMånedForm from '../../../pre-common/arbeidstid-måned-form/ArbeidstidMånedForm';
 import ArbeidstidMånedInfo from './ArbeidstidMånedInfo';
@@ -26,7 +26,8 @@ interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, Va
     søknadsdato: Date;
     periode: DateRange;
     intlValues: ArbeidIPeriodeIntlValues;
-    onAfterChange?: (tid: TidEnkeltdag) => void;
+    åpentEkspanderbartPanel?: boolean;
+    onAfterChange?: (tid: DatoTidMap) => void;
 }
 
 function ArbeidstidMåned<FieldNames>({
@@ -37,6 +38,7 @@ function ArbeidstidMåned<FieldNames>({
     intlValues,
     søknadsdato,
     periode,
+    åpentEkspanderbartPanel,
     validate,
     onAfterChange,
 }: Props<FieldNames>) {
@@ -44,7 +46,7 @@ function ArbeidstidMåned<FieldNames>({
     const { setFieldValue } = useFormikContext<SøknadFormData>() || {};
 
     return (
-        <FormikModalFormAndInfo<FieldNames, TidEnkeltdag, ValidationError>
+        <FormikModalFormAndInfo<FieldNames, DatoTidMap, ValidationError>
             name={formFieldName}
             validate={validate}
             labels={labels}
@@ -70,9 +72,9 @@ function ArbeidstidMåned<FieldNames>({
                     const newValues = { ...data };
                     const dagerSomSkalEndres = getDagerSomSkalEndresFraEnkeltdagEndring(evt, periode);
                     dagerSomSkalEndres.forEach((isoDate) => {
-                        newValues[isoDate] = evt.tid;
+                        newValues[isoDate].tid = evt.tid;
                     });
-                    newValues[dateToISODate(evt.dato)] = evt.tid;
+                    newValues[dateToISODate(evt.dato)].tid = evt.tid;
                     setFieldValue(formFieldName as any, newValues);
                     onAfterChange ? onAfterChange(newValues) : undefined;
                 };
@@ -83,6 +85,7 @@ function ArbeidstidMåned<FieldNames>({
                     <ArbeidstidMånedInfo
                         arbeidsstedNavn={arbeidsstedNavn}
                         måned={måned}
+                        åpentEkspanderbartPanel={åpentEkspanderbartPanel}
                         tidArbeidstid={data}
                         utilgjengeligeDatoer={utilgjengeligeDatoer}
                         periode={periode}

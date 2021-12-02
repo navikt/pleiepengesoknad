@@ -2,7 +2,7 @@ import { apiStringDateToDate, DateRange, datoErInnenforTidsrom } from '@navikt/s
 import { decimalTimeToTime, timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { dateToISOString, InputTime, ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
-import { TidEnkeltdag, TidFasteDager } from '../../types';
+import { DatoTidMap, TidFasteDager } from '../../types';
 import { ISO8601Duration, TidEnkeltdagApiData } from '../../types/SøknadApiData';
 
 export const getFasteDagerApiData = ({ mandag, tirsdag, onsdag, torsdag, fredag }: TidFasteDager) => ({
@@ -16,7 +16,7 @@ export const getFasteDagerApiData = ({ mandag, tirsdag, onsdag, torsdag, fredag 
 const sortTidEnkeltdagApiData = (d1: TidEnkeltdagApiData, d2: TidEnkeltdagApiData): number =>
     dayjs(d1.dato).isBefore(d2.dato, 'day') ? -1 : 1;
 
-export const getEnkeltdagerIPeriodeApiData = (enkeltdager: TidEnkeltdag, periode: DateRange): TidEnkeltdagApiData[] => {
+export const getEnkeltdagerIPeriodeApiData = (enkeltdager: DatoTidMap, periode: DateRange): TidEnkeltdagApiData[] => {
     const dager: TidEnkeltdagApiData[] = [];
 
     Object.keys(enkeltdager).forEach((dag) => {
@@ -24,7 +24,7 @@ export const getEnkeltdagerIPeriodeApiData = (enkeltdager: TidEnkeltdag, periode
         if (dato && datoErInnenforTidsrom(dato, periode)) {
             dager.push({
                 dato: dateToISOString(dato),
-                tid: timeToIso8601Duration(enkeltdager[dag]),
+                tid: timeToIso8601Duration(enkeltdager[dag].tid),
             });
         }
     });
@@ -34,7 +34,7 @@ export const getEnkeltdagerIPeriodeApiData = (enkeltdager: TidEnkeltdag, periode
 
 export const getEnkeltdagerMedTidIPeriodeApiData = (
     tidPerDag: Partial<InputTime>,
-    enkeltdager: TidEnkeltdag,
+    enkeltdager: DatoTidMap,
     periode: DateRange
 ): TidEnkeltdagApiData[] => {
     const dager: TidEnkeltdagApiData[] = [];

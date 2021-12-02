@@ -5,7 +5,7 @@ import { isValidTime } from '@navikt/sif-common-formik/lib/components/formik-tim
 import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
 import dayjs from 'dayjs';
 import moize from 'moize';
-import { TidEnkeltdag, TidFasteDager } from '../types';
+import { DatoTidMap, TidFasteDager } from '../types';
 import { timeToISODuration } from './timeUtils';
 
 export const MIN_ANTALL_DAGER_FOR_FAST_PLAN = 6;
@@ -16,12 +16,12 @@ const isValidNumberString = (value: any): boolean =>
 /**
  * Fjerner dager med ugyldige verdier
  */
-export const getValidEnkeltdager = (tidEnkeltdag: TidEnkeltdag): TidEnkeltdag => {
-    const cleanedTidEnkeltdag: TidEnkeltdag = {};
-    Object.keys(tidEnkeltdag).forEach((key) => {
-        const tid = tidEnkeltdag[key];
+export const getValidEnkeltdager = (datoTid: DatoTidMap): DatoTidMap => {
+    const cleanedTidEnkeltdag: DatoTidMap = {};
+    Object.keys(datoTid).forEach((key) => {
+        const { tid } = datoTid[key];
         if (isValidTime(tid) && (isValidNumberString(tid.hours) || isValidNumberString(tid.minutes))) {
-            cleanedTidEnkeltdag[key] = tid;
+            cleanedTidEnkeltdag[key] = { tid };
         }
     });
     return cleanedTidEnkeltdag;
@@ -33,20 +33,20 @@ export const sumTimerFasteDager = (uke: TidFasteDager): number => {
     }, 0);
 };
 
-export const sumTimerEnkeltdager = (dager: TidEnkeltdag): number => {
+export const sumTimerEnkeltdager = (dager: DatoTidMap): number => {
     return Object.keys(dager).reduce((timer: number, key: string) => {
         return (
             timer +
             timeToDecimalTime({
-                hours: dager[key].hours || '0',
-                minutes: dager[key].minutes || '0',
+                hours: dager[key].tid.hours || '0',
+                minutes: dager[key].tid.minutes || '0',
             })
         );
     }, 0);
 };
 
-export const getTidEnkeltdagerInnenforPeriode = (dager: TidEnkeltdag, periode: DateRange): TidEnkeltdag => {
-    const dagerIPerioden: TidEnkeltdag = {};
+export const getTidEnkeltdagerInnenforPeriode = (dager: DatoTidMap, periode: DateRange): DatoTidMap => {
+    const dagerIPerioden: DatoTidMap = {};
     Object.keys(dager).forEach((dag) => {
         const dato = ISOStringToDate(dag);
         if (dato && dayjs(dato).isBetween(periode.from, periode.to, 'day', '[]')) {
@@ -81,8 +81,8 @@ export const getPlanlagtPeriode = (søknadsperiode: DateRange, søknadsdato: Dat
     return undefined;
 };
 
-export const getEnkeltdagerMedTidITidsrom = (data: TidEnkeltdag, tidsrom: DateRange): TidEnkeltdag => {
-    const dager: TidEnkeltdag = {};
+export const getEnkeltdagerMedTidITidsrom = (data: DatoTidMap, tidsrom: DateRange): DatoTidMap => {
+    const dager: DatoTidMap = {};
     Object.keys(data || {}).forEach((isoDateString) => {
         const date = ISOStringToDate(isoDateString);
         if (date && datoErInnenforTidsrom(date, tidsrom)) {

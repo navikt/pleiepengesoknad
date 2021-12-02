@@ -2,7 +2,7 @@
 import { DateRange, ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import { TidEnkeltdag } from '../../types';
+import { DatoTidMap } from '../../types';
 import { getHistoriskPeriode, getPlanlagtPeriode, getTidEnkeltdagerInnenforPeriode } from '../tidsbrukUtils';
 
 dayjs.extend(isSameOrAfter);
@@ -17,12 +17,12 @@ const søknadsdatoISøknadsperiode = new Date(2020, 3, 1);
 const søknadsdatoEtterSøknadsperiode = new Date(2020, 5, 1);
 
 describe('getTidEnkeltdagerInnenforPeriode', () => {
-    const enkeldagerFormData: TidEnkeltdag = {
-        '2021-03-01': { hours: '2', minutes: '30' }, // Outside range
-        '2021-03-02': { hours: '2', minutes: '30' }, // Historic
-        '2021-03-03': { hours: '2', minutes: '30' }, // Planned
-        '2021-03-04': { hours: '2', minutes: '30' }, // Planned
-        '2021-03-05': { hours: '2', minutes: '30' }, // Outside range
+    const enkeldagerFormData: DatoTidMap = {
+        '2021-03-01': { tid: { hours: '2', minutes: '30' } }, // Outside range
+        '2021-03-02': { tid: { hours: '2', minutes: '30' } }, // Historic
+        '2021-03-03': { tid: { hours: '2', minutes: '30' } }, // Planned
+        '2021-03-04': { tid: { hours: '2', minutes: '30' } }, // Planned
+        '2021-03-05': { tid: { hours: '2', minutes: '30' } }, // Outside range
     };
     const periode: DateRange = {
         from: ISOStringToDate('2021-03-02')!,

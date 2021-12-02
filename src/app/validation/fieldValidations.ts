@@ -25,7 +25,7 @@ import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import minMax from 'dayjs/plugin/minMax';
-import { TidEnkeltdag } from '../types';
+import { DatoTidMap } from '../types';
 import { SøknadFormField } from '../types/SøknadFormData';
 import { getTidEnkeltdagerInnenforPeriode, getValidEnkeltdager, sumTimerEnkeltdager } from '../utils/tidsbrukUtils';
 
@@ -165,7 +165,7 @@ export const validateLegeerklæring = (attachments: Attachment[]): ValidationRes
 };
 
 export const validateOmsorgstilbudEnkeltdagerIPeriode = (
-    tidIOmsorgstilbud: TidEnkeltdag,
+    tidIOmsorgstilbud: DatoTidMap,
     periode: DateRange,
     erHistorisk: boolean | undefined
 ) => {

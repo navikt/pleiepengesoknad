@@ -138,7 +138,7 @@ describe('stepUtils', () => {
                 harBarnVærtIOmsorgstilbud: YesOrNo.YES,
                 historisk: {
                     enkeltdager: {
-                        '': { hours: '1' },
+                        '': { tid: { hours: '1' } },
                     },
                 },
             };

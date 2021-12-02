@@ -4,7 +4,7 @@ import { InputTime } from '@navikt/sif-common-formik/lib/types';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { Virksomhet } from '@navikt/sif-common-forms/lib/virksomhet/types';
-import { AndreYtelserFraNAV, BarnRelasjon, JobberIPeriodeSvar, TidEnkeltdag, TimerEllerProsent } from './';
+import { AndreYtelserFraNAV, BarnRelasjon, JobberIPeriodeSvar, DatoTidMap, TimerEllerProsent } from './';
 import { Arbeidsgiver } from './Søkerdata';
 
 export enum SøknadFormField {
@@ -62,10 +62,10 @@ export enum SøknadFormField {
 export interface OmsorgstilbudPlanlagt {
     erLiktHverUke?: YesOrNo;
     fasteDager?: TidFasteDager;
-    enkeltdager?: TidEnkeltdag;
+    enkeltdager?: DatoTidMap;
 }
 export interface OmsorgstilbudHistorisk {
-    enkeltdager: TidEnkeltdag;
+    enkeltdager: DatoTidMap;
 }
 export interface Omsorgstilbud {
     skalBarnIOmsorgstilbud?: YesOrNo;
@@ -104,7 +104,7 @@ export interface ArbeidIPeriode {
     [ArbeidIPeriodeField.erLiktHverUke]?: YesOrNo;
     [ArbeidIPeriodeField.timerEllerProsent]?: TimerEllerProsent;
     [ArbeidIPeriodeField.skalJobbeProsent]?: string;
-    [ArbeidIPeriodeField.enkeltdager]?: TidEnkeltdag;
+    [ArbeidIPeriodeField.enkeltdager]?: DatoTidMap;
     [ArbeidIPeriodeField.fasteDager]?: TidFasteDager;
 }
 

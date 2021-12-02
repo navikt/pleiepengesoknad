@@ -4,7 +4,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import SøknadsperioderMånedListe from '../../../pre-common/søknadsperioder-måned-liste/SøknadsperioderMånedListe';
-import { TidEnkeltdag } from '../../../types';
+import { DatoTidMap } from '../../../types';
 import { SøknadFormField } from '../../../types/SøknadFormData';
 import { ArbeidIPeriodeIntlValues } from '../ArbeidIPeriodeSpørsmål';
 import ArbeidstidMåned from './ArbeidstidMåned';
@@ -13,15 +13,16 @@ import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-co
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import EndreArbeidstid from './EndreArbeidstid';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import { getMonthsInDateRange } from '../../../utils/dateUtils';
 
 interface Props {
     arbeidsstedNavn: string;
     formFieldName: SøknadFormField;
     periode: DateRange;
-    arbeidstidSøknad?: TidEnkeltdag;
+    arbeidstidSøknad?: DatoTidMap;
     intlValues: ArbeidIPeriodeIntlValues;
     søknadsdato: Date;
-    onArbeidstidChanged?: (arbeidstid: TidEnkeltdag) => void;
+    onArbeidstidChanged?: (arbeidstid: DatoTidMap) => void;
 }
 
 const ArbeidstidVariert: React.FunctionComponent<Props> = ({
@@ -34,6 +35,8 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
     onArbeidstidChanged,
 }) => {
     const intl = useIntl();
+
+    const antallMåneder = getMonthsInDateRange(periode).length;
 
     const månedContentRenderer = (måned: DateRange) => {
         const mndOgÅr = dayjs(måned.from).format('MMMM YYYY');
@@ -57,6 +60,7 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                 periode={periode}
                 intlValues={intlValues}
                 søknadsdato={søknadsdato}
+                åpentEkspanderbartPanel={antallMåneder <= 2}
                 onAfterChange={onArbeidstidChanged ? (tid) => onArbeidstidChanged(tid) : undefined}
             />
         );

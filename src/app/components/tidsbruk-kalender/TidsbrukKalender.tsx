@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import CalendarGrid from '../calendar-grid/CalendarGrid';
 import TidsbrukKalenderDag from './TidsbrukKalenderDag';
 import { dateToISODate } from '../../utils/dateUtils';
-import { TidEnkeltdag } from '../../types';
+import { DatoTidMap } from '../../types';
 import { ensureTime } from '../../utils/timeUtils';
 
 export type TidRenderer = (tid: InputTime, dato: Date) => React.ReactNode;
@@ -21,8 +21,8 @@ type Kalenderdager = {
 };
 interface Props {
     periode: DateRange;
-    dager: TidEnkeltdag;
-    dagerOpprinnelig?: TidEnkeltdag;
+    dager: DatoTidMap;
+    dagerOpprinnelig?: DatoTidMap;
     utilgjengeligeDatoer?: Date[];
     utilgjengeligDagInfo?: string;
     skjulTommeDagerIListe?: boolean;
@@ -48,7 +48,7 @@ const TidsbrukKalender: React.FunctionComponent<Props> = ({
     Object.keys(dagerMedTid).forEach((key) => {
         kalenderdager[key] = {
             ...kalenderdager[key],
-            tid: dagerMedTid[key],
+            tid: dagerMedTid[key].tid,
         };
     });
     Object.keys(dagerOpprinnelig).forEach((key) => {

@@ -1,6 +1,6 @@
 import { InputTime } from '@navikt/sif-common-formik/lib';
-import { ValidationFunction } from '@navikt/sif-common-formik/lib/validation/types';
-import { ValidationError } from 'schema-utils';
+// import { ValidationFunction } from '@navikt/sif-common-formik/lib/validation/types';
+// import { ValidationError } from 'schema-utils';
 
 export type ISODateRange = string;
 export type ISODuration = string;
@@ -13,11 +13,12 @@ export interface TidFasteDager {
     torsdag?: InputTime;
     fredag?: InputTime;
 }
+export interface TidEllerProsent {
+    tid: Partial<InputTime>;
+    prosent?: number;
+}
 
-export type TidEnkeltdag = { [isoDateString: string]: Partial<InputTime> };
-// export type TidEnkeltdag = { [isoDateString: string]: { tid: Partial<InputTime>; prosent?: number } };
-
-export type TidDagValidator = (dag: string) => ValidationFunction<ValidationError>;
+export type DatoTidMap = { [isoDateString: string]: TidEllerProsent };
 
 export enum TimerEllerProsent {
     PROSENT = 'prosent',

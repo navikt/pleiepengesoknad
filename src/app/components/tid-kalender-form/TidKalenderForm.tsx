@@ -13,7 +13,7 @@ import isoWeek from 'dayjs/plugin/isoWeek';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import Knapp from 'nav-frontend-knapper';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import { TidEnkeltdag } from '../../types';
+import { DatoTidMap } from '../../types';
 import { getValidEnkeltdager } from '../../utils/tidsbrukUtils';
 import { TidPerDagValidator } from '../../validation/fieldValidations';
 import TidUkerInput from '../tid-uker-input/TidUkerInput';
@@ -25,9 +25,9 @@ interface Props {
     tittel: JSX.Element;
     intro?: JSX.Element;
     periode: DateRange;
-    tid: TidEnkeltdag;
+    tid: DatoTidMap;
     tidPerDagValidator: TidPerDagValidator;
-    onSubmit: (tid: TidEnkeltdag) => void;
+    onSubmit: (tid: DatoTidMap) => void;
     onCancel?: () => void;
 }
 
@@ -35,7 +35,7 @@ enum FormField {
     tid = 'tid',
 }
 interface FormValues {
-    [FormField.tid]: TidEnkeltdag;
+    [FormField.tid]: DatoTidMap;
 }
 
 const Form = getTypedFormComponents<FormField, FormValues, ValidationError>();

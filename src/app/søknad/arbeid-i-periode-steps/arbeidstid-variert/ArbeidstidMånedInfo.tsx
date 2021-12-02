@@ -12,7 +12,7 @@ import ArbeidstidEnkeltdagDialog from '../../../pre-common/arbeidstid-enkeltdag/
 import { ArbeidstidEnkeltdagEndring } from '../../../pre-common/arbeidstid-enkeltdag/ArbeidstidEnkeltdagForm';
 import FormattedTimeText from '../../../components/formatted-time-text/FormattedTimeText';
 import TidsbrukKalender from '../../../components/tidsbruk-kalender/TidsbrukKalender';
-import { TidEnkeltdag } from '../../../types';
+import { DatoTidMap } from '../../../types';
 import { getEnkeltdagerMedTidITidsrom, tidErIngenTid } from '../../../utils/tidsbrukUtils';
 import { ensureTime } from '../../../utils/timeUtils';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
@@ -21,14 +21,15 @@ import AlertStripe from 'nav-frontend-alertstriper';
 interface Props {
     måned: DateRange;
     arbeidsstedNavn: string;
-    tidArbeidstid: TidEnkeltdag;
+    tidArbeidstid: DatoTidMap;
     editLabel: string;
     addLabel: string;
     utilgjengeligeDatoer?: Date[];
     månedTittelHeadingLevel?: number;
     periode: DateRange;
+    åpentEkspanderbartPanel?: boolean;
     onEnkeltdagChange?: (evt: ArbeidstidEnkeltdagEndring) => void;
-    onRequestEdit: (tid: TidEnkeltdag) => void;
+    onRequestEdit: (tid: DatoTidMap) => void;
 }
 
 const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
@@ -40,6 +41,7 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
     utilgjengeligeDatoer,
     månedTittelHeadingLevel = 2,
     periode,
+    åpentEkspanderbartPanel,
     onEnkeltdagChange,
     // onRequestEdit,
 }) => {
@@ -49,14 +51,14 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
 
     const dager = getEnkeltdagerMedTidITidsrom(tidArbeidstid, måned);
     const dagerMedRegistrertArbeidstid = Object.keys(dager).filter((key) => {
-        const tid = dager[key];
-        return tid !== undefined && tidErIngenTid(ensureTime(tid)) === false;
+        const datoTid = dager[key];
+        return datoTid !== undefined && datoTid.tid !== undefined && tidErIngenTid(ensureTime(datoTid.tid)) === false;
     });
 
     return (
         <Ekspanderbartpanel
             renderContentWhenClosed={false}
-            apen={false}
+            apen={åpentEkspanderbartPanel}
             tittel={
                 <>
                     <Element tag={`h${månedTittelHeadingLevel}`}>
@@ -94,7 +96,7 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
                 onDateClick={
                     onEnkeltdagChange
                         ? (dato) => {
-                              const tid: Partial<InputTime> = dager[dateToISOString(dato)] || {
+                              const tid: Partial<InputTime> = dager[dateToISOString(dato)].tid || {
                                   hours: '',
                                   minutes: '',
                               };

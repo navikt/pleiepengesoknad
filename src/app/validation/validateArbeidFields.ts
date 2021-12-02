@@ -5,7 +5,7 @@ import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeVa
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import { ArbeidIPeriodeIntlValues } from '../søknad/arbeid-i-periode-steps/ArbeidIPeriodeSpørsmål';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
-import { TidEnkeltdag, TidFasteDager } from '../types';
+import { DatoTidMap, TidFasteDager } from '../types';
 import {
     getValidEnkeltdager,
     getTidEnkeltdagerInnenforPeriode,
@@ -36,7 +36,7 @@ export const validateFasteArbeidstimerIUke = (
 };
 
 export const validateArbeidsTidEnkeltdager = (
-    tidMedArbeid: TidEnkeltdag,
+    tidMedArbeid: DatoTidMap,
     periode: DateRange,
     erHistorisk: boolean | undefined,
     intlValues: ArbeidIPeriodeIntlValues

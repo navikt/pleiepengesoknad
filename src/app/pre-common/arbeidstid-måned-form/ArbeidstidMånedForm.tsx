@@ -5,16 +5,16 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import TidKalenderForm from '../../components/tid-kalender-form/TidKalenderForm';
-import { TidEnkeltdag } from '../../types';
+import { DatoTidMap } from '../../types';
 import { getArbeidstimerEnkeltdagValidator } from '../../validation/validateArbeidFields';
 import { ArbeidIPeriodeIntlValues } from '../../søknad/arbeid-i-periode-steps/ArbeidIPeriodeSpørsmål';
 
 interface Props {
     periode: DateRange;
-    tid: TidEnkeltdag;
+    tid: DatoTidMap;
     intlValues: ArbeidIPeriodeIntlValues;
     erHistorisk: boolean;
-    onSubmit: (tid: TidEnkeltdag) => void;
+    onSubmit: (tid: DatoTidMap) => void;
     onCancel: () => void;
 }
 

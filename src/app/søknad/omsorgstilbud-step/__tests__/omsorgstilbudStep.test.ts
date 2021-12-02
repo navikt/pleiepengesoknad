@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { TidEnkeltdag } from '../../../types';
+import { DatoTidMap } from '../../../types';
 import { SøknadFormData } from '../../../types/SøknadFormData';
 import { cleanupOmsorgstilbudStep } from '../omsorgstilbudStepUtils';
 
@@ -11,12 +11,12 @@ const søknadsperiode: DateRange = {
 
 const søknadsdato = new Date(2021, 5, 3);
 
-const enkeldagerFormData: TidEnkeltdag = {
-    '2021-06-01': { hours: '2', minutes: '30' }, // Outside range
-    '2021-06-02': { hours: '2', minutes: '30' }, // Historic
-    '2021-06-03': { hours: '2', minutes: '30' }, // Planned
-    '2021-06-04': { hours: '2', minutes: '30' }, // Planned
-    '2021-06-05': { hours: '2', minutes: '30' }, // Outside range
+const enkeldagerFormData: DatoTidMap = {
+    '2021-06-01': { tid: { hours: '2', minutes: '30' } }, // Outside range
+    '2021-06-02': { tid: { hours: '2', minutes: '30' } }, // Historic
+    '2021-06-03': { tid: { hours: '2', minutes: '30' } }, // Planned
+    '2021-06-04': { tid: { hours: '2', minutes: '30' } }, // Planned
+    '2021-06-05': { tid: { hours: '2', minutes: '30' } }, // Outside range
 };
 
 const formValuesTemplate: Partial<SøknadFormData> = {
