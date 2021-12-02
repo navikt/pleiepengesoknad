@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+// import Box from '@navikt/sif-common-core/lib/components/box/Box';
+// import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, dateToISOString, InputTime } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import Knapp from 'nav-frontend-knapper';
+// import Knapp from 'nav-frontend-knapper';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import ArbeidstidEnkeltdagDialog from '../../../pre-common/arbeidstid-enkeltdag/ArbeidstidEnkeltdagDialog';
 import { ArbeidstidEnkeltdagEndring } from '../../../pre-common/arbeidstid-enkeltdag/ArbeidstidEnkeltdagForm';
@@ -15,6 +15,8 @@ import TidsbrukKalender from '../../../components/tidsbruk-kalender/TidsbrukKale
 import { TidEnkeltdag } from '../../../types';
 import { getEnkeltdagerMedTidITidsrom, tidErIngenTid } from '../../../utils/tidsbrukUtils';
 import { ensureTime } from '../../../utils/timeUtils';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import AlertStripe from 'nav-frontend-alertstriper';
 
 interface Props {
     måned: DateRange;
@@ -33,13 +35,13 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
     måned,
     arbeidsstedNavn,
     tidArbeidstid,
-    editLabel,
-    addLabel,
+    // editLabel,
+    // addLabel,
     utilgjengeligeDatoer,
     månedTittelHeadingLevel = 2,
     periode,
     onEnkeltdagChange,
-    onRequestEdit,
+    // onRequestEdit,
 }) => {
     const intl = useIntl();
 
@@ -58,26 +60,23 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
             tittel={
                 <>
                     <Element tag={`h${månedTittelHeadingLevel}`}>
-                        <span>
+                        <span className="m-caps">
                             {intlHelper(intl, 'arbeidstid.ukeOgÅr', {
-                                ukeOgÅr: dayjs(måned.from).format('YYYY - MMMM'),
+                                ukeOgÅr: dayjs(måned.from).format('MMMM YYYY'),
                             })}
                         </span>
+
+                        <Normaltekst tag="div">
+                            {dagerMedRegistrertArbeidstid.length === 0 ? (
+                                <FormattedMessage id="arbeidstid.iPeriodePanel.info.ingenDager" />
+                            ) : (
+                                <FormattedMessage
+                                    id="arbeidstid.iPeriodePanel.info"
+                                    values={{ dager: dagerMedRegistrertArbeidstid.length }}
+                                />
+                            )}
+                        </Normaltekst>
                     </Element>
-                    {1 + 1 === 4 && (
-                        <Box margin="m">
-                            <Normaltekst>
-                                {dagerMedRegistrertArbeidstid.length === 0 ? (
-                                    <FormattedMessage id="arbeidstid.iPeriodePanel.info.ingenDager" />
-                                ) : (
-                                    <FormattedMessage
-                                        id="arbeidstid.iPeriodePanel.info"
-                                        values={{ dager: dagerMedRegistrertArbeidstid.length }}
-                                    />
-                                )}
-                            </Normaltekst>
-                        </Box>
-                    )}
                 </>
             }>
             <TidsbrukKalender
@@ -105,9 +104,12 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
                 }
             />
             <FormBlock margin="l">
-                <Knapp htmlType="button" mini={true} onClick={() => onRequestEdit(tidArbeidstid)}>
+                <AlertStripe type="info" form="inline">
+                    Klikk på en dag for å endre tid for den dagen
+                </AlertStripe>
+                {/* <Knapp htmlType="button" mini={true} onClick={() => onRequestEdit(tidArbeidstid)}>
                     {dager.length === 0 ? addLabel : editLabel}
-                </Knapp>
+                </Knapp> */}
             </FormBlock>
             {editDate && onEnkeltdagChange && (
                 <ArbeidstidEnkeltdagDialog

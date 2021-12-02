@@ -15,7 +15,7 @@ export const getDagerMedInterval = (interval: number, periode: DateRange) => {
     const dagerIPeriodenDetErSøktFor = getDatoerIPeriode(periode);
     const dager = dagerIPeriodenDetErSøktFor.filter((dag) => getISOWeekdayFromISODate(dag.isoDateString) === ukedag);
     return dager.filter((dag, index) => {
-        nthItemFilter(index, interval);
+        return nthItemFilter(index, interval);
     });
 };
 

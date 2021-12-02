@@ -15,6 +15,7 @@ export interface TidFasteDager {
 }
 
 export type TidEnkeltdag = { [isoDateString: string]: Partial<InputTime> };
+// export type TidEnkeltdag = { [isoDateString: string]: { tid: Partial<InputTime>; prosent?: number } };
 
 export type TidDagValidator = (dag: string) => ValidationFunction<ValidationError>;
 

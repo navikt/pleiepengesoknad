@@ -12,6 +12,7 @@ import { Undertittel } from 'nav-frontend-typografi';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import EndreArbeidstid from './EndreArbeidstid';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 
 interface Props {
     arbeidsstedNavn: string;
@@ -76,20 +77,23 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                         </li>
                     </ul>
                 </ExpandableInfo>
-                <EndreArbeidstid
-                    intlValues={intlValues}
-                    periode={periode}
-                    formFieldName={formFieldName}
-                    arbeidsstedNavn={arbeidsstedNavn}
-                    arbeidstidSøknad={arbeidstidSøknad}
-                />
+                <div style={{ display: 'none' }}>
+                    <EndreArbeidstid
+                        intlValues={intlValues}
+                        periode={periode}
+                        formFieldName={formFieldName}
+                        arbeidsstedNavn={arbeidsstedNavn}
+                        arbeidstidSøknad={arbeidstidSøknad}
+                    />
+                </div>
             </Box>
-            <SøknadsperioderMånedListe
-                periode={periode}
-                årstallHeadingLevel={3}
-                årstallHeaderRenderer={(årstall) => `${årstall}`}
-                månedContentRenderer={månedContentRenderer}
-            />
+            <FormBlock>
+                <SøknadsperioderMånedListe
+                    periode={periode}
+                    årstallHeadingLevel={3}
+                    månedContentRenderer={månedContentRenderer}
+                />
+            </FormBlock>
         </>
     );
 };
