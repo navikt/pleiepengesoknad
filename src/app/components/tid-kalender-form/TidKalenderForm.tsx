@@ -5,7 +5,7 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import Knapperad from '@navikt/sif-common-core/lib/components/knapperad/Knapperad';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
+import { getTypedFormComponents, InputTime } from '@navikt/sif-common-formik/lib';
 import getFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import dayjs from 'dayjs';
@@ -21,6 +21,7 @@ import TidUkerInput from '../tid-uker-input/TidUkerInput';
 dayjs.extend(isoWeek);
 dayjs.extend(weekOfYear);
 
+type FormDatoTidMap = { [isoDateString: string]: Partial<InputTime> };
 interface Props {
     tittel: JSX.Element;
     intro?: JSX.Element;
@@ -35,7 +36,7 @@ enum FormField {
     tid = 'tid',
 }
 interface FormValues {
-    [FormField.tid]: DatoTidMap;
+    [FormField.tid]: FormDatoTidMap;
 }
 
 const Form = getTypedFormComponents<FormField, FormValues, ValidationError>();
@@ -48,13 +49,29 @@ const TidKalenderForm = ({ periode, tid, tittel, intro, tidPerDagValidator, onSu
     }
 
     const onFormikSubmit = ({ tid = {} }: Partial<FormValues>) => {
-        onSubmit(getValidEnkeltdager(tid));
+        const data: DatoTidMap = {};
+        Object.keys(tid).forEach((key) => {
+            const value = tid[key];
+            data[key] = {
+                tid: value,
+            };
+        });
+        onSubmit(getValidEnkeltdager(data));
+    };
+
+    const mapDatoTidToFormDatoTid = (tid: DatoTidMap): FormDatoTidMap => {
+        const data: FormDatoTidMap = {};
+        Object.keys(tid).forEach((key) => {
+            const value = tid[key];
+            data[key] = value.tid;
+        });
+        return data;
     };
 
     return (
         <Normaltekst tag="div">
             <Form.FormikWrapper
-                initialValues={{ tid }}
+                initialValues={{ tid: mapDatoTidToFormDatoTid(tid) }}
                 onSubmit={onFormikSubmit}
                 renderForm={() => {
                     return (

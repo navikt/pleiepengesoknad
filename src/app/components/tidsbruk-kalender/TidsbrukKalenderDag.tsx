@@ -5,6 +5,8 @@ import FormattedTimeText from '../formatted-time-text/FormattedTimeText';
 import { InputTime } from '@navikt/sif-common-formik/lib';
 import { TidRenderer } from './TidsbrukKalender';
 
+export type TidsbrukKalenderDagFooterRenderer = (dato: Date) => JSX.Element | undefined;
+
 interface Props {
     dato: Date;
     tid?: InputTime;
@@ -13,6 +15,7 @@ interface Props {
     visEndringsinformasjon?: boolean;
     erUtilgjengelig?: boolean;
     tidRenderer?: TidRenderer;
+    footerRenderer?: TidsbrukKalenderDagFooterRenderer;
 }
 
 const TidsbrukKalenderDag: React.FunctionComponent<Props> = ({
@@ -22,6 +25,7 @@ const TidsbrukKalenderDag: React.FunctionComponent<Props> = ({
     tidOpprinnelig,
     visEndringsinformasjon,
     tidRenderer,
+    footerRenderer,
 }) => {
     const erEndret = timeHasSameDuration(tid, tidOpprinnelig) === false;
 
@@ -31,7 +35,7 @@ const TidsbrukKalenderDag: React.FunctionComponent<Props> = ({
     return (
         <>
             {tid && (
-                <div>
+                <>
                     {erEndret ? (
                         <>
                             <span className="tidsbrukTidDag">{renderTid(tid)}</span>
@@ -57,7 +61,8 @@ const TidsbrukKalenderDag: React.FunctionComponent<Props> = ({
                             {renderTid(tid)} <span className="sr-only">(uendret)</span>
                         </span>
                     )}
-                </div>
+                    {footerRenderer && <>{footerRenderer(dato)}</>}
+                </>
             )}
             {tidOpprinnelig && !tid && <>{renderTid(tidOpprinnelig)}</>}
         </>

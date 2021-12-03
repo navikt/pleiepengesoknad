@@ -100,8 +100,8 @@ const EndreArbeidstid: React.FunctionComponent<Props> = ({
         <>
             <Knapperad align="left">
                 <Box margin="none" padBottom="l">
-                    <Knapp htmlType="button" onClick={() => setVisPeriode(true)} mini={true}>
-                        Legg til periode med arbeid
+                    <Knapp htmlType="button" onClick={() => setVisPeriode(true)} mini={true} type="standard">
+                        + Legg til periode med arbeid
                     </Knapp>
                 </Box>
             </Knapperad>

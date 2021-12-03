@@ -13,12 +13,12 @@ export interface TidFasteDager {
     torsdag?: InputTime;
     fredag?: InputTime;
 }
-export interface TidEllerProsent {
+export interface DatoTid {
     tid: Partial<InputTime>;
     prosent?: number;
 }
 
-export type DatoTidMap = { [isoDateString: string]: TidEllerProsent };
+export type DatoTidMap = { [isoDateString: string]: DatoTid };
 
 export enum TimerEllerProsent {
     PROSENT = 'prosent',

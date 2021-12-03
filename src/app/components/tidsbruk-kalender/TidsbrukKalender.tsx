@@ -4,7 +4,7 @@ import { DateRange, InputTime } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 
 import CalendarGrid from '../calendar-grid/CalendarGrid';
-import TidsbrukKalenderDag from './TidsbrukKalenderDag';
+import TidsbrukKalenderDag, { TidsbrukKalenderDagFooterRenderer } from './TidsbrukKalenderDag';
 import { dateToISODate } from '../../utils/dateUtils';
 import { DatoTidMap } from '../../types';
 import { ensureTime } from '../../utils/timeUtils';
@@ -31,6 +31,7 @@ interface Props {
     onDateClick?: (date: Date) => void;
     tomUkeContentRenderer?: () => React.ReactNode;
     tidRenderer?: TidRenderer;
+    footerRenderer?: TidsbrukKalenderDagFooterRenderer;
 }
 
 const TidsbrukKalender: React.FunctionComponent<Props> = ({
@@ -44,6 +45,7 @@ const TidsbrukKalender: React.FunctionComponent<Props> = ({
     onDateClick,
     tidRenderer,
     tomUkeContentRenderer,
+    footerRenderer,
 }) => {
     const kalenderdager: Kalenderdager = {};
     Object.keys(dagerMedTid).forEach((key) => {
@@ -86,6 +88,7 @@ const TidsbrukKalender: React.FunctionComponent<Props> = ({
                         tidRenderer={tidRenderer}
                         tidOpprinnelig={dag.tidOpprinnelig}
                         visEndringsinformasjon={visEndringsinformasjon}
+                        footerRenderer={footerRenderer}
                     />
                 ) : (
                     <span />

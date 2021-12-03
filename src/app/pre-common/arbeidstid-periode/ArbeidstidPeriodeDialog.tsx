@@ -28,7 +28,7 @@ const ArbeidstidPeriodeDialog: React.FunctionComponent<Props> = ({
     return isOpen ? (
         <Modal
             isOpen={isOpen}
-            contentLabel={`Endre arbeidstid for flere dager`}
+            contentLabel={`Legg til arbeidstid for flere dager`}
             onRequestClose={onCancel}
             shouldCloseOnOverlayClick={false}
             className="arbeidstidPeriodeDialog">

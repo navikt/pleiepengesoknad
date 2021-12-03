@@ -8,8 +8,8 @@ import { DatoTidMap } from '../../../types';
 import { SøknadFormField } from '../../../types/SøknadFormData';
 import { ArbeidIPeriodeIntlValues } from '../ArbeidIPeriodeSpørsmål';
 import ArbeidstidMåned from './ArbeidstidMåned';
-import { Undertittel } from 'nav-frontend-typografi';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import { Element } from 'nav-frontend-typografi';
+// import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import EndreArbeidstid from './EndreArbeidstid';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
@@ -70,25 +70,9 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
 
     return (
         <>
-            <Undertittel>Registrert arbeid i søknadsperioden</Undertittel>
+            <Element>Registrer hvor mye du skal jobbe</Element>
             <Box margin="m">
-                <ExpandableInfo title="Slik registrerer du arbeid">
-                    <ul style={{ margin: '0', paddingLeft: '1rem' }}>
-                        <li>
-                            Du kan legge inn arbeidstid for en periode med en prosent av hvor mye du jobber normalt,
-                            eller som faste timer i en uke.
-                        </li>
-                        <li>
-                            Du kan velge en enkeltdag og legge inn arbeidstid for den dagen. Da kan du også velge at den
-                            tiden også skal gjelde flere dager.
-                        </li>
-                        <li>
-                            Hvis du har registrert feil så må du gå inn og velge samme periode på nytt og sette riktig
-                            tid.
-                        </li>
-                        <li>Dager uten registrert arbeidstid blir regnet som at du ikke skal arbeide den dagen.</li>
-                    </ul>
-                </ExpandableInfo>
+                <p>Du kan legge inn arbeidstid for en periode, eller velge dag direkte i kalenderen.</p>
                 <EndreArbeidstid
                     jobberNormaltTimer={jobberNormaltTimer}
                     intlValues={intlValues}
@@ -99,7 +83,7 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                     onAfterChange={onArbeidstidChanged ? (tid) => onArbeidstidChanged(tid) : undefined}
                 />
             </Box>
-            <FormBlock>
+            <FormBlock margin="l">
                 <SøknadsperioderMånedListe
                     periode={periode}
                     årstallHeadingLevel={3}

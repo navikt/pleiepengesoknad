@@ -13,10 +13,10 @@ import { ArbeidstidEnkeltdagEndring } from '../../../pre-common/arbeidstid-enkel
 import FormattedTimeText from '../../../components/formatted-time-text/FormattedTimeText';
 import TidsbrukKalender from '../../../components/tidsbruk-kalender/TidsbrukKalender';
 import { DatoTidMap } from '../../../types';
-import { getEnkeltdagerMedTidITidsrom, tidErIngenTid } from '../../../utils/tidsbrukUtils';
+import { getEnkeltdagerMedTidITidsrom, getPerioderFraDatoTidMap, tidErIngenTid } from '../../../utils/tidsbrukUtils';
 import { ensureTime } from '../../../utils/timeUtils';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import AlertStripe from 'nav-frontend-alertstriper';
+// import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+// import AlertStripe from 'nav-frontend-alertstriper';
 
 interface Props {
     måned: DateRange;
@@ -49,11 +49,19 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
 
     const [editDate, setEditDate] = useState<{ dato: Date; tid: Partial<InputTime> } | undefined>();
 
-    const dager = getEnkeltdagerMedTidITidsrom(tidArbeidstid, måned);
-    const dagerMedRegistrertArbeidstid = Object.keys(dager).filter((key) => {
+    const dager: DatoTidMap = getEnkeltdagerMedTidITidsrom(tidArbeidstid, måned);
+    const dagerMedRegistrertArbeidstid: string[] = Object.keys(dager).filter((key) => {
         const datoTid = dager[key];
         return datoTid !== undefined && datoTid.tid !== undefined && tidErIngenTid(ensureTime(datoTid.tid)) === false;
     });
+
+    const perioder = getPerioderFraDatoTidMap(dager);
+
+    const erDagDelAvPerioder = (dato: Date): number => {
+        return perioder.findIndex((p) => {
+            return p.datoer.some((d) => d === dateToISOString(dato));
+        });
+    };
 
     return (
         <Ekspanderbartpanel
@@ -87,13 +95,30 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
                 utilgjengeligeDatoer={utilgjengeligeDatoer}
                 skjulTommeDagerIListe={true}
                 visEndringsinformasjon={false}
+                footerRenderer={(dato) => {
+                    if (1 + 1 === 3) {
+                        const periodeIndex = erDagDelAvPerioder(dato);
+                        return periodeIndex >= 0 ? (
+                            <div
+                                className={`kalenderPeriodeDag kalenderPeriodeDag--${
+                                    periodeIndex % 2 === 0 ? 'odd' : 'even'
+                                }`}>
+                                <span className="kalenderPeriodeDag__info">dato</span>
+                            </div>
+                        ) : undefined;
+                    }
+                    return undefined;
+                }}
                 tidRenderer={({ tid, prosent }) => {
-                    console.log(tid, prosent);
                     if (prosent !== undefined && prosent > 0) {
                         return (
                             <>
                                 <div>{prosent} %</div>
-                                (<FormattedTimeText time={tid} />)
+                                {1 + 1 === 2 && (
+                                    <div className="beregnetTid">
+                                        (<FormattedTimeText time={tid} />)
+                                    </div>
+                                )}
                             </>
                         );
                     }
@@ -114,14 +139,11 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
                         : undefined
                 }
             />
-            <FormBlock margin="l">
+            {/* <FormBlock margin="l">
                 <AlertStripe type="info" form="inline">
                     Klikk på en dag for å endre tid for den dagen
                 </AlertStripe>
-                {/* <Knapp htmlType="button" mini={true} onClick={() => onRequestEdit(tidArbeidstid)}>
-                    {dager.length === 0 ? addLabel : editLabel}
-                </Knapp> */}
-            </FormBlock>
+            </FormBlock> */}
             {editDate && onEnkeltdagChange && (
                 <ArbeidstidEnkeltdagDialog
                     isOpen={editDate !== undefined}

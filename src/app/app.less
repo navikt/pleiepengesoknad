@@ -16,6 +16,43 @@ html {
     }
 }
 
+.beregnetTid {
+    margin-top: -0.25rem;
+    font-size: 14px;
+}
+
+.kalenderPeriodeDag {
+    position: absolute;
+    left: 0.25rem;
+    right: 0.25rem;
+    height: 0.25rem;
+    bottom: 0.25rem;
+
+    @media screen and (max-width: 500px) {
+        left: initial;
+        top: 0.25rem;
+        right: 0.25rem;
+        width: 0.5rem;
+        height: initial;
+    }
+    &--odd {
+        background-color: #66a5f4; //3386e0
+    }
+    &--even {
+        background-color: #33aa5f; //66c786; //33aa5f
+    }
+    &__info {
+        position: absolute;
+        width: 0;
+        height: 0;
+        visibility: hidden;
+    }
+}
+
+.tidsbrukTidDag {
+    font-size: 1.125rem;
+}
+
 .infoMessageContent {
     p:first-child {
         margin-top: 0;
