@@ -22,6 +22,13 @@ jest.mock('./../../utils/apiUtils', () => {
     };
 });
 
+jest.mock('./../../utils/featureToggleUtils', () => {
+    return {
+        isFeatureEnabled: jest.fn(() => false),
+        Feature: {},
+    };
+});
+
 describe('api', () => {
     describe('getBarn', () => {
         it('should call axios.get with correct URL and axios config', () => {

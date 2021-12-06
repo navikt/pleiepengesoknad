@@ -1,26 +1,13 @@
-import { IntlShape } from 'react-intl';
 import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
 import { FormikProps } from 'formik';
-import { getArbeidsgiver } from '../api/api';
-import { SøknadFormField, ArbeidsforholdAnsatt, SøknadFormData } from '../types/SøknadFormData';
-import { Arbeidsgiver, Søkerdata } from '../types/Søkerdata';
-import appSentryLogger from './appSentryLogger';
-import { relocateToLoginPage } from './navigationUtils';
-import { Feature, isFeatureEnabled } from './featureToggleUtils';
-import { arbeidsgivereMock } from '../mock-data/MockData';
-
-const roundWithTwoDecimals = (nbr: number): number => Math.round(nbr * 100) / 100;
-
-export const calcRedusertProsentFromRedusertTimer = (timerNormalt: number, timerRedusert: number): number => {
-    return roundWithTwoDecimals((100 / timerNormalt) * timerRedusert);
-};
-
-export const calcReduserteTimerFromRedusertProsent = (timerNormalt: number, prosentRedusert: number): number => {
-    return roundWithTwoDecimals((timerNormalt / 100) * prosentRedusert);
-};
+import { getArbeidsgiver } from '../../../api/api';
+import { arbeidsgivereMock } from '../../../mock-data/MockData';
+import { Arbeidsgiver, Søkerdata } from '../../../types/Søkerdata';
+import { ArbeidsforholdAnsatt, SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
+import appSentryLogger from '../../../utils/appSentryLogger';
+import { Feature, isFeatureEnabled } from '../../../utils/featureToggleUtils';
+import { relocateToLoginPage } from '../../../utils/navigationUtils';
 
 export const syncArbeidsforholdWithArbeidsgivere = (
     arbeidsgivere: Arbeidsgiver[],
@@ -37,7 +24,7 @@ export const syncArbeidsforholdWithArbeidsgivere = (
     });
 };
 
-export const updateArbeidsforhold = (formikProps: FormikProps<SøknadFormData>, arbeidsgivere: Arbeidsgiver[]) => {
+const updateArbeidsforholdFormField = (formikProps: FormikProps<SøknadFormData>, arbeidsgivere: Arbeidsgiver[]) => {
     const updatedArbeidsforhold = syncArbeidsforholdWithArbeidsgivere(
         arbeidsgivere,
         formikProps.values[SøknadFormField.ansatt_arbeidsforhold]
@@ -55,13 +42,13 @@ export async function getArbeidsgivere(
 ) {
     if (isFeatureEnabled(Feature.DEMO_MODE)) {
         søkerdata.setArbeidsgivere(arbeidsgivereMock.organisasjoner);
-        updateArbeidsforhold(formikProps, arbeidsgivereMock.organisasjoner);
+        updateArbeidsforholdFormField(formikProps, arbeidsgivereMock.organisasjoner);
     } else {
         try {
             const response = await getArbeidsgiver(formatDateToApiFormat(fromDate), formatDateToApiFormat(toDate));
             const { organisasjoner } = response.data;
             søkerdata.setArbeidsgivere(organisasjoner);
-            updateArbeidsforhold(formikProps, organisasjoner);
+            updateArbeidsforholdFormField(formikProps, organisasjoner);
         } catch (error) {
             if (apiUtils.isUnauthorized(error)) {
                 relocateToLoginPage();
@@ -71,15 +58,3 @@ export async function getArbeidsgivere(
         }
     }
 }
-
-export const getTimerTekst = (intl: IntlShape, value: string | undefined): string => {
-    const timer = getNumberFromNumberInputValue(value);
-    if (timer) {
-        return intlHelper(intl, 'timer', {
-            timer,
-        });
-    }
-    return intlHelper(intl, 'timer.ikkeTall', {
-        timer: value,
-    });
-};

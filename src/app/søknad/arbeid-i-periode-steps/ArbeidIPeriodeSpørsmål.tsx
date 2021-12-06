@@ -17,7 +17,6 @@ import {
     isArbeidsforholdAnsatt,
     SøknadFormField,
 } from '../../types/SøknadFormData';
-import { getTimerTekst } from '../../utils/arbeidsforholdUtils';
 import { getRedusertArbeidstidSomIso8601Duration } from '../../utils/formToApiMaps/tidsbrukApiUtils';
 import {
     getArbeidErLiktHverUkeValidator,
@@ -74,6 +73,18 @@ export const getRedusertArbeidstidPerUkeInfo = (
         }
     }
     return '';
+};
+
+export const getTimerTekst = (intl: IntlShape, value: string | undefined): string => {
+    const timer = getNumberFromNumberInputValue(value);
+    if (timer) {
+        return intlHelper(intl, 'timer', {
+            timer,
+        });
+    }
+    return intlHelper(intl, 'timer.ikkeTall', {
+        timer: value,
+    });
 };
 
 const ArbeidIPeriodeSpørsmål = ({
