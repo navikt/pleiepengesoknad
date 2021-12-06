@@ -23,6 +23,9 @@ export const _formatFullWithDayName = moize((date: Date) => {
 });
 
 export const _dateDayAndMonth = moize((date) => dayjs(date).format('dddd DD. MMM'));
+export const _dateDayAndMonthShort = moize((date) => {
+    return `${dayjs(date).format('dddd').substr(0, 3)}. ${dayjs(date).format('DD.MM.')}`;
+});
 
 const dateFormatter = {
     dayName: _formatDayName,
@@ -31,6 +34,7 @@ const dateFormatter = {
     full: _formatFull,
     fullWithDayName: _formatFullWithDayName,
     dayDateAndMonth: _dateDayAndMonth,
+    dayDateAndMonthShort: _dateDayAndMonthShort,
 };
 
 export default dateFormatter;

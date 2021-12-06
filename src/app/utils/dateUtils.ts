@@ -77,17 +77,24 @@ export const getDatesInMonth = (month: Date, onlyWeekDays = true): Date[] => {
     return dates;
 };
 
-export const getWeekDateRange = (date: Date): DateRange => {
+export const getWeekDateRange = (date: Date, onlyWeekDays = false): DateRange => {
     return {
         from: dayjs(date).startOf('week').toDate(),
-        to: dayjs(date).endOf('week').toDate(),
+        to: dayjs(date)
+            .endOf('week')
+            .subtract(onlyWeekDays ? 2 : 0, 'days')
+            .toDate(),
     };
 };
 
-export const getMonthDateRange = (date: Date): DateRange => ({
+export const getMonthDateRange = (date: Date, onlyWeekDays = false): DateRange => ({
     from: dayjs(date).startOf('month').toDate(),
-    to: dayjs(date).endOf('month').toDate(),
+    to: onlyWeekDays ? getLastWeekDayInMonth(date) : dayjs(date).endOf('month').toDate(),
 });
+
+export const getLastWeekDayInMonth = (month: Date): Date => {
+    return dayjs(month).endOf('month').startOf('week').add(4, 'days').toDate();
+};
 
 export const ISODateToISODateRange = (isoDate: ISODate): ISODateRange => `${isoDate}/${isoDate}`;
 
@@ -181,6 +188,11 @@ export const dateIsWithinDateRange = moize(_dateIsWithinDateRange);
 export const dateIsWeekDay = (date: Date): boolean => {
     return dayjs(date).isoWeekday() <= 5;
 };
+
+export const getNumberOfDaysInDateRange = (dateRange: DateRange, onlyWeekDays = false): number =>
+    onlyWeekDays
+        ? getDatesInDateRange(dateRange, true).length
+        : Math.abs(dayjs(dateRange.to).diff(dateRange.from, 'days'));
 
 export const getYearsInDateRanges = (dateRanges: DateRange[]): number[] =>
     uniq(dateRanges.map((d) => d.from.getFullYear()));

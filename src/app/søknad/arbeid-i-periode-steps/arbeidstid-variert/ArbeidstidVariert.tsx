@@ -9,7 +9,6 @@ import { SøknadFormField } from '../../../types/SøknadFormData';
 import { ArbeidIPeriodeIntlValues } from '../ArbeidIPeriodeSpørsmål';
 import ArbeidstidMåned from './ArbeidstidMåned';
 import { Element } from 'nav-frontend-typografi';
-// import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import EndreArbeidstid from './EndreArbeidstid';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
@@ -20,7 +19,7 @@ interface Props {
     formFieldName: SøknadFormField;
     periode: DateRange;
     jobberNormaltTimer: string;
-    arbeidstidSøknad?: DatoTidMap;
+    arbeidstidSøknadIPeriode?: DatoTidMap;
     intlValues: ArbeidIPeriodeIntlValues;
     søknadsdato: Date;
     onArbeidstidChanged?: (arbeidstid: DatoTidMap) => void;
@@ -33,7 +32,7 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
     periode,
     intlValues,
     søknadsdato,
-    arbeidstidSøknad = {},
+    arbeidstidSøknadIPeriode = {},
     onArbeidstidChanged,
 }) => {
     const intl = useIntl();
@@ -62,7 +61,7 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                 periode={periode}
                 intlValues={intlValues}
                 søknadsdato={søknadsdato}
-                åpentEkspanderbartPanel={antallMåneder <= 2}
+                åpentEkspanderbartPanel={antallMåneder === 1}
                 onAfterChange={onArbeidstidChanged ? (tid) => onArbeidstidChanged(tid) : undefined}
             />
         );
@@ -78,11 +77,19 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                     periode={periode}
                     formFieldName={formFieldName}
                     arbeidsstedNavn={arbeidsstedNavn}
-                    arbeidstidSøknad={arbeidstidSøknad}
+                    arbeidstidSøknad={arbeidstidSøknadIPeriode}
                     onAfterChange={onArbeidstidChanged ? (tid) => onArbeidstidChanged(tid) : undefined}
                 />
             </Box>
             <FormBlock margin="l">
+                <Box margin="l" padBottom="l">
+                    {/* <p>
+                        For å registrere timer med jobb for enkeltdager, velger du nedenfor hvilken måned det gjelder
+                        for:
+                    </p> */}
+                    <Element>Registrert arbeidstid:</Element>
+                </Box>
+
                 <SøknadsperioderMånedListe
                     periode={periode}
                     årstallHeadingLevel={3}

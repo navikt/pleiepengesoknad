@@ -229,7 +229,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                 }
                                 tag="div">
                                 <ArbeidstidVariert
-                                    arbeidstidSøknad={
+                                    arbeidstidSøknadIPeriode={
                                         erHistorisk
                                             ? arbeidsforhold.historisk?.enkeltdager
                                             : arbeidsforhold.planlagt?.enkeltdager

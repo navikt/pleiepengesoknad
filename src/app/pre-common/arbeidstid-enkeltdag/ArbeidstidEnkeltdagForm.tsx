@@ -13,6 +13,7 @@ import { InputDateString } from 'nav-datovelger/lib/types';
 import { Undertittel } from 'nav-frontend-typografi';
 import dateFormatter from '../../utils/dateFormatterUtils';
 import { ensureTime } from '../../utils/timeUtils';
+import { getMonthDateRange, getNumberOfDaysInDateRange, getWeekDateRange } from '../../utils/dateUtils';
 
 interface Props {
     dato: Date;
@@ -65,6 +66,13 @@ const FormComponents = getTypedFormComponents<FormFields, FormValues, Validation
 
 const bem = bemUtils('arbeidstidEnkeltdagEdit');
 
+const getDateRangeWithinDateRange = (range: DateRange, limitRange: DateRange): DateRange => {
+    return {
+        from: dayjs.max(dayjs(range.from), dayjs(limitRange.from)).toDate(),
+        to: dayjs.min(dayjs(range.to), dayjs(limitRange.to)).toDate(),
+    };
+};
+
 const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
     dato,
     tid,
@@ -92,15 +100,22 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
 
     const erHistorisk = dayjs(dato).isBefore(dateToday);
     const dagNavn = dayjs(dato).format('dddd');
-    const ukedager: DateRange = {
-        from: dayjs(dato).startOf('week').toDate(),
-        to: dayjs(dato).endOf('week').subtract(2, 'days').toDate(),
-    };
-    const mandag = dayjs(ukedager.from).format('D. MMM');
-    const fredag = dayjs(ukedager.to).format('D. MMM');
-    const ukeNavn = `${dayjs(dato).isoWeek()} (${mandag} til ${fredag})`;
-    const månedNavn = dayjs(dato).format('MMMM YYYY');
     const datoString = dateFormatter.extended(dato);
+
+    const ukePeriode: DateRange = getDateRangeWithinDateRange(getWeekDateRange(dato, true), periode);
+    const månedPeriode: DateRange = getDateRangeWithinDateRange(getMonthDateRange(dato, true), periode);
+
+    const ukePeriodeStartTxt = dateFormatter.dayDateAndMonthShort(ukePeriode.from);
+    const ukePeriodeSluttTxt = dateFormatter.dayDateAndMonthShort(ukePeriode.to);
+
+    const månedPeriodeStartTxt = dateFormatter.dayDateAndMonthShort(månedPeriode.from);
+    const månedPeriodeSluttTxt = dateFormatter.dayDateAndMonthShort(månedPeriode.to);
+
+    const ukeNavn = `${dayjs(dato).isoWeek()}`;
+    const månedNavn = dayjs(dato).format('MMMM YYYY');
+
+    const sluttDatoTxt = dateFormatter.extended(periode.to);
+
     return (
         <div>
             <Undertittel tag="h1" className={bem.element('tittel')}>
@@ -151,12 +166,14 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                                         />
                                     </FormBlock>
                                 )}
-                                <FormBlock margin="m">
-                                    <FormComponents.Checkbox
-                                        label="Gjelder flere dager"
-                                        name={FormFields.skalGjentas}
-                                    />
-                                </FormBlock>
+                                {getNumberOfDaysInDateRange(periode) > 2 && (
+                                    <FormBlock margin="m">
+                                        <FormComponents.Checkbox
+                                            label="Gjelder flere dager"
+                                            name={FormFields.skalGjentas}
+                                        />
+                                    </FormBlock>
+                                )}
                                 {skalGjentas === true && (
                                     <div style={{ paddingLeft: '1.5rem' }}>
                                         <FormBlock margin="m">
@@ -164,20 +181,21 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                                                 className="compactRadios"
                                                 radios={[
                                                     {
-                                                        label: `Alle hverdager i uke ${ukeNavn}`,
+                                                        label: `Hverdager i uke ${ukeNavn} (${ukePeriodeStartTxt} - ${ukePeriodeSluttTxt})`,
                                                         value: GjentagelseType.heleUken,
                                                     },
                                                     {
-                                                        label: `Alle hverdager i ${månedNavn}`,
+                                                        label: (
+                                                            <>
+                                                                Hverdager i {månedNavn} ({månedPeriodeStartTxt} -{' '}
+                                                                {månedPeriodeSluttTxt})
+                                                            </>
+                                                        ),
                                                         value: GjentagelseType.heleMåneden,
                                                     },
                                                     {
-                                                        label: `Hver ${dagNavn} fra og med ${datoString}`,
+                                                        label: `Hver ${dagNavn} fra og med ${datoString} til og med ${sluttDatoTxt}`,
                                                         value: GjentagelseType.hverUke,
-                                                    },
-                                                    {
-                                                        label: `Hver andre ${dagNavn} fra og med ${datoString}`,
-                                                        value: GjentagelseType.hverAndreUke,
                                                     },
                                                 ]}
                                                 name={FormFields.gjentagelse}
@@ -186,28 +204,30 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                                         {(gjentagelse === GjentagelseType.hverUke ||
                                             gjentagelse === GjentagelseType.hverAndreUke) && (
                                             <>
-                                                <FormBlock margin="m">
-                                                    <FormComponents.Checkbox
-                                                        label="Frem til ..."
-                                                        name={FormFields.stopGjentagelse}
-                                                    />
-                                                </FormBlock>
-                                                {stopGjentagelse && (
-                                                    <FormBlock>
-                                                        <FormComponents.DatePicker
-                                                            label="Dato for stopp"
-                                                            minDate={dato}
-                                                            maxDate={periode.to}
-                                                            disableWeekend={true}
-                                                            fullScreenOnMobile={true}
-                                                            useFastField={true}
-                                                            dayPickerProps={{
-                                                                initialMonth: dato,
-                                                            }}
-                                                            name={FormFields.stopDato}
+                                                <div style={{ marginLeft: '1.5rem' }}>
+                                                    <FormBlock margin="m">
+                                                        <FormComponents.Checkbox
+                                                            label="Velg en annen til og med dato"
+                                                            name={FormFields.stopGjentagelse}
                                                         />
                                                     </FormBlock>
-                                                )}
+                                                    {stopGjentagelse && (
+                                                        <FormBlock margin="l">
+                                                            <FormComponents.DatePicker
+                                                                label="Velg til og med dato"
+                                                                minDate={dato}
+                                                                maxDate={periode.to}
+                                                                disableWeekend={true}
+                                                                fullScreenOnMobile={true}
+                                                                useFastField={true}
+                                                                dayPickerProps={{
+                                                                    initialMonth: dato,
+                                                                }}
+                                                                name={FormFields.stopDato}
+                                                            />
+                                                        </FormBlock>
+                                                    )}
+                                                </div>
                                             </>
                                         )}
                                     </div>

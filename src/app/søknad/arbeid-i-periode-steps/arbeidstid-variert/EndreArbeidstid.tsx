@@ -99,14 +99,17 @@ const EndreArbeidstid: React.FunctionComponent<Props> = ({
     return (
         <>
             <p style={{ marginTop: 0 }}>
-                Du kan legge inn hvor mye du skal jobbe i perioder eller for enkeltdager. For perioder registrerer du
-                prosent eller en eksempeluke, mens for enkeltdager oppgir du timer for den dagen. Enkeltdager velger du
-                i månedslisten nedenfor.
+                Du kan registrere jobb for flere perioder eller for enkeltdager. Enkeltdager registrerer du i listen
+                over måneder nedenfor.
+                {/* Hvis du skal jobbe over en periode, kan du registrere perioden med jobb som
+                prosent eller antall timer du skal jobbe likt hver uke. Hvis du bare skal jobbe noen timer noen
+                enkeltdager, registrerer du timene i listen over måneder nedenfor. */}
             </p>
+            {/* <p> For å registrere jobb over en periode, trykker du på knappen under:</p> */}
             <Knapperad align="left">
                 <Box margin="none" padBottom="l">
                     <Knapp htmlType="button" onClick={() => setVisPeriode(true)} mini={true} type="standard">
-                        + Registrer jobb i periode
+                        Registrer jobb i periode
                     </Knapp>
                 </Box>
             </Knapperad>

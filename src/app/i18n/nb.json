@@ -547,7 +547,7 @@
     "arbeidIPeriode.jobberIPerioden.spm": "Skal du være noe på jobb {hvor} {iPerioden}?",
     "arbeidIPeriode.erLiktHverUke.spm": "Skal du jobbe likt hver uke {hvor}, eller varierer det?",
     "arbeidIPeriode.historisk.ukedager.tittel": "Oppgi hvor mye du jobbet i ukedagene {hvor} {iPerioden}:",
-    "arbeidIPeriode.planlagt.ukedager.tittel": "Oppgi hvor mye du skal jobbe i ukedagene {hvor} {iPerioden}:",
+    "arbeidIPeriode.planlagt.ukedager.tittel": "Legg inn antall timer du skal jobbe:",
     "arbeidIPeriode.historisk.enkeltdager.tittel": "Hvor mye jobbet du {hvor} {iPerioden}?",
     "arbeidIPeriode.ukedager.info.tittel": "Hva med lørdag og søndag?",
     "arbeidIPeriode.ukedager.historisk.info.tekst.1": "Du skal bare fylle ut på den ukedagen du faktisk jobbet.",
