@@ -2,16 +2,15 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
-import { JobberIPeriodeSvar, TimerEllerProsent } from '../../types';
+import { JobberIPeriodeSvar, TimerEllerProsent } from '../../../types';
 import {
     ArbeidIPeriode,
     Arbeidsforhold,
     ArbeidsforholdAnsatt,
     ArbeidsforholdSNF,
     SøknadFormData,
-} from '../../types/SøknadFormData';
-import { getPeriodeSomFrilanserInneforPeriode } from '../../utils/frilanserUtils';
-// import { skalViseSpørsmålOmProsentEllerLiktHverUke, } from '../../utils/tidsbrukUtils';
+} from '../../../types/SøknadFormData';
+import { getPeriodeSomFrilanserInneforPeriode } from '../../../utils/frilanserUtils';
 
 dayjs.extend(minMax);
 

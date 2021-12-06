@@ -98,10 +98,11 @@ const EndreArbeidstid: React.FunctionComponent<Props> = ({
 
     return (
         <>
+            <p>Du kan legge til jobb for flere perioder eller for enkeltdager.</p>
             <Knapperad align="left">
                 <Box margin="none" padBottom="l">
                     <Knapp htmlType="button" onClick={() => setVisPeriode(true)} mini={true} type="standard">
-                        + Legg til periode med arbeid
+                        Legg til jobb for periode
                     </Knapp>
                 </Box>
             </Knapperad>

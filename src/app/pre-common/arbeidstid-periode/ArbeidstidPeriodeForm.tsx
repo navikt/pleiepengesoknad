@@ -186,9 +186,7 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<Props> = ({
                                 {tidFasteDagerEllerProsent === TidFasteDagerEllerProsent.tidFasteDager && (
                                     <FormBlock>
                                         <FormComponents.InputGroup
-                                            legend={
-                                                'Oppgi hvor mye du jobber disse ukedagene. Det er viktig at du fyller ut timer og minutter på riktig dag, altså den dagen du faktisk er på jobb.'
-                                            }
+                                            legend={'Oppgi hvor mye du jobber disse ukedagene.'}
                                             validate={() => validateFasteArbeidstimerIUke(tidFasteDager, intlValues)}
                                             name={'fasteDager_gruppe' as any}
                                             description={

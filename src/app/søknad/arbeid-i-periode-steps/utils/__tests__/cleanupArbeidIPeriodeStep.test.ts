@@ -4,7 +4,7 @@ import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
-import { getPeriodeSomFrilanserInneforPeriode } from '../../../utils/frilanserUtils';
+import { getPeriodeSomFrilanserInneforPeriode } from '../../../../utils/frilanserUtils';
 
 dayjs.extend(minMax);
 

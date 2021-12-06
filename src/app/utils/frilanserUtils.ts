@@ -21,7 +21,6 @@ export const erFrilanserIPeriode = (
     periode: DateRange,
     {
         frilans_harHattInntektSomFrilanser,
-        // frilans_jobberFortsattSomFrilans,
         frilans_sluttdato,
         frilans_startdato,
     }: Pick<

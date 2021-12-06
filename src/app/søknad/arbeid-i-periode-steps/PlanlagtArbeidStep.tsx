@@ -5,7 +5,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
 import SøknadFormStep from '../SøknadFormStep';
 import ArbeidIPeriodeStepContent from './ArbeidIPeriodeStepContent';
-import { cleanupArbeidIPeriodeStep } from './arbeidIPeriodeStepUtils';
+import { cleanupArbeidIPeriodeStep } from './utils/cleanupArbeidIPeriodeStep';
 
 interface Props extends StepConfigProps {
     periode: DateRange;

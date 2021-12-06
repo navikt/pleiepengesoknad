@@ -70,9 +70,8 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
 
     return (
         <>
-            <Element>Registrer hvor mye du skal jobbe</Element>
+            <Element>Oppgi dager eller perioder med jobb:</Element>
             <Box margin="m">
-                <p>Du kan legge inn arbeidstid for en periode, eller velge dag direkte i kalenderen.</p>
                 <EndreArbeidstid
                     jobberNormaltTimer={jobberNormaltTimer}
                     intlValues={intlValues}

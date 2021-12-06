@@ -148,7 +148,7 @@ const ArbeidIPeriodeSpørsmål = ({
     const ErLiktHverUkeSpørsmål = () => (
         <SøknadFormComponents.YesOrNoQuestion
             name={getFieldName(ArbeidIPeriodeField.erLiktHverUke)}
-            legend={erHistorisk ? 'Jobbet du likt i hele perioden?' : 'Skal du jobbe likt i hele perioden?'}
+            legend={erHistorisk ? 'Jobbet du likt i hele perioden?' : 'Skal du jobbe likt hver uke i hele perioden?'}
             validate={getArbeidErLiktHverUkeValidator(intlValues)}
         />
     );
@@ -285,25 +285,29 @@ const ArbeidIPeriodeSpørsmål = ({
                                         }
                                         name={'fasteDager_gruppe' as any}
                                         description={
-                                            <ExpandableInfo
-                                                title={intlHelper(intl, 'arbeidIPeriode.ukedager.info.tittel')}>
-                                                <FormattedMessage
-                                                    id={
-                                                        erHistorisk
-                                                            ? 'arbeidIPeriode.ukedager.historisk.info.tekst.1'
-                                                            : 'arbeidIPeriode.ukedager.planlagt.info.tekst.1'
-                                                    }
-                                                    tagName="p"
-                                                />
-                                                <FormattedMessage
-                                                    id={
-                                                        erHistorisk
-                                                            ? 'arbeidIPeriode.ukedager.historisk.info.tekst.2'
-                                                            : 'arbeidIPeriode.ukedager.planlagt.info.tekst.2'
-                                                    }
-                                                    tagName="p"
-                                                />
-                                            </ExpandableInfo>
+                                            1 + 1 === 2 ? (
+                                                <></>
+                                            ) : (
+                                                <ExpandableInfo
+                                                    title={intlHelper(intl, 'arbeidIPeriode.ukedager.info.tittel')}>
+                                                    <FormattedMessage
+                                                        id={
+                                                            erHistorisk
+                                                                ? 'arbeidIPeriode.ukedager.historisk.info.tekst.1'
+                                                                : 'arbeidIPeriode.ukedager.planlagt.info.tekst.1'
+                                                        }
+                                                        tagName="p"
+                                                    />
+                                                    <FormattedMessage
+                                                        id={
+                                                            erHistorisk
+                                                                ? 'arbeidIPeriode.ukedager.historisk.info.tekst.2'
+                                                                : 'arbeidIPeriode.ukedager.planlagt.info.tekst.2'
+                                                        }
+                                                        tagName="p"
+                                                    />
+                                                </ExpandableInfo>
+                                            )
                                         }>
                                         <TidFasteDagerInput
                                             name={getFieldName(ArbeidIPeriodeField.fasteDager)}

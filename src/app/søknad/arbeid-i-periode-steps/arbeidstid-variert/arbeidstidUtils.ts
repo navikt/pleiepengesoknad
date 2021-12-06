@@ -10,7 +10,7 @@ import { ISODate } from '../../../types';
 import { nthItemFilter } from '../../../utils/arrayUtils';
 import { dateToISODate, getISOWeekdayFromISODate, getMonthDateRange, getWeekDateRange } from '../../../utils/dateUtils';
 
-export const getDagerMedInterval = (interval: number, periode: DateRange) => {
+const getDagerMedInterval = (interval: number, periode: DateRange) => {
     const ukedag = dayjs(periode.from).isoWeekday();
     const dagerIPeriodenDetErSøktFor = getDagInfoForPeriode(periode);
     const dager = dagerIPeriodenDetErSøktFor.filter((dag) => getISOWeekdayFromISODate(dag.isoDateString) === ukedag);
