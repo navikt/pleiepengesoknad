@@ -102,6 +102,8 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
 
     const ukePeriode: DateRange = getDateRangeWithinDateRange(getWeekDateRange(dato, true), periode);
     const månedPeriode: DateRange = getDateRangeWithinDateRange(getMonthDateRange(dato, true), periode);
+    const månedErHel =
+        dayjs(periode.from).isBefore(månedPeriode.from, 'month') && dayjs(periode.to).isAfter(månedPeriode.to, 'month');
 
     const ukePeriodeStartTxt = dateFormatter.dayDateAndMonthShort(ukePeriode.from);
     const ukePeriodeSluttTxt = dateFormatter.dayDateAndMonthShort(ukePeriode.to);
@@ -183,7 +185,9 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                                                         value: GjentagelseType.heleUken,
                                                     },
                                                     {
-                                                        label: (
+                                                        label: månedErHel ? (
+                                                            `Alle hverdager i ${månedNavn}`
+                                                        ) : (
                                                             <>
                                                                 Hverdager i {månedNavn} ({månedPeriodeStartTxt} -{' '}
                                                                 {månedPeriodeSluttTxt})

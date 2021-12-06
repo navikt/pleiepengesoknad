@@ -88,12 +88,20 @@ export const getWeekDateRange = (date: Date, onlyWeekDays = false): DateRange =>
 };
 
 export const getMonthDateRange = (date: Date, onlyWeekDays = false): DateRange => ({
-    from: dayjs(date).startOf('month').toDate(),
+    from: onlyWeekDays ? getFirstWeekDayInMonth(date) : dayjs(date).startOf('month').toDate(),
     to: onlyWeekDays ? getLastWeekDayInMonth(date) : dayjs(date).endOf('month').toDate(),
 });
 
 export const getLastWeekDayInMonth = (month: Date): Date => {
     return dayjs(month).endOf('month').startOf('week').add(4, 'days').toDate();
+};
+
+export const getFirstWeekDayInMonth = (month: Date): Date => {
+    const firstDay = dayjs(month).startOf('month');
+    if (firstDay.isoWeekday() > 5) {
+        return firstDay.add(8 - firstDay.isoWeekday(), 'days').toDate();
+    }
+    return firstDay.toDate();
 };
 
 export const ISODateToISODateRange = (isoDate: ISODate): ISODateRange => `${isoDate}/${isoDate}`;
