@@ -4,8 +4,9 @@ import { Daginfo } from '../../components/tid-uker-input/types';
 import { getDagInfoForPeriode } from '../../components/tid-uker-input/utils';
 import { GjentagelseEnkeltdag, GjentagelseType } from './ArbeidstidEnkeltdagForm';
 import { DatoTidMap, ISODate } from '../../types';
-import { nthItemFilter } from '../../utils/arrayUtils';
-import { dateToISODate, getISOWeekdayFromISODate, getMonthDateRange, getWeekDateRange } from '../../utils/dateUtils';
+import { nthItemFilter } from '../../utils/common/arrayUtils';
+import { dateToISODate, getISOWeekdayFromISODate } from '../../utils/common/isoDateUtils';
+import { getMonthDateRange, getWeekDateRange } from '../../utils/common/dateRangeUtils';
 
 const getDagerMedInterval = (interval: number, periode: DateRange) => {
     const ukedag = dayjs(periode.from).isoWeekday();

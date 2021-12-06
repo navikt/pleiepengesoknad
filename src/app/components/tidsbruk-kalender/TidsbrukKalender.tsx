@@ -5,9 +5,9 @@ import dayjs from 'dayjs';
 
 import CalendarGrid from '../calendar-grid/CalendarGrid';
 import TidsbrukKalenderDag, { TidsbrukKalenderDagFooterRenderer } from './TidsbrukKalenderDag';
-import { dateToISODate } from '../../utils/dateUtils';
 import { DatoTidMap } from '../../types';
-import { ensureTime } from '../../utils/timeUtils';
+import { ensureTime } from '../../utils/common/inputTimeUtils';
+import { dateToISODate } from '../../utils/common/isoDateUtils';
 
 export type TidRenderer = (tid: { tid: InputTime; dato: Date; prosent?: number }) => React.ReactNode;
 

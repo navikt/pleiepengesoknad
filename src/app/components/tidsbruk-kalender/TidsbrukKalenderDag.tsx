@@ -1,9 +1,9 @@
 import React from 'react';
 import { Undertekst } from 'nav-frontend-typografi';
-import { timeHasSameDuration } from '../../utils/dateUtils';
 import FormattedTimeText from '../formatted-time-text/FormattedTimeText';
 import { InputTime } from '@navikt/sif-common-formik/lib';
 import { TidRenderer } from './TidsbrukKalender';
+import { timeHasSameDuration } from '../../utils/common/inputTimeUtils';
 
 export type TidsbrukKalenderDagFooterRenderer = (dato: Date) => JSX.Element | undefined;
 

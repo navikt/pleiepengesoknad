@@ -28,7 +28,6 @@ import appSentryLogger from '../../utils/appSentryLogger';
 import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
 import { mapFormDataToApiData } from '../../utils/mapFormDataToApiData';
 import { navigateTo, relocateToLoginPage } from '../../utils/navigationUtils';
-import { getSøkerKunHistoriskPeriode } from '../../utils/tidsbrukUtils';
 import { validateApiValues } from '../../validation/apiValuesValidation';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
@@ -47,6 +46,7 @@ import {
 import './summary.less';
 import SummarySection from '@navikt/sif-common-core/lib/components/summary-section/SummarySection';
 import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
+import { getSøkerKunHistoriskPeriode } from '../../utils/fortidFremtidUtils';
 
 interface Props {
     values: SøknadFormData;

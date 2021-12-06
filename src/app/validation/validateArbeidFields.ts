@@ -5,21 +5,21 @@ import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeVa
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import { ArbeidIPeriodeIntlValues } from '../søknad/arbeid-i-periode-steps/ArbeidIPeriodeSpørsmål';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
-import { DatoTidMap, TidFasteDager } from '../types';
+import { DatoTidMap, TidUkedager } from '../types';
 import {
     getValidEnkeltdager,
     getTidEnkeltdagerInnenforPeriode,
-    sumTimerEnkeltdager,
-    sumTimerFasteDager,
-} from '../utils/tidsbrukUtils';
+    summerTidEnkeltdager,
+    summerTidUkedager,
+} from '../utils/datoTidUtils';
 import { AppFieldValidationErrors } from './fieldValidations';
 
 export const validateFasteArbeidstimerIUke = (
-    fasteDager: TidFasteDager | undefined,
+    fasteDager: TidUkedager | undefined,
     intlValues: ArbeidIPeriodeIntlValues
 ): ValidationResult<ValidationError> => {
     let error;
-    const timer = fasteDager ? sumTimerFasteDager(fasteDager) : 0;
+    const timer = fasteDager ? summerTidUkedager(fasteDager) : 0;
     if (timer === 0) {
         error = AppFieldValidationErrors.arbeidIPeriode_fasteDager_ingenTidRegistrert;
     }
@@ -45,7 +45,7 @@ export const validateArbeidsTidEnkeltdager = (
     const validTidEnkeltdager = getValidEnkeltdager(tidIPerioden);
     const hasElements = Object.keys(validTidEnkeltdager).length > 0;
 
-    if (!hasElements || sumTimerEnkeltdager(validTidEnkeltdager) <= 0) {
+    if (!hasElements || summerTidEnkeltdager(validTidEnkeltdager) <= 0) {
         return {
             key: erHistorisk
                 ? `validation.arbeidIPeriode.enkeltdager.historisk.ingenTidRegistrert`

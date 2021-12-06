@@ -11,11 +11,11 @@ import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types'
 import dayjs from 'dayjs';
 import { InputDateString } from 'nav-datovelger/lib/types';
 import { Undertittel } from 'nav-frontend-typografi';
-import dateFormatter from '../../utils/dateFormatterUtils';
-import { ensureTime } from '../../utils/timeUtils';
-import { getMonthDateRange, getNumberOfDaysInDateRange, getWeekDateRange } from '../../utils/dateUtils';
+import dateFormatter from '../../utils/common/dateFormatterUtils';
+import { ensureTime } from '../../utils/common/inputTimeUtils';
 import { DatoTidMap } from '../../types';
 import { getDagerMedNyArbeidstid } from './arbeidstidEnkeltdagUtils';
+import { getMonthDateRange, getNumberOfDaysInDateRange, getWeekDateRange } from '../../utils/common/dateRangeUtils';
 
 interface Props {
     dato: Date;
@@ -101,7 +101,10 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
     const datoString = dateFormatter.extended(dato);
 
     const ukePeriode: DateRange = getDateRangeWithinDateRange(getWeekDateRange(dato, true), periode);
+    const ukeErHel = dayjs(ukePeriode.from).isoWeekday() === 1 && dayjs(ukePeriode.to).isoWeekday() === 5;
     const månedPeriode: DateRange = getDateRangeWithinDateRange(getMonthDateRange(dato, true), periode);
+    const månedErHel =
+        dayjs(periode.from).isBefore(månedPeriode.from, 'month') && dayjs(periode.to).isAfter(månedPeriode.to, 'month');
 
     const ukePeriodeStartTxt = dateFormatter.dayDateAndMonthShort(ukePeriode.from);
     const ukePeriodeSluttTxt = dateFormatter.dayDateAndMonthShort(ukePeriode.to);
@@ -179,11 +182,15 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                                                 className="compactRadios"
                                                 radios={[
                                                     {
-                                                        label: `Hverdager i uke ${ukeNavn} (${ukePeriodeStartTxt} - ${ukePeriodeSluttTxt})`,
+                                                        label: ukeErHel
+                                                            ? `Alle hverdager i uke ${ukeNavn} (${ukePeriodeStartTxt} - ${ukePeriodeSluttTxt})`
+                                                            : `Hverdager i uke ${ukeNavn} (${ukePeriodeStartTxt} - ${ukePeriodeSluttTxt})`,
                                                         value: GjentagelseType.heleUken,
                                                     },
                                                     {
-                                                        label: (
+                                                        label: månedErHel ? (
+                                                            `Alle hverdager i ${månedNavn}`
+                                                        ) : (
                                                             <>
                                                                 Hverdager i {månedNavn} ({månedPeriodeStartTxt} -{' '}
                                                                 {månedPeriodeSluttTxt})

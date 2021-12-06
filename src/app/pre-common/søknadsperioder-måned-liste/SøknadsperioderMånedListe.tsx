@@ -6,7 +6,7 @@ import { ValidationError, ValidationFunction } from '@navikt/sif-common-formik/l
 import dayjs from 'dayjs';
 import { Undertittel } from 'nav-frontend-typografi';
 import SøknadFormComponents from '../../søknad/SøknadFormComponents';
-import { getMonthsInDateRange } from '../../utils/dateUtils';
+import { getMonthsInDateRange } from '../../utils/common/dateRangeUtils';
 
 interface Props {
     periode: DateRange;

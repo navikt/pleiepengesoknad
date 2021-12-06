@@ -7,7 +7,7 @@ import { prettifyDate, prettifyDateFull } from '@navikt/sif-common-core/lib/util
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { decimalTimeToTime, iso8601DurationToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
-import TidFasteDagerInput from '../../components/tid-faste-dager-input/TidFasteDagerInput';
+import TidUkedagerInput from '../../components/tid-ukedager-input/TidUkedagerInput';
 import { formatTimerOgMinutter } from '../../components/timer-og-minutter/TimerOgMinutter';
 import usePersistSoknad from '../../hooks/usePersistSoknad';
 import { ArbeidsforholdType, JobberIPeriodeSvar, TimerEllerProsent } from '../../types';
@@ -314,7 +314,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                                 </ExpandableInfo>
                                             )
                                         }>
-                                        <TidFasteDagerInput
+                                        <TidUkedagerInput
                                             name={getFieldName(ArbeidIPeriodeField.fasteDager)}
                                             validator={getArbeidstimerFastDagValidator}
                                         />

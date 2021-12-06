@@ -12,7 +12,7 @@ import { Element } from 'nav-frontend-typografi';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import EndreArbeidstid from './EndreArbeidstid';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import { getMonthsInDateRange } from '../../../utils/dateUtils';
+import { getMonthsInDateRange } from '../../../utils/common/dateRangeUtils';
 
 interface Props {
     arbeidsstedNavn: string;

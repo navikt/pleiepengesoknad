@@ -5,8 +5,9 @@ import { DateRange } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { groupBy } from 'lodash';
-import dateFormatter from '../../utils/dateFormatterUtils';
-import { getDatesInDateRange, getDatesInMonth, isDateInDates } from '../../utils/dateUtils';
+import dateFormatter from '../../utils/common/dateFormatterUtils';
+import { getDatesInDateRange } from '../../utils/common/dateRangeUtils';
+import { getDatesInMonth, isDateInDates } from '../../utils/common/dateUtils';
 import CalendarGridDate from './CalendarGridDate';
 import './calendarGrid.less';
 

@@ -6,9 +6,9 @@ import dayjs from 'dayjs';
 import SøknadFormComponents from '../../SøknadFormComponents';
 import { DatoTidMap } from '../../../types';
 import { SøknadFormField } from '../../../types/SøknadFormData';
-import { getMonthsInDateRange } from '../../../utils/dateUtils';
 import { validateOmsorgstilbudEnkeltdagerIPeriode } from '../../../validation/fieldValidations';
 import OmsorgstilbudInfoAndDialog from './OmsorgstilbudInfoAndDialog';
+import { getMonthsInDateRange } from '../../../utils/common/dateRangeUtils';
 
 interface Props {
     periode: DateRange;

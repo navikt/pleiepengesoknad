@@ -13,7 +13,6 @@ import { useFormikContext } from 'formik';
 import { SøkerdataContext } from '../../context/SøkerdataContext';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
-import { getSøkerKunHistoriskPeriode } from '../../utils/tidsbrukUtils';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
@@ -24,6 +23,7 @@ import ArbeidssituasjonFrilans from './parts/ArbeidssituasjonFrilans';
 import ArbeidssituasonSN from './parts/ArbeidssituasjonSN';
 import { getArbeidsgivere } from './utils/getArbeidsgivere';
 import { visVernepliktSpørsmål } from './utils/visVernepliktSpørsmål';
+import { getSøkerKunHistoriskPeriode } from '../../utils/fortidFremtidUtils';
 
 interface LoadState {
     isLoading: boolean;

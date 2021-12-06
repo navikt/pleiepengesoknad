@@ -15,7 +15,6 @@ import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
 import { getKvitteringInfoFromApiData } from '../utils/kvitteringUtils';
 import { navigateTo, navigateToErrorPage, relocateToLoginPage } from '../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../utils/routeUtils';
-import { getHistoriskPeriode, getPlanlagtPeriode } from '../utils/tidsbrukUtils';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
@@ -29,6 +28,7 @@ import OmsorgstilbudStep from './omsorgstilbud-step/OmsorgstilbudStep';
 import OpplysningerOmBarnetStep from './opplysninger-om-barnet-step/OpplysningerOmBarnetStep';
 import SummaryStep from './summary-step/SummaryStep';
 import OpplysningerOmTidsromStep from './tidsrom-step/OpplysningerOmTidsromStep';
+import { getHistoriskPeriode, getPlanlagtPeriode } from '../utils/fortidFremtidUtils';
 
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;

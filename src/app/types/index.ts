@@ -1,12 +1,10 @@
 import { InputTime } from '@navikt/sif-common-formik/lib';
-// import { ValidationFunction } from '@navikt/sif-common-formik/lib/validation/types';
-// import { ValidationError } from 'schema-utils';
 
 export type ISODateRange = string;
 export type ISODuration = string;
 export type ISODate = string;
 
-export interface TidFasteDager {
+export interface TidUkedager {
     mandag?: InputTime;
     tirsdag?: InputTime;
     onsdag?: InputTime;

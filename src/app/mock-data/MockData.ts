@@ -1,4 +1,4 @@
-import { ISODateToDate } from '../utils/dateUtils';
+import { ISODateToDate } from '../utils/common/isoDateUtils';
 
 export const arbeidsgivereMock = {
     organisasjoner: [{ navn: 'Karls godteributikk', organisasjonsnummer: '123451234' }],

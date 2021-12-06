@@ -1,7 +1,7 @@
 import React from 'react';
 import { DateRange, InputTime } from '@navikt/sif-common-formik/lib';
 import Modal from 'nav-frontend-modal';
-import dateFormatter from '../../utils/dateFormatterUtils';
+import dateFormatter from '../../utils/common/dateFormatterUtils';
 import ArbeidstidEnkeltdagForm, { ArbeidstidEnkeltdagEndring } from './ArbeidstidEnkeltdagForm';
 import './arbeidstidEnkeltdag.less';
 

@@ -10,8 +10,8 @@ import getIntlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/in
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { InputDateString } from 'nav-datovelger/lib/types';
 import { Undertittel } from 'nav-frontend-typografi';
-import TidFasteDagerInput from '../../components/tid-faste-dager-input/TidFasteDagerInput';
-import { TidFasteDager } from '../../types';
+import TidUkedagerInput from '../../components/tid-ukedager-input/TidUkedagerInput';
+import { TidUkedager } from '../../types';
 import { getArbeidstidProsentValidator, validateFasteArbeidstimerIUke } from '../../validation/validateArbeidFields';
 import {
     ArbeidIPeriodeIntlValues,
@@ -36,7 +36,7 @@ export type ArbeidstidPeriodeData = {
     fom: Date;
     tom: Date;
     prosent?: string;
-    tidFasteDager?: TidFasteDager;
+    tidFasteDager?: TidUkedager;
 };
 
 enum FormFields {
@@ -52,7 +52,7 @@ interface FormValues {
     [FormFields.tom]: InputDateString;
     [FormFields.tidFasteDagerEllerProsent]: TidFasteDagerEllerProsent;
     [FormFields.prosent]: string;
-    [FormFields.tidFasteDager]?: TidFasteDager;
+    [FormFields.tidFasteDager]?: TidUkedager;
 }
 
 const initialFormValues: Partial<FormValues> = {};
@@ -199,7 +199,7 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<Props> = ({
                                                     </p>
                                                 </ExpandableInfo>
                                             }>
-                                            <TidFasteDagerInput name={FormFields.tidFasteDager} />
+                                            <TidUkedagerInput name={FormFields.tidFasteDager} />
                                         </FormComponents.InputGroup>
                                     </FormBlock>
                                 )}

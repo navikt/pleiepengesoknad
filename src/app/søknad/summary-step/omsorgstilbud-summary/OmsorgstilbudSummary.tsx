@@ -7,10 +7,10 @@ import TextareaSummary from '@navikt/sif-common-core/lib/components/textarea-sum
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { SøknadApiData } from '../../../types/SøknadApiData';
-import { getSøkerKunHistoriskPeriode } from '../../../utils/tidsbrukUtils';
 import Sitat from '../enkeltsvar/Sitat';
 import HistoriskOmsorgstilbudSummary from './HistoriskOmsorgstilbudSummary';
 import PlanlagtOmsorgstilbudSummary from './PlanlagtOmsorgstilbudSummary';
+import { getSøkerKunHistoriskPeriode } from '../../../utils/fortidFremtidUtils';
 
 interface Props {
     søknadsperiode: DateRange;

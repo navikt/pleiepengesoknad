@@ -16,7 +16,7 @@ import Knapp from 'nav-frontend-knapper';
 import { Undertittel } from 'nav-frontend-typografi';
 import TidKalenderForm from '../../../components/tid-kalender-form/TidKalenderForm';
 import { DatoTidMap } from '../../../types';
-import { getEnkeltdagerMedTidITidsrom } from '../../../utils/tidsbrukUtils';
+import { getEnkeltdagerMedTidITidsrom } from '../../../utils/datoTidUtils';
 import { getTidIOmsorgValidator } from '../../../validation/validateOmsorgstilbudFields';
 import TidsbrukKalender from '../../../components/tidsbruk-kalender/TidsbrukKalender';
 

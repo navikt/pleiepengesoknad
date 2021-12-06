@@ -4,19 +4,19 @@ import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { FormikTimeInput } from '@navikt/sif-common-formik/lib';
 import { ValidationError, ValidationFunction } from '@navikt/sif-common-formik/lib/validation/types';
-import './tidFasteDagerInput.less';
+import './tidUkedagerInput.less';
 
 interface Props {
     name: string;
     validator?: (dagnavn: string) => ValidationFunction<ValidationError>;
 }
 
-const TidFasteDagerInput = ({ name, validator }: Props) => {
+const TidUkedagerInput = ({ name, validator }: Props) => {
     const intl = useIntl();
     return (
         <>
             <Box margin="l">
-                <div className="tidFasteDagerInput">
+                <div className="tidUkedagerInput">
                     <FormikTimeInput
                         label={intlHelper(intl, 'Mandager')}
                         name={`${name}.mandag`}
@@ -68,4 +68,4 @@ const TidFasteDagerInput = ({ name, validator }: Props) => {
     );
 };
 
-export default TidFasteDagerInput;
+export default TidUkedagerInput;

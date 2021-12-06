@@ -4,15 +4,15 @@ import Knapperad from '@navikt/sif-common-core/lib/components/knapperad/Knappera
 import { DateRange, getNumberFromNumberInputValue, InputTime } from '@navikt/sif-common-formik/lib';
 import { useFormikContext } from 'formik';
 import { Knapp } from 'nav-frontend-knapper';
-import { DatoTidMap, TidFasteDager } from '../../../types';
+import { DatoTidMap, TidUkedager } from '../../../types';
 import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
 import { ArbeidstidPeriodeData } from '../../../pre-common/arbeidstid-periode/ArbeidstidPeriodeForm';
 import ArbeidstidPeriodeDialog from '../../../pre-common/arbeidstid-periode/ArbeidstidPeriodeDialog';
 import { ArbeidIPeriodeIntlValues } from '../ArbeidIPeriodeSpørsmål';
 import { getDagInfoForPeriode } from '../../../components/tid-uker-input/utils';
 import { getRedusertArbeidstidSomInputTime } from '../../../utils/formToApiMaps/tidsbrukApiUtils';
-import { dateToISODate, ISODateToDate } from '../../../utils/dateUtils';
 import dayjs from 'dayjs';
+import { dateToISODate, ISODateToDate } from '../../../utils/common/isoDateUtils';
 
 interface Props {
     formFieldName: SøknadFormField;
@@ -36,7 +36,7 @@ interface Props {
 //     return dagerIPeriodeDetErSøktFor;
 // };
 
-const getTidForUkedag = (tid: TidFasteDager, ukedag: number): InputTime | undefined => {
+const getTidForUkedag = (tid: TidUkedager, ukedag: number): InputTime | undefined => {
     switch (ukedag) {
         case 1:
             return tid.mandag;

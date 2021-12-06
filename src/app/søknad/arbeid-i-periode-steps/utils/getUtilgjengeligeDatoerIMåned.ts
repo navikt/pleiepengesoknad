@@ -1,6 +1,6 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
-import { getDagInfoForPeriode } from '../components/tid-uker-input/utils';
+import { getDagInfoForPeriode } from '../../../components/tid-uker-input/utils';
 
 export const getUtilgjengeligeDatoerIMåned = (månedDato: Date, periode: DateRange): Date[] => {
     const måned: DateRange = {

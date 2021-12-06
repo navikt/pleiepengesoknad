@@ -3,15 +3,21 @@ import { DateRange } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { SøknadFormData } from '../../types/SøknadFormData';
+import { getTidEnkeltdagerInnenforPeriode } from '../../utils/datoTidUtils';
+import { getHistoriskPeriode, getPlanlagtPeriode } from '../../utils/fortidFremtidUtils';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from '../../utils/stepUtils';
-import {
-    skalViseSpørsmålOmProsentEllerLiktHverUke,
-    getHistoriskPeriode,
-    getPlanlagtPeriode,
-    getTidEnkeltdagerInnenforPeriode,
-} from '../../utils/tidsbrukUtils';
 
 dayjs.extend(isBetween);
+
+export const MIN_ANTALL_DAGER_FOR_FAST_PLAN_I_OMSORGSTILBUD = 6;
+
+export const skalViseSpørsmålOmProsentEllerLiktHverUke = (periode: DateRange): boolean => {
+    const antallDager = dayjs(periode.to).diff(periode.from, 'days');
+    if (antallDager < MIN_ANTALL_DAGER_FOR_FAST_PLAN_I_OMSORGSTILBUD) {
+        return false;
+    }
+    return true;
+};
 
 export const cleanupOmsorgstilbudStep = (
     values: SøknadFormData,

@@ -14,7 +14,7 @@ import ArbeidstidMånedInfo from './ArbeidstidMånedInfo';
 import { useFormikContext } from 'formik';
 import { SøknadFormData } from '../../../types/SøknadFormData';
 import { ArbeidstidEnkeltdagEndring } from '../../../pre-common/arbeidstid-enkeltdag/ArbeidstidEnkeltdagForm';
-import { getUtilgjengeligeDatoerIMåned } from '../../../utils/getUtilgjengeligeDatoerIMåned';
+import { getUtilgjengeligeDatoerIMåned } from '../utils/getUtilgjengeligeDatoerIMåned';
 
 interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, ValidationError> {
     arbeidsstedNavn: string;

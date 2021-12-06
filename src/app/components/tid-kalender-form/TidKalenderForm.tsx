@@ -14,7 +14,7 @@ import weekOfYear from 'dayjs/plugin/weekOfYear';
 import Knapp from 'nav-frontend-knapper';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { DatoTidMap } from '../../types';
-import { getValidEnkeltdager } from '../../utils/tidsbrukUtils';
+import { getValidEnkeltdager } from '../../utils/datoTidUtils';
 import { TidPerDagValidator } from '../../validation/fieldValidations';
 import TidUkerInput from '../tid-uker-input/TidUkerInput';
 

@@ -1,5 +1,7 @@
 import React from 'react';
 import { IntlShape, useIntl } from 'react-intl';
+import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
+import SummarySection from '@navikt/sif-common-core/lib/components/summary-section/SummarySection';
 import { apiStringDateToDate, DateRange, prettifyDateExtended } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import dayjs from 'dayjs';
@@ -9,11 +11,9 @@ import {
     isArbeidsgiverISøknadsperiodeApiData,
     SøknadApiData,
 } from '../../../types/SøknadApiData';
+import { getHistoriskPeriode, getPlanlagtPeriode } from '../../../utils/fortidFremtidUtils';
 import { erFrilanserITidsrom } from '../../../utils/frilanserUtils';
-import { getHistoriskPeriode, getPlanlagtPeriode } from '../../../utils/tidsbrukUtils';
 import ArbeidIPeriodeSummaryItem from './ArbeidIPeriodenSummaryItem';
-import SummarySection from '@navikt/sif-common-core/lib/components/summary-section/SummarySection';
-import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 
 interface Props {
     apiValues: SøknadApiData;

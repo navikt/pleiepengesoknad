@@ -11,7 +11,7 @@ import {
 } from '../../types/SøknadApiData';
 import { ArbeidIPeriode, Arbeidsforhold } from '../../types/SøknadFormData';
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
-import { getHistoriskPeriode, getPlanlagtPeriode } from '../tidsbrukUtils';
+import { getHistoriskPeriode, getPlanlagtPeriode } from '../fortidFremtidUtils';
 import {
     fjernTidUtenforPeriode,
     getEnkeltdagerIPeriodeApiData,

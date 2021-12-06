@@ -1,22 +1,17 @@
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-// import Box from '@navikt/sif-common-core/lib/components/box/Box';
-// import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, dateToISOString, InputTime } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-// import Knapp from 'nav-frontend-knapper';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import ArbeidstidEnkeltdagDialog from '../../../pre-common/arbeidstid-enkeltdag/ArbeidstidEnkeltdagDialog';
 import { ArbeidstidEnkeltdagEndring } from '../../../pre-common/arbeidstid-enkeltdag/ArbeidstidEnkeltdagForm';
 import FormattedTimeText from '../../../components/formatted-time-text/FormattedTimeText';
 import TidsbrukKalender from '../../../components/tidsbruk-kalender/TidsbrukKalender';
 import { DatoTidMap } from '../../../types';
-import { getEnkeltdagerMedTidITidsrom, getPerioderFraDatoTidMap, tidErIngenTid } from '../../../utils/tidsbrukUtils';
-import { ensureTime } from '../../../utils/timeUtils';
-// import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-// import AlertStripe from 'nav-frontend-alertstriper';
+import { inputTimeDurationIsZero } from '../../../utils/common/inputTimeUtils';
+import { getEnkeltdagerMedTidITidsrom, getPerioderFraDatoTidMap } from '../../../utils/datoTidUtils';
 
 interface Props {
     måned: DateRange;
@@ -52,7 +47,7 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
     const dager: DatoTidMap = getEnkeltdagerMedTidITidsrom(tidArbeidstid, måned);
     const dagerMedRegistrertArbeidstid: string[] = Object.keys(dager).filter((key) => {
         const datoTid = dager[key];
-        return datoTid !== undefined && datoTid.tid !== undefined && tidErIngenTid(ensureTime(datoTid.tid)) === false;
+        return datoTid !== undefined && datoTid.tid !== undefined && inputTimeDurationIsZero(datoTid.tid) === false;
     });
 
     const perioder = getPerioderFraDatoTidMap(dager);

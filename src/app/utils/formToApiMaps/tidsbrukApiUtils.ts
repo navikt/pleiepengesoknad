@@ -2,10 +2,10 @@ import { apiStringDateToDate, DateRange, datoErInnenforTidsrom } from '@navikt/s
 import { decimalTimeToTime, timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { dateToISOString, InputTime, ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
-import { DatoTidMap, TidFasteDager } from '../../types';
+import { DatoTidMap, TidUkedager } from '../../types';
 import { ISO8601Duration, TidEnkeltdagApiData } from '../../types/SøknadApiData';
 
-export const getFasteDagerApiData = ({ mandag, tirsdag, onsdag, torsdag, fredag }: TidFasteDager) => ({
+export const getFasteDagerApiData = ({ mandag, tirsdag, onsdag, torsdag, fredag }: TidUkedager) => ({
     mandag: mandag ? timeToIso8601Duration(mandag) : undefined,
     tirsdag: tirsdag ? timeToIso8601Duration(tirsdag) : undefined,
     onsdag: onsdag ? timeToIso8601Duration(onsdag) : undefined,

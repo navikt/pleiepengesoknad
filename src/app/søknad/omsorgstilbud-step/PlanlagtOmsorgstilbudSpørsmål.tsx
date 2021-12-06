@@ -13,15 +13,15 @@ import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import AlertStripe from 'nav-frontend-alertstriper';
-import TidFasteDagerInput from '../../components/tid-faste-dager-input/TidFasteDagerInput';
+import TidUkedagerInput from '../../components/tid-ukedager-input/TidUkedagerInput';
 import { Omsorgstilbud, SøknadFormField } from '../../types/SøknadFormData';
-import { skalViseSpørsmålOmProsentEllerLiktHverUke } from '../../utils/tidsbrukUtils';
 import {
     getOmsorgstilbudtimerValidatorFastDag,
     validateSkalIOmsorgstilbud,
 } from '../../validation/validateOmsorgstilbudFields';
 import SøknadFormComponents from '../SøknadFormComponents';
 import OmsorgstilbudIPeriodeSpørsmål from './omsorgstilbud-i-periode/OmsorgstilbudIPeriodeSpørsmål';
+import { skalViseSpørsmålOmProsentEllerLiktHverUke } from './omsorgstilbudStepUtils';
 
 dayjs.extend(isBetween);
 
@@ -121,7 +121,7 @@ const PlanlagtOmsorgstilbudSpørsmål = ({
                                 validate={() => validateSkalIOmsorgstilbud(omsorgstilbud)}
                                 name={'omsorgstilbud_gruppe' as any}>
                                 <ResponsivePanel>
-                                    <TidFasteDagerInput
+                                    <TidUkedagerInput
                                         name={SøknadFormField.omsorgstilbud__planlagt__fasteDager}
                                         validator={getOmsorgstilbudtimerValidatorFastDag}
                                     />
