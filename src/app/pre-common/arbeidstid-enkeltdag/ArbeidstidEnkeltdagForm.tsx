@@ -14,13 +14,15 @@ import { Undertittel } from 'nav-frontend-typografi';
 import dateFormatter from '../../utils/dateFormatterUtils';
 import { ensureTime } from '../../utils/timeUtils';
 import { getMonthDateRange, getNumberOfDaysInDateRange, getWeekDateRange } from '../../utils/dateUtils';
+import { DatoTidMap } from '../../types';
+import { getDagerMedNyArbeidstid } from './arbeidstidEnkeltdagUtils';
 
 interface Props {
     dato: Date;
     tid?: Partial<InputTime>;
     arbeidsstedNavn: string;
     periode: DateRange;
-    onSubmit: (data: ArbeidstidEnkeltdagEndring) => void;
+    onSubmit: (dagerMedTid: ArbeidstidEnkeltdagEndring) => void;
     onCancel: () => void;
 }
 
@@ -32,9 +34,7 @@ export interface GjentagelseEnkeltdag {
 }
 
 export interface ArbeidstidEnkeltdagEndring {
-    dato: Date;
-    tid: InputTime;
-    gjelderFlereDager?: GjentagelseEnkeltdag;
+    dagerMedTid: DatoTidMap;
 }
 
 enum FormFields {
@@ -92,9 +92,7 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                   }
                 : undefined;
         onSubmit({
-            dato,
-            tid: value.skalIkkeJobbe === true ? { hours: '0', minutes: '0' } : value.tid,
-            gjelderFlereDager: gjentagelse,
+            dagerMedTid: getDagerMedNyArbeidstid(periode, dato, value.tid, gjentagelse),
         });
     };
 

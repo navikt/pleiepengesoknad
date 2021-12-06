@@ -14,8 +14,6 @@ import ArbeidstidMånedInfo from './ArbeidstidMånedInfo';
 import { useFormikContext } from 'formik';
 import { SøknadFormData } from '../../../types/SøknadFormData';
 import { ArbeidstidEnkeltdagEndring } from '../../../pre-common/arbeidstid-enkeltdag/ArbeidstidEnkeltdagForm';
-import { dateToISODate } from '../../../utils/dateUtils';
-import { getDagerSomSkalEndresFraEnkeltdagEndring } from './arbeidstidUtils';
 import { getUtilgjengeligeDatoerIMåned } from '../../../utils/getUtilgjengeligeDatoerIMåned';
 
 interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, ValidationError> {
@@ -69,12 +67,7 @@ function ArbeidstidMåned<FieldNames>({
             }}
             infoRenderer={({ data, onEdit }) => {
                 const handleOnEnkeltdagChange = (evt: ArbeidstidEnkeltdagEndring) => {
-                    const newValues = { ...data };
-                    const dagerSomSkalEndres = getDagerSomSkalEndresFraEnkeltdagEndring(evt, periode);
-                    dagerSomSkalEndres.forEach((isoDate) => {
-                        newValues[isoDate] = { tid: evt.tid };
-                    });
-                    newValues[dateToISODate(evt.dato)] = { tid: evt.tid };
+                    const newValues = { ...data, ...evt.dagerMedTid };
                     setFieldValue(formFieldName as any, newValues);
                     onAfterChange ? onAfterChange(newValues) : undefined;
                 };

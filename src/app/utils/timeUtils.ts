@@ -19,9 +19,9 @@ export const _isoDurationToTime = (duration: string): Partial<InputTime> | undef
 };
 export const isoDurationToTime = moize(_isoDurationToTime);
 
-export const ensureTime = (time: Partial<InputTime>): InputTime => {
+export const ensureTime = (time: Partial<InputTime> | undefined): InputTime => {
     return {
-        hours: time.hours || '0',
-        minutes: time.minutes || '0',
+        hours: time?.hours || '0',
+        minutes: time?.minutes || '0',
     };
 };
