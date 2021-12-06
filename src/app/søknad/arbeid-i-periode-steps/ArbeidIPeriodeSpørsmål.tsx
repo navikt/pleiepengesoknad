@@ -150,6 +150,11 @@ const ArbeidIPeriodeSpørsmål = ({
             name={getFieldName(ArbeidIPeriodeField.erLiktHverUke)}
             legend={erHistorisk ? 'Jobbet du likt i hele perioden?' : 'Skal du jobbe likt hver uke i hele perioden?'}
             validate={getArbeidErLiktHverUkeValidator(intlValues)}
+            useTwoColumns={false}
+            labels={{
+                no: 'Nei, det varierer fra uke til uke',
+                yes: 'Ja, hver uke er lik',
+            }}
         />
     );
 
