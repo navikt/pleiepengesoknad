@@ -123,6 +123,7 @@
     "step.tidsrom.stepTitle": "Perioden med pleiepenger",
     "step.tidsrom.stepIndicatorLabel": "Periode",
     "step.tidsrom.infotekst": "For å ha rett til pleiepenger må du ha omsorgen for barnet i hele perioden du søker for.",
+    "step.tidsrom.søkerKunHelgedager.alert": "Du kan kun få utbetalt pleiepenger for hverdager. Det utbetales ikke pleiepenger for lørdag eller søndag selv om du har hatt fravær fra jobb for å pleie barn. Du kan derfor ikke søke pleiepenger kun for lørdag og/eller søndag.",
     "steg.tidsrom.veileder.utenlandsopphold": "Når du oppholder deg i et land utenfor EØS, kan du beholde pleiepengene i en begrenset periode på opptil 8 uker av en 12 måneder lang periode.",
 
     "steg.tidsrom.iUtlandetIPerioden.spm": "Skal du reise til utlandet i perioden du søker for?",
@@ -261,8 +262,6 @@
 
     "steg.tidsrom.hjelpetekst.tittel": "Kan jeg søke for flere perioder samtidig?",
     "steg.tidsrom.hjelpetekst": "Søknaden er under utvikling: Hvis du skal søke for flere perioder må du sende én søknad for hver periode.",
-    "steg.tidsrom.hjelpetekst.tittel.1": "Hvorfor kan jeg ikke velge lørdag eller søndag?",
-    "steg.tidsrom.hjelpetekst.1": "Du kan kun få utbetalt pleiepenger for hverdager, selv om du jobber lørdag eller søndag. Derfor kan du ikke velge lørdag eller søndag som start- eller sluttdato i perioden du legger inn.",
     "steg.tidsrom.hvilketTidsrom.spm": "Hvilken periode søker du for?",
     "steg.tidsrom.hvilketTidsrom.fom": "Fra og med",
     "steg.tidsrom.hvilketTidsrom.tom": "Til og med",
@@ -318,6 +317,10 @@
 
     "steg.omsorgstilbud.veileder.infoFlereBarn.tittel": "Hvordan fylle inn omsorgstilbud hvis jeg søker for flere barn?",
     "steg.omsorgstilbud.veileder.infoFlereBarn": "Du skal svare ja bare hvis barna skal være samtidig i omsorgstilbudet. Du svarer nei hvis minst ett av barna ikke skal være der samtidig med det andre barnet, eller hvis barna skal være i omsorgstilbudet på ulike tider.",
+
+    "step.omsorgstilbud.søkerKunHelgedager.alert.avsnitt.1": "Du kan kun få utbetalt pleiepenger for hverdager. Det utbetales ikke pleiepenger for lørdag eller søndag selv om du har hatt fravær fra jobb for å pleie barn.",
+    "step.omsorgstilbud.søkerKunHelgedager.alert.avsnitt.2": "Du kan derfor ikke registrere omsørgstilbud kun for lørdag og/eller søndag.",
+    "step.omsorgstilbud.søkerKunHelgedager.alert.avsnitt.3": "Vennligst gå tilbake  til steg \"Perioden med pleiepenger\" og sjekk informasjonen du har fylt ut. Når du har gjort det, trykker du på \"Fortsett\"-knappen for å gå videre.",
 
     "steg.omsorgstilbud.generelt.tittel": "Omsorgstilbud i perioden",
     "steg.omsorgstilbud.historisk.tittel": "Omsorgstilbud tilbake i tid",
@@ -435,6 +438,7 @@
     "steg.oppsummering.validering.ugyldigArbeidsforholdSN": "Det er ikke fylt ut informasjon om hvordan du skal jobbe som selvstendig næringsdrivende i perioden du har søkt pleiepenger.",
     "steg.oppsummering.validering.navigasjonTilStegInfo": "Vennligst gå tilbake og sjekk informasjonen du har fylt ut. Når du har gjort det, trykker du på \"Fortsett\"-knappen for å gå videre.",
     "steg.oppsummering.validering.navigasjonTilStegGåTil": "Gå til",
+    "steg.oppsummering.validering.tidsromKunHelg": "Oops, noe gikk galt med perioden du søker for. Du kan kun få utbetalt pleiepenger for hverdager. Det utbetales ikke pleiepenger for lørdag eller søndag selv om du har hatt fravær fra jobb for å pleie barn. Du kan derfor ikke søke pleiepenger kun for lørdag og/eller søndag.",
     "steg.oppsummering.validering.manglerVedlegg": "Oops, noe gikk galt med legeerklæringen. Vennligst gå tilbake og kontroller at den er lastet opp riktig",
     "steg.oppsummering.validering.ugyldigArbeidsforhold": "Oops, noe gikk galt med arbeidsforholdet som du har registrert.",
     "steg.oppsummering.validering.ugyldigRegnskapsførerTelefonnummer": "Telefonnummeret til regnskapsfører inneholder ugyldig tegn. Vennligst gå tilbake til skjemaet og kontroller verdien.",
@@ -536,6 +540,10 @@
     "arbeidsforhold.FAST.spm": "Hvor mange timer jobber du normalt per uke hos {arbeidsforhold} når du ikke har fravær?",
     "arbeidsforhold.FAST.avsluttet.spm": "Hvor mange timer jobbet du normalt per uke hos {arbeidsforhold}?",
     "arbeidsforhold.utledet": "timer i uka",
+
+    "arbeidIPeriode.søkerKunHelgedager.alert.avsnitt.1": "Du kan kun få utbetalt pleiepenger for hverdager. Det utbetales ikke pleiepenger for lørdag eller søndag selv om du har hatt fravær fra jobb for å pleie barn.",
+    "arbeidIPeriode.søkerKunHelgedager.alert.avsnitt.2": "Du kan derfor ikke registrere arbeid kun for lørdag og/eller søndag.",
+    "arbeidIPeriode.søkerKunHelgedager.alert.avsnitt.3": "Vennligst gå tilbake til steg \"Perioden med pleiepenger\" og sjekk informasjonen du har fylt ut. Når du har gjort det, trykker du på \"Fortsett\"-knappen for å gå videre.",
 
     "arbeidIPeriode.subtitle": "Fra {fra} til {til}",
     "arbeidIPeriode.iPerioden.part": "i perioden {fra} til {til}",

@@ -1,13 +1,11 @@
 import React from 'react';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { prettifyDate, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
-import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { ArbeidsforholdType, JobberIPeriodeSvar } from '../../types';
 import {
     SøknadFormField,
@@ -30,6 +28,10 @@ import {
 import SøknadFormComponents from '../../søknad/SøknadFormComponents';
 import TidFasteDagerInput from '../tid-faste-dager-input/TidFasteDagerInput';
 import ArbeidstidKalenderInput from './ArbeidstidKalenderInput';
+import { AlertStripeInfo } from 'nav-frontend-alertstriper';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import { søkerKunHelgedager } from '../../utils/dateUtils';
+import Alertstripe from 'nav-frontend-alertstriper';
 import { getRedusertArbeidstidSomIso8601Duration } from '../../utils/formToApiMaps/tidsbrukApiUtils';
 import { decimalTimeToTime, iso8601DurationToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { formatTimerOgMinutter } from '../timer-og-minutter/TimerOgMinutter';
@@ -315,6 +317,21 @@ const ArbeidIPeriodeSpørsmål = ({
                                             enkeltdagerFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
                                             søknadsdato={søknadsdato}
                                         />
+                                        {søkerKunHelgedager(periode.from, periode.to) && (
+                                            <Box margin="xl">
+                                                <Alertstripe type="advarsel">
+                                                    <p>
+                                                        <FormattedMessage id="arbeidIPeriode.søkerKunHelgedager.alert.avsnitt.1" />
+                                                    </p>
+                                                    <p>
+                                                        <FormattedMessage id="arbeidIPeriode.søkerKunHelgedager.alert.avsnitt.2" />
+                                                    </p>
+                                                    <p>
+                                                        <FormattedMessage id="arbeidIPeriode.søkerKunHelgedager.alert.avsnitt.3" />
+                                                    </p>
+                                                </Alertstripe>
+                                            </Box>
+                                        )}
                                     </FormBlock>
                                 )}
                             </>
