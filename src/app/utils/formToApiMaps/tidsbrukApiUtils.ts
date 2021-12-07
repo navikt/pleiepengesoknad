@@ -75,8 +75,7 @@ export const getRedusertArbeidstidSomIso8601Duration = (
     jobberNormaltTimerPerDagNumber: number,
     skalJobbeProsent: number
 ): ISO8601Duration => {
-    const redusertTidPerDag = (jobberNormaltTimerPerDagNumber / 100) * skalJobbeProsent;
-    return timeToIso8601Duration(decimalTimeToTime(redusertTidPerDag));
+    return timeToIso8601Duration(getRedusertArbeidstidSomInputTime(jobberNormaltTimerPerDagNumber, skalJobbeProsent));
 };
 
 export const getRedusertArbeidstidSomInputTime = (

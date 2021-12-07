@@ -7,7 +7,7 @@ import { useFormikContext } from 'formik';
 import { Knapp } from 'nav-frontend-knapper';
 import ArbeidstidPeriodeDialog from '../../../pre-common/arbeidstid-periode/ArbeidstidPeriodeDialog';
 import { ArbeidstidPeriodeData } from '../../../pre-common/arbeidstid-periode/ArbeidstidPeriodeForm';
-import { dateToISODate, ISODateToDate } from '../../../utils/common/isoDateUtils';
+import { ISODateToDate } from '../../../utils/common/isoDateUtils';
 import { getDagInfoForPeriode } from '../../../components/tid-uker-input/utils';
 import { DatoTidMap, TidUkedager } from '../../../types';
 import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
@@ -40,6 +40,32 @@ const getTidForUkedag = (tid: TidUkedager, ukedag: number): InputTime | undefine
     return undefined;
 };
 
+const oppdaterDagerIPeriode = (normalTimer: number, { fom, tom, prosent, tidFasteDager }: ArbeidstidPeriodeData) => {
+    const datoerIPeriode = getDagInfoForPeriode({ from: fom, to: tom });
+    const dagerSomSkalEndres: DatoTidMap = {};
+    const ingenTid: InputTime = { hours: '0', minutes: '0' };
+
+    datoerIPeriode.forEach((dag) => {
+        const { isoDate } = dag;
+        if (prosent !== undefined) {
+            const prosentNumber = getNumberFromNumberInputValue(prosent);
+            if (prosentNumber === undefined) {
+                return;
+            }
+            if (prosentNumber === 0) {
+                dagerSomSkalEndres[isoDate] = { tid: ingenTid, prosent: prosentNumber };
+            } else {
+                const isoDurationPerDag = getRedusertArbeidstidSomInputTime(normalTimer / 5, prosentNumber);
+                dagerSomSkalEndres[isoDate] = { tid: isoDurationPerDag, prosent: prosentNumber };
+            }
+        } else if (tidFasteDager) {
+            const tid = getTidForUkedag(tidFasteDager, dayjs(ISODateToDate(isoDate)).isoWeekday());
+            dagerSomSkalEndres[isoDate] = { tid: tid || ingenTid };
+        }
+    });
+    return dagerSomSkalEndres;
+};
+
 const EndreArbeidstid: React.FunctionComponent<Props> = ({
     intlValues,
     arbeidstidSøknad,
@@ -53,34 +79,15 @@ const EndreArbeidstid: React.FunctionComponent<Props> = ({
     const { setFieldValue } = useFormikContext<SøknadFormData>();
     const normalTimer = getNumberFromNumberInputValue(jobberNormaltTimer);
 
-    const ingenTid: InputTime = { hours: '0', minutes: '0' };
-
-    const handleChangePeriode = ({ fom, tom, prosent, tidFasteDager }: ArbeidstidPeriodeData) => {
-        const datoerIPeriode = getDagInfoForPeriode({ from: fom, to: tom });
-        const dagerSomSkalEndres: DatoTidMap = {};
-        datoerIPeriode.forEach((dag) => {
-            const isoDate = dateToISODate(dag.dato);
-            if (prosent !== undefined) {
-                const prosentNumber = getNumberFromNumberInputValue(prosent);
-                if (prosentNumber === undefined || normalTimer === undefined) {
-                    return;
-                }
-                if (prosentNumber === 0) {
-                    dagerSomSkalEndres[isoDate] = { tid: ingenTid, prosent: prosentNumber };
-                } else {
-                    const isoDurationPerDag = getRedusertArbeidstidSomInputTime(normalTimer / 5, prosentNumber);
-                    dagerSomSkalEndres[isoDate] = { tid: isoDurationPerDag, prosent: prosentNumber };
-                }
-            } else if (tidFasteDager) {
-                const tid = getTidForUkedag(tidFasteDager, dayjs(ISODateToDate(isoDate)).isoWeekday());
-                dagerSomSkalEndres[isoDate] = { tid: tid || ingenTid };
-            }
-        });
-        const newValues = { ...arbeidstidSøknad, ...dagerSomSkalEndres };
-        setFieldValue(formFieldName, newValues);
+    const handleChangePeriode = (data: ArbeidstidPeriodeData) => {
+        if (normalTimer === undefined) {
+            throw new Error('EndreArbeidstid - normaltimer is undefined');
+        }
+        const dagerMedArbeid = { ...arbeidstidSøknad, ...oppdaterDagerIPeriode(normalTimer, data) };
+        setFieldValue(formFieldName, dagerMedArbeid);
         setVisPeriode(false);
         if (onAfterChange) {
-            onAfterChange(newValues);
+            onAfterChange(dagerMedArbeid);
         }
     };
 
