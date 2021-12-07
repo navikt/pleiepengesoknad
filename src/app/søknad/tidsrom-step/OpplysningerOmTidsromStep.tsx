@@ -18,7 +18,6 @@ import { useFormikContext } from 'formik';
 import Alertstripe from 'nav-frontend-alertstriper';
 import { SøkerdataContext } from '../../context/SøkerdataContext';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
-import { søkerKunHelgedager } from '../../utils/dateUtils';
 import {
     validateFerieuttakIPerioden,
     validateFradato,
@@ -29,6 +28,7 @@ import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
 import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
+import { søkerKunHelgedager } from '../../utils/formDataUtils';
 
 dayjs.extend(minMax);
 
