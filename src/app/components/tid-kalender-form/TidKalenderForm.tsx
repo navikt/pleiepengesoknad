@@ -54,7 +54,7 @@ const TidKalenderForm = ({ periode, tid, tittel, intro, tidPerDagValidator, onSu
         Object.keys(tid).forEach((key) => {
             const value = tid[key];
             data[key] = {
-                tid: value,
+                varighet: value,
             };
         });
         onSubmit(cleanupDatoTidMap(data));
@@ -64,7 +64,7 @@ const TidKalenderForm = ({ periode, tid, tittel, intro, tidPerDagValidator, onSu
         const data: FormDatoTidMap = {};
         Object.keys(tid).forEach((key) => {
             const value = tid[key];
-            data[key] = value.tid;
+            data[key] = value.varighet;
         });
         return data;
     };

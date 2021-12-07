@@ -9,11 +9,11 @@ dayjs.extend(isSameOrAfter);
 
 describe('getEnkeltdagerMedTidITidsrom', () => {
     const enkeldagerFormData: DatoTidMap = {
-        '2021-03-01': { tid: { hours: '2', minutes: '30' } }, // Outside range
-        '2021-03-02': { tid: { hours: '2', minutes: '30' } }, // Historic
-        '2021-03-03': { tid: { hours: '2', minutes: '30' } }, // Planned
-        '2021-03-04': { tid: { hours: '2', minutes: '30' } }, // Planned
-        '2021-03-05': { tid: { hours: '2', minutes: '30' } }, // Outside range
+        '2021-03-01': { varighet: { hours: '2', minutes: '30' } }, // Outside range
+        '2021-03-02': { varighet: { hours: '2', minutes: '30' } }, // Historic
+        '2021-03-03': { varighet: { hours: '2', minutes: '30' } }, // Planned
+        '2021-03-04': { varighet: { hours: '2', minutes: '30' } }, // Planned
+        '2021-03-05': { varighet: { hours: '2', minutes: '30' } }, // Outside range
     };
     const periode: DateRange = {
         from: ISOStringToDate('2021-03-02')!,

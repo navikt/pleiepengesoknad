@@ -1,20 +1,16 @@
 import dayjs from 'dayjs';
-import isBetween from 'dayjs/plugin/isBetween';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import minMax from 'dayjs/plugin/minMax';
 import moize from 'moize';
 import { getMonthDateRange } from './dateRangeUtils';
 
 dayjs.extend(isoWeek);
-dayjs.extend(isBetween);
-dayjs.extend(minMax);
 dayjs.extend(isSameOrBefore);
 
-export const getDatesInMonth = (month: Date, onlyWeekDays = true): Date[] => {
+export const getDatesInMonth = (month: Date, onlyWeekDays = false): Date[] => {
     const dates: Date[] = [];
     const range = getMonthDateRange(month);
-    let current = dayjs(range.from); //.subtract(dayjs(range.from).isoWeekday() - 1, 'days');
+    let current = dayjs(range.from);
     do {
         const date = current.toDate();
         if (onlyWeekDays === false || dateIsWeekDay(date)) {
@@ -44,9 +40,10 @@ export const isDateInDates = (date: Date, dates?: Date[]): boolean => {
     return dates.some((d) => dayjs(date).isSame(d, 'day'));
 };
 
-export const dateIsWeekDay = (date: Date): boolean => {
+const _dateIsWeekDay = (date: Date): boolean => {
     return dayjs(date).isoWeekday() <= 5;
 };
+export const dateIsWeekDay = moize(_dateIsWeekDay);
 
 const _getYearMonthKey = (date: Date): string => dayjs(date).format('YYYY-MM');
 export const getYearMonthKey = moize(_getYearMonthKey);

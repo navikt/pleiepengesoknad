@@ -24,7 +24,7 @@ export const getEnkeltdagerIPeriodeApiData = (enkeltdager: DatoTidMap, periode: 
         if (dato && datoErInnenforTidsrom(dato, periode)) {
             dager.push({
                 dato: dateToISOString(dato),
-                tid: timeToIso8601Duration(enkeltdager[dag].tid),
+                tid: timeToIso8601Duration(enkeltdager[dag].varighet),
             });
         }
     });

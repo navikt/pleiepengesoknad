@@ -12,11 +12,11 @@ const søknadsperiode: DateRange = {
 const søknadsdato = new Date(2021, 5, 3);
 
 const enkeldagerFormData: DatoTidMap = {
-    '2021-06-01': { tid: { hours: '2', minutes: '30' } }, // Outside range
-    '2021-06-02': { tid: { hours: '2', minutes: '30' } }, // Historic
-    '2021-06-03': { tid: { hours: '2', minutes: '30' } }, // Planned
-    '2021-06-04': { tid: { hours: '2', minutes: '30' } }, // Planned
-    '2021-06-05': { tid: { hours: '2', minutes: '30' } }, // Outside range
+    '2021-06-01': { varighet: { hours: '2', minutes: '30' } }, // Outside range
+    '2021-06-02': { varighet: { hours: '2', minutes: '30' } }, // Historic
+    '2021-06-03': { varighet: { hours: '2', minutes: '30' } }, // Planned
+    '2021-06-04': { varighet: { hours: '2', minutes: '30' } }, // Planned
+    '2021-06-05': { varighet: { hours: '2', minutes: '30' } }, // Outside range
 };
 
 const formValuesTemplate: Partial<SøknadFormData> = {

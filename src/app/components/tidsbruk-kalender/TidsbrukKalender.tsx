@@ -51,7 +51,7 @@ const TidsbrukKalender: React.FunctionComponent<Props> = ({
     Object.keys(dagerMedTid).forEach((key) => {
         kalenderdager[key] = {
             ...kalenderdager[key],
-            tid: dagerMedTid[key].tid,
+            tid: dagerMedTid[key].varighet,
             prosent: dagerMedTid[key].prosent,
         };
     });

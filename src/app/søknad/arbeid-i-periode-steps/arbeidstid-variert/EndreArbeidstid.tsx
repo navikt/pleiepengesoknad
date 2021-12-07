@@ -7,12 +7,12 @@ import { useFormikContext } from 'formik';
 import { Knapp } from 'nav-frontend-knapper';
 import ArbeidstidPeriodeDialog from '../../../pre-common/arbeidstid-periode/ArbeidstidPeriodeDialog';
 import { ArbeidstidPeriodeData } from '../../../pre-common/arbeidstid-periode/ArbeidstidPeriodeForm';
-import { ISODateToDate } from '../../../utils/common/isoDateUtils';
-import { getDagInfoForPeriode } from '../../../components/tid-uker-input/utils';
+import { dateToISODate, ISODateToDate } from '../../../utils/common/isoDateUtils';
 import { DatoTidMap, TidUkedager } from '../../../types';
 import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
 import { getRedusertArbeidstidSomInputTime } from '../../../utils/formToApiMaps/tidsbrukApiUtils';
 import { ArbeidIPeriodeIntlValues } from '../ArbeidIPeriodeSpørsmål';
+import { getDatesInDateRange } from '../../../utils/common/dateRangeUtils';
 
 interface Props {
     formFieldName: SøknadFormField;
@@ -41,26 +41,26 @@ const getTidForUkedag = (tid: TidUkedager, ukedag: number): InputTime | undefine
 };
 
 const oppdaterDagerIPeriode = (normalTimer: number, { fom, tom, prosent, tidFasteDager }: ArbeidstidPeriodeData) => {
-    const datoerIPeriode = getDagInfoForPeriode({ from: fom, to: tom });
+    const datoerIPeriode = getDatesInDateRange({ from: fom, to: tom });
     const dagerSomSkalEndres: DatoTidMap = {};
     const ingenTid: InputTime = { hours: '0', minutes: '0' };
 
-    datoerIPeriode.forEach((dag) => {
-        const { isoDate } = dag;
+    datoerIPeriode.forEach((dato) => {
+        const isoDate = dateToISODate(dato);
         if (prosent !== undefined) {
             const prosentNumber = getNumberFromNumberInputValue(prosent);
             if (prosentNumber === undefined) {
                 return;
             }
             if (prosentNumber === 0) {
-                dagerSomSkalEndres[isoDate] = { tid: ingenTid, prosent: prosentNumber };
+                dagerSomSkalEndres[isoDate] = { varighet: ingenTid, prosent: prosentNumber };
             } else {
                 const isoDurationPerDag = getRedusertArbeidstidSomInputTime(normalTimer / 5, prosentNumber);
-                dagerSomSkalEndres[isoDate] = { tid: isoDurationPerDag, prosent: prosentNumber };
+                dagerSomSkalEndres[isoDate] = { varighet: isoDurationPerDag, prosent: prosentNumber };
             }
         } else if (tidFasteDager) {
-            const tid = getTidForUkedag(tidFasteDager, dayjs(ISODateToDate(isoDate)).isoWeekday());
-            dagerSomSkalEndres[isoDate] = { tid: tid || ingenTid };
+            const varighet = getTidForUkedag(tidFasteDager, dayjs(ISODateToDate(isoDate)).isoWeekday()) || ingenTid;
+            dagerSomSkalEndres[isoDate] = { varighet };
         }
     });
     return dagerSomSkalEndres;

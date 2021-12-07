@@ -43,7 +43,7 @@ const _getWeeksInDateRange = (range: DateRange): DateRange[] => {
 };
 export const getWeeksInDateRange = moize(_getWeeksInDateRange);
 
-export const getDatesInDateRange = (range: DateRange, onlyWeekDays = true): Date[] => {
+export const getDatesInDateRange = (range: DateRange, onlyWeekDays = false): Date[] => {
     const dates: Date[] = [];
     let current = dayjs(range.from); //.subtract(dayjs(range.from).isoWeekday() - 1, 'days');
     do {

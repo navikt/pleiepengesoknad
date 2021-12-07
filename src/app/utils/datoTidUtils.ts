@@ -7,10 +7,18 @@ import dayjs from 'dayjs';
 import { inputTimeDurationIsZero } from './common/inputTimeUtils';
 import { ISODateToDate } from './common/isoDateUtils';
 import { inputTimeToISODuration } from './common/isoDurationUtils';
-import { DatoTid, DatoTidMap, ISODate, TidUkedager } from '../types';
+import { Tid, DatoTidMap, ISODate, TidUkedager, DatoTidArray } from '../types';
 
 const isValidNumberString = (value: any): boolean =>
     hasValue(value) && typeof value === 'string' && value.trim().length > 0;
+
+export const datoTidMapToDatoTidArray = (map: DatoTidMap): DatoTidArray => {
+    return Object.keys(map).map((key) => ({
+        isoDate: key,
+        dato: ISODateToDate(key),
+        tid: map[key],
+    }));
+};
 
 /**
  * Fjerner alle dager som har ugyldig tid
@@ -20,9 +28,13 @@ const isValidNumberString = (value: any): boolean =>
 export const cleanupDatoTidMap = (datoTid: DatoTidMap): DatoTidMap => {
     const cleanedTidEnkeltdag: DatoTidMap = {};
     Object.keys(datoTid).forEach((key) => {
-        const { tid } = datoTid[key] || {};
-        if (tid && isValidTime(tid) && (isValidNumberString(tid.hours) || isValidNumberString(tid.minutes))) {
-            cleanedTidEnkeltdag[key] = { tid };
+        const { varighet } = datoTid[key] || {};
+        if (
+            varighet &&
+            isValidTime(varighet) &&
+            (isValidNumberString(varighet.hours) || isValidNumberString(varighet.minutes))
+        ) {
+            cleanedTidEnkeltdag[key] = { varighet };
         }
     });
     return cleanedTidEnkeltdag;
@@ -39,8 +51,8 @@ export const summerDatoTidMap = (datoTid: DatoTidMap): number => {
         return (
             timer +
             timeToDecimalTime({
-                hours: datoTid[key].tid.hours || '0',
-                minutes: datoTid[key].tid.minutes || '0',
+                hours: datoTid[key].varighet.hours || '0',
+                minutes: datoTid[key].varighet.minutes || '0',
             })
         );
     }, 0);
@@ -73,16 +85,16 @@ export const getDagerMedTidITidsrom = (data: DatoTidMap, tidsrom: DateRange): Da
  * @param datoTid2 Tid 2
  * @returns boolean
  */
-export const datoTidErLik = (datoTid1: DatoTid, datoTid2: DatoTid): boolean => {
+export const datoTidErLik = (datoTid1: Tid, datoTid2: Tid): boolean => {
     if (datoTid1.prosent || datoTid2.prosent) {
         return datoTid1.prosent === datoTid2.prosent;
     }
-    return inputTimeToISODuration(datoTid1.tid) === inputTimeToISODuration(datoTid2.tid);
+    return inputTimeToISODuration(datoTid1.varighet) === inputTimeToISODuration(datoTid2.varighet);
 };
 
 interface PeriodeMedDatoTid {
     periode: DateRange;
-    tid: DatoTid;
+    tid: Tid;
     datoer: ISODate[];
 }
 
@@ -98,7 +110,7 @@ export const getPerioderMedLikTidIDatoTidMap = (datoTidMap: DatoTidMap): Periode
                 forrige,
             };
         })
-        .filter((dag) => (dag.tid.tid ? inputTimeDurationIsZero(dag.tid.tid) === false : false));
+        .filter((dag) => (dag.tid.varighet ? inputTimeDurationIsZero(dag.tid.varighet) === false : false));
 
     if (dagerMedTid.length === 0) {
         return [];

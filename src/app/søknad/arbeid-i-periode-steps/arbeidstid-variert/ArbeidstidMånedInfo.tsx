@@ -47,7 +47,11 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
     const dager: DatoTidMap = getDagerMedTidITidsrom(tidArbeidstid, måned);
     const dagerMedRegistrertArbeidstid: string[] = Object.keys(dager).filter((key) => {
         const datoTid = dager[key];
-        return datoTid !== undefined && datoTid.tid !== undefined && inputTimeDurationIsZero(datoTid.tid) === false;
+        return (
+            datoTid !== undefined &&
+            datoTid.varighet !== undefined &&
+            inputTimeDurationIsZero(datoTid.varighet) === false
+        );
     });
 
     const perioder = getPerioderMedLikTidIDatoTidMap(dager);
@@ -125,7 +129,7 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
                 onDateClick={
                     onEnkeltdagChange
                         ? (dato) => {
-                              const tid: Partial<InputTime> = dager[dateToISOString(dato)]?.tid || {
+                              const tid: Partial<InputTime> = dager[dateToISOString(dato)]?.varighet || {
                                   hours: '',
                                   minutes: '',
                               };

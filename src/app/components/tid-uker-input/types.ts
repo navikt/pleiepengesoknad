@@ -1,4 +1,4 @@
-import { InputTime } from '@navikt/sif-common-formik/lib';
+// import { InputTime } from '@navikt/sif-common-formik/lib';
 import { ISODate } from '../../types';
 
 export interface Daginfo {
@@ -11,7 +11,6 @@ export interface Daginfo {
     labelDag: string;
     labelDato: string;
     labelFull: string;
-    tid?: InputTime;
 }
 
 export interface Ukeinfo {

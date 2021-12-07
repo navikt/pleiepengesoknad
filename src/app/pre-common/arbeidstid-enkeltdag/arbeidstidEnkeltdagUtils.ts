@@ -1,17 +1,15 @@
 import { DateRange, InputTime } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
-import { Daginfo } from '../../components/tid-uker-input/types';
-import { getDagInfoForPeriode } from '../../components/tid-uker-input/utils';
 import { GjentagelseEnkeltdag, GjentagelseType } from './ArbeidstidEnkeltdagForm';
 import { DatoTidMap, ISODate } from '../../types';
 import { nthItemFilter } from '../../utils/common/arrayUtils';
-import { dateToISODate, getISOWeekdayFromISODate } from '../../utils/common/isoDateUtils';
-import { getMonthDateRange, getWeekDateRange } from '../../utils/common/dateRangeUtils';
+import { dateToISODate } from '../../utils/common/isoDateUtils';
+import { getDatesInDateRange, getMonthDateRange, getWeekDateRange } from '../../utils/common/dateRangeUtils';
 
 const getDagerMedInterval = (interval: number, periode: DateRange) => {
     const ukedag = dayjs(periode.from).isoWeekday();
-    const dagerIPeriodenDetErSøktFor = getDagInfoForPeriode(periode);
-    const dager = dagerIPeriodenDetErSøktFor.filter((dag) => getISOWeekdayFromISODate(dag.isoDate) === ukedag);
+    const datoer = getDatesInDateRange(periode, true);
+    const dager = datoer.filter((dato) => dayjs(dato).isoWeekday() === ukedag);
     return dager.filter((dag, index) => {
         return nthItemFilter(index, interval);
     });
@@ -19,7 +17,7 @@ const getDagerMedInterval = (interval: number, periode: DateRange) => {
 
 const getGjentagendeDager = (endringsperiode: DateRange, dato: Date, gjentagelse?: GjentagelseEnkeltdag): ISODate[] => {
     if (gjentagelse) {
-        let gjentagendeDager: Daginfo[] = [];
+        let gjentagendeDager: Date[] = [];
         const periode: DateRange = {
             from: dato,
             to: gjentagelse.tom || endringsperiode.to,
@@ -31,12 +29,12 @@ const getGjentagendeDager = (endringsperiode: DateRange, dato: Date, gjentagelse
             gjentagendeDager = getDagerMedInterval(2, periode);
         }
         if (gjentagelse.gjentagelsetype === GjentagelseType.heleUken) {
-            gjentagendeDager = getDagInfoForPeriode(getWeekDateRange(periode.from));
+            gjentagendeDager = getDatesInDateRange(getWeekDateRange(periode.from));
         }
         if (gjentagelse.gjentagelsetype === GjentagelseType.heleMåneden) {
-            gjentagendeDager = getDagInfoForPeriode(getMonthDateRange(periode.from));
+            gjentagendeDager = getDatesInDateRange(getMonthDateRange(periode.from));
         }
-        return gjentagendeDager.map((dag) => dag.isoDate);
+        return gjentagendeDager.map((date) => dateToISODate(date));
     }
     return [dateToISODate(dato)];
 };
@@ -44,14 +42,14 @@ const getGjentagendeDager = (endringsperiode: DateRange, dato: Date, gjentagelse
 export const getDagerMedNyArbeidstid = (
     endringsperiode: DateRange,
     dato: Date,
-    tid: InputTime,
+    varighet: InputTime,
     gjentagelse?: GjentagelseEnkeltdag
 ): DatoTidMap => {
     const datoerMedTid: DatoTidMap = {};
     const datoerSomSkalEndres = getGjentagendeDager(endringsperiode, dato, gjentagelse);
     datoerSomSkalEndres.forEach((isoDate) => {
-        datoerMedTid[isoDate] = { tid };
+        datoerMedTid[isoDate] = { varighet };
     });
-    datoerMedTid[dateToISODate(dato)] = { tid };
+    datoerMedTid[dateToISODate(dato)] = { varighet };
     return datoerMedTid;
 };

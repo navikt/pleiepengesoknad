@@ -23,23 +23,23 @@ const arbeidHistoriskPeriode: ArbeidIPeriode = {
     jobberIPerioden: JobberIPeriodeSvar.JA,
     erLiktHverUke: YesOrNo.NO,
     enkeltdager: {
-        '2021-02-01': { tid: { hours: '2' } },
+        '2021-02-01': { varighet: { hours: '2' } },
     },
 };
 
 const arbeidEnkeltdagerHistoriskPeriode: DatoTidMap = {
-    '2021-02-01': { tid: { hours: '2' } },
-    '2021-02-02': { tid: { hours: '2' } },
-    '2021-02-03': { tid: { hours: '2' } },
-    '2021-02-04': { tid: { hours: '2' } },
-    '2021-02-05': { tid: { hours: '2' } },
+    '2021-02-01': { varighet: { hours: '2' } },
+    '2021-02-02': { varighet: { hours: '2' } },
+    '2021-02-03': { varighet: { hours: '2' } },
+    '2021-02-04': { varighet: { hours: '2' } },
+    '2021-02-05': { varighet: { hours: '2' } },
 };
 
 const arbeidPlanlagtPeriode: ArbeidIPeriode = {
     jobberIPerioden: JobberIPeriodeSvar.JA,
     erLiktHverUke: YesOrNo.NO,
     enkeltdager: {
-        '2021-02-07': { tid: { hours: '2' } },
+        '2021-02-07': { varighet: { hours: '2' } },
     },
 };
 
