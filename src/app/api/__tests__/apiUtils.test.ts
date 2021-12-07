@@ -4,7 +4,7 @@ import { ResourceType } from '../../types/ResourceType';
 import { getApiUrlByResourceType, multipartConfig, sendMultipartPostRequest } from '../utils/apiUtils';
 
 const mockedApiUrl = 'mockedApiUrl';
-jest.mock('./../envUtils.ts', () => {
+jest.mock('../../utils/envUtils.ts', () => {
     return { getEnvironmentVariable: () => mockedApiUrl };
 });
 

@@ -15,14 +15,14 @@ import {
 } from '../api';
 
 const mockedApiUrl = 'nav.no/api';
-jest.mock('./../../utils/apiUtils', () => {
+jest.mock('../utils/apiUtils', () => {
     return {
         getApiUrlByResourceType: jest.fn(() => mockedApiUrl),
         sendMultipartPostRequest: jest.fn(),
     };
 });
 
-jest.mock('./../../utils/featureToggleUtils', () => {
+jest.mock('../../utils/featureToggleUtils', () => {
     return {
         isFeatureEnabled: jest.fn(() => false),
         Feature: {},
