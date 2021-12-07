@@ -1,10 +1,10 @@
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import dayjs from 'dayjs';
-import { uniq } from 'lodash';
 import isBetween from 'dayjs/plugin/isBetween';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import minMax from 'dayjs/plugin/minMax';
+import { uniq } from 'lodash';
 import moize from 'moize';
 import { dateIsWeekDay, getFirstWeekDayInMonth, getLastWeekDayInMonth } from './dateUtils';
 
@@ -32,13 +32,17 @@ const _getWeeksInDateRange = (range: DateRange): DateRange[] => {
     const weeks: DateRange[] = [];
     let current = dayjs(range.from);
     do {
-        const monthRange: DateRange = { from: current.toDate(), to: current.endOf('week').toDate() };
-        weeks.push({
-            from: monthRange.from,
-            to: dayjs(monthRange.to).isAfter(range.to, 'day') ? range.to : monthRange.to,
-        });
-        current = current.add(1, 'week').startOf('week');
+        const weekDateRange: DateRange = { from: current.toDate(), to: current.endOf('isoWeek').toDate() };
+        const rangeToPush: DateRange = {
+            from: weekDateRange.from,
+            to: dayjs(weekDateRange.to).isAfter(range.to, 'day') ? range.to : weekDateRange.to,
+        };
+        weeks.push(rangeToPush);
+        current = current.add(1, 'week').startOf('isoWeek');
     } while (current.isBefore(range.to, 'day'));
+    if (current.isSame(range.to, 'day')) {
+        weeks.push({ from: range.to, to: range.to });
+    }
     return weeks;
 };
 export const getWeeksInDateRange = moize(_getWeeksInDateRange);
@@ -60,7 +64,7 @@ export const getWeekDateRange = (date: Date, onlyWeekDays = false): DateRange =>
     return {
         from: dayjs(date).startOf('week').toDate(),
         to: dayjs(date)
-            .endOf('week')
+            .endOf('isoWeek')
             .subtract(onlyWeekDays ? 2 : 0, 'days')
             .toDate(),
     };

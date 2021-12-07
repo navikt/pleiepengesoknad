@@ -33,6 +33,7 @@ import ArbeidstidVariert from './arbeidstid-variert/ArbeidstidVariert';
 import AlertStripe, { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { søkerKunHelgedager } from '../../utils/formDataUtils';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import { getWeeksInDateRange } from '../../utils/common/dateRangeUtils';
 
 interface Props {
     parentFieldName: string;
@@ -62,8 +63,7 @@ export const getRedusertArbeidstidPerUkeInfo = (
     const normalTimer = getNumberFromNumberInputValue(jobberNormaltTimer);
     const prosent = getNumberFromNumberInputValue(skalJobbeProsent);
     if (normalTimer !== undefined && prosent !== undefined) {
-        const timerPerDag = normalTimer / 5;
-        const varighet = iso8601DurationToTime(getRedusertArbeidstidSomIso8601Duration(timerPerDag, prosent));
+        const varighet = iso8601DurationToTime(getRedusertArbeidstidSomIso8601Duration(normalTimer, prosent));
         if (varighet) {
             return intlHelper(intl, 'arbeidIPeriode.prosent.utledet.medTimer', {
                 timerNormalt: formatTimerOgMinutter(intl, decimalTimeToTime(normalTimer)),
@@ -147,14 +147,16 @@ const ArbeidIPeriodeSpørsmål = ({
 
     const { jobberIPerioden, timerEllerProsent, erLiktHverUke, skalJobbeProsent } = arbeidIPeriode || {};
 
-    const ErLiktHverUkeSpørsmål = () => (
+    const erKortPeriode = getWeeksInDateRange(periode).length < 4;
+
+    const JobbetLiktIHelePeriodenSpørsmål = () => (
         <SøknadFormComponents.YesOrNoQuestion
             name={getFieldName(ArbeidIPeriodeField.erLiktHverUke)}
             legend={erHistorisk ? 'Jobbet du likt i hele perioden?' : 'Skal du jobbe likt hver uke i hele perioden?'}
             validate={getArbeidErLiktHverUkeValidator(intlValues)}
             useTwoColumns={false}
             labels={{
-                no: 'Nei, det varierer fra uke til uke',
+                no: 'Nei, det varierer',
                 yes: 'Ja, hver uke er lik',
             }}
         />
@@ -187,6 +189,35 @@ const ArbeidIPeriodeSpørsmål = ({
         />
     );
 
+    const VariertArbeidSpørsmål = ({ kanLeggeTilPeriode }: { kanLeggeTilPeriode: boolean }) => (
+        <SøknadFormComponents.InputGroup
+            /** På grunn av at dialogen jobber mot ett felt i formik, kan ikke
+             * validate på dialogen brukes. Da vil siste periode alltid bli brukt ved validering.
+             * Derfor wrappes dialogen med denne komponenten, og et unikt name brukes - da blir riktig periode
+             * brukt.
+             * Ikke optimalt, men det virker.
+             */
+            name={`${getFieldName(ArbeidIPeriodeField.enkeltdager)}_dager` as any}
+            validate={() =>
+                validateArbeidsTidEnkeltdager(arbeidIPeriode?.enkeltdager || {}, periode, erHistorisk, intlValues)
+            }
+            tag="div">
+            <ArbeidstidVariert
+                arbeidstidSøknadIPeriode={
+                    erHistorisk ? arbeidsforhold.historisk?.enkeltdager : arbeidsforhold.planlagt?.enkeltdager
+                }
+                kanLeggeTilPeriode={kanLeggeTilPeriode}
+                jobberNormaltTimer={jobberNormaltTimer}
+                periode={periode}
+                intlValues={intlValues}
+                arbeidsstedNavn={arbeidsstedNavn}
+                søknadsdato={søknadsdato}
+                formFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
+                onArbeidstidChanged={() => setArbeidstidChanged(true)}
+            />
+        </SøknadFormComponents.InputGroup>
+    );
+
     return (
         <>
             <SøknadFormComponents.RadioPanelGroup
@@ -205,46 +236,21 @@ const ArbeidIPeriodeSpørsmål = ({
                     },
                 ]}
             />
-            {jobberIPerioden === JobberIPeriodeSvar.JA && (
+            {jobberIPerioden === JobberIPeriodeSvar.JA && erKortPeriode === true && (
+                <FormBlock>
+                    <VariertArbeidSpørsmål kanLeggeTilPeriode={false} />
+                </FormBlock>
+            )}
+            {jobberIPerioden === JobberIPeriodeSvar.JA && erKortPeriode === false && (
                 <FormBlock margin="m">
                     <FormBlock>
-                        <ErLiktHverUkeSpørsmål />
+                        <JobbetLiktIHelePeriodenSpørsmål />
                     </FormBlock>
 
                     {erLiktHverUke === YesOrNo.NO && (
                         <FormBlock>
-                            <SøknadFormComponents.InputGroup
-                                /** På grunn av at dialogen jobber mot ett felt i formik, kan ikke
-                                 * validate på dialogen brukes. Da vil siste periode alltid bli brukt ved validering.
-                                 * Derfor wrappes dialogen med denne komponenten, og et unikt name brukes - da blir riktig periode
-                                 * brukt.
-                                 * Ikke optimalt, men det virker.
-                                 */
-                                name={`${getFieldName(ArbeidIPeriodeField.enkeltdager)}_dager` as any}
-                                validate={() =>
-                                    validateArbeidsTidEnkeltdager(
-                                        arbeidIPeriode?.enkeltdager || {},
-                                        periode,
-                                        erHistorisk,
-                                        intlValues
-                                    )
-                                }
-                                tag="div">
-                                <ArbeidstidVariert
-                                    arbeidstidSøknadIPeriode={
-                                        erHistorisk
-                                            ? arbeidsforhold.historisk?.enkeltdager
-                                            : arbeidsforhold.planlagt?.enkeltdager
-                                    }
-                                    jobberNormaltTimer={jobberNormaltTimer}
-                                    periode={periode}
-                                    intlValues={intlValues}
-                                    arbeidsstedNavn={arbeidsstedNavn}
-                                    søknadsdato={søknadsdato}
-                                    formFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
-                                    onArbeidstidChanged={() => setArbeidstidChanged(true)}
-                                />
-                            </SøknadFormComponents.InputGroup>
+                            <VariertArbeidSpørsmål kanLeggeTilPeriode={true} />
+
                             {søkerKunHelgedager(periode.from, periode.to) && (
                                 <Box margin="xl">
                                     <AlertStripe type="advarsel">
