@@ -4,19 +4,20 @@ import { ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import { isValidTime } from '@navikt/sif-common-formik/lib/components/formik-time-input/TimeInput';
 import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
 import dayjs from 'dayjs';
-import { ISODateString } from 'nav-datovelger/lib/types';
-import { DatoTid, DatoTidMap, TidUkedager } from '../types';
+import { inputTimeDurationIsZero } from './common/inputTimeUtils';
 import { ISODateToDate } from './common/isoDateUtils';
 import { inputTimeToISODuration } from './common/isoDurationUtils';
-import { inputTimeDurationIsZero } from './common/inputTimeUtils';
+import { DatoTid, DatoTidMap, ISODate, TidUkedager } from '../types';
 
 const isValidNumberString = (value: any): boolean =>
     hasValue(value) && typeof value === 'string' && value.trim().length > 0;
 
 /**
- * Fjerner dager med ugyldige verdier
+ * Fjerner alle dager som har ugyldig tid
+ * @param datoTid
+ * @returns DatoTidMap
  */
-export const getValidEnkeltdager = (datoTid: DatoTidMap): DatoTidMap => {
+export const cleanupDatoTidMap = (datoTid: DatoTidMap): DatoTidMap => {
     const cleanedTidEnkeltdag: DatoTidMap = {};
     Object.keys(datoTid).forEach((key) => {
         const { tid } = datoTid[key] || {};
@@ -33,37 +34,32 @@ export const summerTidUkedager = (uke: TidUkedager): number => {
     }, 0);
 };
 
-export const summerTidEnkeltdager = (dager: DatoTidMap): number => {
-    return Object.keys(dager).reduce((timer: number, key: string) => {
+export const summerDatoTidMap = (datoTid: DatoTidMap): number => {
+    return Object.keys(datoTid).reduce((timer: number, key: string) => {
         return (
             timer +
             timeToDecimalTime({
-                hours: dager[key].tid.hours || '0',
-                minutes: dager[key].tid.minutes || '0',
+                hours: datoTid[key].tid.hours || '0',
+                minutes: datoTid[key].tid.minutes || '0',
             })
         );
     }, 0);
 };
 
-export const getTidEnkeltdagerInnenforPeriode = (dager: DatoTidMap, periode: DateRange): DatoTidMap => {
-    const dagerIPerioden: DatoTidMap = {};
-    Object.keys(dager).forEach((dag) => {
-        const dato = ISOStringToDate(dag);
-        if (dato && dayjs(dato).isBetween(periode.from, periode.to, 'day', '[]')) {
-            dagerIPerioden[dag] = dager[dag];
-        }
-    });
-    return dagerIPerioden;
-};
-
-export const getEnkeltdagerMedTidITidsrom = (data: DatoTidMap, tidsrom: DateRange): DatoTidMap => {
+/**
+ * Hent ut alle dager som har en tid i tidsrommet
+ * @param data
+ * @param tidsrom
+ * @returns DatoTidMap
+ */
+export const getDagerMedTidITidsrom = (data: DatoTidMap, tidsrom: DateRange): DatoTidMap => {
     const dager: DatoTidMap = {};
-    Object.keys(data || {}).forEach((isoDateString) => {
-        const date = ISOStringToDate(isoDateString);
+    Object.keys(data || {}).forEach((isoDate) => {
+        const date = ISOStringToDate(isoDate);
         if (date && datoErInnenforTidsrom(date, tidsrom)) {
-            const time = data[isoDateString];
+            const time = data[isoDate];
             if (time) {
-                dager[isoDateString] = time;
+                dager[isoDate] = time;
             }
         }
         return false;
@@ -71,12 +67,12 @@ export const getEnkeltdagerMedTidITidsrom = (data: DatoTidMap, tidsrom: DateRang
     return dager;
 };
 
-interface DatoTidPeriode {
-    periode: DateRange;
-    tid: DatoTid;
-    datoer: ISODateString[];
-}
-
+/**
+ * Sjekker om oppgitt tid er lik
+ * @param datoTid1 Tid 1
+ * @param datoTid2 Tid 2
+ * @returns boolean
+ */
 export const datoTidErLik = (datoTid1: DatoTid, datoTid2: DatoTid): boolean => {
     if (datoTid1.prosent || datoTid2.prosent) {
         return datoTid1.prosent === datoTid2.prosent;
@@ -84,14 +80,20 @@ export const datoTidErLik = (datoTid1: DatoTid, datoTid2: DatoTid): boolean => {
     return inputTimeToISODuration(datoTid1.tid) === inputTimeToISODuration(datoTid2.tid);
 };
 
-export const getPerioderFraDatoTidMap = (datoTidMap: DatoTidMap): DatoTidPeriode[] => {
+interface PeriodeMedDatoTid {
+    periode: DateRange;
+    tid: DatoTid;
+    datoer: ISODate[];
+}
+
+export const getPerioderMedLikTidIDatoTidMap = (datoTidMap: DatoTidMap): PeriodeMedDatoTid[] => {
     const dagerMedTid = Object.keys(datoTidMap)
         .sort((d1, d2): number => (dayjs(ISODateToDate(d1)).isBefore(ISODateToDate(d2), 'day') ? -1 : 1))
         .map((key, index, arr) => {
             const forrige = index > 0 ? { dato: arr[index - 1], tid: datoTidMap[arr[index - 1]] } : undefined;
             return {
                 dato: ISODateToDate(key),
-                isoDateString: key,
+                isoDate: key,
                 tid: datoTidMap[key],
                 forrige,
             };
@@ -105,24 +107,24 @@ export const getPerioderFraDatoTidMap = (datoTidMap: DatoTidMap): DatoTidPeriode
         return [
             {
                 periode: {
-                    from: ISODateToDate(dagerMedTid[0].isoDateString),
-                    to: ISODateToDate(dagerMedTid[0].isoDateString),
+                    from: ISODateToDate(dagerMedTid[0].isoDate),
+                    to: ISODateToDate(dagerMedTid[0].isoDate),
                 },
                 tid: dagerMedTid[0].tid,
-                datoer: [dagerMedTid[0].isoDateString],
+                datoer: [dagerMedTid[0].isoDate],
             },
         ];
     }
-    const perioder: DatoTidPeriode[] = [];
-    let startNyPeriode: ISODateString = dagerMedTid[0].isoDateString;
-    let datoerIPeriode: ISODateString[] = [];
-    dagerMedTid.forEach(({ isoDateString, tid, forrige }, index) => {
+    const perioder: PeriodeMedDatoTid[] = [];
+    let startNyPeriode: ISODate = dagerMedTid[0].isoDate;
+    let datoerIPeriode: ISODate[] = [];
+    dagerMedTid.forEach(({ isoDate, tid, forrige }, index) => {
         if (index > 0 && forrige) {
             if (datoTidErLik(forrige.tid, tid)) {
                 if (datoerIPeriode.length === 0) {
                     datoerIPeriode.push(startNyPeriode);
                 }
-                datoerIPeriode.push(isoDateString);
+                datoerIPeriode.push(isoDate);
             } else {
                 perioder.push({
                     periode: { from: ISODateToDate(startNyPeriode), to: ISODateToDate(forrige.dato) },
@@ -130,15 +132,15 @@ export const getPerioderFraDatoTidMap = (datoTidMap: DatoTidMap): DatoTidPeriode
                     datoer: [...datoerIPeriode],
                 });
                 datoerIPeriode = [];
-                startNyPeriode = isoDateString;
+                startNyPeriode = isoDate;
             }
         }
     });
 
     const sisteDag = dagerMedTid[dagerMedTid.length - 1];
-    if (startNyPeriode !== sisteDag.isoDateString) {
+    if (startNyPeriode !== sisteDag.isoDate) {
         perioder.push({
-            periode: { from: ISODateToDate(startNyPeriode), to: ISODateToDate(sisteDag.isoDateString) },
+            periode: { from: ISODateToDate(startNyPeriode), to: ISODateToDate(sisteDag.isoDate) },
             tid: sisteDag.tid,
             datoer: [...datoerIPeriode],
         });

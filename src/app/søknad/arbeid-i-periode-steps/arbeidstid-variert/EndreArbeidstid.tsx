@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import Knapperad from '@navikt/sif-common-core/lib/components/knapperad/Knapperad';
 import { DateRange, getNumberFromNumberInputValue, InputTime } from '@navikt/sif-common-formik/lib';
+import dayjs from 'dayjs';
 import { useFormikContext } from 'formik';
 import { Knapp } from 'nav-frontend-knapper';
+import ArbeidstidPeriodeDialog from '../../../pre-common/arbeidstid-periode/ArbeidstidPeriodeDialog';
+import { ArbeidstidPeriodeData } from '../../../pre-common/arbeidstid-periode/ArbeidstidPeriodeForm';
+import { dateToISODate, ISODateToDate } from '../../../utils/common/isoDateUtils';
+import { getDagInfoForPeriode } from '../../../components/tid-uker-input/utils';
 import { DatoTidMap, TidUkedager } from '../../../types';
 import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
-import { ArbeidstidPeriodeData } from '../../../pre-common/arbeidstid-periode/ArbeidstidPeriodeForm';
-import ArbeidstidPeriodeDialog from '../../../pre-common/arbeidstid-periode/ArbeidstidPeriodeDialog';
-import { ArbeidIPeriodeIntlValues } from '../ArbeidIPeriodeSpørsmål';
-import { getDagInfoForPeriode } from '../../../components/tid-uker-input/utils';
 import { getRedusertArbeidstidSomInputTime } from '../../../utils/formToApiMaps/tidsbrukApiUtils';
-import dayjs from 'dayjs';
-import { dateToISODate, ISODateToDate } from '../../../utils/common/isoDateUtils';
+import { ArbeidIPeriodeIntlValues } from '../ArbeidIPeriodeSpørsmål';
 
 interface Props {
     formFieldName: SøknadFormField;
@@ -23,18 +23,6 @@ interface Props {
     periode: DateRange;
     onAfterChange?: (tid: DatoTidMap) => void;
 }
-
-/** Returns ISODate array */
-// export const getDagerDetErSøktForIPeriode = (periode: DateRange, dagerSøktForMap: DagerSøktForMap): ISODate[] => {
-//     const dagerIPeriode = getDatoerIPeriode(periode);
-//     const dagerIPeriodeDetErSøktFor: ISODate[] = [];
-//     dagerIPeriode.forEach((dag) => {
-//         if (dagerSøktForMap[dag.isoDateString] === true) {
-//             dagerIPeriodeDetErSøktFor.push(dag.isoDateString);
-//         }
-//     });
-//     return dagerIPeriodeDetErSøktFor;
-// };
 
 const getTidForUkedag = (tid: TidUkedager, ukedag: number): InputTime | undefined => {
     switch (ukedag) {

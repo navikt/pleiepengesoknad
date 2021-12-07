@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import axios from 'axios';
 import { ResourceType } from '../../types/ResourceType';
-import { getApiUrlByResourceType, multipartConfig, sendMultipartPostRequest } from '../apiUtils';
+import { getApiUrlByResourceType, multipartConfig, sendMultipartPostRequest } from '../utils/apiUtils';
 
 const mockedApiUrl = 'mockedApiUrl';
 jest.mock('./../envUtils.ts', () => {

@@ -2,8 +2,7 @@ import { ApiStringDate } from '@navikt/sif-common-core/lib/types/ApiStringDate';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
-import { ISODateString } from 'nav-datovelger/lib/types';
-import { AndreYtelserFraNAV, ArbeidsforholdType, BarnRelasjon, JobberIPeriodeSvar } from './';
+import { AndreYtelserFraNAV, ArbeidsforholdType, BarnRelasjon, ISODate, JobberIPeriodeSvar } from './';
 
 export type ISO8601Duration = string;
 
@@ -78,7 +77,7 @@ export interface TidFasteDagerApiData {
     fredag?: ISO8601Duration;
 }
 export interface TidEnkeltdagApiData {
-    dato: ISODateString;
+    dato: ISODate;
     tid: ISO8601Duration;
 }
 

@@ -11,7 +11,7 @@ import { getMonthDateRange, getWeekDateRange } from '../../utils/common/dateRang
 const getDagerMedInterval = (interval: number, periode: DateRange) => {
     const ukedag = dayjs(periode.from).isoWeekday();
     const dagerIPeriodenDetErSøktFor = getDagInfoForPeriode(periode);
-    const dager = dagerIPeriodenDetErSøktFor.filter((dag) => getISOWeekdayFromISODate(dag.isoDateString) === ukedag);
+    const dager = dagerIPeriodenDetErSøktFor.filter((dag) => getISOWeekdayFromISODate(dag.isoDate) === ukedag);
     return dager.filter((dag, index) => {
         return nthItemFilter(index, interval);
     });
@@ -36,7 +36,7 @@ const getGjentagendeDager = (endringsperiode: DateRange, dato: Date, gjentagelse
         if (gjentagelse.gjentagelsetype === GjentagelseType.heleMåneden) {
             gjentagendeDager = getDagInfoForPeriode(getMonthDateRange(periode.from));
         }
-        return gjentagendeDager.map((dag) => dag.isoDateString);
+        return gjentagendeDager.map((dag) => dag.isoDate);
     }
     return [dateToISODate(dato)];
 };

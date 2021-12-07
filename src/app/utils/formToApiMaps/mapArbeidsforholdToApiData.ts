@@ -28,7 +28,7 @@ export const lagEnkeltdagerUtFraProsentIPeriode = (
     const tid = getRedusertArbeidstidSomIso8601Duration(jobberNormaltTimerNumber, skalJobbeProsent);
     return datoer.map(
         (dato): TidEnkeltdagApiData => ({
-            dato: dato.isoDateString,
+            dato: dato.isoDate,
             tid,
         })
     );

@@ -13,15 +13,16 @@ import isoWeek from 'dayjs/plugin/isoWeek';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import Knapp from 'nav-frontend-knapper';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import { DatoTidMap } from '../../types';
-import { getValidEnkeltdager } from '../../utils/datoTidUtils';
+import { DatoTidMap, ISODate } from '../../types';
+import { cleanupDatoTidMap } from '../../utils/datoTidUtils';
 import { TidPerDagValidator } from '../../validation/fieldValidations';
 import TidUkerInput from '../tid-uker-input/TidUkerInput';
 
 dayjs.extend(isoWeek);
 dayjs.extend(weekOfYear);
 
-type FormDatoTidMap = { [isoDateString: string]: Partial<InputTime> };
+type FormDatoTidMap = { [isoDate: ISODate]: Partial<InputTime> };
+
 interface Props {
     tittel: JSX.Element;
     intro?: JSX.Element;
@@ -56,7 +57,7 @@ const TidKalenderForm = ({ periode, tid, tittel, intro, tidPerDagValidator, onSu
                 tid: value,
             };
         });
-        onSubmit(getValidEnkeltdager(data));
+        onSubmit(cleanupDatoTidMap(data));
     };
 
     const mapDatoTidToFormDatoTid = (tid: DatoTidMap): FormDatoTidMap => {

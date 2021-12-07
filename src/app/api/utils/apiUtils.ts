@@ -1,7 +1,7 @@
 import axios from 'axios';
-import axiosConfig from '../config/axiosConfig';
-import { ResourceType } from '../types/ResourceType';
-import { getEnvironmentVariable } from './envUtils';
+import axiosConfig from '../../config/axiosConfig';
+import { ResourceType } from '../../types/ResourceType';
+import { getEnvironmentVariable } from '../../utils/envUtils';
 
 export const multipartConfig = { ...axiosConfig, headers: { 'Content-Type': 'multipart/form-data' } };
 export const axiosJsonConfig = { ...axiosConfig, headers: { 'Content-type': 'application/json; charset=utf-8' } };

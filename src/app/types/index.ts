@@ -16,7 +16,7 @@ export interface DatoTid {
     prosent?: number;
 }
 
-export type DatoTidMap = { [isoDateString: string]: DatoTid };
+export type DatoTidMap = { [isoDate: ISODate]: DatoTid };
 
 export enum TimerEllerProsent {
     PROSENT = 'prosent',
@@ -34,7 +34,6 @@ export enum BarnRelasjon {
 export enum JobberIPeriodeSvar {
     JA = 'JA',
     NEI = 'NEI',
-    // VET_IKKE = 'VET_IKKE',
 }
 
 export enum ArbeidsforholdType {

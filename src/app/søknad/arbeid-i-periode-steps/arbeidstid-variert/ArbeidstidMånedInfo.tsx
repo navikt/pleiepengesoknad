@@ -11,7 +11,7 @@ import FormattedTimeText from '../../../components/formatted-time-text/Formatted
 import TidsbrukKalender from '../../../components/tidsbruk-kalender/TidsbrukKalender';
 import { DatoTidMap } from '../../../types';
 import { inputTimeDurationIsZero } from '../../../utils/common/inputTimeUtils';
-import { getEnkeltdagerMedTidITidsrom, getPerioderFraDatoTidMap } from '../../../utils/datoTidUtils';
+import { getDagerMedTidITidsrom, getPerioderMedLikTidIDatoTidMap } from '../../../utils/datoTidUtils';
 
 interface Props {
     måned: DateRange;
@@ -44,13 +44,13 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
 
     const [editDate, setEditDate] = useState<{ dato: Date; tid: Partial<InputTime> } | undefined>();
 
-    const dager: DatoTidMap = getEnkeltdagerMedTidITidsrom(tidArbeidstid, måned);
+    const dager: DatoTidMap = getDagerMedTidITidsrom(tidArbeidstid, måned);
     const dagerMedRegistrertArbeidstid: string[] = Object.keys(dager).filter((key) => {
         const datoTid = dager[key];
         return datoTid !== undefined && datoTid.tid !== undefined && inputTimeDurationIsZero(datoTid.tid) === false;
     });
 
-    const perioder = getPerioderFraDatoTidMap(dager);
+    const perioder = getPerioderMedLikTidIDatoTidMap(dager);
 
     const erDagDelAvPerioder = (dato: Date): number => {
         return perioder.findIndex((p) => {

@@ -1,8 +1,8 @@
 import { InputTime } from '@navikt/sif-common-formik/lib';
-import { ISODateString } from 'nav-datovelger/lib/types';
+import { ISODate } from '../../types';
 
 export interface Daginfo {
-    isoDateString: ISODateString;
+    isoDate: ISODate;
     dato: Date;
     ukedag: number;
     årOgUke: string;

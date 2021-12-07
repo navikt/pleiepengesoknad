@@ -6,12 +6,7 @@ import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib
 import { ArbeidIPeriodeIntlValues } from '../søknad/arbeid-i-periode-steps/ArbeidIPeriodeSpørsmål';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
 import { DatoTidMap, TidUkedager } from '../types';
-import {
-    getValidEnkeltdager,
-    getTidEnkeltdagerInnenforPeriode,
-    summerTidEnkeltdager,
-    summerTidUkedager,
-} from '../utils/datoTidUtils';
+import { cleanupDatoTidMap, getDagerMedTidITidsrom, summerDatoTidMap, summerTidUkedager } from '../utils/datoTidUtils';
 import { AppFieldValidationErrors } from './fieldValidations';
 
 export const validateFasteArbeidstimerIUke = (
@@ -41,11 +36,11 @@ export const validateArbeidsTidEnkeltdager = (
     erHistorisk: boolean | undefined,
     intlValues: ArbeidIPeriodeIntlValues
 ): ValidationResult<ValidationError> => {
-    const tidIPerioden = getTidEnkeltdagerInnenforPeriode(tidMedArbeid, periode);
-    const validTidEnkeltdager = getValidEnkeltdager(tidIPerioden);
+    const tidIPerioden = getDagerMedTidITidsrom(tidMedArbeid, periode);
+    const validTidEnkeltdager = cleanupDatoTidMap(tidIPerioden);
     const hasElements = Object.keys(validTidEnkeltdager).length > 0;
 
-    if (!hasElements || summerTidEnkeltdager(validTidEnkeltdager) <= 0) {
+    if (!hasElements || summerDatoTidMap(validTidEnkeltdager) <= 0) {
         return {
             key: erHistorisk
                 ? `validation.arbeidIPeriode.enkeltdager.historisk.ingenTidRegistrert`

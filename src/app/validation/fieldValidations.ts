@@ -27,7 +27,7 @@ import isoWeek from 'dayjs/plugin/isoWeek';
 import minMax from 'dayjs/plugin/minMax';
 import { DatoTidMap } from '../types';
 import { SøknadFormField } from '../types/SøknadFormData';
-import { getTidEnkeltdagerInnenforPeriode, getValidEnkeltdager, summerTidEnkeltdager } from '../utils/datoTidUtils';
+import { getDagerMedTidITidsrom, cleanupDatoTidMap, summerDatoTidMap } from '../utils/datoTidUtils';
 
 dayjs.extend(minMax);
 dayjs.extend(isoWeek);
@@ -169,11 +169,11 @@ export const validateOmsorgstilbudEnkeltdagerIPeriode = (
     periode: DateRange,
     erHistorisk: boolean | undefined
 ) => {
-    const tidIPerioden = getTidEnkeltdagerInnenforPeriode(tidIOmsorgstilbud, periode);
-    const validTidEnkeltdager = getValidEnkeltdager(tidIPerioden);
+    const tidIPerioden = getDagerMedTidITidsrom(tidIOmsorgstilbud, periode);
+    const validTidEnkeltdager = cleanupDatoTidMap(tidIPerioden);
     const hasElements = Object.keys(validTidEnkeltdager).length > 0;
 
-    if (!hasElements || summerTidEnkeltdager(validTidEnkeltdager) <= 0) {
+    if (!hasElements || summerDatoTidMap(validTidEnkeltdager) <= 0) {
         return {
             key: erHistorisk
                 ? `validation.${SøknadFormField.omsorgstilbud__historisk__enkeltdager}.ingenTidRegistrert`

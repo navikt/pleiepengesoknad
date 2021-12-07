@@ -6,7 +6,7 @@ import { SøknadApiData } from '../types/SøknadApiData';
 import { SøknadFormData } from '../types/SøknadFormData';
 import { ResourceType } from '../types/ResourceType';
 import { Arbeidsgiver } from '../types/Søkerdata';
-import { getApiUrlByResourceType, axiosJsonConfig, sendMultipartPostRequest } from '../utils/apiUtils';
+import { getApiUrlByResourceType, axiosJsonConfig, sendMultipartPostRequest } from './utils/apiUtils';
 import { MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
 import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
 
