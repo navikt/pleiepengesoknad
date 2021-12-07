@@ -16,6 +16,8 @@ import { cleanupOmsorgstilbudStep } from './omsorgstilbudStepUtils';
 import PlanlagtOmsorgstilbudSpørsmål from './PlanlagtOmsorgstilbudSpørsmål';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import EksempelOmsorgstilbud from './EksempelOmsorgstilbud';
+import Alertstripe from 'nav-frontend-alertstriper';
+import { søkerKunHelgedager } from '../../utils/formDataUtils';
 
 dayjs.extend(isBetween);
 
@@ -104,6 +106,21 @@ const OmsorgstilbudStep = ({
                     onOmsorgstilbudChanged={() => setOmsorgstilbudChanged(true)}
                     søknadsdato={søknadsdato}
                 />
+            )}
+            {søkerKunHelgedager(values.periodeFra, values.periodeTil) && (
+                <Box margin="xl">
+                    <Alertstripe type="advarsel">
+                        <p>
+                            <FormattedMessage id="step.omsorgstilbud.søkerKunHelgedager.alert.avsnitt.1" />
+                        </p>
+                        <p>
+                            <FormattedMessage id="step.omsorgstilbud.søkerKunHelgedager.alert.avsnitt.2" />
+                        </p>
+                        <p>
+                            <FormattedMessage id="step.omsorgstilbud.søkerKunHelgedager.alert.avsnitt.3" />
+                        </p>
+                    </Alertstripe>
+                </Box>
             )}
         </SøknadFormStep>
     );

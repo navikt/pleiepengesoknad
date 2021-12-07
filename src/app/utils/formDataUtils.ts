@@ -1,5 +1,6 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import dayjs from 'dayjs';
 import { SøknadFormData } from '../types/SøknadFormData';
 
 export const getSøknadsperiodeFromFormData = ({
@@ -15,4 +16,20 @@ export const getSøknadsperiodeFromFormData = ({
         };
     }
     return undefined;
+};
+
+export const søkerKunHelgedager = (fom?: string | Date, tom?: string | Date): boolean => {
+    if (fom && tom) {
+        const fomDayJs = dayjs(fom);
+        const tomDayJs = dayjs(tom);
+
+        if ((fomDayJs.isoWeekday() === 6 || fomDayJs.isoWeekday() === 7) && fomDayJs.isSame(tomDayJs, 'day')) {
+            return true;
+        } else if (fomDayJs.isoWeekday() === 6 && tomDayJs.isSame(fomDayJs.add(1, 'd'), 'day')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    return false;
 };

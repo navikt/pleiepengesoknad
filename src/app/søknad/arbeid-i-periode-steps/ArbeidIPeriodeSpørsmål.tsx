@@ -30,7 +30,9 @@ import {
 import SøknadFormComponents from '../SøknadFormComponents';
 import { StepID } from '../søknadStepsConfig';
 import ArbeidstidVariert from './arbeidstid-variert/ArbeidstidVariert';
-import { AlertStripeFeil } from 'nav-frontend-alertstriper';
+import AlertStripe, { AlertStripeFeil } from 'nav-frontend-alertstriper';
+import { søkerKunHelgedager } from '../../utils/formDataUtils';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
 
 interface Props {
     parentFieldName: string;
@@ -243,6 +245,21 @@ const ArbeidIPeriodeSpørsmål = ({
                                     onArbeidstidChanged={() => setArbeidstidChanged(true)}
                                 />
                             </SøknadFormComponents.InputGroup>
+                            {søkerKunHelgedager(periode.from, periode.to) && (
+                                <Box margin="xl">
+                                    <AlertStripe type="advarsel">
+                                        <p>
+                                            <FormattedMessage id="arbeidIPeriode.søkerKunHelgedager.alert.avsnitt.1" />
+                                        </p>
+                                        <p>
+                                            <FormattedMessage id="arbeidIPeriode.søkerKunHelgedager.alert.avsnitt.2" />
+                                        </p>
+                                        <p>
+                                            <FormattedMessage id="arbeidIPeriode.søkerKunHelgedager.alert.avsnitt.3" />
+                                        </p>
+                                    </AlertStripe>
+                                </Box>
+                            )}
                         </FormBlock>
                     )}
 
