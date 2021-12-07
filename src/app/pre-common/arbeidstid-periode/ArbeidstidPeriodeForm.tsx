@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import { DateRange, getTypedFormComponents, UnansweredQuestionsInfo } from '@navikt/sif-common-formik/lib';
@@ -148,7 +147,7 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<Props> = ({
                                 <FormBlock>
                                     <FormComponents.RadioPanelGroup
                                         name={FormFields.tidFasteDagerEllerProsent}
-                                        legend="Hvordan ønsker du å oppgi hvor mye du skal jobbe disse dagene?"
+                                        legend={`Hvordan vil du oppgi hvor mye ${intlValues.skalEllerHarJobbet}?`}
                                         useTwoColumns={true}
                                         radios={[
                                             {
@@ -170,7 +169,7 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<Props> = ({
                                             name={FormFields.prosent}
                                             bredde="XS"
                                             maxLength={3}
-                                            label="Hvor mange prosent skal du jobbe i denne perioden?"
+                                            label={`Hvor mange prosent av din normale arbeidstid ${intlValues.skalEllerHarJobbet} du?`}
                                             // validate={getNumberValidator({ min: 0, max: 99 })}
                                             // description={
                                             //     <ExpandableInfo title="Viktig når du oppgir arbeidstid i prosent">
@@ -186,19 +185,9 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<Props> = ({
                                 {tidFasteDagerEllerProsent === TidFasteDagerEllerProsent.tidFasteDager && (
                                     <FormBlock>
                                         <FormComponents.InputGroup
-                                            legend={'Oppgi hvor mye du jobber disse ukedagene.'}
+                                            legend={`Oppgi hvor mye du ${intlValues.skalEllerHarJobbet}:`}
                                             validate={() => validateFasteArbeidstimerIUke(tidFasteDager, intlValues)}
-                                            name={'fasteDager_gruppe' as any}
-                                            description={
-                                                <ExpandableInfo title={'Hva betyr dette?'}>
-                                                    <p>Du skal bare fylle ut på den ukedagen du faktisk skal jobbe.</p>
-                                                    <p>
-                                                        Hvis du for eksempel skal jobbe 2 timer mandag og 4 timer
-                                                        fredag, må du fylle ut 2 timer for mandag og 4 timer for fredag.
-                                                        Du skal altså ikke fylle ut 6 timer på en og samme dag.
-                                                    </p>
-                                                </ExpandableInfo>
-                                            }>
+                                            name={'fasteDager_gruppe' as any}>
                                             <TidUkedagerInput name={FormFields.tidFasteDager} />
                                         </FormComponents.InputGroup>
                                     </FormBlock>
