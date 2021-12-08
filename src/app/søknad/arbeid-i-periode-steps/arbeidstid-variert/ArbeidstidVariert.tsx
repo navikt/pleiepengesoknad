@@ -71,9 +71,9 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
 
     return (
         <>
-            <Element>Hvor mye skal du jobbe?</Element>
-            {kanLeggeTilPeriode && (
+            {kanLeggeTilPeriode ? (
                 <>
+                    <Element tag="h3">Hvor mye skal du jobbe?</Element>
                     <Box margin="m">
                         <EndreArbeidstid
                             jobberNormaltTimer={jobberNormaltTimer}
@@ -85,15 +85,14 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                             onAfterChange={onArbeidstidChanged ? (tid) => onArbeidstidChanged(tid) : undefined}
                         />
                     </Box>
-                    <Box margin="l" padBottom="l">
-                        <Element>Registrert arbeidstid:</Element>
-                    </Box>
                 </>
-            )}
-            {kanLeggeTilPeriode === false && (
-                <p style={{ marginTop: '0.5rem' }}>
+            ) : (
+                <>
+                    <Box padBottom="m">
+                        <Element tag="h3">Hvor mye skal du jobbe?</Element>
+                    </Box>
                     Her skal du registrere hvor mye du {intlValues.skalEllerHarJobbet} de ulike dagene i denne perioden.
-                </p>
+                </>
             )}
             <FormBlock margin="l">
                 <SøknadsperioderMånedListe
