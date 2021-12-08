@@ -33,7 +33,6 @@ export const validateFasteArbeidstimerIUke = (
 export const validateArbeidsTidEnkeltdager = (
     tidMedArbeid: DatoTidMap,
     periode: DateRange,
-    erHistorisk: boolean | undefined,
     intlValues: ArbeidIPeriodeIntlValues
 ): ValidationResult<ValidationError> => {
     const tidIPerioden = getDagerMedTidITidsrom(tidMedArbeid, periode);
@@ -42,9 +41,7 @@ export const validateArbeidsTidEnkeltdager = (
 
     if (!hasElements || summerDatoTidMap(validTidEnkeltdager) <= 0) {
         return {
-            key: erHistorisk
-                ? `validation.arbeidIPeriode.enkeltdager.historisk.ingenTidRegistrert`
-                : `validation.arbeidIPeriode.enkeltdager.ingenTidRegistrert`,
+            key: `validation.arbeidIPeriode.enkeltdager.ingenTidRegistrert`,
             keepKeyUnaltered: true,
             values: intlValues,
         };
@@ -68,6 +65,19 @@ export const getArbeidstimerEnkeltdagValidator =
         }
         return undefined;
     };
+
+export const getArbeidstidEnkeltdagFormTidValidator = (time: InputTime): ValidationResult<ValidationError> => {
+    const error = time
+        ? getTimeValidator({ max: { hours: 24, minutes: 0 }, min: { hours: 0, minutes: 0 } })(time)
+        : undefined;
+    if (error) {
+        return {
+            key: `validation.arbeidstidEnkeltdagForm.tid.${error}`,
+            keepKeyUnaltered: true,
+        };
+    }
+    return undefined;
+};
 
 export const getArbeidstimerFastDagValidator =
     (dag: string) =>

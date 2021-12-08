@@ -31,14 +31,11 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
     måned,
     arbeidsstedNavn,
     tidArbeidstid,
-    // editLabel,
-    // addLabel,
     utilgjengeligeDatoer,
     månedTittelHeadingLevel = 2,
     periode,
     åpentEkspanderbartPanel,
     onEnkeltdagChange,
-    // onRequestEdit,
 }) => {
     const intl = useIntl();
 

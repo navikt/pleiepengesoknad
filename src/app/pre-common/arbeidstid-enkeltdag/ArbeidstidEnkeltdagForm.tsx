@@ -5,7 +5,6 @@ import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { DateRange, getTypedFormComponents, InputTime } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeValidator';
 import getIntlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import dayjs from 'dayjs';
@@ -16,6 +15,7 @@ import { ensureTime } from '../../utils/common/inputTimeUtils';
 import { DatoTidMap } from '../../types';
 import { getDagerMedNyArbeidstid } from './arbeidstidEnkeltdagUtils';
 import { getMonthDateRange, getNumberOfDaysInDateRange, getWeekDateRange } from '../../utils/common/dateRangeUtils';
+import { getArbeidstidEnkeltdagFormTidValidator } from '../../validation/validateArbeidFields';
 
 interface Props {
     dato: Date;
@@ -147,7 +147,7 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                                     label={`Hvor mye ${
                                         erHistorisk ? 'jobbet du' : 'skal du jobbe'
                                     } hos ${arbeidsstedNavn} ${dateFormatter.fullWithDayName(dato)}?`}
-                                    validate={getTimeValidator({ max: { hours: 24, minutes: 60 } })}
+                                    validate={getArbeidstidEnkeltdagFormTidValidator}
                                     timeInputLayout={{ justifyContent: 'left', compact: false, direction: 'vertical' }}
                                 />
                                 {includeSkalIkkeJobbe && (

@@ -198,9 +198,7 @@ const ArbeidIPeriodeSpørsmål = ({
              * Ikke optimalt, men det virker.
              */
             name={`${getFieldName(ArbeidIPeriodeField.enkeltdager)}_dager` as any}
-            validate={() =>
-                validateArbeidsTidEnkeltdager(arbeidIPeriode?.enkeltdager || {}, periode, erHistorisk, intlValues)
-            }
+            validate={() => validateArbeidsTidEnkeltdager(arbeidIPeriode?.enkeltdager || {}, periode, intlValues)}
             tag="div">
             <ArbeidstidVariert
                 arbeidstidSøknadIPeriode={
