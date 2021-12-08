@@ -27,6 +27,9 @@ const omsorgstilbudMessages = {
         'omsorgstilbud.timerPerDag.minutter': '{minutes}m',
         'omsorgstilbud.ingenDagerValgt': 'Ingen dager med tilsyn er registrert',
 
+        'omsorgstilbud.iPeriodePanel.info':
+            '{dager, plural, one {# dag} other {# dager}} med tid i omsorgstilbud registrert.',
+
         'omsorgstilbud.addLabel': 'Registrer omsorgstilbud {periode}',
         'omsorgstilbud.deleteLabel': 'Fjern alle timer',
         'omsorgstilbud.editLabel': 'Endre omsorgstilbud {periode}',

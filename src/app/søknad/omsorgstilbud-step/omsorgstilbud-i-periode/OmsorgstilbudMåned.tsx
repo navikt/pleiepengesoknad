@@ -1,8 +1,6 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import {
@@ -12,29 +10,28 @@ import {
 } from '@navikt/sif-common-formik';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import dayjs from 'dayjs';
-import Knapp from 'nav-frontend-knapper';
-import { Undertittel } from 'nav-frontend-typografi';
 import TidKalenderForm from '../../../components/tid-kalender-form/TidKalenderForm';
 import { DatoTidMap } from '../../../types';
-import { getDagerMedTidITidsrom } from '../../../utils/datoTidUtils';
 import { getTidIOmsorgValidator } from '../../../validation/validateOmsorgstilbudFields';
-import TidsbrukKalender from '../../../components/tidsbruk-kalender/TidsbrukKalender';
+import OmsorgstilbudMånedInfo from './OmsorgstilbudMånedInfo';
+import { getUtilgjengeligeDatoerIMåned } from '../../arbeid-i-periode-steps/utils/getUtilgjengeligeDatoerIMåned';
+import { getDagerMedTidITidsrom } from '../../../utils/datoTidUtils';
 
 interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, ValidationError> {
     name: FieldNames;
     labels: ModalFormAndInfoLabels;
+    måned: DateRange;
     periode: DateRange;
     søknadsdato: Date;
-    skjulTommeDagerIListe?: boolean;
     onAfterChange?: (omsorgsdager: DatoTidMap) => void;
 }
 
-function OmsorgstilbudInfoAndDialog<FieldNames>({
+function OmsorgstilbudMåned<FieldNames>({
     name,
     periode,
     labels,
     søknadsdato,
-    skjulTommeDagerIListe,
+    måned,
     validate,
     onAfterChange,
 }: Props<FieldNames>) {
@@ -53,7 +50,7 @@ function OmsorgstilbudInfoAndDialog<FieldNames>({
             formRenderer={({ onSubmit, onCancel, data = {} }) => {
                 return (
                     <TidKalenderForm
-                        periode={periode}
+                        periode={måned}
                         tid={data}
                         tittel={
                             <FormattedMessage
@@ -72,16 +69,14 @@ function OmsorgstilbudInfoAndDialog<FieldNames>({
                                         }
                                     />
                                 </p>
+                                <p>
+                                    <FormattedMessage id="omsorgstilbud.form.intro.2" />
+                                </p>
                                 <ExpandableInfo title={intlHelper(intl, 'omsorgstilbud.flereBarn.tittel')}>
                                     <p>
                                         <FormattedMessage id={'omsorgstilbud.flereBarn'} />
                                     </p>
                                 </ExpandableInfo>
-                                <p>
-                                    <strong>
-                                        <FormattedMessage id="omsorgstilbud.form.intro.2" />
-                                    </strong>
-                                </p>
                             </>
                         }
                         tidPerDagValidator={getTidIOmsorgValidator}
@@ -92,38 +87,18 @@ function OmsorgstilbudInfoAndDialog<FieldNames>({
             }}
             infoRenderer={({ data, onEdit }) => {
                 const omsorgsdager = getDagerMedTidITidsrom(data, periode);
-                const antallDager = Object.keys(omsorgsdager).length;
-                const tittelIdForAriaDescribedBy = `mndTittel_${dayjs(periode.from).format('MM_YYYY')}`;
-                // const måned = omsorgsdager.length > 0 ? omsorgsdager[0].dato : periode.from;
+                // const tittelIdForAriaDescribedBy = `mndTittel_${dayjs(periode.from).format('MM_YYYY')}`;
+                const utilgjengeligeDatoer = getUtilgjengeligeDatoerIMåned(måned.from, periode);
+
                 return (
-                    <>
-                        <Undertittel tag="h3" id={tittelIdForAriaDescribedBy}>
-                            <FormattedMessage
-                                id="omsorgstilbud.ukeOgÅr"
-                                values={{ ukeOgÅr: dayjs(periode.from).format('MMMM YYYY') }}
-                            />
-                        </Undertittel>
-                        <Box margin="s">
-                            {antallDager === 0 ? (
-                                <FormattedMessage tagName="p" id="omsorgstilbud.ingenDagerRegistrert" />
-                            ) : (
-                                <TidsbrukKalender
-                                    periode={periode}
-                                    dager={omsorgsdager}
-                                    skjulTommeDagerIListe={skjulTommeDagerIListe}
-                                />
-                            )}
-                        </Box>
-                        <FormBlock margin="l">
-                            <Knapp
-                                htmlType="button"
-                                mini={true}
-                                onClick={() => onEdit(data)}
-                                aria-describedby={tittelIdForAriaDescribedBy}>
-                                {antallDager === 0 ? labels.addLabel : labels.editLabel}
-                            </Knapp>
-                        </FormBlock>
-                    </>
+                    <OmsorgstilbudMånedInfo
+                        måned={måned}
+                        tidOmsorgstilbud={omsorgsdager}
+                        utilgjengeligeDatoer={utilgjengeligeDatoer}
+                        onRequestEdit={onEdit}
+                        editLabel={labels.editLabel}
+                        addLabel={labels.addLabel}
+                    />
                 );
             }}
             onAfterChange={onAfterChange}
@@ -131,4 +106,4 @@ function OmsorgstilbudInfoAndDialog<FieldNames>({
     );
 }
 
-export default OmsorgstilbudInfoAndDialog;
+export default OmsorgstilbudMåned;
