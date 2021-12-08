@@ -53,7 +53,7 @@ export const erFrilanserIPeriode = (
  * gjør at bruker ikke var frilanser i perioden
  */
 
-export const getPeriodeSomFrilanserInneforPeriode = (
+export const getPeriodeSomFrilanserInnenforPeriode = (
     periode: DateRange,
     frilans: {
         frilans_startdato?: string;

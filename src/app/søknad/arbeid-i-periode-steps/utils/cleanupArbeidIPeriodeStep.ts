@@ -10,7 +10,7 @@ import {
     ArbeidsforholdSNF,
     SøknadFormData,
 } from '../../../types/SøknadFormData';
-import { getPeriodeSomFrilanserInneforPeriode } from '../../../utils/frilanserUtils';
+import { getPeriodeSomFrilanserInnenforPeriode } from '../../../utils/frilanserUtils';
 
 dayjs.extend(minMax);
 
@@ -64,7 +64,7 @@ const cleanupArbeidsforholdFrilanser = (
     frilans_sluttdato?: string,
     frilans_jobberFortsattSomFrilans?: YesOrNo
 ): ArbeidsforholdSNF => {
-    const frilansPeriodeISøknadsperiode = getPeriodeSomFrilanserInneforPeriode(periode, {
+    const frilansPeriodeISøknadsperiode = getPeriodeSomFrilanserInnenforPeriode(periode, {
         frilans_sluttdato,
         frilans_startdato,
         frilans_jobberFortsattSomFrilans,

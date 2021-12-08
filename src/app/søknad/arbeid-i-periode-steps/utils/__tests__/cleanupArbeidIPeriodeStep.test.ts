@@ -4,7 +4,7 @@ import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
-import { getPeriodeSomFrilanserInneforPeriode } from '../../../../utils/frilanserUtils';
+import { getPeriodeSomFrilanserInnenforPeriode } from '../../../../utils/frilanserUtils';
 
 dayjs.extend(minMax);
 
@@ -18,7 +18,7 @@ describe('arbeidIPeriodeStepUtils', () => {
     };
     describe('getPeriodeSomFrilanserInneforPeriode', () => {
         it('returnerer opprinnelig periode når frilans startdato er før periode og er fortsatt frilanser', () => {
-            const result = getPeriodeSomFrilanserInneforPeriode(periode, {
+            const result = getPeriodeSomFrilanserInnenforPeriode(periode, {
                 frilans_startdato: '2021-01-01',
                 frilans_sluttdato: undefined,
                 frilans_jobberFortsattSomFrilans: YesOrNo.YES,
