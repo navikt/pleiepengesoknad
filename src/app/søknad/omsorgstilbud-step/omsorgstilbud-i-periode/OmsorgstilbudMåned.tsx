@@ -11,14 +11,17 @@ import {
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import dayjs from 'dayjs';
 import TidKalenderForm from '../../../components/tid-kalender-form/TidKalenderForm';
-import { DatoTidMap } from '../../../types';
+import { DatoTidMap, Tid } from '../../../types';
 import { getTidIOmsorgValidator } from '../../../validation/validateOmsorgstilbudFields';
 import OmsorgstilbudMånedInfo from './OmsorgstilbudMånedInfo';
 import { getUtilgjengeligeDatoerIMåned } from '../../arbeid-i-periode-steps/utils/getUtilgjengeligeDatoerIMåned';
 import { getDagerMedTidITidsrom } from '../../../utils/datoTidUtils';
+import { dateToISODate } from '../../../utils/common/isoDateUtils';
+import { SøknadFormData } from '../../../types/SøknadFormData';
+import { useFormikContext } from 'formik';
 
 interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, ValidationError> {
-    name: FieldNames;
+    formFieldName: FieldNames;
     labels: ModalFormAndInfoLabels;
     måned: DateRange;
     periode: DateRange;
@@ -27,7 +30,7 @@ interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, Va
 }
 
 function OmsorgstilbudMåned<FieldNames>({
-    name,
+    formFieldName,
     periode,
     labels,
     søknadsdato,
@@ -37,9 +40,11 @@ function OmsorgstilbudMåned<FieldNames>({
 }: Props<FieldNames>) {
     const intl = useIntl();
     const erHistorisk = dayjs(periode.to).isBefore(søknadsdato, 'day');
+    const { setFieldValue } = useFormikContext<SøknadFormData>() || {};
+
     return (
         <FormikModalFormAndInfo<FieldNames, DatoTidMap, ValidationError>
-            name={name}
+            name={formFieldName}
             validate={validate}
             labels={labels}
             renderEditButtons={false}
@@ -87,8 +92,14 @@ function OmsorgstilbudMåned<FieldNames>({
             }}
             infoRenderer={({ data, onEdit }) => {
                 const omsorgsdager = getDagerMedTidITidsrom(data, periode);
-                // const tittelIdForAriaDescribedBy = `mndTittel_${dayjs(periode.from).format('MM_YYYY')}`;
                 const utilgjengeligeDatoer = getUtilgjengeligeDatoerIMåned(måned.from, periode);
+
+                const handleOnEnkeltdagChange = (dato: Date, tid: Tid) => {
+                    const newValues = { ...data };
+                    newValues[dateToISODate(dato)] = tid;
+                    setFieldValue(formFieldName as any, newValues);
+                    onAfterChange ? onAfterChange(newValues) : undefined;
+                };
 
                 return (
                     <OmsorgstilbudMånedInfo
@@ -98,6 +109,7 @@ function OmsorgstilbudMåned<FieldNames>({
                         onRequestEdit={onEdit}
                         editLabel={labels.editLabel}
                         addLabel={labels.addLabel}
+                        onEnkeltdagChange={handleOnEnkeltdagChange}
                     />
                 );
             }}

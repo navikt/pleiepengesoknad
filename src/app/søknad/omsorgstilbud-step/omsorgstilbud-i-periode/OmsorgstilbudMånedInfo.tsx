@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import { DateRange } from '@navikt/sif-common-formik/lib';
+import { DateRange, dateToISOString, InputTime } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import { Knapp } from 'nav-frontend-knapper';
@@ -9,8 +9,9 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { inputTimeDurationIsZero } from '../../../utils/common/inputTimeUtils';
 import FormattedTimeText from '../../../components/formatted-time-text/FormattedTimeText';
 import TidsbrukKalender from '../../../components/tidsbruk-kalender/TidsbrukKalender';
-import { DatoTidMap } from '../../../types';
+import { DatoTidMap, Tid } from '../../../types';
 import { getDagerMedTidITidsrom } from '../../../utils/datoTidUtils';
+import OmsorgstilbudEnkeltdagDialog from '../../../pre-common/omsorgstilbud-enkeltdag/OmsorgstilbudEnkeltdagDialog';
 
 interface Props {
     måned: DateRange;
@@ -20,6 +21,7 @@ interface Props {
     utilgjengeligeDatoer?: Date[];
     månedTittelHeadingLevel?: number;
     åpentEkspanderbartPanel?: boolean;
+    onEnkeltdagChange?: (dato: Date, tid: Tid) => void;
     onRequestEdit: (tid: DatoTidMap) => void;
 }
 
@@ -28,11 +30,14 @@ const OmsorgstilbudMånedInfo: React.FunctionComponent<Props> = ({
     tidOmsorgstilbud,
     utilgjengeligeDatoer,
     månedTittelHeadingLevel = 2,
-    onRequestEdit,
     addLabel,
     editLabel,
     åpentEkspanderbartPanel,
+    onRequestEdit,
+    onEnkeltdagChange,
 }) => {
+    const [editDate, setEditDate] = useState<{ dato: Date; tid: Partial<InputTime> } | undefined>();
+
     const dager: DatoTidMap = getDagerMedTidITidsrom(tidOmsorgstilbud, måned);
     const dagerMedRegistrertOmsorgstilbud: string[] = Object.keys(dager).filter((key) => {
         const datoTid = dager[key];
@@ -91,12 +96,39 @@ const OmsorgstilbudMånedInfo: React.FunctionComponent<Props> = ({
                     }
                     return <FormattedTimeText time={tid} />;
                 }}
+                onDateClick={
+                    onEnkeltdagChange
+                        ? (dato) => {
+                              const tid: Partial<InputTime> = dager[dateToISOString(dato)]?.varighet || {
+                                  hours: '',
+                                  minutes: '',
+                              };
+                              setEditDate({ dato, tid });
+                          }
+                        : undefined
+                }
             />
             <FormBlock margin="l">
                 <Knapp htmlType="button" mini={true} onClick={() => onRequestEdit(tidOmsorgstilbud)}>
                     {dagerMedRegistrertOmsorgstilbud.length === 0 ? addLabel : editLabel}
                 </Knapp>
             </FormBlock>
+
+            {editDate && onEnkeltdagChange && (
+                <OmsorgstilbudEnkeltdagDialog
+                    isOpen={editDate !== undefined}
+                    dato={editDate.dato}
+                    tid={editDate.tid}
+                    onSubmit={(tid) => {
+                        setEditDate(undefined);
+                        setTimeout(() => {
+                            /** TimeOut pga komponent unmountes */
+                            onEnkeltdagChange(editDate.dato, tid);
+                        });
+                    }}
+                    onCancel={() => setEditDate(undefined)}
+                />
+            )}
         </Ekspanderbartpanel>
     );
 };

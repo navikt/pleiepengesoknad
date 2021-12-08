@@ -35,7 +35,7 @@ const OmsorgstilbudIPeriodeSpørsmål: React.FunctionComponent<Props> = ({
         return (
             <div key={dayjs(periode.from).format('MM.YYYY')} className="omsorgstilbudKalender__mnd">
                 <OmsorgstilbudMåned
-                    name={enkeltdagerFieldName}
+                    formFieldName={enkeltdagerFieldName}
                     måned={måned}
                     periode={periode}
                     søknadsdato={søknadsdato}
