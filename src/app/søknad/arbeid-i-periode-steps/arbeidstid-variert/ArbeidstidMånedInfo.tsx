@@ -11,7 +11,7 @@ import FormattedTimeText from '../../../components/formatted-time-text/Formatted
 import TidsbrukKalender from '../../../components/tidsbruk-kalender/TidsbrukKalender';
 import { DatoTidMap } from '../../../types';
 import { inputTimeDurationIsZero } from '../../../utils/common/inputTimeUtils';
-import { getDagerMedTidITidsrom, getPerioderMedLikTidIDatoTidMap } from '../../../utils/datoTidUtils';
+import { getDagerMedTidITidsrom } from '../../../utils/datoTidUtils';
 
 interface Props {
     måned: DateRange;
@@ -54,13 +54,13 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
         );
     });
 
-    const perioder = getPerioderMedLikTidIDatoTidMap(dager);
+    // const perioder = getPerioderMedLikTidIDatoTidMap(dager);
 
-    const erDagDelAvPerioder = (dato: Date): number => {
-        return perioder.findIndex((p) => {
-            return p.datoer.some((d) => d === dateToISOString(dato));
-        });
-    };
+    // const erDagDelAvPerioder = (dato: Date): number => {
+    //     return perioder.findIndex((p) => {
+    //         return p.datoer.some((d) => d === dateToISOString(dato));
+    //     });
+    // };
 
     return (
         <Ekspanderbartpanel
@@ -94,20 +94,21 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
                 utilgjengeligeDatoer={utilgjengeligeDatoer}
                 skjulTommeDagerIListe={true}
                 visEndringsinformasjon={false}
-                footerRenderer={(dato) => {
-                    if (1 + 1 === 3) {
-                        const periodeIndex = erDagDelAvPerioder(dato);
-                        return periodeIndex >= 0 ? (
-                            <div
-                                className={`kalenderPeriodeDag kalenderPeriodeDag--${
-                                    periodeIndex % 2 === 0 ? 'odd' : 'even'
-                                }`}>
-                                <span className="kalenderPeriodeDag__info">dato</span>
-                            </div>
-                        ) : undefined;
-                    }
-                    return undefined;
-                }}
+                // footerRenderer={(dato) => {
+                //     if (1 + 1 === 2) {
+                //         // test på rendering av periode
+                //         const periodeIndex = erDagDelAvPerioder(dato);
+                //         return periodeIndex >= 0 ? (
+                //             <div
+                //                 className={`kalenderPeriodeDag kalenderPeriodeDag--${
+                //                     periodeIndex % 2 === 0 ? 'odd' : 'even'
+                //                 }`}>
+                //                 <span className="kalenderPeriodeDag__info">dato</span>
+                //             </div>
+                //         ) : undefined;
+                //     }
+                //     return undefined;
+                // }}
                 tidRenderer={({ tid, prosent }) => {
                     if (prosent !== undefined && prosent > 0) {
                         return (
@@ -138,11 +139,6 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
                         : undefined
                 }
             />
-            {/* <FormBlock margin="l">
-                <AlertStripe type="info" form="inline">
-                    Klikk på en dag for å endre tid for den dagen
-                </AlertStripe>
-            </FormBlock> */}
             {editDate && onEnkeltdagChange && (
                 <ArbeidstidEnkeltdagDialog
                     isOpen={editDate !== undefined}
@@ -150,8 +146,11 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
                     tid={editDate.tid}
                     periode={periode}
                     onSubmit={(evt) => {
-                        onEnkeltdagChange(evt);
                         setEditDate(undefined);
+                        setTimeout(() => {
+                            /** TimeOut pga komponent unmountes */
+                            onEnkeltdagChange(evt);
+                        });
                     }}
                     onCancel={() => setEditDate(undefined)}
                     arbeidsstedNavn={arbeidsstedNavn}

@@ -84,11 +84,13 @@ const EndreArbeidstid: React.FunctionComponent<Props> = ({
             throw new Error('EndreArbeidstid - normaltimer is undefined');
         }
         const dagerMedArbeid = { ...arbeidstidSøknad, ...oppdaterDagerIPeriode(normalTimer, data) };
-        setFieldValue(formFieldName, dagerMedArbeid);
         setVisPeriode(false);
-        if (onAfterChange) {
-            onAfterChange(dagerMedArbeid);
-        }
+        setTimeout(() => {
+            setFieldValue(formFieldName, dagerMedArbeid);
+            if (onAfterChange) {
+                onAfterChange(dagerMedArbeid);
+            }
+        });
     };
 
     return (
