@@ -10,12 +10,12 @@ import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types'
 import { InputDateString } from 'nav-datovelger/lib/types';
 import { Undertittel } from 'nav-frontend-typografi';
 import TidUkedagerInput from '../../components/tid-ukedager-input/TidUkedagerInput';
-import { TidUkedager } from '../../types';
-import { getArbeidstidProsentValidator, validateFasteArbeidstimerIUke } from '../../validation/validateArbeidFields';
 import {
     ArbeidIPeriodeIntlValues,
     getRedusertArbeidstidPerUkeInfo,
 } from '../../søknad/arbeid-i-periode-steps/ArbeidIPeriodeSpørsmål';
+import { TidUkedager } from '../../types';
+import { getArbeidstidProsentValidator, validateFasteArbeidstimerIUke } from '../../validation/validateArbeidFields';
 
 interface Props {
     arbeidsstedNavn: string;

@@ -839,7 +839,7 @@
     "validation.arbeidIPeriode.jobberIPerioden.info.tittel": "Hvorfor spør vi om dette?",
     "validation.arbeidIPeriode.jobberIPerioden.info.tekst": "Vi spør om dette fordi pleiepengene skal graderes tilsvarende den tiden du jobber i pleiepengeperioden. Velg det som passer best i din situasjon.",
     "validation.arbeidIPeriode_redusertMerEnnNormalt": "Du må oppgi et timeantall som er lavere enn normalt arbeidstid for hvor mye du {skalEllerHarJobbet} {hvor}  {iPerioden}.",
-    "validation.arbeidIPeriode_prosentUgyldig": "Prosenten du kan oppgi er fra 1 til 99 prosent  for hvor mye du {skalEllerHarJobbet} {hvor} {iPerioden}.",
+    "validation.arbeidIPeriode_prosentUgyldig": "Prosenten du kan oppgi er fra 1 til 100 prosent  for hvor mye du {skalEllerHarJobbet} {hvor} {iPerioden}.",
     "validation.arbeidIPeriode.fasteDager.ingenTidRegistrert": "Du må oppgi hvor mange timer du {skalEllerHarJobbet} i uken {hvor} {iPerioden}.",
     "validation.arbeidIPeriode.fasteDager.forMangeTimer": "Du har oppgitt for mange timer du {skalEllerHarJobbet} i uken {hvor} {iPerioden}.",
     "validation.arbeidIPeriode.enkeltdager.ingenTidRegistrert": "Du må oppgi hvor mange timer du {skalEllerHarJobbet} {hvor} {iPerioden}.",

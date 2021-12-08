@@ -23,8 +23,6 @@ export const SKJEMANAVN = 'Søknad om pleiepenger';
 
 appSentryLogger.init();
 
-/** Trigger build */
-
 const localeFromSessionStorage = getLocaleFromSessionStorage();
 moment.locale(localeFromSessionStorage);
 dayjs.locale(localeFromSessionStorage);

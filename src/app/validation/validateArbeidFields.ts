@@ -99,7 +99,7 @@ export const getArbeidstidProsentValidator =
     (intlValues: ArbeidIPeriodeIntlValues, minMax?: { min: number; max: number }) => (value: any) => {
         const minMaxOptions = minMax || {
             min: 1,
-            max: 99,
+            max: 100,
         };
         const error = getNumberValidator({ required: true, ...minMaxOptions })(value);
         if (error) {
