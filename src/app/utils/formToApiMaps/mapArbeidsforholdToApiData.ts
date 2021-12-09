@@ -70,7 +70,6 @@ export const mapArbeidIPeriodeToApiData = (
         }
         return {
             ...apiData,
-            jobberIPerioden: JobberIPeriodeSvar.JA,
             erLiktHverUke: true,
             fasteDager: lagFasteDagerUtFraProsentIPeriode(jobberNormaltTimerNumber, skalJobbeProsentNumber),
             jobberProsent: skalJobbeProsentNumber,
@@ -82,7 +81,7 @@ export const mapArbeidIPeriodeToApiData = (
         arbeid.enkeltdager && !erLiktHverUke ? getEnkeltdagerIPeriodeApiData(arbeid.enkeltdager, periode) : undefined;
 
     return {
-        jobberIPerioden: JobberIPeriodeSvar.JA,
+        ...apiData,
         erLiktHverUke,
         enkeltdager: arbeidsperiode ? fjernTidUtenforPeriodeOgHelgedager(arbeidsperiode, enkeltdager) : enkeltdager,
         fasteDager: arbeid.fasteDager && erLiktHverUke ? getFasteDagerApiData(arbeid.fasteDager) : undefined,
