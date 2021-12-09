@@ -93,12 +93,12 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                     <p>
                         <Element>Du kan oppgi jobb som</Element>
                         <ul>
-                            <li>prosent i én eller flere perioder</li>
+                            <li>prosent for én eller flere perioder</li>
                             <li>timer per uke i én eller flere perioder</li>
                             <li>timer enkeltdager gjennom å velge dag i listen over måneder nedenfor</li>
                         </ul>
                     </p>
-                    <Box margin="m">
+                    <Box margin="xl">
                         <EndreArbeidstid
                             jobberNormaltTimer={jobberNormaltTimer}
                             intlValues={intlValues}
@@ -120,11 +120,10 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                     Her skal du registrere hvor mye du {intlValues.skalEllerHarJobbet} de ulike dagene i denne perioden.
                 </>
             )}
-            <FormBlock margin="xl">
-                <Box padBottom="l">
-                    {/* <Element tag="h3">Registrert jobb i {intlValues.iPerioden}</Element> */}
+            <FormBlock margin="l">
+                {/* <Box padBottom="l">
                     <Element tag="h3">Registrert jobb</Element>
-                </Box>
+                </Box> */}
                 <SøknadsperioderMånedListe
                     periode={periode}
                     årstallHeadingLevel={3}

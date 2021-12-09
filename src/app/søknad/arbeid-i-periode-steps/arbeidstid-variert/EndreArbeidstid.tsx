@@ -97,14 +97,7 @@ const EndreArbeidstid: React.FunctionComponent<Props> = ({
 
     return (
         <>
-            {/* <Box margin="l">
-                <Element>Slik kan du oppgi hvordan du jobber</Element>
-                <ul>
-                    <li>Prosent i en periode</li>
-                    <li>Du kan registrere en fast uke for en periode</li>
-                </ul>
-            </Box> */}
-            <Box margin="none" padBottom="l">
+            <Box padBottom="l">
                 <Knapperad align="left">
                     <Knapp htmlType="button" type="standard" onClick={() => setVisPeriode(true)} mini={true}>
                         Registrer jobb i periode
