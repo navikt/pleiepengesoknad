@@ -16,12 +16,13 @@ import {
 } from '../../søknad/arbeid-i-periode-steps/ArbeidIPeriodeSpørsmål';
 import { TidUkedager } from '../../types';
 import { getArbeidstidProsentValidator, validateFasteArbeidstimerIUke } from '../../validation/validateArbeidFields';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 
 interface Props {
     arbeidsstedNavn: string;
     rammePeriode: DateRange;
     intlValues: ArbeidIPeriodeIntlValues;
-    jobberNormaltTimer: string;
+    jobberNormaltTimer: number;
     onSubmit: (data: ArbeidstidPeriodeData) => void;
     onCancel: () => void;
 }
@@ -93,7 +94,7 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<Props> = ({
     return (
         <div>
             <Undertittel tag="h1" className={bem.element('tittel')}>
-                Periode med jobb - {arbeidsstedNavn}
+                <FormattedMessage id="arbeidstidPeriodeForm.tittel" values={{ arbeidsstedNavn }} />
             </Undertittel>
             <FormBlock margin="xl">
                 <FormComponents.FormikWrapper
@@ -110,13 +111,13 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<Props> = ({
                                 formErrorHandler={getIntlFormErrorHandler(intl, 'arbeidstidPeriode')}
                                 includeValidationSummary={true}
                                 includeButtons={visKnapper}
-                                submitButtonLabel="Ok"
-                                cancelButtonLabel="Avbryt">
+                                submitButtonLabel={intlHelper(intl, 'arbeidstidPeriodeForm.submitButtonLabel')}
+                                cancelButtonLabel={intlHelper(intl, 'arbeidstidPeriodeForm.cancelButtonLabel')}>
                                 <div style={{ maxWidth: '20rem' }}>
                                     <FormBlock>
                                         <FormComponents.DateIntervalPicker
                                             fromDatepickerProps={{
-                                                label: 'Fra og med',
+                                                label: intlHelper(intl, 'arbeidstidPeriodeForm.fraOgMed.label'),
                                                 name: FormFields.fom,
                                                 disableWeekend: true,
                                                 fullScreenOnMobile: true,
@@ -129,7 +130,7 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<Props> = ({
                                                     .validateFromDate,
                                             }}
                                             toDatepickerProps={{
-                                                label: 'Til og med',
+                                                label: intlHelper(intl, 'arbeidstidPeriodeForm.tilOgMed.label'),
                                                 name: FormFields.tom,
                                                 disableWeekend: true,
                                                 fullScreenOnMobile: true,
@@ -147,15 +148,25 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<Props> = ({
                                 <FormBlock>
                                     <FormComponents.RadioPanelGroup
                                         name={FormFields.tidFasteDagerEllerProsent}
-                                        legend={`Hvordan vil du oppgi hvor mye ${intlValues.skalEllerHarJobbet}?`}
+                                        legend={intlHelper(
+                                            intl,
+                                            'arbeidstidPeriodeForm.tidFasteDagerEllerProsent.label',
+                                            intlValues
+                                        )}
                                         useTwoColumns={true}
                                         radios={[
                                             {
-                                                label: 'I prosent',
+                                                label: intlHelper(
+                                                    intl,
+                                                    'arbeidstidPeriodeForm.tidFasteDagerEllerProsent.prosent'
+                                                ),
                                                 value: TidFasteDagerEllerProsent.prosent,
                                             },
                                             {
-                                                label: 'I timer',
+                                                label: intlHelper(
+                                                    intl,
+                                                    'arbeidstidPeriodeForm.tidFasteDagerEllerProsent.timer'
+                                                ),
                                                 value: TidFasteDagerEllerProsent.tidFasteDager,
                                             },
                                         ]}
@@ -169,13 +180,7 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<Props> = ({
                                             name={FormFields.prosent}
                                             bredde="XS"
                                             maxLength={3}
-                                            label={`Hvor mange prosent av din normale arbeidstid ${intlValues.skalEllerHarJobbet} du?`}
-                                            // validate={getNumberValidator({ min: 0, max: 99 })}
-                                            // description={
-                                            //     <ExpandableInfo title="Viktig når du oppgir arbeidstid i prosent">
-                                            //         Når du oppgir i prosent, betyr dette at.
-                                            //     </ExpandableInfo>
-                                            // }
+                                            label={intlHelper(intl, 'arbeidstidPeriodeForm.prosent.label', intlValues)}
                                             validate={getArbeidstidProsentValidator(intlValues, { min: 0, max: 100 })}
                                             suffix={getRedusertArbeidstidPerUkeInfo(intl, jobberNormaltTimer, prosent)}
                                             suffixStyle="text"
@@ -185,7 +190,11 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<Props> = ({
                                 {tidFasteDagerEllerProsent === TidFasteDagerEllerProsent.tidFasteDager && (
                                     <FormBlock>
                                         <FormComponents.InputGroup
-                                            legend={`Oppgi hvor mye du ${intlValues.skalEllerHarJobbet}:`}
+                                            legend={intlHelper(
+                                                intl,
+                                                'arbeidstidPeriodeForm.tidFasteDager.label',
+                                                intlValues
+                                            )}
                                             validate={() => validateFasteArbeidstimerIUke(tidFasteDager, intlValues)}
                                             name={'fasteDager_gruppe' as any}>
                                             <TidUkedagerInput name={FormFields.tidFasteDager} />

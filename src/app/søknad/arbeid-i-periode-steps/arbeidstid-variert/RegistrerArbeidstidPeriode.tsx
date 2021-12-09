@@ -2,25 +2,21 @@ import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { DateRange, getNumberFromNumberInputValue, InputTime } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
-import { useFormikContext } from 'formik';
 import { Knapp } from 'nav-frontend-knapper';
 import ArbeidstidPeriodeDialog from '../../../pre-common/arbeidstid-periode/ArbeidstidPeriodeDialog';
 import { ArbeidstidPeriodeData } from '../../../pre-common/arbeidstid-periode/ArbeidstidPeriodeForm';
 import { getDatesInDateRange } from '../../../utils/common/dateRangeUtils';
 import { dateToISODate, ISODateToDate } from '../../../utils/common/isoDateUtils';
 import { DatoTidMap, TidUkedager } from '../../../types';
-import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
 import { getRedusertArbeidstidSomInputTime } from '../../../utils/formToApiMaps/tidsbrukApiUtils';
 import { ArbeidIPeriodeIntlValues } from '../ArbeidIPeriodeSpørsmål';
 
 interface Props {
-    formFieldName: SøknadFormField;
     intlValues: ArbeidIPeriodeIntlValues;
-    jobberNormaltTimer: string;
+    jobberNormaltTimer: number;
     arbeidsstedNavn: string;
-    arbeidstidSøknad: DatoTidMap;
     periode: DateRange;
-    onAfterChange?: (tid: DatoTidMap) => void;
+    onPeriodeChange: (tid: DatoTidMap) => void;
 }
 
 const getTidForUkedag = (tid: TidUkedager, ukedag: number): InputTime | undefined => {
@@ -39,11 +35,13 @@ const getTidForUkedag = (tid: TidUkedager, ukedag: number): InputTime | undefine
     return undefined;
 };
 
-const oppdaterDagerIPeriode = (normalTimer: number, { fom, tom, prosent, tidFasteDager }: ArbeidstidPeriodeData) => {
+const oppdaterDagerIPeriode = (
+    normalTimer: number,
+    { fom, tom, prosent, tidFasteDager }: ArbeidstidPeriodeData
+): DatoTidMap => {
     const datoerIPeriode = getDatesInDateRange({ from: fom, to: tom });
     const dagerSomSkalEndres: DatoTidMap = {};
     const ingenTid: InputTime = { hours: '0', minutes: '0' };
-
     datoerIPeriode.forEach((dato) => {
         const isoDate = dateToISODate(dato);
         if (prosent !== undefined) {
@@ -67,28 +65,17 @@ const oppdaterDagerIPeriode = (normalTimer: number, { fom, tom, prosent, tidFast
 
 const RegistrerArbeidstidPeriode: React.FunctionComponent<Props> = ({
     intlValues,
-    arbeidstidSøknad,
-    formFieldName,
     arbeidsstedNavn,
     periode,
     jobberNormaltTimer,
-    onAfterChange,
+    onPeriodeChange,
 }) => {
     const [visPeriode, setVisPeriode] = useState(false);
-    const { setFieldValue } = useFormikContext<SøknadFormData>();
-    const normalTimer = getNumberFromNumberInputValue(jobberNormaltTimer);
 
-    const handleChangePeriode = (data: ArbeidstidPeriodeData) => {
-        if (normalTimer === undefined) {
-            throw new Error('RegistrerArbeidstidPeriode - normaltimer is undefined');
-        }
-        const dagerMedArbeid = { ...arbeidstidSøknad, ...oppdaterDagerIPeriode(normalTimer, data) };
+    const handleFormSubmit = (data: ArbeidstidPeriodeData) => {
         setVisPeriode(false);
         setTimeout(() => {
-            setFieldValue(formFieldName, dagerMedArbeid);
-            if (onAfterChange) {
-                onAfterChange(dagerMedArbeid);
-            }
+            onPeriodeChange(oppdaterDagerIPeriode(jobberNormaltTimer, data));
         });
     };
 
@@ -104,7 +91,7 @@ const RegistrerArbeidstidPeriode: React.FunctionComponent<Props> = ({
                 arbeidsstedNavn={arbeidsstedNavn}
                 isOpen={visPeriode}
                 onCancel={() => setVisPeriode(false)}
-                onSubmit={handleChangePeriode}
+                onSubmit={handleFormSubmit}
             />
         </>
     );

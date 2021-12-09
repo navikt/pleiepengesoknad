@@ -2,14 +2,16 @@ import React from 'react';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import Modal from 'nav-frontend-modal';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { ArbeidIPeriodeIntlValues } from '../../søknad/arbeid-i-periode-steps/ArbeidIPeriodeSpørsmål';
 import ArbeidstidPeriodeForm, { ArbeidstidPeriodeData } from './ArbeidstidPeriodeForm';
 import './arbeidstidPeriode.less';
-import { ArbeidIPeriodeIntlValues } from '../../søknad/arbeid-i-periode-steps/ArbeidIPeriodeSpørsmål';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { useIntl } from 'react-intl';
 
 interface Props {
     isOpen: boolean;
     arbeidsstedNavn: string;
-    jobberNormaltTimer: string;
+    jobberNormaltTimer: number;
     periode: DateRange;
     intlValues: ArbeidIPeriodeIntlValues;
     onSubmit: (arbeidstidPeriode: ArbeidstidPeriodeData) => void;
@@ -25,10 +27,11 @@ const ArbeidstidPeriodeDialog: React.FunctionComponent<Props> = ({
     onSubmit,
     onCancel,
 }) => {
+    const intl = useIntl();
     return isOpen ? (
         <Modal
             isOpen={isOpen}
-            contentLabel={`Legg til arbeidstid for flere dager`}
+            contentLabel={intlHelper(intl, 'arbeidstidPeriodeDialog.contentLabel')}
             onRequestClose={onCancel}
             shouldCloseOnOverlayClick={false}
             className="arbeidstidPeriodeDialog">

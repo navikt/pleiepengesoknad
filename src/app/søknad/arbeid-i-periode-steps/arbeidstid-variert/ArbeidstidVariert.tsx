@@ -14,14 +14,14 @@ import SøknadFormComponents from '../../SøknadFormComponents';
 import { ArbeidIPeriodeIntlValues } from '../ArbeidIPeriodeSpørsmål';
 import { getUtilgjengeligeDatoerIMåned } from '../utils/getUtilgjengeligeDatoerIMåned';
 import ArbeidstidMånedInfo from './ArbeidstidMånedInfo';
-import RegistrerArbeidstidPeriode from './EndreArbeidstid';
+import RegistrerArbeidstidPeriode from './RegistrerArbeidstidPeriode';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 
 interface Props {
     arbeidsstedNavn: string;
     formFieldName: SøknadFormField;
     periode: DateRange;
-    jobberNormaltTimer: string;
+    jobberNormaltTimer: number;
     arbeidstid?: DatoTidMap;
     intlValues: ArbeidIPeriodeIntlValues;
     kanLeggeTilPeriode: boolean;
@@ -46,6 +46,14 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
         const newValues = { ...arbeidstid, ...evt.dagerMedTid };
         setFieldValue(formFieldName as any, newValues);
         onArbeidstidChanged ? onArbeidstidChanged(newValues) : undefined;
+    };
+
+    const handleOnPeriodeChange = (data: DatoTidMap) => {
+        const dagerMedArbeid = { ...arbeidstid, ...data };
+        setFieldValue(formFieldName, dagerMedArbeid);
+        if (onArbeidstidChanged) {
+            onArbeidstidChanged(dagerMedArbeid);
+        }
     };
 
     const månedContentRenderer = (måned: DateRange) => {
@@ -94,10 +102,8 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                             jobberNormaltTimer={jobberNormaltTimer}
                             intlValues={intlValues}
                             periode={periode}
-                            formFieldName={formFieldName}
                             arbeidsstedNavn={arbeidsstedNavn}
-                            arbeidstidSøknad={arbeidstid}
-                            onAfterChange={onArbeidstidChanged ? (tid) => onArbeidstidChanged(tid) : undefined}
+                            onPeriodeChange={handleOnPeriodeChange}
                         />
                     </Box>
                     <FormBlock>

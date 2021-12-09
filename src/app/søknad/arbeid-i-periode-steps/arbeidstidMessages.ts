@@ -41,6 +41,17 @@ const arbeidstidMessages = {
         'arbeidstidVariert.kortPeriode.tittel': 'Hvor mye skal du jobbe?',
         'arbeidstidVariert.kortPeriode.info': 'Legg inn timer for enkeltdager ved å velge dag i aktuell måned.',
         'arbeidstidVariert.månedsliste.tittel': 'Registrert jobb',
+        'arbeidstidPeriodeDialog.contentLabel': 'Registrer jobb for en periode',
+        'arbeidstidPeriodeForm.tittel': 'Periode med jobb - {arbeidsstedNavn}',
+        'arbeidstidPeriodeForm.submitButtonLabel': 'Ok',
+        'arbeidstidPeriodeForm.cancelButtonLabel': 'Avbryt',
+        'arbeidstidPeriodeForm.fraOgMed.label': 'Fra og med',
+        'arbeidstidPeriodeForm.tilOgMed.label': 'Til og med',
+        'arbeidstidPeriodeForm.tidFasteDagerEllerProsent.label': 'Hvordan vil du oppgi hvor mye {skalEllerHarJobbet}?',
+        'arbeidstidPeriodeForm.tidFasteDagerEllerProsent.prosent': 'I prosent',
+        'arbeidstidPeriodeForm.tidFasteDagerEllerProsent.timer': 'I timer',
+        'arbeidstidPeriodeForm.prosent.label': 'Hvor mange prosent av din normale arbeidstid {skalEllerHarJobbet} du?',
+        'arbeidstidPeriodeForm.tidFasteDager.label': 'Oppgi hvor mye du ${skalEllerHarJobbet}:',
     },
 };
 

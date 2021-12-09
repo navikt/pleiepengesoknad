@@ -56,10 +56,11 @@ export type ArbeidIPeriodeIntlValues = {
 
 export const getRedusertArbeidstidPerUkeInfo = (
     intl: IntlShape,
-    jobberNormaltTimer: string | undefined,
+    jobberNormaltTimer: string | number | undefined,
     skalJobbeProsent: string | undefined
 ): string => {
-    const normalTimer = getNumberFromNumberInputValue(jobberNormaltTimer);
+    const normalTimer =
+        typeof jobberNormaltTimer === 'number' ? jobberNormaltTimer : getNumberFromNumberInputValue(jobberNormaltTimer);
     const prosent = getNumberFromNumberInputValue(skalJobbeProsent);
     if (normalTimer !== undefined && prosent !== undefined) {
         const varighet = iso8601DurationToTime(getRedusertArbeidstidSomIso8601Duration(normalTimer / 5, prosent));
@@ -102,6 +103,7 @@ const ArbeidIPeriodeSpørsmål = ({
     const { persist } = usePersistSoknad(history);
     const [arbeidstidChanged, setArbeidstidChanged] = useState(false);
     const { jobberNormaltTimer } = arbeidsforhold;
+    const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
 
     useEffect(() => {
         if (arbeidstidChanged === true) {
@@ -110,7 +112,7 @@ const ArbeidIPeriodeSpørsmål = ({
         }
     }, [erHistorisk, arbeidstidChanged, persist]);
 
-    if (jobberNormaltTimer === undefined) {
+    if (jobberNormaltTimerNumber === undefined) {
         return <AlertStripeFeil>Det mangler informasjon om hvor mye du jobber normalt</AlertStripeFeil>;
     }
 
@@ -215,7 +217,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                     : arbeidsforhold.planlagt?.enkeltdager
                             }
                             kanLeggeTilPeriode={false}
-                            jobberNormaltTimer={jobberNormaltTimer}
+                            jobberNormaltTimer={jobberNormaltTimerNumber}
                             periode={periode}
                             intlValues={intlValues}
                             arbeidsstedNavn={arbeidsstedNavn}
@@ -241,7 +243,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                             : arbeidsforhold.planlagt?.enkeltdager
                                     }
                                     kanLeggeTilPeriode={true}
-                                    jobberNormaltTimer={jobberNormaltTimer}
+                                    jobberNormaltTimer={jobberNormaltTimerNumber}
                                     periode={periode}
                                     intlValues={intlValues}
                                     arbeidsstedNavn={arbeidsstedNavn}
