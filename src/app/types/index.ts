@@ -1,7 +1,7 @@
 import { InputTime } from '@navikt/sif-common-formik/lib';
 
 /** Toggle fortid/fremtid */
-export const useFortidFremtid = false;
+export const useFortidFremtid = 1 + 1 === 2;
 
 export type ISODateRange = string;
 export type ISODuration = string;
