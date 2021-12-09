@@ -84,7 +84,9 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
             tag="div">
             {kanLeggeTilPeriode ? (
                 <>
-                    <Undertittel tag="h3">Registrere jobb når det varierer i perioden</Undertittel>
+                    <Undertittel tag="h3" style={{ fontSize: '1.125rem' }}>
+                        Registrere jobb når det varierer i perioden
+                    </Undertittel>
                     <p>
                         Når det varierer ...
                         {/* Du kan registrere jobb for flere perioder eller for enkeltdager. Enkeltdager registrerer du i
