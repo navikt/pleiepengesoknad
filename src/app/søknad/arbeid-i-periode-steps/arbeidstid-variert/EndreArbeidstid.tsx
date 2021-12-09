@@ -13,6 +13,7 @@ import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormDat
 import { getRedusertArbeidstidSomInputTime } from '../../../utils/formToApiMaps/tidsbrukApiUtils';
 import { ArbeidIPeriodeIntlValues } from '../ArbeidIPeriodeSpørsmål';
 import { getDatesInDateRange } from '../../../utils/common/dateRangeUtils';
+// import { Element } from 'nav-frontend-typografi';
 // import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 interface Props {
@@ -96,10 +97,13 @@ const EndreArbeidstid: React.FunctionComponent<Props> = ({
 
     return (
         <>
-            <p style={{ marginTop: 0 }}>
-                Du kan registrere jobb for flere perioder eller for enkeltdager. Enkeltdager registrerer du i listen
-                over måneder nedenfor.
-            </p>
+            {/* <Box margin="l">
+                <Element>Slik kan du oppgi hvordan du jobber</Element>
+                <ul>
+                    <li>Prosent i en periode</li>
+                    <li>Du kan registrere en fast uke for en periode</li>
+                </ul>
+            </Box> */}
             <Box margin="none" padBottom="l">
                 <Knapperad align="left">
                     <Knapp htmlType="button" type="standard" onClick={() => setVisPeriode(true)} mini={true}>

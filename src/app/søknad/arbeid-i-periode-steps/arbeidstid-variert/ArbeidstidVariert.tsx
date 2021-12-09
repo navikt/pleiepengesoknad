@@ -8,14 +8,13 @@ import { DatoTidMap } from '../../../types';
 import { SøknadFormField } from '../../../types/SøknadFormData';
 import { ArbeidIPeriodeIntlValues } from '../ArbeidIPeriodeSpørsmål';
 import ArbeidstidMåned from './ArbeidstidMåned';
-import { Element } from 'nav-frontend-typografi';
+import { Element, Undertittel } from 'nav-frontend-typografi';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import EndreArbeidstid from './EndreArbeidstid';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { getMonthsInDateRange } from '../../../utils/common/dateRangeUtils';
 import SøknadFormComponents from '../../SøknadFormComponents';
 import { validateArbeidsTidEnkeltdager } from '../../../validation/validateArbeidFields';
-import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 
 interface Props {
     arbeidsstedNavn: string;
@@ -85,32 +84,46 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
             tag="div">
             {kanLeggeTilPeriode ? (
                 <>
-                    <ResponsivePanel>
-                        <Element tag="h3">Hvor mye skal du jobbe?</Element>
-                        <Box margin="m">
-                            <EndreArbeidstid
-                                jobberNormaltTimer={jobberNormaltTimer}
-                                intlValues={intlValues}
-                                periode={periode}
-                                formFieldName={formFieldName}
-                                arbeidsstedNavn={arbeidsstedNavn}
-                                arbeidstidSøknad={arbeidstidSøknadIPeriode}
-                                onAfterChange={onArbeidstidChanged ? (tid) => onArbeidstidChanged(tid) : undefined}
-                            />
-                        </Box>
-                    </ResponsivePanel>
+                    <Undertittel tag="h3">Registrere jobb når det varierer i perioden</Undertittel>
+                    <p>
+                        Når det varierer ...
+                        {/* Du kan registrere jobb for flere perioder eller for enkeltdager. Enkeltdager registrerer du i
+                        listen over måneder nedenfor. */}
+                    </p>
+                    <p>
+                        <Element>Du kan oppgi jobb som</Element>
+                        <ul>
+                            <li>prosent i én eller flere perioder</li>
+                            <li>timer per uke i én eller flere perioder</li>
+                            <li>timer enkeltdager gjennom å velge dag i listen over måneder nedenfor</li>
+                        </ul>
+                    </p>
+                    <Box margin="m">
+                        <EndreArbeidstid
+                            jobberNormaltTimer={jobberNormaltTimer}
+                            intlValues={intlValues}
+                            periode={periode}
+                            formFieldName={formFieldName}
+                            arbeidsstedNavn={arbeidsstedNavn}
+                            arbeidstidSøknad={arbeidstidSøknadIPeriode}
+                            onAfterChange={onArbeidstidChanged ? (tid) => onArbeidstidChanged(tid) : undefined}
+                        />
+                    </Box>
                 </>
             ) : (
                 <>
                     <Box padBottom="m">
-                        <Element tag="h3">Hvor mye skal du jobbe?</Element>
+                        <Undertittel style={{ fontSize: '1.125rem' }} tag="h3">
+                            Hvor mye skal du jobbe?
+                        </Undertittel>
                     </Box>
                     Her skal du registrere hvor mye du {intlValues.skalEllerHarJobbet} de ulike dagene i denne perioden.
                 </>
             )}
             <FormBlock margin="xl">
                 <Box padBottom="l">
-                    <Element tag="h3">Registrert jobb i {intlValues.iPerioden}</Element>
+                    {/* <Element tag="h3">Registrert jobb i {intlValues.iPerioden}</Element> */}
+                    <Element tag="h3">Registrert jobb</Element>
                 </Box>
                 <SøknadsperioderMånedListe
                     periode={periode}
