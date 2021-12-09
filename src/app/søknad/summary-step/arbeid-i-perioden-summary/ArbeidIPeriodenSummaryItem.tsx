@@ -51,8 +51,8 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
                         : `oppsummering.arbeidIPeriode.jobberIPerioden.nei`,
                     intlTexts
                 );
-            case JobberIPeriodeSvar.VET_IKKE:
-                return intlHelper(intl, `oppsummering.arbeidIPeriode.jobberIPerioden.vetIkke`, intlTexts);
+            // case JobberIPeriodeSvar.VET_IKKE:
+            //     return intlHelper(intl, `oppsummering.arbeidIPeriode.jobberIPerioden.vetIkke`, intlTexts);
         }
     };
 

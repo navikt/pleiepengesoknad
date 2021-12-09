@@ -2,7 +2,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { HistoriskOmsorgstilbudApiData, PlanlagtOmsorgstilbudApiData, SøknadApiData } from '../../types/SøknadApiData';
 import { Omsorgstilbud } from '../../types/SøknadFormData';
-import { getHistoriskPeriode, getPlanlagtPeriode } from '../tidsbrukUtils';
+import { getHistoriskPeriode, getPlanlagtPeriode } from '../fortidFremtidUtils';
 import { getEnkeltdagerIPeriodeApiData, getFasteDagerApiData } from './tidsbrukApiUtils';
 
 type OmsorgstilbudApiDataPart = Pick<SøknadApiData, 'omsorgstilbud'>;

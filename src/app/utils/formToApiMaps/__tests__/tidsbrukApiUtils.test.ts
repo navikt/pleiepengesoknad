@@ -50,12 +50,12 @@ describe('tidsbrukApiUtils', () => {
         it('returnerer kun dager, sortert, som er innenfor tidsrom', () => {
             const result = getEnkeltdagerIPeriodeApiData(
                 {
-                    '2021-02-01': { hours: '1', minutes: '0' },
-                    '2021-02-05': { hours: '1', minutes: '0' },
-                    '2021-02-03': { hours: '1', minutes: '0' },
-                    '2021-02-02': { hours: '1', minutes: '0' },
-                    '2021-02-04': { hours: '1', minutes: '0' },
-                    '2021-02-06': { hours: '1', minutes: '0' },
+                    '2021-02-01': { varighet: { hours: '1', minutes: '0' } },
+                    '2021-02-05': { varighet: { hours: '1', minutes: '0' } },
+                    '2021-02-03': { varighet: { hours: '1', minutes: '0' } },
+                    '2021-02-02': { varighet: { hours: '1', minutes: '0' } },
+                    '2021-02-04': { varighet: { hours: '1', minutes: '0' } },
+                    '2021-02-06': { varighet: { hours: '1', minutes: '0' } },
                 },
                 periode
             );

@@ -1,0 +1,49 @@
+@import '../../../../node_modules/nav-frontend-core/less/core.less';
+
+.tidUkedagerInput {
+    display: flex;
+    align-items: stretch;
+    > * {
+        padding: 0;
+        min-width: 6.5rem;
+        flex: 1;
+        margin: 0 0.25rem 0 0;
+        &:first-child {
+            margin-left: 0;
+        }
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    @media (min-width: 601px) and (max-width: 736px) {
+        flex-wrap: wrap;
+        justify-content: left;
+        > * {
+            margin: 0.25rem;
+            &:nth-child(4) {
+                margin-left: 0;
+            }
+            min-width: 31%;
+            max-width: 31%;
+        }
+    }
+    @media (max-width: 600px) {
+        flex-wrap: wrap;
+        align-items: flex-start;
+        > * {
+            margin: 0.25rem;
+            &:nth-child(2n-1) {
+                margin-left: 0;
+            }
+            min-width: 48%;
+            max-width: 48%;
+        }
+    }
+    .skjemaelement.timeInput__hours {
+        margin-bottom: 0;
+    }
+    .skjemaelement.timeInput__minutes {
+        margin-bottom: 0;
+    }
+}

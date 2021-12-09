@@ -3,15 +3,21 @@ import { DateRange } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { SøknadFormData } from '../../types/SøknadFormData';
+import { getDagerMedTidITidsrom } from '../../utils/datoTidUtils';
+import { getHistoriskPeriode, getPlanlagtPeriode } from '../../utils/fortidFremtidUtils';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from '../../utils/stepUtils';
-import {
-    skalViseSpørsmålOmProsentEllerLiktHverUke,
-    getHistoriskPeriode,
-    getPlanlagtPeriode,
-    getTidEnkeltdagerInnenforPeriode,
-} from '../../utils/tidsbrukUtils';
 
 dayjs.extend(isBetween);
+
+export const MIN_ANTALL_DAGER_FOR_FAST_PLAN_I_OMSORGSTILBUD = 6;
+
+export const skalViseSpørsmålOmProsentEllerLiktHverUke = (periode: DateRange): boolean => {
+    const antallDager = dayjs(periode.to).diff(periode.from, 'days');
+    if (antallDager < MIN_ANTALL_DAGER_FOR_FAST_PLAN_I_OMSORGSTILBUD) {
+        return false;
+    }
+    return true;
+};
 
 export const cleanupOmsorgstilbudStep = (
     values: SøknadFormData,
@@ -43,7 +49,7 @@ export const cleanupOmsorgstilbudStep = (
             }
             if (cleanedValues.omsorgstilbud.planlagt.erLiktHverUke === YesOrNo.NO) {
                 cleanedValues.omsorgstilbud.planlagt.fasteDager = undefined;
-                cleanedValues.omsorgstilbud.planlagt.enkeltdager = getTidEnkeltdagerInnenforPeriode(
+                cleanedValues.omsorgstilbud.planlagt.enkeltdager = getDagerMedTidITidsrom(
                     cleanedValues.omsorgstilbud.planlagt.enkeltdager || {},
                     søknadsperiode
                 );
@@ -57,7 +63,7 @@ export const cleanupOmsorgstilbudStep = (
             cleanedValues.omsorgstilbud.harBarnVærtIOmsorgstilbud === YesOrNo.YES &&
             cleanedValues.omsorgstilbud.historisk
         ) {
-            cleanedValues.omsorgstilbud.historisk.enkeltdager = getTidEnkeltdagerInnenforPeriode(
+            cleanedValues.omsorgstilbud.historisk.enkeltdager = getDagerMedTidITidsrom(
                 cleanedValues.omsorgstilbud.historisk.enkeltdager || {},
                 periodeFørSøknadsdato
             );
@@ -67,7 +73,7 @@ export const cleanupOmsorgstilbudStep = (
             cleanedValues.omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES &&
             cleanedValues.omsorgstilbud.planlagt
         ) {
-            cleanedValues.omsorgstilbud.planlagt.enkeltdager = getTidEnkeltdagerInnenforPeriode(
+            cleanedValues.omsorgstilbud.planlagt.enkeltdager = getDagerMedTidITidsrom(
                 cleanedValues.omsorgstilbud.planlagt.enkeltdager || {},
                 periodeFraOgMedSøknadsdato
             );

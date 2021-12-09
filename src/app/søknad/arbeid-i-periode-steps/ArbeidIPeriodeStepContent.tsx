@@ -8,11 +8,12 @@ import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/d
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { useFormikContext } from 'formik';
-import ArbeidIPeriodeSpørsmål from './arbeid-i-periode/ArbeidIPeriodeSpørsmål';
 import { ArbeidsforholdType } from '../../types';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { erAnsattHosArbeidsgiverISøknadsperiode } from '../../utils/ansattUtils';
-import { getPeriodeSomFrilanserInneforPeriode } from '../../utils/frilanserUtils';
+import { getPeriodeSomFrilanserInnenforPeriode } from '../../utils/frilanserUtils';
+import { getPeriodeSomSelvstendigInnenforPeriode } from '../../utils/selvstendigUtils';
+import ArbeidIPeriodeSpørsmål from './ArbeidIPeriodeSpørsmål';
 
 interface Props {
     periode: DateRange;
@@ -29,6 +30,7 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk, søknadsdato }: Props
             frilans_arbeidsforhold,
             frilans_harHattInntektSomFrilanser,
             selvstendig_harHattInntektSomSN,
+            selvstendig_virksomhet,
             frilans_startdato,
             frilans_sluttdato,
             frilans_jobberFortsattSomFrilans,
@@ -37,13 +39,18 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk, søknadsdato }: Props
     } = formikProps;
 
     const erFrilanser = frilans_harHattInntektSomFrilanser === YesOrNo.YES && frilans_arbeidsforhold !== undefined;
+    const erSN = selvstendig_harHattInntektSomSN === YesOrNo.YES && selvstendig_virksomhet !== undefined;
 
     const arbeidsperiodeFrilans = erFrilanser
-        ? getPeriodeSomFrilanserInneforPeriode(periode, {
+        ? getPeriodeSomFrilanserInnenforPeriode(periode, {
               frilans_startdato,
               frilans_sluttdato,
               frilans_jobberFortsattSomFrilans,
           })
+        : undefined;
+
+    const arbeidsperiodeSelvstendig = erSN
+        ? getPeriodeSomSelvstendigInnenforPeriode(periode, selvstendig_virksomhet.fom)
         : undefined;
 
     const skalBesvareSelvstendig =
@@ -90,6 +97,7 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk, søknadsdato }: Props
                         return (
                             <FormSection title={arbeidsforhold.navn} key={arbeidsforhold.organisasjonsnummer}>
                                 <ArbeidIPeriodeSpørsmål
+                                    arbeidsstedNavn={arbeidsforhold.navn}
                                     arbeidsforholdType={ArbeidsforholdType.ANSATT}
                                     arbeidsforhold={arbeidsforhold}
                                     periode={periode}
@@ -106,6 +114,7 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk, søknadsdato }: Props
             {erFrilanser && frilans_arbeidsforhold && arbeidsperiodeFrilans && (
                 <FormSection title={intlHelper(intl, 'arbeidIPeriode.FrilansLabel')}>
                     <ArbeidIPeriodeSpørsmål
+                        arbeidsstedNavn="Frilanser"
                         arbeidsforholdType={ArbeidsforholdType.FRILANSER}
                         arbeidsforhold={frilans_arbeidsforhold}
                         periode={arbeidsperiodeFrilans}
@@ -115,12 +124,13 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk, søknadsdato }: Props
                     />
                 </FormSection>
             )}
-            {skalBesvareSelvstendig && selvstendig_arbeidsforhold && (
+            {skalBesvareSelvstendig && selvstendig_arbeidsforhold && arbeidsperiodeSelvstendig && (
                 <FormSection title={intlHelper(intl, 'arbeidIPeriode.SNLabel')}>
                     <ArbeidIPeriodeSpørsmål
+                        arbeidsstedNavn="Selvstendig næringsdrivende"
                         arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
                         arbeidsforhold={selvstendig_arbeidsforhold}
-                        periode={periode}
+                        periode={arbeidsperiodeSelvstendig}
                         parentFieldName={`${SøknadFormField.selvstendig_arbeidsforhold}`}
                         erHistorisk={erHistorisk}
                         søknadsdato={søknadsdato}

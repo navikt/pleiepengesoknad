@@ -2,6 +2,67 @@ html {
     font-size: 112.5%;
 }
 
+.arbeidstidKalender,
+.omsorgstilbudKalender {
+    &__mnd {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.55);
+        &:first-child {
+            padding-top: 0;
+            margin-top: 0;
+            border-top: none;
+        }
+    }
+}
+
+.m-comment {
+    font-size: 0.9rem;
+}
+
+.tidTimerOgProsent {
+    &__prosent {
+        display: block;
+    }
+    &__timer {
+        display: block;
+        margin-top: -0.25rem;
+        font-size: 14px;
+    }
+}
+
+.kalenderPeriodeDag {
+    position: absolute;
+    left: 0.25rem;
+    right: 0.25rem;
+    height: 0.25rem;
+    bottom: 0.25rem;
+
+    @media screen and (max-width: 500px) {
+        left: initial;
+        top: 0.25rem;
+        right: 0.25rem;
+        width: 0.5rem;
+        height: initial;
+    }
+    &--odd {
+        background-color: #66a5f4; //3386e0
+    }
+    &--even {
+        background-color: #33aa5f; //66c786; //33aa5f
+    }
+    &__info {
+        position: absolute;
+        width: 0;
+        height: 0;
+        visibility: hidden;
+    }
+}
+
+.tidsbrukTidDag {
+    font-size: 1.125rem;
+}
+
 .infoMessageContent {
     p:first-child {
         margin-top: 0;
@@ -41,3 +102,14 @@ html {
 .m-caps {
     text-transform: capitalize;
 }
+
+.radiogruppe.compactRadios {
+    > .skjemaelement {
+        margin-bottom: 0.5rem;
+    }
+}
+
+// .ekspanderbartPanel--underlined {
+//     border-bottom: 2px solid #a0a0a0;
+//     border-radius: 0;
+// }

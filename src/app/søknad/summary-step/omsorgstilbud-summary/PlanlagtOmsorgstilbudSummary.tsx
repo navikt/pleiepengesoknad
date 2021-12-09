@@ -6,8 +6,8 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import TidEnkeltdager from '../../../components/dager-med-tid/TidEnkeltdager';
 import TidFasteDager from '../../../components/dager-med-tid/TidFasteDager';
 import { PlanlagtOmsorgstilbudApiData } from '../../../types/SøknadApiData';
-import { getPlanlagtPeriode } from '../../../utils/tidsbrukUtils';
 import JaNeiSvar from '../enkeltsvar/JaNeiSvar';
+import { getPlanlagtPeriode } from '../../../utils/fortidFremtidUtils';
 
 interface Props {
     omsorgstilbud?: PlanlagtOmsorgstilbudApiData;

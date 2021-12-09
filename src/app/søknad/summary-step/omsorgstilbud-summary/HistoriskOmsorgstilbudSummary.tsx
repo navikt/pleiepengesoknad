@@ -2,12 +2,12 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-with-header/ContentWithHeader';
+import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { HistoriskOmsorgstilbudApiData } from '../../../types/SøknadApiData';
 import TidEnkeltdager from '../../../components/dager-med-tid/TidEnkeltdager';
-import { getHistoriskPeriode } from '../../../utils/tidsbrukUtils';
-import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
+import { HistoriskOmsorgstilbudApiData } from '../../../types/SøknadApiData';
+import { getHistoriskPeriode } from '../../../utils/fortidFremtidUtils';
 
 interface Props {
     historiskOmsorgstilbud?: HistoriskOmsorgstilbudApiData;

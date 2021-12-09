@@ -1,4 +1,5 @@
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { useFortidFremtid } from '../types';
 import { SøknadFormData } from '../types/SøknadFormData';
 import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
 import { getSøknadRoute } from '../utils/routeUtils';
@@ -13,6 +14,7 @@ export enum StepID {
     'ARBEIDSSITUASJON' = 'arbeidssituasjon',
     'ARBEID_HISTORISK' = 'arbeidHistorisk',
     'ARBEID_PLANLAGT' = 'arbeidPlanlagt',
+    'ARBEIDSTID' = 'arbeidstid',
     'OMSORGSTILBUD' = 'omsorgstilbud',
     'NATTEVÅK_OG_BEREDSKAP' = 'nattevåkOgBeredskap',
     'TIDSROM' = 'tidsrom',
@@ -71,11 +73,13 @@ export const getSøknadStepConfig = (formValues?: SøknadFormData): StepConfigIn
         { stepID: StepID.OPPLYSNINGER_OM_BARNET, included: true },
         { stepID: StepID.TIDSROM, included: true },
         { stepID: StepID.ARBEIDSSITUASJON, included: true },
-        { stepID: StepID.ARBEID_HISTORISK, included: includeHistoriskArbeid },
+
+        { stepID: StepID.ARBEID_HISTORISK, included: useFortidFremtid && includeHistoriskArbeid },
         {
             stepID: StepID.ARBEID_PLANLAGT,
-            included: includePlanlagtArbeid,
+            included: useFortidFremtid && includePlanlagtArbeid,
         },
+        { stepID: StepID.ARBEIDSTID, included: useFortidFremtid === false },
         { stepID: StepID.OMSORGSTILBUD, included: true },
         { stepID: StepID.NATTEVÅK_OG_BEREDSKAP, included: includeNattevåkAndBeredskap },
         { stepID: StepID.MEDLEMSKAP, included: true },

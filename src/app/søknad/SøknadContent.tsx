@@ -15,7 +15,6 @@ import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
 import { getKvitteringInfoFromApiData } from '../utils/kvitteringUtils';
 import { navigateTo, navigateToErrorPage, relocateToLoginPage } from '../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../utils/routeUtils';
-import { getHistoriskPeriode, getPlanlagtPeriode } from '../utils/tidsbrukUtils';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
@@ -29,6 +28,8 @@ import OmsorgstilbudStep from './omsorgstilbud-step/OmsorgstilbudStep';
 import OpplysningerOmBarnetStep from './opplysninger-om-barnet-step/OpplysningerOmBarnetStep';
 import SummaryStep from './summary-step/SummaryStep';
 import OpplysningerOmTidsromStep from './tidsrom-step/OpplysningerOmTidsromStep';
+import { getHistoriskPeriode, getPlanlagtPeriode } from '../utils/fortidFremtidUtils';
+import ArbeidstidStep from './arbeid-i-periode-steps/ArbeidstidStep';
 
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
@@ -142,6 +143,19 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                             onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEIDSSITUASJON)}
                             søknadsdato={søknadsdato}
                             søknadsperiode={søknadsperiode}
+                        />
+                    )}
+                />
+            )}
+
+            {isAvailable(StepID.ARBEIDSTID, values) && søknadsperiode && (
+                <Route
+                    path={getSøknadRoute(StepID.ARBEIDSTID)}
+                    render={() => (
+                        <ArbeidstidStep
+                            periode={søknadsperiode}
+                            søknadsdato={søknadsdato}
+                            onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEIDSTID)}
                         />
                     )}
                 />

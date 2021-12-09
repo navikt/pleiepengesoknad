@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { TidEnkeltdag } from '../../types';
+import { DatoTidMap } from '../../types';
 import { Omsorgstilbud } from '../../types/SøknadFormData';
 import { mapPlanlagtOmsorgstilbudToApiData } from '../formToApiMaps/omsorgstilbudApiData';
 import { getEnkeltdagerIPeriodeApiData } from '../formToApiMaps/tidsbrukApiUtils';
@@ -60,18 +60,18 @@ describe('mapOmsorgstilbudToApiData test', () => {
         });
     });
     describe('getEnkeltdager', () => {
-        const enkeltdager: TidEnkeltdag = {
-            '2021-06-01': { hours: '2', minutes: '30' },
-            '2021-06-02': { hours: '2', minutes: '31' },
-            '2021-07-01': { hours: '2', minutes: '32' },
+        const enkeltdager: DatoTidMap = {
+            '2021-06-01': { varighet: { hours: '2', minutes: '30' } },
+            '2021-06-02': { varighet: { hours: '2', minutes: '31' } },
+            '2021-07-01': { varighet: { hours: '2', minutes: '32' } },
         };
 
         it(`returns only days within søknadsperiode - 1`, () => {
             const result = getEnkeltdagerIPeriodeApiData(
                 {
                     ...enkeltdager,
-                    '2021-05-30': { hours: '2', minutes: '30' }, // To early
-                    '2021-07-02': { hours: '2', minutes: '30' }, // To late
+                    '2021-05-30': { varighet: { hours: '2', minutes: '30' } }, // To early
+                    '2021-07-02': { varighet: { hours: '2', minutes: '30' } }, // To late
                 },
                 {
                     from: new Date(2021, 5, 1),
@@ -88,8 +88,8 @@ describe('mapOmsorgstilbudToApiData test', () => {
             const result = getEnkeltdagerIPeriodeApiData(
                 {
                     ...enkeltdager,
-                    '2021-05-30': { hours: '2', minutes: '30' },
-                    '2021-07-02': { hours: '4', minutes: '40' },
+                    '2021-05-30': { varighet: { hours: '2', minutes: '30' } },
+                    '2021-07-02': { varighet: { hours: '4', minutes: '40' } },
                 },
                 {
                     from: new Date(2021, 6, 2),

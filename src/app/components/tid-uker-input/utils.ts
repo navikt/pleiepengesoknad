@@ -13,7 +13,7 @@ const getEmptyElements = (num: number): JSX.Element[] | undefined => {
 export const getDagInfo = (date: Date): Daginfo => {
     const dayjsDato = dayjs(date);
     return {
-        isoDateString: dateToISOString(dayjsDato.toDate()),
+        isoDate: dateToISOString(dayjsDato.toDate()),
         dato: dayjsDato.toDate(),
         ukedag: dayjsDato.isoWeekday(),
         ukenummer: dayjsDato.isoWeek(),
@@ -25,7 +25,7 @@ export const getDagInfo = (date: Date): Daginfo => {
     };
 };
 
-export const getDatoerIPeriode = ({ from, to }: DateRange): Daginfo[] => {
+export const getDagInfoForPeriode = ({ from, to }: DateRange): Daginfo[] => {
     const dager: Daginfo[] = [];
     let dayjsDato = dayjs(from);
     while (dayjsDato.isSameOrBefore(to, 'day')) {
@@ -47,7 +47,7 @@ export const getUkerFraDager = (dager: Daginfo[]): Ukeinfo[] => {
     return uker;
 };
 
-export const getTidKalenderFieldName = (fieldName: string, dag: Daginfo): string => `${fieldName}.${dag.isoDateString}`;
+export const getTidKalenderFieldName = (fieldName: string, dag: Daginfo): string => `${fieldName}.${dag.isoDate}`;
 
 export const getForegåendeDagerIUke = (dag: Daginfo): Daginfo[] => {
     const dager = getEmptyElements(dag.ukedag - 1);

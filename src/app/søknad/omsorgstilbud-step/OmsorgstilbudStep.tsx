@@ -16,6 +16,10 @@ import { cleanupOmsorgstilbudStep } from './omsorgstilbudStepUtils';
 import PlanlagtOmsorgstilbudSpørsmål from './PlanlagtOmsorgstilbudSpørsmål';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import EksempelOmsorgstilbud from './EksempelOmsorgstilbud';
+import Alertstripe from 'nav-frontend-alertstriper';
+import { søkerKunHelgedager } from '../../utils/formDataUtils';
+import OmsorgstilbudSpørsmålHelePerioden from './OmsorgstilbudSpørsmålHelePerioden';
+import { useFortidFremtid } from '../../types';
 
 dayjs.extend(isBetween);
 
@@ -54,54 +58,83 @@ const OmsorgstilbudStep = ({
             id={StepID.OMSORGSTILBUD}
             onStepCleanup={(values) => cleanupOmsorgstilbudStep(values, søknadsperiode, søknadsdato)}
             onValidFormSubmit={onValidSubmit}>
-            <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
-                <p>
-                    <FormattedMessage id="steg.omsorgstilbud.veileder.ny.1" />
-                </p>
-                <p>
-                    <FormattedMessage id="steg.omsorgstilbud.veileder.ny.2" />
-                </p>
-                <p>
-                    <FormattedMessage id="steg.omsorgstilbud.veileder.ny.3a" />{' '}
-                    <strong>
-                        <FormattedMessage id="steg.omsorgstilbud.veileder.ny.3b" />
-                    </strong>{' '}
-                    <FormattedMessage id="steg.omsorgstilbud.veileder.ny.3c" />
-                </p>
-                <p>
-                    <FormattedMessage id="steg.omsorgstilbud.veileder.ny.4" />
-                </p>
-                <Box>
-                    <EksempelOmsorgstilbud />
-                </Box>
-            </CounsellorPanel>
-            {periodeFørSøknadsdato && (
-                <HistoriskOmsorgstilbudSpørsmål
-                    periode={periodeFørSøknadsdato}
-                    omsorgstilbud={omsorgstilbud}
-                    tittel={intlHelper(
-                        intl,
-                        harBådeHistoriskOgPlanlagt
-                            ? 'steg.omsorgstilbud.historisk.tittel'
-                            : 'steg.omsorgstilbud.generelt.tittel'
+            <Box padBottom="xl">
+                <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
+                    <p>
+                        <FormattedMessage id="steg.omsorgstilbud.veileder.ny.1" />
+                    </p>
+                    <p>
+                        <FormattedMessage id="steg.omsorgstilbud.veileder.ny.2" />
+                    </p>
+                    <p>
+                        <FormattedMessage id="steg.omsorgstilbud.veileder.ny.3a" />{' '}
+                        <strong>
+                            <FormattedMessage id="steg.omsorgstilbud.veileder.ny.3b" />
+                        </strong>{' '}
+                        <FormattedMessage id="steg.omsorgstilbud.veileder.ny.3c" />
+                    </p>
+                    <p>
+                        <FormattedMessage id="steg.omsorgstilbud.veileder.ny.4" />
+                    </p>
+                    <Box>
+                        <EksempelOmsorgstilbud />
+                    </Box>
+                </CounsellorPanel>
+            </Box>
+            {useFortidFremtid ? (
+                <>
+                    {periodeFørSøknadsdato && (
+                        <HistoriskOmsorgstilbudSpørsmål
+                            periode={periodeFørSøknadsdato}
+                            omsorgstilbud={omsorgstilbud}
+                            tittel={intlHelper(
+                                intl,
+                                harBådeHistoriskOgPlanlagt
+                                    ? 'steg.omsorgstilbud.historisk.tittel'
+                                    : 'steg.omsorgstilbud.generelt.tittel'
+                            )}
+                            onOmsorgstilbudChanged={() => setOmsorgstilbudChanged(true)}
+                            søknadsdato={søknadsdato}
+                        />
                     )}
-                    onOmsorgstilbudChanged={() => setOmsorgstilbudChanged(true)}
+                    {periodeFraOgMedSøknadsdato && (
+                        <PlanlagtOmsorgstilbudSpørsmål
+                            periode={periodeFraOgMedSøknadsdato}
+                            omsorgstilbud={omsorgstilbud}
+                            tittel={intlHelper(
+                                intl,
+                                harBådeHistoriskOgPlanlagt
+                                    ? 'steg.omsorgstilbud.planlagt.tittel'
+                                    : 'steg.omsorgstilbud.generelt.tittel'
+                            )}
+                            onOmsorgstilbudChanged={() => setOmsorgstilbudChanged(true)}
+                            søknadsdato={søknadsdato}
+                        />
+                    )}
+                </>
+            ) : (
+                <OmsorgstilbudSpørsmålHelePerioden
+                    periode={søknadsperiode}
+                    omsorgstilbud={omsorgstilbud}
                     søknadsdato={søknadsdato}
+                    tittel={intlHelper(intl, 'steg.omsorgstilbud.helePerioden.tittel')}
+                    onOmsorgstilbudChanged={() => setOmsorgstilbudChanged(true)}
                 />
             )}
-            {periodeFraOgMedSøknadsdato && (
-                <PlanlagtOmsorgstilbudSpørsmål
-                    periode={periodeFraOgMedSøknadsdato}
-                    omsorgstilbud={omsorgstilbud}
-                    tittel={intlHelper(
-                        intl,
-                        harBådeHistoriskOgPlanlagt
-                            ? 'steg.omsorgstilbud.planlagt.tittel'
-                            : 'steg.omsorgstilbud.generelt.tittel'
-                    )}
-                    onOmsorgstilbudChanged={() => setOmsorgstilbudChanged(true)}
-                    søknadsdato={søknadsdato}
-                />
+            {søkerKunHelgedager(values.periodeFra, values.periodeTil) && (
+                <Box margin="xl">
+                    <Alertstripe type="advarsel">
+                        <p>
+                            <FormattedMessage id="step.omsorgstilbud.søkerKunHelgedager.alert.avsnitt.1" />
+                        </p>
+                        <p>
+                            <FormattedMessage id="step.omsorgstilbud.søkerKunHelgedager.alert.avsnitt.2" />
+                        </p>
+                        <p>
+                            <FormattedMessage id="step.omsorgstilbud.søkerKunHelgedager.alert.avsnitt.3" />
+                        </p>
+                    </Alertstripe>
+                </Box>
             )}
         </SøknadFormStep>
     );
