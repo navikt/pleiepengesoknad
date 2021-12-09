@@ -12,7 +12,7 @@ import {
     OmsorgstilbudApiData,
     SøknadApiData,
 } from '../types/SøknadApiData';
-import { søkerKunHelgedager } from '../utils/formDataUtils';
+import { søkerKunHelgedager } from '../utils/dateUtils';
 
 export const apiVedleggIsInvalid = (vedlegg: string[]): boolean => {
     vedlegg.find((v) => {
