@@ -110,14 +110,13 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
                 tidRenderer={({ tid, prosent }) => {
                     if (prosent !== undefined && prosent > 0) {
                         return (
-                            <>
-                                <div>{prosent} %</div>
-                                {1 + 1 === 2 && (
-                                    <div className="beregnetTid">
-                                        (<FormattedTimeText time={tid} />)
-                                    </div>
-                                )}
-                            </>
+                            <span className="tidTimerOgProsent">
+                                <span className={'tidTimerOgProsent__prosent'}>{prosent} %</span>
+
+                                <span className="tidTimerOgProsent__timer">
+                                    (<FormattedTimeText time={tid} />)
+                                </span>
+                            </span>
                         );
                     }
                     if (tid.hours === '0' && tid.minutes === '0') {

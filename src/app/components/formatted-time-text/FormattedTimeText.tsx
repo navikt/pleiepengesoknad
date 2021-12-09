@@ -35,14 +35,17 @@ const FormattedTimeText = ({
         );
     }
     return (
-        <span>
+        <span style={{ whiteSpace: 'nowrap' }}>
             {hideEmptyValues && timer === '0' && minutter !== '0' ? null : (
                 <span style={{ whiteSpace: 'nowrap' }}>
                     {fullText ? (
                         intlHelper(intl, 'timer', { timer })
                     ) : (
                         <>
-                            {timer} <span aria-label="timer">t. </span>
+                            {timer}{' '}
+                            <span aria-label="timer" style={{ marginLeft: '-.125rem' }}>
+                                t.{' '}
+                            </span>
                         </>
                     )}
                 </span>
@@ -54,7 +57,10 @@ const FormattedTimeText = ({
                         intlHelper(intl, 'minutter', { minutter })
                     ) : (
                         <>
-                            {minutter} <span aria-label="minutter">m. </span>
+                            {minutter}{' '}
+                            <span aria-label="minutter" style={{ marginLeft: '-.125rem' }}>
+                                m.
+                            </span>
                         </>
                     )}
                 </span>

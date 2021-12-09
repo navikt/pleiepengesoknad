@@ -84,23 +84,13 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
             tag="div">
             {kanLeggeTilPeriode ? (
                 <>
-                    <Undertittel tag="h3" style={{ fontSize: '1.125rem' }}>
-                        Registrere jobb når det varierer i perioden
-                    </Undertittel>
-                    <p>
-                        Når det varierer ...
-                        {/* Du kan registrere jobb for flere perioder eller for enkeltdager. Enkeltdager registrerer du i
-                        listen over måneder nedenfor. */}
-                    </p>
-                    <p>
-                        <Element>Du kan oppgi jobb som</Element>
-                        <ul>
-                            <li>prosent for én eller flere perioder</li>
-                            <li>timer per uke i én eller flere perioder</li>
-                            <li>timer enkeltdager gjennom å velge dag i listen over måneder nedenfor</li>
-                        </ul>
-                    </p>
-                    <Box margin="xl">
+                    <Element>Du kan oppgi jobb som</Element>
+                    <ul>
+                        <li>prosent for én eller flere perioder</li>
+                        <li>timer per uke i én eller flere perioder</li>
+                        <li>timer enkeltdager gjennom å velge dag i listen over måneder nedenfor</li>
+                    </ul>
+                    <Box margin="l">
                         <EndreArbeidstid
                             jobberNormaltTimer={jobberNormaltTimer}
                             intlValues={intlValues}
@@ -123,9 +113,9 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                 </>
             )}
             <FormBlock margin="l">
-                {/* <Box padBottom="l">
+                <Box padBottom="l">
                     <Element tag="h3">Registrert jobb</Element>
-                </Box> */}
+                </Box>
                 <SøknadsperioderMånedListe
                     periode={periode}
                     årstallHeadingLevel={3}

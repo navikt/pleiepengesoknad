@@ -63,7 +63,7 @@ export const getRedusertArbeidstidPerUkeInfo = (
     const normalTimer = getNumberFromNumberInputValue(jobberNormaltTimer);
     const prosent = getNumberFromNumberInputValue(skalJobbeProsent);
     if (normalTimer !== undefined && prosent !== undefined) {
-        const varighet = iso8601DurationToTime(getRedusertArbeidstidSomIso8601Duration(normalTimer, prosent));
+        const varighet = iso8601DurationToTime(getRedusertArbeidstidSomIso8601Duration(normalTimer / 5, prosent));
         if (varighet) {
             return intlHelper(intl, 'arbeidIPeriode.prosent.utledet.medTimer', {
                 timerNormalt: formatTimerOgMinutter(intl, decimalTimeToTime(normalTimer)),
