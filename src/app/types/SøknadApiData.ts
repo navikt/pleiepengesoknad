@@ -1,6 +1,5 @@
 import { ApiStringDate } from '@navikt/sif-common-core/lib/types/ApiStringDate';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { AndreYtelserFraNAV, ArbeidsforholdType, BarnRelasjon, ISODate, JobberIPeriodeSvar } from './';
@@ -17,7 +16,7 @@ export interface BarnetSøknadenGjelderApiData {
 
 export interface ArbeidIPeriodeApiData {
     jobberIPerioden: JobberIPeriodeSvar;
-    jobberSomVanlig?: YesOrNo; // TODO - skal tas bort, men er med nå frem til api er oppdatert
+    jobberSomVanlig?: boolean; // TODO - skal tas bort, men er med nå frem til api er oppdatert
     erLiktHverUke?: boolean;
     enkeltdager?: TidEnkeltdagApiData[];
     fasteDager?: TidFasteDagerApiData;

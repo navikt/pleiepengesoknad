@@ -62,7 +62,7 @@ export const mapArbeidIPeriodeToApiData = (
     if (arbeid.jobberIPerioden !== JobberIPeriodeSvar.JA) {
         return apiData;
     }
-    apiData.jobberSomVanlig = YesOrNo.NO;
+    apiData.jobberSomVanlig = false;
     if (arbeid.timerEllerProsent === TimerEllerProsent.PROSENT) {
         const skalJobbeProsentNumber = getNumberFromNumberInputValue(arbeid.skalJobbeProsent);
         if (skalJobbeProsentNumber === undefined) {
