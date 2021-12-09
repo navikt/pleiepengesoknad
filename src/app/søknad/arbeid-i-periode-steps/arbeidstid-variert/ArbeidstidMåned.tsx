@@ -1,15 +1,9 @@
 import React from 'react';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import {
-    FormikModalFormAndInfo,
-    ModalFormAndInfoLabels,
-    TypedFormInputValidationProps,
-} from '@navikt/sif-common-formik';
+import { ModalFormAndInfoLabels, TypedFormInputValidationProps } from '@navikt/sif-common-formik';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
-import dayjs from 'dayjs';
 import { DatoTidMap } from '../../../types';
 import { ArbeidIPeriodeIntlValues } from '../ArbeidIPeriodeSpørsmål';
-import ArbeidstidMånedForm from '../../../pre-common/arbeidstid-måned-form/ArbeidstidMånedForm';
 import ArbeidstidMånedInfo from './ArbeidstidMånedInfo';
 import { useFormikContext } from 'formik';
 import { SøknadFormData } from '../../../types/SøknadFormData';
@@ -18,6 +12,7 @@ import { getUtilgjengeligeDatoerIMåned } from '../utils/getUtilgjengeligeDatoer
 
 interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, ValidationError> {
     arbeidsstedNavn: string;
+    arbeidstid: DatoTidMap;
     formFieldName: FieldNames;
     labels: ModalFormAndInfoLabels;
     måned: DateRange;
@@ -32,63 +27,30 @@ function ArbeidstidMåned<FieldNames>({
     formFieldName,
     arbeidsstedNavn,
     måned,
-    labels,
-    intlValues,
-    søknadsdato,
+    arbeidstid,
     periode,
     åpentEkspanderbartPanel,
-    validate,
     onAfterChange,
 }: Props<FieldNames>) {
-    const erHistorisk = dayjs(måned.to).isBefore(søknadsdato, 'day');
     const { setFieldValue } = useFormikContext<SøknadFormData>() || {};
 
+    const handleOnEnkeltdagChange = (evt: ArbeidstidEnkeltdagEndring) => {
+        const newValues = { ...arbeidstid, ...evt.dagerMedTid };
+        setFieldValue(formFieldName as any, newValues);
+        onAfterChange ? onAfterChange(newValues) : undefined;
+    };
+
+    const utilgjengeligeDatoer = getUtilgjengeligeDatoerIMåned(måned.from, periode);
+
     return (
-        <FormikModalFormAndInfo<FieldNames, DatoTidMap, ValidationError>
-            name={formFieldName}
-            validate={validate}
-            labels={labels}
-            renderEditButtons={false}
-            renderDeleteButton={false}
-            dialogClassName={'calendarDialog'}
-            wrapInfoInPanel={false}
-            defaultValue={{}}
-            formRenderer={({ onSubmit, onCancel, data = {} }) => {
-                return (
-                    <ArbeidstidMånedForm
-                        tid={data}
-                        intlValues={intlValues}
-                        periode={måned}
-                        erHistorisk={erHistorisk}
-                        onSubmit={onSubmit}
-                        onCancel={onCancel}
-                    />
-                );
-            }}
-            infoRenderer={({ data, onEdit }) => {
-                const handleOnEnkeltdagChange = (evt: ArbeidstidEnkeltdagEndring) => {
-                    const newValues = { ...data, ...evt.dagerMedTid };
-                    setFieldValue(formFieldName as any, newValues);
-                    onAfterChange ? onAfterChange(newValues) : undefined;
-                };
-
-                const utilgjengeligeDatoer = getUtilgjengeligeDatoerIMåned(måned.from, periode);
-
-                return (
-                    <ArbeidstidMånedInfo
-                        arbeidsstedNavn={arbeidsstedNavn}
-                        måned={måned}
-                        åpentEkspanderbartPanel={åpentEkspanderbartPanel}
-                        tidArbeidstid={data}
-                        utilgjengeligeDatoer={utilgjengeligeDatoer}
-                        periode={periode}
-                        onRequestEdit={onEdit}
-                        onEnkeltdagChange={handleOnEnkeltdagChange}
-                        editLabel={labels.editLabel}
-                        addLabel={labels.addLabel}
-                    />
-                );
-            }}
+        <ArbeidstidMånedInfo
+            arbeidsstedNavn={arbeidsstedNavn}
+            måned={måned}
+            åpentEkspanderbartPanel={åpentEkspanderbartPanel}
+            tidArbeidstid={arbeidstid}
+            utilgjengeligeDatoer={utilgjengeligeDatoer}
+            periode={periode}
+            onEnkeltdagChange={handleOnEnkeltdagChange}
         />
     );
 }

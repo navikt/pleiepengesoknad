@@ -7,17 +7,16 @@ import { cleanupArbeidIPeriodeStep } from './utils/cleanupArbeidIPeriodeStep';
 
 interface Props extends StepConfigProps {
     periode: DateRange;
-    søknadsdato: Date;
 }
 
-const ArbeidstidStep = ({ onValidSubmit, periode, søknadsdato }: Props) => {
+const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
     const erHistorisk = false;
     return (
         <SøknadFormStep
             id={StepID.ARBEIDSTID}
             onValidFormSubmit={onValidSubmit}
             onStepCleanup={(values) => cleanupArbeidIPeriodeStep(values, periode, erHistorisk)}>
-            <ArbeidIPeriodeStepContent erHistorisk={erHistorisk} periode={periode} søknadsdato={søknadsdato} />
+            <ArbeidIPeriodeStepContent erHistorisk={erHistorisk} periode={periode} />
         </SøknadFormStep>
     );
 };

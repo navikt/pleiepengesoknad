@@ -14,7 +14,7 @@ import { ArbeidIPeriode, Arbeidsforhold } from '../../types/SøknadFormData';
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
 import { getHistoriskPeriode, getPlanlagtPeriode } from '../fortidFremtidUtils';
 import {
-    fjernTidUtenforPeriode,
+    fjernTidUtenforPeriodeOgHelgedager,
     getEnkeltdagerIPeriodeApiData,
     getFasteDagerApiData,
     getRedusertArbeidstidSomIso8601Duration,
@@ -72,7 +72,7 @@ export const mapArbeidIPeriodeToApiData = (
             jobberIPerioden: JobberIPeriodeSvar.JA,
             erLiktHverUke: true,
             fasteDager: lagFasteDagerUtFraProsentIPeriode(jobberNormaltTimerNumber, skalJobbeProsentNumber),
-            _jobberProsent: skalJobbeProsentNumber,
+            jobberProsent: skalJobbeProsentNumber,
         };
     }
 
@@ -83,7 +83,7 @@ export const mapArbeidIPeriodeToApiData = (
     return {
         jobberIPerioden: JobberIPeriodeSvar.JA,
         erLiktHverUke,
-        enkeltdager: arbeidsperiode ? fjernTidUtenforPeriode(arbeidsperiode, enkeltdager) : enkeltdager,
+        enkeltdager: arbeidsperiode ? fjernTidUtenforPeriodeOgHelgedager(arbeidsperiode, enkeltdager) : enkeltdager,
         fasteDager: arbeid.fasteDager && erLiktHverUke ? getFasteDagerApiData(arbeid.fasteDager) : undefined,
     };
 };

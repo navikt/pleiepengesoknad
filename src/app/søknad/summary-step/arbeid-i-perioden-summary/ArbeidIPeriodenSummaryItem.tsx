@@ -51,8 +51,6 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
                         : `oppsummering.arbeidIPeriode.jobberIPerioden.nei`,
                     intlTexts
                 );
-            // case JobberIPeriodeSvar.VET_IKKE:
-            //     return intlHelper(intl, `oppsummering.arbeidIPeriode.jobberIPerioden.vetIkke`, intlTexts);
         }
     };
 
@@ -94,7 +92,7 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
                 {arbeidIPeriode.fasteDager && (
                     <li>
                         {/* Faste dager */}
-                        {arbeidIPeriode._jobberProsent === undefined && (
+                        {arbeidIPeriode.jobberProsent === undefined && (
                             <>
                                 <div>
                                     {intlHelper(
@@ -111,8 +109,8 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
                             </>
                         )}
                         {/* Prosent - men verdi er fordelt likt på  fasteDager */}
-                        {arbeidIPeriode._jobberProsent !== undefined &&
-                            getArbeidProsentTekst(arbeidIPeriode._jobberProsent)}
+                        {arbeidIPeriode.jobberProsent !== undefined &&
+                            getArbeidProsentTekst(arbeidIPeriode.jobberProsent)}
                     </li>
                 )}
             </ul>

@@ -7,25 +7,50 @@ import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import ArbeidstidEnkeltdagDialog from '../../../pre-common/arbeidstid-enkeltdag/ArbeidstidEnkeltdagDialog';
 import { ArbeidstidEnkeltdagEndring } from '../../../pre-common/arbeidstid-enkeltdag/ArbeidstidEnkeltdagForm';
-import FormattedTimeText from '../../../components/formatted-time-text/FormattedTimeText';
 import TidsbrukKalender from '../../../components/tidsbruk-kalender/TidsbrukKalender';
 import { DatoTidMap } from '../../../types';
-import { inputTimeDurationIsZero } from '../../../utils/common/inputTimeUtils';
-import { getDagerMedTidITidsrom } from '../../../utils/datoTidUtils';
+import { getAntallDagerMedTidMerEnnNull, getDagerMedTidITidsrom } from '../../../utils/datoTidUtils';
+import TidArbeidEnkeltdag from './TidArbeidEnkeltdag';
 
 interface Props {
     måned: DateRange;
     arbeidsstedNavn: string;
     tidArbeidstid: DatoTidMap;
-    editLabel: string;
-    addLabel: string;
     utilgjengeligeDatoer?: Date[];
     månedTittelHeadingLevel?: number;
     periode: DateRange;
     åpentEkspanderbartPanel?: boolean;
     onEnkeltdagChange?: (evt: ArbeidstidEnkeltdagEndring) => void;
-    onRequestEdit: (tid: DatoTidMap) => void;
+    onRequestEdit?: (tid: DatoTidMap) => void;
 }
+
+const ArbeidstidMånedTittel = ({
+    headingLevel,
+    måned,
+    antallDagerMedTid,
+}: {
+    headingLevel: number;
+    måned: DateRange;
+    antallDagerMedTid: number;
+}) => {
+    const intl = useIntl();
+    return (
+        <Element tag={`h${headingLevel}`}>
+            <span className="m-caps">
+                {intlHelper(intl, 'arbeidstid.ukeOgÅr', {
+                    ukeOgÅr: dayjs(måned.from).format('MMMM YYYY'),
+                })}
+            </span>
+            <Normaltekst tag="div">
+                {antallDagerMedTid === 0 ? (
+                    <FormattedMessage id="arbeidstid.iPeriodePanel.info.ingenDager" />
+                ) : (
+                    <FormattedMessage id="arbeidstid.iPeriodePanel.info" values={{ dager: antallDagerMedTid }} />
+                )}
+            </Normaltekst>
+        </Element>
+    );
+};
 
 const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
     måned,
@@ -37,22 +62,20 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
     åpentEkspanderbartPanel,
     onEnkeltdagChange,
 }) => {
-    const intl = useIntl();
-
     const [editDate, setEditDate] = useState<{ dato: Date; tid: Partial<InputTime> } | undefined>();
 
     const dager: DatoTidMap = getDagerMedTidITidsrom(tidArbeidstid, måned);
-    const dagerMedRegistrertArbeidstid: string[] = Object.keys(dager).filter((key) => {
-        const datoTid = dager[key];
-        return (
-            datoTid !== undefined &&
-            datoTid.varighet !== undefined &&
-            inputTimeDurationIsZero(datoTid.varighet) === false
-        );
-    });
+    const antallDagerMedTid = getAntallDagerMedTidMerEnnNull(dager);
+
+    const handleKalenderDatoClick = (dato: Date) => {
+        const tid: Partial<InputTime> = dager[dateToISOString(dato)]?.varighet || {
+            hours: '',
+            minutes: '',
+        };
+        setEditDate({ dato, tid });
+    };
 
     // const perioder = getPerioderMedLikTidIDatoTidMap(dager);
-
     // const erDagDelAvPerioder = (dato: Date): number => {
     //     return perioder.findIndex((p) => {
     //         return p.datoer.some((d) => d === dateToISOString(dato));
@@ -63,28 +86,12 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
         <Ekspanderbartpanel
             renderContentWhenClosed={false}
             apen={åpentEkspanderbartPanel}
-            className="ekspanderbartPanel--underlined"
             tittel={
-                <>
-                    <Element tag={`h${månedTittelHeadingLevel}`}>
-                        <span className="m-caps">
-                            {intlHelper(intl, 'arbeidstid.ukeOgÅr', {
-                                ukeOgÅr: dayjs(måned.from).format('MMMM YYYY'),
-                            })}
-                        </span>
-
-                        <Normaltekst tag="div">
-                            {dagerMedRegistrertArbeidstid.length === 0 ? (
-                                <FormattedMessage id="arbeidstid.iPeriodePanel.info.ingenDager" />
-                            ) : (
-                                <FormattedMessage
-                                    id="arbeidstid.iPeriodePanel.info"
-                                    values={{ dager: dagerMedRegistrertArbeidstid.length }}
-                                />
-                            )}
-                        </Normaltekst>
-                    </Element>
-                </>
+                <ArbeidstidMånedTittel
+                    måned={måned}
+                    headingLevel={månedTittelHeadingLevel}
+                    antallDagerMedTid={antallDagerMedTid}
+                />
             }>
             <TidsbrukKalender
                 periode={måned}
@@ -107,34 +114,8 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
                 //     }
                 //     return undefined;
                 // }}
-                tidRenderer={({ tid, prosent }) => {
-                    if (prosent !== undefined && prosent > 0) {
-                        return (
-                            <span className="tidTimerOgProsent">
-                                <span className={'tidTimerOgProsent__prosent'}>{prosent} %</span>
-
-                                <span className="tidTimerOgProsent__timer">
-                                    (<FormattedTimeText time={tid} />)
-                                </span>
-                            </span>
-                        );
-                    }
-                    if (tid.hours === '0' && tid.minutes === '0') {
-                        return <></>;
-                    }
-                    return <FormattedTimeText time={tid} />;
-                }}
-                onDateClick={
-                    onEnkeltdagChange
-                        ? (dato) => {
-                              const tid: Partial<InputTime> = dager[dateToISOString(dato)]?.varighet || {
-                                  hours: '',
-                                  minutes: '',
-                              };
-                              setEditDate({ dato, tid });
-                          }
-                        : undefined
-                }
+                tidRenderer={({ tid, prosent }) => <TidArbeidEnkeltdag tid={tid} prosent={prosent} />}
+                onDateClick={onEnkeltdagChange ? handleKalenderDatoClick : undefined}
             />
             {editDate && onEnkeltdagChange && (
                 <ArbeidstidEnkeltdagDialog

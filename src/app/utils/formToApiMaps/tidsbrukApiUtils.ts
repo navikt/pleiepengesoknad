@@ -4,6 +4,7 @@ import { dateToISOString, InputTime, ISOStringToDate } from '@navikt/sif-common-
 import dayjs from 'dayjs';
 import { DatoTidMap, TidUkedager } from '../../types';
 import { ISO8601Duration, TidEnkeltdagApiData } from '../../types/SøknadApiData';
+import { dateIsWeekDay } from '../common/dateUtils';
 
 export const getFasteDagerApiData = ({ mandag, tirsdag, onsdag, torsdag, fredag }: TidUkedager) => ({
     mandag: mandag ? timeToIso8601Duration(mandag) : undefined,
@@ -51,7 +52,7 @@ export const getEnkeltdagerMedTidIPeriodeApiData = (
     return dager.sort(sortTidEnkeltdagApiData);
 };
 
-export const fjernTidUtenforPeriode = (
+export const fjernTidUtenforPeriodeOgHelgedager = (
     periode: Partial<DateRange>,
     tidEnkeltdag?: TidEnkeltdagApiData[]
 ): TidEnkeltdagApiData[] | undefined => {
@@ -61,6 +62,9 @@ export const fjernTidUtenforPeriode = (
     }
     return tidEnkeltdag.filter((dag) => {
         const dato = apiStringDateToDate(dag.dato);
+        if (dateIsWeekDay(dato) === false) {
+            return false;
+        }
         if (from && dayjs(dato).isBefore(from, 'day')) {
             return false;
         }

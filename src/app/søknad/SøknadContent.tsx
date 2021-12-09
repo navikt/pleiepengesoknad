@@ -154,7 +154,6 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                     render={() => (
                         <ArbeidstidStep
                             periode={søknadsperiode}
-                            søknadsdato={søknadsdato}
                             onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEIDSTID)}
                         />
                     )}
@@ -167,7 +166,6 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                     render={() => (
                         <HistoriskArbeidStep
                             periode={periodeFørSøknadsdato}
-                            søknadsdato={søknadsdato}
                             onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEID_HISTORISK)}
                         />
                     )}
@@ -181,7 +179,6 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                         <PlanlagtArbeidStep
                             periode={periodeFraOgMedSøknadsdato}
                             onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEID_PLANLAGT)}
-                            søknadsdato={søknadsdato}
                         />
                     )}
                 />

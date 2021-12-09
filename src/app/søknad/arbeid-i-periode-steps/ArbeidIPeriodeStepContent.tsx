@@ -17,11 +17,10 @@ import ArbeidIPeriodeSpørsmål from './ArbeidIPeriodeSpørsmål';
 
 interface Props {
     periode: DateRange;
-    søknadsdato: Date;
     erHistorisk: boolean;
 }
 
-const ArbeidIPeriodeStepContent = ({ periode, erHistorisk, søknadsdato }: Props) => {
+const ArbeidIPeriodeStepContent = ({ periode, erHistorisk }: Props) => {
     const intl = useIntl();
     const formikProps = useFormikContext<SøknadFormData>();
     const {
@@ -55,19 +54,6 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk, søknadsdato }: Props
 
     const skalBesvareSelvstendig =
         selvstendig_harHattInntektSomSN === YesOrNo.YES && selvstendig_arbeidsforhold !== undefined;
-
-    /**
-     * Kontroller om bruker må sendes tilbake til arbeidssituasjon-steget
-     * Dette kan oppstå dersom bruker er på Arbeidssituasjon,
-     * endrer på data, og deretter trykker forward i nettleser
-     * */
-
-    // const brukerMåGåTilbakeTilArbeidssituasjon =
-    //     skalBesvareAnsettelsesforhold === false && skalBesvareFrilans === false && skalBesvareSelvstendig === false;
-
-    // if (brukerMåGåTilbakeTilArbeidssituasjon === true) {
-    //     return <InvalidStepPage stepId={StepID.ARBEIDSFORHOLD_I_PERIODEN} />;
-    // }
 
     return (
         <>
@@ -103,7 +89,6 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk, søknadsdato }: Props
                                     periode={periode}
                                     parentFieldName={`${SøknadFormField.ansatt_arbeidsforhold}.${index}`}
                                     erHistorisk={erHistorisk}
-                                    søknadsdato={søknadsdato}
                                 />
                             </FormSection>
                         );
@@ -120,7 +105,6 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk, søknadsdato }: Props
                         periode={arbeidsperiodeFrilans}
                         parentFieldName={`${SøknadFormField.frilans_arbeidsforhold}`}
                         erHistorisk={erHistorisk}
-                        søknadsdato={søknadsdato}
                     />
                 </FormSection>
             )}
@@ -133,7 +117,6 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk, søknadsdato }: Props
                         periode={arbeidsperiodeSelvstendig}
                         parentFieldName={`${SøknadFormField.selvstendig_arbeidsforhold}`}
                         erHistorisk={erHistorisk}
-                        søknadsdato={søknadsdato}
                     />
                 </FormSection>
             )}

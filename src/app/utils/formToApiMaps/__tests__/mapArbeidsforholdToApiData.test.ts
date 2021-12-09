@@ -125,22 +125,6 @@ describe('mapArbeidsforholdToApiData', () => {
             expect(result.erLiktHverUke).toBeUndefined();
             expect(result.enkeltdager).toBeUndefined();
         });
-        // it('vet ikke om en skal jobbe i perioden', () => {
-        //     const result: ArbeidIPeriodeApiData = mapArbeidIPeriodeToApiData(
-        //         {
-        //             jobberIPerioden: JobberIPeriodeSvar.VET_IKKE,
-        //             enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
-        //             fasteDager: { fredag: { hours: '2', minutes: '0' } },
-        //         },
-        //         historiskPeriode,
-        //         40,
-        //         undefined
-        //     );
-        //     expect(result.jobberIPerioden).toEqual(JobberIPeriodeSvar.VET_IKKE);
-        //     expect(result.fasteDager).toBeUndefined();
-        //     expect(result.erLiktHverUke).toBeUndefined();
-        //     expect(result.enkeltdager).toBeUndefined();
-        // });
 
         it('jobber likt hver uke', () => {
             const result: ArbeidIPeriodeApiData = mapArbeidIPeriodeToApiData(

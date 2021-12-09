@@ -42,7 +42,6 @@ interface Props {
     arbeidsstedNavn: string;
     periode: DateRange;
     erHistorisk: boolean;
-    søknadsdato: Date;
 }
 
 export type ArbeidIPeriodeIntlValues = {
@@ -96,7 +95,6 @@ const ArbeidIPeriodeSpørsmål = ({
     arbeidsforholdType,
     periode,
     arbeidsstedNavn,
-    søknadsdato,
 }: Props) => {
     const intl = useIntl();
 
@@ -152,12 +150,12 @@ const ArbeidIPeriodeSpørsmål = ({
     const JobbetLiktIHelePeriodenSpørsmål = () => (
         <SøknadFormComponents.YesOrNoQuestion
             name={getFieldName(ArbeidIPeriodeField.erLiktHverUke)}
-            legend={erHistorisk ? 'Jobbet du likt i hele perioden?' : 'Skal du jobbe likt hver uke i hele perioden?'}
+            legend={getSpørsmål(ArbeidIPeriodeField.erLiktHverUke)}
             validate={getArbeidErLiktHverUkeValidator(intlValues)}
             useTwoColumns={true}
             labels={{
-                yes: 'Ja, hver uke er lik',
-                no: 'Nei, det varierer',
+                yes: intlHelper(intl, `arbeidIPeriode.${erHistorisk ? 'historisk.' : ''}erLiktHverUke.ja`),
+                no: intlHelper(intl, `arbeidIPeriode.${erHistorisk ? 'historisk.' : ''}erLiktHverUke.nei`),
             }}
         />
     );
@@ -211,7 +209,7 @@ const ArbeidIPeriodeSpørsmål = ({
                 <FormBlock>
                     <ResponsivePanel>
                         <ArbeidstidVariert
-                            arbeidstidSøknadIPeriode={
+                            arbeidstid={
                                 erHistorisk
                                     ? arbeidsforhold.historisk?.enkeltdager
                                     : arbeidsforhold.planlagt?.enkeltdager
@@ -221,7 +219,6 @@ const ArbeidIPeriodeSpørsmål = ({
                             periode={periode}
                             intlValues={intlValues}
                             arbeidsstedNavn={arbeidsstedNavn}
-                            søknadsdato={søknadsdato}
                             formFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
                             onArbeidstidChanged={() => setArbeidstidChanged(true)}
                         />
@@ -238,7 +235,7 @@ const ArbeidIPeriodeSpørsmål = ({
                         <FormBlock margin="l">
                             <ResponsivePanel>
                                 <ArbeidstidVariert
-                                    arbeidstidSøknadIPeriode={
+                                    arbeidstid={
                                         erHistorisk
                                             ? arbeidsforhold.historisk?.enkeltdager
                                             : arbeidsforhold.planlagt?.enkeltdager
@@ -248,7 +245,6 @@ const ArbeidIPeriodeSpørsmål = ({
                                     periode={periode}
                                     intlValues={intlValues}
                                     arbeidsstedNavn={arbeidsstedNavn}
-                                    søknadsdato={søknadsdato}
                                     formFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
                                     onArbeidstidChanged={() => setArbeidstidChanged(true)}
                                 />

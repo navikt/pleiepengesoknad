@@ -58,6 +58,16 @@ export const summerDatoTidMap = (datoTid: DatoTidMap): number => {
     }, 0);
 };
 
+export const getAntallDagerMedTidMerEnnNull = (dager: DatoTidMap): number =>
+    Object.keys(dager).filter((key) => {
+        const datoTid = dager[key];
+        return (
+            datoTid !== undefined &&
+            datoTid.varighet !== undefined &&
+            inputTimeDurationIsZero(datoTid.varighet) === false
+        );
+    }).length;
+
 /**
  * Hent ut alle dager som har en tid i tidsrommet
  * @param data

@@ -93,7 +93,7 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<Props> = ({
     return (
         <div>
             <Undertittel tag="h1" className={bem.element('tittel')}>
-                Periode med arbeid - {arbeidsstedNavn}
+                Periode med jobb - {arbeidsstedNavn}
             </Undertittel>
             <FormBlock margin="xl">
                 <FormComponents.FormikWrapper

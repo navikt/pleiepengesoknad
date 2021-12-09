@@ -1,20 +1,17 @@
 import React, { useState } from 'react';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import Knapperad from '@navikt/sif-common-core/lib/components/knapperad/Knapperad';
+import { FormattedMessage } from 'react-intl';
 import { DateRange, getNumberFromNumberInputValue, InputTime } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import { useFormikContext } from 'formik';
 import { Knapp } from 'nav-frontend-knapper';
 import ArbeidstidPeriodeDialog from '../../../pre-common/arbeidstid-periode/ArbeidstidPeriodeDialog';
 import { ArbeidstidPeriodeData } from '../../../pre-common/arbeidstid-periode/ArbeidstidPeriodeForm';
+import { getDatesInDateRange } from '../../../utils/common/dateRangeUtils';
 import { dateToISODate, ISODateToDate } from '../../../utils/common/isoDateUtils';
 import { DatoTidMap, TidUkedager } from '../../../types';
 import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
 import { getRedusertArbeidstidSomInputTime } from '../../../utils/formToApiMaps/tidsbrukApiUtils';
 import { ArbeidIPeriodeIntlValues } from '../ArbeidIPeriodeSpørsmål';
-import { getDatesInDateRange } from '../../../utils/common/dateRangeUtils';
-// import { Element } from 'nav-frontend-typografi';
-// import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 interface Props {
     formFieldName: SøknadFormField;
@@ -68,7 +65,7 @@ const oppdaterDagerIPeriode = (normalTimer: number, { fom, tom, prosent, tidFast
     return dagerSomSkalEndres;
 };
 
-const EndreArbeidstid: React.FunctionComponent<Props> = ({
+const RegistrerArbeidstidPeriode: React.FunctionComponent<Props> = ({
     intlValues,
     arbeidstidSøknad,
     formFieldName,
@@ -83,7 +80,7 @@ const EndreArbeidstid: React.FunctionComponent<Props> = ({
 
     const handleChangePeriode = (data: ArbeidstidPeriodeData) => {
         if (normalTimer === undefined) {
-            throw new Error('EndreArbeidstid - normaltimer is undefined');
+            throw new Error('RegistrerArbeidstidPeriode - normaltimer is undefined');
         }
         const dagerMedArbeid = { ...arbeidstidSøknad, ...oppdaterDagerIPeriode(normalTimer, data) };
         setVisPeriode(false);
@@ -97,13 +94,9 @@ const EndreArbeidstid: React.FunctionComponent<Props> = ({
 
     return (
         <>
-            <Box padBottom="xl">
-                <Knapperad align="left">
-                    <Knapp htmlType="button" type="standard" onClick={() => setVisPeriode(true)} mini={true}>
-                        Registrer jobb i periode
-                    </Knapp>
-                </Knapperad>
-            </Box>
+            <Knapp htmlType="button" onClick={() => setVisPeriode(true)} mini={true}>
+                <FormattedMessage id="registrerArbeidstidPeriode.registrerJobbKnapp.label" />
+            </Knapp>
             <ArbeidstidPeriodeDialog
                 intlValues={intlValues}
                 periode={periode}
@@ -117,4 +110,4 @@ const EndreArbeidstid: React.FunctionComponent<Props> = ({
     );
 };
 
-export default EndreArbeidstid;
+export default RegistrerArbeidstidPeriode;

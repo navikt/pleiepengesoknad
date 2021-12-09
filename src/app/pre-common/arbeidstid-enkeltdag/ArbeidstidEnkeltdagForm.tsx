@@ -106,16 +106,16 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
     const månedErHel =
         dayjs(periode.from).isBefore(månedPeriode.from, 'month') && dayjs(periode.to).isAfter(månedPeriode.to, 'month');
 
-    const ukePeriodeStartTxt = dateFormatter.dayDateAndMonthShort(ukePeriode.from);
-    const ukePeriodeSluttTxt = dateFormatter.dayDateAndMonthShort(ukePeriode.to);
+    const ukePeriodeStartTxt = dateFormatter.dayFullShortDate(ukePeriode.from);
+    const ukePeriodeSluttTxt = dateFormatter.dayFullShortDate(ukePeriode.to);
 
-    const månedPeriodeStartTxt = dateFormatter.dayDateAndMonthShort(månedPeriode.from);
-    const månedPeriodeSluttTxt = dateFormatter.dayDateAndMonthShort(månedPeriode.to);
+    const månedPeriodeStartTxt = dateFormatter.dayFullShortDate(månedPeriode.from);
+    const månedPeriodeSluttTxt = dateFormatter.dayFullShortDate(månedPeriode.to);
 
     const ukeNavn = `${dayjs(dato).isoWeek()}`;
     const månedNavn = dayjs(dato).format('MMMM YYYY');
 
-    const sluttDatoTxt = dateFormatter.extended(periode.to);
+    const sluttDatoTxt = dateFormatter.dayFullShortDate(periode.to);
 
     return (
         <div>
@@ -201,7 +201,7 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                                                     },
                                                     {
                                                         label: månedErHel ? (
-                                                            <>Alle hverdager i ${månedNavn}</>
+                                                            <>Alle hverdager i {månedNavn}</>
                                                         ) : (
                                                             <>
                                                                 Hverdager i {månedNavn}

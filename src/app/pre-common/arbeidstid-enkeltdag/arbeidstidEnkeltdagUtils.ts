@@ -5,6 +5,7 @@ import { DatoTidMap, ISODate } from '../../types';
 import { nthItemFilter } from '../../utils/common/arrayUtils';
 import { dateToISODate } from '../../utils/common/isoDateUtils';
 import { getDatesInDateRange, getMonthDateRange, getWeekDateRange } from '../../utils/common/dateRangeUtils';
+import { dateIsWeekDay } from '../../utils/common/dateUtils';
 
 const getDagerMedInterval = (interval: number, periode: DateRange) => {
     const ukedag = dayjs(periode.from).isoWeekday();
@@ -17,24 +18,24 @@ const getDagerMedInterval = (interval: number, periode: DateRange) => {
 
 const getGjentagendeDager = (endringsperiode: DateRange, dato: Date, gjentagelse?: GjentagelseEnkeltdag): ISODate[] => {
     if (gjentagelse) {
-        let gjentagendeDager: Date[] = [];
+        let gjentagendeDatoer: Date[] = [];
         const periode: DateRange = {
             from: dato,
             to: gjentagelse.tom || endringsperiode.to,
         };
         if (gjentagelse.gjentagelsetype === GjentagelseType.hverUke) {
-            gjentagendeDager = getDagerMedInterval(1, periode);
+            gjentagendeDatoer = getDagerMedInterval(1, periode);
         }
         if (gjentagelse.gjentagelsetype === GjentagelseType.hverAndreUke) {
-            gjentagendeDager = getDagerMedInterval(2, periode);
+            gjentagendeDatoer = getDagerMedInterval(2, periode);
         }
         if (gjentagelse.gjentagelsetype === GjentagelseType.heleUken) {
-            gjentagendeDager = getDatesInDateRange(getWeekDateRange(periode.from));
+            gjentagendeDatoer = getDatesInDateRange(getWeekDateRange(periode.from), true);
         }
         if (gjentagelse.gjentagelsetype === GjentagelseType.heleMåneden) {
-            gjentagendeDager = getDatesInDateRange(getMonthDateRange(periode.from));
+            gjentagendeDatoer = getDatesInDateRange(getMonthDateRange(periode.from), true);
         }
-        return gjentagendeDager.map((date) => dateToISODate(date));
+        return gjentagendeDatoer.filter(dateIsWeekDay).map((date) => dateToISODate(date));
     }
     return [dateToISODate(dato)];
 };
