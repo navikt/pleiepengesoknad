@@ -37,9 +37,12 @@ export enum SøknadFormField {
     harBeredskap = 'harBeredskap',
     harBeredskap_ekstrainfo = 'harBeredskap_ekstrainfo',
     omsorgstilbud = 'omsorgstilbud',
+    omsorgstilbud__helePerioden__erLiktHverUke = 'omsorgstilbud.helePerioden.erLiktHverUke',
+    omsorgstilbud__helePerioden__fasteDager = 'omsorgstilbud.helePerioden.fasteDager',
+    omsorgstilbud__helePerioden__enkeltdager = 'omsorgstilbud.helePerioden.enkeltdager',
+    omsorgstilbud__harSkalBarnIOmsorgstilbud = 'omsorgstilbud.harSkalBarnIOmsorgstilbud',
     omsorgstilbud__skalBarnIOmsorgstilbud = 'omsorgstilbud.skalBarnIOmsorgstilbud',
     omsorgstilbud__harBarnVærtIOmsorgstilbud = 'omsorgstilbud.harBarnVærtIOmsorgstilbud',
-    omsorgstilbud__planlagt__vetHvorMyeTid = 'omsorgstilbud.planlagt.vetHvorMyeTid',
     omsorgstilbud__planlagt__erLiktHverUke = 'omsorgstilbud.planlagt.erLiktHverUke',
     omsorgstilbud__planlagt__fasteDager = 'omsorgstilbud.planlagt.fasteDager',
     omsorgstilbud__planlagt__enkeltdager = 'omsorgstilbud.planlagt.enkeltdager',
@@ -63,12 +66,18 @@ export interface OmsorgstilbudPlanlagt {
     fasteDager?: TidUkedager;
     enkeltdager?: DatoTidMap;
 }
+export interface OmsorgstilbudHelePerioden {
+    erLiktHverUke?: YesOrNo;
+    fasteDager?: TidUkedager;
+    enkeltdager?: DatoTidMap;
+}
 export interface OmsorgstilbudHistorisk {
     enkeltdager: DatoTidMap;
 }
 export interface Omsorgstilbud {
     skalBarnIOmsorgstilbud?: YesOrNo;
     harBarnVærtIOmsorgstilbud?: YesOrNo;
+    helePerioden?: OmsorgstilbudHelePerioden;
     planlagt?: OmsorgstilbudPlanlagt;
     historisk?: OmsorgstilbudHistorisk;
 }

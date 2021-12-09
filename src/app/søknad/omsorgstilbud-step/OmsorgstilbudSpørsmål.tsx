@@ -33,13 +33,7 @@ interface Props {
     onOmsorgstilbudChanged: () => void;
 }
 
-const PlanlagtOmsorgstilbudSpørsmål = ({
-    periode,
-    tittel,
-    omsorgstilbud,
-    søknadsdato,
-    onOmsorgstilbudChanged,
-}: Props) => {
+const OmsorgstilbudSpørsmål = ({ periode, tittel, omsorgstilbud, søknadsdato, onOmsorgstilbudChanged }: Props) => {
     const intl = useIntl();
 
     const inkluderFastPlan = skalViseSpørsmålOmProsentEllerLiktHverUke(periode);
@@ -145,4 +139,4 @@ const PlanlagtOmsorgstilbudSpørsmål = ({
     );
 };
 
-export default PlanlagtOmsorgstilbudSpørsmål;
+export default OmsorgstilbudSpørsmål;

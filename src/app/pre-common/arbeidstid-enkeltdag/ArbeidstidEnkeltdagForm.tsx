@@ -168,7 +168,7 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                                     </FormBlock>
                                 )}
                                 {getNumberOfDaysInDateRange(periode) > 2 && (
-                                    <FormBlock margin="m">
+                                    <FormBlock margin="l">
                                         <FormComponents.Checkbox
                                             label="Gjelder flere dager"
                                             name={FormFields.skalGjentas}
@@ -182,24 +182,47 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                                                 className="compactRadios"
                                                 radios={[
                                                     {
-                                                        label: ukeErHel
-                                                            ? `Alle hverdager i uke ${ukeNavn} (${ukePeriodeStartTxt} - ${ukePeriodeSluttTxt})`
-                                                            : `Hverdager i uke ${ukeNavn} (${ukePeriodeStartTxt} - ${ukePeriodeSluttTxt})`,
+                                                        label: ukeErHel ? (
+                                                            <>
+                                                                Alle hverdager i uke {ukeNavn}
+                                                                <div className="m-comment">
+                                                                    ({ukePeriodeStartTxt} - {ukePeriodeSluttTxt})
+                                                                </div>
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                Hverdager i uke {ukeNavn}
+                                                                <div className="m-comment">
+                                                                    ({ukePeriodeStartTxt} -{ukePeriodeSluttTxt})
+                                                                </div>
+                                                            </>
+                                                        ),
                                                         value: GjentagelseType.heleUken,
                                                     },
                                                     {
                                                         label: månedErHel ? (
-                                                            `Alle hverdager i ${månedNavn}`
+                                                            <>Alle hverdager i ${månedNavn}</>
                                                         ) : (
                                                             <>
-                                                                Hverdager i {månedNavn} ({månedPeriodeStartTxt} -{' '}
-                                                                {månedPeriodeSluttTxt})
+                                                                Hverdager i {månedNavn}
+                                                                <div className="m-comment">
+                                                                    ({månedPeriodeStartTxt} - {månedPeriodeSluttTxt})
+                                                                </div>
                                                             </>
                                                         ),
                                                         value: GjentagelseType.heleMåneden,
                                                     },
                                                     {
-                                                        label: `Hver ${dagNavn} fra og med ${datoString} til og med ${sluttDatoTxt}`,
+                                                        label: (
+                                                            <>
+                                                                Hver {dagNavn} fra og med {datoString}
+                                                                <div className="m-comment">
+                                                                    {` `}
+                                                                    (til og med {` `}
+                                                                    {sluttDatoTxt})
+                                                                </div>
+                                                            </>
+                                                        ),
                                                         value: GjentagelseType.hverUke,
                                                     },
                                                 ]}

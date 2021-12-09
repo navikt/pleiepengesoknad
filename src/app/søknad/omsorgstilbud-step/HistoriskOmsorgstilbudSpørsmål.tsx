@@ -11,7 +11,7 @@ import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { Omsorgstilbud, SøknadFormField } from '../../types/SøknadFormData';
 import SøknadFormComponents from '../SøknadFormComponents';
-import OmsorgstilbudIPeriodeSpørsmål from './omsorgstilbud-i-periode/OmsorgstilbudIPeriodeSpørsmål';
+import OmsorgstilbudVariert from './omsorgstilbud-i-periode/OmsorgstilbudVariert';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import { Element } from 'nav-frontend-typografi';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
@@ -75,7 +75,7 @@ const HistoriskOmsorgstilbudSpørsmål = ({
                     <Box padBottom="m">
                         <Element tag="h3">Hvor mye har barnet være i et omsorgstilbud?</Element>
                     </Box>
-                    <OmsorgstilbudIPeriodeSpørsmål
+                    <OmsorgstilbudVariert
                         periode={periode}
                         tidIOmsorgstilbud={omsorgstilbud.historisk?.enkeltdager || {}}
                         onOmsorgstilbudChanged={() => {

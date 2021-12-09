@@ -9,39 +9,57 @@ const FormattedTimeText = ({
     time,
     fullText,
     hideEmptyValues = false,
-    decimal,
+    type,
 }: {
     time: Partial<InputTime>;
     fullText?: boolean;
     hideEmptyValues?: boolean;
-    decimal?: boolean;
+    type?: 'digital' | 'decimal' | 'standard';
 }): JSX.Element => {
     const timer = time.hours || '0';
     const minutter = time.minutes || '0';
     const intl = useIntl();
 
-    if (decimal) {
+    if (type === 'decimal') {
         return (
             <>
                 <FormattedNumber value={timeToDecimalTime(ensureTime(time))} maximumFractionDigits={2} />
                 {` `}t.
             </>
         );
+    } else if (type === 'digital') {
+        return (
+            <>
+                {timer}:{minutter}
+            </>
+        );
     }
     return (
-        <>
+        <span>
             {hideEmptyValues && timer === '0' && minutter !== '0' ? null : (
                 <span style={{ whiteSpace: 'nowrap' }}>
-                    {fullText ? intlHelper(intl, 'timer', { timer }) : <>{timer} t.</>}
+                    {fullText ? (
+                        intlHelper(intl, 'timer', { timer })
+                    ) : (
+                        <>
+                            {timer} <span aria-label="timer">t. </span>
+                        </>
+                    )}
                 </span>
             )}
             {` `}
             {hideEmptyValues && minutter === '0' && timer !== '0' ? null : (
                 <span style={{ whiteSpace: 'nowrap' }}>
-                    {fullText ? intlHelper(intl, 'minutter', { minutter }) : <>{minutter} m.</>}
+                    {fullText ? (
+                        intlHelper(intl, 'minutter', { minutter })
+                    ) : (
+                        <>
+                            {minutter} <span aria-label="minutter">m. </span>
+                        </>
+                    )}
                 </span>
             )}
-        </>
+        </span>
     );
 };
 

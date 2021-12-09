@@ -13,6 +13,8 @@ import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import EndreArbeidstid from './EndreArbeidstid';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { getMonthsInDateRange } from '../../../utils/common/dateRangeUtils';
+import SøknadFormComponents from '../../SøknadFormComponents';
+import { validateArbeidsTidEnkeltdager } from '../../../validation/validateArbeidFields';
 
 interface Props {
     arbeidsstedNavn: string;
@@ -47,6 +49,12 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
             <ArbeidstidMåned
                 formFieldName={formFieldName}
                 måned={måned}
+                periode={periode}
+                søknadsdato={søknadsdato}
+                arbeidsstedNavn={arbeidsstedNavn}
+                intlValues={intlValues}
+                åpentEkspanderbartPanel={antallMåneder === 1 || kanLeggeTilPeriode === false}
+                onAfterChange={onArbeidstidChanged ? (tid) => onArbeidstidChanged(tid) : undefined}
                 labels={{
                     addLabel: intlHelper(intl, 'arbeidstid.addLabel', { periode: mndOgÅr }),
                     deleteLabel: intlHelper(intl, 'arbeidstid.deleteLabel', {
@@ -59,18 +67,21 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                         periode: mndOgÅr,
                     }),
                 }}
-                arbeidsstedNavn={arbeidsstedNavn}
-                periode={periode}
-                intlValues={intlValues}
-                søknadsdato={søknadsdato}
-                åpentEkspanderbartPanel={antallMåneder === 1 || kanLeggeTilPeriode === false}
-                onAfterChange={onArbeidstidChanged ? (tid) => onArbeidstidChanged(tid) : undefined}
             />
         );
     };
 
     return (
-        <>
+        <SøknadFormComponents.InputGroup
+            /** På grunn av at dialogen jobber mot ett felt i formik, kan ikke
+             * validate på dialogen brukes. Da vil siste periode alltid bli brukt ved validering.
+             * Derfor wrappes dialogen med denne komponenten, og et unikt name brukes - da blir riktig periode
+             * brukt.
+             * Ikke optimalt, men det virker.
+             */
+            name={`${formFieldName}_dager` as any}
+            validate={() => validateArbeidsTidEnkeltdager(arbeidstidSøknadIPeriode, periode, intlValues)}
+            tag="div">
             {kanLeggeTilPeriode ? (
                 <>
                     <Element tag="h3">Hvor mye skal du jobbe?</Element>
@@ -101,7 +112,7 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                     månedContentRenderer={månedContentRenderer}
                 />
             </FormBlock>
-        </>
+        </SøknadFormComponents.InputGroup>
     );
 };
 

@@ -29,6 +29,7 @@ import OpplysningerOmBarnetStep from './opplysninger-om-barnet-step/Opplysninger
 import SummaryStep from './summary-step/SummaryStep';
 import OpplysningerOmTidsromStep from './tidsrom-step/OpplysningerOmTidsromStep';
 import { getHistoriskPeriode, getPlanlagtPeriode } from '../utils/fortidFremtidUtils';
+import ArbeidstidStep from './arbeid-i-periode-steps/ArbeidstidStep';
 
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
@@ -142,6 +143,19 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                             onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEIDSSITUASJON)}
                             søknadsdato={søknadsdato}
                             søknadsperiode={søknadsperiode}
+                        />
+                    )}
+                />
+            )}
+
+            {isAvailable(StepID.ARBEIDSTID, values) && søknadsperiode && (
+                <Route
+                    path={getSøknadRoute(StepID.ARBEIDSTID)}
+                    render={() => (
+                        <ArbeidstidStep
+                            periode={søknadsperiode}
+                            søknadsdato={søknadsdato}
+                            onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEIDSTID)}
                         />
                     )}
                 />

@@ -17,7 +17,7 @@ interface Props {
     onOmsorgstilbudChanged?: () => void;
 }
 
-const OmsorgstilbudIPeriodeSpørsmål: React.FunctionComponent<Props> = ({
+const OmsorgstilbudVariert: React.FunctionComponent<Props> = ({
     periode,
     tidIOmsorgstilbud,
     søknadsdato,
@@ -60,25 +60,23 @@ const OmsorgstilbudIPeriodeSpørsmål: React.FunctionComponent<Props> = ({
     };
 
     return (
-        <>
-            <SøknadFormComponents.InputGroup
-                /** På grunn av at dialogen jobber mot ett felt i formik, kan ikke
-                 * validate på dialogen brukes. Da vil siste periode alltid bli brukt ved validering.
-                 * Derfor wrappes dialogen med denne komponenten, og et unikt name brukes - da blir riktig periode
-                 * brukt.
-                 * Ikke optimalt, men det virker.
-                 */
-                name={`${enkeltdagerFieldName}_dager` as any}
-                tag="div"
-                validate={() => validateOmsorgstilbudEnkeltdagerIPeriode(tidIOmsorgstilbud, periode, gjelderFortid)}>
-                <SøknadsperioderMånedListe
-                    periode={periode}
-                    årstallHeadingLevel={3}
-                    månedContentRenderer={omsorgstilbudMånedRenderer}
-                />
-            </SøknadFormComponents.InputGroup>
-        </>
+        <SøknadFormComponents.InputGroup
+            /** På grunn av at dialogen jobber mot ett felt i formik, kan ikke
+             * validate på dialogen brukes. Da vil siste periode alltid bli brukt ved validering.
+             * Derfor wrappes dialogen med denne komponenten, og et unikt name brukes - da blir riktig periode
+             * brukt.
+             * Ikke optimalt, men det virker.
+             */
+            name={`${enkeltdagerFieldName}_dager` as any}
+            tag="div"
+            validate={() => validateOmsorgstilbudEnkeltdagerIPeriode(tidIOmsorgstilbud, periode, gjelderFortid)}>
+            <SøknadsperioderMånedListe
+                periode={periode}
+                årstallHeadingLevel={3}
+                månedContentRenderer={omsorgstilbudMånedRenderer}
+            />
+        </SøknadFormComponents.InputGroup>
     );
 };
 
-export default OmsorgstilbudIPeriodeSpørsmål;
+export default OmsorgstilbudVariert;

@@ -18,6 +18,8 @@ import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import EksempelOmsorgstilbud from './EksempelOmsorgstilbud';
 import Alertstripe from 'nav-frontend-alertstriper';
 import { søkerKunHelgedager } from '../../utils/formDataUtils';
+import OmsorgstilbudSpørsmålHelePerioden from './OmsorgstilbudSpørsmålHelePerioden';
+import { useFortidFremtid } from '../../types';
 
 dayjs.extend(isBetween);
 
@@ -79,32 +81,44 @@ const OmsorgstilbudStep = ({
                     </Box>
                 </CounsellorPanel>
             </Box>
-            {periodeFørSøknadsdato && (
-                <HistoriskOmsorgstilbudSpørsmål
-                    periode={periodeFørSøknadsdato}
-                    omsorgstilbud={omsorgstilbud}
-                    tittel={intlHelper(
-                        intl,
-                        harBådeHistoriskOgPlanlagt
-                            ? 'steg.omsorgstilbud.historisk.tittel'
-                            : 'steg.omsorgstilbud.generelt.tittel'
+            {useFortidFremtid ? (
+                <>
+                    {periodeFørSøknadsdato && (
+                        <HistoriskOmsorgstilbudSpørsmål
+                            periode={periodeFørSøknadsdato}
+                            omsorgstilbud={omsorgstilbud}
+                            tittel={intlHelper(
+                                intl,
+                                harBådeHistoriskOgPlanlagt
+                                    ? 'steg.omsorgstilbud.historisk.tittel'
+                                    : 'steg.omsorgstilbud.generelt.tittel'
+                            )}
+                            onOmsorgstilbudChanged={() => setOmsorgstilbudChanged(true)}
+                            søknadsdato={søknadsdato}
+                        />
                     )}
-                    onOmsorgstilbudChanged={() => setOmsorgstilbudChanged(true)}
-                    søknadsdato={søknadsdato}
-                />
-            )}
-            {periodeFraOgMedSøknadsdato && (
-                <PlanlagtOmsorgstilbudSpørsmål
-                    periode={periodeFraOgMedSøknadsdato}
-                    omsorgstilbud={omsorgstilbud}
-                    tittel={intlHelper(
-                        intl,
-                        harBådeHistoriskOgPlanlagt
-                            ? 'steg.omsorgstilbud.planlagt.tittel'
-                            : 'steg.omsorgstilbud.generelt.tittel'
+                    {periodeFraOgMedSøknadsdato && (
+                        <PlanlagtOmsorgstilbudSpørsmål
+                            periode={periodeFraOgMedSøknadsdato}
+                            omsorgstilbud={omsorgstilbud}
+                            tittel={intlHelper(
+                                intl,
+                                harBådeHistoriskOgPlanlagt
+                                    ? 'steg.omsorgstilbud.planlagt.tittel'
+                                    : 'steg.omsorgstilbud.generelt.tittel'
+                            )}
+                            onOmsorgstilbudChanged={() => setOmsorgstilbudChanged(true)}
+                            søknadsdato={søknadsdato}
+                        />
                     )}
-                    onOmsorgstilbudChanged={() => setOmsorgstilbudChanged(true)}
+                </>
+            ) : (
+                <OmsorgstilbudSpørsmålHelePerioden
+                    periode={søknadsperiode}
+                    omsorgstilbud={omsorgstilbud}
                     søknadsdato={søknadsdato}
+                    tittel={intlHelper(intl, 'steg.omsorgstilbud.helePerioden.tittel')}
+                    onOmsorgstilbudChanged={() => setOmsorgstilbudChanged(true)}
                 />
             )}
             {søkerKunHelgedager(values.periodeFra, values.periodeTil) && (

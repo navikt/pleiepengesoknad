@@ -71,7 +71,9 @@ function ArbeidstidMåned<FieldNames>({
                     setFieldValue(formFieldName as any, newValues);
                     onAfterChange ? onAfterChange(newValues) : undefined;
                 };
+
                 const utilgjengeligeDatoer = getUtilgjengeligeDatoerIMåned(måned.from, periode);
+
                 return (
                     <ArbeidstidMånedInfo
                         arbeidsstedNavn={arbeidsstedNavn}

@@ -7,20 +7,27 @@ export const getUtilgjengeligeDatoerIMåned = (månedDato: Date, periode: DateRa
         from: dayjs(månedDato).startOf('month').toDate(),
         to: dayjs(månedDato).endOf('month').toDate(),
     };
-    const periodeFørFørsteDag: DateRange = {
-        from: dayjs.min(dayjs(periode.from), dayjs(måned.from)).toDate(),
-        to: dayjs(periode.from).subtract(1, 'day').toDate(),
-    };
-    const dagerFørFørsteDag = dayjs(måned.from).isSame(periode.from, 'month')
-        ? getDatesInDateRange(periodeFørFørsteDag)
-        : [];
 
-    const dagerEtterSisteDag = dayjs(måned.from).isSame(periode.to, 'month')
-        ? getDatesInDateRange({
-              from: dayjs(periode.to).add(1, 'day').toDate(),
-              to: måned.to,
-          })
-        : [];
+    const periodeFørFørsteDag: DateRange | undefined =
+        periode.from.getDate() > 1
+            ? {
+                  from: dayjs.min(dayjs(periode.from), dayjs(måned.from)).toDate(),
+                  to: dayjs(periode.from).subtract(1, 'day').toDate(),
+              }
+            : undefined;
+
+    const dagerFørFørsteDag =
+        periodeFørFørsteDag && dayjs(måned.from).isSame(periode.from, 'month')
+            ? getDatesInDateRange(periodeFørFørsteDag)
+            : [];
+
+    const dagerEtterSisteDag =
+        dayjs(måned.from).isSame(periode.to, 'month') && dayjs(måned.from).isBefore(periode.to, 'day')
+            ? getDatesInDateRange({
+                  from: dayjs(periode.to).add(1, 'day').toDate(),
+                  to: måned.to,
+              })
+            : [];
 
     return [...dagerFørFørsteDag, ...dagerEtterSisteDag];
 };
