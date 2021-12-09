@@ -15,6 +15,7 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import { getMonthsInDateRange } from '../../../utils/common/dateRangeUtils';
 import SøknadFormComponents from '../../SøknadFormComponents';
 import { validateArbeidsTidEnkeltdager } from '../../../validation/validateArbeidFields';
+import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 
 interface Props {
     arbeidsstedNavn: string;
@@ -84,18 +85,20 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
             tag="div">
             {kanLeggeTilPeriode ? (
                 <>
-                    <Element tag="h3">Hvor mye skal du jobbe?</Element>
-                    <Box margin="m">
-                        <EndreArbeidstid
-                            jobberNormaltTimer={jobberNormaltTimer}
-                            intlValues={intlValues}
-                            periode={periode}
-                            formFieldName={formFieldName}
-                            arbeidsstedNavn={arbeidsstedNavn}
-                            arbeidstidSøknad={arbeidstidSøknadIPeriode}
-                            onAfterChange={onArbeidstidChanged ? (tid) => onArbeidstidChanged(tid) : undefined}
-                        />
-                    </Box>
+                    <ResponsivePanel>
+                        <Element tag="h3">Hvor mye skal du jobbe?</Element>
+                        <Box margin="m">
+                            <EndreArbeidstid
+                                jobberNormaltTimer={jobberNormaltTimer}
+                                intlValues={intlValues}
+                                periode={periode}
+                                formFieldName={formFieldName}
+                                arbeidsstedNavn={arbeidsstedNavn}
+                                arbeidstidSøknad={arbeidstidSøknadIPeriode}
+                                onAfterChange={onArbeidstidChanged ? (tid) => onArbeidstidChanged(tid) : undefined}
+                            />
+                        </Box>
+                    </ResponsivePanel>
                 </>
             ) : (
                 <>
@@ -105,7 +108,10 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                     Her skal du registrere hvor mye du {intlValues.skalEllerHarJobbet} de ulike dagene i denne perioden.
                 </>
             )}
-            <FormBlock margin="l">
+            <FormBlock margin="xl">
+                <Box padBottom="l">
+                    <Element tag="h3">Registrert jobb i {intlValues.iPerioden}</Element>
+                </Box>
                 <SøknadsperioderMånedListe
                     periode={periode}
                     årstallHeadingLevel={3}

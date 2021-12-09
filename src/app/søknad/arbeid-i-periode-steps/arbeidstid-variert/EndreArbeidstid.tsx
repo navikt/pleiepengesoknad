@@ -100,10 +100,9 @@ const EndreArbeidstid: React.FunctionComponent<Props> = ({
                 Du kan registrere jobb for flere perioder eller for enkeltdager. Enkeltdager registrerer du i listen
                 over måneder nedenfor.
             </p>
-            {/* <ExpandableInfo title="Mer om registrering av jobb">sdf</ExpandableInfo> */}
             <Box margin="none" padBottom="l">
                 <Knapperad align="left">
-                    <Knapp htmlType="button" type="hoved" onClick={() => setVisPeriode(true)} mini={true}>
+                    <Knapp htmlType="button" type="standard" onClick={() => setVisPeriode(true)} mini={true}>
                         Registrer jobb i periode
                     </Knapp>
                 </Knapperad>
