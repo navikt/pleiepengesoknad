@@ -22,7 +22,7 @@ export const getEnkeltdagerIPeriodeApiData = (enkeltdager: DatoTidMap, periode: 
 
     Object.keys(enkeltdager).forEach((dag) => {
         const dato = ISOStringToDate(dag);
-        if (dato && datoErInnenforTidsrom(dato, periode)) {
+        if (dato && datoErInnenforTidsrom(dato, periode) && dateIsWeekDay(dato)) {
             dager.push({
                 dato: dateToISOString(dato),
                 tid: timeToIso8601Duration(enkeltdager[dag].varighet),

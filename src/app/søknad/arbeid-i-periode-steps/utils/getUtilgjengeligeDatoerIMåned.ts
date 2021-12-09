@@ -18,15 +18,18 @@ export const getUtilgjengeligeDatoerIMåned = (månedDato: Date, periode: DateRa
 
     const dagerFørFørsteDag =
         periodeFørFørsteDag && dayjs(måned.from).isSame(periode.from, 'month')
-            ? getDatesInDateRange(periodeFørFørsteDag)
+            ? getDatesInDateRange(periodeFørFørsteDag, true)
             : [];
 
     const dagerEtterSisteDag =
         dayjs(måned.from).isSame(periode.to, 'month') && dayjs(måned.from).isBefore(periode.to, 'day')
-            ? getDatesInDateRange({
-                  from: dayjs(periode.to).add(1, 'day').toDate(),
-                  to: måned.to,
-              })
+            ? getDatesInDateRange(
+                  {
+                      from: dayjs(periode.to).add(1, 'day').toDate(),
+                      to: måned.to,
+                  },
+                  true
+              )
             : [];
 
     return [...dagerFørFørsteDag, ...dagerEtterSisteDag];

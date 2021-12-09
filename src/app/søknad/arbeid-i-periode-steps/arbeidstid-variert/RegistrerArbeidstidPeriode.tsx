@@ -39,7 +39,7 @@ const oppdaterDagerIPeriode = (
     normalTimer: number,
     { fom, tom, prosent, tidFasteDager }: ArbeidstidPeriodeData
 ): DatoTidMap => {
-    const datoerIPeriode = getDatesInDateRange({ from: fom, to: tom });
+    const datoerIPeriode = getDatesInDateRange({ from: fom, to: tom }, true);
     const dagerSomSkalEndres: DatoTidMap = {};
     const ingenTid: InputTime = { hours: '0', minutes: '0' };
     datoerIPeriode.forEach((dato) => {
