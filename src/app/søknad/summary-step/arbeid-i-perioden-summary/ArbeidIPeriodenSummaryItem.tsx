@@ -29,14 +29,6 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
             intl,
             erHistorisk ? 'oppsummering.arbeidIPeriode.Jobbet' : 'oppsummering.arbeidIPeriode.Jobber'
         ),
-        vanligRedusert: arbeidIPeriode.jobberIPerioden
-            ? intlHelper(intl, 'oppsummering.arbeidIPeriode.jobberIPerioden.ja.redusert', {
-                  timer:
-                      arbeidIPeriode.jobberIPerioden && normaltimerUke !== undefined
-                          ? intlHelper(intl, `timerPerUke`, { timer: normaltimerUke })
-                          : '',
-              })
-            : '',
     };
 
     const getJobberIPeriodenTekst = () => {
