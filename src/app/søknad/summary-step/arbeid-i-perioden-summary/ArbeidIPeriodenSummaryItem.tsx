@@ -1,5 +1,5 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { ArbeidIPeriodeApiData, ArbeidsforholdApiData } from '../../../types/SøknadApiData';
@@ -31,21 +31,6 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
         ),
     };
 
-    const getJobberIPeriodenTekst = () => {
-        switch (arbeidIPeriode.jobberIPerioden) {
-            case JobberIPeriodeSvar.JA:
-                return intlHelper(intl, `oppsummering.arbeidIPeriode.jobberIPerioden.ja`, intlTexts);
-            case JobberIPeriodeSvar.NEI:
-                return intlHelper(
-                    intl,
-                    erHistorisk
-                        ? `oppsummering.arbeidIPeriode.jobberIPerioden.nei.historisk`
-                        : `oppsummering.arbeidIPeriode.jobberIPerioden.nei`,
-                    intlTexts
-                );
-        }
-    };
-
     const getArbeidProsentTekst = (prosent: number) => {
         const tid = getRedusertArbeidstidSomInputTime(prosent, normaltimerUke / 5);
         return intlHelper(
@@ -63,7 +48,18 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
     return (
         <>
             <ul>
-                <li>{getJobberIPeriodenTekst()}</li>
+                {arbeidIPeriode.jobberIPerioden === JobberIPeriodeSvar.NEI && (
+                    <li>
+                        <FormattedMessage
+                            id={
+                                erHistorisk
+                                    ? `oppsummering.arbeidIPeriode.jobberIPerioden.nei.historisk`
+                                    : `oppsummering.arbeidIPeriode.jobberIPerioden.nei`
+                            }
+                            values={intlTexts}
+                        />
+                    </li>
+                )}
                 {arbeidIPeriode.enkeltdager && (
                     <li>
                         <div>
