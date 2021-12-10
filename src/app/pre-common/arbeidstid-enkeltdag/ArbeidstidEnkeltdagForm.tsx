@@ -12,15 +12,17 @@ import { InputDateString } from 'nav-datovelger/lib/types';
 import { Undertittel } from 'nav-frontend-typografi';
 import dateFormatter from '../../utils/common/dateFormatterUtils';
 import { ensureTime } from '../../utils/common/inputTimeUtils';
-import { DatoTidMap } from '../../types';
+import { ArbeidsforholdType, DatoTidMap } from '../../types';
 import { getDagerMedNyArbeidstid } from './arbeidstidEnkeltdagUtils';
 import { getMonthDateRange, getNumberOfDaysInDateRange, getWeekDateRange } from '../../utils/common/dateRangeUtils';
 import { getArbeidstidEnkeltdagFormTidValidator } from '../../validation/validateArbeidFields';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 
 interface Props {
     dato: Date;
     tid?: Partial<InputTime>;
     arbeidsstedNavn: string;
+    arbeidsforholdType: ArbeidsforholdType;
     periode: DateRange;
     onSubmit: (dagerMedTid: ArbeidstidEnkeltdagEndring) => void;
     onCancel: () => void;
@@ -77,6 +79,7 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
     dato,
     tid,
     arbeidsstedNavn,
+    arbeidsforholdType,
     periode,
     onSubmit,
     onCancel,
@@ -117,6 +120,15 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
 
     const sluttDatoTxt = dateFormatter.dayFullShortDate(periode.to);
 
+    const intlValues = {
+        skalEllerHarJobbet: intlHelper(
+            intl,
+            erHistorisk ? 'arbeidstidEnkeltdagForm.jobbet' : 'arbeidstidEnkeltdagForm.skalJobbe'
+        ),
+        hvor: intlHelper(intl, `arbeidstidEnkeltdagForm.som.${arbeidsforholdType}`, { navn: arbeidsstedNavn }),
+        når: dateFormatter.fullWithDayName(dato),
+    };
+
     return (
         <div>
             <Undertittel tag="h1" className={bem.element('tittel')}>
@@ -144,9 +156,7 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                                 <FormComponents.TimeInput
                                     disabled={skalIkkeJobbe === true}
                                     name={FormFields.tid}
-                                    label={`Hvor mye ${
-                                        erHistorisk ? 'jobbet du' : 'skal du jobbe'
-                                    } hos ${arbeidsstedNavn} ${dateFormatter.fullWithDayName(dato)}?`}
+                                    label={intlHelper(intl, 'arbeidstidEnkeltdagForm.tid.spm', intlValues)}
                                     validate={getArbeidstidEnkeltdagFormTidValidator}
                                     timeInputLayout={{ justifyContent: 'left', compact: false, direction: 'vertical' }}
                                 />
@@ -170,7 +180,7 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                                 {getNumberOfDaysInDateRange(periode) > 2 && (
                                     <FormBlock margin="l">
                                         <FormComponents.Checkbox
-                                            label="Gjelder flere dager"
+                                            label={intlHelper(intl, 'arbeidstidEnkeltdagForm.gjelderFlereDager.label')}
                                             name={FormFields.skalGjentas}
                                         />
                                     </FormBlock>

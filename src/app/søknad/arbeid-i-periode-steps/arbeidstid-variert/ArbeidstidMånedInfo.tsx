@@ -8,13 +8,14 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 import ArbeidstidEnkeltdagDialog from '../../../pre-common/arbeidstid-enkeltdag/ArbeidstidEnkeltdagDialog';
 import { ArbeidstidEnkeltdagEndring } from '../../../pre-common/arbeidstid-enkeltdag/ArbeidstidEnkeltdagForm';
 import TidsbrukKalender from '../../../components/tidsbruk-kalender/TidsbrukKalender';
-import { DatoTidMap } from '../../../types';
+import { ArbeidsforholdType, DatoTidMap } from '../../../types';
 import { getAntallDagerMedTidMerEnnNull, getDagerMedTidITidsrom } from '../../../utils/datoTidUtils';
 import TidArbeidEnkeltdag from './TidArbeidEnkeltdag';
 
 interface Props {
     måned: DateRange;
     arbeidsstedNavn: string;
+    arbeidsforholdType: ArbeidsforholdType;
     tidArbeidstid: DatoTidMap;
     utilgjengeligeDatoer?: Date[];
     månedTittelHeadingLevel?: number;
@@ -55,6 +56,7 @@ const ArbeidstidMånedTittel = ({
 const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
     måned,
     arbeidsstedNavn,
+    arbeidsforholdType,
     tidArbeidstid,
     utilgjengeligeDatoer,
     månedTittelHeadingLevel = 2,
@@ -132,6 +134,7 @@ const ArbeidstidMånedInfo: React.FunctionComponent<Props> = ({
                     }}
                     onCancel={() => setEditDate(undefined)}
                     arbeidsstedNavn={arbeidsstedNavn}
+                    arbeidsforholdType={arbeidsforholdType}
                 />
             )}
         </Ekspanderbartpanel>

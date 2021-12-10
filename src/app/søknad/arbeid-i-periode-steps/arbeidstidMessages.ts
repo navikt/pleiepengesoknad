@@ -26,6 +26,14 @@ const arbeidstidMessages = {
         'arbeidstid.ukeOgÅr': '{ukeOgÅr}',
         'arbeidstid.iPeriodePanel.info': '{dager, plural, one {# dag} other {# dager}} med jobb registrert.',
         'arbeidstid.iPeriodePanel.info.ingenDager': 'Ingen dager med jobb registrert.',
+        'arbeidstidEnkeltdagForm.tid.spm': 'Hvor mye {skalEllerHarJobbet} {hvor} {når}',
+        'arbeidstidEnkeltdagForm.som.ANSATT': 'hos {navn}',
+        'arbeidstidEnkeltdagForm.som.FRILANSER': 'som frilanser',
+        'arbeidstidEnkeltdagForm.som.SELVSTENDIG': 'som selvstendig næringsdrivende',
+        'arbeidstidEnkeltdagForm.skalJobbe': 'skal du jobbe',
+        'arbeidstidEnkeltdagForm.jobbet': 'jobbet du',
+        'arbeidstidEnkeltdagForm.gjelderFlereDager': 'Gjelder flere dager',
+
         'registrerArbeidstidPeriode.registrerJobbKnapp.label': 'Registrer jobb for periode',
         // 'arbeidsforhold.part.jobber': 'jobber',
         // 'arbeidsforhold.part.jobbet': 'jobbet',
@@ -51,7 +59,7 @@ const arbeidstidMessages = {
         'arbeidstidPeriodeForm.tidFasteDagerEllerProsent.prosent': 'I prosent',
         'arbeidstidPeriodeForm.tidFasteDagerEllerProsent.timer': 'I timer',
         'arbeidstidPeriodeForm.prosent.label': 'Hvor mange prosent av din normale arbeidstid {skalEllerHarJobbet} du?',
-        'arbeidstidPeriodeForm.tidFasteDager.label': 'Oppgi hvor mye du ${skalEllerHarJobbet}:',
+        'arbeidstidPeriodeForm.tidFasteDager.label': 'Oppgi hvor mye du {skalEllerHarJobbet}:',
     },
 };
 

@@ -4,6 +4,7 @@ import Modal from 'nav-frontend-modal';
 import dateFormatter from '../../utils/common/dateFormatterUtils';
 import ArbeidstidEnkeltdagForm, { ArbeidstidEnkeltdagEndring } from './ArbeidstidEnkeltdagForm';
 import './arbeidstidEnkeltdag.less';
+import { ArbeidsforholdType } from '../../types';
 
 interface Props {
     isOpen?: boolean;
@@ -11,6 +12,7 @@ interface Props {
     tid?: Partial<InputTime>;
     arbeidsstedNavn: string;
     periode: DateRange;
+    arbeidsforholdType: ArbeidsforholdType;
     onSubmit: (evt: ArbeidstidEnkeltdagEndring) => void;
     onCancel: () => void;
 }
@@ -20,6 +22,7 @@ const ArbeidstidEnkeltdagDialog: React.FunctionComponent<Props> = ({
     dato,
     tid,
     arbeidsstedNavn,
+    arbeidsforholdType,
     periode,
     onSubmit,
     onCancel,
@@ -42,6 +45,7 @@ const ArbeidstidEnkeltdagDialog: React.FunctionComponent<Props> = ({
                     dato={dato}
                     tid={tid}
                     arbeidsstedNavn={arbeidsstedNavn}
+                    arbeidsforholdType={arbeidsforholdType}
                     onCancel={onCancel}
                     onSubmit={onSubmit}
                 />

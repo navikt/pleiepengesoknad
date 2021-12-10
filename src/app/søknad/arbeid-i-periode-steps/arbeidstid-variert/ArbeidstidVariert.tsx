@@ -7,7 +7,7 @@ import { Element } from 'nav-frontend-typografi';
 import { ArbeidstidEnkeltdagEndring } from '../../../pre-common/arbeidstid-enkeltdag/ArbeidstidEnkeltdagForm';
 import SøknadsperioderMånedListe from '../../../pre-common/søknadsperioder-måned-liste/SøknadsperioderMånedListe';
 import { getMonthsInDateRange } from '../../../utils/common/dateRangeUtils';
-import { DatoTidMap } from '../../../types';
+import { ArbeidsforholdType, DatoTidMap } from '../../../types';
 import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
 import { validateArbeidsTidEnkeltdager } from '../../../validation/validateArbeidFields';
 import SøknadFormComponents from '../../SøknadFormComponents';
@@ -19,6 +19,7 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 
 interface Props {
     arbeidsstedNavn: string;
+    arbeidsforholdType: ArbeidsforholdType;
     formFieldName: SøknadFormField;
     periode: DateRange;
     jobberNormaltTimer: number;
@@ -32,6 +33,7 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
     formFieldName,
     arbeidstid = {},
     arbeidsstedNavn,
+    arbeidsforholdType,
     jobberNormaltTimer,
     periode,
     intlValues,
@@ -60,6 +62,7 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
         return (
             <ArbeidstidMånedInfo
                 arbeidsstedNavn={arbeidsstedNavn}
+                arbeidsforholdType={arbeidsforholdType}
                 måned={måned}
                 åpentEkspanderbartPanel={antallMåneder === 1 || kanLeggeTilPeriode === false}
                 tidArbeidstid={arbeidstid}

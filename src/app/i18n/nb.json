@@ -576,7 +576,7 @@
     "arbeidIPeriode.historisk.erLiktHverUke.spm": "Skal du jobbe likt {hvor} hver uke i hele perioden?",
     "arbeidIPeriode.historisk.erLiktHverUke.ja": "Ja, hver uke var lik",
     "arbeidIPeriode.historisk.erLiktHverUke.nei": "Nei, det varierte",
-    "arbeidIPeriode.historisk.ukedager.tittel": "Oppgi hvor mye du jobbet på hverdagene {hvor} {iPerioden}:",
+    "arbeidIPeriode.historisk.ukedager.tittel": "Oppgi hvor mye du jobbet i hverdagene {hvor} {iPerioden}:",
     "arbeidIPeriode.planlagt.ukedager.tittel": "Legg inn antall timer du skal jobbe:",
     "arbeidIPeriode.historisk.enkeltdager.tittel": "Hvor mye jobbet du {hvor} {iPerioden}?",
     "arbeidIPeriode.ukedager.info.tittel": "Hva med lørdag og søndag?",

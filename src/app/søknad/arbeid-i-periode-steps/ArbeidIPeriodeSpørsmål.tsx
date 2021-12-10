@@ -221,6 +221,7 @@ const ArbeidIPeriodeSpørsmål = ({
                             periode={periode}
                             intlValues={intlValues}
                             arbeidsstedNavn={arbeidsstedNavn}
+                            arbeidsforholdType={arbeidsforholdType}
                             formFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
                             onArbeidstidChanged={() => setArbeidstidChanged(true)}
                         />
@@ -247,6 +248,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                     periode={periode}
                                     intlValues={intlValues}
                                     arbeidsstedNavn={arbeidsstedNavn}
+                                    arbeidsforholdType={arbeidsforholdType}
                                     formFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
                                     onArbeidstidChanged={() => setArbeidstidChanged(true)}
                                 />
