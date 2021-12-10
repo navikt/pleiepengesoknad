@@ -15,7 +15,10 @@ import {
     getRedusertArbeidstidPerUkeInfo,
 } from '../../søknad/arbeid-i-periode-steps/ArbeidIPeriodeSpørsmål';
 import { TidUkedager } from '../../types';
-import { getArbeidstidProsentValidator, validateFasteArbeidstimerIUke } from '../../validation/validateArbeidFields';
+import {
+    getArbeidstidFastProsentValidator,
+    validateFasteArbeidstimerIUke,
+} from '../../validation/validateArbeidFields';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 
 interface Props {
@@ -179,9 +182,12 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<Props> = ({
                                         <FormComponents.NumberInput
                                             name={FormFields.prosent}
                                             bredde="XS"
-                                            maxLength={3}
+                                            maxLength={4}
                                             label={intlHelper(intl, 'arbeidstidPeriodeForm.prosent.label', intlValues)}
-                                            validate={getArbeidstidProsentValidator(intlValues, { min: 0, max: 100 })}
+                                            validate={getArbeidstidFastProsentValidator(intlValues, {
+                                                min: 0,
+                                                max: 100,
+                                            })}
                                             suffix={getRedusertArbeidstidPerUkeInfo(intl, jobberNormaltTimer, prosent)}
                                             suffixStyle="text"
                                         />

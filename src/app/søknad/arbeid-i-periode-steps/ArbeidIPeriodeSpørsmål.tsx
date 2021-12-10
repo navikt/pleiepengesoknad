@@ -25,7 +25,7 @@ import { getRedusertArbeidstidSomIso8601Duration } from '../../utils/formToApiMa
 import {
     getArbeidErLiktHverUkeValidator,
     getArbeidJobberValidator,
-    getArbeidstidProsentValidator,
+    getArbeidstidFastProsentValidator,
     getArbeidstidTimerEllerProsentValidator,
     getArbeidstimerFastDagValidator,
     validateFasteArbeidstimerIUke,
@@ -280,7 +280,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                         <SøknadFormComponents.NumberInput
                                             name={getFieldName(ArbeidIPeriodeField.skalJobbeProsent)}
                                             bredde="XS"
-                                            maxLength={5}
+                                            maxLength={4}
                                             label={intlHelper(
                                                 intl,
                                                 erHistorisk
@@ -289,7 +289,7 @@ const ArbeidIPeriodeSpørsmål = ({
 
                                                 intlValues
                                             )}
-                                            validate={getArbeidstidProsentValidator(intlValues)}
+                                            validate={getArbeidstidFastProsentValidator(intlValues)}
                                             suffix={getRedusertArbeidstidPerUkeInfo(
                                                 intl,
                                                 jobberNormaltTimer,

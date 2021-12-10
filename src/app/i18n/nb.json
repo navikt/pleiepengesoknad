@@ -821,10 +821,11 @@
 
     "validation.arbeidstimer.timerEllerProsent.noValue": "Du må svare på hvordan du ønsker å oppgi hvor mye du {skalEllerHarJobbet} {hvor}.",
 
-    "validation.arbeidstimer.prosent.numberHasNoValue": "Du må oppgi hvor mange prosent du {skalEllerHarJobbet} {hvor}.",
-    "validation.arbeidstimer.prosent.numberHasInvalidFormat": "Antall prosent du {skalEllerHarJobbet} {hvor} kan kun bestå av tall.",
-    "validation.arbeidstimer.prosent.numberIsTooSmall": "Antall prosent du {skalEllerHarJobbet} {hvor} kan ikke være mindre enn {min}.",
-    "validation.arbeidstimer.prosent.numberIsTooLarge": "Antall prosent du {skalEllerHarJobbet} {hvor} kan ikke være mer enn {max}.",
+    "validation.arbeidstimerFast.prosent.måSvareNeiPåJobbIPerioden": "Dersom du ikke {skalEllerHarJobbet} {hvor}, må du svare Nei på spørsmålet ovenfor om jobb i perioden.",
+    "validation.arbeidstimerFast.prosent.numberHasNoValue": "Du må oppgi hvor mange prosent du {skalEllerHarJobbet} {hvor}.",
+    "validation.arbeidstimerFast.prosent.numberHasInvalidFormat": "Antall prosent du {skalEllerHarJobbet} {hvor} kan kun bestå av tall.",
+    "validation.arbeidstimerFast.prosent.numberIsTooSmall": "Antall prosent du {skalEllerHarJobbet} {hvor} kan ikke være mindre enn {min}.",
+    "validation.arbeidstimerFast.prosent.numberIsTooLarge": "Antall prosent du {skalEllerHarJobbet} {hvor} kan ikke være mer enn {max}.",
 
     "validation.arbeidstimer.dato.tid.timeHasNoValue": "Du må fylle ut timer og minutter for {dato} {hvor}.",
     "validation.arbeidstimer.dato.tid.hoursAreInvalid": "Antall timer {dato} {hvor} er ikke et gyldig tall.",

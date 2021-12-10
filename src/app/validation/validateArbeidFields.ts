@@ -1,5 +1,5 @@
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { InputTime } from '@navikt/sif-common-formik/lib';
+import { getNumberFromNumberInputValue, InputTime } from '@navikt/sif-common-formik/lib';
 import { getNumberValidator, getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
 import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeValidator';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
@@ -95,16 +95,25 @@ export const getArbeidstimerFastDagValidator =
         return undefined;
     };
 
-export const getArbeidstidProsentValidator =
+export const getArbeidstidFastProsentValidator =
     (intlValues: ArbeidIPeriodeIntlValues, minMax?: { min: number; max: number }) => (value: any) => {
         const minMaxOptions = minMax || {
             min: 1,
             max: 100,
         };
+
+        const intlKey = 'validation.arbeidstimerFast.prosent';
+        if (getNumberFromNumberInputValue(value) === 0) {
+            return {
+                key: `${intlKey}.måSvareNeiPåJobbIPerioden`,
+                values: { ...intlValues },
+                keepKeyUnaltered: true,
+            };
+        }
         const error = getNumberValidator({ required: true, ...minMaxOptions })(value);
         if (error) {
             return {
-                key: `validation.arbeidstimer.prosent.${error}`,
+                key: `${intlKey}.${error}`,
                 values: { ...intlValues, ...minMaxOptions },
                 keepKeyUnaltered: true,
             };
