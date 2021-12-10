@@ -32,7 +32,7 @@ const arbeidstidMessages = {
         'arbeidstidEnkeltdagForm.som.SELVSTENDIG': 'som selvstendig næringsdrivende',
         'arbeidstidEnkeltdagForm.skalJobbe': 'skal du jobbe',
         'arbeidstidEnkeltdagForm.jobbet': 'jobbet du',
-        'arbeidstidEnkeltdagForm.gjelderFlereDager': 'Gjelder flere dager',
+        'arbeidstidEnkeltdagForm.gjelderFlereDager.label': 'Gjelder flere dager',
 
         'registrerArbeidstidPeriode.registrerJobbKnapp.label': 'Registrer jobb for periode',
         // 'arbeidsforhold.part.jobber': 'jobber',
