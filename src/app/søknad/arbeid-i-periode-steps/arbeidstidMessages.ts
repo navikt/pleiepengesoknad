@@ -33,6 +33,15 @@ const arbeidstidMessages = {
         'arbeidstidEnkeltdagForm.skalJobbe': 'skal du jobbe',
         'arbeidstidEnkeltdagForm.jobbet': 'jobbet du',
         'arbeidstidEnkeltdagForm.gjelderFlereDager.label': 'Gjelder flere dager',
+        'arbeidstidEnkeltdagForm.gjentagelse.helUke': 'Alle hverdager i uke {ukeNavn}.',
+        'arbeidstidEnkeltdagForm.gjentagelse.delerAvUke': 'Hverdager i uke {ukeNavn}.',
+        'arbeidstidEnkeltdagForm.gjentagelse.helMåned': 'Alle hverdager i {månedNavn}.',
+        'arbeidstidEnkeltdagForm.gjentagelse.delAvMåned': 'Hverdager i {månedNavn}.',
+        'arbeidstidEnkeltdagForm.gjentagelse.dagerFremover': 'Hver {dagNavn} fra og med {fra}.',
+
+        'arbeidstidEnkeltdagForm.gjentagelse.periode': '({fra} - {til})',
+        'arbeidstidEnkeltdagForm.stoppGjentagelse.label': 'Velg en annen til og med dato',
+        'arbeidstidEnkeltdagForm.stopDato.label': 'Velg til og med dato',
 
         'registrerArbeidstidPeriode.registrerJobbKnapp.label': 'Registrer jobb for periode',
         // 'arbeidsforhold.part.jobber': 'jobber',

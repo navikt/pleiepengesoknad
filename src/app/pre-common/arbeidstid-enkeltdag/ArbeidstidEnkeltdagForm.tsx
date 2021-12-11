@@ -1,5 +1,5 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
@@ -44,7 +44,7 @@ enum FormFields {
     'skalIkkeJobbe' = 'skalIkkeJobbe',
     'skalGjentas' = 'skalGjentas',
     'gjentagelse' = 'gjentagelse',
-    'stopGjentagelse' = 'stopGjentagelse',
+    'stoppGjentagelse' = 'stoppGjentagelse',
     'stopDato' = 'stopDato',
 }
 
@@ -60,7 +60,7 @@ interface FormValues {
     [FormFields.skalGjentas]: boolean;
     [FormFields.skalIkkeJobbe]: boolean;
     [FormFields.gjentagelse]: GjentagelseType;
-    [FormFields.stopGjentagelse]: boolean;
+    [FormFields.stoppGjentagelse]: boolean;
     [FormFields.stopDato]: InputDateString;
 }
 
@@ -101,7 +101,7 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
 
     const erHistorisk = dayjs(dato).isBefore(dateToday);
     const dagNavn = dayjs(dato).format('dddd');
-    const datoString = dateFormatter.extended(dato);
+    const datoString = dateFormatter.dayFullShortDate(dato);
 
     const ukePeriode: DateRange = getDateRangeWithinDateRange(getWeekDateRange(dato, true), periode);
     const ukeErHel = dayjs(ukePeriode.from).isoWeekday() === 1 && dayjs(ukePeriode.to).isoWeekday() === 5;
@@ -129,6 +129,25 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
         når: dateFormatter.fullWithDayName(dato),
     };
 
+    const renderGjentagelseRadioLabel = (
+        key: string,
+        periode?: { fra: string; til: string },
+        values?: any
+    ): JSX.Element => (
+        <>
+            <FormattedMessage id={`arbeidstidEnkeltdagForm.gjentagelse.${key}`} values={{ ...values, ...periode }} />
+            <div className="m-comment">
+                <FormattedMessage
+                    id="arbeidstidEnkeltdagForm.gjentagelse.periode"
+                    values={{
+                        ...values,
+                        ...periode,
+                    }}
+                />
+            </div>
+        </>
+    );
+
     return (
         <div>
             <Undertittel tag="h1" className={bem.element('tittel')}>
@@ -143,7 +162,7 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                     onSubmit={onValidSubmit}
                     renderForm={({
                         getFieldHelpers,
-                        values: { skalGjentas, stopGjentagelse, gjentagelse, skalIkkeJobbe },
+                        values: { skalGjentas, stoppGjentagelse, gjentagelse, skalIkkeJobbe },
                     }) => {
                         return (
                             <FormComponents.Form
@@ -190,53 +209,43 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                                         <FormBlock margin="m">
                                             <FormComponents.RadioGroup
                                                 className="compactRadios"
+                                                name={FormFields.gjentagelse}
                                                 radios={[
                                                     {
-                                                        label: ukeErHel ? (
-                                                            <>
-                                                                Alle hverdager i uke {ukeNavn}
-                                                                <div className="m-comment">
-                                                                    ({ukePeriodeStartTxt} - {ukePeriodeSluttTxt})
-                                                                </div>
-                                                            </>
-                                                        ) : (
-                                                            <>
-                                                                Hverdager i uke {ukeNavn}
-                                                                <div className="m-comment">
-                                                                    ({ukePeriodeStartTxt} -{ukePeriodeSluttTxt})
-                                                                </div>
-                                                            </>
+                                                        label: renderGjentagelseRadioLabel(
+                                                            ukeErHel ? 'helUke' : 'delAvUke',
+                                                            {
+                                                                fra: ukePeriodeStartTxt,
+                                                                til: ukePeriodeSluttTxt,
+                                                            },
+                                                            { ukeNavn }
                                                         ),
                                                         value: GjentagelseType.heleUken,
                                                     },
                                                     {
-                                                        label: månedErHel ? (
-                                                            <>Alle hverdager i {månedNavn}</>
-                                                        ) : (
-                                                            <>
-                                                                Hverdager i {månedNavn}
-                                                                <div className="m-comment">
-                                                                    ({månedPeriodeStartTxt} - {månedPeriodeSluttTxt})
-                                                                </div>
-                                                            </>
+                                                        label: renderGjentagelseRadioLabel(
+                                                            månedErHel ? 'helMåned' : 'delAvMåned',
+                                                            {
+                                                                fra: månedPeriodeStartTxt,
+                                                                til: månedPeriodeSluttTxt,
+                                                            },
+                                                            { månedNavn }
                                                         ),
                                                         value: GjentagelseType.heleMåneden,
                                                     },
                                                     {
-                                                        label: (
-                                                            <>
-                                                                Hver {dagNavn} fra og med {datoString}
-                                                                <div className="m-comment">
-                                                                    {` `}
-                                                                    (til og med {` `}
-                                                                    {sluttDatoTxt})
-                                                                </div>
-                                                            </>
+                                                        label: renderGjentagelseRadioLabel(
+                                                            'dagerFremover',
+                                                            {
+                                                                fra: datoString,
+                                                                til: sluttDatoTxt,
+                                                            },
+                                                            { dagNavn }
                                                         ),
+
                                                         value: GjentagelseType.hverUke,
                                                     },
                                                 ]}
-                                                name={FormFields.gjentagelse}
                                             />
                                         </FormBlock>
                                         {(gjentagelse === GjentagelseType.hverUke ||
@@ -245,14 +254,20 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                                                 <div style={{ marginLeft: '1.5rem' }}>
                                                     <FormBlock margin="m">
                                                         <FormComponents.Checkbox
-                                                            label="Velg en annen til og med dato"
-                                                            name={FormFields.stopGjentagelse}
+                                                            label={intlHelper(
+                                                                intl,
+                                                                'arbeidstidEnkeltdagForm.stoppGjentagelse.label'
+                                                            )}
+                                                            name={FormFields.stoppGjentagelse}
                                                         />
                                                     </FormBlock>
-                                                    {stopGjentagelse && (
+                                                    {stoppGjentagelse && (
                                                         <FormBlock margin="l">
                                                             <FormComponents.DatePicker
-                                                                label="Velg til og med dato"
+                                                                label={intlHelper(
+                                                                    intl,
+                                                                    'arbeidstidEnkeltdagForm.stopDato.label'
+                                                                )}
                                                                 minDate={dato}
                                                                 maxDate={periode.to}
                                                                 disableWeekend={true}
