@@ -29,8 +29,6 @@ interface Props {
     onCancel: () => void;
 }
 
-const includeSkalIkkeJobbe = false;
-
 export interface GjentagelseEnkeltdag {
     gjentagelsetype: GjentagelseType;
     tom?: Date;
@@ -42,7 +40,6 @@ export interface ArbeidstidEnkeltdagEndring {
 
 enum FormFields {
     'tid' = 'tid',
-    'skalIkkeJobbe' = 'skalIkkeJobbe',
     'skalGjentas' = 'skalGjentas',
     'gjentagelse' = 'gjentagelse',
     'stoppGjentagelse' = 'stoppGjentagelse',
@@ -59,7 +56,6 @@ export enum GjentagelseType {
 interface FormValues {
     [FormFields.tid]: InputTime;
     [FormFields.skalGjentas]: boolean;
-    [FormFields.skalIkkeJobbe]: boolean;
     [FormFields.gjentagelse]: GjentagelseType;
     [FormFields.stoppGjentagelse]: boolean;
     [FormFields.stopDato]: InputDateString;
@@ -161,10 +157,7 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                         tid: tid ? ensureTime(tid) : undefined,
                     }}
                     onSubmit={onValidSubmit}
-                    renderForm={({
-                        getFieldHelpers,
-                        values: { skalGjentas, stoppGjentagelse, gjentagelse, skalIkkeJobbe },
-                    }) => {
+                    renderForm={({ values: { skalGjentas, stoppGjentagelse, gjentagelse } }) => {
                         return (
                             <FormComponents.Form
                                 onCancel={onCancel}
@@ -174,29 +167,11 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                                 submitButtonLabel="Lagre"
                                 cancelButtonLabel="Avbryt">
                                 <FormComponents.TimeInput
-                                    disabled={skalIkkeJobbe === true}
                                     name={FormFields.tid}
                                     label={intlHelper(intl, 'arbeidstidEnkeltdagForm.tid.spm', intlValues)}
                                     validate={getArbeidstidEnkeltdagFormTidValidator}
                                     timeInputLayout={{ justifyContent: 'left', compact: false, direction: 'vertical' }}
                                 />
-                                {includeSkalIkkeJobbe && (
-                                    <FormBlock margin="m">
-                                        <FormComponents.Checkbox
-                                            label="Jeg skal ikke jobbe"
-                                            afterOnChange={() => {
-                                                const x = getFieldHelpers(FormFields.tid);
-                                                if (skalIkkeJobbe) {
-                                                    x.setValue({ hours: '0', minutes: '0' });
-                                                } else {
-                                                    x.setValue({ hours: '', minutes: '' });
-                                                }
-                                                x.setTouched(true);
-                                            }}
-                                            name={FormFields.skalIkkeJobbe}
-                                        />
-                                    </FormBlock>
-                                )}
                                 {getNumberOfDaysInDateRange(periode) > 2 && (
                                     <FormBlock margin="l">
                                         <FormComponents.Checkbox
@@ -279,7 +254,6 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                                                                 })}
                                                                 disableWeekend={true}
                                                                 fullScreenOnMobile={true}
-                                                                useFastField={true}
                                                                 dayPickerProps={{
                                                                     initialMonth: dato,
                                                                 }}
