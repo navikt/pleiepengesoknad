@@ -53,7 +53,10 @@ const OmsorgstilbudEnkeltdagForm: React.FunctionComponent<Props> = ({ dato, tid,
                         return (
                             <FormComponents.Form
                                 onCancel={onCancel}
-                                formErrorHandler={getIntlFormErrorHandler(intl, 'omsorgstilbudEnkeltdag')}
+                                formErrorHandler={getIntlFormErrorHandler(
+                                    intl,
+                                    'omsorgstilbudEnkeltdagForm.validation'
+                                )}
                                 includeValidationSummary={false}
                                 includeButtons={true}
                                 submitButtonLabel="Lagre"

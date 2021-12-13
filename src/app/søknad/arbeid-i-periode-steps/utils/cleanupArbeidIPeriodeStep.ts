@@ -14,7 +14,7 @@ import { getPeriodeSomFrilanserInnenforPeriode } from '../../../utils/frilanserU
 
 dayjs.extend(minMax);
 
-const cleanupArbeidIPeriode = (periode: DateRange, arbeidIPerioden: ArbeidIPeriode): ArbeidIPeriode => {
+export const cleanupArbeidIPeriode = (periode: DateRange, arbeidIPerioden: ArbeidIPeriode): ArbeidIPeriode => {
     const arbeid: ArbeidIPeriode = {
         jobberIPerioden: arbeidIPerioden.jobberIPerioden,
     };
@@ -36,7 +36,7 @@ const cleanupArbeidIPeriode = (periode: DateRange, arbeidIPerioden: ArbeidIPerio
     return { ...arbeid, erLiktHverUke, enkeltdager };
 };
 
-const cleanupArbeidsforhold = (
+export const cleanupArbeidsforhold = (
     arbeidsforhold: Arbeidsforhold,
     periode: DateRange,
     erHistorisk: boolean

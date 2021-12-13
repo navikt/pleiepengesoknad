@@ -1,61 +1,100 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
-import { getPeriodeSomFrilanserInnenforPeriode } from '../../../../utils/frilanserUtils';
+import { ISODateToDate } from '../../../../utils/common/isoDateUtils';
+import { JobberIPeriodeSvar, TimerEllerProsent } from '../../../../types';
+import { ArbeidIPeriode, Arbeidsforhold } from '../../../../types/SøknadFormData';
+import { cleanupArbeidIPeriode, cleanupArbeidsforhold } from '../cleanupArbeidIPeriodeStep';
 
 dayjs.extend(minMax);
 
-describe('arbeidIPeriodeStepUtils', () => {
-    const periodeFromDateString = '2021-02-01';
-    const periodeToDateString = '2021-02-12';
+const periodeFromDateString = '2021-02-01';
+const periodeToDateString = '2021-02-12';
 
-    const periode: DateRange = {
-        from: datepickerUtils.getDateFromDateString(periodeFromDateString)!,
-        to: datepickerUtils.getDateFromDateString(periodeToDateString)!,
-    };
-    describe('getPeriodeSomFrilanserInneforPeriode', () => {
-        it('returnerer opprinnelig periode når frilans startdato er før periode og er fortsatt frilanser', () => {
-            const result = getPeriodeSomFrilanserInnenforPeriode(periode, {
-                frilans_startdato: '2021-01-01',
-                frilans_sluttdato: undefined,
-                frilans_jobberFortsattSomFrilans: YesOrNo.YES,
-            });
-            expect(dayjs(result?.from).isSame(periode.from, 'day')).toBeTruthy();
+const arbeidIPeriode: ArbeidIPeriode = {
+    jobberIPerioden: JobberIPeriodeSvar.JA,
+    erLiktHverUke: YesOrNo.YES,
+    timerEllerProsent: TimerEllerProsent.PROSENT,
+    fasteDager: {
+        fredag: { minutes: '10', hours: '2' },
+    },
+    enkeltdager: { '2021-02-01': { varighet: { hours: '2' }, prosent: 20 } },
+    skalJobbeProsent: '20',
+};
+
+const arbeidsforhold: Arbeidsforhold = {
+    jobberNormaltTimer: '20',
+    historisk: arbeidIPeriode,
+    planlagt: arbeidIPeriode,
+};
+
+const periode: DateRange = {
+    from: ISODateToDate(periodeFromDateString),
+    to: ISODateToDate(periodeToDateString),
+};
+
+// describe('cleanupArbeidIPeriode', () => {
+//     const periodeFromDateString = '2021-02-01';
+//     const periodeToDateString = '2021-02-12';
+
+//     const periode: DateRange = {
+//         from: datepickerUtils.getDateFromDateString(periodeFromDateString)!,
+//         to: datepickerUtils.getDateFromDateString(periodeToDateString)!,
+//     };
+// });
+
+// describe('cleanupArbeidsforholdFrilanser', () => {
+//     const periodeFromDateString = '2021-02-01';
+//     const periodeToDateString = '2021-02-12';
+
+//     const periode: DateRange = {
+//         from: datepickerUtils.getDateFromDateString(periodeFromDateString)!,
+//         to: datepickerUtils.getDateFromDateString(periodeToDateString)!,
+//     };
+// });
+
+describe('cleanupArbeidsforhold', () => {
+    it('beholder planlagt arbeid dersom perioden er historisk', () => {
+        const result = cleanupArbeidsforhold(arbeidsforhold, periode, true);
+        expect(result.planlagt).toBeDefined();
+    });
+    it('beholder historisk arbeid dersom perioden ikke er historisk', () => {
+        const result = cleanupArbeidsforhold(arbeidsforhold, periode, false);
+        expect(result.historisk).toBeDefined();
+    });
+});
+
+describe('cleanupArbeidIPeriode', () => {
+    it('Fjerner informasjon dersom en ikke jobber i perioden ', () => {
+        const result = cleanupArbeidIPeriode(periode, { ...arbeidIPeriode, jobberIPerioden: JobberIPeriodeSvar.NEI });
+        expect(result.jobberIPerioden).toEqual(JobberIPeriodeSvar.NEI);
+        expect(Object.keys(result).length).toBe(1);
+    });
+    it('Beholder riktig informasjon når en jobber likt en prosent i perioden', () => {
+        const result = cleanupArbeidIPeriode(periode, {
+            ...arbeidIPeriode,
+            timerEllerProsent: TimerEllerProsent.PROSENT,
         });
-        // it('returnerer opprinnelig periode når frilans-sluttdato er etter periode', () => {
-        //     const result = getPeriodeSomFrilanserInneforPeriode(periode, {
-        //         frilans_startdato: '2021-01-01',
-        //         frilans_sluttdato: '2021-03-01',
-        //         frilans_jobberFortsattSomFrilans: YesOrNo.NO,
-        //     });
-        //     expect(dayjs(result?.to).isSame(periode.to, 'day')).toBeTruthy();
-        // });
-        // it('bruker frilans-startdato som periode.from når frilans-startdato er i periode og er fortsatt frilanser', () => {
-        //     const result = getPeriodeSomFrilanserInneforPeriode(periode, {
-        //         frilans_startdato: '2021-02-05',
-        //         frilans_sluttdato: undefined,
-        //         frilans_jobberFortsattSomFrilans: YesOrNo.YES,
-        //     });
-        //     expect(datepickerUtils.getDateStringFromValue(result?.from)).toEqual('2021-02-05');
-        // });
-        // it('bruker frilans-sluttdato som periode.to når frilans-sluttdato er i periode', () => {
-        //     const result = getPeriodeSomFrilanserInneforPeriode(periode, {
-        //         frilans_startdato: '2021-01-01',
-        //         frilans_sluttdato: '2021-02-06',
-        //         frilans_jobberFortsattSomFrilans: YesOrNo.NO,
-        //     });
-        //     expect(datepickerUtils.getDateStringFromValue(result?.to)).toEqual('2021-02-06');
-        // });
-        // it('returnerer undefined dersom frilans-startdato og frilans-sluttdato er utenfor periode', () => {
-        //     const result = getPeriodeSomFrilanserInneforPeriode(periode, {
-        //         frilans_startdato: '2021-03-01',
-        //         frilans_sluttdato: '2021-03-05',
-        //         frilans_jobberFortsattSomFrilans: YesOrNo.NO,
-        //     });
-        //     expect(result).toBeUndefined();
-        // });
+        expect(result.jobberIPerioden).toEqual(JobberIPeriodeSvar.JA);
+        expect(result.erLiktHverUke).toEqual(YesOrNo.YES);
+        expect(result.timerEllerProsent).toEqual(TimerEllerProsent.PROSENT);
+        expect(result.skalJobbeProsent).toEqual('20');
+        expect(result.enkeltdager).toBeUndefined();
+        expect(result.enkeltdager).toBeUndefined();
+    });
+    it('Beholder riktig informasjon når en jobber likt i perioden og oppgir timer en eksempeluke', () => {
+        const result = cleanupArbeidIPeriode(periode, {
+            ...arbeidIPeriode,
+            timerEllerProsent: TimerEllerProsent.TIMER,
+        });
+        expect(result.jobberIPerioden).toEqual(JobberIPeriodeSvar.JA);
+        expect(result.erLiktHverUke).toEqual(YesOrNo.YES);
+        expect(result.timerEllerProsent).toEqual(TimerEllerProsent.TIMER);
+        expect(result.skalJobbeProsent).toBeUndefined();
+        expect(result.enkeltdager).toBeUndefined();
+        expect(result.fasteDager).toBeDefined();
+        expect(result.fasteDager?.fredag?.hours).toEqual('2');
+        expect(result.fasteDager?.fredag?.minutes).toEqual('10');
     });
 });

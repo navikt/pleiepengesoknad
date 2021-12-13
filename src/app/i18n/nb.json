@@ -350,7 +350,7 @@
     "steg.omsorgstilbud.eksempel.1": "I perioden med pleiepenger klarer Anna å være i barnehagen mellom 5 og 15 timer per uke. Det er det laveste antallet timer Anna er i barnehagen som anses som fast og regelmessig. I dette eksempelet skal det derfor oppgis 5 timer per uke.",
     "steg.omsorgstilbud.eksempel.2": "Peder er på skolen bare av og til, når han er i form til det. Noen uker klarer han å være der noen timer, andre uker er han ikke på skolen i det hele tatt. I dette eksempelet skal det svares nei på om barnet er fast og regelmessig i omsorgstilbudet, ettersom tiden Peder er på skolen er uforutsigbar og uregelmessig.",
     "steg.omsorgstilbud.planlagt.skalBarnetVæreIOmsorgstilbud.nei.info": "Du må gi oss beskjed hvis barnet begynner å være fast og regelmessig i et omsorgstilbud i pleiepengeperioden.",
-    "steg.omsorgstilbud.planlagt.erLiktHverUke.spm": "Er tiden barnet skal være i omsorgstilbudet lik hver uke i perioden {fra} til {til}",
+    "steg.omsorgstilbud.planlagt.erLiktHverUke.spm": "Er tiden barnet skal være i omsorgstilbudet lik hver uke i perioden {fra} til {til}?",
     "steg.omsorgstilbud.planlagt.erLiktHverUke.yes": "Hver uke er lik",
     "steg.omsorgstilbud.planlagt.erLiktHverUke.no": "Det varierer fra uke til uke",
     "steg.omsorgstilbud.planlagt.erLiktHverUke.info.tittel": "Hva betyr dette?",
@@ -363,6 +363,7 @@
     "steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.info.2": "Du kan registrere opp til 7 timer og 30 minutter per dag.",
     "steg.omsorgstilbud.historisk.hvorMyeTidIOmsorgstilbud": "Oppgi timene og minuttene som barnet var i omsorgstilbudet:",
     "steg.omsorgstilbud.historisk.harBarnetVærtIOmsorgstilbud.spm": "Har barnet vært fast og regelmessig i et omsorgstilbud i perioden {fra} til {til}?",
+    "steg.omsorgstilbud.historisk.hvorMyeTittel": "Hvor mye har barnet vært i et omsorgstilbud?",
     "steg.omsorgstilbud.omsorgstilbud.uketittel": "Uke {ukenummer}, {år}",
 
     "steg.nattevåkOgBeredskap.veileder": "Nå trenger vi å vite om du på grunn av barnets sykdom må være våken om natten, eller være i beredskap for barnet i pleiepengeperioden. Hvis noen av disse situasjonene gjør at du ikke kan gå på jobb, skal pleiepengene som hovedregel ikke graderes, selv om barnet er i et omsorgstilbud på dagtid.",

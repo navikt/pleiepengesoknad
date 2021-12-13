@@ -73,7 +73,9 @@ const HistoriskOmsorgstilbudSpørsmål = ({
             {omsorgstilbud?.harBarnVærtIOmsorgstilbud === YesOrNo.YES && (
                 <FormBlock>
                     <Box padBottom="m">
-                        <Element tag="h3">Hvor mye har barnet være i et omsorgstilbud?</Element>
+                        <Element tag="h3">
+                            <FormattedMessage id="steg.omsorgstilbud.historisk.hvorMyeTittel" />
+                        </Element>
                     </Box>
                     <OmsorgstilbudVariert
                         periode={periode}

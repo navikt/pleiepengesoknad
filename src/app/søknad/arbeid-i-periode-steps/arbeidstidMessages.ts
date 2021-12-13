@@ -34,7 +34,7 @@ const arbeidstidMessages = {
         'arbeidstidEnkeltdagForm.jobbet': 'jobbet du',
         'arbeidstidEnkeltdagForm.gjelderFlereDager.label': 'Gjelder flere dager',
         'arbeidstidEnkeltdagForm.gjentagelse.helUke': 'Alle hverdager i uke {ukeNavn}.',
-        'arbeidstidEnkeltdagForm.gjentagelse.delerAvUke': 'Hverdager i uke {ukeNavn}.',
+        'arbeidstidEnkeltdagForm.gjentagelse.delAvUke': 'Hverdager i uke {ukeNavn}.',
         'arbeidstidEnkeltdagForm.gjentagelse.helMåned': 'Alle hverdager i {månedNavn}.',
         'arbeidstidEnkeltdagForm.gjentagelse.delAvMåned': 'Hverdager i {månedNavn}.',
         'arbeidstidEnkeltdagForm.gjentagelse.dagerFremover': 'Hver {dagNavn} fra og med {fra}.',
