@@ -1,5 +1,9 @@
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { getNumberOfDaysInDateRange, getWeeksInDateRange } from '../common/dateRangeUtils';
+import {
+    getDatesInMonthOutsideDateRange,
+    getNumberOfDaysInDateRange,
+    getWeeksInDateRange,
+} from '../common/dateRangeUtils';
 import { dateToISODate, ISODateToDate } from '../common/isoDateUtils';
 
 describe('dateRangeUtils', () => {
@@ -94,6 +98,33 @@ describe('dateRangeUtils', () => {
                 );
                 expect(result).toBe(2);
             });
+        });
+    });
+    describe('getDatesInMonthOutsideDateRange', () => {
+        it('returnerer alle dager i måned før fra-dato i periode', () => {
+            const result = getDatesInMonthOutsideDateRange(ISODateToDate('2021-01-01'), {
+                from: ISODateToDate('2021-01-04'),
+                to: ISODateToDate('2021-01-31'),
+            });
+            expect(dateToISODate(result[0])).toEqual('2021-01-01');
+            expect(dateToISODate(result[1])).toEqual('2021-01-02');
+            expect(dateToISODate(result[2])).toEqual('2021-01-03');
+        });
+        it('returnerer alle dager i måned etter til-dato i periode', () => {
+            const result = getDatesInMonthOutsideDateRange(ISODateToDate('2021-01-01'), {
+                from: ISODateToDate('2021-01-01'),
+                to: ISODateToDate('2021-01-28'),
+            });
+            expect(dateToISODate(result[0])).toEqual('2021-01-29');
+            expect(dateToISODate(result[1])).toEqual('2021-01-30');
+            expect(dateToISODate(result[2])).toEqual('2021-01-31');
+        });
+        it('returnerer alle dager i måned etter til-dato i periode når perioden er kun den første dagen i måneden', () => {
+            const result = getDatesInMonthOutsideDateRange(ISODateToDate('2021-01-01'), {
+                from: ISODateToDate('2021-01-01'),
+                to: ISODateToDate('2021-01-01'),
+            });
+            expect(dateToISODate(result[0])).toEqual('2021-01-02');
         });
     });
 });

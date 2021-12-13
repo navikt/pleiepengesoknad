@@ -11,7 +11,7 @@ const getDagerMedInterval = (interval: number, periode: DateRange) => {
     const ukedag = dayjs(periode.from).isoWeekday();
     const datoer = getDatesInDateRange(periode, true);
     const dager = datoer.filter((dato) => dayjs(dato).isoWeekday() === ukedag);
-    return dager.filter((dag, index) => {
+    return dager.filter((_, index) => {
         return nthItemFilter(index, interval);
     });
 };

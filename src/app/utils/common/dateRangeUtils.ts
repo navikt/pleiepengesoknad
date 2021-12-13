@@ -114,3 +114,27 @@ export const getDateRangeFromDateRanges = (ranges: DateRange[]): DateRange => {
         to: dayjs.max(ranges.map((range) => dayjs(range.to))).toDate(),
     };
 };
+
+export const getDatesInMonthOutsideDateRange = (month: Date, dateRange: DateRange): Date[] => {
+    const monthDateRange: DateRange = getMonthDateRange(month);
+    const dates: Date[] = [];
+
+    if (dayjs(dateRange.from).isAfter(monthDateRange.from, 'day')) {
+        dates.push(
+            ...getDatesInDateRange({
+                from: monthDateRange.from,
+                to: dayjs(dateRange.from).subtract(1, 'day').toDate(),
+            })
+        );
+    }
+    if (dayjs(dateRange.to).isBefore(monthDateRange.to, 'day')) {
+        dates.push(
+            ...getDatesInDateRange({
+                from: dayjs(dateRange.to).add(1, 'day').toDate(),
+                to: monthDateRange.to,
+            })
+        );
+    }
+
+    return dates;
+};

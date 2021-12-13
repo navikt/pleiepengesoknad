@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, getTypedFormComponents, UnansweredQuestionsInfo } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { getDateRangeValidator, getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
@@ -19,7 +20,6 @@ import {
     getArbeidstidFastProsentValidator,
     validateFasteArbeidstimerIUke,
 } from '../../validation/validateArbeidFields';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 
 interface Props {
     arbeidsstedNavn: string;

@@ -37,7 +37,11 @@ const PlanlagtOmsorgstilbudSummary = ({ omsorgstilbud, søknadsperiode, søknads
             {omsorgstilbud && (
                 <>
                     {omsorgstilbud.erLiktHverUke !== undefined && (
-                        <SummaryBlock header={intlHelper(intl, 'steg.omsorgstilbud.planlagt.erLiktHverUke.spm')}>
+                        <SummaryBlock
+                            header={intlHelper(intl, 'steg.omsorgstilbud.planlagt.erLiktHverUke.spm', {
+                                fra: prettifyDateFull(periodeFraOgMedSøknadsdato.from),
+                                til: prettifyDateFull(periodeFraOgMedSøknadsdato.to),
+                            })}>
                             <JaNeiSvar harSvartJa={omsorgstilbud.erLiktHverUke} />
                         </SummaryBlock>
                     )}

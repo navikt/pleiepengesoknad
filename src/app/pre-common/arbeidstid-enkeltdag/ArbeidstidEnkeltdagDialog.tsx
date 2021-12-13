@@ -2,9 +2,9 @@ import React from 'react';
 import { DateRange, InputTime } from '@navikt/sif-common-formik/lib';
 import Modal from 'nav-frontend-modal';
 import dateFormatter from '../../utils/common/dateFormatterUtils';
+import { ArbeidsforholdType } from '../../types';
 import ArbeidstidEnkeltdagForm, { ArbeidstidEnkeltdagEndring } from './ArbeidstidEnkeltdagForm';
 import './arbeidstidEnkeltdag.less';
-import { ArbeidsforholdType } from '../../types';
 
 interface Props {
     isOpen?: boolean;

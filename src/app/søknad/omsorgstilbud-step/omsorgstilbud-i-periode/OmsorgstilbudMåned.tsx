@@ -14,11 +14,11 @@ import TidKalenderForm from '../../../components/tid-kalender-form/TidKalenderFo
 import { DatoTidMap, Tid } from '../../../types';
 import { getTidIOmsorgValidator } from '../../../validation/validateOmsorgstilbudFields';
 import OmsorgstilbudMånedInfo from './OmsorgstilbudMånedInfo';
-import { getUtilgjengeligeDatoerIMåned } from '../../arbeid-i-periode-steps/utils/getUtilgjengeligeDatoerIMåned';
 import { getDagerMedTidITidsrom } from '../../../utils/datoTidUtils';
 import { dateToISODate } from '../../../utils/common/isoDateUtils';
 import { SøknadFormData } from '../../../types/SøknadFormData';
 import { useFormikContext } from 'formik';
+import { getDatesInMonthOutsideDateRange } from '../../../utils/common/dateRangeUtils';
 
 interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, ValidationError> {
     formFieldName: FieldNames;
@@ -92,7 +92,7 @@ function OmsorgstilbudMåned<FieldNames>({
             }}
             infoRenderer={({ data, onEdit }) => {
                 const omsorgsdager = getDagerMedTidITidsrom(data, periode);
-                const utilgjengeligeDatoer = getUtilgjengeligeDatoerIMåned(måned.from, periode);
+                const utilgjengeligeDatoer = getDatesInMonthOutsideDateRange(måned.from, periode);
 
                 const handleOnEnkeltdagChange = (dato: Date, tid: Tid) => {
                     const newValues = { ...data };

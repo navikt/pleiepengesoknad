@@ -10,6 +10,7 @@ import {
     ArbeidsforholdSNF,
     SøknadFormData,
 } from '../../../types/SøknadFormData';
+import { getDagerMedTidITidsrom } from '../../../utils/datoTidUtils';
 import { getPeriodeSomFrilanserInnenforPeriode } from '../../../utils/frilanserUtils';
 
 dayjs.extend(minMax);
@@ -33,7 +34,11 @@ export const cleanupArbeidIPeriode = (periode: DateRange, arbeidIPerioden: Arbei
             : { ...arbeid, fasteDager };
     }
 
-    return { ...arbeid, erLiktHverUke, enkeltdager };
+    return {
+        ...arbeid,
+        erLiktHverUke,
+        enkeltdager: enkeltdager ? getDagerMedTidITidsrom(enkeltdager, periode) : undefined,
+    };
 };
 
 export const cleanupArbeidsforhold = (

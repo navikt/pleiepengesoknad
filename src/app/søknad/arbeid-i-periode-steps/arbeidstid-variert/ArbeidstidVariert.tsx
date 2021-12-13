@@ -6,13 +6,12 @@ import { useFormikContext } from 'formik';
 import { Element } from 'nav-frontend-typografi';
 import { ArbeidstidEnkeltdagEndring } from '../../../pre-common/arbeidstid-enkeltdag/ArbeidstidEnkeltdagForm';
 import SøknadsperioderMånedListe from '../../../pre-common/søknadsperioder-måned-liste/SøknadsperioderMånedListe';
-import { getMonthsInDateRange } from '../../../utils/common/dateRangeUtils';
+import { getDatesInMonthOutsideDateRange, getMonthsInDateRange } from '../../../utils/common/dateRangeUtils';
 import { ArbeidsforholdType, DatoTidMap } from '../../../types';
 import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
 import { validateArbeidsTidEnkeltdager } from '../../../validation/validateArbeidFields';
 import SøknadFormComponents from '../../SøknadFormComponents';
 import { ArbeidIPeriodeIntlValues } from '../ArbeidIPeriodeSpørsmål';
-import { getUtilgjengeligeDatoerIMåned } from '../utils/getUtilgjengeligeDatoerIMåned';
 import ArbeidstidMånedInfo from './ArbeidstidMånedInfo';
 import RegistrerArbeidstidPeriode from './RegistrerArbeidstidPeriode';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
@@ -66,7 +65,7 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                 måned={måned}
                 åpentEkspanderbartPanel={antallMåneder === 1 || kanLeggeTilPeriode === false}
                 tidArbeidstid={arbeidstid}
-                utilgjengeligeDatoer={getUtilgjengeligeDatoerIMåned(måned.from, periode)}
+                utilgjengeligeDatoer={getDatesInMonthOutsideDateRange(måned.from, periode)}
                 periode={periode}
                 onEnkeltdagChange={handleOnEnkeltdagChange}
             />

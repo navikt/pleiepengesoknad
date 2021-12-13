@@ -39,20 +39,6 @@ const omsorgstilbudMessages = {
         'omsorgstilbud.flereBarn.tittel': 'Hvordan fyller jeg ut om omsorgstilbud når jeg pleier flere barn samtidig?',
         'omsorgstilbud.flereBarn':
             'Du skal svare ja på at barna er i et fast og regelmessig omsorgstilbud bare hvis de skal være der samtidig. Du skal svare nei hvis barna skal være i omsorgstilbudet på ulike tider, eller hvis minst ett barn ikke skal være i et omsorgstilbud i det hele tatt.',
-
-        'omsorgstilbudEnkeltdagForm.validation.tid.hoursAreInvalid': 'Antall timer er ikke et gyldig tall.',
-        'omsorgstilbudEnkeltdagForm.validation.tid.minutesAreInvalid': 'Antall minutter er ikke et gyldig tall.',
-        'omsorgstilbudEnkeltdagForm.validation.tid.tooManyHours': 'Antall timer er for høyt. Maks antall timer er 7.',
-        'omsorgstilbudEnkeltdagForm.validation.tid.tooManyMinutes':
-            'Antall minutter er for høyt. Maks antall minutter er 59.',
-        'omsorgstilbudEnkeltdagForm.validation.tid.durationIsTooLong':
-            'Antall timer og minutter  er for høyt. Tiden kan ikke være mer enn 7 timer og 30 minutter.',
-        'omsorgstilbudEnkeltdagForm.validation.tid.durationIsTooShort':
-            'Antall timer og minutter er for lavt. Tiden må være minst ett minutt.',
-        'omsorgstilbudEnkeltdagForm.validation.tid.hoursAreNegative':
-            'Antall timer og minutter er for lavt. Tiden må være minst ett minutt.',
-        'omsorgstilbudEnkeltdagForm.validation.tid.minutesAreNegative':
-            'Antall timer og minutter er for lavt. Tiden må være minst ett minutt.',
     },
 };
 
