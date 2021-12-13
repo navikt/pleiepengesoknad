@@ -117,6 +117,8 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
 
     const sluttDatoTxt = dateFormatter.dayFullShortDate(periode.to);
 
+    const skalViseValgetGjelderFlereDager = getNumberOfDaysInDateRange(periode) > 2;
+
     const intlValues = {
         skalEllerHarJobbet: intlHelper(
             intl,
@@ -172,7 +174,7 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                                     validate={getArbeidstidEnkeltdagFormTidValidator}
                                     timeInputLayout={{ justifyContent: 'left', compact: false, direction: 'vertical' }}
                                 />
-                                {getNumberOfDaysInDateRange(periode) > 2 && (
+                                {skalViseValgetGjelderFlereDager && (
                                     <FormBlock margin="l">
                                         <FormComponents.Checkbox
                                             label={intlHelper(intl, 'arbeidstidEnkeltdagForm.gjelderFlereDager.label')}

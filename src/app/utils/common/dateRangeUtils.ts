@@ -83,7 +83,7 @@ export const dateIsWithinDateRange = moize(_dateIsWithinDateRange);
 export const getNumberOfDaysInDateRange = (dateRange: DateRange, onlyWeekDays = false): number =>
     onlyWeekDays
         ? getDatesInDateRange(dateRange, true).length
-        : Math.abs(dayjs(dateRange.to).diff(dateRange.from, 'days'));
+        : Math.abs(dayjs(dateRange.to).diff(dateRange.from, 'days')) + 1;
 
 export const getYearsInDateRanges = (dateRanges: DateRange[]): number[] =>
     uniq(dateRanges.map((d) => d.from.getFullYear()));
