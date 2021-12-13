@@ -17,6 +17,7 @@ import { getDagerMedNyArbeidstid } from './arbeidstidEnkeltdagUtils';
 import { getMonthDateRange, getNumberOfDaysInDateRange, getWeekDateRange } from '../../utils/common/dateRangeUtils';
 import { getArbeidstidEnkeltdagFormTidValidator } from '../../validation/validateArbeidFields';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { getDateValidator, getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
 
 interface Props {
     dato: Date;
@@ -101,7 +102,7 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
 
     const erHistorisk = dayjs(dato).isBefore(dateToday);
     const dagNavn = dayjs(dato).format('dddd');
-    const datoString = dateFormatter.dayFullShortDate(dato);
+    const valgtDatoTxt = dateFormatter.dayFullShortDate(dato);
 
     const ukePeriode: DateRange = getDateRangeWithinDateRange(getWeekDateRange(dato, true), periode);
     const ukeErHel = dayjs(ukePeriode.from).isoWeekday() === 1 && dayjs(ukePeriode.to).isoWeekday() === 5;
@@ -167,7 +168,7 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                         return (
                             <FormComponents.Form
                                 onCancel={onCancel}
-                                formErrorHandler={getIntlFormErrorHandler(intl, 'arbeidstidEnkeltdag')}
+                                formErrorHandler={getIntlFormErrorHandler(intl, 'arbeidstidEnkeltdagForm.validation')}
                                 includeValidationSummary={false}
                                 includeButtons={true}
                                 submitButtonLabel="Lagre"
@@ -210,6 +211,7 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                                             <FormComponents.RadioGroup
                                                 className="compactRadios"
                                                 name={FormFields.gjentagelse}
+                                                validate={getRequiredFieldValidator()}
                                                 radios={[
                                                     {
                                                         label: renderGjentagelseRadioLabel(
@@ -237,7 +239,7 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                                                         label: renderGjentagelseRadioLabel(
                                                             'dagerFremover',
                                                             {
-                                                                fra: datoString,
+                                                                fra: valgtDatoTxt,
                                                                 til: sluttDatoTxt,
                                                             },
                                                             { dagNavn }
@@ -270,6 +272,11 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                                                                 )}
                                                                 minDate={dato}
                                                                 maxDate={periode.to}
+                                                                validate={getDateValidator({
+                                                                    min: dato,
+                                                                    max: periode.to,
+                                                                    required: true,
+                                                                })}
                                                                 disableWeekend={true}
                                                                 fullScreenOnMobile={true}
                                                                 useFastField={true}
