@@ -21,7 +21,7 @@ function useLogSøknadInfo() {
 
     const logArbeidEnkeltdagRegistrert = (data: { antallDager: number; erHistorisk: boolean }) => {
         logInfo({
-            hendelse: LogSøknadInfoType.arbeidPeriodeRegistrert,
+            hendelse: LogSøknadInfoType.arbeidEnkeltdagRegistrert,
             ...data,
         });
     };
