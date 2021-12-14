@@ -15,6 +15,9 @@ import { ArbeidIPeriodeIntlValues } from '../ArbeidIPeriodeSpørsmål';
 import ArbeidstidMånedInfo from './ArbeidstidMånedInfo';
 import RegistrerArbeidstidPeriode from './RegistrerArbeidstidPeriode';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import useLogSøknadInfo from '../../../hooks/useLogSøknadInfo';
+import dayjs from 'dayjs';
+import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 
 interface Props {
     arbeidsstedNavn: string;
@@ -42,10 +45,16 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
     const { setFieldValue } = useFormikContext<SøknadFormData>() || {};
 
     const antallMåneder = getMonthsInDateRange(periode).length;
+    const { logArbeidEnkeltdagRegistrert } = useLogSøknadInfo();
+    const erHistorisk = dayjs(periode.to).isBefore(dateToday);
 
     const handleOnEnkeltdagChange = (evt: ArbeidstidEnkeltdagEndring) => {
         const newValues = { ...arbeidstid, ...evt.dagerMedTid };
         setFieldValue(formFieldName as any, newValues);
+        logArbeidEnkeltdagRegistrert({
+            antallDager: Object.keys(evt.dagerMedTid).length,
+            erHistorisk,
+        });
         onArbeidstidChanged ? onArbeidstidChanged(newValues) : undefined;
     };
 

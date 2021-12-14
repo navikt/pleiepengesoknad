@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { DateRange, getNumberFromNumberInputValue, InputTime } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import { Knapp } from 'nav-frontend-knapper';
@@ -7,6 +8,7 @@ import ArbeidstidPeriodeDialog from '../../../pre-common/arbeidstid-periode/Arbe
 import { ArbeidstidPeriodeData } from '../../../pre-common/arbeidstid-periode/ArbeidstidPeriodeForm';
 import { getDatesInDateRange } from '../../../utils/common/dateRangeUtils';
 import { dateToISODate, ISODateToDate } from '../../../utils/common/isoDateUtils';
+import useLogSøknadInfo from '../../../hooks/useLogSøknadInfo';
 import { DatoTidMap, TidUkedager } from '../../../types';
 import { getRedusertArbeidstidSomInputTime } from '../../../utils/formToApiMaps/tidsbrukApiUtils';
 import { ArbeidIPeriodeIntlValues } from '../ArbeidIPeriodeSpørsmål';
@@ -71,10 +73,17 @@ const RegistrerArbeidstidPeriode: React.FunctionComponent<Props> = ({
     onPeriodeChange,
 }) => {
     const [visPeriode, setVisPeriode] = useState(false);
+    const { logArbeidPeriodeRegistrert } = useLogSøknadInfo();
+    const erHistorisk = dayjs(periode.to).isBefore(dateToday);
 
     const handleFormSubmit = (data: ArbeidstidPeriodeData) => {
         setVisPeriode(false);
         setTimeout(() => {
+            logArbeidPeriodeRegistrert({
+                erHistorisk,
+                verdi: data.prosent ? 'prosent' : 'ukeplan',
+                prosent: data.prosent,
+            });
             onPeriodeChange(oppdaterDagerIPeriode(jobberNormaltTimer, data));
         });
     };
