@@ -1,5 +1,6 @@
 import RouteConfig from '../config/routeConfig';
 import { getSøknadStepConfig, StepID } from '../søknad/søknadStepsConfig';
+import { useFortidFremtid } from '../types';
 import { SøknadFormData } from '../types/SøknadFormData';
 import {
     arbeidssituasjonStepAvailable,
@@ -34,10 +35,12 @@ export const isAvailable = (path: StepID | RouteConfig, values: SøknadFormData,
             return opplysningerOmTidsromStepAvailable(values);
         case StepID.ARBEIDSSITUASJON:
             return arbeidssituasjonStepAvailable(values);
+        case StepID.ARBEIDSTID:
+            return useFortidFremtid === false;
         case StepID.ARBEID_HISTORISK:
-            return true; //arbeidssituasjonStepAvailable(values);
+            return useFortidFremtid === true; //arbeidssituasjonStepAvailable(values);
         case StepID.ARBEID_PLANLAGT:
-            return true; //arbeidssituasjonStepAvailable(values);
+            return useFortidFremtid === true; //arbeidssituasjonStepAvailable(values);
         case StepID.OMSORGSTILBUD:
             return omsorgstilbudStepAvailable(values);
         case StepID.NATTEVÅK_OG_BEREDSKAP:

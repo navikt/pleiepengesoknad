@@ -3,24 +3,24 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import FormSection from '@navikt/sif-common-core/lib/components/form-section/FormSection';
 import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { useFormikContext } from 'formik';
-import FormSection from '../../pre-common/form-section/FormSection';
-import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
-import ArbeidIPeriodeSpørsmål from '../../components/arbeidstid/ArbeidIPeriodeSpørsmål';
 import { ArbeidsforholdType } from '../../types';
-import { getPeriodeSomFrilanserInneforPeriode } from '../../utils/frilanserUtils';
+import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { erAnsattHosArbeidsgiverISøknadsperiode } from '../../utils/ansattUtils';
+import { getPeriodeSomFrilanserInnenforPeriode } from '../../utils/frilanserUtils';
+import { getPeriodeSomSelvstendigInnenforPeriode } from '../../utils/selvstendigUtils';
+import ArbeidIPeriodeSpørsmål from './ArbeidIPeriodeSpørsmål';
 
 interface Props {
     periode: DateRange;
-    søknadsdato: Date;
     erHistorisk: boolean;
 }
 
-const ArbeidIPeriodeStepContent = ({ periode, erHistorisk, søknadsdato }: Props) => {
+const ArbeidIPeriodeStepContent = ({ periode, erHistorisk }: Props) => {
     const intl = useIntl();
     const formikProps = useFormikContext<SøknadFormData>();
     const {
@@ -29,6 +29,7 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk, søknadsdato }: Props
             frilans_arbeidsforhold,
             frilans_harHattInntektSomFrilanser,
             selvstendig_harHattInntektSomSN,
+            selvstendig_virksomhet,
             frilans_startdato,
             frilans_sluttdato,
             frilans_jobberFortsattSomFrilans,
@@ -37,30 +38,22 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk, søknadsdato }: Props
     } = formikProps;
 
     const erFrilanser = frilans_harHattInntektSomFrilanser === YesOrNo.YES && frilans_arbeidsforhold !== undefined;
+    const erSN = selvstendig_harHattInntektSomSN === YesOrNo.YES && selvstendig_virksomhet !== undefined;
 
     const arbeidsperiodeFrilans = erFrilanser
-        ? getPeriodeSomFrilanserInneforPeriode(periode, {
+        ? getPeriodeSomFrilanserInnenforPeriode(periode, {
               frilans_startdato,
               frilans_sluttdato,
               frilans_jobberFortsattSomFrilans,
           })
         : undefined;
 
+    const arbeidsperiodeSelvstendig = erSN
+        ? getPeriodeSomSelvstendigInnenforPeriode(periode, selvstendig_virksomhet.fom)
+        : undefined;
+
     const skalBesvareSelvstendig =
         selvstendig_harHattInntektSomSN === YesOrNo.YES && selvstendig_arbeidsforhold !== undefined;
-
-    /**
-     * Kontroller om bruker må sendes tilbake til arbeidssituasjon-steget
-     * Dette kan oppstå dersom bruker er på Arbeidssituasjon,
-     * endrer på data, og deretter trykker forward i nettleser
-     * */
-
-    // const brukerMåGåTilbakeTilArbeidssituasjon =
-    //     skalBesvareAnsettelsesforhold === false && skalBesvareFrilans === false && skalBesvareSelvstendig === false;
-
-    // if (brukerMåGåTilbakeTilArbeidssituasjon === true) {
-    //     return <InvalidStepPage stepId={StepID.ARBEIDSFORHOLD_I_PERIODEN} />;
-    // }
 
     return (
         <>
@@ -90,12 +83,12 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk, søknadsdato }: Props
                         return (
                             <FormSection title={arbeidsforhold.navn} key={arbeidsforhold.organisasjonsnummer}>
                                 <ArbeidIPeriodeSpørsmål
+                                    arbeidsstedNavn={arbeidsforhold.navn}
                                     arbeidsforholdType={ArbeidsforholdType.ANSATT}
                                     arbeidsforhold={arbeidsforhold}
                                     periode={periode}
                                     parentFieldName={`${SøknadFormField.ansatt_arbeidsforhold}.${index}`}
                                     erHistorisk={erHistorisk}
-                                    søknadsdato={søknadsdato}
                                 />
                             </FormSection>
                         );
@@ -106,24 +99,24 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk, søknadsdato }: Props
             {erFrilanser && frilans_arbeidsforhold && arbeidsperiodeFrilans && (
                 <FormSection title={intlHelper(intl, 'arbeidIPeriode.FrilansLabel')}>
                     <ArbeidIPeriodeSpørsmål
+                        arbeidsstedNavn="Frilanser"
                         arbeidsforholdType={ArbeidsforholdType.FRILANSER}
                         arbeidsforhold={frilans_arbeidsforhold}
                         periode={arbeidsperiodeFrilans}
                         parentFieldName={`${SøknadFormField.frilans_arbeidsforhold}`}
                         erHistorisk={erHistorisk}
-                        søknadsdato={søknadsdato}
                     />
                 </FormSection>
             )}
-            {skalBesvareSelvstendig && selvstendig_arbeidsforhold && (
+            {skalBesvareSelvstendig && selvstendig_arbeidsforhold && arbeidsperiodeSelvstendig && (
                 <FormSection title={intlHelper(intl, 'arbeidIPeriode.SNLabel')}>
                     <ArbeidIPeriodeSpørsmål
+                        arbeidsstedNavn="Selvstendig næringsdrivende"
                         arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
                         arbeidsforhold={selvstendig_arbeidsforhold}
-                        periode={periode}
+                        periode={arbeidsperiodeSelvstendig}
                         parentFieldName={`${SøknadFormField.selvstendig_arbeidsforhold}`}
                         erHistorisk={erHistorisk}
-                        søknadsdato={søknadsdato}
                     />
                 </FormSection>
             )}

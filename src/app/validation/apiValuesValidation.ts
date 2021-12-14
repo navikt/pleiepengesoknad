@@ -12,7 +12,7 @@ import {
     OmsorgstilbudApiData,
     SøknadApiData,
 } from '../types/SøknadApiData';
-import { søkerKunHelgedager } from '../utils/dateUtils';
+import { søkerKunHelgedager } from '../utils/formDataUtils';
 
 export const apiVedleggIsInvalid = (vedlegg: string[]): boolean => {
     vedlegg.find((v) => {
@@ -36,12 +36,12 @@ const isValidNormalarbeidstid = (timer: number | undefined): boolean => {
 };
 
 export const isArbeidIPeriodeValid = (arbeidIPeriode: ArbeidIPeriodeApiData): boolean => {
-    const { jobberIPerioden, fasteDager, enkeltdager, jobberSomVanlig } = arbeidIPeriode;
-    if (jobberIPerioden === JobberIPeriodeSvar.NEI || jobberIPerioden === JobberIPeriodeSvar.VET_IKKE) {
+    const { jobberIPerioden, erLiktHverUke, fasteDager, enkeltdager } = arbeidIPeriode;
+    if (jobberIPerioden !== JobberIPeriodeSvar.JA) {
         return true;
     }
-    if (jobberSomVanlig === true) {
-        return true;
+    if (erLiktHverUke === true && fasteDager === undefined) {
+        return false;
     }
     if (fasteDager === undefined && enkeltdager === undefined) {
         return false;

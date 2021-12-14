@@ -13,6 +13,8 @@ import appSentryLogger from '../utils/appSentryLogger';
 import { navigateToErrorPage, relocateToLoginPage, userIsCurrentlyOnErrorPage } from '../utils/navigationUtils';
 import LoadingPage from '../pages/loading-page/LoadingPage';
 import IkkeTilgangPage from '../pages/ikke-tilgang-page/IkkeTilgangPage';
+import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
+import { arbeidsgivereMock, barnMock, søkerMock } from '../mock-data/MockData';
 
 export const VERIFY_MELLOMLAGRING_VERSION = true;
 
@@ -64,6 +66,28 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
     }
 
     async loadAppEssentials() {
+        if (isFeatureEnabled(Feature.DEMO_MODE)) {
+            setTimeout(() => {
+                this.updateSøkerdata(
+                    { ...initialValues },
+                    {
+                        person: søkerMock,
+                        barn: barnMock.barn,
+                        setArbeidsgivere: this.updateArbeidsgivere,
+                        arbeidsgivere: arbeidsgivereMock.organisasjoner,
+                    },
+                    false,
+                    undefined,
+                    () => {
+                        this.stopLoading();
+                        if (userIsCurrentlyOnErrorPage()) {
+                            navigateToErrorPage(this.props.history);
+                        }
+                    }
+                );
+            }, 20);
+            return;
+        }
         try {
             const [mellomlagringResponse, søkerResponse, barnResponse] = await Promise.all([
                 rehydrate(),

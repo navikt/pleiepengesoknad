@@ -1,11 +1,12 @@
 import { apiStringDateToDate, DateRange, datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { decimalTimeToTime, timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { dateToISOString, ISOStringToDate, InputTime } from '@navikt/sif-common-formik/lib';
+import { dateToISOString, InputTime, ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
-import { TidEnkeltdag, TidFasteDager } from '../../types';
+import { DatoTidMap, TidUkedager } from '../../types';
 import { ISO8601Duration, TidEnkeltdagApiData } from '../../types/SøknadApiData';
+import { dateIsWeekDay } from '../common/dateUtils';
 
-export const getFasteDagerApiData = ({ mandag, tirsdag, onsdag, torsdag, fredag }: TidFasteDager) => ({
+export const getFasteDagerApiData = ({ mandag, tirsdag, onsdag, torsdag, fredag }: TidUkedager) => ({
     mandag: mandag ? timeToIso8601Duration(mandag) : undefined,
     tirsdag: tirsdag ? timeToIso8601Duration(tirsdag) : undefined,
     onsdag: onsdag ? timeToIso8601Duration(onsdag) : undefined,
@@ -16,15 +17,15 @@ export const getFasteDagerApiData = ({ mandag, tirsdag, onsdag, torsdag, fredag 
 const sortTidEnkeltdagApiData = (d1: TidEnkeltdagApiData, d2: TidEnkeltdagApiData): number =>
     dayjs(d1.dato).isBefore(d2.dato, 'day') ? -1 : 1;
 
-export const getEnkeltdagerIPeriodeApiData = (enkeltdager: TidEnkeltdag, periode: DateRange): TidEnkeltdagApiData[] => {
+export const getEnkeltdagerIPeriodeApiData = (enkeltdager: DatoTidMap, periode: DateRange): TidEnkeltdagApiData[] => {
     const dager: TidEnkeltdagApiData[] = [];
 
     Object.keys(enkeltdager).forEach((dag) => {
         const dato = ISOStringToDate(dag);
-        if (dato && datoErInnenforTidsrom(dato, periode)) {
+        if (dato && datoErInnenforTidsrom(dato, periode) && dateIsWeekDay(dato)) {
             dager.push({
                 dato: dateToISOString(dato),
-                tid: timeToIso8601Duration(enkeltdager[dag]),
+                tid: timeToIso8601Duration(enkeltdager[dag].varighet),
             });
         }
     });
@@ -34,7 +35,7 @@ export const getEnkeltdagerIPeriodeApiData = (enkeltdager: TidEnkeltdag, periode
 
 export const getEnkeltdagerMedTidIPeriodeApiData = (
     tidPerDag: Partial<InputTime>,
-    enkeltdager: TidEnkeltdag,
+    enkeltdager: DatoTidMap,
     periode: DateRange
 ): TidEnkeltdagApiData[] => {
     const dager: TidEnkeltdagApiData[] = [];
@@ -51,7 +52,7 @@ export const getEnkeltdagerMedTidIPeriodeApiData = (
     return dager.sort(sortTidEnkeltdagApiData);
 };
 
-export const fjernTidUtenforPeriode = (
+export const fjernTidUtenforPeriodeOgHelgedager = (
     periode: Partial<DateRange>,
     tidEnkeltdag?: TidEnkeltdagApiData[]
 ): TidEnkeltdagApiData[] | undefined => {
@@ -61,6 +62,9 @@ export const fjernTidUtenforPeriode = (
     }
     return tidEnkeltdag.filter((dag) => {
         const dato = apiStringDateToDate(dag.dato);
+        if (dateIsWeekDay(dato) === false) {
+            return false;
+        }
         if (from && dayjs(dato).isBefore(from, 'day')) {
             return false;
         }
@@ -72,17 +76,16 @@ export const fjernTidUtenforPeriode = (
 };
 
 export const getRedusertArbeidstidSomIso8601Duration = (
-    jobberNormaltTimerNumber: number,
+    jobberNormaltTimerPerDagNumber: number,
     skalJobbeProsent: number
 ): ISO8601Duration => {
-    const redusertTidPerDag = (jobberNormaltTimerNumber / 100) * skalJobbeProsent;
-    return timeToIso8601Duration(decimalTimeToTime(redusertTidPerDag));
+    return timeToIso8601Duration(getRedusertArbeidstidSomInputTime(jobberNormaltTimerPerDagNumber, skalJobbeProsent));
 };
 
 export const getRedusertArbeidstidSomInputTime = (
-    jobberNormaltTimerNumber: number,
+    jobberNormaltTimerPerDagNumber: number,
     skalJobbeProsent: number
 ): InputTime => {
-    const redusertTidPerDag = (jobberNormaltTimerNumber / 100) * skalJobbeProsent;
+    const redusertTidPerDag = (jobberNormaltTimerPerDagNumber / 100) * skalJobbeProsent;
     return decimalTimeToTime(redusertTidPerDag);
 };

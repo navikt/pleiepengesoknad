@@ -25,9 +25,9 @@ import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import minMax from 'dayjs/plugin/minMax';
-import { TidEnkeltdag } from '../types';
+import { DatoTidMap } from '../types';
 import { SøknadFormField } from '../types/SøknadFormData';
-import { getTidEnkeltdagerInnenforPeriode, getValidEnkeltdager, sumTimerEnkeltdager } from '../utils/tidsbrukUtils';
+import { getDagerMedTidITidsrom, cleanupDatoTidMap, summerDatoTidMap } from '../utils/datoTidUtils';
 
 dayjs.extend(minMax);
 dayjs.extend(isoWeek);
@@ -165,15 +165,15 @@ export const validateLegeerklæring = (attachments: Attachment[]): ValidationRes
 };
 
 export const validateOmsorgstilbudEnkeltdagerIPeriode = (
-    tidIOmsorgstilbud: TidEnkeltdag,
+    tidIOmsorgstilbud: DatoTidMap,
     periode: DateRange,
     erHistorisk: boolean | undefined
 ) => {
-    const tidIPerioden = getTidEnkeltdagerInnenforPeriode(tidIOmsorgstilbud, periode);
-    const validTidEnkeltdager = getValidEnkeltdager(tidIPerioden);
+    const tidIPerioden = getDagerMedTidITidsrom(tidIOmsorgstilbud, periode);
+    const validTidEnkeltdager = cleanupDatoTidMap(tidIPerioden);
     const hasElements = Object.keys(validTidEnkeltdager).length > 0;
 
-    if (!hasElements || sumTimerEnkeltdager(validTidEnkeltdager) <= 0) {
+    if (!hasElements || summerDatoTidMap(validTidEnkeltdager) <= 0) {
         return {
             key: erHistorisk
                 ? `validation.${SøknadFormField.omsorgstilbud__historisk__enkeltdager}.ingenTidRegistrert`

@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { apiStringDateToDate, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { JobberIPeriodeSvar } from '../../../types';
+import { DatoTidMap, JobberIPeriodeSvar } from '../../../types';
 import { ArbeidIPeriodeApiData } from '../../../types/SøknadApiData';
 import { ArbeidIPeriode } from '../../../types/SøknadFormData';
 import {
@@ -21,27 +21,25 @@ const planlagtPeriode: DateRange = {
 
 const arbeidHistoriskPeriode: ArbeidIPeriode = {
     jobberIPerioden: JobberIPeriodeSvar.JA,
-    jobberSomVanlig: YesOrNo.NO,
     erLiktHverUke: YesOrNo.NO,
     enkeltdager: {
-        '2021-02-01': { hours: '2' },
+        '2021-02-01': { varighet: { hours: '2' } },
     },
 };
 
-const arbeidEnkeltdagerHistoriskPeriode = {
-    '2021-02-01': { hours: '2' },
-    '2021-02-02': { hours: '2' },
-    '2021-02-03': { hours: '2' },
-    '2021-02-04': { hours: '2' },
-    '2021-02-05': { hours: '2' },
+const arbeidEnkeltdagerHistoriskPeriode: DatoTidMap = {
+    '2021-02-01': { varighet: { hours: '2' } },
+    '2021-02-02': { varighet: { hours: '2' } },
+    '2021-02-03': { varighet: { hours: '2' } },
+    '2021-02-04': { varighet: { hours: '2' } },
+    '2021-02-05': { varighet: { hours: '2' } },
 };
 
 const arbeidPlanlagtPeriode: ArbeidIPeriode = {
     jobberIPerioden: JobberIPeriodeSvar.JA,
-    jobberSomVanlig: YesOrNo.NO,
     erLiktHverUke: YesOrNo.NO,
     enkeltdager: {
-        '2021-02-07': { hours: '2' },
+        '2021-02-07': { varighet: { hours: '2' } },
     },
 };
 
@@ -115,7 +113,6 @@ describe('mapArbeidsforholdToApiData', () => {
             const result: ArbeidIPeriodeApiData = mapArbeidIPeriodeToApiData(
                 {
                     jobberIPerioden: JobberIPeriodeSvar.NEI,
-                    jobberSomVanlig: YesOrNo.YES,
                     enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
                     fasteDager: { fredag: { hours: '2', minutes: '0' } },
                 },
@@ -124,44 +121,6 @@ describe('mapArbeidsforholdToApiData', () => {
                 undefined
             );
             expect(result.jobberIPerioden).toEqual(JobberIPeriodeSvar.NEI);
-            expect(result.jobberSomVanlig).toBeUndefined();
-            expect(result.fasteDager).toBeUndefined();
-            expect(result.erLiktHverUke).toBeUndefined();
-            expect(result.enkeltdager).toBeUndefined();
-        });
-        it('vet ikke om en skal jobbe i perioden', () => {
-            const result: ArbeidIPeriodeApiData = mapArbeidIPeriodeToApiData(
-                {
-                    jobberIPerioden: JobberIPeriodeSvar.VET_IKKE,
-                    jobberSomVanlig: YesOrNo.YES,
-                    enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
-                    fasteDager: { fredag: { hours: '2', minutes: '0' } },
-                },
-                historiskPeriode,
-                40,
-                undefined
-            );
-            expect(result.jobberIPerioden).toEqual(JobberIPeriodeSvar.VET_IKKE);
-            expect(result.jobberSomVanlig).toBeUndefined();
-            expect(result.fasteDager).toBeUndefined();
-            expect(result.erLiktHverUke).toBeUndefined();
-            expect(result.enkeltdager).toBeUndefined();
-        });
-
-        it('jobber som normalt i perioden', () => {
-            const result: ArbeidIPeriodeApiData = mapArbeidIPeriodeToApiData(
-                {
-                    jobberIPerioden: JobberIPeriodeSvar.JA,
-                    jobberSomVanlig: YesOrNo.YES,
-                    enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
-                    fasteDager: { fredag: { hours: '2', minutes: '0' } },
-                },
-                historiskPeriode,
-                40,
-                undefined
-            );
-            expect(result.jobberIPerioden).toEqual(JobberIPeriodeSvar.JA);
-            expect(result.jobberSomVanlig).toBeTruthy();
             expect(result.fasteDager).toBeUndefined();
             expect(result.erLiktHverUke).toBeUndefined();
             expect(result.enkeltdager).toBeUndefined();
@@ -171,7 +130,6 @@ describe('mapArbeidsforholdToApiData', () => {
             const result: ArbeidIPeriodeApiData = mapArbeidIPeriodeToApiData(
                 {
                     jobberIPerioden: JobberIPeriodeSvar.JA,
-                    jobberSomVanlig: YesOrNo.NO,
                     erLiktHverUke: YesOrNo.YES,
                     enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
                     fasteDager: { fredag: { hours: '2', minutes: '0' } },
@@ -188,7 +146,6 @@ describe('mapArbeidsforholdToApiData', () => {
             const result: ArbeidIPeriodeApiData = mapArbeidIPeriodeToApiData(
                 {
                     jobberIPerioden: JobberIPeriodeSvar.JA,
-                    jobberSomVanlig: YesOrNo.NO,
                     erLiktHverUke: YesOrNo.YES,
                     enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
                     fasteDager: { fredag: { hours: '2', minutes: '0' } },
@@ -206,7 +163,6 @@ describe('mapArbeidsforholdToApiData', () => {
             const result: ArbeidIPeriodeApiData = mapArbeidIPeriodeToApiData(
                 {
                     jobberIPerioden: JobberIPeriodeSvar.JA,
-                    jobberSomVanlig: YesOrNo.NO,
                     erLiktHverUke: YesOrNo.NO,
                     enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
                     fasteDager: { fredag: { hours: '2', minutes: '0' } },
@@ -223,7 +179,6 @@ describe('mapArbeidsforholdToApiData', () => {
             const result: ArbeidIPeriodeApiData = mapArbeidIPeriodeToApiData(
                 {
                     jobberIPerioden: JobberIPeriodeSvar.JA,
-                    jobberSomVanlig: YesOrNo.NO,
                     erLiktHverUke: undefined,
                     enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
                     fasteDager: { fredag: { hours: '2', minutes: '0' } },
@@ -241,7 +196,6 @@ describe('mapArbeidsforholdToApiData', () => {
                 const result: ArbeidIPeriodeApiData = mapArbeidIPeriodeToApiData(
                     {
                         jobberIPerioden: JobberIPeriodeSvar.JA,
-                        jobberSomVanlig: YesOrNo.NO,
                         enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
                     },
                     historiskPeriode,
@@ -262,7 +216,6 @@ describe('mapArbeidsforholdToApiData', () => {
                 const result: ArbeidIPeriodeApiData = mapArbeidIPeriodeToApiData(
                     {
                         jobberIPerioden: JobberIPeriodeSvar.JA,
-                        jobberSomVanlig: YesOrNo.NO,
                         enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
                     },
                     historiskPeriode,
@@ -285,7 +238,6 @@ describe('mapArbeidsforholdToApiData', () => {
                 const result: ArbeidIPeriodeApiData = mapArbeidIPeriodeToApiData(
                     {
                         jobberIPerioden: JobberIPeriodeSvar.JA,
-                        jobberSomVanlig: YesOrNo.NO,
                         enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
                     },
                     historiskPeriode,

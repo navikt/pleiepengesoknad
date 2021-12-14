@@ -4,15 +4,14 @@ import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/d
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
 import SøknadFormStep from '../SøknadFormStep';
-import { cleanupArbeidIPeriodeStep } from './arbeidIPeriodeStepUtils';
+import { cleanupArbeidIPeriodeStep } from './utils/cleanupArbeidIPeriodeStep';
 import ArbeidIPeriodeStepContent from './ArbeidIPeriodeStepContent';
 
 interface Props extends StepConfigProps {
-    søknadsdato: Date;
     periode: DateRange;
 }
 
-const HistoriskArbeidStep = ({ onValidSubmit, periode, søknadsdato }: Props) => {
+const HistoriskArbeidStep = ({ onValidSubmit, periode }: Props) => {
     const intl = useIntl();
     const subTitle = intlHelper(intl, 'arbeidIPeriode.subtitle', {
         fra: prettifyDateFull(periode.from),
@@ -26,7 +25,7 @@ const HistoriskArbeidStep = ({ onValidSubmit, periode, søknadsdato }: Props) =>
             stepSubTitle={subTitle}
             onValidFormSubmit={onValidSubmit}
             onStepCleanup={(values) => cleanupArbeidIPeriodeStep(values, periode, erHistorisk)}>
-            <ArbeidIPeriodeStepContent erHistorisk={erHistorisk} periode={periode} søknadsdato={søknadsdato} />
+            <ArbeidIPeriodeStepContent erHistorisk={erHistorisk} periode={periode} />
         </SøknadFormStep>
     );
 };

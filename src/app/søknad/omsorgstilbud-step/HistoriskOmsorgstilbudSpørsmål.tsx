@@ -1,7 +1,7 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
+import FormSection from '@navikt/sif-common-core/lib/components/form-section/FormSection';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
@@ -9,10 +9,12 @@ import { DateRange } from '@navikt/sif-common-formik/lib';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
-import FormSection from '../../pre-common/form-section/FormSection';
-import { SøknadFormField, Omsorgstilbud } from '../../types/SøknadFormData';
+import { Omsorgstilbud, SøknadFormField } from '../../types/SøknadFormData';
 import SøknadFormComponents from '../SøknadFormComponents';
-import OmsorgstilbudIPeriodeSpørsmål from '../../components/omsorgstilbud/OmsorgstilbudIPeriodeSpørsmål';
+import OmsorgstilbudVariert from './omsorgstilbud-i-periode/OmsorgstilbudVariert';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import { Element } from 'nav-frontend-typografi';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 dayjs.extend(isBetween);
 
@@ -41,6 +43,19 @@ const HistoriskOmsorgstilbudSpørsmål = ({
                     fra: prettifyDateFull(periode.from),
                     til: prettifyDateFull(periode.to),
                 })}
+                description={
+                    <ExpandableInfo
+                        title={intlHelper(
+                            intl,
+                            'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.tittel'
+                        )}>
+                        <p>
+                            <FormattedMessage
+                                id={'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.info.1'}
+                            />
+                        </p>
+                    </ExpandableInfo>
+                }
                 validate={(value) => {
                     const error = getYesOrNoValidator()(value);
                     if (error) {
@@ -57,16 +72,19 @@ const HistoriskOmsorgstilbudSpørsmål = ({
             />
             {omsorgstilbud?.harBarnVærtIOmsorgstilbud === YesOrNo.YES && (
                 <FormBlock>
-                    <ResponsivePanel>
-                        <OmsorgstilbudIPeriodeSpørsmål
-                            periode={periode}
-                            tidIOmsorgstilbud={omsorgstilbud.historisk?.enkeltdager || {}}
-                            onOmsorgstilbudChanged={() => {
-                                onOmsorgstilbudChanged();
-                            }}
-                            søknadsdato={søknadsdato}
-                        />
-                    </ResponsivePanel>
+                    <Box padBottom="m">
+                        <Element tag="h3">
+                            <FormattedMessage id="steg.omsorgstilbud.historisk.hvorMyeTittel" />
+                        </Element>
+                    </Box>
+                    <OmsorgstilbudVariert
+                        periode={periode}
+                        tidIOmsorgstilbud={omsorgstilbud.historisk?.enkeltdager || {}}
+                        onOmsorgstilbudChanged={() => {
+                            onOmsorgstilbudChanged();
+                        }}
+                        søknadsdato={søknadsdato}
+                    />
                 </FormBlock>
             )}
         </FormSection>

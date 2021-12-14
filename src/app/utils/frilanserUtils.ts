@@ -21,7 +21,6 @@ export const erFrilanserIPeriode = (
     periode: DateRange,
     {
         frilans_harHattInntektSomFrilanser,
-        // frilans_jobberFortsattSomFrilans,
         frilans_sluttdato,
         frilans_startdato,
     }: Pick<
@@ -54,7 +53,7 @@ export const erFrilanserIPeriode = (
  * gjør at bruker ikke var frilanser i perioden
  */
 
-export const getPeriodeSomFrilanserInneforPeriode = (
+export const getPeriodeSomFrilanserInnenforPeriode = (
     periode: DateRange,
     frilans: {
         frilans_startdato?: string;

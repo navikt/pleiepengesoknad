@@ -3,14 +3,17 @@ import { IntlProvider as Provider } from 'react-intl';
 import '@formatjs/intl-pluralrules/locale-data/nb';
 import '@formatjs/intl-pluralrules/locale-data/nn';
 import '@formatjs/intl-pluralrules/polyfill';
-import bostedMessages from '@navikt/sif-common-forms/lib/bosted-utland/bostedUtlandMessages';
-import utenlandsoppholdMessages from '@navikt/sif-common-forms/lib/utenlandsopphold/utenlandsoppholdMessages';
-import virksomhetMessages from '@navikt/sif-common-forms/lib/virksomhet/virksomhetMessages';
-import tidsperiodeMessages from '@navikt/sif-common-forms/lib/tidsperiode/tidsperiodeMessages';
-import ferieuttakMessages from '@navikt/sif-common-forms/lib/ferieuttak/ferieuttakMessages';
 import { allCommonMessages } from '@navikt/sif-common-core/lib/i18n/allCommonMessages';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
-import omsorgstilbudMessages from '../omsorgstilbud/omsorgstilbudMessages';
+import bostedMessages from '@navikt/sif-common-forms/lib/bosted-utland/bostedUtlandMessages';
+import ferieuttakMessages from '@navikt/sif-common-forms/lib/ferieuttak/ferieuttakMessages';
+import tidsperiodeMessages from '@navikt/sif-common-forms/lib/tidsperiode/tidsperiodeMessages';
+import utenlandsoppholdMessages from '@navikt/sif-common-forms/lib/utenlandsopphold/utenlandsoppholdMessages';
+import virksomhetMessages from '@navikt/sif-common-forms/lib/virksomhet/virksomhetMessages';
+import omsorgstilbudMessages from '../../i18n/omsorgstilbudMessages';
+import arbeidstidMessages from '../../søknad/arbeid-i-periode-steps/arbeidstidMessages';
+import arbeidstidEnkeltdagFormMessages from '../../pre-common/arbeidstid-enkeltdag/arbeidstidEnkeltdagMessage';
+import omsorgstilbudEnkeltdagFormMessages from '../../pre-common/omsorgstilbud-enkeltdag/omsorgstilbudEnkeltdagFormMessages';
 
 export const appBokmålstekster = require('../../i18n/nb.json');
 export const appNynorsktekster = require('../../i18n/nn.json');
@@ -23,6 +26,9 @@ const bokmålstekster = {
     ...tidsperiodeMessages.nb,
     ...ferieuttakMessages.nb,
     ...omsorgstilbudMessages.nb,
+    ...arbeidstidMessages.nb,
+    ...arbeidstidEnkeltdagFormMessages.nb,
+    ...omsorgstilbudEnkeltdagFormMessages.nb,
     ...appBokmålstekster,
 };
 const nynorsktekster = {

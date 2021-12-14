@@ -2,7 +2,7 @@ import axios from 'axios';
 import axiosConfig from '../../config/axiosConfig';
 import { StepID } from '../../søknad/søknadStepsConfig';
 import { ResourceType } from '../../types/ResourceType';
-import { axiosJsonConfig, getApiUrlByResourceType, sendMultipartPostRequest } from '../../utils/apiUtils';
+import { axiosJsonConfig, getApiUrlByResourceType, sendMultipartPostRequest } from '../utils/apiUtils';
 import {
     deleteFile,
     getArbeidsgiver,
@@ -15,10 +15,17 @@ import {
 } from '../api';
 
 const mockedApiUrl = 'nav.no/api';
-jest.mock('./../../utils/apiUtils', () => {
+jest.mock('../utils/apiUtils', () => {
     return {
         getApiUrlByResourceType: jest.fn(() => mockedApiUrl),
         sendMultipartPostRequest: jest.fn(),
+    };
+});
+
+jest.mock('../../utils/featureToggleUtils', () => {
+    return {
+        isFeatureEnabled: jest.fn(() => false),
+        Feature: {},
     };
 });
 

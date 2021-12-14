@@ -1,7 +1,7 @@
 import { apiStringDateToDate, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { TidEnkeltdagApiData } from '../../../types/SøknadApiData';
 import {
-    fjernTidUtenforPeriode,
+    fjernTidUtenforPeriodeOgHelgedager,
     getEnkeltdagerIPeriodeApiData,
     getFasteDagerApiData,
     getRedusertArbeidstidSomIso8601Duration,
@@ -50,12 +50,12 @@ describe('tidsbrukApiUtils', () => {
         it('returnerer kun dager, sortert, som er innenfor tidsrom', () => {
             const result = getEnkeltdagerIPeriodeApiData(
                 {
-                    '2021-02-01': { hours: '1', minutes: '0' },
-                    '2021-02-05': { hours: '1', minutes: '0' },
-                    '2021-02-03': { hours: '1', minutes: '0' },
-                    '2021-02-02': { hours: '1', minutes: '0' },
-                    '2021-02-04': { hours: '1', minutes: '0' },
-                    '2021-02-06': { hours: '1', minutes: '0' },
+                    '2021-02-01': { varighet: { hours: '1', minutes: '0' } },
+                    '2021-02-05': { varighet: { hours: '1', minutes: '0' } },
+                    '2021-02-03': { varighet: { hours: '1', minutes: '0' } },
+                    '2021-02-02': { varighet: { hours: '1', minutes: '0' } },
+                    '2021-02-04': { varighet: { hours: '1', minutes: '0' } },
+                    '2021-02-06': { varighet: { hours: '1', minutes: '0' } },
                 },
                 periode
             );
@@ -79,12 +79,30 @@ describe('tidsbrukApiUtils', () => {
                 { dato: '2021-02-06', tid: '2' },
                 { dato: '2021-02-07', tid: '2' },
             ];
-            const result = fjernTidUtenforPeriode(periode, tidEnkeltdager);
+            const result = fjernTidUtenforPeriodeOgHelgedager(periode, tidEnkeltdager);
+            expect(result).toBeDefined();
+            if (result) {
+                expect(result.length).toBe(1);
+                expect(result[0].dato).toEqual('2021-02-05');
+            }
+        });
+        it('fjerner tid som er på helgedager', () => {
+            const periode: Partial<DateRange> = {
+                from: apiStringDateToDate('2021-02-01'),
+                to: apiStringDateToDate('2021-02-10'),
+            };
+            const tidEnkeltdager: TidEnkeltdagApiData[] = [
+                { dato: '2021-02-05', tid: '2' },
+                { dato: '2021-02-06', tid: '2' },
+                { dato: '2021-02-07', tid: '2' },
+                { dato: '2021-02-08', tid: '2' },
+            ];
+            const result = fjernTidUtenforPeriodeOgHelgedager(periode, tidEnkeltdager);
             expect(result).toBeDefined();
             if (result) {
                 expect(result.length).toBe(2);
                 expect(result[0].dato).toEqual('2021-02-05');
-                expect(result[1].dato).toEqual('2021-02-06');
+                expect(result[1].dato).toEqual('2021-02-08');
             }
         });
     });
