@@ -3,7 +3,7 @@ import { InputTime } from '@navikt/sif-common-formik/lib';
 import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeValidator';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import { Omsorgstilbud } from '../types/SøknadFormData';
-import { sumTimerFasteDager } from '../utils/tidsbrukUtils';
+import { summerTidUkedager } from '../utils/datoTidUtils';
 import { AppFieldValidationErrors, TidPerDagValidator } from './fieldValidations';
 
 export const validateSkalIOmsorgstilbud = (omsorgstilbud: Omsorgstilbud): ValidationResult<ValidationError> => {
@@ -13,7 +13,7 @@ export const validateSkalIOmsorgstilbud = (omsorgstilbud: Omsorgstilbud): Valida
         }
         const fasteDager = omsorgstilbud.planlagt.fasteDager;
 
-        const hoursInTotal = fasteDager ? sumTimerFasteDager(fasteDager) : 0;
+        const hoursInTotal = fasteDager ? summerTidUkedager(fasteDager) : 0;
         if (hoursInTotal === 0) {
             return AppFieldValidationErrors.omsorgstilbud_ingenInfo;
         }

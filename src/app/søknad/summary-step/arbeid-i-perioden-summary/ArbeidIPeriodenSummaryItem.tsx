@@ -1,5 +1,5 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { ArbeidIPeriodeApiData, ArbeidsforholdApiData } from '../../../types/SøknadApiData';
@@ -29,31 +29,6 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
             intl,
             erHistorisk ? 'oppsummering.arbeidIPeriode.Jobbet' : 'oppsummering.arbeidIPeriode.Jobber'
         ),
-        vanligRedusert: arbeidIPeriode.jobberIPerioden
-            ? intlHelper(intl, 'oppsummering.arbeidIPeriode.jobberIPerioden.ja.redusert', {
-                  timer:
-                      arbeidIPeriode.jobberIPerioden && normaltimerUke !== undefined
-                          ? intlHelper(intl, `timerPerUke`, { timer: normaltimerUke })
-                          : '',
-              })
-            : '',
-    };
-
-    const getJobberIPeriodenTekst = () => {
-        switch (arbeidIPeriode.jobberIPerioden) {
-            case JobberIPeriodeSvar.JA:
-                return intlHelper(intl, `oppsummering.arbeidIPeriode.jobberIPerioden.ja`, intlTexts);
-            case JobberIPeriodeSvar.NEI:
-                return intlHelper(
-                    intl,
-                    erHistorisk
-                        ? `oppsummering.arbeidIPeriode.jobberIPerioden.nei.historisk`
-                        : `oppsummering.arbeidIPeriode.jobberIPerioden.nei`,
-                    intlTexts
-                );
-            case JobberIPeriodeSvar.VET_IKKE:
-                return intlHelper(intl, `oppsummering.arbeidIPeriode.jobberIPerioden.vetIkke`, intlTexts);
-        }
     };
 
     const getArbeidProsentTekst = (prosent: number) => {
@@ -73,7 +48,18 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
     return (
         <>
             <ul>
-                <li>{getJobberIPeriodenTekst()}</li>
+                {arbeidIPeriode.jobberIPerioden === JobberIPeriodeSvar.NEI && (
+                    <li>
+                        <FormattedMessage
+                            id={
+                                erHistorisk
+                                    ? `oppsummering.arbeidIPeriode.jobberIPerioden.nei.historisk`
+                                    : `oppsummering.arbeidIPeriode.jobberIPerioden.nei`
+                            }
+                            values={intlTexts}
+                        />
+                    </li>
+                )}
                 {arbeidIPeriode.enkeltdager && (
                     <li>
                         <div>
@@ -94,7 +80,7 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
                 {arbeidIPeriode.fasteDager && (
                     <li>
                         {/* Faste dager */}
-                        {arbeidIPeriode._jobberProsent === undefined && (
+                        {arbeidIPeriode.jobberProsent === undefined && (
                             <>
                                 <div>
                                     {intlHelper(
@@ -111,8 +97,8 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
                             </>
                         )}
                         {/* Prosent - men verdi er fordelt likt på  fasteDager */}
-                        {arbeidIPeriode._jobberProsent !== undefined &&
-                            getArbeidProsentTekst(arbeidIPeriode._jobberProsent)}
+                        {arbeidIPeriode.jobberProsent !== undefined &&
+                            getArbeidProsentTekst(arbeidIPeriode.jobberProsent)}
                     </li>
                 )}
             </ul>

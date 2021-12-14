@@ -5,7 +5,7 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import Knapperad from '@navikt/sif-common-core/lib/components/knapperad/Knapperad';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
+import { getTypedFormComponents, InputTime } from '@navikt/sif-common-formik/lib';
 import getFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import dayjs from 'dayjs';
@@ -13,21 +13,23 @@ import isoWeek from 'dayjs/plugin/isoWeek';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import Knapp from 'nav-frontend-knapper';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import { TidEnkeltdag } from '../../types';
-import { getValidEnkeltdager } from '../../utils/tidsbrukUtils';
+import { DatoTidMap, ISODate } from '../../types';
+import { cleanupDatoTidMap } from '../../utils/datoTidUtils';
 import { TidPerDagValidator } from '../../validation/fieldValidations';
 import TidUkerInput from '../tid-uker-input/TidUkerInput';
 
 dayjs.extend(isoWeek);
 dayjs.extend(weekOfYear);
 
+type FormDatoTidMap = { [isoDate: ISODate]: Partial<InputTime> };
+
 interface Props {
     tittel: JSX.Element;
     intro?: JSX.Element;
     periode: DateRange;
-    tid: TidEnkeltdag;
+    tid: DatoTidMap;
     tidPerDagValidator: TidPerDagValidator;
-    onSubmit: (tid: TidEnkeltdag) => void;
+    onSubmit: (tid: DatoTidMap) => void;
     onCancel?: () => void;
 }
 
@@ -35,7 +37,7 @@ enum FormField {
     tid = 'tid',
 }
 interface FormValues {
-    [FormField.tid]: TidEnkeltdag;
+    [FormField.tid]: FormDatoTidMap;
 }
 
 const Form = getTypedFormComponents<FormField, FormValues, ValidationError>();
@@ -48,13 +50,29 @@ const TidKalenderForm = ({ periode, tid, tittel, intro, tidPerDagValidator, onSu
     }
 
     const onFormikSubmit = ({ tid = {} }: Partial<FormValues>) => {
-        onSubmit(getValidEnkeltdager(tid));
+        const data: DatoTidMap = {};
+        Object.keys(tid).forEach((key) => {
+            const value = tid[key];
+            data[key] = {
+                varighet: value,
+            };
+        });
+        onSubmit(cleanupDatoTidMap(data));
+    };
+
+    const mapDatoTidToFormDatoTid = (tid: DatoTidMap): FormDatoTidMap => {
+        const data: FormDatoTidMap = {};
+        Object.keys(tid).forEach((key) => {
+            const value = tid[key];
+            data[key] = value.varighet;
+        });
+        return data;
     };
 
     return (
         <Normaltekst tag="div">
             <Form.FormikWrapper
-                initialValues={{ tid }}
+                initialValues={{ tid: mapDatoTidToFormDatoTid(tid) }}
                 onSubmit={onFormikSubmit}
                 renderForm={() => {
                     return (

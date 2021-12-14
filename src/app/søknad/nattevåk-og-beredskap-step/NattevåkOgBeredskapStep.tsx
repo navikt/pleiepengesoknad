@@ -11,10 +11,10 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getStringValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { useFormikContext } from 'formik';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
-import { getSøkerKunHistoriskPeriode } from '../../utils/tidsbrukUtils';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
+import { getSøkerKunHistoriskPeriode } from '../../utils/fortidFremtidUtils';
 
 const cleanupNattevåkStep = (values: SøknadFormData): SøknadFormData => {
     const cleanedValues = { ...values };

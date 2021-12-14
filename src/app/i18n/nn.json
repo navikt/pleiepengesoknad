@@ -212,8 +212,6 @@
 
     "steg.tidsrom.hjelpetekst.tittel": "Kan eg søke for fleire periodar samtidig?",
     "steg.tidsrom.hjelpetekst": "Søknaden er under utvikling: Dersom du skal søkje for fleire periodar, må du sende éin søknad for kvar periode.",
-    "steg.tidsrom.hjelpetekst.tittel.1": "Kvifor kan eg ikkje velja laurdag eller søndag?",
-    "steg.tidsrom.hjelpetekst.1": "Du kan berre få utbetalt pleiepengar for kvardagar, sjølv om du jobbar laurdag eller søndag. Derfor kan du ikkje velja laurdag eller søndag som start- eller sluttdato i perioden du legg inn.",
     "steg.tidsrom.hvilketTidsrom.spm": "Kva periode søkjer du pleiepengar for?",
     "steg.tidsrom.hvilketTidsrom.fom": "Frå og med",
     "steg.tidsrom.hvilketTidsrom.tom": "Til og med",
@@ -395,7 +393,6 @@
 
     "arbeidsforhold.oppsummering.svar.JA": "Skal jobbe som vanleg. Jobbar normalt {timer, plural, one {# time} other {# timer}} i veka.",
     "arbeidsforhold.oppsummering.svar.NEI": "Skal ikkje jobbe. Jobbar normalt {timer, plural, one {# time} other {# timer}} i veka.",
-    "arbeidsforhold.oppsummering.svar.VET_IKKE": "Eg veit ikkje om eg skal jobbe her i perioden eg søkjer for, men eg melder frå dersom eg skal gjere det. Jobbar vanlegvis {timer} i veka.",
     "arbeidsforhold.oppsummering.svar.REDUSERT.timer": "Skal jobbe {timerRedusert} i uka ({prosentRedusert} prosent av vanleg). Jobbar normalt {timerNormalt} i veka.",
     "arbeidsforhold.oppsummering.svar.REDUSERT.prosent": "Skal jobbe {prosentRedusert} prosent av {timerNormalt} i veka.",
 

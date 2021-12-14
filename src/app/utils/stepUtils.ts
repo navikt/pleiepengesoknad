@@ -14,7 +14,7 @@ import {
 } from '../validation/stepValidations';
 import { erAnsattISøknadsperiode } from './ansattUtils';
 import { erFrilanserIPeriode } from './frilanserUtils';
-import { getHistoriskPeriode, getPlanlagtPeriode } from './tidsbrukUtils';
+import { getHistoriskPeriode, getPlanlagtPeriode } from './fortidFremtidUtils';
 
 export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
     const conf = stepConfig[stepId];

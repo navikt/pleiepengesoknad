@@ -1,7 +1,8 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
-import { getDatoerIPeriode } from '../../components/tid-uker-input/utils';
+import { getDatesInDateRange } from '../common/dateRangeUtils';
+import { dateToISODate } from '../common/isoDateUtils';
 import { ArbeidsforholdType, JobberIPeriodeSvar, TimerEllerProsent } from '../../types';
 import {
     ArbeidIPeriodeApiData,
@@ -11,9 +12,9 @@ import {
 } from '../../types/SøknadApiData';
 import { ArbeidIPeriode, Arbeidsforhold } from '../../types/SøknadFormData';
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
-import { getHistoriskPeriode, getPlanlagtPeriode } from '../tidsbrukUtils';
+import { getHistoriskPeriode, getPlanlagtPeriode } from '../fortidFremtidUtils';
 import {
-    fjernTidUtenforPeriode,
+    fjernTidUtenforPeriodeOgHelgedager,
     getEnkeltdagerIPeriodeApiData,
     getFasteDagerApiData,
     getRedusertArbeidstidSomIso8601Duration,
@@ -24,11 +25,11 @@ export const lagEnkeltdagerUtFraProsentIPeriode = (
     jobberNormaltTimerNumber: number,
     skalJobbeProsent: number
 ): TidEnkeltdagApiData[] => {
-    const datoer = getDatoerIPeriode(periode);
+    const datoer = getDatesInDateRange(periode, true);
     const tid = getRedusertArbeidstidSomIso8601Duration(jobberNormaltTimerNumber, skalJobbeProsent);
     return datoer.map(
         (dato): TidEnkeltdagApiData => ({
-            dato: dato.isoDateString,
+            dato: dateToISODate(dato),
             tid,
         })
     );
@@ -61,17 +62,17 @@ export const mapArbeidIPeriodeToApiData = (
     if (arbeid.jobberIPerioden !== JobberIPeriodeSvar.JA) {
         return apiData;
     }
-    if (arbeid.timerEllerProsent === TimerEllerProsent.prosent) {
+    apiData.jobberSomVanlig = false;
+    if (arbeid.timerEllerProsent === TimerEllerProsent.PROSENT) {
         const skalJobbeProsentNumber = getNumberFromNumberInputValue(arbeid.skalJobbeProsent);
         if (skalJobbeProsentNumber === undefined) {
             throw new Error('mapArbeidIPeriodeToApiData - skalJobbeProsentNumber undefined');
         }
         return {
             ...apiData,
-            jobberIPerioden: JobberIPeriodeSvar.JA,
             erLiktHverUke: true,
             fasteDager: lagFasteDagerUtFraProsentIPeriode(jobberNormaltTimerNumber, skalJobbeProsentNumber),
-            _jobberProsent: skalJobbeProsentNumber,
+            jobberProsent: skalJobbeProsentNumber,
         };
     }
 
@@ -80,9 +81,9 @@ export const mapArbeidIPeriodeToApiData = (
         arbeid.enkeltdager && !erLiktHverUke ? getEnkeltdagerIPeriodeApiData(arbeid.enkeltdager, periode) : undefined;
 
     return {
-        jobberIPerioden: JobberIPeriodeSvar.JA,
+        ...apiData,
         erLiktHverUke,
-        enkeltdager: arbeidsperiode ? fjernTidUtenforPeriode(arbeidsperiode, enkeltdager) : enkeltdager,
+        enkeltdager: arbeidsperiode ? fjernTidUtenforPeriodeOgHelgedager(arbeidsperiode, enkeltdager) : enkeltdager,
         fasteDager: arbeid.fasteDager && erLiktHverUke ? getFasteDagerApiData(arbeid.fasteDager) : undefined,
     };
 };

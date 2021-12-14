@@ -4,8 +4,8 @@ import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-dat
 import { ArbeidsforholdType, JobberIPeriodeSvar } from '../../types';
 import { FrilansApiData, SøknadApiData } from '../../types/SøknadApiData';
 import { SøknadFormData } from '../../types/SøknadFormData';
+import { getHistoriskPeriode, getPlanlagtPeriode } from '../fortidFremtidUtils';
 import { erFrilanserITidsrom } from '../frilanserUtils';
-import { getHistoriskPeriode, getPlanlagtPeriode } from '../tidsbrukUtils';
 import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
 
 export type FrilansApiDataPart = Pick<SøknadApiData, 'frilans' | '_harHattInntektSomFrilanser'>;

@@ -26,16 +26,16 @@ const frilans_arbeidsforhold: Arbeidsforhold = {
     historisk: {
         jobberIPerioden: JobberIPeriodeSvar.JA,
         enkeltdager: {
-            '2021-01-31': { hours: '5', minutes: '0' },
-            '2021-02-01': { hours: '5', minutes: '0' },
-            '2021-02-10': { hours: '5', minutes: '0' },
-            '2021-02-11': { hours: '5', minutes: '0' },
+            '2021-01-31': { varighet: { hours: '5', minutes: '0' } },
+            '2021-02-01': { varighet: { hours: '5', minutes: '0' } },
+            '2021-02-10': { varighet: { hours: '5', minutes: '0' } },
+            '2021-02-11': { varighet: { hours: '5', minutes: '0' } },
         },
     },
     planlagt: {
         jobberIPerioden: JobberIPeriodeSvar.JA,
         enkeltdager: {
-            '2021-02-09': { hours: '5', minutes: '0' },
+            '2021-02-09': { varighet: { hours: '5', minutes: '0' } },
         },
     },
 };

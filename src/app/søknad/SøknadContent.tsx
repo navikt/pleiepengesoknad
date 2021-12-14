@@ -15,7 +15,6 @@ import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
 import { getKvitteringInfoFromApiData } from '../utils/kvitteringUtils';
 import { navigateTo, navigateToErrorPage, relocateToLoginPage } from '../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../utils/routeUtils';
-import { getHistoriskPeriode, getPlanlagtPeriode } from '../utils/tidsbrukUtils';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
@@ -29,6 +28,8 @@ import OmsorgstilbudStep from './omsorgstilbud-step/OmsorgstilbudStep';
 import OpplysningerOmBarnetStep from './opplysninger-om-barnet-step/OpplysningerOmBarnetStep';
 import SummaryStep from './summary-step/SummaryStep';
 import OpplysningerOmTidsromStep from './tidsrom-step/OpplysningerOmTidsromStep';
+import { getHistoriskPeriode, getPlanlagtPeriode } from '../utils/fortidFremtidUtils';
+import ArbeidstidStep from './arbeid-i-periode-steps/ArbeidstidStep';
 
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
@@ -147,13 +148,24 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                 />
             )}
 
+            {isAvailable(StepID.ARBEIDSTID, values) && søknadsperiode && (
+                <Route
+                    path={getSøknadRoute(StepID.ARBEIDSTID)}
+                    render={() => (
+                        <ArbeidstidStep
+                            periode={søknadsperiode}
+                            onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEIDSTID)}
+                        />
+                    )}
+                />
+            )}
+
             {isAvailable(StepID.ARBEID_HISTORISK, values) && periodeFørSøknadsdato && (
                 <Route
                     path={getSøknadRoute(StepID.ARBEID_HISTORISK)}
                     render={() => (
                         <HistoriskArbeidStep
                             periode={periodeFørSøknadsdato}
-                            søknadsdato={søknadsdato}
                             onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEID_HISTORISK)}
                         />
                     )}
@@ -167,7 +179,6 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                         <PlanlagtArbeidStep
                             periode={periodeFraOgMedSøknadsdato}
                             onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEID_PLANLAGT)}
-                            søknadsdato={søknadsdato}
                         />
                     )}
                 />

@@ -1,22 +1,22 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import { Route, Switch } from 'react-router-dom';
+import { AmplitudeProvider } from '@navikt/sif-common-amplitude/lib';
 import AppStatusWrapper from '@navikt/sif-common-core/lib/components/app-status-wrapper/AppStatusWrapper';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import dayjs from 'dayjs';
 import moment from 'moment';
 import Modal from 'nav-frontend-modal';
 import ApplicationWrapper from './components/application-wrapper/ApplicationWrapper';
-import Søknad from './søknad/Søknad';
 import RouteConfig from './config/routeConfig';
 import IntroPage from './pages/intro-page/IntroPage';
 import UnavailablePage from './pages/unavailable-page/UnavailablePage';
+import Søknad from './søknad/Søknad';
 import appSentryLogger from './utils/appSentryLogger';
 import { getEnvironmentVariable } from './utils/envUtils';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
 import '@navikt/sif-common-core/lib/styles/globalStyles.less';
 import './app.less';
-import { AmplitudeProvider } from '@navikt/sif-common-amplitude/lib';
 
 export const APPLICATION_KEY = 'pleiepengesoknad';
 export const SKJEMANAVN = 'Søknad om pleiepenger';

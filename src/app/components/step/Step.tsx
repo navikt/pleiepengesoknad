@@ -2,11 +2,9 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 import BackLink from '@navikt/sif-common-core/lib/components/back-link/BackLink';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import StepFooter from '@navikt/sif-common-core/lib/components/step-footer/StepFooter';
-import AvbrytSøknadDialog from '@navikt/sif-common-core/lib/components/dialogs/avbrytSøknadDialog/AvbrytSøknadDialog';
-import FortsettSøknadSenereDialog from '@navikt/sif-common-core/lib/components/dialogs/fortsettSøknadSenereDialog/FortsettSøknadSenereDialog';
 import Page from '@navikt/sif-common-core/lib/components/page/Page';
 import StepBanner from '@navikt/sif-common-core/lib/components/step-banner/StepBanner';
+import StepFooter from '@navikt/sif-common-core/lib/components/step-footer/StepFooter';
 import bemHelper from '@navikt/sif-common-core/lib/utils/bemUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { FormikValidationErrorSummary } from '@navikt/sif-common-formik';
@@ -46,8 +44,6 @@ const Step = ({
     const conf = stepConfig[id];
     const intl = useIntl();
     const stepTexts: StepConfigItemTexts = getStepTexts(intl, id, stepConfig);
-    const [visAvbrytDialog, setVisAvbrytDialog] = React.useState<boolean>(false);
-    const [visFortsettSenereDialog, setVisFortsettSenereDialog] = React.useState<boolean>(false);
 
     return (
         <Page
@@ -84,20 +80,7 @@ const Step = ({
                 </Innholdstittel>
             </Box>
             <Box margin="xl">{children}</Box>
-            <StepFooter
-                onAvbrytOgFortsettSenere={() => setVisFortsettSenereDialog(true)}
-                onAvbrytOgSlett={() => setVisAvbrytDialog(true)}
-            />
-            <FortsettSøknadSenereDialog
-                synlig={visFortsettSenereDialog}
-                onFortsettSøknadSenere={onFortsettSenere}
-                onFortsettSøknad={() => setVisFortsettSenereDialog(false)}
-            />
-            <AvbrytSøknadDialog
-                synlig={visAvbrytDialog}
-                onAvbrytSøknad={onAvbryt}
-                onFortsettSøknad={() => setVisAvbrytDialog(false)}
-            />
+            <StepFooter onAvbrytOgFortsettSenere={onFortsettSenere} onAvbrytOgSlett={onAvbryt} />
         </Page>
     );
 };

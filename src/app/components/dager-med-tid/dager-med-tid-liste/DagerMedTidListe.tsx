@@ -4,8 +4,8 @@ import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import dayjs from 'dayjs';
 import { groupBy } from 'lodash';
 import { Element, Undertittel } from 'nav-frontend-typografi';
-import { DagMedTid } from '../../../types';
 import FormattedTimeText from '../../formatted-time-text/FormattedTimeText';
+import { DagMedTid } from '../TidEnkeltdager';
 import './dagerMedTidListe.less';
 
 interface Props {
@@ -36,7 +36,7 @@ export const DagerMedTidListe = ({ dagerMedTid: dagerMedTid, viseUke, visMåned 
                                     />
                                 </Element>
                             )}
-                            <ul className={bem.element('dager')}>
+                            <ol className={bem.element('dager')}>
                                 {days.sort(sortDays).map((dag, idx) => {
                                     const timer = dag.tid.hours || '0';
                                     const minutter = dag.tid.minutes || '0';
@@ -57,7 +57,7 @@ export const DagerMedTidListe = ({ dagerMedTid: dagerMedTid, viseUke, visMåned 
                                         </li>
                                     );
                                 })}
-                            </ul>
+                            </ol>
                         </div>
                     );
                 })}

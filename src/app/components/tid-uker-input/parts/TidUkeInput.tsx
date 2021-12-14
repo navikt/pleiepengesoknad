@@ -59,7 +59,7 @@ const TidUkeInput: React.FunctionComponent<Props> = ({
                 {getForegåendeDagerIUke(dager[0]).map((dag) => (
                     <div
                         className={bem.element('dag', 'utenforPeriode')}
-                        key={dag.isoDateString}
+                        key={dag.isoDate}
                         role="presentation"
                         aria-hidden={true}>
                         {renderDagLabel(dag, dagLabelRenderer)}
@@ -67,7 +67,7 @@ const TidUkeInput: React.FunctionComponent<Props> = ({
                     </div>
                 ))}
                 {dager.map((dag) => (
-                    <div key={dag.isoDateString} className={bem.element('dag')}>
+                    <div key={dag.isoDate} className={bem.element('dag')}>
                         <FormikTimeInput
                             name={getFieldName(dag)}
                             label={renderDagLabel(dag, dagLabelRenderer)}

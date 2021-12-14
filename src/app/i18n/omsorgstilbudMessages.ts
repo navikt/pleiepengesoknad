@@ -8,6 +8,7 @@ const omsorgstilbudMessages = {
             'Antall timer og minutter {dag} er for høyt. Tiden kan ikke være mer enn 7 timer og 30 minutter.',
         'omsorgstilbud.validation.durationIsTooShort':
             'Antall timer og minutter {dag} er for lavt. Tiden må være minst ett minutt.',
+
         'omsorgstilbud.uke': 'Uke {uke}',
         'omsorgstilbud.ukeOgÅr': 'Omsorgstilbud {ukeOgÅr}',
         'omsorgstilbud.ingenDagerRegistrert': 'Ingen dager med omsorgstilbud registrert',
@@ -26,6 +27,9 @@ const omsorgstilbudMessages = {
         'omsorgstilbud.timerPerDag.timer': '{hours}t',
         'omsorgstilbud.timerPerDag.minutter': '{minutes}m',
         'omsorgstilbud.ingenDagerValgt': 'Ingen dager med tilsyn er registrert',
+
+        'omsorgstilbud.iPeriodePanel.info':
+            '{dager, plural, one {# dag} other {# dager}} med tid i omsorgstilbud registrert.',
 
         'omsorgstilbud.addLabel': 'Registrer omsorgstilbud {periode}',
         'omsorgstilbud.deleteLabel': 'Fjern alle timer',

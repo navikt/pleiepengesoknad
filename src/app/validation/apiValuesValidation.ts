@@ -12,6 +12,7 @@ import {
     OmsorgstilbudApiData,
     SøknadApiData,
 } from '../types/SøknadApiData';
+import { søkerKunHelgedager } from '../utils/formDataUtils';
 
 export const apiVedleggIsInvalid = (vedlegg: string[]): boolean => {
     vedlegg.find((v) => {
@@ -35,9 +36,12 @@ const isValidNormalarbeidstid = (timer: number | undefined): boolean => {
 };
 
 export const isArbeidIPeriodeValid = (arbeidIPeriode: ArbeidIPeriodeApiData): boolean => {
-    const { jobberIPerioden, fasteDager, enkeltdager } = arbeidIPeriode;
-    if (jobberIPerioden === JobberIPeriodeSvar.NEI || jobberIPerioden === JobberIPeriodeSvar.VET_IKKE) {
+    const { jobberIPerioden, erLiktHverUke, fasteDager, enkeltdager } = arbeidIPeriode;
+    if (jobberIPerioden !== JobberIPeriodeSvar.JA) {
         return true;
+    }
+    if (erLiktHverUke === true && fasteDager === undefined) {
+        return false;
     }
     if (fasteDager === undefined && enkeltdager === undefined) {
         return false;
@@ -97,6 +101,13 @@ export const isOmsorgstilbudApiDataValid = (omsorgstilbud: OmsorgstilbudApiData)
 export const validateApiValues = (values: SøknadApiData, intl: IntlShape): ApiValidationError[] | undefined => {
     const errors: ApiValidationError[] = [];
 
+    if (søkerKunHelgedager(values.fraOgMed, values.tilOgMed)) {
+        errors.push({
+            skjemaelementId: 'tidsrom',
+            feilmelding: intlHelper(intl, 'steg.oppsummering.validering.tidsromKunHelg'),
+            stepId: StepID.TIDSROM,
+        });
+    }
     if (apiVedleggIsInvalid(values.vedlegg)) {
         errors.push({
             skjemaelementId: 'vedlegg',
