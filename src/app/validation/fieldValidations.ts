@@ -45,6 +45,9 @@ export enum AppFieldValidationErrors {
     'arbeidIPeriode_fasteDager_ingenTidRegistrert' = 'arbeidIPeriode.fasteDager.ingenTidRegistrert',
     'arbeidIPeriode_fasteDager_forMangeTimer' = 'arbeidIPeriode.fasteDager.forMangeTimer',
 
+    'omsorgstilbudIPeriode_fasteDager_ingenTidRegistrert' = 'omsorgstilbud.fasteDager.ingenTidRegistrert',
+    'omsorgstilbudIPeriode_fasteDager_forMangeTimer' = 'omsorgstilbud.fasteDager.forMangeTimer',
+
     'omsorgstilbud_ingenInfo' = 'omsorgstilbud_ingenInfo',
     'omsorgstilbud_forMangeTimerTotalt' = 'omsorgstilbud_forMangeTimerTotalt',
     'omsorgstilbud_forMangeTimerEnDag' = 'omsorgstilbud_forMangeTimerEnDag',

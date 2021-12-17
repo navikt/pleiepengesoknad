@@ -2,6 +2,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { InputTime } from '@navikt/sif-common-formik/lib';
 import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeValidator';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
+import { TidUkedager } from '../types';
 import { Omsorgstilbud } from '../types/SøknadFormData';
 import { summerTidUkedager } from '../utils/datoTidUtils';
 import { AppFieldValidationErrors, TidPerDagValidator } from './fieldValidations';
@@ -39,6 +40,23 @@ export const getOmsorgstilbudtimerValidatorFastDag =
         }
         return undefined;
     };
+
+export const validateOmsorgstilbudIUke = (fasteDager: TidUkedager | undefined): ValidationResult<ValidationError> => {
+    let error;
+    const timer = fasteDager ? summerTidUkedager(fasteDager) : 0;
+    if (timer === 0) {
+        error = AppFieldValidationErrors.omsorgstilbudIPeriode_fasteDager_ingenTidRegistrert;
+    }
+    if (timer > 37.5) {
+        error = AppFieldValidationErrors.omsorgstilbudIPeriode_fasteDager_forMangeTimer;
+    }
+    return error
+        ? {
+              key: `validation.${error}`,
+              keepKeyUnaltered: true,
+          }
+        : undefined;
+};
 
 export const getTidIOmsorgValidator: TidPerDagValidator = (dag: string) => (tid: InputTime) => {
     const error = getTimeValidator({

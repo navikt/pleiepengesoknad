@@ -22,6 +22,7 @@ import SøknadFormComponents from '../SøknadFormComponents';
 import OmsorgstilbudVariert from './omsorgstilbud-i-periode/OmsorgstilbudVariert';
 import { skalViseSpørsmålOmProsentEllerLiktHverUke } from './omsorgstilbudStepUtils';
 import { Element } from 'nav-frontend-typografi';
+import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 
 dayjs.extend(isBetween);
 
@@ -107,36 +108,40 @@ const PlanlagtOmsorgstilbudSpørsmål = ({
                     )}
                     {inkluderFastPlan && omsorgstilbud.planlagt?.erLiktHverUke === YesOrNo.YES && (
                         <FormBlock>
-                            <SøknadFormComponents.InputGroup
-                                legend={intlHelper(intl, 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud')}
-                                description={
-                                    <p>
-                                        <FormattedMessage id="steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.info.2" />
-                                    </p>
-                                }
-                                validate={() => validateSkalIOmsorgstilbud(omsorgstilbud)}
-                                name={'omsorgstilbud_gruppe' as any}>
-                                <TidUkedagerInput
-                                    name={SøknadFormField.omsorgstilbud__planlagt__fasteDager}
-                                    validator={getOmsorgstilbudtimerValidatorFastDag}
-                                />
-                            </SøknadFormComponents.InputGroup>
+                            <ResponsivePanel>
+                                <SøknadFormComponents.InputGroup
+                                    legend={intlHelper(intl, 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud')}
+                                    description={
+                                        <p>
+                                            <FormattedMessage id="steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.info.2" />
+                                        </p>
+                                    }
+                                    validate={() => validateSkalIOmsorgstilbud(omsorgstilbud)}
+                                    name={'omsorgstilbud_gruppe' as any}>
+                                    <TidUkedagerInput
+                                        name={SøknadFormField.omsorgstilbud__planlagt__fasteDager}
+                                        validator={getOmsorgstilbudtimerValidatorFastDag}
+                                    />
+                                </SøknadFormComponents.InputGroup>
+                            </ResponsivePanel>
                         </FormBlock>
                     )}
                     {(inkluderFastPlan === false || omsorgstilbud.planlagt?.erLiktHverUke === YesOrNo.NO) && (
                         <FormBlock>
-                            <Box padBottom="m">
-                                <Element tag="h3">Hvor mye skal barnet være i et omsorgstilbud?</Element>
-                            </Box>
+                            <ResponsivePanel>
+                                <Box padBottom="m">
+                                    <Element tag="h3">Hvor mye skal barnet være i et omsorgstilbud?</Element>
+                                </Box>
 
-                            <OmsorgstilbudVariert
-                                periode={periode}
-                                tidIOmsorgstilbud={omsorgstilbud.planlagt?.enkeltdager || {}}
-                                onOmsorgstilbudChanged={() => {
-                                    onOmsorgstilbudChanged();
-                                }}
-                                søknadsdato={søknadsdato}
-                            />
+                                <OmsorgstilbudVariert
+                                    periode={periode}
+                                    tidIOmsorgstilbud={omsorgstilbud.planlagt?.enkeltdager || {}}
+                                    onOmsorgstilbudChanged={() => {
+                                        onOmsorgstilbudChanged();
+                                    }}
+                                    søknadsdato={søknadsdato}
+                                />
+                            </ResponsivePanel>
                         </FormBlock>
                     )}
                 </>

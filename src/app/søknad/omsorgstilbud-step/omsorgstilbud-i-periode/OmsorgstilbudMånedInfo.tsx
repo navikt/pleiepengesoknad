@@ -37,7 +37,7 @@ const OmsorgstilbudMånedInfo: React.FunctionComponent<Props> = ({
     onEnkeltdagChange,
 }) => {
     const [editDate, setEditDate] = useState<{ dato: Date; tid: Partial<InputTime> } | undefined>();
-
+    const visKnappEndreOmsorgstilbud = false;
     const dager: DatoTidMap = getDagerMedTidITidsrom(tidOmsorgstilbud, måned);
     const dagerMedRegistrertOmsorgstilbud: string[] = Object.keys(dager).filter((key) => {
         const datoTid = dager[key];
@@ -108,11 +108,13 @@ const OmsorgstilbudMånedInfo: React.FunctionComponent<Props> = ({
                         : undefined
                 }
             />
-            <FormBlock margin="l">
-                <Knapp htmlType="button" mini={true} onClick={() => onRequestEdit(tidOmsorgstilbud)}>
-                    {dagerMedRegistrertOmsorgstilbud.length === 0 ? addLabel : editLabel}
-                </Knapp>
-            </FormBlock>
+            {visKnappEndreOmsorgstilbud && (
+                <FormBlock margin="l">
+                    <Knapp htmlType="button" mini={true} onClick={() => onRequestEdit(tidOmsorgstilbud)}>
+                        {dagerMedRegistrertOmsorgstilbud.length === 0 ? addLabel : editLabel}
+                    </Knapp>
+                </FormBlock>
+            )}
 
             {editDate && onEnkeltdagChange && (
                 <OmsorgstilbudEnkeltdagDialog

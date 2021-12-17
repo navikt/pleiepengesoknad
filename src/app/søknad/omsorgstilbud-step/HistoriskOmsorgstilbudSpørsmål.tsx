@@ -15,6 +15,7 @@ import OmsorgstilbudVariert from './omsorgstilbud-i-periode/OmsorgstilbudVariert
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import { Element } from 'nav-frontend-typografi';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 
 dayjs.extend(isBetween);
 
@@ -72,19 +73,21 @@ const HistoriskOmsorgstilbudSpørsmål = ({
             />
             {omsorgstilbud?.harBarnVærtIOmsorgstilbud === YesOrNo.YES && (
                 <FormBlock>
-                    <Box padBottom="m">
-                        <Element tag="h3">
-                            <FormattedMessage id="steg.omsorgstilbud.historisk.hvorMyeTittel" />
-                        </Element>
-                    </Box>
-                    <OmsorgstilbudVariert
-                        periode={periode}
-                        tidIOmsorgstilbud={omsorgstilbud.historisk?.enkeltdager || {}}
-                        onOmsorgstilbudChanged={() => {
-                            onOmsorgstilbudChanged();
-                        }}
-                        søknadsdato={søknadsdato}
-                    />
+                    <ResponsivePanel>
+                        <Box padBottom="m">
+                            <Element tag="h3">
+                                <FormattedMessage id="steg.omsorgstilbud.historisk.hvorMyeTittel" />
+                            </Element>
+                        </Box>
+                        <OmsorgstilbudVariert
+                            periode={periode}
+                            tidIOmsorgstilbud={omsorgstilbud.historisk?.enkeltdager || {}}
+                            onOmsorgstilbudChanged={() => {
+                                onOmsorgstilbudChanged();
+                            }}
+                            søknadsdato={søknadsdato}
+                        />
+                    </ResponsivePanel>
                 </FormBlock>
             )}
         </FormSection>

@@ -14,6 +14,7 @@ import omsorgstilbudMessages from '../../i18n/omsorgstilbudMessages';
 import arbeidstidMessages from '../../søknad/arbeid-i-periode-steps/arbeidstidMessages';
 import arbeidstidEnkeltdagFormMessages from '../../pre-common/arbeidstid-enkeltdag/arbeidstidEnkeltdagMessage';
 import omsorgstilbudEnkeltdagFormMessages from '../../pre-common/omsorgstilbud-enkeltdag/omsorgstilbudEnkeltdagFormMessages';
+import omsorgstibudPerodeMessages from '../../pre-common/omsorgstilbud-periode/omsorgstilbudPeriodeMessages';
 
 export const appBokmålstekster = require('../../i18n/nb.json');
 export const appNynorsktekster = require('../../i18n/nn.json');
@@ -30,6 +31,7 @@ const bokmålstekster = {
     ...arbeidstidEnkeltdagFormMessages.nb,
     ...omsorgstilbudEnkeltdagFormMessages.nb,
     ...appBokmålstekster,
+    ...omsorgstibudPerodeMessages.nb,
 };
 const nynorsktekster = {
     ...allCommonMessages.nn,

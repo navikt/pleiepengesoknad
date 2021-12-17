@@ -1,20 +1,24 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import dayjs from 'dayjs';
 import SøknadsperioderMånedListe from '../../../pre-common/søknadsperioder-måned-liste/SøknadsperioderMånedListe';
 import { DatoTidMap } from '../../../types';
-import { SøknadFormField } from '../../../types/SøknadFormData';
+import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
 import { validateOmsorgstilbudEnkeltdagerIPeriode } from '../../../validation/fieldValidations';
 import SøknadFormComponents from '../../SøknadFormComponents';
 import OmsorgstilbudMåned from './OmsorgstilbudMåned';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import RegistrerOmsorgstilbudPeriode from './RegistrerOmsorgstilbudPeriode';
+import { Element } from 'nav-frontend-typografi';
+import { useFormikContext } from 'formik';
 
 interface Props {
     periode: DateRange;
     søknadsdato: Date;
     tidIOmsorgstilbud: DatoTidMap;
-    onOmsorgstilbudChanged?: () => void;
+    onOmsorgstilbudChanged?: (tidIOmsorgstilbud: DatoTidMap) => void;
 }
 
 const OmsorgstilbudVariert: React.FunctionComponent<Props> = ({
@@ -58,6 +62,15 @@ const OmsorgstilbudVariert: React.FunctionComponent<Props> = ({
             </div>
         );
     };
+    const { setFieldValue } = useFormikContext<SøknadFormData>() || {};
+
+    const handleOnPeriodeChange = (data: DatoTidMap) => {
+        const dagerMedOmsorgstilbud = { ...tidIOmsorgstilbud, ...data };
+        setFieldValue(enkeltdagerFieldName, dagerMedOmsorgstilbud);
+        if (onOmsorgstilbudChanged) {
+            onOmsorgstilbudChanged(dagerMedOmsorgstilbud);
+        }
+    };
 
     return (
         <SøknadFormComponents.InputGroup
@@ -70,11 +83,25 @@ const OmsorgstilbudVariert: React.FunctionComponent<Props> = ({
             name={`${enkeltdagerFieldName}_dager` as any}
             tag="div"
             validate={() => validateOmsorgstilbudEnkeltdagerIPeriode(tidIOmsorgstilbud, periode, gjelderFortid)}>
-            <SøknadsperioderMånedListe
-                periode={periode}
-                årstallHeadingLevel={3}
-                månedContentRenderer={omsorgstilbudMånedRenderer}
-            />
+            <>
+                <Box margin="m">
+                    <RegistrerOmsorgstilbudPeriode periode={periode} onPeriodeChange={handleOnPeriodeChange} />
+                </Box>
+
+                <Box margin="xl">
+                    <Element tag="h3">
+                        <FormattedMessage id="steg.omsorgstilbud.planlagt.månedsliste.tittel" />
+                    </Element>
+                </Box>
+            </>
+
+            <Box margin="l">
+                <SøknadsperioderMånedListe
+                    periode={periode}
+                    årstallHeadingLevel={3}
+                    månedContentRenderer={omsorgstilbudMånedRenderer}
+                />
+            </Box>
         </SøknadFormComponents.InputGroup>
     );
 };
