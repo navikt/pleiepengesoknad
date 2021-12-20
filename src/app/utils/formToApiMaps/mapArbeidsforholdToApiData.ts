@@ -1,8 +1,7 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
-import { getDatesInDateRange } from '../common/dateRangeUtils';
-import { dateToISODate } from '../common/isoDateUtils';
+import { dateToISODate, getDatesInDateRange } from '@navikt/sif-common-utils';
 import { ArbeidsforholdType, JobberIPeriodeSvar, TimerEllerProsent } from '../../types';
 import {
     ArbeidIPeriodeApiData,

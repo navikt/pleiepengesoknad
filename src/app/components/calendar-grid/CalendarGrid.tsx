@@ -6,8 +6,8 @@ import dayjs from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { groupBy } from 'lodash';
 import dateFormatter from '../../utils/common/dateFormatterUtils';
-import { getDatesInDateRange } from '../../utils/common/dateRangeUtils';
-import { getDatesInMonth, isDateInDates } from '../../utils/common/dateUtils';
+import { getDatesInDateRange } from '@navikt/sif-common-utils';
+import { getDatesInMonth, isDateInDates } from '@navikt/sif-common-utils/';
 import CalendarGridDate from './CalendarGridDate';
 import './calendarGrid.less';
 

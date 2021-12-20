@@ -1,11 +1,10 @@
-import { InputTime } from '@navikt/sif-common-formik/lib';
+import { InputTime } from '@navikt/sif-common-formik';
+import { ISODate } from '@navikt/sif-common-utils';
 
 /** Toggle fortid/fremtid */
 export const useFortidFremtid = 1 + 1 === 2;
 
-export type ISODateRange = string;
-export type ISODuration = string;
-export type ISODate = string;
+export { ISODateRange, ISODuration, ISODate } from '@navikt/sif-common-utils';
 
 export interface TidUkedager {
     mandag?: InputTime;

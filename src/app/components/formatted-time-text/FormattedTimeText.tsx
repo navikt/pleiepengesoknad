@@ -3,7 +3,7 @@ import { FormattedNumber, useIntl } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { timeToDecimalTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { InputTime } from '@navikt/sif-common-formik';
-import { ensureTime } from '../../utils/common/inputTimeUtils';
+import { ensureInputDuration } from '@navikt/sif-common-utils';
 
 const FormattedTimeText = ({
     time,
@@ -23,7 +23,7 @@ const FormattedTimeText = ({
     if (type === 'decimal') {
         return (
             <>
-                <FormattedNumber value={timeToDecimalTime(ensureTime(time))} maximumFractionDigits={2} />
+                <FormattedNumber value={timeToDecimalTime(ensureInputDuration(time))} maximumFractionDigits={2} />
                 {` `}t.
             </>
         );

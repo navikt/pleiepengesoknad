@@ -1,13 +1,11 @@
 import React from 'react';
 import AriaAlternative from '@navikt/sif-common-core/lib/components/aria/AriaAlternative';
 import { DateRange, InputTime } from '@navikt/sif-common-formik/lib';
+import { dateToISODate, ensureInputDuration } from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
-
+import { DatoTidMap } from '../../types';
 import CalendarGrid from '../calendar-grid/CalendarGrid';
 import TidsbrukKalenderDag, { TidsbrukKalenderDagFooterRenderer } from './TidsbrukKalenderDag';
-import { DatoTidMap } from '../../types';
-import { ensureTime } from '../../utils/common/inputTimeUtils';
-import { dateToISODate } from '../../utils/common/isoDateUtils';
 
 export type TidRenderer = (tid: { tid: InputTime; dato: Date; prosent?: number }) => React.ReactNode;
 
@@ -83,7 +81,7 @@ const TidsbrukKalender: React.FunctionComponent<Props> = ({
                 return dag ? (
                     <TidsbrukKalenderDag
                         dato={dato}
-                        tid={dag.tid ? ensureTime(dag.tid) : undefined}
+                        tid={dag.tid ? ensureInputDuration(dag.tid) : undefined}
                         prosent={dag.prosent}
                         tidRenderer={tidRenderer}
                         tidOpprinnelig={dag.tidOpprinnelig}

@@ -6,12 +6,11 @@ import dayjs from 'dayjs';
 import { Knapp } from 'nav-frontend-knapper';
 import ArbeidstidPeriodeDialog from '../../../pre-common/arbeidstid-periode/ArbeidstidPeriodeDialog';
 import { ArbeidstidPeriodeData } from '../../../pre-common/arbeidstid-periode/ArbeidstidPeriodeForm';
-import { getDatesInDateRange } from '../../../utils/common/dateRangeUtils';
-import { dateToISODate, ISODateToDate } from '../../../utils/common/isoDateUtils';
 import useLogSøknadInfo from '../../../hooks/useLogSøknadInfo';
 import { DatoTidMap, TidUkedager } from '../../../types';
 import { getRedusertArbeidstidSomInputTime } from '../../../utils/formToApiMaps/tidsbrukApiUtils';
 import { ArbeidIPeriodeIntlValues } from '../ArbeidIPeriodeSpørsmål';
+import { dateToISODate, getDatesInDateRange, ISODateToDate } from '@navikt/sif-common-utils';
 
 interface Props {
     intlValues: ArbeidIPeriodeIntlValues;

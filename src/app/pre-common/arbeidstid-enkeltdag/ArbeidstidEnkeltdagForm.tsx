@@ -3,21 +3,25 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, getTypedFormComponents, InputTime } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import { getDateValidator, getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
 import getIntlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
+import {
+    ensureInputDuration,
+    getMonthDateRange,
+    getNumberOfDaysInDateRange,
+    getWeekDateRange,
+} from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
 import { InputDateString } from 'nav-datovelger/lib/types';
 import { Undertittel } from 'nav-frontend-typografi';
 import dateFormatter from '../../utils/common/dateFormatterUtils';
-import { ensureTime } from '../../utils/common/inputTimeUtils';
 import { ArbeidsforholdType, DatoTidMap } from '../../types';
-import { getDagerMedNyArbeidstid } from './arbeidstidEnkeltdagUtils';
-import { getMonthDateRange, getNumberOfDaysInDateRange, getWeekDateRange } from '../../utils/common/dateRangeUtils';
 import { getArbeidstidEnkeltdagFormTidValidator } from '../../validation/validateArbeidFields';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { getDateValidator, getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
+import { getDagerMedNyArbeidstid } from './arbeidstidEnkeltdagUtils';
 
 interface Props {
     dato: Date;
@@ -156,7 +160,7 @@ const ArbeidstidEnkeltdagForm: React.FunctionComponent<Props> = ({
                 <FormComponents.FormikWrapper
                     enableReinitialize={true}
                     initialValues={{
-                        tid: tid ? ensureTime(tid) : undefined,
+                        tid: tid ? ensureInputDuration(tid) : undefined,
                     }}
                     onSubmit={onValidSubmit}
                     renderForm={({ values: { skalGjentas, stoppGjentagelse, gjentagelse } }) => {

@@ -3,19 +3,18 @@ import { useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { getTypedFormComponents, InputTime } from '@navikt/sif-common-formik/lib';
+import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
 import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeValidator';
 import getIntlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import dayjs from 'dayjs';
 import { Undertittel } from 'nav-frontend-typografi';
 import { Tid } from '../../types';
-import { ensureTime } from '../../utils/common/inputTimeUtils';
 import dateFormatter from '../../utils/common/dateFormatterUtils';
-
+import { ensureInputDuration, InputDuration } from '@navikt/sif-common-utils';
 interface Props {
     dato: Date;
-    tid?: Partial<InputTime>;
+    tid?: Partial<InputDuration>;
     onSubmit: (tid: Tid) => void;
     onCancel: () => void;
 }
@@ -25,7 +24,7 @@ enum FormFields {
 }
 
 interface FormValues {
-    [FormFields.tid]: Partial<InputTime>;
+    [FormFields.tid]: Partial<InputDuration>;
 }
 
 const FormComponents = getTypedFormComponents<FormFields, FormValues, ValidationError>();
@@ -36,7 +35,7 @@ const OmsorgstilbudEnkeltdagForm: React.FunctionComponent<Props> = ({ dato, tid,
     const intl = useIntl();
     const erHistorisk = dayjs(dato).isBefore(dateToday, 'day');
     const onValidSubmit = (value: FormValues) => {
-        onSubmit({ varighet: ensureTime(value.tid) });
+        onSubmit({ varighet: ensureInputDuration(value.tid) });
     };
     return (
         <div>

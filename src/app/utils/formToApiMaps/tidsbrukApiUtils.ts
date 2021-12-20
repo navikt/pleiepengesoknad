@@ -4,7 +4,7 @@ import { dateToISOString, InputTime, ISOStringToDate } from '@navikt/sif-common-
 import dayjs from 'dayjs';
 import { DatoTidMap, TidUkedager } from '../../types';
 import { ISO8601Duration, TidEnkeltdagApiData } from '../../types/SøknadApiData';
-import { dateIsWeekDay } from '../common/dateUtils';
+import { isDateWeekDay } from '@navikt/sif-common-utils';
 
 export const getFasteDagerApiData = ({ mandag, tirsdag, onsdag, torsdag, fredag }: TidUkedager) => ({
     mandag: mandag ? timeToIso8601Duration(mandag) : undefined,
@@ -22,7 +22,7 @@ export const getEnkeltdagerIPeriodeApiData = (enkeltdager: DatoTidMap, periode: 
 
     Object.keys(enkeltdager).forEach((dag) => {
         const dato = ISOStringToDate(dag);
-        if (dato && datoErInnenforTidsrom(dato, periode) && dateIsWeekDay(dato)) {
+        if (dato && datoErInnenforTidsrom(dato, periode) && isDateWeekDay(dato)) {
             dager.push({
                 dato: dateToISOString(dato),
                 tid: timeToIso8601Duration(enkeltdager[dag].varighet),
@@ -62,7 +62,7 @@ export const fjernTidUtenforPeriodeOgHelgedager = (
     }
     return tidEnkeltdag.filter((dag) => {
         const dato = apiStringDateToDate(dag.dato);
-        if (dateIsWeekDay(dato) === false) {
+        if (isDateWeekDay(dato) === false) {
             return false;
         }
         if (from && dayjs(dato).isBefore(from, 'day')) {

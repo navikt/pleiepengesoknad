@@ -3,7 +3,7 @@ import { Undertekst } from 'nav-frontend-typografi';
 import FormattedTimeText from '../formatted-time-text/FormattedTimeText';
 import { InputTime } from '@navikt/sif-common-formik/lib';
 import { TidRenderer } from './TidsbrukKalender';
-import { timeHasSameDuration } from '../../utils/common/inputTimeUtils';
+import { durationsAreEqual } from '@navikt/sif-common-utils';
 
 export type TidsbrukKalenderDagFooterRenderer = (dato: Date) => JSX.Element | undefined;
 
@@ -27,7 +27,7 @@ const TidsbrukKalenderDag: React.FunctionComponent<Props> = ({
     tidRenderer,
     footerRenderer,
 }) => {
-    const erEndret = timeHasSameDuration(tid, tidOpprinnelig) === false;
+    const erEndret = durationsAreEqual(tid, tidOpprinnelig) === false;
 
     const renderTid = (time: InputTime) =>
         tidRenderer ? tidRenderer({ tid: time, dato, prosent }) : <FormattedTimeText time={time} />;

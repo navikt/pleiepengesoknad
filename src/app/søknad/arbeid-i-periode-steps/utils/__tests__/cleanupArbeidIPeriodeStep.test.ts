@@ -1,8 +1,8 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { ISODateToDate } from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
-import { ISODateToDate } from '../../../../utils/common/isoDateUtils';
 import { JobberIPeriodeSvar, TimerEllerProsent } from '../../../../types';
 import { ArbeidIPeriode, Arbeidsforhold } from '../../../../types/SøknadFormData';
 import { cleanupArbeidIPeriode, cleanupArbeidsforhold } from '../cleanupArbeidIPeriodeStep';

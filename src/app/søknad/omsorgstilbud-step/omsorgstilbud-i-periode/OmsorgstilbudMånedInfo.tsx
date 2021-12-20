@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { DateRange, dateToISOString, InputTime } from '@navikt/sif-common-formik/lib';
+import { durationIsZero } from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import { Knapp } from 'nav-frontend-knapper';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { inputTimeDurationIsZero } from '../../../utils/common/inputTimeUtils';
+import OmsorgstilbudEnkeltdagDialog from '../../../pre-common/omsorgstilbud-enkeltdag/OmsorgstilbudEnkeltdagDialog';
 import FormattedTimeText from '../../../components/formatted-time-text/FormattedTimeText';
 import TidsbrukKalender from '../../../components/tidsbruk-kalender/TidsbrukKalender';
 import { DatoTidMap, Tid } from '../../../types';
 import { getDagerMedTidITidsrom } from '../../../utils/datoTidUtils';
-import OmsorgstilbudEnkeltdagDialog from '../../../pre-common/omsorgstilbud-enkeltdag/OmsorgstilbudEnkeltdagDialog';
 
 interface Props {
     måned: DateRange;
@@ -41,11 +41,7 @@ const OmsorgstilbudMånedInfo: React.FunctionComponent<Props> = ({
     const dager: DatoTidMap = getDagerMedTidITidsrom(tidOmsorgstilbud, måned);
     const dagerMedRegistrertOmsorgstilbud: string[] = Object.keys(dager).filter((key) => {
         const datoTid = dager[key];
-        return (
-            datoTid !== undefined &&
-            datoTid.varighet !== undefined &&
-            inputTimeDurationIsZero(datoTid.varighet) === false
-        );
+        return datoTid !== undefined && datoTid.varighet !== undefined && durationIsZero(datoTid.varighet) === false;
     });
 
     return (

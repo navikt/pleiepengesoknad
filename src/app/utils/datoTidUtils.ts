@@ -3,10 +3,8 @@ import { timeToDecimalTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import { isValidTime } from '@navikt/sif-common-formik/lib/components/formik-time-input/TimeInput';
 import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
+import { durationIsZero, inputDurationAsDuration, ISODateToDate } from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
-import { inputTimeDurationIsZero } from './common/inputTimeUtils';
-import { ISODateToDate } from './common/isoDateUtils';
-import { inputTimeToISODuration } from './common/isoDurationUtils';
 import { Tid, DatoTidMap, ISODate, TidUkedager, DatoTidArray } from '../types';
 
 const isValidNumberString = (value: any): boolean =>
@@ -61,11 +59,7 @@ export const summerDatoTidMap = (datoTid: DatoTidMap): number => {
 export const getAntallDagerMedTidMerEnnNull = (dager: DatoTidMap): number =>
     Object.keys(dager).filter((key) => {
         const datoTid = dager[key];
-        return (
-            datoTid !== undefined &&
-            datoTid.varighet !== undefined &&
-            inputTimeDurationIsZero(datoTid.varighet) === false
-        );
+        return datoTid !== undefined && datoTid.varighet !== undefined && durationIsZero(datoTid.varighet) === false;
     }).length;
 
 /**
@@ -99,7 +93,7 @@ export const datoTidErLik = (datoTid1: Tid, datoTid2: Tid): boolean => {
     if (datoTid1.prosent || datoTid2.prosent) {
         return datoTid1.prosent === datoTid2.prosent;
     }
-    return inputTimeToISODuration(datoTid1.varighet) === inputTimeToISODuration(datoTid2.varighet);
+    return inputDurationAsDuration(datoTid1.varighet) === inputDurationAsDuration(datoTid2.varighet);
 };
 
 interface PeriodeMedDatoTid {
@@ -120,7 +114,7 @@ export const getPerioderMedLikTidIDatoTidMap = (datoTidMap: DatoTidMap): Periode
                 forrige,
             };
         })
-        .filter((dag) => (dag.tid.varighet ? inputTimeDurationIsZero(dag.tid.varighet) === false : false));
+        .filter((dag) => (dag.tid.varighet ? durationIsZero(dag.tid.varighet) === false : false));
 
     if (dagerMedTid.length === 0) {
         return [];

@@ -6,7 +6,6 @@ import { useFormikContext } from 'formik';
 import { Element } from 'nav-frontend-typografi';
 import { ArbeidstidEnkeltdagEndring } from '../../../pre-common/arbeidstid-enkeltdag/ArbeidstidEnkeltdagForm';
 import SøknadsperioderMånedListe from '../../../pre-common/søknadsperioder-måned-liste/SøknadsperioderMånedListe';
-import { getDatesInMonthOutsideDateRange, getMonthsInDateRange } from '../../../utils/common/dateRangeUtils';
 import { ArbeidsforholdType, DatoTidMap } from '../../../types';
 import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
 import { validateArbeidsTidEnkeltdager } from '../../../validation/validateArbeidFields';
@@ -18,6 +17,7 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import useLogSøknadInfo from '../../../hooks/useLogSøknadInfo';
 import dayjs from 'dayjs';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { getDatesInMonthOutsideDateRange, getMonthsInDateRange } from '@navikt/sif-common-utils';
 
 interface Props {
     arbeidsstedNavn: string;

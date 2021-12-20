@@ -1,11 +1,15 @@
 import { DateRange, InputTime } from '@navikt/sif-common-formik/lib';
+import {
+    dateToISODate,
+    getDatesInDateRange,
+    getMonthDateRange,
+    getWeekDateRange,
+    isDateWeekDay,
+} from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
-import { GjentagelseEnkeltdag, GjentagelseType } from './ArbeidstidEnkeltdagForm';
-import { DatoTidMap, ISODate } from '../../types';
 import { nthItemFilter } from '../../utils/common/arrayUtils';
-import { dateToISODate } from '../../utils/common/isoDateUtils';
-import { getDatesInDateRange, getMonthDateRange, getWeekDateRange } from '../../utils/common/dateRangeUtils';
-import { dateIsWeekDay } from '../../utils/common/dateUtils';
+import { DatoTidMap, ISODate } from '../../types';
+import { GjentagelseEnkeltdag, GjentagelseType } from './ArbeidstidEnkeltdagForm';
 
 const getDagerMedInterval = (interval: number, periode: DateRange) => {
     const ukedag = dayjs(periode.from).isoWeekday();
@@ -35,7 +39,7 @@ const getGjentagendeDager = (endringsperiode: DateRange, dato: Date, gjentagelse
         if (gjentagelse.gjentagelsetype === GjentagelseType.heleMåneden) {
             gjentagendeDatoer = getDatesInDateRange(getMonthDateRange(periode.from), true);
         }
-        return gjentagendeDatoer.filter(dateIsWeekDay).map((date) => dateToISODate(date));
+        return gjentagendeDatoer.filter(isDateWeekDay).map((date) => dateToISODate(date));
     }
     return [dateToISODate(dato)];
 };

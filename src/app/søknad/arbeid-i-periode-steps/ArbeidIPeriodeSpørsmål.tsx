@@ -4,12 +4,13 @@ import { useHistory } from 'react-router';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { prettifyDate, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { decimalTimeToTime, iso8601DurationToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
+import { getWeeksInDateRange } from '@navikt/sif-common-utils';
 import AlertStripe, { AlertStripeFeil } from 'nav-frontend-alertstriper';
-import { getWeeksInDateRange } from '../../utils/common/dateRangeUtils';
 import TidUkedagerInput from '../../components/tid-ukedager-input/TidUkedagerInput';
 import { formatTimerOgMinutter } from '../../components/timer-og-minutter/TimerOgMinutter';
 import usePersistSoknad from '../../hooks/usePersistSoknad';
@@ -33,7 +34,6 @@ import {
 import SøknadFormComponents from '../SøknadFormComponents';
 import { StepID } from '../søknadStepsConfig';
 import ArbeidstidVariert from './arbeidstid-variert/ArbeidstidVariert';
-import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 
 interface Props {
     parentFieldName: string;

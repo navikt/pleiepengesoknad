@@ -15,10 +15,9 @@ import { DatoTidMap, Tid } from '../../../types';
 import { getTidIOmsorgValidator } from '../../../validation/validateOmsorgstilbudFields';
 import OmsorgstilbudMånedInfo from './OmsorgstilbudMånedInfo';
 import { getDagerMedTidITidsrom } from '../../../utils/datoTidUtils';
-import { dateToISODate } from '../../../utils/common/isoDateUtils';
 import { SøknadFormData } from '../../../types/SøknadFormData';
 import { useFormikContext } from 'formik';
-import { getDatesInMonthOutsideDateRange } from '../../../utils/common/dateRangeUtils';
+import { dateToISODate, getDatesInMonthOutsideDateRange } from '@navikt/sif-common-utils';
 
 interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, ValidationError> {
     formFieldName: FieldNames;
