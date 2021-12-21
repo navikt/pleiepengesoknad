@@ -9,9 +9,10 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { inputTimeDurationIsZero } from '../../../utils/common/inputTimeUtils';
 import FormattedTimeText from '../../../components/formatted-time-text/FormattedTimeText';
 import TidsbrukKalender from '../../../components/tidsbruk-kalender/TidsbrukKalender';
-import { DatoTidMap, Tid } from '../../../types';
+import { DatoTidMap } from '../../../types';
 import { getDagerMedTidITidsrom } from '../../../utils/datoTidUtils';
 import OmsorgstilbudEnkeltdagDialog from '../../../pre-common/omsorgstilbud-enkeltdag/OmsorgstilbudEnkeltdagDialog';
+import { OmsorgstilbudEnkeltdagEndring } from '../../../pre-common/omsorgstilbud-enkeltdag/OmsorgstilbudEnkeltdagForm';
 
 interface Props {
     måned: DateRange;
@@ -20,8 +21,9 @@ interface Props {
     addLabel: string;
     utilgjengeligeDatoer?: Date[];
     månedTittelHeadingLevel?: number;
+    periode: DateRange;
     åpentEkspanderbartPanel?: boolean;
-    onEnkeltdagChange?: (dato: Date, tid: Tid) => void;
+    onEnkeltdagChange?: (evt: OmsorgstilbudEnkeltdagEndring) => void;
     onRequestEdit: (tid: DatoTidMap) => void;
 }
 
@@ -30,6 +32,7 @@ const OmsorgstilbudMånedInfo: React.FunctionComponent<Props> = ({
     tidOmsorgstilbud,
     utilgjengeligeDatoer,
     månedTittelHeadingLevel = 2,
+    periode,
     addLabel,
     editLabel,
     åpentEkspanderbartPanel,
@@ -121,11 +124,12 @@ const OmsorgstilbudMånedInfo: React.FunctionComponent<Props> = ({
                     isOpen={editDate !== undefined}
                     dato={editDate.dato}
                     tid={editDate.tid}
-                    onSubmit={(tid) => {
+                    periode={periode}
+                    onSubmit={(evt) => {
                         setEditDate(undefined);
                         setTimeout(() => {
                             /** TimeOut pga komponent unmountes */
-                            onEnkeltdagChange(editDate.dato, tid);
+                            onEnkeltdagChange(evt);
                         });
                     }}
                     onCancel={() => setEditDate(undefined)}

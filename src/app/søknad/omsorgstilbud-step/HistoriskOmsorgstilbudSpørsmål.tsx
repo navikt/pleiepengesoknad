@@ -16,6 +16,9 @@ import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import { Element } from 'nav-frontend-typografi';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
+import { skalViseSpørsmålOmProsentEllerLiktHverUke } from './omsorgstilbudStepUtils';
+import { getOmsorgstilbudtimerValidatorFastDag } from '../../validation/validateOmsorgstilbudFields';
+import TidUkedagerInput from '../../components/tid-ukedager-input/TidUkedagerInput';
 
 dayjs.extend(isBetween);
 
@@ -35,6 +38,8 @@ const HistoriskOmsorgstilbudSpørsmål = ({
     onOmsorgstilbudChanged,
 }: Props) => {
     const intl = useIntl();
+
+    const inkluderFastPlan = skalViseSpørsmålOmProsentEllerLiktHverUke(periode);
 
     return (
         <FormSection title={tittel}>
@@ -72,23 +77,75 @@ const HistoriskOmsorgstilbudSpørsmål = ({
                 }}
             />
             {omsorgstilbud?.harBarnVærtIOmsorgstilbud === YesOrNo.YES && (
-                <FormBlock>
-                    <ResponsivePanel>
-                        <Box padBottom="m">
-                            <Element tag="h3">
-                                <FormattedMessage id="steg.omsorgstilbud.historisk.hvorMyeTittel" />
-                            </Element>
-                        </Box>
-                        <OmsorgstilbudVariert
-                            periode={periode}
-                            tidIOmsorgstilbud={omsorgstilbud.historisk?.enkeltdager || {}}
-                            onOmsorgstilbudChanged={() => {
-                                onOmsorgstilbudChanged();
-                            }}
-                            søknadsdato={søknadsdato}
-                        />
-                    </ResponsivePanel>
-                </FormBlock>
+                <>
+                    {inkluderFastPlan && (
+                        <FormBlock>
+                            <SøknadFormComponents.YesOrNoQuestion
+                                legend={intlHelper(intl, 'steg.omsorgstilbud.planlagt.erLiktHverUke.spm', {
+                                    fra: prettifyDateFull(periode.from),
+                                    til: prettifyDateFull(periode.to),
+                                })}
+                                useTwoColumns={false}
+                                labels={{
+                                    yes: intlHelper(intl, 'steg.omsorgstilbud.planlagt.erLiktHverUke.yes'),
+                                    no: intlHelper(intl, 'steg.omsorgstilbud.planlagt.erLiktHverUke.no'),
+                                }}
+                                name={SøknadFormField.omsorgstilbud__historisk__erLiktHverUke}
+                                description={
+                                    <ExpandableInfo
+                                        title={intlHelper(
+                                            intl,
+                                            'steg.omsorgstilbud.planlagt.erLiktHverUke.info.tittel'
+                                        )}>
+                                        <FormattedMessage id="steg.omsorgstilbud.planlagt.erLiktHverUke.info.1" />
+                                        <br />
+                                        <FormattedMessage id="steg.omsorgstilbud.planlagt.erLiktHverUke.info.2" />
+                                    </ExpandableInfo>
+                                }
+                                validate={getYesOrNoValidator()}
+                            />
+                        </FormBlock>
+                    )}
+                    {inkluderFastPlan && omsorgstilbud.historisk?.erLiktHverUke === YesOrNo.YES && (
+                        <FormBlock margin="l">
+                            <ResponsivePanel>
+                                <SøknadFormComponents.InputGroup
+                                    legend={intlHelper(intl, 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud')}
+                                    description={
+                                        <p>
+                                            <FormattedMessage id="steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.info.2" />
+                                        </p>
+                                    }
+                                    // todo validate={() => validateSkalIOmsorgstilbud(omsorgstilbud)}
+                                    name={'omsorgstilbud_gruppe' as any}>
+                                    <TidUkedagerInput
+                                        name={SøknadFormField.omsorgstilbud__historisk__fasteDager}
+                                        validator={getOmsorgstilbudtimerValidatorFastDag}
+                                    />
+                                </SøknadFormComponents.InputGroup>
+                            </ResponsivePanel>
+                        </FormBlock>
+                    )}
+                    {(inkluderFastPlan === false || omsorgstilbud.historisk?.erLiktHverUke === YesOrNo.NO) && (
+                        <FormBlock margin="l">
+                            <ResponsivePanel>
+                                <Box padBottom="m">
+                                    <Element tag="h3">
+                                        <FormattedMessage id="steg.omsorgstilbud.historisk.hvorMyeTittel" />
+                                    </Element>
+                                </Box>
+                                <OmsorgstilbudVariert
+                                    periode={periode}
+                                    tidIOmsorgstilbud={omsorgstilbud.historisk?.enkeltdager || {}}
+                                    onOmsorgstilbudChanged={() => {
+                                        onOmsorgstilbudChanged();
+                                    }}
+                                    søknadsdato={søknadsdato}
+                                />
+                            </ResponsivePanel>
+                        </FormBlock>
+                    )}
+                </>
             )}
         </FormSection>
     );

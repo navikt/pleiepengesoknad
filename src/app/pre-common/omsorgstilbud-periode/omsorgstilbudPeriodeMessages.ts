@@ -1,7 +1,7 @@
 const omsorgstibudPerodeMessages = {
     nb: {
-        'arbeidstidPeriodeDialog.contentLabel': 'Registrer tid i omsorgstilbud',
-        'omsorgstilbudPeriodeForm.tittel': ' Oppgi periode i omsorgstilbud',
+        'omsorgstilbudPeriodeDialog.contentLabel': 'Registrer tid i omsorgstilbud',
+        'omsorgstilbudPeriodeForm.tittel': 'Oppgi periode i omsorgstilbud',
         'omsorgstilbudPeriodeForm.submitButtonLabel': 'Ok',
         'omsorgstilbudPeriodeForm.cancelButtonLabel': 'Avbryt',
         'omsorgstilbudPeriodeForm.fraOgMed.label': 'Fra og med',

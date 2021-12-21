@@ -89,7 +89,9 @@ export interface PlanlagtOmsorgstilbudApiData {
 }
 
 export interface HistoriskOmsorgstilbudApiData {
-    enkeltdager: TidEnkeltdagApiData[];
+    erLiktHverUke: boolean;
+    enkeltdager?: TidEnkeltdagApiData[];
+    ukedager?: TidFasteDagerApiData;
 }
 
 export interface OmsorgstilbudApiData {

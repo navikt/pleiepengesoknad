@@ -34,7 +34,7 @@ const HistoriskOmsorgstilbudSummary = ({ historiskOmsorgstilbud, søknadsperiode
                     <FormattedMessage id={`omsorgstilbud.svar.${svar}`} />
                 </ContentWithHeader>
             </Box>
-            {historiskOmsorgstilbud && (
+            {historiskOmsorgstilbud && historiskOmsorgstilbud.enkeltdager && (
                 <SummaryBlock
                     header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.historisk.header')}
                     headerTag="h3">

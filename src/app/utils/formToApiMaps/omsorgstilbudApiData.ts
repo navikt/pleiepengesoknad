@@ -42,10 +42,25 @@ export const mapHistoriskOmsorgstilbudToApiData = (
     søknadsdato: Date
 ): HistoriskOmsorgstilbudApiData | undefined => {
     const { harBarnVærtIOmsorgstilbud, historisk } = omsorgstilbud;
-    const periodeFørSøknadsdato = getHistoriskPeriode(søknadsperiode, søknadsdato);
-    if (harBarnVærtIOmsorgstilbud === YesOrNo.YES && historisk && periodeFørSøknadsdato) {
+
+    if (harBarnVærtIOmsorgstilbud !== YesOrNo.YES || !historisk) {
+        return undefined;
+    }
+    const { erLiktHverUke, fasteDager, enkeltdager } = historisk;
+
+    if (erLiktHverUke === YesOrNo.YES && fasteDager) {
         return {
-            enkeltdager: getEnkeltdagerIPeriodeApiData(historisk.enkeltdager, periodeFørSøknadsdato),
+            erLiktHverUke: true,
+            ukedager: getFasteDagerApiData(fasteDager),
+        };
+    }
+
+    const periodeFørSøknadsdato = getHistoriskPeriode(søknadsperiode, søknadsdato);
+
+    if (erLiktHverUke !== YesOrNo.YES && enkeltdager && periodeFørSøknadsdato) {
+        return {
+            erLiktHverUke: false,
+            enkeltdager: getEnkeltdagerIPeriodeApiData(enkeltdager, periodeFørSøknadsdato),
         };
     }
     return undefined;

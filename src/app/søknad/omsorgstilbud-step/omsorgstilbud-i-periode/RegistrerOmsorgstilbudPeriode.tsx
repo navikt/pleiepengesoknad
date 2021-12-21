@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-// import { FormattedMessage } from 'react-intl';
 import { DateRange, InputTime } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import { Knapp } from 'nav-frontend-knapper';
 import OmsorgstilbudPeriodeDialog from '../../../pre-common/omsorgstilbud-periode/OmsorgstilbudPeriodeDialog';
 import { getDatesInDateRange } from '../../../utils/common/dateRangeUtils';
 import { dateToISODate, ISODateToDate } from '../../../utils/common/isoDateUtils';
-// import useLogSøknadInfo from '../../../hooks/useLogSøknadInfo';
 import { DatoTidMap, TidUkedager } from '../../../types';
 import { OmsorgstilbudPeriodeData } from '../../../pre-common/omsorgstilbud-periode/OmsorgstilbudPeriodeForm';
+import { FormattedMessage } from 'react-intl';
 
 interface Props {
     periode: DateRange;
@@ -56,8 +55,7 @@ const RegistrerOmsorgstilbudPeriode: React.FC<Props> = ({ periode, onPeriodeChan
     return (
         <>
             <Knapp htmlType="button" onClick={() => setVisPeriode(true)} mini={true}>
-                {/*<FormattedMessage id="registrerArbeidstidPeriode.registrerJobbKnapp.label" />*/}
-                Registrer tid i omsorgstilbud
+                <FormattedMessage id="omsorgstilbudPeriodeDialog.contentLabel" />
             </Knapp>
             <OmsorgstilbudPeriodeDialog
                 periode={periode}

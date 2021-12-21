@@ -120,7 +120,9 @@ const OmsorgstilbudSpørsmål = ({ periode, tittel, omsorgstilbud, søknadsdato,
                     {(inkluderFastPlan === false || omsorgstilbud.planlagt?.erLiktHverUke === YesOrNo.NO) && (
                         <FormBlock>
                             <Box padBottom="m">
-                                <Element tag="h3">Hvor mye skal barnet være i et omsorgstilbud?</Element>
+                                <Element tag="h3">
+                                    {intlHelper(intl, 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.spm')}
+                                </Element>
                             </Box>
 
                             <OmsorgstilbudVariert

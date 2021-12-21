@@ -13,23 +13,19 @@ import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import RegistrerOmsorgstilbudPeriode from './RegistrerOmsorgstilbudPeriode';
 import { Element } from 'nav-frontend-typografi';
 import { useFormikContext } from 'formik';
+import { skalViseSpørsmålOmProsentEllerLiktHverUke } from '../omsorgstilbudStepUtils';
 
 interface Props {
     periode: DateRange;
     søknadsdato: Date;
     tidIOmsorgstilbud: DatoTidMap;
-    onOmsorgstilbudChanged?: (tidIOmsorgstilbud: DatoTidMap) => void;
+    onOmsorgstilbudChanged?: () => void;
 }
 
-const OmsorgstilbudVariert: React.FunctionComponent<Props> = ({
-    periode,
-    tidIOmsorgstilbud,
-    søknadsdato,
-    onOmsorgstilbudChanged,
-}) => {
+const OmsorgstilbudVariert: React.FC<Props> = ({ periode, tidIOmsorgstilbud, søknadsdato, onOmsorgstilbudChanged }) => {
     const intl = useIntl();
     const gjelderFortid = dayjs(periode.to).isBefore(søknadsdato, 'day');
-
+    const kanLeggeTilPeriode = skalViseSpørsmålOmProsentEllerLiktHverUke(periode);
     const enkeltdagerFieldName = gjelderFortid
         ? SøknadFormField.omsorgstilbud__historisk__enkeltdager
         : SøknadFormField.omsorgstilbud__planlagt__enkeltdager;
@@ -43,6 +39,7 @@ const OmsorgstilbudVariert: React.FunctionComponent<Props> = ({
                     måned={måned}
                     periode={periode}
                     søknadsdato={søknadsdato}
+                    kanLeggeTilPeriode={kanLeggeTilPeriode}
                     onAfterChange={onOmsorgstilbudChanged}
                     labels={{
                         addLabel: intlHelper(intl, 'omsorgstilbud.addLabel', {
@@ -68,7 +65,7 @@ const OmsorgstilbudVariert: React.FunctionComponent<Props> = ({
         const dagerMedOmsorgstilbud = { ...tidIOmsorgstilbud, ...data };
         setFieldValue(enkeltdagerFieldName, dagerMedOmsorgstilbud);
         if (onOmsorgstilbudChanged) {
-            onOmsorgstilbudChanged(dagerMedOmsorgstilbud);
+            onOmsorgstilbudChanged();
         }
     };
 
@@ -83,17 +80,17 @@ const OmsorgstilbudVariert: React.FunctionComponent<Props> = ({
             name={`${enkeltdagerFieldName}_dager` as any}
             tag="div"
             validate={() => validateOmsorgstilbudEnkeltdagerIPeriode(tidIOmsorgstilbud, periode, gjelderFortid)}>
-            <>
-                <Box margin="m">
-                    <RegistrerOmsorgstilbudPeriode periode={periode} onPeriodeChange={handleOnPeriodeChange} />
-                </Box>
+            {kanLeggeTilPeriode && (
+                <>
+                    <Box margin="m" padBottom="xl">
+                        <RegistrerOmsorgstilbudPeriode periode={periode} onPeriodeChange={handleOnPeriodeChange} />
+                    </Box>
 
-                <Box margin="xl">
                     <Element tag="h3">
                         <FormattedMessage id="steg.omsorgstilbud.planlagt.månedsliste.tittel" />
                     </Element>
-                </Box>
-            </>
+                </>
+            )}
 
             <Box margin="l">
                 <SøknadsperioderMånedListe

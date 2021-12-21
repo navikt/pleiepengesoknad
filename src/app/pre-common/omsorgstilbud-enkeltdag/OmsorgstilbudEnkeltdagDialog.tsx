@@ -1,20 +1,27 @@
 import React from 'react';
-import { InputTime } from '@navikt/sif-common-formik/lib';
+import { DateRange, InputTime } from '@navikt/sif-common-formik/lib';
 import Modal from 'nav-frontend-modal';
 import dateFormatter from '../../utils/common/dateFormatterUtils';
-import { Tid } from '../../types';
-import OmsorgstilbudEnkeltdagForm from './OmsorgstilbudEnkeltdagForm';
+import OmsorgstilbudEnkeltdagForm, { OmsorgstilbudEnkeltdagEndring } from './OmsorgstilbudEnkeltdagForm';
 import './omsorgstilbudEnkeltdagEdit.less';
 
 interface Props {
     isOpen?: boolean;
     dato: Date;
     tid?: Partial<InputTime>;
-    onSubmit: (tid: Tid) => void;
+    periode: DateRange;
+    onSubmit: (evt: OmsorgstilbudEnkeltdagEndring) => void;
     onCancel: () => void;
 }
 
-const OmsorgstilbudEnkeltdagDialog: React.FunctionComponent<Props> = ({ isOpen, dato, tid, onSubmit, onCancel }) => {
+const OmsorgstilbudEnkeltdagDialog: React.FunctionComponent<Props> = ({
+    isOpen,
+    dato,
+    tid,
+    periode,
+    onSubmit,
+    onCancel,
+}) => {
     return isOpen ? (
         <>
             <Modal
@@ -23,7 +30,13 @@ const OmsorgstilbudEnkeltdagDialog: React.FunctionComponent<Props> = ({ isOpen, 
                 onRequestClose={onCancel}
                 shouldCloseOnOverlayClick={false}
                 className="omsorgstilbudEnkeltdagDialog">
-                <OmsorgstilbudEnkeltdagForm tid={tid} dato={dato} onCancel={onCancel} onSubmit={onSubmit} />
+                <OmsorgstilbudEnkeltdagForm
+                    periode={periode}
+                    tid={tid}
+                    dato={dato}
+                    onCancel={onCancel}
+                    onSubmit={onSubmit}
+                />
             </Modal>
         </>
     ) : null;

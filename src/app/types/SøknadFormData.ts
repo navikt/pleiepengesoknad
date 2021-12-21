@@ -46,6 +46,8 @@ export enum SøknadFormField {
     omsorgstilbud__planlagt__erLiktHverUke = 'omsorgstilbud.planlagt.erLiktHverUke',
     omsorgstilbud__planlagt__fasteDager = 'omsorgstilbud.planlagt.fasteDager',
     omsorgstilbud__planlagt__enkeltdager = 'omsorgstilbud.planlagt.enkeltdager',
+    omsorgstilbud__historisk__erLiktHverUke = 'omsorgstilbud.historisk.erLiktHverUke',
+    omsorgstilbud__historisk__fasteDager = 'omsorgstilbud.historisk.fasteDager',
     omsorgstilbud__historisk__enkeltdager = 'omsorgstilbud.historisk.enkeltdager',
     frilans_harHattInntektSomFrilanser = 'frilans_harHattInntektSomFrilanser',
     frilans_startdato = 'frilans_startdato',
@@ -72,7 +74,9 @@ export interface OmsorgstilbudHelePerioden {
     enkeltdager?: DatoTidMap;
 }
 export interface OmsorgstilbudHistorisk {
-    enkeltdager: DatoTidMap;
+    erLiktHverUke?: YesOrNo;
+    fasteDager?: TidUkedager;
+    enkeltdager?: DatoTidMap;
 }
 export interface Omsorgstilbud {
     skalBarnIOmsorgstilbud?: YesOrNo;

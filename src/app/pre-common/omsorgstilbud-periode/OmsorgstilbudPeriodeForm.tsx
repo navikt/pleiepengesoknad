@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { DateRange, getTypedFormComponents, UnansweredQuestionsInfo } from '@navikt/sif-common-formik/lib';
+import { DateRange, getTypedFormComponents } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { getDateRangeValidator } from '@navikt/sif-common-formik/lib/validation';
 import getIntlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
@@ -71,14 +71,12 @@ const OmsorgstilbudPeriodeForm: React.FC<Props> = ({ rammePeriode, onSubmit, onC
                     renderForm={({ values: { fom, tom, tidFasteDager } }) => {
                         const from = datepickerUtils.getDateFromDateString(fom);
                         const to = datepickerUtils.getDateFromDateString(tom);
-                        const periode = from && to ? { from, to } : undefined;
-                        const visKnapper = periode !== undefined;
+
                         return (
                             <FormComponents.Form
                                 onCancel={onCancel}
                                 formErrorHandler={getIntlFormErrorHandler(intl, 'omsorgstilbudPeriode')}
                                 includeValidationSummary={true}
-                                includeButtons={visKnapper}
                                 submitButtonLabel={intlHelper(intl, 'omsorgstilbudPeriodeForm.submitButtonLabel')}
                                 cancelButtonLabel={intlHelper(intl, 'omsorgstilbudPeriodeForm.cancelButtonLabel')}>
                                 <div style={{ maxWidth: '20rem' }}>
@@ -122,14 +120,6 @@ const OmsorgstilbudPeriodeForm: React.FC<Props> = ({ rammePeriode, onSubmit, onC
                                         <TidUkedagerInput name={FormFields.tidFasteDager} />
                                     </FormComponents.InputGroup>
                                 </FormBlock>
-
-                                {visKnapper === false && (
-                                    <FormBlock>
-                                        <UnansweredQuestionsInfo>
-                                            <FormattedMessage id="ubesvarteSpørsmålInfo" />
-                                        </UnansweredQuestionsInfo>
-                                    </FormBlock>
-                                )}
                             </FormComponents.Form>
                         );
                     }}

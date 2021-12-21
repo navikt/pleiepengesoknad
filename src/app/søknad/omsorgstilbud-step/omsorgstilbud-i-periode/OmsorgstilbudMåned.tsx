@@ -11,14 +11,14 @@ import {
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import dayjs from 'dayjs';
 import TidKalenderForm from '../../../components/tid-kalender-form/TidKalenderForm';
-import { DatoTidMap, Tid } from '../../../types';
+import { DatoTidMap } from '../../../types';
 import { getTidIOmsorgValidator } from '../../../validation/validateOmsorgstilbudFields';
 import OmsorgstilbudMånedInfo from './OmsorgstilbudMånedInfo';
 import { getDagerMedTidITidsrom } from '../../../utils/datoTidUtils';
-import { dateToISODate } from '../../../utils/common/isoDateUtils';
 import { SøknadFormData } from '../../../types/SøknadFormData';
 import { useFormikContext } from 'formik';
-import { getDatesInMonthOutsideDateRange } from '../../../utils/common/dateRangeUtils';
+import { getDatesInMonthOutsideDateRange, getMonthsInDateRange } from '../../../utils/common/dateRangeUtils';
+import { OmsorgstilbudEnkeltdagEndring } from '../../../pre-common/omsorgstilbud-enkeltdag/OmsorgstilbudEnkeltdagForm';
 
 interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, ValidationError> {
     formFieldName: FieldNames;
@@ -26,6 +26,7 @@ interface Props<FieldNames> extends TypedFormInputValidationProps<FieldNames, Va
     måned: DateRange;
     periode: DateRange;
     søknadsdato: Date;
+    kanLeggeTilPeriode: boolean;
     onAfterChange?: (omsorgsdager: DatoTidMap) => void;
 }
 
@@ -35,13 +36,14 @@ function OmsorgstilbudMåned<FieldNames>({
     labels,
     søknadsdato,
     måned,
+    kanLeggeTilPeriode,
     validate,
     onAfterChange,
 }: Props<FieldNames>) {
     const intl = useIntl();
     const erHistorisk = dayjs(periode.to).isBefore(søknadsdato, 'day');
     const { setFieldValue } = useFormikContext<SøknadFormData>() || {};
-
+    const antallMåneder = getMonthsInDateRange(periode).length;
     return (
         <FormikModalFormAndInfo<FieldNames, DatoTidMap, ValidationError>
             name={formFieldName}
@@ -94,9 +96,8 @@ function OmsorgstilbudMåned<FieldNames>({
                 const omsorgsdager = getDagerMedTidITidsrom(data, periode);
                 const utilgjengeligeDatoer = getDatesInMonthOutsideDateRange(måned.from, periode);
 
-                const handleOnEnkeltdagChange = (dato: Date, tid: Tid) => {
-                    const newValues = { ...data };
-                    newValues[dateToISODate(dato)] = tid;
+                const handleOnEnkeltdagChange = (evt: OmsorgstilbudEnkeltdagEndring) => {
+                    const newValues = { ...omsorgsdager, ...evt.dagerMedTid };
                     setFieldValue(formFieldName as any, newValues);
                     onAfterChange ? onAfterChange(newValues) : undefined;
                 };
@@ -104,8 +105,10 @@ function OmsorgstilbudMåned<FieldNames>({
                 return (
                     <OmsorgstilbudMånedInfo
                         måned={måned}
+                        periode={periode}
                         tidOmsorgstilbud={omsorgsdager}
                         utilgjengeligeDatoer={utilgjengeligeDatoer}
+                        åpentEkspanderbartPanel={antallMåneder === 1 || kanLeggeTilPeriode === false}
                         onRequestEdit={onEdit}
                         editLabel={labels.editLabel}
                         addLabel={labels.addLabel}
