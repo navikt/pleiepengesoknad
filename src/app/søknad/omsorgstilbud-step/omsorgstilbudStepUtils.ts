@@ -33,6 +33,37 @@ export const cleanupOmsorgstilbudStep = (
             cleanedValues.omsorgstilbud.historisk = undefined;
             cleanedValues.omsorgstilbud.harBarnVærtIOmsorgstilbud = YesOrNo.UNANSWERED;
         }
+
+        if (
+            cleanedValues.omsorgstilbud.harBarnVærtIOmsorgstilbud === YesOrNo.YES &&
+            cleanedValues.omsorgstilbud.historisk
+        ) {
+            if (skalViseSpørsmålOmProsentEllerLiktHverUke(søknadsperiode) === false) {
+                cleanedValues.omsorgstilbud.historisk.erLiktHverUke = undefined;
+            }
+            if (cleanedValues.omsorgstilbud.historisk.erLiktHverUke === YesOrNo.YES) {
+                cleanedValues.omsorgstilbud.historisk.enkeltdager = undefined;
+            }
+            if (cleanedValues.omsorgstilbud.historisk.erLiktHverUke === YesOrNo.NO) {
+                cleanedValues.omsorgstilbud.historisk.fasteDager = undefined;
+                cleanedValues.omsorgstilbud.historisk.enkeltdager = getDagerMedTidITidsrom(
+                    cleanedValues.omsorgstilbud.historisk.enkeltdager || {},
+                    søknadsperiode
+                );
+            }
+        }
+
+        if (
+            periodeFørSøknadsdato &&
+            cleanedValues.omsorgstilbud.harBarnVærtIOmsorgstilbud === YesOrNo.YES &&
+            cleanedValues.omsorgstilbud.historisk
+        ) {
+            cleanedValues.omsorgstilbud.historisk.enkeltdager = getDagerMedTidITidsrom(
+                cleanedValues.omsorgstilbud.historisk.enkeltdager || {},
+                periodeFørSøknadsdato
+            );
+        }
+
         if (periodeFraOgMedSøknadsdato === undefined) {
             cleanedValues.omsorgstilbud.planlagt = undefined;
             cleanedValues.omsorgstilbud.skalBarnIOmsorgstilbud = YesOrNo.UNANSWERED;
@@ -55,19 +86,7 @@ export const cleanupOmsorgstilbudStep = (
                 );
             }
         }
-        if (cleanedValues.omsorgstilbud.harBarnVærtIOmsorgstilbud !== YesOrNo.YES) {
-            cleanedValues.omsorgstilbud.historisk = undefined;
-        }
-        if (
-            periodeFørSøknadsdato &&
-            cleanedValues.omsorgstilbud.harBarnVærtIOmsorgstilbud === YesOrNo.YES &&
-            cleanedValues.omsorgstilbud.historisk
-        ) {
-            cleanedValues.omsorgstilbud.historisk.enkeltdager = getDagerMedTidITidsrom(
-                cleanedValues.omsorgstilbud.historisk.enkeltdager || {},
-                periodeFørSøknadsdato
-            );
-        }
+
         if (
             periodeFraOgMedSøknadsdato &&
             cleanedValues.omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES &&
@@ -79,16 +98,19 @@ export const cleanupOmsorgstilbudStep = (
             );
         }
     }
+
+    if (cleanedValues.omsorgstilbud?.harBarnVærtIOmsorgstilbud === YesOrNo.NO) {
+        cleanedValues.omsorgstilbud.historisk = undefined;
+    }
+
+    if (cleanedValues.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.NO) {
+        cleanedValues.omsorgstilbud.planlagt = undefined;
+    }
     if (skalBrukerSvarePåBeredskapOgNattevåk(values) === false) {
         cleanedValues.harNattevåk = YesOrNo.UNANSWERED;
         cleanedValues.harNattevåk_ekstrainfo = undefined;
         cleanedValues.harBeredskap = YesOrNo.UNANSWERED;
         cleanedValues.harBeredskap_ekstrainfo = undefined;
     }
-
-    if (cleanedValues.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.NO) {
-        cleanedValues.omsorgstilbud.planlagt = undefined;
-    }
-
     return cleanedValues;
 };
