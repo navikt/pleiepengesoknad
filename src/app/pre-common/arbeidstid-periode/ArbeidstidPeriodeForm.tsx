@@ -18,6 +18,7 @@ import {
 import { TidUkedager } from '../../types';
 import {
     getArbeidstidFastProsentValidator,
+    getArbeidstimerFastDagValidator,
     validateFasteArbeidstimerIUke,
 } from '../../validation/validateArbeidFields';
 
@@ -203,7 +204,10 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<Props> = ({
                                             )}
                                             validate={() => validateFasteArbeidstimerIUke(tidFasteDager, intlValues)}
                                             name={'fasteDager_gruppe' as any}>
-                                            <TidUkedagerInput name={FormFields.tidFasteDager} />
+                                            <TidUkedagerInput
+                                                name={FormFields.tidFasteDager}
+                                                validator={getArbeidstimerFastDagValidator}
+                                            />
                                         </FormComponents.InputGroup>
                                     </FormBlock>
                                 )}

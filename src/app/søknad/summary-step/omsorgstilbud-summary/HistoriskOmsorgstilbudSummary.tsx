@@ -8,6 +8,8 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import TidEnkeltdager from '../../../components/dager-med-tid/TidEnkeltdager';
 import { HistoriskOmsorgstilbudApiData } from '../../../types/SøknadApiData';
 import { getHistoriskPeriode } from '../../../utils/fortidFremtidUtils';
+import JaNeiSvar from '../enkeltsvar/JaNeiSvar';
+import TidFasteDager from '../../../components/dager-med-tid/TidFasteDager';
 
 interface Props {
     historiskOmsorgstilbud?: HistoriskOmsorgstilbudApiData;
@@ -34,12 +36,28 @@ const HistoriskOmsorgstilbudSummary = ({ historiskOmsorgstilbud, søknadsperiode
                     <FormattedMessage id={`omsorgstilbud.svar.${svar}`} />
                 </ContentWithHeader>
             </Box>
-            {historiskOmsorgstilbud && historiskOmsorgstilbud.enkeltdager && (
-                <SummaryBlock
-                    header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.historisk.header')}
-                    headerTag="h3">
-                    <TidEnkeltdager dager={historiskOmsorgstilbud.enkeltdager} />
-                </SummaryBlock>
+            {historiskOmsorgstilbud && (
+                <>
+                    {historiskOmsorgstilbud.erLiktHverUke !== undefined && (
+                        <SummaryBlock
+                            header={intlHelper(intl, 'steg.omsorgstilbud.historisk.erLiktHverUke.spm', {
+                                fra: prettifyDateFull(periodeFørSøknadsdato.from),
+                                til: prettifyDateFull(periodeFørSøknadsdato.to),
+                            })}>
+                            <JaNeiSvar harSvartJa={historiskOmsorgstilbud.erLiktHverUke} />
+                        </SummaryBlock>
+                    )}
+                    <SummaryBlock
+                        header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.historisk.header')}
+                        headerTag="h3">
+                        {historiskOmsorgstilbud.ukedager && (
+                            <TidFasteDager fasteDager={historiskOmsorgstilbud.ukedager} />
+                        )}
+                        {historiskOmsorgstilbud.enkeltdager && (
+                            <TidEnkeltdager dager={historiskOmsorgstilbud.enkeltdager} />
+                        )}
+                    </SummaryBlock>
+                </>
             )}
         </>
     );

@@ -12,6 +12,7 @@ import { Undertittel } from 'nav-frontend-typografi';
 import TidUkedagerInput from '../../components/tid-ukedager-input/TidUkedagerInput';
 import { TidUkedager } from '../../types';
 import { validateOmsorgstilbudIUke } from '../../validation/validateOmsorgstilbudFields';
+import { getArbeidstimerFastDagValidator } from '../../validation/validateArbeidFields';
 
 interface Props {
     rammePeriode: DateRange;
@@ -114,10 +115,12 @@ const OmsorgstilbudPeriodeForm: React.FC<Props> = ({ rammePeriode, onSubmit, onC
                                 <FormBlock>
                                     <FormComponents.InputGroup
                                         legend={intlHelper(intl, 'omsorgstilbudPeriodeForm.tidFasteDager.label')}
-                                        // validate={() => validateFasteArbeidstimerIUke(tidFasteDager, intlValues)}
                                         validate={() => validateOmsorgstilbudIUke(tidFasteDager)}
                                         name={'fasteDager_gruppe' as any}>
-                                        <TidUkedagerInput name={FormFields.tidFasteDager} />
+                                        <TidUkedagerInput
+                                            name={FormFields.tidFasteDager}
+                                            validator={getArbeidstimerFastDagValidator}
+                                        />
                                     </FormComponents.InputGroup>
                                 </FormBlock>
                             </FormComponents.Form>
