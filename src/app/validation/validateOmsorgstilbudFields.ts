@@ -25,6 +25,24 @@ export const validateSkalIOmsorgstilbud = (omsorgstilbud: Omsorgstilbud): Valida
     return undefined;
 };
 
+export const validateharVærtIOmsorgstilbud = (omsorgstilbud: Omsorgstilbud): ValidationResult<ValidationError> => {
+    if (omsorgstilbud.harBarnVærtIOmsorgstilbud === YesOrNo.YES) {
+        if (omsorgstilbud.historisk === undefined) {
+            return AppFieldValidationErrors.omsorgstilbud_ingenInfo;
+        }
+        const fasteDager = omsorgstilbud.historisk.fasteDager;
+
+        const hoursInTotal = fasteDager ? summerTidUkedager(fasteDager) : 0;
+        if (hoursInTotal === 0) {
+            return AppFieldValidationErrors.omsorgstilbud_ingenInfo;
+        }
+        if (hoursInTotal > 37.5) {
+            return AppFieldValidationErrors.omsorgstilbud_forMangeTimerTotalt;
+        }
+    }
+    return undefined;
+};
+
 export const getOmsorgstilbudtimerValidatorFastDag =
     (dag: string) =>
     (time: InputTime): ValidationResult<ValidationError> => {

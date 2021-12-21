@@ -17,7 +17,10 @@ import { Element } from 'nav-frontend-typografi';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { skalViseSpørsmålOmProsentEllerLiktHverUke } from './omsorgstilbudStepUtils';
-import { getOmsorgstilbudtimerValidatorFastDag } from '../../validation/validateOmsorgstilbudFields';
+import {
+    getOmsorgstilbudtimerValidatorFastDag,
+    validateharVærtIOmsorgstilbud,
+} from '../../validation/validateOmsorgstilbudFields';
 import TidUkedagerInput from '../../components/tid-ukedager-input/TidUkedagerInput';
 
 dayjs.extend(isBetween);
@@ -116,7 +119,7 @@ const HistoriskOmsorgstilbudSpørsmål = ({
                                             <FormattedMessage id="steg.omsorgstilbud.historisk.hvorMyeTidIOmsorgstilbud.description.info.2" />
                                         </p>
                                     }
-                                    // todo validate={() => validateSkalIOmsorgstilbud(omsorgstilbud)}
+                                    validate={() => validateharVærtIOmsorgstilbud(omsorgstilbud)}
                                     name={'omsorgstilbud_gruppe' as any}>
                                     <TidUkedagerInput
                                         name={SøknadFormField.omsorgstilbud__historisk__fasteDager}
