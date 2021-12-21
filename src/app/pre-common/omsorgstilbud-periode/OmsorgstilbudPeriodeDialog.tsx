@@ -10,11 +10,12 @@ import { useIntl } from 'react-intl';
 interface Props {
     isOpen: boolean;
     periode: DateRange;
-    onSubmit: (arbeidstidPeriode: OmsorgstilbudPeriodeData) => void;
+    gjelderFortid: boolean;
+    onSubmit: (omsorgstilbudPeriode: OmsorgstilbudPeriodeData) => void;
     onCancel: () => void;
 }
 
-const OmsorgstilbudPeriodeDialog: React.FC<Props> = ({ periode, isOpen, onSubmit, onCancel }) => {
+const OmsorgstilbudPeriodeDialog: React.FC<Props> = ({ periode, gjelderFortid, isOpen, onSubmit, onCancel }) => {
     const intl = useIntl();
     return isOpen ? (
         <Modal
@@ -24,7 +25,12 @@ const OmsorgstilbudPeriodeDialog: React.FC<Props> = ({ periode, isOpen, onSubmit
             shouldCloseOnOverlayClick={false}
             className="omsorgstilbudPeriodeDialog">
             <Normaltekst tag="div">
-                <OmsorgstilbudPeriodeForm rammePeriode={periode} onCancel={onCancel} onSubmit={onSubmit} />
+                <OmsorgstilbudPeriodeForm
+                    rammePeriode={periode}
+                    gjelderFortid={gjelderFortid}
+                    onCancel={onCancel}
+                    onSubmit={onSubmit}
+                />
             </Normaltekst>
         </Modal>
     ) : null;

@@ -11,6 +11,7 @@ import { FormattedMessage } from 'react-intl';
 
 interface Props {
     periode: DateRange;
+    gjelderFortid: boolean;
     onPeriodeChange: (tid: DatoTidMap) => void;
 }
 
@@ -42,7 +43,7 @@ const oppdaterDagerIPeriode = ({ fom, tom, tidFasteDager }: OmsorgstilbudPeriode
     return dagerSomSkalEndres;
 };
 
-const RegistrerOmsorgstilbudPeriode: React.FC<Props> = ({ periode, onPeriodeChange }) => {
+const RegistrerOmsorgstilbudPeriode: React.FC<Props> = ({ periode, gjelderFortid, onPeriodeChange }) => {
     const [visPeriode, setVisPeriode] = useState(false);
 
     const handleFormSubmit = (data: OmsorgstilbudPeriodeData) => {
@@ -59,6 +60,7 @@ const RegistrerOmsorgstilbudPeriode: React.FC<Props> = ({ periode, onPeriodeChan
             </Knapp>
             <OmsorgstilbudPeriodeDialog
                 periode={periode}
+                gjelderFortid={gjelderFortid}
                 isOpen={visPeriode}
                 onCancel={() => setVisPeriode(false)}
                 onSubmit={handleFormSubmit}

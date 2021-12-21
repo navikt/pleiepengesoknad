@@ -83,7 +83,11 @@ const OmsorgstilbudVariert: React.FC<Props> = ({ periode, tidIOmsorgstilbud, sø
             {kanLeggeTilPeriode && (
                 <>
                     <Box margin="m" padBottom="xl">
-                        <RegistrerOmsorgstilbudPeriode periode={periode} onPeriodeChange={handleOnPeriodeChange} />
+                        <RegistrerOmsorgstilbudPeriode
+                            periode={periode}
+                            gjelderFortid={gjelderFortid}
+                            onPeriodeChange={handleOnPeriodeChange}
+                        />
                     </Box>
 
                     <Element tag="h3">

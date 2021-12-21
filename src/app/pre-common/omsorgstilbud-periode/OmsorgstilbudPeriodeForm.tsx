@@ -16,6 +16,7 @@ import { getArbeidstimerFastDagValidator } from '../../validation/validateArbeid
 
 interface Props {
     rammePeriode: DateRange;
+    gjelderFortid: boolean;
     onSubmit: (data: OmsorgstilbudPeriodeData) => void;
     onCancel: () => void;
 }
@@ -42,7 +43,7 @@ const initialFormValues: Partial<FormValues> = {};
 
 const FormComponents = getTypedFormComponents<FormFields, FormValues, ValidationError>();
 
-const OmsorgstilbudPeriodeForm: React.FC<Props> = ({ rammePeriode, onSubmit, onCancel }) => {
+const OmsorgstilbudPeriodeForm: React.FC<Props> = ({ rammePeriode, gjelderFortid, onSubmit, onCancel }) => {
     const intl = useIntl();
 
     const onValidSubmit = (values: FormValues) => {
@@ -114,7 +115,12 @@ const OmsorgstilbudPeriodeForm: React.FC<Props> = ({ rammePeriode, onSubmit, onC
 
                                 <FormBlock>
                                     <FormComponents.InputGroup
-                                        legend={intlHelper(intl, 'omsorgstilbudPeriodeForm.tidFasteDager.label')}
+                                        legend={intlHelper(
+                                            intl,
+                                            `omsorgstilbudPeriodeForm.tidFasteDager.${
+                                                gjelderFortid ? 'historisk' : 'planlagt'
+                                            }.label`
+                                        )}
                                         validate={() => validateOmsorgstilbudIUke(tidFasteDager)}
                                         name={'fasteDager_gruppe' as any}>
                                         <TidUkedagerInput

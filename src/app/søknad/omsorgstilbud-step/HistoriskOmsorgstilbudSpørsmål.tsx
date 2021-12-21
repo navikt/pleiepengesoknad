@@ -53,11 +53,11 @@ const HistoriskOmsorgstilbudSpørsmål = ({
                     <ExpandableInfo
                         title={intlHelper(
                             intl,
-                            'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.tittel'
+                            'steg.omsorgstilbud.historisk.hvorMyeTidIOmsorgstilbud.description.tittel'
                         )}>
                         <p>
                             <FormattedMessage
-                                id={'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.info.1'}
+                                id={'steg.omsorgstilbud.historisk.hvorMyeTidIOmsorgstilbud.description.info.1'}
                             />
                         </p>
                     </ExpandableInfo>
@@ -81,25 +81,25 @@ const HistoriskOmsorgstilbudSpørsmål = ({
                     {inkluderFastPlan && (
                         <FormBlock>
                             <SøknadFormComponents.YesOrNoQuestion
-                                legend={intlHelper(intl, 'steg.omsorgstilbud.planlagt.erLiktHverUke.spm', {
+                                legend={intlHelper(intl, 'steg.omsorgstilbud.historisk.erLiktHverUke.spm', {
                                     fra: prettifyDateFull(periode.from),
                                     til: prettifyDateFull(periode.to),
                                 })}
                                 useTwoColumns={false}
                                 labels={{
-                                    yes: intlHelper(intl, 'steg.omsorgstilbud.planlagt.erLiktHverUke.yes'),
-                                    no: intlHelper(intl, 'steg.omsorgstilbud.planlagt.erLiktHverUke.no'),
+                                    yes: intlHelper(intl, 'steg.omsorgstilbud.historisk.erLiktHverUke.yes'),
+                                    no: intlHelper(intl, 'steg.omsorgstilbud.historisk.erLiktHverUke.no'),
                                 }}
                                 name={SøknadFormField.omsorgstilbud__historisk__erLiktHverUke}
                                 description={
                                     <ExpandableInfo
                                         title={intlHelper(
                                             intl,
-                                            'steg.omsorgstilbud.planlagt.erLiktHverUke.info.tittel'
+                                            'steg.omsorgstilbud.historisk.erLiktHverUke.info.tittel'
                                         )}>
-                                        <FormattedMessage id="steg.omsorgstilbud.planlagt.erLiktHverUke.info.1" />
+                                        <FormattedMessage id="steg.omsorgstilbud.historisk.erLiktHverUke.info.1" />
                                         <br />
-                                        <FormattedMessage id="steg.omsorgstilbud.planlagt.erLiktHverUke.info.2" />
+                                        <FormattedMessage id="steg.omsorgstilbud.historisk.erLiktHverUke.info.2" />
                                     </ExpandableInfo>
                                 }
                                 validate={getYesOrNoValidator()}
@@ -110,10 +110,10 @@ const HistoriskOmsorgstilbudSpørsmål = ({
                         <FormBlock margin="l">
                             <ResponsivePanel>
                                 <SøknadFormComponents.InputGroup
-                                    legend={intlHelper(intl, 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud')}
+                                    legend={intlHelper(intl, 'steg.omsorgstilbud.historisk.hvorMyeTidIOmsorgstilbud')}
                                     description={
                                         <p>
-                                            <FormattedMessage id="steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.info.2" />
+                                            <FormattedMessage id="steg.omsorgstilbud.historisk.hvorMyeTidIOmsorgstilbud.description.info.2" />
                                         </p>
                                     }
                                     // todo validate={() => validateSkalIOmsorgstilbud(omsorgstilbud)}
