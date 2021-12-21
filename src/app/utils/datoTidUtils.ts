@@ -1,6 +1,6 @@
 import { DateRange, datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { timeToDecimalTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
-import { ISOStringToDate } from '@navikt/sif-common-formik/lib';
+import { InputTime, ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import { isValidTime } from '@navikt/sif-common-formik/lib/components/formik-time-input/TimeInput';
 import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
 import dayjs from 'dayjs';
@@ -168,4 +168,20 @@ export const getPerioderMedLikTidIDatoTidMap = (datoTidMap: DatoTidMap): Periode
         });
     }
     return perioder;
+};
+
+export const getTidForUkedag = (tid: TidUkedager, ukedag: number): InputTime | undefined => {
+    switch (ukedag) {
+        case 1:
+            return tid.mandag;
+        case 2:
+            return tid.tirsdag;
+        case 3:
+            return tid.onsdag;
+        case 4:
+            return tid.torsdag;
+        case 5:
+            return tid.fredag;
+    }
+    return undefined;
 };

@@ -5,31 +5,16 @@ import { Knapp } from 'nav-frontend-knapper';
 import OmsorgstilbudPeriodeDialog from '../../../pre-common/omsorgstilbud-periode/OmsorgstilbudPeriodeDialog';
 import { getDatesInDateRange } from '../../../utils/common/dateRangeUtils';
 import { dateToISODate, ISODateToDate } from '../../../utils/common/isoDateUtils';
-import { DatoTidMap, TidUkedager } from '../../../types';
+import { DatoTidMap } from '../../../types';
 import { OmsorgstilbudPeriodeData } from '../../../pre-common/omsorgstilbud-periode/OmsorgstilbudPeriodeForm';
 import { FormattedMessage } from 'react-intl';
+import { getTidForUkedag } from '../../../utils/datoTidUtils';
 
 interface Props {
     periode: DateRange;
     gjelderFortid: boolean;
     onPeriodeChange: (tid: DatoTidMap) => void;
 }
-
-const getTidForUkedag = (tid: TidUkedager, ukedag: number): InputTime | undefined => {
-    switch (ukedag) {
-        case 1:
-            return tid.mandag;
-        case 2:
-            return tid.tirsdag;
-        case 3:
-            return tid.onsdag;
-        case 4:
-            return tid.torsdag;
-        case 5:
-            return tid.fredag;
-    }
-    return undefined;
-};
 
 const oppdaterDagerIPeriode = ({ fom, tom, tidFasteDager }: OmsorgstilbudPeriodeData): DatoTidMap => {
     const datoerIPeriode = getDatesInDateRange({ from: fom, to: tom }, true);
