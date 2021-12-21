@@ -113,10 +113,10 @@ const OmsorgstilbudEnkeltdagForm: React.FC<Props> = ({ dato, tid, periode, onSub
         values?: any
     ): JSX.Element => (
         <>
-            <FormattedMessage id={`arbeidstidEnkeltdagForm.gjentagelse.${key}`} values={{ ...values, ...periode }} />
+            <FormattedMessage id={`omsorgstilbudEnkeltdagForm.gjentagelse.${key}`} values={{ ...values, ...periode }} />
             <div className="m-comment">
                 <FormattedMessage
-                    id="arbeidstidEnkeltdagForm.gjentagelse.periode"
+                    id="omsorgstilbudEnkeltdagForm.gjentagelse.periode"
                     values={{
                         ...values,
                         ...periode,
@@ -160,7 +160,10 @@ const OmsorgstilbudEnkeltdagForm: React.FC<Props> = ({ dato, tid, periode, onSub
                                 {skalViseValgetGjelderFlereDager && (
                                     <FormBlock margin="l">
                                         <FormComponents.Checkbox
-                                            label={intlHelper(intl, 'arbeidstidEnkeltdagForm.gjelderFlereDager.label')}
+                                            label={intlHelper(
+                                                intl,
+                                                'omsorgstilbudEnkeltdagForm.gjelderFlereDager.label'
+                                            )}
                                             name={FormFields.skalGjentas}
                                         />
                                     </FormBlock>
@@ -218,7 +221,7 @@ const OmsorgstilbudEnkeltdagForm: React.FC<Props> = ({ dato, tid, periode, onSub
                                                         <FormComponents.Checkbox
                                                             label={intlHelper(
                                                                 intl,
-                                                                'arbeidstidEnkeltdagForm.stoppGjentagelse.label'
+                                                                'omsorgstilbudEnkeltdagForm.stoppGjentagelse.label'
                                                             )}
                                                             name={FormFields.stoppGjentagelse}
                                                         />
@@ -228,7 +231,7 @@ const OmsorgstilbudEnkeltdagForm: React.FC<Props> = ({ dato, tid, periode, onSub
                                                             <FormComponents.DatePicker
                                                                 label={intlHelper(
                                                                     intl,
-                                                                    'arbeidstidEnkeltdagForm.stopDato.label'
+                                                                    'omsorgstilbudEnkeltdagForm.stopDato.label'
                                                                 )}
                                                                 minDate={dato}
                                                                 maxDate={periode.to}

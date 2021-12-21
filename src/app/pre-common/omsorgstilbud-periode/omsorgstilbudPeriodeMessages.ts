@@ -6,7 +6,9 @@ const omsorgstibudPerodeMessages = {
         'omsorgstilbudPeriodeForm.cancelButtonLabel': 'Avbryt',
         'omsorgstilbudPeriodeForm.fraOgMed.label': 'Fra og med',
         'omsorgstilbudPeriodeForm.tilOgMed.label': 'Til og med',
-        'omsorgstilbudPeriodeForm.tidFasteDager.label':
+        'omsorgstilbudPeriodeForm.tidFasteDager.historisk.label':
+            'Legg inn hvor mange timer barnet har vært i et fast og regelmessig omsorgstilbud per dag i uken i perioden',
+        'omsorgstilbudPeriodeForm.tidFasteDager.planlagt.label':
             'Legg inn hvor mange timer barnet skal være i et fast og regelmessig omsorgstilbud per dag i uken i perioden',
     },
 };
