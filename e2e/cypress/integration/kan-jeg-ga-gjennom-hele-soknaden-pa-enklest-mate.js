@@ -36,9 +36,10 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
 
         it('STEG 2: PERIODEN MED PLEIEPENGER', () => {
             // Velg periode, fom
-            const dato = dayjs().startOf('month').add(1, 'month').startOf('isoWeek').format('YYYY-MM-DD');
-            cy.get('input[name=periodeFra]').click().type(dato).blur();
-            cy.get('input[name=periodeTil]').click().type(dato).blur();
+            const fraDato = dayjs().startOf('month').subtract(1, 'month').startOf('isoWeek').format('YYYY-MM-DD');
+            const tilDato = dayjs().startOf('month').subtract(1, 'month').startOf('isoWeek').format('YYYY-MM-DD');
+            cy.get('input[name=periodeFra]').click().type(fraDato).blur();
+            cy.get('input[name=periodeTil]').click().type(tilDato).blur();
 
             clickNeiPaAlleSporsmal();
             clickNeiPaAlleSporsmal();
@@ -56,7 +57,7 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
             clickFortsett(cy);
         });
 
-        it('STEG 4: Jobb til nå', () => {
+        it('STEG 4: Jobb tilbake i tid', () => {
             clickNeiPaAlleSporsmal();
             clickFortsett(cy);
         });
