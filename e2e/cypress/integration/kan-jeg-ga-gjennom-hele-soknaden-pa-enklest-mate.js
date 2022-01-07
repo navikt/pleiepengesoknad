@@ -1,3 +1,7 @@
+const dayjs = require('dayjs');
+const isoWeek = require('dayjs/plugin/isoWeek');
+dayjs.extend(isoWeek);
+
 const clickFortsett = () => cy.get('button[aria-label="Gå til neste steg"]').click();
 const clickSendInnSøknad = () => cy.get('button[aria-label="Send inn søknaden"]').click();
 
@@ -32,12 +36,9 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
 
         it('STEG 2: PERIODEN MED PLEIEPENGER', () => {
             // Velg periode, fom
-            cy.get('[class=nav-datovelger__kalenderknapp]').first().click();
-            cy.get('[class=DayPicker-Day]').not('.DayPicker-Day--disabled').first().click();
-
-            // Velg periode, tom
-            cy.get('[class=nav-datovelger__kalenderknapp]').last().click();
-            cy.get('[class=DayPicker-Day]').not('.DayPicker-Day--disabled').first().click();
+            const dato = dayjs().startOf('month').add(1, 'month').startOf('isoWeek').format('YYYY-MM-DD');
+            cy.get('input[name=periodeFra]').click().type(dato).blur();
+            cy.get('input[name=periodeTil]').click().type(dato).blur();
 
             clickNeiPaAlleSporsmal();
             clickNeiPaAlleSporsmal();
