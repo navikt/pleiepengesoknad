@@ -133,7 +133,13 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
             ) : (
                 <>
                     <Element tag="h3">
-                        <FormattedMessage id="arbeidstidVariert.kortPeriode.tittel" />
+                        <FormattedMessage
+                            id={
+                                erHistorisk
+                                    ? 'arbeidstidVariert.kortPeriode.historisk.tittel'
+                                    : 'arbeidstidVariert.kortPeriode.tittel'
+                            }
+                        />
                     </Element>
                     <p>
                         <FormattedMessage id="arbeidstidVariert.kortPeriode.info" values={intlValues} />
