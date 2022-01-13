@@ -2,9 +2,9 @@ import { ApiStringDate } from '@navikt/sif-common-core/lib/types/ApiStringDate';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
-import { AndreYtelserFraNAV, ArbeidsforholdType, BarnRelasjon, ISODate, JobberIPeriodeSvar } from './';
-
-export type ISO8601Duration = string;
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
+import { ISODate, ISODuration } from '@navikt/sif-common-utils';
+import { AndreYtelserFraNAV, BarnRelasjon, JobberIPeriodeSvar } from './';
 
 export interface BarnetSøknadenGjelderApiData {
     navn: string | null;
@@ -71,15 +71,15 @@ export interface SelvstendigNæringsdrivendeApiData {
 }
 
 export interface TidFasteDagerApiData {
-    mandag?: ISO8601Duration;
-    tirsdag?: ISO8601Duration;
-    onsdag?: ISO8601Duration;
-    torsdag?: ISO8601Duration;
-    fredag?: ISO8601Duration;
+    mandag?: ISODuration;
+    tirsdag?: ISODuration;
+    onsdag?: ISODuration;
+    torsdag?: ISODuration;
+    fredag?: ISODuration;
 }
 export interface TidEnkeltdagApiData {
     dato: ISODate;
-    tid: ISO8601Duration;
+    tid: ISODuration;
 }
 
 export interface PlanlagtOmsorgstilbudApiData {
@@ -89,7 +89,9 @@ export interface PlanlagtOmsorgstilbudApiData {
 }
 
 export interface HistoriskOmsorgstilbudApiData {
-    enkeltdager: TidEnkeltdagApiData[];
+    erLiktHverUke: boolean;
+    enkeltdager?: TidEnkeltdagApiData[];
+    ukedager?: TidFasteDagerApiData;
 }
 
 export interface OmsorgstilbudApiData {

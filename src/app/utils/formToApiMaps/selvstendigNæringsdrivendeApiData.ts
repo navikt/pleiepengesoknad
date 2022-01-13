@@ -2,7 +2,7 @@ import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { mapVirksomhetToVirksomhetApiData } from '@navikt/sif-common-forms/lib';
-import { ArbeidsforholdType } from '../../types';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { SøknadApiData } from '../../types/SøknadApiData';
 import { SøknadFormData } from '../../types/SøknadFormData';
 import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';

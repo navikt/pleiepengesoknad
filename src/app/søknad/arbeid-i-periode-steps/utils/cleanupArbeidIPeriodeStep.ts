@@ -10,7 +10,7 @@ import {
     ArbeidsforholdSNF,
     SøknadFormData,
 } from '../../../types/SøknadFormData';
-import { getDagerMedTidITidsrom } from '../../../utils/datoTidUtils';
+import { getDurationsInDateRange } from '@navikt/sif-common-utils';
 import { getPeriodeSomFrilanserInnenforPeriode } from '../../../utils/frilanserUtils';
 
 dayjs.extend(minMax);
@@ -37,7 +37,7 @@ export const cleanupArbeidIPeriode = (periode: DateRange, arbeidIPerioden: Arbei
     return {
         ...arbeid,
         erLiktHverUke,
-        enkeltdager: enkeltdager ? getDagerMedTidITidsrom(enkeltdager, periode) : undefined,
+        enkeltdager: enkeltdager ? getDurationsInDateRange(enkeltdager, periode) : undefined,
     };
 };
 

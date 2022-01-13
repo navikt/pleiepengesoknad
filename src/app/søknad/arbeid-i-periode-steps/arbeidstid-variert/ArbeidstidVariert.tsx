@@ -1,23 +1,23 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
+import { ArbeidIPeriodeIntlValues, ArbeidsforholdType, ArbeidstidPeriodeData } from '@navikt/sif-common-pleiepenger';
+import ArbeidstidMånedInfo from '@navikt/sif-common-pleiepenger/lib/arbeidstid-måned-info/ArbeidstidMånedInfo';
+import SøknadsperioderMånedListe from '@navikt/sif-common-pleiepenger/lib/søknadsperioder-måned-liste/SøknadsperioderMånedListe';
+import { TidEnkeltdagEndring } from '@navikt/sif-common-pleiepenger/lib/tid-enkeltdag-dialog/TidEnkeltdagForm';
+import { DateDurationMap, getDatesInMonthOutsideDateRange, getMonthsInDateRange } from '@navikt/sif-common-utils';
+import dayjs from 'dayjs';
 import { useFormikContext } from 'formik';
 import { Element } from 'nav-frontend-typografi';
-import { ArbeidstidEnkeltdagEndring } from '../../../pre-common/arbeidstid-enkeltdag/ArbeidstidEnkeltdagForm';
-import SøknadsperioderMånedListe from '../../../pre-common/søknadsperioder-måned-liste/SøknadsperioderMånedListe';
-import { ArbeidsforholdType, DatoTidMap } from '../../../types';
+import useLogSøknadInfo from '../../../hooks/useLogSøknadInfo';
 import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
 import { validateArbeidsTidEnkeltdager } from '../../../validation/validateArbeidFields';
 import SøknadFormComponents from '../../SøknadFormComponents';
-import { ArbeidIPeriodeIntlValues } from '../ArbeidIPeriodeSpørsmål';
-import ArbeidstidMånedInfo from './ArbeidstidMånedInfo';
-import RegistrerArbeidstidPeriode from './RegistrerArbeidstidPeriode';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import useLogSøknadInfo from '../../../hooks/useLogSøknadInfo';
-import dayjs from 'dayjs';
-import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { getDatesInMonthOutsideDateRange, getMonthsInDateRange } from '@navikt/sif-common-utils';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import ArbeidstidPeriode from '../arbeidstid-periode/ArbeidstidPeriode';
 
 interface Props {
     arbeidsstedNavn: string;
@@ -25,10 +25,10 @@ interface Props {
     formFieldName: SøknadFormField;
     periode: DateRange;
     jobberNormaltTimer: number;
-    arbeidstid?: DatoTidMap;
+    arbeidstid?: DateDurationMap;
     intlValues: ArbeidIPeriodeIntlValues;
     kanLeggeTilPeriode: boolean;
-    onArbeidstidChanged?: (arbeidstid: DatoTidMap) => void;
+    onArbeidstidChanged?: (arbeidstid: DateDurationMap) => void;
 }
 
 const ArbeidstidVariert: React.FunctionComponent<Props> = ({
@@ -42,13 +42,15 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
     kanLeggeTilPeriode,
     onArbeidstidChanged,
 }) => {
+    const intl = useIntl();
     const { setFieldValue } = useFormikContext<SøknadFormData>() || {};
+    const { logArbeidPeriodeRegistrert } = useLogSøknadInfo();
 
     const antallMåneder = getMonthsInDateRange(periode).length;
     const { logArbeidEnkeltdagRegistrert } = useLogSøknadInfo();
     const erHistorisk = dayjs(periode.to).isBefore(dateToday);
 
-    const handleOnEnkeltdagChange = (evt: ArbeidstidEnkeltdagEndring) => {
+    const handleOnEnkeltdagChange = (evt: TidEnkeltdagEndring) => {
         const newValues = { ...arbeidstid, ...evt.dagerMedTid };
         setFieldValue(formFieldName as any, newValues);
         logArbeidEnkeltdagRegistrert({
@@ -58,8 +60,14 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
         onArbeidstidChanged ? onArbeidstidChanged(newValues) : undefined;
     };
 
-    const handleOnPeriodeChange = (data: DatoTidMap) => {
-        const dagerMedArbeid = { ...arbeidstid, ...data };
+    const handleOnPeriodeChange = (tid: DateDurationMap, periodeData: ArbeidstidPeriodeData) => {
+        logArbeidPeriodeRegistrert({
+            erHistorisk,
+            verdi: periodeData.prosent ? 'prosent' : 'ukeplan',
+            prosent: periodeData.prosent,
+        });
+
+        const dagerMedArbeid = { ...arbeidstid, ...tid };
         setFieldValue(formFieldName, dagerMedArbeid);
         if (onArbeidstidChanged) {
             onArbeidstidChanged(dagerMedArbeid);
@@ -109,12 +117,18 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                         </li>
                     </ul>
                     <Box margin="l">
-                        <RegistrerArbeidstidPeriode
-                            jobberNormaltTimer={jobberNormaltTimer}
-                            intlValues={intlValues}
-                            periode={periode}
-                            arbeidsstedNavn={arbeidsstedNavn}
+                        <ArbeidstidPeriode
                             onPeriodeChange={handleOnPeriodeChange}
+                            registrerKnappLabel={intlHelper(
+                                intl,
+                                'registrerArbeidstidPeriode.registrerJobbKnapp.label'
+                            )}
+                            formProps={{
+                                jobberNormaltTimer,
+                                intlValues,
+                                periode,
+                                arbeidsstedNavn,
+                            }}
                         />
                     </Box>
                     <FormBlock>
@@ -133,7 +147,13 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
             ) : (
                 <>
                     <Element tag="h3">
-                        <FormattedMessage id="arbeidstidVariert.kortPeriode.tittel" />
+                        <FormattedMessage
+                            id={
+                                erHistorisk
+                                    ? 'arbeidstidVariert.kortPeriode.historisk.tittel'
+                                    : 'arbeidstidVariert.kortPeriode.tittel'
+                            }
+                        />
                     </Element>
                     <p>
                         <FormattedMessage id="arbeidstidVariert.kortPeriode.info" values={intlValues} />

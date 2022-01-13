@@ -1,13 +1,14 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-with-header/ContentWithHeader';
 import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
-import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange, prettifyDateExtended } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import TidEnkeltdager from '../../../components/dager-med-tid/TidEnkeltdager';
+import { TidFasteDager } from '@navikt/sif-common-pleiepenger';
+import TidEnkeltdager from '@navikt/sif-common-pleiepenger/lib/dager-med-tid/TidEnkeltdager';
 import { HistoriskOmsorgstilbudApiData } from '../../../types/SøknadApiData';
 import { getHistoriskPeriode } from '../../../utils/fortidFremtidUtils';
+import SummarySection from '@navikt/sif-common-core/lib/components/summary-section/SummarySection';
 
 interface Props {
     historiskOmsorgstilbud?: HistoriskOmsorgstilbudApiData;
@@ -22,27 +23,38 @@ const HistoriskOmsorgstilbudSummary = ({ historiskOmsorgstilbud, søknadsperiode
         return null;
     }
 
-    const svar = historiskOmsorgstilbud ? 'ja' : 'nei';
     return (
-        <>
-            <Box margin="xl">
+        <SummarySection
+            header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.historisk.header', {
+                fra: prettifyDateExtended(periodeFørSøknadsdato.from),
+                til: prettifyDateExtended(periodeFørSøknadsdato.to),
+            })}>
+            {historiskOmsorgstilbud === undefined && (
                 <ContentWithHeader
                     header={intlHelper(intl, 'steg.omsorgstilbud.historisk.harBarnetVærtIOmsorgstilbud.spm', {
-                        fra: prettifyDateFull(periodeFørSøknadsdato.from),
-                        til: prettifyDateFull(periodeFørSøknadsdato.to),
+                        fra: prettifyDateExtended(periodeFørSøknadsdato.from),
+                        til: prettifyDateExtended(periodeFørSøknadsdato.to),
                     })}>
-                    <FormattedMessage id={`omsorgstilbud.svar.${svar}`} />
+                    <FormattedMessage id={`omsorgstilbud.svar.nei`} />
                 </ContentWithHeader>
-            </Box>
-            {historiskOmsorgstilbud && (
+            )}
+            {historiskOmsorgstilbud !== undefined && historiskOmsorgstilbud.ukedager && (
                 <SummaryBlock
-                    header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.historisk.header')}
+                    header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.historisk.fast.header')}
+                    headerTag="h3">
+                    <TidFasteDager fasteDager={historiskOmsorgstilbud.ukedager} />
+                </SummaryBlock>
+            )}
+            {historiskOmsorgstilbud !== undefined && historiskOmsorgstilbud.enkeltdager && (
+                <SummaryBlock
+                    header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.historisk.enkeltdager.header')}
                     headerTag="h3">
                     <TidEnkeltdager dager={historiskOmsorgstilbud.enkeltdager} />
                 </SummaryBlock>
             )}
-        </>
+        </SummarySection>
     );
+    return <></>;
 };
 
 export default HistoriskOmsorgstilbudSummary;

@@ -1,27 +1,25 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import FormSection from '@navikt/sif-common-core/lib/components/form-section/FormSection';
+import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import { getOmsorgstilbudFastDagValidator } from '@navikt/sif-common-pleiepenger/lib/omsorgstilbud-periode/omsorgstilbud-periode-form/omsorgstilbudFormValidation';
+import TidFasteUkedagerInput from '@navikt/sif-common-pleiepenger/lib/tid-faste-ukedager-input/TidFasteUkedagerInput';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import AlertStripe from 'nav-frontend-alertstriper';
-import TidUkedagerInput from '../../components/tid-ukedager-input/TidUkedagerInput';
 import { Omsorgstilbud, SøknadFormField } from '../../types/SøknadFormData';
-import {
-    getOmsorgstilbudtimerValidatorFastDag,
-    validateSkalIOmsorgstilbud,
-} from '../../validation/validateOmsorgstilbudFields';
+import { validatePlanlagtOmsorgstilbud } from '../../validation/validateOmsorgstilbudFields';
 import SøknadFormComponents from '../SøknadFormComponents';
-import OmsorgstilbudVariert from './omsorgstilbud-i-periode/OmsorgstilbudVariert';
+import omsorgstilbudInfo from './info/OmsorgstilbudInfo';
+import OmsorgstilbudVariert from './omsorgstilbud-variert/OmsorgstilbudVariert';
 import { skalViseSpørsmålOmProsentEllerLiktHverUke } from './omsorgstilbudStepUtils';
-import { Element } from 'nav-frontend-typografi';
 
 dayjs.extend(isBetween);
 
@@ -29,7 +27,7 @@ interface Props {
     tittel: string;
     periode: DateRange;
     omsorgstilbud?: Omsorgstilbud;
-    søknadsdato: Date;
+    harBådeHistoriskOgPlanlagt: boolean;
     onOmsorgstilbudChanged: () => void;
 }
 
@@ -37,7 +35,7 @@ const PlanlagtOmsorgstilbudSpørsmål = ({
     periode,
     tittel,
     omsorgstilbud,
-    søknadsdato,
+    harBådeHistoriskOgPlanlagt,
     onOmsorgstilbudChanged,
 }: Props) => {
     const intl = useIntl();
@@ -52,20 +50,20 @@ const PlanlagtOmsorgstilbudSpørsmål = ({
                     fra: prettifyDateFull(periode.from),
                     til: prettifyDateFull(periode.to),
                 })}
-                description={
-                    <ExpandableInfo
-                        title={intlHelper(
-                            intl,
-                            'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.tittel'
-                        )}>
-                        <p>
-                            <FormattedMessage
-                                id={'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.info.1'}
-                            />
-                        </p>
-                    </ExpandableInfo>
-                }
-                validate={getYesOrNoValidator()}
+                description={omsorgstilbudInfo.erIOmsorgstilbud('planlagt')}
+                validate={(value) => {
+                    const error = getYesOrNoValidator()(value);
+                    if (error) {
+                        return {
+                            key: error,
+                            values: {
+                                fra: prettifyDateFull(periode.from),
+                                til: prettifyDateFull(periode.to),
+                            },
+                        };
+                    }
+                    return undefined;
+                }}
             />
 
             {omsorgstilbud && omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.NO && (
@@ -90,53 +88,70 @@ const PlanlagtOmsorgstilbudSpørsmål = ({
                                     no: intlHelper(intl, 'steg.omsorgstilbud.planlagt.erLiktHverUke.no'),
                                 }}
                                 name={SøknadFormField.omsorgstilbud__planlagt__erLiktHverUke}
-                                description={
-                                    <ExpandableInfo
-                                        title={intlHelper(
-                                            intl,
-                                            'steg.omsorgstilbud.planlagt.erLiktHverUke.info.tittel'
-                                        )}>
-                                        <FormattedMessage id="steg.omsorgstilbud.planlagt.erLiktHverUke.info.1" />
-                                        <br />
-                                        <FormattedMessage id="steg.omsorgstilbud.planlagt.erLiktHverUke.info.2" />
-                                    </ExpandableInfo>
-                                }
-                                validate={getYesOrNoValidator()}
+                                description={omsorgstilbudInfo.erLiktHverUke('planlagt')}
+                                validate={(value) => {
+                                    const error = getYesOrNoValidator()(value);
+                                    return error
+                                        ? {
+                                              key: error,
+                                              values: {
+                                                  fra: prettifyDateFull(periode.from),
+                                                  til: prettifyDateFull(periode.to),
+                                              },
+                                          }
+                                        : undefined;
+                                }}
                             />
                         </FormBlock>
                     )}
                     {inkluderFastPlan && omsorgstilbud.planlagt?.erLiktHverUke === YesOrNo.YES && (
                         <FormBlock>
-                            <SøknadFormComponents.InputGroup
-                                legend={intlHelper(intl, 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud')}
-                                description={
-                                    <p>
-                                        <FormattedMessage id="steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.info.2" />
-                                    </p>
-                                }
-                                validate={() => validateSkalIOmsorgstilbud(omsorgstilbud)}
-                                name={'omsorgstilbud_gruppe' as any}>
-                                <TidUkedagerInput
-                                    name={SøknadFormField.omsorgstilbud__planlagt__fasteDager}
-                                    validator={getOmsorgstilbudtimerValidatorFastDag}
-                                />
-                            </SøknadFormComponents.InputGroup>
+                            <ResponsivePanel>
+                                <SøknadFormComponents.InputGroup
+                                    legend={intlHelper(intl, 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud')}
+                                    description={omsorgstilbudInfo.hvorMye('planlagt')}
+                                    validate={() => validatePlanlagtOmsorgstilbud(omsorgstilbud)}
+                                    name={'omsorgstilbud.planlagt.gruppe' as any}>
+                                    <TidFasteUkedagerInput
+                                        name={SøknadFormField.omsorgstilbud__planlagt__fasteDager}
+                                        validateDag={(dag, value) => {
+                                            const error = getOmsorgstilbudFastDagValidator()(value);
+                                            return error
+                                                ? {
+                                                      key: `validation.omsorgstilbud.fastdag.tid.${error}`,
+                                                      keepKeyUnaltered: true,
+                                                      values: {
+                                                          dag,
+                                                          når: harBådeHistoriskOgPlanlagt
+                                                              ? intlHelper(
+                                                                    intl,
+                                                                    'validation.omsorgstilbud.fastdag_part.når.planlagt'
+                                                                )
+                                                              : '',
+                                                      },
+                                                  }
+                                                : undefined;
+                                        }}
+                                    />
+                                </SøknadFormComponents.InputGroup>
+                            </ResponsivePanel>
                         </FormBlock>
                     )}
                     {(inkluderFastPlan === false || omsorgstilbud.planlagt?.erLiktHverUke === YesOrNo.NO) && (
                         <FormBlock>
-                            <Box padBottom="m">
-                                <Element tag="h3">Hvor mye skal barnet være i et omsorgstilbud?</Element>
-                            </Box>
-
-                            <OmsorgstilbudVariert
-                                periode={periode}
-                                tidIOmsorgstilbud={omsorgstilbud.planlagt?.enkeltdager || {}}
-                                onOmsorgstilbudChanged={() => {
-                                    onOmsorgstilbudChanged();
-                                }}
-                                søknadsdato={søknadsdato}
-                            />
+                            <ResponsivePanel>
+                                <OmsorgstilbudVariert
+                                    omsorgsdager={omsorgstilbud.planlagt?.enkeltdager || {}}
+                                    tittel={intlHelper(intl, 'steg.omsorgstilbud.planlagt.hvormyetittel')}
+                                    formFieldName={SøknadFormField.omsorgstilbud__planlagt__enkeltdager}
+                                    periode={periode}
+                                    erHistorisk={false}
+                                    tidIOmsorgstilbud={omsorgstilbud.planlagt?.enkeltdager || {}}
+                                    onOmsorgstilbudChanged={() => {
+                                        onOmsorgstilbudChanged();
+                                    }}
+                                />
+                            </ResponsivePanel>
                         </FormBlock>
                     )}
                 </>

@@ -1,23 +1,30 @@
 import { apiStringDateToDate, DateRange, datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { decimalTimeToTime, timeToIso8601Duration } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { dateToISOString, InputTime, ISOStringToDate } from '@navikt/sif-common-formik/lib';
+import { DateDurationMap, durationToISODuration, DurationWeekdays, isDateWeekDay } from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
-import { DatoTidMap, TidUkedager } from '../../types';
-import { ISO8601Duration, TidEnkeltdagApiData } from '../../types/SøknadApiData';
-import { isDateWeekDay } from '@navikt/sif-common-utils';
+import { TidEnkeltdagApiData, TidFasteDagerApiData } from '../../types/SøknadApiData';
 
-export const getFasteDagerApiData = ({ mandag, tirsdag, onsdag, torsdag, fredag }: TidUkedager) => ({
-    mandag: mandag ? timeToIso8601Duration(mandag) : undefined,
-    tirsdag: tirsdag ? timeToIso8601Duration(tirsdag) : undefined,
-    onsdag: onsdag ? timeToIso8601Duration(onsdag) : undefined,
-    torsdag: torsdag ? timeToIso8601Duration(torsdag) : undefined,
-    fredag: fredag ? timeToIso8601Duration(fredag) : undefined,
+export const getFasteDagerApiData = ({
+    monday: mandag,
+    tuesday: tirsdag,
+    wednesday: onsdag,
+    thursday: torsdag,
+    friday: fredag,
+}: DurationWeekdays): TidFasteDagerApiData => ({
+    mandag: mandag ? durationToISODuration(mandag) : undefined,
+    tirsdag: tirsdag ? durationToISODuration(tirsdag) : undefined,
+    onsdag: onsdag ? durationToISODuration(onsdag) : undefined,
+    torsdag: torsdag ? durationToISODuration(torsdag) : undefined,
+    fredag: fredag ? durationToISODuration(fredag) : undefined,
 });
 
 const sortTidEnkeltdagApiData = (d1: TidEnkeltdagApiData, d2: TidEnkeltdagApiData): number =>
     dayjs(d1.dato).isBefore(d2.dato, 'day') ? -1 : 1;
 
-export const getEnkeltdagerIPeriodeApiData = (enkeltdager: DatoTidMap, periode: DateRange): TidEnkeltdagApiData[] => {
+export const getEnkeltdagerIPeriodeApiData = (
+    enkeltdager: DateDurationMap,
+    periode: DateRange
+): TidEnkeltdagApiData[] => {
     const dager: TidEnkeltdagApiData[] = [];
 
     Object.keys(enkeltdager).forEach((dag) => {
@@ -25,7 +32,7 @@ export const getEnkeltdagerIPeriodeApiData = (enkeltdager: DatoTidMap, periode: 
         if (dato && datoErInnenforTidsrom(dato, periode) && isDateWeekDay(dato)) {
             dager.push({
                 dato: dateToISOString(dato),
-                tid: timeToIso8601Duration(enkeltdager[dag].varighet),
+                tid: durationToISODuration(enkeltdager[dag]),
             });
         }
     });
@@ -35,13 +42,13 @@ export const getEnkeltdagerIPeriodeApiData = (enkeltdager: DatoTidMap, periode: 
 
 export const getEnkeltdagerMedTidIPeriodeApiData = (
     tidPerDag: Partial<InputTime>,
-    enkeltdager: DatoTidMap,
+    enkeltdager: DateDurationMap,
     periode: DateRange
 ): TidEnkeltdagApiData[] => {
     const dager: TidEnkeltdagApiData[] = [];
     Object.keys(enkeltdager).forEach((dag) => {
         const dato = ISOStringToDate(dag);
-        const tid = timeToIso8601Duration(tidPerDag);
+        const tid = durationToISODuration(tidPerDag);
         if (dato && datoErInnenforTidsrom(dato, periode)) {
             dager.push({
                 dato: dateToISOString(dato),
@@ -73,19 +80,4 @@ export const fjernTidUtenforPeriodeOgHelgedager = (
         }
         return true;
     });
-};
-
-export const getRedusertArbeidstidSomIso8601Duration = (
-    jobberNormaltTimerPerDagNumber: number,
-    skalJobbeProsent: number
-): ISO8601Duration => {
-    return timeToIso8601Duration(getRedusertArbeidstidSomInputTime(jobberNormaltTimerPerDagNumber, skalJobbeProsent));
-};
-
-export const getRedusertArbeidstidSomInputTime = (
-    jobberNormaltTimerPerDagNumber: number,
-    skalJobbeProsent: number
-): InputTime => {
-    const redusertTidPerDag = (jobberNormaltTimerPerDagNumber / 100) * skalJobbeProsent;
-    return decimalTimeToTime(redusertTidPerDag);
 };

@@ -1,5 +1,4 @@
 import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
-import { Time } from '@navikt/sif-common-core/lib/types/Time';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import {
     attachmentHasBeenUploaded,
@@ -22,12 +21,12 @@ import {
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
+import { durationToDecimalDuration, DateDurationMap } from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import minMax from 'dayjs/plugin/minMax';
-import { DatoTidMap } from '../types';
 import { SøknadFormField } from '../types/SøknadFormData';
-import { getDagerMedTidITidsrom, cleanupDatoTidMap, summerDatoTidMap } from '../utils/datoTidUtils';
+import { getDurationsInDateRange, getValidDurations, summarizeDateDurationMap } from '@navikt/sif-common-utils';
 
 dayjs.extend(minMax);
 dayjs.extend(isoWeek);
@@ -42,8 +41,8 @@ export enum AppFieldValidationErrors {
     'arbeidsforhold_timerUgyldig_over_99_prosent' = 'timerUgyldig_over_99_prosent',
     'arbeidsforhold_timerUgyldig_over_100_prosent' = 'timerUgyldig_over_100_prosent',
 
-    'arbeidIPeriode_fasteDager_ingenTidRegistrert' = 'arbeidIPeriode.fasteDager.ingenTidRegistrert',
-    'arbeidIPeriode_fasteDager_forMangeTimer' = 'arbeidIPeriode.fasteDager.forMangeTimer',
+    'omsorgstilbudIPeriode_fasteDager_ingenTidRegistrert' = 'omsorgstilbud.fasteDager.ingenTidRegistrert',
+    'omsorgstilbudIPeriode_fasteDager_forMangeTimer' = 'omsorgstilbud.fasteDager.forMangeTimer',
 
     'omsorgstilbud_ingenInfo' = 'omsorgstilbud_ingenInfo',
     'omsorgstilbud_forMangeTimerTotalt' = 'omsorgstilbud_forMangeTimerTotalt',
@@ -58,8 +57,6 @@ export enum AppFieldValidationErrors {
     'ferieuttak_overlapper' = 'ferieuttak_overlapper',
     'ferieuttak_utenfor_periode' = 'ferieuttak_utenfor_periode',
 }
-
-export type TidPerDagValidator = (dag: string) => (tid: Time) => ValidationError | undefined;
 
 export const isYesOrNoAnswered = (answer?: YesOrNo) => {
     return answer !== undefined && (answer === YesOrNo.NO || answer === YesOrNo.YES || answer === YesOrNo.DO_NOT_KNOW);
@@ -165,15 +162,15 @@ export const validateLegeerklæring = (attachments: Attachment[]): ValidationRes
 };
 
 export const validateOmsorgstilbudEnkeltdagerIPeriode = (
-    tidIOmsorgstilbud: DatoTidMap,
+    tidIOmsorgstilbud: DateDurationMap,
     periode: DateRange,
     erHistorisk: boolean | undefined
 ) => {
-    const tidIPerioden = getDagerMedTidITidsrom(tidIOmsorgstilbud, periode);
-    const validTidEnkeltdager = cleanupDatoTidMap(tidIPerioden);
+    const tidIPerioden = getDurationsInDateRange(tidIOmsorgstilbud, periode);
+    const validTidEnkeltdager = getValidDurations(tidIPerioden);
     const hasElements = Object.keys(validTidEnkeltdager).length > 0;
 
-    if (!hasElements || summerDatoTidMap(validTidEnkeltdager) <= 0) {
+    if (!hasElements || durationToDecimalDuration(summarizeDateDurationMap(validTidEnkeltdager)) <= 0) {
         return {
             key: erHistorisk
                 ? `validation.${SøknadFormField.omsorgstilbud__historisk__enkeltdager}.ingenTidRegistrert`

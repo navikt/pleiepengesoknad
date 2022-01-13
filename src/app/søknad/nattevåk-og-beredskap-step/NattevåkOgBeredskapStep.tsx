@@ -41,7 +41,7 @@ const NattevåkOgBeredskapStep = ({ onValidSubmit, søknadsperiode, søknadsdato
             id={StepID.NATTEVÅK_OG_BEREDSKAP}
             onValidFormSubmit={onValidSubmit}
             onStepCleanup={cleanupNattevåkStep}>
-            <Box padBottom="l">
+            <Box padBottom="xl">
                 <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                     <FormattedMessage
                         id={

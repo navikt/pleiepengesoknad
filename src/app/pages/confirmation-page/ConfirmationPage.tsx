@@ -20,8 +20,6 @@ interface Props {
 
 const bem = bemUtils('confirmationPage');
 
-export const pluralize = (count: number, single: string, other: string) => (count === 1 ? single : other);
-
 const ConfirmationPage = ({ kvitteringInfo }: Props) => {
     const intl = useIntl();
 
