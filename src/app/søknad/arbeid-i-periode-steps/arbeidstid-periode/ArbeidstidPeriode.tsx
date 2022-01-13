@@ -7,7 +7,9 @@ import { getDagerMedTidFraArbeidstidPeriodeData } from './arbeidstidPeriodeUtils
 
 interface Props {
     registrerKnappLabel: string;
-    formProps: Pick<ArbeidstidPeriodeFormProps, 'arbeidsstedNavn' | 'intlValues' | 'jobberNormaltTimer' | 'periode'>;
+    formProps: Pick<ArbeidstidPeriodeFormProps, 'arbeidsstedNavn' | 'intlValues' | 'periode'> & {
+        jobberNormaltTimer: number;
+    };
     onPeriodeChange: (tid: DateDurationMap, formData: ArbeidstidPeriodeData) => void;
 }
 
