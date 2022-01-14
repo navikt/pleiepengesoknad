@@ -19,6 +19,7 @@ import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { validateUtenlandsoppholdNeste12Mnd, validateUtenlandsoppholdSiste12Mnd } from './medlemskapFieldValidations';
+import dayjs from 'dayjs';
 
 const getFomForBostedNeste12 = (bosted: BostedUtland[], søknadsdato: Date): Date => {
     const sisteBosted = bosted.length > 0 ? bosted[bosted.length - 1] : undefined;
@@ -63,7 +64,7 @@ const MedlemsskapStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Prop
                     <BostedUtlandListAndDialog<SøknadFormField>
                         name={SøknadFormField.utenlandsoppholdSiste12Mnd}
                         minDate={date1YearAgo}
-                        maxDate={søknadsdato}
+                        maxDate={dayjs(søknadsdato).subtract(1, 'day').toDate()}
                         labels={{
                             addLabel: intlHelper(intl, 'step.medlemskap.leggTilKnapp'),
                             listTitle: intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.listeTittel'),
