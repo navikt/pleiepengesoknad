@@ -3,6 +3,7 @@ import { dateToISOString, InputTime, ISOStringToDate } from '@navikt/sif-common-
 import { DateDurationMap, durationToISODuration, DurationWeekdays, isDateWeekDay } from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
 import { TidEnkeltdagApiData, TidFasteDagerApiData } from '../../types/SøknadApiData';
+import { durationUtils } from '@navikt/sif-common-utils';
 
 export const getFasteDagerApiData = ({
     monday: mandag,
@@ -30,6 +31,9 @@ export const getEnkeltdagerIPeriodeApiData = (
     Object.keys(enkeltdager).forEach((dag) => {
         const dato = ISOStringToDate(dag);
         if (dato && datoErInnenforTidsrom(dato, periode) && isDateWeekDay(dato)) {
+            if (durationUtils.durationIsZero(enkeltdager[dag])) {
+                return;
+            }
             dager.push({
                 dato: dateToISOString(dato),
                 tid: durationToISODuration(enkeltdager[dag]),
