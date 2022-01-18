@@ -2,7 +2,8 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
 import { dateToISODate, getDatesInDateRange } from '@navikt/sif-common-utils';
-import { ArbeidsforholdType, JobberIPeriodeSvar, TimerEllerProsent } from '../../types';
+import { ArbeidsforholdType, getRedusertArbeidstidSomISODuration } from '@navikt/sif-common-pleiepenger';
+import { JobberIPeriodeSvar, TimerEllerProsent } from '../../types';
 import {
     ArbeidIPeriodeApiData,
     ArbeidsforholdApiData,
@@ -16,7 +17,6 @@ import {
     fjernTidUtenforPeriodeOgHelgedager,
     getEnkeltdagerIPeriodeApiData,
     getFasteDagerApiData,
-    getRedusertArbeidstidSomIso8601Duration,
 } from './tidsbrukApiUtils';
 
 export const lagEnkeltdagerUtFraProsentIPeriode = (
@@ -25,7 +25,7 @@ export const lagEnkeltdagerUtFraProsentIPeriode = (
     skalJobbeProsent: number
 ): TidEnkeltdagApiData[] => {
     const datoer = getDatesInDateRange(periode, true);
-    const tid = getRedusertArbeidstidSomIso8601Duration(jobberNormaltTimerNumber, skalJobbeProsent);
+    const tid = getRedusertArbeidstidSomISODuration(jobberNormaltTimerNumber, skalJobbeProsent);
     return datoer.map(
         (dato): TidEnkeltdagApiData => ({
             dato: dateToISODate(dato),
@@ -38,7 +38,7 @@ export const lagFasteDagerUtFraProsentIPeriode = (
     skalJobbeProsent: number
 ): TidFasteDagerApiData => {
     const timerPerDag = jobberNormaltTimerNumber / 5;
-    const tid = getRedusertArbeidstidSomIso8601Duration(timerPerDag, skalJobbeProsent);
+    const tid = getRedusertArbeidstidSomISODuration(timerPerDag, skalJobbeProsent);
     return {
         mandag: tid,
         tirsdag: tid,

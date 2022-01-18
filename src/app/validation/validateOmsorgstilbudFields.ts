@@ -2,18 +2,41 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { InputTime } from '@navikt/sif-common-formik/lib';
 import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeValidator';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
+import { TidPerDagValidator } from '@navikt/sif-common-pleiepenger';
+import { durationToDecimalDuration, summarizeDurationInDurationWeekdays } from '@navikt/sif-common-utils';
 import { Omsorgstilbud } from '../types/SøknadFormData';
-import { summerTidUkedager } from '../utils/datoTidUtils';
-import { AppFieldValidationErrors, TidPerDagValidator } from './fieldValidations';
+import { AppFieldValidationErrors } from './fieldValidations';
 
-export const validateSkalIOmsorgstilbud = (omsorgstilbud: Omsorgstilbud): ValidationResult<ValidationError> => {
+export const validatePlanlagtOmsorgstilbud = (omsorgstilbud: Omsorgstilbud): ValidationResult<ValidationError> => {
     if (omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES) {
         if (omsorgstilbud.planlagt === undefined) {
             return AppFieldValidationErrors.omsorgstilbud_ingenInfo;
         }
         const fasteDager = omsorgstilbud.planlagt.fasteDager;
 
-        const hoursInTotal = fasteDager ? summerTidUkedager(fasteDager) : 0;
+        const hoursInTotal = fasteDager
+            ? durationToDecimalDuration(summarizeDurationInDurationWeekdays(fasteDager))
+            : 0;
+        if (hoursInTotal === 0) {
+            return AppFieldValidationErrors.omsorgstilbud_ingenInfo;
+        }
+        if (hoursInTotal > 37.5) {
+            return AppFieldValidationErrors.omsorgstilbud_forMangeTimerTotalt;
+        }
+    }
+    return undefined;
+};
+
+export const validateHistoriskOmsorgstilbud = (omsorgstilbud: Omsorgstilbud): ValidationResult<ValidationError> => {
+    if (omsorgstilbud.harBarnVærtIOmsorgstilbud === YesOrNo.YES) {
+        if (omsorgstilbud.historisk === undefined) {
+            return AppFieldValidationErrors.omsorgstilbud_ingenInfo;
+        }
+        const fasteDager = omsorgstilbud.historisk.fasteDager;
+
+        const hoursInTotal = fasteDager
+            ? durationToDecimalDuration(summarizeDurationInDurationWeekdays(fasteDager))
+            : 0;
         if (hoursInTotal === 0) {
             return AppFieldValidationErrors.omsorgstilbud_ingenInfo;
         }

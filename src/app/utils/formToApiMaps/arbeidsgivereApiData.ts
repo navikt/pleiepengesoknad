@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { ArbeidsforholdType } from '../../types';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { ArbeidsgiverApiData, SøknadApiData } from '../../types/SøknadApiData';
 import { SøknadFormData } from '../../types/SøknadFormData';
 import { erAnsattHosArbeidsgiverISøknadsperiode } from '../ansattUtils';

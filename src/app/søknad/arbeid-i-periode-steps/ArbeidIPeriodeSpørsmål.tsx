@@ -1,35 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useHistory } from 'react-router';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
-import { prettifyDate, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { decimalTimeToTime, iso8601DurationToTime } from '@navikt/sif-common-core/lib/utils/timeUtils';
 import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
+import {
+    getArbeidstidFastProsentValidator,
+    getArbeidstidIPeriodeIntlValues,
+    getArbeidstimerFastDagValidator,
+    getRedusertArbeidstidPerUkeInfo,
+    validateFasteArbeidstimerIUke,
+} from '@navikt/sif-common-pleiepenger';
+import TidFasteUkedagerInput from '@navikt/sif-common-pleiepenger/lib/tid-faste-ukedager-input/TidFasteUkedagerInput';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib/types';
 import { getWeeksInDateRange } from '@navikt/sif-common-utils';
 import AlertStripe, { AlertStripeFeil } from 'nav-frontend-alertstriper';
-import TidUkedagerInput from '../../components/tid-ukedager-input/TidUkedagerInput';
-import { formatTimerOgMinutter } from '../../components/timer-og-minutter/TimerOgMinutter';
 import usePersistSoknad from '../../hooks/usePersistSoknad';
-import { ArbeidsforholdType, JobberIPeriodeSvar, TimerEllerProsent } from '../../types';
-import {
-    ArbeidIPeriodeField,
-    Arbeidsforhold,
-    isArbeidsforholdAnsatt,
-    SøknadFormField,
-} from '../../types/SøknadFormData';
+import { JobberIPeriodeSvar, TimerEllerProsent } from '../../types';
+import { ArbeidIPeriodeField, Arbeidsforhold, SøknadFormField } from '../../types/SøknadFormData';
 import { søkerKunHelgedager } from '../../utils/formDataUtils';
-import { getRedusertArbeidstidSomIso8601Duration } from '../../utils/formToApiMaps/tidsbrukApiUtils';
 import {
     getArbeidErLiktHverUkeValidator,
     getArbeidJobberValidator,
-    getArbeidstidFastProsentValidator,
     getArbeidstidTimerEllerProsentValidator,
-    getArbeidstimerFastDagValidator,
-    validateFasteArbeidstimerIUke,
 } from '../../validation/validateArbeidFields';
 import SøknadFormComponents from '../SøknadFormComponents';
 import { StepID } from '../søknadStepsConfig';
@@ -43,51 +39,6 @@ interface Props {
     periode: DateRange;
     erHistorisk: boolean;
 }
-
-export type ArbeidIPeriodeIntlValues = {
-    hvor: string;
-    skalEllerHarJobbet: string;
-    timer: string;
-    fra: string;
-    til: string;
-    iPerioden: string;
-    iPeriodenKort: string;
-};
-
-export const getRedusertArbeidstidPerUkeInfo = (
-    intl: IntlShape,
-    jobberNormaltTimer: string | number | undefined,
-    skalJobbeProsent: string | undefined
-): string => {
-    const normalTimer =
-        typeof jobberNormaltTimer === 'number' ? jobberNormaltTimer : getNumberFromNumberInputValue(jobberNormaltTimer);
-    const prosent = getNumberFromNumberInputValue(skalJobbeProsent);
-    if (normalTimer !== undefined && prosent !== undefined) {
-        const varighet = iso8601DurationToTime(getRedusertArbeidstidSomIso8601Duration(normalTimer / 5, prosent));
-        if (varighet) {
-            return intlHelper(intl, 'arbeidIPeriode.prosent.utledet.medTimer', {
-                timerNormalt: formatTimerOgMinutter(intl, decimalTimeToTime(normalTimer)),
-                timerRedusert: formatTimerOgMinutter(intl, {
-                    hours: `${varighet.hours}` || '',
-                    minutes: `${varighet.minutes}`,
-                }),
-            });
-        }
-    }
-    return '';
-};
-
-export const getTimerTekst = (intl: IntlShape, value: string | undefined): string => {
-    const timer = getNumberFromNumberInputValue(value);
-    if (timer) {
-        return intlHelper(intl, 'timer', {
-            timer,
-        });
-    }
-    return intlHelper(intl, 'timer.ikkeTall', {
-        timer: value,
-    });
-};
 
 const ArbeidIPeriodeSpørsmål = ({
     arbeidsforhold,
@@ -116,26 +67,15 @@ const ArbeidIPeriodeSpørsmål = ({
         return <AlertStripeFeil>Det mangler informasjon om hvor mye du jobber normalt</AlertStripeFeil>;
     }
 
-    const intlValues: ArbeidIPeriodeIntlValues = {
-        skalEllerHarJobbet: intlHelper(
-            intl,
-            erHistorisk ? 'arbeidIPeriode.jobberIPerioden.historisk' : 'arbeidIPeriode.jobberIPerioden.planlagt'
-        ),
-        hvor: isArbeidsforholdAnsatt(arbeidsforhold)
-            ? intlHelper(intl, 'arbeidsforhold.part.som.ANSATT', { navn: arbeidsforhold.navn })
-            : intlHelper(intl, `arbeidsforhold.part.som.${arbeidsforholdType}`),
-        timer: getTimerTekst(intl, arbeidsforhold.jobberNormaltTimer),
-        fra: prettifyDateFull(periode.from),
-        til: prettifyDateFull(periode.to),
-        iPerioden: intlHelper(intl, 'arbeidIPeriode.iPerioden.part', {
-            fra: prettifyDate(periode.from),
-            til: prettifyDate(periode.to),
-        }),
-        iPeriodenKort: intlHelper(intl, 'arbeidIPeriode.iPerioden.part', {
-            fra: prettifyDateFull(periode.from),
-            til: prettifyDateFull(periode.to),
-        }),
-    };
+    const intlValues = getArbeidstidIPeriodeIntlValues(intl, {
+        arbeidsforhold: {
+            arbeidsstedNavn,
+            jobberNormaltTimer,
+            type: arbeidsforholdType,
+        },
+        erHistorisk,
+        periode,
+    });
 
     const getFieldName = (field: ArbeidIPeriodeField) =>
         `${parentFieldName}.${erHistorisk ? 'historisk' : 'planlagt'}.${field}` as SøknadFormField;
@@ -291,7 +231,18 @@ const ArbeidIPeriodeSpørsmål = ({
 
                                                 intlValues
                                             )}
-                                            validate={getArbeidstidFastProsentValidator(intlValues)}
+                                            validate={(value) => {
+                                                const error = getArbeidstidFastProsentValidator({ max: 100, min: 0 })(
+                                                    value
+                                                );
+                                                return error
+                                                    ? {
+                                                          key: `validation.arbeidstimerFast.prosent.${error.key}`,
+                                                          values: { ...intlValues, min: 0, max: 100 },
+                                                          keepKeyUnaltered: true,
+                                                      }
+                                                    : undefined;
+                                            }}
                                             suffix={getRedusertArbeidstidPerUkeInfo(
                                                 intl,
                                                 jobberNormaltTimer,
@@ -313,10 +264,17 @@ const ArbeidIPeriodeSpørsmål = ({
                                                     : 'arbeidIPeriode.planlagt.ukedager.tittel',
                                                 intlValues
                                             )}
-                                            validate={() =>
-                                                validateFasteArbeidstimerIUke(arbeidIPeriode?.fasteDager, intlValues)
-                                            }
-                                            name={'fasteDager_gruppe' as any}
+                                            validate={() => {
+                                                const error = validateFasteArbeidstimerIUke(arbeidIPeriode?.fasteDager);
+                                                return error
+                                                    ? {
+                                                          key: `validation.arbeidstimerFast.timer.${error.key}`,
+                                                          values: intlValues,
+                                                          keepKeyUnaltered: true,
+                                                      }
+                                                    : undefined;
+                                            }}
+                                            name={'fasteDager.gruppe' as any}
                                             description={
                                                 1 + 1 === 2 ? (
                                                     <></>
@@ -342,9 +300,18 @@ const ArbeidIPeriodeSpørsmål = ({
                                                     </ExpandableInfo>
                                                 )
                                             }>
-                                            <TidUkedagerInput
+                                            <TidFasteUkedagerInput
                                                 name={getFieldName(ArbeidIPeriodeField.fasteDager)}
-                                                validator={getArbeidstimerFastDagValidator}
+                                                validateDag={(dag, value) => {
+                                                    const error = getArbeidstimerFastDagValidator()(value);
+                                                    return error
+                                                        ? {
+                                                              key: `validation.arbeidstimer.fastdag.tid.${error}`,
+                                                              keepKeyUnaltered: true,
+                                                              values: { ...intlValues, dag },
+                                                          }
+                                                        : undefined;
+                                                }}
                                             />
                                         </SøknadFormComponents.InputGroup>
                                     </ResponsivePanel>

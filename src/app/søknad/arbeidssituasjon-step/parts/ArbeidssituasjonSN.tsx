@@ -11,12 +11,12 @@ import VirksomhetInfoAndDialog from '@navikt/sif-common-forms/lib/virksomhet/Vir
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../../lenker';
-import { ArbeidsforholdType } from '../../../types';
 import { SøknadFormField, SøknadFormData } from '../../../types/SøknadFormData';
 import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
 import { getJobberNormaltTimerValidator } from '../../../validation/validateArbeidFields';
 import SøknadFormComponents from '../../SøknadFormComponents';
 import TimerFormPart from './TimerFormPart';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 
 interface Props {
     formValues: SøknadFormData;

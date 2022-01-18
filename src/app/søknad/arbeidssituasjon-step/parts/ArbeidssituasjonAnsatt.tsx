@@ -3,18 +3,18 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
+import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
-import { Undertittel } from 'nav-frontend-typografi';
-import { SøknadFormField, ArbeidsforholdAnsatt, ArbeidsforholdField } from '../../../types/SøknadFormData';
-import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
-import SøknadFormComponents from '../../SøknadFormComponents';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
+import { Undertittel } from 'nav-frontend-typografi';
+import { ArbeidsforholdAnsatt, ArbeidsforholdField, SøknadFormField } from '../../../types/SøknadFormData';
+import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
 import { getJobberNormaltTimerValidator } from '../../../validation/validateArbeidFields';
-import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import SøknadFormComponents from '../../SøknadFormComponents';
 import TimerFormPart from './TimerFormPart';
-import { ArbeidsforholdType } from '../../../types';
 
 interface Props {
     søkerKunHistoriskPeriode: boolean;

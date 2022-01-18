@@ -3,7 +3,8 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { Virksomhet } from '@navikt/sif-common-forms/lib/virksomhet/types';
-import { AndreYtelserFraNAV, BarnRelasjon, JobberIPeriodeSvar, DatoTidMap, TimerEllerProsent, TidUkedager } from './';
+import { DurationWeekdays, DateDurationMap } from '@navikt/sif-common-utils';
+import { AndreYtelserFraNAV, BarnRelasjon, JobberIPeriodeSvar, TimerEllerProsent } from './';
 import { Arbeidsgiver } from './Søkerdata';
 
 export enum SøknadFormField {
@@ -37,16 +38,14 @@ export enum SøknadFormField {
     harBeredskap = 'harBeredskap',
     harBeredskap_ekstrainfo = 'harBeredskap_ekstrainfo',
     omsorgstilbud = 'omsorgstilbud',
-    omsorgstilbud__helePerioden__erLiktHverUke = 'omsorgstilbud.helePerioden.erLiktHverUke',
-    omsorgstilbud__helePerioden__fasteDager = 'omsorgstilbud.helePerioden.fasteDager',
-    omsorgstilbud__helePerioden__enkeltdager = 'omsorgstilbud.helePerioden.enkeltdager',
-    omsorgstilbud__harSkalBarnIOmsorgstilbud = 'omsorgstilbud.harSkalBarnIOmsorgstilbud',
     omsorgstilbud__skalBarnIOmsorgstilbud = 'omsorgstilbud.skalBarnIOmsorgstilbud',
     omsorgstilbud__harBarnVærtIOmsorgstilbud = 'omsorgstilbud.harBarnVærtIOmsorgstilbud',
+    omsorgstilbud__historisk__erLiktHverUke = 'omsorgstilbud.historisk.erLiktHverUke',
+    omsorgstilbud__historisk__fasteDager = 'omsorgstilbud.historisk.fasteDager',
+    omsorgstilbud__historisk__enkeltdager = 'omsorgstilbud.historisk.enkeltdager',
     omsorgstilbud__planlagt__erLiktHverUke = 'omsorgstilbud.planlagt.erLiktHverUke',
     omsorgstilbud__planlagt__fasteDager = 'omsorgstilbud.planlagt.fasteDager',
     omsorgstilbud__planlagt__enkeltdager = 'omsorgstilbud.planlagt.enkeltdager',
-    omsorgstilbud__historisk__enkeltdager = 'omsorgstilbud.historisk.enkeltdager',
     frilans_harHattInntektSomFrilanser = 'frilans_harHattInntektSomFrilanser',
     frilans_startdato = 'frilans_startdato',
     frilans_sluttdato = 'frilans_sluttdato',
@@ -63,16 +62,18 @@ export enum SøknadFormField {
 
 export interface OmsorgstilbudPlanlagt {
     erLiktHverUke?: YesOrNo;
-    fasteDager?: TidUkedager;
-    enkeltdager?: DatoTidMap;
+    fasteDager?: DurationWeekdays;
+    enkeltdager?: DateDurationMap;
 }
 export interface OmsorgstilbudHelePerioden {
     erLiktHverUke?: YesOrNo;
-    fasteDager?: TidUkedager;
-    enkeltdager?: DatoTidMap;
+    fasteDager?: DurationWeekdays;
+    enkeltdager?: DateDurationMap;
 }
 export interface OmsorgstilbudHistorisk {
-    enkeltdager: DatoTidMap;
+    erLiktHverUke?: YesOrNo;
+    fasteDager?: DurationWeekdays;
+    enkeltdager?: DateDurationMap;
 }
 export interface Omsorgstilbud {
     skalBarnIOmsorgstilbud?: YesOrNo;
@@ -104,8 +105,8 @@ export interface ArbeidIPeriode {
     [ArbeidIPeriodeField.erLiktHverUke]?: YesOrNo;
     [ArbeidIPeriodeField.timerEllerProsent]?: TimerEllerProsent;
     [ArbeidIPeriodeField.skalJobbeProsent]?: string;
-    [ArbeidIPeriodeField.enkeltdager]?: DatoTidMap;
-    [ArbeidIPeriodeField.fasteDager]?: TidUkedager;
+    [ArbeidIPeriodeField.enkeltdager]?: DateDurationMap;
+    [ArbeidIPeriodeField.fasteDager]?: DurationWeekdays;
 }
 
 export interface Arbeidsforhold {

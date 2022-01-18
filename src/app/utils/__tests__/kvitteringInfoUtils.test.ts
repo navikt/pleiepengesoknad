@@ -1,7 +1,7 @@
-import { ArbeidsforholdType } from '../../types';
 import { ArbeidsgiverApiData } from '../../types/SøknadApiData';
 import { Arbeidsgiver, Søkerdata } from '../../types/Søkerdata';
 import { getKvitteringInfoFromApiData, KvitteringApiData } from '../kvitteringUtils';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 
 const arbeidsgiverInfo: Arbeidsgiver = {
     navn: 'abc',

@@ -26,57 +26,62 @@ const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
     const intl = useIntl();
     const søkerKunHistoriskPeriode = getSøkerKunHistoriskPeriode(søknadsperiode, søknadsdato);
     return (
-        <SummarySection header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.header')}>
+        <>
             <HistoriskOmsorgstilbudSummary
                 historiskOmsorgstilbud={omsorgstilbud?.historisk}
                 søknadsperiode={søknadsperiode}
                 søknadsdato={søknadsdato}
             />
+
             <PlanlagtOmsorgstilbudSummary
                 omsorgstilbud={omsorgstilbud?.planlagt}
                 søknadsperiode={søknadsperiode}
                 søknadsdato={søknadsdato}
             />
 
-            {nattevåk && (
-                <Box margin="xl">
-                    <ContentWithHeader
-                        header={intlHelper(
-                            intl,
-                            søkerKunHistoriskPeriode
-                                ? 'steg.nattevåkOgBeredskap.nattevåk.historisk.spm'
-                                : 'steg.nattevåkOgBeredskap.nattevåk.spm'
-                        )}>
-                        {nattevåk.harNattevåk === true && intlHelper(intl, 'Ja')}
-                        {nattevåk.harNattevåk === false && intlHelper(intl, 'Nei')}
-                        {nattevåk.harNattevåk === true && nattevåk.tilleggsinformasjon && (
-                            <Sitat>
-                                <TextareaSummary text={nattevåk.tilleggsinformasjon} />
-                            </Sitat>
-                        )}
-                    </ContentWithHeader>
-                </Box>
+            {(nattevåk || beredskap) && (
+                <SummarySection header={intlHelper(intl, 'steg.oppsummering.nattevåkBeredskap.header')}>
+                    {nattevåk && (
+                        <Box margin="xl">
+                            <ContentWithHeader
+                                header={intlHelper(
+                                    intl,
+                                    søkerKunHistoriskPeriode
+                                        ? 'steg.nattevåkOgBeredskap.nattevåk.historisk.spm'
+                                        : 'steg.nattevåkOgBeredskap.nattevåk.spm'
+                                )}>
+                                {nattevåk.harNattevåk === true && intlHelper(intl, 'Ja')}
+                                {nattevåk.harNattevåk === false && intlHelper(intl, 'Nei')}
+                                {nattevåk.harNattevåk === true && nattevåk.tilleggsinformasjon && (
+                                    <Sitat>
+                                        <TextareaSummary text={nattevåk.tilleggsinformasjon} />
+                                    </Sitat>
+                                )}
+                            </ContentWithHeader>
+                        </Box>
+                    )}
+                    {beredskap && (
+                        <Box margin="xl">
+                            <ContentWithHeader
+                                header={intlHelper(
+                                    intl,
+                                    søkerKunHistoriskPeriode
+                                        ? 'steg.nattevåkOgBeredskap.beredskap.historisk.spm'
+                                        : 'steg.nattevåkOgBeredskap.beredskap.spm'
+                                )}>
+                                {beredskap.beredskap === true && intlHelper(intl, 'Ja')}
+                                {beredskap.beredskap === false && intlHelper(intl, 'Nei')}
+                                {beredskap.tilleggsinformasjon && (
+                                    <Sitat>
+                                        <TextareaSummary text={beredskap.tilleggsinformasjon} />
+                                    </Sitat>
+                                )}
+                            </ContentWithHeader>
+                        </Box>
+                    )}
+                </SummarySection>
             )}
-            {beredskap && (
-                <Box margin="xl">
-                    <ContentWithHeader
-                        header={intlHelper(
-                            intl,
-                            søkerKunHistoriskPeriode
-                                ? 'steg.nattevåkOgBeredskap.beredskap.historisk.spm'
-                                : 'steg.nattevåkOgBeredskap.beredskap.spm'
-                        )}>
-                        {beredskap.beredskap === true && intlHelper(intl, 'Ja')}
-                        {beredskap.beredskap === false && intlHelper(intl, 'Nei')}
-                        {beredskap.tilleggsinformasjon && (
-                            <Sitat>
-                                <TextareaSummary text={beredskap.tilleggsinformasjon} />
-                            </Sitat>
-                        )}
-                    </ContentWithHeader>
-                </Box>
-            )}
-        </SummarySection>
+        </>
     );
 };
 
