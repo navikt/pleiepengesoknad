@@ -1,7 +1,8 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import { ArbeidsforholdType, JobberIPeriodeSvar } from '../../types';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
+import { JobberIPeriodeSvar } from '../../types';
 import { FrilansApiData, SøknadApiData } from '../../types/SøknadApiData';
 import { SøknadFormData } from '../../types/SøknadFormData';
 import { getHistoriskPeriode, getPlanlagtPeriode } from '../fortidFremtidUtils';

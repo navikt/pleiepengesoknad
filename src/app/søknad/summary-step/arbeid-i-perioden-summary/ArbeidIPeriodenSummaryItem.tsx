@@ -3,12 +3,12 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { ArbeidIPeriodeApiData, ArbeidsforholdApiData } from '../../../types/SøknadApiData';
-import TidEnkeltdager from '../../../components/dager-med-tid/TidEnkeltdager';
-import TidFasteDager from '../../../components/dager-med-tid/TidFasteDager';
-import { formatTimerOgMinutter } from '../../../components/timer-og-minutter/TimerOgMinutter';
-import { getRedusertArbeidstidSomInputTime } from '../../../utils/formToApiMaps/tidsbrukApiUtils';
+import TidEnkeltdager from '@navikt/sif-common-pleiepenger/lib/dager-med-tid/TidEnkeltdager';
+import TidFasteDager from '@navikt/sif-common-pleiepenger/lib/dager-med-tid/TidFasteDager';
+import { formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger/lib/timer-og-minutter/TimerOgMinutter';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import { JobberIPeriodeSvar } from '../../../types';
+import { getRedusertArbeidstidSomDuration } from '@navikt/sif-common-pleiepenger';
 
 interface Props {
     periode: DateRange;
@@ -32,7 +32,7 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
     };
 
     const getArbeidProsentTekst = (prosent: number) => {
-        const tid = getRedusertArbeidstidSomInputTime(prosent, normaltimerUke / 5);
+        const tid = getRedusertArbeidstidSomDuration(prosent, normaltimerUke / 5);
         return intlHelper(
             intl,
             erHistorisk

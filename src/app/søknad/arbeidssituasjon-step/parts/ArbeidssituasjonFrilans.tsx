@@ -9,15 +9,15 @@ import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../../lenker';
-import { ArbeidsforholdType } from '../../../types';
-import { SøknadFormField, SøknadFormData } from '../../../types/SøknadFormData';
+import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
+import { erFrilanserIPeriode } from '../../../utils/frilanserUtils';
 import { getJobberNormaltTimerValidator } from '../../../validation/validateArbeidFields';
 import { getFrilanserSluttdatoValidator, getFrilanserStartdatoValidator } from '../../../validation/validateFrilanser';
 import SøknadFormComponents from '../../SøknadFormComponents';
 import TimerFormPart from './TimerFormPart';
-import { erFrilanserIPeriode } from '../../../utils/frilanserUtils';
 
 interface Props {
     formValues: SøknadFormData;

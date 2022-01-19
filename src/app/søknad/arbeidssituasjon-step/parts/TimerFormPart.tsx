@@ -3,9 +3,9 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { ValidationError, ValidationFunction } from '@navikt/sif-common-formik/lib/validation/types';
-import { ArbeidsforholdType } from '../../../types';
 import { ArbeidsforholdAnsatt, ArbeidsforholdField, ArbeidsforholdSNF } from '../../../types/SøknadFormData';
 import SøknadFormComponents from '../../SøknadFormComponents';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 
 interface Props {
     arbeidsforhold?: ArbeidsforholdAnsatt | ArbeidsforholdSNF;

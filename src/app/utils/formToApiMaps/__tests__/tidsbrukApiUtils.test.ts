@@ -4,18 +4,17 @@ import {
     fjernTidUtenforPeriodeOgHelgedager,
     getEnkeltdagerIPeriodeApiData,
     getFasteDagerApiData,
-    getRedusertArbeidstidSomIso8601Duration,
 } from '../tidsbrukApiUtils';
 
 describe('tidsbrukApiUtils', () => {
     describe('getFasteDagerApiData', () => {
         it('alle dager er defined dersom de er satt', () => {
             const result = getFasteDagerApiData({
-                mandag: { hours: '1', minutes: '10' },
-                tirsdag: { hours: '1', minutes: '10' },
-                onsdag: { hours: '1', minutes: '10' },
-                torsdag: { hours: '1', minutes: '10' },
-                fredag: { hours: '1', minutes: '10' },
+                monday: { hours: '1', minutes: '10' },
+                tuesday: { hours: '1', minutes: '10' },
+                wednesday: { hours: '1', minutes: '10' },
+                thursday: { hours: '1', minutes: '10' },
+                friday: { hours: '1', minutes: '10' },
             });
             expect(result.mandag).toBeDefined();
             expect(result.tirsdag).toBeDefined();
@@ -25,11 +24,11 @@ describe('tidsbrukApiUtils', () => {
         });
         it('alle dager er undefined dersom de ikke er satt', () => {
             const result = getFasteDagerApiData({
-                mandag: undefined,
-                tirsdag: undefined,
-                onsdag: undefined,
-                torsdag: undefined,
-                fredag: undefined,
+                monday: undefined,
+                tuesday: undefined,
+                wednesday: undefined,
+                thursday: undefined,
+                friday: undefined,
             });
             expect(result.mandag).toBeUndefined();
             expect(result.tirsdag).toBeUndefined();
@@ -50,12 +49,12 @@ describe('tidsbrukApiUtils', () => {
         it('returnerer kun dager, sortert, som er innenfor tidsrom', () => {
             const result = getEnkeltdagerIPeriodeApiData(
                 {
-                    '2021-02-01': { varighet: { hours: '1', minutes: '0' } },
-                    '2021-02-05': { varighet: { hours: '1', minutes: '0' } },
-                    '2021-02-03': { varighet: { hours: '1', minutes: '0' } },
-                    '2021-02-02': { varighet: { hours: '1', minutes: '0' } },
-                    '2021-02-04': { varighet: { hours: '1', minutes: '0' } },
-                    '2021-02-06': { varighet: { hours: '1', minutes: '0' } },
+                    '2021-02-01': { hours: '1', minutes: '0' },
+                    '2021-02-05': { hours: '1', minutes: '0' },
+                    '2021-02-03': { hours: '1', minutes: '0' },
+                    '2021-02-02': { hours: '1', minutes: '0' },
+                    '2021-02-04': { hours: '1', minutes: '0' },
+                    '2021-02-06': { hours: '1', minutes: '0' },
                 },
                 periode
             );
@@ -105,27 +104,5 @@ describe('tidsbrukApiUtils', () => {
                 expect(result[1].dato).toEqual('2021-02-08');
             }
         });
-    });
-});
-
-describe('getRedusertArbeidstidSomIso8601Duration', () => {
-    it('beregner riktig ved 20%', () => {
-        expect(getRedusertArbeidstidSomIso8601Duration(40, 20)).toEqual('PT8H0M');
-        expect(getRedusertArbeidstidSomIso8601Duration(37.5, 20)).toEqual('PT7H30M');
-    });
-    it('beregner riktig ved 33.34%', () => {
-        expect(getRedusertArbeidstidSomIso8601Duration(40, 33.34)).toEqual('PT13H20M');
-        expect(getRedusertArbeidstidSomIso8601Duration(30, 33.34)).toEqual('PT10H0M');
-        expect(getRedusertArbeidstidSomIso8601Duration(37.5, 33.34)).toEqual('PT12H30M');
-    });
-    it('beregner riktig ved 50%', () => {
-        expect(getRedusertArbeidstidSomIso8601Duration(40, 50)).toEqual('PT20H0M');
-        expect(getRedusertArbeidstidSomIso8601Duration(30, 50)).toEqual('PT15H0M');
-        expect(getRedusertArbeidstidSomIso8601Duration(37.5, 50)).toEqual('PT18H45M');
-    });
-    it('beregner riktig ved 13.5%', () => {
-        expect(getRedusertArbeidstidSomIso8601Duration(40, 13.5)).toEqual('PT5H24M');
-        expect(getRedusertArbeidstidSomIso8601Duration(30, 13.5)).toEqual('PT4H3M');
-        expect(getRedusertArbeidstidSomIso8601Duration(37.5, 13.5)).toEqual('PT5H4M');
     });
 });

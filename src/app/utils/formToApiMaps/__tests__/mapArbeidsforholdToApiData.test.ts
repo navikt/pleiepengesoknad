@@ -1,6 +1,7 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { apiStringDateToDate, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { DatoTidMap, JobberIPeriodeSvar } from '../../../types';
+import { DateDurationMap } from '@navikt/sif-common-utils';
+import { JobberIPeriodeSvar } from '../../../types';
 import { ArbeidIPeriodeApiData } from '../../../types/SøknadApiData';
 import { ArbeidIPeriode } from '../../../types/SøknadFormData';
 import {
@@ -23,23 +24,23 @@ const arbeidHistoriskPeriode: ArbeidIPeriode = {
     jobberIPerioden: JobberIPeriodeSvar.JA,
     erLiktHverUke: YesOrNo.NO,
     enkeltdager: {
-        '2021-02-01': { varighet: { hours: '2' } },
+        '2021-02-01': { hours: '2' },
     },
 };
 
-const arbeidEnkeltdagerHistoriskPeriode: DatoTidMap = {
-    '2021-02-01': { varighet: { hours: '2' } },
-    '2021-02-02': { varighet: { hours: '2' } },
-    '2021-02-03': { varighet: { hours: '2' } },
-    '2021-02-04': { varighet: { hours: '2' } },
-    '2021-02-05': { varighet: { hours: '2' } },
+const arbeidEnkeltdagerHistoriskPeriode: DateDurationMap = {
+    '2021-02-01': { hours: '2' },
+    '2021-02-02': { hours: '2' },
+    '2021-02-03': { hours: '2' },
+    '2021-02-04': { hours: '2' },
+    '2021-02-05': { hours: '2' },
 };
 
 const arbeidPlanlagtPeriode: ArbeidIPeriode = {
     jobberIPerioden: JobberIPeriodeSvar.JA,
     erLiktHverUke: YesOrNo.NO,
     enkeltdager: {
-        '2021-02-07': { varighet: { hours: '2' } },
+        '2021-02-07': { hours: '2' },
     },
 };
 
@@ -114,7 +115,7 @@ describe('mapArbeidsforholdToApiData', () => {
                 {
                     jobberIPerioden: JobberIPeriodeSvar.NEI,
                     enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
-                    fasteDager: { fredag: { hours: '2', minutes: '0' } },
+                    fasteDager: { friday: { hours: '2', minutes: '0' } },
                 },
                 historiskPeriode,
                 40,
@@ -132,7 +133,7 @@ describe('mapArbeidsforholdToApiData', () => {
                     jobberIPerioden: JobberIPeriodeSvar.JA,
                     erLiktHverUke: YesOrNo.YES,
                     enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
-                    fasteDager: { fredag: { hours: '2', minutes: '0' } },
+                    fasteDager: { friday: { hours: '2', minutes: '0' } },
                 },
                 historiskPeriode,
                 40,
@@ -148,7 +149,7 @@ describe('mapArbeidsforholdToApiData', () => {
                     jobberIPerioden: JobberIPeriodeSvar.JA,
                     erLiktHverUke: YesOrNo.YES,
                     enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
-                    fasteDager: { fredag: { hours: '2', minutes: '0' } },
+                    fasteDager: { friday: { hours: '2', minutes: '0' } },
                 },
                 historiskPeriode,
                 40,
@@ -165,7 +166,7 @@ describe('mapArbeidsforholdToApiData', () => {
                     jobberIPerioden: JobberIPeriodeSvar.JA,
                     erLiktHverUke: YesOrNo.NO,
                     enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
-                    fasteDager: { fredag: { hours: '2', minutes: '0' } },
+                    fasteDager: { friday: { hours: '2', minutes: '0' } },
                 },
                 historiskPeriode,
                 40,
@@ -181,7 +182,7 @@ describe('mapArbeidsforholdToApiData', () => {
                     jobberIPerioden: JobberIPeriodeSvar.JA,
                     erLiktHverUke: undefined,
                     enkeltdager: arbeidEnkeltdagerHistoriskPeriode,
-                    fasteDager: { fredag: { hours: '2', minutes: '0' } },
+                    fasteDager: { friday: { hours: '2', minutes: '0' } },
                 },
                 historiskPeriode,
                 40,

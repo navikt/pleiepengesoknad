@@ -1,8 +1,8 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { ISODateToDate } from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
-import { ISODateToDate } from '../../../../utils/common/isoDateUtils';
 import { JobberIPeriodeSvar, TimerEllerProsent } from '../../../../types';
 import { ArbeidIPeriode, Arbeidsforhold } from '../../../../types/SøknadFormData';
 import { cleanupArbeidIPeriode, cleanupArbeidsforhold } from '../cleanupArbeidIPeriodeStep';
@@ -17,9 +17,9 @@ const arbeidIPeriode: ArbeidIPeriode = {
     erLiktHverUke: YesOrNo.YES,
     timerEllerProsent: TimerEllerProsent.PROSENT,
     fasteDager: {
-        fredag: { minutes: '10', hours: '2' },
+        friday: { minutes: '10', hours: '2' },
     },
-    enkeltdager: { '2021-02-01': { varighet: { hours: '2' }, prosent: 20 } },
+    enkeltdager: { '2021-02-01': { hours: '2', percentage: 20 } },
     skalJobbeProsent: '20',
 };
 
@@ -94,7 +94,7 @@ describe('cleanupArbeidIPeriode', () => {
         expect(result.skalJobbeProsent).toBeUndefined();
         expect(result.enkeltdager).toBeUndefined();
         expect(result.fasteDager).toBeDefined();
-        expect(result.fasteDager?.fredag?.hours).toEqual('2');
-        expect(result.fasteDager?.fredag?.minutes).toEqual('10');
+        expect(result.fasteDager?.friday?.hours).toEqual('2');
+        expect(result.fasteDager?.friday?.minutes).toEqual('10');
     });
 });

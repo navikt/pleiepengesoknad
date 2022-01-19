@@ -1,4 +1,4 @@
-import { ISODateToDate } from '../utils/common/isoDateUtils';
+import { ISODateToDate } from '@navikt/sif-common-utils';
 
 export const arbeidsgivereMock = {
     organisasjoner: [{ navn: 'Karls godteributikk', organisasjonsnummer: '123451234' }],
