@@ -80,7 +80,7 @@
         "@babel/plugin-transform-modules-commonjs": "^7.16.8",
         "@babel/preset-env": "^7.16.8",
         "@babel/preset-react": "^7.16.7",
-        "@types/amplitude-js": "^8.9.3",
+        "@types/amplitude-js": "^8.9.4",
         "@types/classnames": "^2.3.1",
         "@types/enzyme": "^3.10.11",
         "@types/flat": "5.0.2",
