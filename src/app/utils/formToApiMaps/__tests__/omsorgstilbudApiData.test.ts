@@ -28,11 +28,11 @@ const omsorgstilbud: Omsorgstilbud = {
     harBarnVærtIOmsorgstilbud: YesOrNo.YES,
     skalBarnIOmsorgstilbud: YesOrNo.YES,
     historisk: {
-        enkeltdager: { '2021-02-01': { hours: '1' } },
+        enkeltdager: { '2021-02-01': { hours: '1', minutes: '0' } },
     },
     planlagt: {
         enkeltdager: {
-            '2021-01-06': { hours: '1' },
+            '2021-01-06': { hours: '1', minutes: '0' },
         },
         erLiktHverUke: YesOrNo.NO,
     },

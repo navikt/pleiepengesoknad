@@ -19,7 +19,7 @@ const arbeidIPeriode: ArbeidIPeriode = {
     fasteDager: {
         friday: { minutes: '10', hours: '2' },
     },
-    enkeltdager: { '2021-02-01': { hours: '2', percentage: 20 } },
+    enkeltdager: { '2021-02-01': { hours: '2', minutes: '0', percentage: 20 } },
     skalJobbeProsent: '20',
 };
 
