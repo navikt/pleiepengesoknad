@@ -80,7 +80,7 @@ export const getOmsorgstilbudApiData = (
     const { harBarnVærtIOmsorgstilbud, skalBarnIOmsorgstilbud } = omsorgstilbud;
 
     const historisk = mapHistoriskOmsorgstilbudToApiData(omsorgstilbud, søknadsperiode, søknadsdato);
-    const planlagt = mapHistoriskOmsorgstilbudToApiData(omsorgstilbud, søknadsperiode, søknadsdato);
+    const planlagt = mapPlanlagtOmsorgstilbudToApiData(omsorgstilbud, søknadsperiode, søknadsdato);
 
     /** Feilsøke situasjon hvor en tidligere sendte inn undefined for både historisk og planlagt */
     if (
