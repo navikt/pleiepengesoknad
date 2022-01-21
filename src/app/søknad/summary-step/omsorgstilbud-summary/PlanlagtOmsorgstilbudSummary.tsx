@@ -31,7 +31,7 @@ const PlanlagtOmsorgstilbudSummary = ({ omsorgstilbud, søknadsperiode, søknads
             })}>
             {omsorgstilbud === undefined && (
                 <SummaryBlock
-                    header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.tidIOmsorgstilbud.header', {
+                    header={intlHelper(intl, 'steg.omsorgstilbud.planlagt.skalBarnetVæreIOmsorgstilbud.spm', {
                         fra: prettifyDateExtended(planlagtPeriode.from),
                         til: prettifyDateExtended(planlagtPeriode.to),
                     })}>
