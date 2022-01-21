@@ -76,16 +76,11 @@ export const getOmsorgstilbudApiData = (
             omsorgstilbud: undefined,
         };
     }
+
     const { harBarnVærtIOmsorgstilbud, skalBarnIOmsorgstilbud } = omsorgstilbud;
 
-    const historisk =
-        harBarnVærtIOmsorgstilbud === YesOrNo.YES
-            ? mapHistoriskOmsorgstilbudToApiData(omsorgstilbud, søknadsperiode, søknadsdato)
-            : undefined;
-    const planlagt =
-        skalBarnIOmsorgstilbud === YesOrNo.YES
-            ? mapHistoriskOmsorgstilbudToApiData(omsorgstilbud, søknadsperiode, søknadsdato)
-            : undefined;
+    const historisk = mapHistoriskOmsorgstilbudToApiData(omsorgstilbud, søknadsperiode, søknadsdato);
+    const planlagt = mapHistoriskOmsorgstilbudToApiData(omsorgstilbud, søknadsperiode, søknadsdato);
 
     /** Feilsøke situasjon hvor en tidligere sendte inn undefined for både historisk og planlagt */
     if (
