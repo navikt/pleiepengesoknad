@@ -36,7 +36,7 @@
         "@navikt/sif-common-core": "^10.1.0",
         "@navikt/sif-common-formik": "^21.1.5",
         "@navikt/sif-common-forms": "^16.2.4",
-        "@navikt/sif-common-pleiepenger": "^1.0.0",
+        "@navikt/sif-common-pleiepenger": "^1.0.1",
         "@navikt/sif-common-sentry": "0.3.0",
         "@navikt/sif-common-utils": "^2.0.0",
         "@testing-library/react": "^12.1.2",
