@@ -49,10 +49,9 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
 
         it('STEG 3: Arbeidssituasjon', () => {
             cy.get('input[name*="erAnsatt"][value="yes"]').parent('label').click({ multiple: true });
+            cy.get('input[name*="jobberNormaltTimer"]').first().type('10');
             cy.get('input[name*="frilans"][value="no"]').parent('label').click();
             cy.get('input[name*="selvstendig"][value="no"]').parent('label').click();
-
-            cy.get('input[name*="jobberNormaltTimer"]').first().type('10');
 
             clickFortsett(cy);
         });

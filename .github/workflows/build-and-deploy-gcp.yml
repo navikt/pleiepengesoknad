@@ -71,7 +71,7 @@ jobs:
             - name: Build and publish Docker image
               run: |
                   docker build --tag ${IMAGE} . -f Dockerfile
-                  docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
+                  echo ${GITHUB_TOKEN} | docker login --username ${GITHUB_REPOSITORY} --password-stdin https://docker.pkg.github.com
                   docker push ${IMAGE}
 
     deploy-dev-gcp:
