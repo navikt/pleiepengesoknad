@@ -18,10 +18,13 @@ import { getSøkerKunHistoriskPeriode } from '../../utils/fortidFremtidUtils';
 import useEffectOnce from '../../hooks/useEffectOnce';
 import usePersistOnChange from '../../hooks/usePersistOnChange';
 
-const cleanupNattevåkStep = (values: SøknadFormData): SøknadFormData => {
+const cleanupStep = (values: SøknadFormData): SøknadFormData => {
     const cleanedValues = { ...values };
     if (values.harNattevåk === YesOrNo.NO) {
         cleanedValues.harNattevåk_ekstrainfo = undefined;
+    }
+    if (values.harBeredskap === YesOrNo.NO) {
+        cleanedValues.harBeredskap_ekstrainfo = undefined;
     }
     return cleanedValues;
 };
@@ -47,10 +50,7 @@ const NattevåkOgBeredskapStep = ({ onValidSubmit, søknadsperiode, søknadsdato
     });
 
     return (
-        <SøknadFormStep
-            id={StepID.NATTEVÅK_OG_BEREDSKAP}
-            onValidFormSubmit={onValidSubmit}
-            onStepCleanup={cleanupNattevåkStep}>
+        <SøknadFormStep id={StepID.NATTEVÅK_OG_BEREDSKAP} onValidFormSubmit={onValidSubmit} onStepCleanup={cleanupStep}>
             <Box padBottom="xl">
                 <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                     <FormattedMessage
