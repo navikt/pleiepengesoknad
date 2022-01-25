@@ -12,11 +12,7 @@ import utenlandsoppholdMessages from '@navikt/sif-common-forms/lib/utenlandsopph
 import virksomhetMessages from '@navikt/sif-common-forms/lib/virksomhet/virksomhetMessages';
 import omsorgstilbudMessages from '../../i18n/omsorgstilbudMessages';
 import arbeidstidMessages from '../../søknad/arbeid-i-periode-steps/arbeidstidMessages';
-import { arbeidstidPeriodeMessages } from '@navikt/sif-common-pleiepenger/lib/arbeidstid-periode/arbeidstidPeriodeMessages';
-import arbeidstidEnkeltdagFormMessages from '@navikt/sif-common-pleiepenger/lib/arbeidstid-enkeltdag/arbeidstidEnkeltdagMessages';
-import omsorgstilbudEnkeltdagFormMessages from '@navikt/sif-common-pleiepenger/lib/omsorgstilbud-enkeltdag/omsorgstilbudEnkeltdagFormMessages';
-import tidEnkeltdagMessages from '@navikt/sif-common-pleiepenger/lib/tid-enkeltdag-dialog/tidEnkeltdagMessages';
-import { omsorgstibudPeriodeMessages } from '@navikt/sif-common-pleiepenger/lib/omsorgstilbud-periode/omsorgstilbudPeriodeMessages';
+import { sifCommonPleiepengerMessages } from '@navikt/sif-common-pleiepenger/lib/i18n/index';
 
 export const appBokmålstekster = require('../../i18n/nb.json');
 export const appNynorsktekster = require('../../i18n/nn.json');
@@ -30,11 +26,7 @@ const bokmålstekster = {
     ...ferieuttakMessages.nb,
     ...omsorgstilbudMessages.nb,
     ...arbeidstidMessages.nb,
-    ...arbeidstidPeriodeMessages.nb,
-    ...arbeidstidEnkeltdagFormMessages.nb,
-    ...omsorgstilbudEnkeltdagFormMessages.nb,
-    ...omsorgstibudPeriodeMessages.nb,
-    ...tidEnkeltdagMessages.nb,
+    ...sifCommonPleiepengerMessages.nb,
     ...appBokmålstekster,
 };
 const nynorsktekster = {
