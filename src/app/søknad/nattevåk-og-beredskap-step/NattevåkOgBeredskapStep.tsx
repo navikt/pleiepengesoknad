@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
@@ -15,11 +15,16 @@ import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
 import { getSøkerKunHistoriskPeriode } from '../../utils/fortidFremtidUtils';
+import useEffectOnce from '../../hooks/useEffectOnce';
+import usePersistOnChange from '../../hooks/usePersistOnChange';
 
-const cleanupNattevåkStep = (values: SøknadFormData): SøknadFormData => {
+const cleanupStep = (values: SøknadFormData): SøknadFormData => {
     const cleanedValues = { ...values };
     if (values.harNattevåk === YesOrNo.NO) {
         cleanedValues.harNattevåk_ekstrainfo = undefined;
+    }
+    if (values.harBeredskap === YesOrNo.NO) {
+        cleanedValues.harBeredskap_ekstrainfo = undefined;
     }
     return cleanedValues;
 };
@@ -31,16 +36,21 @@ interface Props {
 
 const NattevåkOgBeredskapStep = ({ onValidSubmit, søknadsperiode, søknadsdato }: StepConfigProps & Props) => {
     const intl = useIntl();
-    const { values } = useFormikContext<SøknadFormData>();
-    const { harNattevåk, harBeredskap } = values;
+    const [loaded, setLoaded] = useState<boolean>(false);
 
+    const { values } = useFormikContext<SøknadFormData>();
+    const { harNattevåk, harNattevåk_ekstrainfo, harBeredskap, harBeredskap_ekstrainfo } = values;
     const søkerKunHistoriskPeriode = getSøkerKunHistoriskPeriode(søknadsperiode, søknadsdato);
 
+    usePersistOnChange(harNattevåk_ekstrainfo, loaded, StepID.NATTEVÅK_OG_BEREDSKAP);
+    usePersistOnChange(harBeredskap_ekstrainfo, loaded, StepID.NATTEVÅK_OG_BEREDSKAP);
+
+    useEffectOnce(() => {
+        setLoaded(true);
+    });
+
     return (
-        <SøknadFormStep
-            id={StepID.NATTEVÅK_OG_BEREDSKAP}
-            onValidFormSubmit={onValidSubmit}
-            onStepCleanup={cleanupNattevåkStep}>
+        <SøknadFormStep id={StepID.NATTEVÅK_OG_BEREDSKAP} onValidFormSubmit={onValidSubmit} onStepCleanup={cleanupStep}>
             <Box padBottom="xl">
                 <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                     <FormattedMessage
