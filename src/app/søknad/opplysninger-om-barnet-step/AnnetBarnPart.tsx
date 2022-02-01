@@ -21,7 +21,6 @@ import { resetFieldValue, resetFieldValues } from '@navikt/sif-common-formik';
 import { useFormikContext } from 'formik';
 import { dateToday, prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { nYearsAgo } from '../../utils/aldersUtils';
-import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 
 interface Props {
     formValues: SøknadFormData;
@@ -165,13 +164,6 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer }) =
                         />
                     </FormBlock>
                 )}
-                {barnetHarIkkeFnr &&
-                    formValues.relasjonTilBarnet === BarnRelasjon.FAR &&
-                    formValues.årsakAtBarnetHarIkkeFnr === ÅrsakBarnetUtenFnr.NYFØDT && (
-                        <AlertStripeInfo>
-                            <FormattedMessage id="steg.omBarnet.årsakAtBarnetHarIkkeFnr.nyfødt.relasjonFar.info" />
-                        </AlertStripeInfo>
-                    )}
             </SkjemagruppeQuestion>
         </Box>
     );
