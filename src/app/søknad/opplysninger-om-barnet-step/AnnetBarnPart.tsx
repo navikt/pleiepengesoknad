@@ -75,9 +75,8 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer }) =
                             }
                         }}
                     />
-                </FormBlock>
-                {barnetHarIkkeFnr && (
-                    <FormBlock>
+
+                    {barnetHarIkkeFnr && (
                         <SøknadFormComponents.RadioGroup
                             legend={intlHelper(intl, 'steg.omBarnet.årsakAtBarnetHarIkkeFnr.spm')}
                             name={SøknadFormField.årsakAtBarnetHarIkkeFnr}
@@ -87,9 +86,7 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer }) =
                             }))}
                             validate={getRequiredFieldValidator()}
                             checked={formValues.årsakAtBarnetHarIkkeFnr}></SøknadFormComponents.RadioGroup>
-                    </FormBlock>
-                )}
-                <FormBlock>
+                    )}
                     <SøknadFormComponents.Input
                         label={intlHelper(intl, 'steg.omBarnet.navn')}
                         name={SøknadFormField.barnetsNavn}
@@ -105,7 +102,6 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer }) =
                             validate={(value) => {
                                 const dateError = getDateValidator({
                                     required: true,
-                                    min: nYearsAgo(18),
                                     max: dateToday,
                                 })(value);
                                 if (dateError === ValidateDateError.dateIsBeforeMin) {
@@ -117,7 +113,6 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer }) =
                                 return dateError;
                             }}
                             maxDate={dateToday}
-                            minDate={nYearsAgo(18)}
                             showYearSelector={true}
                         />
                     </FormBlock>
