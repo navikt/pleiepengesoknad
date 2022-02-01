@@ -62,7 +62,7 @@ const annetBarnSummary = (intl: IntlShape, apiValues: SøknadApiData) => (
                 <FormattedMessage id="steg.oppsummering.barnet.navn" values={{ navn: apiValues.barn.navn }} />
             </Normaltekst>
         ) : null}
-        {apiValues.barnetHarIkkeFnr && apiValues.årsakAtBarnetHarIkkeFnr && (
+        {apiValues._barnetHarIkkeFnr && apiValues.årsakManglerIdentitetsnummer && (
             <Box margin="l">
                 <Normaltekst>
                     <FormattedMessage
@@ -70,7 +70,7 @@ const annetBarnSummary = (intl: IntlShape, apiValues: SøknadApiData) => (
                         values={{
                             årsak: intlHelper(
                                 intl,
-                                `steg.oppsummering.barnet.årsakAtBarnetHarIkkeFnr.${apiValues.årsakAtBarnetHarIkkeFnr}`
+                                `steg.oppsummering.barnet.årsakAtBarnetHarIkkeFnr.${apiValues.årsakManglerIdentitetsnummer}`
                             ),
                         }}
                     />

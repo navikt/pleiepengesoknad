@@ -11,11 +11,11 @@ export const opplysningerOmBarnetStepIsValid = ({
     barnetsFødselsnummer,
     barnetsFødselsdato,
     barnetHarIkkeFnr,
-    årsakAtBarnetHarIkkeFnr,
+    årsakManglerIdentitetsnummer,
     barnetSøknadenGjelder,
 }: SøknadFormData) => {
     const fødselsnummerValidation = () => {
-        if (barnetHarIkkeFnr && barnetsFødselsdato !== undefined && årsakAtBarnetHarIkkeFnr !== undefined) {
+        if (barnetHarIkkeFnr && barnetsFødselsdato !== undefined && årsakManglerIdentitetsnummer !== undefined) {
             return true;
         } else return validateFødselsnummer(barnetsFødselsnummer) === undefined;
     };

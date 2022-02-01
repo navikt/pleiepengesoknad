@@ -78,7 +78,7 @@ const RegistrertBarnPart = ({ søkersBarn }: Props) => {
                                     SøknadFormField.barnetsFødselsnummer,
                                     SøknadFormField.barnetsFødselsdato,
                                     SøknadFormField.barnetsNavn,
-                                    SøknadFormField.årsakAtBarnetHarIkkeFnr,
+                                    SøknadFormField.årsakManglerIdentitetsnummer,
                                     SøknadFormField.barnetHarIkkeFnr,
                                     SøknadFormField.relasjonTilBarnet,
                                 ],

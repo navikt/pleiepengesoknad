@@ -4,7 +4,7 @@ import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsop
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { ISODate, ISODuration } from '@navikt/sif-common-utils';
-import { AndreYtelserFraNAV, BarnRelasjon, JobberIPeriodeSvar, ÅrsakBarnetUtenFnr } from './';
+import { AndreYtelserFraNAV, BarnRelasjon, JobberIPeriodeSvar, ÅrsakManglerIdentitetsnummer } from './';
 
 export interface BarnetSøknadenGjelderApiData {
     navn: string | null;
@@ -152,8 +152,7 @@ export interface SøknadApiData {
     harForståttRettigheterOgPlikter: boolean;
     harBekreftetOpplysninger: boolean;
     barn: BarnetSøknadenGjelderApiData;
-    barnetHarIkkeFnr?: boolean;
-    årsakAtBarnetHarIkkeFnr?: ÅrsakBarnetUtenFnr;
+    årsakManglerIdentitetsnummer?: ÅrsakManglerIdentitetsnummer;
     barnRelasjon?: BarnRelasjon;
     barnRelasjonBeskrivelse?: string;
     fraOgMed: ApiStringDate;
@@ -177,10 +176,11 @@ export interface SøknadApiData {
         tilleggsinformasjon?: string;
     };
     arbeidsgivere?: ArbeidsgiverApiData[];
-    _harHattInntektSomFrilanser: boolean;
     frilans?: FrilansApiData;
-    _harHattInntektSomSelvstendigNæringsdrivende: boolean;
     selvstendigNæringsdrivende?: SelvstendigNæringsdrivendeApiData;
     harVærtEllerErVernepliktig?: boolean;
     andreYtelserFraNAV?: AndreYtelserFraNAV[];
+    _barnetHarIkkeFnr?: boolean;
+    _harHattInntektSomFrilanser: boolean;
+    _harHattInntektSomSelvstendigNæringsdrivende: boolean;
 }

@@ -40,7 +40,7 @@ const getBarnetSøknadenGjelderApiData = (
 
 type BarnApiData = Pick<
     SøknadApiData,
-    'barn' | 'barnRelasjon' | 'barnRelasjonBeskrivelse' | 'barnetHarIkkeFnr' | 'årsakAtBarnetHarIkkeFnr'
+    'barn' | 'barnRelasjon' | 'barnRelasjonBeskrivelse' | '_barnetHarIkkeFnr' | 'årsakManglerIdentitetsnummer'
 >;
 
 export const getBarnApiData = (
@@ -51,7 +51,7 @@ export const getBarnApiData = (
         relasjonTilBarnet,
         relasjonTilBarnetBeskrivelse,
         barnetHarIkkeFnr,
-        årsakAtBarnetHarIkkeFnr,
+        årsakManglerIdentitetsnummer,
         barnetsFødselsdato,
     }: SøknadFormData,
     barn: BarnReceivedFromApi[]
@@ -69,7 +69,7 @@ export const getBarnApiData = (
         barnRelasjon: gjelderAnnetBarn ? relasjonTilBarnet : undefined,
         barnRelasjonBeskrivelse:
             gjelderAnnetBarn && relasjonTilBarnet === BarnRelasjon.ANNET ? relasjonTilBarnetBeskrivelse : undefined,
-        barnetHarIkkeFnr,
-        årsakAtBarnetHarIkkeFnr,
+        _barnetHarIkkeFnr: barnetHarIkkeFnr,
+        årsakManglerIdentitetsnummer,
     };
 };

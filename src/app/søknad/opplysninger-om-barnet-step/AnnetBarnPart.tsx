@@ -16,7 +16,7 @@ import { Undertittel } from 'nav-frontend-typografi';
 import { SøknadFormField, SøknadFormData, initialValues } from '../../types/SøknadFormData';
 import { validateNavn } from '../../validation/fieldValidations';
 import SøknadFormComponents from '../SøknadFormComponents';
-import { BarnRelasjon, ÅrsakBarnetUtenFnr } from '../../types';
+import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '../../types';
 import { resetFieldValue, resetFieldValues } from '@navikt/sif-common-formik';
 import { useFormikContext } from 'formik';
 import { dateToday, prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
@@ -67,7 +67,7 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer }) =
                                 resetFieldValue(SøknadFormField.barnetsFødselsnummer, setFieldValue, initialValues);
                             } else {
                                 resetFieldValues(
-                                    [SøknadFormField.årsakAtBarnetHarIkkeFnr, SøknadFormField.barnetsFødselsdato],
+                                    [SøknadFormField.årsakManglerIdentitetsnummer, SøknadFormField.barnetsFødselsdato],
                                     setFieldValue,
                                     initialValues
                                 );
@@ -78,13 +78,13 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer }) =
                     {barnetHarIkkeFnr && (
                         <SøknadFormComponents.RadioGroup
                             legend={intlHelper(intl, 'steg.omBarnet.årsakAtBarnetHarIkkeFnr.spm')}
-                            name={SøknadFormField.årsakAtBarnetHarIkkeFnr}
-                            radios={Object.keys(ÅrsakBarnetUtenFnr).map((årsak) => ({
+                            name={SøknadFormField.årsakManglerIdentitetsnummer}
+                            radios={Object.keys(ÅrsakManglerIdentitetsnummer).map((årsak) => ({
                                 label: intlHelper(intl, `steg.omBarnet.årsakAtBarnetHarIkkeFnr.${årsak}`),
                                 value: årsak,
                             }))}
                             validate={getRequiredFieldValidator()}
-                            checked={formValues.årsakAtBarnetHarIkkeFnr}></SøknadFormComponents.RadioGroup>
+                            checked={formValues.årsakManglerIdentitetsnummer}></SøknadFormComponents.RadioGroup>
                     )}
                     <SøknadFormComponents.Input
                         label={intlHelper(intl, 'steg.omBarnet.navn')}
