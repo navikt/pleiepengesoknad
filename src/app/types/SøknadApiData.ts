@@ -4,7 +4,7 @@ import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsop
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { ISODate, ISODuration } from '@navikt/sif-common-utils';
-import { AndreYtelserFraNAV, BarnRelasjon, JobberIPeriodeSvar } from './';
+import { AndreYtelserFraNAV, BarnRelasjon, JobberIPeriodeSvar, ÅrsakBarnetUtenFnr } from './';
 
 export interface BarnetSøknadenGjelderApiData {
     navn: string | null;
@@ -152,6 +152,8 @@ export interface SøknadApiData {
     harForståttRettigheterOgPlikter: boolean;
     harBekreftetOpplysninger: boolean;
     barn: BarnetSøknadenGjelderApiData;
+    barnetHarIkkeFnr?: boolean;
+    årsakAtBarnetHarIkkeFnr?: ÅrsakBarnetUtenFnr;
     barnRelasjon?: BarnRelasjon;
     barnRelasjonBeskrivelse?: string;
     fraOgMed: ApiStringDate;

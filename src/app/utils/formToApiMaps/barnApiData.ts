@@ -9,13 +9,14 @@ const getBarnetSøknadenGjelderApiData = (
     barn: BarnReceivedFromApi[],
     barnetsNavn: string,
     barnetsFødselsnummer: string | undefined,
-    barnetSøknadenGjelder: string | undefined
+    barnetSøknadenGjelder: string | undefined,
+    barnetsFødselsdato: string | undefined
 ): BarnetSøknadenGjelderApiData => {
     const emptyBarn = {
         navn: barnetsNavn && barnetsNavn !== '' ? barnetsNavn : null,
         fødselsnummer: barnetsFødselsnummer || null,
         aktørId: null,
-        fødselsdato: null,
+        fødselsdato: barnetsFødselsdato ? barnetsFødselsdato : null,
         sammeAdresse: null,
     };
 
@@ -37,7 +38,10 @@ const getBarnetSøknadenGjelderApiData = (
     }
 };
 
-type BarnApiData = Pick<SøknadApiData, 'barn' | 'barnRelasjon' | 'barnRelasjonBeskrivelse'>;
+type BarnApiData = Pick<
+    SøknadApiData,
+    'barn' | 'barnRelasjon' | 'barnRelasjonBeskrivelse' | 'barnetHarIkkeFnr' | 'årsakAtBarnetHarIkkeFnr'
+>;
 
 export const getBarnApiData = (
     {
@@ -46,6 +50,9 @@ export const getBarnApiData = (
         barnetSøknadenGjelder,
         relasjonTilBarnet,
         relasjonTilBarnetBeskrivelse,
+        barnetHarIkkeFnr,
+        årsakAtBarnetHarIkkeFnr,
+        barnetsFødselsdato,
     }: SøknadFormData,
     barn: BarnReceivedFromApi[]
 ): BarnApiData => {
@@ -53,7 +60,8 @@ export const getBarnApiData = (
         barn,
         barnetsNavn,
         barnetsFødselsnummer,
-        barnetSøknadenGjelder
+        barnetSøknadenGjelder,
+        barnetsFødselsdato
     );
     const gjelderAnnetBarn = barnObject.aktørId === null;
     return {
@@ -61,5 +69,7 @@ export const getBarnApiData = (
         barnRelasjon: gjelderAnnetBarn ? relasjonTilBarnet : undefined,
         barnRelasjonBeskrivelse:
             gjelderAnnetBarn && relasjonTilBarnet === BarnRelasjon.ANNET ? relasjonTilBarnetBeskrivelse : undefined,
+        barnetHarIkkeFnr,
+        årsakAtBarnetHarIkkeFnr,
     };
 };

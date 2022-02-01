@@ -27,3 +27,9 @@ export enum AndreYtelserFraNAV {
     'omsorgspenger' = 'omsorgspenger',
     'opplæringspenger' = 'opplæringspenger',
 }
+
+export enum ÅrsakBarnetUtenFnr {
+    'NYFØDT' = 'NYFØDT',
+    'BARNET_BOR_I_UTLANDET' = 'BARNET_BOR_I_UTLANDET',
+    'ANNET' = 'ANNET',
+}
