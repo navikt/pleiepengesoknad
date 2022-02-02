@@ -17,7 +17,7 @@ import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
 import { getKvitteringInfoFromApiData } from '../utils/kvitteringUtils';
 import { navigateTo, navigateToErrorPage, relocateToLoginPage } from '../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../utils/routeUtils';
-import ArbeidstidStep from './arbeid-i-periode-steps/ArbeidstidStep';
+import ArbeidstidStep from './arbeidstid-step/ArbeidstidStep';
 import ArbeidssituasjonStep from './arbeidssituasjon-step/ArbeidssituasjonStep';
 import LegeerklæringStep from './legeerklæring-step/LegeerklæringStep';
 import MedlemsskapStep from './medlemskap-step/MedlemsskapStep';
