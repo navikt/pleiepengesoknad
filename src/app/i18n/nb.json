@@ -517,7 +517,6 @@
     "arbeidIPeriode.søkerKunHelgedager.alert.avsnitt.2": "Du kan derfor ikke registrere arbeid kun for lørdag og/eller søndag.",
     "arbeidIPeriode.søkerKunHelgedager.alert.avsnitt.3": "Vennligst gå tilbake til steg \"Perioden med pleiepenger\" og sjekk informasjonen du har fylt ut. Når du har gjort det, trykker du på \"Fortsett\"-knappen for å gå videre.",
 
-    "arbeidIPeriode.iPerioden.part": "i perioden",
     "arbeidIPeriode.StepInfo.1": "Nå trenger vi å vite om du jobber i perioden. Dette er informasjon vi trenger, fordi vi graderer pleiepengene mot den tiden du har jobbet. ",
     "arbeidIPeriode.StepInfo.2": "Gradering betyr at pleiepengene reduseres. Hvis du i pleiepengeperioden for eksempel har jobbet 50 prosent, kan du ha rett til 50 prosent pleiepenger.",
     "arbeidIPeriode.FrilansLabel": "Frilans",
@@ -542,9 +541,6 @@
 
     "tidKalenderForm.ok.label": "Lagre",
     "tidKalenderForm.avbryt.label": "Avbryt",
-
-    "arbeidstid.periodetittel": "Oppgi hvor mye du skal jobbe i {periode}",
-    "arbeidstid.ingenDagerRegistrert": "Ingen dager med jobb er registrert.",
 
     "arbeidstid.addLabel": "Registrer jobb for {periode}",
     "arbeidstid.deleteLabel": "Fjern alle timer",

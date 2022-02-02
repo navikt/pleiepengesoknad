@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { ArbeidIPeriodeIntlValues, ArbeidsforholdType, ArbeidstidPeriodeData } from '@navikt/sif-common-pleiepenger';
 import ArbeidstidMånedInfo from '@navikt/sif-common-pleiepenger/lib/arbeidstid-måned-info/ArbeidstidMånedInfo';
@@ -14,7 +15,6 @@ import useLogSøknadInfo from '../../../hooks/useLogSøknadInfo';
 import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
 import { validateArbeidsTidEnkeltdager } from '../../../validation/validateArbeidFields';
 import SøknadFormComponents from '../../SøknadFormComponents';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import ArbeidstidPeriode from '../arbeidstid-periode/ArbeidstidPeriode';
 
 interface Props {
@@ -114,10 +114,7 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                     <Box margin="l">
                         <ArbeidstidPeriode
                             onPeriodeChange={handleOnPeriodeChange}
-                            registrerKnappLabel={intlHelper(
-                                intl,
-                                'registrerArbeidstidPeriode.registrerJobbKnapp.label'
-                            )}
+                            registrerKnappLabel={intlHelper(intl, 'arbeidstidVariert.registrerJobbKnapp.label')}
                             formProps={{
                                 jobberNormaltTimer,
                                 intlValues,
