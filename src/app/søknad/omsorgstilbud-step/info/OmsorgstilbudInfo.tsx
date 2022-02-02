@@ -6,10 +6,6 @@ import AlertStripe from 'nav-frontend-alertstriper';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
-interface Props {
-    erHistorisk: boolean;
-}
-
 const OmsorgstilbudStepInfo = () => {
     const intl = useIntl();
     return (
@@ -54,81 +50,42 @@ const AdvarselSøkerKunHelgedager = () => (
     </AlertStripe>
 );
 
-const ErLiktHverUke: React.FunctionComponent<Props> = ({ erHistorisk }) => {
+const ErLiktHverUke: React.FunctionComponent = () => {
     const intl = useIntl();
     return (
-        <ExpandableInfo
-            title={intlHelper(
-                intl,
-                erHistorisk
-                    ? 'steg.omsorgstilbud.historisk.erLiktHverUke.info.tittel'
-                    : 'steg.omsorgstilbud.planlagt.erLiktHverUke.info.tittel'
-            )}>
-            <FormattedMessage
-                id={
-                    erHistorisk
-                        ? 'steg.omsorgstilbud.historisk.erLiktHverUke.info.1'
-                        : 'steg.omsorgstilbud.planlagt.erLiktHverUke.info.1'
-                }
-            />
+        <ExpandableInfo title={intlHelper(intl, 'steg.omsorgstilbud.erLiktHverUke.info.tittel')}>
+            <FormattedMessage id={'steg.omsorgstilbud.erLiktHverUke.info.1'} />
             <br />
-            <FormattedMessage
-                id={
-                    erHistorisk
-                        ? 'steg.omsorgstilbud.historisk.erLiktHverUke.info.2'
-                        : 'steg.omsorgstilbud.planlagt.erLiktHverUke.info.2'
-                }
-            />
+            <FormattedMessage id={'steg.omsorgstilbud.erLiktHverUke.info.2'} />
         </ExpandableInfo>
     );
 };
 
-const ErIOmsorgstilbud: React.FunctionComponent<Props> = ({ erHistorisk }) => {
+const ErIOmsorgstilbud: React.FunctionComponent = () => {
     const intl = useIntl();
     return (
-        <ExpandableInfo
-            title={intlHelper(
-                intl,
-                erHistorisk
-                    ? 'steg.omsorgstilbud.historisk.hvorMyeTidIOmsorgstilbud.description.tittel'
-                    : 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.tittel'
-            )}>
+        <ExpandableInfo title={intlHelper(intl, 'steg.omsorgstilbud.hvorMyeTidIOmsorgstilbud.description.tittel')}>
             <p>
-                <FormattedMessage
-                    id={
-                        erHistorisk
-                            ? 'steg.omsorgstilbud.historisk.hvorMyeTidIOmsorgstilbud.description.info.1'
-                            : 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.info.1'
-                    }
-                />
+                <FormattedMessage id={'steg.omsorgstilbud.hvorMyeTidIOmsorgstilbud.description.info.1'} />
             </p>
         </ExpandableInfo>
     );
 };
 
-const HvorMye: React.FunctionComponent<Props> = ({ erHistorisk }) => {
+const HvorMye: React.FunctionComponent = () => {
     return (
         <p>
-            <FormattedMessage
-                id={
-                    erHistorisk
-                        ? 'steg.omsorgstilbud.historisk.hvorMyeTidIOmsorgstilbud.description.info.2'
-                        : 'steg.omsorgstilbud.planlagt.hvorMyeTidIOmsorgstilbud.description.info.2'
-                }
-            />
+            <FormattedMessage id={'steg.omsorgstilbud.hvorMyeTidIOmsorgstilbud.description.info.2'} />
         </p>
     );
 };
 
-type PeriodeType = 'historisk' | 'planlagt';
-const erHistorisk = (periode: PeriodeType) => (periode === 'historisk' ? true : false);
-
 const omsorgstilbudInfo = {
     stepIntro: <OmsorgstilbudStepInfo />,
     advarselSøkerKunHelgedager: <AdvarselSøkerKunHelgedager />,
-    erLiktHverUke: (periode: PeriodeType) => <ErLiktHverUke erHistorisk={erHistorisk(periode)} />,
-    erIOmsorgstilbud: (periode: PeriodeType) => <ErIOmsorgstilbud erHistorisk={erHistorisk(periode)} />,
-    hvorMye: (periode: PeriodeType) => <HvorMye erHistorisk={erHistorisk(periode)} />,
+    erLiktHverUke: <ErLiktHverUke />,
+    erIOmsorgstilbud: <ErIOmsorgstilbud />,
+    hvorMye: <HvorMye />,
 };
 
 export default omsorgstilbudInfo;

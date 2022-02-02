@@ -68,14 +68,10 @@ export const mapFormDataToApiData = (
                 ...getFerieuttakIPeriodenApiData(formData),
                 ...getBarnApiData(formData, barn),
                 ...getMedlemsskapApiData(formData, sprak),
-                ...getOmsorgstilbudApiData(
-                    omsorgstilbud,
-                    {
-                        from: periodeFra,
-                        to: periodeTil,
-                    },
-                    søknadsdato
-                ),
+                ...getOmsorgstilbudApiData(omsorgstilbud, {
+                    from: periodeFra,
+                    to: periodeTil,
+                }),
                 ...getNattevåkOgBeredskapApiData(formData),
                 ...getArbeidsgivereISøknadsperiodenApiData(formData, søknadsperiode, søknadsdato),
                 ...getFrilansApiData(formData, søknadsperiode, søknadsdato),

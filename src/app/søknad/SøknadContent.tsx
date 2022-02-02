@@ -191,10 +191,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                         return (
                             <OmsorgstilbudStep
                                 onValidSubmit={() => navigateToNextStepFrom(StepID.OMSORGSTILBUD)}
-                                søknadsdato={søknadsdato}
                                 søknadsperiode={søknadsperiode}
-                                periodeFraOgMedSøknadsdato={periodeFraOgMedSøknadsdato}
-                                periodeFørSøknadsdato={periodeFørSøknadsdato}
                             />
                         );
                     }}
@@ -208,8 +205,6 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                         return (
                             <NattevåkOgBeredskapStep
                                 onValidSubmit={() => navigateToNextStepFrom(StepID.NATTEVÅK_OG_BEREDSKAP)}
-                                søknadsdato={søknadsdato}
-                                søknadsperiode={søknadsperiode}
                             />
                         );
                     }}

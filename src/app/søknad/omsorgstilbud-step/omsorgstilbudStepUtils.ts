@@ -4,7 +4,6 @@ import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { SøknadFormData } from '../../types/SøknadFormData';
 import { getDurationsInDateRange } from '@navikt/sif-common-utils';
-import { getHistoriskPeriode, getPlanlagtPeriode } from '../../utils/fortidFremtidUtils';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from '../../utils/stepUtils';
 
 dayjs.extend(isBetween);
@@ -19,64 +18,28 @@ export const skalViseSpørsmålOmProsentEllerLiktHverUke = (periode: DateRange):
     return true;
 };
 
-export const cleanupOmsorgstilbudStep = (
-    values: SøknadFormData,
-    søknadsperiode: DateRange,
-    søknadsdato: Date
-): SøknadFormData => {
+export const cleanupOmsorgstilbudStep = (values: SøknadFormData, søknadsperiode: DateRange): SøknadFormData => {
     const cleanedValues = { ...values };
-
+    const inkluderLiktHverUke = skalViseSpørsmålOmProsentEllerLiktHverUke(søknadsperiode);
     if (cleanedValues.omsorgstilbud) {
-        const periodeFørSøknadsdato = getHistoriskPeriode(søknadsperiode, søknadsdato);
-        const periodeFraOgMedSøknadsdato = getPlanlagtPeriode(søknadsperiode, søknadsdato);
-        if (periodeFørSøknadsdato === undefined) {
-            cleanedValues.omsorgstilbud.historisk = undefined;
-            cleanedValues.omsorgstilbud.harBarnVærtIOmsorgstilbud = YesOrNo.UNANSWERED;
-        }
-        if (periodeFraOgMedSøknadsdato === undefined) {
-            cleanedValues.omsorgstilbud.planlagt = undefined;
-            cleanedValues.omsorgstilbud.skalBarnIOmsorgstilbud = YesOrNo.UNANSWERED;
-        }
-        if (
-            cleanedValues.omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES &&
-            cleanedValues.omsorgstilbud.planlagt
-        ) {
-            if (skalViseSpørsmålOmProsentEllerLiktHverUke(søknadsperiode) === false) {
-                cleanedValues.omsorgstilbud.planlagt.erLiktHverUke = undefined;
+        if (cleanedValues.omsorgstilbud?.erIOmsorgstilbud !== YesOrNo.YES) {
+            cleanedValues.omsorgstilbud.enkeltdager = undefined;
+            cleanedValues.omsorgstilbud.fasteDager = undefined;
+            cleanedValues.omsorgstilbud.erLiktHverUke = undefined;
+        } else {
+            if (inkluderLiktHverUke === false) {
+                cleanedValues.omsorgstilbud.erLiktHverUke = undefined;
             }
-            if (cleanedValues.omsorgstilbud.planlagt.erLiktHverUke === YesOrNo.YES) {
-                cleanedValues.omsorgstilbud.planlagt.enkeltdager = undefined;
+            if (cleanedValues.omsorgstilbud.erLiktHverUke === YesOrNo.YES) {
+                cleanedValues.omsorgstilbud.enkeltdager = undefined;
             }
-            if (cleanedValues.omsorgstilbud.planlagt.erLiktHverUke === YesOrNo.NO) {
-                cleanedValues.omsorgstilbud.planlagt.fasteDager = undefined;
-                cleanedValues.omsorgstilbud.planlagt.enkeltdager = getDurationsInDateRange(
-                    cleanedValues.omsorgstilbud.planlagt.enkeltdager || {},
+            if (cleanedValues.omsorgstilbud.erLiktHverUke === YesOrNo.NO || inkluderLiktHverUke === false) {
+                cleanedValues.omsorgstilbud.fasteDager = undefined;
+                cleanedValues.omsorgstilbud.enkeltdager = getDurationsInDateRange(
+                    cleanedValues.omsorgstilbud.enkeltdager || {},
                     søknadsperiode
                 );
             }
-        }
-        if (cleanedValues.omsorgstilbud.harBarnVærtIOmsorgstilbud !== YesOrNo.YES) {
-            cleanedValues.omsorgstilbud.historisk = undefined;
-        }
-        if (
-            periodeFørSøknadsdato &&
-            cleanedValues.omsorgstilbud.harBarnVærtIOmsorgstilbud === YesOrNo.YES &&
-            cleanedValues.omsorgstilbud.historisk
-        ) {
-            cleanedValues.omsorgstilbud.historisk.enkeltdager = getDurationsInDateRange(
-                cleanedValues.omsorgstilbud.historisk.enkeltdager || {},
-                periodeFørSøknadsdato
-            );
-        }
-        if (
-            periodeFraOgMedSøknadsdato &&
-            cleanedValues.omsorgstilbud.skalBarnIOmsorgstilbud === YesOrNo.YES &&
-            cleanedValues.omsorgstilbud.planlagt
-        ) {
-            cleanedValues.omsorgstilbud.planlagt.enkeltdager = getDurationsInDateRange(
-                cleanedValues.omsorgstilbud.planlagt.enkeltdager || {},
-                periodeFraOgMedSøknadsdato
-            );
         }
     }
     if (skalBrukerSvarePåBeredskapOgNattevåk(values) === false) {
@@ -84,10 +47,6 @@ export const cleanupOmsorgstilbudStep = (
         cleanedValues.harNattevåk_ekstrainfo = undefined;
         cleanedValues.harBeredskap = YesOrNo.UNANSWERED;
         cleanedValues.harBeredskap_ekstrainfo = undefined;
-    }
-
-    if (cleanedValues.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.NO) {
-        cleanedValues.omsorgstilbud.planlagt = undefined;
     }
 
     return cleanedValues;

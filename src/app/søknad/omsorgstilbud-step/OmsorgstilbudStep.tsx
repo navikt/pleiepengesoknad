@@ -10,25 +10,15 @@ import { SøknadFormData } from '../../types/SøknadFormData';
 import { søkerKunHelgedager } from '../../utils/formDataUtils';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
-import HistoriskOmsorgstilbudSpørsmål from './HistoriskOmsorgstilbudSpørsmål';
 import omsorgstilbudInfo from './info/OmsorgstilbudInfo';
+import OmsorgstilbudSpørsmål from './OmsorgstilbudSpørsmål';
 import { cleanupOmsorgstilbudStep } from './omsorgstilbudStepUtils';
-import PlanlagtOmsorgstilbudSpørsmål from './PlanlagtOmsorgstilbudSpørsmål';
 
 interface Props {
-    søknadsdato: Date;
     søknadsperiode: DateRange;
-    periodeFørSøknadsdato?: DateRange;
-    periodeFraOgMedSøknadsdato?: DateRange;
 }
 
-const OmsorgstilbudStep = ({
-    onValidSubmit,
-    søknadsdato,
-    periodeFørSøknadsdato,
-    periodeFraOgMedSøknadsdato,
-    søknadsperiode,
-}: StepConfigProps & Props) => {
+const OmsorgstilbudStep = ({ onValidSubmit, søknadsperiode }: StepConfigProps & Props) => {
     const intl = useIntl();
     const history = useHistory();
     const { values } = useFormikContext<SøknadFormData>();
@@ -43,42 +33,19 @@ const OmsorgstilbudStep = ({
         }
     }, [omsorgstilbudChanged, persist]);
 
-    const harBådeHistoriskOgPlanlagt = periodeFørSøknadsdato !== undefined && periodeFraOgMedSøknadsdato !== undefined;
-
     return (
         <SøknadFormStep
             id={StepID.OMSORGSTILBUD}
-            onStepCleanup={(values) => cleanupOmsorgstilbudStep(values, søknadsperiode, søknadsdato)}
+            onStepCleanup={(values) => cleanupOmsorgstilbudStep(values, søknadsperiode)}
             onValidFormSubmit={onValidSubmit}>
             <Box padBottom="xl">{omsorgstilbudInfo.stepIntro}</Box>
-            {periodeFørSøknadsdato && (
-                <HistoriskOmsorgstilbudSpørsmål
-                    periode={periodeFørSøknadsdato}
-                    omsorgstilbud={omsorgstilbud}
-                    tittel={intlHelper(
-                        intl,
-                        harBådeHistoriskOgPlanlagt
-                            ? 'steg.omsorgstilbud.historisk.tittel'
-                            : 'steg.omsorgstilbud.generelt.tittel'
-                    )}
-                    harBådeHistoriskOgPlanlagt={harBådeHistoriskOgPlanlagt}
-                    onOmsorgstilbudChanged={() => setOmsorgstilbudChanged(true)}
-                />
-            )}
-            {periodeFraOgMedSøknadsdato && (
-                <PlanlagtOmsorgstilbudSpørsmål
-                    periode={periodeFraOgMedSøknadsdato}
-                    omsorgstilbud={omsorgstilbud}
-                    tittel={intlHelper(
-                        intl,
-                        harBådeHistoriskOgPlanlagt
-                            ? 'steg.omsorgstilbud.planlagt.tittel'
-                            : 'steg.omsorgstilbud.generelt.tittel'
-                    )}
-                    harBådeHistoriskOgPlanlagt={harBådeHistoriskOgPlanlagt}
-                    onOmsorgstilbudChanged={() => setOmsorgstilbudChanged(true)}
-                />
-            )}
+
+            <OmsorgstilbudSpørsmål
+                periode={søknadsperiode}
+                omsorgstilbud={omsorgstilbud}
+                tittel={intlHelper(intl, 'steg.omsorgstilbud.generelt.tittel')}
+                onOmsorgstilbudChanged={() => setOmsorgstilbudChanged(true)}
+            />
 
             {søkerKunHelgedager(values.periodeFra, values.periodeTil) && (
                 <Box margin="xl">{omsorgstilbudInfo.advarselSøkerKunHelgedager}</Box>

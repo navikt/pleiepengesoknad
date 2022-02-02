@@ -82,21 +82,10 @@ export interface TidEnkeltdagApiData {
     tid: ISODuration;
 }
 
-export interface PlanlagtOmsorgstilbudApiData {
-    erLiktHverUke: boolean;
-    enkeltdager?: TidEnkeltdagApiData[];
-    ukedager?: TidFasteDagerApiData;
-}
-
-export interface HistoriskOmsorgstilbudApiData {
-    erLiktHverUke: boolean;
-    enkeltdager?: TidEnkeltdagApiData[];
-    ukedager?: TidFasteDagerApiData;
-}
-
 export interface OmsorgstilbudApiData {
-    historisk?: HistoriskOmsorgstilbudApiData;
-    planlagt?: PlanlagtOmsorgstilbudApiData;
+    erLiktHverUke: boolean;
+    enkeltdager?: TidEnkeltdagApiData[];
+    ukedager?: TidFasteDagerApiData;
 }
 
 interface MedlemskapApiData {

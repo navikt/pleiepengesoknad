@@ -253,11 +253,7 @@ const SummaryStep = ({ onApplicationSent, values, søknadsdato, søknadsperiode 
                                 />
 
                                 {/* Omsorgstilbud */}
-                                <OmsorgstilbudSummary
-                                    søknadsperiode={søknadsperiode}
-                                    apiValues={apiValues}
-                                    søknadsdato={søknadsdato}
-                                />
+                                <OmsorgstilbudSummary søknadsperiode={søknadsperiode} apiValues={apiValues} />
 
                                 {/* Andre ytelser */}
                                 {isFeatureEnabled(Feature.ANDRE_YTELSER) && (

@@ -81,17 +81,8 @@ export const isArbeidsforholdApiDataValid = (arbeidsforhold: ArbeidsforholdApiDa
     isNormalarbeidstidValid(arbeidsforhold) && isArbeidIPeriodeApiValuesValid(arbeidsforhold);
 
 export const isOmsorgstilbudApiDataValid = (omsorgstilbud: OmsorgstilbudApiData): boolean => {
-    if (omsorgstilbud.historisk) {
-        const { enkeltdager, ukedager, erLiktHverUke } = omsorgstilbud.historisk;
-        if (erLiktHverUke && ukedager === undefined) {
-            return false;
-        }
-        if (erLiktHverUke === false && (enkeltdager === undefined || enkeltdager.length === 0)) {
-            return false;
-        }
-    }
-    if (omsorgstilbud.planlagt) {
-        const { enkeltdager, ukedager, erLiktHverUke } = omsorgstilbud.planlagt;
+    if (omsorgstilbud) {
+        const { enkeltdager, ukedager, erLiktHverUke } = omsorgstilbud;
         if (erLiktHverUke && ukedager === undefined) {
             return false;
         }

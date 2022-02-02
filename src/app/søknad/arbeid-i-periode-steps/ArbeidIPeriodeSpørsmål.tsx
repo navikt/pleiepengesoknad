@@ -20,7 +20,7 @@ import { getWeeksInDateRange } from '@navikt/sif-common-utils';
 import AlertStripe, { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import usePersistSoknad from '../../hooks/usePersistSoknad';
 import { JobberIPeriodeSvar, TimerEllerProsent } from '../../types';
-import { ArbeidIPeriodeField, Arbeidsforhold, SøknadFormField } from '../../types/SøknadFormData';
+import { ArbeidIPeriodeField, Arbeidsforhold } from '../../types/SøknadFormData';
 import { søkerKunHelgedager } from '../../utils/formDataUtils';
 import {
     getArbeidErLiktHverUkeValidator,
@@ -78,7 +78,7 @@ const ArbeidIPeriodeSpørsmål = ({
     });
 
     const getFieldName = (field: ArbeidIPeriodeField) =>
-        `${parentFieldName}.${erHistorisk ? 'historisk' : 'planlagt'}.${field}` as SøknadFormField;
+        `${parentFieldName}.${erHistorisk ? 'historisk' : 'planlagt'}.${field}` as any;
 
     const getSpørsmål = (spørsmål: ArbeidIPeriodeField) =>
         intlHelper(intl, `arbeidIPeriode.${erHistorisk ? 'historisk.' : ''}${spørsmål}.spm`, intlValues as any);

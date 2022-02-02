@@ -78,19 +78,10 @@ export const summaryStepAvailable = (formData: SøknadFormData) =>
     legeerklæringStepIsValid();
 
 export const skalBrukerSvarePåBeredskapOgNattevåk = (formValues?: SøknadFormData): boolean => {
-    const historiskOmsorgstilbud =
-        formValues?.omsorgstilbud?.harBarnVærtIOmsorgstilbud === YesOrNo.YES &&
-        formValues.omsorgstilbud.historisk !== undefined &&
-        formValues.omsorgstilbud.historisk.enkeltdager !== undefined;
-
-    const planlagtOmsorgstilbud =
-        formValues?.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.YES &&
-        formValues.omsorgstilbud.planlagt !== undefined;
-
     return (
         formValues !== undefined &&
         formValues.omsorgstilbud !== undefined &&
-        (historiskOmsorgstilbud || planlagtOmsorgstilbud)
+        formValues.omsorgstilbud.erIOmsorgstilbud === YesOrNo.YES
     );
 };
 
