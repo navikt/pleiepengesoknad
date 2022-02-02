@@ -68,7 +68,7 @@ export const getArbeidJobberValidator = (intlValues: ArbeidIPeriodeIntlValues) =
     const error = getRequiredFieldValidator()(value);
     return error
         ? {
-              key: 'validation.arbeidIPeriode.skalJobbe',
+              key: 'validation.arbeidIPeriode.jobber',
               values: intlValues,
               keepKeyUnaltered: true,
           }

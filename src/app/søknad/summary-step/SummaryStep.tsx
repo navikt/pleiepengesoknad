@@ -19,7 +19,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { purge, sendApplication } from '../../api/api';
 import { SKJEMANAVN } from '../../App';
 import routeConfig from '../../config/routeConfig';
-import { StepID } from '../søknadStepsConfig';
+import { getSøknadStepConfig, StepID } from '../søknadStepsConfig';
 import { SøkerdataContextConsumer } from '../../context/SøkerdataContext';
 import { SøknadApiData } from '../../types/SøknadApiData';
 import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
@@ -46,24 +46,22 @@ import {
 import './summary.less';
 import SummarySection from '@navikt/sif-common-core/lib/components/summary-section/SummarySection';
 import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
-import { getSøkerKunHistoriskPeriode } from '../../utils/fortidFremtidUtils';
 
 interface Props {
     values: SøknadFormData;
     søknadsdato: Date;
-    søknadsperiode: DateRange;
     onApplicationSent: (apiValues: SøknadApiData, søkerdata: Søkerdata) => void;
 }
 
-const SummaryStep = ({ onApplicationSent, values, søknadsdato, søknadsperiode }: Props) => {
+const SummaryStep = ({ onApplicationSent, values, søknadsdato }: Props) => {
     const [sendingInProgress, setSendingInProgress] = useState<boolean>(false);
     const [soknadSent, setSoknadSent] = useState<boolean>(false);
     const intl = useIntl();
     const history = useHistory();
 
-    const { logSoknadSent, logSoknadFailed, logUserLoggedOut } = useAmplitudeInstance();
+    const søknadStepConfig = getSøknadStepConfig(values);
 
-    const søkerKunHistoriskPeriode = getSøkerKunHistoriskPeriode(søknadsperiode, søknadsdato);
+    const { logSoknadSent, logSoknadFailed, logUserLoggedOut } = useAmplitudeInstance();
 
     const sendSoknad = async (apiValues: SøknadApiData, søkerdata: Søkerdata) => {
         setSendingInProgress(true);
@@ -140,7 +138,10 @@ const SummaryStep = ({ onApplicationSent, values, søknadsdato, søknadsperiode 
 
                         {apiValuesValidationErrors && apiValuesValidationErrors.length > 0 && (
                             <FormBlock>
-                                <ApiValidationSummary errors={apiValuesValidationErrors} />
+                                <ApiValidationSummary
+                                    errors={apiValuesValidationErrors}
+                                    søknadStepConfig={søknadStepConfig}
+                                />
                             </FormBlock>
                         )}
 
@@ -188,9 +189,7 @@ const SummaryStep = ({ onApplicationSent, values, søknadsdato, søknadsperiode 
                                             <SummaryBlock
                                                 header={intlHelper(
                                                     intl,
-                                                    søkerKunHistoriskPeriode
-                                                        ? 'steg.oppsummering.utenlandsoppholdIPerioden.historisk.header'
-                                                        : 'steg.oppsummering.utenlandsoppholdIPerioden.header'
+                                                    'steg.oppsummering.utenlandsoppholdIPerioden.header'
                                                 )}>
                                                 <FormattedMessage
                                                     id={
@@ -218,9 +217,7 @@ const SummaryStep = ({ onApplicationSent, values, søknadsdato, søknadsperiode 
                                             <SummaryBlock
                                                 header={intlHelper(
                                                     intl,
-                                                    søkerKunHistoriskPeriode
-                                                        ? 'steg.oppsummering.ferieuttakIPerioden.historisk.header'
-                                                        : 'steg.oppsummering.ferieuttakIPerioden.header'
+                                                    'steg.oppsummering.ferieuttakIPerioden.header'
                                                 )}>
                                                 <FormattedMessage
                                                     id={ferieuttakIPerioden.skalTaUtFerieIPerioden ? 'Ja' : 'Nei'}
@@ -239,11 +236,7 @@ const SummaryStep = ({ onApplicationSent, values, søknadsdato, søknadsperiode 
                                 </SummarySection>
 
                                 {/* Arbeidssituasjon i søknadsperiode */}
-                                <ArbeidssituasjonSummary
-                                    apiValues={apiValues}
-                                    søknadsperiode={søknadsperiode}
-                                    søkerKunHistoriskPeriode={søkerKunHistoriskPeriode}
-                                />
+                                <ArbeidssituasjonSummary apiValues={apiValues} søknadsperiode={søknadsperiode} />
 
                                 {/* Arbeid i søknadsperiode */}
                                 <ArbeidIPeriodenSummary

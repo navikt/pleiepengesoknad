@@ -17,7 +17,6 @@ import SøknadFormComponents from '../../SøknadFormComponents';
 import TimerFormPart from './TimerFormPart';
 
 interface Props {
-    søkerKunHistoriskPeriode: boolean;
     arbeidsforhold: ArbeidsforholdAnsatt;
     index: number;
     søknadsperiode: DateRange;
@@ -25,7 +24,7 @@ interface Props {
 
 const ArbeidssituasjonAnsatt: React.FC<Props> = ({
     arbeidsforhold,
-    søkerKunHistoriskPeriode,
+
     index,
     søknadsperiode,
 }) => {
@@ -41,7 +40,6 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({
         periodeTil: prettifyDateFull(søknadsperiode.to),
     };
 
-    const erHistorisk = søkerKunHistoriskPeriode;
     const parentFieldName = `${SøknadFormField.ansatt_arbeidsforhold}.${index}`;
 
     const getFieldName = (field: ArbeidsforholdField): SøknadFormField => `${parentFieldName}.${field}` as any;
@@ -56,11 +54,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({
                 </Box>
                 <Box>
                     <SøknadFormComponents.YesOrNoQuestion
-                        legend={intlHelper(
-                            intl,
-                            erHistorisk ? 'arbeidsforhold.erAnsatt.historisk.spm' : 'arbeidsforhold.erAnsatt.spm',
-                            { navn: arbeidsforhold.navn }
-                        )}
+                        legend={intlHelper(intl, 'arbeidsforhold.erAnsatt.spm', { navn: arbeidsforhold.navn })}
                         name={getFieldName(ArbeidsforholdField.erAnsatt)}
                         validate={(value) => {
                             return getYesOrNoValidator()(value)

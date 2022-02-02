@@ -7,19 +7,17 @@ import { useFormikContext } from 'formik';
 import { persist } from '../api/api';
 import { SKJEMANAVN } from '../App';
 import RouteConfig from '../config/routeConfig';
-import { StepID } from './søknadStepsConfig';
+import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
+import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
+import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
+import { Søkerdata } from '../types/Søkerdata';
 import { ArbeidsgiverApiData, SøknadApiData } from '../types/SøknadApiData';
 import { SøknadFormData } from '../types/SøknadFormData';
-import { Søkerdata } from '../types/Søkerdata';
 import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
 import { getKvitteringInfoFromApiData } from '../utils/kvitteringUtils';
 import { navigateTo, navigateToErrorPage, relocateToLoginPage } from '../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../utils/routeUtils';
-import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
-import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
-import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
-import HistoriskArbeidStep from './arbeid-i-periode-steps/HistoriskArbeidStep';
-import PlanlagtArbeidStep from './arbeid-i-periode-steps/PlanlagtArbeidStep';
+import ArbeidstidStep from './arbeid-i-periode-steps/ArbeidstidStep';
 import ArbeidssituasjonStep from './arbeidssituasjon-step/ArbeidssituasjonStep';
 import LegeerklæringStep from './legeerklæring-step/LegeerklæringStep';
 import MedlemsskapStep from './medlemskap-step/MedlemsskapStep';
@@ -27,9 +25,8 @@ import NattevåkOgBeredskapStep from './nattevåk-og-beredskap-step/NattevåkOgB
 import OmsorgstilbudStep from './omsorgstilbud-step/OmsorgstilbudStep';
 import OpplysningerOmBarnetStep from './opplysninger-om-barnet-step/OpplysningerOmBarnetStep';
 import SummaryStep from './summary-step/SummaryStep';
+import { StepID } from './søknadStepsConfig';
 import OpplysningerOmTidsromStep from './tidsrom-step/OpplysningerOmTidsromStep';
-import { getHistoriskPeriode, getPlanlagtPeriode } from '../utils/fortidFremtidUtils';
-import ArbeidstidStep from './arbeid-i-periode-steps/ArbeidstidStep';
 
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
@@ -105,8 +102,6 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
 
     const søknadsperiode = values ? getSøknadsperiodeFromFormData(values) : undefined;
     const søknadsdato = dateToday;
-    const periodeFørSøknadsdato = søknadsperiode ? getHistoriskPeriode(søknadsperiode, søknadsdato) : undefined;
-    const periodeFraOgMedSøknadsdato = søknadsperiode ? getPlanlagtPeriode(søknadsperiode, søknadsdato) : undefined;
 
     return (
         <Switch>
@@ -155,30 +150,6 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                         <ArbeidstidStep
                             periode={søknadsperiode}
                             onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEIDSTID)}
-                        />
-                    )}
-                />
-            )}
-
-            {isAvailable(StepID.ARBEID_HISTORISK, values) && periodeFørSøknadsdato && (
-                <Route
-                    path={getSøknadRoute(StepID.ARBEID_HISTORISK)}
-                    render={() => (
-                        <HistoriskArbeidStep
-                            periode={periodeFørSøknadsdato}
-                            onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEID_HISTORISK)}
-                        />
-                    )}
-                />
-            )}
-
-            {isAvailable(StepID.ARBEID_PLANLAGT, values) && periodeFraOgMedSøknadsdato && (
-                <Route
-                    path={getSøknadRoute(StepID.ARBEID_PLANLAGT)}
-                    render={() => (
-                        <PlanlagtArbeidStep
-                            periode={periodeFraOgMedSøknadsdato}
-                            onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEID_PLANLAGT)}
                         />
                     )}
                 />
@@ -239,7 +210,6 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                         <SummaryStep
                             values={values}
                             søknadsdato={søknadsdato}
-                            søknadsperiode={søknadsperiode}
                             onApplicationSent={(apiData: SøknadApiData, søkerdata: Søkerdata) => {
                                 setKvitteringInfo(getKvitteringInfoFromApiData(apiData, søkerdata));
                                 setSøknadHasBeenSent(true);

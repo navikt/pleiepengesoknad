@@ -10,13 +10,12 @@ interface Props extends StepConfigProps {
 }
 
 const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
-    const erHistorisk = false;
     return (
         <SøknadFormStep
             id={StepID.ARBEIDSTID}
             onValidFormSubmit={onValidSubmit}
-            onStepCleanup={(values) => cleanupArbeidIPeriodeStep(values, periode, erHistorisk)}>
-            <ArbeidIPeriodeStepContent erHistorisk={erHistorisk} periode={periode} />
+            onStepCleanup={(values) => cleanupArbeidIPeriodeStep(values, periode)}>
+            <ArbeidIPeriodeStepContent periode={periode} />
         </SøknadFormStep>
     );
 };

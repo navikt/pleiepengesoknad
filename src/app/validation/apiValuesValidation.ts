@@ -65,16 +65,10 @@ export const isArbeidsforholdValid = (arbeidsforhold: ArbeidsforholdApiData): bo
 };
 
 export const isArbeidIPeriodeApiValuesValid = (arbeidsforhold: ArbeidsforholdApiData): boolean => {
-    if (arbeidsforhold.historiskArbeid === undefined && arbeidsforhold.planlagtArbeid === undefined) {
+    if (arbeidsforhold.arbeidIPeriode === undefined) {
         return false;
     }
-    const historiskIsValid = arbeidsforhold.historiskArbeid
-        ? isArbeidIPeriodeValid(arbeidsforhold.historiskArbeid)
-        : true;
-    const planlagtIsValid = arbeidsforhold.historiskArbeid
-        ? isArbeidIPeriodeValid(arbeidsforhold.historiskArbeid)
-        : true;
-    return historiskIsValid === true && planlagtIsValid == true;
+    return isArbeidIPeriodeValid(arbeidsforhold.arbeidIPeriode);
 };
 
 export const isArbeidsforholdApiDataValid = (arbeidsforhold: ArbeidsforholdApiData) =>

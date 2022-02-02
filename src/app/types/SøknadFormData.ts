@@ -68,15 +68,14 @@ export enum ArbeidsforholdField {
     erAnsatt = 'erAnsatt',
     sluttetFørSøknadsperiode = 'sluttetFørSøknadsperiode',
     jobberNormaltTimer = 'jobberNormaltTimer',
-    historisk = 'historisk',
-    planlagt = 'planlagt',
+    arbeidIPeriode = 'arbeidIPeriode',
 }
 
 export enum ArbeidIPeriodeField {
     jobberIPerioden = 'jobberIPerioden',
     erLiktHverUke = 'erLiktHverUke',
     timerEllerProsent = 'timerEllerProsent',
-    skalJobbeProsent = 'skalJobbeProsent',
+    jobberProsent = 'jobberProsent',
     fasteDager = 'fasteDager',
     enkeltdager = 'enkeltdager',
 }
@@ -85,15 +84,14 @@ export interface ArbeidIPeriode {
     [ArbeidIPeriodeField.jobberIPerioden]: JobberIPeriodeSvar;
     [ArbeidIPeriodeField.erLiktHverUke]?: YesOrNo;
     [ArbeidIPeriodeField.timerEllerProsent]?: TimerEllerProsent;
-    [ArbeidIPeriodeField.skalJobbeProsent]?: string;
+    [ArbeidIPeriodeField.jobberProsent]?: string;
     [ArbeidIPeriodeField.enkeltdager]?: DateDurationMap;
     [ArbeidIPeriodeField.fasteDager]?: DurationWeekdays;
 }
 
 export interface Arbeidsforhold {
     [ArbeidsforholdField.jobberNormaltTimer]?: string;
-    [ArbeidsforholdField.historisk]?: ArbeidIPeriode;
-    [ArbeidsforholdField.planlagt]?: ArbeidIPeriode;
+    [ArbeidsforholdField.arbeidIPeriode]?: ArbeidIPeriode;
 }
 export interface ArbeidsforholdAnsatt extends Arbeidsgiver, Arbeidsforhold {
     [ArbeidsforholdField.erAnsatt]?: YesOrNo;

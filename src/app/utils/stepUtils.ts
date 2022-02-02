@@ -1,6 +1,5 @@
 import { IntlShape } from 'react-intl';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from '../søknad/søknadStepsConfig';
 import { SøknadFormData } from '../types/SøknadFormData';
@@ -12,9 +11,6 @@ import {
     opplysningerOmTidsromStepIsValid,
     welcomingPageIsValid,
 } from '../validation/stepValidations';
-import { erAnsattISøknadsperiode } from './ansattUtils';
-import { erFrilanserIPeriode } from './frilanserUtils';
-import { getHistoriskPeriode, getPlanlagtPeriode } from './fortidFremtidUtils';
 
 export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
     const conf = stepConfig[stepId];
@@ -37,7 +33,7 @@ export const arbeidssituasjonStepAvailable = (formData: SøknadFormData) =>
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData);
 
-export const arbeidsforholdIPeriodeStepAvailable = (formData: SøknadFormData) =>
+export const arbeidIPeriodeStepIsAvailable = (formData: SøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
@@ -83,36 +79,4 @@ export const skalBrukerSvarePåBeredskapOgNattevåk = (formValues?: SøknadFormD
         formValues.omsorgstilbud !== undefined &&
         formValues.omsorgstilbud.erIOmsorgstilbud === YesOrNo.YES
     );
-};
-
-export const skalBrukerSvarePåHistoriskArbeid = (
-    søknadsperiode: DateRange,
-    søknadsdato: Date,
-    formValues?: SøknadFormData
-): boolean => {
-    if (!formValues) {
-        return false;
-    }
-    const periode = getHistoriskPeriode(søknadsperiode, søknadsdato);
-    return periode
-        ? erAnsattISøknadsperiode(formValues.ansatt_arbeidsforhold) ||
-              erFrilanserIPeriode(periode, formValues) ||
-              formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES
-        : false;
-};
-
-export const skalBrukerSvarePåPlanlagtArbeid = (
-    søknadsperiode: DateRange,
-    søknadsdato: Date,
-    formValues?: SøknadFormData
-): boolean => {
-    if (!formValues) {
-        return false;
-    }
-    const periode = getPlanlagtPeriode(søknadsperiode, søknadsdato);
-    return periode
-        ? erAnsattISøknadsperiode(formValues.ansatt_arbeidsforhold) ||
-              erFrilanserIPeriode(periode, formValues) ||
-              formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES
-        : false;
 };

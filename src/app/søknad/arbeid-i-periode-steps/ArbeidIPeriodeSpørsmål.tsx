@@ -37,13 +37,11 @@ interface Props {
     arbeidsforholdType: ArbeidsforholdType;
     arbeidsstedNavn: string;
     periode: DateRange;
-    erHistorisk: boolean;
 }
 
 const ArbeidIPeriodeSpørsmål = ({
     arbeidsforhold,
     parentFieldName,
-    erHistorisk,
     arbeidsforholdType,
     periode,
     arbeidsstedNavn,
@@ -59,9 +57,9 @@ const ArbeidIPeriodeSpørsmål = ({
     useEffect(() => {
         if (arbeidstidChanged === true) {
             setArbeidstidChanged(false);
-            persist(erHistorisk ? StepID.ARBEID_HISTORISK : StepID.ARBEID_PLANLAGT);
+            persist(StepID.ARBEIDSTID);
         }
-    }, [erHistorisk, arbeidstidChanged, persist]);
+    }, [arbeidstidChanged, persist]);
 
     if (jobberNormaltTimerNumber === undefined) {
         return <AlertStripeFeil>Det mangler informasjon om hvor mye du jobber normalt</AlertStripeFeil>;
@@ -73,19 +71,17 @@ const ArbeidIPeriodeSpørsmål = ({
             jobberNormaltTimer,
             type: arbeidsforholdType,
         },
-        erHistorisk,
         periode,
     });
 
-    const getFieldName = (field: ArbeidIPeriodeField) =>
-        `${parentFieldName}.${erHistorisk ? 'historisk' : 'planlagt'}.${field}` as any;
+    const getFieldName = (field: ArbeidIPeriodeField) => `${parentFieldName}.arbeidIPeriode.${field}` as any;
 
     const getSpørsmål = (spørsmål: ArbeidIPeriodeField) =>
-        intlHelper(intl, `arbeidIPeriode.${erHistorisk ? 'historisk.' : ''}${spørsmål}.spm`, intlValues as any);
+        intlHelper(intl, `arbeidIPeriode.${spørsmål}.spm`, intlValues as any);
 
-    const arbeidIPeriode = erHistorisk ? arbeidsforhold?.historisk : arbeidsforhold?.planlagt;
+    const { arbeidIPeriode } = arbeidsforhold;
 
-    const { jobberIPerioden, timerEllerProsent, erLiktHverUke, skalJobbeProsent } = arbeidIPeriode || {};
+    const { jobberIPerioden, timerEllerProsent, erLiktHverUke, jobberProsent } = arbeidIPeriode || {};
 
     const erKortPeriode = getWeeksInDateRange(periode).length < 4;
 
@@ -96,8 +92,8 @@ const ArbeidIPeriodeSpørsmål = ({
             validate={getArbeidErLiktHverUkeValidator(intlValues)}
             useTwoColumns={true}
             labels={{
-                yes: intlHelper(intl, `arbeidIPeriode.${erHistorisk ? 'historisk.' : ''}erLiktHverUke.ja`),
-                no: intlHelper(intl, `arbeidIPeriode.${erHistorisk ? 'historisk.' : ''}erLiktHverUke.nei`),
+                yes: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.ja`),
+                no: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.nei`),
             }}
         />
     );
@@ -109,19 +105,11 @@ const ArbeidIPeriodeSpørsmål = ({
             useTwoColumns={true}
             radios={[
                 {
-                    label: intlHelper(
-                        intl,
-                        `arbeidIPeriode.${erHistorisk ? 'historisk.' : ''}timerEllerProsent.prosent`,
-                        intlValues
-                    ),
+                    label: intlHelper(intl, `arbeidIPeriode.timerEllerProsent.prosent`, intlValues),
                     value: TimerEllerProsent.PROSENT,
                 },
                 {
-                    label: intlHelper(
-                        intl,
-                        `arbeidIPeriode.${erHistorisk ? 'historisk.' : ''}timerEllerProsent.timer`,
-                        intlValues
-                    ),
+                    label: intlHelper(intl, `arbeidIPeriode.timerEllerProsent.timer`, intlValues),
                     value: TimerEllerProsent.TIMER,
                 },
             ]}
@@ -151,11 +139,7 @@ const ArbeidIPeriodeSpørsmål = ({
                 <FormBlock>
                     <ResponsivePanel>
                         <ArbeidstidVariert
-                            arbeidstid={
-                                erHistorisk
-                                    ? arbeidsforhold.historisk?.enkeltdager
-                                    : arbeidsforhold.planlagt?.enkeltdager
-                            }
+                            arbeidstid={arbeidsforhold.arbeidIPeriode?.enkeltdager}
                             kanLeggeTilPeriode={false}
                             jobberNormaltTimer={jobberNormaltTimerNumber}
                             periode={periode}
@@ -178,11 +162,7 @@ const ArbeidIPeriodeSpørsmål = ({
                         <FormBlock margin="l">
                             <ResponsivePanel>
                                 <ArbeidstidVariert
-                                    arbeidstid={
-                                        erHistorisk
-                                            ? arbeidsforhold.historisk?.enkeltdager
-                                            : arbeidsforhold.planlagt?.enkeltdager
-                                    }
+                                    arbeidstid={arbeidsforhold.arbeidIPeriode?.enkeltdager}
                                     kanLeggeTilPeriode={true}
                                     jobberNormaltTimer={jobberNormaltTimerNumber}
                                     periode={periode}
@@ -220,25 +200,18 @@ const ArbeidIPeriodeSpørsmål = ({
                                 <FormBlock margin="l">
                                     <ResponsivePanel>
                                         <SøknadFormComponents.NumberInput
-                                            name={getFieldName(ArbeidIPeriodeField.skalJobbeProsent)}
+                                            name={getFieldName(ArbeidIPeriodeField.jobberProsent)}
                                             bredde="XS"
                                             maxLength={4}
-                                            label={intlHelper(
-                                                intl,
-                                                erHistorisk
-                                                    ? 'arbeidIPeriode.historisk.skalJobbeProsent.spm'
-                                                    : 'arbeidIPeriode.skalJobbeProsent.spm',
-
-                                                intlValues
-                                            )}
+                                            label={intlHelper(intl, 'arbeidIPeriode.jobberProsent.spm', intlValues)}
                                             validate={(value) => {
-                                                const error = getArbeidstidFastProsentValidator({ max: 100, min: 0 })(
+                                                const error = getArbeidstidFastProsentValidator({ max: 100, min: 1 })(
                                                     value
                                                 );
                                                 return error
                                                     ? {
                                                           key: `validation.arbeidstimerFast.prosent.${error.key}`,
-                                                          values: { ...intlValues, min: 0, max: 100 },
+                                                          values: { ...intlValues, min: 1, max: 100 },
                                                           keepKeyUnaltered: true,
                                                       }
                                                     : undefined;
@@ -246,7 +219,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                             suffix={getRedusertArbeidstidPerUkeInfo(
                                                 intl,
                                                 jobberNormaltTimer,
-                                                skalJobbeProsent
+                                                jobberProsent
                                             )}
                                             suffixStyle="text"
                                         />
@@ -257,13 +230,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                 <FormBlock margin="l">
                                     <ResponsivePanel>
                                         <SøknadFormComponents.InputGroup
-                                            legend={intlHelper(
-                                                intl,
-                                                erHistorisk
-                                                    ? 'arbeidIPeriode.historisk.ukedager.tittel'
-                                                    : 'arbeidIPeriode.planlagt.ukedager.tittel',
-                                                intlValues
-                                            )}
+                                            legend={intlHelper(intl, 'arbeidIPeriode.ukedager.tittel', intlValues)}
                                             validate={() => {
                                                 const error = validateFasteArbeidstimerIUke(arbeidIPeriode?.fasteDager);
                                                 return error
@@ -282,19 +249,11 @@ const ArbeidIPeriodeSpørsmål = ({
                                                     <ExpandableInfo
                                                         title={intlHelper(intl, 'arbeidIPeriode.ukedager.info.tittel')}>
                                                         <FormattedMessage
-                                                            id={
-                                                                erHistorisk
-                                                                    ? 'arbeidIPeriode.ukedager.historisk.info.tekst.1'
-                                                                    : 'arbeidIPeriode.ukedager.planlagt.info.tekst.1'
-                                                            }
+                                                            id={'arbeidIPeriode.ukedager.info.tekst.1'}
                                                             tagName="p"
                                                         />
                                                         <FormattedMessage
-                                                            id={
-                                                                erHistorisk
-                                                                    ? 'arbeidIPeriode.ukedager.historisk.info.tekst.2'
-                                                                    : 'arbeidIPeriode.ukedager.planlagt.info.tekst.2'
-                                                            }
+                                                            id={'arbeidIPeriode.ukedager.info.tekst.2'}
                                                             tagName="p"
                                                         />
                                                     </ExpandableInfo>

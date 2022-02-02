@@ -8,8 +8,7 @@ import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
 
 export const getArbeidsgivereISøknadsperiodenApiData = (
     formData: SøknadFormData,
-    søknadsperiode: DateRange,
-    søknadsdato: Date
+    søknadsperiode: DateRange
 ): Pick<SøknadApiData, 'arbeidsgivere'> => {
     const arbeidsgivere: ArbeidsgiverApiData[] = [];
     formData.ansatt_arbeidsforhold.forEach((forhold) => {
@@ -17,8 +16,7 @@ export const getArbeidsgivereISøknadsperiodenApiData = (
             const arbeidsforholdApiData = mapArbeidsforholdToApiData(
                 forhold,
                 søknadsperiode,
-                ArbeidsforholdType.ANSATT,
-                søknadsdato
+                ArbeidsforholdType.ANSATT
             );
             if (arbeidsforholdApiData) {
                 arbeidsgivere.push({

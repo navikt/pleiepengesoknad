@@ -16,7 +16,6 @@ export interface BarnetSøknadenGjelderApiData {
 
 export interface ArbeidIPeriodeApiData {
     jobberIPerioden: JobberIPeriodeSvar;
-    jobberSomVanlig?: boolean; // TODO - skal tas bort, men er med nå frem til api er oppdatert
     erLiktHverUke?: boolean;
     enkeltdager?: TidEnkeltdagApiData[];
     fasteDager?: TidFasteDagerApiData;
@@ -26,8 +25,7 @@ export interface ArbeidIPeriodeApiData {
 export interface ArbeidsforholdApiData {
     _type: ArbeidsforholdType;
     jobberNormaltTimer: number;
-    historiskArbeid?: ArbeidIPeriodeApiData;
-    planlagtArbeid?: ArbeidIPeriodeApiData;
+    arbeidIPeriode?: ArbeidIPeriodeApiData;
 }
 
 export type ArbeidsgiverApiData = ArbeidsgiverISøknadsperiodeApiData | ArbeidsgiverUtenforSøknadsperiodeApiData;

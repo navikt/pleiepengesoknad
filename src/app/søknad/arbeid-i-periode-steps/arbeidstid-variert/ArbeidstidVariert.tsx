@@ -2,14 +2,12 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { ArbeidIPeriodeIntlValues, ArbeidsforholdType, ArbeidstidPeriodeData } from '@navikt/sif-common-pleiepenger';
 import ArbeidstidMånedInfo from '@navikt/sif-common-pleiepenger/lib/arbeidstid-måned-info/ArbeidstidMånedInfo';
 import SøknadsperioderMånedListe from '@navikt/sif-common-pleiepenger/lib/søknadsperioder-måned-liste/SøknadsperioderMånedListe';
 import { TidEnkeltdagEndring } from '@navikt/sif-common-pleiepenger/lib/tid-enkeltdag-dialog/TidEnkeltdagForm';
 import { DateDurationMap, getDatesInMonthOutsideDateRange, getMonthsInDateRange } from '@navikt/sif-common-utils';
-import dayjs from 'dayjs';
 import { useFormikContext } from 'formik';
 import { Element } from 'nav-frontend-typografi';
 import useLogSøknadInfo from '../../../hooks/useLogSøknadInfo';
@@ -48,21 +46,18 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
 
     const antallMåneder = getMonthsInDateRange(periode).length;
     const { logArbeidEnkeltdagRegistrert } = useLogSøknadInfo();
-    const erHistorisk = dayjs(periode.to).isBefore(dateToday);
 
     const handleOnEnkeltdagChange = (evt: TidEnkeltdagEndring) => {
         const newValues = { ...arbeidstid, ...evt.dagerMedTid };
         setFieldValue(formFieldName as any, newValues);
         logArbeidEnkeltdagRegistrert({
             antallDager: Object.keys(evt.dagerMedTid).length,
-            erHistorisk,
         });
         onArbeidstidChanged ? onArbeidstidChanged(newValues) : undefined;
     };
 
     const handleOnPeriodeChange = (tid: DateDurationMap, periodeData: ArbeidstidPeriodeData) => {
         logArbeidPeriodeRegistrert({
-            erHistorisk,
             verdi: periodeData.prosent ? 'prosent' : 'ukeplan',
             prosent: periodeData.prosent,
         });
@@ -147,13 +142,7 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
             ) : (
                 <>
                     <Element tag="h3">
-                        <FormattedMessage
-                            id={
-                                erHistorisk
-                                    ? 'arbeidstidVariert.kortPeriode.historisk.tittel'
-                                    : 'arbeidstidVariert.kortPeriode.tittel'
-                            }
-                        />
+                        <FormattedMessage id={'arbeidstidVariert.kortPeriode.tittel'} />
                     </Element>
                     <p>
                         <FormattedMessage id="arbeidstidVariert.kortPeriode.info" values={intlValues} />

@@ -23,7 +23,6 @@ import ArbeidssituasjonFrilans from './parts/ArbeidssituasjonFrilans';
 import ArbeidssituasonSN from './parts/ArbeidssituasjonSN';
 import { getArbeidsgivere } from './utils/getArbeidsgivere';
 import { visVernepliktSpørsmål } from './utils/visVernepliktSpørsmål';
-import { getSøkerKunHistoriskPeriode } from '../../utils/fortidFremtidUtils';
 
 interface LoadState {
     isLoading: boolean;
@@ -60,8 +59,6 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
         }
     }, [formikProps, søkerdata, isLoaded, isLoading, søknadsperiode]);
 
-    const søkerKunHistoriskPeriode = getSøkerKunHistoriskPeriode(søknadsperiode, søknadsdato);
-
     return (
         <SøknadFormStep
             id={StepID.ARBEIDSSITUASJON}
@@ -86,11 +83,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                             <p>
                                 {ansatt_arbeidsforhold.length > 0 && (
                                     <FormattedMessage
-                                        id={
-                                            søkerKunHistoriskPeriode
-                                                ? 'steg.arbeidssituasjon.veileder.medArbeidsgiver.historisk'
-                                                : 'steg.arbeidssituasjon.veileder.medArbeidsgiver'
-                                        }
+                                        id={'steg.arbeidssituasjon.veileder.medArbeidsgiver'}
                                         values={{ antall: ansatt_arbeidsforhold.length }}
                                     />
                                 )}
@@ -99,13 +92,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                                 )}
                             </p>
                             <p>
-                                <FormattedMessage
-                                    id={
-                                        søkerKunHistoriskPeriode
-                                            ? 'steg.arbeidssituasjon.veileder.manglerDetArbeidsgiver.historisk'
-                                            : 'steg.arbeidssituasjon.veileder.manglerDetArbeidsgiver'
-                                    }
-                                />
+                                <FormattedMessage id={'steg.arbeidssituasjon.veileder.manglerDetArbeidsgiver'} />
                             </p>
                         </Box>
                         {ansatt_arbeidsforhold.length > 0 && (
@@ -115,7 +102,6 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                                         <ArbeidssituasjonAnsatt
                                             arbeidsforhold={forhold}
                                             index={index}
-                                            søkerKunHistoriskPeriode={søkerKunHistoriskPeriode}
                                             søknadsperiode={søknadsperiode}
                                         />
                                     </FormBlock>
@@ -129,12 +115,11 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                             formValues={values}
                             søknadsperiode={søknadsperiode}
                             søknadsdato={søknadsdato}
-                            søkerKunHistoriskPeriode={søkerKunHistoriskPeriode}
                         />
                     </FormSection>
 
                     <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.sn.tittel')}>
-                        <ArbeidssituasonSN formValues={values} søkerKunHistoriskPeriode={søkerKunHistoriskPeriode} />
+                        <ArbeidssituasonSN formValues={values} />
                     </FormSection>
 
                     {visVernepliktSpørsmål(values) && (

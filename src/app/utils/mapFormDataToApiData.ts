@@ -73,8 +73,8 @@ export const mapFormDataToApiData = (
                     to: periodeTil,
                 }),
                 ...getNattevåkOgBeredskapApiData(formData),
-                ...getArbeidsgivereISøknadsperiodenApiData(formData, søknadsperiode, søknadsdato),
-                ...getFrilansApiData(formData, søknadsperiode, søknadsdato),
+                ...getArbeidsgivereISøknadsperiodenApiData(formData, søknadsperiode),
+                ...getFrilansApiData(formData, søknadsperiode),
                 ...getSelvstendigNæringsdrivendeApiData(formData, søknadsperiode, søknadsdato, locale),
             };
 
