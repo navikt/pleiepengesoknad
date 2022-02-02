@@ -12,6 +12,7 @@ export interface BarnetSøknadenGjelderApiData {
     fødselsdato: string | null;
     aktørId: string | null;
     sammeAdresse: boolean | null;
+    årsakManglerIdentitetsnummer?: ÅrsakManglerIdentitetsnummer;
 }
 
 export interface ArbeidIPeriodeApiData {
@@ -152,7 +153,6 @@ export interface SøknadApiData {
     harForståttRettigheterOgPlikter: boolean;
     harBekreftetOpplysninger: boolean;
     barn: BarnetSøknadenGjelderApiData;
-    årsakManglerIdentitetsnummer?: ÅrsakManglerIdentitetsnummer;
     barnRelasjon?: BarnRelasjon;
     barnRelasjonBeskrivelse?: string;
     fraOgMed: ApiStringDate;
