@@ -105,7 +105,7 @@ const SummaryStep = ({ onApplicationSent, values, søknadsdato, søknadsperiode 
                 if (apiValues === undefined) {
                     return <div>Det oppstod en feil - api-data mangler</div>;
                 }
-                console.log(apiValues);
+
                 const søknadsperiode: DateRange = {
                     from: apiStringDateToDate(apiValues.fraOgMed),
                     to: apiStringDateToDate(apiValues.tilOgMed),
