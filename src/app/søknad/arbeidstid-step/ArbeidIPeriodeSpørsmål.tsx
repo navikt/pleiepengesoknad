@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useHistory } from 'react-router';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
@@ -210,7 +209,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                                 );
                                                 return error
                                                     ? {
-                                                          key: `validation.arbeidstimerFast.prosent.${error.key}`,
+                                                          key: `validation.arbeidIPeriode.fast.prosent.${error.key}`,
                                                           values: { ...intlValues, min: 1, max: 100 },
                                                           keepKeyUnaltered: true,
                                                       }
@@ -235,37 +234,20 @@ const ArbeidIPeriodeSpørsmål = ({
                                                 const error = validateFasteArbeidstimerIUke(arbeidIPeriode?.fasteDager);
                                                 return error
                                                     ? {
-                                                          key: `validation.arbeidstimerFast.timer.${error.key}`,
+                                                          key: `validation.arbeidIPeriode.timer.${error.key}`,
                                                           values: intlValues,
                                                           keepKeyUnaltered: true,
                                                       }
                                                     : undefined;
                                             }}
-                                            name={'fasteDager.gruppe' as any}
-                                            description={
-                                                1 + 1 === 2 ? (
-                                                    <></>
-                                                ) : (
-                                                    <ExpandableInfo
-                                                        title={intlHelper(intl, 'arbeidIPeriode.ukedager.info.tittel')}>
-                                                        <FormattedMessage
-                                                            id={'arbeidIPeriode.ukedager.info.tekst.1'}
-                                                            tagName="p"
-                                                        />
-                                                        <FormattedMessage
-                                                            id={'arbeidIPeriode.ukedager.info.tekst.2'}
-                                                            tagName="p"
-                                                        />
-                                                    </ExpandableInfo>
-                                                )
-                                            }>
+                                            name={'fasteDager.gruppe' as any}>
                                             <TidFasteUkedagerInput
                                                 name={getFieldName(ArbeidIPeriodeField.fasteDager)}
                                                 validateDag={(dag, value) => {
                                                     const error = getArbeidstimerFastDagValidator()(value);
                                                     return error
                                                         ? {
-                                                              key: `validation.arbeidstimer.fastdag.tid.${error}`,
+                                                              key: `validation.arbeidIPeriode.fast.tid.${error}`,
                                                               keepKeyUnaltered: true,
                                                               values: { ...intlValues, dag },
                                                           }

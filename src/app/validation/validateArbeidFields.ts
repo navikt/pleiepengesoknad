@@ -1,7 +1,5 @@
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-// import { InputTime } from '@navikt/sif-common-formik/lib';
 import { getNumberValidator, getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
-// import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeValidator';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import { ArbeidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger';
 import {
@@ -36,7 +34,7 @@ export const getArbeidstidTimerEllerProsentValidator = (intlValues: ArbeidIPerio
     const error = getRequiredFieldValidator()(value);
     if (error) {
         return {
-            key: `validation.arbeidstimer.timerEllerProsent.${error}`,
+            key: `validation.arbeidIPeriode.timerEllerProsent.${error}`,
             values: { ...intlValues, min: 1, max: 99 },
             keepKeyUnaltered: true,
         };
