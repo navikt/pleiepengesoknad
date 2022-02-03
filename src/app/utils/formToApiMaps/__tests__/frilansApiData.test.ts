@@ -9,8 +9,6 @@ const søknadsperiode: DateRange = {
     to: new Date(2021, 1, 10),
 };
 
-// TODO - skrive tester på nytt
-
 const frilans_arbeidsforhold: Arbeidsforhold = {
     jobberNormaltTimer: '10',
     arbeidIPeriode: {
@@ -112,138 +110,28 @@ describe('frilansApiData', () => {
             frilans_jobberFortsattSomFrilans: YesOrNo.YES,
             frilans_arbeidsforhold,
         };
-        it(`returnerer historiskArbeid dersom en har registrert arbeidstid før søknadsdato og jobber i perioden`, () => {
+        it(`returnerer arbeidIPerioden dersom en har registrert arbeidstid før søknadsdato og jobber i perioden`, () => {
             const apiData: FrilansApiDataPart = getFrilansApiData(formDataMedArbeidsforhold, søknadsperiode);
             expect(apiData.frilans?.arbeidsforhold).toBeDefined();
             if (apiData.frilans && apiData.frilans.arbeidsforhold) {
                 expect(apiData.frilans.arbeidsforhold.arbeidIPeriode).toBeDefined();
             }
         });
-        // it(`returnerer "jobber ikke i perioden",  dersom en ikke har registrert arbeidstid før søknadsdato, men jobber i perioden`, () => {
-        //     const apiData: FrilansApiDataPart = getFrilansApiData(
-        //         {
-        //             ...formDataMedArbeidsforhold,
-        //             frilans_arbeidsforhold: {
-        //                 ...frilans_arbeidsforhold,
-        //                 arbeidIPeriode: { jobberIPerioden: JobberIPeriodeSvar.NEI },
-        //             },
-        //         },
-        //         søknadsperiode,
-        //         søknadsdato
-        //     );
-        //     expect(apiData.frilans?.arbeidsforhold).toBeDefined();
-        //     if (apiData.frilans && apiData.frilans.arbeidsforhold) {
-        //         expect(apiData.frilans.arbeidsforhold.historiskArbeid?.jobberIPerioden).toEqual(JobberIPeriodeSvar.NEI);
-        //     }
-        // });
-        // it(`returnerer historiskArbeid som undefined,  dersom en ikke har registrert arbeidstid før søknadsdato og ikke søker historisk`, () => {
-        //     const apiData: FrilansApiDataPart = getFrilansApiData(
-        //         {
-        //             ...formDataMedArbeidsforhold,
-        //             frilans_arbeidsforhold: {
-        //                 ...frilans_arbeidsforhold,
-        //                 arbeidIPeriode: { jobberIPerioden: JobberIPeriodeSvar.NEI },
-        //             },
-        //         },
-        //         søknadsperiodePlanlagt,
-        //         søknadsdato
-        //     );
-        //     expect(apiData.frilans?.arbeidsforhold).toBeDefined();
-        //     if (apiData.frilans && apiData.frilans.arbeidsforhold) {
-        //         expect(apiData.frilans.arbeidsforhold.historiskArbeid?.jobberIPerioden).toBeUndefined();
-        //     }
-        // });
-        // it(`returnerer planlagtArbeid dersom en har registrert arbeidstid etter søknadsdato`, () => {
-        //     const apiData: FrilansApiDataPart = getFrilansApiData(
-        //         formDataMedArbeidsforhold,
-        //         søknadsperiode,
-        //         søknadsdato
-        //     );
-        //     expect(apiData.frilans?.arbeidsforhold).toBeDefined();
-        //     if (apiData.frilans && apiData.frilans.arbeidsforhold) {
-        //         expect(apiData.frilans.arbeidsforhold.planlagtArbeid).toBeDefined();
-        //     }
-        // });
-        // it(`returnerer "planlagtArbeid - jobber ikke i perioden" dersom en ikke har registrert arbeidstid etter søknadsdato`, () => {
-        //     const apiData: FrilansApiDataPart = getFrilansApiData(
-        //         {
-        //             ...formDataMedArbeidsforhold,
-        //             frilans_arbeidsforhold: {
-        //                 ...frilans_arbeidsforhold,
-        //                 arbeidIPeriode: { jobberIPerioden: JobberIPeriodeSvar.NEI },
-        //             },
-        //         },
-        //         søknadsperiode,
-        //         søknadsdato
-        //     );
-        //     expect(apiData.frilans?.arbeidsforhold).toBeDefined();
-        //     if (apiData.frilans && apiData.frilans.arbeidsforhold) {
-        //         expect(apiData.frilans.arbeidsforhold.planlagtArbeid?.jobberIPerioden).toEqual(JobberIPeriodeSvar.NEI);
-        //     }
-        // });
-        // it(`returnerer planlagtArbeid undefined dersom en ikke har registrert arbeidstid etter søknadsdato og ikke søker fremover`, () => {
-        //     const apiData: FrilansApiDataPart = getFrilansApiData(
-        //         {
-        //             ...formDataMedArbeidsforhold,
-        //             frilans_arbeidsforhold: {
-        //                 ...frilans_arbeidsforhold,
-        //             },
-        //         },
-        //         søknadsperiodeHistorisk,
-        //         søknadsdato
-        //     );
-        //     expect(apiData.frilans?.arbeidsforhold).toBeDefined();
-        //     if (apiData.frilans && apiData.frilans.arbeidsforhold) {
-        //         expect(apiData.frilans.arbeidsforhold.planlagtArbeid?.jobberIPerioden).toBeUndefined();
-        //     }
-        // });
-
-        // it(`planlagtArbeid er undefined dersom en kun søker fortid`, () => {
-        //     const apiData: FrilansApiDataPart = getFrilansApiData(
-        //         formDataMedArbeidsforhold,
-        //         søknadsperiodeHistorisk,
-        //         søknadsdato
-        //     );
-        //     expect(apiData.frilans?.arbeidsforhold).toBeDefined();
-        //     if (apiData.frilans && apiData.frilans.arbeidsforhold) {
-        //         expect(apiData.frilans.arbeidsforhold.planlagtArbeid).toBeUndefined();
-        //     }
-        // });
-
-        // it(`planlagtArbeid.jobberIPerioden er NEI dersom en søker fortid og fremtid, men er ikke frilanser i fremtid`, () => {
-        //     const apiData: FrilansApiDataPart = getFrilansApiData(
-        //         { ...formDataMedArbeidsforhold, frilans_sluttdato: '2021-02-05' },
-        //         søknadsperiode,
-        //         søknadsdato
-        //     );
-        //     expect(apiData.frilans?.arbeidsforhold).toBeDefined();
-        //     if (apiData.frilans && apiData.frilans.arbeidsforhold) {
-        //         expect(apiData.frilans.arbeidsforhold.planlagtArbeid?.jobberIPerioden).toEqual(JobberIPeriodeSvar.NEI);
-        //     }
-        // });
-
-        // it(`historiskArbeid er undefined dersom en kun søker fremtid`, () => {
-        //     const apiData: FrilansApiDataPart = getFrilansApiData(
-        //         formDataMedArbeidsforhold,
-        //         søknadsperiodePlanlagt,
-        //         søknadsdato
-        //     );
-        //     expect(apiData.frilans?.arbeidsforhold).toBeDefined();
-        //     if (apiData.frilans && apiData.frilans.arbeidsforhold) {
-        //         expect(apiData.frilans.arbeidsforhold.historiskArbeid).toBeUndefined();
-        //     }
-        // });
-
-        // it(`historiskArbeid.jobberIPerioden er NEI dersom en søker fortid/fremtid men er ikke frilanser i fortid`, () => {
-        //     const apiData: FrilansApiDataPart = getFrilansApiData(
-        //         { ...formDataMedArbeidsforhold, frilans_startdato: '2021-02-06' },
-        //         søknadsperiode,
-        //         søknadsdato
-        //     );
-        //     expect(apiData.frilans?.arbeidsforhold).toBeDefined();
-        //     if (apiData.frilans && apiData.frilans.arbeidsforhold) {
-        //         expect(apiData.frilans.arbeidsforhold.historiskArbeid?.jobberIPerioden).toEqual(JobberIPeriodeSvar.NEI);
-        //     }
-        // });
+        it(`returnerer "jobber ikke i perioden",  dersom en ikke har registrert arbeidstid før søknadsdato, men jobber i perioden`, () => {
+            const apiData: FrilansApiDataPart = getFrilansApiData(
+                {
+                    ...formDataMedArbeidsforhold,
+                    frilans_arbeidsforhold: {
+                        ...frilans_arbeidsforhold,
+                        arbeidIPeriode: { jobberIPerioden: JobberIPeriodeSvar.NEI },
+                    },
+                },
+                søknadsperiode
+            );
+            expect(apiData.frilans?.arbeidsforhold).toBeDefined();
+            if (apiData.frilans && apiData.frilans.arbeidsforhold) {
+                expect(apiData.frilans.arbeidsforhold.arbeidIPeriode?.jobberIPerioden).toEqual(JobberIPeriodeSvar.NEI);
+            }
+        });
     });
 });

@@ -62,7 +62,7 @@ export const getJobberNormaltTimerValidator = (intlValues: { hvor: string; jobbe
         : undefined;
 };
 
-export const getArbeidJobberValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
+export const getJobberIPeriodenValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
     const error = getRequiredFieldValidator()(value);
     return error
         ? {

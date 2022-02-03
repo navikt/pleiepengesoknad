@@ -12,7 +12,7 @@ import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { erAnsattHosArbeidsgiverISøknadsperiode } from '../../utils/ansattUtils';
 import { getPeriodeSomFrilanserInnenforPeriode } from '../../utils/frilanserUtils';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../utils/selvstendigUtils';
-import ArbeidIPeriodeSpørsmål from './ArbeidIPeriodeSpørsmål';
+import ArbeidIPeriodeSpørsmål from './arbeid-i-periode-spørsmål/ArbeidIPeriodeSpørsmål';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 
 interface Props {
