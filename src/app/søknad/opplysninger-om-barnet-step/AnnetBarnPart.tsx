@@ -77,10 +77,10 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer }) =
 
                     {barnetHarIkkeFnr && (
                         <SøknadFormComponents.RadioGroup
-                            legend={intlHelper(intl, 'steg.omBarnet.årsakAtBarnetHarIkkeFnr.spm')}
+                            legend={intlHelper(intl, 'steg.omBarnet.årsakManglerIdentitetsnummer.spm')}
                             name={SøknadFormField.årsakManglerIdentitetsnummer}
                             radios={Object.keys(ÅrsakManglerIdentitetsnummer).map((årsak) => ({
-                                label: intlHelper(intl, `steg.omBarnet.årsakAtBarnetHarIkkeFnr.${årsak}`),
+                                label: intlHelper(intl, `steg.omBarnet.årsakManglerIdentitetsnummer.${årsak}`),
                                 value: årsak,
                             }))}
                             validate={getRequiredFieldValidator()}

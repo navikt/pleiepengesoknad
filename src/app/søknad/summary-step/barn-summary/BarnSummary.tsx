@@ -70,7 +70,7 @@ const annetBarnSummary = (intl: IntlShape, apiValues: SøknadApiData) => (
                         values={{
                             årsak: intlHelper(
                                 intl,
-                                `steg.oppsummering.barnet.årsakAtBarnetHarIkkeFnr.${apiValues.barn.årsakManglerIdentitetsnummer}`
+                                `steg.oppsummering.barnet.årsakManglerIdentitetsnummer.${apiValues.barn.årsakManglerIdentitetsnummer}`
                             ),
                         }}
                     />
