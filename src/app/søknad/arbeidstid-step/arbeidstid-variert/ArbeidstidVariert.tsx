@@ -86,12 +86,6 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
 
     return (
         <SøknadFormComponents.InputGroup
-            /** På grunn av at dialogen jobber mot ett felt i formik, kan ikke
-             * validate på dialogen brukes. Da vil siste periode alltid bli brukt ved validering.
-             * Derfor wrappes dialogen med denne komponenten, og et unikt name brukes - da blir riktig periode
-             * brukt.
-             * Ikke optimalt, men det virker.
-             */
             name={`${formFieldName}_dager` as any}
             validate={() => validateArbeidsTidEnkeltdager(arbeidstid, periode, intlValues)}
             tag="div">
