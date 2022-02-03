@@ -259,7 +259,6 @@
     "steg.omBarnet.årsakAtBarnetHarIkkeFnr.NYFØDT": "Barnet er nyfødt, og har ikke fått fødselsnummer enda",
     "steg.omBarnet.årsakAtBarnetHarIkkeFnr.BARNET_BOR_I_UTLANDET": "Barnet bor i utlandet",
     "steg.omBarnet.årsakAtBarnetHarIkkeFnr.ANNET": "Annet",
-    "steg.omBarnet.årsakAtBarnetHarIkkeFnr.nyfødt.relasjonFar.info": "TODO: Info om digital farskapserklæring",
     "steg.omBarnet.fødselsdato": "Barnets fødselsdato",
     "steg.omBarnet.navn": "Barnets navn",
     "steg.omBarnet.relasjon.spm": "Hvilken relasjon har du til barnet?",
