@@ -2,7 +2,6 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import FormSection from '@navikt/sif-common-core/lib/components/form-section/FormSection';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
@@ -24,19 +23,18 @@ import { skalViseSpørsmålOmProsentEllerLiktHverUke } from './omsorgstilbudStep
 dayjs.extend(isBetween);
 
 interface Props {
-    tittel: string;
     periode: DateRange;
     omsorgstilbud?: Omsorgstilbud;
     onOmsorgstilbudChanged: () => void;
 }
 
-const OmsorgstilbudSpørsmål = ({ periode, tittel, omsorgstilbud, onOmsorgstilbudChanged }: Props) => {
+const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChanged }: Props) => {
     const intl = useIntl();
 
     const inkluderFastPlan = skalViseSpørsmålOmProsentEllerLiktHverUke(periode);
 
     return (
-        <FormSection title={tittel}>
+        <>
             <SøknadFormComponents.YesOrNoQuestion
                 name={SøknadFormField.omsorgstilbud__erIOmsorgstilbud}
                 legend={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbud.spm', {
@@ -142,7 +140,7 @@ const OmsorgstilbudSpørsmål = ({ periode, tittel, omsorgstilbud, onOmsorgstilb
                     )}
                 </>
             )}
-        </FormSection>
+        </>
     );
 };
 

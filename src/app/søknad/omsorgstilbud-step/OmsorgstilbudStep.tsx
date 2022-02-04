@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { useFormikContext } from 'formik';
 import usePersistSoknad from '../../hooks/usePersistSoknad';
@@ -19,7 +17,6 @@ interface Props {
 }
 
 const OmsorgstilbudStep = ({ onValidSubmit, søknadsperiode }: StepConfigProps & Props) => {
-    const intl = useIntl();
     const history = useHistory();
     const { values } = useFormikContext<SøknadFormData>();
     const { omsorgstilbud } = values;
@@ -43,7 +40,6 @@ const OmsorgstilbudStep = ({ onValidSubmit, søknadsperiode }: StepConfigProps &
             <OmsorgstilbudSpørsmål
                 periode={søknadsperiode}
                 omsorgstilbud={omsorgstilbud}
-                tittel={intlHelper(intl, 'steg.omsorgstilbud.generelt.tittel')}
                 onOmsorgstilbudChanged={() => setOmsorgstilbudChanged(true)}
             />
 

@@ -25,7 +25,7 @@ export interface ArbeidIPeriodeApiData {
 export interface ArbeidsforholdApiData {
     _type: ArbeidsforholdType;
     jobberNormaltTimer: number;
-    arbeidIPeriode?: ArbeidIPeriodeApiData;
+    arbeidIPeriode: ArbeidIPeriodeApiData;
 }
 
 export type ArbeidsgiverApiData = ArbeidsgiverISøknadsperiodeApiData | ArbeidsgiverUtenforSøknadsperiodeApiData;
