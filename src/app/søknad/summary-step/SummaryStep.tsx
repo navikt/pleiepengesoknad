@@ -8,7 +8,7 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import SummaryList from '@navikt/sif-common-core/lib/components/summary-list/SummaryList';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
-import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
+import { isUnauthorized } from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { apiStringDateToDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
@@ -72,7 +72,7 @@ const SummaryStep = ({ onApplicationSent, values, søknadsdato }: Props) => {
             setSoknadSent(true);
             onApplicationSent(apiValues, søkerdata);
         } catch (error) {
-            if (apiUtils.isUnauthorized(error)) {
+            if (isUnauthorized(error)) {
                 logUserLoggedOut('Ved innsending av søknad');
                 relocateToLoginPage();
             } else {
