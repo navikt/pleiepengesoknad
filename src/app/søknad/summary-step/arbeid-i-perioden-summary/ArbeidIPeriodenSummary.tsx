@@ -93,15 +93,10 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
         });
     }
 
-    if (alleArbeidsforhold.length === 0) {
-        return (
-            <SummarySection header={intlHelper(intl, 'oppsummering.arbeidIPeriode.arbeidIkkeRegistrert.header')}>
-                {intlHelper(intl, 'oppsummering.arbeidIPeriode.arbeidIkkeRegistrert.info')}
-            </SummarySection>
-        );
-    }
-
     const aktiveArbeidsforhold = alleArbeidsforhold.filter((a) => a.erAktivIPeriode);
+    if (aktiveArbeidsforhold.length === 0) {
+        return null;
+    }
 
     return (
         <>

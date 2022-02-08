@@ -572,9 +572,6 @@
     "oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke": "Jobber likt hver uke",
     "oppsummering.arbeidIPeriode.jobberIPerioden.prosent": "Jobber {prosent} prosent, i snitt {timer} hver ukedag",
 
-    "oppsummering.arbeidIPeriode.arbeidIkkeRegistrert.header": "Jobb i søknadsperioden",
-    "oppsummering.arbeidIPeriode.arbeidIkkeRegistrert.info": "Ingen arbeidstid registrert i perioden",
-
     "timerPerUke": "{timer, plural, one {# time} other {# timer}} per uke",
 
     "næringstype.FISKE": "Fiske",
