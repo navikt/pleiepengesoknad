@@ -33,40 +33,34 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
 
     return (
         <>
-            <ul>
-                {arbeidIPeriode.jobberIPerioden === JobberIPeriodeSvar.NEI && (
-                    <li>
-                        <FormattedMessage id={`oppsummering.arbeidIPeriode.jobberIPerioden.nei`} />
-                    </li>
-                )}
-                {arbeidIPeriode.enkeltdager && (
-                    <li>
-                        <div>{intlHelper(intl, 'oppsummering.arbeidIPeriode.jobbIPerioden')}:</div>
-                        <Box margin="m">
-                            <TidEnkeltdager dager={arbeidIPeriode.enkeltdager} />
-                        </Box>
-                    </li>
-                )}
-                {/* Bruker har valgt faste dager eller prosent */}
-                {arbeidIPeriode.fasteDager && (
-                    <li>
-                        {/* Faste dager */}
-                        {arbeidIPeriode.jobberProsent === undefined && (
-                            <>
-                                <div>
-                                    {intlHelper(intl, 'oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke')}:
-                                </div>
-                                <Box margin="m">
-                                    <TidFasteDager fasteDager={arbeidIPeriode.fasteDager} />
-                                </Box>
-                            </>
-                        )}
-                        {/* Prosent - men verdi er fordelt likt på  fasteDager */}
-                        {arbeidIPeriode.jobberProsent !== undefined &&
-                            getArbeidProsentTekst(arbeidIPeriode.jobberProsent)}
-                    </li>
-                )}
-            </ul>
+            {arbeidIPeriode.jobberIPerioden === JobberIPeriodeSvar.NEI && (
+                <p style={{ marginTop: 0 }}>
+                    <FormattedMessage id={`oppsummering.arbeidIPeriode.jobberIPerioden.nei`} />
+                </p>
+            )}
+
+            {arbeidIPeriode.enkeltdager && (
+                <Box margin="m">
+                    <TidEnkeltdager dager={arbeidIPeriode.enkeltdager} />
+                </Box>
+            )}
+
+            {/* Bruker har valgt faste dager eller prosent */}
+            {arbeidIPeriode.fasteDager && (
+                <>
+                    {/* Faste dager */}
+                    {arbeidIPeriode.jobberProsent === undefined && (
+                        <>
+                            <div>{intlHelper(intl, 'oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke')}:</div>
+                            <Box margin="m">
+                                <TidFasteDager fasteDager={arbeidIPeriode.fasteDager} />
+                            </Box>
+                        </>
+                    )}
+                    {/* Prosent - men verdi er fordelt likt på  fasteDager */}
+                    {arbeidIPeriode.jobberProsent !== undefined && getArbeidProsentTekst(arbeidIPeriode.jobberProsent)}
+                </>
+            )}
         </>
     );
 };
