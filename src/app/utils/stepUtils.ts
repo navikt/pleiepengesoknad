@@ -11,6 +11,9 @@ import {
     opplysningerOmTidsromStepIsValid,
     welcomingPageIsValid,
 } from '../validation/stepValidations';
+import { erAnsattISøknadsperiode } from './ansattUtils';
+import { erFrilanserIPeriode } from './frilanserUtils';
+import { DateRange } from '@navikt/sif-common-formik/lib';
 
 export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
     const conf = stepConfig[stepId];
@@ -78,5 +81,16 @@ export const skalBrukerSvarePåBeredskapOgNattevåk = (formValues?: SøknadFormD
         formValues !== undefined &&
         formValues.omsorgstilbud !== undefined &&
         formValues.omsorgstilbud.erIOmsorgstilbud === YesOrNo.YES
+    );
+};
+
+export const skalBrukerSvareArbeidstid = (søknadsperiode: DateRange, formValues?: SøknadFormData): boolean => {
+    if (!formValues) {
+        return false;
+    }
+    return (
+        erAnsattISøknadsperiode(formValues.ansatt_arbeidsforhold) ||
+        erFrilanserIPeriode(søknadsperiode, formValues) ||
+        formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES
     );
 };

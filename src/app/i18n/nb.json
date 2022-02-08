@@ -395,7 +395,7 @@
     "steg.oppsummering.nattevåkBeredskap.header": "Nattevåk og beredskap",
     "steg.oppsummering.omsorgstilbud.fast.header": "Omsorgstilbud er likt hver uke i perioden:",
 
-    "steg.oppsummering.omsorgstilbud.enkeltdager.header": "Tid i omsorgstilbud:",
+    "steg.oppsummering.omsorgstilbud.enkeltdager.header": "Fast og regelmessig tid i omsorgstilbud:",
 
     "steg.oppsummering.utlandetSiste12.header": "Har bodd i utlandet i de siste 12 månedene",
     "steg.oppsummering.utlandetNeste12.header": "Skal bo i utlandet i de neste 12 månedene",
@@ -517,8 +517,8 @@
     "arbeidIPeriode.søkerKunHelgedager.alert.avsnitt.2": "Du kan derfor ikke registrere arbeid kun for lørdag og/eller søndag.",
     "arbeidIPeriode.søkerKunHelgedager.alert.avsnitt.3": "Vennligst gå tilbake til steg \"Perioden med pleiepenger\" og sjekk informasjonen du har fylt ut. Når du har gjort det, trykker du på \"Fortsett\"-knappen for å gå videre.",
 
-    "arbeidIPeriode.StepInfo.1": "Nå trenger vi å vite om du jobber i perioden. Dette er informasjon vi trenger, fordi vi graderer pleiepengene mot den tiden du har jobbet. ",
-    "arbeidIPeriode.StepInfo.2": "Gradering betyr at pleiepengene reduseres. Hvis du i pleiepengeperioden for eksempel har jobbet 50 prosent, kan du ha rett til 50 prosent pleiepenger.",
+    "arbeidIPeriode.StepInfo.1": "Nå trenger vi å vite om du jobber noe i perioden du søker om å ha pleiepenger. Dette er informasjon vi trenger, fordi vi graderer pleiepengene mot den tiden du jobber.",
+    "arbeidIPeriode.StepInfo.2": "Gradering betyr at pleiepengene reduseres. Hvis du i søknadsperioden for eksempel jobber 50 prosent, kan du ha rett til 50 prosent pleiepenger.",
     "arbeidIPeriode.FrilansLabel": "Frilans",
     "arbeidIPeriode.SNLabel": "Selvstendig næringsdrivende",
     "arbeidIPeriode.jobberIPerioden.spm": "Jobber du noe {hvor} i perioden du søker for?",
@@ -771,9 +771,9 @@
     "validation.omsorgstilbud.fastdag.tid.minutesAreNegative": "Antall timer og minutter {dag} kan ikke være mindre enn 0 timer og 0 minutter.",
     "validation.omsorgstilbud_gruppe.ingenInfo": "Du må fylle ut den tiden i omsorgstilbudet som er fast og regelmessig.",
     "validation.omsorgstilbud_gruppe.forMangeTimerTotalt": "Du kan registrere maks 37 timer og 30 minuter totalt.",
-    "validation.omsorgstilbud.erIOmsorgstilbud.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnet er i omsorgstilbud i perioden.",
+    "validation.omsorgstilbud.erIOmsorgstilbud.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnet er fast og regelmessig i et omsorgstilbud i perioden.",
     "validation.omsorgstilbud.enkeltdager.ingenTidRegistrert": "Du har ikke oppgitt noe tid for hvor mye barnet er i et omsorgstilbud i perioden.",
-    "validation.omsorgstilbud.erLiktHverUke.yesOrNoIsUnanswered": "Du må svare på om tiden barnet er i omsorgstilbudet er lik for hver dag i perioden.",
+    "validation.omsorgstilbud.erLiktHverUke.yesOrNoIsUnanswered": "Du må svare på om tiden barnet er i omsorgstilbudet er lik for hver uke i perioden.",
 
     "validation.harNattevåk.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnets sykdom gjør at du må være våken om natten.",
     "validation.harNattevåk_ekstrainfo.stringHasNoValue": "Du må beskrive hva som gjør at du må være våken om natten.",
