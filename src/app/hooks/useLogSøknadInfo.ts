@@ -8,18 +8,14 @@ import { useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
 function useLogSøknadInfo() {
     const { logInfo } = useAmplitudeInstance();
 
-    const logArbeidPeriodeRegistrert = (data: {
-        verdi: 'prosent' | 'ukeplan';
-        erHistorisk: boolean;
-        prosent?: string;
-    }) => {
+    const logArbeidPeriodeRegistrert = (data: { verdi: 'prosent' | 'ukeplan'; prosent?: string }) => {
         logInfo({
             hendelse: LogSøknadInfoType.arbeidPeriodeRegistrert,
             ...data,
         });
     };
 
-    const logArbeidEnkeltdagRegistrert = (data: { antallDager: number; erHistorisk: boolean }) => {
+    const logArbeidEnkeltdagRegistrert = (data: { antallDager: number }) => {
         logInfo({
             hendelse: LogSøknadInfoType.arbeidEnkeltdagRegistrert,
             ...data,

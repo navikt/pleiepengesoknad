@@ -23,10 +23,9 @@ interface Props {
     formValues: SøknadFormData;
     søknadsperiode: DateRange;
     søknadsdato: Date;
-    søkerKunHistoriskPeriode: boolean;
 }
 
-const ArbeidssituasjonFrilans = ({ formValues, søkerKunHistoriskPeriode, søknadsperiode, søknadsdato }: Props) => {
+const ArbeidssituasjonFrilans = ({ formValues, søknadsperiode, søknadsdato }: Props) => {
     const {
         frilans_jobberFortsattSomFrilans,
         frilans_harHattInntektSomFrilanser,
@@ -48,12 +47,7 @@ const ArbeidssituasjonFrilans = ({ formValues, søkerKunHistoriskPeriode, søkna
             <Box margin="l">
                 <SøknadFormComponents.YesOrNoQuestion
                     name={SøknadFormField.frilans_harHattInntektSomFrilanser}
-                    legend={intlHelper(
-                        intl,
-                        søkerKunHistoriskPeriode
-                            ? 'frilanser.harDuHattInntekt.historisk.spm'
-                            : 'frilanser.harDuHattInntekt.spm'
-                    )}
+                    legend={intlHelper(intl, 'frilanser.harDuHattInntekt.spm')}
                     validate={getYesOrNoValidator()}
                     description={
                         <ExpandableInfo title={intlHelper(intl, 'frilanser.hjelpetekst.spm')}>

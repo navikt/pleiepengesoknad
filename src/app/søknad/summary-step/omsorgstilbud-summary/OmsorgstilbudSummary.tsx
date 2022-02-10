@@ -1,55 +1,62 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-with-header/ContentWithHeader';
+import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 import SummarySection from '@navikt/sif-common-core/lib/components/summary-section/SummarySection';
 import TextareaSummary from '@navikt/sif-common-core/lib/components/textarea-summary/TextareaSummary';
-import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange, prettifyDateExtended } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { TidEnkeltdager, TidFasteDager } from '@navikt/sif-common-pleiepenger/lib';
 import { SøknadApiData } from '../../../types/SøknadApiData';
 import Sitat from '../enkeltsvar/Sitat';
-import HistoriskOmsorgstilbudSummary from './HistoriskOmsorgstilbudSummary';
-import PlanlagtOmsorgstilbudSummary from './PlanlagtOmsorgstilbudSummary';
-import { getSøkerKunHistoriskPeriode } from '../../../utils/fortidFremtidUtils';
 
 interface Props {
     søknadsperiode: DateRange;
-    søknadsdato: Date;
     apiValues: SøknadApiData;
 }
 
 const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
     apiValues: { nattevåk, beredskap, omsorgstilbud: omsorgstilbud },
     søknadsperiode,
-    søknadsdato,
 }) => {
     const intl = useIntl();
-    const søkerKunHistoriskPeriode = getSøkerKunHistoriskPeriode(søknadsperiode, søknadsdato);
     return (
         <>
-            <HistoriskOmsorgstilbudSummary
-                historiskOmsorgstilbud={omsorgstilbud?.historisk}
-                søknadsperiode={søknadsperiode}
-                søknadsdato={søknadsdato}
-            />
-
-            <PlanlagtOmsorgstilbudSummary
-                omsorgstilbud={omsorgstilbud?.planlagt}
-                søknadsperiode={søknadsperiode}
-                søknadsdato={søknadsdato}
-            />
-
+            <SummarySection
+                header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.header', {
+                    fra: prettifyDateExtended(søknadsperiode.from),
+                    til: prettifyDateExtended(søknadsperiode.to),
+                })}>
+                {omsorgstilbud === undefined && (
+                    <SummaryBlock
+                        header={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbud.spm', {
+                            fra: prettifyDateExtended(søknadsperiode.from),
+                            til: prettifyDateExtended(søknadsperiode.to),
+                        })}>
+                        <FormattedMessage id={`omsorgstilbud.svar.nei`} />
+                    </SummaryBlock>
+                )}
+                {omsorgstilbud !== undefined && omsorgstilbud.ukedager && (
+                    <SummaryBlock
+                        header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.fast.header')}
+                        headerTag="h3">
+                        <TidFasteDager fasteDager={omsorgstilbud.ukedager} />
+                    </SummaryBlock>
+                )}
+                {omsorgstilbud !== undefined && omsorgstilbud.enkeltdager && (
+                    <SummaryBlock
+                        header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.enkeltdager.header')}
+                        headerTag="h3">
+                        <TidEnkeltdager dager={omsorgstilbud.enkeltdager} />
+                    </SummaryBlock>
+                )}
+            </SummarySection>
             {(nattevåk || beredskap) && (
                 <SummarySection header={intlHelper(intl, 'steg.oppsummering.nattevåkBeredskap.header')}>
                     {nattevåk && (
                         <Box margin="xl">
-                            <ContentWithHeader
-                                header={intlHelper(
-                                    intl,
-                                    søkerKunHistoriskPeriode
-                                        ? 'steg.nattevåkOgBeredskap.nattevåk.historisk.spm'
-                                        : 'steg.nattevåkOgBeredskap.nattevåk.spm'
-                                )}>
+                            <ContentWithHeader header={intlHelper(intl, 'steg.nattevåkOgBeredskap.nattevåk.spm')}>
                                 {nattevåk.harNattevåk === true && intlHelper(intl, 'Ja')}
                                 {nattevåk.harNattevåk === false && intlHelper(intl, 'Nei')}
                                 {nattevåk.harNattevåk === true && nattevåk.tilleggsinformasjon && (
@@ -62,13 +69,7 @@ const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
                     )}
                     {beredskap && (
                         <Box margin="xl">
-                            <ContentWithHeader
-                                header={intlHelper(
-                                    intl,
-                                    søkerKunHistoriskPeriode
-                                        ? 'steg.nattevåkOgBeredskap.beredskap.historisk.spm'
-                                        : 'steg.nattevåkOgBeredskap.beredskap.spm'
-                                )}>
+                            <ContentWithHeader header={intlHelper(intl, 'steg.nattevåkOgBeredskap.beredskap.spm')}>
                                 {beredskap.beredskap === true && intlHelper(intl, 'Ja')}
                                 {beredskap.beredskap === false && intlHelper(intl, 'Nei')}
                                 {beredskap.tilleggsinformasjon && (

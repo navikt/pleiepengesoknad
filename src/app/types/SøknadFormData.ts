@@ -38,14 +38,11 @@ export enum SøknadFormField {
     harBeredskap = 'harBeredskap',
     harBeredskap_ekstrainfo = 'harBeredskap_ekstrainfo',
     omsorgstilbud = 'omsorgstilbud',
-    omsorgstilbud__skalBarnIOmsorgstilbud = 'omsorgstilbud.skalBarnIOmsorgstilbud',
-    omsorgstilbud__harBarnVærtIOmsorgstilbud = 'omsorgstilbud.harBarnVærtIOmsorgstilbud',
-    omsorgstilbud__historisk__erLiktHverUke = 'omsorgstilbud.historisk.erLiktHverUke',
-    omsorgstilbud__historisk__fasteDager = 'omsorgstilbud.historisk.fasteDager',
-    omsorgstilbud__historisk__enkeltdager = 'omsorgstilbud.historisk.enkeltdager',
-    omsorgstilbud__planlagt__erLiktHverUke = 'omsorgstilbud.planlagt.erLiktHverUke',
-    omsorgstilbud__planlagt__fasteDager = 'omsorgstilbud.planlagt.fasteDager',
-    omsorgstilbud__planlagt__enkeltdager = 'omsorgstilbud.planlagt.enkeltdager',
+    omsorgstilbud_gruppe = 'omsorgstilbud_gruppe',
+    omsorgstilbud__erIOmsorgstilbud = 'omsorgstilbud.erIOmsorgstilbud',
+    omsorgstilbud__erLiktHverUke = 'omsorgstilbud.erLiktHverUke',
+    omsorgstilbud__fasteDager = 'omsorgstilbud.fasteDager',
+    omsorgstilbud__enkeltdager = 'omsorgstilbud.enkeltdager',
     frilans_harHattInntektSomFrilanser = 'frilans_harHattInntektSomFrilanser',
     frilans_startdato = 'frilans_startdato',
     frilans_sluttdato = 'frilans_sluttdato',
@@ -60,42 +57,25 @@ export enum SøknadFormField {
     andreYtelser = 'andreYtelser',
 }
 
-export interface OmsorgstilbudPlanlagt {
-    erLiktHverUke?: YesOrNo;
-    fasteDager?: DurationWeekdays;
-    enkeltdager?: DateDurationMap;
-}
-export interface OmsorgstilbudHelePerioden {
-    erLiktHverUke?: YesOrNo;
-    fasteDager?: DurationWeekdays;
-    enkeltdager?: DateDurationMap;
-}
-export interface OmsorgstilbudHistorisk {
-    erLiktHverUke?: YesOrNo;
-    fasteDager?: DurationWeekdays;
-    enkeltdager?: DateDurationMap;
-}
 export interface Omsorgstilbud {
-    skalBarnIOmsorgstilbud?: YesOrNo;
-    harBarnVærtIOmsorgstilbud?: YesOrNo;
-    helePerioden?: OmsorgstilbudHelePerioden;
-    planlagt?: OmsorgstilbudPlanlagt;
-    historisk?: OmsorgstilbudHistorisk;
+    erIOmsorgstilbud?: YesOrNo;
+    erLiktHverUke?: YesOrNo;
+    fasteDager?: DurationWeekdays;
+    enkeltdager?: DateDurationMap;
 }
 
 export enum ArbeidsforholdField {
     erAnsatt = 'erAnsatt',
     sluttetFørSøknadsperiode = 'sluttetFørSøknadsperiode',
     jobberNormaltTimer = 'jobberNormaltTimer',
-    historisk = 'historisk',
-    planlagt = 'planlagt',
+    arbeidIPeriode = 'arbeidIPeriode',
 }
 
 export enum ArbeidIPeriodeField {
     jobberIPerioden = 'jobberIPerioden',
     erLiktHverUke = 'erLiktHverUke',
     timerEllerProsent = 'timerEllerProsent',
-    skalJobbeProsent = 'skalJobbeProsent',
+    jobberProsent = 'jobberProsent',
     fasteDager = 'fasteDager',
     enkeltdager = 'enkeltdager',
 }
@@ -104,15 +84,14 @@ export interface ArbeidIPeriode {
     [ArbeidIPeriodeField.jobberIPerioden]: JobberIPeriodeSvar;
     [ArbeidIPeriodeField.erLiktHverUke]?: YesOrNo;
     [ArbeidIPeriodeField.timerEllerProsent]?: TimerEllerProsent;
-    [ArbeidIPeriodeField.skalJobbeProsent]?: string;
+    [ArbeidIPeriodeField.jobberProsent]?: string;
     [ArbeidIPeriodeField.enkeltdager]?: DateDurationMap;
     [ArbeidIPeriodeField.fasteDager]?: DurationWeekdays;
 }
 
 export interface Arbeidsforhold {
     [ArbeidsforholdField.jobberNormaltTimer]?: string;
-    [ArbeidsforholdField.historisk]?: ArbeidIPeriode;
-    [ArbeidsforholdField.planlagt]?: ArbeidIPeriode;
+    [ArbeidsforholdField.arbeidIPeriode]?: ArbeidIPeriode;
 }
 export interface ArbeidsforholdAnsatt extends Arbeidsgiver, Arbeidsforhold {
     [ArbeidsforholdField.erAnsatt]?: YesOrNo;

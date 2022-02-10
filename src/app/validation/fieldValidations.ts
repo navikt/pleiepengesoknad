@@ -25,7 +25,6 @@ import { durationToDecimalDuration, DateDurationMap } from '@navikt/sif-common-u
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import minMax from 'dayjs/plugin/minMax';
-import { SøknadFormField } from '../types/SøknadFormData';
 import { getDurationsInDateRange, getValidDurations, summarizeDateDurationMap } from '@navikt/sif-common-utils';
 
 dayjs.extend(minMax);
@@ -41,13 +40,8 @@ export enum AppFieldValidationErrors {
     'arbeidsforhold_timerUgyldig_over_99_prosent' = 'timerUgyldig_over_99_prosent',
     'arbeidsforhold_timerUgyldig_over_100_prosent' = 'timerUgyldig_over_100_prosent',
 
-    'omsorgstilbudIPeriode_fasteDager_ingenTidRegistrert' = 'omsorgstilbud.fasteDager.ingenTidRegistrert',
-    'omsorgstilbudIPeriode_fasteDager_forMangeTimer' = 'omsorgstilbud.fasteDager.forMangeTimer',
-
-    'omsorgstilbud_ingenInfo' = 'omsorgstilbud_ingenInfo',
-    'omsorgstilbud_forMangeTimerTotalt' = 'omsorgstilbud_forMangeTimerTotalt',
-    'omsorgstilbud_forMangeTimerEnDag' = 'omsorgstilbud_forMangeTimerEnDag',
-    'omsorgstilbud_forMangeTegn' = 'omsorgstilbud_forMangeTegn',
+    'omsorgstilbud_gruppe_ingenInfo' = 'ingenInfo',
+    'omsorgstilbud_gruppe_forMangeTimerTotalt' = 'forMangeTimerTotalt',
 
     'utenlandsopphold_ikke_registrert' = 'utenlandsopphold_ikke_registrert',
     'utenlandsopphold_overlapper' = 'utenlandsopphold_overlapper',
@@ -161,22 +155,13 @@ export const validateLegeerklæring = (attachments: Attachment[]): ValidationRes
     return undefined;
 };
 
-export const validateOmsorgstilbudEnkeltdagerIPeriode = (
-    tidIOmsorgstilbud: DateDurationMap,
-    periode: DateRange,
-    erHistorisk: boolean | undefined
-) => {
+export const validateOmsorgstilbudEnkeltdagerIPeriode = (tidIOmsorgstilbud: DateDurationMap, periode: DateRange) => {
     const tidIPerioden = getDurationsInDateRange(tidIOmsorgstilbud, periode);
     const validTidEnkeltdager = getValidDurations(tidIPerioden);
     const hasElements = Object.keys(validTidEnkeltdager).length > 0;
 
     if (!hasElements || durationToDecimalDuration(summarizeDateDurationMap(validTidEnkeltdager)) <= 0) {
-        return {
-            key: erHistorisk
-                ? `validation.${SøknadFormField.omsorgstilbud__historisk__enkeltdager}.ingenTidRegistrert`
-                : `validation.${SøknadFormField.omsorgstilbud__planlagt__enkeltdager}.ingenTidRegistrert`,
-            keepKeyUnaltered: true,
-        };
+        return 'ingenTidRegistrert';
     }
     return undefined;
 };

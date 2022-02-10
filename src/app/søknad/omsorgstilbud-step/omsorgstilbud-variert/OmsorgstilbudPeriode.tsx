@@ -15,7 +15,6 @@ import { Knapp } from 'nav-frontend-knapper';
 
 interface Props {
     periode: DateRange;
-    gjelderFortid: boolean;
     onPeriodeChange: (tid: DateDurationMap) => void;
 }
 
@@ -36,7 +35,7 @@ const oppdaterDagerMedOmsorgstilbudIPeriode = ({
     return dagerSomSkalEndres;
 };
 
-const OmsorgstilbudPeriode: React.FC<Props> = ({ periode, gjelderFortid, onPeriodeChange }) => {
+const OmsorgstilbudPeriode: React.FC<Props> = ({ periode, onPeriodeChange }) => {
     const [visPeriode, setVisPeriode] = useState(false);
 
     const handleFormSubmit = (data: OmsorgstilbudPeriodeData) => {
@@ -54,7 +53,7 @@ const OmsorgstilbudPeriode: React.FC<Props> = ({ periode, gjelderFortid, onPerio
             <OmsorgstilbudPeriodeDialog
                 formProps={{
                     periode,
-                    gjelderFortid,
+
                     onCancel: () => setVisPeriode(false),
                     onSubmit: handleFormSubmit,
                 }}

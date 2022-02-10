@@ -12,15 +12,14 @@ import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { erAnsattHosArbeidsgiverISøknadsperiode } from '../../utils/ansattUtils';
 import { getPeriodeSomFrilanserInnenforPeriode } from '../../utils/frilanserUtils';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../utils/selvstendigUtils';
-import ArbeidIPeriodeSpørsmål from './ArbeidIPeriodeSpørsmål';
+import ArbeidIPeriodeSpørsmål from './arbeid-i-periode-spørsmål/ArbeidIPeriodeSpørsmål';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 
 interface Props {
     periode: DateRange;
-    erHistorisk: boolean;
 }
 
-const ArbeidIPeriodeStepContent = ({ periode, erHistorisk }: Props) => {
+const ArbeidIPeriodeStepContent = ({ periode }: Props) => {
     const intl = useIntl();
     const formikProps = useFormikContext<SøknadFormData>();
     const {
@@ -61,7 +60,7 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk }: Props) => {
                 <CounsellorPanel>
                     <p>
                         <FormattedMessage
-                            id={erHistorisk ? 'arbeidIPeriode.StepInfo.historisk' : 'arbeidIPeriode.StepInfo.planlagt'}
+                            id={'arbeidIPeriode.StepInfo.1'}
                             values={{
                                 fra: prettifyDateFull(periode.from),
                                 til: prettifyDateFull(periode.to),
@@ -69,7 +68,7 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk }: Props) => {
                         />
                     </p>
                     <p>
-                        <FormattedMessage id={'arbeidIPeriode.StepInfo.info'} />
+                        <FormattedMessage id={'arbeidIPeriode.StepInfo.2'} />
                     </p>
                 </CounsellorPanel>
             </Box>
@@ -88,7 +87,6 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk }: Props) => {
                                     arbeidsforhold={arbeidsforhold}
                                     periode={periode}
                                     parentFieldName={`${SøknadFormField.ansatt_arbeidsforhold}.${index}`}
-                                    erHistorisk={erHistorisk}
                                 />
                             </FormSection>
                         );
@@ -104,7 +102,6 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk }: Props) => {
                         arbeidsforhold={frilans_arbeidsforhold}
                         periode={arbeidsperiodeFrilans}
                         parentFieldName={`${SøknadFormField.frilans_arbeidsforhold}`}
-                        erHistorisk={erHistorisk}
                     />
                 </FormSection>
             )}
@@ -116,7 +113,6 @@ const ArbeidIPeriodeStepContent = ({ periode, erHistorisk }: Props) => {
                         arbeidsforhold={selvstendig_arbeidsforhold}
                         periode={arbeidsperiodeSelvstendig}
                         parentFieldName={`${SøknadFormField.selvstendig_arbeidsforhold}`}
-                        erHistorisk={erHistorisk}
                     />
                 </FormSection>
             )}

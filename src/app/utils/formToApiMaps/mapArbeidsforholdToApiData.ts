@@ -1,8 +1,8 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
-import { dateToISODate, getDatesInDateRange } from '@navikt/sif-common-utils';
 import { ArbeidsforholdType, getRedusertArbeidstidSomISODuration } from '@navikt/sif-common-pleiepenger';
+import { dateToISODate, getDatesInDateRange } from '@navikt/sif-common-utils';
 import { JobberIPeriodeSvar, TimerEllerProsent } from '../../types';
 import {
     ArbeidIPeriodeApiData,
@@ -12,7 +12,6 @@ import {
 } from '../../types/SøknadApiData';
 import { ArbeidIPeriode, Arbeidsforhold } from '../../types/SøknadFormData';
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
-import { getHistoriskPeriode, getPlanlagtPeriode } from '../fortidFremtidUtils';
 import {
     fjernTidUtenforPeriodeOgHelgedager,
     getEnkeltdagerIPeriodeApiData,
@@ -22,10 +21,10 @@ import {
 export const lagEnkeltdagerUtFraProsentIPeriode = (
     periode: DateRange,
     jobberNormaltTimerNumber: number,
-    skalJobbeProsent: number
+    jobberProsent: number
 ): TidEnkeltdagApiData[] => {
     const datoer = getDatesInDateRange(periode, true);
-    const tid = getRedusertArbeidstidSomISODuration(jobberNormaltTimerNumber, skalJobbeProsent);
+    const tid = getRedusertArbeidstidSomISODuration(jobberNormaltTimerNumber, jobberProsent);
     return datoer.map(
         (dato): TidEnkeltdagApiData => ({
             dato: dateToISODate(dato),
@@ -35,10 +34,10 @@ export const lagEnkeltdagerUtFraProsentIPeriode = (
 };
 export const lagFasteDagerUtFraProsentIPeriode = (
     jobberNormaltTimerNumber: number,
-    skalJobbeProsent: number
+    jobberProsent: number
 ): TidFasteDagerApiData => {
     const timerPerDag = jobberNormaltTimerNumber / 5;
-    const tid = getRedusertArbeidstidSomISODuration(timerPerDag, skalJobbeProsent);
+    const tid = getRedusertArbeidstidSomISODuration(timerPerDag, jobberProsent);
     return {
         mandag: tid,
         tirsdag: tid,
@@ -61,17 +60,16 @@ export const mapArbeidIPeriodeToApiData = (
     if (arbeid.jobberIPerioden !== JobberIPeriodeSvar.JA) {
         return apiData;
     }
-    apiData.jobberSomVanlig = false;
     if (arbeid.timerEllerProsent === TimerEllerProsent.PROSENT) {
-        const skalJobbeProsentNumber = getNumberFromNumberInputValue(arbeid.skalJobbeProsent);
-        if (skalJobbeProsentNumber === undefined) {
-            throw new Error('mapArbeidIPeriodeToApiData - skalJobbeProsentNumber undefined');
+        const jobberProsentNumber = getNumberFromNumberInputValue(arbeid.jobberProsent);
+        if (jobberProsentNumber === undefined) {
+            throw new Error('mapArbeidIPeriodeToApiData - jobberProsentNumber undefined');
         }
         return {
             ...apiData,
             erLiktHverUke: true,
-            fasteDager: lagFasteDagerUtFraProsentIPeriode(jobberNormaltTimerNumber, skalJobbeProsentNumber),
-            jobberProsent: skalJobbeProsentNumber,
+            fasteDager: lagFasteDagerUtFraProsentIPeriode(jobberNormaltTimerNumber, jobberProsentNumber),
+            jobberProsent: jobberProsentNumber,
         };
     }
 
@@ -87,90 +85,27 @@ export const mapArbeidIPeriodeToApiData = (
     };
 };
 
-export const getHistoriskArbeidIArbeidsforhold = ({
-    søkerFortid,
-    søkerFremtid,
-    arbeidHistoriskPeriode,
-    historiskPeriode,
-    arbeidsperiode,
-    jobberNormaltTimerNumber,
-}: {
-    søkerFremtid: boolean;
-    søkerFortid: boolean;
-    historiskPeriode?: DateRange;
-    arbeidHistoriskPeriode?: ArbeidIPeriode;
-    arbeidsperiode?: Partial<DateRange>;
-    jobberNormaltTimerNumber: number;
-}): ArbeidIPeriodeApiData | undefined => {
-    if (søkerFremtid && !søkerFortid) {
-        return undefined;
-    }
-    return historiskPeriode && arbeidHistoriskPeriode
-        ? mapArbeidIPeriodeToApiData(arbeidHistoriskPeriode, historiskPeriode, jobberNormaltTimerNumber, arbeidsperiode)
-        : undefined;
-};
-
-export const getPlanlagtArbeidIArbeidsforhold = ({
-    søkerFortid,
-    søkerFremtid,
-    arbeidPlanlagtPeriode,
-    planlagtPeriode,
-    arbeidsperiode,
-    jobberNormaltTimerNumber,
-}: {
-    søkerFremtid: boolean;
-    søkerFortid: boolean;
-    planlagtPeriode?: DateRange;
-    arbeidPlanlagtPeriode?: ArbeidIPeriode;
-    arbeidsperiode?: Partial<DateRange>;
-    jobberNormaltTimerNumber: number;
-}): ArbeidIPeriodeApiData | undefined => {
-    if (søkerFortid && !søkerFremtid) {
-        return undefined;
-    }
-    return planlagtPeriode && arbeidPlanlagtPeriode
-        ? mapArbeidIPeriodeToApiData(arbeidPlanlagtPeriode, planlagtPeriode, jobberNormaltTimerNumber, arbeidsperiode)
-        : undefined;
-};
-
 export const mapArbeidsforholdToApiData = (
     arbeidsforhold: Arbeidsforhold,
     søknadsperiode: DateRange,
     type: ArbeidsforholdType,
-    søknadsdato: Date,
     /** Periode hvor en er aktiv, f.eks. noen som starter sluttet i søknadsperioden */
     arbeidsperiode?: Partial<DateRange>
 ): ArbeidsforholdApiData => {
-    const { jobberNormaltTimer } = arbeidsforhold;
+    const { jobberNormaltTimer, arbeidIPeriode } = arbeidsforhold;
     const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
 
-    if (jobberNormaltTimerNumber === undefined) {
+    if (jobberNormaltTimerNumber === undefined || arbeidIPeriode === undefined) {
         throw new Error('mapArbeidsforholdToApiData');
     }
-
-    const periodeFortid = getHistoriskPeriode(søknadsperiode, søknadsdato);
-    const periodeFremtid = getPlanlagtPeriode(søknadsperiode, søknadsdato);
-    const søkerFortid = periodeFortid !== undefined;
-    const søkerFremtid = periodeFremtid !== undefined;
-
     return {
         _type: type,
         jobberNormaltTimer: jobberNormaltTimerNumber,
-        historiskArbeid: getHistoriskArbeidIArbeidsforhold({
-            søkerFremtid,
-            søkerFortid,
-            historiskPeriode: periodeFortid,
-            arbeidHistoriskPeriode: arbeidsforhold.historisk,
-            arbeidsperiode,
+        arbeidIPeriode: mapArbeidIPeriodeToApiData(
+            arbeidIPeriode,
+            søknadsperiode,
             jobberNormaltTimerNumber,
-        }),
-        planlagtArbeid: getPlanlagtArbeidIArbeidsforhold({
-            søkerFremtid,
-            søkerFortid,
-            planlagtPeriode: periodeFremtid,
-            arbeidPlanlagtPeriode: arbeidsforhold.planlagt,
-            arbeidsperiode,
-            jobberNormaltTimerNumber,
-        }),
+            arbeidsperiode
+        ),
     };
 };

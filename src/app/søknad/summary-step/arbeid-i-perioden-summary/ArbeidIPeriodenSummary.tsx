@@ -11,7 +11,6 @@ import {
     isArbeidsgiverISøknadsperiodeApiData,
     SøknadApiData,
 } from '../../../types/SøknadApiData';
-import { getHistoriskPeriode, getPlanlagtPeriode } from '../../../utils/fortidFremtidUtils';
 import { erFrilanserITidsrom } from '../../../utils/frilanserUtils';
 import ArbeidIPeriodeSummaryItem from './ArbeidIPeriodenSummaryItem';
 
@@ -23,8 +22,7 @@ interface Props {
 
 export interface ArbeidIPeriodenSummaryItemType extends ArbeidsforholdApiData {
     tittel: string;
-    varAktivtIHistoriskPeriode: boolean;
-    erAktivtIPlanlagtPeriode: boolean;
+    erAktivIPeriode: boolean;
 }
 
 const getFrilansTittel = (intl: IntlShape, frilans: FrilansApiData, periode: DateRange) => {
@@ -55,13 +53,9 @@ const getFrilansTittel = (intl: IntlShape, frilans: FrilansApiData, periode: Dat
 const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
     apiValues: { arbeidsgivere, frilans, selvstendigNæringsdrivende },
     søknadsperiode,
-    søknadsdato,
 }) => {
     const intl = useIntl();
     const alleArbeidsforhold: ArbeidIPeriodenSummaryItemType[] = [];
-
-    const periodeFørSøknadsdato = søknadsperiode ? getHistoriskPeriode(søknadsperiode, søknadsdato) : undefined;
-    const periodeFraOgMedSøknadsdato = søknadsperiode ? getPlanlagtPeriode(søknadsperiode, søknadsdato) : undefined;
 
     if (arbeidsgivere) {
         arbeidsgivere.forEach((a) => {
@@ -72,8 +66,7 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
                         navn: a.navn,
                         organisasjonsnummer: a.organisasjonsnummer,
                     }),
-                    erAktivtIPlanlagtPeriode: true,
-                    varAktivtIHistoriskPeriode: true,
+                    erAktivIPeriode: true,
                 });
             }
         });
@@ -88,12 +81,7 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
         alleArbeidsforhold.push({
             ...frilans.arbeidsforhold,
             tittel: getFrilansTittel(intl, frilans, søknadsperiode),
-            varAktivtIHistoriskPeriode: periodeFørSøknadsdato
-                ? erFrilanserITidsrom(periodeFørSøknadsdato, frilansStartSlutt)
-                : false,
-            erAktivtIPlanlagtPeriode: periodeFraOgMedSøknadsdato
-                ? erFrilanserITidsrom(periodeFraOgMedSøknadsdato, frilansStartSlutt)
-                : false,
+            erAktivIPeriode: erFrilanserITidsrom(søknadsperiode, frilansStartSlutt),
         });
     }
 
@@ -101,72 +89,30 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
         alleArbeidsforhold.push({
             ...selvstendigNæringsdrivende.arbeidsforhold,
             tittel: intlHelper(intl, 'selvstendigNæringsdrivende.tittel'),
-            erAktivtIPlanlagtPeriode: true,
-            varAktivtIHistoriskPeriode: true,
+            erAktivIPeriode: true,
         });
     }
 
-    const getSectionHeaderText = (periode: DateRange, erHistorisk: boolean) =>
-        intlHelper(
-            intl,
-            erHistorisk
-                ? 'oppsummering.arbeidIPeriode.jobbIPerioden.historisk.header'
-                : 'oppsummering.arbeidIPeriode.jobbIPerioden.planlagt.header',
-            {
-                fra: prettifyDateExtended(periode.from),
-                til: prettifyDateExtended(periode.to),
-            }
-        );
-
-    if (alleArbeidsforhold.length === 0) {
-        return (
-            <SummarySection header={intlHelper(intl, 'oppsummering.arbeidIPeriode.arbeidIkkeRegistrert.header')}>
-                {intlHelper(intl, 'oppsummering.arbeidIPeriode.arbeidIkkeRegistrert.info')}
-            </SummarySection>
-        );
+    const aktiveArbeidsforhold = alleArbeidsforhold.filter((a) => a.erAktivIPeriode);
+    if (aktiveArbeidsforhold.length === 0) {
+        return null;
     }
-
-    const arbeidsforholdIHistoriskPeriode = alleArbeidsforhold.filter(
-        (a) => a.varAktivtIHistoriskPeriode && a.historiskArbeid
-    );
-    const arbeidsforholdIPlanlagtPeriode = alleArbeidsforhold.filter(
-        (a) => a.erAktivtIPlanlagtPeriode && a.planlagtArbeid
-    );
 
     return (
         <>
-            {periodeFørSøknadsdato && arbeidsforholdIHistoriskPeriode.length > 0 && (
-                <SummarySection header={getSectionHeaderText(periodeFørSøknadsdato, true)}>
-                    {arbeidsforholdIHistoriskPeriode.map((forhold) =>
-                        forhold.historiskArbeid ? (
+            {aktiveArbeidsforhold.length > 0 && (
+                <SummarySection header={intlHelper(intl, 'oppsummering.arbeidIPeriode.jobbIPerioden.header')}>
+                    {aktiveArbeidsforhold.map((forhold) =>
+                        forhold.arbeidIPeriode ? (
                             <SummaryBlock header={forhold.tittel} key={forhold.tittel}>
                                 <ArbeidIPeriodeSummaryItem
-                                    periode={periodeFørSøknadsdato}
-                                    arbeidIPeriode={forhold.historiskArbeid}
+                                    periode={søknadsperiode}
+                                    arbeidIPeriode={forhold.arbeidIPeriode}
                                     normaltimerUke={forhold.jobberNormaltTimer}
-                                    erHistorisk={true}
                                 />
                             </SummaryBlock>
                         ) : (
-                            <div>Historisk arbeid mangler</div>
-                        )
-                    )}
-                </SummarySection>
-            )}
-            {periodeFraOgMedSøknadsdato && arbeidsforholdIPlanlagtPeriode.length > 0 && (
-                <SummarySection header={getSectionHeaderText(periodeFraOgMedSøknadsdato, false)}>
-                    {arbeidsforholdIPlanlagtPeriode.map((forhold) =>
-                        forhold.planlagtArbeid ? (
-                            <SummaryBlock header={forhold.tittel} key={forhold.tittel}>
-                                <ArbeidIPeriodeSummaryItem
-                                    periode={periodeFraOgMedSøknadsdato}
-                                    arbeidIPeriode={forhold.planlagtArbeid}
-                                    normaltimerUke={forhold.jobberNormaltTimer}
-                                    erHistorisk={false}
-                                />
-                            </SummaryBlock>
-                        ) : (
-                            <div>Planlagt arbeid mangler</div>
+                            <div>Informasjon om arbeid i perioden mangler</div>
                         )
                     )}
                 </SummarySection>
