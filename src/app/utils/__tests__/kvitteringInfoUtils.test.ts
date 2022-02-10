@@ -2,6 +2,7 @@ import { ArbeidsgiverApiData } from '../../types/SøknadApiData';
 import { Arbeidsgiver, Søkerdata } from '../../types/Søkerdata';
 import { getKvitteringInfoFromApiData, KvitteringApiData } from '../kvitteringUtils';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
+import { JobberIPeriodeSvar } from '../../types';
 
 const arbeidsgiverInfo: Arbeidsgiver = {
     navn: 'abc',
@@ -50,6 +51,9 @@ describe('kvitteringUtils', () => {
                 sluttetFørSøknadsperiode: false,
                 arbeidsforhold: {
                     jobberNormaltTimer: 20,
+                    arbeidIPeriode: {
+                        jobberIPerioden: JobberIPeriodeSvar.JA,
+                    },
                     _type: ArbeidsforholdType.ANSATT,
                 },
             };
@@ -59,6 +63,9 @@ describe('kvitteringUtils', () => {
                 erAnsatt: true,
                 arbeidsforhold: {
                     jobberNormaltTimer: 20,
+                    arbeidIPeriode: {
+                        jobberIPerioden: JobberIPeriodeSvar.JA,
+                    },
                     _type: ArbeidsforholdType.ANSATT,
                 },
             };

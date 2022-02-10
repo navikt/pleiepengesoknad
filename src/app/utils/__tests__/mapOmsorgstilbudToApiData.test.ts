@@ -2,7 +2,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { DateDurationMap } from '@navikt/sif-common-utils';
 import { Omsorgstilbud } from '../../types/SøknadFormData';
-import { mapPlanlagtOmsorgstilbudToApiData } from '../formToApiMaps/omsorgstilbudApiData';
+import { mapOmsorgstilbudToApiData } from '../formToApiMaps/omsorgstilbudApiData';
 import { getEnkeltdagerIPeriodeApiData } from '../formToApiMaps/tidsbrukApiUtils';
 
 jest.mock('./../envUtils', () => {
@@ -19,15 +19,13 @@ const fasteDagerResult = {
     fredag: 'PT2H30M',
 };
 
-const søknadsdato = new Date();
-
 jest.mock('./../featureToggleUtils.ts', () => ({
     isFeatureEnabled: jest.fn(),
     Feature: {},
 }));
 
 const omsorgstilbud: Omsorgstilbud = {
-    skalBarnIOmsorgstilbud: YesOrNo.YES,
+    erIOmsorgstilbud: YesOrNo.YES,
 };
 
 const søknadsperiode: DateRange = {
@@ -37,24 +35,17 @@ const søknadsperiode: DateRange = {
 
 describe('mapOmsorgstilbudToApiData test', () => {
     it('should return correct values when NO is selected', () => {
-        expect(JSON.stringify(undefined)).toEqual(
-            JSON.stringify(
-                mapPlanlagtOmsorgstilbudToApiData({ skalBarnIOmsorgstilbud: YesOrNo.NO }, søknadsperiode, søknadsdato)
-            )
-        );
+        expect(mapOmsorgstilbudToApiData({ erIOmsorgstilbud: YesOrNo.NO }, søknadsperiode)).toBeUndefined();
     });
     describe('getFasteDager', () => {
         it('returns fasteDager correctly', () => {
-            const result = mapPlanlagtOmsorgstilbudToApiData(
+            const result = mapOmsorgstilbudToApiData(
                 {
                     ...omsorgstilbud,
-                    planlagt: {
-                        erLiktHverUke: YesOrNo.YES,
-                        fasteDager: { friday: { hours: '2', minutes: '30' } },
-                    },
+                    erLiktHverUke: YesOrNo.YES,
+                    fasteDager: { friday: { hours: '2', minutes: '30' } },
                 },
-                søknadsperiode,
-                søknadsdato
+                søknadsperiode
             );
             expect(JSON.stringify(result?.ukedager)).toEqual(JSON.stringify(fasteDagerResult));
         });

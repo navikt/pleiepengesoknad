@@ -6,15 +6,16 @@ import { Feiloppsummering } from 'nav-frontend-skjema';
 import { ApiValidationError } from '../../../validation/apiValuesValidation';
 import ActionLink from '@navikt/sif-common-core/lib/components/action-link/ActionLink';
 import { navigateToSoknadStep } from '../../../utils/navigationUtils';
-import { søknadStepConfig } from '../../søknadStepsConfig';
 import { useHistory } from 'react-router';
 import { getStepTexts } from '../../../utils/stepUtils';
+import { StepConfigInterface } from '../../søknadStepsConfig';
 
 interface Props {
     errors: ApiValidationError[];
+    søknadStepConfig: StepConfigInterface;
 }
 
-const ApiValidationSummary: React.FunctionComponent<Props> = ({ errors }) => {
+const ApiValidationSummary: React.FunctionComponent<Props> = ({ errors, søknadStepConfig }) => {
     const intl = useIntl();
     const history = useHistory();
     if (errors.length === 0) {

@@ -12,13 +12,11 @@ import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/S
 interface Props {
     apiValues: SøknadApiData;
     søknadsperiode: DateRange;
-    søkerKunHistoriskPeriode: boolean;
 }
 
 const ArbeidssituasjonSummary: React.FunctionComponent<Props> = ({
     apiValues: { arbeidsgivere, frilans, selvstendigNæringsdrivende, harVærtEllerErVernepliktig },
     søknadsperiode,
-    søkerKunHistoriskPeriode,
 }) => {
     const intl = useIntl();
 
@@ -26,12 +24,9 @@ const ArbeidssituasjonSummary: React.FunctionComponent<Props> = ({
         <SummarySection header={intlHelper(intl, 'steg.oppsummering.arbeidssituasjon.header')}>
             <ArbeidsgivereSummary arbeidsgivere={arbeidsgivere} søknadsperiode={søknadsperiode} />
 
-            <FrilansSummary frilans={frilans} søkerKunHistoriskPeriode={søkerKunHistoriskPeriode} />
+            <FrilansSummary frilans={frilans} />
 
-            <SelvstendigSummary
-                selvstendigNæringsdrivende={selvstendigNæringsdrivende}
-                søkerKunHistoriskPeriode={søkerKunHistoriskPeriode}
-            />
+            <SelvstendigSummary selvstendigNæringsdrivende={selvstendigNæringsdrivende} />
 
             {/* Vernepliktig */}
             {harVærtEllerErVernepliktig !== undefined && (

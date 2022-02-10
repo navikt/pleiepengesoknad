@@ -10,10 +10,9 @@ import { getTidSetning } from './arbeidssituasjon-summary-utils';
 
 interface Props {
     selvstendigNæringsdrivende?: SelvstendigNæringsdrivendeApiData;
-    søkerKunHistoriskPeriode: boolean;
 }
 
-function SelvstendigSummary({ selvstendigNæringsdrivende, søkerKunHistoriskPeriode }: Props) {
+function SelvstendigSummary({ selvstendigNæringsdrivende }: Props) {
     const intl = useIntl();
     const { arbeidsforhold, virksomhet } = selvstendigNæringsdrivende || {};
     const Tid = arbeidsforhold ? getTidSetning(intl, arbeidsforhold, true) : undefined;
@@ -22,14 +21,7 @@ function SelvstendigSummary({ selvstendigNæringsdrivende, søkerKunHistoriskPer
             {selvstendigNæringsdrivende === undefined && (
                 <ul>
                     <li>
-                        <FormattedMessage
-                            id={
-                                søkerKunHistoriskPeriode
-                                    ? 'oppsummering.arbeidssituasjon.selvstendig.historisk.erIkkeSN'
-                                    : 'oppsummering.arbeidssituasjon.selvstendig.erIkkeSN'
-                            }
-                            tagName="p"
-                        />
+                        <FormattedMessage id={'oppsummering.arbeidssituasjon.selvstendig.erIkkeSN'} tagName="p" />
                     </li>
                 </ul>
             )}

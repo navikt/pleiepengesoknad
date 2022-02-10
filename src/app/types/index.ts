@@ -1,6 +1,3 @@
-/** Toggle fortid/fremtid */
-export const useFortidFremtid = 1 + 1 === 2;
-
 export enum TimerEllerProsent {
     PROSENT = 'prosent',
     TIMER = 'timer',

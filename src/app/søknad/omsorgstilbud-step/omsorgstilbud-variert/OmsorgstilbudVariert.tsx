@@ -19,7 +19,6 @@ interface Props {
     formFieldName: SøknadFormField;
     periode: DateRange;
     tidIOmsorgstilbud: DateDurationMap;
-    erHistorisk: boolean;
     omsorgsdager: DateDurationMap;
     onOmsorgstilbudChanged?: () => void;
 }
@@ -29,7 +28,6 @@ const OmsorgstilbudVariert: React.FunctionComponent<Props> = ({
     periode,
     tidIOmsorgstilbud,
     formFieldName,
-    erHistorisk,
     omsorgsdager,
     onOmsorgstilbudChanged,
 }) => {
@@ -73,20 +71,16 @@ const OmsorgstilbudVariert: React.FunctionComponent<Props> = ({
                 <Element tag="h3">{tittel}</Element>
             </Box>
             <SøknadFormComponents.InputGroup
-                name={`${formFieldName}_dager` as any}
+                name={formFieldName}
                 tag="div"
-                validate={() => validateOmsorgstilbudEnkeltdagerIPeriode(tidIOmsorgstilbud, periode, erHistorisk)}>
+                validate={() => validateOmsorgstilbudEnkeltdagerIPeriode(tidIOmsorgstilbud, periode)}>
                 {kanLeggeTilPeriode && (
                     <>
                         <Box margin="m" padBottom="xl">
-                            <OmsorgstilbudPeriode
-                                periode={periode}
-                                gjelderFortid={erHistorisk}
-                                onPeriodeChange={handleOnPeriodeChange}
-                            />
+                            <OmsorgstilbudPeriode periode={periode} onPeriodeChange={handleOnPeriodeChange} />
                         </Box>
                         <Element tag="h3">
-                            <FormattedMessage id="steg.omsorgstilbud.planlagt.månedsliste.tittel" />
+                            <FormattedMessage id="steg.omsorgstilbud.månedsliste.tittel" />
                         </Element>
                     </>
                 )}

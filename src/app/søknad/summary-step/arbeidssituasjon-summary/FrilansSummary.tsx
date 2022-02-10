@@ -8,24 +8,16 @@ import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/S
 
 interface Props {
     frilans?: FrilansApiData;
-    søkerKunHistoriskPeriode: boolean;
 }
 
-const FrilansSummary = ({ frilans, søkerKunHistoriskPeriode }: Props) => {
+const FrilansSummary = ({ frilans }: Props) => {
     const intl = useIntl();
     if (frilans === undefined) {
         return (
             <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')} headerTag="h3">
                 <ul>
                     <li>
-                        <FormattedMessage
-                            id={
-                                søkerKunHistoriskPeriode
-                                    ? 'oppsummering.arbeidssituasjon.frilans.historisk.erIkkeFrilanser'
-                                    : 'oppsummering.arbeidssituasjon.frilans.erIkkeFrilanser'
-                            }
-                            tagName="p"
-                        />
+                        <FormattedMessage id={'oppsummering.arbeidssituasjon.frilans.erIkkeFrilanser'} tagName="p" />
                     </li>
                 </ul>
             </SummaryBlock>

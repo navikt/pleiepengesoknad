@@ -6,17 +6,15 @@ import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-co
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import FormSection from '@navikt/sif-common-core/lib/components/form-section/FormSection';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getStringValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { useFormikContext } from 'formik';
+import useEffectOnce from '../../hooks/useEffectOnce';
+import usePersistOnChange from '../../hooks/usePersistOnChange';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
-import { getSøkerKunHistoriskPeriode } from '../../utils/fortidFremtidUtils';
-import useEffectOnce from '../../hooks/useEffectOnce';
-import usePersistOnChange from '../../hooks/usePersistOnChange';
 
 const cleanupStep = (values: SøknadFormData): SøknadFormData => {
     const cleanedValues = { ...values };
@@ -29,18 +27,12 @@ const cleanupStep = (values: SøknadFormData): SøknadFormData => {
     return cleanedValues;
 };
 
-interface Props {
-    søknadsperiode: DateRange;
-    søknadsdato: Date;
-}
-
-const NattevåkOgBeredskapStep = ({ onValidSubmit, søknadsperiode, søknadsdato }: StepConfigProps & Props) => {
+const NattevåkOgBeredskapStep = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
     const [loaded, setLoaded] = useState<boolean>(false);
 
     const { values } = useFormikContext<SøknadFormData>();
     const { harNattevåk, harNattevåk_ekstrainfo, harBeredskap, harBeredskap_ekstrainfo } = values;
-    const søkerKunHistoriskPeriode = getSøkerKunHistoriskPeriode(søknadsperiode, søknadsdato);
 
     usePersistOnChange(harNattevåk_ekstrainfo, loaded, StepID.NATTEVÅK_OG_BEREDSKAP);
     usePersistOnChange(harBeredskap_ekstrainfo, loaded, StepID.NATTEVÅK_OG_BEREDSKAP);
@@ -53,13 +45,7 @@ const NattevåkOgBeredskapStep = ({ onValidSubmit, søknadsperiode, søknadsdato
         <SøknadFormStep id={StepID.NATTEVÅK_OG_BEREDSKAP} onValidFormSubmit={onValidSubmit} onStepCleanup={cleanupStep}>
             <Box padBottom="xl">
                 <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
-                    <FormattedMessage
-                        id={
-                            søkerKunHistoriskPeriode
-                                ? 'steg.nattevåkOgBeredskap.veileder.historisk'
-                                : 'steg.nattevåkOgBeredskap.veileder'
-                        }
-                    />
+                    <FormattedMessage id={'steg.nattevåkOgBeredskap.veileder'} />
                 </CounsellorPanel>
             </Box>
             <FormSection title="Nattevåk">
@@ -67,12 +53,7 @@ const NattevåkOgBeredskapStep = ({ onValidSubmit, søknadsperiode, søknadsdato
 
                 <FormBlock>
                     <SøknadFormComponents.YesOrNoQuestion
-                        legend={intlHelper(
-                            intl,
-                            søkerKunHistoriskPeriode
-                                ? 'steg.nattevåkOgBeredskap.nattevåk.historisk.spm'
-                                : 'steg.nattevåkOgBeredskap.nattevåk.spm'
-                        )}
+                        legend={intlHelper(intl, 'steg.nattevåkOgBeredskap.nattevåk.spm')}
                         name={SøknadFormField.harNattevåk}
                         description={
                             <ExpandableInfo
@@ -91,31 +72,17 @@ const NattevåkOgBeredskapStep = ({ onValidSubmit, søknadsperiode, søknadsdato
                     <FormBlock>
                         <SøknadFormComponents.Textarea
                             name={SøknadFormField.harNattevåk_ekstrainfo}
-                            label={
-                                <FormattedMessage
-                                    id={
-                                        søkerKunHistoriskPeriode
-                                            ? 'steg.nattevåkOgBeredskap.nattevåk.historisk.tilleggsinfo.spm'
-                                            : 'steg.nattevåkOgBeredskap.nattevåk.tilleggsinfo.spm'
-                                    }
-                                />
-                            }
+                            label={<FormattedMessage id={'steg.nattevåkOgBeredskap.nattevåk.tilleggsinfo.spm'} />}
                             validate={getStringValidator({ required: true, maxLength: 1000 })}
                             maxLength={1000}
                             description={
                                 <ExpandableInfo
                                     title={intlHelper(
                                         intl,
-                                        søkerKunHistoriskPeriode
-                                            ? 'steg.nattevåkOgBeredskap.nattevåk.historisk.tilleggsinfo.veiledning.tittel'
-                                            : 'steg.nattevåkOgBeredskap.nattevåk.tilleggsinfo.veiledning.tittel'
+                                        'steg.nattevåkOgBeredskap.nattevåk.tilleggsinfo.veiledning.tittel'
                                     )}>
                                     <FormattedMessage
-                                        id={
-                                            søkerKunHistoriskPeriode
-                                                ? 'steg.nattevåkOgBeredskap.nattevåk.historisk.tilleggsinfo.veiledning'
-                                                : 'steg.nattevåkOgBeredskap.nattevåk.tilleggsinfo.veiledning'
-                                        }
+                                        id={'steg.nattevåkOgBeredskap.nattevåk.tilleggsinfo.veiledning'}
                                     />
                                 </ExpandableInfo>
                             }
@@ -127,12 +94,7 @@ const NattevåkOgBeredskapStep = ({ onValidSubmit, søknadsperiode, søknadsdato
                 <FormattedMessage id={'steg.nattevåkOgBeredskap.beredskap.veileder'} tagName="p" />
                 <FormBlock>
                     <SøknadFormComponents.YesOrNoQuestion
-                        legend={intlHelper(
-                            intl,
-                            søkerKunHistoriskPeriode
-                                ? 'steg.nattevåkOgBeredskap.beredskap.historisk.spm'
-                                : 'steg.nattevåkOgBeredskap.beredskap.spm'
-                        )}
+                        legend={intlHelper(intl, 'steg.nattevåkOgBeredskap.beredskap.spm')}
                         name={SøknadFormField.harBeredskap}
                         description={
                             <ExpandableInfo
@@ -150,31 +112,17 @@ const NattevåkOgBeredskapStep = ({ onValidSubmit, søknadsperiode, søknadsdato
                     <FormBlock>
                         <SøknadFormComponents.Textarea
                             name={SøknadFormField.harBeredskap_ekstrainfo}
-                            label={
-                                <FormattedMessage
-                                    id={
-                                        søkerKunHistoriskPeriode
-                                            ? 'steg.nattevåkOgBeredskap.beredskap.historisk.tilleggsinfo.spm'
-                                            : 'steg.nattevåkOgBeredskap.beredskap.tilleggsinfo.spm'
-                                    }
-                                />
-                            }
+                            label={<FormattedMessage id={'steg.nattevåkOgBeredskap.beredskap.tilleggsinfo.spm'} />}
                             maxLength={1000}
                             validate={getStringValidator({ required: true, maxLength: 1000 })}
                             description={
                                 <ExpandableInfo
                                     title={intlHelper(
                                         intl,
-                                        søkerKunHistoriskPeriode
-                                            ? 'steg.nattevåkOgBeredskap.beredskap.historisk.tilleggsinfo.veiledning.tittel'
-                                            : 'steg.nattevåkOgBeredskap.beredskap.tilleggsinfo.veiledning.tittel'
+                                        'steg.nattevåkOgBeredskap.beredskap.tilleggsinfo.veiledning.tittel'
                                     )}>
                                     <FormattedMessage
-                                        id={
-                                            søkerKunHistoriskPeriode
-                                                ? 'steg.nattevåkOgBeredskap.beredskap.historisk.tilleggsinfo.veiledning'
-                                                : 'steg.nattevåkOgBeredskap.beredskap.tilleggsinfo.veiledning'
-                                        }
+                                        id={'steg.nattevåkOgBeredskap.beredskap.tilleggsinfo.veiledning'}
                                     />
                                 </ExpandableInfo>
                             }

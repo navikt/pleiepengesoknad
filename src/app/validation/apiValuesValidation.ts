@@ -65,33 +65,18 @@ export const isArbeidsforholdValid = (arbeidsforhold: ArbeidsforholdApiData): bo
 };
 
 export const isArbeidIPeriodeApiValuesValid = (arbeidsforhold: ArbeidsforholdApiData): boolean => {
-    if (arbeidsforhold.historiskArbeid === undefined && arbeidsforhold.planlagtArbeid === undefined) {
+    if (arbeidsforhold.arbeidIPeriode === undefined) {
         return false;
     }
-    const historiskIsValid = arbeidsforhold.historiskArbeid
-        ? isArbeidIPeriodeValid(arbeidsforhold.historiskArbeid)
-        : true;
-    const planlagtIsValid = arbeidsforhold.historiskArbeid
-        ? isArbeidIPeriodeValid(arbeidsforhold.historiskArbeid)
-        : true;
-    return historiskIsValid === true && planlagtIsValid == true;
+    return isArbeidIPeriodeValid(arbeidsforhold.arbeidIPeriode);
 };
 
 export const isArbeidsforholdApiDataValid = (arbeidsforhold: ArbeidsforholdApiData) =>
     isNormalarbeidstidValid(arbeidsforhold) && isArbeidIPeriodeApiValuesValid(arbeidsforhold);
 
 export const isOmsorgstilbudApiDataValid = (omsorgstilbud: OmsorgstilbudApiData): boolean => {
-    if (omsorgstilbud.historisk) {
-        const { enkeltdager, ukedager, erLiktHverUke } = omsorgstilbud.historisk;
-        if (erLiktHverUke && ukedager === undefined) {
-            return false;
-        }
-        if (erLiktHverUke === false && (enkeltdager === undefined || enkeltdager.length === 0)) {
-            return false;
-        }
-    }
-    if (omsorgstilbud.planlagt) {
-        const { enkeltdager, ukedager, erLiktHverUke } = omsorgstilbud.planlagt;
+    if (omsorgstilbud) {
+        const { enkeltdager, ukedager, erLiktHverUke } = omsorgstilbud;
         if (erLiktHverUke && ukedager === undefined) {
             return false;
         }

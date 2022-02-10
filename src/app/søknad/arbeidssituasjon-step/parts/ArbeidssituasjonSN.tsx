@@ -20,10 +20,9 @@ import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 
 interface Props {
     formValues: SøknadFormData;
-    søkerKunHistoriskPeriode: boolean;
 }
 
-const ArbeidssituasonSN = ({ formValues, søkerKunHistoriskPeriode }: Props) => {
+const ArbeidssituasonSN = ({ formValues }: Props) => {
     const intl = useIntl();
     const { selvstendig_virksomhet, selvstendig_harFlereVirksomheter, selvstendig_arbeidsforhold } = formValues;
     const harFlereVirksomheter = selvstendig_harFlereVirksomheter === YesOrNo.YES;
@@ -36,12 +35,7 @@ const ArbeidssituasonSN = ({ formValues, søkerKunHistoriskPeriode }: Props) => 
             <Box margin="l">
                 <SøknadFormComponents.YesOrNoQuestion
                     name={SøknadFormField.selvstendig_harHattInntektSomSN}
-                    legend={intlHelper(
-                        intl,
-                        søkerKunHistoriskPeriode
-                            ? 'selvstendig.harDuHattInntekt.historisk.spm'
-                            : 'selvstendig.harDuHattInntekt.spm'
-                    )}
+                    legend={intlHelper(intl, 'selvstendig.harDuHattInntekt.spm')}
                     validate={getYesOrNoValidator()}
                     description={
                         <ExpandableInfo title={intlHelper(intl, 'selvstendig.harDuHattInntekt.hjelpetekst.tittel')}>

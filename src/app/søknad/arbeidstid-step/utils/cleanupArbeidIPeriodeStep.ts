@@ -1,5 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { getDurationsInDateRange } from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
 import { JobberIPeriodeSvar, TimerEllerProsent } from '../../../types';
@@ -10,7 +11,6 @@ import {
     ArbeidsforholdSNF,
     SøknadFormData,
 } from '../../../types/SøknadFormData';
-import { getDurationsInDateRange } from '@navikt/sif-common-utils';
 import { getPeriodeSomFrilanserInnenforPeriode } from '../../../utils/frilanserUtils';
 
 dayjs.extend(minMax);
@@ -24,13 +24,13 @@ export const cleanupArbeidIPeriode = (periode: DateRange, arbeidIPerioden: Arbei
         return arbeid;
     }
 
-    const { erLiktHverUke, enkeltdager, timerEllerProsent, fasteDager, skalJobbeProsent } = arbeidIPerioden;
+    const { erLiktHverUke, enkeltdager, timerEllerProsent, fasteDager, jobberProsent } = arbeidIPerioden;
 
     if (erLiktHverUke === YesOrNo.YES) {
         arbeid.erLiktHverUke = erLiktHverUke;
         arbeid.timerEllerProsent = timerEllerProsent;
         return timerEllerProsent === TimerEllerProsent.PROSENT
-            ? { ...arbeid, skalJobbeProsent }
+            ? { ...arbeid, jobberProsent }
             : { ...arbeid, fasteDager };
     }
 
@@ -41,21 +41,11 @@ export const cleanupArbeidIPeriode = (periode: DateRange, arbeidIPerioden: Arbei
     };
 };
 
-export const cleanupArbeidsforhold = (
-    arbeidsforhold: Arbeidsforhold,
-    periode: DateRange,
-    erHistorisk: boolean
-): Arbeidsforhold => {
-    if (erHistorisk && arbeidsforhold.historisk) {
+export const cleanupArbeidsforhold = (arbeidsforhold: Arbeidsforhold, periode: DateRange): Arbeidsforhold => {
+    if (arbeidsforhold.arbeidIPeriode) {
         return {
             ...arbeidsforhold,
-            historisk: cleanupArbeidIPeriode(periode, arbeidsforhold.historisk),
-        };
-    }
-    if (erHistorisk === false && arbeidsforhold.planlagt) {
-        return {
-            ...arbeidsforhold,
-            planlagt: cleanupArbeidIPeriode(periode, arbeidsforhold.planlagt),
+            arbeidIPeriode: cleanupArbeidIPeriode(periode, arbeidsforhold.arbeidIPeriode),
         };
     }
     return arbeidsforhold;
@@ -63,7 +53,6 @@ export const cleanupArbeidsforhold = (
 
 const cleanupArbeidsforholdFrilanser = (
     frilans_arbeidsforhold: ArbeidsforholdSNF,
-    erHistorisk: boolean,
     periode: DateRange,
     frilans_startdato?: string,
     frilans_sluttdato?: string,
@@ -77,38 +66,26 @@ const cleanupArbeidsforholdFrilanser = (
 
     const arbeidsforhold: ArbeidsforholdSNF = cleanupArbeidsforhold(
         frilans_arbeidsforhold,
-        frilansPeriodeISøknadsperiode || periode,
-        erHistorisk
+        frilansPeriodeISøknadsperiode || periode
     ) as ArbeidsforholdSNF;
 
     /** Frilanser er ikke frilanser i søknadsperioden før dagens dato */
-    if (frilansPeriodeISøknadsperiode === undefined && erHistorisk) {
-        arbeidsforhold.historisk = {
-            jobberIPerioden: JobberIPeriodeSvar.NEI,
-        };
-    }
-    /** Frilanser er ikke frilanser i søknadsperioden fom dagens dato */
-    if (frilansPeriodeISøknadsperiode === undefined && erHistorisk === false) {
-        arbeidsforhold.planlagt = {
+    if (frilansPeriodeISøknadsperiode === undefined) {
+        arbeidsforhold.arbeidIPeriode = {
             jobberIPerioden: JobberIPeriodeSvar.NEI,
         };
     }
     return arbeidsforhold;
 };
 
-export const cleanupArbeidIPeriodeStep = (
-    formData: SøknadFormData,
-    periode: DateRange,
-    erHistorisk: boolean
-): SøknadFormData => {
+export const cleanupArbeidIPeriodeStep = (formData: SøknadFormData, periode: DateRange): SøknadFormData => {
     const values: SøknadFormData = { ...formData };
     values.ansatt_arbeidsforhold = values.ansatt_arbeidsforhold.map(
-        (arbeidsforhold) => cleanupArbeidsforhold(arbeidsforhold, periode, erHistorisk) as ArbeidsforholdAnsatt
+        (arbeidsforhold) => cleanupArbeidsforhold(arbeidsforhold, periode) as ArbeidsforholdAnsatt
     );
     values.frilans_arbeidsforhold = values.frilans_arbeidsforhold
         ? cleanupArbeidsforholdFrilanser(
               values.frilans_arbeidsforhold,
-              erHistorisk,
               periode,
               formData.frilans_startdato,
               formData.frilans_sluttdato
@@ -116,7 +93,7 @@ export const cleanupArbeidIPeriodeStep = (
         : undefined;
 
     values.selvstendig_arbeidsforhold = values.selvstendig_arbeidsforhold
-        ? (cleanupArbeidsforhold(values.selvstendig_arbeidsforhold, periode, erHistorisk) as ArbeidsforholdSNF)
+        ? (cleanupArbeidsforhold(values.selvstendig_arbeidsforhold, periode) as ArbeidsforholdSNF)
         : undefined;
     return values;
 };

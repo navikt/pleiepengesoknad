@@ -1,6 +1,5 @@
 import { IntlShape } from 'react-intl';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from '../søknad/søknadStepsConfig';
 import { SøknadFormData } from '../types/SøknadFormData';
@@ -14,7 +13,7 @@ import {
 } from '../validation/stepValidations';
 import { erAnsattISøknadsperiode } from './ansattUtils';
 import { erFrilanserIPeriode } from './frilanserUtils';
-import { getHistoriskPeriode, getPlanlagtPeriode } from './fortidFremtidUtils';
+import { DateRange } from '@navikt/sif-common-formik/lib';
 
 export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
     const conf = stepConfig[stepId];
@@ -37,7 +36,7 @@ export const arbeidssituasjonStepAvailable = (formData: SøknadFormData) =>
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData);
 
-export const arbeidsforholdIPeriodeStepAvailable = (formData: SøknadFormData) =>
+export const arbeidIPeriodeStepIsAvailable = (formData: SøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
@@ -78,50 +77,20 @@ export const summaryStepAvailable = (formData: SøknadFormData) =>
     legeerklæringStepIsValid();
 
 export const skalBrukerSvarePåBeredskapOgNattevåk = (formValues?: SøknadFormData): boolean => {
-    const historiskOmsorgstilbud =
-        formValues?.omsorgstilbud?.harBarnVærtIOmsorgstilbud === YesOrNo.YES &&
-        formValues.omsorgstilbud.historisk !== undefined &&
-        formValues.omsorgstilbud.historisk.enkeltdager !== undefined;
-
-    const planlagtOmsorgstilbud =
-        formValues?.omsorgstilbud?.skalBarnIOmsorgstilbud === YesOrNo.YES &&
-        formValues.omsorgstilbud.planlagt !== undefined;
-
     return (
         formValues !== undefined &&
         formValues.omsorgstilbud !== undefined &&
-        (historiskOmsorgstilbud || planlagtOmsorgstilbud)
+        formValues.omsorgstilbud.erIOmsorgstilbud === YesOrNo.YES
     );
 };
 
-export const skalBrukerSvarePåHistoriskArbeid = (
-    søknadsperiode: DateRange,
-    søknadsdato: Date,
-    formValues?: SøknadFormData
-): boolean => {
+export const skalBrukerSvareArbeidstid = (søknadsperiode: DateRange, formValues?: SøknadFormData): boolean => {
     if (!formValues) {
         return false;
     }
-    const periode = getHistoriskPeriode(søknadsperiode, søknadsdato);
-    return periode
-        ? erAnsattISøknadsperiode(formValues.ansatt_arbeidsforhold) ||
-              erFrilanserIPeriode(periode, formValues) ||
-              formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES
-        : false;
-};
-
-export const skalBrukerSvarePåPlanlagtArbeid = (
-    søknadsperiode: DateRange,
-    søknadsdato: Date,
-    formValues?: SøknadFormData
-): boolean => {
-    if (!formValues) {
-        return false;
-    }
-    const periode = getPlanlagtPeriode(søknadsperiode, søknadsdato);
-    return periode
-        ? erAnsattISøknadsperiode(formValues.ansatt_arbeidsforhold) ||
-              erFrilanserIPeriode(periode, formValues) ||
-              formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES
-        : false;
+    return (
+        erAnsattISøknadsperiode(formValues.ansatt_arbeidsforhold) ||
+        erFrilanserIPeriode(søknadsperiode, formValues) ||
+        formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES
+    );
 };

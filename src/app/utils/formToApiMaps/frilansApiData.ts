@@ -5,17 +5,12 @@ import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { JobberIPeriodeSvar } from '../../types';
 import { FrilansApiData, SøknadApiData } from '../../types/SøknadApiData';
 import { SøknadFormData } from '../../types/SøknadFormData';
-import { getHistoriskPeriode, getPlanlagtPeriode } from '../fortidFremtidUtils';
 import { erFrilanserITidsrom } from '../frilanserUtils';
 import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
 
 export type FrilansApiDataPart = Pick<SøknadApiData, 'frilans' | '_harHattInntektSomFrilanser'>;
 
-export const getFrilansApiData = (
-    formData: SøknadFormData,
-    søknadsperiode: DateRange,
-    søknadsdato: Date
-): FrilansApiDataPart => {
+export const getFrilansApiData = (formData: SøknadFormData, søknadsperiode: DateRange): FrilansApiDataPart => {
     const {
         frilans_harHattInntektSomFrilanser,
         frilans_jobberFortsattSomFrilans,
@@ -39,33 +34,17 @@ export const getFrilansApiData = (
         };
     }
 
-    const historiskPeriode = getHistoriskPeriode(søknadsperiode, søknadsdato);
-    const planlagtPeriode = getPlanlagtPeriode(søknadsperiode, søknadsdato);
     const frilanserPeriode = { frilansStartdato: startdato, frilansSluttdato: sluttdato };
 
     const arbeidsforhold = frilans_arbeidsforhold
-        ? mapArbeidsforholdToApiData(
-              frilans_arbeidsforhold,
-              søknadsperiode,
-              ArbeidsforholdType.FRILANSER,
-              søknadsdato,
-              { from: startdato, to: sluttdato }
-          )
+        ? mapArbeidsforholdToApiData(frilans_arbeidsforhold, søknadsperiode, ArbeidsforholdType.FRILANSER, {
+              from: startdato,
+              to: sluttdato,
+          })
         : undefined;
 
-    if (historiskPeriode && arbeidsforhold && erFrilanserITidsrom(historiskPeriode, frilanserPeriode) === false) {
-        if (planlagtPeriode) {
-            arbeidsforhold.historiskArbeid = { jobberIPerioden: JobberIPeriodeSvar.NEI };
-        } else {
-            arbeidsforhold.historiskArbeid = undefined;
-        }
-    }
-    if (planlagtPeriode && arbeidsforhold && erFrilanserITidsrom(planlagtPeriode, frilanserPeriode) === false) {
-        if (historiskPeriode) {
-            arbeidsforhold.planlagtArbeid = { jobberIPerioden: JobberIPeriodeSvar.NEI };
-        } else {
-            arbeidsforhold.planlagtArbeid = undefined;
-        }
+    if (arbeidsforhold && erFrilanserITidsrom(søknadsperiode, frilanserPeriode) === false) {
+        arbeidsforhold.arbeidIPeriode = { jobberIPerioden: JobberIPeriodeSvar.NEI };
     }
 
     const frilans: FrilansApiData = {

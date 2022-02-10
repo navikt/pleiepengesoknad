@@ -111,35 +111,21 @@ describe('stepUtils', () => {
             const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as SøknadFormData);
             expect(returnValue).toBeFalsy();
         });
-        it('inkluderer ikke nattevåk/beredskap dersom barnet ikke skal i tilsyn - søker ikke historisk', () => {
-            formData.omsorgstilbud = {
-                skalBarnIOmsorgstilbud: YesOrNo.NO,
-            };
+        it('inkluderer ikke nattevåk/beredskap dersom barnet ikke har vært/skal i tilsyn - 2', () => {
+            formData.omsorgstilbud = { erIOmsorgstilbud: YesOrNo.NO };
             const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as SøknadFormData);
             expect(returnValue).toBeFalsy();
         });
-        it('inkluderer ikke nattevåk/beredskap dersom barnet ikke har vært i tilsyn - søker ikke fremtid', () => {
-            formData.omsorgstilbud = {
-                harBarnVærtIOmsorgstilbud: YesOrNo.NO,
-            };
+        it('inkluderer ikke nattevåk/beredskap dersom barnet ikke har vært/skal i tilsyn - 3', () => {
+            formData.omsorgstilbud = { erIOmsorgstilbud: YesOrNo.UNANSWERED };
             const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as SøknadFormData);
             expect(returnValue).toBeFalsy();
         });
-        it('inkluderer ikke nattevåk/beredskap dersom barnet ikke har vært i tilsyn - søker både historisk og fremtid', () => {
+        it('inkluderer nattevåk/beredskap dersom barn er i omsorgstilbud', () => {
             formData.omsorgstilbud = {
-                harBarnVærtIOmsorgstilbud: YesOrNo.NO,
-                skalBarnIOmsorgstilbud: YesOrNo.NO,
-            };
-            const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as SøknadFormData);
-            expect(returnValue).toBeFalsy();
-        });
-        it('inkluderer nattevåk/beredskap dersom søker historisk', () => {
-            formData.omsorgstilbud = {
-                harBarnVærtIOmsorgstilbud: YesOrNo.YES,
-                historisk: {
-                    enkeltdager: {
-                        '2020-01-01': { hours: '1', minutes: '0' },
-                    },
+                erIOmsorgstilbud: YesOrNo.YES,
+                enkeltdager: {
+                    '2020-01-01': { hours: '1', minutes: '0' },
                 },
             };
             const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as SøknadFormData);

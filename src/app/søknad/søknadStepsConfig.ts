@@ -1,19 +1,11 @@
-import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { useFortidFremtid } from '../types';
 import { SøknadFormData } from '../types/SøknadFormData';
 import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
 import { getSøknadRoute } from '../utils/routeUtils';
-import {
-    skalBrukerSvarePåBeredskapOgNattevåk,
-    skalBrukerSvarePåHistoriskArbeid,
-    skalBrukerSvarePåPlanlagtArbeid,
-} from '../utils/stepUtils';
+import { skalBrukerSvareArbeidstid, skalBrukerSvarePåBeredskapOgNattevåk } from '../utils/stepUtils';
 
 export enum StepID {
     'OPPLYSNINGER_OM_BARNET' = 'opplysninger-om-barnet',
     'ARBEIDSSITUASJON' = 'arbeidssituasjon',
-    'ARBEID_HISTORISK' = 'arbeidHistorisk',
-    'ARBEID_PLANLAGT' = 'arbeidPlanlagt',
     'ARBEIDSTID' = 'arbeidstid',
     'OMSORGSTILBUD' = 'omsorgstilbud',
     'NATTEVÅK_OG_BEREDSKAP' = 'nattevåkOgBeredskap',
@@ -58,28 +50,15 @@ interface ConfigStepHelperType {
 }
 
 export const getSøknadStepConfig = (formValues?: SøknadFormData): StepConfigInterface => {
-    const søknadsperiode = formValues ? getSøknadsperiodeFromFormData(formValues) : undefined;
     const includeNattevåkAndBeredskap = skalBrukerSvarePåBeredskapOgNattevåk(formValues);
-    const søknadsdato = dateToday;
-
-    const includeHistoriskArbeid = søknadsperiode
-        ? skalBrukerSvarePåHistoriskArbeid(søknadsperiode, søknadsdato, formValues)
-        : false;
-    const includePlanlagtArbeid = søknadsperiode
-        ? skalBrukerSvarePåPlanlagtArbeid(søknadsperiode, søknadsdato, formValues)
-        : false;
+    const søknadsperiode = formValues ? getSøknadsperiodeFromFormData(formValues) : undefined;
+    const includeArbeidstid = søknadsperiode ? skalBrukerSvareArbeidstid(søknadsperiode, formValues) : false;
 
     const allSteps: ConfigStepHelperType[] = [
         { stepID: StepID.OPPLYSNINGER_OM_BARNET, included: true },
         { stepID: StepID.TIDSROM, included: true },
         { stepID: StepID.ARBEIDSSITUASJON, included: true },
-
-        { stepID: StepID.ARBEID_HISTORISK, included: useFortidFremtid && includeHistoriskArbeid },
-        {
-            stepID: StepID.ARBEID_PLANLAGT,
-            included: useFortidFremtid && includePlanlagtArbeid,
-        },
-        { stepID: StepID.ARBEIDSTID, included: useFortidFremtid === false },
+        { stepID: StepID.ARBEIDSTID, included: includeArbeidstid },
         { stepID: StepID.OMSORGSTILBUD, included: true },
         { stepID: StepID.NATTEVÅK_OG_BEREDSKAP, included: includeNattevåkAndBeredskap },
         { stepID: StepID.MEDLEMSKAP, included: true },
@@ -104,7 +83,12 @@ export const getSøknadStepConfig = (formValues?: SøknadFormData): StepConfigIn
     allSteps.forEach(({ stepID, included }) => {
         const nextStep = getNextStep(stepID);
         const prevStep = getPreviousStep(stepID);
-        const backLinkHref = prevStep ? getSøknadRoute(prevStep) : undefined;
+        let backLinkHref;
+        try {
+            backLinkHref = prevStep ? getSøknadRoute(prevStep) : undefined;
+        } catch (e) {
+            console.log(e);
+        }
 
         config[stepID] = {
             ...getStepConfigItemTextKeys(stepID),
@@ -123,7 +107,7 @@ export const getBackLinkFromNotIncludedStep = (stepId: StepID): string | undefin
     if (stepId === StepID.NATTEVÅK_OG_BEREDSKAP) {
         return getSøknadRoute(StepID.OMSORGSTILBUD);
     }
-    if (stepId === StepID.ARBEID_HISTORISK || stepId === StepID.ARBEID_PLANLAGT) {
+    if (stepId === StepID.ARBEIDSTID) {
         return getSøknadRoute(StepID.ARBEIDSSITUASJON);
     }
     return undefined;
@@ -131,5 +115,3 @@ export const getBackLinkFromNotIncludedStep = (stepId: StepID): string | undefin
 export interface StepConfigProps {
     onValidSubmit: () => void;
 }
-
-export const søknadStepConfig: StepConfigInterface = getSøknadStepConfig();

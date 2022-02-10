@@ -1,7 +1,5 @@
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-// import { InputTime } from '@navikt/sif-common-formik/lib';
 import { getNumberValidator, getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
-// import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeValidator';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import { ArbeidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger';
 import {
@@ -36,7 +34,7 @@ export const getArbeidstidTimerEllerProsentValidator = (intlValues: ArbeidIPerio
     const error = getRequiredFieldValidator()(value);
     if (error) {
         return {
-            key: `validation.arbeidstimer.timerEllerProsent.${error}`,
+            key: `validation.arbeidIPeriode.timerEllerProsent.${error}`,
             values: { ...intlValues, min: 1, max: 99 },
             keepKeyUnaltered: true,
         };
@@ -64,11 +62,11 @@ export const getJobberNormaltTimerValidator = (intlValues: { hvor: string; jobbe
         : undefined;
 };
 
-export const getArbeidJobberValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
+export const getJobberIPeriodenValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
     const error = getRequiredFieldValidator()(value);
     return error
         ? {
-              key: 'validation.arbeidIPeriode.skalJobbe',
+              key: 'validation.arbeidIPeriode.jobber',
               values: intlValues,
               keepKeyUnaltered: true,
           }

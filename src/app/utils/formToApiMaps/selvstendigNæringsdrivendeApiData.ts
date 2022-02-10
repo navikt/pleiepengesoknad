@@ -41,8 +41,7 @@ export const getSelvstendigNæringsdrivendeApiData = (
             arbeidsforhold: mapArbeidsforholdToApiData(
                 selvstendig_arbeidsforhold,
                 søknadsperiode,
-                ArbeidsforholdType.SELVSTENDIG,
-                søknadsdato
+                ArbeidsforholdType.SELVSTENDIG
             ),
             virksomhet: mapVirksomhetToVirksomhetApiData(
                 locale,
