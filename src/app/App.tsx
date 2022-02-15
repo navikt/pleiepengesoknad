@@ -33,6 +33,8 @@ const getAppStatusSanityConfig = () => {
     return !projectId || !dataset ? undefined : { projectId, dataset };
 };
 
+// Trigger build
+
 const App = () => {
     const [locale, setLocale] = React.useState<Locale>(localeFromSessionStorage);
 
