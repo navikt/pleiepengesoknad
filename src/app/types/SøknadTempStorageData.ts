@@ -1,7 +1,6 @@
 import { StepID } from '../søknad/søknadStepsConfig';
 import { SøknadFormData } from './SøknadFormData';
 
-/** Persistence */
 export const MELLOMLAGRING_VERSION = '8';
 
 interface StorageMetadata {
