@@ -68,7 +68,7 @@ export const legeerklæringStepAvailable = (formData: SøknadFormData) =>
     arbeidssituasjonStepIsValid() &&
     medlemskapStepIsValid(formData);
 
-export const summaryStepAvailable = (formData: SøknadFormData) =>
+export const oppsummeringStepAvailable = (formData: SøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&

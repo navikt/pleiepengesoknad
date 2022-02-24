@@ -7,7 +7,7 @@ import {
     medlemskapStepAvailable,
     opplysningerOmBarnetStepAvailable,
     opplysningerOmTidsromStepAvailable,
-    summaryStepAvailable,
+    oppsummeringStepAvailable,
     omsorgstilbudStepAvailable,
     nattevåkOgBeredskapStepAvailable,
     arbeidIPeriodeStepIsAvailable,
@@ -46,7 +46,7 @@ export const isAvailable = (path: StepID | RouteConfig, values: SøknadFormData,
         case StepID.MEDLEMSKAP:
             return medlemskapStepAvailable(values);
         case StepID.SUMMARY:
-            return summaryStepAvailable(values);
+            return oppsummeringStepAvailable(values);
         case RouteConfig.SØKNAD_SENDT_ROUTE:
             return søknadHasBeenSent === true;
     }
