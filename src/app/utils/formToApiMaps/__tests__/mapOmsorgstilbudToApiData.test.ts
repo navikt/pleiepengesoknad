@@ -1,7 +1,7 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { Omsorgstilbud } from '../../../types/SøknadFormData';
-import { mapOmsorgstilbudToApiData } from '../omsorgstilbudApiData';
+import { mapOmsorgstilbudToApiData } from '../getOmsorgstilbudApiData';
 
 const søknadsperiode: DateRange = {
     from: new Date(2021, 1, 1),

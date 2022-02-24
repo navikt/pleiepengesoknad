@@ -2,28 +2,27 @@ import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange, formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import { SøknadApiData } from '../types/SøknadApiData';
-import { SøknadFormData } from '../types/SøknadFormData';
-import { BarnReceivedFromApi } from '../types/Søkerdata';
-import appSentryLogger from './appSentryLogger';
-import { Feature, isFeatureEnabled } from './featureToggleUtils';
-import { getArbeidsgivereISøknadsperiodenApiData } from './formToApiMaps/arbeidsgivereApiData';
-import { filterAndMapAttachmentsToApiFormat } from './formToApiMaps/attachmentsToApiData';
-import { getBarnApiData } from './formToApiMaps/barnApiData';
-import { getFerieuttakIPeriodenApiData } from './formToApiMaps/ferieuttakIPeriodenApiData';
-import { getFrilansApiData } from './formToApiMaps/frilansApiData';
-import { getMedlemsskapApiData } from './formToApiMaps/medlemsskapApiData';
-import { getNattevåkOgBeredskapApiData } from './formToApiMaps/nattevåkOgBeredskapApiData';
-import { getOmsorgstilbudApiData } from './formToApiMaps/omsorgstilbudApiData';
-import { getSelvstendigNæringsdrivendeApiData } from './formToApiMaps/selvstendigNæringsdrivendeApiData';
-import { getUtenlandsoppholdIPeriodenApiData } from './formToApiMaps/utenlandsoppholdIPeriodenApiData';
-import { getValidSpråk } from './sprakUtils';
+import { RegistrerteBarn } from '../../types';
+import { SøknadApiData } from '../../types/SøknadApiData';
+import { SøknadFormData } from '../../types/SøknadFormData';
+import appSentryLogger from '../appSentryLogger';
+import { Feature, isFeatureEnabled } from '../featureToggleUtils';
+import { getArbeidsgivereISøknadsperiodenApiData } from './getArbeidsgivereISøknadsperiodenApiData';
+import { getAttachmentsApiData } from './getAttachmentsApiData';
+import { getBarnApiData } from './getBarnApiData';
+import { getFerieuttakIPeriodenApiData } from './getFerieuttakIPeriodenApiData';
+import { getFrilansApiData } from './getFrilansApiData';
+import { getMedlemsskapApiData } from './getMedlemsskapApiData';
+import { getNattevåkOgBeredskapApiData } from './getNattevåkOgBeredskapApiData';
+import { getOmsorgstilbudApiData } from './getOmsorgstilbudApiData';
+import { getSelvstendigNæringsdrivendeApiData } from './getSelvstendigNæringsdrivendeApiData';
+import { getUtenlandsoppholdIPeriodenApiData } from './getUtenlandsoppholdIPeriodenApiData';
+import { getValidSpråk } from '../sprakUtils';
 
 export const mapFormDataToApiData = (
     formData: SøknadFormData,
-    barn: BarnReceivedFromApi[],
-    locale: Locale = 'nb',
-    søknadsdato: Date
+    barn: RegistrerteBarn[],
+    locale: Locale = 'nb'
 ): SøknadApiData | undefined => {
     const {
         harBekreftetOpplysninger,
@@ -52,7 +51,7 @@ export const mapFormDataToApiData = (
                 harForståttRettigheterOgPlikter,
                 fraOgMed: formatDateToApiFormat(periodeFra),
                 tilOgMed: formatDateToApiFormat(periodeTil),
-                vedlegg: filterAndMapAttachmentsToApiFormat(legeerklæring),
+                vedlegg: getAttachmentsApiData(legeerklæring),
                 harMedsøker: harMedsøker === YesOrNo.YES,
                 samtidigHjemme: harMedsøker === YesOrNo.YES ? samtidigHjemme === YesOrNo.YES : undefined,
                 harVærtEllerErVernepliktig: formData.harVærtEllerErVernepliktig
@@ -74,8 +73,8 @@ export const mapFormDataToApiData = (
                 }),
                 ...getNattevåkOgBeredskapApiData(formData),
                 ...getArbeidsgivereISøknadsperiodenApiData(formData, søknadsperiode),
-                ...getFrilansApiData(formData, søknadsperiode),
-                ...getSelvstendigNæringsdrivendeApiData(formData, søknadsperiode, søknadsdato, locale),
+                ...getFrilansApiData(formData.frilans, søknadsperiode),
+                ...getSelvstendigNæringsdrivendeApiData(formData, søknadsperiode, locale),
             };
 
             if (isFeatureEnabled(Feature.ANDRE_YTELSER)) {
@@ -85,7 +84,7 @@ export const mapFormDataToApiData = (
             return apiData;
         } catch (e) {
             console.error(e);
-            appSentryLogger.logError('mapFormDataToApiData failed', e);
+            appSentryLogger.logError('mapFormDataToApiData failed', e as any);
             return undefined;
         }
     } else {

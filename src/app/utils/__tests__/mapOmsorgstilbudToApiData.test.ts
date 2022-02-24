@@ -2,7 +2,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { DateDurationMap } from '@navikt/sif-common-utils';
 import { Omsorgstilbud } from '../../types/SøknadFormData';
-import { mapOmsorgstilbudToApiData } from '../formToApiMaps/omsorgstilbudApiData';
+import { mapOmsorgstilbudToApiData } from '../formToApiMaps/getOmsorgstilbudApiData';
 import { getEnkeltdagerIPeriodeApiData } from '../formToApiMaps/tidsbrukApiUtils';
 
 jest.mock('./../envUtils', () => {

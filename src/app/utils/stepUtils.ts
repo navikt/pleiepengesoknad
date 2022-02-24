@@ -11,7 +11,7 @@ import {
     opplysningerOmTidsromStepIsValid,
     welcomingPageIsValid,
 } from '../validation/stepValidations';
-import { erAnsattISøknadsperiode } from './ansattUtils';
+import { erAnsattISøknadsperiode, harFraværFraArbeidsforholdIPeriode, harFraværIArbeidsforhold } from './ansattUtils';
 import { erFrilanserIPeriode } from './frilanserUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 
@@ -84,13 +84,21 @@ export const skalBrukerSvarePåBeredskapOgNattevåk = (formValues?: SøknadFormD
     );
 };
 
-export const skalBrukerSvareArbeidstid = (søknadsperiode: DateRange, formValues?: SøknadFormData): boolean => {
+export const skalBrukerSvareArbeidstid = (søknadsperiode: DateRange, formValues: SøknadFormData): boolean => {
     if (!formValues) {
         return false;
     }
-    return (
-        erAnsattISøknadsperiode(formValues.ansatt_arbeidsforhold) ||
-        erFrilanserIPeriode(søknadsperiode, formValues) ||
-        formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES
-    );
+    const erAnsattMedFraværIPerioden =
+        erAnsattISøknadsperiode(formValues.ansatt_arbeidsforhold) &&
+        harFraværFraArbeidsforholdIPeriode(formValues.ansatt_arbeidsforhold);
+
+    const erFrilanserMedFraværIPerioden =
+        erFrilanserIPeriode(søknadsperiode, formValues.frilans) &&
+        harFraværIArbeidsforhold(formValues.frilans.arbeidsforhold);
+
+    const erSelvstendigMedFraværIPerioden =
+        formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES &&
+        harFraværIArbeidsforhold(formValues.selvstendig_arbeidsforhold);
+
+    return erAnsattMedFraværIPerioden || erFrilanserMedFraværIPerioden || erSelvstendigMedFraværIPerioden;
 };

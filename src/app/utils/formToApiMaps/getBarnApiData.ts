@@ -1,12 +1,11 @@
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
-import { BarnRelasjon } from '../../types';
+import { BarnRelasjon, RegistrerteBarn } from '../../types';
 import { BarnetSøknadenGjelderApiData, SøknadApiData } from '../../types/SøknadApiData';
 import { SøknadFormData } from '../../types/SøknadFormData';
-import { BarnReceivedFromApi } from '../../types/Søkerdata';
 
 const getBarnetSøknadenGjelderApiData = (
-    barn: BarnReceivedFromApi[],
+    barn: RegistrerteBarn[],
     barnetsNavn: string,
     barnetsFødselsnummer: string | undefined,
     barnetSøknadenGjelder: string | undefined
@@ -47,7 +46,7 @@ export const getBarnApiData = (
         relasjonTilBarnet,
         relasjonTilBarnetBeskrivelse,
     }: SøknadFormData,
-    barn: BarnReceivedFromApi[]
+    barn: RegistrerteBarn[]
 ): BarnApiData => {
     const barnObject: BarnetSøknadenGjelderApiData = getBarnetSøknadenGjelderApiData(
         barn,

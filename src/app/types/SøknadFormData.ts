@@ -1,11 +1,14 @@
+import { Arbeidsforhold, ArbeidsforholdField, ArbeidsforholdFrilanser } from './Arbeidsforhold';
 import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { Virksomhet } from '@navikt/sif-common-forms/lib/virksomhet/types';
-import { DurationWeekdays, DateDurationMap } from '@navikt/sif-common-utils';
+import { DurationWeekdays, DateDurationMap, ISODate } from '@navikt/sif-common-utils';
 import { AndreYtelserFraNAV, BarnRelasjon, JobberIPeriodeSvar, TimerEllerProsent } from './';
-import { Arbeidsgiver } from './Søkerdata';
+
+export * from './Arbeidsforhold';
+export * from './Arbeidsgiver';
 
 export enum SøknadFormField {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
@@ -22,7 +25,6 @@ export enum SøknadFormField {
     skalPassePåBarnetIHelePerioden = 'skalPassePåBarnetIHelePerioden',
     beskrivelseOmsorgsrolleIPerioden = 'beskrivelseOmsorgsrolleIPerioden',
     legeerklæring = 'legeerklæring',
-    ansatt_arbeidsforhold = 'ansatt_arbeidsforhold',
     harBoddUtenforNorgeSiste12Mnd = 'harBoddUtenforNorgeSiste12Mnd',
     utenlandsoppholdSiste12Mnd = 'utenlandsoppholdSiste12Mnd',
     skalBoUtenforNorgeNeste12Mnd = 'skalBoUtenforNorgeNeste12Mnd',
@@ -43,11 +45,13 @@ export enum SøknadFormField {
     omsorgstilbud__erLiktHverUke = 'omsorgstilbud.erLiktHverUke',
     omsorgstilbud__fasteDager = 'omsorgstilbud.fasteDager',
     omsorgstilbud__enkeltdager = 'omsorgstilbud.enkeltdager',
-    frilans_harHattInntektSomFrilanser = 'frilans_harHattInntektSomFrilanser',
-    frilans_startdato = 'frilans_startdato',
-    frilans_sluttdato = 'frilans_sluttdato',
-    frilans_jobberFortsattSomFrilans = 'frilans_jobberFortsattSomFrilans',
-    frilans_arbeidsforhold = 'frilans_arbeidsforhold',
+    ansatt_arbeidsforhold = 'ansatt_arbeidsforhold',
+    frilans_harHattInntektSomFrilanser = 'frilans.harHattInntektSomFrilanser',
+    frilans_startdato = 'frilans.startdato',
+    frilans_sluttdato = 'frilans.sluttdato',
+    frilans_jobberFortsattSomFrilans = 'frilans.jobberFortsattSomFrilans',
+    frilans_arbeidsforhold = 'frilans.arbeidsforhold',
+    frilans = 'frilans',
     selvstendig_harHattInntektSomSN = 'selvstendig_harHattInntektSomSN',
     selvstendig_harFlereVirksomheter = 'selvstendig_harFlereVirksomheter',
     selvstendig_virksomhet = 'selvstendig_virksomhet',
@@ -62,13 +66,6 @@ export interface Omsorgstilbud {
     erLiktHverUke?: YesOrNo;
     fasteDager?: DurationWeekdays;
     enkeltdager?: DateDurationMap;
-}
-
-export enum ArbeidsforholdField {
-    erAnsatt = 'erAnsatt',
-    sluttetFørSøknadsperiode = 'sluttetFørSøknadsperiode',
-    jobberNormaltTimer = 'jobberNormaltTimer',
-    arbeidIPeriode = 'arbeidIPeriode',
 }
 
 export enum ArbeidIPeriodeField {
@@ -89,21 +86,6 @@ export interface ArbeidIPeriode {
     [ArbeidIPeriodeField.fasteDager]?: DurationWeekdays;
 }
 
-export interface Arbeidsforhold {
-    [ArbeidsforholdField.jobberNormaltTimer]?: string;
-    [ArbeidsforholdField.arbeidIPeriode]?: ArbeidIPeriode;
-}
-export interface ArbeidsforholdAnsatt extends Arbeidsgiver, Arbeidsforhold {
-    [ArbeidsforholdField.erAnsatt]?: YesOrNo;
-    [ArbeidsforholdField.sluttetFørSøknadsperiode]?: YesOrNo;
-}
-
-export const isArbeidsforholdAnsatt = (arbeidsforhold: any): arbeidsforhold is ArbeidsforholdAnsatt => {
-    return arbeidsforhold?.navn !== undefined;
-};
-
-export type ArbeidsforholdSNF = Arbeidsforhold;
-
 export interface SøknadFormData {
     [SøknadFormField.harForståttRettigheterOgPlikter]: boolean;
     [SøknadFormField.harBekreftetOpplysninger]: boolean;
@@ -114,7 +96,6 @@ export interface SøknadFormData {
     [SøknadFormField.barnetSøknadenGjelder]: string;
     [SøknadFormField.relasjonTilBarnet]?: BarnRelasjon;
     [SøknadFormField.relasjonTilBarnetBeskrivelse]?: string;
-    [SøknadFormField.ansatt_arbeidsforhold]: ArbeidsforholdAnsatt[];
     [SøknadFormField.periodeFra]?: string;
     [SøknadFormField.periodeTil]?: string;
     [SøknadFormField.skalPassePåBarnetIHelePerioden]?: YesOrNo;
@@ -135,18 +116,16 @@ export interface SøknadFormData {
     [SøknadFormField.harNattevåk_ekstrainfo]?: string;
     [SøknadFormField.harBeredskap]: YesOrNo;
     [SøknadFormField.harBeredskap_ekstrainfo]?: string;
-    [SøknadFormField.frilans_harHattInntektSomFrilanser]?: YesOrNo;
-    [SøknadFormField.frilans_startdato]?: string;
-    [SøknadFormField.frilans_sluttdato]?: string;
-    [SøknadFormField.frilans_jobberFortsattSomFrilans]?: YesOrNo;
-    [SøknadFormField.frilans_arbeidsforhold]?: ArbeidsforholdSNF;
     [SøknadFormField.selvstendig_harHattInntektSomSN]?: YesOrNo;
     [SøknadFormField.selvstendig_harFlereVirksomheter]?: YesOrNo;
     [SøknadFormField.selvstendig_virksomhet]?: Virksomhet;
-    [SøknadFormField.selvstendig_arbeidsforhold]?: ArbeidsforholdSNF;
     [SøknadFormField.harVærtEllerErVernepliktig]?: YesOrNo;
     [SøknadFormField.mottarAndreYtelser]?: YesOrNo;
     [SøknadFormField.andreYtelser]?: AndreYtelserFraNAV[];
+    [SøknadFormField.frilans]: FrilansFormDataPart;
+    [SøknadFormField.ansatt_arbeidsforhold]: Arbeidsforhold[];
+    [SøknadFormField.selvstendig_arbeidsforhold]?: Arbeidsforhold;
+    [SøknadFormField.frilans_arbeidsforhold]?: ArbeidsforholdFrilanser;
 }
 
 export const initialValues: SøknadFormData = {
@@ -174,8 +153,23 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.omsorgstilbud]: undefined,
     [SøknadFormField.harNattevåk]: YesOrNo.UNANSWERED,
     [SøknadFormField.harBeredskap]: YesOrNo.UNANSWERED,
-    [SøknadFormField.frilans_harHattInntektSomFrilanser]: YesOrNo.UNANSWERED,
     [SøknadFormField.selvstendig_harHattInntektSomSN]: YesOrNo.UNANSWERED,
     [SøknadFormField.selvstendig_virksomhet]: undefined,
     [SøknadFormField.andreYtelser]: [],
+    frilans: {
+        harHattInntektSomFrilanser: YesOrNo.UNANSWERED,
+    },
 };
+
+export interface FrilansFormDataPart {
+    harHattInntektSomFrilanser?: YesOrNo;
+    jobberFortsattSomFrilans?: YesOrNo;
+    startdato?: ISODate;
+    sluttdato?: ISODate;
+    arbeidsforhold?: Pick<
+        Arbeidsforhold,
+        | ArbeidsforholdField.jobberNormaltTimer
+        | ArbeidsforholdField.arbeidIPeriode
+        | ArbeidsforholdField.harFraværIPeriode
+    >;
+}

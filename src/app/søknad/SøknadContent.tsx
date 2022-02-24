@@ -11,7 +11,7 @@ import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
 import { Søkerdata } from '../types/Søkerdata';
-import { ArbeidsgiverApiData, SøknadApiData } from '../types/SøknadApiData';
+import { SøknadApiData } from '../types/SøknadApiData';
 import { SøknadFormData } from '../types/SøknadFormData';
 import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
 import { getKvitteringInfoFromApiData } from '../utils/kvitteringUtils';
@@ -27,17 +27,11 @@ import OpplysningerOmBarnetStep from './opplysninger-om-barnet-step/Opplysninger
 import SummaryStep from './summary-step/SummaryStep';
 import { StepID } from './søknadStepsConfig';
 import OpplysningerOmTidsromStep from './tidsrom-step/OpplysningerOmTidsromStep';
+import { KvitteringInfo } from '../types/KvitteringInfo';
 
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
     harMellomlagring: boolean;
-}
-
-export interface KvitteringInfo {
-    fom: Date;
-    tom: Date;
-    søkernavn: string;
-    arbeidsgivere: ArbeidsgiverApiData[];
 }
 
 const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadContentProps) => {

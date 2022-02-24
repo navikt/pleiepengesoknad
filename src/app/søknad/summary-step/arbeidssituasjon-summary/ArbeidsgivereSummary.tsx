@@ -1,33 +1,17 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import {
-    ArbeidsgiverApiData,
-    ArbeidsgiverISøknadsperiodeApiData,
-    ArbeidsgiverUtenforSøknadsperiodeApiData,
-    isArbeidsgiverISøknadsperiodeApiData,
-} from '../../../types/SøknadApiData';
-import { getTidSetning } from './arbeidssituasjon-summary-utils';
-import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
+import { ArbeidsgiverApiData } from '../../../types/SøknadApiData';
 
 interface Props {
     arbeidsgivere?: ArbeidsgiverApiData[];
     søknadsperiode: DateRange;
 }
 
-const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere: arbeidsgivere, søknadsperiode }) => {
+const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, søknadsperiode }) => {
     const intl = useIntl();
-
-    const arbeidsgivereISøknadsperiode: ArbeidsgiverISøknadsperiodeApiData[] = [];
-    const arbeidsgivereUtenforSøknadsperiode: ArbeidsgiverUtenforSøknadsperiodeApiData[] = [];
-    arbeidsgivere?.forEach((a) => {
-        if (isArbeidsgiverISøknadsperiodeApiData(a)) {
-            arbeidsgivereISøknadsperiode.push(a);
-        } else {
-            arbeidsgivereUtenforSøknadsperiode.push(a);
-        }
-    });
 
     if (arbeidsgivere === undefined || arbeidsgivere.length === 0) {
         return (
@@ -66,8 +50,28 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere: a
                                     }
                                 />
                             </li>
-                            {isArbeidsgiverISøknadsperiodeApiData(arbeidsgiver) && (
-                                <li>{getTidSetning(intl, arbeidsgiver.arbeidsforhold, erAnsatt)}</li>
+                            {arbeidsgiver.arbeidsforhold && (
+                                <>
+                                    <li>
+                                        <FormattedMessage
+                                            id={
+                                                erAnsatt
+                                                    ? `oppsummering.arbeidssituasjon.tid`
+                                                    : `oppsummering.arbeidssituasjon.avsluttet.tid`
+                                            }
+                                            values={{ timer: arbeidsgiver.arbeidsforhold.jobberNormaltTimer }}
+                                        />
+                                    </li>
+                                    <li>
+                                        <FormattedMessage
+                                            id={
+                                                arbeidsgiver.arbeidsforhold.harFraværIPeriode
+                                                    ? `oppsummering.arbeidssituasjon.harFravær`
+                                                    : 'oppsummering.arbeidssituasjon.harIkkeFravær'
+                                            }
+                                        />
+                                    </li>
+                                </>
                             )}
                             {erAnsatt === false && (
                                 <li>

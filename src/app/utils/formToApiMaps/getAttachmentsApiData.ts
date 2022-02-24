@@ -1,7 +1,7 @@
 import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import { attachmentUploadHasFailed } from '@navikt/sif-common-core/lib/utils/attachmentUtils';
 
-export const filterAndMapAttachmentsToApiFormat = (attachments: Attachment[]): string[] => {
+export const getAttachmentsApiData = (attachments: Attachment[]): string[] => {
     const apiData: string[] = [];
     attachments
         .filter((attachment) => !attachmentUploadHasFailed(attachment))

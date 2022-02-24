@@ -2,7 +2,6 @@ import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { mapVirksomhetToVirksomhetApiData } from '@navikt/sif-common-forms/lib';
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { SøknadApiData } from '../../types/SøknadApiData';
 import { SøknadFormData } from '../../types/SøknadFormData';
 import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
@@ -20,7 +19,6 @@ export const getSelvstendigNæringsdrivendeApiData = (
         selvstendig_virksomhet,
     }: SøknadFormData,
     søknadsperiode: DateRange,
-    søknadsdato: Date,
     locale: Locale
 ): SelvstendigArbeidsforholdApiDataPart => {
     const _harHattInntektSomSelvstendigNæringsdrivende = selvstendig_harHattInntektSomSN === YesOrNo.YES;
@@ -38,11 +36,7 @@ export const getSelvstendigNæringsdrivendeApiData = (
     return {
         _harHattInntektSomSelvstendigNæringsdrivende,
         selvstendigNæringsdrivende: {
-            arbeidsforhold: mapArbeidsforholdToApiData(
-                selvstendig_arbeidsforhold,
-                søknadsperiode,
-                ArbeidsforholdType.SELVSTENDIG
-            ),
+            arbeidsforhold: mapArbeidsforholdToApiData(selvstendig_arbeidsforhold, søknadsperiode),
             virksomhet: mapVirksomhetToVirksomhetApiData(
                 locale,
                 selvstendig_virksomhet,

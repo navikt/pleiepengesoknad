@@ -5,12 +5,8 @@ import SummarySection from '@navikt/sif-common-core/lib/components/summary-secti
 import { apiStringDateToDate, DateRange, prettifyDateExtended } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import dayjs from 'dayjs';
-import {
-    ArbeidsforholdApiData,
-    FrilansApiData,
-    isArbeidsgiverISøknadsperiodeApiData,
-    SøknadApiData,
-} from '../../../types/SøknadApiData';
+import { ArbeidsgiverType } from '../../../types';
+import { ArbeidsforholdApiData, ArbeidsgiverApiData, SøknadApiData } from '../../../types/SøknadApiData';
 import { erFrilanserITidsrom } from '../../../utils/frilanserUtils';
 import ArbeidIPeriodeSummaryItem from './ArbeidIPeriodenSummaryItem';
 
@@ -25,29 +21,40 @@ export interface ArbeidIPeriodenSummaryItemType extends ArbeidsforholdApiData {
     erAktivIPeriode: boolean;
 }
 
-const getFrilansTittel = (intl: IntlShape, frilans: FrilansApiData, periode: DateRange) => {
-    const startdato = frilans.startdato && apiStringDateToDate(frilans.startdato);
-    const sluttdato = frilans.sluttdato && apiStringDateToDate(frilans.sluttdato);
+const getArbeidsgiverTittel = (intl: IntlShape, arbeidsgiver: ArbeidsgiverApiData, periode: DateRange) => {
+    switch (arbeidsgiver.type) {
+        case ArbeidsgiverType.ORGANISASJON:
+            return intlHelper(intl, 'arbeidsgiver.tittel', {
+                navn: arbeidsgiver.navn,
+                organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
+            });
+        case ArbeidsgiverType.PRIVATPERSON:
+            return arbeidsgiver.navn;
+        case ArbeidsgiverType.FRILANSOPPDRAG:
+            const startdato = arbeidsgiver.ansattFom && apiStringDateToDate(arbeidsgiver.ansattFom);
+            const sluttdato = arbeidsgiver.ansattTom && apiStringDateToDate(arbeidsgiver.ansattTom);
 
-    if (startdato || sluttdato) {
-        const intlValues = {
-            startdato: startdato ? prettifyDateExtended(startdato) : undefined,
-            sluttdato: sluttdato ? prettifyDateExtended(sluttdato) : undefined,
-        };
-        const visStartdato = startdato && dayjs(startdato).isAfter(periode.from, 'day');
-        const visSluttdato = sluttdato && dayjs(sluttdato).isBefore(periode.to, 'day');
+            if (startdato || sluttdato) {
+                const intlValues = {
+                    hvor: arbeidsgiver.navn,
+                    startdato: startdato ? prettifyDateExtended(startdato) : undefined,
+                    sluttdato: sluttdato ? prettifyDateExtended(sluttdato) : undefined,
+                };
+                const visStartdato = startdato; // && dayjs(startdato).isAfter(periode.from, 'day');
+                const visSluttdato = sluttdato && dayjs(sluttdato).isBefore(periode.to, 'day');
 
-        if (visStartdato && visSluttdato) {
-            return intlHelper(intl, 'frilans.tittel.startOgSlutt', intlValues);
-        }
-        if (visStartdato) {
-            return intlHelper(intl, 'frilans.tittel.start', intlValues);
-        }
-        if (visSluttdato) {
-            return intlHelper(intl, 'frilans.tittel.slutt', intlValues);
-        }
+                if (visStartdato && visSluttdato) {
+                    return intlHelper(intl, 'frilans.tittel.startOgSlutt', intlValues);
+                }
+                if (visStartdato) {
+                    return intlHelper(intl, 'frilans.tittel.start', intlValues);
+                }
+                if (visSluttdato) {
+                    return intlHelper(intl, 'frilans.tittel.slutt', intlValues);
+                }
+            }
+            return intlHelper(intl, 'frilans.tittel');
     }
-    return intlHelper(intl, 'frilans.tittel');
 };
 
 const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
@@ -58,15 +65,12 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
     const alleArbeidsforhold: ArbeidIPeriodenSummaryItemType[] = [];
 
     if (arbeidsgivere) {
-        arbeidsgivere.forEach((a) => {
-            if (isArbeidsgiverISøknadsperiodeApiData(a)) {
+        arbeidsgivere.forEach((arbeidsgiverApiData) => {
+            if (arbeidsgiverApiData.arbeidsforhold) {
                 alleArbeidsforhold.push({
-                    ...a.arbeidsforhold,
-                    tittel: intlHelper(intl, 'arbeidsgiver.tittel', {
-                        navn: a.navn,
-                        organisasjonsnummer: a.organisasjonsnummer,
-                    }),
-                    erAktivIPeriode: true,
+                    ...arbeidsgiverApiData.arbeidsforhold,
+                    tittel: getArbeidsgiverTittel(intl, arbeidsgiverApiData, søknadsperiode),
+                    erAktivIPeriode: arbeidsgiverApiData.arbeidsforhold.arbeidIPeriode !== undefined,
                 });
             }
         });
@@ -77,10 +81,9 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
             frilansStartdato: apiStringDateToDate(frilans.startdato),
             frilansSluttdato: frilans.sluttdato ? apiStringDateToDate(frilans.sluttdato) : undefined,
         };
-
         alleArbeidsforhold.push({
             ...frilans.arbeidsforhold,
-            tittel: getFrilansTittel(intl, frilans, søknadsperiode),
+            tittel: 'Frilanser',
             erAktivIPeriode: erFrilanserITidsrom(søknadsperiode, frilansStartSlutt),
         });
     }
@@ -94,6 +97,7 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
     }
 
     const aktiveArbeidsforhold = alleArbeidsforhold.filter((a) => a.erAktivIPeriode);
+
     if (aktiveArbeidsforhold.length === 0) {
         return null;
     }

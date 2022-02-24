@@ -65,7 +65,6 @@ describe('tidsbrukApiUtils', () => {
             expect(result[3].dato).toEqual('2021-02-05');
         });
     });
-
     describe('fjernTidUtenforPeriode', () => {
         it('fjerner tid som er før eller etter periode', () => {
             const periode: Partial<DateRange> = {

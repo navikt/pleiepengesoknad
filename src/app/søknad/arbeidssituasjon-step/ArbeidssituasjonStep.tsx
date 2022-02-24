@@ -1,9 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import FormSection from '@navikt/sif-common-core/lib/components/form-section/FormSection';
 import LoadingSpinner from '@navikt/sif-common-core/lib/components/loading-spinner/LoadingSpinner';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
@@ -11,17 +9,19 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { useFormikContext } from 'formik';
 import { SøkerdataContext } from '../../context/SøkerdataContext';
+import useEffectOnce from '../../hooks/useEffectOnce';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
-import { cleanupArbeidssituasjonStep } from './utils/cleanupArbeidssituasjonStep';
 import AndreYtelserFormPart from './parts/AndreYtelserFormPart';
-import ArbeidssituasjonAnsatt from './parts/ArbeidssituasjonAnsatt';
+import ArbeidssituasjonArbeidsgivere from './parts/ArbeidssituasjonArbeidsgivere';
 import ArbeidssituasjonFrilans from './parts/ArbeidssituasjonFrilans';
 import ArbeidssituasonSN from './parts/ArbeidssituasjonSN';
-import { getArbeidsgivere } from './utils/getArbeidsgivere';
+import ArbeidssituasjonStepVeileder from './parts/ArbeidssituasjonStepVeileder';
+import { cleanupArbeidssituasjonStep } from './utils/cleanupArbeidssituasjonStep';
+import { getArbeidsgivereRemoteData } from './utils/getArbeidsgivere';
 import { visVernepliktSpørsmål } from './utils/visVernepliktSpørsmål';
 
 interface LoadState {
@@ -43,13 +43,17 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
     } = formikProps;
     const [loadState, setLoadState] = useState<LoadState>({ isLoading: false, isLoaded: false });
     const søkerdata = useContext(SøkerdataContext);
-
     const { isLoading, isLoaded } = loadState;
 
-    useEffect(() => {
+    useEffectOnce(() => {
         const fetchData = async () => {
             if (søkerdata && søknadsperiode) {
-                await getArbeidsgivere(søknadsperiode.from, søknadsperiode.to, formikProps, søkerdata);
+                const arbeidsgivere = await getArbeidsgivereRemoteData(
+                    søknadsperiode.from,
+                    søknadsperiode.to,
+                    formikProps
+                );
+                søkerdata.onArbeidsgivereChange(arbeidsgivere);
                 setLoadState({ isLoading: false, isLoaded: true });
             }
         };
@@ -57,62 +61,38 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
             setLoadState({ isLoading: true, isLoaded: false });
             fetchData();
         }
-    }, [formikProps, søkerdata, isLoaded, isLoading, søknadsperiode]);
+    });
+
+    const harFrilansoppdrag = søkerdata?.frilansoppdrag !== undefined && søkerdata?.frilansoppdrag.length > 0;
 
     return (
         <SøknadFormStep
             id={StepID.ARBEIDSSITUASJON}
             onValidFormSubmit={onValidSubmit}
             buttonDisabled={isLoading}
-            onStepCleanup={søknadsperiode ? cleanupArbeidssituasjonStep : undefined}>
+            onStepCleanup={
+                søknadsperiode
+                    ? (values) => cleanupArbeidssituasjonStep(values, søknadsperiode, harFrilansoppdrag)
+                    : undefined
+            }>
             {isLoading && <LoadingSpinner type="XS" blockTitle="Henter arbeidsforhold" />}
             {!isLoading && søknadsperiode && (
                 <>
                     <Box padBottom="xl">
-                        <CounsellorPanel>
-                            <p>
-                                <FormattedMessage id="steg.arbeidssituasjon.veileder.1" />
-                            </p>
-                            <p>
-                                <FormattedMessage id="steg.arbeidssituasjon.veileder.2" />
-                            </p>
-                        </CounsellorPanel>
+                        <ArbeidssituasjonStepVeileder />
                     </Box>
+
                     <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.tittel')}>
-                        <Box>
-                            <p>
-                                {ansatt_arbeidsforhold.length > 0 && (
-                                    <FormattedMessage
-                                        id={'steg.arbeidssituasjon.veileder.medArbeidsgiver'}
-                                        values={{ antall: ansatt_arbeidsforhold.length }}
-                                    />
-                                )}
-                                {ansatt_arbeidsforhold.length === 0 && (
-                                    <FormattedMessage id="steg.arbeidssituasjon.veileder.ingenArbeidsgiverFunnet" />
-                                )}
-                            </p>
-                            <p>
-                                <FormattedMessage id={'steg.arbeidssituasjon.veileder.manglerDetArbeidsgiver'} />
-                            </p>
-                        </Box>
-                        {ansatt_arbeidsforhold.length > 0 && (
-                            <>
-                                {ansatt_arbeidsforhold.map((forhold, index) => (
-                                    <FormBlock key={forhold.organisasjonsnummer}>
-                                        <ArbeidssituasjonAnsatt
-                                            arbeidsforhold={forhold}
-                                            index={index}
-                                            søknadsperiode={søknadsperiode}
-                                        />
-                                    </FormBlock>
-                                ))}
-                            </>
-                        )}
+                        <ArbeidssituasjonArbeidsgivere
+                            søknadsperiode={søknadsperiode}
+                            ansatt_arbeidsforhold={ansatt_arbeidsforhold}
+                        />
                     </FormSection>
 
                     <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.frilanser.tittel')}>
                         <ArbeidssituasjonFrilans
-                            formValues={values}
+                            frilansoppdrag={søkerdata?.frilansoppdrag || []}
+                            formValues={values.frilans}
                             søknadsperiode={søknadsperiode}
                             søknadsdato={søknadsdato}
                         />

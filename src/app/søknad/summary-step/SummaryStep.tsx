@@ -6,7 +6,9 @@ import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
+import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 import SummaryList from '@navikt/sif-common-core/lib/components/summary-list/SummaryList';
+import SummarySection from '@navikt/sif-common-core/lib/components/summary-section/SummarySection';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { isUnauthorized } from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { apiStringDateToDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
@@ -18,20 +20,20 @@ import dayjs from 'dayjs';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { purge, sendApplication } from '../../api/api';
 import { SKJEMANAVN } from '../../App';
+import LegeerklæringAttachmentList from '../../components/legeerklæring-file-list/LegeerklæringFileList';
 import routeConfig from '../../config/routeConfig';
-import { getSøknadStepConfig, StepID } from '../søknadStepsConfig';
 import { SøkerdataContextConsumer } from '../../context/SøkerdataContext';
-import { SøknadApiData } from '../../types/SøknadApiData';
-import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
 import { Søkerdata } from '../../types/Søkerdata';
+import { SøknadApiData } from '../../types/SøknadApiData';
+import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import appSentryLogger from '../../utils/appSentryLogger';
 import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
-import { mapFormDataToApiData } from '../../utils/mapFormDataToApiData';
+import { mapFormDataToApiData } from '../../utils/formToApiMaps/mapFormDataToApiData';
 import { navigateTo, relocateToLoginPage } from '../../utils/navigationUtils';
 import { validateApiValues } from '../../validation/apiValuesValidation';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
-import LegeerklæringAttachmentList from '../../components/legeerklæring-file-list/LegeerklæringFileList';
+import { getSøknadStepConfig, StepID } from '../søknadStepsConfig';
 import ApiValidationSummary from './api-validation-summary/ApiValidationSummary';
 import ArbeidIPeriodenSummary from './arbeid-i-perioden-summary/ArbeidIPeriodenSummary';
 import ArbeidssituasjonSummary from './arbeidssituasjon-summary/ArbeidssituasjonSummary';
@@ -44,8 +46,6 @@ import {
     renderUtenlandsoppholdSummary,
 } from './summaryItemRenderers';
 import './summary.less';
-import SummarySection from '@navikt/sif-common-core/lib/components/summary-section/SummarySection';
-import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 
 interface Props {
     values: SøknadFormData;
@@ -71,7 +71,7 @@ const SummaryStep = ({ onApplicationSent, values, søknadsdato }: Props) => {
             await purge();
             setSoknadSent(true);
             onApplicationSent(apiValues, søkerdata);
-        } catch (error) {
+        } catch (error: any) {
             if (isUnauthorized(error)) {
                 logUserLoggedOut('Ved innsending av søknad');
                 relocateToLoginPage();
@@ -95,11 +95,11 @@ const SummaryStep = ({ onApplicationSent, values, søknadsdato }: Props) => {
                     return <div>Det oppstod en feil - informasjon om søker mangler</div>;
                 }
                 const {
-                    person: { fornavn, mellomnavn, etternavn, fødselsnummer },
+                    søker: { fornavn, mellomnavn, etternavn, fødselsnummer },
                     barn,
                 } = søkerdata;
 
-                const apiValues = mapFormDataToApiData(values, barn, intl.locale as Locale, søknadsdato);
+                const apiValues = mapFormDataToApiData(values, barn, intl.locale as Locale);
                 if (apiValues === undefined) {
                     return <div>Det oppstod en feil - api-data mangler</div>;
                 }

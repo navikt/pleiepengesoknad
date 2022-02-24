@@ -1,16 +1,16 @@
-import { getCountryName } from '@navikt/sif-common-formik';
-import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { countryIsMemberOfEøsOrEfta } from '@navikt/sif-common-core/lib/utils/countryUtils';
 import { formatDateToApiFormat, sortItemsByFomTom } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { getCountryName } from '@navikt/sif-common-formik';
+import { DateTidsperiode } from '@navikt/sif-common-forms/lib/tidsperiode';
+import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import {
+    PeriodeApiData,
     UtenlandsoppholdIPeriodenApiData,
     UtenlandsoppholdUtenforEøsIPeriodenApiData,
-    PeriodeBarnetErInnlagtApiData,
 } from '../../types/SøknadApiData';
-import { DateTidsperiode } from '@navikt/sif-common-forms/lib/tidsperiode';
 
-const mapBarnInnlagtPeriodeToApiFormat = (periode: DateTidsperiode): PeriodeBarnetErInnlagtApiData => {
+const mapBarnInnlagtPeriodeToApiFormat = (periode: DateTidsperiode): PeriodeApiData => {
     return {
         fraOgMed: formatDateToApiFormat(periode.fom),
         tilOgMed: formatDateToApiFormat(periode.tom),

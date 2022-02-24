@@ -8,7 +8,6 @@ import { JobberIPeriodeSvar } from '../types';
 import {
     ArbeidIPeriodeApiData,
     ArbeidsforholdApiData,
-    isArbeidsgiverISøknadsperiodeApiData,
     OmsorgstilbudApiData,
     SøknadApiData,
 } from '../types/SøknadApiData';
@@ -66,7 +65,7 @@ export const isArbeidsforholdValid = (arbeidsforhold: ArbeidsforholdApiData): bo
 
 export const isArbeidIPeriodeApiValuesValid = (arbeidsforhold: ArbeidsforholdApiData): boolean => {
     if (arbeidsforhold.arbeidIPeriode === undefined) {
-        return false;
+        return arbeidsforhold.harFraværIPeriode === false;
     }
     return isArbeidIPeriodeValid(arbeidsforhold.arbeidIPeriode);
 };
@@ -126,7 +125,7 @@ export const validateApiValues = (values: SøknadApiData, intl: IntlShape): ApiV
 
     if (values.arbeidsgivere && values.arbeidsgivere.length > 0) {
         values.arbeidsgivere.forEach((arbeidsgiver) => {
-            if (isArbeidsgiverISøknadsperiodeApiData(arbeidsgiver)) {
+            if (arbeidsgiver.arbeidsforhold) {
                 const isValid = isArbeidsforholdApiDataValid(arbeidsgiver.arbeidsforhold);
                 if (!isValid) {
                     errors.push({

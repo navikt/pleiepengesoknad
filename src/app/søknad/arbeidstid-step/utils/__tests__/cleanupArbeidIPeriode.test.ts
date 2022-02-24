@@ -1,13 +1,9 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { ISODateToDate } from '@navikt/sif-common-utils';
-import dayjs from 'dayjs';
-import minMax from 'dayjs/plugin/minMax';
 import { JobberIPeriodeSvar, TimerEllerProsent } from '../../../../types';
 import { ArbeidIPeriode } from '../../../../types/SøknadFormData';
-import { cleanupArbeidIPeriode } from '../cleanupArbeidIPeriodeStep';
-
-dayjs.extend(minMax);
+import { cleanupArbeidIPeriode } from '../cleanupArbeidstidStep';
 
 const periodeFromDateString = '2021-02-01';
 const periodeToDateString = '2021-02-12';

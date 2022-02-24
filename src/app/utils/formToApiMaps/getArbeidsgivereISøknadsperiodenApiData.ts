@@ -1,6 +1,6 @@
+import { dateToISODate } from '@navikt/sif-common-utils';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { ArbeidsgiverApiData, SøknadApiData } from '../../types/SøknadApiData';
 import { SøknadFormData } from '../../types/SøknadFormData';
 import { erAnsattHosArbeidsgiverISøknadsperiode } from '../ansattUtils';
@@ -12,16 +12,21 @@ export const getArbeidsgivereISøknadsperiodenApiData = (
 ): Pick<SøknadApiData, 'arbeidsgivere'> => {
     const arbeidsgivere: ArbeidsgiverApiData[] = [];
     formData.ansatt_arbeidsforhold.forEach((forhold) => {
+        const { arbeidsgiver } = forhold;
+        const arbeidsgiverInfo: Omit<ArbeidsgiverApiData, 'erAnsatt' | 'sluttetFørSøknadsperiode' | 'arbeidsforhold'> =
+            {
+                type: arbeidsgiver.type,
+                navn: arbeidsgiver.navn,
+                organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
+                offentligIdent: arbeidsgiver.offentligIdent,
+                ansattFom: arbeidsgiver.ansattFom ? dateToISODate(arbeidsgiver.ansattFom) : undefined,
+                ansattTom: arbeidsgiver.ansattTom ? dateToISODate(arbeidsgiver.ansattTom) : undefined,
+            };
         if (erAnsattHosArbeidsgiverISøknadsperiode(forhold)) {
-            const arbeidsforholdApiData = mapArbeidsforholdToApiData(
-                forhold,
-                søknadsperiode,
-                ArbeidsforholdType.ANSATT
-            );
+            const arbeidsforholdApiData = mapArbeidsforholdToApiData(forhold, søknadsperiode);
             if (arbeidsforholdApiData) {
                 arbeidsgivere.push({
-                    navn: forhold.navn,
-                    organisasjonsnummer: forhold.organisasjonsnummer,
+                    ...arbeidsgiverInfo,
                     erAnsatt: forhold.erAnsatt === YesOrNo.YES,
                     sluttetFørSøknadsperiode: forhold.erAnsatt === YesOrNo.NO ? false : undefined,
                     arbeidsforhold: arbeidsforholdApiData,
@@ -32,8 +37,7 @@ export const getArbeidsgivereISøknadsperiodenApiData = (
         } else {
             if (forhold.sluttetFørSøknadsperiode === YesOrNo.YES) {
                 arbeidsgivere.push({
-                    navn: forhold.navn,
-                    organisasjonsnummer: forhold.organisasjonsnummer,
+                    ...arbeidsgiverInfo,
                     erAnsatt: false,
                     sluttetFørSøknadsperiode: true,
                 });

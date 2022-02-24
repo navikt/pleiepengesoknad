@@ -7,15 +7,14 @@ import { apiStringDateToDate, prettifyDateExtended } from '@navikt/sif-common-co
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import {
     BostedUtlandApiData,
-    FerieuttakIPeriodeApiData,
+    PeriodeApiData,
     isUtenlandsoppholdUtenforEØSApiData,
-    PeriodeBarnetErInnlagtApiData,
     UtenlandsoppholdIPeriodenApiData,
 } from '../../types/SøknadApiData';
 
 const bem = bemUtils('utenlandsoppholdSummaryItem');
 
-export const renderFerieuttakIPeriodenSummary = (ferieuttak: FerieuttakIPeriodeApiData): React.ReactNode => (
+export const renderFerieuttakIPeriodenSummary = (ferieuttak: PeriodeApiData): React.ReactNode => (
     <div className={bem.classNames(bem.block, bem.modifier('no-details'))}>
         <span className={bem.element('dates')}>
             {prettifyDateExtended(apiStringDateToDate(ferieuttak.fraOgMed))} -{' '}
@@ -51,7 +50,7 @@ export const renderUtenlandsoppholdIPeriodenSummary = (opphold: Utenlandsopphold
                             <FormattedMessage id={`utenlandsopphold.form.perioderBarnetErInnlag.listTitle`} />:
                             <SummaryList
                                 items={opphold.perioderBarnetErInnlagt}
-                                itemRenderer={(periode: PeriodeBarnetErInnlagtApiData) => (
+                                itemRenderer={(periode: PeriodeApiData) => (
                                     <>
                                         {prettifyDateExtended(apiStringDateToDate(periode.fraOgMed))} -{' '}
                                         {prettifyDateExtended(apiStringDateToDate(periode.tilOgMed))}

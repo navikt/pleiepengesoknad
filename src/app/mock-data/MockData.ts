@@ -1,7 +1,8 @@
 import { ISODateToDate } from '@navikt/sif-common-utils';
+import { ArbeidsgiverType } from '../types/Arbeidsgiver';
 
 export const arbeidsgivereMock = {
-    organisasjoner: [{ navn: 'Karls godteributikk', organisasjonsnummer: '123451234' }],
+    organisasjoner: [{ type: ArbeidsgiverType.ORGANISASJON, navn: 'Karls godteributikk', id: '123451234' }],
 };
 
 export const barnMock = {

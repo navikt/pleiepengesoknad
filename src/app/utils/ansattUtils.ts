@@ -1,13 +1,21 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { ArbeidsforholdAnsatt } from '../types/SøknadFormData';
+import { Arbeidsforhold, ArbeidsforholdFrilanser } from '../types/Arbeidsforhold';
 
-export const erAnsattHosArbeidsgiverISøknadsperiode = (arbeidsgiver: ArbeidsforholdAnsatt): boolean => {
+export const erAnsattHosArbeidsgiverISøknadsperiode = (arbeidsforhold: Arbeidsforhold): boolean => {
     return (
-        arbeidsgiver.erAnsatt === YesOrNo.YES ||
-        (arbeidsgiver.erAnsatt === YesOrNo.NO && arbeidsgiver.sluttetFørSøknadsperiode === YesOrNo.NO)
+        arbeidsforhold.erAnsatt === YesOrNo.YES ||
+        (arbeidsforhold.erAnsatt === YesOrNo.NO && arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO)
     );
 };
 
-export const erAnsattISøknadsperiode = (arbeidsgivere: ArbeidsforholdAnsatt[]): boolean => {
-    return arbeidsgivere.some(erAnsattHosArbeidsgiverISøknadsperiode);
+export const harFraværIArbeidsforhold = (arbeidsforhold?: Arbeidsforhold | ArbeidsforholdFrilanser): boolean => {
+    return arbeidsforhold !== undefined && arbeidsforhold.harFraværIPeriode === YesOrNo.YES;
+};
+
+export const erAnsattISøknadsperiode = (arbeidsforhold: Arbeidsforhold[]): boolean => {
+    return arbeidsforhold.some(erAnsattHosArbeidsgiverISøknadsperiode);
+};
+
+export const harFraværFraArbeidsforholdIPeriode = (arbeidsforhold: Arbeidsforhold[]): boolean => {
+    return arbeidsforhold.some(harFraværIArbeidsforhold);
 };

@@ -1,12 +1,22 @@
-import { ArbeidsgiverApiData } from '../../types/SøknadApiData';
-import { Arbeidsgiver, Søkerdata } from '../../types/Søkerdata';
-import { getKvitteringInfoFromApiData, KvitteringApiData } from '../kvitteringUtils';
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { JobberIPeriodeSvar } from '../../types';
+import { ArbeidsgiverType } from '../../types/Arbeidsgiver';
+import { Søkerdata } from '../../types/Søkerdata';
+import { ArbeidsgiverApiData } from '../../types/SøknadApiData';
+import { getKvitteringInfoFromApiData, KvitteringApiData } from '../kvitteringUtils';
 
-const arbeidsgiverInfo: Arbeidsgiver = {
+const arbeidsgiverApiData: ArbeidsgiverApiData = {
+    type: ArbeidsgiverType.ORGANISASJON,
     navn: 'abc',
-    organisasjonsnummer: '123',
+    organisasjonsnummer: '213',
+    erAnsatt: true,
+    arbeidsforhold: {
+        arbeidIPeriode: {
+            jobberIPerioden: JobberIPeriodeSvar.NEI,
+        },
+        harFraværIPeriode: true,
+        jobberNormaltTimer: 2,
+    },
+    sluttetFørSøknadsperiode: false,
 };
 
 const apiData: KvitteringApiData = {
@@ -16,7 +26,7 @@ const apiData: KvitteringApiData = {
 };
 
 const søkerinfo: Søkerdata = {
-    person: {
+    søker: {
         fornavn: 'Jan',
         etternavn: 'Jansen',
     },
@@ -30,7 +40,7 @@ describe('kvitteringUtils', () => {
         });
         it('returnerer undefined dersom søker kun har arbeidsgivere hvor en sluttet før søknadsperiode ', () => {
             const arbeidsgiver: ArbeidsgiverApiData = {
-                ...arbeidsgiverInfo,
+                ...arbeidsgiverApiData,
                 erAnsatt: false,
                 sluttetFørSøknadsperiode: true,
             };
@@ -39,38 +49,38 @@ describe('kvitteringUtils', () => {
         });
         it('returnerer kun arbeidsgivere hvor søker ikke sluttet før søknadsperiode ', () => {
             const arbeidsgiver1: ArbeidsgiverApiData = {
-                ...arbeidsgiverInfo,
+                ...arbeidsgiverApiData,
                 organisasjonsnummer: '1',
                 erAnsatt: false,
                 sluttetFørSøknadsperiode: true,
             };
             const arbeidsgiver2: ArbeidsgiverApiData = {
-                ...arbeidsgiverInfo,
+                ...arbeidsgiverApiData,
                 organisasjonsnummer: '2',
                 erAnsatt: false,
                 sluttetFørSøknadsperiode: false,
                 arbeidsforhold: {
                     jobberNormaltTimer: 20,
+                    harFraværIPeriode: true,
                     arbeidIPeriode: {
                         jobberIPerioden: JobberIPeriodeSvar.JA,
                     },
-                    _type: ArbeidsforholdType.ANSATT,
                 },
             };
             const arbeidsgiver3: ArbeidsgiverApiData = {
-                ...arbeidsgiverInfo,
+                ...arbeidsgiverApiData,
                 organisasjonsnummer: '3',
                 erAnsatt: true,
                 arbeidsforhold: {
                     jobberNormaltTimer: 20,
+                    harFraværIPeriode: true,
                     arbeidIPeriode: {
                         jobberIPerioden: JobberIPeriodeSvar.JA,
                     },
-                    _type: ArbeidsforholdType.ANSATT,
                 },
             };
             const arbeidsgiver4: ArbeidsgiverApiData = {
-                ...arbeidsgiverInfo,
+                ...arbeidsgiverApiData,
                 organisasjonsnummer: '4',
                 erAnsatt: false,
                 sluttetFørSøknadsperiode: true,

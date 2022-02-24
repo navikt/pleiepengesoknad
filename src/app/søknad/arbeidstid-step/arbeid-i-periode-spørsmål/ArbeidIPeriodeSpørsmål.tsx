@@ -7,11 +7,11 @@ import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-p
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
 import {
+    ArbeidIPeriodeIntlValues,
     getArbeidstidFastProsentValidator,
     getArbeidstidIPeriodeIntlValues,
     getArbeidstimerFastDagValidator,
     getRedusertArbeidstidPerUkeInfo,
-    ArbeidIPeriodeIntlValues,
     validateFasteArbeidstimerIUke,
 } from '@navikt/sif-common-pleiepenger';
 import TidFasteUkedagerInput from '@navikt/sif-common-pleiepenger/lib/tid-faste-ukedager-input/TidFasteUkedagerInput';
@@ -20,12 +20,12 @@ import { getWeeksInDateRange } from '@navikt/sif-common-utils';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import usePersistSoknad from '../../../hooks/usePersistSoknad';
 import { JobberIPeriodeSvar, TimerEllerProsent } from '../../../types';
-import { ArbeidIPeriodeField, Arbeidsforhold } from '../../../types/SøknadFormData';
+import { ArbeidIPeriodeField, Arbeidsforhold, ArbeidsforholdFrilanser } from '../../../types/SøknadFormData';
 import { søkerKunHelgedager } from '../../../utils/formDataUtils';
 import {
     getArbeidErLiktHverUkeValidator,
-    getJobberIPeriodenValidator,
     getArbeidstidTimerEllerProsentValidator,
+    getJobberIPeriodenValidator,
 } from '../../../validation/validateArbeidFields';
 import SøknadFormComponents from '../../SøknadFormComponents';
 import { StepID } from '../../søknadStepsConfig';
@@ -34,7 +34,7 @@ import InfoSøkerKunHelgedager from './InfoSøkerKunHelgedager';
 
 interface Props {
     parentFieldName: string;
-    arbeidsforhold: Arbeidsforhold;
+    arbeidsforhold: Arbeidsforhold | ArbeidsforholdFrilanser;
     arbeidsforholdType: ArbeidsforholdType;
     arbeidsstedNavn: string;
     periode: DateRange;

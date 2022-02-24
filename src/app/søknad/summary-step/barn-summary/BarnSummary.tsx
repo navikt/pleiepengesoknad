@@ -7,19 +7,18 @@ import { apiStringDateToDate, prettifyDate } from '@navikt/sif-common-core/lib/u
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { BarnRelasjon } from '../../../types';
-import { BarnReceivedFromApi } from '../../../types/Søkerdata';
+import { BarnRelasjon, RegistrerteBarn } from '../../../types';
 import { SøknadApiData } from '../../../types/SøknadApiData';
 import { SøknadFormData } from '../../../types/SøknadFormData';
 import Sitat from '../enkeltsvar/Sitat';
 
 interface Props {
-    barn: BarnReceivedFromApi[];
+    barn: RegistrerteBarn[];
     formValues: SøknadFormData;
     apiValues: SøknadApiData;
 }
 
-const apiBarnSummary = (apiBarn: BarnReceivedFromApi) => (
+const apiBarnSummary = (apiBarn: RegistrerteBarn) => (
     <>
         <Normaltekst>
             <FormattedMessage

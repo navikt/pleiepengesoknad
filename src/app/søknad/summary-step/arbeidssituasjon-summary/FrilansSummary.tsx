@@ -1,10 +1,9 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { FrilansApiData } from '../../../types/SøknadApiData';
 import { prettifyApiDate } from '../enkeltsvar/DatoSvar';
-import { getTidSetning } from './arbeidssituasjon-summary-utils';
-import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 
 interface Props {
     frilans?: FrilansApiData;
@@ -38,7 +37,25 @@ const FrilansSummary = ({ frilans }: Props) => {
                         <FormattedMessage id="oppsummering.arbeidssituasjon.frilans.fortsattFrilanser" />
                     </li>
                 )}
-
+                {frilans.arbeidsforhold && (
+                    <>
+                        <li>
+                            <FormattedMessage
+                                id={`oppsummering.arbeidssituasjon.tid`}
+                                values={{ timer: frilans.arbeidsforhold.jobberNormaltTimer }}
+                            />
+                        </li>
+                        <li>
+                            <FormattedMessage
+                                id={
+                                    frilans.arbeidsforhold.harFraværIPeriode
+                                        ? `oppsummering.arbeidssituasjon.harFravær`
+                                        : 'oppsummering.arbeidssituasjon.harIkkeFravær'
+                                }
+                            />
+                        </li>
+                    </>
+                )}
                 {frilans.sluttdato && (
                     <li>
                         <FormattedMessage
@@ -46,9 +63,6 @@ const FrilansSummary = ({ frilans }: Props) => {
                             values={{ dato: prettifyApiDate(frilans.sluttdato) }}
                         />
                     </li>
-                )}
-                {frilans.arbeidsforhold && (
-                    <li>{getTidSetning(intl, frilans.arbeidsforhold, frilans.jobberFortsattSomFrilans)}</li>
                 )}
             </ul>
         </SummaryBlock>

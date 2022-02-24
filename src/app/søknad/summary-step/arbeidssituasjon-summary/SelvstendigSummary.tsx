@@ -6,7 +6,6 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import VirksomhetSummary from '@navikt/sif-common-forms/lib/virksomhet/VirksomhetSummary';
 import { Element } from 'nav-frontend-typografi';
 import { SelvstendigNæringsdrivendeApiData } from '../../../types/SøknadApiData';
-import { getTidSetning } from './arbeidssituasjon-summary-utils';
 
 interface Props {
     selvstendigNæringsdrivende?: SelvstendigNæringsdrivendeApiData;
@@ -15,7 +14,6 @@ interface Props {
 function SelvstendigSummary({ selvstendigNæringsdrivende }: Props) {
     const intl = useIntl();
     const { arbeidsforhold, virksomhet } = selvstendigNæringsdrivende || {};
-    const Tid = arbeidsforhold ? getTidSetning(intl, arbeidsforhold, true) : undefined;
     return (
         <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.selvstendig.header')} headerTag="h3">
             {selvstendigNæringsdrivende === undefined && (
@@ -38,7 +36,25 @@ function SelvstendigSummary({ selvstendigNæringsdrivende }: Props) {
                                 <FormattedMessage id="oppsummering.arbeidssituasjon.selvstendig.enVirksomhet" />
                             )}
                         </li>
-                        {Tid && <li>{Tid}</li>}
+                        {arbeidsforhold.jobberNormaltTimer && (
+                            <>
+                                <li>
+                                    <FormattedMessage
+                                        id={`oppsummering.arbeidssituasjon.tid`}
+                                        values={{ timer: arbeidsforhold.jobberNormaltTimer }}
+                                    />
+                                </li>
+                                <li>
+                                    <FormattedMessage
+                                        id={
+                                            arbeidsforhold.harFraværIPeriode
+                                                ? `oppsummering.arbeidssituasjon.harFravær`
+                                                : 'oppsummering.arbeidssituasjon.harIkkeFravær'
+                                        }
+                                    />
+                                </li>
+                            </>
+                        )}
                     </ul>
                     <Element tag="h4">{intlHelper(intl, 'summary.virksomhet.virksomhetInfo.tittel')}</Element>
                     <Box margin="m">
