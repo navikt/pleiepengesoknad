@@ -17,6 +17,12 @@ export const syncArbeidsforholdWithArbeidsgivere = (
         const forhold: ArbeidsforholdAnsatt | undefined = arbeidsforhold.find(
             (f) => f.organisasjonsnummer === organisasjon.organisasjonsnummer
         );
+        if (!organisasjon.navn) {
+            appSentryLogger.logError(
+                'Get arbeidsgiver: Manglende navn på organisasjon',
+                `${organisasjon.organisasjonsnummer}`
+            );
+        }
         return {
             ...organisasjon,
             ...forhold,
