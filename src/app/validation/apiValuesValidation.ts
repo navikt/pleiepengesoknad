@@ -8,11 +8,13 @@ import { JobberIPeriodeSvar } from '../types';
 import {
     ArbeidIPeriodeApiData,
     ArbeidsforholdApiData,
+    ArbeidsgiverApiData,
     isArbeidsgiverISøknadsperiodeApiData,
     OmsorgstilbudApiData,
     SøknadApiData,
 } from '../types/SøknadApiData';
 import { søkerKunHelgedager } from '../utils/formDataUtils';
+import appSentryLogger from '../utils/appSentryLogger';
 
 export const apiVedleggIsInvalid = (vedlegg: string[]): boolean => {
     vedlegg.find((v) => {
@@ -87,6 +89,12 @@ export const isOmsorgstilbudApiDataValid = (omsorgstilbud: OmsorgstilbudApiData)
     return true;
 };
 
+const kontrollerArbeidsgivernavn = (arbeidsgiver: ArbeidsgiverApiData) => {
+    if (!arbeidsgiver.navn) {
+        appSentryLogger.logInfo('Manglende org-navn på apidata', `${arbeidsgiver.organisasjonsnummer}`);
+    }
+};
+
 export const validateApiValues = (values: SøknadApiData, intl: IntlShape): ApiValidationError[] | undefined => {
     const errors: ApiValidationError[] = [];
 
@@ -126,8 +134,10 @@ export const validateApiValues = (values: SøknadApiData, intl: IntlShape): ApiV
 
     if (values.arbeidsgivere && values.arbeidsgivere.length > 0) {
         values.arbeidsgivere.forEach((arbeidsgiver) => {
+            kontrollerArbeidsgivernavn(arbeidsgiver);
             if (isArbeidsgiverISøknadsperiodeApiData(arbeidsgiver)) {
                 const isValid = isArbeidsforholdApiDataValid(arbeidsgiver.arbeidsforhold);
+
                 if (!isValid) {
                     errors.push({
                         skjemaelementId: 'arbeidsforholdAnsatt',
