@@ -5,6 +5,7 @@ import { ArbeidsgiverApiData, SøknadApiData } from '../../types/SøknadApiData'
 import { SøknadFormData } from '../../types/SøknadFormData';
 import { erAnsattHosArbeidsgiverISøknadsperiode } from '../ansattUtils';
 import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
+import appSentryLogger from '../../utils/appSentryLogger';
 
 export const getArbeidsgivereISøknadsperiodenApiData = (
     formData: SøknadFormData,
@@ -18,6 +19,12 @@ export const getArbeidsgivereISøknadsperiodenApiData = (
                 søknadsperiode,
                 ArbeidsforholdType.ANSATT
             );
+            if (!forhold.navn) {
+                appSentryLogger.logError(
+                    'Manglende navn på arbeidsgiver hvor en jobber',
+                    JSON.stringify({ ...forhold })
+                );
+            }
             if (arbeidsforholdApiData) {
                 arbeidsgivere.push({
                     navn: forhold.navn,
@@ -31,6 +38,10 @@ export const getArbeidsgivereISøknadsperiodenApiData = (
             }
         } else {
             if (forhold.sluttetFørSøknadsperiode === YesOrNo.YES) {
+                appSentryLogger.logError(
+                    'Manglende navn på arbeidsgiver hvor en sluttet før søknadsperiode',
+                    JSON.stringify({ ...forhold })
+                );
                 arbeidsgivere.push({
                     navn: forhold.navn,
                     organisasjonsnummer: forhold.organisasjonsnummer,

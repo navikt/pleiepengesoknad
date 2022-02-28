@@ -138,6 +138,15 @@ export const validateApiValues = (values: SøknadApiData, intl: IntlShape): ApiV
     if (values.arbeidsgivere && values.arbeidsgivere.length > 0) {
         values.arbeidsgivere.forEach((arbeidsgiver) => {
             kontrollerArbeidsgivernavn(arbeidsgiver);
+            if (!arbeidsgiver.navn) {
+                errors.push({
+                    skjemaelementId: 'arbeidsforholdAnsatt',
+                    feilmelding: intlHelper(intl, 'steg.oppsummering.validering.manglendeArbeidsgiverNavn', {
+                        hvor: `hos ${arbeidsgiver.organisasjonsnummer}`,
+                    }),
+                    stepId: StepID.ARBEIDSSITUASJON,
+                });
+            }
             if (isArbeidsgiverISøknadsperiodeApiData(arbeidsgiver)) {
                 const isValid = isArbeidsforholdApiDataValid(arbeidsgiver.arbeidsforhold);
 
