@@ -24,7 +24,7 @@ import MedlemsskapStep from './medlemskap-step/MedlemsskapStep';
 import NattevåkOgBeredskapStep from './nattevåk-og-beredskap-step/NattevåkOgBeredskapStep';
 import OmsorgstilbudStep from './omsorgstilbud-step/OmsorgstilbudStep';
 import OpplysningerOmBarnetStep from './opplysninger-om-barnet-step/OpplysningerOmBarnetStep';
-import SummaryStep from './summary-step/SummaryStep';
+import OppsummeringStep from './oppsummering-step/OppsummeringStep';
 import { StepID } from './søknadStepsConfig';
 import OpplysningerOmTidsromStep from './tidsrom-step/OpplysningerOmTidsromStep';
 import { KvitteringInfo } from '../types/KvitteringInfo';
@@ -201,7 +201,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                 <Route
                     path={getSøknadRoute(StepID.SUMMARY)}
                     render={() => (
-                        <SummaryStep
+                        <OppsummeringStep
                             values={values}
                             søknadsdato={søknadsdato}
                             onApplicationSent={(apiData: SøknadApiData, søkerdata: Søkerdata) => {

@@ -45,7 +45,7 @@ import {
     renderUtenlandsoppholdIPeriodenSummary,
     renderUtenlandsoppholdSummary,
 } from './summaryItemRenderers';
-import './summary.less';
+import './oppsummeringStep.less';
 
 interface Props {
     values: SøknadFormData;
@@ -53,7 +53,7 @@ interface Props {
     onApplicationSent: (apiValues: SøknadApiData, søkerdata: Søkerdata) => void;
 }
 
-const SummaryStep = ({ onApplicationSent, values, søknadsdato }: Props) => {
+const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) => {
     const [sendingInProgress, setSendingInProgress] = useState<boolean>(false);
     const [soknadSent, setSoknadSent] = useState<boolean>(false);
     const intl = useIntl();
@@ -324,4 +324,4 @@ const SummaryStep = ({ onApplicationSent, values, søknadsdato }: Props) => {
     );
 };
 
-export default SummaryStep;
+export default OppsummeringStep;
