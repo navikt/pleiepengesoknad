@@ -18,7 +18,10 @@ export const syncArbeidsforholdWithArbeidsgivere = (
             (f) => f.organisasjonsnummer === organisasjon.organisasjonsnummer
         );
         if (!organisasjon.navn) {
-            appSentryLogger.logInfo('Manglende navn på organisasjon', `${organisasjon.organisasjonsnummer}`);
+            appSentryLogger.logError(
+                'Get arbeidsgiver: Manglende navn på organisasjon',
+                `${organisasjon.organisasjonsnummer}`
+            );
         }
         return {
             ...organisasjon,

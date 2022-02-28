@@ -91,7 +91,10 @@ export const isOmsorgstilbudApiDataValid = (omsorgstilbud: OmsorgstilbudApiData)
 
 const kontrollerArbeidsgivernavn = (arbeidsgiver: ArbeidsgiverApiData) => {
     if (!arbeidsgiver.navn) {
-        appSentryLogger.logInfo('Manglende org-navn på apidata', `${arbeidsgiver.organisasjonsnummer}`);
+        appSentryLogger.logError(
+            'apiValuesValidation: Manglende navn på organisasjon',
+            `${arbeidsgiver.organisasjonsnummer}`
+        );
     }
 };
 
