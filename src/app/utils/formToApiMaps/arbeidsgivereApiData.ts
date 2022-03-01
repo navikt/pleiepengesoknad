@@ -27,7 +27,7 @@ export const getArbeidsgivereISøknadsperiodenApiData = (
             }
             if (arbeidsforholdApiData) {
                 arbeidsgivere.push({
-                    navn: forhold.navn,
+                    navn: forhold.navn || forhold.organisasjonsnummer,
                     organisasjonsnummer: forhold.organisasjonsnummer,
                     erAnsatt: forhold.erAnsatt === YesOrNo.YES,
                     sluttetFørSøknadsperiode: forhold.erAnsatt === YesOrNo.NO ? false : undefined,
