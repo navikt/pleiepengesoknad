@@ -38,10 +38,12 @@ export const getArbeidsgivereISøknadsperiodenApiData = (
             }
         } else {
             if (forhold.sluttetFørSøknadsperiode === YesOrNo.YES) {
-                appSentryLogger.logError(
-                    'Manglende navn på arbeidsgiver hvor en sluttet før søknadsperiode',
-                    JSON.stringify({ ...forhold })
-                );
+                if (!forhold.navn) {
+                    appSentryLogger.logError(
+                        'Manglende navn på arbeidsgiver hvor en sluttet før søknadsperiode',
+                        JSON.stringify({ ...forhold })
+                    );
+                }
                 arbeidsgivere.push({
                     navn: forhold.navn,
                     organisasjonsnummer: forhold.organisasjonsnummer,
