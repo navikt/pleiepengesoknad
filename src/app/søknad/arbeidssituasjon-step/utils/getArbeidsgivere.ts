@@ -40,6 +40,13 @@ const updateArbeidsforholdFormField = (formikProps: FormikProps<SøknadFormData>
     }
 };
 
+const ensureOrganisasjonsnavn = (arbeidsgiver: Arbeidsgiver): Arbeidsgiver => {
+    return {
+        ...arbeidsgiver,
+        navn: arbeidsgiver.navn || arbeidsgiver.organisasjonsnummer,
+    };
+};
+
 export async function getArbeidsgivere(
     fromDate: Date,
     toDate: Date,
@@ -52,7 +59,7 @@ export async function getArbeidsgivere(
     } else {
         try {
             const response = await getArbeidsgiver(formatDateToApiFormat(fromDate), formatDateToApiFormat(toDate));
-            const { organisasjoner } = response.data;
+            const organisasjoner = response.data ? response.data.organisasjoner.map(ensureOrganisasjonsnavn) : [];
             søkerdata.setArbeidsgivere(organisasjoner);
             updateArbeidsforholdFormField(formikProps, organisasjoner);
         } catch (error) {

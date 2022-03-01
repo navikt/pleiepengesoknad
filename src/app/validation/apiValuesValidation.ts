@@ -8,7 +8,6 @@ import { JobberIPeriodeSvar } from '../types';
 import {
     ArbeidIPeriodeApiData,
     ArbeidsforholdApiData,
-    ArbeidsgiverApiData,
     isArbeidsgiverISøknadsperiodeApiData,
     OmsorgstilbudApiData,
     SøknadApiData,
@@ -89,15 +88,6 @@ export const isOmsorgstilbudApiDataValid = (omsorgstilbud: OmsorgstilbudApiData)
     return true;
 };
 
-const kontrollerArbeidsgivernavn = (arbeidsgiver: ArbeidsgiverApiData) => {
-    if (!arbeidsgiver.navn) {
-        appSentryLogger.logError(
-            'apiValuesValidation: Manglende navn på organisasjon',
-            `${JSON.stringify(arbeidsgiver)}`
-        );
-    }
-};
-
 export const validateApiValues = (values: SøknadApiData, intl: IntlShape): ApiValidationError[] | undefined => {
     const errors: ApiValidationError[] = [];
 
@@ -137,8 +127,11 @@ export const validateApiValues = (values: SøknadApiData, intl: IntlShape): ApiV
 
     if (values.arbeidsgivere && values.arbeidsgivere.length > 0) {
         values.arbeidsgivere.forEach((arbeidsgiver) => {
-            kontrollerArbeidsgivernavn(arbeidsgiver);
-            if (!arbeidsgiver.navn) {
+            if (!arbeidsgiver.navn || arbeidsgiver.navn === 'null') {
+                appSentryLogger.logError(
+                    'apiValuesValidation: Manglende navn på organisasjon',
+                    `${JSON.stringify(arbeidsgiver)}`
+                );
                 errors.push({
                     skjemaelementId: 'arbeidsforholdAnsatt',
                     feilmelding: intlHelper(intl, 'steg.oppsummering.validering.manglendeArbeidsgiverNavn', {
