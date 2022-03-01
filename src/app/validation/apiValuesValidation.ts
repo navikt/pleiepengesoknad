@@ -93,7 +93,7 @@ const kontrollerArbeidsgivernavn = (arbeidsgiver: ArbeidsgiverApiData) => {
     if (!arbeidsgiver.navn) {
         appSentryLogger.logError(
             'apiValuesValidation: Manglende navn på organisasjon',
-            `${arbeidsgiver.organisasjonsnummer}`
+            `${JSON.stringify(arbeidsgiver)}`
         );
     }
 };

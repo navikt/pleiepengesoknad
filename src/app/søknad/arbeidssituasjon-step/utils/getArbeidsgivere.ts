@@ -20,7 +20,7 @@ export const syncArbeidsforholdWithArbeidsgivere = (
         if (!organisasjon.navn) {
             appSentryLogger.logError(
                 'Get arbeidsgiver: Manglende navn på organisasjon',
-                `${organisasjon.organisasjonsnummer}`
+                `${JSON.stringify(organisasjon)}`
             );
         }
         return {
