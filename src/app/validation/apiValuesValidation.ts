@@ -8,7 +8,6 @@ import { JobberIPeriodeSvar } from '../types';
 import {
     ArbeidIPeriodeApiData,
     ArbeidsforholdApiData,
-    ArbeidsgiverApiData,
     isArbeidsgiverISøknadsperiodeApiData,
     OmsorgstilbudApiData,
     SøknadApiData,
