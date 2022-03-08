@@ -17,6 +17,7 @@ import { getEnvironmentVariable } from './utils/envUtils';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
 import '@navikt/sif-common-core/lib/styles/globalStyles.less';
 import './app.less';
+import { SanityConfig } from '@navikt/appstatus-react/lib/types';
 
 export const APPLICATION_KEY = 'pleiepengesoknad';
 export const SKJEMANAVN = 'Søknad om pleiepenger';
@@ -27,10 +28,10 @@ const localeFromSessionStorage = getLocaleFromSessionStorage();
 moment.locale(localeFromSessionStorage);
 dayjs.locale(localeFromSessionStorage);
 
-const getAppStatusSanityConfig = () => {
+const getAppStatusSanityConfig = (): SanityConfig | undefined => {
     const projectId = getEnvironmentVariable('APPSTATUS_PROJECT_ID');
     const dataset = getEnvironmentVariable('APPSTATUS_DATASET');
-    return !projectId || !dataset ? undefined : { projectId, dataset };
+    return !projectId || !dataset ? undefined : { projectId, dataset, apiVersion: '2022-03-07' };
 };
 
 // Trigger build
