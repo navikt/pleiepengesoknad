@@ -1,5 +1,5 @@
 import { Attachment, PersistedFile } from '@navikt/sif-common-core/lib/types/Attachment';
-import { filterAndMapAttachmentsToApiFormat } from '../formToApiMaps/attachmentsToApiData';
+import { getAttachmentsApiData } from '../formToApiMaps/getAttachmentsApiData';
 
 describe('attachmentsToApiData', () => {
     const persistedFile: PersistedFile = {
@@ -34,17 +34,17 @@ describe('attachmentsToApiData', () => {
     };
 
     it('returns an array with strings when all attachments has url', () => {
-        const result = filterAndMapAttachmentsToApiFormat([uploadedAttachment]);
+        const result = getAttachmentsApiData([uploadedAttachment]);
         expect(result.length).toBe(1);
         expect(result[0]).toEqual(uploadedAttachmentUrl);
     });
     it('does not include not uploaded attachments', () => {
-        const result = filterAndMapAttachmentsToApiFormat([uploadedAttachment, failedAttachment]);
+        const result = getAttachmentsApiData([uploadedAttachment, failedAttachment]);
         expect(result.length).toBe(1);
         expect(result[0]).toEqual(uploadedAttachmentUrl);
     });
     it('does not include attachments with no url', () => {
-        const result = filterAndMapAttachmentsToApiFormat([missingUrlAttachment, uploadedAttachment, failedAttachment]);
+        const result = getAttachmentsApiData([missingUrlAttachment, uploadedAttachment, failedAttachment]);
         expect(result.length).toBe(1);
         expect(result[0]).toEqual(uploadedAttachmentUrl);
     });

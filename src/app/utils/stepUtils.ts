@@ -1,6 +1,7 @@
 import { IntlShape } from 'react-intl';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { DateRange } from '@navikt/sif-common-formik/lib';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from '../søknad/søknadStepsConfig';
 import { SøknadFormData } from '../types/SøknadFormData';
 import {
@@ -11,9 +12,8 @@ import {
     opplysningerOmTidsromStepIsValid,
     welcomingPageIsValid,
 } from '../validation/stepValidations';
-import { erAnsattISøknadsperiode } from './ansattUtils';
-import { erFrilanserIPeriode } from './frilanserUtils';
-import { DateRange } from '@navikt/sif-common-formik/lib';
+import { erAnsattISøknadsperiode, harFraværFraArbeidsforholdIPeriode, harFraværIArbeidsforhold } from './ansattUtils';
+import { erFrilanserISøknadsperiode } from './frilanserUtils';
 
 export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
     const conf = stepConfig[stepId];
@@ -68,7 +68,7 @@ export const legeerklæringStepAvailable = (formData: SøknadFormData) =>
     arbeidssituasjonStepIsValid() &&
     medlemskapStepIsValid(formData);
 
-export const summaryStepAvailable = (formData: SøknadFormData) =>
+export const oppsummeringStepAvailable = (formData: SøknadFormData) =>
     welcomingPageIsValid(formData) &&
     opplysningerOmBarnetStepIsValid(formData) &&
     opplysningerOmTidsromStepIsValid(formData) &&
@@ -84,13 +84,25 @@ export const skalBrukerSvarePåBeredskapOgNattevåk = (formValues?: SøknadFormD
     );
 };
 
-export const skalBrukerSvareArbeidstid = (søknadsperiode: DateRange, formValues?: SøknadFormData): boolean => {
+export const skalBrukerSvareArbeidstid = (
+    søknadsperiode: DateRange,
+    formValues: SøknadFormData
+    // søkerdata: Søkerdata | undefined
+): boolean => {
     if (!formValues) {
         return false;
     }
-    return (
-        erAnsattISøknadsperiode(formValues.ansatt_arbeidsforhold) ||
-        erFrilanserIPeriode(søknadsperiode, formValues) ||
-        formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES
-    );
+    const erAnsattMedFraværIPerioden =
+        erAnsattISøknadsperiode(formValues.ansatt_arbeidsforhold) &&
+        harFraværFraArbeidsforholdIPeriode(formValues.ansatt_arbeidsforhold);
+
+    const erFrilanserMedFraværIPerioden =
+        erFrilanserISøknadsperiode(søknadsperiode, formValues.frilans, formValues.frilansoppdrag) &&
+        harFraværIArbeidsforhold(formValues.frilans.arbeidsforhold);
+
+    const erSelvstendigMedFraværIPerioden =
+        formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES &&
+        harFraværIArbeidsforhold(formValues.selvstendig_arbeidsforhold);
+
+    return erAnsattMedFraværIPerioden || erFrilanserMedFraværIPerioden || erSelvstendigMedFraværIPerioden;
 };

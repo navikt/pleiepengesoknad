@@ -85,9 +85,9 @@ describe('stepUtils', () => {
         });
     });
 
-    describe('summaryStepAvailable', () => {
+    describe('oppsummeringStepAvailable', () => {
         it('should call relevant stepValidator-functions to determine whether the step should be available', () => {
-            const returnValue = stepUtils.summaryStepAvailable(formData as SøknadFormData);
+            const returnValue = stepUtils.oppsummeringStepAvailable(formData as SøknadFormData);
             expect(stepValidations.welcomingPageIsValid).toHaveBeenCalledWith(formData);
             expect(stepValidations.opplysningerOmBarnetStepIsValid).toHaveBeenCalledWith(formData);
             expect(stepValidations.opplysningerOmTidsromStepIsValid).toHaveBeenCalledWith(formData);

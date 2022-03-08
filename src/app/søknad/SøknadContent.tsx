@@ -11,7 +11,7 @@ import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
 import { Søkerdata } from '../types/Søkerdata';
-import { ArbeidsgiverApiData, SøknadApiData } from '../types/SøknadApiData';
+import { SøknadApiData } from '../types/SøknadApiData';
 import { SøknadFormData } from '../types/SøknadFormData';
 import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
 import { getKvitteringInfoFromApiData } from '../utils/kvitteringUtils';
@@ -24,20 +24,14 @@ import MedlemsskapStep from './medlemskap-step/MedlemsskapStep';
 import NattevåkOgBeredskapStep from './nattevåk-og-beredskap-step/NattevåkOgBeredskapStep';
 import OmsorgstilbudStep from './omsorgstilbud-step/OmsorgstilbudStep';
 import OpplysningerOmBarnetStep from './opplysninger-om-barnet-step/OpplysningerOmBarnetStep';
-import SummaryStep from './summary-step/SummaryStep';
+import OppsummeringStep from './oppsummering-step/OppsummeringStep';
 import { StepID } from './søknadStepsConfig';
 import OpplysningerOmTidsromStep from './tidsrom-step/OpplysningerOmTidsromStep';
+import { KvitteringInfo } from '../types/KvitteringInfo';
 
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
     harMellomlagring: boolean;
-}
-
-export interface KvitteringInfo {
-    fom: Date;
-    tom: Date;
-    søkernavn: string;
-    arbeidsgivere: ArbeidsgiverApiData[];
 }
 
 const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadContentProps) => {
@@ -207,7 +201,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                 <Route
                     path={getSøknadRoute(StepID.SUMMARY)}
                     render={() => (
-                        <SummaryStep
+                        <OppsummeringStep
                             values={values}
                             søknadsdato={søknadsdato}
                             onApplicationSent={(apiData: SøknadApiData, søkerdata: Søkerdata) => {

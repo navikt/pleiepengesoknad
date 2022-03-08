@@ -1,119 +1,76 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { apiStringDateToDate, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import dayjs from 'dayjs';
-import minMax from 'dayjs/plugin/minMax';
-import { SøknadFormData } from '../../types/SøknadFormData';
-import { erFrilanserIPeriode, erFrilanserITidsrom, getPeriodeSomFrilanserInnenforPeriode } from '../frilanserUtils';
+import { ISODateRangeToDateRange, ISODateToDate } from '@navikt/sif-common-utils/lib';
+import { Arbeidsgiver, ArbeidsgiverType } from '../../types';
+import {
+    harSvartErFrilanserEllerHarFrilansoppdrag,
+    erFrilanserITidsrom,
+    erFrilanserISøknadsperiode,
+} from '../frilanserUtils';
 
-dayjs.extend(minMax);
+const periode = ISODateRangeToDateRange('2021-01-05/2021-01-10');
 
-type TestData = Partial<SøknadFormData>;
-
-const formValues: TestData = {
-    frilans_harHattInntektSomFrilanser: YesOrNo.YES,
+const frilansoppdragIPeriode: Arbeidsgiver = {
+    id: '123',
+    navn: 'Frilansoppdrag',
+    type: ArbeidsgiverType.FRILANSOPPDRAG,
+    ansattFom: ISODateToDate('2021-01-01'),
 };
 
-describe('erFrilanserITidsrom', () => {
-    const tidsrom: DateRange = {
-        from: apiStringDateToDate('2021-02-01'),
-        to: apiStringDateToDate('2021-02-05'),
-    };
-
-    const frilansStartdato: Date = apiStringDateToDate('2021-01-01');
-
-    it('returnerer false dersom sluttdato er før periode', () => {
-        expect(
-            erFrilanserITidsrom(tidsrom, { frilansStartdato, frilansSluttdato: apiStringDateToDate('2021-01-01') })
-        ).toBeFalsy();
-    });
-    it('returnerer true dersom sluttdato er lik første dag i perioden', () => {
-        expect(
-            erFrilanserITidsrom(tidsrom, {
-                frilansStartdato: apiStringDateToDate('2021-01-01'),
-                frilansSluttdato: apiStringDateToDate('2021-02-01'),
-            })
-        ).toBeTruthy();
-    });
-    it('returnerer false dersom startdato er etter periode', () => {
-        expect(erFrilanserITidsrom(tidsrom, { frilansStartdato: apiStringDateToDate('2021-02-06') })).toBeFalsy();
-    });
-    it('returnerer true dersom startdato er lik første dag i perioden', () => {
-        expect(erFrilanserITidsrom(tidsrom, { frilansStartdato: apiStringDateToDate('2021-02-01') })).toBeTruthy();
-    });
-});
-
-describe('Frilanser sluttdato er innenfor søknadsperiode', () => {
-    const values: TestData = {
-        ...formValues,
-        frilans_startdato: '2020-01-01',
-    };
-    const periode: DateRange = {
-        from: apiStringDateToDate('2021-01-31'),
-        to: apiStringDateToDate('2021-05-31'),
-    };
-    it('should return false if frilans end date is before application period ', () => {
-        expect(erFrilanserIPeriode(periode, { ...values, frilans_sluttdato: '2021-01-19' })).toBeFalsy();
-        expect(erFrilanserIPeriode(periode, { ...values, frilans_sluttdato: '2021-01-30' })).toBeFalsy();
-        expect(erFrilanserIPeriode(periode, { ...values, frilans_sluttdato: '2020-01-19' })).toBeFalsy();
-        expect(erFrilanserIPeriode(periode, { ...values, frilans_sluttdato: '2020-01-31' })).toBeFalsy();
-    });
-
-    it('should return true if frilans end date is in or after application period ', () => {
-        expect(erFrilanserIPeriode(periode, { ...values, frilans_sluttdato: '2021-01-31' })).toBeTruthy();
-        expect(erFrilanserIPeriode(periode, { ...values, frilans_sluttdato: '2021-02-01' })).toBeTruthy();
-        expect(erFrilanserIPeriode(periode, { ...values, frilans_sluttdato: '2021-02-19' })).toBeTruthy();
-        expect(erFrilanserIPeriode(periode, { ...values, frilans_sluttdato: '2022-01-31' })).toBeTruthy();
-    });
-});
-
-describe('getPeriodeSomFrilanserInnenforPeriode', () => {
-    const periodeFromDateString = '2021-02-01';
-    const periodeToDateString = '2021-02-12';
-
-    const periode: DateRange = {
-        from: datepickerUtils.getDateFromDateString(periodeFromDateString)!,
-        to: datepickerUtils.getDateFromDateString(periodeToDateString)!,
-    };
-    it('returnerer opprinnelig periode når frilans startdato er før periode og er fortsatt frilanser', () => {
-        const result = getPeriodeSomFrilanserInnenforPeriode(periode, {
-            frilans_startdato: '2021-01-01',
-            frilans_sluttdato: undefined,
-            frilans_jobberFortsattSomFrilans: YesOrNo.YES,
+describe('frilanserUtils', () => {
+    describe('harSvartErFrilanserEllerHarFrilansoppdrag', () => {
+        it('returnerer true når bruker har svart at en er frilanser i perioden', () => {
+            const result = harSvartErFrilanserEllerHarFrilansoppdrag(YesOrNo.YES, []);
+            expect(result).toBeTruthy();
         });
-        expect(dayjs(result?.from).isSame(periode.from, 'day')).toBeTruthy();
-    });
-    it('returnerer opprinnelig periode når frilans-sluttdato er etter periode', () => {
-        const result = getPeriodeSomFrilanserInnenforPeriode(periode, {
-            frilans_startdato: '2021-01-01',
-            frilans_sluttdato: '2021-03-01',
-            frilans_jobberFortsattSomFrilans: YesOrNo.NO,
+        it('returnerer true dersom bruker har registrert frilansoppdrag', () => {
+            const result = harSvartErFrilanserEllerHarFrilansoppdrag(undefined, [frilansoppdragIPeriode]);
+            expect(result).toBeTruthy();
         });
-        expect(dayjs(result?.to).isSame(periode.to, 'day')).toBeTruthy();
-    });
-    it('bruker frilans-startdato som periode.from når frilans-startdato er i periode og er fortsatt frilanser', () => {
-        const result = getPeriodeSomFrilanserInnenforPeriode(periode, {
-            frilans_startdato: '2021-02-05',
-            frilans_sluttdato: undefined,
-            frilans_jobberFortsattSomFrilans: YesOrNo.YES,
+        it('returnerer false fersom bruker har har svart nei på om en er frilanser', () => {
+            const result = harSvartErFrilanserEllerHarFrilansoppdrag(YesOrNo.NO, []);
+            expect(result).toBeFalsy();
         });
-        expect(datepickerUtils.getDateStringFromValue(result?.from)).toEqual('2021-02-05');
     });
-    it('bruker frilans-sluttdato som periode.to når frilans-sluttdato er i periode', () => {
-        const result = getPeriodeSomFrilanserInnenforPeriode(periode, {
-            frilans_startdato: '2021-01-01',
-            frilans_sluttdato: '2021-02-06',
-            frilans_jobberFortsattSomFrilans: YesOrNo.NO,
+    describe('erFrilanserITidsrom', () => {
+        it('returnerer true dersom startdato er inne i tidsrom', () => {
+            expect(erFrilanserITidsrom(periode, ISODateToDate('2021-01-05'))).toBeTruthy();
+            expect(erFrilanserITidsrom(periode, ISODateToDate('2021-01-07'))).toBeTruthy();
+            expect(erFrilanserITidsrom(periode, ISODateToDate('2021-01-10'))).toBeTruthy();
         });
-        expect(datepickerUtils.getDateStringFromValue(result?.to)).toEqual('2021-02-06');
+        it('returnerer true dersom startdato er før tidsrom og sluttdato er inne i, eller etter, tidsrom', () => {
+            const frilansStartdato: Date = ISODateToDate('2021-01-01');
+            expect(erFrilanserITidsrom(periode, frilansStartdato, ISODateToDate('2021-01-05'))).toBeTruthy();
+            expect(erFrilanserITidsrom(periode, frilansStartdato, ISODateToDate('2021-01-07'))).toBeTruthy();
+            expect(erFrilanserITidsrom(periode, frilansStartdato, ISODateToDate('2021-01-10'))).toBeTruthy();
+            expect(erFrilanserITidsrom(periode, frilansStartdato, ISODateToDate('2021-01-11'))).toBeTruthy();
+        });
+        it('returnerer false dersom startdato er før tidsrom og sluttdato er før tidsrom', () => {
+            const frilansStartdato: Date = ISODateToDate('2021-01-01');
+            expect(erFrilanserITidsrom(periode, frilansStartdato, ISODateToDate('2021-01-04'))).toBeFalsy();
+        });
+        it('returnerer false dersom startdato er etter tidsrom', () => {
+            const frilansStartdato: Date = ISODateToDate('2021-01-11');
+            expect(erFrilanserITidsrom(periode, frilansStartdato)).toBeFalsy();
+        });
     });
-    it('returnerer undefined dersom frilans-startdato og frilans-sluttdato er utenfor periode', () => {
-        const result = getPeriodeSomFrilanserInnenforPeriode(periode, {
-            frilans_startdato: '2021-03-01',
-            frilans_sluttdato: '2021-03-05',
-            frilans_jobberFortsattSomFrilans: YesOrNo.NO,
+    describe('erFrilanserISøknadsperiode', () => {
+        it('returnerer false dersom en ikke har frilansoppdrag og ikke har hatt inntekt som frilanser', () => {
+            expect(
+                erFrilanserISøknadsperiode(
+                    periode,
+                    { startdato: '2021-01-01', harHattInntektSomFrilanser: YesOrNo.NO },
+                    []
+                )
+            ).toBeFalsy();
         });
-        expect(result).toBeUndefined();
+        it('returnerer true dersom en har frilansoppdrag og har svart på startdato', () => {
+            expect(
+                erFrilanserISøknadsperiode(
+                    periode,
+                    { startdato: '2021-01-01', harHattInntektSomFrilanser: YesOrNo.UNANSWERED },
+                    [frilansoppdragIPeriode]
+                )
+            ).toBeTruthy();
+        });
     });
 });

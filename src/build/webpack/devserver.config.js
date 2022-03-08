@@ -25,6 +25,9 @@ const configureDevServer = (decoratorFragments) => ({
         });
         return middlewares;
     },
+    client: {
+        logging: 'none',
+    },
     devMiddleware: {
         index: true,
         stats: 'minimal',

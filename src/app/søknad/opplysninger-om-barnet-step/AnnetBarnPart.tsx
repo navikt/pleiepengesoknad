@@ -11,10 +11,11 @@ import {
     getStringValidator,
 } from '@navikt/sif-common-formik/lib/validation';
 import { Undertittel } from 'nav-frontend-typografi';
-import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
+import { BarnRelasjon } from '../../types';
+import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { validateNavn } from '../../validation/fieldValidations';
 import SøknadFormComponents from '../SøknadFormComponents';
-import { BarnRelasjon } from '../../types';
+import InfoForFarVedNyttBarn from './info/InfoForFarVedNyttBarn';
 
 interface Props {
     formValues: SøknadFormData;
@@ -25,7 +26,7 @@ const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues, søkersFød
     const intl = useIntl();
 
     return (
-        <Box margin="l">
+        <Box margin="xl">
             <SkjemagruppeQuestion
                 legend={
                     <Undertittel tag="h2" style={{ display: 'inline-block', fontSize: '1.125rem' }}>
@@ -63,6 +64,11 @@ const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues, søkersFød
                         validate={getRequiredFieldValidator()}
                         checked={formValues.relasjonTilBarnet}></SøknadFormComponents.RadioGroup>
                 </FormBlock>
+                {formValues.relasjonTilBarnet === BarnRelasjon.FAR && (
+                    <Box margin="m">
+                        <InfoForFarVedNyttBarn />
+                    </Box>
+                )}
                 {formValues.relasjonTilBarnet === BarnRelasjon.ANNET && (
                     <FormBlock>
                         <SøknadFormComponents.Textarea

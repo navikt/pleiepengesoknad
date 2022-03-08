@@ -7,32 +7,27 @@ import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/d
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { Undertittel } from 'nav-frontend-typografi';
-import { ArbeidsforholdAnsatt, ArbeidsforholdField, SøknadFormField } from '../../../types/SøknadFormData';
+import { Arbeidsforhold, ArbeidsforholdField, SøknadFormField } from '../../../types/SøknadFormData';
 import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
 import { getJobberNormaltTimerValidator } from '../../../validation/validateArbeidFields';
 import SøknadFormComponents from '../../SøknadFormComponents';
-import TimerFormPart from './TimerFormPart';
+import JobberNormaltTimerSpørsmål from './JobberNormaltTimerSpørsmål';
+import InfoJobberNormaltTimerAnsatt from './InfoJobberNormaltTimerAnsatt';
 
 interface Props {
-    arbeidsforhold: ArbeidsforholdAnsatt;
+    arbeidsforhold: Arbeidsforhold;
     index: number;
     søknadsperiode: DateRange;
 }
 
-const ArbeidssituasjonAnsatt: React.FC<Props> = ({
-    arbeidsforhold,
-
-    index,
-    søknadsperiode,
-}) => {
+const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, index, søknadsperiode }) => {
     const intl = useIntl();
     const erAvsluttet = arbeidsforhold.erAnsatt === YesOrNo.NO;
 
     const intlValues = {
-        hvor: intlHelper(intl, 'arbeidsforhold.part.som.ANSATT', { navn: arbeidsforhold.navn }),
+        hvor: intlHelper(intl, 'arbeidsforhold.part.som.ANSATT', { navn: arbeidsforhold.arbeidsgiver.navn }),
         jobber: erAvsluttet
             ? intlHelper(intl, 'arbeidsforhold.part.jobbet')
             : intlHelper(intl, 'arbeidsforhold.part.jobber'),
@@ -46,21 +41,23 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({
 
     return (
         <>
-            <FormBlock key={arbeidsforhold.organisasjonsnummer} margin="xl">
-                <Box>
+            <FormBlock margin="xl">
+                <Box padBottom="m">
                     <Undertittel tag="h3" style={{ fontWeight: 'normal' }}>
-                        {arbeidsforhold.navn}
+                        {arbeidsforhold.arbeidsgiver.navn}
                     </Undertittel>
                 </Box>
                 <Box>
                     <SøknadFormComponents.YesOrNoQuestion
-                        legend={intlHelper(intl, 'arbeidsforhold.erAnsatt.spm', { navn: arbeidsforhold.navn })}
+                        legend={intlHelper(intl, 'arbeidsforhold.erAnsatt.spm', {
+                            navn: arbeidsforhold.arbeidsgiver.navn,
+                        })}
                         name={getFieldName(ArbeidsforholdField.erAnsatt)}
                         validate={(value) => {
                             return getYesOrNoValidator()(value)
                                 ? {
                                       key: 'validation.arbeidsforhold.erAnsatt.yesOrNoIsUnanswered',
-                                      values: { navn: arbeidsforhold.navn },
+                                      values: { navn: arbeidsforhold.arbeidsgiver.navn },
                                       keepKeyUnaltered: true,
                                   }
                                 : undefined;
@@ -69,7 +66,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({
                 </Box>
             </FormBlock>
             {isYesOrNoAnswered(arbeidsforhold.erAnsatt) && (
-                <FormBlock>
+                <FormBlock margin="l">
                     <ResponsivePanel>
                         {erAvsluttet && (
                             <Box padBottom={arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO ? 'xl' : 'none'}>
@@ -80,7 +77,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({
                                     <SøknadFormComponents.YesOrNoQuestion
                                         name={getFieldName(ArbeidsforholdField.sluttetFørSøknadsperiode)}
                                         legend={intlHelper(intl, 'arbeidsforhold.sluttetFørSøknadsperiode.spm', {
-                                            navn: arbeidsforhold.navn,
+                                            navn: arbeidsforhold.arbeidsgiver.navn,
                                             fraDato: prettifyDateFull(søknadsperiode.from),
                                         })}
                                         validate={(value) => {
@@ -89,7 +86,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({
                                                 ? {
                                                       key: 'validation.arbeidsforhold.sluttetFørSøknadsperiode.yesOrNoIsUnanswered',
                                                       values: {
-                                                          navn: arbeidsforhold.navn,
+                                                          navn: arbeidsforhold.arbeidsgiver.navn,
                                                           fraDato: prettifyDateFull(søknadsperiode.from),
                                                       },
                                                       keepKeyUnaltered: true,
@@ -101,26 +98,42 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({
                             </Box>
                         )}
                         {((erAvsluttet && arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO) || !erAvsluttet) && (
-                            <TimerFormPart
-                                spørsmål={{
-                                    jobberNormaltTimer: () =>
-                                        intlHelper(
-                                            intl,
-                                            erAvsluttet
-                                                ? `arbeidsforhold.FAST.avsluttet.spm`
-                                                : `arbeidsforhold.FAST.spm`,
-                                            {
-                                                arbeidsforhold: arbeidsforhold.navn,
+                            <>
+                                <JobberNormaltTimerSpørsmål
+                                    spørsmål={intlHelper(
+                                        intl,
+                                        erAvsluttet
+                                            ? `arbeidsforhold.jobberNormaltTimer.avsluttet.spm`
+                                            : `arbeidsforhold.jobberNormaltTimer.spm`,
+                                        {
+                                            navn: arbeidsforhold.arbeidsgiver.navn,
+                                        }
+                                    )}
+                                    validator={getJobberNormaltTimerValidator(intlValues)}
+                                    arbeidsforhold={arbeidsforhold}
+                                    fieldName={getFieldName(ArbeidsforholdField.jobberNormaltTimer)}
+                                    description={<InfoJobberNormaltTimerAnsatt />}
+                                />
+                                <FormBlock>
+                                    <SøknadFormComponents.YesOrNoQuestion
+                                        name={getFieldName(ArbeidsforholdField.harFraværIPeriode)}
+                                        legend={intlHelper(intl, 'arbeidsforhold.harFraværIPerioden.spm', {
+                                            navn: arbeidsforhold.arbeidsgiver.navn,
+                                        })}
+                                        validate={(value: any) => {
+                                            const error = getYesOrNoValidator()(value);
+                                            if (error) {
+                                                return {
+                                                    key: 'validation.arbeidsforhold.harFraværIPeriode.yesOrNoIsUnanswered',
+                                                    keepKeyUnaltered: true,
+                                                    values: { navn: arbeidsforhold.arbeidsgiver.navn },
+                                                };
                                             }
-                                        ),
-                                }}
-                                validator={{
-                                    jobberNormaltTimer: getJobberNormaltTimerValidator(intlValues),
-                                }}
-                                arbeidsforhold={arbeidsforhold}
-                                parentFieldName={parentFieldName}
-                                arbeidsforholdType={ArbeidsforholdType.ANSATT}
-                            />
+                                            return undefined;
+                                        }}
+                                    />
+                                </FormBlock>
+                            </>
                         )}
                     </ResponsivePanel>
                 </FormBlock>
