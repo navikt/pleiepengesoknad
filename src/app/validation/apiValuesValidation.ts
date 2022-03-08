@@ -150,6 +150,7 @@ export const validateApiValues = (values: SøknadApiData, intl: IntlShape): ApiV
                     });
                 }
                 const isValid = isArbeidsforholdApiDataValid(arbeidsgiver.arbeidsforhold);
+
                 if (!isValid) {
                     errors.push({
                         skjemaelementId: 'arbeidsforholdAnsatt',
