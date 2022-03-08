@@ -35,6 +35,14 @@ const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
                         values={{ dato: prettifyApiDate(frilans.startdato) }}
                     />
                 </li>
+                {frilans.sluttdato && (
+                    <li>
+                        <FormattedMessage
+                            id="oppsummering.arbeidssituasjon.frilans.sluttet"
+                            values={{ dato: prettifyApiDate(frilans.sluttdato) }}
+                        />
+                    </li>
+                )}
                 {frilans.jobberFortsattSomFrilans && (
                     <li>
                         <FormattedMessage id="oppsummering.arbeidssituasjon.frilans.fortsattFrilanser" />
@@ -58,14 +66,6 @@ const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
                             />
                         </li>
                     </>
-                )}
-                {frilans.sluttdato && (
-                    <li>
-                        <FormattedMessage
-                            id="oppsummering.arbeidssituasjon.frilans.sluttet"
-                            values={{ dato: prettifyApiDate(frilans.sluttdato) }}
-                        />
-                    </li>
                 )}
                 {frilansoppdrag && frilansoppdrag.length > 0 && (
                     <li>
