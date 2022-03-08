@@ -114,7 +114,7 @@
         "html-webpack-harddisk-plugin": "^2.0.0",
         "html-webpack-plugin": "^5.5.0",
         "intl": "^1.2.5",
-        "jest": "^27.5.0",
+        "jest": "^27.5.1",
         "jest-css-modules": "^2.1.0",
         "jsdom": "^19.0.0",
         "less": "^4.1.2",
