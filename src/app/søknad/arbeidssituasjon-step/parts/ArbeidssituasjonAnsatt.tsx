@@ -13,8 +13,8 @@ import { Arbeidsforhold, ArbeidsforholdField, SøknadFormField } from '../../../
 import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
 import { getJobberNormaltTimerValidator } from '../../../validation/validateArbeidFields';
 import SøknadFormComponents from '../../SøknadFormComponents';
-import JobberNormaltTimerSpørsmål from './JobberNormaltTimerSpørsmål';
 import InfoJobberNormaltTimerAnsatt from './InfoJobberNormaltTimerAnsatt';
+import JobberNormaltTimerSpørsmål from './JobberNormaltTimerSpørsmål';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;

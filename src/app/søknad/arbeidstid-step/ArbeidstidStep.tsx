@@ -35,20 +35,17 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
         },
     } = formikProps;
 
-    const erSN = selvstendig_harHattInntektSomSN === YesOrNo.YES && selvstendig_virksomhet !== undefined;
+    const ansattArbeidsforholdMedFravær = ansatt_arbeidsforhold.filter((a) => a.harFraværIPeriode === YesOrNo.YES);
 
-    const arbeidsperiodeFrilanser =
+    const periodeSomFrilanserISøknadsperiode =
         frilans.arbeidsforhold && frilans.arbeidsforhold.harFraværIPeriode
             ? getPeriodeSomFrilanserInnenforPeriode(periode, frilans)
             : undefined;
 
-    const arbeidsperiodeSelvstendig = erSN
-        ? getPeriodeSomSelvstendigInnenforPeriode(periode, selvstendig_virksomhet)
-        : undefined;
-
-    const ansattArbeidsforholdMedFravær = ansatt_arbeidsforhold
-        ? ansatt_arbeidsforhold.filter((a) => a.harFraværIPeriode === YesOrNo.YES)
-        : [];
+    const periodeSomSelvstendigISøknadsperiode =
+        selvstendig_harHattInntektSomSN === YesOrNo.YES && selvstendig_virksomhet !== undefined
+            ? getPeriodeSomSelvstendigInnenforPeriode(periode, selvstendig_virksomhet)
+            : undefined;
 
     return (
         <SøknadFormStep
@@ -95,14 +92,14 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
 
             {frilans.arbeidsforhold &&
                 frilans.arbeidsforhold.harFraværIPeriode === YesOrNo.YES &&
-                arbeidsperiodeFrilanser && (
+                periodeSomFrilanserISøknadsperiode && (
                     <FormBlock>
                         <FormSection title={intlHelper(intl, 'arbeidIPeriode.FrilansLabel')}>
                             <ArbeidIPeriodeSpørsmål
                                 arbeidsstedNavn="Frilansoppdrag"
                                 arbeidsforholdType={ArbeidsforholdType.FRILANSER}
                                 arbeidsforhold={frilans.arbeidsforhold}
-                                periode={arbeidsperiodeFrilanser}
+                                periode={periodeSomFrilanserISøknadsperiode}
                                 parentFieldName={SøknadFormField.frilans_arbeidsforhold}
                             />
                         </FormSection>
@@ -112,14 +109,14 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
             {selvstendig_harHattInntektSomSN === YesOrNo.YES &&
                 selvstendig_arbeidsforhold &&
                 selvstendig_arbeidsforhold.harFraværIPeriode === YesOrNo.YES &&
-                arbeidsperiodeSelvstendig && (
+                periodeSomSelvstendigISøknadsperiode && (
                     <FormBlock>
                         <FormSection title={intlHelper(intl, 'arbeidIPeriode.SNLabel')}>
                             <ArbeidIPeriodeSpørsmål
                                 arbeidsstedNavn="Selvstendig næringsdrivende"
                                 arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
                                 arbeidsforhold={selvstendig_arbeidsforhold}
-                                periode={arbeidsperiodeSelvstendig}
+                                periode={periodeSomSelvstendigISøknadsperiode}
                                 parentFieldName={`${SøknadFormField.selvstendig_arbeidsforhold}`}
                             />
                         </FormSection>
