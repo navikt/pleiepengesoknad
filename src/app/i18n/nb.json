@@ -246,7 +246,11 @@
     "steg.omBarnet.gjelderAnnetBarn": "Søknaden gjelder et annet barn",
     "steg.omBarnet.annetBarn.tittel": "Annet barn",
     "steg.omBarnet.fnr.spm": "Barnets fødselsnummer/D-nummer",
-    "steg.omBarnet.fnr.ikkeFnrEnda": "Barnet har ikke fått fødselsnummer/D-nummer ennå",
+    "steg.omBarnet.fnr.barnHarIkkeFnr": "Barnet har ikke fødselsnummer/D-nummer.",
+    "steg.omBarnet.årsakManglerIdentitetsnummer.spm": "Hvorfor har ikke barnet fødselsnummer eller D-nummer?",
+    "steg.omBarnet.årsakManglerIdentitetsnummer.NYFØDT": "Barnet er nyfødt, og har ikke fått fødselsnummer enda",
+    "steg.omBarnet.årsakManglerIdentitetsnummer.BARNET_BOR_I_UTLANDET": "Barnet bor i utlandet",
+    "steg.omBarnet.årsakManglerIdentitetsnummer.ANNET": "Annet",
     "steg.omBarnet.fødselsdato": "Barnets fødselsdato",
     "steg.omBarnet.navn": "Barnets navn",
     "steg.omBarnet.relasjon.spm": "Hvilken relasjon har du til barnet?",
@@ -374,6 +378,10 @@
     "steg.oppsummering.barnet.navn": "Navn: {navn}",
     "steg.oppsummering.barnet.fødselsdato": "Fødselsdato: {dato}",
     "steg.oppsummering.barnet.fnr": "Fødselsnummer: {fnr}",
+    "steg.oppsummering.barnet.barnetHarIkkeFnr": "Oppgitt grunn for at barnet ikke har fødselsnummer/D-nummer: {årsak}",
+    "steg.oppsummering.barnet.årsakManglerIdentitetsnummer.NYFØDT": "Barnet er nyfødt, og har ikke fått fødselsnummer enda",
+    "steg.oppsummering.barnet.årsakManglerIdentitetsnummer.BARNET_BOR_I_UTLANDET": "Barnet bor i utlandet",
+    "steg.oppsummering.barnet.årsakManglerIdentitetsnummer.ANNET": "Annet",
     "steg.oppsummering.relasjonTilBarnet.header": "Relasjon til barnet",
     "steg.oppsummering.relasjonTilBarnetBeskrivelse": "Din beskrivelse av relasjon og tilsynsrolle for barnet:",
     "steg.oppsummering.barnRelasjon.MOR": "Du er mor til barnet",
@@ -672,7 +680,11 @@
     "validation.barnetsNavn.stringIsTooShort": "Navnet på barnet må inneholde minst {min} tegn.",
 
     "validation.barnetsFødselsdato.dateHasInvalidFormat": "Du må oppgi barnets fødselsdato i et gyldig format. Gyldig format er dd.mm.ååå.",
+    "validation.barnetsFødselsdato.dateHasNoValue": "Du må oppgi barnets fødselsdato. Skriv inn eller velg dato fra datovelgeren.",
+    "validation.barnetsFødselsdato.dateIsBeforeMin": "Du kan ikke legge til et barn over 18 år.",
+    "validation.barnetsFødselsdato.dateIsAfterMax": "Barnets fødselsdato kan ikke være etter dagens dato.",
 
+    "validation.årsakManglerIdentitetsnummer.noValue": "Du må svare på spørsmålet om hvorfor barnet ikke har fødselsnummer eller D-nummer.",
     "validation.relasjonTilBarnet.noValue": "Du må svare på spørsmålet om hvilken relasjon du har til barnet.",
     "validation.barnetsFødselsnummer.fødselsnummerHasNoValue": "Du må oppgi barnets fødselsnummer/D-nummer.",
     "validation.barnetsFødselsnummer.fødselsnummerNot11Chars": "Fødselsnummeret/D-nummeret må bestå av 11 siffer.",
@@ -714,6 +726,7 @@
 
     "validation.arbeidsforhold.jobberNormaltTimer.numberHasNoValue": "Du må oppgi hvor mange timer per uke du {jobber} {hvor} i perioden.",
     "validation.arbeidsforhold.jobberNormaltTimer.numberHasInvalidFormat": "Antall timer du {jobber} per uke {hvor} kan kun bestå av tall.",
+
     "validation.arbeidsforhold.jobberNormaltTimer.numberIsTooSmall": "Antall timer du {jobber} per uke {hvor} kan ikke være mindre enn {min}.",
     "validation.arbeidsforhold.jobberNormaltTimer.numberIsTooLarge": "Antall timer du {jobber} per uke {hvor} kan ikke være mer enn {max}.",
 

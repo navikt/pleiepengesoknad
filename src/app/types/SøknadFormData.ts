@@ -4,7 +4,13 @@ import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { Virksomhet } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { DurationWeekdays, DateDurationMap } from '@navikt/sif-common-utils';
-import { AndreYtelserFraNAV, BarnRelasjon, JobberIPeriodeSvar, TimerEllerProsent } from './';
+import {
+    AndreYtelserFraNAV,
+    BarnRelasjon,
+    JobberIPeriodeSvar,
+    TimerEllerProsent,
+    ÅrsakManglerIdentitetsnummer,
+} from './';
 import { Arbeidsgiver } from './Søkerdata';
 
 export enum SøknadFormField {
@@ -17,6 +23,8 @@ export enum SøknadFormField {
     relasjonTilBarnet = 'relasjonTilBarnet',
     relasjonTilBarnetBeskrivelse = 'relasjonTilBarnetBeskrivelse',
     søknadenGjelderEtAnnetBarn = 'søknadenGjelderEtAnnetBarn',
+    barnetHarIkkeFnr = 'barnetHarIkkeFnr',
+    årsakManglerIdentitetsnummer = 'årsakManglerIdentitetsnummer',
     periodeFra = 'periodeFra',
     periodeTil = 'periodeTil',
     skalPassePåBarnetIHelePerioden = 'skalPassePåBarnetIHelePerioden',
@@ -110,7 +118,9 @@ export interface SøknadFormData {
     [SøknadFormField.barnetsNavn]: string;
     [SøknadFormField.barnetsFødselsnummer]: string;
     [SøknadFormField.barnetsFødselsdato]?: string;
+    [SøknadFormField.årsakManglerIdentitetsnummer]?: ÅrsakManglerIdentitetsnummer;
     [SøknadFormField.søknadenGjelderEtAnnetBarn]: boolean;
+    [SøknadFormField.barnetHarIkkeFnr]: boolean;
     [SøknadFormField.barnetSøknadenGjelder]: string;
     [SøknadFormField.relasjonTilBarnet]?: BarnRelasjon;
     [SøknadFormField.relasjonTilBarnetBeskrivelse]?: string;
@@ -158,6 +168,8 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.harForståttRettigheterOgPlikter]: false,
     [SøknadFormField.harBekreftetOpplysninger]: false,
     [SøknadFormField.søknadenGjelderEtAnnetBarn]: false,
+    [SøknadFormField.barnetHarIkkeFnr]: false,
+    [SøknadFormField.årsakManglerIdentitetsnummer]: undefined,
     [SøknadFormField.legeerklæring]: [],
     [SøknadFormField.ansatt_arbeidsforhold]: [],
     [SøknadFormField.barnetsFødselsdato]: undefined,
