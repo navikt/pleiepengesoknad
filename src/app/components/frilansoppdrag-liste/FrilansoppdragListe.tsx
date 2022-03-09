@@ -1,7 +1,8 @@
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import { prettifyDate, prettifyDateExtended } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { Element } from 'nav-frontend-typografi';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import { prettifyDateExtended } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { Element } from 'nav-frontend-typografi';
 import { Arbeidsgiver } from '../../types';
 
 interface Props {
@@ -12,13 +13,19 @@ interface Props {
 const renderTidsrom = ({ ansattFom, ansattTom }: Arbeidsgiver) => {
     if (ansattFom && ansattTom) {
         return (
-            <>
-                fra {prettifyDateExtended(ansattFom)} til {prettifyDateExtended(ansattTom)}
-            </>
+            <FormattedMessage
+                id="frilansoppdragListe.tidsrom.avsluttet"
+                values={{ fra: prettifyDateExtended(ansattFom), til: prettifyDateExtended(ansattTom) }}
+            />
         );
     }
     if (ansattFom) {
-        return <>fra {prettifyDate(ansattFom)} - pågående</>;
+        return (
+            <FormattedMessage
+                id="frilansoppdragListe.tidsrom.pågående"
+                values={{ fra: prettifyDateExtended(ansattFom) }}
+            />
+        );
     }
     return null;
 };
@@ -35,7 +42,12 @@ const FrilansoppdragListe: React.FunctionComponent<Props> = ({ frilansoppdrag, k
             {frilansoppdrag.map((oppdrag) => (
                 <li key={oppdrag.id}>
                     <Element tag="h4">{oppdrag.navn}</Element>
-                    <Box padBottom="l">Periode: {renderTidsrom(oppdrag)}</Box>
+                    <Box padBottom="l">
+                        <FormattedMessage
+                            id="frilansoppdragListe.periode"
+                            values={{ tidsrom: renderTidsrom(oppdrag) }}
+                        />
+                    </Box>
                 </li>
             ))}
         </ul>

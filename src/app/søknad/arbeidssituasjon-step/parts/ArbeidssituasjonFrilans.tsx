@@ -11,6 +11,7 @@ import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { ISODateToDate } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
 import Lenke from 'nav-frontend-lenker';
+import { Ingress } from 'nav-frontend-typografi';
 import ConditionalResponsivePanel from '../../../components/conditional-responsive-panel/ConditionalResponsivePanel';
 import getLenker from '../../../lenker';
 import { ArbeidsforholdField } from '../../../types/Arbeidsforhold';
@@ -22,7 +23,6 @@ import SøknadFormComponents from '../../SøknadFormComponents';
 import FrilansoppdragInfo from './FrilansoppdragInfo';
 import InfoJobberNormaltTimerFrilanser from './InfoJobberNormaltTimerFrilanser';
 import JobberNormaltTimerSpørsmål from './JobberNormaltTimerSpørsmål';
-import { Ingress } from 'nav-frontend-typografi';
 
 interface Props {
     frilansoppdrag: Arbeidsgiver[];
@@ -89,7 +89,9 @@ const ArbeidssituasjonFrilans = ({ formValues, søknadsperiode, søknadsdato, fr
                 <Box margin="l">
                     {søkerHarFrilansoppdrag && (
                         <Box padBottom="l">
-                            <Ingress>Om deg som frilanser</Ingress>
+                            <Ingress>
+                                <FormattedMessage id="arbeidssituasjonFrilanser.frilanserPart.tittel" />
+                            </Ingress>
                         </Box>
                     )}
                     <ConditionalResponsivePanel
