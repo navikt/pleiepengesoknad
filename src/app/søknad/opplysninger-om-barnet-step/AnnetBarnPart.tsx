@@ -21,6 +21,7 @@ import { resetFieldValue, resetFieldValues } from '@navikt/sif-common-formik';
 import { useFormikContext } from 'formik';
 import { dateToday, prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { nYearsAgo } from '../../utils/aldersUtils';
+import InfoForFarVedNyttBarn from './info/InfoForFarVedNyttBarn';
 
 interface Props {
     formValues: SøknadFormData;
@@ -35,7 +36,7 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer }) =
     } = useFormikContext<SøknadFormData>();
 
     return (
-        <Box margin="l">
+        <Box margin="xl">
             <SkjemagruppeQuestion
                 legend={
                     <Undertittel tag="h2" style={{ display: 'inline-block', fontSize: '1.125rem' }}>
@@ -128,6 +129,11 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer }) =
                         validate={getRequiredFieldValidator()}
                         checked={formValues.relasjonTilBarnet}></SøknadFormComponents.RadioGroup>
                 </FormBlock>
+                {formValues.relasjonTilBarnet === BarnRelasjon.FAR && (
+                    <Box margin="m">
+                        <InfoForFarVedNyttBarn />
+                    </Box>
+                )}
                 {formValues.relasjonTilBarnet === BarnRelasjon.ANNET && (
                     <FormBlock>
                         <SøknadFormComponents.Textarea
