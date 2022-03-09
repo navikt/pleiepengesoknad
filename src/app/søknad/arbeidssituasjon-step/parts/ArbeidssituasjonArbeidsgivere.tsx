@@ -5,6 +5,7 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import { DateRange } from '@navikt/sif-common-utils/lib';
 import { Arbeidsforhold } from '../../../types/Arbeidsforhold';
 import ArbeidssituasjonAnsatt from './ArbeidssituasjonAnsatt';
+import { SøknadFormField } from '../../../types/SøknadFormData';
 
 interface Props {
     ansatt_arbeidsforhold: Arbeidsforhold[];
@@ -35,7 +36,7 @@ const ArbeidssituasjonArbeidsgivere: React.FunctionComponent<Props> = ({ ansatt_
                     <FormBlock key={forhold.arbeidsgiver.id}>
                         <ArbeidssituasjonAnsatt
                             arbeidsforhold={forhold}
-                            index={index}
+                            parentFieldName={`${SøknadFormField.ansatt_arbeidsforhold}.${index}`}
                             søknadsperiode={søknadsperiode}
                         />
                     </FormBlock>

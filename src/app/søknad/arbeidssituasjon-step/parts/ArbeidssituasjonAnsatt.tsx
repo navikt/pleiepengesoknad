@@ -18,11 +18,11 @@ import InfoJobberNormaltTimerAnsatt from './InfoJobberNormaltTimerAnsatt';
 
 interface Props {
     arbeidsforhold: Arbeidsforhold;
-    index: number;
+    parentFieldName: string;
     søknadsperiode: DateRange;
 }
 
-const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, index, søknadsperiode }) => {
+const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldName, søknadsperiode }) => {
     const intl = useIntl();
     const erAvsluttet = arbeidsforhold.erAnsatt === YesOrNo.NO;
 
@@ -34,8 +34,6 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, index, søkna
         periodeFra: prettifyDateFull(søknadsperiode.from),
         periodeTil: prettifyDateFull(søknadsperiode.to),
     };
-
-    const parentFieldName = `${SøknadFormField.ansatt_arbeidsforhold}.${index}`;
 
     const getFieldName = (field: ArbeidsforholdField): SøknadFormField => `${parentFieldName}.${field}` as any;
 
