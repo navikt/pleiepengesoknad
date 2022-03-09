@@ -44,7 +44,7 @@ const FrilansoppdragListe: React.FunctionComponent<Props> = ({ frilansoppdrag, k
                     <Element tag="h4">{oppdrag.navn}</Element>
                     <Box padBottom="l">
                         <FormattedMessage
-                            id="frilansoppdragListe.periode"
+                            id="frilansoppdragListe.oppdrag"
                             values={{ tidsrom: renderTidsrom(oppdrag) }}
                         />
                     </Box>
