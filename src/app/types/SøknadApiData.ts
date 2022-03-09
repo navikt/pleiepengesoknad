@@ -4,7 +4,7 @@ import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { ISODate, ISODuration } from '@navikt/sif-common-utils';
-import { AndreYtelserFraNAV, BarnRelasjon, JobberIPeriodeSvar } from './';
+import { AndreYtelserFraNAV, BarnRelasjon, JobberIPeriodeSvar, ÅrsakManglerIdentitetsnummer } from './';
 
 export interface PeriodeApiData {
     fraOgMed: ApiStringDate;
@@ -35,6 +35,7 @@ export interface BarnetSøknadenGjelderApiData {
     fødselsdato: string | null;
     aktørId: string | null;
     sammeAdresse: boolean | null;
+    årsakManglerIdentitetsnummer?: ÅrsakManglerIdentitetsnummer;
 }
 
 export interface ArbeidIPeriodeApiData {
@@ -142,6 +143,7 @@ export interface SøknadApiData {
     selvstendigNæringsdrivende?: SelvstendigNæringsdrivendeApiData;
     harVærtEllerErVernepliktig?: boolean;
     andreYtelserFraNAV?: AndreYtelserFraNAV[];
+    _barnetHarIkkeFnr?: boolean;
     _harHattInntektSomFrilanser: boolean;
     _harHattInntektSomSelvstendigNæringsdrivende: boolean;
 }

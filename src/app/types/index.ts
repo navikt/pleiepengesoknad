@@ -8,3 +8,4 @@ export * from './RegistrerteBarn';
 export * from './ResourceType';
 export * from './Søkerdata';
 export * from './TimerEllerProsent';
+export * from './ÅrsakManglerIdentitetsnummer';

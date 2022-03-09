@@ -39,7 +39,7 @@ const apiBarnSummary = (apiBarn: RegistrerteBarn) => (
     </>
 );
 
-const annetBarnSummary = (apiValues: SøknadApiData) => (
+const annetBarnSummary = (intl: IntlShape, apiValues: SøknadApiData) => (
     <>
         {apiValues.barn.fødselsdato ? (
             <Normaltekst>
@@ -61,6 +61,21 @@ const annetBarnSummary = (apiValues: SøknadApiData) => (
                 <FormattedMessage id="steg.oppsummering.barnet.navn" values={{ navn: apiValues.barn.navn }} />
             </Normaltekst>
         ) : null}
+        {apiValues._barnetHarIkkeFnr && apiValues.barn.årsakManglerIdentitetsnummer && (
+            <Box margin="l">
+                <Normaltekst>
+                    <FormattedMessage
+                        id="steg.oppsummering.barnet.barnetHarIkkeFnr"
+                        values={{
+                            årsak: intlHelper(
+                                intl,
+                                `steg.oppsummering.barnet.årsakManglerIdentitetsnummer.${apiValues.barn.årsakManglerIdentitetsnummer}`
+                            ),
+                        }}
+                    />
+                </Normaltekst>
+            </Box>
+        )}
     </>
 );
 
@@ -94,7 +109,7 @@ const BarnSummary = ({ formValues, apiValues, barn }: Props) => {
             <SummarySection header={intlHelper(intl, 'steg.oppsummering.barnet.header')}>
                 <Box margin="m">
                     {useApiBarn && apiBarn && apiBarnSummary(apiBarn)}
-                    {!useApiBarn && annetBarnSummary(apiValues)}
+                    {!useApiBarn && annetBarnSummary(intl, apiValues)}
                 </Box>
             </SummarySection>
             {!useApiBarn && RelasjonTilBarnet(intl, apiValues)}
