@@ -32,7 +32,7 @@ import { søkerKunHelgedager } from '../../utils/formDataUtils';
 
 dayjs.extend(minMax);
 
-const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
+const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<SøknadFormData>();
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const søkerdata = React.useContext(SøkerdataContext)!;
@@ -83,7 +83,18 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                 }
                 description={
                     <ExpandableInfo title={intlHelper(intl, 'steg.tidsrom.hjelpetekst.tittel')}>
-                        <FormattedMessage id="steg.tidsrom.hjelpetekst" />
+                        <p>
+                            <FormattedMessage id="steg.tidsrom.hjelpetekst.1" />
+                        </p>
+                        <p>
+                            <FormattedMessage id="steg.tidsrom.hjelpetekst.2" />
+                        </p>
+                        <p>
+                            <FormattedMessage id="steg.tidsrom.hjelpetekst.3" />
+                        </p>
+                        <p>
+                            <FormattedMessage id="steg.tidsrom.hjelpetekst.4" />
+                        </p>
                     </ExpandableInfo>
                 }
                 fromInputProps={{
@@ -194,4 +205,4 @@ const OpplysningerOmTidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     );
 };
 
-export default OpplysningerOmTidsromStep;
+export default TidsromStep;

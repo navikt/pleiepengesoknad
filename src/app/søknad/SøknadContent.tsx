@@ -26,7 +26,7 @@ import OmsorgstilbudStep from './omsorgstilbud-step/OmsorgstilbudStep';
 import OpplysningerOmBarnetStep from './opplysninger-om-barnet-step/OpplysningerOmBarnetStep';
 import OppsummeringStep from './oppsummering-step/OppsummeringStep';
 import { StepID } from './søknadStepsConfig';
-import OpplysningerOmTidsromStep from './tidsrom-step/OpplysningerOmTidsromStep';
+import TidsromStep from './tidsrom-step/TidsromStep';
 import { KvitteringInfo } from '../types/KvitteringInfo';
 
 interface PleiepengesøknadContentProps {
@@ -118,9 +118,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
             {isAvailable(StepID.TIDSROM, values) && (
                 <Route
                     path={getSøknadRoute(StepID.TIDSROM)}
-                    render={() => (
-                        <OpplysningerOmTidsromStep onValidSubmit={() => navigateToNextStepFrom(StepID.TIDSROM)} />
-                    )}
+                    render={() => <TidsromStep onValidSubmit={() => navigateToNextStepFrom(StepID.TIDSROM)} />}
                 />
             )}
 
