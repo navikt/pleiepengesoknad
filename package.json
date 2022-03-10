@@ -39,7 +39,7 @@
         "@navikt/sif-common-pleiepenger": "^3.1.0",
         "@navikt/sif-common-sentry": "0.3.0",
         "@navikt/sif-common-utils": "^3.0.3",
-        "@testing-library/react": "^12.1.3",
+        "@testing-library/react": "^12.1.4",
         "amplitude-js": "^8.17.0",
         "axios": "^0.25.0",
         "classnames": "^2.3.1",
@@ -71,7 +71,7 @@
         "react": "^17.0.2",
         "react-day-picker": "^7.4.10",
         "react-responsive": "^8.2.0",
-        "snyk": "^1.864.0",
+        "snyk": "^1.866.0",
         "ts-loader": "^9.2.7"
     },
     "devDependencies": {
@@ -85,7 +85,7 @@
         "@types/flat": "5.0.2",
         "@types/jest": "^27.4.1",
         "@types/lodash.groupby": "^4.6.6",
-        "@types/react": "^17.0.39",
+        "@types/react": "^17.0.40",
         "@types/react-aria-menubutton": "^6.2.9",
         "@types/react-collapse": "^5.0.1",
         "@types/react-document-title": "^2.0.5",
