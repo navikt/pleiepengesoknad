@@ -575,6 +575,7 @@
     "oppsummering.arbeidssituasjon.frilans.startet": "Startet som frilanser {dato}",
     "oppsummering.arbeidssituasjon.frilans.fortsattFrilanser": "Er fortsatt frilanser",
     "oppsummering.arbeidssituasjon.frilans.sluttet": "Sluttet som frilanser {dato}",
+    "oppsummering.arbeidssituasjon.frilans.frilansoppdrag": "Frilansoppdrag registrert i perioden:",
 
     "oppsummering.arbeidssituasjon.selvstendig.header": "Selvstendig næringsdrivende",
     "oppsummering.arbeidssituasjon.selvstendig.erIkkeSN": "Er ikke selvstendig næringsdrivende i perioden det søkes for",

@@ -27,11 +27,15 @@ export const erFrilanserITidsrom = (tidsrom: DateRange, frilansStartdato: Date, 
 
 export const erFrilanserISøknadsperiode = (
     søknadsperiode: DateRange,
-    { harHattInntektSomFrilanser, sluttdato, startdato }: FrilansFormData,
+    { harHattInntektSomFrilanser, jobberFortsattSomFrilans, sluttdato, startdato }: FrilansFormData,
     frilansoppdrag: Arbeidsgiver[] | undefined
 ): boolean => {
+    if (jobberFortsattSomFrilans === YesOrNo.YES) {
+        return true;
+    }
     const frilansStartdato = datepickerUtils.getDateFromDateString(startdato);
     const frilansSluttdato = datepickerUtils.getDateFromDateString(sluttdato);
+
     if (frilansStartdato && harSvartErFrilanserEllerHarFrilansoppdrag(harHattInntektSomFrilanser, frilansoppdrag)) {
         return erFrilanserITidsrom(søknadsperiode, frilansStartdato, frilansSluttdato);
     }
