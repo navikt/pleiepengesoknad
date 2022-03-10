@@ -89,7 +89,7 @@ describe('frilansApiData', () => {
             søknadsperiode,
             frilansoppdrag
         );
-        expect(apiData.frilans).toBeUndefined();
+        expect(apiData.frilans?.arbeidsforhold).toBeUndefined();
     });
     it(`returnerer ikke arbeidsforhold dersom en slutter som frilanser før søknadsperioden`, () => {
         const apiData: FrilansApiDataPart = getFrilansApiData(
@@ -103,6 +103,6 @@ describe('frilansApiData', () => {
             søknadsperiode,
             frilansoppdrag
         );
-        expect(apiData.frilans).toBeUndefined();
+        expect(apiData.frilans?.arbeidsforhold).toBeUndefined();
     });
 });

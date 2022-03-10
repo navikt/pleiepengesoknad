@@ -16,10 +16,10 @@ describe('getFrilansApiData', () => {
     const søknadsperiode: DateRange = ISODateRangeToDateRange('2021-01-01/2021-02-01');
 
     describe('når en ikke er frilanser i søknadsperioden', () => {
-        const expectedResult = JSON.stringify({
-            _harHattInntektSomFrilanser: false,
-        });
         it('nå bruker svarer nei på om en er frilanser', () => {
+            const expectedResult = JSON.stringify({
+                _harHattInntektSomFrilanser: false,
+            });
             const result = getFrilansApiData(
                 {
                     harHattInntektSomFrilanser: YesOrNo.NO,
@@ -30,6 +30,14 @@ describe('getFrilansApiData', () => {
             expect(JSON.stringify(result)).toEqual(expectedResult);
         });
         it('ikke er frilanser i perioden det søkes for', () => {
+            const expectedResult = JSON.stringify({
+                _harHattInntektSomFrilanser: false,
+                frilans: {
+                    startdato: '2021-02-02',
+                    jobberFortsattSomFrilans: false,
+                    sluttdato: '2021-03-02',
+                },
+            });
             const result = getFrilansApiData(
                 {
                     harHattInntektSomFrilanser: YesOrNo.YES,
