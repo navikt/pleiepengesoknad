@@ -7,11 +7,11 @@ import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-p
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
 import {
+    ArbeidIPeriodeIntlValues,
     getArbeidstidFastProsentValidator,
     getArbeidstidIPeriodeIntlValues,
     getArbeidstimerFastDagValidator,
     getRedusertArbeidstidPerUkeInfo,
-    ArbeidIPeriodeIntlValues,
     validateFasteArbeidstimerIUke,
 } from '@navikt/sif-common-pleiepenger';
 import TidFasteUkedagerInput from '@navikt/sif-common-pleiepenger/lib/tid-faste-ukedager-input/TidFasteUkedagerInput';
@@ -20,21 +20,20 @@ import { getWeeksInDateRange } from '@navikt/sif-common-utils';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import usePersistSoknad from '../../../hooks/usePersistSoknad';
 import { JobberIPeriodeSvar, TimerEllerProsent } from '../../../types';
-import { ArbeidIPeriodeField, Arbeidsforhold } from '../../../types/SøknadFormData';
 import { søkerKunHelgedager } from '../../../utils/formDataUtils';
-import {
-    getArbeidErLiktHverUkeValidator,
-    getJobberIPeriodenValidator,
-    getArbeidstidTimerEllerProsentValidator,
-} from '../../../validation/validateArbeidFields';
 import SøknadFormComponents from '../../SøknadFormComponents';
 import { StepID } from '../../søknadStepsConfig';
 import ArbeidstidVariert from '../arbeidstid-variert/ArbeidstidVariert';
 import InfoSøkerKunHelgedager from './InfoSøkerKunHelgedager';
+import { Arbeidsforhold, ArbeidsforholdFrilanser } from '../../../types/Arbeidsforhold';
+import { ArbeidIPeriodeField } from '../../../types/ArbeidIPeriode';
+import { getArbeidErLiktHverUkeValidator } from '../validation/arbeidErLiktHverUkeValidator';
+import { getJobberIPeriodenValidator } from '../validation/jobberIPeriodenSpørsmål';
+import { getArbeidstidTimerEllerProsentValidator } from '../validation/arbeidstidEllerProsentValidator';
 
 interface Props {
     parentFieldName: string;
-    arbeidsforhold: Arbeidsforhold;
+    arbeidsforhold: Arbeidsforhold | ArbeidsforholdFrilanser;
     arbeidsforholdType: ArbeidsforholdType;
     arbeidsstedNavn: string;
     periode: DateRange;
@@ -130,7 +129,6 @@ const ArbeidIPeriodeSpørsmål = ({
                         <FormBlock margin="l">
                             <ResponsivePanel>
                                 {renderArbeidstidVariertPart(true)}
-
                                 {søkerKunHelgedager(periode.from, periode.to) && (
                                     <Box margin="xl">
                                         <InfoSøkerKunHelgedager />
@@ -145,9 +143,9 @@ const ArbeidIPeriodeSpørsmål = ({
                             <SøknadFormComponents.RadioPanelGroup
                                 name={getFieldName(ArbeidIPeriodeField.timerEllerProsent)}
                                 legend={intlHelper(intl, `arbeidIPeriode.timerEllerProsent.spm`, intlValues)}
-                                useTwoColumns={true}
                                 radios={getTimerEllerProsentRadios(intl, intlValues)}
                                 validate={getArbeidstidTimerEllerProsentValidator(intlValues)}
+                                useTwoColumns={true}
                             />
                             {timerEllerProsent === TimerEllerProsent.PROSENT && (
                                 <FormBlock margin="l">

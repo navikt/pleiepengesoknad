@@ -1,4 +1,5 @@
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { Virksomhet } from '@navikt/sif-common-forms/lib';
 import dayjs from 'dayjs';
 
 /**
@@ -15,13 +16,13 @@ import dayjs from 'dayjs';
 
 export const getPeriodeSomSelvstendigInnenforPeriode = (
     periode: DateRange,
-    virksomhetOppstartDato: Date
+    virksomhet?: Virksomhet
 ): DateRange | undefined => {
-    if (dayjs(virksomhetOppstartDato).isAfter(periode.to, 'day')) {
+    if (virksomhet === undefined || dayjs(virksomhet.fom).isAfter(periode.to, 'day')) {
         return undefined;
     }
     return {
-        from: dayjs.max([dayjs(periode.from), dayjs(virksomhetOppstartDato)]).toDate(),
+        from: dayjs.max([dayjs(periode.from), dayjs(virksomhet.fom)]).toDate(),
         to: periode.to,
     };
 };

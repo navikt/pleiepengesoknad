@@ -10,14 +10,6 @@ const søknadsperiode: DateRange = {
     to: apiStringDateToDate('2021-02-10'),
 };
 
-// const arbeidIPeriode: ArbeidIPeriode = {
-//     jobberIPerioden: JobberIPeriodeSvar.JA,
-//     erLiktHverUke: YesOrNo.NO,
-//     enkeltdager: {
-//         '2021-02-01': { hours: '2', minutes: '0' },
-//     },
-// };
-
 const arbeidEnkeltdager: DateDurationMap = {
     '2021-02-01': { hours: '2', minutes: '0' },
     '2021-02-02': { hours: '2', minutes: '0' },

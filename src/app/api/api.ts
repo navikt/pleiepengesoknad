@@ -1,14 +1,13 @@
 import { storageParser } from '@navikt/sif-common-core/lib/utils/persistence/persistence';
 import axios, { AxiosResponse } from 'axios';
 import axiosConfig from '../config/axiosConfig';
+import { AAregArbeidsgiverRemoteData } from './getArbeidsgivereRemoteData';
 import { StepID } from '../søknad/søknadStepsConfig';
+import { ResourceType } from '../types/ResourceType';
 import { SøknadApiData } from '../types/SøknadApiData';
 import { SøknadFormData } from '../types/SøknadFormData';
-import { ResourceType } from '../types/ResourceType';
-import { Arbeidsgiver } from '../types/Søkerdata';
-import { getApiUrlByResourceType, axiosJsonConfig, sendMultipartPostRequest } from './utils/apiUtils';
 import { MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
-import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
+import { axiosJsonConfig, getApiUrlByResourceType, sendMultipartPostRequest } from './utils/apiUtils';
 
 export const getPersistUrl = (stepID?: StepID) =>
     stepID
@@ -16,9 +15,6 @@ export const getPersistUrl = (stepID?: StepID) =>
         : getApiUrlByResourceType(ResourceType.MELLOMLAGRING);
 
 export const persist = (formData: Partial<SøknadFormData> | undefined, lastStepID?: StepID) => {
-    if (isFeatureEnabled(Feature.DEMO_MODE)) {
-        return Promise.resolve(undefined);
-    }
     const url = getPersistUrl(lastStepID);
     if (formData) {
         const body: SøknadTempStorageData = {
@@ -44,12 +40,9 @@ export const purge = () =>
 
 export const getBarn = () => axios.get(getApiUrlByResourceType(ResourceType.BARN), axiosJsonConfig);
 export const getSøker = () => axios.get(getApiUrlByResourceType(ResourceType.SØKER), axiosJsonConfig);
-export const getArbeidsgiver = (
-    fom: string,
-    tom: string
-): Promise<AxiosResponse<{ organisasjoner: Arbeidsgiver[] }>> => {
+export const getArbeidsgiver = (fom: string, tom: string): Promise<AxiosResponse<AAregArbeidsgiverRemoteData>> => {
     return axios.get(
-        `${getApiUrlByResourceType(ResourceType.ARBEIDSGIVER)}?fra_og_med=${fom}&til_og_med=${tom}`,
+        `${getApiUrlByResourceType(ResourceType.ARBEIDSGIVER)}?fra_og_med=${fom}&til_og_med=${tom}&frilansoppdrag=true`,
         axiosJsonConfig
     );
 };

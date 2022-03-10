@@ -18,7 +18,7 @@ jest.mock('./../stepUtils', () => {
         arbeidssituasjonStepAvailable: jest.fn(() => 'arbeidsforhold step available'),
         legeerklæringStepAvailable: jest.fn(() => 'legeerklæring step available'),
         medlemskapStepAvailable: jest.fn(() => 'medlemskap step available'),
-        summaryStepAvailable: jest.fn(() => 'summary step available'),
+        oppsummeringStepAvailable: jest.fn(() => 'oppsummering step available'),
         skalBrukerSvarePåBeredskapOgNattevåk: jest.fn(() => false),
         skalBrukerSvarePåarbeidIPeriode: jest.fn(() => true),
     };
@@ -67,10 +67,10 @@ describe('routeUtils', () => {
             expect(result).toEqual(stepUtils.medlemskapStepAvailable(formValues));
         });
 
-        it('should return result from calling summaryStepAvailable if route=StepID.SUMMARY', () => {
+        it('should return result from calling oppsummeringStepAvailable if route=StepID.SUMMARY', () => {
             const result = isAvailable(StepID.SUMMARY, formValues);
-            expect(stepUtils.summaryStepAvailable).toHaveBeenCalledWith(formValues);
-            expect(result).toEqual(stepUtils.summaryStepAvailable(formValues));
+            expect(stepUtils.oppsummeringStepAvailable).toHaveBeenCalledWith(formValues);
+            expect(result).toEqual(stepUtils.oppsummeringStepAvailable(formValues));
         });
 
         it('should return true if route=RouteConfig.SØKNAD_SENDT_ROUTE and harBekreftetOpplysninger is true', () => {

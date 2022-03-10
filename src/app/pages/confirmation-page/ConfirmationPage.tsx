@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { SIFCommonPageKey, useLogSidevisning } from '@navikt/sif-common-amplitude';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import { Innholdstittel, Undertittel } from 'nav-frontend-typografi';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CheckmarkIcon from '@navikt/sif-common-core/lib/components/checkmark-icon/CheckmarkIcon';
 import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatted-html-message/FormattedHtmlMessage';
 import Page from '@navikt/sif-common-core/lib/components/page/Page';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { KvitteringInfo } from '../../søknad/SøknadContent';
-import './confirmationPage.less';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
+import { Innholdstittel, Undertittel } from 'nav-frontend-typografi';
 import getLenker from '../../lenker';
+import { KvitteringInfo } from '../../types/KvitteringInfo';
+import './confirmationPage.less';
 
 interface Props {
     kvitteringInfo?: KvitteringInfo;

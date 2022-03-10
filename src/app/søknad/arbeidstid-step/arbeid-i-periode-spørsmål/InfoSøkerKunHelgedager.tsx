@@ -1,6 +1,6 @@
-import AlertStripe from 'nav-frontend-alertstriper';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import AlertStripe from 'nav-frontend-alertstriper';
 
 const InfoSøkerKunHelgedager: React.FunctionComponent = () => (
     <AlertStripe type="advarsel">

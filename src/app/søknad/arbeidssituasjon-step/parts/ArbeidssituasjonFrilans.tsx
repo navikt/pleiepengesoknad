@@ -3,119 +3,164 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
+import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
+import { ISODateToDate } from '@navikt/sif-common-utils/lib';
+import dayjs from 'dayjs';
 import Lenke from 'nav-frontend-lenker';
+import { Ingress } from 'nav-frontend-typografi';
+import ConditionalResponsivePanel from '../../../components/conditional-responsive-panel/ConditionalResponsivePanel';
 import getLenker from '../../../lenker';
-import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
-import { erFrilanserIPeriode } from '../../../utils/frilanserUtils';
-import { getJobberNormaltTimerValidator } from '../../../validation/validateArbeidFields';
-import { getFrilanserSluttdatoValidator, getFrilanserStartdatoValidator } from '../../../validation/validateFrilanser';
-import SøknadFormComponents from '../../SøknadFormComponents';
-import TimerFormPart from './TimerFormPart';
+import { Arbeidsgiver } from '../../../types';
+import { ArbeidsforholdFormField } from '../../../types/Arbeidsforhold';
+import { FrilansFormData, FrilansFormField } from '../../../types/FrilansFormData';
+import { erFrilanserISøknadsperiode, harFrilansoppdrag } from '../../../utils/frilanserUtils';
+import FrilansoppdragInfo from '../info/FrilansoppdragInfo';
+import InfoJobberNormaltTimerFrilanser from '../info/InfoJobberNormaltTimerFrilanser';
+import { getJobberNormaltTimerValidator } from '../validation/jobberNormaltTimerValidator';
+import { getFrilanserSluttdatoValidator } from '../validation/frilansSluttdatoValidator';
+import { getFrilanserStartdatoValidator } from '../validation/frilansStartdatoValidator';
+
+const ArbFriFormComponents = getTypedFormComponents<FrilansFormField, FrilansFormData, ValidationError>();
 
 interface Props {
-    formValues: SøknadFormData;
+    frilansoppdrag: Arbeidsgiver[];
+    parentFieldName: string;
+    formValues: FrilansFormData;
     søknadsperiode: DateRange;
     søknadsdato: Date;
 }
 
-const ArbeidssituasjonFrilans = ({ formValues, søknadsperiode, søknadsdato }: Props) => {
-    const {
-        frilans_jobberFortsattSomFrilans,
-        frilans_harHattInntektSomFrilanser,
-        frilans_startdato,
-        frilans_arbeidsforhold,
-    } = formValues;
+const ArbeidssituasjonFrilans = ({ formValues, søknadsperiode, søknadsdato, frilansoppdrag }: Props) => {
+    const { jobberFortsattSomFrilans, harHattInntektSomFrilanser, startdato, sluttdato, arbeidsforhold } = formValues;
     const intl = useIntl();
 
-    const erAvsluttet = frilans_jobberFortsattSomFrilans === YesOrNo.NO;
+    const søkerHarFrilansoppdrag = harFrilansoppdrag(frilansoppdrag);
+    const erAktivFrilanserIPerioden = erFrilanserISøknadsperiode(søknadsperiode, formValues, frilansoppdrag);
+    const harGyldigStartdato = startdato ? ISODateToDate(startdato) : undefined;
+    const harGyldigSluttdato = sluttdato ? ISODateToDate(sluttdato) : undefined;
+    const harBesvartSpørsmålOmFortsattFrilanser =
+        jobberFortsattSomFrilans === YesOrNo.YES || jobberFortsattSomFrilans === YesOrNo.NO;
+
+    const sluttetFørSøknadsperiode =
+        jobberFortsattSomFrilans === YesOrNo.NO &&
+        harGyldigSluttdato &&
+        dayjs(sluttdato).isBefore(søknadsperiode.from, 'day');
+
+    const visSpørsmålOmArbeidsforhold =
+        harGyldigStartdato &&
+        harBesvartSpørsmålOmFortsattFrilanser &&
+        sluttetFørSøknadsperiode === false &&
+        erAktivFrilanserIPerioden;
+
+    const getArbeidsforholdFieldName = (fieldName: ArbeidsforholdFormField) =>
+        `${FrilansFormField.arbeidsforhold}.${fieldName}` as any;
+
     const intlValues = {
         hvor: intlHelper(intl, 'arbeidsforhold.part.som.FRILANSER'),
-        jobber: erAvsluttet
-            ? intlHelper(intl, 'arbeidsforhold.part.jobbet')
-            : intlHelper(intl, 'arbeidsforhold.part.jobber'),
+        jobber: intlHelper(intl, 'arbeidsforhold.part.jobber'),
     };
 
     return (
         <>
-            <Box margin="l">
-                <SøknadFormComponents.YesOrNoQuestion
-                    name={SøknadFormField.frilans_harHattInntektSomFrilanser}
-                    legend={intlHelper(intl, 'frilanser.harDuHattInntekt.spm')}
-                    validate={getYesOrNoValidator()}
-                    description={
-                        <ExpandableInfo title={intlHelper(intl, 'frilanser.hjelpetekst.spm')}>
-                            <>
-                                {intlHelper(intl, 'frilanser.hjelpetekst')}{' '}
-                                <Lenke href={getLenker(intl.locale).skatteetaten} target="_blank">
-                                    <FormattedMessage id="frilanser.hjelpetekst.skatteetatenLenke" />
-                                </Lenke>
-                            </>
-                        </ExpandableInfo>
-                    }
-                />
-            </Box>
-            {frilans_harHattInntektSomFrilanser === YesOrNo.YES && (
+            {søkerHarFrilansoppdrag && <FrilansoppdragInfo frilansoppdrag={frilansoppdrag} />}
+            {søkerHarFrilansoppdrag === false && (
                 <Box margin="l">
-                    <ResponsivePanel>
-                        <Box>
-                            <SøknadFormComponents.DatePicker
-                                name={SøknadFormField.frilans_startdato}
-                                label={intlHelper(intl, 'frilanser.nårStartet.spm')}
-                                showYearSelector={true}
-                                maxDate={søknadsdato}
-                                validate={getFrilanserStartdatoValidator(formValues, søknadsdato)}
-                            />
+                    <ArbFriFormComponents.YesOrNoQuestion
+                        name={FrilansFormField.harHattInntektSomFrilanser}
+                        legend={intlHelper(intl, 'frilanser.harDuHattInntekt.spm')}
+                        validate={getYesOrNoValidator()}
+                        description={
+                            søkerHarFrilansoppdrag ? undefined : (
+                                <ExpandableInfo title={intlHelper(intl, 'frilanser.hjelpetekst.spm')}>
+                                    <>
+                                        {intlHelper(intl, 'frilanser.hjelpetekst')}{' '}
+                                        <Lenke href={getLenker(intl.locale).skatteetaten} target="_blank">
+                                            <FormattedMessage id="frilanser.hjelpetekst.skatteetatenLenke" />
+                                        </Lenke>
+                                    </>
+                                </ExpandableInfo>
+                            )
+                        }
+                    />
+                </Box>
+            )}
+            {(harHattInntektSomFrilanser === YesOrNo.YES || søkerHarFrilansoppdrag) && (
+                <Box margin="l">
+                    {søkerHarFrilansoppdrag && (
+                        <Box padBottom="l">
+                            <Ingress>
+                                <FormattedMessage id="arbeidssituasjonFrilanser.frilanserPart.tittel" />
+                            </Ingress>
                         </Box>
+                    )}
+                    <ConditionalResponsivePanel
+                        usePanelLayout={harHattInntektSomFrilanser === YesOrNo.YES && søkerHarFrilansoppdrag === false}>
+                        <ArbFriFormComponents.DatePicker
+                            name={FrilansFormField.startdato}
+                            label={intlHelper(intl, 'frilanser.nårStartet.spm')}
+                            showYearSelector={true}
+                            maxDate={søknadsdato}
+                            validate={getFrilanserStartdatoValidator(formValues, søknadsperiode, søknadsdato)}
+                        />
                         <FormBlock>
-                            <SøknadFormComponents.YesOrNoQuestion
-                                name={SøknadFormField.frilans_jobberFortsattSomFrilans}
+                            <ArbFriFormComponents.YesOrNoQuestion
+                                name={FrilansFormField.jobberFortsattSomFrilans}
                                 legend={intlHelper(intl, 'frilanser.jobberFortsatt.spm')}
                                 validate={getYesOrNoValidator()}
                             />
                         </FormBlock>
-                        {frilans_jobberFortsattSomFrilans === YesOrNo.NO && (
+                        {jobberFortsattSomFrilans === YesOrNo.NO && (
                             <FormBlock>
-                                <SøknadFormComponents.DatePicker
-                                    name={SøknadFormField.frilans_sluttdato}
+                                <ArbFriFormComponents.DatePicker
+                                    name={FrilansFormField.sluttdato}
                                     label={intlHelper(intl, 'frilanser.nårSluttet.spm')}
                                     showYearSelector={true}
-                                    minDate={datepickerUtils.getDateFromDateString(frilans_startdato)}
+                                    minDate={datepickerUtils.getDateFromDateString(startdato)}
                                     maxDate={søknadsdato}
-                                    validate={getFrilanserSluttdatoValidator(formValues, søknadsdato)}
+                                    validate={getFrilanserSluttdatoValidator(
+                                        formValues,
+                                        søknadsperiode,
+                                        søknadsdato,
+                                        søkerHarFrilansoppdrag
+                                    )}
                                 />
                             </FormBlock>
                         )}
-                        {(frilans_jobberFortsattSomFrilans === YesOrNo.YES ||
-                            (frilans_jobberFortsattSomFrilans === YesOrNo.NO &&
-                                erFrilanserIPeriode(søknadsperiode, formValues))) && (
-                            <FormBlock>
-                                <TimerFormPart
-                                    arbeidsforholdType={ArbeidsforholdType.FRILANSER}
-                                    spørsmål={{
-                                        jobberNormaltTimer: () =>
-                                            intlHelper(
-                                                intl,
-                                                erAvsluttet
-                                                    ? `frilanser.arbeidsforhold.avsluttet.spm`
-                                                    : `frilanser.arbeidsforhold.spm`
-                                            ),
-                                    }}
-                                    validator={{
-                                        jobberNormaltTimer: getJobberNormaltTimerValidator(intlValues),
-                                    }}
-                                    arbeidsforhold={frilans_arbeidsforhold}
-                                    parentFieldName={`${SøknadFormField.frilans_arbeidsforhold}`}
-                                />
-                            </FormBlock>
+                        {visSpørsmålOmArbeidsforhold && (
+                            <>
+                                <FormBlock>
+                                    <ArbFriFormComponents.NumberInput
+                                        label={intlHelper(
+                                            intl,
+                                            jobberFortsattSomFrilans === YesOrNo.NO
+                                                ? 'frilanser.jobberNormaltTimer.avsluttet.spm'
+                                                : 'frilanser.jobberNormaltTimer.spm'
+                                        )}
+                                        name={getArbeidsforholdFieldName(ArbeidsforholdFormField.jobberNormaltTimer)}
+                                        suffix={intlHelper(intl, `arbeidsforhold.timer.suffix`)}
+                                        suffixStyle="text"
+                                        description={<InfoJobberNormaltTimerFrilanser />}
+                                        bredde="XS"
+                                        validate={getJobberNormaltTimerValidator(intlValues)}
+                                        value={arbeidsforhold ? arbeidsforhold.jobberNormaltTimer || '' : ''}
+                                    />
+                                </FormBlock>
+                                <FormBlock>
+                                    <ArbFriFormComponents.YesOrNoQuestion
+                                        name={getArbeidsforholdFieldName(ArbeidsforholdFormField.harFraværIPeriode)}
+                                        legend={intlHelper(intl, 'frilanser.harFraværIPerioden.spm')}
+                                        validate={getYesOrNoValidator()}
+                                    />
+                                </FormBlock>
+                            </>
                         )}
-                    </ResponsivePanel>
+                    </ConditionalResponsivePanel>
                 </Box>
             )}
         </>

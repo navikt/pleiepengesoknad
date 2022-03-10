@@ -9,11 +9,17 @@ export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: Søkn
 export const opplysningerOmBarnetStepIsValid = ({
     barnetsNavn,
     barnetsFødselsnummer,
-
+    barnetsFødselsdato,
+    barnetHarIkkeFnr,
+    årsakManglerIdentitetsnummer,
     barnetSøknadenGjelder,
 }: SøknadFormData) => {
-    const formIsValid =
-        validateNavn(barnetsNavn) === undefined && validateFødselsnummer(barnetsFødselsnummer) === undefined;
+    const fødselsnummerValidation = () => {
+        if (barnetHarIkkeFnr && barnetsFødselsdato !== undefined && årsakManglerIdentitetsnummer !== undefined) {
+            return true;
+        } else return validateFødselsnummer(barnetsFødselsnummer) === undefined;
+    };
+    const formIsValid = validateNavn(barnetsNavn) === undefined && fødselsnummerValidation();
 
     if (!formIsValid && barnetSøknadenGjelder !== undefined) {
         return getStringValidator({ required: true })(barnetSøknadenGjelder) === undefined;

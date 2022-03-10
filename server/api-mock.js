@@ -63,12 +63,36 @@ const barnMock = {
     ],
 };
 
+const privatArbeidsgiverMock = {
+    offentligIdent: '123',
+    navn: 'Jon Jonsen',
+    ansattFom: '2021-01-01',
+    ansattTom: '2021-12-31',
+};
+const frilansoppdrag = {
+    type: 'type oppdrag',
+    organisasjonsnummer: '991012133',
+    navn: 'Hurdal frilanssenter',
+    ansattFom: '2022-01-01',
+    ansattTom: '2022-01-15',
+};
+const frilansoppdrag2 = {
+    type: 'type oppdrag',
+    organisasjonsnummer: '991012133',
+    navn: 'Svandalen frilanssenter',
+    ansattFom: '2022-01-01',
+    ansattTom: '2022-01-15',
+};
+
 const arbeidsgivereMock = {
     organisasjoner: [
-        { navn: 'Karls godteributikk', organisasjonsnummer: '123451234' },
-        // { navn: 'Noras sveiseri', organisasjonsnummer: '123451235' },
+        // { navn: 'Karls godteributikk', organisasjonsnummer: '123451234' },
+        { navn: 'Karis gullfisker', organisasjonsnummer: '112233445' },
     ],
+    frilansoppdrag: [],
+    privatarbeidsgiver: [],
 };
+
 const MELLOMLAGRING_JSON = `${os.tmpdir()}/mellomlagring.json`;
 
 const isJSON = (str) => {

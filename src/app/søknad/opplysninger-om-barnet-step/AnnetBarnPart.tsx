@@ -6,26 +6,37 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { SkjemagruppeQuestion } from '@navikt/sif-common-formik/lib';
 import {
+    getDateValidator,
     getFødselsnummerValidator,
     getRequiredFieldValidator,
     getStringValidator,
+    ValidateDateError,
 } from '@navikt/sif-common-formik/lib/validation';
 import { Undertittel } from 'nav-frontend-typografi';
-import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
+import { SøknadFormField, SøknadFormData, initialValues } from '../../types/SøknadFormData';
 import { validateNavn } from '../../validation/fieldValidations';
 import SøknadFormComponents from '../SøknadFormComponents';
-import { BarnRelasjon } from '../../types';
+import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '../../types';
+import { resetFieldValue, resetFieldValues } from '@navikt/sif-common-formik';
+import { useFormikContext } from 'formik';
+import { dateToday, prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { nYearsAgo } from '../../utils/aldersUtils';
+import InfoForFarVedNyttBarn from './info/InfoForFarVedNyttBarn';
 
 interface Props {
     formValues: SøknadFormData;
     søkersFødselsnummer: string;
 }
 
-const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues, søkersFødselsnummer }) => {
+const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer }) => {
     const intl = useIntl();
+    const {
+        values: { barnetHarIkkeFnr },
+        setFieldValue,
+    } = useFormikContext<SøknadFormData>();
 
     return (
-        <Box margin="l">
+        <Box margin="xl">
             <SkjemagruppeQuestion
                 legend={
                     <Undertittel tag="h2" style={{ display: 'inline-block', fontSize: '1.125rem' }}>
@@ -35,16 +46,47 @@ const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues, søkersFød
                 <SøknadFormComponents.Input
                     label={intlHelper(intl, 'steg.omBarnet.fnr.spm')}
                     name={SøknadFormField.barnetsFødselsnummer}
-                    validate={getFødselsnummerValidator({
-                        required: true,
-                        disallowedValues: [søkersFødselsnummer],
-                    })}
+                    validate={
+                        barnetHarIkkeFnr
+                            ? undefined
+                            : getFødselsnummerValidator({
+                                  required: true,
+                                  disallowedValues: [søkersFødselsnummer],
+                              })
+                    }
                     bredde="XL"
                     type="tel"
                     maxLength={11}
+                    disabled={barnetHarIkkeFnr}
                 />
+                <FormBlock margin="l">
+                    <SøknadFormComponents.Checkbox
+                        label={intlHelper(intl, 'steg.omBarnet.fnr.barnHarIkkeFnr')}
+                        name={SøknadFormField.barnetHarIkkeFnr}
+                        afterOnChange={(newValue) => {
+                            if (newValue) {
+                                resetFieldValue(SøknadFormField.barnetsFødselsnummer, setFieldValue, initialValues);
+                            } else {
+                                resetFieldValues(
+                                    [SøknadFormField.årsakManglerIdentitetsnummer, SøknadFormField.barnetsFødselsdato],
+                                    setFieldValue,
+                                    initialValues
+                                );
+                            }
+                        }}
+                    />
 
-                <FormBlock>
+                    {barnetHarIkkeFnr && (
+                        <SøknadFormComponents.RadioGroup
+                            legend={intlHelper(intl, 'steg.omBarnet.årsakManglerIdentitetsnummer.spm')}
+                            name={SøknadFormField.årsakManglerIdentitetsnummer}
+                            radios={Object.keys(ÅrsakManglerIdentitetsnummer).map((årsak) => ({
+                                label: intlHelper(intl, `steg.omBarnet.årsakManglerIdentitetsnummer.${årsak}`),
+                                value: årsak,
+                            }))}
+                            validate={getRequiredFieldValidator()}
+                            checked={formValues.årsakManglerIdentitetsnummer}></SøknadFormComponents.RadioGroup>
+                    )}
                     <SøknadFormComponents.Input
                         label={intlHelper(intl, 'steg.omBarnet.navn')}
                         name={SøknadFormField.barnetsNavn}
@@ -52,6 +94,30 @@ const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues, søkersFød
                         bredde="XL"
                     />
                 </FormBlock>
+                {barnetHarIkkeFnr && (
+                    <FormBlock>
+                        <SøknadFormComponents.DatePicker
+                            name={SøknadFormField.barnetsFødselsdato}
+                            label={intlHelper(intl, 'steg.omBarnet.fødselsdato')}
+                            validate={(value) => {
+                                const dateError = getDateValidator({
+                                    required: true,
+                                    max: dateToday,
+                                })(value);
+                                if (dateError === ValidateDateError.dateIsBeforeMin) {
+                                    return {
+                                        key: dateError,
+                                        values: { dato: prettifyDate(nYearsAgo(18)) },
+                                    };
+                                }
+                                return dateError;
+                            }}
+                            maxDate={dateToday}
+                            showYearSelector={true}
+                        />
+                    </FormBlock>
+                )}
+
                 <FormBlock>
                     <SøknadFormComponents.RadioGroup
                         legend={intlHelper(intl, 'steg.omBarnet.relasjon.spm')}
@@ -63,6 +129,11 @@ const AnnetBarnPart: React.FunctionComponent<Props> = ({ formValues, søkersFød
                         validate={getRequiredFieldValidator()}
                         checked={formValues.relasjonTilBarnet}></SøknadFormComponents.RadioGroup>
                 </FormBlock>
+                {formValues.relasjonTilBarnet === BarnRelasjon.FAR && (
+                    <Box margin="m">
+                        <InfoForFarVedNyttBarn />
+                    </Box>
+                )}
                 {formValues.relasjonTilBarnet === BarnRelasjon.ANNET && (
                     <FormBlock>
                         <SøknadFormComponents.Textarea

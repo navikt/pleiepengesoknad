@@ -6,42 +6,49 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
 import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import VirksomhetInfoAndDialog from '@navikt/sif-common-forms/lib/virksomhet/VirksomhetInfoAndDialog';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
-import getLenker from '../../../lenker';
-import { SøknadFormField, SøknadFormData } from '../../../types/SøknadFormData';
+import { ArbeidsforholdFormField } from '../../../types/Arbeidsforhold';
+import { SelvstendigFormData, SelvstendigFormField } from '../../../types/SelvstendigFormData';
 import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
-import { getJobberNormaltTimerValidator } from '../../../validation/validateArbeidFields';
-import SøknadFormComponents from '../../SøknadFormComponents';
-import TimerFormPart from './TimerFormPart';
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
+import InfoJobberNormaltTimerSN from '../info/InfoJobberNormaltTimerSN';
+import { getJobberNormaltTimerValidator } from '../validation/jobberNormaltTimerValidator';
+
+const ArbSNFormComponents = getTypedFormComponents<SelvstendigFormField, SelvstendigFormData, ValidationError>();
 
 interface Props {
-    formValues: SøknadFormData;
+    formValues: SelvstendigFormData;
+    urlSkatteetatenSN: string;
 }
 
-const ArbeidssituasonSN = ({ formValues }: Props) => {
+const ArbeidssituasjonSN = ({ formValues, urlSkatteetatenSN }: Props) => {
     const intl = useIntl();
-    const { selvstendig_virksomhet, selvstendig_harFlereVirksomheter, selvstendig_arbeidsforhold } = formValues;
-    const harFlereVirksomheter = selvstendig_harFlereVirksomheter === YesOrNo.YES;
+    const { harHattInntektSomSN, virksomhet, harFlereVirksomheter, arbeidsforhold } = formValues;
+    const søkerHarFlereVirksomheter = harFlereVirksomheter === YesOrNo.YES;
     const intlValues = {
         hvor: intlHelper(intl, 'arbeidsforhold.part.som.SELVSTENDIG'),
         jobber: intlHelper(intl, 'arbeidsforhold.part.jobber'),
     };
+
+    const getArbeidsforholdFieldName = (fieldName: ArbeidsforholdFormField) =>
+        `${SelvstendigFormField.arbeidsforhold}.${fieldName}` as any;
+
     return (
         <>
             <Box margin="l">
-                <SøknadFormComponents.YesOrNoQuestion
-                    name={SøknadFormField.selvstendig_harHattInntektSomSN}
+                <ArbSNFormComponents.YesOrNoQuestion
+                    name={SelvstendigFormField.harHattInntektSomSN}
                     legend={intlHelper(intl, 'selvstendig.harDuHattInntekt.spm')}
                     validate={getYesOrNoValidator()}
                     description={
                         <ExpandableInfo title={intlHelper(intl, 'selvstendig.harDuHattInntekt.hjelpetekst.tittel')}>
                             <>
                                 {intlHelper(intl, 'selvstendig.harDuHattInntekt.hjelpetekst')}{' '}
-                                <Lenke href={getLenker(intl.locale).skatteetatenSN} target="_blank">
+                                <Lenke href={urlSkatteetatenSN} target="_blank">
                                     <FormattedMessage id="selvstendig.harDuHattInntekt.hjelpetekst.snSkatteetatenLenke" />
                                 </Lenke>
                             </>
@@ -49,16 +56,16 @@ const ArbeidssituasonSN = ({ formValues }: Props) => {
                     }
                 />
             </Box>
-            {formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES && (
+            {harHattInntektSomSN === YesOrNo.YES && (
                 <FormBlock margin="l">
                     <ResponsivePanel>
-                        <SøknadFormComponents.YesOrNoQuestion
-                            name={SøknadFormField.selvstendig_harFlereVirksomheter}
+                        <ArbSNFormComponents.YesOrNoQuestion
+                            name={SelvstendigFormField.harFlereVirksomheter}
                             legend={intlHelper(intl, 'selvstendig.harFlereVirksomheter.spm')}
                             validate={getYesOrNoValidator()}
                         />
 
-                        {harFlereVirksomheter && (
+                        {søkerHarFlereVirksomheter && (
                             <FormBlock>
                                 <AlertStripeInfo>
                                     <FormattedMessage id="selvstendig.veileder.flereAktiveVirksomheter" />
@@ -66,15 +73,15 @@ const ArbeidssituasonSN = ({ formValues }: Props) => {
                             </FormBlock>
                         )}
 
-                        {formValues.selvstendig_harHattInntektSomSN === YesOrNo.YES &&
-                            selvstendig_harFlereVirksomheter &&
-                            isYesOrNoAnswered(selvstendig_harFlereVirksomheter) && (
+                        {harHattInntektSomSN === YesOrNo.YES &&
+                            søkerHarFlereVirksomheter &&
+                            isYesOrNoAnswered(harFlereVirksomheter) && (
                                 <FormBlock>
                                     <VirksomhetInfoAndDialog
-                                        name={SøknadFormField.selvstendig_virksomhet}
-                                        harFlereVirksomheter={harFlereVirksomheter}
+                                        name={SelvstendigFormField.virksomhet}
+                                        harFlereVirksomheter={søkerHarFlereVirksomheter}
                                         labels={{
-                                            infoTitle: selvstendig_virksomhet
+                                            infoTitle: virksomhet
                                                 ? intlHelper(intl, 'selvstendig.infoDialog.infoTittel')
                                                 : undefined,
                                             editLabel: intlHelper(intl, 'selvstendig.infoDialog.endreKnapp'),
@@ -88,19 +95,25 @@ const ArbeidssituasonSN = ({ formValues }: Props) => {
                                     />
                                 </FormBlock>
                             )}
-                        {formValues.selvstendig_virksomhet !== undefined && (
+                        {virksomhet !== undefined && (
                             <FormBlock>
-                                <TimerFormPart
-                                    arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
-                                    spørsmål={{
-                                        jobberNormaltTimer: () => intlHelper(intl, `sn.arbeidsforhold.spm`),
-                                    }}
-                                    validator={{
-                                        jobberNormaltTimer: getJobberNormaltTimerValidator(intlValues),
-                                    }}
-                                    arbeidsforhold={selvstendig_arbeidsforhold}
-                                    parentFieldName={`${SøknadFormField.selvstendig_arbeidsforhold}`}
+                                <ArbSNFormComponents.NumberInput
+                                    label={intlHelper(intl, `sn.arbeidsforhold.spm`)}
+                                    name={getArbeidsforholdFieldName(ArbeidsforholdFormField.jobberNormaltTimer)}
+                                    suffix={intlHelper(intl, `arbeidsforhold.timer.suffix`)}
+                                    suffixStyle="text"
+                                    description={<InfoJobberNormaltTimerSN />}
+                                    bredde="XS"
+                                    validate={getJobberNormaltTimerValidator(intlValues)}
+                                    value={arbeidsforhold ? arbeidsforhold.jobberNormaltTimer || '' : ''}
                                 />
+                                <FormBlock>
+                                    <ArbSNFormComponents.YesOrNoQuestion
+                                        name={getArbeidsforholdFieldName(ArbeidsforholdFormField.harFraværIPeriode)}
+                                        legend={intlHelper(intl, 'sn.harFraværIPerioden.spm')}
+                                        validate={getYesOrNoValidator()}
+                                    />
+                                </FormBlock>
                             </FormBlock>
                         )}
                     </ResponsivePanel>
@@ -110,4 +123,4 @@ const ArbeidssituasonSN = ({ formValues }: Props) => {
     );
 };
 
-export default ArbeidssituasonSN;
+export default ArbeidssituasjonSN;

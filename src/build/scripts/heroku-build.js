@@ -15,7 +15,6 @@ function createEnvSettingsFileForHeroku() {
                 APPSTATUS_DATASET: 'staging',
                 USE_AMPLITUDE: 'on',
                 PUBLIC_PATH: '',
-                DEMO_MODE: 'on',
                 TOGGLE_FERIEUTTAK: 'on',
                 TOGGLE_FERIEUTTAK: 'on',
                 TOGGLE_FRILANS: 'on',

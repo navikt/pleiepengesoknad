@@ -13,9 +13,9 @@ import { useFormikContext } from 'formik';
 import { Element } from 'nav-frontend-typografi';
 import useLogSøknadInfo from '../../../hooks/useLogSøknadInfo';
 import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
-import { validateArbeidsTidEnkeltdager } from '../../../validation/validateArbeidFields';
 import SøknadFormComponents from '../../SøknadFormComponents';
 import ArbeidstidPeriode from '../arbeidstid-periode/ArbeidstidPeriode';
+import { validateArbeidsTidEnkeltdager } from '../validation/validateArbeidsTidEnkeltdager';
 
 interface Props {
     arbeidsstedNavn: string;

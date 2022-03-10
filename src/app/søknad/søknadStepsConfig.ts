@@ -49,10 +49,11 @@ interface ConfigStepHelperType {
     included: boolean;
 }
 
-export const getSøknadStepConfig = (formValues?: SøknadFormData): StepConfigInterface => {
+export const getSøknadStepConfig = (formValues: SøknadFormData | undefined): StepConfigInterface => {
     const includeNattevåkAndBeredskap = skalBrukerSvarePåBeredskapOgNattevåk(formValues);
     const søknadsperiode = formValues ? getSøknadsperiodeFromFormData(formValues) : undefined;
-    const includeArbeidstid = søknadsperiode ? skalBrukerSvareArbeidstid(søknadsperiode, formValues) : false;
+    const includeArbeidstid =
+        søknadsperiode && formValues ? skalBrukerSvareArbeidstid(søknadsperiode, formValues) : false;
 
     const allSteps: ConfigStepHelperType[] = [
         { stepID: StepID.OPPLYSNINGER_OM_BARNET, included: true },

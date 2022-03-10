@@ -1,12 +1,11 @@
 import { useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
+import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { useFormikContext } from 'formik';
 import { History } from 'history';
 import { persist as apiPersist } from '../api/api';
 import { StepID } from '../søknad/søknadStepsConfig';
 import { SøknadFormData } from '../types/SøknadFormData';
-import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { navigateToErrorPage, relocateToLoginPage } from '../utils/navigationUtils';
-import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
 
 function usePersistSoknad(history: History) {
     const { logUserLoggedOut } = useAmplitudeInstance();
@@ -24,10 +23,6 @@ function usePersistSoknad(history: History) {
     }
 
     const persist = (stepID: StepID) => {
-        if (isFeatureEnabled(Feature.DEMO_MODE)) {
-            return;
-        }
-
         doPersist(stepID);
     };
 

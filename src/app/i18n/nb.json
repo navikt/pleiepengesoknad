@@ -94,9 +94,9 @@
 
     "arbeidsgiver.tittel": "{navn} (organisasjonsnummer {organisasjonsnummer})",
     "frilans.tittel": "Frilans",
-    "frilans.tittel.start": "Frilanser (startet {startdato})",
-    "frilans.tittel.slutt": "Frilanser (sluttet {sluttdato})",
-    "frilans.tittel.startOgSlutt": "Frilanser (startet {startdato}, sluttet {sluttdato})",
+    "frilans.tittel.start": "Frilanser hos {hvor} (startet {startdato})",
+    "frilans.tittel.slutt": "Frilanser hos {hvor} (sluttet {sluttdato})",
+    "frilans.tittel.startOgSlutt": "Frilanser hos {hvor} (startet {startdato}, sluttet {sluttdato})",
     "selvstendigNæringsdrivende.tittel": "Selvstendig næringsdrivende",
 
     "avbrytSøknadDialog.avbrytSøknadLabel": "Ja, avbryt søknad",
@@ -246,7 +246,11 @@
     "steg.omBarnet.gjelderAnnetBarn": "Søknaden gjelder et annet barn",
     "steg.omBarnet.annetBarn.tittel": "Annet barn",
     "steg.omBarnet.fnr.spm": "Barnets fødselsnummer/D-nummer",
-    "steg.omBarnet.fnr.ikkeFnrEnda": "Barnet har ikke fått fødselsnummer/D-nummer ennå",
+    "steg.omBarnet.fnr.barnHarIkkeFnr": "Barnet har ikke fødselsnummer/D-nummer.",
+    "steg.omBarnet.årsakManglerIdentitetsnummer.spm": "Hvorfor har ikke barnet fødselsnummer eller D-nummer?",
+    "steg.omBarnet.årsakManglerIdentitetsnummer.NYFØDT": "Barnet er nyfødt, og har ikke fått fødselsnummer enda",
+    "steg.omBarnet.årsakManglerIdentitetsnummer.BARNET_BOR_I_UTLANDET": "Barnet bor i utlandet",
+    "steg.omBarnet.årsakManglerIdentitetsnummer.ANNET": "Annet",
     "steg.omBarnet.fødselsdato": "Barnets fødselsdato",
     "steg.omBarnet.navn": "Barnets navn",
     "steg.omBarnet.relasjon.spm": "Hvilken relasjon har du til barnet?",
@@ -257,7 +261,11 @@
     "steg.omBarnet.relasjonAnnet.info.hjelpetekst.3": "Eksempel 2: Hverken mor eller far har mulighet til å pleie barnet hjemme, da kan andre personer gjøre dette og ha tilsyn med barnet i perioden det gjelder. ",
 
     "steg.tidsrom.hjelpetekst.tittel": "Kan jeg søke for flere perioder samtidig?",
-    "steg.tidsrom.hjelpetekst": "Søknaden er under utvikling: Hvis du skal søke for flere perioder må du sende én søknad for hver periode.",
+    "steg.tidsrom.hjelpetekst.1": "Du kan søke om flere perioder i samme søknad hvis du skal jobbe i din fulle stilling mellom periodene du skal ha pleiepenger.",
+    "steg.tidsrom.hjelpetekst.2": "Da setter du fra og med dato til den første dagen du skal ha pleiepenger. Til og med dato setter du til den siste dagen du skal ha pleiepenger i den siste perioden.",
+    "steg.tidsrom.hjelpetekst.3": "Når du senere i søknaden blir spurt om jobb, legger du inn at du skal jobbe fullt i de periodene du ikke skal ha pleiepenger. Du vil ikke få pleiepenger de periodene du jobber fullt.",
+    "steg.tidsrom.hjelpetekst.4": "Hvis du ikke skal jobbe i din fulle stilling mellom periodene med pleiepenger, kan du ikke søke om flere perioder i samme søknad. Da må du sende én søknad for hver periode.",
+
     "steg.tidsrom.hvilketTidsrom.spm": "Hvilken periode søker du for?",
     "steg.tidsrom.hvilketTidsrom.fom": "Fra og med",
     "steg.tidsrom.hvilketTidsrom.tom": "Til og med",
@@ -374,6 +382,10 @@
     "steg.oppsummering.barnet.navn": "Navn: {navn}",
     "steg.oppsummering.barnet.fødselsdato": "Fødselsdato: {dato}",
     "steg.oppsummering.barnet.fnr": "Fødselsnummer: {fnr}",
+    "steg.oppsummering.barnet.barnetHarIkkeFnr": "Oppgitt grunn for at barnet ikke har fødselsnummer/D-nummer: {årsak}",
+    "steg.oppsummering.barnet.årsakManglerIdentitetsnummer.NYFØDT": "Barnet er nyfødt, og har ikke fått fødselsnummer enda",
+    "steg.oppsummering.barnet.årsakManglerIdentitetsnummer.BARNET_BOR_I_UTLANDET": "Barnet bor i utlandet",
+    "steg.oppsummering.barnet.årsakManglerIdentitetsnummer.ANNET": "Annet",
     "steg.oppsummering.relasjonTilBarnet.header": "Relasjon til barnet",
     "steg.oppsummering.relasjonTilBarnetBeskrivelse": "Din beskrivelse av relasjon og tilsynsrolle for barnet:",
     "steg.oppsummering.barnRelasjon.MOR": "Du er mor til barnet",
@@ -407,6 +419,7 @@
     "steg.oppsummering.vedlegg.header": "Vedlegg",
 
     "steg.oppsummering.validering.ugyldigArbeidsforholdAnsatt": "Det er ikke fylt ut informasjon om hvordan du jobber {hvor} i perioden du har søkt pleiepenger.",
+    "steg.oppsummering.validering.manglendeArbeidsgiverNavn": "Det har oppstått en feil rundt arbeidsgiverinformasjonen; navn på arbeidsgiver mangler. Vennligst gå tilbake og kontroller informasjonen som er oppgitt.",
     "steg.oppsummering.validering.ugyldigArbeidsforholdFrilans": "Det er ikke fylt ut informasjon om hvordan du jobber som frilanser i perioden du har søkt pleiepenger.",
     "steg.oppsummering.validering.ugyldigArbeidsforholdSN": "Det er ikke fylt ut informasjon om hvordan du jobber som selvstendig næringsdrivende i perioden du har søkt pleiepenger.",
     "steg.oppsummering.validering.navigasjonTilStegInfo": "Vennligst gå tilbake og sjekk informasjonen du har fylt ut. Når du har gjort det, trykker du på \"Fortsett\"-knappen for å gå videre.",
@@ -452,6 +465,7 @@
     "dokumenter.advarsel.totalstørrelse.2": "ettersende flere dokumenter.",
 
     "arbeidsforhold.ikkeAnsatt.info": "Når du ikke er ansatt her lenger, må du be denne arbeidsgiveren om å sende en ny A-melding med sluttdato. Dette gjør de enten via eget lønns- og personalsystem, eller via Altinn.",
+    "arbeidsforhold.ikkeFrilansoppdragIPerioden.info": "Informasjon når frilansoppdraget ikke gjelder perioden",
 
     "arbeidsforhold.part.jobber": "jobber",
     "arbeidsforhold.part.jobbet": "jobbet",
@@ -461,13 +475,15 @@
     "arbeidsforhold.part.som.SELVSTENDIG": "som selvstendig næringsdrivende",
 
     "arbeidsforhold.erAnsatt.spm": "Stemmer det at du er ansatt hos {navn} i perioden du søker for?",
+    "arbeidsforhold.harFraværIPerioden.spm": "Har du fravær fra din jobb hos {navn} i perioden du søker for?",
+    "arbeidsforhold.harFrilansoppdrag.spm": "Stemmer det at du har et frilansoppdrag hos {navn} i perioden du søker for?",
     "arbeidsforhold.sluttetFørSøknadsperiode.spm": "Sluttet du hos {navn} før {fraDato}?",
     "arbeidsforhold.avsluttet.info": "Sluttdato var innenfor perioden du søker om pleiepenger. Vi trenger derfor å vite hvordan normalarbeidstiden din var hos {navn}",
 
     "arbeidsforhold.normalTimer.info.tittel": "Hva betyr dette?",
-    "arbeidsforhold.ANSATT.normalTimer.info": "Hvis du er usikker på antallet finner du som regel svaret i arbeidskontrakten din, eller du kan høre med arbeidsgiver.",
-    "arbeidsforhold.FRILANSER.normalTimer.info": "Her skal du oppgi hvor mange timer du normalt jobber som frilanser når du ikke har fravær på grunn av for eksempel pleiepenger.",
-    "arbeidsforhold.SELVSTENDIG.normalTimer.info": "Her skal du oppgi hvor mange timer du normalt jobber som selvstendig næringsdrivende når du ikke har fravær på grunn av for eksempel pleiepenger.",
+    "arbeidsforhold.ansatt.normalTimer.info": "Hvis du er usikker på antallet finner du som regel svaret i arbeidskontrakten din, eller du kan høre med arbeidsgiver.",
+    "arbeidsforhold.frilanser.normalTimer.info": "Her skal du oppgi hvor mange timer du normalt jobber som frilanser når du ikke har fravær på grunn av for eksempel pleiepenger.",
+    "arbeidsforhold.selvstendig.normalTimer.info": "Her skal du oppgi hvor mange timer du normalt jobber som selvstendig næringsdrivende når du ikke har fravær på grunn av for eksempel pleiepenger.",
     "arbeidsforhold.normalTimer.info.list.item.1": "Hvis du jobber et fast antall timer per uke, er det dette antallet du oppgir.",
     "arbeidsforhold.normalTimer.info.list.item.2": "Hvis du jobber turnus eller har annen varierende arbeidstid, skal du legge inn et snitt per uke.",
 
@@ -501,7 +517,6 @@
     "arbeidsforhold.turnus.info.tekst.5": "Så deler du antall timer med antall uker i turnusperioden din: 75 / 3 = 25",
     "arbeidsforhold.turnus.info.tekst.6": "Du jobber altså i snitt 25 timer per uke, og det er dette tallet du oppgir.",
     "arbeidsforhold.turnus.info.tekst.eksempel": "Eksempel:",
-    "arbeidsforhold.TURNUS.timer.suffix": "timer i snitt per uke",
     "arbeidsforhold.varierende": "Deltid/varierende/tilkalling",
     "arbeidsforhold.varierende.1": "Deltid",
     "arbeidsforhold.varierende.2": "varierende",
@@ -509,8 +524,8 @@
     "arbeidsforhold.varierende.info.tittel": "Hvordan regner jeg ut et snitt i min situasjon?",
     "arbeidsforhold.varierende.info.tekst.1": "Du regner ut et snitt ved å legge sammen antall timer du totalt har jobbet de siste 12 ukene og deler det med 12. Hvis du ikke har jobbet i 12 uker, regner du ut snittet på samme måte ved å bruke de ukene du har jobbet.",
 
-    "arbeidsforhold.FAST.spm": "Hvor mange timer jobber du normalt per uke hos {arbeidsforhold} når du ikke har fravær?",
-    "arbeidsforhold.FAST.avsluttet.spm": "Hvor mange timer jobbet du normalt per uke hos {arbeidsforhold}?",
+    "arbeidsforhold.jobberNormaltTimer.spm": "Hvor mange timer jobber du normalt per uke hos {navn} når du ikke har fravær?",
+    "arbeidsforhold.jobberNormaltTimer.avsluttet.spm": "Hvor mange timer jobbet du normalt per uke hos {navn}?",
     "arbeidsforhold.utledet": "timer i uka",
 
     "arbeidIPeriode.søkerKunHelgedager.alert.avsnitt.1": "Du kan kun få utbetalt pleiepenger for hverdager. Det utbetales ikke pleiepenger for lørdag eller søndag selv om du har hatt fravær fra jobb for å pleie barn.",
@@ -549,6 +564,8 @@
     "oppsummering.arbeidssituasjon.avsluttet.tid": "Jobbet normalt {timer, plural, one {# time} other {# timer}} per uke",
     "oppsummering.arbeidssituasjon.avsluttet.sluttetFørSøknadsperiode": "Sluttet før {periodeFra}",
     "oppsummering.arbeidssituasjon.avsluttet.sluttetISøknadsperiode": "Sluttet etter {periodeFra}",
+    "oppsummering.arbeidssituasjon.harFravær": "Har fravær i perioden",
+    "oppsummering.arbeidssituasjon.harIkkeFravær": "Har ikke fravær i perioden",
 
     "oppsummering.arbeidssituasjon.arbeidsgivere.ingenIPeriode.header": "Arbeidsgivere",
     "oppsummering.arbeidssituasjon.arbeidsgivere.ingenIPeriode.tekst": "Er ikke ansatt i perioden det søkes for",
@@ -603,32 +620,17 @@
     "selvstendig.dialog.tittel": "Næringsvirksomhet",
 
     "frilanser.harDuHattInntekt.spm": "Er du frilanser i perioden du søker for?",
-    "frilanser.nårStartet.spm": "Når startet du som frilanser?",
+    "frilanser.harDuAndreFrilansoppdrag.spm": "Har du andre frilansoppdrag du har fravær fra i perioden du søker for?",
+    "frilanser.nårStartet.spm": "Når startet du å jobbe som frilanser?",
     "frilanser.jobberFortsatt.spm": "Jobber du fortsatt som frilanser?",
     "frilanser.nårSluttet.spm": "Når sluttet du som frilanser?",
+    "frilanser.harFraværIPerioden.spm": "Har du fravær som frilanser i perioden du søker for?",
+    "frilanser.jobberNormaltTimer.spm": "Hvor mange timer jobber du normalt per uke som frilanser når du ikke har fravær?",
+    "frilanser.jobberNormaltTimer.avsluttet.spm": "Hvor mange timer jobbet du normalt per uke som frilanser da du ikke hadde fravær?",
 
-    "snFrilanser.arbeidsforhold.fast.info.tekst": "Her skal du legge inn antall timer du jobber per uke.",
-    "snFrilanser.timer.suffix": "timer per uke",
-
-    "snFrilanser.arbeidsforhold.turnus": "Turnus",
-    "snFrilanser.arbeidsforhold.turnus.info.tittel": "Hvordan regner jeg ut et snitt av turnusen min?",
-    "snFrilanser.arbeidsforhold.turnus.info.tekst.1": "Du regner ut snittet ved å legge sammen antall timer du jobber totalt i hele turnusperioden din, og deler det med antall uker som turnusperioden din består av.",
-    "snFrilanser.arbeidsforhold.turnus.info.tekst.2": "Du har en turnus som går over 3 uker. Den første uka jobber du 20 timer, den andre 40 timer og den tredje uka jobber du 15 timer. Da legger du sammen antall timer du har jobbet og deler med antall uker i turnusperioden din.",
-    "snFrilanser.arbeidsforhold.turnus.info.tekst.3": "Da blir regnestykket slik i dette eksempelet:",
-    "snFrilanser.arbeidsforhold.turnus.info.tekst.4": "20 timer + 40 timer + 15 timer = 75 timer",
-    "snFrilanser.arbeidsforhold.turnus.info.tekst.5": "Så deler du antall timer med antall uker i turnusperioden din: 75 / 3 = 25",
-    "snFrilanser.arbeidsforhold.turnus.info.tekst.6": "Du jobber altså i snitt 25 timer per uke, og det er dette tallet du oppgir.",
-    "snFrilanser.arbeidsforhold.turnus.info.tekst.eksempel": "Eksempel:",
-    "snFrilanser.arbeidsforhold.TURNUS.timer.suffix": "timer i snitt per uke",
-
-    "snFrilanser.arbeidsforhold.varierende": "Deltid/varierende/tilkalling",
-    "snFrilanser.arbeidsforhold.varierende.info.tekst.1": "Hvis du har flere frilansoppdrag skal du svare samlet for alle.",
-    "snFrilanser.arbeidsforhold.VARIERENDE.timer.suffix": "timer i snitt per uke",
-
-    "frilanser.arbeidsforhold.spm": "Hvor mange timer jobber du normalt per uke som frilanser når du ikke har fravær?",
-    "frilanser.arbeidsforhold.avsluttet.spm": "Hvor mange timer jobbet du normalt per uke som frilanser når du ikke hadde fravær?",
     "sn.arbeidsforhold.spm": "Hvor mange timer jobber du normalt per uke som selvstendig næringsdrivende når du ikke har fravær?",
     "sn.arbeidsforhold.avsluttet.spm": "Hvor mange timer jobbet du normalt per uke som selvstendig næringsdrivende når du ikke hadde fravær?",
+    "sn.harFraværIPerioden.spm": "Har du fravær som selvstendig næringsdrivende i perioden du søker for?",
     "sn.arbeidsforhold.utledet": "timer i uka",
 
     "snF.ArbeidsforholdDetaljer.hvaBetyr.spm": "Hva betyr dette?",
@@ -641,7 +643,7 @@
 
     "frilanser.summary.header": "Frilans",
     "frilanser.summary.harDuHattInntekt.header": "Er du frilanser i perioden du søker for?",
-    "frilanser.summary.nårStartet.header": "Når startet du som frilanser?",
+    "frilanser.summary.nårStartet.header": "Når startet du å jobbe som frilanser?",
     "frilanser.summary.jobberFortsatt.header": "Jobber du fortsatt som frilanser?",
     "frilanser.summary.nårSluttet.header": "Når sluttet du som frilanser?",
 
@@ -671,13 +673,18 @@
     "validation.barnetsNavn.stringIsTooShort": "Navnet på barnet må inneholde minst {min} tegn.",
 
     "validation.barnetsFødselsdato.dateHasInvalidFormat": "Du må oppgi barnets fødselsdato i et gyldig format. Gyldig format er dd.mm.ååå.",
+    "validation.barnetsFødselsdato.dateHasNoValue": "Du må oppgi barnets fødselsdato. Skriv inn eller velg dato fra datovelgeren.",
+    "validation.barnetsFødselsdato.dateIsBeforeMin": "Du kan ikke legge til et barn over 18 år.",
+    "validation.barnetsFødselsdato.dateIsAfterMax": "Barnets fødselsdato kan ikke være etter dagens dato.",
 
+    "validation.årsakManglerIdentitetsnummer.noValue": "Du må svare på spørsmålet om hvorfor barnet ikke har fødselsnummer eller D-nummer.",
     "validation.relasjonTilBarnet.noValue": "Du må svare på spørsmålet om hvilken relasjon du har til barnet.",
     "validation.barnetsFødselsnummer.fødselsnummerHasNoValue": "Du må oppgi barnets fødselsnummer/D-nummer.",
     "validation.barnetsFødselsnummer.fødselsnummerNot11Chars": "Fødselsnummeret/D-nummeret må bestå av 11 siffer.",
     "validation.barnetsFødselsnummer.fødselsnummerIsNot11Chars": "Fødselsnummeret/D-nummeret du har tastet inn er ikke et gyldig norsk fødselsnummer. Kontroller at du har tastet inn riktig.",
     "validation.barnetsFødselsnummer.fødselsnummerIsInvalid": "Fødselsnummeret/D-nummeret du har tastet inn er ikke et gyldig norsk fødselsnummer. Kontroller at du har tastet inn riktig.",
     "validation.barnetsFødselsnummer.fødselsnummerIsNotAllowed": "Fødselsnummeret kan ikke være ditt eget. Legg inn barnets fødselsnummer.",
+    "validation.barnetsFødselsnummer.fødselsnummerAsHnrIsNotAllowed": "Fødselsnummeret/D-nummeret du har tastet inn er ikke et gyldig norsk fødselsnummer. Kontroller at du har tastet inn riktig.",
 
     "validation.relasjonTilBarnetBeskrivelse.stringHasNoValue": "Du må beskrive hvem du er i forhold til barnet, og hvilken tilsynsrolle du har i perioden du søker om.",
     "validation.relasjonTilBarnetBeskrivelse.stringIsTooLong": "Du har brukt for mange tegn i beskrivelsen din. Teksten kan ikke inneholde flere enn {maks} tegn.",
@@ -707,29 +714,31 @@
     "validation.skalTaUtFerieIPerioden.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du skal ha ferie i perioden du søker for.",
 
     "validation.arbeidsforhold.erAnsatt.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du er ansatt hos {navn} i perioden du søker pleiepenger.",
-
     "validation.arbeidsforhold.sluttetFørSøknadsperiode.yesOrNoIsUnanswered": "Du må svare på om du sluttet hos {navn} før {fraDato}.",
-
+    "validation.arbeidsforhold.harFraværIPeriode.yesOrNoIsUnanswered": "Du må svare på om du har fravær i perioden hos {navn}.",
     "validation.arbeidsforhold.jobberNormaltTimer.numberHasNoValue": "Du må oppgi hvor mange timer per uke du {jobber} {hvor} i perioden.",
     "validation.arbeidsforhold.jobberNormaltTimer.numberHasInvalidFormat": "Antall timer du {jobber} per uke {hvor} kan kun bestå av tall.",
+
     "validation.arbeidsforhold.jobberNormaltTimer.numberIsTooSmall": "Antall timer du {jobber} per uke {hvor} kan ikke være mindre enn {min}.",
     "validation.arbeidsforhold.jobberNormaltTimer.numberIsTooLarge": "Antall timer du {jobber} per uke {hvor} kan ikke være mer enn {max}.",
 
-    "validation.frilans_harHattInntektSomFrilanser.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du er frilanser i perioden du søker for.",
-    "validation.selvstendig_harHattInntektSomSN.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du er selvstendig næringsdrivende i perioden du søker for.",
-    "validation.selvstendig_harFlereVirksomheter.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du har flere enn én virksomhet som er aktiv.",
-    "validation.frilans_startdato.dateHasNoValue": "Du må oppgi hvilken dato du startet som frilanser. Skriv inn eller velg dato fra kalenderen.",
-    "validation.frilans_startdato.dateHasInvalidFormat": "Du må oppgi datoen for når du startet som frilanser i et gyldig format. Gyldig format er dd.mm.åååå.",
-    "validation.frilans_startdato.dateIsAfterMax": "Datoen for når du startet som frilanser kan ikke være etter dagens dato.",
-    "validation.frilans_startdato.startetEtterSøknadsperiode": "Du har oppgitt at du startet som frilanser etter perioden du søker for. Dersom dette stemmer, kand du svare \"Nei\" på spørsmålet om du var frilanser i perioden du søker for.",
-    "validation.frilans_sluttdato.sluttetFørSøknadsperiode": "Du har oppgitt at du sluttet som frilanser før perioden du søker for. Dersom dette stemmer, kan du svare \"Nei\" på spørsmålet om du var frilanser i perioden du søker for.",
-    "validation.frilans_sluttdato.dateHasNoValue": "Oppgi når du sluttet som frilanser. Skriv inn eller velg dato fra kalenderen.",
-    "validation.frilans_sluttdato.dateHasInvalidFormat": "Du må oppgi datoen for når du sluttet som frilanser i et gyldig format. Gyldig format er dd.mm.åååå.",
-    "validation.frilans_sluttdato.dateIsAfterMax": "Datoen for når du sluttet som frilanser kan ikke være etter dagens dato.",
-    "validation.frilans_sluttdato.dateIsBeforeMin": "Datoen for når du sluttet som frilanser kan ikke være før datoen du startet.",
-    "validation.frilans_jobberFortsattSomFrilans.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du fortsatt jobber som frilanser.",
+    "validation.frilans.harHattInntektSomFrilanser.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du er frilanser i perioden du søker for.",
+    "validation.frilans.startdato.dateHasNoValue": "Du må oppgi hvilken dato du startet som frilanser. Skriv inn eller velg dato fra kalenderen.",
+    "validation.frilans.startdato.dateHasInvalidFormat": "Du må oppgi datoen for når du startet som frilanser i et gyldig format. Gyldig format er dd.mm.åååå.",
+    "validation.frilans.startdato.dateIsAfterMax": "Datoen for når du startet som frilanser kan ikke være etter dagens dato.",
+    "validation.frilans.startdato.startetEtterSøknadsperiode": "Du har oppgitt at du startet som frilanser etter perioden du søker for. Dersom dette stemmer, kand du svare \"Nei\" på spørsmålet om du var frilanser i perioden du søker for.",
+    "validation.frilans.sluttdato.sluttetFørSøknadsperiode": "Du har oppgitt at du sluttet som frilanser før perioden du søker for. Dersom dette stemmer, kan du svare \"Nei\" på spørsmålet om du var frilanser i perioden du søker for.",
+    "validation.frilans.sluttdato.dateHasNoValue": "Oppgi når du sluttet som frilanser. Skriv inn eller velg dato fra kalenderen.",
+    "validation.frilans.sluttdato.dateHasInvalidFormat": "Du må oppgi datoen for når du sluttet som frilanser i et gyldig format. Gyldig format er dd.mm.åååå.",
+    "validation.frilans.sluttdato.dateIsAfterMax": "Datoen for når du sluttet som frilanser kan ikke være etter dagens dato.",
+    "validation.frilans.sluttdato.dateIsBeforeMin": "Datoen for når du sluttet som frilanser kan ikke være før datoen du startet.",
+    "validation.frilans.jobberFortsattSomFrilans.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du fortsatt jobber som frilanser.",
+    "validation.frilans.arbeidsforhold.harFraværIPeriode.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du har fravær som frilanser i perioden.",
 
-    "validation.selvstendig_virksomhet.noValue": "Du må oppgi informasjon om virksomheten din som selvstendig næringsdrivende.",
+    "validation.selvstendig.harHattInntektSomSN.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du er selvstendig næringsdrivende i perioden du søker for.",
+    "validation.selvstendig.harFlereVirksomheter.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du har flere enn én virksomhet som er aktiv.",
+    "validation.selvstendig.virksomhet.noValue": "Du må oppgi informasjon om virksomheten din som selvstendig næringsdrivende.",
+    "validation.selvstendig.arbeidsforhold.harFraværIPeriode.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du har fravær som selvstendig næringsdrivende i perioden.",
     "validation.harVærtEllerErVernepliktig.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du utøvde verneplikt på tidspunktet du søker pleiepenger fra.",
 
     "validation.arbeidIPeriode.fast.prosent.måSvareNeiPåJobbIPerioden": "Dersom du ikke jobber {hvor}, må du svare Nei på spørsmålet ovenfor om jobb i perioden.",
@@ -786,5 +795,19 @@
     "validation.utenlandsoppholdNeste12Mnd.utenlandsopphold_overlapper": "Ett eller flere av utenlandsoppholdene du har lagt inn for de neste 12 månedene, har datoer som overlapper hverandre.",
     "validation.harBekreftetOpplysninger.notChecked": "Du må bekrefte at opplysningene du har gitt er riktige.",
 
-    "virksomhetForm.næringstype.noValue": "Du må velge hvilken type virksomhet du har."
+    "virksomhetForm.næringstype.noValue": "Du må velge hvilken type virksomhet du har.",
+
+    "infoForFarVedNyttBarn.tittel": "Er du registrert som far i folkeregisteret?",
+    "infoForFarVedNyttBarn.info.1.1": "Hvis du og moren til barnet er gift blir du automatisk registrert som far til barnet. Hvis dere ikke er gift må du erklære farskap for at du skal bli registrert som far til barnet i folkeregisteret.",
+    "infoForFarVedNyttBarn.info.1.2": "Her kan du erklære farskap digitalt",
+    "infoForFarVedNyttBarn.info.1.3": ".",
+    "infoForFarVedNyttBarn.info.2": "Uavhengig av hva som er situasjonen din, kan du fortsette å fylle ut søknaden og sende den inn.",
+
+    "arbeidssituasjonFrilanser.frilanserPart.tittel": "Om deg som frilanser",
+
+    "frilansoppdragListe.oppdrag": "Periode: {tidsrom}",
+    "frilansoppdragListe.tidsrom.avsluttet": "fra {fra} til {til}",
+    "frilansoppdragListe.tidsrom.pågående": "fra {fra} - pågående",
+    "frilansoppdragInfo.tittel": "Registrerte frilansoppdrag i perioden:",
+    "frilansoppdragInfo.tekst": "Dette er frilansoppdrag registrert i AA-registeret i perioden du søker om pleiepenger. Dersom informasjonen ikke stemmer, må du ta kontakt med oppdragsgiver og be de oppdatere informasjonen i AA-registeret."
 }
