@@ -89,7 +89,7 @@ const arbeidsgivereMock = {
         // { navn: 'Karls godteributikk', organisasjonsnummer: '123451234' },
         { navn: 'Karis gullfisker', organisasjonsnummer: '112233445' },
     ],
-    frilansoppdrag: [frilansoppdrag2],
+    frilansoppdrag: [],
     privatarbeidsgiver: [],
 };
 
