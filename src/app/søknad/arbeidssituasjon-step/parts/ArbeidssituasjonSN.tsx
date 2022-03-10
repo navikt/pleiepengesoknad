@@ -97,21 +97,21 @@ const ArbeidssituasjonSN = ({ formValues, urlSkatteetatenSN }: Props) => {
                             )}
                         {virksomhet !== undefined && (
                             <FormBlock>
-                                <ArbSNFormComponents.NumberInput
-                                    label={intlHelper(intl, `sn.arbeidsforhold.spm`)}
-                                    name={getArbeidsforholdFieldName(ArbeidsforholdFormField.jobberNormaltTimer)}
-                                    suffix={intlHelper(intl, `arbeidsforhold.timer.suffix`)}
-                                    suffixStyle="text"
-                                    description={<InfoJobberNormaltTimerSN />}
-                                    bredde="XS"
-                                    validate={getJobberNormaltTimerValidator(intlValues)}
-                                    value={arbeidsforhold ? arbeidsforhold.jobberNormaltTimer || '' : ''}
+                                <ArbSNFormComponents.YesOrNoQuestion
+                                    name={getArbeidsforholdFieldName(ArbeidsforholdFormField.harFraværIPeriode)}
+                                    legend={intlHelper(intl, 'sn.harFraværIPerioden.spm')}
+                                    validate={getYesOrNoValidator()}
                                 />
                                 <FormBlock>
-                                    <ArbSNFormComponents.YesOrNoQuestion
-                                        name={getArbeidsforholdFieldName(ArbeidsforholdFormField.harFraværIPeriode)}
-                                        legend={intlHelper(intl, 'sn.harFraværIPerioden.spm')}
-                                        validate={getYesOrNoValidator()}
+                                    <ArbSNFormComponents.NumberInput
+                                        label={intlHelper(intl, `sn.arbeidsforhold.spm`)}
+                                        name={getArbeidsforholdFieldName(ArbeidsforholdFormField.jobberNormaltTimer)}
+                                        suffix={intlHelper(intl, `arbeidsforhold.timer.suffix`)}
+                                        suffixStyle="text"
+                                        description={<InfoJobberNormaltTimerSN />}
+                                        bredde="XS"
+                                        validate={getJobberNormaltTimerValidator(intlValues)}
+                                        value={arbeidsforhold ? arbeidsforhold.jobberNormaltTimer || '' : ''}
                                     />
                                 </FormBlock>
                             </FormBlock>

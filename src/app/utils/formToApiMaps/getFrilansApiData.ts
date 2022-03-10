@@ -22,11 +22,21 @@ export const getFrilansApiData = (
     if (
         (_harHattInntektSomFrilanser === false && frilansoppdrag.length === 0) ||
         startdato === undefined ||
-        from === undefined ||
-        erFrilanserITidsrom(søknadsperiode, from, to) === false
+        from === undefined
     ) {
         return {
             _harHattInntektSomFrilanser: false,
+        };
+    }
+
+    if (erFrilanserITidsrom(søknadsperiode, from, to) === false) {
+        return {
+            _harHattInntektSomFrilanser: false,
+            frilans: {
+                startdato,
+                jobberFortsattSomFrilans: jobberFortsattSomFrilans === YesOrNo.YES,
+                sluttdato,
+            },
         };
     }
 

@@ -97,43 +97,42 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                         )}
                         {((erAvsluttet && arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO) || !erAvsluttet) && (
                             <>
-                                <AnsattFormComponents.NumberInput
-                                    label={intlHelper(
-                                        intl,
-                                        erAvsluttet
-                                            ? `arbeidsforhold.jobberNormaltTimer.avsluttet.spm`
-                                            : `arbeidsforhold.jobberNormaltTimer.spm`,
-                                        {
-                                            navn: arbeidsforhold.arbeidsgiver.navn,
+                                <AnsattFormComponents.YesOrNoQuestion
+                                    name={getFieldName(ArbeidsforholdFormField.harFraværIPeriode)}
+                                    legend={intlHelper(intl, 'arbeidsforhold.harFraværIPerioden.spm', {
+                                        navn: arbeidsforhold.arbeidsgiver.navn,
+                                    })}
+                                    validate={(value: any) => {
+                                        const error = getYesOrNoValidator()(value);
+                                        if (error) {
+                                            return {
+                                                key: 'validation.arbeidsforhold.harFraværIPeriode.yesOrNoIsUnanswered',
+                                                keepKeyUnaltered: true,
+                                                values: { navn: arbeidsforhold.arbeidsgiver.navn },
+                                            };
                                         }
-                                    )}
-                                    name={getFieldName(ArbeidsforholdFormField.jobberNormaltTimer)}
-                                    suffix={intlHelper(intl, `arbeidsforhold.timer.suffix`)}
-                                    suffixStyle="text"
-                                    description={<InfoJobberNormaltTimerAnsatt />}
-                                    bredde="XS"
-                                    validate={getJobberNormaltTimerValidator(intlValues)}
-                                    value={arbeidsforhold ? arbeidsforhold.jobberNormaltTimer || '' : ''}
+                                        return undefined;
+                                    }}
                                 />
-
                                 <FormBlock>
-                                    <AnsattFormComponents.YesOrNoQuestion
-                                        name={getFieldName(ArbeidsforholdFormField.harFraværIPeriode)}
-                                        legend={intlHelper(intl, 'arbeidsforhold.harFraværIPerioden.spm', {
-                                            navn: arbeidsforhold.arbeidsgiver.navn,
-                                        })}
-                                        validate={(value: any) => {
-                                            const error = getYesOrNoValidator()(value);
-                                            if (error) {
-                                                return {
-                                                    key: 'validation.arbeidsforhold.harFraværIPeriode.yesOrNoIsUnanswered',
-                                                    keepKeyUnaltered: true,
-                                                    values: { navn: arbeidsforhold.arbeidsgiver.navn },
-                                                };
+                                    <AnsattFormComponents.NumberInput
+                                        label={intlHelper(
+                                            intl,
+                                            erAvsluttet
+                                                ? `arbeidsforhold.jobberNormaltTimer.avsluttet.spm`
+                                                : `arbeidsforhold.jobberNormaltTimer.spm`,
+                                            {
+                                                navn: arbeidsforhold.arbeidsgiver.navn,
                                             }
-                                            return undefined;
-                                        }}
-                                    />
+                                        )}
+                                        name={getFieldName(ArbeidsforholdFormField.jobberNormaltTimer)}
+                                        suffix={intlHelper(intl, `arbeidsforhold.timer.suffix`)}
+                                        suffixStyle="text"
+                                        description={<InfoJobberNormaltTimerAnsatt />}
+                                        bredde="XS"
+                                        validate={getJobberNormaltTimerValidator(intlValues)}
+                                        value={arbeidsforhold ? arbeidsforhold.jobberNormaltTimer || '' : ''}
+                                    />{' '}
                                 </FormBlock>
                             </>
                         )}

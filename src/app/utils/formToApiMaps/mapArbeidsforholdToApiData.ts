@@ -76,7 +76,7 @@ export const mapArbeidsforholdToApiData = (
     const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
 
     if (jobberNormaltTimerNumber === undefined) {
-        throw new Error('mapArbeidsforholdToApiData');
+        throw new Error('mapArbeidsforholdToApiData: jobberNormaltTimerNumber === undefined');
     }
     return {
         jobberNormaltTimer: jobberNormaltTimerNumber,

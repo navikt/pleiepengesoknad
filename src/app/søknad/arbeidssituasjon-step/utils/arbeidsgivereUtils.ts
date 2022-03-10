@@ -55,12 +55,8 @@ export const oppdaterSøknadMedArbeidsgivere = (
         arbeidsgivere.filter(erOrganisasjonElerPrivatArbeidsgiver),
         values.ansatt_arbeidsforhold
     );
-    if (ansattArbeidsforhold.length > 0) {
-        setFieldValue(SøknadFormField.ansatt_arbeidsforhold, ansattArbeidsforhold);
-    }
+    setFieldValue(SøknadFormField.ansatt_arbeidsforhold, ansattArbeidsforhold);
 
     const frilansoppdrag = arbeidsgivere.filter(erFrilansoppdrag);
-    if (frilansoppdrag.length > 0) {
-        setFieldValue(SøknadFormField.frilansoppdrag, frilansoppdrag);
-    }
+    setFieldValue(SøknadFormField.frilansoppdrag, frilansoppdrag);
 };
