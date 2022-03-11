@@ -7,7 +7,7 @@ import { FrilansApiData, SøknadApiData } from '../../types/SøknadApiData';
 import { erFrilanserITidsrom } from '../frilanserUtils';
 import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
 
-export type FrilansApiDataPart = Pick<SøknadApiData, 'frilans' | '_harHattInntektSomFrilanser'>;
+export type FrilansApiDataPart = Pick<SøknadApiData, 'frilans' | '_harHattInntektSomFrilanser' | '_frilans'>;
 
 export const getFrilansApiData = (
     formData: FrilansFormData,
@@ -32,7 +32,8 @@ export const getFrilansApiData = (
     if (erFrilanserITidsrom(søknadsperiode, from, to) === false) {
         return {
             _harHattInntektSomFrilanser: false,
-            frilans: {
+            /** Brukes til oppsummering, men skal ikke brukes i mottak */
+            _frilans: {
                 startdato,
                 jobberFortsattSomFrilans: jobberFortsattSomFrilans === YesOrNo.YES,
                 sluttdato,

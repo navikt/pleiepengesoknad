@@ -17,7 +17,7 @@ interface Props {
 }
 
 const ArbeidssituasjonSummary: React.FunctionComponent<Props> = ({
-    apiValues: { arbeidsgivere, frilans, selvstendigNæringsdrivende, harVærtEllerErVernepliktig },
+    apiValues: { arbeidsgivere, frilans, _frilans, selvstendigNæringsdrivende, harVærtEllerErVernepliktig },
     søknadsperiode,
     frilansoppdrag,
 }) => {
@@ -27,7 +27,7 @@ const ArbeidssituasjonSummary: React.FunctionComponent<Props> = ({
         <SummarySection header={intlHelper(intl, 'steg.oppsummering.arbeidssituasjon.header')}>
             <ArbeidsgivereSummary arbeidsgivere={arbeidsgivere} søknadsperiode={søknadsperiode} />
 
-            <ArbeidssituasjonFrilansSummary frilans={frilans} frilansoppdrag={frilansoppdrag} />
+            <ArbeidssituasjonFrilansSummary frilans={frilans || _frilans} frilansoppdrag={frilansoppdrag} />
 
             <ArbeidssituasjonSNSummary selvstendigNæringsdrivende={selvstendigNæringsdrivende} />
 

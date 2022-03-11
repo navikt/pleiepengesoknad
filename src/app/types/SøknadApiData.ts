@@ -143,7 +143,13 @@ export interface SøknadApiData {
     selvstendigNæringsdrivende?: SelvstendigNæringsdrivendeApiData;
     harVærtEllerErVernepliktig?: boolean;
     andreYtelserFraNAV?: AndreYtelserFraNAV[];
+    /** Alle felter med _ brukes ikke i mottak, kun for å vise i oppsummering */
     _barnetHarIkkeFnr?: boolean;
     _harHattInntektSomFrilanser: boolean;
     _harHattInntektSomSelvstendigNæringsdrivende: boolean;
+    _frilans?: {
+        startdato: ApiStringDate;
+        jobberFortsattSomFrilans: boolean;
+        sluttdato?: ApiStringDate;
+    };
 }
