@@ -14,9 +14,8 @@ import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
 import { ArbeidsforholdFormField } from '../../../types/Arbeidsforhold';
 import { SelvstendigFormData, SelvstendigFormField } from '../../../types/SelvstendigFormData';
-import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
-import InfoJobberNormaltTimerSN from '../info/InfoJobberNormaltTimerSN';
-import { getJobberNormaltTimerValidator } from '../validation/jobberNormaltTimerValidator';
+import InfoJobberNormaltTimerSN from './info/InfoJobberNormaltTimerSN';
+import { getJobberNormaltTimerValidator } from './validation/jobberNormaltTimerValidator';
 
 const ArbSNFormComponents = getTypedFormComponents<SelvstendigFormField, SelvstendigFormData, ValidationError>();
 
@@ -75,7 +74,7 @@ const ArbeidssituasjonSN = ({ formValues, urlSkatteetatenSN }: Props) => {
 
                         {harHattInntektSomSN === YesOrNo.YES &&
                             søkerHarFlereVirksomheter &&
-                            isYesOrNoAnswered(harFlereVirksomheter) && (
+                            (harFlereVirksomheter === YesOrNo.YES || harFlereVirksomheter === YesOrNo.NO) && (
                                 <FormBlock>
                                     <VirksomhetInfoAndDialog
                                         name={SelvstendigFormField.virksomhet}

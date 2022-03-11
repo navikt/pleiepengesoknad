@@ -11,10 +11,11 @@ import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types'
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { Undertittel } from 'nav-frontend-typografi';
 import { Arbeidsforhold, ArbeidsforholdFormField } from '../../../types/Arbeidsforhold';
-import InfoJobberNormaltTimerAnsatt from '../info/InfoJobberNormaltTimerAnsatt';
-import { getJobberNormaltTimerValidator } from '../validation/jobberNormaltTimerValidator';
+import InfoJobberNormaltTimerAnsatt from './info/InfoJobberNormaltTimerAnsatt';
+import { getJobberNormaltTimerValidator } from './validation/jobberNormaltTimerValidator';
 
 const AnsattFormComponents = getTypedFormComponents<ArbeidsforholdFormField, Arbeidsforhold, ValidationError>();
+
 interface Props {
     arbeidsforhold: Arbeidsforhold;
     parentFieldName: string;

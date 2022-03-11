@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { IntlShape, useIntl } from 'react-intl';
-import { useHistory } from 'react-router';
+// import { useHistory } from 'react-router';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
@@ -18,15 +18,15 @@ import TidFasteUkedagerInput from '@navikt/sif-common-pleiepenger/lib/tid-faste-
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib/types';
 import { getWeeksInDateRange } from '@navikt/sif-common-utils';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
-import usePersistSoknad from '../../../hooks/usePersistSoknad';
-import { JobberIPeriodeSvar, TimerEllerProsent } from '../../../types';
-import { søkerKunHelgedager } from '../../../utils/formDataUtils';
-import SøknadFormComponents from '../../SøknadFormComponents';
-import { StepID } from '../../søknadStepsConfig';
-import ArbeidstidVariert from '../arbeidstid-variert/ArbeidstidVariert';
+// import usePersistSoknad from '../../../hooks/usePersistSoknad';
+import { JobberIPeriodeSvar, TimerEllerProsent } from '../../../../types';
+import { søkerKunHelgedager } from '../../../../utils/formDataUtils';
+import SøknadFormComponents from '../../../SøknadFormComponents';
+// import { StepID } from '../../søknadStepsConfig';
+import ArbeidstidVariert from '../../arbeidstid-variert/ArbeidstidVariert';
 import InfoSøkerKunHelgedager from './InfoSøkerKunHelgedager';
-import { Arbeidsforhold, ArbeidsforholdFrilanser } from '../../../types/Arbeidsforhold';
-import { ArbeidIPeriodeField } from '../../../types/ArbeidIPeriode';
+import { Arbeidsforhold, ArbeidsforholdFrilanser } from '../../../../types/Arbeidsforhold';
+import { ArbeidIPeriodeField } from '../../../../types/ArbeidIPeriode';
 import { getArbeidErLiktHverUkeValidator } from '../validation/arbeidErLiktHverUkeValidator';
 import { getJobberIPeriodenValidator } from '../validation/jobberIPeriodenSpørsmål';
 import { getArbeidstidTimerEllerProsentValidator } from '../validation/arbeidstidEllerProsentValidator';
@@ -37,6 +37,7 @@ interface Props {
     arbeidsforholdType: ArbeidsforholdType;
     arbeidsstedNavn: string;
     periode: DateRange;
+    onArbeidstidVariertChange: () => void;
 }
 
 const ArbeidIPeriodeSpørsmål = ({
@@ -45,18 +46,17 @@ const ArbeidIPeriodeSpørsmål = ({
     arbeidsforholdType,
     periode,
     arbeidsstedNavn,
+    onArbeidstidVariertChange,
 }: Props) => {
     const intl = useIntl();
-    const history = useHistory();
-    const { persist } = usePersistSoknad(history);
     const [arbeidstidChanged, setArbeidstidChanged] = useState(false);
 
     useEffect(() => {
         if (arbeidstidChanged === true) {
             setArbeidstidChanged(false);
-            persist(StepID.ARBEIDSTID);
+            onArbeidstidVariertChange();
         }
-    }, [arbeidstidChanged, persist]);
+    }, [arbeidstidChanged, onArbeidstidVariertChange]);
 
     const { jobberNormaltTimer } = arbeidsforhold;
     const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
@@ -90,7 +90,7 @@ const ArbeidIPeriodeSpørsmål = ({
             arbeidsstedNavn={arbeidsstedNavn}
             arbeidsforholdType={arbeidsforholdType}
             formFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
-            onArbeidstidChanged={() => setArbeidstidChanged(true)}
+            onArbeidstidVariertChanged={() => setArbeidstidChanged(true)}
         />
     );
 

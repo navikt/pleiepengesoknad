@@ -3,7 +3,7 @@ import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-dat
 import { getDateValidator } from '@navikt/sif-common-formik/lib/validation';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import dayjs from 'dayjs';
-import { FrilansFormData } from '../../../types/FrilansFormData';
+import { FrilansFormData } from '../../../../types/FrilansFormData';
 
 export const getFrilanserSluttdatoValidator =
     (formData: FrilansFormData, søknadsperiode: DateRange, søknadsdato: Date, harFrilansoppdrag: boolean) =>

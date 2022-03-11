@@ -2,8 +2,8 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import { Ingress } from 'nav-frontend-typografi';
-import FrilansoppdragListe from '../../../components/frilansoppdrag-liste/FrilansoppdragListe';
-import { Arbeidsgiver } from '../../../types';
+import FrilansoppdragListe from '../frilansoppdrag-liste/FrilansoppdragListe';
+import { Arbeidsgiver } from '../../../../types';
 
 interface Props {
     frilansoppdrag: Arbeidsgiver[];

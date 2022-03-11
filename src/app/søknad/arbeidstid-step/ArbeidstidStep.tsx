@@ -17,8 +17,10 @@ import { getPeriodeSomFrilanserInnenforPeriode } from '../../utils/frilanserUtil
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../utils/selvstendigUtils';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
-import ArbeidIPeriodeSpørsmål from './arbeid-i-periode-spørsmål/ArbeidIPeriodeSpørsmål';
+import ArbeidIPeriodeSpørsmål from './shared/arbeid-i-periode-spørsmål/ArbeidIPeriodeSpørsmål';
 import { cleanupArbeidstidStep } from './utils/cleanupArbeidstidStep';
+import { useHistory } from 'react-router';
+import usePersistSoknad from '../../hooks/usePersistSoknad';
 
 interface Props extends StepConfigProps {
     periode: DateRange;
@@ -26,6 +28,8 @@ interface Props extends StepConfigProps {
 
 const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
     const intl = useIntl();
+    const history = useHistory();
+    const { persist } = usePersistSoknad(history);
     const formikProps = useFormikContext<SøknadFormData>();
     const {
         values: { ansatt_arbeidsforhold, frilans, selvstendig },
@@ -42,6 +46,10 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
         selvstendig.harHattInntektSomSN === YesOrNo.YES && selvstendig.virksomhet !== undefined
             ? getPeriodeSomSelvstendigInnenforPeriode(periode, selvstendig.virksomhet)
             : undefined;
+
+    const handleArbeidstidChanged = () => {
+        persist(StepID.ARBEIDSTID);
+    };
 
     return (
         <SøknadFormStep
@@ -79,6 +87,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                                     arbeidsforhold={arbeidsforhold}
                                     periode={periode}
                                     parentFieldName={`${SøknadFormField.ansatt_arbeidsforhold}.${index}`}
+                                    onArbeidstidVariertChange={handleArbeidstidChanged}
                                 />
                             </FormSection>
                         );
@@ -97,6 +106,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                                 arbeidsforhold={frilans.arbeidsforhold}
                                 periode={periodeSomFrilanserISøknadsperiode}
                                 parentFieldName={FrilansFormField.arbeidsforhold}
+                                onArbeidstidVariertChange={handleArbeidstidChanged}
                             />
                         </FormSection>
                     </FormBlock>
@@ -114,6 +124,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                                 arbeidsforhold={selvstendig.arbeidsforhold}
                                 periode={periodeSomSelvstendigISøknadsperiode}
                                 parentFieldName={SelvstendigFormField.arbeidsforhold}
+                                onArbeidstidVariertChange={handleArbeidstidChanged}
                             />
                         </FormSection>
                     </FormBlock>

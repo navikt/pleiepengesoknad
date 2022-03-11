@@ -1,13 +1,13 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getListValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
-import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
-import SøknadFormComponents from '../SøknadFormComponents';
-import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { AndreYtelserFraNAV } from '../../types';
+import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
+import SøknadFormComponents from '../SøknadFormComponents';
 
 interface Props {
     formValues: SøknadFormData;

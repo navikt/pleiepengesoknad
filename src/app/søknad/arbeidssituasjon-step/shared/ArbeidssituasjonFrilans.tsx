@@ -15,16 +15,15 @@ import dayjs from 'dayjs';
 import Lenke from 'nav-frontend-lenker';
 import { Ingress } from 'nav-frontend-typografi';
 import ConditionalResponsivePanel from '../../../components/conditional-responsive-panel/ConditionalResponsivePanel';
-import getLenker from '../../../lenker';
 import { Arbeidsgiver } from '../../../types';
 import { ArbeidsforholdFormField } from '../../../types/Arbeidsforhold';
 import { FrilansFormData, FrilansFormField } from '../../../types/FrilansFormData';
 import { erFrilanserISøknadsperiode, harFrilansoppdrag } from '../../../utils/frilanserUtils';
-import FrilansoppdragInfo from '../info/FrilansoppdragInfo';
-import InfoJobberNormaltTimerFrilanser from '../info/InfoJobberNormaltTimerFrilanser';
-import { getJobberNormaltTimerValidator } from '../validation/jobberNormaltTimerValidator';
-import { getFrilanserSluttdatoValidator } from '../validation/frilansSluttdatoValidator';
-import { getFrilanserStartdatoValidator } from '../validation/frilansStartdatoValidator';
+import FrilansoppdragInfo from './info/FrilansoppdragInfo';
+import InfoJobberNormaltTimerFrilanser from './info/InfoJobberNormaltTimerFrilanser';
+import { getFrilanserSluttdatoValidator } from './validation/frilansSluttdatoValidator';
+import { getFrilanserStartdatoValidator } from './validation/frilansStartdatoValidator';
+import { getJobberNormaltTimerValidator } from './validation/jobberNormaltTimerValidator';
 
 const ArbFriFormComponents = getTypedFormComponents<FrilansFormField, FrilansFormData, ValidationError>();
 
@@ -34,9 +33,16 @@ interface Props {
     formValues: FrilansFormData;
     søknadsperiode: DateRange;
     søknadsdato: Date;
+    urlSkatteetaten: string;
 }
 
-const ArbeidssituasjonFrilans = ({ formValues, søknadsperiode, søknadsdato, frilansoppdrag }: Props) => {
+const ArbeidssituasjonFrilans = ({
+    formValues,
+    søknadsperiode,
+    søknadsdato,
+    frilansoppdrag,
+    urlSkatteetaten,
+}: Props) => {
     const { jobberFortsattSomFrilans, harHattInntektSomFrilanser, startdato, sluttdato, arbeidsforhold } = formValues;
     const intl = useIntl();
 
@@ -80,7 +86,7 @@ const ArbeidssituasjonFrilans = ({ formValues, søknadsperiode, søknadsdato, fr
                                 <ExpandableInfo title={intlHelper(intl, 'frilanser.hjelpetekst.spm')}>
                                     <>
                                         {intlHelper(intl, 'frilanser.hjelpetekst')}{' '}
-                                        <Lenke href={getLenker(intl.locale).skatteetaten} target="_blank">
+                                        <Lenke href={urlSkatteetaten} target="_blank">
                                             <FormattedMessage id="frilanser.hjelpetekst.skatteetatenLenke" />
                                         </Lenke>
                                     </>

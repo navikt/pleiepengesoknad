@@ -11,20 +11,20 @@ import { useFormikContext } from 'formik';
 import { getArbeidsgivereRemoteData } from '../../api/getArbeidsgivereRemoteData';
 import { SøkerdataContext } from '../../context/SøkerdataContext';
 import useEffectOnce from '../../hooks/useEffectOnce';
+import getLenker from '../../lenker';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
 import AndreYtelserFormPart from './AndreYtelserFormPart';
-import ArbeidssituasjonArbeidsgivere from './parts/ArbeidssituasjonArbeidsgivere';
-import ArbeidssituasjonFrilans from './parts/ArbeidssituasjonFrilans';
-import ArbeidssituasjonSN from './parts/ArbeidssituasjonSN';
-import ArbeidssituasjonStepVeileder from './parts/ArbeidssituasjonStepVeileder';
-import { cleanupArbeidssituasjonStep } from './utils/cleanupArbeidssituasjonStep';
+import ArbeidssituasjonStepVeileder from './ArbeidssituasjonStepVeileder';
+import ArbeidssituasjonArbeidsgivere from './shared/ArbeidssituasjonArbeidsgivere';
+import ArbeidssituasjonFrilans from './shared/ArbeidssituasjonFrilans';
+import ArbeidssituasjonSN from './shared/ArbeidssituasjonSN';
 import { oppdaterSøknadMedArbeidsgivere } from './utils/arbeidsgivereUtils';
+import { cleanupArbeidssituasjonStep } from './utils/cleanupArbeidssituasjonStep';
 import { visVernepliktSpørsmål } from './utils/visVernepliktSpørsmål';
-import getLenker from '../../lenker';
 
 interface LoadState {
     isLoading: boolean;
@@ -93,6 +93,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                             formValues={values.frilans}
                             søknadsperiode={søknadsperiode}
                             søknadsdato={søknadsdato}
+                            urlSkatteetaten={getLenker(intl.locale).skatteetaten}
                         />
                     </FormSection>
 

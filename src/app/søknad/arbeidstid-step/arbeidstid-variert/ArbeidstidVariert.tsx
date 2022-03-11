@@ -15,7 +15,7 @@ import useLogSøknadInfo from '../../../hooks/useLogSøknadInfo';
 import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
 import SøknadFormComponents from '../../SøknadFormComponents';
 import ArbeidstidPeriode from '../arbeidstid-periode/ArbeidstidPeriode';
-import { validateArbeidsTidEnkeltdager } from '../validation/validateArbeidsTidEnkeltdager';
+import { validateArbeidsTidEnkeltdager } from '../shared/validation/validateArbeidsTidEnkeltdager';
 
 interface Props {
     arbeidsstedNavn: string;
@@ -26,7 +26,7 @@ interface Props {
     arbeidstid?: DateDurationMap;
     intlValues: ArbeidIPeriodeIntlValues;
     kanLeggeTilPeriode: boolean;
-    onArbeidstidChanged?: (arbeidstid: DateDurationMap) => void;
+    onArbeidstidVariertChanged?: (arbeidstid: DateDurationMap) => void;
 }
 
 const ArbeidstidVariert: React.FunctionComponent<Props> = ({
@@ -38,7 +38,7 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
     periode,
     intlValues,
     kanLeggeTilPeriode,
-    onArbeidstidChanged,
+    onArbeidstidVariertChanged: onArbeidstidChanged,
 }) => {
     const intl = useIntl();
     const { setFieldValue } = useFormikContext<SøknadFormData>() || {};

@@ -2,7 +2,6 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import FrilansoppdragListe from '../../../components/frilansoppdrag-liste/FrilansoppdragListe';
 import { Arbeidsgiver } from '../../../types';
 import { FrilansApiData } from '../../../types/SøknadApiData';
 import { prettifyApiDate } from '../enkeltsvar/DatoSvar';
@@ -72,7 +71,11 @@ const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
                     <li>
                         <FormattedMessage id="oppsummering.arbeidssituasjon.frilans.frilansoppdrag" />
                         <br />
-                        <FrilansoppdragListe frilansoppdrag={frilansoppdrag} kompakt={true} />
+                        <ul style={{ margin: 0, padding: '0 0 0 1rem' }}>
+                            {frilansoppdrag.map((oppdrag) => (
+                                <li key={oppdrag.id}>{oppdrag.navn}</li>
+                            ))}
+                        </ul>
                     </li>
                 )}
             </ul>
