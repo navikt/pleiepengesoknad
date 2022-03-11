@@ -32,7 +32,7 @@ describe('getFrilansApiData', () => {
         it('ikke er frilanser i perioden det søkes for', () => {
             const expectedResult = JSON.stringify({
                 _harHattInntektSomFrilanser: false,
-                frilans: {
+                _frilans: {
                     startdato: '2021-02-02',
                     jobberFortsattSomFrilans: false,
                     sluttdato: '2021-03-02',

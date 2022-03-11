@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { IntlShape, useIntl } from 'react-intl';
-// import { useHistory } from 'react-router';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
@@ -18,25 +17,24 @@ import TidFasteUkedagerInput from '@navikt/sif-common-pleiepenger/lib/tid-faste-
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib/types';
 import { getWeeksInDateRange } from '@navikt/sif-common-utils';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
-// import usePersistSoknad from '../../../hooks/usePersistSoknad';
 import { JobberIPeriodeSvar, TimerEllerProsent } from '../../../../types';
-import { søkerKunHelgedager } from '../../../../utils/formDataUtils';
-import SøknadFormComponents from '../../../SøknadFormComponents';
-// import { StepID } from '../../søknadStepsConfig';
-import ArbeidstidVariert from '../../arbeidstid-variert/ArbeidstidVariert';
-import InfoSøkerKunHelgedager from './InfoSøkerKunHelgedager';
-import { Arbeidsforhold, ArbeidsforholdFrilanser } from '../../../../types/Arbeidsforhold';
 import { ArbeidIPeriodeField } from '../../../../types/ArbeidIPeriode';
+import { Arbeidsforhold, ArbeidsforholdFrilanser } from '../../../../types/Arbeidsforhold';
+import SøknadFormComponents from '../../../SøknadFormComponents';
+import ArbeidstidVariert from '../arbeidstid-variert/ArbeidstidVariert';
+import { ArbeidstidRegistrertLogProps } from '../types';
 import { getArbeidErLiktHverUkeValidator } from '../validation/arbeidErLiktHverUkeValidator';
-import { getJobberIPeriodenValidator } from '../validation/jobberIPeriodenSpørsmål';
 import { getArbeidstidTimerEllerProsentValidator } from '../validation/arbeidstidEllerProsentValidator';
+import { getJobberIPeriodenValidator } from '../validation/jobberIPeriodenSpørsmål';
+import InfoSøkerKunHelgedager from './InfoSøkerKunHelgedager';
 
-interface Props {
+interface Props extends ArbeidstidRegistrertLogProps {
     parentFieldName: string;
     arbeidsforhold: Arbeidsforhold | ArbeidsforholdFrilanser;
     arbeidsforholdType: ArbeidsforholdType;
     arbeidsstedNavn: string;
     periode: DateRange;
+    søkerKunHelgedager: boolean;
     onArbeidstidVariertChange: () => void;
 }
 
@@ -46,7 +44,10 @@ const ArbeidIPeriodeSpørsmål = ({
     arbeidsforholdType,
     periode,
     arbeidsstedNavn,
+    søkerKunHelgedager,
     onArbeidstidVariertChange,
+    onArbeidPeriodeRegistrert,
+    onArbeidstidEnkeltdagRegistrert,
 }: Props) => {
     const intl = useIntl();
     const [arbeidstidChanged, setArbeidstidChanged] = useState(false);
@@ -91,6 +92,8 @@ const ArbeidIPeriodeSpørsmål = ({
             arbeidsforholdType={arbeidsforholdType}
             formFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
             onArbeidstidVariertChanged={() => setArbeidstidChanged(true)}
+            onArbeidPeriodeRegistrert={onArbeidPeriodeRegistrert}
+            onArbeidstidEnkeltdagRegistrert={onArbeidstidEnkeltdagRegistrert}
         />
     );
 
@@ -129,7 +132,7 @@ const ArbeidIPeriodeSpørsmål = ({
                         <FormBlock margin="l">
                             <ResponsivePanel>
                                 {renderArbeidstidVariertPart(true)}
-                                {søkerKunHelgedager(periode.from, periode.to) && (
+                                {søkerKunHelgedager && (
                                     <Box margin="xl">
                                         <InfoSøkerKunHelgedager />
                                     </Box>

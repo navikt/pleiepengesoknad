@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { DateRange } from '@navikt/sif-common-formik/lib';
+import { DateRange, FormikInputGroup } from '@navikt/sif-common-formik/lib';
 import { ArbeidIPeriodeIntlValues, ArbeidsforholdType, ArbeidstidPeriodeData } from '@navikt/sif-common-pleiepenger';
 import ArbeidstidMånedInfo from '@navikt/sif-common-pleiepenger/lib/arbeidstid-måned-info/ArbeidstidMånedInfo';
 import SøknadsperioderMånedListe from '@navikt/sif-common-pleiepenger/lib/søknadsperioder-måned-liste/SøknadsperioderMånedListe';
@@ -11,13 +11,12 @@ import { TidEnkeltdagEndring } from '@navikt/sif-common-pleiepenger/lib/tid-enke
 import { DateDurationMap, getDatesInMonthOutsideDateRange, getMonthsInDateRange } from '@navikt/sif-common-utils';
 import { useFormikContext } from 'formik';
 import { Element } from 'nav-frontend-typografi';
-import useLogSøknadInfo from '../../../hooks/useLogSøknadInfo';
-import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
-import SøknadFormComponents from '../../SøknadFormComponents';
+import { SøknadFormData, SøknadFormField } from '../../../../types/SøknadFormData';
 import ArbeidstidPeriode from '../arbeidstid-periode/ArbeidstidPeriode';
-import { validateArbeidsTidEnkeltdager } from '../shared/validation/validateArbeidsTidEnkeltdager';
+import { ArbeidstidRegistrertLogProps } from '../types';
+import { validateArbeidsTidEnkeltdager } from '../validation/validateArbeidsTidEnkeltdager';
 
-interface Props {
+interface Props extends ArbeidstidRegistrertLogProps {
     arbeidsstedNavn: string;
     arbeidsforholdType: ArbeidsforholdType;
     formFieldName: SøknadFormField;
@@ -38,34 +37,35 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
     periode,
     intlValues,
     kanLeggeTilPeriode,
-    onArbeidstidVariertChanged: onArbeidstidChanged,
+    onArbeidstidVariertChanged,
+    onArbeidstidEnkeltdagRegistrert,
+    onArbeidPeriodeRegistrert,
 }) => {
     const intl = useIntl();
     const { setFieldValue } = useFormikContext<SøknadFormData>() || {};
-    const { logArbeidPeriodeRegistrert } = useLogSøknadInfo();
 
     const antallMåneder = getMonthsInDateRange(periode).length;
-    const { logArbeidEnkeltdagRegistrert } = useLogSøknadInfo();
 
     const handleOnEnkeltdagChange = (evt: TidEnkeltdagEndring) => {
         const newValues = { ...arbeidstid, ...evt.dagerMedTid };
         setFieldValue(formFieldName as any, newValues);
-        logArbeidEnkeltdagRegistrert({
-            antallDager: Object.keys(evt.dagerMedTid).length,
-        });
-        onArbeidstidChanged ? onArbeidstidChanged(newValues) : undefined;
+        if (onArbeidstidEnkeltdagRegistrert) {
+            onArbeidstidEnkeltdagRegistrert({ antallDager: Object.keys(evt.dagerMedTid).length });
+        }
+        onArbeidstidVariertChanged ? onArbeidstidVariertChanged(newValues) : undefined;
     };
 
     const handleOnPeriodeChange = (tid: DateDurationMap, periodeData: ArbeidstidPeriodeData) => {
-        logArbeidPeriodeRegistrert({
-            verdi: periodeData.prosent ? 'prosent' : 'ukeplan',
-            prosent: periodeData.prosent,
-        });
-
+        if (onArbeidPeriodeRegistrert) {
+            onArbeidPeriodeRegistrert({
+                verdi: periodeData.prosent ? 'prosent' : 'ukeplan',
+                prosent: periodeData.prosent,
+            });
+        }
         const dagerMedArbeid = { ...arbeidstid, ...tid };
         setFieldValue(formFieldName, dagerMedArbeid);
-        if (onArbeidstidChanged) {
-            onArbeidstidChanged(dagerMedArbeid);
+        if (onArbeidstidVariertChanged) {
+            onArbeidstidVariertChanged(dagerMedArbeid);
         }
     };
 
@@ -85,8 +85,8 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
     };
 
     return (
-        <SøknadFormComponents.InputGroup
-            name={`${formFieldName}_dager` as any}
+        <FormikInputGroup
+            name={`${formFieldName}_dager`}
             validate={() => validateArbeidsTidEnkeltdager(arbeidstid, periode, intlValues)}
             tag="div">
             {kanLeggeTilPeriode ? (
@@ -145,7 +145,7 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                     />
                 </>
             )}
-        </SøknadFormComponents.InputGroup>
+        </FormikInputGroup>
     );
 };
 
