@@ -714,8 +714,8 @@
     "validation.skalTaUtFerieIPerioden.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du skal ha ferie i perioden du søker for.",
 
     "validation.arbeidsforhold.erAnsatt.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du er ansatt hos {navn} i perioden du søker pleiepenger.",
-    "validation.arbeidsforhold.sluttetFørSøknadsperiode.yesOrNoIsUnanswered": "Du må svare på om du sluttet hos {navn} før {fraDato}.",
-    "validation.arbeidsforhold.harFraværIPeriode.yesOrNoIsUnanswered": "Du må svare på om du har fravær i perioden hos {navn}.",
+    "validation.arbeidsforhold.sluttetFørSøknadsperiode.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du sluttet hos {navn} før {fraDato}.",
+    "validation.arbeidsforhold.harFraværIPeriode.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du har fravær i perioden hos {navn} på grunn av pleiepenger.",
     "validation.arbeidsforhold.jobberNormaltTimer.numberHasNoValue": "Du må oppgi hvor mange timer per uke du {jobber} {hvor} i perioden.",
     "validation.arbeidsforhold.jobberNormaltTimer.numberHasInvalidFormat": "Antall timer du {jobber} per uke {hvor} kan kun bestå av tall.",
 
@@ -733,12 +733,12 @@
     "validation.frilans.sluttdato.dateIsAfterMax": "Datoen for når du sluttet som frilanser kan ikke være etter dagens dato.",
     "validation.frilans.sluttdato.dateIsBeforeMin": "Datoen for når du sluttet som frilanser kan ikke være før datoen du startet.",
     "validation.frilans.jobberFortsattSomFrilans.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du fortsatt jobber som frilanser.",
-    "validation.frilans.arbeidsforhold.harFraværIPeriode.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du har fravær som frilanser i perioden.",
+    "validation.frilans.arbeidsforhold.harFraværIPeriode.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du har fravær som frilanser på grunn av pleiepenger.",
 
     "validation.selvstendig.harHattInntektSomSN.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du er selvstendig næringsdrivende i perioden du søker for.",
     "validation.selvstendig.harFlereVirksomheter.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du har flere enn én virksomhet som er aktiv.",
     "validation.selvstendig.virksomhet.noValue": "Du må oppgi informasjon om virksomheten din som selvstendig næringsdrivende.",
-    "validation.selvstendig.arbeidsforhold.harFraværIPeriode.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du har fravær som selvstendig næringsdrivende i perioden.",
+    "validation.selvstendig.arbeidsforhold.harFraværIPeriode.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du har fravær som selvstendig næringsdrivende på grunn av pleiepenger.",
     "validation.harVærtEllerErVernepliktig.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du utøvde verneplikt på tidspunktet du søker pleiepenger fra.",
 
     "validation.arbeidIPeriode.fast.prosent.måSvareNeiPåJobbIPerioden": "Dersom du ikke jobber {hvor}, må du svare Nei på spørsmålet ovenfor om jobb i perioden.",
