@@ -475,8 +475,7 @@
     "arbeidsforhold.part.som.SELVSTENDIG": "som selvstendig næringsdrivende",
 
     "arbeidsforhold.erAnsatt.spm": "Stemmer det at du er ansatt hos {navn} i perioden du søker for?",
-    "arbeidsforhold.harFraværIPerioden.spm": "Har du fravær fra din jobb hos {navn} i perioden du søker for?",
-    "arbeidsforhold.harFrilansoppdrag.spm": "Stemmer det at du har et frilansoppdrag hos {navn} i perioden du søker for?",
+    "arbeidsforhold.harFraværIPerioden.spm": "Har du fravær fra din jobb hos {navn} på grunn av pleiepenger?",
     "arbeidsforhold.sluttetFørSøknadsperiode.spm": "Sluttet du hos {navn} før {fraDato}?",
     "arbeidsforhold.avsluttet.info": "Sluttdato var innenfor perioden du søker om pleiepenger. Vi trenger derfor å vite hvordan normalarbeidstiden din var hos {navn}",
 
@@ -536,7 +535,7 @@
     "arbeidIPeriode.StepInfo.2": "Gradering betyr at pleiepengene reduseres. Hvis du i søknadsperioden for eksempel jobber 50 prosent, kan du ha rett til 50 prosent pleiepenger.",
     "arbeidIPeriode.FrilansLabel": "Frilans",
     "arbeidIPeriode.SNLabel": "Selvstendig næringsdrivende",
-    "arbeidIPeriode.jobberIPerioden.spm": "Jobber du noe {hvor} i perioden du søker for?",
+    "arbeidIPeriode.jobberIPerioden.spm": "Skal du kombinere pleiepenger med delvis jobb {hvor} i perioden du søker for?",
     "arbeidIPeriode.erLiktHverUke.spm": "Jobber du likt {hvor} hver uke i hele perioden?",
     "arbeidIPeriode.erLiktHverUke.ja": "Ja, hver uke er lik",
     "arbeidIPeriode.erLiktHverUke.nei": "Nei, det varierer",
@@ -625,13 +624,13 @@
     "frilanser.nårStartet.spm": "Når startet du å jobbe som frilanser?",
     "frilanser.jobberFortsatt.spm": "Jobber du fortsatt som frilanser?",
     "frilanser.nårSluttet.spm": "Når sluttet du som frilanser?",
-    "frilanser.harFraværIPerioden.spm": "Har du fravær som frilanser i perioden du søker for?",
+    "frilanser.harFraværIPerioden.spm": "Har du fravær fra jobben din som frilanser på grunn av pleiepenger?",
     "frilanser.jobberNormaltTimer.spm": "Hvor mange timer jobber du normalt per uke som frilanser når du ikke har fravær?",
     "frilanser.jobberNormaltTimer.avsluttet.spm": "Hvor mange timer jobbet du normalt per uke som frilanser da du ikke hadde fravær?",
 
     "sn.arbeidsforhold.spm": "Hvor mange timer jobber du normalt per uke som selvstendig næringsdrivende når du ikke har fravær?",
     "sn.arbeidsforhold.avsluttet.spm": "Hvor mange timer jobbet du normalt per uke som selvstendig næringsdrivende når du ikke hadde fravær?",
-    "sn.harFraværIPerioden.spm": "Har du fravær som selvstendig næringsdrivende i perioden du søker for?",
+    "sn.harFraværIPerioden.spm": "Har du fravær fra jobben din som selvstendig næringsdrivende på grunn av pleiepenger?",
     "sn.arbeidsforhold.utledet": "timer i uka",
 
     "snF.ArbeidsforholdDetaljer.hvaBetyr.spm": "Hva betyr dette?",
