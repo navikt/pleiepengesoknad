@@ -535,7 +535,7 @@
     "arbeidIPeriode.StepInfo.2": "Gradering betyr at pleiepengene reduseres. Hvis du i søknadsperioden for eksempel jobber 50 prosent, kan du ha rett til 50 prosent pleiepenger.",
     "arbeidIPeriode.FrilansLabel": "Frilans",
     "arbeidIPeriode.SNLabel": "Selvstendig næringsdrivende",
-    "arbeidIPeriode.jobberIPerioden.spm": "Skal du kombinere pleiepenger med delvis jobb {hvor} i perioden du søker for?",
+    "arbeidIPeriode.jobberIPerioden.spm": "Kombinerer du pleiepenger med delvis jobb {hvor} i perioden du søker for?",
     "arbeidIPeriode.erLiktHverUke.spm": "Jobber du likt {hvor} hver uke i hele perioden?",
     "arbeidIPeriode.erLiktHverUke.ja": "Ja, hver uke er lik",
     "arbeidIPeriode.erLiktHverUke.nei": "Nei, det varierer",
