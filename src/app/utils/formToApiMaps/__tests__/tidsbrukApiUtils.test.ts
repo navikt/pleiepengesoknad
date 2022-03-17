@@ -1,7 +1,7 @@
 import { apiStringDateToDate, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { TidEnkeltdagApiData } from '../../../types/SøknadApiData';
+import { ArbeidstidEnkeltdagApiData } from '@navikt/sif-common-pleiepenger/lib';
 import {
-    fjernTidUtenforPeriodeOgHelgedager,
+    fjernArbeidstimerUtenforPeriodeOgHelgedager,
     getEnkeltdagerIPeriodeApiData,
     getFasteDagerApiData,
 } from '../tidsbrukApiUtils';
@@ -71,13 +71,13 @@ describe('tidsbrukApiUtils', () => {
                 from: apiStringDateToDate('2021-02-05'),
                 to: apiStringDateToDate('2021-02-06'),
             };
-            const tidEnkeltdager: TidEnkeltdagApiData[] = [
-                { dato: '2021-02-04', tid: '2' },
-                { dato: '2021-02-05', tid: '2' },
-                { dato: '2021-02-06', tid: '2' },
-                { dato: '2021-02-07', tid: '2' },
+            const tidEnkeltdager: ArbeidstidEnkeltdagApiData[] = [
+                { dato: '2021-02-04', arbeidstimer: { faktiskTimer: '2', normalTimer: '5' } },
+                { dato: '2021-02-05', arbeidstimer: { faktiskTimer: '2', normalTimer: '5' } },
+                { dato: '2021-02-06', arbeidstimer: { faktiskTimer: '2', normalTimer: '5' } },
+                { dato: '2021-02-07', arbeidstimer: { faktiskTimer: '2', normalTimer: '5' } },
             ];
-            const result = fjernTidUtenforPeriodeOgHelgedager(periode, tidEnkeltdager);
+            const result = fjernArbeidstimerUtenforPeriodeOgHelgedager(periode, tidEnkeltdager);
             expect(result).toBeDefined();
             if (result) {
                 expect(result.length).toBe(1);
@@ -89,13 +89,13 @@ describe('tidsbrukApiUtils', () => {
                 from: apiStringDateToDate('2021-02-01'),
                 to: apiStringDateToDate('2021-02-10'),
             };
-            const tidEnkeltdager: TidEnkeltdagApiData[] = [
-                { dato: '2021-02-05', tid: '2' },
-                { dato: '2021-02-06', tid: '2' },
-                { dato: '2021-02-07', tid: '2' },
-                { dato: '2021-02-08', tid: '2' },
+            const tidEnkeltdager: ArbeidstidEnkeltdagApiData[] = [
+                { dato: '2021-02-05', arbeidstimer: { faktiskTimer: '2', normalTimer: '5' } },
+                { dato: '2021-02-06', arbeidstimer: { faktiskTimer: '2', normalTimer: '5' } },
+                { dato: '2021-02-07', arbeidstimer: { faktiskTimer: '2', normalTimer: '5' } },
+                { dato: '2021-02-08', arbeidstimer: { faktiskTimer: '2', normalTimer: '5' } },
             ];
-            const result = fjernTidUtenforPeriodeOgHelgedager(periode, tidEnkeltdager);
+            const result = fjernArbeidstimerUtenforPeriodeOgHelgedager(periode, tidEnkeltdager);
             expect(result).toBeDefined();
             if (result) {
                 expect(result.length).toBe(2);

@@ -1,9 +1,20 @@
 import { apiStringDateToDate, DateRange, datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { dateToISOString, ISOStringToDate } from '@navikt/sif-common-formik/lib';
-import { DateDurationMap, durationToISODuration, DurationWeekdays, isDateWeekDay } from '@navikt/sif-common-utils';
+import {
+    DateDurationMap,
+    durationToISODuration,
+    durationUtils,
+    DurationWeekdays,
+    isDateWeekDay,
+    ISODuration,
+} from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
-import { TidEnkeltdagApiData, TidFasteDagerApiData } from '../../types/SøknadApiData';
-import { durationUtils } from '@navikt/sif-common-utils';
+import {
+    ArbeidstidEnkeltdagApiData,
+    ArbeidstimerFasteDagerApiData,
+    TidEnkeltdagApiData,
+    TidFasteDagerApiData,
+} from '../../types/SøknadApiData';
 
 export const getFasteDagerApiData = ({
     monday: mandag,
@@ -19,8 +30,24 @@ export const getFasteDagerApiData = ({
     fredag: fredag ? durationToISODuration(fredag) : undefined,
 });
 
-const sortTidEnkeltdagApiData = (d1: TidEnkeltdagApiData, d2: TidEnkeltdagApiData): number =>
-    dayjs(d1.dato).isBefore(d2.dato, 'day') ? -1 : 1;
+export const getFasteArbeidsdagerApiData = (
+    { monday: mandag, tuesday: tirsdag, wednesday: onsdag, thursday: torsdag, friday: fredag }: DurationWeekdays,
+    normalTimerDag: ISODuration
+): ArbeidstimerFasteDagerApiData => {
+    const normalTimer = normalTimerDag;
+    return {
+        mandag: mandag ? { faktiskTimer: durationToISODuration(mandag), normalTimer } : undefined,
+        tirsdag: tirsdag ? { faktiskTimer: durationToISODuration(tirsdag), normalTimer } : undefined,
+        onsdag: onsdag ? { faktiskTimer: durationToISODuration(onsdag), normalTimer } : undefined,
+        torsdag: torsdag ? { faktiskTimer: durationToISODuration(torsdag), normalTimer } : undefined,
+        fredag: fredag ? { faktiskTimer: durationToISODuration(fredag), normalTimer } : undefined,
+    };
+};
+
+const sortTidEnkeltdagApiData = (
+    d1: TidEnkeltdagApiData | ArbeidstidEnkeltdagApiData,
+    d2: TidEnkeltdagApiData | ArbeidstidEnkeltdagApiData
+): number => (dayjs(d1.dato).isBefore(d2.dato, 'day') ? -1 : 1);
 
 export const getEnkeltdagerIPeriodeApiData = (
     enkeltdager: DateDurationMap,
@@ -40,19 +67,43 @@ export const getEnkeltdagerIPeriodeApiData = (
             });
         }
     });
-
     return dager.sort(sortTidEnkeltdagApiData);
 };
 
-export const fjernTidUtenforPeriodeOgHelgedager = (
+export const getArbeidstidEnkeltdagerIPeriodeApiData = (
+    enkeltdager: DateDurationMap,
+    periode: DateRange,
+    normalTimer: ISODuration
+): ArbeidstidEnkeltdagApiData[] => {
+    const dager: ArbeidstidEnkeltdagApiData[] = [];
+
+    Object.keys(enkeltdager).forEach((dag) => {
+        const dato = ISOStringToDate(dag);
+        if (dato && datoErInnenforTidsrom(dato, periode) && isDateWeekDay(dato)) {
+            if (durationUtils.durationIsZero(enkeltdager[dag])) {
+                return;
+            }
+            dager.push({
+                dato: dateToISOString(dato),
+                arbeidstimer: {
+                    faktiskTimer: durationToISODuration(enkeltdager[dag]),
+                    normalTimer,
+                },
+            });
+        }
+    });
+    return dager.sort(sortTidEnkeltdagApiData);
+};
+
+export const fjernArbeidstimerUtenforPeriodeOgHelgedager = (
     periode: Partial<DateRange>,
-    tidEnkeltdag?: TidEnkeltdagApiData[]
-): TidEnkeltdagApiData[] | undefined => {
+    arbeidstidEnkeltdag?: ArbeidstidEnkeltdagApiData[]
+): ArbeidstidEnkeltdagApiData[] | undefined => {
     const { from, to } = periode;
-    if (!tidEnkeltdag || (!from && !to)) {
-        return tidEnkeltdag;
+    if (!arbeidstidEnkeltdag || (!from && !to)) {
+        return arbeidstidEnkeltdag;
     }
-    return tidEnkeltdag.filter((dag) => {
+    return arbeidstidEnkeltdag.filter((dag) => {
         const dato = apiStringDateToDate(dag.dato);
         if (isDateWeekDay(dato) === false) {
             return false;

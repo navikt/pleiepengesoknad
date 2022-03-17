@@ -18,9 +18,26 @@ export interface TidFasteDagerApiData {
     torsdag?: ISODuration;
     fredag?: ISODuration;
 }
+export interface ArbeidstimerFasteDagerApiData {
+    mandag?: ArbeidstimerApiData;
+    tirsdag?: ArbeidstimerApiData;
+    onsdag?: ArbeidstimerApiData;
+    torsdag?: ArbeidstimerApiData;
+    fredag?: ArbeidstimerApiData;
+}
 export interface TidEnkeltdagApiData {
     dato: ISODate;
     tid: ISODuration;
+}
+
+export interface ArbeidstidEnkeltdagApiData {
+    dato: ISODate;
+    arbeidstimer: ArbeidstimerApiData;
+}
+
+export interface ArbeidstimerApiData {
+    normalTimer: ISODuration;
+    faktiskTimer: ISODuration;
 }
 
 export interface OmsorgstilbudApiData {
@@ -41,8 +58,8 @@ export interface BarnetSøknadenGjelderApiData {
 export interface ArbeidIPeriodeApiData {
     jobberIPerioden: JobberIPeriodeSvar;
     erLiktHverUke?: boolean;
-    enkeltdager?: TidEnkeltdagApiData[];
-    fasteDager?: TidFasteDagerApiData;
+    enkeltdager?: ArbeidstidEnkeltdagApiData[];
+    fasteDager?: ArbeidstimerFasteDagerApiData;
     jobberProsent?: number;
 }
 
