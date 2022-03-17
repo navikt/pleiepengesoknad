@@ -4,8 +4,8 @@ import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { getRedusertArbeidstidSomDuration } from '@navikt/sif-common-pleiepenger';
-import TidEnkeltdager from '@navikt/sif-common-pleiepenger/lib/dager-med-tid/TidEnkeltdager';
-import TidFasteDager from '@navikt/sif-common-pleiepenger/lib/dager-med-tid/TidFasteDager';
+import ArbeidstidEnkeltdagerListe from '@navikt/sif-common-pleiepenger/lib/dager-med-tid/ArbeidstidEnkeltdagerListe';
+import ArbeidstidFasteDagerListe from '@navikt/sif-common-pleiepenger/lib/dager-med-tid/ArbeidstidFasteDagerListe';
 import { formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger/lib/timer-og-minutter/TimerOgMinutter';
 import { JobberIPeriodeSvar } from '../../../types';
 import { ArbeidIPeriodeApiData, ArbeidsforholdApiData } from '../../../types/SøknadApiData';
@@ -41,7 +41,7 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
 
             {arbeidIPeriode.enkeltdager && (
                 <Box margin="m">
-                    <TidEnkeltdager dager={arbeidIPeriode.enkeltdager} />
+                    <ArbeidstidEnkeltdagerListe dager={arbeidIPeriode.enkeltdager} visNormaltid={false} />
                 </Box>
             )}
 
@@ -53,7 +53,10 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
                         <>
                             <div>{intlHelper(intl, 'oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke')}:</div>
                             <Box margin="m">
-                                <TidFasteDager fasteDager={arbeidIPeriode.fasteDager} />
+                                <ArbeidstidFasteDagerListe
+                                    fasteDager={arbeidIPeriode.fasteDager}
+                                    visNormaltid={false}
+                                />
                             </Box>
                         </>
                     )}

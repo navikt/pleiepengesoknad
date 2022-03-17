@@ -2,29 +2,39 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
 import { getRedusertArbeidstidSomISODuration } from '@navikt/sif-common-pleiepenger';
+import { decimalDurationToDuration, durationToISODuration } from '@navikt/sif-common-utils/lib';
 import { JobberIPeriodeSvar, TimerEllerProsent } from '../../types';
 import { ArbeidIPeriode } from '../../types/ArbeidIPeriode';
 import { Arbeidsforhold, ArbeidsforholdFrilanser } from '../../types/Arbeidsforhold';
-import { ArbeidIPeriodeApiData, ArbeidsforholdApiData, TidFasteDagerApiData } from '../../types/SøknadApiData';
+import {
+    ArbeidIPeriodeApiData,
+    ArbeidsforholdApiData,
+    ArbeidstimerApiData,
+    ArbeidstimerFasteDagerApiData,
+} from '../../types/SøknadApiData';
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
 import {
-    fjernTidUtenforPeriodeOgHelgedager,
-    getEnkeltdagerIPeriodeApiData,
-    getFasteDagerApiData,
+    fjernArbeidstimerUtenforPeriodeOgHelgedager,
+    getArbeidstidEnkeltdagerIPeriodeApiData,
+    getFasteArbeidsdagerApiData,
 } from './tidsbrukApiUtils';
 
 const lagFasteDagerUtFraProsentIPeriode = (
     jobberNormaltTimerNumber: number,
     jobberProsent: number
-): TidFasteDagerApiData => {
-    const timerPerDag = jobberNormaltTimerNumber / 5;
-    const tid = getRedusertArbeidstidSomISODuration(timerPerDag, jobberProsent);
+): ArbeidstimerFasteDagerApiData => {
+    const decimalTimerPerDag = jobberNormaltTimerNumber / 5;
+    const faktiskTimer = getRedusertArbeidstidSomISODuration(decimalTimerPerDag, jobberProsent);
+    const fasteArbeidstimer: ArbeidstimerApiData = {
+        normalTimer: durationToISODuration(decimalDurationToDuration(decimalTimerPerDag)),
+        faktiskTimer,
+    };
     return {
-        mandag: tid,
-        tirsdag: tid,
-        onsdag: tid,
-        torsdag: tid,
-        fredag: tid,
+        mandag: fasteArbeidstimer,
+        tirsdag: fasteArbeidstimer,
+        onsdag: fasteArbeidstimer,
+        torsdag: fasteArbeidstimer,
+        fredag: fasteArbeidstimer,
     };
 };
 
@@ -54,15 +64,23 @@ export const mapArbeidIPeriodeToApiData = (
         };
     }
 
+    const normalTimerISODuration = durationToISODuration(decimalDurationToDuration(jobberNormaltTimerNumber / 5));
     const erLiktHverUke = isYesOrNoAnswered(arbeid.erLiktHverUke) ? arbeid.erLiktHverUke === YesOrNo.YES : undefined;
     const enkeltdager =
-        arbeid.enkeltdager && !erLiktHverUke ? getEnkeltdagerIPeriodeApiData(arbeid.enkeltdager, periode) : undefined;
+        arbeid.enkeltdager && !erLiktHverUke
+            ? getArbeidstidEnkeltdagerIPeriodeApiData(arbeid.enkeltdager, periode, normalTimerISODuration)
+            : undefined;
 
     return {
         ...apiData,
         erLiktHverUke,
-        enkeltdager: arbeidsperiode ? fjernTidUtenforPeriodeOgHelgedager(arbeidsperiode, enkeltdager) : enkeltdager,
-        fasteDager: arbeid.fasteDager && erLiktHverUke ? getFasteDagerApiData(arbeid.fasteDager) : undefined,
+        enkeltdager: arbeidsperiode
+            ? fjernArbeidstimerUtenforPeriodeOgHelgedager(arbeidsperiode, enkeltdager)
+            : enkeltdager,
+        fasteDager:
+            arbeid.fasteDager && erLiktHverUke
+                ? getFasteArbeidsdagerApiData(arbeid.fasteDager, normalTimerISODuration)
+                : undefined,
     };
 };
 
