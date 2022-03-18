@@ -8,7 +8,7 @@ interface Props {
     arbeidsforholdType: ArbeidsforholdType;
 }
 
-const InfoJobberNormaltTimer: React.FunctionComponent<Props> = ({ arbeidsforholdType }) => {
+const InfoJobberNormaltTimerIUken: React.FunctionComponent<Props> = ({ arbeidsforholdType }) => {
     switch (arbeidsforholdType) {
         case ArbeidsforholdType.ANSATT:
             return <InfoJobberNormaltTimerAnsatt />;
@@ -202,4 +202,4 @@ const InfoJobberNormaltTimerSN = () => {
     );
 };
 
-export default InfoJobberNormaltTimer;
+export default InfoJobberNormaltTimerIUken;

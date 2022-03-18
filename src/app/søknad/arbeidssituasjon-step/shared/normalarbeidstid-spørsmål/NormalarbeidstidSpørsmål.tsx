@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik/lib';
-import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import { getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import {
     ArbeidsforholdType,
@@ -17,14 +17,14 @@ import {
     ArbeidsforholdFrilanser,
     ArbeidsforholdSelvstendig,
 } from '../../../../types/Arbeidsforhold';
-import { getArbeidNormaltErLiktHverUkeValidator } from '../../utils/arbeidNormaltErLiktHverUkeValidator';
 import { getArbeidsforholdIntlValues } from '../../utils/arbeidsforholdIntlValues';
-import InfoJobberNormaltTimer from '../info/InfoJobberNormaltTimer';
-import { getJobberNormaltTimerValidator } from '../validation/jobberNormaltTimerValidator';
+import InfoJobberNormaltTimerIUken from '../info/InfoJobberNormaltTimerIUken';
+import { getJobberNormaltTimerIUkenValidator } from '../validation/jobberNormaltTimerValidator';
+import InfoJobberLiktHverUke from '../info/InfoJobberLiktHverUke';
 
 interface Props {
-    parentFieldName: string;
-    arbeidsstedNavn: string;
+    arbeidsforholdFieldName: string;
+    arbeidsstedNavn?: string;
     arbeidsforhold: Arbeidsforhold | ArbeidsforholdFrilanser | ArbeidsforholdSelvstendig;
     arbeidsforholdType: ArbeidsforholdType;
     jobberFortsatt: boolean;
@@ -32,15 +32,15 @@ interface Props {
 
 const FormComponents = getTypedFormComponents<ArbeidsforholdFormField, Arbeidsforhold, ValidationError>();
 
-const ArbeidsforholdSpørsmål: React.FunctionComponent<Props> = ({
-    parentFieldName,
+const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
+    arbeidsforholdFieldName,
     arbeidsforhold,
     arbeidsforholdType,
     jobberFortsatt,
     arbeidsstedNavn,
 }) => {
     const intl = useIntl();
-    const getFieldName = (fieldName: ArbeidsforholdFormField) => `${parentFieldName}.${fieldName}` as any;
+    const getFieldName = (fieldName: ArbeidsforholdFormField) => `${arbeidsforholdFieldName}.${fieldName}` as any;
     const intlValues = getArbeidsforholdIntlValues(intl, {
         arbeidsforhold: {
             arbeidsstedNavn,
@@ -51,52 +51,55 @@ const ArbeidsforholdSpørsmål: React.FunctionComponent<Props> = ({
         <>
             <FormBlock>
                 <FormComponents.YesOrNoQuestion
-                    name={getFieldName(ArbeidsforholdFormField.harFraværIPeriode)}
-                    legend={intlHelper(intl, 'arbeidsforholdSpørsmål.harFraværIPerioden.spm', intlValues)}
-                    validate={getYesOrNoValidator()}
-                />
-            </FormBlock>
-            <FormBlock>
-                <FormComponents.YesOrNoQuestion
                     name={getFieldName(ArbeidsforholdFormField.erLiktHverUke)}
-                    legend={intlHelper(intl, `arbeidsforholdSpørsmål.jobberNormaltLiktHverUke.spm`, intlValues)}
-                    validate={getArbeidNormaltErLiktHverUkeValidator(intlValues)}
+                    legend={intlHelper(intl, `arbeidsforhold.erLiktHverUke.spm`, intlValues)}
+                    description={<InfoJobberLiktHverUke arbeidsforholdType={arbeidsforholdType} />}
+                    validate={(value: any) => {
+                        const error = getRequiredFieldValidator()(value);
+                        return error
+                            ? {
+                                  key: 'validation.arbeidsforhold.erLiktHverUke',
+                                  values: intlValues,
+                                  keepKeyUnaltered: true,
+                              }
+                            : undefined;
+                    }}
                     useTwoColumns={true}
                     labels={{
-                        yes: intlHelper(intl, `arbeidsforholdSpørsmål.jobberNormaltLiktHverUke.ja`),
-                        no: intlHelper(intl, `arbeidsforholdSpørsmål.jobberNormaltLiktHverUke.nei`),
+                        yes: intlHelper(intl, `arbeidsforhold.erLiktHverUke.ja`),
+                        no: intlHelper(intl, `arbeidsforhold.erLiktHverUke.nei`),
                     }}
                 />
             </FormBlock>
-            {arbeidsforhold?.erLiktHverUke === YesOrNo.NO && (
+            {arbeidsforhold.erLiktHverUke === YesOrNo.NO && (
                 <FormBlock>
                     <FormComponents.NumberInput
                         label={intlHelper(
                             intl,
                             jobberFortsatt === false
-                                ? 'arbeidsforholdSpørsmål.jobberNormaltTimer.avsluttet.spm'
-                                : 'arbeidsforholdSpørsmål.jobberNormaltTimer.spm',
+                                ? 'arbeidsforhold.jobberNormaltTimerPerUke.avsluttet.spm'
+                                : 'arbeidsforhold.jobberNormaltTimerPerUke.spm',
                             intlValues
                         )}
                         name={getFieldName(ArbeidsforholdFormField.jobberNormaltTimer)}
-                        suffix={intlHelper(intl, `arbeidsforholdSpørsmål.timer.suffix`)}
+                        description={<InfoJobberNormaltTimerIUken arbeidsforholdType={arbeidsforholdType} />}
+                        suffix={intlHelper(intl, `arbeidsforhold.timer.suffix`)}
                         suffixStyle="text"
-                        description={<InfoJobberNormaltTimer arbeidsforholdType={arbeidsforholdType} />}
                         bredde="XS"
-                        validate={getJobberNormaltTimerValidator(intlValues)}
+                        validate={getJobberNormaltTimerIUkenValidator(intlValues)}
                         value={arbeidsforhold ? arbeidsforhold.jobberNormaltTimer || '' : ''}
                     />
                 </FormBlock>
             )}
-            {arbeidsforhold?.erLiktHverUke === YesOrNo.YES && (
+            {arbeidsforhold.erLiktHverUke === YesOrNo.YES && (
                 <FormBlock>
                     <FormComponents.InputGroup
-                        legend={intlHelper(intl, 'arbeidNormalt.ukedager.tittel', intlValues)}
+                        legend={intlHelper(intl, 'arbeidsforhold.ukedager.tittel', intlValues)}
                         validate={() => {
-                            const error = validateFasteArbeidstimerIUke(arbeidsforhold?.jobberNormaltTimerUkedager);
+                            const error = validateFasteArbeidstimerIUke(arbeidsforhold.jobberNormaltTimerUkedager);
                             return error
                                 ? {
-                                      key: `validation.arbeidIPeriode.timer.${error.key}`,
+                                      key: `validation.arbeidsforhold.fasteDager.${error.key}`,
                                       values: intlValues,
                                       keepKeyUnaltered: true,
                                   }
@@ -109,7 +112,7 @@ const ArbeidsforholdSpørsmål: React.FunctionComponent<Props> = ({
                                 const error = getArbeidstimerFastDagValidator()(value);
                                 return error
                                     ? {
-                                          key: `validation.arbeidIPeriode.fast.tid.${error}`,
+                                          key: `validation.arbeidsforhold.fastDag.tid.${error}`,
                                           keepKeyUnaltered: true,
                                           values: { ...intlValues, dag },
                                       }
@@ -123,4 +126,4 @@ const ArbeidsforholdSpørsmål: React.FunctionComponent<Props> = ({
     );
 };
 
-export default ArbeidsforholdSpørsmål;
+export default NormalarbeidstidSpørsmål;

@@ -11,8 +11,8 @@ import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types'
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { Undertittel } from 'nav-frontend-typografi';
 import { Arbeidsforhold, ArbeidsforholdFormField } from '../../../types/Arbeidsforhold';
-import InfoJobberNormaltTimerAnsatt from './info/InfoJobberNormaltTimerAnsatt';
-import { getJobberNormaltTimerValidator } from './validation/jobberNormaltTimerValidator';
+import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
 
 const AnsattFormComponents = getTypedFormComponents<ArbeidsforholdFormField, Arbeidsforhold, ValidationError>();
 
@@ -100,41 +100,16 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                             <>
                                 <AnsattFormComponents.YesOrNoQuestion
                                     name={getFieldName(ArbeidsforholdFormField.harFraværIPeriode)}
-                                    legend={intlHelper(intl, 'arbeidsforhold.harFraværIPerioden.spm', {
-                                        navn: arbeidsforhold.arbeidsgiver.navn,
-                                    })}
-                                    validate={(value: any) => {
-                                        const error = getYesOrNoValidator()(value);
-                                        if (error) {
-                                            return {
-                                                key: 'validation.arbeidsforhold.harFraværIPeriode.yesOrNoIsUnanswered',
-                                                keepKeyUnaltered: true,
-                                                values: { navn: arbeidsforhold.arbeidsgiver.navn },
-                                            };
-                                        }
-                                        return undefined;
-                                    }}
+                                    legend={intlHelper(intl, 'arbeidsforhold.harFraværIPerioden.spm', intlValues)}
+                                    validate={getYesOrNoValidator()}
                                 />
-                                <FormBlock>
-                                    <AnsattFormComponents.NumberInput
-                                        label={intlHelper(
-                                            intl,
-                                            erAvsluttet
-                                                ? `arbeidsforhold.jobberNormaltTimer.avsluttet.spm`
-                                                : `arbeidsforhold.jobberNormaltTimer.spm`,
-                                            {
-                                                navn: arbeidsforhold.arbeidsgiver.navn,
-                                            }
-                                        )}
-                                        name={getFieldName(ArbeidsforholdFormField.jobberNormaltTimer)}
-                                        suffix={intlHelper(intl, `arbeidsforhold.timer.suffix`)}
-                                        suffixStyle="text"
-                                        description={<InfoJobberNormaltTimerAnsatt />}
-                                        bredde="XS"
-                                        validate={getJobberNormaltTimerValidator(intlValues)}
-                                        value={arbeidsforhold ? arbeidsforhold.jobberNormaltTimer || '' : ''}
-                                    />{' '}
-                                </FormBlock>
+                                <NormalarbeidstidSpørsmål
+                                    arbeidsforhold={arbeidsforhold}
+                                    arbeidsforholdType={ArbeidsforholdType.ANSATT}
+                                    arbeidsstedNavn={arbeidsforhold.arbeidsgiver.navn}
+                                    jobberFortsatt={arbeidsforhold.erAnsatt === YesOrNo.YES}
+                                    arbeidsforholdFieldName={parentFieldName}
+                                />
                             </>
                         )}
                     </ResponsivePanel>

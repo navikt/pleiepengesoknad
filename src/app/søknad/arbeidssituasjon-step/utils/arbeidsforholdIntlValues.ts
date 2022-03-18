@@ -13,7 +13,7 @@ export const getArbeidsforholdIntlValues = (
         arbeidsforhold:
             | {
                   type: ArbeidsforholdType.ANSATT;
-                  arbeidsstedNavn: string;
+                  arbeidsstedNavn?: string;
               }
             | {
                   type: ArbeidsforholdType.FRILANSER | ArbeidsforholdType.SELVSTENDIG;
@@ -24,7 +24,7 @@ export const getArbeidsforholdIntlValues = (
         switch (info.arbeidsforhold.type) {
             case ArbeidsforholdType.ANSATT:
                 return intlHelper(intl, 'arbeidstidPeriode.arbeidIPeriodeIntlValues.somAnsatt', {
-                    arbeidsstedNavn: info.arbeidsforhold.arbeidsstedNavn,
+                    arbeidsstedNavn: info.arbeidsforhold.arbeidsstedNavn || 'som ansatt',
                 });
             case ArbeidsforholdType.FRILANSER:
                 return intlHelper(intl, 'arbeidstidPeriode.arbeidIPeriodeIntlValues.somFrilanser');

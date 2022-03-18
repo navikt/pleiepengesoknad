@@ -10,6 +10,7 @@ import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
 import { ISODateToDate } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
 import Lenke from 'nav-frontend-lenker';
@@ -19,17 +20,10 @@ import { Arbeidsgiver } from '../../../types';
 import { ArbeidsforholdFormField } from '../../../types/Arbeidsforhold';
 import { FrilansFormData, FrilansFormField } from '../../../types/FrilansFormData';
 import { erFrilanserISøknadsperiode, harFrilansoppdrag } from '../../../utils/frilanserUtils';
-import { getArbeidNormaltErLiktHverUkeValidator } from '../utils/arbeidNormaltErLiktHverUkeValidator';
 import FrilansoppdragInfo from './info/FrilansoppdragInfo';
-import InfoJobberNormaltTimerFrilanser from './info/InfoJobberNormaltTimerFrilanser';
+import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
 import { getFrilanserSluttdatoValidator } from './validation/frilansSluttdatoValidator';
 import { getFrilanserStartdatoValidator } from './validation/frilansStartdatoValidator';
-import { getJobberNormaltTimerValidator } from './validation/jobberNormaltTimerValidator';
-import {
-    getArbeidstimerFastDagValidator,
-    TidFasteUkedagerInput,
-    validateFasteArbeidstimerIUke,
-} from '@navikt/sif-common-pleiepenger/lib';
 
 const ArbFriFormComponents = getTypedFormComponents<FrilansFormField, FrilansFormData, ValidationError>();
 
@@ -72,11 +66,6 @@ const ArbeidssituasjonFrilans = ({
 
     const getArbeidsforholdFieldName = (fieldName: ArbeidsforholdFormField) =>
         `${FrilansFormField.arbeidsforhold}.${fieldName}` as any;
-
-    const intlValues = {
-        hvor: intlHelper(intl, 'arbeidsforhold.part.som.FRILANSER'),
-        jobber: intlHelper(intl, 'arbeidsforhold.part.jobber'),
-    };
 
     return (
         <>
@@ -153,73 +142,13 @@ const ArbeidssituasjonFrilans = ({
                                         validate={getYesOrNoValidator()}
                                     />
                                 </FormBlock>
-                                <FormBlock>
-                                    <ArbFriFormComponents.YesOrNoQuestion
-                                        name={getArbeidsforholdFieldName(ArbeidsforholdFormField.erLiktHverUke)}
-                                        legend={intlHelper(intl, `frilanser.jobberNormaltLiktHverUke.spm`, intlValues)}
-                                        validate={getArbeidNormaltErLiktHverUkeValidator(intlValues)}
-                                        useTwoColumns={true}
-                                        labels={{
-                                            yes: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.ja`),
-                                            no: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.nei`),
-                                        }}
+                                {arbeidsforhold && (
+                                    <NormalarbeidstidSpørsmål
+                                        arbeidsforholdFieldName={FrilansFormField.arbeidsforhold}
+                                        arbeidsforhold={arbeidsforhold}
+                                        arbeidsforholdType={ArbeidsforholdType.FRILANSER}
+                                        jobberFortsatt={jobberFortsattSomFrilans === YesOrNo.YES}
                                     />
-                                </FormBlock>
-                                {arbeidsforhold?.erLiktHverUke === YesOrNo.NO && (
-                                    <FormBlock>
-                                        <ArbFriFormComponents.NumberInput
-                                            label={intlHelper(
-                                                intl,
-                                                jobberFortsattSomFrilans === YesOrNo.NO
-                                                    ? 'frilanser.jobberNormaltTimer.avsluttet.spm'
-                                                    : 'frilanser.jobberNormaltTimer.spm'
-                                            )}
-                                            name={getArbeidsforholdFieldName(
-                                                ArbeidsforholdFormField.jobberNormaltTimer
-                                            )}
-                                            suffix={intlHelper(intl, `arbeidsforhold.timer.suffix`)}
-                                            suffixStyle="text"
-                                            description={<InfoJobberNormaltTimerFrilanser />}
-                                            bredde="XS"
-                                            validate={getJobberNormaltTimerValidator(intlValues)}
-                                            value={arbeidsforhold ? arbeidsforhold.jobberNormaltTimer || '' : ''}
-                                        />
-                                    </FormBlock>
-                                )}
-                                {arbeidsforhold?.erLiktHverUke === YesOrNo.YES && (
-                                    <FormBlock>
-                                        <ArbFriFormComponents.InputGroup
-                                            legend={intlHelper(intl, 'arbeidNormalt.ukedager.tittel', intlValues)}
-                                            validate={() => {
-                                                const error = validateFasteArbeidstimerIUke(
-                                                    arbeidsforhold?.jobberNormaltTimerUkedager
-                                                );
-                                                return error
-                                                    ? {
-                                                          key: `validation.arbeidIPeriode.timer.${error.key}`,
-                                                          values: intlValues,
-                                                          keepKeyUnaltered: true,
-                                                      }
-                                                    : undefined;
-                                            }}
-                                            name={'fasteDager.gruppe' as any}>
-                                            <TidFasteUkedagerInput
-                                                name={getArbeidsforholdFieldName(
-                                                    ArbeidsforholdFormField.jobberNormaltTimerUkedager
-                                                )}
-                                                validateDag={(dag, value) => {
-                                                    const error = getArbeidstimerFastDagValidator()(value);
-                                                    return error
-                                                        ? {
-                                                              key: `validation.arbeidIPeriode.fast.tid.${error}`,
-                                                              keepKeyUnaltered: true,
-                                                              values: { ...intlValues, dag },
-                                                          }
-                                                        : undefined;
-                                                }}
-                                            />
-                                        </ArbFriFormComponents.InputGroup>
-                                    </FormBlock>
                                 )}
                             </>
                         )}
