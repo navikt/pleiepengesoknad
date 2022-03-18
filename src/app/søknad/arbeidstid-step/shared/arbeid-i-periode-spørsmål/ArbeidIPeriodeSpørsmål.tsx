@@ -23,7 +23,7 @@ import { Arbeidsforhold, ArbeidsforholdFrilanser } from '../../../../types/Arbei
 import SøknadFormComponents from '../../../SøknadFormComponents';
 import ArbeidstidVariert from '../arbeidstid-variert/ArbeidstidVariert';
 import { ArbeidstidRegistrertLogProps } from '../types';
-import { getArbeidErLiktHverUkeValidator } from '../validation/arbeidErLiktHverUkeValidator';
+import { getArbeidIPeriodeErLiktHverUkeValidator } from '../validation/arbeidIPeriodeErLiktHverUkeValidator';
 import { getArbeidstidTimerEllerProsentValidator } from '../validation/arbeidstidEllerProsentValidator';
 import { getJobberIPeriodenValidator } from '../validation/jobberIPeriodenSpørsmål';
 import InfoSøkerKunHelgedager from './InfoSøkerKunHelgedager';
@@ -119,7 +119,7 @@ const ArbeidIPeriodeSpørsmål = ({
                         <SøknadFormComponents.YesOrNoQuestion
                             name={getFieldName(ArbeidIPeriodeField.erLiktHverUke)}
                             legend={intlHelper(intl, `arbeidIPeriode.erLiktHverUke.spm`, intlValues)}
-                            validate={getArbeidErLiktHverUkeValidator(intlValues)}
+                            validate={getArbeidIPeriodeErLiktHverUkeValidator(intlValues)}
                             useTwoColumns={true}
                             labels={{
                                 yes: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.ja`),

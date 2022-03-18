@@ -625,6 +625,7 @@
     "frilanser.jobberFortsatt.spm": "Jobber du fortsatt som frilanser?",
     "frilanser.nårSluttet.spm": "Når sluttet du som frilanser?",
     "frilanser.harFraværIPerioden.spm": "Har du fravær fra jobben din som frilanser på grunn av pleiepenger?",
+    "frilanser.jobberNormaltLiktHverUke.spm": "Jobber du likt {hvor} hver uke i hele perioden, når du ikke har fravær på grunn av pleiepenger?",
     "frilanser.jobberNormaltTimer.spm": "Hvor mange timer jobber du normalt per uke som frilanser når du ikke har fravær?",
     "frilanser.jobberNormaltTimer.avsluttet.spm": "Hvor mange timer jobbet du normalt per uke som frilanser da du ikke hadde fravær?",
 
