@@ -31,7 +31,7 @@ dayjs.locale(localeFromSessionStorage);
 const getAppStatusSanityConfig = (): SanityConfig | undefined => {
     const projectId = getEnvironmentVariable('APPSTATUS_PROJECT_ID');
     const dataset = getEnvironmentVariable('APPSTATUS_DATASET');
-    return !projectId || !dataset ? undefined : { projectId, dataset, apiVersion: '2022-03-07' };
+    return !projectId || !dataset ? undefined : { projectId, dataset };
 };
 
 // Trigger build
