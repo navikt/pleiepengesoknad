@@ -8,12 +8,11 @@ import { JobberIPeriodeSvar } from '../types';
 import {
     ArbeidIPeriodeApiData,
     ArbeidsforholdApiData,
-    isArbeidsgiverISøknadsperiodeApiData,
     OmsorgstilbudApiData,
     SøknadApiData,
 } from '../types/SøknadApiData';
-import { søkerKunHelgedager } from '../utils/formDataUtils';
 import appSentryLogger from '../utils/appSentryLogger';
+import { søkerKunHelgedager } from '../utils/formDataUtils';
 
 export const apiVedleggIsInvalid = (vedlegg: string[]): boolean => {
     vedlegg.find((v) => {
@@ -67,7 +66,7 @@ export const isArbeidsforholdValid = (arbeidsforhold: ArbeidsforholdApiData): bo
 
 export const isArbeidIPeriodeApiValuesValid = (arbeidsforhold: ArbeidsforholdApiData): boolean => {
     if (arbeidsforhold.arbeidIPeriode === undefined) {
-        return false;
+        return arbeidsforhold.harFraværIPeriode === false;
     }
     return isArbeidIPeriodeValid(arbeidsforhold.arbeidIPeriode);
 };
@@ -140,7 +139,16 @@ export const validateApiValues = (values: SøknadApiData, intl: IntlShape): ApiV
                     stepId: StepID.ARBEIDSSITUASJON,
                 });
             }
-            if (isArbeidsgiverISøknadsperiodeApiData(arbeidsgiver)) {
+            if (arbeidsgiver.arbeidsforhold) {
+                if (!arbeidsgiver.navn) {
+                    errors.push({
+                        skjemaelementId: 'arbeidsforholdAnsatt',
+                        feilmelding: intlHelper(intl, 'steg.oppsummering.validering.manglendeArbeidsgiverNavn', {
+                            hvor: `hos ${arbeidsgiver.organisasjonsnummer}`,
+                        }),
+                        stepId: StepID.ARBEIDSSITUASJON,
+                    });
+                }
                 const isValid = isArbeidsforholdApiDataValid(arbeidsgiver.arbeidsforhold);
 
                 if (!isValid) {

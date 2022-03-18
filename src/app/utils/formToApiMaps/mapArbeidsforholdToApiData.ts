@@ -1,16 +1,11 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
-import { ArbeidsforholdType, getRedusertArbeidstidSomISODuration } from '@navikt/sif-common-pleiepenger';
-import { dateToISODate, getDatesInDateRange } from '@navikt/sif-common-utils';
+import { getRedusertArbeidstidSomISODuration } from '@navikt/sif-common-pleiepenger';
 import { JobberIPeriodeSvar, TimerEllerProsent } from '../../types';
-import {
-    ArbeidIPeriodeApiData,
-    ArbeidsforholdApiData,
-    TidEnkeltdagApiData,
-    TidFasteDagerApiData,
-} from '../../types/SøknadApiData';
-import { ArbeidIPeriode, Arbeidsforhold } from '../../types/SøknadFormData';
+import { ArbeidIPeriode } from '../../types/ArbeidIPeriode';
+import { Arbeidsforhold, ArbeidsforholdFrilanser } from '../../types/Arbeidsforhold';
+import { ArbeidIPeriodeApiData, ArbeidsforholdApiData, TidFasteDagerApiData } from '../../types/SøknadApiData';
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
 import {
     fjernTidUtenforPeriodeOgHelgedager,
@@ -18,21 +13,7 @@ import {
     getFasteDagerApiData,
 } from './tidsbrukApiUtils';
 
-export const lagEnkeltdagerUtFraProsentIPeriode = (
-    periode: DateRange,
-    jobberNormaltTimerNumber: number,
-    jobberProsent: number
-): TidEnkeltdagApiData[] => {
-    const datoer = getDatesInDateRange(periode, true);
-    const tid = getRedusertArbeidstidSomISODuration(jobberNormaltTimerNumber, jobberProsent);
-    return datoer.map(
-        (dato): TidEnkeltdagApiData => ({
-            dato: dateToISODate(dato),
-            tid,
-        })
-    );
-};
-export const lagFasteDagerUtFraProsentIPeriode = (
+const lagFasteDagerUtFraProsentIPeriode = (
     jobberNormaltTimerNumber: number,
     jobberProsent: number
 ): TidFasteDagerApiData => {
@@ -86,26 +67,23 @@ export const mapArbeidIPeriodeToApiData = (
 };
 
 export const mapArbeidsforholdToApiData = (
-    arbeidsforhold: Arbeidsforhold,
+    arbeidsforhold: Arbeidsforhold | ArbeidsforholdFrilanser,
     søknadsperiode: DateRange,
-    type: ArbeidsforholdType,
     /** Periode hvor en er aktiv, f.eks. noen som starter sluttet i søknadsperioden */
     arbeidsperiode?: Partial<DateRange>
 ): ArbeidsforholdApiData => {
-    const { jobberNormaltTimer, arbeidIPeriode } = arbeidsforhold;
+    const { jobberNormaltTimer, arbeidIPeriode, harFraværIPeriode } = arbeidsforhold;
     const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
 
-    if (jobberNormaltTimerNumber === undefined || arbeidIPeriode === undefined) {
-        throw new Error('mapArbeidsforholdToApiData');
+    if (jobberNormaltTimerNumber === undefined) {
+        throw new Error('mapArbeidsforholdToApiData: jobberNormaltTimerNumber === undefined');
     }
     return {
-        _type: type,
         jobberNormaltTimer: jobberNormaltTimerNumber,
-        arbeidIPeriode: mapArbeidIPeriodeToApiData(
-            arbeidIPeriode,
-            søknadsperiode,
-            jobberNormaltTimerNumber,
-            arbeidsperiode
-        ),
+        harFraværIPeriode: harFraværIPeriode === YesOrNo.YES,
+        arbeidIPeriode:
+            harFraværIPeriode === YesOrNo.YES && arbeidIPeriode !== undefined
+                ? mapArbeidIPeriodeToApiData(arbeidIPeriode, søknadsperiode, jobberNormaltTimerNumber, arbeidsperiode)
+                : undefined,
     };
 };

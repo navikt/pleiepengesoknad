@@ -10,8 +10,6 @@ import { DateRange } from '@navikt/sif-common-formik/lib';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { getOmsorgstilbudFastDagValidator } from '@navikt/sif-common-pleiepenger/lib/omsorgstilbud-periode/omsorgstilbud-periode-form/omsorgstilbudFormValidation';
 import TidFasteUkedagerInput from '@navikt/sif-common-pleiepenger/lib/tid-faste-ukedager-input/TidFasteUkedagerInput';
-import dayjs from 'dayjs';
-import isBetween from 'dayjs/plugin/isBetween';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { Omsorgstilbud, SøknadFormField } from '../../types/SøknadFormData';
 import { validateOmsorgstilbud } from '../../validation/validateOmsorgstilbudFields';
@@ -19,8 +17,6 @@ import SøknadFormComponents from '../SøknadFormComponents';
 import omsorgstilbudInfo from './info/OmsorgstilbudInfo';
 import OmsorgstilbudVariert from './omsorgstilbud-variert/OmsorgstilbudVariert';
 import { skalViseSpørsmålOmProsentEllerLiktHverUke } from './omsorgstilbudStepUtils';
-
-dayjs.extend(isBetween);
 
 interface Props {
     periode: DateRange;

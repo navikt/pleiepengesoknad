@@ -10,12 +10,11 @@ import ferieuttakMessages from '@navikt/sif-common-forms/lib/ferieuttak/ferieutt
 import tidsperiodeMessages from '@navikt/sif-common-forms/lib/tidsperiode/tidsperiodeMessages';
 import utenlandsoppholdMessages from '@navikt/sif-common-forms/lib/utenlandsopphold/utenlandsoppholdMessages';
 import virksomhetMessages from '@navikt/sif-common-forms/lib/virksomhet/virksomhetMessages';
-import omsorgstilbudMessages from '../../i18n/omsorgstilbudMessages';
-import arbeidstidMessages from '../../søknad/arbeidstid-step/arbeidstid-variert/arbeidstidVariertMessages';
 import { sifCommonPleiepengerMessages } from '@navikt/sif-common-pleiepenger/lib/i18n/index';
+import omsorgstilbudMessages from '../../i18n/omsorgstilbudMessages';
+import arbeidstidMessages from '../../søknad/arbeidstid-step/shared/arbeidstid-variert/arbeidstidVariertMessages';
 
 export const appBokmålstekster = require('../../i18n/nb.json');
-export const appNynorsktekster = require('../../i18n/nn.json');
 
 const bokmålstekster = {
     ...allCommonMessages.nb,
@@ -29,15 +28,6 @@ const bokmålstekster = {
     ...sifCommonPleiepengerMessages.nb,
     ...appBokmålstekster,
 };
-const nynorsktekster = {
-    ...allCommonMessages.nn,
-    ...utenlandsoppholdMessages.nn,
-    ...bostedMessages.nn,
-    ...virksomhetMessages.nn,
-    ...tidsperiodeMessages.nn,
-    ...ferieuttakMessages.nn,
-    ...appNynorsktekster,
-};
 
 export interface IntlProviderProps {
     locale: Locale;
@@ -46,9 +36,9 @@ export interface IntlProviderProps {
 }
 
 const IntlProvider = ({ locale, onError, children }: IntlProviderProps) => {
-    const messages = locale === 'nb' ? bokmålstekster : nynorsktekster;
+    // const messages = locale === 'nb' ? bokmålstekster : nynorsktekster;
     return (
-        <Provider locale={locale} messages={messages} onError={onError}>
+        <Provider locale={locale} messages={bokmålstekster} onError={onError}>
             {children}
         </Provider>
     );

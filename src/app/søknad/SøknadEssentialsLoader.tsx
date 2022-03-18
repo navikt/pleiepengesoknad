@@ -1,20 +1,18 @@
 import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
+import * as apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { AxiosError, AxiosResponse } from 'axios';
 import { getBarn, getSøker, rehydrate } from '../api/api';
-import { StepID } from './søknadStepsConfig';
 import { SøkerdataContextProvider } from '../context/SøkerdataContext';
-import { SøknadFormField, initialValues, SøknadFormData } from '../types/SøknadFormData';
+import IkkeTilgangPage from '../pages/ikke-tilgang-page/IkkeTilgangPage';
+import LoadingPage from '../pages/loading-page/LoadingPage';
+import { Søkerdata } from '../types/Søkerdata';
+import { initialValues, SøknadFormData, SøknadFormField } from '../types/SøknadFormData';
 import { MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
-import { Arbeidsgiver, Søkerdata } from '../types/Søkerdata';
-import * as apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import appSentryLogger from '../utils/appSentryLogger';
 import { navigateToErrorPage, relocateToLoginPage, userIsCurrentlyOnErrorPage } from '../utils/navigationUtils';
-import LoadingPage from '../pages/loading-page/LoadingPage';
-import IkkeTilgangPage from '../pages/ikke-tilgang-page/IkkeTilgangPage';
-import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
-import { arbeidsgivereMock, barnMock, søkerMock } from '../mock-data/MockData';
+import { StepID } from './søknadStepsConfig';
 
 export const VERIFY_MELLOMLAGRING_VERSION = true;
 
@@ -57,7 +55,6 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
             harIkkeTilgang: false,
         };
 
-        this.updateArbeidsgivere = this.updateArbeidsgivere.bind(this);
         this.updateSøkerdata = this.updateSøkerdata.bind(this);
         this.stopLoading = this.stopLoading.bind(this);
         this.handleSøkerdataFetchSuccess = this.handleSøkerdataFetchSuccess.bind(this);
@@ -66,28 +63,6 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
     }
 
     async loadAppEssentials() {
-        if (isFeatureEnabled(Feature.DEMO_MODE)) {
-            setTimeout(() => {
-                this.updateSøkerdata(
-                    { ...initialValues },
-                    {
-                        person: søkerMock,
-                        barn: barnMock.barn,
-                        setArbeidsgivere: this.updateArbeidsgivere,
-                        arbeidsgivere: arbeidsgivereMock.organisasjoner,
-                    },
-                    false,
-                    undefined,
-                    () => {
-                        this.stopLoading();
-                        if (userIsCurrentlyOnErrorPage()) {
-                            navigateToErrorPage(this.props.history);
-                        }
-                    }
-                );
-            }, 20);
-            return;
-        }
         try {
             const [mellomlagringResponse, søkerResponse, barnResponse] = await Promise.all([
                 rehydrate(),
@@ -95,7 +70,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
                 getBarn(),
             ]);
             this.handleSøkerdataFetchSuccess(mellomlagringResponse, søkerResponse, barnResponse);
-        } catch (error) {
+        } catch (error: any) {
             this.handleSøkerdataFetchError(error);
         }
     }
@@ -129,10 +104,8 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
         this.updateSøkerdata(
             formData || { ...initialValues },
             {
-                person: søkerResponse.data,
+                søker: søkerResponse.data,
                 barn: barnResponse ? barnResponse.data.barn : undefined,
-                setArbeidsgivere: this.updateArbeidsgivere,
-                arbeidsgivere: [],
             },
             mellomlagring?.metadata?.version !== undefined,
             lastStepID,
@@ -184,20 +157,6 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
         // the contentLoadedRenderer() will be called while the user is still on the wrong route,
         // because the redirect to routeConfig.ERROR_PAGE_ROUTE will not have happened yet.
         setTimeout(this.stopLoading, 200);
-    }
-
-    updateArbeidsgivere(arbeidsgivere: Arbeidsgiver[]) {
-        if (this.state.søkerdata) {
-            const { barn, person, setArbeidsgivere } = this.state.søkerdata;
-            this.setState({
-                søkerdata: {
-                    barn,
-                    setArbeidsgivere,
-                    arbeidsgivere,
-                    person,
-                },
-            });
-        }
     }
 
     render() {

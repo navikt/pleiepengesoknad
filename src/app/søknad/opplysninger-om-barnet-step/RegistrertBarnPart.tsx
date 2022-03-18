@@ -8,13 +8,13 @@ import { resetFieldValue, resetFieldValues, SkjemagruppeQuestion } from '@navikt
 import { useFormikContext } from 'formik';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { SøknadFormField, initialValues, SøknadFormData } from '../../types/SøknadFormData';
-import { BarnReceivedFromApi } from '../../types/Søkerdata';
 import SøknadFormComponents from '../SøknadFormComponents';
 import { getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import { RegistrerteBarn } from '../../types';
 
 interface Props {
-    søkersBarn: BarnReceivedFromApi[];
+    søkersBarn: RegistrerteBarn[];
 }
 
 const RegistrertBarnPart = ({ søkersBarn }: Props) => {

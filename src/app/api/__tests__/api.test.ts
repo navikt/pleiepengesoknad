@@ -49,7 +49,9 @@ describe('api', () => {
             const date1 = 'some date';
             const date2 = 'some other date';
             getArbeidsgiver(date1, date2);
-            const url = `${getApiUrlByResourceType(ResourceType.SØKER)}?fra_og_med=${date1}&til_og_med=${date2}`;
+            const url = `${getApiUrlByResourceType(
+                ResourceType.SØKER
+            )}?fra_og_med=${date1}&til_og_med=${date2}&frilansoppdrag=true`;
             expect(axios.get).toHaveBeenCalledWith(url, axiosJsonConfig);
         });
     });

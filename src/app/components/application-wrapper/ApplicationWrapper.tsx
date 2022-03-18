@@ -5,7 +5,7 @@ import LanguageToggle from '@navikt/sif-common-core/lib/components/language-togg
 import ApplicationMessages from '@navikt/sif-common-core/lib/dev-utils/intl/application-messages/ApplicationMessages';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
-import IntlProvider, { appBokmålstekster, appNynorsktekster } from '../intl-provider/IntlProvider';
+import IntlProvider, { appBokmålstekster } from '../intl-provider/IntlProvider';
 
 interface ApplicationWrapperProps {
     locale: Locale;
@@ -24,7 +24,6 @@ const ApplicationWrapper = ({ locale, onChangeLocale, publicPath, children }: Ap
                     <ApplicationMessages
                         messages={{
                             nb: appBokmålstekster,
-                            nn: appNynorsktekster,
                         }}
                         title="Søknad pleiepenger"
                     />
