@@ -16,7 +16,6 @@ import {
 import TidFasteUkedagerInput from '@navikt/sif-common-pleiepenger/lib/tid-faste-ukedager-input/TidFasteUkedagerInput';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib/types';
 import { getWeeksInDateRange } from '@navikt/sif-common-utils';
-import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { JobberIPeriodeSvar, TimerEllerProsent } from '../../../../types';
 import { ArbeidIPeriodeField } from '../../../../types/ArbeidIPeriode';
 import { Arbeidsforhold, ArbeidsforholdFrilanser } from '../../../../types/Arbeidsforhold';
@@ -59,17 +58,11 @@ const ArbeidIPeriodeSpørsmål = ({
         }
     }, [arbeidstidChanged, onArbeidstidVariertChange]);
 
-    const { jobberNormaltTimer } = arbeidsforhold;
-    const jobberNormaltTimerNumber = getNumberFromNumberInputValue(jobberNormaltTimer);
-
-    if (jobberNormaltTimerNumber === undefined) {
-        return <AlertStripeFeil>Det mangler informasjon om hvor mye du jobber normalt</AlertStripeFeil>;
-    }
-
+    const { normalarbeidstid } = arbeidsforhold;
     const intlValues = getArbeidstidIPeriodeIntlValues(intl, {
         arbeidsforhold: {
             arbeidsstedNavn,
-            jobberNormaltTimer,
+            jobberNormaltTimer: normalarbeidstid?.timerPerUke,
             type: arbeidsforholdType,
         },
         periode,
@@ -85,7 +78,8 @@ const ArbeidIPeriodeSpørsmål = ({
         <ArbeidstidVariert
             arbeidstid={arbeidsforhold.arbeidIPeriode?.enkeltdager}
             kanLeggeTilPeriode={kanLeggeTilPeriode}
-            jobberNormaltTimer={jobberNormaltTimerNumber}
+            jobberNormaltTimerPerUke={getNumberFromNumberInputValue(normalarbeidstid?.timerPerUke)}
+            jobberNormaltTimerFasteDager={normalarbeidstid?.fasteDager}
             periode={periode}
             intlValues={intlValues}
             arbeidsstedNavn={arbeidsstedNavn}
@@ -172,11 +166,17 @@ const ArbeidIPeriodeSpørsmål = ({
                                             }}
                                             suffix={getRedusertArbeidstidPerUkeInfo(
                                                 intl,
-                                                jobberNormaltTimer,
+                                                normalarbeidstid?.timerPerUke,
                                                 jobberProsent
                                             )}
                                             suffixStyle="text"
                                         />
+                                        {/* {arbeidsforhold.jobberNormaltTimerPerUke !== undefined && (
+                                            <>Oppsummering snitt</>
+                                        )}
+                                        {arbeidsforhold.jobberNormaltTimerUkedager !== undefined && (
+                                            <>Oppsummering ukedager</>
+                                        )} */}
                                     </ResponsivePanel>
                                 </FormBlock>
                             )}

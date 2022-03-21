@@ -63,12 +63,17 @@ export interface ArbeidIPeriodeApiData {
     jobberProsent?: number;
 }
 
+export type ArbeidstimerNormaltApiData = {
+    erLiktHverUke?: boolean;
+    timerISnittPerUke?: number;
+    timerFastPerUkedag?: TidFasteDagerApiData;
+};
+
 export interface ArbeidsforholdApiData {
-    jobberNormaltTimer: number;
     harFraværIPeriode: boolean;
+    arbeidstimerNormalt: ArbeidstimerNormaltApiData;
     arbeidIPeriode?: ArbeidIPeriodeApiData;
 }
-
 export interface ArbeidsgiverApiData {
     type: ArbeidsgiverType;
     navn: string;

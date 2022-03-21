@@ -10,7 +10,7 @@ const frilanserSluttetIPeriodeValues: FrilansFormData = {
     harHattInntektSomFrilanser: YesOrNo.YES,
     arbeidsforhold: {
         harFraværIPeriode: YesOrNo.NO,
-        jobberNormaltTimer: '10',
+        normalarbeidstid: { timerPerUke: '10' },
         arbeidIPeriode: {
             jobberIPerioden: JobberIPeriodeSvar.JA,
         },
@@ -44,7 +44,7 @@ describe('cleanupFrilansArbeidssituasjon', () => {
             expect(result.arbeidsforhold).toBeDefined();
             expect(result.arbeidsforhold?.arbeidIPeriode).toBeDefined();
             expect(result.arbeidsforhold?.harFraværIPeriode).toBeDefined();
-            expect(result.arbeidsforhold?.jobberNormaltTimer).toBeDefined();
+            expect(result.arbeidsforhold?.normalarbeidstid?.timerPerUke).toBeDefined();
             expect(result.startdato).toBeDefined();
             expect(result.sluttdato).toBeUndefined();
         });
@@ -63,7 +63,7 @@ describe('cleanupFrilansArbeidssituasjon', () => {
             expect(result.arbeidsforhold).toBeDefined();
             expect(result.arbeidsforhold?.arbeidIPeriode).toBeDefined();
             expect(result.arbeidsforhold?.harFraværIPeriode).toBeDefined();
-            expect(result.arbeidsforhold?.jobberNormaltTimer).toBeDefined();
+            expect(result.arbeidsforhold?.normalarbeidstid?.timerPerUke).toBeDefined();
             expect(result.startdato).toBeDefined();
             expect(result.sluttdato).toBeDefined();
         });
@@ -114,7 +114,7 @@ describe('cleanupFrilansArbeidssituasjon', () => {
             expect(result.arbeidsforhold).toBeDefined();
             expect(result.arbeidsforhold?.arbeidIPeriode).toBeDefined();
             expect(result.arbeidsforhold?.harFraværIPeriode).toBeDefined();
-            expect(result.arbeidsforhold?.jobberNormaltTimer).toBeDefined();
+            expect(result.arbeidsforhold?.normalarbeidstid?.timerPerUke).toBeDefined();
             expect(result.startdato).toBeDefined();
             expect(result.sluttdato).toBeUndefined();
         });
@@ -133,7 +133,7 @@ describe('cleanupFrilansArbeidssituasjon', () => {
             expect(result.arbeidsforhold).toBeDefined();
             expect(result.arbeidsforhold?.arbeidIPeriode).toBeDefined();
             expect(result.arbeidsforhold?.harFraværIPeriode).toBeDefined();
-            expect(result.arbeidsforhold?.jobberNormaltTimer).toBeDefined();
+            expect(result.arbeidsforhold?.normalarbeidstid?.timerPerUke).toBeDefined();
             expect(result.startdato).toBeDefined();
             expect(result.sluttdato).toBeDefined();
         });

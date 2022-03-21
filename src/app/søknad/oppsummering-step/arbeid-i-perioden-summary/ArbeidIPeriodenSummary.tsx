@@ -107,7 +107,7 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
                                 <ArbeidIPeriodeSummaryItem
                                     periode={søknadsperiode}
                                     arbeidIPeriode={forhold.arbeidIPeriode}
-                                    normaltimerUke={forhold.jobberNormaltTimer}
+                                    normaltid={forhold.arbeidstimerNormalt}
                                 />
                             </SummaryBlock>
                         ) : (

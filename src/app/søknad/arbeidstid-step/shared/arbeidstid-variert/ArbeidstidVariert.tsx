@@ -8,7 +8,12 @@ import { ArbeidIPeriodeIntlValues, ArbeidsforholdType, ArbeidstidPeriodeData } f
 import ArbeidstidMånedInfo from '@navikt/sif-common-pleiepenger/lib/arbeidstid-måned-info/ArbeidstidMånedInfo';
 import SøknadsperioderMånedListe from '@navikt/sif-common-pleiepenger/lib/søknadsperioder-måned-liste/SøknadsperioderMånedListe';
 import { TidEnkeltdagEndring } from '@navikt/sif-common-pleiepenger/lib/tid-enkeltdag-dialog/TidEnkeltdagForm';
-import { DateDurationMap, getDatesInMonthOutsideDateRange, getMonthsInDateRange } from '@navikt/sif-common-utils';
+import {
+    DateDurationMap,
+    DurationWeekdays,
+    getDatesInMonthOutsideDateRange,
+    getMonthsInDateRange,
+} from '@navikt/sif-common-utils';
 import { useFormikContext } from 'formik';
 import { Element } from 'nav-frontend-typografi';
 import { SøknadFormData, SøknadFormField } from '../../../../types/SøknadFormData';
@@ -21,7 +26,8 @@ interface Props extends ArbeidstidRegistrertLogProps {
     arbeidsforholdType: ArbeidsforholdType;
     formFieldName: SøknadFormField;
     periode: DateRange;
-    jobberNormaltTimer: number;
+    jobberNormaltTimerPerUke?: number;
+    jobberNormaltTimerFasteDager?: DurationWeekdays;
     arbeidstid?: DateDurationMap;
     intlValues: ArbeidIPeriodeIntlValues;
     kanLeggeTilPeriode: boolean;
@@ -33,7 +39,8 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
     arbeidstid = {},
     arbeidsstedNavn,
     arbeidsforholdType,
-    jobberNormaltTimer,
+    jobberNormaltTimerPerUke,
+    jobberNormaltTimerFasteDager,
     periode,
     intlValues,
     kanLeggeTilPeriode,
@@ -110,7 +117,8 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                             onPeriodeChange={handleOnPeriodeChange}
                             registrerKnappLabel={intlHelper(intl, 'arbeidstidVariert.registrerJobbKnapp.label')}
                             formProps={{
-                                jobberNormaltTimer,
+                                jobberNormaltTimerPerUke,
+                                jobberNormaltTimerFasteDager: jobberNormaltTimerFasteDager,
                                 intlValues,
                                 periode,
                                 arbeidsstedNavn,

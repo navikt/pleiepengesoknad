@@ -6,22 +6,27 @@ import { Arbeidsgiver } from './Arbeidsgiver';
 export enum ArbeidsforholdFormField {
     erAnsatt = 'erAnsatt',
     sluttetFørSøknadsperiode = 'sluttetFørSøknadsperiode',
-    erLiktHverUke = 'erLiktHverUke',
-    jobberNormaltTimer = 'jobberNormaltTimer',
-    jobberNormaltTimerUkedager = 'jobberNormaltTimerUkedager',
+    normalarbeidstid = 'normalarbeidstid',
+    erLiktHverUke = 'normalarbeidstid.erLiktHverUke',
+    jobberNormaltTimerPerUke = 'normalarbeidstid.timerPerUke',
+    jobberNormaltTimerFasteDager = 'normalarbeidstid.fasteDager',
     harFraværIPeriode = 'harFraværIPeriode',
     arbeidIPeriode = 'arbeidIPeriode',
 }
 
+export type Normalarbeidstid = {
+    erLiktHverUke?: YesOrNo;
+    timerPerUke?: string;
+    fasteDager?: DurationWeekdays;
+};
+
 export interface Arbeidsforhold {
     arbeidsgiver: Arbeidsgiver;
-    [ArbeidsforholdFormField.jobberNormaltTimer]?: string;
-    [ArbeidsforholdFormField.jobberNormaltTimerUkedager]?: DurationWeekdays;
-    [ArbeidsforholdFormField.harFraværIPeriode]?: YesOrNo;
-    [ArbeidsforholdFormField.erLiktHverUke]?: YesOrNo;
-    [ArbeidsforholdFormField.erAnsatt]?: YesOrNo;
-    [ArbeidsforholdFormField.sluttetFørSøknadsperiode]?: YesOrNo;
-    [ArbeidsforholdFormField.arbeidIPeriode]?: ArbeidIPeriode;
+    normalarbeidstid?: Normalarbeidstid;
+    harFraværIPeriode?: YesOrNo;
+    erAnsatt?: YesOrNo;
+    sluttetFørSøknadsperiode?: YesOrNo;
+    arbeidIPeriode?: ArbeidIPeriode;
 }
 
 export type ArbeidsforholdFrilanser = Omit<Arbeidsforhold, 'arbeidsgiver' | 'erAnsatt'>;

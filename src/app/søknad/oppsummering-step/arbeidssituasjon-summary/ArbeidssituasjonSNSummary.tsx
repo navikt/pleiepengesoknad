@@ -36,12 +36,12 @@ function ArbeidssituasjonSNSummary({ selvstendigNæringsdrivende }: Props) {
                                 <FormattedMessage id="oppsummering.arbeidssituasjon.selvstendig.enVirksomhet" />
                             )}
                         </li>
-                        {arbeidsforhold.jobberNormaltTimer && (
+                        {arbeidsforhold.arbeidstimerNormalt.timerISnittPerUke && (
                             <>
                                 <li>
                                     <FormattedMessage
                                         id={`oppsummering.arbeidssituasjon.tid`}
-                                        values={{ timer: arbeidsforhold.jobberNormaltTimer }}
+                                        values={{ timer: arbeidsforhold.arbeidstimerNormalt.timerISnittPerUke }}
                                     />
                                 </li>
                                 <li>

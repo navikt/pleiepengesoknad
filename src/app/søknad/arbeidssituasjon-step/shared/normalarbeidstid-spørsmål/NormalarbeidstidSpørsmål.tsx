@@ -71,7 +71,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                     }}
                 />
             </FormBlock>
-            {arbeidsforhold.erLiktHverUke === YesOrNo.NO && (
+            {arbeidsforhold.normalarbeidstid?.erLiktHverUke === YesOrNo.NO && (
                 <FormBlock>
                     <FormComponents.NumberInput
                         label={intlHelper(
@@ -81,33 +81,40 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                                 : 'arbeidsforhold.jobberNormaltTimerPerUke.spm',
                             intlValues
                         )}
-                        name={getFieldName(ArbeidsforholdFormField.jobberNormaltTimer)}
+                        name={getFieldName(ArbeidsforholdFormField.jobberNormaltTimerPerUke)}
                         description={<InfoJobberNormaltTimerIUken arbeidsforholdType={arbeidsforholdType} />}
                         suffix={intlHelper(intl, `arbeidsforhold.timer.suffix`)}
                         suffixStyle="text"
                         bredde="XS"
-                        validate={getJobberNormaltTimerIUkenValidator(intlValues)}
-                        value={arbeidsforhold ? arbeidsforhold.jobberNormaltTimer || '' : ''}
+                        validate={getJobberNormaltTimerIUkenValidator({
+                            ...intlValues,
+                            jobber: jobberFortsatt ? 'jobber' : 'jobbet',
+                        })}
+                        value={arbeidsforhold ? arbeidsforhold.normalarbeidstid.timerPerUke || '' : ''}
                     />
                 </FormBlock>
             )}
-            {arbeidsforhold.erLiktHverUke === YesOrNo.YES && (
+            {arbeidsforhold.normalarbeidstid?.erLiktHverUke === YesOrNo.YES && (
                 <FormBlock>
                     <FormComponents.InputGroup
-                        legend={intlHelper(intl, 'arbeidsforhold.ukedager.tittel', intlValues)}
+                        legend={
+                            jobberFortsatt
+                                ? intlHelper(intl, 'arbeidsforhold.ukedager.tittel', intlValues)
+                                : intlHelper(intl, 'arbeidsforhold.ukedager.avsluttet.tittel', intlValues)
+                        }
                         validate={() => {
-                            const error = validateFasteArbeidstimerIUke(arbeidsforhold.jobberNormaltTimerUkedager);
+                            const error = validateFasteArbeidstimerIUke(arbeidsforhold.normalarbeidstid?.fasteDager);
                             return error
                                 ? {
                                       key: `validation.arbeidsforhold.fasteDager.${error.key}`,
-                                      values: intlValues,
+                                      values: { ...intlValues, jobber: jobberFortsatt ? 'jobber' : 'jobbet' },
                                       keepKeyUnaltered: true,
                                   }
                                 : undefined;
                         }}
                         name={'fasteDager.gruppe' as any}>
                         <TidFasteUkedagerInput
-                            name={getFieldName(ArbeidsforholdFormField.jobberNormaltTimerUkedager)}
+                            name={getFieldName(ArbeidsforholdFormField.jobberNormaltTimerFasteDager)}
                             validateDag={(dag, value) => {
                                 const error = getArbeidstimerFastDagValidator()(value);
                                 return error

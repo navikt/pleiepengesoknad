@@ -14,7 +14,9 @@ const arbeidsgiverApiData: ArbeidsgiverApiData = {
             jobberIPerioden: JobberIPeriodeSvar.NEI,
         },
         harFraværIPeriode: true,
-        jobberNormaltTimer: 2,
+        arbeidstimerNormalt: {
+            timerISnittPerUke: 2,
+        },
     },
     sluttetFørSøknadsperiode: false,
 };
@@ -60,7 +62,9 @@ describe('kvitteringUtils', () => {
                 erAnsatt: false,
                 sluttetFørSøknadsperiode: false,
                 arbeidsforhold: {
-                    jobberNormaltTimer: 20,
+                    arbeidstimerNormalt: {
+                        timerISnittPerUke: 20,
+                    },
                     harFraværIPeriode: true,
                     arbeidIPeriode: {
                         jobberIPerioden: JobberIPeriodeSvar.JA,
@@ -72,7 +76,9 @@ describe('kvitteringUtils', () => {
                 organisasjonsnummer: '3',
                 erAnsatt: true,
                 arbeidsforhold: {
-                    jobberNormaltTimer: 20,
+                    arbeidstimerNormalt: {
+                        timerISnittPerUke: 20,
+                    },
                     harFraværIPeriode: true,
                     arbeidIPeriode: {
                         jobberIPerioden: JobberIPeriodeSvar.JA,

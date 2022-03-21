@@ -53,11 +53,13 @@ export const isArbeidIPeriodeValid = (arbeidIPeriode: ArbeidIPeriodeApiData): bo
 };
 
 const isNormalarbeidstidValid = (arbeidsforhold: ArbeidsforholdApiData): boolean => {
-    const { jobberNormaltTimer } = arbeidsforhold;
-    if (!jobberNormaltTimer) {
+    const {
+        arbeidstimerNormalt: { timerISnittPerUke: snitt },
+    } = arbeidsforhold;
+    if (!snitt) {
         return false;
     }
-    return isValidNormalarbeidstid(jobberNormaltTimer);
+    return isValidNormalarbeidstid(snitt);
 };
 
 export const isArbeidsforholdValid = (arbeidsforhold: ArbeidsforholdApiData): boolean => {

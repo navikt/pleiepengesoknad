@@ -59,7 +59,10 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, s
                                                     ? `oppsummering.arbeidssituasjon.tid`
                                                     : `oppsummering.arbeidssituasjon.avsluttet.tid`
                                             }
-                                            values={{ timer: arbeidsgiver.arbeidsforhold.jobberNormaltTimer }}
+                                            values={{
+                                                timer: arbeidsgiver.arbeidsforhold.arbeidstimerNormalt
+                                                    .timerISnittPerUke,
+                                            }}
                                         />
                                     </li>
                                     <li>

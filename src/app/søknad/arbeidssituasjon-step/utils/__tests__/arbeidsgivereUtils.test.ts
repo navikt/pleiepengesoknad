@@ -34,7 +34,9 @@ const arbeidsforholdErAnsatt: Arbeidsforhold = {
         id: '3',
     },
     erAnsatt: YesOrNo.YES,
-    jobberNormaltTimer: '10',
+    normalarbeidstid: {
+        timerPerUke: '10',
+    },
 };
 
 const arbeidsforholdUbesvart: Arbeidsforhold = {
@@ -44,7 +46,9 @@ const arbeidsforholdUbesvart: Arbeidsforhold = {
         id: '4',
     },
     erAnsatt: YesOrNo.UNANSWERED,
-    jobberNormaltTimer: '20',
+    normalarbeidstid: {
+        timerPerUke: '20',
+    },
 };
 
 const arbeidsforhold: Arbeidsforhold[] = [arbeidsforholdErAnsatt, arbeidsforholdUbesvart];

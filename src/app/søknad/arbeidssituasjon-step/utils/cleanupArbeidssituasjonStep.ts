@@ -17,8 +17,15 @@ export const cleanupAnsattArbeidsforhold = (arbeidsforhold: Arbeidsforhold): Arb
         cleanedArbeidsforhold.erAnsatt === YesOrNo.NO &&
         cleanedArbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.YES
     ) {
-        cleanedArbeidsforhold.jobberNormaltTimer = undefined;
+        cleanedArbeidsforhold.normalarbeidstid = undefined;
         cleanedArbeidsforhold.harFraværIPeriode = undefined;
+    }
+    if (cleanedArbeidsforhold.normalarbeidstid) {
+        if (cleanedArbeidsforhold.normalarbeidstid.erLiktHverUke === YesOrNo.YES) {
+            cleanedArbeidsforhold.normalarbeidstid.timerPerUke = undefined;
+        } else {
+            cleanedArbeidsforhold.normalarbeidstid.fasteDager = undefined;
+        }
     }
     if (
         cleanedArbeidsforhold.harFraværIPeriode === undefined ||
