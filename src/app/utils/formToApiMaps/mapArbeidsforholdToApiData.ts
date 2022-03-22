@@ -47,13 +47,13 @@ export const mapArbeidIPeriodeToApiData = ({
                 throw Error('mapArbeidIPeriodeToApiData- Prosent ikke gyldig');
             }
             if (arbeidstimerNormalt.erLiktHverUke) {
-                /** Normaltid er oppgitt som timer per uke */
+                /** Normaltid er oppgitt som timer for hver ukedag */
                 apiData.fasteDager = getFasteDagerSomProsentAvFasteDager(
                     arbeidstimerNormalt.timerFasteDager,
                     apiData.jobberProsent
                 );
             } else {
-                /** Normaltid er oppgitt som timer for hver ukedag */
+                /** Normaltid er oppgitt som timer per uke i snitt */
                 apiData.fasteDager = getFasteDagerUtFraTimerPerUke(
                     arbeidstimerNormalt.timerPerUke,
                     apiData.jobberProsent
@@ -125,7 +125,7 @@ const mapArbeidstimerNormalt = ({
     fasteDager,
     erLiktHverUke,
 }: Normalarbeidstid): NormalarbeidstidApiData | undefined => {
-    if (erLiktHverUke === YesOrNo.YES) {
+    if (erLiktHverUke === YesOrNo.NO) {
         const snitt = getNumberFromNumberInputValue(timerPerUke);
         if (!snitt) {
             return undefined;
@@ -145,7 +145,7 @@ const mapArbeidstimerNormalt = ({
               }
             : undefined;
     }
-    if (erLiktHverUke === YesOrNo.NO && fasteDager) {
+    if (erLiktHverUke === YesOrNo.YES && fasteDager) {
         return {
             erLiktHverUke: true,
             timerFasteDager: getFasteDagerApiData(fasteDager),

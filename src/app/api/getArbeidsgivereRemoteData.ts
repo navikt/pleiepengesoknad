@@ -29,7 +29,7 @@ export type AAregArbeidsgiverRemoteData = {
     }[];
 };
 
-const mapAAregArbeidsgiverRemoteDataToArbeidsiver = (data: AAregArbeidsgiverRemoteData): Arbeidsgiver[] => {
+const mapAAregArbeidsgiverRemoteDataToArbeidsgiver = (data: AAregArbeidsgiverRemoteData): Arbeidsgiver[] => {
     const arbeidsgivere: Arbeidsgiver[] = [];
     data.organisasjoner?.forEach((a) => {
         arbeidsgivere.push({
@@ -66,7 +66,7 @@ const mapAAregArbeidsgiverRemoteDataToArbeidsiver = (data: AAregArbeidsgiverRemo
 export async function getArbeidsgivereRemoteData(fromDate: Date, toDate: Date): Promise<Arbeidsgiver[]> {
     try {
         const response = await getArbeidsgiver(formatDateToApiFormat(fromDate), formatDateToApiFormat(toDate));
-        const arbeidsgivere = mapAAregArbeidsgiverRemoteDataToArbeidsiver(response.data);
+        const arbeidsgivere = mapAAregArbeidsgiverRemoteDataToArbeidsgiver(response.data);
         return Promise.resolve(arbeidsgivere);
     } catch (error: any) {
         if (apiUtils.isUnauthorized(error)) {

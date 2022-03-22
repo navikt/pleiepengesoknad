@@ -51,7 +51,10 @@ export const cleanupArbeidstidAnsatt = (
 export const cleanupArbeidstidFrilans = (
     frilans: FrilansFormData,
     søknadsperiode: DateRange
-): ArbeidsforholdFrilanser => {
+): ArbeidsforholdFrilanser | undefined => {
+    if (frilans.arbeidsforhold === undefined) {
+        return undefined;
+    }
     const periodeSomFrilanser = getPeriodeSomFrilanserInnenforPeriode(søknadsperiode, frilans);
     return {
         ...frilans.arbeidsforhold,
@@ -66,7 +69,10 @@ export const cleanupArbeidstidSelvstendigNæringdrivende = (
     søknadsperiode: DateRange,
     selvstendig_virksomhet?: Virksomhet | undefined,
     selvstendig_arbeidsforhold?: ArbeidsforholdSelvstendig
-): ArbeidsforholdSelvstendig => {
+): ArbeidsforholdSelvstendig | undefined => {
+    if (!selvstendig_arbeidsforhold) {
+        return undefined;
+    }
     const periodeSomSelvstendigNæringsdrivende = getPeriodeSomSelvstendigInnenforPeriode(
         søknadsperiode,
         selvstendig_virksomhet
