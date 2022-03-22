@@ -79,6 +79,10 @@ describe('cleanupAnsattArbeidsforhold', () => {
                 ...ansattArbeidsforhold,
                 normalarbeidstid: {
                     erLiktHverUke: YesOrNo.YES,
+                    timerPerUke: '20',
+                    fasteDager: {
+                        monday: { hours: '1', minutes: '0' },
+                    },
                 },
             });
             expect(result.normalarbeidstid?.timerPerUke).toBeUndefined();
@@ -89,6 +93,10 @@ describe('cleanupAnsattArbeidsforhold', () => {
                 ...ansattArbeidsforhold,
                 normalarbeidstid: {
                     erLiktHverUke: YesOrNo.NO,
+                    timerPerUke: '20',
+                    fasteDager: {
+                        monday: { hours: '1', minutes: '0' },
+                    },
                 },
             });
             expect(result.normalarbeidstid?.timerPerUke).toBeDefined();

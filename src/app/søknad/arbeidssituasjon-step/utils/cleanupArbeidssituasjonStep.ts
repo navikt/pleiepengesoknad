@@ -10,11 +10,11 @@ import { visVernepliktSpørsmål } from './visVernepliktSpørsmål';
 const cleanupNormalarbeidstid = ({ erLiktHverUke, fasteDager, timerPerUke }: Normalarbeidstid): Normalarbeidstid => {
     return erLiktHverUke === YesOrNo.YES
         ? {
-              erLiktHverUke,
+              erLiktHverUke: YesOrNo.YES,
               fasteDager,
           }
         : {
-              erLiktHverUke,
+              erLiktHverUke: YesOrNo.NO,
               timerPerUke,
           };
 };

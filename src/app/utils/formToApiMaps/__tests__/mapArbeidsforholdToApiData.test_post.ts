@@ -19,6 +19,9 @@
 // };
 
 describe('mapArbeidsforholdToApiData', () => {
+    it('does not exist', () => {
+        expect(1).toEqual(1);
+    });
     // it('jobber ikke i perioden', () => {
     //     const result: ArbeidIPeriodeApiData = mapArbeidIPeriodeToApiData(
     //         {
