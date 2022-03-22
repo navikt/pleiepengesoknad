@@ -40,7 +40,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
         values: { ansatt_arbeidsforhold, frilans, selvstendig },
     } = formikProps;
 
-    const ansattArbeidsforholdMedFravær = ansatt_arbeidsforhold.filter((a) => a.harFraværIPeriode === YesOrNo.YES);
+    const harAnsattArbeidsforholdMedFravær = ansatt_arbeidsforhold.some((a) => a.harFraværIPeriode === YesOrNo.YES);
 
     const periodeSomFrilanserISøknadsperiode =
         frilans.arbeidsforhold && frilans.arbeidsforhold.harFraværIPeriode
@@ -78,10 +78,14 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                 </CounsellorPanel>
             </Box>
 
-            {ansattArbeidsforholdMedFravær.length > 0 && (
+            {harAnsattArbeidsforholdMedFravær && (
                 <FormBlock>
-                    {ansattArbeidsforholdMedFravær.map((arbeidsforhold, index) => {
-                        if (erAnsattHosArbeidsgiverISøknadsperiode(arbeidsforhold) === false) {
+                    {ansatt_arbeidsforhold.map((arbeidsforhold, index) => {
+                        /** Må loope gjennom alle arbeidsforhold for å få riktig index inn til formik */
+                        if (
+                            erAnsattHosArbeidsgiverISøknadsperiode(arbeidsforhold) === false ||
+                            arbeidsforhold.harFraværIPeriode !== YesOrNo.YES
+                        ) {
                             return null;
                         }
                         return (
