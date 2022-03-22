@@ -14,8 +14,16 @@ const arbeidsgiverApiData: ArbeidsgiverApiData = {
             jobberIPerioden: JobberIPeriodeSvar.NEI,
         },
         harFraværIPeriode: true,
-        arbeidstimerNormalt: {
-            timerISnittPerUke: 2,
+        normalarbeidstid: {
+            erLiktHverUke: false,
+            timerPerUke: 2,
+            timerFasteDager: {
+                mandag: 'PT4H0M',
+                tirsdag: 'PT4H0M',
+                onsdag: 'PT4H0M',
+                torsdag: 'PT4H0M',
+                fredag: 'PT4H0M',
+            },
         },
     },
     sluttetFørSøknadsperiode: false,
@@ -62,8 +70,16 @@ describe('kvitteringUtils', () => {
                 erAnsatt: false,
                 sluttetFørSøknadsperiode: false,
                 arbeidsforhold: {
-                    arbeidstimerNormalt: {
-                        timerISnittPerUke: 20,
+                    normalarbeidstid: {
+                        erLiktHverUke: false,
+                        timerPerUke: 20,
+                        timerFasteDager: {
+                            mandag: 'PT4H0M',
+                            tirsdag: 'PT4H0M',
+                            onsdag: 'PT4H0M',
+                            torsdag: 'PT4H0M',
+                            fredag: 'PT4H0M',
+                        },
                     },
                     harFraværIPeriode: true,
                     arbeidIPeriode: {
@@ -76,8 +92,16 @@ describe('kvitteringUtils', () => {
                 organisasjonsnummer: '3',
                 erAnsatt: true,
                 arbeidsforhold: {
-                    arbeidstimerNormalt: {
-                        timerISnittPerUke: 20,
+                    normalarbeidstid: {
+                        erLiktHverUke: false,
+                        timerPerUke: 20,
+                        timerFasteDager: {
+                            mandag: 'PT4H0M',
+                            tirsdag: 'PT4H0M',
+                            onsdag: 'PT4H0M',
+                            torsdag: 'PT4H0M',
+                            fredag: 'PT4H0M',
+                        },
                     },
                     harFraværIPeriode: true,
                     arbeidIPeriode: {

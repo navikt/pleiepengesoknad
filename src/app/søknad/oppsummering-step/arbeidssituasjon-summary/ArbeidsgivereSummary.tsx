@@ -52,6 +52,8 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, s
                             </li>
                             {arbeidsgiver.arbeidsforhold && (
                                 <>
+                                    {/* 
+                                    TODO
                                     <li>
                                         <FormattedMessage
                                             id={
@@ -64,7 +66,7 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, s
                                                     .timerISnittPerUke,
                                             }}
                                         />
-                                    </li>
+                                    </li> */}
                                     <li>
                                         <FormattedMessage
                                             id={

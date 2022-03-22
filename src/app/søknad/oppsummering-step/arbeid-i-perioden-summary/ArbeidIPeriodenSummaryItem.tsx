@@ -8,12 +8,12 @@ import ArbeidstidEnkeltdagerListe from '@navikt/sif-common-pleiepenger/lib/dager
 import ArbeidstidFasteDagerListe from '@navikt/sif-common-pleiepenger/lib/dager-med-tid/ArbeidstidFasteDagerListe';
 // import { formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger/lib/timer-og-minutter/TimerOgMinutter';
 import { JobberIPeriodeSvar } from '../../../types';
-import { ArbeidIPeriodeApiData, ArbeidstimerNormaltApiData, ArbeidsforholdApiData } from '../../../types/SøknadApiData';
+import { ArbeidIPeriodeApiData, NormalarbeidstidApiData, ArbeidsforholdApiData } from '../../../types/SøknadApiData';
 
 interface Props {
     periode: DateRange;
     arbeidIPeriode: ArbeidIPeriodeApiData;
-    normaltid: ArbeidstimerNormaltApiData;
+    normaltid: NormalarbeidstidApiData;
 }
 
 export interface ArbeidIPeriodenSummaryItemType extends ArbeidsforholdApiData {

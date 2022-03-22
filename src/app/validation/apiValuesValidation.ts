@@ -8,6 +8,7 @@ import { JobberIPeriodeSvar } from '../types';
 import {
     ArbeidIPeriodeApiData,
     ArbeidsforholdApiData,
+    NormalarbeidstidApiData,
     OmsorgstilbudApiData,
     SøknadApiData,
 } from '../types/SøknadApiData';
@@ -31,7 +32,7 @@ export const isVirksomhetRegnskapsførerTelefonnummerValid = (virksomhet: Virkso
     return true;
 };
 
-const isValidNormalarbeidstid = (timer: number | undefined): boolean => {
+const isValidNormalarbeidstidPerUke = (timer: number | undefined): boolean => {
     return timer !== undefined && timer >= MIN_TIMER_NORMAL_ARBEIDSFORHOLD && timer <= MAX_TIMER_NORMAL_ARBEIDSFORHOLD;
 };
 
@@ -52,18 +53,11 @@ export const isArbeidIPeriodeValid = (arbeidIPeriode: ArbeidIPeriodeApiData): bo
     return true;
 };
 
-const isNormalarbeidstidValid = (arbeidsforhold: ArbeidsforholdApiData): boolean => {
-    const {
-        arbeidstimerNormalt: { timerISnittPerUke: snitt },
-    } = arbeidsforhold;
-    if (!snitt) {
-        return false;
+const isNormalarbeidstidValid = (arbeidstimerNormalt: NormalarbeidstidApiData): boolean => {
+    if (arbeidstimerNormalt.erLiktHverUke === false) {
+        return isValidNormalarbeidstidPerUke(arbeidstimerNormalt.timerPerUke);
     }
-    return isValidNormalarbeidstid(snitt);
-};
-
-export const isArbeidsforholdValid = (arbeidsforhold: ArbeidsforholdApiData): boolean => {
-    return isNormalarbeidstidValid(arbeidsforhold);
+    return arbeidstimerNormalt.timerFasteDager !== undefined;
 };
 
 export const isArbeidIPeriodeApiValuesValid = (arbeidsforhold: ArbeidsforholdApiData): boolean => {
@@ -74,7 +68,7 @@ export const isArbeidIPeriodeApiValuesValid = (arbeidsforhold: ArbeidsforholdApi
 };
 
 export const isArbeidsforholdApiDataValid = (arbeidsforhold: ArbeidsforholdApiData) =>
-    isNormalarbeidstidValid(arbeidsforhold) && isArbeidIPeriodeApiValuesValid(arbeidsforhold);
+    isNormalarbeidstidValid(arbeidsforhold.normalarbeidstid) && isArbeidIPeriodeApiValuesValid(arbeidsforhold);
 
 export const isOmsorgstilbudApiDataValid = (omsorgstilbud: OmsorgstilbudApiData): boolean => {
     if (omsorgstilbud) {

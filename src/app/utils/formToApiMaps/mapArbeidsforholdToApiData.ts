@@ -1,36 +1,84 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
-import { JobberIPeriodeSvar } from '../../types';
+import { decimalDurationToISODuration } from '@navikt/sif-common-utils/lib';
+import { JobberIPeriodeSvar, TimerEllerProsent } from '../../types';
 import { ArbeidIPeriode } from '../../types/ArbeidIPeriode';
 import { Arbeidsforhold, ArbeidsforholdFrilanser, Normalarbeidstid } from '../../types/Arbeidsforhold';
-import { ArbeidIPeriodeApiData, ArbeidstimerNormaltApiData, ArbeidsforholdApiData } from '../../types/SøknadApiData';
-import { getFasteDagerApiData } from './tidsbrukApiUtils';
+import { ArbeidIPeriodeApiData, ArbeidsforholdApiData, NormalarbeidstidApiData } from '../../types/SøknadApiData';
+import {
+    getArbeidstimerUtFraFasteDager,
+    getFasteDagerSomProsentAvFasteDager,
+    getFasteDagerUtFraTimerPerUke,
+} from './arbeidstidBeregningUtils';
+import {
+    fjernArbeidstimerUtenforPeriodeOgHelgedager,
+    getArbeidstidEnkeltdagerIPeriodeApiData,
+    getFasteDagerApiData,
+} from './tidsbrukApiUtils';
 
 export const mapArbeidIPeriodeToApiData = ({
-    // søknadsperiode,
-    // arbeidsperiode,
+    søknadsperiode,
+    arbeidsperiode,
     arbeidIPeriode,
     arbeidstimerNormalt,
 }: {
     søknadsperiode: DateRange;
     arbeidsperiode?: Partial<DateRange>;
     arbeidIPeriode: ArbeidIPeriode;
-    arbeidstimerNormalt: ArbeidstimerNormaltApiData;
+    arbeidstimerNormalt: NormalarbeidstidApiData;
 }): ArbeidIPeriodeApiData => {
+    if (arbeidIPeriode.jobberIPerioden === JobberIPeriodeSvar.NEI) {
+        return {
+            jobberIPerioden: JobberIPeriodeSvar.NEI,
+        };
+    }
     const apiData: ArbeidIPeriodeApiData = {
         jobberIPerioden: arbeidIPeriode.jobberIPerioden,
+        erLiktHverUke: arbeidIPeriode.erLiktHverUke === YesOrNo.YES,
     };
-    if (arbeidIPeriode.jobberIPerioden !== JobberIPeriodeSvar.JA) {
-        return apiData;
-    }
-    if (arbeidstimerNormalt.timerISnittPerUke) {
-        arbeidstimerNormalt.timerISnittPerUke;
-    }
-    if (arbeidstimerNormalt.timerFastPerUkedag) {
-        arbeidstimerNormalt.timerFastPerUkedag;
+
+    if (apiData.erLiktHverUke) {
+        /** Skal arbeide likt hver uke i perioden - timer for hver ukedag */
+        if (arbeidIPeriode.timerEllerProsent === TimerEllerProsent.PROSENT) {
+            /** Har oppgitt prosent av normalt */
+            apiData.jobberProsent = getNumberFromNumberInputValue(arbeidIPeriode.jobberProsent);
+            if (apiData.jobberProsent === undefined) {
+                throw Error('mapArbeidIPeriodeToApiData- Prosent ikke gyldig');
+            }
+            if (arbeidstimerNormalt.erLiktHverUke) {
+                /** Normaltid er oppgitt som timer per uke */
+                apiData.fasteDager = getFasteDagerSomProsentAvFasteDager(
+                    arbeidstimerNormalt.timerFasteDager,
+                    apiData.jobberProsent
+                );
+            } else {
+                /** Normaltid er oppgitt som timer for hver ukedag */
+                apiData.fasteDager = getFasteDagerUtFraTimerPerUke(
+                    arbeidstimerNormalt.timerPerUke,
+                    apiData.jobberProsent
+                );
+            }
+        } else {
+            /** Har oppgitt timer per dag */
+            const { fasteDager } = arbeidIPeriode;
+            if (fasteDager === undefined) {
+                throw Error('mapArbeidIPeriodeToApiData - Faste dager er undefined');
+            }
+            apiData.fasteDager = getArbeidstimerUtFraFasteDager(arbeidstimerNormalt, fasteDager);
+        }
+    } else {
+        /** Det varierer - enkeltdager */
+        if (arbeidIPeriode.enkeltdager === undefined) {
+            throw 'mapArbeidIPeriodeToApiData - enkeltdager er undefined';
+        }
+        const enkeltdager = getArbeidstidEnkeltdagerIPeriodeApiData(arbeidIPeriode.enkeltdager, søknadsperiode, {});
+        apiData.enkeltdager = arbeidsperiode
+            ? fjernArbeidstimerUtenforPeriodeOgHelgedager(arbeidsperiode, enkeltdager)
+            : enkeltdager;
     }
     return apiData;
+
     // if (arbeidIPeriode.timerEllerProsent === TimerEllerProsent.PROSENT) {
     //     const jobberProsentNumber = getNumberFromNumberInputValue(arbeidIPeriode.jobberProsent);
     //     if (jobberProsentNumber === undefined) {
@@ -72,19 +120,35 @@ export const mapArbeidIPeriodeToApiData = ({
     // };
 };
 
-const mapJobberNormaltTimer = ({
+const mapArbeidstimerNormalt = ({
     timerPerUke,
     fasteDager,
     erLiktHverUke,
-}: Normalarbeidstid): ArbeidstimerNormaltApiData | undefined => {
+}: Normalarbeidstid): NormalarbeidstidApiData | undefined => {
     if (erLiktHverUke === YesOrNo.YES) {
         const snitt = getNumberFromNumberInputValue(timerPerUke);
-        return snitt !== undefined ? { erLiktHverUke: true, timerISnittPerUke: snitt } : undefined;
+        if (!snitt) {
+            return undefined;
+        }
+        const timerPerDag = snitt / 5;
+        return snitt !== undefined
+            ? {
+                  erLiktHverUke: false,
+                  timerPerUke: snitt,
+                  timerFasteDager: {
+                      mandag: decimalDurationToISODuration(timerPerDag),
+                      tirsdag: decimalDurationToISODuration(timerPerDag),
+                      onsdag: decimalDurationToISODuration(timerPerDag),
+                      torsdag: decimalDurationToISODuration(timerPerDag),
+                      fredag: decimalDurationToISODuration(timerPerDag),
+                  },
+              }
+            : undefined;
     }
     if (erLiktHverUke === YesOrNo.NO && fasteDager) {
         return {
-            erLiktHverUke: false,
-            timerFastPerUkedag: getFasteDagerApiData(fasteDager),
+            erLiktHverUke: true,
+            timerFasteDager: getFasteDagerApiData(fasteDager),
         };
     }
     return undefined;
@@ -98,11 +162,11 @@ export const mapArbeidsforholdToApiData = (
 ): ArbeidsforholdApiData => {
     const harFraværIPeriode: boolean = arbeidsforhold.harFraværIPeriode === YesOrNo.YES;
     const arbeidstimerNormalt = arbeidsforhold.normalarbeidstid
-        ? mapJobberNormaltTimer(arbeidsforhold.normalarbeidstid)
+        ? mapArbeidstimerNormalt(arbeidsforhold.normalarbeidstid)
         : undefined;
 
     if (arbeidstimerNormalt === undefined) {
-        throw new Error('mapArbeidIPeriodeToApiData - arbeidNormaltid is undefined');
+        throw new Error('mapArbeidIPeriodeToApiData - arbeidstimerNormalt is undefined');
     }
 
     const arbeidIPeriode =
@@ -116,7 +180,7 @@ export const mapArbeidsforholdToApiData = (
             : undefined;
     return {
         harFraværIPeriode,
-        arbeidstimerNormalt,
+        normalarbeidstid: arbeidstimerNormalt,
         arbeidIPeriode,
     };
 };

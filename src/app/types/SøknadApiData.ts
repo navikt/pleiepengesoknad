@@ -11,7 +11,7 @@ export interface PeriodeApiData {
     tilOgMed: ApiStringDate;
 }
 
-export interface TidFasteDagerApiData {
+export interface TimerFasteDagerApiData {
     mandag?: ISODuration;
     tirsdag?: ISODuration;
     onsdag?: ISODuration;
@@ -43,7 +43,7 @@ export interface ArbeidstimerApiData {
 export interface OmsorgstilbudApiData {
     erLiktHverUke: boolean;
     enkeltdager?: TidEnkeltdagApiData[];
-    ukedager?: TidFasteDagerApiData;
+    ukedager?: TimerFasteDagerApiData;
 }
 
 export interface BarnetSøknadenGjelderApiData {
@@ -63,15 +63,21 @@ export interface ArbeidIPeriodeApiData {
     jobberProsent?: number;
 }
 
-export type ArbeidstimerNormaltApiData = {
-    erLiktHverUke?: boolean;
-    timerISnittPerUke?: number;
-    timerFastPerUkedag?: TidFasteDagerApiData;
+type NormalarbeidstidPerUkeApiData = {
+    erLiktHverUke: false;
+    timerPerUke: number;
+    timerFasteDager: TimerFasteDagerApiData;
 };
+type NormalarbeidstidFasteDagerApiData = {
+    erLiktHverUke: true;
+    timerFasteDager: TimerFasteDagerApiData;
+};
+
+export type NormalarbeidstidApiData = NormalarbeidstidPerUkeApiData | NormalarbeidstidFasteDagerApiData;
 
 export interface ArbeidsforholdApiData {
     harFraværIPeriode: boolean;
-    arbeidstimerNormalt: ArbeidstimerNormaltApiData;
+    normalarbeidstid: NormalarbeidstidApiData;
     arbeidIPeriode?: ArbeidIPeriodeApiData;
 }
 export interface ArbeidsgiverApiData {
