@@ -26,6 +26,7 @@ import { getArbeidIPeriodeErLiktHverUkeValidator } from '../validation/arbeidIPe
 import { getArbeidstidTimerEllerProsentValidator } from '../validation/arbeidstidEllerProsentValidator';
 import { getJobberIPeriodenValidator } from '../validation/jobberIPeriodenSpørsmål';
 import InfoSøkerKunHelgedager from './InfoSøkerKunHelgedager';
+import RedusertArbeidFasteDagerInfo from './RedusertArbeidFasteDagerInfo';
 
 interface Props extends ArbeidstidRegistrertLogProps {
     parentFieldName: string;
@@ -164,19 +165,22 @@ const ArbeidIPeriodeSpørsmål = ({
                                                       }
                                                     : undefined;
                                             }}
-                                            suffix={getRedusertArbeidstidPerUkeInfo(
-                                                intl,
-                                                normalarbeidstid?.timerPerUke,
-                                                jobberProsent
-                                            )}
+                                            suffix={
+                                                normalarbeidstid?.timerPerUke
+                                                    ? getRedusertArbeidstidPerUkeInfo(
+                                                          intl,
+                                                          normalarbeidstid.timerPerUke,
+                                                          jobberProsent
+                                                      )
+                                                    : undefined
+                                            }
                                             suffixStyle="text"
                                         />
-                                        {/* {arbeidsforhold.jobberNormaltTimerPerUke !== undefined && (
-                                            <>Oppsummering snitt</>
-                                        )}
-                                        {arbeidsforhold.jobberNormaltTimerUkedager !== undefined && (
-                                            <>Oppsummering ukedager</>
-                                        )} */}
+                                        <RedusertArbeidFasteDagerInfo
+                                            arbeiderHvor={intlValues.hvor}
+                                            arbeidNormalt={normalarbeidstid?.fasteDager}
+                                            jobberProsent={getNumberFromNumberInputValue(jobberProsent)}
+                                        />
                                     </ResponsivePanel>
                                 </FormBlock>
                             )}
