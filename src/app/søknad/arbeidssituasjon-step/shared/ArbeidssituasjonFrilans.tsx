@@ -17,7 +17,7 @@ import Lenke from 'nav-frontend-lenker';
 import { Ingress } from 'nav-frontend-typografi';
 import ConditionalResponsivePanel from '../../../components/conditional-responsive-panel/ConditionalResponsivePanel';
 import { Arbeidsgiver } from '../../../types';
-import { ArbeidsforholdFormField } from '../../../types/Arbeidsforhold';
+import { ArbeidsforholdFormField } from '../../../types/ArbeidsforholdFormData';
 import { FrilansFormData, FrilansFormField } from '../../../types/FrilansFormData';
 import { erFrilanserISøknadsperiode, harFrilansoppdrag } from '../../../utils/frilanserUtils';
 import FrilansoppdragInfo from './info/FrilansoppdragInfo';

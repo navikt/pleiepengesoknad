@@ -3,8 +3,12 @@ import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
 import { decimalDurationToISODuration } from '@navikt/sif-common-utils/lib';
 import { JobberIPeriodeSvar, TimerEllerProsent } from '../../types';
-import { ArbeidIPeriode } from '../../types/ArbeidIPeriode';
-import { Arbeidsforhold, ArbeidsforholdFrilanser, Normalarbeidstid } from '../../types/Arbeidsforhold';
+import { ArbeidIPeriodeFormData } from '../../types/ArbeidIPeriodeFormData';
+import {
+    ArbeidsforholdFormData,
+    ArbeidsforholdFrilanserFormData,
+    NormalarbeidstidFormData,
+} from '../../types/ArbeidsforholdFormData';
 import { ArbeidIPeriodeApiData, ArbeidsforholdApiData, NormalarbeidstidApiData } from '../../types/SøknadApiData';
 import {
     getArbeidstimerUtFraFasteDager,
@@ -25,7 +29,7 @@ export const mapArbeidIPeriodeToApiData = ({
 }: {
     søknadsperiode: DateRange;
     arbeidsperiode?: Partial<DateRange>;
-    arbeidIPeriode: ArbeidIPeriode;
+    arbeidIPeriode: ArbeidIPeriodeFormData;
     arbeidstimerNormalt: NormalarbeidstidApiData;
 }): ArbeidIPeriodeApiData => {
     if (arbeidIPeriode.jobberIPerioden === JobberIPeriodeSvar.NEI) {
@@ -124,7 +128,7 @@ const mapArbeidstimerNormalt = ({
     timerPerUke,
     fasteDager,
     erLiktHverUke,
-}: Normalarbeidstid): NormalarbeidstidApiData | undefined => {
+}: NormalarbeidstidFormData): NormalarbeidstidApiData | undefined => {
     if (erLiktHverUke === YesOrNo.NO) {
         const snitt = getNumberFromNumberInputValue(timerPerUke);
         if (!snitt) {
@@ -155,7 +159,7 @@ const mapArbeidstimerNormalt = ({
 };
 
 export const mapArbeidsforholdToApiData = (
-    arbeidsforhold: Arbeidsforhold | ArbeidsforholdFrilanser,
+    arbeidsforhold: ArbeidsforholdFormData | ArbeidsforholdFrilanserFormData,
     søknadsperiode: DateRange,
     /** Periode hvor en er aktiv, f.eks. noen som starter sluttet i søknadsperioden */
     arbeidsperiode?: Partial<DateRange>

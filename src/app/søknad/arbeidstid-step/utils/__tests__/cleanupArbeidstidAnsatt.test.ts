@@ -2,13 +2,13 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { ISODateToDate } from '@navikt/sif-common-utils';
 import { JobberIPeriodeSvar, TimerEllerProsent } from '../../../../types';
-import { ArbeidIPeriode } from '../../../../types/ArbeidIPeriode';
+import { ArbeidIPeriodeFormData } from '../../../../types/ArbeidIPeriodeFormData';
 import { cleanupArbeidIPeriode } from '../cleanupArbeidstidStep';
 
 const periodeFromDateString = '2021-02-01';
 const periodeToDateString = '2021-02-12';
 
-const arbeidIPeriode: ArbeidIPeriode = {
+const arbeidIPeriode: ArbeidIPeriodeFormData = {
     jobberIPerioden: JobberIPeriodeSvar.JA,
     erLiktHverUke: YesOrNo.YES,
     timerEllerProsent: TimerEllerProsent.PROSENT,

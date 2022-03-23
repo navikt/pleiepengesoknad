@@ -3,11 +3,11 @@ import { FormattedMessage } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { DateRange } from '@navikt/sif-common-utils/lib';
-import { Arbeidsforhold } from '../../../types/Arbeidsforhold';
+import { ArbeidsforholdFormData } from '../../../types/ArbeidsforholdFormData';
 import ArbeidssituasjonAnsatt from './ArbeidssituasjonAnsatt';
 
 interface Props {
-    ansatt_arbeidsforhold: Arbeidsforhold[];
+    ansatt_arbeidsforhold: ArbeidsforholdFormData[];
     parentFieldName: string;
     søknadsperiode: DateRange;
 }

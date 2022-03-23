@@ -12,11 +12,11 @@ import {
     validateFasteArbeidstimerIUke,
 } from '@navikt/sif-common-pleiepenger/lib';
 import {
-    Arbeidsforhold,
+    ArbeidsforholdFormData,
     ArbeidsforholdFormField,
-    ArbeidsforholdFrilanser,
-    ArbeidsforholdSelvstendig,
-} from '../../../../types/Arbeidsforhold';
+    ArbeidsforholdFrilanserFormData,
+    ArbeidsforholdSelvstendigFormData,
+} from '../../../../types/ArbeidsforholdFormData';
 import { getArbeidsforholdIntlValues } from '../../utils/arbeidsforholdIntlValues';
 import InfoJobberNormaltTimerIUken from '../info/InfoJobberNormaltTimerIUken';
 import { getJobberNormaltTimerIUkenValidator } from '../validation/jobberNormaltTimerValidator';
@@ -25,12 +25,12 @@ import InfoJobberLiktHverUke from '../info/InfoJobberLiktHverUke';
 interface Props {
     arbeidsforholdFieldName: string;
     arbeidsstedNavn?: string;
-    arbeidsforhold: Arbeidsforhold | ArbeidsforholdFrilanser | ArbeidsforholdSelvstendig;
+    arbeidsforhold: ArbeidsforholdFormData | ArbeidsforholdFrilanserFormData | ArbeidsforholdSelvstendigFormData;
     arbeidsforholdType: ArbeidsforholdType;
     jobberFortsatt: boolean;
 }
 
-const FormComponents = getTypedFormComponents<ArbeidsforholdFormField, Arbeidsforhold, ValidationError>();
+const FormComponents = getTypedFormComponents<ArbeidsforholdFormField, ArbeidsforholdFormData, ValidationError>();
 
 const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
     arbeidsforholdFieldName,

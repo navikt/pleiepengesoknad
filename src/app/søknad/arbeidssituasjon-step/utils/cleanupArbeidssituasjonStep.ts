@@ -1,13 +1,17 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { Arbeidsgiver } from '../../../types';
-import { Arbeidsforhold, Normalarbeidstid } from '../../../types/Arbeidsforhold';
+import { ArbeidsforholdFormData, NormalarbeidstidFormData } from '../../../types/ArbeidsforholdFormData';
 import { FrilansFormData } from '../../../types/FrilansFormData';
 import { SøknadFormData } from '../../../types/SøknadFormData';
 import { erFrilanserISøknadsperiode, harFrilansoppdrag } from '../../../utils/frilanserUtils';
 import { visVernepliktSpørsmål } from './visVernepliktSpørsmål';
 
-const cleanupNormalarbeidstid = ({ erLiktHverUke, fasteDager, timerPerUke }: Normalarbeidstid): Normalarbeidstid => {
+const cleanupNormalarbeidstid = ({
+    erLiktHverUke,
+    fasteDager,
+    timerPerUke,
+}: NormalarbeidstidFormData): NormalarbeidstidFormData => {
     return erLiktHverUke === YesOrNo.YES
         ? {
               erLiktHverUke: YesOrNo.YES,
@@ -19,7 +23,7 @@ const cleanupNormalarbeidstid = ({ erLiktHverUke, fasteDager, timerPerUke }: Nor
           };
 };
 
-export const cleanupAnsattArbeidsforhold = (arbeidsforhold: Arbeidsforhold): Arbeidsforhold => {
+export const cleanupAnsattArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData): ArbeidsforholdFormData => {
     const cleanedArbeidsforhold = { ...arbeidsforhold };
 
     if (cleanedArbeidsforhold.erAnsatt === YesOrNo.YES) {

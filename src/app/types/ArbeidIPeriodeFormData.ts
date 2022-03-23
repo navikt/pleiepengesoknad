@@ -3,7 +3,7 @@ import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils/lib'
 import { JobberIPeriodeSvar } from './JobberIPeriodenSvar';
 import { TimerEllerProsent } from './TimerEllerProsent';
 
-export enum ArbeidIPeriodeField {
+export enum ArbeidIPeriodeFormField {
     jobberIPerioden = 'jobberIPerioden',
     erLiktHverUke = 'erLiktHverUke',
     timerEllerProsent = 'timerEllerProsent',
@@ -12,11 +12,11 @@ export enum ArbeidIPeriodeField {
     enkeltdager = 'enkeltdager',
 }
 
-export interface ArbeidIPeriode {
-    [ArbeidIPeriodeField.jobberIPerioden]: JobberIPeriodeSvar;
-    [ArbeidIPeriodeField.erLiktHverUke]?: YesOrNo;
-    [ArbeidIPeriodeField.timerEllerProsent]?: TimerEllerProsent;
-    [ArbeidIPeriodeField.jobberProsent]?: string;
-    [ArbeidIPeriodeField.enkeltdager]?: DateDurationMap;
-    [ArbeidIPeriodeField.fasteDager]?: DurationWeekdays;
+export interface ArbeidIPeriodeFormData {
+    [ArbeidIPeriodeFormField.jobberIPerioden]: JobberIPeriodeSvar;
+    [ArbeidIPeriodeFormField.erLiktHverUke]?: YesOrNo;
+    [ArbeidIPeriodeFormField.timerEllerProsent]?: TimerEllerProsent;
+    [ArbeidIPeriodeFormField.jobberProsent]?: string;
+    [ArbeidIPeriodeFormField.enkeltdager]?: DateDurationMap;
+    [ArbeidIPeriodeFormField.fasteDager]?: DurationWeekdays;
 }

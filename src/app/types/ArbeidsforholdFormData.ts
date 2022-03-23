@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DurationWeekdays } from '@navikt/sif-common-utils/lib';
-import { ArbeidIPeriode } from './ArbeidIPeriode';
+import { ArbeidIPeriodeFormData } from './ArbeidIPeriodeFormData';
 import { Arbeidsgiver } from './Arbeidsgiver';
 
 export enum ArbeidsforholdFormField {
@@ -14,20 +14,20 @@ export enum ArbeidsforholdFormField {
     arbeidIPeriode = 'arbeidIPeriode',
 }
 
-export type Normalarbeidstid = {
+export type NormalarbeidstidFormData = {
     erLiktHverUke?: YesOrNo;
     timerPerUke?: string;
     fasteDager?: DurationWeekdays;
 };
 
-export interface Arbeidsforhold {
+export interface ArbeidsforholdFormData {
     arbeidsgiver: Arbeidsgiver;
-    normalarbeidstid?: Normalarbeidstid;
+    normalarbeidstid?: NormalarbeidstidFormData;
     harFraværIPeriode?: YesOrNo;
     erAnsatt?: YesOrNo;
     sluttetFørSøknadsperiode?: YesOrNo;
-    arbeidIPeriode?: ArbeidIPeriode;
+    arbeidIPeriode?: ArbeidIPeriodeFormData;
 }
 
-export type ArbeidsforholdFrilanser = Omit<Arbeidsforhold, 'arbeidsgiver' | 'erAnsatt'>;
-export type ArbeidsforholdSelvstendig = Omit<Arbeidsforhold, 'arbeidsgiver' | 'erAnsatt'>;
+export type ArbeidsforholdFrilanserFormData = Omit<ArbeidsforholdFormData, 'arbeidsgiver' | 'erAnsatt'>;
+export type ArbeidsforholdSelvstendigFormData = Omit<ArbeidsforholdFormData, 'arbeidsgiver' | 'erAnsatt'>;

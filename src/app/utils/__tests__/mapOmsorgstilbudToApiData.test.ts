@@ -1,7 +1,7 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { DateDurationMap } from '@navikt/sif-common-utils';
-import { Omsorgstilbud } from '../../types/SøknadFormData';
+import { OmsorgstilbudFormData } from '../../types/SøknadFormData';
 import { mapOmsorgstilbudToApiData } from '../formToApiMaps/getOmsorgstilbudApiData';
 import { getEnkeltdagerIPeriodeApiData } from '../formToApiMaps/tidsbrukApiUtils';
 
@@ -24,7 +24,7 @@ jest.mock('./../featureToggleUtils.ts', () => ({
     Feature: {},
 }));
 
-const omsorgstilbud: Omsorgstilbud = {
+const omsorgstilbud: OmsorgstilbudFormData = {
     erIOmsorgstilbud: YesOrNo.YES,
 };
 

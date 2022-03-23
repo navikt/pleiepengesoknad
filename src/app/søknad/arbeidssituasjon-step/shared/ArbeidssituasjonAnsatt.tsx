@@ -10,14 +10,14 @@ import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-comm
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { Undertittel } from 'nav-frontend-typografi';
-import { Arbeidsforhold, ArbeidsforholdFormField } from '../../../types/Arbeidsforhold';
+import { ArbeidsforholdFormData, ArbeidsforholdFormField } from '../../../types/ArbeidsforholdFormData';
 import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
 
-const AnsattFormComponents = getTypedFormComponents<ArbeidsforholdFormField, Arbeidsforhold, ValidationError>();
+const AnsattFormComponents = getTypedFormComponents<ArbeidsforholdFormField, ArbeidsforholdFormData, ValidationError>();
 
 interface Props {
-    arbeidsforhold: Arbeidsforhold;
+    arbeidsforhold: ArbeidsforholdFormData;
     parentFieldName: string;
     søknadsperiode: DateRange;
 }

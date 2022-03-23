@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { Omsorgstilbud } from '../../../types/SøknadFormData';
+import { OmsorgstilbudFormData } from '../../../types/SøknadFormData';
 import { mapOmsorgstilbudToApiData } from '../getOmsorgstilbudApiData';
 
 const søknadsperiode: DateRange = {
@@ -8,7 +8,7 @@ const søknadsperiode: DateRange = {
     to: new Date(2021, 1, 10),
 };
 
-const omsorgstilbud: Omsorgstilbud = {
+const omsorgstilbud: OmsorgstilbudFormData = {
     erIOmsorgstilbud: YesOrNo.YES,
     enkeltdager: { '2021-02-01': { hours: '1', minutes: '0' } },
     erLiktHverUke: YesOrNo.NO,

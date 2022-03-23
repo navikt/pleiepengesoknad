@@ -12,7 +12,7 @@ import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types'
 import VirksomhetInfoAndDialog from '@navikt/sif-common-forms/lib/virksomhet/VirksomhetInfoAndDialog';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
-import { ArbeidsforholdFormField } from '../../../types/Arbeidsforhold';
+import { ArbeidsforholdFormField } from '../../../types/ArbeidsforholdFormData';
 import { SelvstendigFormData, SelvstendigFormField } from '../../../types/SelvstendigFormData';
 import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';

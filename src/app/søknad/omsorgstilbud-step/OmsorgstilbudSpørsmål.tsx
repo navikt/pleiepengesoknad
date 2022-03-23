@@ -11,7 +11,7 @@ import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { getOmsorgstilbudFastDagValidator } from '@navikt/sif-common-pleiepenger/lib/omsorgstilbud-periode/omsorgstilbud-periode-form/omsorgstilbudFormValidation';
 import TidFasteUkedagerInput from '@navikt/sif-common-pleiepenger/lib/tid-faste-ukedager-input/TidFasteUkedagerInput';
 import AlertStripe from 'nav-frontend-alertstriper';
-import { Omsorgstilbud, SøknadFormField } from '../../types/SøknadFormData';
+import { OmsorgstilbudFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { validateOmsorgstilbud } from '../../validation/validateOmsorgstilbudFields';
 import SøknadFormComponents from '../SøknadFormComponents';
 import omsorgstilbudInfo from './info/OmsorgstilbudInfo';
@@ -20,7 +20,7 @@ import { skalViseSpørsmålOmProsentEllerLiktHverUke } from './omsorgstilbudStep
 
 interface Props {
     periode: DateRange;
-    omsorgstilbud?: Omsorgstilbud;
+    omsorgstilbud?: OmsorgstilbudFormData;
     onOmsorgstilbudChanged: () => void;
 }
 

@@ -24,8 +24,12 @@ import {
     summarizeDurationInDurationWeekdays,
 } from '@navikt/sif-common-utils';
 import { JobberIPeriodeSvar, TimerEllerProsent } from '../../../../types';
-import { ArbeidIPeriodeField } from '../../../../types/ArbeidIPeriode';
-import { Arbeidsforhold, ArbeidsforholdFrilanser, Normalarbeidstid } from '../../../../types/Arbeidsforhold';
+import { ArbeidIPeriodeFormField } from '../../../../types/ArbeidIPeriodeFormData';
+import {
+    ArbeidsforholdFormData,
+    ArbeidsforholdFrilanserFormData,
+    NormalarbeidstidFormData,
+} from '../../../../types/ArbeidsforholdFormData';
 import SøknadFormComponents from '../../../SøknadFormComponents';
 import ArbeidstidVariert from '../arbeidstid-variert/ArbeidstidVariert';
 import { ArbeidstidRegistrertLogProps } from '../types';
@@ -37,7 +41,7 @@ import RedusertArbeidFasteDagerInfo from './RedusertArbeidFasteDagerInfo';
 
 interface Props extends ArbeidstidRegistrertLogProps {
     parentFieldName: string;
-    arbeidsforhold: Arbeidsforhold | ArbeidsforholdFrilanser;
+    arbeidsforhold: ArbeidsforholdFormData | ArbeidsforholdFrilanserFormData;
     arbeidsforholdType: ArbeidsforholdType;
     arbeidsstedNavn: string;
     periode: DateRange;
@@ -49,7 +53,7 @@ const getTimerPerDagFraNormalarbeidstid = ({
     erLiktHverUke,
     fasteDager,
     timerPerUke,
-}: Normalarbeidstid): DurationWeekdays | undefined => {
+}: NormalarbeidstidFormData): DurationWeekdays | undefined => {
     if (erLiktHverUke === YesOrNo.YES && fasteDager) {
         return fasteDager;
     }
@@ -85,7 +89,7 @@ const getTimerPerUkeFraNormalarbeidstid = ({
     erLiktHverUke,
     fasteDager,
     timerPerUke,
-}: Normalarbeidstid): number | undefined => {
+}: NormalarbeidstidFormData): number | undefined => {
     if (erLiktHverUke === YesOrNo.NO && timerPerUke) {
         return getNumberFromNumberInputValue(timerPerUke);
     }
@@ -154,7 +158,7 @@ const ArbeidIPeriodeSpørsmål = ({
         periode,
     });
 
-    const getFieldName = (field: ArbeidIPeriodeField) => `${parentFieldName}.arbeidIPeriode.${field}` as any;
+    const getFieldName = (field: ArbeidIPeriodeFormField) => `${parentFieldName}.arbeidIPeriode.${field}` as any;
 
     const { arbeidIPeriode } = arbeidsforhold;
     const { jobberIPerioden, timerEllerProsent, erLiktHverUke, jobberProsent } = arbeidIPeriode || {};
@@ -170,7 +174,7 @@ const ArbeidIPeriodeSpørsmål = ({
             intlValues={intlValues}
             arbeidsstedNavn={arbeidsstedNavn}
             arbeidsforholdType={arbeidsforholdType}
-            formFieldName={getFieldName(ArbeidIPeriodeField.enkeltdager)}
+            formFieldName={getFieldName(ArbeidIPeriodeFormField.enkeltdager)}
             onArbeidstidVariertChanged={() => setArbeidstidChanged(true)}
             onArbeidPeriodeRegistrert={onArbeidPeriodeRegistrert}
             onArbeidstidEnkeltdagRegistrert={onArbeidstidEnkeltdagRegistrert}
@@ -183,7 +187,7 @@ const ArbeidIPeriodeSpørsmål = ({
     return (
         <>
             <SøknadFormComponents.RadioPanelGroup
-                name={getFieldName(ArbeidIPeriodeField.jobberIPerioden)}
+                name={getFieldName(ArbeidIPeriodeFormField.jobberIPerioden)}
                 legend={intlHelper(intl, `arbeidIPeriode.jobberIPerioden.spm`, intlValues)}
                 useTwoColumns={true}
                 validate={getJobberIPeriodenValidator(intlValues)}
@@ -200,7 +204,7 @@ const ArbeidIPeriodeSpørsmål = ({
                 <>
                     <FormBlock>
                         <SøknadFormComponents.YesOrNoQuestion
-                            name={getFieldName(ArbeidIPeriodeField.erLiktHverUke)}
+                            name={getFieldName(ArbeidIPeriodeFormField.erLiktHverUke)}
                             legend={intlHelper(intl, `arbeidIPeriode.erLiktHverUke.spm`, intlValues)}
                             validate={getArbeidIPeriodeErLiktHverUkeValidator(intlValues)}
                             useTwoColumns={true}
@@ -227,7 +231,7 @@ const ArbeidIPeriodeSpørsmål = ({
                     {erLiktHverUke === YesOrNo.YES && (
                         <FormBlock>
                             <SøknadFormComponents.RadioPanelGroup
-                                name={getFieldName(ArbeidIPeriodeField.timerEllerProsent)}
+                                name={getFieldName(ArbeidIPeriodeFormField.timerEllerProsent)}
                                 legend={intlHelper(intl, `arbeidIPeriode.timerEllerProsent.spm`, intlValues)}
                                 radios={getTimerEllerProsentRadios(intl, intlValues)}
                                 validate={getArbeidstidTimerEllerProsentValidator(intlValues)}
@@ -237,7 +241,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                 <FormBlock margin="l">
                                     <ResponsivePanel>
                                         <SøknadFormComponents.NumberInput
-                                            name={getFieldName(ArbeidIPeriodeField.jobberProsent)}
+                                            name={getFieldName(ArbeidIPeriodeFormField.jobberProsent)}
                                             bredde="XS"
                                             maxLength={4}
                                             label={intlHelper(intl, 'arbeidIPeriode.jobberProsent.spm', intlValues)}
@@ -294,7 +298,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                             }}
                                             name={`${parentFieldName}_fasteDager.gruppe` as any}>
                                             <TidFasteUkedagerInput
-                                                name={getFieldName(ArbeidIPeriodeField.fasteDager)}
+                                                name={getFieldName(ArbeidIPeriodeFormField.fasteDager)}
                                                 validateDag={(dag, value) => {
                                                     if (normalarbeidstid?.fasteDager) {
                                                         const normaltidDag = getNormaltidForDag(
