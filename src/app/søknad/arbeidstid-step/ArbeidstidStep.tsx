@@ -23,6 +23,8 @@ import { useHistory } from 'react-router';
 import usePersistSoknad from '../../hooks/usePersistSoknad';
 import useLogSøknadInfo from '../../hooks/useLogSøknadInfo';
 import { søkerKunHelgedager } from '../../utils/formDataUtils';
+import { useSøknadsdataContext } from '../SøknadsdataContext';
+import GeneralErrorPage from '../../pages/general-error-page/GeneralErrorPage';
 
 interface Props extends StepConfigProps {
     periode: DateRange;
@@ -33,9 +35,16 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
     const history = useHistory();
     const { logArbeidPeriodeRegistrert } = useLogSøknadInfo();
     const { logArbeidEnkeltdagRegistrert } = useLogSøknadInfo();
-
-    const { persist } = usePersistSoknad(history);
     const formikProps = useFormikContext<SøknadFormData>();
+    const { persist } = usePersistSoknad(history);
+    const {
+        søknadsdata: { arbeidssituasjon },
+    } = useSøknadsdataContext();
+
+    if (!arbeidssituasjon) {
+        return <GeneralErrorPage />;
+    }
+
     const {
         values: { ansatt_arbeidsforhold, frilans, selvstendig },
     } = formikProps;

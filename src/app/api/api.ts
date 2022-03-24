@@ -14,7 +14,7 @@ export const getPersistUrl = (stepID?: StepID) =>
         ? `${getApiUrlByResourceType(ResourceType.MELLOMLAGRING)}?lastStepID=${encodeURI(stepID)}`
         : getApiUrlByResourceType(ResourceType.MELLOMLAGRING);
 
-export const persist = (formData: Partial<SøknadFormData> | undefined, lastStepID?: StepID) => {
+export const persist = (formData: SøknadFormData | undefined, lastStepID?: StepID) => {
     const url = getPersistUrl(lastStepID);
     if (formData) {
         const body: SøknadTempStorageData = {

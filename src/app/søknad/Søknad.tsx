@@ -1,28 +1,32 @@
-import * as React from 'react';
+import React from 'react';
 import { TypedFormikWrapper } from '@navikt/sif-common-formik';
-import { StepID } from './søknadStepsConfig';
 import { initialValues, SøknadFormData } from '../types/SøknadFormData';
-import SøknadEssentialsLoader from './SøknadEssentialsLoader';
-
 import SøknadContent from './SøknadContent';
+import SøknadEssentialsLoader from './SøknadEssentialsLoader';
+import { StepID } from './søknadStepsConfig';
+import SøknadsdataWrapper from './SøknadsdataWrapper';
+import { getSøknadsdataFromFormValues } from './søknadsdata-utils/getSøknadsdataFromFormValues';
 
-const Søknad = () => (
-    <SøknadEssentialsLoader
-        contentLoadedRenderer={(
-            formdata: Partial<SøknadFormData>,
-            harMellomlagring,
-            lastStepID: StepID | undefined
-        ) => {
-            return (
-                <TypedFormikWrapper<SøknadFormData>
-                    initialValues={formdata || initialValues}
-                    onSubmit={() => {
-                        null;
-                    }}
-                    renderForm={() => <SøknadContent lastStepID={lastStepID} harMellomlagring={harMellomlagring} />}
-                />
-            );
-        }}
-    />
-);
+const Søknad = () => {
+    return (
+        <SøknadEssentialsLoader
+            contentLoadedRenderer={(formdata: SøknadFormData, harMellomlagring, lastStepID: StepID | undefined) => {
+                const initialFormValues = formdata || initialValues;
+                return (
+                    <SøknadsdataWrapper initialSøknadsdata={getSøknadsdataFromFormValues(initialFormValues)}>
+                        <TypedFormikWrapper<SøknadFormData>
+                            initialValues={initialFormValues}
+                            onSubmit={() => {
+                                null;
+                            }}
+                            renderForm={() => {
+                                return <SøknadContent lastStepID={lastStepID} harMellomlagring={harMellomlagring} />;
+                            }}
+                        />
+                    </SøknadsdataWrapper>
+                );
+            }}
+        />
+    );
+};
 export default Søknad;

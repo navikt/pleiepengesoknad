@@ -11,5 +11,5 @@ interface StorageMetadata {
 
 export interface SøknadTempStorageData {
     metadata: StorageMetadata;
-    formData: Partial<SøknadFormData>;
+    formData: SøknadFormData;
 }

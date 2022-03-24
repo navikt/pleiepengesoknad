@@ -18,7 +18,7 @@ export const VERIFY_MELLOMLAGRING_VERSION = true;
 
 interface OwnProps {
     contentLoadedRenderer: (
-        formdata: Partial<SøknadFormData>,
+        formdata: SøknadFormData,
         harMellomlagring: boolean,
         lastStepID?: StepID,
         søkerdata?: Søkerdata
@@ -29,7 +29,7 @@ interface State {
     isLoading: boolean;
     willRedirectToLoginPage: boolean;
     lastStepID?: StepID;
-    formdata: Partial<SøknadFormData>;
+    formdata: SøknadFormData;
     søkerdata?: Søkerdata;
     harMellomlagring: boolean;
     harIkkeTilgang: boolean;
@@ -119,7 +119,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
     }
 
     updateSøkerdata(
-        formdata: Partial<SøknadFormData>,
+        formdata: SøknadFormData,
         søkerdata: Søkerdata,
         harMellomlagring: boolean,
         lastStepID?: StepID,
