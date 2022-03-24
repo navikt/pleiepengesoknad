@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import * as apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { AxiosError, AxiosResponse } from 'axios';
@@ -11,12 +10,13 @@ import { Søkerdata } from '../types/Søkerdata';
 import { initialValues, SøknadFormData, SøknadFormField } from '../types/SøknadFormData';
 import { MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
 import appSentryLogger from '../utils/appSentryLogger';
-import { navigateToErrorPage, relocateToLoginPage, userIsCurrentlyOnErrorPage } from '../utils/navigationUtils';
+import { relocateToLoginPage, userIsCurrentlyOnErrorPage } from '../utils/navigationUtils';
 import { StepID } from './søknadStepsConfig';
 
 export const VERIFY_MELLOMLAGRING_VERSION = true;
 
-interface OwnProps {
+interface Props {
+    onError: () => void;
     contentLoadedRenderer: (
         formdata: SøknadFormData,
         harMellomlagring: boolean,
@@ -34,8 +34,6 @@ interface State {
     harMellomlagring: boolean;
     harIkkeTilgang: boolean;
 }
-
-type Props = OwnProps & RouteComponentProps;
 
 const getValidAttachments = (attachments: Attachment[] = []): Attachment[] => {
     return attachments.filter((a) => {
@@ -112,7 +110,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
             () => {
                 this.stopLoading();
                 if (userIsCurrentlyOnErrorPage()) {
-                    navigateToErrorPage(this.props.history);
+                    this.props.onError();
                 }
             }
         );
@@ -127,7 +125,6 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
     ) {
         this.setState(
             {
-                isLoading: false,
                 lastStepID: lastStepID || this.state.lastStepID,
                 formdata: formdata || this.state.formdata,
                 søkerdata: søkerdata || this.state.søkerdata,
@@ -151,7 +148,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
             this.setState({ ...this.state, harIkkeTilgang: true });
         } else if (!userIsCurrentlyOnErrorPage()) {
             appSentryLogger.logApiError(error);
-            navigateToErrorPage(this.props.history);
+            this.props.onError();
         }
         // this timeout is set because if isLoading is updated in the state too soon,
         // the contentLoadedRenderer() will be called while the user is still on the wrong route,
@@ -177,13 +174,11 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
             return <IkkeTilgangPage />;
         }
         return (
-            <>
-                <SøkerdataContextProvider value={søkerdata}>
-                    {contentLoadedRenderer(formdata, harMellomlagring, lastStepID, søkerdata)}
-                </SøkerdataContextProvider>
-            </>
+            <SøkerdataContextProvider value={søkerdata}>
+                {contentLoadedRenderer(formdata, harMellomlagring, lastStepID, søkerdata)}
+            </SøkerdataContextProvider>
         );
     }
 }
 
-export default withRouter(SøknadEssentialsLoader);
+export default SøknadEssentialsLoader;

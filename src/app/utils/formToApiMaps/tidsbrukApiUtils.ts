@@ -72,14 +72,13 @@ export const getEnkeltdagerIPeriodeApiData = (
 
 export const getArbeidstidEnkeltdagerIPeriodeApiData = (
     enkeltdager: DateDurationMap,
-    periode: DateRange,
     enkeltdagerNormalt: DateDurationMap
 ): ArbeidstidEnkeltdagApiData[] => {
     const dager: ArbeidstidEnkeltdagApiData[] = [];
 
     Object.keys(enkeltdager).forEach((dag) => {
         const dato = ISOStringToDate(dag);
-        if (dato && datoErInnenforTidsrom(dato, periode) && isDateWeekDay(dato)) {
+        if (dato && isDateWeekDay(dato)) {
             if (durationUtils.durationIsZero(enkeltdager[dag])) {
                 return;
             }

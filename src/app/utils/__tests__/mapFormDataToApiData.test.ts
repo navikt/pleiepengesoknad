@@ -1,12 +1,12 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { attachmentUploadHasFailed } from '@navikt/sif-common-core/lib/utils/attachmentUtils';
 import { dateToISOFormattedDateString } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import dayjs from 'dayjs';
-import { RegistrerteBarn, Søkerdata } from '../../types';
+import { RegistrerteBarn } from '../../types';
 import { SøknadApiData } from '../../types/SøknadApiData';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
+import { Søknadsdata } from '../../types/Søknadsdata';
 import { isFeatureEnabled } from '../featureToggleUtils';
 import { mapFormDataToApiData } from '../formToApiMaps/mapFormDataToApiData';
 
@@ -23,16 +23,8 @@ jest.mock('./../featureToggleUtils.ts', () => ({
 
 const søknadsdato: Date = dayjs().startOf('day').toDate();
 
-const søkerdata: Søkerdata = {
-    barn: [],
-    // onArbeidsgivereChange: () => null,
-    søker: {
-        mellomnavn: 'm',
-        kjønn: 'm',
-        fødselsnummer: '12345678901',
-        fornavn: 'a',
-        etternavn: 'b',
-    },
+const søknadsdata: Søknadsdata = {
+    søknadsperiode: { from: søknadsdato, to: dayjs(søknadsdato).add(1, 'day').toDate() },
 };
 
 const barnsFødselsdato = new Date(2020, 0, 20);
@@ -62,7 +54,7 @@ const formDataMock: SøknadFormData = {
     [SøknadFormField.utenlandsoppholdNeste12Mnd]: [],
     [SøknadFormField.utenlandsoppholdSiste12Mnd]: [],
     [SøknadFormField.periodeFra]: dateToISOFormattedDateString(søknadsdato),
-    [SøknadFormField.periodeTil]: dateToISOFormattedDateString(dayjs(søknadsdato).add(1, 'day').toDate()),
+    [SøknadFormField.periodeTil]: dateToISOFormattedDateString(),
     [SøknadFormField.utenlandsoppholdIPerioden]: [],
     [SøknadFormField.legeerklæring]: [attachmentMock1 as AttachmentMock, attachmentMock2 as AttachmentMock],
     [SøknadFormField.skalTaUtFerieIPerioden]: undefined,
@@ -93,7 +85,7 @@ describe('mapFormDataToApiData', () => {
 
     beforeAll(() => {
         (isFeatureEnabled as any).mockImplementation(() => false);
-        resultingApiData = mapFormDataToApiData(formDataMock as SøknadFormData, søkerdata, barnMock, 'nb')!;
+        resultingApiData = mapFormDataToApiData(formDataMock as SøknadFormData, barnMock, søknadsdata, 'nb')!;
     });
 
     it("should set 'barnetsNavn' in api data correctly", () => {
@@ -130,7 +122,7 @@ describe('mapFormDataToApiData', () => {
             ...formDataMock,
             [SøknadFormField.barnetsFødselsnummer]: fnr,
         };
-        const result = mapFormDataToApiData(formDataWithFnr as SøknadFormData, søkerdata, barnMock, 'nb');
+        const result = mapFormDataToApiData(formDataWithFnr as SøknadFormData, barnMock, søknadsdata, 'nb');
         expect(result).toBeDefined();
         if (result) {
             expect(result.barn.fødselsnummer).toEqual(fnr);
@@ -150,8 +142,8 @@ describe('mapFormDataToApiData', () => {
     it('should not include samtidig_hjemme if harMedsøker is no', () => {
         const resultingApiData = mapFormDataToApiData(
             { ...formData, harMedsøker: YesOrNo.NO },
-            søkerdata,
             barnMock,
+            søknadsdata,
             'nb'
         );
         expect(resultingApiData).toBeDefined();
@@ -162,7 +154,7 @@ describe('mapFormDataToApiData', () => {
 
     it('should include samtidig_hjemme if harMedsøker is yes', () => {
         const dataHarMedsøker = { ...formData, harMedsøker: YesOrNo.YES };
-        const resultingApiData = mapFormDataToApiData(dataHarMedsøker, søkerdata, barnMock, 'nb');
+        const resultingApiData = mapFormDataToApiData(dataHarMedsøker, barnMock, søknadsdata, 'nb');
         expect(resultingApiData).toBeDefined();
         if (resultingApiData) {
             expect(resultingApiData.samtidigHjemme).toBeDefined();
@@ -182,8 +174,8 @@ describe('mapFormDataToApiData', () => {
                     },
                 ],
             },
-            søkerdata,
             barnMock,
+            søknadsdata,
             'nb'
         );
         expect(resultingApiData).toBeDefined();
@@ -205,8 +197,8 @@ describe('mapFormDataToApiData', () => {
                     },
                 ],
             },
-            søkerdata,
             barnMock,
+            søknadsdata,
             'nb'
         );
         expect(resultingApiData).toBeDefined();
@@ -228,8 +220,8 @@ describe('mapFormDataToApiData', () => {
                     },
                 ],
             },
-            søkerdata,
             barnMock,
+            søknadsdata,
             'nb'
         );
         expect(resultingApiData).toBeDefined();
@@ -251,8 +243,8 @@ describe('mapFormDataToApiData', () => {
                     },
                 ],
             },
-            søkerdata,
             barnMock,
+            søknadsdata,
             'nb'
         );
         expect(resultingApiData).toBeDefined();

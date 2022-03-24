@@ -1,15 +1,14 @@
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
+import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ArbeidsforholdFormData, ArbeidsforholdFrilanserFormData } from '../../types/ArbeidsforholdFormData';
 import { ArbeidsforholdSøknadsdata } from '../../types/Søknadsdata';
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
+import { extractArbeidISøknadsperiodeSøknadsdata } from './extractArbeidISøknadsperiodeSøknadsdata';
 import { extractNormalarbeidstid } from './extractNormalarbeidstidSøknadsdata';
 
 export const extractArbeidsforholdSøknadsdata = (
-    arbeidsforhold?: ArbeidsforholdFrilanserFormData | ArbeidsforholdFormData
+    arbeidsforhold: ArbeidsforholdFrilanserFormData | ArbeidsforholdFormData,
+    søknadsperiode: DateRange
 ): ArbeidsforholdSøknadsdata | undefined => {
-    if (!arbeidsforhold) {
-        return undefined;
-    }
     const harFraværIPeriode = isYesOrNoAnswered(arbeidsforhold.harFraværIPeriode)
         ? arbeidsforhold.harFraværIPeriode === YesOrNo.YES
         : undefined;
@@ -20,8 +19,13 @@ export const extractArbeidsforholdSøknadsdata = (
         return undefined;
     }
 
+    const arbeidISøknadsperiode = arbeidsforhold.arbeidIPeriode
+        ? extractArbeidISøknadsperiodeSøknadsdata(arbeidsforhold.arbeidIPeriode, normalarbeidstid, søknadsperiode)
+        : undefined;
+
     return {
         normalarbeidstid,
         harFraværIPeriode,
+        arbeidISøknadsperiode,
     };
 };

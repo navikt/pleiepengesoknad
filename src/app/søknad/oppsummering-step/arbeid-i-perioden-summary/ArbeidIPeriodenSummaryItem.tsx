@@ -5,7 +5,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 // import { getRedusertArbeidstidSomDuration } from '@navikt/sif-common-pleiepenger';
 import ArbeidstidEnkeltdagerListe from '@navikt/sif-common-pleiepenger/lib/dager-med-tid/ArbeidstidEnkeltdagerListe';
-import ArbeidstidFasteDagerListe from '@navikt/sif-common-pleiepenger/lib/dager-med-tid/ArbeidstidFasteDagerListe';
+// import ArbeidstidFasteDagerListe from '@navikt/sif-common-pleiepenger/lib/dager-med-tid/ArbeidstidFasteDagerListe';
 // import { formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger/lib/timer-og-minutter/TimerOgMinutter';
 import { JobberIPeriodeSvar } from '../../../types';
 import { ArbeidIPeriodeApiData, NormalarbeidstidApiData, ArbeidsforholdApiData } from '../../../types/SøknadApiData';
@@ -53,10 +53,10 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
                         <>
                             <div>{intlHelper(intl, 'oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke')}:</div>
                             <Box margin="m">
-                                <ArbeidstidFasteDagerListe
+                                {/* <ArbeidstidFasteDagerListe
                                     fasteDager={arbeidIPeriode.fasteDager}
                                     visNormaltid={false}
-                                />
+                                /> */}
                             </Box>
                         </>
                     )}

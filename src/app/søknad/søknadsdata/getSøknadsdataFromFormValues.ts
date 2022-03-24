@@ -1,7 +1,7 @@
 import { SøknadFormData } from '../../types/SøknadFormData';
 import { Søknadsdata } from '../../types/Søknadsdata';
 import { getSøknadsperiodeFromFormData } from '../../utils/formDataUtils';
-import { extractArbeidssituasjonSøknadsdata } from './extractArbeidssituasjonSøknadsdata';
+import { extractArbeidSøknadsdata } from './extractArbeidSøknadsdata';
 
 export const getSøknadsdataFromFormValues = (values: SøknadFormData): Søknadsdata => {
     const søknadsperiode = getSøknadsperiodeFromFormData(values);
@@ -9,10 +9,9 @@ export const getSøknadsdataFromFormValues = (values: SøknadFormData): Søknads
         return {};
     }
     const søknadsdata: Søknadsdata = {
-        periode: {
-            søknadsperiode,
-        },
-        arbeidssituasjon: extractArbeidssituasjonSøknadsdata(values, søknadsperiode),
+        søknadsperiode,
+        arbeid: extractArbeidSøknadsdata(values, søknadsperiode),
     };
+    console.log(søknadsdata);
     return søknadsdata;
 };

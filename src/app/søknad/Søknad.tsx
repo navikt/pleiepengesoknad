@@ -5,11 +5,15 @@ import SøknadContent from './SøknadContent';
 import SøknadEssentialsLoader from './SøknadEssentialsLoader';
 import { StepID } from './søknadStepsConfig';
 import SøknadsdataWrapper from './SøknadsdataWrapper';
-import { getSøknadsdataFromFormValues } from './søknadsdata-utils/getSøknadsdataFromFormValues';
+import { getSøknadsdataFromFormValues } from './søknadsdata/getSøknadsdataFromFormValues';
+import { useHistory } from 'react-router-dom';
+import { navigateToErrorPage } from '../utils/navigationUtils';
 
 const Søknad = () => {
+    const history = useHistory();
     return (
         <SøknadEssentialsLoader
+            onError={() => navigateToErrorPage(history)}
             contentLoadedRenderer={(formdata: SøknadFormData, harMellomlagring, lastStepID: StepID | undefined) => {
                 const initialFormValues = formdata || initialValues;
                 return (

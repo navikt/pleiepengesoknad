@@ -26,7 +26,7 @@ import NattevåkOgBeredskapStep from './nattevåk-og-beredskap-step/NattevåkOgB
 import OmsorgstilbudStep from './omsorgstilbud-step/OmsorgstilbudStep';
 import OpplysningerOmBarnetStep from './opplysninger-om-barnet-step/OpplysningerOmBarnetStep';
 import OppsummeringStep from './oppsummering-step/OppsummeringStep';
-import { getSøknadsdataFromFormValues } from './søknadsdata-utils/getSøknadsdataFromFormValues';
+import { getSøknadsdataFromFormValues } from './søknadsdata/getSøknadsdataFromFormValues';
 import { useSøknadsdataContext } from './SøknadsdataContext';
 import { StepID } from './søknadStepsConfig';
 import TidsromStep from './tidsrom-step/TidsromStep';
@@ -149,7 +149,12 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                     render={() => (
                         <ArbeidstidStep
                             periode={søknadsperiode}
-                            onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEIDSTID)}
+                            onValidSubmit={() => {
+                                setTimeout(() => {
+                                    setSøknadsdata(getSøknadsdataFromFormValues(values));
+                                    navigateToNextStepFrom(StepID.ARBEIDSTID);
+                                });
+                            }}
                         />
                     )}
                 />

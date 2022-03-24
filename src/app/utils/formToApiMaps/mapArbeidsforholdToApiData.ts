@@ -10,11 +10,11 @@ import {
     NormalarbeidstidFormData,
 } from '../../types/ArbeidsforholdFormData';
 import { ArbeidIPeriodeApiData, ArbeidsforholdApiData, NormalarbeidstidApiData } from '../../types/SøknadApiData';
-import {
-    getArbeidstimerUtFraFasteDager,
-    getFasteDagerSomProsentAvFasteDager,
-    getFasteDagerUtFraTimerPerUke,
-} from './arbeidstidBeregningUtils';
+// import {
+//     getArbeidstimerUtFraFasteDager,
+//     getFasteDagerSomProsentAvFasteDager,
+//     getFasteDagerUtFraTimerPerUke,
+// } from './arbeidstidBeregningUtils';
 import {
     fjernArbeidstimerUtenforPeriodeOgHelgedager,
     getArbeidstidEnkeltdagerIPeriodeApiData,
@@ -22,10 +22,8 @@ import {
 } from './tidsbrukApiUtils';
 
 export const mapArbeidIPeriodeToApiData = ({
-    søknadsperiode,
     arbeidsperiode,
     arbeidIPeriode,
-    arbeidstimerNormalt,
 }: {
     søknadsperiode: DateRange;
     arbeidsperiode?: Partial<DateRange>;
@@ -50,33 +48,34 @@ export const mapArbeidIPeriodeToApiData = ({
             if (apiData.jobberProsent === undefined) {
                 throw Error('mapArbeidIPeriodeToApiData- Prosent ikke gyldig');
             }
-            if (arbeidstimerNormalt.erLiktHverUke) {
-                /** Normaltid er oppgitt som timer for hver ukedag */
-                apiData.fasteDager = getFasteDagerSomProsentAvFasteDager(
-                    arbeidstimerNormalt.timerFasteDager,
-                    apiData.jobberProsent
-                );
-            } else {
-                /** Normaltid er oppgitt som timer per uke i snitt */
-                apiData.fasteDager = getFasteDagerUtFraTimerPerUke(
-                    arbeidstimerNormalt.timerPerUke,
-                    apiData.jobberProsent
-                );
-            }
+            // if (arbeidstimerNormalt.erLiktHverUke) {
+            //     /** Normaltid er oppgitt som timer for hver ukedag */
+            //     apiData.fasteDager = getFasteDagerSomProsentAvFasteDager(
+            //         arbeidstimerNormalt.timerFasteDager,
+            //         apiData.jobberProsent
+            //     );
+            // } else {
+            //     /** Normaltid er oppgitt som timer per uke i snitt */
+            //     apiData.fasteDager = getFasteDagerUtFraTimerPerUke(
+            //         arbeidstimerNormalt.timerPerUke,
+            //         apiData.jobberProsent
+            //     );
+            // }
         } else {
             /** Har oppgitt timer per dag */
             const { fasteDager } = arbeidIPeriode;
             if (fasteDager === undefined) {
                 throw Error('mapArbeidIPeriodeToApiData - Faste dager er undefined');
             }
-            apiData.fasteDager = getArbeidstimerUtFraFasteDager(arbeidstimerNormalt, fasteDager);
+            // apiData.fasteDager = getArbeidstimerUtFraFasteDager(arbeidstimerNormalt, fasteDager);
         }
     } else {
         /** Det varierer - enkeltdager */
         if (arbeidIPeriode.enkeltdager === undefined) {
             throw 'mapArbeidIPeriodeToApiData - enkeltdager er undefined';
         }
-        const enkeltdager = getArbeidstidEnkeltdagerIPeriodeApiData(arbeidIPeriode.enkeltdager, søknadsperiode, {});
+        /** TODO */
+        const enkeltdager = getArbeidstidEnkeltdagerIPeriodeApiData(arbeidIPeriode.enkeltdager, {});
         apiData.enkeltdager = arbeidsperiode
             ? fjernArbeidstimerUtenforPeriodeOgHelgedager(arbeidsperiode, enkeltdager)
             : enkeltdager;

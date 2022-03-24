@@ -59,7 +59,7 @@ export interface ArbeidIPeriodeApiData {
     jobberIPerioden: JobberIPeriodeSvar;
     erLiktHverUke?: boolean;
     enkeltdager?: ArbeidstidEnkeltdagApiData[];
-    fasteDager?: ArbeidstimerFasteDagerApiData;
+    fasteDager?: TimerFasteDagerApiData;
     jobberProsent?: number;
 }
 
