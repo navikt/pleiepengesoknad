@@ -4,7 +4,6 @@ import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types
 import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 import { MAX_TIMER_NORMAL_ARBEIDSFORHOLD, MIN_TIMER_NORMAL_ARBEIDSFORHOLD } from '../config/minMaxValues';
 import { StepID } from '../søknad/søknadStepsConfig';
-import { JobberIPeriodeSvar } from '../types';
 import {
     ArbeidIPeriodeApiData,
     ArbeidsforholdApiData,
@@ -38,7 +37,7 @@ const isValidNormalarbeidstidPerUke = (timer: number | undefined): boolean => {
 
 export const isArbeidIPeriodeValid = (arbeidIPeriode: ArbeidIPeriodeApiData): boolean => {
     const { jobberIPerioden, erLiktHverUke, fasteDager, enkeltdager } = arbeidIPeriode;
-    if (jobberIPerioden !== JobberIPeriodeSvar.JA) {
+    if (jobberIPerioden === 'NEI') {
         return true;
     }
     if (erLiktHverUke === true && fasteDager === undefined) {

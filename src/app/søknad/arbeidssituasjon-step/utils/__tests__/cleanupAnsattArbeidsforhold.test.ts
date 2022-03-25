@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { ISODateToDate } from '@navikt/sif-common-utils/lib';
-import { ArbeidsgiverType, JobberIPeriodeSvar, TimerEllerProsent } from '../../../../types';
+import { ArbeidsgiverType, TimerEllerProsent } from '../../../../types';
 import { ArbeidsforholdFormData } from '../../../../types/ArbeidsforholdFormData';
 import { cleanupAnsattArbeidsforhold } from '../cleanupArbeidssituasjonStep';
 
@@ -14,7 +14,7 @@ const ansattArbeidsforhold: ArbeidsforholdFormData = {
     },
     arbeidIPeriode: {
         timerEllerProsent: TimerEllerProsent.PROSENT,
-        jobberIPerioden: JobberIPeriodeSvar.JA,
+        jobberIPerioden: YesOrNo.YES,
         jobberProsent: '20',
         erLiktHverUke: YesOrNo.YES,
     },

@@ -1,4 +1,4 @@
-import { DurationWeekdays, getPercentageOfDuration } from '@navikt/sif-common-utils/lib';
+import { decimalDurationToDuration, DurationWeekdays, getPercentageOfDuration } from '@navikt/sif-common-utils/lib';
 
 // export const getArbeidstimerDag = (prosent: number, normalt?: Duration): ArbeidstimerDag | undefined => {
 //     if (normalt) {
@@ -31,3 +31,14 @@ export const getPercentageOfDurationWeekdays = (percentage: number, weekdays: Du
     thursday: weekdays.thursday ? getPercentageOfDuration(weekdays.thursday, percentage) : undefined,
     friday: weekdays.friday ? getPercentageOfDuration(weekdays.friday, percentage) : undefined,
 });
+
+export const durationWeekdaysFromHoursPerWeek = (timer: number): DurationWeekdays => {
+    const tidPerDag = decimalDurationToDuration(timer / 5);
+    return {
+        monday: tidPerDag,
+        tuesday: tidPerDag,
+        wednesday: tidPerDag,
+        thursday: tidPerDag,
+        friday: tidPerDag,
+    };
+};

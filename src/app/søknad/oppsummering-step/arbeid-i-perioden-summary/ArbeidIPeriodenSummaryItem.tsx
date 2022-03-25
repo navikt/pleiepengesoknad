@@ -7,8 +7,7 @@ import { DateRange } from '@navikt/sif-common-formik/lib';
 import ArbeidstidEnkeltdagerListe from '@navikt/sif-common-pleiepenger/lib/dager-med-tid/ArbeidstidEnkeltdagerListe';
 // import ArbeidstidFasteDagerListe from '@navikt/sif-common-pleiepenger/lib/dager-med-tid/ArbeidstidFasteDagerListe';
 // import { formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger/lib/timer-og-minutter/TimerOgMinutter';
-import { JobberIPeriodeSvar } from '../../../types';
-import { ArbeidIPeriodeApiData, NormalarbeidstidApiData, ArbeidsforholdApiData } from '../../../types/SøknadApiData';
+import { ArbeidIPeriodeApiData, ArbeidsforholdApiData, NormalarbeidstidApiData } from '../../../types/SøknadApiData';
 
 interface Props {
     periode: DateRange;
@@ -33,7 +32,7 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
 
     return (
         <>
-            {arbeidIPeriode.jobberIPerioden === JobberIPeriodeSvar.NEI && (
+            {arbeidIPeriode.jobberIPerioden === 'NEI' && (
                 <p style={{ marginTop: 0 }}>
                     <FormattedMessage id={`oppsummering.arbeidIPeriode.jobberIPerioden.nei`} />
                 </p>

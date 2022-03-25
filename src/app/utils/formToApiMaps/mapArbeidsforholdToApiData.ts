@@ -2,7 +2,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
 import { decimalDurationToISODuration } from '@navikt/sif-common-utils/lib';
-import { JobberIPeriodeSvar, TimerEllerProsent } from '../../types';
+import { TimerEllerProsent } from '../../types';
 import { ArbeidIPeriodeFormData } from '../../types/ArbeidIPeriodeFormData';
 import {
     ArbeidsforholdFormData,
@@ -30,13 +30,13 @@ export const mapArbeidIPeriodeToApiData = ({
     arbeidIPeriode: ArbeidIPeriodeFormData;
     arbeidstimerNormalt: NormalarbeidstidApiData;
 }): ArbeidIPeriodeApiData => {
-    if (arbeidIPeriode.jobberIPerioden === JobberIPeriodeSvar.NEI) {
+    if (arbeidIPeriode.jobberIPerioden === YesOrNo.NO) {
         return {
-            jobberIPerioden: JobberIPeriodeSvar.NEI,
+            jobberIPerioden: 'NEI',
         };
     }
     const apiData: ArbeidIPeriodeApiData = {
-        jobberIPerioden: arbeidIPeriode.jobberIPerioden,
+        jobberIPerioden: arbeidIPeriode.jobberIPerioden === YesOrNo.YES ? 'JA' : 'NEI',
         erLiktHverUke: arbeidIPeriode.erLiktHverUke === YesOrNo.YES,
     };
 

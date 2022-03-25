@@ -9,7 +9,6 @@ import {
     Weekday,
 } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
-import { JobberIPeriodeSvar } from '../../types';
 import {
     ArbeidIPeriodeApiData,
     ArbeidsforholdApiData,
@@ -106,11 +105,11 @@ export const arbeidISøknadsperiodeSøknadsdataToApiData = (
         switch (arbeid.type) {
             case 'arbeiderIkkeIPerioden':
                 return {
-                    jobberIPerioden: JobberIPeriodeSvar.NEI,
+                    jobberIPerioden: 'NEI',
                 };
             case 'variert':
                 return {
-                    jobberIPerioden: JobberIPeriodeSvar.JA,
+                    jobberIPerioden: 'JA',
                     enkeltdager: arbeidEnkeltdagerToArbeidstidEnkeltdagApiData(
                         arbeid.enkeltdager,
                         normalarbeidstid.fasteDager
@@ -119,14 +118,14 @@ export const arbeidISøknadsperiodeSøknadsdataToApiData = (
                 };
             case 'fastProsent':
                 return {
-                    jobberIPerioden: JobberIPeriodeSvar.JA,
+                    jobberIPerioden: 'JA',
                     erLiktHverUke: true,
                     fasteDager: durationWeekdaysToTimerFasteDagerApiData(arbeid.fasteDager),
                     jobberProsent: arbeid.jobberProsent,
                 };
             case 'fastDager':
                 return {
-                    jobberIPerioden: JobberIPeriodeSvar.JA,
+                    jobberIPerioden: 'JA',
                     erLiktHverUke: true,
                     fasteDager: durationWeekdaysToTimerFasteDagerApiData(arbeid.fasteDager),
                 };
@@ -138,9 +137,16 @@ export const arbeidISøknadsperiodeSøknadsdataToApiData = (
 export const arbeidsforholdSøknadsdataToApiData = (
     arbeidsforhold: ArbeidsforholdSøknadsdata
 ): ArbeidsforholdApiData => {
+    const normalarbeidstid = normalarbeidstidSøknadsdataToApiData(arbeidsforhold.normalarbeidstid);
+    if (arbeidsforhold.harFraværIPeriode === false) {
+        return {
+            harFraværIPeriode: false,
+            normalarbeidstid,
+        };
+    }
     return {
-        harFraværIPeriode: arbeidsforhold.harFraværIPeriode,
-        normalarbeidstid: normalarbeidstidSøknadsdataToApiData(arbeidsforhold.normalarbeidstid),
+        harFraværIPeriode: true,
+        normalarbeidstid,
         arbeidIPeriode: arbeidISøknadsperiodeSøknadsdataToApiData(
             arbeidsforhold.arbeidISøknadsperiode,
             arbeidsforhold.normalarbeidstid

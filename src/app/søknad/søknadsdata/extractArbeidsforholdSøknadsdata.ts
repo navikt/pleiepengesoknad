@@ -15,17 +15,27 @@ export const extractArbeidsforholdSøknadsdata = (
 
     const normalarbeidstid = extractNormalarbeidstid(arbeidsforhold.normalarbeidstid);
 
-    if (!normalarbeidstid || harFraværIPeriode === undefined) {
-        return undefined;
+    if (normalarbeidstid && harFraværIPeriode !== undefined) {
+        if (harFraværIPeriode) {
+            const arbeidISøknadsperiode = arbeidsforhold.arbeidIPeriode
+                ? extractArbeidISøknadsperiodeSøknadsdata(
+                      arbeidsforhold.arbeidIPeriode,
+                      normalarbeidstid,
+                      søknadsperiode
+                  )
+                : undefined;
+            return {
+                harFraværIPeriode: true,
+                normalarbeidstid,
+                arbeidISøknadsperiode,
+            };
+        }
+        if (!harFraværIPeriode) {
+            return {
+                harFraværIPeriode: false,
+                normalarbeidstid,
+            };
+        }
     }
-
-    const arbeidISøknadsperiode = arbeidsforhold.arbeidIPeriode
-        ? extractArbeidISøknadsperiodeSøknadsdata(arbeidsforhold.arbeidIPeriode, normalarbeidstid, søknadsperiode)
-        : undefined;
-
-    return {
-        normalarbeidstid,
-        harFraværIPeriode,
-        arbeidISøknadsperiode,
-    };
+    return undefined;
 };

@@ -1,7 +1,7 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { ISODateToDate } from '@navikt/sif-common-utils';
-import { JobberIPeriodeSvar, TimerEllerProsent } from '../../../../types';
+import { TimerEllerProsent } from '../../../../types';
 import { ArbeidIPeriodeFormData } from '../../../../types/ArbeidIPeriodeFormData';
 import { cleanupArbeidIPeriode } from '../cleanupArbeidstidStep';
 
@@ -9,7 +9,7 @@ const periodeFromDateString = '2021-02-01';
 const periodeToDateString = '2021-02-12';
 
 const arbeidIPeriode: ArbeidIPeriodeFormData = {
-    jobberIPerioden: JobberIPeriodeSvar.JA,
+    jobberIPerioden: YesOrNo.YES,
     erLiktHverUke: YesOrNo.YES,
     timerEllerProsent: TimerEllerProsent.PROSENT,
     fasteDager: {
@@ -26,8 +26,8 @@ const periode: DateRange = {
 
 describe('cleanupArbeidstidAnsatt', () => {
     it('Fjerner informasjon dersom en ikke jobber i perioden ', () => {
-        const result = cleanupArbeidIPeriode({ ...arbeidIPeriode, jobberIPerioden: JobberIPeriodeSvar.NEI }, periode);
-        expect(result.jobberIPerioden).toEqual(JobberIPeriodeSvar.NEI);
+        const result = cleanupArbeidIPeriode({ ...arbeidIPeriode, jobberIPerioden: YesOrNo.NO }, periode);
+        expect(result.jobberIPerioden).toEqual(YesOrNo.NO);
         expect(Object.keys(result).length).toBe(1);
     });
     it('Beholder riktig informasjon når en jobber likt en prosent i perioden', () => {
@@ -38,7 +38,7 @@ describe('cleanupArbeidstidAnsatt', () => {
             },
             periode
         );
-        expect(result.jobberIPerioden).toEqual(JobberIPeriodeSvar.JA);
+        expect(result.jobberIPerioden).toEqual(YesOrNo.YES);
         expect(result.erLiktHverUke).toEqual(YesOrNo.YES);
         expect(result.timerEllerProsent).toEqual(TimerEllerProsent.PROSENT);
         expect(result.jobberProsent).toEqual('20');
@@ -53,7 +53,7 @@ describe('cleanupArbeidstidAnsatt', () => {
             },
             periode
         );
-        expect(result.jobberIPerioden).toEqual(JobberIPeriodeSvar.JA);
+        expect(result.jobberIPerioden).toEqual(YesOrNo.YES);
         expect(result.erLiktHverUke).toEqual(YesOrNo.YES);
         expect(result.timerEllerProsent).toEqual(TimerEllerProsent.TIMER);
         expect(result.jobberProsent).toBeUndefined();

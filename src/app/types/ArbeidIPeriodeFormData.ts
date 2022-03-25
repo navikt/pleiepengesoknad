@@ -1,6 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils/lib';
-import { JobberIPeriodeSvar } from './JobberIPeriodenSvar';
 import { TimerEllerProsent } from './TimerEllerProsent';
 
 export enum ArbeidIPeriodeFormField {
@@ -13,7 +12,7 @@ export enum ArbeidIPeriodeFormField {
 }
 
 export interface ArbeidIPeriodeFormData {
-    [ArbeidIPeriodeFormField.jobberIPerioden]: JobberIPeriodeSvar;
+    [ArbeidIPeriodeFormField.jobberIPerioden]: YesOrNo;
     [ArbeidIPeriodeFormField.erLiktHverUke]?: YesOrNo;
     [ArbeidIPeriodeFormField.timerEllerProsent]?: TimerEllerProsent;
     [ArbeidIPeriodeFormField.jobberProsent]?: string;

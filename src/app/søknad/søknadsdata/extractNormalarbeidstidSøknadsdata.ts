@@ -1,24 +1,9 @@
 import { getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
-import {
-    decimalDurationToDuration,
-    durationToDecimalDuration,
-    DurationWeekdays,
-    summarizeDateDurationMap,
-} from '@navikt/sif-common-utils/lib';
+import { durationToDecimalDuration, summarizeDateDurationMap } from '@navikt/sif-common-utils/lib';
 import { NormalarbeidstidFormData } from '../../types/ArbeidsforholdFormData';
 import { NormalarbeidstidSøknadsdata } from '../../types/Søknadsdata';
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
-
-const timerPerUkeTilFasteDager = (timer: number): DurationWeekdays => {
-    const tidPerDag = decimalDurationToDuration(timer / 5);
-    return {
-        monday: tidPerDag,
-        tuesday: tidPerDag,
-        wednesday: tidPerDag,
-        thursday: tidPerDag,
-        friday: tidPerDag,
-    };
-};
+import { durationWeekdaysFromHoursPerWeek } from '../arbeidstid-step/shared/utils/arbeidstimerUtils';
 
 export const extractNormalarbeidstid = (
     normalarbeidstid?: NormalarbeidstidFormData
@@ -41,7 +26,7 @@ export const extractNormalarbeidstid = (
         return {
             erLiktHverUke: false,
             timerPerUke,
-            fasteDager: timerPerUkeTilFasteDager(timerPerUke),
+            fasteDager: durationWeekdaysFromHoursPerWeek(timerPerUke),
         };
     }
     return undefined;

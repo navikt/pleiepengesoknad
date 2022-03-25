@@ -21,7 +21,7 @@ import {
     DurationWeekdays,
     summarizeDurationInDurationWeekdays,
 } from '@navikt/sif-common-utils';
-import { JobberIPeriodeSvar, TimerEllerProsent } from '../../../../types';
+import { TimerEllerProsent } from '../../../../types';
 import { ArbeidIPeriodeFormField } from '../../../../types/ArbeidIPeriodeFormData';
 import { ArbeidsforholdFormData, ArbeidsforholdFrilanserFormData } from '../../../../types/ArbeidsforholdFormData';
 import { NormalarbeidstidSøknadsdata } from '../../../../types/Søknadsdata';
@@ -136,15 +136,14 @@ const ArbeidIPeriodeSpørsmål = ({
 
     return (
         <>
-            <SøknadFormComponents.RadioPanelGroup
+            <SøknadFormComponents.YesOrNoQuestion
                 name={getFieldName(ArbeidIPeriodeFormField.jobberIPerioden)}
                 legend={intlHelper(intl, `arbeidIPeriode.jobberIPerioden.spm`, intlValues)}
                 useTwoColumns={true}
                 validate={getJobberIPeriodenValidator(intlValues)}
-                radios={getJobberIPeriodenRadios(intl)}
             />
 
-            {jobberIPerioden === JobberIPeriodeSvar.JA && (
+            {jobberIPerioden === YesOrNo.YES && (
                 <>
                     <FormBlock>
                         <SøknadFormComponents.YesOrNoQuestion
@@ -276,17 +275,6 @@ const ArbeidIPeriodeSpørsmål = ({
         </>
     );
 };
-
-const getJobberIPeriodenRadios = (intl: IntlShape) => [
-    {
-        label: intlHelper(intl, `arbeidIPeriode.jobberIPerioden.${JobberIPeriodeSvar.JA}`),
-        value: JobberIPeriodeSvar.JA,
-    },
-    {
-        label: intlHelper(intl, `arbeidIPeriode.jobberIPerioden.${JobberIPeriodeSvar.NEI}`),
-        value: JobberIPeriodeSvar.NEI,
-    },
-];
 
 const getTimerEllerProsentRadios = (intl: IntlShape, intlValues: ArbeidIPeriodeIntlValues) => [
     {

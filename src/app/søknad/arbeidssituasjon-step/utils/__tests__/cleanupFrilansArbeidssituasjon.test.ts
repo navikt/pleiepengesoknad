@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { ISODateRangeToDateRange } from '@navikt/sif-common-utils/lib';
-import { Arbeidsgiver, ArbeidsgiverType, JobberIPeriodeSvar } from '../../../../types';
+import { Arbeidsgiver, ArbeidsgiverType } from '../../../../types';
 import { FrilansFormData } from '../../../../types/FrilansFormData';
 import { cleanupFrilansArbeidssituasjon } from '../cleanupArbeidssituasjonStep';
 
@@ -12,7 +12,7 @@ const frilanserSluttetIPeriodeValues: FrilansFormData = {
         harFraværIPeriode: YesOrNo.NO,
         normalarbeidstid: { timerPerUke: '10' },
         arbeidIPeriode: {
-            jobberIPerioden: JobberIPeriodeSvar.JA,
+            jobberIPerioden: YesOrNo.YES,
         },
     },
     jobberFortsattSomFrilans: YesOrNo.NO,

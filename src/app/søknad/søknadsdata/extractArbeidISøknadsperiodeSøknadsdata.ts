@@ -1,6 +1,6 @@
 import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getDurationsInDateRange } from '@navikt/sif-common-utils/lib';
-import { JobberIPeriodeSvar, TimerEllerProsent } from '../../types';
+import { TimerEllerProsent } from '../../types';
 import { ArbeidIPeriodeFormData } from '../../types/ArbeidIPeriodeFormData';
 import { ArbeidISøknadsperiodeSøknadsdata, NormalarbeidstidSøknadsdata } from '../../types/Søknadsdata';
 import { getPercentageOfDurationWeekdays } from '../arbeidstid-step/shared/utils/arbeidstimerUtils';
@@ -17,7 +17,7 @@ export const extractArbeidISøknadsperiodeSøknadsdata = (
     normalarbeidstid: NormalarbeidstidSøknadsdata,
     søknadsperiode: DateRange
 ): ArbeidISøknadsperiodeSøknadsdata | undefined => {
-    const skalArbeide: boolean = jobberIPerioden === JobberIPeriodeSvar.JA;
+    const skalArbeide: boolean = jobberIPerioden === YesOrNo.YES;
     if (skalArbeide === false) {
         return {
             type: 'arbeiderIkkeIPerioden',

@@ -2,7 +2,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { Virksomhet } from '@navikt/sif-common-forms/lib';
 import { getDurationsInDateRange } from '@navikt/sif-common-utils';
-import { JobberIPeriodeSvar, TimerEllerProsent } from '../../../types';
+import { TimerEllerProsent } from '../../../types';
 import { ArbeidIPeriodeFormData } from '../../../types/ArbeidIPeriodeFormData';
 import {
     ArbeidsforholdFormData,
@@ -22,7 +22,7 @@ export const cleanupArbeidIPeriode = (
         jobberIPerioden: arbeidIPerioden.jobberIPerioden,
     };
 
-    if (arbeid.jobberIPerioden !== JobberIPeriodeSvar.JA) {
+    if (arbeid.jobberIPerioden !== YesOrNo.YES) {
         return arbeid;
     }
 

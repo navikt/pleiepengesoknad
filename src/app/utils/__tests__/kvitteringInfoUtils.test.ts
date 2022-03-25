@@ -1,4 +1,3 @@
-import { JobberIPeriodeSvar } from '../../types';
 import { ArbeidsgiverType } from '../../types/Arbeidsgiver';
 import { Søkerdata } from '../../types/Søkerdata';
 import { ArbeidsgiverApiData } from '../../types/SøknadApiData';
@@ -11,7 +10,7 @@ const arbeidsgiverApiData: ArbeidsgiverApiData = {
     erAnsatt: true,
     arbeidsforhold: {
         arbeidIPeriode: {
-            jobberIPerioden: JobberIPeriodeSvar.NEI,
+            jobberIPerioden: 'NEI',
         },
         harFraværIPeriode: true,
         normalarbeidstid: {
@@ -83,7 +82,7 @@ describe('kvitteringUtils', () => {
                     },
                     harFraværIPeriode: true,
                     arbeidIPeriode: {
-                        jobberIPerioden: JobberIPeriodeSvar.JA,
+                        jobberIPerioden: 'JA',
                     },
                 },
             };
@@ -105,7 +104,7 @@ describe('kvitteringUtils', () => {
                     },
                     harFraværIPeriode: true,
                     arbeidIPeriode: {
-                        jobberIPerioden: JobberIPeriodeSvar.JA,
+                        jobberIPerioden: 'JA',
                     },
                 },
             };
