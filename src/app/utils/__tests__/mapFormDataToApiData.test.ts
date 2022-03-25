@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { attachmentUploadHasFailed } from '@navikt/sif-common-core/lib/utils/attachmentUtils';
@@ -22,9 +23,9 @@ jest.mock('./../featureToggleUtils.ts', () => ({
 }));
 
 const søknadsdato: Date = dayjs().startOf('day').toDate();
-
+const søknadsperiode = { from: søknadsdato, to: dayjs(søknadsdato).add(1, 'day').toDate() };
 const søknadsdata: Søknadsdata = {
-    søknadsperiode: { from: søknadsdato, to: dayjs(søknadsdato).add(1, 'day').toDate() },
+    søknadsperiode,
 };
 
 const barnsFødselsdato = new Date(2020, 0, 20);
@@ -53,8 +54,8 @@ const formDataMock: SøknadFormData = {
     [SøknadFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.NO,
     [SøknadFormField.utenlandsoppholdNeste12Mnd]: [],
     [SøknadFormField.utenlandsoppholdSiste12Mnd]: [],
-    [SøknadFormField.periodeFra]: dateToISOFormattedDateString(søknadsdato),
-    [SøknadFormField.periodeTil]: dateToISOFormattedDateString(),
+    [SøknadFormField.periodeFra]: dateToISOFormattedDateString(søknadsperiode.from),
+    [SøknadFormField.periodeTil]: dateToISOFormattedDateString(søknadsperiode.to),
     [SøknadFormField.utenlandsoppholdIPerioden]: [],
     [SøknadFormField.legeerklæring]: [attachmentMock1 as AttachmentMock, attachmentMock2 as AttachmentMock],
     [SøknadFormField.skalTaUtFerieIPerioden]: undefined,
