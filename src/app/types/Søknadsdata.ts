@@ -27,9 +27,14 @@ export interface ArbeidAnsattSøknadsdata {
     arbeidsforhold?: ArbeidsforholdSøknadsdata;
 }
 
+export interface ArbeidFrilansSøknadsdataErIkkeFrilanser {
+    type: 'erIkkeFrilanser';
+    erFrilanser: false;
+}
 export interface ArbeidFrilansSøknadsdataPågående {
+    erFrilanser: true;
     type: 'pågående';
-    erFrilanserISøknadsperiode: true;
+    harInntektISøknadsperiode: true;
     erFortsattFrilanser: true;
     startdato: Date;
     aktivPeriode: DateRange;
@@ -37,14 +42,16 @@ export interface ArbeidFrilansSøknadsdataPågående {
 }
 
 export interface ArbeidFrilansSøknadsdataUtenforSøknadsperiode {
-    type: 'utenforSøknadsperiode';
-    erFrilanserISøknadsperiode: false;
+    erFrilanser: true;
+    type: 'avsluttetFørSøknadsperiode';
+    harInntektISøknadsperiode: false;
     startdato: Date;
     sluttdato: Date;
 }
 export interface ArbeidFrilansSøknadsdataAvsluttet {
-    type: 'avsluttet';
-    erFrilanserISøknadsperiode: true;
+    erFrilanser: true;
+    type: 'avsluttetISøknadsperiode';
+    harInntektISøknadsperiode: true;
     erFortsattFrilanser: false;
     startdato: Date;
     sluttdato: Date;
@@ -53,6 +60,7 @@ export interface ArbeidFrilansSøknadsdataAvsluttet {
 }
 
 export type ArbeidFrilansSøknadsdata =
+    | ArbeidFrilansSøknadsdataErIkkeFrilanser
     | ArbeidFrilansSøknadsdataPågående
     | ArbeidFrilansSøknadsdataUtenforSøknadsperiode
     | ArbeidFrilansSøknadsdataAvsluttet;

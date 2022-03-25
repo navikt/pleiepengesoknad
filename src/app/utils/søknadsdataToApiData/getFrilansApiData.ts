@@ -8,7 +8,7 @@ export type FrilansApiDataPart = Pick<SøknadApiData, 'frilans' | '_harHattInnte
 export const getFrilansApiData = (
     arbeidFrilansSøknadsdata: ArbeidFrilansSøknadsdata | undefined
 ): FrilansApiDataPart => {
-    if (!arbeidFrilansSøknadsdata) {
+    if (!arbeidFrilansSøknadsdata || arbeidFrilansSøknadsdata.type === 'erIkkeFrilanser') {
         return {
             _harHattInntektSomFrilanser: false,
         };
@@ -23,7 +23,7 @@ export const getFrilansApiData = (
                     arbeidsforhold: arbeidsforholdSøknadsdataToApiData(arbeidFrilansSøknadsdata.arbeidsforhold),
                 },
             };
-        case 'avsluttet':
+        case 'avsluttetISøknadsperiode':
             return {
                 _harHattInntektSomFrilanser: true,
                 frilans: {
@@ -33,7 +33,7 @@ export const getFrilansApiData = (
                     arbeidsforhold: arbeidsforholdSøknadsdataToApiData(arbeidFrilansSøknadsdata.arbeidsforhold),
                 },
             };
-        case 'utenforSøknadsperiode':
+        case 'avsluttetFørSøknadsperiode':
             return {
                 _harHattInntektSomFrilanser: false,
                 frilans: {

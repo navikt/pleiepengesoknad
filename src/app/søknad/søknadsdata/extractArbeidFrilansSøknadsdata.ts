@@ -24,13 +24,16 @@ const getPeriodeSomFrilanserInnenforSøknadsperiode = (
 export const extractArbeidFrilansSøknadsdata = (
     formData: SøknadFormData,
     søknadsperiode: DateRange
-): ArbeidFrilansSøknadsdata | undefined => {
+): ArbeidFrilansSøknadsdata => {
     const { frilans, frilansoppdrag } = formData;
     const erFrilanser = frilans.harHattInntektSomFrilanser === YesOrNo.YES || frilansoppdrag.length > 0;
 
     /** Er ikke frilanser */
     if (!erFrilanser) {
-        return undefined;
+        return {
+            type: 'erIkkeFrilanser',
+            erFrilanser: false,
+        };
     }
 
     const startdato = datepickerUtils.getDateFromDateString(frilans.startdato);
@@ -40,48 +43,43 @@ export const extractArbeidFrilansSøknadsdata = (
         ? extractArbeidsforholdSøknadsdata(frilans.arbeidsforhold, søknadsperiode)
         : undefined;
 
-    /** Avsluttet frilansforhold før søknadsperiode */
-    if (!arbeidsforhold && startdato && sluttdato) {
-        return {
-            type: 'utenforSøknadsperiode',
-            erFrilanserISøknadsperiode: false,
-            startdato,
-            sluttdato,
-        };
-    }
-    /** Avsluttet frilansforhold */
-    if (startdato && sluttdato && (erFortsattFrilanser === false || arbeidsforhold === undefined)) {
+    /** Er ikke lenger frilanser */
+    if (startdato && sluttdato && !erFortsattFrilanser) {
         /** Sluttet før søknadsperiode */
-        if (arbeidsforhold === undefined) {
+        if (!arbeidsforhold) {
             return {
-                type: 'utenforSøknadsperiode',
-                erFrilanserISøknadsperiode: false,
+                type: 'avsluttetFørSøknadsperiode',
+                erFrilanser: true,
+                harInntektISøknadsperiode: false,
+                erFortsattFrilanser: false,
                 startdato,
                 sluttdato,
             };
         }
         /** Sluttet i søknadsperiode */
         return {
-            type: 'avsluttet',
-            erFrilanserISøknadsperiode: true,
+            type: 'avsluttetISøknadsperiode',
+            erFrilanser: true,
+            aktivPeriode: getPeriodeSomFrilanserInnenforSøknadsperiode(søknadsperiode, startdato, sluttdato),
+            harInntektISøknadsperiode: true,
             erFortsattFrilanser: false,
             startdato,
             sluttdato,
-            aktivPeriode: getPeriodeSomFrilanserInnenforSøknadsperiode(søknadsperiode, startdato, sluttdato),
             arbeidsforhold,
         };
     }
-    /** Er fortsatt frilanser */
-    if (startdato && arbeidsforhold && erFortsattFrilanser) {
+
+    if (erFortsattFrilanser && arbeidsforhold && startdato) {
+        /** Er fortsatt frilanser */
         return {
             type: 'pågående',
-            erFrilanserISøknadsperiode: true,
-            erFortsattFrilanser,
+            erFrilanser: true,
+            harInntektISøknadsperiode: true,
+            erFortsattFrilanser: true,
             startdato,
             aktivPeriode: getPeriodeSomFrilanserInnenforSøknadsperiode(søknadsperiode, startdato, sluttdato),
             arbeidsforhold,
         };
     }
-    /** Noe gikk galt */
-    return undefined;
+    throw 'extractArbeidFrilansSøknadsdata: ugyldig tilstand';
 };
