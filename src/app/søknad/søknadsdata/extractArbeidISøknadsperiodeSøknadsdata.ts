@@ -32,7 +32,7 @@ export const extractArbeidISøknadsperiodeSøknadsdata = (
         if (fasteDager === undefined && arbeiderProsent !== undefined) {
             return {
                 type: 'fastProsent',
-                skalArbeide,
+                arbeiderIPerioden: skalArbeide,
                 erLiktHverUke: true,
                 jobberProsent: arbeiderProsent,
                 fasteDager: getPercentageOfDurationWeekdays(arbeiderProsent, normalarbeidstid.fasteDager),
@@ -40,8 +40,8 @@ export const extractArbeidISøknadsperiodeSøknadsdata = (
         }
         if (fasteDager !== undefined && arbeiderProsent === undefined) {
             return {
-                type: 'fastDager',
-                skalArbeide,
+                type: 'fasteDager',
+                arbeiderIPerioden: skalArbeide,
                 erLiktHverUke: arbeidstidErLikHverUke,
                 fasteDager,
             };
@@ -53,7 +53,7 @@ export const extractArbeidISøknadsperiodeSøknadsdata = (
         }
         return {
             type: 'variert',
-            skalArbeide,
+            arbeiderIPerioden: skalArbeide,
             erLiktHverUke: false,
             enkeltdager: getDurationsInDateRange(enkeltdager, søknadsperiode),
         };

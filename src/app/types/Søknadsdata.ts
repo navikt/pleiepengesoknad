@@ -84,21 +84,21 @@ interface IngenArbeidISøknadsperiodeSøknadsdata {
     type: 'arbeiderIkkeIPerioden';
     skalArbeide: false;
 }
-interface VariertArbeidISøknadsperiodeSøknadsdata {
+interface ArbeidISøknadsperiodeVariertSøknadsdata {
     type: 'variert';
-    skalArbeide: true;
+    arbeiderIPerioden: true;
     erLiktHverUke: false;
     enkeltdager: DateDurationMap;
 }
-interface FastArbeidISøknadsperiodeSøknadsdata {
-    type: 'fastDager';
-    skalArbeide: true;
+interface ArbeidISøknadsperiodeFasteDagerSøknadsdata {
+    type: 'fasteDager';
+    arbeiderIPerioden: true;
     erLiktHverUke: true;
     fasteDager: DurationWeekdays;
 }
-interface FastArbeidProsentISøknadsperiodeSøknadsdata {
+interface ArbeidProsentISøknadsperiodeFastProsentSøknadsdata {
     type: 'fastProsent';
-    skalArbeide: true;
+    arbeiderIPerioden: true;
     erLiktHverUke: true;
     fasteDager: DurationWeekdays;
     jobberProsent: number;
@@ -106,9 +106,9 @@ interface FastArbeidProsentISøknadsperiodeSøknadsdata {
 
 export type ArbeidISøknadsperiodeSøknadsdata =
     | IngenArbeidISøknadsperiodeSøknadsdata
-    | VariertArbeidISøknadsperiodeSøknadsdata
-    | FastArbeidISøknadsperiodeSøknadsdata
-    | FastArbeidProsentISøknadsperiodeSøknadsdata;
+    | ArbeidISøknadsperiodeVariertSøknadsdata
+    | ArbeidISøknadsperiodeFasteDagerSøknadsdata
+    | ArbeidProsentISøknadsperiodeFastProsentSøknadsdata;
 
 export interface Søknadsdata {
     søknadsperiode?: DateRange;

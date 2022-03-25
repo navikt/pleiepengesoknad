@@ -123,7 +123,7 @@ export const arbeidISøknadsperiodeSøknadsdataToApiData = (
                     fasteDager: durationWeekdaysToTimerFasteDagerApiData(arbeid.fasteDager),
                     jobberProsent: arbeid.jobberProsent,
                 };
-            case 'fastDager':
+            case 'fasteDager':
                 return {
                     jobberIPerioden: 'JA',
                     erLiktHverUke: true,
