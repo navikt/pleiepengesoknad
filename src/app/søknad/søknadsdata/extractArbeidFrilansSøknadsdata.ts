@@ -1,31 +1,16 @@
 import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import dayjs from 'dayjs';
-import { SøknadFormData } from '../../types/SøknadFormData';
+import { Arbeidsgiver } from '../../types';
+import { FrilansFormData } from '../../types/FrilansFormData';
 import { ArbeidFrilansSøknadsdata } from '../../types/Søknadsdata';
 import { extractArbeidsforholdSøknadsdata } from './extractArbeidsforholdSøknadsdata';
-
-const getPeriodeSomFrilanserInnenforSøknadsperiode = (
-    søknadsperiode: DateRange,
-    startdato: Date,
-    sluttdato?: Date
-): DateRange => {
-    const fromDate: Date = dayjs.max([dayjs(søknadsperiode.from), dayjs(startdato)]).toDate();
-    const toDate: Date = sluttdato
-        ? dayjs.min([dayjs(søknadsperiode.to), dayjs(sluttdato)]).toDate()
-        : søknadsperiode.to;
-
-    return {
-        from: fromDate,
-        to: toDate,
-    };
-};
+import { getPeriodeSomFrilanserInnenforSøknadsperiode } from './søknadsdataFrilanserUtils';
 
 export const extractArbeidFrilansSøknadsdata = (
-    formData: SøknadFormData,
+    frilans: FrilansFormData,
+    frilansoppdrag: Arbeidsgiver[],
     søknadsperiode: DateRange
-): ArbeidFrilansSøknadsdata => {
-    const { frilans, frilansoppdrag } = formData;
+): ArbeidFrilansSøknadsdata | undefined => {
     const erFrilanser = frilans.harHattInntektSomFrilanser === YesOrNo.YES || frilansoppdrag.length > 0;
 
     /** Er ikke frilanser */
@@ -38,15 +23,18 @@ export const extractArbeidFrilansSøknadsdata = (
 
     const startdato = datepickerUtils.getDateFromDateString(frilans.startdato);
     const sluttdato = datepickerUtils.getDateFromDateString(frilans.sluttdato);
+    const aktivPeriode = startdato
+        ? getPeriodeSomFrilanserInnenforSøknadsperiode(søknadsperiode, startdato, sluttdato)
+        : undefined;
     const erFortsattFrilanser = frilans.jobberFortsattSomFrilans === YesOrNo.YES;
     const arbeidsforhold = frilans.arbeidsforhold
         ? extractArbeidsforholdSøknadsdata(frilans.arbeidsforhold, søknadsperiode)
         : undefined;
 
     /** Er ikke lenger frilanser */
-    if (startdato && sluttdato && !erFortsattFrilanser) {
+    if (startdato && sluttdato) {
         /** Sluttet før søknadsperiode */
-        if (!arbeidsforhold) {
+        if (!arbeidsforhold || !aktivPeriode) {
             return {
                 type: 'avsluttetFørSøknadsperiode',
                 erFrilanser: true,
@@ -60,7 +48,7 @@ export const extractArbeidFrilansSøknadsdata = (
         return {
             type: 'avsluttetISøknadsperiode',
             erFrilanser: true,
-            aktivPeriode: getPeriodeSomFrilanserInnenforSøknadsperiode(søknadsperiode, startdato, sluttdato),
+            aktivPeriode,
             harInntektISøknadsperiode: true,
             erFortsattFrilanser: false,
             startdato,
@@ -69,7 +57,7 @@ export const extractArbeidFrilansSøknadsdata = (
         };
     }
 
-    if (erFortsattFrilanser && arbeidsforhold && startdato) {
+    if (erFortsattFrilanser && arbeidsforhold && startdato && aktivPeriode) {
         /** Er fortsatt frilanser */
         return {
             type: 'pågående',
@@ -77,9 +65,10 @@ export const extractArbeidFrilansSøknadsdata = (
             harInntektISøknadsperiode: true,
             erFortsattFrilanser: true,
             startdato,
-            aktivPeriode: getPeriodeSomFrilanserInnenforSøknadsperiode(søknadsperiode, startdato, sluttdato),
+            aktivPeriode,
             arbeidsforhold,
         };
     }
-    throw 'extractArbeidFrilansSøknadsdata: ugyldig tilstand';
+    return undefined;
+    // throw 'extractArbeidFrilansSøknadsdata: ugyldig tilstand';
 };
