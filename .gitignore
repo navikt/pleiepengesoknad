@@ -2,6 +2,7 @@
 /dist-gcp
 /.idea
 /.vscode
+/coverage
 /node_modules
 /heroku/dist
 .DS_Store
