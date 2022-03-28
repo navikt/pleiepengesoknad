@@ -2,10 +2,10 @@ import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-c
 import { getDurationsInDateRange } from '@navikt/sif-common-utils/lib';
 import { TimerEllerProsent } from '../../types';
 import { ArbeidIPeriodeFormData } from '../../types/ArbeidIPeriodeFormData';
-import { ArbeidISøknadsperiodeSøknadsdata, NormalarbeidstidSøknadsdata } from '../../types/Søknadsdata';
-import { getPercentageOfDurationWeekdays } from '../arbeidstid-step/shared/utils/arbeidstimerUtils';
+import { ArbeidIPeriodeSøknadsdata, NormalarbeidstidSøknadsdata } from '../../types/Søknadsdata';
+import { getPercentageOfDurationWeekdays } from '../arbeidstid-step/shared/utils/durationWeekdaysUtils';
 
-export const extractArbeidISøknadsperiodeSøknadsdata = (
+export const extractArbeidIPeriodeSøknadsdata = (
     {
         jobberIPerioden,
         enkeltdager,
@@ -16,7 +16,7 @@ export const extractArbeidISøknadsperiodeSøknadsdata = (
     }: ArbeidIPeriodeFormData,
     normalarbeidstid: NormalarbeidstidSøknadsdata,
     søknadsperiode: DateRange
-): ArbeidISøknadsperiodeSøknadsdata | undefined => {
+): ArbeidIPeriodeSøknadsdata | undefined => {
     const skalArbeide: boolean = jobberIPerioden === YesOrNo.YES;
     if (skalArbeide === false) {
         return {
@@ -48,14 +48,14 @@ export const extractArbeidISøknadsperiodeSøknadsdata = (
         }
         return undefined;
     } else {
-        if (!enkeltdager) {
-            return undefined;
+        if (enkeltdager) {
+            return {
+                type: 'variert',
+                arbeiderIPerioden: skalArbeide,
+                erLiktHverUke: false,
+                enkeltdager: getDurationsInDateRange(enkeltdager, søknadsperiode),
+            };
         }
-        return {
-            type: 'variert',
-            arbeiderIPerioden: skalArbeide,
-            erLiktHverUke: false,
-            enkeltdager: getDurationsInDateRange(enkeltdager, søknadsperiode),
-        };
+        return undefined;
     }
 };

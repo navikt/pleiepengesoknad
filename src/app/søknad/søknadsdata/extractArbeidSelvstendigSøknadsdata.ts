@@ -1,14 +1,13 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
-import { SøknadFormData } from '../../types/SøknadFormData';
+import { SelvstendigFormData } from '../../types/SelvstendigFormData';
 import { ArbeidSelvstendigSøknadsdata } from '../../types/Søknadsdata';
 import { extractArbeidsforholdSøknadsdata } from './extractArbeidsforholdSøknadsdata';
 
 export const extractArbeidSelvstendigSøknadsdata = (
-    formData: SøknadFormData,
+    selvstendig: SelvstendigFormData | undefined,
     søknadsperiode: DateRange
 ): ArbeidSelvstendigSøknadsdata | undefined => {
-    const { selvstendig } = formData;
     if (!selvstendig) {
         return undefined;
     }

@@ -14,6 +14,14 @@ describe('extractNormalarbeidstid', () => {
             })
         ).toBeUndefined();
     });
+    it('returnerer undefined dersom erLiktHverUke === false && timerPerUke er ugyldig', () => {
+        const result = extractNormalarbeidstid({
+            erLiktHverUke: YesOrNo.NO,
+            timerPerUke: 'abc',
+        });
+        expect(result).toBeUndefined();
+    });
+
     it('returnerer faste dager og beregntet timerPerUke dersom erLiktHverUke === true og fasteDager er satt', () => {
         const result = extractNormalarbeidstid({
             erLiktHverUke: YesOrNo.YES,

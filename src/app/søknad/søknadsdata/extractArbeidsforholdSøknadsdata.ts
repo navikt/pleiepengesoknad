@@ -2,7 +2,7 @@ import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ArbeidsforholdFormData, ArbeidsforholdFrilanserFormData } from '../../types/ArbeidsforholdFormData';
 import { ArbeidsforholdSøknadsdata } from '../../types/Søknadsdata';
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
-import { extractArbeidISøknadsperiodeSøknadsdata } from './extractArbeidISøknadsperiodeSøknadsdata';
+import { extractArbeidIPeriodeSøknadsdata } from './extractArbeidIPeriodeSøknadsdata';
 import { extractNormalarbeidstid } from './extractNormalarbeidstidSøknadsdata';
 
 export const extractArbeidsforholdSøknadsdata = (
@@ -18,11 +18,7 @@ export const extractArbeidsforholdSøknadsdata = (
     if (normalarbeidstid && harFraværIPeriode !== undefined) {
         if (harFraværIPeriode) {
             const arbeidISøknadsperiode = arbeidsforhold.arbeidIPeriode
-                ? extractArbeidISøknadsperiodeSøknadsdata(
-                      arbeidsforhold.arbeidIPeriode,
-                      normalarbeidstid,
-                      søknadsperiode
-                  )
+                ? extractArbeidIPeriodeSøknadsdata(arbeidsforhold.arbeidIPeriode, normalarbeidstid, søknadsperiode)
                 : undefined;
             return {
                 harFraværIPeriode: true,

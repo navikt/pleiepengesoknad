@@ -3,7 +3,7 @@ import { durationToDecimalDuration, summarizeDateDurationMap } from '@navikt/sif
 import { NormalarbeidstidFormData } from '../../types/ArbeidsforholdFormData';
 import { NormalarbeidstidSøknadsdata } from '../../types/Søknadsdata';
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
-import { durationWeekdaysFromHoursPerWeek } from '../arbeidstid-step/shared/utils/arbeidstimerUtils';
+import { durationWeekdaysFromHoursPerWeek } from '../arbeidstid-step/shared/utils/durationWeekdaysUtils';
 
 export const extractNormalarbeidstid = (
     normalarbeidstid?: NormalarbeidstidFormData

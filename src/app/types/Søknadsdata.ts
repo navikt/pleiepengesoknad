@@ -12,7 +12,7 @@ export interface NormalarbeidstidSøknadsdata {
 export interface ArbeidsforholdSøknadsdataMedFravær {
     harFraværIPeriode: true;
     normalarbeidstid: NormalarbeidstidSøknadsdata;
-    arbeidISøknadsperiode?: ArbeidISøknadsperiodeSøknadsdata;
+    arbeidISøknadsperiode?: ArbeidIPeriodeSøknadsdata;
 }
 
 export interface ArbeidsforholdSøknadsdataUtenFravær {
@@ -104,7 +104,7 @@ interface ArbeidProsentISøknadsperiodeFastProsentSøknadsdata {
     jobberProsent: number;
 }
 
-export type ArbeidISøknadsperiodeSøknadsdata =
+export type ArbeidIPeriodeSøknadsdata =
     | IngenArbeidISøknadsperiodeSøknadsdata
     | ArbeidISøknadsperiodeVariertSøknadsdata
     | ArbeidISøknadsperiodeFasteDagerSøknadsdata

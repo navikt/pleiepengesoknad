@@ -3,7 +3,7 @@ import { ISODateRangeToDateRange } from '@navikt/sif-common-utils/lib';
 import { TimerEllerProsent } from '../../../types';
 import { ArbeidIPeriodeFormData } from '../../../types/ArbeidIPeriodeFormData';
 import { NormalarbeidstidSøknadsdata } from '../../../types/Søknadsdata';
-import { extractArbeidISøknadsperiodeSøknadsdata } from '../extractArbeidISøknadsperiodeSøknadsdata';
+import { extractArbeidIPeriodeSøknadsdata } from '../extractArbeidIPeriodeSøknadsdata';
 
 const søknadsperiode = ISODateRangeToDateRange('2022-01-01/2022-02-01');
 
@@ -49,9 +49,25 @@ const arbeidVariert: ArbeidIPeriodeFormData = {
     },
 };
 
-describe('extractArbeidISøknadsperiodeSøknadsdata', () => {
+describe('extractArbeidIPeriodeSøknadsdata', () => {
+    it('returnerer undefined dersom arbeidstid er lik hver uke, men tillegsdata mangler', () => {
+        const result = extractArbeidIPeriodeSøknadsdata(
+            { ...arbeidFastProsent, fasteDager: undefined, jobberProsent: undefined },
+            normalarbeidstid,
+            søknadsperiode
+        );
+        expect(result).toBeUndefined();
+    });
+    it('returnerer undefined dersom arbeidstid varierer, men enkeltdager mangler', () => {
+        const result = extractArbeidIPeriodeSøknadsdata(
+            { ...arbeidVariert, enkeltdager: undefined },
+            normalarbeidstid,
+            søknadsperiode
+        );
+        expect(result).toBeUndefined();
+    });
     it('returnerer riktig når en ikke jobber i perioden', () => {
-        const result = extractArbeidISøknadsperiodeSøknadsdata(arbeiderIkke, normalarbeidstid, søknadsperiode);
+        const result = extractArbeidIPeriodeSøknadsdata(arbeiderIkke, normalarbeidstid, søknadsperiode);
         expect(result).toBeDefined();
         expect(result?.type).toEqual('arbeiderIkkeIPerioden');
         expect((result as any).arbeiderIPerioden).toBeUndefined();
@@ -60,7 +76,7 @@ describe('extractArbeidISøknadsperiodeSøknadsdata', () => {
         expect((result as any).jobberProsent).toBeUndefined();
     });
     it('returnerer riktig for like uker og arbeid oppgitt i prosent', () => {
-        const result = extractArbeidISøknadsperiodeSøknadsdata(arbeidFastProsent, normalarbeidstid, søknadsperiode);
+        const result = extractArbeidIPeriodeSøknadsdata(arbeidFastProsent, normalarbeidstid, søknadsperiode);
         expect(result).toBeDefined();
         expect(result?.type).toEqual('fastProsent');
         if (result?.type === 'fastProsent') {
@@ -71,7 +87,7 @@ describe('extractArbeidISøknadsperiodeSøknadsdata', () => {
         }
     });
     it('returnerer riktig for like uker og arbeid oppgitt i faste dager', () => {
-        const result = extractArbeidISøknadsperiodeSøknadsdata(arbeidFasteDager, normalarbeidstid, søknadsperiode);
+        const result = extractArbeidIPeriodeSøknadsdata(arbeidFasteDager, normalarbeidstid, søknadsperiode);
         expect(result).toBeDefined();
         expect(result?.type).toEqual('fasteDager');
         if (result?.type === 'fasteDager') {
@@ -82,7 +98,7 @@ describe('extractArbeidISøknadsperiodeSøknadsdata', () => {
         }
     });
     it('returnerer riktig når det varierer', () => {
-        const result = extractArbeidISøknadsperiodeSøknadsdata(arbeidVariert, normalarbeidstid, søknadsperiode);
+        const result = extractArbeidIPeriodeSøknadsdata(arbeidVariert, normalarbeidstid, søknadsperiode);
         expect(result).toBeDefined();
         expect(result?.type).toEqual('variert');
         if (result?.type === 'variert') {

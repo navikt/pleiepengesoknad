@@ -30,4 +30,7 @@ export interface ArbeidsforholdFormData {
 }
 
 export type ArbeidsforholdFrilanserFormData = Omit<ArbeidsforholdFormData, 'arbeidsgiver' | 'erAnsatt'>;
-export type ArbeidsforholdSelvstendigFormData = Omit<ArbeidsforholdFormData, 'arbeidsgiver' | 'erAnsatt'>;
+export type ArbeidsforholdSelvstendigFormData = Omit<
+    ArbeidsforholdFormData,
+    'arbeidsgiver' | 'erAnsatt' | 'sluttetFørSøknadsperiode'
+>;

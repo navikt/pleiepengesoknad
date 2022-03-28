@@ -16,7 +16,7 @@ import {
     TimerFasteDagerApiData,
 } from '../../types/SøknadApiData';
 import {
-    ArbeidISøknadsperiodeSøknadsdata,
+    ArbeidIPeriodeSøknadsdata,
     ArbeidsforholdSøknadsdata,
     NormalarbeidstidSøknadsdata,
 } from '../../types/Søknadsdata';
@@ -98,7 +98,7 @@ export const arbeidEnkeltdagerToArbeidstidEnkeltdagApiData = (
 };
 
 export const arbeidISøknadsperiodeSøknadsdataToApiData = (
-    arbeid: ArbeidISøknadsperiodeSøknadsdata | undefined,
+    arbeid: ArbeidIPeriodeSøknadsdata | undefined,
     normalarbeidstid: NormalarbeidstidSøknadsdata
 ): ArbeidIPeriodeApiData | undefined => {
     if (arbeid) {

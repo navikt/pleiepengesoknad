@@ -20,6 +20,20 @@ describe('extractArbeidsforholdSøknadsdata', () => {
             fasteDager: { monday: { hours: '1', minutes: '30' } },
         },
     };
+    it('returnerer undefined dersom normalarbeidstid er ugyldig', () => {
+        const result = extractArbeidsforholdSøknadsdata(
+            { ...arbeidsforholdMedFravær, normalarbeidstid: undefined },
+            søknadsperiode
+        );
+        expect(result).toBeUndefined();
+    });
+    it('returnerer undefined dersom harFraværIPeriode er undefined/ubesvart', () => {
+        const result = extractArbeidsforholdSøknadsdata(
+            { ...arbeidsforholdMedFravær, harFraværIPeriode: YesOrNo.UNANSWERED },
+            søknadsperiode
+        );
+        expect(result).toBeUndefined();
+    });
     it('returnerer arbeidsforhold med fravær', () => {
         const result = extractArbeidsforholdSøknadsdata(arbeidsforholdMedFravær, søknadsperiode);
         expect(result).toBeDefined();
