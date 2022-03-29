@@ -75,7 +75,7 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
         });
     }
 
-    if (frilans?.arbeidsforhold) {
+    if (frilans.harInntektSomFrilanser === true && frilans.arbeidsforhold) {
         alleArbeidsforhold.push({
             ...frilans.arbeidsforhold,
             tittel: 'Frilanser',
@@ -83,7 +83,7 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
         });
     }
 
-    if (selvstendigNæringsdrivende?.arbeidsforhold) {
+    if (selvstendigNæringsdrivende.harInntektSomSelvstendig && selvstendigNæringsdrivende.arbeidsforhold) {
         alleArbeidsforhold.push({
             ...selvstendigNæringsdrivende.arbeidsforhold,
             tittel: intlHelper(intl, 'selvstendigNæringsdrivende.tittel'),

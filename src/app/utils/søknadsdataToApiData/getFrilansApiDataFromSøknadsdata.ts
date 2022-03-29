@@ -1,46 +1,38 @@
 import { dateToISODate } from '@navikt/sif-common-utils/lib';
-import { SøknadApiData } from '../../types/SøknadApiData';
+import { FrilansApiData } from '../../types/SøknadApiData';
 import { ArbeidFrilansSøknadsdata } from '../../types/Søknadsdata';
 import { getArbeidsforholdApiDataFromSøknadsdata } from './arbeidToApiDataHelpers';
 
-export type FrilansApiDataPart = Pick<SøknadApiData, 'frilans' | '_harHattInntektSomFrilanser' | '_frilans'>;
-
 export const getFrilansApiDataFromSøknadsdata = (
     arbeidFrilansSøknadsdata: ArbeidFrilansSøknadsdata | undefined
-): FrilansApiDataPart => {
+): FrilansApiData => {
     if (!arbeidFrilansSøknadsdata || arbeidFrilansSøknadsdata.type === 'erIkkeFrilanser') {
         return {
-            _harHattInntektSomFrilanser: false,
+            harInntektSomFrilanser: false,
         };
     }
     switch (arbeidFrilansSøknadsdata.type) {
         case 'pågående':
             return {
-                _harHattInntektSomFrilanser: true,
-                frilans: {
-                    jobberFortsattSomFrilans: true,
-                    startdato: dateToISODate(arbeidFrilansSøknadsdata.startdato),
-                    arbeidsforhold: getArbeidsforholdApiDataFromSøknadsdata(arbeidFrilansSøknadsdata.arbeidsforhold),
-                },
+                harInntektSomFrilanser: true,
+                jobberFortsattSomFrilans: true,
+                startdato: dateToISODate(arbeidFrilansSøknadsdata.startdato),
+                arbeidsforhold: getArbeidsforholdApiDataFromSøknadsdata(arbeidFrilansSøknadsdata.arbeidsforhold),
             };
         case 'avsluttetISøknadsperiode':
             return {
-                _harHattInntektSomFrilanser: true,
-                frilans: {
-                    jobberFortsattSomFrilans: false,
-                    startdato: dateToISODate(arbeidFrilansSøknadsdata.startdato),
-                    sluttdato: dateToISODate(arbeidFrilansSøknadsdata.sluttdato),
-                    arbeidsforhold: getArbeidsforholdApiDataFromSøknadsdata(arbeidFrilansSøknadsdata.arbeidsforhold),
-                },
+                harInntektSomFrilanser: true,
+                jobberFortsattSomFrilans: false,
+                startdato: dateToISODate(arbeidFrilansSøknadsdata.startdato),
+                sluttdato: dateToISODate(arbeidFrilansSøknadsdata.sluttdato),
+                arbeidsforhold: getArbeidsforholdApiDataFromSøknadsdata(arbeidFrilansSøknadsdata.arbeidsforhold),
             };
         case 'avsluttetFørSøknadsperiode':
             return {
-                _harHattInntektSomFrilanser: false,
-                frilans: {
-                    jobberFortsattSomFrilans: false,
-                    startdato: dateToISODate(arbeidFrilansSøknadsdata.startdato),
-                    sluttdato: dateToISODate(arbeidFrilansSøknadsdata.sluttdato),
-                },
+                harInntektSomFrilanser: false,
+                jobberFortsattSomFrilans: false,
+                startdato: dateToISODate(arbeidFrilansSøknadsdata.startdato),
+                sluttdato: dateToISODate(arbeidFrilansSøknadsdata.sluttdato),
             };
     }
 };

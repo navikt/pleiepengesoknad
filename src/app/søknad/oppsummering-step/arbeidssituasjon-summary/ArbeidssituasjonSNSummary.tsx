@@ -8,46 +8,45 @@ import { Element } from 'nav-frontend-typografi';
 import { SelvstendigApiData } from '../../../types/SøknadApiData';
 
 interface Props {
-    selvstendigNæringsdrivende?: SelvstendigApiData;
+    selvstendig: SelvstendigApiData;
 }
 
-function ArbeidssituasjonSNSummary({ selvstendigNæringsdrivende }: Props) {
+function ArbeidssituasjonSNSummary({ selvstendig }: Props) {
     const intl = useIntl();
-    const { arbeidsforhold, virksomhet } = selvstendigNæringsdrivende || {};
     return (
         <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.selvstendig.header')} headerTag="h3">
-            {selvstendigNæringsdrivende === undefined && (
+            {selvstendig.harInntektSomSelvstendig === false && (
                 <ul>
                     <li>
                         <FormattedMessage id={'oppsummering.arbeidssituasjon.selvstendig.erIkkeSN'} tagName="p" />
                     </li>
                 </ul>
             )}
-            {virksomhet && arbeidsforhold && (
+            {selvstendig.harInntektSomSelvstendig && (
                 <>
                     <ul>
                         <li>
                             <FormattedMessage id="oppsummering.arbeidssituasjon.selvstendig.erSn" />
                         </li>
                         <li>
-                            {virksomhet.harFlereAktiveVirksomheter ? (
+                            {selvstendig.virksomhet.harFlereAktiveVirksomheter ? (
                                 <FormattedMessage id="oppsummering.arbeidssituasjon.selvstendig.flereVirksomheter" />
                             ) : (
                                 <FormattedMessage id="oppsummering.arbeidssituasjon.selvstendig.enVirksomhet" />
                             )}
                         </li>
-                        {arbeidsforhold.normalarbeidstid.erLiktHverUke === false && (
+                        {selvstendig.arbeidsforhold.normalarbeidstid.erLiktHverUke === false && (
                             <>
                                 <li>
                                     <FormattedMessage
                                         id={`oppsummering.arbeidssituasjon.tid`}
-                                        values={{ timer: arbeidsforhold.normalarbeidstid.timerPerUke }}
+                                        values={{ timer: selvstendig.arbeidsforhold.normalarbeidstid.timerPerUke }}
                                     />
                                 </li>
                                 <li>
                                     <FormattedMessage
                                         id={
-                                            arbeidsforhold.harFraværIPeriode
+                                            selvstendig.arbeidsforhold.harFraværIPeriode
                                                 ? `oppsummering.arbeidssituasjon.harFravær`
                                                 : 'oppsummering.arbeidssituasjon.harIkkeFravær'
                                         }
@@ -59,7 +58,7 @@ function ArbeidssituasjonSNSummary({ selvstendigNæringsdrivende }: Props) {
                     <Element tag="h4">{intlHelper(intl, 'summary.virksomhet.virksomhetInfo.tittel')}</Element>
                     <Box margin="m">
                         <div style={{ paddingLeft: '1rem' }}>
-                            <VirksomhetSummary virksomhet={virksomhet} />
+                            <VirksomhetSummary virksomhet={selvstendig.virksomhet} />
                         </div>
                     </Box>
                 </>

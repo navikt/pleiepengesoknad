@@ -108,8 +108,8 @@ export const validateApiValues = (values: SøknadApiData, intl: IntlShape): ApiV
         });
     }
 
-    const virksomhet = values.selvstendigNæringsdrivende?.virksomhet;
-    if (virksomhet) {
+    if (values.selvstendigNæringsdrivende.harInntektSomSelvstendig) {
+        const virksomhet = values.selvstendigNæringsdrivende.virksomhet;
         if (isVirksomhetRegnskapsførerTelefonnummerValid(virksomhet) === false) {
             errors.push({
                 skjemaelementId: 'virksomhet',
@@ -159,7 +159,7 @@ export const validateApiValues = (values: SøknadApiData, intl: IntlShape): ApiV
         });
     }
 
-    if (values.frilans?.arbeidsforhold) {
+    if (values.frilans.harInntektSomFrilanser) {
         const isValid = isArbeidsforholdApiDataValid(values.frilans.arbeidsforhold);
         if (!isValid) {
             errors.push({
@@ -170,7 +170,7 @@ export const validateApiValues = (values: SøknadApiData, intl: IntlShape): ApiV
         }
     }
 
-    if (values.selvstendigNæringsdrivende) {
+    if (values.selvstendigNæringsdrivende.harInntektSomSelvstendig) {
         const isValid = isArbeidsforholdApiDataValid(values.selvstendigNæringsdrivende.arbeidsforhold);
         if (!isValid) {
             errors.push({

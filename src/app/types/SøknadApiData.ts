@@ -1,10 +1,10 @@
-import { ArbeidsgiverType } from './Arbeidsgiver';
 import { ApiStringDate } from '@navikt/sif-common-core/lib/types/ApiStringDate';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { ISODate, ISODuration } from '@navikt/sif-common-utils';
 import { AndreYtelserFraNAV, BarnRelasjon, ÅrsakManglerIdentitetsnummer } from './';
+import { ArbeidsgiverType } from './Arbeidsgiver';
 
 export interface PeriodeApiData {
     fraOgMed: ApiStringDate;
@@ -92,17 +92,37 @@ export interface ArbeidsgiverApiData {
     arbeidsforhold?: ArbeidsforholdApiData;
 }
 
-export interface FrilansApiData {
+export interface FrilansApiDataIngenInntekt {
+    harInntektSomFrilanser: false;
+}
+export interface FrilansApiDataSluttetFørSøknadsperiode {
+    harInntektSomFrilanser: false;
+    startdato: ApiStringDate;
+    jobberFortsattSomFrilans: false;
+    sluttdato?: ApiStringDate;
+}
+export interface FrilansApiDataHarInntekt {
+    harInntektSomFrilanser: true;
     startdato: ApiStringDate;
     jobberFortsattSomFrilans: boolean;
     sluttdato?: ApiStringDate;
-    arbeidsforhold?: ArbeidsforholdApiData;
+    arbeidsforhold: ArbeidsforholdApiData;
 }
+export type FrilansApiData =
+    | FrilansApiDataIngenInntekt
+    | FrilansApiDataSluttetFørSøknadsperiode
+    | FrilansApiDataHarInntekt;
 
-export interface SelvstendigApiData {
+export interface SelvstendigApiDataIngenInntekt {
+    harInntektSomSelvstendig: false;
+}
+export interface SelvstendigApiDataHarInntekt {
+    harInntektSomSelvstendig: true;
     virksomhet: VirksomhetApiData;
     arbeidsforhold: ArbeidsforholdApiData;
 }
+
+export type SelvstendigApiData = SelvstendigApiDataHarInntekt | SelvstendigApiDataIngenInntekt;
 
 interface MedlemskapApiData {
     harBoddIUtlandetSiste12Mnd: boolean;
@@ -166,18 +186,11 @@ export interface SøknadApiData {
         beredskap: boolean;
         tilleggsinformasjon?: string;
     };
-    arbeidsgivere?: ArbeidsgiverApiData[];
-    frilans?: FrilansApiData;
-    selvstendigNæringsdrivende?: SelvstendigApiData;
+    arbeidsgivere: ArbeidsgiverApiData[];
+    frilans: FrilansApiData;
+    selvstendigNæringsdrivende: SelvstendigApiData;
     harVærtEllerErVernepliktig?: boolean;
     andreYtelserFraNAV?: AndreYtelserFraNAV[];
     /** Alle felter med _ brukes ikke i mottak, kun for å vise i oppsummering */
     _barnetHarIkkeFnr?: boolean;
-    _harHattInntektSomFrilanser: boolean;
-    _harHattInntektSomSelvstendigNæringsdrivende: boolean;
-    _frilans?: {
-        startdato: ApiStringDate;
-        jobberFortsattSomFrilans: boolean;
-        sluttdato?: ApiStringDate;
-    };
 }

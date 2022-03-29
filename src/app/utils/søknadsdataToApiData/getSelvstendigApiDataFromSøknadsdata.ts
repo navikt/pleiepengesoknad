@@ -7,13 +7,16 @@ import { getArbeidsforholdApiDataFromSøknadsdata } from './arbeidToApiDataHelpe
 export const getSelvstendigApiDataFromSøknadsdata = (
     arbeidSelvstendigSøknadsdata: ArbeidSelvstendigSøknadsdata,
     locale: Locale = 'nb'
-): SelvstendigApiData | undefined => {
+): SelvstendigApiData => {
     switch (arbeidSelvstendigSøknadsdata.type) {
         case 'erIkkeSN':
-            return undefined;
+            return {
+                harInntektSomSelvstendig: false,
+            };
         case 'erSN':
             const { arbeidsforhold, harFlereVirksomheter, virksomhet } = arbeidSelvstendigSøknadsdata;
             return {
+                harInntektSomSelvstendig: true,
                 arbeidsforhold: getArbeidsforholdApiDataFromSøknadsdata(arbeidsforhold),
                 virksomhet: mapVirksomhetToVirksomhetApiData(locale, virksomhet, harFlereVirksomheter),
             };

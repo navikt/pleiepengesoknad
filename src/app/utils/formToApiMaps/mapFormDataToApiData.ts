@@ -6,7 +6,7 @@ import { SøknadApiData } from '../../types/SøknadApiData';
 import { SøknadFormData } from '../../types/SøknadFormData';
 import appSentryLogger from '../appSentryLogger';
 import { Feature, isFeatureEnabled } from '../featureToggleUtils';
-import { getArbeidsgivereSøknadsdataFromSøknadsdata } from '../søknadsdataToApiData/getArbeidsgivereApiDataFromSøknadsdata';
+import { getArbeidsgivereApiDataFromSøknadsdata } from '../søknadsdataToApiData/getArbeidsgivereApiDataFromSøknadsdata';
 import { getAttachmentsApiData } from './getAttachmentsApiData';
 import { getBarnApiData } from './getBarnApiData';
 import { getFerieuttakIPeriodenApiData } from './getFerieuttakIPeriodenApiData';
@@ -65,9 +65,12 @@ export const mapFormDataToApiData = (
                 ...getMedlemsskapApiData(formData, sprak),
                 ...getOmsorgstilbudApiData(omsorgstilbud, søknadsperiode),
                 ...getNattevåkOgBeredskapApiData(formData),
-                ...getArbeidsgivereSøknadsdataFromSøknadsdata(søknadsdata.arbeid?.arbeidsgivere),
-                ...getFrilansApiDataFromSøknadsdata(søknadsdata.arbeid?.frilans),
-                ...getSelvstendigNæringsdrivendeApiData(søknadsdata.arbeid?.selvstendig, locale),
+                arbeidsgivere: getArbeidsgivereApiDataFromSøknadsdata(søknadsdata.arbeid?.arbeidsgivere),
+                frilans: getFrilansApiDataFromSøknadsdata(søknadsdata.arbeid?.frilans),
+                selvstendigNæringsdrivende: getSelvstendigNæringsdrivendeApiData(
+                    søknadsdata.arbeid?.selvstendig,
+                    locale
+                ),
             };
             if (isFeatureEnabled(Feature.ANDRE_YTELSER)) {
                 apiData.andreYtelserFraNAV = formData.mottarAndreYtelser === YesOrNo.YES ? formData.andreYtelser : [];

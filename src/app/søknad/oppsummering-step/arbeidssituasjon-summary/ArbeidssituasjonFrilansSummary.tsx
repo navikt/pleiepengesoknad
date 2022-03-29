@@ -7,13 +7,13 @@ import { FrilansApiData } from '../../../types/SøknadApiData';
 import { prettifyApiDate } from '../enkeltsvar/DatoSvar';
 
 interface Props {
-    frilans?: FrilansApiData;
+    frilans: FrilansApiData;
     frilansoppdrag: Arbeidsgiver[];
 }
 
 const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
     const intl = useIntl();
-    if (frilans === undefined) {
+    if (frilans.harInntektSomFrilanser === false) {
         return (
             <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')} headerTag="h3">
                 <ul>
