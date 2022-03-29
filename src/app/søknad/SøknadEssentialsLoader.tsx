@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import * as apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { AxiosError, AxiosResponse } from 'axios';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { useFormikContext } from 'formik';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
 import { SøkerdataContext } from '../../context/SøkerdataContext';
