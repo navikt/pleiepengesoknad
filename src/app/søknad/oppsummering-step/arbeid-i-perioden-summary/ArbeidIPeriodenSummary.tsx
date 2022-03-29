@@ -19,7 +19,7 @@ export interface ArbeidIPeriodenSummaryItemType extends ArbeidsforholdApiData {
     tittel: string;
 }
 
-const getArbeidsgiverTittel = (intl: IntlShape, arbeidsgiver: ArbeidsgiverApiData, periode: DateRange) => {
+const getTittel = (intl: IntlShape, arbeidsgiver: ArbeidsgiverApiData, periode: DateRange) => {
     switch (arbeidsgiver.type) {
         case ArbeidsgiverType.ORGANISASJON:
             return intlHelper(intl, 'arbeidsgiver.tittel', {
@@ -66,12 +66,12 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
         if (arbeidsgiverApiData.arbeidsforhold) {
             arbeidsforholdIPerioden.push({
                 ...arbeidsgiverApiData.arbeidsforhold,
-                tittel: getArbeidsgiverTittel(intl, arbeidsgiverApiData, søknadsperiode),
+                tittel: getTittel(intl, arbeidsgiverApiData, søknadsperiode),
             });
         }
     });
 
-    if (frilans.harInntektSomFrilanser === true && frilans.arbeidsforhold) {
+    if (frilans.harInntektSomFrilanser && frilans.arbeidsforhold) {
         arbeidsforholdIPerioden.push({
             ...frilans.arbeidsforhold,
             tittel: 'Frilanser',
