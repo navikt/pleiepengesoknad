@@ -1,13 +1,13 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { TypedFormikWrapper } from '@navikt/sif-common-formik';
 import { initialValues, SøknadFormData } from '../types/SøknadFormData';
+import { getSøknadsdataFromFormValues } from '../utils/formValuesToSøknadsdata/getSøknadsdataFromFormValues';
+import { navigateToErrorPage } from '../utils/navigationUtils';
 import SøknadContent from './SøknadContent';
 import SøknadEssentialsLoader from './SøknadEssentialsLoader';
-import { StepID } from './søknadStepsConfig';
 import SøknadsdataWrapper from './SøknadsdataWrapper';
-import { getSøknadsdataFromFormValues } from './søknadsdata/getSøknadsdataFromFormValues';
-import { useHistory } from 'react-router-dom';
-import { navigateToErrorPage } from '../utils/navigationUtils';
+import { StepID } from './søknadStepsConfig';
 
 const Søknad = () => {
     const history = useHistory();

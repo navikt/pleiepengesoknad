@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import { DurationWeekdays, summarizeDurationInDurationWeekdays } from '@navikt/sif-common-utils/lib';
-import { getPercentageOfDurationWeekdays } from '../utils/durationWeekdaysUtils';
+import { getPercentageOfDurationWeekdays } from '../../../../utils/durationWeekdaysUtils';
 import DurationWeekdaysList from '../components/DurationWeekdaysList';
 import { TimerOgMinutter } from '@navikt/sif-common-pleiepenger/lib';
 

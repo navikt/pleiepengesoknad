@@ -4,7 +4,7 @@ import { SelvstendigApiData } from '../../types/SøknadApiData';
 import { ArbeidSelvstendigSøknadsdata } from '../../types/Søknadsdata';
 import { getArbeidsforholdApiDataFromSøknadsdata } from './arbeidToApiDataHelpers';
 
-export const getSelvstendigApiData = (
+export const getSelvstendigApiDataFromSøknadsdata = (
     arbeidSelvstendigSøknadsdata: ArbeidSelvstendigSøknadsdata,
     locale: Locale = 'nb'
 ): SelvstendigApiData | undefined => {

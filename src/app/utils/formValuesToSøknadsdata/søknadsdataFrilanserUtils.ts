@@ -1,6 +1,6 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
-import { erFrilanserITidsrom } from '../../utils/frilanserUtils';
+import { erFrilanserITidsrom } from '../frilanserUtils';
 
 export const getPeriodeSomFrilanserInnenforSøknadsperiode = (
     søknadsperiode: DateRange,

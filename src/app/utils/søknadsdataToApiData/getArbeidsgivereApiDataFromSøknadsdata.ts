@@ -1,8 +1,8 @@
 import { ArbeidsgiverApiData, SøknadApiData } from '../../types/SøknadApiData';
 import { ArbeidsgivereSøknadsdata } from '../../types/Søknadsdata';
-import { getArbeidsgiverApiData } from '../søknadsdataToApiData/getArbeidsgiverApiData';
+import { getArbeidsgiverApiDataFromSøknadsdata } from './getArbeidsgiverApiDataFromSøknadsdata';
 
-export const getArbeidsgivereISøknadsperiodenApiData = (
+export const getArbeidsgivereSøknadsdataFromSøknadsdata = (
     arbeidsgivere: ArbeidsgivereSøknadsdata | undefined
 ): Pick<SøknadApiData, 'arbeidsgivere'> => {
     if (!arbeidsgivere || arbeidsgivere.size === 0) {
@@ -12,7 +12,7 @@ export const getArbeidsgivereISøknadsperiodenApiData = (
     }
     const arbeidsgivereApiData: ArbeidsgiverApiData[] = [];
     arbeidsgivere.forEach((arbeidsgiver) => {
-        arbeidsgivereApiData.push(getArbeidsgiverApiData(arbeidsgiver));
+        arbeidsgivereApiData.push(getArbeidsgiverApiDataFromSøknadsdata(arbeidsgiver));
     });
     return {
         arbeidsgivere: arbeidsgivereApiData,

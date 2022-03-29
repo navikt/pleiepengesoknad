@@ -5,7 +5,7 @@ import { getArbeidsforholdApiDataFromSøknadsdata } from './arbeidToApiDataHelpe
 
 export type FrilansApiDataPart = Pick<SøknadApiData, 'frilans' | '_harHattInntektSomFrilanser' | '_frilans'>;
 
-export const getFrilansApiData = (
+export const getFrilansApiDataFromSøknadsdata = (
     arbeidFrilansSøknadsdata: ArbeidFrilansSøknadsdata | undefined
 ): FrilansApiDataPart => {
     if (!arbeidFrilansSøknadsdata || arbeidFrilansSøknadsdata.type === 'erIkkeFrilanser') {

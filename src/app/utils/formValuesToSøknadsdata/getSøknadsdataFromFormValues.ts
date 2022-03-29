@@ -1,6 +1,6 @@
 import { SøknadFormData } from '../../types/SøknadFormData';
 import { Søknadsdata } from '../../types/Søknadsdata';
-import { getSøknadsperiodeFromFormData } from '../../utils/formDataUtils';
+import { getSøknadsperiodeFromFormData } from '../formDataUtils';
 import { extractArbeidSøknadsdata } from './extractArbeidSøknadsdata';
 
 export const getSøknadsdataFromFormValues = (values: SøknadFormData): Søknadsdata => {

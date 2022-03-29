@@ -3,7 +3,7 @@ import { getDurationsInDateRange } from '@navikt/sif-common-utils/lib';
 import { TimerEllerProsent } from '../../types';
 import { ArbeidIPeriodeFormData } from '../../types/ArbeidIPeriodeFormData';
 import { ArbeidIPeriodeSøknadsdata, NormalarbeidstidSøknadsdata } from '../../types/Søknadsdata';
-import { getPercentageOfDurationWeekdays } from '../arbeidstid-step/shared/utils/durationWeekdaysUtils';
+import { getPercentageOfDurationWeekdays } from '../durationWeekdaysUtils';
 
 export const extractArbeidIPeriodeSøknadsdata = (
     {

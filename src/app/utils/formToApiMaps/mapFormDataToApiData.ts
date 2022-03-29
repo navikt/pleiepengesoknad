@@ -6,11 +6,11 @@ import { SøknadApiData } from '../../types/SøknadApiData';
 import { SøknadFormData } from '../../types/SøknadFormData';
 import appSentryLogger from '../appSentryLogger';
 import { Feature, isFeatureEnabled } from '../featureToggleUtils';
-import { getArbeidsgivereISøknadsperiodenApiData } from './getArbeidsgivereISøknadsperiodenApiData';
+import { getArbeidsgivereSøknadsdataFromSøknadsdata } from '../søknadsdataToApiData/getArbeidsgivereApiDataFromSøknadsdata';
 import { getAttachmentsApiData } from './getAttachmentsApiData';
 import { getBarnApiData } from './getBarnApiData';
 import { getFerieuttakIPeriodenApiData } from './getFerieuttakIPeriodenApiData';
-import { getFrilansApiData } from '../søknadsdataToApiData/getFrilansApiData';
+import { getFrilansApiDataFromSøknadsdata } from '../søknadsdataToApiData/getFrilansApiDataFromSøknadsdata';
 import { getMedlemsskapApiData } from './getMedlemsskapApiData';
 import { getNattevåkOgBeredskapApiData } from './getNattevåkOgBeredskapApiData';
 import { getOmsorgstilbudApiData } from './getOmsorgstilbudApiData';
@@ -65,8 +65,8 @@ export const mapFormDataToApiData = (
                 ...getMedlemsskapApiData(formData, sprak),
                 ...getOmsorgstilbudApiData(omsorgstilbud, søknadsperiode),
                 ...getNattevåkOgBeredskapApiData(formData),
-                ...getArbeidsgivereISøknadsperiodenApiData(søknadsdata.arbeid?.arbeidsgivere),
-                ...getFrilansApiData(søknadsdata.arbeid?.frilans),
+                ...getArbeidsgivereSøknadsdataFromSøknadsdata(søknadsdata.arbeid?.arbeidsgivere),
+                ...getFrilansApiDataFromSøknadsdata(søknadsdata.arbeid?.frilans),
                 ...getSelvstendigNæringsdrivendeApiData(søknadsdata.arbeid?.selvstendig, locale),
             };
             if (isFeatureEnabled(Feature.ANDRE_YTELSER)) {

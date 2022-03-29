@@ -2,7 +2,9 @@ import { ArbeidsgiverApiData } from '../../types/SøknadApiData';
 import { ArbeidAnsattSøknadsdata } from '../../types/Søknadsdata';
 import { getArbeidsforholdApiDataFromSøknadsdata, dateToISODateOrUndefined } from './arbeidToApiDataHelpers';
 
-export const getArbeidsgiverApiData = (ansattSøknadsdata: ArbeidAnsattSøknadsdata): ArbeidsgiverApiData => {
+export const getArbeidsgiverApiDataFromSøknadsdata = (
+    ansattSøknadsdata: ArbeidAnsattSøknadsdata
+): ArbeidsgiverApiData => {
     const { arbeidsgiver } = ansattSøknadsdata;
 
     if (ansattSøknadsdata.erAnsattISøknadsperiode) {
