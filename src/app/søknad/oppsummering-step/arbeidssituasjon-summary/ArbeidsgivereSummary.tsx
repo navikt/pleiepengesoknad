@@ -4,6 +4,7 @@ import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/S
 import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { ArbeidsgiverApiData } from '../../../types/SøknadApiData';
+import NormalarbeidstidSummary from './NormalarbeidstidSummary';
 
 interface Props {
     arbeidsgivere?: ArbeidsgiverApiData[];
@@ -52,6 +53,12 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, s
                             </li>
                             {arbeidsgiver.arbeidsforhold && (
                                 <>
+                                    <li>
+                                        <NormalarbeidstidSummary
+                                            erAnsatt={erAnsatt}
+                                            normalarbeidstidApiData={arbeidsgiver.arbeidsforhold.normalarbeidstid}
+                                        />
+                                    </li>
                                     {/* 
                                     TODO
                                     <li>
@@ -67,6 +74,7 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, s
                                             }}
                                         />
                                     </li> */}
+
                                     <li>
                                         <FormattedMessage
                                             id={

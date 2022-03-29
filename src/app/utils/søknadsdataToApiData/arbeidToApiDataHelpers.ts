@@ -11,34 +11,13 @@ import {
     Weekday,
 } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
-import {
-    ArbeidIPeriodeApiData,
-    ArbeidsforholdApiData,
-    NormalarbeidstidApiData,
-    TimerFasteDagerApiData,
-} from '../../types/SøknadApiData';
+import { ArbeidIPeriodeApiData, ArbeidsforholdApiData, TimerFasteDagerApiData } from '../../types/SøknadApiData';
 import {
     ArbeidIPeriodeSøknadsdata,
     ArbeidsforholdSøknadsdata,
     NormalarbeidstidSøknadsdata,
 } from '../../types/Søknadsdata';
-
-const normalarbeidstidSøknadsdataToApiData = (
-    normalarbeidstid: NormalarbeidstidSøknadsdata
-): NormalarbeidstidApiData => {
-    const timerFasteDager = durationWeekdaysToTimerFasteDagerApiData(normalarbeidstid.fasteDager);
-    if (normalarbeidstid.erLiktHverUke) {
-        return {
-            erLiktHverUke: true,
-            timerFasteDager,
-        };
-    }
-    return {
-        erLiktHverUke: false,
-        timerFasteDager,
-        timerPerUke: normalarbeidstid.timerPerUke,
-    };
-};
+import { getNormalarbeidstidApiDataFromSøknadsdata } from './getNormalarbeidstidApiDataFromSøknadsdata';
 
 export const dateToISODateOrUndefined = (date?: Date): ISODate | undefined => (date ? dateToISODate(date) : undefined);
 
@@ -141,7 +120,7 @@ export const getArbeidIPeriodeApiDataFromSøknadsdata = (
 export const getArbeidsforholdApiDataFromSøknadsdata = (
     arbeidsforhold: ArbeidsforholdSøknadsdata
 ): ArbeidsforholdApiData => {
-    const normalarbeidstid = normalarbeidstidSøknadsdataToApiData(arbeidsforhold.normalarbeidstid);
+    const normalarbeidstid = getNormalarbeidstidApiDataFromSøknadsdata(arbeidsforhold.normalarbeidstid);
     if (arbeidsforhold.harFraværIPeriode === false) {
         return {
             harFraværIPeriode: false,

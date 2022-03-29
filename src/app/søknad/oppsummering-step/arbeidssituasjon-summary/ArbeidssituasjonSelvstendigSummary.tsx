@@ -6,12 +6,13 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import VirksomhetSummary from '@navikt/sif-common-forms/lib/virksomhet/VirksomhetSummary';
 import { Element } from 'nav-frontend-typografi';
 import { SelvstendigApiData } from '../../../types/SøknadApiData';
+import NormalarbeidstidSummary from './NormalarbeidstidSummary';
 
 interface Props {
     selvstendig: SelvstendigApiData;
 }
 
-function ArbeidssituasjonSNSummary({ selvstendig }: Props) {
+function ArbeidssituasjonSelvstendigSummary({ selvstendig }: Props) {
     const intl = useIntl();
     return (
         <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.selvstendig.header')} headerTag="h3">
@@ -35,25 +36,21 @@ function ArbeidssituasjonSNSummary({ selvstendig }: Props) {
                                 <FormattedMessage id="oppsummering.arbeidssituasjon.selvstendig.enVirksomhet" />
                             )}
                         </li>
-                        {selvstendig.arbeidsforhold.normalarbeidstid.erLiktHverUke === false && (
-                            <>
-                                <li>
-                                    <FormattedMessage
-                                        id={`oppsummering.arbeidssituasjon.tid`}
-                                        values={{ timer: selvstendig.arbeidsforhold.normalarbeidstid.timerPerUke }}
-                                    />
-                                </li>
-                                <li>
-                                    <FormattedMessage
-                                        id={
-                                            selvstendig.arbeidsforhold.harFraværIPeriode
-                                                ? `oppsummering.arbeidssituasjon.harFravær`
-                                                : 'oppsummering.arbeidssituasjon.harIkkeFravær'
-                                        }
-                                    />
-                                </li>
-                            </>
-                        )}
+                        <li>
+                            <NormalarbeidstidSummary
+                                normalarbeidstidApiData={selvstendig.arbeidsforhold.normalarbeidstid}
+                                erAnsatt={true}
+                            />
+                        </li>
+                        <li>
+                            <FormattedMessage
+                                id={
+                                    selvstendig.arbeidsforhold.harFraværIPeriode
+                                        ? `oppsummering.arbeidssituasjon.harFravær`
+                                        : 'oppsummering.arbeidssituasjon.harIkkeFravær'
+                                }
+                            />
+                        </li>
                     </ul>
                     <Element tag="h4">{intlHelper(intl, 'summary.virksomhet.virksomhetInfo.tittel')}</Element>
                     <Box margin="m">
@@ -67,4 +64,4 @@ function ArbeidssituasjonSNSummary({ selvstendig }: Props) {
     );
 }
 
-export default ArbeidssituasjonSNSummary;
+export default ArbeidssituasjonSelvstendigSummary;

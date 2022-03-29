@@ -563,12 +563,14 @@
 
     "oppsummering.arbeidssituasjon.arbeidsgiver.ansatt": "Er ansatt",
     "oppsummering.arbeidssituasjon.avsluttet.arbeidsgiver.ansatt": "Er ikke lenger ansatt",
+    "oppsummering.arbeidssituasjon.fasteDager": "Jobber normalt hver uke:",
+    "oppsummering.arbeidssituasjon.avsluttet.fasteDager": "Jobbet normalt hver uke:",
     "oppsummering.arbeidssituasjon.tid": "Jobber normalt {timer, plural, one {# time} other {# timer}} per uke",
     "oppsummering.arbeidssituasjon.avsluttet.tid": "Jobbet normalt {timer, plural, one {# time} other {# timer}} per uke",
     "oppsummering.arbeidssituasjon.avsluttet.sluttetFørSøknadsperiode": "Sluttet før {periodeFra}",
     "oppsummering.arbeidssituasjon.avsluttet.sluttetISøknadsperiode": "Sluttet etter {periodeFra}",
     "oppsummering.arbeidssituasjon.harFravær": "Har fravær i perioden",
-    "oppsummering.arbeidssituasjon.harIkkeFravær": "Har ikke fravær i perioden",
+    "oppsummering.arbeidssituasjon.harIkkeFravær": "Har ikke fravær i perioden på grunn av pleiepenger",
 
     "oppsummering.arbeidssituasjon.arbeidsgivere.ingenIPeriode.header": "Arbeidsgivere",
     "oppsummering.arbeidssituasjon.arbeidsgivere.ingenIPeriode.tekst": "Er ikke ansatt i perioden det søkes for",

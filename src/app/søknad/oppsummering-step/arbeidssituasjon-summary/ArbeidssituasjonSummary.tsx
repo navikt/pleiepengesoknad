@@ -7,7 +7,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { SøknadApiData } from '../../../types/SøknadApiData';
 import ArbeidsgivereSummary from './ArbeidsgivereSummary';
 import ArbeidssituasjonFrilansSummary from './ArbeidssituasjonFrilansSummary';
-import ArbeidssituasjonSNSummary from './ArbeidssituasjonSNSummary';
+import ArbeidssituasjonSelvstendigSummary from './ArbeidssituasjonSelvstendigSummary';
 import { Arbeidsgiver } from '../../../types';
 
 interface Props {
@@ -29,7 +29,7 @@ const ArbeidssituasjonSummary: React.FunctionComponent<Props> = ({
 
             <ArbeidssituasjonFrilansSummary frilans={frilans} frilansoppdrag={frilansoppdrag} />
 
-            <ArbeidssituasjonSNSummary selvstendig={selvstendigNæringsdrivende} />
+            <ArbeidssituasjonSelvstendigSummary selvstendig={selvstendigNæringsdrivende} />
 
             {/* Vernepliktig */}
             {harVærtEllerErVernepliktig !== undefined && (

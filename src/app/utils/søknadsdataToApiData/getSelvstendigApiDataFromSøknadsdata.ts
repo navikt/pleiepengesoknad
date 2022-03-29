@@ -5,9 +5,12 @@ import { ArbeidSelvstendigSøknadsdata } from '../../types/Søknadsdata';
 import { getArbeidsforholdApiDataFromSøknadsdata } from './arbeidToApiDataHelpers';
 
 export const getSelvstendigApiDataFromSøknadsdata = (
-    arbeidSelvstendigSøknadsdata: ArbeidSelvstendigSøknadsdata,
+    arbeidSelvstendigSøknadsdata?: ArbeidSelvstendigSøknadsdata,
     locale: Locale = 'nb'
 ): SelvstendigApiData => {
+    if (!arbeidSelvstendigSøknadsdata) {
+        return { harInntektSomSelvstendig: false };
+    }
     switch (arbeidSelvstendigSøknadsdata.type) {
         case 'erIkkeSN':
             return {

@@ -5,6 +5,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { Arbeidsgiver } from '../../../types';
 import { FrilansApiData } from '../../../types/SøknadApiData';
 import { prettifyApiDate } from '../enkeltsvar/DatoSvar';
+import NormalarbeidstidSummary from './NormalarbeidstidSummary';
 
 interface Props {
     frilans: FrilansApiData;
@@ -47,25 +48,22 @@ const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
                         <FormattedMessage id="oppsummering.arbeidssituasjon.frilans.fortsattFrilanser" />
                     </li>
                 )}
-                {frilans.arbeidsforhold?.normalarbeidstid.erLiktHverUke === false && (
-                    <>
-                        <li>
-                            <FormattedMessage
-                                id={`oppsummering.arbeidssituasjon.tid`}
-                                values={{ timer: frilans.arbeidsforhold.normalarbeidstid.timerPerUke }}
-                            />
-                        </li>
-                        <li>
-                            <FormattedMessage
-                                id={
-                                    frilans.arbeidsforhold.harFraværIPeriode
-                                        ? `oppsummering.arbeidssituasjon.harFravær`
-                                        : 'oppsummering.arbeidssituasjon.harIkkeFravær'
-                                }
-                            />
-                        </li>
-                    </>
-                )}
+                {/* {frilans.arbeidsforhold?.normalarbeidstid.erLiktHverUke === false && ( */}
+                <li>
+                    <NormalarbeidstidSummary
+                        erAnsatt={frilans.jobberFortsattSomFrilans}
+                        normalarbeidstidApiData={frilans.arbeidsforhold.normalarbeidstid}
+                    />
+                </li>
+                <li>
+                    <FormattedMessage
+                        id={
+                            frilans.arbeidsforhold.harFraværIPeriode
+                                ? `oppsummering.arbeidssituasjon.harFravær`
+                                : 'oppsummering.arbeidssituasjon.harIkkeFravær'
+                        }
+                    />
+                </li>
                 {/* Dersom bruker fortsatt er frilanser i perioden (arbeidsforhold finnes), og har frilansoppdrag */}
                 {frilans.arbeidsforhold && frilansoppdrag && frilansoppdrag.length > 0 && (
                     <li>

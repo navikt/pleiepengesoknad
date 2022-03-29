@@ -4,20 +4,20 @@ import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUti
 import { RegistrerteBarn } from '../../types';
 import { SøknadApiData } from '../../types/SøknadApiData';
 import { SøknadFormData } from '../../types/SøknadFormData';
+import { Søknadsdata } from '../../types/Søknadsdata';
 import appSentryLogger from '../appSentryLogger';
 import { Feature, isFeatureEnabled } from '../featureToggleUtils';
+import { getValidSpråk } from '../sprakUtils';
 import { getArbeidsgivereApiDataFromSøknadsdata } from '../søknadsdataToApiData/getArbeidsgivereApiDataFromSøknadsdata';
+import { getFrilansApiDataFromSøknadsdata } from '../søknadsdataToApiData/getFrilansApiDataFromSøknadsdata';
+import { getSelvstendigApiDataFromSøknadsdata } from '../søknadsdataToApiData/getSelvstendigApiDataFromSøknadsdata';
 import { getAttachmentsApiData } from './getAttachmentsApiData';
 import { getBarnApiData } from './getBarnApiData';
 import { getFerieuttakIPeriodenApiData } from './getFerieuttakIPeriodenApiData';
-import { getFrilansApiDataFromSøknadsdata } from '../søknadsdataToApiData/getFrilansApiDataFromSøknadsdata';
 import { getMedlemsskapApiData } from './getMedlemsskapApiData';
 import { getNattevåkOgBeredskapApiData } from './getNattevåkOgBeredskapApiData';
 import { getOmsorgstilbudApiData } from './getOmsorgstilbudApiData';
-import { getSelvstendigNæringsdrivendeApiData } from './getSelvstendigNæringsdrivendeApiData';
 import { getUtenlandsoppholdIPeriodenApiData } from './getUtenlandsoppholdIPeriodenApiData';
-import { getValidSpråk } from '../sprakUtils';
-import { Søknadsdata } from '../../types/Søknadsdata';
 
 export const mapFormDataToApiData = (
     formData: SøknadFormData,
@@ -67,7 +67,7 @@ export const mapFormDataToApiData = (
                 ...getNattevåkOgBeredskapApiData(formData),
                 arbeidsgivere: getArbeidsgivereApiDataFromSøknadsdata(søknadsdata.arbeid?.arbeidsgivere),
                 frilans: getFrilansApiDataFromSøknadsdata(søknadsdata.arbeid?.frilans),
-                selvstendigNæringsdrivende: getSelvstendigNæringsdrivendeApiData(
+                selvstendigNæringsdrivende: getSelvstendigApiDataFromSøknadsdata(
                     søknadsdata.arbeid?.selvstendig,
                     locale
                 ),
