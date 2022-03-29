@@ -17,7 +17,6 @@ interface Props {
 
 export interface ArbeidIPeriodenSummaryItemType extends ArbeidsforholdApiData {
     tittel: string;
-    erAktivIPeriode: boolean;
 }
 
 const getArbeidsgiverTittel = (intl: IntlShape, arbeidsgiver: ArbeidsgiverApiData, periode: DateRange) => {
@@ -61,45 +60,36 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
     søknadsperiode,
 }) => {
     const intl = useIntl();
-    const alleArbeidsforhold: ArbeidIPeriodenSummaryItemType[] = [];
+    const arbeidsforholdIPerioden: ArbeidIPeriodenSummaryItemType[] = [];
 
     arbeidsgivere.forEach((arbeidsgiverApiData) => {
         if (arbeidsgiverApiData.arbeidsforhold) {
-            alleArbeidsforhold.push({
+            arbeidsforholdIPerioden.push({
                 ...arbeidsgiverApiData.arbeidsforhold,
                 tittel: getArbeidsgiverTittel(intl, arbeidsgiverApiData, søknadsperiode),
-                erAktivIPeriode: arbeidsgiverApiData.arbeidsforhold.arbeidIPeriode !== undefined,
             });
         }
     });
 
     if (frilans.harInntektSomFrilanser === true && frilans.arbeidsforhold) {
-        alleArbeidsforhold.push({
+        arbeidsforholdIPerioden.push({
             ...frilans.arbeidsforhold,
             tittel: 'Frilanser',
-            erAktivIPeriode: frilans.arbeidsforhold.arbeidIPeriode !== undefined,
         });
     }
 
     if (selvstendigNæringsdrivende.harInntektSomSelvstendig && selvstendigNæringsdrivende.arbeidsforhold) {
-        alleArbeidsforhold.push({
+        arbeidsforholdIPerioden.push({
             ...selvstendigNæringsdrivende.arbeidsforhold,
             tittel: intlHelper(intl, 'selvstendigNæringsdrivende.tittel'),
-            erAktivIPeriode: true,
         });
-    }
-
-    const aktiveArbeidsforhold = alleArbeidsforhold.filter((a) => a.erAktivIPeriode);
-
-    if (aktiveArbeidsforhold.length === 0) {
-        return null;
     }
 
     return (
         <>
-            {aktiveArbeidsforhold.length > 0 && (
+            {arbeidsforholdIPerioden.length > 0 && (
                 <SummarySection header={intlHelper(intl, 'oppsummering.arbeidIPeriode.jobbIPerioden.header')}>
-                    {aktiveArbeidsforhold.map((arbeidsforhold) => (
+                    {arbeidsforholdIPerioden.map((arbeidsforhold) => (
                         <SummaryBlock header={arbeidsforhold.tittel} key={arbeidsforhold.tittel}>
                             <ArbeidIPeriodeSummaryItem periode={søknadsperiode} arbeidsforhold={arbeidsforhold} />
                         </SummaryBlock>
