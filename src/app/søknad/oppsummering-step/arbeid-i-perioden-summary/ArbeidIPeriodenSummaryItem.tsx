@@ -3,23 +3,20 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-// import { getRedusertArbeidstidSomDuration } from '@navikt/sif-common-pleiepenger';
+import { TidFasteDager } from '@navikt/sif-common-pleiepenger/lib';
 import ArbeidstidEnkeltdagerListe from '@navikt/sif-common-pleiepenger/lib/dager-med-tid/ArbeidstidEnkeltdagerListe';
-// import ArbeidstidFasteDagerListe from '@navikt/sif-common-pleiepenger/lib/dager-med-tid/ArbeidstidFasteDagerListe';
-// import { formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger/lib/timer-og-minutter/TimerOgMinutter';
-import { ArbeidIPeriodeApiData, ArbeidsforholdApiData, NormalarbeidstidApiData } from '../../../types/SøknadApiData';
+import { ArbeidsforholdApiData } from '../../../types/SøknadApiData';
 
 interface Props {
     periode: DateRange;
-    arbeidIPeriode: ArbeidIPeriodeApiData;
-    normaltid: NormalarbeidstidApiData;
+    arbeidsforhold: ArbeidIPeriodenSummaryItemType;
 }
 
 export interface ArbeidIPeriodenSummaryItemType extends ArbeidsforholdApiData {
     tittel: string;
 }
 
-const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeriode }) => {
+const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforhold }) => {
     const intl = useIntl();
 
     // const getArbeidProsentTekst = (prosent: number, normaltimerUke: number) => {
@@ -30,43 +27,50 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeri
     //     });
     // };
 
-    return (
-        <>
-            {arbeidIPeriode.jobberIPerioden === 'NEI' && (
-                <p style={{ marginTop: 0 }}>
-                    <FormattedMessage id={`oppsummering.arbeidIPeriode.jobberIPerioden.nei`} />
-                </p>
-            )}
+    const { arbeidIPeriode, harFraværIPeriode } = arbeidsforhold;
 
-            {arbeidIPeriode.enkeltdager && (
-                <Box margin="m">
-                    <ArbeidstidEnkeltdagerListe dager={arbeidIPeriode.enkeltdager} visNormaltid={false} />
-                </Box>
-            )}
+    if (harFraværIPeriode === false) {
+        return <p style={{ marginTop: 0 }}>Arbeider som normalt i perioden.</p>;
+    }
+    if (arbeidIPeriode) {
+        return (
+            <>
+                {arbeidIPeriode.jobberIPerioden === 'NEI' && (
+                    <p style={{ marginTop: 0 }}>
+                        <FormattedMessage id={`oppsummering.arbeidIPeriode.jobberIPerioden.nei`} />
+                    </p>
+                )}
 
-            {/* Bruker har valgt faste dager eller prosent */}
-            {arbeidIPeriode.fasteDager && (
-                <>
-                    {/* Faste dager */}
-                    {arbeidIPeriode.jobberProsent === undefined && (
-                        <>
-                            <div>{intlHelper(intl, 'oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke')}:</div>
-                            <Box margin="m">
-                                {/* <ArbeidstidFasteDagerListe
-                                    fasteDager={arbeidIPeriode.fasteDager}
-                                    visNormaltid={false}
-                                /> */}
-                            </Box>
-                        </>
-                    )}
-                    {/* Prosent - men verdi er fordelt likt på  fasteDager */}
-                    {/* TODO- fikse oppsummering faste dager */}
-                    {/* {arbeidIPeriode.jobberProsent !== undefined &&
-                        getArbeidProsentTekst(arbeidIPeriode.jobberProsent, normaltid.snitt)} */}
-                </>
-            )}
-        </>
-    );
+                {arbeidIPeriode.enkeltdager && (
+                    <Box margin="m">
+                        <ArbeidstidEnkeltdagerListe dager={arbeidIPeriode.enkeltdager} visNormaltid={false} />
+                    </Box>
+                )}
+
+                {/* Bruker har valgt faste dager eller prosent */}
+                {arbeidIPeriode.fasteDager && (
+                    <>
+                        {/* Faste dager */}
+                        {arbeidIPeriode.jobberProsent === undefined && (
+                            <>
+                                <div>
+                                    {intlHelper(intl, 'oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke')}:
+                                </div>
+                                <Box margin="m">
+                                    <TidFasteDager fasteDager={arbeidIPeriode.fasteDager} />
+                                </Box>
+                            </>
+                        )}
+                        {/* Prosent - men verdi er fordelt likt på  fasteDager */}
+                        {/* TODO- fikse oppsummering faste dager */}
+                        {/* {arbeidIPeriode.jobberProsent !== undefined &&
+                            getArbeidProsentTekst(arbeidIPeriode.jobberProsent, normaltid.snitt)} */}
+                    </>
+                )}
+            </>
+        );
+    }
+    return <>Informasjon om arbeid i perioden mangler</>;
 };
 
 export default ArbeidIPeriodeSummaryItem;

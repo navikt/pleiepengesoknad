@@ -12,6 +12,5 @@ export const getSøknadsdataFromFormValues = (values: SøknadFormData): Søknads
         søknadsperiode,
         arbeid: extractArbeidSøknadsdata(values, søknadsperiode),
     };
-    console.log(søknadsdata);
     return søknadsdata;
 };
