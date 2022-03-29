@@ -5,10 +5,10 @@ import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/S
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import VirksomhetSummary from '@navikt/sif-common-forms/lib/virksomhet/VirksomhetSummary';
 import { Element } from 'nav-frontend-typografi';
-import { SelvstendigNæringsdrivendeApiData } from '../../../types/SøknadApiData';
+import { SelvstendigApiData } from '../../../types/SøknadApiData';
 
 interface Props {
-    selvstendigNæringsdrivende?: SelvstendigNæringsdrivendeApiData;
+    selvstendigNæringsdrivende?: SelvstendigApiData;
 }
 
 function ArbeidssituasjonSNSummary({ selvstendigNæringsdrivende }: Props) {

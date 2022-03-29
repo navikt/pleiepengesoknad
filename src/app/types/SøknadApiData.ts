@@ -99,7 +99,7 @@ export interface FrilansApiData {
     arbeidsforhold?: ArbeidsforholdApiData;
 }
 
-export interface SelvstendigNæringsdrivendeApiData {
+export interface SelvstendigApiData {
     virksomhet: VirksomhetApiData;
     arbeidsforhold: ArbeidsforholdApiData;
 }
@@ -168,7 +168,7 @@ export interface SøknadApiData {
     };
     arbeidsgivere?: ArbeidsgiverApiData[];
     frilans?: FrilansApiData;
-    selvstendigNæringsdrivende?: SelvstendigNæringsdrivendeApiData;
+    selvstendigNæringsdrivende?: SelvstendigApiData;
     harVærtEllerErVernepliktig?: boolean;
     andreYtelserFraNAV?: AndreYtelserFraNAV[];
     /** Alle felter med _ brukes ikke i mottak, kun for å vise i oppsummering */

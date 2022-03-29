@@ -1,4 +1,4 @@
-import { DateRange } from '@navikt/sif-common-formik/lib';
+import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import { SelvstendigFormData } from '../../types/SelvstendigFormData';
 import { ArbeidSelvstendigSøknadsdata } from '../../types/Søknadsdata';
@@ -8,22 +8,27 @@ export const extractArbeidSelvstendigSøknadsdata = (
     selvstendig: SelvstendigFormData | undefined,
     søknadsperiode: DateRange
 ): ArbeidSelvstendigSøknadsdata | undefined => {
-    if (!selvstendig) {
-        return undefined;
+    if (!selvstendig || selvstendig.harHattInntektSomSN === YesOrNo.NO) {
+        return {
+            type: 'erIkkeSN',
+        };
     }
+
     const arbeidsforhold = selvstendig.arbeidsforhold
         ? extractArbeidsforholdSøknadsdata(selvstendig.arbeidsforhold, søknadsperiode)
         : undefined;
 
     const virksomhet = selvstendig.virksomhet;
 
-    if (!arbeidsforhold || !virksomhet || dayjs(virksomhet.fom).isAfter(søknadsperiode.to, 'day')) {
-        return undefined;
+    if (arbeidsforhold && virksomhet && dayjs(virksomhet.fom).isBefore(søknadsperiode.to, 'day')) {
+        return {
+            type: 'erSN',
+            arbeidsforhold,
+            virksomhet,
+            harFlereVirksomheter: selvstendig.harFlereVirksomheter === YesOrNo.YES,
+            startdato: virksomhet.fom,
+        };
     }
 
-    return {
-        arbeidsforhold,
-        virksomhet,
-        startdato: virksomhet.fom,
-    };
+    return undefined;
 };

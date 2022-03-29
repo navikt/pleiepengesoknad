@@ -1,10 +1,8 @@
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { mapVirksomhetToVirksomhetApiData } from '@navikt/sif-common-forms/lib';
-import { SelvstendigFormData } from '../../types/SelvstendigFormData';
 import { SøknadApiData } from '../../types/SøknadApiData';
-import { mapArbeidsforholdToApiData } from './mapArbeidsforholdToApiData';
+import { ArbeidSelvstendigSøknadsdata } from '../../types/Søknadsdata';
+import { getArbeidsforholdApiDataFromSøknadsdata } from '../søknadsdataToApiData/arbeidToApiDataHelpers';
 
 type SelvstendigArbeidsforholdApiDataPart = Pick<
     SøknadApiData,
@@ -12,23 +10,19 @@ type SelvstendigArbeidsforholdApiDataPart = Pick<
 >;
 
 export const getSelvstendigNæringsdrivendeApiData = (
-    { arbeidsforhold, harHattInntektSomSN, harFlereVirksomheter, virksomhet }: SelvstendigFormData,
-    søknadsperiode: DateRange,
-    locale: Locale
+    arbeidSelvstendigSøknadsdata: ArbeidSelvstendigSøknadsdata | undefined,
+    locale: Locale = 'nb'
 ): SelvstendigArbeidsforholdApiDataPart => {
-    const _harHattInntektSomSelvstendigNæringsdrivende = harHattInntektSomSN === YesOrNo.YES;
-
-    if (_harHattInntektSomSelvstendigNæringsdrivende === false || !virksomhet || !arbeidsforhold) {
-        return {
-            _harHattInntektSomSelvstendigNæringsdrivende,
-        };
+    if (!arbeidSelvstendigSøknadsdata || arbeidSelvstendigSøknadsdata.type === 'erIkkeSN') {
+        return { _harHattInntektSomSelvstendigNæringsdrivende: false };
     }
 
+    const { arbeidsforhold, harFlereVirksomheter, virksomhet } = arbeidSelvstendigSøknadsdata;
     return {
-        _harHattInntektSomSelvstendigNæringsdrivende,
+        _harHattInntektSomSelvstendigNæringsdrivende: true,
         selvstendigNæringsdrivende: {
-            arbeidsforhold: mapArbeidsforholdToApiData(arbeidsforhold, søknadsperiode),
-            virksomhet: mapVirksomhetToVirksomhetApiData(locale, virksomhet, harFlereVirksomheter === YesOrNo.YES),
+            arbeidsforhold: getArbeidsforholdApiDataFromSøknadsdata(arbeidsforhold),
+            virksomhet: mapVirksomhetToVirksomhetApiData(locale, virksomhet, harFlereVirksomheter),
         },
     };
 };

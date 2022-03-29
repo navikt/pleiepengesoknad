@@ -16,7 +16,6 @@ import GeneralErrorPage from '../../pages/general-error-page/GeneralErrorPage';
 import { FrilansFormField } from '../../types/FrilansFormData';
 import { SelvstendigFormField } from '../../types/SelvstendigFormData';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
-import { erAnsattHosArbeidsgiverISøknadsperiode } from '../../utils/ansattUtils';
 import { søkerKunHelgedager } from '../../utils/formDataUtils';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../utils/selvstendigUtils';
 import SøknadFormStep from '../SøknadFormStep';
@@ -89,14 +88,13 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
             {harAnsattArbeidsforholdMedFravær && (
                 <FormBlock>
                     {ansatt_arbeidsforhold.map((arbeidsforhold, index) => {
-                        const normalarbeidstid = arbeidssituasjon.arbeidsgivere?.get(arbeidsforhold.arbeidsgiver.id)
-                            ?.arbeidsforhold?.normalarbeidstid;
+                        const arbeidsgiver = arbeidssituasjon.arbeidsgivere?.get(arbeidsforhold.arbeidsgiver.id);
 
                         /** Må loope gjennom alle arbeidsforhold for å få riktig index inn til formik */
                         if (
-                            erAnsattHosArbeidsgiverISøknadsperiode(arbeidsforhold) === false ||
-                            arbeidsforhold.harFraværIPeriode !== YesOrNo.YES ||
-                            normalarbeidstid === undefined
+                            !arbeidsgiver ||
+                            arbeidsgiver.erAnsattISøknadsperiode === false ||
+                            arbeidsforhold.harFraværIPeriode !== YesOrNo.YES
                         ) {
                             return null;
                         }
@@ -104,7 +102,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                         return (
                             <FormSection title={arbeidsforhold.arbeidsgiver.navn} key={arbeidsforhold.arbeidsgiver.id}>
                                 <ArbeidIPeriodeSpørsmål
-                                    normalarbeidstid={normalarbeidstid}
+                                    normalarbeidstid={arbeidsgiver.arbeidsforhold.normalarbeidstid}
                                     arbeidsstedNavn={arbeidsforhold.arbeidsgiver.navn}
                                     arbeidsforholdType={ArbeidsforholdType.ANSATT}
                                     arbeidsforhold={arbeidsforhold}
@@ -147,7 +145,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                 selvstendig.arbeidsforhold &&
                 selvstendig.arbeidsforhold.harFraværIPeriode === YesOrNo.YES &&
                 periodeSomSelvstendigISøknadsperiode &&
-                arbeidssituasjon.selvstendig?.arbeidsforhold?.normalarbeidstid && (
+                arbeidssituasjon.selvstendig?.type === 'erSN' && (
                     <FormBlock>
                         <FormSection title={intlHelper(intl, 'arbeidIPeriode.SNLabel')}>
                             <ArbeidIPeriodeSpørsmål

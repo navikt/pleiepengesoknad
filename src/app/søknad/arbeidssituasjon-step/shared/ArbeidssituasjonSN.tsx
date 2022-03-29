@@ -91,7 +91,7 @@ const ArbeidssituasjonSN = ({ formValues, urlSkatteetatenSN }: Props) => {
                             <FormBlock>
                                 <ArbSNFormComponents.YesOrNoQuestion
                                     name={getArbeidsforholdFieldName(ArbeidsforholdFormField.harFraværIPeriode)}
-                                    legend={intlHelper(intl, 'sn.harFraværIPerioden.spm')}
+                                    legend={intlHelper(intl, 'selvstendig.harFraværIPerioden.spm')}
                                     validate={getYesOrNoValidator()}
                                 />
                                 {arbeidsforhold && (

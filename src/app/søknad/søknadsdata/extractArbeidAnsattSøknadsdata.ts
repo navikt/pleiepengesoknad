@@ -10,9 +10,29 @@ export const extractArbeidAnsattSøknadsdata = (
     const erAnsatt = arbeidsforhold.erAnsatt === YesOrNo.YES;
     const sluttetFørSøknadsperiode = erAnsatt === false && arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.YES;
 
-    return {
-        erAnsattISøknadsperiode: erAnsatt === true || sluttetFørSøknadsperiode === false,
-        arbeidsgiver: arbeidsforhold.arbeidsgiver,
-        arbeidsforhold: arbeidsforhold ? extractArbeidsforholdSøknadsdata(arbeidsforhold, søknadsperiode) : undefined,
-    };
+    if (sluttetFørSøknadsperiode) {
+        return {
+            type: 'sluttetFørSøknadsperiode',
+            erAnsattISøknadsperiode: false,
+            arbeidsgiver: arbeidsforhold.arbeidsgiver,
+        };
+    }
+    const arbeidsforholdSøknadsdata = extractArbeidsforholdSøknadsdata(arbeidsforhold, søknadsperiode);
+    if (arbeidsforholdSøknadsdata) {
+        if (erAnsatt === false && sluttetFørSøknadsperiode === false) {
+            return {
+                type: 'sluttetISøknadsperiode',
+                erAnsattISøknadsperiode: true,
+                arbeidsgiver: arbeidsforhold.arbeidsgiver,
+                arbeidsforhold: arbeidsforholdSøknadsdata,
+            };
+        }
+        return {
+            type: 'pågående',
+            erAnsattISøknadsperiode: true,
+            arbeidsgiver: arbeidsforhold.arbeidsgiver,
+            arbeidsforhold: arbeidsforholdSøknadsdata,
+        };
+    }
+    throw 'extractArbeidAnsattSøknadsdata failed';
 };

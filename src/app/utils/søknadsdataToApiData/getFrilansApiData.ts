@@ -1,7 +1,7 @@
 import { dateToISODate } from '@navikt/sif-common-utils/lib';
 import { SøknadApiData } from '../../types/SøknadApiData';
 import { ArbeidFrilansSøknadsdata } from '../../types/Søknadsdata';
-import { arbeidsforholdSøknadsdataToApiData } from './arbeidToApiDataHelpers';
+import { getArbeidsforholdApiDataFromSøknadsdata } from './arbeidToApiDataHelpers';
 
 export type FrilansApiDataPart = Pick<SøknadApiData, 'frilans' | '_harHattInntektSomFrilanser' | '_frilans'>;
 
@@ -20,7 +20,7 @@ export const getFrilansApiData = (
                 frilans: {
                     jobberFortsattSomFrilans: true,
                     startdato: dateToISODate(arbeidFrilansSøknadsdata.startdato),
-                    arbeidsforhold: arbeidsforholdSøknadsdataToApiData(arbeidFrilansSøknadsdata.arbeidsforhold),
+                    arbeidsforhold: getArbeidsforholdApiDataFromSøknadsdata(arbeidFrilansSøknadsdata.arbeidsforhold),
                 },
             };
         case 'avsluttetISøknadsperiode':
@@ -30,7 +30,7 @@ export const getFrilansApiData = (
                     jobberFortsattSomFrilans: false,
                     startdato: dateToISODate(arbeidFrilansSøknadsdata.startdato),
                     sluttdato: dateToISODate(arbeidFrilansSøknadsdata.sluttdato),
-                    arbeidsforhold: arbeidsforholdSøknadsdataToApiData(arbeidFrilansSøknadsdata.arbeidsforhold),
+                    arbeidsforhold: getArbeidsforholdApiDataFromSøknadsdata(arbeidFrilansSøknadsdata.arbeidsforhold),
                 },
             };
         case 'avsluttetFørSøknadsperiode':

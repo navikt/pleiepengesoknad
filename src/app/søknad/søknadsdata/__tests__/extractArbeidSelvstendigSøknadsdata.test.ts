@@ -25,25 +25,24 @@ const formData: SelvstendigFormData = {
 
 describe('extractArbeidSelvstendigSøknadsdata', () => {
     describe('Er ikke selvstendig i søknadsperiode', () => {
-        it('returnerer undefined dersom bruker svarer at en ikke er selvstendig', () => {
-            expect(extractArbeidSelvstendigSøknadsdata(undefined, søknadsperiode)).toBeUndefined();
+        it('returnerer erIkkeSN dersom bruker svarer at en ikke er selvstendig', () => {
+            const result = extractArbeidSelvstendigSøknadsdata(undefined, søknadsperiode);
+            expect(result?.type).toEqual('erIkkeSN');
         });
         it('returnerer undefined dersom arbeidsforhold ikke kan hentes ut', () => {
             arbeidsforholdSpy.mockReturnValue(undefined);
-            expect(
-                extractArbeidSelvstendigSøknadsdata({ ...formData, arbeidsforhold: {} }, søknadsperiode)
-            ).toBeUndefined();
+            const result = extractArbeidSelvstendigSøknadsdata({ ...formData, arbeidsforhold: {} }, søknadsperiode);
+            expect(result).toBeUndefined();
         });
         it('returnerer undefined dersom virksomhet startet etter søknadsperiode', () => {
             const mockVirksomhetStartetEtterSøknadsperiode: Virksomhet = {
                 fom: ISODateToDate('2022-03-01'),
             } as any;
-            expect(
-                extractArbeidSelvstendigSøknadsdata(
-                    { ...formData, virksomhet: mockVirksomhetStartetEtterSøknadsperiode },
-                    søknadsperiode
-                )
-            ).toBeUndefined();
+            const result = extractArbeidSelvstendigSøknadsdata(
+                { ...formData, virksomhet: mockVirksomhetStartetEtterSøknadsperiode },
+                søknadsperiode
+            );
+            expect(result).toBeUndefined();
         });
     });
 
@@ -55,15 +54,21 @@ describe('extractArbeidSelvstendigSøknadsdata', () => {
         it('returnerer riktig info når en har én eller flere virksomheter', () => {
             const result = extractArbeidSelvstendigSøknadsdata(formData, søknadsperiode);
             expect(result).toBeDefined();
-            expect(result?.arbeidsforhold).toBeDefined();
-            expect(result?.startdato).toBeDefined();
+            expect(result?.type).toEqual('erSN');
+            if (result?.type === 'erSN') {
+                expect(result?.arbeidsforhold).toBeDefined();
+                expect(result?.startdato).toBeDefined();
+            }
         });
         it('returnerer arbeidsforhold og startdato info når en har én eller flere virksomheter', () => {
             const result = extractArbeidSelvstendigSøknadsdata(formData, søknadsperiode);
             expect(result).toBeDefined();
-            expect(result?.arbeidsforhold).toBeDefined();
-            expect(result?.startdato).toBeDefined();
-            expect(result?.virksomhet).toBeDefined();
+            expect(result?.type).toEqual('erSN');
+            if (result?.type === 'erSN') {
+                expect(result?.arbeidsforhold).toBeDefined();
+                expect(result?.startdato).toBeDefined();
+                expect(result?.virksomhet).toBeDefined();
+            }
         });
     });
 });

@@ -65,9 +65,9 @@ export const mapFormDataToApiData = (
                 ...getMedlemsskapApiData(formData, sprak),
                 ...getOmsorgstilbudApiData(omsorgstilbud, søknadsperiode),
                 ...getNattevåkOgBeredskapApiData(formData),
-                ...getArbeidsgivereISøknadsperiodenApiData(formData, søknadsperiode),
+                ...getArbeidsgivereISøknadsperiodenApiData(søknadsdata.arbeid?.arbeidsgivere),
                 ...getFrilansApiData(søknadsdata.arbeid?.frilans),
-                ...getSelvstendigNæringsdrivendeApiData(formData.selvstendig, søknadsperiode, locale),
+                ...getSelvstendigNæringsdrivendeApiData(søknadsdata.arbeid?.selvstendig, locale),
             };
             if (isFeatureEnabled(Feature.ANDRE_YTELSER)) {
                 apiData.andreYtelserFraNAV = formData.mottarAndreYtelser === YesOrNo.YES ? formData.andreYtelser : [];

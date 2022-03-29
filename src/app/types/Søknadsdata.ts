@@ -22,11 +22,27 @@ export interface ArbeidsforholdSøknadsdataUtenFravær {
 
 export type ArbeidsforholdSøknadsdata = ArbeidsforholdSøknadsdataMedFravær | ArbeidsforholdSøknadsdataUtenFravær;
 
-export interface ArbeidAnsattSøknadsdata {
-    erAnsattISøknadsperiode: boolean;
+export interface ArbeidAnsattSøknadsdataSluttetFørSøknadsperiode {
+    type: 'sluttetFørSøknadsperiode';
+    erAnsattISøknadsperiode: false;
     arbeidsgiver: Arbeidsgiver;
-    arbeidsforhold?: ArbeidsforholdSøknadsdata;
 }
+export interface ArbeidAnsattSøknadsdataSluttetISøknadsperiode {
+    type: 'sluttetISøknadsperiode';
+    erAnsattISøknadsperiode: true;
+    arbeidsgiver: Arbeidsgiver;
+    arbeidsforhold: ArbeidsforholdSøknadsdata;
+}
+export interface ArbeidAnsattSøknadsdataPågående {
+    type: 'pågående';
+    erAnsattISøknadsperiode: true;
+    arbeidsgiver: Arbeidsgiver;
+    arbeidsforhold: ArbeidsforholdSøknadsdata;
+}
+export type ArbeidAnsattSøknadsdata =
+    | ArbeidAnsattSøknadsdataSluttetFørSøknadsperiode
+    | ArbeidAnsattSøknadsdataSluttetISøknadsperiode
+    | ArbeidAnsattSøknadsdataPågående;
 
 export interface ArbeidFrilansSøknadsdataErIkkeFrilanser {
     type: 'erIkkeFrilanser';
@@ -66,11 +82,18 @@ export type ArbeidFrilansSøknadsdata =
     | ArbeidFrilansSøknadsdataUtenforSøknadsperiode
     | ArbeidFrilansSøknadsdataAvsluttet;
 
-export interface ArbeidSelvstendigSøknadsdata {
+export interface ArbeidSelvstendigSøknadsdataErIkkeSN {
+    type: 'erIkkeSN';
+}
+export interface ArbeidSelvstendigSøknadsdataErSN {
+    type: 'erSN';
     startdato: Date;
     virksomhet: Virksomhet;
-    arbeidsforhold?: ArbeidsforholdSøknadsdata;
+    harFlereVirksomheter: boolean;
+    arbeidsforhold: ArbeidsforholdSøknadsdata;
 }
+
+export type ArbeidSelvstendigSøknadsdata = ArbeidSelvstendigSøknadsdataErIkkeSN | ArbeidSelvstendigSøknadsdataErSN;
 
 export type ArbeidsgivereSøknadsdata = Map<string, ArbeidAnsattSøknadsdata>;
 
@@ -82,7 +105,7 @@ export interface ArbeidSøknadsdata {
 
 interface IngenArbeidISøknadsperiodeSøknadsdata {
     type: 'arbeiderIkkeIPerioden';
-    skalArbeide: false;
+    arbeiderIPerioden: false;
 }
 interface ArbeidISøknadsperiodeVariertSøknadsdata {
     type: 'variert';

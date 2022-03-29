@@ -1,9 +1,11 @@
 import { ArbeidstidEnkeltdagApiData } from '@navikt/sif-common-pleiepenger/lib';
 import {
     DateDurationMap,
+    dateToISODate,
     Duration,
     durationToISODuration,
     DurationWeekdays,
+    ISODate,
     ISODateToDate,
     ISODuration,
     Weekday,
@@ -21,7 +23,7 @@ import {
     NormalarbeidstidSøknadsdata,
 } from '../../types/Søknadsdata';
 
-export const normalarbeidstidSøknadsdataToApiData = (
+const normalarbeidstidSøknadsdataToApiData = (
     normalarbeidstid: NormalarbeidstidSøknadsdata
 ): NormalarbeidstidApiData => {
     const timerFasteDager = durationWeekdaysToTimerFasteDagerApiData(normalarbeidstid.fasteDager);
@@ -37,6 +39,8 @@ export const normalarbeidstidSøknadsdataToApiData = (
         timerPerUke: normalarbeidstid.timerPerUke,
     };
 };
+
+export const dateToISODateOrUndefined = (date?: Date): ISODate | undefined => (date ? dateToISODate(date) : undefined);
 
 export const durationToISODurationOrUndefined = (duration?: Duration): ISODuration | undefined =>
     duration ? durationToISODuration(duration) : undefined;
@@ -97,7 +101,7 @@ export const arbeidEnkeltdagerToArbeidstidEnkeltdagApiData = (
     return arbeidstidEnkeltdager;
 };
 
-export const arbeidISøknadsperiodeSøknadsdataToApiData = (
+export const getArbeidIPeriodeApiDataFromSøknadsdata = (
     arbeid: ArbeidIPeriodeSøknadsdata | undefined,
     normalarbeidstid: NormalarbeidstidSøknadsdata
 ): ArbeidIPeriodeApiData | undefined => {
@@ -134,7 +138,7 @@ export const arbeidISøknadsperiodeSøknadsdataToApiData = (
     return undefined;
 };
 
-export const arbeidsforholdSøknadsdataToApiData = (
+export const getArbeidsforholdApiDataFromSøknadsdata = (
     arbeidsforhold: ArbeidsforholdSøknadsdata
 ): ArbeidsforholdApiData => {
     const normalarbeidstid = normalarbeidstidSøknadsdataToApiData(arbeidsforhold.normalarbeidstid);
@@ -147,7 +151,7 @@ export const arbeidsforholdSøknadsdataToApiData = (
     return {
         harFraværIPeriode: true,
         normalarbeidstid,
-        arbeidIPeriode: arbeidISøknadsperiodeSøknadsdataToApiData(
+        arbeidIPeriode: getArbeidIPeriodeApiDataFromSøknadsdata(
             arbeidsforhold.arbeidISøknadsperiode,
             arbeidsforhold.normalarbeidstid
         ),

@@ -70,7 +70,7 @@ describe('extractArbeidIPeriodeSøknadsdata', () => {
         const result = extractArbeidIPeriodeSøknadsdata(arbeiderIkke, normalarbeidstid, søknadsperiode);
         expect(result).toBeDefined();
         expect(result?.type).toEqual('arbeiderIkkeIPerioden');
-        expect((result as any).arbeiderIPerioden).toBeUndefined();
+        expect((result as any).arbeiderIPerioden).toBeFalsy();
         expect((result as any).erLiktHverUke).toBeUndefined();
         expect((result as any).fasteDager).toBeUndefined();
         expect((result as any).jobberProsent).toBeUndefined();
