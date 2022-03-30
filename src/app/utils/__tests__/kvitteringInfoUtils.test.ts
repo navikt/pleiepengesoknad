@@ -10,6 +10,7 @@ const arbeidsgiverApiData: ArbeidsgiverApiData = {
     erAnsatt: true,
     arbeidsforhold: {
         arbeidIPeriode: {
+            type: 'jobberIkkeIPerioden',
             jobberIPerioden: 'NEI',
         },
         harFraværIPeriode: true,
@@ -82,7 +83,11 @@ describe('kvitteringUtils', () => {
                     },
                     harFraværIPeriode: true,
                     arbeidIPeriode: {
+                        type: 'jobberProsent',
+                        erLiktHverUke: true,
                         jobberIPerioden: 'JA',
+                        jobberProsent: 20,
+                        fasteDager: { fredag: 'PT1H0M' },
                     },
                 },
             };
@@ -104,7 +109,11 @@ describe('kvitteringUtils', () => {
                     },
                     harFraværIPeriode: true,
                     arbeidIPeriode: {
+                        type: 'jobberProsent',
+                        erLiktHverUke: true,
                         jobberIPerioden: 'JA',
+                        jobberProsent: 20,
+                        fasteDager: { fredag: 'PT1H0M' },
                     },
                 },
             };

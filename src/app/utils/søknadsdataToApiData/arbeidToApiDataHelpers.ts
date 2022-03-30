@@ -88,10 +88,12 @@ export const getArbeidIPeriodeApiDataFromSøknadsdata = (
         switch (arbeid.type) {
             case 'arbeiderIkkeIPerioden':
                 return {
+                    type: 'jobberIkkeIPerioden',
                     jobberIPerioden: 'NEI',
                 };
             case 'variert':
                 return {
+                    type: 'jobberVariert',
                     jobberIPerioden: 'JA',
                     enkeltdager: arbeidEnkeltdagerToArbeidstidEnkeltdagApiData(
                         arbeid.enkeltdager,
@@ -101,6 +103,7 @@ export const getArbeidIPeriodeApiDataFromSøknadsdata = (
                 };
             case 'fastProsent':
                 return {
+                    type: 'jobberProsent',
                     jobberIPerioden: 'JA',
                     erLiktHverUke: true,
                     fasteDager: durationWeekdaysToTimerFasteDagerApiData(arbeid.fasteDager),
@@ -108,6 +111,7 @@ export const getArbeidIPeriodeApiDataFromSøknadsdata = (
                 };
             case 'fasteDager':
                 return {
+                    type: 'jobberFasteDager',
                     jobberIPerioden: 'JA',
                     erLiktHverUke: true,
                     fasteDager: durationWeekdaysToTimerFasteDagerApiData(arbeid.fasteDager),

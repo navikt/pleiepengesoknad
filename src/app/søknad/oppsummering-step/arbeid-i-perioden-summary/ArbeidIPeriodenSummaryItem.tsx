@@ -35,36 +35,28 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
     if (arbeidIPeriode) {
         return (
             <>
-                {arbeidIPeriode.jobberIPerioden === 'NEI' && (
+                {arbeidIPeriode.type === 'jobberIkkeIPerioden' && (
                     <p style={{ marginTop: 0 }}>
                         <FormattedMessage id={`oppsummering.arbeidIPeriode.jobberIPerioden.nei`} />
                     </p>
                 )}
-
-                {arbeidIPeriode.enkeltdager && (
+                {arbeidIPeriode.type === 'jobberVariert' && (
                     <Box margin="m">
                         <ArbeidstidEnkeltdagerListe dager={arbeidIPeriode.enkeltdager} visNormaltid={false} />
                     </Box>
                 )}
-
-                {/* Bruker har valgt faste dager eller prosent */}
-                {arbeidIPeriode.fasteDager && (
+                {arbeidIPeriode.type === 'jobberFasteDager' && (
                     <>
-                        {/* Faste dager */}
-                        {arbeidIPeriode.jobberProsent === undefined && (
-                            <>
-                                <div>
-                                    {intlHelper(intl, 'oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke')}:
-                                </div>
-                                <Box margin="m">
-                                    <TidFasteDager fasteDager={arbeidIPeriode.fasteDager} />
-                                </Box>
-                            </>
-                        )}
-                        {/* Prosent - men verdi er fordelt likt på  fasteDager */}
-                        {/* TODO- fikse oppsummering faste dager */}
-                        {/* {arbeidIPeriode.jobberProsent !== undefined &&
-                            getArbeidProsentTekst(arbeidIPeriode.jobberProsent, normaltid.snitt)} */}
+                        <div>{intlHelper(intl, 'oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke')}:</div>
+                        <Box margin="m">
+                            <TidFasteDager fasteDager={arbeidIPeriode.fasteDager} />
+                        </Box>
+                    </>
+                )}
+                {arbeidIPeriode.type === 'jobberProsent' && (
+                    <>
+                        <div>{intlHelper(intl, 'oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke')}:</div>
+                        <Box margin="m">{arbeidIPeriode.jobberProsent}</Box>
                     </>
                 )}
             </>

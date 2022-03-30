@@ -20,8 +20,8 @@ import {
     getArbeidIPeriodeFasteDagerDagValidator,
     getArbeidIPeriodeJobberProsentValidator,
     getArbeidIPeriodeTimerPerUkeValidator,
-    getArbeidstidTimerEllerProsentValidator,
-    getJobberIPeriodenValidator,
+    getArbeidIPeriodeTimerEllerProsentValidator,
+    getArbeidIPeriodeJobberIPeriodenValidator,
 } from './validationArbeidIPeriodeSpørsmål';
 import InfoSøkerKunHelgedager from './InfoSøkerKunHelgedager';
 import InfoRedusertArbeidFasteDager from './InfoRedusertArbeidFasteDager';
@@ -72,6 +72,24 @@ const ArbeidIPeriodeSpørsmål = ({
 
     const { arbeidIPeriode } = arbeidsforhold;
     const { jobberIPerioden, timerEllerProsent, erLiktHverUke, jobberProsent } = arbeidIPeriode || {};
+    const visKunVariertArbeidstidVersjon = normalarbeidstid.erLiktHverUke === false;
+
+    const renderArbeidstidVariert = (kanLeggeTilPeriode: boolean) => (
+        <ArbeidstidVariert
+            arbeidstid={arbeidIPeriode?.enkeltdager}
+            kanLeggeTilPeriode={kanLeggeTilPeriode}
+            jobberNormaltTimerPerUke={normalarbeidstid.timerPerUke}
+            jobberNormaltTimerFasteDager={normalarbeidstid.fasteDager}
+            periode={periode}
+            intlValues={intlValues}
+            arbeidsstedNavn={arbeidsstedNavn}
+            arbeidsforholdType={arbeidsforholdType}
+            formFieldName={getFieldName(ArbeidIPeriodeFormField.enkeltdager)}
+            onArbeidstidVariertChanged={() => setArbeidstidChanged(true)}
+            onArbeidPeriodeRegistrert={onArbeidPeriodeRegistrert}
+            onArbeidstidEnkeltdagRegistrert={onArbeidstidEnkeltdagRegistrert}
+        />
+    );
 
     return (
         <>
@@ -79,10 +97,14 @@ const ArbeidIPeriodeSpørsmål = ({
                 name={getFieldName(ArbeidIPeriodeFormField.jobberIPerioden)}
                 legend={intlHelper(intl, `arbeidIPeriode.jobberIPerioden.spm`, intlValues)}
                 useTwoColumns={true}
-                validate={getJobberIPeriodenValidator(intlValues)}
+                validate={getArbeidIPeriodeJobberIPeriodenValidator(intlValues)}
             />
 
-            {jobberIPerioden === YesOrNo.YES && (
+            {jobberIPerioden === YesOrNo.YES && visKunVariertArbeidstidVersjon === true && (
+                <FormBlock>{renderArbeidstidVariert(false)}</FormBlock>
+            )}
+
+            {jobberIPerioden === YesOrNo.YES && visKunVariertArbeidstidVersjon === false && (
                 <>
                     <FormBlock>
                         <SøknadFormComponents.YesOrNoQuestion
@@ -100,20 +122,7 @@ const ArbeidIPeriodeSpørsmål = ({
                     {erLiktHverUke === YesOrNo.NO && (
                         <FormBlock margin="l">
                             <ResponsivePanel>
-                                <ArbeidstidVariert
-                                    arbeidstid={arbeidsforhold.arbeidIPeriode?.enkeltdager}
-                                    kanLeggeTilPeriode={true}
-                                    jobberNormaltTimerPerUke={normalarbeidstid.timerPerUke}
-                                    jobberNormaltTimerFasteDager={normalarbeidstid.fasteDager}
-                                    periode={periode}
-                                    intlValues={intlValues}
-                                    arbeidsstedNavn={arbeidsstedNavn}
-                                    arbeidsforholdType={arbeidsforholdType}
-                                    formFieldName={getFieldName(ArbeidIPeriodeFormField.enkeltdager)}
-                                    onArbeidstidVariertChanged={() => setArbeidstidChanged(true)}
-                                    onArbeidPeriodeRegistrert={onArbeidPeriodeRegistrert}
-                                    onArbeidstidEnkeltdagRegistrert={onArbeidstidEnkeltdagRegistrert}
-                                />
+                                {renderArbeidstidVariert(true)}
                                 {søkerKunHelgedager && (
                                     <Box margin="xl">
                                         <InfoSøkerKunHelgedager />
@@ -129,7 +138,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                 name={getFieldName(ArbeidIPeriodeFormField.timerEllerProsent)}
                                 legend={intlHelper(intl, `arbeidIPeriode.timerEllerProsent.spm`, intlValues)}
                                 radios={getTimerEllerProsentRadios(intl, intlValues)}
-                                validate={getArbeidstidTimerEllerProsentValidator(intlValues)}
+                                validate={getArbeidIPeriodeTimerEllerProsentValidator(intlValues)}
                                 useTwoColumns={true}
                             />
                             {timerEllerProsent === TimerEllerProsent.PROSENT && (

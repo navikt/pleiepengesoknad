@@ -64,7 +64,7 @@ export const getArbeidIPeriodeFasteDagerDagValidator =
     };
 
 export const getFasteArbeidstimerPerUkeValidator =
-    (maksTimer: number = 24 * 5) =>
+    (maksTimer: number = 24 * 5, tillatLiktAntallTimer: boolean) =>
     (fasteDager: DurationWeekdays | undefined): IntlErrorObject | undefined => {
         const timer = fasteDager ? durationToDecimalDuration(summarizeDurationInDurationWeekdays(fasteDager)) : 0;
         if (timer === 0) {
@@ -72,7 +72,10 @@ export const getFasteArbeidstimerPerUkeValidator =
                 key: `ingenTidRegistrert`,
             };
         }
-        if (timer > maksTimer) {
+        if (tillatLiktAntallTimer && timer <= maksTimer) {
+            return undefined;
+        }
+        if (timer >= maksTimer) {
             return {
                 key: `forMangeTimer`,
             };
@@ -93,7 +96,7 @@ export const getArbeidIPeriodeJobberProsentValidator = (intlValues: ArbeidIPerio
         : undefined;
 };
 
-export const getArbeidstidTimerEllerProsentValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
+export const getArbeidIPeriodeTimerEllerProsentValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
     const error = getRequiredFieldValidator()(value);
     if (error) {
         return {
@@ -105,7 +108,7 @@ export const getArbeidstidTimerEllerProsentValidator = (intlValues: ArbeidIPerio
     return undefined;
 };
 
-export const getJobberIPeriodenValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
+export const getArbeidIPeriodeJobberIPeriodenValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
     const error = getRequiredFieldValidator()(value);
     return error
         ? {
@@ -134,9 +137,10 @@ export const getArbeidIPeriodeTimerPerUkeValidator = (
 ) =>
     normalarbeidstid.timerPerUke
         ? () => {
-              const error = getFasteArbeidstimerPerUkeValidator(normalarbeidstid.timerPerUke)(
-                  arbeidIPeriode?.fasteDager
-              );
+              const error = getFasteArbeidstimerPerUkeValidator(
+                  normalarbeidstid.timerPerUke,
+                  false
+              )(arbeidIPeriode?.fasteDager);
               return error
                   ? {
                         key: `validation.arbeidIPeriode.timer.${error.key}`,

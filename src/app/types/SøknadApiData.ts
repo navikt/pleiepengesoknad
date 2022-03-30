@@ -55,13 +55,37 @@ export interface BarnetSøknadenGjelderApiData {
     årsakManglerIdentitetsnummer?: ÅrsakManglerIdentitetsnummer;
 }
 
-export interface ArbeidIPeriodeApiData {
-    jobberIPerioden: 'JA' | 'NEI';
-    erLiktHverUke?: boolean;
-    enkeltdager?: ArbeidstidEnkeltdagApiData[];
-    fasteDager?: TimerFasteDagerApiData;
-    jobberProsent?: number;
+export interface ArbeidIPeriodeApiDataJobberIkke {
+    type: 'jobberIkkeIPerioden';
+    jobberIPerioden: 'NEI';
 }
+export interface ArbeidIPeriodeApiDataFasteDager {
+    type: 'jobberFasteDager';
+    jobberIPerioden: 'JA';
+    erLiktHverUke: true;
+    fasteDager: TimerFasteDagerApiData;
+}
+
+export interface ArbeidIPeriodeApiDataProsent {
+    type: 'jobberProsent';
+    jobberIPerioden: 'JA';
+    erLiktHverUke: true;
+    jobberProsent: number;
+    fasteDager: TimerFasteDagerApiData;
+}
+
+export interface ArbeidIPeriodeApiDataVariert {
+    type: 'jobberVariert';
+    jobberIPerioden: 'JA';
+    erLiktHverUke: false;
+    enkeltdager: ArbeidstidEnkeltdagApiData[];
+}
+
+export type ArbeidIPeriodeApiData =
+    | ArbeidIPeriodeApiDataJobberIkke
+    | ArbeidIPeriodeApiDataFasteDager
+    | ArbeidIPeriodeApiDataProsent
+    | ArbeidIPeriodeApiDataVariert;
 
 type NormalarbeidstidPerUkeApiData = {
     erLiktHverUke: false;
