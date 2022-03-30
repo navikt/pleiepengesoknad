@@ -3,11 +3,33 @@ import { Virksomhet } from '@navikt/sif-common-forms/lib';
 import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils/lib';
 import { Arbeidsgiver } from './Arbeidsgiver';
 
-export interface NormalarbeidstidSøknadsdata {
-    erLiktHverUke: boolean;
+export interface NormalarbeidstidSøknadsdataLikeDager {
+    erLiktHverUke: true;
+    erLiktHverDag: true;
+    timerPerDag: number;
+    /** Satt ut fra timerPerDag */
     fasteDager: DurationWeekdays;
+    /** Satt ut fra timer per dag */
     timerPerUke: number;
 }
+export interface NormalarbeidstidSøknadsdataUlikeDager {
+    erLiktHverUke: true;
+    erLiktHverDag: false;
+    fasteDager: DurationWeekdays;
+    /** Beregnet ut fra faste dager */
+    timerPerUke: number;
+}
+export interface NormalarbeidstidSøknadsdataUlikeUker {
+    erLiktHverUke: false;
+    timerPerUke: number;
+    /** Fordelt ut fra timerPerUke */
+    fasteDager: DurationWeekdays;
+}
+
+export type NormalarbeidstidSøknadsdata =
+    | NormalarbeidstidSøknadsdataLikeDager
+    | NormalarbeidstidSøknadsdataUlikeDager
+    | NormalarbeidstidSøknadsdataUlikeUker;
 
 export interface ArbeidsforholdSøknadsdataMedFravær {
     harFraværIPeriode: true;

@@ -8,15 +8,24 @@ export enum ArbeidsforholdFormField {
     sluttetFørSøknadsperiode = 'sluttetFørSøknadsperiode',
     normalarbeidstid = 'normalarbeidstid',
     erLiktHverUke = 'normalarbeidstid.erLiktHverUke',
+    jobberNormaltTimerLiktHverDag = 'normalarbeidstid.liktHverDag',
+    jobberNormaltTimerPerDag = 'normalarbeidstid.timerPerDag',
     jobberNormaltTimerPerUke = 'normalarbeidstid.timerPerUke',
     jobberNormaltTimerFasteDager = 'normalarbeidstid.fasteDager',
     harFraværIPeriode = 'harFraværIPeriode',
     arbeidIPeriode = 'arbeidIPeriode',
 }
 
+// export enum FasteDagerEllerTimerPerUke {
+//     timerPerDag = 'timerPerDag',
+//     timerPerUke = 'timerPerUke',
+// }
+
 export type NormalarbeidstidFormData = {
     erLiktHverUke?: YesOrNo;
+    liktHverDag?: YesOrNo;
     timerPerUke?: string;
+    timerPerDag?: string;
     fasteDager?: DurationWeekdays;
 };
 

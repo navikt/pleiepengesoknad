@@ -42,3 +42,13 @@ export const durationWeekdaysFromHoursPerWeek = (timer: number): DurationWeekday
         friday: tidPerDag,
     };
 };
+export const durationWeekdaysFromEqualHoursPerDay = (decimalDuration: number): DurationWeekdays => {
+    const tidPerDag = decimalDurationToDuration(decimalDuration);
+    return {
+        monday: tidPerDag,
+        tuesday: tidPerDag,
+        wednesday: tidPerDag,
+        thursday: tidPerDag,
+        friday: tidPerDag,
+    };
+};

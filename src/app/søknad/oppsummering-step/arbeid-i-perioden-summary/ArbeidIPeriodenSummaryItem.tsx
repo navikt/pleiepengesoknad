@@ -3,7 +3,11 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { TidFasteDager } from '@navikt/sif-common-pleiepenger/lib';
+import {
+    formatTimerOgMinutter,
+    getRedusertArbeidstidSomDuration,
+    TidFasteDager,
+} from '@navikt/sif-common-pleiepenger/lib';
 import ArbeidstidEnkeltdagerListe from '@navikt/sif-common-pleiepenger/lib/dager-med-tid/ArbeidstidEnkeltdagerListe';
 import { ArbeidsforholdApiData } from '../../../types/SøknadApiData';
 
@@ -19,15 +23,15 @@ export interface ArbeidIPeriodenSummaryItemType extends ArbeidsforholdApiData {
 const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforhold }) => {
     const intl = useIntl();
 
-    // const getArbeidProsentTekst = (prosent: number, normaltimerUke: number) => {
-    //     const tid = getRedusertArbeidstidSomDuration(prosent, normaltimerUke / 5);
-    //     return intlHelper(intl, 'oppsummering.arbeidIPeriode.jobberIPerioden.prosent', {
-    //         prosent: Intl.NumberFormat().format(prosent),
-    //         timer: formatTimerOgMinutter(intl, tid),
-    //     });
-    // };
+    const getArbeidProsentTekst = (prosent: number, normaltimerUke: number) => {
+        const tid = getRedusertArbeidstidSomDuration(prosent, normaltimerUke / 5);
+        return intlHelper(intl, 'oppsummering.arbeidIPeriode.jobberIPerioden.prosent', {
+            prosent: Intl.NumberFormat().format(prosent),
+            timer: formatTimerOgMinutter(intl, tid),
+        });
+    };
 
-    const { arbeidIPeriode, harFraværIPeriode } = arbeidsforhold;
+    const { arbeidIPeriode, harFraværIPeriode, normalarbeidstid } = arbeidsforhold;
 
     if (harFraværIPeriode === false) {
         return <p style={{ marginTop: 0 }}>Arbeider som normalt i perioden.</p>;
@@ -45,18 +49,15 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
                         <ArbeidstidEnkeltdagerListe dager={arbeidIPeriode.enkeltdager} visNormaltid={false} />
                     </Box>
                 )}
-                {arbeidIPeriode.type === 'jobberFasteDager' && (
+                {(arbeidIPeriode.type === 'jobberFasteDager' || arbeidIPeriode.type === 'jobberProsent') && (
                     <>
                         <div>{intlHelper(intl, 'oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke')}:</div>
                         <Box margin="m">
+                            {arbeidIPeriode.type === 'jobberProsent' && (
+                                <>{getArbeidProsentTekst(arbeidIPeriode.jobberProsent, normalarbeidstid.timerPerUke)}</>
+                            )}
                             <TidFasteDager fasteDager={arbeidIPeriode.fasteDager} />
                         </Box>
-                    </>
-                )}
-                {arbeidIPeriode.type === 'jobberProsent' && (
-                    <>
-                        <div>{intlHelper(intl, 'oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke')}:</div>
-                        <Box margin="m">{arbeidIPeriode.jobberProsent}</Box>
                     </>
                 )}
             </>

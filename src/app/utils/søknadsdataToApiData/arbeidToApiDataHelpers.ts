@@ -8,6 +8,7 @@ import {
     ISODate,
     ISODateToDate,
     ISODuration,
+    ISODurationToDuration,
     Weekday,
 } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
@@ -24,6 +25,9 @@ export const dateToISODateOrUndefined = (date?: Date): ISODate | undefined => (d
 export const durationToISODurationOrUndefined = (duration?: Duration): ISODuration | undefined =>
     duration ? durationToISODuration(duration) : undefined;
 
+export const ISODurationToDurationOrUndefined = (isoDuration?: ISODuration): Duration | undefined =>
+    isoDuration ? ISODurationToDuration(isoDuration) : undefined;
+
 export const durationWeekdaysToTimerFasteDagerApiData = (
     durationWeekdays: DurationWeekdays
 ): TimerFasteDagerApiData => {
@@ -33,6 +37,16 @@ export const durationWeekdaysToTimerFasteDagerApiData = (
         onsdag: durationToISODurationOrUndefined(durationWeekdays.wednesday),
         torsdag: durationToISODurationOrUndefined(durationWeekdays.thursday),
         fredag: durationToISODurationOrUndefined(durationWeekdays.friday),
+    };
+};
+
+export const timerFasteDagerApiDataToDurationWeekdays = (timerFasteDager: TimerFasteDagerApiData): DurationWeekdays => {
+    return {
+        monday: ISODurationToDurationOrUndefined(timerFasteDager.mandag),
+        tuesday: ISODurationToDurationOrUndefined(timerFasteDager.tirsdag),
+        wednesday: ISODurationToDurationOrUndefined(timerFasteDager.onsdag),
+        thursday: ISODurationToDurationOrUndefined(timerFasteDager.torsdag),
+        friday: ISODurationToDurationOrUndefined(timerFasteDager.fredag),
     };
 };
 

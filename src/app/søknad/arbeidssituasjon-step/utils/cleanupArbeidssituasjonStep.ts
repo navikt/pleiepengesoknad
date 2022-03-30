@@ -10,17 +10,28 @@ import { visVernepliktSpørsmål } from './visVernepliktSpørsmål';
 const cleanupNormalarbeidstid = ({
     erLiktHverUke,
     fasteDager,
+    liktHverDag,
+    timerPerDag,
     timerPerUke,
 }: NormalarbeidstidFormData): NormalarbeidstidFormData => {
-    return erLiktHverUke === YesOrNo.YES
-        ? {
-              erLiktHverUke: YesOrNo.YES,
-              fasteDager,
-          }
-        : {
-              erLiktHverUke: YesOrNo.NO,
-              timerPerUke,
-          };
+    if (erLiktHverUke === YesOrNo.NO) {
+        return {
+            erLiktHverUke,
+            timerPerUke,
+        };
+    }
+    if (liktHverDag === YesOrNo.YES) {
+        return {
+            erLiktHverUke,
+            liktHverDag,
+            timerPerDag,
+        };
+    }
+    return {
+        erLiktHverUke,
+        liktHverDag,
+        fasteDager,
+    };
 };
 
 export const cleanupAnsattArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData): ArbeidsforholdFormData => {

@@ -135,7 +135,7 @@ export const getArbeidIPeriodeTimerPerUkeValidator = (
     normalarbeidstid: NormalarbeidstidSøknadsdata,
     arbeidIPeriode?: ArbeidIPeriodeFormData
 ) =>
-    normalarbeidstid.timerPerUke
+    normalarbeidstid.erLiktHverUke === false && normalarbeidstid.timerPerUke
         ? () => {
               const error = getFasteArbeidstimerPerUkeValidator(
                   normalarbeidstid.timerPerUke,

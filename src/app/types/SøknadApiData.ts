@@ -94,6 +94,7 @@ type NormalarbeidstidPerUkeApiData = {
 };
 type NormalarbeidstidFasteDagerApiData = {
     erLiktHverUke: true;
+    timerPerUke: number;
     timerFasteDager: TimerFasteDagerApiData;
 };
 

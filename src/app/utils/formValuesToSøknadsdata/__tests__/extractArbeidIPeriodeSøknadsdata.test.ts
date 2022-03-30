@@ -9,6 +9,7 @@ const søknadsperiode = ISODateRangeToDateRange('2022-01-01/2022-02-01');
 
 const normalarbeidstid: NormalarbeidstidSøknadsdata = {
     erLiktHverUke: true,
+    erLiktHverDag: false,
     fasteDager: { monday: { hours: '5', minutes: '0' }, tuesday: { hours: '5', minutes: '0' } },
     timerPerUke: 10,
 };
