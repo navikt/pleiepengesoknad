@@ -5,22 +5,9 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
-import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeValidator';
-import { IntlErrorObject } from '@navikt/sif-common-formik/lib/validation/types';
-import {
-    ArbeidIPeriodeIntlValues,
-    getArbeidstidFastProsentValidator,
-    getArbeidstidIPeriodeIntlValues,
-    getArbeidstimerFastDagValidator,
-} from '@navikt/sif-common-pleiepenger';
+import { ArbeidIPeriodeIntlValues, getArbeidstidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger';
 import TidFasteUkedagerInput from '@navikt/sif-common-pleiepenger/lib/tid-faste-ukedager-input/TidFasteUkedagerInput';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib/types';
-import {
-    Duration,
-    durationToDecimalDuration,
-    DurationWeekdays,
-    summarizeDurationInDurationWeekdays,
-} from '@navikt/sif-common-utils';
 import { TimerEllerProsent } from '../../../../types';
 import { ArbeidIPeriodeFormField } from '../../../../types/ArbeidIPeriodeFormData';
 import { ArbeidsforholdFormData, ArbeidsforholdFrilanserFormData } from '../../../../types/ArbeidsforholdFormData';
@@ -28,11 +15,16 @@ import { NormalarbeidstidSøknadsdata } from '../../../../types/Søknadsdata';
 import SøknadFormComponents from '../../../SøknadFormComponents';
 import ArbeidstidVariert from '../arbeidstid-variert/ArbeidstidVariert';
 import { ArbeidstidRegistrertLogProps } from '../types';
-import { getArbeidIPeriodeErLiktHverUkeValidator } from '../validation/arbeidIPeriodeErLiktHverUkeValidator';
-import { getArbeidstidTimerEllerProsentValidator } from '../validation/arbeidstidEllerProsentValidator';
-import { getJobberIPeriodenValidator } from '../validation/jobberIPeriodenSpørsmål';
+import {
+    getArbeidIPeriodeErLiktHverUkeValidator,
+    getArbeidIPeriodeFasteDagerDagValidator,
+    getArbeidIPeriodeJobberProsentValidator,
+    getArbeidIPeriodeTimerPerUkeValidator,
+    getArbeidstidTimerEllerProsentValidator,
+    getJobberIPeriodenValidator,
+} from './validationArbeidIPeriodeSpørsmål';
 import InfoSøkerKunHelgedager from './InfoSøkerKunHelgedager';
-import RedusertArbeidFasteDagerInfo from './RedusertArbeidFasteDagerInfo';
+import InfoRedusertArbeidFasteDager from './InfoRedusertArbeidFasteDager';
 
 interface Props extends ArbeidstidRegistrertLogProps {
     normalarbeidstid: NormalarbeidstidSøknadsdata;
@@ -44,42 +36,6 @@ interface Props extends ArbeidstidRegistrertLogProps {
     søkerKunHelgedager: boolean;
     onArbeidstidVariertChange: () => void;
 }
-
-type Ukedager = 'mandag' | 'tirsdag' | 'onsdag' | 'torsdag' | 'fredag' | string;
-
-const getNormaltidForDag = (fasteDager: DurationWeekdays, ukedag: Ukedager): Duration | undefined => {
-    switch (ukedag) {
-        case 'mandag':
-            return fasteDager.monday;
-        case 'tirsdag':
-            return fasteDager.tuesday;
-        case 'onsdag':
-            return fasteDager.wednesday;
-        case 'torsdag':
-            return fasteDager.thursday;
-        case 'fredag':
-            return fasteDager.friday;
-        default:
-            return undefined;
-    }
-};
-
-export const getFasteArbeidstimerPerUkeValidator =
-    (maksTimer: number = 24 * 5) =>
-    (fasteDager: DurationWeekdays | undefined): IntlErrorObject | undefined => {
-        const timer = fasteDager ? durationToDecimalDuration(summarizeDurationInDurationWeekdays(fasteDager)) : 0;
-        if (timer === 0) {
-            return {
-                key: `ingenTidRegistrert`,
-            };
-        }
-        if (timer > maksTimer) {
-            return {
-                key: `forMangeTimer`,
-            };
-        }
-        return undefined;
-    };
 
 const ArbeidIPeriodeSpørsmål = ({
     arbeidsforhold,
@@ -117,23 +73,6 @@ const ArbeidIPeriodeSpørsmål = ({
     const { arbeidIPeriode } = arbeidsforhold;
     const { jobberIPerioden, timerEllerProsent, erLiktHverUke, jobberProsent } = arbeidIPeriode || {};
 
-    const renderArbeidstidVariertPart = (kanLeggeTilPeriode: boolean) => (
-        <ArbeidstidVariert
-            arbeidstid={arbeidsforhold.arbeidIPeriode?.enkeltdager}
-            kanLeggeTilPeriode={kanLeggeTilPeriode}
-            jobberNormaltTimerPerUke={normalarbeidstid.timerPerUke}
-            jobberNormaltTimerFasteDager={normalarbeidstid.fasteDager}
-            periode={periode}
-            intlValues={intlValues}
-            arbeidsstedNavn={arbeidsstedNavn}
-            arbeidsforholdType={arbeidsforholdType}
-            formFieldName={getFieldName(ArbeidIPeriodeFormField.enkeltdager)}
-            onArbeidstidVariertChanged={() => setArbeidstidChanged(true)}
-            onArbeidPeriodeRegistrert={onArbeidPeriodeRegistrert}
-            onArbeidstidEnkeltdagRegistrert={onArbeidstidEnkeltdagRegistrert}
-        />
-    );
-
     return (
         <>
             <SøknadFormComponents.YesOrNoQuestion
@@ -161,7 +100,20 @@ const ArbeidIPeriodeSpørsmål = ({
                     {erLiktHverUke === YesOrNo.NO && (
                         <FormBlock margin="l">
                             <ResponsivePanel>
-                                {renderArbeidstidVariertPart(true)}
+                                <ArbeidstidVariert
+                                    arbeidstid={arbeidsforhold.arbeidIPeriode?.enkeltdager}
+                                    kanLeggeTilPeriode={true}
+                                    jobberNormaltTimerPerUke={normalarbeidstid.timerPerUke}
+                                    jobberNormaltTimerFasteDager={normalarbeidstid.fasteDager}
+                                    periode={periode}
+                                    intlValues={intlValues}
+                                    arbeidsstedNavn={arbeidsstedNavn}
+                                    arbeidsforholdType={arbeidsforholdType}
+                                    formFieldName={getFieldName(ArbeidIPeriodeFormField.enkeltdager)}
+                                    onArbeidstidVariertChanged={() => setArbeidstidChanged(true)}
+                                    onArbeidPeriodeRegistrert={onArbeidPeriodeRegistrert}
+                                    onArbeidstidEnkeltdagRegistrert={onArbeidstidEnkeltdagRegistrert}
+                                />
                                 {søkerKunHelgedager && (
                                     <Box margin="xl">
                                         <InfoSøkerKunHelgedager />
@@ -185,24 +137,13 @@ const ArbeidIPeriodeSpørsmål = ({
                                     <ResponsivePanel>
                                         <SøknadFormComponents.NumberInput
                                             name={getFieldName(ArbeidIPeriodeFormField.jobberProsent)}
+                                            label={intlHelper(intl, 'arbeidIPeriode.jobberProsent.spm', intlValues)}
+                                            validate={getArbeidIPeriodeJobberProsentValidator(intlValues)}
                                             bredde="XS"
                                             maxLength={4}
-                                            label={intlHelper(intl, 'arbeidIPeriode.jobberProsent.spm', intlValues)}
-                                            validate={(value) => {
-                                                const min = 1;
-                                                const max = 99;
-                                                const error = getArbeidstidFastProsentValidator({ min, max })(value);
-                                                return error
-                                                    ? {
-                                                          key: `validation.arbeidIPeriode.fast.prosent.${error.key}`,
-                                                          values: { ...intlValues, min, max },
-                                                          keepKeyUnaltered: true,
-                                                      }
-                                                    : undefined;
-                                            }}
                                             suffixStyle="text"
                                         />
-                                        <RedusertArbeidFasteDagerInfo
+                                        <InfoRedusertArbeidFasteDager
                                             arbeiderHvor={intlValues.hvor}
                                             arbeidNormalt={normalarbeidstid.fasteDager}
                                             jobberProsent={getNumberFromNumberInputValue(jobberProsent)}
@@ -214,55 +155,19 @@ const ArbeidIPeriodeSpørsmål = ({
                                 <FormBlock margin="l">
                                     <ResponsivePanel>
                                         <SøknadFormComponents.InputGroup
+                                            name={`${parentFieldName}_fasteDager.gruppe` as any}
                                             legend={intlHelper(intl, 'arbeidIPeriode.ukedager.tittel', intlValues)}
-                                            validate={
-                                                normalarbeidstid.timerPerUke
-                                                    ? () => {
-                                                          const error = getFasteArbeidstimerPerUkeValidator(
-                                                              normalarbeidstid.timerPerUke
-                                                          )(arbeidIPeriode?.fasteDager);
-                                                          return error
-                                                              ? {
-                                                                    key: `validation.arbeidIPeriode.timer.${error.key}`,
-                                                                    values: intlValues,
-                                                                    keepKeyUnaltered: true,
-                                                                }
-                                                              : undefined;
-                                                      }
-                                                    : undefined
-                                            }
-                                            name={`${parentFieldName}_fasteDager.gruppe` as any}>
+                                            validate={getArbeidIPeriodeTimerPerUkeValidator(
+                                                intlValues,
+                                                normalarbeidstid,
+                                                arbeidIPeriode
+                                            )}>
                                             <TidFasteUkedagerInput
                                                 name={getFieldName(ArbeidIPeriodeFormField.fasteDager)}
-                                                validateDag={(dag, value) => {
-                                                    if (normalarbeidstid.erLiktHverUke) {
-                                                        const normaltidDag = getNormaltidForDag(
-                                                            normalarbeidstid.fasteDager,
-                                                            dag
-                                                        );
-                                                        if (normaltidDag) {
-                                                            const error = getTimeValidator({
-                                                                max: { hours: 24, minutes: 0 },
-                                                                min: { hours: 0, minutes: 0 },
-                                                            })(value);
-                                                            return error
-                                                                ? {
-                                                                      key: `validation.arbeidIPeriode.fast.tid.${error}`,
-                                                                      keepKeyUnaltered: true,
-                                                                      values: { ...intlValues, dag },
-                                                                  }
-                                                                : undefined;
-                                                        }
-                                                    }
-                                                    const error = getArbeidstimerFastDagValidator()(value);
-                                                    return error
-                                                        ? {
-                                                              key: `validation.arbeidIPeriode.fast.tid.${error}`,
-                                                              keepKeyUnaltered: true,
-                                                              values: { ...intlValues, dag },
-                                                          }
-                                                        : undefined;
-                                                }}
+                                                validateDag={getArbeidIPeriodeFasteDagerDagValidator(
+                                                    normalarbeidstid,
+                                                    intlValues
+                                                )}
                                             />
                                         </SøknadFormComponents.InputGroup>
                                     </ResponsivePanel>

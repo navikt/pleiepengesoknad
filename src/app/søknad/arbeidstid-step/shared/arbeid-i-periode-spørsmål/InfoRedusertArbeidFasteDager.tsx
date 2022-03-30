@@ -3,7 +3,7 @@ import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import { DurationWeekdays, summarizeDurationInDurationWeekdays } from '@navikt/sif-common-utils/lib';
 import { getPercentageOfDurationWeekdays } from '../../../../utils/durationWeekdaysUtils';
-import DurationWeekdaysList from '../components/DurationWeekdaysList';
+import DurationWeekdaysList from '../../../../components/duration-weekdays-list/DurationWeekdaysList';
 import { TimerOgMinutter } from '@navikt/sif-common-pleiepenger/lib';
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
     arbeidNormalt?: DurationWeekdays;
 }
 
-const RedusertArbeidFasteDagerInfo: React.FunctionComponent<Props> = ({
+const InfoRedusertArbeidFasteDager: React.FunctionComponent<Props> = ({
     arbeiderHvor,
     jobberProsent,
     arbeidNormalt,
@@ -38,4 +38,4 @@ const RedusertArbeidFasteDagerInfo: React.FunctionComponent<Props> = ({
     );
 };
 
-export default RedusertArbeidFasteDagerInfo;
+export default InfoRedusertArbeidFasteDager;

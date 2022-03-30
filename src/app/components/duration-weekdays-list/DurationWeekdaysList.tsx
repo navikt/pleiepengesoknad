@@ -19,8 +19,6 @@ const DurationWeekdaysList: React.FunctionComponent<Props> = ({ weekdays }) => {
             <li>Fredager: {weekdays.friday ? formatTimerOgMinutter(intl, weekdays.friday) : noDurationString}</li>
         </ul>
     );
-
-    return null;
 };
 
 export default DurationWeekdaysList;

@@ -4,22 +4,26 @@ import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, FormikInputGroup } from '@navikt/sif-common-formik/lib';
+import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import { ArbeidIPeriodeIntlValues, ArbeidsforholdType, ArbeidstidPeriodeData } from '@navikt/sif-common-pleiepenger';
 import ArbeidstidMånedInfo from '@navikt/sif-common-pleiepenger/lib/arbeidstid-måned-info/ArbeidstidMånedInfo';
 import SøknadsperioderMånedListe from '@navikt/sif-common-pleiepenger/lib/søknadsperioder-måned-liste/SøknadsperioderMånedListe';
 import { TidEnkeltdagEndring } from '@navikt/sif-common-pleiepenger/lib/tid-enkeltdag-dialog/TidEnkeltdagForm';
 import {
     DateDurationMap,
+    durationToDecimalDuration,
     DurationWeekdays,
     getDatesInMonthOutsideDateRange,
+    getDurationsInDateRange,
     getMonthsInDateRange,
+    getValidDurations,
+    summarizeDateDurationMap,
 } from '@navikt/sif-common-utils';
 import { useFormikContext } from 'formik';
 import { Element } from 'nav-frontend-typografi';
 import { SøknadFormData, SøknadFormField } from '../../../../types/SøknadFormData';
 import ArbeidstidPeriode from '../arbeidstid-periode/ArbeidstidPeriode';
 import { ArbeidstidRegistrertLogProps } from '../types';
-import { validateArbeidsTidEnkeltdager } from '../validation/validateArbeidsTidEnkeltdager';
 
 interface Props extends ArbeidstidRegistrertLogProps {
     arbeidsstedNavn: string;
@@ -155,6 +159,25 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
             )}
         </FormikInputGroup>
     );
+};
+
+export const validateArbeidsTidEnkeltdager = (
+    tidMedArbeid: DateDurationMap,
+    periode: DateRange,
+    intlValues: ArbeidIPeriodeIntlValues
+): ValidationResult<ValidationError> => {
+    const tidIPerioden = getDurationsInDateRange(tidMedArbeid, periode);
+    const validTidEnkeltdager = getValidDurations(tidIPerioden);
+    const hasElements = Object.keys(validTidEnkeltdager).length > 0;
+
+    if (!hasElements || durationToDecimalDuration(summarizeDateDurationMap(validTidEnkeltdager)) <= 0) {
+        return {
+            key: `validation.arbeidIPeriode.enkeltdager.ingenTidRegistrert`,
+            keepKeyUnaltered: true,
+            values: intlValues,
+        };
+    }
+    return undefined;
 };
 
 export default ArbeidstidVariert;
