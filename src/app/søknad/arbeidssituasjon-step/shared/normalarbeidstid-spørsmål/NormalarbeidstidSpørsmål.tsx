@@ -2,11 +2,12 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik/lib';
+import { getNumberFromNumberInputValue, getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import {
     ArbeidsforholdType,
+    formatTimerOgMinutter,
     getArbeidstimerFastDagValidator,
     TidFasteUkedagerInput,
     validateFasteArbeidstimerIUke,
@@ -24,6 +25,7 @@ import {
     getJobberNormaltTimerPerDagValidator,
 } from '../validation/jobberNormaltTimerValidator';
 import InfoJobberLiktHverUke from '../info/InfoJobberLiktHverUke';
+import { decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
 
 interface Props {
     arbeidsforholdFieldName: string;
@@ -50,6 +52,17 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
             type: arbeidsforholdType,
         },
     });
+
+    const getTimerPerDagSuffix = () => {
+        const timerPerDag = getNumberFromNumberInputValue(arbeidsforhold.normalarbeidstid?.timerPerDag || '');
+        if (timerPerDag) {
+            const duration = decimalDurationToDuration(timerPerDag * 5);
+            return intlHelper(intl, `arbeidsforhold.timerPerDag.suffix.medTimerPerUke`, {
+                timerPerUke: formatTimerOgMinutter(intl, duration),
+            });
+        }
+        return intlHelper(intl, `arbeidsforhold.timerPerDag.suffix`);
+    };
     return (
         <>
             <FormBlock>
@@ -158,7 +171,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                                     intlValues
                                 )}
                                 name={getFieldName(ArbeidsforholdFormField.jobberNormaltTimerPerDag)}
-                                suffix={intlHelper(intl, `arbeidsforhold.timerPerDag.suffix`)}
+                                suffix={getTimerPerDagSuffix()}
                                 suffixStyle="text"
                                 bredde="XS"
                                 validate={getJobberNormaltTimerPerDagValidator({

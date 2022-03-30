@@ -518,6 +518,7 @@
     "arbeidsforhold.sn.fast.info.tekst": "Her skal du legge inn antall timer du jobber som selvstendig næringsdrivende per uke.",
     "arbeidsforhold.timerPerUke.suffix": "timer per uke",
     "arbeidsforhold.timerPerDag.suffix": "timer hver dag",
+    "arbeidsforhold.timerPerDag.suffix.medTimerPerUke": "timer hver dag ({timerPerUke} per uke)",
     "arbeidsforhold.turnus": "Turnus",
     "arbeidsforhold.turnus.info.tittel": "Hvordan regner jeg ut et snitt av turnusen min?",
     "arbeidsforhold.turnus.info.tekst.1": "Du regner ut snittet ved å legge sammen antall timer du jobber totalt i hele turnusperioden din, og deler det med antall uker som turnusperioden din består av.",
