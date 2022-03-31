@@ -7,11 +7,9 @@ export interface NormalarbeidstidSøknadsdataLikeDager {
     type: 'likeDagerHverUke';
     erLiktHverUke: true;
     erLiktHverDag: true;
-    timerPerDag: number;
-    /** Satt ut fra timerPerDag */
-    fasteDager: DurationWeekdays;
-    /** Satt ut fra timer per dag */
     timerPerUke: number;
+    /** Satt ut fra timerPerUke */
+    fasteDager: DurationWeekdays;
 }
 export interface NormalarbeidstidSøknadsdataUlikeDager {
     type: 'ulikeDagerHverUke';

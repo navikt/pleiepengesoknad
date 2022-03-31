@@ -2,12 +2,11 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { getNumberFromNumberInputValue, getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik/lib';
+import { getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import {
     ArbeidsforholdType,
-    formatTimerOgMinutter,
     getArbeidstimerFastDagValidator,
     TidFasteUkedagerInput,
     validateFasteArbeidstimerIUke,
@@ -20,12 +19,8 @@ import {
 } from '../../../../types/ArbeidsforholdFormData';
 import { getArbeidsforholdIntlValues } from '../../utils/arbeidsforholdIntlValues';
 import InfoJobberNormaltTimerIUken from '../info/InfoJobberNormaltTimerIUken';
-import {
-    getJobberNormaltTimerIUkenValidator,
-    getJobberNormaltTimerPerDagValidator,
-} from '../validation/jobberNormaltTimerValidator';
+import { getJobberNormaltTimerIUkenValidator } from '../validation/jobberNormaltTimerValidator';
 import InfoJobberLiktHverUke from '../info/InfoJobberLiktHverUke';
-import { decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
 
 interface Props {
     arbeidsforholdFieldName: string;
@@ -53,15 +48,36 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
         },
     });
 
-    const getTimerPerDagSuffix = () => {
-        const timerPerDag = getNumberFromNumberInputValue(arbeidsforhold.normalarbeidstid?.timerPerDag || '');
-        if (timerPerDag) {
-            const duration = decimalDurationToDuration(timerPerDag * 5);
-            return intlHelper(intl, `arbeidsforhold.timerPerDag.suffix.medTimerPerUke`, {
-                timerPerUke: formatTimerOgMinutter(intl, duration),
-            });
-        }
-        return intlHelper(intl, `arbeidsforhold.timerPerDag.suffix`);
+    const renderTimerPerUkeSpørsmål = (spørOmTimerISnitt: boolean) => {
+        return (
+            <FormComponents.NumberInput
+                label={intlHelper(
+                    intl,
+                    jobberFortsatt === false
+                        ? spørOmTimerISnitt
+                            ? `arbeidsforhold.jobberNormaltTimerPerUke.snitt.avsluttet.spm`
+                            : 'arbeidsforhold.jobberNormaltTimerPerUke.avsluttet.spm'
+                        : spørOmTimerISnitt
+                        ? `arbeidsforhold.jobberNormaltTimerPerUke.snitt.spm`
+                        : `arbeidsforhold.jobberNormaltTimerPerUke.spm`,
+                    intlValues
+                )}
+                name={getFieldName(ArbeidsforholdFormField.jobberNormaltTimerPerUke)}
+                description={
+                    spørOmTimerISnitt ? (
+                        <InfoJobberNormaltTimerIUken arbeidsforholdType={arbeidsforholdType} />
+                    ) : undefined
+                }
+                suffix={intlHelper(intl, `arbeidsforhold.timerPerUke.suffix`)}
+                suffixStyle="text"
+                bredde="XS"
+                validate={getJobberNormaltTimerIUkenValidator({
+                    ...intlValues,
+                    jobber: jobberFortsatt ? 'jobber' : 'jobbet',
+                })}
+                value={arbeidsforhold.normalarbeidstid ? arbeidsforhold.normalarbeidstid.timerPerUke || '' : ''}
+            />
+        );
     };
     return (
         <>
@@ -88,34 +104,14 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                 />
             </FormBlock>
             {arbeidsforhold.normalarbeidstid?.erLiktHverUke === YesOrNo.NO && (
-                <FormBlock>
-                    <FormComponents.NumberInput
-                        label={intlHelper(
-                            intl,
-                            jobberFortsatt === false
-                                ? 'arbeidsforhold.jobberNormaltTimerPerUke.avsluttet.spm'
-                                : 'arbeidsforhold.jobberNormaltTimerPerUke.spm',
-                            intlValues
-                        )}
-                        name={getFieldName(ArbeidsforholdFormField.jobberNormaltTimerPerUke)}
-                        description={<InfoJobberNormaltTimerIUken arbeidsforholdType={arbeidsforholdType} />}
-                        suffix={intlHelper(intl, `arbeidsforhold.timerPerUke.suffix`)}
-                        suffixStyle="text"
-                        bredde="XS"
-                        validate={getJobberNormaltTimerIUkenValidator({
-                            ...intlValues,
-                            jobber: jobberFortsatt ? 'jobber' : 'jobbet',
-                        })}
-                        value={arbeidsforhold ? arbeidsforhold.normalarbeidstid.timerPerUke || '' : ''}
-                    />
-                </FormBlock>
+                <FormBlock>{renderTimerPerUkeSpørsmål(true)}</FormBlock>
             )}
             {arbeidsforhold.normalarbeidstid?.erLiktHverUke === YesOrNo.YES && (
                 <>
                     <FormBlock>
                         <FormComponents.YesOrNoQuestion
                             name={getFieldName(ArbeidsforholdFormField.jobberNormaltTimerLiktHverDag)}
-                            legend="Jobber du like mange timer hver dag i uken når du ikke har fravær på grunn av pleiepeneger, eller varierer det?"
+                            legend="Jobber du like mange timer hver dag i uken når du ikke har fravær på grunn av pleiepenger, eller varierer det?"
                             labels={{
                                 yes: 'Ja, hver dag er lik',
                                 no: 'Nei, det varierer',
@@ -161,26 +157,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                         </FormBlock>
                     )}
                     {arbeidsforhold.normalarbeidstid.liktHverDag === YesOrNo.YES && (
-                        <FormBlock>
-                            <FormComponents.NumberInput
-                                label={intlHelper(
-                                    intl,
-                                    jobberFortsatt === false
-                                        ? 'arbeidsforhold.jobberNormaltTimerPerDag.avsluttet.spm'
-                                        : 'arbeidsforhold.jobberNormaltTimerPerDag.spm',
-                                    intlValues
-                                )}
-                                name={getFieldName(ArbeidsforholdFormField.jobberNormaltTimerPerDag)}
-                                suffix={getTimerPerDagSuffix()}
-                                suffixStyle="text"
-                                bredde="XS"
-                                validate={getJobberNormaltTimerPerDagValidator({
-                                    ...intlValues,
-                                    jobber: jobberFortsatt ? 'jobber' : 'jobbet',
-                                })}
-                                value={arbeidsforhold ? arbeidsforhold.normalarbeidstid.timerPerDag || '' : ''}
-                            />
-                        </FormBlock>
+                        <FormBlock>{renderTimerPerUkeSpørsmål(false)}</FormBlock>
                     )}
                 </>
             )}

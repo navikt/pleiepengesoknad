@@ -12,14 +12,6 @@ const validateJobberNormaltTimerIUken = (value: any) => {
     })(value);
 };
 
-const validateJobberNormaltTimerPerDag = (value: any) => {
-    return getNumberValidator({
-        required: true,
-        min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
-        max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD_DAG,
-    })(value);
-};
-
 export const getJobberNormaltTimerIUkenValidator = (intlValues: { hvor: string; jobber: string }) => (value: any) => {
     const error = validateJobberNormaltTimerIUken(value);
     return error
@@ -29,20 +21,6 @@ export const getJobberNormaltTimerIUkenValidator = (intlValues: { hvor: string; 
                   ...intlValues,
                   min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
                   max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD,
-              },
-              keepKeyUnaltered: true,
-          }
-        : undefined;
-};
-export const getJobberNormaltTimerPerDagValidator = (intlValues: { hvor: string; jobber: string }) => (value: any) => {
-    const error = validateJobberNormaltTimerPerDag(value);
-    return error
-        ? {
-              key: `validation.arbeidsforhold.jobberNormaltTimerPerDag.${error}`,
-              values: {
-                  ...intlValues,
-                  min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
-                  max: MAX_TIMER_NORMAL_ARBEIDSFORHOLD_DAG,
               },
               keepKeyUnaltered: true,
           }

@@ -11,7 +11,7 @@ const cleanupNormalarbeidstid = ({
     erLiktHverUke,
     fasteDager,
     liktHverDag,
-    timerPerDag,
+
     timerPerUke,
 }: NormalarbeidstidFormData): NormalarbeidstidFormData => {
     if (erLiktHverUke === YesOrNo.NO) {
@@ -24,7 +24,6 @@ const cleanupNormalarbeidstid = ({
         return {
             erLiktHverUke,
             liktHverDag,
-            timerPerDag,
         };
     }
     return {

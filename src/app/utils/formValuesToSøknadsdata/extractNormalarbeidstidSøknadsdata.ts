@@ -3,7 +3,7 @@ import { durationToDecimalDuration, summarizeDateDurationMap } from '@navikt/sif
 import { NormalarbeidstidFormData } from '../../types/ArbeidsforholdFormData';
 import { NormalarbeidstidSøknadsdata } from '../../types/Søknadsdata';
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
-import { durationWeekdaysFromEqualHoursPerDay, durationWeekdaysFromHoursPerWeek } from '../durationWeekdaysUtils';
+import { durationWeekdaysFromHoursPerWeek } from '../durationWeekdaysUtils';
 
 export const extractNormalarbeidstid = (
     normalarbeidstid?: NormalarbeidstidFormData
@@ -12,15 +12,14 @@ export const extractNormalarbeidstid = (
         return undefined;
     }
     if (normalarbeidstid.erLiktHverUke === YesOrNo.YES) {
-        const timerPerDag = getNumberFromNumberInputValue(normalarbeidstid.timerPerDag);
-        if (normalarbeidstid.liktHverDag && timerPerDag !== undefined) {
+        const timerPerUke = getNumberFromNumberInputValue(normalarbeidstid.timerPerUke);
+        if (normalarbeidstid.liktHverDag && timerPerUke !== undefined) {
             return {
                 type: 'likeDagerHverUke',
                 erLiktHverUke: true,
                 erLiktHverDag: true,
-                timerPerDag,
-                fasteDager: durationWeekdaysFromEqualHoursPerDay(timerPerDag),
-                timerPerUke: timerPerDag * 5,
+                fasteDager: durationWeekdaysFromHoursPerWeek(timerPerUke),
+                timerPerUke: timerPerUke,
             };
         }
         if (normalarbeidstid.liktHverDag === YesOrNo.NO && normalarbeidstid.fasteDager) {
@@ -44,5 +43,5 @@ export const extractNormalarbeidstid = (
             };
         }
     }
-    return undefined;
+    throw 'extractNormalarbeidstid failed';
 };
