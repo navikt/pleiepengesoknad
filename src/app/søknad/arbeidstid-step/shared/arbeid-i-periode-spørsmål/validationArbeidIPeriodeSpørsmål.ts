@@ -3,15 +3,18 @@ import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeVa
 import { IntlErrorObject } from '@navikt/sif-common-formik/lib/validation/types';
 import {
     ArbeidIPeriodeIntlValues,
+    formatTimerOgMinutter,
     getArbeidstidFastProsentValidator,
     getArbeidstimerFastDagValidator,
 } from '@navikt/sif-common-pleiepenger/lib';
 import {
+    decimalDurationToDuration,
     Duration,
     durationToDecimalDuration,
     DurationWeekdays,
     summarizeDurationInDurationWeekdays,
 } from '@navikt/sif-common-utils/lib';
+import { IntlShape } from 'react-intl';
 import { ArbeidIPeriodeFormData } from '../../../../types/ArbeidIPeriodeFormData';
 import { NormalarbeidstidSøknadsdata } from '../../../../types/Søknadsdata';
 
@@ -95,6 +98,23 @@ export const getArbeidIPeriodeJobberProsentValidator = (intlValues: ArbeidIPerio
           }
         : undefined;
 };
+
+export const getArbeidIPeriodeJobberTimerValidator =
+    (intl: IntlShape, intlValues: ArbeidIPeriodeIntlValues, timerNormalt: number) => (value: string) => {
+        const min = 1;
+        const error = getArbeidstidFastProsentValidator({ min, max: timerNormalt })(value);
+        return error
+            ? {
+                  key: `validation.arbeidIPeriode.fast.timerPerUke.${error.key}`,
+                  values: {
+                      ...intlValues,
+                      min,
+                      max: formatTimerOgMinutter(intl, decimalDurationToDuration(timerNormalt)),
+                  },
+                  keepKeyUnaltered: true,
+              }
+            : undefined;
+    };
 
 export const getArbeidIPeriodeTimerEllerProsentValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
     const error = getRequiredFieldValidator()(value);

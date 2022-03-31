@@ -74,6 +74,14 @@ export interface ArbeidIPeriodeApiDataProsent {
     fasteDager: TimerFasteDagerApiData;
 }
 
+export interface ArbeidIPeriodeApiDataTimerPerUke {
+    type: 'jobberTimerPerUke';
+    jobberIPerioden: 'JA';
+    erLiktHverUke: true;
+    jobberTimer: number;
+    fasteDager: TimerFasteDagerApiData;
+}
+
 export interface ArbeidIPeriodeApiDataVariert {
     type: 'jobberVariert';
     jobberIPerioden: 'JA';
@@ -85,6 +93,7 @@ export type ArbeidIPeriodeApiData =
     | ArbeidIPeriodeApiDataJobberIkke
     | ArbeidIPeriodeApiDataFasteDager
     | ArbeidIPeriodeApiDataProsent
+    | ArbeidIPeriodeApiDataTimerPerUke
     | ArbeidIPeriodeApiDataVariert;
 
 type NormalarbeidstidPerUkeApiData = {

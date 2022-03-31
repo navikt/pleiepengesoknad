@@ -10,6 +10,7 @@ import {
 } from '@navikt/sif-common-pleiepenger/lib';
 import ArbeidstidEnkeltdagerListe from '@navikt/sif-common-pleiepenger/lib/dager-med-tid/ArbeidstidEnkeltdagerListe';
 import { ArbeidsforholdApiData } from '../../../types/SøknadApiData';
+import { decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
 
 interface Props {
     periode: DateRange;
@@ -37,19 +38,22 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
         return <p style={{ marginTop: 0 }}>Arbeider som normalt i perioden.</p>;
     }
     if (arbeidIPeriode) {
-        return (
-            <>
-                {arbeidIPeriode.type === 'jobberIkkeIPerioden' && (
+        switch (arbeidIPeriode.type) {
+            case 'jobberIkkeIPerioden':
+                return (
                     <p style={{ marginTop: 0 }}>
                         <FormattedMessage id={`oppsummering.arbeidIPeriode.jobberIPerioden.nei`} />
                     </p>
-                )}
-                {arbeidIPeriode.type === 'jobberVariert' && (
+                );
+            case 'jobberVariert':
+                return (
                     <Box margin="m">
                         <ArbeidstidEnkeltdagerListe dager={arbeidIPeriode.enkeltdager} visNormaltid={false} />
                     </Box>
-                )}
-                {(arbeidIPeriode.type === 'jobberFasteDager' || arbeidIPeriode.type === 'jobberProsent') && (
+                );
+            case 'jobberProsent':
+            case 'jobberFasteDager':
+                return (
                     <>
                         <div>{intlHelper(intl, 'oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke')}:</div>
                         <Box margin="m">
@@ -59,9 +63,17 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
                             <TidFasteDager fasteDager={arbeidIPeriode.fasteDager} />
                         </Box>
                     </>
-                )}
-            </>
-        );
+                );
+            case 'jobberTimerPerUke':
+                return (
+                    <>
+                        <Box margin="m">
+                            Jobber {formatTimerOgMinutter(intl, decimalDurationToDuration(arbeidIPeriode.jobberTimer))}{' '}
+                            hver uke
+                        </Box>
+                    </>
+                );
+        }
     }
     return <>Informasjon om arbeid i perioden mangler</>;
 };

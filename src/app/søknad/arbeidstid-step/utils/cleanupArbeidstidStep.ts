@@ -26,14 +26,14 @@ export const cleanupArbeidIPeriode = (
         return arbeid;
     }
 
-    const { erLiktHverUke, enkeltdager, timerEllerProsent, fasteDager, jobberProsent } = arbeidIPerioden;
+    const { erLiktHverUke, enkeltdager, timerEllerProsent, fasteDager, jobberProsent, jobberTimer } = arbeidIPerioden;
 
     if (erLiktHverUke === YesOrNo.YES) {
         arbeid.erLiktHverUke = erLiktHverUke;
         arbeid.timerEllerProsent = timerEllerProsent;
         return timerEllerProsent === TimerEllerProsent.PROSENT
             ? { ...arbeid, jobberProsent }
-            : { ...arbeid, fasteDager };
+            : { ...arbeid, fasteDager, jobberTimer };
     }
 
     return {

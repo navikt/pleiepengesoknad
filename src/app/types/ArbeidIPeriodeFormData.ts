@@ -7,6 +7,7 @@ export enum ArbeidIPeriodeFormField {
     erLiktHverUke = 'erLiktHverUke',
     timerEllerProsent = 'timerEllerProsent',
     jobberProsent = 'jobberProsent',
+    jobberTimer = 'jobberTimer',
     fasteDager = 'fasteDager',
     enkeltdager = 'enkeltdager',
 }
@@ -16,6 +17,7 @@ export interface ArbeidIPeriodeFormData {
     [ArbeidIPeriodeFormField.erLiktHverUke]?: YesOrNo;
     [ArbeidIPeriodeFormField.timerEllerProsent]?: TimerEllerProsent;
     [ArbeidIPeriodeFormField.jobberProsent]?: string;
+    [ArbeidIPeriodeFormField.jobberTimer]?: string;
     [ArbeidIPeriodeFormField.enkeltdager]?: DateDurationMap;
     [ArbeidIPeriodeFormField.fasteDager]?: DurationWeekdays;
 }

@@ -5,7 +5,11 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
-import { ArbeidIPeriodeIntlValues, getArbeidstidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger';
+import {
+    ArbeidIPeriodeIntlValues,
+    formatTimerOgMinutter,
+    getArbeidstidIPeriodeIntlValues,
+} from '@navikt/sif-common-pleiepenger';
 import TidFasteUkedagerInput from '@navikt/sif-common-pleiepenger/lib/tid-faste-ukedager-input/TidFasteUkedagerInput';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib/types';
 import { TimerEllerProsent } from '../../../../types';
@@ -22,9 +26,10 @@ import {
     getArbeidIPeriodeTimerPerUkeValidator,
     getArbeidIPeriodeTimerEllerProsentValidator,
     getArbeidIPeriodeJobberIPeriodenValidator,
+    getArbeidIPeriodeJobberTimerValidator,
 } from './validationArbeidIPeriodeSpørsmål';
 import InfoSøkerKunHelgedager from './InfoSøkerKunHelgedager';
-import InfoRedusertArbeidFasteDager from './InfoRedusertArbeidFasteDager';
+import { decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
 
 interface Props extends ArbeidstidRegistrertLogProps {
     normalarbeidstid: NormalarbeidstidSøknadsdata;
@@ -71,8 +76,27 @@ const ArbeidIPeriodeSpørsmål = ({
     const getFieldName = (field: ArbeidIPeriodeFormField) => `${parentFieldName}.arbeidIPeriode.${field}` as any;
 
     const { arbeidIPeriode } = arbeidsforhold;
-    const { jobberIPerioden, timerEllerProsent, erLiktHverUke, jobberProsent } = arbeidIPeriode || {};
+    const { jobberIPerioden, timerEllerProsent, erLiktHverUke } = arbeidIPeriode || {};
+
     const visKunVariertArbeidstidVersjon = normalarbeidstid.erLiktHverUke === false;
+    const jobberProsentNumber = arbeidIPeriode?.jobberProsent
+        ? getNumberFromNumberInputValue(arbeidIPeriode?.jobberProsent)
+        : undefined;
+
+    const getJobberProsentSuffix = () => {
+        const normalttimer = formatTimerOgMinutter(intl, decimalDurationToDuration(normalarbeidstid.timerPerUke));
+
+        const nyTid = jobberProsentNumber
+            ? formatTimerOgMinutter(
+                  intl,
+                  decimalDurationToDuration((normalarbeidstid.timerPerUke / 100) * jobberProsentNumber)
+              )
+            : undefined;
+
+        return `prosent av normalt ${normalttimer} i uken${nyTid ? ` (tilsvarer ${nyTid} i uken).` : '.'}`;
+    };
+
+    const timerNormaltString = formatTimerOgMinutter(intl, decimalDurationToDuration(normalarbeidstid.timerPerUke));
 
     const renderArbeidstidVariert = (kanLeggeTilPeriode: boolean) => (
         <ArbeidstidVariert
@@ -151,34 +175,59 @@ const ArbeidIPeriodeSpørsmål = ({
                                             bredde="XS"
                                             maxLength={4}
                                             suffixStyle="text"
+                                            suffix={getJobberProsentSuffix()}
                                         />
-                                        <InfoRedusertArbeidFasteDager
+                                        {/* <InfoRedusertArbeidFasteDager
                                             arbeiderHvor={intlValues.hvor}
                                             arbeidNormalt={normalarbeidstid.fasteDager}
                                             jobberProsent={getNumberFromNumberInputValue(jobberProsent)}
-                                        />
+                                        /> */}
                                     </ResponsivePanel>
                                 </FormBlock>
                             )}
                             {timerEllerProsent === TimerEllerProsent.TIMER && (
                                 <FormBlock margin="l">
                                     <ResponsivePanel>
-                                        <SøknadFormComponents.InputGroup
-                                            name={`${parentFieldName}_fasteDager.gruppe` as any}
-                                            legend={intlHelper(intl, 'arbeidIPeriode.ukedager.tittel', intlValues)}
-                                            validate={getArbeidIPeriodeTimerPerUkeValidator(
+                                        <SøknadFormComponents.NumberInput
+                                            name={getFieldName(ArbeidIPeriodeFormField.jobberTimer)}
+                                            label={`Hvor mange timer av normalt ${timerNormaltString}, jobber du i uken som frilanser i perioden?`}
+                                            validate={getArbeidIPeriodeJobberTimerValidator(
+                                                intl,
                                                 intlValues,
-                                                normalarbeidstid,
-                                                arbeidIPeriode
-                                            )}>
-                                            <TidFasteUkedagerInput
-                                                name={getFieldName(ArbeidIPeriodeFormField.fasteDager)}
-                                                validateDag={getArbeidIPeriodeFasteDagerDagValidator(
-                                                    normalarbeidstid,
-                                                    intlValues
-                                                )}
-                                            />
-                                        </SøknadFormComponents.InputGroup>
+                                                normalarbeidstid.timerPerUke
+                                            )}
+                                            bredde="XS"
+                                            maxLength={4}
+                                            suffixStyle="text"
+                                            suffix={`timer av normalt ${formatTimerOgMinutter(
+                                                intl,
+                                                decimalDurationToDuration(normalarbeidstid.timerPerUke)
+                                            )} i uken.`}
+                                        />
+                                        {1 + 1 === 4 && (
+                                            <FormBlock>
+                                                <SøknadFormComponents.InputGroup
+                                                    name={`${parentFieldName}_fasteDager.gruppe` as any}
+                                                    legend={intlHelper(
+                                                        intl,
+                                                        'arbeidIPeriode.ukedager.tittel',
+                                                        intlValues
+                                                    )}
+                                                    validate={getArbeidIPeriodeTimerPerUkeValidator(
+                                                        intlValues,
+                                                        normalarbeidstid,
+                                                        arbeidIPeriode
+                                                    )}>
+                                                    <TidFasteUkedagerInput
+                                                        name={getFieldName(ArbeidIPeriodeFormField.fasteDager)}
+                                                        validateDag={getArbeidIPeriodeFasteDagerDagValidator(
+                                                            normalarbeidstid,
+                                                            intlValues
+                                                        )}
+                                                    />
+                                                </SøknadFormComponents.InputGroup>
+                                            </FormBlock>
+                                        )}
                                     </ResponsivePanel>
                                 </FormBlock>
                             )}
