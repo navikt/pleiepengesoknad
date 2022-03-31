@@ -15,6 +15,7 @@ export const extractNormalarbeidstid = (
         const timerPerDag = getNumberFromNumberInputValue(normalarbeidstid.timerPerDag);
         if (normalarbeidstid.liktHverDag && timerPerDag !== undefined) {
             return {
+                type: 'likeDagerHverUke',
                 erLiktHverUke: true,
                 erLiktHverDag: true,
                 timerPerDag,
@@ -24,6 +25,7 @@ export const extractNormalarbeidstid = (
         }
         if (normalarbeidstid.liktHverDag === YesOrNo.NO && normalarbeidstid.fasteDager) {
             return {
+                type: 'ulikeDagerHverUke',
                 erLiktHverUke: true,
                 erLiktHverDag: false,
                 fasteDager: normalarbeidstid.fasteDager,
@@ -35,6 +37,7 @@ export const extractNormalarbeidstid = (
         const timerPerUke = getNumberFromNumberInputValue(normalarbeidstid.timerPerUke);
         if (timerPerUke !== undefined) {
             return {
+                type: 'ulikeUker',
                 erLiktHverUke: false,
                 timerPerUke,
                 fasteDager: durationWeekdaysFromHoursPerWeek(timerPerUke),

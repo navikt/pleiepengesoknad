@@ -10,7 +10,7 @@ const frilanserSluttetIPeriodeValues: FrilansFormData = {
     harHattInntektSomFrilanser: YesOrNo.YES,
     arbeidsforhold: {
         harFraværIPeriode: YesOrNo.NO,
-        normalarbeidstid: { timerPerUke: '10' },
+        normalarbeidstid: { timerPerUke: '10', erLiktHverUke: YesOrNo.NO },
         arbeidIPeriode: {
             jobberIPerioden: YesOrNo.YES,
         },

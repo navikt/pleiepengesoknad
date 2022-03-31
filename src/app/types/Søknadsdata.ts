@@ -4,6 +4,7 @@ import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils/lib'
 import { Arbeidsgiver } from './Arbeidsgiver';
 
 export interface NormalarbeidstidSøknadsdataLikeDager {
+    type: 'likeDagerHverUke';
     erLiktHverUke: true;
     erLiktHverDag: true;
     timerPerDag: number;
@@ -13,6 +14,7 @@ export interface NormalarbeidstidSøknadsdataLikeDager {
     timerPerUke: number;
 }
 export interface NormalarbeidstidSøknadsdataUlikeDager {
+    type: 'ulikeDagerHverUke';
     erLiktHverUke: true;
     erLiktHverDag: false;
     fasteDager: DurationWeekdays;
@@ -20,6 +22,7 @@ export interface NormalarbeidstidSøknadsdataUlikeDager {
     timerPerUke: number;
 }
 export interface NormalarbeidstidSøknadsdataUlikeUker {
+    type: 'ulikeUker';
     erLiktHverUke: false;
     timerPerUke: number;
     /** Fordelt ut fra timerPerUke */

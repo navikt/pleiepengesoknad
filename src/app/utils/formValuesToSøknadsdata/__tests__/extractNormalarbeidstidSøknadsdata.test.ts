@@ -22,9 +22,10 @@ describe('extractNormalarbeidstid', () => {
         expect(result).toBeUndefined();
     });
 
-    it('returnerer faste dager og beregntet timerPerUke dersom erLiktHverUke === true og fasteDager er satt', () => {
+    it('returnerer faste dager og beregnet timerPerUke dersom erLiktHverUke === true og det ikke er likt hver dag', () => {
         const result = extractNormalarbeidstid({
             erLiktHverUke: YesOrNo.YES,
+            liktHverDag: YesOrNo.NO,
             fasteDager: { monday: { hours: '1', minutes: '30' } },
         });
         expect(result).toBeDefined();
