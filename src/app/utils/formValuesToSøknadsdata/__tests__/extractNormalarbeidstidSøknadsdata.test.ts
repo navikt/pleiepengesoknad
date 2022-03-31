@@ -17,6 +17,7 @@ describe('extractNormalarbeidstid', () => {
     it('returnerer undefined dersom erLiktHverUke === false && timerPerUke er ugyldig', () => {
         const result = extractNormalarbeidstid({
             erLiktHverUke: YesOrNo.NO,
+            liktHverDag: YesOrNo.YES,
             timerPerUke: 'abc',
         });
         expect(result).toBeUndefined();

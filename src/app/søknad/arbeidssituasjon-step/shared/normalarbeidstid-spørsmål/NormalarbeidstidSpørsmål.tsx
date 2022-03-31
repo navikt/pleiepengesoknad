@@ -111,10 +111,10 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                     <FormBlock>
                         <FormComponents.YesOrNoQuestion
                             name={getFieldName(ArbeidsforholdFormField.jobberNormaltTimerLiktHverDag)}
-                            legend="Jobber du like mange timer hver dag i uken når du ikke har fravær på grunn av pleiepenger, eller varierer det?"
+                            legend={intlHelper(intl, `arbeidsforhold.erLiktHverDag.spm`, intlValues)}
                             labels={{
-                                yes: 'Ja, hver dag er lik',
-                                no: 'Nei, det varierer',
+                                yes: intlHelper(intl, `arbeidsforhold.erLiktHverDag.ja`),
+                                no: intlHelper(intl, `arbeidsforhold.erLiktHverDag.nei`),
                             }}
                             useTwoColumns={true}
                         />

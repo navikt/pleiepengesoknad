@@ -33,5 +33,5 @@ export const extractArbeidsforholdSøknadsdata = (
             };
         }
     }
-    throw 'extractArbeidsforholdSøknadsdata failed';
+    return undefined;
 };
