@@ -123,6 +123,14 @@ export const getArbeidIPeriodeApiDataFromSøknadsdata = (
                     fasteDager: durationWeekdaysToTimerFasteDagerApiData(arbeid.fasteDager),
                     jobberProsent: arbeid.jobberProsent,
                 };
+            case 'fastTimer':
+                return {
+                    type: 'jobberTimerPerUke',
+                    jobberIPerioden: 'JA',
+                    erLiktHverUke: true,
+                    fasteDager: durationWeekdaysToTimerFasteDagerApiData(arbeid.fasteDager),
+                    jobberTimer: arbeid.jobberTimerPerUke,
+                };
             case 'fasteDager':
                 return {
                     type: 'jobberFasteDager',

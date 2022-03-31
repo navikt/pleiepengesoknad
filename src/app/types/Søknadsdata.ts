@@ -87,7 +87,7 @@ export interface ArbeidFrilansSøknadsdataUtenforSøknadsperiode {
     startdato: Date;
     sluttdato: Date;
 }
-export interface ArbeidFrilansSøknadsdataAvsluttet {
+export interface ArbeidFrilansSøknadsdataAvsluttetISøknadsperiode {
     erFrilanser: true;
     type: 'avsluttetISøknadsperiode';
     harInntektISøknadsperiode: true;
@@ -102,7 +102,7 @@ export type ArbeidFrilansSøknadsdata =
     | ArbeidFrilansSøknadsdataErIkkeFrilanser
     | ArbeidFrilansSøknadsdataPågående
     | ArbeidFrilansSøknadsdataUtenforSøknadsperiode
-    | ArbeidFrilansSøknadsdataAvsluttet;
+    | ArbeidFrilansSøknadsdataAvsluttetISøknadsperiode;
 
 export interface ArbeidSelvstendigSøknadsdataErIkkeSN {
     type: 'erIkkeSN';
@@ -146,13 +146,23 @@ interface ArbeidProsentISøknadsperiodeFastProsentSøknadsdata {
     arbeiderIPerioden: true;
     erLiktHverUke: true;
     fasteDager: DurationWeekdays;
+    jobberTimerPerUke: number;
     jobberProsent: number;
+}
+
+interface ArbeidProsentISøknadsperiodeFastTimerPerUkeSøknadsdata {
+    type: 'fastTimer';
+    arbeiderIPerioden: true;
+    erLiktHverUke: true;
+    fasteDager: DurationWeekdays;
+    jobberTimerPerUke: number;
 }
 
 export type ArbeidIPeriodeSøknadsdata =
     | IngenArbeidISøknadsperiodeSøknadsdata
     | ArbeidISøknadsperiodeVariertSøknadsdata
     | ArbeidISøknadsperiodeFasteDagerSøknadsdata
+    | ArbeidProsentISøknadsperiodeFastTimerPerUkeSøknadsdata
     | ArbeidProsentISøknadsperiodeFastProsentSøknadsdata;
 
 export interface Søknadsdata {
