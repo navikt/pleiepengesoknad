@@ -1,10 +1,10 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { ISODateToDate } from '@navikt/sif-common-utils/lib';
-import { ArbeidsgiverType, JobberIPeriodeSvar, TimerEllerProsent } from '../../../../types';
-import { Arbeidsforhold } from '../../../../types/Arbeidsforhold';
+import { ArbeidsgiverType, TimerEllerProsent } from '../../../../types';
+import { ArbeidsforholdFormData } from '../../../../types/ArbeidsforholdFormData';
 import { cleanupAnsattArbeidsforhold } from '../cleanupArbeidssituasjonStep';
 
-const ansattArbeidsforhold: Arbeidsforhold = {
+const ansattArbeidsforhold: ArbeidsforholdFormData = {
     arbeidsgiver: {
         type: ArbeidsgiverType.ORGANISASJON,
         organisasjonsnummer: '123456789',
@@ -14,26 +14,33 @@ const ansattArbeidsforhold: Arbeidsforhold = {
     },
     arbeidIPeriode: {
         timerEllerProsent: TimerEllerProsent.PROSENT,
-        jobberIPerioden: JobberIPeriodeSvar.JA,
+        jobberIPerioden: YesOrNo.YES,
         jobberProsent: '20',
         erLiktHverUke: YesOrNo.YES,
     },
     erAnsatt: YesOrNo.YES,
+    normalarbeidstid: {
+        erLiktHverUke: YesOrNo.YES,
+        timerPerUke: '10',
+        fasteDager: {
+            friday: { hours: '2', minutes: '2' },
+        },
+    },
     harFraværIPeriode: YesOrNo.YES,
-    jobberNormaltTimer: '10',
     sluttetFørSøknadsperiode: YesOrNo.NO,
 };
 
 describe('cleanupAnsattArbeidsforhold', () => {
     describe('Når søker sier at en har sluttet før søknadsperiode', () => {
-        it('Beholder kun nødvendig informasjon', () => {
+        it('Beholder kun nødvendig informasjon når bruker ikke er ansatt', () => {
             const result = cleanupAnsattArbeidsforhold({
                 ...ansattArbeidsforhold,
                 erAnsatt: YesOrNo.NO,
                 sluttetFørSøknadsperiode: YesOrNo.YES,
             });
             expect(result.arbeidIPeriode).toBeUndefined();
-            expect(result.jobberNormaltTimer).toBeUndefined();
+            expect(result.normalarbeidstid?.timerPerUke).toBeUndefined();
+            expect(result.normalarbeidstid?.fasteDager).toBeUndefined();
             expect(result.harFraværIPeriode).toBeUndefined();
             expect(result.sluttetFørSøknadsperiode).toEqual(YesOrNo.YES);
             expect(result.erAnsatt).toEqual(YesOrNo.NO);
@@ -49,7 +56,8 @@ describe('cleanupAnsattArbeidsforhold', () => {
             expect(result.arbeidIPeriode).toBeUndefined();
             expect(result.sluttetFørSøknadsperiode).toBeUndefined();
             expect(result.harFraværIPeriode).toEqual(YesOrNo.NO);
-            expect(result.jobberNormaltTimer).toBeDefined();
+            expect(result.normalarbeidstid?.timerPerUke).toBeUndefined();
+            expect(result.normalarbeidstid?.fasteDager).toBeDefined();
             expect(result.erAnsatt).toEqual(YesOrNo.YES);
         });
         it('Bruker er ansatt, og har fravær i perioden', () => {
@@ -61,9 +69,38 @@ describe('cleanupAnsattArbeidsforhold', () => {
             });
             expect(result.sluttetFørSøknadsperiode).toBeUndefined();
             expect(result.arbeidIPeriode).toBeDefined();
-            expect(result.jobberNormaltTimer).toBeDefined();
+            expect(result.normalarbeidstid?.timerPerUke).toBeUndefined();
+            expect(result.normalarbeidstid?.fasteDager).toBeDefined();
             expect(result.harFraværIPeriode).toEqual(YesOrNo.YES);
             expect(result.erAnsatt).toEqual(YesOrNo.YES);
+        });
+        it('Hver uke er lik - beholder ukedager men fjerner snitt', () => {
+            const result = cleanupAnsattArbeidsforhold({
+                ...ansattArbeidsforhold,
+                normalarbeidstid: {
+                    erLiktHverUke: YesOrNo.YES,
+                    timerPerUke: '20',
+                    fasteDager: {
+                        monday: { hours: '1', minutes: '0' },
+                    },
+                },
+            });
+            expect(result.normalarbeidstid?.timerPerUke).toBeUndefined();
+            expect(result.normalarbeidstid?.fasteDager).toBeDefined();
+        });
+        it('Hver uke varierer - beholder snitt med fjerner ukedager', () => {
+            const result = cleanupAnsattArbeidsforhold({
+                ...ansattArbeidsforhold,
+                normalarbeidstid: {
+                    erLiktHverUke: YesOrNo.NO,
+                    timerPerUke: '20',
+                    fasteDager: {
+                        monday: { hours: '1', minutes: '0' },
+                    },
+                },
+            });
+            expect(result.normalarbeidstid?.timerPerUke).toBeDefined();
+            expect(result.normalarbeidstid?.fasteDager).toBeUndefined();
         });
     });
 });

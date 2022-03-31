@@ -1,0 +1,16 @@
+import { ArbeidsgiverApiData } from '../../types/SøknadApiData';
+import { ArbeidsgivereSøknadsdata } from '../../types/Søknadsdata';
+import { getArbeidsgiverApiDataFromSøknadsdata } from './getArbeidsgiverApiDataFromSøknadsdata';
+
+export const getArbeidsgivereApiDataFromSøknadsdata = (
+    arbeidsgivere: ArbeidsgivereSøknadsdata | undefined
+): ArbeidsgiverApiData[] => {
+    if (!arbeidsgivere || arbeidsgivere.size === 0) {
+        return [];
+    }
+    const arbeidsgivereApiData: ArbeidsgiverApiData[] = [];
+    arbeidsgivere.forEach((arbeidsgiver) => {
+        arbeidsgivereApiData.push(getArbeidsgiverApiDataFromSøknadsdata(arbeidsgiver));
+    });
+    return arbeidsgivereApiData;
+};

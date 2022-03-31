@@ -1,4 +1,3 @@
-import { JobberIPeriodeSvar } from '../../types';
 import { ArbeidsgiverType } from '../../types/Arbeidsgiver';
 import { Søkerdata } from '../../types/Søkerdata';
 import { ArbeidsgiverApiData } from '../../types/SøknadApiData';
@@ -11,10 +10,21 @@ const arbeidsgiverApiData: ArbeidsgiverApiData = {
     erAnsatt: true,
     arbeidsforhold: {
         arbeidIPeriode: {
-            jobberIPerioden: JobberIPeriodeSvar.NEI,
+            type: 'jobberIkkeIPerioden',
+            jobberIPerioden: 'NEI',
         },
         harFraværIPeriode: true,
-        jobberNormaltTimer: 2,
+        normalarbeidstid: {
+            erLiktHverUke: false,
+            timerPerUke: 2,
+            timerFasteDager: {
+                mandag: 'PT4H0M',
+                tirsdag: 'PT4H0M',
+                onsdag: 'PT4H0M',
+                torsdag: 'PT4H0M',
+                fredag: 'PT4H0M',
+            },
+        },
     },
     sluttetFørSøknadsperiode: false,
 };
@@ -60,10 +70,24 @@ describe('kvitteringUtils', () => {
                 erAnsatt: false,
                 sluttetFørSøknadsperiode: false,
                 arbeidsforhold: {
-                    jobberNormaltTimer: 20,
+                    normalarbeidstid: {
+                        erLiktHverUke: false,
+                        timerPerUke: 20,
+                        timerFasteDager: {
+                            mandag: 'PT4H0M',
+                            tirsdag: 'PT4H0M',
+                            onsdag: 'PT4H0M',
+                            torsdag: 'PT4H0M',
+                            fredag: 'PT4H0M',
+                        },
+                    },
                     harFraværIPeriode: true,
                     arbeidIPeriode: {
-                        jobberIPerioden: JobberIPeriodeSvar.JA,
+                        type: 'jobberProsent',
+                        erLiktHverUke: true,
+                        jobberIPerioden: 'JA',
+                        jobberProsent: 20,
+                        fasteDager: { fredag: 'PT1H0M' },
                     },
                 },
             };
@@ -72,10 +96,24 @@ describe('kvitteringUtils', () => {
                 organisasjonsnummer: '3',
                 erAnsatt: true,
                 arbeidsforhold: {
-                    jobberNormaltTimer: 20,
+                    normalarbeidstid: {
+                        erLiktHverUke: false,
+                        timerPerUke: 20,
+                        timerFasteDager: {
+                            mandag: 'PT4H0M',
+                            tirsdag: 'PT4H0M',
+                            onsdag: 'PT4H0M',
+                            torsdag: 'PT4H0M',
+                            fredag: 'PT4H0M',
+                        },
+                    },
                     harFraværIPeriode: true,
                     arbeidIPeriode: {
-                        jobberIPerioden: JobberIPeriodeSvar.JA,
+                        type: 'jobberProsent',
+                        erLiktHverUke: true,
+                        jobberIPerioden: 'JA',
+                        jobberProsent: 20,
+                        fasteDager: { fredag: 'PT1H0M' },
                     },
                 },
             };

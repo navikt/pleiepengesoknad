@@ -2,31 +2,38 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { Virksomhet } from '@navikt/sif-common-forms/lib';
 import { getDurationsInDateRange } from '@navikt/sif-common-utils';
-import { JobberIPeriodeSvar, TimerEllerProsent } from '../../../types';
-import { ArbeidIPeriode } from '../../../types/ArbeidIPeriode';
-import { Arbeidsforhold, ArbeidsforholdFrilanser, ArbeidsforholdSelvstendig } from '../../../types/Arbeidsforhold';
+import { TimerEllerProsent } from '../../../types';
+import { ArbeidIPeriodeFormData } from '../../../types/ArbeidIPeriodeFormData';
+import {
+    ArbeidsforholdFormData,
+    ArbeidsforholdFrilanserFormData,
+    ArbeidsforholdSelvstendigFormData,
+} from '../../../types/ArbeidsforholdFormData';
 import { FrilansFormData } from '../../../types/FrilansFormData';
 import { SøknadFormData } from '../../../types/SøknadFormData';
 import { getPeriodeSomFrilanserInnenforPeriode } from '../../../utils/frilanserUtils';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../../utils/selvstendigUtils';
 
-export const cleanupArbeidIPeriode = (arbeidIPerioden: ArbeidIPeriode, periode: DateRange): ArbeidIPeriode => {
-    const arbeid: ArbeidIPeriode = {
+export const cleanupArbeidIPeriode = (
+    arbeidIPerioden: ArbeidIPeriodeFormData,
+    periode: DateRange
+): ArbeidIPeriodeFormData => {
+    const arbeid: ArbeidIPeriodeFormData = {
         jobberIPerioden: arbeidIPerioden.jobberIPerioden,
     };
 
-    if (arbeid.jobberIPerioden !== JobberIPeriodeSvar.JA) {
+    if (arbeid.jobberIPerioden !== YesOrNo.YES) {
         return arbeid;
     }
 
-    const { erLiktHverUke, enkeltdager, timerEllerProsent, fasteDager, jobberProsent } = arbeidIPerioden;
+    const { erLiktHverUke, enkeltdager, timerEllerProsent, fasteDager, jobberProsent, jobberTimer } = arbeidIPerioden;
 
     if (erLiktHverUke === YesOrNo.YES) {
         arbeid.erLiktHverUke = erLiktHverUke;
         arbeid.timerEllerProsent = timerEllerProsent;
         return timerEllerProsent === TimerEllerProsent.PROSENT
             ? { ...arbeid, jobberProsent }
-            : { ...arbeid, fasteDager };
+            : { ...arbeid, fasteDager, jobberTimer };
     }
 
     return {
@@ -37,9 +44,9 @@ export const cleanupArbeidIPeriode = (arbeidIPerioden: ArbeidIPeriode, periode: 
 };
 
 export const cleanupArbeidstidAnsatt = (
-    ansatt_arbeidsforhold: Arbeidsforhold[],
+    ansatt_arbeidsforhold: ArbeidsforholdFormData[],
     søknadsperiode: DateRange
-): Arbeidsforhold[] => {
+): ArbeidsforholdFormData[] => {
     return ansatt_arbeidsforhold.map((arbeidsforhold) => ({
         ...arbeidsforhold,
         arbeidIPeriode: arbeidsforhold.arbeidIPeriode
@@ -51,7 +58,10 @@ export const cleanupArbeidstidAnsatt = (
 export const cleanupArbeidstidFrilans = (
     frilans: FrilansFormData,
     søknadsperiode: DateRange
-): ArbeidsforholdFrilanser => {
+): ArbeidsforholdFrilanserFormData | undefined => {
+    if (frilans.arbeidsforhold === undefined) {
+        return undefined;
+    }
     const periodeSomFrilanser = getPeriodeSomFrilanserInnenforPeriode(søknadsperiode, frilans);
     return {
         ...frilans.arbeidsforhold,
@@ -65,8 +75,11 @@ export const cleanupArbeidstidFrilans = (
 export const cleanupArbeidstidSelvstendigNæringdrivende = (
     søknadsperiode: DateRange,
     selvstendig_virksomhet?: Virksomhet | undefined,
-    selvstendig_arbeidsforhold?: ArbeidsforholdSelvstendig
-): ArbeidsforholdSelvstendig => {
+    selvstendig_arbeidsforhold?: ArbeidsforholdSelvstendigFormData
+): ArbeidsforholdSelvstendigFormData | undefined => {
+    if (!selvstendig_arbeidsforhold) {
+        return undefined;
+    }
     const periodeSomSelvstendigNæringsdrivende = getPeriodeSomSelvstendigInnenforPeriode(
         søknadsperiode,
         selvstendig_virksomhet

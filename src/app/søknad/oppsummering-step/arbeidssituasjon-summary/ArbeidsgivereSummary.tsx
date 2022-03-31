@@ -4,6 +4,7 @@ import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/S
 import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { ArbeidsgiverApiData } from '../../../types/SøknadApiData';
+import NormalarbeidstidSummary from './NormalarbeidstidSummary';
 
 interface Props {
     arbeidsgivere?: ArbeidsgiverApiData[];
@@ -53,15 +54,27 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, s
                             {arbeidsgiver.arbeidsforhold && (
                                 <>
                                     <li>
+                                        <NormalarbeidstidSummary
+                                            erAnsatt={erAnsatt}
+                                            normalarbeidstidApiData={arbeidsgiver.arbeidsforhold.normalarbeidstid}
+                                        />
+                                    </li>
+                                    {/* 
+                                    TODO
+                                    <li>
                                         <FormattedMessage
                                             id={
                                                 erAnsatt
                                                     ? `oppsummering.arbeidssituasjon.tid`
                                                     : `oppsummering.arbeidssituasjon.avsluttet.tid`
                                             }
-                                            values={{ timer: arbeidsgiver.arbeidsforhold.jobberNormaltTimer }}
+                                            values={{
+                                                timer: arbeidsgiver.arbeidsforhold.arbeidstimerNormalt
+                                                    .timerISnittPerUke,
+                                            }}
                                         />
-                                    </li>
+                                    </li> */}
+
                                     <li>
                                         <FormattedMessage
                                             id={

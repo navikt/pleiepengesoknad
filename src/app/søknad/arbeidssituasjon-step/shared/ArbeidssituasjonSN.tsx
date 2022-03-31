@@ -12,10 +12,10 @@ import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types'
 import VirksomhetInfoAndDialog from '@navikt/sif-common-forms/lib/virksomhet/VirksomhetInfoAndDialog';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
-import { ArbeidsforholdFormField } from '../../../types/Arbeidsforhold';
+import { ArbeidsforholdFormField } from '../../../types/ArbeidsforholdFormData';
 import { SelvstendigFormData, SelvstendigFormField } from '../../../types/SelvstendigFormData';
-import InfoJobberNormaltTimerSN from './info/InfoJobberNormaltTimerSN';
-import { getJobberNormaltTimerValidator } from './validation/jobberNormaltTimerValidator';
+import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
 
 const ArbSNFormComponents = getTypedFormComponents<SelvstendigFormField, SelvstendigFormData, ValidationError>();
 
@@ -28,11 +28,6 @@ const ArbeidssituasjonSN = ({ formValues, urlSkatteetatenSN }: Props) => {
     const intl = useIntl();
     const { harHattInntektSomSN, virksomhet, harFlereVirksomheter, arbeidsforhold } = formValues;
     const søkerHarFlereVirksomheter = harFlereVirksomheter === YesOrNo.YES;
-    const intlValues = {
-        hvor: intlHelper(intl, 'arbeidsforhold.part.som.SELVSTENDIG'),
-        jobber: intlHelper(intl, 'arbeidsforhold.part.jobber'),
-    };
-
     const getArbeidsforholdFieldName = (fieldName: ArbeidsforholdFormField) =>
         `${SelvstendigFormField.arbeidsforhold}.${fieldName}` as any;
 
@@ -96,21 +91,17 @@ const ArbeidssituasjonSN = ({ formValues, urlSkatteetatenSN }: Props) => {
                             <FormBlock>
                                 <ArbSNFormComponents.YesOrNoQuestion
                                     name={getArbeidsforholdFieldName(ArbeidsforholdFormField.harFraværIPeriode)}
-                                    legend={intlHelper(intl, 'sn.harFraværIPerioden.spm')}
+                                    legend={intlHelper(intl, 'selvstendig.harFraværIPerioden.spm')}
                                     validate={getYesOrNoValidator()}
                                 />
-                                <FormBlock>
-                                    <ArbSNFormComponents.NumberInput
-                                        label={intlHelper(intl, `sn.arbeidsforhold.spm`)}
-                                        name={getArbeidsforholdFieldName(ArbeidsforholdFormField.jobberNormaltTimer)}
-                                        suffix={intlHelper(intl, `arbeidsforhold.timer.suffix`)}
-                                        suffixStyle="text"
-                                        description={<InfoJobberNormaltTimerSN />}
-                                        bredde="XS"
-                                        validate={getJobberNormaltTimerValidator(intlValues)}
-                                        value={arbeidsforhold ? arbeidsforhold.jobberNormaltTimer || '' : ''}
+                                {arbeidsforhold && (
+                                    <NormalarbeidstidSpørsmål
+                                        arbeidsforholdFieldName={SelvstendigFormField.arbeidsforhold}
+                                        arbeidsforhold={arbeidsforhold}
+                                        arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
+                                        jobberFortsatt={true}
                                     />
-                                </FormBlock>
+                                )}
                             </FormBlock>
                         )}
                     </ResponsivePanel>

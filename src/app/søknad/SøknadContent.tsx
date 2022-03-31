@@ -10,24 +10,26 @@ import RouteConfig from '../config/routeConfig';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
+import { KvitteringInfo } from '../types/KvitteringInfo';
 import { Søkerdata } from '../types/Søkerdata';
 import { SøknadApiData } from '../types/SøknadApiData';
 import { SøknadFormData } from '../types/SøknadFormData';
+import { getSøknadsdataFromFormValues } from '../utils/formValuesToSøknadsdata/getSøknadsdataFromFormValues';
 import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
 import { getKvitteringInfoFromApiData } from '../utils/kvitteringUtils';
 import { navigateTo, navigateToErrorPage, relocateToLoginPage } from '../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../utils/routeUtils';
-import ArbeidstidStep from './arbeidstid-step/ArbeidstidStep';
 import ArbeidssituasjonStep from './arbeidssituasjon-step/ArbeidssituasjonStep';
+import ArbeidstidStep from './arbeidstid-step/ArbeidstidStep';
 import LegeerklæringStep from './legeerklæring-step/LegeerklæringStep';
 import MedlemsskapStep from './medlemskap-step/MedlemsskapStep';
 import NattevåkOgBeredskapStep from './nattevåk-og-beredskap-step/NattevåkOgBeredskapStep';
 import OmsorgstilbudStep from './omsorgstilbud-step/OmsorgstilbudStep';
 import OpplysningerOmBarnetStep from './opplysninger-om-barnet-step/OpplysningerOmBarnetStep';
 import OppsummeringStep from './oppsummering-step/OppsummeringStep';
+import { useSøknadsdataContext } from './SøknadsdataContext';
 import { StepID } from './søknadStepsConfig';
 import TidsromStep from './tidsrom-step/TidsromStep';
-import { KvitteringInfo } from '../types/KvitteringInfo';
 
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
@@ -41,6 +43,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
     const { values, resetForm } = useFormikContext<SøknadFormData>();
     const history = useHistory();
     const { logHendelse, logUserLoggedOut, logSoknadStartet } = useAmplitudeInstance();
+    const { setSøknadsdata } = useSøknadsdataContext();
 
     const sendUserToStep = useCallback(
         async (route: string) => {
@@ -127,7 +130,12 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                     path={getSøknadRoute(StepID.ARBEIDSSITUASJON)}
                     render={() => (
                         <ArbeidssituasjonStep
-                            onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEIDSSITUASJON)}
+                            onValidSubmit={() => {
+                                setTimeout(() => {
+                                    setSøknadsdata(getSøknadsdataFromFormValues(values));
+                                    navigateToNextStepFrom(StepID.ARBEIDSSITUASJON);
+                                });
+                            }}
                             søknadsdato={søknadsdato}
                             søknadsperiode={søknadsperiode}
                         />
@@ -141,7 +149,12 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                     render={() => (
                         <ArbeidstidStep
                             periode={søknadsperiode}
-                            onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEIDSTID)}
+                            onValidSubmit={() => {
+                                setTimeout(() => {
+                                    setSøknadsdata(getSøknadsdataFromFormValues(values));
+                                    navigateToNextStepFrom(StepID.ARBEIDSTID);
+                                });
+                            }}
                         />
                     )}
                 />

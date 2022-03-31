@@ -7,7 +7,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { SøknadApiData } from '../../../types/SøknadApiData';
 import ArbeidsgivereSummary from './ArbeidsgivereSummary';
 import ArbeidssituasjonFrilansSummary from './ArbeidssituasjonFrilansSummary';
-import ArbeidssituasjonSNSummary from './ArbeidssituasjonSNSummary';
+import ArbeidssituasjonSelvstendigSummary from './ArbeidssituasjonSelvstendigSummary';
 import { Arbeidsgiver } from '../../../types';
 
 interface Props {
@@ -17,7 +17,7 @@ interface Props {
 }
 
 const ArbeidssituasjonSummary: React.FunctionComponent<Props> = ({
-    apiValues: { arbeidsgivere, frilans, _frilans, selvstendigNæringsdrivende, harVærtEllerErVernepliktig },
+    apiValues: { arbeidsgivere, frilans, selvstendigNæringsdrivende, harVærtEllerErVernepliktig },
     søknadsperiode,
     frilansoppdrag,
 }) => {
@@ -27,9 +27,9 @@ const ArbeidssituasjonSummary: React.FunctionComponent<Props> = ({
         <SummarySection header={intlHelper(intl, 'steg.oppsummering.arbeidssituasjon.header')}>
             <ArbeidsgivereSummary arbeidsgivere={arbeidsgivere} søknadsperiode={søknadsperiode} />
 
-            <ArbeidssituasjonFrilansSummary frilans={frilans || _frilans} frilansoppdrag={frilansoppdrag} />
+            <ArbeidssituasjonFrilansSummary frilans={frilans} frilansoppdrag={frilansoppdrag} />
 
-            <ArbeidssituasjonSNSummary selvstendigNæringsdrivende={selvstendigNæringsdrivende} />
+            <ArbeidssituasjonSelvstendigSummary selvstendig={selvstendigNæringsdrivende} />
 
             {/* Vernepliktig */}
             {harVærtEllerErVernepliktig !== undefined && (

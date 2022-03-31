@@ -1,14 +1,15 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { visVernepliktSpørsmål } from '../visVernepliktSpørsmål';
 import { ArbeidsgiverType } from '../../../../types/Arbeidsgiver';
-import { Arbeidsforhold } from '../../../../types/Arbeidsforhold';
+import { ArbeidsforholdFormData } from '../../../../types/ArbeidsforholdFormData';
 
-const defaultAnsattArbeidsforhold: Arbeidsforhold = {
+const defaultAnsattArbeidsforhold: ArbeidsforholdFormData = {
     arbeidsgiver: {
         id: '123',
         navn: 'abc',
         type: ArbeidsgiverType.ORGANISASJON,
     },
+    normalarbeidstid: { erLiktHverUke: YesOrNo.YES },
 };
 
 describe('visVernepliktSpørsmål', () => {

@@ -1,32 +1,49 @@
-import { ArbeidsgiverType } from './Arbeidsgiver';
 import { ApiStringDate } from '@navikt/sif-common-core/lib/types/ApiStringDate';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { ISODate, ISODuration } from '@navikt/sif-common-utils';
-import { AndreYtelserFraNAV, BarnRelasjon, JobberIPeriodeSvar, ÅrsakManglerIdentitetsnummer } from './';
+import { AndreYtelserFraNAV, BarnRelasjon, ÅrsakManglerIdentitetsnummer } from './';
+import { ArbeidsgiverType } from './Arbeidsgiver';
 
 export interface PeriodeApiData {
     fraOgMed: ApiStringDate;
     tilOgMed: ApiStringDate;
 }
 
-export interface TidFasteDagerApiData {
+export interface TimerFasteDagerApiData {
     mandag?: ISODuration;
     tirsdag?: ISODuration;
     onsdag?: ISODuration;
     torsdag?: ISODuration;
     fredag?: ISODuration;
 }
+// export interface ArbeidstimerFasteDagerApiData {
+//     mandag?: ArbeidstimerApiData;
+//     tirsdag?: ArbeidstimerApiData;
+//     onsdag?: ArbeidstimerApiData;
+//     torsdag?: ArbeidstimerApiData;
+//     fredag?: ArbeidstimerApiData;
+// }
 export interface TidEnkeltdagApiData {
     dato: ISODate;
     tid: ISODuration;
 }
 
+export interface ArbeidstidEnkeltdagApiData {
+    dato: ISODate;
+    arbeidstimer: ArbeidstimerApiData;
+}
+
+export interface ArbeidstimerApiData {
+    normalTimer: ISODuration;
+    faktiskTimer: ISODuration;
+}
+
 export interface OmsorgstilbudApiData {
     erLiktHverUke: boolean;
     enkeltdager?: TidEnkeltdagApiData[];
-    ukedager?: TidFasteDagerApiData;
+    ukedager?: TimerFasteDagerApiData;
 }
 
 export interface BarnetSøknadenGjelderApiData {
@@ -38,20 +55,65 @@ export interface BarnetSøknadenGjelderApiData {
     årsakManglerIdentitetsnummer?: ÅrsakManglerIdentitetsnummer;
 }
 
-export interface ArbeidIPeriodeApiData {
-    jobberIPerioden: JobberIPeriodeSvar;
-    erLiktHverUke?: boolean;
-    enkeltdager?: TidEnkeltdagApiData[];
-    fasteDager?: TidFasteDagerApiData;
-    jobberProsent?: number;
+export interface ArbeidIPeriodeApiDataJobberIkke {
+    type: 'jobberIkkeIPerioden';
+    jobberIPerioden: 'NEI';
 }
+export interface ArbeidIPeriodeApiDataFasteDager {
+    type: 'jobberFasteDager';
+    jobberIPerioden: 'JA';
+    erLiktHverUke: true;
+    fasteDager: TimerFasteDagerApiData;
+}
+
+export interface ArbeidIPeriodeApiDataProsent {
+    type: 'jobberProsent';
+    jobberIPerioden: 'JA';
+    erLiktHverUke: true;
+    jobberProsent: number;
+    fasteDager: TimerFasteDagerApiData;
+}
+
+export interface ArbeidIPeriodeApiDataTimerPerUke {
+    type: 'jobberTimerPerUke';
+    jobberIPerioden: 'JA';
+    erLiktHverUke: true;
+    jobberTimer: number;
+    fasteDager: TimerFasteDagerApiData;
+}
+
+export interface ArbeidIPeriodeApiDataVariert {
+    type: 'jobberVariert';
+    jobberIPerioden: 'JA';
+    erLiktHverUke: false;
+    enkeltdager: ArbeidstidEnkeltdagApiData[];
+}
+
+export type ArbeidIPeriodeApiData =
+    | ArbeidIPeriodeApiDataJobberIkke
+    | ArbeidIPeriodeApiDataFasteDager
+    | ArbeidIPeriodeApiDataProsent
+    | ArbeidIPeriodeApiDataTimerPerUke
+    | ArbeidIPeriodeApiDataVariert;
+
+type NormalarbeidstidPerUkeApiData = {
+    erLiktHverUke: false;
+    timerPerUke: number;
+    timerFasteDager: TimerFasteDagerApiData;
+};
+type NormalarbeidstidFasteDagerApiData = {
+    erLiktHverUke: true;
+    timerPerUke: number;
+    timerFasteDager: TimerFasteDagerApiData;
+};
+
+export type NormalarbeidstidApiData = NormalarbeidstidPerUkeApiData | NormalarbeidstidFasteDagerApiData;
 
 export interface ArbeidsforholdApiData {
-    jobberNormaltTimer: number;
     harFraværIPeriode: boolean;
+    normalarbeidstid: NormalarbeidstidApiData;
     arbeidIPeriode?: ArbeidIPeriodeApiData;
 }
-
 export interface ArbeidsgiverApiData {
     type: ArbeidsgiverType;
     navn: string;
@@ -64,17 +126,37 @@ export interface ArbeidsgiverApiData {
     arbeidsforhold?: ArbeidsforholdApiData;
 }
 
-export interface FrilansApiData {
+export interface FrilansApiDataIngenInntekt {
+    harInntektSomFrilanser: false;
+}
+export interface FrilansApiDataSluttetFørSøknadsperiode {
+    harInntektSomFrilanser: false;
+    startdato: ApiStringDate;
+    jobberFortsattSomFrilans: false;
+    sluttdato?: ApiStringDate;
+}
+export interface FrilansApiDataHarInntekt {
+    harInntektSomFrilanser: true;
     startdato: ApiStringDate;
     jobberFortsattSomFrilans: boolean;
     sluttdato?: ApiStringDate;
-    arbeidsforhold?: ArbeidsforholdApiData;
+    arbeidsforhold: ArbeidsforholdApiData;
 }
+export type FrilansApiData =
+    | FrilansApiDataIngenInntekt
+    | FrilansApiDataSluttetFørSøknadsperiode
+    | FrilansApiDataHarInntekt;
 
-export interface SelvstendigNæringsdrivendeApiData {
+export interface SelvstendigApiDataIngenInntekt {
+    harInntektSomSelvstendig: false;
+}
+export interface SelvstendigApiDataHarInntekt {
+    harInntektSomSelvstendig: true;
     virksomhet: VirksomhetApiData;
     arbeidsforhold: ArbeidsforholdApiData;
 }
+
+export type SelvstendigApiData = SelvstendigApiDataHarInntekt | SelvstendigApiDataIngenInntekt;
 
 interface MedlemskapApiData {
     harBoddIUtlandetSiste12Mnd: boolean;
@@ -138,18 +220,11 @@ export interface SøknadApiData {
         beredskap: boolean;
         tilleggsinformasjon?: string;
     };
-    arbeidsgivere?: ArbeidsgiverApiData[];
-    frilans?: FrilansApiData;
-    selvstendigNæringsdrivende?: SelvstendigNæringsdrivendeApiData;
+    arbeidsgivere: ArbeidsgiverApiData[];
+    frilans: FrilansApiData;
+    selvstendigNæringsdrivende: SelvstendigApiData;
     harVærtEllerErVernepliktig?: boolean;
     andreYtelserFraNAV?: AndreYtelserFraNAV[];
     /** Alle felter med _ brukes ikke i mottak, kun for å vise i oppsummering */
     _barnetHarIkkeFnr?: boolean;
-    _harHattInntektSomFrilanser: boolean;
-    _harHattInntektSomSelvstendigNæringsdrivende: boolean;
-    _frilans?: {
-        startdato: ApiStringDate;
-        jobberFortsattSomFrilans: boolean;
-        sluttdato?: ApiStringDate;
-    };
 }

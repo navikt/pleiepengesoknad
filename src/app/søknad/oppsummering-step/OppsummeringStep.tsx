@@ -46,6 +46,7 @@ import {
     renderUtenlandsoppholdSummary,
 } from './summaryItemRenderers';
 import './oppsummeringStep.less';
+import { useSøknadsdataContext } from '../SøknadsdataContext';
 
 interface Props {
     values: SøknadFormData;
@@ -58,6 +59,8 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
     const [soknadSent, setSoknadSent] = useState<boolean>(false);
     const intl = useIntl();
     const history = useHistory();
+
+    const { søknadsdata } = useSøknadsdataContext();
 
     const søknadStepConfig = getSøknadStepConfig(values);
 
@@ -94,12 +97,15 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                 if (søkerdata === undefined) {
                     return <div>Det oppstod en feil - informasjon om søker mangler</div>;
                 }
+                if (søknadsdata === undefined) {
+                    return <div>Det oppstod en feil - søknadsdata mangler</div>;
+                }
                 const {
                     søker: { fornavn, mellomnavn, etternavn, fødselsnummer },
                     barn,
                 } = søkerdata;
 
-                const apiValues = mapFormDataToApiData(values, søkerdata, barn, intl.locale as Locale);
+                const apiValues = mapFormDataToApiData(values, barn, søknadsdata, intl.locale as Locale);
                 if (apiValues === undefined) {
                     return <div>Det oppstod en feil - api-data mangler</div>;
                 }

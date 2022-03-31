@@ -4,7 +4,7 @@ import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils';
 import { AndreYtelserFraNAV, BarnRelasjon, ÅrsakManglerIdentitetsnummer } from './';
-import { Arbeidsforhold } from './Arbeidsforhold';
+import { ArbeidsforholdFormData } from './ArbeidsforholdFormData';
 import { Arbeidsgiver } from './Arbeidsgiver';
 import { FrilansFormData } from './FrilansFormData';
 import { SelvstendigFormData } from './SelvstendigFormData';
@@ -55,7 +55,7 @@ export enum SøknadFormField {
     frilansoppdrag = 'frilansoppdrag',
 }
 
-export interface Omsorgstilbud {
+export interface OmsorgstilbudFormData {
     erIOmsorgstilbud?: YesOrNo;
     erLiktHverUke?: YesOrNo;
     fasteDager?: DurationWeekdays;
@@ -89,7 +89,7 @@ export interface SøknadFormData {
     [SøknadFormField.ferieuttakIPerioden]?: Ferieuttak[];
     [SøknadFormField.harMedsøker]: YesOrNo;
     [SøknadFormField.samtidigHjemme]: YesOrNo;
-    [SøknadFormField.omsorgstilbud]?: Omsorgstilbud;
+    [SøknadFormField.omsorgstilbud]?: OmsorgstilbudFormData;
     [SøknadFormField.harNattevåk]: YesOrNo;
     [SøknadFormField.harNattevåk_ekstrainfo]?: string;
     [SøknadFormField.harBeredskap]: YesOrNo;
@@ -100,7 +100,7 @@ export interface SøknadFormData {
     [SøknadFormField.frilans]: FrilansFormData;
     [SøknadFormField.selvstendig]: SelvstendigFormData;
     [SøknadFormField.frilansoppdrag]: Arbeidsgiver[];
-    [SøknadFormField.ansatt_arbeidsforhold]: Arbeidsforhold[];
+    [SøknadFormField.ansatt_arbeidsforhold]: ArbeidsforholdFormData[];
 }
 
 export const initialValues: SøknadFormData = {

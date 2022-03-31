@@ -1,14 +1,14 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { OmsorgstilbudApiData, SøknadApiData } from '../../types/SøknadApiData';
-import { Omsorgstilbud } from '../../types/SøknadFormData';
+import { OmsorgstilbudFormData } from '../../types/SøknadFormData';
 import appSentryLogger from '../appSentryLogger';
 import { getEnkeltdagerIPeriodeApiData, getFasteDagerApiData } from './tidsbrukApiUtils';
 
 type OmsorgstilbudApiDataPart = Pick<SøknadApiData, 'omsorgstilbud'>;
 
 export const mapOmsorgstilbudToApiData = (
-    omsorgstilbud: Omsorgstilbud | undefined,
+    omsorgstilbud: OmsorgstilbudFormData | undefined,
     søknadsperiode: DateRange
 ): OmsorgstilbudApiData | undefined => {
     if (!omsorgstilbud || omsorgstilbud.erIOmsorgstilbud !== YesOrNo.YES) {
@@ -38,7 +38,7 @@ export const mapOmsorgstilbudToApiData = (
 };
 
 export const getOmsorgstilbudApiData = (
-    omsorgstilbud: Omsorgstilbud | undefined,
+    omsorgstilbud: OmsorgstilbudFormData | undefined,
     søknadsperiode: DateRange
 ): OmsorgstilbudApiDataPart => {
     return {

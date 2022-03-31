@@ -10,20 +10,20 @@ import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
 import { ISODateToDate } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
 import Lenke from 'nav-frontend-lenker';
 import { Ingress } from 'nav-frontend-typografi';
 import ConditionalResponsivePanel from '../../../components/conditional-responsive-panel/ConditionalResponsivePanel';
 import { Arbeidsgiver } from '../../../types';
-import { ArbeidsforholdFormField } from '../../../types/Arbeidsforhold';
+import { ArbeidsforholdFormField } from '../../../types/ArbeidsforholdFormData';
 import { FrilansFormData, FrilansFormField } from '../../../types/FrilansFormData';
 import { erFrilanserISøknadsperiode, harFrilansoppdrag } from '../../../utils/frilanserUtils';
 import FrilansoppdragInfo from './info/FrilansoppdragInfo';
-import InfoJobberNormaltTimerFrilanser from './info/InfoJobberNormaltTimerFrilanser';
+import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
 import { getFrilanserSluttdatoValidator } from './validation/frilansSluttdatoValidator';
 import { getFrilanserStartdatoValidator } from './validation/frilansStartdatoValidator';
-import { getJobberNormaltTimerValidator } from './validation/jobberNormaltTimerValidator';
 
 const ArbFriFormComponents = getTypedFormComponents<FrilansFormField, FrilansFormData, ValidationError>();
 
@@ -66,11 +66,6 @@ const ArbeidssituasjonFrilans = ({
 
     const getArbeidsforholdFieldName = (fieldName: ArbeidsforholdFormField) =>
         `${FrilansFormField.arbeidsforhold}.${fieldName}` as any;
-
-    const intlValues = {
-        hvor: intlHelper(intl, 'arbeidsforhold.part.som.FRILANSER'),
-        jobber: intlHelper(intl, 'arbeidsforhold.part.jobber'),
-    };
 
     return (
         <>
@@ -147,23 +142,14 @@ const ArbeidssituasjonFrilans = ({
                                         validate={getYesOrNoValidator()}
                                     />
                                 </FormBlock>
-                                <FormBlock>
-                                    <ArbFriFormComponents.NumberInput
-                                        label={intlHelper(
-                                            intl,
-                                            jobberFortsattSomFrilans === YesOrNo.NO
-                                                ? 'frilanser.jobberNormaltTimer.avsluttet.spm'
-                                                : 'frilanser.jobberNormaltTimer.spm'
-                                        )}
-                                        name={getArbeidsforholdFieldName(ArbeidsforholdFormField.jobberNormaltTimer)}
-                                        suffix={intlHelper(intl, `arbeidsforhold.timer.suffix`)}
-                                        suffixStyle="text"
-                                        description={<InfoJobberNormaltTimerFrilanser />}
-                                        bredde="XS"
-                                        validate={getJobberNormaltTimerValidator(intlValues)}
-                                        value={arbeidsforhold ? arbeidsforhold.jobberNormaltTimer || '' : ''}
+                                {arbeidsforhold && (
+                                    <NormalarbeidstidSpørsmål
+                                        arbeidsforholdFieldName={FrilansFormField.arbeidsforhold}
+                                        arbeidsforhold={arbeidsforhold}
+                                        arbeidsforholdType={ArbeidsforholdType.FRILANSER}
+                                        jobberFortsatt={jobberFortsattSomFrilans === YesOrNo.YES}
                                     />
-                                </FormBlock>
+                                )}
                             </>
                         )}
                     </ConditionalResponsivePanel>

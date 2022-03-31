@@ -5,61 +5,57 @@ import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/S
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import VirksomhetSummary from '@navikt/sif-common-forms/lib/virksomhet/VirksomhetSummary';
 import { Element } from 'nav-frontend-typografi';
-import { SelvstendigNæringsdrivendeApiData } from '../../../types/SøknadApiData';
+import { SelvstendigApiData } from '../../../types/SøknadApiData';
+import NormalarbeidstidSummary from './NormalarbeidstidSummary';
 
 interface Props {
-    selvstendigNæringsdrivende?: SelvstendigNæringsdrivendeApiData;
+    selvstendig: SelvstendigApiData;
 }
 
-function ArbeidssituasjonSNSummary({ selvstendigNæringsdrivende }: Props) {
+function ArbeidssituasjonSelvstendigSummary({ selvstendig }: Props) {
     const intl = useIntl();
-    const { arbeidsforhold, virksomhet } = selvstendigNæringsdrivende || {};
     return (
         <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.selvstendig.header')} headerTag="h3">
-            {selvstendigNæringsdrivende === undefined && (
+            {selvstendig.harInntektSomSelvstendig === false && (
                 <ul>
                     <li>
                         <FormattedMessage id={'oppsummering.arbeidssituasjon.selvstendig.erIkkeSN'} tagName="p" />
                     </li>
                 </ul>
             )}
-            {virksomhet && arbeidsforhold && (
+            {selvstendig.harInntektSomSelvstendig && (
                 <>
                     <ul>
                         <li>
                             <FormattedMessage id="oppsummering.arbeidssituasjon.selvstendig.erSn" />
                         </li>
                         <li>
-                            {virksomhet.harFlereAktiveVirksomheter ? (
+                            {selvstendig.virksomhet.harFlereAktiveVirksomheter ? (
                                 <FormattedMessage id="oppsummering.arbeidssituasjon.selvstendig.flereVirksomheter" />
                             ) : (
                                 <FormattedMessage id="oppsummering.arbeidssituasjon.selvstendig.enVirksomhet" />
                             )}
                         </li>
-                        {arbeidsforhold.jobberNormaltTimer && (
-                            <>
-                                <li>
-                                    <FormattedMessage
-                                        id={`oppsummering.arbeidssituasjon.tid`}
-                                        values={{ timer: arbeidsforhold.jobberNormaltTimer }}
-                                    />
-                                </li>
-                                <li>
-                                    <FormattedMessage
-                                        id={
-                                            arbeidsforhold.harFraværIPeriode
-                                                ? `oppsummering.arbeidssituasjon.harFravær`
-                                                : 'oppsummering.arbeidssituasjon.harIkkeFravær'
-                                        }
-                                    />
-                                </li>
-                            </>
-                        )}
+                        <li>
+                            <NormalarbeidstidSummary
+                                normalarbeidstidApiData={selvstendig.arbeidsforhold.normalarbeidstid}
+                                erAnsatt={true}
+                            />
+                        </li>
+                        <li>
+                            <FormattedMessage
+                                id={
+                                    selvstendig.arbeidsforhold.harFraværIPeriode
+                                        ? `oppsummering.arbeidssituasjon.harFravær`
+                                        : 'oppsummering.arbeidssituasjon.harIkkeFravær'
+                                }
+                            />
+                        </li>
                     </ul>
                     <Element tag="h4">{intlHelper(intl, 'summary.virksomhet.virksomhetInfo.tittel')}</Element>
                     <Box margin="m">
                         <div style={{ paddingLeft: '1rem' }}>
-                            <VirksomhetSummary virksomhet={virksomhet} />
+                            <VirksomhetSummary virksomhet={selvstendig.virksomhet} />
                         </div>
                     </Box>
                 </>
@@ -68,4 +64,4 @@ function ArbeidssituasjonSNSummary({ selvstendigNæringsdrivende }: Props) {
     );
 }
 
-export default ArbeidssituasjonSNSummary;
+export default ArbeidssituasjonSelvstendigSummary;
