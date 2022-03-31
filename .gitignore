@@ -3,6 +3,7 @@
 /.idea
 /.vscode
 /node_modules
+/coverage
 /heroku/dist
 .DS_Store
 /e2e/node_modules/
