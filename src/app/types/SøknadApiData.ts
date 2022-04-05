@@ -157,7 +157,7 @@ export interface SelvstendigApiDataHarInntekt {
 
 export type SelvstendigApiData = SelvstendigApiDataHarInntekt | SelvstendigApiDataIngenInntekt;
 
-interface MedlemskapApiData {
+export interface MedlemskapApiData {
     harBoddIUtlandetSiste12Mnd: boolean;
     skalBoIUtlandetNeste12Mnd: boolean;
     utenlandsoppholdNeste12Mnd: BostedUtlandApiData[];

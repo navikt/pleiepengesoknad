@@ -26,6 +26,11 @@ const søknadsdato: Date = dayjs().startOf('day').toDate();
 const søknadsperiode = { from: søknadsdato, to: dayjs(søknadsdato).add(1, 'day').toDate() };
 const søknadsdata: Søknadsdata = {
     søknadsperiode,
+    medlemskap: {
+        type: 'harIkkeBoddSkalIkkeBo',
+        harBoddUtenforNorgeSiste12Mnd: false,
+        skalBoUtenforNorgeNeste12Mnd: false,
+    },
 };
 
 const barnsFødselsdato = new Date(2020, 0, 20);
@@ -50,7 +55,7 @@ const formDataMock: SøknadFormData = {
     [SøknadFormField.harNattevåk]: YesOrNo.UNANSWERED,
     [SøknadFormField.harBeredskap]: YesOrNo.UNANSWERED,
     [SøknadFormField.ansatt_arbeidsforhold]: [],
-    [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.YES,
+    [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo.NO,
     [SøknadFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo.NO,
     [SøknadFormField.utenlandsoppholdNeste12Mnd]: [],
     [SøknadFormField.utenlandsoppholdSiste12Mnd]: [],
@@ -91,14 +96,6 @@ describe('mapFormDataToApiData', () => {
 
     it("should set 'barnetsNavn' in api data correctly", () => {
         expect(resultingApiData.barn.navn).toEqual(formDataMock[SøknadFormField.barnetsNavn]);
-    });
-
-    it("should set 'medlemskap.skal_bo_i_utlandet_neste_12_mnd' in api data correctly", () => {
-        expect(resultingApiData.medlemskap.skalBoIUtlandetNeste12Mnd).toBe(false);
-    });
-
-    it("should set 'medlemskap.har_bodd_i_utlandet_siste_12_mnd' in api data correctly", () => {
-        expect(resultingApiData.medlemskap.harBoddIUtlandetSiste12Mnd).toBe(true);
     });
 
     it("should set 'fra_og_med' in api data correctly", () => {
