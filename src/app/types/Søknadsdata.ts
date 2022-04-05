@@ -1,5 +1,5 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { Virksomhet } from '@navikt/sif-common-forms/lib';
+import { Utenlandsopphold, Virksomhet } from '@navikt/sif-common-forms/lib';
 import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils/lib';
 import { Arbeidsgiver } from './Arbeidsgiver';
 
@@ -166,7 +166,41 @@ export type ArbeidIPeriodeSøknadsdata =
     | ArbeidProsentISøknadsperiodeFastTimerPerUkeSøknadsdata
     | ArbeidProsentISøknadsperiodeFastProsentSøknadsdata;
 
+export interface MedlemskapSøknadsdataIkkeHarBodIkkeSkalBo {
+    type: 'IkkeHarBodIkkeSkalBo';
+    harBoddUtenforNorgeSiste12Mnd: false;
+    skalBoUtenforNorgeNeste12Mnd: false;
+}
+export interface MedlemskapSøknadsdataHarBod {
+    type: 'HarBod';
+    harBoddUtenforNorgeSiste12Mnd: true;
+    utenlandsoppholdSiste12Mnd: Utenlandsopphold[];
+    skalBoUtenforNorgeNeste12Mnd: false;
+}
+
+export interface MedlemskapSøknadsdataSkalBo {
+    type: 'SkalBo';
+    harBoddUtenforNorgeSiste12Mnd: false;
+    skalBoUtenforNorgeNeste12Mnd: true;
+    utenlandsoppholdNeste12Mnd: Utenlandsopphold[];
+}
+
+export interface MedlemskapSøknadsdataHarBodSkalBo {
+    type: 'HarBodSkalBo';
+    harBoddUtenforNorgeSiste12Mnd: true;
+    utenlandsoppholdSiste12Mnd: Utenlandsopphold[];
+    skalBoUtenforNorgeNeste12Mnd: true;
+    utenlandsoppholdNeste12Mnd: Utenlandsopphold[];
+}
+
+export type MedlemskapSøknadsdata =
+    | MedlemskapSøknadsdataIkkeHarBodIkkeSkalBo
+    | MedlemskapSøknadsdataHarBod
+    | MedlemskapSøknadsdataSkalBo
+    | MedlemskapSøknadsdataHarBodSkalBo;
+
 export interface Søknadsdata {
     søknadsperiode?: DateRange;
     arbeid?: ArbeidSøknadsdata;
+    medlemskap?: MedlemskapSøknadsdata;
 }

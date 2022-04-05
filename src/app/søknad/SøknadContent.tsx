@@ -192,7 +192,10 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                     path={getSøknadRoute(StepID.MEDLEMSKAP)}
                     render={() => (
                         <MedlemsskapStep
-                            onValidSubmit={() => navigateToNextStepFrom(StepID.MEDLEMSKAP)}
+                            onValidSubmit={() => {
+                                setSøknadsdata(getSøknadsdataFromFormValues(values));
+                                navigateToNextStepFrom(StepID.MEDLEMSKAP);
+                            }}
                             søknadsdato={søknadsdato}
                         />
                     )}

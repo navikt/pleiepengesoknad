@@ -10,11 +10,12 @@ import { Feature, isFeatureEnabled } from '../featureToggleUtils';
 import { getValidSpråk } from '../sprakUtils';
 import { getArbeidsgivereApiDataFromSøknadsdata } from '../søknadsdataToApiData/getArbeidsgivereApiDataFromSøknadsdata';
 import { getFrilansApiDataFromSøknadsdata } from '../søknadsdataToApiData/getFrilansApiDataFromSøknadsdata';
+import { getMedlemskapApiDataFromSøknadsdata } from '../søknadsdataToApiData/getMedlemskapApiDataFromSøknadsdata';
 import { getSelvstendigApiDataFromSøknadsdata } from '../søknadsdataToApiData/getSelvstendigApiDataFromSøknadsdata';
 import { getAttachmentsApiData } from './getAttachmentsApiData';
 import { getBarnApiData } from './getBarnApiData';
 import { getFerieuttakIPeriodenApiData } from './getFerieuttakIPeriodenApiData';
-import { getMedlemsskapApiData } from './getMedlemsskapApiData';
+// import { getMedlemsskapApiData } from './getMedlemsskapApiData';
 import { getNattevåkOgBeredskapApiData } from './getNattevåkOgBeredskapApiData';
 import { getOmsorgstilbudApiData } from './getOmsorgstilbudApiData';
 import { getUtenlandsoppholdIPeriodenApiData } from './getUtenlandsoppholdIPeriodenApiData';
@@ -62,9 +63,10 @@ export const mapFormDataToApiData = (
                 },
                 ...getFerieuttakIPeriodenApiData(formData),
                 ...getBarnApiData(formData, barn),
-                ...getMedlemsskapApiData(formData, sprak),
                 ...getOmsorgstilbudApiData(omsorgstilbud, søknadsperiode),
                 ...getNattevåkOgBeredskapApiData(formData),
+                medlemskap: getMedlemskapApiDataFromSøknadsdata(sprak, søknadsdata.medlemskap),
+                // ...getMedlemsskapApiData(formData, sprak),
                 arbeidsgivere: getArbeidsgivereApiDataFromSøknadsdata(søknadsdata.arbeid?.arbeidsgivere),
                 frilans: getFrilansApiDataFromSøknadsdata(søknadsdata.arbeid?.frilans),
                 selvstendigNæringsdrivende: getSelvstendigApiDataFromSøknadsdata(
