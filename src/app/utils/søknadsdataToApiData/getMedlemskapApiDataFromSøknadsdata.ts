@@ -19,6 +19,7 @@ export const getMedlemskapApiDataFromSøknadsdata = (
     if (medlemskapSøknadsdata === undefined) {
         throw Error('medlemskapSøknadsdata undefined');
     }
+
     switch (medlemskapSøknadsdata?.type) {
         case 'harIkkeBoddSkalIkkeBo':
             return {

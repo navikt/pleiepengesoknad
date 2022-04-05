@@ -1,5 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
-import { SøknadFormData } from '../../types/SøknadFormData';
+import { MedlemskapFormData } from '../../types/SøknadFormData';
 import { MedlemskapSøknadsdata } from '../../types/Søknadsdata';
 
 export const extractMedlemskapSøknadsdata = ({
@@ -7,7 +7,7 @@ export const extractMedlemskapSøknadsdata = ({
     utenlandsoppholdSiste12Mnd,
     skalBoUtenforNorgeNeste12Mnd,
     utenlandsoppholdNeste12Mnd,
-}: SøknadFormData): MedlemskapSøknadsdata | undefined => {
+}: MedlemskapFormData): MedlemskapSøknadsdata | undefined => {
     if (harBoddUtenforNorgeSiste12Mnd === YesOrNo.NO && skalBoUtenforNorgeNeste12Mnd === YesOrNo.NO) {
         return {
             type: 'harIkkeBoddSkalIkkeBo',

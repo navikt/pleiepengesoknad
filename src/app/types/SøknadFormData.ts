@@ -139,3 +139,11 @@ export const initialValues: SøknadFormData = {
     },
     [SøknadFormField.frilansoppdrag]: [],
 };
+
+export type MedlemskapFormData = Pick<
+    SøknadFormData,
+    | SøknadFormField.harBoddUtenforNorgeSiste12Mnd
+    | SøknadFormField.utenlandsoppholdSiste12Mnd
+    | SøknadFormField.skalBoUtenforNorgeNeste12Mnd
+    | SøknadFormField.utenlandsoppholdNeste12Mnd
+>;
