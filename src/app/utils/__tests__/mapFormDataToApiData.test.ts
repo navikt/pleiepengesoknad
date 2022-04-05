@@ -98,14 +98,6 @@ describe('mapFormDataToApiData', () => {
         expect(resultingApiData.barn.navn).toEqual(formDataMock[SøknadFormField.barnetsNavn]);
     });
 
-    it("should set 'medlemskap.skal_bo_i_utlandet_neste_12_mnd' in api data correctly", () => {
-        expect(resultingApiData.medlemskap.skalBoIUtlandetNeste12Mnd).toBe(false);
-    });
-
-    it("should set 'medlemskap.har_bodd_i_utlandet_siste_12_mnd' in api data correctly", () => {
-        expect(resultingApiData.medlemskap.harBoddIUtlandetSiste12Mnd).toBe(false);
-    });
-
     it("should set 'fra_og_med' in api data correctly", () => {
         expect(resultingApiData.fraOgMed).toEqual(formDataMock.periodeFra);
     });
