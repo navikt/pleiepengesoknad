@@ -26,14 +26,14 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
     const intl = useIntl();
     const erAvsluttet = arbeidsforhold.erAnsatt === YesOrNo.NO;
 
-    const intlValues = {
-        hvor: intlHelper(intl, 'arbeidsforhold.part.som.ANSATT', { navn: arbeidsforhold.arbeidsgiver.navn }),
-        jobber: erAvsluttet
-            ? intlHelper(intl, 'arbeidsforhold.part.jobbet')
-            : intlHelper(intl, 'arbeidsforhold.part.jobber'),
-        periodeFra: prettifyDateFull(søknadsperiode.from),
-        periodeTil: prettifyDateFull(søknadsperiode.to),
-    };
+    // const intlValues = {
+    //     hvor: intlHelper(intl, 'arbeidsforhold.part.som.ANSATT', { navn: arbeidsforhold.arbeidsgiver.navn }),
+    //     jobber: erAvsluttet
+    //         ? intlHelper(intl, 'arbeidsforhold.part.jobbet')
+    //         : intlHelper(intl, 'arbeidsforhold.part.jobber'),
+    //     periodeFra: prettifyDateFull(søknadsperiode.from),
+    //     periodeTil: prettifyDateFull(søknadsperiode.to),
+    // };
 
     const getFieldName = (field: ArbeidsforholdFormField): ArbeidsforholdFormField =>
         `${parentFieldName}.${field}` as any;
@@ -98,16 +98,11 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                         )}
                         {((erAvsluttet && arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO) || !erAvsluttet) && (
                             <>
-                                <AnsattFormComponents.YesOrNoQuestion
-                                    name={getFieldName(ArbeidsforholdFormField.harFraværIPeriode)}
-                                    legend={intlHelper(intl, 'arbeidsforhold.harFraværIPerioden.spm', intlValues)}
-                                    validate={getYesOrNoValidator()}
-                                />
                                 <NormalarbeidstidSpørsmål
                                     arbeidsforhold={arbeidsforhold}
                                     arbeidsforholdType={ArbeidsforholdType.ANSATT}
                                     arbeidsstedNavn={arbeidsforhold.arbeidsgiver.navn}
-                                    jobberFortsatt={arbeidsforhold.erAnsatt === YesOrNo.YES}
+                                    erAktivtArbeidsforhold={arbeidsforhold.erAnsatt === YesOrNo.YES}
                                     arbeidsforholdFieldName={parentFieldName}
                                 />
                             </>

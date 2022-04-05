@@ -8,43 +8,49 @@ describe('extractNormalarbeidstid', () => {
     it('returnerer undefined dersom erLiktHverUke === undefined', () => {
         expect(
             extractNormalarbeidstid({
-                erLiktHverUke: undefined,
-                fasteDager: undefined,
+                erLikeMangeTimerHverUke: undefined,
+                timerFasteUkedager: undefined,
                 timerPerUke: undefined,
             })
         ).toBeUndefined();
     });
     it('returnerer undefined dersom erLiktHverUke === false && timerPerUke er ugyldig', () => {
         const result = extractNormalarbeidstid({
-            erLiktHverUke: YesOrNo.NO,
-            liktHverDag: YesOrNo.YES,
+            erLikeMangeTimerHverUke: YesOrNo.NO,
+            erFasteUkedager: YesOrNo.YES,
             timerPerUke: 'abc',
         });
         expect(result).toBeUndefined();
     });
 
-    it('returnerer faste dager og beregnet timerPerUke dersom erLiktHverUke === true og det ikke er likt hver dag', () => {
+    it('returnerer timerFasteUkedager dersom erLiktHverUke === true og jobberFasteUkedager === true', () => {
         const result = extractNormalarbeidstid({
-            erLiktHverUke: YesOrNo.YES,
-            liktHverDag: YesOrNo.NO,
-            fasteDager: { monday: { hours: '1', minutes: '30' } },
+            erLikeMangeTimerHverUke: YesOrNo.YES,
+            erFasteUkedager: YesOrNo.YES,
+            timerFasteUkedager: { monday: { hours: '1', minutes: '30' } },
         });
         expect(result).toBeDefined();
+        expect(result?.type).toEqual('likeUkerFasteDager');
         expect(result?.erLiktHverUke).toBeTruthy();
-        expect(result?.timerPerUke).toEqual(1.5);
-        expect(result?.fasteDager.monday?.hours).toEqual('1');
-        expect(result?.fasteDager.monday?.minutes).toEqual('30');
+        if (result?.type === 'likeUkerFasteDager') {
+            expect(result?.timerFasteUkedager.monday?.hours).toEqual('1');
+            expect(result?.timerFasteUkedager.monday?.minutes).toEqual('30');
+            expect((result as any).timerPerUke).toBeUndefined();
+        }
     });
-    it('returnerer timerPerUke og fordelt timer per fasteDager dersom erLiktHverUke === false og timerPerUke er satt', () => {
+    it('returnerer timerPerUke og dersom erLiktHverUke === false', () => {
         const result = extractNormalarbeidstid({
-            erLiktHverUke: YesOrNo.NO,
-            fasteDager: undefined,
+            erLikeMangeTimerHverUke: YesOrNo.NO,
+            erFasteUkedager: YesOrNo.NO,
+            timerFasteUkedager: {},
             timerPerUke: '30',
         });
         expect(result).toBeDefined();
+        expect(result?.type).toEqual('ulikeUker');
         expect(result?.erLiktHverUke).toBeFalsy();
-        expect(result?.timerPerUke).toEqual(30);
-        expect(result?.fasteDager.monday?.hours).toEqual('6');
-        expect(result?.fasteDager.monday?.minutes).toEqual('0');
+        if (result?.type === 'ulikeUker') {
+            expect(result?.timerPerUkeISnitt).toEqual(30);
+            expect((result as any).timerFasteUkedager).toBeUndefined();
+        }
     });
 });

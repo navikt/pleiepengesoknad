@@ -7,27 +7,25 @@ export enum ArbeidsforholdFormField {
     erAnsatt = 'erAnsatt',
     sluttetFørSøknadsperiode = 'sluttetFørSøknadsperiode',
     normalarbeidstid = 'normalarbeidstid',
-    erLiktHverUke = 'normalarbeidstid.erLiktHverUke',
-    jobberNormaltTimerLiktHverDag = 'normalarbeidstid.liktHverDag',
-    jobberNormaltTimerPerUke = 'normalarbeidstid.timerPerUke',
-    jobberNormaltTimerFasteDager = 'normalarbeidstid.fasteDager',
-    harFraværIPeriode = 'harFraværIPeriode',
+    normalarbeidstid_erLikeMangeTimerHverUke = 'normalarbeidstid.erLikeMangeTimerHverUke',
+    normalarbeidstid_erFasteUkedager = 'normalarbeidstid.erFasteUkedager',
+    normalarbeidstid_TimerPerUke = 'normalarbeidstid.timerPerUke',
+    normalarbeidstid_timerFasteUkedager = 'normalarbeidstid.timerFasteUkedager',
     arbeidIPeriode = 'arbeidIPeriode',
 }
 
 export type NormalarbeidstidFormData = {
-    erLiktHverUke?: YesOrNo;
-    liktHverDag?: YesOrNo;
+    erLikeMangeTimerHverUke?: YesOrNo;
+    erFasteUkedager?: YesOrNo;
     timerPerUke?: string;
-    fasteDager?: DurationWeekdays;
+    timerFasteUkedager?: DurationWeekdays;
 };
 
 export interface ArbeidsforholdFormData {
     arbeidsgiver: Arbeidsgiver;
-    normalarbeidstid?: NormalarbeidstidFormData;
-    harFraværIPeriode?: YesOrNo;
     erAnsatt?: YesOrNo;
     sluttetFørSøknadsperiode?: YesOrNo;
+    normalarbeidstid?: NormalarbeidstidFormData;
     arbeidIPeriode?: ArbeidIPeriodeFormData;
 }
 

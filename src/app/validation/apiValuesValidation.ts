@@ -23,44 +23,6 @@ export const isVirksomhetRegnskapsførerTelefonnummerValid = (virksomhet: Virkso
     return true;
 };
 
-// const isValidNormalarbeidstidPerUke = (timer: number | undefined): boolean => {
-//     return timer !== undefined && timer >= MIN_TIMER_NORMAL_ARBEIDSFORHOLD && timer <= MAX_TIMER_NORMAL_ARBEIDSFORHOLD;
-// };
-
-// export const isArbeidIPeriodeValid = (arbeidIPeriode: ArbeidIPeriodeApiData): boolean => {
-//     const { jobberIPerioden, erLiktHverUke, fasteDager, enkeltdager } = arbeidIPeriode;
-//     if (jobberIPerioden === 'NEI') {
-//         return true;
-//     }
-//     if (erLiktHverUke === true && fasteDager === undefined) {
-//         return false;
-//     }
-//     if (fasteDager === undefined && enkeltdager === undefined) {
-//         return false;
-//     }
-//     if (fasteDager !== undefined && enkeltdager !== undefined) {
-//         return false;
-//     }
-//     return true;
-// };
-
-// const isNormalarbeidstidValid = (arbeidstimerNormalt: NormalarbeidstidApiData): boolean => {
-//     if (arbeidstimerNormalt.erLiktHverUke === false) {
-//         return isValidNormalarbeidstidPerUke(arbeidstimerNormalt.timerPerUke);
-//     }
-//     return arbeidstimerNormalt.timerFasteDager !== undefined;
-// };
-
-// export const isArbeidIPeriodeApiValuesValid = (arbeidsforhold: ArbeidsforholdApiData): boolean => {
-//     if (arbeidsforhold.arbeidIPeriode === undefined) {
-//         return arbeidsforhold.harFraværIPeriode === false;
-//     }
-//     return isArbeidIPeriodeValid(arbeidsforhold.arbeidIPeriode);
-// };
-
-// export const isArbeidsforholdApiDataValid = (arbeidsforhold: ArbeidsforholdApiData) =>
-//     isNormalarbeidstidValid(arbeidsforhold.normalarbeidstid) && isArbeidIPeriodeApiValuesValid(arbeidsforhold);
-
 export const isOmsorgstilbudApiDataValid = (omsorgstilbud: OmsorgstilbudApiData): boolean => {
     if (omsorgstilbud) {
         const { enkeltdager, ukedager, erLiktHverUke } = omsorgstilbud;
@@ -100,77 +62,5 @@ export const validateApiValues = (values: SøknadApiData, intl: IntlShape): ApiV
         });
     }
 
-    // if (values.selvstendigNæringsdrivende.harInntektSomSelvstendig) {
-    //     const virksomhet = values.selvstendigNæringsdrivende.virksomhet;
-    //     if (isVirksomhetRegnskapsførerTelefonnummerValid(virksomhet) === false) {
-    //         errors.push({
-    //             skjemaelementId: 'virksomhet',
-    //             feilmelding: intlHelper(intl, 'steg.oppsummering.validering.ugyldigRegnskapsførerTelefonnummer'),
-    //             stepId: StepID.ARBEIDSSITUASJON,
-    //         });
-    //     }
-    // }
-
-    // if (values.arbeidsgivere && values.arbeidsgivere.length > 0) {
-    //     values.arbeidsgivere.forEach((arbeidsgiver) => {
-    //         if (!arbeidsgiver.navn || arbeidsgiver.navn === 'null') {
-    //             appSentryLogger.logError(
-    //                 'apiValuesValidation: Manglende navn på organisasjon',
-    //                 `${JSON.stringify(arbeidsgiver)}`
-    //             );
-    //             errors.push({
-    //                 skjemaelementId: 'arbeidsforholdAnsatt',
-    //                 feilmelding: intlHelper(intl, 'steg.oppsummering.validering.manglendeArbeidsgiverNavn', {
-    //                     hvor: `hos ${arbeidsgiver.organisasjonsnummer}`,
-    //                 }),
-    //                 stepId: StepID.ARBEIDSSITUASJON,
-    //             });
-    //         }
-    //         if (arbeidsgiver.arbeidsforhold) {
-    //             if (!arbeidsgiver.navn) {
-    //                 errors.push({
-    //                     skjemaelementId: 'arbeidsforholdAnsatt',
-    //                     feilmelding: intlHelper(intl, 'steg.oppsummering.validering.manglendeArbeidsgiverNavn', {
-    //                         hvor: `hos ${arbeidsgiver.organisasjonsnummer}`,
-    //                     }),
-    //                     stepId: StepID.ARBEIDSSITUASJON,
-    //                 });
-    //             }
-    //             const isValid = isArbeidsforholdApiDataValid(arbeidsgiver.arbeidsforhold);
-
-    //             if (!isValid) {
-    //                 errors.push({
-    //                     skjemaelementId: 'arbeidsforholdAnsatt',
-    //                     feilmelding: intlHelper(intl, 'steg.oppsummering.validering.ugyldigArbeidsforholdAnsatt', {
-    //                         hvor: `hos ${arbeidsgiver.navn}`,
-    //                     }),
-    //                     stepId: StepID.ARBEIDSSITUASJON,
-    //                 });
-    //             }
-    //         }
-    //     });
-    // }
-
-    // if (values.frilans.harInntektSomFrilanser) {
-    //     const isValid = isArbeidsforholdApiDataValid(values.frilans.arbeidsforhold);
-    //     if (!isValid) {
-    //         errors.push({
-    //             skjemaelementId: 'arbeidsforholdFrilans',
-    //             feilmelding: intlHelper(intl, 'steg.oppsummering.validering.ugyldigArbeidsforholdFrilans'),
-    //             stepId: StepID.ARBEIDSSITUASJON,
-    //         });
-    //     }
-    // }
-
-    // if (values.selvstendigNæringsdrivende.harInntektSomSelvstendig) {
-    //     const isValid = isArbeidsforholdApiDataValid(values.selvstendigNæringsdrivende.arbeidsforhold);
-    //     if (!isValid) {
-    //         errors.push({
-    //             skjemaelementId: 'arbeidsforholdSn',
-    //             feilmelding: intlHelper(intl, 'steg.oppsummering.validering.ugyldigArbeidsforholdSN'),
-    //             stepId: StepID.ARBEIDSSITUASJON,
-    //         });
-    //     }
-    // }
     return errors.length > 0 ? errors : undefined;
 };

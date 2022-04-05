@@ -17,7 +17,6 @@ import Lenke from 'nav-frontend-lenker';
 import { Ingress } from 'nav-frontend-typografi';
 import ConditionalResponsivePanel from '../../../components/conditional-responsive-panel/ConditionalResponsivePanel';
 import { Arbeidsgiver } from '../../../types';
-import { ArbeidsforholdFormField } from '../../../types/ArbeidsforholdFormData';
 import { FrilansFormData, FrilansFormField } from '../../../types/FrilansFormData';
 import { erFrilanserISøknadsperiode, harFrilansoppdrag } from '../../../utils/frilanserUtils';
 import FrilansoppdragInfo from './info/FrilansoppdragInfo';
@@ -43,7 +42,7 @@ const ArbeidssituasjonFrilans = ({
     frilansoppdrag,
     urlSkatteetaten,
 }: Props) => {
-    const { jobberFortsattSomFrilans, harHattInntektSomFrilanser, startdato, sluttdato, arbeidsforhold } = formValues;
+    const { erFortsattFrilanser, harHattInntektSomFrilanser, startdato, sluttdato, arbeidsforhold } = formValues;
     const intl = useIntl();
 
     const søkerHarFrilansoppdrag = harFrilansoppdrag(frilansoppdrag);
@@ -51,10 +50,10 @@ const ArbeidssituasjonFrilans = ({
     const harGyldigStartdato = startdato ? ISODateToDate(startdato) : undefined;
     const harGyldigSluttdato = sluttdato ? ISODateToDate(sluttdato) : undefined;
     const harBesvartSpørsmålOmFortsattFrilanser =
-        jobberFortsattSomFrilans === YesOrNo.YES || jobberFortsattSomFrilans === YesOrNo.NO;
+        erFortsattFrilanser === YesOrNo.YES || erFortsattFrilanser === YesOrNo.NO;
 
     const sluttetFørSøknadsperiode =
-        jobberFortsattSomFrilans === YesOrNo.NO &&
+        erFortsattFrilanser === YesOrNo.NO &&
         harGyldigSluttdato &&
         dayjs(sluttdato).isBefore(søknadsperiode.from, 'day');
 
@@ -63,9 +62,6 @@ const ArbeidssituasjonFrilans = ({
         harBesvartSpørsmålOmFortsattFrilanser &&
         sluttetFørSøknadsperiode === false &&
         erAktivFrilanserIPerioden;
-
-    const getArbeidsforholdFieldName = (fieldName: ArbeidsforholdFormField) =>
-        `${FrilansFormField.arbeidsforhold}.${fieldName}` as any;
 
     return (
         <>
@@ -111,12 +107,12 @@ const ArbeidssituasjonFrilans = ({
                         />
                         <FormBlock>
                             <ArbFriFormComponents.YesOrNoQuestion
-                                name={FrilansFormField.jobberFortsattSomFrilans}
-                                legend={intlHelper(intl, 'frilanser.jobberFortsatt.spm')}
+                                name={FrilansFormField.erFortsattFrilanser}
+                                legend={intlHelper(intl, 'frilanser.erFortsattFrilanser.spm')}
                                 validate={getYesOrNoValidator()}
                             />
                         </FormBlock>
-                        {jobberFortsattSomFrilans === YesOrNo.NO && (
+                        {erFortsattFrilanser === YesOrNo.NO && (
                             <FormBlock>
                                 <ArbFriFormComponents.DatePicker
                                     name={FrilansFormField.sluttdato}
@@ -134,23 +130,14 @@ const ArbeidssituasjonFrilans = ({
                             </FormBlock>
                         )}
                         {visSpørsmålOmArbeidsforhold && (
-                            <>
-                                <FormBlock>
-                                    <ArbFriFormComponents.YesOrNoQuestion
-                                        name={getArbeidsforholdFieldName(ArbeidsforholdFormField.harFraværIPeriode)}
-                                        legend={intlHelper(intl, 'frilanser.harFraværIPerioden.spm')}
-                                        validate={getYesOrNoValidator()}
-                                    />
-                                </FormBlock>
-                                {arbeidsforhold && (
-                                    <NormalarbeidstidSpørsmål
-                                        arbeidsforholdFieldName={FrilansFormField.arbeidsforhold}
-                                        arbeidsforhold={arbeidsforhold}
-                                        arbeidsforholdType={ArbeidsforholdType.FRILANSER}
-                                        jobberFortsatt={jobberFortsattSomFrilans === YesOrNo.YES}
-                                    />
-                                )}
-                            </>
+                            <FormBlock>
+                                <NormalarbeidstidSpørsmål
+                                    arbeidsforholdFieldName={FrilansFormField.arbeidsforhold}
+                                    arbeidsforhold={arbeidsforhold || {}}
+                                    arbeidsforholdType={ArbeidsforholdType.FRILANSER}
+                                    erAktivtArbeidsforhold={erFortsattFrilanser === YesOrNo.YES}
+                                />
+                            </FormBlock>
                         )}
                     </ConditionalResponsivePanel>
                 </Box>

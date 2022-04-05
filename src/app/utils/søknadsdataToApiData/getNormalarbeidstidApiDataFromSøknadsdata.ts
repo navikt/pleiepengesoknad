@@ -1,4 +1,3 @@
-import { durationToDecimalDuration, summarizeDurationInDurationWeekdays } from '@navikt/sif-common-utils/lib';
 import { NormalarbeidstidApiData } from '../../types/SøknadApiData';
 import { NormalarbeidstidSøknadsdata } from '../../types/Søknadsdata';
 import { durationWeekdaysToTimerFasteDagerApiData } from './arbeidToApiDataHelpers';
@@ -6,18 +5,15 @@ import { durationWeekdaysToTimerFasteDagerApiData } from './arbeidToApiDataHelpe
 export const getNormalarbeidstidApiDataFromSøknadsdata = (
     normalarbeidstid: NormalarbeidstidSøknadsdata
 ): NormalarbeidstidApiData => {
-    const timerFasteDager = durationWeekdaysToTimerFasteDagerApiData(normalarbeidstid.fasteDager);
-    if (normalarbeidstid.erLiktHverUke) {
-        const timerPerUke = durationToDecimalDuration(summarizeDurationInDurationWeekdays(normalarbeidstid.fasteDager));
+    if (normalarbeidstid.erLiktHverUke && normalarbeidstid.erFasteUkedager) {
+        const timerFasteDager = durationWeekdaysToTimerFasteDagerApiData(normalarbeidstid.timerFasteUkedager);
         return {
             erLiktHverUke: true,
-            timerPerUke,
             timerFasteDager,
         };
     }
     return {
         erLiktHverUke: false,
-        timerFasteDager,
-        timerPerUke: normalarbeidstid.timerPerUke,
+        timerPerUkeISnitt: normalarbeidstid.timerPerUkeISnitt,
     };
 };

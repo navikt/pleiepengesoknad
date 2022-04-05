@@ -1,99 +1,98 @@
 import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
-import {
-    durationToDecimalDuration,
-    DurationWeekdays,
-    getDurationsInDateRange,
-    summarizeDateDurationMap,
-} from '@navikt/sif-common-utils/lib';
+import { getDurationsInDateRange } from '@navikt/sif-common-utils/lib';
 import { TimerEllerProsent } from '../../types';
-import { ArbeidIPeriodeFormData } from '../../types/ArbeidIPeriodeFormData';
-import { ArbeidIPeriodeSøknadsdata, NormalarbeidstidSøknadsdata } from '../../types/Søknadsdata';
-import { getPercentageOfDurationWeekdays } from '../durationWeekdaysUtils';
-
-const getFasteDaterUtFraFasteDagerNormaltOgTimerPerUke = (
-    fasteDager: DurationWeekdays,
-    timerPerUke: number
-): DurationWeekdays => {
-    const timerPerUkeNormalt = durationToDecimalDuration(summarizeDateDurationMap(fasteDager));
-    const prosentAvNormalt = (timerPerUke / timerPerUkeNormalt) * 100;
-    return getPercentageOfDurationWeekdays(prosentAvNormalt, fasteDager);
-};
+import { ArbeidIPeriodeFormData, ArbeiderIPeriodenSvar } from '../../types/ArbeidIPeriodeFormData';
+import { ArbeidIPeriodeSøknadsdata, ArbeidIPeriodeType } from '../../types/Søknadsdata';
 
 export const extractArbeidIPeriodeSøknadsdata = (
     {
-        jobberIPerioden,
+        arbeiderIPerioden,
         enkeltdager,
         erLiktHverUke,
         fasteDager,
-        jobberProsent,
-        jobberTimer,
+        prosentAvNormalt,
+        timerPerUke,
         timerEllerProsent,
     }: ArbeidIPeriodeFormData,
-    normalarbeidstid: NormalarbeidstidSøknadsdata,
     søknadsperiode: DateRange
 ): ArbeidIPeriodeSøknadsdata | undefined => {
-    const arbeiderIPerioden: boolean = jobberIPerioden === YesOrNo.YES;
-    if (arbeiderIPerioden === false) {
+    if (arbeiderIPerioden === ArbeiderIPeriodenSvar.heltFravær) {
         return {
-            type: 'arbeiderIkkeIPerioden',
+            type: ArbeidIPeriodeType.arbeiderIkke,
             arbeiderIPerioden: false,
         };
     }
-    const arbeidstidErLikHverUke = erLiktHverUke === YesOrNo.YES;
-    if (arbeidstidErLikHverUke) {
-        const arbeiderProsent =
-            timerEllerProsent === TimerEllerProsent.PROSENT ? getNumberFromNumberInputValue(jobberProsent) : undefined;
-        const arbeiderTimer =
-            timerEllerProsent === TimerEllerProsent.TIMER ? getNumberFromNumberInputValue(jobberTimer) : undefined;
+    if (arbeiderIPerioden === ArbeiderIPeriodenSvar.somVanlig) {
+        return {
+            type: ArbeidIPeriodeType.arbeiderVanlig,
+            arbeiderIPerioden: true,
+            arbeiderRedusert: false,
+        };
+    }
 
+    const arbeiderProsent =
+        timerEllerProsent === TimerEllerProsent.PROSENT ? getNumberFromNumberInputValue(prosentAvNormalt) : undefined;
+    const snittTimerPerUke =
+        timerEllerProsent === TimerEllerProsent.TIMER ? getNumberFromNumberInputValue(timerPerUke) : undefined;
+
+    if (erLiktHverUke === YesOrNo.YES) {
         if (fasteDager === undefined && arbeiderProsent !== undefined) {
             return {
-                type: 'fastProsent',
-                arbeiderIPerioden,
-                erLiktHverUke: true,
-                jobberProsent: arbeiderProsent,
-                jobberTimerPerUke: (normalarbeidstid.timerPerUke / 100) * arbeiderProsent,
-                fasteDager: getPercentageOfDurationWeekdays(arbeiderProsent, normalarbeidstid.fasteDager),
+                type: ArbeidIPeriodeType.arbeiderProsentAvNormalt,
+                arbeiderIPerioden: true,
+                arbeiderRedusert: true,
+                prosentAvNormalt: arbeiderProsent,
             };
         }
-        if (fasteDager === undefined && arbeiderTimer !== undefined) {
+        if (fasteDager === undefined && snittTimerPerUke !== undefined) {
             return {
-                type: 'fastTimer',
-                arbeiderIPerioden,
-                erLiktHverUke: true,
-                jobberTimerPerUke: arbeiderTimer,
-                fasteDager: getFasteDaterUtFraFasteDagerNormaltOgTimerPerUke(
-                    normalarbeidstid.fasteDager,
-                    arbeiderTimer
-                ),
+                type: ArbeidIPeriodeType.arbeiderSnittTimerPerUke,
+                arbeiderIPerioden: true,
+                arbeiderRedusert: true,
+                snittTimerPerUke: snittTimerPerUke,
             };
         }
         if (fasteDager !== undefined && arbeiderProsent === undefined) {
             return {
-                type: 'fasteDager',
-                arbeiderIPerioden: arbeiderIPerioden,
-                erLiktHverUke: arbeidstidErLikHverUke,
+                type: ArbeidIPeriodeType.arbeiderFasteUkedager,
+                arbeiderIPerioden: true,
+                arbeiderRedusert: true,
                 fasteDager,
             };
         }
         if (fasteDager !== undefined && arbeiderProsent === undefined) {
             return {
-                type: 'fasteDager',
-                arbeiderIPerioden: arbeiderIPerioden,
-                erLiktHverUke: arbeidstidErLikHverUke,
+                type: ArbeidIPeriodeType.arbeiderFasteUkedager,
+                arbeiderIPerioden: true,
+                arbeiderRedusert: true,
                 fasteDager,
             };
         }
-        return undefined;
     } else {
         if (enkeltdager) {
             return {
-                type: 'variert',
-                arbeiderIPerioden: arbeiderIPerioden,
-                erLiktHverUke: false,
+                type: ArbeidIPeriodeType.arbeiderEnkeltdager,
+                arbeiderIPerioden: true,
+                arbeiderRedusert: true,
                 enkeltdager: getDurationsInDateRange(enkeltdager, søknadsperiode),
             };
         }
-        return undefined;
+        if (timerPerUke && snittTimerPerUke) {
+            return {
+                type: ArbeidIPeriodeType.arbeiderSnittTimerPerUke,
+                arbeiderIPerioden: true,
+                arbeiderRedusert: true,
+                snittTimerPerUke,
+            };
+        }
+        if (arbeiderProsent && prosentAvNormalt) {
+            return {
+                type: ArbeidIPeriodeType.arbeiderProsentAvNormalt,
+                arbeiderIPerioden: true,
+                arbeiderRedusert: true,
+                prosentAvNormalt: arbeiderProsent,
+            };
+        }
     }
+    return undefined;
 };

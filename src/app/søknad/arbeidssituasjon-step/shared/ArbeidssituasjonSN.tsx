@@ -10,12 +10,11 @@ import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
 import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import VirksomhetInfoAndDialog from '@navikt/sif-common-forms/lib/virksomhet/VirksomhetInfoAndDialog';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
-import { ArbeidsforholdFormField } from '../../../types/ArbeidsforholdFormData';
 import { SelvstendigFormData, SelvstendigFormField } from '../../../types/SelvstendigFormData';
 import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
 
 const ArbSNFormComponents = getTypedFormComponents<SelvstendigFormField, SelvstendigFormData, ValidationError>();
 
@@ -28,8 +27,6 @@ const ArbeidssituasjonSN = ({ formValues, urlSkatteetatenSN }: Props) => {
     const intl = useIntl();
     const { harHattInntektSomSN, virksomhet, harFlereVirksomheter, arbeidsforhold } = formValues;
     const søkerHarFlereVirksomheter = harFlereVirksomheter === YesOrNo.YES;
-    const getArbeidsforholdFieldName = (fieldName: ArbeidsforholdFormField) =>
-        `${SelvstendigFormField.arbeidsforhold}.${fieldName}` as any;
 
     return (
         <>
@@ -88,21 +85,12 @@ const ArbeidssituasjonSN = ({ formValues, urlSkatteetatenSN }: Props) => {
                             </FormBlock>
                         )}
                         {virksomhet !== undefined && (
-                            <FormBlock>
-                                <ArbSNFormComponents.YesOrNoQuestion
-                                    name={getArbeidsforholdFieldName(ArbeidsforholdFormField.harFraværIPeriode)}
-                                    legend={intlHelper(intl, 'selvstendig.harFraværIPerioden.spm')}
-                                    validate={getYesOrNoValidator()}
-                                />
-                                {arbeidsforhold && (
-                                    <NormalarbeidstidSpørsmål
-                                        arbeidsforholdFieldName={SelvstendigFormField.arbeidsforhold}
-                                        arbeidsforhold={arbeidsforhold}
-                                        arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
-                                        jobberFortsatt={true}
-                                    />
-                                )}
-                            </FormBlock>
+                            <NormalarbeidstidSpørsmål
+                                arbeidsforholdFieldName={SelvstendigFormField.arbeidsforhold}
+                                arbeidsforhold={arbeidsforhold || {}}
+                                arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
+                                erAktivtArbeidsforhold={true}
+                            />
                         )}
                     </ResponsivePanel>
                 </FormBlock>

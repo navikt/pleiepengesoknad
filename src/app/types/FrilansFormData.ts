@@ -6,13 +6,13 @@ export enum FrilansFormField {
     harHattInntektSomFrilanser = 'frilans.harHattInntektSomFrilanser',
     startdato = 'frilans.startdato',
     sluttdato = 'frilans.sluttdato',
-    jobberFortsattSomFrilans = 'frilans.jobberFortsattSomFrilans',
+    erFortsattFrilanser = 'frilans.erFortsattFrilanser',
     arbeidsforhold = 'frilans.arbeidsforhold',
 }
 
 export interface FrilansFormData {
     harHattInntektSomFrilanser?: YesOrNo;
-    jobberFortsattSomFrilans?: YesOrNo;
+    erFortsattFrilanser?: YesOrNo;
     startdato?: ISODate;
     sluttdato?: ISODate;
     arbeidsforhold?: ArbeidsforholdFrilanserFormData;

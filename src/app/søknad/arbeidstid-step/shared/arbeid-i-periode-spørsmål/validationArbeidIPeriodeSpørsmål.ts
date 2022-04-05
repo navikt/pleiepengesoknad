@@ -3,18 +3,15 @@ import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeVa
 import { IntlErrorObject } from '@navikt/sif-common-formik/lib/validation/types';
 import {
     ArbeidIPeriodeIntlValues,
-    formatTimerOgMinutter,
     getArbeidstidFastProsentValidator,
     getArbeidstimerFastDagValidator,
 } from '@navikt/sif-common-pleiepenger/lib';
 import {
-    decimalDurationToDuration,
     Duration,
     durationToDecimalDuration,
     DurationWeekdays,
     summarizeDurationInDurationWeekdays,
 } from '@navikt/sif-common-utils/lib';
-import { IntlShape } from 'react-intl';
 import { ArbeidIPeriodeFormData } from '../../../../types/ArbeidIPeriodeFormData';
 import { NormalarbeidstidSøknadsdata } from '../../../../types/Søknadsdata';
 
@@ -40,8 +37,8 @@ export const getNormaltidForUkedag = (fasteDager: DurationWeekdays, ukedag: Uked
 export const getArbeidIPeriodeFasteDagerDagValidator =
     (normalarbeidstid: NormalarbeidstidSøknadsdata, intlValues: ArbeidIPeriodeIntlValues) =>
     (dag: string, value: string) => {
-        if (normalarbeidstid.erLiktHverUke) {
-            const normaltidDag = getNormaltidForUkedag(normalarbeidstid.fasteDager, dag);
+        if (normalarbeidstid.erLiktHverUke && normalarbeidstid.erFasteUkedager) {
+            const normaltidDag = getNormaltidForUkedag(normalarbeidstid.timerFasteUkedager, dag);
             if (normaltidDag) {
                 const error = getTimeValidator({
                     max: { hours: 24, minutes: 0 },
@@ -86,7 +83,7 @@ export const getFasteArbeidstimerPerUkeValidator =
         return undefined;
     };
 
-export const getArbeidIPeriodeJobberProsentValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: string) => {
+export const getArbeidIPeriodeProsentAvNormaltValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: string) => {
     const min = 1;
     const max = 99;
     const error = getArbeidstidFastProsentValidator({ min, max })(value);
@@ -99,22 +96,22 @@ export const getArbeidIPeriodeJobberProsentValidator = (intlValues: ArbeidIPerio
         : undefined;
 };
 
-export const getArbeidIPeriodeJobberTimerValidator =
-    (intl: IntlShape, intlValues: ArbeidIPeriodeIntlValues, timerNormalt: number) => (value: string) => {
-        const min = 1;
-        const error = getArbeidstidFastProsentValidator({ min, max: timerNormalt })(value);
-        return error
-            ? {
-                  key: `validation.arbeidIPeriode.fast.timerPerUke.${error.key}`,
-                  values: {
-                      ...intlValues,
-                      min,
-                      max: formatTimerOgMinutter(intl, decimalDurationToDuration(timerNormalt)),
-                  },
-                  keepKeyUnaltered: true,
-              }
-            : undefined;
-    };
+// export const getArbeidIPeriodeJobberTimerValidator =
+//     (intl: IntlShape, intlValues: ArbeidIPeriodeIntlValues, timerNormalt: number) => (value: string) => {
+//         const min = 1;
+//         const error = getArbeidstidFastProsentValidator({ min, max: timerNormalt })(value);
+//         return error
+//             ? {
+//                   key: `validation.arbeidIPeriode.fast.timerPerUke.${error.key}`,
+//                   values: {
+//                       ...intlValues,
+//                       min,
+//                       max: formatTimerOgMinutter(intl, decimalDurationToDuration(timerNormalt)),
+//                   },
+//                   keepKeyUnaltered: true,
+//               }
+//             : undefined;
+//     };
 
 export const getArbeidIPeriodeTimerEllerProsentValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
     const error = getRequiredFieldValidator()(value);
@@ -128,11 +125,11 @@ export const getArbeidIPeriodeTimerEllerProsentValidator = (intlValues: ArbeidIP
     return undefined;
 };
 
-export const getArbeidIPeriodeJobberIPeriodenValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
+export const getArbeidIPeriodeArbeiderIPeriodenValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
     const error = getRequiredFieldValidator()(value);
     return error
         ? {
-              key: 'validation.arbeidIPeriode.jobber',
+              key: 'validation.arbeidIPeriode.arbeider',
               values: intlValues,
               keepKeyUnaltered: true,
           }
@@ -155,10 +152,10 @@ export const getArbeidIPeriodeTimerPerUkeValidator = (
     normalarbeidstid: NormalarbeidstidSøknadsdata,
     arbeidIPeriode?: ArbeidIPeriodeFormData
 ) =>
-    normalarbeidstid.erLiktHverUke === false && normalarbeidstid.timerPerUke
+    normalarbeidstid.erLiktHverUke === false && normalarbeidstid.timerPerUkeISnitt
         ? () => {
               const error = getFasteArbeidstimerPerUkeValidator(
-                  normalarbeidstid.timerPerUke,
+                  normalarbeidstid.timerPerUkeISnitt,
                   false
               )(arbeidIPeriode?.fasteDager);
               return error

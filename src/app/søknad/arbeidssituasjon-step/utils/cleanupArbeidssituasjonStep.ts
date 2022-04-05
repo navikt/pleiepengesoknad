@@ -8,28 +8,28 @@ import { erFrilanserISøknadsperiode, harFrilansoppdrag } from '../../../utils/f
 import { visVernepliktSpørsmål } from './visVernepliktSpørsmål';
 
 const cleanupNormalarbeidstid = ({
-    erLiktHverUke,
-    fasteDager,
-    liktHverDag,
+    erLikeMangeTimerHverUke: erLiktHverUke,
+    timerFasteUkedager,
+    erFasteUkedager,
     timerPerUke,
 }: NormalarbeidstidFormData): NormalarbeidstidFormData => {
     if (erLiktHverUke === YesOrNo.NO) {
         return {
-            erLiktHverUke,
+            erLikeMangeTimerHverUke: erLiktHverUke,
             timerPerUke,
         };
     }
-    if (liktHverDag === YesOrNo.YES) {
+    if (erFasteUkedager === YesOrNo.YES) {
         return {
-            erLiktHverUke,
-            liktHverDag,
-            timerPerUke,
+            erLikeMangeTimerHverUke: erLiktHverUke,
+            erFasteUkedager: erFasteUkedager,
+            timerFasteUkedager,
         };
     }
     return {
-        erLiktHverUke,
-        liktHverDag,
-        fasteDager,
+        erLikeMangeTimerHverUke: erLiktHverUke,
+        erFasteUkedager: erFasteUkedager,
+        timerPerUke,
     };
 };
 
@@ -44,12 +44,7 @@ export const cleanupAnsattArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormDa
         cleanedArbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.YES
     ) {
         cleanedArbeidsforhold.normalarbeidstid = undefined;
-        cleanedArbeidsforhold.harFraværIPeriode = undefined;
-    }
-    if (
-        cleanedArbeidsforhold.harFraværIPeriode === undefined ||
-        cleanedArbeidsforhold.harFraværIPeriode === YesOrNo.NO
-    ) {
+        cleanedArbeidsforhold.sluttetFørSøknadsperiode = YesOrNo.YES;
         cleanedArbeidsforhold.arbeidIPeriode = undefined;
     }
     if (cleanedArbeidsforhold.normalarbeidstid) {
@@ -70,20 +65,20 @@ export const cleanupFrilansArbeidssituasjon = (
 
     if (harFrilansoppdrag(frilansoppdrag)) {
         frilans.harHattInntektSomFrilanser = undefined;
-        if (frilans.jobberFortsattSomFrilans === YesOrNo.YES) {
+        if (frilans.erFortsattFrilanser === YesOrNo.YES) {
             frilans.sluttdato = undefined;
         }
     } else {
         if (frilans.harHattInntektSomFrilanser === YesOrNo.NO) {
             /** Er ikke frilanser i perioden */
-            frilans.jobberFortsattSomFrilans = undefined;
+            frilans.erFortsattFrilanser = undefined;
             frilans.startdato = undefined;
             frilans.sluttdato = undefined;
             frilans.arbeidsforhold = undefined;
         }
         if (frilans.harHattInntektSomFrilanser === YesOrNo.YES) {
             /** Er frilanser i perioden */
-            if (frilans.jobberFortsattSomFrilans === YesOrNo.YES) {
+            if (frilans.erFortsattFrilanser === YesOrNo.YES) {
                 frilans.sluttdato = undefined;
             }
         }

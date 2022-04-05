@@ -47,13 +47,6 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
         values: { ansatt_arbeidsforhold, frilans, selvstendig },
     } = formikProps;
 
-    const harAnsattArbeidsforholdMedFravær = ansatt_arbeidsforhold.some((a) => a.harFraværIPeriode === YesOrNo.YES);
-
-    // const periodeSomFrilanserISøknadsperiode =
-    //     frilans.arbeidsforhold && frilans.arbeidsforhold.harFraværIPeriode
-    //         ? getPeriodeSomFrilanserInnenforPeriode(periode, frilans)
-    //         : undefined;
-
     const periodeSomSelvstendigISøknadsperiode =
         selvstendig.harHattInntektSomSN === YesOrNo.YES && selvstendig.virksomhet !== undefined
             ? getPeriodeSomSelvstendigInnenforPeriode(periode, selvstendig.virksomhet)
@@ -85,17 +78,13 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                 </CounsellorPanel>
             </Box>
 
-            {harAnsattArbeidsforholdMedFravær && (
+            {ansatt_arbeidsforhold.length > 0 && (
                 <FormBlock>
                     {ansatt_arbeidsforhold.map((arbeidsforhold, index) => {
                         const arbeidsgiver = arbeidssituasjon.arbeidsgivere?.get(arbeidsforhold.arbeidsgiver.id);
 
                         /** Må loope gjennom alle arbeidsforhold for å få riktig index inn til formik */
-                        if (
-                            !arbeidsgiver ||
-                            arbeidsgiver.erAnsattISøknadsperiode === false ||
-                            arbeidsforhold.harFraværIPeriode !== YesOrNo.YES
-                        ) {
+                        if (!arbeidsgiver || arbeidsgiver.erAnsattISøknadsperiode === false) {
                             return null;
                         }
 
@@ -120,7 +109,6 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
             )}
 
             {frilans.arbeidsforhold &&
-                frilans.arbeidsforhold.harFraværIPeriode === YesOrNo.YES &&
                 arbeidssituasjon.frilans?.erFrilanser === true &&
                 arbeidssituasjon.frilans?.harInntektISøknadsperiode === true && (
                     <FormBlock>
@@ -143,7 +131,6 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
 
             {selvstendig.harHattInntektSomSN === YesOrNo.YES &&
                 selvstendig.arbeidsforhold &&
-                selvstendig.arbeidsforhold.harFraværIPeriode === YesOrNo.YES &&
                 periodeSomSelvstendigISøknadsperiode &&
                 arbeidssituasjon.selvstendig?.type === 'erSN' && (
                     <FormBlock>

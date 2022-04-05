@@ -1,6 +1,8 @@
+import { ArbeiderIPeriodenSvar } from '../../types/ArbeidIPeriodeFormData';
 import { ArbeidsgiverType } from '../../types/Arbeidsgiver';
 import { Søkerdata } from '../../types/Søkerdata';
 import { ArbeidsgiverApiData } from '../../types/SøknadApiData';
+import { ArbeidIPeriodeType } from '../../types/Søknadsdata';
 import { getKvitteringInfoFromApiData, KvitteringApiData } from '../kvitteringUtils';
 
 const arbeidsgiverApiData: ArbeidsgiverApiData = {
@@ -10,20 +12,12 @@ const arbeidsgiverApiData: ArbeidsgiverApiData = {
     erAnsatt: true,
     arbeidsforhold: {
         arbeidIPeriode: {
-            type: 'jobberIkkeIPerioden',
-            jobberIPerioden: 'NEI',
+            type: ArbeidIPeriodeType.arbeiderIkke,
+            arbeiderIPerioden: ArbeiderIPeriodenSvar.heltFravær,
         },
-        harFraværIPeriode: true,
         normalarbeidstid: {
             erLiktHverUke: false,
-            timerPerUke: 2,
-            timerFasteDager: {
-                mandag: 'PT4H0M',
-                tirsdag: 'PT4H0M',
-                onsdag: 'PT4H0M',
-                torsdag: 'PT4H0M',
-                fredag: 'PT4H0M',
-            },
+            timerPerUkeISnitt: 2,
         },
     },
     sluttetFørSøknadsperiode: false,
@@ -72,22 +66,12 @@ describe('kvitteringUtils', () => {
                 arbeidsforhold: {
                     normalarbeidstid: {
                         erLiktHverUke: false,
-                        timerPerUke: 20,
-                        timerFasteDager: {
-                            mandag: 'PT4H0M',
-                            tirsdag: 'PT4H0M',
-                            onsdag: 'PT4H0M',
-                            torsdag: 'PT4H0M',
-                            fredag: 'PT4H0M',
-                        },
+                        timerPerUkeISnitt: 20,
                     },
-                    harFraværIPeriode: true,
                     arbeidIPeriode: {
-                        type: 'jobberProsent',
-                        erLiktHverUke: true,
-                        jobberIPerioden: 'JA',
-                        jobberProsent: 20,
-                        fasteDager: { fredag: 'PT1H0M' },
+                        type: ArbeidIPeriodeType.arbeiderProsentAvNormalt,
+                        arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
+                        prosentAvNormalt: 20,
                     },
                 },
             };
@@ -98,22 +82,12 @@ describe('kvitteringUtils', () => {
                 arbeidsforhold: {
                     normalarbeidstid: {
                         erLiktHverUke: false,
-                        timerPerUke: 20,
-                        timerFasteDager: {
-                            mandag: 'PT4H0M',
-                            tirsdag: 'PT4H0M',
-                            onsdag: 'PT4H0M',
-                            torsdag: 'PT4H0M',
-                            fredag: 'PT4H0M',
-                        },
+                        timerPerUkeISnitt: 20,
                     },
-                    harFraværIPeriode: true,
                     arbeidIPeriode: {
-                        type: 'jobberProsent',
-                        erLiktHverUke: true,
-                        jobberIPerioden: 'JA',
-                        jobberProsent: 20,
-                        fasteDager: { fredag: 'PT1H0M' },
+                        type: ArbeidIPeriodeType.arbeiderProsentAvNormalt,
+                        arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
+                        prosentAvNormalt: 20,
                     },
                 },
             };

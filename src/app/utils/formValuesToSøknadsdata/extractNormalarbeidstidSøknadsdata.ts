@@ -1,47 +1,45 @@
 import { getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
-import { durationToDecimalDuration, summarizeDateDurationMap } from '@navikt/sif-common-utils/lib';
 import { NormalarbeidstidFormData } from '../../types/ArbeidsforholdFormData';
 import { NormalarbeidstidSøknadsdata } from '../../types/Søknadsdata';
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
-import { durationWeekdaysFromHoursPerWeek } from '../durationWeekdaysUtils';
+
+export const ExtractNormalarbeidstidFailed = 'ExtractNormalarbeidstid failed';
 
 export const extractNormalarbeidstid = (
     normalarbeidstid?: NormalarbeidstidFormData
 ): NormalarbeidstidSøknadsdata | undefined => {
-    if (!normalarbeidstid || isYesOrNoAnswered(normalarbeidstid.erLiktHverUke) === false) {
+    if (!normalarbeidstid || isYesOrNoAnswered(normalarbeidstid.erLikeMangeTimerHverUke) === false) {
         return undefined;
     }
-    if (normalarbeidstid.erLiktHverUke === YesOrNo.YES) {
+    if (normalarbeidstid.erLikeMangeTimerHverUke === YesOrNo.YES) {
         const timerPerUke = getNumberFromNumberInputValue(normalarbeidstid.timerPerUke);
-        if (normalarbeidstid.liktHverDag && timerPerUke !== undefined) {
+        if (normalarbeidstid.erFasteUkedager === YesOrNo.YES && normalarbeidstid.timerFasteUkedager) {
             return {
-                type: 'likeDagerHverUke',
+                type: 'likeUkerFasteDager',
                 erLiktHverUke: true,
-                erLiktHverDag: true,
-                fasteDager: durationWeekdaysFromHoursPerWeek(timerPerUke),
-                timerPerUke: timerPerUke,
+                erFasteUkedager: true,
+                timerFasteUkedager: normalarbeidstid.timerFasteUkedager,
             };
         }
-        if (normalarbeidstid.liktHverDag === YesOrNo.NO && normalarbeidstid.fasteDager) {
+        if (normalarbeidstid.erFasteUkedager === YesOrNo.NO && timerPerUke) {
             return {
-                type: 'ulikeDagerHverUke',
+                type: 'likeUkerUlikeDager',
                 erLiktHverUke: true,
-                erLiktHverDag: false,
-                fasteDager: normalarbeidstid.fasteDager,
-                timerPerUke: durationToDecimalDuration(summarizeDateDurationMap(normalarbeidstid.fasteDager)),
+                erFasteUkedager: false,
+                timerPerUkeISnitt: timerPerUke,
             };
         }
     }
-    if (normalarbeidstid.erLiktHverUke === YesOrNo.NO) {
+    if (normalarbeidstid.erLikeMangeTimerHverUke === YesOrNo.NO) {
         const timerPerUke = getNumberFromNumberInputValue(normalarbeidstid.timerPerUke);
         if (timerPerUke !== undefined) {
             return {
                 type: 'ulikeUker',
                 erLiktHverUke: false,
-                timerPerUke,
-                fasteDager: durationWeekdaysFromHoursPerWeek(timerPerUke),
+                timerPerUkeISnitt: timerPerUke,
             };
         }
     }
     return undefined;
+    // throw ExtractNormalarbeidstidFailed;
 };

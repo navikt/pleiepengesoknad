@@ -4,27 +4,21 @@ import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils/lib'
 import { Arbeidsgiver } from './Arbeidsgiver';
 
 export interface NormalarbeidstidSøknadsdataLikeDager {
-    type: 'likeDagerHverUke';
+    type: 'likeUkerFasteDager';
     erLiktHverUke: true;
-    erLiktHverDag: true;
-    timerPerUke: number;
-    /** Satt ut fra timerPerUke */
-    fasteDager: DurationWeekdays;
+    erFasteUkedager: true;
+    timerFasteUkedager: DurationWeekdays;
 }
 export interface NormalarbeidstidSøknadsdataUlikeDager {
-    type: 'ulikeDagerHverUke';
+    type: 'likeUkerUlikeDager';
     erLiktHverUke: true;
-    erLiktHverDag: false;
-    fasteDager: DurationWeekdays;
-    /** Beregnet ut fra faste dager */
-    timerPerUke: number;
+    erFasteUkedager: false;
+    timerPerUkeISnitt: number;
 }
 export interface NormalarbeidstidSøknadsdataUlikeUker {
     type: 'ulikeUker';
     erLiktHverUke: false;
-    timerPerUke: number;
-    /** Fordelt ut fra timerPerUke */
-    fasteDager: DurationWeekdays;
+    timerPerUkeISnitt: number;
 }
 
 export type NormalarbeidstidSøknadsdata =
@@ -32,18 +26,10 @@ export type NormalarbeidstidSøknadsdata =
     | NormalarbeidstidSøknadsdataUlikeDager
     | NormalarbeidstidSøknadsdataUlikeUker;
 
-export interface ArbeidsforholdSøknadsdataMedFravær {
-    harFraværIPeriode: true;
+export interface ArbeidsforholdSøknadsdata {
     normalarbeidstid: NormalarbeidstidSøknadsdata;
     arbeidISøknadsperiode?: ArbeidIPeriodeSøknadsdata;
 }
-
-export interface ArbeidsforholdSøknadsdataUtenFravær {
-    harFraværIPeriode: false;
-    normalarbeidstid: NormalarbeidstidSøknadsdata;
-}
-
-export type ArbeidsforholdSøknadsdata = ArbeidsforholdSøknadsdataMedFravær | ArbeidsforholdSøknadsdataUtenFravær;
 
 export interface ArbeidAnsattSøknadsdataSluttetFørSøknadsperiode {
     type: 'sluttetFørSøknadsperiode';
@@ -126,45 +112,56 @@ export interface ArbeidSøknadsdata {
     selvstendig?: ArbeidSelvstendigSøknadsdata;
 }
 
-interface IngenArbeidISøknadsperiodeSøknadsdata {
-    type: 'arbeiderIkkeIPerioden';
-    arbeiderIPerioden: false;
-}
-interface ArbeidISøknadsperiodeVariertSøknadsdata {
-    type: 'variert';
-    arbeiderIPerioden: true;
-    erLiktHverUke: false;
-    enkeltdager: DateDurationMap;
-}
-interface ArbeidISøknadsperiodeFasteDagerSøknadsdata {
-    type: 'fasteDager';
-    arbeiderIPerioden: true;
-    erLiktHverUke: true;
-    fasteDager: DurationWeekdays;
-}
-interface ArbeidProsentISøknadsperiodeFastProsentSøknadsdata {
-    type: 'fastProsent';
-    arbeiderIPerioden: true;
-    erLiktHverUke: true;
-    fasteDager: DurationWeekdays;
-    jobberTimerPerUke: number;
-    jobberProsent: number;
+export enum ArbeidIPeriodeType {
+    'arbeiderIkke' = 'arbeiderIkke',
+    'arbeiderVanlig' = 'arbeiderVanlig',
+    'arbeiderEnkeltdager' = 'arbeiderEnkeltdager',
+    'arbeiderFasteUkedager' = 'arbeiderFasteUkedager',
+    'arbeiderProsentAvNormalt' = 'arbeiderProsentAvNormalt',
+    'arbeiderSnittTimerPerUke' = 'arbeiderSnittTimerPerUke',
 }
 
-interface ArbeidProsentISøknadsperiodeFastTimerPerUkeSøknadsdata {
-    type: 'fastTimer';
+interface ArbeidISøknadsperiodeJobberIkkeSøknadsdata {
+    type: ArbeidIPeriodeType.arbeiderIkke;
+    arbeiderIPerioden: false;
+}
+interface ArbeidISøknadsperiodeJobberVanligSøknadsdata {
+    type: ArbeidIPeriodeType.arbeiderVanlig;
     arbeiderIPerioden: true;
-    erLiktHverUke: true;
+    arbeiderRedusert: false;
+}
+interface ArbeidISøknadsperiodeEnkeltdagerSøknadsdata {
+    type: ArbeidIPeriodeType.arbeiderEnkeltdager;
+    arbeiderIPerioden: true;
+    arbeiderRedusert: true;
+    enkeltdager: DateDurationMap;
+}
+interface ArbeidISøknadsperiodeTimerFasteUkedagerSøknadsdata {
+    type: ArbeidIPeriodeType.arbeiderFasteUkedager;
+    arbeiderIPerioden: true;
+    arbeiderRedusert: true;
     fasteDager: DurationWeekdays;
-    jobberTimerPerUke: number;
+}
+interface ArbeidISøknadsperiodeSnittTimerPerUkeSøknadsdata {
+    type: ArbeidIPeriodeType.arbeiderSnittTimerPerUke;
+    arbeiderIPerioden: true;
+    arbeiderRedusert: true;
+    snittTimerPerUke: number;
+}
+interface ArbeidISøknadsperiodeProsentSøknadsdata {
+    type: ArbeidIPeriodeType.arbeiderProsentAvNormalt;
+    arbeiderIPerioden: true;
+    arbeiderRedusert: true;
+    prosentAvNormalt: number;
 }
 
 export type ArbeidIPeriodeSøknadsdata =
-    | IngenArbeidISøknadsperiodeSøknadsdata
-    | ArbeidISøknadsperiodeVariertSøknadsdata
-    | ArbeidISøknadsperiodeFasteDagerSøknadsdata
-    | ArbeidProsentISøknadsperiodeFastTimerPerUkeSøknadsdata
-    | ArbeidProsentISøknadsperiodeFastProsentSøknadsdata;
+    | ArbeidISøknadsperiodeJobberVanligSøknadsdata
+    | ArbeidISøknadsperiodeJobberIkkeSøknadsdata
+    | ArbeidISøknadsperiodeEnkeltdagerSøknadsdata
+    | ArbeidISøknadsperiodeTimerFasteUkedagerSøknadsdata
+    | ArbeidISøknadsperiodeSnittTimerPerUkeSøknadsdata
+    | ArbeidISøknadsperiodeProsentSøknadsdata;
 
 export interface Søknadsdata {
     søknadsperiode?: DateRange;

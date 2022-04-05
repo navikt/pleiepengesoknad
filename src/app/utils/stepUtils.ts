@@ -12,7 +12,7 @@ import {
     opplysningerOmTidsromStepIsValid,
     welcomingPageIsValid,
 } from '../validation/stepValidations';
-import { erAnsattISøknadsperiode, harFraværFraArbeidsforholdIPeriode, harFraværIArbeidsforhold } from './ansattUtils';
+import { erAnsattISøknadsperiode } from './ansattUtils';
 import { erFrilanserISøknadsperiode } from './frilanserUtils';
 
 export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
@@ -84,25 +84,13 @@ export const skalBrukerSvarePåBeredskapOgNattevåk = (formValues?: SøknadFormD
     );
 };
 
-export const skalBrukerSvareArbeidstid = (
-    søknadsperiode: DateRange,
-    formValues: SøknadFormData
-    // søkerdata: Søkerdata | undefined
-): boolean => {
+export const skalBrukerSvareArbeidstid = (søknadsperiode: DateRange, formValues: SøknadFormData): boolean => {
     if (!formValues) {
         return false;
     }
-    const erAnsattMedFraværIPerioden =
-        erAnsattISøknadsperiode(formValues.ansatt_arbeidsforhold) &&
-        harFraværFraArbeidsforholdIPeriode(formValues.ansatt_arbeidsforhold);
+    const erAnsatt = erAnsattISøknadsperiode(formValues.ansatt_arbeidsforhold);
+    const erFrilanser = erFrilanserISøknadsperiode(søknadsperiode, formValues.frilans, formValues.frilansoppdrag);
+    const erSelvstendig = formValues.selvstendig.harHattInntektSomSN === YesOrNo.YES;
 
-    const erFrilanserMedFraværIPerioden =
-        erFrilanserISøknadsperiode(søknadsperiode, formValues.frilans, formValues.frilansoppdrag) &&
-        harFraværIArbeidsforhold(formValues.frilans.arbeidsforhold);
-
-    const erSelvstendigMedFraværIPerioden =
-        formValues.selvstendig.harHattInntektSomSN === YesOrNo.YES &&
-        harFraværIArbeidsforhold(formValues.selvstendig.arbeidsforhold);
-
-    return erAnsattMedFraværIPerioden || erFrilanserMedFraværIPerioden || erSelvstendigMedFraværIPerioden;
+    return erAnsatt || erFrilanser || erSelvstendig;
 };

@@ -30,8 +30,8 @@ interface Props extends ArbeidstidRegistrertLogProps {
     arbeidsforholdType: ArbeidsforholdType;
     formFieldName: SøknadFormField;
     periode: DateRange;
-    jobberNormaltTimerPerUke?: number;
-    jobberNormaltTimerFasteDager?: DurationWeekdays;
+    arbeiderNormaltTimerPerUke?: number;
+    arbeiderNormaltTimerFasteUkedager?: DurationWeekdays;
     arbeidstid?: DateDurationMap;
     intlValues: ArbeidIPeriodeIntlValues;
     kanLeggeTilPeriode: boolean;
@@ -43,8 +43,8 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
     arbeidstid = {},
     arbeidsstedNavn,
     arbeidsforholdType,
-    jobberNormaltTimerPerUke,
-    jobberNormaltTimerFasteDager,
+    arbeiderNormaltTimerPerUke,
+    arbeiderNormaltTimerFasteUkedager,
     periode,
     intlValues,
     kanLeggeTilPeriode,
@@ -121,8 +121,8 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                             onPeriodeChange={handleOnPeriodeChange}
                             registrerKnappLabel={intlHelper(intl, 'arbeidstidVariert.registrerJobbKnapp.label')}
                             formProps={{
-                                jobberNormaltTimerPerUke,
-                                jobberNormaltTimerFasteDager: jobberNormaltTimerFasteDager,
+                                arbeiderNormaltTimerPerUke,
+                                arbeiderNormaltTimerFasteUkedager,
                                 intlValues,
                                 periode,
                                 arbeidsstedNavn,

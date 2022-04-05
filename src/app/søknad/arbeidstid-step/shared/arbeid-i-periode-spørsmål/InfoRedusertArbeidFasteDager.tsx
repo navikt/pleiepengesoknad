@@ -8,26 +8,22 @@ import { TimerOgMinutter } from '@navikt/sif-common-pleiepenger/lib';
 
 interface Props {
     arbeiderHvor: string;
-    jobberProsent?: number;
+    prosent?: number;
     arbeidNormalt?: DurationWeekdays;
 }
 
-const InfoRedusertArbeidFasteDager: React.FunctionComponent<Props> = ({
-    arbeiderHvor,
-    jobberProsent,
-    arbeidNormalt,
-}) => {
-    if (arbeidNormalt === undefined || jobberProsent === undefined) {
+const InfoRedusertArbeidFasteDager: React.FunctionComponent<Props> = ({ arbeiderHvor, prosent, arbeidNormalt }) => {
+    if (arbeidNormalt === undefined || prosent === undefined) {
         return null;
     }
-    const redusertUke = getPercentageOfDurationWeekdays(jobberProsent, arbeidNormalt);
+    const redusertUke = getPercentageOfDurationWeekdays(prosent, arbeidNormalt);
     const totalt = summarizeDurationInDurationWeekdays(redusertUke);
     return (
         <Box margin="l">
             <ExpandableInfo title="Hvor mange timer utgjør dette hver dag?">
                 <p>
                     Ut i fra hvor mye du har sagt du jobber normalt {arbeiderHvor} når du ikke har fravær på grunn av
-                    pleiepenger, vil {jobberProsent} prosent arbeid i perioden utgjøre:
+                    pleiepenger, vil {prosent} prosent arbeid i perioden utgjøre:
                 </p>
                 <DurationWeekdaysList weekdays={redusertUke} />
                 <p>
