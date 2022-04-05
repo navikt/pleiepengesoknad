@@ -78,7 +78,7 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
                         </Box>
                     </>
                 );
-            case ArbeidIPeriodeType.arbeiderSnittTimerPerUke:
+            case ArbeidIPeriodeType.arbeiderTimerISnittPerUke:
                 return (
                     <>
                         <Box margin="m">

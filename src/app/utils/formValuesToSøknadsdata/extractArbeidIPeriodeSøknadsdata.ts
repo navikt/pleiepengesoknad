@@ -1,7 +1,7 @@
 import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getDurationsInDateRange } from '@navikt/sif-common-utils/lib';
 import { TimerEllerProsent } from '../../types';
-import { ArbeidIPeriodeFormData, ArbeiderIPeriodenSvar } from '../../types/ArbeidIPeriodeFormData';
+import { ArbeiderIPeriodenSvar, ArbeidIPeriodeFormData } from '../../types/ArbeidIPeriodeFormData';
 import { ArbeidIPeriodeSøknadsdata, ArbeidIPeriodeType } from '../../types/Søknadsdata';
 
 export const extractArbeidIPeriodeSøknadsdata = (
@@ -32,7 +32,7 @@ export const extractArbeidIPeriodeSøknadsdata = (
 
     const arbeiderProsent =
         timerEllerProsent === TimerEllerProsent.PROSENT ? getNumberFromNumberInputValue(prosentAvNormalt) : undefined;
-    const snittTimerPerUke =
+    const timerISnittPerUke =
         timerEllerProsent === TimerEllerProsent.TIMER ? getNumberFromNumberInputValue(timerPerUke) : undefined;
 
     if (erLiktHverUke === YesOrNo.YES) {
@@ -44,12 +44,12 @@ export const extractArbeidIPeriodeSøknadsdata = (
                 prosentAvNormalt: arbeiderProsent,
             };
         }
-        if (fasteDager === undefined && snittTimerPerUke !== undefined) {
+        if (fasteDager === undefined && timerISnittPerUke !== undefined) {
             return {
-                type: ArbeidIPeriodeType.arbeiderSnittTimerPerUke,
+                type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
                 arbeiderIPerioden: true,
                 arbeiderRedusert: true,
-                snittTimerPerUke: snittTimerPerUke,
+                timerISnittPerUke: timerISnittPerUke,
             };
         }
         if (fasteDager !== undefined && arbeiderProsent === undefined) {
@@ -77,12 +77,12 @@ export const extractArbeidIPeriodeSøknadsdata = (
                 enkeltdager: getDurationsInDateRange(enkeltdager, søknadsperiode),
             };
         }
-        if (timerPerUke && snittTimerPerUke) {
+        if (timerPerUke && timerISnittPerUke) {
             return {
-                type: ArbeidIPeriodeType.arbeiderSnittTimerPerUke,
+                type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
                 arbeiderIPerioden: true,
                 arbeiderRedusert: true,
-                snittTimerPerUke,
+                timerISnittPerUke,
             };
         }
         if (arbeiderProsent && prosentAvNormalt) {

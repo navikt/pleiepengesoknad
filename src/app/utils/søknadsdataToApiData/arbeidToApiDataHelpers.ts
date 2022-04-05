@@ -131,11 +131,11 @@ export const getArbeidIPeriodeApiDataFromSøknadsdata = (
                     arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
                     prosentAvNormalt: arbeid.prosentAvNormalt,
                 };
-            case ArbeidIPeriodeType.arbeiderSnittTimerPerUke:
+            case ArbeidIPeriodeType.arbeiderTimerISnittPerUke:
                 return {
-                    type: ArbeidIPeriodeType.arbeiderSnittTimerPerUke,
+                    type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
                     arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
-                    timerPerUke: arbeid.snittTimerPerUke,
+                    timerPerUke: arbeid.timerISnittPerUke,
                 };
             case ArbeidIPeriodeType.arbeiderFasteUkedager:
                 return {

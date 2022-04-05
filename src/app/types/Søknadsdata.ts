@@ -125,7 +125,7 @@ export enum ArbeidIPeriodeType {
     'arbeiderEnkeltdager' = 'arbeiderEnkeltdager',
     'arbeiderFasteUkedager' = 'arbeiderFasteUkedager',
     'arbeiderProsentAvNormalt' = 'arbeiderProsentAvNormalt',
-    'arbeiderSnittTimerPerUke' = 'arbeiderSnittTimerPerUke',
+    'arbeiderTimerISnittPerUke' = 'arbeiderTimerISnittPerUke',
 }
 
 interface ArbeidISøknadsperiodeJobberIkkeSøknadsdata {
@@ -149,11 +149,11 @@ interface ArbeidISøknadsperiodeTimerFasteUkedagerSøknadsdata {
     arbeiderRedusert: true;
     fasteDager: DurationWeekdays;
 }
-interface ArbeidISøknadsperiodeSnittTimerPerUkeSøknadsdata {
-    type: ArbeidIPeriodeType.arbeiderSnittTimerPerUke;
+interface ArbeidISøknadsperiodeTimerISnittPerUkeSøknadsdata {
+    type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke;
     arbeiderIPerioden: true;
     arbeiderRedusert: true;
-    snittTimerPerUke: number;
+    timerISnittPerUke: number;
 }
 interface ArbeidISøknadsperiodeProsentSøknadsdata {
     type: ArbeidIPeriodeType.arbeiderProsentAvNormalt;
@@ -167,7 +167,7 @@ export type ArbeidIPeriodeSøknadsdata =
     | ArbeidISøknadsperiodeJobberIkkeSøknadsdata
     | ArbeidISøknadsperiodeEnkeltdagerSøknadsdata
     | ArbeidISøknadsperiodeTimerFasteUkedagerSøknadsdata
-    | ArbeidISøknadsperiodeSnittTimerPerUkeSøknadsdata
+    | ArbeidISøknadsperiodeTimerISnittPerUkeSøknadsdata
     | ArbeidISøknadsperiodeProsentSøknadsdata;
 
 export interface Søknadsdata {
