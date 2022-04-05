@@ -54,7 +54,7 @@ describe('extractMedlemskapSøknadsdata', () => {
         it('returnerer harIkkeBoddSkalIkkeBo dersom bruker har ikke bodd og skal ikke bo i utlandet', () => {
             const result = extractMedlemskapSøknadsdata({
                 ...formData,
-                harBoddUtenforNorgeSiste12Mnd: YesOrNo.YES,
+                harBoddUtenforNorgeSiste12Mnd: YesOrNo.NO,
                 utenlandsoppholdSiste12Mnd: [],
                 skalBoUtenforNorgeNeste12Mnd: YesOrNo.NO,
                 utenlandsoppholdNeste12Mnd: [],
