@@ -3,7 +3,7 @@ import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { Virksomhet } from '@navikt/sif-common-forms/lib';
 import { getDurationsInDateRange } from '@navikt/sif-common-utils';
 import { TimerEllerProsent } from '../../../types';
-import { ArbeidIPeriodeFormData, ArbeiderIPeriodenSvar } from '../../../types/ArbeidIPeriodeFormData';
+import { ArbeiderIPeriodenSvar, ArbeidIPeriodeFormData } from '../../../types/ArbeidIPeriodeFormData';
 import {
     ArbeidsforholdFormData,
     ArbeidsforholdFrilanserFormData,
@@ -29,14 +29,21 @@ export const cleanupArbeidIPeriode = (
     const { erLiktHverUke, enkeltdager, timerEllerProsent, fasteDager, prosentAvNormalt, timerPerUke } =
         arbeidIPerioden;
 
-    if (erLiktHverUke === YesOrNo.YES) {
+    /** Bruker har variert normalarbeidstid og får ikke spørsmål om det er likt hver uke  */
+    if (erLiktHverUke === undefined) {
         arbeid.erLiktHverUke = erLiktHverUke;
         arbeid.timerEllerProsent = timerEllerProsent;
         return timerEllerProsent === TimerEllerProsent.PROSENT
-            ? { ...arbeid, prosentAvNormalt }
-            : { ...arbeid, fasteDager, timerPerUke };
+            ? { ...arbeid, timerEllerProsent, prosentAvNormalt }
+            : { ...arbeid, timerEllerProsent, timerPerUke };
     }
 
+    /** Bruker har fast normarlarbeidstid */
+    if (erLiktHverUke === YesOrNo.YES) {
+        arbeid.erLiktHverUke = erLiktHverUke;
+        arbeid.fasteDager = fasteDager;
+        return arbeid;
+    }
     return {
         ...arbeid,
         erLiktHverUke,

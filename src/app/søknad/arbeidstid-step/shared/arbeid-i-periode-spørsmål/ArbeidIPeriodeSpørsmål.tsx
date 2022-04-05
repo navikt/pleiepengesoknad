@@ -14,7 +14,7 @@ import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib/types';
 import { TimerEllerProsent } from '../../../../types';
 import { ArbeidIPeriodeFormField, ArbeiderIPeriodenSvar } from '../../../../types/ArbeidIPeriodeFormData';
 import { ArbeidsforholdFormData, ArbeidsforholdFrilanserFormData } from '../../../../types/ArbeidsforholdFormData';
-import { NormalarbeidstidSøknadsdata } from '../../../../types/Søknadsdata';
+import { NormalarbeidstidSøknadsdata, NormalarbeidstidType } from '../../../../types/Søknadsdata';
 import SøknadFormComponents from '../../../SøknadFormComponents';
 import ArbeidstidVariert from '../arbeidstid-variert/ArbeidstidVariert';
 import { ArbeidstidRegistrertLogProps } from '../types';
@@ -25,6 +25,7 @@ import {
     getArbeidIPeriodeTimerPerUkeValidator,
     getArbeidIPeriodeTimerEllerProsentValidator,
     getArbeidIPeriodeArbeiderIPeriodenValidator,
+    getArbeidIPeriodeTimerPerUkeISnittValidator,
 } from './validationArbeidIPeriodeSpørsmål';
 
 import { decimalDurationToDuration, DurationWeekdays } from '@navikt/sif-common-utils/lib';
@@ -46,7 +47,7 @@ const ArbeidIPeriodeSpørsmål = ({
     arbeidsforholdType,
     periode,
     arbeidsstedNavn,
-    // søkerKunHelgedager,
+    // søkerKunHelgedager, TODO - vise informasjonen i steget
     normalarbeidstid,
     onArbeidstidVariertChange,
     onArbeidPeriodeRegistrert,
@@ -81,7 +82,7 @@ const ArbeidIPeriodeSpørsmål = ({
         : undefined;
 
     const getProsentSuffix = () => {
-        if (normalarbeidstid.type === 'ulikeUker') {
+        if (normalarbeidstid.type === 'varierendeUker') {
             const normalttimer = formatTimerOgMinutter(
                 intl,
                 decimalDurationToDuration(normalarbeidstid.timerPerUkeISnitt)
@@ -141,115 +142,108 @@ const ArbeidIPeriodeSpørsmål = ({
                     },
                 ]}
             />
-
-            {arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert && normalarbeidstid.type === 'likeUkerFasteDager' && (
-                <FormBlock>{renderArbeidstidVariert(false, normalarbeidstid.timerFasteUkedager)}</FormBlock>
-            )}
-
-            {arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert && normalarbeidstid.type !== 'likeUkerFasteDager' && (
+            {arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert && (
                 <>
-                    <FormBlock>
-                        <SøknadFormComponents.YesOrNoQuestion
-                            name={getFieldName(ArbeidIPeriodeFormField.erLiktHverUke)}
-                            legend={intlHelper(intl, `arbeidIPeriode.erLiktHverUke.spm`, intlValues)}
-                            validate={getArbeidIPeriodeErLiktHverUkeValidator(intlValues)}
-                            useTwoColumns={true}
-                            labels={{
-                                yes: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.ja`),
-                                no: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.nei`),
-                            }}
-                        />
-                    </FormBlock>
-
-                    {/* {erLiktHverUke === YesOrNo.NO && (
-                        <FormBlock margin="l">
-                            <ResponsivePanel>
-                                {renderArbeidstidVariert(true)}
-                                {søkerKunHelgedager && (
-                                    <Box margin="xl">
-                                        <InfoSøkerKunHelgedager />
-                                    </Box>
+                    {(normalarbeidstid.type === NormalarbeidstidType.likeUkerVarierendeDager ||
+                        normalarbeidstid.type === NormalarbeidstidType.varierendeUker) && (
+                        <>
+                            <FormBlock>
+                                <SøknadFormComponents.RadioPanelGroup
+                                    name={getFieldName(ArbeidIPeriodeFormField.timerEllerProsent)}
+                                    legend={intlHelper(intl, `arbeidIPeriode.timerEllerProsent.spm`, intlValues)}
+                                    radios={getTimerEllerProsentRadios(intl, intlValues)}
+                                    validate={getArbeidIPeriodeTimerEllerProsentValidator(intlValues)}
+                                    useTwoColumns={true}
+                                />
+                                {timerEllerProsent === TimerEllerProsent.PROSENT && (
+                                    <FormBlock margin="l">
+                                        <ResponsivePanel>
+                                            <SøknadFormComponents.NumberInput
+                                                name={getFieldName(ArbeidIPeriodeFormField.prosentAvNormalt)}
+                                                label={intlHelper(
+                                                    intl,
+                                                    'arbeidIPeriode.prosentAvNormalt.spm',
+                                                    intlValues
+                                                )}
+                                                validate={getArbeidIPeriodeProsentAvNormaltValidator(intlValues)}
+                                                bredde="XS"
+                                                maxLength={4}
+                                                suffixStyle="text"
+                                                suffix={getProsentSuffix()}
+                                            />
+                                        </ResponsivePanel>
+                                    </FormBlock>
                                 )}
-                            </ResponsivePanel>
-                        </FormBlock>
-                    )} */}
-
-                    {erLiktHverUke === YesOrNo.YES && (
-                        <FormBlock>
-                            <SøknadFormComponents.RadioPanelGroup
-                                name={getFieldName(ArbeidIPeriodeFormField.timerEllerProsent)}
-                                legend={intlHelper(intl, `arbeidIPeriode.timerEllerProsent.spm`, intlValues)}
-                                radios={getTimerEllerProsentRadios(intl, intlValues)}
-                                validate={getArbeidIPeriodeTimerEllerProsentValidator(intlValues)}
-                                useTwoColumns={true}
-                            />
-                            {timerEllerProsent === TimerEllerProsent.PROSENT && (
+                                {timerEllerProsent === TimerEllerProsent.TIMER && (
+                                    <FormBlock margin="l">
+                                        <ResponsivePanel>
+                                            <SøknadFormComponents.NumberInput
+                                                name={getFieldName(ArbeidIPeriodeFormField.timerPerUke)}
+                                                label={`Hvor mange timer av normalt ${timerNormaltString}, jobber du i uken som frilanser i perioden?`}
+                                                validate={getArbeidIPeriodeTimerPerUkeISnittValidator(
+                                                    intl,
+                                                    intlValues,
+                                                    normalarbeidstid.timerPerUkeISnitt
+                                                )}
+                                                bredde="XS"
+                                                maxLength={4}
+                                                suffixStyle="text"
+                                                suffix={`timer av normalt ${formatTimerOgMinutter(
+                                                    intl,
+                                                    decimalDurationToDuration(normalarbeidstid.timerPerUkeISnitt)
+                                                )} i uken.`}
+                                            />
+                                        </ResponsivePanel>
+                                    </FormBlock>
+                                )}
+                            </FormBlock>
+                        </>
+                    )}
+                    {normalarbeidstid.type === NormalarbeidstidType.likeUkerOgDager && (
+                        <>
+                            <FormBlock>
+                                <SøknadFormComponents.YesOrNoQuestion
+                                    name={getFieldName(ArbeidIPeriodeFormField.erLiktHverUke)}
+                                    legend={intlHelper(intl, `arbeidIPeriode.erLiktHverUke.spm`, intlValues)}
+                                    validate={getArbeidIPeriodeErLiktHverUkeValidator(intlValues)}
+                                    useTwoColumns={true}
+                                    labels={{
+                                        yes: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.ja`),
+                                        no: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.nei`),
+                                    }}
+                                />
+                            </FormBlock>
+                            {erLiktHverUke === YesOrNo.NO && (
                                 <FormBlock margin="l">
                                     <ResponsivePanel>
-                                        <SøknadFormComponents.NumberInput
-                                            name={getFieldName(ArbeidIPeriodeFormField.prosentAvNormalt)}
-                                            label={intlHelper(intl, 'arbeidIPeriode.prosentAvNormalt.spm', intlValues)}
-                                            validate={getArbeidIPeriodeProsentAvNormaltValidator(intlValues)}
-                                            bredde="XS"
-                                            maxLength={4}
-                                            suffixStyle="text"
-                                            suffix={getProsentSuffix()}
-                                        />
-                                        {/* <InfoRedusertArbeidFasteDager
-                                            arbeiderHvor={intlValues.hvor}
-                                            arbeidNormalt={normalarbeidstid.fasteDager}
-                                            jobberProsent={getNumberFromNumberInputValue(jobberProsent)}
-                                        /> */}
+                                        {renderArbeidstidVariert(true, normalarbeidstid.timerFasteUkedager)}
                                     </ResponsivePanel>
                                 </FormBlock>
                             )}
-                            {timerEllerProsent === TimerEllerProsent.TIMER && (
-                                <FormBlock margin="l">
+                            {erLiktHverUke === YesOrNo.YES && (
+                                <FormBlock>
                                     <ResponsivePanel>
-                                        <SøknadFormComponents.NumberInput
-                                            name={getFieldName(ArbeidIPeriodeFormField.timerPerUke)}
-                                            label={`Hvor mange timer av normalt ${timerNormaltString}, jobber du i uken som frilanser i perioden?`}
-                                            // validate={getArbeidIPeriodeJobberTimerValidator(
-                                            //     intl,
-                                            //     intlValues,
-                                            //     normalarbeidstid.timerPerUke
-                                            // )}
-                                            bredde="XS"
-                                            maxLength={4}
-                                            suffixStyle="text"
-                                            // suffix={`timer av normalt ${formatTimerOgMinutter(
-                                            //     intl,
-                                            //     decimalDurationToDuration(normalarbeidstid.timerPerUke)
-                                            // )} i uken.`}
-                                        />
-                                        {1 + 1 === 4 && (
-                                            <FormBlock>
-                                                <SøknadFormComponents.InputGroup
-                                                    name={`${parentFieldName}_fasteDager.gruppe` as any}
-                                                    legend={intlHelper(
-                                                        intl,
-                                                        'arbeidIPeriode.ukedager.tittel',
-                                                        intlValues
-                                                    )}
-                                                    validate={getArbeidIPeriodeTimerPerUkeValidator(
-                                                        intlValues,
-                                                        normalarbeidstid,
-                                                        arbeidIPeriode
-                                                    )}>
-                                                    <TidFasteUkedagerInput
-                                                        name={getFieldName(ArbeidIPeriodeFormField.fasteDager)}
-                                                        validateDag={getArbeidIPeriodeFasteDagerDagValidator(
-                                                            normalarbeidstid,
-                                                            intlValues
-                                                        )}
-                                                    />
-                                                </SøknadFormComponents.InputGroup>
-                                            </FormBlock>
-                                        )}
+                                        <SøknadFormComponents.InputGroup
+                                            name={`${parentFieldName}_fasteDager.gruppe` as any}
+                                            legend={intlHelper(intl, 'arbeidIPeriode.ukedager.tittel', intlValues)}
+                                            description={'hoys'}
+                                            validate={getArbeidIPeriodeTimerPerUkeValidator(
+                                                intlValues,
+                                                normalarbeidstid,
+                                                arbeidIPeriode
+                                            )}>
+                                            <TidFasteUkedagerInput
+                                                name={getFieldName(ArbeidIPeriodeFormField.fasteDager)}
+                                                validateDag={getArbeidIPeriodeFasteDagerDagValidator(
+                                                    normalarbeidstid,
+                                                    intlValues
+                                                )}
+                                            />
+                                        </SøknadFormComponents.InputGroup>
                                     </ResponsivePanel>
                                 </FormBlock>
                             )}
-                        </FormBlock>
+                        </>
                     )}
                 </>
             )}

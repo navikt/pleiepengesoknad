@@ -1,6 +1,6 @@
 import { getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { NormalarbeidstidFormData } from '../../types/ArbeidsforholdFormData';
-import { NormalarbeidstidSøknadsdata } from '../../types/Søknadsdata';
+import { NormalarbeidstidSøknadsdata, NormalarbeidstidType } from '../../types/Søknadsdata';
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
 
 export const ExtractNormalarbeidstidFailed = 'ExtractNormalarbeidstid failed';
@@ -15,7 +15,7 @@ export const extractNormalarbeidstid = (
         const timerPerUke = getNumberFromNumberInputValue(normalarbeidstid.timerPerUke);
         if (normalarbeidstid.erFasteUkedager === YesOrNo.YES && normalarbeidstid.timerFasteUkedager) {
             return {
-                type: 'likeUkerFasteDager',
+                type: NormalarbeidstidType.likeUkerOgDager,
                 erLiktHverUke: true,
                 erFasteUkedager: true,
                 timerFasteUkedager: normalarbeidstid.timerFasteUkedager,
@@ -23,7 +23,7 @@ export const extractNormalarbeidstid = (
         }
         if (normalarbeidstid.erFasteUkedager === YesOrNo.NO && timerPerUke) {
             return {
-                type: 'likeUkerUlikeDager',
+                type: NormalarbeidstidType.likeUkerVarierendeDager,
                 erLiktHverUke: true,
                 erFasteUkedager: false,
                 timerPerUkeISnitt: timerPerUke,
@@ -34,8 +34,9 @@ export const extractNormalarbeidstid = (
         const timerPerUke = getNumberFromNumberInputValue(normalarbeidstid.timerPerUke);
         if (timerPerUke !== undefined) {
             return {
-                type: 'ulikeUker',
+                type: NormalarbeidstidType.varierendeUker,
                 erLiktHverUke: false,
+                erFasteUkedager: false,
                 timerPerUkeISnitt: timerPerUke,
             };
         }

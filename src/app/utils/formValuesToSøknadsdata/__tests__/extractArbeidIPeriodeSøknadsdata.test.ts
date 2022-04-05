@@ -2,7 +2,6 @@ import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ISODateRangeToDateRange } from '@navikt/sif-common-utils/lib';
 import { TimerEllerProsent } from '../../../types';
 import { ArbeidIPeriodeFormData, ArbeiderIPeriodenSvar } from '../../../types/ArbeidIPeriodeFormData';
-import { ArbeidIPeriodeType } from '../../../types/Søknadsdata';
 import { extractArbeidIPeriodeSøknadsdata } from '../extractArbeidIPeriodeSøknadsdata';
 
 const søknadsperiode = ISODateRangeToDateRange('2022-01-01/2022-02-01');
@@ -14,13 +13,13 @@ const søknadsperiode = ISODateRangeToDateRange('2022-01-01/2022-02-01');
 //     timerEllerProsent: TimerEllerProsent.PROSENT,
 // };
 
-const arbeiderIkke: ArbeidIPeriodeFormData = {
-    arbeiderIPerioden: ArbeiderIPeriodenSvar.heltFravær,
-};
+// const arbeiderIkke: ArbeidIPeriodeFormData = {
+//     arbeiderIPerioden: ArbeiderIPeriodenSvar.heltFravær,
+// };
 
-const arbeiderVanlig: ArbeidIPeriodeFormData = {
-    arbeiderIPerioden: ArbeiderIPeriodenSvar.somVanlig,
-};
+// const arbeiderVanlig: ArbeidIPeriodeFormData = {
+//     arbeiderIPerioden: ArbeiderIPeriodenSvar.somVanlig,
+// };
 
 const arbeidProsentAvNormalt: ArbeidIPeriodeFormData = {
     arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
@@ -29,23 +28,23 @@ const arbeidProsentAvNormalt: ArbeidIPeriodeFormData = {
     prosentAvNormalt: '50',
 };
 
-const arbeidTimerISnitt: ArbeidIPeriodeFormData = {
-    arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
-    erLiktHverUke: YesOrNo.YES,
-    timerEllerProsent: TimerEllerProsent.TIMER,
-    timerPerUke: '20',
-};
+// const arbeidTimerISnitt: ArbeidIPeriodeFormData = {
+//     arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
+//     erLiktHverUke: YesOrNo.YES,
+//     timerEllerProsent: TimerEllerProsent.TIMER,
+//     timerPerUke: '20',
+// };
 
-const arbeidVariert: ArbeidIPeriodeFormData = {
-    arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
-    erLiktHverUke: YesOrNo.NO,
-    enkeltdager: {
-        '2022-01-03': {
-            hours: '1',
-            minutes: '30',
-        },
-    },
-};
+// const arbeidVariert: ArbeidIPeriodeFormData = {
+//     arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
+//     erLiktHverUke: YesOrNo.NO,
+//     enkeltdager: {
+//         '2022-01-03': {
+//             hours: '1',
+//             minutes: '30',
+//         },
+//     },
+// };
 
 describe('extractArbeidIPeriodeSøknadsdata', () => {
     it('returnerer undefined dersom arbeidstid er lik hver uke, men tillegsdata mangler', () => {

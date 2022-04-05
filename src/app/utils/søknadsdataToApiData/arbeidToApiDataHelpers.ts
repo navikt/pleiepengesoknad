@@ -19,6 +19,7 @@ import {
     ArbeidIPeriodeType,
     ArbeidsforholdSøknadsdata,
     NormalarbeidstidSøknadsdata,
+    NormalarbeidstidType,
 } from '../../types/Søknadsdata';
 import { getNormalarbeidstidApiDataFromSøknadsdata } from './getNormalarbeidstidApiDataFromSøknadsdata';
 
@@ -113,7 +114,7 @@ export const getArbeidIPeriodeApiDataFromSøknadsdata = (
                     arbeiderIPerioden: ArbeiderIPeriodenSvar.somVanlig,
                 };
             case ArbeidIPeriodeType.arbeiderEnkeltdager:
-                if (normalarbeidstid.type === 'likeUkerFasteDager') {
+                if (normalarbeidstid.type === NormalarbeidstidType.likeUkerOgDager) {
                     return {
                         type: ArbeidIPeriodeType.arbeiderEnkeltdager,
                         arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,

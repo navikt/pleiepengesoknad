@@ -3,27 +3,34 @@ import { Virksomhet } from '@navikt/sif-common-forms/lib';
 import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils/lib';
 import { Arbeidsgiver } from './Arbeidsgiver';
 
-export interface NormalarbeidstidSøknadsdataLikeDager {
-    type: 'likeUkerFasteDager';
+export enum NormalarbeidstidType {
+    likeUkerOgDager = 'likeUkerOgDager',
+    likeUkerVarierendeDager = 'likeUkerVarierendeDager',
+    varierendeUker = 'varierendeUker',
+}
+
+export interface NormalarbeidstidSøknadsdataLikeUker {
+    type: NormalarbeidstidType.likeUkerOgDager;
     erLiktHverUke: true;
     erFasteUkedager: true;
     timerFasteUkedager: DurationWeekdays;
 }
-export interface NormalarbeidstidSøknadsdataUlikeDager {
-    type: 'likeUkerUlikeDager';
+export interface NormalarbeidstidSøknadsdataLikeUkerVarierendeUkedager {
+    type: NormalarbeidstidType.likeUkerVarierendeDager;
     erLiktHverUke: true;
     erFasteUkedager: false;
     timerPerUkeISnitt: number;
 }
 export interface NormalarbeidstidSøknadsdataUlikeUker {
-    type: 'ulikeUker';
+    type: NormalarbeidstidType.varierendeUker;
     erLiktHverUke: false;
+    erFasteUkedager: false;
     timerPerUkeISnitt: number;
 }
 
 export type NormalarbeidstidSøknadsdata =
-    | NormalarbeidstidSøknadsdataLikeDager
-    | NormalarbeidstidSøknadsdataUlikeDager
+    | NormalarbeidstidSøknadsdataLikeUker
+    | NormalarbeidstidSøknadsdataLikeUkerVarierendeUkedager
     | NormalarbeidstidSøknadsdataUlikeUker;
 
 export interface ArbeidsforholdSøknadsdata {

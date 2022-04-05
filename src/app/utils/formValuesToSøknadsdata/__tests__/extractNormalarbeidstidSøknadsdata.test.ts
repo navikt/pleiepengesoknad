@@ -1,4 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { NormalarbeidstidType } from '../../../types/Søknadsdata';
 import { extractNormalarbeidstid } from '../extractNormalarbeidstidSøknadsdata';
 
 describe('extractNormalarbeidstid', () => {
@@ -23,16 +24,16 @@ describe('extractNormalarbeidstid', () => {
         expect(result).toBeUndefined();
     });
 
-    it('returnerer timerFasteUkedager dersom erLiktHverUke === true og jobberFasteUkedager === true', () => {
+    it('returnerer likeUkerOgDager dersom erLiktHverUke === true og jobberFasteUkedager === true', () => {
         const result = extractNormalarbeidstid({
             erLikeMangeTimerHverUke: YesOrNo.YES,
             erFasteUkedager: YesOrNo.YES,
             timerFasteUkedager: { monday: { hours: '1', minutes: '30' } },
         });
         expect(result).toBeDefined();
-        expect(result?.type).toEqual('likeUkerFasteDager');
+        expect(result?.type).toEqual(NormalarbeidstidType.likeUkerOgDager);
         expect(result?.erLiktHverUke).toBeTruthy();
-        if (result?.type === 'likeUkerFasteDager') {
+        if (result?.type === NormalarbeidstidType.likeUkerOgDager) {
             expect(result?.timerFasteUkedager.monday?.hours).toEqual('1');
             expect(result?.timerFasteUkedager.monday?.minutes).toEqual('30');
             expect((result as any).timerPerUke).toBeUndefined();
@@ -46,9 +47,9 @@ describe('extractNormalarbeidstid', () => {
             timerPerUke: '30',
         });
         expect(result).toBeDefined();
-        expect(result?.type).toEqual('ulikeUker');
+        expect(result?.type).toEqual(NormalarbeidstidType.varierendeUker);
         expect(result?.erLiktHverUke).toBeFalsy();
-        if (result?.type === 'ulikeUker') {
+        if (result?.type === NormalarbeidstidType.varierendeUker) {
             expect(result?.timerPerUkeISnitt).toEqual(30);
             expect((result as any).timerFasteUkedager).toBeUndefined();
         }
