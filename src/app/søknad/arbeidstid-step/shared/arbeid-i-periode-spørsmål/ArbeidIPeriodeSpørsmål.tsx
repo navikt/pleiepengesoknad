@@ -226,7 +226,6 @@ const ArbeidIPeriodeSpørsmål = ({
                                         <SøknadFormComponents.InputGroup
                                             name={`${parentFieldName}_fasteDager.gruppe` as any}
                                             legend={intlHelper(intl, 'arbeidIPeriode.ukedager.tittel', intlValues)}
-                                            description={'hoys'}
                                             validate={getArbeidIPeriodeTimerPerUkeValidator(
                                                 intlValues,
                                                 normalarbeidstid,
