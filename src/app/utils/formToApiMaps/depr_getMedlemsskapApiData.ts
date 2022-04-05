@@ -1,4 +1,4 @@
-import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
+/* import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getCountryName } from '@navikt/sif-common-formik/lib';
@@ -39,3 +39,4 @@ export const getMedlemsskapApiData = (
         },
     };
 };
+ */

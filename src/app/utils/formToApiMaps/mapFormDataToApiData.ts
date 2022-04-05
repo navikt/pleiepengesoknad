@@ -15,7 +15,6 @@ import { getSelvstendigApiDataFromSøknadsdata } from '../søknadsdataToApiData/
 import { getAttachmentsApiData } from './getAttachmentsApiData';
 import { getBarnApiData } from './getBarnApiData';
 import { getFerieuttakIPeriodenApiData } from './getFerieuttakIPeriodenApiData';
-// import { getMedlemsskapApiData } from './getMedlemsskapApiData';
 import { getNattevåkOgBeredskapApiData } from './getNattevåkOgBeredskapApiData';
 import { getOmsorgstilbudApiData } from './getOmsorgstilbudApiData';
 import { getUtenlandsoppholdIPeriodenApiData } from './getUtenlandsoppholdIPeriodenApiData';
@@ -66,7 +65,6 @@ export const mapFormDataToApiData = (
                 ...getOmsorgstilbudApiData(omsorgstilbud, søknadsperiode),
                 ...getNattevåkOgBeredskapApiData(formData),
                 medlemskap: getMedlemskapApiDataFromSøknadsdata(sprak, søknadsdata.medlemskap),
-                // ...getMedlemsskapApiData(formData, sprak),
                 arbeidsgivere: getArbeidsgivereApiDataFromSøknadsdata(søknadsdata.arbeid?.arbeidsgivere),
                 frilans: getFrilansApiDataFromSøknadsdata(søknadsdata.arbeid?.frilans),
                 selvstendigNæringsdrivende: getSelvstendigApiDataFromSøknadsdata(
