@@ -10,7 +10,7 @@ export const extractMedlemskapSøknadsdata = ({
 }: SøknadFormData): MedlemskapSøknadsdata | undefined => {
     if (harBoddUtenforNorgeSiste12Mnd === YesOrNo.NO && skalBoUtenforNorgeNeste12Mnd === YesOrNo.NO) {
         return {
-            type: 'IkkeHarBodIkkeSkalBo',
+            type: 'harIkkeBoddSkalIkkeBo',
             harBoddUtenforNorgeSiste12Mnd: false,
             skalBoUtenforNorgeNeste12Mnd: false,
         };
@@ -18,7 +18,7 @@ export const extractMedlemskapSøknadsdata = ({
 
     if (harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && skalBoUtenforNorgeNeste12Mnd === YesOrNo.NO) {
         return {
-            type: 'HarBod',
+            type: 'harBodd',
             harBoddUtenforNorgeSiste12Mnd: true,
             utenlandsoppholdSiste12Mnd,
             skalBoUtenforNorgeNeste12Mnd: false,
@@ -26,7 +26,7 @@ export const extractMedlemskapSøknadsdata = ({
     }
     if (harBoddUtenforNorgeSiste12Mnd === YesOrNo.NO && skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES) {
         return {
-            type: 'SkalBo',
+            type: 'skalBo',
             harBoddUtenforNorgeSiste12Mnd: false,
             skalBoUtenforNorgeNeste12Mnd: true,
             utenlandsoppholdNeste12Mnd,
@@ -35,7 +35,7 @@ export const extractMedlemskapSøknadsdata = ({
 
     if (harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES) {
         return {
-            type: 'HarBodSkalBo',
+            type: 'harBoddSkalBo',
             harBoddUtenforNorgeSiste12Mnd: true,
             utenlandsoppholdSiste12Mnd,
             skalBoUtenforNorgeNeste12Mnd: true,

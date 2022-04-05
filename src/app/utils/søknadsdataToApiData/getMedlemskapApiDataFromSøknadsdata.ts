@@ -17,22 +17,17 @@ export const getMedlemskapApiDataFromSøknadsdata = (
     medlemskapSøknadsdata?: MedlemskapSøknadsdata
 ): MedlemskapApiData => {
     if (medlemskapSøknadsdata === undefined) {
-        return {
-            harBoddIUtlandetSiste12Mnd: false,
-            utenlandsoppholdSiste12Mnd: [],
-            skalBoIUtlandetNeste12Mnd: false,
-            utenlandsoppholdNeste12Mnd: [],
-        };
+        throw Error('medlemskapSøknadsdata undefined');
     }
     switch (medlemskapSøknadsdata?.type) {
-        case 'IkkeHarBodIkkeSkalBo':
+        case 'harIkkeBoddSkalIkkeBo':
             return {
                 harBoddIUtlandetSiste12Mnd: medlemskapSøknadsdata.harBoddUtenforNorgeSiste12Mnd,
                 utenlandsoppholdSiste12Mnd: [],
                 skalBoIUtlandetNeste12Mnd: medlemskapSøknadsdata.skalBoUtenforNorgeNeste12Mnd,
                 utenlandsoppholdNeste12Mnd: [],
             };
-        case 'HarBodSkalBo':
+        case 'harBoddSkalBo':
             return {
                 harBoddIUtlandetSiste12Mnd: medlemskapSøknadsdata.harBoddUtenforNorgeSiste12Mnd,
                 utenlandsoppholdSiste12Mnd: medlemskapSøknadsdata.utenlandsoppholdSiste12Mnd.map((o) =>
@@ -45,7 +40,7 @@ export const getMedlemskapApiDataFromSøknadsdata = (
                 ),
             };
 
-        case 'HarBod':
+        case 'harBodd':
             return {
                 harBoddIUtlandetSiste12Mnd: medlemskapSøknadsdata.harBoddUtenforNorgeSiste12Mnd,
                 utenlandsoppholdSiste12Mnd: medlemskapSøknadsdata.utenlandsoppholdSiste12Mnd.map((o) =>
@@ -54,7 +49,7 @@ export const getMedlemskapApiDataFromSøknadsdata = (
                 skalBoIUtlandetNeste12Mnd: medlemskapSøknadsdata.skalBoUtenforNorgeNeste12Mnd,
                 utenlandsoppholdNeste12Mnd: [],
             };
-        case 'SkalBo':
+        case 'skalBo':
             return {
                 harBoddIUtlandetSiste12Mnd: medlemskapSøknadsdata.harBoddUtenforNorgeSiste12Mnd,
                 utenlandsoppholdSiste12Mnd: [],

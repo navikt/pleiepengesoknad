@@ -166,27 +166,27 @@ export type ArbeidIPeriodeSøknadsdata =
     | ArbeidProsentISøknadsperiodeFastTimerPerUkeSøknadsdata
     | ArbeidProsentISøknadsperiodeFastProsentSøknadsdata;
 
-export interface MedlemskapSøknadsdataIkkeHarBodIkkeSkalBo {
-    type: 'IkkeHarBodIkkeSkalBo';
+export interface MedlemskapSøknadsdataHarIkkeBoddSkalIkkeBo {
+    type: 'harIkkeBoddSkalIkkeBo';
     harBoddUtenforNorgeSiste12Mnd: false;
     skalBoUtenforNorgeNeste12Mnd: false;
 }
-export interface MedlemskapSøknadsdataHarBod {
-    type: 'HarBod';
+export interface MedlemskapSøknadsdataHarBodd {
+    type: 'harBodd';
     harBoddUtenforNorgeSiste12Mnd: true;
     utenlandsoppholdSiste12Mnd: Utenlandsopphold[];
     skalBoUtenforNorgeNeste12Mnd: false;
 }
 
 export interface MedlemskapSøknadsdataSkalBo {
-    type: 'SkalBo';
+    type: 'skalBo';
     harBoddUtenforNorgeSiste12Mnd: false;
     skalBoUtenforNorgeNeste12Mnd: true;
     utenlandsoppholdNeste12Mnd: Utenlandsopphold[];
 }
 
-export interface MedlemskapSøknadsdataHarBodSkalBo {
-    type: 'HarBodSkalBo';
+export interface MedlemskapSøknadsdataHarBoddSkalBo {
+    type: 'harBoddSkalBo';
     harBoddUtenforNorgeSiste12Mnd: true;
     utenlandsoppholdSiste12Mnd: Utenlandsopphold[];
     skalBoUtenforNorgeNeste12Mnd: true;
@@ -194,10 +194,10 @@ export interface MedlemskapSøknadsdataHarBodSkalBo {
 }
 
 export type MedlemskapSøknadsdata =
-    | MedlemskapSøknadsdataIkkeHarBodIkkeSkalBo
-    | MedlemskapSøknadsdataHarBod
+    | MedlemskapSøknadsdataHarIkkeBoddSkalIkkeBo
+    | MedlemskapSøknadsdataHarBodd
     | MedlemskapSøknadsdataSkalBo
-    | MedlemskapSøknadsdataHarBodSkalBo;
+    | MedlemskapSøknadsdataHarBoddSkalBo;
 
 export interface Søknadsdata {
     søknadsperiode?: DateRange;
