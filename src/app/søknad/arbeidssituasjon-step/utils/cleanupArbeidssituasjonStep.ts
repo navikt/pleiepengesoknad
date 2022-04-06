@@ -1,10 +1,10 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
+import { removeDurationWeekdaysWithNoDuration } from '@navikt/sif-common-utils/lib';
 import { Arbeidsgiver } from '../../../types';
 import { ArbeidsforholdFormData, NormalarbeidstidFormData } from '../../../types/ArbeidsforholdFormData';
 import { FrilansFormData } from '../../../types/FrilansFormData';
 import { SøknadFormData } from '../../../types/SøknadFormData';
-import { removeDurationWeekdaysWithNoDuration } from '../../../utils/durationWeekdaysUtils';
 import { erFrilanserISøknadsperiode, harFrilansoppdrag } from '../../../utils/frilanserUtils';
 import { visVernepliktSpørsmål } from './visVernepliktSpørsmål';
 

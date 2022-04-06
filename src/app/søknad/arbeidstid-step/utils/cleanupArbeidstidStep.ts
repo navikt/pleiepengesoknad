@@ -1,7 +1,11 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { Virksomhet } from '@navikt/sif-common-forms/lib';
-import { getDurationsInDateRange } from '@navikt/sif-common-utils';
+import {
+    getDurationsInDateRange,
+    removeDurationWeekdaysNotInDurationWeekdays,
+    removeDurationWeekdaysWithNoDuration,
+} from '@navikt/sif-common-utils';
 import { TimerEllerProsent } from '../../../types';
 import { ArbeiderIPeriodenSvar, ArbeidIPeriodeFormData } from '../../../types/ArbeidIPeriodeFormData';
 import {
@@ -12,10 +16,6 @@ import {
 } from '../../../types/ArbeidsforholdFormData';
 import { FrilansFormData } from '../../../types/FrilansFormData';
 import { SøknadFormData } from '../../../types/SøknadFormData';
-import {
-    removeDurationWeekdaysNotInDurationWeekdays,
-    removeDurationWeekdaysWithNoDuration,
-} from '../../../utils/durationWeekdaysUtils';
 import { getPeriodeSomFrilanserInnenforPeriode } from '../../../utils/frilanserUtils';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../../utils/selvstendigUtils';
 

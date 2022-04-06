@@ -12,13 +12,13 @@ import {
     Duration,
     durationToDecimalDuration,
     DurationWeekdays,
+    getNumberDurationOrUndefined,
     NumberDuration,
     summarizeDurationInDurationWeekdays,
 } from '@navikt/sif-common-utils/lib';
 import { IntlShape } from 'react-intl';
 import { ArbeidIPeriodeFormData } from '../../../../types/ArbeidIPeriodeFormData';
 import { NormalarbeidstidSøknadsdata } from '../../../../types/Søknadsdata';
-import { getNumberDurationOrUndefined } from '../../../../utils/durationWeekdaysUtils';
 
 type Ukedager = 'mandag' | 'tirsdag' | 'onsdag' | 'torsdag' | 'fredag' | string;
 

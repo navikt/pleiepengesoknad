@@ -28,8 +28,7 @@ import {
     getArbeidIPeriodeTimerPerUkeISnittValidator,
 } from './validationArbeidIPeriodeSpørsmål';
 
-import { decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
-import { hasWeekdaysWithoutDuration } from '../../../../utils/durationWeekdaysUtils';
+import { decimalDurationToDuration, hasWeekdaysWithoutDuration } from '@navikt/sif-common-utils/lib';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 interface Props extends ArbeidstidRegistrertLogProps {
@@ -207,7 +206,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                     <ResponsivePanel>
                                         <ArbeidstidVariert
                                             arbeidstid={arbeidIPeriode?.enkeltdager}
-                                            kanLeggeTilPeriode={true}
+                                            kanLeggeTilPeriode={false}
                                             arbeiderNormaltTimerFasteUkedager={normalarbeidstid.timerFasteUkedager}
                                             periode={periode}
                                             intlValues={intlValues}
@@ -232,8 +231,8 @@ const ArbeidIPeriodeSpørsmål = ({
                                                     <>
                                                         <p style={{ marginTop: 0 }}>
                                                             Du kan kun oppgi timer på de dagene du normalt jobber.
-                                                            Dersom du jobber på andre dager enn dette i perioden, må
-                                                            timene føres på dagene hvor du opprinnelig skulle jobbet.
+                                                            Dersom du jobber andre dager enn dette i perioden, må timene
+                                                            føres på dagene hvor du opprinnelig skulle jobbet.
                                                         </p>
                                                         <ExpandableInfo title="Forklar meg dette en gang til">
                                                             Dette er litt rart ja, men vi trenger at ... fordi ...
@@ -247,10 +246,6 @@ const ArbeidIPeriodeSpørsmål = ({
                                                 arbeidIPeriode
                                             )}>
                                             <TidFasteUkedagerInput
-                                                // disabledDays={getAllWeekdaysWithoutDuration(
-                                                //     normalarbeidstid.timerFasteUkedager
-                                                // )}
-                                                // hideDisabledDays={true}
                                                 name={getFieldName(ArbeidIPeriodeFormField.fasteDager)}
                                                 validateDag={getArbeidIPeriodeFasteDagerDagValidator(
                                                     normalarbeidstid,
