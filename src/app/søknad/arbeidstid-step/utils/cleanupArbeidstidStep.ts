@@ -8,14 +8,20 @@ import {
     ArbeidsforholdFormData,
     ArbeidsforholdFrilanserFormData,
     ArbeidsforholdSelvstendigFormData,
+    NormalarbeidstidFormData,
 } from '../../../types/ArbeidsforholdFormData';
 import { FrilansFormData } from '../../../types/FrilansFormData';
 import { SøknadFormData } from '../../../types/SøknadFormData';
+import {
+    removeDurationWeekdaysNotInDurationWeekdays,
+    removeDurationWeekdaysWithNoDuration,
+} from '../../../utils/durationWeekdaysUtils';
 import { getPeriodeSomFrilanserInnenforPeriode } from '../../../utils/frilanserUtils';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../../utils/selvstendigUtils';
 
 export const cleanupArbeidIPeriode = (
     arbeidIPerioden: ArbeidIPeriodeFormData,
+    normalarbeidstid: NormalarbeidstidFormData,
     periode: DateRange
 ): ArbeidIPeriodeFormData => {
     const arbeid: ArbeidIPeriodeFormData = {
@@ -41,7 +47,12 @@ export const cleanupArbeidIPeriode = (
     /** Bruker har fast normarlarbeidstid */
     if (erLiktHverUke === YesOrNo.YES) {
         arbeid.erLiktHverUke = erLiktHverUke;
-        arbeid.fasteDager = fasteDager;
+        arbeid.fasteDager =
+            normalarbeidstid.timerFasteUkedager && fasteDager
+                ? removeDurationWeekdaysWithNoDuration(
+                      removeDurationWeekdaysNotInDurationWeekdays(fasteDager, normalarbeidstid.timerFasteUkedager)
+                  )
+                : undefined;
         return arbeid;
     }
     return {
@@ -55,12 +66,19 @@ export const cleanupArbeidstidAnsatt = (
     ansatt_arbeidsforhold: ArbeidsforholdFormData[],
     søknadsperiode: DateRange
 ): ArbeidsforholdFormData[] => {
-    return ansatt_arbeidsforhold.map((arbeidsforhold) => ({
-        ...arbeidsforhold,
-        arbeidIPeriode: arbeidsforhold.arbeidIPeriode
-            ? cleanupArbeidIPeriode(arbeidsforhold.arbeidIPeriode, søknadsperiode)
-            : undefined,
-    }));
+    return ansatt_arbeidsforhold.map((arbeidsforhold) => {
+        return {
+            ...arbeidsforhold,
+            arbeidIPeriode:
+                arbeidsforhold.arbeidIPeriode && arbeidsforhold.normalarbeidstid
+                    ? cleanupArbeidIPeriode(
+                          arbeidsforhold.arbeidIPeriode,
+                          arbeidsforhold.normalarbeidstid,
+                          søknadsperiode
+                      )
+                    : undefined,
+        };
+    });
 };
 
 export const cleanupArbeidstidFrilans = (
@@ -74,16 +92,20 @@ export const cleanupArbeidstidFrilans = (
     return {
         ...frilans.arbeidsforhold,
         arbeidIPeriode:
-            periodeSomFrilanser && frilans.arbeidsforhold?.arbeidIPeriode
-                ? cleanupArbeidIPeriode(frilans.arbeidsforhold?.arbeidIPeriode, periodeSomFrilanser)
+            periodeSomFrilanser && frilans.arbeidsforhold.arbeidIPeriode && frilans.arbeidsforhold.normalarbeidstid
+                ? cleanupArbeidIPeriode(
+                      frilans.arbeidsforhold.arbeidIPeriode,
+                      frilans.arbeidsforhold.normalarbeidstid,
+                      periodeSomFrilanser
+                  )
                 : undefined,
     };
 };
 
 export const cleanupArbeidstidSelvstendigNæringdrivende = (
     søknadsperiode: DateRange,
-    selvstendig_virksomhet?: Virksomhet | undefined,
-    selvstendig_arbeidsforhold?: ArbeidsforholdSelvstendigFormData
+    selvstendig_virksomhet: Virksomhet | undefined,
+    selvstendig_arbeidsforhold: ArbeidsforholdSelvstendigFormData | undefined
 ): ArbeidsforholdSelvstendigFormData | undefined => {
     if (!selvstendig_arbeidsforhold) {
         return undefined;
@@ -95,9 +117,12 @@ export const cleanupArbeidstidSelvstendigNæringdrivende = (
     return {
         ...selvstendig_arbeidsforhold,
         arbeidIPeriode:
-            selvstendig_arbeidsforhold?.arbeidIPeriode && periodeSomSelvstendigNæringsdrivende
+            selvstendig_arbeidsforhold?.arbeidIPeriode &&
+            periodeSomSelvstendigNæringsdrivende &&
+            selvstendig_arbeidsforhold.normalarbeidstid
                 ? cleanupArbeidIPeriode(
                       selvstendig_arbeidsforhold?.arbeidIPeriode,
+                      selvstendig_arbeidsforhold.normalarbeidstid,
                       periodeSomSelvstendigNæringsdrivende
                   )
                 : undefined,

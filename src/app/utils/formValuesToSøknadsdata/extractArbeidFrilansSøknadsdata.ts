@@ -37,7 +37,7 @@ export const extractArbeidFrilansSøknadsdata = (
         if (!arbeidsforhold || !aktivPeriode) {
             return {
                 type: 'avsluttetFørSøknadsperiode',
-                erFrilanser: true,
+                erFrilanser: false,
                 harInntektISøknadsperiode: false,
                 erFortsattFrilanser: false,
                 startdato,

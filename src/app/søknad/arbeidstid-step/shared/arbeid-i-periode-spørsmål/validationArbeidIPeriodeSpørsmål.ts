@@ -10,7 +10,6 @@ import {
 import {
     decimalDurationToDuration,
     Duration,
-    durationAsNumberDuration,
     durationToDecimalDuration,
     DurationWeekdays,
     NumberDuration,
@@ -19,21 +18,22 @@ import {
 import { IntlShape } from 'react-intl';
 import { ArbeidIPeriodeFormData } from '../../../../types/ArbeidIPeriodeFormData';
 import { NormalarbeidstidSøknadsdata } from '../../../../types/Søknadsdata';
+import { getNumberDurationOrUndefined } from '../../../../utils/durationWeekdaysUtils';
 
 type Ukedager = 'mandag' | 'tirsdag' | 'onsdag' | 'torsdag' | 'fredag' | string;
 
 export const getNormaltidForUkedag = (fasteDager: DurationWeekdays, ukedag: Ukedager): NumberDuration | undefined => {
     switch (ukedag) {
         case 'mandag':
-            return fasteDager.monday ? durationAsNumberDuration(fasteDager.monday) : undefined;
+            return getNumberDurationOrUndefined(fasteDager.monday);
         case 'tirsdag':
-            return fasteDager.tuesday ? durationAsNumberDuration(fasteDager.tuesday) : undefined;
+            return getNumberDurationOrUndefined(fasteDager.tuesday);
         case 'onsdag':
-            return fasteDager.wednesday ? durationAsNumberDuration(fasteDager.wednesday) : undefined;
+            return getNumberDurationOrUndefined(fasteDager.wednesday);
         case 'torsdag':
-            return fasteDager.thursday ? durationAsNumberDuration(fasteDager.thursday) : undefined;
+            return getNumberDurationOrUndefined(fasteDager.thursday);
         case 'fredag':
-            return fasteDager.friday ? durationAsNumberDuration(fasteDager.friday) : undefined;
+            return getNumberDurationOrUndefined(fasteDager.friday);
         default:
             return undefined;
     }
@@ -45,10 +45,18 @@ export const getArbeidIPeriodeFasteDagerDagValidator =
         if (normalarbeidstid.erLiktHverUke && normalarbeidstid.erFasteUkedager) {
             const normaltidDag = getNormaltidForUkedag(normalarbeidstid.timerFasteUkedager, dag);
             const nyTid = value ? durationToDecimalDuration(value) : undefined;
+            if (nyTid && !normaltidDag) {
+                return {
+                    key: `validation.arbeidIPeriode.fast.tid.dagUtenNormaltid`,
+                    keepKeyUnaltered: true,
+                    values: { ...intlValues, dag },
+                };
+            }
             if (normaltidDag) {
-                const error = getTimeValidator({ min: { hours: 0, minutes: 0 }, max: { hours: 6, minutes: 50 } })(
-                    value
-                );
+                const error = getTimeValidator({
+                    min: { hours: 0, minutes: 0 },
+                    max: { hours: normaltidDag.hours, minutes: normaltidDag.minutes },
+                })(value);
                 return error
                     ? {
                           key: `validation.arbeidIPeriode.fast.tid.${error}`,
@@ -56,14 +64,6 @@ export const getArbeidIPeriodeFasteDagerDagValidator =
                           values: { ...intlValues, maksTimer: normaltidDag, dag },
                       }
                     : undefined;
-            }
-
-            if (nyTid && !normaltidDag) {
-                return {
-                    key: `validation.arbeidIPeriode.fast.tid.dagUtenNormaltid`,
-                    keepKeyUnaltered: true,
-                    values: { ...intlValues, dag },
-                };
             }
         }
         const error = getArbeidstimerFastDagValidator()(value);

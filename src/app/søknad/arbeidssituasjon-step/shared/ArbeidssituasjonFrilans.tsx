@@ -131,6 +131,13 @@ const ArbeidssituasjonFrilans = ({
                         )}
                         {visSpørsmålOmArbeidsforhold && (
                             <FormBlock>
+                                {/* <Box padBottom="m">
+                                    <Ingress>Hvordan jobber du som frilanser til vanlig?</Ingress>
+                                </Box>
+                                <Box padBottom="xl">
+                                    Vi trenger informasjon om hvordan du jobber som frilanser når du ikke har fravær på
+                                    grunn av pleiepenger, slik at vi kan beregne riktig pleiepenger.
+                                </Box> */}
                                 <NormalarbeidstidSpørsmål
                                     arbeidsforholdFieldName={FrilansFormField.arbeidsforhold}
                                     arbeidsforhold={arbeidsforhold || {}}

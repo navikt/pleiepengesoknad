@@ -4,6 +4,7 @@ import { Arbeidsgiver } from '../../../types';
 import { ArbeidsforholdFormData, NormalarbeidstidFormData } from '../../../types/ArbeidsforholdFormData';
 import { FrilansFormData } from '../../../types/FrilansFormData';
 import { SøknadFormData } from '../../../types/SøknadFormData';
+import { removeDurationWeekdaysWithNoDuration } from '../../../utils/durationWeekdaysUtils';
 import { erFrilanserISøknadsperiode, harFrilansoppdrag } from '../../../utils/frilanserUtils';
 import { visVernepliktSpørsmål } from './visVernepliktSpørsmål';
 
@@ -23,7 +24,9 @@ const cleanupNormalarbeidstid = ({
         return {
             erLikeMangeTimerHverUke: erLiktHverUke,
             erFasteUkedager: erFasteUkedager,
-            timerFasteUkedager,
+            timerFasteUkedager: timerFasteUkedager
+                ? removeDurationWeekdaysWithNoDuration(timerFasteUkedager)
+                : undefined,
         };
     }
     return {

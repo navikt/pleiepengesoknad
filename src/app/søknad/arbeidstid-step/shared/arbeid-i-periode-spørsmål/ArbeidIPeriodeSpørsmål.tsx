@@ -28,7 +28,9 @@ import {
     getArbeidIPeriodeTimerPerUkeISnittValidator,
 } from './validationArbeidIPeriodeSpørsmål';
 
-import { decimalDurationToDuration, DurationWeekdays } from '@navikt/sif-common-utils/lib';
+import { decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
+import { hasWeekdaysWithoutDuration } from '../../../../utils/durationWeekdaysUtils';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 interface Props extends ArbeidstidRegistrertLogProps {
     normalarbeidstid: NormalarbeidstidSøknadsdata;
@@ -105,21 +107,8 @@ const ArbeidIPeriodeSpørsmål = ({
             ? formatTimerOgMinutter(intl, decimalDurationToDuration(normalarbeidstid.timerPerUkeISnitt))
             : undefined;
 
-    const renderArbeidstidVariert = (kanLeggeTilPeriode: boolean, timerFasteUkedager: DurationWeekdays) => (
-        <ArbeidstidVariert
-            arbeidstid={arbeidIPeriode?.enkeltdager}
-            kanLeggeTilPeriode={kanLeggeTilPeriode}
-            arbeiderNormaltTimerFasteUkedager={timerFasteUkedager}
-            periode={periode}
-            intlValues={intlValues}
-            arbeidsstedNavn={arbeidsstedNavn}
-            arbeidsforholdType={arbeidsforholdType}
-            formFieldName={getFieldName(ArbeidIPeriodeFormField.enkeltdager)}
-            onArbeidstidVariertChanged={() => setArbeidstidChanged(true)}
-            onArbeidPeriodeRegistrert={onArbeidPeriodeRegistrert}
-            onArbeidstidEnkeltdagRegistrert={onArbeidstidEnkeltdagRegistrert}
-        />
-    );
+    const jobberFastMenIkkeAlleDager =
+        normalarbeidstid.erFasteUkedager && hasWeekdaysWithoutDuration(normalarbeidstid.timerFasteUkedager);
 
     return (
         <>
@@ -216,22 +205,52 @@ const ArbeidIPeriodeSpørsmål = ({
                             {erLiktHverUke === YesOrNo.NO && (
                                 <FormBlock margin="l">
                                     <ResponsivePanel>
-                                        {renderArbeidstidVariert(true, normalarbeidstid.timerFasteUkedager)}
+                                        <ArbeidstidVariert
+                                            arbeidstid={arbeidIPeriode?.enkeltdager}
+                                            kanLeggeTilPeriode={true}
+                                            arbeiderNormaltTimerFasteUkedager={normalarbeidstid.timerFasteUkedager}
+                                            periode={periode}
+                                            intlValues={intlValues}
+                                            arbeidsstedNavn={arbeidsstedNavn}
+                                            arbeidsforholdType={arbeidsforholdType}
+                                            formFieldName={getFieldName(ArbeidIPeriodeFormField.enkeltdager)}
+                                            onArbeidstidVariertChanged={() => setArbeidstidChanged(true)}
+                                            onArbeidPeriodeRegistrert={onArbeidPeriodeRegistrert}
+                                            onArbeidstidEnkeltdagRegistrert={onArbeidstidEnkeltdagRegistrert}
+                                        />
                                     </ResponsivePanel>
                                 </FormBlock>
                             )}
                             {erLiktHverUke === YesOrNo.YES && (
-                                <FormBlock>
+                                <FormBlock margin="m">
                                     <ResponsivePanel>
                                         <SøknadFormComponents.InputGroup
                                             name={`${parentFieldName}_fasteDager.gruppe` as any}
                                             legend={intlHelper(intl, 'arbeidIPeriode.ukedager.tittel', intlValues)}
+                                            description={
+                                                jobberFastMenIkkeAlleDager ? (
+                                                    <>
+                                                        <p style={{ marginTop: 0 }}>
+                                                            Du kan kun oppgi timer på de dagene du normalt jobber.
+                                                            Dersom du jobber på andre dager enn dette i perioden, må
+                                                            timene føres på dagene hvor du opprinnelig skulle jobbet.
+                                                        </p>
+                                                        <ExpandableInfo title="Forklar meg dette en gang til">
+                                                            Dette er litt rart ja, men vi trenger at ... fordi ...
+                                                        </ExpandableInfo>
+                                                    </>
+                                                ) : undefined
+                                            }
                                             validate={getArbeidIPeriodeTimerPerUkeValidator(
                                                 intlValues,
                                                 normalarbeidstid,
                                                 arbeidIPeriode
                                             )}>
                                             <TidFasteUkedagerInput
+                                                // disabledDays={getAllWeekdaysWithoutDuration(
+                                                //     normalarbeidstid.timerFasteUkedager
+                                                // )}
+                                                // hideDisabledDays={true}
                                                 name={getFieldName(ArbeidIPeriodeFormField.fasteDager)}
                                                 validateDag={getArbeidIPeriodeFasteDagerDagValidator(
                                                     normalarbeidstid,

@@ -65,8 +65,8 @@ export interface ArbeidFrilansSøknadsdataErIkkeFrilanser {
     erFrilanser: false;
 }
 export interface ArbeidFrilansSøknadsdataPågående {
-    erFrilanser: true;
     type: 'pågående';
+    erFrilanser: true;
     harInntektISøknadsperiode: true;
     erFortsattFrilanser: true;
     startdato: Date;
@@ -75,15 +75,15 @@ export interface ArbeidFrilansSøknadsdataPågående {
 }
 
 export interface ArbeidFrilansSøknadsdataUtenforSøknadsperiode {
-    erFrilanser: true;
     type: 'avsluttetFørSøknadsperiode';
+    erFrilanser: false;
     harInntektISøknadsperiode: false;
     startdato: Date;
     sluttdato: Date;
 }
 export interface ArbeidFrilansSøknadsdataAvsluttetISøknadsperiode {
-    erFrilanser: true;
     type: 'avsluttetISøknadsperiode';
+    erFrilanser: true;
     harInntektISøknadsperiode: true;
     erFortsattFrilanser: false;
     startdato: Date;
@@ -100,9 +100,11 @@ export type ArbeidFrilansSøknadsdata =
 
 export interface ArbeidSelvstendigSøknadsdataErIkkeSN {
     type: 'erIkkeSN';
+    erSN: false;
 }
 export interface ArbeidSelvstendigSøknadsdataErSN {
     type: 'erSN';
+    erSN: true;
     startdato: Date;
     virksomhet: Virksomhet;
     harFlereVirksomheter: boolean;
