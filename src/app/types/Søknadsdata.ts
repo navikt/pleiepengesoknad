@@ -201,10 +201,6 @@ export type MedlemskapSøknadsdata =
     | MedlemskapSøknadsdataSkalBo
     | MedlemskapSøknadsdataHarBoddSkalBo;
 
-export interface BarnRelasjonSøknadsdata {
-    relasjonTilBarnet?: BarnRelasjon;
-    relasjonTilBarnetBeskrivelse?: string;
-}
 export interface OmBarnetRegistrerteSøknadsdata {
     type: 'registrerteBarn';
     barnetSøknadenGjelder: string;
