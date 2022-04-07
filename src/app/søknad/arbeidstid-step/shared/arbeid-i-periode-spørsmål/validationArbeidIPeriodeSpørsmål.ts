@@ -23,8 +23,8 @@ import { ArbeidIPeriodeFormData } from '../../../../types/ArbeidIPeriodeFormData
 import { NormalarbeidstidSøknadsdata } from '../../../../types/Søknadsdata';
 import { ArbeidstidUkeInputEnkeltdagValidator } from '../arbeidstid-uker-input/ArbeidstidUkeInput';
 
-export const getDurationForWeekday = (fasteDager: DurationWeekdays, ukedag: Weekday): NumberDuration | undefined => {
-    switch (ukedag) {
+export const getDurationForWeekday = (fasteDager: DurationWeekdays, weekday: Weekday): NumberDuration | undefined => {
+    switch (weekday) {
         case 'monday':
             return getNumberDurationOrUndefined(fasteDager.monday);
         case 'tuesday':

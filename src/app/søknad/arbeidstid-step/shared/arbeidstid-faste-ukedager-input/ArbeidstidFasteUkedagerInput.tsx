@@ -5,7 +5,7 @@ import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib
 import { getTidFasteUkerdagerInputMessages } from '@navikt/sif-common-pleiepenger/lib/tid-faste-ukedager-input/tidFasteUkerdagerInputMessages';
 import { Weekday } from '@navikt/sif-common-utils';
 import { useIntl } from 'react-intl';
-import './arbeidstidUkedagerInput.less';
+import './arbeidstidFasteUkedagerInput.less';
 
 export interface ArbeidstidUkeTekster {
     dag: React.ReactNode;
@@ -20,9 +20,9 @@ interface Props {
     tekst: ArbeidstidUkeTekster;
 }
 
-const bem = bemUtils('arbeidstidUkedagerInput');
+const bem = bemUtils('arbeidstidFasteUkedagerInput');
 
-const ArbeidstidUkedagerInput: React.FunctionComponent<Props> = ({
+const ArbeidstidFasteUkedagerInput: React.FunctionComponent<Props> = ({
     fieldName,
     tidPerDagValidator,
     utilgjengeligeUkedager,
@@ -79,4 +79,4 @@ const ArbeidstidUkedagerInput: React.FunctionComponent<Props> = ({
     );
 };
 
-export default ArbeidstidUkedagerInput;
+export default ArbeidstidFasteUkedagerInput;

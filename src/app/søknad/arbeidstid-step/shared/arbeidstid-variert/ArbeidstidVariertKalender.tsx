@@ -14,20 +14,19 @@ import {
     durationToDecimalDuration,
     DurationWeekdays,
     getAllWeekdaysWithoutDuration,
+    getDatesInDateRange,
     getDatesInMonthOutsideDateRange,
     getDurationsInDateRange,
     getMonthsInDateRange,
     getValidDurations,
+    isDateInWeekdays,
     summarizeDateDurationMap,
 } from '@navikt/sif-common-utils';
 import { useFormikContext } from 'formik';
-import { Element, Undertittel } from 'nav-frontend-typografi';
+import { Element } from 'nav-frontend-typografi';
 import { SøknadFormData, SøknadFormField } from '../../../../types/SøknadFormData';
 import ArbeidstidPeriode from '../arbeidstid-periode/ArbeidstidPeriode';
 import { ArbeidstidRegistrertLogProps } from '../types';
-import ArbeidstidUkerInput from '../arbeidstid-uker-input/ArbeidstidUkerInput';
-import { getArbeidIPeriodeEnkeltdagValidator } from '../arbeid-i-periode-spørsmål/validationArbeidIPeriodeSpørsmål';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 interface Props extends ArbeidstidRegistrertLogProps {
     arbeidsstedNavn: string;
@@ -42,7 +41,7 @@ interface Props extends ArbeidstidRegistrertLogProps {
     onArbeidstidVariertChanged?: (arbeidstid: DateDurationMap) => void;
 }
 
-const ArbeidstidVariert: React.FunctionComponent<Props> = ({
+const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
     formFieldName,
     arbeidstid = {},
     arbeidsstedNavn,
@@ -84,7 +83,16 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
         }
     };
 
+    /** Dager som en ikke jobber på normalt */
+    const utilgjengeligeUkedager = arbeiderNormaltTimerFasteUkedager
+        ? getAllWeekdaysWithoutDuration(arbeiderNormaltTimerFasteUkedager)
+        : undefined;
+
     const månedContentRenderer = (måned: DateRange) => {
+        const datoerUtenforPeriode = getDatesInMonthOutsideDateRange(måned.from, periode);
+        const datoerPåDagerHvorEnNormaltIkkeJobber = utilgjengeligeUkedager
+            ? getDatesInDateRange(periode).filter((date) => isDateInWeekdays(date, utilgjengeligeUkedager))
+            : [];
         return (
             <ArbeidstidMånedInfo
                 arbeidsstedNavn={arbeidsstedNavn}
@@ -92,19 +100,18 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                 måned={måned}
                 åpentEkspanderbartPanel={antallMåneder === 1 || kanLeggeTilPeriode === false}
                 tidArbeidstid={arbeidstid}
-                utilgjengeligeDatoer={getDatesInMonthOutsideDateRange(måned.from, periode)}
+                utilgjengeligeDatoer={[...datoerUtenforPeriode, ...datoerPåDagerHvorEnNormaltIkkeJobber]}
                 periode={periode}
                 onEnkeltdagChange={handleOnEnkeltdagChange}
             />
         );
     };
-
     return (
         <FormikInputGroup
             name={`${formFieldName}_dager`}
             validate={() => validateArbeidsTidEnkeltdager(arbeidstid, periode, intlValues)}
             tag="div">
-            {kanLeggeTilPeriode ? (
+            {kanLeggeTilPeriode && (
                 <>
                     <Element tag="h3">
                         <FormattedMessage id="arbeidstidVariert.periode.tittel" />
@@ -120,67 +127,34 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                             <FormattedMessage id="arbeidstidVariert.periode.info.3" />
                         </li>
                     </ul>
-                    <Box margin="l">
-                        <ArbeidstidPeriode
-                            onPeriodeChange={handleOnPeriodeChange}
-                            registrerKnappLabel={intlHelper(intl, 'arbeidstidVariert.registrerJobbKnapp.label')}
-                            formProps={{
-                                arbeiderNormaltTimerPerUke,
-                                arbeiderNormaltTimerFasteUkedager,
-                                intlValues,
-                                periode,
-                                arbeidsstedNavn,
-                            }}
-                        />
-                    </Box>
-                    <FormBlock>
-                        <Element tag="h3">
-                            <FormattedMessage id="arbeidstidVariert.månedsliste.tittel" />
-                        </Element>
-                        <Box margin="l">
-                            <SøknadsperioderMånedListe
-                                periode={periode}
-                                årstallHeadingLevel={3}
-                                månedContentRenderer={månedContentRenderer}
-                            />
-                        </Box>
-                    </FormBlock>
-                </>
-            ) : (
-                <>
-                    <Undertittel tag="h3">
-                        <FormattedMessage id={'arbeidstidVariert.kortPeriode.tittel'} />
-                    </Undertittel>
-                    <p>
-                        Når det varierer hvor mye du jobber hver uke, må du oppgi hvor mye du jobber for per dag. Timene
-                        du jobber en uke må fordeles på de dagene du opprinnelig skulle jobbet dersom du jobber på andre
-                        dager enn normalt. Du kan ikke oppgi flere timer enn det du normalt jobber på en dag.
-                    </p>
-                    <Box padBottom="l" margin="l">
-                        <ExpandableInfo title="Vi beklager dette, men dette er fordi ...">jaja</ExpandableInfo>
-                    </Box>
-
-                    <ArbeidstidUkerInput
-                        periode={periode}
-                        fieldName={formFieldName}
-                        utilgjengeligeUkedager={
-                            arbeiderNormaltTimerFasteUkedager
-                                ? getAllWeekdaysWithoutDuration(arbeiderNormaltTimerFasteUkedager)
-                                : undefined
-                        }
-                        tekster={{
-                            dag: 'Dag',
-                            jobber: 'Jobber',
-                            ariaLabelTidInput: (dato) => `Hvor mye jobber du ${dato}`,
-                        }}
-                        enkeltdagValidator={
-                            arbeiderNormaltTimerFasteUkedager
-                                ? getArbeidIPeriodeEnkeltdagValidator(arbeiderNormaltTimerFasteUkedager, intlValues)
-                                : undefined
-                        }
-                    />
                 </>
             )}
+
+            <Box margin="l">
+                <ArbeidstidPeriode
+                    onPeriodeChange={handleOnPeriodeChange}
+                    registrerKnappLabel={intlHelper(intl, 'arbeidstidVariert.registrerJobbKnapp.label')}
+                    formProps={{
+                        arbeiderNormaltTimerPerUke,
+                        arbeiderNormaltTimerFasteUkedager,
+                        intlValues,
+                        periode,
+                        arbeidsstedNavn,
+                    }}
+                />
+            </Box>
+            <FormBlock>
+                <Element tag="h3">
+                    <FormattedMessage id="arbeidstidVariert.månedsliste.tittel" />
+                </Element>
+                <Box margin="l">
+                    <SøknadsperioderMånedListe
+                        periode={periode}
+                        årstallHeadingLevel={3}
+                        månedContentRenderer={månedContentRenderer}
+                    />
+                </Box>
+            </FormBlock>
         </FormikInputGroup>
     );
 };
@@ -204,4 +178,4 @@ export const validateArbeidsTidEnkeltdager = (
     return undefined;
 };
 
-export default ArbeidstidVariert;
+export default ArbeidstidVariertKalender;

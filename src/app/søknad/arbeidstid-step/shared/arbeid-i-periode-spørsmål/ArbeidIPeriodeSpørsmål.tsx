@@ -21,8 +21,8 @@ import { ArbeiderIPeriodenSvar, ArbeidIPeriodeFormField } from '../../../../type
 import { ArbeidsforholdFormData, ArbeidsforholdFrilanserFormData } from '../../../../types/ArbeidsforholdFormData';
 import { NormalarbeidstidSøknadsdata, NormalarbeidstidType } from '../../../../types/Søknadsdata';
 import SøknadFormComponents from '../../../SøknadFormComponents';
-import ArbeidstidUkedagerInput from '../arbeidstid-ukedager-input/ArbeidstidUkedagerInput';
-import ArbeidstidVariert from '../arbeidstid-variert/ArbeidstidVariert';
+import ArbeidstidFasteUkedagerInput from '../arbeidstid-faste-ukedager-input/ArbeidstidFasteUkedagerInput';
+import ArbeidstidVariertKalender from '../arbeidstid-variert/ArbeidstidVariertKalender';
 import { ArbeidstidRegistrertLogProps } from '../types';
 import {
     getArbeidIPeriodeArbeiderIPeriodenValidator,
@@ -33,6 +33,7 @@ import {
     getArbeidIPeriodeTimerPerUkeISnittValidator,
     getArbeidIPeriodeTimerPerUkeValidator,
 } from './validationArbeidIPeriodeSpørsmål';
+import ArbeidstidVariertUkedager from '../arbeidstid-variert/ArbeidstidVariertUkedager';
 
 interface Props extends ArbeidstidRegistrertLogProps {
     normalarbeidstid: NormalarbeidstidSøknadsdata;
@@ -207,7 +208,18 @@ const ArbeidIPeriodeSpørsmål = ({
                             {erLiktHverUke === YesOrNo.NO && (
                                 <FormBlock margin="l">
                                     <ResponsivePanel>
-                                        <ArbeidstidVariert
+                                        <ArbeidstidVariertUkedager
+                                            arbeidstid={arbeidIPeriode?.enkeltdager}
+                                            kanLeggeTilPeriode={false}
+                                            arbeiderNormaltTimerFasteUkedager={normalarbeidstid.timerFasteUkedager}
+                                            periode={periode}
+                                            intlValues={intlValues}
+                                            formFieldName={getFieldName(ArbeidIPeriodeFormField.enkeltdager)}
+                                            onArbeidPeriodeRegistrert={onArbeidPeriodeRegistrert}
+                                            onArbeidstidEnkeltdagRegistrert={onArbeidstidEnkeltdagRegistrert}
+                                        />
+
+                                        <ArbeidstidVariertKalender
                                             arbeidstid={arbeidIPeriode?.enkeltdager}
                                             kanLeggeTilPeriode={false}
                                             arbeiderNormaltTimerFasteUkedager={normalarbeidstid.timerFasteUkedager}
@@ -248,7 +260,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                                 normalarbeidstid,
                                                 arbeidIPeriode
                                             )}>
-                                            <ArbeidstidUkedagerInput
+                                            <ArbeidstidFasteUkedagerInput
                                                 fieldName={getFieldName(ArbeidIPeriodeFormField.fasteDager)}
                                                 tekst={{
                                                     dag: 'Dag',
