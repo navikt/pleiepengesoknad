@@ -13,6 +13,7 @@ import {
     DateDurationMap,
     durationToDecimalDuration,
     DurationWeekdays,
+    getAllWeekdaysWithoutDuration,
     getDatesInMonthOutsideDateRange,
     getDurationsInDateRange,
     getMonthsInDateRange,
@@ -24,6 +25,8 @@ import { Element } from 'nav-frontend-typografi';
 import { SøknadFormData, SøknadFormField } from '../../../../types/SøknadFormData';
 import ArbeidstidPeriode from '../arbeidstid-periode/ArbeidstidPeriode';
 import { ArbeidstidRegistrertLogProps } from '../types';
+import ArbeidstidUkerInput from '../arbeidstid-uker-input/ArbeidstidUkerInput';
+import { getArbeidIPeriodeEnkeltdagValidator } from '../arbeid-i-periode-spørsmål/validationArbeidIPeriodeSpørsmål';
 
 interface Props extends ArbeidstidRegistrertLogProps {
     arbeidsstedNavn: string;
@@ -150,11 +153,34 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                     <p>
                         <FormattedMessage id="arbeidstidVariert.kortPeriode.info" values={intlValues} />
                     </p>
-                    <SøknadsperioderMånedListe
+                    <ArbeidstidUkerInput
+                        periode={periode}
+                        fieldName={formFieldName}
+                        utilgjengeligeUkedager={
+                            arbeiderNormaltTimerFasteUkedager
+                                ? getAllWeekdaysWithoutDuration(arbeiderNormaltTimerFasteUkedager)
+                                : undefined
+                        }
+                        tekster={{
+                            dag: 'Dag',
+                            jobber: 'Jobber',
+                            ariaLabelTidInput: (dato) => `Hvor mye jobber du ${dato}`,
+                        }}
+                        tidPerDagValidator={
+                            arbeiderNormaltTimerFasteUkedager
+                                ? getArbeidIPeriodeEnkeltdagValidator(
+                                      arbeiderNormaltTimerFasteUkedager,
+                                      intlValues,
+                                      (weekday) => intlHelper(intl, weekday)
+                                  )
+                                : undefined
+                        }
+                    />
+                    {/* <SøknadsperioderMånedListe
                         periode={periode}
                         årstallHeadingLevel={3}
                         månedContentRenderer={månedContentRenderer}
-                    />
+                    /> */}
                 </>
             )}
         </FormikInputGroup>

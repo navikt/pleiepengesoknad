@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { IntlShape, useIntl } from 'react-intl';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
@@ -9,27 +10,29 @@ import {
     formatTimerOgMinutter,
     getArbeidstidIPeriodeIntlValues,
 } from '@navikt/sif-common-pleiepenger';
-import TidFasteUkedagerInput from '@navikt/sif-common-pleiepenger/lib/tid-faste-ukedager-input/TidFasteUkedagerInput';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib/types';
+import {
+    decimalDurationToDuration,
+    getAllWeekdaysWithoutDuration,
+    hasWeekdaysWithoutDuration,
+} from '@navikt/sif-common-utils/lib';
 import { TimerEllerProsent } from '../../../../types';
-import { ArbeidIPeriodeFormField, ArbeiderIPeriodenSvar } from '../../../../types/ArbeidIPeriodeFormData';
+import { ArbeiderIPeriodenSvar, ArbeidIPeriodeFormField } from '../../../../types/ArbeidIPeriodeFormData';
 import { ArbeidsforholdFormData, ArbeidsforholdFrilanserFormData } from '../../../../types/ArbeidsforholdFormData';
 import { NormalarbeidstidSøknadsdata, NormalarbeidstidType } from '../../../../types/Søknadsdata';
 import SøknadFormComponents from '../../../SøknadFormComponents';
+import ArbeidstidUkedagerInput from '../arbeidstid-ukedager-input/ArbeidstidUkedagerInput';
 import ArbeidstidVariert from '../arbeidstid-variert/ArbeidstidVariert';
 import { ArbeidstidRegistrertLogProps } from '../types';
 import {
+    getArbeidIPeriodeArbeiderIPeriodenValidator,
     getArbeidIPeriodeErLiktHverUkeValidator,
     getArbeidIPeriodeFasteDagerDagValidator,
     getArbeidIPeriodeProsentAvNormaltValidator,
-    getArbeidIPeriodeTimerPerUkeValidator,
     getArbeidIPeriodeTimerEllerProsentValidator,
-    getArbeidIPeriodeArbeiderIPeriodenValidator,
     getArbeidIPeriodeTimerPerUkeISnittValidator,
+    getArbeidIPeriodeTimerPerUkeValidator,
 } from './validationArbeidIPeriodeSpørsmål';
-
-import { decimalDurationToDuration, hasWeekdaysWithoutDuration } from '@navikt/sif-common-utils/lib';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 interface Props extends ArbeidstidRegistrertLogProps {
     normalarbeidstid: NormalarbeidstidSøknadsdata;
@@ -245,11 +248,21 @@ const ArbeidIPeriodeSpørsmål = ({
                                                 normalarbeidstid,
                                                 arbeidIPeriode
                                             )}>
-                                            <TidFasteUkedagerInput
-                                                name={getFieldName(ArbeidIPeriodeFormField.fasteDager)}
-                                                validateDag={getArbeidIPeriodeFasteDagerDagValidator(
+                                            <ArbeidstidUkedagerInput
+                                                fieldName={getFieldName(ArbeidIPeriodeFormField.fasteDager)}
+                                                tekst={{
+                                                    dag: 'Dag',
+                                                    jobber: 'Jobber timer',
+                                                    ariaLabelTidInput: (dato) => `Hvor mye skal du jobbe ${dato}`,
+                                                }}
+                                                skjulUtilgjengeligeUkedager={true}
+                                                utilgjengeligeUkedager={getAllWeekdaysWithoutDuration(
+                                                    normalarbeidstid.timerFasteUkedager
+                                                )}
+                                                tidPerDagValidator={getArbeidIPeriodeFasteDagerDagValidator(
                                                     normalarbeidstid,
-                                                    intlValues
+                                                    intlValues,
+                                                    (weekday) => intlHelper(intl, weekday)
                                                 )}
                                             />
                                         </SøknadFormComponents.InputGroup>

@@ -6,7 +6,8 @@ const arbeidstidMessages = {
         'arbeidstidVariert.periode.info.2': 'timer per uke i én eller flere perioder',
         'arbeidstidVariert.periode.info.3': 'timer for enkeltdager ved å velge dag i aktuell måned',
         'arbeidstidVariert.kortPeriode.tittel': 'Hvor mye jobber du?',
-        'arbeidstidVariert.kortPeriode.info': 'Legg inn timer for enkeltdager ved å velge dag i aktuell måned.',
+        'arbeidstidVariert.kortPeriode.info':
+            'Oppgi hvor mye du jobber hver uke. Alle timer må føres på de dagene du opprinnelig skulle jobbet.',
         'arbeidstidVariert.månedsliste.tittel': 'Registrert jobb',
     },
 };
