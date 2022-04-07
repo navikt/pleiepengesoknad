@@ -24,6 +24,10 @@ jest.mock('./../featureToggleUtils.ts', () => ({
 
 const søknadsdato: Date = dayjs().startOf('day').toDate();
 const søknadsperiode = { from: søknadsdato, to: dayjs(søknadsdato).add(1, 'day').toDate() };
+const barnsFødselsdato = new Date(2020, 0, 20);
+const barnMock: RegistrerteBarn[] = [
+    { fødselsdato: barnsFødselsdato, fornavn: 'Mock', etternavn: 'Mocknes', aktørId: '123', harSammeAdresse: true },
+];
 const søknadsdata: Søknadsdata = {
     søknadsperiode,
     medlemskap: {
@@ -31,12 +35,11 @@ const søknadsdata: Søknadsdata = {
         harBoddUtenforNorgeSiste12Mnd: false,
         skalBoUtenforNorgeNeste12Mnd: false,
     },
+    barn: {
+        type: 'registrerteBarn',
+        barnetSøknadenGjelder: '123',
+    },
 };
-
-const barnsFødselsdato = new Date(2020, 0, 20);
-const barnMock: RegistrerteBarn[] = [
-    { fødselsdato: barnsFødselsdato, fornavn: 'Mock', etternavn: 'Mocknes', aktørId: '123', harSammeAdresse: true },
-];
 
 type AttachmentMock = Attachment & { failed: boolean };
 const attachmentMock1: Partial<AttachmentMock> = { url: 'nav.no/1', failed: true };
@@ -94,10 +97,6 @@ describe('mapFormDataToApiData', () => {
         resultingApiData = mapFormDataToApiData(formDataMock as SøknadFormData, barnMock, søknadsdata, 'nb')!;
     });
 
-    it("should set 'barnetsNavn' in api data correctly", () => {
-        expect(resultingApiData.barn.navn).toEqual(formDataMock[SøknadFormField.barnetsNavn]);
-    });
-
     it("should set 'fra_og_med' in api data correctly", () => {
         expect(resultingApiData.fraOgMed).toEqual(formDataMock.periodeFra);
     });
@@ -111,20 +110,6 @@ describe('mapFormDataToApiData', () => {
         expect(attachmentUploadHasFailed).toHaveBeenCalledWith(attachmentMock2);
         expect(resultingApiData.vedlegg).toHaveLength(1);
         expect(resultingApiData.vedlegg[0]).toEqual(attachmentMock2.url);
-    });
-
-    it("should set 'fodselsnummer' in api data to undefined if it doesnt exist, and otherwise it should assign value to 'fodselsnummer' in api data", () => {
-        const fnr = '12345123456';
-        expect(resultingApiData.barn.fødselsnummer).toBeNull();
-        const formDataWithFnr: Partial<SøknadFormData> = {
-            ...formDataMock,
-            [SøknadFormField.barnetsFødselsnummer]: fnr,
-        };
-        const result = mapFormDataToApiData(formDataWithFnr as SøknadFormData, barnMock, søknadsdata, 'nb');
-        expect(result).toBeDefined();
-        if (result) {
-            expect(result.barn.fødselsnummer).toEqual(fnr);
-        }
     });
 
     it('should set har_bekreftet_opplysninger to value of harBekreftetOpplysninger in form data', () => {
