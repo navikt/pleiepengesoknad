@@ -32,13 +32,13 @@
     },
     "dependencies": {
         "@formatjs/intl-pluralrules": "^4.3.2",
-        "@navikt/sif-common-amplitude": "^2.2.3",
-        "@navikt/sif-common-core": "^11.1.0",
-        "@navikt/sif-common-formik": "^22.1.0",
-        "@navikt/sif-common-forms": "^16.7.0",
-        "@navikt/sif-common-pleiepenger": "^3.1.0",
+        "@navikt/sif-common-amplitude": "2.2.3",
+        "@navikt/sif-common-core": "11.1.0",
+        "@navikt/sif-common-formik": "22.1.0",
+        "@navikt/sif-common-forms": "16.7.0",
+        "@navikt/sif-common-pleiepenger": "3.1.0",
         "@navikt/sif-common-sentry": "0.3.0",
-        "@navikt/sif-common-utils": "^3.0.3",
+        "@navikt/sif-common-utils": "3.0.3",
         "@testing-library/react": "^12.1.4",
         "amplitude-js": "^8.17.0",
         "axios": "^0.25.0",
@@ -71,7 +71,7 @@
         "react": "^17.0.2",
         "react-day-picker": "^7.4.10",
         "react-responsive": "^8.2.0",
-        "snyk": "^1.874.0",
+        "snyk": "^1.897.0",
         "ts-loader": "^9.2.8"
     },
     "devDependencies": {
