@@ -16,7 +16,6 @@ export const getBarnApiDataFromSøknadsdata = (
     if (omBarnetSøknadsdata === undefined) {
         throw Error('omBarnetSøknadsdata undefined');
     }
-    console.log('omBarnetSøknadsdata: ', omBarnetSøknadsdata);
 
     switch (omBarnetSøknadsdata?.type) {
         case 'registrerteBarn':
