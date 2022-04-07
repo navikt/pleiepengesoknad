@@ -1,10 +1,12 @@
 import React from 'react';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import { FormikInputGroup, FormikTimeInput } from '@navikt/sif-common-formik';
-import { TidPerDagValidator } from '@navikt/sif-common-pleiepenger/lib';
+import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { Daginfo, Ukeinfo } from '@navikt/sif-common-pleiepenger/lib/types/tidUkerTypes';
-import { dateFormatter, getWeekdayFromDate, isDateInDates, isDateInWeekdays, Weekday } from '@navikt/sif-common-utils';
+import { dateFormatter, Duration, isDateInDates, isDateInWeekdays, Weekday } from '@navikt/sif-common-utils';
 import { Normaltekst } from 'nav-frontend-typografi';
+
+export type ArbeidstidUkeInputEnkeltdagValidator = (dato: Date) => (value: Duration) => ValidationError | undefined;
 
 export interface ArbeidstidUkeTekster {
     dag: React.ReactNode;
@@ -17,7 +19,7 @@ interface Props {
     utilgjengeligeDatoer?: Date[];
     utilgjengeligeUkedager?: Weekday[];
     tekst: ArbeidstidUkeTekster;
-    tidPerDagValidator?: TidPerDagValidator;
+    enkeltdagValidator?: ArbeidstidUkeInputEnkeltdagValidator;
     ukeTittelRenderer?: (uke: Ukeinfo) => React.ReactNode;
     dagLabelRenderer?: (dag: Daginfo) => React.ReactNode;
 }
@@ -29,7 +31,7 @@ const ArbeidstidUkeInput: React.FunctionComponent<Props> = ({
     utilgjengeligeDatoer,
     utilgjengeligeUkedager,
     getFieldName,
-    tidPerDagValidator,
+    enkeltdagValidator: enkeltdagValidator,
     ukeTittelRenderer,
     tekst,
 }) => {
@@ -61,7 +63,6 @@ const ArbeidstidUkeInput: React.FunctionComponent<Props> = ({
                         return null;
                     }
                     const dayDateString = inputDatoLabel(dag.dato);
-                    const weekday = getWeekdayFromDate(dag.dato);
                     return (
                         <FormikInputGroup
                             key={dag.isoDate}
@@ -82,9 +83,7 @@ const ArbeidstidUkeInput: React.FunctionComponent<Props> = ({
                                         timeInputLayout={{
                                             direction: 'horizontal',
                                         }}
-                                        validate={
-                                            tidPerDagValidator && weekday ? tidPerDagValidator(weekday) : undefined
-                                        }
+                                        validate={enkeltdagValidator ? enkeltdagValidator(dag.dato) : undefined}
                                     />
                                 </div>
                             </div>

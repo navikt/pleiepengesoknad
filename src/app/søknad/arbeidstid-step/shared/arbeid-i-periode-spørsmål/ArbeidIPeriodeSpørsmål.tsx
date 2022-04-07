@@ -260,7 +260,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                                     normalarbeidstid.timerFasteUkedager
                                                 )}
                                                 tidPerDagValidator={getArbeidIPeriodeFasteDagerDagValidator(
-                                                    normalarbeidstid,
+                                                    normalarbeidstid.timerFasteUkedager,
                                                     intlValues,
                                                     (weekday) => intlHelper(intl, weekday)
                                                 )}

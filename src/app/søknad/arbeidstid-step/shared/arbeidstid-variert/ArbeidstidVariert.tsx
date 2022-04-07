@@ -21,12 +21,13 @@ import {
     summarizeDateDurationMap,
 } from '@navikt/sif-common-utils';
 import { useFormikContext } from 'formik';
-import { Element } from 'nav-frontend-typografi';
+import { Element, Undertittel } from 'nav-frontend-typografi';
 import { SøknadFormData, SøknadFormField } from '../../../../types/SøknadFormData';
 import ArbeidstidPeriode from '../arbeidstid-periode/ArbeidstidPeriode';
 import { ArbeidstidRegistrertLogProps } from '../types';
 import ArbeidstidUkerInput from '../arbeidstid-uker-input/ArbeidstidUkerInput';
 import { getArbeidIPeriodeEnkeltdagValidator } from '../arbeid-i-periode-spørsmål/validationArbeidIPeriodeSpørsmål';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 interface Props extends ArbeidstidRegistrertLogProps {
     arbeidsstedNavn: string;
@@ -147,12 +148,18 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                 </>
             ) : (
                 <>
-                    <Element tag="h3">
+                    <Undertittel tag="h3">
                         <FormattedMessage id={'arbeidstidVariert.kortPeriode.tittel'} />
-                    </Element>
+                    </Undertittel>
                     <p>
-                        <FormattedMessage id="arbeidstidVariert.kortPeriode.info" values={intlValues} />
+                        Når det varierer hvor mye du jobber hver uke, må du oppgi hvor mye du jobber for per dag. Timene
+                        du jobber en uke må fordeles på de dagene du opprinnelig skulle jobbet dersom du jobber på andre
+                        dager enn normalt. Du kan ikke oppgi flere timer enn det du normalt jobber på en dag.
                     </p>
+                    <Box padBottom="l" margin="l">
+                        <ExpandableInfo title="Vi beklager dette, men dette er fordi ...">jaja</ExpandableInfo>
+                    </Box>
+
                     <ArbeidstidUkerInput
                         periode={periode}
                         fieldName={formFieldName}
@@ -166,21 +173,12 @@ const ArbeidstidVariert: React.FunctionComponent<Props> = ({
                             jobber: 'Jobber',
                             ariaLabelTidInput: (dato) => `Hvor mye jobber du ${dato}`,
                         }}
-                        tidPerDagValidator={
+                        enkeltdagValidator={
                             arbeiderNormaltTimerFasteUkedager
-                                ? getArbeidIPeriodeEnkeltdagValidator(
-                                      arbeiderNormaltTimerFasteUkedager,
-                                      intlValues,
-                                      (weekday) => intlHelper(intl, weekday)
-                                  )
+                                ? getArbeidIPeriodeEnkeltdagValidator(arbeiderNormaltTimerFasteUkedager, intlValues)
                                 : undefined
                         }
                     />
-                    {/* <SøknadsperioderMånedListe
-                        periode={periode}
-                        årstallHeadingLevel={3}
-                        månedContentRenderer={månedContentRenderer}
-                    /> */}
                 </>
             )}
         </FormikInputGroup>

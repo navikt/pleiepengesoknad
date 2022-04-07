@@ -2,12 +2,11 @@ import React from 'react';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import { DateRange } from '@navikt/sif-common-formik';
-import { isDateInDates, Weekday } from '@navikt/sif-common-utils/lib';
-import ArbeidstidUkeInput, { ArbeidstidUkeTekster } from './ArbeidstidUkeInput';
-import './arbeidstidUkerInput.less';
-import { TidPerDagValidator } from '@navikt/sif-common-pleiepenger/lib';
 import { tidUkerInputUtils } from '@navikt/sif-common-pleiepenger/lib/tid-kalender-form/tid-uker-input/tidUkerUtils';
 import { Daginfo, Ukeinfo } from '@navikt/sif-common-pleiepenger/lib/types/tidUkerTypes';
+import { isDateInDates, Weekday } from '@navikt/sif-common-utils/lib';
+import ArbeidstidUkeInput, { ArbeidstidUkeInputEnkeltdagValidator, ArbeidstidUkeTekster } from './ArbeidstidUkeInput';
+import './arbeidstidUkerInput.less';
 
 const getTidKalenderFieldName = (fieldName: string, dag: Daginfo): string => `${fieldName}.${dag.isoDate}`;
 
@@ -19,7 +18,7 @@ interface Props {
     utilgjengeligeUkedager?: Weekday[];
     tekster: ArbeidstidUkeTekster;
     ukeTittelRenderer?: (uke: Ukeinfo) => React.ReactNode;
-    tidPerDagValidator?: TidPerDagValidator;
+    enkeltdagValidator?: ArbeidstidUkeInputEnkeltdagValidator;
 }
 
 const bem = bemUtils('arbeidstidUkerInput');
@@ -31,7 +30,7 @@ export const ArbeidstidUkerInput: React.FunctionComponent<Props> = ({
     utilgjengeligeDatoer,
     utilgjengeligeUkedager,
     ukeTittelRenderer,
-    tidPerDagValidator,
+    enkeltdagValidator,
 }) => {
     const dager = tidUkerInputUtils.getDagInfoForPeriode(periode);
     const uker = tidUkerInputUtils
@@ -51,7 +50,7 @@ export const ArbeidstidUkerInput: React.FunctionComponent<Props> = ({
                         ukeinfo={uke}
                         utilgjengeligeDatoer={utilgjengeligeDatoer}
                         utilgjengeligeUkedager={utilgjengeligeUkedager}
-                        tidPerDagValidator={tidPerDagValidator}
+                        enkeltdagValidator={enkeltdagValidator}
                         tekst={{
                             dag: 'Dag',
                             jobber: 'Jobber timer',

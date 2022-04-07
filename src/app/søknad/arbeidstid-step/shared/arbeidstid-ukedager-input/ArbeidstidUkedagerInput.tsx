@@ -31,7 +31,7 @@ const ArbeidstidUkedagerInput: React.FunctionComponent<Props> = ({
 }: Props) => {
     const txt = getTidFasteUkerdagerInputMessages(useIntl().locale);
 
-    const renderWeekdayTimeInput = (weekday: Weekday, weekdayLabel: string, validationDayName: string) => {
+    const renderWeekdayTimeInput = (weekday: Weekday, weekdayLabel: string) => {
         const erUtilgjengeligUkedag = utilgjengeligeUkedager?.some((d) => d === weekday);
         if (erUtilgjengeligUkedag && skjulUtilgjengeligeUkedager) {
             return null;
@@ -55,9 +55,7 @@ const ArbeidstidUkedagerInput: React.FunctionComponent<Props> = ({
                             timeInputLayout={{
                                 direction: 'horizontal',
                             }}
-                            validate={
-                                tidPerDagValidator ? (value) => tidPerDagValidator(validationDayName, value) : undefined
-                            }
+                            validate={tidPerDagValidator ? (value) => tidPerDagValidator(weekday, value) : undefined}
                         />
                     </div>
                 </div>
@@ -72,11 +70,11 @@ const ArbeidstidUkedagerInput: React.FunctionComponent<Props> = ({
                     {tekst.jobber}
                 </div>
             </div>
-            {renderWeekdayTimeInput(Weekday.monday, txt.Mandager, txt.mandag)}
-            {renderWeekdayTimeInput(Weekday.tuesday, txt.Tirsdager, txt.tirsdag)}
-            {renderWeekdayTimeInput(Weekday.wednesday, txt.Onsdager, txt.onsdag)}
-            {renderWeekdayTimeInput(Weekday.thursday, txt.Torsdager, txt.torsdag)}
-            {renderWeekdayTimeInput(Weekday.friday, txt.Fredager, txt.fredag)}
+            {renderWeekdayTimeInput(Weekday.monday, txt.Mandager)}
+            {renderWeekdayTimeInput(Weekday.tuesday, txt.Tirsdager)}
+            {renderWeekdayTimeInput(Weekday.wednesday, txt.Onsdager)}
+            {renderWeekdayTimeInput(Weekday.thursday, txt.Torsdager)}
+            {renderWeekdayTimeInput(Weekday.friday, txt.Fredager)}
         </div>
     );
 };
