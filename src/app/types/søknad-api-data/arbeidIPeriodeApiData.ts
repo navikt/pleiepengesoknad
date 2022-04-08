@@ -17,10 +17,12 @@ export interface ArbeidIPeriodeApiDataJobberIkke {
     type: ArbeidIPeriodeType.arbeiderIkke;
     arbeiderIPerioden: ArbeiderIPeriodenSvar.heltFravær;
 }
+
 export interface ArbeidIPeriodeApiDataJobberVanlig {
     type: ArbeidIPeriodeType.arbeiderVanlig;
     arbeiderIPerioden: ArbeiderIPeriodenSvar.somVanlig;
 }
+
 export interface ArbeidIPeriodeApiDataFasteDager {
     type: ArbeidIPeriodeType.arbeiderFasteUkedager;
     arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert;
