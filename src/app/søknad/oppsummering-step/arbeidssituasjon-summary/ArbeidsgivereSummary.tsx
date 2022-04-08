@@ -59,21 +59,6 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, s
                                             normalarbeidstidApiData={arbeidsgiver.arbeidsforhold.normalarbeidstid}
                                         />
                                     </li>
-                                    {/* 
-                                    TODO
-                                    <li>
-                                        <FormattedMessage
-                                            id={
-                                                erAnsatt
-                                                    ? `oppsummering.arbeidssituasjon.tid`
-                                                    : `oppsummering.arbeidssituasjon.avsluttet.tid`
-                                            }
-                                            values={{
-                                                timer: arbeidsgiver.arbeidsforhold.arbeidstimerNormalt
-                                                    .timerISnittPerUke,
-                                            }}
-                                        />
-                                    </li> */}
                                 </>
                             )}
                             {erAnsatt === false && (

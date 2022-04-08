@@ -20,13 +20,7 @@ export interface TimerFasteDagerApiData {
     torsdag?: ISODuration;
     fredag?: ISODuration;
 }
-// export interface ArbeidstimerFasteDagerApiData {
-//     mandag?: ArbeidstimerApiData;
-//     tirsdag?: ArbeidstimerApiData;
-//     onsdag?: ArbeidstimerApiData;
-//     torsdag?: ArbeidstimerApiData;
-//     fredag?: ArbeidstimerApiData;
-// }
+
 export interface TidEnkeltdagApiData {
     dato: ISODate;
     tid: ISODuration;
