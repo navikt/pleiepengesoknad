@@ -37,7 +37,7 @@ const søknadsdata: Søknadsdata = {
     },
     barn: {
         type: 'registrerteBarn',
-        barnetSøknadenGjelder: '123',
+        aktørId: '123',
     },
 };
 

@@ -6,7 +6,7 @@ export const extractBarnSøknadsdata = (values: OmBarnetFormData): OmBarnetSøkn
     if (values.barnetSøknadenGjelder) {
         return {
             type: 'registrerteBarn',
-            barnetSøknadenGjelder: values.barnetSøknadenGjelder,
+            aktørId: values.barnetSøknadenGjelder,
         };
     }
 

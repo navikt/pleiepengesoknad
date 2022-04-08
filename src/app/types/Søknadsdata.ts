@@ -203,7 +203,7 @@ export type MedlemskapSøknadsdata =
 
 export interface OmBarnetRegistrerteSøknadsdata {
     type: 'registrerteBarn';
-    barnetSøknadenGjelder: string;
+    aktørId: string;
 }
 
 export interface BarnRelasjonSøknadsdata {

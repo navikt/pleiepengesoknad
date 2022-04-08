@@ -20,7 +20,7 @@ export const getBarnApiDataFromSøknadsdata = (
     switch (omBarnetSøknadsdata?.type) {
         case 'registrerteBarn':
             const barnChosenFromList = registrerteBarn.find(
-                (currentBarn) => currentBarn.aktørId === omBarnetSøknadsdata.barnetSøknadenGjelder
+                (currentBarn) => currentBarn.aktørId === omBarnetSøknadsdata.aktørId
             );
 
             if (barnChosenFromList === undefined) {
