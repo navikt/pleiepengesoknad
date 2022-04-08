@@ -33,8 +33,7 @@ export const getBarnApiDataFromSøknadsdata = (
                     navn: formatName(fornavn, etternavn, mellomnavn),
                     aktørId,
                     fødselsdato: formatDateToApiFormat(barnChosenFromList.fødselsdato),
-                    sammeAdresse: sammeAdresse || null,
-                    fødselsnummer: null,
+                    sammeAdresse: sammeAdresse,
                 },
             };
         case 'annetBarn':
@@ -42,9 +41,6 @@ export const getBarnApiDataFromSøknadsdata = (
                 barn: {
                     navn: omBarnetSøknadsdata.barnetsNavn,
                     fødselsnummer: omBarnetSøknadsdata.barnetsFødselsnummer,
-                    fødselsdato: null,
-                    aktørId: null,
-                    sammeAdresse: null,
                 },
                 barnRelasjon: omBarnetSøknadsdata.relasjonTilBarnet,
                 barnRelasjonBeskrivelse: omBarnetSøknadsdata.relasjonTilBarnetBeskrivelse,
@@ -56,9 +52,6 @@ export const getBarnApiDataFromSøknadsdata = (
                     navn: omBarnetSøknadsdata.barnetsNavn,
                     årsakManglerIdentitetsnummer: omBarnetSøknadsdata.årsakManglerIdentitetsnummer,
                     fødselsdato: omBarnetSøknadsdata.barnetsFødselsdato,
-                    fødselsnummer: null,
-                    aktørId: null,
-                    sammeAdresse: null,
                 },
                 barnRelasjon: omBarnetSøknadsdata.relasjonTilBarnet,
                 barnRelasjonBeskrivelse: omBarnetSøknadsdata.relasjonTilBarnetBeskrivelse,
