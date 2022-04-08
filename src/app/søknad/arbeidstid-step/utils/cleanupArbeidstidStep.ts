@@ -21,7 +21,7 @@ import {
     ArbeidsgivereSøknadsdata,
     ArbeidSøknadsdata,
     NormalarbeidstidSøknadsdata,
-} from '../../../types/Søknadsdata';
+} from '../../../types/søknadsdata/Søknadsdata';
 import { getPeriodeSomFrilanserInnenforPeriode } from '../../../utils/frilanserUtils';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../../utils/selvstendigUtils';
 

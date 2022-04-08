@@ -1,7 +1,7 @@
 import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import { SelvstendigFormData } from '../../types/SelvstendigFormData';
-import { ArbeidSelvstendigSøknadsdata } from '../../types/Søknadsdata';
+import { ArbeidSelvstendigSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { extractArbeidsforholdSøknadsdata } from './extractArbeidsforholdSøknadsdata';
 
 export const extractArbeidSelvstendigSøknadsdata = (

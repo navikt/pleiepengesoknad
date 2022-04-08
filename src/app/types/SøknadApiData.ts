@@ -6,7 +6,7 @@ import { ISODate, ISODuration } from '@navikt/sif-common-utils';
 import { AndreYtelserFraNAV, BarnRelasjon, ÅrsakManglerIdentitetsnummer } from './';
 import { ArbeiderIPeriodenSvar } from './ArbeidIPeriodeFormData';
 import { ArbeidsgiverType } from './Arbeidsgiver';
-import { ArbeidIPeriodeType } from './Søknadsdata';
+import { ArbeidIPeriodeType } from './søknadsdata/Søknadsdata';
 
 export interface PeriodeApiData {
     fraOgMed: ApiStringDate;

@@ -1,5 +1,5 @@
 import { SøknadFormData } from '../../types/SøknadFormData';
-import { Søknadsdata } from '../../types/Søknadsdata';
+import { Søknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { getSøknadsperiodeFromFormData } from '../formDataUtils';
 import { extractArbeidSøknadsdata } from './extractArbeidSøknadsdata';
 import { extractMedlemskapSøknadsdata } from './extractMedlemskapSøknadsdata';

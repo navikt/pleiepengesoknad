@@ -20,7 +20,7 @@ import {
     ArbeidsforholdSøknadsdata,
     NormalarbeidstidSøknadsdata,
     NormalarbeidstidType,
-} from '../../types/Søknadsdata';
+} from '../../types/søknadsdata/Søknadsdata';
 import { getNormalarbeidstidApiDataFromSøknadsdata } from './getNormalarbeidstidApiDataFromSøknadsdata';
 
 export const dateToISODateOrUndefined = (date?: Date): ISODate | undefined => (date ? dateToISODate(date) : undefined);

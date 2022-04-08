@@ -2,7 +2,7 @@ import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-c
 import { getDurationsInDateRange } from '@navikt/sif-common-utils/lib';
 import { TimerEllerProsent } from '../../types';
 import { ArbeiderIPeriodenSvar, ArbeidIPeriodeFormData } from '../../types/ArbeidIPeriodeFormData';
-import { ArbeidIPeriodeSøknadsdata, ArbeidIPeriodeType } from '../../types/Søknadsdata';
+import { ArbeidIPeriodeSøknadsdata, ArbeidIPeriodeType } from '../../types/søknadsdata/Søknadsdata';
 
 export const extractArbeidIPeriodeSøknadsdata = (
     {

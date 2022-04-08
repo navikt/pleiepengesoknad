@@ -1,5 +1,5 @@
 import { NormalarbeidstidApiData } from '../../types/SøknadApiData';
-import { NormalarbeidstidSøknadsdata } from '../../types/Søknadsdata';
+import { NormalarbeidstidSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { durationWeekdaysToTimerFasteDagerApiData } from './arbeidToApiDataHelpers';
 
 export const getNormalarbeidstidApiDataFromSøknadsdata = (

@@ -1,7 +1,7 @@
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { mapVirksomhetToVirksomhetApiData } from '@navikt/sif-common-forms/lib';
 import { SelvstendigApiData } from '../../types/SøknadApiData';
-import { ArbeidSelvstendigSøknadsdata } from '../../types/Søknadsdata';
+import { ArbeidSelvstendigSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { getArbeidsforholdApiDataFromSøknadsdata } from './arbeidToApiDataHelpers';
 
 export const getSelvstendigApiDataFromSøknadsdata = (

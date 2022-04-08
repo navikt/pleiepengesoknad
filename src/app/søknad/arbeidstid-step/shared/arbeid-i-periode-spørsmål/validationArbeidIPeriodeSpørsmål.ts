@@ -19,7 +19,7 @@ import {
 } from '@navikt/sif-common-utils/lib';
 import { IntlShape } from 'react-intl';
 import { ArbeidIPeriodeFormData } from '../../../../types/ArbeidIPeriodeFormData';
-import { NormalarbeidstidSøknadsdata } from '../../../../types/Søknadsdata';
+import { NormalarbeidstidSøknadsdata } from '../../../../types/søknadsdata/Søknadsdata';
 import { ArbeidstidUkeInputEnkeltdagValidator } from '../arbeidstid-uke-input/ArbeidstidUkeInput';
 
 export const getArbeidIPeriodeEnkeltdagValidator =

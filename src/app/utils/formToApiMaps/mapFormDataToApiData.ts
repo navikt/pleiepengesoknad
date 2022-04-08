@@ -4,7 +4,7 @@ import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUti
 import { RegistrerteBarn } from '../../types';
 import { SøknadApiData } from '../../types/SøknadApiData';
 import { SøknadFormData } from '../../types/SøknadFormData';
-import { Søknadsdata } from '../../types/Søknadsdata';
+import { Søknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import appSentryLogger from '../appSentryLogger';
 import { Feature, isFeatureEnabled } from '../featureToggleUtils';
 import { getValidSpråk } from '../sprakUtils';
