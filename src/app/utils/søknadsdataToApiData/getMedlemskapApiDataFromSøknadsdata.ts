@@ -1,7 +1,7 @@
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { getCountryName } from '@navikt/sif-common-formik/lib';
 import { BostedUtland } from '@navikt/sif-common-forms/lib';
-import { BostedUtlandApiData, MedlemskapApiData } from '../../types/SøknadApiData';
+import { BostedUtlandApiData, MedlemskapApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { MedlemskapSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 

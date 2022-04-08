@@ -12,7 +12,7 @@ import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
 import { KvitteringInfo } from '../types/KvitteringInfo';
 import { Søkerdata } from '../types/Søkerdata';
-import { SøknadApiData } from '../types/SøknadApiData';
+import { SøknadApiData } from '../types/søknad-api-data/SøknadApiData';
 import { SøknadFormData } from '../types/SøknadFormData';
 import { getSøknadsdataFromFormValues } from '../utils/formValuesToSøknadsdata/getSøknadsdataFromFormValues';
 import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';

@@ -6,7 +6,7 @@ import { DateRange } from '@navikt/sif-common-formik/lib';
 import { formatTimerOgMinutter, TidFasteDager } from '@navikt/sif-common-pleiepenger/lib';
 import ArbeidstidEnkeltdagerListe from '@navikt/sif-common-pleiepenger/lib/dager-med-tid/ArbeidstidEnkeltdagerListe';
 import { decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
-import { ArbeidsforholdApiData, NormalarbeidstidApiData } from '../../../types/SøknadApiData';
+import { ArbeidsforholdApiData, NormalarbeidstidApiData } from '../../../types/søknad-api-data/SøknadApiData';
 import { ArbeidIPeriodeType } from '../../../types/søknadsdata/Søknadsdata';
 
 interface Props {

@@ -1,7 +1,7 @@
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { BarnRelasjon, RegistrerteBarn, ÅrsakManglerIdentitetsnummer } from '../../types';
-import { BarnetSøknadenGjelderApiData, SøknadApiData } from '../../types/SøknadApiData';
+import { BarnetSøknadenGjelderApiData, SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { SøknadFormData } from '../../types/SøknadFormData';
 
 const getBarnetSøknadenGjelderApiData = (

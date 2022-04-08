@@ -1,4 +1,4 @@
-import { ArbeidsgiverApiData } from '../../types/SøknadApiData';
+import { ArbeidsgiverApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { ArbeidAnsattSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { getArbeidsforholdApiDataFromSøknadsdata, dateToISODateOrUndefined } from './arbeidToApiDataHelpers';
 

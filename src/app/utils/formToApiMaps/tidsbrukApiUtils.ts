@@ -14,7 +14,7 @@ import {
     // ArbeidstimerFasteDagerApiData,
     TidEnkeltdagApiData,
     TimerFasteDagerApiData,
-} from '../../types/SøknadApiData';
+} from '../../types/søknad-api-data/SøknadApiData';
 
 export const getFasteDagerApiData = ({
     monday: mandag,

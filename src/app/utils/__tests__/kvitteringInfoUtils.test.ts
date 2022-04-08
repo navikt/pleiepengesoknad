@@ -1,7 +1,7 @@
 import { ArbeiderIPeriodenSvar } from '../../types/ArbeidIPeriodeFormData';
 import { ArbeidsgiverType } from '../../types/Arbeidsgiver';
 import { Søkerdata } from '../../types/Søkerdata';
-import { ArbeidsgiverApiData } from '../../types/SøknadApiData';
+import { ArbeidsgiverApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { ArbeidIPeriodeType } from '../../types/søknadsdata/Søknadsdata';
 import { getKvitteringInfoFromApiData, KvitteringApiData } from '../kvitteringUtils';
 

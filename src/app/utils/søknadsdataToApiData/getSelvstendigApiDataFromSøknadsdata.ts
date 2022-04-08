@@ -1,6 +1,6 @@
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { mapVirksomhetToVirksomhetApiData } from '@navikt/sif-common-forms/lib';
-import { SelvstendigApiData } from '../../types/SøknadApiData';
+import { SelvstendigApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { ArbeidSelvstendigSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { getArbeidsforholdApiDataFromSøknadsdata } from './arbeidToApiDataHelpers';
 

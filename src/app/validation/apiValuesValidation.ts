@@ -3,7 +3,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 import { StepID } from '../søknad/søknadStepsConfig';
-import { OmsorgstilbudApiData, SøknadApiData } from '../types/SøknadApiData';
+import { OmsorgstilbudApiData, SøknadApiData } from '../types/søknad-api-data/SøknadApiData';
 import { søkerKunHelgedager } from '../utils/formDataUtils';
 
 export const apiVedleggIsInvalid = (vedlegg: string[]): boolean => {

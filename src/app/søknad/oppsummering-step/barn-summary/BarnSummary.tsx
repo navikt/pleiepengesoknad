@@ -8,7 +8,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { BarnRelasjon, RegistrerteBarn } from '../../../types';
-import { SøknadApiData } from '../../../types/SøknadApiData';
+import { SøknadApiData } from '../../../types/søknad-api-data/SøknadApiData';
 import { SøknadFormData } from '../../../types/SøknadFormData';
 import Sitat from '../enkeltsvar/Sitat';
 

@@ -8,7 +8,7 @@ import {
     PeriodeApiData,
     UtenlandsoppholdIPeriodenApiData,
     UtenlandsoppholdUtenforEøsIPeriodenApiData,
-} from '../../types/SøknadApiData';
+} from '../../types/søknad-api-data/SøknadApiData';
 
 const mapBarnInnlagtPeriodeToApiFormat = (periode: DateTidsperiode): PeriodeApiData => {
     return {

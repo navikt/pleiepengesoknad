@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { SøknadApiData } from '../../types/SøknadApiData';
+import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { SøknadFormData } from '../../types/SøknadFormData';
 
 export const getFerieuttakIPeriodenApiData = ({

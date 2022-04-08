@@ -5,7 +5,7 @@ import { attachmentUploadHasFailed } from '@navikt/sif-common-core/lib/utils/att
 import { dateToISOFormattedDateString } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import dayjs from 'dayjs';
 import { RegistrerteBarn } from '../../types';
-import { SøknadApiData } from '../../types/SøknadApiData';
+import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { Søknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { isFeatureEnabled } from '../featureToggleUtils';

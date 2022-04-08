@@ -1,7 +1,7 @@
 import { TidFasteDager } from '@navikt/sif-common-pleiepenger/lib';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { NormalarbeidstidApiData } from '../../../types/SøknadApiData';
+import { NormalarbeidstidApiData } from '../../../types/søknad-api-data/SøknadApiData';
 
 interface Props {
     erAnsatt: boolean;

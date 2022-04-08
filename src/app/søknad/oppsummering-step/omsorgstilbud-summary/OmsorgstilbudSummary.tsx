@@ -8,7 +8,7 @@ import TextareaSummary from '@navikt/sif-common-core/lib/components/textarea-sum
 import { DateRange, prettifyDateExtended } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { TidEnkeltdager, TidFasteDager } from '@navikt/sif-common-pleiepenger/lib';
-import { SøknadApiData } from '../../../types/SøknadApiData';
+import { SøknadApiData } from '../../../types/søknad-api-data/SøknadApiData';
 import Sitat from '../enkeltsvar/Sitat';
 
 interface Props {

@@ -1,4 +1,4 @@
-import { NormalarbeidstidApiData } from '../../types/SøknadApiData';
+import { NormalarbeidstidApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { NormalarbeidstidSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { durationWeekdaysToTimerFasteDagerApiData } from './arbeidToApiDataHelpers';
 
