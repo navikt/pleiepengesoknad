@@ -4,7 +4,7 @@ import {
     DateDurationMap,
     dateToISODate,
     getDatesInDateRange,
-    getDurationForISOWeekday,
+    getDurationForISOWeekdayNumber,
     ISODateToDate,
 } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
@@ -32,7 +32,7 @@ export const getDagerMedTidFraArbeidstidPeriodeData = (
                 dagerMedTid[isoDate] = { ...isoDurationPerDag, percentage: prosentNumber };
             }
         } else if (tidFasteDager) {
-            const varighet = getDurationForISOWeekday(tidFasteDager, dayjs(ISODateToDate(isoDate)).isoWeekday());
+            const varighet = getDurationForISOWeekdayNumber(tidFasteDager, dayjs(ISODateToDate(isoDate)).isoWeekday());
             if (varighet) {
                 dagerMedTid[isoDate] = { ...varighet };
             }

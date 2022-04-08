@@ -31,6 +31,12 @@
     "torsdag": "torsdag",
     "fredag": "fredag",
 
+    "monday": "mandag",
+    "tuesday": "tirsdag",
+    "wednesday": "onsdag",
+    "thursday": "torsdag",
+    "friday": "fredag",
+
     "mandag.caps": "Mandag",
     "tirsdag.caps": "Tirsdag",
     "onsdag.caps": "Onsdag",

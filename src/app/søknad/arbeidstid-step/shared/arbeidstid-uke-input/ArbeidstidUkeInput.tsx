@@ -5,6 +5,7 @@ import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types'
 import { Daginfo, Ukeinfo } from '@navikt/sif-common-pleiepenger/lib/types/tidUkerTypes';
 import { dateFormatter, Duration, isDateInDates, isDateInWeekdays, Weekday } from '@navikt/sif-common-utils';
 import { Normaltekst } from 'nav-frontend-typografi';
+import './arbeidstidUkeInput.less';
 
 export type ArbeidstidUkeInputEnkeltdagValidator = (dato: Date) => (value: Duration) => ValidationError | undefined;
 
@@ -14,39 +15,31 @@ export interface ArbeidstidUkeTekster {
     ariaLabelTidInput: (dato: string) => React.ReactNode;
 }
 interface Props {
-    getFieldName: (dag: Daginfo) => string;
     ukeinfo: Ukeinfo;
+    getFieldName: (dag: Daginfo) => string;
     utilgjengeligeDatoer?: Date[];
     utilgjengeligeUkedager?: Weekday[];
     tekst: ArbeidstidUkeTekster;
     enkeltdagValidator?: ArbeidstidUkeInputEnkeltdagValidator;
-    ukeTittelRenderer?: (uke: Ukeinfo) => React.ReactNode;
-    dagLabelRenderer?: (dag: Daginfo) => React.ReactNode;
 }
 
-const bem = bemUtils('arbeidstidUkerInput');
+const bem = bemUtils('arbeidstidUkeInput');
 
 const ArbeidstidUkeInput: React.FunctionComponent<Props> = ({
     ukeinfo,
     utilgjengeligeDatoer,
     utilgjengeligeUkedager,
     getFieldName,
-    enkeltdagValidator: enkeltdagValidator,
-    ukeTittelRenderer,
+    enkeltdagValidator,
     tekst,
 }) => {
     const { dager } = ukeinfo;
 
     return (
-        <div className={bem.element('uke')}>
-            {ukeTittelRenderer ? (
-                ukeTittelRenderer(ukeinfo)
-            ) : (
-                <Normaltekst tag="h3" style={{ fontSize: '1.125rem', marginBottom: '1rem', marginTop: '1.5rem' }}>
-                    {getUkeTittel(ukeinfo)}
-                </Normaltekst>
-            )}
-
+        <div className={bem.block}>
+            <Normaltekst tag="h3" className={bem.element('tittel')}>
+                {getUkeTittel(ukeinfo)}
+            </Normaltekst>
             <div className={bem.element('uke__ukedager')}>
                 <div className={bem.element('dag-inputs', 'header')}>
                     <div className={bem.element('dagnavn', 'header')}>{tekst.dag}</div>

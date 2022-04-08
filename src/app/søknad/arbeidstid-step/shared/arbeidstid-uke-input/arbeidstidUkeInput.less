@@ -1,0 +1,82 @@
+.arbeidstidUkeInput {
+    @wrapBreakpoint: 600px;
+
+    &__tittel {
+        margin-bottom: 0.5rem;
+    }
+    legend {
+        .typo-element {
+            font-weight: normal;
+        }
+    }
+    .formikTimeInput--horizontal {
+        flex-wrap: wrap;
+    }
+
+    &__dag-inputs {
+        display: flex;
+        flex-wrap: nowrap;
+
+        .skjemaelement {
+            margin-bottom: 0 !important;
+        }
+        .skjemagruppe__legend {
+            margin: 0 !important;
+        }
+        &--header {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            @media (max-width: @wrapBreakpoint) {
+                display: none;
+            }
+        }
+    }
+
+    &__dagnavn {
+        min-width: 10rem;
+        &--header {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        padding-top: 1rem;
+        padding-bottom: 0.5rem;
+        &::first-letter {
+            text-transform: capitalize;
+        }
+    }
+    &__arbeidstidPeriode {
+        min-width: 10rem;
+    }
+    @media (max-width: @wrapBreakpoint) {
+        &__dag-inputs {
+            flex-wrap: wrap;
+        }
+        &__arbeidstidPeriode,
+        &__dagnavn {
+            width: 100%;
+            padding-top: 0;
+        }
+    }
+    .arbeidstidUkeInput &__dag {
+        &:nth-child(2n + 1) {
+            background-color: #f7f7f7;
+        }
+        &:last-child {
+            border-bottom: 1px solid #a0a0a0;
+        }
+        background-color: white;
+        border-top: 1px solid #a0a0a0;
+        padding: 0.25rem 0.5rem 0.5rem 0.5rem;
+
+        &--utenforPeriode {
+            display: none;
+        }
+        .arbeidstidUkeInput__uke__ukedager--liste &--utenforPeriode {
+            display: none;
+        }
+    }
+
+    .skjemaelement__feilmelding {
+        margin-bottom: 1rem;
+    }
+}

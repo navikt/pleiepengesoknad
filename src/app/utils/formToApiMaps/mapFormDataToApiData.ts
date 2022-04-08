@@ -76,6 +76,7 @@ export const mapFormDataToApiData = (
                 apiData.andreYtelserFraNAV = formData.mottarAndreYtelser === YesOrNo.YES ? formData.andreYtelser : [];
             }
 
+            console.log(apiData);
             return apiData;
         } catch (e) {
             console.error(e);

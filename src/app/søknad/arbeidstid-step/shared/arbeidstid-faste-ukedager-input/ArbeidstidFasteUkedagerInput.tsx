@@ -16,7 +16,7 @@ interface Props {
     fieldName: string;
     utilgjengeligeUkedager?: Weekday[];
     skjulUtilgjengeligeUkedager?: boolean;
-    tidPerDagValidator?: (dagNavn: string, value: any) => ValidationResult<ValidationError>;
+    tidPerDagValidator?: (weekday: Weekday, value: any) => ValidationResult<ValidationError>;
     tekst: ArbeidstidUkeTekster;
 }
 

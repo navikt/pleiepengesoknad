@@ -218,20 +218,21 @@ const ArbeidIPeriodeSpørsmål = ({
                                             onArbeidPeriodeRegistrert={onArbeidPeriodeRegistrert}
                                             onArbeidstidEnkeltdagRegistrert={onArbeidstidEnkeltdagRegistrert}
                                         />
-
-                                        <ArbeidstidVariertKalender
-                                            arbeidstid={arbeidIPeriode?.enkeltdager}
-                                            kanLeggeTilPeriode={false}
-                                            arbeiderNormaltTimerFasteUkedager={normalarbeidstid.timerFasteUkedager}
-                                            periode={periode}
-                                            intlValues={intlValues}
-                                            arbeidsstedNavn={arbeidsstedNavn}
-                                            arbeidsforholdType={arbeidsforholdType}
-                                            formFieldName={getFieldName(ArbeidIPeriodeFormField.enkeltdager)}
-                                            onArbeidstidVariertChanged={() => setArbeidstidChanged(true)}
-                                            onArbeidPeriodeRegistrert={onArbeidPeriodeRegistrert}
-                                            onArbeidstidEnkeltdagRegistrert={onArbeidstidEnkeltdagRegistrert}
-                                        />
+                                        {1 + 1 === 3 && (
+                                            <ArbeidstidVariertKalender
+                                                arbeidstid={arbeidIPeriode?.enkeltdager}
+                                                kanLeggeTilPeriode={false}
+                                                arbeiderNormaltTimerFasteUkedager={normalarbeidstid.timerFasteUkedager}
+                                                periode={periode}
+                                                intlValues={intlValues}
+                                                arbeidsstedNavn={arbeidsstedNavn}
+                                                arbeidsforholdType={arbeidsforholdType}
+                                                formFieldName={getFieldName(ArbeidIPeriodeFormField.enkeltdager)}
+                                                onArbeidstidVariertChanged={() => setArbeidstidChanged(true)}
+                                                onArbeidPeriodeRegistrert={onArbeidPeriodeRegistrert}
+                                                onArbeidstidEnkeltdagRegistrert={onArbeidstidEnkeltdagRegistrert}
+                                            />
+                                        )}
                                     </ResponsivePanel>
                                 </FormBlock>
                             )}

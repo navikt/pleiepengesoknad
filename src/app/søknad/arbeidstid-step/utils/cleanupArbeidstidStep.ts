@@ -35,31 +35,29 @@ export const cleanupArbeidIPeriode = (
     const { erLiktHverUke, enkeltdager, timerEllerProsent, fasteDager, prosentAvNormalt, timerPerUke } =
         arbeidIPerioden;
 
-    /** Bruker har variert normalarbeidstid og får ikke spørsmål om det er likt hver uke  */
-    if (erLiktHverUke === undefined) {
+    if (normalarbeidstid.erFasteUkedager === YesOrNo.YES) {
+        if (erLiktHverUke === YesOrNo.YES) {
+            arbeid.erLiktHverUke = erLiktHverUke;
+            arbeid.fasteDager =
+                normalarbeidstid.timerFasteUkedager && fasteDager
+                    ? removeDurationWeekdaysWithNoDuration(
+                          removeDurationWeekdaysNotInDurationWeekdays(fasteDager, normalarbeidstid.timerFasteUkedager)
+                      )
+                    : undefined;
+            return arbeid;
+        }
+        return {
+            ...arbeid,
+            erLiktHverUke,
+            enkeltdager: enkeltdager ? getDurationsInDateRange(enkeltdager, periode) : undefined,
+        };
+    } else {
         arbeid.erLiktHverUke = erLiktHverUke;
         arbeid.timerEllerProsent = timerEllerProsent;
         return timerEllerProsent === TimerEllerProsent.PROSENT
             ? { ...arbeid, timerEllerProsent, prosentAvNormalt }
             : { ...arbeid, timerEllerProsent, timerPerUke };
     }
-
-    /** Bruker har fast normarlarbeidstid */
-    if (erLiktHverUke === YesOrNo.YES) {
-        arbeid.erLiktHverUke = erLiktHverUke;
-        arbeid.fasteDager =
-            normalarbeidstid.timerFasteUkedager && fasteDager
-                ? removeDurationWeekdaysWithNoDuration(
-                      removeDurationWeekdaysNotInDurationWeekdays(fasteDager, normalarbeidstid.timerFasteUkedager)
-                  )
-                : undefined;
-        return arbeid;
-    }
-    return {
-        ...arbeid,
-        erLiktHverUke,
-        enkeltdager: enkeltdager ? getDurationsInDateRange(enkeltdager, periode) : undefined,
-    };
 };
 
 export const cleanupArbeidstidAnsatt = (
