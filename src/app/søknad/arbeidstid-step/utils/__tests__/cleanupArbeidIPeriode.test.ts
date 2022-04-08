@@ -3,7 +3,7 @@ import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { ISODateToDate } from '@navikt/sif-common-utils';
 import { TimerEllerProsent } from '../../../../types';
 import { ArbeiderIPeriodenSvar, ArbeidIPeriodeFormData } from '../../../../types/ArbeidIPeriodeFormData';
-import { NormalarbeidstidFormData } from '../../../../types/ArbeidsforholdFormData';
+import { NormalarbeidstidSøknadsdata, NormalarbeidstidType } from '../../../../types/Søknadsdata';
 import { cleanupArbeidIPeriode } from '../cleanupArbeidstidStep';
 
 const periodeFromDateString = '2021-02-01';
@@ -25,10 +25,11 @@ const periode: DateRange = {
     to: ISODateToDate(periodeToDateString),
 };
 
-const normalarbeidstid: NormalarbeidstidFormData = {
-    erLikeMangeTimerHverUke: YesOrNo.YES,
-    erFasteUkedager: YesOrNo.NO,
-    timerPerUke: '20',
+const normalarbeidstid: NormalarbeidstidSøknadsdata = {
+    type: NormalarbeidstidType.varierendeUker,
+    erFasteUkedager: false,
+    erLiktHverUke: false,
+    timerPerUkeISnitt: 20,
 };
 
 describe('cleanupArbeidIPeriode', () => {
