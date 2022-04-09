@@ -112,7 +112,10 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                     path={getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET)}
                     render={() => (
                         <OpplysningerOmBarnetStep
-                            onValidSubmit={() => navigateToNextStepFrom(StepID.OPPLYSNINGER_OM_BARNET)}
+                            onValidSubmit={() => {
+                                setSøknadsdata(getSøknadsdataFromFormValues(values));
+                                navigateToNextStepFrom(StepID.OPPLYSNINGER_OM_BARNET);
+                            }}
                         />
                     )}
                 />

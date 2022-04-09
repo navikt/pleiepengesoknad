@@ -2,6 +2,8 @@ import { DateRange } from '@navikt/sif-common-formik/lib';
 import { Utenlandsopphold, Virksomhet } from '@navikt/sif-common-forms/lib';
 import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils/lib';
 import { Arbeidsgiver } from './Arbeidsgiver';
+import { BarnRelasjon } from './BarnRelasjon';
+import { ÅrsakManglerIdentitetsnummer } from './ÅrsakManglerIdentitetsnummer';
 
 export interface NormalarbeidstidSøknadsdataLikeDager {
     type: 'likeDagerHverUke';
@@ -199,8 +201,37 @@ export type MedlemskapSøknadsdata =
     | MedlemskapSøknadsdataSkalBo
     | MedlemskapSøknadsdataHarBoddSkalBo;
 
+export interface OmBarnetRegistrerteSøknadsdata {
+    type: 'registrerteBarn';
+    aktørId: string;
+}
+
+export interface BarnRelasjonSøknadsdata {
+    relasjonTilBarnet?: BarnRelasjon;
+    relasjonTilBarnetBeskrivelse?: string;
+}
+
+export interface OmBarnetAnnetSøknadsdata extends BarnRelasjonSøknadsdata {
+    type: 'annetBarn';
+    barnetsNavn: string;
+    barnetsFødselsnummer: string;
+}
+
+export interface OmBarnetAnnetUtenFnrSøknadsdata extends BarnRelasjonSøknadsdata {
+    type: 'annetBarnUtenFnr';
+    barnetsNavn: string;
+    årsakManglerIdentitetsnummer: ÅrsakManglerIdentitetsnummer;
+    barnetsFødselsdato: string;
+}
+
+export type OmBarnetSøknadsdata =
+    | OmBarnetRegistrerteSøknadsdata
+    | OmBarnetAnnetSøknadsdata
+    | OmBarnetAnnetUtenFnrSøknadsdata;
+
 export interface Søknadsdata {
     søknadsperiode?: DateRange;
+    barn?: OmBarnetSøknadsdata;
     arbeid?: ArbeidSøknadsdata;
     medlemskap?: MedlemskapSøknadsdata;
 }
