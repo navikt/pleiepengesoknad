@@ -1,7 +1,7 @@
 import React from 'react';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import { DateRange } from '@navikt/sif-common-formik';
-import { tidUkerInputUtils } from '@navikt/sif-common-pleiepenger/lib/tid-kalender-form/tid-uker-input/tidUkerUtils';
+import { tidUkerInputUtils } from '@navikt/sif-common-pleiepenger/lib/tid-uker-input/tidUkerUtils';
 import { Daginfo, Ukeinfo } from '@navikt/sif-common-pleiepenger/lib/types/tidUkerTypes';
 import { isDateInDates, Weekday } from '@navikt/sif-common-utils/lib';
 import ArbeidstidUkeInput, {

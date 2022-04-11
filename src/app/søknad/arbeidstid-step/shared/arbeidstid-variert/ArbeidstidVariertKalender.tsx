@@ -1,7 +1,6 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, FormikInputGroup } from '@navikt/sif-common-formik/lib';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
@@ -69,6 +68,11 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
         onArbeidstidVariertChanged ? onArbeidstidVariertChanged(newValues) : undefined;
     };
 
+    /** Dager som en ikke jobber på normalt */
+    const utilgjengeligeUkedager = arbeiderNormaltTimerFasteUkedager
+        ? getAllWeekdaysWithoutDuration(arbeiderNormaltTimerFasteUkedager)
+        : undefined;
+
     const handleOnPeriodeChange = (tid: DateDurationMap, periodeData: ArbeidstidPeriodeData) => {
         if (onArbeidPeriodeRegistrert) {
             onArbeidPeriodeRegistrert({
@@ -83,24 +87,20 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
         }
     };
 
-    /** Dager som en ikke jobber på normalt */
-    const utilgjengeligeUkedager = arbeiderNormaltTimerFasteUkedager
-        ? getAllWeekdaysWithoutDuration(arbeiderNormaltTimerFasteUkedager)
-        : undefined;
-
     const månedContentRenderer = (måned: DateRange) => {
         const datoerUtenforPeriode = getDatesInMonthOutsideDateRange(måned.from, periode);
         const datoerPåDagerHvorEnNormaltIkkeJobber = utilgjengeligeUkedager
             ? getDatesInDateRange(periode).filter((date) => isDateInWeekdays(date, utilgjengeligeUkedager))
             : [];
+        const utilgjengeligeDatoerIMåned = [...datoerUtenforPeriode, ...datoerPåDagerHvorEnNormaltIkkeJobber];
         return (
             <ArbeidstidMånedInfo
                 arbeidsstedNavn={arbeidsstedNavn}
                 arbeidsforholdType={arbeidsforholdType}
                 måned={måned}
-                åpentEkspanderbartPanel={antallMåneder === 1 || kanLeggeTilPeriode === false}
+                åpentEkspanderbartPanel={antallMåneder === 1}
                 tidArbeidstid={arbeidstid}
-                utilgjengeligeDatoer={[...datoerUtenforPeriode, ...datoerPåDagerHvorEnNormaltIkkeJobber]}
+                utilgjengeligeDatoer={utilgjengeligeDatoerIMåned}
                 periode={periode}
                 onEnkeltdagChange={handleOnEnkeltdagChange}
             />
@@ -127,34 +127,32 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
                             <FormattedMessage id="arbeidstidVariert.periode.info.3" />
                         </li>
                     </ul>
+                    <Box margin="l">
+                        <ArbeidstidPeriode
+                            onPeriodeChange={handleOnPeriodeChange}
+                            registrerKnappLabel={intlHelper(intl, 'arbeidstidVariert.registrerJobbKnapp.label')}
+                            formProps={{
+                                arbeiderNormaltTimerPerUke,
+                                arbeiderNormaltTimerFasteUkedager,
+                                intlValues,
+                                periode,
+                                arbeidsstedNavn,
+                            }}
+                        />
+                    </Box>
                 </>
             )}
 
+            <Element tag="h3">
+                <FormattedMessage id="arbeidstidVariert.månedsliste.tittel" />
+            </Element>
             <Box margin="l">
-                <ArbeidstidPeriode
-                    onPeriodeChange={handleOnPeriodeChange}
-                    registrerKnappLabel={intlHelper(intl, 'arbeidstidVariert.registrerJobbKnapp.label')}
-                    formProps={{
-                        arbeiderNormaltTimerPerUke,
-                        arbeiderNormaltTimerFasteUkedager,
-                        intlValues,
-                        periode,
-                        arbeidsstedNavn,
-                    }}
+                <SøknadsperioderMånedListe
+                    periode={periode}
+                    årstallHeadingLevel={3}
+                    månedContentRenderer={månedContentRenderer}
                 />
             </Box>
-            <FormBlock>
-                <Element tag="h3">
-                    <FormattedMessage id="arbeidstidVariert.månedsliste.tittel" />
-                </Element>
-                <Box margin="l">
-                    <SøknadsperioderMånedListe
-                        periode={periode}
-                        årstallHeadingLevel={3}
-                        månedContentRenderer={månedContentRenderer}
-                    />
-                </Box>
-            </FormBlock>
         </FormikInputGroup>
     );
 };
