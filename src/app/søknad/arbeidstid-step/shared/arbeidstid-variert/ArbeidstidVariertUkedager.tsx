@@ -5,6 +5,7 @@ import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-co
 import { DateRange, FormikInputGroup } from '@navikt/sif-common-formik/lib';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import { ArbeidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger';
+import ArbeidstidUkerInput from '@navikt/sif-common-pleiepenger/lib/arbeidstid-uker-input/ArbeidstidUkerInput';
 import {
     DateDurationMap,
     durationToDecimalDuration,
@@ -17,7 +18,6 @@ import {
 import { Element, Undertittel } from 'nav-frontend-typografi';
 import { SøknadFormField } from '../../../../types/SøknadFormData';
 import { getArbeidIPeriodeEnkeltdagValidator } from '../arbeid-i-periode-spørsmål/validationArbeidIPeriodeSpørsmål';
-import ArbeidstidUkerInput from '../arbeidstid-uker-input/ArbeidstidUkerInput';
 import { ArbeidstidRegistrertLogProps } from '../types';
 
 interface Props extends ArbeidstidRegistrertLogProps {
@@ -82,11 +82,14 @@ const ArbeidstidVariertUkedager: React.FunctionComponent<Props> = ({
             </Box>
             <ArbeidstidUkerInput
                 periode={periode}
+                arbeidstid={arbeidstid}
                 fieldName={formFieldName}
                 utilgjengeligeUkedager={utilgjengeligeUkedager}
+                normalarbeidstidUkedager={arbeiderNormaltTimerFasteUkedager}
                 tekster={{
                     dag: 'Dag',
                     jobber: 'Jobber',
+                    fravær: 'Borte fra jobb',
                     ariaLabelTidInput: (dato) => `Hvor mye jobber du ${dato}`,
                 }}
                 enkeltdagValidator={enkeltdagValidator}

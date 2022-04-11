@@ -6,6 +6,7 @@ import {
     formatTimerOgMinutter,
     getArbeidstidFastProsentValidator,
 } from '@navikt/sif-common-pleiepenger/lib';
+import { ArbeidstidUkeInputEnkeltdagValidator } from '@navikt/sif-common-pleiepenger/lib/arbeidstid-uke-input/ArbeidstidUkeInput';
 import {
     dateFormatter,
     decimalDurationToDuration,
@@ -20,7 +21,6 @@ import {
 import { IntlShape } from 'react-intl';
 import { ArbeidIPeriodeFormData } from '../../../../types/ArbeidIPeriodeFormData';
 import { NormalarbeidstidSøknadsdata } from '../../../../types/søknadsdata/Søknadsdata';
-import { ArbeidstidUkeInputEnkeltdagValidator } from '../arbeidstid-uke-input/ArbeidstidUkeInput';
 
 export const getArbeidIPeriodeEnkeltdagValidator =
     (

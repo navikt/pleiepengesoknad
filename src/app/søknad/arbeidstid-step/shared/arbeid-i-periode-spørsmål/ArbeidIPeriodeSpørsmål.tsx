@@ -208,7 +208,7 @@ const ArbeidIPeriodeSpørsmål = ({
                             {erLiktHverUke === YesOrNo.NO && (
                                 <FormBlock margin="l">
                                     <ResponsivePanel>
-                                        {1 + 1 === 3 && (
+                                        {1 + 1 === 2 && (
                                             <ArbeidstidVariertUkedager
                                                 arbeidstid={arbeidIPeriode?.enkeltdager}
                                                 kanLeggeTilPeriode={false}
@@ -220,7 +220,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                                 onArbeidstidEnkeltdagRegistrert={onArbeidstidEnkeltdagRegistrert}
                                             />
                                         )}
-                                        {1 + 1 === 2 && (
+                                        {1 + 1 === 3 && (
                                             <ArbeidstidVariertKalender
                                                 arbeidstid={arbeidIPeriode?.enkeltdager}
                                                 kanLeggeTilPeriode={false}
