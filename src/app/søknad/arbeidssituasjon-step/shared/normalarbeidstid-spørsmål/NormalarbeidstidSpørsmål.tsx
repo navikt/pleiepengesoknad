@@ -18,16 +18,16 @@ import {
     ArbeidsforholdSelvstendigFormData,
 } from '../../../../types/ArbeidsforholdFormData';
 import { getArbeidsforholdIntlValues } from '../../utils/arbeidsforholdIntlValues';
-import InfoJobberNormaltTimerIUken from '../info/InfoJobberNormaltTimerIUken';
-import { getJobberNormaltTimerIUkenValidator } from '../validation/jobberNormaltTimerValidator';
-import InfoJobberLiktHverUke from '../info/InfoJobberLiktHverUke';
+import InfoArbeiderLiktHverUke from '../info/InfoArbeiderLiktHverUke';
+import InfoArbeiderNormaltTimerIUken from '../info/InfoArbeiderNormaltTimerIUken';
+import { getArbeiderNormaltTimerIUkenValidator } from '../validation/arbeiderNormaltTimerIUkenValidator';
 
 interface Props {
     arbeidsforholdFieldName: string;
     arbeidsstedNavn?: string;
     arbeidsforhold: ArbeidsforholdFormData | ArbeidsforholdFrilanserFormData | ArbeidsforholdSelvstendigFormData;
     arbeidsforholdType: ArbeidsforholdType;
-    jobberFortsatt: boolean;
+    erAktivtArbeidsforhold: boolean;
 }
 
 const FormComponents = getTypedFormComponents<ArbeidsforholdFormField, ArbeidsforholdFormData, ValidationError>();
@@ -36,7 +36,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
     arbeidsforholdFieldName,
     arbeidsforhold,
     arbeidsforholdType,
-    jobberFortsatt,
+    erAktivtArbeidsforhold,
     arbeidsstedNavn,
 }) => {
     const intl = useIntl();
@@ -53,27 +53,27 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
             <FormComponents.NumberInput
                 label={intlHelper(
                     intl,
-                    jobberFortsatt === false
+                    erAktivtArbeidsforhold === false
                         ? spørOmTimerISnitt
-                            ? `arbeidsforhold.jobberNormaltTimerPerUke.snitt.avsluttet.spm`
-                            : 'arbeidsforhold.jobberNormaltTimerPerUke.avsluttet.spm'
+                            ? `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.avsluttet.spm`
+                            : 'arbeidsforhold.arbeiderNormaltTimerPerUke.avsluttet.spm'
                         : spørOmTimerISnitt
-                        ? `arbeidsforhold.jobberNormaltTimerPerUke.snitt.spm`
-                        : `arbeidsforhold.jobberNormaltTimerPerUke.spm`,
+                        ? `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.spm`
+                        : `arbeidsforhold.arbeiderNormaltTimerPerUke.spm`,
                     intlValues
                 )}
-                name={getFieldName(ArbeidsforholdFormField.jobberNormaltTimerPerUke)}
+                name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_TimerPerUke)}
                 description={
                     spørOmTimerISnitt ? (
-                        <InfoJobberNormaltTimerIUken arbeidsforholdType={arbeidsforholdType} />
+                        <InfoArbeiderNormaltTimerIUken arbeidsforholdType={arbeidsforholdType} />
                     ) : undefined
                 }
                 suffix={intlHelper(intl, `arbeidsforhold.timerPerUke.suffix`)}
                 suffixStyle="text"
                 bredde="XS"
-                validate={getJobberNormaltTimerIUkenValidator({
+                validate={getArbeiderNormaltTimerIUkenValidator({
                     ...intlValues,
-                    jobber: jobberFortsatt ? 'jobber' : 'jobbet',
+                    jobber: erAktivtArbeidsforhold ? 'jobber' : 'jobbet',
                 })}
                 value={arbeidsforhold.normalarbeidstid ? arbeidsforhold.normalarbeidstid.timerPerUke || '' : ''}
             />
@@ -81,67 +81,69 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
     };
     return (
         <>
-            <FormBlock>
-                <FormComponents.YesOrNoQuestion
-                    name={getFieldName(ArbeidsforholdFormField.erLiktHverUke)}
-                    legend={intlHelper(intl, `arbeidsforhold.erLiktHverUke.spm`, intlValues)}
-                    description={<InfoJobberLiktHverUke arbeidsforholdType={arbeidsforholdType} />}
-                    validate={(value: any) => {
-                        const error = getRequiredFieldValidator()(value);
-                        return error
-                            ? {
-                                  key: 'validation.arbeidsforhold.erLiktHverUke',
-                                  values: intlValues,
-                                  keepKeyUnaltered: true,
-                              }
-                            : undefined;
-                    }}
-                    useTwoColumns={true}
-                    labels={{
-                        yes: intlHelper(intl, `arbeidsforhold.erLiktHverUke.ja`),
-                        no: intlHelper(intl, `arbeidsforhold.erLiktHverUke.nei`),
-                    }}
-                />
-            </FormBlock>
-            {arbeidsforhold.normalarbeidstid?.erLiktHverUke === YesOrNo.NO && (
+            <FormComponents.YesOrNoQuestion
+                name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_erLikeMangeTimerHverUke)}
+                legend={intlHelper(intl, `arbeidsforhold.erLikeMangeTimerHverUke.spm`, intlValues)}
+                description={<InfoArbeiderLiktHverUke arbeidsforholdType={arbeidsforholdType} />}
+                validate={(value: any) => {
+                    const error = getRequiredFieldValidator()(value);
+                    return error
+                        ? {
+                              key: 'validation.arbeidsforhold.erLikeMangeTimerHverUke',
+                              values: intlValues,
+                              keepKeyUnaltered: true,
+                          }
+                        : undefined;
+                }}
+                useTwoColumns={true}
+                labels={{
+                    yes: intlHelper(intl, `arbeidsforhold.erLikeMangeTimerHverUke.ja`),
+                    no: intlHelper(intl, `arbeidsforhold.erLikeMangeTimerHverUke.nei`),
+                }}
+            />
+
+            {arbeidsforhold.normalarbeidstid?.erLikeMangeTimerHverUke === YesOrNo.NO && (
                 <FormBlock>{renderTimerPerUkeSpørsmål(true)}</FormBlock>
             )}
-            {arbeidsforhold.normalarbeidstid?.erLiktHverUke === YesOrNo.YES && (
+            {arbeidsforhold.normalarbeidstid?.erLikeMangeTimerHverUke === YesOrNo.YES && (
                 <>
                     <FormBlock>
                         <FormComponents.YesOrNoQuestion
-                            name={getFieldName(ArbeidsforholdFormField.jobberNormaltTimerLiktHverDag)}
-                            legend={intlHelper(intl, `arbeidsforhold.erLiktHverDag.spm`, intlValues)}
+                            name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_erFasteUkedager)}
+                            legend={intlHelper(intl, `arbeidsforhold.erFasteUkedager.spm`, intlValues)}
                             labels={{
-                                yes: intlHelper(intl, `arbeidsforhold.erLiktHverDag.ja`),
-                                no: intlHelper(intl, `arbeidsforhold.erLiktHverDag.nei`),
+                                yes: intlHelper(intl, `arbeidsforhold.erFasteUkedager.ja`),
+                                no: intlHelper(intl, `arbeidsforhold.erFasteUkedager.nei`),
                             }}
                             useTwoColumns={true}
                         />
                     </FormBlock>
-                    {arbeidsforhold.normalarbeidstid.liktHverDag === YesOrNo.NO && (
+                    {arbeidsforhold.normalarbeidstid.erFasteUkedager === YesOrNo.YES && (
                         <FormBlock>
                             <FormComponents.InputGroup
                                 legend={
-                                    jobberFortsatt
+                                    erAktivtArbeidsforhold
                                         ? intlHelper(intl, 'arbeidsforhold.ukedager.tittel', intlValues)
                                         : intlHelper(intl, 'arbeidsforhold.ukedager.avsluttet.tittel', intlValues)
                                 }
                                 validate={() => {
                                     const error = validateFasteArbeidstimerIUke(
-                                        arbeidsforhold.normalarbeidstid?.fasteDager
+                                        arbeidsforhold.normalarbeidstid?.timerFasteUkedager
                                     );
                                     return error
                                         ? {
-                                              key: `validation.arbeidsforhold.fasteDager.${error.key}`,
-                                              values: { ...intlValues, jobber: jobberFortsatt ? 'jobber' : 'jobbet' },
+                                              key: `validation.arbeidsforhold.erFasteUkedager.${error.key}`,
+                                              values: {
+                                                  ...intlValues,
+                                                  jobber: erAktivtArbeidsforhold ? 'jobber' : 'jobbet',
+                                              },
                                               keepKeyUnaltered: true,
                                           }
                                         : undefined;
                                 }}
-                                name={'fasteDager.gruppe' as any}>
+                                name={'erFasteUkedager.gruppe' as any}>
                                 <TidFasteUkedagerInput
-                                    name={getFieldName(ArbeidsforholdFormField.jobberNormaltTimerFasteDager)}
+                                    name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_timerFasteUkedager)}
                                     validateDag={(dag, value) => {
                                         const error = getArbeidstimerFastDagValidator()(value);
                                         return error
@@ -156,8 +158,8 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                             </FormComponents.InputGroup>
                         </FormBlock>
                     )}
-                    {arbeidsforhold.normalarbeidstid.liktHverDag === YesOrNo.YES && (
-                        <FormBlock>{renderTimerPerUkeSpørsmål(false)}</FormBlock>
+                    {arbeidsforhold.normalarbeidstid.erFasteUkedager === YesOrNo.NO && (
+                        <FormBlock>{renderTimerPerUkeSpørsmål(true)}</FormBlock>
                     )}
                 </>
             )}

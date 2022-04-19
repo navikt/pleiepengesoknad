@@ -8,8 +8,8 @@ import { getDagerMedTidFraArbeidstidPeriodeData } from './arbeidstidPeriodeUtils
 interface Props {
     registrerKnappLabel: string;
     formProps: Pick<ArbeidstidPeriodeFormProps, 'arbeidsstedNavn' | 'intlValues' | 'periode'> & {
-        jobberNormaltTimerPerUke?: number;
-        jobberNormaltTimerFasteDager?: DurationWeekdays;
+        arbeiderNormaltTimerPerUke?: number;
+        arbeiderNormaltTimerFasteUkedager?: DurationWeekdays;
     };
     onPeriodeChange: (tid: DateDurationMap, formData: ArbeidstidPeriodeData) => void;
 }
@@ -19,10 +19,10 @@ const ArbeidstidPeriode: React.FunctionComponent<Props> = ({ registrerKnappLabel
 
     const handleFormSubmit = (data: ArbeidstidPeriodeData) => {
         setVisPeriode(false);
-        const { jobberNormaltTimerPerUke } = formProps;
-        if (jobberNormaltTimerPerUke !== undefined) {
+        const { arbeiderNormaltTimerPerUke } = formProps;
+        if (arbeiderNormaltTimerPerUke !== undefined) {
             setTimeout(() => {
-                onPeriodeChange(getDagerMedTidFraArbeidstidPeriodeData(jobberNormaltTimerPerUke, data), data);
+                onPeriodeChange(getDagerMedTidFraArbeidstidPeriodeData(arbeiderNormaltTimerPerUke, data), data);
             });
         } else {
             // TODO- håndtere ukedager

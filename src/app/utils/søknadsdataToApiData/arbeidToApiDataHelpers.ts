@@ -12,11 +12,14 @@ import {
     Weekday,
 } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
+import { ArbeiderIPeriodenSvar } from '../../types/ArbeidIPeriodeFormData';
 import { ArbeidIPeriodeApiData, ArbeidsforholdApiData, TimerFasteDagerApiData } from '../../types/SøknadApiData';
 import {
     ArbeidIPeriodeSøknadsdata,
+    ArbeidIPeriodeType,
     ArbeidsforholdSøknadsdata,
     NormalarbeidstidSøknadsdata,
+    NormalarbeidstidType,
 } from '../../types/Søknadsdata';
 import { getNormalarbeidstidApiDataFromSøknadsdata } from './getNormalarbeidstidApiDataFromSøknadsdata';
 
@@ -100,41 +103,44 @@ export const getArbeidIPeriodeApiDataFromSøknadsdata = (
 ): ArbeidIPeriodeApiData | undefined => {
     if (arbeid) {
         switch (arbeid.type) {
-            case 'arbeiderIkkeIPerioden':
+            case ArbeidIPeriodeType.arbeiderIkke:
                 return {
-                    type: 'jobberIkkeIPerioden',
-                    jobberIPerioden: 'NEI',
+                    type: ArbeidIPeriodeType.arbeiderIkke,
+                    arbeiderIPerioden: ArbeiderIPeriodenSvar.heltFravær,
                 };
-            case 'variert':
+            case ArbeidIPeriodeType.arbeiderVanlig:
                 return {
-                    type: 'jobberVariert',
-                    jobberIPerioden: 'JA',
-                    enkeltdager: arbeidEnkeltdagerToArbeidstidEnkeltdagApiData(
-                        arbeid.enkeltdager,
-                        normalarbeidstid.fasteDager
-                    ),
-                    erLiktHverUke: false,
+                    type: ArbeidIPeriodeType.arbeiderVanlig,
+                    arbeiderIPerioden: ArbeiderIPeriodenSvar.somVanlig,
                 };
-            case 'fastProsent':
+            case ArbeidIPeriodeType.arbeiderEnkeltdager:
+                if (normalarbeidstid.type === NormalarbeidstidType.likeUkerOgDager) {
+                    return {
+                        type: ArbeidIPeriodeType.arbeiderEnkeltdager,
+                        arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
+                        enkeltdager: arbeidEnkeltdagerToArbeidstidEnkeltdagApiData(
+                            arbeid.enkeltdager,
+                            normalarbeidstid.timerFasteUkedager
+                        ),
+                    };
+                }
+                return undefined;
+            case ArbeidIPeriodeType.arbeiderProsentAvNormalt:
                 return {
-                    type: 'jobberProsent',
-                    jobberIPerioden: 'JA',
-                    erLiktHverUke: true,
-                    fasteDager: durationWeekdaysToTimerFasteDagerApiData(arbeid.fasteDager),
-                    jobberProsent: arbeid.jobberProsent,
+                    type: ArbeidIPeriodeType.arbeiderProsentAvNormalt,
+                    arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
+                    prosentAvNormalt: arbeid.prosentAvNormalt,
                 };
-            case 'fastTimer':
+            case ArbeidIPeriodeType.arbeiderTimerISnittPerUke:
                 return {
-                    type: 'jobberTimerPerUke',
-                    jobberIPerioden: 'JA',
-                    erLiktHverUke: true,
-                    fasteDager: durationWeekdaysToTimerFasteDagerApiData(arbeid.fasteDager),
-                    jobberTimer: arbeid.jobberTimerPerUke,
+                    type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
+                    arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
+                    timerPerUke: arbeid.timerISnittPerUke,
                 };
-            case 'fasteDager':
+            case ArbeidIPeriodeType.arbeiderFasteUkedager:
                 return {
-                    type: 'jobberFasteDager',
-                    jobberIPerioden: 'JA',
+                    type: ArbeidIPeriodeType.arbeiderFasteUkedager,
+                    arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
                     erLiktHverUke: true,
                     fasteDager: durationWeekdaysToTimerFasteDagerApiData(arbeid.fasteDager),
                 };
@@ -147,14 +153,7 @@ export const getArbeidsforholdApiDataFromSøknadsdata = (
     arbeidsforhold: ArbeidsforholdSøknadsdata
 ): ArbeidsforholdApiData => {
     const normalarbeidstid = getNormalarbeidstidApiDataFromSøknadsdata(arbeidsforhold.normalarbeidstid);
-    if (arbeidsforhold.harFraværIPeriode === false) {
-        return {
-            harFraværIPeriode: false,
-            normalarbeidstid,
-        };
-    }
     return {
-        harFraværIPeriode: true,
         normalarbeidstid,
         arbeidIPeriode: getArbeidIPeriodeApiDataFromSøknadsdata(
             arbeidsforhold.arbeidISøknadsperiode,

@@ -28,7 +28,7 @@ const NormalarbeidstidSummary: React.FunctionComponent<Props> = ({ erAnsatt, nor
             <FormattedMessage
                 id={erAnsatt ? `oppsummering.arbeidssituasjon.tid` : `oppsummering.arbeidssituasjon.avsluttet.tid`}
                 values={{
-                    timer: normalarbeidstidApiData.timerPerUke,
+                    timer: normalarbeidstidApiData.timerPerUkeISnitt,
                 }}
             />
         </>

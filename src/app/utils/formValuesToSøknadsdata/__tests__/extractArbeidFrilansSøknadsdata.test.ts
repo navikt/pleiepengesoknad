@@ -18,7 +18,7 @@ const frilansoppdrag: Arbeidsgiver[] = [{} as any];
 
 const formData: FrilansFormData = {
     harHattInntektSomFrilanser: YesOrNo.YES,
-    jobberFortsattSomFrilans: YesOrNo.YES,
+    erFortsattFrilanser: YesOrNo.YES,
     startdato: '2020-01-01',
     arbeidsforhold: mockArbeidsforhold,
 };
@@ -39,7 +39,7 @@ describe('extractArbeidFrilansSøknadsdata', () => {
                 {
                     ...formData,
                     harHattInntektSomFrilanser: YesOrNo.NO,
-                    jobberFortsattSomFrilans: YesOrNo.NO,
+                    erFortsattFrilanser: YesOrNo.NO,
                     sluttdato: dateToISODate(datoFørSøknadsperiode),
                 },
                 frilansoppdrag,
@@ -62,7 +62,7 @@ describe('extractArbeidFrilansSøknadsdata', () => {
                 {
                     ...formData,
                     arbeidsforhold: {} as any,
-                    jobberFortsattSomFrilans: YesOrNo.NO,
+                    erFortsattFrilanser: YesOrNo.NO,
                     sluttdato: dateToISODate(datoISøknadsperiode),
                 },
                 frilansoppdrag,
@@ -80,7 +80,7 @@ describe('extractArbeidFrilansSøknadsdata', () => {
                     ...formData,
                     arbeidsforhold: {} as any,
                     harHattInntektSomFrilanser: YesOrNo.YES,
-                    jobberFortsattSomFrilans: YesOrNo.YES,
+                    erFortsattFrilanser: YesOrNo.YES,
                 },
                 frilansoppdrag,
                 søknadsperiode

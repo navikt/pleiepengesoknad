@@ -42,15 +42,6 @@ function ArbeidssituasjonSelvstendigSummary({ selvstendig }: Props) {
                                 erAnsatt={true}
                             />
                         </li>
-                        <li>
-                            <FormattedMessage
-                                id={
-                                    selvstendig.arbeidsforhold.harFraværIPeriode
-                                        ? `oppsummering.arbeidssituasjon.harFravær`
-                                        : 'oppsummering.arbeidssituasjon.harIkkeFravær'
-                                }
-                            />
-                        </li>
                     </ul>
                     <Element tag="h4">{intlHelper(intl, 'summary.virksomhet.virksomhetInfo.tittel')}</Element>
                     <Box margin="m">

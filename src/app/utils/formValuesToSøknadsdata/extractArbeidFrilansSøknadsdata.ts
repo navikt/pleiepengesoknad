@@ -26,7 +26,7 @@ export const extractArbeidFrilansSøknadsdata = (
     const aktivPeriode = startdato
         ? getPeriodeSomFrilanserInnenforSøknadsperiode(søknadsperiode, startdato, sluttdato)
         : undefined;
-    const erFortsattFrilanser = frilans.jobberFortsattSomFrilans === YesOrNo.YES;
+    const erFortsattFrilanser = frilans.erFortsattFrilanser === YesOrNo.YES;
     const arbeidsforhold = frilans.arbeidsforhold
         ? extractArbeidsforholdSøknadsdata(frilans.arbeidsforhold, søknadsperiode)
         : undefined;

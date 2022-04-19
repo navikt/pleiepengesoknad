@@ -6,7 +6,7 @@ interface Props {
     arbeidsforholdType: ArbeidsforholdType;
 }
 
-const InfoJobberLiktHverUke: React.FunctionComponent<Props> = () => {
+const InfoArbeiderLiktHverUke: React.FunctionComponent<Props> = () => {
     return (
         <ExpandableInfo title="Hva betyr dette?">
             <p>
@@ -25,4 +25,4 @@ const InfoJobberLiktHverUke: React.FunctionComponent<Props> = () => {
         </ExpandableInfo>
     );
 };
-export default InfoJobberLiktHverUke;
+export default InfoArbeiderLiktHverUke;

@@ -1,9 +1,8 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { ISODateRangeToDateRange } from '@navikt/sif-common-utils/lib';
-import { ArbeidsgiverType } from '../../../types';
-import { ArbeidIPeriodeFormData } from '../../../types/ArbeidIPeriodeFormData';
+import { ArbeidsgiverType, TimerEllerProsent } from '../../../types';
+import { ArbeidIPeriodeFormData, ArbeiderIPeriodenSvar } from '../../../types/ArbeidIPeriodeFormData';
 import { ArbeidsforholdFormData } from '../../../types/ArbeidsforholdFormData';
-import { ArbeidsforholdSøknadsdataMedFravær } from '../../../types/Søknadsdata';
 import { extractArbeidsforholdSøknadsdata } from '../extractArbeidsforholdSøknadsdata';
 
 const søknadsperiode = ISODateRangeToDateRange('2022-01-01/2022-02-01');
@@ -13,12 +12,11 @@ describe('extractArbeidsforholdSøknadsdata', () => {
     const arbeidsforholdMedFravær: ArbeidsforholdFormData = {
         arbeidsgiver: { type: ArbeidsgiverType.ORGANISASJON, navn: 'Org1', id: '1' },
         erAnsatt: YesOrNo.YES,
-        harFraværIPeriode: YesOrNo.YES,
         arbeidIPeriode: mockArbeidIPeriodeFormData,
         normalarbeidstid: {
-            erLiktHverUke: YesOrNo.YES,
-            liktHverDag: YesOrNo.NO,
-            fasteDager: { monday: { hours: '1', minutes: '30' } },
+            erLikeMangeTimerHverUke: YesOrNo.YES,
+            erFasteUkedager: YesOrNo.YES,
+            timerFasteUkedager: { monday: { hours: '1', minutes: '30' } },
         },
     };
     it('returnerer undefined dersom normalarbeidstid er ugyldig', () => {
@@ -28,28 +26,30 @@ describe('extractArbeidsforholdSøknadsdata', () => {
         );
         expect(result).toBeUndefined();
     });
-    it('returnerer undefined dersom harFraværIPeriode er undefined/ubesvart', () => {
+    it('returnerer arbeidsforhold korrekt når arbeidIPeriode ikke er satt', () => {
         const result = extractArbeidsforholdSøknadsdata(
-            { ...arbeidsforholdMedFravær, harFraværIPeriode: YesOrNo.UNANSWERED },
-            søknadsperiode
-        );
-        expect(result).toBeUndefined();
-    });
-    it('returnerer arbeidsforhold med fravær', () => {
-        const result = extractArbeidsforholdSøknadsdata(arbeidsforholdMedFravær, søknadsperiode);
-        expect(result).toBeDefined();
-        expect(result?.harFraværIPeriode).toBeTruthy();
-        expect(result?.normalarbeidstid).toBeDefined();
-        expect((result as ArbeidsforholdSøknadsdataMedFravær)?.arbeidISøknadsperiode).toBeDefined();
-    });
-    it('returnerer arbeidsforhold uten fravær', () => {
-        const result = extractArbeidsforholdSøknadsdata(
-            { ...arbeidsforholdMedFravær, harFraværIPeriode: YesOrNo.NO, arbeidIPeriode: undefined },
+            { ...arbeidsforholdMedFravær, arbeidIPeriode: undefined },
             søknadsperiode
         );
         expect(result).toBeDefined();
-        expect(result?.harFraværIPeriode).toBeFalsy();
         expect(result?.normalarbeidstid).toBeDefined();
-        expect((result as ArbeidsforholdSøknadsdataMedFravær)?.arbeidISøknadsperiode).toBeUndefined();
+        expect(result?.arbeidISøknadsperiode).toBeUndefined();
+    });
+    it('returnerer arbeidsforhold korrekt når arbeidIPeriode er satt', () => {
+        const result = extractArbeidsforholdSøknadsdata(
+            {
+                ...arbeidsforholdMedFravær,
+                arbeidIPeriode: {
+                    arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
+                    erLiktHverUke: YesOrNo.NO,
+                    timerPerUke: '20',
+                    timerEllerProsent: TimerEllerProsent.TIMER,
+                },
+            },
+            søknadsperiode
+        );
+        expect(result).toBeDefined();
+        expect(result?.normalarbeidstid).toBeDefined();
+        expect(result?.arbeidISøknadsperiode).toBeDefined();
     });
 });

@@ -9,7 +9,7 @@ const defaultAnsattArbeidsforhold: ArbeidsforholdFormData = {
         navn: 'abc',
         type: ArbeidsgiverType.ORGANISASJON,
     },
-    normalarbeidstid: { erLiktHverUke: YesOrNo.YES },
+    normalarbeidstid: { erLikeMangeTimerHverUke: YesOrNo.YES },
 };
 
 describe('visVernepliktSpørsmål', () => {

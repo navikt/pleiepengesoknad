@@ -4,7 +4,7 @@ export const MIN_TIMER_NORMAL_ARBEIDSFORHOLD = 0.01;
 export const MAX_TIMER_NORMAL_ARBEIDSFORHOLD = 100;
 export const MAX_TIMER_NORMAL_ARBEIDSFORHOLD_DAG = 24;
 
-const validateJobberNormaltTimerIUken = (value: any) => {
+const validateArbeiderNormaltTimerIUken = (value: any) => {
     return getNumberValidator({
         required: true,
         min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,
@@ -12,11 +12,11 @@ const validateJobberNormaltTimerIUken = (value: any) => {
     })(value);
 };
 
-export const getJobberNormaltTimerIUkenValidator = (intlValues: { hvor: string; jobber: string }) => (value: any) => {
-    const error = validateJobberNormaltTimerIUken(value);
+export const getArbeiderNormaltTimerIUkenValidator = (intlValues: { hvor: string; jobber: string }) => (value: any) => {
+    const error = validateArbeiderNormaltTimerIUken(value);
     return error
         ? {
-              key: `validation.arbeidsforhold.jobberNormaltTimerPerUke.${error}`,
+              key: `validation.arbeidsforhold.arbeiderNormaltTimerPerUke.${error}`,
               values: {
                   ...intlValues,
                   min: MIN_TIMER_NORMAL_ARBEIDSFORHOLD,

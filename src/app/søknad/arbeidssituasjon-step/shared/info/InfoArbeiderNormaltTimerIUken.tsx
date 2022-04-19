@@ -8,18 +8,18 @@ interface Props {
     arbeidsforholdType: ArbeidsforholdType;
 }
 
-const InfoJobberNormaltTimerIUken: React.FunctionComponent<Props> = ({ arbeidsforholdType }) => {
+const InfoArbeiderNormaltTimerIUken: React.FunctionComponent<Props> = ({ arbeidsforholdType }) => {
     switch (arbeidsforholdType) {
         case ArbeidsforholdType.ANSATT:
-            return <InfoJobberNormaltTimerAnsatt />;
+            return <InfoArbeiderNormaltTimerAnsatt />;
         case ArbeidsforholdType.FRILANSER:
-            return <InfoJobberNormaltTimerFrilanser />;
+            return <InfoArbeiderNormaltTimerFrilanser />;
         case ArbeidsforholdType.SELVSTENDIG:
-            return <InfoJobberNormaltTimerSN />;
+            return <InfoArbeiderNormaltTimerSN />;
     }
 };
 
-const InfoJobberNormaltTimerAnsatt = () => {
+const InfoArbeiderNormaltTimerAnsatt = () => {
     const intl = useIntl();
     return (
         <ExpandableInfo title={intlHelper(intl, 'arbeidsforhold.normalTimer.info.tittel')}>
@@ -80,7 +80,7 @@ const InfoJobberNormaltTimerAnsatt = () => {
     );
 };
 
-const InfoJobberNormaltTimerFrilanser = () => {
+const InfoArbeiderNormaltTimerFrilanser = () => {
     const intl = useIntl();
     return (
         <ExpandableInfo title={intlHelper(intl, 'arbeidsforhold.normalTimer.info.tittel')}>
@@ -141,7 +141,7 @@ const InfoJobberNormaltTimerFrilanser = () => {
     );
 };
 
-const InfoJobberNormaltTimerSN = () => {
+const InfoArbeiderNormaltTimerSN = () => {
     const intl = useIntl();
     return (
         <ExpandableInfo title={intlHelper(intl, 'arbeidsforhold.normalTimer.info.tittel')}>
@@ -202,4 +202,4 @@ const InfoJobberNormaltTimerSN = () => {
     );
 };
 
-export default InfoJobberNormaltTimerIUken;
+export default InfoArbeiderNormaltTimerIUken;

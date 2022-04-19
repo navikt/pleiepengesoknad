@@ -4,7 +4,9 @@ import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsop
 import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
 import { ISODate, ISODuration } from '@navikt/sif-common-utils';
 import { AndreYtelserFraNAV, BarnRelasjon, ÅrsakManglerIdentitetsnummer } from './';
+import { ArbeiderIPeriodenSvar } from './ArbeidIPeriodeFormData';
 import { ArbeidsgiverType } from './Arbeidsgiver';
+import { ArbeidIPeriodeType } from './Søknadsdata';
 
 export interface PeriodeApiData {
     fraOgMed: ApiStringDate;
@@ -56,61 +58,58 @@ export interface BarnetSøknadenGjelderApiData {
 }
 
 export interface ArbeidIPeriodeApiDataJobberIkke {
-    type: 'jobberIkkeIPerioden';
-    jobberIPerioden: 'NEI';
+    type: ArbeidIPeriodeType.arbeiderIkke;
+    arbeiderIPerioden: ArbeiderIPeriodenSvar.heltFravær;
+}
+export interface ArbeidIPeriodeApiDataJobberVanlig {
+    type: ArbeidIPeriodeType.arbeiderVanlig;
+    arbeiderIPerioden: ArbeiderIPeriodenSvar.somVanlig;
 }
 export interface ArbeidIPeriodeApiDataFasteDager {
-    type: 'jobberFasteDager';
-    jobberIPerioden: 'JA';
+    type: ArbeidIPeriodeType.arbeiderFasteUkedager;
+    arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert;
     erLiktHverUke: true;
     fasteDager: TimerFasteDagerApiData;
 }
 
 export interface ArbeidIPeriodeApiDataProsent {
-    type: 'jobberProsent';
-    jobberIPerioden: 'JA';
-    erLiktHverUke: true;
-    jobberProsent: number;
-    fasteDager: TimerFasteDagerApiData;
+    type: ArbeidIPeriodeType.arbeiderProsentAvNormalt;
+    arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert;
+    prosentAvNormalt: number;
 }
 
 export interface ArbeidIPeriodeApiDataTimerPerUke {
-    type: 'jobberTimerPerUke';
-    jobberIPerioden: 'JA';
-    erLiktHverUke: true;
-    jobberTimer: number;
-    fasteDager: TimerFasteDagerApiData;
+    type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke;
+    arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert;
+    timerPerUke: number;
 }
 
 export interface ArbeidIPeriodeApiDataVariert {
-    type: 'jobberVariert';
-    jobberIPerioden: 'JA';
-    erLiktHverUke: false;
+    type: ArbeidIPeriodeType.arbeiderEnkeltdager;
+    arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert;
     enkeltdager: ArbeidstidEnkeltdagApiData[];
 }
 
 export type ArbeidIPeriodeApiData =
     | ArbeidIPeriodeApiDataJobberIkke
+    | ArbeidIPeriodeApiDataJobberVanlig
     | ArbeidIPeriodeApiDataFasteDager
     | ArbeidIPeriodeApiDataProsent
     | ArbeidIPeriodeApiDataTimerPerUke
     | ArbeidIPeriodeApiDataVariert;
 
-type NormalarbeidstidPerUkeApiData = {
+type NormalarbeidstidSnittPerUkeApiData = {
     erLiktHverUke: false;
-    timerPerUke: number;
-    timerFasteDager: TimerFasteDagerApiData;
+    timerPerUkeISnitt: number;
 };
-type NormalarbeidstidFasteDagerApiData = {
+type NormalarbeidstidFasteDagerPerUkeApiData = {
     erLiktHverUke: true;
-    timerPerUke: number;
     timerFasteDager: TimerFasteDagerApiData;
 };
 
-export type NormalarbeidstidApiData = NormalarbeidstidPerUkeApiData | NormalarbeidstidFasteDagerApiData;
+export type NormalarbeidstidApiData = NormalarbeidstidSnittPerUkeApiData | NormalarbeidstidFasteDagerPerUkeApiData;
 
 export interface ArbeidsforholdApiData {
-    harFraværIPeriode: boolean;
     normalarbeidstid: NormalarbeidstidApiData;
     arbeidIPeriode?: ArbeidIPeriodeApiData;
 }
@@ -132,13 +131,13 @@ export interface FrilansApiDataIngenInntekt {
 export interface FrilansApiDataSluttetFørSøknadsperiode {
     harInntektSomFrilanser: false;
     startdato: ApiStringDate;
-    jobberFortsattSomFrilans: false;
+    erFortsattFrilanser: false;
     sluttdato?: ApiStringDate;
 }
 export interface FrilansApiDataHarInntekt {
     harInntektSomFrilanser: true;
     startdato: ApiStringDate;
-    jobberFortsattSomFrilans: boolean;
+    erFortsattFrilanser: boolean;
     sluttdato?: ApiStringDate;
     arbeidsforhold: ArbeidsforholdApiData;
 }
