@@ -36,7 +36,7 @@ export const getArbeidIPeriodeEnkeltdagValidator =
         }
         const normaltidDag = getNumberDurationForWeekday(timerFasteUkedager, weekday);
         const nyTid = duration ? durationToDecimalDuration(duration) : undefined;
-        const dag = dateFormatter.extendedWithDayName(date);
+        const dag = dateFormatter.dayDateShortMonthYear(date);
         if (nyTid && !normaltidDag) {
             return {
                 key: `validation.arbeidIPeriode.enkeltdagerFastNormaltid.dagUtenNormaltid`,
