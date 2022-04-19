@@ -36,10 +36,10 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
     const formikProps = useFormikContext<SøknadFormData>();
     const { persist } = usePersistSoknad(history);
     const {
-        søknadsdata: { arbeid: arbeidssituasjon },
+        søknadsdata: { arbeid },
     } = useSøknadsdataContext();
 
-    if (!arbeidssituasjon) {
+    if (!arbeid) {
         return <GeneralErrorPage />;
     }
 
@@ -60,7 +60,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
         <SøknadFormStep
             id={StepID.ARBEIDSTID}
             onValidFormSubmit={onValidSubmit}
-            onStepCleanup={(values) => cleanupArbeidstidStep(values, periode)}>
+            onStepCleanup={(values) => cleanupArbeidstidStep(values, arbeid, periode)}>
             <Box padBottom="m">
                 <CounsellorPanel>
                     <p>
@@ -81,7 +81,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
             {ansatt_arbeidsforhold.length > 0 && (
                 <FormBlock>
                     {ansatt_arbeidsforhold.map((arbeidsforhold, index) => {
-                        const arbeidsgiver = arbeidssituasjon.arbeidsgivere?.get(arbeidsforhold.arbeidsgiver.id);
+                        const arbeidsgiver = arbeid.arbeidsgivere?.get(arbeidsforhold.arbeidsgiver.id);
 
                         /** Må loope gjennom alle arbeidsforhold for å få riktig index inn til formik */
                         if (!arbeidsgiver || arbeidsgiver.erAnsattISøknadsperiode === false) {
@@ -109,16 +109,16 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
             )}
 
             {frilans.arbeidsforhold &&
-                arbeidssituasjon.frilans?.erFrilanser === true &&
-                arbeidssituasjon.frilans?.harInntektISøknadsperiode === true && (
+                arbeid.frilans?.erFrilanser === true &&
+                arbeid.frilans?.harInntektISøknadsperiode === true && (
                     <FormBlock>
                         <FormSection title={intlHelper(intl, 'arbeidIPeriode.FrilansLabel')}>
                             <ArbeidIPeriodeSpørsmål
-                                normalarbeidstid={arbeidssituasjon.frilans.arbeidsforhold.normalarbeidstid}
+                                normalarbeidstid={arbeid.frilans.arbeidsforhold.normalarbeidstid}
                                 arbeidsstedNavn="Frilansoppdrag"
                                 arbeidsforholdType={ArbeidsforholdType.FRILANSER}
                                 arbeidsforhold={frilans.arbeidsforhold}
-                                periode={arbeidssituasjon.frilans.aktivPeriode}
+                                periode={arbeid.frilans.aktivPeriode}
                                 parentFieldName={FrilansFormField.arbeidsforhold}
                                 søkerKunHelgedager={søkerKunHelgedager(periode.from, periode.to)}
                                 onArbeidstidVariertChange={handleArbeidstidChanged}
@@ -132,11 +132,11 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
             {selvstendig.harHattInntektSomSN === YesOrNo.YES &&
                 selvstendig.arbeidsforhold &&
                 periodeSomSelvstendigISøknadsperiode &&
-                arbeidssituasjon.selvstendig?.type === 'erSN' && (
+                arbeid.selvstendig?.type === 'erSN' && (
                     <FormBlock>
                         <FormSection title={intlHelper(intl, 'arbeidIPeriode.SNLabel')}>
                             <ArbeidIPeriodeSpørsmål
-                                normalarbeidstid={arbeidssituasjon.selvstendig.arbeidsforhold.normalarbeidstid}
+                                normalarbeidstid={arbeid.selvstendig.arbeidsforhold.normalarbeidstid}
                                 arbeidsstedNavn="Selvstendig næringsdrivende"
                                 arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
                                 arbeidsforhold={selvstendig.arbeidsforhold}

@@ -14,7 +14,7 @@ import {
     // ArbeidstimerFasteDagerApiData,
     TidEnkeltdagApiData,
     TimerFasteDagerApiData,
-} from '../../types/SøknadApiData';
+} from '../../types/søknad-api-data/SøknadApiData';
 
 export const getFasteDagerApiData = ({
     monday: mandag,
@@ -29,20 +29,6 @@ export const getFasteDagerApiData = ({
     torsdag: torsdag ? durationToISODuration(torsdag) : undefined,
     fredag: fredag ? durationToISODuration(fredag) : undefined,
 });
-
-// export const getFasteArbeidsdagerApiData = (
-//     { monday: mandag, tuesday: tirsdag, wednesday: onsdag, thursday: torsdag, friday: fredag }: DurationWeekdays,
-//     normalTimerDag: ISODuration
-// ): ArbeidstimerFasteDagerApiData => {
-//     const normalTimer = normalTimerDag;
-//     return {
-//         mandag: mandag ? { faktiskTimer: durationToISODuration(mandag), normalTimer } : undefined,
-//         tirsdag: tirsdag ? { faktiskTimer: durationToISODuration(tirsdag), normalTimer } : undefined,
-//         onsdag: onsdag ? { faktiskTimer: durationToISODuration(onsdag), normalTimer } : undefined,
-//         torsdag: torsdag ? { faktiskTimer: durationToISODuration(torsdag), normalTimer } : undefined,
-//         fredag: fredag ? { faktiskTimer: durationToISODuration(fredag), normalTimer } : undefined,
-//     };
-// };
 
 const sortTidEnkeltdagApiData = (
     d1: TidEnkeltdagApiData | ArbeidstidEnkeltdagApiData,
@@ -69,37 +55,6 @@ export const getEnkeltdagerIPeriodeApiData = (
     });
     return dager.sort(sortTidEnkeltdagApiData);
 };
-
-// export const getArbeidstidEnkeltdagerIPeriodeApiData = (
-//     enkeltdager: DateDurationMap,
-//     enkeltdagerNormalt: DateDurationMap
-// ): ArbeidstidEnkeltdagApiData[] => {
-//     const dager: ArbeidstidEnkeltdagApiData[] = [];
-
-//     Object.keys(enkeltdager).forEach((dag) => {
-//         const dato = ISOStringToDate(dag);
-//         if (dato && isDateWeekDay(dato)) {
-//             if (durationUtils.durationIsZero(enkeltdager[dag])) {
-//                 return;
-//             }
-//             const faktiskTimer = durationToISODuration(enkeltdager[dag]);
-//             const normalTimer = durationToISODuration(enkeltdagerNormalt[dag]);
-
-//             if (!faktiskTimer || !normalTimer) {
-//                 throw 'getArbeidstidEnkeltdagerIPeriodeApiData - Faktisk eller normaltimer er undefined';
-//             }
-
-//             dager.push({
-//                 dato: dateToISOString(dato),
-//                 arbeidstimer: {
-//                     faktiskTimer,
-//                     normalTimer,
-//                 },
-//             });
-//         }
-//     });
-//     return dager.sort(sortTidEnkeltdagApiData);
-// };
 
 export const fjernArbeidstimerUtenforPeriodeOgHelgedager = (
     periode: Partial<DateRange>,

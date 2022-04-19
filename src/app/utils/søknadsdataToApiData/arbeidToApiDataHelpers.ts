@@ -13,14 +13,18 @@ import {
 } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
 import { ArbeiderIPeriodenSvar } from '../../types/ArbeidIPeriodeFormData';
-import { ArbeidIPeriodeApiData, ArbeidsforholdApiData, TimerFasteDagerApiData } from '../../types/SøknadApiData';
+import {
+    ArbeidIPeriodeApiData,
+    ArbeidsforholdApiData,
+    TimerFasteDagerApiData,
+} from '../../types/søknad-api-data/SøknadApiData';
 import {
     ArbeidIPeriodeSøknadsdata,
     ArbeidIPeriodeType,
     ArbeidsforholdSøknadsdata,
     NormalarbeidstidSøknadsdata,
     NormalarbeidstidType,
-} from '../../types/Søknadsdata';
+} from '../../types/søknadsdata/Søknadsdata';
 import { getNormalarbeidstidApiDataFromSøknadsdata } from './getNormalarbeidstidApiDataFromSøknadsdata';
 
 export const dateToISODateOrUndefined = (date?: Date): ISODate | undefined => (date ? dateToISODate(date) : undefined);

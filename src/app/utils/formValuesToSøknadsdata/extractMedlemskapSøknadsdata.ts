@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { MedlemskapFormData } from '../../types/SøknadFormData';
-import { MedlemskapSøknadsdata } from '../../types/Søknadsdata';
+import { MedlemskapSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 
 export const extractMedlemskapSøknadsdata = ({
     harBoddUtenforNorgeSiste12Mnd,

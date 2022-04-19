@@ -1,6 +1,6 @@
 import { BarnRelasjon } from '../../types';
 import { OmBarnetFormData } from '../../types/SøknadFormData';
-import { OmBarnetSøknadsdata } from '../../types/Søknadsdata';
+import { OmBarnetSøknadsdata } from '../../types/søknadsdata/omBarnetSøknadsdata';
 
 export const extractBarnSøknadsdata = (values: OmBarnetFormData): OmBarnetSøknadsdata | undefined => {
     if (values.barnetSøknadenGjelder) {

@@ -6,7 +6,11 @@ import { apiStringDateToDate, DateRange, prettifyDateExtended } from '@navikt/si
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import dayjs from 'dayjs';
 import { ArbeidsgiverType } from '../../../types';
-import { ArbeidsforholdApiData, ArbeidsgiverApiData, SøknadApiData } from '../../../types/SøknadApiData';
+import {
+    ArbeidsforholdApiData,
+    ArbeidsgiverApiData,
+    SøknadApiData,
+} from '../../../types/søknad-api-data/SøknadApiData';
 import ArbeidIPeriodeSummaryItem from './ArbeidIPeriodenSummaryItem';
 
 interface Props {

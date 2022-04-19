@@ -2,7 +2,7 @@ import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { Arbeidsgiver } from '../../types';
 import { FrilansFormData } from '../../types/FrilansFormData';
-import { ArbeidFrilansSøknadsdata } from '../../types/Søknadsdata';
+import { ArbeidFrilansSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { extractArbeidsforholdSøknadsdata } from './extractArbeidsforholdSøknadsdata';
 import { getPeriodeSomFrilanserInnenforSøknadsperiode } from './søknadsdataFrilanserUtils';
 
@@ -37,7 +37,7 @@ export const extractArbeidFrilansSøknadsdata = (
         if (!arbeidsforhold || !aktivPeriode) {
             return {
                 type: 'avsluttetFørSøknadsperiode',
-                erFrilanser: true,
+                erFrilanser: false,
                 harInntektISøknadsperiode: false,
                 erFortsattFrilanser: false,
                 startdato,

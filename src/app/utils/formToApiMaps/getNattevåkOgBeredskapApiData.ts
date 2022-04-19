@@ -1,5 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { SøknadApiData } from '../../types/SøknadApiData';
+import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { SøknadFormData } from '../../types/SøknadFormData';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from '../stepUtils';
 

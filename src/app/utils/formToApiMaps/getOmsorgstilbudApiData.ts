@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { OmsorgstilbudApiData, SøknadApiData } from '../../types/SøknadApiData';
+import { OmsorgstilbudApiData, SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { OmsorgstilbudFormData } from '../../types/SøknadFormData';
 import appSentryLogger from '../appSentryLogger';
 import { getEnkeltdagerIPeriodeApiData, getFasteDagerApiData } from './tidsbrukApiUtils';

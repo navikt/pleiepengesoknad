@@ -2,7 +2,8 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { ISODateToDate } from '@navikt/sif-common-utils';
 import { TimerEllerProsent } from '../../../../types';
-import { ArbeidIPeriodeFormData, ArbeiderIPeriodenSvar } from '../../../../types/ArbeidIPeriodeFormData';
+import { ArbeiderIPeriodenSvar, ArbeidIPeriodeFormData } from '../../../../types/ArbeidIPeriodeFormData';
+import { NormalarbeidstidSøknadsdata, NormalarbeidstidType } from '../../../../types/søknadsdata/Søknadsdata';
 import { cleanupArbeidIPeriode } from '../cleanupArbeidstidStep';
 
 const periodeFromDateString = '2021-02-01';
@@ -24,10 +25,18 @@ const periode: DateRange = {
     to: ISODateToDate(periodeToDateString),
 };
 
+const normalarbeidstid: NormalarbeidstidSøknadsdata = {
+    type: NormalarbeidstidType.varierendeUker,
+    erFasteUkedager: false,
+    erLiktHverUke: false,
+    timerPerUkeISnitt: 20,
+};
+
 describe('cleanupArbeidIPeriode', () => {
     it('Fjerner informasjon dersom en ikke jobber i perioden ', () => {
         const result = cleanupArbeidIPeriode(
             { ...arbeidIPeriode, arbeiderIPerioden: ArbeiderIPeriodenSvar.heltFravær },
+            normalarbeidstid,
             periode
         );
         expect(result.arbeiderIPerioden).toEqual(ArbeiderIPeriodenSvar.heltFravær);
@@ -36,6 +45,7 @@ describe('cleanupArbeidIPeriode', () => {
     it('Fjerner informasjon dersom en jobber som vanlig i perioden ', () => {
         const result = cleanupArbeidIPeriode(
             { ...arbeidIPeriode, arbeiderIPerioden: ArbeiderIPeriodenSvar.somVanlig },
+            normalarbeidstid,
             periode
         );
         expect(result.arbeiderIPerioden).toEqual(ArbeiderIPeriodenSvar.somVanlig);

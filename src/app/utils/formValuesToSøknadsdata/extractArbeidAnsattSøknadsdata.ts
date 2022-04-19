@@ -1,6 +1,6 @@
 import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdFormData';
-import { ArbeidAnsattSøknadsdata } from '../../types/Søknadsdata';
+import { ArbeidAnsattSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { extractArbeidsforholdSøknadsdata } from './extractArbeidsforholdSøknadsdata';
 
 export const extractArbeidAnsattSøknadsdata = (

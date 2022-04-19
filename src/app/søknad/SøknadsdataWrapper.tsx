@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Søknadsdata } from '../types/Søknadsdata';
+import { Søknadsdata } from '../types/søknadsdata/Søknadsdata';
 import { SøknadsdataContextProvider } from './SøknadsdataContext';
 
 interface Props {

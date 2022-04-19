@@ -1,6 +1,6 @@
 import { getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { NormalarbeidstidFormData } from '../../types/ArbeidsforholdFormData';
-import { NormalarbeidstidSøknadsdata, NormalarbeidstidType } from '../../types/Søknadsdata';
+import { NormalarbeidstidSøknadsdata, NormalarbeidstidType } from '../../types/søknadsdata/Søknadsdata';
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
 
 export const ExtractNormalarbeidstidFailed = 'ExtractNormalarbeidstid failed';

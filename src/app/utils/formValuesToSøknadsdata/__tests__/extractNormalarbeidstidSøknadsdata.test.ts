@@ -1,5 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { NormalarbeidstidType } from '../../../types/Søknadsdata';
+import { NormalarbeidstidType } from '../../../types/søknadsdata/Søknadsdata';
 import { extractNormalarbeidstid } from '../extractNormalarbeidstidSøknadsdata';
 
 describe('extractNormalarbeidstid', () => {

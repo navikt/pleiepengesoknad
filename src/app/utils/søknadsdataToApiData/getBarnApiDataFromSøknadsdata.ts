@@ -1,8 +1,8 @@
-import { SøknadApiData } from '../../types/SøknadApiData';
-import { OmBarnetSøknadsdata } from '../../types/Søknadsdata';
 import { RegistrerteBarn } from 'app/types';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
+import { OmBarnetSøknadsdata } from '../../types/søknadsdata/omBarnetSøknadsdata';
 
 export type BarnApiData = Pick<
     SøknadApiData,

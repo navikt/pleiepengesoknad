@@ -4,7 +4,7 @@ import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/S
 import SummarySection from '@navikt/sif-common-core/lib/components/summary-section/SummarySection';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { SøknadApiData } from '../../../types/SøknadApiData';
+import { SøknadApiData } from '../../../types/søknad-api-data/SøknadApiData';
 import ArbeidsgivereSummary from './ArbeidsgivereSummary';
 import ArbeidssituasjonFrilansSummary from './ArbeidssituasjonFrilansSummary';
 import ArbeidssituasjonSelvstendigSummary from './ArbeidssituasjonSelvstendigSummary';
