@@ -78,7 +78,7 @@ const ArbeidstidVariertUkedager: React.FunctionComponent<Props> = ({
                 ikke oppgi.
             </p>
             <Box padBottom="l" margin="l">
-                <ExpandableInfo title="Hjelp, dette var vanskelig">no commment</ExpandableInfo>
+                <ExpandableInfo title="Dersom du jobber andre dager enn normalt">[TODO]</ExpandableInfo>
             </Box>
             <ArbeidstidUkerInput
                 periode={periode}
