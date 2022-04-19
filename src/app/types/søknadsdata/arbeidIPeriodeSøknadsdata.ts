@@ -1,12 +1,12 @@
 import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils/lib';
 
 export enum ArbeidIPeriodeType {
-    'arbeiderIkke' = 'arbeiderIkke',
-    'arbeiderVanlig' = 'arbeiderVanlig',
-    'arbeiderEnkeltdager' = 'arbeiderEnkeltdager',
-    'arbeiderFasteUkedager' = 'arbeiderFasteUkedager',
-    'arbeiderProsentAvNormalt' = 'arbeiderProsentAvNormalt',
-    'arbeiderTimerISnittPerUke' = 'arbeiderTimerISnittPerUke',
+    'arbeiderIkke' = 'ARBEIDER_IKKE',
+    'arbeiderVanlig' = 'ARBEIDER_VANLIG',
+    'arbeiderEnkeltdager' = 'ARBEIDER_ENKELTDAGER',
+    'arbeiderFasteUkedager' = 'ARBEIDER_FASTE_UKEDAGER',
+    'arbeiderProsentAvNormalt' = 'ARBEIDER_PROSENT_AV_NORMALT',
+    'arbeiderTimerISnittPerUke' = 'ARBEIDER_TIMER_I_SNITT_PER_UKE',
 }
 
 interface ArbeidISøknadsperiodeJobberIkkeSøknadsdata {

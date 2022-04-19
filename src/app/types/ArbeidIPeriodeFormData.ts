@@ -13,9 +13,9 @@ export enum ArbeidIPeriodeFormField {
 }
 
 export enum ArbeiderIPeriodenSvar {
-    'somVanlig' = 'somVanlig',
-    'redusert' = 'redusert',
-    'heltFravær' = 'heltFravær',
+    'somVanlig' = 'SOM_VANLIG',
+    'redusert' = 'REDUSERT',
+    'heltFravær' = 'HELT_FRAVÆR',
 }
 
 export interface ArbeidIPeriodeFormData {
