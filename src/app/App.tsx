@@ -5,7 +5,6 @@ import { AmplitudeProvider } from '@navikt/sif-common-amplitude/lib';
 import AppStatusWrapper from '@navikt/sif-common-core/lib/components/app-status-wrapper/AppStatusWrapper';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import dayjs from 'dayjs';
-// import moment from 'moment';
 import Modal from 'nav-frontend-modal';
 import ApplicationWrapper from './components/application-wrapper/ApplicationWrapper';
 import RouteConfig from './config/routeConfig';
