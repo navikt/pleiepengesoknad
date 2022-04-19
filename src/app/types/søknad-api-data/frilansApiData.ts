@@ -7,13 +7,13 @@ export interface FrilansApiDataIngenInntekt {
 export interface FrilansApiDataSluttetFørSøknadsperiode {
     harInntektSomFrilanser: false;
     startdato: ISODate;
-    erFortsattFrilanser: false;
+    jobberFortsattSomFrilans: false;
     sluttdato?: ISODate;
 }
 export interface FrilansApiDataHarInntekt {
     harInntektSomFrilanser: true;
     startdato: ISODate;
-    erFortsattFrilanser: boolean;
+    jobberFortsattSomFrilans: boolean;
     sluttdato?: ISODate;
     arbeidsforhold: ArbeidsforholdApiData;
 }

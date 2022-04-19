@@ -43,7 +43,7 @@ const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
                         />
                     </li>
                 )}
-                {frilans.erFortsattFrilanser && (
+                {frilans.jobberFortsattSomFrilans && (
                     <li>
                         <FormattedMessage id="oppsummering.arbeidssituasjon.frilans.fortsattFrilanser" />
                     </li>
@@ -51,7 +51,7 @@ const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
                 {/* {frilans.arbeidsforhold?.normalarbeidstid.erLiktHverUke === false && ( */}
                 <li>
                     <NormalarbeidstidSummary
-                        erAnsatt={frilans.erFortsattFrilanser}
+                        erAnsatt={frilans.jobberFortsattSomFrilans}
                         normalarbeidstidApiData={frilans.arbeidsforhold.normalarbeidstid}
                     />
                 </li>
