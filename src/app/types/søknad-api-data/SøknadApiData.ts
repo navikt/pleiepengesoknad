@@ -38,11 +38,11 @@ export interface OmsorgstilbudApiData {
 }
 
 export interface BarnetSøknadenGjelderApiData {
-    navn: string | null;
-    fødselsnummer: string | null;
-    fødselsdato: string | null;
-    aktørId: string | null;
-    sammeAdresse: boolean | null;
+    navn?: string;
+    fødselsnummer?: string;
+    fødselsdato?: string;
+    aktørId?: string;
+    sammeAdresse?: boolean;
     årsakManglerIdentitetsnummer?: ÅrsakManglerIdentitetsnummer;
 }
 

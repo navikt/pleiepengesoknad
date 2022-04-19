@@ -147,3 +147,15 @@ export type MedlemskapFormData = Pick<
     | SøknadFormField.skalBoUtenforNorgeNeste12Mnd
     | SøknadFormField.utenlandsoppholdNeste12Mnd
 >;
+
+export type OmBarnetFormData = Pick<
+    SøknadFormData,
+    | SøknadFormField.barnetSøknadenGjelder
+    | SøknadFormField.barnetsNavn
+    | SøknadFormField.barnetsFødselsnummer
+    | SøknadFormField.barnetHarIkkeFnr
+    | SøknadFormField.årsakManglerIdentitetsnummer
+    | SøknadFormField.barnetsFødselsdato
+    | SøknadFormField.relasjonTilBarnet
+    | SøknadFormField.relasjonTilBarnetBeskrivelse
+>;

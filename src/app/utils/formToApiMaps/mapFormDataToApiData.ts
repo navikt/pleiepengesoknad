@@ -9,11 +9,11 @@ import appSentryLogger from '../appSentryLogger';
 import { Feature, isFeatureEnabled } from '../featureToggleUtils';
 import { getValidSpråk } from '../sprakUtils';
 import { getArbeidsgivereApiDataFromSøknadsdata } from '../søknadsdataToApiData/getArbeidsgivereApiDataFromSøknadsdata';
+import { getBarnApiDataFromSøknadsdata } from '../søknadsdataToApiData/getBarnApiDataFromSøknadsdata';
 import { getFrilansApiDataFromSøknadsdata } from '../søknadsdataToApiData/getFrilansApiDataFromSøknadsdata';
 import { getMedlemskapApiDataFromSøknadsdata } from '../søknadsdataToApiData/getMedlemskapApiDataFromSøknadsdata';
 import { getSelvstendigApiDataFromSøknadsdata } from '../søknadsdataToApiData/getSelvstendigApiDataFromSøknadsdata';
 import { getAttachmentsApiData } from './getAttachmentsApiData';
-import { getBarnApiData } from './getBarnApiData';
 import { getFerieuttakIPeriodenApiData } from './getFerieuttakIPeriodenApiData';
 import { getNattevåkOgBeredskapApiData } from './getNattevåkOgBeredskapApiData';
 import { getOmsorgstilbudApiData } from './getOmsorgstilbudApiData';
@@ -61,7 +61,7 @@ export const mapFormDataToApiData = (
                             : [],
                 },
                 ...getFerieuttakIPeriodenApiData(formData),
-                ...getBarnApiData(formData, barn),
+                ...getBarnApiDataFromSøknadsdata(barn, søknadsdata.barn),
                 ...getOmsorgstilbudApiData(omsorgstilbud, søknadsperiode),
                 ...getNattevåkOgBeredskapApiData(formData),
                 medlemskap: getMedlemskapApiDataFromSøknadsdata(sprak, søknadsdata.medlemskap),
