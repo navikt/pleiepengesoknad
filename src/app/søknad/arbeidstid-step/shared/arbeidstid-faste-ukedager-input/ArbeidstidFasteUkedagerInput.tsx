@@ -42,7 +42,7 @@ const ArbeidstidFasteUkedagerInput: React.FunctionComponent<Props> = ({
             <FormikInputGroup
                 key={weekday}
                 legend={<span className="sr-only">{weekdayLabel}</span>}
-                name={'arbeidstid'}
+                name={`arbeidstid_${weekday}`}
                 className={bem.element('dag', erUtilgjengeligUkedag ? 'utilgjengelig' : undefined)}>
                 <LabelInputInfoLayout
                     label={weekdayLabel}
