@@ -5,7 +5,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { formatTimerOgMinutter, TidFasteDager } from '@navikt/sif-common-pleiepenger/lib';
 import ArbeidstidEnkeltdagerListe from '@navikt/sif-common-pleiepenger/lib/dager-med-tid/ArbeidstidEnkeltdagerListe';
-import { decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
+import { decimalDurationToDuration, ISODurationToDuration } from '@navikt/sif-common-utils/lib';
 import { ArbeidsforholdApiData, NormalarbeidstidApiData } from '../../../types/søknad-api-data/SøknadApiData';
 import { ArbeidIPeriodeType } from '../../../types/søknadsdata/Søknadsdata';
 
@@ -25,7 +25,7 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
         if (normalarbeidstid.erLiktHverUke === false) {
             return intlHelper(intl, 'oppsummering.arbeidIPeriode.arbeiderIPerioden.prosent', {
                 prosent: Intl.NumberFormat().format(prosent),
-                timerPerUke: formatTimerOgMinutter(intl, decimalDurationToDuration(normalarbeidstid.timerPerUkeISnitt)),
+                timerPerUke: formatTimerOgMinutter(intl, ISODurationToDuration(normalarbeidstid.timerPerUkeISnitt)),
             });
         }
         return undefined;

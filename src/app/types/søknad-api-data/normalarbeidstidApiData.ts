@@ -1,8 +1,9 @@
+import { ISODuration } from '@navikt/sif-common-utils/lib';
 import { TimerFasteDagerApiData } from './SøknadApiData';
 
 type NormalarbeidstidSnittPerUkeApiData = {
     erLiktHverUke: false;
-    timerPerUkeISnitt: number;
+    timerPerUkeISnitt: ISODuration;
 };
 
 type NormalarbeidstidFasteDagerPerUkeApiData = {

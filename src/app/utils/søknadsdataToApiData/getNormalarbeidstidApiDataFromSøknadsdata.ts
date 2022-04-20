@@ -1,3 +1,4 @@
+import { decimalDurationToISODuration } from '@navikt/sif-common-utils/lib';
 import { NormalarbeidstidApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { NormalarbeidstidSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { durationWeekdaysToTimerFasteDagerApiData } from './arbeidToApiDataHelpers';
@@ -14,6 +15,6 @@ export const getNormalarbeidstidApiDataFromSøknadsdata = (
     }
     return {
         erLiktHverUke: false,
-        timerPerUkeISnitt: normalarbeidstid.timerPerUkeISnitt,
+        timerPerUkeISnitt: decimalDurationToISODuration(normalarbeidstid.timerPerUkeISnitt),
     };
 };
