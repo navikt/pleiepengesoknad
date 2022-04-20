@@ -8,7 +8,7 @@ import {
     ISODate,
     ISODateToDate,
     ISODuration,
-    ISODurationToDuration,
+    ISODurationToMaybeDuration,
     Weekday,
 } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
@@ -33,7 +33,7 @@ export const durationToISODurationOrUndefined = (duration?: Duration): ISODurati
     duration ? durationToISODuration(duration) : undefined;
 
 export const ISODurationToDurationOrUndefined = (isoDuration?: ISODuration): Duration | undefined =>
-    isoDuration ? ISODurationToDuration(isoDuration) : undefined;
+    isoDuration ? ISODurationToMaybeDuration(isoDuration) : undefined;
 
 export const durationWeekdaysToTimerFasteDagerApiData = (
     durationWeekdays: DurationWeekdays
