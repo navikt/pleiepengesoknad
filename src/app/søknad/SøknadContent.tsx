@@ -129,8 +129,10 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                     render={() => (
                         <TidsromStep
                             onValidSubmit={() => {
-                                setSøknadsdata(getSøknadsdataFromFormValues(values));
-                                navigateToNextStepFrom(StepID.TIDSROM);
+                                setTimeout(() => {
+                                    setSøknadsdata(getSøknadsdataFromFormValues(values));
+                                    navigateToNextStepFrom(StepID.TIDSROM);
+                                });
                             }}
                         />
                     )}
