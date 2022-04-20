@@ -16,12 +16,11 @@ import GeneralErrorPage from '../../pages/general-error-page/GeneralErrorPage';
 import { FrilansFormField } from '../../types/FrilansFormData';
 import { SelvstendigFormField } from '../../types/SelvstendigFormData';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
-import { søkerKunHelgedager } from '../../utils/formDataUtils';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../utils/selvstendigUtils';
 import SøknadFormStep from '../SøknadFormStep';
 import { useSøknadsdataContext } from '../SøknadsdataContext';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
-import ArbeidIPeriodeSpørsmål from './shared/arbeid-i-periode-spørsmål/ArbeidIPeriodeSpørsmål';
+import ArbeidIPeriodeSpørsmål from './arbeid-i-periode-spørsmål/ArbeidIPeriodeSpørsmål';
 import { cleanupArbeidstidStep } from './utils/cleanupArbeidstidStep';
 
 interface Props extends StepConfigProps {
@@ -97,7 +96,6 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                                     arbeidsforhold={arbeidsforhold}
                                     periode={periode}
                                     parentFieldName={`${SøknadFormField.ansatt_arbeidsforhold}.${index}`}
-                                    søkerKunHelgedager={søkerKunHelgedager(periode.from, periode.to)}
                                     onArbeidstidVariertChange={handleArbeidstidChanged}
                                     onArbeidPeriodeRegistrert={logArbeidPeriodeRegistrert}
                                     onArbeidstidEnkeltdagRegistrert={logArbeidEnkeltdagRegistrert}
@@ -120,7 +118,6 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                                 arbeidsforhold={frilans.arbeidsforhold}
                                 periode={arbeid.frilans.aktivPeriode}
                                 parentFieldName={FrilansFormField.arbeidsforhold}
-                                søkerKunHelgedager={søkerKunHelgedager(periode.from, periode.to)}
                                 onArbeidstidVariertChange={handleArbeidstidChanged}
                                 onArbeidPeriodeRegistrert={logArbeidPeriodeRegistrert}
                                 onArbeidstidEnkeltdagRegistrert={logArbeidEnkeltdagRegistrert}
@@ -142,7 +139,6 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                                 arbeidsforhold={selvstendig.arbeidsforhold}
                                 periode={periodeSomSelvstendigISøknadsperiode}
                                 parentFieldName={SelvstendigFormField.arbeidsforhold}
-                                søkerKunHelgedager={søkerKunHelgedager(periode.from, periode.to)}
                                 onArbeidstidVariertChange={handleArbeidstidChanged}
                                 onArbeidPeriodeRegistrert={logArbeidPeriodeRegistrert}
                                 onArbeidstidEnkeltdagRegistrert={logArbeidEnkeltdagRegistrert}

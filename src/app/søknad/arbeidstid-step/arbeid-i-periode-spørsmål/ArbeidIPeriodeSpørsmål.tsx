@@ -16,14 +16,14 @@ import {
     getAllWeekdaysWithoutDuration,
     hasWeekdaysWithoutDuration,
 } from '@navikt/sif-common-utils/lib';
-import { TimerEllerProsent } from '../../../../types';
-import { ArbeiderIPeriodenSvar, ArbeidIPeriodeFormField } from '../../../../types/ArbeidIPeriodeFormData';
-import { ArbeidsforholdFormData, ArbeidsforholdFrilanserFormData } from '../../../../types/ArbeidsforholdFormData';
-import { NormalarbeidstidSøknadsdata, NormalarbeidstidType } from '../../../../types/søknadsdata/Søknadsdata';
-import SøknadFormComponents from '../../../SøknadFormComponents';
-import ArbeidstidFasteUkedagerInput from '../arbeidstid-faste-ukedager-input/ArbeidstidFasteUkedagerInput';
+import { TimerEllerProsent } from '../../../types';
+import { ArbeiderIPeriodenSvar, ArbeidIPeriodeFormField } from '../../../types/ArbeidIPeriodeFormData';
+import { ArbeidsforholdFormData, ArbeidsforholdFrilanserFormData } from '../../../types/ArbeidsforholdFormData';
+import { NormalarbeidstidSøknadsdata, NormalarbeidstidType } from '../../../types/søknadsdata/Søknadsdata';
+import SøknadFormComponents from '../../SøknadFormComponents';
+import ArbeidstidFasteUkedagerInput from '../shared/arbeidstid-faste-ukedager-input/ArbeidstidFasteUkedagerInput';
 import ArbeidstidVariertKalender from '../arbeidstid-variert/ArbeidstidVariertKalender';
-import { ArbeidstidRegistrertLogProps } from '../types';
+import { ArbeidstidRegistrertLogProps } from '../shared/types';
 import {
     getArbeidIPeriodeArbeiderIPeriodenValidator,
     getArbeidIPeriodeErLiktHverUkeValidator,
@@ -42,7 +42,6 @@ interface Props extends ArbeidstidRegistrertLogProps {
     arbeidsforholdType: ArbeidsforholdType;
     arbeidsstedNavn: string;
     periode: DateRange;
-    søkerKunHelgedager: boolean;
     onArbeidstidVariertChange: () => void;
 }
 
@@ -52,7 +51,6 @@ const ArbeidIPeriodeSpørsmål = ({
     arbeidsforholdType,
     periode,
     arbeidsstedNavn,
-    // søkerKunHelgedager, TODO - vise informasjonen i steget
     normalarbeidstid,
     onArbeidstidVariertChange,
     onArbeidPeriodeRegistrert,
@@ -268,7 +266,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                                 tekst={{
                                                     dag: 'Dag',
                                                     jobber: 'Jobber timer',
-                                                    ariaLabelTidInput: (dato) => `Hvor mye skal du jobbe ${dato}`,
+                                                    ariaLabelTidInput: (dagNavn) => `Hvor mye jobber du ${dagNavn}`,
                                                 }}
                                                 skjulUtilgjengeligeUkedager={true}
                                                 utilgjengeligeUkedager={getAllWeekdaysWithoutDuration(
@@ -277,7 +275,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                                 tidPerDagValidator={getArbeidIPeriodeFasteDagerDagValidator(
                                                     normalarbeidstid.timerFasteUkedager,
                                                     intlValues,
-                                                    (weekday) => intlHelper(intl, weekday)
+                                                    (weekday) => intlHelper(intl, `${weekday}.plural`)
                                                 )}
                                             />
                                         </SøknadFormComponents.InputGroup>

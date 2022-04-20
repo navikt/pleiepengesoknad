@@ -70,17 +70,6 @@ export const cleanupArbeidIPeriode = (
     }
 };
 
-const getNormalarbeidstidForArbeidsgiverISøknadsdata = (
-    arbeidsgivere: ArbeidsgivereSøknadsdata,
-    arbeidsgiverId: string
-): NormalarbeidstidSøknadsdata | undefined => {
-    const arbeidsgiverSøknadsdata = arbeidsgivere.get(arbeidsgiverId);
-    if (arbeidsgiverSøknadsdata?.erAnsattISøknadsperiode) {
-        return arbeidsgiverSøknadsdata.arbeidsforhold.normalarbeidstid;
-    }
-    return undefined;
-};
-
 export const cleanupArbeidstidAnsatt = (
     ansatt_arbeidsforhold: ArbeidsforholdFormData[],
     arbeidsgivere: ArbeidsgivereSøknadsdata | undefined,
@@ -90,18 +79,19 @@ export const cleanupArbeidstidAnsatt = (
         throw 'cleanupArbeidstidAnsatt: arbeidsgivere er undefined';
     }
     return ansatt_arbeidsforhold.map((arbeidsforhold) => {
-        const normalarbeidstid = getNormalarbeidstidForArbeidsgiverISøknadsdata(
-            arbeidsgivere,
-            arbeidsforhold.arbeidsgiver.id
-        );
-        if (!normalarbeidstid) {
-            throw 'cleanupArbeidstidAnsatt: kunne ikke finne normalarbeidstid for arbeidsgiver';
+        const arbeidsgiver = arbeidsgivere.get(arbeidsforhold.arbeidsgiver.id);
+        if (!arbeidsgiver || arbeidsgiver?.erAnsattISøknadsperiode === false) {
+            return arbeidsforhold;
         }
         return {
             ...arbeidsforhold,
             arbeidIPeriode:
                 arbeidsforhold.arbeidIPeriode && arbeidsforhold.normalarbeidstid
-                    ? cleanupArbeidIPeriode(arbeidsforhold.arbeidIPeriode, normalarbeidstid, søknadsperiode)
+                    ? cleanupArbeidIPeriode(
+                          arbeidsforhold.arbeidIPeriode,
+                          arbeidsgiver.arbeidsforhold.normalarbeidstid,
+                          søknadsperiode
+                      )
                     : undefined,
         };
     });

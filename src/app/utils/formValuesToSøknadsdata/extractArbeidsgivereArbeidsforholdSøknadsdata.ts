@@ -9,10 +9,10 @@ export const extractArbeidsgivereArbeidsforholdSøknadsdata = (
 ): ArbeidsgivereSøknadsdata | undefined => {
     const arbeidsgivereSøknadsdataMap: ArbeidsgivereSøknadsdata = new Map();
     ansatt_arbeidsforhold.forEach((ansattForhold) => {
-        arbeidsgivereSøknadsdataMap.set(
-            ansattForhold.arbeidsgiver.id,
-            extractArbeidAnsattSøknadsdata(ansattForhold, søknadsperiode)
-        );
+        const ansattArbeidsforhold = extractArbeidAnsattSøknadsdata(ansattForhold, søknadsperiode);
+        if (ansattArbeidsforhold) {
+            arbeidsgivereSøknadsdataMap.set(ansattForhold.arbeidsgiver.id, ansattArbeidsforhold);
+        }
     });
     return arbeidsgivereSøknadsdataMap.size > 0 ? arbeidsgivereSøknadsdataMap : undefined;
 };

@@ -70,5 +70,4 @@ export const extractArbeidFrilansSøknadsdata = (
         };
     }
     return undefined;
-    // throw 'extractArbeidFrilansSøknadsdata: ugyldig tilstand';
 };

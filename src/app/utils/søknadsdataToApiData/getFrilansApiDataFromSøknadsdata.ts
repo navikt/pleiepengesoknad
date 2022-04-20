@@ -15,14 +15,14 @@ export const getFrilansApiDataFromSøknadsdata = (
         case 'pågående':
             return {
                 harInntektSomFrilanser: true,
-                erFortsattFrilanser: true,
+                jobberFortsattSomFrilans: true,
                 startdato: dateToISODate(arbeidFrilansSøknadsdata.startdato),
                 arbeidsforhold: getArbeidsforholdApiDataFromSøknadsdata(arbeidFrilansSøknadsdata.arbeidsforhold),
             };
         case 'avsluttetISøknadsperiode':
             return {
                 harInntektSomFrilanser: true,
-                erFortsattFrilanser: false,
+                jobberFortsattSomFrilans: false,
                 startdato: dateToISODate(arbeidFrilansSøknadsdata.startdato),
                 sluttdato: dateToISODate(arbeidFrilansSøknadsdata.sluttdato),
                 arbeidsforhold: getArbeidsforholdApiDataFromSøknadsdata(arbeidFrilansSøknadsdata.arbeidsforhold),
@@ -30,7 +30,7 @@ export const getFrilansApiDataFromSøknadsdata = (
         case 'avsluttetFørSøknadsperiode':
             return {
                 harInntektSomFrilanser: false,
-                erFortsattFrilanser: false,
+                jobberFortsattSomFrilans: false,
                 startdato: dateToISODate(arbeidFrilansSøknadsdata.startdato),
                 sluttdato: dateToISODate(arbeidFrilansSøknadsdata.sluttdato),
             };

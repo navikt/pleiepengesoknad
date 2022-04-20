@@ -44,5 +44,4 @@ export const extractMedlemskapSøknadsdata = ({
     }
 
     return undefined;
-    // throw 'extractMedlemskapSøknadsdata: ugyldig tilstand';
 };

@@ -37,6 +37,12 @@
     "thursday": "torsdag",
     "friday": "fredag",
 
+    "monday.plural": "mandager",
+    "tuesday.plural": "tirsdager",
+    "wednesday.plural": "onsdager",
+    "thursday.plural": "torsdager",
+    "friday.plural": "fredager",
+
     "mandag.caps": "Mandag",
     "tirsdag.caps": "Tirsdag",
     "onsdag.caps": "Onsdag",
@@ -540,10 +546,6 @@
     "arbeidsforhold.varierende.3": "tilkalling",
     "arbeidsforhold.varierende.info.tittel": "Hvordan regner jeg ut et snitt i min situasjon?",
     "arbeidsforhold.varierende.info.tekst.1": "Du regner ut et snitt ved å legge sammen antall timer du totalt har jobbet de siste 12 ukene og deler det med 12. Hvis du ikke har jobbet i 12 uker, regner du ut snittet på samme måte ved å bruke de ukene du har jobbet.",
-
-    "arbeidIPeriode.søkerKunHelgedager.alert.avsnitt.1": "Du kan kun få utbetalt pleiepenger for hverdager. Det utbetales ikke pleiepenger for lørdag eller søndag selv om du har hatt fravær fra jobb for å pleie barn.",
-    "arbeidIPeriode.søkerKunHelgedager.alert.avsnitt.2": "Du kan derfor ikke registrere arbeid kun for lørdag og/eller søndag.",
-    "arbeidIPeriode.søkerKunHelgedager.alert.avsnitt.3": "Vennligst gå tilbake til steg \"Perioden med pleiepenger\" og sjekk informasjonen du har fylt ut. Når du har gjort det, trykker du på \"Fortsett\"-knappen for å gå videre.",
 
     "arbeidIPeriode.StepInfo.1": "Nå trenger vi å vite om du jobber noe i perioden du søker om å ha pleiepenger. Dette er informasjon vi trenger, fordi vi graderer pleiepengene mot den tiden du jobber.",
     "arbeidIPeriode.StepInfo.2": "Gradering betyr at pleiepengene reduseres. Hvis du i søknadsperioden for eksempel jobber 50 prosent, kan du ha rett til 50 prosent pleiepenger.",

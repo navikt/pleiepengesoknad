@@ -113,8 +113,10 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                     render={() => (
                         <OpplysningerOmBarnetStep
                             onValidSubmit={() => {
-                                setSøknadsdata(getSøknadsdataFromFormValues(values));
-                                navigateToNextStepFrom(StepID.OPPLYSNINGER_OM_BARNET);
+                                setTimeout(() => {
+                                    setSøknadsdata(getSøknadsdataFromFormValues(values));
+                                    navigateToNextStepFrom(StepID.OPPLYSNINGER_OM_BARNET);
+                                });
                             }}
                         />
                     )}
@@ -203,8 +205,10 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                     render={() => (
                         <MedlemsskapStep
                             onValidSubmit={() => {
-                                setSøknadsdata(getSøknadsdataFromFormValues(values));
-                                navigateToNextStepFrom(StepID.MEDLEMSKAP);
+                                setTimeout(() => {
+                                    setSøknadsdata(getSøknadsdataFromFormValues(values));
+                                    navigateToNextStepFrom(StepID.MEDLEMSKAP);
+                                });
                             }}
                             søknadsdato={søknadsdato}
                         />

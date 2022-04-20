@@ -6,7 +6,11 @@ import { extractArbeidsforholdSøknadsdata } from './extractArbeidsforholdSøkna
 export const extractArbeidAnsattSøknadsdata = (
     arbeidsforhold: ArbeidsforholdFormData,
     søknadsperiode: DateRange
-): ArbeidAnsattSøknadsdata => {
+): ArbeidAnsattSøknadsdata | undefined => {
+    /** Bruker har ikke besvart denne informasjonen enda */
+    if (arbeidsforhold.erAnsatt === undefined) {
+        return undefined;
+    }
     const erAnsatt = arbeidsforhold.erAnsatt === YesOrNo.YES;
     const sluttetFørSøknadsperiode = erAnsatt === false && arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.YES;
 
@@ -34,5 +38,5 @@ export const extractArbeidAnsattSøknadsdata = (
             arbeidsforhold: arbeidsforholdSøknadsdata,
         };
     }
-    throw 'extractArbeidAnsattSøknadsdata failed';
+    return undefined;
 };

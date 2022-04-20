@@ -23,9 +23,9 @@ import {
 } from '@navikt/sif-common-utils';
 import { useFormikContext } from 'formik';
 import { Element } from 'nav-frontend-typografi';
-import { SøknadFormData, SøknadFormField } from '../../../../types/SøknadFormData';
-import ArbeidstidPeriode from '../arbeidstid-periode/ArbeidstidPeriode';
-import { ArbeidstidRegistrertLogProps } from '../types';
+import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
+import ArbeidstidPeriode from '../shared/arbeidstid-periode/ArbeidstidPeriode';
+import { ArbeidstidRegistrertLogProps } from '../shared/types';
 
 interface Props extends ArbeidstidRegistrertLogProps {
     arbeidsstedNavn: string;

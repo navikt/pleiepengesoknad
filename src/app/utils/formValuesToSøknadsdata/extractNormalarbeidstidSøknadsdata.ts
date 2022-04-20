@@ -42,5 +42,4 @@ export const extractNormalarbeidstid = (
         }
     }
     return undefined;
-    // throw ExtractNormalarbeidstidFailed;
 };

@@ -6,12 +6,10 @@ import {
     durationUtils,
     DurationWeekdays,
     isDateWeekDay,
-    // ISODuration,
 } from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
 import {
     ArbeidstidEnkeltdagApiData,
-    // ArbeidstimerFasteDagerApiData,
     TidEnkeltdagApiData,
     TimerFasteDagerApiData,
 } from '../../types/søknad-api-data/SøknadApiData';
