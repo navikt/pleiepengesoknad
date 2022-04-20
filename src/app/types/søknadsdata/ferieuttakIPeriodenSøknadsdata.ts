@@ -5,11 +5,9 @@ export interface SkalTaUtFerieSøknadsdataSøknadsdata {
     skalTaUtFerieIPerioden: true;
     ferieuttak: Ferieuttak[];
 }
-export interface SkalIkkeTaUtFerieSøknadsdataSøknadsdata {
+export interface SkalIkkeTaUtFerieSøknadsdata {
     type: 'skalIkkeTaUtFerieSøknadsdata';
     skalTaUtFerieIPerioden: false;
 }
 
-export type FerieuttakIPeriodenSøknadsdata =
-    | SkalTaUtFerieSøknadsdataSøknadsdata
-    | SkalIkkeTaUtFerieSøknadsdataSøknadsdata;
+export type FerieuttakIPeriodenSøknadsdata = SkalTaUtFerieSøknadsdataSøknadsdata | SkalIkkeTaUtFerieSøknadsdata;
