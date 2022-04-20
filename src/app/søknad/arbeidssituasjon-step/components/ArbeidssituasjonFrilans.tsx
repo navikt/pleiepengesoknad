@@ -19,10 +19,10 @@ import ConditionalResponsivePanel from '../../../components/conditional-responsi
 import { Arbeidsgiver } from '../../../types';
 import { FrilansFormData, FrilansFormField } from '../../../types/FrilansFormData';
 import { erFrilanserISøknadsperiode, harFrilansoppdrag } from '../../../utils/frilanserUtils';
+import { getFrilanserSluttdatoValidator } from '../validation/frilansSluttdatoValidator';
+import { getFrilanserStartdatoValidator } from '../validation/frilansStartdatoValidator';
 import FrilansoppdragInfo from './info/FrilansoppdragInfo';
 import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
-import { getFrilanserSluttdatoValidator } from './validation/frilansSluttdatoValidator';
-import { getFrilanserStartdatoValidator } from './validation/frilansStartdatoValidator';
 
 const ArbFriFormComponents = getTypedFormComponents<FrilansFormField, FrilansFormData, ValidationError>();
 

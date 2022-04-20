@@ -5,9 +5,9 @@ import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-p
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getListValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
-import { AndreYtelserFraNAV } from '../../types';
-import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
-import SøknadFormComponents from '../SøknadFormComponents';
+import { AndreYtelserFraNAV } from '../../../types';
+import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
+import SøknadFormComponents from '../../SøknadFormComponents';
 
 interface Props {
     formValues: SøknadFormData;

@@ -19,8 +19,8 @@ import {
     Weekday,
 } from '@navikt/sif-common-utils/lib';
 import { IntlShape } from 'react-intl';
-import { ArbeidIPeriodeFormData } from '../../../types/ArbeidIPeriodeFormData';
-import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/Søknadsdata';
+import { ArbeidIPeriodeFormData } from '../../../../types/ArbeidIPeriodeFormData';
+import { NormalarbeidstidSøknadsdata } from '../../../../types/søknadsdata/Søknadsdata';
 
 export const getArbeidIPeriodeEnkeltdagValidator =
     (

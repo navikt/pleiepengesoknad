@@ -16,9 +16,9 @@ import {
     summarizeDateDurationMap,
 } from '@navikt/sif-common-utils';
 import { Element, Undertittel } from 'nav-frontend-typografi';
-import { SøknadFormField } from '../../../types/SøknadFormData';
+import { SøknadFormField } from '../../../../types/SøknadFormData';
 import { getArbeidIPeriodeEnkeltdagValidator } from '../arbeid-i-periode-spørsmål/validationArbeidIPeriodeSpørsmål';
-import { ArbeidstidRegistrertLogProps } from '../shared/types';
+import { ArbeidstidRegistrertLogProps } from '../../shared/types';
 
 interface Props extends ArbeidstidRegistrertLogProps {
     formFieldName: SøknadFormField;

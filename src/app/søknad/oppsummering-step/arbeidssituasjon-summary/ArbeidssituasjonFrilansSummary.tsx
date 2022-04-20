@@ -1,10 +1,10 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
+import { prettifyApiDate } from '@navikt/sif-common-core/lib/components/summary-enkeltsvar/DatoSvar';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { Arbeidsgiver } from '../../../types';
 import { FrilansApiData } from '../../../types/søknad-api-data/SøknadApiData';
-import { prettifyApiDate } from '../enkeltsvar/DatoSvar';
 import NormalarbeidstidSummary from './NormalarbeidstidSummary';
 
 interface Props {

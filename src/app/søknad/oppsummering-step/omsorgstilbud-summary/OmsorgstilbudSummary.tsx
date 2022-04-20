@@ -3,13 +3,13 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-with-header/ContentWithHeader';
 import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
+import Sitat from '@navikt/sif-common-core/lib/components/summary-enkeltsvar/Sitat';
 import SummarySection from '@navikt/sif-common-core/lib/components/summary-section/SummarySection';
 import TextareaSummary from '@navikt/sif-common-core/lib/components/textarea-summary/TextareaSummary';
 import { DateRange, prettifyDateExtended } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { TidEnkeltdager, TidFasteDager } from '@navikt/sif-common-pleiepenger/lib';
 import { SøknadApiData } from '../../../types/søknad-api-data/SøknadApiData';
-import Sitat from '../enkeltsvar/Sitat';
 
 interface Props {
     søknadsperiode: DateRange;

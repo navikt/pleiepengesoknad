@@ -20,7 +20,7 @@ import {
 import { getArbeidsforholdIntlValues } from '../../utils/arbeidsforholdIntlValues';
 import InfoArbeiderLiktHverUke from '../info/InfoArbeiderLiktHverUke';
 import InfoArbeiderNormaltTimerIUken from '../info/InfoArbeiderNormaltTimerIUken';
-import { getArbeiderNormaltTimerIUkenValidator } from '../validation/arbeiderNormaltTimerIUkenValidator';
+import { getArbeiderNormaltTimerIUkenValidator } from '../../validation/arbeiderNormaltTimerIUkenValidator';
 
 interface Props {
     arbeidsforholdFieldName: string;

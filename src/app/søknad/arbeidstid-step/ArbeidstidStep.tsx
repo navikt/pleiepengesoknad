@@ -20,7 +20,7 @@ import { getPeriodeSomSelvstendigInnenforPeriode } from '../../utils/selvstendig
 import SøknadFormStep from '../SøknadFormStep';
 import { useSøknadsdataContext } from '../SøknadsdataContext';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
-import ArbeidIPeriodeSpørsmål from './arbeid-i-periode-spørsmål/ArbeidIPeriodeSpørsmål';
+import ArbeidIPeriodeSpørsmål from './components/arbeid-i-periode-spørsmål/ArbeidIPeriodeSpørsmål';
 import { cleanupArbeidstidStep } from './utils/cleanupArbeidstidStep';
 
 interface Props extends StepConfigProps {

@@ -16,14 +16,14 @@ import {
     getAllWeekdaysWithoutDuration,
     hasWeekdaysWithoutDuration,
 } from '@navikt/sif-common-utils/lib';
-import { TimerEllerProsent } from '../../../types';
-import { ArbeiderIPeriodenSvar, ArbeidIPeriodeFormField } from '../../../types/ArbeidIPeriodeFormData';
-import { ArbeidsforholdFormData, ArbeidsforholdFrilanserFormData } from '../../../types/ArbeidsforholdFormData';
-import { NormalarbeidstidSøknadsdata, NormalarbeidstidType } from '../../../types/søknadsdata/Søknadsdata';
-import SøknadFormComponents from '../../SøknadFormComponents';
-import ArbeidstidFasteUkedagerInput from '../shared/arbeidstid-faste-ukedager-input/ArbeidstidFasteUkedagerInput';
+import { TimerEllerProsent } from '../../../../types';
+import { ArbeiderIPeriodenSvar, ArbeidIPeriodeFormField } from '../../../../types/ArbeidIPeriodeFormData';
+import { ArbeidsforholdFormData, ArbeidsforholdFrilanserFormData } from '../../../../types/ArbeidsforholdFormData';
+import { NormalarbeidstidSøknadsdata, NormalarbeidstidType } from '../../../../types/søknadsdata/Søknadsdata';
+import SøknadFormComponents from '../../../SøknadFormComponents';
+import ArbeidstidFasteUkedagerInput from '../../shared/arbeidstid-faste-ukedager-input/ArbeidstidFasteUkedagerInput';
 import ArbeidstidVariertKalender from '../arbeidstid-variert/ArbeidstidVariertKalender';
-import { ArbeidstidRegistrertLogProps } from '../shared/types';
+import { ArbeidstidRegistrertLogProps } from '../../shared/types';
 import {
     getArbeidIPeriodeArbeiderIPeriodenValidator,
     getArbeidIPeriodeErLiktHverUkeValidator,
