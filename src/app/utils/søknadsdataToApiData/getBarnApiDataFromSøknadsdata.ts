@@ -1,4 +1,4 @@
-import { RegistrerteBarn } from 'app/types';
+import { RegistrerteBarn } from '../../types';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
