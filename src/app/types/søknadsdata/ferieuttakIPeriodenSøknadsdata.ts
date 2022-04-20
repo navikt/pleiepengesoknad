@@ -1,6 +1,6 @@
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 
-export interface SkalTaUtFerieSøknadsdataSøknadsdata {
+export interface SkalTaUtFerieSøknadsdata {
     type: 'skalTaUtFerieSøknadsdata';
     skalTaUtFerieIPerioden: true;
     ferieuttak: Ferieuttak[];
@@ -10,4 +10,4 @@ export interface SkalIkkeTaUtFerieSøknadsdata {
     skalTaUtFerieIPerioden: false;
 }
 
-export type FerieuttakIPeriodenSøknadsdata = SkalTaUtFerieSøknadsdataSøknadsdata | SkalIkkeTaUtFerieSøknadsdata;
+export type FerieuttakIPeriodenSøknadsdata = SkalTaUtFerieSøknadsdata | SkalIkkeTaUtFerieSøknadsdata;
