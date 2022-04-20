@@ -124,7 +124,14 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
             {isAvailable(StepID.TIDSROM, values) && (
                 <Route
                     path={getSøknadRoute(StepID.TIDSROM)}
-                    render={() => <TidsromStep onValidSubmit={() => navigateToNextStepFrom(StepID.TIDSROM)} />}
+                    render={() => (
+                        <TidsromStep
+                            onValidSubmit={() => {
+                                setSøknadsdata(getSøknadsdataFromFormValues(values));
+                                navigateToNextStepFrom(StepID.TIDSROM);
+                            }}
+                        />
+                    )}
                 />
             )}
 

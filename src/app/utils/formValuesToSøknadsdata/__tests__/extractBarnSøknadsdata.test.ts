@@ -2,18 +2,6 @@ import { extractBarnSøknadsdata } from '../extractBarnSøknadsdata';
 import { OmBarnetFormData } from '../../../types/SøknadFormData';
 import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '../../../types';
 
-/*export type OmBarnetFormData = Pick<
-    SøknadFormData,
-    | SøknadFormField.barnetSøknadenGjelder
-    | SøknadFormField.barnetsNavn
-    | SøknadFormField.barnetsFødselsnummer
-    | SøknadFormField.barnetHarIkkeFnr
-    | SøknadFormField.årsakManglerIdentitetsnummer
-    | SøknadFormField.barnetsFødselsdato
-    | SøknadFormField.relasjonTilBarnet
-    | SøknadFormField.relasjonTilBarnetBeskrivelse
->;*/
-
 const formData: OmBarnetFormData = {
     barnetsNavn: '',
     barnetsFødselsnummer: '',

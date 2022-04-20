@@ -39,6 +39,15 @@ const søknadsdata: Søknadsdata = {
         type: 'registrerteBarn',
         aktørId: '123',
     },
+    medsøker: undefined,
+    utenlandsoppholdIPerioden: {
+        type: 'skalIkkeOppholdeSegIUtlandet',
+        skalOppholdeSegIUtlandetIPerioden: false,
+    },
+    ferieuttakIPerioden: {
+        type: 'skalIkkeTaUtFerieSøknadsdata',
+        skalTaUtFerieIPerioden: false,
+    },
 };
 
 type AttachmentMock = Attachment & { failed: boolean };
@@ -86,12 +95,6 @@ jest.mock('@navikt/sif-common-core/lib/utils/attachmentUtils', () => {
 describe('mapFormDataToApiData', () => {
     let resultingApiData: SøknadApiData;
 
-    const formData: SøknadFormData = {
-        ...(formDataMock as SøknadFormData),
-        [SøknadFormField.harMedsøker]: YesOrNo.YES,
-        ansatt_arbeidsforhold: [],
-    };
-
     beforeAll(() => {
         (isFeatureEnabled as any).mockImplementation(() => false);
         resultingApiData = mapFormDataToApiData(formDataMock as SøknadFormData, barnMock, søknadsdata, 'nb')!;
@@ -120,119 +123,5 @@ describe('mapFormDataToApiData', () => {
         expect(resultingApiData.harForståttRettigheterOgPlikter).toBe(
             formDataMock[SøknadFormField.harForståttRettigheterOgPlikter]
         );
-    });
-
-    it('should not include samtidig_hjemme if harMedsøker is no', () => {
-        const resultingApiData = mapFormDataToApiData(
-            { ...formData, harMedsøker: YesOrNo.NO },
-            barnMock,
-            søknadsdata,
-            'nb'
-        );
-        expect(resultingApiData).toBeDefined();
-        if (resultingApiData) {
-            expect(resultingApiData.samtidigHjemme).toBeUndefined();
-        }
-    });
-
-    it('should include samtidig_hjemme if harMedsøker is yes', () => {
-        const dataHarMedsøker = { ...formData, harMedsøker: YesOrNo.YES };
-        const resultingApiData = mapFormDataToApiData(dataHarMedsøker, barnMock, søknadsdata, 'nb');
-        expect(resultingApiData).toBeDefined();
-        if (resultingApiData) {
-            expect(resultingApiData.samtidigHjemme).toBeDefined();
-        }
-    });
-
-    it('should not include utenlandsoppholdIPerioden if skalOppholdeSegIUtlandet is NO', () => {
-        const resultingApiData = mapFormDataToApiData(
-            {
-                ...formData,
-                skalOppholdeSegIUtlandetIPerioden: YesOrNo.NO,
-                utenlandsoppholdIPerioden: [
-                    {
-                        fom: new Date(),
-                        tom: new Date(),
-                        landkode: 'SE',
-                    },
-                ],
-            },
-            barnMock,
-            søknadsdata,
-            'nb'
-        );
-        expect(resultingApiData).toBeDefined();
-        if (resultingApiData) {
-            expect(resultingApiData.utenlandsoppholdIPerioden?.opphold.length).toBe(0);
-        }
-    });
-
-    it('should include utenlandsoppholdIPerioden if skalOppholdeSegIUtlandet is YES', () => {
-        const resultingApiData = mapFormDataToApiData(
-            {
-                ...formData,
-                skalOppholdeSegIUtlandetIPerioden: YesOrNo.YES,
-                utenlandsoppholdIPerioden: [
-                    {
-                        fom: new Date(),
-                        tom: new Date(),
-                        landkode: 'SE',
-                    },
-                ],
-            },
-            barnMock,
-            søknadsdata,
-            'nb'
-        );
-        expect(resultingApiData).toBeDefined();
-        if (resultingApiData) {
-            expect(resultingApiData.utenlandsoppholdIPerioden).toBeDefined();
-            expect(resultingApiData.utenlandsoppholdIPerioden!.opphold.length).toBe(1);
-        }
-    });
-
-    it('should not include ferieuttakIPerioden if skalTaUtFerieIPerioden is NO', () => {
-        const resultingApiData = mapFormDataToApiData(
-            {
-                ...formData,
-                skalTaUtFerieIPerioden: YesOrNo.NO,
-                ferieuttakIPerioden: [
-                    {
-                        fom: new Date(),
-                        tom: new Date(),
-                    },
-                ],
-            },
-            barnMock,
-            søknadsdata,
-            'nb'
-        );
-        expect(resultingApiData).toBeDefined();
-        if (resultingApiData) {
-            expect(resultingApiData.ferieuttakIPerioden).toBeDefined();
-            expect(resultingApiData.ferieuttakIPerioden!.ferieuttak.length).toBe(0);
-        }
-    });
-
-    it('should include ferieuttakIPerioden if skalTaUtFerieIPerioden is YES', () => {
-        const resultingApiData = mapFormDataToApiData(
-            {
-                ...formData,
-                skalTaUtFerieIPerioden: YesOrNo.YES,
-                ferieuttakIPerioden: [
-                    {
-                        fom: new Date(),
-                        tom: new Date(),
-                    },
-                ],
-            },
-            barnMock,
-            søknadsdata,
-            'nb'
-        );
-        expect(resultingApiData).toBeDefined();
-        if (resultingApiData) {
-            expect(resultingApiData.ferieuttakIPerioden!.ferieuttak.length).toBe(1);
-        }
     });
 });
