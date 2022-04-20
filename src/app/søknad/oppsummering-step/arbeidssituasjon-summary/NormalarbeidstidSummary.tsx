@@ -1,4 +1,5 @@
 import { TidFasteDager } from '@navikt/sif-common-pleiepenger/lib';
+import { ISODurationToDecimalDuration } from '@navikt/sif-common-utils/lib';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { NormalarbeidstidApiData } from '../../../types/søknad-api-data/SøknadApiData';
@@ -28,7 +29,7 @@ const NormalarbeidstidSummary: React.FunctionComponent<Props> = ({ erAnsatt, nor
             <FormattedMessage
                 id={erAnsatt ? `oppsummering.arbeidssituasjon.tid` : `oppsummering.arbeidssituasjon.avsluttet.tid`}
                 values={{
-                    timer: normalarbeidstidApiData.timerPerUkeISnitt,
+                    timer: ISODurationToDecimalDuration(normalarbeidstidApiData.timerPerUkeISnitt),
                 }}
             />
         </>

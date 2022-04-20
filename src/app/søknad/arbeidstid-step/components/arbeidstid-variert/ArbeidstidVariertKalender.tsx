@@ -95,6 +95,7 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
         const utilgjengeligeDatoerIMåned = [...datoerUtenforPeriode, ...datoerPåDagerHvorEnNormaltIkkeJobber];
         return (
             <ArbeidstidMånedInfo
+                arbeiderNormaltTimerFasteUkedager={arbeiderNormaltTimerFasteUkedager}
                 arbeidsstedNavn={arbeidsstedNavn}
                 arbeidsforholdType={arbeidsforholdType}
                 måned={måned}
