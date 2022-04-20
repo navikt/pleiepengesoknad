@@ -35,5 +35,4 @@ export const extractBarnSøknadsdata = (values: OmBarnetFormData): OmBarnetSøkn
     }
 
     return undefined;
-    // throw 'extractBarnSøknadsdata: ugyldig tilstand';
 };
