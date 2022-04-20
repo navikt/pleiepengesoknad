@@ -37,6 +37,12 @@
     "thursday": "torsdag",
     "friday": "fredag",
 
+    "monday.plural": "mandager",
+    "tuesday.plural": "tirsdager",
+    "wednesday.plural": "onsdager",
+    "thursday.plural": "torsdager",
+    "friday.plural": "fredager",
+
     "mandag.caps": "Mandag",
     "tirsdag.caps": "Tirsdag",
     "onsdag.caps": "Onsdag",

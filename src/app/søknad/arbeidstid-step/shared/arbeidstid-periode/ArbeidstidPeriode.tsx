@@ -25,7 +25,7 @@ const ArbeidstidPeriode: React.FunctionComponent<Props> = ({ registrerKnappLabel
                 onPeriodeChange(getDagerMedTidFraArbeidstidPeriodeData(arbeiderNormaltTimerPerUke, data), data);
             });
         } else {
-            // TODO- håndtere ukedager
+            // TODO- håndtere ukedager - dersom bruker kan legge til periode med arbeid
         }
     };
 

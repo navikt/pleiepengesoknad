@@ -268,7 +268,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                                 tekst={{
                                                     dag: 'Dag',
                                                     jobber: 'Jobber timer',
-                                                    ariaLabelTidInput: (dato) => `Hvor mye skal du jobbe ${dato}`,
+                                                    ariaLabelTidInput: (dagNavn) => `Hvor mye jobber du ${dagNavn}`,
                                                 }}
                                                 skjulUtilgjengeligeUkedager={true}
                                                 utilgjengeligeUkedager={getAllWeekdaysWithoutDuration(
@@ -277,7 +277,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                                 tidPerDagValidator={getArbeidIPeriodeFasteDagerDagValidator(
                                                     normalarbeidstid.timerFasteUkedager,
                                                     intlValues,
-                                                    (weekday) => intlHelper(intl, weekday)
+                                                    (weekday) => intlHelper(intl, `${weekday}.plural`)
                                                 )}
                                             />
                                         </SøknadFormComponents.InputGroup>
