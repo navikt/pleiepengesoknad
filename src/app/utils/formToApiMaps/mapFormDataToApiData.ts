@@ -14,10 +14,11 @@ import { getFrilansApiDataFromSøknadsdata } from '../søknadsdataToApiData/getF
 import { getMedlemskapApiDataFromSøknadsdata } from '../søknadsdataToApiData/getMedlemskapApiDataFromSøknadsdata';
 import { getSelvstendigApiDataFromSøknadsdata } from '../søknadsdataToApiData/getSelvstendigApiDataFromSøknadsdata';
 import { getAttachmentsApiData } from './getAttachmentsApiData';
-import { getFerieuttakIPeriodenApiData } from './getFerieuttakIPeriodenApiData';
 import { getNattevåkOgBeredskapApiData } from './getNattevåkOgBeredskapApiData';
 import { getOmsorgstilbudApiData } from './getOmsorgstilbudApiData';
-import { getUtenlandsoppholdIPeriodenApiData } from './getUtenlandsoppholdIPeriodenApiData';
+import { getMedsøkerApiDataFromSøknadsdata } from '../søknadsdataToApiData/getMedsøkerApiDataFromSøknadsdata';
+import { getUtenlandsoppholdIPeriodenApiDataFromSøknadsdata } from '../søknadsdataToApiData/getUtenlandsoppholdIPeriodenFromSøknadsdata';
+import { getFerieuttakIPeriodenApiDataFromSøknadsdata } from '../søknadsdataToApiData/getFerieuttakIPeriodenApiDataFromSøknadsdata';
 
 export const mapFormDataToApiData = (
     formData: SøknadFormData,
@@ -25,16 +26,7 @@ export const mapFormDataToApiData = (
     søknadsdata: Søknadsdata,
     locale: Locale = 'nb'
 ): SøknadApiData | undefined => {
-    const {
-        harBekreftetOpplysninger,
-        harForståttRettigheterOgPlikter,
-        legeerklæring,
-        harMedsøker,
-        samtidigHjemme,
-        omsorgstilbud,
-        skalOppholdeSegIUtlandetIPerioden,
-        utenlandsoppholdIPerioden,
-    } = formData;
+    const { harBekreftetOpplysninger, harForståttRettigheterOgPlikter, legeerklæring, omsorgstilbud } = formData;
 
     const { søknadsperiode } = søknadsdata;
 
@@ -48,19 +40,12 @@ export const mapFormDataToApiData = (
                 fraOgMed: formatDateToApiFormat(søknadsperiode.from),
                 tilOgMed: formatDateToApiFormat(søknadsperiode.to),
                 vedlegg: getAttachmentsApiData(legeerklæring),
-                harMedsøker: harMedsøker === YesOrNo.YES,
-                samtidigHjemme: harMedsøker === YesOrNo.YES ? samtidigHjemme === YesOrNo.YES : undefined,
+                ...getMedsøkerApiDataFromSøknadsdata(søknadsdata.medsøker),
                 harVærtEllerErVernepliktig: formData.harVærtEllerErVernepliktig
                     ? formData.harVærtEllerErVernepliktig === YesOrNo.YES
                     : undefined,
-                utenlandsoppholdIPerioden: {
-                    skalOppholdeSegIUtlandetIPerioden: skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES,
-                    opphold:
-                        skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES && utenlandsoppholdIPerioden
-                            ? utenlandsoppholdIPerioden.map((o) => getUtenlandsoppholdIPeriodenApiData(o, sprak))
-                            : [],
-                },
-                ...getFerieuttakIPeriodenApiData(formData),
+                ...getUtenlandsoppholdIPeriodenApiDataFromSøknadsdata(sprak, søknadsdata.utenlandsoppholdIPerioden),
+                ferieuttakIPerioden: getFerieuttakIPeriodenApiDataFromSøknadsdata(søknadsdata.ferieuttakIPerioden),
                 ...getBarnApiDataFromSøknadsdata(barn, søknadsdata.barn),
                 ...getOmsorgstilbudApiData(omsorgstilbud, søknadsperiode),
                 ...getNattevåkOgBeredskapApiData(formData),
