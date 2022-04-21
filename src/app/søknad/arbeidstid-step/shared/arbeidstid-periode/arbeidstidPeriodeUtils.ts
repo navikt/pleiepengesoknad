@@ -1,8 +1,9 @@
-import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
-import { ArbeidstidPeriodeData, getRedusertArbeidstidSomDuration } from '@navikt/sif-common-pleiepenger/lib';
+import { getNumberFromNumberInputValue, InputTime } from '@navikt/sif-common-formik/lib';
+import { ArbeidstidPeriodeData } from '@navikt/sif-common-pleiepenger';
 import {
     DateDurationMap,
     dateToISODate,
+    decimalDurationToDuration,
     getDatesInDateRange,
     getDurationForISOWeekdayNumber,
     ISODateToDate,
@@ -11,6 +12,14 @@ import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 
 dayjs.extend(isoWeek);
+
+export const getRedusertArbeidstidSomDuration = (
+    jobberNormaltTimerPerDagNumber: number,
+    skalJobbeProsent: number
+): InputTime => {
+    const redusertTidPerDag = (jobberNormaltTimerPerDagNumber / 100) * skalJobbeProsent;
+    return decimalDurationToDuration(redusertTidPerDag);
+};
 
 export const getDagerMedTidFraArbeidstidPeriodeData = (
     normalTimer: number,

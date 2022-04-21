@@ -10,7 +10,7 @@ import {
     getArbeidstimerFastDagValidator,
     TidFasteUkedagerInput,
     validateFasteArbeidstimerIUke,
-} from '@navikt/sif-common-pleiepenger/lib';
+} from '@navikt/sif-common-pleiepenger';
 import {
     ArbeidsforholdFormData,
     ArbeidsforholdFormField,

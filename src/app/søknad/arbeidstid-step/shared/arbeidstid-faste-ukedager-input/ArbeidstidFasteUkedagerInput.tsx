@@ -3,8 +3,8 @@ import { useIntl } from 'react-intl';
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import { FormikInputGroup, FormikTimeInput } from '@navikt/sif-common-formik';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
-import LabelInputInfoLayout from '@navikt/sif-common-pleiepenger/lib/label-input-info-layout/LabelInputInfoLayout';
-import { getTidFasteUkerdagerInputMessages } from '@navikt/sif-common-pleiepenger/lib/tid-faste-ukedager-input/tidFasteUkerdagerInputMessages';
+import { LabelInputInfoLayout } from '@navikt/sif-common-pleiepenger';
+import { getTidFasteUkerdagerInputMessages } from '@navikt/sif-common-pleiepenger/lib/tid/tid-faste-ukedager-input/tidFasteUkerdagerInputMessages';
 import { Weekday } from '@navikt/sif-common-utils';
 import './arbeidstidFasteUkedagerInput.less';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger/lib';
+import { formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger';
 import { DurationWeekdays } from '@navikt/sif-common-utils/lib';
 
 interface Props {
