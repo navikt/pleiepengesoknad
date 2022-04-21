@@ -1,17 +1,16 @@
-import { ArbeidstidEnkeltdagApiData } from '@navikt/sif-common-pleiepenger';
+import { DateRange } from '@navikt/sif-common-formik/lib';
+import { ArbeidstidEnkeltdagApiData } from '@navikt/sif-common-pleiepenger/lib';
 import {
     DateDurationMap,
     dateToISODate,
     Duration,
     durationToISODuration,
     DurationWeekdays,
+    getDateDurationMapFromDurationWeekdaysInDateRange,
     ISODate,
-    ISODateToDate,
     ISODuration,
     ISODurationToMaybeDuration,
-    Weekday,
-} from '@navikt/sif-common-utils/lib';
-import dayjs from 'dayjs';
+} from '@navikt/sif-common-utils';
 import { ArbeiderIPeriodenSvar } from '../../types/ArbeidIPeriodeFormData';
 import {
     ArbeidIPeriodeApiData,
@@ -57,37 +56,16 @@ export const timerFasteDagerApiDataToDurationWeekdays = (timerFasteDager: TimerF
     };
 };
 
-const getWeekdayFromDate = (date: Date): Weekday | undefined => {
-    const dow = dayjs(date).isoWeekday();
-    switch (dow) {
-        case 1:
-            return Weekday.monday;
-        case 2:
-            return Weekday.tuesday;
-        case 3:
-            return Weekday.wednesday;
-        case 4:
-            return Weekday.thursday;
-        case 5:
-            return Weekday.friday;
-        default:
-            return undefined;
-    }
-};
-
-const getWeekdayDurationForDate = (date: Date, weekdays: DurationWeekdays): Duration | undefined => {
-    const weekday = getWeekdayFromDate(date);
-    return weekday ? weekdays[weekday] : undefined;
-};
-
 export const arbeidEnkeltdagerToArbeidstidEnkeltdagApiData = (
     enkeltdager: DateDurationMap,
-    normalarbeidstidFasteDager: DurationWeekdays
+    normalarbeidstidFasteDager: DurationWeekdays,
+    søknadsperiode: DateRange
 ): ArbeidstidEnkeltdagApiData[] => {
     const arbeidstidEnkeltdager: ArbeidstidEnkeltdagApiData[] = [];
-    Object.keys(enkeltdager).forEach((dato) => {
-        const faktiskTimer = enkeltdager[dato];
-        const normaltimer = getWeekdayDurationForDate(ISODateToDate(dato), normalarbeidstidFasteDager);
+    const alleDager = getDateDurationMapFromDurationWeekdaysInDateRange(søknadsperiode, normalarbeidstidFasteDager);
+    Object.keys(alleDager).forEach((dato) => {
+        const faktiskTimer = enkeltdager[dato] || { hours: 0, minutes: 0 };
+        const normaltimer = alleDager[dato];
         if (faktiskTimer && normaltimer) {
             arbeidstidEnkeltdager.push({
                 dato,
@@ -103,7 +81,8 @@ export const arbeidEnkeltdagerToArbeidstidEnkeltdagApiData = (
 
 export const getArbeidIPeriodeApiDataFromSøknadsdata = (
     arbeid: ArbeidIPeriodeSøknadsdata | undefined,
-    normalarbeidstid: NormalarbeidstidSøknadsdata
+    normalarbeidstid: NormalarbeidstidSøknadsdata,
+    periode: DateRange
 ): ArbeidIPeriodeApiData | undefined => {
     if (arbeid) {
         switch (arbeid.type) {
@@ -124,7 +103,8 @@ export const getArbeidIPeriodeApiDataFromSøknadsdata = (
                         arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
                         enkeltdager: arbeidEnkeltdagerToArbeidstidEnkeltdagApiData(
                             arbeid.enkeltdager,
-                            normalarbeidstid.timerFasteUkedager
+                            normalarbeidstid.timerFasteUkedager,
+                            periode
                         ),
                     };
                 }
@@ -154,14 +134,16 @@ export const getArbeidIPeriodeApiDataFromSøknadsdata = (
 };
 
 export const getArbeidsforholdApiDataFromSøknadsdata = (
-    arbeidsforhold: ArbeidsforholdSøknadsdata
+    arbeidsforhold: ArbeidsforholdSøknadsdata,
+    søknadsperiode: DateRange
 ): ArbeidsforholdApiData => {
     const normalarbeidstid = getNormalarbeidstidApiDataFromSøknadsdata(arbeidsforhold.normalarbeidstid);
     return {
         normalarbeidstid,
         arbeidIPeriode: getArbeidIPeriodeApiDataFromSøknadsdata(
             arbeidsforhold.arbeidISøknadsperiode,
-            arbeidsforhold.normalarbeidstid
+            arbeidsforhold.normalarbeidstid,
+            søknadsperiode
         ),
     };
 };

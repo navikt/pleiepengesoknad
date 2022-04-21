@@ -50,10 +50,14 @@ export const mapFormDataToApiData = (
                 ...getNattevåkApiDataFromSøknadsdata(søknadsdata.nattevåk),
                 ...getBeredskapApiDataFromSøknadsdata(søknadsdata.beredskap),
                 medlemskap: getMedlemskapApiDataFromSøknadsdata(sprak, søknadsdata.medlemskap),
-                arbeidsgivere: getArbeidsgivereApiDataFromSøknadsdata(søknadsdata.arbeid?.arbeidsgivere),
-                frilans: getFrilansApiDataFromSøknadsdata(søknadsdata.arbeid?.frilans),
+                arbeidsgivere: getArbeidsgivereApiDataFromSøknadsdata(
+                    søknadsdata.arbeid?.arbeidsgivere,
+                    søknadsperiode
+                ),
+                frilans: getFrilansApiDataFromSøknadsdata(søknadsdata.arbeid?.frilans, søknadsperiode),
                 selvstendigNæringsdrivende: getSelvstendigApiDataFromSøknadsdata(
                     søknadsdata.arbeid?.selvstendig,
+                    søknadsperiode,
                     locale
                 ),
             };
