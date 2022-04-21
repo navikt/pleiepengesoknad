@@ -5,7 +5,11 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
-import { ArbeidIPeriodeIntlValues, formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger';
+import {
+    ArbeidIPeriodeIntlValues,
+    ArbeidstidFasteUkedagerInput,
+    formatTimerOgMinutter,
+} from '@navikt/sif-common-pleiepenger';
 import { getArbeidstidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger/lib/arbeidstid/arbeidstid-periode/utils/arbeidstidPeriodeIntlValuesUtils';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib/types';
 import {
@@ -18,9 +22,9 @@ import { ArbeiderIPeriodenSvar, ArbeidIPeriodeFormField } from '../../../../type
 import { ArbeidsforholdFormData, ArbeidsforholdFrilanserFormData } from '../../../../types/ArbeidsforholdFormData';
 import { NormalarbeidstidSøknadsdata, NormalarbeidstidType } from '../../../../types/søknadsdata/Søknadsdata';
 import SøknadFormComponents from '../../../SøknadFormComponents';
-import ArbeidstidFasteUkedagerInput from '../../shared/arbeidstid-faste-ukedager-input/ArbeidstidFasteUkedagerInput';
+import { ArbeidstidRegistrertLogProps } from '../../types';
 import ArbeidstidVariertKalender from '../arbeidstid-variert/ArbeidstidVariertKalender';
-import { ArbeidstidRegistrertLogProps } from '../../shared/types';
+import ArbeidstidVariertUkedager from '../arbeidstid-variert/ArbeidstidVariertUkedager';
 import {
     getArbeidIPeriodeArbeiderIPeriodenValidator,
     getArbeidIPeriodeErLiktHverUkeValidator,
@@ -30,7 +34,6 @@ import {
     getArbeidIPeriodeTimerPerUkeISnittValidator,
     getArbeidIPeriodeTimerPerUkeValidator,
 } from './validationArbeidIPeriodeSpørsmål';
-import ArbeidstidVariertUkedager from '../arbeidstid-variert/ArbeidstidVariertUkedager';
 
 interface Props extends ArbeidstidRegistrertLogProps {
     normalarbeidstid: NormalarbeidstidSøknadsdata;

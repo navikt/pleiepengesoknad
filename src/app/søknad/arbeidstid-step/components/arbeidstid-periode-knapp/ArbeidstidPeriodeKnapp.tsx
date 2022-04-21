@@ -14,7 +14,11 @@ interface Props {
     onPeriodeChange: (tid: DateDurationMap, formData: ArbeidstidPeriodeData) => void;
 }
 
-const ArbeidstidPeriode: React.FunctionComponent<Props> = ({ registrerKnappLabel, formProps, onPeriodeChange }) => {
+const ArbeidstidPeriodeKnapp: React.FunctionComponent<Props> = ({
+    registrerKnappLabel,
+    formProps,
+    onPeriodeChange,
+}) => {
     const [visPeriode, setVisPeriode] = useState(false);
 
     const handleFormSubmit = (data: ArbeidstidPeriodeData) => {
@@ -46,4 +50,4 @@ const ArbeidstidPeriode: React.FunctionComponent<Props> = ({ registrerKnappLabel
     );
 };
 
-export default ArbeidstidPeriode;
+export default ArbeidstidPeriodeKnapp;

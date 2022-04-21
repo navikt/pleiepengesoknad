@@ -28,8 +28,8 @@ import {
 import { useFormikContext } from 'formik';
 import { Element } from 'nav-frontend-typografi';
 import { SøknadFormData, SøknadFormField } from '../../../../types/SøknadFormData';
-import ArbeidstidPeriode from '../../shared/arbeidstid-periode/ArbeidstidPeriode';
-import { ArbeidstidRegistrertLogProps } from '../../shared/types';
+import ArbeidstidPeriodeKnapp from '../arbeidstid-periode-knapp/ArbeidstidPeriodeKnapp';
+import { ArbeidstidRegistrertLogProps } from '../../types';
 
 interface Props extends ArbeidstidRegistrertLogProps {
     arbeidsstedNavn: string;
@@ -133,7 +133,7 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
                         </li>
                     </ul>
                     <Box margin="l">
-                        <ArbeidstidPeriode
+                        <ArbeidstidPeriodeKnapp
                             onPeriodeChange={handleOnPeriodeChange}
                             registrerKnappLabel={intlHelper(intl, 'arbeidstidVariert.registrerJobbKnapp.label')}
                             formProps={{
