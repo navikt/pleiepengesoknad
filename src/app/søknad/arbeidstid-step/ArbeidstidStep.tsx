@@ -8,7 +8,7 @@ import FormSection from '@navikt/sif-common-core/lib/components/form-section/For
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { useFormikContext } from 'formik';
 import useLogSøknadInfo from '../../hooks/useLogSøknadInfo';
 import usePersistSoknad from '../../hooks/usePersistSoknad';

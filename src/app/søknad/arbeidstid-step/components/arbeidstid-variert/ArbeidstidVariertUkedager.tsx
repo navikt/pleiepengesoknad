@@ -5,7 +5,7 @@ import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-co
 import { DateRange, FormikInputGroup } from '@navikt/sif-common-formik/lib';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import { ArbeidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger';
-import ArbeidstidUkerInput from '@navikt/sif-common-pleiepenger/lib/arbeidstid-uker-input/ArbeidstidUkerInput';
+import { ArbeidstidUkerInput } from '@navikt/sif-common-pleiepenger';
 import {
     DateDurationMap,
     durationToDecimalDuration,

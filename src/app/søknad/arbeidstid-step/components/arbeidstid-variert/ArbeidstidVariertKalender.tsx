@@ -4,10 +4,14 @@ import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, FormikInputGroup } from '@navikt/sif-common-formik/lib';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
-import { ArbeidIPeriodeIntlValues, ArbeidsforholdType, ArbeidstidPeriodeData } from '@navikt/sif-common-pleiepenger';
-import ArbeidstidMånedInfo from '@navikt/sif-common-pleiepenger/lib/arbeidstid-måned-info/ArbeidstidMånedInfo';
-import SøknadsperioderMånedListe from '@navikt/sif-common-pleiepenger/lib/søknadsperioder-måned-liste/SøknadsperioderMånedListe';
-import { TidEnkeltdagEndring } from '@navikt/sif-common-pleiepenger/lib/tid-enkeltdag-dialog/TidEnkeltdagForm';
+import {
+    ArbeidIPeriodeIntlValues,
+    ArbeidsforholdType,
+    ArbeidstidPeriodeData,
+    SøknadsperioderMånedListe,
+} from '@navikt/sif-common-pleiepenger';
+import { TidEnkeltdagEndring } from '@navikt/sif-common-pleiepenger/lib/tid/tid-enkeltdag-dialog/TidEnkeltdagForm';
+import ArbeidstidMåned from '@navikt/sif-common-pleiepenger/lib/arbeidstid/arbeidstid-måned/ArbeidstidMåned';
 import {
     DateDurationMap,
     durationToDecimalDuration,
@@ -94,7 +98,7 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
             : [];
         const utilgjengeligeDatoerIMåned = [...datoerUtenforPeriode, ...datoerPåDagerHvorEnNormaltIkkeJobber];
         return (
-            <ArbeidstidMånedInfo
+            <ArbeidstidMåned
                 arbeiderNormaltTimerFasteUkedager={arbeiderNormaltTimerFasteUkedager}
                 arbeidsstedNavn={arbeidsstedNavn}
                 arbeidsforholdType={arbeidsforholdType}
