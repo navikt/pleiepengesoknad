@@ -1,6 +1,6 @@
 import { SøknadFormData } from '../../types/SøknadFormData';
 import { Søknadsdata } from '../../types/søknadsdata/Søknadsdata';
-import { getSøknadsperiodeFromFormData } from '../formDataUtils';
+import { getHarVærtEllerErVernepliktigFromFormData, getSøknadsperiodeFromFormData } from '../formDataUtils';
 import { extractArbeidSøknadsdata } from './extractArbeidSøknadsdata';
 import { extractBarnSøknadsdata } from './extractBarnSøknadsdata';
 import { extractFerieuttakIPeriodenSøknadsdata } from './extractFerieuttakIPeriodenSøknadsdata';
@@ -20,6 +20,7 @@ export const getSøknadsdataFromFormValues = (values: SøknadFormData): Søknads
         utenlandsoppholdIPerioden: extractUtenlandsoppholdIPeriodenSøknadsdata(values),
         ferieuttakIPerioden: extractFerieuttakIPeriodenSøknadsdata(values),
         arbeid: extractArbeidSøknadsdata(values, søknadsperiode),
+        harVærtEllerErVernepliktig: getHarVærtEllerErVernepliktigFromFormData(values),
         medlemskap: extractMedlemskapSøknadsdata(values),
     };
     return søknadsdata;

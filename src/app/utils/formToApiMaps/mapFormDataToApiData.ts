@@ -41,9 +41,7 @@ export const mapFormDataToApiData = (
                 tilOgMed: formatDateToApiFormat(søknadsperiode.to),
                 vedlegg: getAttachmentsApiData(legeerklæring),
                 ...getMedsøkerApiDataFromSøknadsdata(søknadsdata.medsøker),
-                harVærtEllerErVernepliktig: formData.harVærtEllerErVernepliktig
-                    ? formData.harVærtEllerErVernepliktig === YesOrNo.YES
-                    : undefined,
+                harVærtEllerErVernepliktig: søknadsdata.harVærtEllerErVernepliktig,
                 ...getUtenlandsoppholdIPeriodenApiDataFromSøknadsdata(sprak, søknadsdata.utenlandsoppholdIPerioden),
                 ferieuttakIPerioden: getFerieuttakIPeriodenApiDataFromSøknadsdata(søknadsdata.ferieuttakIPerioden),
                 ...getBarnApiDataFromSøknadsdata(barn, søknadsdata.barn),

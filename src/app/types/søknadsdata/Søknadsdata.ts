@@ -26,5 +26,6 @@ export interface Søknadsdata {
     utenlandsoppholdIPerioden?: UtenlandsoppholdIPeriodenSøknadsdata;
     ferieuttakIPerioden?: FerieuttakIPeriodenSøknadsdata;
     arbeid?: ArbeidSøknadsdata;
+    harVærtEllerErVernepliktig?: boolean;
     medlemskap?: MedlemskapSøknadsdata;
 }
