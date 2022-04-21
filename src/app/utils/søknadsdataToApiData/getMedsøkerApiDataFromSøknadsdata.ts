@@ -1,4 +1,4 @@
-import { SøknadApiData } from 'app/types/søknad-api-data/SøknadApiData';
+import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { MedsøkerSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 
 export type MedsøkerApiData = Pick<SøknadApiData, 'harMedsøker' | 'samtidigHjemme'>;

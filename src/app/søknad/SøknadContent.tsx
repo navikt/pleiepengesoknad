@@ -194,7 +194,12 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                     render={() => {
                         return (
                             <NattevåkOgBeredskapStep
-                                onValidSubmit={() => navigateToNextStepFrom(StepID.NATTEVÅK_OG_BEREDSKAP)}
+                                onValidSubmit={() => {
+                                    setTimeout(() => {
+                                        setSøknadsdata(getSøknadsdataFromFormValues(values));
+                                        navigateToNextStepFrom(StepID.NATTEVÅK_OG_BEREDSKAP);
+                                    });
+                                }}
                             />
                         );
                     }}
