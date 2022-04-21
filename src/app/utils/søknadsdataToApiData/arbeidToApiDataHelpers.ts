@@ -135,7 +135,7 @@ export const getArbeidIPeriodeApiDataFromSøknadsdata = (
 
 export const getArbeidsforholdApiDataFromSøknadsdata = (
     arbeidsforhold: ArbeidsforholdSøknadsdata,
-    periode: DateRange
+    søknadsperiode: DateRange
 ): ArbeidsforholdApiData => {
     const normalarbeidstid = getNormalarbeidstidApiDataFromSøknadsdata(arbeidsforhold.normalarbeidstid);
     return {
@@ -143,7 +143,7 @@ export const getArbeidsforholdApiDataFromSøknadsdata = (
         arbeidIPeriode: getArbeidIPeriodeApiDataFromSøknadsdata(
             arbeidsforhold.arbeidISøknadsperiode,
             arbeidsforhold.normalarbeidstid,
-            periode
+            søknadsperiode
         ),
     };
 };
