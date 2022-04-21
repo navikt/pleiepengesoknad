@@ -1,4 +1,4 @@
-import { TidFasteDager } from '@navikt/sif-common-pleiepenger/lib';
+import { TidFasteDager } from '@navikt/sif-common-pleiepenger';
 import { ISODurationToDecimalDuration } from '@navikt/sif-common-utils/lib';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';

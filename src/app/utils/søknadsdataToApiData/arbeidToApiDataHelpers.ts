@@ -1,4 +1,4 @@
-import { ArbeidstidEnkeltdagApiData } from '@navikt/sif-common-pleiepenger/lib';
+import { ArbeidstidEnkeltdagApiData } from '@navikt/sif-common-pleiepenger';
 import {
     DateDurationMap,
     dateToISODate,

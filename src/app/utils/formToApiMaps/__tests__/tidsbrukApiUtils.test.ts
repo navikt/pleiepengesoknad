@@ -1,5 +1,5 @@
 import { apiStringDateToDate, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { ArbeidstidEnkeltdagApiData } from '@navikt/sif-common-pleiepenger/lib';
+import { ArbeidstidEnkeltdagApiData } from '@navikt/sif-common-pleiepenger';
 import {
     fjernArbeidstimerUtenforPeriodeOgHelgedager,
     getEnkeltdagerIPeriodeApiData,

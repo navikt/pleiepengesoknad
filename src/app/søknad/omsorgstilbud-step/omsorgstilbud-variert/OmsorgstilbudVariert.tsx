@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import SøknadsperioderMånedListe from '@navikt/sif-common-pleiepenger/lib/søknadsperioder-måned-liste/SøknadsperioderMånedListe';
+import SøknadsperioderMånedListe from '@navikt/sif-common-pleiepenger/lib/common/søknadsperioder-måned-liste/SøknadsperioderMånedListe';
 import { DateDurationMap, getDatesInMonthOutsideDateRange, getMonthsInDateRange } from '@navikt/sif-common-utils';
 import { useFormikContext } from 'formik';
 import { Element } from 'nav-frontend-typografi';
@@ -11,8 +11,8 @@ import { validateOmsorgstilbudEnkeltdagerIPeriode } from '../../../validation/fi
 import SøknadFormComponents from '../../SøknadFormComponents';
 import { skalViseSpørsmålOmProsentEllerLiktHverUke } from '../omsorgstilbudStepUtils';
 import OmsorgstilbudPeriode from './OmsorgstilbudPeriode';
-import { OmsorgstilbudMånedInfo } from '@navikt/sif-common-pleiepenger/lib';
-import { TidEnkeltdagEndring } from '@navikt/sif-common-pleiepenger/lib/tid-enkeltdag-dialog/TidEnkeltdagForm';
+import { OmsorgstilbudMåned } from '@navikt/sif-common-pleiepenger';
+import { TidEnkeltdagEndring } from '@navikt/sif-common-pleiepenger/lib/tid/tid-enkeltdag-dialog/TidEnkeltdagForm';
 
 interface Props {
     tittel: string;
@@ -54,7 +54,7 @@ const OmsorgstilbudVariert: React.FunctionComponent<Props> = ({
 
     const omsorgstilbudMånedRenderer = (måned: DateRange) => {
         return (
-            <OmsorgstilbudMånedInfo
+            <OmsorgstilbudMåned
                 periode={periode}
                 måned={måned}
                 tidOmsorgstilbud={omsorgsdager}

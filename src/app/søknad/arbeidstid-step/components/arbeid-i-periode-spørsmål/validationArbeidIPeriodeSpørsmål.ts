@@ -5,8 +5,8 @@ import {
     ArbeidIPeriodeIntlValues,
     formatTimerOgMinutter,
     getArbeidstidFastProsentValidator,
-} from '@navikt/sif-common-pleiepenger/lib';
-import { ArbeidstidUkeInputEnkeltdagValidator } from '@navikt/sif-common-pleiepenger/lib/arbeidstid-uke-input/ArbeidstidUkeInput';
+} from '@navikt/sif-common-pleiepenger';
+import { ArbeidstidUkeInputEnkeltdagValidator } from '@navikt/sif-common-pleiepenger/lib/arbeidstid/arbeidstid-uke-input/ArbeidstidUkeInput';
 import {
     dateFormatter,
     decimalDurationToDuration,
