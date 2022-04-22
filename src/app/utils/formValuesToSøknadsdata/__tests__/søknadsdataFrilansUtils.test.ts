@@ -1,7 +1,7 @@
 import { dateToISODate, ISODateRangeToDateRange } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
 import * as erFrilanserITidsromMock from '../../frilanserUtils';
-import { getPeriodeSomFrilanserInnenforSøknadsperiode } from '../søknadsdataFrilanserUtils';
+import { getPeriodeSomFrilanserInnenforSøknadsperiode } from '../../frilanserUtils';
 
 const søknadsperiode = ISODateRangeToDateRange('2022-01-01/2022-02-01');
 const datoFørSøknadsperiode = dayjs(søknadsperiode.from).subtract(1, 'day').toDate();
