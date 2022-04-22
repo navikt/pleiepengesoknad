@@ -3,8 +3,8 @@ import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-dat
 import { Arbeidsgiver } from '../../types';
 import { FrilansFormData } from '../../types/FrilansFormData';
 import { ArbeidFrilansSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
+import { getPeriodeSomFrilanserInnenforSøknadsperiode } from '../frilanserUtils';
 import { extractArbeidsforholdSøknadsdata } from './extractArbeidsforholdSøknadsdata';
-import { getPeriodeSomFrilanserInnenforSøknadsperiode } from './søknadsdataFrilanserUtils';
 
 export const extractArbeidFrilansSøknadsdata = (
     frilans: FrilansFormData,

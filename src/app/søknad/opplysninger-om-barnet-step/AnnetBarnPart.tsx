@@ -3,7 +3,9 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import { dateToday, prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { resetFieldValue, resetFieldValues } from '@navikt/sif-common-formik';
 import { SkjemagruppeQuestion } from '@navikt/sif-common-formik/lib';
 import {
     getDateValidator,
@@ -12,21 +14,23 @@ import {
     getStringValidator,
     ValidateDateError,
 } from '@navikt/sif-common-formik/lib/validation';
+import dayjs from 'dayjs';
+import { useFormikContext } from 'formik';
 import { Undertittel } from 'nav-frontend-typografi';
-import { SøknadFormField, SøknadFormData, initialValues } from '../../types/SøknadFormData';
+import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '../../types';
+import { initialValues, SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import { validateNavn } from '../../validation/fieldValidations';
 import SøknadFormComponents from '../SøknadFormComponents';
-import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '../../types';
-import { resetFieldValue, resetFieldValues } from '@navikt/sif-common-formik';
-import { useFormikContext } from 'formik';
-import { dateToday, prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { nYearsAgo } from '../../utils/aldersUtils';
 import InfoForFarVedNyttBarn from './info/InfoForFarVedNyttBarn';
 
 interface Props {
     formValues: SøknadFormData;
     søkersFødselsnummer: string;
 }
+
+const nYearsAgo = (years: number): Date => {
+    return dayjs(dateToday).subtract(years, 'y').startOf('year').toDate();
+};
 
 const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer }) => {
     const intl = useIntl();
