@@ -28,7 +28,7 @@ export const extractArbeidFrilansSøknadsdata = (
         : undefined;
     const erFortsattFrilanser = frilans.erFortsattFrilanser === YesOrNo.YES;
     const arbeidsforhold = frilans.arbeidsforhold
-        ? extractArbeidsforholdSøknadsdata(frilans.arbeidsforhold, søknadsperiode)
+        ? extractArbeidsforholdSøknadsdata(frilans.arbeidsforhold, søknadsperiode, aktivPeriode)
         : undefined;
 
     /** Er ikke lenger frilanser */

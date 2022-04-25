@@ -7,6 +7,7 @@ import {
     durationToISODuration,
     DurationWeekdays,
     getDateDurationMapFromDurationWeekdaysInDateRange,
+    getDurationsInDateRange,
     ISODate,
     ISODuration,
     ISODurationToMaybeDuration,
@@ -59,13 +60,15 @@ export const timerFasteDagerApiDataToDurationWeekdays = (timerFasteDager: TimerF
 export const arbeidEnkeltdagerToArbeidstidEnkeltdagApiData = (
     enkeltdager: DateDurationMap,
     normalarbeidstidFasteDager: DurationWeekdays,
-    søknadsperiode: DateRange
+    søknadsperiode: DateRange,
+    arbeidsperiode?: DateRange
 ): ArbeidstidEnkeltdagApiData[] => {
     const arbeidstidEnkeltdager: ArbeidstidEnkeltdagApiData[] = [];
     const alleDager = getDateDurationMapFromDurationWeekdaysInDateRange(søknadsperiode, normalarbeidstidFasteDager);
-    Object.keys(alleDager).forEach((dato) => {
+    const dagerSomSkalVæreMed = arbeidsperiode ? getDurationsInDateRange(alleDager, arbeidsperiode) : alleDager;
+    Object.keys(dagerSomSkalVæreMed).forEach((dato) => {
         const faktiskTimer = enkeltdager[dato] || { hours: 0, minutes: 0 };
-        const normaltimer = alleDager[dato];
+        const normaltimer = dagerSomSkalVæreMed[dato];
         if (faktiskTimer && normaltimer) {
             arbeidstidEnkeltdager.push({
                 dato,
@@ -82,7 +85,8 @@ export const arbeidEnkeltdagerToArbeidstidEnkeltdagApiData = (
 export const getArbeidIPeriodeApiDataFromSøknadsdata = (
     arbeid: ArbeidIPeriodeSøknadsdata | undefined,
     normalarbeidstid: NormalarbeidstidSøknadsdata,
-    periode: DateRange
+    søknadsperiode: DateRange,
+    arbeidsperiode?: DateRange
 ): ArbeidIPeriodeApiData | undefined => {
     if (arbeid) {
         switch (arbeid.type) {
@@ -98,14 +102,17 @@ export const getArbeidIPeriodeApiDataFromSøknadsdata = (
                 };
             case ArbeidIPeriodeType.arbeiderEnkeltdager:
                 if (normalarbeidstid.type === NormalarbeidstidType.likeUkerOgDager) {
+                    const enkeltdager = arbeidEnkeltdagerToArbeidstidEnkeltdagApiData(
+                        arbeid.enkeltdager,
+                        normalarbeidstid.timerFasteUkedager,
+                        søknadsperiode,
+                        arbeidsperiode
+                    );
+
                     return {
                         type: ArbeidIPeriodeType.arbeiderEnkeltdager,
                         arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
-                        enkeltdager: arbeidEnkeltdagerToArbeidstidEnkeltdagApiData(
-                            arbeid.enkeltdager,
-                            normalarbeidstid.timerFasteUkedager,
-                            periode
-                        ),
+                        enkeltdager,
                     };
                 }
                 return undefined;
@@ -135,7 +142,8 @@ export const getArbeidIPeriodeApiDataFromSøknadsdata = (
 
 export const getArbeidsforholdApiDataFromSøknadsdata = (
     arbeidsforhold: ArbeidsforholdSøknadsdata,
-    søknadsperiode: DateRange
+    søknadsperiode: DateRange,
+    arbeidsperiode?: DateRange
 ): ArbeidsforholdApiData => {
     const normalarbeidstid = getNormalarbeidstidApiDataFromSøknadsdata(arbeidsforhold.normalarbeidstid);
     return {
@@ -143,7 +151,8 @@ export const getArbeidsforholdApiDataFromSøknadsdata = (
         arbeidIPeriode: getArbeidIPeriodeApiDataFromSøknadsdata(
             arbeidsforhold.arbeidISøknadsperiode,
             arbeidsforhold.normalarbeidstid,
-            søknadsperiode
+            søknadsperiode,
+            arbeidsperiode
         ),
     };
 };
