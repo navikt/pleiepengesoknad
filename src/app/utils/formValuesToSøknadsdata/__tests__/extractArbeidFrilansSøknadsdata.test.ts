@@ -25,7 +25,7 @@ const formData: FrilansFormData = {
 
 describe('extractArbeidFrilansSøknadsdata', () => {
     describe('Er ikke frilanser i søknadsperiode', () => {
-        it.only('returnerer erIkkeFrilanser dersom bruker ikke har oppdrag og har svart nei', () => {
+        it('returnerer erIkkeFrilanser dersom bruker ikke har oppdrag og har svart nei', () => {
             const result = extractArbeidFrilansSøknadsdata(
                 { ...formData, harHattInntektSomFrilanser: YesOrNo.NO },
                 [],
@@ -55,9 +55,6 @@ describe('extractArbeidFrilansSøknadsdata', () => {
             arbeidsforholdSpy.mockReturnValue({} as any);
         });
         it('returnerer avsluttetISøknadsperiode og arbeidsforhod dersom bruker har oppdrag men er ikke frilanser lenger', () => {
-            beforeEach(() => {
-                arbeidsforholdSpy.mockReturnValue({} as any);
-            });
             const result = extractArbeidFrilansSøknadsdata(
                 {
                     ...formData,
@@ -72,9 +69,6 @@ describe('extractArbeidFrilansSøknadsdata', () => {
             expect(result?.type).toEqual('avsluttetISøknadsperiode');
         });
         it('returnerer pågående dersom bruker fortsatt er frilanser', () => {
-            beforeEach(() => {
-                arbeidsforholdSpy.mockReturnValue({} as any);
-            });
             const result = extractArbeidFrilansSøknadsdata(
                 {
                     ...formData,

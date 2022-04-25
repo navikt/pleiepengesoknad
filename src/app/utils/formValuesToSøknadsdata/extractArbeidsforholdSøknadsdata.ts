@@ -6,12 +6,13 @@ import { extractNormalarbeidstid } from './extractNormalarbeidstidSøknadsdata';
 
 export const extractArbeidsforholdSøknadsdata = (
     arbeidsforhold: ArbeidsforholdFrilanserFormData | ArbeidsforholdFormData,
-    søknadsperiode: DateRange
+    søknadsperiode: DateRange,
+    maksperiode?: DateRange
 ): ArbeidsforholdSøknadsdata | undefined => {
     const normalarbeidstid = extractNormalarbeidstid(arbeidsforhold.normalarbeidstid);
     if (normalarbeidstid) {
         const arbeidISøknadsperiode = arbeidsforhold.arbeidIPeriode
-            ? extractArbeidIPeriodeSøknadsdata(arbeidsforhold.arbeidIPeriode, søknadsperiode)
+            ? extractArbeidIPeriodeSøknadsdata(arbeidsforhold.arbeidIPeriode, søknadsperiode, maksperiode)
             : undefined;
 
         return {

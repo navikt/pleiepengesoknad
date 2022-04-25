@@ -1,8 +1,13 @@
 import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
-import { getDurationsInDateRange } from '@navikt/sif-common-utils/lib';
+import { dateUtils, getDurationsInDateRange } from '@navikt/sif-common-utils/lib';
 import { TimerEllerProsent } from '../../types';
 import { ArbeiderIPeriodenSvar, ArbeidIPeriodeFormData } from '../../types/ArbeidIPeriodeFormData';
 import { ArbeidIPeriodeSøknadsdata, ArbeidIPeriodeType } from '../../types/søknadsdata/Søknadsdata';
+
+const getMinDateRangeFromDateRanges = (dr1: DateRange, dr2: DateRange): DateRange => ({
+    from: dateUtils.getLastOfTwoDates(dr1.from, dr2.from),
+    to: dateUtils.getFirstOfTwoDates(dr1.to, dr2.to),
+});
 
 export const extractArbeidIPeriodeSøknadsdata = (
     {
@@ -14,7 +19,8 @@ export const extractArbeidIPeriodeSøknadsdata = (
         timerPerUke,
         timerEllerProsent,
     }: ArbeidIPeriodeFormData,
-    søknadsperiode: DateRange
+    søknadsperiode: DateRange,
+    maksperiode?: DateRange
 ): ArbeidIPeriodeSøknadsdata | undefined => {
     if (arbeiderIPerioden === ArbeiderIPeriodenSvar.heltFravær) {
         return {
@@ -70,11 +76,15 @@ export const extractArbeidIPeriodeSøknadsdata = (
         }
     } else {
         if (enkeltdager) {
+            const dateRangeToUse: DateRange = maksperiode
+                ? getMinDateRangeFromDateRanges(søknadsperiode, maksperiode)
+                : søknadsperiode;
+
             return {
                 type: ArbeidIPeriodeType.arbeiderEnkeltdager,
                 arbeiderIPerioden: true,
                 arbeiderRedusert: true,
-                enkeltdager: getDurationsInDateRange(enkeltdager, søknadsperiode),
+                enkeltdager: getDurationsInDateRange(enkeltdager, dateRangeToUse),
             };
         }
         if (timerPerUke && timerISnittPerUke) {
