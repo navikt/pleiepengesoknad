@@ -6,6 +6,7 @@ import { MedlemskapSøknadsdata } from './medlemsskapSøknadsdata';
 import { MedsøkerSøknadsdata } from './medsøkerSøknadsdata';
 import { NattevåkSøknadsdata } from './nattevåkSøknadsdata';
 import { OmBarnetSøknadsdata } from './omBarnetSøknadsdata';
+import { OmsorgstilbudSøknadsdata } from './omsorgstilbudSøknadsdata';
 import { UtenlandsoppholdIPeriodenSøknadsdata } from './utenlandsoppholdIPeriodenSøknadsdata';
 
 export * from './omBarnetSøknadsdata';
@@ -22,6 +23,7 @@ export * from './utenlandsoppholdIPeriodenSøknadsdata';
 export * from './ferieuttakIPeriodenSøknadsdata';
 export * from './nattevåkSøknadsdata';
 export * from './beredskapSøknadsdata';
+export * from './omsorgstilbudSøknadsdata';
 
 export interface Søknadsdata {
     søknadsperiode?: DateRange;
@@ -31,6 +33,7 @@ export interface Søknadsdata {
     ferieuttakIPerioden?: FerieuttakIPeriodenSøknadsdata;
     arbeid?: ArbeidSøknadsdata;
     harVærtEllerErVernepliktig?: boolean;
+    omsorgstibud?: OmsorgstilbudSøknadsdata;
     nattevåk?: NattevåkSøknadsdata;
     beredskap?: BeredskapSøknadsdata;
     medlemskap?: MedlemskapSøknadsdata;

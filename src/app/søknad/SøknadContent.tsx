@@ -180,7 +180,12 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                     render={() => {
                         return (
                             <OmsorgstilbudStep
-                                onValidSubmit={() => navigateToNextStepFrom(StepID.OMSORGSTILBUD)}
+                                onValidSubmit={() => {
+                                    setTimeout(() => {
+                                        setSøknadsdata(getSøknadsdataFromFormValues(values));
+                                        navigateToNextStepFrom(StepID.OMSORGSTILBUD);
+                                    });
+                                }}
                                 søknadsperiode={søknadsperiode}
                             />
                         );

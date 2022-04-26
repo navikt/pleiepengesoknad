@@ -8,6 +8,7 @@ import { extractFerieuttakIPeriodenSøknadsdata } from './extractFerieuttakIPeri
 import { extractMedlemskapSøknadsdata } from './extractMedlemskapSøknadsdata';
 import { extractMedsøkerSøknadsdata } from './extractMedsøkerSøknadsdata';
 import { extractNattevåkSøknadsdata } from './extractNattevåkSøknadsdata';
+import { extractOmsorgstibudSøknadsdata } from './extractOmsorgstibudSøknadsdata';
 import { extractUtenlandsoppholdIPeriodenSøknadsdata } from './extractUtenlandsoppholdIPeriodenSøknadsdata';
 
 export const getSøknadsdataFromFormValues = (values: SøknadFormData): Søknadsdata => {
@@ -23,6 +24,7 @@ export const getSøknadsdataFromFormValues = (values: SøknadFormData): Søknads
         ferieuttakIPerioden: extractFerieuttakIPeriodenSøknadsdata(values),
         arbeid: extractArbeidSøknadsdata(values, søknadsperiode),
         harVærtEllerErVernepliktig: getHarVærtEllerErVernepliktigFromFormData(values),
+        omsorgstibud: extractOmsorgstibudSøknadsdata(values, søknadsperiode),
         nattevåk: extractNattevåkSøknadsdata(values),
         beredskap: extractBeredskapSøknadsdata(values),
         medlemskap: extractMedlemskapSøknadsdata(values),
