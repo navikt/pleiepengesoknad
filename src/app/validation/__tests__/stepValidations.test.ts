@@ -1,5 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
+import dayjs from 'dayjs';
+import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import * as fieldValidations from '../fieldValidations';
 import {
     arbeidssituasjonStepIsValid,
@@ -11,7 +12,6 @@ import {
 } from '../stepValidations';
 
 import Mock = jest.Mock;
-const moment = require('moment');
 
 jest.mock('./../fieldValidations', () => {
     return {
@@ -71,20 +71,22 @@ describe('stepValidation tests', () => {
     });
 
     describe('opplysningerOmTidsromStepIsValid', () => {
+        const fromDate = dayjs().toISOString();
+        const toDate = dayjs().toISOString();
         it(`should be valid if both ${SøknadFormField.periodeFra} and ${SøknadFormField.periodeTil} are defined`, () => {
-            formData[SøknadFormField.periodeFra] = moment().toDate();
-            formData[SøknadFormField.periodeTil] = moment().toDate();
+            formData[SøknadFormField.periodeFra] = fromDate;
+            formData[SøknadFormField.periodeTil] = toDate;
             expect(opplysningerOmTidsromStepIsValid(formData as SøknadFormData)).toBe(true);
         });
 
         it(`should be invalid if ${SøknadFormField.periodeFra} is undefined`, () => {
             formData[SøknadFormField.periodeFra] = undefined;
-            formData[SøknadFormField.periodeTil] = moment().toDate();
+            formData[SøknadFormField.periodeTil] = toDate;
             expect(opplysningerOmTidsromStepIsValid(formData as SøknadFormData)).toBe(false);
         });
 
         it(`should be invalid if ${SøknadFormField.periodeTil} is undefined`, () => {
-            formData[SøknadFormField.periodeFra] = moment().toDate();
+            formData[SøknadFormField.periodeFra] = fromDate;
             formData[SøknadFormField.periodeTil] = undefined;
             expect(opplysningerOmTidsromStepIsValid(formData as SøknadFormData)).toBe(false);
         });
