@@ -1,3 +1,4 @@
+import { SanityConfig } from '@navikt/appstatus-react/lib/types';
 import React from 'react';
 import { render } from 'react-dom';
 import { Route, Switch } from 'react-router-dom';
@@ -16,7 +17,6 @@ import { getEnvironmentVariable } from './utils/envUtils';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
 import '@navikt/sif-common-core/lib/styles/globalStyles.less';
 import './app.less';
-import { SanityConfig } from '@navikt/appstatus-react/lib/types';
 
 export const APPLICATION_KEY = 'pleiepengesoknad';
 export const SKJEMANAVN = 'Søknad om pleiepenger';
@@ -24,7 +24,6 @@ export const SKJEMANAVN = 'Søknad om pleiepenger';
 appSentryLogger.init();
 
 const localeFromSessionStorage = getLocaleFromSessionStorage();
-// moment.locale(localeFromSessionStorage);
 dayjs.locale(localeFromSessionStorage);
 
 const getAppStatusSanityConfig = (): SanityConfig | undefined => {

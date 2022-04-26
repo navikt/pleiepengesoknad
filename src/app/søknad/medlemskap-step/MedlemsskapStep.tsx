@@ -10,22 +10,21 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import BostedUtlandListAndDialog from '@navikt/sif-common-forms/lib/bosted-utland/BostedUtlandListAndDialog';
 import { BostedUtland } from '@navikt/sif-common-forms/lib/bosted-utland/types';
+import dayjs from 'dayjs';
 import { useFormikContext } from 'formik';
-import moment from 'moment';
 import Lenke from 'nav-frontend-lenker';
-import { StepConfigProps, StepID } from '../søknadStepsConfig';
 import getLenker from '../../lenker';
-import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
+import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
+import { StepConfigProps, StepID } from '../søknadStepsConfig';
 import { validateUtenlandsoppholdNeste12Mnd, validateUtenlandsoppholdSiste12Mnd } from './medlemskapFieldValidations';
-import dayjs from 'dayjs';
 
 const getFomForBostedNeste12 = (bosted: BostedUtland[], søknadsdato: Date): Date => {
     const sisteBosted = bosted.length > 0 ? bosted[bosted.length - 1] : undefined;
     if (sisteBosted) {
-        return moment(sisteBosted.tom).isSame(søknadsdato, 'day')
-            ? moment(søknadsdato).add(1, 'day').toDate()
+        return dayjs(sisteBosted.tom).isSame(søknadsdato, 'day')
+            ? dayjs(søknadsdato).add(1, 'day').toDate()
             : søknadsdato;
     }
     return søknadsdato;
