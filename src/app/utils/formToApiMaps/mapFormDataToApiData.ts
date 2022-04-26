@@ -14,12 +14,12 @@ import { getFrilansApiDataFromSøknadsdata } from '../søknadsdataToApiData/getF
 import { getMedlemskapApiDataFromSøknadsdata } from '../søknadsdataToApiData/getMedlemskapApiDataFromSøknadsdata';
 import { getSelvstendigApiDataFromSøknadsdata } from '../søknadsdataToApiData/getSelvstendigApiDataFromSøknadsdata';
 import { getAttachmentsApiData } from './getAttachmentsApiData';
-import { getOmsorgstilbudApiData } from './getOmsorgstilbudApiData';
 import { getMedsøkerApiDataFromSøknadsdata } from '../søknadsdataToApiData/getMedsøkerApiDataFromSøknadsdata';
 import { getUtenlandsoppholdIPeriodenApiDataFromSøknadsdata } from '../søknadsdataToApiData/getUtenlandsoppholdIPeriodenFromSøknadsdata';
 import { getFerieuttakIPeriodenApiDataFromSøknadsdata } from '../søknadsdataToApiData/getFerieuttakIPeriodenApiDataFromSøknadsdata';
 import { getNattevåkApiDataFromSøknadsdata } from '../søknadsdataToApiData/getNattevåkApiDataFromSøknadsdata';
 import { getBeredskapApiDataFromSøknadsdata } from '../søknadsdataToApiData/getBeredskapApiDataFromSøknadsdata';
+import { getOmsorgstilbudApiDataFromSøknadsdata } from '../søknadsdataToApiData/getOmsorgstibudApiDataFromSøknadsdata';
 
 export const mapFormDataToApiData = (
     formData: SøknadFormData,
@@ -27,7 +27,7 @@ export const mapFormDataToApiData = (
     søknadsdata: Søknadsdata,
     locale: Locale = 'nb'
 ): SøknadApiData | undefined => {
-    const { harBekreftetOpplysninger, harForståttRettigheterOgPlikter, legeerklæring, omsorgstilbud } = formData;
+    const { harBekreftetOpplysninger, harForståttRettigheterOgPlikter, legeerklæring } = formData;
 
     const { søknadsperiode } = søknadsdata;
 
@@ -46,7 +46,7 @@ export const mapFormDataToApiData = (
                 ...getUtenlandsoppholdIPeriodenApiDataFromSøknadsdata(sprak, søknadsdata.utenlandsoppholdIPerioden),
                 ferieuttakIPerioden: getFerieuttakIPeriodenApiDataFromSøknadsdata(søknadsdata.ferieuttakIPerioden),
                 ...getBarnApiDataFromSøknadsdata(barn, søknadsdata.barn),
-                ...getOmsorgstilbudApiData(omsorgstilbud, søknadsperiode),
+                ...getOmsorgstilbudApiDataFromSøknadsdata(søknadsperiode, søknadsdata.omsorgstibud),
                 ...getNattevåkApiDataFromSøknadsdata(søknadsdata.nattevåk),
                 ...getBeredskapApiDataFromSøknadsdata(søknadsdata.beredskap),
                 medlemskap: getMedlemskapApiDataFromSøknadsdata(sprak, søknadsdata.medlemskap),
