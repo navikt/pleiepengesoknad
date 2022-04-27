@@ -102,8 +102,15 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                     søker: { fornavn, mellomnavn, etternavn, fødselsnummer },
                     barn,
                 } = søkerdata;
+                const harBekreftetOpplysninger = values.harBekreftetOpplysninger;
 
-                const apiValues = mapFormDataToApiData(values, barn, søknadsdata, intl.locale as Locale);
+                const apiValues = mapFormDataToApiData(
+                    values,
+                    barn,
+                    søknadsdata,
+                    harBekreftetOpplysninger,
+                    intl.locale as Locale
+                );
                 if (apiValues === undefined) {
                     return <div>Det oppstod en feil - api-data mangler</div>;
                 }
@@ -117,6 +124,7 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
 
                 const { medlemskap, utenlandsoppholdIPerioden, ferieuttakIPerioden } = apiValues;
 
+                console.log(apiValues);
                 return (
                     <SøknadFormStep
                         id={StepID.SUMMARY}

@@ -17,7 +17,6 @@ export const getSøknadsdataFromFormValues = (values: SøknadFormData): Søknads
     if (søknadsperiode === undefined) {
         return {};
     }
-    const harBekreftetOpplysninger = values.harBekreftetOpplysninger;
     const søknadsdata: Søknadsdata = {
         harForståttRettigheterOgPlikter,
         søknadsperiode,
@@ -31,7 +30,6 @@ export const getSøknadsdataFromFormValues = (values: SøknadFormData): Søknads
         nattevåk: extractNattevåkSøknadsdata(values),
         beredskap: extractBeredskapSøknadsdata(values),
         medlemskap: extractMedlemskapSøknadsdata(values),
-        harBekreftetOpplysninger,
     };
     return søknadsdata;
 };

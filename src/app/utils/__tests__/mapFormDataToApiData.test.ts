@@ -30,7 +30,6 @@ const barnMock: RegistrerteBarn[] = [
 ];
 const søknadsdata: Søknadsdata = {
     harForståttRettigheterOgPlikter: true,
-    harBekreftetOpplysninger: true,
     søknadsperiode,
     medlemskap: {
         type: 'harIkkeBoddSkalIkkeBo',
@@ -99,7 +98,7 @@ describe('mapFormDataToApiData', () => {
 
     beforeAll(() => {
         (isFeatureEnabled as any).mockImplementation(() => false);
-        resultingApiData = mapFormDataToApiData(formDataMock as SøknadFormData, barnMock, søknadsdata, 'nb')!;
+        resultingApiData = mapFormDataToApiData(formDataMock as SøknadFormData, barnMock, søknadsdata, true, 'nb')!;
     });
 
     it("should set 'fra_og_med' in api data correctly", () => {
@@ -115,10 +114,6 @@ describe('mapFormDataToApiData', () => {
         expect(attachmentUploadHasFailed).toHaveBeenCalledWith(attachmentMock2);
         expect(resultingApiData.vedlegg).toHaveLength(1);
         expect(resultingApiData.vedlegg[0]).toEqual(attachmentMock2.url);
-    });
-
-    it('should set har_bekreftet_opplysninger to value of harBekreftetOpplysninger in form data', () => {
-        expect(resultingApiData.harBekreftetOpplysninger).toBe(formDataMock[SøknadFormField.harBekreftetOpplysninger]);
     });
 
     it('should set har_forstått_rettigheter_og_plikter to value of harForståttRettigheterOgPlikter in form data', () => {

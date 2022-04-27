@@ -93,6 +93,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
         await logSoknadStartet(SKJEMANAVN);
         persist(undefined, StepID.OPPLYSNINGER_OM_BARNET);
         setTimeout(() => {
+            setSøknadsdata(getSøknadsdataFromFormValues(values));
             navigateTo(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.OPPLYSNINGER_OM_BARNET}`, history);
         });
     };

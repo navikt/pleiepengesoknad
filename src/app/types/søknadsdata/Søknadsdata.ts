@@ -38,5 +38,4 @@ export interface Søknadsdata {
     nattevåk?: NattevåkSøknadsdata;
     beredskap?: BeredskapSøknadsdata;
     medlemskap?: MedlemskapSøknadsdata;
-    harBekreftetOpplysninger?: boolean;
 }

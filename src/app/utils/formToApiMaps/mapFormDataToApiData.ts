@@ -23,21 +23,20 @@ export const mapFormDataToApiData = (
     formData: SøknadFormData,
     barn: RegistrerteBarn[],
     søknadsdata: Søknadsdata,
+    harBekreftetOpplysninger: boolean,
     locale: Locale = 'nb'
 ): SøknadApiData | undefined => {
     const { legeerklæring } = formData;
-
-    const { søknadsperiode, harForståttRettigheterOgPlikter, harBekreftetOpplysninger } = søknadsdata;
+    const { søknadsperiode, harForståttRettigheterOgPlikter } = søknadsdata;
 
     if (søknadsperiode) {
         try {
             const sprak = getValidSpråk(locale);
             const apiData: SøknadApiData = {
                 språk: sprak,
-                harForståttRettigheterOgPlikter: harForståttRettigheterOgPlikter
-                    ? harForståttRettigheterOgPlikter
-                    : false,
-                harBekreftetOpplysninger: harBekreftetOpplysninger ? harBekreftetOpplysninger : false,
+                harForståttRettigheterOgPlikter:
+                    harForståttRettigheterOgPlikter !== undefined ? harForståttRettigheterOgPlikter : false,
+                harBekreftetOpplysninger: harBekreftetOpplysninger !== undefined ? harBekreftetOpplysninger : false,
                 fraOgMed: formatDateToApiFormat(søknadsperiode.from),
                 tilOgMed: formatDateToApiFormat(søknadsperiode.to),
                 vedlegg: getAttachmentsApiData(legeerklæring),
