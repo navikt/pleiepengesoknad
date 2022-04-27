@@ -1,7 +1,7 @@
 import { Attachment, PersistedFile } from '@navikt/sif-common-core/lib/types/Attachment';
-import { getAttachmentsApiData } from '../formToApiMaps/getAttachmentsApiData';
+import { getAttachmentsApiDataFromSøknadsdata } from '../getAttachmentsApiDataFromSøknadsdata';
 
-describe('attachmentsToApiData', () => {
+describe('getAttachmentsApiDataFromSøknadsdata', () => {
     const persistedFile: PersistedFile = {
         isPersistedFile: true,
         lastModified: 123,
@@ -34,17 +34,21 @@ describe('attachmentsToApiData', () => {
     };
 
     it('returns an array with strings when all attachments has url', () => {
-        const result = getAttachmentsApiData([uploadedAttachment]);
+        const result = getAttachmentsApiDataFromSøknadsdata([uploadedAttachment]);
         expect(result.length).toBe(1);
         expect(result[0]).toEqual(uploadedAttachmentUrl);
     });
     it('does not include not uploaded attachments', () => {
-        const result = getAttachmentsApiData([uploadedAttachment, failedAttachment]);
+        const result = getAttachmentsApiDataFromSøknadsdata([uploadedAttachment, failedAttachment]);
         expect(result.length).toBe(1);
         expect(result[0]).toEqual(uploadedAttachmentUrl);
     });
     it('does not include attachments with no url', () => {
-        const result = getAttachmentsApiData([missingUrlAttachment, uploadedAttachment, failedAttachment]);
+        const result = getAttachmentsApiDataFromSøknadsdata([
+            missingUrlAttachment,
+            uploadedAttachment,
+            failedAttachment,
+        ]);
         expect(result.length).toBe(1);
         expect(result[0]).toEqual(uploadedAttachmentUrl);
     });

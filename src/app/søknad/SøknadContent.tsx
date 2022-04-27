@@ -233,7 +233,14 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                 <Route
                     path={getSøknadRoute(StepID.LEGEERKLÆRING)}
                     render={() => (
-                        <LegeerklæringStep onValidSubmit={() => navigateToNextStepFrom(StepID.LEGEERKLÆRING)} />
+                        <LegeerklæringStep
+                            onValidSubmit={() => {
+                                setTimeout(() => {
+                                    setSøknadsdata(getSøknadsdataFromFormValues(values));
+                                    navigateToNextStepFrom(StepID.LEGEERKLÆRING);
+                                });
+                            }}
+                        />
                     )}
                 />
             )}

@@ -27,7 +27,7 @@ import { Søkerdata } from '../../types/Søkerdata';
 import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import appSentryLogger from '../../utils/appSentryLogger';
-import { mapFormDataToApiData } from '../../utils/formToApiMaps/mapFormDataToApiData';
+import { getApiDataFromSøknadsdata } from '../../utils/søknadsdataToApiData/getApiDataFromSøknadsdata';
 import { navigateTo, relocateToLoginPage } from '../../utils/navigationUtils';
 import { validateApiValues } from '../../validation/apiValuesValidation';
 import SøknadFormComponents from '../SøknadFormComponents';
@@ -104,8 +104,7 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                 } = søkerdata;
                 const harBekreftetOpplysninger = values.harBekreftetOpplysninger;
 
-                const apiValues = mapFormDataToApiData(
-                    values,
+                const apiValues = getApiDataFromSøknadsdata(
                     barn,
                     søknadsdata,
                     harBekreftetOpplysninger,

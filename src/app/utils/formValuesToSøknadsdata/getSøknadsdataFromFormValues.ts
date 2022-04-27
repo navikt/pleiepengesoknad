@@ -30,6 +30,7 @@ export const getSøknadsdataFromFormValues = (values: SøknadFormData): Søknads
         nattevåk: extractNattevåkSøknadsdata(values),
         beredskap: extractBeredskapSøknadsdata(values),
         medlemskap: extractMedlemskapSøknadsdata(values),
+        legeerklæring: values.legeerklæring,
     };
     return søknadsdata;
 };
