@@ -30,7 +30,7 @@ jobs:
                   node-version: ${{ matrix.node-version }}
             - name: Test code
               run: |
-                  npm ci
+                  CYPRESS_INSTALL_BINARY=0 npm ci
                   npm run test
     e2e:
         name: End to End testing with Cypress
@@ -41,9 +41,9 @@ jobs:
         steps:
             - uses: actions/checkout@v1
             - name: Setup kernel for react + node, increase watchers
-                run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+              run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
             - name: Run E2E with
-                run: npm run e2e-docker-compose
+              run: npm run e2e-docker-compose
 
     build-code-and-push-docker-gcp:
         name: Build code and push docker image gcp
