@@ -34,10 +34,10 @@
     "dependencies": {
         "@formatjs/intl-pluralrules": "^4.3.3",
         "@navikt/sif-common-amplitude": "^2.2.3",
-        "@navikt/sif-common-core": "^11.1.0",
-        "@navikt/sif-common-formik": "^22.1.2",
+        "@navikt/sif-common-core": "^11.1.1",
+        "@navikt/sif-common-formik": "^22.2.0-beta.0",
         "@navikt/sif-common-forms": "^16.7.0",
-        "@navikt/sif-common-pleiepenger": "^4.0.0-beta.3",
+        "@navikt/sif-common-pleiepenger": "^4.0.0-beta.7",
         "@navikt/sif-common-sentry": "0.3.0",
         "@navikt/sif-common-utils": "^3.8.0",
         "@testing-library/react": "^12.1.4",

@@ -1,19 +1,12 @@
-const dayjs = require('dayjs');
-const isoWeek = require('dayjs/plugin/isoWeek');
+import dayjs from 'dayjs';
+import isoWeek from 'dayjs/plugin/isoWeek';
+import { clickFortsett, clickNeiPaAlleSporsmal, clickSendInnSøknad } from '../integration-utils/utils';
+import { fyllUtArbeidssituasjonSteg } from '../integration-utils/steps/arbeidssituasjon';
+import { fyllUtArbeidIPeriode } from '../integration-utils/steps/arbeidIPeriode';
+
 dayjs.extend(isoWeek);
 
-const clickFortsett = () => cy.get('button[aria-label="Gå til neste steg"]').click();
-const clickSendInnSøknad = () => cy.get('button[aria-label="Send inn søknaden"]').click();
-
 const PUBLIC_PATH = '/familie/sykdom-i-familien/soknad/pleiepenger';
-
-const clickNeiPaAlleSporsmal = () => {
-    cy.get('label[class="inputPanel radioPanel"]').each((element) => {
-        if (element.text() === 'Nei') {
-            element.click();
-        }
-    });
-};
 
 describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', () => {
     context('med utmocket, tom mellomlagring', () => {
@@ -24,17 +17,16 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
         before('gå til startsiden', () => {
             cy.visit(`${PUBLIC_PATH}/soknad`);
         });
-        it('VELKOMMEN SIDE', () => {
+        it('Velkommenside', () => {
             cy.get('.bekreftCheckboksPanel label').click();
             cy.get('button[class="knapp welcomingPage__startApplicationButton knapp--hoved"]').click();
         });
-        it('STEG 1: BARN', () => {
+        it('STEG 1: Barn', () => {
             cy.get('[type="radio"').first().check({ force: true });
-
-            clickFortsett(cy);
+            clickFortsett();
         });
 
-        it('STEG 2: PERIODEN MED PLEIEPENGER', () => {
+        it('STEG 2: Periode', () => {
             // Velg periode, fom
             const fraDato = dayjs().startOf('month').subtract(1, 'month').startOf('isoWeek').format('YYYY-MM-DD');
             const tilDato = dayjs().startOf('month').subtract(1, 'month').startOf('isoWeek').format('YYYY-MM-DD');
@@ -44,31 +36,27 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
             clickNeiPaAlleSporsmal();
             clickNeiPaAlleSporsmal();
 
-            clickFortsett(cy);
+            clickFortsett();
         });
 
         it('STEG 3: Arbeidssituasjon', () => {
-            cy.get('input[name*="erAnsatt"][value="yes"]').parent('label').click({ multiple: true });
-            cy.get('input[name*="jobberNormaltTimer"]').first().type('10');
-            cy.get('input[name*="frilans"][value="no"]').parent('label').click();
-            cy.get('input[name*="selvstendig"][value="no"]').parent('label').click();
-
-            clickFortsett(cy);
+            fyllUtArbeidssituasjonSteg();
+            clickFortsett();
         });
 
-        it('STEG 4: Jobb tilbake i tid', () => {
-            clickNeiPaAlleSporsmal();
-            clickFortsett(cy);
+        it('STEG 4: Arbeid i perioden', () => {
+            fyllUtArbeidIPeriode();
+            clickFortsett();
         });
 
         it('STEG 6: Omsorgstilbud', () => {
             clickNeiPaAlleSporsmal();
-            clickFortsett(cy);
+            clickFortsett();
         });
 
         it('STEG 7: Medlemskap', () => {
             clickNeiPaAlleSporsmal();
-            clickFortsett(cy);
+            clickFortsett();
         });
 
         it('STEG 8: LAST OPP LEGEERKLÆRING', () => {
@@ -76,23 +64,19 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
             cy.fixture(fileName, 'binary')
                 .then(Cypress.Blob.binaryStringToBlob)
                 .then((fileContent) =>
-                    cy.get('input[type=file]').attachFile({
+                    (cy.get('input[type=file]') as any).attachFile({
                         fileContent,
                         fileName,
                         mimeType: 'image/png', //getMimeType(fileName),
                         encoding: 'utf8',
                     })
                 );
-            clickFortsett(cy);
+            clickFortsett();
         });
 
         it('STEG 9: Oppsummering', () => {
             cy.get('.bekreftCheckboksPanel label').click();
-            clickSendInnSøknad(cy);
+            clickSendInnSøknad();
         });
-
-        // it('SØKNAD SENDT page should have h1 header', () => {
-        //     cy.get('h1').contains('Vi har mottatt søknad fra deg om pleiepenger');
-        // });
     });
 });

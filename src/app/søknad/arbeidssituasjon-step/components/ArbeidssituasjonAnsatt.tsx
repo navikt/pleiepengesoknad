@@ -26,20 +26,11 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
     const intl = useIntl();
     const erAvsluttet = arbeidsforhold.erAnsatt === YesOrNo.NO;
 
-    // const intlValues = {
-    //     hvor: intlHelper(intl, 'arbeidsforhold.part.som.ANSATT', { navn: arbeidsforhold.arbeidsgiver.navn }),
-    //     jobber: erAvsluttet
-    //         ? intlHelper(intl, 'arbeidsforhold.part.jobbet')
-    //         : intlHelper(intl, 'arbeidsforhold.part.jobber'),
-    //     periodeFra: prettifyDateFull(søknadsperiode.from),
-    //     periodeTil: prettifyDateFull(søknadsperiode.to),
-    // };
-
     const getFieldName = (field: ArbeidsforholdFormField): ArbeidsforholdFormField =>
         `${parentFieldName}.${field}` as any;
 
     return (
-        <>
+        <div data-testkey="arbeidssituasjonAnsatt">
             <FormBlock margin="xl">
                 <Box padBottom="m">
                     <Undertittel tag="h3" style={{ fontWeight: 'normal' }}>
@@ -51,6 +42,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                         legend={intlHelper(intl, 'arbeidsforhold.erAnsatt.spm', {
                             navn: arbeidsforhold.arbeidsgiver.navn,
                         })}
+                        data-testkey="er-ansatt"
                         name={getFieldName(ArbeidsforholdFormField.erAnsatt)}
                         validate={(value) => {
                             return getYesOrNoValidator()(value)
@@ -110,7 +102,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                     </ResponsivePanel>
                 </FormBlock>
             )}
-        </>
+        </div>
     );
 };
 

@@ -85,6 +85,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                 name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_erLikeMangeTimerHverUke)}
                 legend={intlHelper(intl, `arbeidsforhold.erLikeMangeTimerHverUke.spm`, intlValues)}
                 description={<InfoArbeiderLiktHverUke arbeidsforholdType={arbeidsforholdType} />}
+                data-testkey="like-mange-timer-hver-uke"
                 validate={(value: any) => {
                     const error = getRequiredFieldValidator()(value);
                     return error
@@ -115,6 +116,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                                 yes: intlHelper(intl, `arbeidsforhold.erFasteUkedager.ja`),
                                 no: intlHelper(intl, `arbeidsforhold.erFasteUkedager.nei`),
                             }}
+                            data-testkey="er-faste-ukedager"
                             useTwoColumns={true}
                         />
                     </FormBlock>
@@ -144,6 +146,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                                 name={'erFasteUkedager.gruppe' as any}>
                                 <TidFasteUkedagerInput
                                     name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_timerFasteUkedager)}
+                                    data-testkey="tid-faste-ukedager"
                                     validateDag={(dag, value) => {
                                         const error = getArbeidstimerFastDagValidator()(value);
                                         return error

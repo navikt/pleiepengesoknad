@@ -121,14 +121,17 @@ const ArbeidIPeriodeSpørsmål = ({
                     {
                         label: intlHelper(intl, 'arbeidIPeriode.arbeiderIPerioden.svar.jobberIkke', intlValues),
                         value: ArbeiderIPeriodenSvar.heltFravær,
+                        'data-testkey': 'jobberIkke',
                     },
                     {
                         label: intlHelper(intl, 'arbeidIPeriode.arbeiderIPerioden.svar.jobberRedusert', intlValues),
                         value: ArbeiderIPeriodenSvar.redusert,
+                        'data-testkey': 'jobberRedusert',
                     },
                     {
                         label: intlHelper(intl, 'arbeidIPeriode.arbeiderIPerioden.svar.jobberVanlig', intlValues),
                         value: ArbeiderIPeriodenSvar.somVanlig,
+                        'data-testkey': 'jobberVanlig',
                     },
                 ]}
             />
@@ -155,6 +158,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                                     'arbeidIPeriode.prosentAvNormalt.spm',
                                                     intlValues
                                                 )}
+                                                data-testkey="prosent-verdi"
                                                 validate={getArbeidIPeriodeProsentAvNormaltValidator(intlValues)}
                                                 bredde="XS"
                                                 maxLength={4}
@@ -175,6 +179,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                                     intlValues,
                                                     normalarbeidstid.timerPerUkeISnitt
                                                 )}
+                                                data-testkey="timer-verdi"
                                                 bredde="XS"
                                                 maxLength={4}
                                                 suffixStyle="text"
@@ -197,6 +202,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                     legend={intlHelper(intl, `arbeidIPeriode.erLiktHverUke.spm`, intlValues)}
                                     validate={getArbeidIPeriodeErLiktHverUkeValidator(intlValues)}
                                     useTwoColumns={true}
+                                    data-testkey="er-likt-hver-uke"
                                     labels={{
                                         yes: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.ja`),
                                         no: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.nei`),
@@ -263,6 +269,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                             )}>
                                             <ArbeidstidFasteUkedagerInput
                                                 fieldName={getFieldName(ArbeidIPeriodeFormField.fasteDager)}
+                                                data-testkey="arbeidstid-faste-ukedager"
                                                 tekst={{
                                                     dag: 'Dag',
                                                     jobber: 'Jobber timer',
@@ -294,10 +301,12 @@ const getTimerEllerProsentRadios = (intl: IntlShape, intlValues: ArbeidIPeriodeI
     {
         label: intlHelper(intl, `arbeidIPeriode.timerEllerProsent.prosent`, intlValues),
         value: TimerEllerProsent.PROSENT,
+        'data-testkey': 'jobberProsent',
     },
     {
         label: intlHelper(intl, `arbeidIPeriode.timerEllerProsent.timer`, intlValues),
         value: TimerEllerProsent.TIMER,
+        'data-testkey': 'jobberTimer',
     },
 ];
 
