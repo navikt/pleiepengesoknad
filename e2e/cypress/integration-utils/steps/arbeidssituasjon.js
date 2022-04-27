@@ -1,4 +1,4 @@
-import { getTestElement, selectRadioNo, selectRadioYes, setInputTime } from '../utils';
+const { getTestElement, selectRadioNo, selectRadioYes, setInputTime } = require('../utils');
 
 const fyllUtNormalarbeidstidFasteDager = () => {
     selectRadioYes('like-mange-timer-hver-uke');

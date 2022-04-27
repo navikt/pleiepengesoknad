@@ -1,4 +1,4 @@
-import { selectRadio, selectRadioYes, setInputTime } from '../utils';
+const { selectRadio, selectRadioYes, setInputTime } = require('../utils');
 
 export const fyllUtArbeidIPeriode = () => {
     selectRadio('jobberRedusert');
