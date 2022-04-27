@@ -1,5 +1,4 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { AndreYtelserFraNAV } from '../AndreYtelserFraNavn';
 import { ArbeidSøknadsdata } from './arbeidSøknadsdata';
 import { BeredskapSøknadsdata } from './beredskapSøknadsdata';
 import { FerieuttakIPeriodenSøknadsdata } from './ferieuttakIPeriodenSøknadsdata';
@@ -33,7 +32,6 @@ export interface Søknadsdata {
     medsøker?: MedsøkerSøknadsdata;
     utenlandsoppholdIPerioden?: UtenlandsoppholdIPeriodenSøknadsdata;
     ferieuttakIPerioden?: FerieuttakIPeriodenSøknadsdata;
-    andreYtelserFraNAV?: AndreYtelserFraNAV;
     arbeid?: ArbeidSøknadsdata;
     harVærtEllerErVernepliktig?: boolean;
     omsorgstibud?: OmsorgstilbudSøknadsdata;

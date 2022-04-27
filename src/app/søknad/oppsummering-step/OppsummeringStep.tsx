@@ -7,7 +7,6 @@ import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-p
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
-import JaNeiSvar from '@navikt/sif-common-core/lib/components/summary-enkeltsvar/JaNeiSvar';
 import SummaryList from '@navikt/sif-common-core/lib/components/summary-list/SummaryList';
 import SummarySection from '@navikt/sif-common-core/lib/components/summary-section/SummarySection';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
@@ -28,7 +27,6 @@ import { Søkerdata } from '../../types/Søkerdata';
 import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import appSentryLogger from '../../utils/appSentryLogger';
-import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
 import { mapFormDataToApiData } from '../../utils/formToApiMaps/mapFormDataToApiData';
 import { navigateTo, relocateToLoginPage } from '../../utils/navigationUtils';
 import { validateApiValues } from '../../validation/apiValuesValidation';
@@ -118,9 +116,6 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                 const apiValuesValidationErrors = validateApiValues(apiValues, intl);
 
                 const { medlemskap, utenlandsoppholdIPerioden, ferieuttakIPerioden } = apiValues;
-
-                const mottarAndreYtelserFraNAV =
-                    apiValues.andreYtelserFraNAV && apiValues.andreYtelserFraNAV.length > 0;
 
                 return (
                     <SøknadFormStep
@@ -258,25 +253,6 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
 
                                 {/* Omsorgstilbud */}
                                 <OmsorgstilbudSummary søknadsperiode={søknadsperiode} apiValues={apiValues} />
-
-                                {/* Andre ytelser */}
-                                {isFeatureEnabled(Feature.ANDRE_YTELSER) && (
-                                    <SummarySection header={intlHelper(intl, 'andreYtelser.summary.header')}>
-                                        <SummaryBlock
-                                            header={intlHelper(intl, 'andreYtelser.summary.mottarAndreYtelser.header')}>
-                                            <JaNeiSvar harSvartJa={mottarAndreYtelserFraNAV} />
-                                        </SummaryBlock>
-                                        {mottarAndreYtelserFraNAV && apiValues.andreYtelserFraNAV && (
-                                            <SummaryBlock
-                                                header={intlHelper(intl, 'andreYtelser.summary.ytelser.header')}>
-                                                <SummaryList
-                                                    items={apiValues.andreYtelserFraNAV}
-                                                    itemRenderer={(ytelse) => intlHelper(intl, `NAV_YTELSE.${ytelse}`)}
-                                                />
-                                            </SummaryBlock>
-                                        )}
-                                    </SummarySection>
-                                )}
 
                                 {/* Medlemskap i folketrygden */}
                                 <SummarySection header={intlHelper(intl, 'medlemskap.summary.header')}>
