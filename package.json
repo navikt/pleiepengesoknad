@@ -41,7 +41,7 @@
         "@navikt/sif-common-utils": "3.0.3",
         "@testing-library/react": "^12.1.4",
         "amplitude-js": "^8.18.1",
-        "axios": "^0.25.0",
+        "axios": "^0.27.2",
         "classnames": "^2.3.1",
         "compression": "^1.7.4",
         "constate": "^3.3.2",
