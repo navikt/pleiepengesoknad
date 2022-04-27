@@ -32,7 +32,7 @@ export const setInputValue = (key, value) => {
     getTestElement(key).click().type(value);
 };
 
-export const setInputTime = (key, hours: string | number = '', minutes: string | number = '') => {
+export const setInputTime = (key, hours = '', minutes = '') => {
     setInputValue(`${key}_hours`, hours);
     setInputValue(`${key}_minutes`, minutes);
 };

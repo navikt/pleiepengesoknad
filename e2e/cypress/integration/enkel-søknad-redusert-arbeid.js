@@ -1,8 +1,8 @@
-import dayjs from 'dayjs';
-import isoWeek from 'dayjs/plugin/isoWeek';
-import { clickFortsett, clickNeiPaAlleSporsmal, clickSendInnSøknad } from '../integration-utils/utils';
-import { fyllUtArbeidssituasjonSteg } from '../integration-utils/steps/arbeidssituasjon';
-import { fyllUtArbeidIPeriode } from '../integration-utils/steps/arbeidIPeriode';
+const dayjs = require('dayjs');
+const isoWeek = require('dayjs/plugin/isoWeek');
+const { clickFortsett, clickNeiPaAlleSporsmal, clickSendInnSøknad } = require('../integration-utils/utils');
+const { fyllUtArbeidssituasjonSteg } = require('../integration-utils/steps/arbeidssituasjon');
+const { fyllUtArbeidIPeriode } = require('../integration-utils/steps/arbeidIPeriode');
 
 dayjs.extend(isoWeek);
 
@@ -64,7 +64,7 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
             cy.fixture(fileName, 'binary')
                 .then(Cypress.Blob.binaryStringToBlob)
                 .then((fileContent) =>
-                    (cy.get('input[type=file]') as any).attachFile({
+                    cy.get('input[type=file]').attachFile({
                         fileContent,
                         fileName,
                         mimeType: 'image/png', //getMimeType(fileName),
