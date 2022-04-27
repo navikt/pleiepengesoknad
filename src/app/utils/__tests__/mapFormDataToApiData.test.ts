@@ -29,6 +29,8 @@ const barnMock: RegistrerteBarn[] = [
     { fødselsdato: barnsFødselsdato, fornavn: 'Mock', etternavn: 'Mocknes', aktørId: '123', harSammeAdresse: true },
 ];
 const søknadsdata: Søknadsdata = {
+    harForståttRettigheterOgPlikter: true,
+    harBekreftetOpplysninger: true,
     søknadsperiode,
     medlemskap: {
         type: 'harIkkeBoddSkalIkkeBo',

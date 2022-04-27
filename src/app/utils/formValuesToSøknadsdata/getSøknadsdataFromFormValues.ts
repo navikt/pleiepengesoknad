@@ -12,11 +12,14 @@ import { extractOmsorgstibudSøknadsdata } from './extractOmsorgstibudSøknadsda
 import { extractUtenlandsoppholdIPeriodenSøknadsdata } from './extractUtenlandsoppholdIPeriodenSøknadsdata';
 
 export const getSøknadsdataFromFormValues = (values: SøknadFormData): Søknadsdata => {
+    const harForståttRettigheterOgPlikter = values.harForståttRettigheterOgPlikter;
     const søknadsperiode = getSøknadsperiodeFromFormData(values);
     if (søknadsperiode === undefined) {
         return {};
     }
+    const harBekreftetOpplysninger = values.harBekreftetOpplysninger;
     const søknadsdata: Søknadsdata = {
+        harForståttRettigheterOgPlikter,
         søknadsperiode,
         barn: extractBarnSøknadsdata(values),
         medsøker: extractMedsøkerSøknadsdata(values),
@@ -28,6 +31,7 @@ export const getSøknadsdataFromFormValues = (values: SøknadFormData): Søknads
         nattevåk: extractNattevåkSøknadsdata(values),
         beredskap: extractBeredskapSøknadsdata(values),
         medlemskap: extractMedlemskapSøknadsdata(values),
+        harBekreftetOpplysninger,
     };
     return søknadsdata;
 };

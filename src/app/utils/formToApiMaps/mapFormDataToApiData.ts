@@ -27,19 +27,22 @@ export const mapFormDataToApiData = (
     søknadsdata: Søknadsdata,
     locale: Locale = 'nb'
 ): SøknadApiData | undefined => {
-    const { harBekreftetOpplysninger, harForståttRettigheterOgPlikter, legeerklæring } = formData;
+    const { legeerklæring } = formData;
 
-    const { søknadsperiode } = søknadsdata;
+    const { søknadsperiode, harForståttRettigheterOgPlikter, harBekreftetOpplysninger } = søknadsdata;
 
     if (søknadsperiode) {
         try {
             const sprak = getValidSpråk(locale);
             const apiData: SøknadApiData = {
                 språk: sprak,
-                harBekreftetOpplysninger,
-                harForståttRettigheterOgPlikter,
+                harForståttRettigheterOgPlikter: harForståttRettigheterOgPlikter
+                    ? harForståttRettigheterOgPlikter
+                    : false,
+                harBekreftetOpplysninger: harBekreftetOpplysninger ? harBekreftetOpplysninger : false,
                 fraOgMed: formatDateToApiFormat(søknadsperiode.from),
                 tilOgMed: formatDateToApiFormat(søknadsperiode.to),
+                //
                 vedlegg: getAttachmentsApiData(legeerklæring),
                 ...getMedsøkerApiDataFromSøknadsdata(søknadsdata.medsøker),
                 harVærtEllerErVernepliktig: søknadsdata.harVærtEllerErVernepliktig,
@@ -61,6 +64,7 @@ export const mapFormDataToApiData = (
                     locale
                 ),
             };
+            //
             if (isFeatureEnabled(Feature.ANDRE_YTELSER)) {
                 apiData.andreYtelserFraNAV = formData.mottarAndreYtelser === YesOrNo.YES ? formData.andreYtelser : [];
             }

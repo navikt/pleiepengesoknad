@@ -1,4 +1,5 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
+import { AndreYtelserFraNAV } from '../AndreYtelserFraNavn';
 import { ArbeidSøknadsdata } from './arbeidSøknadsdata';
 import { BeredskapSøknadsdata } from './beredskapSøknadsdata';
 import { FerieuttakIPeriodenSøknadsdata } from './ferieuttakIPeriodenSøknadsdata';
@@ -26,15 +27,18 @@ export * from './beredskapSøknadsdata';
 export * from './omsorgstilbudSøknadsdata';
 
 export interface Søknadsdata {
+    harForståttRettigheterOgPlikter?: boolean;
     søknadsperiode?: DateRange;
     barn?: OmBarnetSøknadsdata;
     medsøker?: MedsøkerSøknadsdata;
     utenlandsoppholdIPerioden?: UtenlandsoppholdIPeriodenSøknadsdata;
     ferieuttakIPerioden?: FerieuttakIPeriodenSøknadsdata;
+    andreYtelserFraNAV?: AndreYtelserFraNAV;
     arbeid?: ArbeidSøknadsdata;
     harVærtEllerErVernepliktig?: boolean;
     omsorgstibud?: OmsorgstilbudSøknadsdata;
     nattevåk?: NattevåkSøknadsdata;
     beredskap?: BeredskapSøknadsdata;
     medlemskap?: MedlemskapSøknadsdata;
+    harBekreftetOpplysninger?: boolean;
 }
