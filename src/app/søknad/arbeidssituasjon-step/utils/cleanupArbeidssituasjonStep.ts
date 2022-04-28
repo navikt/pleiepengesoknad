@@ -113,9 +113,5 @@ export const cleanupArbeidssituasjonStep = (
         values.harVærtEllerErVernepliktig = undefined;
     }
 
-    if (values.mottarAndreYtelser === YesOrNo.NO) {
-        values.andreYtelser = [];
-    }
-
     return values;
 };

@@ -2,7 +2,6 @@ export enum Feature {
     'UTILGJENGELIG' = 'UTILGJENGELIG',
     'NYNORSK' = 'NYNORSK',
     'INNSYN' = 'INNSYN',
-    'ANDRE_YTELSER' = 'ANDRE_YTELSER',
     'FORENKLET_ARBEID' = 'FORENKLET_ARBEID',
 }
 

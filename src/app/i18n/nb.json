@@ -308,9 +308,6 @@
     "steg.arbeidssituasjon.verneplikt.spm": "Utøvde du verneplikt på tidspunktet du søker pleiepenger fra?",
     "steg.arbeidssituasjon.verneplikt.info.tittel": "Hva betyr dette?",
     "steg.arbeidssituasjon.verneplikt.info.tekst": "Du skal svare ja på dette spørsmålet om du har utøvd verneplikt i minst 28 dager på starttidspunktet for perioden du søker for, eller om perioden med verneplikt var ment å vare i minst 28 dager.",
-    "steg.arbeidssituasjon.andreYtelser.tittel": "Andre utbetalinger",
-    "steg.arbeidssituasjon.andreYtelser.spm": "Mottar du andre utbetalinger fra NAV i perioden med pleiepenger?",
-    "steg.arbeidssituasjon.andreYtelser.hvilke.spm": "Mottar du andre utbetalinger fra NAV i perioden med pleiepenger?",
 
     "steg.omsorgstilbud.veileder.ny.1": "Et omsorgstilbud kan være barnehage, skole, SFO, omsorgsbolig, BPA (brukerstyrt personlig assistent) eller andre organiserte tilbud.",
     "steg.omsorgstilbud.veileder.ny.2": "Å være innlagt eller til behandling på sykehus regnes ikke som et omsorgstilbud.",
@@ -663,10 +660,6 @@
     "verneplikt.summary.header": "Verneplikt",
     "verneplikt.summary.harVærtVernepliktig": "Utøvde verneplikt på tidspunktet det søkes pleiepenger fra",
     "verneplikt.summary.harIkkeVærtVernepliktig": "Utøvde ikke verneplikt på tidspunktet det søkes pleiepenger fra",
-
-    "andreYtelser.summary.header": "Andre utbetalinger",
-    "andreYtelser.summary.mottarAndreYtelser.header": "Mottar du andre utbetalinger fra NAV i perioden med pleiepenger?",
-    "andreYtelser.summary.ytelser.header": "Utbetalinger du mottar:",
 
     "selvstendig.infoDialog.infoTittel": "Næringsvirksomhet som du har lagt inn:",
     "selvstendig.infoDialog.registrerKnapp": "Registrer virksomhet",

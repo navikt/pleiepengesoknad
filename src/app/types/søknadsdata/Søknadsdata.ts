@@ -1,3 +1,4 @@
+import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { ArbeidSøknadsdata } from './arbeidSøknadsdata';
 import { BeredskapSøknadsdata } from './beredskapSøknadsdata';
@@ -26,6 +27,7 @@ export * from './beredskapSøknadsdata';
 export * from './omsorgstilbudSøknadsdata';
 
 export interface Søknadsdata {
+    harForståttRettigheterOgPlikter?: boolean;
     søknadsperiode?: DateRange;
     barn?: OmBarnetSøknadsdata;
     medsøker?: MedsøkerSøknadsdata;
@@ -37,4 +39,5 @@ export interface Søknadsdata {
     nattevåk?: NattevåkSøknadsdata;
     beredskap?: BeredskapSøknadsdata;
     medlemskap?: MedlemskapSøknadsdata;
+    legeerklæring?: Attachment[];
 }

@@ -1,7 +1,7 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { OmsorgstilbudSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
-import { getEnkeltdagerIPeriodeApiData, getFasteDagerApiData } from '../formToApiMaps/tidsbrukApiUtils';
+import { getEnkeltdagerIPeriodeApiData, getFasteDagerApiData } from './tidsbrukApiUtils';
 
 export type OmsorgstilbudApiData = Pick<SøknadApiData, 'omsorgstilbud'>;
 
